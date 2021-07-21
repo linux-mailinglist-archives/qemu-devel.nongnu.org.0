@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9663D10F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:14:28 +0200 (CEST)
-Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C5B3D1105
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:18:14 +0200 (CEST)
+Received: from localhost ([::1]:59744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6CzT-0001zg-8d
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44222)
+	id 1m6D37-0006Kf-Hj
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6Cy7-0000cA-9J
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:13:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34231)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6D0w-00041i-7N
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:15:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6Cy5-0004QA-OJ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:13:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6D0p-0006Jb-NF
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:15:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626876780;
+ s=mimecast20190719; t=1626876951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3GVJuRw0tAWtoHr5yxnQtocwwo3qSVJRt2smV+2lFYM=;
- b=J+dpnbJGjkqvTg3m5Qd4AiQHjBhEnRDr/MkeJWPNc31PGWScDtztTUaHEwMZQthh8/WSay
- 9qvXvDLFEzLgP9D7i3tCZN0V8KpM9AG5nsfnsjfWNCFHnn3Fv6ds0hVx8Z1oyLKugk4POQ
- WxJOHxpF23RlV1HUUw7wmlxF3TuIUws=
+ bh=+YPox9A40uDLQBLWmt48gtSVWWNfMI8NRVWq1/JnNAw=;
+ b=RsK6r1S7I9B2b5ltLA1B9+jZKqliE+mNcoZxdNLQW6K+38sxfDUg+NVk7W8kLZnGGXIwpq
+ 9WoA/MVOeD2dDOan5tOVNzfkKnhSGUPFoFVjwQjNhY0FgoMMXfVToONw0E47TMMvvjADf5
+ waGyLqTqE2T1IM7m4kWAPx/fdaX0LU4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-_Hoq3r-1Pw2kxUqXJbmh6w-1; Wed, 21 Jul 2021 10:12:59 -0400
-X-MC-Unique: _Hoq3r-1Pw2kxUqXJbmh6w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-371-lIgAheT1MUCkeZzOVDsS-w-1; Wed, 21 Jul 2021 10:15:47 -0400
+X-MC-Unique: lIgAheT1MUCkeZzOVDsS-w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B76F10086C4
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 14:12:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C944F10060E1
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 14:15:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
  [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A2311970F;
- Wed, 21 Jul 2021 14:12:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9622A10013D7;
+ Wed, 21 Jul 2021 14:15:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BB2C011326B9; Wed, 21 Jul 2021 16:12:56 +0200 (CEST)
+ id 3F54F11326B9; Wed, 21 Jul 2021 16:15:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 10/16] migration: Handle migration_incoming_setup()
- errors consistently
-References: <20210720125408.387910-1-armbru@redhat.com>
- <20210720125408.387910-11-armbru@redhat.com>
- <20210720185302.dzekdqfpymfxasl7@redhat.com>
-Date: Wed, 21 Jul 2021 16:12:56 +0200
-In-Reply-To: <20210720185302.dzekdqfpymfxasl7@redhat.com> (Eric Blake's
- message of "Tue, 20 Jul 2021 13:53:02 -0500")
-Message-ID: <87im13ah7b.fsf@dusky.pond.sub.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 2/2] Revert "qxl: add migration blocker to avoid
+ pre-save assert"
+References: <20210721093347.338536-1-kraxel@redhat.com>
+ <20210721093347.338536-3-kraxel@redhat.com>
+Date: Wed, 21 Jul 2021 16:15:45 +0200
+In-Reply-To: <20210721093347.338536-3-kraxel@redhat.com> (Gerd Hoffmann's
+ message of "Wed, 21 Jul 2021 11:33:47 +0200")
+Message-ID: <87eebrah2m.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,50 +81,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-> On Tue, Jul 20, 2021 at 02:54:02PM +0200, Markus Armbruster wrote:
->> Commit b673eab4e2 "multifd: Make multifd_load_setup() get an Error
->> parameter" changed migration_incoming_setup() to take an Error **
->> argument, and adjusted the callers accordingly.  It neglected to
->> change adjust multifd_load_setup(): it still exit()s on error.  Clean
->> that up.
->> 
->> The error now gets propagated up two call chains: via
->> migration_fd_process_incoming() to rdma_accept_incoming_migration(),
->> and via migration_ioc_process_incoming() to
->> migration_channel_process_incoming().  Both chain ends report the
->> error with error_report_err(), but otherwise ignore it.  Behavioral
->> change: we no longer exit() on this error.
->> 
->> This is consistent with how we handle other errors here, e.g. from
->> multifd_recv_new_channel() via migration_ioc_process_incoming() to
->> migration_channel_process_incoming().  Wether it's consistently right
+> This reverts commit 86dbcdd9c7590d06db89ca256c5eaf0b4aba8858.
 >
-> Whether
-
-ACK
-
->> or consistently wrong I can't tell.
->> 
->> Also clean up the return value from the unusual 0 on success, 1 on
->> error to the more common true on success, false on error.
->> 
->> Cc: Juan Quintela <quintela@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  migration/migration.c | 27 +++++++++------------------
->>  1 file changed, 9 insertions(+), 18 deletions(-)
->>
+> The pre-save assert is gone now, so the migration blocker
+> is not needed any more.
 >
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/display/qxl.h |  1 -
+>  hw/display/qxl.c | 31 -------------------------------
+>  2 files changed, 32 deletions(-)
+>
+> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+> index 379d3304abc1..30d21f4d0bdc 100644
+> --- a/hw/display/qxl.h
+> +++ b/hw/display/qxl.h
+> @@ -39,7 +39,6 @@ struct PCIQXLDevice {
+>      uint32_t           cmdlog;
+>  
+>      uint32_t           guest_bug;
+> -    Error              *migration_blocker;
+>  
+>      enum qxl_mode      mode;
+>      uint32_t           cmdflags;
+> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> index 3867b94fe236..43482d4364ba 100644
+> --- a/hw/display/qxl.c
+> +++ b/hw/display/qxl.c
+> @@ -30,7 +30,6 @@
+>  #include "qemu/module.h"
+>  #include "hw/qdev-properties.h"
+>  #include "sysemu/runstate.h"
+> -#include "migration/blocker.h"
+>  #include "migration/vmstate.h"
+>  #include "trace.h"
+>  
+> @@ -666,30 +665,6 @@ static int interface_get_command(QXLInstance *sin, struct QXLCommandExt *ext)
+>          qxl->guest_primary.commands++;
+>          qxl_track_command(qxl, ext);
+>          qxl_log_command(qxl, "cmd", ext);
+> -        {
+> -            /*
+> -             * Windows 8 drivers place qxl commands in the vram
+> -             * (instead of the ram) bar.  We can't live migrate such a
+> -             * guest, so add a migration blocker in case we detect
+> -             * this, to avoid triggering the assert in pre_save().
+> -             *
+> -             * https://cgit.freedesktop.org/spice/win32/qxl-wddm-dod/commit/?id=f6e099db39e7d0787f294d5fd0dce328b5210faa
+> -             */
+> -            void *msg = qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+> -            if (msg != NULL && (
+> -                    msg < (void *)qxl->vga.vram_ptr ||
+> -                    msg > ((void *)qxl->vga.vram_ptr + qxl->vga.vram_size))) {
+> -                if (!qxl->migration_blocker) {
+> -                    Error *local_err = NULL;
+> -                    error_setg(&qxl->migration_blocker,
+> -                               "qxl: guest bug: command not in ram bar");
+> -                    migrate_add_blocker(qxl->migration_blocker, &local_err);
+> -                    if (local_err) {
+> -                        error_report_err(local_err);
+> -                    }
+> -                }
+> -            }
+> -        }
+>          trace_qxl_ring_command_get(qxl->id, qxl_mode_to_string(qxl->mode));
+>          return true;
+>      default:
 
-Thanks!
+Conflicts with my "[PATCH 09/16] migration: Unify failure check for
+migrate_add_blocker()".  Easy to resolve: your patch goes first, I drop
+the hunk from mine.
+
+> @@ -1283,12 +1258,6 @@ static void qxl_hard_reset(PCIQXLDevice *d, int loadvm)
+>      qemu_spice_create_host_memslot(&d->ssd);
+>      qxl_soft_reset(d);
+>  
+> -    if (d->migration_blocker) {
+> -        migrate_del_blocker(d->migration_blocker);
+> -        error_free(d->migration_blocker);
+> -        d->migration_blocker = NULL;
+> -    }
+> -
+>      if (startstop) {
+>          qemu_spice_display_start();
+>      }
 
 
