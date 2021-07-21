@@ -2,78 +2,178 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B623D0AE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:58:00 +0200 (CEST)
-Received: from localhost ([::1]:35898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48303D0AC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:55:20 +0200 (CEST)
+Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m683D-0001m2-7l
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35868)
+	id 1m680d-00067r-Ll
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m681Z-0000A7-QB
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:56:21 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m681X-00063F-SA
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:56:17 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d12so1274130wre.13
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 01:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=xTwB07pNZJ3SSl+2z7wRAPXtZzcdGpHPqpKvnoX09jU=;
- b=w6jETzMdOpGKS+fOWFouTtee4MoZEyycyzaWrkBPg1qLCOqxtB2qeivcBkXiIKpzX3
- 6dj/kPSs38J4R8shgdXGMRk6TyfxdBpkZovtZttMuJ3JtOl4WHNR702Eld486nsdVdIm
- gUKL9BbonSkTndHvdzHQIYu4OWcLwEvmuO018d6cdElE36bVx4w96TI7aS6lZJeUeXV4
- 6cl+78UhRBywJIxIpXGSfIFOkQVbkSrsNzIsSz5heG6RnTih4vSCd+Wupvau4lhxcCtR
- 2Yx0T60O4lMDMYtzi5NRJkGCUu1NuxUUFtTr3ccZF9IDZcbCQ22mHMLzCTPOzA0a8LSP
- pL5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xTwB07pNZJ3SSl+2z7wRAPXtZzcdGpHPqpKvnoX09jU=;
- b=dzNQl4LSoCCoCrfzukC2zREBprnkNTbRagE/U+tIIl3NythTrse7RivP4+Vy4/Stsb
- Qke1n7Uwe9ufRYktYS7+braFvZXhh0gqZGmRWCR3CcptBs/3P/uNtGFLJsKU7451XEHn
- 8hjLH8F0Dts+9cyU9S3wrC9my/ef/NRgEqxa71LOp99fTt7ALc2pxSBClVHtlhVyRCv/
- 9/hb9ChXf7n2MSWCaJnFe0xZPu45VF8IHuPS62o6pVl8bCrglapstp3liIQoUA6ejpFK
- DwnJYtIMRXpyg3knqOuSUPOgaAlVlGWTkuWC6+G0Cer93l6iyDhJlFNTmrCQM2GKwz3c
- 931Q==
-X-Gm-Message-State: AOAM5320k6bx80DoQ8I8zdrXJRnFHk+VChpZCm30cFTeCxeF6AmAMX/w
- Jfy/I0V3PHKOpvDRfABn4sRwow==
-X-Google-Smtp-Source: ABdhPJwVoM98saPoAjMuGUT9QmmKacQMw6+RH1pKptoOi27UH7vzymR2ISKrFRXt9Dnw+56edNsGmQ==
-X-Received: by 2002:a5d:6501:: with SMTP id x1mr40748387wru.169.1626857773954; 
- Wed, 21 Jul 2021 01:56:13 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v11sm25805994wrs.4.2021.07.21.01.56.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 01:56:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6187A1FF7E;
- Wed, 21 Jul 2021 09:56:12 +0100 (BST)
-References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
- <20210710005929.1702431-2-mathieu.poirier@linaro.org>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v3 1/4] vhost-user-rng: Add vhost-user-rng implementation
-Date: Wed, 21 Jul 2021 09:52:50 +0100
-In-reply-to: <20210710005929.1702431-2-mathieu.poirier@linaro.org>
-Message-ID: <87mtqgkpub.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
+ id 1m67zD-0003jg-59; Wed, 21 Jul 2021 04:53:51 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:59650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
+ id 1m67z9-0004Ku-Ju; Wed, 21 Jul 2021 04:53:50 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16L8obdB010615; Wed, 21 Jul 2021 08:53:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=LdSM0mQ5MvhS2OhNq4EUzgFUgSclsl3G1WVAtp3saVE=;
+ b=E+WrWBSCEi4Q36XD+S1abXplpTN8yfpzyE7v1FDpZLpWoymOkfJBWsySw7yJaHbH+vdD
+ gBb0QM62rbltADxy0yqpFejwvX/IlH3yCUBmaQTFb3k9K8dV0MUu4Hh94DcYsJkxDKs4
+ Tpmr2uTKMZl9f26DvVkRo85Hm+uAkmJUGbkgJz9O9DXO6GGQ3RjhIfuYON1UcuhgOwNS
+ Nl+4SYlAWk+MhP20gBtnX14uiKCYNgloBWt4aowTr/zJxUGCvK375g2jC6pDVDQ+l/WQ
+ 9s5/ur3jSFSjmZsY0clu2mHXH6fglfZfl4QOTFiLcJxaNcdjqISewESW3wnKYroLY60F iA== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=LdSM0mQ5MvhS2OhNq4EUzgFUgSclsl3G1WVAtp3saVE=;
+ b=rtovjb3OaJDs1+pz2s2JsTtharwlMToqzaUi8w1kO5P0cmUyIDSDHeVWe+eO5PSyDEAL
+ Sm8GT/cO1ek5e3RVNzNQBCPtoKiAlFt0vYJiB1/de3lf0u9MWViViyepRlfmduh9rrPn
+ qBWUWmHFF3qfn/BqiQza+jzEDwQJ00Y1KdCT1SwOLocOSjqnUG93+U3HkvqSROm0HMF4
+ 7JagkWs84Q2hgamvL0C4ZWyfzcqurQeMenrOkBdnEWZYWSez0DfMSLHG++NXPa+jArdb
+ 6xrEjUHMoqoUjcXYnvIIwLMRh9vQ/lVNjK7bFzJT8D+OO7I6xQVQUwaPHpqT60RWNyYD OA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39wwmtt7v2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 21 Jul 2021 08:53:34 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16L8oORe125082;
+ Wed, 21 Jul 2021 08:53:32 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2048.outbound.protection.outlook.com [104.47.73.48])
+ by userp3020.oracle.com with ESMTP id 39v8ywxsu6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 21 Jul 2021 08:53:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gCSUlZYaf5O5RDQuJRSZevZgdK6Asg5bvdf7AyZMn85LlSMl6T3WLFpLOoFI+v+dMvHNvSpvp1UXm7yiDQKV6jKn/eAvrEEeip/D97GOaX9NuWjdsQr7A4QapQY8M2B7kK9tFuUcOsOFBkk/8ObZgjIp4nv2jFyKPvxgfp2bkWuQZ86kjdpH+2aOQvrhFJcqU6PWYi27HZZ90Fc02yqXKbngdnfL/jrfHcn1BsyEuSz/FcylmwR5ZqSiJy3a5ivpxSutcePx4KnQ+d8ZR0x0aghTTX3hv0x4Y7L+NdTy9YUbKxiV1tNaKtOKWVYcJtssr4eVVU+ixU5uQQk/XgrljQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LdSM0mQ5MvhS2OhNq4EUzgFUgSclsl3G1WVAtp3saVE=;
+ b=ZCqz7rGCsjDJE72InmlAnA0NTNkURJEHASaLlUmHuAi7XYjPaG2BuRov98PH6+DdvqtHw82NtGiU1L1qEwbHae4nw2oUNUl/b2nq86GCjZZ4Pc/vERYPQGr8Fj25DtYK98c309mMD+8Il8syyMhN8bpwRlM677o+aSz2PaT1WBfK+9HGt1+VBVYnhWMwD+31tSkIclc5fuq2CEntAhmNGWRjlOvkgKsPVTOmbPhrtl7B9HM0tL3FdOADfZAcros3JFxDiKIB/KPxAyoSPmcXiIDuDTc4nLsybPy6TikcRw2fb8Zo6ELL19tehyJZBwk1xx1mARDpT7mSXjLhxLltvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LdSM0mQ5MvhS2OhNq4EUzgFUgSclsl3G1WVAtp3saVE=;
+ b=nroyPDooQDKfQvWzyVexJJBOtdssUxaaGlkt56/jEkW9bLDBPCWFxzqX+ZqJmcfNdu9PZOclv6cb7NAwV9gWacx+5T+SJXMYPARvsYqDxRqmmTjUTmWCT9o95rAXxiC5h1dqZnBEhaRWLxYIld2D4549ROSrItFEOON11rwz2Jw=
+Authentication-Results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
+Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
+ by PH0PR10MB4679.namprd10.prod.outlook.com (2603:10b6:510:3c::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23; Wed, 21 Jul
+ 2021 08:53:30 +0000
+Received: from PH0PR10MB4664.namprd10.prod.outlook.com
+ ([fe80::c0ec:e3aa:9d8f:61c0]) by PH0PR10MB4664.namprd10.prod.outlook.com
+ ([fe80::c0ec:e3aa:9d8f:61c0%7]) with mapi id 15.20.4331.034; Wed, 21 Jul 2021
+ 08:53:30 +0000
+Subject: Re: [PATCH v6 0/6] hmp, qmp: Add some commands to introspect virtio
+ devices
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
+ <11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com>
+From: Jonah Palmer <jonah.palmer@oracle.com>
+Message-ID: <f6902815-df0b-949a-4eac-9f2a0093499d@oracle.com>
+Date: Wed, 21 Jul 2021 04:53:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com>
+Content-Type: multipart/alternative;
+ boundary="------------584B59E288F4AF6299C9620F"
+Content-Language: en-US
+X-ClientProxiedBy: SA9PR13CA0014.namprd13.prod.outlook.com
+ (2603:10b6:806:21::19) To PH0PR10MB4664.namprd10.prod.outlook.com
+ (2603:10b6:510:41::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jonpalme-lnx.us.oracle.com (209.17.40.39) by
+ SA9PR13CA0014.namprd13.prod.outlook.com (2603:10b6:806:21::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.9 via Frontend Transport; Wed, 21 Jul 2021 08:53:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 307ad0de-5411-45c5-906f-08d94c250355
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4679:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR10MB4679E12F48C2961482B91231E8E39@PH0PR10MB4679.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iBgzXZzIYI3FORDAFD3YmJZOjwfyPpN5IYGoDZNeuRuMq8lxq5zyjvB/rXWYyk26H4mMme2yE56XWJn11NxfR4u0uJ9F5qkjmNaFikSD1Hvwy2WL1JSHkNXUVP/khNSXf2Ji41jqNdO5Dpdm4MhgB1houynW0YX02Ve+r5M/9F0Zb65oSnkst378p9UKHSddxl/YwDHwVkgjYOir+MeAM7deG5hOblSngAmCOHDVXtoSCzJnMOZ1oYGnoJA4K59+Sx2BEHmBxa/XaN6Px2oGNKe/+ncKy35vB9QKib9dwG2xsjZsUa8/phrcADvotaTp5tgGF+gm/2ouXK9TgqWVnA0Vw2vDCKwzfaROBQz3VIJnlq4qGmf52oaDgvAbsRJ/lVPuxNUJHRXV4fEu9/0X/WTesHAxspETKicblo9CREKJzWJjnxZHLtdGEEDladPO3OsUiMUriRXR6Jt0BxVE+22L6G6NS/JQfTdqp3Y17qHYGRHDhug20iqSg3lt+/UG/njGDE9eQ+Xrh6ul5CHFmFouzRL2pdnZpci+KebKGqCRP2h4kWroOS+uh0XhCBwZW66uQG+5/E6Hshn7Lk1TpaCLpf2+gvBYpPE9/2Q+nUkF4yb0jyhgVPH2an8jNrSQJL8MHDXUVYHVk6UVfZ8fIDg3ccTGJAncK1mS4xrEPEMz4O6MZ6UBGf/1ByN+E2XMsgezQ8mcQn3uPbSpkYSGEwSkvyOWJy2QfKFMyefpNV8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(376002)(346002)(39860400002)(136003)(366004)(31686004)(478600001)(36756003)(2616005)(8676002)(2906002)(956004)(66476007)(66556008)(66946007)(44832011)(6486002)(7416002)(5660300002)(4326008)(83380400001)(26005)(38100700002)(86362001)(186003)(33964004)(107886003)(8936002)(316002)(7696005)(31696002)(53546011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0dCZEp5ZU1ZRDZ0VlhHYmVaV2dIWW9tNUNnY2hNMXU0QW0rcmVBNW8xTlYr?=
+ =?utf-8?B?aHZTM05RZUNDZ2g3cnI3TmtjV2RvVlYyV3lhRmFVY3lhNWczU2xxM3YvSnF0?=
+ =?utf-8?B?b3FuYkQzRWV6QkFkNkZ3bTJDVnJNdCtEQStUNWh5dHBFVmRic3hucWpsdjcy?=
+ =?utf-8?B?cWdQTjhGNXQ5N0llYUN1bHR6RWNJVExodUw2QUhEa0dRSDRibVNFWXBTa0pZ?=
+ =?utf-8?B?WUdtSU5OR3ZsQ3JsWCt2K3JxcFN5WlZudS9JYkovb1RYbkZhc2pCVVhGZlZ3?=
+ =?utf-8?B?WWFIdUk4MkNYS25NY3M0SFlNdnd0VmR1RnFyZThvS3oxaTNnbXVJTEJ0S2dD?=
+ =?utf-8?B?dEprMEtxVTFzZTNUemUrWk1IUUFvK0pPditjTmFzVWtnUUlwUlZTU2NHK2NW?=
+ =?utf-8?B?U1NjUFdKU0l5WkpZRDlIWFRJbFByU1p1N2swdnhsWENkZGxWOGhIWG5QTkZC?=
+ =?utf-8?B?U2JmdzI5ZStkZUU4TUcrYSt6S3dKUk1pZVJ0cDhrajdkSElDYzV4RWhCck92?=
+ =?utf-8?B?Rlp3NWxxbHhKVVVvanFkNUxZVlhvRW5YM2lJZXRqeDB5U3YvT01hVzJsaHJ1?=
+ =?utf-8?B?WHFGTWVySEoxVHJONElidlFYR3dnOSt6eFY0bnYrWjNCd3g4UVRkYnhBMWlB?=
+ =?utf-8?B?eXVBTG41ZEJESlB5em8rWEw1UTZXaExFR0d4c1ZmcUxubEFtUWp3OEx3eEVD?=
+ =?utf-8?B?aHNyZitSWW50MTBuUzUrbTRaQ0VtcXozNDVNczFTZmtsQTlmUUZlbFVLQmx2?=
+ =?utf-8?B?eHVlTkNUZHZTeG1YR0o1SzNpRW9pbDVKbDBpZ0ZpeC9nUk04dGk3SmhGWDNW?=
+ =?utf-8?B?Z0VDWmNnRncwNWJwOEtxWE5xS1czbUhBR254cjZmaTdpZzdkVWtSdklXN0FY?=
+ =?utf-8?B?ajVZbkVSeDZjdlBlWStrNlJRTFRJcyt0LytTNUVURzFiYWU2WmdjZ0Q2eWNR?=
+ =?utf-8?B?c3JrckJXVitvRzdhWGs0WjZ1U1VORUh6NUNpb2tSS1FQVVQ0a05pZmVXUng2?=
+ =?utf-8?B?cU1uaGhrTEo3eDBYTTJaUDNXOFZ4RjlQczlYWXRMYUgyL0dMeWZQRU9uQWRa?=
+ =?utf-8?B?Qy82QU5IZWowUjVPNnhoTmVpL1hkWkQvc0Uram9oSnRkckF1OTA1M1lkSzl1?=
+ =?utf-8?B?MnAzeTVsZHZ1TTZpREFKRWY0N3hmTlVjYjNiUW84R0lqU0luQWJHWVJZbVhq?=
+ =?utf-8?B?dCttQStWMDdRbURZM0FCczRueStneEtjY0V6eTB6UGVLcFJaR3EvS2hIbHBD?=
+ =?utf-8?B?ZVpSSzdNV3lHY0U1MnVFQy9MdmZoZXcvditVRXg3SERlYTMxUGZzYS9xeVN5?=
+ =?utf-8?B?NXI2OUpmeGJFME9QTi9vaFpGWm00OUxBNFY5R2lPaDRxYVBCZkVqeFV6NzRC?=
+ =?utf-8?B?VkE2T0VHSjV1QldLUllOZFc2RWcrM0pWYXR3b0wxOHpBZit2czB5eEtJZHZa?=
+ =?utf-8?B?TjRXdXBlbFZMMkRVQitMQUtROUVTeG9DK0RvelgweHZBbUdRSGFONTJFOCtP?=
+ =?utf-8?B?cUxxN0wxZm5QTVBFS3ppSEl4NzFSSHJpQU9iem1pYXRWMkx5MHJmMWYxaFdL?=
+ =?utf-8?B?RVgwakU0a1JobG1nN1ZySmVKWUZ2SGs2cmZPWHppOTlZcDhwbHN0RzZKZ2F0?=
+ =?utf-8?B?M3NOV2pJa0pUVUoxYlFMM0tyaW5aUVMrbkJ5cmNnSzlRSEVIU2ZweTFtbUdq?=
+ =?utf-8?B?N082UlF2Y0VyS0NLL3I5bE05aHp0bjkxM0lBZ2lxY3JOQXZzVmtpKzJMVjNr?=
+ =?utf-8?Q?JpvEFJruUrK5aNRly85f6gJBh5/o50sNuFOh4vM?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 307ad0de-5411-45c5-906f-08d94c250355
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 08:53:30.4977 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7ECL/a1qpO50Os8bd/zX0huwdpKes9AhbBWks3PP6F8BO6VZ7uHQinGz2N/GT1eVCIuEysG7+L5xZkHs5QOoYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4679
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10051
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 malwarescore=0
+ adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107210048
+X-Proofpoint-ORIG-GUID: icXVfsohqMDCnb5xw5dgQDIEBdCEPkH9
+X-Proofpoint-GUID: icXVfsohqMDCnb5xw5dgQDIEBdCEPkH9
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,161 +187,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
+ mst@redhat.com, michael.roth@amd.com, david@redhat.com, armbru@redhat.com,
+ amit@kernel.org, dgilbert@redhat.com, eric.auger@redhat.com,
+ dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, si-wei.liu@oracle.com, marcandre.lureau@redhat.com,
+ joao.m.martins@oracle.com, mreitz@redhat.com,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--------------584B59E288F4AF6299C9620F
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Mathieu Poirier <mathieu.poirier@linaro.org> writes:
+Hi Jason. My apologies for the delayed response, several work-related 
+things came up recently, but they're slowing down now so I'm turning my 
+attention these patches to get taken care of.
 
-> Following in the footsteps of what whas done for vhost-user-i2c
-> and virtiofsd, introduce a random number generator (RNG) backend
-> that communicates with a vhost-user server to retrieve entropy.
-> That way another VMM could be using the same vhost-user daemon and
-> avoid having to write yet another RNG driver.
+A few questions and comments below (and in other following patches):
+
+
+On 7/13/21 10:42 PM, Jason Wang wrote:
 >
-> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->  hw/virtio/Kconfig                  |   5 +
->  hw/virtio/meson.build              |   1 +
+> 在 2021/7/12 下午6:35, Jonah Palmer 写道:
+>>          Dump the information of the head element of the third queue 
+>> of virtio-scsi:
+>>
+>>          (qemu) virtio queue-element 
+>> /machine/peripheral-anon/device[3]/virtio-backend 3
+>>          index: 122
+>>          ndescs: 3
+>>          descs: addr 0x7302d000 len 4096 (write), addr 0x3c951763 len 
+>> 108 (write, next),
+>>                 addr 0x3c951728 len 51 (next)
+>
+>
+> I think it would be nice if we can show driver area and device area as 
+> well here.
 
-FWIW there are simple merge failures for the meson and Kconfig parts due
-to I2C being merged.
+Sure thing. And I apologize if it's obvious (I'm relatively new to virtio), but how can I expose the driver area?
 
-<snip>
-> +
-> +    rng->vhost_dev.nvqs =3D 1;
-> +    rng->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, rng->vhost_dev=
-.nvqs);
-> +    if (!rng->vhost_dev.vqs) {
-> +        error_setg_errno(errp, -1, "memory allocation failed");
-> +        goto vhost_dev_init_failed;
-> +    }
+I understand that virtio devices are part of the Qemu process, but I also thought that virtio drivers are in the
+guest's kernel, which I don't believe I can see into from Qemu (or, at least, it's not obvious to me).
 
-g_new0 will abort on memory allocation failure (which is fine for
-userspace ;-) so you don't need the check and erro handling exit here.
+Jonah
 
-> +
-> +    ret =3D vhost_dev_init(&rng->vhost_dev, &rng->vhost_user,
-> +                         VHOST_BACKEND_TYPE_USER, 0, errp);
-> +    if (ret < 0) {
-> +        error_setg_errno(errp, -ret, "vhost_dev_init() failed");
-> +        goto vhost_dev_init_failed;
-> +    }
-> +
-> +    qemu_chr_fe_set_handlers(&rng->chardev, NULL, NULL, vu_rng_event, NU=
-LL,
-> +                             dev, NULL, true);
-> +
-> +    return;
-> +
-> +vhost_dev_init_failed:
-> +    virtio_delete_queue(rng->req_vq);
-> +virtio_add_queue_failed:
-> +    virtio_cleanup(vdev);
-> +    vhost_user_cleanup(&rng->vhost_user);
-> +}
-> +
-> +static void vu_rng_device_unrealize(DeviceState *dev)
-> +{
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> +    VHostUserRNG *rng =3D VHOST_USER_RNG(dev);
-> +
-> +    vu_rng_set_status(vdev, 0);
-> +
-> +    vhost_dev_cleanup(&rng->vhost_dev);
-> +    g_free(rng->vhost_dev.vqs);
-> +    rng->vhost_dev.vqs =3D NULL;
-> +    virtio_delete_queue(rng->req_vq);
-> +    virtio_cleanup(vdev);
-> +    vhost_user_cleanup(&rng->vhost_user);
-> +}
-> +
-> +static const VMStateDescription vu_rng_vmstate =3D {
-> +    .name =3D "vhost-user-rng",
-> +    .unmigratable =3D 1,
-> +};
-> +
-> +static Property vu_rng_properties[] =3D {
-> +    DEFINE_PROP_CHR("chardev", VHostUserRNG, chardev),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void vu_rng_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_CLASS(klass);
-> +
-> +    device_class_set_props(dc, vu_rng_properties);
-> +    dc->vmsd =3D &vu_rng_vmstate;
-> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-> +
-> +    vdc->realize =3D vu_rng_device_realize;
-> +    vdc->unrealize =3D vu_rng_device_unrealize;
-> +    vdc->get_features =3D vu_rng_get_features;
-> +    vdc->set_status =3D vu_rng_set_status;
-> +    vdc->guest_notifier_mask =3D vu_rng_guest_notifier_mask;
-> +    vdc->guest_notifier_pending =3D vu_rng_guest_notifier_pending;
-> +}
-> +
-> +static const TypeInfo vu_rng_info =3D {
-> +    .name =3D TYPE_VHOST_USER_RNG,
-> +    .parent =3D TYPE_VIRTIO_DEVICE,
-> +    .instance_size =3D sizeof(VHostUserRNG),
-> +    .class_init =3D vu_rng_class_init,
-> +};
-> +
-> +static void vu_rng_register_types(void)
-> +{
-> +    type_register_static(&vu_rng_info);
-> +}
-> +
-> +type_init(vu_rng_register_types)
-> diff --git a/include/hw/virtio/vhost-user-rng.h b/include/hw/virtio/vhost=
--user-rng.h
-> new file mode 100644
-> index 000000000000..071539996d1d
-> --- /dev/null
-> +++ b/include/hw/virtio/vhost-user-rng.h
-> @@ -0,0 +1,33 @@
-> +/*
-> + * Vhost-user RNG virtio device
-> + *
-> + * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef _QEMU_VHOST_USER_RNG_H
-> +#define _QEMU_VHOST_USER_RNG_H
-> +
-> +#include "hw/virtio/virtio.h"
-> +#include "hw/virtio/vhost.h"
-> +#include "hw/virtio/vhost-user.h"
-> +#include "chardev/char-fe.h"
-> +
-> +#define TYPE_VHOST_USER_RNG "vhost-user-rng"
-> +OBJECT_DECLARE_SIMPLE_TYPE(VHostUserRNG, VHOST_USER_RNG)
-> +
-> +struct VHostUserRNG {
-> +    /*< private >*/
-> +    VirtIODevice parent;
-> +    CharBackend chardev;
-> +    struct vhost_virtqueue *vhost_vq;
-> +    struct vhost_dev vhost_dev;
-> +    VhostUserState vhost_user;
-> +    VirtQueue *req_vq;
-> +    bool connected;
-> +
-> +    /*< public >*/
-> +};
-> +
-> +#endif /* _QEMU_VHOST_USER_RNG_H */
+>
+> Thanks
+>
 
-Otherwise:
+--------------584B59E288F4AF6299C9620F
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>Hi Jason. My apologies for the delayed response, several
+      work-related things came up recently, but they're slowing down now
+      so I'm turning my attention these patches to get taken care of. <br>
+    </p>
+    <p>A few questions and comments below (and in other following
+      patches):</p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 7/13/21 10:42 PM, Jason Wang wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com">
+      <br>
+      在 2021/7/12 下午6:35, Jonah Palmer 写道:
+      <br>
+      <blockquote type="cite">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dump the information of the head
+        element of the third queue of virtio-scsi:
+        <br>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (qemu) virtio queue-element
+        /machine/peripheral-anon/device[3]/virtio-backend 3
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; index: 122
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ndescs: 3
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; descs: addr 0x7302d000 len 4096 (write), addr
+        0x3c951763 len 108 (write, next),
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr 0x3c951728 len 51 (next)
+        <br>
+      </blockquote>
+      <br>
+      <br>
+      I think it would be nice if we can show driver area and device
+      area as well here.
+      <br>
+    </blockquote>
+    <pre>Sure thing. And I apologize if it's obvious (I'm relatively new to virtio), but how can I expose the driver area?</pre>
+    <pre>I understand that virtio devices are part of the Qemu process, but I also thought that virtio drivers are in the 
+guest's kernel, which I don't believe I can see into from Qemu (or, at least, it's not obvious to me). 
 
---=20
-Alex Benn=C3=A9e
+Jonah
+</pre>
+    <blockquote type="cite" cite="mid:11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com">
+      <br>
+      Thanks
+      <br>
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------584B59E288F4AF6299C9620F--
 
