@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E023D118F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:42:06 +0200 (CEST)
-Received: from localhost ([::1]:53718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E0A3D1185
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:37:45 +0200 (CEST)
+Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6DQE-0005T5-0x
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49536)
+	id 1m6DM0-00032Q-AW
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m6DP8-0004dK-Qd
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:40:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37014)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6DKj-00028P-AX
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:36:25 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m6DP6-0006B4-Fa
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:40:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m6DP3-0001cF-05
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 14:40:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2F772E8135
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 14:40:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6DKc-0003Hv-TZ
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:36:24 -0400
+Received: by mail-ed1-x529.google.com with SMTP id h8so2680377eds.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 07:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1XBu2w3PGhHAxK3ydjcGEyZm2k+tCaB7zptj2ep/PSo=;
+ b=y48TLF4lhVKCZ6bCOMNmsyTGYzPGe91Vv6OWKa7sFi0WAvYI/YoJ3ANWluq5gyolz7
+ ySY+I5Naqn1zPn4igBj1eO+XyfbdlX1PtYfUpQt60DW0xs83YL/nLBocufehApMErqVi
+ b/+i3FFDJP53FIspH1UNo3u21Ioqj/YYVGhuEr3y+3Mymc1lY+FxXMn0FLXyck0j2fai
+ VYzYjQruvx0/FINT37kth191ohMxN8VpsKcNz+LmU9MZL7hN6BBkDkAtRQibSXQtPkNs
+ bA5hSx2mEefEMQBXrP3T/s7wNgK9muyGs8OjEgOAUHVoqwrvXniJ+DztPPpPoDPxpslW
+ i/Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1XBu2w3PGhHAxK3ydjcGEyZm2k+tCaB7zptj2ep/PSo=;
+ b=t74jmHtRLEJYeOCe4xmAiULdSV05ejcLkYaoLBJ6snCLbuOa7q2Fj62a7Ixbb2zIl7
+ Z2t4J7Nr3PyURCPvTw3Kcp3I1Q2gujKfQLseB1S15jWNIFyaBzlf3pQWedLYX1sWokKi
+ ak77Y4/NrZM2cfi3Eng7BGoKBUg6JTkmDIh78BhqaGfqEElY3fvc/qAHik79cpAbveTo
+ JF6Sw09tkNetFVcdNlKH6DzGdZ0caHpGzI5rqvt5aaiwCdjZyKnCE7aTOUSIEMVg3+Oy
+ jubrZb7pXQZbcP0Fa1TNU+HXFVjJi0oHX6A/3zumiZ2nBL8mk6jta/rutUDs5u5+f4lF
+ Rh8w==
+X-Gm-Message-State: AOAM532fSPVIxrprK/p/gKbYrRawU8jOeXP0UIVGRLqK0af+tK9JlmC5
+ hBAihT0ZoHHv8kYVyLkMzypXUWfCOUkF/4EePnaLdQ==
+X-Google-Smtp-Source: ABdhPJwe//GYCR4kGlV6qgGk89MJVXzU1GNiZDyN7eQUYDbXp+dxjOsuPzoUuxveKAihU4Khs1jFqFI1J/N5WzUFHHQ=
+X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr47739467eds.204.1626878177116; 
+ Wed, 21 Jul 2021 07:36:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Jul 2021 14:34:57 -0000
-From: Thomas Huth <1890160@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=th.huth@posteo.de; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159646547209.2548.10551566895698007373.malonedeb@gac.canonical.com>
-Message-Id: <162687809792.21417.6015108425807398935.malone@soybean.canonical.com>
-Subject: [Bug 1890160] Re: Abort in vmxnet3_validate_queues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9c0cb2d219338e530974f0e5d7d00aa1bf8a7de3"; Instance="production"
-X-Launchpad-Hash: 2dfa8777e09723024523c9476370f28ce325d8cc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210721113912.14483-1-sohu0106@126.com>
+In-Reply-To: <20210721113912.14483-1-sohu0106@126.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 21 Jul 2021 15:35:36 +0100
+Message-ID: <CAFEAcA9WxkegCtEYgjUW3kHEyv0t5xxKwUJF2mLQhbLhpQxdJA@mail.gmail.com>
+Subject: Re: [RFC] Fix rocker device null pointer crash. qemu config
+ r->fp_ports with "-device rocker, len-ports=10" when guest config port larget
+ then r->fp_ports(10) r->fp_port[port] is null-pointer, qemu will crash
+ null-pointer Reported-by: chenzhe <chenzhe@huawei.com>
+To: NAME <sohu0106@126.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,77 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890160 <1890160@bugs.launchpad.net>
+Cc: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?B?SmnFmcOtIFDDrXJrbw==?= <jiri@resnulli.us>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested fix:
-https://lore.kernel.org/qemu-devel/20210721141559.3647945-1-thuth@redhat.co=
-m/
+On Wed, 21 Jul 2021 at 15:23, NAME <sohu0106@126.com> wrote:
+>
+> From: sohu0106 <sohu0106@126.com>
 
-** Changed in: qemu
-       Status: Confirmed =3D> In Progress
+Hi; you seem to have a misformatted commit message here --
+everything has ended up in the Subject line. The first
+line of the commit should be a short summary, usually
+preceded by an indication of the area of the code
+being fixed, like "hw/net/rocker:". Then there should be
+a blank line, followed by the more detailed description
+of the change. You can look at the git commit logs for
+existing commits to get the idea.
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Thomas Huth (th-huth)
+> Signed-off-by: sohu0106 <sohu0106@126.com>
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890160
+We request that Signed-off-by: lines are your full real
+name, not a pseudonym or email address; this is because you
+are stating with this line that it's legally OK for this
+patch to go into QEMU.
 
-Title:
-  Abort in vmxnet3_validate_queues
+You might like to read
+https://wiki.qemu.org/Contribute/SubmitAPatch
+if you haven't found it already.
 
-Status in QEMU:
-  In Progress
+> diff --git a/hw/net/rocker/rocker_fp.c b/hw/net/rocker/rocker_fp.c
+> index cbeed65bd5..45b5020106 100644
+> --- a/hw/net/rocker/rocker_fp.c
+> +++ b/hw/net/rocker/rocker_fp.c
+> @@ -108,9 +108,10 @@ int fp_port_set_settings(FpPort *port, uint32_t speed,
+>      return ROCKER_OK;
+>  }
+>
+> -bool fp_port_from_pport(uint32_t pport, uint32_t *port)
+> +bool fp_port_from_pport(Rocker *r, uint32_t pport, uint32_t *port)
+>  {
+> -    if (pport < 1 || pport > ROCKER_FP_PORTS_MAX) {
+> +    if (pport < 1 || pport > ROCKER_FP_PORTS_MAX ||
+> +        pport >= rocker_fp_ports(r)) {
+>          return false;
 
-Bug description:
-  Hello,
-  Reproducer:
+You don't need to keep the check against ROCKER_FP_PORTS_MAX,
+because the realize method will ensure that r->fp_ports is
+not larger than ROCKER_FP_PORTS_MAX, and so the single check
+against "pport >= rocker_fp_ports(r)" covers that case.
 
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001014
-  outl 0xcfc 0xe0001000
-  outl 0xcf8 0x80001018
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  write 0x0 0x1 0xe1
-  write 0x1 0x1 0xfe
-  write 0x2 0x1 0xbe
-  write 0x3 0x1 0xba
-  write 0x3e 0x1 0xe1
-  writeq 0xe0001020 0xef0bff5ecafe0000
-  EOF
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  qemu: hardware error: Bad TX queues number: 225
-
-      #6 0x7f04b89d455a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abor=
-t.c:79:7
-      #7 0x558f5be89b67 in hw_error /home/alxndr/Development/qemu/general-f=
-uzz/softmmu/cpus.c:927:5
-      #8 0x558f5d3c3968 in vmxnet3_validate_queues /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/vmxnet3.c:1388:9
-      #9 0x558f5d3bb716 in vmxnet3_activate_device /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/vmxnet3.c:1449:5
-      #10 0x558f5d3b6fba in vmxnet3_handle_command /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/vmxnet3.c:1576:9
-      #11 0x558f5d3b410f in vmxnet3_io_bar1_write /home/alxndr/Development/=
-qemu/general-fuzz/hw/net/vmxnet3.c:1772:9
-      #12 0x558f5bec4193 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/softmmu/memory.c:483:5
-      #13 0x558f5bec3637 in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:544:18
-      #14 0x558f5bec1256 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/softmmu/memory.c:1466:16
-
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890160/+subscriptions
-
+thanks
+-- PMM
 
