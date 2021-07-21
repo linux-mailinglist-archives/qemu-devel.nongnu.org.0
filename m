@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96263D17DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:18:55 +0200 (CEST)
-Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF5B3D17E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:24:22 +0200 (CEST)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6IgA-0002Um-Lv
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:18:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36904)
+	id 1m6IlS-0005Uz-11
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOT-00031l-29
+ id 1m6IOU-00032K-VJ
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:38 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:43531)
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOP-00063H-Te
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:36 -0400
-Received: by mail-pl1-x634.google.com with SMTP id b12so1632118plh.10
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:33 -0700 (PDT)
+ id 1m6IOS-00064W-PR
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:38 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ k4-20020a17090a5144b02901731c776526so511643pjm.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uv4KyE46xKGLObtihhZF89wcjkrGbag40+YXKQhFASw=;
- b=BIMXz1jcOrQdmm20Z+9NcGCm1SFpdh7U9wkW2CnrQqbc78BmY9FG3wBhOEkRhJGgT6
- 9MjLZB71afSqzl4D8Hufbfq3Av9WV7R7ilWicDrKNJXiJ6cJW5yhSLL45FYq/oO+Sxm3
- vwagNiWMLicR4cfg3rHeLido0HKzRi+z1Dx/bbo7SjFCE7Yj5kEz+31fc/EgZRf05Gv4
- oh0lMOknlu+0H2DaefTLwnIDLs2F8oNWcHuIRyWlXnRCzwucW7Iz86kHmQVUTopA+Tkt
- rdAIxHYt4nAtMnN3LjsF9kj5G86pGlZ4lohsLz7SlYBdBoIasmBNmKhv8KsVKEzwphFB
- O1Dw==
+ bh=zLV+SXNQp2xsmnQvSIHnLL5fnwmzEtBufgQQMvoXHhI=;
+ b=MKR0GHW3cCfINzRj//sWpgHum4HwVXclWQJmeP10RFM0vTbyTDsWTqui44YMIToM61
+ ZOp+z1yiGGVzXp4tLNv3cBUhNGYBjTvT7CkI5cp/+g55/JTpXS4EFXCoEIkeSImQskmw
+ qI7FTzk6VGK26B64kDmqNzvXPPa00cUXMdmyW0dEo9YBBtWss+DM8LMrQob2VMw6n/v/
+ ajKSOO5wNo4wdjpjwQg0H02qL7l5ThTApSeuFLbJeQ1uX9iWOZ4netKTqB/IR84xp1xw
+ AHAkEiaL3rKXJPQCE8GkaxZUcUGN3vbXdgNJoZr91/XXUrESqpb8sVBq/ujXjlxVr+sx
+ cbUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uv4KyE46xKGLObtihhZF89wcjkrGbag40+YXKQhFASw=;
- b=JdxvxI5QPtIycFXDh5sC7Zd1iFzJ71z+SXXnxEQidxMUGFvhMjItSbAsK+OhKHrNhS
- gB7txJ+Ci/zWON+eS2iQcOU6toPq1jlCYk20CY5T/ePObdzbZQvOgtMato3VeB7HCzou
- V+4zHKbv7sIToX8Bx09gu3WcDuMzgsLWCCCxzFd6s6BEGAc3sJC5z7JU4jEjHJgg2ZHJ
- iBUIWVSg69QXuDeAUGh84vHU3sFoIOEQ2A697Hz0WUH0ZUzkKRi/Zo/Oirwyep3kzTJB
- o/vLmmPYkuSdedBEgAkbNtkHjz5axAmfgpNZwAbRM0tQfi2bc+MFsK8OhD67IcYSDVML
- Hkpw==
-X-Gm-Message-State: AOAM533qW8fwo20vbTGsg5HCK/mvj/DUiKOpMLr8xEXCmyTKSEIe+sZ8
- c6EzOTkhFuUtoBK52vg2lpOhGK9LpIGJRw==
-X-Google-Smtp-Source: ABdhPJxTPjEqg9yJZXijPcq654r0jv5ndtg2PNpBgEVHnXc97nWNUW898X95Y2RfD0W+zYST4v09Ow==
-X-Received: by 2002:a17:902:c215:b029:12b:25f7:9b11 with SMTP id
- 21-20020a170902c215b029012b25f79b11mr28920379pll.82.1626897632527; 
- Wed, 21 Jul 2021 13:00:32 -0700 (PDT)
+ bh=zLV+SXNQp2xsmnQvSIHnLL5fnwmzEtBufgQQMvoXHhI=;
+ b=Ok1qWb7CB5BYI3ZsCo37yo6TSYc3rdGc6RBSz6McIjeDrKXBLlXdINByccqfRekwhS
+ ZofmCi47dCEzQz2k3VABzVXB7WIsQEA3Y7PDWpKPl41fpElhgQKil0IRvCD2NxlcR2u5
+ A1tf6Rj/UjcJO7FiJhRBBMLXxsJYf8dMj4bat7rh1MGgukWt655l7Dyu+DZaCOTO8X4p
+ Goe0XFRswHLp1HjrPvxPTt/R1uKTZCOyL0iF2JE6wwunZO8sU7Pjnzluxcm7txjSzPjG
+ CsJepL5HJ0f30F2mQ5GXlB4hsK7OkHASAIgyNVxwqf9MNe24by28Gsd98/ltReAwudKo
+ OL/Q==
+X-Gm-Message-State: AOAM5334ZnMvYzEQQ1Nm7ULzYlqVp6JS6lcR4E/xU2tMCI4sE35C6T2C
+ Rzk2p426DzJ3rslQt0FbTk/KMSDY3d3Peg==
+X-Google-Smtp-Source: ABdhPJxUu8wpe6VSQwPQMdt7/LqO2o0XwyzgKEUFIMSAxu5zhYr/q99y9BBiiSnuUw9B6QrYVJZw0g==
+X-Received: by 2002:a63:cf0a:: with SMTP id j10mr2819695pgg.4.1626897633994;
+ Wed, 21 Jul 2021 13:00:33 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.31
+ by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:32 -0700 (PDT)
+ Wed, 21 Jul 2021 13:00:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/27] accel/tcg: Hoist tb_cflags to a local in translator_loop
-Date: Wed, 21 Jul 2021 09:59:53 -1000
-Message-Id: <20210721195954.879535-27-richard.henderson@linaro.org>
+Subject: [PULL 27/27] accel/tcg: Record singlestep_enabled in tb->cflags
+Date: Wed, 21 Jul 2021 09:59:54 -1000
+Message-Id: <20210721195954.879535-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
 References: <20210721195954.879535-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,61 +86,114 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The access internal to tb_cflags() is atomic.
-Avoid re-reading it as such for the multiple uses.
+Set CF_SINGLE_STEP when single-stepping is enabled.
+This avoids the need to flush all tb's when turning
+single-stepping on or off.
 
 Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translator.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/exec/exec-all.h   | 1 +
+ accel/tcg/cpu-exec.c      | 7 ++++++-
+ accel/tcg/translate-all.c | 4 ----
+ accel/tcg/translator.c    | 7 +------
+ cpu.c                     | 4 ----
+ 5 files changed, 8 insertions(+), 15 deletions(-)
 
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 6873cce8df..5d1b6d80fb 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -497,6 +497,7 @@ struct TranslationBlock {
+ #define CF_COUNT_MASK    0x000001ff
+ #define CF_NO_GOTO_TB    0x00000200 /* Do not chain with goto_tb */
+ #define CF_NO_GOTO_PTR   0x00000400 /* Do not chain with goto_ptr */
++#define CF_SINGLE_STEP   0x00000800 /* gdbstub single-step in effect */
+ #define CF_LAST_IO       0x00008000 /* Last insn may be an IO access.  */
+ #define CF_MEMI_ONLY     0x00010000 /* Only instrument memory ops */
+ #define CF_USE_ICOUNT    0x00020000
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5cc6363f4c..fc895cf51e 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -150,10 +150,15 @@ uint32_t curr_cflags(CPUState *cpu)
+     uint32_t cflags = cpu->tcg_cflags;
+ 
+     /*
++     * Record gdb single-step.  We should be exiting the TB by raising
++     * EXCP_DEBUG, but to simplify other tests, disable chaining too.
++     *
+      * For singlestep and -d nochain, suppress goto_tb so that
+      * we can log -d cpu,exec after every TB.
+      */
+-    if (singlestep) {
++    if (unlikely(cpu->singlestep_enabled)) {
++        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR | CF_SINGLE_STEP | 1;
++    } else if (singlestep) {
+         cflags |= CF_NO_GOTO_TB | 1;
+     } else if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
+         cflags |= CF_NO_GOTO_TB;
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index bf82c15aab..bbfcfb698c 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1432,10 +1432,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+     QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
+ 
+-    if (cpu->singlestep_enabled) {
+-        max_insns = 1;
+-    }
+-
+  buffer_overflow:
+     tb = tcg_tb_alloc(tcg_ctx);
+     if (unlikely(!tb)) {
 diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 4f3728c278..b45337f3ba 100644
+index b45337f3ba..c53a7f8e44 100644
 --- a/accel/tcg/translator.c
 +++ b/accel/tcg/translator.c
-@@ -50,6 +50,7 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
- void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-                      CPUState *cpu, TranslationBlock *tb, int max_insns)
- {
-+    uint32_t cflags = tb_cflags(tb);
-     bool plugin_enabled;
+@@ -38,11 +38,6 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
+         return false;
+     }
  
-     /* Initialize DisasContext */
-@@ -72,8 +73,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-     ops->tb_start(db, cpu);
+-    /* Suppress goto_tb in the case of single-steping.  */
+-    if (db->singlestep_enabled) {
+-        return false;
+-    }
+-
+     /* Check for the dest on the same page as the start of the TB.  */
+     return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;
+ }
+@@ -60,7 +55,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     db->is_jmp = DISAS_NEXT;
+     db->num_insns = 0;
+     db->max_insns = max_insns;
+-    db->singlestep_enabled = cpu->singlestep_enabled;
++    db->singlestep_enabled = cflags & CF_SINGLE_STEP;
+ 
+     ops->init_disas_context(db, cpu);
      tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
- 
--    plugin_enabled = plugin_gen_tb_start(cpu, tb,
--                                         tb_cflags(db->tb) & CF_MEMI_ONLY);
-+    plugin_enabled = plugin_gen_tb_start(cpu, tb, cflags & CF_MEMI_ONLY);
- 
-     while (true) {
-         db->num_insns++;
-@@ -88,14 +88,13 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-            update db->pc_next and db->is_jmp to indicate what should be
-            done next -- either exiting this loop or locate the start of
-            the next instruction.  */
--        if (db->num_insns == db->max_insns
--            && (tb_cflags(db->tb) & CF_LAST_IO)) {
-+        if (db->num_insns == db->max_insns && (cflags & CF_LAST_IO)) {
-             /* Accept I/O on the last instruction.  */
-             gen_io_start();
-             ops->translate_insn(db, cpu);
-         } else {
-             /* we should only see CF_MEMI_ONLY for io_recompile */
--            tcg_debug_assert(!(tb_cflags(db->tb) & CF_MEMI_ONLY));
-+            tcg_debug_assert(!(cflags & CF_MEMI_ONLY));
-             ops->translate_insn(db, cpu);
+diff --git a/cpu.c b/cpu.c
+index d6ae5ae581..e1799a15bc 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -326,10 +326,6 @@ void cpu_single_step(CPUState *cpu, int enabled)
+         cpu->singlestep_enabled = enabled;
+         if (kvm_enabled()) {
+             kvm_update_guest_debug(cpu, 0);
+-        } else {
+-            /* must flush all the translated code to avoid inconsistencies */
+-            /* XXX: only flush what is necessary */
+-            tb_flush(cpu);
          }
- 
+         trace_breakpoint_singlestep(cpu->cpu_index, enabled);
+     }
 -- 
 2.25.1
 
