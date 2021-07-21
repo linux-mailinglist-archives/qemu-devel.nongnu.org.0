@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD9D3D0B80
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:34:40 +0200 (CEST)
-Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652533D0B7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:33:49 +0200 (CEST)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m68ch-00015q-T0
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
+	id 1m68bs-0007cV-Ei
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68WV-0008DR-RD
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56321)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68We-0008MY-TR
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68WU-00027k-BQ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:15 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wc-0002CH-A9
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626859693;
+ s=mimecast20190719; t=1626859701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xrmG1HrC49Xsw2bKc5rtD1Gkuqb3l6Hoh0HmzH5/zYs=;
- b=WvJgLDcQLNEifMVuZBUnPV9NLVZCJLOJWNv4RKwKvb/+liAiaeNZo9p+GAX2G2XXJ9qqD7
- i+rZnuQ5GuybUyvezUuRVrbsIbDAW9n+rk6JB5azadPJoqV8Jlzp+g623dfU1Mgus5g+i7
- BgEMREgxtZozOGY0FswKbsvACwVFgUM=
+ bh=cugHBsF3qxGH5mEV4jWCO8prxN3ZaEMd6ARj8tgl4Lg=;
+ b=Gl1yqa+diMvHKqodkGsWdOj6WDKM2/wG5Ee1pUVMSuh0n/KJuCZeZUCPr2JY5bomMgU1xn
+ 7eS7qnns8Jl+uuLfHCIRrAeq+l+qwKCAB4RYvxZO8NdczrcjiIRwPUsgrGxbTpJAoDn0FT
+ Qw30rgP0oZByU/RVhIsep7XT244Czco=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-DgcBOfm3NBq99pBLLxoEjQ-1; Wed, 21 Jul 2021 05:28:12 -0400
-X-MC-Unique: DgcBOfm3NBq99pBLLxoEjQ-1
+ us-mta-431-QEwmBUA2M4mSH7aUc73FkQ-1; Wed, 21 Jul 2021 05:28:19 -0400
+X-MC-Unique: QEwmBUA2M4mSH7aUc73FkQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57C3E800D62;
- Wed, 21 Jul 2021 09:28:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F07100A643;
+ Wed, 21 Jul 2021 09:28:18 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FC09687D5;
- Wed, 21 Jul 2021 09:28:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F197C687D5;
+ Wed, 21 Jul 2021 09:28:14 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/6] virtio-mem: Implement replay_discarded
- RamDiscardManager callback
-Date: Wed, 21 Jul 2021 11:27:55 +0200
-Message-Id: <20210721092759.21368-3-david@redhat.com>
+Subject: [PATCH v2 4/6] virtio-mem: Drop precopy notifier
+Date: Wed, 21 Jul 2021 11:27:57 +0200
+Message-Id: <20210721092759.21368-5-david@redhat.com>
 In-Reply-To: <20210721092759.21368-1-david@redhat.com>
 References: <20210721092759.21368-1-david@redhat.com>
 MIME-Version: 1.0
@@ -90,96 +89,95 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement it similar to the replay_populated callback.
+Migration code now properly handles RAMBlocks which are indirectly managed
+by a RamDiscardManager. No need for manual handling via the free page
+optimization interface, let's get rid of it.
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 58 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+ hw/virtio/virtio-mem.c         | 34 ----------------------------------
+ include/hw/virtio/virtio-mem.h |  3 ---
+ 2 files changed, 37 deletions(-)
 
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index df91e454b2..284096ec5f 100644
+index 284096ec5f..d5a578142b 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -228,6 +228,38 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
-     return ret;
+@@ -776,7 +776,6 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     host_memory_backend_set_mapped(vmem->memdev, true);
+     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
+     qemu_register_reset(virtio_mem_system_reset, vmem);
+-    precopy_add_notifier(&vmem->precopy_notifier);
+ 
+     /*
+      * Set ourselves as RamDiscardManager before the plug handler maps the
+@@ -796,7 +795,6 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+      * found via an address space anymore. Unset ourselves.
+      */
+     memory_region_set_ram_discard_manager(&vmem->memdev->mr, NULL);
+-    precopy_remove_notifier(&vmem->precopy_notifier);
+     qemu_unregister_reset(virtio_mem_system_reset, vmem);
+     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
+     host_memory_backend_set_mapped(vmem->memdev, false);
+@@ -1089,43 +1087,11 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
+     vmem->block_size = value;
  }
  
-+static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
-+                                                 MemoryRegionSection *s,
-+                                                 void *arg,
-+                                                 virtio_mem_section_cb cb)
-+{
-+    unsigned long first_bit, last_bit;
-+    uint64_t offset, size;
-+    int ret = 0;
-+
-+    first_bit = s->offset_within_region / vmem->bitmap_size;
-+    first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
-+    while (first_bit < vmem->bitmap_size) {
-+        MemoryRegionSection tmp = *s;
-+
-+        offset = first_bit * vmem->block_size;
-+        last_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                 first_bit + 1) - 1;
-+        size = (last_bit - first_bit + 1) * vmem->block_size;
-+
-+        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+            break;
-+        }
-+        ret = cb(&tmp, arg);
-+        if (ret) {
-+            break;
-+        }
-+        first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                       last_bit + 2);
-+    }
-+    return ret;
-+}
-+
- static int virtio_mem_notify_populate_cb(MemoryRegionSection *s, void *arg)
+-static int virtio_mem_precopy_exclude_range_cb(const VirtIOMEM *vmem, void *arg,
+-                                               uint64_t offset, uint64_t size)
+-{
+-    void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
+-
+-    qemu_guest_free_page_hint(host + offset, size);
+-    return 0;
+-}
+-
+-static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
+-{
+-    virtio_mem_for_each_unplugged_range(vmem, NULL,
+-                                        virtio_mem_precopy_exclude_range_cb);
+-}
+-
+-static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
+-{
+-    VirtIOMEM *vmem = container_of(n, VirtIOMEM, precopy_notifier);
+-    PrecopyNotifyData *pnd = data;
+-
+-    switch (pnd->reason) {
+-    case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
+-        virtio_mem_precopy_exclude_unplugged(vmem);
+-        break;
+-    default:
+-        break;
+-    }
+-
+-    return 0;
+-}
+-
+ static void virtio_mem_instance_init(Object *obj)
  {
-     RamDiscardListener *rdl = arg;
-@@ -1170,6 +1202,31 @@ static int virtio_mem_rdm_replay_populated(const RamDiscardManager *rdm,
-                                             virtio_mem_rdm_replay_populated_cb);
- }
+     VirtIOMEM *vmem = VIRTIO_MEM(obj);
  
-+static int virtio_mem_rdm_replay_discarded_cb(MemoryRegionSection *s,
-+                                              void *arg)
-+{
-+    struct VirtIOMEMReplayData *data = arg;
-+
-+    ((ReplayRamDiscard)data->fn)(s, data->opaque);
-+    return 0;
-+}
-+
-+static void virtio_mem_rdm_replay_discarded(const RamDiscardManager *rdm,
-+                                            MemoryRegionSection *s,
-+                                            ReplayRamDiscard replay_fn,
-+                                            void *opaque)
-+{
-+    const VirtIOMEM *vmem = VIRTIO_MEM(rdm);
-+    struct VirtIOMEMReplayData data = {
-+        .fn = replay_fn,
-+        .opaque = opaque,
-+    };
-+
-+    g_assert(s->mr == &vmem->memdev->mr);
-+    virtio_mem_for_each_unplugged_section(vmem, s, &data,
-+                                          virtio_mem_rdm_replay_discarded_cb);
-+}
-+
- static void virtio_mem_rdm_register_listener(RamDiscardManager *rdm,
-                                              RamDiscardListener *rdl,
-                                              MemoryRegionSection *s)
-@@ -1234,6 +1291,7 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
-     rdmc->get_min_granularity = virtio_mem_rdm_get_min_granularity;
-     rdmc->is_populated = virtio_mem_rdm_is_populated;
-     rdmc->replay_populated = virtio_mem_rdm_replay_populated;
-+    rdmc->replay_discarded = virtio_mem_rdm_replay_discarded;
-     rdmc->register_listener = virtio_mem_rdm_register_listener;
-     rdmc->unregister_listener = virtio_mem_rdm_unregister_listener;
- }
+     notifier_list_init(&vmem->size_change_notifiers);
+-    vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
+     QLIST_INIT(&vmem->rdl_list);
+ 
+     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index 9a6e348fa2..a5dd6a493b 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -65,9 +65,6 @@ struct VirtIOMEM {
+     /* notifiers to notify when "size" changes */
+     NotifierList size_change_notifiers;
+ 
+-    /* don't migrate unplugged memory */
+-    NotifierWithReturn precopy_notifier;
+-
+     /* listeners to notify on plug/unplug activity. */
+     QLIST_HEAD(, RamDiscardListener) rdl_list;
+ };
 -- 
 2.31.1
 
