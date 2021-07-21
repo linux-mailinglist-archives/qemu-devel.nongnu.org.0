@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD7E3D0955
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:02:20 +0200 (CEST)
-Received: from localhost ([::1]:37358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B903D0959
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:04:04 +0200 (CEST)
+Received: from localhost ([::1]:43274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m66FH-0004Kl-8g
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
+	id 1m66Gy-0008Vt-17
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vq-0005Bz-6W
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:16 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:42804)
+ id 1m65vr-0005C3-R7
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:17 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vo-0005Yt-JZ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:13 -0400
-Received: by mail-pf1-x430.google.com with SMTP id y4so1478250pfi.9
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 23:42:12 -0700 (PDT)
+ id 1m65vq-0005bp-Cd
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:15 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y4so1478294pfi.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 23:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=K170A+q0uF2SxDb8bwUFhGeVCad1b1WRSuX5MHPHonA=;
- b=z39AUgET2tOLJCD34NLoZGFg8x1tM8vfwS8C1XBWc9dNZZVVSS/nS+y71tW41ttjsz
- /bYs8jnIOI9A9JkYNuMDc37ydVyxO0ofMmD0fQqiUTnrUl9NGjfOmJCcuiMx93Nhd3Rv
- XazflA5bdhFJciyJrvRm+rF/TkkV1S5QujbtXMcyRQHoY2GzRyCQzzwTIw1tqAW39BdP
- O2hVun+wfpYz5WRqiYkzbgGATd+4/3mOSZEAwWShn7whMcqaGnurPULIedY1PIeVKkcG
- q78mNMsEjW7kofNAqyIvvCunKEQ324IIMqRFBH4Hdi8ka6yWdTBth4EaXO8uIbnLLqWf
- nxEA==
+ bh=xElal7zBzDgeiDYpk/rqZK/vrTjKBD2Z3snsIesdaks=;
+ b=mFVXkgNvQAgyiBL/sjul8Z/OlnKd6DUaI9QePkcWjA7v+2pGcykDA7yz6B8qf0SbCl
+ qtq9GbQjGTLNr/9sqJ5MzB+9kRnPovb6ha5CEikIoTbm+OQWP0by4Oh0TkL+ODFCrvQI
+ rpL/5kHkA6E5m+j+yp1pRq6irYeqiPm5hfiwuhn2C6WVdJ/TvHevDGg+vprK1oQS+1pc
+ YirImxHEJTYs9fRGaEhRysOknS1TZ5+yh1TQNPVZVPLzXTlvIPX9E5MaNbTF23GWdcON
+ HizcWa7R6XhXlkf+hfCKDriFuwZUsTR/BEiaVk5b3XdKvGkl8UXzlKZtX4SjwTm3BwBT
+ c6cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K170A+q0uF2SxDb8bwUFhGeVCad1b1WRSuX5MHPHonA=;
- b=rStkiMPVzl0sCwQAQsyC8V8CoFP/ya1e6VBOt3ltHiyCXm2mMWBw2in67d799IGWbI
- ZwfaLmvM+0qa6IZ5XAAM2GTFDEd0RqLhyImBDp6YmXI2U1/shq9HB/3/M4fVKUTtG5Po
- pqkbSpRbjatxcZNUcKB9wrUBaLwMqzws/Ik7VhnEYE8y5UPajLC+zo0AA1JaOkYA32oc
- UP8togeKQ3/ycXARZjjE2Ap6GD3FkoJixscLd9sNQj6sGc+LIXUynIK0qs0eQ533/mk6
- Z9xmD69tbG8gRB5GJCH6ykTtvpbEp5P2WF47kFV4+LOnpIWK+835KstdOICdQx4D6BaL
- NvFQ==
-X-Gm-Message-State: AOAM531JN29lLX6tiAMDZGYvOVu1iNq+2+775xGRQzrOop5q67qasHZ6
- bA1A1aD6ycoDVFHDo9wEA3A4+2MeZpq2aA==
-X-Google-Smtp-Source: ABdhPJypxb67ugrucAC4yEjagsAekEG1m40D/3OFFCptx55vZQfpYTfPqEqc3YGReDsW9EAVKEVZog==
-X-Received: by 2002:a62:6c4:0:b029:324:8262:b3aa with SMTP id
- 187-20020a6206c40000b02903248262b3aamr34553341pfg.25.1626849731132; 
- Tue, 20 Jul 2021 23:42:11 -0700 (PDT)
+ bh=xElal7zBzDgeiDYpk/rqZK/vrTjKBD2Z3snsIesdaks=;
+ b=m7o3EuV3clJ0t8kYURshQ3D1X6shu5nKeKtApbvVEkdF0OKGgD6Q3CCBzRlksu9vuZ
+ PRZPF3Vxbtv0mhqBe0SS+M5KbebgfZsCSfC2aKyiQEcTf6UMqBqA/5iMfVVlXdjIdJrc
+ IxfB68jHDrACV4xxPiU/n1qz3z/88kZjCZF5F4xPqHiG+kUtwgiXCTCUYcq6lpMbjxkq
+ GOWWhF7bb3Wnu0HSGDVnCsuJbfn8utvmUyuJg9Tzq89Q2sLF6u6kgvihxJ7HcBD4XayZ
+ 8BHRUA2C8PEPd9+cpiKZuZPfY2JmpuOj4VDGkqq0xw9qUaAhI6KJ26tTXseA0EhqWdw9
+ G1yw==
+X-Gm-Message-State: AOAM531vvxkBsrEqkNjH8x+KSD/37XD/jgb+RlDCK6NP2ig0wAmAqoEd
+ agpNL10g+Y/UWYdZ1X+lPIxyGbNIL3Eo2w==
+X-Google-Smtp-Source: ABdhPJyQTSn1+7B4kUZ0mqcoNRrkQLtBtkC1SnvxKQ4LK9Dxu5sOinXIBlrEe9N7bL7Blc74R6QIDw==
+X-Received: by 2002:a65:41c7:: with SMTP id b7mr34882402pgq.81.1626849733177; 
+ Tue, 20 Jul 2021 23:42:13 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.10
+ by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 23:42:10 -0700 (PDT)
+ Tue, 20 Jul 2021 23:42:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 13/23] target/mips: Fix single stepping
-Date: Tue, 20 Jul 2021 20:41:45 -1000
-Message-Id: <20210721064155.645508-14-richard.henderson@linaro.org>
+Subject: [PATCH for-6.2 15/23] target/openrisc: Drop checks for
+ singlestep_enabled
+Date: Tue, 20 Jul 2021 20:41:47 -1000
+Message-Id: <20210721064155.645508-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721064155.645508-1-richard.henderson@linaro.org>
 References: <20210721064155.645508-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,69 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per an ancient comment in mips_tr_translate_insn about the
-expectations of gdb, when restarting the insn in a delay slot
-we also re-execute the branch.  Which means that we are
-expected to execute two insns in this case.
-
-This has been broken since 8b86d6d2580, where we forced max_insns
-to 1 while single-stepping.  This resulted in an exit from the
-translator loop after the branch but before the delay slot is
-translated.
-
-Increase the max_insns to 2 for this case.  In addition, bypass
-the end-of-page check, for when the branch itself ends the page.
+GDB single-stepping is now handled generically.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/translate.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ target/openrisc/translate.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 5b03545f09..4d1e08cfb1 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -16162,6 +16162,16 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS_R6 |
-                                   INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index d6ea536744..7e1aace63a 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -1659,11 +1659,7 @@ static void openrisc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+             /* The jump destination is indirect/computed; use jmp_pc.  */
+             tcg_gen_mov_tl(cpu_pc, jmp_pc);
+             tcg_gen_discard_tl(jmp_pc);
+-            if (unlikely(dc->base.singlestep_enabled)) {
+-                gen_exception(dc, EXCP_DEBUG);
+-            } else {
+-                tcg_gen_lookup_and_goto_ptr();
+-            }
++            tcg_gen_lookup_and_goto_ptr();
+             break;
+         }
+         /* The jump destination is direct; use jmp_pc_imm.
+@@ -1680,19 +1676,11 @@ static void openrisc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+             break;
+         }
+         tcg_gen_movi_tl(cpu_pc, jmp_dest);
+-        if (unlikely(dc->base.singlestep_enabled)) {
+-            gen_exception(dc, EXCP_DEBUG);
+-        } else {
+-            tcg_gen_lookup_and_goto_ptr();
+-        }
++        tcg_gen_lookup_and_goto_ptr();
+         break;
  
-+    /*
-+     * Execute a branch and its delay slot as a single instruction.
-+     * This is what GDB expects and is consistent with what the
-+     * hardware does (e.g. if a delay slot instruction faults, the
-+     * reported PC is the PC of the branch).
-+     */
-+    if (ctx->base.singlestep_enabled && (ctx->hflags & MIPS_HFLAG_BMASK)) {
-+        ctx->base.max_insns = 2;
-+    }
-+
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
-               ctx->hflags);
- }
-@@ -16231,17 +16241,14 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     if (ctx->base.is_jmp != DISAS_NEXT) {
-         return;
-     }
-+
-     /*
--     * Execute a branch and its delay slot as a single instruction.
--     * This is what GDB expects and is consistent with what the
--     * hardware does (e.g. if a delay slot instruction faults, the
--     * reported PC is the PC of the branch).
-+     * End the TB on (most) page crossings.
-+     * See mips_tr_init_disas_context about single-stepping a branch
-+     * together with its delay slot.
-      */
--    if (ctx->base.singlestep_enabled &&
--        (ctx->hflags & MIPS_HFLAG_BMASK) == 0) {
--        ctx->base.is_jmp = DISAS_TOO_MANY;
--    }
--    if (ctx->base.pc_next - ctx->page_start >= TARGET_PAGE_SIZE) {
-+    if (ctx->base.pc_next - ctx->page_start >= TARGET_PAGE_SIZE
-+        && !ctx->base.singlestep_enabled) {
-         ctx->base.is_jmp = DISAS_TOO_MANY;
-     }
- }
+     case DISAS_EXIT:
+-        if (unlikely(dc->base.singlestep_enabled)) {
+-            gen_exception(dc, EXCP_DEBUG);
+-        } else {
+-            tcg_gen_exit_tb(NULL, 0);
+-        }
++        tcg_gen_exit_tb(NULL, 0);
+         break;
+     default:
+         g_assert_not_reached();
 -- 
 2.25.1
 
