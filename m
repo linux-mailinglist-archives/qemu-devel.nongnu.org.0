@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2760B3D0A20
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:57:49 +0200 (CEST)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26103D0A26
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:58:22 +0200 (CEST)
+Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m676y-0003At-3D
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53086)
+	id 1m677W-00065U-01
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m66yY-00073v-Oa; Wed, 21 Jul 2021 03:49:06 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:56827)
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1m673y-0003Dk-Kn
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:54:42 -0400
+Received: from mga18.intel.com ([134.134.136.126]:5838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m66yQ-0002Ww-Ty; Wed, 21 Jul 2021 03:49:06 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3BEA15816CF;
- Wed, 21 Jul 2021 03:48:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 21 Jul 2021 03:48:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=1teK7Nr3srmbv
- 4CpxVoFgrEqUmMwY0i0zGOcuRPhmEU=; b=Xf4ppROb1Lw5oVIceqHfHgNYM7adK
- R8pMM1Sl/vNGycnCPuu+gBXmmnTLtfAeO35z1uLNXdIrnwHPzBDIn82koV/4stsy
- VYqp5B4pmpy55uveWpxuABp4ci4BAcFnQKTbs+ZBwHMCCdAyMv1m5zP4+RAVqdNC
- DeV2psLWc9LBdtLABHHCNyKdkA+bK2mzCrn30Wxnsbl8TbGJA5tG+UHFqChLFoo+
- BRBslRvwgkN0J5ENGXQuz1Hn9W72UYIwDy2swJ4qWLDpFS4ZXF10kX/L6uU+qBmB
- XZ/vntkZzaw8VW6h40r/rELBdXgneW8USJH5ARQ5F+YDVDtKCnwudUSRw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=1teK7Nr3srmbv4CpxVoFgrEqUmMwY0i0zGOcuRPhmEU=; b=I0VEbEAH
- 5p98Zzm6KfV8SbnzjQej7bTvPOiZ0/o/GfwoSDipbzFKJZ/E+qO0cTqYnf5rEwdC
- tulHemGMEKDQw+acmz9jGiYit5LSKT5SaQarEK6782koC7Wka6Lblb13pv+kqfla
- F4zD96jilzxhhH7iFUHWBLoW7Bg0UtCZ4DEFUP0STIHFggwOqsXejPeijBKq5bkR
- zQdVuqbTkxb86H9EeOFF+OlNev6W2w5z/lWg5ySR2FZ7X/LbGWcLxkEAeqnimZDf
- yTrE9dJgXKW2HMQV9ro/3TovrVgYEzL8SEpA6GmfIKvHROc7oA/v/PrcyGrIPHoC
- Y/YFk/+2bCUDkQ==
-X-ME-Sender: <xms:atH3YH9iqiLbKU-YGzj7sWWMd_Cz5LMWq0O7KEOSS0foOCtTZA1Rdw>
- <xme:atH3YDsmFA4p5yOu_shCGcV81IF3tWCKap61G1Z16mkydMXxakZ-v1dAO5H7cWnT2
- hNG6m1JUMm_unx5muI>
-X-ME-Received: <xmr:atH3YFChsXj0FJsImlpNtjehd0mprTS9YivtQMz6anqX7Aq0-todAf3i9nF0T7WIIaXI9QAhmOt3TU09ibiiqGXRU069g1j7yiUt9kFFGw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeefgdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhieetudeuudehgfegudfhieevhefglefgfeevtdefleefieegudetvedthfdt
- feenucffohhmrghinhepphhmrhdruggvvhenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:atH3YDf7MlWeL585c0lTx30EC467xVLIkPtikwkOHReL3zPAy-UQbg>
- <xmx:atH3YMMkYJm0_Xs0CDsXrlCyGA8fYhvNgwCnIbE5c4-vF6CADytcDg>
- <xmx:atH3YFl1oS1bCjivuN4iHs_sxRZPIdGGo-5v8KKNAmOGvzTKfLIkTA>
- <xmx:atH3YOuO2jiHU2dVezAj7CHAIyyFSiYWqmPubZFM07ropEoRRJMvUA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jul 2021 03:48:54 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/5] hw/nvme: fix mmio read
-Date: Wed, 21 Jul 2021 09:48:35 +0200
-Message-Id: <20210721074836.110232-5-its@irrelevant.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210721074836.110232-1-its@irrelevant.dk>
-References: <20210721074836.110232-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1m673v-000756-Qk
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:54:42 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="198662547"
+X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="198662547"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 00:54:28 -0700
+X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="501192859"
+Received: from hyperv-sh4.sh.intel.com ([10.239.48.98])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 00:54:26 -0700
+From: Chao Gao <chao.gao@intel.com>
+To: mst@redhat.com,
+	pbonzini@redhat.com
+Subject: [PATCH] vhost: use large iotlb entry if no IOMMU translation is needed
+Date: Wed, 21 Jul 2021 15:54:02 +0800
+Message-Id: <20210721075402.203711-1-chao.gao@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.126; envelope-from=chao.gao@intel.com;
+ helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,645 +56,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Chao Gao <chao.gao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+If guest enables IOMMU_PLATFORM for virtio-net, severe network
+performance drop is observed even if there is no IOMMU. And disabling
+vhost can mitigate the perf issue. Finally, we found the culprit is
+frequent iotlb misses: kernel vhost-net has 2048 entries and each
+entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
+translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
+memory for DMA, there are some iotlb misses.
 
-The new PMR test unearthed a long-standing issue with MMIO reads on
-big-endian hosts.
+If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
+mode, we can optimistically use large, unaligned iotlb entries instead
+of 4K-aligned entries to reduce iotlb pressure. Actually, vhost-net
+in kernel supports unaligned iotlb entry. The alignment requirement is
+imposed by address_space_get_iotlb_entry() and flatview_do_translate().
 
-Fix this by unconditionally storing all controller registers in little
-endian.
+Introduce IOMMUTLBEntryUnaligned which has a @len field to specify the
+iotlb size to abstract a generic iotlb entry: aligned (original
+IOMMUTLBEntry) and unaligned entry. flatview_do_translate() now
+returns a magic value in @page_mask_out if no IOMMU translation is
+needed. Then, address_space_get_iotbl_entry() can accordingly return a
+page-aligned iotlb entry or the whole memory region section where the
+iova resides as a large iotlb entry.
 
-Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Chao Gao <chao.gao@intel.com>
 ---
- hw/nvme/ctrl.c | 291 +++++++++++++++++++++++++++----------------------
- 1 file changed, 162 insertions(+), 129 deletions(-)
+ hw/virtio/vhost.c     |  6 +++---
+ include/exec/memory.h | 16 ++++++++++++++--
+ softmmu/physmem.c     | 37 +++++++++++++++++++++++++++++--------
+ 3 files changed, 46 insertions(+), 13 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 10c2363c1d4d..43dfaeac9f54 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -439,10 +439,12 @@ static uint8_t nvme_sq_empty(NvmeSQueue *sq)
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index e8f85a5d2d..6745caa129 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1010,7 +1010,7 @@ static int vhost_memory_region_lookup(struct vhost_dev *hdev,
  
- static void nvme_irq_check(NvmeCtrl *n)
+ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
  {
-+    uint32_t intms = ldl_le_p(&n->bar.intms);
-+
-     if (msix_enabled(&(n->parent_obj))) {
-         return;
-     }
--    if (~n->bar.intms & n->irq_status) {
-+    if (~intms & n->irq_status) {
-         pci_irq_assert(&n->parent_obj);
-     } else {
-         pci_irq_deassert(&n->parent_obj);
-@@ -1289,7 +1291,7 @@ static void nvme_post_cqes(void *opaque)
-         if (ret) {
-             trace_pci_nvme_err_addr_write(addr);
-             trace_pci_nvme_err_cfs();
--            n->bar.csts = NVME_CSTS_FAILED;
-+            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
-             break;
+-    IOMMUTLBEntry iotlb;
++    IOMMUTLBEntryUnaligned iotlb;
+     uint64_t uaddr, len;
+     int ret = -EFAULT;
+ 
+@@ -1031,8 +1031,8 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
+             goto out;
          }
-         QTAILQ_REMOVE(&cq->req_list, req, entry);
-@@ -4022,7 +4024,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
-         trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
-         return NVME_INVALID_QID | NVME_DNR;
+ 
+-        len = MIN(iotlb.addr_mask + 1, len);
+-        iova = iova & ~iotlb.addr_mask;
++        len = MIN(iotlb.len, len);
++        iova = iotlb.iova;
+ 
+         ret = vhost_backend_update_device_iotlb(dev, iova, uaddr,
+                                                 len, iotlb.perm);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index c3d417d317..3f04e8fe88 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -94,6 +94,7 @@ struct MemoryRegionSection {
+ };
+ 
+ typedef struct IOMMUTLBEntry IOMMUTLBEntry;
++typedef struct IOMMUTLBEntryUnaligned IOMMUTLBEntryUnaligned;
+ 
+ /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+ typedef enum {
+@@ -113,6 +114,15 @@ struct IOMMUTLBEntry {
+     IOMMUAccessFlags perm;
+ };
+ 
++/* IOMMUTLBEntryUnaligned may be not page-aligned */
++struct IOMMUTLBEntryUnaligned {
++    AddressSpace    *target_as;
++    hwaddr           iova;
++    hwaddr           translated_addr;
++    hwaddr           len;
++    IOMMUAccessFlags perm;
++};
++
+ /*
+  * Bitmap for different IOMMUNotifier capabilities. Each notifier can
+  * register with one or multiple IOMMU Notifier capability bit(s).
+@@ -2653,8 +2663,10 @@ void address_space_cache_destroy(MemoryRegionCache *cache);
+ /* address_space_get_iotlb_entry: translate an address into an IOTLB
+  * entry. Should be called from an RCU critical section.
+  */
+-IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
+-                                            bool is_write, MemTxAttrs attrs);
++IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
++                                                     hwaddr addr,
++                                                     bool is_write,
++                                                     MemTxAttrs attrs);
+ 
+ /* address_space_translate: translate an address range into an address space
+  * into a MemoryRegion and an address range into that section.  Should be
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 3c1912a1a0..469963f754 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -143,6 +143,8 @@ typedef struct subpage_t {
+ 
+ #define PHYS_SECTION_UNASSIGNED 0
+ 
++#define PAGE_MASK_NOT_BEHIND_IOMMU ((hwaddr)-1)
++
+ static void io_mem_init(void);
+ static void memory_map_init(void);
+ static void tcg_log_global_after_sync(MemoryListener *listener);
+@@ -470,7 +472,9 @@ unassigned:
+  * @page_mask_out: page mask for the translated address. This
+  *            should only be meaningful for IOMMU translated
+  *            addresses, since there may be huge pages that this bit
+- *            would tell. It can be @NULL if we don't care about it.
++ *            would tell. If the returned memory region section isn't
++ *            behind an IOMMU, PAGE_MASK_NOT_BEHIND_IOMMU is return.
++ *            It can be @NULL if we don't care about it.
+  * @is_write: whether the translation operation is for write
+  * @is_mmio: whether this can be MMIO, set true if it can
+  * @target_as: the address space targeted by the IOMMU
+@@ -508,16 +512,18 @@ static MemoryRegionSection flatview_do_translate(FlatView *fv,
+                                              target_as, attrs);
      }
--    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
-+    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))) {
-         trace_pci_nvme_err_invalid_create_sq_size(qsize);
-         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
-     }
-@@ -4208,7 +4210,7 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
-         return NVME_INVALID_FIELD | NVME_DNR;
+     if (page_mask_out) {
+-        /* Not behind an IOMMU, use default page size. */
+-        *page_mask_out = ~TARGET_PAGE_MASK;
++        /* return a magic value if not behind an IOMMU */
++        *page_mask_out = PAGE_MASK_NOT_BEHIND_IOMMU;
      }
  
--    switch (NVME_CC_CSS(n->bar.cc)) {
-+    switch (NVME_CC_CSS(ldl_le_p(&n->bar.cc))) {
-     case NVME_CC_CSS_NVM:
-         src_iocs = nvme_cse_iocs_nvm;
-         /* fall through */
-@@ -4370,7 +4372,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
-         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
-         return NVME_INVALID_QID | NVME_DNR;
-     }
--    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
-+    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))) {
-         trace_pci_nvme_err_invalid_create_cq_size(qsize);
-         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
-     }
-@@ -5163,17 +5165,19 @@ static void nvme_update_dmrsl(NvmeCtrl *n)
- 
- static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
- {
-+    uint32_t cc = ldl_le_p(&n->bar.cc);
-+
-     ns->iocs = nvme_cse_iocs_none;
-     switch (ns->csi) {
-     case NVME_CSI_NVM:
--        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
-+        if (NVME_CC_CSS(cc) != NVME_CC_CSS_ADMIN_ONLY) {
-             ns->iocs = nvme_cse_iocs_nvm;
-         }
-         break;
-     case NVME_CSI_ZONED:
--        if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_CSI) {
-+        if (NVME_CC_CSS(cc) == NVME_CC_CSS_CSI) {
-             ns->iocs = nvme_cse_iocs_zoned;
--        } else if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_NVM) {
-+        } else if (NVME_CC_CSS(cc) == NVME_CC_CSS_NVM) {
-             ns->iocs = nvme_cse_iocs_nvm;
-         }
-         break;
-@@ -5510,7 +5514,7 @@ static void nvme_process_sq(void *opaque)
-         if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
-             trace_pci_nvme_err_addr_read(addr);
-             trace_pci_nvme_err_cfs();
--            n->bar.csts = NVME_CSTS_FAILED;
-+            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
-             break;
-         }
-         nvme_inc_sq_head(sq);
-@@ -5565,8 +5569,6 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
-     n->aer_queued = 0;
-     n->outstanding_aers = 0;
-     n->qs_created = false;
--
--    n->bar.cc = 0;
+     return *section;
  }
  
- static void nvme_ctrl_shutdown(NvmeCtrl *n)
-@@ -5605,7 +5607,12 @@ static void nvme_select_iocs(NvmeCtrl *n)
- 
- static int nvme_start_ctrl(NvmeCtrl *n)
+ /* Called from RCU critical section */
+-IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
+-                                            bool is_write, MemTxAttrs attrs)
++IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
++                                                     hwaddr addr,
++                                                     bool is_write,
++                                                     MemTxAttrs attrs)
  {
--    uint32_t page_bits = NVME_CC_MPS(n->bar.cc) + 12;
-+    uint64_t cap = ldq_le_p(&n->bar.cap);
-+    uint32_t cc = ldl_le_p(&n->bar.cc);
-+    uint32_t aqa = ldl_le_p(&n->bar.aqa);
-+    uint64_t asq = ldq_le_p(&n->bar.asq);
-+    uint64_t acq = ldq_le_p(&n->bar.acq);
-+    uint32_t page_bits = NVME_CC_MPS(cc) + 12;
-     uint32_t page_size = 1 << page_bits;
+     MemoryRegionSection section;
+     hwaddr xlat, page_mask;
+@@ -535,21 +541,36 @@ IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
+         goto iotlb_fail;
+     }
  
-     if (unlikely(n->cq[0])) {
-@@ -5616,73 +5623,72 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-         trace_pci_nvme_err_startfail_sq();
-         return -1;
-     }
--    if (unlikely(!n->bar.asq)) {
-+    if (unlikely(!asq)) {
-         trace_pci_nvme_err_startfail_nbarasq();
-         return -1;
-     }
--    if (unlikely(!n->bar.acq)) {
-+    if (unlikely(!acq)) {
-         trace_pci_nvme_err_startfail_nbaracq();
-         return -1;
-     }
--    if (unlikely(n->bar.asq & (page_size - 1))) {
--        trace_pci_nvme_err_startfail_asq_misaligned(n->bar.asq);
-+    if (unlikely(asq & (page_size - 1))) {
-+        trace_pci_nvme_err_startfail_asq_misaligned(asq);
-         return -1;
-     }
--    if (unlikely(n->bar.acq & (page_size - 1))) {
--        trace_pci_nvme_err_startfail_acq_misaligned(n->bar.acq);
-+    if (unlikely(acq & (page_size - 1))) {
-+        trace_pci_nvme_err_startfail_acq_misaligned(acq);
-         return -1;
-     }
--    if (unlikely(!(NVME_CAP_CSS(n->bar.cap) & (1 << NVME_CC_CSS(n->bar.cc))))) {
--        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(n->bar.cc));
-+    if (unlikely(!(NVME_CAP_CSS(cap) & (1 << NVME_CC_CSS(cc))))) {
-+        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(cc));
-         return -1;
-     }
--    if (unlikely(NVME_CC_MPS(n->bar.cc) <
--                 NVME_CAP_MPSMIN(n->bar.cap))) {
-+    if (unlikely(NVME_CC_MPS(cc) < NVME_CAP_MPSMIN(cap))) {
-         trace_pci_nvme_err_startfail_page_too_small(
--                    NVME_CC_MPS(n->bar.cc),
--                    NVME_CAP_MPSMIN(n->bar.cap));
-+                    NVME_CC_MPS(cc),
-+                    NVME_CAP_MPSMIN(cap));
-         return -1;
-     }
--    if (unlikely(NVME_CC_MPS(n->bar.cc) >
--                 NVME_CAP_MPSMAX(n->bar.cap))) {
-+    if (unlikely(NVME_CC_MPS(cc) >
-+                 NVME_CAP_MPSMAX(cap))) {
-         trace_pci_nvme_err_startfail_page_too_large(
--                    NVME_CC_MPS(n->bar.cc),
--                    NVME_CAP_MPSMAX(n->bar.cap));
-+                    NVME_CC_MPS(cc),
-+                    NVME_CAP_MPSMAX(cap));
-         return -1;
-     }
--    if (unlikely(NVME_CC_IOCQES(n->bar.cc) <
-+    if (unlikely(NVME_CC_IOCQES(cc) <
-                  NVME_CTRL_CQES_MIN(n->id_ctrl.cqes))) {
-         trace_pci_nvme_err_startfail_cqent_too_small(
--                    NVME_CC_IOCQES(n->bar.cc),
--                    NVME_CTRL_CQES_MIN(n->bar.cap));
-+                    NVME_CC_IOCQES(cc),
-+                    NVME_CTRL_CQES_MIN(cap));
-         return -1;
-     }
--    if (unlikely(NVME_CC_IOCQES(n->bar.cc) >
-+    if (unlikely(NVME_CC_IOCQES(cc) >
-                  NVME_CTRL_CQES_MAX(n->id_ctrl.cqes))) {
-         trace_pci_nvme_err_startfail_cqent_too_large(
--                    NVME_CC_IOCQES(n->bar.cc),
--                    NVME_CTRL_CQES_MAX(n->bar.cap));
-+                    NVME_CC_IOCQES(cc),
-+                    NVME_CTRL_CQES_MAX(cap));
-         return -1;
-     }
--    if (unlikely(NVME_CC_IOSQES(n->bar.cc) <
-+    if (unlikely(NVME_CC_IOSQES(cc) <
-                  NVME_CTRL_SQES_MIN(n->id_ctrl.sqes))) {
-         trace_pci_nvme_err_startfail_sqent_too_small(
--                    NVME_CC_IOSQES(n->bar.cc),
--                    NVME_CTRL_SQES_MIN(n->bar.cap));
-+                    NVME_CC_IOSQES(cc),
-+                    NVME_CTRL_SQES_MIN(cap));
-         return -1;
-     }
--    if (unlikely(NVME_CC_IOSQES(n->bar.cc) >
-+    if (unlikely(NVME_CC_IOSQES(cc) >
-                  NVME_CTRL_SQES_MAX(n->id_ctrl.sqes))) {
-         trace_pci_nvme_err_startfail_sqent_too_large(
--                    NVME_CC_IOSQES(n->bar.cc),
--                    NVME_CTRL_SQES_MAX(n->bar.cap));
-+                    NVME_CC_IOSQES(cc),
-+                    NVME_CTRL_SQES_MAX(cap));
-         return -1;
-     }
--    if (unlikely(!NVME_AQA_ASQS(n->bar.aqa))) {
-+    if (unlikely(!NVME_AQA_ASQS(aqa))) {
-         trace_pci_nvme_err_startfail_asqent_sz_zero();
-         return -1;
-     }
--    if (unlikely(!NVME_AQA_ACQS(n->bar.aqa))) {
-+    if (unlikely(!NVME_AQA_ACQS(aqa))) {
-         trace_pci_nvme_err_startfail_acqent_sz_zero();
-         return -1;
-     }
-@@ -5690,12 +5696,10 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-     n->page_bits = page_bits;
-     n->page_size = page_size;
-     n->max_prp_ents = n->page_size / sizeof(uint64_t);
--    n->cqe_size = 1 << NVME_CC_IOCQES(n->bar.cc);
--    n->sqe_size = 1 << NVME_CC_IOSQES(n->bar.cc);
--    nvme_init_cq(&n->admin_cq, n, n->bar.acq, 0, 0,
--                 NVME_AQA_ACQS(n->bar.aqa) + 1, 1);
--    nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
--                 NVME_AQA_ASQS(n->bar.aqa) + 1);
-+    n->cqe_size = 1 << NVME_CC_IOCQES(cc);
-+    n->sqe_size = 1 << NVME_CC_IOSQES(cc);
-+    nvme_init_cq(&n->admin_cq, n, acq, 0, 0, NVME_AQA_ACQS(aqa) + 1, 1);
-+    nvme_init_sq(&n->admin_sq, n, asq, 0, 0, NVME_AQA_ASQS(aqa) + 1);
- 
-     nvme_set_timestamp(n, 0ULL);
- 
-@@ -5708,22 +5712,33 @@ static int nvme_start_ctrl(NvmeCtrl *n)
- 
- static void nvme_cmb_enable_regs(NvmeCtrl *n)
- {
--    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
--    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
--    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
-+    uint32_t cmbloc = ldl_le_p(&n->bar.cmbloc);
-+    uint32_t cmbsz = ldl_le_p(&n->bar.cmbsz);
- 
--    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
--    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
--    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+    NVME_CMBLOC_SET_CDPCILS(cmbloc, 1);
-+    NVME_CMBLOC_SET_CDPMLS(cmbloc, 1);
-+    NVME_CMBLOC_SET_BIR(cmbloc, NVME_CMB_BIR);
-+    stl_le_p(&n->bar.cmbloc, cmbloc);
++    /*
++     * If the section isn't behind an IOMMU, return the whole section as an
++     * IOMMU TLB entry.
++     */
++    if (page_mask == PAGE_MASK_NOT_BEHIND_IOMMU) {
++        return (IOMMUTLBEntryUnaligned) {
++            .target_as = as,
++            .iova = section.offset_within_address_space,
++            .translated_addr = section.offset_within_address_space,
++            .len = section.size,
++            /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
++            .perm = IOMMU_RW,
++        };
++    }
 +
-+    NVME_CMBSZ_SET_SQS(cmbsz, 1);
-+    NVME_CMBSZ_SET_CQS(cmbsz, 0);
-+    NVME_CMBSZ_SET_LISTS(cmbsz, 1);
-+    NVME_CMBSZ_SET_RDS(cmbsz, 1);
-+    NVME_CMBSZ_SET_WDS(cmbsz, 1);
-+    NVME_CMBSZ_SET_SZU(cmbsz, 2); /* MBs */
-+    NVME_CMBSZ_SET_SZ(cmbsz, n->params.cmb_size_mb);
-+    stl_le_p(&n->bar.cmbsz, cmbsz);
+     /* Convert memory region offset into address space offset */
+     xlat += section.offset_within_address_space -
+         section.offset_within_region;
+ 
+-    return (IOMMUTLBEntry) {
++    return (IOMMUTLBEntryUnaligned) {
+         .target_as = as,
+         .iova = addr & ~page_mask,
+         .translated_addr = xlat & ~page_mask,
+-        .addr_mask = page_mask,
++        .len = page_mask + 1,
+         /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
+         .perm = IOMMU_RW,
+     };
+ 
+ iotlb_fail:
+-    return (IOMMUTLBEntry) {0};
++    return (IOMMUTLBEntryUnaligned) {0};
  }
  
- static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                            unsigned size)
- {
-+    uint64_t cap = ldq_le_p(&n->bar.cap);
-+    uint32_t cc = ldl_le_p(&n->bar.cc);
-+    uint32_t intms = ldl_le_p(&n->bar.intms);
-+    uint32_t csts = ldl_le_p(&n->bar.csts);
-+    uint32_t pmrsts = ldl_le_p(&n->bar.pmrsts);
-+
-     if (unlikely(offset & (sizeof(uint32_t) - 1))) {
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_misaligned32,
-                        "MMIO write not 32-bit aligned,"
-@@ -5747,9 +5762,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                            " when MSI-X is enabled");
-             /* should be ignored, fall through for now */
-         }
--        n->bar.intms |= data & 0xffffffff;
-+        intms |= data;
-+        stl_le_p(&n->bar.intms, intms);
-         n->bar.intmc = n->bar.intms;
--        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, n->bar.intmc);
-+        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, intms);
-         nvme_irq_check(n);
-         break;
-     case NVME_REG_INTMC:
-@@ -5759,44 +5775,55 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                            " when MSI-X is enabled");
-             /* should be ignored, fall through for now */
-         }
--        n->bar.intms &= ~(data & 0xffffffff);
-+        intms &= ~data;
-+        stl_le_p(&n->bar.intms, intms);
-         n->bar.intmc = n->bar.intms;
--        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, n->bar.intmc);
-+        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, intms);
-         nvme_irq_check(n);
-         break;
-     case NVME_REG_CC:
-         trace_pci_nvme_mmio_cfg(data & 0xffffffff);
-+
-         /* Windows first sends data, then sends enable bit */
--        if (!NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc) &&
--            !NVME_CC_SHN(data) && !NVME_CC_SHN(n->bar.cc))
-+        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
-+            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
-         {
--            n->bar.cc = data;
-+            cc = data;
-         }
- 
--        if (NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc)) {
--            n->bar.cc = data;
-+        if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
-+            cc = data;
-+
-+            /* flush CC since nvme_start_ctrl() needs the value */
-+            stl_le_p(&n->bar.cc, cc);
-             if (unlikely(nvme_start_ctrl(n))) {
-                 trace_pci_nvme_err_startfail();
--                n->bar.csts = NVME_CSTS_FAILED;
-+                csts = NVME_CSTS_FAILED;
-             } else {
-                 trace_pci_nvme_mmio_start_success();
--                n->bar.csts = NVME_CSTS_READY;
-+                csts = NVME_CSTS_READY;
-             }
--        } else if (!NVME_CC_EN(data) && NVME_CC_EN(n->bar.cc)) {
-+        } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
-             trace_pci_nvme_mmio_stopped();
-             nvme_ctrl_reset(n);
--            n->bar.csts &= ~NVME_CSTS_READY;
-+            cc = 0;
-+            csts &= ~NVME_CSTS_READY;
-         }
--        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(n->bar.cc))) {
-+
-+        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
-             trace_pci_nvme_mmio_shutdown_set();
-             nvme_ctrl_shutdown(n);
--            n->bar.cc = data;
--            n->bar.csts |= NVME_CSTS_SHST_COMPLETE;
--        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(n->bar.cc)) {
-+            cc = data;
-+            csts |= NVME_CSTS_SHST_COMPLETE;
-+        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
-             trace_pci_nvme_mmio_shutdown_cleared();
--            n->bar.csts &= ~NVME_CSTS_SHST_COMPLETE;
--            n->bar.cc = data;
-+            csts &= ~NVME_CSTS_SHST_COMPLETE;
-+            cc = data;
-         }
-+
-+        stl_le_p(&n->bar.cc, cc);
-+        stl_le_p(&n->bar.csts, csts);
-+
-         break;
-     case NVME_REG_CSTS:
-         if (data & (1 << 4)) {
-@@ -5818,26 +5845,24 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-         }
-         break;
-     case NVME_REG_AQA:
--        n->bar.aqa = data & 0xffffffff;
-+        stl_le_p(&n->bar.aqa, data);
-         trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
-         break;
-     case NVME_REG_ASQ:
--        n->bar.asq = size == 8 ? data :
--            (n->bar.asq & ~0xffffffffULL) | (data & 0xffffffff);
-+        stn_le_p(&n->bar.asq, size, data);
-         trace_pci_nvme_mmio_asqaddr(data);
-         break;
-     case NVME_REG_ASQ + 4:
--        n->bar.asq = (n->bar.asq & 0xffffffff) | (data << 32);
--        trace_pci_nvme_mmio_asqaddr_hi(data, n->bar.asq);
-+        stl_le_p((uint8_t *)&n->bar.asq + 4, data);
-+        trace_pci_nvme_mmio_asqaddr_hi(data, ldq_le_p(&n->bar.asq));
-         break;
-     case NVME_REG_ACQ:
-         trace_pci_nvme_mmio_acqaddr(data);
--        n->bar.acq = size == 8 ? data :
--            (n->bar.acq & ~0xffffffffULL) | (data & 0xffffffff);
-+        stn_le_p(&n->bar.acq, size, data);
-         break;
-     case NVME_REG_ACQ + 4:
--        n->bar.acq = (n->bar.acq & 0xffffffff) | (data << 32);
--        trace_pci_nvme_mmio_acqaddr_hi(data, n->bar.acq);
-+        stl_le_p((uint8_t *)&n->bar.acq + 4, data);
-+        trace_pci_nvme_mmio_acqaddr_hi(data, ldq_le_p(&n->bar.acq));
-         break;
-     case NVME_REG_CMBLOC:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_cmbloc_reserved,
-@@ -5849,21 +5874,23 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                        "invalid write to read only CMBSZ, ignored");
-         return;
-     case NVME_REG_CMBMSC:
--        if (!NVME_CAP_CMBS(n->bar.cap)) {
-+        if (!NVME_CAP_CMBS(cap)) {
-             return;
-         }
- 
--        n->bar.cmbmsc = size == 8 ? data :
--            (n->bar.cmbmsc & ~0xffffffff) | (data & 0xffffffff);
-+        stn_le_p(&n->bar.cmbmsc, size, data);
-         n->cmb.cmse = false;
- 
-         if (NVME_CMBMSC_CRE(data)) {
-             nvme_cmb_enable_regs(n);
- 
-             if (NVME_CMBMSC_CMSE(data)) {
--                hwaddr cba = NVME_CMBMSC_CBA(data) << CMBMSC_CBA_SHIFT;
-+                uint64_t cmbmsc = ldq_le_p(&n->bar.cmbmsc);
-+                hwaddr cba = NVME_CMBMSC_CBA(cmbmsc) << CMBMSC_CBA_SHIFT;
-                 if (cba + int128_get64(n->cmb.mem.size) < cba) {
--                    NVME_CMBSTS_SET_CBAI(n->bar.cmbsts, 1);
-+                    uint32_t cmbsts = ldl_le_p(&n->bar.cmbsts);
-+                    NVME_CMBSTS_SET_CBAI(cmbsts, 1);
-+                    stl_le_p(&n->bar.cmbsts, cmbsts);
-                     return;
-                 }
- 
-@@ -5877,7 +5904,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
- 
-         return;
-     case NVME_REG_CMBMSC + 4:
--        n->bar.cmbmsc = (n->bar.cmbmsc & 0xffffffff) | (data << 32);
-+        stl_le_p((uint8_t *)&n->bar.cmbmsc + 4, data);
-         return;
- 
-     case NVME_REG_PMRCAP:
-@@ -5885,19 +5912,20 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                        "invalid write to PMRCAP register, ignored");
-         return;
-     case NVME_REG_PMRCTL:
--        if (!NVME_CAP_PMRS(n->bar.cap)) {
-+        if (!NVME_CAP_PMRS(cap)) {
-             return;
-         }
- 
--        n->bar.pmrctl = data;
-+        stl_le_p(&n->bar.pmrctl, data);
-         if (NVME_PMRCTL_EN(data)) {
-             memory_region_set_enabled(&n->pmr.dev->mr, true);
--            n->bar.pmrsts = 0;
-+            pmrsts = 0;
-         } else {
-             memory_region_set_enabled(&n->pmr.dev->mr, false);
--            NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 1);
-+            NVME_PMRSTS_SET_NRDY(pmrsts, 1);
-             n->pmr.cmse = false;
-         }
-+        stl_le_p(&n->bar.pmrsts, pmrsts);
-         return;
-     case NVME_REG_PMRSTS:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrsts_readonly,
-@@ -5912,19 +5940,20 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                        "invalid write to PMRSWTP register, ignored");
-         return;
-     case NVME_REG_PMRMSCL:
--        if (!NVME_CAP_PMRS(n->bar.cap)) {
-+        if (!NVME_CAP_PMRS(cap)) {
-             return;
-         }
- 
--        n->bar.pmrmscl = data;
-+        stl_le_p(&n->bar.pmrmscl, data);
-         n->pmr.cmse = false;
- 
--        if (NVME_PMRMSCL_CMSE(n->bar.pmrmscl)) {
--            uint64_t pmrmscu = n->bar.pmrmscu;
--            hwaddr cba = (pmrmscu << 32) |
--                (NVME_PMRMSCL_CBA(n->bar.pmrmscl) << PMRMSCL_CBA_SHIFT);
-+        if (NVME_PMRMSCL_CMSE(data)) {
-+            uint64_t pmrmscu = ldl_le_p(&n->bar.pmrmscu);
-+            hwaddr cba = pmrmscu << 32 |
-+                (NVME_PMRMSCL_CBA(data) << PMRMSCL_CBA_SHIFT);
-             if (cba + int128_get64(n->pmr.dev->mr.size) < cba) {
--                NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 1);
-+                NVME_PMRSTS_SET_CBAI(pmrsts, 1);
-+                stl_le_p(&n->bar.pmrsts, pmrsts);
-                 return;
-             }
- 
-@@ -5934,11 +5963,11 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
- 
-         return;
-     case NVME_REG_PMRMSCU:
--        if (!NVME_CAP_PMRS(n->bar.cap)) {
-+        if (!NVME_CAP_PMRS(cap)) {
-             return;
-         }
- 
--        n->bar.pmrmscu = data;
-+        stl_le_p(&n->bar.pmrmscu, data);
-         return;
-     default:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_invalid,
-@@ -5953,7 +5982,6 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
- {
-     NvmeCtrl *n = (NvmeCtrl *)opaque;
-     uint8_t *ptr = (uint8_t *)&n->bar;
--    uint64_t val = 0;
- 
-     trace_pci_nvme_mmio_read(addr, size);
- 
-@@ -5983,13 +6011,11 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
-      * made it to persistent media
-      */
-     if (addr == NVME_REG_PMRSTS &&
--        (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
-+        (NVME_PMRCAP_PMRWBM(ldl_le_p(&n->bar.pmrcap)) & 0x02)) {
-         memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
-     }
- 
--    memcpy(&val, ptr + addr, size);
--
--    return val;
-+    return ldn_le_p(ptr + addr, size);
- }
- 
- static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-@@ -6247,6 +6273,7 @@ static void nvme_init_state(NvmeCtrl *n)
- static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
- {
-     uint64_t cmb_size = n->params.cmb_size_mb * MiB;
-+    uint64_t cap = ldq_le_p(&n->bar.cap);
- 
-     n->cmb.buf = g_malloc0(cmb_size);
-     memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
-@@ -6256,7 +6283,8 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
-                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
- 
--    NVME_CAP_SET_CMBS(n->bar.cap, 1);
-+    NVME_CAP_SET_CMBS(cap, 1);
-+    stq_le_p(&n->bar.cap, cap);
- 
-     if (n->params.legacy_cmb) {
-         nvme_cmb_enable_regs(n);
-@@ -6266,14 +6294,17 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
- 
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 1);
--    NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 1);
--    NVME_PMRCAP_SET_BIR(n->bar.pmrcap, NVME_PMR_BIR);
--    /* Turn on bit 1 support */
--    NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0x02);
--    NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 1);
-+    uint32_t pmrcap = ldl_le_p(&n->bar.pmrcap);
- 
--    pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
-+    NVME_PMRCAP_SET_RDS(pmrcap, 1);
-+    NVME_PMRCAP_SET_WDS(pmrcap, 1);
-+    NVME_PMRCAP_SET_BIR(pmrcap, NVME_PMR_BIR);
-+    /* Turn on bit 1 support */
-+    NVME_PMRCAP_SET_PMRWBM(pmrcap, 0x02);
-+    NVME_PMRCAP_SET_CMSS(pmrcap, 1);
-+    stl_le_p(&n->bar.pmrcap, pmrcap);
-+
-+    pci_register_bar(pci_dev, NVME_PMR_BIR,
-                      PCI_BASE_ADDRESS_SPACE_MEMORY |
-                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
-                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->pmr.dev->mr);
-@@ -6363,6 +6394,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- {
-     NvmeIdCtrl *id = &n->id_ctrl;
-     uint8_t *pci_conf = pci_dev->config;
-+    uint64_t cap = ldq_le_p(&n->bar.cap);
- 
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-@@ -6441,17 +6473,18 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-         id->cmic |= NVME_CMIC_MULTI_CTRL;
-     }
- 
--    NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
--    NVME_CAP_SET_CQR(n->bar.cap, 1);
--    NVME_CAP_SET_TO(n->bar.cap, 0xf);
--    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_NVM);
--    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_CSI_SUPP);
--    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
--    NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
--    NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
--    NVME_CAP_SET_PMRS(n->bar.cap, n->pmr.dev ? 1 : 0);
-+    NVME_CAP_SET_MQES(cap, 0x7ff);
-+    NVME_CAP_SET_CQR(cap, 1);
-+    NVME_CAP_SET_TO(cap, 0xf);
-+    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_NVM);
-+    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_CSI_SUPP);
-+    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_ADMIN_ONLY);
-+    NVME_CAP_SET_MPSMAX(cap, 4);
-+    NVME_CAP_SET_CMBS(cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_PMRS(cap, n->pmr.dev ? 1 : 0);
-+    stq_le_p(&n->bar.cap, cap);
- 
--    n->bar.vs = NVME_SPEC_VER;
-+    stl_le_p(&n->bar.vs, NVME_SPEC_VER);
-     n->bar.intmc = n->bar.intms = 0;
- }
- 
-@@ -6602,7 +6635,7 @@ static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
- 
-     cap = NVME_SMART_SPARE | NVME_SMART_TEMPERATURE | NVME_SMART_RELIABILITY
-           | NVME_SMART_MEDIA_READ_ONLY | NVME_SMART_FAILED_VOLATILE_MEDIA;
--    if (NVME_CAP_PMRS(n->bar.cap)) {
-+    if (NVME_CAP_PMRS(ldq_le_p(&n->bar.cap))) {
-         cap |= NVME_SMART_PMR_UNRELIABLE;
-     }
- 
+ /* Called from RCU critical section */
 -- 
-2.32.0
+2.25.1
 
 
