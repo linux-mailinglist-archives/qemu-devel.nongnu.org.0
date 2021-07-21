@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FCC3D198F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 00:08:55 +0200 (CEST)
-Received: from localhost ([::1]:33466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3913D1994
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 00:11:06 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6KOc-0002zA-SN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 18:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39444)
+	id 1m6KQj-0005Tg-3q
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 18:11:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6KMy-0001OF-RF
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 18:07:12 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46057)
+ id 1m6KPB-0004Ta-7k
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 18:09:29 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6KMv-0000Re-Ux
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 18:07:12 -0400
-Received: by mail-pl1-x632.google.com with SMTP id p17so2196694plf.12
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 15:07:09 -0700 (PDT)
+ id 1m6KP9-0001ry-QD
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 18:09:28 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id b12so2198129plh.10
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 15:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=qdrR1F51yFw1flfN77ehLdgQ41HU5l8ZA1pNUBWG9bc=;
- b=quxUh9TfXjw5NtDb34q/yzHbtLZjRaBCcziAerg/ZXTH0lrJ+UwlImkOMebxdd8oxn
- 2Xt3s4t0dfvXFx9h7dCbzpTGuRy7ej1pn19iOL2B83vBojzqWtLMypDoi41m+/hMXjrm
- hoeiF6W5Je53n5rngqJtUgmZmawYNte5AF6K9EmO5xVyDIYaOvwO8JLLqId9kby+ye1G
- Tkece8ty8wlNo63GXinPP2XySTeqtjVZ39reZnlaiO+HEoH8tKg+BmFJJxjTic+B6PGt
- +4EVr/2Un7CzDEXvXTkryAmjTzcfGr2I1Gsx6WnGnIyioHSX6MakU12/f0JqT1hqzi3m
- Nx8w==
+ bh=na2YML8227GJUUltjCtJHP1HfSO+morclkqyZm8Ep1A=;
+ b=yRcvlpVRB1rVgMzRMQSIVp5gXN5OScuBUF1qozkeKQfVbZGjev/ojEEIgPq6CKBvsP
+ IRn10wVd3Y9n18t53sO0XAUIREruO0pht2A6Iw064Wmcnz/x6tynlZfMWAeYThvOZVqF
+ A0o9yms6pCot3KfV1AKpjF3AEK56Mqms9xl4LOHqQ17VDheOBjgB3zvQ6xNYlB04NWhx
+ 2J7G6zYjFhYWG3nSiKcjvwsSsUGu9w8qvAJ7/Dg1FwYM3tMTIIGaTVPIjOvvFEprtSjD
+ JqtYHvl8bWZ0ufbQnEHvqSRjJAYgzC01RDKPmu3ytqg+chtfrI1mnMWlZkitUYmzRUHJ
+ POJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qdrR1F51yFw1flfN77ehLdgQ41HU5l8ZA1pNUBWG9bc=;
- b=dv06UEcgvYpX68mJGfi8L5td2lp0cqjojUfcJO1OzUwQ2lV8/rsB7WRqFB/2b8+P3B
- 68YeWTkI27nR3unB5kUp6mq5svqNKE65gLdOSJpSvse3YObyMnqnGvdcoI+kvt0LhLFd
- IYIs5LBUV/6fWN43ZGINuq+/vyWuYHa1+IpUrQi14JDF5msFE9mQRoKtcO+j0uHU1clz
- ZnGfB850yhF/lhN3ACDCt3Fdmpe6KEpYdhFoRo/l9xuz+SUsd7L+RggKdmlvvNRL0BQQ
- s/NuIsmvwLhcGb9cb8yArfrz6j0/koGztJxo3BXBFCrw/Ujc/fuI7R8broLumM/uiGEI
- kccg==
-X-Gm-Message-State: AOAM532/GphiLG0Cp+ILqfs+6c+Y0GFJ9+LKCuQvPLnZ/ANpri2JVK5O
- MKS5FrkllEAYj5N4mCoURcZFL5oajkB3AA==
-X-Google-Smtp-Source: ABdhPJwFmFbc12TXojDvEJW9WcejrJWlLxdKV0I2mCoBiE2nma8giPFJsyuducRaY8m3ytdwMeiV/A==
-X-Received: by 2002:a17:90a:7441:: with SMTP id
- o1mr36564159pjk.96.1626905228531; 
- Wed, 21 Jul 2021 15:07:08 -0700 (PDT)
+ bh=na2YML8227GJUUltjCtJHP1HfSO+morclkqyZm8Ep1A=;
+ b=pAQqziqKFxIU0aXqE7evyPEq9LWiioAW3HZkMsJfCxSc/NRZRyqcRq0nnJ9qhrv1+2
+ CRqeBRKms94d8DwliluIAIUUsxZq+oSbBFYmyvhn/5JbvXNKR9KEu/SxX5Te0ybnIWtc
+ ROFN+mioiBgyA6cCM+7VZ6iIta/OZuNfnKilG16TB+l0StiEc9MkIjQhhClG7ocL8WD3
+ NW4YXyH9S2pAHJ5YWFJq/V1r3unH14RtnmZg6lteE5CJQGAH5SBmzT8CvtmWfx9fhgQr
+ 40+bENJCE8ezHr9fgdi0esdoTtLIosusf2yHOXT+uEyQ655gRUx2AinT8dCy0UAIxMqk
+ kqcg==
+X-Gm-Message-State: AOAM530JTGfVejuR+DUSGXCxbsnchGvqnQDVX7V7CWO4kfQg3XEZT3kq
+ ib40SX6EE8hhuPKJf8llU2RTsCPg0YnuMA==
+X-Google-Smtp-Source: ABdhPJyJ3Bx5LlRgOOjTYHVrBBTdPyRaM1pvWk30epNZQj3kiRi91iuV2xY68aemN+cvOBW/VbAB5Q==
+X-Received: by 2002:a63:5952:: with SMTP id j18mr19987722pgm.366.1626905366356; 
+ Wed, 21 Jul 2021 15:09:26 -0700 (PDT)
 Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id 10sm26509437pjc.41.2021.07.21.15.07.07
+ by smtp.gmail.com with ESMTPSA id d6sm29257055pgq.88.2021.07.21.15.09.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 15:07:08 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 26/34] target/arm: Implement MVE saturating
- doubling multiply accumulates
+ Wed, 21 Jul 2021 15:09:26 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 27/34] target/arm: Implement MVE VQABS, VQNEG
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
- <20210713133726.26842-27-peter.maydell@linaro.org>
+ <20210713133726.26842-28-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8bcbdb1d-279f-73eb-80c7-052e14d51f93@linaro.org>
-Date: Wed, 21 Jul 2021 12:07:04 -1000
+Message-ID: <2dd909f5-0483-c2e8-aec4-925f419b70ca@linaro.org>
+Date: Wed, 21 Jul 2021 12:09:23 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713133726.26842-27-peter.maydell@linaro.org>
+In-Reply-To: <20210713133726.26842-28-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,20 +93,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/13/21 3:37 AM, Peter Maydell wrote:
-> Implement the MVE saturating doubling multiply accumulate insns
-> VQDMLAH, VQRDMLAH, VQDMLASH and VQRDMLASH.  These perform a multiply,
-> double, add the accumulator shifted by the element size, possibly
-> round, saturate to twice the element size, then take the high half of
-> the result.  The *MLAH insns do vector * scalar + vector, and the
-> *MLASH insns do vector * vector + scalar.
+> Implement the MVE 1-operand saturating operations VQABS and VQNEG.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/helper-mve.h    | 16 +++++++
->   target/arm/mve.decode      |  5 ++
->   target/arm/mve_helper.c    | 95 ++++++++++++++++++++++++++++++++++++++
->   target/arm/translate-mve.c |  4 ++
->   4 files changed, 120 insertions(+)
+>   target/arm/helper-mve.h    |  8 ++++++++
+>   target/arm/mve.decode      |  3 +++
+>   target/arm/mve_helper.c    | 37 +++++++++++++++++++++++++++++++++++++
+>   target/arm/translate-mve.c |  2 ++
+>   4 files changed, 50 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
