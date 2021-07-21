@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652533D0B7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:33:49 +0200 (CEST)
-Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622903D0B81
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:36:26 +0200 (CEST)
+Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m68bs-0007cV-Ei
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41462)
+	id 1m68eP-0003kO-27
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68We-0008MY-TR
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37484)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wm-0008QO-08
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wc-0002CH-A9
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:24 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wi-0002GE-2K
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626859701;
+ s=mimecast20190719; t=1626859707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cugHBsF3qxGH5mEV4jWCO8prxN3ZaEMd6ARj8tgl4Lg=;
- b=Gl1yqa+diMvHKqodkGsWdOj6WDKM2/wG5Ee1pUVMSuh0n/KJuCZeZUCPr2JY5bomMgU1xn
- 7eS7qnns8Jl+uuLfHCIRrAeq+l+qwKCAB4RYvxZO8NdczrcjiIRwPUsgrGxbTpJAoDn0FT
- Qw30rgP0oZByU/RVhIsep7XT244Czco=
+ bh=KDHE5WeCEv+6agq7D2mw+/Z52QQ9LvAe20WYe2wi8BE=;
+ b=CruxgFBLaGHeagK2juYFmk0OgGGuKdRX++NzN8+vhvmTW+ThaC8vMEMuTMrZitrvYGEl3Y
+ mfZX0Js79gGxuoo/C1LW63egQzMxAMq3gdn4zXtOxNn5PUuoiyPWlfTcoNbpwpU753Khem
+ Wk4TDy+pzgM0+ina1OtJovOnWMcCHNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-QEwmBUA2M4mSH7aUc73FkQ-1; Wed, 21 Jul 2021 05:28:19 -0400
-X-MC-Unique: QEwmBUA2M4mSH7aUc73FkQ-1
+ us-mta-37-5oKEpxroM12HfWropJc9Vg-1; Wed, 21 Jul 2021 05:28:26 -0400
+X-MC-Unique: 5oKEpxroM12HfWropJc9Vg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F07100A643;
- Wed, 21 Jul 2021 09:28:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F21C180259B;
+ Wed, 21 Jul 2021 09:28:24 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F197C687D5;
- Wed, 21 Jul 2021 09:28:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1D3F687D5;
+ Wed, 21 Jul 2021 09:28:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] virtio-mem: Drop precopy notifier
-Date: Wed, 21 Jul 2021 11:27:57 +0200
-Message-Id: <20210721092759.21368-5-david@redhat.com>
+Subject: [PATCH v2 6/6] migration/ram: Handle RAMBlocks with a
+ RamDiscardManager on background snapshots
+Date: Wed, 21 Jul 2021 11:27:59 +0200
+Message-Id: <20210721092759.21368-7-david@redhat.com>
 In-Reply-To: <20210721092759.21368-1-david@redhat.com>
 References: <20210721092759.21368-1-david@redhat.com>
 MIME-Version: 1.0
@@ -89,95 +90,110 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Migration code now properly handles RAMBlocks which are indirectly managed
-by a RamDiscardManager. No need for manual handling via the free page
-optimization interface, let's get rid of it.
+We already don't ever migrate memory that corresponds to discarded ranges
+as managed by a RamDiscardManager responsible for the mapped memory region
+of the RAMBlock.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
+Right now, we still populate zeropages for the whole usable part of the
+RAMBlock, which is undesired because:
+
+1. Even populating the shared zeropage will result in memory getting
+   consumed for page tables.
+2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
+   will populate an actual, fresh page, resulting in an unintended
+   memory consumption.
+
+Discarded ("logically unplugged") parts have to remain discarded. As
+these pages are never part of the migration stream, there is no need to
+track modifications via userfaultfd WP reliably for these parts.
+
+Further, any writes to these ranges by the VM are invalid and the
+behavior is undefined.
+
+Note that Linux only supports userfaultfd WP on private anonymous memory
+for now, which usually results in the shared zeropage getting populated.
+The issue will become more relevant once userfaultfd WP supports shmem
+and hugetlb.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c         | 34 ----------------------------------
- include/hw/virtio/virtio-mem.h |  3 ---
- 2 files changed, 37 deletions(-)
+ migration/ram.c | 53 +++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 45 insertions(+), 8 deletions(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 284096ec5f..d5a578142b 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -776,7 +776,6 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     host_memory_backend_set_mapped(vmem->memdev, true);
-     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
-     qemu_register_reset(virtio_mem_system_reset, vmem);
--    precopy_add_notifier(&vmem->precopy_notifier);
- 
-     /*
-      * Set ourselves as RamDiscardManager before the plug handler maps the
-@@ -796,7 +795,6 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-      * found via an address space anymore. Unset ourselves.
-      */
-     memory_region_set_ram_discard_manager(&vmem->memdev->mr, NULL);
--    precopy_remove_notifier(&vmem->precopy_notifier);
-     qemu_unregister_reset(virtio_mem_system_reset, vmem);
-     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
-     host_memory_backend_set_mapped(vmem->memdev, false);
-@@ -1089,43 +1087,11 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
-     vmem->block_size = value;
+diff --git a/migration/ram.c b/migration/ram.c
+index d7505f5368..75de936bd2 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1612,6 +1612,28 @@ out:
+     return ret;
  }
  
--static int virtio_mem_precopy_exclude_range_cb(const VirtIOMEM *vmem, void *arg,
--                                               uint64_t offset, uint64_t size)
--{
--    void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
--
--    qemu_guest_free_page_hint(host + offset, size);
--    return 0;
--}
--
--static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
--{
--    virtio_mem_for_each_unplugged_range(vmem, NULL,
--                                        virtio_mem_precopy_exclude_range_cb);
--}
--
--static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
--{
--    VirtIOMEM *vmem = container_of(n, VirtIOMEM, precopy_notifier);
--    PrecopyNotifyData *pnd = data;
--
--    switch (pnd->reason) {
--    case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
--        virtio_mem_precopy_exclude_unplugged(vmem);
--        break;
--    default:
--        break;
--    }
--
--    return 0;
--}
--
- static void virtio_mem_instance_init(Object *obj)
++static inline void populate_range(RAMBlock *block, hwaddr offset, hwaddr size)
++{
++    char *ptr = (char *) block->host;
++
++    for (; offset < size; offset += qemu_real_host_page_size) {
++        char tmp = *(ptr + offset);
++
++        /* Don't optimize the read out */
++        asm volatile("" : "+r" (tmp));
++    }
++}
++
++static inline int populate_section(MemoryRegionSection *section, void *opaque)
++{
++    const hwaddr size = int128_get64(section->size);
++    hwaddr offset = section->offset_within_region;
++    RAMBlock *block = section->mr->ram_block;
++
++    populate_range(block, offset, size);
++    return 0;
++}
++
+ /*
+  * ram_block_populate_pages: populate memory in the RAM block by reading
+  *   an integer from the beginning of each page.
+@@ -1621,16 +1643,31 @@ out:
+  *
+  * @block: RAM block to populate
+  */
+-static void ram_block_populate_pages(RAMBlock *block)
++static void ram_block_populate_pages(RAMBlock *rb)
  {
-     VirtIOMEM *vmem = VIRTIO_MEM(obj);
- 
-     notifier_list_init(&vmem->size_change_notifiers);
--    vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
-     QLIST_INIT(&vmem->rdl_list);
- 
-     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 9a6e348fa2..a5dd6a493b 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -65,9 +65,6 @@ struct VirtIOMEM {
-     /* notifiers to notify when "size" changes */
-     NotifierList size_change_notifiers;
- 
--    /* don't migrate unplugged memory */
--    NotifierWithReturn precopy_notifier;
+-    char *ptr = (char *) block->host;
 -
-     /* listeners to notify on plug/unplug activity. */
-     QLIST_HEAD(, RamDiscardListener) rdl_list;
- };
+-    for (ram_addr_t offset = 0; offset < block->used_length;
+-            offset += qemu_real_host_page_size) {
+-        char tmp = *(ptr + offset);
++    /*
++     * Skip populating all pages that fall into a discarded range as managed by
++     * a RamDiscardManager responsible for the mapped memory region of the
++     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
++     * must not get populated automatically. We don't have to track
++     * modifications via userfaultfd WP reliably, because these pages will
++     * not be part of the migration stream either way -- see
++     * ramblock_dirty_bitmap_exclude_discarded_pages().
++     *
++     * Note: The result is only stable while migration (precopy/postcopy).
++     */
++    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
++        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
++        MemoryRegionSection section = {
++            .mr = rb->mr,
++            .offset_within_region = 0,
++            .size = rb->mr->size,
++        };
+ 
+-        /* Don't optimize the read out */
+-        asm volatile("" : "+r" (tmp));
++        ram_discard_manager_replay_populated(rdm, &section,
++                                             populate_section, NULL);
++    } else {
++        populate_range(rb, 0, qemu_ram_get_used_length(rb));
+     }
+ }
+ 
 -- 
 2.31.1
 
