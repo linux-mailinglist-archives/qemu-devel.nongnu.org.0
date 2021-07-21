@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575CF3D0EE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 14:42:41 +0200 (CEST)
-Received: from localhost ([::1]:59524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2EC3D0EDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 14:41:59 +0200 (CEST)
+Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6BYe-00060C-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 08:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
+	id 1m6BXx-0005U4-Vn
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 08:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6BUP-00028X-4P
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:38:17 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2162)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6BVy-00041Q-Ef
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:39:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6BUM-000275-6i
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:38:16 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GVFQ92j7Fz7xYn;
- Wed, 21 Jul 2021 20:34:25 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 21 Jul 2021 20:38:04 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Wed, 21 Jul 2021 20:38:03 +0800
-Subject: Re: [PATCH for-6.2 v2 00/11] machine: smp parsing fixes and
- improvement
-To: Cornelia Huck <cohuck@redhat.com>, <qemu-devel@nongnu.org>
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <875yx69r7h.fsf@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <a8dbec45-6d87-70ee-1b58-0592145e8160@huawei.com>
-Date: Wed, 21 Jul 2021 20:38:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6BVv-0002Z4-69
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:39:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626871189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LomIih3YhU+uKwtiBrULgNJVM4YJhEjcO2ZlT5xY4VY=;
+ b=iFZi6C7gnZlT4kyWWbADjlpDzD/bNgfkQuElZIilcJA+It/Hqirx8UdH4mn0foMZjO508K
+ YbUSDbQgfF9fOyEfMa6x2RExHV1Lmy90PQF6SQQ8PKGcyaZQBVD5K4wFA4wkeOG7+zMwjY
+ Ods1kVJW/CoycjxnjDjcW2N07Le3f6g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-nAlX_lJCMOKq8ECTOeKfYQ-1; Wed, 21 Jul 2021 08:39:45 -0400
+X-MC-Unique: nAlX_lJCMOKq8ECTOeKfYQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FBBC801FCE;
+ Wed, 21 Jul 2021 12:39:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0CF260854;
+ Wed, 21 Jul 2021 12:39:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0EACD18000B2; Wed, 21 Jul 2021 14:39:42 +0200 (CEST)
+Date: Wed, 21 Jul 2021 14:39:42 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH for 6.1 1/2] ui/gtk: add a keyboard fifo to the VTE
+ consoles
+Message-ID: <20210721123942.q7omeebgo4o2feyo@sirius.home.kraxel.org>
+References: <9e436e5c-ed11-69ec-3cb9-a19cbf96cb08@t-online.de>
+ <20210718074757.22489-1-vr_qemu@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <875yx69r7h.fsf@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+In-Reply-To: <20210718074757.22489-1-vr_qemu@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.117,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,105 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre
- Morel <pmorel@linux.ibm.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/20 0:57, Cornelia Huck wrote:
-> On Mon, Jul 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
->
->> Hi,
->>
->> This is v2 of the series [1] that I have posted to introduce some smp parsing
->> fixes and improvement, much more work has been processed compared to RFC v1.
->>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg00259.html
->>
->> The purpose of this series is to improve/fix the parsing logic. Explicitly
->> specifying a CPU topology parameter as zero is not allowed any more, and
->> maxcpus is now uniformly used to calculate the omitted parameters. It's also
->> suggested that we should start to prefer cores over sockets over threads on
->> the newer machine types, which will make the computed virtual topology more
->> reflective of the real hardware.
->>
->> In order to reduce code duplication and ease the code maintenance, smp_parse
->> in now converted into a parser generic enough for all arches, so that the PC
->> specific one can be removed. It's also convenient to introduce more topology
->> members (e.g. cluster) to the generic parser in the future.
-> Cc:ing Pierre, as he also had been looking at the smp parsing code (for
-> s390x) recently.
->
-> Also, please keep me on cc: for patches that touch s390x.
-Sure, I will. Sorry about the missing. :)
+  Hi,
 
-Thanks,
-Yanan
-.
->> Finally, a QEMU unit test for the parsing of given SMP configuration is added.
->> Since all the parsing logic is in generic function smp_parse(), this test
->> passes diffenent SMP configurations to the function and compare the parsing
->> result with what is expected. In the test, all possible collections of the
->> topology parameters and the corressponding expected results are listed,
->> including the valid and invalid ones. The preference of sockets over cores
->> and the preference of cores over sockets, and the support of multi-dies are
->> also taken into consideration.
->>
->> ---
->>
->> Changelogs:
->>
->> v1->v2:
->> - disallow "anything=0" in the smp configuration (Andrew)
->> - make function smp_parse() a generic helper for all arches
->> - improve the error reporting in the parser
->> - start to prefer cores over sockets since 6.2 (Daniel)
->> - add a unit test for the smp parsing (Daniel)
->>
->> ---
->>
->> Yanan Wang (11):
->>    machine: Disallow specifying topology parameters as zero
->>    machine: Make smp_parse generic enough for all arches
->>    machine: Uniformly use maxcpus to calculate the omitted parameters
->>    machine: Use the computed parameters to calculate omitted cpus
->>    machine: Improve the error reporting of smp parsing
->>    hw: Add compat machines for 6.2
->>    machine: Prefer cores over sockets in smp parsing since 6.2
->>    machine: Use ms instead of global current_machine in sanity-check
->>    machine: Tweak the order of topology members in struct CpuTopology
->>    machine: Split out the smp parsing code
->>    tests/unit: Add a unit test for smp parsing
->>
->>   MAINTAINERS                 |    2 +
->>   hw/arm/virt.c               |   10 +-
->>   hw/core/machine-smp.c       |  124 ++++
->>   hw/core/machine.c           |   68 +--
->>   hw/core/meson.build         |    1 +
->>   hw/i386/pc.c                |   66 +--
->>   hw/i386/pc_piix.c           |   15 +-
->>   hw/i386/pc_q35.c            |   14 +-
->>   hw/ppc/spapr.c              |   16 +-
->>   hw/s390x/s390-virtio-ccw.c  |   15 +-
->>   include/hw/boards.h         |   13 +-
->>   include/hw/i386/pc.h        |    3 +
->>   qapi/machine.json           |    6 +-
->>   qemu-options.hx             |    4 +-
->>   tests/unit/meson.build      |    1 +
->>   tests/unit/test-smp-parse.c | 1117 +++++++++++++++++++++++++++++++++++
->>   16 files changed, 1338 insertions(+), 137 deletions(-)
->>   create mode 100644 hw/core/machine-smp.c
->>   create mode 100644 tests/unit/test-smp-parse.c
->>
->> -- 
->> 2.19.1
-> .
+> +static void gd_vc_send_chars(VirtualConsole *vc)
+> +{
+> +    uint32_t len, avail;
+> +    const uint8_t *buf;
+> +
+> +    len = qemu_chr_be_can_write(vc->vte.chr);
+> +    avail = fifo8_num_used(&vc->vte.out_fifo);
+> +    if (len > avail) {
+> +        len = avail;
+> +    }
+> +    while (len > 0) {
+> +        uint32_t size;
+> +
+> +        buf = fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
+> +        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
+> +        len -= size;
+> +        avail -= size;
+> +    }
+> +    /*
+> +     * characters are pending: we send them a bit later (XXX:
+> +     * horrible, should change char device API)
+> +     */
+> +    if (avail > 0) {
+> +        timer_mod(vc->vte.kbd_timer,
+> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1);
+> +    }
+
+There is ChardevClass->chr_accept_input() which gets called when you can
+send more data, so there is no need to use a timer for that.
+
+Typical workflow is to only read data when it can be pushed forward to
+the guest, so when the guest stops reading data qemu stops doing so too,
+effectively forwarding the stalls.  Which works fine for things like tcp
+sockets.  Not so much for user input though.
+
+So, yes, just throw away data is the only option we have here.  Adding a
+reasonable-sized fifo makes sense too to cover bulky input, so you can
+cut+paste a longish URL even if the guest accepts only a few chars at a
+time (16550 fifo is 16 chars IIRC ...).
+
+I would suggest to keep things simple, just throw away what you can't
+store in the fifo, I don't see the point taking different actions
+depending on how long the stalls are lasting (patch 2/2).
+
+take care,
+  Gerd
 
 
