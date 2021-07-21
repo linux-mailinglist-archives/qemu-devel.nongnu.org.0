@@ -2,183 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D243D1356
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:10:07 +0200 (CEST)
-Received: from localhost ([::1]:48268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1A63D1367
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:11:15 +0200 (CEST)
+Received: from localhost ([::1]:52086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6EnN-0007bF-VG
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
+	id 1m6EoU-0001m2-Tm
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1m6ElX-0005CA-NL
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:08:12 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9314)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6EmY-0007W5-Kn
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:09:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1m6ElO-00076B-Vk
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:08:11 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16LFuikZ022339; Wed, 21 Jul 2021 16:08:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=4WSzko/9xia7x9OzWiI/0K6FoG9w/T6pezQDTypEqNk=;
- b=VCpkzJIa2f9f25XEWag9KE2oGALK9kOOeWRaKf1vI7f10KfFso0JJk2YCPCV9bV0O95l
- wndG1xGmkRCkLo9FC6T8aResxlXCO1/+KtJBNyFoV+C9O51IuMrKct6BcexOTCRrE79s
- KJJAGtHEfYOUxLamlObqCDjKEBfSNb3x8cMfuYWP6f1yAEhRcOQEQwcWZG8YgPIJ6tSS
- 9Z/f+M3Lph3huMffZeS6lo8/7QycNHTd+Z4Nhsq6y8rwkdIGuqehwfHP3V98izCYabCb
- j67K+BHZlbbvofkR/bww3nolaVY+zUbW/jqhaLgaEuDRbD8JRS2w64ZowDtU4OwEIMGD Vw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=4WSzko/9xia7x9OzWiI/0K6FoG9w/T6pezQDTypEqNk=;
- b=sAjg3tx3ItSIi3sLJ+IPUXQUR8mQYu/Vu5nkaj09+TBYZh/G5x3nFVG/Be0t4UGvUrBt
- UCOkSRyRjlE4cWNQcuPfiSM4j4+7oBmo6IpfnG7B69UFjUh7KYl0+QdZkrREA8EqXUwp
- OvfmsgOmVx9tpW/ipst+MiJC5ZEitnrlbYVjWM7vJC9J+2fEQfIgm6k3v2FGiRWjEAZ5
- hqJ0XD0IkXiSv3RlETqGK+bIf5KfA8tAHLs7kx7jfcrSvxl1liSHyyfY68He2abVIWZ1
- SkSo9uK6e5LpWAPKpgPn+kN0gK6YOs4ea0A2cSbfauIW0H1/XEL3PNGZCyTzIUURAPM5 8A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 39wvr8b8x0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Jul 2021 16:07:59 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16LG5CQx107238;
- Wed, 21 Jul 2021 16:07:58 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1anam02lp2042.outbound.protection.outlook.com [104.47.57.42])
- by aserp3020.oracle.com with ESMTP id 39uq19f6rh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Jul 2021 16:07:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eGpQdObuyyyKBZoVwJsBnSCpeqkF3QDZsaZ9xyhEBFY/B9oJX591m+QKox34WZonm7FXJcWMIb1OcQ8qqsHVnAMPBzJr7BqT7S7cNyIFewWsSioQYNUXa3XEhrvkDgZcCtj8/S6DTvQcLIdTPV5wDGzpkgv6hwXBcSOVQ/xrnublh2+lpK/0ffbhVmSvTvIztghWeFs8fC7t5DGRD1hvtNIe5uspNLBbt2+ULecTKqlqGOF8yYcWGR8me5xAWM3ipTg+qqZckpjPvAhTSMgoKBbSGAE+UidRtnDG+EbE19pDC03Fx2b+nYvPimqETV+9rFy/rjUz9U2bRgBEQb607A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4WSzko/9xia7x9OzWiI/0K6FoG9w/T6pezQDTypEqNk=;
- b=HosTOU96QjRGtPKp+C4K9edBMzqBivqUBuYkjUfVscNRqVmIRT5VvRq1qXc35WeNQfDXqLT/Wt54/Em+9wt2fQCzpcxGlOF536YM2h42E6o4o2HgPyiB7RAttecHdrB7wg0ECzmZ2QHKHuAh/ep2If+6pagFuBFOBMfchTbE0bNc0R+L+ndLdhBF+iUNsDmfQUF6ADaINLgRuMrWxhvcEgZdslwyjsOjg2HJRrUG83Vanr8LlKPhuh8pN50zio18bBxGHv0W0VnmMn3lSDEWWhsxPNqDytJOqL82+u0M1TZ5idpfT9y9fviObqDXPlC5WMj9zBJ6Lh0gPy+tq4IsRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4WSzko/9xia7x9OzWiI/0K6FoG9w/T6pezQDTypEqNk=;
- b=GHGk6v+EyCKs9v2PF1b9AgmmZKfiQz3XajbS1jeIUNQBHdYzwjH3yh6GU6hMf5pPZo15EV33KDv6vUcS40Zxv3L1XOh7XNc6LUENkc/iGYHf+C0Xakatf8BdQVuvOM+2PVvJmKfZbwdUrsJIi9Kh3sPgdzUzERTEclmd2hit4Vc=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
-Received: from SJ0PR10MB4542.namprd10.prod.outlook.com (2603:10b6:a03:2da::19)
- by BYAPR10MB3368.namprd10.prod.outlook.com (2603:10b6:a03:150::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Wed, 21 Jul
- 2021 16:07:52 +0000
-Received: from SJ0PR10MB4542.namprd10.prod.outlook.com
- ([fe80::d1ad:b140:4d55:67a5]) by SJ0PR10MB4542.namprd10.prod.outlook.com
- ([fe80::d1ad:b140:4d55:67a5%9]) with mapi id 15.20.4331.034; Wed, 21 Jul 2021
- 16:07:52 +0000
-Subject: Re: [PATCH v5 05/10] ACPI ERST: support for ACPI ERST feature
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <1625080041-29010-6-git-send-email-eric.devolder@oracle.com>
- <20210720141704.381734cc@redhat.com>
-From: Eric DeVolder <eric.devolder@oracle.com>
-Message-ID: <0a09250e-4347-0ad6-d95c-0bfd2094b98b@oracle.com>
-Date: Wed, 21 Jul 2021 11:07:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <20210720141704.381734cc@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR1PR80CA0013.lamprd80.prod.outlook.com
- (2603:10d6:200:21::23) To SJ0PR10MB4542.namprd10.prod.outlook.com
- (2603:10b6:a03:2da::19)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6EmU-0007n4-Va
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:09:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626883749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sfaNiKYIO8qCkKwzPhJaRW7eGrRYJtV2WuqG+TEjiwk=;
+ b=WdZGWvKZs+vW8f/FUJYnN8fOO7pxPdGGPCAcJoVvQOD0VP1BqRtdyi600EaNyDPEBl4Y/C
+ kZLv2fvyQXcKeJB7rusc3I8PMq4HqdMdlHm1s9HAVcD1sx1b6Ow5xGkNY6No3NsVKsNJCg
+ KP6Hl3PNne7UzCCSLsngY6nJ/se5DNU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-IRYuzYpfNX-6424zZkfL8w-1; Wed, 21 Jul 2021 12:09:08 -0400
+X-MC-Unique: IRYuzYpfNX-6424zZkfL8w-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ sd15-20020a170906ce2fb0290512261c5475so971061ejb.13
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 09:09:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sfaNiKYIO8qCkKwzPhJaRW7eGrRYJtV2WuqG+TEjiwk=;
+ b=RAk+lnhtqpdnWCgYm4T43r9uFFFXFjXB4YfL23Cm6BPpfVddWOF4N9ZAHPc7qJuCyl
+ jkSmk/lVQOXDbTgca2lIPXXHF6qDfMmdcQIwZ2N74B2GwYkV2hFHEOR4SD9Q/XL4uxHn
+ uWZLc5jKBErGmqQAh+tyFCUDOLpnK080qeatp5EUYf5F6DOWO7KuDujWwyPkorTeSkW+
+ 4R+iSZGbDd/KcHumbaJw4NFrq7DpdX3M7k1egvYHX+c9AsT34eJyiduWOJCf72aRKYu4
+ Irl6a9dbeuKoSjtO3GHUMbxwgS8ov0gE1HHXGBFfqmFypI0g1m+qB1FTqVBgbFDY/Jrs
+ KzAA==
+X-Gm-Message-State: AOAM531s9JIcIduEjt9yOSEKvnkAmE5xx32mIJWKoenQlbFvpbk9Y9oi
+ sYSklMWuXqKzCXC/ChRWDAGy0n05K71hIyTTN5EI9g+sSy+Mej46AMU5Z8ZnlB45cxa+0nhoTTh
+ BiOm9dYjACwR/Zzc=
+X-Received: by 2002:a17:906:8683:: with SMTP id
+ g3mr40433239ejx.126.1626883746252; 
+ Wed, 21 Jul 2021 09:09:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwXO3NKccfd42i1thH4S00b1DdJRW+Y34ST9TNjRqrBZUlzmkzC/GqS6Wn/YYJI6SQapGQAw==
+X-Received: by 2002:a17:906:8683:: with SMTP id
+ g3mr40433197ejx.126.1626883745973; 
+ Wed, 21 Jul 2021 09:09:05 -0700 (PDT)
+Received: from redhat.com ([2.55.134.65])
+ by smtp.gmail.com with ESMTPSA id f22sm10919111edr.16.2021.07.21.09.09.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 09:09:05 -0700 (PDT)
+Date: Wed, 21 Jul 2021 12:09:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PULL v3 05/19] hw/acpi/ich9: Set ACPI PCI hot-plug as default
+ on Q35
+Message-ID: <20210721120659-mutt-send-email-mst@kernel.org>
+References: <20210716151416.155127-1-mst@redhat.com>
+ <20210716151416.155127-6-mst@redhat.com>
+ <f8de5dbc-ed4c-ba99-8981-583fa42961cb@redhat.com>
+ <73728485-d133-e629-46ee-2ca586b71de6@redhat.com>
+ <20210721165934.2f81f3f3@redhat.com>
+ <4f90fcaa-581e-40b9-8f57-ad6c92bd98b2@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2606:b400:414:8061:221:28ff:fea5:27c8]
- (2606:b400:8024:1010::112a) by FR1PR80CA0013.lamprd80.prod.outlook.com
- (2603:10d6:200:21::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend
- Transport; Wed, 21 Jul 2021 16:07:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 47556c82-b709-4323-1da7-08d94c61b126
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3368:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3368417304B8C26488046BC997E39@BYAPR10MB3368.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5Lnl/9whmYzdpVpEuVfeQbYZGgU8uqsyJdbmb3sfx4JdcrYB5SVtCtWvB4xbqg6Y9J5XPcKmepFO1l6NXK9yFo6IgnXsKwK2ZDCZQv0Xe/PLVC1/fg8QarJIZ+xeBDbg+83xtecQsQFoJvfx0u5ZhogL15CawUrm05KvH0LivKAxHP2frZYdYuGZRBI4srvlwcD0wfQP28P26euOsQVFLYd1v9wqH2QhuMA+/Im5VtHn3K3sDuwgFrt3LeZFzjIEw4Js5Lxo0sSIRkXZNTZpyglXKjbxLIvGqblyVO09qh65F2P7myxusojbeDCqL65N72wq5NXMRmrBB3TjFduWYBPAQbSVbeGvt9wTbitWuo+FWP8NkTLut2vpbLlcqCTbKaE9BBhN2GN3RhjpwkNlwaP0sXwFMbWdQ8gyI3yekbnhJQ+b3Ba4CHmB32zX0RO9+0fmyyTw4zQojsejzK25jrKJvcg3t+Ez/ppIftideqFrNR9uf5fBypvkHUyGyUTqZZ7FZYuPRVsKkXCDnCFLvMSLlO8TiIcBzd/2GSbaqZ4zk1ftTuT6rH6aeHuMJ38oBbed0Oe6a4/+RpaEfSt5IuM3Z78IHcVnzRhUs7Ro4giyB+DJ6Rz/bWpt4qAaOl3pO4YhNKkTN/uk8LyoPeCiUnxhYR/hRC13BvyK19kAKkHVNaKb5oZ+GqYhHqtaXb7u/mGlwjit4J8uKHU0munAOQuffgRJSP9FshtjHyGtVsG7iNtuYDHrP6mvE0/5yFnQ0fSjfFQZgHtH7xuDuKFRyMel+D4WnBZ1xZx8Awvm0XOQDn6oHEqgn2UzCjWix8GL/bjV+p1a60spOfaWxi5nXA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR10MB4542.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(8676002)(8936002)(31696002)(66476007)(2906002)(30864003)(6666004)(316002)(36756003)(53546011)(6916009)(66946007)(83380400001)(86362001)(38100700002)(4326008)(31686004)(5660300002)(107886003)(508600001)(186003)(6486002)(2616005)(2004002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YW1lM2tQdFJOMUIzaTFrdGJjYTJPQk11RGF3QTNVWXNSRjMxSVRtOGhDWnJl?=
- =?utf-8?B?UUxreTFpcVJWYmF5TVlsSFc0VlNJVFk0SENUOGpSOGtFU0pRQlZqaGU4cHBu?=
- =?utf-8?B?UkhJNFhsZURtK0dYSHM1ZnJSVS8zYVRCamMvbzYrK0pXNDFvT0Zya2o3dmVE?=
- =?utf-8?B?MWoreHU3VDlmSnlJMitiSWIvSGVBZE14ZXpsMmtrRUg0S1NwZ3V1UHlrREsr?=
- =?utf-8?B?QUE2WFZKOVlTVlNqeWRveFBNSVpxdFdiZmkwaEZzL2QyaHNDeE94UUVKT3hP?=
- =?utf-8?B?Nk9RdGtvdHNIUytDcm1qTWdneWZtcVF2clB4aHpHZU54TGxaNStTaVJnM0RF?=
- =?utf-8?B?WURjRldjcTZZdVM5WWliZUpIcDYwOW9NVjYrdzJ5RG1GTmg2M1NhMnRaQ3NQ?=
- =?utf-8?B?Rlp6Ty82enUvdjBKd3RYdkdOMXVQRUVJeWtta1kyVnA1dGJxbzNodXRRWjVx?=
- =?utf-8?B?Mno4a0lGdWMxQVhDb3ZUMk1XM2x0cFlMQjFLaVlwWTlBTlVtcUw0YUJWNWdJ?=
- =?utf-8?B?WitmYkMxdnlFeDRjVmo4ZnNWdGtuTXFNOHJGb2tIWTBuV0JuZVNQTTI4dTlL?=
- =?utf-8?B?ZThkSDc5cXJoQkgwK2ZIQjg1SmlITHRrblVXd0tsUGpra1Y0eit1ZEMyd2Nq?=
- =?utf-8?B?akZoVFdBeXhSMUhGeTZEMEgrVUNVQ09OaHE1c0JjZjdmK050ZXhrODY2L2lr?=
- =?utf-8?B?ZGErdkVBbm03SFNvR1NpdTZic01Pd3lwV3JXNG9SYjdjUFptTlpBbE91S1pN?=
- =?utf-8?B?YlpMR1lRcmVhY1lJSWc1ZnZ1RGZsb29UZUV3cWpLc3VCdmJsWGNUOUpic1dq?=
- =?utf-8?B?bnZtV2NEMUhHSmhFckFIY3JNRER6bWMwUDZidURKZXlVMS9pYzhDbjZKZURE?=
- =?utf-8?B?amYrc3l6MGpwNHAzVW5PcVo1eUg2U0NOZWEwWGptOUFPRkU0a2VsekhPUktM?=
- =?utf-8?B?NFVJL2dsMGZOR0xVNm1XUVp6WE9wTWhjZmhML0hhb0VISnBvUk94TkhLdWc0?=
- =?utf-8?B?UzhMcXloaDY2UkdaZDdOcGFjaVdYOTBtRng2eXJQOXhaVlY1RFlCTnJST0pU?=
- =?utf-8?B?dkNOeGdvZGN6azFSNDhPQi9sTmhMNElocXB5dHdCNkNTSjA5akxHbGl3UVpP?=
- =?utf-8?B?VVA5b1FHcXJQQzhuMG9ndDNIK3BTZllCZkU1VVk3L2RVWWJBLzRWcytIWFpr?=
- =?utf-8?B?NlBmdHZleE16R0kwSFR4TVhKUVBlaDFyNFY3Sm5uZWtmUExEU0crdnZlUlZP?=
- =?utf-8?B?RkNZeU96WEhWeHYyZ2x0NzF1bTFZdGtMM2FQM0xMeGRrRmE5SUlUbXFOZGps?=
- =?utf-8?B?V00yemFnMFZiZjEvY0UrV0s4bzJCMXorSXpUdDJ4aVBaZ2F1MWV6YmN2UXcz?=
- =?utf-8?B?eXFheXphNEFER1pqYkVYUTcrcHFGMUQvUkUyVjQxaHVyazhadFBUbTNNeUV4?=
- =?utf-8?B?Qm1kMVhuV2FMU1AvbUR3aG9aaW91YXgyajhBUjVPVkx5SmMyeHJ1QmlhS1h5?=
- =?utf-8?B?K0ZkOW1vWDhUOUNiVlM4QUhsUFQ4VTRGOHpkenY5ckFQK09aQVRoSHpDa25X?=
- =?utf-8?B?ZDJuRXRpZ0dBb01iV0dsaktCUUFVejJkVUt2VmZjZk5tMC9BNXFDKzRnM3lG?=
- =?utf-8?B?cDhtU01KQ3R3dGk2R0Qya2dXL0taOElOY1B3cUJudXNZd3FCL1ZIR053MWJz?=
- =?utf-8?B?eWc1SjJaRmVUWitMdFE2RlBnV2tHdTFLZzVnNGpvamZxVm5BNGJ5bGZua0F5?=
- =?utf-8?B?dVBPRXJybEFWU0x0VFF4amdIUW9FcVlhN3QrUSsrR1FRSnk3K0ZocVMza1NX?=
- =?utf-8?B?NktqNGtBYU5MZ1BzVGJMUT09?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47556c82-b709-4323-1da7-08d94c61b126
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4542.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 16:07:52.0336 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wmlgjF+rFib9BNlrHGgkjEdRtSw2HHpXL6bwpHcZMXwy0bnV4Zh/LucjxotbBJBi8rrkx0TCC+0v5y+Te91HYXrXsby2kSeyTp4AGyH7kko=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3368
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10052
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- mlxlogscore=999 suspectscore=0 bulkscore=0 spamscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107210094
-X-Proofpoint-GUID: hKUIQPvWuLOosyQk2vWRT-ub-42fHWjs
-X-Proofpoint-ORIG-GUID: hKUIQPvWuLOosyQk2vWRT-ub-42fHWjs
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4f90fcaa-581e-40b9-8f57-ad6c92bd98b2@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -191,923 +99,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 21, 2021 at 05:49:16PM +0200, Laurent Vivier wrote:
+> On 21/07/2021 16:59, Igor Mammedov wrote:
+> > On Tue, 20 Jul 2021 14:56:06 +0200
+> > Laurent Vivier <lvivier@redhat.com> wrote:
+> > 
+> >> On 20/07/2021 13:38, Laurent Vivier wrote:
+> >>> On 16/07/2021 17:15, Michael S. Tsirkin wrote:  
+> >>>> From: Julia Suvorova <jusual@redhat.com>
+> >>>>
+> >>>> Q35 has three different types of PCI devices hot-plug: PCIe Native,
+> >>>> SHPC Native and ACPI hot-plug. This patch changes the default choice
+> >>>> for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
+> >>>> ability to use SHPC and PCIe Native for hot-plugged bridges.
+> >>>>
+> >>>> This is a list of the PCIe Native hot-plug issues that led to this
+> >>>> change:
+> >>>>     * no racy behavior during boot (see 110c477c2ed)
+> >>>>     * no delay during deleting - after the actual power off software
+> >>>>       must wait at least 1 second before indicating about it. This case
+> >>>>       is quite important for users, it even has its own bug:
+> >>>>           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+> >>>>     * no timer-based behavior - in addition to the previous example,
+> >>>>       the attention button has a 5-second waiting period, during which
+> >>>>       the operation can be canceled with a second press. While this
+> >>>>       looks fine for manual button control, automation will result in
+> >>>>       the need to queue or drop events, and the software receiving
+> >>>>       events in all sort of unspecified combinations of attention/power
+> >>>>       indicator states, which is racy and uppredictable.
+> >>>>     * fixes:
+> >>>>         * https://bugzilla.redhat.com/show_bug.cgi?id=1752465
+> >>>>         * https://bugzilla.redhat.com/show_bug.cgi?id=1690256
+> >>>>
+> >>>> To return to PCIe Native hot-plug:
+> >>>>     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+> >>>>
+> >>>> Known issue: older linux guests need the following flag
+> >>>> to allow hotplugged pci express devices to use io:
+> >>>>         -device pcie-root-port,io-reserve=4096.
+> >>>> io is unusual for pci express so this seems minor.
+> >>>> We'll fix this by a follow up patch.
+> >>>>
+> >>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> >>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> >>>> Message-Id: <20210713004205.775386-6-jusual@redhat.com>
+> >>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >>>> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> >>>> ---
+> >>>>  hw/acpi/ich9.c | 2 +-
+> >>>>  hw/i386/pc.c   | 1 +
+> >>>>  2 files changed, 2 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> >>>> index 2f4eb453ac..778e27b659 100644
+> >>>> --- a/hw/acpi/ich9.c
+> >>>> +++ b/hw/acpi/ich9.c
+> >>>> @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+> >>>>      pm->disable_s3 = 0;
+> >>>>      pm->disable_s4 = 0;
+> >>>>      pm->s4_val = 2;
+> >>>> -    pm->use_acpi_hotplug_bridge = false;
+> >>>> +    pm->use_acpi_hotplug_bridge = true;
+> >>>>  
+> >>>>      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+> >>>>                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+> >>>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> >>>> index aa79c5e0e6..f4c7a78362 100644
+> >>>> --- a/hw/i386/pc.c
+> >>>> +++ b/hw/i386/pc.c
+> >>>> @@ -99,6 +99,7 @@ GlobalProperty pc_compat_6_0[] = {
+> >>>>      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+> >>>>      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
+> >>>>      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
+> >>>> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
+> >>>>  };
+> >>>>  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+> >>>>  
+> >>>>  
+> >>>
+> >>> There is an issue with this patch.
+> >>>
+> >>> When I try to unplug a VFIO device I have the following error and the device is not unplugged:
+> >>>
+> >>> (qemu) device_del hostdev0
+> >>>
+> >>> [   34.116714] ACPI BIOS Error (bug): Could not resolve symbol [^S0B.PCNT], AE_NOT_FOUND
+> >>> (20201113/psargs-330)
+> >>> [   34.117987] ACPI Error: Aborting method \_SB.PCI0.PCNT due to previous error
+> >>> (AE_NOT_FOUND) (20201113/psparse-531)
+> >>> [   34.119318] ACPI Error: Aborting method \_GPE._E01 due to previous error (AE_NOT_FOUND)
+> >>> (20201113/psparse-531)
+> >>> [   34.120600] ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_E01]
+> >>> (20201113/evgpe-515)
+> >>>
+> >>> We can see device is not unplugged (03:00.0)
+> >>>
+> >>> # lspci -v -s 03:00.0
+> >>> 03:00.0 Ethernet controller: Intel Corporation Ethernet Virtual Function 700 Series (rev 02)
+> >>> 	Subsystem: Intel Corporation Device 0000
+> >>> 	Flags: bus master, fast devsel, latency 0
+> >>> 	Memory at fe800000 (64-bit, prefetchable) [size=64K]
+> >>> 	Memory at fe810000 (64-bit, prefetchable) [size=16K]
+> >>> 	Capabilities: [70] MSI-X: Enable+ Count=5 Masked-
+> >>> 	Capabilities: [a0] Express Endpoint, MSI 00
+> >>> 	Capabilities: [100] Advanced Error Reporting
+> >>> 	Capabilities: [1a0] Transaction Processing Hints
+> >>> 	Capabilities: [1d0] Access Control Services
+> >>> 	Kernel driver in use: iavf
+> >>> 	Kernel modules: iavf
+> >>>
+> >>> My guest kernel is from RHEL 8.5 (4.18.0-310.el8.x86_64) and my command line is:
+> >>>
+> >>> $QEMU \
+> >>> -L .../pc-bios \
+> >>> -nodefaults \
+> >>> -nographic \
+> >>> -machine q35 \
+> >>> -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
+> >>> -device pcie-pci-bridge,id=pcie-pci-bridge-0,addr=0x0,bus=pcie-root-port-0  \
+> >>> -device pcie-root-port,id=pcie-root-port-1,port=0x1,addr=0x1.0x1,bus=pcie.0,chassis=2 \
+> >>> -device pcie-root-port,id=pcie-root-port-2,port=0x2,addr=0x1.0x2,bus=pcie.0,chassis=3 \
+> >>> -device pcie-root-port,id=pcie-root-port-3,port=0x3,addr=0x1.0x3,bus=pcie.0,chassis=4 \
+> >>> -device
+> >>> pcie-root-port,id=pcie_extra_root_port_0,multifunction=on,bus=pcie.0,addr=0x3,chassis=5 \
+> >>> -nodefaults \
+> >>> -m 4066  \
+> >>> -smp 4 \
+> >>> -device virtio-scsi-pci,id=virtio_scsi_pci0,bus=pcie-root-port-2,addr=0x0 \
+> >>> -blockdev
+> >>> node-name=file_image1,driver=file,auto-read-only=on,discard=unmap,aio=threads,filename=$IMAGE,cache.direct=on,cache.no-fl\
+> >>> -blockdev
+> >>> node-name=drive_image1,driver=qcow2,read-only=off,cache.direct=on,cache.no-flush=off,file=file_image1
+> >>> \
+> >>> -device scsi-hd,id=image1,drive=drive_image1,write-cache=on \
+> >>> -enable-kvm \
+> >>> -serial mon:stdio \
+> >>> -device vfio-pci,host=04:02.0,bus=pcie-root-port-1,addr=0x0,id=hostdev0
+> >>>
+> >>> PCI 04:02.0 is:
+> >>>
+> >>> $ lspci -v -s 04:02.0
+> >>> 04:02.0 Ethernet controller: Intel Corporation Ethernet Virtual Function 700 Series (rev 02)
+> >>> 	Subsystem: Intel Corporation Device 0000
+> >>> 	Flags: fast devsel, NUMA node 0, IOMMU group 53
+> >>> 	Memory at 92400000 (64-bit, prefetchable) [virtual] [size=64K]
+> >>> 	Memory at 92910000 (64-bit, prefetchable) [virtual] [size=16K]
+> >>> 	Capabilities: <access denied>
+> >>> 	Kernel driver in use: vfio-pci
+> >>> 	Kernel modules: iavf
+> >>>
+> >>> Any idea?  
+> >>
+> >> It also happens with non-VFIO device like e1000e:
+> >>
+> >> ...
+> >> -device e1000e,bus=pcie-root-port-1,addr=0x0,id=hostdev0 \
+> >                      ^^^^^^^^^^^^^
+> > ACPI hotplug operates on slot level, so functions greater than 0 are not considered,
+> > hence unexpected ACPI error. For above CLI, setting 'addr' on root-ports to dedicated slots
+> > should fix issue.
+> > 
+> 
+> Thank you for your answer.
+> 
+> It works well with something like this:
+> 
+> ...
+> -device pcie-root-port,id=pcie-root-port-0,addr=0x1,bus=pcie.0,chassis=1 \
+> -device pcie-root-port,id=pcie-root-port-1,addr=0x2,bus=pcie.0,chassis=2 \
+> -device pcie-root-port,id=pcie-root-port-2,addr=0x3,bus=pcie.0,chassis=3 \
+> -device pcie-root-port,id=pcie-root-port-3,addr=0x4,bus=pcie.0,chassis=4 \
+> -device e1000e,mac=52:54:00:12:34:56,id=hostdev0,bus=pcie-root-port-1 \
+> ...
+> 
+> Is this what you meant?
+> 
+> On an other hand, the previous configuration worked well before this patch, can we see
+> that as a regression?
+> 
+> Thanks,
+> Laurent
 
 
-On 7/20/21 7:17 AM, Igor Mammedov wrote:
-> On Wed, 30 Jun 2021 15:07:16 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
-> 
->> This change implements the support for the ACPI ERST feature.
-> Drop this
-Done
+I agree, port itself can be multifunction, slot behind it is a single
+function. Looks like a bug to me. Julia?
 
-> 
->>
->> This implements a PCI device for ACPI ERST. This implments the
-> s/implments/implements/
-Corrected
+-- 
+MST
 
-> 
->> non-NVRAM "mode" of operation for ERST.
-> add here why non-NVRAM "mode" is implemented.
-How about:
-This implements a PCI device for ACPI ERST. This implments the
-non-NVRAM "mode" of operation for ERST as it is supported by
-Linux and Windows and aligns with ERST support in most BIOS.
-
-
-> 
-> Also even if this non-NVRAM implementation, there is still
-> a lot of not necessary data copying (see below) so drop it
-> or justify why it's there.
->   
->> This change also includes erst.c in the build of general ACPI support.
-> Drop this as well
-Done
-
-> 
-> 
->> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
->> ---
->>   hw/acpi/erst.c      | 704 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   hw/acpi/meson.build |   1 +
->>   2 files changed, 705 insertions(+)
->>   create mode 100644 hw/acpi/erst.c
->>
->> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
->> new file mode 100644
->> index 0000000..6e9bd2e
->> --- /dev/null
->> +++ b/hw/acpi/erst.c
->> @@ -0,0 +1,704 @@
->> +/*
->> + * ACPI Error Record Serialization Table, ERST, Implementation
->> + *
->> + * Copyright (c) 2021 Oracle and/or its affiliates.
->> + *
->> + * ACPI ERST introduced in ACPI 4.0, June 16, 2009.
->> + * ACPI Platform Error Interfaces : Error Serialization
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation;
->> + * version 2 of the License.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
->> + */
->> +
->> +#include <sys/types.h>
->> +#include <sys/stat.h>
->> +#include <unistd.h>
->> +
->> +#include "qemu/osdep.h"
->> +#include "qapi/error.h"
->> +#include "hw/qdev-core.h"
->> +#include "exec/memory.h"
->> +#include "qom/object.h"
->> +#include "hw/pci/pci.h"
->> +#include "qom/object_interfaces.h"
->> +#include "qemu/error-report.h"
->> +#include "migration/vmstate.h"
->> +#include "hw/qdev-properties.h"
->> +#include "hw/acpi/acpi.h"
->> +#include "hw/acpi/acpi-defs.h"
->> +#include "hw/acpi/aml-build.h"
->> +#include "hw/acpi/bios-linker-loader.h"
->> +#include "exec/address-spaces.h"
->> +#include "sysemu/hostmem.h"
->> +#include "hw/acpi/erst.h"
->> +#include "trace.h"
->> +
->> +/* UEFI 2.1: Append N Common Platform Error Record */
->> +#define UEFI_CPER_RECORD_MIN_SIZE 128U
->> +#define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
->> +#define UEFI_CPER_RECORD_ID_OFFSET 96U
->> +#define IS_UEFI_CPER_RECORD(ptr) \
->> +    (((ptr)[0] == 'C') && \
->> +     ((ptr)[1] == 'P') && \
->> +     ((ptr)[2] == 'E') && \
->> +     ((ptr)[3] == 'R'))
->> +#define THE_UEFI_CPER_RECORD_ID(ptr) \
->> +    (*(uint64_t *)(&(ptr)[UEFI_CPER_RECORD_ID_OFFSET]))
->> +
->> +/*
->> + * This implementation is an ACTION (cmd) and VALUE (data)
->> + * interface consisting of just two 64-bit registers.
->> + */
->> +#define ERST_REG_SIZE (2UL * sizeof(uint64_t))
-> 
->> +#define ERST_CSR_ACTION (0UL << 3) /* action (cmd) */
->> +#define ERST_CSR_VALUE  (1UL << 3) /* argument/value (data) */
-> what's meaning of CRS?
-CSR = control status register
-> Looking at patch both should be called ERST_[ACTION|VALUE]_OFFSET
-Done
-> pls use explicit offset values instead of shifting bit.
-Done
-> 
-> 
->> +/*
->> + * ERST_RECORD_SIZE is the buffer size for exchanging ERST
->> + * record contents. Thus, it defines the maximum record size.
->> + * As this is mapped through a PCI BAR, it must be a power of
->> + * two, and should be at least PAGE_SIZE.
->> + * Records are stored in the backing file in a simple fashion.
->> + * The backing file is essentially divided into fixed size
->> + * "slots", ERST_RECORD_SIZE in length, with each "slot"
->> + * storing a single record. No attempt at optimizing storage
->> + * through compression, compaction, etc is attempted.
->> + * NOTE that any change to this value will make any pre-
->> + * existing backing files, not of the same ERST_RECORD_SIZE,
->> + * unusable to the guest.
->> + */
->> +/* 8KiB records, not too small, not too big */
->> +#define ERST_RECORD_SIZE (2UL * 4096)
->> +
->> +#define ERST_INVALID_RECORD_ID (~0UL)
->> +#define ERST_EXECUTE_OPERATION_MAGIC 0x9CUL
->> +
->> +/*
->> + * Object cast macro
->> + */
->> +#define ACPIERST(obj) \
->> +    OBJECT_CHECK(ERSTDeviceState, (obj), TYPE_ACPI_ERST)
->> +
->> +/*
->> + * Main ERST device state structure
->> + */
->> +typedef struct {
->> +    PCIDevice parent_obj;
->> +
->> +    HostMemoryBackend *hostmem;
->> +    MemoryRegion *hostmem_mr;
->> +
->> +    MemoryRegion iomem; /* programming registes */
->> +    MemoryRegion nvmem; /* exchange buffer */
->> +    uint32_t prop_size;
-> s/^^^/storage_size/
-Corrected
-
-> 
->> +    hwaddr bar0; /* programming registers */
->> +    hwaddr bar1; /* exchange buffer */
-> why do you need to keep this addresses around?
-> Suggest to drop these fields and use local variables or pci_get_bar_addr() at call site.
-Corrected
-
-> 
->> +
->> +    uint8_t operation;
->> +    uint8_t busy_status;
->> +    uint8_t command_status;
->> +    uint32_t record_offset;
->> +    uint32_t record_count;
->> +    uint64_t reg_action;
->> +    uint64_t reg_value;
->> +    uint64_t record_identifier;
->> +
->> +    unsigned next_record_index;
-> 
-> 
->> +    uint8_t record[ERST_RECORD_SIZE]; /* read/written directly by guest */
->> +    uint8_t tmp_record[ERST_RECORD_SIZE]; /* intermediate manipulation buffer */
-> drop these see [**] below
-Corrected
-
-> 
->> +
->> +} ERSTDeviceState;
->> +
->> +/*******************************************************************/
->> +/*******************************************************************/
->> +
->> +static unsigned copy_from_nvram_by_index(ERSTDeviceState *s, unsigned index)
->> +{
->> +    /* Read an nvram entry into tmp_record */
->> +    unsigned rc = ACPI_ERST_STATUS_FAILED;
->> +    off_t offset = (index * ERST_RECORD_SIZE);
->> +
->> +    if ((offset + ERST_RECORD_SIZE) <= s->prop_size) {
->> +        if (s->hostmem_mr) {
->> +            uint8_t *p = (uint8_t *)memory_region_get_ram_ptr(s->hostmem_mr);
->> +            memcpy(s->tmp_record, p + offset, ERST_RECORD_SIZE);
->> +            rc = ACPI_ERST_STATUS_SUCCESS;
->> +        }
->> +    }
->> +    return rc;
->> +}
->> +
->> +static unsigned copy_to_nvram_by_index(ERSTDeviceState *s, unsigned index)
->> +{
->> +    /* Write entry in tmp_record into nvram, and backing file */
->> +    unsigned rc = ACPI_ERST_STATUS_FAILED;
->> +    off_t offset = (index * ERST_RECORD_SIZE);
->> +
->> +    if ((offset + ERST_RECORD_SIZE) <= s->prop_size) {
->> +        if (s->hostmem_mr) {
->> +            uint8_t *p = (uint8_t *)memory_region_get_ram_ptr(s->hostmem_mr);
->> +            memcpy(p + offset, s->tmp_record, ERST_RECORD_SIZE);
->> +            rc = ACPI_ERST_STATUS_SUCCESS;
->> +        }
->> +    }
->> +    return rc;
->> +}
->> +
->> +static int lookup_erst_record_by_identifier(ERSTDeviceState *s,
->> +    uint64_t record_identifier, bool *record_found, bool alloc_for_write)
->> +{
->> +    int rc = -1;
->> +    int empty_index = -1;
->> +    int index = 0;
->> +    unsigned rrc;
->> +
->> +    *record_found = 0;
->> +
->> +    do {
->> +        rrc = copy_from_nvram_by_index(s, (unsigned)index);
-> 
-> you have direct access to backend memory so there is no need
-> whatsoever to copy records from it to an intermediate buffer
-> everywhere. Almost all operations with records can be done
-> in place modulo EXECUTE_OPERATION action in BEGIN_[READ|WRITE]
-> context, where record is moved between backend and guest buffer.
-> 
-> So please eliminate all not necessary copying.
-> (for fun, time operations and set backend size to some huge
-> value to see how expensive this code is)
-
-I've corrected this. In our previous exchangs, I thought the reference
-to copying was about trying to directly have guest write/read the appropriate
-record in the backend storage. After reading this comment I realized that
-yes I was doing alot of copying (an artifact of the transition away from
-direct file i/o to MemoryBackend). So good find, and I've eliminated the
-intermediate copying.
-
-> 
->> +        if (rrc == ACPI_ERST_STATUS_SUCCESS) {
->> +            uint64_t this_identifier;
->> +            this_identifier = THE_UEFI_CPER_RECORD_ID(s->tmp_record);
->> +            if (IS_UEFI_CPER_RECORD(s->tmp_record) &&
->> +                (this_identifier == record_identifier)) {
->> +                rc = index;
->> +                *record_found = 1;
->> +                break;
->> +            }
->> +            if ((this_identifier == ERST_INVALID_RECORD_ID) &&
->> +                (empty_index < 0)) {
->> +                empty_index = index; /* first available for write */
->> +            }
->> +        }
->> +        ++index;
->> +    } while (rrc == ACPI_ERST_STATUS_SUCCESS);
->> +
->> +    /* Record not found, allocate for writing */
->> +    if ((rc < 0) && alloc_for_write) {
->> +        rc = empty_index;
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static unsigned clear_erst_record(ERSTDeviceState *s)
->> +{
->> +    unsigned rc = ACPI_ERST_STATUS_RECORD_NOT_FOUND;
->> +    bool record_found;
->> +    int index;
->> +
->> +    index = lookup_erst_record_by_identifier(s,
->> +        s->record_identifier, &record_found, 0);
->> +    if (record_found) {
->> +        memset(s->tmp_record, 0xFF, ERST_RECORD_SIZE);
->> +        rc = copy_to_nvram_by_index(s, (unsigned)index);
->> +        if (rc == ACPI_ERST_STATUS_SUCCESS) {
->> +            s->record_count -= 1;
->> +        }
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static unsigned write_erst_record(ERSTDeviceState *s)
->> +{
->> +    unsigned rc = ACPI_ERST_STATUS_FAILED;
->> +
->> +    if (s->record_offset < (ERST_RECORD_SIZE - UEFI_CPER_RECORD_MIN_SIZE)) {
->> +        uint64_t record_identifier;
->> +        uint8_t *record = &s->record[s->record_offset];
->> +        bool record_found;
->> +        int index;
->> +
->> +        record_identifier = (s->record_identifier == ERST_INVALID_RECORD_ID)
->> +            ? THE_UEFI_CPER_RECORD_ID(record) : s->record_identifier;
->> +
->> +        index = lookup_erst_record_by_identifier(s,
->> +            record_identifier, &record_found, 1);
->> +        if (index < 0) {
->> +            rc = ACPI_ERST_STATUS_NOT_ENOUGH_SPACE;
->> +        } else {
->> +            if (0 != s->record_offset) {
->> +                memset(&s->tmp_record[ERST_RECORD_SIZE - s->record_offset],
->> +                    0xFF, s->record_offset);
->> +            }
->> +            memcpy(s->tmp_record, record, ERST_RECORD_SIZE - s->record_offset);
->> +            rc = copy_to_nvram_by_index(s, (unsigned)index);
->> +            if (rc == ACPI_ERST_STATUS_SUCCESS) {
->> +                if (!record_found) { /* not overwriting existing record */
->> +                    s->record_count += 1; /* writing new record */
->> +                }
->> +            }
->> +        }
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static unsigned next_erst_record(ERSTDeviceState *s,
->> +    uint64_t *record_identifier)
->> +{
->> +    unsigned rc = ACPI_ERST_STATUS_RECORD_NOT_FOUND;
->> +    unsigned index;
->> +    unsigned rrc;
->> +
->> +    *record_identifier = ERST_INVALID_RECORD_ID;
->> +
->> +    index = s->next_record_index;
->> +    do {
->> +        rrc = copy_from_nvram_by_index(s, (unsigned)index);
->> +        if (rrc == ACPI_ERST_STATUS_SUCCESS) {
->> +            if (IS_UEFI_CPER_RECORD(s->tmp_record)) {
->> +                s->next_record_index = index + 1; /* where to start next time */
->> +                *record_identifier = THE_UEFI_CPER_RECORD_ID(s->tmp_record);
->> +                rc = ACPI_ERST_STATUS_SUCCESS;
->> +                break;
->> +            }
->> +            ++index;
->> +        } else {
->> +            if (s->next_record_index == 0) {
->> +                rc = ACPI_ERST_STATUS_RECORD_STORE_EMPTY;
->> +            }
->> +            s->next_record_index = 0; /* at end, reset */
->> +        }
->> +    } while (rrc == ACPI_ERST_STATUS_SUCCESS);
->> +
->> +    return rc;
->> +}
->> +
->> +static unsigned read_erst_record(ERSTDeviceState *s)
->> +{
->> +    unsigned rc = ACPI_ERST_STATUS_RECORD_NOT_FOUND;
->> +    bool record_found;
->> +    int index;
->> +
->> +    index = lookup_erst_record_by_identifier(s,
->> +        s->record_identifier, &record_found, 0);
->> +    if (record_found) {
->> +        rc = copy_from_nvram_by_index(s, (unsigned)index);
->> +        if (rc == ACPI_ERST_STATUS_SUCCESS) {
->> +            if (s->record_offset < ERST_RECORD_SIZE) {
->> +                memcpy(&s->record[s->record_offset], s->tmp_record,
->> +                    ERST_RECORD_SIZE - s->record_offset);
->> +            }
->> +        }
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static unsigned get_erst_record_count(ERSTDeviceState *s)
->> +{
->> +    /* Compute record_count */
->> +    unsigned index = 0;
->> +
->> +    s->record_count = 0;
->> +    while (copy_from_nvram_by_index(s, index) == ACPI_ERST_STATUS_SUCCESS) {
->> +        uint8_t *ptr = &s->tmp_record[0];
->> +        uint64_t record_identifier = THE_UEFI_CPER_RECORD_ID(ptr);
->> +        if (IS_UEFI_CPER_RECORD(ptr) &&
->> +            (ERST_INVALID_RECORD_ID != record_identifier)) {
->> +            s->record_count += 1;
->> +        }
->> +        ++index;
->> +    }
->> +    return s->record_count;
->> +}
->> +
->> +/*******************************************************************/
->> +
->> +static uint64_t erst_rd_reg64(hwaddr addr,
->> +    uint64_t reg, unsigned size)
->> +{
->> +    uint64_t rdval;
->> +    uint64_t mask;
->> +    unsigned shift;
->> +
->> +    if (size == sizeof(uint64_t)) {
->> +        /* 64b access */
->> +        mask = 0xFFFFFFFFFFFFFFFFUL;
->> +        shift = 0;
->> +    } else {
->> +        /* 32b access */
->> +        mask = 0x00000000FFFFFFFFUL;
->> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
->> +    }
->> +
->> +    rdval = reg;
->> +    rdval >>= shift;
->> +    rdval &= mask;
->> +
->> +    return rdval;
->> +}
->> +
->> +static uint64_t erst_wr_reg64(hwaddr addr,
->> +    uint64_t reg, uint64_t val, unsigned size)
->> +{
->> +    uint64_t wrval;
->> +    uint64_t mask;
->> +    unsigned shift;
->> +
->> +    if (size == sizeof(uint64_t)) {
->> +        /* 64b access */
->> +        mask = 0xFFFFFFFFFFFFFFFFUL;
->> +        shift = 0;
->> +    } else {
->> +        /* 32b access */
->> +        mask = 0x00000000FFFFFFFFUL;
->> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
->> +    }
->> +
->> +    val &= mask;
->> +    val <<= shift;
->> +    mask <<= shift;
->> +    wrval = reg;
->> +    wrval &= ~mask;
->> +    wrval |= val;
->> +
->> +    return wrval;
->> +}
-> (I see in next patch it's us defining access width in the ACPI tables)
-> so question is: do we have to have mixed register width access?
-> can't all register accesses be 64-bit?
-
-Initially I attempted to just use 64-bit exclusively. The problem is that,
-for reasons I don't understand, the OSPM on Linux, even x86_64, breaks a 64b
-register access into two. Here's an example of reading the exchange buffer
-address, which is coded as a 64b access:
-
-acpi_erst_reg_write addr: 0x0000 <== 0x000000000000000d (size: 4)
-acpi_erst_reg_read  addr: 0x0008 ==> 0x00000000c1010000 (size: 4)
-acpi_erst_reg_read  addr: 0x000c ==> 0x0000000000000000 (size: 4)
-
-So I went ahead and made ACTION register accesses 32b, else there would
-be two reads of 32-bts, of which the second is useless.
-
-> 
->> +static void erst_reg_write(void *opaque, hwaddr addr,
->> +    uint64_t val, unsigned size)
->> +{
->> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
->> +
->> +    /*
->> +     * NOTE: All actions/operations/side effects happen on the WRITE,
->> +     * by design. The READs simply return the reg_value contents.
->> +     */
->> +    trace_acpi_erst_reg_write(addr, val, size);
->> +
->> +    switch (addr) {
->> +    case ERST_CSR_VALUE + 0:
->> +    case ERST_CSR_VALUE + 4:
->> +        s->reg_value = erst_wr_reg64(addr, s->reg_value, val, size);
->> +        break;
->> +    case ERST_CSR_ACTION + 0:
->> +/*  case ERST_CSR_ACTION+4: as coded, not really a 64b register */
->> +        switch (val) {
->> +        case ACPI_ERST_ACTION_BEGIN_WRITE_OPERATION:
->> +        case ACPI_ERST_ACTION_BEGIN_READ_OPERATION:
->> +        case ACPI_ERST_ACTION_BEGIN_CLEAR_OPERATION:
->> +        case ACPI_ERST_ACTION_BEGIN_DUMMY_WRITE_OPERATION:
->> +        case ACPI_ERST_ACTION_END_OPERATION:
->> +            s->operation = val;
->> +            break;
->> +        case ACPI_ERST_ACTION_SET_RECORD_OFFSET:
->> +            s->record_offset = s->reg_value;
->> +            break;
->> +        case ACPI_ERST_ACTION_EXECUTE_OPERATION:
->> +            if ((uint8_t)s->reg_value == ERST_EXECUTE_OPERATION_MAGIC) {
->> +                s->busy_status = 1;
->> +                switch (s->operation) {
->> +                case ACPI_ERST_ACTION_BEGIN_WRITE_OPERATION:
->> +                    s->command_status = write_erst_record(s);
->> +                    break;
->> +                case ACPI_ERST_ACTION_BEGIN_READ_OPERATION:
->> +                    s->command_status = read_erst_record(s);
->> +                    break;
->> +                case ACPI_ERST_ACTION_BEGIN_CLEAR_OPERATION:
->> +                    s->command_status = clear_erst_record(s);
->> +                    break;
->> +                case ACPI_ERST_ACTION_BEGIN_DUMMY_WRITE_OPERATION:
->> +                    s->command_status = ACPI_ERST_STATUS_SUCCESS;
->> +                    break;
->> +                case ACPI_ERST_ACTION_END_OPERATION:
->> +                    s->command_status = ACPI_ERST_STATUS_SUCCESS;
->> +                    break;
->> +                default:
->> +                    s->command_status = ACPI_ERST_STATUS_FAILED;
->> +                    break;
->> +                }
->> +                s->record_identifier = ERST_INVALID_RECORD_ID;
->> +                s->busy_status = 0;
->> +            }
->> +            break;
->> +        case ACPI_ERST_ACTION_CHECK_BUSY_STATUS:
->> +            s->reg_value = s->busy_status;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_COMMAND_STATUS:
->> +            s->reg_value = s->command_status;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_RECORD_IDENTIFIER:
->> +            s->command_status = next_erst_record(s, &s->reg_value);
->> +            break;
->> +        case ACPI_ERST_ACTION_SET_RECORD_IDENTIFIER:
->> +            s->record_identifier = s->reg_value;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_RECORD_COUNT:
->> +            s->reg_value = s->record_count;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_ERROR_LOG_ADDRESS_RANGE:
->> +            s->reg_value = s->bar1;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_ERROR_LOG_ADDRESS_LENGTH:
->> +            s->reg_value = ERST_RECORD_SIZE;
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES:
->> +            s->reg_value = 0x0; /* intentional, not NVRAM mode */
->> +            break;
->> +        case ACPI_ERST_ACTION_GET_EXECUTE_OPERATION_TIMINGS:
->> +            /*
->> +             * 100UL is max, 10UL is nominal
-> 100/10 of what, also add reference to spec/table it comes from
-> and explain in comment why theses values were chosen
-I've changed the comment and style to be similar to build_amd_iommu().
-These are merely sane non-zero max/min times.
-
-> 
->> +             */
->> +            s->reg_value = ((100UL << 32) | (10UL << 0));
->> +            break;
->> +        case ACPI_ERST_ACTION_RESERVED:
-> not necessary, it will be handled by 'default:'
-Corrected
-
-> 
->> +        default:
->> +            /*
->> +             * Unknown action/command, NOP
->> +             */
->> +            break;
->> +        }
->> +        break;
->> +    default:
->> +        /*
->> +         * This should not happen, but if it does, NOP
->> +         */
->> +        break;
->> +    }
->> +}
->> +
->> +static uint64_t erst_reg_read(void *opaque, hwaddr addr,
->> +                                unsigned size)
->> +{
->> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
->> +    uint64_t val = 0;
->> +
->> +    switch (addr) {
->> +    case ERST_CSR_ACTION + 0:
->> +    case ERST_CSR_ACTION + 4:
->> +        val = erst_rd_reg64(addr, s->reg_action, size);
->> +        break;
->> +    case ERST_CSR_VALUE + 0:
->> +    case ERST_CSR_VALUE + 4:
->> +        val = erst_rd_reg64(addr, s->reg_value, size);
->> +        break;
->> +    default:
->> +        break;
->> +    }
->> +    trace_acpi_erst_reg_read(addr, val, size);
->> +    return val;
->> +}
->> +
->> +static const MemoryRegionOps erst_reg_ops = {
->> +    .read = erst_reg_read,
->> +    .write = erst_reg_write,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->> +};
->> +
->> +static void erst_mem_write(void *opaque, hwaddr addr,
->> +    uint64_t val, unsigned size)
->> +{
->> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
-> 
->> +    uint8_t *ptr = &s->record[addr - 0];
->> +    trace_acpi_erst_mem_write(addr, val, size);
->> +    switch (size) {
->> +    default:
->> +    case sizeof(uint8_t):
->> +        *(uint8_t *)ptr = (uint8_t)val;
->> +        break;
->> +    case sizeof(uint16_t):
->> +        *(uint16_t *)ptr = (uint16_t)val;
->> +        break;
->> +    case sizeof(uint32_t):
->> +        *(uint32_t *)ptr = (uint32_t)val;
->> +        break;
->> +    case sizeof(uint64_t):
->> +        *(uint64_t *)ptr = (uint64_t)val;
->> +        break;
->> +    }
->> +}
->> +
->> +static uint64_t erst_mem_read(void *opaque, hwaddr addr,
->> +                                unsigned size)
->> +{
->> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
->> +    uint8_t *ptr = &s->record[addr - 0];
->> +    uint64_t val = 0;
->> +    switch (size) {
->> +    default:
->> +    case sizeof(uint8_t):
->> +        val = *(uint8_t *)ptr;
->> +        break;
->> +    case sizeof(uint16_t):
->> +        val = *(uint16_t *)ptr;
->> +        break;
->> +    case sizeof(uint32_t):
->> +        val = *(uint32_t *)ptr;
->> +        break;
->> +    case sizeof(uint64_t):
->> +        val = *(uint64_t *)ptr;
->> +        break;
->> +    }
->> +    trace_acpi_erst_mem_read(addr, val, size);
->> +    return val;
->> +}
->> +
->> +static const MemoryRegionOps erst_mem_ops = {
->> +    .read = erst_mem_read,
->> +    .write = erst_mem_write,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->> +};
->> +
->> +/*******************************************************************/
->> +/*******************************************************************/
->> +
->> +static const VMStateDescription erst_vmstate  = {
->> +    .name = "acpi-erst",
->> +    .version_id = 1,
->> +    .minimum_version_id = 1,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_UINT8(operation, ERSTDeviceState),
->> +        VMSTATE_UINT8(busy_status, ERSTDeviceState),
->> +        VMSTATE_UINT8(command_status, ERSTDeviceState),
->> +        VMSTATE_UINT32(record_offset, ERSTDeviceState),
->> +        VMSTATE_UINT32(record_count, ERSTDeviceState),
->> +        VMSTATE_UINT64(reg_action, ERSTDeviceState),
->> +        VMSTATE_UINT64(reg_value, ERSTDeviceState),
->> +        VMSTATE_UINT64(record_identifier, ERSTDeviceState),
->> +        VMSTATE_UINT8_ARRAY(record, ERSTDeviceState, ERST_RECORD_SIZE),
->> +        VMSTATE_UINT8_ARRAY(tmp_record, ERSTDeviceState, ERST_RECORD_SIZE),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
->> +
->> +static void erst_realizefn(PCIDevice *pci_dev, Error **errp)
->> +{
->> +    ERSTDeviceState *s = ACPIERST(pci_dev);
->> +    unsigned index = 0;
->> +    bool share;
->> +
->> +    trace_acpi_erst_realizefn_in();
->> +
->> +    if (!s->hostmem) {
->> +        error_setg(errp, "'" ACPI_ERST_MEMDEV_PROP "' property is not set");
->> +        return;
->> +    } else if (host_memory_backend_is_mapped(s->hostmem)) {
->> +        error_setg(errp, "can't use already busy memdev: %s",
->> +                   object_get_canonical_path_component(OBJECT(s->hostmem)));
->> +        return;
->> +    }
->> +
->> +    share = object_property_get_bool(OBJECT(s->hostmem), "share", &error_fatal);
-> s/&error_fatal/errp/
-Corrected
-
-> 
->> +    if (!share) {
->> +        error_setg(errp, "ACPI ERST requires hostmem property share=on: %s",
->> +                   object_get_canonical_path_component(OBJECT(s->hostmem)));
->> +    }
-> This limits possible to use backends to file|memfd only, so
-> I wonder if really need this limitation, what if user doesn't
-> care about preserving it across QEMU restarts. (i.e. usecase
-> where storage is used as a means to troubleshoot guest crash
-> i.e. QEMU is not restarted in between)
-> 
-> Maybe instead of enforcing we should just document that if user
-> wishes to preserve content they should use file|memfd backend with
-> share=on option.
-
-I've removed this check. It is documented the way it is intended to be used.
-
-> 
->> +
->> +    s->hostmem_mr = host_memory_backend_get_memory(s->hostmem);
->> +
->> +    /* HostMemoryBackend size will be multiple of PAGE_SIZE */
->> +    s->prop_size = object_property_get_int(OBJECT(s->hostmem), "size", &error_fatal);
-> s/&error_fatal/errp/
-Corrected
-
-> 
->> +
->> +    /* Convert prop_size to integer multiple of ERST_RECORD_SIZE */
->> +    s->prop_size -= (s->prop_size % ERST_RECORD_SIZE);
-> 
-> pls, no fixups on behalf of user, if size is not what it should be
-> error out with suggestion how to fix it.
-Removed
-
-> 
->> +
->> +    /*
->> +     * MemoryBackend initializes contents to zero, but we actually
->> +     * want contents initialized to 0xFF, ERST_INVALID_RECORD_ID.
->> +     */
->> +    if (copy_from_nvram_by_index(s, 0) == ACPI_ERST_STATUS_SUCCESS) {
->> +        if (s->tmp_record[0] == 0x00) {
->> +            memset(s->tmp_record, 0xFF, ERST_RECORD_SIZE);
-> this doesn't scale,
-> (set backend size to more than host physical RAM, put it on slow storage and have fun.)
-of course, which is why i think we need to have an upper bound (my early
-submissions did).
-
-> 
-> Is it possible to use 0 as invalid record id or change storage format
-> so you would not have to rewrite whole file at startup (maybe some sort
-no
-
-> of metadata header/records book-keeping table before actual records.
-> And initialize file only if header is invalid.)
-I have to scan the backend storage anyway in order to initialize the record
-count, so I've combined that scan with a test to see if the backend storage
-needs to be initialized.
-
-> 
->> +            index = 0;
->> +            while (copy_to_nvram_by_index(s, index) == ACPI_ERST_STATUS_SUCCESS) {
->> +                ++index;
->> +            }
-> also back&forth copying here is not really necessary.
-corrected
-
-> 
->> +        }
->> +    }
->> +
->> +    /* Initialize record_count */
->> +    get_erst_record_count(s);
-> why not put it into reset?
-It is initialized once, then subsequent write/clear operations update
-the counter as needed.
-
-> 
->> +
->> +    /* BAR 0: Programming registers */
->> +    memory_region_init_io(&s->iomem, OBJECT(pci_dev), &erst_reg_ops, s,
->> +                          TYPE_ACPI_ERST, ERST_REG_SIZE);
->> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->iomem);
->> +
-> 
->> +    /* BAR 1: Exchange buffer memory */
->> +    memory_region_init_io(&s->nvmem, OBJECT(pci_dev), &erst_mem_ops, s,
->> +                          TYPE_ACPI_ERST, ERST_RECORD_SIZE);
->> +    pci_register_bar(pci_dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->nvmem);
-> 
-> **)
-> instead of using mmio for buffer where each write causes
-> guest exit to QEMU, map memory region directly to guest.
-> see ivshmem_bar2, the only difference with ivshmem, you'd
-> create memory region manually (for example you can use
-> memory_region_init_resizeable_ram)
-> 
-> this way you can speedup access and drop erst_mem_ops and
-> [tmp_]record intermediate buffers.
-> 
-> Instead of [tmp_]record you can copy record content
-> directly between buffer and backend memory regions.
-
-I've changed the exchange buffer into a MemoryBackend object and
-eliminated the erst_mem_ops.
-
-> 
->> +    /*
->> +     * The vmstate_register_ram_global() puts the memory in
->> +     * migration stream, where it is written back to the memory
->> +     * upon reaching the destination, which causes the backing
->> +     * file to be updated (with share=on).
->> +     */
->> +    vmstate_register_ram_global(s->hostmem_mr);
->> +
->> +    trace_acpi_erst_realizefn_out(s->prop_size);
->> +}
->> +
->> +static void erst_reset(DeviceState *dev)
->> +{
->> +    ERSTDeviceState *s = ACPIERST(dev);
->> +
->> +    trace_acpi_erst_reset_in(s->record_count);
->> +    s->operation = 0;
->> +    s->busy_status = 0;
->> +    s->command_status = ACPI_ERST_STATUS_SUCCESS;
-> 
->> +    /* indicate empty/no-more until further notice */
-> pls rephrase, I'm not sure what it's trying to say
-Eliminated; I don't know why I was trying to say there either
-> 
->> +    s->record_identifier = ERST_INVALID_RECORD_ID;
->> +    s->record_offset = 0;
->> +    s->next_record_index = 0;
-> 
->> +    /* NOTE: record_count and nvram are initialized elsewhere */
->> +    trace_acpi_erst_reset_out(s->record_count);
->> +}
->> +
->> +static Property erst_properties[] = {
->> +    DEFINE_PROP_LINK(ACPI_ERST_MEMDEV_PROP, ERSTDeviceState, hostmem,
->> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
->> +    DEFINE_PROP_END_OF_LIST(),
->> +};
->> +
->> +static void erst_class_init(ObjectClass *klass, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(klass);
->> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->> +
->> +    trace_acpi_erst_class_init_in();
->> +    k->realize = erst_realizefn;
->> +    k->vendor_id = PCI_VENDOR_ID_REDHAT;
->> +    k->device_id = PCI_DEVICE_ID_REDHAT_ACPI_ERST;
->> +    k->revision = 0x00;
->> +    k->class_id = PCI_CLASS_OTHERS;
->> +    dc->reset = erst_reset;
->> +    dc->vmsd = &erst_vmstate;
->> +    dc->user_creatable = true;
->> +    device_class_set_props(dc, erst_properties);
->> +    dc->desc = "ACPI Error Record Serialization Table (ERST) device";
->> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->> +    trace_acpi_erst_class_init_out();
->> +}
->> +
->> +static const TypeInfo erst_type_info = {
->> +    .name          = TYPE_ACPI_ERST,
->> +    .parent        = TYPE_PCI_DEVICE,
->> +    .class_init    = erst_class_init,
->> +    .instance_size = sizeof(ERSTDeviceState),
->> +    .interfaces = (InterfaceInfo[]) {
->> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> what is this for here?
-> 
->> +        { }
->> +    }
->> +};
->> +
->> +static void erst_register_types(void)
->> +{
->> +    type_register_static(&erst_type_info);
->> +}
->> +
->> +type_init(erst_register_types)
->> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
->> index dd69577..262a8ee 100644
->> --- a/hw/acpi/meson.build
->> +++ b/hw/acpi/meson.build
->> @@ -4,6 +4,7 @@ acpi_ss.add(files(
->>     'aml-build.c',
->>     'bios-linker-loader.c',
->>     'utils.c',
->> +  'erst.c',
->>   ))
->>   acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
->>   acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
-> 
 
