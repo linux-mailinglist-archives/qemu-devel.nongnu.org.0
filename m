@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C643D0A58
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:18:39 +0200 (CEST)
-Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1FD3D0A71
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:23:04 +0200 (CEST)
+Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67R8-0000Xm-5I
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
+	id 1m67VP-0002On-6h
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m67QD-0008IT-18
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:17:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26641)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m67UI-0001gy-GN
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:21:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m67QB-0001Wt-B6
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:17:40 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m67UH-00054k-2g
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:21:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626855457;
+ s=mimecast20190719; t=1626855712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pWGzY7CbFikMvU88XfZPwSpfoxiIoXYd+jku291/AFE=;
- b=ejPMEpqxdiGEUhE/lLxn47TOVHiZPRthAn1r4pxZ7WrCnAHmW9rLeBOdv/jm8fAk1Sqlyt
- dxMC1P39IErAMYSz4DCgrxaskzCkqY86YoM1FSRCAOIilMrbObk8f6cORSVCW1C0ECMjuJ
- WFA6j1kZi63LUdHmIomreIFDsxSiFb4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-uMiTBisyOPmBfLu8QaSvWQ-1; Wed, 21 Jul 2021 04:17:36 -0400
-X-MC-Unique: uMiTBisyOPmBfLu8QaSvWQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0FF88AB9A7;
- Wed, 21 Jul 2021 08:17:34 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
- [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0947B5B826;
- Wed, 21 Jul 2021 08:17:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CFB5918000B2; Wed, 21 Jul 2021 10:17:18 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] usb: fix usb-host dependency check
-Date: Wed, 21 Jul 2021 10:17:18 +0200
-Message-Id: <20210721081718.301343-1-kraxel@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F53WzaWbQvjjXxzf6n/WXnbzir96lJd60Q/OcsSPiU8=;
+ b=FdjWbVYl86NLFSg0Z9O2C2p+4YM8peaqnGJw8OjEfqzGezWCQOrvFiGSle+qj4bWisqKL7
+ W7TKG7oAnY2Cm8uIl7svibmEHqU5DwTRebnLEro7D4y/iFwdSIgKoFiAPrbqN5fXv/opVp
+ hniWFPdknn4gsEqpGILp0BmwNp/naiM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-mcX0ZzZgOIOLX-O3nxsGLQ-1; Wed, 21 Jul 2021 04:21:50 -0400
+X-MC-Unique: mcX0ZzZgOIOLX-O3nxsGLQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t8-20020a05600001c8b029013e2027cf9aso638256wrx.9
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 01:21:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F53WzaWbQvjjXxzf6n/WXnbzir96lJd60Q/OcsSPiU8=;
+ b=c7FQ/5LO0A6c8nIotflKfBauBGB7rXjtXVaHv9T6pLlBxd3bsZ3rNucjzfVD6XmvXh
+ 9E55JIYhCZY45/8GOkGyaMln3+Pa4htXKjfRfP4LHH+wqnGCuGHjsWrQn83YpqMnF22F
+ oM5s8qqrel9pEkVqIom2/uxeBf+RR2sMbaNdp72HhdVDIBckh4lsozvYb9XMtlc6muxw
+ bJAmeU0pBLTkj9GiT0gFro+bUCvHsGab50/65+CwL32RQ64/aiAzdmn/8EFRCtqOb+il
+ 25ljG/sjSzQEQHncbyq7PzxXjGAVoRAsVG8f2VsbeUMgHTCjdRJocEvs6/hWjgKimcO1
+ iWUQ==
+X-Gm-Message-State: AOAM533D/qqzSrEPEs4IwSEc7tyMF9ThmhzHGWNULmkDrCqx9V+Pxdk2
+ +XkUjdksj+48KRRFQAp3I3yiEJ++TwiWRPaE6OuQEyWt5pCvZNLeFneJB6thNcvo9AF3noaK99T
+ CBadJCNnGfDclv5A=
+X-Received: by 2002:a7b:c84d:: with SMTP id c13mr2828366wml.30.1626855709467; 
+ Wed, 21 Jul 2021 01:21:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw871ipVw+UOcloC1fJy0QrcnXMesqSWX0sJdymd9a8cxL6TwFbFXu1E9/fovRWwubj4qXL8A==
+X-Received: by 2002:a7b:c84d:: with SMTP id c13mr2828349wml.30.1626855709212; 
+ Wed, 21 Jul 2021 01:21:49 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id t6sm26579349wru.75.2021.07.21.01.21.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Jul 2021 01:21:48 -0700 (PDT)
+Subject: Re: [PATCH] usb: fix usb-host dependency check
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20210721081718.301343-1-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <aaed3100-cd1d-008a-8bdd-7ef584e18fc2@redhat.com>
+Date: Wed, 21 Jul 2021 10:21:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210721081718.301343-1-kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,32 +98,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Programmingkid <programmingkidx@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Programmingkid <programmingkidx@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 627302afb2f8 ("usb: build usb-host as module")
-Reported-by: Programmingkid <programmingkidx@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/21/21 10:17 AM, Gerd Hoffmann wrote:
+> Fixes: 627302afb2f8 ("usb: build usb-host as module")
+> Reported-by: Programmingkid <programmingkidx@gmail.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/usb/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 3ca61279374d..de853d780dd8 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -72,7 +72,7 @@ if usbredir.found()
- endif
- 
- # usb pass-through
--if config_host.has_key('CONFIG_USB_LIBUSB')
-+if libusb.found()
-   usbhost_ss = ss.source_set()
-   usbhost_ss.add(when: ['CONFIG_USB', libusb],
-                  if_true: files('host-libusb.c'))
--- 
-2.31.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
