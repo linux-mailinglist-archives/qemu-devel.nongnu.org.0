@@ -2,151 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B313D0691
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 03:57:20 +0200 (CEST)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8003D078A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 06:16:38 +0200 (CEST)
+Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m61U7-0003T7-3L
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 21:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38574)
+	id 1m63ev-0003b8-5g
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 00:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <khairul.anuar.romli@intel.com>)
- id 1m61Rn-000207-Px
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:54:55 -0400
-Received: from mga01.intel.com ([192.55.52.88]:56480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <khairul.anuar.romli@intel.com>)
- id 1m61Rl-0008Td-6X
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:54:55 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="233149053"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="233149053"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 18:54:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="576199052"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga001.fm.intel.com with ESMTP; 20 Jul 2021 18:54:48 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 20 Jul 2021 18:54:47 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 18:54:48 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 20 Jul 2021 18:54:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ud2fVYrzXNDuETexzyA/3tHr3IuKCalfpqS5uoQQLXdbmmeCe0p3uu2c2BIyswdVF9LidjepjxU2w3ml4Joaq+xaBC5qrn6zBZmmpIDGsJco9jKWwQrmYFKbt2m8vhZpFzmluJB3aBAxQLFN/AXuPyD7ddLh8my5CkefhhyhDlPcKseWQjrrXaCwpCupNu1q8pPkQlJO4UOJ9e8pgFHEqE/pJAZsuJ0tqXfsktghOnUC0v92EnSe0MpTWAiGdkdbnsnXSo9HRhjzEvCQVZS4r4aU/M5UTTzJ6TyzZFSUd5A6S+mGNYT5CUXnLzPx/38NW8oxW1qC8Ho4/4XfR/lLIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lNgim6LBs/EuKEEZmcRxjd5NOUMy9wQOgbMeYhA0AM4=;
- b=bOSx8je7nxJ++idxmLTg0vkIUWuv3W9Vhfsyi5teZzAr/A9tScBmUsSoRKjBOymc4EGRtj02pBbUfEF2myO8hCl1hpHrcBRvOYjXnQFCcc/znUsNxoLFDsO/p90VwJfrFEViTZw7JZhn5jmgKE9tWazUTKsOkE/m9MAE2Rzq7fTWP6ROtPVINt0v/Dwwo6dTiyLdl7VzFSuD533bRzZ79f1wntYi0u/Z7dSsLWZsR1fN/HXyNGoMtdc5S0wGeTp+YGYCvfyYFPGq1G6tTcZDyDmTkPzySVnPw81uVcLByoVfCF8ZHWLyWCOUpWnutOKbMJ5bAGnVNfnWVqbRWb0f/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lNgim6LBs/EuKEEZmcRxjd5NOUMy9wQOgbMeYhA0AM4=;
- b=HzziyRm1b2BqGkZGjMPB1Q8v3vWROpTfCNSii8Vy20ZpbaN5t05ociG9T6oSVsoz1XmmhhYMzE6bbXfDENIwhZKGI8HtRugVcDrWZWdbc4v76dQ49reilO70lwb6A1iML7jNlr8pcvqEEKXFTdaHollfI1bknOgB9brRon3itTQ=
-Received: from BYAPR11MB3637.namprd11.prod.outlook.com (2603:10b6:a03:f9::16)
- by SJ0PR11MB5150.namprd11.prod.outlook.com (2603:10b6:a03:2d4::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23; Wed, 21 Jul
- 2021 01:54:46 +0000
-Received: from BYAPR11MB3637.namprd11.prod.outlook.com
- ([fe80::58ab:34ee:37bd:815c]) by BYAPR11MB3637.namprd11.prod.outlook.com
- ([fe80::58ab:34ee:37bd:815c%4]) with mapi id 15.20.4331.034; Wed, 21 Jul 2021
- 01:54:45 +0000
-From: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>
-To: "Kim, Dongwon" <dongwon.kim@intel.com>, Thomas Huth <thuth@redhat.com>
-Subject: RE: [PATCH 1/2] ui/gtk: detach_all option for making all VCs detached
- upon starting
-Thread-Topic: [PATCH 1/2] ui/gtk: detach_all option for making all VCs
- detached upon starting
-Thread-Index: AQHXfOcoJ10AcuS1IUm/PxN0B5lDaatL4EwAgACPs4CAADrSwA==
-Date: Wed, 21 Jul 2021 01:54:45 +0000
-Message-ID: <BYAPR11MB363739049D30EA5C030D136FB3E39@BYAPR11MB3637.namprd11.prod.outlook.com>
-References: <20210719214157.5863-1-dongwon.kim@intel.com>
- <885e977c-f697-dd02-4be1-b5283fdf343d@redhat.com>
- <20210720221635.GA4519@dongwonk-MOBL.amr.corp.intel.com>
-In-Reply-To: <20210720221635.GA4519@dongwonk-MOBL.amr.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eab9d119-4e51-4d60-b0ad-08d94bea8412
-x-ms-traffictypediagnostic: SJ0PR11MB5150:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SJ0PR11MB5150C5724CB70C11ACC94089B3E39@SJ0PR11MB5150.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1751;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1+HZFuVMatb6wrfhHjQHjtcXvQXXGKMGLiyQXnAfqsEiC3NXjTxwxcwx7Vj2i45nOhlIm6FxNGu8G4SwhR+m5g1KHZo9UgigeKQscOE0mnkdwyuo25R0j+NjBZtm06O80iY2TDLwgdbIiOyDAEVZhld2IBo5Aa0EjmJqF+VhgP4Ee2fDUTXVJoDiq/r4GODOgEBQUJQa/+Y7r8BlEvryUrfTZXyOuTPimz3X4EkN+Uw3lb/G2XdUnjRoRgptOieq49lpF5YPlhdCS5O4pj5LPmqvQ6hJbHxHEsnIhHuKKepkmeXlQ0jPKHwMDLwLrb3oHj3MHOdEMAMg3WeLr3I+6YoQ8JU9AmPSoz/pKqq8XJSHwJP1s/Y0TtO7tEp/CqOy/PEwQJg4JiPohmmS2lKlEaRxLb4riojA9uT9FdaKQ4oaEht+lbNoB3uIXpsTon+0lX0jmCVBinp43uCHPQMLVVfdmgA9LPDpziTjTN8TpB9jAs8Qnwme7ijLrEv1RFo24eejxEodf/4r+l/Gi6sESyE8zNVA7XjKlZMFQT113pv+++YnuNWMkz3ZGPuZeLF/zIZo1F/LPDFFm3G9p+MTIldS0wJEUSe9zqXo4PhKm698gxuZFWrSUD6/MAPsG01K1/VA0xdY4t32JorVmDT4fbFqoQFHeOax7AbokpuFP56SNEfZa7GAcc5B31bfk8uHgrhdVlfITv89QIhGYJ+tnw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3637.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(136003)(376002)(396003)(346002)(71200400001)(52536014)(83380400001)(6506007)(66476007)(8936002)(64756008)(110136005)(9686003)(76116006)(66556008)(53546011)(316002)(86362001)(38100700002)(66946007)(66446008)(2906002)(8676002)(186003)(26005)(122000001)(4326008)(33656002)(7696005)(55016002)(5660300002)(478600001)(38070700004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bX4ff1sL89Rb3VWYRg5UwL+p7FvWmnxGF3jTjvHt383CBV9/cToHr6znEQ?=
- =?iso-8859-1?Q?yamzrgsJSAT3Mdptt/krte6rfbGj75zH9KODf95l11lSaZJejjdc1e/KLx?=
- =?iso-8859-1?Q?gc7ANVYmlqdRAEa8jU+8Mr25302kktpzu2Cec9QDxTZUcet7jyPuCOJPy7?=
- =?iso-8859-1?Q?GVgXSXSjPsrIUgK2YoDVqfeGcxHjyCFrW0qjLnU7IBXe6dUXHZuP6HGJYQ?=
- =?iso-8859-1?Q?sIoRpxCs3FEi0adZ0C4tbng2zkg+vI6zLHwx5GRun3Dxj9XsArbgvzfDH3?=
- =?iso-8859-1?Q?Fbxhvd1S0yUxfvH+pX/Q8fH7zgnHgrLr1VlrxhB9oQy4S4Z9mYmg0f6beW?=
- =?iso-8859-1?Q?duqzRP+29mU4wJfO+gPqAHuA1RL/7Ms3ldcy6qLtyGDsYyrRjSpsaL/Wcf?=
- =?iso-8859-1?Q?SS7AqWIOAlXTwNWf9GjhMzoo2vttA5oSd3eF7y24jr0m0iaLPq1ZZtKv/W?=
- =?iso-8859-1?Q?AEqDWDRKJdiFQzMKflwFGEepWdkIYXCH+JWuUf54NxxYV6aaOGw+RHJJ+7?=
- =?iso-8859-1?Q?NoEmUFARPTiw98ndqrGjLGencEJrHktxOOXGegd0hac5vedXFaf+MOp5io?=
- =?iso-8859-1?Q?MHpXDGyXB6tj/CaMwFf3LGOdyzdQORExm70cgBHUwWoSkbYyQ53FCNWrWH?=
- =?iso-8859-1?Q?kTnLTyVL8Yjmi1hihVzt6S7bwGSWsYN9PVx9sWNNEACKFCY8ov70Czi4VE?=
- =?iso-8859-1?Q?vvb9+p4jdgbKx6L+XGgqTd7Gi1TrinzSWURPy+Pu0XssNtcjamKC7dhuKY?=
- =?iso-8859-1?Q?JLVLNQ3i2UnWtIs6wnmSs8BB67UeRw+UVxF2SBx2FkD0iYaT0Hgp87cjva?=
- =?iso-8859-1?Q?FtXsOAIgECRYIWMr1fpofF2c0/lV+7V3BfUpaB57pWOyyPAPolJ9b+jyFd?=
- =?iso-8859-1?Q?Lv5EE8fL78DcFY+AmEdFxORGtXU/w5fVJdIY/OaenuTuH6JqdSBj0WOHQe?=
- =?iso-8859-1?Q?jmnOI1T7fz5arPqFw1IW88WoruaKDJgwhs7yL9mLvNj9e0lYbsgY75kVzc?=
- =?iso-8859-1?Q?T2kHaJZtClJbQWmBew6WlR2GsPub28MNu0GedU/yg2/kolx12ls43VeiRb?=
- =?iso-8859-1?Q?3qGigql9GqGMsckh7o2OaDnPtZCGevUynyATkVTImv6+GI1pMrgJYcNy4M?=
- =?iso-8859-1?Q?o7/QFP+X+5m+RRU4DjP8TpvaZ2HdSuQztzX+WJaIYMEamYNMlScTiDXuTV?=
- =?iso-8859-1?Q?3B0I4th07E/X+sfGQkj2DvufGXUdqRXazfSQkMTDnjyqJBcsrbvFgkq8mT?=
- =?iso-8859-1?Q?dp6CkBKJTPT1Uj9e9DXy/EPbQnIyQuV6zPkzQokkFmCWUpHQSM014T649D?=
- =?iso-8859-1?Q?i2udGsT69yjZHnlc0Ix0KM/Au/Rl39kiu++lAYQf/3C8xUjl1tG5qND6g7?=
- =?iso-8859-1?Q?onUK44CtoQ?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m63cv-0001gK-7a
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 00:14:33 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m63cr-0008Pe-O0
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 00:14:32 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id oz7so1215268ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 21:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jQFY2RowP6Ps7P4XIb9a5wmoJxzg6/tnnzovcN/59aU=;
+ b=B8+Hwz6K/VGlkfrFDP/H/soYgFmkrA+TFN10kdbQ8pzH369sqQPpt9OxTpW8Lr8h9q
+ Yo495G9lzNmz+IVUDCRh2dboDrIKYYhR5HO1+ip1HWYzILICbpAxFPaIGcyAAIGHKT+v
+ 85gwj/rIB4HD42AglFCGtuNoR5D6I7E/QvD8Iy/ZLp5a6eKxG8YU61oaCUsrsD+40deN
+ GzAX/dLOnKwq25Tb5uor794e8LZhBKYIh5NKw46pMdLUxo/MDj/V0NfSSsQXtpIMO91g
+ E/R3Jj2Il3IB+G5kLqkjXMvx3mWTC7tSdo1TXtN2pcfdb8CvGxVx9duyn0JBtVqxULMv
+ XyZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jQFY2RowP6Ps7P4XIb9a5wmoJxzg6/tnnzovcN/59aU=;
+ b=BkM/5lAiVcyDYOq4NUq6Thip8keaS0u7zHRn2NxcBRzaUfpx8zbhO7Lnm6N2+m9RyO
+ JDQO2tc0Y0I4wUCpcWhs+9t31qqF4w/6ROdcPbjWrSUnNJidOvcHC1bRhZvcYZvpRUuJ
+ X6N6yzAB4ZKf3gtnW2iaUb1ekcACDRyKiSJWRqympi485a0V5JRBj8dp5z9BUQl9m2d+
+ XdwXS5OO93CM7RDphIATmSRhsmIvFNiqORzRqSyItauM/dRND4s/XHtHlplFo6zzV4vN
+ nCSbUA17iFZGoZFpwGyYZHQUx5JKQgb2HWKG7TkYYN7TGywDaeLO5nHIYsRJItuKB+Np
+ sPyQ==
+X-Gm-Message-State: AOAM530y1YcdD+kDZ9ZnRZAHRgxCt8JTWndc0In5gQMGoFBEEYY4mK68
+ s606oLeFTsmQ8fzXF/OTONA=
+X-Google-Smtp-Source: ABdhPJwkVtL8E5KcmnaFqCbtUuZkOgk0WLvcg/MoLPQdbZSzH5mXKdXU20YzTzBmTZBbISf7q2dQGQ==
+X-Received: by 2002:a17:906:4e85:: with SMTP id
+ v5mr36518636eju.67.1626840867915; 
+ Tue, 20 Jul 2021 21:14:27 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id r27sm9444720edb.66.2021.07.20.21.14.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 21:14:27 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jason Wang <jasowang@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3 1/3] hw/net: e1000: Correct the initial value of VET
+ register
+Date: Wed, 21 Jul 2021 12:15:02 +0800
+Message-Id: <20210721041504.464403-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3637.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eab9d119-4e51-4d60-b0ad-08d94bea8412
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2021 01:54:45.9054 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cIpBe2hciNh6AXfFFqlNVUKv0c0Yoa0pi0ToV4A8/wEAIvPJrgX+w+TfpGYWckR+hw/YG369r6I+0agFuZlXIudl7nChO0JRDt9upZOcfCM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5150
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88;
- envelope-from=khairul.anuar.romli@intel.com; helo=mga01.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -160,132 +84,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christina Wang <christina.wang@windriver.com>,
+ Markus Carlstedt <markus.carlstedt@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've tried and this patch is able to detach all the virtual console after w=
-e launch the qemu. However, I think we need to filter out other terminal th=
-at are not related to view such as compatmonitor(), serial and parallel.=20
+From: Christina Wang <christina.wang@windriver.com>
 
-Also, I think we can have the detach specific to virtio-pci view without th=
-e need to have new parameters.
+The initial value of VLAN Ether Type (VET) register is 0x8100, as per
+the manual and real hardware.
 
-> -----Original Message-----
-> From: Kim, Dongwon <dongwon.kim@intel.com>
-> Sent: Wednesday, July 21, 2021 6:17 AM
-> To: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-devel@nongnu.org; Romli, Khairul Anuar
-> <khairul.anuar.romli@intel.com>
-> Subject: Re: [PATCH 1/2] ui/gtk: detach_all option for making all VCs
-> detached upon starting
->=20
-> On Tue, Jul 20, 2021 at 03:42:16PM +0200, Thomas Huth wrote:
-> > On 19/07/2021 23.41, Dongwon Kim wrote:
-> > > With "detach-all=3Don" for display, all VCs are detached from the
-> beginning.
-> > > This is useful when there are multiple displays assigned to a guest O=
-S.
-> >
-> > Can you elaborate? (i.e. why is it useful? Do you just want to avoid
-> > having multiple things opened at startup? Or is there a different
-> > reason?)
-> Hi,
->=20
-> The original motivation is related to an use-case with a guest with multi=
--
-> displays. In that use case, we wanted to have all guest displays placed s=
-ide by
-> side from beginning. Virtual consoles other than guest displays (e.g. vir=
-tio-
-> gpu-pci) are not actually needed but I found doing "detach-all" is the si=
-mplest
-> way.
->=20
-> >
-> > > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> > > Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
-> > > ---
-> > >   qapi/ui.json | 4 +++-
-> > >   ui/gtk.c     | 7 +++++++
-> > >   2 files changed, 10 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/qapi/ui.json b/qapi/ui.json index
-> > > 1052ca9c38..ff14bb2f46 100644
-> > > --- a/qapi/ui.json
-> > > +++ b/qapi/ui.json
-> > > @@ -1141,6 +1141,7 @@
-> > >   # @show-cursor:   Force showing the mouse cursor (default: off).
-> > >   #                 (since: 5.0)
-> > >   # @gl:            Enable OpenGL support (default: off).
-> > > +# @detach-all:    Detatch all VirtualConsoles from beginning (defaul=
-t:
-> off).
-> >
-> > Needs a comment =E0 la "(since: 6.2)" at the end (like the one after
-> > "show-cursor" some lines earlier.
-> >
-> > >   #
-> > >   # Since: 2.12
-> > >   #
-> > > @@ -1150,7 +1151,8 @@
-> > >                   '*full-screen'   : 'bool',
-> > >                   '*window-close'  : 'bool',
-> > >                   '*show-cursor'   : 'bool',
-> > > -                '*gl'            : 'DisplayGLMode' },
-> > > +                '*gl'            : 'DisplayGLMode',
-> > > +                '*detach-all'    : 'bool' },
-> >
-> > If this is for GTK only, shouldn't this rather go into DisplayGTK inste=
-ad?
-> > Or will this be also useful for other display types later?
->=20
-> This option might not be that useful for other use cases.. but at the sam=
-e
-> time, I'm pretty sure this will work universally (won't break
-> anything..) but for now, I think it's good idea to limit this to GTK.
->=20
-> -DW
->=20
-> >
-> >  Thomas
-> >
-> >
-> > >     'discriminator' : 'type',
-> > >     'data'    : { 'gtk'            : 'DisplayGTK',
-> > >                   'curses'         : 'DisplayCurses',
-> > > diff --git a/ui/gtk.c b/ui/gtk.c
-> > > index ce885d2ca3..a07e5a049e 100644
-> > > --- a/ui/gtk.c
-> > > +++ b/ui/gtk.c
-> > > @@ -2211,6 +2211,7 @@ static void gtk_display_init(DisplayState *ds,
-> DisplayOptions *opts)
-> > >       GdkDisplay *window_display;
-> > >       GtkIconTheme *theme;
-> > >       char *dir;
-> > > +    int i;
-> > >       if (!gtkinit) {
-> > >           fprintf(stderr, "gtk initialization failed\n"); @@ -2290,6
-> > > +2291,12 @@ static void gtk_display_init(DisplayState *ds,
-> DisplayOptions *opts)
-> > >           gtk_menu_item_activate(GTK_MENU_ITEM(s-
-> >grab_on_hover_item));
-> > >       }
-> > >       gd_clipboard_init(s);
-> > > +
-> > > +    if (opts->detach_all) {
+While Linux e1000 driver always writes VET register to 0x8100, it is
+not always the case for everyone. Drivers relying on the reset value
+of VET won't be able to transmit and receive VLAN frames in QEMU.
 
-> > > +        for (i =3D 0; i < s->nb_vcs - 1; i++) {
+Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+Signed-off-by: Christina Wang <christina.wang@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-[Romli, Khairul Anuar]  We can a conditional check here to only detech virt=
-io-pci view rather than "everything". Also, we may want to consider not to =
-detach the primary view and keep it remain in qemu primary window.
+---
 
-> > > +            gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-> > > +        }
-> > > +    }
-> > >   }
-> > >   static void early_gtk_display_init(DisplayOptions *opts)
-> > >
-> >
+Changes in v3:
+- add a "init-vet" property for versioned machines
+
+ hw/core/machine.c | 27 +++++++++++++++++++++++++--
+ hw/net/e1000.c    | 26 ++++++++++++++++++--------
+ 2 files changed, 43 insertions(+), 10 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 775add0795..29982c1ef1 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -41,6 +41,7 @@ GlobalProperty hw_compat_6_0[] = {
+     { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+     { "i8042", "extended-state", "false"},
+     { "nvme-ns", "eui64-default", "off"},
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_6_0_len = G_N_ELEMENTS(hw_compat_6_0);
+ 
+@@ -49,6 +50,7 @@ GlobalProperty hw_compat_5_2[] = {
+     { "PIIX4_PM", "smm-compat", "on"},
+     { "virtio-blk-device", "report-discard-granularity", "off" },
+     { "virtio-net-pci", "vectors", "3"},
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+ 
+@@ -62,6 +64,7 @@ GlobalProperty hw_compat_5_1[] = {
+     { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
+     { "pl011", "migrate-clk", "off" },
+     { "virtio-pci", "x-ats-page-aligned", "off"},
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+ 
+@@ -73,6 +76,7 @@ GlobalProperty hw_compat_5_0[] = {
+     { "vmport", "x-report-vmx-type", "off" },
+     { "vmport", "x-cmds-v2", "off" },
+     { "virtio-device", "x-disable-legacy-check", "true" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+ 
+@@ -89,11 +93,13 @@ GlobalProperty hw_compat_4_2[] = {
+     { "qxl-vga", "revision", "4" },
+     { "fw_cfg", "acpi-mr-restore", "false" },
+     { "virtio-device", "use-disabled-flag", "false" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+ 
+ GlobalProperty hw_compat_4_1[] = {
+     { "virtio-pci", "x-pcie-flr-init", "off" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
+ 
+@@ -106,6 +112,7 @@ GlobalProperty hw_compat_4_0[] = {
+     { "virtio-device", "use-started", "false" },
+     { "virtio-balloon-device", "qemu-4-0-config-size", "true" },
+     { "pl031", "migrate-tick-offset", "false" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
+ 
+@@ -123,10 +130,13 @@ GlobalProperty hw_compat_3_1[] = {
+     { "virtio-blk-device", "write-zeroes", "false" },
+     { "virtio-balloon-device", "qemu-4-0-config-size", "false" },
+     { "pcie-root-port-base", "disable-acs", "true" }, /* Added in 4.1 */
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_3_1_len = G_N_ELEMENTS(hw_compat_3_1);
+ 
+-GlobalProperty hw_compat_3_0[] = {};
++GlobalProperty hw_compat_3_0[] = {
++    { "e1000", "init-vet", "off" },
++};
+ const size_t hw_compat_3_0_len = G_N_ELEMENTS(hw_compat_3_0);
+ 
+ GlobalProperty hw_compat_2_12[] = {
+@@ -136,6 +146,7 @@ GlobalProperty hw_compat_2_12[] = {
+     { "VGA", "global-vmstate", "true" },
+     { "vmware-svga", "global-vmstate", "true" },
+     { "qxl-vga", "global-vmstate", "true" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_12_len = G_N_ELEMENTS(hw_compat_2_12);
+ 
+@@ -144,12 +155,14 @@ GlobalProperty hw_compat_2_11[] = {
+     { "virtio-blk-pci", "vectors", "2" },
+     { "vhost-user-blk-pci", "vectors", "2" },
+     { "e1000", "migrate_tso_props", "off" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_11_len = G_N_ELEMENTS(hw_compat_2_11);
+ 
+ GlobalProperty hw_compat_2_10[] = {
+     { "virtio-mouse-device", "wheel-axis", "false" },
+     { "virtio-tablet-device", "wheel-axis", "false" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_10_len = G_N_ELEMENTS(hw_compat_2_10);
+ 
+@@ -158,6 +171,7 @@ GlobalProperty hw_compat_2_9[] = {
+     { "intel-iommu", "pt", "off" },
+     { "virtio-net-device", "x-mtu-bypass-backend", "off" },
+     { "pcie-root-port", "x-migrate-msix", "false" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_9_len = G_N_ELEMENTS(hw_compat_2_9);
+ 
+@@ -172,6 +186,7 @@ GlobalProperty hw_compat_2_8[] = {
+     { "virtio-pci", "x-pcie-pm-init", "off" },
+     { "cirrus-vga", "vgamem_mb", "8" },
+     { "isa-cirrus-vga", "vgamem_mb", "8" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_8_len = G_N_ELEMENTS(hw_compat_2_8);
+ 
+@@ -181,6 +196,7 @@ GlobalProperty hw_compat_2_7[] = {
+     { "ioapic", "version", "0x11" },
+     { "intel-iommu", "x-buggy-eim", "true" },
+     { "virtio-pci", "x-ignore-backend-features", "on" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_7_len = G_N_ELEMENTS(hw_compat_2_7);
+ 
+@@ -189,6 +205,7 @@ GlobalProperty hw_compat_2_6[] = {
+     /* Optional because not all virtio-pci devices support legacy mode */
+     { "virtio-pci", "disable-modern", "on",  .optional = true },
+     { "virtio-pci", "disable-legacy", "off", .optional = true },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_6_len = G_N_ELEMENTS(hw_compat_2_6);
+ 
+@@ -198,6 +215,7 @@ GlobalProperty hw_compat_2_5[] = {
+     { "pvscsi", "x-disable-pcie", "on" },
+     { "vmxnet3", "x-old-msi-offsets", "on" },
+     { "vmxnet3", "x-disable-pcie", "on" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_5_len = G_N_ELEMENTS(hw_compat_2_5);
+ 
+@@ -205,6 +223,7 @@ GlobalProperty hw_compat_2_4[] = {
+     /* Optional because the 'scsi' property is Linux-only */
+     { "virtio-blk-device", "scsi", "true", .optional = true },
+     { "e1000", "extra_mac_registers", "off" },
++    { "e1000", "init-vet", "off" },
+     { "virtio-pci", "x-disable-pcie", "on" },
+     { "virtio-pci", "migrate-extra", "off" },
+     { "fw_cfg_mem", "dma_enabled", "off" },
+@@ -222,10 +241,13 @@ GlobalProperty hw_compat_2_3[] = {
+     { "migration", "send-configuration", "off" },
+     { "migration", "send-section-footer", "off" },
+     { "migration", "store-global-state", "off" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_3_len = G_N_ELEMENTS(hw_compat_2_3);
+ 
+-GlobalProperty hw_compat_2_2[] = {};
++GlobalProperty hw_compat_2_2[] = {
++    { "e1000", "init-vet", "off" },
++};
+ const size_t hw_compat_2_2_len = G_N_ELEMENTS(hw_compat_2_2);
+ 
+ GlobalProperty hw_compat_2_1[] = {
+@@ -236,6 +258,7 @@ GlobalProperty hw_compat_2_1[] = {
+     { "usb-mouse", "usb_version", "1" },
+     { "usb-kbd", "usb_version", "1" },
+     { "virtio-pci", "virtio-pci-bus-master-bug-migration", "on" },
++    { "e1000", "init-vet", "off" },
+ };
+ const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
+ 
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 4f75b44cfc..543c4fbb02 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -29,6 +29,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "net/eth.h"
+ #include "net/net.h"
+ #include "net/checksum.h"
+ #include "sysemu/sysemu.h"
+@@ -130,10 +131,13 @@ struct E1000State_st {
+ #define E1000_FLAG_MIT_BIT 1
+ #define E1000_FLAG_MAC_BIT 2
+ #define E1000_FLAG_TSO_BIT 3
++#define E1000_FLAG_VET_BIT 4
+ #define E1000_FLAG_AUTONEG (1 << E1000_FLAG_AUTONEG_BIT)
+ #define E1000_FLAG_MIT (1 << E1000_FLAG_MIT_BIT)
+ #define E1000_FLAG_MAC (1 << E1000_FLAG_MAC_BIT)
+ #define E1000_FLAG_TSO (1 << E1000_FLAG_TSO_BIT)
++#define E1000_FLAG_VET (1 << E1000_FLAG_VET_BIT)
++
+     uint32_t compat_flags;
+     bool received_tx_tso;
+     bool use_tso_for_migration;
+@@ -141,7 +145,7 @@ struct E1000State_st {
+ };
+ typedef struct E1000State_st E1000State;
+ 
+-#define chkflag(x)     (s->compat_flags & E1000_FLAG_##x)
++#define chkflag(s, x)     (s->compat_flags & E1000_FLAG_##x)
+ 
+ struct E1000BaseClass {
+     PCIDeviceClass parent_class;
+@@ -176,7 +180,7 @@ e1000_autoneg_done(E1000State *s)
+ static bool
+ have_autoneg(E1000State *s)
+ {
+-    return chkflag(AUTONEG) && (s->phy_reg[PHY_CTRL] & MII_CR_AUTO_NEG_EN);
++    return chkflag(s, AUTONEG) && (s->phy_reg[PHY_CTRL] & MII_CR_AUTO_NEG_EN);
+ }
+ 
+ static void
+@@ -298,7 +302,7 @@ set_interrupt_cause(E1000State *s, int index, uint32_t val)
+         if (s->mit_timer_on) {
+             return;
+         }
+-        if (chkflag(MIT)) {
++        if (chkflag(s, MIT)) {
+             /* Compute the next mitigation delay according to pending
+              * interrupts and the current values of RADV (provided
+              * RDTR!=0), TADV and ITR.
+@@ -386,6 +390,10 @@ static void e1000_reset(void *opaque)
+     }
+ 
+     e1000x_reset_mac_addr(d->nic, d->mac_reg, macaddr);
++
++    if (chkflag(d, VET)) {
++        d->mac_reg[VET] = ETH_P_VLAN;
++    }
+ }
+ 
+ static void
+@@ -1397,7 +1405,7 @@ static int e1000_pre_save(void *opaque)
+     }
+ 
+     /* Decide which set of props to migrate in the main structure */
+-    if (chkflag(TSO) || !s->use_tso_for_migration) {
++    if (chkflag(s, TSO) || !s->use_tso_for_migration) {
+         /* Either we're migrating with the extra subsection, in which
+          * case the mig_props is always 'props' OR
+          * we've not got the subsection, but 'props' was the last
+@@ -1418,7 +1426,7 @@ static int e1000_post_load(void *opaque, int version_id)
+     E1000State *s = opaque;
+     NetClientState *nc = qemu_get_queue(s->nic);
+ 
+-    if (!chkflag(MIT)) {
++    if (!chkflag(s, MIT)) {
+         s->mac_reg[ITR] = s->mac_reg[RDTR] = s->mac_reg[RADV] =
+             s->mac_reg[TADV] = 0;
+         s->mit_irq_level = false;
+@@ -1461,21 +1469,21 @@ static bool e1000_mit_state_needed(void *opaque)
+ {
+     E1000State *s = opaque;
+ 
+-    return chkflag(MIT);
++    return chkflag(s, MIT);
+ }
+ 
+ static bool e1000_full_mac_needed(void *opaque)
+ {
+     E1000State *s = opaque;
+ 
+-    return chkflag(MAC);
++    return chkflag(s, MAC);
+ }
+ 
+ static bool e1000_tso_state_needed(void *opaque)
+ {
+     E1000State *s = opaque;
+ 
+-    return chkflag(TSO);
++    return chkflag(s, TSO);
+ }
+ 
+ static const VMStateDescription vmstate_e1000_mit_state = {
+@@ -1737,6 +1745,8 @@ static Property e1000_properties[] = {
+                     compat_flags, E1000_FLAG_MAC_BIT, true),
+     DEFINE_PROP_BIT("migrate_tso_props", E1000State,
+                     compat_flags, E1000_FLAG_TSO_BIT, true),
++    DEFINE_PROP_BIT("init-vet", E1000State,
++                    compat_flags, E1000_FLAG_VET_BIT, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.25.1
+
 
