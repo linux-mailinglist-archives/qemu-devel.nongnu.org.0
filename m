@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3101F3D1587
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:52:23 +0200 (CEST)
-Received: from localhost ([::1]:44798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4BE3D158B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:53:06 +0200 (CEST)
+Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6GOM-0002LR-7k
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38376)
+	id 1m6GP1-0003tl-MU
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m6GNF-0000nR-9k
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:51:13 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35761)
+ id 1m6GNv-0002LF-7T
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:51:55 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m6GND-0002RV-Uu
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:51:13 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 14-20020a05600c028eb0290228f19cb433so42716wmk.0
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 10:51:11 -0700 (PDT)
+ id 1m6GNt-0002xt-K0
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:51:54 -0400
+Received: by mail-wr1-x431.google.com with SMTP id c12so3093834wrt.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 10:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g2YSY1ugD5EkZu/5APy4FMZ5aFvRbiPa6emTTDM3S68=;
- b=ZS4FThp37F/vdnGyd40G2bkBKv9j+1aStHzF75+gyDnIG+NO+K7obGMsbsscqEYYvz
- uqscWDp16GT/jV1Yf9mGrhK86tw6yYGcJqvV4jzzpvPJQ0LXSIWaWI7J1Nd7M0V0sLaZ
- kSRsMf1MldgqMB45mPB5mv/hwBOBboe1BJmzCjB9iTVLOnaioVnyPsyIRavFoG9ShUth
- zzMMli2pN4kn4+NuJuAzAcpElMH6ILrHFlMnb3jAlPSUZQdwrlbur5TNoUzM10B6nvWX
- f17R9V6BqbXW3Wk1lLnIes3kBg6clbxJ4TVSR60uQZpEWQHaU07uMnasdqD8iIZzXizD
- f65A==
+ bh=m8THq8WzCRgKITg+03EWQP9WhyH4SA7NlngjIya/AkY=;
+ b=u4sHaHnkx+HS8kkUPdGwIE986oqWv+moWdJtkryxrF+IZDbnGo9DB//q7yesHq1GFH
+ ET91NTA4bzuiflSEufaJ6Y0HHdB0NA8So3jf8BlKDlyroN+EOBC5wDAX1CwdLe0U3TWX
+ oQT0Tld1CjXGJw6xWAiTmW8UHZX+lPrAyWRAlrTqt1CLJMtQvsS9+SgBzQQKxoJ1+WXQ
+ 6ZI+kdqHlixsJGpAhuYo4x3RQR38kooF6qhj2S7qFQASx1S6vWrTcA7FzR0a11x32bq5
+ YUiHNfxckbtxil6Hwq9pr3blzZxnZj29A6e+uzl/eNHv5h55/bigzmrAd2cxJcprLu4Q
+ aUfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=g2YSY1ugD5EkZu/5APy4FMZ5aFvRbiPa6emTTDM3S68=;
- b=aglZw+xUG0IPa3iqPeq7pWxcZtZAqrdJjW7m6Su4pMjxdOv9gARHHJH6BJcb9HNHzV
- bMLNmilzj+GzACFFGDJG2Xw56cZ2OOCnMQY1fzFUyRhBA6RuiufxqFfXFVISHIYZw91G
- bzXL/GEVCDqciV9mvDqgFtR5wlnNHtKcLrNeyL8ganOdGLD7HpkdyYLRKFN8f+EnshKj
- fvpiyuM4pDCXrF5/mnClee0B6nhVY2wTNdD9ZsyDNaXhXRGE2pzrQ4DqbbkDM50S1qpd
- ZspyThVYtHL1JL0Kr1KQudcSJRjqSMpaK0M9h/xP6aCR+MJKTggdPxCZXk8r/C16y48M
- vL+Q==
-X-Gm-Message-State: AOAM533yWNgZjTKolu9bmgsGC4AZ9rsTH9SpyXVyL7GQ0Esb+3Hjvz6D
- uN/4Od0ausxKITCIedECnPgDjV8tgsYSWA==
-X-Google-Smtp-Source: ABdhPJyLyQlBKW419FDUHpRVWUY4yEzF4iJ5MFEjiU+sCrN7AKI65Ln29VAvrZi0xamXvnM5hN0AnA==
-X-Received: by 2002:a05:600c:4ba1:: with SMTP id
- e33mr5144942wmp.81.1626889870394; 
- Wed, 21 Jul 2021 10:51:10 -0700 (PDT)
+ bh=m8THq8WzCRgKITg+03EWQP9WhyH4SA7NlngjIya/AkY=;
+ b=igJoK9hC9aKRHM5jwObylFUzs+ieLEX+dk94lE4X+2ekAyvc+eaQhsDlwOfNtW7bwZ
+ D0PKV5Afp3dV41bUWva3sXMm6fUshq8z/zsL6DoKdF+MgJcu1lANsCpExEnDX4JaGUfk
+ jPx84wNJJNYKnvlhgrxahRR5wpfZ44LBCk++NTZEUbQQGB7DyWFFJRwtmGnkyzEUBSVu
+ uyDlVweymO4gOlREmwioJSajO3iP+kHP5nwxd6E+c31PyF/OvCbWOhEioWlQ3qcU2rjG
+ Dbi9wUTwXr0fiNXxfX36lFL0McJKsSmZH21BdUEw66pxKGPIKJmUjmOhN1FO54NwWgcz
+ 8b+g==
+X-Gm-Message-State: AOAM530kSI6wN5wz20sKOqtKV65n5bK+ZyKbnQ+eTFBOaOy8VQymr9p0
+ 7ZEV19l+iJi3k0gHBI4jZNjpn5IZ13maJw==
+X-Google-Smtp-Source: ABdhPJwOAN7xboiHuONosU38pGc6CXnicEOECaOl204MrZUugIDVYp7h9d8VLxgo2gbvUFOh8zc8Ug==
+X-Received: by 2002:adf:f44d:: with SMTP id f13mr44620607wrp.353.1626889911970; 
+ Wed, 21 Jul 2021 10:51:51 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id r2sm1512811wmh.34.2021.07.21.10.51.09
+ by smtp.gmail.com with ESMTPSA id e6sm513800wme.28.2021.07.21.10.51.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 10:51:09 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 14/23] target/mips: Drop exit checks for
+ Wed, 21 Jul 2021 10:51:51 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 21/23] target/sh4: Drop check for
  singlestep_enabled
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210721064155.645508-1-richard.henderson@linaro.org>
- <20210721064155.645508-15-richard.henderson@linaro.org>
+ <20210721064155.645508-22-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f3667855-7ee8-f8e1-58ee-13333ecba684@amsat.org>
-Date: Wed, 21 Jul 2021 19:51:09 +0200
+Message-ID: <5fbc1dc0-e83a-82fe-6c28-8149ef936777@amsat.org>
+Date: Wed, 21 Jul 2021 19:51:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210721064155.645508-15-richard.henderson@linaro.org>
+In-Reply-To: <20210721064155.645508-22-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -100,8 +98,10 @@ On 7/21/21 8:41 AM, Richard Henderson wrote:
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/mips/tcg/translate.c | 50 +++++++++++++------------------------
->  1 file changed, 18 insertions(+), 32 deletions(-)
+>  target/sh4/helper.h    |  1 -
+>  target/sh4/op_helper.c |  5 -----
+>  target/sh4/translate.c | 14 +++-----------
+>  3 files changed, 3 insertions(+), 17 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
