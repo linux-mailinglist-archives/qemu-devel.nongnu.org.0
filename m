@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2886D3D110A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:19:38 +0200 (CEST)
-Received: from localhost ([::1]:33394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0067C3D1131
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:21:24 +0200 (CEST)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6D4T-0007fr-8I
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45018)
+	id 1m6D6B-0000xy-2G
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m6D1D-0004oD-DK
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m6D1B-0006Xs-1O
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626876972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mYClNOdR/JIh2Kx+APhPJAG9jsgyvg3X4IZEDB/39iM=;
- b=XyBZS/itWVCu6YGIsDHCz+gDJl0QHmwBHxBfbYyOWA19LMTImiSgKkUT5u795KZ2kP9lOk
- 6edzcFnFZrrHsnEQRuCbbV3Z4Ai2Rgwz/RsS/ldjn+J7VybW/add67W3iDFRxLeRFaBKY4
- 7jIJ7NBs1OpTQETUf3A3vLKZcazHARQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-7Dkin_VTMj2lW8KQdxKCfA-1; Wed, 21 Jul 2021 10:16:09 -0400
-X-MC-Unique: 7Dkin_VTMj2lW8KQdxKCfA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDDC1012EB2;
- Wed, 21 Jul 2021 14:16:08 +0000 (UTC)
-Received: from thuth.com (ovpn-112-9.ams2.redhat.com [10.36.112.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 722555D6D1;
- Wed, 21 Jul 2021 14:16:07 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Dmitry Fleytman <dmitry.fleytman@gmail.com>
-Subject: [PATCH] hw/net/vmxnet3: Do not abort QEMU if guest specified bad
- queue numbers
-Date: Wed, 21 Jul 2021 16:15:59 +0200
-Message-Id: <20210721141559.3647945-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m6D1u-0005zQ-GU
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:16:59 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m6D1r-00071E-OP
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:16:57 -0400
+Received: by mail-pf1-x431.google.com with SMTP id d5so754678pfq.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 07:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QdO7OdBIizpD4Gxd+4qWfg0rzFXQ7ElPChBSQFS6aiw=;
+ b=ovJFBEoUdIhxJAWcfD9bs3bcGS/1BELSc2E0ERm5SU32KNTjUu0Ftd7qSWgWBS0BXD
+ tD82k78nd82RiTtCVNrQStEA/xmTotjtVzbgKDhMnZTzjf8bTdpe5JXgu0+DPflNeVWv
+ oQRSXqZqD797ARfPW8++rvEKwkZlrDC0Il2pxicUTSIXPfF+X/LsBQiFNWcSGopqRwoJ
+ rW0y3hs17cxdGgcWumTgbGhLKzz0TJ8OKZr2tpsDdaGItELpfGJ481JLxGI4eZOo644t
+ UTOUMP1rZCkb8xogcPk5xCzJ284azrCb3kN6RCj4A6IgRsjjBJFna4dTyKVLX0iWJkhv
+ EWkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QdO7OdBIizpD4Gxd+4qWfg0rzFXQ7ElPChBSQFS6aiw=;
+ b=a0eDPlo/3hLvPFuu2JchZE9wYon9PHQucIwAMEmEAvhElGXBHhGUXx9OPibyTBuwlV
+ 6rrNWzlTQFCrjRVH51wIrIXqrdEarG/s7/rTNIZaELfW+R/uvMP0I8njir3kVqvIFTvL
+ 1NPkks9PumWElOkafnRtRldNKdwgIyaPAfDL5q5ov27t1NwbwXc4nAwZJuV3IQZICgeA
+ oHJrEOMQx4wRdnpWVPBlzHylMEDzuTcu3usv/ndVmAvB+5zKYkTPKJnyNBilioXA65gO
+ MN0bPmERtUQNtUnWcwagyZ9KnuQ1iDTb6sY6uWqJWWsOEjnM+hBPH9kafATBXY98He6V
+ POkQ==
+X-Gm-Message-State: AOAM532qG7Z8GOpOpzjjpSNWCegzDtbv+I6kUXaOTL/toVUKaPos13Fr
+ vb3vP18lB/vhfK9wCXmEK+lIS5j8C+JrLw==
+X-Google-Smtp-Source: ABdhPJyxdJ+QHlkFczgRl4dz4EK9k6jGYWHmnEAeo6tnkrTGkvgvVGVeMQbwObThcQNcCtoJH32sTQ==
+X-Received: by 2002:a63:c147:: with SMTP id p7mr36561225pgi.415.1626877014045; 
+ Wed, 21 Jul 2021 07:16:54 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.236.27])
+ by smtp.googlemail.com with ESMTPSA id
+ 202sm29694338pfy.198.2021.07.21.07.16.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 07:16:53 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/acpi: some cosmetic improvements to existing code
+Date: Wed, 21 Jul 2021 19:46:10 +0530
+Message-Id: <20210721141610.139310-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::431;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,98 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ jusual@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU should never terminate unexpectedly just because the guest is
-doing something wrong like specifying wrong queue numbers. Let's
-simply refuse to set the device active in this case.
+All existing code using acpi_get_i386_pci_host() checks for a non-null
+return from this function call. This change brings the same check to
+acpi_pcihp_disable_root_bus() function. Also adds a comment describing
+why we unconditionally pass a truth value to the last argument when calling
+acpi_pcihp_reset() from ich9 platform.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890160
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/net/vmxnet3.c | 34 ++++++++++++++++++++++------------
- 1 file changed, 22 insertions(+), 12 deletions(-)
+ hw/acpi/ich9.c  | 1 +
+ hw/acpi/pcihp.c | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index f6bd8c53b1..41f796a247 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -1381,7 +1381,7 @@ static void vmxnet3_validate_interrupts(VMXNET3State *s)
-     }
- }
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 778e27b659..58d8430eb9 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -281,6 +281,7 @@ static void pm_reset(void *opaque)
+     pm->smi_en_wmask = ~0;
  
--static void vmxnet3_validate_queues(VMXNET3State *s)
-+static bool vmxnet3_validate_queues(VMXNET3State *s)
- {
-     /*
-     * txq_num and rxq_num are total number of queues
-@@ -1390,12 +1390,18 @@ static void vmxnet3_validate_queues(VMXNET3State *s)
-     */
- 
-     if (s->txq_num > VMXNET3_DEVICE_MAX_TX_QUEUES) {
--        hw_error("Bad TX queues number: %d\n", s->txq_num);
-+        qemu_log_mask(LOG_GUEST_ERROR, "vmxnet3: Bad TX queues number: %d\n",
-+                      s->txq_num);
-+        return false;
+     if (pm->use_acpi_hotplug_bridge) {
++        /* on root PCIE bus, we always use native or SHPC based hotplug */
+         acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
      }
  
-     if (s->rxq_num > VMXNET3_DEVICE_MAX_RX_QUEUES) {
--        hw_error("Bad RX queues number: %d\n", s->rxq_num);
-+        qemu_log_mask(LOG_GUEST_ERROR, "vmxnet3: Bad RX queues number: %d\n",
-+                      s->rxq_num);
-+        return false;
-     }
-+
-+    return true;
- }
- 
- static void vmxnet3_activate_device(VMXNET3State *s)
-@@ -1419,6 +1425,16 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index f4d706e47d..856c6e1b47 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -136,6 +136,11 @@ static void acpi_pcihp_disable_root_bus(void)
          return;
      }
  
-+    s->txq_num =
-+        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numTxQueues);
-+    s->rxq_num =
-+        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numRxQueues);
-+
-+    VMW_CFPRN("Number of TX/RX queues %u/%u", s->txq_num, s->rxq_num);
-+    if (!vmxnet3_validate_queues(s)) {
++    if (!host) {
++        root_hp_disabled = true;
 +        return;
 +    }
 +
-     vmxnet3_adjust_by_guest_type(s);
-     vmxnet3_update_features(s);
-     vmxnet3_update_pm_state(s);
-@@ -1445,14 +1461,6 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-         VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.intrConf.autoMask);
-     VMW_CFPRN("Automatic interrupt masking is %d", (int)s->auto_int_masking);
- 
--    s->txq_num =
--        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numTxQueues);
--    s->rxq_num =
--        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numRxQueues);
--
--    VMW_CFPRN("Number of TX/RX queues %u/%u", s->txq_num, s->rxq_num);
--    vmxnet3_validate_queues(s);
--
-     qdescr_table_pa =
-         VMXNET3_READ_DRV_SHARED64(d, s->drv_shmem, devRead.misc.queueDescPA);
-     VMW_CFPRN("TX queues descriptors table is at 0x%" PRIx64, qdescr_table_pa);
-@@ -2404,7 +2412,9 @@ static int vmxnet3_post_load(void *opaque, int version_id)
-         }
-     }
- 
--    vmxnet3_validate_queues(s);
-+    if (!vmxnet3_validate_queues(s)) {
-+        return -1;
-+    }
-     vmxnet3_validate_interrupts(s);
- 
-     return 0;
+     bus = PCI_HOST_BRIDGE(host)->bus;
+     if (bus) {
+         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
 -- 
-2.27.0
+2.25.1
 
 
