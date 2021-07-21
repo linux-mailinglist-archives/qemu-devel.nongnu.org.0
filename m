@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6C13D0C8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:50:00 +0200 (CEST)
-Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137893D0C83
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:44:05 +0200 (CEST)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m69nb-0005Im-VC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52152)
+	id 1m69hs-0000t0-43
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m69SE-0008Ru-Eu
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m69SA-0007n6-PP
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:27:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626863269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7TiYGdZN0KuiKydvkcwjwTepRs5JIATDP4evOOBaE2k=;
- b=MAGj6kYrLbWcIjyDY8YtFmHktSwlSVtqEjBWgVa30xkwBlP/4TIuyiTBVpyMDW+MtDl2cQ
- nqlpW0eeEl17DStD2l+CJsXk0sstQILB7846QPSXNdM7TAWXvQVMKu8E2POh/OpeAZQnl2
- dMvc3+I1G9MaqCLbnMRC7irm7Mfho5k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-Or-ZN2VDMlSL5p_SGl8kZw-1; Wed, 21 Jul 2021 06:27:48 -0400
-X-MC-Unique: Or-ZN2VDMlSL5p_SGl8kZw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o21-20020a05600c4fd5b029023448cbd285so415174wmq.2
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 03:27:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m69YA-0005xt-GI
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:34:02 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m69Y8-0003Gf-6Y
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:34:01 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id d12so1591532wre.13
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 03:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=SqvKsJwN2HWXkSVMCMqD1vbf1E4ob7g5jitppwCoxcI=;
+ b=idB/E2vS80Ml8q1FVz4y3buJlKhVGNlNwSD4YlAIisZE52glqghhD55cx2QOR7arnV
+ EiRAcY1rkh2weXnSz1dTWYsd2U7mt9dddziCpWAa9rcwMdsHeMX8RFKygEO5ejlAZK79
+ uhpuIX1p/Z7GrBhCUgnfcWeU1lyEO74a7s/70VVrunURRwIMH3QWDO9aKiqG/w24kX/c
+ b+bRlG4HH47+KwmyUMHcJ3RJr08IAsqHGrduApNv9SPH0p+jlqE8/xJKYE7Ii4Pe1s6r
+ 9wGUpMytcvt0elkIm9ozdr1GiX7KwjI6m3Y7c1+ucgDjXY+XyWjjJ6t19sTx9Yb9vvTx
+ hKKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=7TiYGdZN0KuiKydvkcwjwTepRs5JIATDP4evOOBaE2k=;
- b=aHTQXHEnU1VMzep/+jyRXwXXpVfrnrpr7kOyaA0gPH88Uye64Jsf2adlcJDLdKqLCT
- hU/rxv07KVeT2J2dJWYT+qKJM91dTv+r+xio/D9wlp5X5sRaiNPnnnmc7UP9tThe3z05
- eo9hLGESHiAzgaN9cxGyL6ncN56ThlgRyVaXqQVEVAcsL2Jxu0QPVbm7y2TZL4tTlNoB
- GJ57ZCZxruASZ4zP7jBv0QEbKZDrh9kzzdo8qiooHBTZc3R/6HmfD5R018DaPocwH21y
- Up9ZENbf19mOpRiSlmt8rannQd39THGN8Jj1udF30j2RnXim/FLZnihvV+yu4glYrwo+
- kwNQ==
-X-Gm-Message-State: AOAM531csdaRNGo2Afk4EVdtMxo+aojQR4ILj/lrrnAkDmm+aNvF6tO/
- cBSuDGz659fQWel6pO4GZtle4jzeIcBemtWRH9SNOIYC56imooIsMYKpLqVNxJjLPqZ1J5FMyLF
- olrpS7n1OWRBeXVA=
-X-Received: by 2002:adf:fd11:: with SMTP id e17mr42211097wrr.309.1626863266846; 
- Wed, 21 Jul 2021 03:27:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcbdYC+AWoFQCdUveqs6LEao2D5/oOJcWsdecp6lSt0QJVjpBu3/mZAcigX/RbFWlDBAXwgg==
-X-Received: by 2002:adf:fd11:: with SMTP id e17mr42211075wrr.309.1626863266631; 
- Wed, 21 Jul 2021 03:27:46 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id m187sm26742827wmm.16.2021.07.21.03.27.46
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=SqvKsJwN2HWXkSVMCMqD1vbf1E4ob7g5jitppwCoxcI=;
+ b=D1fTpEqFjmMqdWBqmHxllFSYhi4CYMa9wmn6+ui5S7Qo2t+Wo+SAMjlEXvKhqpI/OM
+ mxrtiuuzlbksXOjKpfC0b60zihSYS8m90RPL89lhce+l0tYTBOhZUG3vAkPOisJUVYsq
+ DsfujGBIVCkMZlF85J/jw5tpqGLdpWzeiQqd02Lo5Xm29z5splslGKd7kK7AsQ6Rkdci
+ ilX/aEZkhJIY1QebG/nObZAPJIX7GiXFYM51iyTzuK1Gj3Z5t6u0O+uGmRz7gHtXAXpB
+ 6a9LWYUFNs1M8PK0ftRkJ/qfhW7ZPFnEuXkxJEjzMIlCKiI05n8rkRQzSFZ2mPTJlkT7
+ GUxQ==
+X-Gm-Message-State: AOAM530CYHaxurtE2UPa2YdNvZy/DSiZDLOI8l7BeBTcjFgq4uaYRcIZ
+ RpxwuJzkYCR9oUxcIjtkmam+KQ==
+X-Google-Smtp-Source: ABdhPJw5JRRoaVzPvjTZJD8sCa8dw7+emsUo9upoBANgYKcTIs9x6dWUlBUj+WtPTcZA74+fay9Jbw==
+X-Received: by 2002:a05:6000:1248:: with SMTP id
+ j8mr41811062wrx.391.1626863638894; 
+ Wed, 21 Jul 2021 03:33:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k22sm21146622wms.47.2021.07.21.03.33.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 03:27:46 -0700 (PDT)
-Date: Wed, 21 Jul 2021 11:27:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 4/5] migration: Teach QEMUFile to be QIOChannel-aware
-Message-ID: <YPf2oCUmObpCkMeG@work-vm>
-References: <20210721012134.792845-1-peterx@redhat.com>
- <20210721012134.792845-5-peterx@redhat.com>
+ Wed, 21 Jul 2021 03:33:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 247481FF7E;
+ Wed, 21 Jul 2021 11:33:57 +0100 (BST)
+References: <20210720195439.626594-1-richard.henderson@linaro.org>
+ <20210720195439.626594-9-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH for-6.1 v6 08/17] hw/core: Introduce
+ TCGCPUOps.debug_check_breakpoint
+Date: Wed, 21 Jul 2021 11:33:51 +0100
+In-reply-to: <20210720195439.626594-9-richard.henderson@linaro.org>
+Message-ID: <87eebsklbe.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210721012134.792845-5-peterx@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,133 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> migration uses QIOChannel typed qemufiles.  In follow up patches, we'll need
-> the capability to identify this fact, so that we can get the backing QIOChannel
-> from a QEMUFile.
-> 
-> We can also define types for QEMUFile but so far since we only need to be able
-> to identify QIOChannel, introduce a boolean which is simpler.
-> 
-> No functional change.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-This is messy but I can't see another quick way; the better way would be
-to add an OBJECT or QIOCHannel wrapper for BlockDriverState.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> New hook to return true when an architectural breakpoint is
+> to be recognized and false when it should be suppressed.
+>
+> First use must wait until other pieces are in place.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> ---
->  migration/qemu-file-channel.c | 4 ++--
->  migration/qemu-file.c         | 5 ++++-
->  migration/qemu-file.h         | 2 +-
->  migration/ram.c               | 2 +-
->  migration/savevm.c            | 4 ++--
->  5 files changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 867a5ed0c3..2f8b1fcd46 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -187,11 +187,11 @@ static const QEMUFileOps channel_output_ops = {
->  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
->  {
->      object_ref(OBJECT(ioc));
-> -    return qemu_fopen_ops(ioc, &channel_input_ops);
-> +    return qemu_fopen_ops(ioc, &channel_input_ops, true);
->  }
->  
->  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
->  {
->      object_ref(OBJECT(ioc));
-> -    return qemu_fopen_ops(ioc, &channel_output_ops);
-> +    return qemu_fopen_ops(ioc, &channel_output_ops, true);
->  }
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 1eacf9e831..ada58c94dd 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -55,6 +55,8 @@ struct QEMUFile {
->      Error *last_error_obj;
->      /* has the file has been shutdown */
->      bool shutdown;
-> +    /* Whether opaque points to a QIOChannel */
-> +    bool has_ioc;
->  };
->  
->  /*
-> @@ -101,7 +103,7 @@ bool qemu_file_mode_is_not_valid(const char *mode)
->      return false;
->  }
->  
-> -QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops)
-> +QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc)
->  {
->      QEMUFile *f;
->  
-> @@ -109,6 +111,7 @@ QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops)
->  
->      f->opaque = opaque;
->      f->ops = ops;
-> +    f->has_ioc = has_ioc;
->      return f;
->  }
->  
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index a9b6d6ccb7..80d0e79fd1 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -119,7 +119,7 @@ typedef struct QEMUFileHooks {
->      QEMURamSaveFunc *save_page;
->  } QEMUFileHooks;
->  
-> -QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops);
-> +QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc);
->  void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
->  int qemu_get_fd(QEMUFile *f);
->  int qemu_fclose(QEMUFile *f);
-> diff --git a/migration/ram.c b/migration/ram.c
-> index b5fc454b2f..f2a86f9971 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -550,7 +550,7 @@ static int compress_threads_save_setup(void)
->          /* comp_param[i].file is just used as a dummy buffer to save data,
->           * set its ops to empty.
->           */
-> -        comp_param[i].file = qemu_fopen_ops(NULL, &empty_ops);
-> +        comp_param[i].file = qemu_fopen_ops(NULL, &empty_ops, false);
->          comp_param[i].done = true;
->          comp_param[i].quit = false;
->          qemu_mutex_init(&comp_param[i].mutex);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 72848b946c..96b5e5d639 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -168,9 +168,9 @@ static const QEMUFileOps bdrv_write_ops = {
->  static QEMUFile *qemu_fopen_bdrv(BlockDriverState *bs, int is_writable)
->  {
->      if (is_writable) {
-> -        return qemu_fopen_ops(bs, &bdrv_write_ops);
-> +        return qemu_fopen_ops(bs, &bdrv_write_ops, false);
->      }
-> -    return qemu_fopen_ops(bs, &bdrv_read_ops);
-> +    return qemu_fopen_ops(bs, &bdrv_read_ops, false);
->  }
->  
->  
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
