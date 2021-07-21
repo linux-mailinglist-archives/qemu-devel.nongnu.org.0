@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF5B3D17E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:24:22 +0200 (CEST)
-Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612253D17DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:18:39 +0200 (CEST)
+Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6IlS-0005Uz-11
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
+	id 1m6Ifu-0001g2-Eq
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOU-00032K-VJ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:38 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39773)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m6IQv-0000GK-JW
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:03:09 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:34321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOS-00064W-PR
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:38 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- k4-20020a17090a5144b02901731c776526so511643pjm.4
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zLV+SXNQp2xsmnQvSIHnLL5fnwmzEtBufgQQMvoXHhI=;
- b=MKR0GHW3cCfINzRj//sWpgHum4HwVXclWQJmeP10RFM0vTbyTDsWTqui44YMIToM61
- ZOp+z1yiGGVzXp4tLNv3cBUhNGYBjTvT7CkI5cp/+g55/JTpXS4EFXCoEIkeSImQskmw
- qI7FTzk6VGK26B64kDmqNzvXPPa00cUXMdmyW0dEo9YBBtWss+DM8LMrQob2VMw6n/v/
- ajKSOO5wNo4wdjpjwQg0H02qL7l5ThTApSeuFLbJeQ1uX9iWOZ4netKTqB/IR84xp1xw
- AHAkEiaL3rKXJPQCE8GkaxZUcUGN3vbXdgNJoZr91/XXUrESqpb8sVBq/ujXjlxVr+sx
- cbUw==
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m6IQs-0007ZV-Vo
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:03:09 -0400
+Received: by mail-io1-xd36.google.com with SMTP id g22so3769385iom.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:03:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BrWdDIUarzMp9Hd6Ja31J2qAUr16jMaBIlsrMGDODDk=;
+ b=dZ5brRjQod2xdt56GkR7koGK6/WgoGRh8z0VyrjyvR5gEhY24sFbxLrHY3T3tLjiA9
+ l7qTyT/GqPQ/nZQKm47XGh91tsD9T82IrwHMcKdv9LcdoeIs/LhwPVNiqSYPnkcqyqP0
+ aON0J8e+XKEx/YNQH/lhXKSM6wDgHMKgbghk9ghN6p9rzHa/qyn/Pf4VYRSCjd0TFwbp
+ YeG61robjyc68B0QnLf59raYF7cH0Z4F/BxEGZtZ4lDQYO6FqrCPr5Fdjm/O4bYbgTYt
+ FTaqVIDbNRPBXHMAjcPQZsXgXG69Hw1BSkUbsjN7RFXT/s07Mt1rx43mrImQQXAAhNFi
+ Yu+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zLV+SXNQp2xsmnQvSIHnLL5fnwmzEtBufgQQMvoXHhI=;
- b=Ok1qWb7CB5BYI3ZsCo37yo6TSYc3rdGc6RBSz6McIjeDrKXBLlXdINByccqfRekwhS
- ZofmCi47dCEzQz2k3VABzVXB7WIsQEA3Y7PDWpKPl41fpElhgQKil0IRvCD2NxlcR2u5
- A1tf6Rj/UjcJO7FiJhRBBMLXxsJYf8dMj4bat7rh1MGgukWt655l7Dyu+DZaCOTO8X4p
- Goe0XFRswHLp1HjrPvxPTt/R1uKTZCOyL0iF2JE6wwunZO8sU7Pjnzluxcm7txjSzPjG
- CsJepL5HJ0f30F2mQ5GXlB4hsK7OkHASAIgyNVxwqf9MNe24by28Gsd98/ltReAwudKo
- OL/Q==
-X-Gm-Message-State: AOAM5334ZnMvYzEQQ1Nm7ULzYlqVp6JS6lcR4E/xU2tMCI4sE35C6T2C
- Rzk2p426DzJ3rslQt0FbTk/KMSDY3d3Peg==
-X-Google-Smtp-Source: ABdhPJxUu8wpe6VSQwPQMdt7/LqO2o0XwyzgKEUFIMSAxu5zhYr/q99y9BBiiSnuUw9B6QrYVJZw0g==
-X-Received: by 2002:a63:cf0a:: with SMTP id j10mr2819695pgg.4.1626897633994;
- Wed, 21 Jul 2021 13:00:33 -0700 (PDT)
-Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:33 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 27/27] accel/tcg: Record singlestep_enabled in tb->cflags
-Date: Wed, 21 Jul 2021 09:59:54 -1000
-Message-Id: <20210721195954.879535-28-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
-References: <20210721195954.879535-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BrWdDIUarzMp9Hd6Ja31J2qAUr16jMaBIlsrMGDODDk=;
+ b=RLXW1rrK6KnggpPcSv4MeEwErfeKjt1jqdLo9IA8T45C90tQpqv2bZ7JHegDr9unvN
+ 1LwTyNiOAbW+hBZPw0/UJp1g7+oSw0Uy6aqzr3Ms88l+N/IIQZFtEWiytZ6FegJMse6m
+ InGKnfMzvwidHEUnLpU8DCMnvU7FacZDeZj0pEYUmcwHrrEsKUcYcSZ5cGF80/LH/C5X
+ +u4AlesSzrVXZNcTYGJGqrpina6V88NIdvAJtKKHj0iT2sqzufqDOD3JcbiqgcfD5Ctg
+ WwJziyAQC4ztEGy52p4ePHSgrIxYnIkWHqwawqdxUrIIwzSB3PjP42BZCVEq3E7hA+i6
+ T1vQ==
+X-Gm-Message-State: AOAM531XJ0LFt7398RlGTr93tqbrP02zqN8HJYxh/blKEQ6vbczJFmP2
+ ScsRFTfMDzy1YbgGRtDkESB0Zm75+3zEJc9Y1Yg=
+X-Google-Smtp-Source: ABdhPJzcrlgjvnW5ketoaeZC3EH7+aKPgebfRV6XynjbLJiLdXwnlp4YXwJ1uHCPNnijAGg0q3xi0JXlV9U5FZHVT2o=
+X-Received: by 2002:a5d:818d:: with SMTP id u13mr8242175ion.92.1626897785762; 
+ Wed, 21 Jul 2021 13:03:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210717003253.457418-1-jsnow@redhat.com>
+ <CAN6ztm8Evb+848p0TYDn63cxAxQbJ0NcfkSaf9s70rfx9rA22w@mail.gmail.com>
+ <CAFn=p-YciuuRySs1F82ZyP_QGed=fbRZmzH3v7VNtdV-xM-XaA@mail.gmail.com>
+ <CAN6ztm-LKWMZTURfE_q0bWpoXVKGMoqmm2jj4_CTb_kj-kEjYg@mail.gmail.com>
+ <CAFn=p-YgJTWYm5-XNbQMKB2wn33Lrd2wbFRtpPeW0GTakSR0AA@mail.gmail.com>
+In-Reply-To: <CAFn=p-YgJTWYm5-XNbQMKB2wn33Lrd2wbFRtpPeW0GTakSR0AA@mail.gmail.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Thu, 22 Jul 2021 01:32:39 +0530
+Message-ID: <CAN6ztm9tgh=MsrYDBBi9ZcUCWabL+NKf9WeqKJO2e9HB6oHedg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/24] python: introduce Asynchronous QMP package
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009b393405c7a7a808"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,116 +81,404 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set CF_SINGLE_STEP when single-stepping is enabled.
-This avoids the need to flush all tb's when turning
-single-stepping on or off.
+--0000000000009b393405c7a7a808
+Content-Type: text/plain; charset="UTF-8"
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/exec-all.h   | 1 +
- accel/tcg/cpu-exec.c      | 7 ++++++-
- accel/tcg/translate-all.c | 4 ----
- accel/tcg/translator.c    | 7 +------
- cpu.c                     | 4 ----
- 5 files changed, 8 insertions(+), 15 deletions(-)
+On Thu, Jul 22, 2021 at 1:25 AM John Snow <jsnow@redhat.com> wrote:
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 6873cce8df..5d1b6d80fb 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -497,6 +497,7 @@ struct TranslationBlock {
- #define CF_COUNT_MASK    0x000001ff
- #define CF_NO_GOTO_TB    0x00000200 /* Do not chain with goto_tb */
- #define CF_NO_GOTO_PTR   0x00000400 /* Do not chain with goto_ptr */
-+#define CF_SINGLE_STEP   0x00000800 /* gdbstub single-step in effect */
- #define CF_LAST_IO       0x00008000 /* Last insn may be an IO access.  */
- #define CF_MEMI_ONLY     0x00010000 /* Only instrument memory ops */
- #define CF_USE_ICOUNT    0x00020000
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 5cc6363f4c..fc895cf51e 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -150,10 +150,15 @@ uint32_t curr_cflags(CPUState *cpu)
-     uint32_t cflags = cpu->tcg_cflags;
- 
-     /*
-+     * Record gdb single-step.  We should be exiting the TB by raising
-+     * EXCP_DEBUG, but to simplify other tests, disable chaining too.
-+     *
-      * For singlestep and -d nochain, suppress goto_tb so that
-      * we can log -d cpu,exec after every TB.
-      */
--    if (singlestep) {
-+    if (unlikely(cpu->singlestep_enabled)) {
-+        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR | CF_SINGLE_STEP | 1;
-+    } else if (singlestep) {
-         cflags |= CF_NO_GOTO_TB | 1;
-     } else if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
-         cflags |= CF_NO_GOTO_TB;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bf82c15aab..bbfcfb698c 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1432,10 +1432,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     }
-     QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
- 
--    if (cpu->singlestep_enabled) {
--        max_insns = 1;
--    }
--
-  buffer_overflow:
-     tb = tcg_tb_alloc(tcg_ctx);
-     if (unlikely(!tb)) {
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index b45337f3ba..c53a7f8e44 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -38,11 +38,6 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
-         return false;
-     }
- 
--    /* Suppress goto_tb in the case of single-steping.  */
--    if (db->singlestep_enabled) {
--        return false;
--    }
--
-     /* Check for the dest on the same page as the start of the TB.  */
-     return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;
- }
-@@ -60,7 +55,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-     db->is_jmp = DISAS_NEXT;
-     db->num_insns = 0;
-     db->max_insns = max_insns;
--    db->singlestep_enabled = cpu->singlestep_enabled;
-+    db->singlestep_enabled = cflags & CF_SINGLE_STEP;
- 
-     ops->init_disas_context(db, cpu);
-     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
-diff --git a/cpu.c b/cpu.c
-index d6ae5ae581..e1799a15bc 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -326,10 +326,6 @@ void cpu_single_step(CPUState *cpu, int enabled)
-         cpu->singlestep_enabled = enabled;
-         if (kvm_enabled()) {
-             kvm_update_guest_debug(cpu, 0);
--        } else {
--            /* must flush all the translated code to avoid inconsistencies */
--            /* XXX: only flush what is necessary */
--            tb_flush(cpu);
-         }
-         trace_breakpoint_singlestep(cpu->cpu_index, enabled);
-     }
--- 
-2.25.1
+> Looping qemu-devel back in: I removed them by accident by not hitting
+> reply-all :(
+>
+> On Wed, Jul 21, 2021 at 2:06 PM Niteesh G. S. <niteesh.gs@gmail.com>
+> wrote:
+>
+>>
+>>
+>> On Wed, Jul 21, 2021 at 11:03 PM John Snow <jsnow@redhat.com> wrote:
+>>
+>>>
+>>>
+>>> On Wed, Jul 21, 2021 at 1:04 PM Niteesh G. S. <niteesh.gs@gmail.com>
+>>> wrote:
+>>>
+>>>> Hello all,
+>>>>
+>>>> I recently rebased(incrementally) my TUI on this V2 patch and faced an
+>>>> issue.
+>>>> https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v3
+>>>> I decided to rebase incrementally so that I can address some of the
+>>>> comments posted
+>>>> in my patch series. While testing out, the initial draft of TUI
+>>>> which worked fine in the V1
+>>>> version of AQMP failed in this version.
+>>>>
+>>>> Disconnecting from a fully connected state doesn't exit cleanly.
+>>>>
+>>>> ---------------------------------------------------------------------------------
+>>>> To reproduce the issue:
+>>>> 1) Initiate a QMP server
+>>>>
+>>>
+>>> Please provide the command line.
+>>>
+>> qemu-system-x86_64 -qmp tcp:localhost:1234,server,wait=on
+>>
+>>>
+>>>
+>>>> 2) Connect the TUI to the server using aqmp-tui localhost:1234
+>>>> --log-file log.txt
+>>>>
+>>>
+>>> The entry point isn't defined yet in your series, so I will assume
+>>> "python3 -m qemu.aqmp.aqmp_tui localhost:1234" should work here.
+>>>
+>> Yup, sorry about that. I realized this later when recreated the venv.
+>>
+>>>
+>>>
+>>>> 3) Once the TUI is connected and running, press 'Esc' to exit the app.
+>>>> This should result
+>>>> in the following exception.
+>>>>
+>>>> --------------------------------------------------------------------------------------------------------------------------------------------
+>>>> Transitioning from 'Runstate.IDLE' to 'Runstate.CONNECTING'.
+>>>> Connecting to ('localhost', 1234) ...
+>>>> Connected.
+>>>> Awaiting greeting ...
+>>>> Response: {
+>>>>   "QMP": {
+>>>>     .......... Skipping
+>>>>   }
+>>>> }
+>>>> Negotiating capabilities ...
+>>>> Request: {
+>>>>   "execute": "qmp_capabilities",
+>>>>     .......... Skipping
+>>>>   }
+>>>> }
+>>>> Response: {
+>>>>   "return": {}
+>>>> }
+>>>> Transitioning from 'Runstate.CONNECTING' to 'Runstate.RUNNING'.
+>>>> Transitioning from 'Runstate.RUNNING' to 'Runstate.DISCONNECTING'.
+>>>> Scheduling disconnect.
+>>>> Draining the outbound queue ...
+>>>> Flushing the StreamWriter ...
+>>>> Cancelling writer task ...
+>>>> Task.Writer: cancelled.
+>>>> Task.Writer: exiting.
+>>>> Cancelling reader task ...
+>>>> Task.Reader: cancelled.
+>>>> Task.Reader: exiting.
+>>>> Closing StreamWriter.
+>>>> Waiting for StreamWriter to close ...
+>>>> QMP Disconnected.
+>>>> Transitioning from 'Runstate.DISCONNECTING' to 'Runstate.IDLE'.
+>>>> _kill_app: Connection lost
+>>>> Connection lost
+>>>>   | Traceback (most recent call last):
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/aqmp_tui.py", line 246, in
+>>>> run
+>>>>   |     main_loop.run()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/.venv/lib/python3.6/site-packages/urwid/main_loop.py",
+>>>> line 287, in run
+>>>>   |     self._run()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/.venv/lib/python3.6/site-packages/urwid/main_loop.py",
+>>>> line 385, in _run
+>>>>   |     self.event_loop.run()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/.venv/lib/python3.6/site-packages/urwid/main_loop.py",
+>>>> line 1494, in run
+>>>>   |     reraise(*exc_info)
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/.venv/lib/python3.6/site-packages/urwid/compat.py",
+>>>> line 58, in reraise
+>>>>   |     raise value
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/aqmp_tui.py", line 206, in
+>>>> _kill_app
+>>>>   |     raise err
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/aqmp_tui.py", line 201, in
+>>>> _kill_app
+>>>>   |     await self.disconnect()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/protocol.py", line 303, in
+>>>> disconnect
+>>>>   |     await self._wait_disconnect()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/protocol.py", line 573, in
+>>>> _wait_disconnect
+>>>>   |     await self._dc_task
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/qmp_client.py", line 316,
+>>>> in _bh_disconnect
+>>>>   |     await super()._bh_disconnect()
+>>>>   |   File
+>>>> "/home/niteesh/development/qemu/python/qemu/aqmp/protocol.py", line 644, in
+>>>> _bh_disconnect
+>>>>   |     await wait_closed(self._writer)
+>>>>   |   File "/home/niteesh/development/qemu/python/qemu/aqmp/util.py",
+>>>> line 137, in wait_closed
+>>>>   |     await flush(writer)
+>>>>   |   File "/home/niteesh/development/qemu/python/qemu/aqmp/util.py",
+>>>> line 49, in flush
+>>>>   |     await writer.drain()
+>>>>   |   File "/usr/lib/python3.6/asyncio/streams.py", line 339, in drain
+>>>>   |     yield from self._protocol._drain_helper()
+>>>>   |   File "/usr/lib/python3.6/asyncio/streams.py", line 210, in
+>>>> _drain_helper
+>>>>   |     raise ConnectionResetError('Connection lost')
+>>>>   | ConnectionResetError: Connection lost
+>>>>
+>>>> --------------------------------------------------------------------------------------------------------------------------------------------
+>>>>
+>>>>
+>>> I can't reproduce in Python 3.9, but I *can* reproduce in python 3.6
+>>> using the pipenv environment; i.e.
+>>>
+>>> > make check-pipenv
+>>> > pipenv shell
+>>> > python3 -m qemu.aqmp.aqmp_tui 127.0.0.1:1234
+>>>
+>>> What python version are you using to see this failure? Is it 3.6 ?
+>>>
+>> Yes, I was using python 3.6. I just tried it on 3.8 and I don't face this
+>> issue.
+>>
+>>>
+>>> It seems like the wait_closed() wrapper I wrote isn't quite compatible
+>>> with Python 3.6, it looks like it's not really safe to try and flush a
+>>> closing socket. I was doing so in an attempt to tell when the socket had
+>>> finished closing out its buffer (expecting it to normally be a no-op) but
+>>> in this case even a no-op drain in 3.6 seems to raise an error if we
+>>> attempt it after we've asked for the socket to close.
+>>>
+>>
+>>
+>>> wait_closed() was added in Python 3.7 and we just don't have access to
+>>> it here ... I'm not sure if there's something else we can do here to serve
+>>> as a workaround for not having this function.
+>>>
+>>> --js
+>>>
+>>>
+> I can't find a *nice* workaround, but I found one that should probably
+> work in most universes. We can remove this ugly code when we support 3.7 as
+> a minimum. However, please try this patch as a fixup:
+>
+> diff --git a/python/qemu/aqmp/util.py b/python/qemu/aqmp/util.py
+> index de0df44cbd7..eaa5fc7d5f9 100644
+> --- a/python/qemu/aqmp/util.py
+> +++ b/python/qemu/aqmp/util.py
+> @@ -134,7 +134,17 @@ async def wait_closed(writer: asyncio.StreamWriter)
+> -> None:
+>
+>      while not transport.is_closing():
+>          await asyncio.sleep(0)
+> -    await flush(writer)
+> +
+> +    # This is an ugly workaround, but it's the best I can come up with.
+> +    sock = transport.get_extra_info('socket')
+> +
+> +    if sock is None:
+> +        # Our transport doesn't have a socket? ...
+> +        # Nothing we can reasonably do.
+> +        return
+> +
+> +    while sock.fileno() != -1:
+> +        await asyncio.sleep(0)
+>
+Thanks for the patch. I am now able to disconnect/quit without any
+exceptions.
 
+Thanks,
+Niteesh.
+
+>
+>
+>
+
+--0000000000009b393405c7a7a808
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Thu, Jul 22, 2021 at 1:25 AM John Snow &lt;<a hr=
+ef=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Loopin=
+g qemu-devel back in: I removed them by accident by not hitting reply-all :=
+(<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Wed, Jul 21, 2021 at 2:06 PM Niteesh G. S. &lt;<a href=3D"mailto:ni=
+teesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
+<div dir=3D"ltr"><div style=3D"font-size:small"><br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 21, 2=
+021 at 11:03 PM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D=
+"_blank">jsnow@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul =
+21, 2021 at 1:04 PM Niteesh G. S. &lt;<a href=3D"mailto:niteesh.gs@gmail.co=
+m" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div style=3D"fon=
+t-size:small">Hello all,</div><div style=3D"font-size:small"><br></div><div=
+ style=3D"font-size:small">I recently rebased(incrementally) my TUI on this=
+ V2 patch and faced an issue.</div><div style=3D"font-size:small"><a href=
+=3D"https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v3" tar=
+get=3D"_blank">https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-protot=
+ype-v3</a><br>I decided to rebase incrementally so that I can address some =
+of the comments posted</div><div style=3D"font-size:small">in my patch seri=
+es. While testing out, the initial=C2=A0draft of TUI which=C2=A0worked fine=
+ in the V1</div><div style=3D"font-size:small">version of AQMP failed in th=
+is version.</div><div style=3D"font-size:small"><br></div><div style=3D"fon=
+t-size:small">Disconnecting from a fully connected state doesn&#39;t exit c=
+leanly.</div><div style=3D"font-size:small">-------------------------------=
+--------------------------------------------------</div><div style=3D"font-=
+size:small">To reproduce the issue:</div><div style=3D"font-size:small">1) =
+Initiate a QMP server</div></div></blockquote><div><br></div><div>Please pr=
+ovide the command line.<br></div></div></div></blockquote><div><span class=
+=3D"gmail_default" style=3D"font-size:small"></span>qemu-system-x86_64 -qmp=
+ tcp:localhost:1234,server,wait=3Don</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
+"ltr"><div style=3D"font-size:small">2) Connect the TUI to the server using=
+ aqmp-tui=C2=A0localhost:1234 --log-file log.txt</div></div></blockquote><d=
+iv><br></div><div>The entry point isn&#39;t defined yet in your series, so =
+I will assume &quot;python3 -m qemu.aqmp.aqmp_tui localhost:1234&quot; shou=
+ld work here.<br></div></div></div></blockquote><div><span class=3D"gmail_d=
+efault" style=3D"font-size:small">Yup, sorry about that. I realized this la=
+ter when recreated the venv.</span>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div style=3D"font-size:small">3) Once the TUI is connected and =
+running, press &#39;Esc&#39; to exit the app. This should result</div><div =
+style=3D"font-size:small">in the following exception.</div><div style=3D"fo=
+nt-size:small">------------------------------------------------------------=
+---------------------------------------------------------------------------=
+-----</div><div style=3D"font-size:small">Transitioning from &#39;Runstate.=
+IDLE&#39; to &#39;Runstate.CONNECTING&#39;.<br>Connecting to (&#39;localhos=
+t&#39;, 1234) ...<br>Connected.<br>Awaiting greeting ...<br>Response: {<br>=
+=C2=A0 &quot;QMP&quot;: {<br>=C2=A0 =C2=A0 .......... Skipping<br>=C2=A0 }<=
+br>}<br>Negotiating capabilities ...<br>Request: {<br>=C2=A0 &quot;execute&=
+quot;: &quot;qmp_capabilities&quot;,<br>=C2=A0 =C2=A0 .......... Skipping<b=
+r>=C2=A0 }<br>}<br>Response: {<br>=C2=A0 &quot;return&quot;: {}<br>}<br>Tra=
+nsitioning from &#39;Runstate.CONNECTING&#39; to &#39;Runstate.RUNNING&#39;=
+.<br>Transitioning from &#39;Runstate.RUNNING&#39; to &#39;Runstate.DISCONN=
+ECTING&#39;.<br>Scheduling disconnect.<br>Draining the outbound queue ...<b=
+r>Flushing the StreamWriter ...<br>Cancelling writer task ...<br>Task.Write=
+r: cancelled.<br>Task.Writer: exiting.<br>Cancelling reader task ...<br>Tas=
+k.Reader: cancelled.<br>Task.Reader: exiting.<br>Closing StreamWriter.<br>W=
+aiting for StreamWriter to close ...<br>QMP Disconnected.<br>Transitioning =
+from &#39;Runstate.DISCONNECTING&#39; to &#39;Runstate.IDLE&#39;.<br>_kill_=
+app: Connection lost<br>Connection lost<br>=C2=A0 | Traceback (most recent =
+call last):<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/development/qemu/py=
+thon/qemu/aqmp/aqmp_tui.py&quot;, line 246, in run<br>=C2=A0 | =C2=A0 =C2=
+=A0 main_loop.run()<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/development=
+/qemu/python/.venv/lib/python3.6/site-packages/urwid/main_loop.py&quot;, li=
+ne 287, in run<br>=C2=A0 | =C2=A0 =C2=A0 self._run()<br>=C2=A0 | =C2=A0 Fil=
+e &quot;/home/niteesh/development/qemu/python/.venv/lib/python3.6/site-pack=
+ages/urwid/main_loop.py&quot;, line 385, in _run<br>=C2=A0 | =C2=A0 =C2=A0 =
+self.event_loop.run()<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/developme=
+nt/qemu/python/.venv/lib/python3.6/site-packages/urwid/main_loop.py&quot;, =
+line 1494, in run<br>=C2=A0 | =C2=A0 =C2=A0 reraise(*exc_info)<br>=C2=A0 | =
+=C2=A0 File &quot;/home/niteesh/development/qemu/python/.venv/lib/python3.6=
+/site-packages/urwid/compat.py&quot;, line 58, in reraise<br>=C2=A0 | =C2=
+=A0 =C2=A0 raise value<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/developm=
+ent/qemu/python/qemu/aqmp/aqmp_tui.py&quot;, line 206, in _kill_app<br>=C2=
+=A0 | =C2=A0 =C2=A0 raise err<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/d=
+evelopment/qemu/python/qemu/aqmp/aqmp_tui.py&quot;, line 201, in _kill_app<=
+br>=C2=A0 | =C2=A0 =C2=A0 await self.disconnect()<br>=C2=A0 | =C2=A0 File &=
+quot;/home/niteesh/development/qemu/python/qemu/aqmp/protocol.py&quot;, lin=
+e 303, in disconnect<br>=C2=A0 | =C2=A0 =C2=A0 await self._wait_disconnect(=
+)<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/development/qemu/python/qemu/=
+aqmp/protocol.py&quot;, line 573, in _wait_disconnect<br>=C2=A0 | =C2=A0 =
+=C2=A0 await self._dc_task<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/deve=
+lopment/qemu/python/qemu/aqmp/qmp_client.py&quot;, line 316, in _bh_disconn=
+ect<br>=C2=A0 | =C2=A0 =C2=A0 await super()._bh_disconnect()<br>=C2=A0 | =
+=C2=A0 File &quot;/home/niteesh/development/qemu/python/qemu/aqmp/protocol.=
+py&quot;, line 644, in _bh_disconnect<br>=C2=A0 | =C2=A0 =C2=A0 await wait_=
+closed(self._writer)<br>=C2=A0 | =C2=A0 File &quot;/home/niteesh/developmen=
+t/qemu/python/qemu/aqmp/util.py&quot;, line 137, in wait_closed<br>=C2=A0 |=
+ =C2=A0 =C2=A0 await flush(writer)<br>=C2=A0 | =C2=A0 File &quot;/home/nite=
+esh/development/qemu/python/qemu/aqmp/util.py&quot;, line 49, in flush<br>=
+=C2=A0 | =C2=A0 =C2=A0 await writer.drain()<br>=C2=A0 | =C2=A0 File &quot;/=
+usr/lib/python3.6/asyncio/streams.py&quot;, line 339, in drain<br>=C2=A0 | =
+=C2=A0 =C2=A0 yield from self._protocol._drain_helper()<br>=C2=A0 | =C2=A0 =
+File &quot;/usr/lib/python3.6/asyncio/streams.py&quot;, line 210, in _drain=
+_helper<br>=C2=A0 | =C2=A0 =C2=A0 raise ConnectionResetError(&#39;Connectio=
+n lost&#39;)<br>=C2=A0 | ConnectionResetError: Connection lost<br><div>----=
+---------------------------------------------------------------------------=
+-------------------------------------------------------------</div></div><d=
+iv style=3D"font-size:small"><br></div></div></blockquote><div><br></div><d=
+iv>I can&#39;t reproduce in Python 3.9, but I *can* reproduce in python 3.6=
+ using the pipenv environment; i.e.</div><div><br></div><div>&gt; make chec=
+k-pipenv</div><div>&gt; pipenv shell</div><div>&gt; python3 -m qemu.aqmp.aq=
+mp_tui <a href=3D"http://127.0.0.1:1234" target=3D"_blank">127.0.0.1:1234</=
+a></div><div><br></div><div>What python version are you using to see this f=
+ailure? Is it 3.6 ?</div></div></div></blockquote><div><span class=3D"gmail=
+_default" style=3D"font-size:small">Yes, I was using python 3.6. I just tri=
+ed it on 3.8 and I don&#39;t face this issue.</span></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
+"><div><br></div><div>It seems like the wait_closed() wrapper I wrote isn&#=
+39;t quite compatible with Python 3.6, it looks like it&#39;s not really sa=
+fe to try and flush a closing socket. I was doing so in an attempt to tell =
+when the socket had finished closing out its buffer (expecting it to normal=
+ly be a no-op) but in this case even a no-op drain in 3.6 seems to raise an=
+ error if we attempt it after we&#39;ve asked for the socket to close.</div=
+></div></div></blockquote><div>=C2=A0</div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>wait_clo=
+sed() was added in Python 3.7 and we just don&#39;t have access to it here =
+... I&#39;m not sure if there&#39;s something else we can do here to serve =
+as a workaround for not having this function.</div><div><br></div><div>--js=
+<br></div><div><br></div></div></div></blockquote></div></div></blockquote>=
+<div><br></div><div>I can&#39;t find a *nice* workaround, but I found one t=
+hat should probably work in most universes. We can remove this ugly code wh=
+en we support 3.7 as a minimum. However, please try this patch as a fixup:<=
+/div><div><br></div><div>diff --git a/python/qemu/aqmp/util.py b/python/qem=
+u/aqmp/util.py<br>index de0df44cbd7..eaa5fc7d5f9 100644<br>--- a/python/qem=
+u/aqmp/util.py<br>+++ b/python/qemu/aqmp/util.py<br>@@ -134,7 +134,17 @@ as=
+ync def wait_closed(writer: asyncio.StreamWriter) -&gt; None:<br>=C2=A0<br>=
+=C2=A0 =C2=A0 =C2=A0while not transport.is_closing():<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0await asyncio.sleep(0)<br>- =C2=A0 =C2=A0await flush(write=
+r)<br>+<br>+ =C2=A0 =C2=A0# This is an ugly workaround, but it&#39;s the be=
+st I can come up with.<br>+ =C2=A0 =C2=A0sock =3D transport.get_extra_info(=
+&#39;socket&#39;)<br>+<br>+ =C2=A0 =C2=A0if sock is None:<br>+ =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0# Our transport doesn&#39;t have a socket? ...<br>+ =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0# Nothing we can reasonably do.<br>+ =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return<br>+<br>+ =C2=A0 =C2=A0while sock.fileno() !=3D -1:<br>+ =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0await asyncio.sleep(0)</div></div></div></blockq=
+uote><div><span class=3D"gmail_default" style=3D"font-size:small">Thanks fo=
+r the patch. I am now able to disconnect/quit without any exceptions.</span=
+></div><div><span class=3D"gmail_default" style=3D"font-size:small"><br></s=
+pan></div><div><span class=3D"gmail_default" style=3D"font-size:small">Than=
+ks,</span></div><div><span class=3D"gmail_default" style=3D"font-size:small=
+">Niteesh.</span>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><br></div><div>=C2=A0<=
+/div></div></div>
+</blockquote></div></div>
+
+--0000000000009b393405c7a7a808--
 
