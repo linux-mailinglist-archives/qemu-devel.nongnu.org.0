@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4973D1051
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 15:58:04 +0200 (CEST)
-Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD803D1136
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 16:22:54 +0200 (CEST)
+Received: from localhost ([::1]:40472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Cjb-0005Q8-MU
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 09:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40024)
+	id 1m6D7d-00045s-NU
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 10:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1m6Cij-0004h5-33
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:57:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1m6Cid-000211-Ic
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:57:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626875821;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=nQ4Jlj9NifxDtg7AluUOS8650jpoaAnBt6TTolok7FI=;
- b=UI2oeEgdYPDn7fA76GQOPoQrTjpHxcVzGAxDjjvIFf7SryBi1Zg75dCQw+s8nyf69IgWqF
- j+j/FrKNqzumxnG6zBaKyYsk8q7ILJb2eKLY11p5RUDwuV7jvzZw9G0mWNhsj5I49+qWhJ
- 5fR/DXEVFhfKL5CfV+yXo3V6dYF3BDo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-u8gVtGtVPqisiuBzEHDWEg-1; Wed, 21 Jul 2021 09:57:00 -0400
-X-MC-Unique: u8gVtGtVPqisiuBzEHDWEg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- i12-20020adffc0c0000b0290140ab4d8389so1053837wrr.10
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 06:57:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=nQ4Jlj9NifxDtg7AluUOS8650jpoaAnBt6TTolok7FI=;
- b=howhiGugfvv+ctl5KhAQH0IFjrA6eBS73Xt+6bEG5T1+bLaZ4a2ssP7RtzJCd7nY0/
- Q3mmIykAkXAUBzIJwxiL01W03cHnSLCX7bNNMicwK3oGGdQiyUlEbrZctGfmqwDkBUn/
- nG47Ck8qdoFzZ3VQ4iWg6hfrA2SUWx/2xiPSZz/Ee7V8FopViaUe1JWj3DYwb1868Ylk
- Qejg9zk41nkD6/AE9kU8KyJYY9L7wJuuB3c/XlTVUQw5P1u1j4M5hUYJ+4Yv4MifxVEn
- 6JrkDsBGj6FaayYc1ILZGwaJP2sMJSVIxXylbw9CjvViLfPhAuCfxqa2xu0T43LwNQR5
- z+9Q==
-X-Gm-Message-State: AOAM532m9pP4o2e0muaM3KOHCBJO6WPPtSF+T55gPS1RQmTZUGdv/Cga
- YBuXQb0Y7mNH2G15gSs/ulDBjOfed0FpRrX07mpO2TSUkR5m9tZNEimx4xz0Z15eVUyZs2E1da7
- L9N3plHbD1BrUHu0=
-X-Received: by 2002:adf:f7cf:: with SMTP id a15mr22850309wrq.95.1626875819447; 
- Wed, 21 Jul 2021 06:56:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBlW1Fmas/PdGE2EnhweIuzfGalh1olxNtcT86BngytbZsidibVzU/JLNx0XlvMYk/pd2swA==
-X-Received: by 2002:adf:f7cf:: with SMTP id a15mr22850280wrq.95.1626875819187; 
- Wed, 21 Jul 2021 06:56:59 -0700 (PDT)
-Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
- by smtp.gmail.com with ESMTPSA id i10sm14470863wml.31.2021.07.21.06.56.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 06:56:58 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v3] failover: unregister ROM on unplug
-In-Reply-To: <20210721093955.225759-1-lvivier@redhat.com> (Laurent Vivier's
- message of "Wed, 21 Jul 2021 11:39:55 +0200")
-References: <20210721093955.225759-1-lvivier@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 21 Jul 2021 15:56:58 +0200
-Message-ID: <87o8avepn9.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <sohu0106@126.com>) id 1m6D6M-0002KC-PD
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:21:34 -0400
+Received: from mail-m965.mail.126.com ([123.126.96.5]:56664)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <sohu0106@126.com>) id 1m6D6H-0001Ul-5v
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 10:21:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=yU65v
+ YM6APh1WOgCheDlA38u0WaYBeEWQdLYIVqzc48=; b=FZc69zuFHxzj3LlZ6+r3y
+ YUAmDUX/cHM0h9AVEReH/vhD1RtgzBPXDEZlAwEBGpyizFVpWjAUT47ZgeuR7W+h
+ XZVDMOZWsKRhJ6weYPDNbKKshbMlGlwGeit1a/q91jrQUHl8SIvsb1g0tL++MJ9K
+ R+HsmOH++obj7ERHK5z7iw=
+Received: from localhost.localdomain (unknown [153.3.131.59])
+ by smtp10 (Coremail) with SMTP id NuRpCgD3o7chJvhgEpzbrQ--.17475S2;
+ Wed, 21 Jul 2021 21:50:27 +0800 (CST)
+From: NAME <sohu0106@126.com>
+To: jiri@resnulli.us,
+	jasowang@redhat.com
+Subject: [RFC] Fix rocker device null pointer crash. qemu config r->fp_ports
+ with "-device rocker,
+ len-ports=10" when guest config port larget then r->fp_ports(10)
+ r->fp_port[port] is null-pointer,
+ qemu will crash null-pointer Reported-by: chenzhe <chenzhe@huawei.com>
+Date: Wed, 21 Jul 2021 19:39:12 +0800
+Message-Id: <20210721113912.14483-1-sohu0106@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: NuRpCgD3o7chJvhgEpzbrQ--.17475S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGry7Aw4ktFykCFWUZry7Jrb_yoW5CF4fpa
+ nYqry2qrZ2kasYqr4jqF1YqFWDJ3WIyFW8Gw40yr1akrZrKFW3Zr10kwn0vFy5Wr9xAFy2
+ ga13GF4DZ390vFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UNBM_UUUUU=
+X-Originating-IP: [153.3.131.59]
+X-CM-SenderInfo: pvrk3iqrqwqiyswou0bp/1tbi3APWHlpEBnwboQAAsJ
+Received-SPF: pass client-ip=123.126.96.5; envelope-from=sohu0106@126.com;
+ helo=mail-m965.mail.126.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,49 +68,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> wrote:
-> The intend of failover is to allow to migrate a VM with a VFIO
-> networking card without disrupting the network operation by switching
-> to a virtio-net device during the migration.
->
-> This simple change allows to test failover with a simulated device
-> like e1000e rather than a vfio device, even if it's useless in real
-> life it can help to debug failover.
->
-> This is interesting to developers that want to test failover on
-> a system with no vfio device. Moreover it simplifies host networking
-> configuration as we can use the same bridge for virtio-net and
-> the other failover networking device.
->
-> Without this change the migration of a system configured with failover
-> fails with:
->
->   ...
->   -device virtio-net-pci,id=virtionet0,failover=on,...  \
->   -device e1000,failover_pair_id=virtionet0,... \
->   ...
->
->   (qemu) migrate ...
->
->   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
->   error while loading state for instance 0x0 of device 'ram'
->   load of migration failed: Invalid argument
->
-> This happens because QEMU correctly unregisters the interface vmstate but
-> not the ROM one. This patch fixes that.
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+From: sohu0106 <sohu0106@126.com>
 
+Signed-off-by: sohu0106 <sohu0106@126.com>
+---
+ hw/net/rocker/rocker.c    | 10 +++++-----
+ hw/net/rocker/rocker_fp.c |  5 +++--
+ hw/net/rocker/rocker_fp.h |  2 +-
+ 3 files changed, 9 insertions(+), 8 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-As this is only for testing.
+diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
+index 31f2340fb9..431af3982f 100644
+--- a/hw/net/rocker/rocker.c
++++ b/hw/net/rocker/rocker.c
+@@ -174,7 +174,7 @@ static int tx_consume(Rocker *r, DescInfo *info)
+     }
+ 
+     pport = rocker_get_pport_by_tx_ring(r, desc_get_ring(info));
+-    if (!fp_port_from_pport(pport, &port)) {
++    if (!fp_port_from_pport(r, pport, &port)) {
+         return -ROCKER_EINVAL;
+     }
+ 
+@@ -287,7 +287,7 @@ static int cmd_get_port_settings(Rocker *r,
+     }
+ 
+     pport = rocker_tlv_get_le32(tlvs[ROCKER_TLV_CMD_PORT_SETTINGS_PPORT]);
+-    if (!fp_port_from_pport(pport, &port)) {
++    if (!fp_port_from_pport(r, pport, &port)) {
+         return -ROCKER_EINVAL;
+     }
+     fp_port = r->fp_port[port];
+@@ -357,7 +357,7 @@ static int cmd_set_port_settings(Rocker *r,
+     }
+ 
+     pport = rocker_tlv_get_le32(tlvs[ROCKER_TLV_CMD_PORT_SETTINGS_PPORT]);
+-    if (!fp_port_from_pport(pport, &port)) {
++    if (!fp_port_from_pport(r, pport, &port)) {
+         return -ROCKER_EINVAL;
+     }
+     fp_port = r->fp_port[port];
+@@ -538,7 +538,7 @@ int rocker_event_mac_vlan_seen(Rocker *r, uint32_t pport, uint8_t *addr,
+     int pos;
+     int err;
+ 
+-    if (!fp_port_from_pport(pport, &port)) {
++    if (!fp_port_from_pport(r, pport, &port)) {
+         return -ROCKER_EINVAL;
+     }
+     fp_port = r->fp_port[port];
+@@ -690,7 +690,7 @@ int rocker_port_eg(Rocker *r, uint32_t pport,
+     FpPort *fp_port;
+     uint32_t port;
+ 
+-    if (!fp_port_from_pport(pport, &port)) {
++    if (!fp_port_from_pport(r, pport, &port)) {
+         return -ROCKER_EINVAL;
+     }
+ 
+diff --git a/hw/net/rocker/rocker_fp.c b/hw/net/rocker/rocker_fp.c
+index cbeed65bd5..45b5020106 100644
+--- a/hw/net/rocker/rocker_fp.c
++++ b/hw/net/rocker/rocker_fp.c
+@@ -108,9 +108,10 @@ int fp_port_set_settings(FpPort *port, uint32_t speed,
+     return ROCKER_OK;
+ }
+ 
+-bool fp_port_from_pport(uint32_t pport, uint32_t *port)
++bool fp_port_from_pport(Rocker *r, uint32_t pport, uint32_t *port)
+ {
+-    if (pport < 1 || pport > ROCKER_FP_PORTS_MAX) {
++    if (pport < 1 || pport > ROCKER_FP_PORTS_MAX ||
++        pport >= rocker_fp_ports(r)) {
+         return false;
+     }
+     *port = pport - 1;
+diff --git a/hw/net/rocker/rocker_fp.h b/hw/net/rocker/rocker_fp.h
+index 7ff57aac01..bd1c2588f6 100644
+--- a/hw/net/rocker/rocker_fp.h
++++ b/hw/net/rocker/rocker_fp.h
+@@ -37,7 +37,7 @@ int fp_port_get_settings(FpPort *port, uint32_t *speed,
+                          uint8_t *duplex, uint8_t *autoneg);
+ int fp_port_set_settings(FpPort *port, uint32_t speed,
+                          uint8_t duplex, uint8_t autoneg);
+-bool fp_port_from_pport(uint32_t pport, uint32_t *port);
++bool fp_port_from_pport(Rocker *r, uint32_t pport, uint32_t *port);
+ World *fp_port_get_world(FpPort *port);
+ void fp_port_set_world(FpPort *port, World *world);
+ bool fp_port_check_world(FpPort *port, World *world);
+-- 
+2.25.1
 
 
