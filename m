@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05FD3D17E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:20:54 +0200 (CEST)
-Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4893D17E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:24:49 +0200 (CEST)
+Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Ii5-0007Gj-MY
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37394)
+	id 1m6Ils-00067Q-Io
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m6IRQ-0000zw-9d
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:03:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m6IRN-0007tH-EQ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:03:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626897815;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Pyj+h5yVmQVl71XrDhZZqer9Clxdw3GrFULMfTer75E=;
- b=Ei43gwvzAk5THpCoaD7W8Temi++MB/zOEmBLmfoqOn9kwyYKmxvZgii/73pywo87IaPwnq
- GqwVaE65CnuRt8snb/biFg/KCp7pdJDxu6LeNCaeWnV5kWmVLP+uV8+yjZUA3LiCxYCKwg
- WcaBb3tayysNV2JCxYmaZcaxgf9AXlc=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-nXEBLsC-P6W91aAoNPbBeQ-1; Wed, 21 Jul 2021 16:03:32 -0400
-X-MC-Unique: nXEBLsC-P6W91aAoNPbBeQ-1
-Received: by mail-oi1-f198.google.com with SMTP id
- q199-20020aca75d00000b029025a3cb2429bso2399643oic.20
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:03:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6Icr-0007dj-Ib
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:15:31 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:34453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6Icp-0007HQ-Ln
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:15:29 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ x14-20020a7bc20e0000b0290249f2904453so1430378wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=duJmqDiwNBqXmHPoA6jyyC4QxTEVCLfkt5nZG+c3+Fk=;
+ b=x118PyA+DjLA06PA4N5fK/veTKQPN4yGX+324HQXypwIpz/RssB1ymj80C3fU5Hmul
+ RgtLQwr8YjEGiOmGyoapFwamBVHWBgfHzT/KSHVxHrJxThsjAiNLc1M5h3aarXGohe7d
+ xsFYK5gbI+TB0UBweDwMtn0zUi8TYP/sUT2ha3wCySAUIxG9jcJjskN5ni0N+Ks6j+H6
+ dt5OI55dFq7wk7tI0MhrG4LvZGVb8TuMhhjTYbm8OPG15VVV3qIZkeTJ5sZVxMDhGKfa
+ uLusMtRqj/KrLniFSORgNUyDThHaO2qH3ri1Si5boNSl3e9mAhymoqAJ5HRIMvqqVOGq
+ Pm1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Pyj+h5yVmQVl71XrDhZZqer9Clxdw3GrFULMfTer75E=;
- b=FfsE9Gs4xy6qg+S1xiNQmxC94YZ2bs6GheORRVsoXcHCJfu/ozZy/ojTN1ASSnObJ9
- O5Rdki6MZO6pZZvqaLLjquF2msZhXj+W/t2a0VXL4kqi7qnYclUO1mf/eg8FTe5oUpeR
- poH2B1EZVSIyQJZ9aAhX55AUVREPmjj2XngTTO6i2xSaLAfWidrbZ5fLaTSQkufrjR1t
- P2YCCLUnYXVMv92IlX+x0e76CBKbHfl6ClKX/SUJCMOo5GayhmWl3rwA6mJcMn7L/QKL
- ZGfpM7bXw8pr91GPQRlqCrw9leu7ygPZvtwbDTxNDnZD2RscsReV39pEhrWl5nXlzR1d
- P0qg==
-X-Gm-Message-State: AOAM530e8JFHAHznhVoUB41+dqsg7zFSohS3K4JiY17X3Szp/Jyb30yR
- k7FuyLudzlfgI6kDJUNY0aBKzfvxh6HPkgo3ElI4akL+VkcMhNnUkVBfVo9LJAB01IxWK2kguSC
- kNE+shWPaV0tXfAkgi9BsUHniQbFndvE=
-X-Received: by 2002:a05:6808:1309:: with SMTP id
- y9mr3637862oiv.112.1626897812007; 
- Wed, 21 Jul 2021 13:03:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymPu+/2ok59b03x0T4eQJK25c9wN+CNXDIVoATu//5tARDwiKiUoNxnZCsJamdVwYxUDaJL9QmJoABCx1rhkk=
-X-Received: by 2002:a05:6808:1309:: with SMTP id
- y9mr3637837oiv.112.1626897811575; 
- Wed, 21 Jul 2021 13:03:31 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=duJmqDiwNBqXmHPoA6jyyC4QxTEVCLfkt5nZG+c3+Fk=;
+ b=abeMtlUmnci2VxbIbeJtg57SiK33rTEFDBlXc+ONDbTxib+Ylo7AXJCD/4pOSwML+F
+ IbqJt9q+lzGdYyXGeusZ2wgDNhhrcx2UUqzhipgChjdryEiWXRGAVqnbSU+7pH5lWTXm
+ ttnmUHwZBVMt7CxNIer2yMmsu03X161cAIzoJq24TYrIS25VLRJKOaR+0KK4CC+jy2ID
+ K4NaHoetAJAK3+FAgEKZL4btFMoECfGDYjoVN8yAHy+K/JFvMiTZwBkxyYYluEJJvq0a
+ rsVAczrLaV7Yhigt3ak8iRDynU2cVLz1P97ZjB+K6HXo7ZTMXt5Mf3/rE0CO+Dz+49ns
+ XlvA==
+X-Gm-Message-State: AOAM533EojM5ZAoavIg4kJMKhwoDcZBsebKe8Y9FxNR5C5HJ9VlKfbtX
+ Bvp8zx969qTucgS7wrbXbgS3OQ==
+X-Google-Smtp-Source: ABdhPJzuYX9YoM9KUBLXdbn2ZbQyvgbPa26x//ksh8/9o7sOc44D+wjrYldkpEowDeUDSulFZFkoTg==
+X-Received: by 2002:a1c:4e18:: with SMTP id g24mr39193033wmh.175.1626898525077; 
+ Wed, 21 Jul 2021 13:15:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u2sm22547891wmc.42.2021.07.21.13.15.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 13:15:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9CD3D1FF7E;
+ Wed, 21 Jul 2021 21:15:23 +0100 (BST)
+References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
+ <20210710005929.1702431-4-mathieu.poirier@linaro.org>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH v3 3/4] vhost-user-rng: backend: Add RNG vhost-user
+ daemon implementation
+Date: Wed, 21 Jul 2021 21:14:31 +0100
+In-reply-to: <20210710005929.1702431-4-mathieu.poirier@linaro.org>
+Message-ID: <87fsw7xw2s.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210713220734.26302-1-niteesh.gs@gmail.com>
- <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
- <CAFn=p-aP5y=a56BK7X-B4KO8YL+d3O_MX3ekp3NQnGLGs8Dnww@mail.gmail.com>
- <CAN6ztm8yqX=VZON3is8ni5a5kXr7xQrdNubA6Pj+p0fUGadOEA@mail.gmail.com>
-In-Reply-To: <CAN6ztm8yqX=VZON3is8ni5a5kXr7xQrdNubA6Pj+p0fUGadOEA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 21 Jul 2021 16:03:20 -0400
-Message-ID: <CAFn=p-b=Q9_BFQpnb5yXEjUcU0WJLSXyUS9EquHNWGs6XZ6UCQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] python: AQMP-TUI Prototype
-To: "Niteesh G. S." <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002527a805c7a7aae8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,136 +89,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002527a805c7a7aae8
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 21, 2021 at 2:09 PM Niteesh G. S. <niteesh.gs@gmail.com> wrote:
+Mathieu Poirier <mathieu.poirier@linaro.org> writes:
 
-> On Wed, Jul 21, 2021 at 12:39 AM John Snow <jsnow@redhat.com> wrote:
+> This patch provides the vhost-user backend implementation to work
+> in tandem with the vhost-user-rng implementation of the QEMU VMM.
 >
->> On Wed, Jul 14, 2021 at 3:07 PM Niteesh G. S. <niteesh.gs@gmail.com>
->> wrote:
->>
->> Why not?
->>
-> I have already updated the status of this
-> https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg04059.html
+> It uses the vhost-user API so that other VMM can re-use the interface
+> without having to write the driver again.
 >
+> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-Sorry, I missed this.
+Try the following patch which creates a nested main loop and runs it
+until the g_timeout_add fires again.
 
-Thanks Niteesh, a few general comments that don't relate directly to the
->> code:
->>
->> 1. It would be nice to be able to highlight/copy-paste things out of the
->> history window, I seemingly can't right now.
->>
->> 2. It would be nice if the mouse scroll wheel worked on the history panel.
->>
->> 3. A greeting message like the old qmp-shell might be nice to see. It
->> would be good if it explained how to quit the program (esc, ctrl^c) and
->> send messages (alt+enter).
->>
->> 4. Some control hints or reminder text in the footer might be nice, for
->> how to quit, send a message, etc.
->>
->
+--8<---------------cut here---------------start------------->8---
+tools/virtio/vhost-user-rng: avoid mutex by using nested main loop
 
-> I'll update the status here as I start working on them one by one.
->
->
-OK - They don't need to go into this series, these are just some
-observations. All of these items seem like good candidates for standalone
-follow-up patches to happen in another series that follows this one.
+As we are blocking anyway all we really need to do is run a main loop
+until the timer fires and the data is consumed.
 
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> For the next revision, I may ask you to start looking into making sure
->> that mypy and pylint pass without exemptions. Do the best you can, and get
->> as far as you are able. You can leave the warnings disabled for V3, but I'd
->> like you to start taking a look now so that you know where the trouble
->> spots are.
->>
->
+1 file changed, 30 insertions(+), 76 deletions(-)
+tools/vhost-user-rng/main.c | 106 +++++++++++++----------------------------=
+---
 
-> Sure.
->
->
-I'll be on PTO for the next three business days, returning 2021-07-27 -- If
-you get blocked on other tasks, try adding mypy type hints using this
-downtime.
+modified   tools/vhost-user-rng/main.c
+@@ -42,13 +42,10 @@
+=20
+ typedef struct {
+     VugDev dev;
+-    struct itimerspec ts;
+-    timer_t rate_limit_timer;
+-    pthread_mutex_t rng_mutex;
+-    pthread_cond_t rng_cond;
+     int64_t quota_remaining;
+-    bool activate_timer;
++    guint timer;
+     GMainLoop *loop;
++    GMainLoop *blocked;
+ } VuRNG;
+=20
+ static gboolean print_cap, verbose;
+@@ -59,66 +56,26 @@ static gint source_fd, socket_fd =3D -1;
+ static uint32_t period_ms =3D 1 << 16;
+ static uint64_t max_bytes =3D INT64_MAX;
+=20
+-static void check_rate_limit(union sigval sv)
++static gboolean check_rate_limit(gpointer user_data)
+ {
+-    VuRNG *rng =3D sv.sival_ptr;
+-    bool wakeup =3D false;
++    VuRNG *rng =3D (VuRNG *) user_data;
+=20
+-    pthread_mutex_lock(&rng->rng_mutex);
+-    /*
+-     * The timer has expired and the guest has used all available
+-     * entropy, which means function vu_rng_handle_request() is waiting
+-     * on us.  As such wake it up once we're done here.
+-     */
+-    if (rng->quota_remaining =3D=3D 0) {
+-        wakeup =3D true;
++    if (rng->blocked) {
++        g_info("%s: called while blocked", __func__);
++        g_main_loop_quit(rng->blocked);
+     }
+-
+     /*
+      * Reset the entropy available to the guest and tell function
+      * vu_rng_handle_requests() to start the timer before using it.
+      */
+     rng->quota_remaining =3D max_bytes;
+-    rng->activate_timer =3D true;
+-    pthread_mutex_unlock(&rng->rng_mutex);
+-
+-    if (wakeup) {
+-        pthread_cond_signal(&rng->rng_cond);
+-    }
+-}
+-
+-static void setup_timer(VuRNG *rng)
+-{
+-    struct sigevent sev;
+-    int ret;
+-
+-    memset(&rng->ts, 0, sizeof(struct itimerspec));
+-    rng->ts.it_value.tv_sec =3D period_ms / 1000;
+-    rng->ts.it_value.tv_nsec =3D (period_ms % 1000) * 1000000;
+-
+-    /*
+-     * Call function check_rate_limit() as if it was the start of
+-     * a new thread when the timer expires.
+-     */
+-    sev.sigev_notify =3D SIGEV_THREAD;
+-    sev.sigev_notify_function =3D check_rate_limit;
+-    sev.sigev_value.sival_ptr =3D rng;
+-    /* Needs to be NULL if defaults attributes are to be used. */
+-    sev.sigev_notify_attributes =3D NULL;
+-    ret =3D timer_create(CLOCK_MONOTONIC, &sev, &rng->rate_limit_timer);
+-    if (ret < 0) {
+-        fprintf(stderr, "timer_create() failed\n");
+-    }
+-
++    return true;
+ }
+=20
+-
+ /* Virtio helpers */
+ static uint64_t rng_get_features(VuDev *dev)
+ {
+-    if (verbose) {
+-        g_info("%s: replying", __func__);
+-    }
++    g_info("%s: replying", __func__);
+     return 0;
+ }
+=20
+@@ -137,7 +94,7 @@ static void vu_rng_handle_requests(VuDev *dev, int qidx)
+     VuVirtq *vq =3D vu_get_queue(dev, qidx);
+     VuVirtqElement *elem;
+     size_t to_read;
+-    int len, ret;
++    int len;
+=20
+     for (;;) {
+         /* Get element in the vhost virtqueue */
+@@ -149,24 +106,21 @@ static void vu_rng_handle_requests(VuDev *dev, int qi=
+dx)
+         /* Get the amount of entropy to read from the vhost server */
+         to_read =3D elem->in_sg[0].iov_len;
+=20
+-        pthread_mutex_lock(&rng->rng_mutex);
+-
+         /*
+          * We have consumed all entropy available for this time slice.
+          * Wait for the timer (check_rate_limit()) to tell us about the
+          * start of a new time slice.
+          */
+         if (rng->quota_remaining =3D=3D 0) {
+-            pthread_cond_wait(&rng->rng_cond, &rng->rng_mutex);
+-        }
+-
+-        /* Start the timer if the last time slice has expired */
+-        if (rng->activate_timer =3D=3D true) {
+-            rng->activate_timer =3D false;
+-            ret =3D timer_settime(rng->rate_limit_timer, 0, &rng->ts, NULL=
+);
+-            if (ret < 0) {
+-                fprintf(stderr, "timer_settime() failed\n");
+-            }
++            g_assert(!rng->blocked);
++            rng->blocked =3D g_main_loop_new(g_main_loop_get_context(rng->=
+loop), false);
++            g_info("attempting to consume %ld bytes but no quota left (%s)=
+",
++                   to_read,
++                   g_main_loop_is_running(rng->loop) ? "running" : "not ru=
+nning");
++            g_main_loop_run(rng->blocked);
++            g_info("return from blocked loop: %ld", rng->quota_remaining);
++            g_main_loop_unref(rng->blocked);
++            rng->blocked =3D false;
+         }
+=20
+         /* Make sure we don't read more than it's available */
+@@ -183,8 +137,6 @@ static void vu_rng_handle_requests(VuDev *dev, int qidx)
+=20
+         rng->quota_remaining -=3D len;
+=20
+-        pthread_mutex_unlock(&rng->rng_mutex);
+-
+         vu_queue_push(dev, vq, elem, len);
+         free(elem);
+     }
+@@ -373,6 +325,7 @@ int main(int argc, char *argv[])
+      * can add it's GSource watches.
+      */
+     rng.loop =3D g_main_loop_new(NULL, FALSE);
++    rng.blocked =3D NULL;
+=20
+     if (!vug_init(&rng.dev, 1, g_socket_get_fd(socket),
+                   panic, &vuiface)) {
+@@ -380,24 +333,25 @@ int main(int argc, char *argv[])
+         exit(EXIT_FAILURE);
+     }
+=20
+-    rng.quota_remaining =3D max_bytes;
+-    rng.activate_timer =3D true;
+-    pthread_mutex_init(&rng.rng_mutex, NULL);
+-    pthread_cond_init(&rng.rng_cond, NULL);
+-    setup_timer(&rng);
+-
+     if (verbose) {
+-        g_info("period_ms: %d tv_sec: %ld tv_nsec: %lu\n",
+-               period_ms, rng.ts.it_value.tv_sec, rng.ts.it_value.tv_nsec);
++        g_log_set_handler(NULL, G_LOG_LEVEL_MASK, g_log_default_handler, N=
+ULL);
++        g_setenv("G_MESSAGES_DEBUG", "all", true);
++    } else {
++        g_log_set_handler(NULL,
++                          G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL | G_L=
+OG_LEVEL_ERROR,
++                          g_log_default_handler, NULL);
+     }
+=20
++    rng.quota_remaining =3D max_bytes;
++    rng.timer =3D g_timeout_add(period_ms, check_rate_limit, &rng);
++    g_info("period_ms: %"PRId32", timer %d\n", period_ms, rng.timer);
++
+     g_message("entering main loop, awaiting messages");
+     g_main_loop_run(rng.loop);
+     g_message("finished main loop, cleaning up");
+=20
+     g_main_loop_unref(rng.loop);
+     vug_deinit(&rng.dev);
+-    timer_delete(rng.rate_limit_timer);
+     close(source_fd);
+     unlink(socket_path);
+ }
+--8<---------------cut here---------------end--------------->8---
 
-Thanks again,
---js
-
---0000000000002527a805c7a7aae8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 21, 2021 at 2:09 PM Nitee=
-sh G. S. &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Wed, Jul 21, 2021 at 12:39 AM John Snow &lt;<a href=3D"mailto:jsnow=
-@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021=
- at 3:07 PM Niteesh G. S. &lt;<a href=3D"mailto:niteesh.gs@gmail.com" targe=
-t=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><br><div>Why not?=
-<br></div></div></div></blockquote><div><span class=3D"gmail_default" style=
-=3D"font-size:small">I have already updated the status of this</span></div>=
-<div><span class=3D"gmail_default" style=3D"font-size:small"><a href=3D"htt=
-ps://lists.gnu.org/archive/html/qemu-devel/2021-07/msg04059.html" target=3D=
-"_blank">https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg04059.htm=
-l</a><br></span></div></div></div></blockquote><div><br></div><div>Sorry, I=
- missed this.<br></div><div><br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
-"><div>Thanks Niteesh, a few general comments that don&#39;t relate directl=
-y to the code:</div><div><br></div><div> 1. It would be nice to be able to =
-highlight/copy-paste things out of the history window, I seemingly can&#39;=
-t right now.<br><br>2. It would be nice if the mouse scroll wheel worked on=
- the history panel.<br><br>3. A greeting message like the old qmp-shell mig=
-ht be nice to see. It would be good if it explained how to quit the program=
- (esc, ctrl^c) and send messages (alt+enter).<br><br>4. Some control hints =
-or reminder text in the footer might be nice, for how to quit, send a messa=
-ge, etc.</div></div></div></blockquote></div></div></blockquote><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv class=3D"gmail_quote"><div><div style=3D"font-size:small">I&#39;ll updat=
-e the status here as I start working on them one by one.</div></div><div st=
-yle=3D"font-size:small"><br></div></div></div></blockquote><div><br></div><=
-div>OK - They don&#39;t need to go into this series, these are just some ob=
-servations. All of these items seem like good candidates for standalone fol=
-low-up patches to happen in another series that follows this one.<br></div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div class=3D"gmail_quote"><div style=3D"font-size:small"></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><div>For the next revision, I may ask you to start looking=
- into making sure that mypy and pylint pass without exemptions. Do the best=
- you can, and get as far as you are able. You can leave the warnings disabl=
-ed for V3, but I&#39;d like you to start taking a look now so that you know=
- where the trouble spots are.</div></div></div></blockquote></div></div></b=
-lockquote><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><div style=3D"font-size:=
-small">Sure.</div><br></div></div></div></blockquote><div><br></div><div>I&=
-#39;ll be on PTO for the next three business days, returning 2021-07-27 -- =
-If you get blocked on other tasks, try adding mypy type hints using this do=
-wntime.<br></div><div>=C2=A0</div><div>Thanks again,</div><div>--js<br></di=
-v></div></div>
-
---0000000000002527a805c7a7aae8--
-
+--=20
+Alex Benn=C3=A9e
 
