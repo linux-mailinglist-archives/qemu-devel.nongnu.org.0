@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E91F3D0E14
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 13:49:05 +0200 (CEST)
-Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01463D0DEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 13:41:12 +0200 (CEST)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Aim-0002l0-8E
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 07:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
+	id 1m6Ab9-00022Q-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 07:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6AeO-0006NA-3k
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 07:44:34 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6AeM-0008SL-4K
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 07:44:31 -0400
-Received: by mail-wm1-x330.google.com with SMTP id l6so1167438wmq.0
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 04:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=tyoP5EpHHepJuZVE4pZdiQzhwpztUkR/a7t0lmxEcEM=;
- b=bC+OaHEv2HJvo21+u9tJWtc91YdQWgRCNwv/vXoYx74jCFpGxAV99KuH5zD2xjd1+t
- tJd/2FfKAupUvoEElNJCgBNpW5150taZT6WjSNJOQx6FDxMeM8k4HGWgysqgOwmjqegx
- fmoVkMaRyaw3H507xsE3DL/ZL8vcu1fhkKBhIOdZiCkqJMCJ9QVJsLQ0naX686gKOmqL
- y3qk4Zmjr1MfgqHxUQ43E13/w/IiKA0cAKYLUXJrS5B00h+RdNxkBSpjPrJ1xJ8g/8h5
- vzqUiG9qZsIpKHGjRz+LzLpm3SnYbK8dr1yPOfvfePkfK0GkdegeyCHKsrCrO+eNtL7C
- r30A==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1m6AYv-0001Hy-6D
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 07:38:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1m6AYr-0006d1-8Q
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 07:38:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626867527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9B1bPV6KNzxioFNBPzLeFWbivv08j3U/NYYVq9YTltE=;
+ b=gC7eHSicPtwjGq9CqKMwTHUdNh8TG0z/uZ0u+W3Mdq9SRLxF+XGR4eWrHY2aqS3tlsFSQi
+ 67S+/67r7Q2DMV/5YT/mvHYlPX+vfhDyl8gnO1LfpFkAxwsnA6GWOGakDDnBUIfMQgOkPE
+ WWBaJMGJIPGsnnCZx30VdiYYNY4lPo8=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-tkUhhiTgNFSjftS4n5WGgQ-1; Wed, 21 Jul 2021 07:38:45 -0400
+X-MC-Unique: tkUhhiTgNFSjftS4n5WGgQ-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ q22-20020a62e1160000b029032b880fc048so1622946pfh.21
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 04:38:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=tyoP5EpHHepJuZVE4pZdiQzhwpztUkR/a7t0lmxEcEM=;
- b=lFtB4uaooIMnPBxSzu1EEaUV4nw/jmoTzvl2YaPW/OjoG95mLeCKLPyBNtjHk8bRa9
- 4a/KaYClq3DM4RsErGKpKAeFWHJODrMGiSrXeKxhKEw5b6mXWnGIlNq83SUzlfhPdGi2
- 4qUOnCMz1MRSsxAUYGzR0ZLT93bHRjQRPR4D1VVep1Vlb1iAQ0eSEsKs9g8+ymT0TzUG
- ds9VddH7GzsBvdoRXCdAP1Q2mtlVpEfkR2Z0GjI0hGLkgIuOuw1ONZSytbToaHAvDS6j
- Yv/NH2RwNQZssMjWQE5NTXrt4dvv2jgOekHc4GbqaxudQNXlE37+/LitPu0I50rbNks/
- kJ5w==
-X-Gm-Message-State: AOAM530Mto+PiYm6Eb2UnIEAkC82bCOrU7WyN2uXMaHrSy1a/KDZwsrZ
- 2SBfE38ifufFW1pgcu75pqTEEw==
-X-Google-Smtp-Source: ABdhPJxEs27jYKXdesgIDEGIVkMt/I70SfqN3p+IYitK0OURPlHcSPcGcu35oppEdDDkdM0AXBqupQ==
-X-Received: by 2002:a05:600c:364c:: with SMTP id
- y12mr3596362wmq.78.1626867867288; 
- Wed, 21 Jul 2021 04:44:27 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w15sm1414277wmi.3.2021.07.21.04.44.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 04:44:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D9B0E1FF7E;
- Wed, 21 Jul 2021 12:44:25 +0100 (BST)
-References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
- <20210710005929.1702431-4-mathieu.poirier@linaro.org>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v3 3/4] vhost-user-rng: backend: Add RNG vhost-user
- daemon implementation
-Date: Wed, 21 Jul 2021 12:30:40 +0100
-In-reply-to: <20210710005929.1702431-4-mathieu.poirier@linaro.org>
-Message-ID: <875yx3lwme.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=9B1bPV6KNzxioFNBPzLeFWbivv08j3U/NYYVq9YTltE=;
+ b=XN5jbxPKlcdXD+fnncL4DZ0b5a+57ANk/v6HYyua9Q+g6ft/5Xivs88E2ZvY94L7C8
+ +GvLio20lXtV/LFmuWtNWw0uzsiHCXV8x4g5dPwiHMXkub2zOgVyP8f5IsZTpTgvHyxg
+ jzNSSJdy0Z8S8GhUcBlFPIhLmJIfUP2LNR4LjhZod5TzrGhB5P3UIu/ZFhinkb17RJ/e
+ L3G6yVBgK0PlYR0wjI2si4qnrGOw590a43Q7GngPYNsCVAS3oDoccLbVqOQgskjMau1f
+ eGnbkDVC5gvuMoBZU931gBxrKJbfkHSGcGfYaeoEN/4ayGEpQ68zdPZwsnatQW/JSit2
+ h9pw==
+X-Gm-Message-State: AOAM5316HPd94z4x0fIc/42wagtPaXsN/y2866vBI+bBlnzwD1j2aRjL
+ FUGCv5Q/EzUnqWCLHXUNN6WHMJY8p9Vs4x5a3PUEo/daPy2TdKcYGVMMae0przx6E0vP5k+ln1s
+ FR7FtKs9BLnGQ3LW4SiWr/C2WlequqIE=
+X-Received: by 2002:a17:90b:2112:: with SMTP id
+ kz18mr3372372pjb.137.1626867524367; 
+ Wed, 21 Jul 2021 04:38:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxT1Gaba7TvpBBIPTH3PI3nfHheY0i5x+Q0VU7w20HbRN011jKP5rZaCS64ZGl9wuVPdsErnJY+dGFy5PTJVAw=
+X-Received: by 2002:a17:90b:2112:: with SMTP id
+ kz18mr3372352pjb.137.1626867524092; 
+ Wed, 21 Jul 2021 04:38:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 21 Jul 2021 15:38:33 +0400
+Message-ID: <CAMxuvaz8H6-td5FLRigkE8DgK8usE-s9sMSWLtp66u5ufdM7sw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Clipboard fixes (for 6.1?)
+To: qemu-devel <qemu-devel@nongnu.org>, "Hoffmann, Gerd" <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000dedbb205c7a09c66"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,241 +91,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000dedbb205c7a09c66
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Mathieu Poirier <mathieu.poirier@linaro.org> writes:
+Hi Gerd,
 
-> This patch provides the vhost-user backend implementation to work
-> in tandem with the vhost-user-rng implementation of the QEMU VMM.
+On Wed, Jul 21, 2021 at 12:41 PM <marcandre.lureau@redhat.com> wrote:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> It uses the vhost-user API so that other VMM can re-use the interface
-> without having to write the driver again.
+> Hi,
 >
-> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> ---
->  tools/meson.build                        |   8 +
->  tools/vhost-user-rng/50-qemu-rng.json.in |   5 +
->  tools/vhost-user-rng/main.c              | 403 +++++++++++++++++++++++
->  tools/vhost-user-rng/meson.build         |  10 +
->  4 files changed, 426 insertions(+)
->  create mode 100644 tools/vhost-user-rng/50-qemu-rng.json.in
->  create mode 100644 tools/vhost-user-rng/main.c
->  create mode 100644 tools/vhost-user-rng/meson.build
+> Here is a few fixes I have collected while working on clipboard-related
+> code.
 >
-> diff --git a/tools/meson.build b/tools/meson.build
-> index 3e5a0abfa29f..66b0a11fbb45 100644
-> --- a/tools/meson.build
-> +++ b/tools/meson.build
-> @@ -24,3 +24,11 @@ endif
->  if have_virtiofsd
->    subdir('virtiofsd')
->  endif
-> +
-> +have_virtiorng =3D (have_system and
-> +    have_tools and
-> +    'CONFIG_LINUX' in config_host)
-> +
-> +if have_virtiorng
-> +  subdir('vhost-user-rng')
-> +endif
-> diff --git a/tools/vhost-user-rng/50-qemu-rng.json.in b/tools/vhost-user-=
-rng/50-qemu-rng.json.in
-> new file mode 100644
-> index 000000000000..9186c3c6fe1d
-> --- /dev/null
-> +++ b/tools/vhost-user-rng/50-qemu-rng.json.in
-> @@ -0,0 +1,5 @@
-> +{
-> +  "description": "QEMU vhost-user-rng",
-> +  "type": "bridge",
-> +  "binary": "@libexecdir@/vhost-user-rng"
-> +}
-> diff --git a/tools/vhost-user-rng/main.c b/tools/vhost-user-rng/main.c
-> new file mode 100644
-> index 000000000000..c3b8f6922757
-> --- /dev/null
-> +++ b/tools/vhost-user-rng/main.c
-> @@ -0,0 +1,403 @@
-> +/*
-> + * VIRTIO RNG Emulation via vhost-user
-> + *
-> + * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#define G_LOG_DOMAIN "vhost-user-rng"
-> +#define G_LOG_USE_STRUCTURED 1
-> +
-> +#include <glib.h>
-> +#include <gio/gio.h>
-> +#include <gio/gunixsocketaddress.h>
-> +#include <glib-unix.h>
-> +#include <glib/gstdio.h>
-> +#include <pthread.h>
-> +#include <signal.h>
-> +#include <stdio.h>
-> +#include <stdbool.h>
-> +#include <string.h>
-> +#include <inttypes.h>
-> +#include <fcntl.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
-> +#include <sys/mman.h>
-> +#include <time.h>
-> +#include <unistd.h>
-> +#include <endian.h>
-> +#include <assert.h>
-> +
-> +#include "qemu/cutils.h"
-> +#include "subprojects/libvhost-user/libvhost-user-glib.h"
-> +#include "subprojects/libvhost-user/libvhost-user.h"
-> +
-> +#ifndef container_of
-> +#define container_of(ptr, type, member) ({                      \
-> +        const typeof(((type *) 0)->member) * __mptr =3D (ptr);     \
-> +        (type *) ((char *) __mptr - offsetof(type, member)); })
-> +#endif
-> +
-> +typedef struct {
-> +    VugDev dev;
-> +    struct itimerspec ts;
-> +    timer_t rate_limit_timer;
-> +    pthread_mutex_t rng_mutex;
-> +    pthread_cond_t rng_cond;
+> There are some obvious code improvements/fixes, and better handling of
+> release &
+> unregister to avoid dangling pointers and improve user experience.
+>
+> v2:
+>  - replaced "ui/vdagent: unregister clipboard peer on finalize" with
+> "ui/vdagent: disconnect handlers and reset state on finalize" patch.
+>  - added "ui/vdagent: reset outbuf on disconnect"
+>  - commit message tweaks
+>
+>
+I am still improving this series, but any feedback is welcome.
 
-I'm confused by the need for a mutex in a single-threaded application.
+I am wondering if we should add a migration blocker for 6.1. VNC clients
+are reconnected on migration, but migration shouldn't be visible to guest
+agent. What do you think?
 
-> +    int64_t quota_remaining;
-> +    bool activate_timer;
-> +    GMainLoop *loop;
-> +} VuRNG;
-> +
-> +static gboolean print_cap, verbose;
-> +static gchar *source_path, *socket_path;
-> +static gint source_fd, socket_fd =3D -1;
-> +
-> +/* Defaults tailored on virtio-rng.c */
-> +static uint32_t period_ms =3D 1 << 16;
-> +static uint64_t max_bytes =3D INT64_MAX;
-> +
-> +static void check_rate_limit(union sigval sv)
-> +{
-> +    VuRNG *rng =3D sv.sival_ptr;
-> +    bool wakeup =3D false;
-> +
-> +    pthread_mutex_lock(&rng->rng_mutex);
-> +    /*
-> +     * The timer has expired and the guest has used all available
-> +     * entropy, which means function vu_rng_handle_request() is waiting
-> +     * on us.  As such wake it up once we're done here.
-> +     */
-> +    if (rng->quota_remaining =3D=3D 0) {
-> +        wakeup =3D true;
-> +    }
-> +
-> +    /*
-> +     * Reset the entropy available to the guest and tell function
-> +     * vu_rng_handle_requests() to start the timer before using it.
-> +     */
-> +    rng->quota_remaining =3D max_bytes;
-> +    rng->activate_timer =3D true;
-> +    pthread_mutex_unlock(&rng->rng_mutex);
-> +
-> +    if (wakeup) {
-> +        pthread_cond_signal(&rng->rng_cond);
-> +    }
-> +}
-> +
-> +static void setup_timer(VuRNG *rng)
-> +{
-> +    struct sigevent sev;
-> +    int ret;
-> +
-> +    memset(&rng->ts, 0, sizeof(struct itimerspec));
-> +    rng->ts.it_value.tv_sec =3D period_ms / 1000;
-> +    rng->ts.it_value.tv_nsec =3D (period_ms % 1000) * 1000000;
-> +
-> +    /*
-> +     * Call function check_rate_limit() as if it was the start of
-> +     * a new thread when the timer expires.
-> +     */
-> +    sev.sigev_notify =3D SIGEV_THREAD;
-> +    sev.sigev_notify_function =3D check_rate_limit;
-> +    sev.sigev_value.sival_ptr =3D rng;
-> +    /* Needs to be NULL if defaults attributes are to be used. */
-> +    sev.sigev_notify_attributes =3D NULL;
-> +    ret =3D timer_create(CLOCK_MONOTONIC, &sev, &rng->rate_limit_timer);
-> +    if (ret < 0) {
-> +        fprintf(stderr, "timer_create() failed\n");
-> +    }
+thanks
 
-Ahh I see why now. I think you could avoid this by using glib's own
-internal g_timeout_add() function. This would then create a timer which
-would call it's callback periodically (if it returns true to persist the
-GSource). As the whole execution is effectively event driven you would
-avoid the need for locking.
 
-> +
-> +}
-> +
-> +
-> +/* Virtio helpers */
-> +static uint64_t rng_get_features(VuDev *dev)
-> +{
-> +    if (verbose) {
-> +        g_info("%s: replying", __func__);
-> +    }
-> +    return 0;
-> +}
-> +
-> +static void rng_set_features(VuDev *dev, uint64_t features)
-> +{
-> +    if (verbose && features) {
-> +        g_autoptr(GString) s =3D g_string_new("Requested un-handled feat=
-ure");
-> +        g_string_append_printf(s, " 0x%" PRIx64 "", features);
-> +        g_info("%s: %s", __func__, s->str);
-> +    }
-> +}
-> +
-> +static void vu_rng_handle_requests(VuDev *dev, int qidx)
-> +{
-> +    VuRNG *rng =3D container_of(dev, VuRNG, dev.parent);
-> +    VuVirtq *vq =3D vu_get_queue(dev, qidx);
-> +    VuVirtqElement *elem;
-> +    size_t to_read;
-> +    int len, ret;
-> +
-> +    for (;;) {
-> +        /* Get element in the vhost virtqueue */
-> +        elem =3D vu_queue_pop(dev, vq, sizeof(VuVirtqElement));
-> +        if (!elem) {
-> +            break;
-> +        }
-> +
-> +        /* Get the amount of entropy to read from the vhost server */
-> +        to_read =3D elem->in_sg[0].iov_len;
-> +
-> +        pthread_mutex_lock(&rng->rng_mutex);
-> +
-> +        /*
-> +         * We have consumed all entropy available for this time slice.
-> +         * Wait for the timer (check_rate_limit()) to tell us about the
-> +         * start of a new time slice.
-> +         */
-> +        if (rng->quota_remaining =3D=3D 0) {
-> +            pthread_cond_wait(&rng->rng_cond, &rng->rng_mutex);
-> +        }
 
-Hmm this complicates things. Ideally you wouldn't want to block here on
-processing the virtqueue. This will end up block the guest. I'll need to
-think about this.
+> Marc-Andr=C3=A9 Lureau (13):
+>   ui/vdagent: fix leak on error path
+>   ui/vdagent: remove copy-pasta comment
+>   ui/gtk-clipboard: use existing macros
+>   ui/gtk-clipboard: fix clipboard enum typo
+>   ui/clipboard: add helper to retrieve current clipboard
+>   ui/clipboard: release owned grabs on unregister
+>   ui/vdagent: disconnect handlers and reset state on finalize
+>   ui/vdagent: reset outbuf on disconnect
+>   ui/vdagent: split clipboard recv message handling
+>   ui/vdagent: use qemu_clipboard_info helper
+>   ui/gtk-clipboard: use qemu_clipboard_info helper
+>   ui/vdagent: send release when no clipboard owner
+>   ui/gtk-clipboard: emit release clipboard events
+>
+>  include/ui/clipboard.h |  11 ++
+>  include/ui/gtk.h       |   1 -
+>  ui/clipboard.c         |  24 +++++
+>  ui/gtk-clipboard.c     |  30 +++---
+>  ui/vdagent.c           | 225 +++++++++++++++++++++++++----------------
+>  5 files changed, 188 insertions(+), 103 deletions(-)
+>
+> --
+> 2.32.0.264.g75ae10bc75
+>
+>
+>
 
---=20
-Alex Benn=C3=A9e
+--000000000000dedbb205c7a09c66
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Gerd,<br></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 21, 2021 at 12:41=
+ PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Hi,<br>
+<br>
+Here is a few fixes I have collected while working on clipboard-related cod=
+e.<br>
+<br>
+There are some obvious code improvements/fixes, and better handling of rele=
+ase &amp;<br>
+unregister to avoid dangling pointers and improve user experience.<br>
+<br>
+v2:<br>
+=C2=A0- replaced &quot;ui/vdagent: unregister clipboard peer on finalize&qu=
+ot; with &quot;ui/vdagent: disconnect handlers and reset state on finalize&=
+quot; patch.<br>
+=C2=A0- added &quot;ui/vdagent: reset outbuf on disconnect&quot;<br>
+=C2=A0- commit message tweaks<br>
+<br></blockquote><div><br></div><div>I am still improving this series, but =
+any feedback is welcome.</div><div><br></div><div>I am wondering if we shou=
+ld add a migration blocker for 6.1. VNC clients are reconnected on migratio=
+n, but migration shouldn&#39;t be visible to guest agent. What do you think=
+?</div><div><br></div><div>thanks</div><div><br></div><div>=C2=A0</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+Marc-Andr=C3=A9 Lureau (13):<br>
+=C2=A0 ui/vdagent: fix leak on error path<br>
+=C2=A0 ui/vdagent: remove copy-pasta comment<br>
+=C2=A0 ui/gtk-clipboard: use existing macros<br>
+=C2=A0 ui/gtk-clipboard: fix clipboard enum typo<br>
+=C2=A0 ui/clipboard: add helper to retrieve current clipboard<br>
+=C2=A0 ui/clipboard: release owned grabs on unregister<br>
+=C2=A0 ui/vdagent: disconnect handlers and reset state on finalize<br>
+=C2=A0 ui/vdagent: reset outbuf on disconnect<br>
+=C2=A0 ui/vdagent: split clipboard recv message handling<br>
+=C2=A0 ui/vdagent: use qemu_clipboard_info helper<br>
+=C2=A0 ui/gtk-clipboard: use qemu_clipboard_info helper<br>
+=C2=A0 ui/vdagent: send release when no clipboard owner<br>
+=C2=A0 ui/gtk-clipboard: emit release clipboard events<br>
+<br>
+=C2=A0include/ui/clipboard.h |=C2=A0 11 ++<br>
+=C2=A0include/ui/gtk.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 -<br>
+=C2=A0ui/clipboard.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 24 +++++<br>
+=C2=A0ui/gtk-clipboard.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 30 +++---<br>
+=C2=A0ui/vdagent.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 225 ++++++++++=
++++++++++++++++----------------<br>
+=C2=A05 files changed, 188 insertions(+), 103 deletions(-)<br>
+<br>
+-- <br>
+2.32.0.264.g75ae10bc75<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000dedbb205c7a09c66--
+
 
