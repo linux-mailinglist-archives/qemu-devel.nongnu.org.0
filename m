@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE853D172A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 21:37:53 +0200 (CEST)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA88D3D1726
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 21:36:10 +0200 (CEST)
+Received: from localhost ([::1]:42152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6I2S-0006f7-72
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 15:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
+	id 1m6I0n-0002ry-UU
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 15:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Hz2-0000fU-Ed
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Hz2-0000fv-9w
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 15:34:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43854)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Hyz-00050S-Bb
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Hyz-00050o-Gt
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 15:34:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626896055;
+ s=mimecast20190719; t=1626896056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ld/X+GWOFoCCo8M76lX3XVb/nCJ7Rg1zcmDRcQ9Ug/Y=;
- b=eqUCdI24lcytoqdPmMo3FGU1fh2x5hsBEzpI2y+FEpTgvleRbl+EJLAhz5L+teoqo21E0R
- 5dCjQxh0BIrbGZ9FoiasQ9fhM/qGJvkD5EbCGWGAtRl1S0HhXctB6uDEvzPIFH0Aq28er9
- YMqGBKm0E1Xa0+dNzVTkp+3P5CuPlUg=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-IK2f8tbSPXuYhDtYG1oZBg-1; Wed, 21 Jul 2021 15:34:14 -0400
-X-MC-Unique: IK2f8tbSPXuYhDtYG1oZBg-1
-Received: by mail-qv1-f69.google.com with SMTP id
- p6-20020a05621415c6b02902f61b4b012eso2255428qvz.2
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 12:34:14 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=psIdSZ42TG6zIOWJSN4HC5NZuEOzx+F89j4lZhOXZEk=;
+ b=ixkhQ0WPmyfSs6oTtdVP9j8KZxG8pHqLg4Wp5VZdF1Nz3GjYKwGW9/iMlselX36sW4kRsP
+ a3iqVuah0dbSwFVgKUvIMMnBcvZ7tBntESTC0pMTWnmNMBpNr+l6mg5mEiqZIeIcuxOzvI
+ wbhS2ZH2Vhhe0db1tEKV9Q6sTF3gZoU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-NUyE21bGPHyucKk8u_g2hQ-1; Wed, 21 Jul 2021 15:34:15 -0400
+X-MC-Unique: NUyE21bGPHyucKk8u_g2hQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ k12-20020a05620a414cb02903b9ade0af31so1812401qko.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 12:34:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QdM3kDMt+GgHynIzQo/disXO9OfKQ+SY7OsEEV/gXuM=;
- b=rSu8RE98CxbgsjLRLbQbG+D6VHTErwh/hwSlFYQtFusmG0e6yTziQzTpmsgRpGUacT
- V/yq9WFoYFlAI8laY+FcB7s+/IYSguSqWVIS3V4eKGnTY1LILgEH91qwgcD/asm+NJMa
- nXn9+ILfzKsrYOWtuliqBPfvX3LOVBkJrfO31dyzX2VOmm0AbpX4qOgwsd6yvjAokzjN
- QNYKkaBGFMvrHqHoiVQYaNm+g3uVMUg+zgiqcKG2+rpCi20njQLYz231EutJ/PXEAuzf
- Ir034egHVot/1shwb37xbGvdTn3y2XjtptTXmGQMmsgaJM29d+u2zVBGFr7KTqdgB8Ax
- EExg==
-X-Gm-Message-State: AOAM530w9+sAQyzlTf5zildBwSvlZeDy+hx/1gEXzNWKDP7Fy3aj4uu1
- 1FqeyOLZ/G4803VBUZ1tWbNV0k2+xb0OIn+GJOokHHyCiABpijuprJoPcHDnljU5mW3T6yl9vIh
- NOTmKLjz81ZMnU03SU6uOFs18MMgnq6HhDAq+BIq95ukQgimHBwx9S6s3lx6/Jwbk
-X-Received: by 2002:ac8:764e:: with SMTP id i14mr33092067qtr.247.1626896053462; 
- Wed, 21 Jul 2021 12:34:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6wUuYDCy+9m1HHLy5qxpZtmLeUG9XZgKP9AHz7gXYxF+15bhiR18IFO56PBlOyAH1lKxr4g==
-X-Received: by 2002:ac8:764e:: with SMTP id i14mr33092043qtr.247.1626896053104; 
- Wed, 21 Jul 2021 12:34:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=psIdSZ42TG6zIOWJSN4HC5NZuEOzx+F89j4lZhOXZEk=;
+ b=keb7ihhYRVqp4OSPpB76QC22hBJBSD4pA7f4AEiq7GJ6+sTyXMjShfUUlGH1DpHm/F
+ IgFGHm54Bf9YQfN3uTP4NYJT2FQ4m9hH+D5YXZDABys/dLaghfjdIfyADT3ZkCXlH3bS
+ 73CRPxC0erZvnRG5wZZSJfXO4cGTP/9VqvP/h05XfTg0NEPPcWSxkfHPBdSndkoGwDaW
+ +ZJRQ7US36UZ7Coiwd+sAGOoqHnOSMfI4zOofdsmQxNXNGSvxUdC1G/RetwD8nxxqrpI
+ h0Pux4nSjCiUfEFFanAoEOUxLztVOuHkHu4LY1O/8t5YkMr/kI7QlMzRfmE6leEGvMKF
+ Ty4g==
+X-Gm-Message-State: AOAM530vuRAzheYiW1s3QUb9SgbMD3UNxJut7V5e6XKlH9qSAOZBWEbk
+ 90QLs0X1csWuntq4CiX0GGoNUZlqibQPFK20s3e4YmddMxvkJw7zZFfxOKhr+m2q6MGd02OxXWd
+ jaBOEe1qrwJTepxKWTLIOwpy7TDjj69oEqlm0oTd1J5edrKyb3cE2XE+O42xzNcoE
+X-Received: by 2002:ac8:5a12:: with SMTP id n18mr21026744qta.3.1626896054956; 
+ Wed, 21 Jul 2021 12:34:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxsFAXPZSXNucehq1+QhFIKFJXNu7np77gCAiCKCpnum1qyh/SE2Qb+7ETKyuhu+/PhkpDINg==
+X-Received: by 2002:ac8:5a12:: with SMTP id n18mr21026717qta.3.1626896054614; 
+ Wed, 21 Jul 2021 12:34:14 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id 8sm10755867qkb.105.2021.07.21.12.34.11
+ by smtp.gmail.com with ESMTPSA id 8sm10755867qkb.105.2021.07.21.12.34.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 12:34:12 -0700 (PDT)
+ Wed, 21 Jul 2021 12:34:13 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] migrations: Fix potential rare race of migration-test
- after yank
-Date: Wed, 21 Jul 2021 15:34:04 -0400
-Message-Id: <20210721193409.910462-1-peterx@redhat.com>
+Subject: [PATCH v2 1/5] migration: Fix missing join() of rp_thread
+Date: Wed, 21 Jul 2021 15:34:05 -0400
+Message-Id: <20210721193409.910462-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210721193409.910462-1-peterx@redhat.com>
+References: <20210721193409.910462-1-peterx@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -101,78 +103,94 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:=0D
-- Pick r-b for Dave on patch 1/3=0D
-- Move migration_file_get_ioc() from patch 5 to patch 4, meanwhile rename i=
-t to=0D
-  qemu_file_get_ioc(). [Dave]=0D
-- Patch 2 "migration: Shutdown src in await_return_path_close_on_source()" =
-is=0D
-  replaced by patch "migration: Make from_dst_file accesses thread-safe" [D=
-ave]=0D
-=0D
-Patch 1 fixes a possible race that migration thread can accidentally skip=
-=0D
-join() of rp_thread even if the return thread is enabled.  Patch 1 is suspe=
-cted=0D
-to also be the root cause of the recent hard-to-reproduce migration-test=0D
-failure here reported by PMM:=0D
-=0D
-https://lore.kernel.org/qemu-devel/YPamXAHwan%2FPPXLf@work-vm/=0D
-=0D
-I didn't reproduce it myself; but after co-debugged with Dave it's suspecte=
-d=0D
-that the race of rp_thread could be the cause.  It's not exposed before bec=
-ause=0D
-yank is soo strict on releasing instances, while we're not that strict befo=
-re,=0D
-and didn't join() on rp_thread wasn't so dangerous after all when migration=
-=0D
-succeeded before.=0D
-=0D
-Patch 2 fixes another theoretical race on accessing from_dst_file spotted b=
-y=0D
-Dave.  I don't think there's known issues with it, but may still worth fixi=
-ng.=0D
-=0D
-Patch 3 should be a cleanup on yank that I think would be nice to have.=0D
-=0D
-Patch 4-5 are further cleanups to remove the ref=3D=3D1 check in channel_cl=
-ose(),=0D
-finally, as I always thought that's a bit hackish.  So I used explicit=0D
-unregister of the yank function at necessary places to replace that ref=3D=
-=3D1 one.=0D
-=0D
-I still think having patch 3-5 altogether would be great, however I think p=
-atch=0D
-1 should still be the most important to be reviewed.  Also it would be grea=
-t to=0D
-know whether patch 1 could fix the known yank crash.=0D
-=0D
-Please review, thanks.=0D
-=0D
-Peter Xu (5):=0D
-  migration: Fix missing join() of rp_thread=0D
-  migration: Make from_dst_file accesses thread-safe=0D
-  migration: Introduce migration_ioc_[un]register_yank()=0D
-  migration: Teach QEMUFile to be QIOChannel-aware=0D
-  migration: Move the yank unregister of channel_close out=0D
-=0D
- migration/channel.c           | 15 ++-----------=0D
- migration/migration.c         | 41 +++++++++++++++++++++++++++-------=0D
- migration/migration.h         | 15 ++++++++++---=0D
- migration/multifd.c           |  8 ++-----=0D
- migration/qemu-file-channel.c | 11 ++-------=0D
- migration/qemu-file.c         | 17 +++++++++++++-=0D
- migration/qemu-file.h         |  4 +++-=0D
- migration/ram.c               |  3 ++-=0D
- migration/savevm.c            | 11 +++++++--=0D
- migration/yank_functions.c    | 42 +++++++++++++++++++++++++++++++++++=0D
- migration/yank_functions.h    |  3 +++=0D
- 11 files changed, 126 insertions(+), 44 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+It's possible that the migration thread skip the join() of the rp_thread in
+below race and crash on src right at finishing migration:
+
+       migration_thread                     rp_thread
+       ----------------                     ---------
+    migration_completion()
+                                        (before rp_thread quits)
+                                        from_dst_file=NULL
+                                        [thread got scheduled out]
+      s->rp_state.from_dst_file==NULL
+        (skip join() of rp_thread)
+    migrate_fd_cleanup()
+      qemu_fclose(s->to_dst_file)
+      yank_unregister_instance()
+        assert(yank_find_entry())  <------- crash
+
+It could mostly happen with postcopy, but that shouldn't be required, e.g., I
+think it could also trigger with MIGRATION_CAPABILITY_RETURN_PATH set.
+
+It's suspected that above race could be the root cause of a recent (but rare)
+migration-test break reported by either Dave or PMM:
+
+https://lore.kernel.org/qemu-devel/YPamXAHwan%2FPPXLf@work-vm/
+
+The issue is: from_dst_file is reset in the rp_thread, so if the thread reset
+it to NULL fast enough then the migration thread will assume there's no
+rp_thread at all.
+
+This could potentially cause more severe issue (e.g. crash) after the yank code.
+
+Fix it by using a boolean to keep "whether we've created rp_thread".
+
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/migration.c | 4 +++-
+ migration/migration.h | 7 +++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 2d306582eb..21b94f75a3 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2867,6 +2867,7 @@ static int open_return_path_on_source(MigrationState *ms,
+ 
+     qemu_thread_create(&ms->rp_state.rp_thread, "return path",
+                        source_return_path_thread, ms, QEMU_THREAD_JOINABLE);
++    ms->rp_state.rp_thread_created = true;
+ 
+     trace_open_return_path_on_source_continue();
+ 
+@@ -2891,6 +2892,7 @@ static int await_return_path_close_on_source(MigrationState *ms)
+     }
+     trace_await_return_path_close_on_source_joining();
+     qemu_thread_join(&ms->rp_state.rp_thread);
++    ms->rp_state.rp_thread_created = false;
+     trace_await_return_path_close_on_source_close();
+     return ms->rp_state.error;
+ }
+@@ -3170,7 +3172,7 @@ static void migration_completion(MigrationState *s)
+      * it will wait for the destination to send it's status in
+      * a SHUT command).
+      */
+-    if (s->rp_state.from_dst_file) {
++    if (s->rp_state.rp_thread_created) {
+         int rp_error;
+         trace_migration_return_path_end_before();
+         rp_error = await_return_path_close_on_source(s);
+diff --git a/migration/migration.h b/migration/migration.h
+index 2ebb740dfa..c302879fad 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -195,6 +195,13 @@ struct MigrationState {
+         QEMUFile     *from_dst_file;
+         QemuThread    rp_thread;
+         bool          error;
++        /*
++         * We can also check non-zero of rp_thread, but there's no "official"
++         * way to do this, so this bool makes it slightly more elegant.
++         * Checking from_dst_file for this is racy because from_dst_file will
++         * be cleared in the rp_thread!
++         */
++        bool          rp_thread_created;
+         QemuSemaphore rp_sem;
+     } rp_state;
+ 
+-- 
+2.31.1
 
 
