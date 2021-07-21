@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608EE3D0AB5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:46:49 +0200 (CEST)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8603D0ABF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:54:36 +0200 (CEST)
+Received: from localhost ([::1]:56056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67sO-0007hH-ED
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33312)
+	id 1m67zv-0004Nv-83
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m67o8-00074H-OY
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53183)
+ id 1m67rp-0008Hf-8t
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:46:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m67o7-00059W-81
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:24 -0400
+ id 1m67rn-00084s-QV
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626856942;
+ s=mimecast20190719; t=1626857171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pp+7qQuM/5UkNDkITrrbNiBeKGS9spJa0q99oABY188=;
- b=ahlA7xRFktj8e1ElvkBPlMI6I5FGODgUSzc0siXmFFqQj6Go83N4y2KsTwIluSuzb1OP4B
- GKafkt0m2RgzvAvqr0R0DYQBcOxzAyffUZHc153SndByWLPvqSDQJy669+Ho5m6AL9FNr3
- UwDLXRQXhFgSXr1U/QZkRCUJbF4pPWA=
+ bh=THZGEmL1ON3sOCgaZq2CNcN8xwiiSAihcDMZ4EzEkSY=;
+ b=cGOMshOrrq6ipchGznp0cPQq736syefRqGqsvFaIGGZumTLz9kbrI38lKcHmvOOhhC1VYx
+ 4/HmkwetwncKGB8TLgdpLzl/voX7roK6wvpk1yIpFvDiHa4cRvWbX3rvVDYnZc6TxmWj3Q
+ mm7TbBoAGD9MN0aYUMNIBP9NLTexCbU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-fVpS4jcAOxKiQuHcFFcytA-1; Wed, 21 Jul 2021 04:42:21 -0400
-X-MC-Unique: fVpS4jcAOxKiQuHcFFcytA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-456-FFzeuJS7NdSLcT_Hqrioog-1; Wed, 21 Jul 2021 04:42:32 -0400
+X-MC-Unique: FFzeuJS7NdSLcT_Hqrioog-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7068A873079
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:42:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5816800D62
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:42:31 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 824935D9FC;
- Wed, 21 Jul 2021 08:42:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7A8E84A16;
+ Wed, 21 Jul 2021 08:42:23 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/13] ui/clipboard: release owned grabs on unregister
-Date: Wed, 21 Jul 2021 12:41:32 +0400
-Message-Id: <20210721084139.1124779-7-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 07/13] ui/vdagent: disconnect handlers and reset state on
+ finalize
+Date: Wed, 21 Jul 2021 12:41:33 +0400
+Message-Id: <20210721084139.1124779-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
 References: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -86,29 +87,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Avoid handlers being called with dangling pointers when the object is
+freed.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/clipboard.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ ui/vdagent.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 56c14509fe..a9512f01a7 100644
---- a/ui/clipboard.c
-+++ b/ui/clipboard.c
-@@ -13,6 +13,15 @@ void qemu_clipboard_peer_register(QemuClipboardPeer *peer)
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index 5ae5734c81..1a29016e07 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -721,22 +721,26 @@ static void vdagent_chr_accept_input(Chardev *chr)
+     vdagent_send_buf(vd);
+ }
  
- void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
- {
-+    int i;
-+
-+    for (i = 0; i < QEMU_CLIPBOARD_SELECTION__COUNT; i++) {
-+        if (cbinfo[i] && cbinfo[i]->owner == peer) {
-+            /* release owned grabs */
-+            g_autoptr(QemuClipboardInfo) info = qemu_clipboard_info_new(NULL, i);
-+            qemu_clipboard_update(info);
-+        }
++static void vdagent_disconnect(VDAgentChardev *vd)
++{
++    vdagent_reset_bufs(vd);
++    vd->caps = 0;
++    if (vd->mouse_hs) {
++        qemu_input_handler_deactivate(vd->mouse_hs);
 +    }
-     notifier_remove(&peer->update);
++    if (vd->cbpeer.update.notify) {
++        qemu_clipboard_peer_unregister(&vd->cbpeer);
++        memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
++    }
++}
++
+ static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
+ {
+     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(chr);
+ 
+     if (!fe_open) {
+         trace_vdagent_close();
+-        /* reset state */
+-        vdagent_reset_bufs(vd);
+-        vd->caps = 0;
+-        if (vd->mouse_hs) {
+-            qemu_input_handler_deactivate(vd->mouse_hs);
+-        }
+-        if (vd->cbpeer.update.notify) {
+-            qemu_clipboard_peer_unregister(&vd->cbpeer);
+-            memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
+-        }
++        vdagent_disconnect(vd);
+         return;
+     }
+ 
+@@ -781,6 +785,7 @@ static void vdagent_chr_fini(Object *obj)
+ {
+     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(obj);
+ 
++    vdagent_disconnect(vd);
+     buffer_free(&vd->outbuf);
  }
  
 -- 
