@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FF43D1541
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:41:56 +0200 (CEST)
-Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738A73D156C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:48:17 +0200 (CEST)
+Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6GEF-0002vj-UR
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1m6GKO-0005O5-H2
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m6GBD-0001wV-6S
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:38:47 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51960)
+ id 1m6GJ4-0004h4-R0
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:46:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m6GB9-0002Vr-QE
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:38:46 -0400
-Received: by mail-wm1-x332.google.com with SMTP id n4so1801854wms.1
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 10:38:43 -0700 (PDT)
+ id 1m6GJ2-000870-1y
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:46:54 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ f8-20020a1c1f080000b029022d4c6cfc37so3886074wmf.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 10:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6fTPJcHVhTRggLAKqUQHrliBX8x0yh4pnQqTFBABytk=;
- b=QJLBPzqrltsQzL3aVlvsfdIeU8a/UWi/xll2ijLZH86G73x7IUs0iGkjL7LWaOFCIo
- Kip+Q55fbvCF8yJIHZwBpQx65m+mZS/UkuSKb6ilvUvJIUNDsPG9n4UQzTviAT7l+yWi
- 407hu+tgqgiTy+k1O4CFQiLNwptLNs24ZR5S+qf18PLIOd0upZDZacgb6N6ANbZ31Au2
- M6NXV3tyvLQPcGxwrUbqqkHA2aERD2p4a91MJca0j1AC1yPVU96sId5c5OF9FWh1Rl48
- sp6jtmcxEd32CLS2meu8U4slAc3VI0p5t/IwktSdMkAeWQ5QGi36MtjK2CA9d2YjdMEX
- VRag==
+ bh=oPAQ1HIU9OEYgJseCTbLTzhiLb4iqXPKpTt16ufEuko=;
+ b=XX1s6oKs72SKOx4KYIhN1u7dApSqug8VLoaEBS0G1UqvdF9eOzoccIMzzunuGCTCsW
+ D3Xm83nCapjYC+LJOJKAH9qFEhTugDR4mWQLtcv5IoN2EmxvOf28cGQ/xG/ldqtOTXDv
+ icR5F6tWu5OVpGLD1l8vR2tJKNs5BrfBhlYeVPlmnng6nUOedKnCDul8akOfm/ai8wAk
+ nwrs9GIjzOcalx9ae8DYqLHld+1frnhKNqwOxzq2A0mq+wungm8KSl3PP/sSpvIEy/6B
+ HtgDrjTkbbINHkI+SEl4d6WWfwlw3HShhnnIJcVzb7Wa2dpRMscuEPYBnpa2iYPbxzHs
+ stYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6fTPJcHVhTRggLAKqUQHrliBX8x0yh4pnQqTFBABytk=;
- b=rbWawwn0S3tcoK2F905C2DLeIK3sGjdGgptrRU2cBVpmSQKtKyZIZZgzN42fq0jf76
- 1FJxfxaknJqN7kgcc10CzLWFi2R/0Y2fIwNvNEGGzc5nQv3xERuEi8rHQKqlsWy+7yGK
- h9H76jhCMn0jEyn45iBfP5/7LCxH9DWKGiOkZ2K2h4HzuP9i9Im9QAOtJyHW/piuBsOF
- sBxK4ATi/hW8dCIhE+B+/PyH7PlyXpdGbtvK6aPHMGh8O1MrMbgtrzLWYe/8i6l3VTzc
- Z1jjczsJeSrOmCsbtg7x81uC3d3JpThhvlzZ1MAhM0bKGmPsbDUQrFTW9Vh0PKnmiSfr
- Zd9Q==
-X-Gm-Message-State: AOAM532H2efbkTSbTjUwdX6sUVXKUmHknQArDdW4kg0sjgFdDNPVDojY
- zpYzJU17Y6zU8BTZAVZ6gm4=
-X-Google-Smtp-Source: ABdhPJzi8OfGYm3xCP3DrmHaQwXbybqkdCK3c3rceIu3m/1ycaYFapxW5QQXiUexOW5RI34+zddMqw==
-X-Received: by 2002:a05:600c:2319:: with SMTP id
- 25mr5176422wmo.91.1626889121324; 
- Wed, 21 Jul 2021 10:38:41 -0700 (PDT)
+ bh=oPAQ1HIU9OEYgJseCTbLTzhiLb4iqXPKpTt16ufEuko=;
+ b=Z0uAkH5uoXlZc1vx3t3QD/zeqcjX83NXcF71Zral6PSN8PhiEIZq1cUqft3WNNqUqo
+ UYDAP9dhPpzJlMqhrZG67UTV+WBusl3q5BcnIpe1VNzUuy4dMgO0sLGlwtzz1m1YaB0L
+ RPVtQKQO9mffGIhQGAKh1EdpNfyc0V3aF/g16JboXx6qg74xGxh94VVJt4nSwyuRZoHm
+ VYQsJVARJWJkGvJhaNGj9ZDoDej0I3XL0VfnkrVOPpNf4/OwpBH6r5WZci5TpQkZiYvD
+ 8wVBMEmYL/XleLQq6ipWFn56n+WVkPqjnigPYJ449D3nLd5XKTtjduhrP1d84QxgUwth
+ j8kA==
+X-Gm-Message-State: AOAM530Udi+FsWGPeCTQ5eqtABKyyrFw6aL/Hem7kW1i+GBgR8+ZEMHV
+ 4LEcvzyR9bR7LXHBUBbfz4U=
+X-Google-Smtp-Source: ABdhPJy6LqDHpDsjkA8AAXLgbyOp/RRnMBOCkvoDqY+eMmVyHzvBIvGd/Hf7ToErPs9g1LwufChelQ==
+X-Received: by 2002:a1c:35c2:: with SMTP id
+ c185mr38281935wma.126.1626889610512; 
+ Wed, 21 Jul 2021 10:46:50 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id f82sm497235wmf.25.2021.07.21.10.38.40
+ by smtp.gmail.com with ESMTPSA id d29sm33703173wrb.63.2021.07.21.10.46.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 10:38:40 -0700 (PDT)
-Subject: Re: [PATCH v2 07/22] target/loongarch: Add fixed point arithmetic
+ Wed, 21 Jul 2021 10:46:49 -0700 (PDT)
+Subject: Re: [PATCH v2 09/22] target/loongarch: Add fixed point bit
  instruction translation
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-8-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-10-git-send-email-gaosong@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b004b8e6-c0c1-d13d-fae0-81c1ee22a95b@amsat.org>
-Date: Wed, 21 Jul 2021 19:38:39 +0200
+Message-ID: <fa4f505f-067d-29b4-03ca-e65108792257@amsat.org>
+Date: Wed, 21 Jul 2021 19:46:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626861198-6133-8-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1626861198-6133-10-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -99,83 +100,166 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/21/21 11:53 AM, Song Gao wrote:
-> This patch implement fixed point arithemtic instruction translation.
+> This patch implement fixed point bit instruction translation.
 > 
 > This includes:
-> - ADD.{W/D}, SUB.{W/D}
-> - ADDI.{W/D}, ADDU16ID
-> - ALSL.{W[U]/D}
-> - LU12I.W, LU32I.D LU52I.D
-> - SLT[U], SLT[U]I
-> - PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
-> - AND, OR, NOR, XOR, ANDN, ORN
-> - MUL.{W/D}, MULH.{W[U]/D[U]}
-> - MULW.D.W[U]
-> - DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
-> - ANDI, ORI, XORI
+> - EXT.W.{B/H}
+> - CL{O/Z}.{W/D}, CT{O/Z}.{W/D}
+> - BYTEPICK.{W/D}
+> - REVB.{2H/4H/2W/D}
+> - REVH.{2W/D}
+> - BITREV.{4B/8B}, BITREV.{W/D}
+> - BSTRINS.{W/D}, BSTRPICK.{W/D}
+> - MASKEQZ, MASKNEZ
 > 
 > Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->  target/loongarch/insns.decode |   89 ++++
->  target/loongarch/trans.inc.c  | 1090 +++++++++++++++++++++++++++++++++++++++++
->  target/loongarch/translate.c  |   12 +
->  target/loongarch/translate.h  |    1 +
->  4 files changed, 1192 insertions(+)
->  create mode 100644 target/loongarch/insns.decode
->  create mode 100644 target/loongarch/trans.inc.c
+>  target/loongarch/helper.h     |  10 +
+>  target/loongarch/insns.decode |  45 +++
+>  target/loongarch/op_helper.c  | 119 ++++++++
+>  target/loongarch/trans.inc.c  | 665 ++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 839 insertions(+)
 
-Please don't include all .inc.c in one big translate.c...
-
-> diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-> index 531f7e1..b60bdc2 100644
-> --- a/target/loongarch/translate.c
-> +++ b/target/loongarch/translate.c
-> @@ -57,6 +57,15 @@ void gen_load_gpr(TCGv t, int reg)
->      }
+> diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+> index b2cbdd7..07c3d52 100644
+> --- a/target/loongarch/op_helper.c
+> +++ b/target/loongarch/op_helper.c
+> @@ -25,3 +25,122 @@ void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
+>  {
+>      do_raise_exception(env, exception, GETPC());
 >  }
->  
-> +TCGv get_gpr(int regno)
+> +
+> +target_ulong helper_cto_w(CPULoongArchState *env, target_ulong rj)
 > +{
-> +    if (regno == 0) {
-> +        return tcg_constant_tl(0);
-> +    } else {
-> +        return cpu_gpr[regno];
+> +    uint32_t v = (uint32_t)rj;
+> +    int temp = 0;
+> +
+> +    while ((v & 0x1) == 1) {
+> +        temp++;
+> +        v = v >> 1;
 > +    }
+
+Why not use cto32() from "qemu/host-utils.h"
+
+> +
+> +    return (target_ulong)temp;
 > +}
 > +
->  static inline void gen_save_pc(target_ulong pc)
+> +target_ulong helper_ctz_w(CPULoongArchState *env, target_ulong rj)
+> +{
+> +    uint32_t v = (uint32_t)rj;
+> +
+> +    if (v == 0) {
+> +        return 32;
+> +    }
+> +
+> +    int temp = 0;
+> +    while ((v & 0x1) == 0) {
+> +        temp++;
+> +        v = v >> 1;
+> +    }
 
-... expose this one ...
+ctz32
 
->  {
->      tcg_gen_movi_tl(cpu_PC, pc);
-> @@ -287,6 +296,9 @@ static bool loongarch_tr_breakpoint_check(DisasContextBase *dcbase,
->      return true;
->  }
->  
-> +#include "decode-insns.c.inc"
+> +
+> +    return (target_ulong)temp;
+> +}
+> +
+> +target_ulong helper_cto_d(CPULoongArchState *env, target_ulong rj)
+> +{
+> +    uint64_t v = rj;
+> +    int temp = 0;
+> +
+> +    while ((v & 0x1) == 1) {
+> +        temp++;
+> +        v = v >> 1;
+> +    }
 
-... and move this include to "trans.c".
+cto64
 
-> +#include "trans.inc.c"
+> +
+> +    return (target_ulong)temp;
+> +}
+> +
+> +target_ulong helper_ctz_d(CPULoongArchState *env, target_ulong rj)
+> +{
+> +    uint64_t v = rj;
+> +
+> +    if (v == 0) {
+> +        return 64;
+> +    }
+> +
+> +    int temp = 0;
+> +    while ((v & 0x1) == 0) {
+> +        temp++;
+> +        v = v >> 1;
+> +    }
 
-removing this include.
+and ctz64?
 
->  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
->  {
->      CPULoongArchState *env = cs->env_ptr;
-> diff --git a/target/loongarch/translate.h b/target/loongarch/translate.h
-> index 333c3bf..ef4d4e7 100644
-> --- a/target/loongarch/translate.h
-> +++ b/target/loongarch/translate.h
-> @@ -35,6 +35,7 @@ void check_fpu_enabled(DisasContext *ctx);
->  
->  void gen_base_offset_addr(TCGv addr, int base, int offset);
->  void gen_load_gpr(TCGv t, int reg);
-> +TCGv get_gpr(int regno);
->  void gen_load_fpr32(TCGv_i32 t, int reg);
->  void gen_load_fpr64(TCGv_i64 t, int reg);
->  void gen_store_fpr32(TCGv_i32 t, int reg);
-> 
+> +
+> +    return (target_ulong)temp;
+> +}
+> +
+> +target_ulong helper_bitrev_w(CPULoongArchState *env, target_ulong rj)
+> +{
+> +    int32_t v = (int32_t)rj;
+> +    const int SIZE = 32;
+> +    uint8_t bytes[SIZE];
+> +
+> +    int i;
+> +    for (i = 0; i < SIZE; i++) {
+> +        bytes[i] = v & 0x1;
+> +        v = v >> 1;
+> +    }
+> +    /* v == 0 */
+> +    for (i = 0; i < SIZE; i++) {
+> +        v = v | ((uint32_t)bytes[i] << (SIZE - 1 - i));
+> +    }
+> +
+> +    return (target_ulong)(int32_t)v;
+> +}
+> +
+> +target_ulong helper_bitrev_d(CPULoongArchState *env, target_ulong rj)
+> +{
+> +    uint64_t v = rj;
+> +    const int SIZE = 64;
+> +    uint8_t bytes[SIZE];
+> +
+> +    int i;
+> +    for (i = 0; i < SIZE; i++) {
+> +        bytes[i] = v & 0x1;
+> +        v = v >> 1;
+> +    }
+> +    /* v == 0 */
+> +    for (i = 0; i < SIZE; i++) {
+> +        v = v | ((uint64_t)bytes[i] << (SIZE - 1 - i));
+> +    }
+> +
+> +    return (target_ulong)v;
+> +}
+> +
+> +static inline target_ulong bitswap(target_ulong v)
+> +{
+> +    v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
+> +        ((v & (target_ulong)0x5555555555555555ULL) << 1);
+> +    v = ((v >> 2) & (target_ulong)0x3333333333333333ULL) |
+> +        ((v & (target_ulong)0x3333333333333333ULL) << 2);
+> +    v = ((v >> 4) & (target_ulong)0x0F0F0F0F0F0F0F0FULL) |
+> +        ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
+> +    return v;
 
+Is this revbit64?
+
+> +}
+> +
+> +target_ulong helper_loongarch_dbitswap(target_ulong rj)
+> +{
+> +    return bitswap(rj);
+> +}
+> +
+> +target_ulong helper_loongarch_bitswap(target_ulong rt)
+> +{
+> +    return (int32_t)bitswap(rt);
+> +}
 
