@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2D73D0C89
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:47:41 +0200 (CEST)
-Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0419B3D0C88
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:47:07 +0200 (CEST)
+Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m69lM-0008Af-VY
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1m69kn-0006cY-L1
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m69hA-0000pr-QF
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:43:20 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37490)
+ id 1m69iO-0003dW-K4
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:44:36 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m69h8-0000k8-Su
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:43:20 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id h8so1809845eds.4
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 03:43:18 -0700 (PDT)
+ id 1m69iM-0001Xh-G7
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:44:36 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id ca14so1829237edb.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 03:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0qL/X9ml1pkLHfawjtoVzGpIuBaruQyUXaq537U4fQ4=;
- b=hxIVyMe2msfLG0Gmu0fmw3Tbg3ITEpENKztfw81yAsC5IUWgyBIL9cb+qWD2A3bKbL
- OOS6RL9gexq/bkrkjNJ8me94VWNly7uUAX7/ndu9J93pamVdqfFnxw7u19B8/uXyq2EQ
- ilz6Pa6JygWKPaZn3rsrmhjTp/gTeGmwQuxoqV15NepCrcd5eUdTqr3NiDwYQI3D6fxw
- 2TxZhbQBRKboELkOk/AVTVFzt7Hxtt8Im2Obaeanpt8165yfeahqs9YBfComBZmr6mgj
- WeYHKHjnoQcgfc7I9fnhWGI/bCzl316IszNvoQtVGzL14gqrDTEG9Ao3dKmkTUWuY93T
- XgBQ==
+ :cc; bh=E7sy4Jub6F61d/U81anJHHb9P4xyrmY5Kz/iblw13Kk=;
+ b=qTBHdMjRENpE3ubeXcITzPYcNRi9MW/SqKRfOrs5gVgjuGh8RGXx/8bN524xB9BrzQ
+ Pr0zhyQzimKJWOgJbyKI2yLbVdEvqxYXBjXzb5KnZ298lU2/m2AatKcVbwn80ps+Y3lh
+ hRHbB4xttYASwqs87ArC9qATVpqVJ930J6LqTl2HQdtSJQE9REn8MmeflBWLCc3VJns7
+ fOF5nfMBwHRtfT7t/4svI8f54k7oGSDryKl7gMDnPIS1vbEojALOIVFQZaKmpCC1ooMc
+ H7OQWMT9NW9rOPGDUnqrLwXGKsn6v+2X3PTccN/c2mlseXlPRtLTTHZjLHuFMDmY7gt9
+ fYJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0qL/X9ml1pkLHfawjtoVzGpIuBaruQyUXaq537U4fQ4=;
- b=qNBiJn6pl7EW6imZQos64FmoKGHAtXFkukI8WAPn5IxU4i+wALk5kANBZhQsY0iWp2
- wpMQy59YUvb6tUTRvAWg7SnzqO5HpLdp/d0yvl2RLEpmu0j5HwdZ3c7yVpyOrUpnxP0I
- L7ljv6m3gJJCPg3BqB7uYimL+2IGckJMuNyqlfb2w0Uh1R0/ZR3z30fGFVdJD9GVfxOM
- /TvWZX5u8FBL5mVbb88/0KE9mMfkvIFcoI8XqHMujNkNyKP6daYAFkt/3Q7f2fbjwfl5
- f6TsoQqL8dYZTZMo6P0DUUCNyliZNJVj4+VxeGj0mGY6c/qoNHnC1gdcAHZ9Q0QC8Iew
- ugTg==
-X-Gm-Message-State: AOAM5321pS8OIqd1otXCpbD7WFOcSeXOms0pf460etiRkZraphXbISYn
- NWr6TteGkhgvbH7BeA2+WN+Gf6hK0uNkf+HkU8w=
-X-Google-Smtp-Source: ABdhPJwFCvViaw2RaRV6t1OGxq/0Xgvdkzmd9kc8xAVnG4KFXqXZXC6bNs4vynQP1Yf+BQqxvVLPPF6oYf2eUMzJZF4=
-X-Received: by 2002:aa7:c808:: with SMTP id a8mr47851454edt.245.1626864197231; 
- Wed, 21 Jul 2021 03:43:17 -0700 (PDT)
+ bh=E7sy4Jub6F61d/U81anJHHb9P4xyrmY5Kz/iblw13Kk=;
+ b=X+ab/RcYX3xPIMGBF+ZeFJxydC76vYgc1yMVfpb8SBQzfo7HNw3Tt5ZJCejrVeerhS
+ 6dIlbX35aK0Tobl0pIzLJ6bwtXLhL/LUGLSo7I5q6R8/6fuK3iU5TqZPnM5I7+r3yMQ8
+ uHq91OxwW9h+zv3q5sJdWOlfzHmQiadHWNRFXaNv/NhUVjXRaE1jqzi8AFv69wZ7ABOM
+ KtQjranOBG3d0Juj14KYXoxDcaIPwjCoGkpW3pmmvHa+1etHYCSLlfPlChDYSD6qGX4P
+ GD9Odz8y/wDNclvG/IrugvRUFgg52MC1m5ZTx6l3p7fm0tsk0OdhHj+L3dOX8sctszNb
+ EK4Q==
+X-Gm-Message-State: AOAM530lyqAN04Ufq9WEErRTRYY/Row1i3TbVCrXbvgchJH5azYQlezj
+ 7e3XiekmIfYoRPpvoa7sNksfZukF3MPkMXxdiMA=
+X-Google-Smtp-Source: ABdhPJwenhtRpVz2DbKgBkQWfuorvaJFQLTNbCdW3MmJq0lTqTg0DU0xUNG8z0W0u74tiTRyFpeNVl2H9zVNxmqpfBI=
+X-Received: by 2002:a50:fe95:: with SMTP id d21mr47253228edt.257.1626864273257; 
+ Wed, 21 Jul 2021 03:44:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210721093347.338536-1-kraxel@redhat.com>
- <20210721093347.338536-2-kraxel@redhat.com>
-In-Reply-To: <20210721093347.338536-2-kraxel@redhat.com>
+ <20210721093347.338536-3-kraxel@redhat.com>
+In-Reply-To: <20210721093347.338536-3-kraxel@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 21 Jul 2021 14:43:05 +0400
-Message-ID: <CAJ+F1CJd1fEo8v9DbOLK4e9Vq=yL5wPTZZm5PL5UhxRwyLAtSg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] qxl: remove assert in qxl_pre_save.
+Date: Wed, 21 Jul 2021 14:44:20 +0400
+Message-ID: <CAJ+F1C++MxpoLDgTsSfSAUf9fYu0ftHbZXFTb+QjmLyTEiGYzQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Revert "qxl: add migration blocker to avoid pre-save
+ assert"
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000092e98905c79fd695"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52b.google.com
+Content-Type: multipart/alternative; boundary="0000000000001af90405c79fdb7a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,41 +82,105 @@ Cc: QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000092e98905c79fd695
+--0000000000001af90405c79fdb7a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 21, 2021 at 1:41 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Wed, Jul 21, 2021 at 1:34 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Since commit 551dbd0846d2 ("migration: check pre_save return in
-> vmstate_save_state") the pre_save hook can fail.  So lets finally
-> use that to drop the guest-triggerable assert in qxl_pre_save().
+> This reverts commit 86dbcdd9c7590d06db89ca256c5eaf0b4aba8858.
+>
+> The pre-save assert is gone now, so the migration blocker
+> is not needed any more.
 >
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
----
->  hw/display/qxl.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+
+> ---
+>  hw/display/qxl.h |  1 -
+>  hw/display/qxl.c | 31 -------------------------------
+>  2 files changed, 32 deletions(-)
 >
+> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+> index 379d3304abc1..30d21f4d0bdc 100644
+> --- a/hw/display/qxl.h
+> +++ b/hw/display/qxl.h
+> @@ -39,7 +39,6 @@ struct PCIQXLDevice {
+>      uint32_t           cmdlog;
+>
+>      uint32_t           guest_bug;
+> -    Error              *migration_blocker;
+>
+>      enum qxl_mode      mode;
+>      uint32_t           cmdflags;
 > diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> index 84f99088e0a0..3867b94fe236 100644
+> index 3867b94fe236..43482d4364ba 100644
 > --- a/hw/display/qxl.c
 > +++ b/hw/display/qxl.c
-> @@ -2283,7 +2283,9 @@ static int qxl_pre_save(void *opaque)
->      } else {
->          d->last_release_offset =3D (uint8_t *)d->last_release - ram_star=
-t;
->      }
-> -    assert(d->last_release_offset < d->vga.vram_size);
-> +    if (d->last_release_offset < d->vga.vram_size) {
-> +        return 1;
-> +    }
+> @@ -30,7 +30,6 @@
+>  #include "qemu/module.h"
+>  #include "hw/qdev-properties.h"
+>  #include "sysemu/runstate.h"
+> -#include "migration/blocker.h"
+>  #include "migration/vmstate.h"
+>  #include "trace.h"
 >
->      return 0;
->  }
+> @@ -666,30 +665,6 @@ static int interface_get_command(QXLInstance *sin,
+> struct QXLCommandExt *ext)
+>          qxl->guest_primary.commands++;
+>          qxl_track_command(qxl, ext);
+>          qxl_log_command(qxl, "cmd", ext);
+> -        {
+> -            /*
+> -             * Windows 8 drivers place qxl commands in the vram
+> -             * (instead of the ram) bar.  We can't live migrate such a
+> -             * guest, so add a migration blocker in case we detect
+> -             * this, to avoid triggering the assert in pre_save().
+> -             *
+> -             *
+> https://cgit.freedesktop.org/spice/win32/qxl-wddm-dod/commit/?id=3Df6e099=
+db39e7d0787f294d5fd0dce328b5210faa
+> -             */
+> -            void *msg =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_i=
+d);
+> -            if (msg !=3D NULL && (
+> -                    msg < (void *)qxl->vga.vram_ptr ||
+> -                    msg > ((void *)qxl->vga.vram_ptr +
+> qxl->vga.vram_size))) {
+> -                if (!qxl->migration_blocker) {
+> -                    Error *local_err =3D NULL;
+> -                    error_setg(&qxl->migration_blocker,
+> -                               "qxl: guest bug: command not in ram bar")=
+;
+> -                    migrate_add_blocker(qxl->migration_blocker,
+> &local_err);
+> -                    if (local_err) {
+> -                        error_report_err(local_err);
+> -                    }
+> -                }
+> -            }
+> -        }
+>          trace_qxl_ring_command_get(qxl->id,
+> qxl_mode_to_string(qxl->mode));
+>          return true;
+>      default:
+> @@ -1283,12 +1258,6 @@ static void qxl_hard_reset(PCIQXLDevice *d, int
+> loadvm)
+>      qemu_spice_create_host_memslot(&d->ssd);
+>      qxl_soft_reset(d);
+>
+> -    if (d->migration_blocker) {
+> -        migrate_del_blocker(d->migration_blocker);
+> -        error_free(d->migration_blocker);
+> -        d->migration_blocker =3D NULL;
+> -    }
+> -
+>      if (startstop) {
+>          qemu_spice_display_start();
+>      }
 > --
 > 2.31.1
 >
@@ -125,48 +190,129 @@ t;
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000092e98905c79fd695
+--0000000000001af90405c79fdb7a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 21, 2021 at 1:41 PM Gerd =
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 21, 2021 at 1:34 PM Gerd =
 Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
  wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Since co=
-mmit 551dbd0846d2 (&quot;migration: check pre_save return in<br>
-vmstate_save_state&quot;) the pre_save hook can fail.=C2=A0 So lets finally=
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This rev=
+erts commit 86dbcdd9c7590d06db89ca256c5eaf0b4aba8858.<br>
 <br>
-use that to drop the guest-triggerable assert in qxl_pre_save().<br>
+The pre-save assert is gone now, so the migration blocker<br>
+is not needed any more.<br>
 <br>
 Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
 t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
+<div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
+reau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> </div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0hw/display/qxl.c | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+=C2=A0hw/display/qxl.h |=C2=A0 1 -<br>
+=C2=A0hw/display/qxl.c | 31 -------------------------------<br>
+=C2=A02 files changed, 32 deletions(-)<br>
 <br>
+diff --git a/hw/display/qxl.h b/hw/display/qxl.h<br>
+index 379d3304abc1..30d21f4d0bdc 100644<br>
+--- a/hw/display/qxl.h<br>
++++ b/hw/display/qxl.h<br>
+@@ -39,7 +39,6 @@ struct PCIQXLDevice {<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmdlog=
+;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0guest_=
+bug;<br>
+-=C2=A0 =C2=A0 Error=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *migra=
+tion_blocker;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0enum qxl_mode=C2=A0 =C2=A0 =C2=A0 mode;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmdfla=
+gs;<br>
 diff --git a/hw/display/qxl.c b/hw/display/qxl.c<br>
-index 84f99088e0a0..3867b94fe236 100644<br>
+index 3867b94fe236..43482d4364ba 100644<br>
 --- a/hw/display/qxl.c<br>
 +++ b/hw/display/qxl.c<br>
-@@ -2283,7 +2283,9 @@ static int qxl_pre_save(void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d-&gt;last_release_offset =3D (uint8_t *)=
-d-&gt;last_release - ram_start;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 assert(d-&gt;last_release_offset &lt; d-&gt;vga.vram_size);<=
-br>
-+=C2=A0 =C2=A0 if (d-&gt;last_release_offset &lt; d-&gt;vga.vram_size) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
-+=C2=A0 =C2=A0 }<br>
+@@ -30,7 +30,6 @@<br>
+=C2=A0#include &quot;qemu/module.h&quot;<br>
+=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
+=C2=A0#include &quot;sysemu/runstate.h&quot;<br>
+-#include &quot;migration/blocker.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;trace.h&quot;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
+@@ -666,30 +665,6 @@ static int interface_get_command(QXLInstance *sin, str=
+uct QXLCommandExt *ext)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_primary.commands++;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl_track_command(qxl, ext);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl_log_command(qxl, &quot;cmd&quot;, ext=
+);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Windows 8 drivers place =
+qxl commands in the vram<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* (instead of the ram) bar=
+.=C2=A0 We can&#39;t live migrate such a<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* guest, so add a migratio=
+n blocker in case we detect<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* this, to avoid triggerin=
+g the assert in pre_save().<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* <a href=3D"https://cgit.=
+freedesktop.org/spice/win32/qxl-wddm-dod/commit/?id=3Df6e099db39e7d0787f294=
+d5fd0dce328b5210faa" rel=3D"noreferrer" target=3D"_blank">https://cgit.free=
+desktop.org/spice/win32/qxl-wddm-dod/commit/?id=3Df6e099db39e7d0787f294d5fd=
+0dce328b5210faa</a><br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *msg =3D qxl_phys2virt(qxl,=
+ ext-&gt;cmd.data, ext-&gt;group_id);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (msg !=3D NULL &amp;&amp; (<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =
+&lt; (void *)qxl-&gt;vga.vram_ptr ||<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =
+&gt; ((void *)qxl-&gt;vga.vram_ptr + qxl-&gt;vga.vram_size))) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qxl-&gt;migra=
+tion_blocker) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Erro=
+r *local_err =3D NULL;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 erro=
+r_setg(&amp;qxl-&gt;migration_blocker,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;qxl: guest bug: command not in =
+ram bar&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 migr=
+ate_add_blocker(qxl-&gt;migration_blocker, &amp;local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+local_err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 error_report_err(local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_qxl_ring_command_get(qxl-&gt;id, qx=
+l_mode_to_string(qxl-&gt;mode));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return true;<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+@@ -1283,12 +1258,6 @@ static void qxl_hard_reset(PCIQXLDevice *d, int load=
+vm)<br>
+=C2=A0 =C2=A0 =C2=A0qemu_spice_create_host_memslot(&amp;d-&gt;ssd);<br>
+=C2=A0 =C2=A0 =C2=A0qxl_soft_reset(d);<br>
+<br>
+-=C2=A0 =C2=A0 if (d-&gt;migration_blocker) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 migrate_del_blocker(d-&gt;migration_blocker);<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(d-&gt;migration_blocker);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 d-&gt;migration_blocker =3D NULL;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0if (startstop) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_spice_display_start();<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 -- <br>
 2.31.1<br>
 <br>
@@ -174,5 +320,5 @@ br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000092e98905c79fd695--
+--0000000000001af90405c79fdb7a--
 
