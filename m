@@ -2,183 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6923D140B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:24:55 +0200 (CEST)
-Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C4A3D1431
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:29:18 +0200 (CEST)
+Received: from localhost ([::1]:57418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6F1i-0002Qe-DK
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47560)
+	id 1m6F5w-00081x-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1m6Ex4-0004Zn-89
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:20:06 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:8874)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m6F4T-0006rV-4U
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:27:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1m6Ex0-000740-U5
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:20:05 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16LGCjWq018132; Wed, 21 Jul 2021 16:19:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=kvBALPn3aXneL0uIJFO8QRi+3xT6M1XNGhd81aFHnO4=;
- b=wPUT4U8Jpf3ZYLA7CwplxefSwFRYxjS98Qw+K7ntiWfNGwIfX+Q8rhG+V6VyTX5qwnSn
- Oz0MBYHAO4uU2Gaz0HHU6iVmSGKurnjNVAuHVuGtY6YIadoD1tUBwViZimh8uc86oGD/
- srsTPWv56hyIsDaWf+inp2CMf1TKMdFfTU80oWyVfkwN7iv4e+2FqGASW942VbCXCJHk
- 4NDSJPRBO6Rcem1SVR17GcxoEjcX/cibP1XeAVGy0Q+n5t/Mm7ma5z6d04VtUPU+1m3b
- xS9KgzYPdHLc413Vx0hzNx6chJUfnSrg48jXDqcD0SR9Q9ThwaolJQE+ZDjv4JbJZU7x Hw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=kvBALPn3aXneL0uIJFO8QRi+3xT6M1XNGhd81aFHnO4=;
- b=hcJQ26+OgRcYVbcCVIr3+Wy7YJAHhb+17O4AUO04HrXgmHwdYl5BIy+n2lvzD1khfg1m
- Hb1WjKom9OLhQPepw9q4szEElvh5vqTN5Y6afK1fdz5TYCGZ9ZLInLNM8dKjmsdubK50
- uDYyts1vIDs8mzmcARD6jjQEl4uGNvp7Okw6u6OliRTWm+dnZA+sddCyoRDcUK57vHUR
- jE4au5H9BBPEqQgayJzsSf0Zwp1ZIfMrfodENeM2oT4AYyJb+RUnoG6tLuTJ+1QLdtJa
- L9kbsradMuGC+9U54w7K93TBQCGvSD5tcTHsENTXkMuquGbX09/kM7W5hYWKCIzQ9EZJ sg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39wvr8b9vq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Jul 2021 16:19:58 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16LGFLQl028733;
- Wed, 21 Jul 2021 16:19:57 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2175.outbound.protection.outlook.com [104.47.73.175])
- by aserp3030.oracle.com with ESMTP id 39wunm8bju-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Jul 2021 16:19:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kG3zZPIGRddNNvoPwj9sDHgeLG95rpOC9LEo0aDVkGVtcD5SQi/n3AaO1NHRfSIM7dCPFBi2EFCHpWY8uWllw5B4cBRTeRIgvD1H36qCaLdW6yvSoSGol0L56MUIpoFdymmwBNjqBeOnagYYmT3LHLtJs1vxGh9T9sFJLu5836VvpA6I/h+CAuahp+b6yZXqqWpwbjcJqELgi6magkP2QvEM/XBQISUX2avyAJSoZR64mWhNmnHB0SjUjLloFWnW5JvmtUYKOJoT+weUAhGer8P5tc+tKBB/MxUUjUv1VHb5NCWIMsOH4osDE9gskV21dn3flr67dEul71so5a4UBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kvBALPn3aXneL0uIJFO8QRi+3xT6M1XNGhd81aFHnO4=;
- b=UoF2TvzxaQx2SEfs4G314K4ePJvY+cNdQB+P9k4Ol5Pt69H8vmudAfe5y5vwKsSHhEr/ZW2qJeQgejDNm2j+ViYvEX7Yg2C4DLfLENYcrZS1xoWe7/h30QEhXUEKebUs6p6LI932ea3JPyk+Hntjm+HH2PEThlDnnWvHcV1lCCVCkASH6rErQDNOKkSzKvSS9aFL4dgwEOPwz4bYgclqKntyICghlN+A+QwjnU/+CUO9HUB9VcR0iW6HT7ez0l+oz5pRjETVmN3S1GJ3CBFkk7eb1a+eUaBRLbV1ctjllljlREGnGPI0lGNZB1aRnok08/MmtxPsDSDBV0h1WwEWIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kvBALPn3aXneL0uIJFO8QRi+3xT6M1XNGhd81aFHnO4=;
- b=lq2KTmCqnAeJ6K4G3y/1ulRtdB84jCRhSQmS4ooIyEfOAaWGVCfGKotNt+4M4OhfqwLkkzGIG+mO8T/h1ZvjA/MM568REqqhvEX//b3DosjMs7ja3KJVs0k8+xqbM50Bt2pTTEM/jROXoXT6cXGWbNfP5Z1Kb4Ce6e605ERhE8A=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
-Received: from SJ0PR10MB4542.namprd10.prod.outlook.com (2603:10b6:a03:2da::19)
- by BYAPR10MB3173.namprd10.prod.outlook.com (2603:10b6:a03:153::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Wed, 21 Jul
- 2021 16:19:54 +0000
-Received: from SJ0PR10MB4542.namprd10.prod.outlook.com
- ([fe80::d1ad:b140:4d55:67a5]) by SJ0PR10MB4542.namprd10.prod.outlook.com
- ([fe80::d1ad:b140:4d55:67a5%9]) with mapi id 15.20.4331.034; Wed, 21 Jul 2021
- 16:19:54 +0000
-Subject: Re: [PATCH v5 10/10] ACPI ERST: step 6 of bios-tables-test.c
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <1625080041-29010-11-git-send-email-eric.devolder@oracle.com>
- <20210720152459.050b229d@redhat.com>
-From: Eric DeVolder <eric.devolder@oracle.com>
-Message-ID: <70da4306-876c-7ac9-eb91-949acff4b8ca@oracle.com>
-Date: Wed, 21 Jul 2021 11:19:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <20210720152459.050b229d@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR08CA0030.namprd08.prod.outlook.com
- (2603:10b6:a03:100::43) To SJ0PR10MB4542.namprd10.prod.outlook.com
- (2603:10b6:a03:2da::19)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m6F4O-0003x3-2P
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:27:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626884857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8keBk0YHtG6NSFtTlziS2iWKSe6bld9SYQE8ZRWXZ94=;
+ b=BrYLvb84Cplyc98ugxt7MaYPF0fGSjwAqYGc2QIJ0uR4tGpEs4q7Q+tTZ8L87jJ0pW3mFB
+ gieFvU5gIXgbhzJ1F69dR+gMTtinRImudDpmj9YnJh5yjWiVOlhXcPIiQKWhR7S1rxw+w0
+ t0GpR6L1X5hKYdTdhRlNqemByFVMh28=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-KDCL4Di0O_SRdNarglwQbg-1; Wed, 21 Jul 2021 12:27:36 -0400
+X-MC-Unique: KDCL4Di0O_SRdNarglwQbg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 32-20020adf82a30000b029013b21c75294so1216580wrc.14
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 09:27:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8keBk0YHtG6NSFtTlziS2iWKSe6bld9SYQE8ZRWXZ94=;
+ b=FD+XuBDS8BI24WxmXFby4TSZw373sJ0hp5bMKVTnqceFIriA5VbllpL202oxn0by13
+ xHCQ/c2gjycxO3d+jJP6P6G1dohnXcKlEj+RkcucPj+1QZr2PSWoX627cuIoPy7hqBaI
+ nJQqvnZHdkBnJdcQ5aKmnRg78Om21I2DhRX3ODtxuxVXXj5Sol5V2oikqcPgvBXHHpqU
+ 8dlftodaMYeXvfqr5vkGITzuALI+4hPaQmxyk/rQz5c60MqwEFi5DrkBaP+I2UldNPIz
+ VXKX6gAiFg49F+zGguWGz/jfYaDCldUZfX3sBECCs1QeQarzWRz1ucVG9NPi8Bu3m5gt
+ WvIw==
+X-Gm-Message-State: AOAM531RIhgAYHA80qHJs0YeONWCOq7yePWrdfWoxgZGAgVmKHDS4bge
+ eeokFjfbNMK6eDezQQNEzuztzjxNNAsDsAr8iQsP4na6PhnU0cj5nNk0cy6y2jDgOZfFpmzFQAV
+ OVtFgdQiJDA3BK1Y=
+X-Received: by 2002:a1c:4603:: with SMTP id t3mr4941872wma.178.1626884854793; 
+ Wed, 21 Jul 2021 09:27:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTpiWxiZTWZSSxPvXmAiZgjfjnPqzGObJjRlysVjDRRjkuk9UB+KarMNgWQTWhf2hIfOUX7A==
+X-Received: by 2002:a1c:4603:: with SMTP id t3mr4941841wma.178.1626884854522; 
+ Wed, 21 Jul 2021 09:27:34 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id z11sm27167122wru.65.2021.07.21.09.27.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 09:27:34 -0700 (PDT)
+Date: Wed, 21 Jul 2021 18:27:33 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL v3 05/19] hw/acpi/ich9: Set ACPI PCI hot-plug as default
+ on Q35
+Message-ID: <20210721182733.4bfea22d@redhat.com>
+In-Reply-To: <20210721120659-mutt-send-email-mst@kernel.org>
+References: <20210716151416.155127-1-mst@redhat.com>
+ <20210716151416.155127-6-mst@redhat.com>
+ <f8de5dbc-ed4c-ba99-8981-583fa42961cb@redhat.com>
+ <73728485-d133-e629-46ee-2ca586b71de6@redhat.com>
+ <20210721165934.2f81f3f3@redhat.com>
+ <4f90fcaa-581e-40b9-8f57-ad6c92bd98b2@redhat.com>
+ <20210721120659-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2606:b400:414:8061:221:28ff:fea5:27c8]
- (2606:b400:8024:1010::112a) by BYAPR08CA0030.namprd08.prod.outlook.com
- (2603:10b6:a03:100::43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.24 via Frontend
- Transport; Wed, 21 Jul 2021 16:19:53 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a878687-6f6b-411f-5023-08d94c63600e
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3173:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB317376313976D0A1EE9A266297E39@BYAPR10MB3173.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:489;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iwa4z9UmGXBbuAgdcDV0Z9CI1PiYGZmZ0nKSdms+UsednC2cqLyyirCdUh+Bw2h4961It1pFy9LyxxKU26KbQ744lmRwstKtbXNQMe8VHQsn8nr4riyVfVN8F6yiREYDcdfRCNEGQ8Q03P7Xl0RlpR/8RLV5RwjoWeFebQLqYoMZ3QokYnNiJglQoV2M79CSM+4cozNFEFmEHgD4dwYDkPBM7ocMuhbIQIWKFeRtlX0CZfdQohbh7rSc5qVzi17OX2XCDMWR/2w785f9Bh2hQh8VAtXzIWJ53UjwEImyU9opoYJy0docfmuyEGgCwa10/CqRJbLzlNTjiyKFTnmaSvIcDb5TPvqJNxLqIbPbyu3frpwVky4amPUv8ysHlk8hq7BXfsYtFAbLPhnz/sUIExCsDLZqe5ggD2B4HabWGHpkBtGWaC9+PhS1A1f7BZyKhS3OTYnVOJySxW6HBIbwK/wIgY3R4zUnX1gVncsVI76370uGozTKpKC5XBwbFf+z3VNxT0BxYVGqPEVAySXHGV71WXU0Zx1dp1m4xZjUtrxq/P8M7xkqxT0KYR8aYTnhVZjP7gWuZWsmX1XiEbGGx2NOJ5P42Aa8Vy29ljBx/Ow9I09RQfNBmIbXktz9ogSjSijgL5GqLqNIV+c9v5ysAFXz+qBaVytgUcJskyPi6rCWepI4O2FJPChBMozPMQikLExTYLQAxGGWxNH98MB7JsSbA9Rey8xpcvhpeF7GtIg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR10MB4542.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(376002)(39860400002)(346002)(396003)(136003)(53546011)(31686004)(6916009)(86362001)(186003)(8936002)(8676002)(6486002)(4326008)(478600001)(2616005)(31696002)(107886003)(316002)(66946007)(36756003)(66556008)(66476007)(38100700002)(83380400001)(2906002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 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
- =?utf-8?B?eWE1SSt3eXJ0U0lXazlUZz09?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a878687-6f6b-411f-5023-08d94c63600e
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4542.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 16:19:54.8282 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U3Q3Rg5eeZBwhivSOAi3Q4qQh2P+J+14eOeNrrt4EL3O65FWVo+PHoREYVq69hyCtby6F82MtiAkPGZQoLMt/3XUTB0HbPI7V5FOU4kjSpE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3173
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10052
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107210095
-X-Proofpoint-GUID: ukpgQc55HmGxoO2f6oX2nWEK9_y5gdl6
-X-Proofpoint-ORIG-GUID: ukpgQc55HmGxoO2f6oX2nWEK9_y5gdl6
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -191,84 +102,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 21 Jul 2021 12:09:01 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Wed, Jul 21, 2021 at 05:49:16PM +0200, Laurent Vivier wrote:
+> > On 21/07/2021 16:59, Igor Mammedov wrote:  
+> > > On Tue, 20 Jul 2021 14:56:06 +0200
+> > > Laurent Vivier <lvivier@redhat.com> wrote:
+> > >   
+> > >> On 20/07/2021 13:38, Laurent Vivier wrote:  
+> > >>> On 16/07/2021 17:15, Michael S. Tsirkin wrote:    
+> > >>>> From: Julia Suvorova <jusual@redhat.com>
+> > >>>>
+> > >>>> Q35 has three different types of PCI devices hot-plug: PCIe Native,
+> > >>>> SHPC Native and ACPI hot-plug. This patch changes the default choice
+> > >>>> for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
+> > >>>> ability to use SHPC and PCIe Native for hot-plugged bridges.
+> > >>>>
+> > >>>> This is a list of the PCIe Native hot-plug issues that led to this
+> > >>>> change:
+> > >>>>     * no racy behavior during boot (see 110c477c2ed)
+> > >>>>     * no delay during deleting - after the actual power off software
+> > >>>>       must wait at least 1 second before indicating about it. This case
+> > >>>>       is quite important for users, it even has its own bug:
+> > >>>>           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+> > >>>>     * no timer-based behavior - in addition to the previous example,
+> > >>>>       the attention button has a 5-second waiting period, during which
+> > >>>>       the operation can be canceled with a second press. While this
+> > >>>>       looks fine for manual button control, automation will result in
+> > >>>>       the need to queue or drop events, and the software receiving
+> > >>>>       events in all sort of unspecified combinations of attention/power
+> > >>>>       indicator states, which is racy and uppredictable.
+> > >>>>     * fixes:
+> > >>>>         * https://bugzilla.redhat.com/show_bug.cgi?id=1752465
+> > >>>>         * https://bugzilla.redhat.com/show_bug.cgi?id=1690256
+> > >>>>
+> > >>>> To return to PCIe Native hot-plug:
+> > >>>>     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+> > >>>>
+> > >>>> Known issue: older linux guests need the following flag
+> > >>>> to allow hotplugged pci express devices to use io:
+> > >>>>         -device pcie-root-port,io-reserve=4096.
+> > >>>> io is unusual for pci express so this seems minor.
+> > >>>> We'll fix this by a follow up patch.
+> > >>>>
+> > >>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > >>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > >>>> Message-Id: <20210713004205.775386-6-jusual@redhat.com>
+> > >>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> > >>>> ---
+> > >>>>  hw/acpi/ich9.c | 2 +-
+> > >>>>  hw/i386/pc.c   | 1 +
+> > >>>>  2 files changed, 2 insertions(+), 1 deletion(-)
+> > >>>>
+> > >>>> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> > >>>> index 2f4eb453ac..778e27b659 100644
+> > >>>> --- a/hw/acpi/ich9.c
+> > >>>> +++ b/hw/acpi/ich9.c
+> > >>>> @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+> > >>>>      pm->disable_s3 = 0;
+> > >>>>      pm->disable_s4 = 0;
+> > >>>>      pm->s4_val = 2;
+> > >>>> -    pm->use_acpi_hotplug_bridge = false;
+> > >>>> +    pm->use_acpi_hotplug_bridge = true;
+> > >>>>  
+> > >>>>      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+> > >>>>                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+> > >>>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > >>>> index aa79c5e0e6..f4c7a78362 100644
+> > >>>> --- a/hw/i386/pc.c
+> > >>>> +++ b/hw/i386/pc.c
+> > >>>> @@ -99,6 +99,7 @@ GlobalProperty pc_compat_6_0[] = {
+> > >>>>      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+> > >>>>      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
+> > >>>>      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
+> > >>>> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
+> > >>>>  };
+> > >>>>  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+> > >>>>  
+> > >>>>    
+> > >>>
+> > >>> There is an issue with this patch.
+> > >>>
+> > >>> When I try to unplug a VFIO device I have the following error and the device is not unplugged:
+> > >>>
+> > >>> (qemu) device_del hostdev0
+> > >>>
+> > >>> [   34.116714] ACPI BIOS Error (bug): Could not resolve symbol [^S0B.PCNT], AE_NOT_FOUND
+> > >>> (20201113/psargs-330)
+> > >>> [   34.117987] ACPI Error: Aborting method \_SB.PCI0.PCNT due to previous error
+> > >>> (AE_NOT_FOUND) (20201113/psparse-531)
+> > >>> [   34.119318] ACPI Error: Aborting method \_GPE._E01 due to previous error (AE_NOT_FOUND)
+> > >>> (20201113/psparse-531)
+> > >>> [   34.120600] ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_E01]
+> > >>> (20201113/evgpe-515)
+> > >>>
+> > >>> We can see device is not unplugged (03:00.0)
+> > >>>
+> > >>> # lspci -v -s 03:00.0
+> > >>> 03:00.0 Ethernet controller: Intel Corporation Ethernet Virtual Function 700 Series (rev 02)
+> > >>> 	Subsystem: Intel Corporation Device 0000
+> > >>> 	Flags: bus master, fast devsel, latency 0
+> > >>> 	Memory at fe800000 (64-bit, prefetchable) [size=64K]
+> > >>> 	Memory at fe810000 (64-bit, prefetchable) [size=16K]
+> > >>> 	Capabilities: [70] MSI-X: Enable+ Count=5 Masked-
+> > >>> 	Capabilities: [a0] Express Endpoint, MSI 00
+> > >>> 	Capabilities: [100] Advanced Error Reporting
+> > >>> 	Capabilities: [1a0] Transaction Processing Hints
+> > >>> 	Capabilities: [1d0] Access Control Services
+> > >>> 	Kernel driver in use: iavf
+> > >>> 	Kernel modules: iavf
+> > >>>
+> > >>> My guest kernel is from RHEL 8.5 (4.18.0-310.el8.x86_64) and my command line is:
+> > >>>
+> > >>> $QEMU \
+> > >>> -L .../pc-bios \
+> > >>> -nodefaults \
+> > >>> -nographic \
+> > >>> -machine q35 \
+> > >>> -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
+> > >>> -device pcie-pci-bridge,id=pcie-pci-bridge-0,addr=0x0,bus=pcie-root-port-0  \
+> > >>> -device pcie-root-port,id=pcie-root-port-1,port=0x1,addr=0x1.0x1,bus=pcie.0,chassis=2 \
+> > >>> -device pcie-root-port,id=pcie-root-port-2,port=0x2,addr=0x1.0x2,bus=pcie.0,chassis=3 \
+> > >>> -device pcie-root-port,id=pcie-root-port-3,port=0x3,addr=0x1.0x3,bus=pcie.0,chassis=4 \
+> > >>> -device
+> > >>> pcie-root-port,id=pcie_extra_root_port_0,multifunction=on,bus=pcie.0,addr=0x3,chassis=5 \
+> > >>> -nodefaults \
+> > >>> -m 4066  \
+> > >>> -smp 4 \
+> > >>> -device virtio-scsi-pci,id=virtio_scsi_pci0,bus=pcie-root-port-2,addr=0x0 \
+> > >>> -blockdev
+> > >>> node-name=file_image1,driver=file,auto-read-only=on,discard=unmap,aio=threads,filename=$IMAGE,cache.direct=on,cache.no-fl\
+> > >>> -blockdev
+> > >>> node-name=drive_image1,driver=qcow2,read-only=off,cache.direct=on,cache.no-flush=off,file=file_image1
+> > >>> \
+> > >>> -device scsi-hd,id=image1,drive=drive_image1,write-cache=on \
+> > >>> -enable-kvm \
+> > >>> -serial mon:stdio \
+> > >>> -device vfio-pci,host=04:02.0,bus=pcie-root-port-1,addr=0x0,id=hostdev0
+> > >>>
+> > >>> PCI 04:02.0 is:
+> > >>>
+> > >>> $ lspci -v -s 04:02.0
+> > >>> 04:02.0 Ethernet controller: Intel Corporation Ethernet Virtual Function 700 Series (rev 02)
+> > >>> 	Subsystem: Intel Corporation Device 0000
+> > >>> 	Flags: fast devsel, NUMA node 0, IOMMU group 53
+> > >>> 	Memory at 92400000 (64-bit, prefetchable) [virtual] [size=64K]
+> > >>> 	Memory at 92910000 (64-bit, prefetchable) [virtual] [size=16K]
+> > >>> 	Capabilities: <access denied>
+> > >>> 	Kernel driver in use: vfio-pci
+> > >>> 	Kernel modules: iavf
+> > >>>
+> > >>> Any idea?    
+> > >>
+> > >> It also happens with non-VFIO device like e1000e:
+> > >>
+> > >> ...
+> > >> -device e1000e,bus=pcie-root-port-1,addr=0x0,id=hostdev0 \  
+> > >                      ^^^^^^^^^^^^^
+> > > ACPI hotplug operates on slot level, so functions greater than 0 are not considered,
+> > > hence unexpected ACPI error. For above CLI, setting 'addr' on root-ports to dedicated slots
+> > > should fix issue.
+> > >   
+> > 
+> > Thank you for your answer.
+> > 
+> > It works well with something like this:
+> > 
+> > ...
+> > -device pcie-root-port,id=pcie-root-port-0,addr=0x1,bus=pcie.0,chassis=1 \
+> > -device pcie-root-port,id=pcie-root-port-1,addr=0x2,bus=pcie.0,chassis=2 \
+> > -device pcie-root-port,id=pcie-root-port-2,addr=0x3,bus=pcie.0,chassis=3 \
+> > -device pcie-root-port,id=pcie-root-port-3,addr=0x4,bus=pcie.0,chassis=4 \
+> > -device e1000e,mac=52:54:00:12:34:56,id=hostdev0,bus=pcie-root-port-1 \
+> > ...
+> > 
+> > Is this what you meant?
+yep
+
+> > 
+> > On an other hand, the previous configuration worked well before this patch, can we see
+> > that as a regression?
+
+Maybe for 6.1 we should flip default back to native (revert 17858a16950860),
+until we sort out multifunction issues.
 
 
-On 7/20/21 8:24 AM, Igor Mammedov wrote:
-> On Wed, 30 Jun 2021 15:07:21 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
+> > 
+> > Thanks,
+> > Laurent  
 > 
->> Following the guidelines in tests/qtest/bios-tables-test.c, this
->> is step 6, the re-generated ACPI tables binary blobs.
 > 
-> looks like test case itself got lost somewhere along the way.
-I now understand that this means the test cases in bios-tables-test.c.
-I've tests in there now, though still working through a microvm fail.
+> I agree, port itself can be multifunction, slot behind it is a single
+> function. Looks like a bug to me. Julia?
+I quickly cobbled up acpi hack to do it.
 
+But kernel refuses to see bridges described
+in ACPI other than on function 0.
+I'll play with it tomorrow some more.
 
->   
->>
->> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
->> ---
->>   tests/data/acpi/microvm/ERST                | Bin 0 -> 976 bytes
->>   tests/data/acpi/pc/ERST                     | Bin 0 -> 976 bytes
->>   tests/data/acpi/q35/ERST                    | Bin 0 -> 976 bytes
->>   tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
->>   4 files changed, 4 deletions(-)
->>
->> diff --git a/tests/data/acpi/microvm/ERST b/tests/data/acpi/microvm/ERST
->> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..db2adaa8d9b45e295f9976d6bb5a07a813214f52 100644
->> GIT binary patch
->> literal 976
->> zcmaKqTMmLS5Jd+l50TdfOjv?(1qNf{pGN#}aW2XoVQ=kJawAMa;r8^<4tl<ik9Q&x
->> z9fs@aGWNsscIs_KB7$e!_x3{VFxa)yyAdhW<ewtq@KMTR;_(*;o)AYwsc#_I{R=ny
->> z8zx&whJ53fsGoYS{%e8zX-SD^^!|)F8lIhx`_IYG$#;3?dmQ>N$k#r!KbMbUbUyg_
->> zK(;pcerufGzoGM$#7pML|ITms2HKLp#iT7ge?`3d;=pU-HFM;Z{u=Td@?Bo=v9u+>
->> bCEw+h{yXwJ@?BooAHQFxe`xQi@1uMGuJKX<
->>
->> literal 0
->> HcmV?d00001
->>
->> diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
->> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
->> GIT binary patch
->> literal 976
->> zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
->> z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
->> z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
->> z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ
->> c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
->>
->> literal 0
->> HcmV?d00001
->>
->> diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
->> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
->> GIT binary patch
->> literal 976
->> zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
->> z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
->> z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
->> z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ
->> c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
->>
->> literal 0
->> HcmV?d00001
->>
->> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
->> index e004c71..dfb8523 100644
->> --- a/tests/qtest/bios-tables-test-allowed-diff.h
->> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
->> @@ -1,5 +1 @@
->>   /* List of comma-separated changed AML files to ignore */
->> -"tests/data/acpi/pc/ERST",
->> -"tests/data/acpi/q35/ERST",
->> -"tests/data/acpi/microvm/ERST",
->> -
-> 
+PS:
+(it's a bit more than I'm comfortable to push as a fix for 6.1 anyways)
+
 
