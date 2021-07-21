@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0C93D1784
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:07:38 +0200 (CEST)
-Received: from localhost ([::1]:42590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8203D17E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:23:34 +0200 (CEST)
+Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6IVF-0000ZB-Ft
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
+	id 1m6Ikf-0003IW-Gt
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOK-0002xx-W4
+ id 1m6IOL-0002xz-Ci
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:31 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:37786)
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:36815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOH-0005qk-Jv
+ id 1m6IOH-0005sm-LJ
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:28 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- a17-20020a17090abe11b0290173ce472b8aso533557pjs.2
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:23 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id x16so1651501plg.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dJN2k5SJVEq9tPKHGr6/aHWCsTEx2Fk2u0dskQ4Nk1Y=;
- b=CKZc+AERNhFDelEz+YIZ8FT6VBQlFzwBReeyHf0pn44hKCtsLiYQGcY7Z62vNC8lL9
- mc/zNXW9Ydz3ClUMfHUGyksHx5tBaQszzTQ8IFPCsP0mQxj2Xnc+/4FkBpsWZ+G8WglL
- rziuHqlIugPFHzqe5H2tRwUElfcSsXElrYjcXPTT729x/1f1yiAvx0gvsCafI5VMliaK
- 6AYFVCc4N4mQj69Q+SBKItH364U9/40Et9uAjQ9DHrEfVUwQOn/qWpvFm6PrjuclI/U5
- UuCNqh8962cgEohsR1nTvCA5q5ie9EXws5KkK4ZBOsmrnLN3Lm4Xd4ao28lo1X3sJYt8
- DU0A==
+ bh=P7/BMHsXFM5u+/5zB8fL6SRcNTVkT9GgtafQt9Cnl+M=;
+ b=H/hwpR0Nxbawf4a3cwXFxOUcA4/77o3fk6OaNHlX0rjoXkxJX1kDO+1p4wZSpCND3q
+ Dy4IKl9OH71OcGREgk3TRS7hHkd1ZwOOPP0ZddJVwBQLBoT6cWthRQ7qy+qO1aUUH+RT
+ NjWX4nhK8YfqqxnbHXA/W5AUDcH7pbRFhjqxS1Jq6OFfAMrTZ8PJCqA3hni9EVYP7VJf
+ 52sDr5YXkMzJ+dWRZQ+31Jr09/3st6Ulo3rH0zn4a3pluPGmvwnWfGQIXsYZENI8fU8k
+ d6hrtv6u4ufSxqMNYzck7/j2O9xht7AalHJMn0unje8lpzzhIlYVSd4vsi5abxsYqELl
+ 7VAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dJN2k5SJVEq9tPKHGr6/aHWCsTEx2Fk2u0dskQ4Nk1Y=;
- b=S+05t+JV9RmT4S49b0Xz23EBS67fMETogQk4bjvP/M8YogzHD5oShunnKjQc5HzUB8
- +Ren9W6iyM/2K3Z6TgvzatQcr+mh7i5BzwIAu8dJsUYIFaiOGcjEhg5wvP207sebzm6Y
- k4Ia9dlwtCJK9Ce4jiyhgaH0SkN1OZisEOGC1QbRUVuKNLLJkdxA4Lsh7SJ+9UW8gG+U
- G/gEbevaGbYLoVta7nvaNr5F4mGZPg30jtEJf/zAAHs3uTSLXVLXXdl0cQoAvhzHAc1l
- HhuLgUvmDYomFgmZAOEsK/T5lwBME/Gi1ZKALJ/xglOxG55aZxbAXEqmTSPlgkm9qIzQ
- lLbQ==
-X-Gm-Message-State: AOAM530+9gB/dLY5Sg1U8LBx0YF8vhfPnD5CAnvfYonRG05Gq5068wQW
- dTpeFPlT1nPxFMuxHe5IgV2saEEhWRxRqQ==
-X-Google-Smtp-Source: ABdhPJxWyRun/y/ri+jY+tZgM3kk6Dy1TW9aUGkSFTmmWJClT37YItTkzoHuQvpJ5RHqlWXS+mj71w==
-X-Received: by 2002:aa7:8c47:0:b029:340:aa57:f65 with SMTP id
- e7-20020aa78c470000b0290340aa570f65mr22899786pfd.56.1626897623005; 
- Wed, 21 Jul 2021 13:00:23 -0700 (PDT)
+ bh=P7/BMHsXFM5u+/5zB8fL6SRcNTVkT9GgtafQt9Cnl+M=;
+ b=dbVQPZCiTbjedN3W9Xpx2OCXCb7oydYsnUosxmIaLyhdBXpJWPE+uJCGSk/ulS6z0c
+ sIyc7JFeAxQD/Dq6Zg9iBBo1Gn8XszNpk1RJalmbZgkWPCh9aU2T4t7RidEo7OLrNu6r
+ eUhKPlYkUZGHgBxxapxpaBdzrL3N5MLlIADHrQEauuFcoDRKQZA/8NDo0sgXRZN4NYRp
+ crmiIHinuv0srv+uRs45+1tsIbAvhQq6cJqbCWbSE6k/Ct1qpdqHlj8DDW2q9m5qS7wd
+ rqG9rmxasbuWNb9qb0NkRmezcmEwwCS+kMd7cxeAvtXUy7hXT9MVQpLWvWnx9G45lYJU
+ gKTA==
+X-Gm-Message-State: AOAM531E8ztxLbFz0faBy7ynBzslF/aK4RBNyug+iQt71IJUpkbnNFRu
+ 3Nxm9A9B2y+2Zgh04CtSXPrF1XZmIXazZg==
+X-Google-Smtp-Source: ABdhPJwYenygV08xgyeEah4Va2HTMZ+2UcnujqshVEcCxjOxU6APCyD2u2IxKC/a5gJtb1/f733FNQ==
+X-Received: by 2002:a17:902:9004:b029:f0:b40d:38d with SMTP id
+ a4-20020a1709029004b02900f0b40d038dmr29068905plp.85.1626897624239; 
+ Wed, 21 Jul 2021 13:00:24 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.21
+ by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:22 -0700 (PDT)
+ Wed, 21 Jul 2021 13:00:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/27] target/arm: Implement debug_check_breakpoint
-Date: Wed, 21 Jul 2021 09:59:46 -1000
-Message-Id: <20210721195954.879535-20-richard.henderson@linaro.org>
+Subject: [PULL 20/27] target/i386: Implement debug_check_breakpoint
+Date: Wed, 21 Jul 2021 09:59:47 -1000
+Message-Id: <20210721195954.879535-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
 References: <20210721195954.879535-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,88 +86,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reuse the code at the bottom of helper_check_breakpoints,
-which is what we currently call from *_tr_breakpoint_check.
+Return false for RF set, as we do in i386_tr_breakpoint_check.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h    | 3 +++
- target/arm/cpu.c          | 1 +
- target/arm/cpu_tcg.c      | 1 +
- target/arm/debug_helper.c | 7 +++----
- 4 files changed, 8 insertions(+), 4 deletions(-)
+ target/i386/tcg/tcg-cpu.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 3ba86e8af8..11a72013f5 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -282,6 +282,9 @@ void hw_breakpoint_update(ARMCPU *cpu, int n);
-  */
- void hw_breakpoint_update_all(ARMCPU *cpu);
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index e96ec9bbcc..238e3a9395 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -54,6 +54,17 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.eip = tb->pc - tb->cs_base;
+ }
  
-+/* Callback function for checking if a breakpoint should trigger. */
-+bool arm_debug_check_breakpoint(CPUState *cs);
++#ifndef CONFIG_USER_ONLY
++static bool x86_debug_check_breakpoint(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
 +
- /* Callback function for checking if a watchpoint should trigger. */
- bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
++    /* RF disables all architectural breakpoints. */
++    return !(env->eflags & RF_MASK);
++}
++#endif
++
+ #include "hw/core/tcg-cpu-ops.h"
  
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 9cddfd6a44..752b15bb79 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1984,6 +1984,7 @@ static const struct TCGCPUOps arm_tcg_ops = {
-     .do_unaligned_access = arm_cpu_do_unaligned_access,
-     .adjust_watchpoint_address = arm_adjust_watchpoint_address,
-     .debug_check_watchpoint = arm_debug_check_watchpoint,
-+    .debug_check_breakpoint = arm_debug_check_breakpoint,
+ static const struct TCGCPUOps x86_tcg_ops = {
+@@ -66,6 +77,7 @@ static const struct TCGCPUOps x86_tcg_ops = {
+     .tlb_fill = x86_cpu_tlb_fill,
+ #ifndef CONFIG_USER_ONLY
+     .debug_excp_handler = breakpoint_handler,
++    .debug_check_breakpoint = x86_debug_check_breakpoint,
  #endif /* !CONFIG_USER_ONLY */
  };
- #endif /* CONFIG_TCG */
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index d2d97115ea..ed444bf436 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -911,6 +911,7 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .do_unaligned_access = arm_cpu_do_unaligned_access,
-     .adjust_watchpoint_address = arm_adjust_watchpoint_address,
-     .debug_check_watchpoint = arm_debug_check_watchpoint,
-+    .debug_check_breakpoint = arm_debug_check_breakpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
- #endif /* CONFIG_TCG */
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 2ff72d47d1..4a0c479527 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -216,8 +216,9 @@ static bool check_watchpoints(ARMCPU *cpu)
-     return false;
- }
  
--static bool check_breakpoints(ARMCPU *cpu)
-+bool arm_debug_check_breakpoint(CPUState *cs)
- {
-+    ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
-     int n;
- 
-@@ -240,9 +241,7 @@ static bool check_breakpoints(ARMCPU *cpu)
- 
- void HELPER(check_breakpoints)(CPUARMState *env)
- {
--    ARMCPU *cpu = env_archcpu(env);
--
--    if (check_breakpoints(cpu)) {
-+    if (arm_debug_check_breakpoint(env_cpu(env))) {
-         HELPER(exception_internal(env, EXCP_DEBUG));
-     }
- }
 -- 
 2.25.1
 
