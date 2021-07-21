@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B073D090F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:40:12 +0200 (CEST)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5F03D0903
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:36:53 +0200 (CEST)
+Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m65tr-0002WY-EJ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
+	id 1m65qe-0006Ta-FH
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65ng-0003ca-9f; Wed, 21 Jul 2021 02:33:48 -0400
-Received: from ozlabs.org ([203.11.71.1]:39237)
+ id 1m65ng-0003cb-AJ
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:33:48 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42693 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65nb-0006pz-Hq; Wed, 21 Jul 2021 02:33:48 -0400
+ id 1m65nc-0006q2-8X
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:33:48 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GV5Pv4j4Hz9sXG; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
+ id 4GV5Pv53nkz9sX1; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1626849219;
- bh=hqEBLoErypeJr3mW3ghrAFQ0KrzUsxbx6+rbljz22cU=;
+ bh=F8gyl13W8d9bJreMFB7RLhv3BkcqFveIzzIuJw3Aoi4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J2nj3DwMZnvzfD5CPP4PONRwetxllyhD2ikjjX7B7iqsUl3UbODg6zF+V68Yqy4Wz
- gsnUG1L9TQOnorM8J80w1F66mVROvCY/I6QiayczFdxRY8dAwr7LE4TvyHDluMuXgJ
- OqdhxCYAgkwVPcX0aKXgqG/IzVP6StKjMiXPpDHs=
-Date: Wed, 21 Jul 2021 16:07:09 +1000
+ b=mNKp7FyZ1FBSZCI2PUb/Zeceud3iosk/Dpr9IGL2bLpYQLGWt+Ct8EPv399Kv5wso
+ Go6rF++StxHdR/ERxKuc25Mx6yWXBLWt9etNOheoZmDZ2jxnZ5dAuqabPy4T1o4bkm
+ KD/SZgR0rc2lYwZ/18Td/hpgdJ/y1ANIhhzWp0+E=
+Date: Wed, 21 Jul 2021 16:08:19 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v2] target/ppc: Ease L=0 requirement on
- cmp/cmpi/cmpl/cmpli for ppc32
-Message-ID: <YPe5jaamD0481c5X@yekko>
-References: <20210720135507.2444635-1-matheus.ferst@eldorado.org.br>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 03/16] spapr: Explain purpose of
+ ->fwnmi_migration_blocker more clearly
+Message-ID: <YPe504pJWh6iZCnc@yekko>
+References: <20210720125408.387910-1-armbru@redhat.com>
+ <20210720125408.387910-4-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="glWUZbamlQMGrMIi"
+ protocol="application/pgp-signature"; boundary="kyRovcnPWfQrSkfv"
 Content-Disposition: inline
-In-Reply-To: <20210720135507.2444635-1-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210720125408.387910-4-armbru@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,140 +61,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---glWUZbamlQMGrMIi
+--kyRovcnPWfQrSkfv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 20, 2021 at 10:55:07AM -0300, matheus.ferst@eldorado.org.br wro=
-te:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Tue, Jul 20, 2021 at 02:53:55PM +0200, Markus Armbruster wrote:
+> spapr_mce_req_event() makes an effort to prevent migration from
+> degrading the reporting of FWNMIs.  It adds a migration blocker when
+> it receives one, and deletes it when it's done handling it.  This is a
+> best effort.
 >=20
-> In commit 8f0a4b6a9b, we started to require L=3D0 for ppc32 to match what
-> The Programming Environments Manual say:
+> Commit 2500fb423a "migration: Include migration support for machine
+> check handling" tried to explain this in a comment.  Rewrite the
+> comment for clarity, and reposition it to make it clear it applies to
+> all failure modes, not just "migration already in progress".
 >=20
-> "For 32-bit implementations, the L field must be cleared, otherwise
-> the instruction form is invalid."
->=20
-> The stricter behavior, however, broke AROS boot on sam460ex, which is a
-> regression from 6.0. This patch partially reverts the change, raising
-> the exception only for CPUs known to require L=3D0 (e500 and e500mc) and
-> logging a guest error for other cases.
->=20
-> Both behaviors are acceptable by the PowerISA, which allows "the system
-> illegal instruction error handler to be invoked or yield boundedly
-> undefined results."
->=20
-> Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Fixes: 8f0a4b6a9b ("target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree")
-> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Aravinda Prasad <arawinda.p@gmail.com>
+> Cc: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Applied to ppc-for-6.1, thanks.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
->  1 file changed, 56 insertions(+), 2 deletions(-)
+>  hw/ppc/spapr_events.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/tran=
-slate/fixedpoint-impl.c.inc
-> index f4fcfadbfc..1c35b60eb4 100644
-> --- a/target/ppc/translate/fixedpoint-impl.c.inc
-> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index a8f2cc6bdc..7d6876f12d 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -911,16 +911,17 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
+vered)
+>          }
+>      }
 > =20
->  static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
->  {
-> +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manu=
-al says
-> +         * that "the L field must be cleared, otherwise the instruction =
-form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore inv=
-alid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), w=
-ith the
-> +         * notable exception of the e500 and e500mc, where L=3D1 was rep=
-orted to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e5=
-00mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L=
- =3D 1\n",
-> +                        s ? "" : "L", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> +        return true;
-> +    }
-> +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->      if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->          gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
->      } else {
->          gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> @@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a=
-, bool s)
+> +    /*
+> +     * Try to block migration while FWNMI is being handled, so the
+> +     * machine check handler runs where the information passed to it
+> +     * actually makes sense.  This shouldn't actually block migration,
+> +     * only delay it slightly, assuming migration is retried.  If the
+> +     * attempt to block fails, carry on.  Unfortunately, it always
+> +     * fails when running with -only-migrate.  A proper interface to
+> +     * delay migration completion for a bit could avoid that.
+> +     */
+>      ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, NULL);
+>      if (ret =3D=3D -EBUSY) {
+> -        /*
+> -         * We don't want to abort so we let the migration to continue.
+> -         * In a rare case, the machine check handler will run on the tar=
+get.
+> -         * Though this is not preferable, it is better than aborting
+> -         * the migration or killing the VM. It is okay to call
+> -         * migrate_del_blocker on a blocker that was not added (which the
+> -         * nmi-interlock handler would do when it's called after this).
+> -         */
+>          warn_report("Received a fwnmi while migration was in progress");
+>      }
 > =20
->  static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
->  {
-> +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manu=
-al says
-> +         * that "the L field must be cleared, otherwise the instruction =
-form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore inv=
-alid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), w=
-ith the
-> +         * notable exception of the e500 and e500mc, where L=3D1 was rep=
-orted to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e5=
-00mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L=
- =3D 1\n",
-> +                        s ? "I" : "LI", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-> +        return true;
-> +    }
-> +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->      if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->          gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
->      } else {
->          gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -200,25 +135,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---glWUZbamlQMGrMIi
+--kyRovcnPWfQrSkfv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3uYsACgkQbDjKyiDZ
-s5I7Dw//eAdYcpTCSt6b/iTjYknYPTfntN/rMVpRwjPlRY/WGrtt4K0Yq3WJgS8S
-wB6ViJTi/l/LCvoC4D3/tkunzSCLdm0Hm+T4Jv/TcpU6Woa5FPXAsLN18DE8bG58
-WX52E0zmqjyWUdn7CpB+OzzTezSHyUSrM5ATLM+ZShsRGj9oB1q4A792e4PrToFQ
-7QxAZOizBwNJPaKnNmAXXpSb9vqXj0JZU+btA4tzV7LzYJlRrFMCGNXUKCsCf8Ve
-Eog4PXUSq0ExyswY3Czi1wIpqQbR1gq6zMTWq1v0ElZUoBSOkRP1dOwziubehdtj
-YDnqie3GlOU94R1anVjBvYxQW4hXGzxmBmi5JQ9+X8RKLGN56nNdvuhMnGFBofTJ
-lZfJ1nUSF+exTaSFfsGlIXsxwNLO1zJ4+XTQE8z/xLz7qQ9ZdS50pGtSvmES0Gkq
-bISObThLXeZHkfv4NjTauP0+cBAMHmL2epnQcViWwVNHdKp5voRmfWQz3vkz4Vs0
-grzFopO0F1yY5/D+aOaZLknlXn3mWMyt7VEaL2WTYw5sZPUECQkfw9OZs2P4GP5d
-kfLWtZabOnX6ciudCdeDPwrOMzcYFqmvcQfvpXVr5xtl93mF/U4/aYQ1nsSE6OuN
-vEwqlkYoT8dHgoTuR9Zy8AZppLqu+4qeVZ88Fw5Mz9mGcJBkxZg=
-=ywJk
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3udMACgkQbDjKyiDZ
+s5J4aw/+LCfl+RBdjC04GzI3AdFnD7+URmKreqOkNkpT1JzkIsZBcPiK94gziRTB
+nSrR7njU61VileSYT+5UtQUA0rExvTAJhwx//WBpT40IHPlGXUr66SM5dzFZtndc
+bXNM7D4v0Njf/gUDzbcoR7ES4zkBwQXCeRWmH1qtpT7FQbqPUgtQjsllu8RbQr7V
+q8h1AmNdY7c8HdhaECoyNm8BLPznnti28MBs80Mf0E7SyHMjFIWJwzCHwmEeUL8D
+Pn8v/T5rCWV7BBUSLySFwnubRV2H02omG+09BEU8A+s+10RiXK1/xb71g9a+YeOC
+hnTp3HZwDG5XTOVjrd5cDM8mh8X9RXoX2cdg6UJJyiZTat+yykBF5MQi9KEmQi8T
+yGINQSYwIafby2icwHBhGX0/505ipumkasS8gBFAEN6Mtr6srh/iSDBeqrbxY5Gy
+XeLsu9pbBqkLl78cRjTamuIUabazbW4GqiiRpRcTlDs4nvVSJkEUGmE5TEC2Bjxp
+67+rWu1frYmtqkTC9/sYxcN7Q/DtlJFd5uNJr2zj10MIR/nxV2jR1ymNNiOdVWIi
+kgsdORFyCk01BUJEbPyVPQdpZNGqssyCCsAIPEadN0FWrPdxTqCMB3+EC1lRl4j4
+PwatxFv6blxZFK3sJQAwYJMeS9yKDeGC0IQu2QF/aR5fK7SM2uI=
+=DTIe
 -----END PGP SIGNATURE-----
 
---glWUZbamlQMGrMIi--
+--kyRovcnPWfQrSkfv--
 
