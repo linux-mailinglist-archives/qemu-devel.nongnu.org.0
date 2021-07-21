@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500253D0AAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:43:22 +0200 (CEST)
-Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C673D0AA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:42:06 +0200 (CEST)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67p3-0008FB-C8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
+	id 1m67np-00051f-CC
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67l8-0002JG-Qg
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25959)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67lK-0002jq-Vy
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67l7-0002gD-4L
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:18 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67lJ-0002pw-Cr
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626856756;
+ s=mimecast20190719; t=1626856768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t0aTiRSVSNPIhihgMceYa2bebLkk5m+Lhw9P1mIHD50=;
- b=bYdsdtsx3nKwLnRcgp+vqOtLoaBLTdWDRsxRdcnPunDzT0XOu+1zo7VitFGaJUQXQ5rOf8
- 9rzyV+BePY5UB08JnYpJR6B9Ym2iX0dE+8IYj7CTm9kfTdyYh2pd8O/as2d2zW5YVKZMcH
- DBQ6hBdrNKX8HzZ0AIKZVdLJbyt6Q1M=
+ bh=uFXGUBm6bC9MTuLoUnZflGcaEOHw9oJNIMuoabrsbKg=;
+ b=fs1OGJwwO2tS1jzLw7QWCFiYHS4WT58k1HRR83pMKcXqPn8DmJYbaiSB/iuFSroMtHET8m
+ k8F8PHfRhoUeS6qkRI5rmJCyM2NVpfLBme4coBHEmFnaoq2v8VqyPgo1/ceAuQzQzbTCQb
+ qfv3G1bI4HY7TDXG6JRdjTkhbzKPrqA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-otCEPE5FOdibfWjuTkvPEg-1; Wed, 21 Jul 2021 04:39:13 -0400
-X-MC-Unique: otCEPE5FOdibfWjuTkvPEg-1
+ us-mta-506-zS-IfH_WPpKOMc13JJm-ow-1; Wed, 21 Jul 2021 04:39:27 -0400
+X-MC-Unique: zS-IfH_WPpKOMc13JJm-ow-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32F1E1084F5E;
- Wed, 21 Jul 2021 08:39:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7899C804141;
+ Wed, 21 Jul 2021 08:39:26 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F070F60CCC;
- Wed, 21 Jul 2021 08:39:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E5C5610A8;
+ Wed, 21 Jul 2021 08:39:12 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] tpm: mark correct memory region range dirty when
- clearing RAM
-Date: Wed, 21 Jul 2021 10:38:35 +0200
-Message-Id: <20210721083838.6347-2-david@redhat.com>
+Subject: [PATCH v3 2/4] softmmu/memory_mapping: never merge ranges accross
+ memory regions
+Date: Wed, 21 Jul 2021 10:38:36 +0200
+Message-Id: <20210721083838.6347-3-david@redhat.com>
 In-Reply-To: <20210721083838.6347-1-david@redhat.com>
 References: <20210721083838.6347-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -78,7 +78,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
@@ -90,13 +89,10 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might not start at the beginning of the memory region. We could also
-calculate via the difference in the host address; however,
-memory_region_set_dirty() also relies on memory_region_get_ram_addr()
-internally, so let's just use that.
+Let's make sure to not merge when different memory regions are involved.
+Unlikely, but theoretically possible.
 
 Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Fixes: ffab1be70692 ("tpm: clear RAM when "memory overwrite" requested")
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -109,31 +105,26 @@ Cc: Thomas Huth <thuth@redhat.com>
 Cc: "Alex Bennée" <alex.bennee@linaro.org>
 Cc: Peter Xu <peterx@redhat.com>
 Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/tpm/tpm_ppi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ softmmu/memory_mapping.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
-index 362edcc5c9..261f33431c 100644
---- a/hw/tpm/tpm_ppi.c
-+++ b/hw/tpm/tpm_ppi.c
-@@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
-         guest_phys_blocks_init(&guest_phys_blocks);
-         guest_phys_blocks_append(&guest_phys_blocks);
-         QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
-+            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
-+
-             trace_tpm_ppi_memset(block->host_addr,
-                                  block->target_end - block->target_start);
-             memset(block->host_addr, 0,
-                    block->target_end - block->target_start);
--            memory_region_set_dirty(block->mr, 0,
-+            memory_region_set_dirty(block->mr, block->target_start - mr_start,
-                                     block->target_end - block->target_start);
+diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
+index e7af276546..d401ca7e31 100644
+--- a/softmmu/memory_mapping.c
++++ b/softmmu/memory_mapping.c
+@@ -229,7 +229,8 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+ 
+         /* we want continuity in both guest-physical and host-virtual memory */
+         if (predecessor->target_end < target_start ||
+-            predecessor->host_addr + predecessor_size != host_addr) {
++            predecessor->host_addr + predecessor_size != host_addr ||
++            predecessor->mr != section->mr) {
+             predecessor = NULL;
          }
-         guest_phys_blocks_free(&guest_phys_blocks);
+     }
 -- 
 2.31.1
 
