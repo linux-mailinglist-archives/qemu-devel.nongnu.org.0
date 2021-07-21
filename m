@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83A53D17DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:18:07 +0200 (CEST)
-Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657623D179D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:11:03 +0200 (CEST)
+Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6IfN-0000R8-FB
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1m6IYY-00061H-ET
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOF-0002uX-Vw
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:24 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:40845)
+ id 1m6IOH-0002xl-Qz
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:29 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IO9-0005nd-Uv
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:22 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q13so720759plx.7
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:17 -0700 (PDT)
+ id 1m6IOC-0005o5-If
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:23 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id p9so2551378pjl.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qpFwoKbq+TluVfp0et24W5UD/m+YrCl4U/myz3fWvpI=;
- b=mYqVBJrwBAbnZk0USsdPBlGRHPBJeKe2+OYpaZzN2zLQUUvRWklhpYwfhcS4OdWJqS
- oe+hfU9JTpUSSDnvjrQOa8RV2NLRvjNB09ey9couUpICgbx2v/zOSdOFQb7OMMYUDXlo
- rvkx+qvDvDQZ6ux7Va29kFvn10x6Daq6MXwqY33F3w5FhobnDhOStwIf5IxKJC2PS69q
- HQiJZ8d4jVECAwvwx28QdSNNjDGIJT3TpQBdWOafMBc9v7EVA05It7kAUBGzKvGUe+qG
- nCke4QdRUiL24SZkgq5vBYcdFs3OyWue5TzQPC7Yjhc3wc435ul4ExpmoxuMIvvh24Vf
- SJdA==
+ bh=AQ5Q3JNtN/mbypwUzDSRUQzn9dP3F0xe81U/358f3Jc=;
+ b=ZieUyDGcXrZ/ZD+pERJLO5zrBPrviZeSrak3MiFPWIlqHLHFlBBjHMtARtGBvIXViF
+ INwA5NUo+zllvsjdBEc7uQNYwUcLDLIwugdNz9VfMSpyVE2Z1dPggURlo5GTkL+jP7iu
+ vNmeQYm8fud1QX4VlVTqecw4a/6beMTuj9iftFzpP5MCKsfV9zztJSVQr5QKlU55YUtM
+ Vn9RanVWNNTafEdmMGk3A7ElDZCpHuQ/WB8wYdg6uqvJfj5bINWpbGv3Ko8woWxmMV9t
+ D8dh6k2VNcwdt8ClRzUHaym3RFlQGldn83kPxsSzeM1f6KVGCxQPc56EfDsA9bw+KBxS
+ NECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qpFwoKbq+TluVfp0et24W5UD/m+YrCl4U/myz3fWvpI=;
- b=SKzXyuZJVXqrBbKY8tg/rde9BfCKBbt6YNbSyiX/Mi55VwiUoFiODDBlbsXzWN037i
- WCw2ES81EAlZseqOr4M/vyA+k5hQJVE+vxvqqVv6JvA/fB0XY+Zx4bK5dKLSOLGPLTpH
- sj8mAXDKK8VwNh2Mzg8Ix4Vau48d2NLVoYR/2LRhILoVMjTJ8+wy5fyjOlR0XR+AHJT/
- kRHGUnmypRh1GpNrlLPl7BYxy7FvOgT1BMJb1aSxebcrNUsWzTJNePSQcfpnEKR1GORR
- 4BAE8KNEGp18qlwHZyPfSrAWrJMbYihlerK3Eq5R9xFxh6qfjm4xvaP7aHRhPj38P6KO
- mRJQ==
-X-Gm-Message-State: AOAM531n4zDdCsLsZD580SavOD0twIAsECZZ8bmgjrrvhGB93UvnZMcH
- V1czKdX4S1JBysnmLkcKkzlMxmYCYmEWyw==
-X-Google-Smtp-Source: ABdhPJzXhF0SxNwff+/1BmaAfaZyZbD9aBKlMViCOUO1FL1oyN9g5GBXwSMGX+VlbqKy9/OL8ouLwg==
-X-Received: by 2002:a65:62da:: with SMTP id m26mr37518325pgv.370.1626897616412; 
- Wed, 21 Jul 2021 13:00:16 -0700 (PDT)
+ bh=AQ5Q3JNtN/mbypwUzDSRUQzn9dP3F0xe81U/358f3Jc=;
+ b=c03VOo4IjcprYBdgESBlYv1krcFrEQGqQgF2zwEe6SRe5lNPbaPtTmjTeq7p9uaRRq
+ nFZfS7J2w/qyDPufO2UCOWXMunzlRFHTABPAvdGSM2ymsfl3GH426IGK2D10QvZX3v8a
+ iMoB86GcOBUadw0FUDDORuYXSt4bkT0O7ZhAnGh+SKasDBYqSl9j+gwYS4PKy39n6kRu
+ 0rDf37zm0guT3UoMXB2MP7atjgsQvO0knctfv5k2TNnh6bo/nz7NkSFmMv98nvllgU3y
+ 0HsO+YKAZuu/eQGyKBCjymv6Un7Al56PPKdFLqbFsaCYTv7G6+Krpkr0rxAYXDva4D+H
+ Z+sg==
+X-Gm-Message-State: AOAM533GeAP/nlOyAEV+bEAXTLvscOGbZG5B3CsSjT02OmzfYeu7owHq
+ OZR57hIKwFzUypeGQ7ABJSCnErpFSfmRQQ==
+X-Google-Smtp-Source: ABdhPJynmWfmLWZTy2Vqs2PnxKcQSE0s3hGNQydV0tvwkSrooYS2JbygL1yDQCSlGspHJ+wIKobi7g==
+X-Received: by 2002:a63:fe51:: with SMTP id x17mr37341434pgj.58.1626897617759; 
+ Wed, 21 Jul 2021 13:00:17 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.15
+ by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:16 -0700 (PDT)
+ Wed, 21 Jul 2021 13:00:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/27] accel/tcg: Add CF_NO_GOTO_TB and CF_NO_GOTO_PTR
-Date: Wed, 21 Jul 2021 09:59:41 -1000
-Message-Id: <20210721195954.879535-15-richard.henderson@linaro.org>
+Subject: [PULL 15/27] accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
+Date: Wed, 21 Jul 2021 09:59:42 -1000
+Message-Id: <20210721195954.879535-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
 References: <20210721195954.879535-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,152 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the -d nochain check to bits on tb->cflags.
-These will be used for more than -d nochain shortly.
-
-Set bits during curr_cflags, test them in translator_use_goto_tb,
-assert we're not doing anything odd in tcg_gen_goto_tb.  The test
-in tcg_gen_exit_tb is redundant with the assert for goto_tb_issue_mask.
+The purpose of suppressing goto_ptr from -d nochain had been
+to return to the main loop so that -d cpu would be recognized.
+But we now include -d cpu logging in helper_lookup_tb_ptr so
+there is no need to exclude goto_ptr.
 
 Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210717221851.2124573-4-richard.henderson@linaro.org>
+Message-Id: <20210717221851.2124573-5-richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h | 16 +++++++++-------
- accel/tcg/cpu-exec.c    |  8 +++++++-
- accel/tcg/translator.c  |  5 +++++
- tcg/tcg-op.c            | 28 ++++++++++++----------------
- 4 files changed, 33 insertions(+), 24 deletions(-)
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index ae7603ca75..6873cce8df 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -494,13 +494,15 @@ struct TranslationBlock {
-     uint32_t cflags;    /* compile flags */
- 
- /* Note that TCG_MAX_INSNS is 512; we validate this match elsewhere. */
--#define CF_COUNT_MASK  0x000001ff
--#define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
--#define CF_MEMI_ONLY   0x00010000 /* Only instrument memory ops */
--#define CF_USE_ICOUNT  0x00020000
--#define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
--#define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
--#define CF_CLUSTER_MASK 0xff000000 /* Top 8 bits are cluster ID */
-+#define CF_COUNT_MASK    0x000001ff
-+#define CF_NO_GOTO_TB    0x00000200 /* Do not chain with goto_tb */
-+#define CF_NO_GOTO_PTR   0x00000400 /* Do not chain with goto_ptr */
-+#define CF_LAST_IO       0x00008000 /* Last insn may be an IO access.  */
-+#define CF_MEMI_ONLY     0x00010000 /* Only instrument memory ops */
-+#define CF_USE_ICOUNT    0x00020000
-+#define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
-+#define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
-+#define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
- #define CF_CLUSTER_SHIFT 24
- 
-     /* Per-vCPU dynamic tracing state used to generate this TB */
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index ef4214d893..d3232d5764 100644
+index d3232d5764..70ea3c7d68 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -147,7 +147,13 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
+@@ -150,7 +150,7 @@ uint32_t curr_cflags(CPUState *cpu)
+     uint32_t cflags = cpu->tcg_cflags;
  
- uint32_t curr_cflags(CPUState *cpu)
- {
--    return cpu->tcg_cflags;
-+    uint32_t cflags = cpu->tcg_cflags;
-+
-+    if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
-+        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
-+    }
-+
-+    return cflags;
- }
- 
- /* Might cause an exception, so have a longjmp destination ready */
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 59804af37b..2ea5a74f30 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -33,6 +33,11 @@ void translator_loop_temp_check(DisasContextBase *db)
- 
- bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
- {
-+    /* Suppress goto_tb if requested. */
-+    if (tb_cflags(db->tb) & CF_NO_GOTO_TB) {
-+        return false;
-+    }
-+
-     /* Suppress goto_tb in the case of single-steping.  */
-     if (db->singlestep_enabled || singlestep) {
-         return false;
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 75eaa910c9..c754396575 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2723,10 +2723,6 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
-            seen this numbered exit before, via tcg_gen_goto_tb.  */
-         tcg_debug_assert(tcg_ctx->goto_tb_issue_mask & (1 << idx));
- #endif
--        /* When not chaining, exit without indicating a link.  */
--        if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
--            val = 0;
--        }
-     } else {
-         /* This is an exit via the exitreq label.  */
-         tcg_debug_assert(idx == TB_EXIT_REQUESTED);
-@@ -2738,6 +2734,8 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
- 
- void tcg_gen_goto_tb(unsigned idx)
- {
-+    /* We tested CF_NO_GOTO_TB in translator_use_goto_tb. */
-+    tcg_debug_assert(!(tcg_ctx->tb_cflags & CF_NO_GOTO_TB));
-     /* We only support two chained exits.  */
-     tcg_debug_assert(idx <= TB_EXIT_IDXMAX);
- #ifdef CONFIG_DEBUG_TCG
-@@ -2746,25 +2744,23 @@ void tcg_gen_goto_tb(unsigned idx)
-     tcg_ctx->goto_tb_issue_mask |= 1 << idx;
- #endif
-     plugin_gen_disable_mem_helpers();
--    /* When not chaining, we simply fall through to the "fallback" exit.  */
--    if (!qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
--        tcg_gen_op1i(INDEX_op_goto_tb, idx);
--    }
-+    tcg_gen_op1i(INDEX_op_goto_tb, idx);
- }
- 
- void tcg_gen_lookup_and_goto_ptr(void)
- {
--    if (!qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
--        TCGv_ptr ptr;
-+    TCGv_ptr ptr;
- 
--        plugin_gen_disable_mem_helpers();
--        ptr = tcg_temp_new_ptr();
--        gen_helper_lookup_tb_ptr(ptr, cpu_env);
--        tcg_gen_op1i(INDEX_op_goto_ptr, tcgv_ptr_arg(ptr));
--        tcg_temp_free_ptr(ptr);
--    } else {
-+    if (tcg_ctx->tb_cflags & CF_NO_GOTO_PTR) {
-         tcg_gen_exit_tb(NULL, 0);
-+        return;
+     if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
+-        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
++        cflags |= CF_NO_GOTO_TB;
      }
-+
-+    plugin_gen_disable_mem_helpers();
-+    ptr = tcg_temp_new_ptr();
-+    gen_helper_lookup_tb_ptr(ptr, cpu_env);
-+    tcg_gen_op1i(INDEX_op_goto_ptr, tcgv_ptr_arg(ptr));
-+    tcg_temp_free_ptr(ptr);
- }
  
- static inline MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
+     return cflags;
 -- 
 2.25.1
 
