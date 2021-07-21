@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE193D0999
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:23:47 +0200 (CEST)
-Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FBF3D0A16
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:55:48 +0200 (CEST)
+Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m66a1-0001i5-PN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49362)
+	id 1m6750-0001b9-Px
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m66Yq-00011X-IZ
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:22:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38372)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m66yI-0006na-HC; Wed, 21 Jul 2021 03:48:50 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m66Yn-00053U-Ob
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:22:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626852148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RVFPmq6HK/jJWOuT5gOrF07Xp+7+mw7fp/SQbiXDAQM=;
- b=Ldexs6cngTgHUNDk15YU6aozTlZ8YptThwNPhdcUtwxJN1/7VaNSEKE8gWbv6ZN0wuFZvW
- vB27CqgD+kutnBVx+lmVwzKkYa1C2+bullYifdLT5Urvh3L5XkcPUtFQ4oEe/2xBl4jQTm
- xRiSHH9QDWQwRQle8Gllj+jM7Iz8F4Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-cX6IuqcSNMeBT0pDlcgoFw-1; Wed, 21 Jul 2021 03:22:27 -0400
-X-MC-Unique: cX6IuqcSNMeBT0pDlcgoFw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- a4-20020a0560001884b02901401e436a18so561657wri.21
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 00:22:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RVFPmq6HK/jJWOuT5gOrF07Xp+7+mw7fp/SQbiXDAQM=;
- b=Ewx6WoeO8i5mzFobxMUeU8puRxVoziqizCfso7fmiMIe8kl1fccn3EbJ4a1mOP0BY8
- 7fjCN5qtudyAgU0EHDNCG7+3QjFF9qQgqu/Pn4pqggWXtrPormxUPiR1p923KXtVhgW4
- VEEfF/0twwDO8AdPY42IZenhuAFQL8ubRsCE/3JFbxNn9hZdWMujtBOjLTxlB9yHji8a
- pvZabaoZncU1kcf3ffJYMK0Q8dUhE2jWiy+YziBd/4ASBv1oPIweFJhFBvEAN68w6iyg
- mjKgvKz5QKTrRTd8GWts6qQIjaVbFF3w2J6GedMYVdnYQQBRj3jkBRoEcWl1qb7nZUoi
- hEjQ==
-X-Gm-Message-State: AOAM5318MjdZk5jRpeAlNdB+T7og6A2aOkV+//UIdtFqoLvF0+tH6pH5
- hm2u2Um893/YxnBahkfC9LX5+4PKwyXuB1sGRGFzWz8Zt8ZCmdVaWXPjkkSPFcXGHOFsdpaTQuh
- PFCzmosD+fky8k9E=
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr40309279wrs.7.1626852145773;
- Wed, 21 Jul 2021 00:22:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYfc2RtEMzyomN1royoenyN++I5lsamEQRbQ46vs/Fo0lXhPD0u27UeqIS5tVkaQcvnVv0eg==
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr40309253wrs.7.1626852145553;
- Wed, 21 Jul 2021 00:22:25 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d597.dip0.t-ipconnect.de.
- [87.145.213.151])
- by smtp.gmail.com with ESMTPSA id f7sm25839124wru.11.2021.07.21.00.22.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 00:22:25 -0700 (PDT)
-Subject: Re: Disabling TLS address caching to help QEMU on GNU/Linux
-To: Florian Weimer <fweimer@redhat.com>, gcc@gcc.gnu.org,
- libc-alpha@sourceware.org, qemu-devel@nongnu.org
-References: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c9ce99db-874b-03c2-9561-be9b59bd1988@redhat.com>
-Date: Wed, 21 Jul 2021 09:22:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m66yF-0002M1-CK; Wed, 21 Jul 2021 03:48:50 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6DB745816CF;
+ Wed, 21 Jul 2021 03:48:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 21 Jul 2021 03:48:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm3; bh=AlkZxzAIh7PJsfLQFSn8kImp0K
+ aqqq1wcUiVkA/1+u4=; b=DDa+8codAitVgx4NC0KXTWwrg03w6qjz5lZv0YjnYk
+ 8OmpIjVirzx0DIluang9VkhoCWRJZTqWGHNEGIEkFJbsB2ARDsqemAuylJ5zpTnB
+ zM0pJqUSt4IU5Xo+REPnswtw5//tcdm71DIyONngCRQ9+e+xCJruNPl7O8fo/uOm
+ IcuEFhPXZnYKltjyhkey7E+rsaNQTCKNhk0Ghw0ks0dRHQOBzq4JQnLHN26KPfaQ
+ vlhmPVjpbzGEoTEGV2WHCuoUuNvO2ml7qF59zp2W659D0/yl2dOGEeE9Sb4zPBIQ
+ Pi1IpPtzXGPOoi2nSqRW/iZ/7bm/aMI4+Cdrl/DE6R3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AlkZxz
+ AIh7PJsfLQFSn8kImp0Kaqqq1wcUiVkA/1+u4=; b=mQGzmIgWkAuKYwP7hW5djn
+ TcKBAJAfe0yJiAP5JKVgNcOqWIGacqvC04c6seE/zz3olrphuW24gjnNEYixJ9U0
+ kK9OU/7X65AaDaewjryAqWj73H8l2wTw19vG/0o4TcQ1Gm8wy194MZTQDW0EE3rh
+ RnMxt4PA8QxTvigJsX+yelSIzFQ64yw6/cxFNjiqTBdsP1L3Su9u6Gub431I+caT
+ r1gyrWdueGSteTaZAWbbT5Hns2WV1DKKcWQwDZHPk3aHSB9A9dluvc9koamSB4kI
+ XzMBPWh45ptIWl9Q46keyUvbn8NZkAK8yQrNmoM6Xd4KiimCZ86WhbV0NxNJkXPg
+ ==
+X-ME-Sender: <xms:WtH3YM1YRo9AuJptzk71LtYjvo3gzHAarw5tXZ7fHk-8edHofcfdEQ>
+ <xme:WtH3YHEZrh-VhNk86HYAx19e1izyKJ1PuOMdh_ijXyO5zSrCmewXBZgVOeSFOCOpD
+ b8w1jWkEOvvY_gpSeY>
+X-ME-Received: <xmr:WtH3YE6ziFHiIapuLl3-iY6ToYFq6Ono7W8TzYaLSMpj3Aa60O-iXBp-_1ZDZiwW2zox-NbgqbmU1b6EmlpmXrrDaUwzoANNHdSzN7uKyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeefgdduudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepfeduheefudfghfdutdetffefleeutddttefgudeludduudfguefhleeuueeugffg
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:WtH3YF3YF70jUkp0BVvSs5MXF6EWCVC5kp_-uQcu6-tvmoHKVJGIHg>
+ <xmx:WtH3YPFxikfAJE48GZ3E2VF4RSxXw0YbEqkoIo2gSv8bS0eRDQJXUA>
+ <xmx:WtH3YO-lY2HTOB1qPMTr4YjMP-38Gi32d0jepRoic-iXs5qq6sDVUQ>
+ <xmx:XNH3YPHF4xR6ACxDhotfMbkrdZeczTHJUaTdwIizXaMO5utSv9VorA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jul 2021 03:48:39 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/5] hw/nvme: fix mmio read
+Date: Wed, 21 Jul 2021 09:48:31 +0200
+Message-Id: <20210721074836.110232-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,36 +90,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Iain Sandoe <idsandoe@googlemail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/07/2021 16.52, Florian Weimer wrote:
-> Currently, the GNU/Linux ABI does not really specify whether the thread
-> pointer (the address of the TCB) may change at a function boundary.
-[...]
-> One important piece of software for GNU is QEMU (not just for GNU/Linux,
-> Hurd development also benefits from virtualization).  QEMU uses stackful
-> coroutines extensively.  There are some hard-to-change code areas where
-> resumption happens across threads unfortunately.  These increasingly
-> cause problems with more inlining, inter-procedural analysis, and a
-> general push towards LTO (which is also needed for some security
-> hardening features).
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Thanks a lot for your mail, Florian!
-
-As a context for those who read about this for the very first time: We're 
-currently facing the problem that the coroutines in QEMU fail when compiling 
-QEMU with -flto on a non-x86 architecture, see:
-
-  https://bugzilla.redhat.com/show_bug.cgi?id=1952483#c6
-
-> Should the GNU toolchain offer something to help out the QEMU
-> developers?
-
-I guess that would be extremely helpful...
-
-  Thomas
-
+Fix mmio read issues on big-endian hosts. The core issue is that values=0D
+in the BAR is not stored in little endian as required.=0D
+=0D
+Fix that and add a regression test for this. This required a bit of=0D
+cleanup, so it blew up into a series.=0D
+=0D
+v6:=0D
+  * "hw/nvme: split pmrmsc register into upper and lower"=0D
+    - Remove unnecessary masking (Peter)=0D
+    - Missing shift (Peter)=0D
+=0D
+v5:=0D
+  * "hw/nvme: fix mmio read"=0D
+    - Hurried the changes a bit. Fixed.=0D
+=0D
+v4:=0D
+  * "hw/nvme: split pmrmsc register into upper and lower"=0D
+    - Fix missing left-shift (Peter)=0D
+=0D
+  * "hw/nvme: fix mmio read"=0D
+    - Remove unnecessary masking (Peter)=0D
+    - Keep existing behaviour and do not zero the register fields doing=0D
+      initialization (Peter)=0D
+=0D
+v3:=0D
+=0D
+  * "hw/nvme: use symbolic names for registers"=0D
+    Use offsetof(NvmeBar, reg) instead of explicit offsets (Philippe)=0D
+=0D
+  * "hw/nvme: fix mmio read"=0D
+    Use the st/ld API instead of cpu_to_X (Philippe)=0D
+=0D
+Klaus Jensen (5):=0D
+  hw/nvme: split pmrmsc register into upper and lower=0D
+  hw/nvme: use symbolic names for registers=0D
+  hw/nvme: fix out-of-bounds reads=0D
+  hw/nvme: fix mmio read=0D
+  tests/qtest/nvme-test: add mmio read test=0D
+=0D
+ include/block/nvme.h    |  60 +++++--=0D
+ hw/nvme/ctrl.c          | 352 ++++++++++++++++++++++------------------=0D
+ tests/qtest/nvme-test.c |  26 +++=0D
+ 3 files changed, 265 insertions(+), 173 deletions(-)=0D
+=0D
+-- =0D
+2.32.0=0D
+=0D
 
