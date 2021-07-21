@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2923D093F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:54:43 +0200 (CEST)
-Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955173D0940
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:54:47 +0200 (CEST)
+Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m667u-0007NX-Ty
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
+	id 1m667y-0007by-LF
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vv-0005Cx-7q
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:19 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:41815)
+ id 1m65vx-0005DL-7V
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:23 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:45921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vt-0005ez-Hi
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:19 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- jx7-20020a17090b46c7b02901757deaf2c8so465298pjb.0
+ id 1m65vu-0005fd-AS
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:21 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id p17so468279plf.12
  for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 23:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=19+eBha8Su7fvWuryK0pEBtOSE7+NFntpYhh8TaiKnw=;
- b=jCys5QIjCTAAqzmcwZgaW3CXNnR2Du8jratp/Np7q6X9t3Frw34HkbDDr6VDgoQ4Xy
- 8qiCJU3SuI7RusSM1ntsHWp6N0VHt1RrHGleeYb1cogxZEHZ4uRSEkviE00YCp/qgxFS
- bvgLo3TDPiEctyNVkCRF4r7rBQkcdj5gRF0MBRKD/e+hnNi6gxeQbzt/P7DrhBtLGvvI
- H5HgIz5SXc+fvMJf8th5VJNiyYERqB+Zr3qNjNfO8t2n9fpSYXyNRUxgKTLJM8YsHCwX
- 2XDcoLEA7EoMasj9G3rTphGbgNYcFu/iS/gt4kQ/me995FIcrX8sKHFcrib+8uStgvRv
- UlWQ==
+ bh=e1o+LTNCDTCEYnibXAgW5W5UXTzPq2g9X5wgbhLcsnA=;
+ b=psWLD83XfCnv/48oXiTpKcnHLDdKbNCntNwLw1FYVCdo5BQixW0Rn+8pnBnQVeWb74
+ 0FxoMniLPZMUIYdLEkFxOH+07bBdlm3TxbeHwXfNzMMOjqYQk4jDhloyrFPtfOA3FiGt
+ K7vnSPsIYLHO4VokhzvUMb6XBGd40Tyjp1nuNOUNiYFE/N4R1n0dFlCgzs6s6i4aSV+L
+ HQGnZV/wm80yUlE5b14plMwMYFfTG4tiXp5h5vTzl6jxafk/Xv24Fw0G3Q7Ih+1jYsc6
+ zvSURAPg86u9WaCgVjm3D8QIgYAMykkvKfIqNGT2SWCXkXLw1psuDkVUSYIlTJrU5x+L
+ p2yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=19+eBha8Su7fvWuryK0pEBtOSE7+NFntpYhh8TaiKnw=;
- b=Eyydeop56AIWUWteGNkj08xHoJt1VRmUE2/zGkdtjmdOrs4WR/OLeueir0syDF7SqS
- gZ4PkRudWM+QK0FCnNi7nJjIjLpRtXiUjmtZnIWAoIcouMP1R44GfHsEjfGt3lUp4iS+
- pG2Chh7DMGlkJrRSWJWd5Ee866u7hiXcGIIBnH0MhfkvxHaVPvmWQv7iCfW3WZyOopGv
- L03GShF+s/a28iHXRv9nMGLMCyT0cbbfFCtGGY11B6zrDxRV7ARH1DCUxz2ttpY9Bk0x
- Lk+QHJz5Y7zB+OtIoNYym9tz4FZJEMXGINRoRBy1BmWuPRUoqWlUGo944m3YqXvbm6xH
- j0Fw==
-X-Gm-Message-State: AOAM530jTgrKA9uYMVIQkPHfMkXmykh/wsKo/YE+yclO5lhDIYm0URUr
- 0doesz7QYxZvcVBKAZ7uLYKufyThuyPGJg==
-X-Google-Smtp-Source: ABdhPJwvdi9K9X0i8g80IiZXkNWzzg/QOI0PODaBzC0GJEOX5Y+/EtZwT7od8mAvHIKIIIsl+tXwdQ==
-X-Received: by 2002:a17:902:ea09:b029:12b:1dc0:ac74 with SMTP id
- s9-20020a170902ea09b029012b1dc0ac74mr26538689plg.82.1626849736106; 
- Tue, 20 Jul 2021 23:42:16 -0700 (PDT)
+ bh=e1o+LTNCDTCEYnibXAgW5W5UXTzPq2g9X5wgbhLcsnA=;
+ b=E6h9JIdWPQdqapCDdJAVPx9DP5JyCJAX32CPZgkUcMYMAYj4cdTvf+8vnBWXtOaLal
+ XjrUtI4XU0aHiTB8F85o2me1rIqFtbGKLE8tao5O1UtUQqJQKjGb0GXqRDecz7LUFtuS
+ UmTN8YhwWWCHrBGCo0y3E9IwbPC+28iOzAT8cdzFIRDNXbz0HUyJBe/K8yz7MCMf3R7H
+ VgfVjHGDgWCxnpMnhDGK/0yTY496GJbv5x4TAufhEimYh+oU8QHuWdMnyqdZTgHu90fX
+ eNgeoP057gDs5/RWlh7mFxADlIlTDnL0C53SzdXsAjFZoOh6niGCKUA5nBMqQb077e4+
+ yx2g==
+X-Gm-Message-State: AOAM533awoT0Yb7O+rrbC+UdJ/AIquo9fYUYT8DVFKGpcO74OTEVh8CI
+ /jUuAl/f7mSbXZnkVqXynBTdK+uOchwssQ==
+X-Google-Smtp-Source: ABdhPJyeW/mP0mzIPV5xci8UpiQc3TTM0p5W4rJLK6DYJRK+gQhca85oZMZWDH83zkfe3E2zG4MVaQ==
+X-Received: by 2002:a17:902:8347:b029:12b:95e3:3181 with SMTP id
+ z7-20020a1709028347b029012b95e33181mr7453613pln.23.1626849737096; 
+ Tue, 20 Jul 2021 23:42:17 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.15
+ by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 23:42:15 -0700 (PDT)
+ Tue, 20 Jul 2021 23:42:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 18/23] target/riscv: Remove exit_tb and
- lookup_and_goto_ptr
-Date: Tue, 20 Jul 2021 20:41:50 -1000
-Message-Id: <20210721064155.645508-19-richard.henderson@linaro.org>
+Subject: [PATCH for-6.2 19/23] target/rx: Drop checks for singlestep_enabled
+Date: Tue, 20 Jul 2021 20:41:51 -1000
+Message-Id: <20210721064155.645508-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721064155.645508-1-richard.henderson@linaro.org>
 References: <20210721064155.645508-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,130 +88,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB single-stepping is now handled generically, which means
-we don't need to do anything in the wrappers.
+GDB single-stepping is now handled generically.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c                      | 29 +------------------
- .../riscv/insn_trans/trans_privileged.c.inc   |  4 +--
- target/riscv/insn_trans/trans_rvi.c.inc       |  6 ++--
- target/riscv/insn_trans/trans_rvv.c.inc       |  2 +-
- 4 files changed, 7 insertions(+), 34 deletions(-)
+ target/rx/helper.h    |  1 -
+ target/rx/op_helper.c |  8 --------
+ target/rx/translate.c | 12 ++----------
+ 3 files changed, 2 insertions(+), 19 deletions(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 6983be5723..b4cc79a494 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -131,33 +131,6 @@ static void generate_exception_mtval(DisasContext *ctx, int excp)
-     ctx->base.is_jmp = DISAS_NORETURN;
+diff --git a/target/rx/helper.h b/target/rx/helper.h
+index f0b7ebbbf7..ebb4739474 100644
+--- a/target/rx/helper.h
++++ b/target/rx/helper.h
+@@ -2,7 +2,6 @@ DEF_HELPER_1(raise_illegal_instruction, noreturn, env)
+ DEF_HELPER_1(raise_access_fault, noreturn, env)
+ DEF_HELPER_1(raise_privilege_violation, noreturn, env)
+ DEF_HELPER_1(wait, noreturn, env)
+-DEF_HELPER_1(debug, noreturn, env)
+ DEF_HELPER_2(rxint, noreturn, env, i32)
+ DEF_HELPER_1(rxbrk, noreturn, env)
+ DEF_HELPER_FLAGS_3(fadd, TCG_CALL_NO_WG, f32, env, f32, f32)
+diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+index 4d315b4449..11f952d340 100644
+--- a/target/rx/op_helper.c
++++ b/target/rx/op_helper.c
+@@ -451,14 +451,6 @@ void QEMU_NORETURN helper_wait(CPURXState *env)
+     raise_exception(env, EXCP_HLT, 0);
  }
  
--static void gen_exception_debug(void)
+-void QEMU_NORETURN helper_debug(CPURXState *env)
 -{
--    TCGv_i32 helper_tmp = tcg_const_i32(EXCP_DEBUG);
--    gen_helper_raise_exception(cpu_env, helper_tmp);
--    tcg_temp_free_i32(helper_tmp);
+-    CPUState *cs = env_cpu(env);
+-
+-    cs->exception_index = EXCP_DEBUG;
+-    cpu_loop_exit(cs);
 -}
 -
--/* Wrapper around tcg_gen_exit_tb that handles single stepping */
--static void exit_tb(DisasContext *ctx)
--{
--    if (ctx->base.singlestep_enabled) {
--        gen_exception_debug();
--    } else {
--        tcg_gen_exit_tb(NULL, 0);
--    }
--}
--
--/* Wrapper around tcg_gen_lookup_and_goto_ptr that handles single stepping */
--static void lookup_and_goto_ptr(DisasContext *ctx)
--{
--    if (ctx->base.singlestep_enabled) {
--        gen_exception_debug();
--    } else {
--        tcg_gen_lookup_and_goto_ptr();
--    }
--}
--
- static void gen_exception_illegal(DisasContext *ctx)
+ void QEMU_NORETURN helper_rxint(CPURXState *env, uint32_t vec)
  {
-     generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
-@@ -176,7 +149,7 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
-         tcg_gen_exit_tb(ctx->base.tb, n);
+     raise_exception(env, 0x100 + vec, 0);
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index a3cf720455..5db8f79a82 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -150,11 +150,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+         tcg_gen_exit_tb(dc->base.tb, n);
      } else {
-         tcg_gen_movi_tl(cpu_pc, dest);
--        lookup_and_goto_ptr(ctx);
+         tcg_gen_movi_i32(cpu_pc, dest);
+-        if (dc->base.singlestep_enabled) {
+-            gen_helper_debug(cpu_env);
+-        } else {
+-            tcg_gen_lookup_and_goto_ptr();
+-        }
 +        tcg_gen_lookup_and_goto_ptr();
      }
+     dc->base.is_jmp = DISAS_NORETURN;
  }
- 
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index a7afcb15ce..75c6ef80a6 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -78,7 +78,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- 
-     if (has_ext(ctx, RVS)) {
-         gen_helper_sret(cpu_pc, cpu_env, cpu_pc);
--        exit_tb(ctx); /* no chaining */
-+        tcg_gen_exit_tb(NULL, 0); /* no chaining */
-         ctx->base.is_jmp = DISAS_NORETURN;
-     } else {
-         return false;
-@@ -94,7 +94,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
- #ifndef CONFIG_USER_ONLY
-     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-     gen_helper_mret(cpu_pc, cpu_env, cpu_pc);
--    exit_tb(ctx); /* no chaining */
-+    tcg_gen_exit_tb(NULL, 0); /* no chaining */
-     ctx->base.is_jmp = DISAS_NORETURN;
-     return true;
- #else
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index 6e736c9d0d..aef3e84ca8 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -72,7 +72,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
-     if (a->rd != 0) {
-         tcg_gen_movi_tl(cpu_gpr[a->rd], ctx->pc_succ_insn);
-     }
--    lookup_and_goto_ptr(ctx);
-+    tcg_gen_lookup_and_goto_ptr();
- 
-     if (misaligned) {
-         gen_set_label(misaligned);
-@@ -461,7 +461,7 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
-      * however we need to end the translation block
-      */
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
--    exit_tb(ctx);
-+    tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp = DISAS_NORETURN;
-     return true;
- }
-@@ -481,7 +481,7 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
- #define RISCV_OP_CSR_POST do {\
-     gen_set_gpr(a->rd, dest); \
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn); \
--    exit_tb(ctx); \
-+    tcg_gen_exit_tb(NULL, 0); \
-     ctx->base.is_jmp = DISAS_NORETURN; \
-     tcg_temp_free(source1); \
-     tcg_temp_free(csr_store); \
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 83d9a285ba..56eb775cef 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -42,7 +42,7 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(a->rd, dst);
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
--    lookup_and_goto_ptr(ctx);
-+    tcg_gen_lookup_and_goto_ptr();
-     ctx->base.is_jmp = DISAS_NORETURN;
- 
-     tcg_temp_free(s1);
+@@ -2331,11 +2327,7 @@ static void rx_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         gen_goto_tb(ctx, 0, dcbase->pc_next);
+         break;
+     case DISAS_JUMP:
+-        if (ctx->base.singlestep_enabled) {
+-            gen_helper_debug(cpu_env);
+-        } else {
+-            tcg_gen_lookup_and_goto_ptr();
+-        }
++        tcg_gen_lookup_and_goto_ptr();
+         break;
+     case DISAS_UPDATE:
+         tcg_gen_movi_i32(cpu_pc, ctx->base.pc_next);
 -- 
 2.25.1
 
