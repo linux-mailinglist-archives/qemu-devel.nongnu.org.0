@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933033D0CAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 13:08:37 +0200 (CEST)
-Received: from localhost ([::1]:43926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACB33D0D10
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 13:10:40 +0200 (CEST)
+Received: from localhost ([::1]:46170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6A5c-0007n1-Dy
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 07:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56394)
+	id 1m6A7b-0000sF-PD
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 07:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m69mP-000323-Vk
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:48:46 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50821)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m69nm-0007Hm-9Z
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:50:10 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:57030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m69mO-0004CW-3R
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:48:45 -0400
-Received: by mail-wm1-x329.google.com with SMTP id l6so1073688wmq.0
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 03:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=EpfYfDc0tG7k8C1t+vJN+5Y3qY+l+pz0p0/pwHjzh0M=;
- b=br8etoiU6JlGLdCq+me74tBHOLa4HFcUbYxlHRQ4lMJVMqDPlrO2V3hjmW0DcA2NvB
- TItjCPDeyPrRTG/fYGQIT83mVLqkY0N8icD5sgxJo0x5YrOGcVm1FPVc4j8pNn1gKjTv
- LMGLVVX2BO63z42+swEeEhyooTP4lxOv+7iI5bDqvSrDbV8nlWanLeQ3UTAJJ94qFzPG
- UgvQPKyR/ZoGsy9+nRc0urqvdcMcCglQ8Ol3z0Fy3YCcecYDumXCUlZDeykiI5tHdqez
- rCJgaKS0HW111mNn7XNB+0KGhDlVtn33wxAPwzIUTVZ75vDFeU9Xm29jsuu0GM3Sny8V
- 6NQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=EpfYfDc0tG7k8C1t+vJN+5Y3qY+l+pz0p0/pwHjzh0M=;
- b=nAXGJb21W+nIY2A3+YEfgzEK2BhlcntlDo+GkqFk0zSm137CucUlaBEJvU7YxsKfcd
- reqxmXn/OIM4zu6Ap0kYiXwO4QFpiKCU5MyP/ytv+jNxTQyW0GAk6vRgtYXNT1D9qjJl
- kvprjfFfYIOkCgrchBa0r+D0S4JvYdGMzn4KHrNgcFogzbFQ4+8MTq9LXdJ12RVLqy/m
- 0b8HpKbQA20C3K7KyDwKTG307DlXzbPlGLr31LAoau2MTJswvSr/am+SLs2BVXQxBhs3
- xFtOwORoqBHj5by9LGExqxIy/6TiarrXKNSySaa7lQAm+IQdovWpX53XB9Lc3wc3nplS
- BGyw==
-X-Gm-Message-State: AOAM533ZEvjoXooiP6/S6xC3OR7leeClmA3iFVKKCzt1wQoDew6b5tce
- 27qYPMUFMhJ5v3YD+wd1PlEXUA==
-X-Google-Smtp-Source: ABdhPJxMVQ6HPTEvkAto6gO3m5niG1H8yVVYUToVq9/q/VCGdiEOh9nCwjL6YhXTEyyOaMS4LceTsg==
-X-Received: by 2002:a05:600c:ac3:: with SMTP id
- c3mr37745767wmr.4.1626864522539; 
- Wed, 21 Jul 2021 03:48:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d9sm26239309wrx.76.2021.07.21.03.48.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 03:48:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89F7C1FF7E;
- Wed, 21 Jul 2021 11:48:40 +0100 (BST)
-References: <20210720195439.626594-1-richard.henderson@linaro.org>
- <20210720195439.626594-18-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH for-6.1 v6 17/17] accel/tcg: Record singlestep_enabled
- in tb->cflags
-Date: Wed, 21 Jul 2021 11:38:37 +0100
-In-reply-to: <20210720195439.626594-18-richard.henderson@linaro.org>
-Message-ID: <878s20kkmv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m69nk-000592-I6
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 06:50:10 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4BC571FE93;
+ Wed, 21 Jul 2021 10:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626864607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VbRFAn+2bb8M/YauV26OBwlru3ubyLNuzLaPerQNnLE=;
+ b=DO3sNOmDaIU2Nybi9y8xeyeyef2If4vFus+AL5aL0NkIGCsaD/F3H8ncS/ScBH31ZzevJb
+ QcE16Wc/WpoYioDzqmo0GV1zrk3YgedOYH6kz8boGJsOrBipJxScIAZzQ3DgpmMnNRrq8G
+ TDaTMuJrUdPU1oy10pKTIW5KbMjvo3M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626864607;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VbRFAn+2bb8M/YauV26OBwlru3ubyLNuzLaPerQNnLE=;
+ b=J0Iuakg0azpccTMUeLNwlEuA7zoqyF9dPGLmx1CKO4aCWbecdo50YO3g1UBqtdQCJReuzO
+ 7Sn+N8c5ZMOBPODw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E2BAE13B37;
+ Wed, 21 Jul 2021 10:50:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EXDlNN7792AdOgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 21 Jul 2021 10:50:06 +0000
+Subject: Re: QEMU modules improvements objective (Was: Re: [RFC 0/3] Improve
+ module accelerator error message)
+From: Claudio Fontana <cfontana@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210630232749.21873-1-jziviani@suse.de>
+ <2ab57f8e-cb8c-d708-274d-0c2092acfff3@suse.de>
+ <20210721103528.5y4tvcpjggfn6hvi@sirius.home.kraxel.org>
+ <baed353c-05da-0dcf-536b-1e7fde42275c@suse.de>
+Message-ID: <d666180d-46db-8e86-9988-740b5858585f@suse.de>
+Date: Wed, 21 Jul 2021 12:50:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <baed353c-05da-0dcf-536b-1e7fde42275c@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.117,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,131 +88,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
+ ehabkost@redhat.com, "Jose R. Ziviani" <jziviani@suse.de>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, pbonzini@redhat.com,
+ Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Set CF_SINGLE_STEP when single-stepping is enabled.
-> This avoids the need to flush all tb's when turning
-> single-stepping on or off.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h   | 1 +
->  accel/tcg/cpu-exec.c      | 7 ++++++-
->  accel/tcg/translate-all.c | 4 ----
->  accel/tcg/translator.c    | 7 +------
->  cpu.c                     | 4 ----
->  5 files changed, 8 insertions(+), 15 deletions(-)
->
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 6873cce8df..5d1b6d80fb 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -497,6 +497,7 @@ struct TranslationBlock {
->  #define CF_COUNT_MASK    0x000001ff
->  #define CF_NO_GOTO_TB    0x00000200 /* Do not chain with goto_tb */
->  #define CF_NO_GOTO_PTR   0x00000400 /* Do not chain with goto_ptr */
-> +#define CF_SINGLE_STEP   0x00000800 /* gdbstub single-step in effect */
->  #define CF_LAST_IO       0x00008000 /* Last insn may be an IO access.  */
->  #define CF_MEMI_ONLY     0x00010000 /* Only instrument memory ops */
->  #define CF_USE_ICOUNT    0x00020000
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 5cc6363f4c..fc895cf51e 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -150,10 +150,15 @@ uint32_t curr_cflags(CPUState *cpu)
->      uint32_t cflags =3D cpu->tcg_cflags;
->=20=20
->      /*
-> +     * Record gdb single-step.  We should be exiting the TB by raising
-> +     * EXCP_DEBUG, but to simplify other tests, disable chaining too.
-> +     *
->       * For singlestep and -d nochain, suppress goto_tb so that
->       * we can log -d cpu,exec after every TB.
->       */
-> -    if (singlestep) {
-> +    if (unlikely(cpu->singlestep_enabled)) {
-> +        cflags |=3D CF_NO_GOTO_TB | CF_NO_GOTO_PTR | CF_SINGLE_STEP |
->      1;
-
-What does CF_SINGLE_STEP achieve that isn't already handled by having:
-
-  cflags |=3D CF_NO_GOTO_TB | CF_NO_GOTO_PTR | 1;
-
-(btw did we mask CF_COUNT_MASK somewhere else?). Because surely the
-CF_COUNT is part of cflags so limits the TB's that could be returned
-anyway?
+On 7/21/21 12:47 PM, Claudio Fontana wrote:
+> On 7/21/21 12:35 PM, Gerd Hoffmann wrote:
+>>   Hi,
+>>
+>>> Open question to all,
+>>>
+>>> why don't we have/add the ability to configure
+>>>
+>>> CONFIG_XXX=m
+>>>
+>>> for all potentially modular pieces?
+>>>
+>>> It should be possible to say, I want to build the storage plugins as modules, TCG I would like it built-in, and KVM as a module,
+>>> or any combination of these.
+>>>
+>>> The most useful combination I see for virtualization use of qemu is with TCG as a module (M), KVM as built-in (Y), and various other optional pieces as modules (M).
+>>
+>> Surely doable.  Comes with maintenance and testing cost though.
+>>
+>> For example you'll get new kinds of dependencies: when building foo as
+>> module stuff depending on foo must be built modular too (spice-core=m +
+>> qxl=y doesn't work).
+>>
+>> I see mainly two use cases:
+>>
+>>   (1) distro builds.  Those would enable most features and also modules
+>>       for fine-grained rpm/deb packaging.
+>>
+>>   (2) builds for specific use cases.  Those would disable modules and
+>>       just use CONFIG_FOO=n for things they don't need.
+>>
+>> Being able to set CONFIG_FOO=y for features used in >90% of the use
+>> cases (kvm, some virtio devices come to mind) might be useful for (1).
+>> Distros do that with linux kernel builds too (Fedora kernel has
+>> CONFIG_SATA_AHCI=y, CONFIG_USB_XHCI_PCI=y, ...).
+>>
+>> But the question is: Are the benefits worth the effort?
+>>
+>> take care,
+>>   Gerd
+>>
+> 
+> I generally agree with your use cases as we see it right now from a distro perspective, I suspect there are more,
+> especially thinking of modeling, testing/builds etc on the TCG side of things.
+> 
+> I think that eventually we will end up there anyway due to the requirements being so vastly different for all possible uses of QEMU.
+> 
+> Doing a proper design of this will allow I think to come to the right conclusions on how to correctly check for accelerators etc,
+> without creating a one-off solution for each single feature.
+> 
+> KConfig should probably be driving this from day 1 right?
 
 
-> +    } else if (singlestep) {
->          cflags |=3D CF_NO_GOTO_TB | 1;
->      } else if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
->          cflags |=3D CF_NO_GOTO_TB;
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index bf82c15aab..bbfcfb698c 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1432,10 +1432,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->      }
->      QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 !=3D TCG_MAX_INSNS);
->=20=20
-> -    if (cpu->singlestep_enabled) {
-> -        max_insns =3D 1;
-> -    }
-> -
->   buffer_overflow:
->      tb =3D tcg_tb_alloc(tcg_ctx);
->      if (unlikely(!tb)) {
-> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-> index b45337f3ba..c53a7f8e44 100644
-> --- a/accel/tcg/translator.c
-> +++ b/accel/tcg/translator.c
-> @@ -38,11 +38,6 @@ bool translator_use_goto_tb(DisasContextBase *db, targ=
-et_ulong dest)
->          return false;
->      }
->=20=20
-> -    /* Suppress goto_tb in the case of single-steping.  */
-> -    if (db->singlestep_enabled) {
-> -        return false;
-> -    }
-> -
->      /* Check for the dest on the same page as the start of the TB.  */
->      return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) =3D=3D 0;
->  }
-> @@ -60,7 +55,7 @@ void translator_loop(const TranslatorOps *ops, DisasCon=
-textBase *db,
->      db->is_jmp =3D DISAS_NEXT;
->      db->num_insns =3D 0;
->      db->max_insns =3D max_insns;
-> -    db->singlestep_enabled =3D cpu->singlestep_enabled;
-> +    db->singlestep_enabled =3D cflags & CF_SINGLE_STEP;
->=20=20
->      ops->init_disas_context(db, cpu);
->      tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early exit */
-> diff --git a/cpu.c b/cpu.c
-> index d6ae5ae581..e1799a15bc 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -326,10 +326,6 @@ void cpu_single_step(CPUState *cpu, int enabled)
->          cpu->singlestep_enabled =3D enabled;
->          if (kvm_enabled()) {
->              kvm_update_guest_debug(cpu, 0);
-> -        } else {
-> -            /* must flush all the translated code to avoid inconsistenci=
-es */
-> -            /* XXX: only flush what is necessary */
-> -            tb_flush(cpu);
->          }
->          trace_breakpoint_singlestep(cpu->cpu_index, enabled);
->      }
+Before this, though, the KConfig stuff should be all-ok for ARM and possibly other archs, I am not sure where we are there..
+
+> 
+> Yeah, it's tough, but I think we would otherwise just drive circles around this, implement a lot of provisional stuff,
+> and still end up there sooner or later in my opinion.
+> 
+> Ciao,
+> 
+> CLaudio
 
 
---=20
-Alex Benn=C3=A9e
+
 
