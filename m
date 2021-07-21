@@ -2,46 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D9F3D0BA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:02:38 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAA13D0BB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:07:18 +0200 (CEST)
+Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m693l-0003SK-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:02:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
+	id 1m698G-0006Hp-KB
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m68vP-0003kb-Qv
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49888 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m68vM-0002Id-F8
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:59 -0400
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S24; 
- Wed, 21 Jul 2021 17:53:43 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/22] target/loongarch: Add target build suport
-Date: Wed, 21 Jul 2021 17:53:18 +0800
-Message-Id: <1626861198-6133-23-git-send-email-gaosong@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S24
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar18WryfJrWxZw17uw17ZFb_yoW8JFyDp3
- y7Zr15KF48ZF9rJ3s3Ja4FqFZ5Jw1UCr12qan3Kr1xArsxJ3y8Z3s5tryDXF47X3W0kryS
- gFn3C345WF48Ja7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m68wF-0005kF-Pc
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:54:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m68wE-0002wX-58
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:54:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626861289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mkTwhICeX1bzL5yyzwF3/giRIodxXPU4ANQn2RnUfyI=;
+ b=d8nCIFwVxKAIVFXGbKwl87y6+RyLu+oC97Xx2ZW9UKv4buodAerVijueIoDxyYcsrLARZE
+ Kx/rWLWTa+f7RwiyYATpklS3LRWXc+MyurBKnO4uPs6FyMjr6T2evXowx8A7pLMFEaXCGw
+ V+VJtlAvUwF77Nn5sFkc9VJCt0r25os=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-2UHqFTHEMGizLu_69G48FA-1; Wed, 21 Jul 2021 05:54:48 -0400
+X-MC-Unique: 2UHqFTHEMGizLu_69G48FA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55A898026BB;
+ Wed, 21 Jul 2021 09:54:47 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E2F260854;
+ Wed, 21 Jul 2021 09:54:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8152F18000B2; Wed, 21 Jul 2021 11:54:45 +0200 (CEST)
+Date: Wed, 21 Jul 2021 11:54:45 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Jose R. Ziviani" <jziviani@suse.de>
+Subject: Re: [RFC 3/3] qom: Improve error message in
+ module_object_class_by_name()
+Message-ID: <20210721095445.be2ftvxygi6utoj4@sirius.home.kraxel.org>
+References: <20210630232749.21873-1-jziviani@suse.de>
+ <20210630232749.21873-4-jziviani@suse.de>
+MIME-Version: 1.0
+In-Reply-To: <20210630232749.21873-4-jziviani@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,60 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, richard.henderson@linaro.org, laurent@vivier.eu,
- maobibo@loongson.cn, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add build loongarch-linux-user target support.
+>  ObjectClass *module_object_class_by_name(const char *typename)
+>  {
+>      ObjectClass *oc;
+> @@ -1031,8 +1049,20 @@ ObjectClass *module_object_class_by_name(const char *typename)
+>      oc = object_class_by_name(typename);
+>  #ifdef CONFIG_MODULES
+>      if (!oc) {
+> +        char *module_name;
+>          module_load_qom_one(typename);
+>          oc = object_class_by_name(typename);
+> +        module_name = get_accel_module_name(typename);
+> +        if (module_name) {
+> +            if (!module_is_loaded(module_name)) {
+> +                fprintf(stderr, "%s module is missing, install the "
+> +                                "package or config the library path "
+> +                                "correctly.\n", module_name);
+> +                g_free(module_name);
+> +                exit(1);
+> +            }
+> +            g_free(module_name);
+> +        }
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- target/loongarch/meson.build | 19 +++++++++++++++++++
- target/meson.build           |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 target/loongarch/meson.build
+This error logging should IMHO be moved to util/module.c.  Either have a
+helper function to print the error message, or have
+module_load_qom_one() print it.
 
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-new file mode 100644
-index 0000000..54d5ca2
---- /dev/null
-+++ b/target/loongarch/meson.build
-@@ -0,0 +1,19 @@
-+gen = decodetree.process('insns.decode')
-+
-+loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+  'cpu.c',
-+))
-+loongarch_tcg_ss = ss.source_set()
-+loongarch_tcg_ss.add(gen)
-+loongarch_tcg_ss.add(files(
-+  'fpu_helper.c',
-+  'op_helper.c',
-+  'tlb_helper.c',
-+  'translate.c',
-+))
-+loongarch_tcg_ss.add(zlib)
-+
-+loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-+
-+target_arch += {'loongarch': loongarch_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f69402..a53a604 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -5,6 +5,7 @@ subdir('cris')
- subdir('hexagon')
- subdir('hppa')
- subdir('i386')
-+subdir('loongarch')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
--- 
-1.8.3.1
+There is also no need to hard-code the module names.  We have the module
+database and module_load_qom_one() uses it to figure which module must
+be loaded for a specific qom object.  We can likewise use the database
+for printing the error message.
+
+take care,
+  Gerd
 
 
