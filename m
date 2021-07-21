@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F17D3D065D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 03:23:17 +0200 (CEST)
-Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A913D0681
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 03:42:01 +0200 (CEST)
+Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m60xA-0005rA-BB
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 21:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33364)
+	id 1m61FI-00088Y-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 21:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m60vo-0003lp-ND
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:21:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m60vk-00041U-RX
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:21:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626830508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5o3wXL1Ohrs0Ime2BunJUDNezzLJgSBuSHJ5l+NDSD4=;
- b=hGyeIx3/J2nu0daXZy8KGKMeShw9FbXjd2jqV3Pn1m7mCh7Iqlrg5RNPgpn37tK5G1dxOp
- LmYdmEjDMLBci4uDxOJVDCOUe7IMQ3hmSQOFwtcNFTMSr17Iq5g2Y3IuUdywWGPLggN+d2
- 3qC8P536l5lVbxAbiiv6rRVOhjxDtJg=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-CXBVNHxLMcSHoBenaDp7dQ-1; Tue, 20 Jul 2021 21:21:47 -0400
-X-MC-Unique: CXBVNHxLMcSHoBenaDp7dQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- i9-20020ac871c90000b0290252173fe79cso842267qtp.2
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 18:21:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m61De-0007NX-LQ
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:40:18 -0400
+Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:45624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m61Dc-0007R0-Tc
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 21:40:18 -0400
+Received: by mail-vk1-xa31.google.com with SMTP id t5so209283vkm.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 18:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=gIWSH3xm8AK7WYl7lAlEZZkzE39wsiptD/RtcPbccfc=;
+ b=Cy7XW1X+GpeLpq+5ZqHDeVaL/2Elzfx81s4Y00shuFi1DwojLrTVtlWtfZJB7sqDmL
+ e+47BnhkrAsKwSqVFO6hU/sF61FdTHVUg86V22UMPWTu88s8eK0uLSLFSehUUvSjEE6V
+ qKTAYkHIjgK3ThVA48vnbxXvadtEqNxPEEsfZWokJOeRTqZNxMNJq2oWvUhOpT9N+pjK
+ qkcNZ8JgXNy/reOiupNejmmZne/SQCaipUvdKJJmpJ8UOhjTK5KYOxofjZaEpn5tjRKe
+ xkpPuN9OLg/zIZwHRLE4gTnNCCzRmbfGc2svSe3b7pizw1rwpqU3qmpCEHKXqc1uEy/f
+ PNhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5o3wXL1Ohrs0Ime2BunJUDNezzLJgSBuSHJ5l+NDSD4=;
- b=a0Bj7YWU1HtpzDnZFfTTB4LqC4L65Tn8O/c0zd8JSd84hFR76CX4fb8OGmFUEPvldZ
- +f3oHyO5T/lVajovDAgf1cmtW8y2SX3kbkfSMrrYGD645IxOpqOejMsuodzVyL/9C2eA
- OJilL/owux3YI6d55msaKjI/jZITj2A3jJfe7Zpjt2E2TtuSMhCXANXUlXonp283sJLq
- 8iDXBAWt2AHbovzoMKzU+PqABLiNFV4aWHhRzXth+Ot00DG9E2ZJJEWeeBIofKrixWRY
- e/E2eQjAPhv+AhBA+qss3UHG+Wb6zR6d/XCq/sMNl2SUTUZ2tWRW1E6FPgwjiyaVlFGQ
- GbtA==
-X-Gm-Message-State: AOAM5333wMuyQESqWt21v6ObQAGoH5nI8TzAqhh+ACHhHeyijzuNZ55X
- cdH4v9Ln7crqhgebRczCcX0q4k01wPAvQU6a9IJ/yIjF2lZRbD0kj96wdj9KBHVJWo2tjpCf0a+
- Eqfb5JDt6ITC0Ddorad/cl8yccdNXFVO8RKaeBUjZixx3s1qUGUH78n3qBmAvG0Qh
-X-Received: by 2002:a05:620a:709:: with SMTP id
- 9mr31620543qkc.493.1626830506313; 
- Tue, 20 Jul 2021 18:21:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4odgIRry6MpfGCmH5h2jQ0uSmU7uOLQm0k9Wpu2B8/rblnP4GKDMtFifcTW/xyJe6TcqTWQ==
-X-Received: by 2002:a05:620a:709:: with SMTP id
- 9mr31620519qkc.493.1626830506017; 
- Tue, 20 Jul 2021 18:21:46 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id t26sm8399469qtc.44.2021.07.20.18.21.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 18:21:45 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] migration: Move the yank unregister of channel_close out
-Date: Tue, 20 Jul 2021 21:21:34 -0400
-Message-Id: <20210721012134.792845-6-peterx@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210721012134.792845-1-peterx@redhat.com>
-References: <20210721012134.792845-1-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=gIWSH3xm8AK7WYl7lAlEZZkzE39wsiptD/RtcPbccfc=;
+ b=f6E8xYEEosCMOdDGM9TMCw4D5Sf9DRnAyiKxrEUt0QtUFvKo6P1B4KPhEuYBVCd1xK
+ 7RpWMGsqo0wNCBvBY8Lujg2nfMJVKs359KJJK8NqyEPsUJBj6eaOU1M7CzM0Yo0oat2s
+ /uz/M+ZkZy5o67JRg91OyhChIhM1ZdQYJ44AreUPCpHXtjvHjztX1GYTbCB5dBwQ3+AF
+ sJ1KrlYJeM609WRRO4Ov0xlCiyb5wegdSDlRUfwUzHquo8iJLfoWAiSSKo4wOYvywoy0
+ To5gcPEww4R9gQX7aiQ04h8G2lSdEmDkTzuZ/bTmFF1mLCJa3EyR/9cDDifK3e2NACb1
+ OhcQ==
+X-Gm-Message-State: AOAM5331KGV/oC8r5NxUgLQvk8EnG1NMiFxkHpzD8umtu23ybpYSLVvl
+ joKf+vUiud5mXE8ch4RsBm14I0Kc94xhbtf9cpcSXKrBCBI=
+X-Google-Smtp-Source: ABdhPJxwxoIXbKLbFbml1FrwL5L+v/H/3x+QyTAU48MDsnODgoXMJU0U8Qu4RpB/xWrq7/wEMt8C+ThmdLc+732rOjI=
+X-Received: by 2002:a05:6122:17a7:: with SMTP id
+ o39mr30053273vkf.25.1626831614770; 
+ Tue, 20 Jul 2021 18:40:14 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Richard Zak <richard.j.zak@gmail.com>
+Date: Tue, 20 Jul 2021 21:40:04 -0400
+Message-ID: <CAOakUfM8zMpYiAEn-_f9s1DHdVB-Bq9fGMM=Hfr8hJW9ra6aWw@mail.gmail.com>
+Subject: [PATCH 1/2 v5] Configure script for Haiku
+To: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008209d905c7984013"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
+ envelope-from=richard.j.zak@gmail.com; helo=mail-vk1-xa31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,199 +74,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's efficient, but hackish to call yank unregister calls in channel_close(),
-especially it'll be hard to debug when qemu crashed with some yank function
-leaked.
+--0000000000008209d905c7984013
+Content-Type: text/plain; charset="UTF-8"
 
-Remove that hack, but instead explicitly unregister yank functions at the
-places where needed, they are:
-
-  (on src)
-  - migrate_fd_cleanup
-  - postcopy_pause
-
-  (on dst)
-  - migration_incoming_state_destroy
-  - postcopy_pause_incoming
-
-Some small helpers are introduced to achieve this task.  One of them is called
-migration_file_get_ioc(), which tries to fetch the ioc out of the qemu file.
-It's a bit tricky because qemufile is also used for savevm/loadvm.  We need to
-check for NULL to bypass those.  Please see comment above that helper for more
-information.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Richard Zak <richard.j.zak@gmail.com>
 ---
- migration/migration.c         |  5 +++++
- migration/qemu-file-channel.c |  3 ---
- migration/qemu-file.c         | 12 ++++++++++++
- migration/qemu-file.h         |  2 ++
- migration/savevm.c            |  7 +++++++
- migration/yank_functions.c    | 14 ++++++++++++++
- migration/yank_functions.h    |  1 +
- 7 files changed, 41 insertions(+), 3 deletions(-)
+ configure | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 4f48cde796..65b8c2eb52 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -59,6 +59,7 @@
- #include "multifd.h"
- #include "qemu/yank.h"
- #include "sysemu/cpus.h"
-+#include "yank_functions.h"
- 
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
-@@ -273,6 +274,7 @@ void migration_incoming_state_destroy(void)
-     }
- 
-     if (mis->from_src_file) {
-+        migration_ioc_unregister_yank_from_file(mis->from_src_file);
-         qemu_fclose(mis->from_src_file);
-         mis->from_src_file = NULL;
-     }
-@@ -1811,6 +1813,7 @@ static void migrate_fd_cleanup(MigrationState *s)
-          * Close the file handle without the lock to make sure the
-          * critical section won't block for long.
-          */
-+        migration_ioc_unregister_yank_from_file(tmp);
-         qemu_fclose(tmp);
-     }
- 
-@@ -3337,6 +3340,8 @@ static MigThrError postcopy_pause(MigrationState *s)
- 
-         /* Current channel is possibly broken. Release it. */
-         assert(s->to_dst_file);
-+        /* Unregister yank for current channel */
-+        migration_ioc_unregister_yank_from_file(s->to_dst_file);
-         qemu_mutex_lock(&s->qemu_file_lock);
-         file = s->to_dst_file;
-         s->to_dst_file = NULL;
-diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index 2f8b1fcd46..bb5a5752df 100644
---- a/migration/qemu-file-channel.c
-+++ b/migration/qemu-file-channel.c
-@@ -107,9 +107,6 @@ static int channel_close(void *opaque, Error **errp)
-     int ret;
-     QIOChannel *ioc = QIO_CHANNEL(opaque);
-     ret = qio_channel_close(ioc, errp);
--    if (OBJECT(ioc)->ref == 1) {
--        migration_ioc_unregister_yank(ioc);
--    }
-     object_unref(OBJECT(ioc));
-     return ret;
- }
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index ada58c94dd..b32ff35e73 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -854,3 +854,15 @@ void qemu_file_set_blocking(QEMUFile *f, bool block)
-         f->ops->set_blocking(f->opaque, block, NULL);
-     }
- }
-+
-+/*
-+ * Return the ioc object if it's a migration channel.  Note: it can return NULL
-+ * for callers passing in a non-migration qemufile.  E.g. see qemu_fopen_bdrv()
-+ * and its usage in e.g. load_snapshot().  So we need to check against NULL
-+ * before using it.  If without the check, migration_incoming_state_destroy()
-+ * could fail for load_snapshot().
-+ */
-+QIOChannel *migration_file_get_ioc(QEMUFile *file)
-+{
-+    return file->has_ioc ? QIO_CHANNEL(file->opaque) : NULL;
-+}
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 80d0e79fd1..59f3f78e8b 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -27,6 +27,7 @@
- 
- #include <zlib.h>
- #include "exec/cpu-common.h"
-+#include "io/channel.h"
- 
- /* Read a chunk of data from a file at the given position.  The pos argument
-  * can be ignored if the file is only be used for streaming.  The number of
-@@ -179,5 +180,6 @@ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
- size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-                              ram_addr_t offset, size_t size,
-                              uint64_t *bytes_sent);
-+QIOChannel *migration_file_get_ioc(QEMUFile *file);
- 
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 96b5e5d639..7b7b64bd13 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -65,6 +65,7 @@
- #include "qemu/bitmap.h"
- #include "net/announce.h"
- #include "qemu/yank.h"
-+#include "yank_functions.h"
- 
- const unsigned int postcopy_ram_discard_version;
- 
-@@ -2568,6 +2569,12 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
-     /* Clear the triggered bit to allow one recovery */
-     mis->postcopy_recover_triggered = false;
- 
-+    /*
-+     * Unregister yank with either from/to src would work, since ioc behind it
-+     * is the same
-+     */
-+    migration_ioc_unregister_yank_from_file(mis->from_src_file);
-+
-     assert(mis->from_src_file);
-     qemu_file_shutdown(mis->from_src_file);
-     qemu_fclose(mis->from_src_file);
-diff --git a/migration/yank_functions.c b/migration/yank_functions.c
-index 23697173ae..1f35ba3512 100644
---- a/migration/yank_functions.c
-+++ b/migration/yank_functions.c
-@@ -14,6 +14,7 @@
- #include "qemu/yank.h"
- #include "io/channel-socket.h"
- #include "io/channel-tls.h"
-+#include "qemu-file.h"
- 
- void migration_yank_iochannel(void *opaque)
- {
-@@ -46,3 +47,16 @@ void migration_ioc_unregister_yank(QIOChannel *ioc)
-                                  QIO_CHANNEL(ioc));
-     }
- }
-+
-+void migration_ioc_unregister_yank_from_file(QEMUFile *file)
-+{
-+    QIOChannel *ioc = migration_file_get_ioc(file);
-+
-+    if (ioc) {
-+        /*
-+         * For migration qemufiles, we'll always reach here.  Though we'll skip
-+         * calls from e.g. savevm/loadvm as they don't use yank.
-+         */
-+        migration_ioc_unregister_yank(ioc);
-+    }
-+}
-diff --git a/migration/yank_functions.h b/migration/yank_functions.h
-index 74c7f18c91..a7577955ed 100644
---- a/migration/yank_functions.h
-+++ b/migration/yank_functions.h
-@@ -17,3 +17,4 @@
- void migration_yank_iochannel(void *opaque);
- void migration_ioc_register_yank(QIOChannel *ioc);
- void migration_ioc_unregister_yank(QIOChannel *ioc);
-+void migration_ioc_unregister_yank_from_file(QEMUFile *file);
+diff --git a/configure b/configure
+index 232c54dcc1..163af793e9 100755
+--- a/configure
++++ b/configure
+@@ -768,7 +768,8 @@ SunOS)
+ ;;
+ Haiku)
+   haiku="yes"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE $QEMU_CFLAGS"
++  pie="no"
++  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC
+$QEMU_CFLAGS"
+ ;;
+ Linux)
+   audio_drv_list="try-pa oss"
 -- 
-2.31.1
+2.25.1
 
+v5: Proper formatting for patch (sorry)
+v4:
+This refers to the email from a few weeks ago, regarding TPM & Haiku. It
+seems the assertion failure isn't really about the TPM, but about disabling
+PIE and adding -fPIC. There's discussion on the Haiku forum[1] about the
+incompatibility with PIE, and this fixes the assertion failure without
+altering the TPM configuration variable.
+[1] https://discuss.haiku-os.org/t/qemu-on-haiku-sdl-issue/10961/6?u=rjzak
+
+Previously, the TPM option was causing an assertion error at
+util/async.c:669 qemu_set_current_aio_context() !my_aiocontext. I suspect
+it was because the TPM option may have implied PIE. This patch ensures PIE
+doesn't get used, but -fPIC is used instead.
+
+
+
+-- 
+Regards,
+
+Richard J. Zak
+Professional Genius
+PGP Key: https://keybase.io/rjzak/key.asc
+
+--0000000000008209d905c7984013
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Signed-off-by: Richard Zak &lt;<a href=3D"mailto:richard.j=
+.zak@gmail.com">richard.j.zak@gmail.com</a>&gt;<br>---<br>=C2=A0configure |=
+ 3 ++-<br>=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br><br>diff =
+--git a/configure b/configure<br>index 232c54dcc1..163af793e9 100755<br>---=
+ a/configure<br>+++ b/configure<br>@@ -768,7 +768,8 @@ SunOS)<br>=C2=A0;;<b=
+r>=C2=A0Haiku)<br>=C2=A0 =C2=A0haiku=3D&quot;yes&quot;<br>- =C2=A0QEMU_CFLA=
+GS=3D&quot;-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE $QEMU_CFLAGS&quot;<b=
+r>+ =C2=A0pie=3D&quot;no&quot;<br>+ =C2=A0QEMU_CFLAGS=3D&quot;-DB_USE_POSIT=
+IVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS&quot;<br>=C2=A0;;<br>=C2=
+=A0Linux)<br>=C2=A0 =C2=A0audio_drv_list=3D&quot;try-pa oss&quot;<br>-- <br=
+>2.25.1<br><div><br></div><div>v5: Proper formatting for patch (sorry)<br><=
+/div><div>v4:<br></div><div><div>This refers to the email from a few weeks =
+ago, regarding TPM &amp;=20
+Haiku. It seems the assertion failure isn&#39;t really about the TPM, but=
+=20
+about disabling PIE and adding -fPIC. There&#39;s discussion on the Haiku=
+=20
+forum[1] about the incompatibility with PIE, and this fixes the=20
+assertion failure without altering the TPM configuration variable.</div><di=
+v>[1] <a href=3D"https://discuss.haiku-os.org/t/qemu-on-haiku-sdl-issue/109=
+61/6?u=3Drjzak" target=3D"_blank">https://discuss.haiku-os.org/t/qemu-on-ha=
+iku-sdl-issue/10961/6?u=3Drjzak</a></div><div><br></div><div>Previously,
+ the TPM option was causing an assertion error at util/async.c:669=20
+qemu_set_current_aio_context() !my_aiocontext. I suspect it was because=20
+the TPM option may have implied PIE. This patch ensures PIE doesn&#39;t get=
+=20
+used, but -fPIC is used instead.<br></div><div><br><br></div></div><br>-- <=
+br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signa=
+ture"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>Reg=
+ards,<br><br>Richard J. Zak<br>Professional Genius</div><div>PGP Key:=C2=A0=
+<a href=3D"https://keybase.io/rjzak/key.asc" target=3D"_blank">https://keyb=
+ase.io/rjzak/key.asc</a></div></div></div></div></div></div></div></div>
+
+--0000000000008209d905c7984013--
 
