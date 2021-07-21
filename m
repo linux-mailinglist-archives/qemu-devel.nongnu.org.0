@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1804E3D17F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:29:27 +0200 (CEST)
-Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B29C3D17EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:26:52 +0200 (CEST)
+Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6IqM-0005rd-5K
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
+	id 1m6Inr-0000Wp-7y
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOP-00031a-CN
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:37 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:40846)
+ id 1m6IOP-00031c-V2
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:38 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IOK-0005vE-CR
+ id 1m6IOL-0005wr-J7
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:33 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q13so721318plx.7
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:27 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ p4-20020a17090a9304b029016f3020d867so1947481pjo.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lKfL9kcE9bZaAS1wP7b8UNPiK9t3sVn3RcrRasY3aLw=;
- b=hvhnNmV4+jjMyuhtuHvPUAq25townmD4SgweCj20USzmdwXqEg4FhhBFKXlU8vcn7p
- fMgPk09SE51Lzacoc/vgYMHCg+5imEnnHxKcesTklka3smzScSQXY7btbCp2mRpxZa2l
- RA41KNViCcWqWkWizJtOc6BaElMcmMFY4yZOHr8//5bpokuc4ay32aZ2wjigrehMpLWt
- JE2fzMOzldckv805G8ty644Wk84+YwA9RDagOCMXtHjG/gngvoUICAI6CEeaMzoYP7Xm
- 7WMe7KZBCe1o13ACz5P94SLmbJUl4YVGiGussYQA6niBvfuuuE5DIi+mOkpqkMuVEiNC
- /mPg==
+ bh=DXOXSEfLZBNIVX60+JbD+azd+XSC/P1pd7+HVk2RYSk=;
+ b=JZlvrbtv17tMQNoo6DyuqjZlN5d6ilPvNVtxWVrsFoJkauAbBY+b8CCSvAYBlZ7DqR
+ yWBojgR+fbX/953xDHhxXNF1NK17teA1B3CpT4IOWdIH0iYkbCfYVazso+78JxT9niJd
+ jio/QHe3mCOODYXGXvmw8hy5eDoNbtGi4MTseCP/FpcTbZ35uPQywiBnf20HhxP9bHY6
+ geHfqxY0TDVDVLSoI2Gyw2rbmdAsfmzfXUlesbfEmeMrLpTrgpqwnbjOPLG8SpJlh84A
+ Qo/OUdNKd+UVuArNzeqqO6QBDjNJokmq0/1hk84bCjT8U02Kqewg4Zqbk6JjzCLKxAwf
+ Rfhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lKfL9kcE9bZaAS1wP7b8UNPiK9t3sVn3RcrRasY3aLw=;
- b=Vi2zFuTAs4kgTeWMgUPI+ZIn7R2N8X37605PRIKjUy7zfTrH6a2/d3BJ0r08M4m4fF
- pR2JQ3tbRccVWKNS43kSboL+2Z1Nb0KXt27SnAKznVdID3fc2bo0HNxRQFkaW/xxtDT2
- ydXtL8LHcRsBFw0gF91aA3ELCfOJZFG80Z60bTtNEuMHf0FwAfoUmUaewdFKSjNbO+tc
- UZKG21zi2pyiwHaeo0eMGzPNrfg8KHtoZMCw55vc59bqGCv1e69zA83CT52nVNgQlWZb
- jh59iqp97pqxVJRoBx2u2MvJaZmnK1xFdDh0ScKI8zbmXcvadJVbG+mv4/Wv9PSSVyv0
- +xag==
-X-Gm-Message-State: AOAM530TS5yqUxI56a/KMv4VKDx1Eiq69DETYJQ9f2ReCyMCo5EKAmJn
- ewL+sQEPPXMm2owrL7sRIXZd7wUE65BYAg==
-X-Google-Smtp-Source: ABdhPJzrhLsotIvFCBSFxbQmJ4TKGK1cCwr7xpOCiNHEd8jqJvZu69PNIdZfAkhZEsUnyX9BKMmz2A==
-X-Received: by 2002:aa7:980d:0:b029:32e:2373:cd63 with SMTP id
- e13-20020aa7980d0000b029032e2373cd63mr38092358pfl.51.1626897626849; 
- Wed, 21 Jul 2021 13:00:26 -0700 (PDT)
+ bh=DXOXSEfLZBNIVX60+JbD+azd+XSC/P1pd7+HVk2RYSk=;
+ b=TZJRTcC2dSSF0VHRMqJlSaR+PJMahr4SwdXKlz80Ltz2du0NIFxSB1sVkJa9V4bnql
+ NrqvEH3HeplEWR1u/OewGrD/biwQH930Cd0biY+w1vdVXQnHGBqe5J/8Ti0Yi8kSCZWj
+ QcXcYy8WDEq1Fb4OPwS0ZPBJSzrysJzVtms6VcC6WIKgbzg8U1RHgV0lXgEYTpBFXuI5
+ RrSxbpl4Iib8TiDDyUYtKB+075oI+69ULAgmZzvB0bJDPZrTLqlo44asEySRa7ABotU/
+ Eh7f2XbYEyfNkzBKPhQfN666Xarzar1SS53bJedS3clbhlQ2tDbBh558SxZPwvg5oAp7
+ Ea7A==
+X-Gm-Message-State: AOAM530A5Tlh6M3JzUt7NJAC7/lbNqF87OC5IyK+/fsSecnlrusIPk7m
+ wR1DRDmk/cP9C/PQHZ46M5n3t9C/ckLihA==
+X-Google-Smtp-Source: ABdhPJxk84Y8Av7q/iJQHY1EN12ogYpBEYAs6ZrnIVJGrgbllK8aodHc2ETR3h2XkWbRWVy9xdYsNw==
+X-Received: by 2002:a17:903:4101:b029:12b:8d5a:f883 with SMTP id
+ r1-20020a1709034101b029012b8d5af883mr12847936pld.39.1626897628280; 
+ Wed, 21 Jul 2021 13:00:28 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.25
+ by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:26 -0700 (PDT)
+ Wed, 21 Jul 2021 13:00:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/27] target/avr: Implement gdb_adjust_breakpoint
-Date: Wed, 21 Jul 2021 09:59:49 -1000
-Message-Id: <20210721195954.879535-23-richard.henderson@linaro.org>
+Subject: [PULL 23/27] accel/tcg: Merge tb_find into its only caller
+Date: Wed, 21 Jul 2021 09:59:50 -1000
+Message-Id: <20210721195954.879535-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
 References: <20210721195954.879535-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,93 +86,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure at registration that all breakpoints are in
-code space, not data space.
+We are going to want two things:
+(1) check for breakpoints will want to break out of the loop here,
+(2) cflags can only be calculated with pc in hand.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/cpu.h       |  1 +
- target/avr/cpu.c       |  1 +
- target/avr/gdbstub.c   | 13 +++++++++++++
- target/avr/translate.c | 14 --------------
- 4 files changed, 15 insertions(+), 14 deletions(-)
+ accel/tcg/cpu-exec.c | 83 ++++++++++++++++++++++----------------------
+ 1 file changed, 41 insertions(+), 42 deletions(-)
 
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index d148e8c75a..93e3faa0a9 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -162,6 +162,7 @@ hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- int avr_print_insn(bfd_vma addr, disassemble_info *info);
-+vaddr avr_cpu_gdb_adjust_breakpoint(CPUState *cpu, vaddr addr);
- 
- static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
- {
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 57e3fab4a0..ea14175ca5 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -223,6 +223,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = avr_cpu_disas_set_info;
-     cc->gdb_read_register = avr_cpu_gdb_read_register;
-     cc->gdb_write_register = avr_cpu_gdb_write_register;
-+    cc->gdb_adjust_breakpoint = avr_cpu_gdb_adjust_breakpoint;
-     cc->gdb_num_core_regs = 35;
-     cc->gdb_core_xml_file = "avr-cpu.xml";
-     cc->tcg_ops = &avr_tcg_ops;
-diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
-index c28ed67efe..1c1b908c92 100644
---- a/target/avr/gdbstub.c
-+++ b/target/avr/gdbstub.c
-@@ -82,3 +82,16 @@ int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- 
-     return 0;
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5bb099174f..cde7069eb7 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -500,41 +500,6 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+     return;
  }
-+
-+vaddr avr_cpu_gdb_adjust_breakpoint(CPUState *cpu, vaddr addr)
-+{
-+    /*
-+     * This is due to some strange GDB behavior
-+     * Let's assume main has address 0x100:
-+     * b main   - sets breakpoint at address 0x00000100 (code)
-+     * b *0x100 - sets breakpoint at address 0x00800100 (data)
-+     *
-+     * Force all breakpoints into code space.
-+     */
-+    return addr % OFFSET_DATA;
-+}
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 8237a03c23..f7202a646b 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2958,20 +2958,6 @@ static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     TCGLabel *skip_label = NULL;
  
--    /*
--     * This is due to some strange GDB behavior
--     * Let's assume main has address 0x100:
--     * b main   - sets breakpoint at address 0x00000100 (code)
--     * b *0x100 - sets breakpoint at address 0x00800100 (data)
--     *
--     * The translator driver has already taken care of the code pointer.
--     */
--    if (!ctx->base.singlestep_enabled &&
--        cpu_breakpoint_test(cs, OFFSET_DATA + ctx->base.pc_next, BP_ANY)) {
--        gen_breakpoint(ctx);
--        return;
--    }
+-static inline TranslationBlock *tb_find(CPUState *cpu,
+-                                        TranslationBlock *last_tb,
+-                                        int tb_exit, uint32_t cflags)
+-{
+-    CPUArchState *env = (CPUArchState *)cpu->env_ptr;
+-    TranslationBlock *tb;
+-    target_ulong cs_base, pc;
+-    uint32_t flags;
 -
-     /* Conditionally skip the next instruction, if indicated.  */
-     if (ctx->skip_cond != TCG_COND_NEVER) {
-         skip_label = gen_new_label();
+-    cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+-
+-    tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+-    if (tb == NULL) {
+-        mmap_lock();
+-        tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+-        mmap_unlock();
+-        /* We add the TB in the virtual pc hash table for the fast lookup */
+-        qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
+-    }
+-#ifndef CONFIG_USER_ONLY
+-    /* We don't take care of direct jumps when address mapping changes in
+-     * system emulation. So it's not safe to make a direct jump to a TB
+-     * spanning two pages because the mapping for the second page can change.
+-     */
+-    if (tb->page_addr[1] != -1) {
+-        last_tb = NULL;
+-    }
+-#endif
+-    /* See if we can patch the calling TB. */
+-    if (last_tb) {
+-        tb_add_jump(last_tb, tb_exit, tb);
+-    }
+-    return tb;
+-}
+-
+ static inline bool cpu_handle_halt(CPUState *cpu)
+ {
+     if (cpu->halted) {
+@@ -868,22 +833,56 @@ int cpu_exec(CPUState *cpu)
+         int tb_exit = 0;
+ 
+         while (!cpu_handle_interrupt(cpu, &last_tb)) {
+-            uint32_t cflags = cpu->cflags_next_tb;
+             TranslationBlock *tb;
++            target_ulong cs_base, pc;
++            uint32_t flags, cflags;
+ 
+-            /* When requested, use an exact setting for cflags for the next
+-               execution.  This is used for icount, precise smc, and stop-
+-               after-access watchpoints.  Since this request should never
+-               have CF_INVALID set, -1 is a convenient invalid value that
+-               does not require tcg headers for cpu_common_reset.  */
++            /*
++             * When requested, use an exact setting for cflags for the next
++             * execution.  This is used for icount, precise smc, and stop-
++             * after-access watchpoints.  Since this request should never
++             * have CF_INVALID set, -1 is a convenient invalid value that
++             * does not require tcg headers for cpu_common_reset.
++             */
++            cflags = cpu->cflags_next_tb;
+             if (cflags == -1) {
+                 cflags = curr_cflags(cpu);
+             } else {
+                 cpu->cflags_next_tb = -1;
+             }
+ 
+-            tb = tb_find(cpu, last_tb, tb_exit, cflags);
++            cpu_get_tb_cpu_state(cpu->env_ptr, &pc, &cs_base, &flags);
++
++            tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
++            if (tb == NULL) {
++                mmap_lock();
++                tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
++                mmap_unlock();
++                /*
++                 * We add the TB in the virtual pc hash table
++                 * for the fast lookup
++                 */
++                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
++            }
++
++#ifndef CONFIG_USER_ONLY
++            /*
++             * We don't take care of direct jumps when address mapping
++             * changes in system emulation.  So it's not safe to make a
++             * direct jump to a TB spanning two pages because the mapping
++             * for the second page can change.
++             */
++            if (tb->page_addr[1] != -1) {
++                last_tb = NULL;
++            }
++#endif
++            /* See if we can patch the calling TB. */
++            if (last_tb) {
++                tb_add_jump(last_tb, tb_exit, tb);
++            }
++
+             cpu_loop_exec_tb(cpu, tb, &last_tb, &tb_exit);
++
+             /* Try to align the host and virtual clocks
+                if the guest is in advance */
+             align_clocks(&sc, cpu);
 -- 
 2.25.1
 
