@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FDD3D14E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:14:04 +0200 (CEST)
-Received: from localhost ([::1]:44022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758B23D1508
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 19:23:56 +0200 (CEST)
+Received: from localhost ([::1]:52584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6FnG-0005ii-N2
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59924)
+	id 1m6Fwp-0003fo-3N
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 13:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6FmI-0004GP-6N
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:13:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27939)
+ id 1m6Fvc-0002m9-Ud
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:22:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6FmF-0001fs-8z
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:13:00 -0400
+ id 1m6Fva-0008OI-39
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 13:22:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626887578;
+ s=mimecast20190719; t=1626888156;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=jPL3o8LAiKkAemGwkXHSqciFkuboSG/7D4aHtYJk/hc=;
- b=QxRtTBbmD0xjTHyaL5WBnKAqpMyGY658GWE1/b4mSxf7k3pUnzacvJrfmOvdPNi4s12Mcs
- cr5ZVOIzKUquMcCbEhsBW6aZiNhhE+nKZ8B0SF2dIvf8KT4+FASco+aeEsK082NRxstQ/5
- YGFiwLPyxCQqRYGuV2ZMJCcB8n/4c70=
+ content-type:content-type; bh=d7WlMDyNIHamovnEvgVEKa83sVpA0kUPUpVelMTM0aM=;
+ b=J9RSKhf9ZgEz+XSFwSVmDQmHTepbW9egST/YNFiIqFUO4hshuN6EjK9MS6nxH0TjBxSYQd
+ iRlqnQjxnwm1iV4yo4xI6lg/yPRoU8mM+dMSYPb8A/zt4Bk+jkOEKZBe2WrX+3iC8Xn66o
+ J8UySPPTBA+JHbJJl1M6rnhbHTECqk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-k4us9-ljNLKdjIMXyv-kAw-1; Wed, 21 Jul 2021 13:12:54 -0400
-X-MC-Unique: k4us9-ljNLKdjIMXyv-kAw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-367-ex_aErzyPm-zSksNRbEGUw-1; Wed, 21 Jul 2021 13:22:35 -0400
+X-MC-Unique: ex_aErzyPm-zSksNRbEGUw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5D108026AD
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 17:12:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8212107BEF5;
+ Wed, 21 Jul 2021 17:22:33 +0000 (UTC)
 Received: from redhat.com (ovpn-112-39.ams2.redhat.com [10.36.112.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A403A5C225;
- Wed, 21 Jul 2021 17:12:52 +0000 (UTC)
-Date: Wed, 21 Jul 2021 18:12:49 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCE415D9DD;
+ Wed, 21 Jul 2021 17:22:32 +0000 (UTC)
+Date: Wed, 21 Jul 2021 18:22:29 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Intermittent failure in build-system-centos
-Message-ID: <YPhVehtxi/hr5Zhz@redhat.com>
-References: <CAFn=p-bxme1mcs17J2hn04z6E38Hd232aB6n9AVQ94F0hsV2Aw@mail.gmail.com>
+To: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Transient fail of iotests 215 and 197
+Message-ID: <YPhX1TakNJjH0RaA@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-bxme1mcs17J2hn04z6E38Hd232aB6n9AVQ94F0hsV2Aw@mail.gmail.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -79,22 +76,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 01:42:47PM -0400, John Snow wrote:
-> I don't know if this one is known yet, but I occasionally see this test
-> blink out on me and then succeed on retry:
-> https://gitlab.com/jsnow/qemu/-/jobs/1439046851
-> 
-> On IRC, Dan said that it sounded like a missing meson dependency
-> accidentally allowing dependent components to build in parallel, which
-> sounds plausible enough.
+Peter caught the following transient fail on the staging tree:
 
-This should be dealt with by this patch:
+  https://gitlab.com/qemu-project/qemu/-/jobs/1438817749
 
-  https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg05678.html
+--- /builds/qemu-project/qemu/tests/qemu-iotests/197.out
++++ 197.out.bad
+@@ -12,13 +12,12 @@
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ read 0/0 bytes at offset 0
+ 0 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-read 2147483136/2147483136 bytes at offset 1024
+-2 GiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++./common.rc: Killed                  ( VALGRIND_QEMU="${VALGRIND_QEMU_IO}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@" )
+ read 1024/1024 bytes at offset 3221226496
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ qemu-io: can't open device TEST_DIR/t.wrap.qcow2: Can't use copy-on-read on read-only device
+-2 GiB (0x80010000) bytes     allocated at offset 0 bytes (0x0)
+-1023.938 MiB (0x3fff0000) bytes not allocated at offset 2 GiB (0x80010000)
++2 GiB (0x80000000) bytes     allocated at offset 0 bytes (0x0)
++1 GiB (0x40000000) bytes not allocated at offset 2 GiB (0x80000000)
+ 64 KiB (0x10000) bytes     allocated at offset 3 GiB (0xc0000000)
+ 1023.938 MiB (0x3fff0000) bytes not allocated at offset 3 GiB (0xc0010000)
+ No errors were found on the image.
+
+
+--- /builds/qemu-project/qemu/tests/qemu-iotests/215.out
++++ 215.out.bad
+@@ -12,13 +12,12 @@
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ read 0/0 bytes at offset 0
+ 0 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-read 2147483136/2147483136 bytes at offset 1024
+-2 GiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++./common.rc: Killed                  ( VALGRIND_QEMU="${VALGRIND_QEMU_IO}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@" )
+ read 1024/1024 bytes at offset 3221226496
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ qemu-io: can't open device TEST_DIR/t.wrap.qcow2: Block node is read-only
+-2 GiB (0x80010000) bytes     allocated at offset 0 bytes (0x0)
+-1023.938 MiB (0x3fff0000) bytes not allocated at offset 2 GiB (0x80010000)
++2 GiB (0x80000000) bytes     allocated at offset 0 bytes (0x0)
++1 GiB (0x40000000) bytes not allocated at offset 2 GiB (0x80000000)
+ 64 KiB (0x10000) bytes     allocated at offset 3 GiB (0xc0000000)
+ 1023.938 MiB (0x3fff0000) bytes not allocated at offset 3 GiB (0xc0010000)
+ No errors were found on the image.
+
+
+Looks like the process might have been killed off by the OS part way
+through.
+
+Interestingly both test cases have a comment:
+
+  #                                        Since a 2G read may exhaust
+  # memory on some machines (particularly 32-bit), we skip the test if
+  # that fails due to memory pressure.
+
+
+I'm wondering if the logic for handling this failure is flawed, as being
+killed by the OS for exhuasting memory limits for the CI container looks
+like a plausible scenario to explain the failure.
+
+The CI shared runners supposedly have 3.75 GB of RAM for the VM as a whole.
+If the tests are run in parallel this could still be an issue.
+
+Maybe we need to skip these tests by default if they are known to require
+a significant amount of memory to run ?
 
 Regards,
 Daniel
