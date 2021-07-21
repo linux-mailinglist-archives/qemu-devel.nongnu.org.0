@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DA33D0AAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:44:26 +0200 (CEST)
-Received: from localhost ([::1]:55520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608EE3D0AB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:46:49 +0200 (CEST)
+Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67q5-0001hp-0c
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:44:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
+	id 1m67sO-0007hH-ED
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m67o5-00070Q-9w
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24468)
+ id 1m67o8-00074H-OY
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m67o2-00055X-DH
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:20 -0400
+ id 1m67o7-00059W-81
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:42:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626856937;
+ s=mimecast20190719; t=1626856942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uxVivlhdggH8hSzuvkWSXHFxbgrHJy6pB7yNHHuxKRs=;
- b=Gz1i4iBu/OsL4H83r8quAuQ4AQ4k21wgY9A6PxQ7H3tm4sbQfiToKjdBm4O1bwa0fg62JB
- gNuua3WMrw1rqAhkGx1NwaS13/6lUsZnHkfb1Rp8vqZwLXlXoN90jPA2JqcUtzKTWAtoEX
- BP9kIIWK3Iux0dvPqXaoj3HPnh96LgE=
+ bh=pp+7qQuM/5UkNDkITrrbNiBeKGS9spJa0q99oABY188=;
+ b=ahlA7xRFktj8e1ElvkBPlMI6I5FGODgUSzc0siXmFFqQj6Go83N4y2KsTwIluSuzb1OP4B
+ GKafkt0m2RgzvAvqr0R0DYQBcOxzAyffUZHc153SndByWLPvqSDQJy669+Ho5m6AL9FNr3
+ UwDLXRQXhFgSXr1U/QZkRCUJbF4pPWA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-RBRLJk3dNYWQIEp_u5N5NQ-1; Wed, 21 Jul 2021 04:42:16 -0400
-X-MC-Unique: RBRLJk3dNYWQIEp_u5N5NQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-225-fVpS4jcAOxKiQuHcFFcytA-1; Wed, 21 Jul 2021 04:42:21 -0400
+X-MC-Unique: fVpS4jcAOxKiQuHcFFcytA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CF901030C20
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:42:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7068A873079
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:42:20 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B71E119811;
- Wed, 21 Jul 2021 08:42:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 824935D9FC;
+ Wed, 21 Jul 2021 08:42:19 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/13] ui/clipboard: add helper to retrieve current
- clipboard
-Date: Wed, 21 Jul 2021 12:41:31 +0400
-Message-Id: <20210721084139.1124779-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 06/13] ui/clipboard: release owned grabs on unregister
+Date: Wed, 21 Jul 2021 12:41:32 +0400
+Message-Id: <20210721084139.1124779-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
 References: <20210721084139.1124779-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,64 +88,29 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/clipboard.h |  9 +++++++++
- ui/clipboard.c         | 15 +++++++++++++++
- 2 files changed, 24 insertions(+)
+ ui/clipboard.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
-index eb789a285a..e9fcb15c66 100644
---- a/include/ui/clipboard.h
-+++ b/include/ui/clipboard.h
-@@ -109,6 +109,15 @@ void qemu_clipboard_peer_register(QemuClipboardPeer *peer);
-  */
- void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer);
- 
-+/**
-+ * qemu_clipboard_info
-+ *
-+ * @selection: clipboard selection.
-+ *
-+ * Return the current clipboard data & owner informations.
-+ */
-+QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection);
-+
- /**
-  * qemu_clipboard_info_new
-  *
 diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 3525b30178..56c14509fe 100644
+index 56c14509fe..a9512f01a7 100644
 --- a/ui/clipboard.c
 +++ b/ui/clipboard.c
-@@ -4,6 +4,8 @@
- static NotifierList clipboard_notifiers =
-     NOTIFIER_LIST_INITIALIZER(clipboard_notifiers);
+@@ -13,6 +13,15 @@ void qemu_clipboard_peer_register(QemuClipboardPeer *peer)
  
-+static QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
-+
- void qemu_clipboard_peer_register(QemuClipboardPeer *peer)
+ void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
  {
-     notifier_list_add(&clipboard_notifiers, &peer->update);
-@@ -16,7 +18,20 @@ void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
- 
- void qemu_clipboard_update(QemuClipboardInfo *info)
- {
-+    g_autoptr(QemuClipboardInfo) old = NULL;
-+    assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
++    int i;
 +
-     notifier_list_notify(&clipboard_notifiers, info);
-+
-+    old = cbinfo[info->selection];
-+    cbinfo[info->selection] = qemu_clipboard_info_ref(info);
-+}
-+
-+QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection)
-+{
-+    assert(selection < QEMU_CLIPBOARD_SELECTION__COUNT);
-+
-+    return cbinfo[selection];
++    for (i = 0; i < QEMU_CLIPBOARD_SELECTION__COUNT; i++) {
++        if (cbinfo[i] && cbinfo[i]->owner == peer) {
++            /* release owned grabs */
++            g_autoptr(QemuClipboardInfo) info = qemu_clipboard_info_new(NULL, i);
++            qemu_clipboard_update(info);
++        }
++    }
+     notifier_remove(&peer->update);
  }
  
- QemuClipboardInfo *qemu_clipboard_info_new(QemuClipboardPeer *owner,
 -- 
 2.32.0.264.g75ae10bc75
 
