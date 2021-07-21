@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F393D0BA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:59:42 +0200 (CEST)
-Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AA43D0B9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:57:09 +0200 (CEST)
+Received: from localhost ([::1]:60480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m690v-0007JQ-CC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
+	id 1m68yS-0008R1-4X
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m68vD-000337-QP
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:47 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49632 helo=loongson.cn)
+ id 1m68vM-0003WB-4y
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49812 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m68vB-0002BZ-6O
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:47 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1m68vJ-0002Gc-6I
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:55 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S13; 
- Wed, 21 Jul 2021 17:53:30 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S20; 
+ Wed, 21 Jul 2021 17:53:39 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/22] target/loongarch: Add fixed point atomic instruction
- translation
-Date: Wed, 21 Jul 2021 17:53:07 +0800
-Message-Id: <1626861198-6133-12-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v2 18/22] target/loongarch: Add branch instruction translation
+Date: Wed, 21 Jul 2021 17:53:14 +0800
+Message-Id: <1626861198-6133-19-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
 References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S13
-X-Coremail-Antispam: 1UD129KBjvJXoW3ur4kJrW8Arykuw47CFWfKrg_yoWkXr47pr
- 1jkry7Xr40qr17Jr95tw45G3WDCFnrC3y2gr9xtwnYvF4UXF15JF1kA3yjgFW7Xrn5uFW0
- yFW3AFyj9Fy5taUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S20
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFWkXw4UZFWrJF4kZw4kXrb_yoW3uF17pr
+ 10kryUJ34DJry5JF9xtw45Crn8Jrs5C3yUCr9ayw48tF1fXFykAr10y34Y9F48uFyvqryY
+ yFZ8Aa4jkFyUW3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -62,101 +61,111 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implement fixed point atomic instruction translation.
+This patch implement branch instruction translation.
 
 This includes:
-- LL.{W/D}, SC.{W/D}
-- AM{SWAP/ADD/AND/OR/XOR/MAX/MIN}[_DB].{W/D}
-- AM{MAX/MIN}[_DB].{WU/DU}
+- BEQ, BNE, BLT[U], BGE[U]
+- BEQZ, BNEZ
+- B
+- BL
+- JIRL
+- BCEQZ, BCNEZ
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insns.decode |  44 +++++++++
- target/loongarch/trans.inc.c  | 210 ++++++++++++++++++++++++++++++++++++++++++
- target/loongarch/translate.c  |  32 +++++++
- 3 files changed, 286 insertions(+)
+ target/loongarch/insns.decode |  30 +++++
+ target/loongarch/trans.inc.c  | 249 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 279 insertions(+)
 
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 08fd232..574c055 100644
+index ea776c2..077063e 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -216,3 +216,47 @@ stle_b           0011 10000111 11100 ..... ..... .....    @fmt_rdrjrk
- stle_h           0011 10000111 11101 ..... ..... .....    @fmt_rdrjrk
- stle_w           0011 10000111 11110 ..... ..... .....    @fmt_rdrjrk
- stle_d           0011 10000111 11111 ..... ..... .....    @fmt_rdrjrk
+@@ -38,6 +38,9 @@
+ %ca      15:3
+ %fcsrd   0:5
+ %fcsrs   5:5
++%offs21  0:s5 10:16
++%offs16  10:s16
++%offs    0:s10 10:16
+ 
+ #
+ # Argument sets
+@@ -74,6 +77,11 @@
+ &fmt_rdcj           rd cj
+ &fmt_fdrjrk         fd rj rk
+ &fmt_fdrjsi12       fd rj si12
++&fmt_rjoffs21       rj offs21
++&fmt_cjoffs21       cj offs21
++&fmt_rdrjoffs16     rd rj offs16
++&fmt_offs           offs
++&fmt_rjrdoffs16     rj rd offs16
+ 
+ #
+ # Formats
+@@ -110,6 +118,11 @@
+ @fmt_rdcj            .... ........ ..... ..... .. ... .....   &fmt_rdcj           %rd %cj
+ @fmt_fdrjrk          .... ........ ..... ..... ..... .....    &fmt_fdrjrk         %fd %rj %rk
+ @fmt_fdrjsi12        .... ...... ............ ..... .....     &fmt_fdrjsi12       %fd %rj %si12
++@fmt_rjoffs21        .... .. ................ ..... .....     &fmt_rjoffs21       %rj %offs21
++@fmt_cjoffs21        .... .. ................ .. ... .....    &fmt_cjoffs21       %cj %offs21
++@fmt_rdrjoffs16      .... .. ................ ..... .....     &fmt_rdrjoffs16     %rd %rj %offs16
++@fmt_offs            .... .. ..........................       &fmt_offs           %offs
++@fmt_rjrdoffs16      .... .. ................ ..... .....     &fmt_rjrdoffs16     %rj %rd %offs16
+ 
+ #
+ # Fixed point arithmetic operation instruction
+@@ -448,3 +461,20 @@ fstgt_s          0011 10000111 01100 ..... ..... .....    @fmt_fdrjrk
+ fstgt_d          0011 10000111 01101 ..... ..... .....    @fmt_fdrjrk
+ fstle_s          0011 10000111 01110 ..... ..... .....    @fmt_fdrjrk
+ fstle_d          0011 10000111 01111 ..... ..... .....    @fmt_fdrjrk
 +
 +#
-+# Fixed point atomic instruction
++# Branch instructions
 +#
-+ll_w             0010 0000 .............. ..... .....     @fmt_rdrjsi14
-+sc_w             0010 0001 .............. ..... .....     @fmt_rdrjsi14
-+ll_d             0010 0010 .............. ..... .....     @fmt_rdrjsi14
-+sc_d             0010 0011 .............. ..... .....     @fmt_rdrjsi14
-+amswap_w         0011 10000110 00000 ..... ..... .....    @fmt_rdrjrk
-+amswap_d         0011 10000110 00001 ..... ..... .....    @fmt_rdrjrk
-+amadd_w          0011 10000110 00010 ..... ..... .....    @fmt_rdrjrk
-+amadd_d          0011 10000110 00011 ..... ..... .....    @fmt_rdrjrk
-+amand_w          0011 10000110 00100 ..... ..... .....    @fmt_rdrjrk
-+amand_d          0011 10000110 00101 ..... ..... .....    @fmt_rdrjrk
-+amor_w           0011 10000110 00110 ..... ..... .....    @fmt_rdrjrk
-+amor_d           0011 10000110 00111 ..... ..... .....    @fmt_rdrjrk
-+amxor_w          0011 10000110 01000 ..... ..... .....    @fmt_rdrjrk
-+amxor_d          0011 10000110 01001 ..... ..... .....    @fmt_rdrjrk
-+ammax_w          0011 10000110 01010 ..... ..... .....    @fmt_rdrjrk
-+ammax_d          0011 10000110 01011 ..... ..... .....    @fmt_rdrjrk
-+ammin_w          0011 10000110 01100 ..... ..... .....    @fmt_rdrjrk
-+ammin_d          0011 10000110 01101 ..... ..... .....    @fmt_rdrjrk
-+ammax_wu         0011 10000110 01110 ..... ..... .....    @fmt_rdrjrk
-+ammax_du         0011 10000110 01111 ..... ..... .....    @fmt_rdrjrk
-+ammin_wu         0011 10000110 10000 ..... ..... .....    @fmt_rdrjrk
-+ammin_du         0011 10000110 10001 ..... ..... .....    @fmt_rdrjrk
-+amswap_db_w      0011 10000110 10010 ..... ..... .....    @fmt_rdrjrk
-+amswap_db_d      0011 10000110 10011 ..... ..... .....    @fmt_rdrjrk
-+amadd_db_w       0011 10000110 10100 ..... ..... .....    @fmt_rdrjrk
-+amadd_db_d       0011 10000110 10101 ..... ..... .....    @fmt_rdrjrk
-+amand_db_w       0011 10000110 10110 ..... ..... .....    @fmt_rdrjrk
-+amand_db_d       0011 10000110 10111 ..... ..... .....    @fmt_rdrjrk
-+amor_db_w        0011 10000110 11000 ..... ..... .....    @fmt_rdrjrk
-+amor_db_d        0011 10000110 11001 ..... ..... .....    @fmt_rdrjrk
-+amxor_db_w       0011 10000110 11010 ..... ..... .....    @fmt_rdrjrk
-+amxor_db_d       0011 10000110 11011 ..... ..... .....    @fmt_rdrjrk
-+ammax_db_w       0011 10000110 11100 ..... ..... .....    @fmt_rdrjrk
-+ammax_db_d       0011 10000110 11101 ..... ..... .....    @fmt_rdrjrk
-+ammin_db_w       0011 10000110 11110 ..... ..... .....    @fmt_rdrjrk
-+ammin_db_d       0011 10000110 11111 ..... ..... .....    @fmt_rdrjrk
-+ammax_db_wu      0011 10000111 00000 ..... ..... .....    @fmt_rdrjrk
-+ammax_db_du      0011 10000111 00001 ..... ..... .....    @fmt_rdrjrk
-+ammin_db_wu      0011 10000111 00010 ..... ..... .....    @fmt_rdrjrk
-+ammin_db_du      0011 10000111 00011 ..... ..... .....    @fmt_rdrjrk
++beqz             0100 00 ................ ..... .....     @fmt_rjoffs21
++bnez             0100 01 ................ ..... .....     @fmt_rjoffs21
++bceqz            0100 10 ................ 00 ... .....    @fmt_cjoffs21
++bcnez            0100 10 ................ 01 ... .....    @fmt_cjoffs21
++jirl             0100 11 ................ ..... .....     @fmt_rdrjoffs16
++b                0101 00 ..........................       @fmt_offs
++bl               0101 01 ..........................       @fmt_offs
++beq              0101 10 ................ ..... .....     @fmt_rjrdoffs16
++bne              0101 11 ................ ..... .....     @fmt_rjrdoffs16
++blt              0110 00 ................ ..... .....     @fmt_rjrdoffs16
++bge              0110 01 ................ ..... .....     @fmt_rjrdoffs16
++bltu             0110 10 ................ ..... .....     @fmt_rjrdoffs16
++bgeu             0110 11 ................ ..... .....     @fmt_rjrdoffs16
 diff --git a/target/loongarch/trans.inc.c b/target/loongarch/trans.inc.c
-index e38001b..a87da4a 100644
+index 8adfdd3..0c67c54 100644
 --- a/target/loongarch/trans.inc.c
 +++ b/target/loongarch/trans.inc.c
-@@ -2874,3 +2874,213 @@ static bool trans_stle_d(DisasContext *ctx, arg_stle_d *a)
+@@ -5285,3 +5285,252 @@ static bool trans_fstle_d(DisasContext *ctx, arg_fstle_d *a)
  }
  
- #undef DECL_ARG
+ #undef DECL_ARG2
 +
-+/* Fixed point atomic instruction translation */
-+static bool trans_ll_w(DisasContext *ctx, arg_ll_w *a)
++/* Branch Instructions translation */
++static bool trans_beqz(DisasContext *ctx, arg_beqz *a)
 +{
 +    TCGv t0, t1;
-+    TCGv Rd = cpu_gpr[a->rd];
-+
-+    if (a->rd == 0) {
-+        /* Nop */
-+        return true;
-+    }
++    int bcond_flag = 0;
 +
 +    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
++    t1 = tcg_const_i64(0);
 +
-+    gen_base_offset_addr(t0, a->rj, a->si14 << 2);
-+    tcg_gen_mov_tl(t1, t0);
-+    tcg_gen_qemu_ld32s(t0, t0, ctx->mem_idx);
-+    tcg_gen_st_tl(t1, cpu_env, offsetof(CPULoongArchState, lladdr));
-+    tcg_gen_st_tl(t0, cpu_env, offsetof(CPULoongArchState, llval));
-+    tcg_gen_mov_tl(Rd, t0);
++    if (a->rj != 0) {
++        gen_load_gpr(t0, a->rj);
++        bcond_flag = 1;
++    }
++
++    if (bcond_flag == 0) {
++        ctx->hflags |= LOONGARCH_HFLAG_B;
++    } else {
++        tcg_gen_setcond_tl(TCG_COND_EQ, bcond, t0, t1);
++        ctx->hflags |= LOONGARCH_HFLAG_BC;
++    }
++    ctx->btarget = ctx->base.pc_next + (a->offs21 << 2);
 +
 +    tcg_temp_free(t0);
 +    tcg_temp_free(t1);
@@ -164,31 +173,19 @@ index e38001b..a87da4a 100644
 +    return true;
 +}
 +
-+static bool trans_sc_w(DisasContext *ctx, arg_sc_w *a)
-+{
-+    gen_loongarch_st_cond(ctx, a->rd, a->rj, a->si14 << 2, MO_TESL, false);
-+    return true;
-+}
-+
-+static bool trans_ll_d(DisasContext *ctx, arg_ll_d *a)
++static bool trans_bnez(DisasContext *ctx, arg_bnez *a)
 +{
 +    TCGv t0, t1;
-+    TCGv Rd = cpu_gpr[a->rd];
-+
-+    if (a->rd == 0) {
-+        /* Nop */
-+        return true;
-+    }
 +
 +    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
++    t1 = tcg_const_i64(0);
 +
-+    gen_base_offset_addr(t0, a->rj, a->si14 << 2);
-+    tcg_gen_mov_tl(t1, t0);
-+    tcg_gen_qemu_ld64(t0, t0, ctx->mem_idx);
-+    tcg_gen_st_tl(t1, cpu_env, offsetof(CPULoongArchState, lladdr));
-+    tcg_gen_st_tl(t0, cpu_env, offsetof(CPULoongArchState, llval));
-+    tcg_gen_mov_tl(Rd, t0);
++    if (a->rj != 0) {
++        gen_load_gpr(t0, a->rj);
++        tcg_gen_setcond_tl(TCG_COND_NE, bcond, t0, t1);
++        ctx->hflags |= LOONGARCH_HFLAG_BC;
++    }
++    ctx->btarget = ctx->base.pc_next + (a->offs21 << 2);
 +
 +    tcg_temp_free(t0);
 +    tcg_temp_free(t1);
@@ -196,199 +193,206 @@ index e38001b..a87da4a 100644
 +    return true;
 +}
 +
-+static bool trans_sc_d(DisasContext *ctx, arg_sc_d *a)
++static bool trans_bceqz(DisasContext *ctx, arg_bceqz *a)
 +{
-+    gen_loongarch_st_cond(ctx, a->rd, a->rj, a->si14 << 2, MO_TEQ, false);
++    TCGv t0, t1;
++    TCGv_i32 cj;
++
++    cj = tcg_const_i32(a->cj);
++    t0 = tcg_temp_new();
++    t1 = tcg_const_i64(0);
++
++    gen_helper_movcf2reg(t0, cpu_env, cj);
++    tcg_gen_setcond_tl(TCG_COND_EQ, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs21 << 2);
++
++    tcg_temp_free_i32(cj);
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
 +    return true;
 +}
 +
-+#define TRANS_AM_W(name, op)                                      \
-+static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
-+{                                                                 \
-+    TCGv addr, val, ret;                                          \
-+    TCGv Rd = cpu_gpr[a->rd];                                     \
-+    int mem_idx = ctx->mem_idx;                                   \
-+                                                                  \
-+    if (a->rd == 0) {                                             \
-+        return true;                                              \
-+    }                                                             \
-+    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
-+        printf("%s: warning, register equal\n", __func__);        \
-+        return false;                                             \
-+    }                                                             \
-+                                                                  \
-+    addr = get_gpr(a->rj);                                        \
-+    val = get_gpr(a->rk);                                         \
-+    ret = tcg_temp_new();                                         \
-+                                                                  \
-+    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TESL |   \
-+                            ctx->default_tcg_memop_mask);         \
-+    tcg_gen_mov_tl(Rd, ret);                                      \
-+                                                                  \
-+    tcg_temp_free(ret);                                           \
-+                                                                  \
-+    return true;                                                  \
-+}
-+#define TRANS_AM_D(name, op)                                      \
-+static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
-+{                                                                 \
-+    TCGv addr, val, ret;                                          \
-+    TCGv Rd = cpu_gpr[a->rd];                                     \
-+    int mem_idx = ctx->mem_idx;                                   \
-+                                                                  \
-+    if (a->rd == 0) {                                             \
-+        return true;                                              \
-+    }                                                             \
-+    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
-+        printf("%s: warning, register equal\n", __func__);        \
-+        return false;                                             \
-+    }                                                             \
-+    addr = get_gpr(a->rj);                                        \
-+    val = get_gpr(a->rk);                                         \
-+    ret = tcg_temp_new();                                         \
-+                                                                  \
-+    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TEQ |    \
-+                            ctx->default_tcg_memop_mask);         \
-+    tcg_gen_mov_tl(Rd, ret);                                      \
-+                                                                  \
-+    tcg_temp_free(ret);                                           \
-+                                                                  \
-+    return true;                                                  \
-+}
-+#define TRANS_AM(name, op)   \
-+    TRANS_AM_W(name##_w, op) \
-+    TRANS_AM_D(name##_d, op)
-+TRANS_AM(amswap, xchg)      /* trans_amswap_w, trans_amswap_d */
-+TRANS_AM(amadd, fetch_add)  /* trans_amadd_w, trans_amadd_d   */
-+TRANS_AM(amand, fetch_and)  /* trans_amand_w, trans_amand_d   */
-+TRANS_AM(amor, fetch_or)    /* trans_amor_w, trans_amor_d     */
-+TRANS_AM(amxor, fetch_xor)  /* trans_amxor_w, trans_amxor_d   */
-+TRANS_AM(ammax, fetch_smax) /* trans_ammax_w, trans_ammax_d   */
-+TRANS_AM(ammin, fetch_smin) /* trans_ammin_w, trans_ammin_d   */
-+TRANS_AM_W(ammax_wu, fetch_umax)    /* trans_ammax_wu */
-+TRANS_AM_D(ammax_du, fetch_umax)    /* trans_ammax_du */
-+TRANS_AM_W(ammin_wu, fetch_umin)    /* trans_ammin_wu */
-+TRANS_AM_D(ammin_du, fetch_umin)    /* trans_ammin_du */
-+#undef TRANS_AM
-+#undef TRANS_AM_W
-+#undef TRANS_AM_D
-+
-+#define TRANS_AM_DB_W(name, op)                                   \
-+static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
-+{                                                                 \
-+    TCGv addr, val, ret;                                          \
-+    TCGv Rd = cpu_gpr[a->rd];                                     \
-+    int mem_idx = ctx->mem_idx;                                   \
-+                                                                  \
-+    if (a->rd == 0) {                                             \
-+        return true;                                              \
-+    }                                                             \
-+    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
-+        printf("%s: warning, register equal\n", __func__);        \
-+        return false;                                             \
-+    }                                                             \
-+                                                                  \
-+    addr = get_gpr(a->rj);                                        \
-+    val = get_gpr(a->rk);                                         \
-+    ret = tcg_temp_new();                                         \
-+                                                                  \
-+    gen_loongarch_sync(0x10);                                     \
-+    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TESL |   \
-+                            ctx->default_tcg_memop_mask);         \
-+    tcg_gen_mov_tl(Rd, ret);                                      \
-+                                                                  \
-+    tcg_temp_free(ret);                                           \
-+                                                                  \
-+    return true;                                                  \
-+}
-+#define TRANS_AM_DB_D(name, op)                                   \
-+static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
-+{                                                                 \
-+    TCGv addr, val, ret;                                          \
-+    TCGv Rd = cpu_gpr[a->rd];                                     \
-+    int mem_idx = ctx->mem_idx;                                   \
-+                                                                  \
-+    if (a->rd == 0) {                                             \
-+        return true;                                              \
-+    }                                                             \
-+    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
-+        printf("%s: warning, register equal\n", __func__);        \
-+        return false;                                             \
-+    }                                                             \
-+                                                                  \
-+    addr = get_gpr(a->rj);                                        \
-+    val = get_gpr(a->rk);                                         \
-+    ret = tcg_temp_new();                                         \
-+                                                                  \
-+    gen_loongarch_sync(0x10);                                     \
-+    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TEQ |    \
-+                            ctx->default_tcg_memop_mask);         \
-+    tcg_gen_mov_tl(Rd, ret);                                      \
-+                                                                  \
-+    tcg_temp_free(ret);                                           \
-+                                                                  \
-+    return true;                                                  \
-+}
-+#define TRANS_AM_DB(name, op)      \
-+    TRANS_AM_DB_W(name##_db_w, op) \
-+    TRANS_AM_DB_D(name##_db_d, op)
-+TRANS_AM_DB(amswap, xchg)      /* trans_amswap_db_w, trans_amswap_db_d */
-+TRANS_AM_DB(amadd, fetch_add)  /* trans_amadd_db_w, trans_amadd_db_d   */
-+TRANS_AM_DB(amand, fetch_and)  /* trans_amand_db_w, trans_amand_db_d   */
-+TRANS_AM_DB(amor, fetch_or)    /* trans_amor_db_w, trans_amor_db_d     */
-+TRANS_AM_DB(amxor, fetch_xor)  /* trans_amxor_db_w, trans_amxor_db_d   */
-+TRANS_AM_DB(ammax, fetch_smax) /* trans_ammax_db_w, trans_ammax_db_d   */
-+TRANS_AM_DB(ammin, fetch_smin) /* trans_ammin_db_w, trans_ammin_db_d   */
-+TRANS_AM_DB_W(ammax_db_wu, fetch_umax)    /* trans_ammax_db_wu */
-+TRANS_AM_DB_D(ammax_db_du, fetch_umax)    /* trans_ammax_db_du */
-+TRANS_AM_DB_W(ammin_db_wu, fetch_umin)    /* trans_ammin_db_wu */
-+TRANS_AM_DB_D(ammin_db_du, fetch_umin)    /* trans_ammin_db_du */
-+#undef TRANS_AM_DB
-+#undef TRANS_AM_DB_W
-+#undef TRANS_AM_DB_D
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 6ce2d6a..2d3547f 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -306,6 +306,38 @@ static void gen_loongarch_sync(int stype)
-     tcg_gen_mb(tcg_mo);
- }
- 
-+/* loongarch st cond */
-+static void gen_loongarch_st_cond(DisasContext *ctx, int rd, int base,
-+                                  int offset, MemOp tcg_mo, bool eva)
++static bool trans_bcnez(DisasContext *ctx, arg_bcnez *a)
 +{
-+    TCGv Rd = cpu_gpr[rd];
-+    TCGv t0 = tcg_temp_new();
-+    TCGv addr = tcg_temp_new();
-+    TCGv val = tcg_temp_new();
-+    TCGLabel *l1 = gen_new_label();
-+    TCGLabel *done = gen_new_label();
++    TCGv t0, t1;
++    TCGv_i32 cj;
 +
-+    /* compare the address against that of the preceding LL */
-+    gen_base_offset_addr(addr, base, offset);
-+    tcg_gen_brcond_tl(TCG_COND_EQ, addr, cpu_lladdr, l1);
-+    tcg_gen_movi_tl(t0, 0);
-+    tcg_gen_mov_tl(Rd, t0);
-+    tcg_gen_br(done);
++    cj = tcg_const_i32(a->cj);
++    t0 = tcg_temp_new();
++    t1 = tcg_const_i64(0);
 +
-+    gen_set_label(l1);
-+    /* generate cmpxchg */
-+    gen_load_gpr(val, rd);
-+    tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llval, val,
-+                              eva ? LOONGARCH_HFLAG_UM : ctx->mem_idx, tcg_mo);
-+    tcg_gen_setcond_tl(TCG_COND_EQ, t0, t0, cpu_llval);
-+    tcg_gen_mov_tl(Rd, t0);
++    gen_helper_movcf2reg(t0, cpu_env, cj);
++    tcg_gen_setcond_tl(TCG_COND_NE, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs21 << 2);
 +
-+    gen_set_label(done);
++    tcg_temp_free_i32(cj);
 +    tcg_temp_free(t0);
-+    tcg_temp_free(addr);
-+    tcg_temp_free(val);
++    tcg_temp_free(t1);
++
++    return true;
 +}
 +
- static void loongarch_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
- {
- }
++static bool trans_b(DisasContext *ctx, arg_b *a)
++{
++    ctx->hflags |= LOONGARCH_HFLAG_B;
++    ctx->btarget = ctx->base.pc_next + (a->offs << 2);
++
++    return true;
++}
++
++static bool trans_bl(DisasContext *ctx, arg_bl *a)
++{
++    ctx->btarget = ctx->base.pc_next + (a->offs << 2);
++    tcg_gen_movi_tl(cpu_gpr[1], ctx->base.pc_next + 4);
++    ctx->hflags |= LOONGARCH_HFLAG_B;
++    gen_branch(ctx, 4);
++
++    return true;
++}
++
++static bool trans_blt(DisasContext *ctx, arg_blt *a)
++{
++    TCGv t0, t1;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rd);
++
++    tcg_gen_setcond_tl(TCG_COND_LT, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_bge(DisasContext *ctx, arg_bge *a)
++{
++    TCGv t0, t1;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rd);
++
++    tcg_gen_setcond_tl(TCG_COND_GE, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_bltu(DisasContext *ctx, arg_bltu *a)
++{
++    TCGv t0, t1;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rd);
++
++    tcg_gen_setcond_tl(TCG_COND_LTU, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_bgeu(DisasContext *ctx, arg_bgeu *a)
++{
++    TCGv t0, t1;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rd);
++
++    tcg_gen_setcond_tl(TCG_COND_GEU, bcond, t0, t1);
++    ctx->hflags |= LOONGARCH_HFLAG_BC;
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_beq(DisasContext *ctx, arg_beq *a)
++{
++    TCGv t0, t1;
++    int bcond_flag = 0;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    if (a->rj != a->rd) {
++        gen_load_gpr(t0, a->rj);
++        gen_load_gpr(t1, a->rd);
++        bcond_flag = 1;
++    }
++
++    if (bcond_flag == 0) {
++        ctx->hflags |= LOONGARCH_HFLAG_B;
++    } else {
++        tcg_gen_setcond_tl(TCG_COND_EQ, bcond, t0, t1);
++        ctx->hflags |= LOONGARCH_HFLAG_BC;
++    }
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_bne(DisasContext *ctx, arg_bne *a)
++{
++    TCGv t0, t1;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    if (a->rj != a->rd) {
++        gen_load_gpr(t0, a->rj);
++        gen_load_gpr(t1, a->rd);
++        tcg_gen_setcond_tl(TCG_COND_NE, bcond, t0, t1);
++        ctx->hflags |= LOONGARCH_HFLAG_BC;
++    }
++    ctx->btarget = ctx->base.pc_next + (a->offs16 << 2);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_jirl(DisasContext *ctx, arg_jirl *a)
++{
++    gen_base_offset_addr(btarget, a->rj, a->offs16 << 2);
++    if (a->rd != 0) {
++        tcg_gen_movi_tl(cpu_gpr[a->rd], ctx->base.pc_next + 4);
++    }
++    ctx->hflags |= LOONGARCH_HFLAG_BR;
++    gen_branch(ctx, 4);
++
++    return true;
++}
 -- 
 1.8.3.1
 
