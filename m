@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2043D14A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:55:29 +0200 (CEST)
-Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04A33D14B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 18:58:23 +0200 (CEST)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6FVI-00007n-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
+	id 1m6FY6-0005Hf-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 12:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6FTw-0006ms-5D
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6FTu-0005A6-KA
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:54:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626886441;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rDQoX7lz0nX2A3j+Bni8T8DpqyaBEPP/YqWtmn8qUPw=;
- b=JIqjHl3qH/A7Eq1RIOxs4IPs9Ksjai2QB6mBjqHyW3tCQZEDmg/XP119Kz2r5sRIRTJ3Rb
- 0b4XxidhPKBs5aq9gpRgXo57+PjRly590ibf3Y0hISM27s0dEtBW72ig9QR8b/8xzntQqA
- qAM23BQ23dsq/kbjbNo1GqJLOYSmh5U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-4fUYhfMpPqWEafUpft7Hdg-1; Wed, 21 Jul 2021 12:53:58 -0400
-X-MC-Unique: 4fUYhfMpPqWEafUpft7Hdg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 258EB1074661
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 16:53:57 +0000 (UTC)
-Received: from redhat.com (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 727816A05B;
- Wed, 21 Jul 2021 16:53:56 +0000 (UTC)
-Date: Wed, 21 Jul 2021 17:53:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] meson: fix dependencies for modinfo
-Message-ID: <YPhRIRDa344bRZNu@redhat.com>
-References: <20210721165206.652325-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6FWs-0003ko-92
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:57:06 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6FWq-0007NU-7f
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 12:57:05 -0400
+Received: by mail-wr1-x431.google.com with SMTP id f9so2910534wrq.11
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 09:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=LJlGfrsfB+rwVrxohSUCjOG8t2khLv37nI8YELUkoHM=;
+ b=fb8e80XiZ10SCzYYfqVBtYsu4GAEk8j7BMxG2F5juLKzFL0Zw18tknvXZa/c0GA6xu
+ 28OFdZCJiLhKB9A4fsbmBaLIHvN2fEvonx4fwBuTLoXm8JuTJz4dvxApum/mmcPngSDx
+ CCOumJAgynB2Sg15P4rAzoWfG6WDF2/gDs1JmoyNrN01xEGL4GUa/xc7RVLZxpafmd8R
+ BgtYy4oQ+uY/UewuKLFOjssdUZm8yOkqq6kNrXMDQBkwjvYvNfayp/0awVLSbxMuVeqw
+ 3i/DlD39vcbLBUMljQZ2AExAAy/b1O+neqmYELMd/Mw9lJzkflDopGdk1Op574ZMXeCW
+ WrWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=LJlGfrsfB+rwVrxohSUCjOG8t2khLv37nI8YELUkoHM=;
+ b=iLJ5+vANebAFy0oG+b8N62I3wuCpPXRn2JD/9n2C32aNorHlk/CPo41R8fTVpISl3I
+ GCGbyAeqqfEDcXiWr9vRIuTzrhFrNxxQO2jgR1v9YDqVaHkUMMrecz2SHiNpRka9Pkx0
+ P5FxEf7jhKuFPjGo71ylN/fnn1AKYmrjwAPUXZ5Ho7p37F9DpVksQsN1xjJcfJsReCjL
+ zjXaUnihRlyg/NJ1eJsT0SdC+8R4ft0ex/OPhH7w3rPgQOWlQMLdFaxnEUKWAXz/LvMC
+ tSBiPZVllDwnk0EJdLsdak/nLnKiOYvQh+TWgmR0nhwzINWu7PPbNaqiPlS+bADWniO6
+ oVtQ==
+X-Gm-Message-State: AOAM530qen8xcXOy1QLKOxkei8OfoIrqFa46d2HYOq1Vku9px+f1Je48
+ SI3XmXLlWfZ1aNJP0GxXE3N3WQ==
+X-Google-Smtp-Source: ABdhPJwXCzj04NEyLsIbb2z3eAxASdQin3kT5HCsL33D1+gEJZT2+QDZA6sovDXJEaRwoy9B6+JBVg==
+X-Received: by 2002:adf:dec4:: with SMTP id i4mr43736530wrn.191.1626886622568; 
+ Wed, 21 Jul 2021 09:57:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q19sm387768wmq.38.2021.07.21.09.57.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 09:57:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 31C241FF7E;
+ Wed, 21 Jul 2021 17:57:01 +0100 (BST)
+References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
+ <20210710005929.1702431-5-mathieu.poirier@linaro.org>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH v3 4/4] docs: Add documentation for vhost based RNG
+ implementation
+Date: Wed, 21 Jul 2021 17:55:08 +0100
+In-reply-to: <20210710005929.1702431-5-mathieu.poirier@linaro.org>
+Message-ID: <87im13y59e.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210721165206.652325-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,27 +88,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 06:52:06PM +0200, Paolo Bonzini wrote:
-> modinfo runs the preprocessor and therefore needs all generated input files
-> to be there.  Add a "depends" clause.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Mathieu Poirier <mathieu.poirier@linaro.org> writes:
+
+> Add description and example for the vhost-user based RNG implementation.
+> Tailored on Viresh Kumar's vhost-user-i2c documentation.
+>
+> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 > ---
->  meson.build | 1 +
->  1 file changed, 1 insertion(+)
+>  docs/tools/index.rst          |  1 +
+>  docs/tools/vhost-user-rng.rst | 74 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 75 insertions(+)
+>  create mode 100644 docs/tools/vhost-user-rng.rst
+>
+> diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+> index d923834a7398..9d80fa89eceb 100644
+> --- a/docs/tools/index.rst
+> +++ b/docs/tools/index.rst
+> @@ -15,5 +15,6 @@ Contents:
+>     qemu-nbd
+>     qemu-pr-helper
+>     qemu-trace-stap
+> +   vhost-user-rng
+>     virtfs-proxy-helper
+>     virtiofsd
+> diff --git a/docs/tools/vhost-user-rng.rst b/docs/tools/vhost-user-rng.rst
+> new file mode 100644
+> index 000000000000..7f69d7bb3c58
+> --- /dev/null
+> +++ b/docs/tools/vhost-user-rng.rst
+> @@ -0,0 +1,74 @@
+> +QEMU vhost-user-rng - RNG emulation backend
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Synopsis
+> +--------
+> +
+> +**vhost-user-rng** [*OPTIONS*]
+> +
+> +Description
+> +-----------
+> +
+> +This program is a vhost-user backend that emulates a VirtIO random number
+> +generator (RNG).  It uses the host's random number generator pool,
+> +/dev/urandom by default but configurable at will, to satisfy requests fr=
+om
+> +guests.
+> +
+> +This program is designed to work with QEMU's ``-device
+> +vhost-user-rng-pci`` but should work with any virtual machine monitor
+> +(VMM) that supports vhost-user. See the Examples section below.
+> +
+> +Options
+> +-------
+> +
+> +.. program:: vhost-user-rng
+> +
+> +.. option:: -h, --help
+> +
+> +  Print help.
+> +
+> +.. option:: -v, --verbose
+> +
+> +   Increase verbosity of output
+> +
+> +.. option:: -s, --socket-path=3DPATH
+> +
+> +  Listen on vhost-user UNIX domain socket at PATH. Incompatible with --f=
+d.
+> +
+> +.. option:: -f, --fd=3DFDNUM
+> +
+> +  Accept connections from vhost-user UNIX domain socket file descriptor =
+FDNUM.
+> +  The file descriptor must already be listening for connections.
+> +  Incompatible with --socket-path.
+> +
+> +.. option:: -p, --period
+> +
+> +  Rate, in milliseconds, at which the RNG hardware can generate random d=
+ata.
+> +  Used in conjunction with the --max-bytes option.
+> +
+> +.. option:: -m, --max-bytes
+> +
+> +  In conjuction with the --period parameter, provides the maximum number=
+ of byte
+> +  per milliseconds a RNG device can generate.
+> +
+> +Examples
+> +--------
+> +
+> +The daemon should be started first:
+> +
+> +::
+> +
+> +  host# vhost-user-rng --socket-path=3Drng.sock --period=3D1000 --max-by=
+tes=3D4096
+> +
+> +The QEMU invocation needs to create a chardev socket the device can
+> +use to communicate as well as share the guests memory over a memfd.
+> +
+> +::
+> +
+> +  host# qemu-system								\
+> +      -chardev socket,path=3D$(PATH)/rng.sock,id=3Drng0				\
+> +      -device vhost-user-rng-pci,chardev=3Drng0					\
+> +      -m 4096 									\
+> +      -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm=
+,share=3Don	\
+> +      -numa node,memdev=3Dmem							\
+> +      ...
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Would it be worth pointing out how a guest may consume the randomness? I
+appreciate this will be guest specific but currently I'm struggling how
+to consume the entropy in a Linux guest.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  cat /dev/urandom > /dev/null
 
+didn't seem to cause any to be consumed above what was during boot up.
+
+--=20
+Alex Benn=C3=A9e
 
