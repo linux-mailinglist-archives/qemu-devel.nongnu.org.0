@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A77F3D126E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 17:30:38 +0200 (CEST)
-Received: from localhost ([::1]:55002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C143D1293
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 17:37:28 +0200 (CEST)
+Received: from localhost ([::1]:59252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6EBB-0005Ac-NA
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 11:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1m6EHn-0008Tl-3g
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 11:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1m6E7u-0007Ms-O7
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 11:27:18 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1m6E7r-00047v-3X
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 11:27:13 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id l1so2865419edr.11
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:27:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vmJrqeHNro/WAYR3YPS5dBwEOyTd8DYwPa8hCABvMR8=;
- b=MDd0bk25MGOzM66JrJ/QCLWpMyXNqUg67r2Te7sgC9VtdiMtIpHxQscI1a1tXWxP3C
- 3nN1BdUhOs173TQQJuvisdoXFJrGMyfAltW44RxlxZKh2fKxMw1cb3iuKY5YrQzIivlT
- ezlKjinFX8dEyJmhGnc4n22Ntl3tKqnlODU/+CPO0QYWGM7+o37NeQaQFxtncMatlqpC
- DBhwV7OPccJ3W3cgfKhA5O6P6VjimhiFc7f0Yg8W0na5lgZa0rD9aSbB5YITTUB9XX1L
- 2BdYE3f08RPVwTIgNp2kxr70AtTQhSr7N/4halHL3eW18OIXzZI+aA1N4xyJbaV4vFR/
- Bsyg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6EGd-0007mV-9k
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 11:36:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6EGa-0001xU-34
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 11:36:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626881770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w0RnDdqmdA7sV8mhRsLgAoarl6tXsKhNe1aJ+5stu80=;
+ b=bJOij/jHtIHAKwpqyuWCAc0FKB3NcQk+Wi//0X2ScwFD4C/FFz0XaajKojGnkt8J/onAUR
+ 6Ye56KMEbdpIWkNNNTd/AWR2Zsxoq/DVxzLEV24M5DLf5M2DAKBqmtnlFIOxJVi9tQDmcl
+ J9DymNk2iE3Qe7h3Be9moRsRiYZNF+0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-36XwApCrMN2gsgQ7SYn4bg-1; Wed, 21 Jul 2021 11:36:06 -0400
+X-MC-Unique: 36XwApCrMN2gsgQ7SYn4bg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i10-20020a5d55ca0000b029013b976502b6so1177847wrw.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 08:36:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vmJrqeHNro/WAYR3YPS5dBwEOyTd8DYwPa8hCABvMR8=;
- b=Y+HDgUl6HhkzcoCGS+9x3pVnxxNqZQ8oFn4gQ7iP94Sg+rhLcjl5Sa9LUeKdF+BK3I
- yww9Z8aaKDIM04kfnxhEkOYf6xuLGRksXnXmG48eo9XnntGcIFemHJyz9IX9jEN/fOk8
- p+GJS6OTWNXLusKetWVivWyJT3gAkXAtEqQ8BpqLD+pDDUXYenlfVAxcynWaQ+LtbgnV
- vs7VWhgPegfR8iePZeSgJYciyFoYoxm5yilJYt7wMd5hlbFP6B1ctSGE/1+1MVkQa4jq
- gtgVBl8CvaMLf+uRYPRiOJpjPq/TvDr7CVkEZRjSsWV4EJ0IdcD85sLhUZOPdWXXy4Hg
- hMhg==
-X-Gm-Message-State: AOAM531Inw7YedELx5oROfK9TuN8NXN6/LQ1OnUuHvh9p+c9gtHyfDD+
- 9IgCanGWoSyrZ9D/vMRQLzmd0pCee6BognCY
-X-Google-Smtp-Source: ABdhPJzLf2Whc/vyZxyzSk47Tjit2+M4yuVelhO9LAA2VVIT5jxXsGISNBFl4AGL400Yyd01mybuag==
-X-Received: by 2002:a05:6402:b8f:: with SMTP id
- cf15mr48153618edb.286.1626881229636; 
- Wed, 21 Jul 2021 08:27:09 -0700 (PDT)
-Received: from localhost.localdomain ([151.68.51.173])
- by smtp.gmail.com with ESMTPSA id r27sm10253217edb.66.2021.07.21.08.27.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 08:27:09 -0700 (PDT)
-From: Lara Lazier <laramglazier@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/i386: Added consistency checks for EFER
-Date: Wed, 21 Jul 2021 17:26:51 +0200
-Message-Id: <20210721152651.14683-3-laramglazier@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210721152651.14683-1-laramglazier@gmail.com>
-References: <20210721152651.14683-1-laramglazier@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w0RnDdqmdA7sV8mhRsLgAoarl6tXsKhNe1aJ+5stu80=;
+ b=NWduDzQVAG6M/IabNU2xA91/DjLY55+7UrTV3A5yuGauA1E4Fup6+avtXVhp12UBRI
+ 1kGGAOrSOjzDHDF7+Zcep8pxHq5wU6OAHt8ssVR9GVV4BwwRlIAnx/vTiKCqsfNYnbnL
+ XNWUjd5PnMz5QUvhV5uQ/tZObasDnBRglE1R/rAwS2Ep+TSI0MdT+Ylh1qOvt1TThsJC
+ 4i5E3FzFi25mGeBz7CgWg56JMsecQTNuVtc+yo8YUHawHh2JnXp87VO2awRuhq4izu+k
+ c+R1mpxT6Awfz1JqQ7ncf9+XEEuTvobt5kersObukI0+ErpYuuITqKan5yGb4lGtDzUJ
+ vyUw==
+X-Gm-Message-State: AOAM532SqgLYMe7At+j0XDkggpXRcAgjSA+unNuhDCC8jScPFsnKt4PK
+ 80MXbzplFQe5GNu0S9XAn7uTMYj/Y6tVfx+T1Zdwpx7AVZyGHuMyBkOoEtikQNOFWCZ27SQ/XNg
+ ysnQQ3fAJKEG567U=
+X-Received: by 2002:a05:6000:10ca:: with SMTP id
+ b10mr43743437wrx.195.1626881765700; 
+ Wed, 21 Jul 2021 08:36:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlhGiCjIXFDIMhs+zxMJ9dCM5aWIoKMVeazrm9qXp78d5Lz/M7DFQVz5+7xXtp9QLn7TLX7g==
+X-Received: by 2002:a05:6000:10ca:: with SMTP id
+ b10mr43743418wrx.195.1626881765506; 
+ Wed, 21 Jul 2021 08:36:05 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id t5sm27478340wrw.38.2021.07.21.08.36.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Jul 2021 08:36:05 -0700 (PDT)
+Subject: Re: [PATCH] failover: unregister ram on unplug
+To: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20210720181644.196315-1-lvivier@redhat.com>
+ <20210721105817.0a4afc21@redhat.com>
+ <20210721062035-mutt-send-email-mst@kernel.org>
+ <047bcd5c-8da5-0827-615b-77f12075160a@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <59e7c7b0-9a37-de33-a839-3f994b5a195d@redhat.com>
+Date: Wed, 21 Jul 2021 17:36:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=laramglazier@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <047bcd5c-8da5-0827-615b-77f12075160a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,101 +104,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-EFER.SVME has to be set, and EFER reserved bits must
-be zero.
-In addition the combinations
- * EFER.LMA or EFER.LME is non-zero and the processor does not support LM
- * non-zero EFER.LME and CR0.PG and zero CR4.PAE
- * non-zero EFER.LME and CR0.PG and zero CR0.PE
- * non-zero EFER.LME, CR0.PG, CR4.PAE, CS.L and CS.D
-are all invalid.
-(AMD64 Architecture Programmer's Manual, V2, 15.5)
+On 7/21/21 12:49 PM, Laurent Vivier wrote:
+> On 21/07/2021 12:41, Michael S. Tsirkin wrote:
+>> On Wed, Jul 21, 2021 at 10:58:17AM +0200, Igor Mammedov wrote:
+>>> On Tue, 20 Jul 2021 20:16:44 +0200
+>>> Laurent Vivier <lvivier@redhat.com> wrote:
+>>>
+>>>> This simple change allows to test failover with a simulated device
+>>>> like e1000e rather than a vfio device.
+>>>>
+>>>> This is interesting to developers that want to test failover on
+>>>> a system with no vfio device. Moreover it simplifies host networking
+>>>> configuration as we can use the same bridge for virtio-net and
+>>>> the other failover networking device.
+>>>>
+>>>> Without this change the migration of a system configured with failover
+>>>> fails with:
+>>>>
+>>>>   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
+>>>>   error while loading state for instance 0x0 of device 'ram'
+>>>>   load of migration failed: Invalid argument
+>>>>
+>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>
+>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>>>
+>>>> ---
+>>>>  hw/net/virtio-net.c | 3 +++
+>>>>  1 file changed, 3 insertions(+)
+>>>>
+>>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>>> index 16d20cdee52a..8f7735bad4f2 100644
+>>>> --- a/hw/net/virtio-net.c
+>>>> +++ b/hw/net/virtio-net.c
+>>>> @@ -3256,6 +3256,9 @@ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
+>>>>      if (migration_in_setup(s) && !should_be_hidden) {
+>>>>          if (failover_unplug_primary(n, dev)) {
+>>>>              vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
+>>>> +            if (PCI_DEVICE(dev)->has_rom) {
+>>
+>>
+>> Hmm. Any way to hide this behind an interface so
+>> we don't need to poke at pci device internals?
+> 
+> There is the pci_del_option_rom() but it's not exported.
+> 
+> Do you want I export and use it?
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
----
- target/i386/cpu.h                   |  5 ++++
- target/i386/tcg/sysemu/svm_helper.c | 40 +++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 5d98a4e7c0..0b3057bdb6 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -466,6 +466,11 @@ typedef enum X86Seg {
- #define MSR_EFER_SVME  (1 << 12)
- #define MSR_EFER_FFXSR (1 << 14)
- 
-+#define MSR_EFER_RESERVED\
-+        (~(target_ulong)(MSR_EFER_SCE | MSR_EFER_LME\
-+            | MSR_EFER_LMA | MSR_EFER_NXE | MSR_EFER_SVME\
-+            | MSR_EFER_FFXSR))
-+
- #define MSR_STAR                        0xc0000081
- #define MSR_LSTAR                       0xc0000082
- #define MSR_CSTAR                       0xc0000083
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 00618cff23..b6df36d4e5 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -65,6 +65,42 @@ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
-                            sc->base, sc->limit, sc->flags);
- }
- 
-+static inline bool is_efer_invalid_state (CPUX86State *env)
-+{
-+    if (!(env->efer & MSR_EFER_SVME)) {
-+        return true;
-+    }
-+
-+    if (env->efer & MSR_EFER_RESERVED) {
-+        return true;
-+    }
-+
-+    if ((env->efer & (MSR_EFER_LMA | MSR_EFER_LME)) &&
-+            !(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM)) {
-+        return true;
-+    }
-+
-+    if ((env->efer & MSR_EFER_LME) && (env->cr[0] & CR0_PG_MASK)
-+                                && !(env->cr[4] & CR4_PAE_MASK)) {
-+        return true;
-+    }
-+
-+    if ((env->efer & MSR_EFER_LME) && (env->cr[0] & CR0_PG_MASK)
-+                                && !(env->cr[0] & CR0_PE_MASK)) {
-+        return true;
-+    }
-+
-+    if ((env->efer & MSR_EFER_LME) && (env->cr[0] & CR0_PG_MASK)
-+                                && (env->cr[4] & CR4_PAE_MASK)
-+                                && (env->segs[R_CS].flags & DESC_L_MASK)
-+                                && (env->segs[R_CS].flags & DESC_B_MASK)) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+
- void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
- {
-     CPUState *cs = env_cpu(env);
-@@ -278,6 +314,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     }
- #endif
- 
-+    if (is_efer_invalid_state(env)) {
-+        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-+    }
-+
-     switch (x86_ldub_phys(cs,
-                       env->vm_vmcb + offsetof(struct vmcb, control.tlb_ctl))) {
-     case TLB_CONTROL_DO_NOTHING:
--- 
-2.25.1
+Looks cleaner indeed.
 
 
