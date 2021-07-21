@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7594C3D0A74
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:24:57 +0200 (CEST)
-Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8CF3D0A79
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:26:49 +0200 (CEST)
+Received: from localhost ([::1]:38380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67XE-0004RA-Hv
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
+	id 1m67Z2-00065e-Vd
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67WM-0003mR-VH
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:24:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67WK-0006m8-3K
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:24:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626855839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cwVJhKpM8uvlatsGpJD44Da31FZmBx/7pQ6CyEgOn/o=;
- b=CT8O+mKDT/4OB5ycAvuo2JBye6w6Gqx0Aluqlg3WRk9c9GWyly1vGxDNy0N3RzqqeB33Tt
- hyq29KwMwprHfVhEI1BXIiADs5jwnIfwYFpkgC6P5yGqzbLIIsZIt+ckllVswAh5r+8ivu
- 2QOCCnoN/ehhJ7eaF6peTxavOwVMEMo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-IUGIVXGXMVaGO-2vdaAs3A-1; Wed, 21 Jul 2021 04:23:58 -0400
-X-MC-Unique: IUGIVXGXMVaGO-2vdaAs3A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o10-20020a05600002cab02901426384855aso642091wry.11
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 01:23:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m67XK-00052N-VD
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:25:03 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m67XI-0007XV-T8
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:25:02 -0400
+Received: by mail-ej1-x636.google.com with SMTP id hc15so1993520ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 01:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E5ruM/0SiPImVU1z3Cutuj7Guv9B0/6xmjynmDQ7q9o=;
+ b=qwRPffBYhbYxauTlwcMioPVRbzfYfTG9PCtdp8EnHEbNibMQZz6hY13jh+rYZ9vNrd
+ PHyS1EIoiMHY1tWwj/I5jDXgQ9o2m6zX6aDfxejTE/G/rAr9mK9a1vKXaHJ93QjU6IY5
+ zT5CeV+t1N/ltMPbTBqMqidOQGgcYEx3NiyCLFVSzBeNUctNXkR+8wje9dBZ3lVr4xFB
+ mXZVf3/0HcLDzm1v9oBjkYG1vXdlAU3nEb4AMpDgriaypdY/sW8js+uLaLpnOuslxgaa
+ uD+cokXeTYDH/65kU+5liUCQmYC0ZcWY0MBLKw9JO0cE1syVcTVFuLdlel4y5yMvQ8b3
+ EHUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=cwVJhKpM8uvlatsGpJD44Da31FZmBx/7pQ6CyEgOn/o=;
- b=o5uM4WUOJGXSyZnt5PjUPLnakBQR/ptl/thVeedkGdhFo1MDJ+k9yhgYey01A0Buvs
- x28TUIpO+RBfY7DKKHymOrFIGwGs5wTUtj/ymkBSMu8Abo7QwphE1o4VUEtWr094J9eC
- SKnK1MvS9I2FqTfnKy5vne2v+94O9+LWFNRo+F0OxitwM7q5suK7KpEgLrtV6FkBx6AM
- FIEq5pJgbhNFf4K3U1aCG6eg8ny/kqHM1CNJRM5FVcTj5t94QkcmI0t15uJlEn57BD28
- JIUykFazJ4VYWuiTDuSFJJPxeSR9QQj6fzVytYtwhN53n973nVX7sNS+Zem+w0wsmLdZ
- ZKUw==
-X-Gm-Message-State: AOAM532uWP8h3dSiyUM1RccNA7GoI4gCUD6D6cIM3O4aTH8AonD36v/C
- eBKY0JNdceEYa8WIqBv5WRaXRVnzJY+3nBQWdA9+7Y/XBwyQKOXWhF9GKwpE2Xuq8nQHjktz6ps
- bIwDCBaPnR0TsAA8=
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr2789665wmj.128.1626855837030; 
- Wed, 21 Jul 2021 01:23:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwI2lTnTXKL5fIpjbH6bNicpl/pQG4ugzb/FdzIkLaV2ks5rm+mMHSZoTNuLKdH4j73Ong0CQ==
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr2789650wmj.128.1626855836857; 
- Wed, 21 Jul 2021 01:23:56 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c65c3.dip0.t-ipconnect.de. [91.12.101.195])
- by smtp.gmail.com with ESMTPSA id w8sm14856100wrk.10.2021.07.21.01.23.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 01:23:56 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210714112306.67793-1-david@redhat.com>
- <YPbhhj1mbwFtdc4z@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 0/3] util/oslib-posix: Support MADV_POPULATE_WRITE for
- os_mem_prealloc()
-Message-ID: <028e93aa-c25c-93db-4f3a-40e5c1eaabb2@redhat.com>
-Date: Wed, 21 Jul 2021 10:23:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E5ruM/0SiPImVU1z3Cutuj7Guv9B0/6xmjynmDQ7q9o=;
+ b=NF4KROlRp7cgxnCrXROPVBqy1LgabBagRgqBPlAFZxFed/GzfYa1k2e6kTlMQwquyX
+ Si9GYfjRTumHZikUiKUqAkjMtyY9NFPAeYbm7HyJ0rL0dW01l3eMIZMXaGhie6lGcYrD
+ meKR2HIBrhELDeOkVqSUaT+HsVff/ME4DJuog0biURDUpJnqbP6qrmgRCYZUG2S/u83E
+ IsLDzuGZbEOBU0nMR1zMOYz+RKhPIFkM6mrj3AcsOx2GWGBJkqY/7z8ufMpcMaGtUXyC
+ ZaBDDqhSIhGeVCq0olPw/WnIU4MlcRO9T7g8GoC7Rgha+/j7KBt4WKtPGkAP2+OycwF1
+ ebeg==
+X-Gm-Message-State: AOAM533W6mSdKbRc7Vv3Ig/U3aPykqXaD2rqQhPwNn2M1iC9cgZeEE8W
+ PUr68XbXc22olBpgmzZFaQwox8v2edj5XQU1rRJia5h1aSA=
+X-Google-Smtp-Source: ABdhPJzNE09amlHNASlK0s2MjTkFw2j08f/jWnl/c0izxhmdrs582MPrJV4xFMsnlXFnVOvKdBVls536dLtiGzuQ6vk=
+X-Received: by 2002:a17:906:9742:: with SMTP id
+ o2mr37450642ejy.532.1626855898899; 
+ Wed, 21 Jul 2021 01:24:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YPbhhj1mbwFtdc4z@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210719072654.845901-1-marcandre.lureau@redhat.com>
+ <20210719072654.845901-8-marcandre.lureau@redhat.com>
+In-Reply-To: <20210719072654.845901-8-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 21 Jul 2021 12:24:46 +0400
+Message-ID: <CAJ+F1CLMRcYkoOJTUHevvJt7xPct9D7qvuYafNdLxxGiG65Kvg@mail.gmail.com>
+Subject: Re: [PATCH 07/12] ui/vdagent: unregister clipboard peer on finalize
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000f46a5005c79de757"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,71 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 16:45, Daniel P. Berrangé wrote:
-> On Wed, Jul 14, 2021 at 01:23:03PM +0200, David Hildenbrand wrote:
->> #1 adds support for MADV_POPULATE_WRITE, #2 cleans up the code to avoid
->> global variables and prepare for concurrency and #3 makes os_mem_prealloc()
->> safe to be called from multiple threads concurrently.
->>
->> Details regarding MADV_POPULATE_WRITE can be found in introducing upstream
->> Linux commit 4ca9b3859dac ("mm/madvise: introduce
->> MADV_POPULATE_(READ|WRITE) to prefault page tables") and in the latest man
->> page patch [1].
-> 
-> Looking at that commit message, I see your caveat about POPULATE_WRITE
-> used together with shared file mappings, causing an undesirable glut
-> of dirty pages that needs to be flushed back to the underlying storage.
-> 
-> Is this something we need to be concerned with for the hostmem-file.c
-> implementation ? While it is mostly used to point to files on tmpfs
-> or hugetlbfs, I think users do something point it to a plain file
-> on a normal filesystem.  So will we need to optimize to use the
-> fallocate+POPULATE_READ combination at some point ?
+--000000000000f46a5005c79de757
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the future, it might make sense to use fallocate() only when it comes 
-to shared file mappings.
+Hi
 
-AFAIKS os_mem_prealloc() currently serves the following purposes:
+On Mon, Jul 19, 2021 at 11:30 AM <marcandre.lureau@redhat.com> wrote:
 
-1) Preallocate anonymous memory or backend storage (file, hugetlbfs, ...)
-2) Apply mbind() policy, preallocating it from the right node when 
-applicable.
-3) Prefault page tables
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  ui/vdagent.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/ui/vdagent.c b/ui/vdagent.c
+> index 5ae5734c81..bce9f44b7b 100644
+> --- a/ui/vdagent.c
+> +++ b/ui/vdagent.c
+> @@ -782,6 +782,7 @@ static void vdagent_chr_fini(Object *obj)
+>      VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
+>
+>      buffer_free(&vd->outbuf);
+> +    qemu_clipboard_peer_unregister(&vd->cbpeer);
+>
 
-For shared mappings, it's a little bit difficult, though: mbind() does 
-not seem to work on shared mappings (which to some degree makes 
-logically sense, but I don't think QEMU users are aware that it is like 
-that): "The specified policy will be ignored for any  MAP_SHARED 
-mappings  in  the specified  memory range. Rather the pages will be 
-allocated according to the memory policy of the thread that caused the 
-page to be allocated. Again, this may not be the thread that called 
-mbind()."
+The call needs to be guarded, as notifier_remove() crashes on non-added
+notifiers. The mouse handler should also be deactivated. Similarly to
+set_fe_open(false). And I realize that outbuf should also be reset in that
+case.
 
-So 2) does not apply. A simple fallocate() can get 1) done more efficiently.
+ }
+>
+>  static const TypeInfo vdagent_chr_type_info =3D {
+> --
+> 2.32.0.93.g670b81a890
+>
+>
+>
 
-So if we want to use MADV_POPULATE_READ completely depends on whether we 
-want 3). It can make sense to prefault page tables for RT workloads, 
-however, there is usually nothing stopping the OS from clearing the page 
-cache and requiring a refault later -- except with mlock.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-So whether we want fallocate() or fallocate()+MADV_POPULATE_READ for 
-shared file mappings really depends on the use case, and on the system 
-setup. If the system won't immediately free up the page cache and undo 
-what MADV_POPULATE_READ did, it might make sense to use it.
+--000000000000f46a5005c79de757
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Long story short: it's complicated :)
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 19, 2021 at 11:30 AM &l=
+t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat=
+.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0ui/vdagent.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
+index 5ae5734c81..bce9f44b7b 100644<br>
+--- a/ui/vdagent.c<br>
++++ b/ui/vdagent.c<br>
+@@ -782,6 +782,7 @@ static void vdagent_chr_fini(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0buffer_free(&amp;vd-&gt;outbuf);<br>
++=C2=A0 =C2=A0 qemu_clipboard_peer_unregister(&amp;vd-&gt;cbpeer);<br></blo=
+ckquote><div><br></div><div>The call needs to be guarded, as notifier_remov=
+e() crashes on non-added notifiers. The mouse handler should also be deacti=
+vated. Similarly to set_fe_open(false). And I realize that outbuf should al=
+so be reset in that case.</div><div><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+=C2=A0}<br>
+<br>
+=C2=A0static const TypeInfo vdagent_chr_type_info =3D {<br>
+-- <br>
+2.32.0.93.g670b81a890<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
--- 
-Thanks,
-
-David / dhildenb
-
+--000000000000f46a5005c79de757--
 
