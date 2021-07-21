@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB3D3D1778
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:05:46 +0200 (CEST)
-Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77DB3D1783
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 22:07:35 +0200 (CEST)
+Received: from localhost ([::1]:42356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ITR-0002xM-56
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1m6IVC-0000Pz-Pg
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 16:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6IO0-0002Z0-Bc
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:08 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:53972)
+ id 1m6IO1-0002cn-Ha
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:09 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6INx-0005fT-Gh
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:07 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id p9so2550389pjl.3
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:05 -0700 (PDT)
+ id 1m6INz-0005gB-3x
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 16:00:09 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id x16so1650385plg.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E44AAclzpTIljt+uwc9zjVKN1U0J8m7T2mfXeYGPYLM=;
- b=TzFeEwyx3u6GxJQa5CiOOU1R5caZaJ/bM85/ASHlss241T2AZVLee7l3yu5Ltrx8gY
- 6Cmb5R1kTcIYeG9yt2/U9IpSibQtPvRgBr0Kr2XekWyEl3StJbSL9bLfHFZEFgT4IIBT
- w620Pdx277QD+xcoeaicEBEzTvuBDVEf48qtQ50SZT9Z5uhfFrwr1jE6EhP6PuRlaLEw
- e26WJeg1ssq3axfKshTHIYYMH6Ur8tb6lnXPQibEcrw+pZeky+bgettaO4qoc9MACqHS
- j+Uq/3kSI0S11BqjECJMeZN3/8NY54BlWcOB0vqIhPHt6AhZQm8jI157c0C0DMQmGgsd
- fnCw==
+ bh=AJc0gflkXzJ2IW/hPKxX146OQW57gZ0MjkK6XwFBGFA=;
+ b=QAL7QgX5y8OHHVPMIz+YgvbIATzL2jhYuGOO4NwT5iveWmP74n84LUmpgYgJcfByIp
+ 9ol2rbVnzZ6FGfEny6UaW332N/XQNOzoaO3G8hFj9nJGf/kGM1PuV6imOfxLyGsf7yxC
+ MqgSKDAtGN02U0yw6h+Cqty3FtfAt1olqP3kHUqpdlzuhMKxnyTkFbD9OYKMDabTiWg+
+ VSUjZ/SzvkIf0YeWT1JUPIOcUd7UmewK3XM3VEjo2EobQw1qCeyhnII5PCdtjPCzO9JL
+ JocEFRH7e5NAlMJrk/XWlSqbWdgrTB75c15UPIzfwFOFEG9KD33ZNIFoOlC7gj3EURpP
+ dJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E44AAclzpTIljt+uwc9zjVKN1U0J8m7T2mfXeYGPYLM=;
- b=sb0bUq0AqQpTTF+/E1qlEuNPAlx/b9JsjwOrEGJ+cE2jh8/X9w4O5iBu/IRAGxznNE
- FNbYpzVLaUfl6w4lpB5nIE6maHug/qy+ZBsfOKvKiuEEuTSYRTlhIQsvtdsFIqdyyHWB
- WZT82kY+7qXIOCfXipYMERmxAx3U9vKk29yh+rCOKA4KU9eh9/ps3yMJI7BZRYh51tim
- FdvoIxuhuE7FFEuYAzckCm/kn+2nSLV/jXy7MM9XATzTWbPBpV0hfawxjfJrvjQpDwVt
- hrmQ74a+kEGPJwmlIcmSPBelmwc+XHeQ/aw6LSPVOE0aarKTlc5v2Cpl8nsfQsCb4n8Z
- iI0A==
-X-Gm-Message-State: AOAM5332AURtGIaf1sv7EevR7aNEApS/KxNUYkqirQbTk/CgHUWQdcbC
- 3zicAsPW+IpYPzBL+xNxAVEkl76PRm/LMg==
-X-Google-Smtp-Source: ABdhPJxA9RIq5b3QMQ67GAIfrtohO3BGZ5QBAdGN2iFlHxP37QTSRNg72/Nm6w2yvwuJejOxEBFa/g==
-X-Received: by 2002:a63:5963:: with SMTP id j35mr37300073pgm.341.1626897604124; 
- Wed, 21 Jul 2021 13:00:04 -0700 (PDT)
+ bh=AJc0gflkXzJ2IW/hPKxX146OQW57gZ0MjkK6XwFBGFA=;
+ b=jrwLK7WPaJ973SK47mUbMitmhs4QlQf4w2EJOR+iE0To9GTvymYUh2Gs8AW5tBgeFm
+ FT1zcpx0Lbu+eZsNzCQh+CC1jUSvmJrbfv6Lbl6/xvkY1+1jF7z7TraP1fFCwOxxJNju
+ QLIDLgLgoEshuthm0b99tuaAp3mK9ebcScdwgR/OhfKlTOb8EpOr4yxsjGyQdS4cyvHp
+ yUMDIrf580BAqIuCreJ3qSPFl0ZLfYnHYvHXnliTUhyhBtDXbfsxO56BkLgULTKcw393
+ DgLeeiSsKlvV+K3HBiy/OWfUfwl3/OH2EV+m5dfRa49d50Vf6ubJVdAWxS+KY2X1QHxT
+ EKQg==
+X-Gm-Message-State: AOAM532o4/WHX9bRlXeD+Ar1rDWV4lmrYitlv5vwNKtD2XOsl/rUFr3h
+ YpzSi2mlRnsQf98pfh67UTrS6o+nZ2w=
+X-Google-Smtp-Source: ABdhPJxAy7tHEcp3fKPyFgTRyIF8dW3dnJhvH7bx4K2/WfvRZKhdK0VVl40ly1mKK4wipYH9N/YjMA==
+X-Received: by 2002:a17:90a:ea12:: with SMTP id
+ w18mr37392396pjy.103.1626897605588; 
+ Wed, 21 Jul 2021 13:00:05 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.02
+ by smtp.gmail.com with ESMTPSA id w3sm706028pjq.12.2021.07.21.13.00.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 13:00:03 -0700 (PDT)
+ Wed, 21 Jul 2021 13:00:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/27] accel/tcg: Standardize atomic helpers on softmmu api
-Date: Wed, 21 Jul 2021 09:59:32 -1000
-Message-Id: <20210721195954.879535-6-richard.henderson@linaro.org>
+Subject: [PULL 06/27] accel/tcg: Fold EXTRA_ARGS into atomic_template.h
+Date: Wed, 21 Jul 2021 09:59:33 -1000
+Message-Id: <20210721195954.879535-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721195954.879535-1-richard.henderson@linaro.org>
 References: <20210721195954.879535-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,359 +85,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Cole Robinson <crobinso@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce the amount of code duplication by always passing
-the TCGMemOpIdx argument to helper_atomic_*.  This is not
-currently used for user-only, but it's easy to ignore.
+All instances of EXTRA_ARGS are now identical.
 
 Tested-by: Cole Robinson <crobinso@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-runtime.h       | 46 -----------------------
- accel/tcg/cputlb.c            | 32 ----------------
- accel/tcg/user-exec.c         | 26 -------------
- tcg/tcg-op.c                  | 51 ++++++-------------------
- accel/tcg/atomic_common.c.inc | 70 +++++++++++++++++++++++++++++++++++
- 5 files changed, 82 insertions(+), 143 deletions(-)
+ accel/tcg/atomic_template.h | 36 ++++++++++++++++++++----------------
+ accel/tcg/cputlb.c          |  1 -
+ accel/tcg/user-exec.c       |  1 -
+ 3 files changed, 20 insertions(+), 18 deletions(-)
 
-diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
-index 91a5b7e85f..37cbd722bf 100644
---- a/accel/tcg/tcg-runtime.h
-+++ b/accel/tcg/tcg-runtime.h
-@@ -39,8 +39,6 @@ DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_FLAGS_3(memset, TCG_CALL_NO_RWG, ptr, ptr, int, ptr)
- #endif /* IN_HELPER_PROTO */
+diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+index d347462af5..52fb26a274 100644
+--- a/accel/tcg/atomic_template.h
++++ b/accel/tcg/atomic_template.h
+@@ -71,7 +71,8 @@
+ #endif
  
--#ifdef CONFIG_SOFTMMU
--
- DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
-                    i32, env, tl, i32, i32, i32)
- DEF_HELPER_FLAGS_5(atomic_cmpxchgw_be, TCG_CALL_NO_WG,
-@@ -88,50 +86,6 @@ DEF_HELPER_FLAGS_5(atomic_cmpxchgq_le, TCG_CALL_NO_WG,
-                        TCG_CALL_NO_WG, i32, env, tl, i32, i32)
- #endif /* CONFIG_ATOMIC64 */
+ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+-                              ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
++                              ABI_TYPE cmpv, ABI_TYPE newv,
++                              TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+@@ -92,7 +93,8 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
  
--#else
--
--DEF_HELPER_FLAGS_4(atomic_cmpxchgb, TCG_CALL_NO_WG, i32, env, tl, i32, i32)
--DEF_HELPER_FLAGS_4(atomic_cmpxchgw_be, TCG_CALL_NO_WG, i32, env, tl, i32, i32)
--DEF_HELPER_FLAGS_4(atomic_cmpxchgw_le, TCG_CALL_NO_WG, i32, env, tl, i32, i32)
--DEF_HELPER_FLAGS_4(atomic_cmpxchgl_be, TCG_CALL_NO_WG, i32, env, tl, i32, i32)
--DEF_HELPER_FLAGS_4(atomic_cmpxchgl_le, TCG_CALL_NO_WG, i32, env, tl, i32, i32)
--#ifdef CONFIG_ATOMIC64
--DEF_HELPER_FLAGS_4(atomic_cmpxchgq_be, TCG_CALL_NO_WG, i64, env, tl, i64, i64)
--DEF_HELPER_FLAGS_4(atomic_cmpxchgq_le, TCG_CALL_NO_WG, i64, env, tl, i64, i64)
--#endif
--
--#ifdef CONFIG_ATOMIC64
--#define GEN_ATOMIC_HELPERS(NAME)                             \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), b),         \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), w_le),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), w_be),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), l_le),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), l_be),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), q_le),      \
--                       TCG_CALL_NO_WG, i64, env, tl, i64)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), q_be),      \
--                       TCG_CALL_NO_WG, i64, env, tl, i64)
--#else
--#define GEN_ATOMIC_HELPERS(NAME)                             \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), b),         \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), w_le),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), w_be),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), l_le),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)    \
--    DEF_HELPER_FLAGS_3(glue(glue(atomic_, NAME), l_be),      \
--                       TCG_CALL_NO_WG, i32, env, tl, i32)
--#endif /* CONFIG_ATOMIC64 */
--
--#endif /* CONFIG_SOFTMMU */
--
- GEN_ATOMIC_HELPERS(fetch_add)
- GEN_ATOMIC_HELPERS(fetch_and)
- GEN_ATOMIC_HELPERS(fetch_or)
+ #if DATA_SIZE >= 16
+ #if HAVE_ATOMIC128
+-ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
++ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
++                         TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP_R;
+@@ -106,8 +108,8 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+     return val;
+ }
+ 
+-void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+-                     ABI_TYPE val EXTRA_ARGS)
++void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
++                     TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_W;
+@@ -121,8 +123,8 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+ }
+ #endif
+ #else
+-ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+-                           ABI_TYPE val EXTRA_ARGS)
++ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
++                           TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+@@ -139,7 +141,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+ 
+ #define GEN_ATOMIC_HELPER(X)                                        \
+ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+-                        ABI_TYPE val EXTRA_ARGS)                    \
++                        ABI_TYPE val, TCGMemOpIdx oi, uintptr_t retaddr) \
+ {                                                                   \
+     ATOMIC_MMU_DECLS;                                               \
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                        \
+@@ -173,7 +175,7 @@ GEN_ATOMIC_HELPER(xor_fetch)
+  */
+ #define GEN_ATOMIC_HELPER_FN(X, FN, XDATA_TYPE, RET)                \
+ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+-                        ABI_TYPE xval EXTRA_ARGS)                   \
++                        ABI_TYPE xval, TCGMemOpIdx oi, uintptr_t retaddr) \
+ {                                                                   \
+     ATOMIC_MMU_DECLS;                                               \
+     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                       \
+@@ -218,7 +220,8 @@ GEN_ATOMIC_HELPER_FN(umax_fetch, MAX,  DATA_TYPE, new)
+ #endif
+ 
+ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+-                              ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
++                              ABI_TYPE cmpv, ABI_TYPE newv,
++                              TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+@@ -239,7 +242,8 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+ 
+ #if DATA_SIZE >= 16
+ #if HAVE_ATOMIC128
+-ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
++ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
++                         TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP_R;
+@@ -253,8 +257,8 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+     return BSWAP(val);
+ }
+ 
+-void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+-                     ABI_TYPE val EXTRA_ARGS)
++void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
++                     TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_W;
+@@ -270,8 +274,8 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+ }
+ #endif
+ #else
+-ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+-                           ABI_TYPE val EXTRA_ARGS)
++ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
++                           TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+@@ -288,7 +292,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+ 
+ #define GEN_ATOMIC_HELPER(X)                                        \
+ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+-                        ABI_TYPE val EXTRA_ARGS)                    \
++                        ABI_TYPE val, TCGMemOpIdx oi, uintptr_t retaddr) \
+ {                                                                   \
+     ATOMIC_MMU_DECLS;                                               \
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                        \
+@@ -320,7 +324,7 @@ GEN_ATOMIC_HELPER(xor_fetch)
+  */
+ #define GEN_ATOMIC_HELPER_FN(X, FN, XDATA_TYPE, RET)                \
+ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+-                        ABI_TYPE xval EXTRA_ARGS)                   \
++                        ABI_TYPE xval, TCGMemOpIdx oi, uintptr_t retaddr) \
+ {                                                                   \
+     ATOMIC_MMU_DECLS;                                               \
+     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                       \
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 63da1cc96f..842cf4b572 100644
+index 842cf4b572..cc0e673222 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -2725,38 +2725,6 @@ void cpu_stq_le_data(CPUArchState *env, target_ulong ptr, uint64_t val)
- #include "atomic_template.h"
- #endif
+@@ -2691,7 +2691,6 @@ void cpu_stq_le_data(CPUArchState *env, target_ulong ptr, uint64_t val)
+  * This makes them callable from other helpers.
+  */
  
--/* Second set of helpers are directly callable from TCG as helpers.  */
--
--#undef EXTRA_ARGS
--#undef ATOMIC_NAME
--#undef ATOMIC_MMU_LOOKUP_RW
--#undef ATOMIC_MMU_LOOKUP_R
--#undef ATOMIC_MMU_LOOKUP_W
--
--#define EXTRA_ARGS         , TCGMemOpIdx oi
--#define ATOMIC_NAME(X)     HELPER(glue(glue(atomic_ ## X, SUFFIX), END))
--#define ATOMIC_MMU_LOOKUP_RW \
--    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ | PAGE_WRITE, GETPC())
--#define ATOMIC_MMU_LOOKUP_R \
--    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ, GETPC())
--#define ATOMIC_MMU_LOOKUP_W \
--    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_WRITE, GETPC())
--
--#define DATA_SIZE 1
--#include "atomic_template.h"
--
--#define DATA_SIZE 2
--#include "atomic_template.h"
--
--#define DATA_SIZE 4
--#include "atomic_template.h"
--
--#ifdef CONFIG_ATOMIC64
--#define DATA_SIZE 8
--#include "atomic_template.h"
--#endif
--#undef ATOMIC_MMU_IDX
--
- /* Code access functions.  */
- 
- static uint64_t full_ldub_code(CPUArchState *env, target_ulong addr,
+-#define EXTRA_ARGS     , TCGMemOpIdx oi, uintptr_t retaddr
+ #define ATOMIC_NAME(X) \
+     glue(glue(glue(cpu_atomic_ ## X, SUFFIX), END), _mmu)
+ #define ATOMIC_MMU_DECLS
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 82dbe06f08..7e92d6b875 100644
+index 7e92d6b875..f6f8ddeb60 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -1269,29 +1269,3 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
- #define DATA_SIZE 16
- #include "atomic_template.h"
- #endif
--
--/*
-- * Second set of functions is directly callable from TCG.
-- */
--
--#undef EXTRA_ARGS
--#undef ATOMIC_NAME
--#undef ATOMIC_MMU_DECLS
--
--#define ATOMIC_NAME(X)   HELPER(glue(glue(atomic_ ## X, SUFFIX), END))
--#define EXTRA_ARGS
--#define ATOMIC_MMU_DECLS uintptr_t retaddr = GETPC()
--
--#define DATA_SIZE 1
--#include "atomic_template.h"
--
--#define DATA_SIZE 2
--#include "atomic_template.h"
--
--#define DATA_SIZE 4
--#include "atomic_template.h"
--
--#ifdef CONFIG_ATOMIC64
--#define DATA_SIZE 8
--#include "atomic_template.h"
--#endif
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 0c561fb253..75eaa910c9 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -3084,7 +3084,6 @@ static void tcg_gen_ext_i64(TCGv_i64 ret, TCGv_i64 val, MemOp opc)
-     }
- }
+@@ -1241,7 +1241,6 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+  * This makes them callable from other helpers.
+  */
  
--#ifdef CONFIG_SOFTMMU
- typedef void (*gen_atomic_cx_i32)(TCGv_i32, TCGv_env, TCGv,
-                                   TCGv_i32, TCGv_i32, TCGv_i32);
- typedef void (*gen_atomic_cx_i64)(TCGv_i64, TCGv_env, TCGv,
-@@ -3093,12 +3092,6 @@ typedef void (*gen_atomic_op_i32)(TCGv_i32, TCGv_env, TCGv,
-                                   TCGv_i32, TCGv_i32);
- typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_env, TCGv,
-                                   TCGv_i64, TCGv_i32);
--#else
--typedef void (*gen_atomic_cx_i32)(TCGv_i32, TCGv_env, TCGv, TCGv_i32, TCGv_i32);
--typedef void (*gen_atomic_cx_i64)(TCGv_i64, TCGv_env, TCGv, TCGv_i64, TCGv_i64);
--typedef void (*gen_atomic_op_i32)(TCGv_i32, TCGv_env, TCGv, TCGv_i32);
--typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_env, TCGv, TCGv_i64);
--#endif
- 
- #ifdef CONFIG_ATOMIC64
- # define WITH_ATOMIC64(X) X,
-@@ -3140,18 +3133,13 @@ void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
-         tcg_temp_free_i32(t1);
-     } else {
-         gen_atomic_cx_i32 gen;
-+        TCGMemOpIdx oi;
- 
-         gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
-         tcg_debug_assert(gen != NULL);
- 
--#ifdef CONFIG_SOFTMMU
--        {
--            TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
--            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
--        }
--#else
--        gen(retv, cpu_env, addr, cmpv, newv);
--#endif
-+        oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
- 
-         if (memop & MO_SIGN) {
-             tcg_gen_ext_i32(retv, retv, memop);
-@@ -3184,18 +3172,13 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
-     } else if ((memop & MO_SIZE) == MO_64) {
- #ifdef CONFIG_ATOMIC64
-         gen_atomic_cx_i64 gen;
-+        TCGMemOpIdx oi;
- 
-         gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
-         tcg_debug_assert(gen != NULL);
- 
--#ifdef CONFIG_SOFTMMU
--        {
--            TCGMemOpIdx oi = make_memop_idx(memop, idx);
--            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
--        }
--#else
--        gen(retv, cpu_env, addr, cmpv, newv);
--#endif
-+        oi = make_memop_idx(memop, idx);
-+        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
- #else
-         gen_helper_exit_atomic(cpu_env);
-         /* Produce a result, so that we have a well-formed opcode stream
-@@ -3245,20 +3228,15 @@ static void do_atomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
-                              TCGArg idx, MemOp memop, void * const table[])
- {
-     gen_atomic_op_i32 gen;
-+    TCGMemOpIdx oi;
- 
-     memop = tcg_canonicalize_memop(memop, 0, 0);
- 
-     gen = table[memop & (MO_SIZE | MO_BSWAP)];
-     tcg_debug_assert(gen != NULL);
- 
--#ifdef CONFIG_SOFTMMU
--    {
--        TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
--        gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
--    }
--#else
--    gen(ret, cpu_env, addr, val);
--#endif
-+    oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+    gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
- 
-     if (memop & MO_SIGN) {
-         tcg_gen_ext_i32(ret, ret, memop);
-@@ -3292,18 +3270,13 @@ static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
-     if ((memop & MO_SIZE) == MO_64) {
- #ifdef CONFIG_ATOMIC64
-         gen_atomic_op_i64 gen;
-+        TCGMemOpIdx oi;
- 
-         gen = table[memop & (MO_SIZE | MO_BSWAP)];
-         tcg_debug_assert(gen != NULL);
- 
--#ifdef CONFIG_SOFTMMU
--        {
--            TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
--            gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
--        }
--#else
--        gen(ret, cpu_env, addr, val);
--#endif
-+        oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+        gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
- #else
-         gen_helper_exit_atomic(cpu_env);
-         /* Produce a result, so that we have a well-formed opcode stream
-diff --git a/accel/tcg/atomic_common.c.inc b/accel/tcg/atomic_common.c.inc
-index 344525b0bb..a668cf0d6f 100644
---- a/accel/tcg/atomic_common.c.inc
-+++ b/accel/tcg/atomic_common.c.inc
-@@ -52,3 +52,73 @@ void atomic_trace_st_post(CPUArchState *env, target_ulong addr, uint16_t info)
- {
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, info);
- }
-+
-+/*
-+ * Atomic helpers callable from TCG.
-+ * These have a common interface and all defer to cpu_atomic_*
-+ * using the host return address from GETPC().
-+ */
-+
-+#define CMPXCHG_HELPER(OP, TYPE) \
-+    TYPE HELPER(atomic_##OP)(CPUArchState *env, target_ulong addr,  \
-+                             TYPE oldv, TYPE newv, uint32_t oi)     \
-+    { return cpu_atomic_##OP##_mmu(env, addr, oldv, newv, oi, GETPC()); }
-+
-+CMPXCHG_HELPER(cmpxchgb, uint32_t)
-+CMPXCHG_HELPER(cmpxchgw_be, uint32_t)
-+CMPXCHG_HELPER(cmpxchgw_le, uint32_t)
-+CMPXCHG_HELPER(cmpxchgl_be, uint32_t)
-+CMPXCHG_HELPER(cmpxchgl_le, uint32_t)
-+
-+#ifdef CONFIG_ATOMIC64
-+CMPXCHG_HELPER(cmpxchgq_be, uint64_t)
-+CMPXCHG_HELPER(cmpxchgq_le, uint64_t)
-+#endif
-+
-+#undef CMPXCHG_HELPER
-+
-+#define ATOMIC_HELPER(OP, TYPE) \
-+    TYPE HELPER(glue(atomic_,OP))(CPUArchState *env, target_ulong addr,  \
-+                                  TYPE val, uint32_t oi)                 \
-+    { return glue(glue(cpu_atomic_,OP),_mmu)(env, addr, val, oi, GETPC()); }
-+
-+#ifdef CONFIG_ATOMIC64
-+#define GEN_ATOMIC_HELPERS(OP)              \
-+    ATOMIC_HELPER(glue(OP,b), uint32_t)     \
-+    ATOMIC_HELPER(glue(OP,w_be), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,w_le), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,l_be), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,l_le), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,q_be), uint64_t)  \
-+    ATOMIC_HELPER(glue(OP,q_le), uint64_t)
-+#else
-+#define GEN_ATOMIC_HELPERS(OP)              \
-+    ATOMIC_HELPER(glue(OP,b), uint32_t)     \
-+    ATOMIC_HELPER(glue(OP,w_be), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,w_le), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,l_be), uint32_t)  \
-+    ATOMIC_HELPER(glue(OP,l_le), uint32_t)
-+#endif
-+
-+GEN_ATOMIC_HELPERS(fetch_add)
-+GEN_ATOMIC_HELPERS(fetch_and)
-+GEN_ATOMIC_HELPERS(fetch_or)
-+GEN_ATOMIC_HELPERS(fetch_xor)
-+GEN_ATOMIC_HELPERS(fetch_smin)
-+GEN_ATOMIC_HELPERS(fetch_umin)
-+GEN_ATOMIC_HELPERS(fetch_smax)
-+GEN_ATOMIC_HELPERS(fetch_umax)
-+
-+GEN_ATOMIC_HELPERS(add_fetch)
-+GEN_ATOMIC_HELPERS(and_fetch)
-+GEN_ATOMIC_HELPERS(or_fetch)
-+GEN_ATOMIC_HELPERS(xor_fetch)
-+GEN_ATOMIC_HELPERS(smin_fetch)
-+GEN_ATOMIC_HELPERS(umin_fetch)
-+GEN_ATOMIC_HELPERS(smax_fetch)
-+GEN_ATOMIC_HELPERS(umax_fetch)
-+
-+GEN_ATOMIC_HELPERS(xchg)
-+
-+#undef ATOMIC_HELPER
-+#undef GEN_ATOMIC_HELPERS
+-#define EXTRA_ARGS     , TCGMemOpIdx oi, uintptr_t retaddr
+ #define ATOMIC_NAME(X) \
+     glue(glue(glue(cpu_atomic_ ## X, SUFFIX), END), _mmu)
+ #define ATOMIC_MMU_DECLS
 -- 
 2.25.1
 
