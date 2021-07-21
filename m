@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F89F3D0F2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 15:06:29 +0200 (CEST)
-Received: from localhost ([::1]:47528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DCD3D0F38
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 15:09:23 +0200 (CEST)
+Received: from localhost ([::1]:53810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Bvg-0001xx-4y
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 09:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56110)
+	id 1m6ByU-0006O8-UK
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 09:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6BuX-00012r-Bm
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:05:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6BuS-0003Jv-12
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:05:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626872710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wzAR5+DOejFj+AakWNwxdgt67pz+7RxeJ/MTEV8glGI=;
- b=Ctf77kdWGVFRFOyzWlqLvK155/0X6bbGetagJEciEfhUeT0WGqcqYbfWv3Fdkcs8FUbok4
- hU/ECdU5YcFb4fYu0jED8qJ2cfZBXPfvdCxdErRErrm3K27NWCv0zel11KYDcj/6y4l4B3
- sd/cC2diNmG+9qJQSl4iz1eaVKCCRwU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-sd9zCb1AMYyijXZGqPsm9Q-1; Wed, 21 Jul 2021 09:05:02 -0400
-X-MC-Unique: sd9zCb1AMYyijXZGqPsm9Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F297B1084F57
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 13:05:01 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C64D60C5F;
- Wed, 21 Jul 2021 13:04:56 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] chardev/socket: print a more correct command-line address
-Date: Wed, 21 Jul 2021 17:04:53 +0400
-Message-Id: <20210721130453.1180878-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6BwW-00047K-Pz
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:07:20 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6BwR-00044n-PE
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 09:07:20 -0400
+Received: by mail-ed1-x530.google.com with SMTP id ee25so2301285edb.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 06:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MC3lyB1pkgbeDfG2WPIRhJ+jHfXNCdKqQ5vFYRtuf6E=;
+ b=VzjnYVRG9vBflAnRtKKlv30uEKbvR9fHOz/SlY8/CmoH55Sk4TNBQh5JvF0amsMps3
+ v66M6YV+iypNyK8/xbC5V60Nh6WgE2ZABqQE/BwJzFpOeqAwTK5zvhfSW8IhKnxNlSTU
+ rRtwAFO35DqpUVHk+WYNaQfxuJ2IrGtU8Sttkz/zzZFA4rIFOxs/z6w5cIX3BH2dd8p9
+ HXPpemdlW/dD4bCnpITiZNFC0t57poglRPEemn8StnkNtDRxNwR5ujD+pHiwC7QuQNNM
+ OWQcDxGhoynCujWIdO7ezMKWVIeS1mO3ZcEatscrGktBP4f71oEeX14YdJUdNc85HauL
+ thkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MC3lyB1pkgbeDfG2WPIRhJ+jHfXNCdKqQ5vFYRtuf6E=;
+ b=uEWdTy91JalfQ2STb0mEd+AEU+4neblg2T3NFT2rC7yRSsHLTmxT5GgqcEz3yIkLpv
+ PeaRPKw6AJMUJEd+xElPX1+uN8P/vevuM/e5In6icMQt9Ygcf6ibRK+RMnSgaeX2HSr7
+ lCcb1UaZ/mDiRTCdXa7VQ5XAGAhmb79C7f0s4wkUCnNy9ZuW2fgYrbbHzDDsZ+0cUNj8
+ 3vfYFKrtyNFbeEQ99ps4/QDM9yZtTtve9GJ6F2P1TEs51pAf2JOls/kwh5Wrtbp004GM
+ 3uZXXTu6tcK/OEzW+yzDqz4BIdsvkMFy6rmqMYSnTrNms5IsinzUerMj5j9g4ZizHVva
+ peGw==
+X-Gm-Message-State: AOAM533WwOs3aTMH5Qvv//fqZ38miRPKQunaVBbKCSo5UQzrDD3sV5WE
+ +qw1zff1gtQsu2b9Ne1AJcd7zVmA99rRC4jJlrW1gg==
+X-Google-Smtp-Source: ABdhPJz+sCHA0fyggujrisoGUJ1/cW/UEV3nyKxgbPEMCtVZj/vJcJCB6g0zc7TPQ+11E3rvDjHI5SwGzhpKVEG3J3E=
+X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr47244269eds.204.1626872833953; 
+ Wed, 21 Jul 2021 06:07:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210720233018.101541-1-crosa@redhat.com>
+In-Reply-To: <20210720233018.101541-1-crosa@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 21 Jul 2021 14:06:32 +0100
+Message-ID: <CAFEAcA-WvywkPm2m_oOax-ppQZkNoYof3s6ArNpzhX_BE9_bzQ@mail.gmail.com>
+Subject: Re: [PULL for 6.1 0/7] Python and Acceptance Tests
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,41 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Beraldo Leal <bleal@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Wed, 21 Jul 2021 at 00:30, Cleber Rosa <crosa@redhat.com> wrote:
+>
+> The following changes since commit c04b4d9e6b596ead3cf6046a9243fbfee068ef33:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-07-20 16:59:33 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/cleber.gnu/qemu.git/ tags/python-next-pull-request
+>
+> for you to fetch changes up to f4a3fda43e389fa26d41ec9cd24f42c5fe20ba9d:
+>
+>   remote/memory: Replace share parameter with ram_flags (2021-07-20 15:34:20 -0400)
+>
+> ----------------------------------------------------------------
+> Acceptance Tests
+>
+> - Fix for tests/acceptance/virtio-gpu.py to match the change in device
+>   name
+> - Fix for failure caught by tests/acceptance/multiprocess.py
+>
+> PS: While not a maintainer for the subsystem in PATCH 7, I'm including
+> it as a one-off to facilitate the landing of the fix as discussed in
+> the mailing list.
+>
+> ----------------------------------------------------------------
 
-Better reflect the command line version of the socket address arguments,
-following the now recommended long-form opt=on syntax.
 
-Complement/fixes commit 9d902d51 "chardev: do not use short form boolean
-options in non-QemuOpts character device descriptions".
+Applied, thanks.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- chardev/char-socket.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index d0fb545963..c43668cc15 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -468,9 +468,9 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
- 
- #ifdef CONFIG_LINUX
-         if (sa->has_abstract && sa->abstract) {
--            abstract = ",abstract";
-+            abstract = ",abstract=on";
-             if (sa->has_tight && sa->tight) {
--                tight = ",tight";
-+                tight = ",tight=on";
-             }
-         }
- #endif
--- 
-2.32.0.264.g75ae10bc75
-
+-- PMM
 
