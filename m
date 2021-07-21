@@ -2,96 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C93D0B97
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:53:06 +0200 (CEST)
-Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5853D0B9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:55:19 +0200 (CEST)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m68uS-0001Rh-8i
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45770)
+	id 1m68wg-0004RA-EA
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m68tW-0000lg-4S
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:52:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m68tU-0001Bw-Fi
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:52:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626861119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v0IncUWFHptDVmUhFopWsR9kzSasfvN429bjosML7Fg=;
- b=eJWDIPcqe14cXrMZtqJWyzzNPwI/yGWlh7ctB7uthMNjThHmglPY7hpoAmBy+HCFYfZHDn
- qm9E+QED/hpDNGNg4P0vOeGnfcEauz4Z9ztfiF033jPMppoF2VrHOegAx2dMJxaAUKOotm
- sm7N9W1Mtxpxi8VvhSIuYTrl393S7s0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-_wQWrCrtOeef3GFsErpjFw-1; Wed, 21 Jul 2021 05:51:58 -0400
-X-MC-Unique: _wQWrCrtOeef3GFsErpjFw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- y3-20020a17090614c3b0290551ea218ea2so591973ejc.5
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 02:51:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v0IncUWFHptDVmUhFopWsR9kzSasfvN429bjosML7Fg=;
- b=GKLVxT+lSdZ/PGieTTLESD14q99RrRtjYFhfA8WNn+1tnpvGfvaA4scCcVP60T7DTe
- S2TUoXJfJelOz80mvjlryv/T63DkiaXtG8B3Vd0ZMr4TzuqdSvShYZq12R5i82N0C5yu
- UlZjMAkanKsR695pf273DcMv+NX7dx1rkkqB+Jg3Gv0EgJoFTikoWSd23K5B24by9Drq
- B7xqu8qjHtUGHvWgmRsK+MTsU4P3CabQKCZLymB0jf9cpVy16rcNdoPOFrjVKuQe3+2i
- oeocwlcR3krR2U3bXNKRNU3aagh81dUfznJ0B5LQc1e4RvyfU4qsWQ1KMIzFAVm3sNiq
- Vviw==
-X-Gm-Message-State: AOAM5319eJbggO6jXt8GC0QknrfgBw5BumSBcWfUIevunjzgH6r5EEmn
- fxLymP6oNI4sNh28jxqpCg8mpNxjkZaGOp8wyzalh0eFMB/5eCfenMHpy7gRlLTB9J7rPvji7ki
- ZNjan7yLaiqDOrmM=
-X-Received: by 2002:a05:6402:35c8:: with SMTP id
- z8mr14749855edc.5.1626861117481; 
- Wed, 21 Jul 2021 02:51:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAU8DiPB7KBu6VDsGIFBUQj04Zl2RnacY7XQHTQkUrl33WJ2A9ZbBOtgvo4rh6LIoiBj16YQ==
-X-Received: by 2002:a05:6402:35c8:: with SMTP id
- z8mr14749831edc.5.1626861117249; 
- Wed, 21 Jul 2021 02:51:57 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id cq22sm10562316edb.77.2021.07.21.02.51.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 02:51:56 -0700 (PDT)
-Subject: Re: [PATCH 2/2] qom: use correct field name when getting/setting
- alias properties
-To: Eric Blake <eblake@redhat.com>
-References: <20210719104033.185109-1-pbonzini@redhat.com>
- <20210719104033.185109-3-pbonzini@redhat.com>
- <20210720010005.vegqnbb5qhfxh7ow@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ab9bb88a-ccb8-6242-5960-2eb1a43f0c56@redhat.com>
-Date: Wed, 21 Jul 2021 11:51:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210720010005.vegqnbb5qhfxh7ow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1m68uv-0002Cn-Kh
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:29 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49376 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1m68us-00022F-Ge
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:29 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S2; 
+ Wed, 21 Jul 2021 17:53:18 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/22] Add LoongArch linux-user emulation support
+Date: Wed, 21 Jul 2021 17:52:56 +0800
+Message-Id: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKr1kCrykZF1fKrW8AF4Utwb_yoW7Xr18pr
+ W3ur1rKa18JrZrJr4kXa45Xrn5Xw4xGr4293WSqry8CrWSyryxZFn7K3sIgFy3X3W8Wry0
+ qF1vkw1UWF4UXaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,25 +52,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, alex.williamson@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, richard.henderson@linaro.org, laurent@vivier.eu,
+ maobibo@loongson.cn, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/07/21 03:00, Eric Blake wrote:
-> Deceptively simple; all the work was in the previous patch writing up
-> the forwarding visitor.  I still wonder if Kevin's QAPI aliases will
-> do this more gracefully, but if we're trying to justify this as a bug
-> fix worthy of 6.1, this is certainly a smaller approach than Kevin's.
-> 
-> Reviewed-by: Eric Blake<eblake@redhat.com>
+Hi,
 
-As discussed on IRC, this is unrelated to QAPI aliases; QOM alias 
-properties typically target a property *on a different object*.
+This series only adds linux-user emulation support for LoongArch.
+So there is no introduction of system in docs/system directory,
+We'll add that in a future series.
 
-This is a regression, so it certainly has to be fixed in 6.1 one way or 
-the other.
+Changes for v1:
+  * Patch 1, remove unnecessary introduction;
+  * Patch 3, follow the ARM/AVR pattern to add new CPU features;
+  * Patch 6, remove decode_lsx(); 
+  * Patches 7-18, delete opcode definition, modify translation function;
+  * Patches 20-22, split V1 patch20 to V2 patch20-22. 
 
-Paolo
+In the next series, we will add privileged instruction emulation, 
+board emulation and TCG test. Please review.
+
+Regards
+Song Gao
+
+Song Gao (22):
+  target/loongarch: Add README
+  target/loongarch: Add CSR registers definition
+  target/loongarch: Add core definition
+  target/loongarch: Add interrupt handling support
+  target/loongarch: Add memory management support
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  LoongArch Linux User Emulation
+  configs: Add loongarch linux-user config
+  target/loongarch: Add target build suport
+
+ MAINTAINERS                                |    7 +
+ configs/targets/loongarch64-linux-user.mak |    3 +
+ disas/loongarch.c                          | 2511 +++++++++++++
+ disas/meson.build                          |    1 +
+ include/disas/dis-asm.h                    |    2 +
+ include/elf.h                              |    2 +
+ linux-user/elfload.c                       |   58 +
+ linux-user/loongarch64/cpu_loop.c          |  177 +
+ linux-user/loongarch64/signal.c            |  193 +
+ linux-user/loongarch64/sockbits.h          |    1 +
+ linux-user/loongarch64/syscall_nr.h        |  307 ++
+ linux-user/loongarch64/target_cpu.h        |   36 +
+ linux-user/loongarch64/target_elf.h        |   14 +
+ linux-user/loongarch64/target_fcntl.h      |   12 +
+ linux-user/loongarch64/target_signal.h     |   28 +
+ linux-user/loongarch64/target_structs.h    |   49 +
+ linux-user/loongarch64/target_syscall.h    |   46 +
+ linux-user/loongarch64/termbits.h          |  229 ++
+ linux-user/syscall_defs.h                  |   10 +-
+ meson.build                                |    1 +
+ target/loongarch/README                    |    5 +
+ target/loongarch/cpu-csr.h                 |  724 ++++
+ target/loongarch/cpu-param.h               |   21 +
+ target/loongarch/cpu-qom.h                 |   40 +
+ target/loongarch/cpu.c                     |  319 ++
+ target/loongarch/cpu.h                     |  299 ++
+ target/loongarch/fpu_helper.c              | 1435 +++++++
+ target/loongarch/fpu_helper.h              |   34 +
+ target/loongarch/helper.h                  |  158 +
+ target/loongarch/insns.decode              |  480 +++
+ target/loongarch/meson.build               |   19 +
+ target/loongarch/op_helper.c               |  230 ++
+ target/loongarch/tlb_helper.c              |  103 +
+ target/loongarch/trans.inc.c               | 5536 ++++++++++++++++++++++++++++
+ target/loongarch/translate.c               |  558 +++
+ target/loongarch/translate.h               |   50 +
+ target/meson.build                         |    1 +
+ 37 files changed, 13695 insertions(+), 4 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 disas/loongarch.c
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu-qom.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/fpu_helper.h
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/tlb_helper.c
+ create mode 100644 target/loongarch/trans.inc.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+1.8.3.1
 
 
