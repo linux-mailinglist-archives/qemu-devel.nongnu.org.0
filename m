@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3EF3D0A1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:55:50 +0200 (CEST)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2760B3D0A20
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 09:57:49 +0200 (CEST)
+Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6753-0001ew-ED
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52996)
+	id 1m676y-0003At-3D
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 03:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m66yM-0006qJ-EW; Wed, 21 Jul 2021 03:48:54 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:58385)
+ id 1m66yY-00073v-Oa; Wed, 21 Jul 2021 03:49:06 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:56827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m66yK-0002QZ-KS; Wed, 21 Jul 2021 03:48:54 -0400
+ id 1m66yQ-0002Ww-Ty; Wed, 21 Jul 2021 03:49:06 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id DE6515816F0;
- Wed, 21 Jul 2021 03:48:51 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3BEA15816CF;
+ Wed, 21 Jul 2021 03:48:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 21 Jul 2021 03:48:51 -0400
+ by compute2.internal (MEProxy); Wed, 21 Jul 2021 03:48:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- 69JPLYSnFZhAufymlT12ftm0OEpfY9b/EpDsh51XTk0=; b=jmwQP/QZFs0lJrrz
- +4b0QkdSEjC4Qf8Dj9C8TvTa9jjrlOxT6EgEuuhhHekOR/QShOJltaG+I7gKDcqQ
- fM44Fw7NatJXJqqNeswngxDEWpGG7qhmP5YhT35ncwjyQvPWXUL1v5vv130j/M/q
- ZXGTNe5ALuDblwreXGS/BCq90GmGyNgEG8CfKuwF3IRTgkSDFtYmDbOeFi2Ysdf2
- GS9Nv+qaoK1JkRzG8MxUqkRIDpEja7onMDqdL5qlNx2lJ/MvktywDMwD5dhi8qbL
- vz8FlW/EO3N2vy+V9E7euM32O4hueIQmSWrzOtPtpDUfDKrHLgUwlAP0pWBhAeB+
- vt4HYA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=1teK7Nr3srmbv
+ 4CpxVoFgrEqUmMwY0i0zGOcuRPhmEU=; b=Xf4ppROb1Lw5oVIceqHfHgNYM7adK
+ R8pMM1Sl/vNGycnCPuu+gBXmmnTLtfAeO35z1uLNXdIrnwHPzBDIn82koV/4stsy
+ VYqp5B4pmpy55uveWpxuABp4ci4BAcFnQKTbs+ZBwHMCCdAyMv1m5zP4+RAVqdNC
+ DeV2psLWc9LBdtLABHHCNyKdkA+bK2mzCrn30Wxnsbl8TbGJA5tG+UHFqChLFoo+
+ BRBslRvwgkN0J5ENGXQuz1Hn9W72UYIwDy2swJ4qWLDpFS4ZXF10kX/L6uU+qBmB
+ XZ/vntkZzaw8VW6h40r/rELBdXgneW8USJH5ARQ5F+YDVDtKCnwudUSRw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=69JPLYSnFZhAufymlT12ftm0OEpfY9b/EpDsh51XT
- k0=; b=iah0JV3auNlDh1lfdwQ1+xWzJZh5id09QzKXTNc9piORhaqfN4VdGZgcw
- vQdtBH4hyIeWi6uDcEXBAScRUaB2oUqQL+EtD/4Mj6opPaXgJH13gVqVSwwjL8/t
- +WTvNQLPpStxi578Rc2DvDTtHWSxGioxM+okb2C+t7nry/iop2ZGpV8OS7gFomkv
- R/zjHb0s9H3kkoaRy/zQJQxucveLrrAcKfYGllQOKTg8Z0+LOsv5ee4212/V0igp
- faADnHSJBt3FgrCLmoSIkIii48yGNHbvVMO63V2+IuWwzMiqCanRs2EiJY6AI9H/
- A61iySOVQsTbmLSqFIWkBaIZUgb6A==
-X-ME-Sender: <xms:Y9H3YJuVqumahL9XDuCZ9YwTd8xjJcfmCcm6cMqUFX2d-F3o22c7BQ>
- <xme:Y9H3YCcR5VwaqDLYob3ADb_1D62D7OeaAVw7oEV4R0SoT2JnFLrgcL6b7Br__FajI
- uivjuR96R6fXlgVQvE>
-X-ME-Received: <xmr:Y9H3YMyvRfS_BAxU84Ldbcv0BsB7umfacSSI27Dy_2Hm2SdFmR-ZMY2Gy1R_TC4GBdOXyaqIAnqPbLn-r957aaKJUpDpsREkWuF2URl9zQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=1teK7Nr3srmbv4CpxVoFgrEqUmMwY0i0zGOcuRPhmEU=; b=I0VEbEAH
+ 5p98Zzm6KfV8SbnzjQej7bTvPOiZ0/o/GfwoSDipbzFKJZ/E+qO0cTqYnf5rEwdC
+ tulHemGMEKDQw+acmz9jGiYit5LSKT5SaQarEK6782koC7Wka6Lblb13pv+kqfla
+ F4zD96jilzxhhH7iFUHWBLoW7Bg0UtCZ4DEFUP0STIHFggwOqsXejPeijBKq5bkR
+ zQdVuqbTkxb86H9EeOFF+OlNev6W2w5z/lWg5ySR2FZ7X/LbGWcLxkEAeqnimZDf
+ yTrE9dJgXKW2HMQV9ro/3TovrVgYEzL8SEpA6GmfIKvHROc7oA/v/PrcyGrIPHoC
+ Y/YFk/+2bCUDkQ==
+X-ME-Sender: <xms:atH3YH9iqiLbKU-YGzj7sWWMd_Cz5LMWq0O7KEOSS0foOCtTZA1Rdw>
+ <xme:atH3YDsmFA4p5yOu_shCGcV81IF3tWCKap61G1Z16mkydMXxakZ-v1dAO5H7cWnT2
+ hNG6m1JUMm_unx5muI>
+X-ME-Received: <xmr:atH3YFChsXj0FJsImlpNtjehd0mprTS9YivtQMz6anqX7Aq0-todAf3i9nF0T7WIIaXI9QAhmOt3TU09ibiiqGXRU069g1j7yiUt9kFFGw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeefgdduudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
- tdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Y9H3YAOOkNoBFfWlA5Gsyd7l6c0Wj6aGHUcf0PaOlIWA69-N-PGPpA>
- <xmx:Y9H3YJ_tKrCiUiExnzTiZv2fceqSGTZmxeMElqu6_d6TYi2PXbv1bA>
- <xmx:Y9H3YAWjPgUEpt2-W2mAREnPNG1IsGdXedZX0TEE36ZcyRNJZ1zXOA>
- <xmx:Y9H3YHf9DimPM3NT-I_Hecgo3pyeWl_r0IRRj10A7FFi6PxtQRJwvA>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpefhieetudeuudehgfegudfhieevhefglefgfeevtdefleefieegudetvedthfdt
+ feenucffohhmrghinhepphhmrhdruggvvhenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:atH3YDf7MlWeL585c0lTx30EC467xVLIkPtikwkOHReL3zPAy-UQbg>
+ <xmx:atH3YMMkYJm0_Xs0CDsXrlCyGA8fYhvNgwCnIbE5c4-vF6CADytcDg>
+ <xmx:atH3YFl1oS1bCjivuN4iHs_sxRZPIdGGo-5v8KKNAmOGvzTKfLIkTA>
+ <xmx:atH3YOuO2jiHU2dVezAj7CHAIyyFSiYWqmPubZFM07ropEoRRJMvUA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jul 2021 03:48:49 -0400 (EDT)
+ 21 Jul 2021 03:48:54 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/5] hw/nvme: use symbolic names for registers
-Date: Wed, 21 Jul 2021 09:48:33 +0200
-Message-Id: <20210721074836.110232-3-its@irrelevant.dk>
+Subject: [PATCH v6 4/5] hw/nvme: fix mmio read
+Date: Wed, 21 Jul 2021 09:48:35 +0200
+Message-Id: <20210721074836.110232-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210721074836.110232-1-its@irrelevant.dk>
 References: <20210721074836.110232-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
  helo=new2-smtp.messagingengine.com
@@ -106,222 +104,631 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add the NvmeBarRegs enum and use these instead of explicit register
-offsets.
+The new PMR test unearthed a long-standing issue with MMIO reads on
+big-endian hosts.
 
+Fix this by unconditionally storing all controller registers in little
+endian.
+
+Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/block/nvme.h | 29 ++++++++++++++++++++++++++++-
- hw/nvme/ctrl.c       | 44 ++++++++++++++++++++++----------------------
- 2 files changed, 50 insertions(+), 23 deletions(-)
+ hw/nvme/ctrl.c | 291 +++++++++++++++++++++++++++----------------------
+ 1 file changed, 162 insertions(+), 129 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 84053b68b987..77aae0117494 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -9,7 +9,7 @@ typedef struct QEMU_PACKED NvmeBar {
-     uint32_t    cc;
-     uint8_t     rsvd24[4];
-     uint32_t    csts;
--    uint32_t    nssrc;
-+    uint32_t    nssr;
-     uint32_t    aqa;
-     uint64_t    asq;
-     uint64_t    acq;
-@@ -31,6 +31,33 @@ typedef struct QEMU_PACKED NvmeBar {
-     uint8_t     css[484];
- } NvmeBar;
- 
-+enum NvmeBarRegs {
-+    NVME_REG_CAP     = offsetof(NvmeBar, cap),
-+    NVME_REG_VS      = offsetof(NvmeBar, vs),
-+    NVME_REG_INTMS   = offsetof(NvmeBar, intms),
-+    NVME_REG_INTMC   = offsetof(NvmeBar, intmc),
-+    NVME_REG_CC      = offsetof(NvmeBar, cc),
-+    NVME_REG_CSTS    = offsetof(NvmeBar, csts),
-+    NVME_REG_NSSR    = offsetof(NvmeBar, nssr),
-+    NVME_REG_AQA     = offsetof(NvmeBar, aqa),
-+    NVME_REG_ASQ     = offsetof(NvmeBar, asq),
-+    NVME_REG_ACQ     = offsetof(NvmeBar, acq),
-+    NVME_REG_CMBLOC  = offsetof(NvmeBar, cmbloc),
-+    NVME_REG_CMBSZ   = offsetof(NvmeBar, cmbsz),
-+    NVME_REG_BPINFO  = offsetof(NvmeBar, bpinfo),
-+    NVME_REG_BPRSEL  = offsetof(NvmeBar, bprsel),
-+    NVME_REG_BPMBL   = offsetof(NvmeBar, bpmbl),
-+    NVME_REG_CMBMSC  = offsetof(NvmeBar, cmbmsc),
-+    NVME_REG_CMBSTS  = offsetof(NvmeBar, cmbsts),
-+    NVME_REG_PMRCAP  = offsetof(NvmeBar, pmrcap),
-+    NVME_REG_PMRCTL  = offsetof(NvmeBar, pmrctl),
-+    NVME_REG_PMRSTS  = offsetof(NvmeBar, pmrsts),
-+    NVME_REG_PMREBS  = offsetof(NvmeBar, pmrebs),
-+    NVME_REG_PMRSWTP = offsetof(NvmeBar, pmrswtp),
-+    NVME_REG_PMRMSCL = offsetof(NvmeBar, pmrmscl),
-+    NVME_REG_PMRMSCU = offsetof(NvmeBar, pmrmscu),
-+};
-+
- enum NvmeCapShift {
-     CAP_MQES_SHIFT     = 0,
-     CAP_CQR_SHIFT      = 16,
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 070d9f6a962d..23ff71f65c0e 100644
+index 10c2363c1d4d..43dfaeac9f54 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5740,7 +5740,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+@@ -439,10 +439,12 @@ static uint8_t nvme_sq_empty(NvmeSQueue *sq)
+ 
+ static void nvme_irq_check(NvmeCtrl *n)
+ {
++    uint32_t intms = ldl_le_p(&n->bar.intms);
++
+     if (msix_enabled(&(n->parent_obj))) {
+         return;
+     }
+-    if (~n->bar.intms & n->irq_status) {
++    if (~intms & n->irq_status) {
+         pci_irq_assert(&n->parent_obj);
+     } else {
+         pci_irq_deassert(&n->parent_obj);
+@@ -1289,7 +1291,7 @@ static void nvme_post_cqes(void *opaque)
+         if (ret) {
+             trace_pci_nvme_err_addr_write(addr);
+             trace_pci_nvme_err_cfs();
+-            n->bar.csts = NVME_CSTS_FAILED;
++            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+             break;
+         }
+         QTAILQ_REMOVE(&cq->req_list, req, entry);
+@@ -4022,7 +4024,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
+-    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
++    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))) {
+         trace_pci_nvme_err_invalid_create_sq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+@@ -4208,7 +4210,7 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
+         return NVME_INVALID_FIELD | NVME_DNR;
      }
  
-     switch (offset) {
--    case 0xc:   /* INTMS */
-+    case NVME_REG_INTMS:
-         if (unlikely(msix_enabled(&(n->parent_obj)))) {
-             NVME_GUEST_ERR(pci_nvme_ub_mmiowr_intmask_with_msix,
-                            "undefined access to interrupt mask set"
-@@ -5752,7 +5752,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-         trace_pci_nvme_mmio_intm_set(data & 0xffffffff, n->bar.intmc);
+-    switch (NVME_CC_CSS(n->bar.cc)) {
++    switch (NVME_CC_CSS(ldl_le_p(&n->bar.cc))) {
+     case NVME_CC_CSS_NVM:
+         src_iocs = nvme_cse_iocs_nvm;
+         /* fall through */
+@@ -4370,7 +4372,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
+-    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
++    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))) {
+         trace_pci_nvme_err_invalid_create_cq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+@@ -5163,17 +5165,19 @@ static void nvme_update_dmrsl(NvmeCtrl *n)
+ 
+ static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
+ {
++    uint32_t cc = ldl_le_p(&n->bar.cc);
++
+     ns->iocs = nvme_cse_iocs_none;
+     switch (ns->csi) {
+     case NVME_CSI_NVM:
+-        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
++        if (NVME_CC_CSS(cc) != NVME_CC_CSS_ADMIN_ONLY) {
+             ns->iocs = nvme_cse_iocs_nvm;
+         }
+         break;
+     case NVME_CSI_ZONED:
+-        if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_CSI) {
++        if (NVME_CC_CSS(cc) == NVME_CC_CSS_CSI) {
+             ns->iocs = nvme_cse_iocs_zoned;
+-        } else if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_NVM) {
++        } else if (NVME_CC_CSS(cc) == NVME_CC_CSS_NVM) {
+             ns->iocs = nvme_cse_iocs_nvm;
+         }
+         break;
+@@ -5510,7 +5514,7 @@ static void nvme_process_sq(void *opaque)
+         if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
+             trace_pci_nvme_err_addr_read(addr);
+             trace_pci_nvme_err_cfs();
+-            n->bar.csts = NVME_CSTS_FAILED;
++            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+             break;
+         }
+         nvme_inc_sq_head(sq);
+@@ -5565,8 +5569,6 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+     n->aer_queued = 0;
+     n->outstanding_aers = 0;
+     n->qs_created = false;
+-
+-    n->bar.cc = 0;
+ }
+ 
+ static void nvme_ctrl_shutdown(NvmeCtrl *n)
+@@ -5605,7 +5607,12 @@ static void nvme_select_iocs(NvmeCtrl *n)
+ 
+ static int nvme_start_ctrl(NvmeCtrl *n)
+ {
+-    uint32_t page_bits = NVME_CC_MPS(n->bar.cc) + 12;
++    uint64_t cap = ldq_le_p(&n->bar.cap);
++    uint32_t cc = ldl_le_p(&n->bar.cc);
++    uint32_t aqa = ldl_le_p(&n->bar.aqa);
++    uint64_t asq = ldq_le_p(&n->bar.asq);
++    uint64_t acq = ldq_le_p(&n->bar.acq);
++    uint32_t page_bits = NVME_CC_MPS(cc) + 12;
+     uint32_t page_size = 1 << page_bits;
+ 
+     if (unlikely(n->cq[0])) {
+@@ -5616,73 +5623,72 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+         trace_pci_nvme_err_startfail_sq();
+         return -1;
+     }
+-    if (unlikely(!n->bar.asq)) {
++    if (unlikely(!asq)) {
+         trace_pci_nvme_err_startfail_nbarasq();
+         return -1;
+     }
+-    if (unlikely(!n->bar.acq)) {
++    if (unlikely(!acq)) {
+         trace_pci_nvme_err_startfail_nbaracq();
+         return -1;
+     }
+-    if (unlikely(n->bar.asq & (page_size - 1))) {
+-        trace_pci_nvme_err_startfail_asq_misaligned(n->bar.asq);
++    if (unlikely(asq & (page_size - 1))) {
++        trace_pci_nvme_err_startfail_asq_misaligned(asq);
+         return -1;
+     }
+-    if (unlikely(n->bar.acq & (page_size - 1))) {
+-        trace_pci_nvme_err_startfail_acq_misaligned(n->bar.acq);
++    if (unlikely(acq & (page_size - 1))) {
++        trace_pci_nvme_err_startfail_acq_misaligned(acq);
+         return -1;
+     }
+-    if (unlikely(!(NVME_CAP_CSS(n->bar.cap) & (1 << NVME_CC_CSS(n->bar.cc))))) {
+-        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(n->bar.cc));
++    if (unlikely(!(NVME_CAP_CSS(cap) & (1 << NVME_CC_CSS(cc))))) {
++        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(cc));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_MPS(n->bar.cc) <
+-                 NVME_CAP_MPSMIN(n->bar.cap))) {
++    if (unlikely(NVME_CC_MPS(cc) < NVME_CAP_MPSMIN(cap))) {
+         trace_pci_nvme_err_startfail_page_too_small(
+-                    NVME_CC_MPS(n->bar.cc),
+-                    NVME_CAP_MPSMIN(n->bar.cap));
++                    NVME_CC_MPS(cc),
++                    NVME_CAP_MPSMIN(cap));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_MPS(n->bar.cc) >
+-                 NVME_CAP_MPSMAX(n->bar.cap))) {
++    if (unlikely(NVME_CC_MPS(cc) >
++                 NVME_CAP_MPSMAX(cap))) {
+         trace_pci_nvme_err_startfail_page_too_large(
+-                    NVME_CC_MPS(n->bar.cc),
+-                    NVME_CAP_MPSMAX(n->bar.cap));
++                    NVME_CC_MPS(cc),
++                    NVME_CAP_MPSMAX(cap));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_IOCQES(n->bar.cc) <
++    if (unlikely(NVME_CC_IOCQES(cc) <
+                  NVME_CTRL_CQES_MIN(n->id_ctrl.cqes))) {
+         trace_pci_nvme_err_startfail_cqent_too_small(
+-                    NVME_CC_IOCQES(n->bar.cc),
+-                    NVME_CTRL_CQES_MIN(n->bar.cap));
++                    NVME_CC_IOCQES(cc),
++                    NVME_CTRL_CQES_MIN(cap));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_IOCQES(n->bar.cc) >
++    if (unlikely(NVME_CC_IOCQES(cc) >
+                  NVME_CTRL_CQES_MAX(n->id_ctrl.cqes))) {
+         trace_pci_nvme_err_startfail_cqent_too_large(
+-                    NVME_CC_IOCQES(n->bar.cc),
+-                    NVME_CTRL_CQES_MAX(n->bar.cap));
++                    NVME_CC_IOCQES(cc),
++                    NVME_CTRL_CQES_MAX(cap));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_IOSQES(n->bar.cc) <
++    if (unlikely(NVME_CC_IOSQES(cc) <
+                  NVME_CTRL_SQES_MIN(n->id_ctrl.sqes))) {
+         trace_pci_nvme_err_startfail_sqent_too_small(
+-                    NVME_CC_IOSQES(n->bar.cc),
+-                    NVME_CTRL_SQES_MIN(n->bar.cap));
++                    NVME_CC_IOSQES(cc),
++                    NVME_CTRL_SQES_MIN(cap));
+         return -1;
+     }
+-    if (unlikely(NVME_CC_IOSQES(n->bar.cc) >
++    if (unlikely(NVME_CC_IOSQES(cc) >
+                  NVME_CTRL_SQES_MAX(n->id_ctrl.sqes))) {
+         trace_pci_nvme_err_startfail_sqent_too_large(
+-                    NVME_CC_IOSQES(n->bar.cc),
+-                    NVME_CTRL_SQES_MAX(n->bar.cap));
++                    NVME_CC_IOSQES(cc),
++                    NVME_CTRL_SQES_MAX(cap));
+         return -1;
+     }
+-    if (unlikely(!NVME_AQA_ASQS(n->bar.aqa))) {
++    if (unlikely(!NVME_AQA_ASQS(aqa))) {
+         trace_pci_nvme_err_startfail_asqent_sz_zero();
+         return -1;
+     }
+-    if (unlikely(!NVME_AQA_ACQS(n->bar.aqa))) {
++    if (unlikely(!NVME_AQA_ACQS(aqa))) {
+         trace_pci_nvme_err_startfail_acqent_sz_zero();
+         return -1;
+     }
+@@ -5690,12 +5696,10 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+     n->page_bits = page_bits;
+     n->page_size = page_size;
+     n->max_prp_ents = n->page_size / sizeof(uint64_t);
+-    n->cqe_size = 1 << NVME_CC_IOCQES(n->bar.cc);
+-    n->sqe_size = 1 << NVME_CC_IOSQES(n->bar.cc);
+-    nvme_init_cq(&n->admin_cq, n, n->bar.acq, 0, 0,
+-                 NVME_AQA_ACQS(n->bar.aqa) + 1, 1);
+-    nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
+-                 NVME_AQA_ASQS(n->bar.aqa) + 1);
++    n->cqe_size = 1 << NVME_CC_IOCQES(cc);
++    n->sqe_size = 1 << NVME_CC_IOSQES(cc);
++    nvme_init_cq(&n->admin_cq, n, acq, 0, 0, NVME_AQA_ACQS(aqa) + 1, 1);
++    nvme_init_sq(&n->admin_sq, n, asq, 0, 0, NVME_AQA_ASQS(aqa) + 1);
+ 
+     nvme_set_timestamp(n, 0ULL);
+ 
+@@ -5708,22 +5712,33 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+ static void nvme_cmb_enable_regs(NvmeCtrl *n)
+ {
+-    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
+-    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
+-    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
++    uint32_t cmbloc = ldl_le_p(&n->bar.cmbloc);
++    uint32_t cmbsz = ldl_le_p(&n->bar.cmbsz);
+ 
+-    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+-    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+-    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
+-    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+-    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+-    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+-    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
++    NVME_CMBLOC_SET_CDPCILS(cmbloc, 1);
++    NVME_CMBLOC_SET_CDPMLS(cmbloc, 1);
++    NVME_CMBLOC_SET_BIR(cmbloc, NVME_CMB_BIR);
++    stl_le_p(&n->bar.cmbloc, cmbloc);
++
++    NVME_CMBSZ_SET_SQS(cmbsz, 1);
++    NVME_CMBSZ_SET_CQS(cmbsz, 0);
++    NVME_CMBSZ_SET_LISTS(cmbsz, 1);
++    NVME_CMBSZ_SET_RDS(cmbsz, 1);
++    NVME_CMBSZ_SET_WDS(cmbsz, 1);
++    NVME_CMBSZ_SET_SZU(cmbsz, 2); /* MBs */
++    NVME_CMBSZ_SET_SZ(cmbsz, n->params.cmb_size_mb);
++    stl_le_p(&n->bar.cmbsz, cmbsz);
+ }
+ 
+ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                            unsigned size)
+ {
++    uint64_t cap = ldq_le_p(&n->bar.cap);
++    uint32_t cc = ldl_le_p(&n->bar.cc);
++    uint32_t intms = ldl_le_p(&n->bar.intms);
++    uint32_t csts = ldl_le_p(&n->bar.csts);
++    uint32_t pmrsts = ldl_le_p(&n->bar.pmrsts);
++
+     if (unlikely(offset & (sizeof(uint32_t) - 1))) {
+         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_misaligned32,
+                        "MMIO write not 32-bit aligned,"
+@@ -5747,9 +5762,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                            " when MSI-X is enabled");
+             /* should be ignored, fall through for now */
+         }
+-        n->bar.intms |= data & 0xffffffff;
++        intms |= data;
++        stl_le_p(&n->bar.intms, intms);
+         n->bar.intmc = n->bar.intms;
+-        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, n->bar.intmc);
++        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, intms);
          nvme_irq_check(n);
          break;
--    case 0x10:  /* INTMC */
-+    case NVME_REG_INTMC:
-         if (unlikely(msix_enabled(&(n->parent_obj)))) {
-             NVME_GUEST_ERR(pci_nvme_ub_mmiowr_intmask_with_msix,
-                            "undefined access to interrupt mask clr"
-@@ -5764,7 +5764,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-         trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, n->bar.intmc);
+     case NVME_REG_INTMC:
+@@ -5759,44 +5775,55 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                            " when MSI-X is enabled");
+             /* should be ignored, fall through for now */
+         }
+-        n->bar.intms &= ~(data & 0xffffffff);
++        intms &= ~data;
++        stl_le_p(&n->bar.intms, intms);
+         n->bar.intmc = n->bar.intms;
+-        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, n->bar.intmc);
++        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, intms);
          nvme_irq_check(n);
          break;
--    case 0x14:  /* CC */
-+    case NVME_REG_CC:
+     case NVME_REG_CC:
          trace_pci_nvme_mmio_cfg(data & 0xffffffff);
++
          /* Windows first sends data, then sends enable bit */
-         if (!NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc) &&
-@@ -5798,7 +5798,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-             n->bar.cc = data;
+-        if (!NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc) &&
+-            !NVME_CC_SHN(data) && !NVME_CC_SHN(n->bar.cc))
++        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
++            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
+         {
+-            n->bar.cc = data;
++            cc = data;
          }
+ 
+-        if (NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc)) {
+-            n->bar.cc = data;
++        if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
++            cc = data;
++
++            /* flush CC since nvme_start_ctrl() needs the value */
++            stl_le_p(&n->bar.cc, cc);
+             if (unlikely(nvme_start_ctrl(n))) {
+                 trace_pci_nvme_err_startfail();
+-                n->bar.csts = NVME_CSTS_FAILED;
++                csts = NVME_CSTS_FAILED;
+             } else {
+                 trace_pci_nvme_mmio_start_success();
+-                n->bar.csts = NVME_CSTS_READY;
++                csts = NVME_CSTS_READY;
+             }
+-        } else if (!NVME_CC_EN(data) && NVME_CC_EN(n->bar.cc)) {
++        } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
+             trace_pci_nvme_mmio_stopped();
+             nvme_ctrl_reset(n);
+-            n->bar.csts &= ~NVME_CSTS_READY;
++            cc = 0;
++            csts &= ~NVME_CSTS_READY;
+         }
+-        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(n->bar.cc))) {
++
++        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+             trace_pci_nvme_mmio_shutdown_set();
+             nvme_ctrl_shutdown(n);
+-            n->bar.cc = data;
+-            n->bar.csts |= NVME_CSTS_SHST_COMPLETE;
+-        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(n->bar.cc)) {
++            cc = data;
++            csts |= NVME_CSTS_SHST_COMPLETE;
++        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+             trace_pci_nvme_mmio_shutdown_cleared();
+-            n->bar.csts &= ~NVME_CSTS_SHST_COMPLETE;
+-            n->bar.cc = data;
++            csts &= ~NVME_CSTS_SHST_COMPLETE;
++            cc = data;
+         }
++
++        stl_le_p(&n->bar.cc, cc);
++        stl_le_p(&n->bar.csts, csts);
++
          break;
--    case 0x1c:  /* CSTS */
-+    case NVME_REG_CSTS:
+     case NVME_REG_CSTS:
          if (data & (1 << 4)) {
-             NVME_GUEST_ERR(pci_nvme_ub_mmiowr_ssreset_w1c_unsupported,
-                            "attempted to W1C CSTS.NSSRO"
-@@ -5809,7 +5809,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-                            " of controller status");
+@@ -5818,26 +5845,24 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
          }
          break;
--    case 0x20:  /* NSSR */
-+    case NVME_REG_NSSR:
-         if (data == 0x4e564d65) {
-             trace_pci_nvme_ub_mmiowr_ssreset_unsupported();
-         } else {
-@@ -5817,38 +5817,38 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-             return;
-         }
-         break;
--    case 0x24:  /* AQA */
-+    case NVME_REG_AQA:
-         n->bar.aqa = data & 0xffffffff;
+     case NVME_REG_AQA:
+-        n->bar.aqa = data & 0xffffffff;
++        stl_le_p(&n->bar.aqa, data);
          trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
          break;
--    case 0x28:  /* ASQ */
-+    case NVME_REG_ASQ:
-         n->bar.asq = size == 8 ? data :
-             (n->bar.asq & ~0xffffffffULL) | (data & 0xffffffff);
+     case NVME_REG_ASQ:
+-        n->bar.asq = size == 8 ? data :
+-            (n->bar.asq & ~0xffffffffULL) | (data & 0xffffffff);
++        stn_le_p(&n->bar.asq, size, data);
          trace_pci_nvme_mmio_asqaddr(data);
          break;
--    case 0x2c:  /* ASQ hi */
-+    case NVME_REG_ASQ + 4:
-         n->bar.asq = (n->bar.asq & 0xffffffff) | (data << 32);
-         trace_pci_nvme_mmio_asqaddr_hi(data, n->bar.asq);
+     case NVME_REG_ASQ + 4:
+-        n->bar.asq = (n->bar.asq & 0xffffffff) | (data << 32);
+-        trace_pci_nvme_mmio_asqaddr_hi(data, n->bar.asq);
++        stl_le_p((uint8_t *)&n->bar.asq + 4, data);
++        trace_pci_nvme_mmio_asqaddr_hi(data, ldq_le_p(&n->bar.asq));
          break;
--    case 0x30:  /* ACQ */
-+    case NVME_REG_ACQ:
+     case NVME_REG_ACQ:
          trace_pci_nvme_mmio_acqaddr(data);
-         n->bar.acq = size == 8 ? data :
-             (n->bar.acq & ~0xffffffffULL) | (data & 0xffffffff);
+-        n->bar.acq = size == 8 ? data :
+-            (n->bar.acq & ~0xffffffffULL) | (data & 0xffffffff);
++        stn_le_p(&n->bar.acq, size, data);
          break;
--    case 0x34:  /* ACQ hi */
-+    case NVME_REG_ACQ + 4:
-         n->bar.acq = (n->bar.acq & 0xffffffff) | (data << 32);
-         trace_pci_nvme_mmio_acqaddr_hi(data, n->bar.acq);
+     case NVME_REG_ACQ + 4:
+-        n->bar.acq = (n->bar.acq & 0xffffffff) | (data << 32);
+-        trace_pci_nvme_mmio_acqaddr_hi(data, n->bar.acq);
++        stl_le_p((uint8_t *)&n->bar.acq + 4, data);
++        trace_pci_nvme_mmio_acqaddr_hi(data, ldq_le_p(&n->bar.acq));
          break;
--    case 0x38:  /* CMBLOC */
-+    case NVME_REG_CMBLOC:
+     case NVME_REG_CMBLOC:
          NVME_GUEST_ERR(pci_nvme_ub_mmiowr_cmbloc_reserved,
-                        "invalid write to reserved CMBLOC"
-                        " when CMBSZ is zero, ignored");
-         return;
--    case 0x3C:  /* CMBSZ */
-+    case NVME_REG_CMBSZ:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_cmbsz_readonly,
+@@ -5849,21 +5874,23 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
                         "invalid write to read only CMBSZ, ignored");
          return;
--    case 0x50:  /* CMBMSC */
-+    case NVME_REG_CMBMSC:
-         if (!NVME_CAP_CMBS(n->bar.cap)) {
+     case NVME_REG_CMBMSC:
+-        if (!NVME_CAP_CMBS(n->bar.cap)) {
++        if (!NVME_CAP_CMBS(cap)) {
              return;
          }
-@@ -5876,15 +5876,15 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-         }
+ 
+-        n->bar.cmbmsc = size == 8 ? data :
+-            (n->bar.cmbmsc & ~0xffffffff) | (data & 0xffffffff);
++        stn_le_p(&n->bar.cmbmsc, size, data);
+         n->cmb.cmse = false;
+ 
+         if (NVME_CMBMSC_CRE(data)) {
+             nvme_cmb_enable_regs(n);
+ 
+             if (NVME_CMBMSC_CMSE(data)) {
+-                hwaddr cba = NVME_CMBMSC_CBA(data) << CMBMSC_CBA_SHIFT;
++                uint64_t cmbmsc = ldq_le_p(&n->bar.cmbmsc);
++                hwaddr cba = NVME_CMBMSC_CBA(cmbmsc) << CMBMSC_CBA_SHIFT;
+                 if (cba + int128_get64(n->cmb.mem.size) < cba) {
+-                    NVME_CMBSTS_SET_CBAI(n->bar.cmbsts, 1);
++                    uint32_t cmbsts = ldl_le_p(&n->bar.cmbsts);
++                    NVME_CMBSTS_SET_CBAI(cmbsts, 1);
++                    stl_le_p(&n->bar.cmbsts, cmbsts);
+                     return;
+                 }
+ 
+@@ -5877,7 +5904,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
  
          return;
--    case 0x54:  /* CMBMSC hi */
-+    case NVME_REG_CMBMSC + 4:
-         n->bar.cmbmsc = (n->bar.cmbmsc & 0xffffffff) | (data << 32);
+     case NVME_REG_CMBMSC + 4:
+-        n->bar.cmbmsc = (n->bar.cmbmsc & 0xffffffff) | (data << 32);
++        stl_le_p((uint8_t *)&n->bar.cmbmsc + 4, data);
          return;
  
--    case 0xe00: /* PMRCAP */
-+    case NVME_REG_PMRCAP:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrcap_readonly,
+     case NVME_REG_PMRCAP:
+@@ -5885,19 +5912,20 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
                         "invalid write to PMRCAP register, ignored");
          return;
--    case 0xe04: /* PMRCTL */
-+    case NVME_REG_PMRCTL:
-         if (!NVME_CAP_PMRS(n->bar.cap)) {
+     case NVME_REG_PMRCTL:
+-        if (!NVME_CAP_PMRS(n->bar.cap)) {
++        if (!NVME_CAP_PMRS(cap)) {
              return;
-         }
-@@ -5899,19 +5899,19 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-             n->pmr.cmse = false;
-         }
-         return;
--    case 0xe08: /* PMRSTS */
-+    case NVME_REG_PMRSTS:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrsts_readonly,
-                        "invalid write to PMRSTS register, ignored");
-         return;
--    case 0xe0C: /* PMREBS */
-+    case NVME_REG_PMREBS:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrebs_readonly,
-                        "invalid write to PMREBS register, ignored");
-         return;
--    case 0xe10: /* PMRSWTP */
-+    case NVME_REG_PMRSWTP:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrswtp_readonly,
-                        "invalid write to PMRSWTP register, ignored");
-         return;
--    case 0xe14: /* PMRMSCL */
-+    case NVME_REG_PMRMSCL:
-         if (!NVME_CAP_PMRS(n->bar.cap)) {
-             return;
-         }
-@@ -5933,7 +5933,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
          }
  
+-        n->bar.pmrctl = data;
++        stl_le_p(&n->bar.pmrctl, data);
+         if (NVME_PMRCTL_EN(data)) {
+             memory_region_set_enabled(&n->pmr.dev->mr, true);
+-            n->bar.pmrsts = 0;
++            pmrsts = 0;
+         } else {
+             memory_region_set_enabled(&n->pmr.dev->mr, false);
+-            NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 1);
++            NVME_PMRSTS_SET_NRDY(pmrsts, 1);
+             n->pmr.cmse = false;
+         }
++        stl_le_p(&n->bar.pmrsts, pmrsts);
          return;
--    case 0xe18: /* PMRMSCU */
-+    case NVME_REG_PMRMSCU:
-         if (!NVME_CAP_PMRS(n->bar.cap)) {
+     case NVME_REG_PMRSTS:
+         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrsts_readonly,
+@@ -5912,19 +5940,20 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                        "invalid write to PMRSWTP register, ignored");
+         return;
+     case NVME_REG_PMRMSCL:
+-        if (!NVME_CAP_PMRS(n->bar.cap)) {
++        if (!NVME_CAP_PMRS(cap)) {
              return;
          }
-@@ -5975,7 +5975,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
-          * from PMRSTS should ensure prior writes
-          * made it to persistent media
-          */
--        if (addr == 0xe08 &&
-+        if (addr == NVME_REG_PMRSTS &&
-             (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
-             memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
+ 
+-        n->bar.pmrmscl = data;
++        stl_le_p(&n->bar.pmrmscl, data);
+         n->pmr.cmse = false;
+ 
+-        if (NVME_PMRMSCL_CMSE(n->bar.pmrmscl)) {
+-            uint64_t pmrmscu = n->bar.pmrmscu;
+-            hwaddr cba = (pmrmscu << 32) |
+-                (NVME_PMRMSCL_CBA(n->bar.pmrmscl) << PMRMSCL_CBA_SHIFT);
++        if (NVME_PMRMSCL_CMSE(data)) {
++            uint64_t pmrmscu = ldl_le_p(&n->bar.pmrmscu);
++            hwaddr cba = pmrmscu << 32 |
++                (NVME_PMRMSCL_CBA(data) << PMRMSCL_CBA_SHIFT);
+             if (cba + int128_get64(n->pmr.dev->mr.size) < cba) {
+-                NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 1);
++                NVME_PMRSTS_SET_CBAI(pmrsts, 1);
++                stl_le_p(&n->bar.pmrsts, pmrsts);
+                 return;
+             }
+ 
+@@ -5934,11 +5963,11 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+ 
+         return;
+     case NVME_REG_PMRMSCU:
+-        if (!NVME_CAP_PMRS(n->bar.cap)) {
++        if (!NVME_CAP_PMRS(cap)) {
+             return;
          }
+ 
+-        n->bar.pmrmscu = data;
++        stl_le_p(&n->bar.pmrmscu, data);
+         return;
+     default:
+         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_invalid,
+@@ -5953,7 +5982,6 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     NvmeCtrl *n = (NvmeCtrl *)opaque;
+     uint8_t *ptr = (uint8_t *)&n->bar;
+-    uint64_t val = 0;
+ 
+     trace_pci_nvme_mmio_read(addr, size);
+ 
+@@ -5983,13 +6011,11 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+      * made it to persistent media
+      */
+     if (addr == NVME_REG_PMRSTS &&
+-        (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
++        (NVME_PMRCAP_PMRWBM(ldl_le_p(&n->bar.pmrcap)) & 0x02)) {
+         memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
+     }
+ 
+-    memcpy(&val, ptr + addr, size);
+-
+-    return val;
++    return ldn_le_p(ptr + addr, size);
+ }
+ 
+ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+@@ -6247,6 +6273,7 @@ static void nvme_init_state(NvmeCtrl *n)
+ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+     uint64_t cmb_size = n->params.cmb_size_mb * MiB;
++    uint64_t cap = ldq_le_p(&n->bar.cap);
+ 
+     n->cmb.buf = g_malloc0(cmb_size);
+     memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
+@@ -6256,7 +6283,8 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
+ 
+-    NVME_CAP_SET_CMBS(n->bar.cap, 1);
++    NVME_CAP_SET_CMBS(cap, 1);
++    stq_le_p(&n->bar.cap, cap);
+ 
+     if (n->params.legacy_cmb) {
+         nvme_cmb_enable_regs(n);
+@@ -6266,14 +6294,17 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+-    NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 1);
+-    NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 1);
+-    NVME_PMRCAP_SET_BIR(n->bar.pmrcap, NVME_PMR_BIR);
+-    /* Turn on bit 1 support */
+-    NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0x02);
+-    NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 1);
++    uint32_t pmrcap = ldl_le_p(&n->bar.pmrcap);
+ 
+-    pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
++    NVME_PMRCAP_SET_RDS(pmrcap, 1);
++    NVME_PMRCAP_SET_WDS(pmrcap, 1);
++    NVME_PMRCAP_SET_BIR(pmrcap, NVME_PMR_BIR);
++    /* Turn on bit 1 support */
++    NVME_PMRCAP_SET_PMRWBM(pmrcap, 0x02);
++    NVME_PMRCAP_SET_CMSS(pmrcap, 1);
++    stl_le_p(&n->bar.pmrcap, pmrcap);
++
++    pci_register_bar(pci_dev, NVME_PMR_BIR,
+                      PCI_BASE_ADDRESS_SPACE_MEMORY |
+                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->pmr.dev->mr);
+@@ -6363,6 +6394,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+     NvmeIdCtrl *id = &n->id_ctrl;
+     uint8_t *pci_conf = pci_dev->config;
++    uint64_t cap = ldq_le_p(&n->bar.cap);
+ 
+     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+@@ -6441,17 +6473,18 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+         id->cmic |= NVME_CMIC_MULTI_CTRL;
+     }
+ 
+-    NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
+-    NVME_CAP_SET_CQR(n->bar.cap, 1);
+-    NVME_CAP_SET_TO(n->bar.cap, 0xf);
+-    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_NVM);
+-    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_CSI_SUPP);
+-    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
+-    NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+-    NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
+-    NVME_CAP_SET_PMRS(n->bar.cap, n->pmr.dev ? 1 : 0);
++    NVME_CAP_SET_MQES(cap, 0x7ff);
++    NVME_CAP_SET_CQR(cap, 1);
++    NVME_CAP_SET_TO(cap, 0xf);
++    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_NVM);
++    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_CSI_SUPP);
++    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_ADMIN_ONLY);
++    NVME_CAP_SET_MPSMAX(cap, 4);
++    NVME_CAP_SET_CMBS(cap, n->params.cmb_size_mb ? 1 : 0);
++    NVME_CAP_SET_PMRS(cap, n->pmr.dev ? 1 : 0);
++    stq_le_p(&n->bar.cap, cap);
+ 
+-    n->bar.vs = NVME_SPEC_VER;
++    stl_le_p(&n->bar.vs, NVME_SPEC_VER);
+     n->bar.intmc = n->bar.intms = 0;
+ }
+ 
+@@ -6602,7 +6635,7 @@ static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
+ 
+     cap = NVME_SMART_SPARE | NVME_SMART_TEMPERATURE | NVME_SMART_RELIABILITY
+           | NVME_SMART_MEDIA_READ_ONLY | NVME_SMART_FAILED_VOLATILE_MEDIA;
+-    if (NVME_CAP_PMRS(n->bar.cap)) {
++    if (NVME_CAP_PMRS(ldq_le_p(&n->bar.cap))) {
+         cap |= NVME_SMART_PMR_UNRELIABLE;
+     }
+ 
 -- 
 2.32.0
 
