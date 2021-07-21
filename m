@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DFB3D0C5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:19:45 +0200 (CEST)
-Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69A73D0C5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:19:53 +0200 (CEST)
+Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m69KK-00009Z-Ti
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
+	id 1m69KS-0000k8-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m697O-0006sm-Tc; Wed, 21 Jul 2021 06:06:22 -0400
-Received: from mail-db8eur05on2124.outbound.protection.outlook.com
- ([40.107.20.124]:45473 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1m697S-000787-OF; Wed, 21 Jul 2021 06:06:26 -0400
+Received: from mail-db8eur05on2129.outbound.protection.outlook.com
+ ([40.107.20.129]:9313 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m697N-0001sc-5K; Wed, 21 Jul 2021 06:06:22 -0400
+ id 1m697Q-00020O-AD; Wed, 21 Jul 2021 06:06:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oQKZX3KQbtQGZU1xgONLJx7pgI6IuGu30UrzRR6Gb5U53xqCxD4bpkPikpUWfb4vpDE2lmDE2iVXhn2H4Uy5ufmqUsFYhMZmUsXs15nTdTulyLQZcG2KAlAgCTstUba+xIqPzf022IMwJldiU3AACvWdwsKgegqGqovQJQDKfgXZpNkG9rhHGWl+RYIgwzCMP3qx0r+oeZeeknhb/Tot+3SBPpyAAFqu7Yz0xl4cErmqG1inrX5siKVu/pr+bursfUONEYjj1AbCUdJjvM+SwhwmmibR2haAWzvCmO27qmNbjfbacrOPXyXaBW+P6zWljWdSmhE6kmBqzFDb5eyeQQ==
+ b=la+zHlXUkPVi0Dn/0bYCijVYXIlufSi1qlw1pN6vRfsYrX3PfZ59i7wgaySw0CEtt9tB2gtHcAT7Uk3N0pTVMl62TTONd7sc/0O1/NZV8DQsezLDx5yBtac/cUzS9uMzWkE5tpBci5WtawOfYMs0KJw68cmvGRCb3bHyR9ohQb1JFa/oIOME0/0KPmzWZIrtQaPDUTU1MRn8CT2iYQm07p4d0EpDoOa9PCKOqN+EWjJKRy7zVYsxM5Hwg43qNv+czskOd4oaFmWMzpAb5X1EpO7+aoBy4B+x0aBGhxziIprG8ZYkcKWGj7oej8xqwdj5mbGkBHRTTol+n5qz7s82RQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7GmJJP2me1hAQJQvNuKG3Yp1F2STkJylbpXCBY/QG70=;
- b=m++0lCs1Oav35gasdj4WB6A4UD7By7Y7oSDYxpN40WuuL49w63memZ7psLXZ49oFwv7aPwBRW1bkj4ss0IlcO7giNx9ydxGRDhcDWaO8hCrVIihFKdCnET3X7pbafWNxf2L70ophhOD3UvaVG2kgTCdFMpphTpodEuGlN8EJZoUqjlIW+915savxxZbXmE8H6K1y3e+0hbZR9wce1LWwAKNSkc7+67sxsvSFsFwzmIoEMQFCXCtNhED/KqxTrK5qCe9W6KMCJmynzGRkPVVaTPTABGlaz2HsZ98bf7WyKRAxEKeTgZYAEzgImJDzvDD1c4GATB0ess0ruXXcOjKFpw==
+ bh=2TYk/vlRgkhlvjrVIe+Pk/FNNMZHyvuvS9JwUm7efHQ=;
+ b=a+afDjw6IyG2FFnwEpkqbYR4yA5N4rXYUg2jXp6JxLkhg/AQuOARjPJv8+t6DjNV6PtGVbLRoNHfhr6e8zWzZPE4M2ye+gGz8l7PhZYlGSlSaP12hG6gTHP2uJUmTzywwKoIuoq2CFXmYiFIzfeFB6UMrg7vgM8Jp9nh1KHexWo3Fun1sqrCDa84EoWB89f1q74hD+PITwenzg0jb/ms6kh4e0o/keRqLCeoY/w+LnlR4d85DvhXRbpc+pSFWDu+MsTday/pzoogNFhtS2qB4UTCgNUXmQajkVRQe/b/UnQzln4vyNPaInkMf53HvNdaMYgqY0qQy1+4BMn8Q7W6Hg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7GmJJP2me1hAQJQvNuKG3Yp1F2STkJylbpXCBY/QG70=;
- b=eRx6wHni+Cacc2C9eK/kbL4aHwdi635xWdVLMqcQilG+cLlVIBX+RNMz94BDCtdlW2wgh3LtepIym63dCKr8ivyLW+KtNd5Ons4YM2JUCExD/JCQmseq2pbD2VdRFPXD8RtJVb47vMCjrte9OyBMF89Usvo6HYSYH0Cgn/d1GOw=
+ bh=2TYk/vlRgkhlvjrVIe+Pk/FNNMZHyvuvS9JwUm7efHQ=;
+ b=tGW3NX907O9ly6kM/b1QSh/mq/tImpw4ZXkAl3LJ/FZvtYxPVxlBFTR+wD95nEBvr2SREQXUoTm7ySawilu+x5QBKTtOxQMdGKwXeR3jyeV8sKm8Wzb/gD9VqnztJsyEL7jJhVEZzoGqeNc6dN/SXCDO0y+rRwuIvOhWp7l2+88=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4168.eurprd08.prod.outlook.com (2603:10a6:20b:aa::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.28; Wed, 21 Jul
- 2021 10:06:12 +0000
+ 2021 10:06:14 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.034; Wed, 21 Jul 2021
- 10:06:12 +0000
+ 10:06:14 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v6 02/33] block: introduce blk_replace_bs
-Date: Wed, 21 Jul 2021 13:05:24 +0300
-Message-Id: <20210721100555.45594-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 03/33] qdev-properties: PropertyInfo: add
+ realized_set_allowed field
+Date: Wed, 21 Jul 2021 13:05:25 +0300
+Message-Id: <20210721100555.45594-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210721100555.45594-1-vsementsov@virtuozzo.com>
 References: <20210721100555.45594-1-vsementsov@virtuozzo.com>
@@ -66,56 +67,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1PR0701CA0068.eurprd07.prod.outlook.com (2603:10a6:3:64::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.12 via Frontend Transport; Wed, 21 Jul 2021 10:06:11 +0000
+ 15.20.4352.12 via Frontend Transport; Wed, 21 Jul 2021 10:06:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3925385-9907-4547-5318-08d94c2f2b75
+X-MS-Office365-Filtering-Correlation-Id: 07e8459c-311d-4a4a-3a51-08d94c2f2c3f
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4168:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4168941351BFAFD3FD8E3375C1E39@AM6PR08MB4168.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:352;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4168E6331338ACB9E9467E79C1E39@AM6PR08MB4168.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:595;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m7QQXuJsPqgIjGYVZ47RNqtaz0Lq/1lm1SHQ84XTH87cAISbuAa5izgHAGFNzJFrTqq+gUEd/45fTkhtnxIEdHnpqB8dc5TmxWI/IOek1J4KIcLRGms99yIR9+TgmfCHz3k9bPx62ty4dfFltTlEFo6QVSZz2MthMDGtxdr32axU+NQ9PL5RHO7EXlJpYSwN9tz4RWtaLwmXbWU9fzYDiPEOpm6L9mpNcuEtYNiXpXb8hktpqcB7ITDZe7bMviGxZpnC/iXqaTDvAU2g5OT8fCr6rPk15LKonEn1qe8BACgnbSCJS/1dulapMl1vJ/pVDaoA6uILc7Fr6sprvPnZqmEbANnnn+kFntUMdYy2KGCY96tiHWbz95I1Innh4BTTmKg000pjPCYJ0CBQm0rOhhAmQDqhdM5zNhQQJFoqHrCVbrugyV+51jqiJRGsaFdCznlUMIo7mkfbyUhDrQTHmt9ws4aBozGNABg/9kvn5EdLnaoTvq98nkpqpn6xwD2cOgijBzgv4yQP+tbjezfpZdntrGV6YHnJIPBtW9t5pJ7kT2oOPzlwa4EEu4pvEOTNr/7jhUxJhJqjW5H52Xm4RI6tzb09CdefKtOsnfmwlgTOZgmisV8h40K0eqNi5nQd25wfvixgKMXWvLMYUnyJT8V/K4eVRa3UTjLNMEnAxvpE3r4Y9ZDEBq+VcKpBMKbdiNDkk9rBHTOOER+zJFqT+A==
+X-Microsoft-Antispam-Message-Info: WXr/2bX04083/fLXR6RovylTMJyDkCbka8+MAQswraCSP522R3gOG3duv4UNaTG+iYflExkeigr2mNXPSKteFcaQPMteMkJdAv9ylISQltswMlu6Q4KzHTFCFwYcGKldLXefDkKS42B0uCWYzIBQ+cKfSvttQhXTto3Cig8xJ7cnS0GPKDgvP0QOQg85hjQ+2kDh/h642Xmii1hUJC/Vg1hrbFg32+8dUQBDg04fgeQJbJS5okbis8fecadsadI2adIl0f21j30PdxaDIIHSRNVALYqYak+yFUmyGr/FHjoEsRZ26UYll45XYkg0A9gcVZ8ubNOcWvkWkxAuYK/0scQYwQp3XaCzK5IBJldMrz355yaOU1L9u6nY/wn+BNK9IgQiiFg5328uknaUYlKMfm9IdOrcND5rVsk/LXPofCrMFumRaNoDGYhihgF+n1mrpFkcsXHbIIATo+Pi0Ww4FPYXDohmkDFaqH6Giqq9qainz2Qm1nhkyNDvCWip1HGqU3qQFRm46rXlBd9s8kLYtHL6rkI2J3HW/Ae2As4rxJolOfT/Fg5ODOWmcCo2BFkJaEvHdrMkxfQa6/dvtfNrqNUNZvENDvHEuqL3g2oPlNNv34HfkVA4us2/H7qV/BMUy1/ocEyWFyHe1gFfsOqsqpAn4DJDjn+D6BLOo2MplprvR/mDuyc8H3F4gXCzPs9cKS0bceSwcwCoWZEiAB8FOQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39830400003)(396003)(136003)(366004)(346002)(376002)(6916009)(83380400001)(86362001)(26005)(186003)(36756003)(2906002)(8676002)(6512007)(956004)(2616005)(6666004)(4326008)(66476007)(316002)(38350700002)(66556008)(38100700002)(6486002)(5660300002)(6506007)(66946007)(7416002)(1076003)(478600001)(8936002)(52116002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7xmEgjptoJQZeqjwgGCtB9L4aVFIKipoq2VKZdrbYXm3dC6lHtfSL1k7YNXo?=
- =?us-ascii?Q?diy3WtFQB0d+nVluFW/NpF/nz2IKFHiIFnX5XuuTTU4/KRSLALHONp3gdu9k?=
- =?us-ascii?Q?3BddMQCA3Y7LRdy5ORbnMNXuat2RnqYy+8nW29XCS14/+De/uddWuYt2CrV5?=
- =?us-ascii?Q?ejtyJ6LUBXdFB0FtVI4lvwvGjCJNV/smqL6E+Y87E7jmm6VSyV8IAm5XDzhc?=
- =?us-ascii?Q?RXcuQh4B95wx+40sNrXTZHkL8Q813s974Y0AuVOILN6oYNH75mmv3MI9Wc7C?=
- =?us-ascii?Q?cZTwp179iDP76EWneO6pdC1edoTSMQAaxolHBzLLkjT3eR5WRhFsFOjbbpUX?=
- =?us-ascii?Q?thOXOz7pbe2vJpgDzC44qaPSPJbeusnkkvhG73XhCNj0WeAU2NQMIFUw0j62?=
- =?us-ascii?Q?06Oz3h33ZaYRz+izyjdROKgdbcxwF4c/J0g16XSj3HFBxfcuUewCiAwOVLim?=
- =?us-ascii?Q?ZdP2Ba95mOMBQfaVk2H90Wuaj/GFrPIJXK2FPepSo/tiYvXv5OQKKjoowcC3?=
- =?us-ascii?Q?r2H7uoeKINcnTW4mWLySznUsVNbX8FxwN9kNLYU2Bte+QSokBysUJrIVDf6d?=
- =?us-ascii?Q?Ceg0ssD8oxwBhifeuXqHHJYFis+kbSQaCmT/vhNkd2p4t3NMOo6ViavHoVBi?=
- =?us-ascii?Q?pKPy0vC0U52dFpI7PJC5ssOz/jcohvOYxg2IU38EgzuKvF9YBWPZs1acDNIn?=
- =?us-ascii?Q?e14aiPpO7D2D4iRovSLpibiL1a6Krew91wkeoRJaLq3eS+q3QpkvV5F4RlXc?=
- =?us-ascii?Q?8ha9vge+qQ31nQPzkE4+690TWiny5JJVah36c8LPL5jxkl6BH7RxbKFKECqA?=
- =?us-ascii?Q?Hiqsi1ScgLWqwLj2pdamcoVJJv04j77DbBMndk7o8o0DeBr7LSBE2xAmYSoY?=
- =?us-ascii?Q?w+6zK4rQqweOnBZcyj9OB4IerSfnfxAOpg3eZsk8tBsBfEpqtcPA9Ovtjf0M?=
- =?us-ascii?Q?5K7FRmjDOrUGenT4bXXmznMrM1e/B0P/Z6yCtXROZJNXnAf9uJ/FxsM7QFCB?=
- =?us-ascii?Q?zQmmKaHdeAxvAlImaKb0iFK/0cw/rBYsAmwvd0U9f4+QiZyU9A1O8kPlhKt+?=
- =?us-ascii?Q?r0Bvgo2q8WpJXVcJM04euRmhjiTqRMbwqQ3aF8uEUibrmPFELRDeWNOShmV5?=
- =?us-ascii?Q?1ncje4ceo5Xd+iEyogyX8JFkVFV9aKdGCoVVWvPAoZB0rs4A/nUpxKFeAy4U?=
- =?us-ascii?Q?OlXbdxcEd6CHdefYEBt2bDOrlVzbMiJKDFFrxUQX7os0Se58t7Pc/XSvqIec?=
- =?us-ascii?Q?Fgf/8NxjIvc4vitWCD/ihm67HTGLcx9vEBZRt/ZNeYh4Pyc88o1EwaD9YUmm?=
- =?us-ascii?Q?UjlPueGb65UpdxYM2tncLknX?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iaf+LlAr7JcgcYHV0L2wvsxlH67vyJWzWcKqEAM6OmO1SHbcRCyx3izantVv?=
+ =?us-ascii?Q?0bnjK8YfUacThs3JcY8XbidqaaUCw8vrFt89Mos4ZjMbiz2smpcZPR9fH197?=
+ =?us-ascii?Q?IULNe+OAtP/6ZmzqAouhpIwzZDz9fUB0IgzLAC6HgRlHUnP2R9W9+BYpPJhA?=
+ =?us-ascii?Q?Vv9UZY8IQ4tisyAYWvI6C6yv4rhuWFBsNMcJuNa7Pha0jp2gHstvJNJK9S8g?=
+ =?us-ascii?Q?O4+df3cbg7OzRjwBQMl21BKRlFySTJ2MUXPg8342aEpKQVDIR7Bg3ZCjygk2?=
+ =?us-ascii?Q?oqlge4F/iYPzLWDECE+5AvfMvQQpKf+9FFEy2GL7h/jpAHGUOGHC5rY2BtiR?=
+ =?us-ascii?Q?W4r9B8WtNz24lZZW1kStsUX/89oij/D31SDEOk1Y32jX4OqAv0bI1I7yQP3a?=
+ =?us-ascii?Q?wbGDT/pZAzub88X2E9t2ePmIpqCXmuafBJeQHkLCnf7SYXN1wv8MubPfOb/F?=
+ =?us-ascii?Q?/EHoOIGhV3S5NblsRcsjhk8jb+H+Y0fMMe/aTlc+tDtaU9KT61vVYBTuCC7h?=
+ =?us-ascii?Q?AMGE/+EFZGMZSjmnR8CMomNHKeSGtw2pzsE+rHxu/iizanM3pzsPC9DhJ2Hc?=
+ =?us-ascii?Q?dnunOVBN6nb2ka2dOjZ+asy6dbrtgd0DwA2vBkBUf0WBAE46a2gENGHFWInS?=
+ =?us-ascii?Q?XJDfQ6aJTjub0Ba3ulZA8TDxuZ5nQYK/km1z9UW/uawBEuPmhJQF01zWxF2/?=
+ =?us-ascii?Q?ylI4lzzVUDJcWx9sJAV2ATg3bKGNMHdDAPDHNAA+Yk5SS14v7Cx4cuIY1Qp2?=
+ =?us-ascii?Q?gyTQW3YlCqFvsJhBrh5dzZR0KLK2DBWsGmpkj2hLAB9Kn7VnmpB1cjgHkhMV?=
+ =?us-ascii?Q?UlQBq5e1uGE7TlklINezANA/N0qvzAhcsPZELROTcHczdCNI08BWhP++ggZf?=
+ =?us-ascii?Q?G39qqRTN7H/xDg7H+i6hMG19x9A+gg3q4lurkRUrEbtf4ohkrnFv2ghdNF/9?=
+ =?us-ascii?Q?07V9Qxf/hxMNB75mpQjIxhAwUVRoZ4odsDiyrsWXP7VB7Nsl6yeQwNa6/oWw?=
+ =?us-ascii?Q?x2DE0UHYLGpdL3shXUrAVrJLWws5W1jijI+rxSAx89wK7u+g/f1Lo/Lx/P3m?=
+ =?us-ascii?Q?N5kf8BKAZK5X604a75FMh/KwFa9xB6yw8GhJN51IgNbqHeamFiYxT++vji4P?=
+ =?us-ascii?Q?vLDTHMQjd3gU1BOWFhJKahq6Fqgqk1wdYSmXV9zaDk+vO3G/KcFoInzQaWJi?=
+ =?us-ascii?Q?XoWBqaZr/KADpUvGjN4HEl/zLRaCdx+ruMAp27CQeuigqOC420hadhOgXlJ8?=
+ =?us-ascii?Q?daYeDoNdpJqXe856wrA65qLjilMlW9h8o4ZIMnNEt9ivLXwpaCoTxG7pIqyq?=
+ =?us-ascii?Q?Y2JxGkPiQNtwuBKN+63pp4mz?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3925385-9907-4547-5318-08d94c2f2b75
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07e8459c-311d-4a4a-3a51-08d94c2f2c3f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 10:06:12.7004 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 10:06:14.0325 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JdOrGvP3KCH6tp29+CJvXz9RnQRtGJqVPF1WaOCow0AW+AIO4biFbY3rS9wBdRitF3/VnYL6xoTNH1vo6GQBXNT0xED1YPAwKMozJY73Jms=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dkv3tJ5m4c8Bf0Azd1+8dgymF/sFxA9EtMIB3KHSX3EL7qV0s/MeX8nyJBFfac8zBum3v7vjb19qY+K2TKjMTaSyBMQeAFwIEDYVmXPKjAE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4168
-Received-SPF: pass client-ip=40.107.20.124;
+Received-SPF: pass client-ip=40.107.20.129;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -141,46 +142,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add function to change bs inside blk.
+Add field, so property can declare support for setting the property
+when device is realized. To be used in the following commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/sysemu/block-backend.h | 1 +
- block/block-backend.c          | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ include/hw/qdev-properties.h | 1 +
+ hw/core/qdev-properties.c    | 6 +++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 9ac5f7bbd3..29d4fdbf63 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -102,6 +102,7 @@ BlockBackend *blk_by_public(BlockBackendPublic *public);
- BlockDriverState *blk_bs(BlockBackend *blk);
- void blk_remove_bs(BlockBackend *blk);
- int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp);
-+int blk_replace_bs(BlockBackend *blk, BlockDriverState *new_bs, Error **errp);
- bool bdrv_has_blk(BlockDriverState *bs);
- bool bdrv_is_root_node(BlockDriverState *bs);
- int blk_set_perm(BlockBackend *blk, uint64_t perm, uint64_t shared_perm,
-diff --git a/block/block-backend.c b/block/block-backend.c
-index deb55c272e..6140d133e2 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -869,6 +869,14 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
-     return 0;
- }
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 0ef97d60ce..f7925f67d0 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -32,6 +32,7 @@ struct PropertyInfo {
+     const char *name;
+     const char *description;
+     const QEnumLookup *enum_table;
++    bool realized_set_allowed; /* allow setting property on realized device */
+     int (*print)(Object *obj, Property *prop, char *dest, size_t len);
+     void (*set_default_value)(ObjectProperty *op, const Property *prop);
+     ObjectProperty *(*create)(ObjectClass *oc, const char *name,
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 50f40949f5..c34aac6ebc 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -26,11 +26,11 @@ void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
  
-+/*
-+ * Change BlockDriverState associated with @blk.
-+ */
-+int blk_replace_bs(BlockBackend *blk, BlockDriverState *new_bs, Error **errp)
-+{
-+    return bdrv_replace_child_bs(blk->root, new_bs, errp);
-+}
-+
- /*
-  * Sets the permission bitmasks that the user of the BlockBackend needs.
-  */
+ /* returns: true if property is allowed to be set, false otherwise */
+ static bool qdev_prop_allow_set(Object *obj, const char *name,
+-                                Error **errp)
++                                const PropertyInfo *info, Error **errp)
+ {
+     DeviceState *dev = DEVICE(obj);
+ 
+-    if (dev->realized) {
++    if (dev->realized && !info->realized_set_allowed) {
+         qdev_prop_set_after_realize(dev, name, errp);
+         return false;
+     }
+@@ -79,7 +79,7 @@ static void field_prop_set(Object *obj, Visitor *v, const char *name,
+ {
+     Property *prop = opaque;
+ 
+-    if (!qdev_prop_allow_set(obj, name, errp)) {
++    if (!qdev_prop_allow_set(obj, name, prop->info, errp)) {
+         return;
+     }
+ 
 -- 
 2.29.2
 
