@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622903D0B81
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:36:26 +0200 (CEST)
-Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9BD3D0B7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:33:54 +0200 (CEST)
+Received: from localhost ([::1]:39340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m68eP-0003kO-27
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
+	id 1m68bx-0007pV-Gc
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wm-0008QO-08
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21418)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1m68Y6-00037z-VI
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:29:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m68Wi-0002GE-2K
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:28:30 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1m68Y5-0003ED-D9
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:29:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626859707;
+ s=mimecast20190719; t=1626859792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KDHE5WeCEv+6agq7D2mw+/Z52QQ9LvAe20WYe2wi8BE=;
- b=CruxgFBLaGHeagK2juYFmk0OgGGuKdRX++NzN8+vhvmTW+ThaC8vMEMuTMrZitrvYGEl3Y
- mfZX0Js79gGxuoo/C1LW63egQzMxAMq3gdn4zXtOxNn5PUuoiyPWlfTcoNbpwpU753Khem
- Wk4TDy+pzgM0+ina1OtJovOnWMcCHNs=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dycnHQf7h8SdEIxMNLsLgEUsPh/ewb06CrWUcZ1/B5U=;
+ b=a5hM7oDdZYozAn4I3BHiAwFWmH9mBvVQZ2PVpcnmR3V6etPVEvKqFMgGfShvjrKi+Ew2PU
+ lEoNwudBzJhJLcoy992NicnFswD3jMykkMgb8PLDBwcbE69kzKdptd0rejRNE5gV4152xp
+ i0UwWaZa5swgNRrdY6FIO1a782rHv1I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-5oKEpxroM12HfWropJc9Vg-1; Wed, 21 Jul 2021 05:28:26 -0400
-X-MC-Unique: 5oKEpxroM12HfWropJc9Vg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-435-_RtlnjivPRSBF2ydN6wyNg-1; Wed, 21 Jul 2021 05:29:51 -0400
+X-MC-Unique: _RtlnjivPRSBF2ydN6wyNg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F21C180259B;
- Wed, 21 Jul 2021 09:28:24 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1D3F687D5;
- Wed, 21 Jul 2021 09:28:21 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 859EB107B031
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 09:29:50 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-114-87.ams2.redhat.com [10.36.114.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51C951017CE8;
+ Wed, 21 Jul 2021 09:29:41 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-Date: Wed, 21 Jul 2021 11:27:59 +0200
-Message-Id: <20210721092759.21368-7-david@redhat.com>
-In-Reply-To: <20210721092759.21368-1-david@redhat.com>
-References: <20210721092759.21368-1-david@redhat.com>
+Subject: [PATCH v2] failover: unregister ROM on unplug
+Date: Wed, 21 Jul 2021 11:29:40 +0200
+Message-Id: <20210721092940.225010-1-lvivier@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -77,123 +75,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already don't ever migrate memory that corresponds to discarded ranges
-as managed by a RamDiscardManager responsible for the mapped memory region
-of the RAMBlock.
+The intend of failover is to allow to migrate a VM with a VFIO
+networking card without disrupting the network operation by switching
+to a virtio-net device during the migration.
 
-virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
-Right now, we still populate zeropages for the whole usable part of the
-RAMBlock, which is undesired because:
+This simple change allows to test failover with a simulated device
+like e1000e rather than a vfio device, even if it's useless in real
+life it can help to debug failover.
 
-1. Even populating the shared zeropage will result in memory getting
-   consumed for page tables.
-2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
-   will populate an actual, fresh page, resulting in an unintended
-   memory consumption.
+This is interesting to developers that want to test failover on
+a system with no vfio device. Moreover it simplifies host networking
+configuration as we can use the same bridge for virtio-net and
+the other failover networking device.
 
-Discarded ("logically unplugged") parts have to remain discarded. As
-these pages are never part of the migration stream, there is no need to
-track modifications via userfaultfd WP reliably for these parts.
+Without this change the migration of a system configured with failover
+fails with:
 
-Further, any writes to these ranges by the VM are invalid and the
-behavior is undefined.
+  ...
+  -device virtio-net-pci,id=virtionet0,failover=on,...  \
+  -device e1000,failover_pair_id=virtionet0,... \
+  ...
 
-Note that Linux only supports userfaultfd WP on private anonymous memory
-for now, which usually results in the shared zeropage getting populated.
-The issue will become more relevant once userfaultfd WP supports shmem
-and hugetlb.
+  (qemu) migrate ...
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
+  Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
+  error while loading state for instance 0x0 of device 'ram'
+  load of migration failed: Invalid argument
+
+This happens because QEMU correctly unregisters the interface vmstate but
+not the ROM one. This patch fixes that.
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- migration/ram.c | 53 +++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 45 insertions(+), 8 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index d7505f5368..75de936bd2 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1612,6 +1612,28 @@ out:
-     return ret;
- }
- 
-+static inline void populate_range(RAMBlock *block, hwaddr offset, hwaddr size)
-+{
-+    char *ptr = (char *) block->host;
-+
-+    for (; offset < size; offset += qemu_real_host_page_size) {
-+        char tmp = *(ptr + offset);
-+
-+        /* Don't optimize the read out */
-+        asm volatile("" : "+r" (tmp));
-+    }
-+}
-+
-+static inline int populate_section(MemoryRegionSection *section, void *opaque)
-+{
-+    const hwaddr size = int128_get64(section->size);
-+    hwaddr offset = section->offset_within_region;
-+    RAMBlock *block = section->mr->ram_block;
-+
-+    populate_range(block, offset, size);
-+    return 0;
-+}
-+
- /*
-  * ram_block_populate_pages: populate memory in the RAM block by reading
-  *   an integer from the beginning of each page.
-@@ -1621,16 +1643,31 @@ out:
-  *
-  * @block: RAM block to populate
-  */
--static void ram_block_populate_pages(RAMBlock *block)
-+static void ram_block_populate_pages(RAMBlock *rb)
- {
--    char *ptr = (char *) block->host;
--
--    for (ram_addr_t offset = 0; offset < block->used_length;
--            offset += qemu_real_host_page_size) {
--        char tmp = *(ptr + offset);
-+    /*
-+     * Skip populating all pages that fall into a discarded range as managed by
-+     * a RamDiscardManager responsible for the mapped memory region of the
-+     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
-+     * must not get populated automatically. We don't have to track
-+     * modifications via userfaultfd WP reliably, because these pages will
-+     * not be part of the migration stream either way -- see
-+     * ramblock_dirty_bitmap_exclude_discarded_pages().
-+     *
-+     * Note: The result is only stable while migration (precopy/postcopy).
-+     */
-+    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-+        MemoryRegionSection section = {
-+            .mr = rb->mr,
-+            .offset_within_region = 0,
-+            .size = rb->mr->size,
-+        };
- 
--        /* Don't optimize the read out */
--        asm volatile("" : "+r" (tmp));
-+        ram_discard_manager_replay_populated(rdm, &section,
-+                                             populate_section, NULL);
-+    } else {
-+        populate_range(rb, 0, qemu_ram_get_used_length(rb));
-     }
- }
- 
+Notes:
+    v2:
+      reset has_rom to false
+      update commit log message
+
+ hw/net/virtio-net.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 16d20cdee52a..b75794c2447a 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3256,6 +3256,10 @@ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
+     if (migration_in_setup(s) && !should_be_hidden) {
+         if (failover_unplug_primary(n, dev)) {
+             vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
++            if (PCI_DEVICE(dev)->has_rom) {
++                PCI_DEVICE(dev)->has_rom = false;
++                vmstate_unregister_ram(&PCI_DEVICE(dev)->rom , dev);
++            }
+             qapi_event_send_unplug_primary(dev->id);
+             qatomic_set(&n->failover_primary_hidden, true);
+         } else {
 -- 
 2.31.1
 
