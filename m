@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0F33D0904
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:36:53 +0200 (CEST)
-Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CC23D0900
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:36:43 +0200 (CEST)
+Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m65qe-0006Qr-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43280)
+	id 1m65qU-0006Nr-Kf
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65ne-0003cA-W7; Wed, 21 Jul 2021 02:33:47 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34363 helo=ozlabs.org)
+ id 1m65ne-0003c9-W3; Wed, 21 Jul 2021 02:33:47 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34773 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65nb-0006q3-Iq; Wed, 21 Jul 2021 02:33:46 -0400
+ id 1m65nb-0006q4-Hz; Wed, 21 Jul 2021 02:33:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GV5Pv5sgsz9sXN; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
+ id 4GV5Pv6DKyz9sXb; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1626849219;
- bh=YLrLGNEaUpETsn74FJpnhHt8tWYmTYGQX4Ew0/pJglQ=;
+ bh=chv527h7QGU8MrYgp6pApDntYCUsPp71Wk7aK6RM2OI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D8VgbDukNryjgybdnE8sml6bAqHxq8cs2Zf0yqfhS2sYSo5qFMVyheVTi7RnAnmXk
- SPRI3oqC0/UywN3ei/FoHAzoWNpL7L42AQOGYgSZAfEt/dk4kM9CGaAZxuraqichxs
- TcZL4IHAN5wS5IfHqoPAQDm/LjVtRsWrYhYSHP2s=
-Date: Wed, 21 Jul 2021 16:23:03 +1000
+ b=Fp49iFOWL3h34dooCMs99NXGt3qGRGZ9tDDhYYuDfJOA86kIg944J8hlZRM3AbSSA
+ Fnr8eTTKfpTZa2N6ggJcZqb5smK+jpOP5qg00827n8K1Xk3jybm4jTXiidiZcnqaRp
+ IjrlGdoogW/ZiII4W2tVjnsElpFWH+yT1Z0cpGB8=
+Date: Wed, 21 Jul 2021 16:23:17 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH for-6.2 v6 7/7] memory_hotplug.c: send
- DEVICE_UNPLUG_ERROR in acpi_memory_hotplug_write()
-Message-ID: <YPe9R4xj/BiQlJqz@yekko>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH for-6.2 v6 0/7] DEVICE_UNPLUG_ERROR QAPI event
+Message-ID: <YPe9VWZCpmoRHfn0@yekko>
 References: <20210719200827.1507276-1-danielhb413@gmail.com>
- <20210719200827.1507276-8-danielhb413@gmail.com>
- <20210719171324-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RmrrlS5U/wPiAddH"
+ protocol="application/pgp-signature"; boundary="YxXseZ6L7GAUzkFk"
 Content-Disposition: inline
-In-Reply-To: <20210719171324-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210719200827.1507276-1-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -61,75 +58,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, armbru@redhat.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RmrrlS5U/wPiAddH
+--YxXseZ6L7GAUzkFk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 19, 2021 at 05:13:44PM -0400, Michael S. Tsirkin wrote:
-> On Mon, Jul 19, 2021 at 05:08:27PM -0300, Daniel Henrique Barboza wrote:
-> > MEM_UNPLUG_ERROR is deprecated since the introduction of
-> > DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
-> > MEM_UNPLUG_ERROR is pending.
-> >=20
-> > CC: Michael S. Tsirkin <mst@redhat.com>
-> > CC: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Mon, Jul 19, 2021 at 05:08:20PM -0300, Daniel Henrique Barboza wrote:
+> Hi,
 >=20
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> This version was rebased with QEMU master @ 7457b407edd6e8555e4b4 and
+> has a few simple changes based on Greg's review.
 
-Michael, can I assume I have your ack for 1/7 as well?
-=20
-> Pls merge with rest of series.
+Tentatively applied to ppc-for-6.2.
 >=20
-> > ---
-> >  hw/acpi/memory_hotplug.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-> > index e37acb0367..a0772fe083 100644
-> > --- a/hw/acpi/memory_hotplug.c
-> > +++ b/hw/acpi/memory_hotplug.c
-> > @@ -8,6 +8,7 @@
-> >  #include "qapi/error.h"
-> >  #include "qapi/qapi-events-acpi.h"
-> >  #include "qapi/qapi-events-machine.h"
-> > +#include "qapi/qapi-events-qdev.h"
-> > =20
-> >  #define MEMORY_SLOTS_NUMBER          "MDNR"
-> >  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
-> > @@ -181,10 +182,19 @@ static void acpi_memory_hotplug_write(void *opaqu=
-e, hwaddr addr, uint64_t data,
-> > =20
-> >                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
-> > =20
-> > +                /*
-> > +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
-> > +                 * while the deprecation of MEM_UNPLUG_ERROR is
-> > +                 * pending.
-> > +                 */
-> >                  if (dev->id) {
-> >                      qapi_event_send_mem_unplug_error(dev->id, error_pr=
-etty);
-> >                  }
-> > =20
-> > +                qapi_event_send_device_unplug_error(!!dev->id, dev->id,
-> > +                                                    dev->canonical_pat=
-h,
-> > +                                                    true, error_pretty=
-);
-> > +
-> >                  error_free(local_err);
-> >                  break;
-> >              }
+> changes from v5:
+> - patch 1:
+>   * fixed function name in commit msg
+> -patch 6:
+>   * kept error message in a single line
+> - all patches:
+>   * added Greg's R-b
+> - v5 link: https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg03239=
+=2Ehtml
+>=20
+> changes from v4:
+> - patch 1 (new):
+>   * avoid emitting MEM_UNPLUG_ERROR when dev->id =3D=3D NULL in
+> memory_hotplug.c
+> - patch 2 (new):
+>   * avoid emitting MEM_UNPLUG_ERROR when dev->id =3D=3D NULL in
+> spapr.c
+> - patch 3 (new):
+>   * do not error_report() when drc->dev->id =3D=3D NULL
+> - patch 4 (new):
+>   * update DEVICE_DELETED API docs
+> - patch 5 (former 1):
+>   * added 2 spaces after each sentence
+>   * appended "Some errors cannot be detected." in DEVICE_UNPLUG_ERROR
+> docs
+>   * changed release from 6.1 to 6.2 in docs
+>   * changed DEVICE_UNPLUG_ERROR API to behave more like device_deleted
+> - patches 6 and 7:
+>   * changed to use the new DEVICE_UNPLUG_ERROR API
+> - v4 link: https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01355=
+=2Ehtml
+>=20
+> changes from v3:
+> - patch 1:
+>   * fixed format
+> - all patches:
+>   * rebased with master
+>   * added David's R-b
+> - v3 link: https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05842=
+=2Ehtml
+>=20
+> changes from v2:
+> - patch 1:
+>   * moved DEVICE_UNPLUG_ERROR declaration to qapi/qdev.json
+>   * updated 'device_del' description
+>   * added 'deprecated' notice on MEM_UNPLUG_ERROR
+>   * added MEM_UNPLUG_ERROR 'deprecated' info in docs/system/deprecated.rst
+> - patch 2:
+>   * send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
+> - patch 3 (new):
+>   * send DEVICE_UNPLUG_ERROR in acpi/memory_hotplug.c
+> - v2 link: https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg01304=
+=2Ehtml
+>=20
+> changes from v1:
+> - former patches 1 and 2: dropped
+> - patch 1 (former 3): changed the version to '6.1'
+> - patch 2 (former 4): add a DEVICE_UNPLUG_ERROR event in the device
+>   unplug error path of CPUs and DIMMs
+> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg04682=
+=2Ehtml
+>=20
+>=20
+> Daniel Henrique Barboza (7):
+>   hw/acpi/memory_hotplug.c: avoid sending MEM_UNPLUG_ERROR if dev->id is
+>     NULL
+>   spapr.c: avoid sending MEM_UNPLUG_ERROR if dev->id is NULL
+>   spapr_drc.c: do not error_report() when drc->dev->id =3D=3D NULL
+>   qapi/qdev.json: fix DEVICE_DELETED parameters doc
+>   qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
+>   spapr: use DEVICE_UNPLUG_ERROR to report unplug errors
+>   memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
+>     acpi_memory_hotplug_write()
+>=20
+>  docs/about/deprecated.rst | 10 ++++++++++
+>  hw/acpi/memory_hotplug.c  | 19 +++++++++++++++++--
+>  hw/ppc/spapr.c            | 17 +++++++++++++----
+>  hw/ppc/spapr_drc.c        | 21 +++++++++++++++------
+>  qapi/machine.json         |  6 +++++-
+>  qapi/qdev.json            | 34 +++++++++++++++++++++++++++++++---
+>  stubs/qdev.c              |  7 +++++++
+>  7 files changed, 98 insertions(+), 16 deletions(-)
 >=20
 
 --=20
@@ -138,25 +167,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---RmrrlS5U/wPiAddH
+--YxXseZ6L7GAUzkFk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3vUcACgkQbDjKyiDZ
-s5IMfA/9HTRXz454qe5m5IUge7oyoh6Yo0kU4ygp+xGIWC0HNVipOInTFzSyuQJU
-cLYyIgAU2JawHCh/5/gCpVx/C95HWMX5xC2D7nbCJPJRfihrrRCtra26hly8Dw5b
-KWbMB7mYBEPzTHyt8mt1d95sqkE6qPKdZ6k3jnKCSVxxkCUCrj60EF0P5vYbeSG7
-67rmi47Uc80q5tAJSVSnRD6VQPrrAAvVquBlixkPkJ3bpZaASNG0b2LD9qxYNAy7
-IbDHrvlGGToRdnx8hHXMmEabGRyd457ByBZN61x9SIfv2F7cjyuhPd+tqtc5VqpX
-9wl+c6g4TQu9l2ecCJoHugoU/qAdB7xo1oiUg5gUTsRnI3BnDp+gD3ETq/LaOPaJ
-n3wf9NySz5O3XT2kcO6ihpirILwWRjvt1NcP6Bh2q3zbLn61Y9F8sp5S2e3GU4nV
-NUvsU4/ZWu2sq4mpSKroPJyWiEKj1OUsTD6Pv7EZWLiP8w5anTVRPg8fxcTuIfQ0
-ZmvrJAu5GWEPv+vnRh3IJonv992A7UKz5JZQBBGB04zqMcb5ZhIcdpMLN/dQPVlx
-YpzqM/npmClv6nOQ4i4p93v5UA1PpD8RouTT574AyMwoDEyvy4BEaP9zHQzgD3JP
-Dlu2VcsMPnDfof5xnP3xQZVjXJJ9G08419P59o1jrpLm0KkEXxw=
-=zRsm
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3vVUACgkQbDjKyiDZ
+s5Kx2xAAzLZ/YDWPKR8nHn/TMOZTkVO9+cz24liVSSpoo1BTwq16NWuw3jCmVYjz
+4aorwgOu5YDLfHiVcSCwTWek7Raao89sCoDA3JHcOxNjBOygkIZnJd87lEyGSW1D
+K0CJGcSil7R4LIMnrg9vl1sbwWWS4NlyYpCpCg6PA0VmcqqlYzbmRL9uyNLUn8Ws
+O/Z2jtKH3a59dSo25z/EfDwM/aBAgONK4+RTRntqOWKDr7EagqI56fFe2P6LSisp
+vH/2HgGzcii3x1PsLXtGGb9smQjFLoZobnyTP9xRJuoOyYwx/jHjcou2gCLLenM6
+Un0zLyGYfl7HzMpcxicq1R1ukYlJnAhEk4gD2DNdHaxEzuAA9QzvM9ZoPWsl39p3
+3GDT5mvNSyD/NO+4QyrH01nek4Z+VLXBh9HcYaYA1YpXtCPMyAOix958cZ0eFwfy
+P5P4fh+LYU+tCuHQPHsOsAN9jUpBOMj3oH2S+sa6kCivWv1SbBnMtRJcsSgXVTsU
+Ma95ruHIkmoXX62TRxVZO/Eo88OrDY6mR18+TD9CxIJzbnPTZZjqDgUg86NVO3WO
+bvYuuqb1jeyF+QFN+hF7x4NKWBd6I30VLYpqZaAkp8UhV9pl+njFLmzovSSMyHXt
+mFalg4iMcrYx+RhF/WOefHBJ7rsTFjBnm1Ph/VCv+2jRC6dOxNc=
+=HOpH
 -----END PGP SIGNATURE-----
 
---RmrrlS5U/wPiAddH--
+--YxXseZ6L7GAUzkFk--
 
