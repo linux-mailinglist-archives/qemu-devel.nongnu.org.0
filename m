@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4EE3D0AA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:41:38 +0200 (CEST)
-Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500253D0AAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:43:22 +0200 (CEST)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67nM-0003Zs-I8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:41:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
+	id 1m67p3-0008FB-C8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67kw-0001yV-Lk
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45479)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67l8-0002JG-Qg
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67kv-0002VF-2C
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:06 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m67l7-0002gD-4L
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:39:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626856743;
+ s=mimecast20190719; t=1626856756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e9zMeU71HeRZvzmOXATeQhh5rhrGHSp6KP9Tr1pamw8=;
- b=ZkldTjZCOMz40nAi6T9NF754G4v+32HoAB6On/hjruP+sCA9WiCmZQnPS9JrI+Yu5yFmUu
- PvPYm/eGgx1JpYZ+UkdIuQ/VnJVgNh0/OLY4s2CGvXQ3hnZ+zrtkiB9LGivwPfibX25k3p
- B1noh7yx4rxDTCnB2bN46O8jDbh92bs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t0aTiRSVSNPIhihgMceYa2bebLkk5m+Lhw9P1mIHD50=;
+ b=bYdsdtsx3nKwLnRcgp+vqOtLoaBLTdWDRsxRdcnPunDzT0XOu+1zo7VitFGaJUQXQ5rOf8
+ 9rzyV+BePY5UB08JnYpJR6B9Ym2iX0dE+8IYj7CTm9kfTdyYh2pd8O/as2d2zW5YVKZMcH
+ DBQ6hBdrNKX8HzZ0AIKZVdLJbyt6Q1M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-rFRmpTevOrW-r0x-aKWGCA-1; Wed, 21 Jul 2021 04:39:02 -0400
-X-MC-Unique: rFRmpTevOrW-r0x-aKWGCA-1
+ us-mta-559-otCEPE5FOdibfWjuTkvPEg-1; Wed, 21 Jul 2021 04:39:13 -0400
+X-MC-Unique: otCEPE5FOdibfWjuTkvPEg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DBDC10150A0;
- Wed, 21 Jul 2021 08:39:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32F1E1084F5E;
+ Wed, 21 Jul 2021 08:39:12 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8845E60E3A;
- Wed, 21 Jul 2021 08:38:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F070F60CCC;
+ Wed, 21 Jul 2021 08:39:01 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] softmmu/memory_mapping: optimize dump/tpm for
- virtio-mem
-Date: Wed, 21 Jul 2021 10:38:34 +0200
-Message-Id: <20210721083838.6347-1-david@redhat.com>
+Subject: [PATCH v3 1/4] tpm: mark correct memory region range dirty when
+ clearing RAM
+Date: Wed, 21 Jul 2021 10:38:35 +0200
+Message-Id: <20210721083838.6347-2-david@redhat.com>
+In-Reply-To: <20210721083838.6347-1-david@redhat.com>
+References: <20210721083838.6347-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -53,13 +56,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.474, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,54 +79,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Berger <stefanb@linux.ibm.com>
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor fixes and cleanups, followed by an optimization for virtio-mem
-regarding guest dumps and tpm.
+We might not start at the beginning of the memory region. We could also
+calculate via the difference in the host address; however,
+memory_region_set_dirty() also relies on memory_region_get_ram_addr()
+internally, so let's just use that.
 
-virtio-mem logically plugs/unplugs memory within a sparse memory region
-and notifies via the RamDiscardManager interface when parts become
-plugged (populated) or unplugged (discarded).
+Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+Fixes: ffab1be70692 ("tpm: clear RAM when "memory overwrite" requested")
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: "Alex Bennée" <alex.bennee@linaro.org>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/tpm/tpm_ppi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Currently, guest_phys_blocks_append() appends the whole (sparse)
-virtio-mem managed region and, therefore, tpm code might zero the hole
-region and dump code will dump the whole region. Let's only add logically
-plugged (populated) parts of that region, skipping over logically
-unplugged (discarded) parts by reusing the RamDiscardManager infrastructure
-introduced to handle virtio-mem + VFIO properly.
-
-v2 -> v3:
-- "softmmu/memory_mapping: reuse qemu_get_guest_simple_memory_mapping()"
--- Dropped
-- Assed ACKs / RBs
-
-v1 -> v2:
-- "softmmu/memory_mapping: factor out adding physical memory ranges"
--- Simplify based on RamDiscardManager changes: add using a
-   MemoryRegionSection
-- "softmmu/memory_mapping: optimize for RamDiscardManager sections"
--- Simplify based on RamDiscardManager changes
-
-David Hildenbrand (4):
-  tpm: mark correct memory region range dirty when clearing RAM
-  softmmu/memory_mapping: never merge ranges accross memory regions
-  softmmu/memory_mapping: factor out adding physical memory ranges
-  softmmu/memory_mapping: optimize for RamDiscardManager sections
-
- hw/tpm/tpm_ppi.c         |  4 ++-
- softmmu/memory_mapping.c | 64 ++++++++++++++++++++++++++--------------
- 2 files changed, 45 insertions(+), 23 deletions(-)
-
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 362edcc5c9..261f33431c 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+         guest_phys_blocks_init(&guest_phys_blocks);
+         guest_phys_blocks_append(&guest_phys_blocks);
+         QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
++            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
++
+             trace_tpm_ppi_memset(block->host_addr,
+                                  block->target_end - block->target_start);
+             memset(block->host_addr, 0,
+                    block->target_end - block->target_start);
+-            memory_region_set_dirty(block->mr, 0,
++            memory_region_set_dirty(block->mr, block->target_start - mr_start,
+                                     block->target_end - block->target_start);
+         }
+         guest_phys_blocks_free(&guest_phys_blocks);
 -- 
 2.31.1
 
