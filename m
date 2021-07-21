@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC0C3D093D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:54:04 +0200 (CEST)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90643D0929
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:48:10 +0200 (CEST)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m667H-0006lk-Us
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44346)
+	id 1m661Z-0004Rj-Od
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vm-00057b-4I
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:10 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:56226)
+ id 1m65vn-0005A9-Hw
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:11 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m65vk-0005Ui-Ke
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:09 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id gx2so1085949pjb.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 23:42:08 -0700 (PDT)
+ id 1m65vl-0005Vu-Na
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:42:11 -0400
+Received: by mail-pl1-x631.google.com with SMTP id h1so481420plf.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 23:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CKMyfEupmGKlxmCLNCm/wefn2vfKhH3KArdazgmADL0=;
- b=GyprLExTVZcofwcCl4l5uOHBBiMxCWEFZ3Z29WRxjE3m5SPR7bPOKAqMhd47AiQcgp
- z9FkqfLJ5cYs+OjmPxnpHGnH1Iva8KAZhojuV0uh2dMB+jGzhXl3V+ozGAYO6zV3wXJE
- I5vL23tzckPeRkWNqmJ9r5v+elfgxhk8NQucnhAmiVIYa7wo9oaet2zEJuffeHaLNBAA
- YzO6+Co1QrEWnUragfDbfN7+dg9Atxzq5xJ9ic7knz2mpbjinhGySccL8NqUqOGriywk
- Lu2sSWmKVxZrzdhLBbnDCyEnwz7Fk/6mN8fyADBphEUzT56JIZiUGgIQkX6XS1yh9Gmd
- xRow==
+ bh=BlPIdpEMHDG0f7nAulWHm2+Z2nPdA6tFMSfI///rGBY=;
+ b=jrKPNI5FIbqUc49RzqJ1LIjPQe1QvmBn9e6VjAwHn61mmR+E4oIWW5Uz6O2i9+DY9/
+ yr347/UgEh1YD88FcfLiIjrNDmKec9lerYzb7XZ4HJwUgHHthtYvX+UfvZqq6xSax81F
+ 6g11Q4i9Fsh1c8iU/X2bhM7Z/ZtJPWdudldgVwMQ6aL4hlJMH61GU42LfD2PQgLzyfL7
+ Z0rl/6XMwNiZ0laD/IYc/yKvb+rMDXX/sinPWzQiruNyJR/mVWhCYnkRk2DsHIhZEvlW
+ Onq7E2d/VeAIwc4frpDuXim/Kno5taq9vwEvndD+lRaFqxAKKMQz1OulXPPCxbDZBYKT
+ YiAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CKMyfEupmGKlxmCLNCm/wefn2vfKhH3KArdazgmADL0=;
- b=aO/KQ56lO+/4JEX4KXVezelRyHORKGRgEW6EjXWIQDPzWouxr8gJWNNAA8AOFzCv1F
- 1Aiv7o812DxRGGf8RV4TicTkl1eH4gBi1oTdzNGGgl/BcimeU4YCUrkKn4ZfBmxmScSb
- i97orOioUy+rzwOqGAcfEIWFFlOkx//XYbN81Jhg5jejEEcv7YIujbKwHbdikWECUE0h
- yji49gUsqrZMGGV6qCUYCq4jMRpvlsYkxfZ+2EqvkGJf+5ykNOSDq1i8dKertUpSiCy0
- kqwKRLoX5cgD23BIEFBflOt3PWQtSNBWe03lpJgOW/OUSy9ivGXjpy9xKd1sBKWZQIVJ
- No0A==
-X-Gm-Message-State: AOAM532jNU96i9EWk00RX5ByZzp9Em7HMPT8XwpymYwOX+3rSegEHLYN
- Fqpg9ofqQUDAxTAklM/JsWoPDTSrAIE5yQ==
-X-Google-Smtp-Source: ABdhPJzfPyhT+u2QTlw0niwOLKndOFcXjPmAvgKPxYmuMFM9vGRP3arkU5hAc8hW+nJl6IwerCFL8w==
-X-Received: by 2002:a17:902:9b87:b029:11b:e66e:a1b3 with SMTP id
- y7-20020a1709029b87b029011be66ea1b3mr27070888plp.33.1626849727420; 
- Tue, 20 Jul 2021 23:42:07 -0700 (PDT)
+ bh=BlPIdpEMHDG0f7nAulWHm2+Z2nPdA6tFMSfI///rGBY=;
+ b=m0Hb6PGohQi0UqiCjkJaL/Y3EGgGYTQ7mvMB+NukydavKu3wRCw78Q82SNYGcbsYW1
+ 9HYf1jvraxuF6B6GKGQbZ/Kk/JDs/6OjDLEadlvVIliZ8QqTeSKT3+yZBSp3tOFnMoZS
+ c0PBvaPo263WyeloBwu1LlLhlbLc4CKZQjjea7mfzlrZTvffu9x0zAh/VCbq3aeTGDin
+ KDlY3+6b4H8Y4Pi5/G0Sdx6Uo28tXsW07D7CqfnACgX/Mi2jmV6/AAF7SQVab9S/ILxz
+ hMtlr5IiBWpNyU0nHoPxQPBcSn1/JMSIumLhvJ6gYNqsLJmdGJWT4Co6mB5spNiu23K6
+ FdAQ==
+X-Gm-Message-State: AOAM531MI2vHDW+JHHC5aXv//2MXmhIJRLRHrPoXu5E9KSQSInzd6C4X
+ gMoPRPFpMbDc+v1c8oOfEbpzAqp6zyFWuQ==
+X-Google-Smtp-Source: ABdhPJzkOTxmtqpTvKGC/CzOjtQf5+3arwQnHFPyRpRd+ge3BCsfpFTeSws2kz91qmh0PpE28hKYjw==
+X-Received: by 2002:a17:902:b218:b029:11a:bf7b:1a80 with SMTP id
+ t24-20020a170902b218b029011abf7b1a80mr26397488plr.82.1626849728382; 
+ Tue, 20 Jul 2021 23:42:08 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.06
+ by smtp.gmail.com with ESMTPSA id q17sm21146132pjd.42.2021.07.20.23.42.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 23:42:07 -0700 (PDT)
+ Tue, 20 Jul 2021 23:42:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 09/23] target/i386: Drop check for singlestep_enabled
-Date: Tue, 20 Jul 2021 20:41:41 -1000
-Message-Id: <20210721064155.645508-10-richard.henderson@linaro.org>
+Subject: [PATCH for-6.2 10/23] target/m68k: Drop checks for singlestep_enabled
+Date: Tue, 20 Jul 2021 20:41:42 -1000
+Message-Id: <20210721064155.645508-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210721064155.645508-1-richard.henderson@linaro.org>
 References: <20210721064155.645508-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,57 +92,108 @@ GDB single-stepping is now handled generically.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h          | 1 -
- target/i386/tcg/misc_helper.c | 8 --------
- target/i386/tcg/translate.c   | 4 +---
- 3 files changed, 1 insertion(+), 12 deletions(-)
+ target/m68k/translate.c | 44 +++++++++--------------------------------
+ 1 file changed, 9 insertions(+), 35 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 574ff75615..ac3b4d1ee3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -56,7 +56,6 @@ DEF_HELPER_2(syscall, void, env, int)
- DEF_HELPER_2(sysret, void, env, int)
- #endif
- DEF_HELPER_FLAGS_2(pause, TCG_CALL_NO_WG, noreturn, env, int)
--DEF_HELPER_FLAGS_1(debug, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(reset_rf, void, env)
- DEF_HELPER_FLAGS_3(raise_interrupt, TCG_CALL_NO_WG, noreturn, env, int, int)
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, int)
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index baffa5d7ba..5769db5ace 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -110,14 +110,6 @@ void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
-     do_pause(env);
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index c34d9aed61..c3d281a5f2 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -194,18 +194,6 @@ static void do_writebacks(DisasContext *s)
+     }
  }
  
--void QEMU_NORETURN helper_debug(CPUX86State *env)
+-static bool is_singlestepping(DisasContext *s)
 -{
--    CPUState *cs = env_cpu(env);
--
--    cs->exception_index = EXCP_DEBUG;
--    cpu_loop_exit(cs);
+-    /*
+-     * Return true if we are singlestepping either because of
+-     * architectural singlestep or QEMU gdbstub singlestep. This does
+-     * not include the command line '-singlestep' mode which is rather
+-     * misnamed as it only means "one instruction per TB" and doesn't
+-     * affect the code we generate.
+-     */
+-    return s->base.singlestep_enabled || s->ss_active;
 -}
 -
- uint64_t helper_rdpkru(CPUX86State *env, uint32_t ecx)
+ /* is_jmp field values */
+ #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_EXIT      DISAS_TARGET_1 /* cpu state was modified dynamically */
+@@ -320,20 +308,6 @@ static void gen_exception(DisasContext *s, uint32_t dest, int nr)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static void gen_singlestep_exception(DisasContext *s)
+-{
+-    /*
+-     * Generate the right kind of exception for singlestep, which is
+-     * either the architectural singlestep or EXCP_DEBUG for QEMU's
+-     * gdb singlestepping.
+-     */
+-    if (s->ss_active) {
+-        gen_raise_exception(EXCP_TRACE);
+-    } else {
+-        gen_raise_exception(EXCP_DEBUG);
+-    }
+-}
+-
+ static inline void gen_addr_fault(DisasContext *s)
  {
-     if ((env->cr[4] & CR4_PKE_MASK) == 0) {
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 4bd947cf86..0a200d2f68 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2660,9 +2660,7 @@ do_gen_eob_worker(DisasContext *s, bool inhibit, bool recheck_tf, bool jr)
-     if (s->base.tb->flags & HF_RF_MASK) {
-         gen_helper_reset_rf(cpu_env);
+     gen_exception(s, s->base.pc_next, EXCP_ADDRESS);
+@@ -1522,10 +1496,10 @@ static void gen_exit_tb(DisasContext *s)
+ /* Generate a jump to an immediate address.  */
+ static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
+ {
+-    if (unlikely(is_singlestepping(s))) {
++    if (unlikely(s->ss_active)) {
+         update_cc_op(s);
+         tcg_gen_movi_i32(QREG_PC, dest);
+-        gen_singlestep_exception(s);
++        gen_raise_exception(EXCP_TRACE);
+     } else if (translator_use_goto_tb(&s->base, dest)) {
+         tcg_gen_goto_tb(n);
+         tcg_gen_movi_i32(QREG_PC, dest);
+@@ -6193,7 +6167,7 @@ static void m68k_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+ 
+     dc->ss_active = (M68K_SR_TRACE(env->sr) == M68K_SR_TRACE_ANY_INS);
+     /* If architectural single step active, limit to 1 */
+-    if (is_singlestepping(dc)) {
++    if (dc->ss_active) {
+         dc->base.max_insns = 1;
      }
--    if (s->base.singlestep_enabled) {
--        gen_helper_debug(cpu_env);
--    } else if (recheck_tf) {
-+    if (recheck_tf) {
-         gen_helper_rechecking_single_step(cpu_env);
-         tcg_gen_exit_tb(NULL, 0);
-     } else if (s->flags & HF_TF_MASK) {
+ }
+@@ -6252,17 +6226,17 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         break;
+     case DISAS_TOO_MANY:
+         update_cc_op(dc);
+-        if (is_singlestepping(dc)) {
++        if (dc->ss_active) {
+             tcg_gen_movi_i32(QREG_PC, dc->pc);
+-            gen_singlestep_exception(dc);
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             gen_jmp_tb(dc, 0, dc->pc);
+         }
+         break;
+     case DISAS_JUMP:
+         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
+-        if (is_singlestepping(dc)) {
+-            gen_singlestep_exception(dc);
++        if (dc->ss_active) {
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             tcg_gen_lookup_and_goto_ptr();
+         }
+@@ -6272,8 +6246,8 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+          * We updated CC_OP and PC in gen_exit_tb, but also modified
+          * other state that may require returning to the main loop.
+          */
+-        if (is_singlestepping(dc)) {
+-            gen_singlestep_exception(dc);
++        if (dc->ss_active) {
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
+         }
 -- 
 2.25.1
 
