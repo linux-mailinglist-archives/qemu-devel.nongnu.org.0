@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A2E3D0B9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:55:28 +0200 (CEST)
-Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904943D0B9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 11:57:36 +0200 (CEST)
+Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m68wp-0004ja-NL
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:55:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
+	id 1m68yt-0001iA-MH
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 05:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m68uw-0002DA-Gc
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:30 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49390 helo=loongson.cn)
+ id 1m68ux-0002DI-Dl
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:31 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49412 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m68us-00022o-GL
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:30 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1m68ut-00022p-Dm
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:53:31 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S4; 
- Wed, 21 Jul 2021 17:53:19 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0CO7vdg5VEiAA--.21107S5; 
+ Wed, 21 Jul 2021 17:53:20 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/22] target/loongarch: Add CSR registers definition
-Date: Wed, 21 Jul 2021 17:52:58 +0800
-Message-Id: <1626861198-6133-3-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v2 03/22] target/loongarch: Add core definition
+Date: Wed, 21 Jul 2021 17:52:59 +0800
+Message-Id: <1626861198-6133-4-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
 References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S4
-X-Coremail-Antispam: 1UD129KBjvAXoWftrWDKr1xXw1kurW8XryxZrb_yoW5Ary5Ao
- WrX3W3J345Gw1xCw4q9w4xWr4UAr18ZF1DX348tryFgwnrW3sFkr1DtrZ7W343XryIgr13
- WF1qqr4vy390kr98n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf9DxL0CO7vdg5VEiAA--.21107S5
+X-Coremail-Antispam: 1UD129KBjvAXoWfJFyDKrWkZrWfCFy5Cr4kJFb_yoW8Aw43Go
+ W5AFW3Xw4kJr4Skana9rnIqay2qFy8CFW5Aa4xZ3yxu3WxJry5Gr98K34avFy7Xr95WrWU
+ CasFgFnxJa43Grn3n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -41,7 +41,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,745 +61,664 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add basic CSR registers definition. The CSR registers
-definition copy from kernel arch/loongarch/include/asm/loongarchregs.h.
+This patch add target state header, target definitions 
+and initialization routines.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/cpu-csr.h | 724 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 724 insertions(+)
- create mode 100644 target/loongarch/cpu-csr.h
+ target/loongarch/cpu-param.h |  21 ++++
+ target/loongarch/cpu-qom.h   |  40 ++++++
+ target/loongarch/cpu.c       | 293 +++++++++++++++++++++++++++++++++++++++++++
+ target/loongarch/cpu.h       | 265 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 619 insertions(+)
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu-qom.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
 
-diff --git a/target/loongarch/cpu-csr.h b/target/loongarch/cpu-csr.h
+diff --git a/target/loongarch/cpu-param.h b/target/loongarch/cpu-param.h
 new file mode 100644
-index 0000000..87273b1
+index 0000000..582ee29
 --- /dev/null
-+++ b/target/loongarch/cpu-csr.h
-@@ -0,0 +1,724 @@
++++ b/target/loongarch/cpu-param.h
+@@ -0,0 +1,21 @@
 +/*
-+ * QEMU LoongArch CSR
++ * LoongArch cpu parameters for qemu.
 + *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + *
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+#ifndef _CPU_CSR_H_
-+#define _CPU_CSR_H_
++#ifndef LOONGARCH_CPU_PARAM_H
++#define LOONGARCH_CPU_PARAM_H 1
 +
-+/*
-+ * basic CSR register copy
-+ * copy from kernel arch/loongarch/include/asm/loongarchregs.h
-+ */
++#ifdef TARGET_LOONGARCH64
++#define TARGET_LONG_BITS 64
++#define TARGET_PHYS_ADDR_SPACE_BITS 48
++#define TARGET_VIRT_ADDR_SPACE_BITS 48
++#endif
 +
-+#define LOONGARCH_CSR_CRMD           0x0 /* Current mode info */
-+#define  CSR_CRMD_DACM_SHIFT         7
-+#define  CSR_CRMD_DACM_WIDTH         2
-+#define  CSR_CRMD_DACM               (0x3UL << CSR_CRMD_DACM_SHIFT)
-+#define  CSR_CRMD_DACF_SHIFT         5
-+#define  CSR_CRMD_DACF_WIDTH         2
-+#define  CSR_CRMD_DACF               (0x3UL << CSR_CRMD_DACF_SHIFT)
-+#define  CSR_CRMD_PG_SHIFT           4
-+#define  CSR_CRMD_PG                 (0x1UL << CSR_CRMD_PG_SHIFT)
-+#define  CSR_CRMD_DA_SHIFT           3
-+#define  CSR_CRMD_DA                 (0x1UL << CSR_CRMD_DA_SHIFT)
-+#define  CSR_CRMD_IE_SHIFT           2
-+#define  CSR_CRMD_IE                 (0x1UL << CSR_CRMD_IE_SHIFT)
-+#define  CSR_CRMD_PLV_SHIFT          0
-+#define  CSR_CRMD_PLV_WIDTH          2
-+#define  CSR_CRMD_PLV                (0x3UL << CSR_CRMD_PLV_SHIFT)
-+
-+#define PLV_USER                     3
-+#define PLV_KERN                     0
-+#define PLV_MASK                     0x3
-+
-+#define LOONGARCH_CSR_PRMD           0x1 /* Prev-exception mode info */
-+#define  CSR_PRMD_PIE_SHIFT          2
-+#define  CSR_PRMD_PIE                (0x1UL << CSR_PRMD_PIE_SHIFT)
-+#define  CSR_PRMD_PPLV_SHIFT         0
-+#define  CSR_PRMD_PPLV_WIDTH         2
-+#define  CSR_PRMD_PPLV               (0x3UL << CSR_PRMD_PPLV_SHIFT)
-+
-+#define LOONGARCH_CSR_EUEN           0x2 /* Extended unit enable */
-+#define  CSR_EUEN_LBTEN_SHIFT        3
-+#define  CSR_EUEN_LBTEN              (0x1UL << CSR_EUEN_LBTEN_SHIFT)
-+#define  CSR_EUEN_LASXEN_SHIFT       2
-+#define  CSR_EUEN_LASXEN             (0x1UL << CSR_EUEN_LASXEN_SHIFT)
-+#define  CSR_EUEN_LSXEN_SHIFT        1
-+#define  CSR_EUEN_LSXEN              (0x1UL << CSR_EUEN_LSXEN_SHIFT)
-+#define  CSR_EUEN_FPEN_SHIFT         0
-+#define  CSR_EUEN_FPEN               (0x1UL << CSR_EUEN_FPEN_SHIFT)
-+
-+#define LOONGARCH_CSR_MISC           0x3 /* Misc config */
-+
-+#define LOONGARCH_CSR_ECFG           0x4 /* Exception config */
-+#define  CSR_ECFG_VS_SHIFT           16
-+#define  CSR_ECFG_VS_WIDTH           3
-+#define  CSR_ECFG_VS                 (0x7UL << CSR_ECFG_VS_SHIFT)
-+#define  CSR_ECFG_IM_SHIFT           0
-+#define  CSR_ECFG_IM_WIDTH           13
-+#define  CSR_ECFG_IM                 (0x1fffUL << CSR_ECFG_IM_SHIFT)
-+
-+#define  CSR_ECFG_IPMASK             0x00001fff
-+
-+#define LOONGARCH_CSR_ESTAT          0x5 /* Exception status */
-+#define  CSR_ESTAT_ESUBCODE_SHIFT    22
-+#define  CSR_ESTAT_ESUBCODE_WIDTH    9
-+#define  CSR_ESTAT_ESUBCODE          (0x1ffULL << CSR_ESTAT_ESUBCODE_SHIFT)
-+#define  CSR_ESTAT_EXC_SH            16
-+#define  CSR_ESTAT_EXC_WIDTH         5
-+#define  CSR_ESTAT_EXC               (0x1fULL << CSR_ESTAT_EXC_SH)
-+#define  CSR_ESTAT_IS_SHIFT          0
-+#define  CSR_ESTAT_IS_WIDTH          15
-+#define  CSR_ESTAT_IS                (0x7fffULL << CSR_ESTAT_IS_SHIFT)
-+
-+#define  CSR_ESTAT_IPMASK            0x00001fff
-+
-+/*
-+ * ExStatus.ExcCode
-+ */
-+#define  EXCCODE_INT_START           64
-+#define  EXCCODE_RSV                 0    /* Reserved */
-+#define  EXCCODE_TLBL                1    /* TLB miss on a load */
-+#define  EXCCODE_TLBS                2    /* TLB miss on a store */
-+#define  EXCCODE_TLBI                3    /* TLB miss on a ifetch */
-+#define  EXCCODE_TLBM                4    /* TLB modified fault */
-+#define  EXCCODE_TLBRI               5    /* TLB Read-Inhibit exception */
-+#define  EXCCODE_TLBXI               6    /* TLB Execution-Inhibit exception */
-+#define  EXCCODE_TLBPE               7    /* TLB Privilege Error */
-+#define  EXCCODE_ADE                 8    /* Address Error */
-+#define  EXCCODE_ALE                 9    /* Unalign Access */
-+#define  EXCCODE_OOB                 10   /* Out of bounds */
-+#define  EXCCODE_SYS                 11   /* System call */
-+#define  EXCCODE_BP                  12   /* Breakpoint */
-+#define  EXCCODE_INE                 13   /* Inst. Not Exist */
-+#define  EXCCODE_IPE                 14   /* Inst. Privileged Error */
-+#define  EXCCODE_FPDIS               15   /* FPU Disabled */
-+#define  EXCCODE_LSXDIS              16   /* LSX Disabled */
-+#define  EXCCODE_LASXDIS             17   /* LASX Disabled */
-+#define  EXCCODE_FPE                 18   /* Floating Point Exception */
-+#define  EXCCODE_WATCH               19   /* Watch address reference */
-+#define  EXCCODE_BTDIS               20   /* Binary Trans. Disabled */
-+#define  EXCCODE_BTE                 21   /* Binary Trans. Exception */
-+#define  EXCCODE_PSI                 22   /* Guest Privileged Error */
-+#define  EXCCODE_HYP                 23   /* Hypercall */
-+#define  EXCCODE_GCM                 24   /* Guest CSR modified */
-+#define  EXCCODE_SE                  25   /* Security*/
-+
-+#define LOONGARCH_CSR_ERA            0x6  /* Error PC */
-+
-+#define LOONGARCH_CSR_BADV           0x7  /* Bad virtual address */
-+
-+#define LOONGARCH_CSR_BADI           0x8  /* Bad instruction */
-+
-+#define LOONGARCH_CSR_EEPN           0xc  /* Exception enter base address */
-+
-+/* TLB related CSR register */
-+#define LOONGARCH_CSR_TLBIDX         0x10 /* TLB Index, EHINV, PageSize, NP*/
-+#define  CSR_TLBIDX_EHINV_SHIFT      31
-+#define  CSR_TLBIDX_EHINV            (0x1ULL << CSR_TLBIDX_EHINV_SHIFT)
-+#define  CSR_TLBIDX_PS_SHIFT         24
-+#define  CSR_TLBIDX_PS_WIDTH         6
-+#define  CSR_TLBIDX_PS               (0x3fULL << CSR_TLBIDX_PS_SHIFT)
-+#define  CSR_TLBIDX_IDX_SHIFT        0
-+#define  CSR_TLBIDX_IDX_WIDTH        12
-+#define  CSR_TLBIDX_IDX              (0xfffULL << CSR_TLBIDX_IDX_SHIFT)
-+#define  CSR_TLBIDX_SIZEM            0x3f000000
-+#define  CSR_TLBIDX_SIZE             CSR_TLBIDX_PS_SHIFT
-+#define  CSR_TLBIDX_IDXM             0xfff
-+
-+#define LOONGARCH_CSR_TLBEHI         0x11 /* TLB EntryHi without ASID */
-+
-+#define LOONGARCH_CSR_TLBELO0        0x12 /* TLB EntryLo0 */
-+#define  CSR_TLBLO0_RPLV_SHIFT       63
-+#define  CSR_TLBLO0_RPLV             (0x1ULL << CSR_TLBLO0_RPLV_SHIFT)
-+#define  CSR_TLBLO0_XI_SHIFT         62
-+#define  CSR_TLBLO0_XI               (0x1ULL << CSR_TLBLO0_XI_SHIFT)
-+#define  CSR_TLBLO0_RI_SHIFT         61
-+#define  CSR_TLBLO0_RI               (0x1ULL << CSR_TLBLO0_RI_SHIFT)
-+#define  CSR_TLBLO0_PPN_SHIFT        12
-+#define  CSR_TLBLO0_PPN_WIDTH        36 /* ignore lower 12bits */
-+#define  CSR_TLBLO0_PPN              (0xfffffffffULL << CSR_TLBLO0_PPN_SHIFT)
-+#define  CSR_TLBLO0_GLOBAL_SHIFT     6
-+#define  CSR_TLBLO0_GLOBAL           (0x1ULL << CSR_TLBLO0_GLOBAL_SHIFT)
-+#define  CSR_TLBLO0_CCA_SHIFT        4
-+#define  CSR_TLBLO0_CCA_WIDTH        2
-+#define  CSR_TLBLO0_CCA              (0x3ULL << CSR_TLBLO0_CCA_SHIFT)
-+#define  CSR_TLBLO0_PLV_SHIFT        2
-+#define  CSR_TLBLO0_PLV_WIDTH        2
-+#define  CSR_TLBLO0_PLV              (0x3ULL << CSR_TLBLO0_PLV_SHIFT)
-+#define  CSR_TLBLO0_WE_SHIFT         1
-+#define  CSR_TLBLO0_WE               (0x1ULL << CSR_TLBLO0_WE_SHIFT)
-+#define  CSR_TLBLO0_V_SHIFT          0
-+#define  CSR_TLBLO0_V                (0x1ULL << CSR_TLBLO0_V_SHIFT)
-+
-+#define LOONGARCH_CSR_TLBELO1        0x13 /* TLB EntryLo1 */
-+#define  CSR_TLBLO1_RPLV_SHIFT       63
-+#define  CSR_TLBLO1_RPLV             (0x1ULL << CSR_TLBLO1_RPLV_SHIFT)
-+#define  CSR_TLBLO1_XI_SHIFT         62
-+#define  CSR_TLBLO1_XI               (0x1ULL << CSR_TLBLO1_XI_SHIFT)
-+#define  CSR_TLBLO1_RI_SHIFT         61
-+#define  CSR_TLBLO1_RI               (0x1ULL << CSR_TLBLO1_RI_SHIFT)
-+#define  CSR_TLBLO1_PPN_SHIFT        12
-+#define  CSR_TLBLO1_PPN_WIDTH        36
-+#define  CSR_TLBLO1_PPN              (0xfffffffffULL << CSR_TLBLO1_PPN_SHIFT)
-+#define  CSR_TLBLO1_GLOBAL_SHIFT     6
-+#define  CSR_TLBLO1_GLOBAL           (0x1ULL << CSR_TLBLO1_GLOBAL_SHIFT)
-+#define  CSR_TLBLO1_CCA_SHIFT        4
-+#define  CSR_TLBLO1_CCA_WIDTH        2
-+#define  CSR_TLBLO1_CCA              (0x3ULL << CSR_TLBLO1_CCA_SHIFT)
-+#define  CSR_TLBLO1_PLV_SHIFT        2
-+#define  CSR_TLBLO1_PLV_WIDTH        2
-+#define  CSR_TLBLO1_PLV              (0x3ULL << CSR_TLBLO1_PLV_SHIFT)
-+#define  CSR_TLBLO1_WE_SHIFT         1
-+#define  CSR_TLBLO1_WE               (0x1ULL << CSR_TLBLO1_WE_SHIFT)
-+#define  CSR_TLBLO1_V_SHIFT          0
-+#define  CSR_TLBLO1_V                (0x1ULL << CSR_TLBLO1_V_SHIFT)
-+
-+#define LOONGARCH_CSR_ASID           0x18 /* 64 ASID */
-+#define  CSR_ASID_BIT_SHIFT          16 /* ASIDBits */
-+#define  CSR_ASID_BIT_WIDTH          8
-+#define  CSR_ASID_BIT                (0xffULL << CSR_ASID_BIT_SHIFT)
-+#define  CSR_ASID_ASID_SHIFT         0
-+#define  CSR_ASID_ASID_WIDTH         10
-+#define  CSR_ASID_ASID               (0x3ffULL << CSR_ASID_ASID_SHIFT)
-+
-+/* Page table base address when badv[47] = 0 */
-+#define LOONGARCH_CSR_PGDL           0x19
-+/* Page table base address when badv[47] = 1 */
-+#define LOONGARCH_CSR_PGDH           0x1a
-+
-+#define LOONGARCH_CSR_PGD            0x1b /* Page table base */
-+
-+#define LOONGARCH_CSR_PWCTL0         0x1c /* PWCtl0 */
-+#define  CSR_PWCTL0_PTEW_SHIFT       30
-+#define  CSR_PWCTL0_PTEW_WIDTH       2
-+#define  CSR_PWCTL0_PTEW             (0x3ULL << CSR_PWCTL0_PTEW_SHIFT)
-+#define  CSR_PWCTL0_DIR1WIDTH_SHIFT  25
-+#define  CSR_PWCTL0_DIR1WIDTH_WIDTH  5
-+#define  CSR_PWCTL0_DIR1WIDTH        (0x1fULL << CSR_PWCTL0_DIR1WIDTH_SHIFT)
-+#define  CSR_PWCTL0_DIR1BASE_SHIFT   20
-+#define  CSR_PWCTL0_DIR1BASE_WIDTH   5
-+#define  CSR_PWCTL0_DIR1BASE         (0x1fULL << CSR_PWCTL0_DIR1BASE_SHIFT)
-+#define  CSR_PWCTL0_DIR0WIDTH_SHIFT  15
-+#define  CSR_PWCTL0_DIR0WIDTH_WIDTH  5
-+#define  CSR_PWCTL0_DIR0WIDTH        (0x1fULL << CSR_PWCTL0_DIR0WIDTH_SHIFT)
-+#define  CSR_PWCTL0_DIR0BASE_SHIFT   10
-+#define  CSR_PWCTL0_DIR0BASE_WIDTH   5
-+#define  CSR_PWCTL0_DIR0BASE         (0x1fULL << CSR_PWCTL0_DIR0BASE_SHIFT)
-+#define  CSR_PWCTL0_PTWIDTH_SHIFT    5
-+#define  CSR_PWCTL0_PTWIDTH_WIDTH    5
-+#define  CSR_PWCTL0_PTWIDTH          (0x1fULL << CSR_PWCTL0_PTWIDTH_SHIFT)
-+#define  CSR_PWCTL0_PTBASE_SHIFT     0
-+#define  CSR_PWCTL0_PTBASE_WIDTH     5
-+#define  CSR_PWCTL0_PTBASE           (0x1fULL << CSR_PWCTL0_PTBASE_SHIFT)
-+
-+#define LOONGARCH_CSR_PWCTL1         0x1d /* PWCtl1 */
-+#define  CSR_PWCTL1_DIR3WIDTH_SHIFT  18
-+#define  CSR_PWCTL1_DIR3WIDTH_WIDTH  5
-+#define  CSR_PWCTL1_DIR3WIDTH        (0x1fULL << CSR_PWCTL1_DIR3WIDTH_SHIFT)
-+#define  CSR_PWCTL1_DIR3BASE_SHIFT   12
-+#define  CSR_PWCTL1_DIR3BASE_WIDTH   5
-+#define  CSR_PWCTL1_DIR3BASE         (0x1fULL << CSR_PWCTL0_DIR3BASE_SHIFT)
-+#define  CSR_PWCTL1_DIR2WIDTH_SHIFT  6
-+#define  CSR_PWCTL1_DIR2WIDTH_WIDTH  5
-+#define  CSR_PWCTL1_DIR2WIDTH        (0x1fULL << CSR_PWCTL1_DIR2WIDTH_SHIFT)
-+#define  CSR_PWCTL1_DIR2BASE_SHIFT   0
-+#define  CSR_PWCTL1_DIR2BASE_WIDTH   5
-+#define  CSR_PWCTL1_DIR2BASE         (0x1fULL << CSR_PWCTL0_DIR2BASE_SHIFT)
-+
-+#define LOONGARCH_CSR_STLBPGSIZE     0x1e
-+#define  CSR_STLBPGSIZE_PS_WIDTH     6
-+#define  CSR_STLBPGSIZE_PS           (0x3f)
-+
-+#define LOONGARCH_CSR_RVACFG         0x1f
-+#define  CSR_RVACFG_RDVA_WIDTH       4
-+#define  CSR_RVACFG_RDVA             (0xf)
-+
-+/* Config CSR registers */
-+#define LOONGARCH_CSR_CPUID          0x20 /* CPU core number */
-+#define  CSR_CPUID_CID_WIDTH         9
-+#define  CSR_CPUID_CID               (0x1ff)
-+
-+#define LOONGARCH_CSR_PRCFG1         0x21 /* Config1 */
-+#define  CSR_CONF1_VSMAX_SHIFT       12
-+#define  CSR_CONF1_VSMAX_WIDTH       3
-+#define  CSR_CONF1_VSMAX             (7ULL << CSR_CONF1_VSMAX_SHIFT)
-+#define  CSR_CONF1_TMRBITS_SHIFT     4
-+#define  CSR_CONF1_TMRBITS_WIDTH     8
-+#define  CSR_CONF1_TMRBITS           (0xffULL << CSR_CONF1_TMRBITS_SHIFT)
-+#define  CSR_CONF1_KSNUM_SHIFT       0
-+#define  CSR_CONF1_KSNUM_WIDTH       4
-+#define  CSR_CONF1_KSNUM             (0x8)
-+
-+#define LOONGARCH_CSR_PRCFG2         0x22 /* Config2 */
-+#define  CSR_CONF2_PGMASK_SUPP       0x3ffff000
-+
-+#define LOONGARCH_CSR_PRCFG3         0x23 /* Config3 */
-+#define  CSR_CONF3_STLBIDX_SHIFT     20
-+#define  CSR_CONF3_STLBIDX_WIDTH     6
-+#define  CSR_CONF3_STLBIDX           (0x3fULL << CSR_CONF3_STLBIDX_SHIFT)
-+#define  CSR_CONF3_STLBWAYS_SHIFT    12
-+#define  CSR_CONF3_STLBWAYS_WIDTH    8
-+#define  CSR_CONF3_STLBWAYS          (0xffULL << CSR_CONF3_STLBWAYS_SHIFT)
-+#define  CSR_CONF3_MTLBSIZE_SHIFT    4
-+#define  CSR_CONF3_MTLBSIZE_WIDTH    8
-+#define  CSR_CONF3_MTLBSIZE          (0xffULL << CSR_CONF3_MTLBSIZE_SHIFT)
-+#define  CSR_CONF3_TLBORG_SHIFT      0
-+#define  CSR_CONF3_TLBORG_WIDTH      4
-+#define  CSR_CONF3_TLBORG            (0xfULL << CSR_CONF3_TLBORG_SHIFT)
-+
-+/* Kscratch registers */
-+#define LOONGARCH_CSR_KS0            0x30
-+#define LOONGARCH_CSR_KS1            0x31
-+#define LOONGARCH_CSR_KS2            0x32
-+#define LOONGARCH_CSR_KS3            0x33
-+#define LOONGARCH_CSR_KS4            0x34
-+#define LOONGARCH_CSR_KS5            0x35
-+#define LOONGARCH_CSR_KS6            0x36
-+#define LOONGARCH_CSR_KS7            0x37
-+#define LOONGARCH_CSR_KS8            0x38
-+
-+/* Timer registers */
-+#define LOONGARCH_CSR_TMID           0x40 /* Timer ID */
-+
-+#define LOONGARCH_CSR_TCFG           0x41 /* Timer config */
-+#define  CSR_TCFG_VAL_SHIFT          2
-+#define  CSR_TCFG_VAL_WIDTH          48
-+#define  CSR_TCFG_VAL                (0x3fffffffffffULL << CSR_TCFG_VAL_SHIFT)
-+#define  CSR_TCFG_PERIOD_SHIFT       1
-+#define  CSR_TCFG_PERIOD             (0x1ULL << CSR_TCFG_PERIOD_SHIFT)
-+#define  CSR_TCFG_EN                 (0x1)
-+
-+#define LOONGARCH_CSR_TVAL           0x42 /* Timer value */
-+
-+#define LOONGARCH_CSR_CNTC           0x43 /* Timer offset */
-+
-+#define LOONGARCH_CSR_TINTCLR        0x44 /* Timer interrupt clear */
-+#define  CSR_TINTCLR_TI_SHIFT        0
-+#define  CSR_TINTCLR_TI              (1 << CSR_TINTCLR_TI_SHIFT)
-+
-+/* LLBCTL register */
-+#define LOONGARCH_CSR_LLBIT          0x60 /* LLBit control */
-+#define  CSR_LLBIT_ROLLB_SHIFT       0
-+#define  CSR_LLBIT_ROLLB             (1ULL << CSR_LLBIT_ROLLB_SHIFT)
-+#define  CSR_LLBIT_WCLLB_SHIFT       1
-+#define  CSR_LLBIT_WCLLB             (1ULL << CSR_LLBIT_WCLLB_SHIFT)
-+#define  CSR_LLBIT_KLO_SHIFT         2
-+#define  CSR_LLBIT_KLO               (1ULL << CSR_LLBIT_KLO_SHIFT)
-+
-+/* Implement dependent */
-+#define LOONGARCH_CSR_IMPCTL1        0x80 /* Loongarch config1 */
-+#define  CSR_MISPEC_SHIFT            20
-+#define  CSR_MISPEC_WIDTH            8
-+#define  CSR_MISPEC                  (0xffULL << CSR_MISPEC_SHIFT)
-+#define  CSR_SSEN_SHIFT              18
-+#define  CSR_SSEN                    (1ULL << CSR_SSEN_SHIFT)
-+#define  CSR_SCRAND_SHIFT            17
-+#define  CSR_SCRAND                  (1ULL << CSR_SCRAND_SHIFT)
-+#define  CSR_LLEXCL_SHIFT            16
-+#define  CSR_LLEXCL                  (1ULL << CSR_LLEXCL_SHIFT)
-+#define  CSR_DISVC_SHIFT             15
-+#define  CSR_DISVC                   (1ULL << CSR_DISVC_SHIFT)
-+#define  CSR_VCLRU_SHIFT             14
-+#define  CSR_VCLRU                   (1ULL << CSR_VCLRU_SHIFT)
-+#define  CSR_DCLRU_SHIFT             13
-+#define  CSR_DCLRU                   (1ULL << CSR_DCLRU_SHIFT)
-+#define  CSR_FASTLDQ_SHIFT           12
-+#define  CSR_FASTLDQ                 (1ULL << CSR_FASTLDQ_SHIFT)
-+#define  CSR_USERCAC_SHIFT           11
-+#define  CSR_USERCAC                 (1ULL << CSR_USERCAC_SHIFT)
-+#define  CSR_ANTI_MISPEC_SHIFT       10
-+#define  CSR_ANTI_MISPEC             (1ULL << CSR_ANTI_MISPEC_SHIFT)
-+#define  CSR_ANTI_FLUSHSFB_SHIFT     9
-+#define  CSR_ANTI_FLUSHSFB           (1ULL << CSR_ANTI_FLUSHSFB_SHIFT)
-+#define  CSR_STFILL_SHIFT            8
-+#define  CSR_STFILL                  (1ULL << CSR_STFILL_SHIFT)
-+#define  CSR_LIFEP_SHIFT             7
-+#define  CSR_LIFEP                   (1ULL << CSR_LIFEP_SHIFT)
-+#define  CSR_LLSYNC_SHIFT            6
-+#define  CSR_LLSYNC                  (1ULL << CSR_LLSYNC_SHIFT)
-+#define  CSR_BRBTDIS_SHIFT           5
-+#define  CSR_BRBTDIS                 (1ULL << CSR_BRBTDIS_SHIFT)
-+#define  CSR_RASDIS_SHIFT            4
-+#define  CSR_RASDIS                  (1ULL << CSR_RASDIS_SHIFT)
-+#define  CSR_STPRE_SHIFT             2
-+#define  CSR_STPRE_WIDTH             2
-+#define  CSR_STPRE                   (3ULL << CSR_STPRE_SHIFT)
-+#define  CSR_INSTPRE_SHIFT           1
-+#define  CSR_INSTPRE                 (1ULL << CSR_INSTPRE_SHIFT)
-+#define  CSR_DATAPRE_SHIFT           0
-+#define  CSR_DATAPRE                 (1ULL << CSR_DATAPRE_SHIFT)
-+
-+#define LOONGARCH_CSR_IMPCTL2        0x81 /* loongarch config2 */
-+#define  CSR_IMPCTL2_MTLB_SHIFT      0
-+#define  CSR_IMPCTL2_MTLB            (1ULL << CSR_IMPCTL2_MTLB_SHIFT)
-+#define  CSR_IMPCTL2_STLB_SHIFT      1
-+#define  CSR_IMPCTL2_STLB            (1ULL << CSR_IMPCTL2_STLB_SHIFT)
-+#define  CSR_IMPCTL2_DTLB_SHIFT      2
-+#define  CSR_IMPCTL2_DTLB            (1ULL << CSR_IMPCTL2_DTLB_SHIFT)
-+#define  CSR_IMPCTL2_ITLB_SHIFT      3
-+#define  CSR_IMPCTL2_ITLB            (1ULL << CSR_IMPCTL2_ITLB_SHIFT)
-+#define  CSR_IMPCTL2_BTAC_SHIFT      4
-+#define  CSR_IMPCTL2_BTAC            (1ULL << CSR_IMPCTL2_BTAC_SHIFT)
-+
-+#define LOONGARCH_CSR_GNMI           0x82
-+
-+/* TLB refill registers */
-+#define LOONGARCH_CSR_TLBRENT        0x88 /* TLB refill exception address */
-+#define LOONGARCH_CSR_TLBRBADV       0x89 /* TLB refill badvaddr */
-+#define LOONGARCH_CSR_TLBRERA        0x8a /* TLB refill ERA */
-+#define LOONGARCH_CSR_TLBRSAVE       0x8b /* KScratch for TLB refill */
-+#define LOONGARCH_CSR_TLBRELO0       0x8c /* TLB refill entrylo0 */
-+#define LOONGARCH_CSR_TLBRELO1       0x8d /* TLB refill entrylo1 */
-+#define LOONGARCH_CSR_TLBREHI        0x8e /* TLB refill entryhi */
-+#define LOONGARCH_CSR_TLBRPRMD       0x8f /* TLB refill mode info */
-+
-+/* Machine error registers */
-+#define LOONGARCH_CSR_ERRCTL         0x90 /* ERRCTL */
-+#define LOONGARCH_CSR_ERRINFO        0x91 /* Error info1 */
-+#define LOONGARCH_CSR_ERRINFO1       0x92 /* Error info2 */
-+#define LOONGARCH_CSR_ERRENT         0x93 /* Error exception base address */
-+#define LOONGARCH_CSR_ERRERA         0x94 /* Error exception PC */
-+#define LOONGARCH_CSR_ERRSAVE        0x95 /* KScratch machine error exception */
-+
-+#define LOONGARCH_CSR_CTAG           0x98 /* TagLo + TagHi */
-+
-+/* Shadow MCSR : 0xc0 ~ 0xff */
-+#define LOONGARCH_CSR_MCSR0          0xc0 /* CPUCFG0 and CPUCFG1 */
-+#define  MCSR0_INT_IMPL_SHIFT        58
-+#define  MCSR0_INT_IMPL              0
-+#define  MCSR0_IOCSR_BRD_SHIFT       57
-+#define  MCSR0_IOCSR_BRD             (1ULL << MCSR0_IOCSR_BRD_SHIFT)
-+#define  MCSR0_HUGEPG_SHIFT          56
-+#define  MCSR0_HUGEPG                (1ULL << MCSR0_HUGEPG_SHIFT)
-+#define  MCSR0_RPLVTLB_SHIFT         55
-+#define  MCSR0_RPLVTLB               (1ULL << MCSR0_RPLVTLB_SHIFT)
-+#define  MCSR0_EXEPROT_SHIFT         54
-+#define  MCSR0_EXEPROT               (1ULL << MCSR0_EXEPROT_SHIFT)
-+#define  MCSR0_RI_SHIFT              53
-+#define  MCSR0_RI                    (1ULL << MCSR0_RI_SHIFT)
-+#define  MCSR0_UAL_SHIFT             52
-+#define  MCSR0_UAL                   (1ULL << MCSR0_UAL_SHIFT)
-+#define  MCSR0_VABIT_SHIFT           44
-+#define  MCSR0_VABIT_WIDTH           8
-+#define  MCSR0_VABIT                 (0xffULL << MCSR0_VABIT_SHIFT)
-+#define  VABIT_DEFAULT               0x2f
-+#define  MCSR0_PABIT_SHIFT           36
-+#define  MCSR0_PABIT_WIDTH           8
-+#define  MCSR0_PABIT                 (0xffULL << MCSR0_PABIT_SHIFT)
-+#define  PABIT_DEFAULT               0x2f
-+#define  MCSR0_IOCSR_SHIFT           35
-+#define  MCSR0_IOCSR                 (1ULL << MCSR0_IOCSR_SHIFT)
-+#define  MCSR0_PAGING_SHIFT          34
-+#define  MCSR0_PAGING                (1ULL << MCSR0_PAGING_SHIFT)
-+#define  MCSR0_GR64_SHIFT            33
-+#define  MCSR0_GR64                  (1ULL << MCSR0_GR64_SHIFT)
-+#define  GR64_DEFAULT                1
-+#define  MCSR0_GR32_SHIFT            32
-+#define  MCSR0_GR32                  (1ULL << MCSR0_GR32_SHIFT)
-+#define  GR32_DEFAULT                0
-+#define  MCSR0_PRID_WIDTH            32
-+#define  MCSR0_PRID                  0x14C010
-+
-+#define LOONGARCH_CSR_MCSR1          0xc1 /* CPUCFG2 and CPUCFG3 */
-+#define  MCSR1_HPFOLD_SHIFT          43
-+#define  MCSR1_HPFOLD                (1ULL << MCSR1_HPFOLD_SHIFT)
-+#define  MCSR1_SPW_LVL_SHIFT         40
-+#define  MCSR1_SPW_LVL_WIDTH         3
-+#define  MCSR1_SPW_LVL               (7ULL << MCSR1_SPW_LVL_SHIFT)
-+#define  MCSR1_ICACHET_SHIFT         39
-+#define  MCSR1_ICACHET               (1ULL << MCSR1_ICACHET_SHIFT)
-+#define  MCSR1_ITLBT_SHIFT           38
-+#define  MCSR1_ITLBT                 (1ULL << MCSR1_ITLBT_SHIFT)
-+#define  MCSR1_LLDBAR_SHIFT          37
-+#define  MCSR1_LLDBAR                (1ULL << MCSR1_LLDBAR_SHIFT)
-+#define  MCSR1_SCDLY_SHIFT           36
-+#define  MCSR1_SCDLY                 (1ULL << MCSR1_SCDLY_SHIFT)
-+#define  MCSR1_LLEXC_SHIFT           35
-+#define  MCSR1_LLEXC                 (1ULL << MCSR1_LLEXC_SHIFT)
-+#define  MCSR1_UCACC_SHIFT           34
-+#define  MCSR1_UCACC                 (1ULL << MCSR1_UCACC_SHIFT)
-+#define  MCSR1_SFB_SHIFT             33
-+#define  MCSR1_SFB                   (1ULL << MCSR1_SFB_SHIFT)
-+#define  MCSR1_CCDMA_SHIFT           32
-+#define  MCSR1_CCDMA                 (1ULL << MCSR1_CCDMA_SHIFT)
-+#define  MCSR1_LAMO_SHIFT            22
-+#define  MCSR1_LAMO                  (1ULL << MCSR1_LAMO_SHIFT)
-+#define  MCSR1_LSPW_SHIFT            21
-+#define  MCSR1_LSPW                  (1ULL << MCSR1_LSPW_SHIFT)
-+#define  MCSR1_LOONGARCHBT_SHIFT     20
-+#define  MCSR1_LOONGARCHBT           (1ULL << MCSR1_LOONGARCHBT_SHIFT)
-+#define  MCSR1_ARMBT_SHIFT           19
-+#define  MCSR1_ARMBT                 (1ULL << MCSR1_ARMBT_SHIFT)
-+#define  MCSR1_X86BT_SHIFT           18
-+#define  MCSR1_X86BT                 (1ULL << MCSR1_X86BT_SHIFT)
-+#define  MCSR1_LLFTPVERS_SHIFT       15
-+#define  MCSR1_LLFTPVERS_WIDTH       3
-+#define  MCSR1_LLFTPVERS             (7ULL << MCSR1_LLFTPVERS_SHIFT)
-+#define  MCSR1_LLFTP_SHIFT           14
-+#define  MCSR1_LLFTP                 (1ULL << MCSR1_LLFTP_SHIFT)
-+#define  MCSR1_VZVERS_SHIFT          11
-+#define  MCSR1_VZVERS_WIDTH          3
-+#define  MCSR1_VZVERS                (7ULL << MCSR1_VZVERS_SHIFT)
-+#define  MCSR1_VZ_SHIFT              10
-+#define  MCSR1_VZ                    (1ULL << MCSR1_VZ_SHIFT)
-+#define  MCSR1_CRYPTO_SHIFT          9
-+#define  MCSR1_CRYPTO                (1ULL << MCSR1_CRYPTO_SHIFT)
-+#define  MCSR1_COMPLEX_SHIFT         8
-+#define  MCSR1_COMPLEX               (1ULL << MCSR1_COMPLEX_SHIFT)
-+#define  MCSR1_LASX_SHIFT            7
-+#define  MCSR1_LASX                  (1ULL << MCSR1_LASX_SHIFT)
-+#define  MCSR1_LSX_SHIFT             6
-+#define  MCSR1_LSX                   (1ULL << MCSR1_LSX_SHIFT)
-+#define  MCSR1_FPVERS_SHIFT          3
-+#define  MCSR1_FPVERS_WIDTH          3
-+#define  MCSR1_FPVERS                (7ULL << MCSR1_FPVERS_SHIFT)
-+#define  MCSR1_FPDP_SHIFT            2
-+#define  MCSR1_FPDP                  (1ULL << MCSR1_FPDP_SHIFT)
-+#define  MCSR1_FPSP_SHIFT            1
-+#define  MCSR1_FPSP                  (1ULL << MCSR1_FPSP_SHIFT)
-+#define  MCSR1_FP_SHIFT              0
-+#define  MCSR1_FP                    (1ULL << MCSR1_FP_SHIFT)
-+
-+#define LOONGARCH_CSR_MCSR2          0xc2 /* CPUCFG4 and CPUCFG5 */
-+#define  MCSR2_CCDIV_SHIFT           48
-+#define  MCSR2_CCDIV_WIDTH           16
-+#define  MCSR2_CCDIV                 (0xffffULL << MCSR2_CCDIV_SHIFT)
-+#define  MCSR2_CCMUL_SHIFT           32
-+#define  MCSR2_CCMUL_WIDTH           16
-+#define  MCSR2_CCMUL                 (0xffffULL << MCSR2_CCMUL_SHIFT)
-+#define  MCSR2_CCFREQ_WIDTH          32
-+#define  MCSR2_CCFREQ                (0xffffffff)
-+#define  CCFREQ_DEFAULT              0x5f5e100 /* 100MHZ */
-+
-+#define LOONGARCH_CSR_MCSR3          0xc3 /* CPUCFG6 */
-+#define  MCSR3_UPM_SHIFT             14
-+#define  MCSR3_UPM                   (1ULL << MCSR3_UPM_SHIFT)
-+#define  MCSR3_PMBITS_SHIFT          8
-+#define  MCSR3_PMBITS_WIDTH          6
-+#define  MCSR3_PMBITS                (0x3fULL << MCSR3_PMBITS_SHIFT)
-+#define  PMBITS_DEFAULT              0x40
-+#define  MCSR3_PMNUM_SHIFT           4
-+#define  MCSR3_PMNUM_WIDTH           4
-+#define  MCSR3_PMNUM                 (0xfULL << MCSR3_PMNUM_SHIFT)
-+#define  MCSR3_PAMVER_SHIFT          1
-+#define  MCSR3_PAMVER_WIDTH          3
-+#define  MCSR3_PAMVER                (0x7ULL << MCSR3_PAMVER_SHIFT)
-+#define  MCSR3_PMP_SHIFT             0
-+#define  MCSR3_PMP                   (1ULL << MCSR3_PMP_SHIFT)
-+
-+#define LOONGARCH_CSR_MCSR8          0xc8 /* CPUCFG16 and CPUCFG17 */
-+#define  MCSR8_L1I_SIZE_SHIFT        56
-+#define  MCSR8_L1I_SIZE_WIDTH        7
-+#define  MCSR8_L1I_SIZE              (0x7fULL << MCSR8_L1I_SIZE_SHIFT)
-+#define  MCSR8_L1I_IDX_SHIFT         48
-+#define  MCSR8_L1I_IDX_WIDTH         8
-+#define  MCSR8_L1I_IDX               (0xffULL << MCSR8_L1I_IDX_SHIFT)
-+#define  MCSR8_L1I_WAY_SHIFT         32
-+#define  MCSR8_L1I_WAY_WIDTH         16
-+#define  MCSR8_L1I_WAY               (0xffffULL << MCSR8_L1I_WAY_SHIFT)
-+#define  MCSR8_L3DINCL_SHIFT         16
-+#define  MCSR8_L3DINCL               (1ULL << MCSR8_L3DINCL_SHIFT)
-+#define  MCSR8_L3DPRIV_SHIFT         15
-+#define  MCSR8_L3DPRIV               (1ULL << MCSR8_L3DPRIV_SHIFT)
-+#define  MCSR8_L3DPRE_SHIFT          14
-+#define  MCSR8_L3DPRE                (1ULL << MCSR8_L3DPRE_SHIFT)
-+#define  MCSR8_L3IUINCL_SHIFT        13
-+#define  MCSR8_L3IUINCL              (1ULL << MCSR8_L3IUINCL_SHIFT)
-+#define  MCSR8_L3IUPRIV_SHIFT        12
-+#define  MCSR8_L3IUPRIV              (1ULL << MCSR8_L3IUPRIV_SHIFT)
-+#define  MCSR8_L3IUUNIFY_SHIFT       11
-+#define  MCSR8_L3IUUNIFY             (1ULL << MCSR8_L3IUUNIFY_SHIFT)
-+#define  MCSR8_L3IUPRE_SHIFT         10
-+#define  MCSR8_L3IUPRE               (1ULL << MCSR8_L3IUPRE_SHIFT)
-+#define  MCSR8_L2DINCL_SHIFT         9
-+#define  MCSR8_L2DINCL               (1ULL << MCSR8_L2DINCL_SHIFT)
-+#define  MCSR8_L2DPRIV_SHIFT         8
-+#define  MCSR8_L2DPRIV               (1ULL << MCSR8_L2DPRIV_SHIFT)
-+#define  MCSR8_L2DPRE_SHIFT          7
-+#define  MCSR8_L2DPRE                (1ULL << MCSR8_L2DPRE_SHIFT)
-+#define  MCSR8_L2IUINCL_SHIFT        6
-+#define  MCSR8_L2IUINCL              (1ULL << MCSR8_L2IUINCL_SHIFT)
-+#define  MCSR8_L2IUPRIV_SHIFT        5
-+#define  MCSR8_L2IUPRIV              (1ULL << MCSR8_L2IUPRIV_SHIFT)
-+#define  MCSR8_L2IUUNIFY_SHIFT       4
-+#define  MCSR8_L2IUUNIFY             (1ULL << MCSR8_L2IUUNIFY_SHIFT)
-+#define  MCSR8_L2IUPRE_SHIFT         3
-+#define  MCSR8_L2IUPRE               (1ULL << MCSR8_L2IUPRE_SHIFT)
-+#define  MCSR8_L1DPRE_SHIFT          2
-+#define  MCSR8_L1DPRE                (1ULL << MCSR8_L1DPRE_SHIFT)
-+#define  MCSR8_L1IUUNIFY_SHIFT       1
-+#define  MCSR8_L1IUUNIFY             (1ULL << MCSR8_L1IUUNIFY_SHIFT)
-+#define  MCSR8_L1IUPRE_SHIFT         0
-+#define  MCSR8_L1IUPRE               (1ULL << MCSR8_L1IUPRE_SHIFT)
-+
-+#define LOONGARCH_CSR_MCSR9          0xc9 /* CPUCFG18 and CPUCFG19 */
-+#define  MCSR9_L2U_SIZE_SHIFT        56
-+#define  MCSR9_L2U_SIZE_WIDTH        7
-+#define  MCSR9_L2U_SIZE              (0x7fULL << MCSR9_L2U_SIZE_SHIFT)
-+#define  MCSR9_L2U_IDX_SHIFT         48
-+#define  MCSR9_L2U_IDX_WIDTH         8
-+#define  MCSR9_L2U_IDX               (0xffULL << MCSR9_IDX_LOG_SHIFT)
-+#define  MCSR9_L2U_WAY_SHIFT         32
-+#define  MCSR9_L2U_WAY_WIDTH         16
-+#define  MCSR9_L2U_WAY               (0xffffULL << MCSR9_L2U_WAY_SHIFT)
-+#define  MCSR9_L1D_SIZE_SHIFT        24
-+#define  MCSR9_L1D_SIZE_WIDTH        7
-+#define  MCSR9_L1D_SIZE              (0x7fULL << MCSR9_L1D_SIZE_SHIFT)
-+#define  MCSR9_L1D_IDX_SHIFT         16
-+#define  MCSR9_L1D_IDX_WIDTH         8
-+#define  MCSR9_L1D_IDX               (0xffULL << MCSR9_L1D_IDX_SHIFT)
-+#define  MCSR9_L1D_WAY_SHIFT         0
-+#define  MCSR9_L1D_WAY_WIDTH         16
-+#define  MCSR9_L1D_WAY               (0xffffULL << MCSR9_L1D_WAY_SHIFT)
-+
-+#define LOONGARCH_CSR_MCSR10         0xca /* CPUCFG20 */
-+#define  MCSR10_L3U_SIZE_SHIFT       24
-+#define  MCSR10_L3U_SIZE_WIDTH       7
-+#define  MCSR10_L3U_SIZE             (0x7fULL << MCSR10_L3U_SIZE_SHIFT)
-+#define  MCSR10_L3U_IDX_SHIFT        16
-+#define  MCSR10_L3U_IDX_WIDTH        8
-+#define  MCSR10_L3U_IDX              (0xffULL << MCSR10_L3U_IDX_SHIFT)
-+#define  MCSR10_L3U_WAY_SHIFT        0
-+#define  MCSR10_L3U_WAY_WIDTH        16
-+#define  MCSR10_L3U_WAY              (0xffffULL << MCSR10_L3U_WAY_SHIFT)
-+
-+#define LOONGARCH_CSR_MCSR24         0xf0 /* CPUCFG48 */
-+#define  MCSR24_RAMCG_SHIFT          3
-+#define  MCSR24_RAMCG                (1ULL << MCSR24_RAMCG_SHIFT)
-+#define  MCSR24_VFPUCG_SHIFT         2
-+#define  MCSR24_VFPUCG               (1ULL << MCSR24_VFPUCG_SHIFT)
-+#define  MCSR24_NAPEN_SHIFT          1
-+#define  MCSR24_NAPEN                (1ULL << MCSR24_NAPEN_SHIFT)
-+#define  MCSR24_MCSRLOCK_SHIFT       0
-+#define  MCSR24_MCSRLOCK             (1ULL << MCSR24_MCSRLOCK_SHIFT)
-+
-+/* Uncached accelerate windows registers  */
-+#define LOONGARCH_CSR_UCAWIN         0x100 /* read only info */
-+#define LOONGARCH_CSR_UCAWIN0_LO     0x102 /* win0 low */
-+#define LOONGARCH_CSR_UCAWIN0_HI     0x103 /* win0 high */
-+#define LOONGARCH_CSR_UCAWIN1_LO     0x104 /* win1 low */
-+#define LOONGARCH_CSR_UCAWIN1_HI     0x105 /* win1 high */
-+#define LOONGARCH_CSR_UCAWIN2_LO     0x106 /* win2 low */
-+#define LOONGARCH_CSR_UCAWIN2_HI     0x107 /* win2 high */
-+#define LOONGARCH_CSR_UCAWIN3_LO     0x108 /* win3 low */
-+#define LOONGARCH_CSR_UCAWIN3_HI     0x109 /* win3 high */
-+
-+/* Direct map windows registers */
-+#define LOONGARCH_CSR_DMWIN0         0x180 /* direct map win0: MEM & IF */
-+#define LOONGARCH_CSR_DMWIN1         0x181 /* direct map win1: MEM & IF */
-+#define LOONGARCH_CSR_DMWIN2         0x182 /* direct map win2: MEM */
-+#define LOONGARCH_CSR_DMWIN3         0x183 /* direct map win3: MEM */
-+
-+/* Performance counter registers */
-+#define LOONGARCH_CSR_PERFCTRL0      0x200 /* perf event 0 config */
-+#define LOONGARCH_CSR_PERFCNTR0      0x201 /* perf event 0 count value */
-+#define LOONGARCH_CSR_PERFCTRL1      0x202 /* perf event 1 config */
-+#define LOONGARCH_CSR_PERFCNTR1      0x203 /* perf event 1 count value */
-+#define LOONGARCH_CSR_PERFCTRL2      0x204 /* perf event 2 config */
-+#define LOONGARCH_CSR_PERFCNTR2      0x205 /* perf event 2 count value */
-+#define LOONGARCH_CSR_PERFCTRL3      0x206 /* perf event 3 config */
-+#define LOONGARCH_CSR_PERFCNTR3      0x207 /* perf event 3 count value */
-+#define  CSR_PERFCTRL_PLV0           (1ULL << 16)
-+#define  CSR_PERFCTRL_PLV1           (1ULL << 17)
-+#define  CSR_PERFCTRL_PLV2           (1ULL << 18)
-+#define  CSR_PERFCTRL_PLV3           (1ULL << 19)
-+#define  CSR_PERFCTRL_IE             (1ULL << 20)
-+#define  CSR_PERFCTRL_EVENT          0x3ff
-+
-+/* CSR register */
-+#define CPU_LOONGARCH_CSR    \
-+    uint64_t CSR_CRMD;       \
-+    uint64_t CSR_PRMD;       \
-+    uint64_t CSR_EUEN;       \
-+    uint64_t CSR_MISC;       \
-+    uint64_t CSR_ECFG;       \
-+    uint64_t CSR_ESTAT;      \
-+    uint64_t CSR_ERA;        \
-+    uint64_t CSR_BADV;       \
-+    uint64_t CSR_BADI;       \
-+    uint64_t CSR_EEPN;       \
-+    uint64_t CSR_TLBIDX;     \
-+    uint64_t CSR_TLBEHI;     \
-+    uint64_t CSR_TLBELO0;    \
-+    uint64_t CSR_TLBELO1;    \
-+    uint64_t CSR_ASID;       \
-+    uint64_t CSR_PGDL;       \
-+    uint64_t CSR_PGDH;       \
-+    uint64_t CSR_PGD;        \
-+    uint64_t CSR_PWCTL0;     \
-+    uint64_t CSR_PWCTL1;     \
-+    uint64_t CSR_STLBPGSIZE; \
-+    uint64_t CSR_RVACFG;     \
-+    uint64_t CSR_CPUID;      \
-+    uint64_t CSR_PRCFG1;     \
-+    uint64_t CSR_PRCFG2;     \
-+    uint64_t CSR_PRCFG3;     \
-+    uint64_t CSR_KS0;        \
-+    uint64_t CSR_KS1;        \
-+    uint64_t CSR_KS2;        \
-+    uint64_t CSR_KS3;        \
-+    uint64_t CSR_KS4;        \
-+    uint64_t CSR_KS5;        \
-+    uint64_t CSR_KS6;        \
-+    uint64_t CSR_KS7;        \
-+    uint64_t CSR_KS8;        \
-+    uint64_t CSR_TMID;       \
-+    uint64_t CSR_TCFG;       \
-+    uint64_t CSR_TVAL;       \
-+    uint64_t CSR_CNTC;       \
-+    uint64_t CSR_TINTCLR;    \
-+    uint64_t CSR_LLBIT;      \
-+    uint64_t CSR_IMPCTL1;    \
-+    uint64_t CSR_IMPCTL2;    \
-+    uint64_t CSR_GNMI;       \
-+    uint64_t CSR_TLBRENT;    \
-+    uint64_t CSR_TLBRBADV;   \
-+    uint64_t CSR_TLBRERA;    \
-+    uint64_t CSR_TLBRSAVE;   \
-+    uint64_t CSR_TLBRELO0;   \
-+    uint64_t CSR_TLBRELO1;   \
-+    uint64_t CSR_TLBREHI;    \
-+    uint64_t CSR_TLBRPRMD;   \
-+    uint64_t CSR_ERRCTL;     \
-+    uint64_t CSR_ERRINFO;    \
-+    uint64_t CSR_ERRINFO1;   \
-+    uint64_t CSR_ERRENT;     \
-+    uint64_t CSR_ERRERA;     \
-+    uint64_t CSR_ERRSAVE;    \
-+    uint64_t CSR_CTAG;       \
-+    uint64_t CSR_MCSR0;      \
-+    uint64_t CSR_MCSR1;      \
-+    uint64_t CSR_MCSR2;      \
-+    uint64_t CSR_MCSR3;      \
-+    uint64_t CSR_MCSR8;      \
-+    uint64_t CSR_MCSR9;      \
-+    uint64_t CSR_MCSR10;     \
-+    uint64_t CSR_MCSR24;     \
-+    uint64_t CSR_UCAWIN;     \
-+    uint64_t CSR_UCAWIN0_LO; \
-+    uint64_t CSR_UCAWIN0_HI; \
-+    uint64_t CSR_UCAWIN1_LO; \
-+    uint64_t CSR_UCAWIN1_HI; \
-+    uint64_t CSR_UCAWIN2_LO; \
-+    uint64_t CSR_UCAWIN2_HI; \
-+    uint64_t CSR_UCAWIN3_LO; \
-+    uint64_t CSR_UCAWIN3_HI; \
-+    uint64_t CSR_DMWIN0;     \
-+    uint64_t CSR_DMWIN1;     \
-+    uint64_t CSR_DMWIN2;     \
-+    uint64_t CSR_DMWIN3;     \
-+    uint64_t CSR_PERFCTRL0;  \
-+    uint64_t CSR_PERFCNTR0;  \
-+    uint64_t CSR_PERFCTRL1;  \
-+    uint64_t CSR_PERFCNTR1;  \
-+    uint64_t CSR_PERFCTRL2;  \
-+    uint64_t CSR_PERFCNTR2;  \
-+    uint64_t CSR_PERFCTRL3;  \
-+    uint64_t CSR_PERFCNTR3;  \
++#define TARGET_PAGE_BITS 12
++#define NB_MMU_MODES 4
 +
 +#endif
+diff --git a/target/loongarch/cpu-qom.h b/target/loongarch/cpu-qom.h
+new file mode 100644
+index 0000000..307ab13
+--- /dev/null
++++ b/target/loongarch/cpu-qom.h
+@@ -0,0 +1,40 @@
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#ifndef QEMU_LOONGARCH_CPU_QOM_H
++#define QEMU_LOONGARCH_CPU_QOM_H
++
++#include "hw/core/cpu.h"
++#include "qom/object.h"
++
++#ifdef TARGET_LOONGARCH64
++#define TYPE_LOONGARCH_CPU "loongarch64-cpu"
++#else
++#error LoongArch 32bit emulation is not implemented yet
++#endif
++
++OBJECT_DECLARE_TYPE(LoongArchCPU, LoongArchCPUClass,
++                    LOONGARCH_CPU)
++
++/**
++ * LoongArchCPUClass:
++ * @parent_realize: The parent class' realize handler.
++ * @parent_reset: The parent class' reset handler.
++ *
++ * A LoongArch CPU model.
++ */
++struct LoongArchCPUClass {
++    /*< private >*/
++    CPUClass parent_class;
++    /*< public >*/
++
++    DeviceRealize parent_realize;
++    DeviceReset parent_reset;
++};
++
++#endif
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+new file mode 100644
+index 0000000..4db2d0f
+--- /dev/null
++++ b/target/loongarch/cpu.c
+@@ -0,0 +1,293 @@
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/qemu-print.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "sysemu/qtest.h"
++#include "exec/exec-all.h"
++#include "hw/qdev-properties.h"
++#include "hw/qdev-clock.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "cpu.h"
++#include "cpu-csr.h"
++#include "cpu-qom.h"
++
++static const char * const excp_names[EXCP_LAST + 1] = {
++    [EXCP_INTE] = "Interrupt error",
++    [EXCP_ADE] = "Address error",
++    [EXCP_SYSCALL] = "Syscall",
++    [EXCP_BREAK] = "Break",
++    [EXCP_FPDIS] = "FPU Disabled",
++    [EXCP_INE] = "Inst. Not Exist",
++    [EXCP_TRAP] = "Trap",
++    [EXCP_FPE] = "Floating Point Exception",
++    [EXCP_TLBM] = "TLB modified fault",
++    [EXCP_TLBL] = "TLB miss on a load",
++    [EXCP_TLBS] = "TLB miss on a store",
++    [EXCP_TLBPE] = "TLB Privilege Error",
++    [EXCP_TLBXI] = "TLB Execution-Inhibit exception",
++    [EXCP_TLBRI] = "TLB Read-Inhibit exception",
++};
++
++const char *loongarch_exception_name(int32_t exception)
++{
++    if (exception < 0 || exception > EXCP_LAST) {
++        return "unknown";
++    }
++    return excp_names[exception];
++}
++
++target_ulong exception_resume_pc(CPULoongArchState *env)
++{
++    target_ulong bad_pc;
++
++    bad_pc = env->active_tc.PC;
++
++    return bad_pc;
++}
++
++void QEMU_NORETURN do_raise_exception_err(CPULoongArchState *env,
++                                          uint32_t exception,
++                                          int error_code,
++                                          uintptr_t pc)
++{
++    CPUState *cs = env_cpu(env);
++
++    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
++                  __func__,
++                  exception,
++                  loongarch_exception_name(exception),
++                  error_code);
++    cs->exception_index = exception;
++    env->error_code = error_code;
++
++    cpu_loop_exit_restore(cs, pc);
++}
++
++static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    env->active_tc.PC = value & ~(target_ulong)1;
++}
++
++#ifdef CONFIG_TCG
++static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
++                                              const TranslationBlock *tb)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    env->active_tc.PC = tb->pc;
++    env->hflags &= ~LOONGARCH_HFLAG_BMASK;
++    env->hflags |= tb->flags & LOONGARCH_HFLAG_BMASK;
++}
++#endif /* CONFIG_TCG */
++
++static bool loongarch_cpu_has_work(CPUState *cs)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    bool has_work = false;
++
++    if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
++        cpu_loongarch_hw_interrupts_pending(env)) {
++            has_work = true;
++    }
++
++    return has_work;
++}
++
++static void set_loongarch_feature(CPULoongArchState *env, int feature)
++{
++    env->features |= (1ULL << feature);
++}
++
++static void set_loongarch_csr(CPULoongArchState *env)
++{
++    env->CSR_PRCFG1 = 0x72f8;
++    env->CSR_PRCFG2 = 0x3ffff000;
++    env->CSR_PRCFG3 = 0x8073f2;
++    env->CSR_CRMD = 0xa8;
++    env->CSR_ECFG = 0x70000;
++    env->CSR_STLBPGSIZE = 0xe;
++    env->CSR_RVACFG = 0x0;
++    env->CSR_MCSR0 = 0x3f2f2fe0014c010;
++    env->CSR_MCSR1 = 0xcff0060c3cf;
++    env->CSR_MCSR2 = 0x1000105f5e100;
++    env->CSR_MCSR3 = 0x0;
++    env->CSR_MCSR8 = 0x608000300002c3d;
++    env->CSR_MCSR9 = 0x608000f06080003;
++    env->CSR_MCSR10 = 0x60f000f;
++    env->CSR_MCSR24 = 0x0;
++}
++
++/* LoongArch CPU definitions */
++static void loongarch_3a5000_initfn(Object *obj)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
++    CPULoongArchState *env = &cpu->env;
++
++    set_loongarch_feature(env, LA_FEATURE_3A5000);
++    set_loongarch_csr(env);
++}
++
++static void loongarch_cpu_list_entry(gpointer data, gpointer user_data)
++{
++    const char *typename = object_class_get_name(OBJECT_CLASS(data));
++
++    qemu_printf("%s\n", typename);
++}
++
++void loongarch_cpu_list(void)
++{
++    GSList *list;
++    list = object_class_get_list_sorted(TYPE_LOONGARCH_CPU, false);
++    g_slist_foreach(list, loongarch_cpu_list_entry, NULL);
++    g_slist_free(list);
++}
++
++static void fpu_init(CPULoongArchState *env)
++{
++    memcpy(&env->active_fpu, &env->fpus[0], sizeof(env->active_fpu));
++}
++
++static void loongarch_cpu_reset(DeviceState *dev)
++{
++    CPUState *cs = CPU(dev);
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_GET_CLASS(cpu);
++    CPULoongArchState *env = &cpu->env;
++
++    lacc->parent_reset(dev);
++
++    memset(env, 0, offsetof(CPULoongArchState, end_reset_fields));
++
++    set_loongarch_csr(env);
++    env->current_tc = 0;
++    env->active_fpu.fcsr0_mask = 0x1f1f03df;
++    env->active_fpu.fcsr0 = 0x0;
++
++    compute_hflags(env);
++    cs->exception_index = EXCP_NONE;
++}
++
++static void loongarch_cpu_disas_set_info(CPUState *s, disassemble_info *info)
++{
++    info->print_insn = print_insn_loongarch;
++}
++
++static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
++{
++    CPUState *cs = CPU(dev);
++    LoongArchCPU *cpu = LOONGARCH_CPU(dev);
++    CPULoongArchState *env = &cpu->env;
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_GET_CLASS(dev);
++    Error *local_err = NULL;
++
++    cpu_exec_realizefn(cs, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    env->exception_base = 0x1C000000;
++
++    fpu_init(env);
++
++    cpu_reset(cs);
++    qemu_init_vcpu(cs);
++
++    lacc->parent_realize(dev, errp);
++}
++
++static void loongarch_cpu_initfn(Object *obj)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
++
++    cpu_set_cpustate_pointers(cpu);
++    cpu->clock = qdev_init_clock_in(DEVICE(obj), "clk-in", NULL, cpu, 0);
++}
++
++static char *loongarch_cpu_type_name(const char *cpu_model)
++{
++    return g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
++}
++
++static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
++{
++    ObjectClass *oc;
++    char *typename;
++
++    typename = loongarch_cpu_type_name(cpu_model);
++    oc = object_class_by_name(typename);
++    g_free(typename);
++    return oc;
++}
++
++static Property loongarch_cpu_properties[] = {
++    DEFINE_PROP_INT32("core-id", LoongArchCPU, core_id, -1),
++    DEFINE_PROP_UINT32("id", LoongArchCPU, id, UNASSIGNED_CPU_ID),
++    DEFINE_PROP_INT32("node-id", LoongArchCPU, node_id, CPU_UNSET_NUMA_NODE_ID),
++    DEFINE_PROP_END_OF_LIST()
++};
++
++#ifdef CONFIG_TCG
++#include "hw/core/tcg-cpu-ops.h"
++
++static struct TCGCPUOps loongarch_tcg_ops = {
++    .initialize = loongarch_tcg_init,
++    .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
++};
++#endif /* CONFIG_TCG */
++
++static void loongarch_cpu_class_init(ObjectClass *c, void *data)
++{
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_CLASS(c);
++    CPUClass *cc = CPU_CLASS(c);
++    DeviceClass *dc = DEVICE_CLASS(c);
++
++    device_class_set_parent_realize(dc, loongarch_cpu_realizefn,
++                                    &lacc->parent_realize);
++    device_class_set_parent_reset(dc, loongarch_cpu_reset, &lacc->parent_reset);
++    device_class_set_props(dc, loongarch_cpu_properties);
++
++    cc->class_by_name = loongarch_cpu_class_by_name;
++    cc->has_work = loongarch_cpu_has_work;
++    cc->dump_state = loongarch_cpu_dump_state;
++    cc->set_pc = loongarch_cpu_set_pc;
++    cc->disas_set_info = loongarch_cpu_disas_set_info;
++#ifdef CONFIG_TCG
++    cc->tcg_ops = &loongarch_tcg_ops;
++#endif
++}
++
++#define DEFINE_LOONGARCH_CPU_TYPE(model, initfn) \
++    { \
++        .parent = TYPE_LOONGARCH_CPU, \
++        .instance_init = initfn, \
++        .name = LOONGARCH_CPU_TYPE_NAME(model), \
++    }
++
++static const TypeInfo loongarch_cpu_type_infos[] = {
++    {
++        .name = TYPE_LOONGARCH_CPU,
++        .parent = TYPE_CPU,
++        .instance_size = sizeof(LoongArchCPU),
++        .instance_init = loongarch_cpu_initfn,
++        .abstract = true,
++        .class_size = sizeof(LoongArchCPUClass),
++        .class_init = loongarch_cpu_class_init,
++    },
++    DEFINE_LOONGARCH_CPU_TYPE("Loongson-3A5000", loongarch_3a5000_initfn),
++};
++
++DEFINE_TYPES(loongarch_cpu_type_infos)
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+new file mode 100644
+index 0000000..ab1aeb6
+--- /dev/null
++++ b/target/loongarch/cpu.h
+@@ -0,0 +1,265 @@
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#ifndef LOONGARCH_CPU_H
++#define LOONGARCH_CPU_H
++
++#include "exec/cpu-defs.h"
++#include "fpu/softfloat-types.h"
++#include "hw/clock.h"
++#include "cpu-qom.h"
++#include "cpu-csr.h"
++
++#define TCG_GUEST_DEFAULT_MO (0)
++#define UNASSIGNED_CPU_ID 0xFFFFFFFF
++
++typedef union fpr_t fpr_t;
++union fpr_t {
++    float64  fd;   /* ieee double precision */
++    float32  fs[2];/* ieee single precision */
++    uint64_t d;    /* binary double fixed-point */
++    uint32_t w[2]; /* binary single fixed-point */
++};
++
++/*
++ * define FP_ENDIAN_IDX to access the same location
++ * in the fpr_t union regardless of the host endianness
++ */
++#if defined(HOST_WORDS_BIGENDIAN)
++#  define FP_ENDIAN_IDX 1
++#else
++#  define FP_ENDIAN_IDX 0
++#endif
++
++typedef struct CPULoongArchFPUContext CPULoongArchFPUContext;
++struct CPULoongArchFPUContext {
++    /* Floating point registers */
++    fpr_t fpr[32];
++    float_status fp_status;
++
++    bool cf[8];
++    /*
++     * fcsr0
++     * 31:29 |28:24 |23:21 |20:16 |15:10 |9:8 |7  |6  |5 |4:0
++     *        Cause         Flags         RM   DAE TM     Enables
++     */
++    uint32_t fcsr0;
++    uint32_t fcsr0_mask;
++    uint32_t vcsr16;
++
++#define FCSR0_M1    0xdf         /* FCSR1 mask, DAE, TM and Enables */
++#define FCSR0_M2    0x1f1f0000   /* FCSR2 mask, Cause and Flags */
++#define FCSR0_M3    0x300        /* FCSR3 mask, Round Mode */
++#define FCSR0_RM    8            /* Round Mode bit num on fcsr0 */
++#define GET_FP_CAUSE(reg)        (((reg) >> 24) & 0x1f)
++#define GET_FP_ENABLE(reg)       (((reg) >>  0) & 0x1f)
++#define GET_FP_FLAGS(reg)        (((reg) >> 16) & 0x1f)
++#define SET_FP_CAUSE(reg, v)      do { (reg) = ((reg) & ~(0x1f << 24)) | \
++                                               ((v & 0x1f) << 24);       \
++                                     } while (0)
++#define SET_FP_ENABLE(reg, v)     do { (reg) = ((reg) & ~(0x1f <<  0)) | \
++                                               ((v & 0x1f) << 0);        \
++                                     } while (0)
++#define SET_FP_FLAGS(reg, v)      do { (reg) = ((reg) & ~(0x1f << 16)) | \
++                                               ((v & 0x1f) << 16);       \
++                                     } while (0)
++#define UPDATE_FP_FLAGS(reg, v)   do { (reg) |= ((v & 0x1f) << 16); } while (0)
++#define FP_INEXACT        1
++#define FP_UNDERFLOW      2
++#define FP_OVERFLOW       4
++#define FP_DIV0           8
++#define FP_INVALID        16
++};
++
++#define TARGET_INSN_START_EXTRA_WORDS 2
++#define LOONGARCH_FPU_MAX 1
++#define N_IRQS      14
++
++enum loongarch_feature {
++    LA_FEATURE_3A5000,
++};
++
++typedef struct TCState TCState;
++struct TCState {
++    target_ulong gpr[32];
++    target_ulong PC;
++};
++
++typedef struct CPULoongArchState CPULoongArchState;
++struct CPULoongArchState {
++    TCState active_tc;
++    CPULoongArchFPUContext active_fpu;
++
++    uint32_t current_tc;
++    uint64_t scr[4];
++    uint32_t current_fpu;
++
++    /* LoongArch CSR register */
++    CPU_LOONGARCH_CSR
++    target_ulong lladdr; /* LL virtual address compared against SC */
++    target_ulong llval;
++
++    CPULoongArchFPUContext fpus[LOONGARCH_FPU_MAX];
++
++    /* QEMU */
++    int error_code;
++    uint32_t hflags;    /* CPU State */
++#define TLB_NOMATCH   0x1
++#define INST_INAVAIL  0x2 /* Invalid instruction word for BadInstr */
++    /* TMASK defines different execution modes */
++#define LOONGARCH_HFLAG_TMASK  0x1F5807FF
++#define LOONGARCH_HFLAG_KU     0x00003 /* kernel/supervisor/user mode mask   */
++#define LOONGARCH_HFLAG_UM     0x00003 /* user mode flag                     */
++#define LOONGARCH_HFLAG_KM     0x00000 /* kernel mode flag                   */
++#define LOONGARCH_HFLAG_64     0x00008 /* 64-bit instructions enabled        */
++#define LOONGARCH_HFLAG_FPU    0x00020 /* FPU enabled                        */
++#define LOONGARCH_HFLAG_F64    0x00040 /* 64-bit FPU enabled                 */
++#define LOONGARCH_HFLAG_BMASK  0x3800
++#define LOONGARCH_HFLAG_B      0x00800 /* Unconditional branch               */
++#define LOONGARCH_HFLAG_BC     0x01000 /* Conditional branch                 */
++#define LOONGARCH_HFLAG_BR     0x02000 /* branch to register (can't link TB) */
++#define LOONGARCH_HFLAG_FRE   0x2000000 /* FRE enabled */
++#define LOONGARCH_HFLAG_ELPA  0x4000000
++    target_ulong btarget;        /* Jump / branch target               */
++    target_ulong bcond;          /* Branch condition (if needed)       */
++
++    /* Fields up to this point are cleared by a CPU reset */
++    struct {} end_reset_fields;
++
++    /* Fields after this point are preserved across CPU reset. */
++    uint64_t features;
++    void *irq[N_IRQS];
++    QEMUTimer *timer; /* Internal timer */
++    target_ulong exception_base; /* ExceptionBase input to the core */
++};
++
++/**
++ * LoongArchCPU:
++ * @env: #CPULoongArchState
++ * @clock: this CPU input clock (may be connected
++ *         to an output clock from another device).
++ *
++ * A LoongArch CPU.
++ */
++struct LoongArchCPU {
++    /*< private >*/
++    CPUState parent_obj;
++    /*< public >*/
++
++    Clock *clock;
++    CPUNegativeOffsetState neg;
++    CPULoongArchState env;
++    uint32_t id;
++    int32_t node_id; /* NUMA node this CPU belongs to */
++    int32_t core_id;
++};
++
++target_ulong exception_resume_pc(CPULoongArchState *env);
++
++static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
++                                        target_ulong *pc,
++                                        target_ulong *cs_base,
++                                        uint32_t *flags)
++{
++    *pc = env->active_tc.PC;
++    *cs_base = 0;
++    *flags = env->hflags & (LOONGARCH_HFLAG_TMASK | LOONGARCH_HFLAG_BMASK);
++}
++
++static inline LoongArchCPU *loongarch_env_get_cpu(CPULoongArchState *env)
++{
++    return container_of(env, LoongArchCPU, env);
++}
++
++#define ENV_GET_CPU(e) CPU(loongarch_env_get_cpu(e))
++
++void loongarch_cpu_list(void);
++
++#define CPU_INTERRUPT_WAKE CPU_INTERRUPT_TGT_INT_0
++
++#define cpu_signal_handler cpu_loongarch_signal_handler
++#define cpu_list loongarch_cpu_list
++
++/* MMU modes definitions */
++#define MMU_MODE0_SUFFIX _kernel
++#define MMU_MODE1_SUFFIX _super
++#define MMU_MODE2_SUFFIX _user
++#define MMU_MODE3_SUFFIX _error
++#define MMU_USER_IDX 2
++
++static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
++{
++    return MMU_USER_IDX;
++}
++
++typedef CPULoongArchState CPUArchState;
++typedef LoongArchCPU ArchCPU;
++
++#include "exec/cpu-all.h"
++
++/* Exceptions */
++enum {
++    EXCP_NONE          = -1,
++    EXCP_INTE          = 0,
++    EXCP_ADE,
++    EXCP_SYSCALL,
++    EXCP_BREAK,
++    EXCP_FPDIS,
++    EXCP_INE,
++    EXCP_TRAP,
++    EXCP_FPE,
++    EXCP_TLBM,
++    EXCP_TLBL,
++    EXCP_TLBS,
++    EXCP_TLBPE,
++    EXCP_TLBXI,
++    EXCP_TLBRI,
++
++    EXCP_LAST = EXCP_TLBRI,
++};
++
++int cpu_loongarch_signal_handler(int host_signum, void *pinfo, void *puc);
++
++#define LOONGARCH_CPU_TYPE_SUFFIX "-" TYPE_LOONGARCH_CPU
++#define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
++#define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
++
++#include "exec/memattrs.h"
++
++void loongarch_tcg_init(void);
++
++void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
++
++void QEMU_NORETURN do_raise_exception_err(CPULoongArchState *env,
++                                          uint32_t exception,
++                                          int error_code,
++                                          uintptr_t pc);
++
++static inline void QEMU_NORETURN do_raise_exception(CPULoongArchState *env,
++                                                    uint32_t exception,
++                                                    uintptr_t pc)
++{
++    do_raise_exception_err(env, exception, 0, pc);
++}
++
++static inline void compute_hflags(CPULoongArchState *env)
++{
++    env->hflags &= ~(LOONGARCH_HFLAG_64 | LOONGARCH_HFLAG_FPU |
++                     LOONGARCH_HFLAG_KU | LOONGARCH_HFLAG_ELPA);
++
++    env->hflags |= (env->CSR_CRMD & CSR_CRMD_PLV);
++    env->hflags |= LOONGARCH_HFLAG_64;
++
++    if (env->CSR_EUEN & CSR_EUEN_FPEN) {
++        env->hflags |= LOONGARCH_HFLAG_FPU;
++    }
++}
++
++const char *loongarch_exception_name(int32_t exception);
++
++#endif /* LOONGARCH_CPU_H */
 -- 
 1.8.3.1
 
