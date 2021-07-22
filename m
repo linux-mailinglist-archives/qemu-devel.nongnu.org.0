@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B7D3D2364
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 14:36:34 +0200 (CEST)
-Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969D63D236A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 14:39:20 +0200 (CEST)
+Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6XwH-0000Wh-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 08:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48848)
+	id 1m6Xyx-0005kE-LF
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 08:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m6Xmk-00081g-G6
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:26:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46226)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m6Xml-00082H-JQ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:26:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m6Xmi-0007Tg-KX
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:26:42 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m6Xmj-0007Tn-3B
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:26:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1626956800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sxxa99arzvHu3pKgcnIxtt8VAAUQsqRwsH5/AeIW60I=;
- b=ihchH/OZ3Yg3KSg+Qx0fkXcBV/5zzETpHmw1hmwmWRyRR/OoelXlJA77gnfPubkTpFclhQ
- ARj6UpnPnuioC4MQAxlNbOWJds9v+AGicT348VzQF3K+2M6+Bm9gb3S+sy1wlJ0c50pPmT
- yTBjATucMRJKEsOrbUkxQKYkow7woOQ=
+ bh=dBgh/gvwJAhIITDT/rzpXMbqm8FmwmN1ZQED6/wwJPE=;
+ b=B0zT4zmuu7X2ljmNR5wf4IIWmEquuvabER1ZcekbyZXA2ZlKXoO8LPZRL0fQMLgSndseEg
+ xRWN67zKKkXjtRA+5k3ScbZIVK1Au9Ps830G942HME6HUNdv8N9sLTq8b7EpNKDUD37hOq
+ 5DvRjeSNU4V0qc1GuBMYFw3qPylsxrs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-XkOJE-iqOxySlOd4w-Jsow-1; Thu, 22 Jul 2021 08:26:36 -0400
-X-MC-Unique: XkOJE-iqOxySlOd4w-Jsow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-595-iDUrF_QiM9-7-gJb97t3Zg-1; Thu, 22 Jul 2021 08:26:39 -0400
+X-MC-Unique: iDUrF_QiM9-7-gJb97t3Zg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFBED100B700;
- Thu, 22 Jul 2021 12:26:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01153760C4;
+ Thu, 22 Jul 2021 12:26:38 +0000 (UTC)
 Received: from localhost (ovpn-112-220.ams2.redhat.com [10.36.112.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 614AB69CB7;
- Thu, 22 Jul 2021 12:26:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D21F60C5F;
+ Thu, 22 Jul 2021 12:26:37 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-6.1? 3/6] jobs: Give Job.force_cancel more meaning
-Date: Thu, 22 Jul 2021 14:26:24 +0200
-Message-Id: <20210722122627.29605-4-mreitz@redhat.com>
+Subject: [PATCH for-6.1? 4/6] job: Add job_cancel_requested()
+Date: Thu, 22 Jul 2021 14:26:25 +0200
+Message-Id: <20210722122627.29605-5-mreitz@redhat.com>
 In-Reply-To: <20210722122627.29605-1-mreitz@redhat.com>
 References: <20210722122627.29605-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -83,160 +83,148 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We largely have two cancel modes for jobs:
+Most callers of job_is_cancelled() actually want to know whether the job
+is on its way to immediate termination.  For example, we refuse to pause
+jobs that are cancelled; but this only makes sense for jobs that are
+really actually cancelled.
 
-First, there is actual cancelling.  The job is terminated as soon as
-possible, without trying to reach a consistent result.
+A mirror job that is cancelled during READY with force=false should
+absolutely be allowed to pause.  This "cancellation" (which is actually
+a kind of completion) may take an indefinite amount of time, and so
+should behave like any job during normal operation.  For example, with
+on-target-error=stop, the job should stop on write errors.  (In
+contrast, force-cancelled jobs should not get write errors, as they
+should just terminate and not do further I/O.)
 
-Second, we have mirror in the READY state.  Technically, the job is not
-really cancelled, but it just is a different completion mode.  The job
-can still run for an indefinite amount of time while it tries to reach a
-consistent result.
+Therefore, redefine job_is_cancelled() to only return true for jobs that
+are force-cancelled (which as of HEAD^ means any job that interprets the
+cancellation request as a request for immediate termination), and add
+job_cancel_request() as the general variant, which returns true for any
+jobs which have been requested to be cancelled, whether it be
+immediately or after an arbitrarily long completion phase.
 
-We want to be able to clearly distinguish which cancel mode a job is in
-(when it has been cancelled).  We can use Job.force_cancel for this, but
-right now it only reflects cancel requests from the user with
-force=true, but clearly, jobs that do not even distinguish between
-force=false and force=true are effectively always force-cancelled.
-
-So this patch has Job.force_cancel signify whether the job will
-terminate as soon as possible (force_cancel=true) or whether it will
-effectively remain running despite being "cancelled"
-(force_cancel=false).
-
-To this end, we let jobs that provide JobDriver.cancel() tell the
-generic job code whether they will terminate as soon as possible or not,
-and for jobs that do not provide that method we assume they will.
-
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/qemu/job.h | 11 ++++++++++-
- block/backup.c     |  3 ++-
- block/mirror.c     | 24 ++++++++++++++++++------
- job.c              |  6 +++++-
- 4 files changed, 35 insertions(+), 9 deletions(-)
+ include/qemu/job.h |  8 +++++++-
+ block/mirror.c     |  9 ++++-----
+ job.c              | 13 +++++++++----
+ 3 files changed, 20 insertions(+), 10 deletions(-)
 
 diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 5e8edbc2c8..8aa90f7395 100644
+index 8aa90f7395..032edf3c5f 100644
 --- a/include/qemu/job.h
 +++ b/include/qemu/job.h
-@@ -253,8 +253,17 @@ struct JobDriver {
+@@ -436,9 +436,15 @@ const char *job_type_str(const Job *job);
+ /** Returns true if the job should not be visible to the management layer. */
+ bool job_is_internal(Job *job);
  
-     /**
-      * If the callback is not NULL, it will be invoked in job_cancel_async
-+     *
-+     * This function must return true if the job will be cancelled
-+     * immediately without any further I/O (mandatory if @force is
-+     * true), and false otherwise.  This lets the generic job layer
-+     * know whether a job has been truly (force-)cancelled, or whether
-+     * it is just in a special completion mode (like mirror after
-+     * READY).
-+     * (If the callback is NULL, the job is assumed to terminate
-+     * without I/O.)
-      */
--    void (*cancel)(Job *job, bool force);
-+    bool (*cancel)(Job *job, bool force);
+-/** Returns whether the job is scheduled for cancellation. */
++/** Returns whether the job is being cancelled. */
+ bool job_is_cancelled(Job *job);
  
++/**
++ * Returns whether the job is scheduled for cancellation (at an
++ * indefinite point).
++ */
++bool job_cancel_requested(Job *job);
++
+ /** Returns whether the job is in a completed state. */
+ bool job_is_completed(Job *job);
  
-     /** Called when the job is freed */
-diff --git a/block/backup.c b/block/backup.c
-index bd3614ce70..513e1c8a0b 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -331,11 +331,12 @@ static void coroutine_fn backup_set_speed(BlockJob *job, int64_t speed)
-     }
- }
- 
--static void backup_cancel(Job *job, bool force)
-+static bool backup_cancel(Job *job, bool force)
- {
-     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
- 
-     bdrv_cancel_in_flight(s->target_bs);
-+    return true;
- }
- 
- static const BlockJobDriver backup_job_driver = {
 diff --git a/block/mirror.c b/block/mirror.c
-index d73b704473..c3514f4196 100644
+index c3514f4196..291d2ed040 100644
 --- a/block/mirror.c
 +++ b/block/mirror.c
-@@ -1089,9 +1089,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+@@ -938,7 +938,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+         job_transition_to_ready(&s->common.job);
+         s->synced = true;
+         s->actively_synced = true;
+-        while (!job_is_cancelled(&s->common.job) && !s->should_complete) {
++        while (!job_cancel_requested(&s->common.job) && !s->should_complete) {
+             job_yield(&s->common.job);
+         }
+         s->common.job.cancelled = false;
+@@ -1046,7 +1046,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+             }
+ 
+             should_complete = s->should_complete ||
+-                job_is_cancelled(&s->common.job);
++                job_cancel_requested(&s->common.job);
+             cnt = bdrv_get_dirty_count(s->dirty_bitmap);
+         }
+ 
+@@ -1089,7 +1089,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
          }
          trace_mirror_before_sleep(s, cnt, s->synced, delay_ns);
          job_sleep_ns(&s->common.job, delay_ns);
--        if (job_is_cancelled(&s->common.job) &&
--            (!s->synced || s->common.job.force_cancel))
--        {
-+        if (job_is_cancelled(&s->common.job) && s->common.job.force_cancel) {
+-        if (job_is_cancelled(&s->common.job) && s->common.job.force_cancel) {
++        if (job_is_cancelled(&s->common.job)) {
              break;
          }
          s->last_pause_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-@@ -1103,7 +1101,7 @@ immediate_exit:
+@@ -1101,8 +1101,7 @@ immediate_exit:
           * or it was cancelled prematurely so that we do not guarantee that
           * the target is a copy of the source.
           */
--        assert(ret < 0 || ((s->common.job.force_cancel || !s->synced) &&
-+        assert(ret < 0 || (s->common.job.force_cancel &&
-                job_is_cancelled(&s->common.job)));
+-        assert(ret < 0 || (s->common.job.force_cancel &&
+-               job_is_cancelled(&s->common.job)));
++        assert(ret < 0 || job_is_cancelled(&s->common.job));
          assert(need_drain);
          mirror_wait_for_all_io(s);
-@@ -1189,14 +1187,27 @@ static bool mirror_drained_poll(BlockJob *job)
-     return !!s->in_flight;
- }
- 
--static void mirror_cancel(Job *job, bool force)
-+static bool mirror_cancel(Job *job, bool force)
- {
-     MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
-     BlockDriverState *target = blk_bs(s->target);
- 
--    if (force || !job_is_ready(job)) {
-+    /*
-+     * Before the job is READY, we treat any cancellation like a
-+     * force-cancellation.
-+     */
-+    force = force || !job_is_ready(job);
-+
-+    if (force) {
-         bdrv_cancel_in_flight(target);
      }
-+    return force;
-+}
-+
-+static bool commit_active_cancel(Job *job, bool force)
-+{
-+    /* Same as above in mirror_cancel() */
-+    return force || !job_is_ready(job);
- }
- 
- static const BlockJobDriver mirror_job_driver = {
-@@ -1226,6 +1237,7 @@ static const BlockJobDriver commit_active_job_driver = {
-         .abort                  = mirror_abort,
-         .pause                  = mirror_pause,
-         .complete               = mirror_complete,
-+        .cancel                 = commit_active_cancel,
-     },
-     .drained_poll           = mirror_drained_poll,
- };
 diff --git a/job.c b/job.c
-index 9e971d64cf..e78d893a9c 100644
+index e78d893a9c..c51c8077cb 100644
 --- a/job.c
 +++ b/job.c
-@@ -719,8 +719,12 @@ static int job_finalize_single(Job *job)
- static void job_cancel_async(Job *job, bool force)
- {
-     if (job->driver->cancel) {
--        job->driver->cancel(job, force);
-+        force = job->driver->cancel(job, force);
-+    } else {
-+        /* No .cancel() means the job will behave as if force-cancelled */
-+        force = true;
-     }
+@@ -216,6 +216,11 @@ const char *job_type_str(const Job *job)
+ }
+ 
+ bool job_is_cancelled(Job *job)
++{
++    return job->cancelled && job->force_cancel;
++}
 +
-     if (job->user_paused) {
-         /* Do not call job_enter here, the caller will handle it.  */
-         if (job->driver->user_resume) {
++bool job_cancel_requested(Job *job)
+ {
+     return job->cancelled;
+ }
+@@ -650,7 +655,7 @@ static void job_conclude(Job *job)
+ 
+ static void job_update_rc(Job *job)
+ {
+-    if (!job->ret && job_is_cancelled(job)) {
++    if (!job->ret && job_cancel_requested(job)) {
+         job->ret = -ECANCELED;
+     }
+     if (job->ret) {
+@@ -704,7 +709,7 @@ static int job_finalize_single(Job *job)
+ 
+     /* Emit events only if we actually started */
+     if (job_started(job)) {
+-        if (job_is_cancelled(job)) {
++        if (job_cancel_requested(job)) {
+             job_event_cancelled(job);
+         } else {
+             job_event_completed(job);
+@@ -1015,7 +1020,7 @@ void job_complete(Job *job, Error **errp)
+     if (job_apply_verb(job, JOB_VERB_COMPLETE, errp)) {
+         return;
+     }
+-    if (job_is_cancelled(job) || !job->driver->complete) {
++    if (job_cancel_requested(job) || !job->driver->complete) {
+         error_setg(errp, "The active block job '%s' cannot be completed",
+                    job->id);
+         return;
+@@ -1043,7 +1048,7 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp)
+     AIO_WAIT_WHILE(job->aio_context,
+                    (job_enter(job), !job_is_completed(job)));
+ 
+-    ret = (job_is_cancelled(job) && job->ret == 0) ? -ECANCELED : job->ret;
++    ret = (job_cancel_requested(job) && job->ret == 0) ? -ECANCELED : job->ret;
+     job_unref(job);
+     return ret;
+ }
 -- 
 2.31.1
 
