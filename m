@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D843D2706
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:49:08 +0200 (CEST)
-Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1347D3D26FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:45:11 +0200 (CEST)
+Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6awT-0002y9-Ie
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:48:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
+	id 1m6asZ-0004Wy-4w
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akT-0000lP-Ql
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:34 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akL-0002oI-NZ
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:31 -0400
-Received: by mail-ed1-x531.google.com with SMTP id t3so7317353edc.7
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=w20at22fJRmOLaH2w4vov7p+ss5meuUwIflTMQ0+qWo=;
- b=chNXNIkZZ25SGVsg8+q2yC8N7gPsACc7zu0Skp1cjovgPWTexWGD+sGpHTz9d3qtt7
- aVw9uXUWuDT3kH89bV6cVI9kol3UR3ojKGjSPoXe9u3+5U+vtRNlAwMIu5Ag/qHFWaFm
- COGBHApgkcF0cq8fOHh76iIG9EKlajSMbH6eQFSsqlHzbqeF/YH4yXu3aabgdKVMFb9r
- eNRyvZSx/76l3XgVIe9FNO3/M0vKdGvhJUKnULVqndaVGa5h+cu/xy/5L+iiSbb9ujTB
- irfCZWmdh+uz9ih+msRqNSh7H/r42i0v4P99pBNXQWkGci1Q+osch7nO5b4e9HvPkeTs
- UNjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w20at22fJRmOLaH2w4vov7p+ss5meuUwIflTMQ0+qWo=;
- b=cW4KxYj4ZWizI5XRY+3sZcRA/qijUmxYYarMOkiHaXAKayTAgnIbci06ymHIvXZCpY
- AG7WFSwK3W9tENtteyAKWL3uZ0Y2xjeQ6oTil+6O1jAzLPoEkWmGnoXdyj+ugx642Jh/
- seW+4z21wa0li1n+FNsxBAj177XyJDM85rwo08Hq9p1Tr/nSwrQXMbahLv38CTys8xyb
- gRysf56J1r6zf2JuW4EzAedWgWCTDm/H7vgHz+PuWszT27DOWSbgNn+42HyCFF65gF6Y
- Gbkah4M/SvKjExlBTgrZre5naP4ifwJ//R9QTnUqx+Ue3IAn9FyCVce8KOVR6Tq/6hU2
- l8iA==
-X-Gm-Message-State: AOAM5314bsj4s+PUZsqYtVyCDgNPsvTcPISBreu1bNagPNqsWgfX4Xpj
- uyb0OoXOxx3YxabiW5WxhYU5juoCgBB8Bw==
-X-Google-Smtp-Source: ABdhPJzdf/LdVMvtHrv5bTDBnqZSVuuMVG5QG3o7utp1ClrZ5jhCr3xy0tE5yuHfDkvX6B4LLtRLqw==
-X-Received: by 2002:aa7:c1cc:: with SMTP id d12mr267275edp.282.1626968184370; 
- Thu, 22 Jul 2021 08:36:24 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id qo6sm9638628ejb.122.2021.07.22.08.36.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:36:24 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] configure: Let --without-default-features disable
- vhost-kernel and vhost-vdpa
-Date: Thu, 22 Jul 2021 17:36:12 +0200
-Message-Id: <20210722153612.955537-16-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
-References: <20210722153612.955537-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6arI-0002X7-Ap
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:43:36 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6arF-0007Gk-Gq
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:43:36 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GVxR80THqz1CMbl;
+ Thu, 22 Jul 2021 23:37:40 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 23:43:28 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 23:43:27 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH for-6.1 v2 0/1] machine: Disallow specifying topology
+ parameters as zero
+Date: Thu, 22 Jul 2021 23:43:25 +0800
+Message-ID: <20210722154326.1464-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +63,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cole Robinson <crobinso@redhat.com>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+In the SMP configuration, we should either specify a topology
+parameter with a reasonable value (equal to or greater than 1)
+or just leave it omitted and QEMU will calculate its value.
+Configurations which explicitly specify the topology parameters
+as zero like "sockets=0" are meaningless, so disallow them.
 
-The vhost_kernel and vhost_vdpa variables should be pre-initialized with
-the $default_feature setting so that these features get disabled when
-the user runs the configure scripts with --without-default-features.
+However; the commit 1e63fe685804d
+(machine: pass QAPI struct to mc->smp_parse) has documented that
+'0' has the same semantics as omitting a parameter in the qapi
+comment for SMPConfiguration. So this patch fixes the doc and
+also adds the corresponding sanity check in the smp parsers.
 
-Reported-by: Cole Robinson <crobinso@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210713093155.677589-5-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 2 ++
- 1 file changed, 2 insertions(+)
+This patch originly comes form [1], and it was suggested that
+this patch fixing the doc should be sent for 6.1 to avoid a
+deprecation process in the future.
 
-diff --git a/configure b/configure
-index 40fa8cc26e..2a6d23a844 100755
---- a/configure
-+++ b/configure
-@@ -321,6 +321,7 @@ attr="auto"
- xfs="$default_feature"
- tcg="enabled"
- membarrier="$default_feature"
-+vhost_kernel="$default_feature"
- vhost_net="$default_feature"
- vhost_crypto="$default_feature"
- vhost_scsi="$default_feature"
-@@ -328,6 +329,7 @@ vhost_vsock="$default_feature"
- vhost_user="no"
- vhost_user_blk_server="auto"
- vhost_user_fs="$default_feature"
-+vhost_vdpa="$default_feature"
- bpf="auto"
- kvm="auto"
- hax="auto"
+[1] https://lore.kernel.org/qemu-devel/YPWsThPiZa3mF+zp@redhat.com/
+
+v1->v2:
+- move the check to machine_set_smp
+- update qemu-option.hx
+- v1: https://lore.kernel.org/qemu-devel/20210722021512.2600-1-wangyanan55@huawei.com/
+
+Yanan Wang (1):
+  machine: Disallow specifying topology parameters as zero
+
+ hw/core/machine.c | 14 ++++++++++++++
+ qapi/machine.json |  6 +++---
+ qemu-options.hx   | 12 +++++++-----
+ 3 files changed, 24 insertions(+), 8 deletions(-)
+
 -- 
-2.31.1
+2.19.1
 
 
