@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE023D25F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:40:58 +0200 (CEST)
-Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4473D25F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:41:15 +0200 (CEST)
+Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Zse-0006Ww-VW
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
+	id 1m6Zsw-0007Ez-5o
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6Zqj-0005Nm-OR
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:38:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23540)
+ id 1m6ZrI-0005qM-Ru
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6Zqg-0006x5-40
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:38:56 -0400
+ id 1m6ZrH-0007Mw-Gj
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626964731;
+ s=mimecast20190719; t=1626964770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQFN+Y/Jp0XojcXu0QCKiHJWr/Mmfi7IG3c5YpkBcno=;
- b=hwYIny2HhAIArLXI98WRIzsd2TQaNG3/Ij7LHDwMTog1CU//DpyCFBEC+nUthEn11Xy9ef
- PnVHlF9B/0EgOSuJjnEYE0Ddp08aWzOB+bJQVlMvc49E1Fen3IkncY0Dp6PyApLc2/2xI2
- ELfOHqnR7/GpdXLutLbpHFAUBBWjr2Q=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-iulPJ0idP5iVBOYr6Q9yKw-1; Thu, 22 Jul 2021 10:38:49 -0400
-X-MC-Unique: iulPJ0idP5iVBOYr6Q9yKw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w17-20020aa7dcd10000b02903b85a16b672so2887496edu.1
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:38:49 -0700 (PDT)
+ bh=lcJAociuKRKxP/QXHqrNsCWvdYhrawuob/ve/LjJZ3U=;
+ b=AmwPLhlYmf9N7QUpey4nDs58T21zR62rJwcP62bZMSCyiXAysQu56BVq2dMQO/SBI73tKW
+ wVTtIosw/sZvcxyefCXl6vORbDdfdv+F3nDe0mQAIxmO1lXH4DyC09PtJR46Zyw51i5ILF
+ 7mMEzOHscG5/zmIPIHHrfCK6rfvlgn0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-5yTaLyadMwmk2ku_d5OJYA-1; Thu, 22 Jul 2021 10:39:29 -0400
+X-MC-Unique: 5yTaLyadMwmk2ku_d5OJYA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ i13-20020a1709061ccdb02905478dfedcafso1864180ejh.21
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:39:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uQFN+Y/Jp0XojcXu0QCKiHJWr/Mmfi7IG3c5YpkBcno=;
- b=SiRGgVz37P+3V6vsrLqXAHGdCzTWKcYCtNc057PR4V9EtQHhamlxAdfJGyNPU1iGpf
- K1/tMWmKmAViHMyV51RPuYeKuT38DZWn5LkGoprFKeB6A5iOvbxZzpK/CU3FGvL35fyK
- WBz5zcJnmMZ/PS4wPe3hAIghrOV+4G4hj/H0vPahnwX4b6ulUVws1TO8gJH4YwGfYTnc
- SevXMzG9mQyi5mxCJXQfPq/ZIUgYY+nZJAHqCR1+ldFxcLCXp8QsyY/f42cSSTBzgiZf
- H8tgA5U/KaxNcwobg61YMIGWl856mRXlPsZSuFJJ+vPluM1bnxrtUfPB5IzR2EcRcs0K
- tTLA==
-X-Gm-Message-State: AOAM530vj2RALO94TSlxkAaqdm3b5nJormzjVHl/eDBfGXsjV9cA4TB7
- AbTHdUwMeHf/0y1rzV6fxmB4l4oRAVnk98lOWb2/urzfjN2O3gqRAC2rETuo9KlVW6ZysrVZosM
- IzP4VbTMhxibooQY=
-X-Received: by 2002:a17:906:7190:: with SMTP id
- h16mr205720ejk.251.1626964728200; 
- Thu, 22 Jul 2021 07:38:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDuJ9XzCZaPkvhGiYB4lPVXtAvlV3DrW9vfESyLb3QxwFTIAix+iow1CV9o3kph4KsUpIevQ==
-X-Received: by 2002:a17:906:7190:: with SMTP id
- h16mr205691ejk.251.1626964727973; 
- Thu, 22 Jul 2021 07:38:47 -0700 (PDT)
+ bh=lcJAociuKRKxP/QXHqrNsCWvdYhrawuob/ve/LjJZ3U=;
+ b=TAkT9+PBDYqhXNgcHdChlPw6tZG/CSt0Voo4BsrmjyjRfmUA1h4e8j0UvrundytB19
+ jyu10OQO6wYURKdl3bbE34NK/8XCA+sSOWKyrMDqfBlbNLgaFIQOncaoc8wTsO5XPjdz
+ ApoAKleTxwe8qv15VYq4DmDWtSLLosngoPEI9zPw6M1YpKgmWsSMVJFdmNiJUUDW/FJT
+ Ro4DWcHj8s9G0B5rCCf++kHQxMF/F5CYFWO0XYUDWT6WvFVsmVvW64h/VX0r2BZPnHEP
+ 8ct0o0yrNc1krqMB9CysRtXeYhUTXWnusFRCLdF7qcHnKbOInnKLh9K9BLPfjlLkPOMH
+ 0bdQ==
+X-Gm-Message-State: AOAM530inZHZLIHulVY6ocuJhp05/xJX8WgIdcLO4k1C/okrP5cXgR+D
+ qflkFpz+RpLNLrwZx3K5MXw5Lm2jci/uKaAk0t7fRSSmxI3i0IHbMwtUFx2rpbGhRKDMXnH1Uw4
+ tf+XH5//xhTGql4hiq8HoTxEgDQZ8xfmXyn7f9QvzWa8dw0lj8qfj4CBYAIchQoEZC94=
+X-Received: by 2002:a17:907:7695:: with SMTP id
+ jv21mr201591ejc.243.1626964768083; 
+ Thu, 22 Jul 2021 07:39:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwedXT2wsnpgisfEajN1VCGPjPDemAArIckjS61Ll/SiQf4WJ3MMKjjlGSOvqegd1zjOq7y4A==
+X-Received: by 2002:a17:907:7695:: with SMTP id
+ jv21mr201575ejc.243.1626964767886; 
+ Thu, 22 Jul 2021 07:39:27 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f22sm12411974edr.16.2021.07.22.07.38.46
+ by smtp.gmail.com with ESMTPSA id v16sm11929057edc.52.2021.07.22.07.39.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 07:38:46 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 0/1] machine: Disallow specifying topology
- parameters as zero
-To: "wangyanan (Y)" <wangyanan55@huawei.com>,
- Andrew Jones <drjones@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20210722021512.2600-1-wangyanan55@huawei.com>
- <87y29y7uon.fsf@redhat.com> <20210722133759.db2kjcoucf6rsz4o@gator>
- <672e17d7-bfcc-8022-044a-54a482e3c5ee@redhat.com>
- <93fb73cb-86e7-dc22-cd37-2d61718927e0@huawei.com>
+ Thu, 22 Jul 2021 07:39:27 -0700 (PDT)
+Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
+To: Peter Krempa <pkrempa@redhat.com>
+References: <20210706100141.303960-1-pbonzini@redhat.com>
+ <20210706100141.303960-37-pbonzini@redhat.com>
+ <YPkp+PF8kUyK9sy+@angien.pipo.sk>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <333c63ff-4ccd-9346-1d02-e1316ec365b0@redhat.com>
-Date: Thu, 22 Jul 2021 16:38:45 +0200
+Message-ID: <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
+Date: Thu, 22 Jul 2021 16:39:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <93fb73cb-86e7-dc22-cd37-2d61718927e0@huawei.com>
+In-Reply-To: <YPkp+PF8kUyK9sy+@angien.pipo.sk>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -107,28 +104,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/21 16:12, wangyanan (Y) wrote:
-> The smp_parse and pc_smp_parse are going to be converted into a
-> generic parser, and the added sanity-check in this patch will also be
-> tested in an unit test. So is it probably better to keep the check in the
-> parser instead of the caller? The duplication will be eliminated anyway
-> when there is one single parser.
+On 22/07/21 10:19, Peter Krempa wrote:
+> This patch breaks detection of certain machine options features in
+> libvirt which were being detected from 'query-command-line-options'.
 > 
-> But I can also implement the check in machine_set_smp as you mentioned
-> if it's more reasonable and preferred. :)
+> I presume the change simply removed this from the output of
+> query-command-line-options due to the historical cruft how the
+> aforementioned command works.
+> 
+> Unfortunately I didn't find any suitable replacement from what we are
+> querying.
 
-Yes, I would prefer to avoid having duplicate code.  There are some 
-common checks already in machine_set_smp, e.g. comparing ms->smp.cpus 
-against mc->min_cpus and mc->max_cpus.
+Yep, there is already a patch queued for this.
 
 Paolo
 
