@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088873D1EDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:22:58 +0200 (CEST)
-Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2DF3D1EBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:14:08 +0200 (CEST)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6T2n-0001qc-3J
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47996)
+	id 1m6SuE-0008NR-RZ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StB-0006TI-FO
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:01 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6St9-0005W8-V1
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:01 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u1so4791472wrs.1
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=f8o0n+4DG6HViuGjG54BZ2SQjZzUv2ICi5cU27e7QLU=;
- b=DkGP6sXMmwp3ds9M9m4o4yV6tmuP/fpq6w09dV7vkTQiteGQp6w583yA0Gv+62fqzv
- 4dIZrHh8TeyWQRtN5M2C4spve2nXz7ZM9LstnS+xWpDUyUWFSGxxdLLrR6GZ0nSPdP50
- DrrVu3pm5mCEJgBMb97/yMJUfohrhEGTcgb54TAL3QNiYNGWLmgmkoJKPkiAjDeP4nu+
- +vd/Vx16Mpydi498SSBRzx89rPz7bS8JyMqtEKlAKEjPakKIlIrZqGesl0B9HvIA1N7K
- qIsrkmOVGGO9CHMBJufE3RMVqIKDtamkM5WYBQnaAUb+KLHd3RHEyH4vQ1uvcVFdydMX
- OsBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=f8o0n+4DG6HViuGjG54BZ2SQjZzUv2ICi5cU27e7QLU=;
- b=sPohf+2dPVyFgZv4MGr6m3bWgdHagFQ4qzLXASV5E2SbLIPED4uEnv5kLO2NeQXl48
- uF5J7nsQIHbapP1Z9DXJS71P6h/roCo0DzdtC0v4eie7iNECvb+2+BAy70GtSXv86CM5
- 6YkWZK+yuuvS3a0ixq5HTePq0H+YQB6XmOWlf2nP3HULbOA5Xm/n8lbhJLl1ZqpGkwD2
- NbCzYXqX9GxgPX/ZuSjREInaFMDe1p7nT+Aq6oiRyiYW0UYPKEIniv8rOMcj3e18C1Vu
- PudifvyZrWrpqJ/FF9kLJeEo8zpWUAciBykvuyN8YXJDkxPEshP4HHLHHntmcpAeLo7E
- +apQ==
-X-Gm-Message-State: AOAM532tuasglhfwdtog+o6eE6qi+7KwUxkC9+bvIK8u+zH5kBsiCDNS
- bD7fEC8cbkFxIQWLPcNCfhlEd+DdD2U=
-X-Google-Smtp-Source: ABdhPJwU82LDKw5fcB2K+PtoxSzxkJ5XYLmduhCSd7Ix2Gl67G3Sy4VdRbZy6iPNLOtQ5wTxz8x9AQ==
-X-Received: by 2002:a05:6000:1a86:: with SMTP id
- f6mr26555386wry.127.1626937978487; 
- Thu, 22 Jul 2021 00:12:58 -0700 (PDT)
-Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:12:58 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/13] tests/plugins/insn: made arg inline not positional
- and parse it as bool
-Date: Thu, 22 Jul 2021 09:12:33 +0200
-Message-Id: <20210722071236.139520-11-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
-References: <20210722071236.139520-1-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6St0-0005yb-3p
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:50 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6Ssu-0005DO-U8
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:49 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GVk5h0chTz1CLgp;
+ Thu, 22 Jul 2021 15:06:48 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 15:12:35 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 15:12:35 +0800
+Subject: Re: [PATCH for-6.2 v2 02/11] machine: Make smp_parse generic enough
+ for all arches
+To: Cornelia Huck <cohuck@redhat.com>, <qemu-devel@nongnu.org>
+References: <20210719032043.25416-1-wangyanan55@huawei.com>
+ <20210719032043.25416-3-wangyanan55@huawei.com> <87zguh8oax.fsf@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <a97c919a-e056-5d51-ad0b-43a566050def@huawei.com>
+Date: Thu, 22 Jul 2021 15:12:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87zguh8oax.fsf@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.117,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +69,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre
+ Morel <pmorel@linux.ibm.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ IgorMammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Made argument "inline" not positional, this has two benefits. First is
-that we adhere to how QEMU passes args generally, by taking the last
-value of an argument and drop the others. And the second is that this
-sets up a framework for potentially adding new args easily.
+On 2021/7/20 14:57, Cornelia Huck wrote:
+> On Mon, Jul 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+>
+>> Currently the only difference between smp_parse and pc_smp_parse
+>> is the support of multi-dies and the related error reporting code.
+>> With an arch compat variable "bool smp_dies_supported", we can
+>> easily make smp_parse generic enough for all arches and the PC
+>> specific one can be removed.
+>>
+>> Making smp_parse() generic enough can reduce code duplication and
+>> ease the code maintenance, and also allows extending the topology
+>> with more arch specific members (e.g., clusters) in the future.
+> So I guess that should also allow us to include s390x books/drawers?
+I guess so. Ideally, we hope for a generic parser which is friendly to 
+different
+arch-specific members. We now have included PC specific dies, then I think
+maybe we should also welcome s390 specific books/drawers in.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- tests/plugin/insn.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Now only sockets/cores/threads will be automatically calculated if omitted,
+the later introduced members (e.g. dies) will directly default to 1 if 
+omitted.
+So if we also treat books/drawers like dies, at least the calculation 
+code will
+be easy to maintain when new members come in the generic parser.
+>> No functional change intended.
+>>
+>> Suggested-by: Andrew Jones <drjones@redhat.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/core/machine.c   | 28 ++++++++++-------
+>>   hw/i386/pc.c        | 76 +--------------------------------------------
+>>   include/hw/boards.h |  1 +
+>>   3 files changed, 19 insertions(+), 86 deletions(-)
+>>
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index d73daa10f4..ed6712e964 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -743,6 +743,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>>   
+>>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>   {
+>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>>       unsigned sockets = config->has_sockets ? config->sockets : 0;
+>>       unsigned dies    = config->has_dies ? config->dies : 1;
+>> @@ -761,7 +762,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           return;
+>>       }
+>>   
+>> -    if (dies > 1) {
+>> +    if (!mc->smp_dies_supported && dies > 1) {
+>>           error_setg(errp, "dies not supported by this machine's CPU topology");
+>>           return;
+>>       }
+> I'm wondering how we should handle parameters that are not supported by
+> a certain machine type. E.g. if we add support for books/drawers,
+> specifying them is unlikely to make sense on anything but s390x. Would
+> we allow to specify books=1 on a non-s390x machine, even though that is
+> quite bogus? Or do we want to disallow setting any parameters that are
+> not supported by the machine type?
+The "parameter = 1" specification for a machine type that doesn't support
+it will not affect the calculation and also the reporting. The value 
+will be 1
+in the calculation and we can chose to only report the supported parameters
+in the error message.
 
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index c253980ec8..0f6a1938c1 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -62,8 +62,18 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
--    if (argc && !strcmp(argv[0], "inline")) {
--        do_inline = true;
-+    for (int i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        g_autofree char **tokens = g_strsplit(opt, "=", 2);
-+        if (g_strcmp0(tokens[0], "inline") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-+                return -1;
-+            }
-+        } else {
-+            fprintf(stderr, "option parsing failed: %s\n", opt);
-+            return -1;
-+        }
-     }
- 
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
--- 
-2.25.1
+The only problem is whether we should reject "parameter=1" for the unrelated
+machine types. It seems that libvirt now unconditionally default dies to 
+1, so if
+we reject "dies=1" unexpected errors may be caused.
+
+Now books and drawers are introduced, I also wonder how we plan to deal with
+these two members in libvirt, just like dies or different with it ?
+>> @@ -772,23 +773,25 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           threads = threads > 0 ? threads : 1;
+>>           if (cpus == 0) {
+>>               sockets = sockets > 0 ? sockets : 1;
+>> -            cpus = cores * threads * sockets;
+>> +            cpus = sockets * dies * cores * threads;
+>>           } else {
+>>               maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>> -            sockets = maxcpus / (cores * threads);
+>> +            sockets = maxcpus / (dies * cores * threads);
+>>           }
+>>       } else if (cores == 0) {
+>>           threads = threads > 0 ? threads : 1;
+>> -        cores = cpus / (sockets * threads);
+>> +        cores = cpus / (sockets * dies * threads);
+>>           cores = cores > 0 ? cores : 1;
+>>       } else if (threads == 0) {
+>> -        threads = cpus / (cores * sockets);
+>> +        threads = cpus / (sockets * dies * cores);
+>>           threads = threads > 0 ? threads : 1;
+>> -    } else if (sockets * cores * threads < cpus) {
+>> +    } else if (sockets * dies * cores * threads < cpus) {
+>> +        g_autofree char *dies_msg = g_strdup_printf(
+>> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
+>>           error_setg(errp, "cpu topology: "
+>> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+>> +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
+>>                      "smp_cpus (%u)",
+>> -                   sockets, cores, threads, cpus);
+>> +                   sockets, dies_msg, cores, threads, cpus);
+>>           return;
+>>       }
+>>   
+>> @@ -799,17 +802,20 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           return;
+>>       }
+>>   
+>> -    if (sockets * cores * threads != maxcpus) {
+>> +    if (sockets * dies * cores * threads != maxcpus) {
+>> +        g_autofree char *dies_msg = g_strdup_printf(
+>> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
+>>           error_setg(errp, "Invalid CPU topology: "
+>> -                   "sockets (%u) * cores (%u) * threads (%u) "
+>> +                   "sockets (%u)%s * cores (%u) * threads (%u) "
+>>                      "!= maxcpus (%u)",
+>> -                   sockets, cores, threads,
+>> +                   sockets, dies_msg, cores, threads,
+>>                      maxcpus);
+> Similarily here; do we want to mention parameters that are not
+> applicable for the machine type? That might be confusing, but a
+> conditional error message may get too complex if we add some more
+> parameters.
+I think we'd better not report all the parameters. It's ok to use the arch
+specific members in the internal calculation, but it's indeed confusing
+to report them to users if they are not supported.
+
+There may be a better implementation of the current conditional error
+message reporting, I'm thinking about it...
+>>           return;
+>>       }
+>>   
+>>       ms->smp.cpus = cpus;
+>>       ms->smp.sockets = sockets;
+>> +    ms->smp.dies = dies;
+>>       ms->smp.cores = cores;
+>>       ms->smp.threads = threads;
+>>       ms->smp.max_cpus = maxcpus;
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index c6b63c00a5..d94ef582b5 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -708,80 +708,6 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+>>       }
+>>   }
+>>   
+>> -/*
+>> - * This function is very similar to smp_parse()
+>> - * in hw/core/machine.c but includes CPU die support.
+>> - */
+>> -static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>> -{
+>> -    unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>> -    unsigned sockets = config->has_sockets ? config->sockets : 0;
+>> -    unsigned dies    = config->has_dies ? config->dies : 1;
+>> -    unsigned cores   = config->has_cores ? config->cores : 0;
+>> -    unsigned threads = config->has_threads ? config->threads : 0;
+>> -    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+>> -
+>> -    if ((config->has_cpus && config->cpus == 0) ||
+>> -        (config->has_sockets && config->sockets == 0) ||
+>> -        (config->has_dies && config->dies == 0) ||
+>> -        (config->has_cores && config->cores == 0) ||
+>> -        (config->has_threads && config->threads == 0) ||
+>> -        (config->has_maxcpus && config->maxcpus == 0)) {
+>> -        error_setg(errp, "parameters must be equal to or greater than one"
+>> -                   "if provided");
+>> -        return;
+>> -    }
+>> -
+>> -    /* compute missing values, prefer sockets over cores over threads */
+>> -    if (cpus == 0 || sockets == 0) {
+>> -        cores = cores > 0 ? cores : 1;
+>> -        threads = threads > 0 ? threads : 1;
+>> -        if (cpus == 0) {
+>> -            sockets = sockets > 0 ? sockets : 1;
+>> -            cpus = cores * threads * dies * sockets;
+>> -        } else {
+>> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>> -            sockets = maxcpus / (cores * threads * dies);
+>> -        }
+>> -    } else if (cores == 0) {
+>> -        threads = threads > 0 ? threads : 1;
+>> -        cores = cpus / (sockets * dies * threads);
+>> -        cores = cores > 0 ? cores : 1;
+>> -    } else if (threads == 0) {
+>> -        threads = cpus / (cores * dies * sockets);
+>> -        threads = threads > 0 ? threads : 1;
+>> -    } else if (sockets * dies * cores * threads < cpus) {
+>> -        error_setg(errp, "cpu topology: "
+>> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
+>> -                   "smp_cpus (%u)",
+>> -                   sockets, dies, cores, threads, cpus);
+>> -        return;
+>> -    }
+>> -
+>> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>> -
+>> -    if (maxcpus < cpus) {
+>> -        error_setg(errp, "maxcpus must be equal to or greater than smp");
+>> -        return;
+>> -    }
+>> -
+>> -    if (sockets * dies * cores * threads != maxcpus) {
+>> -        error_setg(errp, "Invalid CPU topology deprecated: "
+>> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+>> -                   "!= maxcpus (%u)",
+>> -                   sockets, dies, cores, threads,
+>> -                   maxcpus);
+>> -        return;
+>> -    }
+>> -
+>> -    ms->smp.cpus = cpus;
+>> -    ms->smp.sockets = sockets;
+>> -    ms->smp.dies = dies;
+>> -    ms->smp.cores = cores;
+>> -    ms->smp.threads = threads;
+>> -    ms->smp.max_cpus = maxcpus;
+>> -}
+>> -
+>>   static
+>>   void pc_machine_done(Notifier *notifier, void *data)
+>>   {
+>> @@ -1735,7 +1661,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>>       mc->auto_enable_numa_with_memdev = true;
+>>       mc->has_hotpluggable_cpus = true;
+>>       mc->default_boot_order = "cad";
+>> -    mc->smp_parse = pc_smp_parse;
+> We can probably remove smp_parse, and call the generic parser directly?
+Yes, I think we can.
+
+Thanks,
+Yanan
+.
+>>       mc->block_default_type = IF_IDE;
+>>       mc->max_cpus = 255;
+>>       mc->reset = pc_machine_reset;
+>> @@ -1746,6 +1671,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>>       hc->unplug = pc_machine_device_unplug_cb;
+>>       mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+>>       mc->nvdimm_supported = true;
+>> +    mc->smp_dies_supported = true;
+>>       mc->default_ram_id = "pc.ram";
+>>   
+>>       object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index accd6eff35..b6161cee88 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -246,6 +246,7 @@ struct MachineClass {
+>>       bool smbus_no_migration_support;
+>>       bool nvdimm_supported;
+>>       bool numa_mem_supported;
+>> +    bool smp_dies_supported;
+>>       bool auto_enable_numa;
+>>       const char *default_ram_id;
+>>   
+>> -- 
+>> 2.19.1
+> .
 
 
