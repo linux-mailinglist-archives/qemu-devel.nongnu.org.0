@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDB53D24E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:54:24 +0200 (CEST)
-Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D98C3D24AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:32:39 +0200 (CEST)
+Received: from localhost ([::1]:48240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Z9b-0000Ug-R4
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
+	id 1m6YoY-0001Ft-72
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.guenther@gmail.com>)
- id 1m6XYs-0001f1-9P
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:12:22 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36551)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6YkL-0006LO-Lm
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:28:20 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.guenther@gmail.com>)
- id 1m6XYq-0008EL-Hd
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:12:22 -0400
-Received: by mail-ej1-x634.google.com with SMTP id nd37so8057816ejc.3
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 05:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6YkK-0003s9-BB
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:28:17 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id c17so8329097ejk.13
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 06:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v7UgXvimVSLr+dKWli3yEDd0WSUAx6/649dwuJ2AmB4=;
- b=KH7N9dQui9RBxwqdkHfovQ07zkASYqh8ZJNKw7fKPCb0n4qsUHySUSB1PAVUE6PBE2
- VdnRkyd1GpJJYB5TK4IglF3X2C4FNoFaIQs35hIrMc/GN6SZhnELfn9uhAZRI48V7sWT
- 7R41C223wZe8NRxV/SFUqXuqj3ClM87FKnGe3CYdO6R5V1XT4aB7CLsAXLr/AE7yh26o
- CGbBkvfeI1gpQ0yobeMnBYaDPTZPBAdC52S8kUHgILsYBE6majXt3viJW7M7hs8Avj9B
- rYW+kK5HgO2ZyuMpDDZfUIm3CTAhKX+trJN3lVXbSqmgGYZ9RD4YjgikR0SGhxtj9sem
- pvRQ==
+ :cc; bh=HB3fjmBy+2S0/yWo6feEEIcp9TK6xEjDwv2/H4f8XCU=;
+ b=Fu6i+MndvDS6hdYz2VC4EARW6i1Vdx7yrKOXWY0ihC9MtaWWoJy9g5UlIEMeSA4DBP
+ 4YJOuAJWi4T3qnyK0OGIqduxZPH0NIaKkrPrt7Kz3BK+rUepkNwY4pROED6xyZ4KPgwG
+ yiyteSN9VuPX9KCVWvShLDkSdUWtDzBrzT1TpIUf775yxWXMa2tfC72srYjoHSyQpVAL
+ Dg7lKY2gO8ycYDNRi+TilsCK2AF4HpApU6vgmwcfbG8qjYUq32xyBlM/LcIE6wFA37g/
+ xC3fOKylgRgwT0XclP6guiwaHWBTtzVUpF4ZZfmt+pKVv963q007arAdu7aEddVTUxuR
+ GiyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=v7UgXvimVSLr+dKWli3yEDd0WSUAx6/649dwuJ2AmB4=;
- b=dkUatfM5FMrRiRgzVcDmvefmx6fk+gFk2lvZhPt5I2+SJQTPCpGia2WurO+7SsuC2F
- taS+zGTDB1PiQCBMJUcSfgCQ9o5Xp9XTZJ79ZhZDP7NYusbEhG2oFbnWC13EzVbms+lb
- FXfxbZzRoC8u8rMou5dQ3qb1pluZmJfnRudQ/bYA5SbZ3UVRhiqwFCnFAEEhgawGsmRP
- JkQUG9UN+mizpe6WHkJ7+lVZDNfqyNHZSRlVD3SSBuI2HgbincoicMLrTz4xd/J6kJMt
- VYQXd0JhOO/USvYREaLkrcoogiooKeK97mGfYJ1aoDplehij+EFYmdP9ntbsjtQiSZ0u
- Wjsg==
-X-Gm-Message-State: AOAM530r0+zku+3+6N4SCryL/28113POq3Y1zbwb+gYbmNiCmM+QBkFd
- zT7Q1hrP0DSEZwcirPy0Z7eyDrFvPwOMRWQz6k0=
-X-Google-Smtp-Source: ABdhPJzE8oolrUdTVPizUzMWyzjiaIvOB4PqJEbyMk52LF6pJOEm7NG6l3S5IrChnNGe0OIVTlIy6pSRFwpetFONatk=
-X-Received: by 2002:a17:906:f9c5:: with SMTP id
- lj5mr43398181ejb.482.1626955938200; 
- Thu, 22 Jul 2021 05:12:18 -0700 (PDT)
+ bh=HB3fjmBy+2S0/yWo6feEEIcp9TK6xEjDwv2/H4f8XCU=;
+ b=HudasAqQDTbWoYHFEoduktzC+zBwfL3PQYHjWkWW9lGru0NrbR9212m07D6yyC03lr
+ TZ1w/0BSZBTBU1q1XcYLzWixRgsK/KVkPBFGlDXviVLT3HKnQImGD9FarKKLh45dSHDD
+ kYq9MmRakmYUiM5W4xEQ4mzy34JZC93Z2Cr7JA1a2/rQhCS/PD//Mh5SIpJM8t6rkQuP
+ jFeniFMnX7/JnBN7b7sFYOFiD3DM/hN6WHHbqQxdkLj4dvw+WIwgJM+bibQDNVx6l5BI
+ 1u6Ibfq7EmLoL2GBuaFXm/pYtrN7hEctbOGdc8rGn/9mC/tqOSNGGkiokBcOkSKQEMVv
+ X51w==
+X-Gm-Message-State: AOAM530PP1jOlvWpfqL0e2E+rPQIlHgVzQJzombxn8HukRBWlZVM0TMQ
+ cE9/vK4x9fjFi1OlJJrdzN0LioDFh07fwrkMy1QabQ==
+X-Google-Smtp-Source: ABdhPJz68hPVq2jYzrF9Jciel947Q0lMtfHAxLf1gzuI/EPy7FWRhRoHCaF06bMw8KykUm9fNAsw0N6LfHb2SCmNx/k=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr42953283ejc.4.1626960494343; 
+ Thu, 22 Jul 2021 06:28:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-From: Richard Biener <richard.guenther@gmail.com>
-Date: Thu, 22 Jul 2021 14:12:07 +0200
-Message-ID: <CAFiYyc2UuO8qXhwzVQ63DhPPiBjecm7rzY2t4Z-UMiserEfKKQ@mail.gmail.com>
-Subject: Re: Disabling TLS address caching to help QEMU on GNU/Linux
-To: Florian Weimer <fweimer@redhat.com>
+References: <ef4df56d-5b60-99f1-fec6-fe2e62434d3f@huawei.com>
+ <82c78e1f-98ef-982e-fbcc-34da6b8aaad7@redhat.com>
+ <91d179e0-8365-e3b4-cee6-d05ce918a32d@huawei.com>
+ <1d9123e9-705a-36ef-3286-b2f347ec5894@redhat.com>
+ <5ccf2a18-0615-8f1c-47cb-163f80037feb@huawei.com>
+ <eb63f96e-59e8-55cb-d8ba-119f75ce032f@redhat.com> <YORmWw4MUBV+VTen@work-vm>
+ <fc630856-cc51-4830-9f85-4cf89e632819@redhat.com>
+ <87fsw6ebaw.fsf@secure.mitica>
+In-Reply-To: <87fsw6ebaw.fsf@secure.mitica>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Jul 2021 14:27:33 +0100
+Message-ID: <CAFEAcA8TjHHoOjOn_iyfKRNVpHYQTa3Mg-o9tfXCErDEYtUWDg@mail.gmail.com>
+Subject: Re: [question] Shall we flush ITS tables into guest RAM when shutdown
+ the VM?
+To: Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=richard.guenther@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 22 Jul 2021 09:51:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,94 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: GCC Development <gcc@gcc.gnu.org>,
- GNU C Library <libc-alpha@sourceware.org>, qemu-devel@nongnu.org
+Cc: Shenming Lu <lushenming@huawei.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 4:54 PM Florian Weimer via Gcc <gcc@gcc.gnu.org> wrote:
+On Thu, 22 Jul 2021 at 14:19, Juan Quintela <quintela@redhat.com> wrote:
 >
-> Currently, the GNU/Linux ABI does not really specify whether the thread
-> pointer (the address of the TCB) may change at a function boundary.
+> Eric Auger <eric.auger@redhat.com> wrote:
+> > Hi Dave,
+> >
+> > On 7/6/21 4:19 PM, Dr. David Alan Gilbert wrote:
+> > That's consistent with what you suggested in the past ans what is logged
+> > in the commit message of
+> >
+> > cddafd8f353d2d251b1a5c6c948a577a85838582 ("hw/intc/arm_gicv3_its:
+> > Implement state save/restore").
 >
-> Traditionally, GCC assumes that the ABI allows caching addresses of
-> thread-local variables across function calls.  Such caching varies in
-> aggressiveness between targets, probably due to differences in the
-> choice of -mtls-dialect=gnu and -mtls-dialect=gnu2 as the default for
-> the targets.  (Caching with -mtls-dialect=gnu2 appears to be more
-> aggressive.)
+> Hi
 >
-> In addition to that, glibc defines errno as this:
->
-> extern int *__errno_location (void) __attribute__ ((__const__));
-> #define errno (*__errno_location ())
->
-> And the const attribute has the side effect of caching the address of
-> errno within the same stack frame.
->
-> With stackful coroutines, such address caching is only valid if
-> coroutines are only ever resumed on the same thread on which they were
-> suspended.  (The C++ coroutine implementation is not stackful and is not
-> affected by this at the ABI level.)  Historically, I think we took the
-> position that cross-thread resumption is undefined.  But the ABIs aren't
-> crystal-clear on this matter.
->
-> One important piece of software for GNU is QEMU (not just for GNU/Linux,
-> Hurd development also benefits from virtualization).  QEMU uses stackful
-> coroutines extensively.  There are some hard-to-change code areas where
-> resumption happens across threads unfortunately.  These increasingly
-> cause problems with more inlining, inter-procedural analysis, and a
-> general push towards LTO (which is also needed for some security
-> hardening features).
->
-> Should the GNU toolchain offer something to help out the QEMU
-> developers?  Maybe GCC could offer an option to disable the caching for
-> all TLS models.  glibc could detect that mode based on a new
-> preprocessor macro and adjust its __errno_location declaration and
-> similar function declarations.  There will be a performance impact of
-> this, of course, but it would make the QEMU usage well-defined (at the
-> lowest levels).
+> Ouch, it is really a mess.  Why do we need to save it to RAM instead of
+> saving it to anywhere else?
 
-But how does TLS usage transfer between threads?  On the gimple
-level the TLS pointer is not visible and thus we'd happily CSE its address:
+The ITS tables are in guest RAM because that is how the real
+hardware works, and so it is also how the emulated version
+has to behave...
 
-__thread int x[2];
-
-void bar (int *);
-
-int *foo(int i)
-{
-  int *p = &x[i];
-  bar (p);
-  return &x[i];
-}
-
-results in
-
-int * foo (int i)
-{
-  int * p;
-  sizetype _5;
-  sizetype _6;
-
-  <bb 2> [local count: 1073741824]:
-  _5 = (sizetype) i_1(D);
-  _6 = _5 * 4;
-  p_2 = &x + _6;
-  bar (p_2);
-  return p_2;
-}
-
-to make this work as expected one would need to expose the TLS pointer
-access.
-
-> If this is a programming model that should be supported, then restoring
-> some of the optimizations would be possible, by annotating
-> context-switching functions and TLS-address-dependent functions.  But I
-> think QEMU would immediately benefit from just the simple approach that
-> disables address caching of TLS variables.
->
-> Thanks,
-> Florian
->
+-- PMM
 
