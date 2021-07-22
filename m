@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045583D1E8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 08:57:06 +0200 (CEST)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9633D1E92
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:01:24 +0200 (CEST)
+Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Sdk-0001wW-UL
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 02:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
+	id 1m6Shv-0006YU-3s
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6SbY-0008QQ-90
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:48 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43710)
+ id 1m6SbZ-0008R3-Fb
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:49 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6SbW-0006th-St
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:47 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id n1so4691876wri.10
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 23:54:45 -0700 (PDT)
+ id 1m6SbX-0006ux-53
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:49 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t5so4694465wrw.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 23:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WnusAEAyfZfbEUVNFaz2SidIzioGK97iFgSAymrfuw8=;
- b=MY6P0k/QX5A2EMelgZVkp4eILJgKq9fxJqSTh46PVSMdYu6xNoFNPGnysRSiXUCPIp
- FutAFPVP+vlgEss4qMD5XCaF1SSb27joESHbdiXA7lbSW1PCkdGM9W67pHnfaoSCk/S1
- iGkIo0eZ9r/zrfKn8UPrup75iqXpGR+HVtZxuavUOPUcgFMvSr7mhEz54N4e+LE6nGW6
- H71qsPqcBomhF33eDLd8gJ0bavuDTambTSkILKPkhg06hc+KXvi/GoineBJlfV/zKB5J
- K47EEIfcRyyx6O+T/3Xzn1/lJaH92AVsIS2pn7bjBhp+MAuo+JsVwMvwtWmP071lKVqI
- nI0w==
+ bh=Rk3htMMb3bfqB/M3qyqhgxhOXapf/D+thLXQN5K9iqg=;
+ b=ZoCEmtH8hlCVw0iT/Bad9K6tiN4/33nlUob0p7V6Z1ZTTRcxDrK1Ncfm4nBLe8iar2
+ 5BvvBFw4h4A0/RUKKtxh6DtPUIprzx67SXXHje2DhlhD3xJNgncR20pvBHEnZkyhnqMS
+ lR4GT2aLuUVm3nJfnYVTV1i5oValyauw0UVQ7nRXLBES36qSVird3wiDsGDCYl7aPcIm
+ faEkuM1fxh93urxaC3k3WpXg6ZaewOjysoFJqgtd3qyM24xMzSf7logllve1VX8WeiA1
+ WQ1EuakPl2ZhejvQ4qa4WNXTfghHCgydn65LEnKxXt7iGUQLXX0/opt9hTJbtR66LbZs
+ 7xBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WnusAEAyfZfbEUVNFaz2SidIzioGK97iFgSAymrfuw8=;
- b=sXb1uk233R6qGQblu0CIGmEeOp0K9SYoVT6bCOjzYSRafeeTaBnwKNDZ8tJrEjuPwr
- 41UqfB3eFMYXPIWP0wNXW8wYFmnI13JQDRQV5jDt8/s31wlOy4J9VIRRJ6fh1CiH3cNi
- 3ASGCgNDowaWYrazT4yY3TsVXhNtqEX4/DTr316vKw9qgsge8z0eUw8WIfXqseMOAFOm
- xSDPzV5oSCPKOWilefuwTwA+95yOGbIeh5gJcAU7kcW03OmNpm8EjVhS3/0d1rOJDKII
- lmAtAmPLKPi4Y97DbpY1VjIgV2veHr9J03+jO0b5j/kzE57KpxlKrXzZsAOmUsIkOZ2V
- aP0Q==
-X-Gm-Message-State: AOAM5303ortLkMO82FvyOtgkXFEQeSvijlh2vX3KzHGnBzrQnzfiHQIQ
- k906Ev0lkHTUYmWdnepU29YMAFNxhmo=
-X-Google-Smtp-Source: ABdhPJydDJCU457bhgqM2Yo8asrGrbPzsQaBZVDgHfdH+Qxl/94QytUiqlSJ6hqPaUgRAIgh8/jWZg==
-X-Received: by 2002:a5d:464b:: with SMTP id j11mr47076145wrs.356.1626936884426; 
- Wed, 21 Jul 2021 23:54:44 -0700 (PDT)
+ bh=Rk3htMMb3bfqB/M3qyqhgxhOXapf/D+thLXQN5K9iqg=;
+ b=iROYZa4+PR5T89oRW8qYlK7kHsD2gbUDXo2EJDJzkeDwKRQt5OEo7tT3Ccn2YYzFwR
+ 6FVnK2W2KgHoOdmYDa6/k6R7R+F2pzLV9GZnzV3T/eao++gl9rRUEbPCG+nwfExVKUC4
+ sT8X5HMRrxbaQSnpkt+NOCNjjvxCZVa8a+8A/kYB8jtz7E6Hj6OxF3qFCdYzuCcds+4m
+ zElqdVUDm6WwaLLuFYj6R0VurdxqViWzaTJCAQd77UjPV36m1EzajHTofejzelTN5fMM
+ VNjt9xdfToMcIPGaFFN0mWCHsSmDyXYVD/D7R7rzDlEVG9HaWOjXE8LT6yFU0w1Mm1VQ
+ h8Mg==
+X-Gm-Message-State: AOAM531dqmCalyR9YrPZOUi3YX0YI5VpmrMlbtpVUe+KnnZ6cEed66VM
+ 6FXWVWvGANWiqYC+iGOVZF/dTWxWILw=
+X-Google-Smtp-Source: ABdhPJwrCQT12+3cMb2sSVj+eocHjcNFBJnRoKN/uD/GdwMTUst/dyuz1Zc42xZSdQd/H0V+Xk5Xcg==
+X-Received: by 2002:adf:e805:: with SMTP id o5mr13880366wrm.321.1626936885692; 
+ Wed, 21 Jul 2021 23:54:45 -0700 (PDT)
 Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id b16sm29245426wrw.46.2021.07.21.23.54.43
+ by smtp.gmail.com with ESMTPSA id b16sm29245426wrw.46.2021.07.21.23.54.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 23:54:44 -0700 (PDT)
+ Wed, 21 Jul 2021 23:54:45 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] plugins/cache: Fixed a bug with destroying FIFO
- metadata
-Date: Thu, 22 Jul 2021 08:54:24 +0200
-Message-Id: <20210722065428.134608-2-ma.mandourr@gmail.com>
+Subject: [PATCH v3 2/5] plugins/cache: limited the scope of a mutex lock
+Date: Thu, 22 Jul 2021 08:54:25 +0200
+Message-Id: <20210722065428.134608-3-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722065428.134608-1-ma.mandourr@gmail.com>
 References: <20210722065428.134608-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,28 +87,35 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This manifests itself when associativity degree is greater than the
-number of sets and FIFO is used, otherwise it's also a memory leak
-whenever FIFO was used.
+It's not necessary to lock the address translation portion of the
+vcpu_mem_access callback.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/cache.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/plugins/cache.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index bf0d2f6097..4a71602639 100644
+index 4a71602639..695fb969dc 100644
 --- a/contrib/plugins/cache.c
 +++ b/contrib/plugins/cache.c
-@@ -200,7 +200,7 @@ static void fifo_destroy(Cache *cache)
- {
-     int i;
+@@ -355,15 +355,14 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
+     struct qemu_plugin_hwaddr *hwaddr;
+     InsnData *insn;
  
--    for (i = 0; i < cache->assoc; i++) {
-+    for (i = 0; i < cache->num_sets; i++) {
-         g_queue_free(cache->sets[i].fifo_queue);
+-    g_mutex_lock(&mtx);
+     hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
+     if (hwaddr && qemu_plugin_hwaddr_is_io(hwaddr)) {
+-        g_mutex_unlock(&mtx);
+         return;
      }
- }
+ 
+     effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
+ 
++    g_mutex_lock(&mtx);
+     if (!access_cache(dcache, effective_addr)) {
+         insn = (InsnData *) userdata;
+         insn->dmisses++;
 -- 
 2.25.1
 
