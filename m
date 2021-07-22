@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC6C3D2881
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:44:14 +0200 (CEST)
-Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3EB3D288A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:47:02 +0200 (CEST)
+Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6bnx-00031k-5A
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47162)
+	id 1m6bqf-0004hv-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:47:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6bnC-0002EW-AN
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:43:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54709)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6bnA-0005Mw-Jc
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:43:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626972203;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=yxJ//88x5BwC33fwZb33ulv5NxWYn77Io3f+9mQfUVw=;
- b=FHa/uqFHEF2tSnDj8xqxlWAmfSHmOMRFkkbxJummjhSdiLWvwzx/t6KY9cICjJRKHm9Vyd
- G90aVrJisiROtlHAg08t6L3xwW/1/ig9BH5jK294jvo4vtG+RFS3GB3IbgfKj6iM8IorbO
- n65A+8JXq68vmjPVGKNcRJyBKWTqg58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-zf16q9f7PxKFdhrcadolBA-1; Thu, 22 Jul 2021 12:43:22 -0400
-X-MC-Unique: zf16q9f7PxKFdhrcadolBA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A541A8015DB;
- Thu, 22 Jul 2021 16:43:21 +0000 (UTC)
-Received: from redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13E916F97F;
- Thu, 22 Jul 2021 16:43:19 +0000 (UTC)
-Date: Thu, 22 Jul 2021 17:43:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH] nbd/server: Add --selinux-label option
-Message-ID: <YPmgJOvrBzar9KjI@redhat.com>
-References: <20210722163240.1722364-1-rjones@redhat.com>
- <20210722163240.1722364-2-rjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1m6bok-0003t1-CP
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:45:02 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:33332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1m6boi-0006OJ-KT
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:45:02 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ gv20-20020a17090b11d4b0290173b9578f1cso4024729pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=wEovbu2KYPW7a8VWcrwGAZdznEYgzJ7v585fLcB7tdk=;
+ b=xQQAqd1v1plomXCSHVokupOkRnAqMhlVrE3f7rxkFrnrtQz8VG1K77ekbWAHFgZOnS
+ 1JxIQhBsy8GWP+a5aGttwYyDYDo2WyzYMa3bFjfKqDoxWsTHflGUxE9RIKGLyDSL2tDo
+ kPe4Rq4Od+YQ/XcsI/sITif8EJRmYsIFmopLB7dlAUqzNY4w/M16YSRNa59Tn7ciPF3H
+ 8AcI0KLh1bLqN20x5WUEm/TfOOKsp265GpoaDu0Ls8Pk7fk4yBi5e7LWBS5/tHfE5C1+
+ JVd73SZMiRkf/79bTJKJgsw8M3nZ5kQTtel5MKXvdi+uqF1HgMGnmA1Sr5JKkw3fQAMD
+ ygWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wEovbu2KYPW7a8VWcrwGAZdznEYgzJ7v585fLcB7tdk=;
+ b=XWyrpEycgLgaWnsydvzhUNE1E3twcjtl3MPnZiYt9FdDQpwKHxwOBe2+BUnPHUhgIr
+ uhCdPi3TsitkntiIzmD1bUOHJOnAv+HmFuFZ6OmzHSFUYWIBJtDAF/pMDcMyhbPDQJzx
+ 4+SkD1j9wVuZSKvKvfkSsAGlB3ynoZmjsif94xORWfyvM1dwVjmWReB76iB3jKnv8CVM
+ IMY/azvQ87NgMYYbSV/ccCdRPE6JAoYrSu07PqA/+XAFbkqgFr45VOKbqDXhx19aAQeH
+ F1lL7YBrVx23EJ7RDCm+fX05jH7B0wdwMe1TTCKPxQWvu4ntIIAlkiV/G6PeXz5+8BM7
+ 1IIQ==
+X-Gm-Message-State: AOAM532hDjzH1rF5hf+Oiyg1F88W316qRVfT2xL8Nr40CNAT1PUDD+3H
+ iS+88woO1NJhlPg2s1bUFw4HGQ==
+X-Google-Smtp-Source: ABdhPJzWRvJWJ5RmwFgW+ayN97mdH127P4JSqgxctSuVXM2hc6jj/ke1A3JMzWYMxXc7k2WS5ywKcg==
+X-Received: by 2002:a63:dd46:: with SMTP id g6mr791359pgj.347.1626972298450;
+ Thu, 22 Jul 2021 09:44:58 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+ by smtp.gmail.com with ESMTPSA id x7sm32010763pfc.96.2021.07.22.09.44.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 09:44:57 -0700 (PDT)
+Date: Thu, 22 Jul 2021 10:44:55 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v3 1/4] vhost-user-rng: Add vhost-user-rng implementation
+Message-ID: <20210722164455.GA2446676@p14s>
+References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
+ <20210710005929.1702431-2-mathieu.poirier@linaro.org>
+ <87mtqgkpub.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210722163240.1722364-2-rjones@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87mtqgkpub.fsf@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=mathieu.poirier@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +87,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: vsementsov@virtuozzo.com, eblake@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 05:32:40PM +0100, Richard W.M. Jones wrote:
-> Under SELinux, Unix domain sockets have two labels.  One is on the
-> disk and can be set with commands such as chcon(1).  There is a
-> different label stored in memory (called the process label).  This can
-> only be set by the process creating the socket.  When using SELinux +
-> SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> you must set both labels correctly first.
+Hi Alex,
+
+On Wed, Jul 21, 2021 at 09:52:50AM +0100, Alex Bennée wrote:
 > 
-> For qemu-nbd the options to set the second label are awkward.  You can
-> create the socket in a wrapper program and then exec into qemu-nbd.
-> Or you could try something with LD_PRELOAD.
+> Mathieu Poirier <mathieu.poirier@linaro.org> writes:
 > 
-> This commit adds the ability to set the label straightforwardly on the
-> command line, via the new --selinux-label flag.  (The name of the flag
-> is the same as the equivalent nbdkit option.)
+> > Following in the footsteps of what whas done for vhost-user-i2c
+> > and virtiofsd, introduce a random number generator (RNG) backend
+> > that communicates with a vhost-user server to retrieve entropy.
+> > That way another VMM could be using the same vhost-user daemon and
+> > avoid having to write yet another RNG driver.
+> >
+> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > ---
+> >  hw/virtio/Kconfig                  |   5 +
+> >  hw/virtio/meson.build              |   1 +
 > 
-> A worked example showing how to use the new option can be found in
-> this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+> FWIW there are simple merge failures for the meson and Kconfig parts due
+> to I2C being merged.
 > 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> ---
->  configure         |  9 ++++++++-
->  meson.build       | 10 +++++++++-
->  meson_options.txt |  3 +++
->  qemu-nbd.c        | 33 +++++++++++++++++++++++++++++++++
->  4 files changed, 53 insertions(+), 2 deletions(-)
 
+Right, merging I2C before this set will definitely break things.
 
-> diff --git a/meson.build b/meson.build
-> index 2f377098d7..2d7206233e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1064,6 +1064,11 @@ keyutils = dependency('libkeyutils', required: false,
->  
->  has_gettid = cc.has_function('gettid')
->  
-> +# libselinux
-> +selinux = dependency('libselinux',
-> +                     required: get_option('selinux'),
-> +                     method: 'pkg-config', kwargs: static_kwargs)
-> +
+> <snip>
+> > +
+> > +    rng->vhost_dev.nvqs = 1;
+> > +    rng->vhost_dev.vqs = g_new0(struct vhost_virtqueue, rng->vhost_dev.nvqs);
+> > +    if (!rng->vhost_dev.vqs) {
+> > +        error_setg_errno(errp, -1, "memory allocation failed");
+> > +        goto vhost_dev_init_failed;
+> > +    }
+> 
+> g_new0 will abort on memory allocation failure (which is fine for
+> userspace ;-) so you don't need the check and erro handling exit here.
+> 
 
-For the new build dep we'll need updated package lists in
-tests/docker/dockerfiles. For centos, fedra ,opensuse
-add libselinux-devel and for ubuntu 18/20 add libselinux-dev
+Ok, I'll fix this.
 
-That'll make sure this new code gets tested in CI.
+> > +
+> > +    ret = vhost_dev_init(&rng->vhost_dev, &rng->vhost_user,
+> > +                         VHOST_BACKEND_TYPE_USER, 0, errp);
+> > +    if (ret < 0) {
+> > +        error_setg_errno(errp, -ret, "vhost_dev_init() failed");
+> > +        goto vhost_dev_init_failed;
+> > +    }
+> > +
+> > +    qemu_chr_fe_set_handlers(&rng->chardev, NULL, NULL, vu_rng_event, NULL,
+> > +                             dev, NULL, true);
+> > +
+> > +    return;
+> > +
+> > +vhost_dev_init_failed:
+> > +    virtio_delete_queue(rng->req_vq);
+> > +virtio_add_queue_failed:
+> > +    virtio_cleanup(vdev);
+> > +    vhost_user_cleanup(&rng->vhost_user);
+> > +}
+> > +
+> > +static void vu_rng_device_unrealize(DeviceState *dev)
+> > +{
+> > +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > +    VHostUserRNG *rng = VHOST_USER_RNG(dev);
+> > +
+> > +    vu_rng_set_status(vdev, 0);
+> > +
+> > +    vhost_dev_cleanup(&rng->vhost_dev);
+> > +    g_free(rng->vhost_dev.vqs);
+> > +    rng->vhost_dev.vqs = NULL;
+> > +    virtio_delete_queue(rng->req_vq);
+> > +    virtio_cleanup(vdev);
+> > +    vhost_user_cleanup(&rng->vhost_user);
+> > +}
+> > +
+> > +static const VMStateDescription vu_rng_vmstate = {
+> > +    .name = "vhost-user-rng",
+> > +    .unmigratable = 1,
+> > +};
+> > +
+> > +static Property vu_rng_properties[] = {
+> > +    DEFINE_PROP_CHR("chardev", VHostUserRNG, chardev),
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> > +
+> > +static void vu_rng_class_init(ObjectClass *klass, void *data)
+> > +{
+> > +    DeviceClass *dc = DEVICE_CLASS(klass);
+> > +    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
+> > +
+> > +    device_class_set_props(dc, vu_rng_properties);
+> > +    dc->vmsd = &vu_rng_vmstate;
+> > +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+> > +
+> > +    vdc->realize = vu_rng_device_realize;
+> > +    vdc->unrealize = vu_rng_device_unrealize;
+> > +    vdc->get_features = vu_rng_get_features;
+> > +    vdc->set_status = vu_rng_set_status;
+> > +    vdc->guest_notifier_mask = vu_rng_guest_notifier_mask;
+> > +    vdc->guest_notifier_pending = vu_rng_guest_notifier_pending;
+> > +}
+> > +
+> > +static const TypeInfo vu_rng_info = {
+> > +    .name = TYPE_VHOST_USER_RNG,
+> > +    .parent = TYPE_VIRTIO_DEVICE,
+> > +    .instance_size = sizeof(VHostUserRNG),
+> > +    .class_init = vu_rng_class_init,
+> > +};
+> > +
+> > +static void vu_rng_register_types(void)
+> > +{
+> > +    type_register_static(&vu_rng_info);
+> > +}
+> > +
+> > +type_init(vu_rng_register_types)
+> > diff --git a/include/hw/virtio/vhost-user-rng.h b/include/hw/virtio/vhost-user-rng.h
+> > new file mode 100644
+> > index 000000000000..071539996d1d
+> > --- /dev/null
+> > +++ b/include/hw/virtio/vhost-user-rng.h
+> > @@ -0,0 +1,33 @@
+> > +/*
+> > + * Vhost-user RNG virtio device
+> > + *
+> > + * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +
+> > +#ifndef _QEMU_VHOST_USER_RNG_H
+> > +#define _QEMU_VHOST_USER_RNG_H
+> > +
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/vhost.h"
+> > +#include "hw/virtio/vhost-user.h"
+> > +#include "chardev/char-fe.h"
+> > +
+> > +#define TYPE_VHOST_USER_RNG "vhost-user-rng"
+> > +OBJECT_DECLARE_SIMPLE_TYPE(VHostUserRNG, VHOST_USER_RNG)
+> > +
+> > +struct VHostUserRNG {
+> > +    /*< private >*/
+> > +    VirtIODevice parent;
+> > +    CharBackend chardev;
+> > +    struct vhost_virtqueue *vhost_vq;
+> > +    struct vhost_dev vhost_dev;
+> > +    VhostUserState vhost_user;
+> > +    VirtQueue *req_vq;
+> > +    bool connected;
+> > +
+> > +    /*< public >*/
+> > +};
+> > +
+> > +#endif /* _QEMU_VHOST_USER_RNG_H */
+> 
+> Otherwise:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
+Thanks for taking the time to review this set.
 
-The rest looks ok to me
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> 
+> -- 
+> Alex Bennée
 
