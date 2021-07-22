@@ -2,137 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767103D2BCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 20:18:34 +0200 (CEST)
-Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B0E3D2C0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 20:42:06 +0200 (CEST)
+Received: from localhost ([::1]:48080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6dHF-0008AL-IE
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 14:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36000)
+	id 1m6de0-0001ML-W2
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 14:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m6dFT-0006iP-Gv; Thu, 22 Jul 2021 14:16:45 -0400
-Received: from mail-he1eur02on0715.outbound.protection.outlook.com
- ([2a01:111:f400:fe05::715]:37894
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6ddD-0000gT-GN
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:41:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m6dFQ-0001Cd-Ax; Thu, 22 Jul 2021 14:16:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z/Who5rHb/5O2VUDf4NasqwR61Y+Bq36IbItteJYG7/YZjg11wIw9wPM4kIdR36z8WdJdBu3GRkiHMTEOipgOwDHVhPHX/x4jC9IZ/EKuy6ZFeHdUnabWZLreVMJehSLfgBWCjnLpbeJ3NVQelH1YbXydYHN2Iq/nxPwBClGd4ywpTgrbiOCQ6HNI3rKGyfBVHqqRrFsM6kAZPUbctAlpZb4qAQGZf59qd+hn2F8NiVZHa4lcE+wPz/Z8HDmTERTY0JknU6ZoOCSlv0Z310dc9lWJEqsTj9IGsSyyPaXCwUpKnjYB/uNP8c1KHg/CcmeaA4BG1556X/cEzFvNQcoQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=80PZITyIx/uc86XfAga9PL+L2vqXOymI38RImO3388A=;
- b=D3GZsKIjHu015oGdUGjpwpDt+lSQ1Dw30Kh4LRQru+HUPwzpPy7WDQbGpmF8fwjxPzg4es0gsUVaDw5OiRm64GMxYUDQXLoEdoPLNHk4MrF3AiLL1DteQ7GO1xCXI0iszWJ3gQwDfSVrdjqlAWzzb9OxZlu7QN8FFbvXsyuR6AwBrxHD9XA2ZZxnzwlhJ4a/bxQkCYsI93lN1ieYNz9KtbMDxY5jFpbWHZBfZB69dOsbD/Mvq3PUoXCcKYdtVSNhLepXwc4aZBJU5QJoyRvHmbiGSxjO6kDAjbM2exjBGqJOW6pcDJeb/pY/CrO4Mj1i5yxfSSHqYqR33nVvHVtmjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=80PZITyIx/uc86XfAga9PL+L2vqXOymI38RImO3388A=;
- b=ncGJh2CC20pFxQm0TAAJEl9yXtKnCClxdKiKRkaB205E9TWkubLlZ0CCS0LeFdjpXHwV7+Aa8g3vteA/A6IrY7+oWne5TwGGfU/TJw0MA/GwvtOy4U6iDAoI7xHhc/XikL/EV8Qh5sV5u3f1cucbdYdcbG5p0Tm6C0DK2+bMn44=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6102.eurprd08.prod.outlook.com (2603:10a6:20b:23d::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Thu, 22 Jul
- 2021 18:16:36 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.034; Thu, 22 Jul 2021
- 18:16:36 +0000
-Subject: Re: [PATCH for-6.1? 3/6] jobs: Give Job.force_cancel more meaning
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20210722122627.29605-1-mreitz@redhat.com>
- <20210722122627.29605-4-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <6abdef90-c8b7-f70a-5c0f-04ddec8c45ca@virtuozzo.com>
-Date: Thu, 22 Jul 2021 21:16:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <20210722122627.29605-4-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P193CA0051.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:51::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6ddA-0000gj-Vz
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:41:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626979272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nqvj+sqe1nkpH2fFUQcWPVkdbAm5hncYADxk+v/HmqE=;
+ b=MGxz2uFcr4/Rv4pJSCXQKG51BLkLnrS0YHnihhCZpdwXJJSM+OawUdpNtpM+ofDGGE6Iqt
+ Xmy2dMtDKCk5TJ04rgD3nXdsQeE1FFqfNYPtwbW2DBEvbCZfHPjLKrbQaiOo+IiMroYTXX
+ axg5SoB8FCr/5csQAJ3hUP4J70uqXTw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-jfRv2P_OP-SQ1EJlQessrg-1; Thu, 22 Jul 2021 14:41:10 -0400
+X-MC-Unique: jfRv2P_OP-SQ1EJlQessrg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h11-20020adffa8b0000b029013a357d7bdcso2750507wrr.18
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 11:41:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nqvj+sqe1nkpH2fFUQcWPVkdbAm5hncYADxk+v/HmqE=;
+ b=nowX9zpkYTII1umHugGPeFUe7FmowguzmnfOAdvzEP0QlGCmtvQMchtLm7G2J0sHf6
+ hIRUeGaaMPkW4/4SP2pj5ok42ykNaVIDaxQ7mqV4Ews6A834869JJZcZJUNrW1oH1SOd
+ yJr7C1Cnhz+L7DSQ9QQPPvA8wultv2yZqA4p+oosoeyIa/bUhZfVw/RtnBXPOhyQzUW5
+ AVb/Y/bnkhVc8rvL10P2emOcPlS1/DXJ5hqWFu+zKSZB+ZRiUnub8C9G9fBWM6cIAAdC
+ jShJRqW1CrvAphb/hEKtcm/uH5qXwIAHtxrEbWI2pEIHDM9N25EMExE4GvYGzplRNipQ
+ Hq1w==
+X-Gm-Message-State: AOAM533FrH3IpAXyCMsNJ3yI2tyH88EUwHcbp2/NI8ztKdW4pB/p+tcS
+ NBKO/5c3PxgUUUnZIRRjjAC1xvxhZkfaywCgUVvBRjEUphJwgG509GlCUC2iaaMq+VTEkUPkUd5
+ ym6S0LujAgfwpsho=
+X-Received: by 2002:a5d:55c1:: with SMTP id i1mr1348219wrw.77.1626979269805;
+ Thu, 22 Jul 2021 11:41:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwdtaiUVU9r5OGHiuWsL5vXe08a8Xsq0P6Xvhg4YsxgtTP81KboneQsOOwuhCITHooMNUk+A==
+X-Received: by 2002:a5d:55c1:: with SMTP id i1mr1348191wrw.77.1626979269506;
+ Thu, 22 Jul 2021 11:41:09 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id n5sm3134215wmd.4.2021.07.22.11.41.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 11:41:08 -0700 (PDT)
+Date: Thu, 22 Jul 2021 19:41:06 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v3 5/5] migration: Move the yank unregister of
+ channel_close out
+Message-ID: <YPm7wjOkbuQQcesf@work-vm>
+References: <20210722175841.938739-1-peterx@redhat.com>
+ <20210722175841.938739-6-peterx@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.211) by
- PR3P193CA0051.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:51::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Thu, 22 Jul 2021 18:16:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e3e71f09-85ec-4ef4-a7ee-08d94d3cd795
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6102:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB610289201F9AF804254BB0C4C1E49@AS8PR08MB6102.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DUpw+is4YP2AIKdn/KhpXozl7ERRm64vhk0WtXb06R13dwP5mPP8rPDypJNS5C6J/JQiHVEvgFXu3db4AyGP4NiYPYYwEUR6Lkt/d/sRAuuSWLAzkgty1HEMv+5kdeWVA0jJ0Pr6PZXHO1iDriVnj44WHk55Egy/2hziPFn/2VPkOQrFtXoA7xWmzzkahwAXZ1Qc65cjnQ9Wjh0Q3COVPWTkPONb0Go9qPLQO0RnNc1apmfHV+vZ+ZWru5PCLvm2v7slWVJ1Wn3l5dvJr0bS/cI7gWebWTkEjJv/yvdmldAWBUHL10mWvnVtNet0TAiAjuO8n3gmg3/lgM06nON3Wc9eqyLBpMF8S7TLqTmVSkGe6TTPTSBtpaM9bw6eZfvhas1snzDbXc+ox9aGM3YZFWrfcrHPXbXJaqOobN6C3ZZcwY6AgUKBeg5ERbsuExrx5L78XdGFs1E70Ts5s/Sn/MLwXWmHRRuN81XXTVzkj/Bol3VMx5eERsoH0sfW/an81KclleESo16ILd29vBpBmDCUqscFCUg7afdAp4jE4Oh74AR28uiX3DcW4AaVhenvvPHq1qCtdbthjJ4tqFs4pN638XALKaHRiQ3P1A4YFWrjnP4RXVlB4Bdkl7fg8d7NDQxD9TdHPH/t7GaoMU5dSfAFPp6BHvRffe4sePqJjUZ+zaeHEUEQ1bkc2Z76Ap4TIe5ninipl5jEpkCeSMuaamN+JDFQZ/GAoW4SRBupspkQpqTZwRF/x0HaVV4iLVEAfu7DyAzH0WdPk8XWDOEWuA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39840400004)(136003)(346002)(396003)(366004)(478600001)(66476007)(66556008)(83380400001)(6666004)(66946007)(316002)(54906003)(16576012)(86362001)(2616005)(956004)(8936002)(36756003)(31686004)(8676002)(31696002)(186003)(5660300002)(2906002)(6486002)(26005)(52116002)(4326008)(38350700002)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3VrY1ordm92NWszbDRjRzRqaEVBbnhoL0V5UVdqZ0VQYkFLUlNvRzJSR2Fn?=
- =?utf-8?B?MVVnZi9JNjhIL0hGTXhDek9qOEJuTjZtVlVhVGdwdnZOazhMaUFLd3ZPeldP?=
- =?utf-8?B?azRuSDFpSkJnazd1RDRlZWNwZ09DTXpUNlhNSm5ZcDJQdEQxU3NwRnJuVUNi?=
- =?utf-8?B?S1hhUFNuck5rZHF5am53WVVmOEZrektSOEx0RzNvQmU0NUE0a3cyN1gzSU1Q?=
- =?utf-8?B?bngwcmUvTjZCOUp4THN3NFhQUzJCbWNuc25DeHdGM3o0TnIvVkJ6blA3ejVm?=
- =?utf-8?B?T0pFY04zOGdzVDdIcWlBR0N1QjFvbktKbnR5aUNwekIzNG5RTWhnQ3RTa1NC?=
- =?utf-8?B?L3IxTXZhVXM3clg5bWJqd1dvZWs4WEtuMWFVNjZ6WVFoOEJuc2pOeFBNeUlI?=
- =?utf-8?B?c01QQUROSWM2cGkwdVcrUDF5TzdkYUVGaTROTFVva29LSmpuSG9rd0RZQ1hs?=
- =?utf-8?B?YW1QRzAwYnFUaWw1b0tGcE1KanhpSGxlZitwQ0xYdXZrVG5EcTJvaitVeHFt?=
- =?utf-8?B?MWYzZXZwaHZ3WmVjRTBseE42ZjJKQjRWSDU5KzVFV01tQnZtaTdJVW8zTTR5?=
- =?utf-8?B?VnJ0aHJxcUxKaDVEZjg0N01SbUdFQSsvVVA2VXFJME1zeDNkZUsyQkRsWUVu?=
- =?utf-8?B?NkFEWU5sb3VIUEYxWTNsaC83TjFmaGdNMkFtYkJ0aEVBWngrb2QwMTBXY1V4?=
- =?utf-8?B?Rm5xWU1GbHdIYjZ2UG5yM3o0dmF0YmVQQ3lWaitjMWNpb09kZTBQdy9JaUpr?=
- =?utf-8?B?SVlHY3BNWG0yK2I4ZmJ0WHJmYzh4ZTEyZzJ4YjVGa2NJR2RWM0J1VXhvS0RX?=
- =?utf-8?B?SU53b3daWU1qK1JvWHphWGFwUVVyaUlpc1FHcnQwbmZLcCtmZjR5bWJjcWdP?=
- =?utf-8?B?TXRLTzFNZlovZFNONnFxbmxOOERaNCtEZm15NXlBOTdCZ1RrQnRlS2NsRTZN?=
- =?utf-8?B?Zk82T3UwalpOS1AvcStsQWFxNjA4azVNYVFneklSMW53VWV3S0lYUkI4Z1RS?=
- =?utf-8?B?SUI5Z1JXdDhEemEzVEgyM0dLODN4RVZYcTNjZEU1b2p5Z3pCclI4Z0x4SFJk?=
- =?utf-8?B?T3c4Q3pLZm45Z0JWdXc2OVZOOWdzZ0oranlLRTM1K1A2RStIandMRE5rQmhU?=
- =?utf-8?B?emZ1MkloUC9GamZyNDRVWHNDNUMrQzZpVGJNdEx6TldJQm1uLzhUK3FGU1l4?=
- =?utf-8?B?cGdsdXc2WEtWcElaazlPYXRkSXovbVhzN0loRXdFdG9YaWFlOXlOMDdWTlIr?=
- =?utf-8?B?RVVoLzBTNG9zc1hOQlNyWncrK3I2dGUvbC9RK2hlZ0RPR29yRWdUcHV2ZjdW?=
- =?utf-8?B?TWoraE9xVXg0Nmk3eVdhVTRmK3J6a3FhbUNwVTZRL3NaN1ZneHRORTdaZm5q?=
- =?utf-8?B?TERXNGpKaEtsUUpYckJ1Mm5zNmovTXNXV3lLSEJtTXliMnZFT1Z3SXNPaGJQ?=
- =?utf-8?B?djR3L3dvemQrY0lzV25La1NaVXpoM0F1TlJjdG5pMEpwZTFrM3BNV0tGVnRm?=
- =?utf-8?B?Y1c5MWZkNlBHa1M5K2lFeUtLWVFZRjk4eVZvekVRc044SllNWXpRVHNnVFI4?=
- =?utf-8?B?WUg5UnZEcTFodE5ZK2ZIRTZmdDc5V2oyQnl1c2VLZStCQnBIV3VhOFc0N3U3?=
- =?utf-8?B?TGRNQXIwUjUzSWJjWmZKVGhRRFRpV2VFV3VDM09sVDJzaXZVdjVsZ1p4djM4?=
- =?utf-8?B?TDBqQlV5d21NUVpKZ0FyWGYrWC9LZXhtZkk3enRDQnIzWGo3czRSZm80NnF4?=
- =?utf-8?Q?nL5bEJz+AsYkhE4QORLCvBUacVsz4D6mULbO8BH?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3e71f09-85ec-4ef4-a7ee-08d94d3cd795
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2021 18:16:36.0857 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eLcyTZz58P6fq/OoMmWETgZJKZJlCBseABskOTgwb8fryrnF9iooYwfMAu4IDOxhWoJnC+jndNUKS7NY2Ri/msy6prjItV2TRCqhJjYtjx8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6102
-Received-SPF: pass client-ip=2a01:111:f400:fe05::715;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.203, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210722175841.938739-6-peterx@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,45 +97,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Lukas Straub <lukasstraub2@web.de>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.07.2021 15:26, Max Reitz wrote:
-> We largely have two cancel modes for jobs:
+* Peter Xu (peterx@redhat.com) wrote:
+> It's efficient, but hackish to call yank unregister calls in channel_close(),
+> especially it'll be hard to debug when qemu crashed with some yank function
+> leaked.
 > 
-> First, there is actual cancelling.  The job is terminated as soon as
-> possible, without trying to reach a consistent result.
+> Remove that hack, but instead explicitly unregister yank functions at the
+> places where needed, they are:
 > 
-> Second, we have mirror in the READY state.  Technically, the job is not
-> really cancelled, but it just is a different completion mode.  The job
-> can still run for an indefinite amount of time while it tries to reach a
-> consistent result.
+>   (on src)
+>   - migrate_fd_cleanup
+>   - postcopy_pause
 > 
-> We want to be able to clearly distinguish which cancel mode a job is in
-> (when it has been cancelled).  We can use Job.force_cancel for this, but
-> right now it only reflects cancel requests from the user with
-> force=true, but clearly, jobs that do not even distinguish between
-> force=false and force=true are effectively always force-cancelled.
+>   (on dst)
+>   - migration_incoming_state_destroy
+>   - postcopy_pause_incoming
 > 
-> So this patch has Job.force_cancel signify whether the job will
-> terminate as soon as possible (force_cancel=true) or whether it will
-> effectively remain running despite being "cancelled"
-> (force_cancel=false).
-> 
-> To this end, we let jobs that provide JobDriver.cancel() tell the
-> generic job code whether they will terminate as soon as possible or not,
-> and for jobs that do not provide that method we assume they will.
-> 
-> Signed-off-by: Max Reitz<mreitz@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-In isolation this patch is rather strange: force_cancel is used only by mirror. But we keep in generic job layer. And make a handler to set a value to this variable. So in generic layer we ask mirror which value it want to set to generic variable, which is used only by mirror.. This probably shows that this feature of mirror should be mirror only and generic layer shouldn't take care of it (see also my answer to next commit).
-
-But at the end of the series the variable is not more used by mirror directly. So, technically the commit is not wrong, and it is a preparation for the following ones.
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
+> ---
+>  migration/migration.c         | 14 +++++++++++++-
+>  migration/qemu-file-channel.c |  3 ---
+>  migration/savevm.c            |  7 +++++++
+>  migration/yank_functions.c    | 14 ++++++++++++++
+>  migration/yank_functions.h    |  1 +
+>  5 files changed, 35 insertions(+), 4 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b2c48b7e17..a50330016c 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -59,6 +59,7 @@
+>  #include "multifd.h"
+>  #include "qemu/yank.h"
+>  #include "sysemu/cpus.h"
+> +#include "yank_functions.h"
+>  
+>  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+>  
+> @@ -273,6 +274,7 @@ void migration_incoming_state_destroy(void)
+>      }
+>  
+>      if (mis->from_src_file) {
+> +        migration_ioc_unregister_yank_from_file(mis->from_src_file);
+>          qemu_fclose(mis->from_src_file);
+>          mis->from_src_file = NULL;
+>      }
+> @@ -1811,6 +1813,7 @@ static void migrate_fd_cleanup(MigrationState *s)
+>           * Close the file handle without the lock to make sure the
+>           * critical section won't block for long.
+>           */
+> +        migration_ioc_unregister_yank_from_file(tmp);
+>          qemu_fclose(tmp);
+>      }
+>  
+> @@ -3351,8 +3354,17 @@ static MigThrError postcopy_pause(MigrationState *s)
+>      while (true) {
+>          QEMUFile *file;
+>  
+> -        /* Current channel is possibly broken. Release it. */
+> +        /*
+> +         * Current channel is possibly broken. Release it.  Note that this is
+> +         * guaranteed even without lock because to_dst_file should only be
+> +         * modified by the migration thread.  That also guarantees that the
+> +         * unregister of yank is safe too without the lock.  It should be safe
+> +         * even to be within the qemu_file_lock, but we didn't do that to avoid
+> +         * taking more mutex (yank_lock) within qemu_file_lock.  TL;DR: we make
+> +         * the qemu_file_lock critical section as small as possible.
+> +         */
+>          assert(s->to_dst_file);
+> +        migration_ioc_unregister_yank_from_file(s->to_dst_file);
+>          qemu_mutex_lock(&s->qemu_file_lock);
+>          file = s->to_dst_file;
+>          s->to_dst_file = NULL;
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index 2f8b1fcd46..bb5a5752df 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -107,9 +107,6 @@ static int channel_close(void *opaque, Error **errp)
+>      int ret;
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>      ret = qio_channel_close(ioc, errp);
+> -    if (OBJECT(ioc)->ref == 1) {
+> -        migration_ioc_unregister_yank(ioc);
+> -    }
+>      object_unref(OBJECT(ioc));
+>      return ret;
+>  }
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 96b5e5d639..7b7b64bd13 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -65,6 +65,7 @@
+>  #include "qemu/bitmap.h"
+>  #include "net/announce.h"
+>  #include "qemu/yank.h"
+> +#include "yank_functions.h"
+>  
+>  const unsigned int postcopy_ram_discard_version;
+>  
+> @@ -2568,6 +2569,12 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+>      /* Clear the triggered bit to allow one recovery */
+>      mis->postcopy_recover_triggered = false;
+>  
+> +    /*
+> +     * Unregister yank with either from/to src would work, since ioc behind it
+> +     * is the same
+> +     */
+> +    migration_ioc_unregister_yank_from_file(mis->from_src_file);
+> +
+>      assert(mis->from_src_file);
+>      qemu_file_shutdown(mis->from_src_file);
+>      qemu_fclose(mis->from_src_file);
+> diff --git a/migration/yank_functions.c b/migration/yank_functions.c
+> index 23697173ae..8c08aef14a 100644
+> --- a/migration/yank_functions.c
+> +++ b/migration/yank_functions.c
+> @@ -14,6 +14,7 @@
+>  #include "qemu/yank.h"
+>  #include "io/channel-socket.h"
+>  #include "io/channel-tls.h"
+> +#include "qemu-file.h"
+>  
+>  void migration_yank_iochannel(void *opaque)
+>  {
+> @@ -46,3 +47,16 @@ void migration_ioc_unregister_yank(QIOChannel *ioc)
+>                                   QIO_CHANNEL(ioc));
+>      }
+>  }
+> +
+> +void migration_ioc_unregister_yank_from_file(QEMUFile *file)
+> +{
+> +    QIOChannel *ioc = qemu_file_get_ioc(file);
+> +
+> +    if (ioc) {
+> +        /*
+> +         * For migration qemufiles, we'll always reach here.  Though we'll skip
+> +         * calls from e.g. savevm/loadvm as they don't use yank.
+> +         */
+> +        migration_ioc_unregister_yank(ioc);
+> +    }
+> +}
+> diff --git a/migration/yank_functions.h b/migration/yank_functions.h
+> index 74c7f18c91..a7577955ed 100644
+> --- a/migration/yank_functions.h
+> +++ b/migration/yank_functions.h
+> @@ -17,3 +17,4 @@
+>  void migration_yank_iochannel(void *opaque);
+>  void migration_ioc_register_yank(QIOChannel *ioc);
+>  void migration_ioc_unregister_yank(QIOChannel *ioc);
+> +void migration_ioc_unregister_yank_from_file(QEMUFile *file);
+> -- 
+> 2.31.1
+> 
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
