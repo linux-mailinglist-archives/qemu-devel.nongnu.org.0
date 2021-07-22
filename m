@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C89A3D26FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:46:43 +0200 (CEST)
-Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C35E3D26F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:43:00 +0200 (CEST)
+Received: from localhost ([::1]:40950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6auI-0007QQ-Gf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:46:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
+	id 1m6aqX-0006vH-9m
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akL-0000e2-IZ
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:26 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33358)
+ id 1m6akN-0000g6-OR
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:28 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akJ-0002lc-5b
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:25 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id dj21so7359307edb.0
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:22 -0700 (PDT)
+ id 1m6akJ-0002m9-NG
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:26 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id qa36so8970267ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=icIrCY10oRJsa1u+U1hGlXQsA/dthD4WgJ12w3rkyTQ=;
- b=uLb2fL2uPFVDdl/+awOT56PFy9g8OOE82sMf0HLoidG4cxW5ZhyuntvXA//oGzbpd0
- Kyf2SrDa6bWV/Wpe6MAvv1uKtbScLnbBB1ATcsDe/bxo2v6fZHAOM0dmwlIHjWFTVUZ2
- 97i/xQd+jpMF61B1OXp91L5TMbkA38Qwk1fJtOCEMZHvHAW3/hr5BAS4qYdHLcnb7Ewa
- Z8VnjucFsNTM84EuryFz2gkWDIHHNj16tVBw1JuM7lsTrV2miBeaIe0zz51I93rQN2Lu
- DUAJAENO+zbBx400VEmE1z8cQiBt/FoczH2Pv7IwHcMV0IdhvF9SlR8lacOwot0O9cXA
- vzMQ==
+ bh=Mdtr8XFQwFP7ENj776O5QnFQUyoHYwPVbVP0E5RC+v4=;
+ b=Hl/o7U56vixTaa03CFQq9rO2Z5Oe/nuONTr+MwXCvvJzzE4THUvJ5gUnaavd/upxAn
+ LGHw0zop/pvW4nTJ3RsPmrCPnZFOKlLTJxWaFw/RqeXDc3eqJXvUwJE7TAfb4KsHEr1J
+ v5KPSVkWIvAh19y1zHcKw7zFijqF1SUbEF9Hu2lOibbXCMJD5UixgDtIJt4PBGEYOPA0
+ mz3fZ46JllT2VAcfbfBFoZx+9/++emjzvO6x3KSkaVMrjgpQ4ldc6bMwiFV3O5GF8Spw
+ afalG9w6Ecswfem3J5fh/7tPI644Z4c2yuR6LuXqV3zrFx4M8n0rcqdl0XQG3GgdRhTX
+ iWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=icIrCY10oRJsa1u+U1hGlXQsA/dthD4WgJ12w3rkyTQ=;
- b=VqoaeTax2/JFU/U8bQqqYUds8oftr8ty1GrjJDXrq8Wcd7ozkfKACgvgA+4Hf1tsCp
- rQBqiHeox3fjyG0nPsKYMgybWf3wfDy70YVXwZUK8NjhzwMIyhDTLNyVPYhhUxWHZZ7Y
- PBX1pHXCssKN9rMMwOMQXX+1HGAKYCtdJpQxlLnbWB5ynczu5+a/OlsoiBawM5qexZlb
- 3AvLQvUQRTV1EEuzmIj1Q2bz1RTfoQCISRxhF4O8Icx+/w8Oq7KnwCjvX+9iU/j06h4c
- KI1JRi2o8xS0uls51dvSdYVgEFa+22YmtPyV3TOYt7BXt1zXLdwDmh8JP9kah9U4IMZ6
- kmVQ==
-X-Gm-Message-State: AOAM530rG19pCnLHmxmPw//jm7oPcwwAvY4oWtf3XJdTtVzEyGxY8q3M
- h2BddVGCfE3pNy5zc78/jvnS6R94N12IxQ==
-X-Google-Smtp-Source: ABdhPJwysIbkSd5yC6TT03UrYjEM9v9imjZKvWXwRSP/e+LtZ6c3Sd87cq9RTgctcG4NDQcCI6hqaw==
-X-Received: by 2002:a05:6402:30af:: with SMTP id
- df15mr254566edb.19.1626968181601; 
- Thu, 22 Jul 2021 08:36:21 -0700 (PDT)
+ bh=Mdtr8XFQwFP7ENj776O5QnFQUyoHYwPVbVP0E5RC+v4=;
+ b=Q1wQ8BSUf/CC9Vbs+VBVbBE6N0SKXyvblcoXQrBbU3boW3aK42kLBc3NiT/wiWmXFB
+ c82FVvfUkH5BuP1cjjVhp9WyIETMB10IUWFZWrOv2NgLXRFcE5eCh718W8408d+SX9mj
+ BntZ6mvoULN9faVthScTajLCzZ36FOB82F0uTSgu2rLH36ilpqt38kEkqN7FG/x5uxgV
+ 4yh0hkMS+JtjhcpTlzheRZvCOzPw5KqeaF01ZPRkJ/GlPE5SPQ1hXe2bua2GEro85Hx6
+ u+LD7KMHXwvOvKfzSDlDlIfZgdP5xvU4I+FPiuHV02pLdL9eFEGAKIP3hyf8uFprelMd
+ 8VXA==
+X-Gm-Message-State: AOAM5308HzruiwsBp9Iu9p8bv7NrqCgy92PYk6f3O7LmOAiSJ1UzGZ9N
+ gua0H9Ugr2ACb8IjMkoWv+RFupMmFlU/ug==
+X-Google-Smtp-Source: ABdhPJxywVYxuqrMcrWja00bOeYz0gWBWxy4v1f0UMEDk0ST8tccoNPE4rqoWFqn7PvJnKZ2Ov8bXw==
+X-Received: by 2002:a17:906:a18b:: with SMTP id s11mr510429ejy.8.1626968182299; 
+ Thu, 22 Jul 2021 08:36:22 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id qo6sm9638628ejb.122.2021.07.22.08.36.21
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 22 Jul 2021 08:36:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] meson: fix dependencies for modinfo
-Date: Thu, 22 Jul 2021 17:36:08 +0200
-Message-Id: <20210722153612.955537-12-pbonzini@redhat.com>
+Subject: [PULL 12/15] configure: Fix --without-default-features propagation to
+ meson
+Date: Thu, 22 Jul 2021 17:36:09 +0200
+Message-Id: <20210722153612.955537-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
 References: <20210722153612.955537-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,34 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-modinfo runs the preprocessor and therefore needs all generated input files
-to be there.  The "depends" clause does not work in Meson 0.55.3, so for
-now use "input".
+From: Thomas Huth <thuth@redhat.com>
 
+A typo prevents that many features get disabled when the user
+runs "configure" with the --without-default-features switch.
+
+Reported-by: Cole Robinson <crobinso@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210713093155.677589-2-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 6e4d2d8034..eb85fe8e44 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2335,9 +2335,9 @@ foreach d, list : modules
-         # https://github.com/mesonbuild/meson/pull/8900
-         modinfo_files += custom_target(d + '-' + m + '.modinfo',
-                                        output: d + '-' + m + '.modinfo',
--                                       input: module_ss.sources(),
-+                                       input: module_ss.sources() + genh,
-                                        capture: true,
--                                       command: [modinfo_collect, '@INPUT@'])
-+                                       command: [modinfo_collect, module_ss.sources()])
-       endif
-     else
-       if d == 'block'
+diff --git a/configure b/configure
+index 026704f15a..19c4bc1192 100755
+--- a/configure
++++ b/configure
+@@ -5206,7 +5206,7 @@ if test "$skip_meson" = no; then
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+-        $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
++        $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+ 	-Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+         "$PWD" "$source_path"
 -- 
 2.31.1
 
