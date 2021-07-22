@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B093D2BD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 20:20:29 +0200 (CEST)
-Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3513D2BB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 20:07:05 +0200 (CEST)
+Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6dJ6-0001KT-AM
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 14:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33046)
+	id 1m6d68-0002jd-OR
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 14:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6cyJ-0005Nf-HB
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:58:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22582)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6d0R-0002b7-6k
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:01:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6cyH-0006BX-Ez
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:58:59 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6d0O-0007dt-VU
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:01:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626976736;
+ s=mimecast20190719; t=1626976868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+hF+7xtGuVKQZvHq4jyUAcy84OuZgE4buGXnLhdZjuc=;
- b=HvzFVxs6dkrKj4mdRxHVum+ekkSAsDlobdAVFRJ62p+Tj5pBpbbPm1AGgw7KPTgMenKKuL
- dIk96R5dgMHUs/AH3w0gYuJLAQxyZYxgAn/tJMyvieUEGwE+/I7SyhgNxFHQho39HynYLM
- wASD4dDR0uCX/OlWVv7GnhMeP2MsIrY=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-1ReLYlKnMc6uTWDjBCGYdQ-1; Thu, 22 Jul 2021 13:58:55 -0400
-X-MC-Unique: 1ReLYlKnMc6uTWDjBCGYdQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- h12-20020a0562140dacb029030449450d37so80359qvh.14
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 10:58:55 -0700 (PDT)
+ bh=+6aK6RZwB7c2TwC8f67pJFB8gK3lbvoA0tw1I1lKCeo=;
+ b=BS1zVhdK2cigxgeAg9FeXz2SuE4pHPfHki9x2LXnFHRRKiHO2pZ6eZFRGvTpyWU/+O1A4y
+ RrpJvzJr7n3srGdnD479ya5FcqJlVCnStE9CUPwlMn/c7HjkMCZTm1tWD4yoTjIxglEiJf
+ Oowz+VpA8r9HPEHj03lMOXyZESFJHKE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-xDI3ZTmpMG21PTzR5CV44Q-1; Thu, 22 Jul 2021 14:01:03 -0400
+X-MC-Unique: xDI3ZTmpMG21PTzR5CV44Q-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p11-20020a5d59ab0000b02901526f76d738so2740856wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 11:01:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+hF+7xtGuVKQZvHq4jyUAcy84OuZgE4buGXnLhdZjuc=;
- b=r6vtYJS0+bGK9d99z/5yiiulVB9yWg2GmjE3QUCaZ9i1OXOAdrJhce+rPp7DVVCLgI
- +mkqLnlZ1YmSZZQNWoOa0OWeteg6IH0ZUk+MplOc00MtJUrELysvwihDUIjKzI2HTxjf
- K37bk5RWJjYrwUTeaxhpD6CmscBTAaazLln81iL5pf0O8pM1hmFJHb6FA0jgsi6VAXgN
- wZju1Dm2rbQiqv/K5X8zszcjolJEwqgbartEbgKOxtW4pUtPNrdhLcHytfBcAght0LCJ
- pc0VMlAQnrM+7Dy9k+6ktQhFf1YemiX8JYXM2TU+Jz5YRC8IbmznBOBoZMMcxWjljyTz
- ubDA==
-X-Gm-Message-State: AOAM530hlFOl/gAN6ojvAepENa04z5kq0dUXOF/WH5G8A+cBktOwO+6W
- rjXQo8/XjxcUKM40+86JLuyJ904u57+pChykfVRLHp/UjTjo9cUrBpwT8XxEt9VwdZI8WYSdBvr
- c5PgV/5bN4EeiG3ts3TCeR8BLvmJQzlM8G8CByj4+47PXbIE2SCMzbMD/CFTmcabC
-X-Received: by 2002:a37:9d41:: with SMTP id g62mr818075qke.55.1626976734725;
- Thu, 22 Jul 2021 10:58:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPDkGswJTWHrh+SgGCfBUU+nwisKOl4U0VYZQMEGU2toXXt4WforeUhhFFQhYfv/RerP84MQ==
-X-Received: by 2002:a37:9d41:: with SMTP id g62mr818045qke.55.1626976734453;
- Thu, 22 Jul 2021 10:58:54 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id j20sm10418018qtq.14.2021.07.22.10.58.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+6aK6RZwB7c2TwC8f67pJFB8gK3lbvoA0tw1I1lKCeo=;
+ b=rridlAXXkM/HC1VRffjgZSOYXTRyv6iDNmDomHf2XpQxM49pDbh7Vqo5Nt7Q1Piv/9
+ XUdLS8ya9hNl3KSVkyqXZRaoowe1sCqSGeu6WZxCao4PEioc8nb60DfPXyd8kQF8lbaq
+ mg0nrQrRyYVdgAeYy7UWlZjE74G/zb8Ipwjz9w1q29CrHGoiqd1rF5E7WTc2xeDhd6G+
+ nvQIB1X+a9e/r9LVJRVEYTRjlk0W6rhr18Aw9pbaZgldGCm9Kx4Jn/Jg26NRjfXXf71s
+ AO/T39/sBhru2aX2y9OwR9beVmjv+h+ctdEKt5PiWtOGvIQlKxrm0CUMHrqh+RUiElbi
+ x6Gg==
+X-Gm-Message-State: AOAM5317bEEk+clqKeC/9kMztDwFlYSi6JnH5z2tUsqOT7yBmXHpYPVM
+ fW4jNwt10q1sTf+6QYDXlUMR2grBbBROtUqhZyvezgV7mgEYAq26rqitOsX2mn2Pu2siLbSBLFP
+ ouXpFGoLuHGkBqjU=
+X-Received: by 2002:a5d:5645:: with SMTP id j5mr1179087wrw.426.1626976861614; 
+ Thu, 22 Jul 2021 11:01:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7SNmNMJXL/8J6fipbu83ws0EUAohJV2F9PvnC6GZCFyXfCUPrIyQzpkYQxC5uMZS5nDyvlw==
+X-Received: by 2002:a5d:5645:: with SMTP id j5mr1179063wrw.426.1626976861360; 
+ Thu, 22 Jul 2021 11:01:01 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id c125sm3660314wme.36.2021.07.22.11.00.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 10:58:53 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/5] migration: Move the yank unregister of channel_close
- out
-Date: Thu, 22 Jul 2021 13:58:41 -0400
-Message-Id: <20210722175841.938739-6-peterx@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210722175841.938739-1-peterx@redhat.com>
-References: <20210722175841.938739-1-peterx@redhat.com>
+ Thu, 22 Jul 2021 11:00:58 -0700 (PDT)
+Date: Thu, 22 Jul 2021 19:00:56 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: -only-migrate and the two different uses of migration blockers
+Message-ID: <YPmyWFCU45/W4P1z@work-vm>
+References: <87tukvaejt.fsf@dusky.pond.sub.org> <YPTj6ml6LoMJkypI@yekko>
+ <87lf62ydow.fsf@dusky.pond.sub.org> <YPUn2quWrztTqyML@yekko>
+ <875yx6oabe.fsf@dusky.pond.sub.org>
+ <87sg0amuuz.fsf_-_@dusky.pond.sub.org> <YPVzURLf5qqwtYsZ@work-vm>
+ <87o8axh7rr.fsf@dusky.pond.sub.org> <YPe/fIBuvGgfiyy3@yekko>
 MIME-Version: 1.0
+In-Reply-To: <YPe/fIBuvGgfiyy3@yekko>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -95,165 +99,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's efficient, but hackish to call yank unregister calls in channel_close(),
-especially it'll be hard to debug when qemu crashed with some yank function
-leaked.
+* David Gibson (david@gibson.dropbear.id.au) wrote:
+> On Tue, Jul 20, 2021 at 07:30:16AM +0200, Markus Armbruster wrote:
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+> > 
+> > > * Markus Armbruster (armbru@redhat.com) wrote:
+> > >> We appear to use migration blockers in two ways:
+> > >> 
+> > >> (1) Prevent migration for an indefinite time, typically due to use of
+> > >> some feature that isn't compatible with migration.
+> > >> 
+> > >> (2) Delay migration for a short time.
+> > >> 
+> > >> Option -only-migrate is designed for (1).  It interferes with (2).
+> > >> 
+> > >> Example for (1): device "x-pci-proxy-dev" doesn't support migration.  It
+> > >> adds a migration blocker on realize, and deletes it on unrealize.  With
+> > >> -only-migrate, device realize fails.  Works as designed.
+> > >> 
+> > >> Example for (2): spapr_mce_req_event() makes an effort to prevent
+> > >> migration degrate the reporting of FWNMIs.  It adds a migration blocker
+> > >> when it receives one, and deletes it when it's done handling it.  This
+> > >> is a best effort; if migration is already in progress by the time FWNMI
+> > >> is received, we simply carry on, and that's okay.  However, option
+> > >> -only-migrate sabotages the best effort entirely.
+> > >
+> > > That's interesting; it's the first time I've heard of anyone using it as
+> > > 'best effort'.  I've always regarded blockers as blocking.
+> > 
+> > Me too, until I found this one.
+> 
+> Right, it may well have been the first usage this way, this fwnmi
+> stuff isn't super old.
+> 
+> > >> While this isn't exactly terrible, it may be a weakness in our thinking
+> > >> and our infrastructure.  I'm bringing it up so the people in charge are
+> > >> aware :)
+> > >
+> > > Thanks.
+> > >
+> > > It almost feels like they need a way to temporarily hold off
+> > > 'completion' of migratio - i.e. the phase where we stop the CPU and
+> > > write the device data;  mind you you'd also probably want it to stop
+> > > cold-migrates/snapshots?
+> > 
+> > Yes, a proper way to delay 'completion' for a bit would be clearer, and
+> > wouldn't let -only-migrate interfere.
+> 
+> Right.  If that becomes a thing, we should use it here.  Note that
+> this one use case probably isn't a very strong argument for it,
+> though.  The only problem here is slightly less that optimal error
+> reporting in a rare edge case (hardware fault occurs by chance at the
+> same time as a migration).
 
-Remove that hack, but instead explicitly unregister yank functions at the
-places where needed, they are:
+Can you at least put a scary comment in to say why it's so odd.
 
-  (on src)
-  - migrate_fd_cleanup
-  - postcopy_pause
+If you wanted a choice of a different bad way to do this, since you have
+savevm_htab_handlers, you might be able to make htab_save_iterate claim
+there's always more to do.
 
-  (on dst)
-  - migration_incoming_state_destroy
-  - postcopy_pause_incoming
+> 
+> .... and, also, I half-suspect that the whole fwnmi feature exists
+> more to tick IBM RAS check boxes than because anyone will actually use
+> it.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/migration.c         | 14 +++++++++++++-
- migration/qemu-file-channel.c |  3 ---
- migration/savevm.c            |  7 +++++++
- migration/yank_functions.c    | 14 ++++++++++++++
- migration/yank_functions.h    |  1 +
- 5 files changed, 35 insertions(+), 4 deletions(-)
+Ah at least it's always reliable....
 
-diff --git a/migration/migration.c b/migration/migration.c
-index b2c48b7e17..a50330016c 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -59,6 +59,7 @@
- #include "multifd.h"
- #include "qemu/yank.h"
- #include "sysemu/cpus.h"
-+#include "yank_functions.h"
- 
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
-@@ -273,6 +274,7 @@ void migration_incoming_state_destroy(void)
-     }
- 
-     if (mis->from_src_file) {
-+        migration_ioc_unregister_yank_from_file(mis->from_src_file);
-         qemu_fclose(mis->from_src_file);
-         mis->from_src_file = NULL;
-     }
-@@ -1811,6 +1813,7 @@ static void migrate_fd_cleanup(MigrationState *s)
-          * Close the file handle without the lock to make sure the
-          * critical section won't block for long.
-          */
-+        migration_ioc_unregister_yank_from_file(tmp);
-         qemu_fclose(tmp);
-     }
- 
-@@ -3351,8 +3354,17 @@ static MigThrError postcopy_pause(MigrationState *s)
-     while (true) {
-         QEMUFile *file;
- 
--        /* Current channel is possibly broken. Release it. */
-+        /*
-+         * Current channel is possibly broken. Release it.  Note that this is
-+         * guaranteed even without lock because to_dst_file should only be
-+         * modified by the migration thread.  That also guarantees that the
-+         * unregister of yank is safe too without the lock.  It should be safe
-+         * even to be within the qemu_file_lock, but we didn't do that to avoid
-+         * taking more mutex (yank_lock) within qemu_file_lock.  TL;DR: we make
-+         * the qemu_file_lock critical section as small as possible.
-+         */
-         assert(s->to_dst_file);
-+        migration_ioc_unregister_yank_from_file(s->to_dst_file);
-         qemu_mutex_lock(&s->qemu_file_lock);
-         file = s->to_dst_file;
-         s->to_dst_file = NULL;
-diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index 2f8b1fcd46..bb5a5752df 100644
---- a/migration/qemu-file-channel.c
-+++ b/migration/qemu-file-channel.c
-@@ -107,9 +107,6 @@ static int channel_close(void *opaque, Error **errp)
-     int ret;
-     QIOChannel *ioc = QIO_CHANNEL(opaque);
-     ret = qio_channel_close(ioc, errp);
--    if (OBJECT(ioc)->ref == 1) {
--        migration_ioc_unregister_yank(ioc);
--    }
-     object_unref(OBJECT(ioc));
-     return ret;
- }
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 96b5e5d639..7b7b64bd13 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -65,6 +65,7 @@
- #include "qemu/bitmap.h"
- #include "net/announce.h"
- #include "qemu/yank.h"
-+#include "yank_functions.h"
- 
- const unsigned int postcopy_ram_discard_version;
- 
-@@ -2568,6 +2569,12 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
-     /* Clear the triggered bit to allow one recovery */
-     mis->postcopy_recover_triggered = false;
- 
-+    /*
-+     * Unregister yank with either from/to src would work, since ioc behind it
-+     * is the same
-+     */
-+    migration_ioc_unregister_yank_from_file(mis->from_src_file);
-+
-     assert(mis->from_src_file);
-     qemu_file_shutdown(mis->from_src_file);
-     qemu_fclose(mis->from_src_file);
-diff --git a/migration/yank_functions.c b/migration/yank_functions.c
-index 23697173ae..8c08aef14a 100644
---- a/migration/yank_functions.c
-+++ b/migration/yank_functions.c
-@@ -14,6 +14,7 @@
- #include "qemu/yank.h"
- #include "io/channel-socket.h"
- #include "io/channel-tls.h"
-+#include "qemu-file.h"
- 
- void migration_yank_iochannel(void *opaque)
- {
-@@ -46,3 +47,16 @@ void migration_ioc_unregister_yank(QIOChannel *ioc)
-                                  QIO_CHANNEL(ioc));
-     }
- }
-+
-+void migration_ioc_unregister_yank_from_file(QEMUFile *file)
-+{
-+    QIOChannel *ioc = qemu_file_get_ioc(file);
-+
-+    if (ioc) {
-+        /*
-+         * For migration qemufiles, we'll always reach here.  Though we'll skip
-+         * calls from e.g. savevm/loadvm as they don't use yank.
-+         */
-+        migration_ioc_unregister_yank(ioc);
-+    }
-+}
-diff --git a/migration/yank_functions.h b/migration/yank_functions.h
-index 74c7f18c91..a7577955ed 100644
---- a/migration/yank_functions.h
-+++ b/migration/yank_functions.h
-@@ -17,3 +17,4 @@
- void migration_yank_iochannel(void *opaque);
- void migration_ioc_register_yank(QIOChannel *ioc);
- void migration_ioc_unregister_yank(QIOChannel *ioc);
-+void migration_ioc_unregister_yank_from_file(QEMUFile *file);
+Dave
+
+> -- 
+> David Gibson			| I'll have my music baroque, and my code
+> david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+> 				| _way_ _around_!
+> http://www.ozlabs.org/~dgibson
+
+
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
