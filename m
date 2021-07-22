@@ -2,67 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D363D209E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:18:23 +0200 (CEST)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FA13D20A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:18:51 +0200 (CEST)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6UqT-0002mS-Uf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1m6Uqw-00041I-7s
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhuguanghong@uniontech.com>)
- id 1m6UoM-0001hh-39
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:12 -0400
-Received: from smtpbg564.qq.com ([183.3.255.184]:45197 helo=qq.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m6Uot-00024W-0o
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhuguanghong@uniontech.com>)
- id 1m6UoD-0007a8-HO
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:05 -0400
-X-QQ-GoodBg: 2
-X-QQ-SSF: 0040000000000030
-X-QQ-FEAT: i/xzikqTSPZckRk83Oaeos5K4PyQIhYPh8hBVgqDRUG/c910F1D9/GG+31qy9
- uYYX755lAkhOA7hCLrmGLTns1d/UwS4+8dAs1fReTnsS6Z0Enf4JSRszDzA4+3AfL8KA6OU
- DPvhZbYPfUTj4fe60doHdTjOSaCxiyoKaBXpx9fvzjXAMTScQ9oK+hXyLUSoTIZ9taFQxMG
- hCwXfA2u8RmbWTLxrosTxd/Khr/aVtTMevsI4ujAgF8tDdojS/hYyzZHefXNOwHbynP2Gur
- OafYiFqP1n0dgm8kBHrx9NvtDm4oWOh7yYJuHx6XntQs9J41PKmPdXCMcsEaPhBi+NXuZ8B
- ahEqgbIw7J3CaNRlA48kLIUl7IQRQ==
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 58.240.86.85
-X-QQ-STYLE: 
-X-QQ-mid: logic610t1626945346t2426315
-From: "=?utf-8?B?5pyx5YWJ5a6P?=" <zhuguanghong@uniontech.com>
-To: "=?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?=" <berrange@redhat.com>,
- "=?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?=" <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2] qom/object.c 'if (type_table == NULL)' statement is
- redundant , delete it.
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_60F93742_1DA3CCD8_09FF833E"
-Content-Transfer-Encoding: 8Bit
-Date: Thu, 22 Jul 2021 17:15:46 +0800
-X-Priority: 3
-Message-ID: <tencent_45F13726486174B635D9CD6A@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20210721084446.26377-1-zhuguanghong@uniontech.com>
- <CAJ+F1CKkgfp8nDqHZD1Y8xAiY4_+eRmQBddE8W8bgV22BKoEQA@mail.gmail.com>
- <YPgoV0cUZKi0fMlr@redhat.com>
-In-Reply-To: <YPgoV0cUZKi0fMlr@redhat.com>
-X-QQ-ReplyHash: 283525414
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Thu, 22 Jul 2021 17:15:47 +0800 (CST)
-Feedback-ID: logic:uniontech.com:qybgweb:qybgweb13
-Received-SPF: pass client-ip=183.3.255.184;
- envelope-from=zhuguanghong@uniontech.com; helo=qq.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- HTML_NONELEMENT_30_40=0.001, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m6Uoo-00087N-Dm
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626945396;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cuH8Wy5ZW/XenjMi0TCWy/7JPcuqC4OpxXwEPVSchss=;
+ b=fFciRi363pgyBpAN/xAWQympfkji24Oucm1/tmOCXwnPvoh3tdET4nTRmRmxga4W6RUN1n
+ rytWKyIBdqM+sOKt72n3kEzEUSIhcgKGxWEN0mB4i5cvAxbYO9QeKCrTYE3mPC3g9PcDIR
+ 05/Eudimn1AzckzsC6ba7gPQWHNyQBU=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-0alLL8r_MYqZA0uLreXoxw-1; Thu, 22 Jul 2021 05:16:34 -0400
+X-MC-Unique: 0alLL8r_MYqZA0uLreXoxw-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ x6-20020a170902ec86b029012bb183b35cso318516plg.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:16:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=cuH8Wy5ZW/XenjMi0TCWy/7JPcuqC4OpxXwEPVSchss=;
+ b=ma5dIbeXri+IdUwTVdtasy2Wkng5WwUhSGk6PkfeYizGaiEStblUV9bTpEN4ICWqeE
+ CZxTG0uJ6bJvsYtUivxFVOaEurIQ8YL/vI3DYFChvKmZQetGCr0DOV7Uo2nBnQWVLR55
+ TXkOs8W4tdMeb9f/HC2+F9qKyjmqWsWx3fv8NX1xCvgoOBhr6wha7NnxuqRoQ6nIP9aK
+ Er9yEalN0f8VfHBFSGDlG3fCI4o6YJECYPIUhECsiXbNZv86WmG9rv5irlStrQqx5lhI
+ syamiCt9zzjbYcli5JaUXftH3/dBvN9dQ67koBn9Y2Gx+4S/xUDF5uVby822qZcdBk+/
+ hK7Q==
+X-Gm-Message-State: AOAM53209pvpZvt7RF9nNfzksnju1jm6xZRxhBLoe/SvKmpdsANaquLI
+ MGNkGaToegLwgRzsDsh2MkBGf6fKm9La1s0R7pHk7aXOvFJrdA7aGWahQkrrHPAZgDXWzu/xkUh
+ krD1eBPvPhnbVu9U=
+X-Received: by 2002:a17:90a:9ab:: with SMTP id 40mr8045117pjo.9.1626945393912; 
+ Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqmG8KhPCz3r5YqRRa3SOtwG6kJ4ZKB1uP8+LXa7TEGDq0q4v8qgMpqVhr2psrqKOR7niPpA==
+X-Received: by 2002:a17:90a:9ab:: with SMTP id 40mr8045078pjo.9.1626945393619; 
+ Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id r15sm25145896pje.12.2021.07.22.02.16.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
+Subject: Re: [PATCH v6 0/6] hmp, qmp: Add some commands to introspect virtio
+ devices
+To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
+References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
+ <11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com>
+ <f6902815-df0b-949a-4eac-9f2a0093499d@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <d8c3705f-a99f-a7a7-c8d7-fa93e5367744@redhat.com>
+Date: Thu, 22 Jul 2021 17:16:21 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <f6902815-df0b-949a-4eac-9f2a0093499d@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,172 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?UGFvbG8gQm9uemluaQ==?= <pbonzini@redhat.com>,
- =?utf-8?B?RWR1YXJkbyBIYWJrb3N0?= <ehabkost@redhat.com>,
- =?utf-8?B?UUVNVQ==?= <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
+ mst@redhat.com, michael.roth@amd.com, david@redhat.com, armbru@redhat.com,
+ amit@kernel.org, dgilbert@redhat.com, eric.auger@redhat.com,
+ dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, si-wei.liu@oracle.com, marcandre.lureau@redhat.com,
+ joao.m.martins@oracle.com, mreitz@redhat.com,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
 
-------=_NextPart_60F93742_1DA3CCD8_09FF833E
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+在 2021/7/21 下午4:53, Jonah Palmer 写道:
+>
+> Hi Jason. My apologies for the delayed response, several work-related 
+> things came up recently, but they're slowing down now so I'm turning 
+> my attention these patches to get taken care of.
+>
+> A few questions and comments below (and in other following patches):
+>
+>
+> On 7/13/21 10:42 PM, Jason Wang wrote:
+>>
+>> 在 2021/7/12 下午6:35, Jonah Palmer 写道:
+>>>          Dump the information of the head element of the third queue 
+>>> of virtio-scsi:
+>>>
+>>>          (qemu) virtio queue-element 
+>>> /machine/peripheral-anon/device[3]/virtio-backend 3
+>>>          index: 122
+>>>          ndescs: 3
+>>>          descs: addr 0x7302d000 len 4096 (write), addr 0x3c951763 
+>>> len 108 (write, next),
+>>>                 addr 0x3c951728 len 51 (next)
+>>
+>>
+>> I think it would be nice if we can show driver area and device area 
+>> as well here.
+> Sure thing. And I apologize if it's obvious (I'm relatively new to virtio), but how can I expose the driver area?
 
-Jm5ic3A7SGkNClNpZ25lZC1vZmYtYnk6IHpodWd1YW5naG9uZyA8emh1Z3Vhbmdob25nQHVu
-aW9udGVjaC5jb20mZ3Q7DQotLS0NCiZuYnNwO3FvbS9vYmplY3QuYyB8IDQgKysrKw0KJm5i
-c3A7MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQ0KDQoNCmRpZmYgLS1naXQgYS9x
-b20vb2JqZWN0LmMgYi9xb20vb2JqZWN0LmMNCmluZGV4IDZhMDFkNTY1NDYuLmRjMGEzNjNl
-ZDAgMTAwNjQ0DQotLS0gYS9xb20vb2JqZWN0LmMNCisrKyBiL3FvbS9vYmplY3QuYw0KQEAg
-LTczLDE1ICs3MywxOSBAQCBzdHJ1Y3QgVHlwZUltcGwNCiZuYnNwO307DQoNCg0KJm5ic3A7
-c3RhdGljIFR5cGUgdHlwZV9pbnRlcmZhY2U7DQorR19MT0NLX0RFRklORSAoR0hhc2hUYWJs
-ZV9tdXRleCk7DQoNCg0KJm5ic3A7c3RhdGljIEdIYXNoVGFibGUgKnR5cGVfdGFibGVfZ2V0
-KHZvaWQpDQombmJzcDt7DQombmJzcDsgJm5ic3A7ICZuYnNwO3N0YXRpYyBHSGFzaFRhYmxl
-ICp0eXBlX3RhYmxlOw0KKyZuYnNwOyAmbmJzcDsgR19MT0NLICggR0hhc2hUYWJsZV9tdXRl
-eCk7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7Jm5ic3A7DQoNCg0KJm5ic3A7ICZuYnNw
-OyAmbmJzcDtpZiAodHlwZV90YWJsZSA9PSBOVUxMKSB7DQombmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7dHlwZV90YWJsZSA9IGdfaGFzaF90YWJsZV9uZXcoZ19zdHJfaGFz
-aCwgZ19zdHJfZXF1YWwpOw0KJm5ic3A7ICZuYnNwOyAmbmJzcDt9DQoNCg0KKyZuYnNwOyAm
-bmJzcDsgR19VTkxPQ0sgKCBHSGFzaFRhYmxlX211dGV4KTsmbmJzcDsgJm5ic3A7ICZuYnNw
-OyZuYnNwOw0KKw0KJm5ic3A7ICZuYnNwOyAmbmJzcDtyZXR1cm4gdHlwZV90YWJsZTsNCiZu
-YnNwO30NCg0KDQoNCkhvdyBhYm91dCB1c2luZyBHX0xPQ0sgPyB0aHJlYWQgc2FmZXR5DQoN
-Cg0KDQoNCiZuYnNwOw0KJm5ic3A7DQotLS0tLS0tLS0tLS0tLS0tLS0mbmJzcDtPcmlnaW5h
-bCZuYnNwOy0tLS0tLS0tLS0tLS0tLS0tLQ0KRnJvbTogJm5ic3A7IkRhbmllbCBQLiBCZXJy
-YW5nw6kiPGJlcnJhbmdlQHJlZGhhdC5jb20mZ3Q7Ow0KRGF0ZTogJm5ic3A7V2VkLCBKdWwg
-MjEsIDIwMjEgMTA6MDAgUE0NClRvOiAmbmJzcDsiTWFyYy1BbmRyw6kgTHVyZWF1IjxtYXJj
-YW5kcmUubHVyZWF1QGdtYWlsLmNvbSZndDs7IA0KQ2M6ICZuYnNwOyJ6aHVndWFuZ2hvbmci
-PHpodWd1YW5naG9uZ0B1bmlvbnRlY2guY29tJmd0OzsgIlBhb2xvIEJvbnppbmkiPHBib256
-aW5pQHJlZGhhdC5jb20mZ3Q7OyAiRWR1YXJkbyBIYWJrb3N0IjxlaGFia29zdEByZWRoYXQu
-Y29tJmd0OzsgIlFFTVUiPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyZndDs7IA0KU3ViamVjdDog
-Jm5ic3A7UmU6IFtQQVRDSF0gcW9tL29iamVjdC5jICdpZiAodHlwZV90YWJsZSA9PSBOVUxM
-KScgc3RhdGVtZW50IGlzIHJlZHVuZGFudCAsIGRlbGV0ZSBpdC4NCg0KJm5ic3A7DQoNCk9u
-IFdlZCwgSnVsIDIxLCAyMDIxIGF0IDA1OjU1OjQ0UE0gKzA0MDAsIE1hcmMtQW5kcsOpIEx1
-cmVhdSB3cm90ZToNCiZndDsgSGkNCiZndDsgDQomZ3Q7IE9uIFdlZCwgSnVsIDIxLCAyMDIx
-IGF0IDU6MjIgUE0gemh1Z3Vhbmdob25nIDx6aHVndWFuZ2hvbmdAdW5pb250ZWNoLmNvbSZn
-dDsNCiZndDsgd3JvdGU6DQomZ3Q7IA0KJmd0OyAmZ3Q7IFNpZ25lZC1vZmYtYnk6IHpodWd1
-YW5naG9uZyA8emh1Z3Vhbmdob25nQHVuaW9udGVjaC5jb20mZ3Q7DQomZ3Q7ICZndDsgLS0t
-DQomZ3Q7ICZndDsmbmJzcDsgcW9tL29iamVjdC5jIHwgNCArLS0tDQomZ3Q7ICZndDsmbmJz
-cDsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQ0KJmd0
-OyAmZ3Q7DQomZ3Q7ICZndDsgZGlmZiAtLWdpdCBhL3FvbS9vYmplY3QuYyBiL3FvbS9vYmpl
-Y3QuYw0KJmd0OyAmZ3Q7IGluZGV4IDZhMDFkNTY1NDYuLmM4ZjU0ODFhZmUgMTAwNjQ0DQom
-Z3Q7ICZndDsgLS0tIGEvcW9tL29iamVjdC5jDQomZ3Q7ICZndDsgKysrIGIvcW9tL29iamVj
-dC5jDQomZ3Q7ICZndDsgQEAgLTc4LDkgKzc4LDcgQEAgc3RhdGljIEdIYXNoVGFibGUgKnR5
-cGVfdGFibGVfZ2V0KHZvaWQpDQomZ3Q7ICZndDsmbmJzcDsgew0KJmd0OyAmZ3Q7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHN0YXRpYyBHSGFzaFRhYmxlICp0eXBlX3RhYmxl
-Ow0KJmd0OyAmZ3Q7DQomZ3Q7ICZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyBpZiAodHlwZV90
-YWJsZSA9PSBOVUxMKSB7DQomZ3Q7ICZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyB0eXBlX3RhYmxlID0gZ19oYXNoX3RhYmxlX25ldyhnX3N0cl9o
-YXNoLCBnX3N0cl9lcXVhbCk7DQomZ3Q7ICZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyB9DQom
-Z3Q7ICZndDsgKyZuYnNwOyZuYnNwOyZuYnNwOyB0eXBlX3RhYmxlID0gZ19oYXNoX3RhYmxl
-X25ldyhnX3N0cl9oYXNoLCBnX3N0cl9lcXVhbCk7DQomZ3Q7ICZndDsNCiZndDsgJmd0Ow0K
-Jmd0OyBuYWNrLkl0J3Mgbm90IHJlZHVuZGFudCwgaXQgZG9lcyBhIG9uZS10aW1lIGluaXRp
-YWxpemF0aW9uLg0KJmd0OyANCiZndDsgV2UgbWF5IHdhbnQgdG8gcmVwbGFjZSBpdCB3aXRo
-IGEgbW9yZSBleHBsaWNpdCBhbmQgdGhyZWFkLXNhZmUgdmVyc2lvbg0KJmd0OyB0aG91Z2g6
-DQomZ3Q7IGh0dHBzOi8vZGV2ZWxvcGVyLmdub21lLm9yZy9nbGliL3N0YWJsZS9nbGliLVRo
-cmVhZHMuaHRtbCNnLW9uY2UtaW5pdC1lbnRlcg0KDQpJIHdvdWxkIGhhdmUgdGhvdWdodCBR
-T00gdXNhZ2UgaXMgc28gd2lkZXNwcmVhZCBpbiBRRU1VIHRoYXQgd2UnbGwNCnRyaWdnZXIg
-aW5pdGlhbGl6YXRpb24gb2YgdGhpcyBoYXNoIHRibGUgdmVyeSBlYXJseSBpbiBzdGFydHVw
-DQp3aGlsZSB3ZSdyZSBzdGlsbCBzaW5nbGUgdGhyZWFkZWQuDQoNClRoYXQgc2FpZCB0aGVy
-ZSdzIG5vdCByZWFsbHkgYW55IGhhcm0gaW4gdXNpbmcgZ19vbmNlDQoNClJlZ2FyZHMsDQpE
-YW5pZWwNCi0tIA0KfDogaHR0cHM6Ly9iZXJyYW5nZS5jb20mbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsgLW8tJm5ic3A7Jm5ic3A7Jm5ic3A7IGh0dHBzOi8vd3d3LmZsaWNrci5j
-b20vcGhvdG9zL2RiZXJyYW5nZSA6fA0KfDogaHR0cHM6Ly9saWJ2aXJ0Lm9yZyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAtby0mbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsgaHR0cHM6Ly9mc3RvcDEzOC5iZXJyYW5nZS5jb20gOnwNCnw6IGh0dHBzOi8vZW50YW5n
-bGUtcGhvdG8ub3JnJm5ic3A7Jm5ic3A7Jm5ic3A7IC1vLSZuYnNwOyZuYnNwOyZuYnNwOyBo
-dHRwczovL3d3dy5pbnN0YWdyYW0uY29tL2RiZXJyYW5nZSA6fA==
 
-------=_NextPart_60F93742_1DA3CCD8_09FF833E
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+So the spec defines three parts: the device area, the driver area, and 
+the descriptor area. And they are all located in the guest memory.
 
-PGRpdj48Zm9udD48YnI+PC9mb250PjwvZGl2PjxkaXY+PGZvbnQ+Jm5ic3A7SGk8L2ZvbnQ+
-PC9kaXY+PGRpdj48Zm9udD48ZGl2PlNpZ25lZC1vZmYtYnk6IHpodWd1YW5naG9uZyAmbHQ7
-emh1Z3Vhbmdob25nQHVuaW9udGVjaC5jb20mZ3Q7PC9kaXY+PGRpdj4tLS08L2Rpdj48ZGl2
-PiZuYnNwO3FvbS9vYmplY3QuYyB8IDQgKysrKzwvZGl2PjxkaXY+Jm5ic3A7MSBmaWxlIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKTwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+ZGlmZiAt
-LWdpdCBhL3FvbS9vYmplY3QuYyBiL3FvbS9vYmplY3QuYzwvZGl2PjxkaXY+aW5kZXggNmEw
-MWQ1NjU0Ni4uZGMwYTM2M2VkMCAxMDA2NDQ8L2Rpdj48ZGl2Pi0tLSBhL3FvbS9vYmplY3Qu
-YzwvZGl2PjxkaXY+KysrIGIvcW9tL29iamVjdC5jPC9kaXY+PGRpdj5AQCAtNzMsMTUgKzcz
-LDE5IEBAIHN0cnVjdCBUeXBlSW1wbDwvZGl2PjxkaXY+Jm5ic3A7fTs8L2Rpdj48ZGl2Pjxi
-cj48L2Rpdj48ZGl2PiZuYnNwO3N0YXRpYyBUeXBlIHR5cGVfaW50ZXJmYWNlOzwvZGl2Pjxk
-aXY+K0dfTE9DS19ERUZJTkUgKEdIYXNoVGFibGVfbXV0ZXgpOzwvZGl2PjxkaXY+PGJyPjwv
-ZGl2PjxkaXY+Jm5ic3A7c3RhdGljIEdIYXNoVGFibGUgKnR5cGVfdGFibGVfZ2V0KHZvaWQp
-PC9kaXY+PGRpdj4mbmJzcDt7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO3N0YXRp
-YyBHSGFzaFRhYmxlICp0eXBlX3RhYmxlOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgR19M
-T0NLICggR0hhc2hUYWJsZV9tdXRleCk7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7Jm5i
-c3A7PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO2lmICh0
-eXBlX3RhYmxlID09IE5VTEwpIHs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDt0eXBlX3RhYmxlID0gZ19oYXNoX3RhYmxlX25ldyhnX3N0cl9oYXNoLCBn
-X3N0cl9lcXVhbCk7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO308L2Rpdj48ZGl2
-Pjxicj48L2Rpdj48ZGl2PismbmJzcDsgJm5ic3A7IEdfVU5MT0NLICggR0hhc2hUYWJsZV9t
-dXRleCk7Jm5ic3A7ICZuYnNwOyAmbmJzcDsmbmJzcDs8L2Rpdj48ZGl2Pis8L2Rpdj48ZGl2
-PiZuYnNwOyAmbmJzcDsgJm5ic3A7cmV0dXJuIHR5cGVfdGFibGU7PC9kaXY+PGRpdj4mbmJz
-cDt9PC9kaXY+PGRpdj48YnI+PC9kaXY+PC9mb250PjwvZGl2PjxkaXY+PHNpZ24gc2lnbmlk
-PSI0MDFfNCI+PGZvbnQ+SG93IGFib3V0IHVzaW5nIEdfTE9DSyA/IHRocmVhZCBzYWZldHk8
-YnI+PC9mb250Pjxmb250Pjxicj48L2ZvbnQ+PGZvbnQ+PGJyPjwvZm9udD48YnI+PC9zaWdu
-PjwvZGl2PjxkaXY+PGluY2x1ZGV0YWlsPjxkaXY+Jm5ic3A7PC9kaXY+PGRpdj4mbmJzcDs8
-L2Rpdj48ZGl2IHN0eWxlPSJmb250OlZlcmRhbmEgbm9ybWFsIDE0cHg7Y29sb3I6IzAwMDsi
-PjxkaXYgc3R5bGU9IkZPTlQtU0laRTogMTJweDtGT05ULUZBTUlMWTogQXJpYWwgTmFycm93
-O3BhZGRpbmc6MnB4IDAgMnB4IDA7Ij4tLS0tLS0tLS0tLS0tLS0tLS0mbmJzcDtPcmlnaW5h
-bCZuYnNwOy0tLS0tLS0tLS0tLS0tLS0tLTwvZGl2PjxkaXYgc3R5bGU9IkZPTlQtU0laRTog
-MTJweDtiYWNrZ3JvdW5kOiNlZmVmZWY7cGFkZGluZzo4cHg7Ij48ZGl2IGlkPSJtZW51X3Nl
-bmRlciI+PGI+RnJvbTogPC9iPiZuYnNwOyJEYW5pZWwgUC4gQmVycmFuZ8OpIiZsdDtiZXJy
-YW5nZUByZWRoYXQuY29tJmd0Ozs8L2Rpdj48ZGl2PjxiPkRhdGU6IDwvYj4mbmJzcDtXZWQs
-IEp1bCAyMSwgMjAyMSAxMDowMCBQTTwvZGl2PjxkaXY+PGI+VG86IDwvYj4mbmJzcDsiTWFy
-Yy1BbmRyw6kgTHVyZWF1IiZsdDttYXJjYW5kcmUubHVyZWF1QGdtYWlsLmNvbSZndDs7IDx3
-YnI+PC9kaXY+PGRpdj48Yj5DYzogPC9iPiZuYnNwOyJ6aHVndWFuZ2hvbmciJmx0O3podWd1
-YW5naG9uZ0B1bmlvbnRlY2guY29tJmd0OzsgIlBhb2xvIEJvbnppbmkiJmx0O3Bib256aW5p
-QHJlZGhhdC5jb20mZ3Q7OyAiRWR1YXJkbyBIYWJrb3N0IiZsdDtlaGFia29zdEByZWRoYXQu
-Y29tJmd0OzsgIlFFTVUiJmx0O3FlbXUtZGV2ZWxAbm9uZ251Lm9yZyZndDs7IDx3YnI+PC9k
-aXY+PGRpdj48Yj5TdWJqZWN0OiA8L2I+Jm5ic3A7UmU6IFtQQVRDSF0gcW9tL29iamVjdC5j
-ICdpZiAodHlwZV90YWJsZSA9PSBOVUxMKScgc3RhdGVtZW50IGlzIHJlZHVuZGFudCAsIGRl
-bGV0ZSBpdC48L2Rpdj48L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9InBvc2l0
-aW9uOnJlbGF0aXZlOyI+PGRpdiBpZD0idG1wY29udGVudF9yZXMiPjwvZGl2Pk9uIFdlZCwg
-SnVsIDIxLCAyMDIxIGF0IDA1OjU1OjQ0UE0gKzA0MDAsIE1hcmMtQW5kcsOpIEx1cmVhdSB3
-cm90ZTo8YnI+Jmd0OyBIaTxicj4mZ3Q7IDxicj4mZ3Q7IE9uIFdlZCwgSnVsIDIxLCAyMDIx
-IGF0IDU6MjIgUE0gemh1Z3Vhbmdob25nICZsdDt6aHVndWFuZ2hvbmdAdW5pb250ZWNoLmNv
-bSZndDs8YnI+Jmd0OyB3cm90ZTo8YnI+Jmd0OyA8YnI+Jmd0OyAmZ3Q7IFNpZ25lZC1vZmYt
-Ynk6IHpodWd1YW5naG9uZyAmbHQ7emh1Z3Vhbmdob25nQHVuaW9udGVjaC5jb20mZ3Q7PGJy
-PiZndDsgJmd0OyAtLS08YnI+Jmd0OyAmZ3Q7Jm5ic3A7IHFvbS9vYmplY3QuYyB8IDQgKy0t
-LTxicj4mZ3Q7ICZndDsmbmJzcDsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAz
-IGRlbGV0aW9ucygtKTxicj4mZ3Q7ICZndDs8YnI+Jmd0OyAmZ3Q7IGRpZmYgLS1naXQgYS9x
-b20vb2JqZWN0LmMgYi9xb20vb2JqZWN0LmM8YnI+Jmd0OyAmZ3Q7IGluZGV4IDZhMDFkNTY1
-NDYuLmM4ZjU0ODFhZmUgMTAwNjQ0PGJyPiZndDsgJmd0OyAtLS0gYS9xb20vb2JqZWN0LmM8
-YnI+Jmd0OyAmZ3Q7ICsrKyBiL3FvbS9vYmplY3QuYzxicj4mZ3Q7ICZndDsgQEAgLTc4LDkg
-Kzc4LDcgQEAgc3RhdGljIEdIYXNoVGFibGUgKnR5cGVfdGFibGVfZ2V0KHZvaWQpPGJyPiZn
-dDsgJmd0OyZuYnNwOyB7PGJyPiZndDsgJmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyBzdGF0aWMgR0hhc2hUYWJsZSAqdHlwZV90YWJsZTs8YnI+Jmd0OyAmZ3Q7PGJyPiZn
-dDsgJmd0OyAtJm5ic3A7Jm5ic3A7Jm5ic3A7IGlmICh0eXBlX3RhYmxlID09IE5VTEwpIHs8
-YnI+Jmd0OyAmZ3Q7IC0mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsgdHlwZV90YWJsZSA9IGdfaGFzaF90YWJsZV9uZXcoZ19zdHJfaGFzaCwgZ19zdHJfZXF1
-YWwpOzxicj4mZ3Q7ICZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyB9PGJyPiZndDsgJmd0OyAr
-Jm5ic3A7Jm5ic3A7Jm5ic3A7IHR5cGVfdGFibGUgPSBnX2hhc2hfdGFibGVfbmV3KGdfc3Ry
-X2hhc2gsIGdfc3RyX2VxdWFsKTs8YnI+Jmd0OyAmZ3Q7PGJyPiZndDsgJmd0Ozxicj4mZ3Q7
-IG5hY2suSXQncyBub3QgcmVkdW5kYW50LCBpdCBkb2VzIGEgb25lLXRpbWUgaW5pdGlhbGl6
-YXRpb24uPGJyPiZndDsgPGJyPiZndDsgV2UgbWF5IHdhbnQgdG8gcmVwbGFjZSBpdCB3aXRo
-IGEgbW9yZSBleHBsaWNpdCBhbmQgdGhyZWFkLXNhZmUgdmVyc2lvbjxicj4mZ3Q7IHRob3Vn
-aDo8YnI+Jmd0OyBodHRwczovL2RldmVsb3Blci5nbm9tZS5vcmcvZ2xpYi9zdGFibGUvZ2xp
-Yi1UaHJlYWRzLmh0bWwjZy1vbmNlLWluaXQtZW50ZXI8YnI+PGJyPkkgd291bGQgaGF2ZSB0
-aG91Z2h0IFFPTSB1c2FnZSBpcyBzbyB3aWRlc3ByZWFkIGluIFFFTVUgdGhhdCB3ZSdsbDxi
-cj50cmlnZ2VyIGluaXRpYWxpemF0aW9uIG9mIHRoaXMgaGFzaCB0YmxlIHZlcnkgZWFybHkg
-aW4gc3RhcnR1cDxicj53aGlsZSB3ZSdyZSBzdGlsbCBzaW5nbGUgdGhyZWFkZWQuPGJyPjxi
-cj5UaGF0IHNhaWQgdGhlcmUncyBub3QgcmVhbGx5IGFueSBoYXJtIGluIHVzaW5nIGdfb25j
-ZTxicj48YnI+UmVnYXJkcyw8YnI+RGFuaWVsPGJyPi0tIDxicj58OiBodHRwczovL2JlcnJh
-bmdlLmNvbSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAtby0mbmJzcDsmbmJzcDsm
-bmJzcDsgaHR0cHM6Ly93d3cuZmxpY2tyLmNvbS9waG90b3MvZGJlcnJhbmdlIDp8PGJyPnw6
-IGh0dHBzOi8vbGlidmlydC5vcmcmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsgLW8tJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGh0dHBzOi8vZnN0b3AxMzguYmVycmFu
-Z2UuY29tIDp8PGJyPnw6IGh0dHBzOi8vZW50YW5nbGUtcGhvdG8ub3JnJm5ic3A7Jm5ic3A7
-Jm5ic3A7IC1vLSZuYnNwOyZuYnNwOyZuYnNwOyBodHRwczovL3d3dy5pbnN0YWdyYW0uY29t
-L2RiZXJyYW5nZSA6fDxicj48YnI+PC9kaXY+PC9kaXY+PCEtLTwhW2VuZGlmXS0tPjwvaW5j
-bHVkZXRhaWw+PC9kaXY+PHN0eWxlPi5iaXpjYXJkX2NlcnRfaWNvbjpob3ZlciArICNiaXpj
-YXJkX2NlcnRfaG92ZXJ7ZGlzcGxheTp0YWJsZSFpbXBvcnRhbnQ7fTwvc3R5bGU+
 
-------=_NextPart_60F93742_1DA3CCD8_09FF833E--
+> I understand that virtio devices are part of the Qemu process, but I also thought that virtio drivers are in the
+> guest's kernel, which I don't believe I can see into from Qemu (or, at least, it's not obvious to me).
+
+
+It works like how you access the descriptor ring (descriptor area).
+
+Thanks
+
+
+>
+> Jonah
+>>
+>> Thanks
+>>
 
 
