@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968F93D1FC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 10:19:22 +0200 (CEST)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 235B43D1FCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 10:20:12 +0200 (CEST)
+Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6TvN-0003an-MS
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 04:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
+	id 1m6TwB-0005K2-66
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 04:20:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m6TuB-0001iB-09
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:18:07 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46280 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m6Tu8-00010b-3A
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:18:06 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_0CzKflg8aciAA--.21247S3; 
- Thu, 22 Jul 2021 16:17:57 +0800 (CST)
-Subject: Re: [PATCH v2 09/22] target/loongarch: Add fixed point bit
- instruction translation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-10-git-send-email-gaosong@loongson.cn>
- <fa4f505f-067d-29b4-03ca-e65108792257@amsat.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <a7991d0c-faa4-9358-0260-0f5cdaa47946@loongson.cn>
-Date: Thu, 22 Jul 2021 16:17:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1m6TvI-0003yg-Ar
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:19:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1m6TvG-0001rC-Oy
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:19:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626941953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B68atyballxrztp1XoefKlwX0TOtkdAO7Ow1bLeGiNE=;
+ b=Q/MSrSJwIk3R6K1dupNlRvWjAM1jh7C2hFgzCLBrUzaCPCtXr2hBkQlTtzpQLgo11DVDBT
+ LFsw9BpjxTWNwWtWHM/Kz6okb19NdmuHms5hmsS4lfLy3Vd/NR/Z/9bpeEMqf4hKYa++eV
+ +Niau2skEzStEE2IXo0clgWRCO/6jyU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-YXE2F5vCNyeyKZlodw_djw-1; Thu, 22 Jul 2021 04:19:12 -0400
+X-MC-Unique: YXE2F5vCNyeyKZlodw_djw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A862680430C
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:19:11 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A63960CA1;
+ Thu, 22 Jul 2021 08:19:07 +0000 (UTC)
+Date: Thu, 22 Jul 2021 10:19:04 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
+Message-ID: <YPkp+PF8kUyK9sy+@angien.pipo.sk>
+References: <20210706100141.303960-1-pbonzini@redhat.com>
+ <20210706100141.303960-37-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fa4f505f-067d-29b4-03ca-e65108792257@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_0CzKflg8aciAA--.21247S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr4fCFWDCr1ktrykGFyrCrg_yoWrZw4xpF
- W5Ar45GF48ArZ3J3W3XFW5Xrn3trWrKr4j9F4xJFZay3WDAFnYqryjkw4Ska4xAa1Sgr4j
- 93Zrua42kr18WFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBq1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
- e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
- 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
- xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
- IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
- 6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.117,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210706100141.303960-37-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,197 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, maobibo@loongson.cn,
- laurent@vivier.eu, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe
+CC libvir-list
 
-On 07/22/2021 01:46 AM, Philippe Mathieu-Daudé wrote:
-> On 7/21/21 11:53 AM, Song Gao wrote:
->> This patch implement fixed point bit instruction translation.
->>
->> This includes:
->> - EXT.W.{B/H}
->> - CL{O/Z}.{W/D}, CT{O/Z}.{W/D}
->> - BYTEPICK.{W/D}
->> - REVB.{2H/4H/2W/D}
->> - REVH.{2W/D}
->> - BITREV.{4B/8B}, BITREV.{W/D}
->> - BSTRINS.{W/D}, BSTRPICK.{W/D}
->> - MASKEQZ, MASKNEZ
->>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>  target/loongarch/helper.h     |  10 +
->>  target/loongarch/insns.decode |  45 +++
->>  target/loongarch/op_helper.c  | 119 ++++++++
->>  target/loongarch/trans.inc.c  | 665 ++++++++++++++++++++++++++++++++++++++++++
->>  4 files changed, 839 insertions(+)
+On Tue, Jul 06, 2021 at 12:01:37 +0200, Paolo Bonzini wrote:
+> Switch from QemuOpts to keyval.  This enables the introduction
+> of non-scalar machine properties, and JSON syntax in the future.
 > 
->> diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
->> index b2cbdd7..07c3d52 100644
->> --- a/target/loongarch/op_helper.c
->> +++ b/target/loongarch/op_helper.c
->> @@ -25,3 +25,122 @@ void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
->>  {
->>      do_raise_exception(env, exception, GETPC());
->>  }
->> +
->> +target_ulong helper_cto_w(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    uint32_t v = (uint32_t)rj;
->> +    int temp = 0;
->> +
->> +    while ((v & 0x1) == 1) {
->> +        temp++;
->> +        v = v >> 1;
->> +    }
+> For JSON syntax to be supported right now, we would have to
+> consider what would happen if string-based dictionaries (produced by
+> -M key=val) were to be merged with strongly-typed dictionaries
+> (produced by -M {'key': 123}).
 > 
-> Why not use cto32() from "qemu/host-utils.h"
->>> +
->> +    return (target_ulong)temp;
->> +}
->> +
->> +target_ulong helper_ctz_w(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    uint32_t v = (uint32_t)rj;
->> +
->> +    if (v == 0) {
->> +        return 32;
->> +    }
->> +
->> +    int temp = 0;
->> +    while ((v & 0x1) == 0) {
->> +        temp++;
->> +        v = v >> 1;
->> +    }
+> The simplest way out is to never enter the situation, and only allow one
+> -M option when JSON syntax is in use.  However, we want options such as
+> -smp to become syntactic sugar for -M, and this is a problem; as soon
+> as -smp becomes a shortcut for -M, QEMU would forbid using -M '{....}'
+> together with -smp.  Therefore, allowing JSON syntax right now for -M
+> would be a forward-compatibility nightmare and it would be impossible
+> anyway to introduce -M incrementally in tools.
 > 
-> ctz32
+> Instead, support for JSON syntax is delayed until after the main
+> options are converted to QOM compound properties.  These include -boot,
+> -acpitable, -smbios, -m, -semihosting-config, -rtc and -fw_cfg.  Once JSON
+> syntax is introduced, these options will _also_ be forbidden together
+> with -M '{...}'.
 > 
->> +
->> +    return (target_ulong)temp;
->> +}
->> +
->> +target_ulong helper_cto_d(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    uint64_t v = rj;
->> +    int temp = 0;
->> +
->> +    while ((v & 0x1) == 1) {
->> +        temp++;
->> +        v = v >> 1;
->> +    }
-> 
-> cto64
-> 
->> +
->> +    return (target_ulong)temp;
->> +}
->> +
->> +target_ulong helper_ctz_d(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    uint64_t v = rj;
->> +
->> +    if (v == 0) {
->> +        return 64;
->> +    }
->> +
->> +    int temp = 0;
->> +    while ((v & 0x1) == 0) {
->> +        temp++;
->> +        v = v >> 1;
->> +    }
-> 
-> and ctz64?
-> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  softmmu/vl.c | 315 ++++++++++++++++++++++++---------------------------
+>  1 file changed, 146 insertions(+), 169 deletions(-)
 
-Yes,  I didn't notice the file "qemu/host-utils.h" before,  thanks for kindly help! 
+This patch breaks detection of certain machine options features in
+libvirt which were being detected from 'query-command-line-options'.
 
->> +
->> +    return (target_ulong)temp;
->> +}
->> +
->> +target_ulong helper_bitrev_w(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    int32_t v = (int32_t)rj;
->> +    const int SIZE = 32;
->> +    uint8_t bytes[SIZE];
->> +
->> +    int i;
->> +    for (i = 0; i < SIZE; i++) {
->> +        bytes[i] = v & 0x1;
->> +        v = v >> 1;
->> +    }
->> +    /* v == 0 */
->> +    for (i = 0; i < SIZE; i++) {
->> +        v = v | ((uint32_t)bytes[i] << (SIZE - 1 - i));
->> +    }
->> +
->> +    return (target_ulong)(int32_t)v;
->> +}
->> +
->> +target_ulong helper_bitrev_d(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    uint64_t v = rj;
->> +    const int SIZE = 64;
->> +    uint8_t bytes[SIZE];
->> +
->> +    int i;
->> +    for (i = 0; i < SIZE; i++) {
->> +        bytes[i] = v & 0x1;
->> +        v = v >> 1;
->> +    }
->> +    /* v == 0 */
->> +    for (i = 0; i < SIZE; i++) {
->> +        v = v | ((uint64_t)bytes[i] << (SIZE - 1 - i));
->> +    }
->> +
->> +    return (target_ulong)v;
->> +}
->> +
->> +static inline target_ulong bitswap(target_ulong v)
->> +{
->> +    v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
->> +        ((v & (target_ulong)0x5555555555555555ULL) << 1);
->> +    v = ((v >> 2) & (target_ulong)0x3333333333333333ULL) |
->> +        ((v & (target_ulong)0x3333333333333333ULL) << 2);
->> +    v = ((v >> 4) & (target_ulong)0x0F0F0F0F0F0F0F0FULL) |
->> +        ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
->> +    return v;
-> 
-> Is this revbit64?
-> 
+I presume the change simply removed this from the output of
+query-command-line-options due to the historical cruft how the
+aforementioned command works.
 
-No, helper_bitrev_d is revbit64(LoongArch insn is 'bitrev.d rd, rj').
+Unfortunately I didn't find any suitable replacement from what we are
+querying.
 
-bitswap function for 'bitrev.4b/8b rd, rj' instruction.
+The entries which we now lack detection are:
 
-    BITREV.4B:
-      bstr32[31:24] = BITREV(GR[rj][31:24])
-      bstr32[23:16] = BITREV(GR[rj][23:16])
-      bstr32[15: 8] = BITREV(GR[rj][15: 8])
-      bstr32[ 7: 0] = BITREV(GR[rj][ 7: 0])
-      GR[rd] = SignExtend(bstr32, GRLEN)
-     
-    BITREV.8B:
-      GR[rd][63:56] = BITREV(GR[rj][63:56])
-      GR[rd][55:48] = BITREV(GR[rj][55:48])
-      GR[rd][47:40] = BITREV(GR[rj][47:40])
-      GR[rd][39:32] = BITREV(GR[rj][39:32])
-      GR[rd][31:24] = BITREV(GR[rj][31:24])
-      GR[rd][23:16] = BITREV(GR[rj][23:16])
-      GR[rd][15: 8] = BITREV(GR[rj][15: 8])
-      GR[rd][ 7: 0] = BITREV(GR[rj][ 7: 0])
+    { "machine", "mem-merge", QEMU_CAPS_MEM_MERGE },
+    { "machine", "aes-key-wrap", QEMU_CAPS_AES_KEY_WRAP },
+    { "machine", "dea-key-wrap", QEMU_CAPS_DEA_KEY_WRAP },
+    { "machine", "kernel_irqchip", QEMU_CAPS_MACHINE_KERNEL_IRQCHIP },
+    { "machine", "loadparm", QEMU_CAPS_LOADPARM },
 
-We can see a detailed introduction in [1]  2.2.3.6.
+Note that the oldest supported qemu version in libvirt is 2.11 at this
+point and all the above flags are included in 2.11 and later.
 
-[1] : https://github.com/loongson/LoongArch-Documentation/releases/download/LoongArch-Vol1-v3/LoongArch-Vol1-v1.00-EN.pdf
+This means we can theoretically remove the detection and always assume
+the flags in case when they are unlikely to be removed in the future.
+
+Alternatively if you can suggest an option how to detect this it will be
+welcome.
 
 Thanks
-Song Gao
+
+Peter
 
 
