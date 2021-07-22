@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEBB3D265D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:03:02 +0200 (CEST)
-Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93543D265C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:02:42 +0200 (CEST)
+Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6aE1-00013H-7l
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56690)
+	id 1m6aDh-0000EA-EV
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:02:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6aBS-0006n0-MD
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:00:23 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6aBP-0003f5-Pu
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:00:22 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GVwTD5Ht1z1CMM1;
- Thu, 22 Jul 2021 22:54:24 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 23:00:13 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 23:00:12 +0800
-Subject: Re: [PATCH for-6.1 0/1] machine: Disallow specifying topology
- parameters as zero
-To: Paolo Bonzini <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210722021512.2600-1-wangyanan55@huawei.com>
- <87y29y7uon.fsf@redhat.com> <20210722133759.db2kjcoucf6rsz4o@gator>
- <672e17d7-bfcc-8022-044a-54a482e3c5ee@redhat.com>
- <93fb73cb-86e7-dc22-cd37-2d61718927e0@huawei.com>
- <333c63ff-4ccd-9346-1d02-e1316ec365b0@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <0e158749-a579-154e-40bd-b8800c327f86@huawei.com>
-Date: Thu, 22 Jul 2021 23:00:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6aCC-0007FM-W8
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:01:09 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:43933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6aC8-0004Ao-VJ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:01:08 -0400
+Received: by mail-ej1-x632.google.com with SMTP id qa36so8793779ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dbglzk0SpYyrlFCiNkK0gx+ft7PwKYtJWDIoK7xvN7M=;
+ b=O35MaVz7mlwgJ1cRGK677TOSzpV23mZpk2AzPh6fLKoDL1b02K7tuxalbHSTxzIjI3
+ /CylDQV1L/AFnNPvfuo6h8BZW0gnpEkNTpbxwCm+zT2gDLXewjHNzZNfXNf1gNysrnWR
+ hZ1u3nwqjMxvpj1SYjMX3dKU0JVbiVv+9q7snVAfXAcmZJGOqDanHccTVxn6L9cDtZJI
+ dnLZc44AExRnXNLC8G24zzrcWpMissXmhTADz05oZQrDViGADjBTy9b9ElnZBo74OsNW
+ qfCHUu0stNyp+n05SbWT1VpgtUrAF7tavOHP8dBpT6bJjMMgzuo0NLc8wgUcfKuxWg7E
+ JYdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dbglzk0SpYyrlFCiNkK0gx+ft7PwKYtJWDIoK7xvN7M=;
+ b=QnBAkta3GGc91A/cZ5PSbJmYfz2fR2Jc98xO3uk5Ksgy5DgXHFZKhRg8QVOjMMCZ2r
+ aLh1Wd8rKQU06fGh2XHX4XMtzmZ8rpzj+44977wFkMbca4y3M8v12natoY8R6KXICsWC
+ W2MfoFYudd8LJczJBMMns3kcpI5+0E57dBK0P6tuPcR+GG7bhJa2fZLhPJGtPUXrFCpC
+ xQ1dlzq/9XP3Q24OsHj5xd/lmFqkgoUa+ObI07q2p+F6LXqlgUcyvXQyEH0hK989U47A
+ zmAdQdzAjuPPxmY+xXtUZQVbaXfcXZK5+tr8uV39pBjOaMWEQMMQI7rebO1Sk5uwUmSR
+ NEwA==
+X-Gm-Message-State: AOAM530mT6R5eFjNTBoFQhrMUalTHZv6GyzJCh5vhWbIYFMSfEZpBBHq
+ Y2tLK2auEFsBntMN5r5ZhKWlJCVsgcwlinuVbcYPlg==
+X-Google-Smtp-Source: ABdhPJzDlsGHaNOXuEWTksqseT/lvZuauVJJ95anE1jj9sJcKABtLbFnHf0VC48YKQgVTPtvA5i1sXzT1voh89nWS2c=
+X-Received: by 2002:a17:906:a2d7:: with SMTP id
+ by23mr319276ejb.382.1626966063303; 
+ Thu, 22 Jul 2021 08:01:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <333c63ff-4ccd-9346-1d02-e1316ec365b0@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1626728232-134665-1-git-send-email-joe.komlodi@xilinx.com>
+ <1626728232-134665-2-git-send-email-joe.komlodi@xilinx.com>
+In-Reply-To: <1626728232-134665-2-git-send-email-joe.komlodi@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Jul 2021 16:00:21 +0100
+Message-ID: <CAFEAcA95O=y9qxmMe-ZtiGRxi+2inV+Y_sGnequ4-Pc44ik+KA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] hw/arm/smmuv3: Check 31st bit to see if CD is valid
+To: Joe Komlodi <joe.komlodi@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,36 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com
+Cc: Eric Auger <eric.auger@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/22 22:38, Paolo Bonzini wrote:
-> On 22/07/21 16:12, wangyanan (Y) wrote:
->> The smp_parse and pc_smp_parse are going to be converted into a
->> generic parser, and the added sanity-check in this patch will also be
->> tested in an unit test. So is it probably better to keep the check in 
->> the
->> parser instead of the caller? The duplication will be eliminated anyway
->> when there is one single parser.
->>
->> But I can also implement the check in machine_set_smp as you mentioned
->> if it's more reasonable and preferred. :)
+On Mon, 19 Jul 2021 at 22:03, Joe Komlodi <joe.komlodi@xilinx.com> wrote:
 >
-> Yes, I would prefer to avoid having duplicate code.  There are some 
-> common checks already in machine_set_smp, e.g. comparing ms->smp.cpus 
-> against mc->min_cpus and mc->max_cpus.
+> The bit to see if a CD is valid is the last bit of the first word of the CD.
 >
+> Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
+> ---
+>  hw/arm/smmuv3-internal.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-Ok, I will send a v2.
+> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+> index 3dac576..d1885ae 100644
+> --- a/hw/arm/smmuv3-internal.h
+> +++ b/hw/arm/smmuv3-internal.h
+> @@ -570,7 +570,7 @@ static inline int pa_range(STE *ste)
+>
+>  /* CD fields */
+>
+> -#define CD_VALID(x)   extract32((x)->word[0], 30, 1)
+> +#define CD_VALID(x)   extract32((x)->word[0], 31, 1)
+>  #define CD_ASID(x)    extract32((x)->word[1], 16, 16)
+>  #define CD_TTB(x, sel)                                      \
+>      ({                                                      \
 
-Thanks,
-Yanan
-.
 
+
+Applied to target-arm.next (should get into rc1), thanks.
+
+-- PMM
 
