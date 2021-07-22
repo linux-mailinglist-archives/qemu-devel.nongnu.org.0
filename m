@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7763D2774
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:20:56 +0200 (CEST)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28383D277F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:23:59 +0200 (CEST)
+Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6bRP-0006U8-7u
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43954)
+	id 1m6bUM-0000nc-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6bPs-0005e0-Hz
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:19:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46826)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6bSd-0007qy-4r
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:22:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6bPq-0006OY-Fv
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:19:20 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6bSb-0008Jc-Ob
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:22:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626970757;
+ s=mimecast20190719; t=1626970929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=br/vRHzkWgqDJ/aXzk0hLg4JNMrrAtNGnPRbK2sJilw=;
- b=cu5REtX8HdfiQTC7Fv93GdLbx3MeYSTyXi7cGAqlKoVRgxXGW4KVOdwD62jXIMdWvO/Fks
- MCpd8avuOH7mJLx2x52dJJERH4N6wAaO/j1HjnoK9ErkBvQ1QmZQUzlsqrubtED3nseqBO
- CGqYXwKWd/Exq4FgkuSOxuZsAwrdMX4=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-8MNYYbHsOmetTyY3jkoJiQ-1; Thu, 22 Jul 2021 12:19:16 -0400
-X-MC-Unique: 8MNYYbHsOmetTyY3jkoJiQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- z93-20020a0ca5e60000b02902e558bb7a04so3995298qvz.10
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:19:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=br/vRHzkWgqDJ/aXzk0hLg4JNMrrAtNGnPRbK2sJilw=;
- b=IJMZ+Q2IRbcI2uMFlRlFlnI/JhGobCV3rSC2XsakKf2ZH96fFfEjXWx/KFOGALbKag
- mNqbBwXVX1+ocWLaFHNptHFRz6NeGD0A5/Yj5VHF24mnLQY8GtWcdcT2lOTtqCGVZsbf
- 1sUGVzK0hNlOBbQmJDusw18Y5VM+lrTOkSOKassJ7PaNxleuj+6aY41uuLx5d4pOHELV
- 7JzOGj5NLDbxDHFX6mdvS4GxeGK1vV8nKOVfwrbyUVsKPRF6gDDO28h2oGXDBcxCqnQz
- NJo1B6xg4N/eeif0bx1u3qzlT0HPmy19Yqcxv4RBhdfVBNfdJQaUpgr5yA/up76F68Mr
- y8Sw==
-X-Gm-Message-State: AOAM530PXTGkrbDJyNZ23H2ov1aOm79h//eEc1TbhC19kfrD/IuSHk8M
- TCtel3jlt5zs1l25AwWTFi8roY1GXuH0Cu60xlwD9s5KYxgk0d0cwvJeTJLlXITnxuXO9Mg/b1A
- icWePUbbAA4d0FrY=
-X-Received: by 2002:ac8:5552:: with SMTP id o18mr418455qtr.51.1626970756091;
- Thu, 22 Jul 2021 09:19:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4fsba34YC9kDPHY5E4KVrn/+GpWiuklND3/V+6xo2BmhAWE+HxIfOYPGKWwGuWgJGp3fHPQ==
-X-Received: by 2002:ac8:5552:: with SMTP id o18mr418439qtr.51.1626970755888;
- Thu, 22 Jul 2021 09:19:15 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id o63sm268663qkf.4.2021.07.22.09.19.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 09:19:15 -0700 (PDT)
-Date: Thu, 22 Jul 2021 12:19:14 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 5/5] migration: Move the yank unregister of
- channel_close out
-Message-ID: <YPmagh393LlpVSm9@t490s>
-References: <20210721193409.910462-1-peterx@redhat.com>
- <20210721193409.910462-6-peterx@redhat.com>
- <YPmOZ3LGm0u7GoBA@work-vm>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bzJTpW/pXuv1y5QLNX4/HpmJqJDZjqjL87rRjO+0C08=;
+ b=XmPQiDyXxgsnfXI+G8hP08pjjpbHXOKoR8oiA00JporhkqN2S0ahVaQLP5L9V2/pQsSiWq
+ m61kezCNX9aPeSQsVfxeRGhMsjYtbRV2jgDjfGI9xHMp+Q60jDUCtUpENBqUFduSnNjxF+
+ T18CBnmMUiWll5v2PoZ3tcvS5hUHeao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-SUYpa9j8N2WM1ucsNQIk_g-1; Thu, 22 Jul 2021 12:22:08 -0400
+X-MC-Unique: SUYpa9j8N2WM1ucsNQIk_g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F0B8A00E8;
+ Thu, 22 Jul 2021 16:20:38 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-245.ams2.redhat.com
+ [10.36.114.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88B6460936;
+ Thu, 22 Jul 2021 16:20:36 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.1 0/2] gitlab: misc tweaks to job execution rules
+Date: Thu, 22 Jul 2021 17:20:33 +0100
+Message-Id: <20210722162035.2765755-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YPmOZ3LGm0u7GoBA@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -95,39 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 04:27:35PM +0100, Dr. David Alan Gilbert wrote:
-> > @@ -3352,6 +3355,8 @@ static MigThrError postcopy_pause(MigrationState *s)
-> >  
-> >          /* Current channel is possibly broken. Release it. */
-> >          assert(s->to_dst_file);
-> > +        /* Unregister yank for current channel */
-> > +        migration_ioc_unregister_yank_from_file(s->to_dst_file);
-> 
-> Should this go inside the lock?
-
-Shouldn't need to; as we've got the assert() right above so otherwise we'll
-abrt otherwise :)
-
-The mutex lock/unlock right below this one is not protecting us from someone
-changing it but really for being able to wait until someone finished using it
-then we won't crash someone else.
-
-I think the rational is to_dst_file is managed by migration thread while
-from_dst_file is managed by rp_thread.
-
-Maybe I add a comment above?
-
-Thanks,
-
--- 
-Peter Xu
+ - Fixes a problem with acceptance jobs running when build jobs fail=0D
+ - Fixes a problem with pages job publishing website from undesirable=0D
+   branches.=0D
+=0D
+Daniel P. Berrang=C3=A9 (2):=0D
+  gitlab: only let pages be published from default branch=0D
+  gitlab: don't run acceptance jobs if build jobs fail=0D
+=0D
+ .gitlab-ci.d/buildtest-template.yml |  4 ++--=0D
+ .gitlab-ci.d/buildtest.yml          | 18 ++++++++++++++++++=0D
+ 2 files changed, 20 insertions(+), 2 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
