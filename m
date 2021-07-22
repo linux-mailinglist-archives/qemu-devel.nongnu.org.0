@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0093D2B83
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 19:54:16 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BBD3D2B8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 19:56:18 +0200 (CEST)
+Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ctj-0007ax-A1
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 13:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60066)
+	id 1m6cvh-0004xh-IK
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 13:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6csF-0004hm-O9
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:52:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20795)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6csK-00050c-EL
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:52:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6csE-000277-6o
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:52:43 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6csI-00029j-Qo
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:52:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626976361;
+ s=mimecast20190719; t=1626976366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6xP1fQO51T9rbjc3uyLaA5nbJ0QVtK1z6ySypVm5jHw=;
- b=bgsceQF65RMtShBDCgXsVm+nmWygmPNkX8+tPoBpTFG64mEINS3JzptTeEErb6e2sEcPEF
- Y1V2Y3XklE9y9mIianilGbGY3ZKjzhe9qYcc0cuAsxQPXMdBDQ3Y4g+8XsG2TrTR7p3xay
- D6knZdh1O6sPZNw2o7FOkEqwIdjBgqw=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-FXWiYe_YMe2Lda8fjKmskA-1; Thu, 22 Jul 2021 13:52:37 -0400
-X-MC-Unique: FXWiYe_YMe2Lda8fjKmskA-1
-Received: by mail-oi1-f198.google.com with SMTP id
- n134-20020acad68c0000b029025a4350857eso4470426oig.8
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 10:52:37 -0700 (PDT)
+ bh=raFWkEmfEsnXA+zlkTsH/h7na1SeJw58CnlfHE/P3Ws=;
+ b=gnVvuK8fqaIZG7AlrSswYZfYKicFKpztwpCe6yBY46ppedYykjBdcohQp96pQZtseHxNox
+ 63t8nJqQ8sH9DEMO5HUZEaPAk3UzIB4Ssle4fHMqetWqm0lkoIFCpnavEgzJxJkXMKzY0N
+ c7aJRzTX5cD+5VINxuHbeGRgtXuXTuM=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-LZGx1R6PNnurXGJmAg3e2g-1; Thu, 22 Jul 2021 13:52:44 -0400
+X-MC-Unique: LZGx1R6PNnurXGJmAg3e2g-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ u34-20020a0568081522b029025cd3c0e2bdso480730oiw.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 10:52:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:subject:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6xP1fQO51T9rbjc3uyLaA5nbJ0QVtK1z6ySypVm5jHw=;
- b=C0BvT//zo2T9bXppAjENOmGMUEosaM0Ji4sY23qh4woMN16R7QNX3KuaFkVEM3qX30
- CyLv/wLr/4+OtMMLazuu+VVdmOQgy4LLhZ/KDdI6EoEIK/QvE6McYWfFmAUtwtE+nR7g
- GXeLIF3j2Y7sbc4x6wWS2HvqSxPasiDF9jWGLCJeznWNKpdy0cMS4lo1bDNfYzmmtmB2
- NCi+vG8mEtEbOtvXbeqTRzeOR01zbyzPKfiyfTLNN90qRqu75v+BK4Dmvr7lqC8j7LyR
- iY2NCh2AG3HwzURt1FVNk6zeXUQoxPVfaI6ztkDjDqkZF+NZPNxSnrvv0TjpZ0E65WDp
- rgNw==
-X-Gm-Message-State: AOAM531H7/flwPGhGY2NPmcK8ZSLUFZ44Njkcan0hXPgErRFA12k3Vch
- P8rX/ztxISy+8/55d5X0xeCi7Cu4Am8BVWm6FtZ9ZVAmWJ+/94vEP8A99lxzmDBngH/D6gJcXrP
- cL5F7gS5cov4Y1dg=
-X-Received: by 2002:a05:6830:91b:: with SMTP id
- v27mr614078ott.337.1626976356632; 
- Thu, 22 Jul 2021 10:52:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+9pKEg/reu5tUbtic0HLiZ6i9qpLtI8ghgmTFbVHFC+qdtBXV1CIM8yzw+km4VeXwZ+UqXg==
-X-Received: by 2002:a05:6830:91b:: with SMTP id
- v27mr614064ott.337.1626976356484; 
- Thu, 22 Jul 2021 10:52:36 -0700 (PDT)
+ bh=raFWkEmfEsnXA+zlkTsH/h7na1SeJw58CnlfHE/P3Ws=;
+ b=EL732YImqW23ZlzWMbyIaMzFFEQN9FuraeDTTTdhEhiwXjiDtUeTFrUoLbJgZgiO1T
+ uS1Shejo9/L3cUhCGigmM2vrUyL6koQvKoJiLiFFsydL6eLec80OwDaLaNFcYVQGfafm
+ 2HTrFvj3BoGlVCfyzR7wb0IQ84dIrBWKQAe5PJT058uctBMo2S1vVg5MgD48piufjLUV
+ 0CdSuBL5RS8kBjpekI+SHnM8TtPppGxIMGjL4x1d8sTxVo2EotcrldZR1zMtiszy7IX9
+ XqaSfROcuayfKDoHyn/c+wJa8RClnLtQKvvHW7bM2Y/mjJJVvNZb6GZPtig+WoOnlQ2w
+ q/qA==
+X-Gm-Message-State: AOAM532xzaomK9rTxsdV3+GmQpLXW6y1GKfFNsW3Zudp18AQt4gt9fkT
+ yWBevdWnTdqQlPx8DdHmZ2y6kDwtmAu7CIhAj4XBE2/7+WwVvKj4+WzRlGdCrUhCZugcaLjwK8p
+ Hj6mMZbdN8JbR1Y8=
+X-Received: by 2002:a05:6830:438b:: with SMTP id
+ s11mr636068otv.133.1626976364232; 
+ Thu, 22 Jul 2021 10:52:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYxdgdIkzUJlEvp1X0rIRGzY1SrQ7Xzkw/4Mpg1l/IcSoHndZi3iNwTfJV7xrpAXc4vqTTRA==
+X-Received: by 2002:a05:6830:438b:: with SMTP id
+ s11mr636051otv.133.1626976364091; 
+ Thu, 22 Jul 2021 10:52:44 -0700 (PDT)
 Received: from [192.168.0.173] (ip68-102-25-176.ks.ok.cox.net. [68.102.25.176])
- by smtp.gmail.com with ESMTPSA id 68sm5187184otd.74.2021.07.22.10.52.35
+ by smtp.gmail.com with ESMTPSA id b2sm2175904otf.40.2021.07.22.10.52.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 10:52:36 -0700 (PDT)
+ Thu, 22 Jul 2021 10:52:43 -0700 (PDT)
 From: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [RFC PATCH v2 02/44] kvm: Switch KVM_CAP_READONLY_MEM to a per-VM
- ioctl()
+Subject: Re: [RFC PATCH v2 04/44] vl: Introduce machine_init_done_late notifier
 To: isaku.yamahata@gmail.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
  alistair@alistair23.me, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, cohuck@redhat.com, mtosatti@redhat.com,
  xiaoyao.li@intel.com, seanjc@google.com, erdemaktas@google.com
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <20f5a78e8c704adcf4e96dac4aa160b9b6a7c17c.1625704980.git.isaku.yamahata@intel.com>
-Message-ID: <d5c778b5-9c1d-908b-2d26-108b3bcd8aef@redhat.com>
-Date: Thu, 22 Jul 2021 12:52:35 -0500
+ <80ac3e382a248bac13662d4052d17c41f1c21e3a.1625704980.git.isaku.yamahata@intel.com>
+Message-ID: <e85e1aa1-0171-3236-4ce8-54b97b59b49b@redhat.com>
+Date: Thu, 22 Jul 2021 12:52:42 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20f5a78e8c704adcf4e96dac4aa160b9b6a7c17c.1625704980.git.isaku.yamahata@intel.com>
+In-Reply-To: <80ac3e382a248bac13662d4052d17c41f1c21e3a.1625704980.git.isaku.yamahata@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -111,34 +110,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/7/21 7:54 PM, isaku.yamahata@gmail.com wrote:
 > From: Isaku Yamahata <isaku.yamahata@intel.com>
 > 
-> Switch to making a VM ioctl() call for KVM_CAP_READONLY_MEM, which may
-> be conditional on VM type in recent versions of KVM, e.g. when TDX is
-> supported.
-> 
-> kvm_vm_check_extension() has fallback from kvm_vm_ioctl() to
-> kvm_check_extension(). fallback from VM ioctl to System ioctl for
-> compatibility for old kernel.
+> Introduce a new notifier, machine_init_done_late, that is notified after
+> machine_init_done.  This will be used by TDX to generate the HOB for its
+> virtual firmware, which needs to be done after all guest memory has been
+> added, i.e. after machine_init_done notifiers have run.  Some code
+> registers memory by machine_init_done().
 > 
 > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 > ---
->   accel/kvm/kvm-all.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/core/machine.c       | 26 ++++++++++++++++++++++++++
+>   include/sysemu/sysemu.h |  2 ++
+>   2 files changed, 28 insertions(+)
 > 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index e5b10dd129..fdbe24bf59 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2531,7 +2531,7 @@ static int kvm_init(MachineState *ms)
->       }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index ffc076ae84..66c39cf72a 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1278,6 +1278,31 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
+>       notifier_remove(notify);
+>   }
 >   
->       kvm_readonly_mem_allowed =
-> -        (kvm_check_extension(s, KVM_CAP_READONLY_MEM) > 0);
-> +        (kvm_vm_check_extension(s, KVM_CAP_READONLY_MEM) > 0);
->   
->       kvm_eventfds_allowed =
->           (kvm_check_extension(s, KVM_CAP_IOEVENTFD) > 0);
-> 
+> +static NotifierList machine_init_done_late_notifiers =
+> +    NOTIFIER_LIST_INITIALIZER(machine_init_done_late_notifiers);
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+I think a comment here describing the difference between
+machine_init_done and machine_init_done_late would go a
+long way for other developers so they don't have to hunt
+through the git log.
+
+Connor
 
 
