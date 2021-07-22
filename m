@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3926B3D23D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 14:50:46 +0200 (CEST)
-Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44EB3D23E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 14:53:36 +0200 (CEST)
+Received: from localhost ([::1]:42772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6YA1-00043s-9B
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 08:50:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53500)
+	id 1m6YCl-0008Ln-TT
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 08:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m6Y7B-0001z0-QE
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:47:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m6Y78-0001Kw-Hm
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:47:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626958065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bFD7mamgYUWAAXhOta43u+kLLwXP7siJJQRD0zlv2lE=;
- b=KJcZxPM0NenBDZ7L/s2sW0G77TbBH8AqaLWslI+Prvn7o8WhZlVWCbw4FkdA25k8xoXZ4Y
- Rqb+3GpTZcX4AUVAvLyqG6UEfAozvtk5VpQvMk+9GMarLlOoc41WCVPw+2lV8aRAJs5EDO
- URZ3TAKvZfMpEpRlIOjztWkGR6AUnXo=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-TYNI9Kp9MAqK_yMdbh-GUQ-1; Thu, 22 Jul 2021 08:47:44 -0400
-X-MC-Unique: TYNI9Kp9MAqK_yMdbh-GUQ-1
-Received: by mail-io1-f71.google.com with SMTP id
- k2-20020a5d8b020000b029050b6f9cfe31so3933297ion.11
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 05:47:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m6YBN-0006ku-12
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:52:09 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m6YBL-0003Q2-3u
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 08:52:08 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id k27so6644257edk.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 05:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/Nlm22A/4yxbyTHnjq+Wdq+T9QOS9Vf9NxG8mjXUEiM=;
+ b=HSoKQ/qt0NnbnPFHciPngqVxYIlXIoEWw+wx1MUPYK6nxn+JqAsLD1eIEYKS6mdX/y
+ HZ9AIxeJHWXvYb3/gJVRWu87etiBwCzMMl1FTTLxRJPMqnb3mJpu5PN3xlRFL6yk0LUa
+ 21VpPADDUFCAnLxWKGY4kLg1NUGZoyQv4OTZ+0g/bJHgKrjQ5T2oPAnj2JuW+X0C6R9p
+ ABlZMWzTcUSOXbxmGNo52zboyvW/eyqou7vdjOAE8PG1b1X0wYdAGCdas1udvyKnThXh
+ UFWg+qKQDY4fTLren/Fc4aodxYB5Ix5VMghsF7lvUukvMMy98nVRRBqdpZCB+ngR21AM
+ HtpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bFD7mamgYUWAAXhOta43u+kLLwXP7siJJQRD0zlv2lE=;
- b=TgM1xhbhzuLVKGA2x1oVVJMMNfWgZEzpKCb6lNDpChrIC4B0UxHHGf+Or8PuhIc+Jf
- gY8fA6H37aT6J8iq/gFu8SLcuS8VPOYz3J4NBo8SLGUFm9Q19MFRQiUcYEyWfEKLgb65
- AMBRGV1o/5dfHecTMhaUkpckaOHwfX7fDRwkY3xMmPuujYX8hWDBG0CSyULcmJ+J4HCn
- d/iIo9R1KqLE0f+GHLF4RG+tmmFr6h+fdB4okZFWuaVPMKRlZXLR00AXnAGzbrt/SI6u
- Y92nC3ANUYtZ+R5IBrLfXvnJ/LsX8adGzxfQG8JbgRo+WfjvRvxJBYArxxSBBSVwTl75
- K9cg==
-X-Gm-Message-State: AOAM533fDQySqZS/a7Xmu/Udrv/5LKYKnFde+iuJksR9NuLRM6isBdLK
- rnQeMPRMFY/N64O1rAK2J+QyINEQkfeHXoqlvs4C6XlC39fiXVnnRcQTDqZGcDpc2KxHjBxroCn
- 5whZPHXH5xSrjTno=
-X-Received: by 2002:a92:c24c:: with SMTP id k12mr27777134ilo.28.1626958063648; 
- Thu, 22 Jul 2021 05:47:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDOOkAx+K2C4zWBaI+QBHhBu6dWtFG8LLoqAJuk7W94g/mw0tvpIwcKtyYFPnrB0S8qxy6sQ==
-X-Received: by 2002:a92:c24c:: with SMTP id k12mr27777106ilo.28.1626958063372; 
- Thu, 22 Jul 2021 05:47:43 -0700 (PDT)
-Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id 204sm16092628ioc.50.2021.07.22.05.47.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 05:47:42 -0700 (PDT)
-Date: Thu, 22 Jul 2021 14:47:40 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.2 v2 05/11] machine: Improve the error reporting of
- smp parsing
-Message-ID: <20210722124740.bjukv2odxe4m4o5c@gator>
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-6-wangyanan55@huawei.com>
- <20210719165337.goazi5iwmmtz5jpg@gator>
- <f235161b-09cc-269b-9adf-c02f03e427e2@huawei.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/Nlm22A/4yxbyTHnjq+Wdq+T9QOS9Vf9NxG8mjXUEiM=;
+ b=ifisWBZNwCQnDr0U8jppibde8YuT3s+RBRJ8ADiC/n8R+X+yXj6o7eq05eqdfptHXe
+ rpPqS9+fAnv3lqbvPgW4p9FncncRh7GCqUELnD1jSCBKZZcHjj/VqOCyy2owAn1P+iaw
+ 1KOk0gv7WqGeXBmEhmxiz/bt0nhRfATV3ecJxkhH70a4JehCa9ipgl+U/d6d76GK1Ee0
+ A3jtidiAyl+kWnpamwervZQQLd1O8pA+XQAyNziTHu4mXn/ZwFnOEqjcEIvpdFrIzc94
+ tBrwpa8q64z4DvLhR0Jn2meWDTuQkV9udm3FAVuBcKMCJI73zQvy/6C6WU0pWUDjZpDj
+ 6KLA==
+X-Gm-Message-State: AOAM530NMe9dwC6nlNklv+GTGQ/XH5VEJ3sAZfBDU7YESrwZzKqmSzzS
+ yJ9BXDxd9+E+h7NVlWKVRm0OWetzUaEbwzrGyy8=
+X-Google-Smtp-Source: ABdhPJy6M26/rtIkVbkRpFT632Zm8WchbwFiW5Zfb0QZzOVK8WZrW3vvtNNa8wuMhoZle6CuUtXnbZw5GvTLMP+i7I4=
+X-Received: by 2002:a50:fe95:: with SMTP id d21mr54229211edt.257.1626958325642; 
+ Thu, 22 Jul 2021 05:52:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f235161b-09cc-269b-9adf-c02f03e427e2@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210702123221.942432-1-marcandre.lureau@redhat.com>
+ <20210722121120.epu7cciuvefks64c@sirius.home.kraxel.org>
+In-Reply-To: <20210722121120.epu7cciuvefks64c@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 22 Jul 2021 16:51:53 +0400
+Message-ID: <CAJ+F1CLJmcihAVL-vFPuEg64wAwgNDaHBck_cNyimz+uZqMO_w@mail.gmail.com>
+Subject: Re: [PATCH] hw/display: fix virgl reset regression
+To: Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000107b1405c7b5c1fa"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,125 +77,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
- yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 04:10:32PM +0800, wangyanan (Y) wrote:
-> On 2021/7/20 0:53, Andrew Jones wrote:
-> > On Mon, Jul 19, 2021 at 11:20:37AM +0800, Yanan Wang wrote:
-> > > We totally have two requirements for a valid SMP configuration:
-> > s/totally//
-> > 
-> > > the sum of "sockets * dies * cores * threads" must represent all
-> > the product
-> > 
-> > > the possible cpus, i.e., max_cpus, and must include the initial
-> > > present cpus, i.e., smp_cpus.
-> > > 
-> > > We only need to ensure "sockets * dies * cores * threads == maxcpus"
-> > > at first and then ensure "sockets * dies * cores * threads >= cpus".
-> > Or, "maxcpus >= cpus"
-> > 
-> > > With a reasonable order of the sanity-check, we can simplify the
-> > > error reporting code.
-> > > 
-> > > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > > ---
-> > >   hw/core/machine.c | 25 ++++++++++---------------
-> > >   1 file changed, 10 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > index 668f0a1553..8b4d07d3fc 100644
-> > > --- a/hw/core/machine.c
-> > > +++ b/hw/core/machine.c
-> > > @@ -788,21 +788,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> > >       cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
-> > >       maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> > > -    if (sockets * dies * cores * threads < cpus) {
-> > > -        g_autofree char *dies_msg = g_strdup_printf(
-> > > -            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > -        error_setg(errp, "cpu topology: "
-> > > -                   "sockets (%u)%s * cores (%u) * threads (%u) < "
-> > > -                   "smp_cpus (%u)",
-> > > -                   sockets, dies_msg, cores, threads, cpus);
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    if (maxcpus < cpus) {
-> > > -        error_setg(errp, "maxcpus must be equal to or greater than smp");
-> > > -        return;
-> > > -    }
-> > This may be redundant when determining a valid config, but by checking it
-> > separately we can provide a more useful error message.
-> Yes, this message is more useful. Can we also report the exact values of the
-> parameters within this error message ?
+--000000000000107b1405c7b5c1fa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-sure
+Hi
 
-> How about the following:
-> 
-> if (sockets * cores * threads != maxcpus) {
->     error_setg("product of the topology must be equal to maxcpus"
->                "sockets (%u) * cores (%u) * threads (%u)"
->                "!= maxcpus (%u)",
->                sockets, cores, threads, maxcpus);
-> return;
-> }
-> 
-> if (maxcpus < cpus) {
->     error_setg("maxcpus must be equal to or greater than smp:"
->                "sockets (%u) * cores (%u) * threads (%u)"
->                "== maxcpus (%u) < smp_cpus (%u)",
->                sockets, cores, threads, maxcpus, cpus);
-> return;
-> }
+On Thu, Jul 22, 2021 at 4:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-OK by me
+> On Fri, Jul 02, 2021 at 04:32:21PM +0400, marcandre.lureau@redhat.com
+> wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Before commit 49afbca3b00e8e517d54964229a794b51768deaf ("virtio-gpu: dr=
+op
+> > use_virgl_renderer"), use_virgl_renderer was preventing calling GL
+> > functions from non-GL context threads. The innocuously looking
+> >
+> >   g->parent_obj.use_virgl_renderer =3D false;
+> >
+> > was set the first time virtio_gpu_gl_reset() was called, during
+> > pc_machine_reset() in the main thread. Further virtio_gpu_gl_reset()
+> > calls in IO threads, without associated GL context, were thus skipping
+> > GL calls and avoided warnings or crashes (see also
+> > https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/226).
+>
+> Conflicts with patch by Akihiko Odaki fixing the same thing or a
+> related issue:
+>
+> virtio-gpu: Call Virgl only in the main thread
+>
+>
+> https://patchwork.ozlabs.org/project/qemu-devel/patch/20210617113520.2597=
+3-1-akihiko.odaki@gmail.com/
+>
+> Can you have a look please and suggest how to handle this?
+>
 
-Thanks,
-drew
+Thanks, I didn't notice we were trying to solve the same issue.
 
-> 
-> Thanks,
-> Yanan
-> .
-> > > -
-> > >       if (sockets * dies * cores * threads != maxcpus) {
-> > >           g_autofree char *dies_msg = g_strdup_printf(
-> > >               mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > @@ -814,6 +799,16 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> > >           return;
-> > >       }
-> > > +    if (sockets * dies * cores * threads < cpus) {
-> > > +        g_autofree char *dies_msg = g_strdup_printf(
-> > > +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > +        error_setg(errp, "Invalid CPU topology: "
-> > > +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
-> > > +                   "smp_cpus (%u)",
-> > > +                   sockets, dies_msg, cores, threads, cpus);
-> > > +        return;
-> > > +    }
-> > > +
-> > >       ms->smp.cpus = cpus;
-> > >       ms->smp.sockets = sockets;
-> > >       ms->smp.dies = dies;
-> > > -- 
-> > > 2.19.1
-> > > 
-> > I'm not sure we need this patch.
-> > 
-> > Thanks,
-> > drew
-> > 
-> > .
-> 
+Akihiko's patch indeed seems to solve the crash, but doesn't solve the
+flood of asserts (on wayland):
+qemu-system-x86_64: Gtk: gtk_gl_area_make_current: assertion
+'gtk_widget_get_realized (widget)' failed
+qemu-system-x86_64: Gdk: gdk_window_create_gl_context: assertion
+'GDK_IS_WINDOW (window)' failed
+qemu-system-x86_64: Gdk: gdk_gl_context_set_required_version: assertion
+'GDK_IS_GL_CONTEXT (context)' failed
+... and many more
 
+My patch cleans it for me, I would suggest to take mine.
+
+Fwiw, I just tested also on X11, and we have another regression that seems
+unrelated:
+qemu-system-x86_64: ../src/dispatch_common.c:858: epoxy_get_proc_address:
+Assertion `0 && "Couldn't find current GLX or EGL context.\n"' failed.
+
+sigh..
+
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000107b1405c7b5c1fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 22, 2021 at 4:12 PM Ger=
+d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kraxe=
+l@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">On Fri, Jul 02, 2021 at 04:32:21PM +0400, <a href=3D"mailto:mar=
+candre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>=
+ wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; Before commit 49afbca3b00e8e517d54964229a794b51768deaf (&quot;virtio-g=
+pu: drop<br>
+&gt; use_virgl_renderer&quot;), use_virgl_renderer was preventing calling G=
+L<br>
+&gt; functions from non-GL context threads. The innocuously looking<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0g-&gt;parent_obj.use_virgl_renderer =3D false;<br>
+&gt; <br>
+&gt; was set the first time virtio_gpu_gl_reset() was called, during<br>
+&gt; pc_machine_reset() in the main thread. Further virtio_gpu_gl_reset()<b=
+r>
+&gt; calls in IO threads, without associated GL context, were thus skipping=
+<br>
+&gt; GL calls and avoided warnings or crashes (see also<br>
+&gt; <a href=3D"https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues=
+/226" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/v=
+irgl/virglrenderer/-/issues/226</a>).<br>
+<br>
+Conflicts with patch by Akihiko Odaki fixing the same thing or a<br>
+related issue:<br>
+<br>
+virtio-gpu: Call Virgl only in the main thread<br>
+<br>
+<a href=3D"https://patchwork.ozlabs.org/project/qemu-devel/patch/2021061711=
+3520.25973-1-akihiko.odaki@gmail.com/" rel=3D"noreferrer" target=3D"_blank"=
+>https://patchwork.ozlabs.org/project/qemu-devel/patch/20210617113520.25973=
+-1-akihiko.odaki@gmail.com/</a><br>
+<br>
+Can you have a look please and suggest how to handle this?<br clear=3D"all"=
+></blockquote><div><br></div><div>Thanks, I didn&#39;t notice we were tryin=
+g to solve the same issue.</div><div><br></div><div>Akihiko&#39;s patch ind=
+eed seems to solve the crash, but doesn&#39;t solve the flood of asserts (o=
+n wayland):</div><div>qemu-system-x86_64: Gtk: gtk_gl_area_make_current: as=
+sertion &#39;gtk_widget_get_realized (widget)&#39; failed<br>qemu-system-x8=
+6_64: Gdk: gdk_window_create_gl_context: assertion &#39;GDK_IS_WINDOW (wind=
+ow)&#39; failed<br>qemu-system-x86_64: Gdk: gdk_gl_context_set_required_ver=
+sion: assertion &#39;GDK_IS_GL_CONTEXT (context)&#39; failed</div><div>... =
+and many more<br></div><div><br></div><div>My patch cleans it for me, I wou=
+ld suggest to take mine.<br></div><div><br></div><div>Fwiw, I just tested a=
+lso on X11, and we have another regression that seems unrelated:</div><div>=
+qemu-system-x86_64: ../src/dispatch_common.c:858: epoxy_get_proc_address: A=
+ssertion `0 &amp;&amp; &quot;Couldn&#39;t find current GLX or EGL context.\=
+n&quot;&#39; failed.</div><div><br></div><div>sigh..<br></div><div><br></di=
+v><div><br></div></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<b=
+r></div></div>
+
+--000000000000107b1405c7b5c1fa--
 
