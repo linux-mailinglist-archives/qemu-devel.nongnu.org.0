@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CBF3D1D51
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 07:23:43 +0200 (CEST)
-Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3CC3D1D56
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 07:24:50 +0200 (CEST)
+Received: from localhost ([::1]:46536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6RBO-0004nA-33
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 01:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34706)
+	id 1m6RCT-0006FL-Vi
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 01:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6RAK-00046G-HS
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 01:22:37 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6RAH-0001JK-AW
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 01:22:36 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GVgjL6V99zZrZw;
- Thu, 22 Jul 2021 13:19:02 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 13:22:26 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 13:22:25 +0800
-Subject: Re: [PATCH for-6.2 v2 07/11] machine: Prefer cores over sockets in
- smp parsing since 6.2
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-8-wangyanan55@huawei.com> <YPT0GcmYohAxJ3da@yekko>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <947f142e-cf59-c7b4-be10-365e94cad162@huawei.com>
-Date: Thu, 22 Jul 2021 13:22:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m6RAR-000487-SC
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 01:22:44 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:37613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m6RAP-0001T5-Ot
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 01:22:43 -0400
+Received: by mail-oi1-x229.google.com with SMTP id h9so5389615oih.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 22:22:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LarsdyXTxHCPPftAVMQj8F8uagwhB5jStN4ucs1eMQM=;
+ b=gkeFH+UfLGAk0SkNejg8DU8T+Wv3AcideyHDWhcbJ+DE9Isj6mfs1xe+TgPBCPbgdL
+ G9qZs6jGNqSL4F3TPgLajaVmYqrf8dqP86vcZfVkwruJHaSgTBJlT5XgrcETBdAELa+T
+ kMQUu4AqtW+4LNj88SN2d7U8K3QsJ+A/DX2LaJIZRYuMzdeh17R2pDVL7+Y4fKcsY+B9
+ 3RdI9ENMopy2OXwIrzRsvhHgZRkmjj/8udCqlYheodjyNORi964ZoUlghAO/5mxqbuaU
+ uCTfPnAsgYi7SWBG8d/v+k1WQ0u5D6N7Bsb1UR8dXiSfX8QH+J3p+jjxixcNhRz2oapS
+ gncw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=LarsdyXTxHCPPftAVMQj8F8uagwhB5jStN4ucs1eMQM=;
+ b=BHp6dIxFaA1dEnfRp/44Ruf1Axzx3zP0vPuNH6Ci6kwFhyuynIgXMZa1VBf+0uK6R3
+ Ov707d2vo/1iLItbi1UtO7AR8dPuMFYU6N4x2YVP84uNrSHY9M5J1V92tZh8G8yKqwcJ
+ QGCwPWIOIWuRLbZsiHWyzoHNbhW9FX/goa5g2TdnWunSKPw4HpRVi4qUuXMWV92LJVbZ
+ pz7Pg3LSYlCN1MqImL2DuxAOhKtcAsR6Rytwa0eBzz8VZIRuPYHJHYdoqRDnaSGf6COi
+ yStzkmcU1FQRXtVztyaIzPErqwSTAiksLywVxdXiTQv2KjBV8ca9b7ABxxW5gAj/l23B
+ 3GbQ==
+X-Gm-Message-State: AOAM531fkkLp0yrnOgJZSimcCC9Wddky/tCW+ZALc+zUzXxnokD3ME2b
+ UZP3IyuygM8IbCUMMU/lc3A=
+X-Google-Smtp-Source: ABdhPJxzXRfOKqKUa5r8wO+MIPmAmTpeW5WnUeQYJcFdP/0wf1dtcObFtSER8L5Do9rlwZsLcmvBFA==
+X-Received: by 2002:a05:6808:aaf:: with SMTP id
+ r15mr4710138oij.80.1626931359767; 
+ Wed, 21 Jul 2021 22:22:39 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ l29sm79840ooh.44.2021.07.21.22.22.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 22:22:39 -0700 (PDT)
+Date: Wed, 21 Jul 2021 22:22:37 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jiahui Cen <cenjiahui@huawei.com>
+Subject: Re: [PATCH] acpi/gpex: Inform os to keep firmware resource map
+Message-ID: <20210722052237.GA327218@roeck-us.net>
+References: <20201217132926.4812-1-cenjiahui@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <YPT0GcmYohAxJ3da@yekko>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme716-chm.china.huawei.com (10.1.199.112) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.117,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201217132926.4812-1-cenjiahui@huawei.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,223 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg
- Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: xieyingtai@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/19 11:40, David Gibson wrote:
-> On Mon, Jul 19, 2021 at 11:20:39AM +0800, Yanan Wang wrote:
->> In the real SMP hardware topology world, it's much more likely that
->> we have high cores-per-socket counts and few sockets totally. While
->> the current preference of sockets over cores in smp parsing results
->> in a virtual cpu topology with low cores-per-sockets counts and a
->> large number of sockets, which is just contrary to the real world.
->>
->> Given that it is better to make the virtual cpu topology be more
->> reflective of the real world and also for the sake of compatibility,
->> we start to prefer cores over sockets over threads in smp parsing
->> since machine type 6.2 for different arches.
->>
->> In this patch, a boolean "smp_prefer_sockets" is added, and we only
->> enable the old preference on older machines and enable the new one
->> since type 6.2 for all arches by using the machine compat mechanism.
->>
->> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ppc parts
->
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->
-> Note that for the pseries machine types, being paravirtual, there is
-> essentially no guest visible difference between "cores" and "sockets.
-I see. When the difference start to make some sense for the pseries guest,
-then I think high-count cores may also be preferred and we will already have
-the preference of cores at that time because of today's work.
+Hi,
+
+On Thu, Dec 17, 2020 at 09:29:26PM +0800, Jiahui Cen wrote:
+> There may be some differences in pci resource assignment between guest os
+> and firmware.
+> 
+> Eg. A Bridge with Bus [d2]
+>     -+-[0000:d2]---01.0-[d3]----01.0
+> 
+>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
+>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
+>                                           BAR4 (mem, 64-bit, pref) [size=64M]
+> 
+>     In EDK2, the Resource Map would be:
+>         PciBus: Resource Map for Bridge [D2|01|00]
+>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
+>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
+>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
+>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
+> 
+>     While in Linux, kernel will use 0x2FFFFFF as the alignment to calculate
+>     the PMem64 size, which would be 0x6000000.
+> 
+> The diffences could result in resource assignment failure.
+> 
+> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+> that firmware has done at boot time could handle the differences.
+> 
+> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+
+Since this patch is in qemu (ie starting with qemu v6.0), some of my qemu
+tests booting aarch64 systems with efi bios no longer work. For example,
+the following command fails to instantiate the Ethernet interface.
+
+CMDLINE="root=/dev/vda console=ttyAMA0"
+ROOTFS="rootfs.ext2"
+
+qemu-system-aarch64 -M virt -kernel arch/arm64/boot/Image -no-reboot \
+	-m 512 -cpu cortex-a57 -no-reboot \
+	-device tulip,netdev=net0 -netdev user,id=net0 \
+	-bios QEMU_EFI-aarch64.fd \
+	-snapshot \
+	-device virtio-blk-device,drive=d0 \
+	-drive file=${ROOTFS},if=none,id=d0,format=raw \
+	-nographic -serial stdio -monitor none \
+	--append "${CMDLINE}"
+
+QEMU_EFI-aarch64.fd is from https://retrage.github.io/edk2-nightly/.
+
+Key difference is PCI BAR assignment.
+
+good (qemu v5.2):
+
+[    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+[    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+[    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+[    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+[    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem 0x10000000-0x1000007f]
+
+bad (qemu v6.0 and later):
+
+[    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+[    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+[    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+
+Reverting this patch fixes the problem.
+
+Does this mean that I can no longer run aarch64 efi boot tests
+with qemu v6.0 and later if the test involves PCI devices ?
+Or is there some alternative command line which would still work ?
 
 Thanks,
-Yanan
-.
->> ---
->>   hw/arm/virt.c              |  1 +
->>   hw/core/machine.c          | 59 +++++++++++++++++++++++++++++---------
->>   hw/i386/pc_piix.c          |  1 +
->>   hw/i386/pc_q35.c           |  1 +
->>   hw/ppc/spapr.c             |  1 +
->>   hw/s390x/s390-virtio-ccw.c |  1 +
->>   include/hw/boards.h        |  1 +
->>   qemu-options.hx            |  4 ++-
->>   8 files changed, 55 insertions(+), 14 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 01165f7f53..7babea40dc 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2797,6 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
->>   {
->>       virt_machine_6_2_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   DEFINE_VIRT_MACHINE(6, 1)
->>   
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 63439c4a6d..c074425015 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -744,6 +744,22 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>       }
->>   }
->>   
->> +/*
->> + * smp_parse - Generic function used to parse the given SMP configuration
->> + *
->> + * The topology parameters must be specified equal to or great than one
->> + * or just omitted, explicit configuration like "cpus=0" is not allowed.
->> + * The omitted parameters will be calculated based on the provided ones.
->> + *
->> + * maxcpus will default to the value of cpus if omitted and will be used
->> + * to compute the missing sockets/cores/threads. cpus will be calculated
->> + * from the computed parametrs if omitted.
->> + *
->> + * In calculation of omitted arch-netural sockets/cores/threads, we prefer
->> + * sockets over cores over threads before 6.2, while prefer cores over
->> + * sockets over threads since 6.2 on. The arch-specific dies will directly
->> + * default to 1 if omitted.
->> + */
->>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   {
->>       MachineClass *mc = MACHINE_GET_CLASS(ms);
->> @@ -772,19 +788,36 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   
->>       maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>   
->> -    /* compute missing values, prefer sockets over cores over threads */
->> -    if (sockets == 0) {
->> -        cores = cores > 0 ? cores : 1;
->> -        threads = threads > 0 ? threads : 1;
->> -        sockets = maxcpus / (dies * cores * threads);
->> -        sockets = sockets > 0 ? sockets : 1;
->> -    } else if (cores == 0) {
->> -        threads = threads > 0 ? threads : 1;
->> -        cores = maxcpus / (sockets * dies * threads);
->> -        cores = cores > 0 ? cores : 1;
->> -    } else if (threads == 0) {
->> -        threads = maxcpus / (sockets * dies * cores);
->> -        threads = threads > 0 ? threads : 1;
->> +    /* prefer sockets over cores over threads before 6.2 */
->> +    if (mc->smp_prefer_sockets) {
->> +        if (sockets == 0) {
->> +            cores = cores > 0 ? cores : 1;
->> +            threads = threads > 0 ? threads : 1;
->> +            sockets = maxcpus / (dies * cores * threads);
->> +            sockets = sockets > 0 ? sockets : 1;
->> +        } else if (cores == 0) {
->> +            threads = threads > 0 ? threads : 1;
->> +            cores = maxcpus / (sockets * dies * threads);
->> +            cores = cores > 0 ? cores : 1;
->> +        } else if (threads == 0) {
->> +            threads = maxcpus / (sockets * dies * cores);
->> +            threads = threads > 0 ? threads : 1;
->> +        }
->> +    /* prefer cores over sockets over threads since 6.2 */
->> +    } else {
->> +        if (cores == 0) {
->> +            sockets = sockets > 0 ? sockets : 1;
->> +            threads = threads > 0 ? threads : 1;
->> +            cores = maxcpus / (sockets * dies * threads);
->> +            cores = cores > 0 ? cores : 1;
->> +        } else if (sockets == 0) {
->> +            threads = threads > 0 ? threads : 1;
->> +            sockets = maxcpus / (dies * cores * threads);
->> +            sockets = sockets > 0 ? sockets : 1;
->> +        } else if (threads == 0) {
->> +            threads = maxcpus / (sockets * dies * cores);
->> +            threads = threads > 0 ? threads : 1;
->> +        }
->>       }
->>   
->>       /* use the computed parameters to calculate the omitted cpus */
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index fd5c2277f2..9b811fc6ca 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -432,6 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
->>       m->is_default = false;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>   
->>   DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index b45903b15e..88efb7fde4 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -372,6 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
->>       m->alias = NULL;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>   
->>   DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index d39fd4e644..a481fade51 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4702,6 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       spapr_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   
->>   DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 4d25278cf2..b40e647883 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -809,6 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       ccw_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   DEFINE_CCW_MACHINE(6_1, "6.1", false);
->>   
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 2832f0f8aa..8df885c9d2 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -247,6 +247,7 @@ struct MachineClass {
->>       bool nvdimm_supported;
->>       bool numa_mem_supported;
->>       bool smp_dies_supported;
->> +    bool smp_prefer_sockets;
->>       bool auto_enable_numa;
->>       const char *default_ram_id;
->>   
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 0c9ddc0274..6ef57e838c 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -227,7 +227,9 @@ SRST
->>       from those which are given. Historically preference was given to the
->>       coarsest topology parameters when computing missing values (ie sockets
->>       preferred over cores, which were preferred over threads), however, this
->> -    behaviour is considered liable to change.
->> +    behaviour is considered liable to change. The historical preference of
->> +    sockets over cores over threads works before 6.2, and a new preference
->> +    of cores over sockets over threads starts to work since 6.2 on.
->>   ERST
->>   
->>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
-
+Guenter
 
