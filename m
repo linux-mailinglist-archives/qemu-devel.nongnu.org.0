@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4473D25F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:41:15 +0200 (CEST)
-Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AC43D25FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:42:32 +0200 (CEST)
+Received: from localhost ([::1]:59786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Zsw-0007Ez-5o
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
+	id 1m6ZuB-000163-P8
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6ZrI-0005qM-Ru
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54540)
+ id 1m6Zrh-0006AS-3k
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6ZrH-0007Mw-Gj
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:32 -0400
+ id 1m6Zrf-0007cL-RR
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:39:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626964770;
+ s=mimecast20190719; t=1626964795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lcJAociuKRKxP/QXHqrNsCWvdYhrawuob/ve/LjJZ3U=;
- b=AmwPLhlYmf9N7QUpey4nDs58T21zR62rJwcP62bZMSCyiXAysQu56BVq2dMQO/SBI73tKW
- wVTtIosw/sZvcxyefCXl6vORbDdfdv+F3nDe0mQAIxmO1lXH4DyC09PtJR46Zyw51i5ILF
- 7mMEzOHscG5/zmIPIHHrfCK6rfvlgn0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-5yTaLyadMwmk2ku_d5OJYA-1; Thu, 22 Jul 2021 10:39:29 -0400
-X-MC-Unique: 5yTaLyadMwmk2ku_d5OJYA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- i13-20020a1709061ccdb02905478dfedcafso1864180ejh.21
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:39:29 -0700 (PDT)
+ bh=cqQ6xN3WrK5HyDDkUWHeq6CnrRxEF9ZrWlGfcVc0UGs=;
+ b=Uyf4RRjSUzDEsRLJ2Iu1EEr7aNoeiu7kyOi7KDB2ifwVwBeyRqrmeNLCG4pf9sKVCcrK8D
+ LMdBwCKn4UMDzQAwhkOQyPIsPuXWqOS18SDTuJR+JmauCQd45gmQ+z4Fh3RDR0BgNPp7wu
+ SL42jRKxsNwFGSQhhw3CpOLs669k7/8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-aLeCmd7iMvCr088Oj07SvQ-1; Thu, 22 Jul 2021 10:39:54 -0400
+X-MC-Unique: aLeCmd7iMvCr088Oj07SvQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x16-20020aa7d6d00000b02903a2e0d2acb7so2865430edr.16
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:39:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lcJAociuKRKxP/QXHqrNsCWvdYhrawuob/ve/LjJZ3U=;
- b=TAkT9+PBDYqhXNgcHdChlPw6tZG/CSt0Voo4BsrmjyjRfmUA1h4e8j0UvrundytB19
- jyu10OQO6wYURKdl3bbE34NK/8XCA+sSOWKyrMDqfBlbNLgaFIQOncaoc8wTsO5XPjdz
- ApoAKleTxwe8qv15VYq4DmDWtSLLosngoPEI9zPw6M1YpKgmWsSMVJFdmNiJUUDW/FJT
- Ro4DWcHj8s9G0B5rCCf++kHQxMF/F5CYFWO0XYUDWT6WvFVsmVvW64h/VX0r2BZPnHEP
- 8ct0o0yrNc1krqMB9CysRtXeYhUTXWnusFRCLdF7qcHnKbOInnKLh9K9BLPfjlLkPOMH
- 0bdQ==
-X-Gm-Message-State: AOAM530inZHZLIHulVY6ocuJhp05/xJX8WgIdcLO4k1C/okrP5cXgR+D
- qflkFpz+RpLNLrwZx3K5MXw5Lm2jci/uKaAk0t7fRSSmxI3i0IHbMwtUFx2rpbGhRKDMXnH1Uw4
- tf+XH5//xhTGql4hiq8HoTxEgDQZ8xfmXyn7f9QvzWa8dw0lj8qfj4CBYAIchQoEZC94=
-X-Received: by 2002:a17:907:7695:: with SMTP id
- jv21mr201591ejc.243.1626964768083; 
- Thu, 22 Jul 2021 07:39:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwedXT2wsnpgisfEajN1VCGPjPDemAArIckjS61Ll/SiQf4WJ3MMKjjlGSOvqegd1zjOq7y4A==
-X-Received: by 2002:a17:907:7695:: with SMTP id
- jv21mr201575ejc.243.1626964767886; 
- Thu, 22 Jul 2021 07:39:27 -0700 (PDT)
+ bh=cqQ6xN3WrK5HyDDkUWHeq6CnrRxEF9ZrWlGfcVc0UGs=;
+ b=dK/1SvNClFAE8Qk8jBOtqpGE7586Po1SGmarW/2QhXIHwVv8q2yg20rVCYWgzVLVOQ
+ OivqAEH32J5kaqOOiaHiDBHzMJ+Lf/dWMulxTm1pNUDk958Bb7BnhK7nS3O6W58yC5l9
+ bAvzeqBqkOss+GEc0eCKixF0KOy0tUrFBliuE9q4gn1kYkPeDkn+4ThBxuLomWoXIIqO
+ SvKBKW0u2nTVf9oP0an44KJwXyc7lVUsmpmdhLa4T9DOjEFI4j6TUcCdJ+sbVu+tJsw0
+ FXFyCejTPsF8WrHHBOxRj0Oy1DsMb91K/NvWcJmOV1GKPeAUEXghUKSsxqpmmoEkquy1
+ I/MQ==
+X-Gm-Message-State: AOAM531yYBWdy3kpLjqJn1Y9VGQ7I4Z9E1vi364pIYJ/7SXfs34gM0pR
+ /woP8adevx6+WJX/8a4eZzAQZBdcq6wgoH68fpTy05801DsWeiZVFfjlpLKMh64WY6c+Cd+XI0S
+ rUJz1cRl+rAXydrc=
+X-Received: by 2002:a17:906:63ca:: with SMTP id
+ u10mr194555ejk.411.1626964792841; 
+ Thu, 22 Jul 2021 07:39:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyv1FDFnJyJh3QY4FeAo6zw+kkyVNlrl6aHdi1VelxkTVLPGdsZcVwrfhNr8p3jw/nEkSjnKA==
+X-Received: by 2002:a17:906:63ca:: with SMTP id
+ u10mr194541ejk.411.1626964792691; 
+ Thu, 22 Jul 2021 07:39:52 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v16sm11929057edc.52.2021.07.22.07.39.26
+ by smtp.gmail.com with ESMTPSA id y11sm9574659ejr.14.2021.07.22.07.39.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 07:39:27 -0700 (PDT)
-Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
-To: Peter Krempa <pkrempa@redhat.com>
-References: <20210706100141.303960-1-pbonzini@redhat.com>
- <20210706100141.303960-37-pbonzini@redhat.com>
- <YPkp+PF8kUyK9sy+@angien.pipo.sk>
+ Thu, 22 Jul 2021 07:39:52 -0700 (PDT)
+Subject: Re: [PATCH] vl: Parse legacy default_machine_opts
+To: Anthony PERARD <anthony.perard@citrix.com>,
+ Jason Andryuk <jandryuk@gmail.com>
+References: <CAKf6xps07sbk7MnehPTKes52sst0UyaHiHjjSdEX0bFjT+E_ag@mail.gmail.com>
+ <20210713021552.19110-1-jandryuk@gmail.com> <YPl80YnsDpLI8gtN@perard>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
-Date: Thu, 22 Jul 2021 16:39:26 +0200
+Message-ID: <2f532fad-9c74-04b5-58c7-5f9d5464340e@redhat.com>
+Date: Thu, 22 Jul 2021 16:39:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPkp+PF8kUyK9sy+@angien.pipo.sk>
+In-Reply-To: <YPl80YnsDpLI8gtN@perard>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -104,22 +104,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/21 10:19, Peter Krempa wrote:
-> This patch breaks detection of certain machine options features in
-> libvirt which were being detected from 'query-command-line-options'.
+On 22/07/21 16:12, Anthony PERARD via wrote:
+> Reviewed-by: Anthony PERARD<anthony.perard@citrix.com>
 > 
-> I presume the change simply removed this from the output of
-> query-command-line-options due to the historical cruft how the
-> aforementioned command works.
-> 
-> Unfortunately I didn't find any suitable replacement from what we are
-> querying.
+> I can't find a different way to set a default "accelerator" to a
+> machine, so this patch seems necessary.
 
-Yep, there is already a patch queued for this.
+I agree, and I'll be sending a pull request shortly.
 
 Paolo
 
