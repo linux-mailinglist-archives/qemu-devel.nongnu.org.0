@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A2F3D2458
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:08:59 +0200 (CEST)
-Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2544C3D2468
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:14:12 +0200 (CEST)
+Received: from localhost ([::1]:55226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6YRe-0007Sy-0l
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
+	id 1m6YWg-0001Wl-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m6YQm-0006l8-LJ
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:08:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31451)
+ id 1m6YVU-0000ny-QJ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:12:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m6YQi-0003MZ-1O
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:08:03 -0400
+ id 1m6YVO-0005qO-2b
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:12:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626959278;
+ s=mimecast20190719; t=1626959569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Gu15QcABlQ1gMVUoT7FnqmLY73uWsJ49wq7lEW0O73Y=;
- b=Gg0sliCkq72PLycqu/2VmrpPdRSKVjWZpMJ3ZZh4bLrbDqXY3kMCKyqEKkC5QcUjYrhbWx
- OinpzRz9/kcvN4ujfoMl6jGMQNS7oZhudplYx4PI1CAZxQy0WJ3G/RaCSDq9zRR8GhOR9N
- pLRdqneUlaKRs1jxxLvNyYN22o3QTng=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-G_DZ3czJPI-gdM4bW6RA-g-1; Thu, 22 Jul 2021 09:07:57 -0400
-X-MC-Unique: G_DZ3czJPI-gdM4bW6RA-g-1
-Received: by mail-il1-f199.google.com with SMTP id
- f5-20020a92b5050000b02901ff388acf98so3546171ile.2
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 06:07:57 -0700 (PDT)
+ bh=BICCLhdX1x0GgkUx6f48vnxfzgoxXMJUV6/cPwjAndk=;
+ b=IRWXPB5hHFwBU5OBLvFyk92ujI8xu60cV4taHgdgyVkxc/bUFMZECjZkVXgD/6FlMGQLkv
+ Y+kdtlVAz5AzlfYZeTv+i5HgdZ3X78O39Tv479tvy5fyVZktDIUMqFGZyGVqwNMGG9I3xW
+ JjNUaol1136DsHwoe+apKpSOhv7R4to=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-HCSBT7CdOvi982KGQ61j_g-1; Thu, 22 Jul 2021 09:12:47 -0400
+X-MC-Unique: HCSBT7CdOvi982KGQ61j_g-1
+Received: by mail-io1-f71.google.com with SMTP id
+ b136-20020a6bb28e0000b0290520c8d13420so3973355iof.19
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 06:12:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Gu15QcABlQ1gMVUoT7FnqmLY73uWsJ49wq7lEW0O73Y=;
- b=rxfOLw7LmiEMghA57s/HpSjxuBdQQr4hMq2JEqQpvNUxCJfX+m9TbUn3hyMGuRE112
- gt11Ymszfx7T9e2y/l4vFoPB/kf8NQPGEsqYgKXLq38JJh+/SndFCTG4qQRASn4YD18J
- G+HcCgzZAWhBDEFQ1xxB/drVPuR75B7HLWh7boHcZhUT63SMU8DySmefD4Ofok36loSv
- bq7hcJXIflp2AUQAXKZIOMS9PuLrBGsKFJa/lHfglpTOypffRMUivUOGt66g429FEJ5J
- vPjxuVD5vHCsz5r/qRRuRQfcgDhZ2o9C+YINZKkg9eevnxpO5zW8DA96rf9IcY1fjubD
- czwA==
-X-Gm-Message-State: AOAM531GsDy3UcBgie+IzyaTgfRroaHCx1MWBLO3GlTuJX9T3Y9vaD3L
- LTR5+AtERTUGH+/4e+PsDPNVXJogFXhC7dgEMCIM+g6segwkTXdoEHaJq7HVoA3SARltQ8GoM3p
- wyVM64QZ8U5RRAn8=
-X-Received: by 2002:a02:cf31:: with SMTP id s17mr36111225jar.46.1626959276515; 
- Thu, 22 Jul 2021 06:07:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9YN/M5EmaCiiRlNW6BTHl0epDq/glcSW5WsrXM7n+YJdRTjx/Fjopw2QQCL7hxROEQi+cww==
-X-Received: by 2002:a02:cf31:: with SMTP id s17mr36111186jar.46.1626959276127; 
- Thu, 22 Jul 2021 06:07:56 -0700 (PDT)
+ bh=BICCLhdX1x0GgkUx6f48vnxfzgoxXMJUV6/cPwjAndk=;
+ b=DqGDV4cHDBMoyDcI4rkmGFw2B40KrvaC+CPWr0gSJLejyg2x+/vkCb2KKfr3vvgQVT
+ fgJA1a0vbNyC1KSyBrDMTfd2Qhe0tqjR7SunUDbnomX9U6Thrsp0R6xtnuS72A+ikSX8
+ I4rl2ZDT6H3DCKJOQKQRu5dyhNRL6cQ7oLKFgaCM7locXJLsa5NLyDvkfyWcUeTV2Pis
+ oTXYz9P2K2lWTAfJ52icHdvi0kFxyOC1CALvLbdSPmN0C2qwgy5l7pF//UO9w8UAdP9e
+ cuwMefqOsndfHgAiSqDUwc/E0jrWBKGa/IZxaV4R8MI3V2MsfIS/Ek5PCgKeC0HMvhqA
+ uBYg==
+X-Gm-Message-State: AOAM531uGXSwu0zigO0iDUzzHwMww2mw2ilLq8UXZZESINB7Sw6n4h8T
+ VGPojZGndiqEQzLt/gtVGMEUQSLXR1gZhRsV8WPvko2nBlSbttOKKeE9iw1l3G9p0wbVHmeYLbv
+ LaafY9GDG2Ibg2mA=
+X-Received: by 2002:a92:8712:: with SMTP id m18mr26165793ild.132.1626959566400; 
+ Thu, 22 Jul 2021 06:12:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCN6s3NRfy3xAVeAX0zapizqldj585UmzjF197SeTUJg9UM81pG1tyHpMiLxL0Ez36tjDF6Q==
+X-Received: by 2002:a92:8712:: with SMTP id m18mr26165748ild.132.1626959565782; 
+ Thu, 22 Jul 2021 06:12:45 -0700 (PDT)
 Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id u13sm15425679iot.29.2021.07.22.06.07.54
+ by smtp.gmail.com with ESMTPSA id l9sm6641985iln.12.2021.07.22.06.12.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 06:07:54 -0700 (PDT)
-Date: Thu, 22 Jul 2021 15:07:52 +0200
+ Thu, 22 Jul 2021 06:12:45 -0700 (PDT)
+Date: Thu, 22 Jul 2021 15:12:40 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.2 v2 10/11] machine: Split out the smp parsing code
-Message-ID: <20210722130752.6yl64tkfmtl4ruq6@gator>
+Subject: Re: [PATCH for-6.2 v2 11/11] tests/unit: Add a unit test for smp
+ parsing
+Message-ID: <20210722131240.wpxihupmdl3hzlup@gator>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-11-wangyanan55@huawei.com>
- <20210719172009.yujvlk4mu2xcl25g@gator>
- <d040bdbf-47f5-da25-9aae-8285530a0948@huawei.com>
+ <20210719032043.25416-12-wangyanan55@huawei.com>
+ <20210719185755.56r72aiqfuygqhcc@gator>
+ <59d1833f-d42e-66df-e5f9-fd7efd6f6d0c@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <d040bdbf-47f5-da25-9aae-8285530a0948@huawei.com>
+In-Reply-To: <59d1833f-d42e-66df-e5f9-fd7efd6f6d0c@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -99,353 +100,1233 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
- yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 02:24:03PM +0800, wangyanan (Y) wrote:
-> On 2021/7/20 1:20, Andrew Jones wrote:
-> > On Mon, Jul 19, 2021 at 11:20:42AM +0800, Yanan Wang wrote:
-> > > We are going to introduce an unit test for the parser smp_parse()
-> > > in hw/core/machine.c, but now machine.c is only built in softmmu.
+On Thu, Jul 22, 2021 at 02:15:18PM +0800, wangyanan (Y) wrote:
+> On 2021/7/20 2:57, Andrew Jones wrote:
+> > On Mon, Jul 19, 2021 at 11:20:43AM +0800, Yanan Wang wrote:
+> > > Add a QEMU unit test for the parsing of given SMP configuration.
+> > > Since all the parsing logic is in generic function smp_parse(),
+> > > this test passes diffenent SMP configurations to the function
+> > > and compare the parsing result with what is expected.
 > > > 
-> > > In order to solve the build dependency on the smp parsing code and
-> > > avoid building unrelated stuff for the unit tests, move the related
-> > > code from machine.c into a new common file, i.e., machine-smp.c.
+> > > In the test, all possible collections of the topology parameters
+> > > and the corressponding expected results are listed, including the
+> > > valid and invalid ones.
+> > > 
+> > > The preference of sockets over cores and the preference of cores
+> > > over sockets, and the support of multi-dies are also considered.
 > > > 
 > > > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > > > ---
-> > >   MAINTAINERS           |   1 +
-> > >   hw/core/machine-smp.c | 124 ++++++++++++++++++++++++++++++++++++++++++
-> > >   hw/core/machine.c     | 109 -------------------------------------
-> > >   hw/core/meson.build   |   1 +
-> > >   include/hw/boards.h   |   1 +
-> > >   5 files changed, 127 insertions(+), 109 deletions(-)
-> > >   create mode 100644 hw/core/machine-smp.c
+> > >   MAINTAINERS                 |    1 +
+> > >   tests/unit/meson.build      |    1 +
+> > >   tests/unit/test-smp-parse.c | 1117 +++++++++++++++++++++++++++++++++++
+> > >   3 files changed, 1119 insertions(+)
+> > >   create mode 100644 tests/unit/test-smp-parse.c
 > > > 
 > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 9100f9a043..70633e3bf4 100644
+> > > index 70633e3bf4..160dba2e57 100644
 > > > --- a/MAINTAINERS
 > > > +++ b/MAINTAINERS
-> > > @@ -1626,6 +1626,7 @@ F: cpu.c
-> > >   F: hw/core/cpu.c
-> > >   F: hw/core/machine-qmp-cmds.c
-> > >   F: hw/core/machine.c
-> > > +F: hw/core/machine-smp.c
-
-I just noticed that the spacing in this change might not be right.
-
-> > >   F: hw/core/null-machine.c
-> > >   F: hw/core/numa.c
-> > >   F: hw/cpu/cluster.c
-> > > diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> > > @@ -1636,6 +1636,7 @@ F: include/hw/boards.h
+> > >   F: include/hw/core/cpu.h
+> > >   F: include/hw/cpu/cluster.h
+> > >   F: include/sysemu/numa.h
+> > > +F: tests/unit/test-smp-parse.c
+> > >   T: git https://gitlab.com/ehabkost/qemu.git machine-next
+> > >   Xtensa Machines
+> > > diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> > > index 3e0504dd21..694a924627 100644
+> > > --- a/tests/unit/meson.build
+> > > +++ b/tests/unit/meson.build
+> > > @@ -44,6 +44,7 @@ tests = {
+> > >     'test-uuid': [],
+> > >     'ptimer-test': ['ptimer-test-stubs.c', meson.source_root() / 'hw/core/ptimer.c'],
+> > >     'test-qapi-util': [],
+> > > +  'test-smp-parse': [qom, meson.source_root() / 'hw/core/machine-smp.c'],
+> > >   }
+> > >   if have_system or have_tools
+> > > diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
 > > > new file mode 100644
-> > > index 0000000000..6a00cfe44a
+> > > index 0000000000..bc1d324c3d
 > > > --- /dev/null
-> > > +++ b/hw/core/machine-smp.c
-> > > @@ -0,0 +1,124 @@
+> > > +++ b/tests/unit/test-smp-parse.c
+> > > @@ -0,0 +1,1117 @@
 > > > +/*
-> > > + * QEMU Machine (related to SMP configuration)
+> > > + * SMP parsing unit-tests
 > > > + *
-> > > + * Copyright (C) 2014 Red Hat Inc
+> > > + * Copyright (C) 2021, Huawei, Inc.
 > > > + *
 > > > + * Authors:
-> > > + *   Marcel Apfelbaum <marcel.a@redhat.com>
-> > This header was obviously copy+pasted without being updated.
-> Yes, the header was kept unchanged.
+> > > + *  Yanan Wang <wangyanan55@huawei.com>
+> > > + *
+> > > + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+> > > + * See the COPYING.LIB file in the top-level directory.
+> > > + */
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +#include "qom/object.h"
+> > > +#include "qemu/module.h"
+> > > +#include "qapi/error.h"
+> > > +
+> > > +#include "hw/boards.h"
+> > > +
+> > > +#define T true
+> > > +#define F false
+> > > +
+> > > +/**
+> > > + * SMPTestData:
+> > > + * @config - the given SMP configuration for parsing
+> > > + * @should_be_valid - whether the given configuration is supposed to be valid
+> > > + * @expect - the CPU topology info expected to be parsed out
+> > > + */
+> > > +typedef struct SMPTestData {
+> > > +    SMPConfiguration config;
+> > > +    bool should_be_valid;
+> > Long way to say 'valid'.
+> Indeed..., "valid" should be enough.
+> > > +    CpuTopology expect;
+> > > +} SMPTestData;
+> > > +
+> > > +/* the specific machine type info for this test */
+> > > +static const TypeInfo smp_machine_info = {
+> > > +    .name = TYPE_MACHINE,
+> > > +    .parent = TYPE_OBJECT,
+> > > +    .class_size = sizeof(MachineClass),
+> > > +    .instance_size = sizeof(MachineState),
+> > > +};
+> > > +
+> > > +/*
+> > > + * prefer sockets over cores over threads before 6.2.
+> > > + * all possible SMP configurations and the corressponding expected outputs
+> > corresponding (please run spell check on your commit messages)
+> > 
+> Ok, I missed the check.
+> > > + * are listed for testing, including the valid and invalid ones.
+> > > + */
+> > > +static struct SMPTestData prefer_sockets[] = {
+> > > +    {
+> > > +        /* config: no smp configuration provided
+> > > +         * expect: cpus=1,sockets=1,dies=1,cores=1,threads=1,maxcpus=1 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > SMPConfiguration and CpuTopology have named fields so we could drop the
+> > 'expect: ...' comment line and instead do
+> > 
+> >   {
+> >    /* no configuration provided */
+> >    .config = { .has_cpus = F, .has_maxcpus = F, ... },
+> >    .valid = T,
+> >    .expect = { .sockets = 1, .cores = 1, ... },
+> >   }, {
+> >    ...
+> >   }
+> > 
+> > which may be easier to maintain. OTOH, the concise form this approach has
+> > is also nice.
+> I tried the structure initialization with explicit name fields in it like
+> above,
+> actually we are supposed to do in this way so that we don't have to worry
+> about the order change of the structure members.
 > 
-> But actually I'm not completely sure which field should be updated. :)
-> Should I add "Copyright (C) 2021, Huawei, Inc." and also the authorship
-> "Yanan Wang <wangyanan55@huawei.com>" behind the existing ones
-> or just replace them?
+> But this would break the 80-char line limit or introduce more lines for
 
-I see what you were attempting to do now. You were deriving this new work
-(a source file) from an existing work and you wanted to preserve the
-original copyright and authorship. It's not so simple with these types of
-projects though. In this case, smp_parse wasn't even part of the original
-machine.c file (it came over with commit 6f479566a87d). I think it's
-pretty common for these projects to just put whatever your preferred
-(or your employer's preferred) copyright/authorship on new files. So, I'd
-just replace the fields.
-
-I'm interested in what others have to say about this though.
+I wouldn't worry about 80-char (or even 90, which is when checkpatch
+switches from a warning to an error) for something like this, but that's
+just my opinion. You'd have to get agreement from whomever would decide /
+not decide to merge this.
 
 Thanks,
 drew
 
-
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > > + * See the COPYING file in the top-level directory.
-> > > + */
+> for each SMP configuration. If this is not a real problem, I also prefer
+> above format.
+> > I don't think you should need the casts in the assignments
+> > though.
+> Yes, the casts may be unnecessary, will remove them.
+> > 
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 1, 1, 1, 1, 1, 1 },
+> > > +    }, {
+> > > +        /* config: -smp 8
+> > > +         * expect: cpus=8,sockets=8,dies=1,cores=1,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 8, 1, 1, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2
+> > > +         * expect: cpus=2,sockets=2,dies=1,cores=1,threads=1,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 2, 1, 1, 1, 2 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4
+> > > +         * expect: cpus=4,sockets=1,dies=1,cores=4,threads=1,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 1, 1, 4, 1, 4 },
+> > > +    }, {
+> > > +        /* config: -smp threads=2
+> > > +         * expect: cpus=2,sockets=1,dies=1,cores=1,threads=2,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 1, 1, 1, 2, 2 },
+> > > +    }, {
+> > > +        /* config: -smp maxcpus=16
+> > > +         * expect: cpus=16,sockets=16,dies=1,cores=1,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 16, 1, 1, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,threads=2
+> > > +         * expect: cpus=8,sockets=4,dies=1,cores=1,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 4, 1, 1, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,maxcpus=16
+> > > +         * expect: cpus=8,sockets=16,dies=1,cores=1,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 16, 1, 1, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,threads=2
+> > > +         * expect: cpus=4,sockets=2,dies=1,cores=1,threads=2,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 2, 1, 1, 2, 4 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=8,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 8, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,threads=2
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=4,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 4, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,maxcpus=16
+> > > +         * expect: cpus=16,sockets=4,dies=1,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 4, 1, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=8,dies=1,cores=1,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 8, 1, 1, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,threads=2
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=2,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 2, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=8,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 8, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,threads=2
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=4,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 4, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,maxcpus=16
+> > > +         * expect: cpus=8,sockets=4,dies=1,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 4, 1, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=8,dies=1,cores=1,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 8, 1, 1, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,threads=1
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 1, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,threads=2,maxcpus=16
+> > > +         * expect: -smp 16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 0, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 0, T, 2, T, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=2,maxcpus=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 2, T, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,dies=2
+> > > +         * expect: error, multi-dies not supported */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=8
+> > > +         * expect: error, sum (16) != max_cpus (8) */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=5,threads=2,maxcpus=16
+> > > +         * expect: error, sum (20) != max_cpus (16) */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 3, F, 0, T, 5, T, 1, T, 16 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 16,maxcpus=12
+> > > +         * expect: error, sum (12) < smp_cpus (16) */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, F, 0, F, 0, F, 0, T, 12 },
+> > > +        .should_be_valid = false,
+> > > +    },
+> > > +};
 > > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "hw/boards.h"
-> > > +#include "qapi/error.h"
+> > > +static struct SMPTestData prefer_sockets_support_dies[] = {
+> > > +    {
+> > > +        /* config: -smp dies=2
+> > > +         * expect: cpus=2,sockets=1,dies=2,cores=1,threads=1,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 1, 2, 1, 1, 2 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2
+> > > +         * expect: cpus=16,sockets=8,dies=2,cores=1,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 8, 2, 1, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2
+> > > +         * expect: cpus=4,sockets=2,dies=2,cores=1,threads=1,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 2, 2, 1, 1, 4 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4
+> > > +         * expect: cpus=8,sockets=1,dies=2,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 2, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,threads=2
+> > > +         * expect: cpus=4,sockets=1,dies=2,cores=1,threads=2,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 1, 2, 1, 2, 4 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=16,dies=2,cores=1,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 16, 2, 1, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,threads=2
+> > > +         * expect: cpus=16,sockets=4,dies=2,cores=1,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 4, 2, 1, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=16,dies=2,cores=1,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 16, 2, 1, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,threads=2
+> > > +         * expect: cpus=8,sockets=2,dies=2,cores=1,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 2, 1, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 8, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=32,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 4, 2, 4, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=8,dies=2,cores=1,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 8, 2, 1, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,threads=2
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 2, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 8, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=16,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 4, 2, 4, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=8,dies=2,cores=1,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 8, 2, 1, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,threads=2
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=1
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, T, 1, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: -smp 32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    },
+> > > +};
 > > > +
 > > > +/*
-> > > + * smp_parse - Generic function used to parse the given SMP configuration
-> > > + *
-> > > + * The topology parameters must be specified equal to or great than one
-> > > + * or just omitted, explicit configuration like "cpus=0" is not allowed.
-> > > + * The omitted parameters will be calculated based on the provided ones.
-> > > + *
-> > > + * maxcpus will default to the value of cpus if omitted and will be used
-> > > + * to compute the missing sockets/cores/threads. cpus will be calculated
-> > > + * from the computed parametrs if omitted.
-> > > + *
-> > > + * In calculation of omitted arch-netural sockets/cores/threads, we prefer
-> > > + * sockets over cores over threads before 6.2, while prefer cores over
-> > > + * sockets over threads since 6.2 on. The arch-specific dies will directly
-> > > + * default to 1 if omitted.
+> > > + * prefer cores over sockets over threads since 6.2.
+> > > + * all possible SMP configurations and the corressponding expected outputs
+> > > + * are listed for testing, including the valid and invalid ones.
 > > > + */
-> > > +void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+> > > +static struct SMPTestData prefer_cores[] = {
+> > > +    {
+> > > +        /* config: no smp configuration
+> > > +         * expect: cpus=1,sockets=1,dies=1,cores=1,threads=1,maxcpus=1 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 1, 1, 1, 1, 1, 1 },
+> > > +    }, {
+> > > +        /* config: -smp 8
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=8,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 8, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2
+> > > +         * expect: cpus=2,sockets=2,dies=1,cores=1,threads=1,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 2, 1, 1, 1, 2 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4
+> > > +         * expect: cpus=4,sockets=1,dies=1,cores=4,threads=1,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 1, 1, 4, 1, 4 },
+> > > +    }, {
+> > > +        /* config: -smp threads=2
+> > > +         * expect: cpus=2,sockets=1,dies=1,cores=1,threads=2,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 1, 1, 1, 2, 2 },
+> > > +    }, {
+> > > +        /* config: -smp maxcpus=16
+> > > +         * expect: cpus=16,sockets=1,dies=1,cores=16,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 1, 16, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,threads=2
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=4,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 4, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,maxcpus=16
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=16,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 16, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,threads=2
+> > > +         * expect: cpus=4,sockets=2,dies=1,cores=1,threads=2,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 2, 1, 1, 2, 4 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=8,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 8, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,threads=2
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=4,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 4, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,maxcpus=16
+> > > +         * expect: cpus=16,sockets=4,dies=1,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 4, 1, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=1,dies=1,cores=8,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 1, 8, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,threads=2
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=2,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 2, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=8,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 8, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,threads=2
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=4,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 4, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,maxcpus=16
+> > > +         * expect: cpus=8,sockets=4,dies=1,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 4, 1, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=1,dies=1,cores=8,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 1, 8, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,threads=1
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 1, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, F, 0, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, F, 0, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,cores=4,threads=2,maxcpus=16
+> > > +         * expect: -smp 16,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16
+> > > +         * expect: cpus=8,sockets=2,dies=1,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 2, T, 16 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 1, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 0, F, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 0, F, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 0, T, 2, T, 0, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,dies=1,cores=4,threads=2,maxcpus=0
+> > > +         * expect: error, "anything=0" is not allowed */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, T, 1, T, 4, T, 2, T, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,dies=2
+> > > +         * expect: error, multi-dies not supported */
+> > > +        .config = (SMPConfiguration) { T, 8, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=8
+> > > +         * expect: error, sum (16) != max_cpus (8) */
+> > > +        .config = (SMPConfiguration) { T, 8, T, 2, F, 0, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 8,sockets=2,cores=5,threads=2,maxcpus=16
+> > > +         * expect: error, sum (20) != max_cpus (16) */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 3, F, 0, T, 5, T, 1, T, 16 },
+> > > +        .should_be_valid = false,
+> > > +    }, {
+> > > +        /* config: -smp 16,maxcpus=12
+> > > +         * expect: error, sum (12) < smp_cpus (16) */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, F, 0, F, 0, F, 0, T, 12 },
+> > > +        .should_be_valid = false,
+> > > +    },
+> > > +};
+> > > +
+> > > +static struct SMPTestData prefer_cores_support_dies[] = {
+> > > +    {
+> > > +        /* config: -smp dies=2
+> > > +         * expect: cpus=2,sockets=1,dies=2,cores=1,threads=1,maxcpus=2 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 2, 1, 2, 1, 1, 2 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=8,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 8, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2
+> > > +         * expect: cpus=4,sockets=2,dies=2,cores=1,threads=1,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 2, 2, 1, 1, 4 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4
+> > > +         * expect: cpus=8,sockets=1,dies=2,cores=4,threads=1,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 1, 2, 4, 1, 8 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,threads=2
+> > > +         * expect: cpus=4,sockets=1,dies=2,cores=1,threads=2,maxcpus=4 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 4, 1, 2, 1, 2, 4 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=1,dies=2,cores=16,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 1, 2, 16, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,threads=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=16,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 16, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,threads=2
+> > > +         * expect: cpus=8,sockets=2,dies=2,cores=1,threads=2,maxcpus=8 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 8, 2, 2, 1, 2, 8 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 8, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=32,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 4, 2, 4, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=1,dies=2,cores=8,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 1, 2, 8, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, F, 0, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,threads=2
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 2, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 8, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,threads=2
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 4, 2, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=16,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 4, 2, 4, 1, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=1,dies=2,cores=8,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 1, 2, 8, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,threads=2
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, T, 2, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, F, 0, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=1
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, T, 1, F, 0 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 1, 16 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, F, 0, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, F, 0, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, F, 0, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp sockets=2,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: -smp 32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { F, 0, T, 2, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 32, 2, 2, 4, 2, 32 },
+> > > +    }, {
+> > > +        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32
+> > > +         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
+> > > +        .config = (SMPConfiguration) { T, 16, T, 2, T, 2, T, 4, T, 2, T, 32 },
+> > > +        .should_be_valid = true,
+> > > +        .expect = (CpuTopology) { 16, 2, 2, 4, 2, 32 },
+> > > +    },
+> > > +};
+> > > +
+> > > +static char *get_config_info(SMPConfiguration *config)
 > > > +{
-> > > +    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> > > +    unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> > > +    unsigned sockets = config->has_sockets ? config->sockets : 0;
-> > > +    unsigned dies    = config->has_dies ? config->dies : 1;
-> > > +    unsigned cores   = config->has_cores ? config->cores : 0;
-> > > +    unsigned threads = config->has_threads ? config->threads : 0;
-> > > +    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
-> > > +
-> > > +    if ((config->has_cpus && config->cpus == 0) ||
-> > > +        (config->has_sockets && config->sockets == 0) ||
-> > > +        (config->has_dies && config->dies == 0) ||
-> > > +        (config->has_cores && config->cores == 0) ||
-> > > +        (config->has_threads && config->threads == 0) ||
-> > > +        (config->has_maxcpus && config->maxcpus == 0)) {
-> > > +        error_setg(errp, "parameters must be equal to or greater than one"
-> > > +                   "if provided");
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    if (!mc->smp_dies_supported && dies > 1) {
-> > > +        error_setg(errp, "dies not supported by this machine's CPU topology");
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> > > +
-> > > +    /* prefer sockets over cores over threads before 6.2 */
-> > > +    if (mc->smp_prefer_sockets) {
-> > > +        if (sockets == 0) {
-> > > +            cores = cores > 0 ? cores : 1;
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +            sockets = maxcpus / (dies * cores * threads);
-> > > +            sockets = sockets > 0 ? sockets : 1;
-> > > +        } else if (cores == 0) {
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +            cores = maxcpus / (sockets * dies * threads);
-> > > +            cores = cores > 0 ? cores : 1;
-> > > +        } else if (threads == 0) {
-> > > +            threads = maxcpus / (sockets * dies * cores);
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +        }
-> > > +    /* prefer cores over sockets over threads since 6.2 */
-> > > +    } else {
-> > > +        if (cores == 0) {
-> > > +            sockets = sockets > 0 ? sockets : 1;
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +            cores = maxcpus / (sockets * dies * threads);
-> > > +            cores = cores > 0 ? cores : 1;
-> > > +        } else if (sockets == 0) {
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +            sockets = maxcpus / (dies * cores * threads);
-> > > +            sockets = sockets > 0 ? sockets : 1;
-> > > +        } else if (threads == 0) {
-> > > +            threads = maxcpus / (sockets * dies * cores);
-> > > +            threads = threads > 0 ? threads : 1;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    /* use the computed parameters to calculate the omitted cpus */
-> > > +    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
-> > > +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> > > +
-> > > +    if (sockets * dies * cores * threads != maxcpus) {
-> > > +        g_autofree char *dies_msg = g_strdup_printf(
-> > > +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > +        error_setg(errp, "Invalid CPU topology: "
-> > > +                   "sockets (%u)%s * cores (%u) * threads (%u) "
-> > > +                   "!= maxcpus (%u)",
-> > > +                   sockets, dies_msg, cores, threads,
-> > > +                   maxcpus);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    if (sockets * dies * cores * threads < cpus) {
-> > > +        g_autofree char *dies_msg = g_strdup_printf(
-> > > +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > +        error_setg(errp, "Invalid CPU topology: "
-> > > +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
-> > > +                   "smp_cpus (%u)",
-> > > +                   sockets, dies_msg, cores, threads, cpus);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    ms->smp.cpus = cpus;
-> > > +    ms->smp.sockets = sockets;
-> > > +    ms->smp.dies = dies;
-> > > +    ms->smp.cores = cores;
-> > > +    ms->smp.threads = threads;
-> > > +    ms->smp.max_cpus = maxcpus;
+> > > +    return g_strdup_printf(
+> > > +        "(SMPConfiguration) {\n"
+> > > +        "    .has_cpus    = %5s, cpus    = %ld,\n"
+> > > +        "    .has_sockets = %5s, sockets = %ld,\n"
+> > > +        "    .has_dies    = %5s, dies    = %ld,\n"
+> > > +        "    .has_cores   = %5s, cores   = %ld,\n"
+> > > +        "    .has_threads = %5s, threads = %ld,\n"
+> > > +        "    .has_maxcpus = %5s, maxcpus = %ld,\n"
+> > > +        "}",
+> > > +        config->has_cpus ? "true" : "false", config->cpus,
+> > > +        config->has_sockets ? "true" : "false", config->sockets,
+> > > +        config->has_dies ? "true" : "false", config->dies,
+> > > +        config->has_cores ? "true" : "false", config->cores,
+> > > +        config->has_threads ? "true" : "false", config->threads,
+> > > +        config->has_maxcpus ? "true" : "false", config->maxcpus);
 > > > +}
-> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > index 9d24b67ef3..61be266b6c 100644
-> > > --- a/hw/core/machine.c
-> > > +++ b/hw/core/machine.c
-> > > @@ -744,115 +744,6 @@ void machine_set_cpu_numa_node(MachineState *machine,
-> > >       }
-> > >   }
-> > > -/*
-> > > - * smp_parse - Generic function used to parse the given SMP configuration
-> > > - *
-> > > - * The topology parameters must be specified equal to or great than one
-> > > - * or just omitted, explicit configuration like "cpus=0" is not allowed.
-> > > - * The omitted parameters will be calculated based on the provided ones.
-> > > - *
-> > > - * maxcpus will default to the value of cpus if omitted and will be used
-> > > - * to compute the missing sockets/cores/threads. cpus will be calculated
-> > > - * from the computed parametrs if omitted.
-> > > - *
-> > > - * In calculation of omitted arch-netural sockets/cores/threads, we prefer
-> > > - * sockets over cores over threads before 6.2, while prefer cores over
-> > > - * sockets over threads since 6.2 on. The arch-specific dies will directly
-> > > - * default to 1 if omitted.
-> > > - */
-> > > -static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> > > -{
-> > > -    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> > > -    unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> > > -    unsigned sockets = config->has_sockets ? config->sockets : 0;
-> > > -    unsigned dies    = config->has_dies ? config->dies : 1;
-> > > -    unsigned cores   = config->has_cores ? config->cores : 0;
-> > > -    unsigned threads = config->has_threads ? config->threads : 0;
-> > > -    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
-> > > -
-> > > -    if ((config->has_cpus && config->cpus == 0) ||
-> > > -        (config->has_sockets && config->sockets == 0) ||
-> > > -        (config->has_dies && config->dies == 0) ||
-> > > -        (config->has_cores && config->cores == 0) ||
-> > > -        (config->has_threads && config->threads == 0) ||
-> > > -        (config->has_maxcpus && config->maxcpus == 0)) {
-> > > -        error_setg(errp, "parameters must be equal to or greater than one"
-> > > -                   "if provided");
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    if (!mc->smp_dies_supported && dies > 1) {
-> > > -        error_setg(errp, "dies not supported by this machine's CPU topology");
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> > > -
-> > > -    /* prefer sockets over cores over threads before 6.2 */
-> > > -    if (mc->smp_prefer_sockets) {
-> > > -        if (sockets == 0) {
-> > > -            cores = cores > 0 ? cores : 1;
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -            sockets = maxcpus / (dies * cores * threads);
-> > > -            sockets = sockets > 0 ? sockets : 1;
-> > > -        } else if (cores == 0) {
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -            cores = maxcpus / (sockets * dies * threads);
-> > > -            cores = cores > 0 ? cores : 1;
-> > > -        } else if (threads == 0) {
-> > > -            threads = maxcpus / (sockets * dies * cores);
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -        }
-> > > -    /* prefer cores over sockets over threads since 6.2 */
-> > > -    } else {
-> > > -        if (cores == 0) {
-> > > -            sockets = sockets > 0 ? sockets : 1;
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -            cores = maxcpus / (sockets * dies * threads);
-> > > -            cores = cores > 0 ? cores : 1;
-> > > -        } else if (sockets == 0) {
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -            sockets = maxcpus / (dies * cores * threads);
-> > > -            sockets = sockets > 0 ? sockets : 1;
-> > > -        } else if (threads == 0) {
-> > > -            threads = maxcpus / (sockets * dies * cores);
-> > > -            threads = threads > 0 ? threads : 1;
-> > > -        }
-> > > -    }
-> > > -
-> > > -    /* use the computed parameters to calculate the omitted cpus */
-> > > -    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
-> > > -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> > > -
-> > > -    if (sockets * dies * cores * threads != maxcpus) {
-> > > -        g_autofree char *dies_msg = g_strdup_printf(
-> > > -            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > -        error_setg(errp, "Invalid CPU topology: "
-> > > -                   "sockets (%u)%s * cores (%u) * threads (%u) "
-> > > -                   "!= maxcpus (%u)",
-> > > -                   sockets, dies_msg, cores, threads,
-> > > -                   maxcpus);
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    if (sockets * dies * cores * threads < cpus) {
-> > > -        g_autofree char *dies_msg = g_strdup_printf(
-> > > -            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-> > > -        error_setg(errp, "Invalid CPU topology: "
-> > > -                   "sockets (%u)%s * cores (%u) * threads (%u) < "
-> > > -                   "smp_cpus (%u)",
-> > > -                   sockets, dies_msg, cores, threads, cpus);
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    ms->smp.cpus = cpus;
-> > > -    ms->smp.sockets = sockets;
-> > > -    ms->smp.dies = dies;
-> > > -    ms->smp.cores = cores;
-> > > -    ms->smp.threads = threads;
-> > > -    ms->smp.max_cpus = maxcpus;
-> > > -}
-> > > -
-> > >   static void machine_get_smp(Object *obj, Visitor *v, const char *name,
-> > >                               void *opaque, Error **errp)
-> > >   {
-> > > diff --git a/hw/core/meson.build b/hw/core/meson.build
-> > > index 18f44fb7c2..6d727c7742 100644
-> > > --- a/hw/core/meson.build
-> > > +++ b/hw/core/meson.build
-> > > @@ -14,6 +14,7 @@ hwcore_files = files(
-> > >   )
-> > >   common_ss.add(files('cpu-common.c'))
-> > > +common_ss.add(files('machine-smp.c'))
-> > >   common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
-> > >   common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
-> > >   common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
-> > > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > > index 12ab0f5968..071eec1e74 100644
-> > > --- a/include/hw/boards.h
-> > > +++ b/include/hw/boards.h
-> > > @@ -34,6 +34,7 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
-> > >   void machine_set_cpu_numa_node(MachineState *machine,
-> > >                                  const CpuInstanceProperties *props,
-> > >                                  Error **errp);
-> > > +void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
-> > >   /**
-> > >    * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> > > +
+> > > +static char *get_topo_info(CpuTopology *topo)
+> > > +{
+> > > +    return g_strdup_printf(
+> > > +        "(CpuTopology) {\n"
+> > > +        "    .cpus     = %u,\n"
+> > > +        "    .sockets  = %u,\n"
+> > > +        "    .dies     = %u,\n"
+> > > +        "    .cores    = %u,\n"
+> > > +        "    .threads  = %u,\n"
+> > > +        "    .max_cpus = %u,\n"
+> > > +        "}",
+> > > +        topo->cpus, topo->sockets, topo->dies,
+> > > +        topo->cores, topo->threads, topo->max_cpus);
+> > > +}
+> > > +
+> > > +static void check_smp_parse(MachineState *ms, SMPTestData *data)
+> > > +{
+> > > +    SMPConfiguration *config = &data->config;
+> > > +    CpuTopology *expect = &data->expect;
+> > > +    g_autofree char *config_info = NULL;
+> > > +    g_autofree char *expect_info = NULL;
+> > > +    g_autofree char *result_info = NULL;
+> > > +    Error *err = NULL;
+> > > +
+> > > +    /* call the generic parser smp_parse() in hw/core/machine-smp.c */
+> > > +    smp_parse(ms, config, &err);
+> > > +
+> > > +    if (data->should_be_valid) {
+> > > +        if ((err == NULL) &&
+> > > +            (ms->smp.cpus == expect->cpus) &&
+> > > +            (ms->smp.sockets == expect->sockets) &&
+> > > +            (ms->smp.dies == expect->dies) &&
+> > > +            (ms->smp.cores == expect->cores) &&
+> > > +            (ms->smp.threads == expect->threads) &&
+> > > +            (ms->smp.max_cpus == expect->max_cpus)) {
+> > > +            return;
+> > > +        }
+> > > +
+> > > +        config_info = get_config_info(config);
+> > > +        expect_info = get_topo_info(expect);
+> > > +
+> > > +        if (err != NULL) {
+> > > +            g_printerr("Check smp_parse failed:\n"
+> > > +                       "config: %s\n"
+> > > +                       "expect: %s\n"
+> > > +                       "should_be_valid: yes\n\n"
+> > > +                       "result_is_valid: no\n"
+> > > +                       "error_msg: %s\n",
+> > > +                       config_info, expect_info, error_get_pretty(err));
+> > > +            error_free(err);
+> > > +        } else {
+> > > +            result_info = get_topo_info(&ms->smp);
+> > > +            g_printerr("Check smp_parse failed:\n"
+> > > +                       "config: %s\n"
+> > > +                       "expect: %s\n"
+> > > +                       "should_be_valid: yes\n\n"
+> > > +                       "result_is_valid: yes\n"
+> > > +                       "result: %s\n",
+> > > +                       config_info, expect_info, result_info);
+> > > +        }
+> > > +    } else {
+> > > +        if (err != NULL) {
+> > > +            error_free(err);
+> > > +            return;
+> > > +        }
+> > > +
+> > > +        config_info = get_config_info(config);
+> > > +        result_info = get_topo_info(&ms->smp);
+> > > +
+> > > +        g_printerr("Check smp_parse failed:\n"
+> > > +                   "config: %s\n"
+> > > +                   "should_be_valid: no\n\n"
+> > > +                   "result_is_valid: yes\n"
+> > > +                   "result: %s\n",
+> > > +                   config_info, result_info);
+> > > +    }
+> > > +
+> > > +    abort();
+> > > +}
+> > > +
+> > > +static void smp_prefer_sockets_test(void)
+> > > +{
+> > > +    Object *obj = object_new(TYPE_MACHINE);
+> > > +    MachineState *ms = MACHINE(obj);
+> > > +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+> > > +    int i;
+> > > +
+> > > +    /* make sure that we have created the object */
+> > > +    g_assert_nonnull(ms);
+> > > +    g_assert_nonnull(mc);
+> > > +
+> > > +    mc->smp_prefer_sockets = true;
+> > > +
+> > > +    /* test cases when multi-dies are not supported */
+> > > +    mc->smp_dies_supported = false;
+> > > +    for (i = 0; i < ARRAY_SIZE(prefer_sockets); i++) {
+> > > +        check_smp_parse(ms, &prefer_sockets[i]);
+> > > +    }
+> > > +
+> > > +    /* test cases when multi-dies are supported */
+> > > +    mc->smp_dies_supported = true;
+> > > +    for (i = 0; i < ARRAY_SIZE(prefer_sockets_support_dies); i++) {
+> > > +        check_smp_parse(ms, &prefer_sockets_support_dies[i]);
+> > > +    }
+> > > +
+> > > +    object_unref(obj);
+> > > +}
+> > > +
+> > > +static void smp_prefer_cores_test(void)
+> > > +{
+> > > +    Object *obj = object_new(TYPE_MACHINE);
+> > > +    MachineState *ms = MACHINE(obj);
+> > > +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+> > > +    int i;
+> > > +
+> > > +    /* make sure that we have created the object */
+> > > +    g_assert_nonnull(ms);
+> > > +    g_assert_nonnull(mc);
+> > > +
+> > > +    mc->smp_prefer_sockets = false;
+> > > +
+> > > +    /* test cases when multi-dies are not supported */
+> > > +    mc->smp_dies_supported = false;
+> > > +    for (i = 0; i < ARRAY_SIZE(prefer_cores); i++) {
+> > > +        check_smp_parse(ms, &prefer_cores[i]);
+> > > +    }
+> > > +
+> > > +    /* test cases when multi-dies are supported */
+> > > +    mc->smp_dies_supported = true;
+> > > +    for (i = 0; i < ARRAY_SIZE(prefer_cores_support_dies); i++) {
+> > > +        check_smp_parse(ms, &prefer_cores_support_dies[i]);
+> > > +    }
+> > > +
+> > > +    object_unref(obj);
+> > > +}
+> > > +
+> > > +int main(int argc, char *argv[])
+> > > +{
+> > > +    g_test_init(&argc, &argv, NULL);
+> > > +
+> > > +    module_call_init(MODULE_INIT_QOM);
+> > > +    type_register_static(&smp_machine_info);
+> > > +
+> > > +    g_test_add_func("/test-smp-parse/prefer_sockets", smp_prefer_sockets_test);
+> > > +    g_test_add_func("/test-smp-parse/prefer_cores", smp_prefer_cores_test);
+> > > +
+> > > +    g_test_run();
+> > > +
+> > > +    return 0;
+> > > +}
 > > > -- 
 > > > 2.19.1
 > > > 
-> > Otherwise
+> > Besides the nits, it looks good to me.
 > > 
 > > Reviewed-by: Andrew Jones <drjones@redhat.com>
 > > 
 > Thanks,
 > Yanan
 > .
+> > .
 > 
 
 
