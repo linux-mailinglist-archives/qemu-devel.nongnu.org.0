@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080F93D26FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:44:31 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F973D26F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:42:49 +0200 (CEST)
+Received: from localhost ([::1]:40870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6asA-00036Y-4j
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
+	id 1m6aqW-0006sL-DJ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akK-0000bO-4I
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:24 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44915)
+ id 1m6akJ-0000ae-Sh
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:23 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akG-0002jX-OB
+ id 1m6akH-0002ja-6r
  for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:23 -0400
-Received: by mail-ed1-x530.google.com with SMTP id l1so7292316edr.11
+Received: by mail-ed1-x529.google.com with SMTP id ee25so7314277edb.5
  for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PpjWAo5stvNiyV4KTcrkBtX4qLcVV0HWWyAwngBxZRI=;
- b=bndu2lu5JmTiSfC+0MLNz4ocB5drLs8nmJ2MIEwaYPPoBFjLLUQK2trTDT1PRBOc3u
- fUH2qepoYwrn6dkGzhT2GCXSZAfAsuUU6xWdGDwyyaEtyEEKFmNtLe5G4VVj40QyYx20
- XOfJW8RZJIBWp2k7hiSZhatElSXs+1s8cl7yodeA0ErVIwanOGOjrEE5U59LQcXrk9Kk
- JdpZN018yielj/YWBoJuKqQaj2Npvk7D5fibHXmPp/0JQnl0MtQo4sQ2Iv7R77Rc5J9X
- 8SrmwyVMfoLIaFNMdrjQwk2k/5DvW5+O1puOfpoAv38tB4LllryVujWenHkhUEOR7EA4
- SXEA==
+ bh=0CUu59jU+QrLXiW2oOeunVguInuponinPtlaQBzYVEQ=;
+ b=EdepfyFi3KBEG3DusUCfa0bc3FKECXEu+eaK6AXJAhnl6Xba5XLfgKQswY3r2mLgs4
+ slXZkfOm3YqfXIjyYTch/OvP7KdvApDvsBBt74a6sqVHv4jqY4BpbfzXztr4M0PSbYDC
+ t+X9IXM1/KFhaPgLeK2nAsM3MWuTca2KD6rPu6yeqm73Pvh2kI5BDs2fHDEYPH8YOgfz
+ 2Jl6+Ot2sDfyNv8qtASNk8wjyFFF83K2PZsosgafm9V63QaVAOuaiqveVZDlewliQcxX
+ F6te4T/2QWKj9uvsSI2Kfqd5D5zZWyMQ3TD7lyYBO5tujJTeYjQUz4vJAsM0l1udLOv0
+ r0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PpjWAo5stvNiyV4KTcrkBtX4qLcVV0HWWyAwngBxZRI=;
- b=IqLnTYBkRJISHlS4k72bibL+4HyE1qLTqMZ6+IA7hbSfat6Nu6v9XqzVkPTP+VZmME
- k1/cOxb5fONb91FsNjgjaxIKEwZQ3jX4AEA+8QaNskawq/vrti0uW2QZQt9qt7Bw1wR+
- eeY7RgpyVIZ4VbPxXYCAHWyMjBvDaaYU6DjdujUmqkggg38muu3ZJM6fp3lvnDl3C2VG
- DaDfda4kZxBt2FLViUyDFsb01m9muUvEUU8Tq/BYSy8PvNrshqOpLxXq7J3jS1uqkmst
- iIL7d506JhblhRDWvNajbA5Ms9qE6r5NwUx8AqdqSFZHliwlIyMNo/8mJZYdkTmG3lt0
- ukww==
-X-Gm-Message-State: AOAM533BOoqJn1+Jky4aIiZMu/YITqIMNOTE8nzM86RuSjwr29qdpsW4
- ekHUm35MJZZ/uTxv4WMiESLzhJaMh1Ei5w==
-X-Google-Smtp-Source: ABdhPJxeSduW9zXhO4fviwEmrXkcVyQj/p+NLsVH/WbNZgMvCL9DUwAoaz1JEFj5kj1BLTD6t1gtAQ==
-X-Received: by 2002:a05:6402:60c:: with SMTP id
- n12mr228960edv.189.1626968178272; 
+ bh=0CUu59jU+QrLXiW2oOeunVguInuponinPtlaQBzYVEQ=;
+ b=V3ckWJBHAoBSbATz+qYi1AkvH11J0Kubb/mBOFzRfKKahEoEnInJT1HF0w2jXYrm5A
+ esg0e7AEJAzpg29P9QoPoT7wBeXRp1OqaHA/l3+hB40GEeN4pLlWnZ229yx8F+P7oS/q
+ ek7EI6L3RCSXPvvzwyFNLSDNoVrHbeGTO+uCaxcHIlJKhheKB8nyyRSXKPnoRi0MSJmc
+ ocAwbIUF7cJveXN5kHZPez6KtFZ8RHsyxyxrgREgcIF1trmIo0wMt6801HZ75KfPlkd2
+ 76v9GtdOcR/TBNSquPcHYsVPJ/TN/Yiekus5mhP4+B739agK35fERR9fqg+ITpvupPZS
+ 1V2A==
+X-Gm-Message-State: AOAM532ODb+59W6vhonOAc4aZbjW2hx98sMJBAqft2yCxcDt0BDRJkEB
+ ADYjTAFXSjjNkXlstLKaXakdKVrp3zHpCA==
+X-Google-Smtp-Source: ABdhPJwlgXzrNDF2iXlEjQJX0yj4klOckEjq1TB7ZyWET9NhuLkn14Uge4pZp/LQjWgrdHfyvQtNeQ==
+X-Received: by 2002:aa7:de92:: with SMTP id j18mr235793edv.141.1626968178961; 
  Thu, 22 Jul 2021 08:36:18 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id qo6sm9638628ejb.122.2021.07.22.08.36.17
+ by smtp.gmail.com with ESMTPSA id qo6sm9638628ejb.122.2021.07.22.08.36.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:36:17 -0700 (PDT)
+ Thu, 22 Jul 2021 08:36:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] qemu-config: restore "machine" in
- qmp_query_command_line_options()
-Date: Thu, 22 Jul 2021 17:36:03 +0200
-Message-Id: <20210722153612.955537-7-pbonzini@redhat.com>
+Subject: [PULL 07/15] target/i386: Added V_INTR_PRIO check to virtual
+ interrupts
+Date: Thu, 22 Jul 2021 17:36:04 +0200
+Message-Id: <20210722153612.955537-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
 References: <20210722153612.955537-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,57 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Lara Lazier <laramglazier@gmail.com>
 
-Commit d8fb7d0969d5c32b3d1b9e20b63ec6c0abe80be4 ("vl: switch -M parsing
-to keyval") stopped adding the "machine" QemuOptsList. This causes
-"machine" options to not show up in QMP query-command-line-options
-output. For example, libvirt cannot detect that kernel_irqchip support
-is available.
+The APM2 states that The processor takes a virtual INTR interrupt
+if V_IRQ and V_INTR_PRIO indicate that there is a virtual interrupt pending
+whose priority is greater than the value in V_TPR.
 
-Adjust the "machine" opts enumeration in
-qmp_query_command_line_options() so that options are properly reported.
-
-Fixes: d8fb7d0969d5 ("vl: switch -M parsing to keyval")
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210721151055.424580-1-stefanha@redhat.com>
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Message-Id: <20210721152651.14683-1-laramglazier@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-config.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/i386/tcg/sysemu/svm_helper.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index fdf6cd69fc..436ab63b16 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -255,8 +255,6 @@ CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
-             info->option = g_strdup(vm_config_groups[i]->name);
-             if (!strcmp("drive", vm_config_groups[i]->name)) {
-                 info->parameters = get_drive_infolist();
--            } else if (!strcmp("machine", vm_config_groups[i]->name)) {
--                info->parameters = query_option_descs(machine_opts.desc);
-             } else {
-                 info->parameters =
-                     query_option_descs(vm_config_groups[i]->desc);
-@@ -265,6 +263,13 @@ CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
-         }
-     }
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 00618cff23..72b03a345d 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -65,6 +65,16 @@ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
+                            sc->base, sc->limit, sc->flags);
+ }
  
-+    if (!has_option || !strcmp(option, "machine")) {
-+        info = g_malloc0(sizeof(*info));
-+        info->option = g_strdup("machine");
-+        info->parameters = query_option_descs(machine_opts.desc);
-+        QAPI_LIST_PREPEND(conf_list, info);
-+    }
++static inline bool ctl_has_irq(uint32_t int_ctl)
++{
++    uint32_t int_prio;
++    uint32_t tpr;
 +
-     if (conf_list == NULL) {
-         error_setg(errp, "invalid option name: %s", option);
-     }
++    int_prio = (int_ctl & V_INTR_PRIO_MASK) >> V_INTR_MASKING_SHIFT;
++    tpr = int_ctl & V_TPR_MASK;
++    return (int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
++}
++
+ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -290,7 +300,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ 
+     env->hflags2 |= HF2_GIF_MASK;
+ 
+-    if (int_ctl & V_IRQ_MASK) {
++    if (ctl_has_irq(int_ctl)) {
+         CPUState *cs = env_cpu(env);
+ 
+         cs->interrupt_request |= CPU_INTERRUPT_VIRQ;
 -- 
 2.31.1
 
