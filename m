@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D513D22A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 13:20:37 +0200 (CEST)
-Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E49A3D22C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 13:31:49 +0200 (CEST)
+Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Wkm-0000LL-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 07:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
+	id 1m6WvU-0005Yo-SN
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 07:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1m6WjN-00085N-2b
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:19:09 -0400
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:34353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1m6WjK-00081B-Sp
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:19:08 -0400
-Received: by mail-qv1-xf34.google.com with SMTP id o31so2414035qvo.1
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 04:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wDY8Q4lNuYZ91NfkKHWeNeNI809nyOWJWHy1fYEVBWY=;
- b=fRlmSsrzoNrlSfHW/INijTHami1IDHNPuuCMxsFddS8z7lwl6P6VTIv86JPdffqvWb
- Mrp3CXpAP+kTyyWkVQVPr2g92VIh2di6yCtI9iQ0g1xQ9FTDKmAYV0b/KBgQofzd0cf5
- ysd06MQsK65JV0hZNY+HUG8DgnEJAVTb2QQbBINwXOUVtz/+PlkzbsGPXVoRCaqx+upF
- 07u6GMQbzn//z3mA9RVDO7KGDDELnJEh3DF4z/pjjcoO7DOofffnpAyM9JjttiuarBPI
- lligt8mlqOc+xSJtfhXxAaUQFOdPWp2Iqt/2RTSVLJxUvgR09XzlYBCF0gsAhVqxeM8E
- vgKA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6Wts-0004kd-LS
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:30:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6Wtp-0006oo-BC
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:29:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626953395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cZ4L8yqYC2ePb8dpKjZFsmfBJsRZceAve/WUOheC0Ao=;
+ b=byzNuEoAoB4SbBYWhGtf76qot3CK5Ei8Ul8NkDU9OR8pRLHQOjJzMGzun7rDOueXB3Rte0
+ VxlvZERg9QMZcrc4clmWP3fYGjpUDoGHzdHE7x7AIwVI+PkQdA/skV53p4rLDken8Bnjo1
+ LQnENGcBAaoFPbBbk9tnYXiYdzuTx1o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-146-BC36Dwm0O5WvQjVVluNwtA-1; Thu, 22 Jul 2021 07:29:54 -0400
+X-MC-Unique: BC36Dwm0O5WvQjVVluNwtA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k3-20020a5d52430000b0290138092aea94so2343036wrc.20
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 04:29:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wDY8Q4lNuYZ91NfkKHWeNeNI809nyOWJWHy1fYEVBWY=;
- b=PGWEPEl4qf6qRMj3y1Wonnm4kdCOMC27iAN7Vc6QkVcQcuFjiSVAw6HK7wHEaQyUJB
- AMhw8RaQ1L8C8+baEfYfJ7Jvjt1OoIGxurqVn7/zeCotoNWGod83hbZmnkQyZ/xWR6oV
- E87YQY1b0RiJPVBcbidb//mJOMzuMR27ZbM4e5Ejp2l7htCC0XH3dMs4uUwi7keLIzfE
- 9WIdp5eNnbRSWo190O05j9uRkgmuSXJcI7t6xzXu0QLb4S8tE8+pBksIVp+qWZJDymXl
- GhqXbvuTrx25xeM7lGsppfZLM8GNBb8xWTzyt9XtqbyC9Fq4jQnBqBejpb6mxHHJqtBu
- Px9w==
-X-Gm-Message-State: AOAM532iYNo2dTljuDK5lGbYTOQt7kM0accsStGsCU83EF+H2B4NFnzl
- Je+PsxBkgy6tF1/wgr3DuSQLQukVqLz0MAjHwhY=
-X-Google-Smtp-Source: ABdhPJzpzQdFHvVvi47kgTKoy/1o0oKvG80QS+zjVVvn+3IH2+M2Hixj3tsUiRv07gdobjA2Sv9MoxCyuFukIBbB9fs=
-X-Received: by 2002:ad4:5fca:: with SMTP id jq10mr11919528qvb.27.1626952745249; 
- Thu, 22 Jul 2021 04:19:05 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=cZ4L8yqYC2ePb8dpKjZFsmfBJsRZceAve/WUOheC0Ao=;
+ b=VxFeDzTJ69y5Uljq3C526hZqBsIh9Z12Nuk0QnZ+3+IsWlLPZ8BYzWdiA2SrRwnsh+
+ NJuzX4aok9T4lXKDSofh5kYiar8sVVdbbSWyMDDK2+o7TbETvg6T7rIEL3ZHEORTCSlm
+ YqF+wfqeqgk+vd9pw5g3YmE7rOKlWk1rR7yH5MY0ME3f4t08FjToX9wvjsuPpn/G10qM
+ KcT/rVP3SoB98qTnRCn245m5vyr0raq+QOk10HnRGmACC8xFCICUR5YpByGEJAjzx2T7
+ tFeadpsNPn6zY96g/NB9jvc6M6i42xLETGrKr+H9Ir5yHZvtMTOEdYBuoqiP78RKUR5K
+ 31EQ==
+X-Gm-Message-State: AOAM531wlGRY5T2E5RW3vFBn7kBgJVY2hYpSJ/r2nSHonmpEEUfMsqgC
+ bjeR+v4yOdCdi7KHZGN80pFAJjctgLtmo+0VzHFkVGmiD/FVzq9J2WbcVMTywxTCD5rZ1pysJQz
+ eRP3P0AwdHZ+xCTs=
+X-Received: by 2002:a1c:7e53:: with SMTP id z80mr5778518wmc.153.1626953393483; 
+ Thu, 22 Jul 2021 04:29:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8LUwxdlUokSYMhpkV+85EYwhyWrhJlDYjd2y0F68p3mBUTC9nd97FRCxH3D8eYpthOVrXiw==
+X-Received: by 2002:a1c:7e53:: with SMTP id z80mr5778487wmc.153.1626953393208; 
+ Thu, 22 Jul 2021 04:29:53 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id n5sm28645822wri.31.2021.07.22.04.29.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 04:29:49 -0700 (PDT)
+Date: Thu, 22 Jul 2021 12:29:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Message-ID: <YPlWqs8N+NiFH/yj@work-vm>
+References: <20210721092759.21368-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20210721064155.645508-1-richard.henderson@linaro.org>
- <20210721064155.645508-4-richard.henderson@linaro.org>
- <f54d0645-5dad-4f7e-e804-9b926524ffa1@amsat.org>
-In-Reply-To: <f54d0645-5dad-4f7e-e804-9b926524ffa1@amsat.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Thu, 22 Jul 2021 14:18:29 +0300
-Message-ID: <CAK4993gxuaRGo7StD1YNq3=5kmPV552mi4dZnV6qy3eSNT=quA@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 03/23] target/avr: Drop checks for
- singlestep_enabled
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000726f3e05c7b4740e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=mrolnik@gmail.com; helo=mail-qv1-xf34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210721092759.21368-1-david@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,249 +96,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000726f3e05c7b4740e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* David Hildenbrand (david@redhat.com) wrote:
+> virtio-mem exposes a dynamic amount of memory within RAMBlocks by
+> coordinating with the VM. Memory within a RAMBlock can either get
+> plugged and consequently used by the VM, or unplugged and consequently no
+> longer used by the VM. Logical unplug is realized by discarding the
+> physical memory backing for virtual memory ranges, similar to memory
+> ballooning.
+> 
+> However, important difference to virtio-balloon are:
+> 
+> a) A virtio-mem device only operates on its assigned memory region /
+>    RAMBlock ("device memory")
+> b) Initially, all device memory is logically unplugged
+> c) Virtual machines will never accidentally reuse memory that is currently
+>    logically unplugged. The spec defines most accesses to unplugged memory
+>    as "undefined behavior" -- except reading unplugged memory, which is
+>    currently expected to work, but that will change in the future.
+> d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
+> e) The state (plugged/unplugged) of a memory block is always known and
+>    properly tracked.
+> 
+> Whenever memory blocks within the RAMBlock get (un)plugged, changes are
+> communicated via the RamDiscardManager to other QEMU subsystems, most
+> prominently vfio which updates the DMA mapping accordingly. "Unplugging"
+> corresponds to "discarding" and "plugging" corresponds to "populating".
+> 
+> While migrating (precopy/postcopy) that state of such memory blocks cannot
+> change.
 
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Michael Rolnik <mrolnik@gmail.com>
+So no plugging/unplugging can happen during the migration?
 
-On Wed, Jul 21, 2021 at 9:00 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
+> We never ever want to migrate such logically unplugged memory,
+> because it can result in an unintended memory consumption both, on the
+> source (when reading memory from some memory backends) and on the
+> destination (when writing memory). Further, migration time can be heavily
+> reduced when skipping logically unplugged blocks and we avoid populating
+> unnecessary page tables in Linux.
+> 
+> Right now, virtio-mem reuses the free page hinting infrastructure during
+> precopy to exclude all logically unplugged ("discarded") parts from the
+> migration stream. However, there are some scenarios that are not handled
+> properly and need fixing. Further, there are some ugly corner cases in
+> postcopy code and background snapshotting code that similarly have to
+> handle such special RAMBlocks.
+> 
+> Let's reuse the RamDiscardManager infrastructure to essentially handle
+> precopy, postcopy and background snapshots cleanly, which means:
+> 
+> a) In precopy code, always clearing all dirty bits from the bitmap that
+>    correspond to discarded range, whenever we update the dirty bitmap. This
+>    results in logically unplugged memory to never get migrated.
 
-> +Michael/Alex/Pavel
->
-> On 7/21/21 8:41 AM, Richard Henderson wrote:
-> > GDB single-stepping is now handled generically.
-> >
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  target/avr/translate.c | 19 ++++---------------
-> >  1 file changed, 4 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/target/avr/translate.c b/target/avr/translate.c
-> > index 1111e08b83..0403470dd8 100644
-> > --- a/target/avr/translate.c
-> > +++ b/target/avr/translate.c
-> > @@ -1089,11 +1089,7 @@ static void gen_goto_tb(DisasContext *ctx, int n=
-,
-> target_ulong dest)
-> >          tcg_gen_exit_tb(tb, n);
-> >      } else {
-> >          tcg_gen_movi_i32(cpu_pc, dest);
-> > -        if (ctx->base.singlestep_enabled) {
-> > -            gen_helper_debug(cpu_env);
-> > -        } else {
-> > -            tcg_gen_lookup_and_goto_ptr();
-> > -        }
-> > +        tcg_gen_lookup_and_goto_ptr();
-> >      }
-> >      ctx->base.is_jmp =3D DISAS_NORETURN;
-> >  }
-> > @@ -3011,17 +3007,10 @@ static void avr_tr_tb_stop(DisasContextBase
-> *dcbase, CPUState *cs)
-> >          tcg_gen_movi_tl(cpu_pc, ctx->npc);
-> >          /* fall through */
-> >      case DISAS_LOOKUP:
-> > -        if (!ctx->base.singlestep_enabled) {
-> > -            tcg_gen_lookup_and_goto_ptr();
-> > -            break;
-> > -        }
-> > -        /* fall through */
-> > +        tcg_gen_lookup_and_goto_ptr();
-> > +        break;
-> >      case DISAS_EXIT:
-> > -        if (ctx->base.singlestep_enabled) {
-> > -            gen_helper_debug(cpu_env);
-> > -        } else {
-> > -            tcg_gen_exit_tb(NULL, 0);
-> > -        }
-> > +        tcg_gen_exit_tb(NULL, 0);
-> >          break;
-> >      default:
-> >          g_assert_not_reached();
-> >
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> Not related to this patch, but looking at the last
-> gen_helper_debug() use:
->
-> /*
->  *  The BREAK instruction is used by the On-chip Debug system, and is
->  *  normally not used in the application software. When the BREAK
-> instruction is
->  *  executed, the AVR CPU is set in the Stopped Mode. This gives the
-> On-chip
->  *  Debugger access to internal resources.  If any Lock bits are set, or
-> either
->  *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the
-> BREAK
->  *  instruction as a NOP and will not enter the Stopped mode.  This
-> instruction
->  *  is not available in all devices. Refer to the device specific
-> instruction
->  *  set summary.
->  */
-> static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
-> {
->     if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
->         return true;
->     }
->
-> #ifdef BREAKPOINT_ON_BREAK
->     tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
->     gen_helper_debug(cpu_env);
->     ctx->base.is_jmp =3D DISAS_EXIT;
-> #else
->     /* NOP */
-> #endif
->
->     return true;
-> }
->
-> Shouldn't we have a generic 'bool gdbstub_is_attached()' in
-> "exec/gdbstub.h", then use it in replay_gdb_attached() and
-> trans_BREAK() instead of this BREAKPOINT_ON_BREAK build-time
-> definitions?
->
+Have you seen cases where discarded areas are being marked as dirty?
+That suggests something somewhere is writing to them and shouldn't be.
 
+Dave
 
---=20
-Best Regards,
-Michael Rolnik
+> b) In postcopy code, placing a zeropage when requested to handle a page
+>    falling into a discarded range -- because the source will never send it.
+> c) In background snapshot code, never populating discarded ranges, not even
+>    with the shared zeropage, to avoid unintended memory consumption,
+>    especially in the future with hugetlb and shmem.
+> 
+> Detail: When realizing a virtio-mem devices, it will register the RAM
+>         for migration via vmstate_register_ram(). Further, it will
+>         set itself as the RamDiscardManager for the corresponding memory
+>         region of the RAMBlock via memory_region_set_ram_discard_manager().
+>         Last but not least, memory device code will actually map the
+>         memory region into guest physical address space. So migration
+>         code can always properly identify such RAMBlocks.
+> 
+> Tested with precopy/postcopy on shmem, where even reading unpopulated
+> memory ranges will populate actual memory and not the shared zeropage.
+> Tested with background snapshots on anonymous memory, because other
+> backends are not supported yet with upstream Linux.
+> 
+> Idealy, this should all go via the migration tree.
+> 
+> v1 -> v2:
+> - "migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+>    migration source"
+> -- Added a note how it interacts with the clear_bmap and what we might want
+>    to further optimize in the future when synchronizing bitmaps.
+> 
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+> 
+> David Hildenbrand (6):
+>   memory: Introduce replay_discarded callback for RamDiscardManager
+>   virtio-mem: Implement replay_discarded RamDiscardManager callback
+>   migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+>     migration source
+>   virtio-mem: Drop precopy notifier
+>   migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+>     destination
+>   migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+>     snapshots
+> 
+>  hw/virtio/virtio-mem.c         |  92 +++++++++++++--------
+>  include/exec/memory.h          |  21 +++++
+>  include/hw/virtio/virtio-mem.h |   3 -
+>  migration/postcopy-ram.c       |  25 +++++-
+>  migration/ram.c                | 147 ++++++++++++++++++++++++++++++---
+>  migration/ram.h                |   1 +
+>  softmmu/memory.c               |  11 +++
+>  7 files changed, 246 insertions(+), 54 deletions(-)
+> 
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---000000000000726f3e05c7b4740e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@=
-gmail.com">mrolnik@gmail.com</a>&gt;<div>Tested-by: Michael Rolnik &lt;<a h=
-ref=3D"mailto:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt;</div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul=
- 21, 2021 at 9:00 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bu=
-g@amsat.org">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">+Michael/Alex/Pavel<br>
-<br>
-On 7/21/21 8:41 AM, Richard Henderson wrote:<br>
-&gt; GDB single-stepping is now handled generically.<br>
-&gt; <br>
-&gt; Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henders=
-on@linaro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 target/avr/translate.c | 19 ++++---------------<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 15 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
-&gt; index 1111e08b83..0403470dd8 100644<br>
-&gt; --- a/target/avr/translate.c<br>
-&gt; +++ b/target/avr/translate.c<br>
-&gt; @@ -1089,11 +1089,7 @@ static void gen_goto_tb(DisasContext *ctx, int =
-n, target_ulong dest)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_exit_tb(tb, n);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_movi_i32(cpu_pc, dest);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;base.singlestep_enabled) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_debug(cpu_env);<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr=
-();<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr();<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;base.is_jmp =3D DISAS_NORETURN;<br>
-&gt;=C2=A0 }<br>
-&gt; @@ -3011,17 +3007,10 @@ static void avr_tr_tb_stop(DisasContextBase *d=
-cbase, CPUState *cs)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_movi_tl(cpu_pc, ctx-&gt;npc)=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fall through */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 case DISAS_LOOKUP:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!ctx-&gt;base.singlestep_enabled) {<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr=
-();<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fall through */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_lookup_and_goto_ptr();<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 case DISAS_EXIT:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;base.singlestep_enabled) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_debug(cpu_env);<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_exit_tb(NULL, 0);<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_exit_tb(NULL, 0);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 default:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
-&gt; <br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-<br>
-Not related to this patch, but looking at the last<br>
-gen_helper_debug() use:<br>
-<br>
-/*<br>
-=C2=A0*=C2=A0 The BREAK instruction is used by the On-chip Debug system, an=
-d is<br>
-=C2=A0*=C2=A0 normally not used in the application software. When the BREAK=
-<br>
-instruction is<br>
-=C2=A0*=C2=A0 executed, the AVR CPU is set in the Stopped Mode. This gives =
-the On-chip<br>
-=C2=A0*=C2=A0 Debugger access to internal resources.=C2=A0 If any Lock bits=
- are set, or<br>
-either<br>
-=C2=A0*=C2=A0 the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will trea=
-t the BREAK<br>
-=C2=A0*=C2=A0 instruction as a NOP and will not enter the Stopped mode.=C2=
-=A0 This<br>
-instruction<br>
-=C2=A0*=C2=A0 is not available in all devices. Refer to the device specific=
-<br>
-instruction<br>
-=C2=A0*=C2=A0 set summary.<br>
-=C2=A0*/<br>
-static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)<br>
-{<br>
-=C2=A0 =C2=A0 if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-=C2=A0 =C2=A0 }<br>
-<br>
-#ifdef BREAKPOINT_ON_BREAK<br>
-=C2=A0 =C2=A0 tcg_gen_movi_tl(cpu_pc, ctx-&gt;npc - 1);<br>
-=C2=A0 =C2=A0 gen_helper_debug(cpu_env);<br>
-=C2=A0 =C2=A0 ctx-&gt;base.is_jmp =3D DISAS_EXIT;<br>
-#else<br>
-=C2=A0 =C2=A0 /* NOP */<br>
-#endif<br>
-<br>
-=C2=A0 =C2=A0 return true;<br>
-}<br>
-<br>
-Shouldn&#39;t we have a generic &#39;bool gdbstub_is_attached()&#39; in<br>
-&quot;exec/gdbstub.h&quot;, then use it in replay_gdb_attached() and<br>
-trans_BREAK() instead of this BREAKPOINT_ON_BREAK build-time<br>
-definitions?<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---000000000000726f3e05c7b4740e--
 
