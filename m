@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BDE3D24AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:34:53 +0200 (CEST)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFA43D24B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:37:27 +0200 (CEST)
+Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Yqi-00033V-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36816)
+	id 1m6YtD-0004jI-1l
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6YoM-0001mL-O0
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:32:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23390)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6Ys2-00042n-Rw
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:36:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6YoJ-0006HB-TU
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:32:25 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6Ys1-00080s-Aa
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:36:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626960741;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ZDlczSNMz5EPOgf3DKOLEEgxrLLQSaG296qXRm2oNSY=;
- b=C6loP7Ctj0wuixhCg3Dht0FQaWvxVRtUbovflBUz4yt9tnAw5Ls/puyZ7UWPGzYajL8QDz
- FYRcjYrvFEjVJaBgEfdYXc+yu/cjNWWOtGYhNKPwprMlSfldrvZaTd2Kz0kFauzjsxO92z
- PdgxGyeWvzJaROJb23txtJ0iU/mxb9w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-b0U0xUWePNqv_feT2pRTkQ-1; Thu, 22 Jul 2021 09:32:15 -0400
-X-MC-Unique: b0U0xUWePNqv_feT2pRTkQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4688A8C8906;
- Thu, 22 Jul 2021 13:32:14 +0000 (UTC)
-Received: from redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8819510023AF;
- Thu, 22 Jul 2021 13:31:43 +0000 (UTC)
-Date: Thu, 22 Jul 2021 14:31:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 1/6] util/oslib-posix: Support MADV_POPULATE_WRITE for
- os_mem_prealloc()
-Message-ID: <YPlzPKCqMZ40z8zY@redhat.com>
-References: <20210722123635.60608-1-david@redhat.com>
- <20210722123635.60608-2-david@redhat.com>
+ s=mimecast20190719; t=1626960972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=81PHulDQeptm9/TDCKQXLky+cn1ziQPE6MpO/pmr4Jo=;
+ b=U1rewL9ZLSlJX49eFZf9UIqX/bamxURI1qIrq3MKvtj595pzFn6by5xu8nYtXbmwkN8Y6P
+ +9OfyFNwOZrB0yoGRcWchkBTeSHgtJzoY70NSiA2mO/ADgOOwW9WNOAgHQWjDeF6ZMLZbm
+ PHpFcuhC9xVWfx606lnBaqsYO3QzQXE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-QoIk-NH8OHiE7YMMU5uktQ-1; Thu, 22 Jul 2021 09:36:11 -0400
+X-MC-Unique: QoIk-NH8OHiE7YMMU5uktQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w17-20020aa7dcd10000b02903b85a16b672so2802956edu.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 06:36:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=81PHulDQeptm9/TDCKQXLky+cn1ziQPE6MpO/pmr4Jo=;
+ b=BegZQoba8S8rwgmlogjW69/0oNRNo1btrk8nyJA31/LKDeLUYN4DBMdharGsgXtEWO
+ VJCa5gOT7qbZHWlym1xFAwRu0j1rU6IwSGqlD2V9aVfdY56yDi+qYDT5pJFCG1efXE7v
+ wZGVUEE0E2lFWtn3ogpmy6XcVyhbZ00Fgx73gME2imUps/aFdau3j3hm788aLnvuyCmc
+ LYK2Iysc5H5LI5QMKz4lI4NDx0N8tbBFtNWTExjDW9FZFs4Gi5GCOcoLlpN0Nr1W+xPu
+ kuFfqBnbZYbAPwnLzvSxkCnf8RKBMMhx5akTq3CxW768gF63o6NIS2P57dJpB5nPbAuG
+ hDDA==
+X-Gm-Message-State: AOAM532nfDkU9nb3FdLANaVKkVzjEW/MAvgayp/RMiyGliM6nZ33lFy1
+ 1FfZprPVQ0252bU5Fu5KLOEgkR7qhLT7IjBR3CkShIaX8Q/naPbtFYDMXjOU06XUoy4/W9+8YI0
+ yAnWSxyZS73WPucHciEt+5IBSlJiH5iu3yxEDnlHTclI9zCiqnGfBhB90MnUqT/xy1zI=
+X-Received: by 2002:a05:6402:1592:: with SMTP id
+ c18mr54513595edv.243.1626960969863; 
+ Thu, 22 Jul 2021 06:36:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNjI66FDWPAvVioDS10XbRD41HCpvnN1RuZz/aiAi5J80JUpkBq3ELSi9DhE+vG2S3tnRG9Q==
+X-Received: by 2002:a05:6402:1592:: with SMTP id
+ c18mr54513547edv.243.1626960969606; 
+ Thu, 22 Jul 2021 06:36:09 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id ba25sm12338873edb.1.2021.07.22.06.36.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 06:36:08 -0700 (PDT)
+Subject: Re: [PATCH 0/2] qapi/qom: use correct field name when getting/setting
+ alias properties
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210719104033.185109-1-pbonzini@redhat.com>
+ <87o8auh44e.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e798dfe6-81f6-445a-09de-a820778f14b8@redhat.com>
+Date: Thu, 22 Jul 2021 15:36:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210722123635.60608-2-david@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <87o8auh44e.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,110 +104,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Pankaj Gupta <pankaj.gupta@ionos.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 02:36:30PM +0200, David Hildenbrand wrote:
-> Let's sense support and use it for preallocation. MADV_POPULATE_WRITE
-> does not require a SIGBUS handler, doesn't actually touch page content,
-> and avoids context switches; it is, therefore, faster and easier to handle
-> than our current approach.
+On 22/07/21 15:25, Markus Armbruster wrote:
+> Since patch submitters tend to submit code that works for the success
+> case, I like to test a few failure cases before anything else.  Gotcha:
 > 
-> While MADV_POPULATE_WRITE is, in general, faster than manual
-> prefaulting, and especially faster with 4k pages, there is still value in
-> prefaulting using multiple threads to speed up preallocation.
+>      $ qemu-system-x86_64 -machine pc,pflash0=xxx
+>      qemu-system-x86_64: Property 'cfi.pflash01.drive' can't find value 'xxx'
 > 
-> More details on MADV_POPULATE_WRITE can be found in the Linux commit
-> 4ca9b3859dac ("mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault
-> page tables") and in the man page proposal [1].
+> The error message is misleading.
+
+Indeed I knew about this, and even thought briefly about how to fix it 
+before realizing it is not a regression (which is also why I didn't 
+think of including it in the commit message).
+
+All the ways I could think about for a fix involved looking at the error 
+class, and possibly even adding a dictionary of key-value pairs for some 
+error classes.  I know you don't really like error classes and you 
+probably would like the idea of key-value pairs even less---and to be 
+honest I didn't really have a plan to implement any of that.
+
+Paolo
+
+> This is not a "must not commit" issue.  Fixing a regression in time for
+> the release at the price of a bad error message is still a win.  The bad
+> error message needs fixing all the same, just not necessarily before the
+> release.
 > 
-> [1] https://lkml.kernel.org/r/20210712083917.16361-1-david@redhat.com
+> Since mere thinking doesn't rock the release boat: any ideas on how this
+> could be fixed?
 > 
-> This resolves the TODO in do_touch_pages().
 > 
-> In the future, we might want to look into using fallocate(), eventually
-> combined with MADV_POPULATE_READ, when dealing with shared file
-> mappings.
-> 
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/qemu/osdep.h |  7 ++++
->  util/oslib-posix.c   | 88 +++++++++++++++++++++++++++++++++-----------
->  2 files changed, 74 insertions(+), 21 deletions(-)
-
-
-> @@ -497,6 +493,31 @@ static void *do_touch_pages(void *arg)
->      return NULL;
->  }
->  
-> +static void *do_madv_populate_write_pages(void *arg)
-> +{
-> +    MemsetThread *memset_args = (MemsetThread *)arg;
-> +    const size_t size = memset_args->numpages * memset_args->hpagesize;
-> +    char * const addr = memset_args->addr;
-> +    int ret;
-> +
-> +    if (!size) {
-> +        return NULL;
-> +    }
-> +
-> +    /* See do_touch_pages(). */
-> +    qemu_mutex_lock(&page_mutex);
-> +    while (!threads_created_flag) {
-> +        qemu_cond_wait(&page_cond, &page_mutex);
-> +    }
-> +    qemu_mutex_unlock(&page_mutex);
-> +
-> +    ret = qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE);
-> +    if (ret) {
-> +        memset_thread_failed = true;
-
-I'm wondering if this use of memset_thread_failed is sufficient.
-
-This is pre-existing from the current impl, and ends up being
-used to set the bool result of 'touch_all_pages'. The caller
-of that then does
-
-    if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
-        error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
-            "pages available to allocate guest RAM");
-    }
-
-this was reasonable with the old impl, because the only reason
-we ever see 'memset_thread_failed==true' is if we got SIGBUS
-due to ENOMEM.
-
-My concern is that madvise() has a bunch of possible errno
-codes returned on failure, and we're not distinguishing
-them. In the past this kind of thing has burnt us making
-failures hard to debug.
-
-Could we turn 'bool memset_thread_failed' into 'int memset_thread_errno'
-
-Then, we can make 'touch_all_pages' have an 'Error **errp'
-parameter, and it can directly call
-
- error_setg_errno(errp, memset_thead_errno, ....some message...)
-
-when memset_thread_errno is non-zero, and thus we can remove
-the generic message from the caller of touch_all_pages.
-
-If you agree, it'd be best to refactor the existing code to
-use this pattern in an initial patch.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
