@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3923D2B91
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 19:58:34 +0200 (CEST)
-Received: from localhost ([::1]:45328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1293D2B8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 19:56:46 +0200 (CEST)
+Received: from localhost ([::1]:38976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6cxt-0001iu-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 13:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60336)
+	id 1m6cw9-0005wq-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 13:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6ctD-0007zc-HG
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36883)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6ctk-0001Mq-7e
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:54:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6ct8-0002gU-7a
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:53:43 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m6cti-00032d-2K
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 13:54:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626976417;
+ s=mimecast20190719; t=1626976453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/K4rltyqsAb7Ub8Q4FT9diwQD1UYRp71oj8U7qgcR0k=;
- b=DwSJoiqUXo6QZrhc1dNQUucL8ABshQalBnf0nuYXmmDk/5wMvBO50+f+NCSswaT4h8ayhR
- CM+gl8v5vSGRxxWw7nRlC72f7IApm06KOVytQEU9K04m3JA22+M/H+SGjcpHg50IYoXeXG
- xt/zg+NkUfHcqVkJTlc4ZHBGvOJ3+40=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-MyTET2DrOM-xWy284iNcpg-1; Thu, 22 Jul 2021 13:53:36 -0400
-X-MC-Unique: MyTET2DrOM-xWy284iNcpg-1
-Received: by mail-ot1-f70.google.com with SMTP id
- i11-20020a9d68cb0000b02904d0a18787d4so4153128oto.5
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 10:53:36 -0700 (PDT)
+ bh=NBK5ZbfLr2xOMEjTMg8AY+rGI1FLEY7KEe1dQPGLHug=;
+ b=i51OtlkwtHqidUK3fA9f1yOVaLZVEWyzLHf0AnsR/GsjYeH85GIeZYXkbuLyql6ctz8Pz8
+ vKdgMHq0RwZVQUUrx4Q59gIOsM5zDYISfw5VFo2Qw6WscFS1Pbhyvcy17sLKYdWp8B/6pg
+ kygu7R2BXBzBiCiEpmq9ZCC/h886NP0=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-Wy61dp8bPbObUeQsTNBWDw-1; Thu, 22 Jul 2021 13:54:12 -0400
+X-MC-Unique: Wy61dp8bPbObUeQsTNBWDw-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ t4-20020a9d77440000b02904bbc3b57656so4175214otl.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 10:54:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:subject:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/K4rltyqsAb7Ub8Q4FT9diwQD1UYRp71oj8U7qgcR0k=;
- b=sXtO0AvGn3rPMVyXEkmKJ6EW7hp3B6gEbOvxg+m3rBW2Pi91MVDIn6OJ5M4cQgeMhj
- n5Kap8U9F5SszHGOco7Qd3N1dqwsLSbefZ4OHOTpk27lItIM9i/RYrC8cILLVc8L/K2f
- CbyNeARNW1/H+cdKeumztN8/+2AIs4InvxI7xz7za/FQ44w3MQx6FQRa3yxFl9o/XquP
- 1Y9B7zpbtMy+nUzbhQaZrnM8dPgm8MtUvhoWqg2O+W5y2Wb+1COCab7OomDgs0zH/9tY
- uuS2+VRR/OaHyHlZkh09UEbSLTlfk2YYfD0gGLTVlW/9fBWbeu0PCjh0Co1mn1NSl4w1
- tB6Q==
-X-Gm-Message-State: AOAM533awfzOpsPk7eGn19yPXQaJFzgEbKAVmxDSxvIcuroymdDTvl2f
- awiRrOyLRxsk3Q+/BozZO9YJPP2kkX9cZCeImzbsJJmkMMjFVtg07MRWXPGGb/x3YgrJinDUXp0
- TbKYYdO4XagbepCM=
-X-Received: by 2002:a9d:4f09:: with SMTP id d9mr623306otl.265.1626976415788;
- Thu, 22 Jul 2021 10:53:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeN9sQzyGrVPsk4cXiWBn35sZe9ThQAZ000dk8B7mgbgiS7OPXMDXEn3ZeJAkmnI4XqnBRhw==
-X-Received: by 2002:a9d:4f09:: with SMTP id d9mr623298otl.265.1626976415641;
- Thu, 22 Jul 2021 10:53:35 -0700 (PDT)
+ bh=NBK5ZbfLr2xOMEjTMg8AY+rGI1FLEY7KEe1dQPGLHug=;
+ b=trR99Tk37qd3UF6S710eX5+qoW4awL1z1F1RH48yJavPEVwL5pHPBDV0K7UqXwgSdP
+ MsxKQ+sw+OfztmqsHnNMyJG+5miM5472dlK2N3LQN47+HjvswFLu7LwENKlnNMmOvkoN
+ OY3UKqpTCG9N3AIGmwcTAVFuP638Z/KJODNX3Tbcw53FxurzMPJSNI3BHRE+zYWoj+eT
+ 69j0S+d9PrYg4eHYecUANhc6es83P+CWaHnStMYYJnfY7Xt4ulduPjUA9ENEZfEPROAG
+ +pWTrHEr92nLPNMpykae+VFuquJapyq+mdI0aMFoz5uUlh2pELW0k/zUU+HDlhFX1jCA
+ oQkQ==
+X-Gm-Message-State: AOAM5338ISkP0J2bHefTFcRIw5u8U+r1JSCGG9iN2UiEZle50IfEXOUb
+ q7jMf9sNZxQ4//TukE5IpoBtm4Bu+HbKT2aj4pC8YBSdnvwtcBYnZjbjvbXMhFF5vm2MXyWr/hP
+ t42FPMOJLuu8nCts=
+X-Received: by 2002:aca:7589:: with SMTP id q131mr6290239oic.76.1626976451780; 
+ Thu, 22 Jul 2021 10:54:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWs4lbf5DnGa7JMnK2l64tfYQl0ksZqISWX93BlHjCEaqgHFm5i1Srl4kN8yR6jo7Dk0/VNg==
+X-Received: by 2002:aca:7589:: with SMTP id q131mr6290236oic.76.1626976451658; 
+ Thu, 22 Jul 2021 10:54:11 -0700 (PDT)
 Received: from [192.168.0.173] (ip68-102-25-176.ks.ok.cox.net. [68.102.25.176])
- by smtp.gmail.com with ESMTPSA id v203sm5686243oib.37.2021.07.22.10.53.34
+ by smtp.gmail.com with ESMTPSA id g1sm5270450otk.21.2021.07.22.10.54.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 10:53:35 -0700 (PDT)
+ Thu, 22 Jul 2021 10:54:11 -0700 (PDT)
 From: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [RFC PATCH v2 32/44] tdx: add kvm_tdx_enabled() accessor for
- later use
+Subject: Re: [RFC PATCH v2 34/44] target/i386/tdx: set reboot action to
+ shutdown when tdx
 To: isaku.yamahata@gmail.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
  alistair@alistair23.me, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, cohuck@redhat.com, mtosatti@redhat.com,
  xiaoyao.li@intel.com, seanjc@google.com, erdemaktas@google.com
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <26d88e7618038c1fed501352a04144745abd12ae.1625704981.git.isaku.yamahata@intel.com>
-Message-ID: <43a81d27-56da-07e8-b3d7-9800b6ed8da1@redhat.com>
-Date: Thu, 22 Jul 2021 12:53:34 -0500
+ <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
+Message-ID: <0ccf5a5c-2322-eae3-bd4b-9e72e2f4bbd1@redhat.com>
+Date: Thu, 22 Jul 2021 12:54:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <26d88e7618038c1fed501352a04144745abd12ae.1625704981.git.isaku.yamahata@intel.com>
+In-Reply-To: <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,63 +109,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/7/21 7:55 PM, isaku.yamahata@gmail.com wrote:
 > From: Isaku Yamahata <isaku.yamahata@intel.com>
 > 
+> In TDX CPU state is also protected, thus vcpu state can't be reset by VMM.
+> It assumes -action reboot=shutdown instead of silently ignoring vcpu reset.
+> 
+> TDX module spec version 344425-002US doesn't support vcpu reset by VMM.  VM
+> needs to be destroyed and created again to emulate REBOOT_ACTION_RESET.
+> For simplicity, put its responsibility to management system like libvirt
+> because it's difficult for the current qemu implementation to destroy and
+> re-create KVM VM resources with keeping other resources.
+> 
+> If management system wants reboot behavior for its users, it needs to
+>   - set reboot_action to REBOOT_ACTION_SHUTDOWN,
+>   - set shutdown_action to SHUTDOWN_ACTION_PAUSE optionally and,
+>   - subscribe VM state change and on reboot, (destroy qemu if
+>     SHUTDOWN_ACTION_PAUSE and) start new qemu.
+> 
 > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 > ---
->   include/sysemu/tdx.h  | 1 +
->   target/i386/kvm/kvm.c | 5 +++++
->   2 files changed, 6 insertions(+)
+>   target/i386/kvm/tdx.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 > 
-> diff --git a/include/sysemu/tdx.h b/include/sysemu/tdx.h
-> index 70eb01348f..f3eced10f9 100644
-> --- a/include/sysemu/tdx.h
-> +++ b/include/sysemu/tdx.h
-> @@ -6,6 +6,7 @@
->   #include "hw/i386/pc.h"
+> diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+> index 1316d95209..0621317b0a 100644
+> --- a/target/i386/kvm/tdx.c
+> +++ b/target/i386/kvm/tdx.c
+> @@ -25,6 +25,7 @@
+>   #include "qapi/qapi-types-misc-target.h"
+>   #include "standard-headers/asm-x86/kvm_para.h"
+>   #include "sysemu/sysemu.h"
+> +#include "sysemu/runstate-action.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/kvm_int.h"
+>   #include "sysemu/tdx.h"
+> @@ -363,6 +364,19 @@ static void tdx_guest_init(Object *obj)
 >   
->   bool kvm_has_tdx(KVMState *s);
-> +bool kvm_tdx_enabled(void);
->   int tdx_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
->   #endif
+>       qemu_mutex_init(&tdx->lock);
 >   
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index af6b5f350e..76c3ea9fac 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -152,6 +152,11 @@ int kvm_set_vm_type(MachineState *ms, int kvm_type)
->       return -ENOTSUP;
->   }
->   
-> +bool kvm_tdx_enabled(void)
-> +{
-> +    return vm_type == KVM_X86_TDX_VM;
-> +}
+> +    /*
+> +     * TDX module spec version 344425-002US doesn't support reset of vcpu by
+> +     * VMM.  VM needs to be destroyed and created again to emulate
+> +     * REBOOT_ACTION_RESET.  For simplicity, put its responsibility to
+> +     * management system like libvirt.
+> +     *
+> +     * Management system should
+> +     *  - set reboot_action to REBOOT_ACTION_SHUTDOWN
+> +     *  - set shutdown_action to SHUTDOWN_ACTION_PAUSE
+> +     *  - subscribe VM state and on reboot, destroy qemu and start new qemu
+> +     */
+> +    reboot_action = REBOOT_ACTION_SHUTDOWN;
 > +
+>       tdx->debug = false;
+>       object_property_add_bool(obj, "debug", tdx_guest_get_debug,
+>                                tdx_guest_set_debug);
+> 
 
-Is this the whole story? Does this guarantee that the VM QEMU is
-responsible to bring up is a successfully initialized TD?
-
- From my reading of the series as it unfolded, this looks like the
-function proves that KVM can support TDs and that the user requested
-a TDX kvm-type, not that we have a fully-formed TD.
-
-Is it possible to associate this with a more verifiable metric that
-the TD has been or will be created successfully? I.e., once the VM
-has successfully called the TDX INIT ioctl or has finalized setup?
-
-My question mainly comes from a later patch in the series, where the
-"query-tdx-capabilities" and "query-tdx" QMP commands are added.
-
-Forgive me if I am misinterpreting the semantics of each of these
-commands:
-
-"query-tdx-capabilities" sounds like it answers the question of
-"can it run a TD?"
-
-and "query-tdx" sounds like it answers the question of "is it a TD?"
-
-Is the assumption with "query-tdx" that anything that's gone wrong
-with developing a TD will have resulted in the QEMU process exiting
-and therefore if we get to a point where we can run "query-tdx" then
-we know the TD was successfully formed?
+I think the same effect could be accomplished with modifying
+kvm_arch_cpu_check_are_resettable.
 
 
