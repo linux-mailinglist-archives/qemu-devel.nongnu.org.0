@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9053D1ED6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:20:33 +0200 (CEST)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088873D1EDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:22:58 +0200 (CEST)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6T0S-0004ke-SP
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:20:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1m6T2n-0001qc-3J
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StB-0006T3-7b
+ id 1m6StB-0006TI-FO
  for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:01 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41924)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6St8-0005V1-GM
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:00 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k4so4768994wrc.8
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:58 -0700 (PDT)
+ id 1m6St9-0005W8-V1
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:01 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u1so4791472wrs.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g9GPBnOls6lqCRr2cBSrHII9Px4RdKxn4NmBlv5xAGo=;
- b=aHGXbQWsv3gabJrXsECmcYTyQtBn3lPm/IrpHx0Ndq7A6BvYm3no97oQENQ6NLtVLA
- RufsUw41bUDz2rB9kziP100gu8hmt/60Z5c4ZL2hKDLb99Y11SbHbs96UyjdrAsyjju1
- QBtjhccSu83flM2boWSC9d8aZgYF3tNsnCrbO4Hy51/YOXyF5geeNJ8dOB4QaAcUIyF9
- WWhuoD4XHsobU1xY4R+/7T9RUBTPl50Yt5yEiuIqxwOk6Bw/e61thtk3rjuyr1A676cG
- jSAvTzsQ2efPQQT8ZtF9SwvI8ypB2N7uJ8stSzY7rN5EEzL2QWSZe1KUI0MRR5AcKUmV
- VtKg==
+ bh=f8o0n+4DG6HViuGjG54BZ2SQjZzUv2ICi5cU27e7QLU=;
+ b=DkGP6sXMmwp3ds9M9m4o4yV6tmuP/fpq6w09dV7vkTQiteGQp6w583yA0Gv+62fqzv
+ 4dIZrHh8TeyWQRtN5M2C4spve2nXz7ZM9LstnS+xWpDUyUWFSGxxdLLrR6GZ0nSPdP50
+ DrrVu3pm5mCEJgBMb97/yMJUfohrhEGTcgb54TAL3QNiYNGWLmgmkoJKPkiAjDeP4nu+
+ +vd/Vx16Mpydi498SSBRzx89rPz7bS8JyMqtEKlAKEjPakKIlIrZqGesl0B9HvIA1N7K
+ qIsrkmOVGGO9CHMBJufE3RMVqIKDtamkM5WYBQnaAUb+KLHd3RHEyH4vQ1uvcVFdydMX
+ OsBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g9GPBnOls6lqCRr2cBSrHII9Px4RdKxn4NmBlv5xAGo=;
- b=DBEVA7N05TT8pv8eJSQhjZRtMOg6fCj0oJ2AV+m6YG9JI06I9nWYD7tzwyuBr52tYA
- KLANNL4YoAWF8jRm2CXu5HgGXjX0dfyNCq3Tii/qqd5KrPGYvkSBNB4dj/uo+LeI4KUt
- irMWDukC6KjN5t9Nd4y80pVrFkh8fAy1z73XlybsMxhMM/r8jOKJs3tpuYi4VU5u9lh1
- JKID+ODBbcsv+xisobFAMx0ThNhbpIj541FqBHbkB9XCL7sM3162gV/ZbCuK4ObNrVQP
- /v3LvHHtXhlEQfTxMEcVtt2grveGFRvIyD9/XlOcmZQa6f79ZLT2V4IcgysY3LZaDsSm
- KKXQ==
-X-Gm-Message-State: AOAM5325xs8Lagg1Qh4EJ8tl/BxOxTJhrXjsaYdqSLuWrde7Mi5UgVvQ
- gjf7EVwcs/UEHDr5w9J51ocQfsWmYsc=
-X-Google-Smtp-Source: ABdhPJw5CHWMWvRUl2GcmmOQ5kz3LXdcLvTddAYYM+sG65SdFDw6xMzXRMA2DcDX+6YrQptCfLvUxQ==
-X-Received: by 2002:a05:6000:1544:: with SMTP id
- 4mr47734564wry.288.1626937977032; 
- Thu, 22 Jul 2021 00:12:57 -0700 (PDT)
+ bh=f8o0n+4DG6HViuGjG54BZ2SQjZzUv2ICi5cU27e7QLU=;
+ b=sPohf+2dPVyFgZv4MGr6m3bWgdHagFQ4qzLXASV5E2SbLIPED4uEnv5kLO2NeQXl48
+ uF5J7nsQIHbapP1Z9DXJS71P6h/roCo0DzdtC0v4eie7iNECvb+2+BAy70GtSXv86CM5
+ 6YkWZK+yuuvS3a0ixq5HTePq0H+YQB6XmOWlf2nP3HULbOA5Xm/n8lbhJLl1ZqpGkwD2
+ NbCzYXqX9GxgPX/ZuSjREInaFMDe1p7nT+Aq6oiRyiYW0UYPKEIniv8rOMcj3e18C1Vu
+ PudifvyZrWrpqJ/FF9kLJeEo8zpWUAciBykvuyN8YXJDkxPEshP4HHLHHntmcpAeLo7E
+ +apQ==
+X-Gm-Message-State: AOAM532tuasglhfwdtog+o6eE6qi+7KwUxkC9+bvIK8u+zH5kBsiCDNS
+ bD7fEC8cbkFxIQWLPcNCfhlEd+DdD2U=
+X-Google-Smtp-Source: ABdhPJwU82LDKw5fcB2K+PtoxSzxkJ5XYLmduhCSd7Ix2Gl67G3Sy4VdRbZy6iPNLOtQ5wTxz8x9AQ==
+X-Received: by 2002:a05:6000:1a86:: with SMTP id
+ f6mr26555386wry.127.1626937978487; 
+ Thu, 22 Jul 2021 00:12:58 -0700 (PDT)
 Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.55
+ by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:12:56 -0700 (PDT)
+ Thu, 22 Jul 2021 00:12:58 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/13] tests/plugins/bb: adapt to the new arg passing scheme
-Date: Thu, 22 Jul 2021 09:12:32 +0200
-Message-Id: <20210722071236.139520-10-ma.mandourr@gmail.com>
+Subject: [PATCH v3 10/13] tests/plugins/insn: made arg inline not positional
+ and parse it as bool
+Date: Thu, 22 Jul 2021 09:12:33 +0200
+Message-Id: <20210722071236.139520-11-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
 References: <20210722071236.139520-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,37 +89,41 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Made argument "inline" not positional, this has two benefits. First is
+that we adhere to how QEMU passes args generally, by taking the last
+value of an argument and drop the others. And the second is that this
+sets up a framework for potentially adding new args easily.
+
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- tests/plugin/bb.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ tests/plugin/insn.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index de09bdde4e..7d470a1011 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -104,10 +104,17 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
- 
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
--        if (g_strcmp0(opt, "inline") == 0) {
--            do_inline = true;
--        } else if (g_strcmp0(opt, "idle") == 0) {
--            idle_report = true;
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index c253980ec8..0f6a1938c1 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -62,8 +62,18 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
+                                            int argc, char **argv)
+ {
+-    if (argc && !strcmp(argv[0], "inline")) {
+-        do_inline = true;
++    for (int i = 0; i < argc; i++) {
++        char *opt = argv[i];
 +        g_autofree char **tokens = g_strsplit(opt, "=", 2);
 +        if (g_strcmp0(tokens[0], "inline") == 0) {
 +            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
 +                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
 +                return -1;
 +            }
-+        } else if (g_strcmp0(tokens[0], "idle") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &idle_report)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-+                return -1;
-+            }
-         } else {
-             fprintf(stderr, "option parsing failed: %s\n", opt);
-             return -1;
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
+     }
+ 
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
 -- 
 2.25.1
 
