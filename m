@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0E53D2701
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:48:08 +0200 (CEST)
-Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B393D2707
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:50:59 +0200 (CEST)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6avf-0001WE-RD
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
+	id 1m6ayQ-0004SZ-Od
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6atO-0006zf-1k
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:45:46 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2167)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6awy-0003mC-S7
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:49:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6atL-0000Jc-OY
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:45:45 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GVxX81xxFz7y37;
- Thu, 22 Jul 2021 23:42:00 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 23:45:40 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 23:45:39 +0800
-Subject: Re: [PATCH for-6.2 v2 04/11] machine: Use the computed parameters to
- calculate omitted cpus
-To: Andrew Jones <drjones@redhat.com>
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-5-wangyanan55@huawei.com>
- <20210719164203.r3f4qdbw3y3ieghb@gator>
- <ddf16035-d99f-9974-aec6-5bd0466205ed@huawei.com>
- <20210722122737.6zncj26bgjevflyh@gator>
- <6a75b589-3ad7-5a81-5804-3f9d07864a7c@huawei.com>
- <20210722150505.okdd6fv6dnkv6rcn@gator>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <d1a02031-cd0a-98d9-3eb5-9f643378b4e3@huawei.com>
-Date: Thu, 22 Jul 2021 23:45:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6awu-0002no-Sk
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:49:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626968962;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CGGDOYletrDTlz/tiOKSIANUZkaAa0M/AYASCp0EkTM=;
+ b=Wcm58qzsG0MmL/HU0LYwxjfMNoGDLDmxUXjrzIJ6ahhVYYjiDly0ldlSE+8JZ+pq1QqzrE
+ 4b1CLVdPeXQxUvUEkxAhGjqRYADE5jE5DqJEmSvYZKx8ykQNR2+xFrwY4ixXmHcnnSNJcn
+ qQjlEGglRu+Nueph6Yu35zeyEa54oUE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-HkP-h2hkMRefEqjRmtDRAA-1; Thu, 22 Jul 2021 11:49:16 -0400
+X-MC-Unique: HkP-h2hkMRefEqjRmtDRAA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F4D2195D574;
+ Thu, 22 Jul 2021 15:49:15 +0000 (UTC)
+Received: from redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C5901017CE8;
+ Thu, 22 Jul 2021 15:49:06 +0000 (UTC)
+Date: Thu, 22 Jul 2021 16:49:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.1] gitlab-ci: Extract OpenSBI job rules to reusable
+ section
+Message-ID: <YPmTb2jC3Fp2yO+E@redhat.com>
+References: <20210720164829.3949558-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210722150505.okdd6fv6dnkv6rcn@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210720164829.3949558-1-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,49 +82,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Richard
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/22 23:05, Andrew Jones wrote:
-> On Thu, Jul 22, 2021 at 10:59:11PM +0800, wangyanan (Y) wrote:
->> Ok. If we remove the rounding, then the calculation code has to be modified
->> to be like the following. We have to separately consider the case that cpus
->> and maxcpus are both omitted (e.g. -smp sockets=16).
->>
->> maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>
->> if (cpus == 0 && maxcpus == 0) {
->>      sockets = sockets > 0 ? sockets : 1;
->>      cores = cores > 0 ? cores : 1;
->>      threads = threads > 0 ? threads : 1;
->>      goto cal;
->> }
->>
->> if (sockets == 0) {
->> ...
->> } else if (cores == 0) {
->> ...
->> } else if (threads == 0) {
->> ...
->> }
->>
->> cal:
->> maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
->> cpus = cpus > 0 ? cpus : maxcpus;
-> Whatever works, but hopefully you can avoid an ugly goto.
->
-Well, it can be avoided.
+On Tue, Jul 20, 2021 at 06:48:29PM +0200, Philippe Mathieu-Daudé wrote:
+> All jobs depending on 'docker-opensbi' job must use at most all
+> the rules that triggers it. The simplest way to ensure that
+> is to always use the same rules. Extract all the rules to a
+> reusable section, and include this section (with the 'extends'
+> keyword) in both 'docker-opensbi' and 'build-opensbi' jobs.
+> 
+> The problem was introduced in commit c6fc0fc1a71 ("gitlab-ci.yml:
+> Add jobs to build OpenSBI firmware binaries"), but was revealed in
+> commit 91e9c47e50a ("docker: OpenSBI build job depends on OpenSBI
+> container").
+> 
+> This fix is similar to the one used with the EDK2 firmware job in
+> commit ac0595cf6b3 ("gitlab-ci: Extract EDK2 job rules to reusable
+> section").
+> 
+> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Latent bug on CI, safe for 6.1.
+> ---
+>  .gitlab-ci.d/opensbi.yml | 28 +++++++++++++++++-----------
+>  1 file changed, 17 insertions(+), 11 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+> index f66cd1d9089..d8a0456679e 100644
+> --- a/.gitlab-ci.d/opensbi.yml
+> +++ b/.gitlab-ci.d/opensbi.yml
+> @@ -1,10 +1,23 @@
+> -docker-opensbi:
+> - stage: containers
+> - rules: # Only run this job when the Dockerfile is modified
+> +# All jobs needing docker-opensbi must use the same rules it uses.
+> +.opensbi_job_rules:
+> + rules: # Only run this job when ...
+>   - changes:
+> +   # this file is modified
+>     - .gitlab-ci.d/opensbi.yml
+> +   # or the Dockerfile is modified
+>     - .gitlab-ci.d/opensbi/Dockerfile
+>     when: always
+> + - changes: # or roms/opensbi/ is modified (submodule updated)
+> +   - roms/opensbi/*
+> +   when: always
+> + - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+> +   when: always
+> + - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+> +   when: always
 
-Thanks,
-Yanan
+In debugging why the acceptance jobs rnu despite their prerequisite
+jobs failing, I've realized we've been making a mistake in most of
+'rules' sections.
+
+'when: always'  will make the job run regardless of status of any
+dependant jobs. IOW, if you have a 'needs: [....]', it is almost
+always wrong to use 'when: always'. Instead  we need 'when: on_success'
+
+So this patch needs to make that change, and likewise the edk2 patch
+with the same logic.
+
+Alex has queued this one, but I don't see it in a PULL yet, so I
+guess we can just do a v2 of this.
+
+> +
+> +docker-opensbi:
+> + extends: .opensbi_job_rules
+> + stage: containers
+>   image: docker:19.03.1
+>   services:
+>   - docker:19.03.1-dind
+> @@ -24,16 +37,9 @@ docker-opensbi:
+>   - docker push $IMAGE_TAG
+>  
+>  build-opensbi:
+> + extends: .opensbi_job_rules
+>   stage: build
+>   needs: ['docker-opensbi']
+> - rules: # Only run this job when ...
+> - - changes: # ... roms/opensbi/ is modified (submodule updated)
+> -   - roms/opensbi/*
+> -   when: always
+> - - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+> -   when: always
+> - - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+> -   when: always
+>   artifacts:
+>     paths: # 'artifacts.zip' will contains the following files:
+>     - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> -- 
+> 2.31.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
