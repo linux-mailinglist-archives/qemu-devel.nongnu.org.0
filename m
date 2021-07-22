@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1D13D26A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:28:55 +0200 (CEST)
-Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64693D26C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:36:04 +0200 (CEST)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ad4-000529-Bn
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1m6ajz-0008Dz-91
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6abz-0004MB-0z
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:27:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60241)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6aj2-0007Su-Bz
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:35:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6abw-0005aC-KU
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:27:46 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6aiy-0001kk-Ue
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:35:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626967663;
+ s=mimecast20190719; t=1626968099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=o/5IZQzAjmeNzuJuL3L64dEw01Mo9J6kIwdDpgyrotM=;
- b=dQfJlelQCwPyIeWZ1bwjeDHF1OKDYlT5VwtBr46MoTJKT/p+/i8vdG7BwOhIgPAkt/blDV
- cNAhIKZMalLbd3rLpPlT6OrmKfMuoDGW86FxXZAe4OMMYUTpoQUusLdzND2tJDpuZPukhp
- jCLSnN164IFSdlr3H9oZu/j6yiNrnAA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-LVCcWowPMUC-vianVk5gmw-1; Thu, 22 Jul 2021 11:27:42 -0400
-X-MC-Unique: LVCcWowPMUC-vianVk5gmw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n11-20020a05600c294bb029022095f349f3so1457814wmd.0
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:27:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=o/5IZQzAjmeNzuJuL3L64dEw01Mo9J6kIwdDpgyrotM=;
- b=kVu87ApmQZdJgEwiaFGAKZKDnkyTJ9o+zSsGumL077BLKDWiL6IDM/GgYRf0Qv1vjp
- zTX7ur8YfTGUICgWlfAtKGo64EFOTBD/SppAEW/yTcTnTnFM/lJtg4lAjNLsU0DzYvIC
- PkJGIwcHydhc2XBg3CrLiVYl3kuBqwGpv2pb1ZZYiGqNiEKL7EUm8j1vkf9EyenPocpx
- uex7pBrXoeWUQxanKUrGKnAKx+r9PUIf/H9+ZJgrRS6AX21maG1nl+OW4G3Kh+Bhgdau
- L9glVUGzUtKlHeHVfjt0egRsB9N+mRdZS7duHglvZrdY+W2w8ZhLbLaAyp6vyyQTMlMm
- glpg==
-X-Gm-Message-State: AOAM530k1tp4+G+lgIP8f7CUdZHixG5og7moRNG6JUcv4jN1jG5nj3k0
- 8jXwgwPFThjgVyNELMXm0GgEKPN5GwseKaHKdf+V01eHukY8gGygY4r2bFiPbohvkuL8PXRfBpJ
- 38xRY6On4sMYpFyU=
-X-Received: by 2002:a05:600c:4105:: with SMTP id
- j5mr156638wmi.49.1626967661189; 
- Thu, 22 Jul 2021 08:27:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvsTnnbqZ+RK5Rir2JqVskzweYtYzfeldZzymBlo8BDOAnDZeTWhxoIvFzmmtAWeyqRjSO8Q==
-X-Received: by 2002:a05:600c:4105:: with SMTP id
- j5mr156617wmi.49.1626967660907; 
- Thu, 22 Jul 2021 08:27:40 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id z13sm31018555wro.79.2021.07.22.08.27.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:27:36 -0700 (PDT)
-Date: Thu, 22 Jul 2021 16:27:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 5/5] migration: Move the yank unregister of
- channel_close out
-Message-ID: <YPmOZ3LGm0u7GoBA@work-vm>
-References: <20210721193409.910462-1-peterx@redhat.com>
- <20210721193409.910462-6-peterx@redhat.com>
+ bh=dqPTUyyW1XXlHVIwJWhDNBlvHZ2Av3YjYn+lPXEK7VI=;
+ b=DlCj9pkGSIrcU3x21p0UL4+sSMhp6U8XFXmwQ4m0+B3MaNEWZxI0e6xowGzsqxFv1kwnvH
+ CN6StlU9CVEAXr4qqzCpmNqU/z4FShzr0epqwGZbuUTk9MbyiNmUQJFpM2E7/9Y4lu4duW
+ L+SB0YveOS/J846NKRLdQR+4VsTvwrw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-3jKcWtogNEaBOGbJUIONSw-1; Thu, 22 Jul 2021 11:34:58 -0400
+X-MC-Unique: 3jKcWtogNEaBOGbJUIONSw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BEC71966322
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 15:34:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
+ [10.36.114.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE18760C9B;
+ Thu, 22 Jul 2021 15:34:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1E04C11326B9; Thu, 22 Jul 2021 17:34:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/2] qapi: introduce forwarding visitor
+References: <20210719104033.185109-1-pbonzini@redhat.com>
+ <20210719104033.185109-2-pbonzini@redhat.com>
+ <87v952fnut.fsf@dusky.pond.sub.org>
+ <3426ca4c-fc26-1730-76f8-c46bc7fddca3@redhat.com>
+Date: Thu, 22 Jul 2021 17:34:51 +0200
+In-Reply-To: <3426ca4c-fc26-1730-76f8-c46bc7fddca3@redhat.com> (Paolo
+ Bonzini's message of "Thu, 22 Jul 2021 17:08:19 +0200")
+Message-ID: <87zguee50k.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210721193409.910462-6-peterx@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -99,162 +82,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> It's efficient, but hackish to call yank unregister calls in channel_close(),
-> especially it'll be hard to debug when qemu crashed with some yank function
-> leaked.
-> 
-> Remove that hack, but instead explicitly unregister yank functions at the
-> places where needed, they are:
-> 
->   (on src)
->   - migrate_fd_cleanup
->   - postcopy_pause
-> 
->   (on dst)
->   - migration_incoming_state_destroy
->   - postcopy_pause_incoming
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/migration.c         |  5 +++++
->  migration/qemu-file-channel.c |  3 ---
->  migration/savevm.c            |  7 +++++++
->  migration/yank_functions.c    | 14 ++++++++++++++
->  migration/yank_functions.h    |  1 +
->  5 files changed, 27 insertions(+), 3 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index fa70400f98..bfeb65b8f7 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -59,6 +59,7 @@
->  #include "multifd.h"
->  #include "qemu/yank.h"
->  #include "sysemu/cpus.h"
-> +#include "yank_functions.h"
->  
->  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
->  
-> @@ -273,6 +274,7 @@ void migration_incoming_state_destroy(void)
->      }
->  
->      if (mis->from_src_file) {
-> +        migration_ioc_unregister_yank_from_file(mis->from_src_file);
->          qemu_fclose(mis->from_src_file);
->          mis->from_src_file = NULL;
->      }
-> @@ -1811,6 +1813,7 @@ static void migrate_fd_cleanup(MigrationState *s)
->           * Close the file handle without the lock to make sure the
->           * critical section won't block for long.
->           */
-> +        migration_ioc_unregister_yank_from_file(tmp);
->          qemu_fclose(tmp);
->      }
->  
-> @@ -3352,6 +3355,8 @@ static MigThrError postcopy_pause(MigrationState *s)
->  
->          /* Current channel is possibly broken. Release it. */
->          assert(s->to_dst_file);
-> +        /* Unregister yank for current channel */
-> +        migration_ioc_unregister_yank_from_file(s->to_dst_file);
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Should this go inside the lock?
+> On 22/07/21 16:02, Markus Armbruster wrote:
+>> Double-checking: the other fields are not accessible via this visitor.
+>> Correct?
+>
+> Correct.
+>
+>>>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>   include/qapi/forward-visitor.h    |  27 +++
+>>>   qapi/meson.build                  |   1 +
+>>>   qapi/qapi-forward-visitor.c       | 307 ++++++++++++++++++++++++++++++
+>>>   tests/unit/meson.build            |   1 +
+>>>   tests/unit/test-forward-visitor.c | 165 ++++++++++++++++
+>>>   5 files changed, 501 insertions(+)
+>>>   create mode 100644 include/qapi/forward-visitor.h
+>>>   create mode 100644 qapi/qapi-forward-visitor.c
+>>>   create mode 100644 tests/unit/test-forward-visitor.c
+>> 
+>> Missing: update of the big comment in include/qapi/visitor.h.  Can be
+>> done on top.
+>
+> Also because I'm not sure what to add. :)
+>
+> This is not a fifth type of visitor, it's a wrapper for the existing
+> types (two of them, input and output; the other two don't break
+> horribly but make no sense either).
 
-Dave
+Unlike the other visitors, this one isn't of a fixed type.  I think
+mentioning this would be nice.  Perhaps add to the paragraph
 
->          qemu_mutex_lock(&s->qemu_file_lock);
->          file = s->to_dst_file;
->          s->to_dst_file = NULL;
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 2f8b1fcd46..bb5a5752df 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -107,9 +107,6 @@ static int channel_close(void *opaque, Error **errp)
->      int ret;
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
->      ret = qio_channel_close(ioc, errp);
-> -    if (OBJECT(ioc)->ref == 1) {
-> -        migration_ioc_unregister_yank(ioc);
-> -    }
->      object_unref(OBJECT(ioc));
->      return ret;
->  }
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 96b5e5d639..7b7b64bd13 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -65,6 +65,7 @@
->  #include "qemu/bitmap.h"
->  #include "net/announce.h"
->  #include "qemu/yank.h"
-> +#include "yank_functions.h"
->  
->  const unsigned int postcopy_ram_discard_version;
->  
-> @@ -2568,6 +2569,12 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
->      /* Clear the triggered bit to allow one recovery */
->      mis->postcopy_recover_triggered = false;
->  
-> +    /*
-> +     * Unregister yank with either from/to src would work, since ioc behind it
-> +     * is the same
-> +     */
-> +    migration_ioc_unregister_yank_from_file(mis->from_src_file);
-> +
->      assert(mis->from_src_file);
->      qemu_file_shutdown(mis->from_src_file);
->      qemu_fclose(mis->from_src_file);
-> diff --git a/migration/yank_functions.c b/migration/yank_functions.c
-> index 23697173ae..8c08aef14a 100644
-> --- a/migration/yank_functions.c
-> +++ b/migration/yank_functions.c
-> @@ -14,6 +14,7 @@
->  #include "qemu/yank.h"
->  #include "io/channel-socket.h"
->  #include "io/channel-tls.h"
-> +#include "qemu-file.h"
->  
->  void migration_yank_iochannel(void *opaque)
->  {
-> @@ -46,3 +47,16 @@ void migration_ioc_unregister_yank(QIOChannel *ioc)
->                                   QIO_CHANNEL(ioc));
->      }
->  }
-> +
-> +void migration_ioc_unregister_yank_from_file(QEMUFile *file)
-> +{
-> +    QIOChannel *ioc = qemu_file_get_ioc(file);
-> +
-> +    if (ioc) {
-> +        /*
-> +         * For migration qemufiles, we'll always reach here.  Though we'll skip
-> +         * calls from e.g. savevm/loadvm as they don't use yank.
-> +         */
-> +        migration_ioc_unregister_yank(ioc);
-> +    }
-> +}
-> diff --git a/migration/yank_functions.h b/migration/yank_functions.h
-> index 74c7f18c91..a7577955ed 100644
-> --- a/migration/yank_functions.h
-> +++ b/migration/yank_functions.h
-> @@ -17,3 +17,4 @@
->  void migration_yank_iochannel(void *opaque);
->  void migration_ioc_register_yank(QIOChannel *ioc);
->  void migration_ioc_unregister_yank(QIOChannel *ioc);
-> +void migration_ioc_unregister_yank_from_file(QEMUFile *file);
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ * There are four kinds of visitors: input visitors (QObject, string,
+ * and QemuOpts) parse an external representation and build the
+ * corresponding QAPI object, output visitors (QObject and string)
+ * take a QAPI object and generate an external representation, the
+ * dealloc visitor takes a QAPI object (possibly partially
+ * constructed) and recursively frees it, and the clone visitor
+ * performs a deep clone of a QAPI object.
+
+a sentence along the lines of "The forwarding visitor is special: it
+wraps another visitor, and shares its type."
+
+>>> +static bool forward_field_translate_name(ForwardFieldVisitor *v, const char **name,
+>>> +                                         Error **errp)
+>>> +{
+>>> +    if (v->depth) {
+>>> +        return true;
+>>> +    }
+>> 
+>> Succeed when we're in a sub-struct.
+>> 
+>>> +    if (g_str_equal(*name, v->from)) {
+>>> +        *name = v->to;
+>>> +        return true;
+>>> +    }
+>> 
+>> Succeed when we're in the root struct and @name is the alias name.
+>> Replace the alias name by the real one.
+>> 
+>>> +    error_setg(errp, QERR_MISSING_PARAMETER, *name);
+>>> +    return false;
+>> 
+>> Fail when we're in the root struct and @name is not the alias name.
+>> 
+>>> +}
+>> 
+>> Can you explain why you treat names in sub-structs differently than
+>> names other than the alias name in the root struct?
+>
+> Taking the example of QOM alias properties, if the QOM property you're
+> aliasing is a struct, its field names are irrelevant.  The caller may
+> not even know what they are, as they are not part of the namespace (e.g.
+> the toplevel QDict returned by keyval_parse) that is being modified.
+>
+> There are no aliased compound QOM properties that I can make a proper
+> example with, unfortunately.
+
+Since the intent is to forward *only* the alias, I wonder why we forward
+*everything* when v->depth > 0.
+
+Oh.  Is it because to get to v->depth > 0, we must have entered the
+alias, so whatever we forward there must be members of the alias?
+
+>>> +    /*
+>>> +     * The name of alternates is reused when accessing the content,
+>>> +     * so do not increase depth here.
+>>> +     */
+>> 
+>> I understand why you don't increase @depth here (same reason
+>> qobject-input-visitor.c doesn't qobject_input_push() here).  I don't
+>> understand the comment :)
+>
+> See above: the alternate is not a struct; the names that are passed
+> between start_alternate and end_alternate are within the same namespace
+> as the toplevel field.
+
+Yes.
+
+> As to the comment, the idea is: if those calls used e.g. name == NULL,
+> the depth would need to be increased, but the name will be the same one
+> that was received by start_alternate.  Change to "The name passed to
+> start_alternate is also used when accessing the content"?
+
+Better.
+
+>>> +Visitor *visitor_forward_field(Visitor *target, const char *from, const char *to)
+>>> +{
+>>> +    ForwardFieldVisitor *v = g_new0(ForwardFieldVisitor, 1);
+>>> +
+>>> +    v->visitor.type = target->type;
+>> 
+>> Do arbitrary types work?  Or is this limited to input and output
+>> visitors?
+>
+> They don't crash, but they don't make sense because 1) they should not
+> live outside qapi_clone and visit_free_* 2) they use NULL for the
+> outermost name.
+
+I'd prefer to restrict the forwarding visitor to the cases that make
+sense and have test coverage.
+
+>> Not forwarded: method .type_size().  Impact: visit_type_size() will call
+>> the wrapped visitor's .type_uint64() instead of its .type_size().  The
+>> two differ for the opts visitor, the keyval input visitor, the string
+>> input visitor, and the string output visitor.
+>
+> Fixed, of course.  Incremental diff after my sig.
+
+Looks good to me apart from rather long lines in block comments.
+Best to wrap these around column 70, unless the wrapping obviously
+reduces legibility.
 
 
