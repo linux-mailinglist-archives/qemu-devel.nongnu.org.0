@@ -2,63 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3813D25CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:31:07 +0200 (CEST)
-Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE023D25F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:40:58 +0200 (CEST)
+Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Zj3-0002yd-4t
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
+	id 1m6Zse-0006Ww-VW
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6Zhh-0002Jd-15
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:29:37 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2068)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6Zqj-0005Nm-OR
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:38:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6Zhd-0000Uo-NH
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:29:36 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GVvrT5xX0zcgtG;
- Thu, 22 Jul 2021 22:26:01 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 22:29:25 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 22:29:24 +0800
-Subject: Re: [PATCH for-6.2 v2 10/11] machine: Split out the smp parsing code
-To: Andrew Jones <drjones@redhat.com>
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-11-wangyanan55@huawei.com>
- <20210719172009.yujvlk4mu2xcl25g@gator>
- <d040bdbf-47f5-da25-9aae-8285530a0948@huawei.com>
- <20210722130752.6yl64tkfmtl4ruq6@gator>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <5b873c72-b38b-ed5f-4a3d-8bdb8edc2af1@huawei.com>
-Date: Thu, 22 Jul 2021 22:29:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6Zqg-0006x5-40
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:38:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626964731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uQFN+Y/Jp0XojcXu0QCKiHJWr/Mmfi7IG3c5YpkBcno=;
+ b=hwYIny2HhAIArLXI98WRIzsd2TQaNG3/Ij7LHDwMTog1CU//DpyCFBEC+nUthEn11Xy9ef
+ PnVHlF9B/0EgOSuJjnEYE0Ddp08aWzOB+bJQVlMvc49E1Fen3IkncY0Dp6PyApLc2/2xI2
+ ELfOHqnR7/GpdXLutLbpHFAUBBWjr2Q=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-iulPJ0idP5iVBOYr6Q9yKw-1; Thu, 22 Jul 2021 10:38:49 -0400
+X-MC-Unique: iulPJ0idP5iVBOYr6Q9yKw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w17-20020aa7dcd10000b02903b85a16b672so2887496edu.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:38:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uQFN+Y/Jp0XojcXu0QCKiHJWr/Mmfi7IG3c5YpkBcno=;
+ b=SiRGgVz37P+3V6vsrLqXAHGdCzTWKcYCtNc057PR4V9EtQHhamlxAdfJGyNPU1iGpf
+ K1/tMWmKmAViHMyV51RPuYeKuT38DZWn5LkGoprFKeB6A5iOvbxZzpK/CU3FGvL35fyK
+ WBz5zcJnmMZ/PS4wPe3hAIghrOV+4G4hj/H0vPahnwX4b6ulUVws1TO8gJH4YwGfYTnc
+ SevXMzG9mQyi5mxCJXQfPq/ZIUgYY+nZJAHqCR1+ldFxcLCXp8QsyY/f42cSSTBzgiZf
+ H8tgA5U/KaxNcwobg61YMIGWl856mRXlPsZSuFJJ+vPluM1bnxrtUfPB5IzR2EcRcs0K
+ tTLA==
+X-Gm-Message-State: AOAM530vj2RALO94TSlxkAaqdm3b5nJormzjVHl/eDBfGXsjV9cA4TB7
+ AbTHdUwMeHf/0y1rzV6fxmB4l4oRAVnk98lOWb2/urzfjN2O3gqRAC2rETuo9KlVW6ZysrVZosM
+ IzP4VbTMhxibooQY=
+X-Received: by 2002:a17:906:7190:: with SMTP id
+ h16mr205720ejk.251.1626964728200; 
+ Thu, 22 Jul 2021 07:38:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDuJ9XzCZaPkvhGiYB4lPVXtAvlV3DrW9vfESyLb3QxwFTIAix+iow1CV9o3kph4KsUpIevQ==
+X-Received: by 2002:a17:906:7190:: with SMTP id
+ h16mr205691ejk.251.1626964727973; 
+ Thu, 22 Jul 2021 07:38:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id f22sm12411974edr.16.2021.07.22.07.38.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 07:38:46 -0700 (PDT)
+Subject: Re: [PATCH for-6.1 0/1] machine: Disallow specifying topology
+ parameters as zero
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ Andrew Jones <drjones@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20210722021512.2600-1-wangyanan55@huawei.com>
+ <87y29y7uon.fsf@redhat.com> <20210722133759.db2kjcoucf6rsz4o@gator>
+ <672e17d7-bfcc-8022-044a-54a482e3c5ee@redhat.com>
+ <93fb73cb-86e7-dc22-cd37-2d61718927e0@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <333c63ff-4ccd-9346-1d02-e1316ec365b0@redhat.com>
+Date: Thu, 22 Jul 2021 16:38:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210722130752.6yl64tkfmtl4ruq6@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <93fb73cb-86e7-dc22-cd37-2d61718927e0@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme716-chm.china.huawei.com (10.1.199.112) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,360 +107,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Richard
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/22 21:07, Andrew Jones wrote:
-> On Thu, Jul 22, 2021 at 02:24:03PM +0800, wangyanan (Y) wrote:
->> On 2021/7/20 1:20, Andrew Jones wrote:
->>> On Mon, Jul 19, 2021 at 11:20:42AM +0800, Yanan Wang wrote:
->>>> We are going to introduce an unit test for the parser smp_parse()
->>>> in hw/core/machine.c, but now machine.c is only built in softmmu.
->>>>
->>>> In order to solve the build dependency on the smp parsing code and
->>>> avoid building unrelated stuff for the unit tests, move the related
->>>> code from machine.c into a new common file, i.e., machine-smp.c.
->>>>
->>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->>>> ---
->>>>    MAINTAINERS           |   1 +
->>>>    hw/core/machine-smp.c | 124 ++++++++++++++++++++++++++++++++++++++++++
->>>>    hw/core/machine.c     | 109 -------------------------------------
->>>>    hw/core/meson.build   |   1 +
->>>>    include/hw/boards.h   |   1 +
->>>>    5 files changed, 127 insertions(+), 109 deletions(-)
->>>>    create mode 100644 hw/core/machine-smp.c
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 9100f9a043..70633e3bf4 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -1626,6 +1626,7 @@ F: cpu.c
->>>>    F: hw/core/cpu.c
->>>>    F: hw/core/machine-qmp-cmds.c
->>>>    F: hw/core/machine.c
->>>> +F: hw/core/machine-smp.c
-> I just noticed that the spacing in this change might not be right.
-Right, will fix it.
->>>>    F: hw/core/null-machine.c
->>>>    F: hw/core/numa.c
->>>>    F: hw/cpu/cluster.c
->>>> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
->>>> new file mode 100644
->>>> index 0000000000..6a00cfe44a
->>>> --- /dev/null
->>>> +++ b/hw/core/machine-smp.c
->>>> @@ -0,0 +1,124 @@
->>>> +/*
->>>> + * QEMU Machine (related to SMP configuration)
->>>> + *
->>>> + * Copyright (C) 2014 Red Hat Inc
->>>> + *
->>>> + * Authors:
->>>> + *   Marcel Apfelbaum <marcel.a@redhat.com>
->>> This header was obviously copy+pasted without being updated.
->> Yes, the header was kept unchanged.
->>
->> But actually I'm not completely sure which field should be updated. :)
->> Should I add "Copyright (C) 2021, Huawei, Inc." and also the authorship
->> "Yanan Wang <wangyanan55@huawei.com>" behind the existing ones
->> or just replace them?
-> I see what you were attempting to do now. You were deriving this new work
-> (a source file) from an existing work and you wanted to preserve the
-> original copyright and authorship. It's not so simple with these types of
-> projects though. In this case, smp_parse wasn't even part of the original
-> machine.c file (it came over with commit 6f479566a87d). I think it's
-> pretty common for these projects to just put whatever your preferred
-> (or your employer's preferred) copyright/authorship on new files. So, I'd
-> just replace the fields.
-I see, will have some update.
+On 22/07/21 16:12, wangyanan (Y) wrote:
+> The smp_parse and pc_smp_parse are going to be converted into a
+> generic parser, and the added sanity-check in this patch will also be
+> tested in an unit test. So is it probably better to keep the check in the
+> parser instead of the caller? The duplication will be eliminated anyway
+> when there is one single parser.
+> 
+> But I can also implement the check in machine_set_smp as you mentioned
+> if it's more reasonable and preferred. :)
 
-Thanks,
-Yanan
-> I'm interested in what others have to say about this though.
->
-> Thanks,
-> drew
->
->
->>>> + *
->>>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->>>> + * See the COPYING file in the top-level directory.
->>>> + */
->>>> +
->>>> +#include "qemu/osdep.h"
->>>> +#include "hw/boards.h"
->>>> +#include "qapi/error.h"
->>>> +
->>>> +/*
->>>> + * smp_parse - Generic function used to parse the given SMP configuration
->>>> + *
->>>> + * The topology parameters must be specified equal to or great than one
->>>> + * or just omitted, explicit configuration like "cpus=0" is not allowed.
->>>> + * The omitted parameters will be calculated based on the provided ones.
->>>> + *
->>>> + * maxcpus will default to the value of cpus if omitted and will be used
->>>> + * to compute the missing sockets/cores/threads. cpus will be calculated
->>>> + * from the computed parametrs if omitted.
->>>> + *
->>>> + * In calculation of omitted arch-netural sockets/cores/threads, we prefer
->>>> + * sockets over cores over threads before 6.2, while prefer cores over
->>>> + * sockets over threads since 6.2 on. The arch-specific dies will directly
->>>> + * default to 1 if omitted.
->>>> + */
->>>> +void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>>> +{
->>>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>>> +    unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>>> +    unsigned sockets = config->has_sockets ? config->sockets : 0;
->>>> +    unsigned dies    = config->has_dies ? config->dies : 1;
->>>> +    unsigned cores   = config->has_cores ? config->cores : 0;
->>>> +    unsigned threads = config->has_threads ? config->threads : 0;
->>>> +    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
->>>> +
->>>> +    if ((config->has_cpus && config->cpus == 0) ||
->>>> +        (config->has_sockets && config->sockets == 0) ||
->>>> +        (config->has_dies && config->dies == 0) ||
->>>> +        (config->has_cores && config->cores == 0) ||
->>>> +        (config->has_threads && config->threads == 0) ||
->>>> +        (config->has_maxcpus && config->maxcpus == 0)) {
->>>> +        error_setg(errp, "parameters must be equal to or greater than one"
->>>> +                   "if provided");
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    if (!mc->smp_dies_supported && dies > 1) {
->>>> +        error_setg(errp, "dies not supported by this machine's CPU topology");
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>>> +
->>>> +    /* prefer sockets over cores over threads before 6.2 */
->>>> +    if (mc->smp_prefer_sockets) {
->>>> +        if (sockets == 0) {
->>>> +            cores = cores > 0 ? cores : 1;
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +            sockets = maxcpus / (dies * cores * threads);
->>>> +            sockets = sockets > 0 ? sockets : 1;
->>>> +        } else if (cores == 0) {
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +            cores = maxcpus / (sockets * dies * threads);
->>>> +            cores = cores > 0 ? cores : 1;
->>>> +        } else if (threads == 0) {
->>>> +            threads = maxcpus / (sockets * dies * cores);
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +        }
->>>> +    /* prefer cores over sockets over threads since 6.2 */
->>>> +    } else {
->>>> +        if (cores == 0) {
->>>> +            sockets = sockets > 0 ? sockets : 1;
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +            cores = maxcpus / (sockets * dies * threads);
->>>> +            cores = cores > 0 ? cores : 1;
->>>> +        } else if (sockets == 0) {
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +            sockets = maxcpus / (dies * cores * threads);
->>>> +            sockets = sockets > 0 ? sockets : 1;
->>>> +        } else if (threads == 0) {
->>>> +            threads = maxcpus / (sockets * dies * cores);
->>>> +            threads = threads > 0 ? threads : 1;
->>>> +        }
->>>> +    }
->>>> +
->>>> +    /* use the computed parameters to calculate the omitted cpus */
->>>> +    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
->>>> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>>> +
->>>> +    if (sockets * dies * cores * threads != maxcpus) {
->>>> +        g_autofree char *dies_msg = g_strdup_printf(
->>>> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->>>> +        error_setg(errp, "Invalid CPU topology: "
->>>> +                   "sockets (%u)%s * cores (%u) * threads (%u) "
->>>> +                   "!= maxcpus (%u)",
->>>> +                   sockets, dies_msg, cores, threads,
->>>> +                   maxcpus);
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    if (sockets * dies * cores * threads < cpus) {
->>>> +        g_autofree char *dies_msg = g_strdup_printf(
->>>> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->>>> +        error_setg(errp, "Invalid CPU topology: "
->>>> +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
->>>> +                   "smp_cpus (%u)",
->>>> +                   sockets, dies_msg, cores, threads, cpus);
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    ms->smp.cpus = cpus;
->>>> +    ms->smp.sockets = sockets;
->>>> +    ms->smp.dies = dies;
->>>> +    ms->smp.cores = cores;
->>>> +    ms->smp.threads = threads;
->>>> +    ms->smp.max_cpus = maxcpus;
->>>> +}
->>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
->>>> index 9d24b67ef3..61be266b6c 100644
->>>> --- a/hw/core/machine.c
->>>> +++ b/hw/core/machine.c
->>>> @@ -744,115 +744,6 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>>>        }
->>>>    }
->>>> -/*
->>>> - * smp_parse - Generic function used to parse the given SMP configuration
->>>> - *
->>>> - * The topology parameters must be specified equal to or great than one
->>>> - * or just omitted, explicit configuration like "cpus=0" is not allowed.
->>>> - * The omitted parameters will be calculated based on the provided ones.
->>>> - *
->>>> - * maxcpus will default to the value of cpus if omitted and will be used
->>>> - * to compute the missing sockets/cores/threads. cpus will be calculated
->>>> - * from the computed parametrs if omitted.
->>>> - *
->>>> - * In calculation of omitted arch-netural sockets/cores/threads, we prefer
->>>> - * sockets over cores over threads before 6.2, while prefer cores over
->>>> - * sockets over threads since 6.2 on. The arch-specific dies will directly
->>>> - * default to 1 if omitted.
->>>> - */
->>>> -static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>>> -{
->>>> -    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>>> -    unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>>> -    unsigned sockets = config->has_sockets ? config->sockets : 0;
->>>> -    unsigned dies    = config->has_dies ? config->dies : 1;
->>>> -    unsigned cores   = config->has_cores ? config->cores : 0;
->>>> -    unsigned threads = config->has_threads ? config->threads : 0;
->>>> -    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
->>>> -
->>>> -    if ((config->has_cpus && config->cpus == 0) ||
->>>> -        (config->has_sockets && config->sockets == 0) ||
->>>> -        (config->has_dies && config->dies == 0) ||
->>>> -        (config->has_cores && config->cores == 0) ||
->>>> -        (config->has_threads && config->threads == 0) ||
->>>> -        (config->has_maxcpus && config->maxcpus == 0)) {
->>>> -        error_setg(errp, "parameters must be equal to or greater than one"
->>>> -                   "if provided");
->>>> -        return;
->>>> -    }
->>>> -
->>>> -    if (!mc->smp_dies_supported && dies > 1) {
->>>> -        error_setg(errp, "dies not supported by this machine's CPU topology");
->>>> -        return;
->>>> -    }
->>>> -
->>>> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>>> -
->>>> -    /* prefer sockets over cores over threads before 6.2 */
->>>> -    if (mc->smp_prefer_sockets) {
->>>> -        if (sockets == 0) {
->>>> -            cores = cores > 0 ? cores : 1;
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -            sockets = maxcpus / (dies * cores * threads);
->>>> -            sockets = sockets > 0 ? sockets : 1;
->>>> -        } else if (cores == 0) {
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -            cores = maxcpus / (sockets * dies * threads);
->>>> -            cores = cores > 0 ? cores : 1;
->>>> -        } else if (threads == 0) {
->>>> -            threads = maxcpus / (sockets * dies * cores);
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -        }
->>>> -    /* prefer cores over sockets over threads since 6.2 */
->>>> -    } else {
->>>> -        if (cores == 0) {
->>>> -            sockets = sockets > 0 ? sockets : 1;
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -            cores = maxcpus / (sockets * dies * threads);
->>>> -            cores = cores > 0 ? cores : 1;
->>>> -        } else if (sockets == 0) {
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -            sockets = maxcpus / (dies * cores * threads);
->>>> -            sockets = sockets > 0 ? sockets : 1;
->>>> -        } else if (threads == 0) {
->>>> -            threads = maxcpus / (sockets * dies * cores);
->>>> -            threads = threads > 0 ? threads : 1;
->>>> -        }
->>>> -    }
->>>> -
->>>> -    /* use the computed parameters to calculate the omitted cpus */
->>>> -    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
->>>> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>>> -
->>>> -    if (sockets * dies * cores * threads != maxcpus) {
->>>> -        g_autofree char *dies_msg = g_strdup_printf(
->>>> -            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->>>> -        error_setg(errp, "Invalid CPU topology: "
->>>> -                   "sockets (%u)%s * cores (%u) * threads (%u) "
->>>> -                   "!= maxcpus (%u)",
->>>> -                   sockets, dies_msg, cores, threads,
->>>> -                   maxcpus);
->>>> -        return;
->>>> -    }
->>>> -
->>>> -    if (sockets * dies * cores * threads < cpus) {
->>>> -        g_autofree char *dies_msg = g_strdup_printf(
->>>> -            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->>>> -        error_setg(errp, "Invalid CPU topology: "
->>>> -                   "sockets (%u)%s * cores (%u) * threads (%u) < "
->>>> -                   "smp_cpus (%u)",
->>>> -                   sockets, dies_msg, cores, threads, cpus);
->>>> -        return;
->>>> -    }
->>>> -
->>>> -    ms->smp.cpus = cpus;
->>>> -    ms->smp.sockets = sockets;
->>>> -    ms->smp.dies = dies;
->>>> -    ms->smp.cores = cores;
->>>> -    ms->smp.threads = threads;
->>>> -    ms->smp.max_cpus = maxcpus;
->>>> -}
->>>> -
->>>>    static void machine_get_smp(Object *obj, Visitor *v, const char *name,
->>>>                                void *opaque, Error **errp)
->>>>    {
->>>> diff --git a/hw/core/meson.build b/hw/core/meson.build
->>>> index 18f44fb7c2..6d727c7742 100644
->>>> --- a/hw/core/meson.build
->>>> +++ b/hw/core/meson.build
->>>> @@ -14,6 +14,7 @@ hwcore_files = files(
->>>>    )
->>>>    common_ss.add(files('cpu-common.c'))
->>>> +common_ss.add(files('machine-smp.c'))
->>>>    common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
->>>>    common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
->>>>    common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
->>>> diff --git a/include/hw/boards.h b/include/hw/boards.h
->>>> index 12ab0f5968..071eec1e74 100644
->>>> --- a/include/hw/boards.h
->>>> +++ b/include/hw/boards.h
->>>> @@ -34,6 +34,7 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
->>>>    void machine_set_cpu_numa_node(MachineState *machine,
->>>>                                   const CpuInstanceProperties *props,
->>>>                                   Error **errp);
->>>> +void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
->>>>    /**
->>>>     * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
->>>> -- 
->>>> 2.19.1
->>>>
->>> Otherwise
->>>
->>> Reviewed-by: Andrew Jones <drjones@redhat.com>
->>>
->> Thanks,
->> Yanan
->> .
->>
-> .
+Yes, I would prefer to avoid having duplicate code.  There are some 
+common checks already in machine_set_smp, e.g. comparing ms->smp.cpus 
+against mc->min_cpus and mc->max_cpus.
+
+Paolo
 
 
