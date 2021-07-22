@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1428A3D261E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:48:24 +0200 (CEST)
-Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDE63D2634
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:51:37 +0200 (CEST)
+Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Zzr-0005yl-4t
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
+	id 1m6a2y-0008CM-W7
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6Zwb-0003mP-Eh
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:45:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51775)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1m6a23-0007LT-13
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:50:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6Zwa-0002lS-1R
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:45:01 -0400
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1m6a21-0006df-Hx
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:50:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626965099;
+ s=mimecast20190719; t=1626965436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rLDfbIGcproIzp2tvA6AqaxDJ5Zb2J0nLjUyiL/xOc8=;
- b=Y6N6ZFSkK+CwngvFG9MhVjMDQsT+pe2YbpRVmKbliGEaWqFwi+oInhVpHovz8aF6JiHrhM
- j1MRpJn80u4G+NruEIiU6/ca/PuJ6r/W5PdXaLgOh54j6sB/y5IcPiN6KwIwKLjp2KEH7f
- ZgzUDogJiwo783mEOHnKe6oTuq+a1uM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-dNo6HAWsNMyuNUChMBgWdQ-1; Thu, 22 Jul 2021 10:44:58 -0400
-X-MC-Unique: dNo6HAWsNMyuNUChMBgWdQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j11-20020a05600c410bb02902278758ab90so777731wmi.9
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:44:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rLDfbIGcproIzp2tvA6AqaxDJ5Zb2J0nLjUyiL/xOc8=;
- b=FCHOv0UNglmGVMerlDi1IXBBb7t60hZQVmuwdDnWdfna6GeNYG4KHK71SwBPij/OTu
- JZhB9EIy4s7nlIoODGDPnW2EazE9LOzdONeH6Dd49Imb8z203CHNsCV90ItlkI8BqVz1
- fM8p96H2P1J+QENRjJc8pJyVMOdrLJd14I40xwiUETQDk5pv2x8Rht/vg7rYLJH5UyPH
- p9l3Nou+fgljZICKT8BHAg1+njBn6fPT6QCiM2qeR7LPNclDc6tSFQXE4ZfVAnHES+Pg
- KMN2FAVKe2aCnTmeSJpbqG3ffKHM1w2hK6hPKbgbOI9/9vWijch0d/BRoDm1J+j/JngK
- 133A==
-X-Gm-Message-State: AOAM5316axODlj8LtczJSqVEBE/oYNoSYdufImDfGHunUzPYakaOC8o2
- p+u5VUZTje82TC1XNCA6bQA2RTjkBxRRUAh8PB90SVvivtnqEb4df/z+UTvhXqNG/kH/DNluJJv
- Us+DCwVV6KOZAOP8=
-X-Received: by 2002:a05:600c:35d3:: with SMTP id
- r19mr6862980wmq.84.1626965096824; 
- Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqNojfRQw8n2r1C8WXdkPW4hGTbylVtQ1v3z66H+R5OhMm8aYI1n3lb3Z2kLpZrp/gS9ZYYw==
-X-Received: by 2002:a05:600c:35d3:: with SMTP id
- r19mr6862961wmq.84.1626965096603; 
- Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id m4sm30482247wrs.14.2021.07.22.07.44.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
-Date: Thu, 22 Jul 2021 15:44:54 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/2] qxl: remove assert in qxl_pre_save.
-Message-ID: <YPmEZnBuCMwXq98p@work-vm>
-References: <20210721093347.338536-1-kraxel@redhat.com>
- <20210721093347.338536-2-kraxel@redhat.com>
+ bh=/aGTgprKTqRFr4713FcVAUFWzpDDuk3eLGlWIscRMms=;
+ b=IOgTCgeLtZqv6F71X8Fj7NedVqlszOoKbM2WhdM6JO4twlcX2rzCZTvWIhTmVnUxm4hjfs
+ DdEH8jKdw1rd4cLaKmIQHPW4s/bKo5iZEpJRhlVTMBDF1GK8BfUfzM/xsyWlMWH0eGTq/1
+ oT6JT0o+iMoyxZnh98HNIDnZj6LsJG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-SY_qtQsdOHi7FyKzATk3TQ-1; Thu, 22 Jul 2021 10:50:34 -0400
+X-MC-Unique: SY_qtQsdOHi7FyKzATk3TQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F275F18C8C01
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 14:50:33 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 491A35D6D3;
+ Thu, 22 Jul 2021 14:50:29 +0000 (UTC)
+Date: Thu, 22 Jul 2021 16:50:26 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
+Message-ID: <YPmFshXDoVrTdwif@angien.pipo.sk>
+References: <20210706100141.303960-1-pbonzini@redhat.com>
+ <20210706100141.303960-37-pbonzini@redhat.com>
+ <YPkp+PF8kUyK9sy+@angien.pipo.sk>
+ <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721093347.338536-2-kraxel@redhat.com>
+In-Reply-To: <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -98,46 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Gerd Hoffmann (kraxel@redhat.com) wrote:
-> Since commit 551dbd0846d2 ("migration: check pre_save return in
-> vmstate_save_state") the pre_save hook can fail.  So lets finally
-> use that to drop the guest-triggerable assert in qxl_pre_save().
+On Thu, Jul 22, 2021 at 16:39:26 +0200, Paolo Bonzini wrote:
+> On 22/07/21 10:19, Peter Krempa wrote:
+> > This patch breaks detection of certain machine options features in
+> > libvirt which were being detected from 'query-command-line-options'.
+> > 
+> > I presume the change simply removed this from the output of
+> > query-command-line-options due to the historical cruft how the
+> > aforementioned command works.
+> > 
+> > Unfortunately I didn't find any suitable replacement from what we are
+> > querying.
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/qxl.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> index 84f99088e0a0..3867b94fe236 100644
-> --- a/hw/display/qxl.c
-> +++ b/hw/display/qxl.c
-> @@ -2283,7 +2283,9 @@ static int qxl_pre_save(void *opaque)
->      } else {
->          d->last_release_offset = (uint8_t *)d->last_release - ram_start;
->      }
-> -    assert(d->last_release_offset < d->vga.vram_size);
-> +    if (d->last_release_offset < d->vga.vram_size) {
-> +        return 1;
+> Yep, there is already a patch queued for this.
 
-It would be great if there was an error_report or something there
-so that we get some idea of what happened.
-
-Dave
-
-> +    }
->  
->      return 0;
->  }
-> -- 
-> 2.31.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+So the desired state is that the properties stay in
+'query-command-line-options'?
 
 
