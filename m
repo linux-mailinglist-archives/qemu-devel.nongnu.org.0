@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7403D2615
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:46:51 +0200 (CEST)
-Received: from localhost ([::1]:35906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1428A3D261E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:48:24 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ZyL-0004WH-VV
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
+	id 1m6Zzr-0005yl-4t
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Zw6-00035D-TK
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:44:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33186)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6Zwb-0003mP-Eh
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:45:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6Zw3-0002OW-NK
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:44:30 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m6Zwa-0002lS-1R
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:45:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626965066;
+ s=mimecast20190719; t=1626965099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3crVBgXJcYlEWoasCOnvp2DVQ/x9x5rjFI5e04pL4/I=;
- b=LRSb66NEP7JmFn26TnsyowgmbDsDmaZ0xM2SCNFFNEIO3Q4/KkvUgCGMKor96B40OKjfpQ
- oxE34GPHmHv9c1DnwEkML5ISR8jsTmW3cmjKSMzir34lG/82FYkjDVh2AD3uFyk0yyVueS
- WJj9Ug7fPKpdXkc9EkgTiU5JPfJcbw4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-fZUaFhX-MrOEYDarZMB-gg-1; Thu, 22 Jul 2021 10:44:25 -0400
-X-MC-Unique: fZUaFhX-MrOEYDarZMB-gg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- l4-20020a0ce0840000b02902cec39ab618so3837269qvk.5
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:44:25 -0700 (PDT)
+ bh=rLDfbIGcproIzp2tvA6AqaxDJ5Zb2J0nLjUyiL/xOc8=;
+ b=Y6N6ZFSkK+CwngvFG9MhVjMDQsT+pe2YbpRVmKbliGEaWqFwi+oInhVpHovz8aF6JiHrhM
+ j1MRpJn80u4G+NruEIiU6/ca/PuJ6r/W5PdXaLgOh54j6sB/y5IcPiN6KwIwKLjp2KEH7f
+ ZgzUDogJiwo783mEOHnKe6oTuq+a1uM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-dNo6HAWsNMyuNUChMBgWdQ-1; Thu, 22 Jul 2021 10:44:58 -0400
+X-MC-Unique: dNo6HAWsNMyuNUChMBgWdQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j11-20020a05600c410bb02902278758ab90so777731wmi.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:44:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3crVBgXJcYlEWoasCOnvp2DVQ/x9x5rjFI5e04pL4/I=;
- b=B7VXUYFxoH/VgvwUwomzYDjXW4iUEqv/7nKasPx1YeLMRPEfcKvStYM99BIDyrpd9f
- BAdADLuvL0znaSmUxqJuyzqYIzhlxrjQxJSb4ubyv8Z3UzuKRJZbazO+atlyipPHFosI
- lT68WI7VQrVsoLWPQhPak1BqocfJy0abxQ4Axe73BIff863/nLo4A4Z4YOA9E12Hy9Mo
- oAjucU3y6CTaaXZmflJl/1fqJSf6Ti7q1GIKpwZEnXb4gfNxx69q8BxvU7KagIGO6Lnj
- xOc7kVkz8m9yIsB0G0Rp4YwTzJJ5WYKwEFBkIHLIoBj5cDElteSxMYNDzoPg3FocSNzs
- Ukrg==
-X-Gm-Message-State: AOAM531X2h2oZZSnB30YjHhSfDpR3GutETUkvLZegCOKqeUh+VVI+dL0
- R0fxSM/JV/q6qjc5EAh1KOWrwR1KCAd689ihIdieXhVv+4/fnq4k6nbDpE8CEdAuULcY5Wq9Jlm
- dEWh21CLdz5u2w9g=
-X-Received: by 2002:a05:6214:29c7:: with SMTP id
- gh7mr349113qvb.36.1626965065002; 
- Thu, 22 Jul 2021 07:44:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzq7pkjBj7zpJ5B/xqK0yx1z5Ws8/jAUZgI77MySin0ZSGq5aB06YmtlkRP03xCshjIk06ZCw==
-X-Received: by 2002:a05:6214:29c7:: with SMTP id
- gh7mr349096qvb.36.1626965064817; 
- Thu, 22 Jul 2021 07:44:24 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id d19sm2381775qkn.94.2021.07.22.07.44.23
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=rLDfbIGcproIzp2tvA6AqaxDJ5Zb2J0nLjUyiL/xOc8=;
+ b=FCHOv0UNglmGVMerlDi1IXBBb7t60hZQVmuwdDnWdfna6GeNYG4KHK71SwBPij/OTu
+ JZhB9EIy4s7nlIoODGDPnW2EazE9LOzdONeH6Dd49Imb8z203CHNsCV90ItlkI8BqVz1
+ fM8p96H2P1J+QENRjJc8pJyVMOdrLJd14I40xwiUETQDk5pv2x8Rht/vg7rYLJH5UyPH
+ p9l3Nou+fgljZICKT8BHAg1+njBn6fPT6QCiM2qeR7LPNclDc6tSFQXE4ZfVAnHES+Pg
+ KMN2FAVKe2aCnTmeSJpbqG3ffKHM1w2hK6hPKbgbOI9/9vWijch0d/BRoDm1J+j/JngK
+ 133A==
+X-Gm-Message-State: AOAM5316axODlj8LtczJSqVEBE/oYNoSYdufImDfGHunUzPYakaOC8o2
+ p+u5VUZTje82TC1XNCA6bQA2RTjkBxRRUAh8PB90SVvivtnqEb4df/z+UTvhXqNG/kH/DNluJJv
+ Us+DCwVV6KOZAOP8=
+X-Received: by 2002:a05:600c:35d3:: with SMTP id
+ r19mr6862980wmq.84.1626965096824; 
+ Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqNojfRQw8n2r1C8WXdkPW4hGTbylVtQ1v3z66H+R5OhMm8aYI1n3lb3Z2kLpZrp/gS9ZYYw==
+X-Received: by 2002:a05:600c:35d3:: with SMTP id
+ r19mr6862961wmq.84.1626965096603; 
+ Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id m4sm30482247wrs.14.2021.07.22.07.44.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 07:44:24 -0700 (PDT)
-Date: Thu, 22 Jul 2021 10:44:23 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 2/5] migration: Make from_dst_file accesses thread-safe
-Message-ID: <YPmERz/Mmc1s728k@t490s>
-References: <20210721193409.910462-1-peterx@redhat.com>
- <20210721193409.910462-3-peterx@redhat.com>
- <20210721211527.w3cy2zej3s57hote@redhat.com>
+ Thu, 22 Jul 2021 07:44:56 -0700 (PDT)
+Date: Thu, 22 Jul 2021 15:44:54 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/2] qxl: remove assert in qxl_pre_save.
+Message-ID: <YPmEZnBuCMwXq98p@work-vm>
+References: <20210721093347.338536-1-kraxel@redhat.com>
+ <20210721093347.338536-2-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721211527.w3cy2zej3s57hote@redhat.com>
+In-Reply-To: <20210721093347.338536-2-kraxel@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -96,82 +98,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 04:15:27PM -0500, Eric Blake wrote:
-> On Wed, Jul 21, 2021 at 03:34:06PM -0400, Peter Xu wrote:
-> > Accessing from_dst_file is potentially racy in current code base like below:
-> > 
-> >   if (s->from_dst_file)
-> >     do_something(s->from_dst_file);
-> > 
-> > Because from_dst_file can be reset right after the check in another
-> > thread (rp_thread).  One example is migrate_fd_cancel().
-> > 
-> > Use the same qemu_file_lock to protect it too, just like to_dst_file.
-> > 
-> > When it's safe to access without lock, comment it.
-> > 
-> > There's one special reference in migration_thread() that can be replaced by
-> > the newly introduced rp_thread_created flag.
-> > 
-> > Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  migration/migration.c | 32 +++++++++++++++++++++++++-------
-> >  migration/migration.h |  8 +++++---
-> >  migration/ram.c       |  1 +
-> >  3 files changed, 31 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 21b94f75a3..fa70400f98 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -1879,10 +1879,12 @@ static void migrate_fd_cancel(MigrationState *s)
-> >      QEMUFile *f = migrate_get_current()->to_dst_file;
-> >      trace_migrate_fd_cancel();
-> >  
-> > +    qemu_mutex_lock(&s->qemu_file_lock);
-> >      if (s->rp_state.from_dst_file) {
-> >          /* shutdown the rp socket, so causing the rp thread to shutdown */
-> >          qemu_file_shutdown(s->rp_state.from_dst_file);
-> >      }
-> > +    qemu_mutex_unlock(&s->qemu_file_lock);
+* Gerd Hoffmann (kraxel@redhat.com) wrote:
+> Since commit 551dbd0846d2 ("migration: check pre_save return in
+> vmstate_save_state") the pre_save hook can fail.  So lets finally
+> use that to drop the guest-triggerable assert in qxl_pre_save().
 > 
-> Worth using WITH_QEMU_LOCK_GUARD?
-
-Sure.
-
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/display/qxl.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> > @@ -2827,11 +2845,13 @@ out:
-> >               * Maybe there is something we can do: it looks like a
-> >               * network down issue, and we pause for a recovery.
-> >               */
-> > -            qemu_fclose(rp);
-> > -            ms->rp_state.from_dst_file = NULL;
-> > +            migration_release_from_dst_file(ms);
-> >              rp = NULL;
-> >              if (postcopy_pause_return_path_thread(ms)) {
-> > -                /* Reload rp, reset the rest */
-> > +                /*
-> > +                 * Reload rp, reset the rest.  Referencing it is save since
+> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> index 84f99088e0a0..3867b94fe236 100644
+> --- a/hw/display/qxl.c
+> +++ b/hw/display/qxl.c
+> @@ -2283,7 +2283,9 @@ static int qxl_pre_save(void *opaque)
+>      } else {
+>          d->last_release_offset = (uint8_t *)d->last_release - ram_start;
+>      }
+> -    assert(d->last_release_offset < d->vga.vram_size);
+> +    if (d->last_release_offset < d->vga.vram_size) {
+> +        return 1;
+
+It would be great if there was an error_report or something there
+so that we get some idea of what happened.
+
+Dave
+
+> +    }
+>  
+>      return 0;
+>  }
+> -- 
+> 2.31.1
 > 
-> s/save/safe/
-
-Will fix.
-
-I'll wait for some more comments before I repost.
-
-Thanks,
-
+> 
 -- 
-Peter Xu
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
