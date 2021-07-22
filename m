@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5683D2C2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 20:54:35 +0200 (CEST)
-Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6473D2C47
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 21:03:36 +0200 (CEST)
+Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6dq5-0004qa-QR
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 14:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
+	id 1m6dyp-0007hg-Fh
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 15:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6doy-0004AP-EE
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:53:24 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38755)
+ (Exim 4.90_1) (envelope-from
+ <3lcD5YAUKCgw45ym0s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--stmao.bounces.google.com>)
+ id 1m6dx3-0006PA-S6
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 15:01:45 -0400
+Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:40718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6dox-0000Y3-1n
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 14:53:24 -0400
-Received: by mail-pl1-x634.google.com with SMTP id a14so269465plh.5
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 11:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hBKzQSzK7IGm4exstYvNNwBZaWb3yR8ZhJlzx378LE8=;
- b=FIwSZy3mcCiOVMqtWq74BP44Rs3jEw1hXyqtjI5Nyy6RGYvo39iR/wED6pigQ2Wnqx
- AwVeu9fuoMJmiWyDsqah4Rsel66akUgc1Bv9NesnkeLhaoPIS4LylG83OGRBBV/unKZf
- dZq3qca19OAXAArPcVT7X/1qCZgtVESBIX5/AASZ0ZouQ9s2duVjZr0gTscWsyH27zCJ
- O93cZULkoJIsKsNb7BKW3BKl4xSB+3tRF6NeMfxzRJNoERjyAB90Bq30BJUAzrIM+fFv
- 0PsaDw5twYae+UZBe6ha9R9d1e2FsyueqK7P9F+8Jc1gkI2bEs8xGmZKooeH/30NI+Vy
- 7tLA==
+ (Exim 4.90_1) (envelope-from
+ <3lcD5YAUKCgw45ym0s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--stmao.bounces.google.com>)
+ id 1m6dx1-00068W-VV
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 15:01:45 -0400
+Received: by mail-qt1-x849.google.com with SMTP id
+ g10-20020ac8768a0000b029023c90fba3dcso31736qtr.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 12:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=0cBb6NaUcslbx5vxbmmSDtbuc2iSUitmzm+UVWzjl/s=;
+ b=HgDDalB81vO7BijksgEW6nV/SEDDeRErPoDoXgIwg84sSbTf8RQs5SzCUv09kcDJhD
+ 7j/HmsrjxBziLVWtefswvS2MuaIVOQ5KPGUaGIC6YdT+ILlIBzbh5cuoAJE6NwknTbx/
+ qZ8uXGnQAg1EnPAD5NwFOzMWKH6kzd8jKfk4rk5p3IsvMTo2qMo8r8rOlRzC9oiR2aYY
+ hze9qrxLblV80khnakYEaUrOoMOp9fvQn95HM0IvSyMPxPqnFYRck5ln/0OdMhB4uVEf
+ PHpXt4iDDPfymVRy2hcDqBihE3hsnfjTwDhuY3JEYtlc01r+jWJaE45bOSL47YLxD69p
+ uMFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hBKzQSzK7IGm4exstYvNNwBZaWb3yR8ZhJlzx378LE8=;
- b=kCpc9H6dJHmbwDMRaZP2SE+WBVGJuvF3Hl+tL1fUqsA92ocNhyhanDQMham2hvXm1I
- OjeppRIKKEo+XYEj+wna7Cj6Auz5ynFnj1QAY31h0kJ7JlEtf4oum4gfI6U6pcg7U0K/
- 8xqTptdmCNwzPzTDic4SzYnMenVEZ/MgG5PHAl8QNtWK7bbkj8Rz/D4VBaRGRwgQS4Rj
- zMFOi5bpyuM0eprcs9UQjOJdVuxUngwU5q5YqfkdtBuQm3QQN+Q6k4uWZJaaS+deyfPf
- 0wFKXXp/nPy9NDHZru34B0oKAnmJuRAp5cUM5NZo3Jdd21OF3lFVDGmFBkoylLJ9wnEs
- 0Hzg==
-X-Gm-Message-State: AOAM531HYpGi46WpGHtwk74/JEDT0VkgMBDbocGdbGc7coSswJXjFdNh
- bNZzC8dA5P5kyC0yBrUA+Ye95A==
-X-Google-Smtp-Source: ABdhPJw5TF4kH117H6z1NYk7G8MhFpeOh0IbZ9MQhAzIgSTpKhshIlrijp1Mdj1EOJjj6uN5FGZKFg==
-X-Received: by 2002:a63:ef45:: with SMTP id c5mr1395853pgk.78.1626980001072;
- Thu, 22 Jul 2021 11:53:21 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id s195sm6544155pfs.119.2021.07.22.11.53.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 11:53:20 -0700 (PDT)
-Subject: Re: Prefetches in buffer_zero_*
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <YPlCJpMIOb2Umc+Z@work-vm>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <092f9b8b-4a14-d059-49be-010b760828aa@linaro.org>
-Date: Thu, 22 Jul 2021 08:53:17 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YPlCJpMIOb2Umc+Z@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=0cBb6NaUcslbx5vxbmmSDtbuc2iSUitmzm+UVWzjl/s=;
+ b=JKvUWxDDYqaK1LgzMqe5FMN4SG9cjfUePoNT3Ns3SGuXHEIv2sFV2lMaJefh8VlR/2
+ e9qxB9Awv7KDwGRTbY+1o6kPO2QeWBMd5SYOeKJgJpLvuoRSAnYTXWupCdjLOZnQDzwS
+ N6HLWhDnEB2Lt6GAExRA10ZK56l0872NL6nan5J30gga62FvAdsPQWYdtzueuJa7J7kv
+ SxkM4EvICDjB/Icu6sjG47ufLf4DUO6P01mSAfLO9k7RjyPMoR6+lx0T7hMKvafCh9UE
+ ci506VI8yo/HmyjwmZY4Ay7ubQkduOTAlbhs63a8YUs4QLEgeELC9qbTCqDP479OEET7
+ KARA==
+X-Gm-Message-State: AOAM531uEXMSM13B+Nbl9rO1wLC+XVDwu9TNqRt+gKTEf6hbZNEoMJ8C
+ qJI+6eXzlGpeaeQM1dXprWIxQY3PBw==
+X-Google-Smtp-Source: ABdhPJwhafmfMKu/92pVl9qA0vkFzkiXiXB9d6hIWMvcC8Xs+ejKw5QqFwseRzy7NcIM8TnisKusY0LLRg==
+X-Received: from smvm.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2d5f])
+ (user=stmao job=sendgmr) by 2002:a05:6214:f0b:: with SMTP id
+ gw11mr1286833qvb.10.1626980501124; Thu, 22 Jul 2021 12:01:41 -0700 (PDT)
+Date: Thu, 22 Jul 2021 19:01:37 +0000
+Message-Id: <20210722190138.486785-1-stmao@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
+Subject: [PATCH 0/1] Add remote I2C device to support external I2C device
+From: Shengtan Mao <stmao@google.com>
+To: cminyard@mvista.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, stmao@google.com, 
+ crauer@google.com, wuhaotsh@google.com, venture@google.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::849;
+ envelope-from=3lcD5YAUKCgw45ym0s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--stmao.bounces.google.com;
+ helo=mail-qt1-x849.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,25 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, jmario@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/21 12:02 AM, Dr. David Alan Gilbert wrote:
-> Hi Richard,
->    I think you were the last person to fiddle with the prefetching
-> in buffer_zero_avx2 and friends; Joe (cc'd) wondered if explicit
-> prefetching still made sense on modern CPUs, and that their hardware
-> generally figures stuff out better on simple increments.
-> 
->    What was your thinking on this, and did you actually measure
-> any improvement?
+This patch implements the remote I2C device.
+The remote I2C device allows an external I2C device to communicate with the I2C controller in QEMU through the remote I2C protocol.
+Users no longer have to directly modify QEMU to add new I2C devices and can instead implement the emulated device externally and connect it to the remote I2C device.
 
-Ah, well, that was 5 years ago so I have no particular memory of this.  It wouldn't 
-surprise me if you can't measure any improvement on modern hardware.
+Previous work by Wolfram Sang (https://git.kernel.org/pub/scm/virt/qemu/wsa/qemu.git/commit/?h=i2c-passthrough) was referenced.
+It shares the similar idea of redirecting the actual I2C device functionalities, but Sang focuses on physical devices, and we focus on emulated devices.
+The work by Sang mainly utilizes file descriptors while ours utilizes character devices, which offers better support for emulated devices.
+The work by Sang is not meant to offer full I2C device support; it only implements the receive functionality.
+Our work implements full support for I2C devices: send, recv, and event (match_and_add is not applicable for external devices).
 
-Do you now measure an improvement with the prefetches gone?
+Shengtan Mao (1):
+  hw/i2c: add remote I2C device
 
+ hw/arm/Kconfig                |   1 +
+ hw/i2c/Kconfig                |   4 +
+ hw/i2c/meson.build            |   1 +
+ hw/i2c/remote-i2c.c           | 117 ++++++++++++++++++
+ tests/qtest/meson.build       |   1 +
+ tests/qtest/remote-i2c-test.c | 216 ++++++++++++++++++++++++++++++++++
+ 6 files changed, 340 insertions(+)
+ create mode 100644 hw/i2c/remote-i2c.c
+ create mode 100644 tests/qtest/remote-i2c-test.c
 
-r~
+-- 
+2.32.0.402.g57bb445576-goog
+
 
