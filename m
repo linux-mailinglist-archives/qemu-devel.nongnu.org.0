@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC433D1EBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:14:12 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E853D1EC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:17:29 +0200 (CEST)
+Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6SuI-0000Cr-VY
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47904)
+	id 1m6SxU-0005zO-QL
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:17:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6St2-00061w-S8
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:52 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33291)
+ id 1m6St4-00065y-DR
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:54 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:47050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6St1-0005Pp-DV
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:52 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- k14-20020a05600c1c8eb02901f13dd1672aso1974124wms.0
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:51 -0700 (PDT)
+ id 1m6St2-0005RF-Tj
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:54 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ o30-20020a05600c511eb029022e0571d1a0so2331646wms.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qWN2HIRs01eKm6dhCHQnthOBil+q+4JpNVw/kRffS9E=;
- b=bnXzRNou3B0QNiGKhYYdq9XybemWfoFTodXM4iK0Ph/nWabvtdRK3ub7Tx0iQKySsX
- 4T12bGJZqci6f8M64fCoB//E+s49mqqoa5rMR2fxbpdd4C1zkufysdwb5XpDnYys6TKv
- ijKSUY0+rC8j1didsr/5Zfc7/k/Ldi7WbrPMquE8lI1CoXV2exX40t4nZ+tK7VRQwRTT
- STsa84cGixL26RVpyj1jHXok0QzFl2izAEATvYoX4m4lziU2xaUtRQQXl9bEXsiGG8wE
- m2hl6Dc++xVNP802vx5pBADbjCjkIGQGY9R74lwscr1hN5BAQQC2HYITMqWg2l0Qg5iH
- 3oSg==
+ bh=WhizFxo4aiOW3Z39CzCqIEDI8mj9ApvcpvEv89MbsmY=;
+ b=S8bFOL6+KVOnxC7crcoSFj1HT3JXrWNdNVEW/JJw271wF6rskvKyDfJTbwFck1mrXm
+ YJamh9nwKCZjpTHJylNPjg4cffMzHlSE4EhAF6t4zElCKG9WnmuW6Y7YHQEKX1WVQH6c
+ CZROAagx0gCgTrT4elZuG94lIBqEAqpSCqDnrC0aHLdNM8OJpmqdAr2rmUp/Vsx7szA0
+ 9ME+hmNRGBzZw1DftLKcWg/WBw6NyU9mhyAilpz/6t7uEG7+aRdokUssMzjuWxZzBSwI
+ kbLGSk298Rg5orJySoamxKZKDBt+DdkvAynxKLJQFm6JQHGZkisedSGw+Y8H38bISe/U
+ 016Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qWN2HIRs01eKm6dhCHQnthOBil+q+4JpNVw/kRffS9E=;
- b=GW4QH2qWCQ8Gv5EorPMSWK9GulgMhIQGCwDTQujtrT13Ty+jQbfqQKDOsS2cUw1jtH
- lPv8WZQQxTzTaNIanGZpk6RFGcy/BlAyZjwyMMVbWKO10lgkUqn6dsywm425VPTTWhU6
- MeUJtfI+X7J62WxJ+lTpDyVLuCAsjixY0WHrQ9JhdYy/L6t7ddLTmP+Mobuqhpu1Zomz
- 7t92l4iKYPp0Vp6KBBXatpwso06qVEs5lwvVPB2m+RVqSh+5hoXOkLPJPJMCx91X8d9/
- Cjl/mVwpRpiTu1j0Lc0b3RAIzIa9k4MRs61hGoH0QHYuaGa3sstTQI4xEcqbF7fluxhr
- ejxg==
-X-Gm-Message-State: AOAM533i2lLuc5jjBELgZepIVbACWP316xHTCvTp94Qd2GVtmFkaRE3M
- z86DZvcFwcW5XnHJph85VS5SnYJgSu4=
-X-Google-Smtp-Source: ABdhPJxbPKmfNwZVc8gbzzUwMRDdS5ucF15O/tvTw5/RBP5Jna+JI+jM2n0fHTg7B4zYx6rcOWzXLw==
-X-Received: by 2002:a1c:7410:: with SMTP id p16mr7392085wmc.6.1626937969995;
- Thu, 22 Jul 2021 00:12:49 -0700 (PDT)
+ bh=WhizFxo4aiOW3Z39CzCqIEDI8mj9ApvcpvEv89MbsmY=;
+ b=F9Fq+SVOcFCR0+Q75OF/otZLp1HVYdXHLeOseKQ1SAgJXB2P0d706SHWTJXSQnWrwY
+ qstKdHbhDZXiUgxlqq61CuPW+j2U0c+yHTGxcSe1W6Kn54rh/q0O2JZR/UkRpx6Orqof
+ 3a2cBnyrUgqnLml6nxHggfuaJ4NlQeMtJD6BagZZR0p+CxxCsBMNiK1kiBQD31aY49Wj
+ rR5TgxjDNqCspcu6C2wP6QFcLcPTrvvI8YFyn64QQV+BJ1RR5fr/jUVtY5Ox8Lb6s56N
+ +PGP4m0usLDKz/ggbHQM1PiJ6V/k2e+JeePMrckGlndRpVQUASS2udxRIK5fTVc5vtNd
+ RSmw==
+X-Gm-Message-State: AOAM5306zd1yl+oXakwwOZPMucIRyUcqnz8UNH/0SIcUPSK/QogszwkD
+ PWfFqNJOkmbOR+O4p2i6GmPYNnOMPgE=
+X-Google-Smtp-Source: ABdhPJzsvr655s3UtsF4oAFJt+NyB/3y72RySG4z0LPBsIug12AgmS3Mq0vWrxn8D00c8XJmgVDefA==
+X-Received: by 2002:a1c:4e0c:: with SMTP id g12mr7580725wmh.120.1626937971442; 
+ Thu, 22 Jul 2021 00:12:51 -0700 (PDT)
 Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.48
+ by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:12:49 -0700 (PDT)
+ Thu, 22 Jul 2021 00:12:51 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/13] plugins/hotblocks: Added correct boolean argument
- parsing
-Date: Thu, 22 Jul 2021 09:12:27 +0200
-Message-Id: <20210722071236.139520-5-ma.mandourr@gmail.com>
+Subject: [PATCH v3 05/13] plugins/lockstep: make socket path not positional &
+ parse bool arg
+Date: Thu, 22 Jul 2021 09:12:28 +0200
+Message-Id: <20210722071236.139520-6-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
 References: <20210722071236.139520-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,34 +91,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/hotblocks.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ contrib/plugins/lockstep.c | 31 ++++++++++++++++++++++---------
+ docs/devel/tcg-plugins.rst |  2 +-
+ 2 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-index 4b08340143..062200a7a4 100644
---- a/contrib/plugins/hotblocks.c
-+++ b/contrib/plugins/hotblocks.c
-@@ -133,8 +133,18 @@ QEMU_PLUGIN_EXPORT
- int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-                         int argc, char **argv)
+diff --git a/contrib/plugins/lockstep.c b/contrib/plugins/lockstep.c
+index 7fd35eb669..a41ffe83fa 100644
+--- a/contrib/plugins/lockstep.c
++++ b/contrib/plugins/lockstep.c
+@@ -319,22 +319,35 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            int argc, char **argv)
  {
--    if (argc && strcmp(argv[0], "inline") == 0) {
--        do_inline = true;
-+    for (int i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        g_autofree char **tokens = g_strsplit(opt, "=", 2);
-+        if (g_strcmp0(tokens[0], "inline") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
+     int i;
+-
+-    if (!argc || !argv[0]) {
+-        qemu_plugin_outs("Need a socket path to talk to other instance.");
+-        return -1;
+-    }
++    g_autofree char *sock_path = NULL;
+ 
+     for (i = 0; i < argc; i++) {
+         char *p = argv[i];
+-        if (strcmp(p, "verbose") == 0) {
+-            verbose = true;
+-        } else if (!setup_unix_socket(argv[0])) {
+-            qemu_plugin_outs("Failed to setup socket for communications.");
++        g_autofree char **tokens = g_strsplit(p, "=", 2);
++
++        if (g_strcmp0(tokens[0], "verbose") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &verbose)) {
++                fprintf(stderr, "boolean argument parsing failed: %s\n", p);
 +                return -1;
 +            }
++        } else if (g_strcmp0(tokens[0], "sockpath") == 0) {
++            sock_path = tokens[1];
 +        } else {
-+            fprintf(stderr, "option parsing failed: %s\n", opt);
-+            return -1;
-+        }
++            fprintf(stderr, "option parsing failed: %s\n", p);
+             return -1;
+         }
      }
  
-     plugin_init();
++    if (sock_path == NULL) {
++        fprintf(stderr, "Need a socket path to talk to other instance.\n");
++        return -1;
++    }
++
++    if (!setup_unix_socket(sock_path)) {
++        fprintf(stderr, "Failed to setup socket for communications.\n");
++        return -1;
++    }
++
+     our_id = id;
+ 
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index d09c349234..1cb8dee240 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -285,7 +285,7 @@ communicate over::
+ 
+   ./sparc-softmmu/qemu-system-sparc -monitor none -parallel none \
+     -net none -M SS-20 -m 256 -kernel day11/zImage.elf \
+-    -plugin ./contrib/plugins/liblockstep.so,arg=lockstep-sparc.sock \
++    -plugin ./contrib/plugins/liblockstep.so,sockpath=lockstep-sparc.sock \
+   -d plugin,nochain
+ 
+ which will eventually report::
 -- 
 2.25.1
 
