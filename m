@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4171F3D2FF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 00:49:49 +0200 (CEST)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAEE3D3094
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 01:51:59 +0200 (CEST)
+Received: from localhost ([::1]:54400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6hVk-0001oU-6B
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 18:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47680)
+	id 1m6iTt-0005OM-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 19:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6hUd-0000Qj-0w
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 18:48:39 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43584)
+ id 1m6iSl-0004hS-RU
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 19:50:47 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:51714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6hUb-0006IJ-Af
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 18:48:38 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- m2-20020a17090a71c2b0290175cf22899cso1326456pjs.2
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 15:48:36 -0700 (PDT)
+ id 1m6iSj-0005hD-Hm
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 19:50:47 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id my10so8323357pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 16:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Vpbc5CbXEMbBaSskTdUu0C0Hw1f8R+ZF5p7fPTDM1zM=;
- b=qGjEo8/zdKysVmSiCkWi8v1FS8YCDLfRKIH7kFfySOjEByW+6hHCqHFKgK1klZZXVH
- mpKyVXuZb5SpZrLxM7+hSXWBqSiXYKx1sHStl1WLK4jwSHCSu8sRC2XLR4AT5OJT6hAF
- AnHMAChoYjYDCqRXfY0+T1keLpbeLqyJZ7yZe1W8x862fmGC5EUwjsE/kE0Tbn93X3wa
- OpeifRsZMIXq8pLSDYJb+avgBDzaG8qtOsqtI3PRBCA3cQ0wAHmFmhbDxcAITulNvqeF
- V5pfByBd+IJKq9jFWqejj91pOa/ZrM84dm9YDQzz7jwgvdAalmEcxHZkIsWKLtprs6c2
- JqFw==
+ bh=oT42hVnlzZAIdTRORXvIEoLOhoXiMpixYT1u7GNVLW8=;
+ b=PMFb0VSNscx5sUqoV/uzU9MWImGN20YCATCZyGwxV0wdyLL25Ji7LmZ/ti8BwPwQHJ
+ dwQVfhNcu1fLUvXeE4j2rK2pei1ryvnvKTJKhOG0jG5nzY0/aruANjB92QEI/pzt81Dg
+ CvHbV46/n1E00Hm7aebNUhza8FF2QAjmBVD7NASBi/icRQ1d6mdoe9NCn3O52LcdQaX9
+ 39mYA/SqcHd0k98JPFsF+DrGKTg58o+aFur5ny+aJldf2P/jIRIFjPZcJCwsXlpI2+TN
+ NflkI10fjwFk2yKvJsVb67I+LbOAkFAdS7LTBL7tjkj3TFEWhCWajGV/2VPATNI8AGLX
+ bMeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Vpbc5CbXEMbBaSskTdUu0C0Hw1f8R+ZF5p7fPTDM1zM=;
- b=fg+zL5edRoCHcOSylDWHE8KSzF9eDEhGhZPkkc99iwylV4kNhY3hxdYlMhv9ag7ALB
- jbX6FTHOEl3re/EhioLhQtEdNg5UJ6Kk7BS3f5E87n4cQS669R0BsHhqBh/6yhF4U7+9
- NW0yQvzGPdjrBBZQa7ntZwhOEXtXQIhtwV+ZGKq+uHFV/S8J+bdoQfH7Ew2Op4wqojBT
- g5YZwm6AYDIGeXQ7ItjBzGsSysfYGB7sYD2kqRyWtnfhFq98rb26Qv+nedfvFBFh4G/Q
- 9Zmc7U+n5YypZfb74RN1n/TuW/rSFsRw2d5J2eanuLtK7wAkwBWAdX93gC8hSylTFXDc
- wL/g==
-X-Gm-Message-State: AOAM532eFectM3TCY2NsbI03DHrVU2lz5GT2+lm5RPbfunnW0D22mMtF
- x3SqC8Ouaoews+keQztOlfLFjQ==
-X-Google-Smtp-Source: ABdhPJwz1XZsOTAbkSN8UZWpEL9ZrctbXSI4LYRUxOz7LAXq12qPUo1/s926HQ8EgVN5DDHzlp+Xag==
-X-Received: by 2002:a62:7d16:0:b029:32d:cfc4:279c with SMTP id
- y22-20020a627d160000b029032dcfc4279cmr1918585pfc.8.1626994115742; 
- Thu, 22 Jul 2021 15:48:35 -0700 (PDT)
+ bh=oT42hVnlzZAIdTRORXvIEoLOhoXiMpixYT1u7GNVLW8=;
+ b=jxNe+ivd3fc6HE0uFi3z9Y+vXAIBbthMu+FKbSeqZjQxjv15d1ocGVbicNljpQoclz
+ xQbQ6Tg5f5/DrZBZAYXbhPEmaxYkuNZ6wBR86rejrzGSbz3jP3zSt0uzU5W9tsw3SIip
+ c9kKImG9DjkQjUirnyguq2Euaofo+3Sh9DX4B8FdqXl08TXN8fSHi/MVfmOWaVMI/Qz4
+ EVBANHwhflU1bLR3GDulOFISb7Y79f09UdAB+KSBgYamAmpSlOgMNUB0zIKf67SpDn1B
+ bITwgFCQODVYUMm1XL6zcJFCXyCCQAQj/ncJ4HHLPQ24KqCTbveKxEJMbtaVI93xfZJm
+ URcQ==
+X-Gm-Message-State: AOAM532bwH0v4Up79NCWYzaM59M7xfx4/q9dxERNht7pM+stT6f7u+5s
+ pbJaajGFCWMChGj+/kanzHG3kw==
+X-Google-Smtp-Source: ABdhPJxa5/Rld9mIpeCEa+hDHipIgb1/Y1pWLqzYqIylyIWdBxB/vB2g10dg7cFCPgIvuTqaWoomLg==
+X-Received: by 2002:a62:61c3:0:b029:35b:cb61:d2c3 with SMTP id
+ v186-20020a6261c30000b029035bcb61d2c3mr2105660pfb.62.1626997843282; 
+ Thu, 22 Jul 2021 16:50:43 -0700 (PDT)
 Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id c23sm16197436pfo.174.2021.07.22.15.48.33
+ by smtp.gmail.com with ESMTPSA id c2sm34992037pgh.82.2021.07.22.16.50.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 15:48:35 -0700 (PDT)
-Subject: Re: [PATCH v2 05/22] target/loongarch: Add memory management support
+ Thu, 22 Jul 2021 16:50:42 -0700 (PDT)
+Subject: Re: [PATCH v2 06/22] target/loongarch: Add main translation routines
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-6-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-7-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5f95af00-67d6-ae9d-580c-57d957f94376@linaro.org>
-Date: Thu, 22 Jul 2021 12:48:31 -1000
+Message-ID: <f4780c1c-b6a8-c265-01ff-2825cfc9a9b0@linaro.org>
+Date: Thu, 22 Jul 2021 13:50:38 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626861198-6133-6-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1626861198-6133-7-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -98,161 +97,284 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/20/21 11:53 PM, Song Gao wrote:
-> This patch introduces one memory-management-related functions
-> - loongarch_cpu_tlb_fill()
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   target/loongarch/cpu.c        |   1 +
->   target/loongarch/cpu.h        |   9 ++++
->   target/loongarch/tlb_helper.c | 103 ++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 113 insertions(+)
->   create mode 100644 target/loongarch/tlb_helper.c
-> 
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 8eaa778..6269dd9 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -269,6 +269,7 @@ static struct TCGCPUOps loongarch_tcg_ops = {
->       .initialize = loongarch_tcg_init,
->       .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
->       .cpu_exec_interrupt = loongarch_cpu_exec_interrupt,
-> +    .tlb_fill = loongarch_cpu_tlb_fill,
->   };
->   #endif /* CONFIG_TCG */
->   
-> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-> index 1db8bb5..5c06122 100644
-> --- a/target/loongarch/cpu.h
-> +++ b/target/loongarch/cpu.h
-> @@ -287,4 +287,13 @@ static inline void compute_hflags(CPULoongArchState *env)
->   
->   const char *loongarch_exception_name(int32_t exception);
->   
-> +/* tlb_helper.c */
-> +bool loongarch_cpu_tlb_fill(CPUState *cs,
-> +                            vaddr address,
-> +                            int size,
-> +                            MMUAccessType access_type,
-> +                            int mmu_idx,
-> +                            bool probe,
-> +                            uintptr_t retaddr);
-> +
->   #endif /* LOONGARCH_CPU_H */
-> diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-> new file mode 100644
-> index 0000000..b59a995
-> --- /dev/null
-> +++ b/target/loongarch/tlb_helper.c
-> @@ -0,0 +1,103 @@
-> +/*
-> + * LoongArch tlb emulation helpers for qemu.
-> + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + *
-> + * SPDX-License-Identifier: LGPL-2.1+
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "cpu-csr.h"
-> +#include "exec/helper-proto.h"
-> +#include "exec/exec-all.h"
-> +#include "exec/cpu_ldst.h"
-> +#include "exec/log.h"
-> +
-> +enum {
-> +    TLBRET_PE = -7,
-> +    TLBRET_XI = -6,
-> +    TLBRET_RI = -5,
-> +    TLBRET_DIRTY = -4,
-> +    TLBRET_INVALID = -3,
-> +    TLBRET_NOMATCH = -2,
-> +    TLBRET_BADADDR = -1,
-> +    TLBRET_MATCH = 0
-> +};
-> +
-> +static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-> +                                MMUAccessType access_type, int tlb_error)
+> +/* General purpose registers moves. */
+> +void gen_load_gpr(TCGv t, int reg)
 > +{
-> +    CPUState *cs = env_cpu(env);
-> +    int exception = 0, error_code = 0;
-> +
-> +    if (access_type == MMU_INST_FETCH) {
-> +        error_code |= INST_INAVAIL;
+> +    if (reg == 0) {
+> +        tcg_gen_movi_tl(t, 0);
+> +    } else {
+> +        tcg_gen_mov_tl(t, cpu_gpr[reg]);
 > +    }
-> +
-> +    switch (tlb_error) {
-> +    default:
-> +    case TLBRET_BADADDR:
-> +        exception = EXCP_ADE;
-> +        break;
-> +    case TLBRET_NOMATCH:
-> +        /* No TLB match for a mapped address */
-> +        if (access_type == MMU_DATA_STORE) {
-> +            exception = EXCP_TLBS;
-> +        } else {
-> +            exception = EXCP_TLBL;
-> +        }
-> +        error_code |= TLB_NOMATCH;
-> +        break;
-> +    case TLBRET_INVALID:
-> +        /* TLB match with no valid bit */
-> +        if (access_type == MMU_DATA_STORE) {
-> +            exception = EXCP_TLBS;
-> +        } else {
-> +            exception = EXCP_TLBL;
-> +        }
-> +        break;
-> +    case TLBRET_DIRTY:
-> +        exception = EXCP_TLBM;
-> +        break;
-> +    case TLBRET_XI:
-> +        /* Execute-Inhibit Exception */
-> +        exception = EXCP_TLBXI;
-> +        break;
-> +    case TLBRET_RI:
-> +        /* Read-Inhibit Exception */
-> +        exception = EXCP_TLBRI;
-> +        break;
-> +    case TLBRET_PE:
-> +        /* Privileged Exception */
-> +        exception = EXCP_TLBPE;
-> +        break;
-> +    }
-> +
-> +    if (tlb_error == TLBRET_NOMATCH) {
-> +        env->CSR_TLBRBADV = address;
-> +        env->CSR_TLBREHI = address & (TARGET_PAGE_MASK << 1);
-> +        cs->exception_index = exception;
-> +        env->error_code = error_code;
-> +        return;
-> +    }
-> +
-> +    /* Raise exception */
-> +    env->CSR_BADV = address;
-> +    cs->exception_index = exception;
-> +    env->error_code = error_code;
-> +    env->CSR_TLBEHI = address & (TARGET_PAGE_MASK << 1);
-> +}
-> +
-> +bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> +                       MMUAccessType access_type, int mmu_idx,
-> +                       bool probe, uintptr_t retaddr)
-> +{
-> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-> +    CPULoongArchState *env = &cpu->env;
-> +    int ret = TLBRET_BADADDR;
-> +
-> +    /* data access */
-> +    raise_mmu_exception(env, address, access_type, ret);
-> +    do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
 > +}
 
-Again, almost all of this does not apply for user-only.
+Please have a look at
+
+https://patchew.org/QEMU/20210709042608.883256-1-richard.henderson@linaro.org/
+
+for a better way to handle the zero register.
+
+
+> +static inline void save_cpu_state(DisasContext *ctx, int do_save_pc)
+> +{
+> +    if (do_save_pc && ctx->base.pc_next != ctx->saved_pc) {
+> +        gen_save_pc(ctx->base.pc_next);
+> +        ctx->saved_pc = ctx->base.pc_next;
+> +    }
+> +    if (ctx->hflags != ctx->saved_hflags) {
+> +        tcg_gen_movi_i32(hflags, ctx->hflags);
+> +        ctx->saved_hflags = ctx->hflags;
+> +        switch (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
+> +        case LOONGARCH_HFLAG_BR:
+> +            break;
+> +        case LOONGARCH_HFLAG_BC:
+> +        case LOONGARCH_HFLAG_B:
+> +            tcg_gen_movi_tl(btarget, ctx->btarget);
+> +            break;
+> +        }
+> +    }
+> +}
+
+Drop all the hflags handling.
+It's all copied from mips delay slot handling.
+
+> +
+> +static inline void restore_cpu_state(CPULoongArchState *env, DisasContext *ctx)
+> +{
+> +    ctx->saved_hflags = ctx->hflags;
+> +    switch (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
+> +    case LOONGARCH_HFLAG_BR:
+> +        break;
+> +    case LOONGARCH_HFLAG_BC:
+> +    case LOONGARCH_HFLAG_B:
+> +        ctx->btarget = env->btarget;
+> +        break;
+> +    }
+> +}
+
+Likewise.
+
+> +static void gen_load_fpr32h(TCGv_i32 t, int reg)
+> +{
+> +    tcg_gen_extrh_i64_i32(t, fpu_f64[reg]);
+> +}
+> +
+> +static void gen_store_fpr32h(TCGv_i32 t, int reg)
+> +{
+> +    TCGv_i64 t64 = tcg_temp_new_i64();
+> +    tcg_gen_extu_i32_i64(t64, t);
+> +    tcg_gen_deposit_i64(fpu_f64[reg], fpu_f64[reg], t64, 32, 32);
+> +    tcg_temp_free_i64(t64);
+> +}
+
+There is no general-purpose high-part fpr stuff.  There's only movgr2frh and movfrh2gr, 
+and you can simplify both if you drop the transition through TCGv_i32.
+
+> +void gen_op_addr_add(TCGv ret, TCGv arg0, TCGv arg1)
+> +{
+> +    tcg_gen_add_tl(ret, arg0, arg1);
+> +}
+
+No point in this, since loongarch has no 32-bit address mode.
+
+> +void gen_base_offset_addr(TCGv addr, int base, int offset)
+> +{
+> +    if (base == 0) {
+> +        tcg_gen_movi_tl(addr, offset);
+> +    } else if (offset == 0) {
+> +        gen_load_gpr(addr, base);
+> +    } else {
+> +        tcg_gen_movi_tl(addr, offset);
+> +        gen_op_addr_add(addr, cpu_gpr[base], addr);
+> +    }
+> +}
+
+Using the interfaces I quote above from my riscv cleanup,
+this can be tidied to
+
+     tcg_gen_addi_tl(addr, gpr_src(base), offset);
+
+> +static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+> +{
+> +    return true;
+> +}
+
+You must now use translate_use_goto_tb, which will not always return true.  You will see 
+assertion failures otherwise.
+
+> +static inline void clear_branch_hflags(DisasContext *ctx)
+> +{
+> +    ctx->hflags &= ~LOONGARCH_HFLAG_BMASK;
+> +    if (ctx->base.is_jmp == DISAS_NEXT) {
+> +        save_cpu_state(ctx, 0);
+> +    } else {
+> +        /*
+> +         * It is not safe to save ctx->hflags as hflags may be changed
+> +         * in execution time.
+> +         */
+> +        tcg_gen_andi_i32(hflags, hflags, ~LOONGARCH_HFLAG_BMASK);
+> +    }
+> +}
+
+Not required.
+
+> +static void gen_branch(DisasContext *ctx, int insn_bytes)
+> +{
+> +    if (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
+> +        int proc_hflags = ctx->hflags & LOONGARCH_HFLAG_BMASK;
+> +        /* Branches completion */
+> +        clear_branch_hflags(ctx);
+> +        ctx->base.is_jmp = DISAS_NORETURN;
+> +        switch (proc_hflags & LOONGARCH_HFLAG_BMASK) {
+> +        case LOONGARCH_HFLAG_B:
+> +            /* unconditional branch */
+> +            gen_goto_tb(ctx, 0, ctx->btarget);
+> +            break;
+> +        case LOONGARCH_HFLAG_BC:
+> +            /* Conditional branch */
+> +            {
+> +                TCGLabel *l1 = gen_new_label();
+> +
+> +                tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
+> +                gen_goto_tb(ctx, 1, ctx->base.pc_next + insn_bytes);
+> +                gen_set_label(l1);
+> +                gen_goto_tb(ctx, 0, ctx->btarget);
+> +            }
+> +            break;
+> +        case LOONGARCH_HFLAG_BR:
+> +            /* unconditional branch to register */
+> +            tcg_gen_mov_tl(cpu_PC, btarget);
+> +            tcg_gen_lookup_and_goto_ptr();
+> +            break;
+> +        default:
+> +            fprintf(stderr, "unknown branch 0x%x\n", proc_hflags);
+> +            abort();
+> +        }
+> +    }
+> +}
+
+Split this up into the various trans_* branch routines, without the setting of HFLAG.
+
+> +static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
+> +                                            CPUState *cs)
+> +{
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    CPULoongArchState *env = cs->env_ptr;
+> +
+> +    ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+> +    ctx->saved_pc = -1;
+> +    ctx->btarget = 0;
+> +    /* Restore state from the tb context.  */
+> +    ctx->hflags = (uint32_t)ctx->base.tb->flags;
+> +    restore_cpu_state(env, ctx);
+> +    ctx->mem_idx = LOONGARCH_HFLAG_UM;
+
+This is not an mmu index.  You didn't notice the error because you're only doing user-mode.
+
+You're missing a check for page crossing.
+Generally, for fixed-width ISAs like this, we do
+
+     /* Bound the number of insns to execute to those left on the page.  */
+     int bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
+     ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
+
+here in init_disas_context.
+
+> +static void loongarch_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
+> +{
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +
+> +    tcg_gen_insn_start(ctx->base.pc_next, ctx->hflags & LOONGARCH_HFLAG_BMASK,
+> +                       ctx->btarget);
+
+No hflags/btarget stuff.  Drop TARGET_INSN_START_EXTRA_WORDS.
+
+> +static bool loongarch_tr_breakpoint_check(DisasContextBase *dcbase,
+> +                                          CPUState *cs,
+> +                                          const CPUBreakpoint *bp)
+> +{
+> +    return true;
+> +}
+
+Broken, but now handled generically, so remove it.
+
+
+> +static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+> +{
+> +    CPULoongArchState *env = cs->env_ptr;
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    int insn_bytes = 4;
+> +
+> +    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+> +
+> +    if (!decode(ctx, ctx->opcode)) {
+> +        fprintf(stderr, "Error: unkown opcode. 0x%lx: 0x%x\n",
+> +                ctx->base.pc_next, ctx->opcode);
+
+No fprintfs.  Use qemu_log_mask with LOG_UNIMP or LOG_GUEST_ERROR.
+
+> +    if (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
+> +        gen_branch(ctx, insn_bytes);
+> +    }
+
+Drop this, as I mentioned above.
+
+> +static void fpu_dump_state(CPULoongArchState *env, FILE * f, int flags)
+> +{
+> +    int i;
+> +    int is_fpu64 = 1;
+> +
+> +#define printfpr(fp)                                              \
+> +    do {                                                          \
+> +        if (is_fpu64)                                             \
+> +            qemu_fprintf(f, "w:%08x d:%016" PRIx64                \
+> +                        " fd:%13g fs:%13g psu: %13g\n",           \
+> +                        (fp)->w[FP_ENDIAN_IDX], (fp)->d,          \
+> +                        (double)(fp)->fd,                         \
+> +                        (double)(fp)->fs[FP_ENDIAN_IDX],          \
+> +                        (double)(fp)->fs[!FP_ENDIAN_IDX]);        \
+> +        else {                                                    \
+> +            fpr_t tmp;                                            \
+> +            tmp.w[FP_ENDIAN_IDX] = (fp)->w[FP_ENDIAN_IDX];        \
+> +            tmp.w[!FP_ENDIAN_IDX] = ((fp) + 1)->w[FP_ENDIAN_IDX]; \
+> +            qemu_fprintf(f, "w:%08x d:%016" PRIx64                \
+> +                        " fd:%13g fs:%13g psu:%13g\n",            \
+> +                        tmp.w[FP_ENDIAN_IDX], tmp.d,              \
+> +                        (double)tmp.fd,                           \
+> +                        (double)tmp.fs[FP_ENDIAN_IDX],            \
+> +                        (double)tmp.fs[!FP_ENDIAN_IDX]);          \
+> +        }                                                         \
+> +    } while (0)
+
+This is broken.  You're performing an integer to fp conversion of something that is 
+already a floating-point value, not printing the floating-point value itself.  It's broken 
+in the mips code as well.
+
+In addition, is_fpu64 is pointless for loongarch.
+
+> +void loongarch_tcg_init(void)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < 32; i++)
+> +        cpu_gpr[i] = tcg_global_mem_new(cpu_env,
+> +                                        offsetof(CPULoongArchState,
+> +                                                 active_tc.gpr[i]),
+> +                                        regnames[i]);
+
+Missing braces.
+Do not create a temp for the zero register.
+
+> +    bcond = tcg_global_mem_new(cpu_env,
+> +                               offsetof(CPULoongArchState, bcond), "bcond");
+> +    btarget = tcg_global_mem_new(cpu_env,
+> +                                 offsetof(CPULoongArchState, btarget),
+> +                                 "btarget");
+> +    hflags = tcg_global_mem_new_i32(cpu_env,
+> +                                    offsetof(CPULoongArchState, hflags),
+> +                                    "hflags");
+
+Drop these.
+
 
 r~
-
-> 
-
 
