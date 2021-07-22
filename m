@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05823D1EC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:17:43 +0200 (CEST)
-Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E0B3D1EE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:24:07 +0200 (CEST)
+Received: from localhost ([::1]:47110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Sxi-0006lo-Qs
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
+	id 1m6T3u-0003Gb-BA
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StE-0006ci-8p
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:04 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:47000)
+ id 1m6StF-0006ia-NC
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:05 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StC-0005Yr-MS
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:03 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d12so4724721wre.13
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:13:02 -0700 (PDT)
+ id 1m6StE-0005Z4-86
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:05 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k4so4769244wrc.8
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4qyLRgjtuRAGaJfw5IPvpDI1rMZ3+dPJpfrbSZzJXHU=;
- b=AntOj9Y2I92RBmKECEDufiCA+SWY3iNb8oQRijAZyXI31c/VsBcBq/KL3Rx5JWSvH7
- 4vi7YYg4CygQwYTLZOCCKPjJbrKhJcWtLM7h9CloOxV65T9If7iTDN4LFNgAWtIKqOe2
- 2VYBcd16bvukc69C/ak2b5kvbmyFNxkflzxqNc/Og6FN5Tca6A954Ow7eqZ2ftFMW0HY
- tDpaRG6+tAzu/buQxDk48bVAGoIxX3Q2QGPnqaXWgZAHtK5N/RGFPyhRiynR5oi7u8Qs
- C9IbsUs94W1q6x6r/yY3Rc2bAPzVx0R/MoJqCO75RzoZWOzXnlMY30bK5emu6acpCcUO
- RBOw==
+ bh=ybpq7YGDaKRKyk0i8Mhsn/DdfCsTran5Fk9EVIFVKMg=;
+ b=XbdvGfFbfc38mQxAstk0AYUqHK+rrnv2VYsIctH6rogLWV1pMywJWvnF6i43AI3bIo
+ VM3KevlSQHp5IQ8U338XyVLZF8FzYViFwk1conqsNZ5b+77J0R0XK65d+kLbAMJ45w2u
+ A241p/yJBZn3nTjVa39WgcEjW2F9tdjlE6DkIyFNe/PTDH3DyxbilrtJ+Llmj9kRKtaM
+ oCviaqbXNdqpEnBoJ7HQNKIiehOH4wKS5yNArrewZ/WJw4KiXU+FnKNSr+zFWYi8u3ED
+ RHHf6rpqiitL4Ui8polHsSCHbI1WJ1z0+rPL6ytbniRHX7PfigSHVhpZ2M0uNZGod741
+ 0Mpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4qyLRgjtuRAGaJfw5IPvpDI1rMZ3+dPJpfrbSZzJXHU=;
- b=ZjN5fqzjInYICGzdxXRi1kH3S4+3AbbZGTN3bCizJ+XBFeI/ChCt9oXfcdVGJJgvrj
- jfa2mYqu+fsqDDGYiD4ZiQtIf5UfGDCF1dLaxaNrEKs8JvT8GG2JNfHMYT95SyhQc08A
- nl/J+mOF59WIl46KlClYCfuLqYAx/yY6ugEP2tgKTyFH7HlipuPS2T/bq2pLqAME9W+R
- Z/5PQb7ApADasekxQTTpQejGH54pU2VnTmv2cie3ho1V7H4WeSeP4tDvZqKhqG4DLFHh
- 7io7m0VF5/iTykjvojK4jHCv4IrFbMcFpyGHLiEUziVW1moTXClcZH68lkNmF+DIL6n9
- H5gA==
-X-Gm-Message-State: AOAM531TCK617rJrVlifIhvs5j05DNk5hZ9dVDcNymzWgF0e3o6E7ove
- CNWPDnPZojxJ5qK2DTHyDpO++RSQlQU=
-X-Google-Smtp-Source: ABdhPJzAFTOewNMVhawBTDq5nShr74Q9EKFfJX7NtrCkUrrLs3iwnDeVGM95owUqKsTapOaAClcU5w==
-X-Received: by 2002:a5d:6148:: with SMTP id y8mr46533715wrt.20.1626937981341; 
- Thu, 22 Jul 2021 00:13:01 -0700 (PDT)
+ bh=ybpq7YGDaKRKyk0i8Mhsn/DdfCsTran5Fk9EVIFVKMg=;
+ b=TeTNiVjjRZpZKwo8Y5aDHGyAXZE9ZeA/GsAvxgZygn2fc5BDRNX//ezMZIHqDR7NKw
+ skv+VWVNSkvTuIc1T16y6Ekwy+6uL5tCiHs/ixDO13on2fbvSG+VWovTNomsHN8YWVX7
+ nUCRZffQC/NasByjlu1bPQKMh+RiKSxdIqKN7iAaqvk8mC2QPW4k6C9yqLvzbcigflwU
+ F7EfyhtPBZLZrzB0INn/g7GSY72U2X5eKpBaESOXywZ23iaa9eEbR28NMvE4lpKK1Vz4
+ p0VPLWJzOB8S7gTqyiYTGoeGgPdTiTvueGCk1XNTHW+BgiybHEPJ0U5LkoLwx1bfyLh4
+ ytSQ==
+X-Gm-Message-State: AOAM530K/SEzuxkCq0pugAjaWolBghM24ukiArP2ZkPcLQiSqlt0Hq72
+ PBZzSv8/TyqlHaGdXWHdiZBsQ5V1aRE=
+X-Google-Smtp-Source: ABdhPJzPxNmCDxw8PQu3SyKCYPwS7fC2hCCd1QVkuIvPvkRHPB4Sdvl1hx9fnyfwr38ERLj2NPDFug==
+X-Received: by 2002:adf:eacb:: with SMTP id o11mr48956029wrn.62.1626937982684; 
+ Thu, 22 Jul 2021 00:13:02 -0700 (PDT)
 Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.13.00
+ by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.13.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:13:00 -0700 (PDT)
+ Thu, 22 Jul 2021 00:13:02 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/13] tests/plugins/syscalls: adhere to new arg-passing
- scheme
-Date: Thu, 22 Jul 2021 09:12:35 +0200
-Message-Id: <20210722071236.139520-13-ma.mandourr@gmail.com>
+Subject: [PATCH v3 13/13] docs/deprecated: deprecate passing plugin args
+ through `arg=`
+Date: Thu, 22 Jul 2021 09:12:36 +0200
+Message-Id: <20210722071236.139520-14-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
 References: <20210722071236.139520-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,54 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- tests/plugin/syscall.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+ docs/system/deprecated.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-index 6dd71092e1..484b48de49 100644
---- a/tests/plugin/syscall.c
-+++ b/tests/plugin/syscall.c
-@@ -119,17 +119,26 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
--    if (argc == 0) {
--        statistics = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
--    } else {
--        for (int i = 0; i < argc; i++) {
--            if (g_strcmp0(argv[i], "print") != 0) {
--                fprintf(stderr, "unsupported argument: %s\n", argv[i]);
--                return -1;
-+    bool do_print = false;
-+
-+    for (int i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        g_autofree char **tokens = g_strsplit(opt, "=", 2);
-+
-+        if (g_strcmp0(tokens[0], "print") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_print)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-             }
-+        } else {
-+            fprintf(stderr, "unsupported argument: %s\n", argv[i]);
-+            return -1;
-         }
-     }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e2e0090878..7ae6f1f727 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -126,6 +126,13 @@ other options have been processed.  This will either have no effect (if
+ if they were not given.  The property is therefore useless and should not be
+ specified.
  
-+    if (!do_print) {
-+        statistics = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
-+    }
++Plugin argument passing through ``arg=<string>`` (since 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
-     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++Passing TCG plugins arguments through ``arg=`` is redundant is makes the
++command-line less readable, especially when the argument itself consist of a
++name and a value, e.g. ``-plugin plugin_name,arg="arg_name=arg_value"``.
++Therefore, the usage of ``arg`` is redundant.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
 -- 
 2.25.1
 
