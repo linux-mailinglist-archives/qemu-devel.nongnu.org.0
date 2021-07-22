@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9743D20FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:35:37 +0200 (CEST)
-Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CB93D20FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:37:17 +0200 (CEST)
+Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6V7A-0006iY-VJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
+	id 1m6V8m-0008Fa-Ft
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6V60-0005re-Ox
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:34:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41124)
+ id 1m6V77-00079q-Pe
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:35:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6V5y-0003J4-Hb
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:34:23 -0400
+ id 1m6V76-00047b-Cn
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626946461;
+ s=mimecast20190719; t=1626946531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cc2kpZTJ8fRxdb5EuCvkUGRw0gegp6BAv4qmfdCRW54=;
- b=DpmBKzVu+GPI6GBTwpOB14srHRjJkcktEzlZEHGEhws+j26A2cY1CdaVrjM+FSdVKooJPq
- judxMNiHnsd4NZW9fbMkTDBt1E6PN3f7hBQSwaMVfoDNwqKgciRGs23DS0hcs/fMllhY86
- 6pKrEuRnRdQmYg5z8cr7dIvL7ZB3FSo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-kkoQtWloM4aSkxKB2-qBTw-1; Thu, 22 Jul 2021 05:34:16 -0400
-X-MC-Unique: kkoQtWloM4aSkxKB2-qBTw-1
-Received: by mail-pl1-f197.google.com with SMTP id
- v16-20020a170902e8d0b0290124e63feb68so2458008plg.17
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:34:16 -0700 (PDT)
+ bh=pZmrZzalSGrt3CnfaRrsN5R8Ax6Cvg9BRIdoHLyMQss=;
+ b=bb3ILDj7nylh9/j4w+8GRj693Xio7U4rqrLmn2A3LsZgfmGjcvS9Io2nXEp5XGKoM/uAkC
+ jsk+dEXua8s8lnzFbgCFdghb7sJ4x7f37xQIJL+qp64tQFxV3ZET4rO/jv+rT5nXtYlq+Z
+ ymlPMnKuG8+t62b+Am+oqDweZMoWu8Y=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-ZYBICQZaNFGqBS-8Gi1aHw-1; Thu, 22 Jul 2021 05:35:28 -0400
+X-MC-Unique: ZYBICQZaNFGqBS-8Gi1aHw-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ nh12-20020a17090b364cb029017382031497so4077205pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:35:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=cc2kpZTJ8fRxdb5EuCvkUGRw0gegp6BAv4qmfdCRW54=;
- b=QdIR8LPvnUOEc6pRQvk3EqrJY9Pg00bJx4eN6ARsMopKPcK6/AlY8dJEBZP37iKADz
- cIb5paRcKebl1kkXm+37T8da7c095sCJzA6uMHh7dLYUSuk2OIbIUFDTiuMW6sfbfhx6
- mauYXtLeHDKFvYGFnwIjMoRJpKyOapnh/VOaklu2Rw1JlDPXDf8RMeuw4Y2Sxb42zAex
- MhrbUj5Gu6Fyat/5h+sBR2DF89AqVs9+hO3kAlupmkd0qNR4qND508vJDPfn4Wro5Aex
- IVqxhQtBALqDY9V1salmVmytPg+UgTgmfaffUjs0dIDhyUFQ/kCmoflrRg5AujU8sPzt
- xVDQ==
-X-Gm-Message-State: AOAM531V8y/bXafrRgqJh0ZJJN/cB85P8Hr349fkM47X8aCsXlcBwVGN
- kx6/1wPkmS0HAhuUdHVbm5tCw3qUaVF6fN5FwHN21syhngtSEuZf/+kq028eEfhBAkx5WJN6yYS
- r/lbE+lgHYh8Ny/A=
-X-Received: by 2002:a63:ce14:: with SMTP id y20mr39463116pgf.432.1626946455404; 
- Thu, 22 Jul 2021 02:34:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwA4vCANWOwaE+xV0F8/XM6INFJHy0nKlvjqekUVjyunIs1OpsQlCrvMDATAqRVqy0m6tkUwg==
-X-Received: by 2002:a63:ce14:: with SMTP id y20mr39463079pgf.432.1626946454785; 
- Thu, 22 Jul 2021 02:34:14 -0700 (PDT)
+ bh=pZmrZzalSGrt3CnfaRrsN5R8Ax6Cvg9BRIdoHLyMQss=;
+ b=BaYJRQs4JR/C79nC4ILTS6Di41ZxKpHlbktXX6WB69qQrHtd34K7G5YmgSfDn9c53x
+ xdYGD7u4ncdQ79zgI50BuBokXxOpYDNwLwrdeAjWK0WN48NxQipwciqXBHuYRu8EPeaP
+ 4T/D8YAb6jhlhzd+Q0iEW6tjgglYP8Lr1ZT7PvKbtYbC/hvt6frbeDIPsrZZS+/7yCfC
+ t+L/gpShe244XIqC7BZV1qikvBxfH2ozkRBiAiTcGwc2CGf68TPxlDrafoushjdNr5Mc
+ vOR+vsI4eAbzl9YrSc9ZDoAeaL6ljJX7sxnv/zpYs1gAs+REH9RI6emtmPUsK3RjCfyu
+ Fe+g==
+X-Gm-Message-State: AOAM532puJ3X/+ATw34qbCDoNhSRnYOnOP3kc6HEnALIWDFeNes7uGXI
+ t99GTh+/yJ2FxEIBHSr1b44cQRK+FDnMCgVAA10HHJmrSYI9YO0En4vQOGStrtZBMey0qIp2NN5
+ QjYasMBIwPu0R2HE=
+X-Received: by 2002:a17:90a:55c8:: with SMTP id
+ o8mr8022984pjm.223.1626946527467; 
+ Thu, 22 Jul 2021 02:35:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyt8nl7UAduLjj3tfi75A3qFSDybHRPr5gLFAItftLE9lWkg8qQOs4Jrv17ECKiLkRDb8urHw==
+X-Received: by 2002:a17:90a:55c8:: with SMTP id
+ o8mr8022972pjm.223.1626946527215; 
+ Thu, 22 Jul 2021 02:35:27 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id x6sm2542947pjr.5.2021.07.22.02.34.12
+ by smtp.gmail.com with ESMTPSA id a13sm31099672pfl.92.2021.07.22.02.35.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 02:34:14 -0700 (PDT)
-Subject: Re: [PATCH] hw/net/vmxnet3: Do not abort QEMU if guest specified bad
- queue numbers
+ Thu, 22 Jul 2021 02:35:26 -0700 (PDT)
+Subject: Re: [PATCH] hw/net/net_tx_pkt: Fix crash detected by fuzzer
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>
-References: <20210721141559.3647945-1-thuth@redhat.com>
+References: <20210715193219.1132571-1-thuth@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <593ce988-9108-8599-c2bd-183f5fe211ef@redhat.com>
-Date: Thu, 22 Jul 2021 17:34:07 +0800
+Message-ID: <4b6e4dc8-8eae-7965-f133-c7a0a88f733e@redhat.com>
+Date: Thu, 22 Jul 2021 17:35:23 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210721141559.3647945-1-thuth@redhat.com>
+In-Reply-To: <20210715193219.1132571-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,13 +106,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/7/21 下午10:15, Thomas Huth 写道:
-> QEMU should never terminate unexpectedly just because the guest is
-> doing something wrong like specifying wrong queue numbers. Let's
-> simply refuse to set the device active in this case.
+在 2021/7/16 上午3:32, Thomas Huth 写道:
+> QEMU currently crashes when it's started like this:
 >
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1890160
+> cat << EOF | ./qemu-system-i386 -device vmxnet3 -nodefaults -qtest stdio
+> outl 0xcf8 0x80001014
+> outl 0xcfc 0xe0001000
+> outl 0xcf8 0x80001018
+> outl 0xcf8 0x80001004
+> outw 0xcfc 0x7
+> outl 0xcf8 0x80001083
+> write 0x0 0x1 0xe1
+> write 0x1 0x1 0xfe
+> write 0x2 0x1 0xbe
+> write 0x3 0x1 0xba
+> writeq 0xe0001020 0xefefff5ecafe0000
+> writeq 0xe0001020 0xffff5e5ccafe0002
+> EOF
+>
+> It hits this assertion:
+>
+> qemu-system-i386: ../qemu/hw/net/net_tx_pkt.c:453: net_tx_pkt_reset:
+>   Assertion `pkt->raw' failed.
+>
+> This happens because net_tx_pkt_init() is called with max_frags == 0 and
+> thus the allocation
+>
+>      p->raw = g_new(struct iovec, max_frags);
+>
+> results in a NULL pointer that cause the
+>
+>      assert(pkt->raw);
+>
+> in net_tx_pkt_reset() to fail later. To fix this issue we can check
+> that max_raw_frags was not zero before asserting that pkt->raw is
+> a non-NULL pointer.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1890157
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   hw/net/net_tx_pkt.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> index 1f9aa59eca..1cb1125d9f 100644
+> --- a/hw/net/net_tx_pkt.c
+> +++ b/hw/net/net_tx_pkt.c
+> @@ -450,11 +450,13 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt)
+>       pkt->payload_len = 0;
+>       pkt->payload_frags = 0;
+>   
+> -    assert(pkt->raw);
+> -    for (i = 0; i < pkt->raw_frags; i++) {
+> -        assert(pkt->raw[i].iov_base);
+> -        pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base, pkt->raw[i].iov_len,
+> -                      DMA_DIRECTION_TO_DEVICE, 0);
+> +    if (pkt->max_raw_frags > 0) {
+> +        assert(pkt->raw);
+> +        for (i = 0; i < pkt->raw_frags; i++) {
+> +            assert(pkt->raw[i].iov_base);
+> +            pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base,
+> +                          pkt->raw[i].iov_len, DMA_DIRECTION_TO_DEVICE, 0);
+> +        }
+>       }
+>       pkt->raw_frags = 0;
 
 
 Applied.
@@ -119,86 +177,6 @@ Applied.
 Thanks
 
 
-> ---
->   hw/net/vmxnet3.c | 34 ++++++++++++++++++++++------------
->   1 file changed, 22 insertions(+), 12 deletions(-)
->
-> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> index f6bd8c53b1..41f796a247 100644
-> --- a/hw/net/vmxnet3.c
-> +++ b/hw/net/vmxnet3.c
-> @@ -1381,7 +1381,7 @@ static void vmxnet3_validate_interrupts(VMXNET3State *s)
->       }
->   }
 >   
-> -static void vmxnet3_validate_queues(VMXNET3State *s)
-> +static bool vmxnet3_validate_queues(VMXNET3State *s)
->   {
->       /*
->       * txq_num and rxq_num are total number of queues
-> @@ -1390,12 +1390,18 @@ static void vmxnet3_validate_queues(VMXNET3State *s)
->       */
->   
->       if (s->txq_num > VMXNET3_DEVICE_MAX_TX_QUEUES) {
-> -        hw_error("Bad TX queues number: %d\n", s->txq_num);
-> +        qemu_log_mask(LOG_GUEST_ERROR, "vmxnet3: Bad TX queues number: %d\n",
-> +                      s->txq_num);
-> +        return false;
->       }
->   
->       if (s->rxq_num > VMXNET3_DEVICE_MAX_RX_QUEUES) {
-> -        hw_error("Bad RX queues number: %d\n", s->rxq_num);
-> +        qemu_log_mask(LOG_GUEST_ERROR, "vmxnet3: Bad RX queues number: %d\n",
-> +                      s->rxq_num);
-> +        return false;
->       }
-> +
-> +    return true;
->   }
->   
->   static void vmxnet3_activate_device(VMXNET3State *s)
-> @@ -1419,6 +1425,16 @@ static void vmxnet3_activate_device(VMXNET3State *s)
->           return;
->       }
->   
-> +    s->txq_num =
-> +        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numTxQueues);
-> +    s->rxq_num =
-> +        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numRxQueues);
-> +
-> +    VMW_CFPRN("Number of TX/RX queues %u/%u", s->txq_num, s->rxq_num);
-> +    if (!vmxnet3_validate_queues(s)) {
-> +        return;
-> +    }
-> +
->       vmxnet3_adjust_by_guest_type(s);
->       vmxnet3_update_features(s);
->       vmxnet3_update_pm_state(s);
-> @@ -1445,14 +1461,6 @@ static void vmxnet3_activate_device(VMXNET3State *s)
->           VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.intrConf.autoMask);
->       VMW_CFPRN("Automatic interrupt masking is %d", (int)s->auto_int_masking);
->   
-> -    s->txq_num =
-> -        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numTxQueues);
-> -    s->rxq_num =
-> -        VMXNET3_READ_DRV_SHARED8(d, s->drv_shmem, devRead.misc.numRxQueues);
-> -
-> -    VMW_CFPRN("Number of TX/RX queues %u/%u", s->txq_num, s->rxq_num);
-> -    vmxnet3_validate_queues(s);
-> -
->       qdescr_table_pa =
->           VMXNET3_READ_DRV_SHARED64(d, s->drv_shmem, devRead.misc.queueDescPA);
->       VMW_CFPRN("TX queues descriptors table is at 0x%" PRIx64, qdescr_table_pa);
-> @@ -2404,7 +2412,9 @@ static int vmxnet3_post_load(void *opaque, int version_id)
->           }
->       }
->   
-> -    vmxnet3_validate_queues(s);
-> +    if (!vmxnet3_validate_queues(s)) {
-> +        return -1;
-> +    }
->       vmxnet3_validate_interrupts(s);
->   
->       return 0;
 
 
