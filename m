@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411363D24EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:57:36 +0200 (CEST)
-Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BC33D251E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:04:20 +0200 (CEST)
+Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ZCh-0004fF-06
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
+	id 1m6ZJD-0001WK-70
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6ZAz-0002pT-L1
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:55:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59779)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6ZHp-0000pF-UK
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:02:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6ZAv-0002Cl-VL
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:55:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6ZHm-0007jm-Cp
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:02:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626962144;
+ s=mimecast20190719; t=1626962568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0DeoZNCUh4e9MTHM5V0H/JyX/8PbaVJ+KNBBq7vatDs=;
- b=h3iYzcLrpJX1FfaHhzlBToLeQ7h8GgbguufTLAhGYxCW85Gm/C0TMZF8i9jth12s+vFZMe
- FakGpHb1sg8L4CXuEl2xsLI/Eig9P34Leet+xZZDxb7VCMhSGRKTRzBu0L237QbBJUzclQ
- wxRpe9Di3TLkT/AVh/xZRH2DykAKD/w=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-ZOZP6SKjN7e3wEJfP2p12g-1; Thu, 22 Jul 2021 09:55:43 -0400
-X-MC-Unique: ZOZP6SKjN7e3wEJfP2p12g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- v2-20020a50c4020000b02903a6620f87feso2836354edf.18
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 06:55:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0DeoZNCUh4e9MTHM5V0H/JyX/8PbaVJ+KNBBq7vatDs=;
- b=gvxHO96PNj371B+zG3w9x8HXg8RaY/h/6rZdzy95YVTI2Dz/8SzsX1RH4K2RWxn1Bn
- 5P7HG/4Vmo4M4C0AGYO6ozr+jzff5nR3mDluhuY7ubhHaqHheTX87tNBI0gvojTCXPyd
- gmV7ubQ1tyT+0sItC8QgU7VchsBr4ZvGvg8TxtMIttPzcsA1K69nAclfika3RxU8W+YW
- MMRdAI8hp5mQksJ7jAmTg/1b58uGw1YKTQHvbqWo8I8NNSfVE/apkq6XuBuyjJ9CNjWJ
- LjtNADK80Y3eWylJSjFeq2/3EFEyOOh0JLt+Ib8fnV/hclnxabhPQkgSVkjdfShuWkQM
- Ov3Q==
-X-Gm-Message-State: AOAM532+iCF5aA+Hmesj1qG2t3/2KX4Dm2wsuRM2SelG9xGO/zcUUGXX
- 59VwNbI/h38fSdRArNXUgwX6WNVhy7G44HheotmXnLu+l6hBrczp7vCgtBdLGz2gyIOtOJdQoW/
- +aUSN5mA3d6u5OUo=
-X-Received: by 2002:a05:6402:7cc:: with SMTP id
- u12mr54616065edy.156.1626962142333; 
- Thu, 22 Jul 2021 06:55:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznSStMxIkvi09hJiwroy2+4vOYrF54NMTPjjQNvx44YvsojbC9OWrsQ33gMlWIkxNBRFzZdw==
-X-Received: by 2002:a05:6402:7cc:: with SMTP id
- u12mr54616030edy.156.1626962142094; 
- Thu, 22 Jul 2021 06:55:42 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m3sm7908936edb.7.2021.07.22.06.55.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 06:55:41 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 0/1] machine: Disallow specifying topology
- parameters as zero
-To: Andrew Jones <drjones@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20210722021512.2600-1-wangyanan55@huawei.com>
- <87y29y7uon.fsf@redhat.com> <20210722133759.db2kjcoucf6rsz4o@gator>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <672e17d7-bfcc-8022-044a-54a482e3c5ee@redhat.com>
-Date: Thu, 22 Jul 2021 15:55:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=pCQaWANURdYNUrPAk9ADSUcB6E0e/RtADQKegLjRuVg=;
+ b=QsLMHQIbQmmHo8nRe2LQftULgN0J4TjGCN3sGaHtVP3aIPJ/tuHZxhjjNuwPXWBaUmt//j
+ 5Ut09ojj8kc8DSjQrjijVzoiKYVXzCRdWAS1HNE1kdj23TCwLXD+GaqsujN/ctmWhdObHN
+ +3WEztIFbcFqZxBW2GCVfGZ19F8JrFg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-0TJLzaoeNSGnq4UGAK83nw-1; Thu, 22 Jul 2021 10:02:46 -0400
+X-MC-Unique: 0TJLzaoeNSGnq4UGAK83nw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 987031084F54
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 14:02:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
+ [10.36.114.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9E275C1D1;
+ Thu, 22 Jul 2021 14:02:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5EA5011326B9; Thu, 22 Jul 2021 16:02:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/2] qapi: introduce forwarding visitor
+References: <20210719104033.185109-1-pbonzini@redhat.com>
+ <20210719104033.185109-2-pbonzini@redhat.com>
+Date: Thu, 22 Jul 2021 16:02:34 +0200
+In-Reply-To: <20210719104033.185109-2-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 19 Jul 2021 12:40:32 +0200")
+Message-ID: <87v952fnut.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210722133759.db2kjcoucf6rsz4o@gator>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,25 +80,463 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/21 15:37, Andrew Jones wrote:
-> This doesn't mention zero inputs and even implies non-zero inputs.
-> 
-> I'm not sure if we need to worry about the odd command line that used zero
-> for some parameters. What do you think?
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-I think I agree as well, however the patch that Yanan sent has 
-unnecessary duplication between smp_parse and pc_smp_parse. 
-machine_set_smp is a better place to implement this kind of check.
+> This new adaptor visitor takes a single field of the adaptee, and exposes it
+> with a different name.
+>
+> This will be used for QOM alias properties.  Alias targets can of course
+> have a different name than the alias property itself (e.g. a machine's
+> pflash0 might be an alias of a property named 'drive').  When the target's
+> getter or setter invokes the visitor, it will use a different name than
+> what the caller expects, and the visitor will not be able to find it
+> (or will consume erroneously).
+>
+> The solution is for alias getters and setters to wrap the incoming
+> visitor, and forward the sole field that the target is expecting while
+> renaming it appropriately.
 
-Paolo
+Double-checking: the other fields are not accessible via this visitor.
+Correct?
+
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/qapi/forward-visitor.h    |  27 +++
+>  qapi/meson.build                  |   1 +
+>  qapi/qapi-forward-visitor.c       | 307 ++++++++++++++++++++++++++++++
+>  tests/unit/meson.build            |   1 +
+>  tests/unit/test-forward-visitor.c | 165 ++++++++++++++++
+>  5 files changed, 501 insertions(+)
+>  create mode 100644 include/qapi/forward-visitor.h
+>  create mode 100644 qapi/qapi-forward-visitor.c
+>  create mode 100644 tests/unit/test-forward-visitor.c
+
+Missing: update of the big comment in include/qapi/visitor.h.  Can be
+done on top.
+
+>
+> diff --git a/include/qapi/forward-visitor.h b/include/qapi/forward-visitor.h
+> new file mode 100644
+> index 0000000000..c7002d53e6
+> --- /dev/null
+> +++ b/include/qapi/forward-visitor.h
+> @@ -0,0 +1,27 @@
+> +/*
+> + * Forwarding visitor
+> + *
+> + * Copyright Red Hat, Inc. 2021
+> + *
+> + * Author: Paolo Bonzini <pbonzini@redhat.com>
+> + *
+> + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+> + * See the COPYING.LIB file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef FORWARD_VISITOR_H
+> +#define FORWARD_VISITOR_H
+> +
+> +#include "qapi/visitor.h"
+> +
+> +typedef struct ForwardFieldVisitor ForwardFieldVisitor;
+> +
+> +/*
+> + * The forwarding visitor only expects a single name, @from, to be passed for
+> + * toplevel fields.  It is converted to @to and forward to the @target visitor.
+> + * Calls within a struct are forwarded without changing the name.
+> + */
+> +Visitor *visitor_forward_field(Visitor *target, const char *from, const char *to);
+> +
+> +#endif
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 376f4ceafe..c356a385e3 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -2,6 +2,7 @@ util_ss.add(files(
+>    'opts-visitor.c',
+>    'qapi-clone-visitor.c',
+>    'qapi-dealloc-visitor.c',
+> +  'qapi-forward-visitor.c',
+>    'qapi-util.c',
+>    'qapi-visit-core.c',
+>    'qobject-input-visitor.c',
+> diff --git a/qapi/qapi-forward-visitor.c b/qapi/qapi-forward-visitor.c
+> new file mode 100644
+> index 0000000000..bc6412d52e
+> --- /dev/null
+> +++ b/qapi/qapi-forward-visitor.c
+> @@ -0,0 +1,307 @@
+> +/*
+> + * Forward Visitor
+> + *
+> + * Copyright (C) 2021 Red Hat, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+> + * See the COPYING.LIB file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include <math.h>
+> +#include "qapi/compat-policy.h"
+> +#include "qapi/error.h"
+> +#include "qapi/forward-visitor.h"
+> +#include "qapi/visitor-impl.h"
+> +#include "qemu/queue.h"
+> +#include "qapi/qmp/qjson.h"
+> +#include "qapi/qmp/qbool.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qerror.h"
+> +#include "qapi/qmp/qlist.h"
+> +#include "qapi/qmp/qnull.h"
+> +#include "qapi/qmp/qnum.h"
+> +#include "qapi/qmp/qstring.h"
+> +#include "qemu/cutils.h"
+> +#include "qemu/option.h"
+> +
+> +struct ForwardFieldVisitor {
+> +    Visitor visitor;
+> +
+> +    Visitor *target;
+> +    char *from;
+> +    char *to;
+> +
+> +    int depth;
+> +};
+
+Comment the members?  In particular @depth.
+
+> +
+> +static ForwardFieldVisitor *to_ffv(Visitor *v)
+> +{
+> +    return container_of(v, ForwardFieldVisitor, visitor);
+> +}
+> +
+> +static bool forward_field_translate_name(ForwardFieldVisitor *v, const char **name,
+> +                                         Error **errp)
+> +{
+> +    if (v->depth) {
+> +        return true;
+> +    }
+
+Succeed when we're in a sub-struct.
+
+> +    if (g_str_equal(*name, v->from)) {
+> +        *name = v->to;
+> +        return true;
+> +    }
+
+Succeed when we're in the root struct and @name is the alias name.
+Replace the alias name by the real one.
+
+> +    error_setg(errp, QERR_MISSING_PARAMETER, *name);
+> +    return false;
+
+Fail when we're in the root struct and @name is not the alias name.
+
+> +}
+
+Can you explain why you treat names in sub-structs differently than
+names other than the alias name in the root struct?
+
+> +
+> +static bool forward_field_check_struct(Visitor *v, Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+
+Humor me: blank line between declarations and statements.
+
+> +    return visit_check_struct(ffv->target, errp);
+> +}
+> +
+> +static bool forward_field_start_struct(Visitor *v, const char *name, void **obj,
+> +                                       size_t size, Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    if (!visit_start_struct(ffv->target, name, obj, size, errp)) {
+> +        return false;
+> +    }
+> +    ffv->depth++;
+> +    return true;
+> +}
+> +
+> +static void forward_field_end_struct(Visitor *v, void **obj)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+
+Humor me: blank line between declarations and statements.
+
+> +    assert(ffv->depth);
+> +    ffv->depth--;
+> +    visit_end_struct(ffv->target, obj);
+> +}
+> +
+> +static bool forward_field_start_list(Visitor *v, const char *name,
+> +                                     GenericList **list, size_t size,
+> +                                     Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    ffv->depth++;
+> +    return visit_start_list(ffv->target, name, list, size, errp);
+> +}
+> +
+> +static GenericList *forward_field_next_list(Visitor *v, GenericList *tail,
+> +                                            size_t size)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    assert(ffv->depth);
+> +    return visit_next_list(ffv->target, tail, size);
+> +}
+> +
+> +static bool forward_field_check_list(Visitor *v, Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    assert(ffv->depth);
+> +    return visit_check_list(ffv->target, errp);
+> +}
+> +
+> +static void forward_field_end_list(Visitor *v, void **obj)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    assert(ffv->depth);
+> +    ffv->depth--;
+> +    visit_end_list(ffv->target, obj);
+> +}
+> +
+> +static bool forward_field_start_alternate(Visitor *v, const char *name,
+> +                                          GenericAlternate **obj, size_t size,
+> +                                          Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    /*
+> +     * The name of alternates is reused when accessing the content,
+> +     * so do not increase depth here.
+> +     */
+
+I understand why you don't increase @depth here (same reason
+qobject-input-visitor.c doesn't qobject_input_push() here).  I don't
+understand the comment :)
+
+> +    return visit_start_alternate(ffv->target, name, obj, size, errp);
+> +}
+> +
+> +static void forward_field_end_alternate(Visitor *v, void **obj)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    visit_end_alternate(ffv->target, obj);
+> +}
+> +
+> +static bool forward_field_type_int64(Visitor *v, const char *name, int64_t *obj,
+> +                                     Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_int64(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_uint64(Visitor *v, const char *name,
+> +                                      uint64_t *obj, Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_uint64(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_bool(Visitor *v, const char *name, bool *obj,
+> +                                    Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_bool(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_str(Visitor *v, const char *name, char **obj,
+> +                                   Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_str(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_number(Visitor *v, const char *name, double *obj,
+> +                                      Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_number(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_any(Visitor *v, const char *name, QObject **obj,
+> +                                   Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_any(ffv->target, name, obj, errp);
+> +}
+> +
+> +static bool forward_field_type_null(Visitor *v, const char *name,
+> +                                    QNull **obj, Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_type_null(ffv->target, name, obj, errp);
+> +}
+> +
+> +static void forward_field_optional(Visitor *v, const char *name, bool *present)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, NULL)) {
+> +        *present = false;
+> +        return;
+> +    }
+> +    visit_optional(ffv->target, name, present);
+> +}
+> +
+> +static bool forward_field_deprecated_accept(Visitor *v, const char *name,
+> +                                            Error **errp)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, errp)) {
+> +        return false;
+> +    }
+> +    return visit_deprecated_accept(ffv->target, name, errp);
+> +}
+> +
+> +static bool forward_field_deprecated(Visitor *v, const char *name)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, NULL)) {
+> +        return false;
+> +    }
+> +    return visit_deprecated(ffv->target, name);
+> +}
+> +
+> +static void forward_field_complete(Visitor *v, void *opaque)
+> +{
+> +    /*
+> +     * Do nothing, the complete method will be called at due time
+> +     * on the target visitor.
+> +     */
+> +}
+
+Pattern:
+
+* Always forward to the wrapped visitor.
+
+* If the method takes a name, massage it with
+  forward_field_translate_name() first, which can fail.
+
+In addition, track .depth.
+
+Loads of code, mostly boring.
+
+> +
+> +static void forward_field_free(Visitor *v)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    g_free(ffv->from);
+> +    g_free(ffv->to);
+> +    g_free(ffv);
+> +}
+> +
+> +Visitor *visitor_forward_field(Visitor *target, const char *from, const char *to)
+> +{
+> +    ForwardFieldVisitor *v = g_new0(ForwardFieldVisitor, 1);
+> +
+> +    v->visitor.type = target->type;
+
+Do arbitrary types work?  Or is this limited to input and output
+visitors?
+
+> +    v->visitor.start_struct = forward_field_start_struct;
+> +    v->visitor.check_struct = forward_field_check_struct;
+> +    v->visitor.end_struct = forward_field_end_struct;
+> +    v->visitor.start_list = forward_field_start_list;
+> +    v->visitor.next_list = forward_field_next_list;
+> +    v->visitor.check_list = forward_field_check_list;
+> +    v->visitor.end_list = forward_field_end_list;
+> +    v->visitor.start_alternate = forward_field_start_alternate;
+> +    v->visitor.end_alternate = forward_field_end_alternate;
+> +    v->visitor.optional = forward_field_optional;
+> +    v->visitor.deprecated_accept = forward_field_deprecated_accept;
+> +    v->visitor.deprecated = forward_field_deprecated;
+> +    v->visitor.free = forward_field_free;
+> +    v->visitor.type_int64 = forward_field_type_int64;
+> +    v->visitor.type_uint64 = forward_field_type_uint64;
+> +    v->visitor.type_bool = forward_field_type_bool;
+> +    v->visitor.type_str = forward_field_type_str;
+> +    v->visitor.type_number = forward_field_type_number;
+> +    v->visitor.type_any = forward_field_type_any;
+> +    v->visitor.type_null = forward_field_type_null;
+> +    v->visitor.complete = forward_field_complete;
+
+This is almost in the order of visitor-impl.h.  May I have it in the
+exact order?
+
+Not forwarded: method .type_size().  Impact: visit_type_size() will call
+the wrapped visitor's .type_uint64() instead of its .type_size().  The
+two differ for the opts visitor, the keyval input visitor, the string
+input visitor, and the string output visitor.
+
+Please fix, or document as restriction; your choice.
+
+Your tests don't cover this.  Observation, not demand.
+
+> +
+> +    v->target = target;
+> +    v->from = g_strdup(from);
+> +    v->to = g_strdup(to);
+> +
+> +    return &v->visitor;
+> +}
+
+[Tests snipped, -ENOTIME...]
 
 
