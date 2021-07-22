@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28383D277F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:23:59 +0200 (CEST)
-Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3697B3D2782
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:24:39 +0200 (CEST)
+Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6bUM-0000nc-Qb
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
+	id 1m6bV0-0002kZ-6k
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6bSd-0007qy-4r
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:22:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40882)
+ id 1m6bSN-0007Rq-Fk
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:21:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6bSb-0008Jc-Ob
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:22:10 -0400
+ id 1m6bSL-00088q-MS
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:21:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626970929;
+ s=mimecast20190719; t=1626970913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bzJTpW/pXuv1y5QLNX4/HpmJqJDZjqjL87rRjO+0C08=;
- b=XmPQiDyXxgsnfXI+G8hP08pjjpbHXOKoR8oiA00JporhkqN2S0ahVaQLP5L9V2/pQsSiWq
- m61kezCNX9aPeSQsVfxeRGhMsjYtbRV2jgDjfGI9xHMp+Q60jDUCtUpENBqUFduSnNjxF+
- T18CBnmMUiWll5v2PoZ3tcvS5hUHeao=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kN5OZcXGY6BkTVh2etHUp9kIGrep1t98rcs+QIs6k5s=;
+ b=YJhSm8daLPAvb2LJhKc4kGNXXcvnaG11Qa7BeAjpHKPVXAoEhvFOFZADZ+xzcGEmqL3+tw
+ YgZjGDN9zgipZEtkiibjDGLwyLygi5XpVezUXmch4jF5eYawxp6TOdbaR9xIPAfGJYYAow
+ 2r1ClnydqlGO1UCPgQth8tkOvAbJfjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-SUYpa9j8N2WM1ucsNQIk_g-1; Thu, 22 Jul 2021 12:22:08 -0400
-X-MC-Unique: SUYpa9j8N2WM1ucsNQIk_g-1
+ us-mta-374-78-2GkMoOui-2BCtjYg7kQ-1; Thu, 22 Jul 2021 12:21:50 -0400
+X-MC-Unique: 78-2GkMoOui-2BCtjYg7kQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F0B8A00E8;
- Thu, 22 Jul 2021 16:20:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A0081019956;
+ Thu, 22 Jul 2021 16:20:40 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-245.ams2.redhat.com
  [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88B6460936;
- Thu, 22 Jul 2021 16:20:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B683860936;
+ Thu, 22 Jul 2021 16:20:38 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 0/2] gitlab: misc tweaks to job execution rules
-Date: Thu, 22 Jul 2021 17:20:33 +0100
-Message-Id: <20210722162035.2765755-1-berrange@redhat.com>
+Subject: [PATCH 1/2] gitlab: only let pages be published from default branch
+Date: Thu, 22 Jul 2021 17:20:34 +0100
+Message-Id: <20210722162035.2765755-2-berrange@redhat.com>
+In-Reply-To: <20210722162035.2765755-1-berrange@redhat.com>
+References: <20210722162035.2765755-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -85,20 +88,66 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- - Fixes a problem with acceptance jobs running when build jobs fail=0D
- - Fixes a problem with pages job publishing website from undesirable=0D
-   branches.=0D
-=0D
-Daniel P. Berrang=C3=A9 (2):=0D
-  gitlab: only let pages be published from default branch=0D
-  gitlab: don't run acceptance jobs if build jobs fail=0D
-=0D
- .gitlab-ci.d/buildtest-template.yml |  4 ++--=0D
- .gitlab-ci.d/buildtest.yml          | 18 ++++++++++++++++++=0D
- 2 files changed, 20 insertions(+), 2 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+GitLab will happily publish pages generated by the latest CI pipeline
+from any branch:
+
+https://docs.gitlab.com/ee/user/project/pages/introduction.html
+
+  "Remember that GitLab Pages are by default branch/tag agnostic
+   and their deployment relies solely on what you specify in
+   .gitlab-ci.yml. You can limit the pages job with the only
+   parameter, whenever a new commit is pushed to a branch used
+   specifically for your pages."
+
+The current "pages" job is not limited, so it is happily publishing
+docs content from any branch/tag in qemu.git that gets pushed to.
+This means we're potentially publishing from the "staging" branch
+or worse from outdated "stable-NNN" branches
+
+This change restricts it to only publish from the default branch
+in the main repository. For contributor forks, however, we allow
+it to publish from any branch, since users will have arbitrarily
+named topic branches in flight at any time.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 89df51517c..eaaf1189d8 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -663,6 +663,17 @@ build-tools-and-docs-debian:
+ 
+ # Prepare for GitLab pages deployment. Anything copied into the
+ # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
++#
++# GitLab publishes from any branch that triggers a CI pipeline
++#
++# For the main repo we don't want to publish from 'staging'
++# since that content may not be pushed, nor do we wish to
++# publish from 'stable-NNN' branches as that content is outdated.
++# Thus we restrict to just the default branch
++#
++# For contributor forks we want to publish from any repo so
++# that users can see the results of their commits, regardless
++# of what topic branch they're currently using
+ pages:
+   image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+   stage: test
+@@ -681,3 +692,10 @@ pages:
+   artifacts:
+     paths:
+       - public
++  rules:
++    - if '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
++      when: on_success
++    - if '$CI_PROJECT_NAMESPACE == "qemu-project"'
++      when: never
++    - if '$CI_PROJECT_NAMESPACE != "qemu-project"'
++      when: on_success
+-- 
+2.31.1
 
 
