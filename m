@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2823D2761
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:14:59 +0200 (CEST)
-Received: from localhost ([::1]:54712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC073D276F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:16:53 +0200 (CEST)
+Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6bLO-0002t3-MC
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42884)
+	id 1m6bNV-0004QT-1s
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6bKZ-0001oO-Np
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:13:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56955)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m6bLz-0003fW-Ep
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:15:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6bKW-0002eC-TB
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:13:50 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m6bLx-0003gU-AC
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:15:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626970426;
+ s=mimecast20190719; t=1626970514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Oblu5KmusJrKwka4M3MqP4X68bINYs5YtRX6xnusYKc=;
- b=d+P0m9ssvZjC5x98/V/OwNcBpEPLLTp592dG1taTmR+ISj1SDDOrLYlvfss7Jb5VupsAJ+
- xwR1kCUxkrsE/JN5irx9BsET6V3l3dJTxJ+znVIJiVkvxNye+I3sY4ibiu4h2sEBSEDu1x
- KIPRdJAmGYVeFjIv/l0TwyYfy7s/09E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-a0MOYgbKNGy8X3Y2XK435A-1; Thu, 22 Jul 2021 12:13:45 -0400
-X-MC-Unique: a0MOYgbKNGy8X3Y2XK435A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y15-20020a5d614f0000b029013cd60e9baaso2629768wrt.7
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:13:45 -0700 (PDT)
+ bh=dKt79wpTtanpoysgQeYh7fQG+GbcDMwaQMGRTYmtxq4=;
+ b=Gj8LWq5hS9iRfhj2tMGlnHZW/IL5v58qr0cvV0VBf7HY9URkzYwuPwYIFspBOonnclFKo5
+ iUNGiTlrX5/b1lkHjnU55gW2Ejj6zdp6AaTIArxp3fd2uJ11PlUHoHlP+UqK3JtSTWKzQf
+ +Z0n0vPT316U4MZXX/PchcmF7ZOYwqE=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567--onQsBZEO9mqpTP7883tjQ-1; Thu, 22 Jul 2021 12:15:13 -0400
+X-MC-Unique: -onQsBZEO9mqpTP7883tjQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ e16-20020a056e0204b0b029020c886c9370so3792550ils.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:15:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Oblu5KmusJrKwka4M3MqP4X68bINYs5YtRX6xnusYKc=;
- b=T/ITIrKWseoUrdxZ66YEGNMaNSfQzLwiWhs4nsqPFktABkxunoxzCPtSTxKVGfJuqe
- s4f9amG0b7hDn39RVIyPzm6F8G8O2sryNl9UQqJhMvlBSb6XYOMnf/LvIu+65DXu1C8T
- 97JridnPignRG5BQCTLkAaF3f3BPuqYswJgAD/FsKbbMoYKnu/wxdJs9XQyf4kbC6Wo+
- LXu+a58pmBSxOazcwRgWJEBWeZND9U6GJclPSg4CMS8Lfr/qMxyX4XdGJ0sAMI5QJUB/
- PbeeVbA/nliGirrk0s62Jd3MBciMdy3cWPALexOBP14/+FHh6ncg1aYWk6pLpApfHsVv
- 3iyg==
-X-Gm-Message-State: AOAM5321kHAdex2/Qc+/HQPRy/Ti+HzN1LTAckC90SDHUqwqS68ukRzQ
- nV3mAEmy1AmmtKlQrNTJe7dky7V7RxKLcfgjtQf3kW3IvscGER8pIh5ylH+3tqTREBqvYNs/oqs
- 9NP8E4XXTcBh6F54=
-X-Received: by 2002:adf:d236:: with SMTP id k22mr769221wrh.392.1626970424244; 
- Thu, 22 Jul 2021 09:13:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxiO5n80zv7ic+SwVH1VK2CkyJVWN31dEgpO2ZYU4PtCP8AvixXsuodHKAroiNPEU5F7beI+g==
-X-Received: by 2002:adf:d236:: with SMTP id k22mr769197wrh.392.1626970424031; 
- Thu, 22 Jul 2021 09:13:44 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id f7sm2914900wml.35.2021.07.22.09.13.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 09:13:43 -0700 (PDT)
-Subject: Re: [PATCH for-6.1] i386: do not call cpudef-only models functions
- for max, host, base
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210722083851.24068-1-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <101ca50d-5bec-d4cc-7874-a296bf43421f@redhat.com>
-Date: Thu, 22 Jul 2021 18:13:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dKt79wpTtanpoysgQeYh7fQG+GbcDMwaQMGRTYmtxq4=;
+ b=Qk7s0IvPLs6H/v4E6gayu8KIaZDR1jcRM2T3Gh/P6sJ9LqL7ipe1eSUe+Ih6cLKHBK
+ o2E/lxoiayth+KaOTJV0urTa5EluV0h2oeScyjIF9IwE41H0ZEJZk7ujdTaJ4rPmHo6d
+ P10xbheOZLA6eJ9abZaycxeRE4yqU19wky7TJz5cbKNzYfLdZVoQXGPBDOukC++fgHYU
+ qhM3C2bnDYQjSeE6A6JbLoTPsu/BC+rnH8M2H4vleJnGtM68dMYKnR8HSpzt6/Eu5S8r
+ 6PW2s3Yb47dCquH3t7V+8Pq+mIgwynR4d3o9qglujnNn/6aBRuxB07ocMhNNQSolEK7B
+ V5sA==
+X-Gm-Message-State: AOAM533EWHWP61R57X9zrd6cmmD5sD7NsObKjPwe9RdPZked13i+0dre
+ ineLyBOI1Bp+kNbn8Q1BQg5YvAb0gUGwOUvm/sL5k63ByJXdeFKYXAtiWuN6e5t9M8kL0iLwYBX
+ zr4O4k3tN5dvbmK4=
+X-Received: by 2002:a92:c805:: with SMTP id v5mr359089iln.293.1626970513019;
+ Thu, 22 Jul 2021 09:15:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbVe0WztdJWjbsdt6vnBLN3qRBMwkvuaEPk4EXzeCudJeJPS8jEJ2v/63kLP//yYDPjHDLLA==
+X-Received: by 2002:a92:c805:: with SMTP id v5mr359077iln.293.1626970512797;
+ Thu, 22 Jul 2021 09:15:12 -0700 (PDT)
+Received: from gator ([140.82.166.162])
+ by smtp.gmail.com with ESMTPSA id z18sm14657239ilp.68.2021.07.22.09.15.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 09:15:12 -0700 (PDT)
+Date: Thu, 22 Jul 2021 18:15:10 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.1 v2] machine: Disallow specifying topology
+ parameters as zero
+Message-ID: <20210722161510.2k2ro6hnmisekofc@gator>
+References: <20210722154326.1464-1-wangyanan55@huawei.com>
+ <20210722154326.1464-2-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210722083851.24068-1-cfontana@suse.de>
+In-Reply-To: <20210722154326.1464-2-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,49 +95,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/21 10:38 AM, Claudio Fontana wrote:
-
-It seems the subject got dropped and the first line
-used as subject... But I'm not sure you want to
-start the description with it.
-
-> properties set by function x86_cpu_apply_props, including
-> kvm_default_props, tcg_default_props,
-> and the "vendor" property for KVM and HVF,
+On Thu, Jul 22, 2021 at 11:43:26PM +0800, Yanan Wang wrote:
+> In the SMP configuration, we should either specify a topology
+> parameter with a reasonable value (equal to or greater than 1)
+> or just leave it omitted and QEMU will calculate its value.
+> Configurations which explicitly specify the topology parameters
+> as zero like "sockets=0" are meaningless, so disallow them.
 > 
-
-This newline is what confuses me.
-
-> are actually to be set only for cpu models in builtin_x86_defs,
-> registered with x86_register_cpu_model_type, and not for
-> cpu models "base", "max", and the subclass "host".
+> However, the commit 1e63fe685804d
+> (machine: pass QAPI struct to mc->smp_parse) has documented that
+> '0' has the same semantics as omitting a parameter in the qapi
+> comment for SMPConfiguration. So this patch fixes the doc and
+> also adds the corresponding sanity check in the smp parsers.
 > 
-> This has been detected as a bug with Nested on AMD with cpu "host",
-> as svm was not turned on by default, due to the wrongful setting of
-> kvm_default_props via x86_cpu_apply_props.
-> 
-> Rectify the bug introduced in commit "i386: split cpu accelerators"
-> and document the functions that are builtin_x86_defs-only.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> Fixes: f5cc5a5c ("i386: split cpu accelerators from cpu.c,"...)
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/477
-
-If you want to have gitlab closes the issue once merged, you'd
-need to use Resolves:/Fixes: tag instead, see
-https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#default-closing-pattern
-
+> Suggested-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  target/i386/cpu.c         |  19 ++++++-
->  target/i386/host-cpu.c    |  13 +++--
->  target/i386/kvm/kvm-cpu.c | 105 ++++++++++++++++++++------------------
->  target/i386/tcg/tcg-cpu.c |  11 ++--
->  4 files changed, 89 insertions(+), 59 deletions(-)
+>  hw/core/machine.c | 14 ++++++++++++++
+>  qapi/machine.json |  6 +++---
+>  qemu-options.hx   | 12 +++++++-----
+>  3 files changed, 24 insertions(+), 8 deletions(-)
+
+With Daniel's suggested changes for v3
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
