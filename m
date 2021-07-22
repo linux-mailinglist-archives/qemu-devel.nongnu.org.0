@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FFF3D24DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:50:46 +0200 (CEST)
-Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4993C3D24E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 15:52:50 +0200 (CEST)
+Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Z64-0002Im-0p
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
+	id 1m6Z85-0006hn-6T
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 09:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6Z39-0000yL-Hh
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:47:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32827)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m6Z4U-0002EA-5y
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:49:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6Z37-0005V2-LB
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:47:43 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m6Z4P-00064y-Dn
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 09:49:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626961660;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1626961737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=q15Mz0gRQ45Vm8MfUlAWVgMVAdhoIsIrt4AVMIh9dU8=;
- b=H5oHq2wifP/R2QEYOKyQZ0ty7n/54Jzjs+pVfcegGtUqoRjU2D6Uvugrzl3nwxdOf8jr+9
- j1hRwqjH7hEu16gKJDnfHO3uSS/JNGk+qBBR63gLQFEOKfH1qIJHo5FyzkbZKO45ueorxS
- 7viGjvNSEMztQO/ipxwjfKPROvScHPw=
+ bh=9nbyfsZL9jHrsLqTBbLwf028h6vjDeU1TSdRDuTJiDY=;
+ b=IReLS3P0cneRCLQD++nA3AyxQ78S7ZdzMNJYsJBto8o6Xp4Kq4gjeqX3cnd/k9tP9B+NiH
+ ifpLTHqF1XAxbg0ffkIZ7upM2+vJ2e6ZtKmeyTULdmu8NOSUA0OoJeVedkTRYEp+u4aTDF
+ Tu2bes4cEWj8eOEwfxwJ/L+H771Ddnc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-1dL8PVmIMnSmaXpBZ6fWkA-1; Thu, 22 Jul 2021 09:47:36 -0400
-X-MC-Unique: 1dL8PVmIMnSmaXpBZ6fWkA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-345-D1mQt_B1OrCl9WfWNsOTXA-1; Thu, 22 Jul 2021 09:48:56 -0400
+X-MC-Unique: D1mQt_B1OrCl9WfWNsOTXA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E77C9100B722;
- Thu, 22 Jul 2021 13:47:24 +0000 (UTC)
-Received: from redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10CC919711;
- Thu, 22 Jul 2021 13:47:21 +0000 (UTC)
-Date: Thu, 22 Jul 2021 14:47:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 1/6] util/oslib-posix: Support MADV_POPULATE_WRITE for
- os_mem_prealloc()
-Message-ID: <YPl25wrKvadQW7Ff@redhat.com>
-References: <20210722123635.60608-1-david@redhat.com>
- <20210722123635.60608-2-david@redhat.com>
- <YPlzPKCqMZ40z8zY@redhat.com>
- <8ec55578-37b8-079a-5e04-d8160ab19109@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E2F1812FC5;
+ Thu, 22 Jul 2021 13:48:55 +0000 (UTC)
+Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 507285D6A8;
+ Thu, 22 Jul 2021 13:48:54 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH for-6.1 0/1] machine: Disallow specifying topology
+ parameters as zero
+In-Reply-To: <20210722133759.db2kjcoucf6rsz4o@gator>
+Organization: Red Hat GmbH
+References: <20210722021512.2600-1-wangyanan55@huawei.com>
+ <87y29y7uon.fsf@redhat.com> <20210722133759.db2kjcoucf6rsz4o@gator>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Thu, 22 Jul 2021 15:48:52 +0200
+Message-ID: <87eebq792z.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8ec55578-37b8-079a-5e04-d8160ab19109@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,131 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Pankaj Gupta <pankaj.gupta@ionos.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 03:39:50PM +0200, David Hildenbrand wrote:
-> On 22.07.21 15:31, Daniel P. Berrangé wrote:
-> > On Thu, Jul 22, 2021 at 02:36:30PM +0200, David Hildenbrand wrote:
-> > > Let's sense support and use it for preallocation. MADV_POPULATE_WRITE
-> > > does not require a SIGBUS handler, doesn't actually touch page content,
-> > > and avoids context switches; it is, therefore, faster and easier to handle
-> > > than our current approach.
-> > > 
-> > > While MADV_POPULATE_WRITE is, in general, faster than manual
-> > > prefaulting, and especially faster with 4k pages, there is still value in
-> > > prefaulting using multiple threads to speed up preallocation.
-> > > 
-> > > More details on MADV_POPULATE_WRITE can be found in the Linux commit
-> > > 4ca9b3859dac ("mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault
-> > > page tables") and in the man page proposal [1].
-> > > 
-> > > [1] https://lkml.kernel.org/r/20210712083917.16361-1-david@redhat.com
-> > > 
-> > > This resolves the TODO in do_touch_pages().
-> > > 
-> > > In the future, we might want to look into using fallocate(), eventually
-> > > combined with MADV_POPULATE_READ, when dealing with shared file
-> > > mappings.
-> > > 
-> > > Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > ---
-> > >   include/qemu/osdep.h |  7 ++++
-> > >   util/oslib-posix.c   | 88 +++++++++++++++++++++++++++++++++-----------
-> > >   2 files changed, 74 insertions(+), 21 deletions(-)
-> > 
-> > 
-> > > @@ -497,6 +493,31 @@ static void *do_touch_pages(void *arg)
-> > >       return NULL;
-> > >   }
-> > > +static void *do_madv_populate_write_pages(void *arg)
-> > > +{
-> > > +    MemsetThread *memset_args = (MemsetThread *)arg;
-> > > +    const size_t size = memset_args->numpages * memset_args->hpagesize;
-> > > +    char * const addr = memset_args->addr;
-> > > +    int ret;
-> > > +
-> > > +    if (!size) {
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    /* See do_touch_pages(). */
-> > > +    qemu_mutex_lock(&page_mutex);
-> > > +    while (!threads_created_flag) {
-> > > +        qemu_cond_wait(&page_cond, &page_mutex);
-> > > +    }
-> > > +    qemu_mutex_unlock(&page_mutex);
-> > > +
-> > > +    ret = qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE);
-> > > +    if (ret) {
-> > > +        memset_thread_failed = true;
-> > 
-> > I'm wondering if this use of memset_thread_failed is sufficient.
-> > 
-> > This is pre-existing from the current impl, and ends up being
-> > used to set the bool result of 'touch_all_pages'. The caller
-> > of that then does
-> > 
-> >      if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
-> >          error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
-> >              "pages available to allocate guest RAM");
-> >      }
-> > 
-> > this was reasonable with the old impl, because the only reason
-> > we ever see 'memset_thread_failed==true' is if we got SIGBUS
-> > due to ENOMEM.
-> > 
-> > My concern is that madvise() has a bunch of possible errno
-> > codes returned on failure, and we're not distinguishing
-> > them. In the past this kind of thing has burnt us making
-> > failures hard to debug.
-> > 
-> > Could we turn 'bool memset_thread_failed' into 'int memset_thread_errno'
-> > 
-> > Then, we can make 'touch_all_pages' have an 'Error **errp'
-> > parameter, and it can directly call
-> > 
-> >   error_setg_errno(errp, memset_thead_errno, ....some message...)
-> > 
-> > when memset_thread_errno is non-zero, and thus we can remove
-> > the generic message from the caller of touch_all_pages.
-> > 
-> > If you agree, it'd be best to refactor the existing code to
-> > use this pattern in an initial patch.
-> 
-> We could also simply trace the return value, which should be comparatively
-> easy to add. We should be getting either -ENOMEM or -EHWPOISON. And the
-> latter is highly unlikely to happen when actually preallocating.
-> 
-> We made sure that we don't end up with -EINVAL as we're sensing of
-> MADV_POPULATE_WRITE works on the mapping.
+On Thu, Jul 22 2021, Andrew Jones <drjones@redhat.com> wrote:
 
-Those are in the "normal" usage scenarios. I'm wondering about the
-abnormal scenarios where QEMU code is mistakenly screwed up or
-libvirt / mgmt app makes some config mistake. eg we can get
-things like EPERM if selinux or seccomp block the madvise
-syscall by mistake (common if EQMU is inside docker for example),
-or can we get EINVAL if the 'addr' is not page aligned, and so on.
+> On Thu, Jul 22, 2021 at 08:02:16AM +0200, Cornelia Huck wrote:
+>> On Thu, Jul 22 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+>> 
+>> > In the SMP configuration, we should either specify a topology
+>> > parameter with a reasonable value (equal to or greater than 1)
+>> > or just leave it omitted and QEMU will calculate its value.
+>> > Configurations which explicitly specify the topology parameters
+>> > as zero like "sockets=0" are meaningless, so disallow them.
+>> >
+>> > However; the commit 1e63fe685804d
+>> > (machine: pass QAPI struct to mc->smp_parse) has documented that
+>> > '0' has the same semantics as omitting a parameter in the qapi
+>> > comment for SMPConfiguration. So this patch fixes the doc and
+>> > also adds the corresponding sanity check in the smp parsers.
+>> 
+>> Are we expecting any real users to have used that 'parameter=0'
+>> behaviour? I expect that libvirt and other management software already
+>> did the right thing; unfortunately, sometimes weird configuration lines
+>> tend to persist in search results.
+>
+> I understand this concern. I think the only documentation we had prior to
+> commit 1e63fe685804 was
+>
+> DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+>     "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
+>     "                set the number of CPUs to 'n' [default=1]\n"
+>     "                maxcpus= maximum number of total cpus, including\n"
+>     "                offline CPUs for hotplug, etc\n"
+>     "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
+>     "                threads= number of threads on one CPU core\n"
+>     "                dies= number of CPU dies on one socket (for PC only)\n"
+>     "                sockets= number of discrete sockets in the system\n",
+>         QEMU_ARCH_ALL)
+> SRST
+> ``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
+>     Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+>     are supported. On Sparc32 target, Linux limits the number of usable
+>     CPUs to 4. For the PC target, the number of cores per die, the
+>     number of threads per cores, the number of dies per packages and the
+>     total number of sockets can be specified. Missing values will be
+>     computed. If any on the three values is given, the total number of
+>     CPUs n can be omitted. maxcpus specifies the maximum number of
+>     hotpluggable CPUs.
+> ERST
+>
+> This doesn't mention zero inputs and even implies non-zero inputs.
 
-> So when it comes to debugging, I'd actually prefer tracing -errno, as the
-> real error will be of little help to end users.
+Yes, hopefully that kept people away from using 0 magic, unless they
+read the code.
 
-I don't care about the end users interpreting it, rather us as maintainers
-who get a bug report containing insufficient info to diagnose the root
-cause.
+>
+> I'm not sure if we need to worry about the odd command line that used zero
+> for some parameters. What do you think?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I did a cursory search for bad examples, and nothing popped up. So this
+should be reasonably painless.
 
 
