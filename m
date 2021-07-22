@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FA13D20A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:18:51 +0200 (CEST)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D185F3D20C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:20:47 +0200 (CEST)
+Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Uqw-00041I-7s
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
+	id 1m6Uso-0006kr-TM
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6Uot-00024W-0o
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48262)
+ id 1m6UrH-0005gu-Pr
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:19:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6Uoo-00087N-Dm
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:16:41 -0400
+ id 1m6UrG-0001MI-9i
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:19:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626945396;
+ s=mimecast20190719; t=1626945549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cuH8Wy5ZW/XenjMi0TCWy/7JPcuqC4OpxXwEPVSchss=;
- b=fFciRi363pgyBpAN/xAWQympfkji24Oucm1/tmOCXwnPvoh3tdET4nTRmRmxga4W6RUN1n
- rytWKyIBdqM+sOKt72n3kEzEUSIhcgKGxWEN0mB4i5cvAxbYO9QeKCrTYE3mPC3g9PcDIR
- 05/Eudimn1AzckzsC6ba7gPQWHNyQBU=
+ bh=QIODGrfY9pFZctTIP/gk9jrCqWADRLf/acidTr5aaxo=;
+ b=TZ/cGgPx9X55UnqN/6VTM9EIz33kTa8YO3i0ji3j5wZ99gsC2yo73CxOHMb3GAEx4d3J6o
+ tX+IaFr+17O1sSHEDW67I7pOVormAVDb3LwJ1jncd06cXYDlPXBr5kNtH8OeyC2fBAh0k6
+ uj08N1Xynl7LhduUBoMP59ST4uKz5Ow=
 Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
  [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-0alLL8r_MYqZA0uLreXoxw-1; Thu, 22 Jul 2021 05:16:34 -0400
-X-MC-Unique: 0alLL8r_MYqZA0uLreXoxw-1
+ us-mta-492-3g1MayrtNy6N17LwmiCa1g-1; Thu, 22 Jul 2021 05:19:08 -0400
+X-MC-Unique: 3g1MayrtNy6N17LwmiCa1g-1
 Received: by mail-pl1-f199.google.com with SMTP id
- x6-20020a170902ec86b029012bb183b35cso318516plg.3
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:16:34 -0700 (PDT)
+ o8-20020a1709026b08b029012b8dd981a0so2425073plk.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:19:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=cuH8Wy5ZW/XenjMi0TCWy/7JPcuqC4OpxXwEPVSchss=;
- b=ma5dIbeXri+IdUwTVdtasy2Wkng5WwUhSGk6PkfeYizGaiEStblUV9bTpEN4ICWqeE
- CZxTG0uJ6bJvsYtUivxFVOaEurIQ8YL/vI3DYFChvKmZQetGCr0DOV7Uo2nBnQWVLR55
- TXkOs8W4tdMeb9f/HC2+F9qKyjmqWsWx3fv8NX1xCvgoOBhr6wha7NnxuqRoQ6nIP9aK
- Er9yEalN0f8VfHBFSGDlG3fCI4o6YJECYPIUhECsiXbNZv86WmG9rv5irlStrQqx5lhI
- syamiCt9zzjbYcli5JaUXftH3/dBvN9dQ67koBn9Y2Gx+4S/xUDF5uVby822qZcdBk+/
- hK7Q==
-X-Gm-Message-State: AOAM53209pvpZvt7RF9nNfzksnju1jm6xZRxhBLoe/SvKmpdsANaquLI
- MGNkGaToegLwgRzsDsh2MkBGf6fKm9La1s0R7pHk7aXOvFJrdA7aGWahQkrrHPAZgDXWzu/xkUh
- krD1eBPvPhnbVu9U=
-X-Received: by 2002:a17:90a:9ab:: with SMTP id 40mr8045117pjo.9.1626945393912; 
- Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqmG8KhPCz3r5YqRRa3SOtwG6kJ4ZKB1uP8+LXa7TEGDq0q4v8qgMpqVhr2psrqKOR7niPpA==
-X-Received: by 2002:a17:90a:9ab:: with SMTP id 40mr8045078pjo.9.1626945393619; 
- Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
+ bh=QIODGrfY9pFZctTIP/gk9jrCqWADRLf/acidTr5aaxo=;
+ b=r6WYqXbdHFDzrsWCOZzx3jsemuskET/En4To+lP212AMzgQtdKdSfpMwPHQuERj9xO
+ nKhI+NNkSbbg4IU7KyzaGi9QbFsEsQqsZx5A5Za7Lf4lWS5Z4cwj8T7bsDkH7hYdZfj6
+ P8DMeCH1shqRgsg8rbjFoVX4rxF80ykcsTEfbLNPYZtT4BOuFsdPwRdb+Gwv8WWMnZ9N
+ JJjxOy+5SHCcNkqQTCz+1I9IylQTI5GOvsWjCanRdWegi8RQIio0fPlrqZDsckjGT2/v
+ Cp47W4RzMEfBrTxFRHcybO93wuHXVro6/eSZYExWyR46hFZ1/tXLdAE/6IJQjMoawV9e
+ 7AZQ==
+X-Gm-Message-State: AOAM530dF8/48Dh+6aPzto0MiGvlY7IIpPYuRcgE2Oty5KNeRfwBXhZC
+ yQgoxlOEjVwGX/5FDvXUyiB4VZuKxswhiDDLxQHJLV0qS2JE4FYAE/S85qiCKyUnl4bcKYzkWik
+ YK6wyRUIeZr08Cjo=
+X-Received: by 2002:a17:90a:d3d2:: with SMTP id
+ d18mr8131140pjw.102.1626945547247; 
+ Thu, 22 Jul 2021 02:19:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTfLPq6Q2t2qYTdPedDhTEY49wpUkuuVa5LILVecpz47CSmDe+dRXqhQ6NOwiWRZFp49hb8A==
+X-Received: by 2002:a17:90a:d3d2:: with SMTP id
+ d18mr8131121pjw.102.1626945547092; 
+ Thu, 22 Jul 2021 02:19:07 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id r15sm25145896pje.12.2021.07.22.02.16.26
+ by smtp.gmail.com with ESMTPSA id a13sm31036724pfl.92.2021.07.22.02.19.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 02:16:33 -0700 (PDT)
-Subject: Re: [PATCH v6 0/6] hmp, qmp: Add some commands to introspect virtio
- devices
+ Thu, 22 Jul 2021 02:19:06 -0700 (PDT)
+Subject: Re: [PATCH v6 6/6] hmp: add virtio commands
 To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
 References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
- <11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com>
- <f6902815-df0b-949a-4eac-9f2a0093499d@oracle.com>
+ <1626086137-16292-7-git-send-email-jonah.palmer@oracle.com>
+ <a92fd4c4-73cc-3b6b-89fa-b5ae35304a2d@redhat.com>
+ <5fb48b8e-4380-45b5-2057-97d0e72dcf54@oracle.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d8c3705f-a99f-a7a7-c8d7-fa93e5367744@redhat.com>
-Date: Thu, 22 Jul 2021 17:16:21 +0800
+Message-ID: <d0ef30f7-518a-1e16-489c-c85889a3b9e2@redhat.com>
+Date: Thu, 22 Jul 2021 17:18:58 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <f6902815-df0b-949a-4eac-9f2a0093499d@oracle.com>
+In-Reply-To: <5fb48b8e-4380-45b5-2057-97d0e72dcf54@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -113,52 +115,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/7/21 下午4:53, Jonah Palmer 写道:
->
-> Hi Jason. My apologies for the delayed response, several work-related 
-> things came up recently, but they're slowing down now so I'm turning 
-> my attention these patches to get taken care of.
->
-> A few questions and comments below (and in other following patches):
+在 2021/7/21 下午5:11, Jonah Palmer 写道:
 >
 >
-> On 7/13/21 10:42 PM, Jason Wang wrote:
+> On 7/13/21 10:40 PM, Jason Wang wrote:
 >>
 >> 在 2021/7/12 下午6:35, Jonah Palmer 写道:
->>>          Dump the information of the head element of the third queue 
->>> of virtio-scsi:
->>>
->>>          (qemu) virtio queue-element 
->>> /machine/peripheral-anon/device[3]/virtio-backend 3
->>>          index: 122
->>>          ndescs: 3
->>>          descs: addr 0x7302d000 len 4096 (write), addr 0x3c951763 
->>> len 108 (write, next),
->>>                 addr 0x3c951728 len 51 (next)
+>>> +void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict)
+>>> +{
+>>> +    Error *err = NULL;
+>>> +    const char *path = qdict_get_try_str(qdict, "path");
+>>> +    int queue = qdict_get_int(qdict, "queue");
+>>> +    VirtQueueStatus *s = qmp_x_debug_virtio_queue_status(path, 
+>>> queue, &err);
+>>> +
+>>> +    if (err != NULL) {
+>>> +        hmp_handle_error(mon, err);
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    monitor_printf(mon, "%s:\n", path);
+>>> +    monitor_printf(mon, "  device_type:          %s\n",
+>>> +                   VirtioType_str(s->device_type));
+>>> +    monitor_printf(mon, "  index:                %d\n", 
+>>> s->queue_index);
+>>> +    monitor_printf(mon, "  inuse:                %d\n", s->inuse);
+>>> +    monitor_printf(mon, "  last_avail_idx:       %d (%"PRId64" %% 
+>>> %"PRId64")\n",
+>>> +                   s->last_avail_idx, s->last_avail_idx % 
+>>> s->vring_num,
+>>> +                   s->vring_num);
+>>> +    monitor_printf(mon, "  shadow_avail_idx:     %d (%"PRId64" %% 
+>>> %"PRId64")\n",
+>>> +                   s->shadow_avail_idx, s->shadow_avail_idx % 
+>>> s->vring_num,
+>>> +                   s->vring_num);
+>>> +    monitor_printf(mon, "  used_idx:             %d (%"PRId64" %% 
+>>> %"PRId64")\n",
+>>> +                   s->used_idx, s->used_idx % s->vring_num, 
+>>> s->vring_num);
 >>
 >>
->> I think it would be nice if we can show driver area and device area 
->> as well here.
-> Sure thing. And I apologize if it's obvious (I'm relatively new to virtio), but how can I expose the driver area?
+>> The modular information is not the case of packed ring where the 
+>> queue size does not have to be a power of 2.
+> Doesn't modulo work for any integer, regardless if it's a power of 2 or not? Could you clarify this for me?
 
 
-So the spec defines three parts: the device area, the driver area, and 
-the descriptor area. And they are all located in the guest memory.
+For packed ring, the index doesn't increase freely, it's always small 
+than the virtqueue size.
 
-
-> I understand that virtio devices are part of the Qemu process, but I also thought that virtio drivers are in the
-> guest's kernel, which I don't believe I can see into from Qemu (or, at least, it's not obvious to me).
-
-
-It works like how you access the descriptor ring (descriptor area).
+So showing the modulo arithmetic seems useless since the device or 
+driver doesn't use modulo for calculating the real offset.
 
 Thanks
 
 
 >
-> Jonah
->>
->> Thanks
->>
+> Thank you,
 
 
