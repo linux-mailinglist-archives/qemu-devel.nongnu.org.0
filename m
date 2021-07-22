@@ -2,88 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E49A3D22C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 13:31:49 +0200 (CEST)
-Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642BA3D22E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 13:45:55 +0200 (CEST)
+Received: from localhost ([::1]:50052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6WvU-0005Yo-SN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 07:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
+	id 1m6X9G-0001G8-14
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 07:45:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6Wts-0004kd-LS
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:30:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22507)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6X7H-0000ZI-MJ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:43:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6Wtp-0006oo-BC
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:29:59 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6X7E-0007r7-7u
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 07:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626953395;
+ s=mimecast20190719; t=1626954225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cZ4L8yqYC2ePb8dpKjZFsmfBJsRZceAve/WUOheC0Ao=;
- b=byzNuEoAoB4SbBYWhGtf76qot3CK5Ei8Ul8NkDU9OR8pRLHQOjJzMGzun7rDOueXB3Rte0
- VxlvZERg9QMZcrc4clmWP3fYGjpUDoGHzdHE7x7AIwVI+PkQdA/skV53p4rLDken8Bnjo1
- LQnENGcBAaoFPbBbk9tnYXiYdzuTx1o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-BC36Dwm0O5WvQjVVluNwtA-1; Thu, 22 Jul 2021 07:29:54 -0400
-X-MC-Unique: BC36Dwm0O5WvQjVVluNwtA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k3-20020a5d52430000b0290138092aea94so2343036wrc.20
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 04:29:54 -0700 (PDT)
+ bh=HtDUZPOGYtaEUVx7lGBDTp01QWz1Jl8EDk9+y7S5bbA=;
+ b=aHfa7K8hbi6YLj8fxgtPKXkPHMjNN0NoDcBHmnXmjhhC3TtXwUNdp4qApiNMjo7J14Vg2a
+ KQNIomavoQ6zvVJ0Rq0IwNCucDidLSd2Abch09/1mIlOgl61U+8BcLA+DqYoemli2wI7R5
+ WtwkXAmo4h6KH8rcx63+FuUVccFunG8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-YP2noPMOOQuLoMKy2JN0IQ-1; Thu, 22 Jul 2021 07:43:44 -0400
+X-MC-Unique: YP2noPMOOQuLoMKy2JN0IQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y15-20020a5d614f0000b029013cd60e9baaso2359151wrt.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 04:43:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=cZ4L8yqYC2ePb8dpKjZFsmfBJsRZceAve/WUOheC0Ao=;
- b=VxFeDzTJ69y5Uljq3C526hZqBsIh9Z12Nuk0QnZ+3+IsWlLPZ8BYzWdiA2SrRwnsh+
- NJuzX4aok9T4lXKDSofh5kYiar8sVVdbbSWyMDDK2+o7TbETvg6T7rIEL3ZHEORTCSlm
- YqF+wfqeqgk+vd9pw5g3YmE7rOKlWk1rR7yH5MY0ME3f4t08FjToX9wvjsuPpn/G10qM
- KcT/rVP3SoB98qTnRCn245m5vyr0raq+QOk10HnRGmACC8xFCICUR5YpByGEJAjzx2T7
- tFeadpsNPn6zY96g/NB9jvc6M6i42xLETGrKr+H9Ir5yHZvtMTOEdYBuoqiP78RKUR5K
- 31EQ==
-X-Gm-Message-State: AOAM531wlGRY5T2E5RW3vFBn7kBgJVY2hYpSJ/r2nSHonmpEEUfMsqgC
- bjeR+v4yOdCdi7KHZGN80pFAJjctgLtmo+0VzHFkVGmiD/FVzq9J2WbcVMTywxTCD5rZ1pysJQz
- eRP3P0AwdHZ+xCTs=
-X-Received: by 2002:a1c:7e53:: with SMTP id z80mr5778518wmc.153.1626953393483; 
- Thu, 22 Jul 2021 04:29:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8LUwxdlUokSYMhpkV+85EYwhyWrhJlDYjd2y0F68p3mBUTC9nd97FRCxH3D8eYpthOVrXiw==
-X-Received: by 2002:a1c:7e53:: with SMTP id z80mr5778487wmc.153.1626953393208; 
- Thu, 22 Jul 2021 04:29:53 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id n5sm28645822wri.31.2021.07.22.04.29.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 04:29:49 -0700 (PDT)
-Date: Thu, 22 Jul 2021 12:29:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=HtDUZPOGYtaEUVx7lGBDTp01QWz1Jl8EDk9+y7S5bbA=;
+ b=YS7a6g2FvZzrKmN8xsjYQ+exe8v2yBZc2zC7KPeVr2piaKHkT/OdWaWIEVx/zxzY9x
+ ZNNG5RGYsnjHC5ZcLX5QTKtMwomB8jcnkm687jWH+83IUtQNMaFPERFBXoWGar2JYrfR
+ LK6vI5JKN5uiZQWj8q87eayPiGdSmvOlFnlExgqEW2cgOMaAUqc7HEXfPnGeB7GiietX
+ Xre4od5wTkIY07FwjMhLHqKqktzVQoDlOE7QULBdrnzH8w0jkcD7VKZmVx59Qe2DdYXI
+ 6dVUwvs20/0NqCy8tcYeNAblSh0SkGQlNM8oonCzVmRmeU+0nRd8QfgKM3FxNjKZ8Qqk
+ L4cg==
+X-Gm-Message-State: AOAM5305hpFmbR6sUiClD6hAfzqnhQ6bEA7Zk6Qf5oYqFwWwyd5P2cVJ
+ dTajopHFpDWwRq2Cp3M0QygAF8sL76U7wILqimSYdaOpjBwH07L86IV6Fe460l5uzOJBxz9LIGV
+ V2QgGCNoBHAslCCA=
+X-Received: by 2002:a7b:c208:: with SMTP id x8mr8790302wmi.187.1626954222890; 
+ Thu, 22 Jul 2021 04:43:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcMBf68MlF4WocrowpVgf7HP0Qw3E+m6dTDpj2+x5nn2wnWKLqIavrwwtz4boUvo+f62ZHuw==
+X-Received: by 2002:a7b:c208:: with SMTP id x8mr8790280wmi.187.1626954222681; 
+ Thu, 22 Jul 2021 04:43:42 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6970.dip0.t-ipconnect.de. [91.12.105.112])
+ by smtp.gmail.com with ESMTPSA id o5sm2326059wms.43.2021.07.22.04.43.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 04:43:42 -0700 (PDT)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210721092759.21368-1-david@redhat.com>
+ <YPlWqs8N+NiFH/yj@work-vm>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
 Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
  RamDiscardManager
-Message-ID: <YPlWqs8N+NiFH/yj@work-vm>
-References: <20210721092759.21368-1-david@redhat.com>
+Message-ID: <800e421c-70b8-1ef2-56f7-cdbce7a7706b@redhat.com>
+Date: Thu, 22 Jul 2021 13:43:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210721092759.21368-1-david@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+In-Reply-To: <YPlWqs8N+NiFH/yj@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,127 +111,88 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> virtio-mem exposes a dynamic amount of memory within RAMBlocks by
-> coordinating with the VM. Memory within a RAMBlock can either get
-> plugged and consequently used by the VM, or unplugged and consequently no
-> longer used by the VM. Logical unplug is realized by discarding the
-> physical memory backing for virtual memory ranges, similar to memory
-> ballooning.
+On 22.07.21 13:29, Dr. David Alan Gilbert wrote:
+> * David Hildenbrand (david@redhat.com) wrote:
+>> virtio-mem exposes a dynamic amount of memory within RAMBlocks by
+>> coordinating with the VM. Memory within a RAMBlock can either get
+>> plugged and consequently used by the VM, or unplugged and consequently no
+>> longer used by the VM. Logical unplug is realized by discarding the
+>> physical memory backing for virtual memory ranges, similar to memory
+>> ballooning.
+>>
+>> However, important difference to virtio-balloon are:
+>>
+>> a) A virtio-mem device only operates on its assigned memory region /
+>>     RAMBlock ("device memory")
+>> b) Initially, all device memory is logically unplugged
+>> c) Virtual machines will never accidentally reuse memory that is currently
+>>     logically unplugged. The spec defines most accesses to unplugged memory
+>>     as "undefined behavior" -- except reading unplugged memory, which is
+>>     currently expected to work, but that will change in the future.
+>> d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
+>> e) The state (plugged/unplugged) of a memory block is always known and
+>>     properly tracked.
+>>
+>> Whenever memory blocks within the RAMBlock get (un)plugged, changes are
+>> communicated via the RamDiscardManager to other QEMU subsystems, most
+>> prominently vfio which updates the DMA mapping accordingly. "Unplugging"
+>> corresponds to "discarding" and "plugging" corresponds to "populating".
+>>
+>> While migrating (precopy/postcopy) that state of such memory blocks cannot
+>> change.
 > 
-> However, important difference to virtio-balloon are:
-> 
-> a) A virtio-mem device only operates on its assigned memory region /
->    RAMBlock ("device memory")
-> b) Initially, all device memory is logically unplugged
-> c) Virtual machines will never accidentally reuse memory that is currently
->    logically unplugged. The spec defines most accesses to unplugged memory
->    as "undefined behavior" -- except reading unplugged memory, which is
->    currently expected to work, but that will change in the future.
-> d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
-> e) The state (plugged/unplugged) of a memory block is always known and
->    properly tracked.
-> 
-> Whenever memory blocks within the RAMBlock get (un)plugged, changes are
-> communicated via the RamDiscardManager to other QEMU subsystems, most
-> prominently vfio which updates the DMA mapping accordingly. "Unplugging"
-> corresponds to "discarding" and "plugging" corresponds to "populating".
-> 
-> While migrating (precopy/postcopy) that state of such memory blocks cannot
-> change.
+> So no plugging/unplugging can happen during the migration?
 
-So no plugging/unplugging can happen during the migration?
+Exactly:
 
-> We never ever want to migrate such logically unplugged memory,
-> because it can result in an unintended memory consumption both, on the
-> source (when reading memory from some memory backends) and on the
-> destination (when writing memory). Further, migration time can be heavily
-> reduced when skipping logically unplugged blocks and we avoid populating
-> unnecessary page tables in Linux.
-> 
-> Right now, virtio-mem reuses the free page hinting infrastructure during
-> precopy to exclude all logically unplugged ("discarded") parts from the
-> migration stream. However, there are some scenarios that are not handled
-> properly and need fixing. Further, there are some ugly corner cases in
-> postcopy code and background snapshotting code that similarly have to
-> handle such special RAMBlocks.
-> 
-> Let's reuse the RamDiscardManager infrastructure to essentially handle
-> precopy, postcopy and background snapshots cleanly, which means:
-> 
-> a) In precopy code, always clearing all dirty bits from the bitmap that
->    correspond to discarded range, whenever we update the dirty bitmap. This
->    results in logically unplugged memory to never get migrated.
+static bool virtio_mem_is_busy(void)
+{
+     /*
+      * Postcopy cannot handle concurrent discards and we don't want to migrate
+      * pages on-demand with stale content when plugging new blocks.
+      *
+      * For precopy, we don't want unplugged blocks in our migration stream, and
+      * when plugging new blocks, the page content might differ between source
+      * and destination (observable by the guest when not initializing pages
+      * after plugging them) until we're running on the destination (as we didn't
+      * migrate these blocks when they were unplugged).
+      */
+     return migration_in_incoming_postcopy() || !migration_is_idle();
+}
 
-Have you seen cases where discarded areas are being marked as dirty?
-That suggests something somewhere is writing to them and shouldn't be.
+[...]
 
-Dave
+>>
+>> Let's reuse the RamDiscardManager infrastructure to essentially handle
+>> precopy, postcopy and background snapshots cleanly, which means:
+>>
+>> a) In precopy code, always clearing all dirty bits from the bitmap that
+>>     correspond to discarded range, whenever we update the dirty bitmap. This
+>>     results in logically unplugged memory to never get migrated.
+> 
+> Have you seen cases where discarded areas are being marked as dirty?
+> That suggests something somewhere is writing to them and shouldn't be.
 
-> b) In postcopy code, placing a zeropage when requested to handle a page
->    falling into a discarded range -- because the source will never send it.
-> c) In background snapshot code, never populating discarded ranges, not even
->    with the shared zeropage, to avoid unintended memory consumption,
->    especially in the future with hugetlb and shmem.
-> 
-> Detail: When realizing a virtio-mem devices, it will register the RAM
->         for migration via vmstate_register_ram(). Further, it will
->         set itself as the RamDiscardManager for the corresponding memory
->         region of the RAMBlock via memory_region_set_ram_discard_manager().
->         Last but not least, memory device code will actually map the
->         memory region into guest physical address space. So migration
->         code can always properly identify such RAMBlocks.
-> 
-> Tested with precopy/postcopy on shmem, where even reading unpopulated
-> memory ranges will populate actual memory and not the shared zeropage.
-> Tested with background snapshots on anonymous memory, because other
-> backends are not supported yet with upstream Linux.
-> 
-> Idealy, this should all go via the migration tree.
-> 
-> v1 -> v2:
-> - "migration/ram: Handle RAMBlocks with a RamDiscardManager on the
->    migration source"
-> -- Added a note how it interacts with the clear_bmap and what we might want
->    to further optimize in the future when synchronizing bitmaps.
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-> 
-> David Hildenbrand (6):
->   memory: Introduce replay_discarded callback for RamDiscardManager
->   virtio-mem: Implement replay_discarded RamDiscardManager callback
->   migration/ram: Handle RAMBlocks with a RamDiscardManager on the
->     migration source
->   virtio-mem: Drop precopy notifier
->   migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
->     destination
->   migration/ram: Handle RAMBlocks with a RamDiscardManager on background
->     snapshots
-> 
->  hw/virtio/virtio-mem.c         |  92 +++++++++++++--------
->  include/exec/memory.h          |  21 +++++
->  include/hw/virtio/virtio-mem.h |   3 -
->  migration/postcopy-ram.c       |  25 +++++-
->  migration/ram.c                | 147 ++++++++++++++++++++++++++++++---
->  migration/ram.h                |   1 +
->  softmmu/memory.c               |  11 +++
->  7 files changed, 246 insertions(+), 54 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
+I have due to sub-optimal clear_bmap handling to be sorted out by
+
+https://lkml.kernel.org/r/20210722083055.23352-1-wei.w.wang@intel.com
+
+Whereby the issue is rather that initially dirty bits don't get cleared in
+lower layers and keep popping up as dirty.
+
+The issue with postcopy recovery code setting discarded ranges dirty in
+the dirty bitmap, I did not try reproducing. But from looking at the
+code, it's pretty clear that it would happen.
+
+Apart from that, nothing should dirty that memory. Of course,
+malicious guests could trigger it for now, in which case we wouldn't catch it
+and migrate such pages with postcopy, because the final bitmap sync in
+ram_postcopy_send_discard_bitmap() is performed without calling notifiers
+right now.
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
+
+David / dhildenb
 
 
