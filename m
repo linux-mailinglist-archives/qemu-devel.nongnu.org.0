@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3793D212D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:47:37 +0200 (CEST)
-Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B5B3D212E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:48:45 +0200 (CEST)
+Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6VIl-0004hU-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1m6VJs-00068O-8W
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m6VHV-0003k4-BW
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:46:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m6VHR-0003Fs-K8
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:46:16 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m6VHL-0004sR-T3
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:46:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F8092E830B
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:45:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6VJ0-0005PC-PW
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:47:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6VIx-0004EQ-2h
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:47:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626947265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=twGB752p0ZhfEdSJWvz2K3ApmGi+6V2qleSu7Ed3xmA=;
+ b=Mw00BHFpOe0x/3wQM3pbamu4sKFcx4nIODTp9sTamqheTOeBkGd00+InlfcJcIXpQ0qe4F
+ D+Niqn/aBVxybrM9JkDx2o0omxvq/jI3Xb0LbMMcq511W20NmFz8JDBPnwHA/Lwum+kWGz
+ Ot5gkjX07hIeS8/rYpVXPMfM/28AK9E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-zNz6OD33NlaZ1-Ifr_5jMQ-1; Thu, 22 Jul 2021 05:47:43 -0400
+X-MC-Unique: zNz6OD33NlaZ1-Ifr_5jMQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v25-20020a1cf7190000b0290197a4be97b7so1312477wmh.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:47:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=twGB752p0ZhfEdSJWvz2K3ApmGi+6V2qleSu7Ed3xmA=;
+ b=lexotvp74fBhhTkE9G7nq3dYz2dM6S2tYzehGepwsJ3Oridk7H23AB09ozpn5Cbodq
+ qIM/CfPFqpg6QbgbdKNcMj9kqsJJqn9VpZraeMShIXLClWolDo7TiRo4h7CL17DX3NpB
+ QalrJqNU74CzEqZcHa28AnOeYtzO6bXGpHYVqSks4OraI6ki/Pr5plkC4znol/dkbV/G
+ QAMms55xFBj3bkNpgaATaxp5ixyJwpRxy7kBH2rb7/Zi1m3rQx2O+dRC94n6+hDXsRXi
+ fIbHa7oBfvt2+2bqg3g1tDmJFCLSr95WmFz5l5fhw8Exhj8Sy53Cf7+bZ8onUM5h0QN1
+ ChWw==
+X-Gm-Message-State: AOAM532J5oakBiikzELyHNBWXGvgmjVB/9wxA+8N/pSsgmHdCNGefGVB
+ dwUbj3HCBtWETf8AUX16BO6YOJMn9aYbJG+dl3Oazwt0QdmaKtFDy5kkzvjgg2GrW4ZmcMygm2J
+ eihT7F0xlmM9x1Ac=
+X-Received: by 2002:a1c:6a06:: with SMTP id f6mr6239299wmc.38.1626947262568;
+ Thu, 22 Jul 2021 02:47:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnxceeRARwq4Hdn824Z2Shd9Akq4m3CRl9ae5i2ZnvyhEHK3RTiHtNBXJJt4PL+ZnSb9Vz0w==
+X-Received: by 2002:a1c:6a06:: with SMTP id f6mr6239277wmc.38.1626947262318;
+ Thu, 22 Jul 2021 02:47:42 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6970.dip0.t-ipconnect.de. [91.12.105.112])
+ by smtp.gmail.com with ESMTPSA id f7sm2133585wml.35.2021.07.22.02.47.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 02:47:41 -0700 (PDT)
+Subject: Re: [PATCH v3] migration: clear the memory region dirty bitmap when
+ skipping free pages
+To: Wei Wang <wei.w.wang@intel.com>, qemu-devel@nongnu.org
+References: <20210722083055.23352-1-wei.w.wang@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <0faf5f01-399f-621f-431e-d35b3e87b9ff@redhat.com>
+Date: Thu, 22 Jul 2021 11:47:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Jul 2021 09:37:49 -0000
-From: Thomas Huth <1860553@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyborgyn glaubitz janitor laurent-vivier rth
- th-huth
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162694667005.27784.17372263782726269349.malone@gac.canonical.com>
-Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
- Instruction
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9c0cb2d219338e530974f0e5d7d00aa1bf8a7de3"; Instance="production"
-X-Launchpad-Hash: 34172e41e0738becfe3b9fe13e8ee58bd84fe0ef
-Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210722083055.23352-1-wei.w.wang@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,119 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
+Cc: mst@redhat.com, dgilbert@redhat.com, peterx@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+On 22.07.21 10:30, Wei Wang wrote:
+> When skipping free pages to send, their corresponding dirty bits in the
+> memory region dirty bitmap need to be cleared. Otherwise the skipped
+> pages will be sent in the next round after the migration thread syncs
+> dirty bits from the memory region dirty bitmap.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Reported-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> ---
+>   migration/ram.c | 74 +++++++++++++++++++++++++++++++++++++------------
+>   1 file changed, 56 insertions(+), 18 deletions(-)
+> 
 
- https://gitlab.com/qemu-project/qemu/-/issues/494
+LGTM, thanks
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-** Changed in: qemu
-       Status: New =3D> Expired
+-- 
+Thanks,
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #494
-   https://gitlab.com/qemu-project/qemu/-/issues/494
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860553
-
-Title:
-  cmake crashes on qemu-alpha-user with Illegal Instruction
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  I tried building cmake on Debian unstable for Alpha today using qemu-
-  user and the compiled cmake binary crashed with "Illegal Instruction":
-
-  g++ -Wl,-z,relro -Wl,--as-needed -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDD=
-IR>>=3D. -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=
-=3D2             -I/<<PKGBUILDDIR>>/Build/Bootstrap.cmk   -I/<<PKGBUILDDIR>=
->/Source   -I/<<PKGBUILDDIR>>/Source/LexerParser   -I/<<PKGBUILDDIR>>/Utili=
-ties  cmAddCustomCommandCommand.o cmAddCustomTargetCommand.o cmAddDefinitio=
-nsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibrar=
-yCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o=
- cmBreakCommand.o cmBuildCommand.o cmCMakeMinimumRequired.o cmCMakePolicyCo=
-mmand.o cmCPackPropertiesGenerator.o cmCacheManager.o cmCommand.o cmCommand=
-ArgumentParserHelper.o cmCommands.o cmCommonTargetGenerator.o cmComputeComp=
-onentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTar=
-getDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueComm=
-and.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCustomCommand.o cmCusto=
-mCommandGenerator.o cmDefinePropertyCommand.o cmDefinitions.o cmDepends.o c=
-mDependsC.o cmDisallowedCommand.o cmDocumentationFormatter.o cmEnableLangua=
-geCommand.o cmEnableTestingCommand.o cmExecProgramCommand.o cmExecuteProces=
-sCommand.o cmExpandedCommandArgument.o cmExportBuildFileGenerator.o cmExpor=
-tFileGenerator.o cmExportInstallFileGenerator.o cmExportSet.o cmExportSetMa=
-p.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefi=
-leProjectGenerator.o cmFileCommand.o cmFileCopier.o cmFileInstaller.o cmFil=
-eTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindF=
-ileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPathComman=
-d.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionCommand.o cmFSPermi=
-ssions.o cmGeneratedFileStream.o cmGeneratorExpression.o cmGeneratorExpress=
-ionContext.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluat=
-ionFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmG=
-eneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorTarget.o =
-cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameCo=
-mponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropert=
-yCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobal=
-CommonGenerator.o cmGlobalGenerator.o cmGlobalUnixMakefileGenerator3.o cmGl=
-obVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmIncludeCommand=
-.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpr=
-essionCommand.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallDir=
-ectoryGenerator.o cmInstallExportGenerator.o cmInstallFilesCommand.o cmInst=
-allFilesGenerator.o cmInstallGenerator.o cmInstallScriptGenerator.o cmInsta=
-llSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstallTargetsComman=
-d.o cmInstalledFile.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkLineCom=
-puter.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLoca=
-lCommonGenerator.o cmLocalGenerator.o cmLocalUnixMakefileGenerator3.o cmMSV=
-C60LinkLineComputer.o cmMacroCommand.o cmMakeDirectoryCommand.o cmMakefile.=
-o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o =
-cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmMarkAsAdva=
-ncedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineSty=
-le.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmOutput=
-Converter.o cmParseArgumentsCommand.o cmPathLabel.o cmPolicies.o cmProcessO=
-utput.o cmProjectCommand.o cmProperty.o cmPropertyDefinition.o cmPropertyDe=
-finitionMap.o cmPropertyMap.o cmReturnCommand.o cmRulePlaceholderExpander.o=
- cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetComma=
-nd.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFi=
-lesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesC=
-ommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmState.=
-o cmStateDirectory.o cmStateSnapshot.o cmStringReplaceHelper.o cmStringComm=
-and.o cmSubdirCommand.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitio=
-nsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.=
-o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTarg=
-etPropCommandBase.o cmTargetPropertyComputer.o cmTargetSourcesCommand.o cmT=
-est.o cmTestGenerator.o cmTimestamp.o cmTryCompileCommand.o cmTryRunCommand=
-.o cmUnexpectedCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.=
-o cmVersion.o cmWhileCommand.o cmWorkingDirectory.o cmake.o cmakemain.o cmc=
-md.o cm_string_view.o cmCommandArgumentLexer.o cmCommandArgumentParser.o cm=
-ExprLexer.o cmExprParser.o cmListFileLexer.o Directory.o EncodingCXX.o FStr=
-eam.o Glob.o RegularExpression.o SystemTools.o EncodingC.o ProcessUNIX.o St=
-ring.o System.o Terminal.o uv-src-strscpy.c.o uv-src-timer.c.o uv-src-uv-co=
-mmon.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-f=
-s.c.o uv-src-unix-loop.c.o uv-src-unix-loop-watcher.c.o uv-src-unix-no-fsev=
-ents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime=
-.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.=
-c.o uv-src-unix-stream.c.o  -ldl -lrt -o cmake
-  make[2]: Leaving directory '/<<PKGBUILDDIR>>/Build/Bootstrap.cmk'
-  loading initial cache file /<<PKGBUILDDIR>>/Build/Bootstrap.cmk/InitialCa=
-cheFlags.cmake
-  Illegal instruction
-  ---------------------------------------------
-  Error when bootstrapping CMake:
-  Problem while running initial CMake
-  ---------------------------------------------
-
-  I'm working on creating a chroot for download to reproduce the issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860553/+subscriptions
+David / dhildenb
 
 
