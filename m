@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D943D26F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:42:58 +0200 (CEST)
-Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D843D2706
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:49:08 +0200 (CEST)
+Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6aqV-0006l6-7K
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
+	id 1m6awT-0002y9-Ie
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akN-0000g7-Q3
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:28 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45876)
+ id 1m6akT-0000lP-Ql
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:34 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m6akL-0002nj-0d
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:26 -0400
-Received: by mail-ej1-x635.google.com with SMTP id dt7so8958885ejc.12
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:24 -0700 (PDT)
+ id 1m6akL-0002oI-NZ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:36:31 -0400
+Received: by mail-ed1-x531.google.com with SMTP id t3so7317353edc.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r16ePz42dOqHAxVE1WpwwDfKzU3eDPUzvyNj7r1Wfl4=;
- b=F9WFU8VCYSmIGqLQLDoHRX5e+0NHf2U+S9Bih3ATseOndy/rGFggovc93xDkJl/kVN
- RV/5+DAhtoe20ccSQogk/BewXsTMwbJKgbVOY5gEe5RRsNhdX2/MN2cWkQwmiZLWK9kZ
- R59EyRgGLTEqzChisqONaTFBnzd/jnds5ESX/BelMFt2LpKxflYthuwdDkFTqf35uiC1
- vbKax63y8CLFytVmwqu7B29VT+LOxZxWsB9RWmK8Nd8XttD7KY7yqMrT9jt8+pctuezK
- FjHMz5hweg/v8x+cSTcAZZATH+VcU3kyBkhYAHapW9ZhzOhHgXIbOaWI7bgLVVxYrLhC
- wWuA==
+ bh=w20at22fJRmOLaH2w4vov7p+ss5meuUwIflTMQ0+qWo=;
+ b=chNXNIkZZ25SGVsg8+q2yC8N7gPsACc7zu0Skp1cjovgPWTexWGD+sGpHTz9d3qtt7
+ aVw9uXUWuDT3kH89bV6cVI9kol3UR3ojKGjSPoXe9u3+5U+vtRNlAwMIu5Ag/qHFWaFm
+ COGBHApgkcF0cq8fOHh76iIG9EKlajSMbH6eQFSsqlHzbqeF/YH4yXu3aabgdKVMFb9r
+ eNRyvZSx/76l3XgVIe9FNO3/M0vKdGvhJUKnULVqndaVGa5h+cu/xy/5L+iiSbb9ujTB
+ irfCZWmdh+uz9ih+msRqNSh7H/r42i0v4P99pBNXQWkGci1Q+osch7nO5b4e9HvPkeTs
+ UNjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=r16ePz42dOqHAxVE1WpwwDfKzU3eDPUzvyNj7r1Wfl4=;
- b=UTZiRrnJLD7Y3MI5p/bO+8dkhltHGx6mZRDymiqay5F88bpGgHhwWXYwN0CHVxFASM
- TA1XSXRF2LGB0H06Gekrq0LD3jEdohs68seJNQiXFLvH/Vaxo4I6UfJ9o3wpGDH3B0rw
- 7ym8RYRXv9EoaeyUIrcj/fhDcnZrl1d82rjPscTtUQ1K1FIxMjmZkPq0Y/M29FYN3BOf
- WP+8Y9gcOUICxV1L55shxHN7+knetMcW30/xyLDoiqTUSuRvK259Kcc5+9SUHNXSp+Ee
- ENvT3sIExGZgppLTT53R4xoS2YgKAmoy4ezbcY4XCxbE5Jt51lS6NnDpdp4xRdkSs/n4
- /MYw==
-X-Gm-Message-State: AOAM532cltunQdLbhOU66AxSubxi72QSswwKazNQNSmYakjLKNUMfQD9
- uKZSFGodN6ctgoe6tWw3uFHclJyZckv/Rg==
-X-Google-Smtp-Source: ABdhPJx7sZoj/1EWo0x2RpTXVYnpALhFGG1MT2Gps1mak5vSJLDZGu0g11Iec8/h3zXHo5lbBoBItw==
-X-Received: by 2002:a17:906:9fc1:: with SMTP id
- hj1mr452851ejc.103.1626968183687; 
- Thu, 22 Jul 2021 08:36:23 -0700 (PDT)
+ bh=w20at22fJRmOLaH2w4vov7p+ss5meuUwIflTMQ0+qWo=;
+ b=cW4KxYj4ZWizI5XRY+3sZcRA/qijUmxYYarMOkiHaXAKayTAgnIbci06ymHIvXZCpY
+ AG7WFSwK3W9tENtteyAKWL3uZ0Y2xjeQ6oTil+6O1jAzLPoEkWmGnoXdyj+ugx642Jh/
+ seW+4z21wa0li1n+FNsxBAj177XyJDM85rwo08Hq9p1Tr/nSwrQXMbahLv38CTys8xyb
+ gRysf56J1r6zf2JuW4EzAedWgWCTDm/H7vgHz+PuWszT27DOWSbgNn+42HyCFF65gF6Y
+ Gbkah4M/SvKjExlBTgrZre5naP4ifwJ//R9QTnUqx+Ue3IAn9FyCVce8KOVR6Tq/6hU2
+ l8iA==
+X-Gm-Message-State: AOAM5314bsj4s+PUZsqYtVyCDgNPsvTcPISBreu1bNagPNqsWgfX4Xpj
+ uyb0OoXOxx3YxabiW5WxhYU5juoCgBB8Bw==
+X-Google-Smtp-Source: ABdhPJzdf/LdVMvtHrv5bTDBnqZSVuuMVG5QG3o7utp1ClrZ5jhCr3xy0tE5yuHfDkvX6B4LLtRLqw==
+X-Received: by 2002:aa7:c1cc:: with SMTP id d12mr267275edp.282.1626968184370; 
+ Thu, 22 Jul 2021 08:36:24 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id qo6sm9638628ejb.122.2021.07.22.08.36.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:36:23 -0700 (PDT)
+ Thu, 22 Jul 2021 08:36:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] configure: Fix the default setting of the "xen" feature
-Date: Thu, 22 Jul 2021 17:36:11 +0200
-Message-Id: <20210722153612.955537-15-pbonzini@redhat.com>
+Subject: [PULL 15/15] configure: Let --without-default-features disable
+ vhost-kernel and vhost-vdpa
+Date: Thu, 22 Jul 2021 17:36:12 +0200
+Message-Id: <20210722153612.955537-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
 References: <20210722153612.955537-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,36 +90,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-The "xen" variable should either contain "enabled", "disabled" or
-nothing (for auto detection). But when the user currently runs the
-configure script with --without-default-features, it gets set to
-"no" instead. This does not work as expected, the feature will still
-be enabled if the Xen headers are present. Thus set the variable
-to "disabled" instead if default_feature switch has been set.
+The vhost_kernel and vhost_vdpa variables should be pre-initialized with
+the $default_feature setting so that these features get disabled when
+the user runs the configure scripts with --without-default-features.
 
 Reported-by: Cole Robinson <crobinso@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210713093155.677589-4-thuth@redhat.com>
+Message-Id: <20210713093155.677589-5-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/configure b/configure
-index 468aac58e2..40fa8cc26e 100755
+index 40fa8cc26e..2a6d23a844 100755
 --- a/configure
 +++ b/configure
-@@ -311,7 +311,7 @@ vnc_sasl="auto"
- vnc_jpeg="auto"
- vnc_png="auto"
- xkbcommon="auto"
--xen="$default_feature"
-+xen=${default_feature:+disabled}
- xen_ctrl_version="$default_feature"
- xen_pci_passthrough="auto"
- linux_aio="$default_feature"
+@@ -321,6 +321,7 @@ attr="auto"
+ xfs="$default_feature"
+ tcg="enabled"
+ membarrier="$default_feature"
++vhost_kernel="$default_feature"
+ vhost_net="$default_feature"
+ vhost_crypto="$default_feature"
+ vhost_scsi="$default_feature"
+@@ -328,6 +329,7 @@ vhost_vsock="$default_feature"
+ vhost_user="no"
+ vhost_user_blk_server="auto"
+ vhost_user_fs="$default_feature"
++vhost_vdpa="$default_feature"
+ bpf="auto"
+ kvm="auto"
+ hax="auto"
 -- 
 2.31.1
-
 
 
