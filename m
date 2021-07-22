@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDE63D2634
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:51:37 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17963D263B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 16:52:20 +0200 (CEST)
+Received: from localhost ([::1]:42862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6a2y-0008CM-W7
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54066)
+	id 1m6a3f-00017Q-Sc
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 10:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1m6a23-0007LT-13
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26460)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6a2U-00083J-0h
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:51:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1m6a21-0006df-Hx
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:50:38 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6a2S-0006vL-IC
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 10:51:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626965436;
+ s=mimecast20190719; t=1626965464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/aGTgprKTqRFr4713FcVAUFWzpDDuk3eLGlWIscRMms=;
- b=IOgTCgeLtZqv6F71X8Fj7NedVqlszOoKbM2WhdM6JO4twlcX2rzCZTvWIhTmVnUxm4hjfs
- DdEH8jKdw1rd4cLaKmIQHPW4s/bKo5iZEpJRhlVTMBDF1GK8BfUfzM/xsyWlMWH0eGTq/1
- oT6JT0o+iMoyxZnh98HNIDnZj6LsJG0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-SY_qtQsdOHi7FyKzATk3TQ-1; Thu, 22 Jul 2021 10:50:34 -0400
-X-MC-Unique: SY_qtQsdOHi7FyKzATk3TQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F275F18C8C01
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 14:50:33 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 491A35D6D3;
- Thu, 22 Jul 2021 14:50:29 +0000 (UTC)
-Date: Thu, 22 Jul 2021 16:50:26 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
-Message-ID: <YPmFshXDoVrTdwif@angien.pipo.sk>
-References: <20210706100141.303960-1-pbonzini@redhat.com>
- <20210706100141.303960-37-pbonzini@redhat.com>
- <YPkp+PF8kUyK9sy+@angien.pipo.sk>
- <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
+ bh=yxwzf6wDvutQNyQmAOK7VwhpyzPMuO1hyML1FMOpZi4=;
+ b=UOnc9VZl5YLOvE6KKBnVJAqVtpEOIhObdDYs9Zf80cbMFBgkkPjKc89a9xNZ5dTOTNr6Q3
+ 1mq5S/fP3rpX5vGuLPaeeDIKHb6qa4d8pO2a1j2LO493q+wugKLH5fz0kurlIFaOKNFt1s
+ PcvTmNuEiyQzqCqETfrswOPpLPD31oA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-eLyA1BqPNGmK5YBBT8c9eQ-1; Thu, 22 Jul 2021 10:51:02 -0400
+X-MC-Unique: eLyA1BqPNGmK5YBBT8c9eQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ kj25-20020a0562145299b02902fbda5d4988so3814115qvb.11
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 07:51:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yxwzf6wDvutQNyQmAOK7VwhpyzPMuO1hyML1FMOpZi4=;
+ b=HeILT8tzpYvWziO1h3cWeze2o7+YMuFcOuc0wsvcAd2kfBYgwr8KuRHpSHi3V8GPyO
+ 4yTZsJXTK2i9IBUHEz+rq/yvhXcvjWdDAbEg7JEVpFCranB3N01jiQWbTwHffZVTkfZd
+ DNB+4zVFZMoDmcI2ORbsgkVWTK8i988C0pL+642pA53lPUtUTRM9vQaAOF7YekGXeuhZ
+ y44jfoYI1hmkCzFStncQyxsSqOZazeFpo0lWcZf423uKmOeAVrMVWhrsZfriIk2FtHzk
+ 66evvvOJJCfOiZHH7D7ppJwjC8C31nNh4h6f5Q1ucOvkts8kY/tr8csqNTOqPtuHHeOz
+ Z0Lw==
+X-Gm-Message-State: AOAM533en5iwPHkmCoOGjKAREvK1y4VUTqaCtAku8oupEtUcWdS6gUYQ
+ ELmdCAFeX4x+vLOQLkZHwRljIuMtZHKk9GPTkzBpWouwGaoRgAbfEimOaWvsGVu+/XQPtdvy9gN
+ VP9q4trW9tJe4ZQw=
+X-Received: by 2002:a37:9d12:: with SMTP id g18mr29545qke.457.1626965462378;
+ Thu, 22 Jul 2021 07:51:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9Q1vmh92dsTl3wNw9fQkZzx5Owo424UL1PM58pbkCnEqplTBYJgdGO03ahsqEESxS1uCx9g==
+X-Received: by 2002:a37:9d12:: with SMTP id g18mr29525qke.457.1626965462200;
+ Thu, 22 Jul 2021 07:51:02 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id r4sm10670772qtc.66.2021.07.22.07.51.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 07:51:01 -0700 (PDT)
+Date: Thu, 22 Jul 2021 10:51:00 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Subject: Re: [PATCH v3] migration: clear the memory region dirty bitmap when
+ skipping free pages
+Message-ID: <YPmF1BAHA059yYln@t490s>
+References: <20210722083055.23352-1-wei.w.wang@intel.com>
+ <0faf5f01-399f-621f-431e-d35b3e87b9ff@redhat.com>
+ <b39f279ef6634325ab2be8d903e41001@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <793420c5-ee1a-cf75-2bb6-cb84c9fdb2de@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <b39f279ef6634325ab2be8d903e41001@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -81,25 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
+Cc: "quintela@redhat.com" <quintela@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 16:39:26 +0200, Paolo Bonzini wrote:
-> On 22/07/21 10:19, Peter Krempa wrote:
-> > This patch breaks detection of certain machine options features in
-> > libvirt which were being detected from 'query-command-line-options'.
+On Thu, Jul 22, 2021 at 09:57:13AM +0000, Wang, Wei W wrote:
+> On Thursday, July 22, 2021 5:48 PM, David Hildenbrand wrote:
+> > On 22.07.21 10:30, Wei Wang wrote:
+> > > When skipping free pages to send, their corresponding dirty bits in
+> > > the memory region dirty bitmap need to be cleared. Otherwise the
+> > > skipped pages will be sent in the next round after the migration
+> > > thread syncs dirty bits from the memory region dirty bitmap.
+> > >
+> > > Cc: David Hildenbrand <david@redhat.com>
+> > > Cc: Peter Xu <peterx@redhat.com>
+> > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > Reported-by: David Hildenbrand <david@redhat.com>
+> > > Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> > > ---
+> > >   migration/ram.c | 74
+> > +++++++++++++++++++++++++++++++++++++------------
+> > >   1 file changed, 56 insertions(+), 18 deletions(-)
+> > >
 > > 
-> > I presume the change simply removed this from the output of
-> > query-command-line-options due to the historical cruft how the
-> > aforementioned command works.
+> > LGTM, thanks
 > > 
-> > Unfortunately I didn't find any suitable replacement from what we are
-> > querying.
+> > Reviewed-by: David Hildenbrand <david@redhat.com>
+> > 
 > 
-> Yep, there is already a patch queued for this.
+> Thanks. Please remember to have a regression test together with Peterx's that patch when you get a chance.
 
-So the desired state is that the properties stay in
-'query-command-line-options'?
+I can continue to try that; but it's slightly low priority to me so it could be
+a bit delayed.  If either of you could help that would be great, as I still
+don't know last time why I didn't use free-page-hint right (note: I definitely
+checked lsmod for sure; so it's there).  So I'll need to figure that out first.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
