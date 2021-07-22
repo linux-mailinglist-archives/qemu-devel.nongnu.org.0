@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CB93D20FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:37:17 +0200 (CEST)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3793D212D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 11:47:37 +0200 (CEST)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6V8m-0008Fa-Ft
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
+	id 1m6VIl-0004hU-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 05:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6V77-00079q-Pe
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:35:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m6V76-00047b-Cn
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:35:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626946531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pZmrZzalSGrt3CnfaRrsN5R8Ax6Cvg9BRIdoHLyMQss=;
- b=bb3ILDj7nylh9/j4w+8GRj693Xio7U4rqrLmn2A3LsZgfmGjcvS9Io2nXEp5XGKoM/uAkC
- jsk+dEXua8s8lnzFbgCFdghb7sJ4x7f37xQIJL+qp64tQFxV3ZET4rO/jv+rT5nXtYlq+Z
- ymlPMnKuG8+t62b+Am+oqDweZMoWu8Y=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-ZYBICQZaNFGqBS-8Gi1aHw-1; Thu, 22 Jul 2021 05:35:28 -0400
-X-MC-Unique: ZYBICQZaNFGqBS-8Gi1aHw-1
-Received: by mail-pj1-f71.google.com with SMTP id
- nh12-20020a17090b364cb029017382031497so4077205pjb.5
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 02:35:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=pZmrZzalSGrt3CnfaRrsN5R8Ax6Cvg9BRIdoHLyMQss=;
- b=BaYJRQs4JR/C79nC4ILTS6Di41ZxKpHlbktXX6WB69qQrHtd34K7G5YmgSfDn9c53x
- xdYGD7u4ncdQ79zgI50BuBokXxOpYDNwLwrdeAjWK0WN48NxQipwciqXBHuYRu8EPeaP
- 4T/D8YAb6jhlhzd+Q0iEW6tjgglYP8Lr1ZT7PvKbtYbC/hvt6frbeDIPsrZZS+/7yCfC
- t+L/gpShe244XIqC7BZV1qikvBxfH2ozkRBiAiTcGwc2CGf68TPxlDrafoushjdNr5Mc
- vOR+vsI4eAbzl9YrSc9ZDoAeaL6ljJX7sxnv/zpYs1gAs+REH9RI6emtmPUsK3RjCfyu
- Fe+g==
-X-Gm-Message-State: AOAM532puJ3X/+ATw34qbCDoNhSRnYOnOP3kc6HEnALIWDFeNes7uGXI
- t99GTh+/yJ2FxEIBHSr1b44cQRK+FDnMCgVAA10HHJmrSYI9YO0En4vQOGStrtZBMey0qIp2NN5
- QjYasMBIwPu0R2HE=
-X-Received: by 2002:a17:90a:55c8:: with SMTP id
- o8mr8022984pjm.223.1626946527467; 
- Thu, 22 Jul 2021 02:35:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyt8nl7UAduLjj3tfi75A3qFSDybHRPr5gLFAItftLE9lWkg8qQOs4Jrv17ECKiLkRDb8urHw==
-X-Received: by 2002:a17:90a:55c8:: with SMTP id
- o8mr8022972pjm.223.1626946527215; 
- Thu, 22 Jul 2021 02:35:27 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id a13sm31099672pfl.92.2021.07.22.02.35.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 02:35:26 -0700 (PDT)
-Subject: Re: [PATCH] hw/net/net_tx_pkt: Fix crash detected by fuzzer
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>
-References: <20210715193219.1132571-1-thuth@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <4b6e4dc8-8eae-7965-f133-c7a0a88f733e@redhat.com>
-Date: Thu, 22 Jul 2021 17:35:23 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1m6VHV-0003k4-BW
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:46:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1m6VHR-0003Fs-K8
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 05:46:16 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m6VHL-0004sR-T3
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:46:08 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6F8092E830B
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:45:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210715193219.1132571-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.117, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Jul 2021 09:37:49 -0000
+From: Thomas Huth <1860553@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cyborgyn glaubitz janitor laurent-vivier rth
+ th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162694667005.27784.17372263782726269349.malone@gac.canonical.com>
+Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
+ Instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9c0cb2d219338e530974f0e5d7d00aa1bf8a7de3"; Instance="production"
+X-Launchpad-Hash: 34172e41e0738becfe3b9fe13e8ee58bd84fe0ef
+Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
+ helo=indium.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,81 +71,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-ÔÚ 2021/7/16 ÉÏÎç3:32, Thomas Huth Ð´µÀ:
-> QEMU currently crashes when it's started like this:
->
-> cat << EOF | ./qemu-system-i386 -device vmxnet3 -nodefaults -qtest stdio
-> outl 0xcf8 0x80001014
-> outl 0xcfc 0xe0001000
-> outl 0xcf8 0x80001018
-> outl 0xcf8 0x80001004
-> outw 0xcfc 0x7
-> outl 0xcf8 0x80001083
-> write 0x0 0x1 0xe1
-> write 0x1 0x1 0xfe
-> write 0x2 0x1 0xbe
-> write 0x3 0x1 0xba
-> writeq 0xe0001020 0xefefff5ecafe0000
-> writeq 0xe0001020 0xffff5e5ccafe0002
-> EOF
->
-> It hits this assertion:
->
-> qemu-system-i386: ../qemu/hw/net/net_tx_pkt.c:453: net_tx_pkt_reset:
->   Assertion `pkt->raw' failed.
->
-> This happens because net_tx_pkt_init() is called with max_frags == 0 and
-> thus the allocation
->
->      p->raw = g_new(struct iovec, max_frags);
->
-> results in a NULL pointer that cause the
->
->      assert(pkt->raw);
->
-> in net_tx_pkt_reset() to fail later. To fix this issue we can check
-> that max_raw_frags was not zero before asserting that pkt->raw is
-> a non-NULL pointer.
->
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1890157
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/net/net_tx_pkt.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-> index 1f9aa59eca..1cb1125d9f 100644
-> --- a/hw/net/net_tx_pkt.c
-> +++ b/hw/net/net_tx_pkt.c
-> @@ -450,11 +450,13 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt)
->       pkt->payload_len = 0;
->       pkt->payload_frags = 0;
->   
-> -    assert(pkt->raw);
-> -    for (i = 0; i < pkt->raw_frags; i++) {
-> -        assert(pkt->raw[i].iov_base);
-> -        pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base, pkt->raw[i].iov_len,
-> -                      DMA_DIRECTION_TO_DEVICE, 0);
-> +    if (pkt->max_raw_frags > 0) {
-> +        assert(pkt->raw);
-> +        for (i = 0; i < pkt->raw_frags; i++) {
-> +            assert(pkt->raw[i].iov_base);
-> +            pci_dma_unmap(pkt->pci_dev, pkt->raw[i].iov_base,
-> +                          pkt->raw[i].iov_len, DMA_DIRECTION_TO_DEVICE, 0);
-> +        }
->       }
->       pkt->raw_frags = 0;
+ https://gitlab.com/qemu-project/qemu/-/issues/494
 
 
-Applied.
+** Changed in: qemu
+       Status: New =3D> Expired
 
-Thanks
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #494
+   https://gitlab.com/qemu-project/qemu/-/issues/494
 
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860553
 
->   
+Title:
+  cmake crashes on qemu-alpha-user with Illegal Instruction
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  I tried building cmake on Debian unstable for Alpha today using qemu-
+  user and the compiled cmake binary crashed with "Illegal Instruction":
+
+  g++ -Wl,-z,relro -Wl,--as-needed -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDD=
+IR>>=3D. -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=
+=3D2             -I/<<PKGBUILDDIR>>/Build/Bootstrap.cmk   -I/<<PKGBUILDDIR>=
+>/Source   -I/<<PKGBUILDDIR>>/Source/LexerParser   -I/<<PKGBUILDDIR>>/Utili=
+ties  cmAddCustomCommandCommand.o cmAddCustomTargetCommand.o cmAddDefinitio=
+nsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibrar=
+yCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o=
+ cmBreakCommand.o cmBuildCommand.o cmCMakeMinimumRequired.o cmCMakePolicyCo=
+mmand.o cmCPackPropertiesGenerator.o cmCacheManager.o cmCommand.o cmCommand=
+ArgumentParserHelper.o cmCommands.o cmCommonTargetGenerator.o cmComputeComp=
+onentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTar=
+getDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueComm=
+and.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCustomCommand.o cmCusto=
+mCommandGenerator.o cmDefinePropertyCommand.o cmDefinitions.o cmDepends.o c=
+mDependsC.o cmDisallowedCommand.o cmDocumentationFormatter.o cmEnableLangua=
+geCommand.o cmEnableTestingCommand.o cmExecProgramCommand.o cmExecuteProces=
+sCommand.o cmExpandedCommandArgument.o cmExportBuildFileGenerator.o cmExpor=
+tFileGenerator.o cmExportInstallFileGenerator.o cmExportSet.o cmExportSetMa=
+p.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefi=
+leProjectGenerator.o cmFileCommand.o cmFileCopier.o cmFileInstaller.o cmFil=
+eTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindF=
+ileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPathComman=
+d.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionCommand.o cmFSPermi=
+ssions.o cmGeneratedFileStream.o cmGeneratorExpression.o cmGeneratorExpress=
+ionContext.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluat=
+ionFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmG=
+eneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorTarget.o =
+cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameCo=
+mponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropert=
+yCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobal=
+CommonGenerator.o cmGlobalGenerator.o cmGlobalUnixMakefileGenerator3.o cmGl=
+obVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmIncludeCommand=
+.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpr=
+essionCommand.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallDir=
+ectoryGenerator.o cmInstallExportGenerator.o cmInstallFilesCommand.o cmInst=
+allFilesGenerator.o cmInstallGenerator.o cmInstallScriptGenerator.o cmInsta=
+llSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstallTargetsComman=
+d.o cmInstalledFile.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkLineCom=
+puter.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLoca=
+lCommonGenerator.o cmLocalGenerator.o cmLocalUnixMakefileGenerator3.o cmMSV=
+C60LinkLineComputer.o cmMacroCommand.o cmMakeDirectoryCommand.o cmMakefile.=
+o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o =
+cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmMarkAsAdva=
+ncedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineSty=
+le.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmOutput=
+Converter.o cmParseArgumentsCommand.o cmPathLabel.o cmPolicies.o cmProcessO=
+utput.o cmProjectCommand.o cmProperty.o cmPropertyDefinition.o cmPropertyDe=
+finitionMap.o cmPropertyMap.o cmReturnCommand.o cmRulePlaceholderExpander.o=
+ cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetComma=
+nd.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFi=
+lesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesC=
+ommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmState.=
+o cmStateDirectory.o cmStateSnapshot.o cmStringReplaceHelper.o cmStringComm=
+and.o cmSubdirCommand.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitio=
+nsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.=
+o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTarg=
+etPropCommandBase.o cmTargetPropertyComputer.o cmTargetSourcesCommand.o cmT=
+est.o cmTestGenerator.o cmTimestamp.o cmTryCompileCommand.o cmTryRunCommand=
+.o cmUnexpectedCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.=
+o cmVersion.o cmWhileCommand.o cmWorkingDirectory.o cmake.o cmakemain.o cmc=
+md.o cm_string_view.o cmCommandArgumentLexer.o cmCommandArgumentParser.o cm=
+ExprLexer.o cmExprParser.o cmListFileLexer.o Directory.o EncodingCXX.o FStr=
+eam.o Glob.o RegularExpression.o SystemTools.o EncodingC.o ProcessUNIX.o St=
+ring.o System.o Terminal.o uv-src-strscpy.c.o uv-src-timer.c.o uv-src-uv-co=
+mmon.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-f=
+s.c.o uv-src-unix-loop.c.o uv-src-unix-loop-watcher.c.o uv-src-unix-no-fsev=
+ents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime=
+.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.=
+c.o uv-src-unix-stream.c.o  -ldl -lrt -o cmake
+  make[2]: Leaving directory '/<<PKGBUILDDIR>>/Build/Bootstrap.cmk'
+  loading initial cache file /<<PKGBUILDDIR>>/Build/Bootstrap.cmk/InitialCa=
+cheFlags.cmake
+  Illegal instruction
+  ---------------------------------------------
+  Error when bootstrapping CMake:
+  Problem while running initial CMake
+  ---------------------------------------------
+
+  I'm working on creating a chroot for download to reproduce the issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860553/+subscriptions
 
 
