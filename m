@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9D23D1E9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:03:26 +0200 (CEST)
-Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995DD3D1EBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:14:08 +0200 (CEST)
+Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6Sjt-0008RP-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
+	id 1m6SuF-0008NZ-KN
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6Sba-0008TC-HA
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:50 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42846)
+ id 1m6Ssz-0005yT-0t
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:49 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6SbY-0006vj-H4
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 02:54:50 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r11so4699431wro.9
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 23:54:48 -0700 (PDT)
+ id 1m6Ssw-0005KW-Em
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:12:48 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z8-20020a1c4c080000b029022d4c6cfc37so900885wmf.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vOjUscqVzJcRPYkS7J51fxMeax0tJPb3jN+fReD0gug=;
- b=FzTmGIvasPIa1iHYAWUhN4P2PGxNCqu+kxdjraOK1CuSG5gPuwSSoUvubmHysvAWBu
- E7q8KeWPEyatkwbR052dVnqWaCLyRxo6Z87ryGgmHBlEJNl2ZKEXHpd6QMkqKpkrSMum
- 2o9U7TPsOC2/Jwbr7DiWwMW4Ciw4HPifp2UtTf10gLkmtUrpHSpumRXLXwnIf6zFqf3v
- NZ4Na/xQzBf2oV+F9tooxNwdgUpmIouzN8GcpHVBbvZRjkRGMk1+n2y2KWt03nwwjhLC
- xhRKqdYZSBleFg8UX2fJ7f9NHZaBvOiz6dRQXL/RT28eZeHbPoXznYvSM1vRFa634Dq2
- mTow==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aAkjhBxl3RaE1zCL5xf2hmIre/F4REx/ev0iRoVODn8=;
+ b=PXxCvgBPwQNZ28dUVMWLxMkX8fNqxiD1dsB2s3vdUxA9DZxUvm+1Jc6R9SmS+QqEkd
+ gmia4lSyjTBAPJAtFifhDqLdDyM3rmHBhomldklLfYhdMhk6x6nhzNkTTy32u1waml7r
+ LnFGDdRfN0h/KutNBfainPVCtSQrMM7tSQuxfx2AKZMslkLxvMGCfG/TmvnJ6VBVpODS
+ 2aaUKintACpm4k2EaAa9jGAef3IU+ugSy10daq3mfJU3SzV+f/U07GrT3oZOnKO7D6XR
+ FImxmePVdavtpIlLBpOHGqHKsZfZELgtOlu2ArbjHK7u50EawrfCm1X6HFJCsOxr2g6B
+ rhlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vOjUscqVzJcRPYkS7J51fxMeax0tJPb3jN+fReD0gug=;
- b=KLtRYOEhUuBsIv+iCVGQZJJXIMxm7CW9ZX+N8LXwNwbUZ52Upt7mBS5SQOSSrbFhQs
- K+ff2EUehJWo0tGYHzI8WVuaKPtKuiijDRZeX/joi43iVmh94j2m3VsWipN2nWIGCwVe
- nKXx3JTT7Pe63TjckEkUui0+YXq+DIBcVqaBTpomAl8PoQUQIe2Nz+xfB2mhMroPLg5R
- qgLZVeu3MnDrSKJHExZe466G+ttKgttwIsJMs3ANe03iFaycfDGYmfgQ7ZPvAfrKhwaK
- iC+Y3kwbeuLxfyeLzB3jbNSdQ2gbiIofdcNBbH9GIDm7AgMD5LZmAtr7b45Lo9QQO+fA
- VfOg==
-X-Gm-Message-State: AOAM5313qAuFrOgr3YkmWLhVZEYshsPK9KNIpRZ2Em8ERy65KGBu9XgT
- O+3BRWhC4uB+7wdkksgK4la4ePaGTZA=
-X-Google-Smtp-Source: ABdhPJxvc/3uqBIvjZTBjmxGlMCkTJZLorv013RnF0d5VkLYxJhYmUsLmlDwBtTxnzW7eI/YweYCFg==
-X-Received: by 2002:a5d:4e4d:: with SMTP id r13mr46679933wrt.224.1626936886893; 
- Wed, 21 Jul 2021 23:54:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aAkjhBxl3RaE1zCL5xf2hmIre/F4REx/ev0iRoVODn8=;
+ b=YcDH34i56F0vlkQjQSnBydAJ6TSHUXxkMpXgBC3Os6Z90n8tSV+WbO+BSoFxQZZANA
+ CtvuXnVXF7p2xMqDw0e1+rDh/c5+b3Gert+JF/2k7TWif5VIsB/ZqBUC4pVg8UKE8K16
+ y3lJMKzVJ3K3cBttqSmQrG1hx20nRVKv6XiTiKi+4A4ya8fQ4N1BcV+z62xnIYCyG5xo
+ GTY4BzwUl2Y1eUpKmFVXDy0d/lYuBMYDmGQprT9Ai3Dynk7JSl4s14bL4sYnTN6C0kwQ
+ TMx/8MjjFxA12RQDgktkv1S+NtRrTz/7+dgpVLekUusQP6fb28+Ljx8DTvV/0h1jJ9L8
+ nm1g==
+X-Gm-Message-State: AOAM533SiQ4ypXocDDv/m/TUji71AMvEwdxGatyEVU0ryEYkwxLM2eSh
+ FWm6enhTF38ImYpFf1Ub31Iq1WrMNxI=
+X-Google-Smtp-Source: ABdhPJyn6FNNzabKW3/IV3G7qlPDr1GaydcL+h7v9v33D6+RkqifxzQ+MA58nkLkzvkxwQQcy/I3HQ==
+X-Received: by 2002:a05:600c:cb:: with SMTP id
+ u11mr39743562wmm.66.1626937964372; 
+ Thu, 22 Jul 2021 00:12:44 -0700 (PDT)
 Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id b16sm29245426wrw.46.2021.07.21.23.54.45
+ by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.12.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 23:54:46 -0700 (PDT)
+ Thu, 22 Jul 2021 00:12:44 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/5] plugins/cache: Supported multicore cache modelling
-Date: Thu, 22 Jul 2021 08:54:26 +0200
-Message-Id: <20210722065428.134608-4-ma.mandourr@gmail.com>
+Subject: [PATCH v3 00/13] new plugin argument passing scheme
+Date: Thu, 22 Jul 2021 09:12:23 +0200
+Message-Id: <20210722071236.139520-1-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210722065428.134608-1-ma.mandourr@gmail.com>
-References: <20210722065428.134608-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,318 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Multicore L1 cache modelling is introduced and is supported for both
-full system emulation and linux-user.
+Hello,
 
-For full-system emulation, L1 icache and dcache are maintained for each
-available core, since this information is exposed to the plugin through
-`qemu_plugin_n_vcpus()`.
+This series removes passing arguments to plugins through "arg=" since
+it's redundant and reduces readability especially when the argument
+itself is composed of a name and a value.
 
-For linux-user, a static number of cores is assumed (default 1 core, and
-can be provided as a plugin argument `cores=N`). Every memory access
-goes through one of these caches, this approach is taken as it's
-somewhat akin to what happens on real setup, where a program that
-dispatches more threads than the available cores, they'll thrash
-each other
+Also, passing arguments through "arg=" still works but is marked as
+deprecated and will produce a deprecation warning.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- contrib/plugins/cache.c | 154 +++++++++++++++++++++++++++++++---------
- 1 file changed, 119 insertions(+), 35 deletions(-)
+Right now, the code for parsing the argument before passing it to the
+plugin is unfortunately not so clean but that's mainly because "arg=" is
+still supported.
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index 695fb969dc..496d6e7d49 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -23,12 +23,6 @@ static GRand *rng;
- static int limit;
- static bool sys;
- 
--static uint64_t dmem_accesses;
--static uint64_t dmisses;
--
--static uint64_t imem_accesses;
--static uint64_t imisses;
--
- enum EvictionPolicy {
-     LRU,
-     FIFO,
-@@ -90,13 +84,22 @@ typedef struct {
-     uint64_t imisses;
- } InsnData;
- 
-+typedef struct {
-+    uint64_t dmem_accesses;
-+    uint64_t dmisses;
-+    uint64_t imem_accesses;
-+    uint64_t imisses;
-+} CoreStats;
-+
- void (*update_hit)(Cache *cache, int set, int blk);
- void (*update_miss)(Cache *cache, int set, int blk);
- 
- void (*metadata_init)(Cache *cache);
- void (*metadata_destroy)(Cache *cache);
- 
--Cache *dcache, *icache;
-+static int cores;
-+CoreStats *stats;
-+Cache **dcaches, **icaches;
- 
- static int pow_of_two(int num)
- {
-@@ -233,14 +236,16 @@ static bool bad_cache_params(int blksize, int assoc, int cachesize)
- 
- static Cache *cache_init(int blksize, int assoc, int cachesize)
- {
--    if (bad_cache_params(blksize, assoc, cachesize)) {
--        return NULL;
--    }
--
-     Cache *cache;
-     int i;
-     uint64_t blk_mask;
- 
-+    /*
-+     * This function shall not be called directly, and hence expects suitable
-+     * parameters.
-+     */
-+    g_assert(!bad_cache_params(blksize, assoc, cachesize));
-+
-     cache = g_new(Cache, 1);
-     cache->assoc = assoc;
-     cache->cachesize = cachesize;
-@@ -263,6 +268,24 @@ static Cache *cache_init(int blksize, int assoc, int cachesize)
-     return cache;
- }
- 
-+static Cache **caches_init(int blksize, int assoc, int cachesize)
-+{
-+    Cache **caches;
-+    int i;
-+
-+    if (bad_cache_params(blksize, assoc, cachesize)) {
-+        return NULL;
-+    }
-+
-+    caches = g_new(Cache *, cores);
-+
-+    for (i = 0; i < cores; i++) {
-+        caches[i] = cache_init(blksize, assoc, cachesize);
-+    }
-+
-+    return caches;
-+}
-+
- static int get_invalid_block(Cache *cache, uint64_t set)
- {
-     int i;
-@@ -353,6 +376,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
- {
-     uint64_t effective_addr;
-     struct qemu_plugin_hwaddr *hwaddr;
-+    int cache_idx;
-     InsnData *insn;
- 
-     hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
-@@ -361,14 +385,15 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
-     }
- 
-     effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
-+    cache_idx = vcpu_index % cores;
- 
-     g_mutex_lock(&mtx);
--    if (!access_cache(dcache, effective_addr)) {
-+    if (!access_cache(dcaches[cache_idx], effective_addr)) {
-         insn = (InsnData *) userdata;
-         insn->dmisses++;
--        dmisses++;
-+        stats[cache_idx].dmisses++;
-     }
--    dmem_accesses++;
-+    stats[cache_idx].dmem_accesses++;
-     g_mutex_unlock(&mtx);
- }
- 
-@@ -376,16 +401,18 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
- {
-     uint64_t insn_addr;
-     InsnData *insn;
-+    int cache_idx;
- 
-     g_mutex_lock(&mtx);
-     insn_addr = ((InsnData *) userdata)->addr;
-+    cache_idx = vcpu_index % cores;
- 
--    if (!access_cache(icache, insn_addr)) {
-+    if (!access_cache(icaches[cache_idx], insn_addr)) {
-         insn = (InsnData *) userdata;
-         insn->imisses++;
--        imisses++;
-+        stats[cache_idx].imisses++;
-     }
--    imem_accesses++;
-+    stats[cache_idx].imem_accesses++;
-     g_mutex_unlock(&mtx);
- }
- 
-@@ -453,6 +480,15 @@ static void cache_free(Cache *cache)
-     g_free(cache);
- }
- 
-+static void caches_free(Cache **caches)
-+{
-+    int i;
-+
-+    for (i = 0; i < cores; i++) {
-+        cache_free(caches[i]);
-+    }
-+}
-+
- static int dcmp(gconstpointer a, gconstpointer b)
- {
-     InsnData *insn_a = (InsnData *) a;
-@@ -469,21 +505,57 @@ static int icmp(gconstpointer a, gconstpointer b)
-     return insn_a->imisses < insn_b->imisses ? 1 : -1;
- }
- 
-+static void append_stats_line(GString *line, CoreStats cs)
-+{
-+    double dmiss_rate, imiss_rate;
-+
-+    dmiss_rate = ((double) cs.dmisses) / (cs.dmem_accesses) * 100.0;
-+    imiss_rate = ((double) cs.imisses) / (cs.imem_accesses) * 100.0;
-+
-+    g_string_append_printf(line, "%-14lu %-12lu %9.4lf%%  %-14lu %-12lu"
-+                           " %9.4lf%%\n",
-+                           cs.dmem_accesses,
-+                           cs.dmisses,
-+                           cs.dmem_accesses ? dmiss_rate : 0.0,
-+                           cs.imem_accesses,
-+                           cs.imisses,
-+                           cs.imem_accesses ? imiss_rate : 0.0);
-+}
-+
-+static void sum_stats(void)
-+{
-+    int i;
-+
-+    g_assert(cores > 1);
-+    for (i = 0; i < cores; i++) {
-+        stats[cores].imisses += stats[i].imisses;
-+        stats[cores].dmisses += stats[i].dmisses;
-+        stats[cores].dmem_accesses += stats[i].dmem_accesses;
-+        stats[cores].imem_accesses += stats[i].imem_accesses;
-+    }
-+}
-+
- static void log_stats()
- {
--    g_autoptr(GString) rep = g_string_new("");
--    g_string_append_printf(rep,
--        "Data accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
--        dmem_accesses,
--        dmisses,
--        ((double) dmisses / (double) dmem_accesses) * 100.0);
--
--    g_string_append_printf(rep,
--        "Instruction accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
--        imem_accesses,
--        imisses,
--        ((double) imisses / (double) imem_accesses) * 100.0);
-+    int i, iters;
-+
-+    g_autoptr(GString) rep = g_string_new("core #, data accesses, data misses,"
-+                                          " dmiss rate, insn accesses,"
-+                                          " insn misses, imiss rate\n");
-+
-+    /* Only iterate and print a sum row if cores > 1 */
-+    iters = cores == 1 ? 1 : cores + 1;
-+    for (i = 0; i < iters; i++) {
-+        if (i == cores) {
-+            g_string_append_printf(rep, "%-8s", "sum");
-+            sum_stats();
-+        } else {
-+            g_string_append_printf(rep, "%-8d", i);
-+        }
-+        append_stats_line(rep, stats[i]);
-+    }
- 
-+    g_string_append(rep, "\n");
-     qemu_plugin_outs(rep->str);
- }
- 
-@@ -530,10 +602,12 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-     log_stats();
-     log_top_insns();
- 
--    cache_free(dcache);
--    cache_free(icache);
-+    caches_free(dcaches);
-+    caches_free(icaches);
- 
-     g_hash_table_destroy(miss_ht);
-+
-+    g_free(stats);
- }
- 
- static void policy_init()
-@@ -579,6 +653,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     policy = LRU;
- 
-+    cores = sys ? qemu_plugin_n_vcpus() : 1;
-+
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
-         if (g_str_has_prefix(opt, "iblksize=")) {
-@@ -595,6 +671,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-             dcachesize = g_ascii_strtoll(opt + 11, NULL, 10);
-         } else if (g_str_has_prefix(opt, "limit=")) {
-             limit = g_ascii_strtoll(opt + 6, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "cores=")) {
-+            cores = g_ascii_strtoll(opt + 6, NULL, 10);
-         } else if (g_str_has_prefix(opt, "evict=")) {
-             gchar *p = opt + 6;
-             if (g_strcmp0(p, "rand") == 0) {
-@@ -615,22 +693,28 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     policy_init();
- 
--    dcache = cache_init(dblksize, dassoc, dcachesize);
--    if (!dcache) {
-+    dcaches = caches_init(dblksize, dassoc, dcachesize);
-+    if (!dcaches) {
-         const char *err = cache_config_error(dblksize, dassoc, dcachesize);
-         fprintf(stderr, "dcache cannot be constructed from given parameters\n");
-         fprintf(stderr, "%s\n", err);
-         return -1;
-     }
- 
--    icache = cache_init(iblksize, iassoc, icachesize);
--    if (!icache) {
-+    icaches = caches_init(iblksize, iassoc, icachesize);
-+    if (!icaches) {
-         const char *err = cache_config_error(iblksize, iassoc, icachesize);
-         fprintf(stderr, "icache cannot be constructed from given parameters\n");
-         fprintf(stderr, "%s\n", err);
-         return -1;
-     }
- 
-+    /*
-+     * plus one to save the sum in. If only one core is used then no need to
-+     * get an auxiliary struct.
-+     */
-+    stats = g_new0(CoreStats, cores == 1 ? 1 : cores + 1);
-+
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
- 
+At first, considering boolean parameters, those were not special to
+plugins and QEMU did not complain about passing them in the form
+"arg=bool_arg" even though that's considered a short-form boolean, which
+is deprecated. As "arg" is removed, a deprecation warning is issued.
+
+This is mitigated by making plugins aware of boolean arguments and
+parses them through a newly exposed API, namely the `qapi_bool_parse`
+function through a plugin API function. Now plugins expect boolean
+parameters to be passed in the form that other parts of QEMU expect,
+i.e. "bool_arg=[on|true|yes|off|false|no]".
+
+Since we're still supporting "arg=arg_name", there are some assumptions
+that I made that I think are suitable:
+
+    1. "arg=arg_name" will be passed to the plugin as "arg_name=on".
+    2. "arg=on" and "arg" will not be assumed to be the old way of
+        passing args. Instead, it will assume that the argument name is
+        "arg" and it's a boolean parameter. (will be passed to plugin
+        as "arg=on")
+
+The docs are updated accordingly and a deprecation notice is put in the
+deprecated.rst file.
+
+Based-on: <20210722065428.134608-1-ma.mandourr@gmail.com>
+
+However, the dependency is so light and it should only be in the patch
+
+    docs/tcg-plugins: new passing parameters scheme for cache docs
+
+where it depends on
+
+    docs/devel/tcg-plugins: added cores arg to cache plugin
+
+in the aforementioned series (conflict lies in the argument "cores=N" only.)
+
+Patches that still need review:
+    plugins/api: added a boolean parsing plugin api
+    docs/deprecated: deprecate passing plugin args through `arg=`
+
+v2 -> v3:
+    1. Protected calling `qapi_bool_parse` by ensuring name & value are
+    not NULL.
+    2. Updated the docs for the hotpages plugin to include its arguments
+    3. Typo in tests/plugins/mem (hadrr -> haddr)
+    4. Reword the deprecation entry in deprecated.rst
+
+Mahmoud Mandour (13):
+  plugins: allow plugin arguments to be passed directly
+  plugins/api: added a boolean parsing plugin api
+  plugins/hotpages: introduce sortby arg and parsed bool args correctly
+  plugins/hotblocks: Added correct boolean argument parsing
+  plugins/lockstep: make socket path not positional & parse bool arg
+  plugins/hwprofile: adapt to the new plugin arguments scheme
+  plugins/howvec: Adapting to the new argument passing scheme.
+  docs/tcg-plugins: new passing parameters scheme for cache docs
+  tests/plugins/bb: adapt to the new arg passing scheme
+  tests/plugins/insn: made arg inline not positional and parse it as
+    bool
+  tests/plugins/mem: introduce "track" arg and make args not positional
+  tests/plugins/syscalls: adhere to new arg-passing scheme
+  docs/deprecated: deprecate passing plugin args through `arg=`
+
+ contrib/plugins/hotblocks.c | 14 ++++++++--
+ contrib/plugins/hotpages.c  | 30 ++++++++++++++-------
+ contrib/plugins/howvec.c    | 27 +++++++++++++------
+ contrib/plugins/hwprofile.c | 39 ++++++++++++++++++---------
+ contrib/plugins/lockstep.c  | 31 +++++++++++++++-------
+ docs/devel/tcg-plugins.rst  | 53 ++++++++++++++++++++++++-------------
+ docs/system/deprecated.rst  |  7 +++++
+ include/qemu/qemu-plugin.h  | 13 +++++++++
+ linux-user/main.c           |  2 +-
+ plugins/api.c               |  5 ++++
+ plugins/loader.c            | 24 ++++++++++++++---
+ qemu-options.hx             |  9 +++----
+ tests/plugin/bb.c           | 15 ++++++++---
+ tests/plugin/insn.c         | 14 ++++++++--
+ tests/plugin/mem.c          | 47 +++++++++++++++++++-------------
+ tests/plugin/syscall.c      | 23 +++++++++++-----
+ 16 files changed, 252 insertions(+), 101 deletions(-)
+
 -- 
 2.25.1
 
