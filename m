@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E0B3D1EE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:24:07 +0200 (CEST)
-Received: from localhost ([::1]:47110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726193D1EF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 09:25:00 +0200 (CEST)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6T3u-0003Gb-BA
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
+	id 1m6T4l-0004gq-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 03:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StF-0006ia-NC
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:05 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m6StE-0005Z4-86
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:13:05 -0400
-Received: by mail-wr1-x436.google.com with SMTP id k4so4769244wrc.8
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 00:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ybpq7YGDaKRKyk0i8Mhsn/DdfCsTran5Fk9EVIFVKMg=;
- b=XbdvGfFbfc38mQxAstk0AYUqHK+rrnv2VYsIctH6rogLWV1pMywJWvnF6i43AI3bIo
- VM3KevlSQHp5IQ8U338XyVLZF8FzYViFwk1conqsNZ5b+77J0R0XK65d+kLbAMJ45w2u
- A241p/yJBZn3nTjVa39WgcEjW2F9tdjlE6DkIyFNe/PTDH3DyxbilrtJ+Llmj9kRKtaM
- oCviaqbXNdqpEnBoJ7HQNKIiehOH4wKS5yNArrewZ/WJw4KiXU+FnKNSr+zFWYi8u3ED
- RHHf6rpqiitL4Ui8polHsSCHbI1WJ1z0+rPL6ytbniRHX7PfigSHVhpZ2M0uNZGod741
- 0Mpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ybpq7YGDaKRKyk0i8Mhsn/DdfCsTran5Fk9EVIFVKMg=;
- b=TeTNiVjjRZpZKwo8Y5aDHGyAXZE9ZeA/GsAvxgZygn2fc5BDRNX//ezMZIHqDR7NKw
- skv+VWVNSkvTuIc1T16y6Ekwy+6uL5tCiHs/ixDO13on2fbvSG+VWovTNomsHN8YWVX7
- nUCRZffQC/NasByjlu1bPQKMh+RiKSxdIqKN7iAaqvk8mC2QPW4k6C9yqLvzbcigflwU
- F7EfyhtPBZLZrzB0INn/g7GSY72U2X5eKpBaESOXywZ23iaa9eEbR28NMvE4lpKK1Vz4
- p0VPLWJzOB8S7gTqyiYTGoeGgPdTiTvueGCk1XNTHW+BgiybHEPJ0U5LkoLwx1bfyLh4
- ytSQ==
-X-Gm-Message-State: AOAM530K/SEzuxkCq0pugAjaWolBghM24ukiArP2ZkPcLQiSqlt0Hq72
- PBZzSv8/TyqlHaGdXWHdiZBsQ5V1aRE=
-X-Google-Smtp-Source: ABdhPJzPxNmCDxw8PQu3SyKCYPwS7fC2hCCd1QVkuIvPvkRHPB4Sdvl1hx9fnyfwr38ERLj2NPDFug==
-X-Received: by 2002:adf:eacb:: with SMTP id o11mr48956029wrn.62.1626937982684; 
- Thu, 22 Jul 2021 00:13:02 -0700 (PDT)
-Received: from localhost.localdomain ([102.44.10.38])
- by smtp.gmail.com with ESMTPSA id v21sm1802871wml.5.2021.07.22.00.13.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:13:02 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/13] docs/deprecated: deprecate passing plugin args
- through `arg=`
-Date: Thu, 22 Jul 2021 09:12:36 +0200
-Message-Id: <20210722071236.139520-14-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
-References: <20210722071236.139520-1-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6Sye-0002P2-5A
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:18:40 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2067)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6Syb-0001cQ-Il
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 03:18:39 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GVkHJ0yJxzcgx0;
+ Thu, 22 Jul 2021 15:15:08 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 15:18:31 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 22 Jul 2021 15:18:30 +0800
+Subject: Re: [PATCH for-6.2 v2 02/11] machine: Make smp_parse generic enough
+ for all arches
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210719032043.25416-1-wangyanan55@huawei.com>
+ <20210719032043.25416-3-wangyanan55@huawei.com> <YPWt+o/kl60Db8kT@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <e0c7e165-0cdd-cc21-7eec-f017679dc6d4@huawei.com>
+Date: Thu, 22 Jul 2021 15:18:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <YPWt+o/kl60Db8kT@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.117,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +69,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- docs/system/deprecated.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 2021/7/20 0:53, Daniel P. Berrangé wrote:
+> On Mon, Jul 19, 2021 at 11:20:34AM +0800, Yanan Wang wrote:
+>> Currently the only difference between smp_parse and pc_smp_parse
+>> is the support of multi-dies and the related error reporting code.
+>> With an arch compat variable "bool smp_dies_supported", we can
+>> easily make smp_parse generic enough for all arches and the PC
+>> specific one can be removed.
+>>
+>> Making smp_parse() generic enough can reduce code duplication and
+>> ease the code maintenance, and also allows extending the topology
+>> with more arch specific members (e.g., clusters) in the future.
+>>
+>> No functional change intended.
+>>
+>> Suggested-by: Andrew Jones <drjones@redhat.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/core/machine.c   | 28 ++++++++++-------
+>>   hw/i386/pc.c        | 76 +--------------------------------------------
+>>   include/hw/boards.h |  1 +
+>>   3 files changed, 19 insertions(+), 86 deletions(-)
+>>
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index d73daa10f4..ed6712e964 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -743,6 +743,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>>   
+>>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>   {
+>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>>       unsigned sockets = config->has_sockets ? config->sockets : 0;
+>>       unsigned dies    = config->has_dies ? config->dies : 1;
+>> @@ -761,7 +762,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           return;
+>>       }
+>>   
+>> -    if (dies > 1) {
+>> +    if (!mc->smp_dies_supported && dies > 1) {
+>>           error_setg(errp, "dies not supported by this machine's CPU topology");
+>>           return;
+>>       }
+>> @@ -772,23 +773,25 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           threads = threads > 0 ? threads : 1;
+>>           if (cpus == 0) {
+>>               sockets = sockets > 0 ? sockets : 1;
+>> -            cpus = cores * threads * sockets;
+>> +            cpus = sockets * dies * cores * threads;
+>>           } else {
+>>               maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>> -            sockets = maxcpus / (cores * threads);
+>> +            sockets = maxcpus / (dies * cores * threads);
+>>           }
+>>       } else if (cores == 0) {
+>>           threads = threads > 0 ? threads : 1;
+>> -        cores = cpus / (sockets * threads);
+>> +        cores = cpus / (sockets * dies * threads);
+>>           cores = cores > 0 ? cores : 1;
+>>       } else if (threads == 0) {
+>> -        threads = cpus / (cores * sockets);
+>> +        threads = cpus / (sockets * dies * cores);
+>>           threads = threads > 0 ? threads : 1;
+>> -    } else if (sockets * cores * threads < cpus) {
+>> +    } else if (sockets * dies * cores * threads < cpus) {
+>> +        g_autofree char *dies_msg = g_strdup_printf(
+>> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
+>>           error_setg(errp, "cpu topology: "
+>> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+>> +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
+>>                      "smp_cpus (%u)",
+>> -                   sockets, cores, threads, cpus);
+>> +                   sockets, dies_msg, cores, threads, cpus);
+> Since we're allowing dies=1 (but not greater), I'm not convinced we
+> need the conditionally built error message, and could just include
+> "* dies" all the time.
+>
+> If we do want it to be conditionally different though, I'd just
+> sugest calling error_setg twice. Although this duplicates stuff,
+> it'll be clearer to read which I think is a net win.
+>
+The duplicates may increase quickly if more arch specific members
+are introduced, I think the conditional error reporting may still be
+necessary, but should be more clearer than current approach. :)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index e2e0090878..7ae6f1f727 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -126,6 +126,13 @@ other options have been processed.  This will either have no effect (if
- if they were not given.  The property is therefore useless and should not be
- specified.
- 
-+Plugin argument passing through ``arg=<string>`` (since 6.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Passing TCG plugins arguments through ``arg=`` is redundant is makes the
-+command-line less readable, especially when the argument itself consist of a
-+name and a value, e.g. ``-plugin plugin_name,arg="arg_name=arg_value"``.
-+Therefore, the usage of ``arg`` is redundant.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
--- 
-2.25.1
+Thanks,
+Yanan
+.
 
 
