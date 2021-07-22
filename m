@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDE03D2698
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:23:23 +0200 (CEST)
-Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1D13D26A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 17:28:55 +0200 (CEST)
+Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6aXi-0002lU-Fd
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60860)
+	id 1m6ad4-000529-Bn
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 11:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6aW1-0001nT-3X
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:21:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23599)
+ id 1m6abz-0004MB-0z
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:27:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m6aVz-0001N2-2A
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:21:36 -0400
+ id 1m6abw-0005aC-KU
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 11:27:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626967294;
+ s=mimecast20190719; t=1626967663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6L1USCVJGC7J1gTr+npEUDHteE5jIXskM56v3WsYMsI=;
- b=IfMgsR3zXDpVxxWBoe59DENvXHQ9WY1kcVssLembQbRNfvzrnMxBrxsmrIIBCqXpYLI9MN
- VjqH6NyqMOrX//FzNCdoQAtet5wR1yrib9VQQcGcEl4vXLhhuQco3BUmDlcDfVl1WfQy0X
- nxjb1oT3tnLkQPoC6thj7QEAMTp2Vqs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-VwOVTNdLPSeNAw0kpqH5dw-1; Thu, 22 Jul 2021 11:21:33 -0400
-X-MC-Unique: VwOVTNdLPSeNAw0kpqH5dw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j11-20020a05600c410bb02902278758ab90so816153wmi.9
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:21:32 -0700 (PDT)
+ bh=o/5IZQzAjmeNzuJuL3L64dEw01Mo9J6kIwdDpgyrotM=;
+ b=dQfJlelQCwPyIeWZ1bwjeDHF1OKDYlT5VwtBr46MoTJKT/p+/i8vdG7BwOhIgPAkt/blDV
+ cNAhIKZMalLbd3rLpPlT6OrmKfMuoDGW86FxXZAe4OMMYUTpoQUusLdzND2tJDpuZPukhp
+ jCLSnN164IFSdlr3H9oZu/j6yiNrnAA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-LVCcWowPMUC-vianVk5gmw-1; Thu, 22 Jul 2021 11:27:42 -0400
+X-MC-Unique: LVCcWowPMUC-vianVk5gmw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n11-20020a05600c294bb029022095f349f3so1457814wmd.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 08:27:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6L1USCVJGC7J1gTr+npEUDHteE5jIXskM56v3WsYMsI=;
- b=BVGFDcyKDZEfRZh0ntqfnpor9ftKYyzVikJq575glas8DBURhqGbc1+Sri7a4nIXfz
- coPWAJFr/JNWbRNIQzsdxBGC45h9pVTUi5MMvDiJWXxT/mxPwGdt4MsLfvs9herBcoFA
- HVooIXtFdsxUcfDc9cCHOY7CN01niXNdIYcCz+sypKMfXWh2evO+RnKKVZWb3cPjx8N9
- hl4ba1+x5ItgO/n2ZOna917bB8nB4lbrGqdOQNNqk/fwnLuChPTsu+HXFgz3AcGaaMaJ
- /0VQWE+ddnqiZpqw7E/6Wa3GErn7hQqWSQeq8yD6elV87AV/YwmXPKeW6G1Ew9OLKwDa
- jC+w==
-X-Gm-Message-State: AOAM531GmzimWQf3byMCNPLjTbihZmbuJeaR7xDYgxPx611KtokSEb4R
- wfOxJBztHcdPkC4y7iFzdkSXDOULmhgoHyOAQmTpZPfOdEyQFkJ6ZBrcpUQvIc0jO1NT19S6c0U
- 817nQi5jKVweIe2U=
-X-Received: by 2002:a7b:c846:: with SMTP id c6mr158834wml.92.1626967291923;
- Thu, 22 Jul 2021 08:21:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzT86DV5w46UUAwjKDbQk7orqDNmd0qkSbFHLqEJ1ahYdrxBHCan40z37g6yYUI61dq8a8dRg==
-X-Received: by 2002:a7b:c846:: with SMTP id c6mr158815wml.92.1626967291635;
- Thu, 22 Jul 2021 08:21:31 -0700 (PDT)
+ bh=o/5IZQzAjmeNzuJuL3L64dEw01Mo9J6kIwdDpgyrotM=;
+ b=kVu87ApmQZdJgEwiaFGAKZKDnkyTJ9o+zSsGumL077BLKDWiL6IDM/GgYRf0Qv1vjp
+ zTX7ur8YfTGUICgWlfAtKGo64EFOTBD/SppAEW/yTcTnTnFM/lJtg4lAjNLsU0DzYvIC
+ PkJGIwcHydhc2XBg3CrLiVYl3kuBqwGpv2pb1ZZYiGqNiEKL7EUm8j1vkf9EyenPocpx
+ uex7pBrXoeWUQxanKUrGKnAKx+r9PUIf/H9+ZJgrRS6AX21maG1nl+OW4G3Kh+Bhgdau
+ L9glVUGzUtKlHeHVfjt0egRsB9N+mRdZS7duHglvZrdY+W2w8ZhLbLaAyp6vyyQTMlMm
+ glpg==
+X-Gm-Message-State: AOAM530k1tp4+G+lgIP8f7CUdZHixG5og7moRNG6JUcv4jN1jG5nj3k0
+ 8jXwgwPFThjgVyNELMXm0GgEKPN5GwseKaHKdf+V01eHukY8gGygY4r2bFiPbohvkuL8PXRfBpJ
+ 38xRY6On4sMYpFyU=
+X-Received: by 2002:a05:600c:4105:: with SMTP id
+ j5mr156638wmi.49.1626967661189; 
+ Thu, 22 Jul 2021 08:27:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvsTnnbqZ+RK5Rir2JqVskzweYtYzfeldZzymBlo8BDOAnDZeTWhxoIvFzmmtAWeyqRjSO8Q==
+X-Received: by 2002:a05:600c:4105:: with SMTP id
+ j5mr156617wmi.49.1626967660907; 
+ Thu, 22 Jul 2021 08:27:40 -0700 (PDT)
 Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
  [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id n7sm14181135wrw.77.2021.07.22.08.21.27
+ by smtp.gmail.com with ESMTPSA id z13sm31018555wro.79.2021.07.22.08.27.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:21:27 -0700 (PDT)
-Date: Thu, 22 Jul 2021 16:21:25 +0100
+ Thu, 22 Jul 2021 08:27:36 -0700 (PDT)
+Date: Thu, 22 Jul 2021 16:27:35 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 4/5] migration: Teach QEMUFile to be QIOChannel-aware
-Message-ID: <YPmM9Z+qjkgFqEQZ@work-vm>
+Subject: Re: [PATCH v2 5/5] migration: Move the yank unregister of
+ channel_close out
+Message-ID: <YPmOZ3LGm0u7GoBA@work-vm>
 References: <20210721193409.910462-1-peterx@redhat.com>
- <20210721193409.910462-5-peterx@redhat.com>
+ <20210721193409.910462-6-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721193409.910462-5-peterx@redhat.com>
+In-Reply-To: <20210721193409.910462-6-peterx@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -75,7 +78,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -105,153 +108,149 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Peter Xu (peterx@redhat.com) wrote:
-> migration uses QIOChannel typed qemufiles.  In follow up patches, we'll need
-> the capability to identify this fact, so that we can get the backing QIOChannel
-> from a QEMUFile.
+> It's efficient, but hackish to call yank unregister calls in channel_close(),
+> especially it'll be hard to debug when qemu crashed with some yank function
+> leaked.
 > 
-> We can also define types for QEMUFile but so far since we only need to be able
-> to identify QIOChannel, introduce a boolean which is simpler.
+> Remove that hack, but instead explicitly unregister yank functions at the
+> places where needed, they are:
 > 
-> Introduce another helper qemu_file_get_ioc() to return the ioc backend of a
-> qemufile if has_ioc is set.
+>   (on src)
+>   - migrate_fd_cleanup
+>   - postcopy_pause
 > 
-> No functional change.
+>   (on dst)
+>   - migration_incoming_state_destroy
+>   - postcopy_pause_incoming
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
-
-Yep, one day we'll sort out the block case, but until then
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
 > ---
->  migration/qemu-file-channel.c |  4 ++--
->  migration/qemu-file.c         | 17 ++++++++++++++++-
->  migration/qemu-file.h         |  4 +++-
->  migration/ram.c               |  2 +-
->  migration/savevm.c            |  4 ++--
->  5 files changed, 24 insertions(+), 7 deletions(-)
+>  migration/migration.c         |  5 +++++
+>  migration/qemu-file-channel.c |  3 ---
+>  migration/savevm.c            |  7 +++++++
+>  migration/yank_functions.c    | 14 ++++++++++++++
+>  migration/yank_functions.h    |  1 +
+>  5 files changed, 27 insertions(+), 3 deletions(-)
 > 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index fa70400f98..bfeb65b8f7 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -59,6 +59,7 @@
+>  #include "multifd.h"
+>  #include "qemu/yank.h"
+>  #include "sysemu/cpus.h"
+> +#include "yank_functions.h"
+>  
+>  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+>  
+> @@ -273,6 +274,7 @@ void migration_incoming_state_destroy(void)
+>      }
+>  
+>      if (mis->from_src_file) {
+> +        migration_ioc_unregister_yank_from_file(mis->from_src_file);
+>          qemu_fclose(mis->from_src_file);
+>          mis->from_src_file = NULL;
+>      }
+> @@ -1811,6 +1813,7 @@ static void migrate_fd_cleanup(MigrationState *s)
+>           * Close the file handle without the lock to make sure the
+>           * critical section won't block for long.
+>           */
+> +        migration_ioc_unregister_yank_from_file(tmp);
+>          qemu_fclose(tmp);
+>      }
+>  
+> @@ -3352,6 +3355,8 @@ static MigThrError postcopy_pause(MigrationState *s)
+>  
+>          /* Current channel is possibly broken. Release it. */
+>          assert(s->to_dst_file);
+> +        /* Unregister yank for current channel */
+> +        migration_ioc_unregister_yank_from_file(s->to_dst_file);
+
+Should this go inside the lock?
+
+Dave
+
+>          qemu_mutex_lock(&s->qemu_file_lock);
+>          file = s->to_dst_file;
+>          s->to_dst_file = NULL;
 > diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 867a5ed0c3..2f8b1fcd46 100644
+> index 2f8b1fcd46..bb5a5752df 100644
 > --- a/migration/qemu-file-channel.c
 > +++ b/migration/qemu-file-channel.c
-> @@ -187,11 +187,11 @@ static const QEMUFileOps channel_output_ops = {
->  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
+> @@ -107,9 +107,6 @@ static int channel_close(void *opaque, Error **errp)
+>      int ret;
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>      ret = qio_channel_close(ioc, errp);
+> -    if (OBJECT(ioc)->ref == 1) {
+> -        migration_ioc_unregister_yank(ioc);
+> -    }
+>      object_unref(OBJECT(ioc));
+>      return ret;
+>  }
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 96b5e5d639..7b7b64bd13 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -65,6 +65,7 @@
+>  #include "qemu/bitmap.h"
+>  #include "net/announce.h"
+>  #include "qemu/yank.h"
+> +#include "yank_functions.h"
+>  
+>  const unsigned int postcopy_ram_discard_version;
+>  
+> @@ -2568,6 +2569,12 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+>      /* Clear the triggered bit to allow one recovery */
+>      mis->postcopy_recover_triggered = false;
+>  
+> +    /*
+> +     * Unregister yank with either from/to src would work, since ioc behind it
+> +     * is the same
+> +     */
+> +    migration_ioc_unregister_yank_from_file(mis->from_src_file);
+> +
+>      assert(mis->from_src_file);
+>      qemu_file_shutdown(mis->from_src_file);
+>      qemu_fclose(mis->from_src_file);
+> diff --git a/migration/yank_functions.c b/migration/yank_functions.c
+> index 23697173ae..8c08aef14a 100644
+> --- a/migration/yank_functions.c
+> +++ b/migration/yank_functions.c
+> @@ -14,6 +14,7 @@
+>  #include "qemu/yank.h"
+>  #include "io/channel-socket.h"
+>  #include "io/channel-tls.h"
+> +#include "qemu-file.h"
+>  
+>  void migration_yank_iochannel(void *opaque)
 >  {
->      object_ref(OBJECT(ioc));
-> -    return qemu_fopen_ops(ioc, &channel_input_ops);
-> +    return qemu_fopen_ops(ioc, &channel_input_ops, true);
->  }
->  
->  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
->  {
->      object_ref(OBJECT(ioc));
-> -    return qemu_fopen_ops(ioc, &channel_output_ops);
-> +    return qemu_fopen_ops(ioc, &channel_output_ops, true);
->  }
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 1eacf9e831..6338d8e2ff 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -55,6 +55,8 @@ struct QEMUFile {
->      Error *last_error_obj;
->      /* has the file has been shutdown */
->      bool shutdown;
-> +    /* Whether opaque points to a QIOChannel */
-> +    bool has_ioc;
->  };
->  
->  /*
-> @@ -101,7 +103,7 @@ bool qemu_file_mode_is_not_valid(const char *mode)
->      return false;
->  }
->  
-> -QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops)
-> +QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc)
->  {
->      QEMUFile *f;
->  
-> @@ -109,6 +111,7 @@ QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops)
->  
->      f->opaque = opaque;
->      f->ops = ops;
-> +    f->has_ioc = has_ioc;
->      return f;
->  }
->  
-> @@ -851,3 +854,15 @@ void qemu_file_set_blocking(QEMUFile *f, bool block)
->          f->ops->set_blocking(f->opaque, block, NULL);
+> @@ -46,3 +47,16 @@ void migration_ioc_unregister_yank(QIOChannel *ioc)
+>                                   QIO_CHANNEL(ioc));
 >      }
 >  }
 > +
-> +/*
-> + * Return the ioc object if it's a migration channel.  Note: it can return NULL
-> + * for callers passing in a non-migration qemufile.  E.g. see qemu_fopen_bdrv()
-> + * and its usage in e.g. load_snapshot().  So we need to check against NULL
-> + * before using it.  If without the check, migration_incoming_state_destroy()
-> + * could fail for load_snapshot().
-> + */
-> +QIOChannel *qemu_file_get_ioc(QEMUFile *file)
+> +void migration_ioc_unregister_yank_from_file(QEMUFile *file)
 > +{
-> +    return file->has_ioc ? QIO_CHANNEL(file->opaque) : NULL;
+> +    QIOChannel *ioc = qemu_file_get_ioc(file);
+> +
+> +    if (ioc) {
+> +        /*
+> +         * For migration qemufiles, we'll always reach here.  Though we'll skip
+> +         * calls from e.g. savevm/loadvm as they don't use yank.
+> +         */
+> +        migration_ioc_unregister_yank(ioc);
+> +    }
 > +}
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index a9b6d6ccb7..3f36d4dc8c 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -27,6 +27,7 @@
->  
->  #include <zlib.h>
->  #include "exec/cpu-common.h"
-> +#include "io/channel.h"
->  
->  /* Read a chunk of data from a file at the given position.  The pos argument
->   * can be ignored if the file is only be used for streaming.  The number of
-> @@ -119,7 +120,7 @@ typedef struct QEMUFileHooks {
->      QEMURamSaveFunc *save_page;
->  } QEMUFileHooks;
->  
-> -QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops);
-> +QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc);
->  void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
->  int qemu_get_fd(QEMUFile *f);
->  int qemu_fclose(QEMUFile *f);
-> @@ -179,5 +180,6 @@ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
->  size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
->                               ram_addr_t offset, size_t size,
->                               uint64_t *bytes_sent);
-> +QIOChannel *qemu_file_get_ioc(QEMUFile *file);
->  
->  #endif
-> diff --git a/migration/ram.c b/migration/ram.c
-> index f728f5072f..08b3cb7a4a 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -550,7 +550,7 @@ static int compress_threads_save_setup(void)
->          /* comp_param[i].file is just used as a dummy buffer to save data,
->           * set its ops to empty.
->           */
-> -        comp_param[i].file = qemu_fopen_ops(NULL, &empty_ops);
-> +        comp_param[i].file = qemu_fopen_ops(NULL, &empty_ops, false);
->          comp_param[i].done = true;
->          comp_param[i].quit = false;
->          qemu_mutex_init(&comp_param[i].mutex);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 72848b946c..96b5e5d639 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -168,9 +168,9 @@ static const QEMUFileOps bdrv_write_ops = {
->  static QEMUFile *qemu_fopen_bdrv(BlockDriverState *bs, int is_writable)
->  {
->      if (is_writable) {
-> -        return qemu_fopen_ops(bs, &bdrv_write_ops);
-> +        return qemu_fopen_ops(bs, &bdrv_write_ops, false);
->      }
-> -    return qemu_fopen_ops(bs, &bdrv_read_ops);
-> +    return qemu_fopen_ops(bs, &bdrv_read_ops, false);
->  }
->  
->  
+> diff --git a/migration/yank_functions.h b/migration/yank_functions.h
+> index 74c7f18c91..a7577955ed 100644
+> --- a/migration/yank_functions.h
+> +++ b/migration/yank_functions.h
+> @@ -17,3 +17,4 @@
+>  void migration_yank_iochannel(void *opaque);
+>  void migration_ioc_register_yank(QIOChannel *ioc);
+>  void migration_ioc_unregister_yank(QIOChannel *ioc);
+> +void migration_ioc_unregister_yank_from_file(QEMUFile *file);
 > -- 
 > 2.31.1
 > 
