@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D283D273B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:05:52 +0200 (CEST)
-Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6A93D274C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 18:10:07 +0200 (CEST)
+Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6bCp-0005eQ-8D
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40332)
+	id 1m6bGw-000816-Uz
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 12:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6b9V-0001c5-1b
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:02:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6b9Q-0003Q3-Tt
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:02:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626969738;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x2kdi5BtBWDgBhEB0P1JPsuRUhxhJFKhIqPim1vrOvo=;
- b=dzZsL+xh0CHjvxwDaI+hV4FIN5fFUHX1WrKYQjZFxm4RYKqqVeck1w5kx78nhtlrNx4Q/E
- rPcGIJLpUAbcZZMdHe5qKqMXz7lhbLxDkcBhjxjBNxnC2PBSiATYwK6tL6YA2Nj6GmiF7Z
- aFlv+ojuiD5lFWHBZTX4O6h0Q/nSVqM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-akVG-CDjN96Sf3-1E93DVg-1; Thu, 22 Jul 2021 12:02:17 -0400
-X-MC-Unique: akVG-CDjN96Sf3-1E93DVg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAABF10AE605;
- Thu, 22 Jul 2021 16:01:24 +0000 (UTC)
-Received: from redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4ED919711;
- Thu, 22 Jul 2021 16:01:21 +0000 (UTC)
-Date: Thu, 22 Jul 2021 17:01:18 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.1 v2] machine: Disallow specifying topology
- parameters as zero
-Message-ID: <YPmWTutShepWX32R@redhat.com>
-References: <20210722154326.1464-1-wangyanan55@huawei.com>
- <20210722154326.1464-2-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m6bFt-0007Eb-Qo
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:09:02 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m6bFs-0007qq-E3
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 12:09:01 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ o3-20020a05600c5103b029024c0f9e1a5fso1613319wms.4
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 09:08:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EpOCQBYdU7mz7vQvuvodLx5VuK85C/cL/fnfl1Ehe+4=;
+ b=jgRm9/IEEuOJEydmq8X8SMhdCDFc8WxKETPBOHj05vemz8T1Z3w9PLs3GqAYzeBB18
+ nKqCS0AqOp5Uy24WLJ8zEder52YPAOf6X7/VNRmy2q5FyzMyliDacXZB7NpMyv5NUgHZ
+ hZ0aDBEAoLI+6QDl9MkTVWewN3b+3kOzG83UHa2d8FI2EPFtJaUxcC1KJCzOSkBBU/7/
+ UrTpIEE7wmL5Cn8Dve6BklVKvgsCjUPZ+hKVBVDvf8HCZaSYMmHGeGmQAAR6OgXmAz4d
+ cQfvQSef3ppVCSVNFtqy97jvd2KHxLbVDhJIv5bFa4KTanKT04/JT4gvJuH4CDmLEHca
+ Usig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EpOCQBYdU7mz7vQvuvodLx5VuK85C/cL/fnfl1Ehe+4=;
+ b=mm/0NwMYIOCmUckxdIs3eH64yfDKYe2L3EHf8GNJYQ7eLvx6YwDerxKXyaH7iNgnVC
+ rBxpg23mFsg40TQG20/kmcnhdm+QLj+L0RlEnq9VVJlI+fAslK2dKj9Y3xFRY0/rVUqX
+ O7O7KocB1UM+7upHHh7LnZuD09A4dYajeed+e9rduP/36f+qu+wFSTUKlX0/CnPKYNmw
+ jussGlz9sevgLaSvdX68qBiBGpWF2/hX535JkGnNmm9FlnCf28akqIV3i4V21kH3XE4t
+ HMVMzY/ysBI2d57D05YF/jQy5CesAFKwtDEWKQHRsfxozUgpGI8vqxvrMCcekA9sEXTg
+ 7kDg==
+X-Gm-Message-State: AOAM533RK3PynopBKpmnbEMgLjirwEsh4gcxMLI1YqYLGvKEJqpbyQri
+ wCqP/EWcHWilWdIqj4hFgW0=
+X-Google-Smtp-Source: ABdhPJwKIb7lzUzBApJvL3WekPVC9VA0+3ySXP7kzcqEeluFSkK/8mEYvm/QQbuddP6Ez3G2lMmnTA==
+X-Received: by 2002:a05:600c:1c08:: with SMTP id
+ j8mr364487wms.50.1626970138514; 
+ Thu, 22 Jul 2021 09:08:58 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id f2sm30206941wrq.69.2021.07.22.09.08.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 09:08:57 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] coverity-scan: Add accelerator and sysemu
+ components
+To: qemu-devel@nongnu.org
+References: <20210708155735.1805767-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d5b87a24-5fa3-eb9f-4105-76342f24f790@amsat.org>
+Date: Thu, 22 Jul 2021 18:08:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210722154326.1464-2-wangyanan55@huawei.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210708155735.1805767-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.203,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,105 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 22, 2021 at 11:43:26PM +0800, Yanan Wang wrote:
-> In the SMP configuration, we should either specify a topology
-> parameter with a reasonable value (equal to or greater than 1)
-> or just leave it omitted and QEMU will calculate its value.
-> Configurations which explicitly specify the topology parameters
-> as zero like "sockets=0" are meaningless, so disallow them.
+ping?
+
+On 7/8/21 5:57 PM, Philippe Mathieu-Daudé wrote:
+> Add 'sysemu' component for issues not related to TCG.
 > 
-> However, the commit 1e63fe685804d
-> (machine: pass QAPI struct to mc->smp_parse) has documented that
-> '0' has the same semantics as omitting a parameter in the qapi
-> comment for SMPConfiguration. So this patch fixes the doc and
-> also adds the corresponding sanity check in the smp parsers.
+> Since v1:
+> - add accelerator components (Peter)
 > 
-> Suggested-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/core/machine.c | 14 ++++++++++++++
->  qapi/machine.json |  6 +++---
->  qemu-options.hx   | 12 +++++++-----
->  3 files changed, 24 insertions(+), 8 deletions(-)
+> Supersedes: <20210619091342.3660495-1-f4bug@amsat.org>
 > 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 775add0795..db129d937b 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -829,6 +829,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->          return;
->      }
->  
-> +    /*
-> +     * The topology parameters must be specified equal to or great than one
-> +     * or just omitted, explicit configuration like "cpus=0" is not allowed.
-> +     */
-> +    if ((config->has_cpus && config->cpus == 0) ||
-> +        (config->has_sockets && config->sockets == 0) ||
-> +        (config->has_dies && config->dies == 0) ||
-> +        (config->has_cores && config->cores == 0) ||
-> +        (config->has_threads && config->threads == 0) ||
-> +        (config->has_maxcpus && config->maxcpus == 0)) {
-> +        error_setg(errp, "parameters must be equal to or greater than one if provided");
-
-I'd suggest a slight tweak since when seen it lacks context:
-
-$ ./qemu-system-x86_64 -smp 4,cores=0,sockets=2
-qemu-system-x86_64: parameters must be equal to or greater than one if provided
-
-
-    error_setg(errp, "CPU topology parameters must be equal to or greater than one if provided");
-
-
-
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 99ed5ec5f1..b0168f8c48 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -223,11 +223,13 @@ SRST
->      of computing the CPU maximum count.
->  
->      Either the initial CPU count, or at least one of the topology parameters
-> -    must be specified. Values for any omitted parameters will be computed
-> -    from those which are given. Historically preference was given to the
-> -    coarsest topology parameters when computing missing values (ie sockets
-> -    preferred over cores, which were preferred over threads), however, this
-> -    behaviour is considered liable to change.
-> +    must be specified. The specified parameters must be equal to or great
-
-s/great/greater/
-
-> +    than one, explicit configuration like "cpus=0" is not allowed. Values
-> +    for any omitted parameters will be computed from those which are given.
-> +    Historically preference was given to the coarsest topology parameters
-> +    when computing missing values (ie sockets preferred over cores, which
-> +    were preferred over threads), however, this behaviour is considered
-> +    liable to change.
->  ERST
-
-
-If you make the text changes, then feel free to add this when posting v2:
-
- Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
- Tested-by: Daniel P. Berrangé <berrange@redhat.com>
- 
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> Philippe Mathieu-Daudé (2):
+>   coverity-scan: Add a component for each accelerator
+>   coverity-scan: Add 'sysemu' component
+> 
+>  scripts/coverity-scan/COMPONENTS.md | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
 
