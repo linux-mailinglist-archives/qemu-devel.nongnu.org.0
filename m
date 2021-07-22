@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454BA3D1FE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 10:39:19 +0200 (CEST)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF1D3D1FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Jul 2021 10:40:21 +0200 (CEST)
+Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6UEg-0000Ez-93
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 04:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60618)
+	id 1m6UFg-0001gy-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 04:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1m6UDa-0007gR-1f
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:38:10 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:35351)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6UEK-0000K9-PQ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:38:56 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:44886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1m6UDX-0006Lm-1m
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:38:09 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- b18-20020a0568303112b02904cf73f54f4bso1605004ots.2
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 01:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kdEU9vuJjlmQDLZ8bfQ3tyA2BnuPvHH3Pmg/+zuUGuQ=;
- b=YNnRGFYyekvwnrkOPPtPuj6CRUfEM7bhnmwfpufm+YWgzIyg0JnNqWDLOcXjFy8ODu
- 6lCLNaTEQA5RkNGfk+ExGfesERRjX1jOdqQPJnoomYxyHYmblD5cVimiNcIBHyN2VNby
- bk1EwuQLGpr3PlfMbKsw3EWA0RBV14KA+vnqvTYRBJ0qNp3Ctz/akCkcpVQO9wg0d+cb
- ZxvRW0y49RPUF04xx0vUNkjenAN7WM4NlgPe/i97mShXSETh4hctcpKItT8Rx3GIny+e
- xRgaBpVm5Vz+hMI8c+tNwktiuGUFOldfjSST/n8SD1Jd4/emeRCpcqx4LaeJyUf3VxaW
- ZYvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kdEU9vuJjlmQDLZ8bfQ3tyA2BnuPvHH3Pmg/+zuUGuQ=;
- b=LoBPBeYipXHDEXUYtgE8crKND6i2vHMsHmKX4v5ovHK/TtoUfICU4zlqlEDmC9wCA9
- eKpKQazZUmAmaMglOrz7JghEwgHPX7oti1hXiP5e+ntrpSGFmxLa4B8XkOtA20BlXDzZ
- jn7y0SywS9Q+N1CuF5i8He4TpF9J6Y9bO3QCWTi55OymmRQlCwbXUv8F3q84nvC2GYMs
- j3bJzc6RCqBYnHfYI7PimYk20U6+Z/BSaEjs98n4yWKOGpXZ7pamG3NwTD7beP6DZYuN
- Uib70IfTBssknaNP7czgz2cZSMAY5S5Nl4xgHAxxgn47m/MIyQzE6XMhW6Obn7GYnA3A
- q+XQ==
-X-Gm-Message-State: AOAM530ccZOsoyB3al56XzVSpEpOlaQVSfRNBqMGyHOVjiGdFDBqpbAi
- l/aUrix4KNtF0LyZgLLaOgacmtTHiRcy31gCORtvWw==
-X-Google-Smtp-Source: ABdhPJy7wjSFPrDg77XLVYpgyJINmRFisebo2qo/D1Jb7N8l9ZpNQ0o8oszh8fpi7gs1FpqdW1ebg5vi1tnScgd7drQ=
-X-Received: by 2002:a9d:4798:: with SMTP id b24mr28329342otf.67.1626943084536; 
- Thu, 22 Jul 2021 01:38:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6UEI-0006sd-OQ
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 04:38:56 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 42B5B1FEF8;
+ Thu, 22 Jul 2021 08:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626943133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aSLvfPGeC9zNVwmiFt53wtfvQe27EyciTFTFXUUCyDI=;
+ b=fM1msE2Jb/U5BGoFuX6BhsMa3CTqQ8Mww6F1E9H6KEqtHLgLhQ324DZ4HWSOFhNioloZVG
+ T6voSfQvfKr3Ra6ZprmnSIMIpoNFCEv5/mG/+OUVYXO7cQ/4SoyQ2nFkm7F9EfqTRRbxEg
+ L7FIIq/0PcS7AaGG011NMUbuxNWrP1k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626943133;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aSLvfPGeC9zNVwmiFt53wtfvQe27EyciTFTFXUUCyDI=;
+ b=m3QJDySzO6hTXngl0sGiHBn1f5gd/vpY1jWPCPd3mJE10vUidSQKeIQtJDKNIVYHCYig5S
+ mLwuzKK6aaJaDJDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0261F13DA5;
+ Thu, 22 Jul 2021 08:38:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NA0hOpwu+WA8cAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Jul 2021 08:38:52 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH for-6.1] i386: do not call cpudef-only models functions for
+ max, host, base
+Date: Thu, 22 Jul 2021 10:38:51 +0200
+Message-Id: <20210722083851.24068-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210713153758.323614-1-andrew@daynix.com>
-In-Reply-To: <20210713153758.323614-1-andrew@daynix.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Thu, 22 Jul 2021 11:37:53 +0300
-Message-ID: <CABcq3pE=n4iPB-9cX7bRMhz=O2csAtTeYtbA1_sBnC9Fh8Pihg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009fb3c505c7b23491"
-Received-SPF: none client-ip=2607:f8b0:4864:20::335;
- envelope-from=andrew@daynix.com; helo=mail-ot1-x335.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,201 +77,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009fb3c505c7b23491
-Content-Type: text/plain; charset="UTF-8"
+properties set by function x86_cpu_apply_props, including
+kvm_default_props, tcg_default_props,
+and the "vendor" property for KVM and HVF,
 
-ping
+are actually to be set only for cpu models in builtin_x86_defs,
+registered with x86_register_cpu_model_type, and not for
+cpu models "base", "max", and the subclass "host".
 
-On Tue, Jul 13, 2021 at 6:38 PM Andrew Melnychenko <andrew@daynix.com>
-wrote:
+This has been detected as a bug with Nested on AMD with cpu "host",
+as svm was not turned on by default, due to the wrongful setting of
+kvm_default_props via x86_cpu_apply_props.
 
-> Libvirt usually launches qemu with strict permissions.
-> To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
->
-> Added property "ebpf_rss_fds" for "virtio-net" that allows to
-> initialize eBPF RSS context with passed program & maps fds.
->
-> Added qemu-ebpf-rss-helper - simple helper that loads eBPF
-> context and passes fds through unix socket.
-> Libvirt should call the helper and pass fds to qemu through
-> "ebpf_rss_fds" property.
->
-> Added explicit target OS check for libbpf dependency in meson.
-> eBPF RSS works only with Linux TAP, so there is no reason to
-> build eBPF loader/helper for non-Linux.
->
-> Changed Qemu updates eBPF maps to array mmaping. Mmaping allows
-> bypassing unprivileged BPF map update. Also, instead of 3 maps
-> (config, key and indirection table) there is one map that
-> combines everything.
->
-> Added helper stamp. To check that helper was build with qemu,
-> qemu would check helper symbols that should contain the stamp.
-> It was done similar to qemu modules, but checking was performed
-> by the helper's ELF parsing.
->
-> Overall, libvirt process should not be aware of the "interface"
-> of eBPF RSS, it will not be aware of eBPF maps/program "type" and
-> their quantity. That's why qemu and the helper should be from
-> the same build and be "synchronized". Technically each qemu may
-> have its own helper. That's why "query-helper-paths" qmp command
-> was added. Qemu should return the path to the helper that suits
-> and libvirt should use "that" helper for "that" emulator.
->
-> qmp sample:
-> C: { "execute": "query-helper-paths" }
-> S: { "return": [
->      {
->        "name": "qemu-ebpf-rss-helper",
->        "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
->      }
->     ]
->    }
->
-> Changes since v1:
-> * Mmap() used instead if bpf_map_update_elem().
-> * Added helper stamp.
->
-> Andrew Melnychenko (5):
->   ebpf: Added eBPF initialization by fds and map update.
->   virtio-net: Added property to load eBPF RSS with fds.
->   qmp: Added the helper stamp check.
->   ebpf_rss_helper: Added helper for eBPF RSS.
->   qmp: Added qemu-ebpf-rss-path command.
->
->  ebpf/ebpf_rss-stub.c              |   6 +
->  ebpf/ebpf_rss.c                   | 120 ++++---
->  ebpf/ebpf_rss.h                   |   8 +-
->  ebpf/qemu-ebpf-rss-helper.c       | 130 +++++++
->  ebpf/rss.bpf.skeleton.h           | 557 +++++++++++++++---------------
->  hw/net/virtio-net.c               |  77 ++++-
->  include/hw/virtio/virtio-net.h    |   1 +
->  meson.build                       |  47 ++-
->  monitor/meson.build               |   1 +
->  monitor/qemu-helper-stamp-utils.c | 297 ++++++++++++++++
->  monitor/qemu-helper-stamp-utils.h |  24 ++
->  monitor/qmp-cmds.c                |  32 ++
->  qapi/misc.json                    |  33 ++
->  tools/ebpf/rss.bpf.c              |  67 ++--
->  14 files changed, 990 insertions(+), 410 deletions(-)
->  create mode 100644 ebpf/qemu-ebpf-rss-helper.c
->  create mode 100644 monitor/qemu-helper-stamp-utils.c
->  create mode 100644 monitor/qemu-helper-stamp-utils.h
->
-> --
-> 2.31.1
->
->
+Rectify the bug introduced in commit "i386: split cpu accelerators"
+and document the functions that are builtin_x86_defs-only.
 
---0000000000009fb3c505c7b23491
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: f5cc5a5c ("i386: split cpu accelerators from cpu.c,"...)
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/477
+---
+ target/i386/cpu.c         |  19 ++++++-
+ target/i386/host-cpu.c    |  13 +++--
+ target/i386/kvm/kvm-cpu.c | 105 ++++++++++++++++++++------------------
+ target/i386/tcg/tcg-cpu.c |  11 ++--
+ 4 files changed, 89 insertions(+), 59 deletions(-)
 
-<div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Tue, Jul 13, 2021 at 6:38 PM Andrew Melnychenko=
- &lt;<a href=3D"mailto:andrew@daynix.com">andrew@daynix.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Libvirt usually =
-launches qemu with strict permissions.<br>
-To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.<br>
-<br>
-Added property &quot;ebpf_rss_fds&quot; for &quot;virtio-net&quot; that all=
-ows to<br>
-initialize eBPF RSS context with passed program &amp; maps fds.<br>
-<br>
-Added qemu-ebpf-rss-helper - simple helper that loads eBPF<br>
-context and passes fds through unix socket.<br>
-Libvirt should call the helper and pass fds to qemu through<br>
-&quot;ebpf_rss_fds&quot; property.<br>
-<br>
-Added explicit target OS check for libbpf dependency in meson.<br>
-eBPF RSS works only with Linux TAP, so there is no reason to<br>
-build eBPF loader/helper for non-Linux.<br>
-<br>
-Changed Qemu updates eBPF maps to array mmaping. Mmaping allows<br>
-bypassing unprivileged BPF map update. Also, instead of 3 maps<br>
-(config, key and indirection table) there is one map that<br>
-combines everything.<br>
-<br>
-Added helper stamp. To check that helper was build with qemu,<br>
-qemu would check helper symbols that should contain the stamp.<br>
-It was done similar to qemu modules, but checking was performed<br>
-by the helper&#39;s ELF parsing.<br>
-<br>
-Overall, libvirt process should not be aware of the &quot;interface&quot;<b=
-r>
-of eBPF RSS, it will not be aware of eBPF maps/program &quot;type&quot; and=
-<br>
-their quantity. That&#39;s why qemu and the helper should be from<br>
-the same build and be &quot;synchronized&quot;. Technically each qemu may<b=
-r>
-have its own helper. That&#39;s why &quot;query-helper-paths&quot; qmp comm=
-and<br>
-was added. Qemu should return the path to the helper that suits<br>
-and libvirt should use &quot;that&quot; helper for &quot;that&quot; emulato=
-r.<br>
-<br>
-qmp sample:<br>
-C: { &quot;execute&quot;: &quot;query-helper-paths&quot; }<br>
-S: { &quot;return&quot;: [<br>
-=C2=A0 =C2=A0 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;name&quot;: &quot;qemu-ebpf-rss-helper&quo=
-t;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;path&quot;: &quot;/usr/local/libexec/qemu-=
-ebpf-rss-helper&quot;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 ]<br>
-=C2=A0 =C2=A0}<br>
-<br>
-Changes since v1:<br>
-* Mmap() used instead if bpf_map_update_elem().<br>
-* Added helper stamp.<br>
-<br>
-Andrew Melnychenko (5):<br>
-=C2=A0 ebpf: Added eBPF initialization by fds and map update.<br>
-=C2=A0 virtio-net: Added property to load eBPF RSS with fds.<br>
-=C2=A0 qmp: Added the helper stamp check.<br>
-=C2=A0 ebpf_rss_helper: Added helper for eBPF RSS.<br>
-=C2=A0 qmp: Added qemu-ebpf-rss-path command.<br>
-<br>
-=C2=A0ebpf/ebpf_rss-stub.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A06 +<br>
-=C2=A0ebpf/ebpf_rss.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 120 ++++---<br>
-=C2=A0ebpf/ebpf_rss.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A08 +-<br>
-=C2=A0ebpf/qemu-ebpf-rss-helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 130 +++++++<b=
-r>
-=C2=A0ebpf/rss.bpf.skeleton.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 557=
- +++++++++++++++---------------<br>
-=C2=A0hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 77 ++++-<br>
-=C2=A0include/hw/virtio/virtio-net.h=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 47 ++-<br>
-=C2=A0monitor/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0monitor/qemu-helper-stamp-utils.c | 297 ++++++++++++++++<br>
-=C2=A0monitor/qemu-helper-stamp-utils.h |=C2=A0 24 ++<br>
-=C2=A0monitor/qmp-cmds.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 32 ++<br>
-=C2=A0qapi/misc.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 33 ++<br>
-=C2=A0tools/ebpf/rss.bpf.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 67 ++--<br>
-=C2=A014 files changed, 990 insertions(+), 410 deletions(-)<br>
-=C2=A0create mode 100644 ebpf/qemu-ebpf-rss-helper.c<br>
-=C2=A0create mode 100644 monitor/qemu-helper-stamp-utils.c<br>
-=C2=A0create mode 100644 monitor/qemu-helper-stamp-utils.h<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div>
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 48b55ebd0a..edb97ebbbe 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4919,6 +4919,9 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     return r;
+ }
+ 
++/*
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
+ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+ {
+     PropValue *pv;
+@@ -4931,7 +4934,11 @@ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+     }
+ }
+ 
+-/* Apply properties for the CPU model version specified in model */
++/*
++ * Apply properties for the CPU model version specified in model.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
++
+ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+ {
+     const X86CPUVersionDefinition *vdef;
+@@ -4960,7 +4967,9 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+     assert(vdef->version == version);
+ }
+ 
+-/* Load data from X86CPUDefinition into a X86CPU object
++/*
++ * Load data from X86CPUDefinition into a X86CPU object.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
+  */
+ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
+ {
+@@ -5051,6 +5060,12 @@ static void x86_register_cpu_model_type(const char *name, X86CPUModel *model)
+     type_register(&ti);
+ }
+ 
++
++/*
++ * register builtin_x86_defs;
++ * "max", "base" and subclasses ("host") are not registered here.
++ * See x86_cpu_register_types for all model registrations.
++ */
+ static void x86_register_cpudef_types(const X86CPUDefinition *def)
+ {
+     X86CPUModel *m;
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index 4ea9e354ea..10f8aba86e 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -150,13 +150,16 @@ void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping)
+ 
+ void host_cpu_instance_init(X86CPU *cpu)
+ {
+-    uint32_t ebx = 0, ecx = 0, edx = 0;
+-    char vendor[CPUID_VENDOR_SZ + 1];
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
+ 
+-    host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
+-    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
++    if (xcc->model) {
++        uint32_t ebx = 0, ecx = 0, edx = 0;
++        char vendor[CPUID_VENDOR_SZ + 1];
+ 
+-    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++        host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
++        x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
++        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++    }
+ }
+ 
+ void host_cpu_max_instance_init(X86CPU *cpu)
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index bbe817764d..d95028018e 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -52,47 +52,6 @@ static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
+     return host_cpu_realizefn(cs, errp);
+ }
+ 
+-/*
+- * KVM-specific features that are automatically added/removed
+- * from all CPU models when KVM is enabled.
+- *
+- * NOTE: features can be enabled by default only if they were
+- *       already available in the oldest kernel version supported
+- *       by the KVM accelerator (see "OS requirements" section at
+- *       docs/system/target-i386.rst)
+- */
+-static PropValue kvm_default_props[] = {
+-    { "kvmclock", "on" },
+-    { "kvm-nopiodelay", "on" },
+-    { "kvm-asyncpf", "on" },
+-    { "kvm-steal-time", "on" },
+-    { "kvm-pv-eoi", "on" },
+-    { "kvmclock-stable-bit", "on" },
+-    { "x2apic", "on" },
+-    { "kvm-msi-ext-dest-id", "off" },
+-    { "acpi", "off" },
+-    { "monitor", "off" },
+-    { "svm", "off" },
+-    { NULL, NULL },
+-};
+-
+-void x86_cpu_change_kvm_default(const char *prop, const char *value)
+-{
+-    PropValue *pv;
+-    for (pv = kvm_default_props; pv->prop; pv++) {
+-        if (!strcmp(pv->prop, prop)) {
+-            pv->value = value;
+-            break;
+-        }
+-    }
+-
+-    /*
+-     * It is valid to call this function only for properties that
+-     * are already present in the kvm_default_props table.
+-     */
+-    assert(pv->prop);
+-}
+-
+ static bool lmce_supported(void)
+ {
+     uint64_t mce_cap = 0;
+@@ -150,21 +109,69 @@ static void kvm_cpu_xsave_init(void)
+     }
+ }
+ 
++/*
++ * KVM-specific features that are automatically added/removed
++ * from cpudef models when KVM is enabled.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ *
++ * NOTE: features can be enabled by default only if they were
++ *       already available in the oldest kernel version supported
++ *       by the KVM accelerator (see "OS requirements" section at
++ *       docs/system/target-i386.rst)
++ */
++static PropValue kvm_default_props[] = {
++    { "kvmclock", "on" },
++    { "kvm-nopiodelay", "on" },
++    { "kvm-asyncpf", "on" },
++    { "kvm-steal-time", "on" },
++    { "kvm-pv-eoi", "on" },
++    { "kvmclock-stable-bit", "on" },
++    { "x2apic", "on" },
++    { "kvm-msi-ext-dest-id", "off" },
++    { "acpi", "off" },
++    { "monitor", "off" },
++    { "svm", "off" },
++    { NULL, NULL },
++};
++
++/*
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
++void x86_cpu_change_kvm_default(const char *prop, const char *value)
++{
++    PropValue *pv;
++    for (pv = kvm_default_props; pv->prop; pv++) {
++        if (!strcmp(pv->prop, prop)) {
++            pv->value = value;
++            break;
++        }
++    }
++
++    /*
++     * It is valid to call this function only for properties that
++     * are already present in the kvm_default_props table.
++     */
++    assert(pv->prop);
++}
++
+ static void kvm_cpu_instance_init(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
+ 
+     host_cpu_instance_init(cpu);
+ 
+-    if (!kvm_irqchip_in_kernel()) {
+-        x86_cpu_change_kvm_default("x2apic", "off");
+-    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
+-        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+-    }
+-
+-    /* Special cases not set in the X86CPUDefinition structs: */
++    if (xcc->model) {
++        /* only applies to builtin_x86_defs cpus */
++        if (!kvm_irqchip_in_kernel()) {
++            x86_cpu_change_kvm_default("x2apic", "off");
++        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
++            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
++        }
+ 
+-    x86_cpu_apply_props(cpu, kvm_default_props);
++        /* Special cases not set in the X86CPUDefinition structs: */
++        x86_cpu_apply_props(cpu, kvm_default_props);
++    }
+ 
+     if (cpu->max_features) {
+         kvm_cpu_max_instance_init(cpu);
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index e96ec9bbcc..e86bc93384 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -99,7 +99,8 @@ static void tcg_cpu_xsave_init(void)
+ }
+ 
+ /*
+- * TCG-specific defaults that override all CPU models when using TCG
++ * TCG-specific defaults that override cpudef models when using TCG.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
+  */
+ static PropValue tcg_default_props[] = {
+     { "vme", "off" },
+@@ -109,8 +110,12 @@ static PropValue tcg_default_props[] = {
+ static void tcg_cpu_instance_init(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+-    /* Special cases not set in the X86CPUDefinition structs: */
+-    x86_cpu_apply_props(cpu, tcg_default_props);
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
++
++    if (xcc->model) {
++        /* Special cases not set in the X86CPUDefinition structs: */
++        x86_cpu_apply_props(cpu, tcg_default_props);
++    }
+ 
+     tcg_cpu_xsave_init();
+ }
+-- 
+2.26.2
 
---0000000000009fb3c505c7b23491--
 
