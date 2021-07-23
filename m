@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873213D398F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:33:34 +0200 (CEST)
-Received: from localhost ([::1]:45572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F1E3D39E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 14:03:04 +0200 (CEST)
+Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6tQr-0007KM-KW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42088)
+	id 1m6ttO-0001x9-CS
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 08:03:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6tOa-0005Ub-6K
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:31:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35591)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6tsc-0001I2-0p
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 08:02:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6tOV-00030x-Ed
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:31:10 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6tsX-0001G1-40
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 08:02:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627039865;
+ s=mimecast20190719; t=1627041727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=76Otbst0YqRK7+lzRXE0IOBY5qqB0LMp8vvrpfvl568=;
- b=YJjJBO3grRzL45C5ciYDjjKGljIspgKfCQM+U3gyYIukp7z6Ib7pndL+WRE0PXay0ssrmw
- JMh7kkDLTp5CCws4xSsd55enhk/biDgxoR7ITvWQxLpkOeKqEWmIc3oSoLnbb2C0L8QI6+
- 5pqXi/25VNoSGhdJcNchgQpTyw7aMpw=
+ bh=bGdVqiDLMv3lEVzW1di8JcpKB5o7922vJVvPd8lkY7E=;
+ b=LsDtyDos5JxyhOJMdrCw6/K76hOfqORsVNuxGxXf5oHzCxjfq9HeUJk8aRPwAqWRMgQZJU
+ yzlfulZZpjN25wR/fAbZP8uzF6oE1MNTUITXyL28FYQoQVrJYKnt7D4duV0kOPkz3UtfI0
+ Db5rTDOx/FkiirIr0bZuGb+DZhtTnRE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-ZSoYUlFOM1eTyFAM_9tihQ-1; Fri, 23 Jul 2021 07:31:02 -0400
-X-MC-Unique: ZSoYUlFOM1eTyFAM_9tihQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-404-ig8VuomKPReqMUyGAKLHNg-1; Fri, 23 Jul 2021 08:02:05 -0400
+X-MC-Unique: ig8VuomKPReqMUyGAKLHNg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77D0E1084F55;
- Fri, 23 Jul 2021 11:31:01 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-113-197.ams2.redhat.com
- [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7728B60939;
- Fri, 23 Jul 2021 11:30:52 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EEB0801AE7
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 12:02:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 739BD1A869;
+ Fri, 23 Jul 2021 12:01:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E96C818000A3; Fri, 23 Jul 2021 14:01:56 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] gitlab: only let pages be published from default branch
-Date: Fri, 23 Jul 2021 12:30:51 +0100
-Message-Id: <20210723113051.2792799-1-berrange@redhat.com>
+Subject: [PATCH] meson: fix dependencies for modinfo #2
+Date: Fri, 23 Jul 2021 14:01:56 +0200
+Message-Id: <20210723120156.1183920-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -76,74 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab will happily publish pages generated by the latest CI pipeline
-from any branch:
+modinfo runs the preprocessor and therefore needs all generated input files
+to be there.  The "depends" clause does not work in Meson 0.55.3, so for
+now use "input".
 
-https://docs.gitlab.com/ee/user/project/pages/introduction.html
+Part #2: Update the rule for target-specific modules too.
 
-  "Remember that GitLab Pages are by default branch/tag agnostic
-   and their deployment relies solely on what you specify in
-   .gitlab-ci.yml. You can limit the pages job with the only
-   parameter, whenever a new commit is pushed to a branch used
-   specifically for your pages."
-
-The current "pages" job is not limited, so it is happily publishing
-docs content from any branch/tag in qemu.git that gets pushed to.
-This means we're potentially publishing from the "staging" branch
-or worse from outdated "stable-NNN" branches
-
-This change restricts it to only publish from the default branch
-in the main repository. For contributor forks, however, we allow
-it to publish from any branch, since users will have arbitrarily
-named topic branches in flight at any time.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 89df51517c..80b57b7082 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -663,6 +663,17 @@ build-tools-and-docs-debian:
- 
- # Prepare for GitLab pages deployment. Anything copied into the
- # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
-+#
-+# GitLab publishes from any branch that triggers a CI pipeline
-+#
-+# For the main repo we don't want to publish from 'staging'
-+# since that content may not be pushed, nor do we wish to
-+# publish from 'stable-NNN' branches as that content is outdated.
-+# Thus we restrict to just the default branch
-+#
-+# For contributor forks we want to publish from any repo so
-+# that users can see the results of their commits, regardless
-+# of what topic branch they're currently using
- pages:
-   image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
-   stage: test
-@@ -681,3 +692,10 @@ pages:
-   artifacts:
-     paths:
-       - public
-+  rules:
-+    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-+      when: on_success
-+    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-+      when: never
-+    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
-+      when: on_success
+diff --git a/meson.build b/meson.build
+index df5094e563e9..f2e148eaf98e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2373,9 +2373,9 @@ foreach d, list : target_modules
+             # FIXME: Should use sl.extract_all_objects(recursive: true) too.
+             modinfo_files += custom_target(module_name + '.modinfo',
+                                            output: module_name + '.modinfo',
+-                                           input: target_module_ss.sources(),
++                                           input: target_module_ss.sources() + genh,
+                                            capture: true,
+-                                           command: [modinfo_collect, '--target', target, '@INPUT@'])
++                                           command: [modinfo_collect, '--target', target, target_module_ss.sources()])
+           endif
+         endif
+       endforeach
 -- 
 2.31.1
 
