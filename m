@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967133D3485
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:19:30 +0200 (CEST)
-Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F243D349E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:26:28 +0200 (CEST)
+Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6oWv-0004qM-MH
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44624)
+	id 1m6odg-0006h0-23
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6oWC-0004Bm-UC
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:18:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59500)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6ocl-0005vQ-PA
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:25:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6oW9-0000xD-Ue
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:18:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6oci-0006V4-Pb
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:25:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627021120;
+ s=mimecast20190719; t=1627021527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JvZQXMnw7yfOePZIUWdyKBCP6UsSehgxxE2YA32Del8=;
- b=PIgLps0MCeGPZYJ6ZwRETwrIq8hcYXgNDOm48yVVL8AwspCTo7RueLkDAcKY9ih26SL/kg
- jjmSKvB7HkQZqRiTFsdLBXqQ51D67Ov2MKxuT9uNYkcCUWBYu8CHwhpD75RU9Q2HsFt3Qr
- R9/WdqNiX0WplLoURTM+5bDoksEef1U=
+ bh=NLVx3cXkupzvgjCwIyvlpK5Hz+w6Rx9OxqFtUGXQOOI=;
+ b=YhxzfbZcEd8d+Rz5Lt377bvnG9MFZBdRBUMnWCc0G1IFvFy7evSukeU3oQvzpuce/7TsbD
+ D8pDuXr40BTy9Wof+z+FJmFn8SYTEjuUEqlR8SCP8EoGco10Iyp6ZYREjW/IaR7dx1/k2G
+ H9OUoAgzYRqzK9LVXjztBWV+bAF7/9g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-kab04DbDP_6FeDJtl9lGqQ-1; Fri, 23 Jul 2021 02:18:39 -0400
-X-MC-Unique: kab04DbDP_6FeDJtl9lGqQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-565-0kx5z3ACMFChZ9gmPKrvOA-1; Fri, 23 Jul 2021 02:25:24 -0400
+X-MC-Unique: 0kx5z3ACMFChZ9gmPKrvOA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411E2100F764;
- Fri, 23 Jul 2021 06:18:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCC5710086C4;
+ Fri, 23 Jul 2021 06:25:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 854995D9C6;
- Fri, 23 Jul 2021 06:18:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D48E5C1D1;
+ Fri, 23 Jul 2021 06:25:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DE7A01800926; Fri, 23 Jul 2021 08:18:32 +0200 (CEST)
-Date: Fri, 23 Jul 2021 08:18:32 +0200
+ id B8CE71800926; Fri, 23 Jul 2021 08:25:20 +0200 (CEST)
+Date: Fri, 23 Jul 2021 08:25:20 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PULL 37/48] usb: build usb-host as module
-Message-ID: <20210723061832.vhzptuht3ejsuhw7@sirius.home.kraxel.org>
-References: <20210708151748.408754-1-pbonzini@redhat.com>
- <20210708151748.408754-38-pbonzini@redhat.com>
- <YPl8O8d1riAgeBD6@angien.pipo.sk>
+To: "Jose R. Ziviani" <jziviani@suse.de>
+Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is not
+ found
+Message-ID: <20210723062520.hp6qux5enrwyw56u@sirius.home.kraxel.org>
+References: <20210722220952.17444-1-jziviani@suse.de>
+ <20210722220952.17444-2-jziviani@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <YPl8O8d1riAgeBD6@angien.pipo.sk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210722220952.17444-2-jziviani@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -80,23 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, "Jose R . Ziviani" <jziviani@suse.de>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > +if config_host.has_key('CONFIG_USB_LIBUSB')
-> 
-> The problem is in this condition as it's evaluated as false. When I
-> replace it with libusb.found(), everything works as it used to.
+  Hi,
 
-Correct fix, paolo has a pending pull request containing it.
+> --- a/accel/accel-softmmu.c
+> +++ b/accel/accel-softmmu.c
+> @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>       * all accelerators need to define ops, providing at least a mandatory
+>       * non-NULL create_vcpu_thread operation.
+>       */
+> -    g_assert(ops != NULL);
+> +    if (ops == NULL) {
 
-> Unfortunately I don't know what the real goa behind using
-> CONFIG_USB_LIBUSB here was to see whether my approach is good.
+Error message here?
+Also split accel bits into a separate patch?
 
-Used to be the correct approach before libusb detection was
-switched from configure to meson.
+>          g_hash_table_remove(loaded_modules, module_name);
+> +        fprintf(stderr, "%s module is missing, install the "
+> +                        "package or config the library path "
+> +                        "correctly.\n", module_name);
+
+This should be error_report(), or maybe warn_report() as this
+isn't a fatal error in all cases.  Otherwise looks good to me.
 
 take care,
   Gerd
