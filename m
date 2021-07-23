@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123B53D3B66
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 15:48:17 +0200 (CEST)
-Received: from localhost ([::1]:34230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4463D3B6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 15:51:45 +0200 (CEST)
+Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6vXD-0005GY-NY
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 09:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1m6vaa-0006xG-AN
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 09:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6vVo-0004ZS-3m
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:46:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m6vVk-0007zO-Bv
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:46:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627048001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m6vZl-0006Hv-An
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:50:53 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:49328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m6vZj-0002By-Bz
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:50:53 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AEDF61FD9F;
+ Fri, 23 Jul 2021 13:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627048249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3XBQHN4Rch89SPhwqX3siDaxHK3EbIS5JbtdZ+XPpvs=;
- b=XJlPHdLgKWlhJ5wS1TAzYDQq7iq34X/ruMg6DmtIplBqJUqfPlkGxqmQp5uyp7aHMw6JB3
- L0kopdhyeMTUKeNQf9YGdFcXopA4RLfju1pDlt8t8xG/TzVIAFcG7QlDMaqS9qHbVMjNE0
- lbjUnUplT/PFxAvI0RI3/WuF1yWYfWU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-seEAcaSnO7SBgff2a3leYw-1; Fri, 23 Jul 2021 09:46:40 -0400
-X-MC-Unique: seEAcaSnO7SBgff2a3leYw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- j22-20020a50ed160000b02903ab03a06e86so754524eds.14
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 06:46:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3XBQHN4Rch89SPhwqX3siDaxHK3EbIS5JbtdZ+XPpvs=;
- b=Emj51fzCzc3akMidT0vmv9PjiF8BlCtyYf0T1Nl6K1aq83KXbqd60IFnyKBFWgmXKn
- E8T2wphrLJnMaGxtdDqEC+A8uDeqHs1d/z5beeBgnbxddEsRx1RrUSrhrESMutQulv1a
- qYZs7rTf3OvwlVqR40VT68wZuzePwSmdrZ7ItPC62Pv8Bv7CWQvgF3xjz8NzB9EYxwp+
- TfgXOGwZsK+VQdp7d0TtmQWg9p57fEGh/T9G45v1s3KpaB85SUCi/TPC50JIjRdzusp4
- 7YQj4rFf9Jb7bCh747ECKY9VuU/53rS+Yh/VdMCN3LD+cDVQXIPheupcdnnlbwq17gFA
- nyrA==
-X-Gm-Message-State: AOAM531VF/Pu95NMDIQ+yxXmSWDnKGvTS0Mw/tlWS0qv730vgHx3BVKr
- wexjtKgiCHPSKGfLhxJiWwpFqoJXmqcubGoJDZUeSaLONiYGorkkk+VS0oskB4+5HXohZ7xe/qe
- MxVqUoPVCJec7XYmy7lCm+ilmOXTPHGF+ubvg+XgrqrA7V4cnSj7mNuRqkv0DnQ6g42Q=
-X-Received: by 2002:a50:8e19:: with SMTP id 25mr5762951edw.11.1627047998681;
- Fri, 23 Jul 2021 06:46:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXDsb2FUWfmKVfTk+K4nmqiMHmOuLQX1idTKoygc179hKT09igpKIpDeEUFEdAMSFwr0U40Q==
-X-Received: by 2002:a50:8e19:: with SMTP id 25mr5762929edw.11.1627047998459;
- Fri, 23 Jul 2021 06:46:38 -0700 (PDT)
-Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id n15sm655141edw.70.2021.07.23.06.46.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 06:46:37 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: Added consistency checks for CR3
-To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
-References: <20210723112740.45962-1-laramglazier@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5ef81edc-867c-cde0-995d-fc0e0a0915d4@redhat.com>
-Date: Fri, 23 Jul 2021 15:46:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=7wNGsmw9uQNWd8qdihPMXqtbSWNtF85Vq6Go3b7HOf8=;
+ b=Rhxx9YgOUURpvpnpFItX9kE3RVN0Gi81EOtpwfTNy4g4ll/Vm2seUDhayVr4Vu2B0V8FO1
+ nnqM5ie0YfpVX9sOVjvSqWktXHDNBubc7aVvHVkG3YiAZG9XqWz2GFVgrTo8WhKmFWS/p5
+ sXmhrCryq4jxo3Ft8645Pf2LLFplet0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627048249;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7wNGsmw9uQNWd8qdihPMXqtbSWNtF85Vq6Go3b7HOf8=;
+ b=ZPQcalb+uirnJOCzbuQ+2dOB4652DXINEvP/0X4hPgAfzrrjFBZ7CxDlM8xNDPnelh9Vfs
+ WKinitmk/SIpFRDw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id B77D7139B8;
+ Fri, 23 Jul 2021 13:50:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id RdTZHTfJ+mBGKwAAGKfGzw
+ (envelope-from <jziviani@suse.de>); Fri, 23 Jul 2021 13:50:47 +0000
+Date: Fri, 23 Jul 2021 10:50:41 -0300
+From: "Jose R. Ziviani" <jziviani@suse.de>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is not
+ found
+Message-ID: <YPrJMTF+3lfeNdC5@pizza>
+References: <20210722220952.17444-1-jziviani@suse.de>
+ <20210722220952.17444-2-jziviani@suse.de>
+ <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210723112740.45962-1-laramglazier@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="56QU/I0EuxCXslcc"
+Content-Disposition: inline
+In-Reply-To: <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,77 +83,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/07/21 13:27, Lara Lazier wrote:
-> All MBZ in CR3 must be zero (APM2 15.5)
-> Added checks in both helper_vmrun and helper_write_crN.
-> When EFER.LMA is zero the upper 32 bits needs to be zeroed.
-> 
-> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-> ---
->   target/i386/tcg/sysemu/misc_helper.c |  7 +++++++
->   target/i386/tcg/sysemu/svm_helper.c  | 10 +++++++---
->   2 files changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-> index a2af2c9bba..d347af2a99 100644
-> --- a/target/i386/tcg/sysemu/misc_helper.c
-> +++ b/target/i386/tcg/sysemu/misc_helper.c
-> @@ -96,6 +96,13 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
->           cpu_x86_update_cr0(env, t0);
->           break;
->       case 3:
-> +        if ((env->efer & MSR_EFER_LMA) &&
-> +                (t0 & ((~0UL) << env_archcpu(env)->phys_bits))) {
-> +            cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-> +        }
-> +        if (!(env->efer & MSR_EFER_LMA)) {
-> +            t0 &= 0xffffffffUL;
-> +        }
->           cpu_x86_update_cr3(env, t0);
->           break;
->       case 4:
-> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-> index 37dbe8e434..8b1ba53c64 100644
-> --- a/target/i386/tcg/sysemu/svm_helper.c
-> +++ b/target/i386/tcg/sysemu/svm_helper.c
-> @@ -111,6 +111,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->       uint32_t int_ctl;
->       uint32_t asid;
->       uint64_t new_cr0;
-> +    uint64_t new_cr3;
->       uint64_t new_cr4;
->   
->       cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
-> @@ -252,6 +253,11 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->       if ((new_cr0 & CR0_NW_MASK) && !(new_cr0 & CR0_CD_MASK)) {
->           cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
->       }
-> +    new_cr3 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr3));
-> +    if ((env->efer & MSR_EFER_LMA) &&
-> +            (new_cr3 & ((~0UL) << cpu->phys_bits))) {
-> +        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-> +    }
->       new_cr4 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr4));
->       if (new_cr4 & cr4_reserved_bits(env)) {
->           cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-> @@ -262,9 +268,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->   
->       cpu_x86_update_cr0(env, new_cr0);
->       cpu_x86_update_cr4(env, new_cr4);
-> -    cpu_x86_update_cr3(env, x86_ldq_phys(cs,
-> -                                     env->vm_vmcb + offsetof(struct vmcb,
-> -                                                             save.cr3)));
-> +    cpu_x86_update_cr3(env, new_cr3);
->       env->cr[2] = x86_ldq_phys(cs,
->                             env->vm_vmcb + offsetof(struct vmcb, save.cr2));
->       int_ctl = x86_ldl_phys(cs,
-> 
 
-Queued, thanks.
+--56QU/I0EuxCXslcc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Fri, Jul 23, 2021 at 11:41:19AM +0200, Claudio Fontana wrote:
+> On 7/23/21 12:09 AM, Jose R. Ziviani wrote:
+> > When a module is not found, specially accelerators, QEMU displays
+> > a error message that not easy to understand[1]. This patch improves
+> > the readability by offering a user-friendly message[2].
+> >=20
+> > This patch also moves the accelerator ops check to runtine (instead
+> > of the original g_assert) because it works better with dynamic
+> > modules.
+> >=20
+> > [1] qemu-system-x86_64 -accel tcg
+> > ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion =
+failed:
+> > (ops !=3D NULL)
+> > Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces:
+> > assertion failed: (ops !=3D NULL)
+> >     31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
+> >=20
+> > [2] qemu-system-x86_64 -accel tcg
+> > accel-tcg-x86_64 module is missing, install the package or config the l=
+ibrary path correctly.
+> >=20
+> > Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+> > ---
+> >  accel/accel-softmmu.c |  5 ++++-
+> >  util/module.c         | 14 ++++++++------
+> >  2 files changed, 12 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+> > index 67276e4f52..52449ac2d0 100644
+> > --- a/accel/accel-softmmu.c
+> > +++ b/accel/accel-softmmu.c
+> > @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
+> >       * all accelerators need to define ops, providing at least a manda=
+tory
+> >       * non-NULL create_vcpu_thread operation.
+> >       */
+> > -    g_assert(ops !=3D NULL);
+> > +    if (ops =3D=3D NULL) {
+> > +        exit(1);
+> > +    }
+> > +
+>=20
+>=20
+> Ah, again, why?
+> This change looks wrong to me,=20
+>=20
+> the ops code should be present when ops interfaces are initialized:
+> it should be a code level assertion, as it has to do with the proper orde=
+r of initializations in QEMU,
+>=20
+> why would we want to do anything else but to assert here?
+>=20
+> Am I blind to something obvious?
 
+Hello!
+
+Thank you for reviewing it!
+
+The problem is that if your TCG module is not installed and you start
+QEMU like:
+
+=2E/qemu-system-x86_64 -accel tcg
+
+You'll get the error message + a crash with a core dump:
+
+accel-tcg-x86_64 module is missing, install the package or config the libra=
+ry path correctly.
+**
+ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion fail=
+ed: (ops !=3D NULL)
+Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: asse=
+rtion failed: (ops !=3D NULL)
+[1]    5740 IOT instruction (core dumped)  ./qemu-system-x86_64 -accel tcg
+
+I was digging a little bit more in order to move this responsibility to
+module.c but there isn't enough information there to safely exit() in
+all situations that a module may be loaded. As Gerd mentioned, more work
+is needed in order to achieve that.
+
+However, it's not nice to have a crash due to an optional module missing.
+It's specially confusing because TCG has always been native. Considering
+also that we're already in hard freeze for 6.1, I thought to have this
+simpler check instead.
+
+What do you think if we have something like:
+
+/* FIXME: this isn't the right place to handle a missing module and
+   must be reverted when the module refactoring is completely done */
+#ifdef CONFIG_MODULES
+if (ops =3D=3D NULL) {
+    exit(1);
+}
+#else
+g_assert(ops !=3D NULL);
+#endif
+
+Regards!
+
+>=20
+> >      if (ops->ops_init) {
+> >          ops->ops_init(ops);
+> >      }
+> > diff --git a/util/module.c b/util/module.c
+> > index 6bb4ad915a..268a8563fd 100644
+> > --- a/util/module.c
+> > +++ b/util/module.c
+> > @@ -206,13 +206,10 @@ static int module_load_file(const char *fname, bo=
+ol mayfail, bool export_symbols
+> >  out:
+> >      return ret;
+> >  }
+> > -#endif
+> > =20
+> >  bool module_load_one(const char *prefix, const char *lib_name, bool ma=
+yfail)
+> >  {
+> >      bool success =3D false;
+> > -
+> > -#ifdef CONFIG_MODULES
+> >      char *fname =3D NULL;
+> >  #ifdef CONFIG_MODULE_UPGRADES
+> >      char *version_dir;
+> > @@ -300,6 +297,9 @@ bool module_load_one(const char *prefix, const char=
+ *lib_name, bool mayfail)
+> > =20
+> >      if (!success) {
+> >          g_hash_table_remove(loaded_modules, module_name);
+> > +        fprintf(stderr, "%s module is missing, install the "
+> > +                        "package or config the library path "
+> > +                        "correctly.\n", module_name);
+> >          g_free(module_name);
+> >      }
+> > =20
+> > @@ -307,12 +307,9 @@ bool module_load_one(const char *prefix, const cha=
+r *lib_name, bool mayfail)
+> >          g_free(dirs[i]);
+> >      }
+> > =20
+> > -#endif
+> >      return success;
+> >  }
+> > =20
+> > -#ifdef CONFIG_MODULES
+> > -
+> >  static bool module_loaded_qom_all;
+> > =20
+> >  void module_load_qom_one(const char *type)
+> > @@ -384,4 +381,9 @@ void qemu_load_module_for_opts(const char *group) {}
+> >  void module_load_qom_one(const char *type) {}
+> >  void module_load_qom_all(void) {}
+> > =20
+> > +bool module_load_one(const char *prefix, const char *lib_name, bool ma=
+yfail)
+> > +{
+> > +    return false;
+> > +}
+> > +
+> >  #endif
+> >=20
+>=20
+
+--56QU/I0EuxCXslcc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEVQB+DwLGVyv815sBaJ4wdCKKF5YFAmD6yS0ACgkQaJ4wdCKK
+F5Y8jw/9H3RKp1vd6Dzz//Vz1y60WMYxqy/s0K1B+gMuzOgwq1+bofEzyXqrjSY0
+GH1NsvWZn+7uLZPi3GnR8ECteN3DqYLmeAVccRUrVkDxXWkKDhbRpME0655OLqQY
+2xDU/doNM/0sZFqww+ZCiVOJM4QHld5COHyZutSoHN/ak4NZo6uZF0sR7mQTPe9a
+gGcnvxMjYG117+aJvIlShB9iL4U3TV/OnCfjST0hUipWcyb4KA8nVlo6zH7niRMj
+QRwTPwfvyAem8zRYrpKalcA/fEW2IrNcpRaGu3DdfX1jIMx/58SKAwTSy+fEaxb/
+5eSdhnDSI/OQ7l/e6vrNCe/Jyo0yOveaqzpr7Qg/311JgBJMxG41jhC/a/Bey0UU
+o/lUm+xTi5MgE3ILNd/2pCUHPYrqL/NIoEOSSrMOUxuXVNhW2P+wfoTrW0i6Q31g
+iVhRmeHMSxGYZjU+86wUd2xytb0R1t5k4wgxrM4wjrqrQUtq+ktuUWLFhciqiu/W
+UNv+5UrhgytpsgDxAUo8vy98niik1cGJrusULHVa0gIT74ZV0wSXtHwpoorsvKpd
+vvnob4HhG3NNcnlDwE9g2Ha8P1m/MgI6GZY8uscye7JYxC8WlyWmUODyyvkXP3+w
+xtdx1WPG0cTpbrs9seZogEl6TyMGKp9w9mWCv2bIOJNqKanIFf8=
+=N3Y/
+-----END PGP SIGNATURE-----
+
+--56QU/I0EuxCXslcc--
 
