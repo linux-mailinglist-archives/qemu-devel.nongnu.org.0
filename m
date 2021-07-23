@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4463D3B6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 15:51:45 +0200 (CEST)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31B33D3B74
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 15:54:04 +0200 (CEST)
+Received: from localhost ([::1]:38894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6vaa-0006xG-AN
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 09:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40594)
+	id 1m6vcp-0000G2-OG
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 09:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m6vZl-0006Hv-An
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:50:53 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:49328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m6vZj-0002By-Bz
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:50:53 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AEDF61FD9F;
- Fri, 23 Jul 2021 13:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627048249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6vbd-0007pT-8u
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:52:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6vbb-0003bL-I2
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 09:52:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627048366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7wNGsmw9uQNWd8qdihPMXqtbSWNtF85Vq6Go3b7HOf8=;
- b=Rhxx9YgOUURpvpnpFItX9kE3RVN0Gi81EOtpwfTNy4g4ll/Vm2seUDhayVr4Vu2B0V8FO1
- nnqM5ie0YfpVX9sOVjvSqWktXHDNBubc7aVvHVkG3YiAZG9XqWz2GFVgrTo8WhKmFWS/p5
- sXmhrCryq4jxo3Ft8645Pf2LLFplet0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627048249;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7wNGsmw9uQNWd8qdihPMXqtbSWNtF85Vq6Go3b7HOf8=;
- b=ZPQcalb+uirnJOCzbuQ+2dOB4652DXINEvP/0X4hPgAfzrrjFBZ7CxDlM8xNDPnelh9Vfs
- WKinitmk/SIpFRDw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=8KR2u/bnP3vgdT/n0PD7aPEqYUfrrJfP7G2HxLQyqvU=;
+ b=SlUMm3zbMrqsvWBdqdjfuGYKFJRI2ZS2n5Rjqtqe1dRZR+qpvIYPvfIOjI3yaG+FYuuLRf
+ K6XoNbz01ZhGzFKCZ/GXdUoKhSg54g8uEv1TRlIUqj+yaZ721/weIfM2kCXq/Wo2eIhutE
+ gEWcurdj2qLbBJGMKtq14AtYuz59zlg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-6MUnHKoROSSNIKa1l8nYDA-1; Fri, 23 Jul 2021 09:52:45 -0400
+X-MC-Unique: 6MUnHKoROSSNIKa1l8nYDA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id B77D7139B8;
- Fri, 23 Jul 2021 13:50:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id RdTZHTfJ+mBGKwAAGKfGzw
- (envelope-from <jziviani@suse.de>); Fri, 23 Jul 2021 13:50:47 +0000
-Date: Fri, 23 Jul 2021 10:50:41 -0300
-From: "Jose R. Ziviani" <jziviani@suse.de>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is not
- found
-Message-ID: <YPrJMTF+3lfeNdC5@pizza>
-References: <20210722220952.17444-1-jziviani@suse.de>
- <20210722220952.17444-2-jziviani@suse.de>
- <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DD21802C9B;
+ Fri, 23 Jul 2021 13:52:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A179A5DA60;
+ Fri, 23 Jul 2021 13:52:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 11C6B18000A3; Fri, 23 Jul 2021 15:52:42 +0200 (CEST)
+Date: Fri, 23 Jul 2021 15:52:42 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Antonio Caggiano <antonio.caggiano@collabora.com>
+Subject: Re: virtio-gpu: Mapping blob resources
+Message-ID: <20210723135242.w5bcqwwrm5stec3b@sirius.home.kraxel.org>
+References: <0eb17319-0b1d-5f43-f5d9-8ccadb0839ef@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="56QU/I0EuxCXslcc"
+In-Reply-To: <0eb17319-0b1d-5f43-f5d9-8ccadb0839ef@collabora.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,200 +78,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: qemu-devel@nongnu.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ vivek.kasireddy@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 23, 2021 at 03:33:24PM +0200, Antonio Caggiano wrote:
+> Hi,
+> 
+> I am trying to implement blob resource mapping support, but there is
+> something I still did not manage to figure out.
+> 
+> According to the spec, VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB maps a host-only
+> blob resource into an offset in the host visible memory region. So, I
+> believe I will need something like:
+> 
+> > void *data = g->hotstmem[mblob.offset]; // pseudo-code
+> > virgl_renderer_resource_map(..., &data, ...);
+> 
+> Questions:
+> - Does my approach make sense?
 
---56QU/I0EuxCXslcc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No ;)
 
-On Fri, Jul 23, 2021 at 11:41:19AM +0200, Claudio Fontana wrote:
-> On 7/23/21 12:09 AM, Jose R. Ziviani wrote:
-> > When a module is not found, specially accelerators, QEMU displays
-> > a error message that not easy to understand[1]. This patch improves
-> > the readability by offering a user-friendly message[2].
-> >=20
-> > This patch also moves the accelerator ops check to runtine (instead
-> > of the original g_assert) because it works better with dynamic
-> > modules.
-> >=20
-> > [1] qemu-system-x86_64 -accel tcg
-> > ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion =
-failed:
-> > (ops !=3D NULL)
-> > Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces:
-> > assertion failed: (ops !=3D NULL)
-> >     31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
-> >=20
-> > [2] qemu-system-x86_64 -accel tcg
-> > accel-tcg-x86_64 module is missing, install the package or config the l=
-ibrary path correctly.
-> >=20
-> > Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
-> > ---
-> >  accel/accel-softmmu.c |  5 ++++-
-> >  util/module.c         | 14 ++++++++------
-> >  2 files changed, 12 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-> > index 67276e4f52..52449ac2d0 100644
-> > --- a/accel/accel-softmmu.c
-> > +++ b/accel/accel-softmmu.c
-> > @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
-> >       * all accelerators need to define ops, providing at least a manda=
-tory
-> >       * non-NULL create_vcpu_thread operation.
-> >       */
-> > -    g_assert(ops !=3D NULL);
-> > +    if (ops =3D=3D NULL) {
-> > +        exit(1);
-> > +    }
-> > +
->=20
->=20
-> Ah, again, why?
-> This change looks wrong to me,=20
->=20
-> the ops code should be present when ops interfaces are initialized:
-> it should be a code level assertion, as it has to do with the proper orde=
-r of initializations in QEMU,
->=20
-> why would we want to do anything else but to assert here?
->=20
-> Am I blind to something obvious?
+> - How do I get an address to the host visible memory region?
 
-Hello!
+You don't need that.
 
-Thank you for reviewing it!
+qemu has a memory api for that which manages a tree of regions.
+Each pci bar is such a region.  Below is an old patch from an
+archived branch adding a pci bar and memory region and some virtio
+feature flag stuff.  Surely will not apply as-is, but should show
+what you need to do.
 
-The problem is that if your TCG module is not installed and you start
-QEMU like:
+Then you can create a new memory region for each (mappable) host
+resource and register that as sub-region of the pci bar memory region.
+sub-regions can be moved around (set offset) and enabled (aka mapped)
+and disabled (aka unmapped), and qemu will take care to update the
+guest's view of the memory as needed.
 
-=2E/qemu-system-x86_64 -accel tcg
+HTH,
+  Gerd
 
-You'll get the error message + a crash with a core dump:
+commit e3e24a1ff3f68335a5691d9948f29d7f50b65929
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Wed Sep 25 14:54:29 2019 +0200
 
-accel-tcg-x86_64 module is missing, install the package or config the libra=
-ry path correctly.
-**
-ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion fail=
-ed: (ops !=3D NULL)
-Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: asse=
-rtion failed: (ops !=3D NULL)
-[1]    5740 IOT instruction (core dumped)  ./qemu-system-x86_64 -accel tcg
+    virtio-gpu: hostmem [wip]
 
-I was digging a little bit more in order to move this responsibility to
-module.c but there isn't enough information there to safely exit() in
-all situations that a module may be loaded. As Gerd mentioned, more work
-is needed in order to achieve that.
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index decc940048e1..9bb26139e686 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -108,12 +108,15 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_SHARED_ENABLED))
+ #define virtio_gpu_blob_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
++#define virtio_gpu_hostmem_enabled(_cfg) \
++    (_cfg.hostmem > 0)
+ 
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
+     uint32_t flags;
+     uint32_t xres;
+     uint32_t yres;
++    uint64_t hostmem;
+ };
+ 
+ struct virtio_gpu_ctrl_command {
+@@ -137,6 +140,8 @@ typedef struct VirtIOGPUBase {
+     int renderer_blocked;
+     int enable;
+ 
++    MemoryRegion hostmem;
++
+     struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
+ 
+     int enabled_output_bitmask;
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index 09f2efb09968..985f92983a4c 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -194,6 +194,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+     if (virtio_gpu_blob_enabled(g->conf)) {
+         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+     }
++    if (virtio_gpu_hostmem_enabled(g->conf)) {
++        features |= (1 << VIRTIO_GPU_F_HOSTMEM);
++    }
+ 
+     return features;
+ }
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index 3d152ff5c873..3f81f4952e59 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -33,6 +33,19 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     int i;
+     Error *local_error = NULL;
+ 
++    if (virtio_gpu_hostmem_enabled(g->conf)) {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
++    }
++
+     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+     virtio_pci_force_virtio_1(vpci_dev);
+     object_property_set_bool(OBJECT(vdev), true, "realized", &local_error);
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 795c4c1d429c..58bcd9c116c8 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1213,11 +1213,20 @@ static void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
+         }
+     }
+ 
++    if (virtio_gpu_hostmem_enabled(g->parent_obj.conf)) {
++        /* FIXME: to be investigated ... */
++        if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
++            error_setg(errp, "hostmem and virgl are not compatible (yet)");
++            return;
++        }
++    }
++
+     if (virtio_gpu_shared_enabled(g->parent_obj.conf) ||
+-        virtio_gpu_blob_enabled(g->parent_obj.conf)) {
++        virtio_gpu_blob_enabled(g->parent_obj.conf) ||
++        virtio_gpu_hostmem_enabled(g->parent_obj.conf)) {
+         /* FIXME: must xfer resource type somehow */
+         error_setg(&g->parent_obj.migration_blocker,
+-                   "shared/blob is not migratable (yet)");
++                   "shared/blob/hostmem is not migratable (yet)");
+         migrate_add_blocker(g->parent_obj.migration_blocker, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+@@ -1344,6 +1353,7 @@ static Property virtio_gpu_properties[] = {
+ #endif
+     DEFINE_PROP_BIT("shared", VirtIOGPU, parent_obj.conf.flags,
+                     VIRTIO_GPU_FLAG_SHARED_ENABLED, false),
++    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 2b4c2aa126c7..933b74c496e5 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -112,8 +112,21 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+      * virtio regions are moved to the end of bar #2, to make room for
+      * the stdvga mmio registers at the start of bar #2.
+      */
+-    vpci_dev->modern_mem_bar_idx = 2;
+-    vpci_dev->msix_bar_idx = 4;
++    if (!virtio_gpu_hostmem_enabled(g->conf)) {
++        vpci_dev->modern_mem_bar_idx = 2;
++        vpci_dev->msix_bar_idx = 4;
++    } else {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
++    }
+ 
+     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
+         /*
 
-However, it's not nice to have a crash due to an optional module missing.
-It's specially confusing because TCG has always been native. Considering
-also that we're already in hard freeze for 6.1, I thought to have this
-simpler check instead.
-
-What do you think if we have something like:
-
-/* FIXME: this isn't the right place to handle a missing module and
-   must be reverted when the module refactoring is completely done */
-#ifdef CONFIG_MODULES
-if (ops =3D=3D NULL) {
-    exit(1);
-}
-#else
-g_assert(ops !=3D NULL);
-#endif
-
-Regards!
-
->=20
-> >      if (ops->ops_init) {
-> >          ops->ops_init(ops);
-> >      }
-> > diff --git a/util/module.c b/util/module.c
-> > index 6bb4ad915a..268a8563fd 100644
-> > --- a/util/module.c
-> > +++ b/util/module.c
-> > @@ -206,13 +206,10 @@ static int module_load_file(const char *fname, bo=
-ol mayfail, bool export_symbols
-> >  out:
-> >      return ret;
-> >  }
-> > -#endif
-> > =20
-> >  bool module_load_one(const char *prefix, const char *lib_name, bool ma=
-yfail)
-> >  {
-> >      bool success =3D false;
-> > -
-> > -#ifdef CONFIG_MODULES
-> >      char *fname =3D NULL;
-> >  #ifdef CONFIG_MODULE_UPGRADES
-> >      char *version_dir;
-> > @@ -300,6 +297,9 @@ bool module_load_one(const char *prefix, const char=
- *lib_name, bool mayfail)
-> > =20
-> >      if (!success) {
-> >          g_hash_table_remove(loaded_modules, module_name);
-> > +        fprintf(stderr, "%s module is missing, install the "
-> > +                        "package or config the library path "
-> > +                        "correctly.\n", module_name);
-> >          g_free(module_name);
-> >      }
-> > =20
-> > @@ -307,12 +307,9 @@ bool module_load_one(const char *prefix, const cha=
-r *lib_name, bool mayfail)
-> >          g_free(dirs[i]);
-> >      }
-> > =20
-> > -#endif
-> >      return success;
-> >  }
-> > =20
-> > -#ifdef CONFIG_MODULES
-> > -
-> >  static bool module_loaded_qom_all;
-> > =20
-> >  void module_load_qom_one(const char *type)
-> > @@ -384,4 +381,9 @@ void qemu_load_module_for_opts(const char *group) {}
-> >  void module_load_qom_one(const char *type) {}
-> >  void module_load_qom_all(void) {}
-> > =20
-> > +bool module_load_one(const char *prefix, const char *lib_name, bool ma=
-yfail)
-> > +{
-> > +    return false;
-> > +}
-> > +
-> >  #endif
-> >=20
->=20
-
---56QU/I0EuxCXslcc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEVQB+DwLGVyv815sBaJ4wdCKKF5YFAmD6yS0ACgkQaJ4wdCKK
-F5Y8jw/9H3RKp1vd6Dzz//Vz1y60WMYxqy/s0K1B+gMuzOgwq1+bofEzyXqrjSY0
-GH1NsvWZn+7uLZPi3GnR8ECteN3DqYLmeAVccRUrVkDxXWkKDhbRpME0655OLqQY
-2xDU/doNM/0sZFqww+ZCiVOJM4QHld5COHyZutSoHN/ak4NZo6uZF0sR7mQTPe9a
-gGcnvxMjYG117+aJvIlShB9iL4U3TV/OnCfjST0hUipWcyb4KA8nVlo6zH7niRMj
-QRwTPwfvyAem8zRYrpKalcA/fEW2IrNcpRaGu3DdfX1jIMx/58SKAwTSy+fEaxb/
-5eSdhnDSI/OQ7l/e6vrNCe/Jyo0yOveaqzpr7Qg/311JgBJMxG41jhC/a/Bey0UU
-o/lUm+xTi5MgE3ILNd/2pCUHPYrqL/NIoEOSSrMOUxuXVNhW2P+wfoTrW0i6Q31g
-iVhRmeHMSxGYZjU+86wUd2xytb0R1t5k4wgxrM4wjrqrQUtq+ktuUWLFhciqiu/W
-UNv+5UrhgytpsgDxAUo8vy98niik1cGJrusULHVa0gIT74ZV0wSXtHwpoorsvKpd
-vvnob4HhG3NNcnlDwE9g2Ha8P1m/MgI6GZY8uscye7JYxC8WlyWmUODyyvkXP3+w
-xtdx1WPG0cTpbrs9seZogEl6TyMGKp9w9mWCv2bIOJNqKanIFf8=
-=N3Y/
------END PGP SIGNATURE-----
-
---56QU/I0EuxCXslcc--
 
