@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE77D3D387B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:17:13 +0200 (CEST)
-Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE273D3888
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:21:14 +0200 (CEST)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6sEy-0002w0-Hf
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
+	id 1m6sIr-0004hR-Av
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m6sDx-00028m-RW
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:16:10 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:45620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m6sDv-0007T0-3W
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:16:09 -0400
-Received: by mail-ej1-x632.google.com with SMTP id gt31so2751643ejc.12
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 03:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RWvmwONE9uXXwY3bHKPRikwcNWHcAa5BgCq6T7g1Ttk=;
- b=y/AJNdqzp6FD+EGOkMXDspScN97Th7kmIqGfYJUEF1sqTceVyzDgWO4kyKX3khGNjb
- OK2ufJ2Wswh+oFiv6esMUeCShUzYxDZQ1EAZln4IAySsifTOzyeDMjSIUMD1s/tokoa2
- qaDcyUW+iTHQLyhPpUATleTPCdu+yheMhxIZmYDBjDWG6gWJsUsDW32AXE7++xe+9WTm
- J/e/IixyCBdbCoobS7FdLo3lmo4NnaD0xaBhpZ9RZiQUFKoqqIJnY52gQIkjOwY3ALL+
- FbGuMjmGCS6xz4cij/S/DwFW0l1Zd4urUl+B2ejiTa90EOKJJGEm31kr0+e1h87B2fr1
- 4CiQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m6sHr-0003xA-LY
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:20:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m6sHp-0002Vx-6Z
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:20:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627035607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/6oLomxhqjzY1zwUqJ48SM9cj5e1t4aiqcjUnSzBCRY=;
+ b=L/rj/chpBn2QeEPj9wICkNOUc4lcT5JJ/ZBu7bZAsWDXsTo8KGsa884M6xLqnP5I96ezf2
+ IG/JCaI/1pBrtPCLOnLjz19umIaCAaoLmrMZx1VCRRhy6SYQOySX+VgwXUaJq4iMBM2ccj
+ UqMaIiVI8pUMrq5FeEzYvIlyWE+LNZk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-B9tuSt9OMN-SbYUPevMO7Q-1; Fri, 23 Jul 2021 06:20:06 -0400
+X-MC-Unique: B9tuSt9OMN-SbYUPevMO7Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d14-20020adfe2ce0000b029013a357d7bdcso789884wrj.18
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 03:20:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RWvmwONE9uXXwY3bHKPRikwcNWHcAa5BgCq6T7g1Ttk=;
- b=r7l0dlqyZPY0v44tnBtrPC7zcLM2zaWfTLPununWjPZDH/RmxFLPzRlIC8bYMf0B1P
- niQJAeFcSuSItgYxqy/2JogpGM0fC8FunrO+KAaCXQIc11k5XypZwXqGtOCUis2D6McO
- La/9Ljh+2ovaaHHcEbLQ/uLwAKeLreVbtr7sm2SK6NKDLtmdtuMjnRMOdDHC+66U+T45
- 52J9MFNhnlN8aS9kYuGNEBCYFcIXvztXV2FMjbhXZm6zEWphY8Ob0wQKcjj9RAqpX64K
- 97qMad8gzBHIfuFadh3vmNAYOQHeRuWiKdS0Po61+asSU/iN3lEmmd4/mIlcmRCzH2aX
- xHrw==
-X-Gm-Message-State: AOAM531YmrDOczbPG36mf2pvoYMBZcY1yk4mLXQJr+1OdwKy8pI+NNtv
- 0L9XkjoYHNJLE4lNtHKl1Rcr7PDe2qkhRB+Gz9WFEg==
-X-Google-Smtp-Source: ABdhPJzDVEKfQ/oVwsriZiJmjxVjUn5PJ1jNIHNn/Jh46rIj9kDq5BpReLQpaeufsjuPfID68BVSqpYnIEzZTuuc9/Y=
-X-Received: by 2002:a17:907:a05c:: with SMTP id
- gz28mr4057985ejc.56.1627035365288; 
- Fri, 23 Jul 2021 03:16:05 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/6oLomxhqjzY1zwUqJ48SM9cj5e1t4aiqcjUnSzBCRY=;
+ b=spNY0GpkMuDtBDenNfsGD0Uvl9RZUSa02mXzJbRzjDMLM2IgqCsOBAl3Voz7w60vN8
+ ICfl//7WUfBAcW4mAOKGS9lbaKIgXjrFJ29aj2i2saWoFT7hM1LLdPCP08ffkFY02ozZ
+ G4q5uHS50ZLLCy1jfBLW2CKK8iC1N7xztFM3RJjoyfbrodOlsPYGf4XKCJhtEkuKz5dt
+ XKU7bUvEPswz7xSpmgqNO1UypJP+fKVrU1KoO9ypA02xy9ULDkNfkEgxhQI4oJp2M32Y
+ 0qoT8J3YbpGiK5l+61lDvikm57qSmuG+RWRqFP0cBBaBFwZOcP2Qq38OR4mS4cYv9pW7
+ Z6cA==
+X-Gm-Message-State: AOAM531LgOW2PSrFhp0pPxvuWpQTqpSQwVd9X/4llsrA+Vdjn5p/PPdx
+ KPgJcmngfLDLRNcE4pGZRMImjupH06f2JAOQy96OL/IvX4qGLe0JsBBevBymbNIUnln1NmGQY8J
+ lBD9EdudTG24820g=
+X-Received: by 2002:a7b:cb4d:: with SMTP id v13mr2430406wmj.68.1627035605532; 
+ Fri, 23 Jul 2021 03:20:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+t8LEx/Kei398Hx4ozlPqpF3CTNgeGbt4WNYeSUa6B4UzEA92Fy4Sjwzg2tCt7+1Q3MQYyA==
+X-Received: by 2002:a7b:cb4d:: with SMTP id v13mr2430390wmj.68.1627035605352; 
+ Fri, 23 Jul 2021 03:20:05 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id q7sm27293029wmq.33.2021.07.23.03.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 03:20:04 -0700 (PDT)
+Date: Fri, 23 Jul 2021 12:20:02 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Replace Eduardo as "Host Memory
+ Backends" maintainer
+Message-ID: <20210723122002.3e5c96f9@redhat.com>
+In-Reply-To: <20210723100532.27353-2-david@redhat.com>
+References: <20210723100532.27353-1-david@redhat.com>
+ <20210723100532.27353-2-david@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210722153612.955537-1-pbonzini@redhat.com>
-In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Jul 2021 11:15:23 +0100
-Message-ID: <CAFEAcA_9c7BMZxkxoXxqq5s3CFzTbeP9mAZ-MScYPRJeyF57Lg@mail.gmail.com>
-Subject: Re: [PULL 00/15] Misc bugfix patches for 2021-07-22
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,33 +97,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Jul 2021 at 16:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 143c2e0432859826c9e8d5b2baa307355f1a5332:
->
->   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2021-07-19' into staging (2021-07-19 19:06:05 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 0848f8aca6f7b13f2a755c2593b0a1cbb39f658e:
->
->   configure: Let --without-default-features disable vhost-kernel and vhost-vdpa (2021-07-22 14:44:51 +0200)
->
-> ----------------------------------------------------------------
-> Bugfixes.
->
+On Fri, 23 Jul 2021 12:05:30 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
+> Edurdo asked me to take over co-maintaining "Host Memory Backends" with
+> Igor, as Eduardo has plenty of other things to look after.
+> 
+> Thanks a lot Eduardo for your excellent work in the past!
+> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Applied, thanks.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4256ad1adb..420c8a48a1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2547,7 +2547,7 @@ S: Maintained
+>  F: net/netmap.c
+>  
+>  Host Memory Backends
+> -M: Eduardo Habkost <ehabkost@redhat.com>
+> +M: David Hildenbrand <david@redhat.com>
+>  M: Igor Mammedov <imammedo@redhat.com>
+>  S: Maintained
+>  F: backends/hostmem*.c
 
--- PMM
 
