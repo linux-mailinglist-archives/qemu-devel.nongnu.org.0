@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297C83D37C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:36:02 +0200 (CEST)
-Received: from localhost ([::1]:44150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F9F3D37D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:42:13 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6rb7-00074V-8C
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
+	id 1m6rh6-0000iG-3s
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6rZf-0006MD-Lb
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:34:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6rZb-0005fu-Op
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:34:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627032866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6rgI-0008SO-VD
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:41:22 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6rgH-00035A-9q
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:41:22 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D56BD1FF73;
+ Fri, 23 Jul 2021 09:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627033279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=koIVfpDn/CJjQuGRjR3zSVOUTdiaLr58bYWxdqz9yLQ=;
- b=NV8di5McZiF3lCLxUEGgsv1sVzuaPgQ41P+lkMyq8gHmdPSkxriUGyXkC/F1NCAnMKM8pr
- /+1K/cq4iAqtompQ+1XlIExCODpAVLEjRgJBr2q4COV8ZTFE3YdgguTjpDV6IIrfLvjYXe
- psDdrxnD/2JrPXB5z18vrwrGlIsHBso=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-S7_F6WgeP0u3LYBoNwKzPQ-1; Fri, 23 Jul 2021 05:34:21 -0400
-X-MC-Unique: S7_F6WgeP0u3LYBoNwKzPQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- j22-20020a50ed160000b02903ab03a06e86so426763eds.14
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 02:34:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=koIVfpDn/CJjQuGRjR3zSVOUTdiaLr58bYWxdqz9yLQ=;
- b=jz8zjjLI/32UX7jyX4GCeVUAExv9uRZxMa+vL8CSZai9UawgNDLWQp96YfJaA9xd8w
- x/FYQZwbNfkielUh/9DNJOFB02H3+4t/iHf40NsAZlUYgJYdEB2boY5s8EbmtWyaHWfF
- zXCWpVcu1xR7Fl/aQPiwps40Sq8Pd1MxnfzKAeqHtxw0PwdrjGM6kNBTt7dYZCGWU1da
- nVewo06OGMKKvCQCgSnoilPSvVvaeTrdbT4WhYPEtNKRV5F4l6lAM5x4e3GlvtpTtyBd
- 6mv9l4Y1RmmAsiC2Rx3sMekb1H8l6ZpgEm/aL39FJ8G9pd6xL8X6F+3wFjAFI7HJBYNt
- +d5w==
-X-Gm-Message-State: AOAM530XQWGEgIc7YX+0mzbYgUPKWG16QosUReFW7uggEL2lP9XwZbhx
- tGDzxXjtd9Y50K+arBTn2TJXcWhN3f9DStLlRriN2xDG95zAFHN40UN+AxGU6gsLxRZqCZSIIlI
- cbl12ESRn3z/Ggbs=
-X-Received: by 2002:a05:6402:51c7:: with SMTP id
- r7mr4673571edd.150.1627032860818; 
- Fri, 23 Jul 2021 02:34:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxY+JxgVLA3QoszM4c7I8jloErO7Yfo868fZfL1gRu4MCYrztpO6Lbi/xD2AXTML3M8HV9Iwg==
-X-Received: by 2002:a05:6402:51c7:: with SMTP id
- r7mr4673551edd.150.1627032860584; 
- Fri, 23 Jul 2021 02:34:20 -0700 (PDT)
-Received: from redhat.com ([2.55.16.196])
- by smtp.gmail.com with ESMTPSA id n13sm10309652ejk.97.2021.07.23.02.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 02:34:19 -0700 (PDT)
-Date: Fri, 23 Jul 2021 05:34:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/2] acpi: x86: pcihp: add support hotplug on
- multifunction bridges
-Message-ID: <20210723053234-mutt-send-email-mst@kernel.org>
-References: <20210722105945.2080428-1-imammedo@redhat.com>
- <20210722105945.2080428-3-imammedo@redhat.com>
- <20210722133738-mutt-send-email-mst@kernel.org>
- <YPqCVwY0Y/+jUoWT@redhat.com>
+ bh=M0uYyNw6looOV7RQOZCevOQpOhdCCdzGtVWZKeYsrys=;
+ b=HKajDCMUhUizEHYpWEBV2mtHJjHgeMWlgir4uurTZBkoxrE1BY7rPwXa0G049xOeiveUd9
+ lmDZzWYU+Fi7MV2YPnQqB0MBhWZt36YIpexL4pv//gCRbyvfxcqc7HR0x4wTgYK97uZzJx
+ uE0PEuqIoOl9813KHyvt2L4zzWUQtZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627033279;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M0uYyNw6looOV7RQOZCevOQpOhdCCdzGtVWZKeYsrys=;
+ b=svPOJWzChKO4DUT3JJVEUnPclenBzB7K1QVLfiF6TxU6/i6GoP+OatDtU/vBD4JIqdhkqj
+ dw/a9ckVB60IU/CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 973EC13D5B;
+ Fri, 23 Jul 2021 09:41:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /qZTIr+O+mD9fQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Jul 2021 09:41:19 +0000
+Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is not
+ found
+To: "Jose R. Ziviani" <jziviani@suse.de>, qemu-devel@nongnu.org
+References: <20210722220952.17444-1-jziviani@suse.de>
+ <20210722220952.17444-2-jziviani@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
+Date: Fri, 23 Jul 2021 11:41:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <YPqCVwY0Y/+jUoWT@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+In-Reply-To: <20210722220952.17444-2-jziviani@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,68 +86,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- jusual@redhat.com, qemu-devel@nongnu.org, peter.maydell@linaro.org
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, kraxel@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 09:48:23AM +0100, Daniel P. Berrangé wrote:
-> On Thu, Jul 22, 2021 at 01:49:34PM -0400, Michael S. Tsirkin wrote:
-> > On Thu, Jul 22, 2021 at 06:59:45AM -0400, Igor Mammedov wrote:
-> > > Commit 17858a1695 (hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35)
-> > > switched PCI hotplug from native to ACPI one by default.
-> > > 
-> > > That however breaks ihotplug on following CLI that used to work:
-> > 
-> > s/ihotplug/hotplug/ ?
-> > 
-> > >    -nodefaults -machine q35 \
-> > >    -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
-> > >    -device pcie-root-port,id=pcie-root-port-1,port=0x1,addr=0x1.0x1,bus=pcie.0,chassis=2
-> > > 
-> > > where PCI device is hotplugged to pcie-root-port-1 with error on guest side:
-> > > 
-> > >   ACPI BIOS Error (bug): Could not resolve symbol [^S0B.PCNT], AE_NOT_FOUND (20201113/psargs-330)
-> > >   ACPI Error: Aborting method \_SB.PCI0.PCNT due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
-> > >   ACPI Error: Aborting method \_GPE._E01 due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
-> > >   ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_E01] (20201113/evgpe-515)
-> > > 
-> > > cause is that QEMU's ACPI hotplug never supported functions other then 0
-> > > and due to bug it was generating notification entries for not described
-> > > functions.
-> > > 
-> > > Technically there is no reason not to describe cold-plugged bridges
-> > > (root ports) on functions other then 0, as they similaraly to bridge
-> > > on function 0 are unpluggable.
-> > > 
-> > > Fix consists of describing cold-plugged bridges[root ports] on functions
-> > > other than 0.
-> > 
-> > 
-> > I would add: since we need to describe multifunction devices
-> > 
-> > 
-> > > 
-> > > Fixes: 17858a169508609ca9063c544833e5a1adeb7b52
-> > 
-> > use short hash and include subject within ("subject here") please
+On 7/23/21 12:09 AM, Jose R. Ziviani wrote:
+> When a module is not found, specially accelerators, QEMU displays
+> a error message that not easy to understand[1]. This patch improves
+> the readability by offering a user-friendly message[2].
 > 
-> Using short hashes isn't a good idea in commits IMHO. A git short
-> hash is only guaranteed unique at the time it is generated. In future
-> the repo might gain commits that result in a clashing short hash.
-> Using the full hash is good.
+> This patch also moves the accelerator ops check to runtine (instead
+> of the original g_assert) because it works better with dynamic
+> modules.
 > 
+> [1] qemu-system-x86_64 -accel tcg
+> ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed:
+> (ops != NULL)
+> Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces:
+> assertion failed: (ops != NULL)
+>     31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
 > 
-> Regards,
-> Daniel
-
-It's a good point but it became a standard practice at this point.
-At least with the subject it's unlikely to be ambiguous too often.
+> [2] qemu-system-x86_64 -accel tcg
+> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
+> 
+> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+> ---
+>  accel/accel-softmmu.c |  5 ++++-
+>  util/module.c         | 14 ++++++++------
+>  2 files changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+> index 67276e4f52..52449ac2d0 100644
+> --- a/accel/accel-softmmu.c
+> +++ b/accel/accel-softmmu.c
+> @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>       * all accelerators need to define ops, providing at least a mandatory
+>       * non-NULL create_vcpu_thread operation.
+>       */
+> -    g_assert(ops != NULL);
+> +    if (ops == NULL) {
+> +        exit(1);
+> +    }
+> +
 
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Ah, again, why?
+This change looks wrong to me, 
+
+the ops code should be present when ops interfaces are initialized:
+it should be a code level assertion, as it has to do with the proper order of initializations in QEMU,
+
+why would we want to do anything else but to assert here?
+
+Am I blind to something obvious?
+
+>      if (ops->ops_init) {
+>          ops->ops_init(ops);
+>      }
+> diff --git a/util/module.c b/util/module.c
+> index 6bb4ad915a..268a8563fd 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -206,13 +206,10 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+>  out:
+>      return ret;
+>  }
+> -#endif
+>  
+>  bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>  {
+>      bool success = false;
+> -
+> -#ifdef CONFIG_MODULES
+>      char *fname = NULL;
+>  #ifdef CONFIG_MODULE_UPGRADES
+>      char *version_dir;
+> @@ -300,6 +297,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>  
+>      if (!success) {
+>          g_hash_table_remove(loaded_modules, module_name);
+> +        fprintf(stderr, "%s module is missing, install the "
+> +                        "package or config the library path "
+> +                        "correctly.\n", module_name);
+>          g_free(module_name);
+>      }
+>  
+> @@ -307,12 +307,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>          g_free(dirs[i]);
+>      }
+>  
+> -#endif
+>      return success;
+>  }
+>  
+> -#ifdef CONFIG_MODULES
+> -
+>  static bool module_loaded_qom_all;
+>  
+>  void module_load_qom_one(const char *type)
+> @@ -384,4 +381,9 @@ void qemu_load_module_for_opts(const char *group) {}
+>  void module_load_qom_one(const char *type) {}
+>  void module_load_qom_all(void) {}
+>  
+> +bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+> +{
+> +    return false;
+> +}
+> +
+>  #endif
+> 
 
 
