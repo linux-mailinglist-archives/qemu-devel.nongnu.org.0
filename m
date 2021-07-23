@@ -2,55 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DAD3D317E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 04:01:39 +0200 (CEST)
-Received: from localhost ([::1]:55470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B781F3D320B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 04:50:46 +0200 (CEST)
+Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6kVO-0006u8-MS
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 22:01:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
+	id 1m6lGv-0005VO-AZ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 22:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6kU1-0005PT-86
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:00:13 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2258)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m6lFs-0004pn-EM
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:49:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6kTy-0008Oc-5j
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:00:13 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GWC6d4ppnz1CMnN;
- Fri, 23 Jul 2021 09:54:17 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 10:00:06 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 10:00:05 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.1 v3 1/1] machine: Disallow specifying topology
- parameters as zero
-Date: Fri, 23 Jul 2021 10:00:02 +0800
-Message-ID: <20210723020002.18456-2-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210723020002.18456-1-wangyanan55@huawei.com>
-References: <20210723020002.18456-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m6lFp-0001aN-Fj
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:49:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627008576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g/5UgVqlidxPkxyOGYJi4g0WzB0m1GwlfnmxxFlmFsY=;
+ b=ivtnQBM7l2GoxLILePu7IIkq29643+mJhkATQwFGKYmTeADazCXXrcXP6rCdAMIzHTa6YH
+ cteWI/pgZ3ILJxlPHyLb2D7Wd4PGVESA3ZoAuJ0HzsAZIx42srJl1Z7ZkDLySnjoXdGBSz
+ O2iCH3ddSetx5wd/QLm5W9sz9t/CO24=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-mkowEWIPN52iWjzRiMju6A-1; Thu, 22 Jul 2021 22:49:33 -0400
+X-MC-Unique: mkowEWIPN52iWjzRiMju6A-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ x14-20020a170902ec8eb029012bb183b35cso1114068plg.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 19:49:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=g/5UgVqlidxPkxyOGYJi4g0WzB0m1GwlfnmxxFlmFsY=;
+ b=Z9JeAqPGj+OvwZWBk0JauLjXZSllVV+3y6wuiUN0iuPyymBulBcZbX+fol2GCLY5/r
+ UnZU8Hykr+NUPYgLq0ySSbFw/dnrTKQq2S3EEF3t0HCt5pn9bj0QDVY+ztoQCJBHatnM
+ EJl/1D+jMqvD3l9705oAeGy3U+1nUhENMWWzQiaWt274PmNi+G/cFtP7VwbTqRg0IpXn
+ jQtZ5QIj8zngb/Tuwfja435iIM/HhYwKDwYjci9hQZSx2w+SmiKQqG795ZJL42XcDPLp
+ 0DLcu+7lGESt2/wwvwU6DknwPLYZRL55hzOiA4NVZgOTI4jsLNSz4AUBv4zwpN7a0xP+
+ ADAQ==
+X-Gm-Message-State: AOAM53013PKnrWRrHDgQILumh8QNC3onuiI2vQmUfPy8zcI+MTS479rH
+ lThKgy7vJ/3qsjMeoa5ujKOFMWtXW4P2dFfvSkCdXdB9c4S26LOQO9/M/6Hpewsma0denU8HBl2
+ NaLXjlueJZNUnoaw=
+X-Received: by 2002:a63:5119:: with SMTP id f25mr2855209pgb.271.1627008571857; 
+ Thu, 22 Jul 2021 19:49:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWLa2uXyhyrg2Zofx+U9EuhNgS/OV2JZ6YkKxJC5ma8rvAO8PBGDVJptnYDWXEkSZ9r+YrKw==
+X-Received: by 2002:a63:5119:: with SMTP id f25mr2855195pgb.271.1627008571659; 
+ Thu, 22 Jul 2021 19:49:31 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id q21sm31876916pff.55.2021.07.22.19.49.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 19:49:31 -0700 (PDT)
+Subject: Re: [PULL V3 for 6.2 0/6] COLO-Proxy patches for 2021-06-25
+To: Zhang Chen <chen.zhang@intel.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20210719090051.3824672-1-chen.zhang@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <9b791248-407d-8877-3f94-266d4f9e804f@redhat.com>
+Date: Fri, 23 Jul 2021 10:49:25 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <20210719090051.3824672-1-chen.zhang@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -65,114 +101,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, wanghaibin.wang@huawei.com,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
- yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the SMP configuration, we should either specify a topology
-parameter with a reasonable value (equal to or greater than 1)
-or just leave it omitted and QEMU will calculate its value.
-Configurations which explicitly specify the topology parameters
-as zero like "sockets=0" are meaningless, so disallow them.
 
-However, the commit 1e63fe685804d
-(machine: pass QAPI struct to mc->smp_parse) has documented that
-'0' has the same semantics as omitting a parameter in the qapi
-comment for SMPConfiguration. So this patch fixes the doc and
-also adds the corresponding sanity check in the smp parsers.
+ÔÚ 2021/7/19 ÏÂÎç5:00, Zhang Chen Ð´µÀ:
+> Hi Jason,
+>
+> Please help to queue COLO-proxy patches to net branch.
+>
+> Thanks
+> Chen
+>
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
-Tested-by: Daniel P. Berrange <berrange@redhat.com>
-Suggested-by: Andrew Jones <drjones@redhat.com>
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- hw/core/machine.c | 15 +++++++++++++++
- qapi/machine.json |  6 +++---
- qemu-options.hx   | 12 +++++++-----
- 3 files changed, 25 insertions(+), 8 deletions(-)
+Queued for 6.2
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 775add0795..d95e8b6903 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -829,6 +829,21 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
-+    /*
-+     * The topology parameters must be specified equal to or great than one
-+     * or just omitted, explicit configuration like "cpus=0" is not allowed.
-+     */
-+    if ((config->has_cpus && config->cpus == 0) ||
-+        (config->has_sockets && config->sockets == 0) ||
-+        (config->has_dies && config->dies == 0) ||
-+        (config->has_cores && config->cores == 0) ||
-+        (config->has_threads && config->threads == 0) ||
-+        (config->has_maxcpus && config->maxcpus == 0)) {
-+        error_setg(errp, "CPU topology parameters must be equal to "
-+                   "or greater than one if provided");
-+        goto out_free;
-+    }
-+
-     mc->smp_parse(ms, config, errp);
-     if (errp) {
-         goto out_free;
-diff --git a/qapi/machine.json b/qapi/machine.json
-index c3210ee1fb..9272cb3cf8 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1288,8 +1288,8 @@
- ##
- # @SMPConfiguration:
- #
--# Schema for CPU topology configuration.  "0" or a missing value lets
--# QEMU figure out a suitable value based on the ones that are provided.
-+# Schema for CPU topology configuration. A missing value lets QEMU
-+# figure out a suitable value based on the ones that are provided.
- #
- # @cpus: number of virtual CPUs in the virtual machine
- #
-@@ -1297,7 +1297,7 @@
- #
- # @dies: number of dies per socket in the CPU topology
- #
--# @cores: number of cores per thread in the CPU topology
-+# @cores: number of cores per die in the CPU topology
- #
- # @threads: number of threads per core in the CPU topology
- #
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 99ed5ec5f1..b0168f8c48 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -223,11 +223,13 @@ SRST
-     of computing the CPU maximum count.
- 
-     Either the initial CPU count, or at least one of the topology parameters
--    must be specified. Values for any omitted parameters will be computed
--    from those which are given. Historically preference was given to the
--    coarsest topology parameters when computing missing values (ie sockets
--    preferred over cores, which were preferred over threads), however, this
--    behaviour is considered liable to change.
-+    must be specified. The specified parameters must be equal to or great
-+    than one, explicit configuration like "cpus=0" is not allowed. Values
-+    for any omitted parameters will be computed from those which are given.
-+    Historically preference was given to the coarsest topology parameters
-+    when computing missing values (ie sockets preferred over cores, which
-+    were preferred over threads), however, this behaviour is considered
-+    liable to change.
- ERST
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
--- 
-2.19.1
+Thanks
+
+
+> The following changes since commit fd79f89c76c8e2f409dd9db5d7a367b1f64b6dc6:
+>
+>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210718' into staging (2021-07-18 13:46:39 +0100)
+>
+> are available in the Git repository at:
+>
+>    https://github.com/zhangckid/qemu.git master-colo-21jun25-pull-request-v3
+>
+> for you to fetch changes up to 91176794e3a72c74b01e149638ac1a7e2dee73fc:
+>
+>    net/net.c: Add handler for passthrough filter command (2021-07-19 16:50:44 +0800)
+>
+>
+> ----------------------------------------------------------------
+>
+> This series add passthrough support frame to object with network
+> processing function. The first object is colo-compare.
+>
+> V3: Fix memory leak issue.
+>
+> V2: Optimize HMP code from Dave's comment.
+>
+> ----------------------------------------------------------------
+> Zhang Chen (6):
+>        qapi/net: Add IPFlowSpec and QMP command for filter passthrough
+>        util/qemu-sockets.c: Add inet_parse_base to handle InetSocketAddressBase
+>        hmp-commands: Add new HMP command for filter passthrough
+>        net/colo-compare: Move data structure and define to .h file.
+>        net/colo-compare: Add passthrough list to CompareState
+>        net/net.c: Add handler for passthrough filter command
+>
+>   hmp-commands.hx        |  26 ++++++++
+>   include/monitor/hmp.h  |   2 +
+>   include/qemu/sockets.h |   1 +
+>   monitor/hmp-cmds.c     |  63 +++++++++++++++++++
+>   net/colo-compare.c     | 160 ++++++++++++++++--------------------------------
+>   net/colo-compare.h     |  98 ++++++++++++++++++++++++++++++
+>   net/net.c              | 205 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   qapi/net.json          |  78 ++++++++++++++++++++++++
+>   util/qemu-sockets.c    |  14 +++++
+>   9 files changed, 538 insertions(+), 109 deletions(-)
+>
 
 
