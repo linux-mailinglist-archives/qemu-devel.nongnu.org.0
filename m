@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FBD3D3482
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:17:37 +0200 (CEST)
-Received: from localhost ([::1]:44654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967133D3485
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:19:30 +0200 (CEST)
+Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6oV6-0003Ny-5o
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
+	id 1m6oWv-0004qM-MH
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6oUJ-0002jH-KD
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:16:47 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:46787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6oUI-0007ou-4k
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:16:47 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- g23-20020a17090a5797b02901765d605e14so2379038pji.5
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 23:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ws+fVpIU4MHAEu9Q8QFdsYSNVuh4JaurGp9js8LS/l0=;
- b=vquhCBhHmXNgksKqlsxAXNR20GesnYaqmYVljeOWELJ8hL3oqFULeHvnAyMmzyQnEU
- 9wp1HBEc8vY3O8iHD5lgwj5BhFFGsvoDE7Zf6DC+jrhDMHbgP+ZO9n29iLI481QSvc8j
- 6fttCtxLWLoCOUoSIOaJHaJTDRdPzSLXxVAb4wDBDBCCPVLRE7YBovRf3toYgQ9yZ67J
- e3MX0qsRq0ej9C4SmbAfk7Zcyw4JHYNBdOfEmUwCrEN7lVYnRZWK3v/Xac6zSrcUWktP
- WTVZsFYD749UAMPXB4muhdqONMt/8myDtNcXAPU3swvSoQ40yCqrD7t2vapMpBAVUKmR
- 5MdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ws+fVpIU4MHAEu9Q8QFdsYSNVuh4JaurGp9js8LS/l0=;
- b=nOqVDQ+7kST3GtVgrwPrZy7iQ6wP6Nn8Oee6DrUehni5gJUpLrkj1+dzL5RD+xcrmf
- 8dklJToiXOxdODDeBbCfRUGN7I5eLm/4TY4ptaZmb66ObF8izxlNuZZgat+FAtf8mBd/
- xHtd4+A5Gjs8U4Cowvl49FcHHPydYErJ6fYbD2h3Ub+ZwDUTdelDpH2ucty4wYZZyiRd
- BmFWvc9xQEdjTFhYhSijZfyHvJlNf+1/9YQhV4wlyjQxhWfCkqdOPv3okghdNC2ls2nU
- bmkTyJKU9lt9yX0TebmHbOG4dHwAxVUF9WpiPlV5REqLJIk+eu+ZGTHoZgBJAn7auXdm
- 58rA==
-X-Gm-Message-State: AOAM532ZU3uGEVPutv0hNkLdDy5jNEKQYIFxirsu2x7mhIeyVKjNxSaj
- 4g/AvCyi4FeoNnrBcflNyScN9Q==
-X-Google-Smtp-Source: ABdhPJzfu/3y6o1/lwSp+YB3S9IdSAj9fNjZwKHFio2LPTvEiauVh66NoeTBVwBBy+NERbX1kazcng==
-X-Received: by 2002:a17:90a:d994:: with SMTP id
- d20mr3231220pjv.207.1627021004570; 
- Thu, 22 Jul 2021 23:16:44 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id h24sm4882563pjv.47.2021.07.22.23.16.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 23:16:44 -0700 (PDT)
-Subject: Re: [PATCH v2 15/22] target/loongarch: Add floating point conversion
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-16-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <73d309a6-e88b-4193-adce-e9c0b2952f85@linaro.org>
-Date: Thu, 22 Jul 2021 20:16:40 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6oWC-0004Bm-UC
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:18:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6oW9-0000xD-Ue
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:18:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627021120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JvZQXMnw7yfOePZIUWdyKBCP6UsSehgxxE2YA32Del8=;
+ b=PIgLps0MCeGPZYJ6ZwRETwrIq8hcYXgNDOm48yVVL8AwspCTo7RueLkDAcKY9ih26SL/kg
+ jjmSKvB7HkQZqRiTFsdLBXqQ51D67Ov2MKxuT9uNYkcCUWBYu8CHwhpD75RU9Q2HsFt3Qr
+ R9/WdqNiX0WplLoURTM+5bDoksEef1U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-kab04DbDP_6FeDJtl9lGqQ-1; Fri, 23 Jul 2021 02:18:39 -0400
+X-MC-Unique: kab04DbDP_6FeDJtl9lGqQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411E2100F764;
+ Fri, 23 Jul 2021 06:18:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 854995D9C6;
+ Fri, 23 Jul 2021 06:18:34 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DE7A01800926; Fri, 23 Jul 2021 08:18:32 +0200 (CEST)
+Date: Fri, 23 Jul 2021 08:18:32 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PULL 37/48] usb: build usb-host as module
+Message-ID: <20210723061832.vhzptuht3ejsuhw7@sirius.home.kraxel.org>
+References: <20210708151748.408754-1-pbonzini@redhat.com>
+ <20210708151748.408754-38-pbonzini@redhat.com>
+ <YPl8O8d1riAgeBD6@angien.pipo.sk>
 MIME-Version: 1.0
-In-Reply-To: <1626861198-6133-16-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YPl8O8d1riAgeBD6@angien.pipo.sk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, laurent@vivier.eu,
- maobibo@loongson.cn, alistair.francis@wdc.com, pbonzini@redhat.com,
- alex.bennee@linaro.org
+Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Jose R . Ziviani" <jziviani@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 11:53 PM, Song Gao wrote:
-> +uint64_t helper_fp_tintrm_l_d(CPULoongArchState *env, uint64_t src)
-> +{
-> +    uint64_t dest;
-> +
-> +    set_float_rounding_mode(float_round_down, &env->active_fpu.fp_status);
-> +    dest = float64_to_int64(src, &env->active_fpu.fp_status);
-> +    restore_rounding_mode(env);
+> > +if config_host.has_key('CONFIG_USB_LIBUSB')
+> 
+> The problem is in this condition as it's evaluated as false. When I
+> replace it with libusb.found(), everything works as it used to.
 
-Better off to save the current rounding mode with get_float_rounding_mode, and restore it 
-afterward.
+Correct fix, paolo has a pending pull request containing it.
 
-See 63d06e90e65d5f119039044e986a81007954a466.
+> Unfortunately I don't know what the real goa behind using
+> CONFIG_USB_LIBUSB here was to see whether my approach is good.
 
+Used to be the correct approach before libusb detection was
+switched from configure to meson.
 
-r~
+take care,
+  Gerd
+
 
