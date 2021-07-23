@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A51D3D37A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:24:02 +0200 (CEST)
-Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297C83D37C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:36:02 +0200 (CEST)
+Received: from localhost ([::1]:44150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6rPV-00039k-4w
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
+	id 1m6rb7-00074V-8C
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1m6rOP-0002Js-Gm
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:22:53 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:35754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1m6rON-00044q-Ox
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:22:53 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id r17so1054497lfe.2
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 02:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jz/u9tOOl2W1QF1nAisy1JhcAcBdW4I3ROAIqA0mVZU=;
- b=XVR9INil/xX+QyQhNCnAsiMW1Mc9eBDK3jVs0QtTwD/6HJYGh3F0ZNX9sNh3UbexUI
- kxPaG2MwYNwx80XsS9sFhOnLgnLsI3QW3RqI0/EZUFvaertJjPXKZgGW93lOT4BZmwmM
- qWkX22GAGxKYlRz5XYME/2dBc/W0AGYG1/eVeoSj8dP9Mck1sRWw4Autm4hUnuxSdOuI
- YLtfaYTpW3YjXVY4O9gCnSU1WJUawJhYJUhB7o7ETItRCGnCKTkQ8ytioStRZmonrk8v
- Ed9T5fT/bbshRaoN1nXgTqs6MnqTBYIpOQ52rbaihUHOcXdNAZA0BWqriopuqXPPXi5W
- SL6Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6rZf-0006MD-Lb
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:34:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m6rZb-0005fu-Op
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:34:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627032866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=koIVfpDn/CJjQuGRjR3zSVOUTdiaLr58bYWxdqz9yLQ=;
+ b=NV8di5McZiF3lCLxUEGgsv1sVzuaPgQ41P+lkMyq8gHmdPSkxriUGyXkC/F1NCAnMKM8pr
+ /+1K/cq4iAqtompQ+1XlIExCODpAVLEjRgJBr2q4COV8ZTFE3YdgguTjpDV6IIrfLvjYXe
+ psDdrxnD/2JrPXB5z18vrwrGlIsHBso=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-S7_F6WgeP0u3LYBoNwKzPQ-1; Fri, 23 Jul 2021 05:34:21 -0400
+X-MC-Unique: S7_F6WgeP0u3LYBoNwKzPQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ j22-20020a50ed160000b02903ab03a06e86so426763eds.14
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 02:34:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jz/u9tOOl2W1QF1nAisy1JhcAcBdW4I3ROAIqA0mVZU=;
- b=o3tGFwvfm8Xc98enrjAxUZoA88a4lNdBlYQeWZy9vVNmHrXcvtesVogLHfWGwax1Bm
- AjEUYCZ0+gbhUfl1QgUwoh8QY6qFILVCwQkn3U0JuuyL9rA4048KhjIzJGYlydlBHYwT
- 1VTaQK7uSfhhPg2oKNGKYiTWo0ucpskQhVdOH/gb6kOKJaDCGm9rcRLM+TJ71lZ51n7C
- 0lwgWHobmPHUp8RLPd7EVBRwdWDYrjRycZONJl/tUo1x1ESiAhjxuwyXW/NI7SYjD8v0
- dg8MVwOyfgsaSs3+y9Om704duT2F8a/pgvSDqRPKjGQQ1oGEP0Se9LaA46kdCUKMXoLK
- Mslw==
-X-Gm-Message-State: AOAM530mJsKel7ZtvLsSTefRe1zEAWhw8o/fpATRvUCZ91vQXccDbDRn
- z9qTtwXrANE/gtqFfM7ovtJjH3vt40Z09VEr
-X-Google-Smtp-Source: ABdhPJwi05V+L7KwB73pI09mIhaEnjnUll6xPHeo6Y6tkAmu+bdC08WR9r2d5jFzP5pCSGHGWJbluQ==
-X-Received: by 2002:ac2:59db:: with SMTP id x27mr2409934lfn.547.1627032168893; 
- Fri, 23 Jul 2021 02:22:48 -0700 (PDT)
-Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id f8sm1539914lfe.141.2021.07.23.02.22.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=koIVfpDn/CJjQuGRjR3zSVOUTdiaLr58bYWxdqz9yLQ=;
+ b=jz8zjjLI/32UX7jyX4GCeVUAExv9uRZxMa+vL8CSZai9UawgNDLWQp96YfJaA9xd8w
+ x/FYQZwbNfkielUh/9DNJOFB02H3+4t/iHf40NsAZlUYgJYdEB2boY5s8EbmtWyaHWfF
+ zXCWpVcu1xR7Fl/aQPiwps40Sq8Pd1MxnfzKAeqHtxw0PwdrjGM6kNBTt7dYZCGWU1da
+ nVewo06OGMKKvCQCgSnoilPSvVvaeTrdbT4WhYPEtNKRV5F4l6lAM5x4e3GlvtpTtyBd
+ 6mv9l4Y1RmmAsiC2Rx3sMekb1H8l6ZpgEm/aL39FJ8G9pd6xL8X6F+3wFjAFI7HJBYNt
+ +d5w==
+X-Gm-Message-State: AOAM530XQWGEgIc7YX+0mzbYgUPKWG16QosUReFW7uggEL2lP9XwZbhx
+ tGDzxXjtd9Y50K+arBTn2TJXcWhN3f9DStLlRriN2xDG95zAFHN40UN+AxGU6gsLxRZqCZSIIlI
+ cbl12ESRn3z/Ggbs=
+X-Received: by 2002:a05:6402:51c7:: with SMTP id
+ r7mr4673571edd.150.1627032860818; 
+ Fri, 23 Jul 2021 02:34:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxY+JxgVLA3QoszM4c7I8jloErO7Yfo868fZfL1gRu4MCYrztpO6Lbi/xD2AXTML3M8HV9Iwg==
+X-Received: by 2002:a05:6402:51c7:: with SMTP id
+ r7mr4673551edd.150.1627032860584; 
+ Fri, 23 Jul 2021 02:34:20 -0700 (PDT)
+Received: from redhat.com ([2.55.16.196])
+ by smtp.gmail.com with ESMTPSA id n13sm10309652ejk.97.2021.07.23.02.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 02:22:48 -0700 (PDT)
-From: Arkadiy <arkaisp2021@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] mips/tlb_helper: Add support for 'info tlb' cmd
-Date: Fri, 23 Jul 2021 12:22:42 +0300
-Message-Id: <20210723092242.17024-1-arkaisp2021@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Fri, 23 Jul 2021 02:34:19 -0700 (PDT)
+Date: Fri, 23 Jul 2021 05:34:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 2/2] acpi: x86: pcihp: add support hotplug on
+ multifunction bridges
+Message-ID: <20210723053234-mutt-send-email-mst@kernel.org>
+References: <20210722105945.2080428-1-imammedo@redhat.com>
+ <20210722105945.2080428-3-imammedo@redhat.com>
+ <20210722133738-mutt-send-email-mst@kernel.org>
+ <YPqCVwY0Y/+jUoWT@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <YPqCVwY0Y/+jUoWT@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,165 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, f4bug@amsat.org, NDNF <arkaisp2021@gmail.com>,
- pavel.dovgaluk@ispras.ru, aurelien@aurel32.net
+Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ jusual@redhat.com, qemu-devel@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: NDNF <arkaisp2021@gmail.com>
+On Fri, Jul 23, 2021 at 09:48:23AM +0100, Daniel P. Berrangé wrote:
+> On Thu, Jul 22, 2021 at 01:49:34PM -0400, Michael S. Tsirkin wrote:
+> > On Thu, Jul 22, 2021 at 06:59:45AM -0400, Igor Mammedov wrote:
+> > > Commit 17858a1695 (hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35)
+> > > switched PCI hotplug from native to ACPI one by default.
+> > > 
+> > > That however breaks ihotplug on following CLI that used to work:
+> > 
+> > s/ihotplug/hotplug/ ?
+> > 
+> > >    -nodefaults -machine q35 \
+> > >    -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
+> > >    -device pcie-root-port,id=pcie-root-port-1,port=0x1,addr=0x1.0x1,bus=pcie.0,chassis=2
+> > > 
+> > > where PCI device is hotplugged to pcie-root-port-1 with error on guest side:
+> > > 
+> > >   ACPI BIOS Error (bug): Could not resolve symbol [^S0B.PCNT], AE_NOT_FOUND (20201113/psargs-330)
+> > >   ACPI Error: Aborting method \_SB.PCI0.PCNT due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
+> > >   ACPI Error: Aborting method \_GPE._E01 due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
+> > >   ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_E01] (20201113/evgpe-515)
+> > > 
+> > > cause is that QEMU's ACPI hotplug never supported functions other then 0
+> > > and due to bug it was generating notification entries for not described
+> > > functions.
+> > > 
+> > > Technically there is no reason not to describe cold-plugged bridges
+> > > (root ports) on functions other then 0, as they similaraly to bridge
+> > > on function 0 are unpluggable.
+> > > 
+> > > Fix consists of describing cold-plugged bridges[root ports] on functions
+> > > other than 0.
+> > 
+> > 
+> > I would add: since we need to describe multifunction devices
+> > 
+> > 
+> > > 
+> > > Fixes: 17858a169508609ca9063c544833e5a1adeb7b52
+> > 
+> > use short hash and include subject within ("subject here") please
+> 
+> Using short hashes isn't a good idea in commits IMHO. A git short
+> hash is only guaranteed unique at the time it is generated. In future
+> the repo might gain commits that result in a clashing short hash.
+> Using the full hash is good.
+> 
+> 
+> Regards,
+> Daniel
 
-This adds hmp 'info tlb' command support for the mips platform.
-1k pages are not supported.
+It's a good point but it became a standard practice at this point.
+At least with the subject it's unlikely to be ambiguous too often.
 
-Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
----
- hmp-commands-info.hx     |  3 ++-
- target/mips/cpu.h        |  3 +++
- target/mips/meson.build  |  1 +
- target/mips/monitor.c    | 26 ++++++++++++++++++++++
- target/mips/tlb_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 80 insertions(+), 1 deletion(-)
- create mode 100644 target/mips/monitor.c
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 117ba25f91..d6aab9839c 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -222,7 +222,8 @@ SRST
- ERST
- 
- #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
--    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
-+    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
-+    defined(TARGET_MIPS) || defined(TARGET_MIPS64)
-     {
-         .name       = "tlb",
-         .args_type  = "",
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index b9e227a30e..5aa6f2b760 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1337,6 +1337,9 @@ void itc_reconfigure(struct MIPSITUState *tag);
- /* helper.c */
- target_ulong exception_resume_pc(CPUMIPSState *env);
- 
-+/*tlb_helper.c*/
-+void dump_mmu(CPUMIPSState *env);
-+
- static inline void cpu_get_tb_cpu_state(CPUMIPSState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 9741545440..c0b19048ee 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -31,6 +31,7 @@ mips_softmmu_ss.add(files(
-   'cp0_timer.c',
-   'machine.c',
-   'mips-semi.c',
-+  'monitor.c',
- ))
- mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cp0_helper.c',
-diff --git a/target/mips/monitor.c b/target/mips/monitor.c
-new file mode 100644
-index 0000000000..9c9dfd2caa
---- /dev/null
-+++ b/target/mips/monitor.c
-@@ -0,0 +1,26 @@
-+/*
-+ * monitor.c
-+ *
-+ * Copyright (c) 2010-2021 Institute for System Programming
-+ *                         of the Russian Academy of Sciences.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "monitor/monitor.h"
-+#include "monitor/hmp-target.h"
-+#include "monitor/hmp.h"
-+
-+void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-+{
-+    CPUArchState *env = mon_get_cpu_env(mon);
-+    if (!env) {
-+        monitor_printf(mon, "No CPU available\n");
-+        return;
-+    }
-+    dump_mmu(env);
-+}
-diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index 082c17928d..1c0c2831d6 100644
---- a/target/mips/tlb_helper.c
-+++ b/target/mips/tlb_helper.c
-@@ -24,6 +24,7 @@
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
- #include "hw/mips/cpudevs.h"
-+#include "qemu/qemu-print.h"
- 
- enum {
-     TLBRET_XI = -6,
-@@ -37,6 +38,53 @@ enum {
- 
- #if !defined(CONFIG_USER_ONLY)
- 
-+static void r4k_mmu_dump(CPUMIPSState *env)
-+{
-+    int i;
-+    for (i = 0; i < env->tlb->tlb_in_use; i++) {
-+        r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
-+
-+        bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+
-+        qemu_printf("TLB[%i]:\nG = %i EHINV = %i\nPageMask = %08x", i, tlb->G,
-+                    tlb->EHINV, tlb->PageMask);
-+        if (!tlb->EHINV) {
-+            if (mi) {
-+                qemu_printf(" MMID = %i", tlb->MMID);
-+            } else if (!tlb->G) {
-+                qemu_printf(" ASID = %i", tlb->ASID);
-+            }
-+            qemu_printf("\nVPN = "TARGET_FMT_lx" PFN[0] = %08lx RI0 = %i"
-+                        " XI0 = %i C0 = %i D0 = %i V0 = %i\n"
-+                        "VPN = "TARGET_FMT_lx" PFN[1] = %08lx RI1 = %i XI1 = %i"
-+                        " C1 = %i D1 = %i V1 = %i\n", tlb->VPN, tlb->PFN[0],
-+                        tlb->RI0, tlb->XI0, tlb->C0, tlb->D0, tlb->V0, tlb->VPN,
-+                        tlb->PFN[1], tlb->RI1, tlb->XI1,
-+                        tlb->C1, tlb->D1, tlb->V1);
-+        }
-+    }
-+}
-+
-+void dump_mmu(CPUMIPSState *env)
-+{
-+    switch (env->cpu_model->mmu_type) {
-+    case MMU_TYPE_NONE:
-+        qemu_printf("no MMU emulation\n");
-+        break;
-+    case MMU_TYPE_R4000:
-+        r4k_mmu_dump(env);
-+        break;
-+    case MMU_TYPE_FMT:
-+        qemu_printf("fixed mapping MMU emulation\n");
-+        break;
-+    case MMU_TYPE_R3000:
-+    case MMU_TYPE_R6000:
-+    case MMU_TYPE_R8000:
-+    default:
-+        qemu_printf("MMU type not supported\n");
-+    }
-+}
-+
- /* no MMU emulation */
- int no_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-                        target_ulong address, int rw, int access_type)
--- 
-2.25.1
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
