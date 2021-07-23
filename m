@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410D53D33F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 07:14:25 +0200 (CEST)
-Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8F73D33F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 07:14:46 +0200 (CEST)
+Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6nVw-0006YG-05
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 01:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
+	id 1m6nWH-0007pS-OQ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 01:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m6nUJ-0005eB-8q
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:12:43 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:35362)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m6nUb-000629-R2
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:01 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m6nUH-0004ve-Fs
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:12:42 -0400
-Received: by mail-il1-x133.google.com with SMTP id k3so520400ilu.2
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 22:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=70l4HnC/zje5m4F6fwb2asYz4/8tP8svxk4g8F0+jBI=;
- b=tAKB+uYldhXyWYPzncGagimA8CNlWyMA4MBmwFh+zEgHrFu4erH9RJW+ue7azi2QCo
- DhxuVFMc0dLeQ9T3M6QEaLipyPrJqZGrDcdfGvEp2tVx9SgHB77VJKeJ6Qv4toJr4TKv
- 32UB47t39vYzCv6CI47VkwiE7rSWkKi37rLbPu+XzwQl2LWfAJwXmxU+uUXdewLuNCjD
- XEkRCYyJF2DqDi/g51/Jq5QULJS6vERpzRaIxcbitrP9BTMo99BnItGYekkqXLp9Fu8a
- x0HBssuUqns6XtwqSPVuXeR5ZM13Iz1fe6UlSUAV6q0cAGIg+kldpTaXZhBTR+jK85FK
- 7RIA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m6nUa-0005AK-4a
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:01 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j17-20020a17090aeb11b029017613554465so2239631pjz.4
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 22:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=N3PHkCrd8XCqkd/IGMAYs0REJxMcjsCFgqFy2cmHVL8=;
+ b=Fp/IRoUDR3ZydjZgM0qib0Qnhr4rgVlB3clTuSySlz/jB6TzC2Lw20V+CzvaYFgRjb
+ YLOoaShdkgvjvIW8RHU+zA3R92xujYeKtm6BDWWtRdlgf3Y8WvWXa2/knghRype5IGgK
+ nxA8+oJdxnEoiDpM6dX9OeF5W9FO7CGlASZMeceZIMBOTgu2CQmiy9OWvOR8TGXU3cTW
+ saxnFxL2J8tBz0msY5eFLxElOBuZw24r4ij85zW4+zDDVW0+LsWog9Gqp9UpNCi4o2lK
+ ZUzFLQx/6MhoNi1ES98zdhbB/fvDrvxrhgxQQdFruHm+xX2hXZrvYC1rBqRGYmuPDHL/
+ GNEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=70l4HnC/zje5m4F6fwb2asYz4/8tP8svxk4g8F0+jBI=;
- b=K/6I2jLqX8wGsNxhKyEqaWC9qTw1Z3clfKgh4G3sSPmYRQlOVBXff7cq0Ut51vXY49
- NQ+a3zRHGk6UVC1MX3pf3ZPyXyTSEN8KRRfzOiQ/o487Lx9F1bylxGV0Qe652++ybz/P
- PL4PCMgywB0FMlRahvjZuIzCEQotQ+bKIm4wigduLd27NiidZRFz4Cr5Zbi2EpNIs7w3
- 0ItDK1ix8yTDNw+D8WylECo2nHdl4any26sRStWRgoVLTSkNousaQ7eSuhQDQHbgHsG4
- yJ7aesH8P8cyQlxeMl8pQVrqi22ioAJ4qo2Y9jXBbd0x7LN4fU+z9f6erDIhdd0XLvIO
- NPPg==
-X-Gm-Message-State: AOAM531eZ9ydGU1HB3NCSiQwhqkrH1/GnlqBLZIRMWl1wlqwUB7UmRmT
- xUyg3C0+zdPAulqj2uaUKZVciriI34dVQZTfuJ8=
-X-Google-Smtp-Source: ABdhPJwEAfMaRt8+1/usy1iG4hmNGtqCNUDErBImlhDiqcy9/n4MsKW6owGW0WCjIb02Wfb/FBTg4aE/m0uk7ZOgx2w=
-X-Received: by 2002:a05:6e02:1d8d:: with SMTP id
- h13mr2358217ila.40.1627017159937; 
- Thu, 22 Jul 2021 22:12:39 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=N3PHkCrd8XCqkd/IGMAYs0REJxMcjsCFgqFy2cmHVL8=;
+ b=C9ozgA9hzywWYv7Zv/nA9yufbN9/HJkdO8MtjQ6KWpym+DL5H+FE6YRd3QPt5q9lFw
+ BIffXEpWlQ2eGlvpQytujRpXx+62InDfFOKo5bLbZ3+yd/Nzp+UTGrKbykwop54uuupS
+ imF/UIFODhM8z+jV97i46Zo3CYg7KwmHi7o608EE4K5URGunRkQE6qV5wP6bG3yhfBJ8
+ p1HZ1SaBUg2sjDqdvagQdF9FjxkURjKW5oAm1CjdjNkX4j6MlnauNeIMW7JlrqAL8amM
+ Dm/PBCXQlXxpBLe9QM5K7CBi3BKztsvKHHV43W1gapMlvb8rW+ruNK22pEoVF2msZ4Dq
+ QN/g==
+X-Gm-Message-State: AOAM533mLYfMGA+WGTWDwikfmi/Osw602FzUkfME0DJaXQZJL+D0o1V8
+ +XmqXNL3I+Cs+ogRDON+quKMDA==
+X-Google-Smtp-Source: ABdhPJytMLt1rFNOGSYxcRhLynGBLSzHiB8YfNGlDCt848KofkwhHWD94ayFd9UGUUgAhR+D/g8Wyw==
+X-Received: by 2002:a63:e350:: with SMTP id o16mr3335507pgj.98.1627017178327; 
+ Thu, 22 Jul 2021 22:12:58 -0700 (PDT)
+Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
+ [204.210.126.223])
+ by smtp.gmail.com with ESMTPSA id v25sm31491042pfm.202.2021.07.22.22.12.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 22:12:57 -0700 (PDT)
+Subject: Re: [PATCH v2 12/22] target/loongarch: Add fixed point extra
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
+Date: Thu, 22 Jul 2021 19:12:54 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <1626805903-162860-1-git-send-email-joe.komlodi@xilinx.com>
- <1626805903-162860-2-git-send-email-joe.komlodi@xilinx.com>
-In-Reply-To: <1626805903-162860-2-git-send-email-joe.komlodi@xilinx.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 23 Jul 2021 15:12:14 +1000
-Message-ID: <CAKmqyKOqxqk8zUaAP6SEaGcLRN0d=zN8E8qW28jhuF71ptN8Yw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] hw/core/register: Add more 64-bit utilities
-To: Joe Komlodi <joe.komlodi@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,107 +90,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, laurent@vivier.eu,
+ maobibo@loongson.cn, alistair.francis@wdc.com, pbonzini@redhat.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 4:31 AM Joe Komlodi <joe.komlodi@xilinx.com> wrote:
->
-> We already have some utilities to handle 64-bit wide registers, so this just
-> adds some more for:
-> - Initializing 64-bit registers
-> - Extracting and depositing to an array of 64-bit registers
->
-> Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  hw/core/register.c          | 12 ++++++++++++
->  include/hw/register.h       |  8 ++++++++
->  include/hw/registerfields.h |  8 ++++++++
->  3 files changed, 28 insertions(+)
->
-> diff --git a/hw/core/register.c b/hw/core/register.c
-> index d6f8c20..95b0150 100644
-> --- a/hw/core/register.c
-> +++ b/hw/core/register.c
-> @@ -300,6 +300,18 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
->                                 data, ops, debug_enabled, memory_size, 32);
->  }
->
-> +RegisterInfoArray *register_init_block64(DeviceState *owner,
-> +                                         const RegisterAccessInfo *rae,
-> +                                         int num, RegisterInfo *ri,
-> +                                         uint64_t *data,
-> +                                         const MemoryRegionOps *ops,
-> +                                         bool debug_enabled,
-> +                                         uint64_t memory_size)
+On 7/20/21 11:53 PM, Song Gao wrote:
+> +target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
 > +{
-> +    return register_init_block(owner, rae, num, ri, (void *)
-> +                               data, ops, debug_enabled, memory_size, 64);
+> +    target_ulong r = 0;
+> +
+> +    switch (rj) {
+> +    case 0:
+> +        r = env->CSR_MCSR0 & 0xffffffff;
+> +        break;
+> +    case 1:
+> +        r = (env->CSR_MCSR0 & 0xffffffff00000000) >> 32;
+> +        break;
+
+Why do you represent all of these as high and low portions of a 64-bit internal value, 
+when the manual describes them as 32-bit values?
+
+
+> +/* Fixed point extra instruction translation */
+> +static bool trans_crc_w_b_w(DisasContext *ctx, arg_crc_w_b_w *a)
+> +{
+> +    TCGv t0, t1;
+> +    TCGv Rd = cpu_gpr[a->rd];
+> +    TCGv_i32 tsz = tcg_const_i32(1 << 1);
+
+This size is wrong.  It should be 1, not 1 << 1 (2).
+
+
+> +static bool trans_crc_w_w_w(DisasContext *ctx, arg_crc_w_w_w *a)
+> +{
+> +    TCGv t0, t1;
+> +    TCGv Rd = cpu_gpr[a->rd];
+> +    TCGv_i32 tsz = tcg_const_i32(1 << 4);
+
+Because this size most certainly should not be 16...
+
+> +static bool trans_crc_w_d_w(DisasContext *ctx, arg_crc_w_d_w *a)
+> +{
+> +    TCGv t0, t1;
+> +    TCGv Rd = cpu_gpr[a->rd];
+> +    TCGv_i32 tsz = tcg_const_i32(1 << 8);
+
+... and this size should not be 256.  Both well larger than the 8 byte buffer that you've 
+allocated.
+
+Also, you need a helper so that you don't have 8 copies of this code.
+
+> +static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
+> +{
+> +    TCGv t0, t1;
+> +
+> +    t0 = get_gpr(a->rj);
+> +    t1 = get_gpr(a->rk);
+> +
+> +    gen_helper_asrtle_d(cpu_env, t0, t1);
+> +
+> +    return true;
 > +}
 > +
->  void register_finalize_block(RegisterInfoArray *r_array)
->  {
->      object_unparent(OBJECT(&r_array->mem));
-> diff --git a/include/hw/register.h b/include/hw/register.h
-> index b480e38..6a076cf 100644
-> --- a/include/hw/register.h
-> +++ b/include/hw/register.h
-> @@ -204,6 +204,14 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
->                                           bool debug_enabled,
->                                           uint64_t memory_size);
->
-> +RegisterInfoArray *register_init_block64(DeviceState *owner,
-> +                                         const RegisterAccessInfo *rae,
-> +                                         int num, RegisterInfo *ri,
-> +                                         uint64_t *data,
-> +                                         const MemoryRegionOps *ops,
-> +                                         bool debug_enabled,
-> +                                         uint64_t memory_size);
+> +static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
+> +{
+> +    TCGv t0, t1;
 > +
->  /**
->   * This function should be called to cleanup the registers that were initialized
->   * when calling register_init_block32(). This function should only be called
-> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-> index 93fa4a8..9a03ac5 100644
-> --- a/include/hw/registerfields.h
-> +++ b/include/hw/registerfields.h
-> @@ -30,6 +30,10 @@
->      enum { A_ ## reg = (addr) };                                          \
->      enum { R_ ## reg = (addr) / 2 };
->
-> +#define REG64(reg, addr)                                                  \
-> +    enum { A_ ## reg = (addr) };                                          \
-> +    enum { R_ ## reg = (addr) / 8 };
+> +    t0 = get_gpr(a->rj);
+> +    t1 = get_gpr(a->rk);
 > +
->  /* Define SHIFT, LENGTH and MASK constants for a field within a register */
->
->  /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_LENGTH
-> @@ -58,6 +62,8 @@
->  /* Extract a field from an array of registers */
->  #define ARRAY_FIELD_EX32(regs, reg, field)                                \
->      FIELD_EX32((regs)[R_ ## reg], reg, field)
-> +#define ARRAY_FIELD_EX64(regs, reg, field)                                \
-> +    FIELD_EX64((regs)[R_ ## reg], reg, field)
->
->  /* Deposit a register field.
->   * Assigning values larger then the target field will result in
-> @@ -99,5 +105,7 @@
->  /* Deposit a field to array of registers.  */
->  #define ARRAY_FIELD_DP32(regs, reg, field, val)                           \
->      (regs)[R_ ## reg] = FIELD_DP32((regs)[R_ ## reg], reg, field, val);
-> +#define ARRAY_FIELD_DP64(regs, reg, field, val)                           \
-> +    (regs)[R_ ## reg] = FIELD_DP64((regs)[R_ ## reg], reg, field, val);
->
->  #endif
-> --
-> 2.7.4
->
+> +    gen_helper_asrtgt_d(cpu_env, t0, t1);
+> +
+> +    return true;
+> +}
+
+I'm not sure why both of these instructions are in the ISA, since
+
+   ASRTLE X,Y <-> ASRTGT Y,X
+
+but we certainly don't need two different helpers.
+Just swap the arguments for one of them.
+
+> +static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
+> +{
+> +    /* Nop */
+> +    return true;
+> +}
+> +
+> +static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
+> +{
+> +    /* Nop */
+> +    return true;
+> +}
+> +
+> +static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
+> +{
+> +    /* Nop */
+> +    return true;
+> +}
+
+If you don't want to implement these right now, you should at least initialize the 
+destination register to 0, or something.
+
+
+r~
 
