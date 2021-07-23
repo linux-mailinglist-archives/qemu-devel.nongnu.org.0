@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDD13D368E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:20:20 +0200 (CEST)
-Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D713D36A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:29:45 +0200 (CEST)
+Received: from localhost ([::1]:56556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6qPr-0005df-S6
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34918)
+	id 1m6qYy-0007aq-Il
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6qOn-0004rp-WF
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:19:14 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:51972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6qOm-0000Vu-DJ
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:19:13 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0D68621D52;
- Fri, 23 Jul 2021 08:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627028351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6qXt-0006us-U1
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:28:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6qXr-0008BK-T5
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:28:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627028914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ql2fcmTGz0MmlQQY9t4vq6bY3ciS+6xBTlBqgNeteqk=;
- b=sQE1tWzFuQqD49bJAyDb7i1Qcf/Stf8p4ZEVJ+zjWaaPWm6GEr94aGpFZwehVpI8/dInnN
- phOfPU36LwYeb65+zJ+aFL8qqUE+ZrqtmzPGRkUCJPYXcdMuCAiJZvLqm0GUyCiT/DbwGr
- WsomG6HIlluOgPUfKsVCX52QnmXYvmM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627028351;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ql2fcmTGz0MmlQQY9t4vq6bY3ciS+6xBTlBqgNeteqk=;
- b=wpC3Lay2q8l97TU/nHCp2zbIe5xpFOvz8I8M4xmjS1iSMQgqgXDrS2vylGwVxPihUJeWE8
- PqREebt7Uhm96MBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=L+eOGTQygR3wMZ3nZzSu1OD3GveWoOie0fXQoUkVxqE=;
+ b=EWSJS4NxLfZ7yMalyz+GD2y9xvpwQaa6MmtyhEZeWVRjyULSy/zIyKy23UOQwMJrxgMX3D
+ kj5vvU/QF9Puo7fLa8QSbtOq2EfcBYGDad9KfJowV3PaRFVbVMF+3fS0zg3LqV/oeiSWPR
+ zBag13VoPbLa8gJ0rKUZDnXp2XSgSrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-Kn9f7rB_Ow-nG7juym2cvA-1; Fri, 23 Jul 2021 04:28:33 -0400
+X-MC-Unique: Kn9f7rB_Ow-nG7juym2cvA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C791C13DF5;
- Fri, 23 Jul 2021 08:19:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qUHvLn57+mA4ZQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 23 Jul 2021 08:19:10 +0000
-Subject: Re: [PATCH for-6.1] i386: do not call cpudef-only models functions
- for max, host, base
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210722083851.24068-1-cfontana@suse.de>
- <101ca50d-5bec-d4cc-7874-a296bf43421f@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ed9132b0-6b10-ad8b-3344-6cf0e3ed25b5@suse.de>
-Date: Fri, 23 Jul 2021 10:19:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CF931853024;
+ Fri, 23 Jul 2021 08:28:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
+ [10.36.114.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8085D69CBB;
+ Fri, 23 Jul 2021 08:28:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 01EC511326B9; Fri, 23 Jul 2021 10:28:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Jose R. Ziviani" <jziviani@suse.de>
+Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is
+ not found
+References: <20210722220952.17444-1-jziviani@suse.de>
+ <20210722220952.17444-2-jziviani@suse.de>
+Date: Fri, 23 Jul 2021 10:28:26 +0200
+In-Reply-To: <20210722220952.17444-2-jziviani@suse.de> (Jose R. Ziviani's
+ message of "Thu, 22 Jul 2021 19:09:52 -0300")
+Message-ID: <87a6mdcu39.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <101ca50d-5bec-d4cc-7874-a296bf43421f@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,74 +81,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: pbonzini@redhat.com, cfontana@suse.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/21 6:13 PM, Philippe Mathieu-Daudé wrote:
-> On 7/22/21 10:38 AM, Claudio Fontana wrote:
-> 
-> It seems the subject got dropped and the first line
-> used as subject... But I'm not sure you want to
-> start the description with it.
+"Jose R. Ziviani" <jziviani@suse.de> writes:
 
-hmm the subject got dropped from where? I see it in the mail subject..
-> 
->> properties set by function x86_cpu_apply_props, including
->> kvm_default_props, tcg_default_props,
->> and the "vendor" property for KVM and HVF,
->>
-> 
-> This newline is what confuses me.
+> When a module is not found, specially accelerators, QEMU displays
+> a error message that not easy to understand[1]. This patch improves
+> the readability by offering a user-friendly message[2].
+>
+> This patch also moves the accelerator ops check to runtine (instead
+> of the original g_assert) because it works better with dynamic
+> modules.
+>
+> [1] qemu-system-x86_64 -accel tcg
+> ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed:
+> (ops != NULL)
+> Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces:
+> assertion failed: (ops != NULL)
+>     31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
 
-hmm maybe better:
+This isn't an error message, it's a crash :)
 
-"
-Some cpu properties have to be set only for cpu models in builtin_x86_defs,
-registered with x86_register_cpu_model_type, and not for
-cpu models "base", "max", and the subclass "host".
+> [2] qemu-system-x86_64 -accel tcg
+> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
 
-These properties are the ones set by function x86_cpu_apply_props,
-(also including kvm_default_props, tcg_default_props),
-and the "vendor" property for the KVM and HVF accelerators.
+s/config/configure/
 
-After recent refactoring of cpu, which also affected these properties,
-they were instead set unconditionally for all x86 cpus.
+Also drop the period.
 
->> This has been detected as a bug with Nested on AMD with cpu "host",
->> as svm was not turned on by default, due to the wrongful setting of
->> kvm_default_props via x86_cpu_apply_props.
+>
+> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+> ---
+>  accel/accel-softmmu.c |  5 ++++-
+>  util/module.c         | 14 ++++++++------
+>  2 files changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+> index 67276e4f52..52449ac2d0 100644
+> --- a/accel/accel-softmmu.c
+> +++ b/accel/accel-softmmu.c
+> @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>       * all accelerators need to define ops, providing at least a mandatory
+>       * non-NULL create_vcpu_thread operation.
+>       */
+> -    g_assert(ops != NULL);
+> +    if (ops == NULL) {
+> +        exit(1);
+> +    }
+> +
 
-.. which set svm to "off".
+Not your patch's fault: I'm not sure the comment makes sense.
 
->> Rectify the bug introduced in commit "i386: split cpu accelerators"
->> and document the functions that are builtin_x86_defs-only.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Tested-by: Alexander Bulekov <alxndr@bu.edu>
->> Fixes: f5cc5a5c ("i386: split cpu accelerators from cpu.c,"...)
->> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/477
-> 
-> If you want to have gitlab closes the issue once merged, you'd
-> need to use Resolves:/Fixes: tag instead, see
-> https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#default-closing-pattern
+>      if (ops->ops_init) {
+>          ops->ops_init(ops);
+>      }
+> diff --git a/util/module.c b/util/module.c
+> index 6bb4ad915a..268a8563fd 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -206,13 +206,10 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+>  out:
+>      return ret;
+>  }
+> -#endif
 
-I'll try Resolves: to avoid collision with Fixes: used to mark the commit that introduced the regression.
+Why do you need to mess with the ifdeffery?
 
-Wdyt about the new text?
+>  
+>  bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>  {
+>      bool success = false;
+> -
+> -#ifdef CONFIG_MODULES
+>      char *fname = NULL;
+>  #ifdef CONFIG_MODULE_UPGRADES
+>      char *version_dir;
+> @@ -300,6 +297,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>  
+>      if (!success) {
+>          g_hash_table_remove(loaded_modules, module_name);
+> +        fprintf(stderr, "%s module is missing, install the "
+> +                        "package or config the library path "
+> +                        "correctly.\n", module_name);
+>          g_free(module_name);
+>      }
+>  
 
-Thanks,
+Again, not your patch's fault: reporting to stderr with fprintf() is
+almost always wrong.
 
-Claudio
+When the thing we report is an error, we should use error_report() for
+correct formatting.  Likewise, warn_report() for warnings, info_report()
+for informational messages.
 
-> 
->> ---
->>  target/i386/cpu.c         |  19 ++++++-
->>  target/i386/host-cpu.c    |  13 +++--
->>  target/i386/kvm/kvm-cpu.c | 105 ++++++++++++++++++++------------------
->>  target/i386/tcg/tcg-cpu.c |  11 ++--
->>  4 files changed, 89 insertions(+), 59 deletions(-)
-> 
+When the module load is triggered by a monitor command, we probably want
+to report problems to the monitor.  error_report() & friends do the
+right thing for HMP.  For QMP, you have to use the Error API, i.e. have
+the function take an Error ** argument, which the callers propagate all
+the way to the QMP core.
+
+To fix this issue, we first need to decide what kind of message this is:
+error, warning, something else.
+
+> @@ -307,12 +307,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>          g_free(dirs[i]);
+>      }
+>  
+> -#endif
+>      return success;
+>  }
+>  
+> -#ifdef CONFIG_MODULES
+> -
+>  static bool module_loaded_qom_all;
+>  
+>  void module_load_qom_one(const char *type)
+> @@ -384,4 +381,9 @@ void qemu_load_module_for_opts(const char *group) {}
+>  void module_load_qom_one(const char *type) {}
+>  void module_load_qom_all(void) {}
+>  
+> +bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+> +{
+> +    return false;
+> +}
+> +
+>  #endif
 
 
