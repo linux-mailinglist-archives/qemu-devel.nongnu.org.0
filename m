@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4083D3D84
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:24:45 +0200 (CEST)
-Received: from localhost ([::1]:49398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D683D3D86
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:25:34 +0200 (CEST)
+Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6xye-0003ls-Le
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49348)
+	id 1m6xzR-0005KH-Rs
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:25:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m6xvt-0008QX-DS
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:53 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33329)
+ id 1m6xvv-00008K-S4
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:55 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m6xvr-0000kp-Dt
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:53 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q3so3038867wrx.0
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:21:50 -0700 (PDT)
+ id 1m6xvr-0000lX-E3
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:55 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e2so2962184wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6bcSsnl6u82JYa+g2MBv9GVvdo5DY+x1DAHdRtbYsP0=;
- b=H6dZBnzoqjJDX0KwISIefbEulJ+2575Ex/SNWD2GZw3VU+DRfn66XFWLBFyviC07Wp
- 9rqtcANTpIqSaGZhQNBGEHK/I3k+eIs4aPEQrgcahzyEuJjIJrREjhW6HwY8vVVfw6mI
- CnVRlXQJT3pkxO5bO6VEb+luJV4Jfx7CnR/JDxOJFhI/P1TBqROdcQZ8Li2dreCljxzw
- SAROfw4mXaVtrsTHgijweLG9D7GEz+a+7Pc1KZiLnK555YavSLRRiO+WF2+doDLj9zTz
- i9aCfwLhfUAEyJ4GutqdZM7GOiYFfcGm/ojAdIup2IFprvHCtSmtYn0ku9f8im39RIao
- ooaA==
+ bh=ACI532LNdXUXkP6ZLogSGJNZsbzdsfTkMdhJh+PsYgE=;
+ b=R/0Fftc4OuG+6LGRRv1QsPli84hUDQxMqxbibcURt/PPTyiojlJe8/n4LJe2tMtXde
+ 2zkhE5azVv2EudV1syzBz5n4D6yQrghixe63AibGYDTDohKpcHzR24yzSzmEXmEKErt6
+ NdiNDNJhGzEBCbRZ5TcCzqdd9amLnHm3dEGKVxjn4aEH34gEtNED0cu6VNTsj7hUh+7c
+ kLoNqTH/Z0p1yYKM2jl/1+rCUEmv7LYyLRRJNRFexKsyxq4xS0X8wp4HP7O/9hecCubU
+ khrY510pN9rLdr0jUwEvG5ZpdlDtNRZOHbv+MbeugYMzn2lu19rX4jZMmnyjM5bDf8/L
+ ywYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6bcSsnl6u82JYa+g2MBv9GVvdo5DY+x1DAHdRtbYsP0=;
- b=ZoPYmh7L55cyZ5/GG9QX1CFR1+6RcRFtkOFxOtUC8lL8B7ZAFlRw5Bgtat5oufeyW6
- Z51S62NAPWtTfRFo9UIhrj/kwTIbJkmPqtvhvnr4prmae/lhJU1pY6w8gd2VoxPLc8hw
- MwEGbnXRSAN+KomutRqKponK9AoOhzNCHHKU81ZrZd5E5tYNrkDl5LwTnxVLoQRKUbnt
- V8bSGfSsb3wT3BB+SRxkc4eiYgcJUYQTSy8KE1lIm3uOZhvkuUOSueGGQMJXEieI5WfI
- Z5GqLtd1pRVfq5JJkQOJOovVEkigh75aCNyvLHnciYU7Xf530+IwTR0+03ZpAIihifzC
- h2vQ==
-X-Gm-Message-State: AOAM533mwAlPozPRzx6Z+JbSbpTT8O88eCZODAB/R2t7wfQdUDYXWKd5
- f1diYPV3eNrg98HG8HKLTr5AkBx2SNfdiA==
-X-Google-Smtp-Source: ABdhPJxUATm+Q1J61YDeZF2AL8KvQj3g5hrmc3V2ZqcS/9bjzctOJOep08cRQ5GbiSaLR7Hbnk8ZOg==
-X-Received: by 2002:adf:dfcb:: with SMTP id q11mr864529wrn.16.1627057309409;
- Fri, 23 Jul 2021 09:21:49 -0700 (PDT)
+ bh=ACI532LNdXUXkP6ZLogSGJNZsbzdsfTkMdhJh+PsYgE=;
+ b=bOPXmzdVHitMsacVvBaL8O6vdBZjtruOZbhwzpNIjlLqr0TkgqAgUvtyKyDGjkje7E
+ dybOLaZRPEGQU7RbjgR+aHkFGE4imRRhhWYvDJPo1uv2P1z95Qw7ArTRACiX0JZPQlrT
+ 1S0gm8M1WCNQapPuwDZD7/1huBvLXcnSU/w2hdwaJL8+k910hgd69vMdy3sylm+ZZYS5
+ BzigL3PGd1r8AtwSTNwimpwf8H6EEP9VosQUp4+SuFYYF3/DSkpdU8p3nRpUtIJ8vWuu
+ Mvlw5/STR9GUxXDxhC/zApC0Z4JvXpP7wH2l13dKhAvWrhuf5nIB2mZBTR9VsRAR6PwA
+ lyYQ==
+X-Gm-Message-State: AOAM530TDxI8Y5n7Kk1rlPM9NR66I2j5t3PhcqU7ymx8Pt9bSpqaPMHy
+ BNDVwPWe2ClcZElKFgNMKmSu3Fu/zwpxmQ==
+X-Google-Smtp-Source: ABdhPJw396ib9ePD/p10QE3kj3p5kUCaeOfR7436zra85yEEEg8AXuVyvXdkHfxRP8ID/JKG7ewmSA==
+X-Received: by 2002:adf:fcca:: with SMTP id f10mr6048912wrs.323.1627057310098; 
+ Fri, 23 Jul 2021 09:21:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y11sm5721416wmi.33.2021.07.23.09.21.48
+ by smtp.gmail.com with ESMTPSA id y11sm5721416wmi.33.2021.07.23.09.21.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 23 Jul 2021 09:21:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 1/6] target/arm: Enforce that M-profile SP low 2 bits
- are always zero
-Date: Fri, 23 Jul 2021 17:21:41 +0100
-Message-Id: <20210723162146.5167-2-peter.maydell@linaro.org>
+Subject: [PATCH for-6.1 2/6] target/arm: Add missing 'return's after calling
+ v7m_exception_taken()
+Date: Fri, 23 Jul 2021 17:21:42 +0100
+Message-Id: <20210723162146.5167-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210723162146.5167-1-peter.maydell@linaro.org>
 References: <20210723162146.5167-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,119 +87,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For M-profile, unlike A-profile, the low 2 bits of SP are defined to be
-RES0H, which is to say that they must be hardwired to zero so that
-guest attempts to write non-zero values to them are ignored.
+In do_v7m_exception_exit(), we perform various checks as part of
+performing the exception return.  If one of these checks fails, the
+architecture requires that we take an appropriate exception on the
+existing stackframe.  We implement this by calling
+v7m_exception_taken() to set up to take the new exception, and then
+immediately returning from do_v7m_exception_exit() without proceeding
+any further with the unstack-and-exception-return process.
 
-Implement this behaviour by masking out the low bits:
- * for writes to r13 by the gdbstub
- * for writes to any of the various flavours of SP via MSR
- * for writes to r13 via store_reg() in generated code
+In a couple of checks that are new in v8.1M, we forgot the "return"
+statement, with the effect that if bad code in the guest tripped over
+these checks we would set up to take a UsageFault exception but then
+blunder on trying to also unstack and return from the original
+exception, with the probable result that the guest would crash.
 
-Note that all the direct uses of cpu_R[] in translate.c are in places
-where the register is definitely not r13 (usually because that has
-been checked for as an UNDEFINED or UNPREDICTABLE case and handled as
-UNDEF).
-
-All the other writes to regs[13] in C code are either:
- * A-profile only code
- * writes of values we can guarantee to be aligned, such as
-   - writes of previous-SP-value plus or minus a 4-aligned constant
-   - writes of the value in an SP limit register (which we already
-     enforce to be aligned)
+Add the missing return statements.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-This is one of those changes where the code changed is clearly OK
-and the review is more "did we miss anything?". Optimization of cases
-in generated code where we know the value is already aligned would
-obviously be possible (eg "ADD SP, SP, #8") but I haven't looked at
-that; after all, it's only one extra AND insn.
----
- target/arm/gdbstub.c   |  4 ++++
- target/arm/m_helper.c  | 14 ++++++++------
- target/arm/translate.c |  3 +++
- 3 files changed, 15 insertions(+), 6 deletions(-)
+ target/arm/m_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index a8fff2a3d09..826601b3415 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -84,6 +84,10 @@ int arm_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- 
-     if (n < 16) {
-         /* Core integer register.  */
-+        if (n == 13 && arm_feature(env, ARM_FEATURE_M)) {
-+            /* M profile SP low bits are always 0 */
-+            tmp &= ~3;
-+        }
-         env->regs[n] = tmp;
-         return 4;
-     }
 diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 7a1e35ab5b6..f9a9cb466c9 100644
+index f9a9cb466c9..f352346a964 100644
 --- a/target/arm/m_helper.c
 +++ b/target/arm/m_helper.c
-@@ -2563,13 +2563,13 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-             if (!env->v7m.secure) {
-                 return;
+@@ -1554,6 +1554,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+                     qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
+                         "stackframe: NSACR prevents clearing FPU registers\n");
+                     v7m_exception_taken(cpu, excret, true, false);
++                    return;
+                 } else if (!cpacr_pass) {
+                     armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
+                                             exc_secure);
+@@ -1561,6 +1562,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+                     qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
+                         "stackframe: CPACR prevents clearing FPU registers\n");
+                     v7m_exception_taken(cpu, excret, true, false);
++                    return;
+                 }
              }
--            env->v7m.other_ss_msp = val;
-+            env->v7m.other_ss_msp = val & ~3;
-             return;
-         case 0x89: /* PSP_NS */
-             if (!env->v7m.secure) {
-                 return;
-             }
--            env->v7m.other_ss_psp = val;
-+            env->v7m.other_ss_psp = val & ~3;
-             return;
-         case 0x8a: /* MSPLIM_NS */
-             if (!env->v7m.secure) {
-@@ -2638,6 +2638,8 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
- 
-             limit = is_psp ? env->v7m.psplim[false] : env->v7m.msplim[false];
- 
-+            val &= ~0x3;
-+
-             if (val < limit) {
-                 raise_exception_ra(env, EXCP_STKOF, 0, 1, GETPC());
-             }
-@@ -2660,16 +2662,16 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-         break;
-     case 8: /* MSP */
-         if (v7m_using_psp(env)) {
--            env->v7m.other_sp = val;
-+            env->v7m.other_sp = val & ~3;
-         } else {
--            env->regs[13] = val;
-+            env->regs[13] = val & ~3;
-         }
-         break;
-     case 9: /* PSP */
-         if (v7m_using_psp(env)) {
--            env->regs[13] = val;
-+            env->regs[13] = val & ~3;
-         } else {
--            env->v7m.other_sp = val;
-+            env->v7m.other_sp = val & ~3;
-         }
-         break;
-     case 10: /* MSPLIM */
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 351afa43a29..80c282669f0 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -291,6 +291,9 @@ void store_reg(DisasContext *s, int reg, TCGv_i32 var)
-          */
-         tcg_gen_andi_i32(var, var, s->thumb ? ~1 : ~3);
-         s->base.is_jmp = DISAS_JUMP;
-+    } else if (reg == 13 && arm_dc_feature(s, ARM_FEATURE_M)) {
-+        /* For M-profile SP bits [1:0] are always zero */
-+        tcg_gen_andi_i32(var, var, ~3);
-     }
-     tcg_gen_mov_i32(cpu_R[reg], var);
-     tcg_temp_free_i32(var);
+             /* Clear s0..s15, FPSCR and VPR */
 -- 
 2.20.1
 
