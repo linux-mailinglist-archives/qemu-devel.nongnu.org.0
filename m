@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DE73D3857
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:09:41 +0200 (CEST)
-Received: from localhost ([::1]:52568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE77D3D387B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:17:13 +0200 (CEST)
+Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6s7g-0008Bb-Rx
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
+	id 1m6sEy-0002w0-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:17:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s40-0002wv-Kp
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s3x-0007FY-Jy
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627034749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GN6pgXZNs4ngS7CjJRFpmIK7L+C9Jao6DY9HTA1vLtE=;
- b=GYdG/gXei0lsLkUwic3pDSVOcizzjkaDbo6CVDf8hloVhSwnmBWCjoq3UPW9RrMkmOysT5
- kKWtZcs5bWZe679e1ZqdkUhX7BFkY0ch4ndSsL1LLMA5iM5sEBKC6DVKEIeqwXihOG2lg6
- rnxPnYfz+Ds0NbM3d7BicYPJCXgJ5QM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-v4UFg3tLMteTzSUuC10UAQ-1; Fri, 23 Jul 2021 06:05:47 -0400
-X-MC-Unique: v4UFg3tLMteTzSUuC10UAQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0659180FCCD;
- Fri, 23 Jul 2021 10:05:46 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-253.ams2.redhat.com [10.36.112.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5AC18431;
- Fri, 23 Jul 2021 10:05:45 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] MAINTAINERS: Add memory_mapping.h and memory_mapping.c to
- "Memory API"
-Date: Fri, 23 Jul 2021 12:05:32 +0200
-Message-Id: <20210723100532.27353-4-david@redhat.com>
-In-Reply-To: <20210723100532.27353-1-david@redhat.com>
-References: <20210723100532.27353-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6sDx-00028m-RW
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:16:10 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:45620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6sDv-0007T0-3W
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:16:09 -0400
+Received: by mail-ej1-x632.google.com with SMTP id gt31so2751643ejc.12
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 03:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RWvmwONE9uXXwY3bHKPRikwcNWHcAa5BgCq6T7g1Ttk=;
+ b=y/AJNdqzp6FD+EGOkMXDspScN97Th7kmIqGfYJUEF1sqTceVyzDgWO4kyKX3khGNjb
+ OK2ufJ2Wswh+oFiv6esMUeCShUzYxDZQ1EAZln4IAySsifTOzyeDMjSIUMD1s/tokoa2
+ qaDcyUW+iTHQLyhPpUATleTPCdu+yheMhxIZmYDBjDWG6gWJsUsDW32AXE7++xe+9WTm
+ J/e/IixyCBdbCoobS7FdLo3lmo4NnaD0xaBhpZ9RZiQUFKoqqIJnY52gQIkjOwY3ALL+
+ FbGuMjmGCS6xz4cij/S/DwFW0l1Zd4urUl+B2ejiTa90EOKJJGEm31kr0+e1h87B2fr1
+ 4CiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RWvmwONE9uXXwY3bHKPRikwcNWHcAa5BgCq6T7g1Ttk=;
+ b=r7l0dlqyZPY0v44tnBtrPC7zcLM2zaWfTLPununWjPZDH/RmxFLPzRlIC8bYMf0B1P
+ niQJAeFcSuSItgYxqy/2JogpGM0fC8FunrO+KAaCXQIc11k5XypZwXqGtOCUis2D6McO
+ La/9Ljh+2ovaaHHcEbLQ/uLwAKeLreVbtr7sm2SK6NKDLtmdtuMjnRMOdDHC+66U+T45
+ 52J9MFNhnlN8aS9kYuGNEBCYFcIXvztXV2FMjbhXZm6zEWphY8Ob0wQKcjj9RAqpX64K
+ 97qMad8gzBHIfuFadh3vmNAYOQHeRuWiKdS0Po61+asSU/iN3lEmmd4/mIlcmRCzH2aX
+ xHrw==
+X-Gm-Message-State: AOAM531YmrDOczbPG36mf2pvoYMBZcY1yk4mLXQJr+1OdwKy8pI+NNtv
+ 0L9XkjoYHNJLE4lNtHKl1Rcr7PDe2qkhRB+Gz9WFEg==
+X-Google-Smtp-Source: ABdhPJzDVEKfQ/oVwsriZiJmjxVjUn5PJ1jNIHNn/Jh46rIj9kDq5BpReLQpaeufsjuPfID68BVSqpYnIEzZTuuc9/Y=
+X-Received: by 2002:a17:907:a05c:: with SMTP id
+ gz28mr4057985ejc.56.1627035365288; 
+ Fri, 23 Jul 2021 03:16:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210722153612.955537-1-pbonzini@redhat.com>
+In-Reply-To: <20210722153612.955537-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 23 Jul 2021 11:15:23 +0100
+Message-ID: <CAFEAcA_9c7BMZxkxoXxqq5s3CFzTbeP9mAZ-MScYPRJeyF57Lg@mail.gmail.com>
+Subject: Re: [PULL 00/15] Misc bugfix patches for 2021-07-22
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,40 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both files logically belong to "Memory API" and are not yet listed
-anywhere else explicitly. Let's add them to "Memory API".
+On Thu, 22 Jul 2021 at 16:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 143c2e0432859826c9e8d5b2baa307355f1a5332:
+>
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2021-07-19' into staging (2021-07-19 19:06:05 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 0848f8aca6f7b13f2a755c2593b0a1cbb39f658e:
+>
+>   configure: Let --without-default-features disable vhost-kernel and vhost-vdpa (2021-07-22 14:44:51 +0200)
+>
+> ----------------------------------------------------------------
+> Bugfixes.
+>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 190a90b541..445f7fe2d1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2460,9 +2460,11 @@ F: include/exec/memop.h
- F: include/exec/memory.h
- F: include/exec/ram_addr.h
- F: include/exec/ramblock.h
-+F: include/sysemu/memory_mapping.h
- F: softmmu/dma-helpers.c
- F: softmmu/ioport.c
- F: softmmu/memory.c
-+F: softmmu/memory_mapping.c
- F: softmmu/physmem.c
- F: include/exec/memory-internal.h
- F: scripts/coccinelle/memory-region-housekeeping.cocci
--- 
-2.31.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
