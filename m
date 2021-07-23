@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9883D41A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 22:37:17 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F2B3D41F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 23:07:26 +0200 (CEST)
+Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m71v3-0006FH-1U
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 16:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
+	id 1m72OC-0003WK-Tv
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 17:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m71rm-0000Bg-Ir
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 16:33:54 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35825)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m72Mz-0002qb-Fo
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 17:06:09 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m71rk-0008DS-Jd
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 16:33:54 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- pf12-20020a17090b1d8cb0290175c085e7a5so10648443pjb.0
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 13:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0quSyCi9kfxfY1A8lHcxgbeKm6SRDXR67Drrk/c6Yu4=;
- b=OSBpaMGhhw746qwKkwIKUkAMur1lohlJaZND/Y3xNGl44Pt8+895w4JiI49WzIElO3
- rHZNxaR26h2dIjY9RmkoiJobIwUH7EJRRcEBZMedr2dyhMeKRMYPCAvQowBWdTbvbauJ
- o8YdebP8hT9iIKEHdv7RPhbjCPdMHvcAY8B+Cgnbh2lzb1aTgSdCOoO/I9N6x3tF6kTC
- opQdLvwFNjzmcPIo/FILP0nCwByPwZYXRKW5EMEZbDkm+AMPNwCib1IAGfE+fSncfk1C
- +PFkksP+N5zrp3jAcG5ZB7mjXkJiNS97GanzulD8s4oWPhvDv2+TnqIfT60a0xicq+F4
- 7QsQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m72Mw-0004jj-O8
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 17:06:09 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l4so3684436wrs.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 14:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qDZFyiwenqwETKmvaIaSzwgUlCwtlPFojD7PcMfevZs=;
+ b=LffaGah/ZSb56QxPKtiYOcCkITxIeK37Q5IyDDw1FIPbf27n96tKY3CcFh6foFX8BK
+ LOxL8VC28VkO4MZ+Pj3/U+SW9oNOHdyWZdWsF0QZcwOuouUkuF7TemdWo1wlttAvQ/MA
+ B1KJeNVJkshzafWoiHI2PiWmWTek/fPotQtE6FSTsgmX4DolFAhBt4q01QM078LeIS2b
+ kSJwkuy8CPIwq85rKJEHDJgsO+oLVhSvkaRp0x1oTUY9vGXoYArdRKGnl69dpFoA69Wk
+ V/eylzkJRRsLCON6o2N5aCwwIICMlW4cDzciPeU1xP3VcxVN3lWoZpdYr5XMTGXbJZGs
+ Im1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0quSyCi9kfxfY1A8lHcxgbeKm6SRDXR67Drrk/c6Yu4=;
- b=bBxYmKWA82EoYEe3gk9JBT+blUN0xhka+ZCMxzZm2zPaureHYx8N1Wr+kwCatWPOYL
- cA0Es1Kqiv6iaonimqH+alAyeihGUcaFf9UQjrwOA4DPRYsvc93gdWEYqkWS3OSszpzX
- wnXf/zz7BB/Z43tAwtzrv5EIV2H75fRBN9ojpqpxUb9sfItyk6qkB75UqmSvyTkpHY0P
- ZYccSsqYGPNhmyBw9eX5J9vJIfr538mW32V17CIoRCJLq+6WVv4fyXiLdYwXgwhsRjuz
- dYzlC/CMzfbPdQROh5yMmRP+99/tMo2L2TFN5A8yrFQ/tVnfO4blEX4BHux9HkihDwOh
- hOfg==
-X-Gm-Message-State: AOAM530Z4Ax57bZu24TfqxJK195Ns6k9yf3rTfU01OwvU2IrDQl7s6WP
- QdI+BdN5fXBQ0/Sm0s5krmJmP+mvahkWmQ==
-X-Google-Smtp-Source: ABdhPJyDLxOdipI/kHzlbg2aSUmOcENeqnGiddN4p8LLAmF2Y/siaUvVQwzed8UyfSJw0vyRNxg4WA==
-X-Received: by 2002:a17:90a:e453:: with SMTP id
- jp19mr15421410pjb.19.1627072431283; 
- Fri, 23 Jul 2021 13:33:51 -0700 (PDT)
-Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id v23sm6904754pje.33.2021.07.23.13.33.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 13:33:51 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: Add sve-default-vector-length cpu property
-Date: Fri, 23 Jul 2021 10:33:44 -1000
-Message-Id: <20210723203344.968563-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210723203344.968563-1-richard.henderson@linaro.org>
-References: <20210723203344.968563-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qDZFyiwenqwETKmvaIaSzwgUlCwtlPFojD7PcMfevZs=;
+ b=IdzJtn7tSS91pNPgnrzmbTlhnFYYZzr/YHQW0VVeI+lXyJbd1GnU//DXXJ78mZcpLF
+ lSKKLi8ceEmYi9/GaFGNrHATqeZt04+WxFvku8kkPEOtIqOC+S1XixchtXkyDCEUf9dT
+ mDjqf/3DGBJSGRPZGKrQ4fhwC/wqo2741LyrC0KdtZ7o5cltA9QhxLykvSyxq40IfgYK
+ WwoSSz/MlFVBFwKxIggUlvUOH19swklXfDFy34Cc21yxniegZG3gji0QkwKY0TSBtEwU
+ 7UT+CGyvoQm1nCIX/wwiI30p+wtfCA+HwU+VdnfTuRGsPGLizkerWxjNF0CpkIdq/A4r
+ 7czg==
+X-Gm-Message-State: AOAM533lbBNbnckR5BiwZCDCGJ9Uc47BRXC8a270BAXBEVLojwACe/bd
+ zcTlE41pisO5Yx7lgNso6FU=
+X-Google-Smtp-Source: ABdhPJz8NEc+GXZnZ8TxGPljGSV4tKLnBIwQGkt8Tos7QFwVGqJVNEGB+wmubND1gcdrZ7N1yLYJyA==
+X-Received: by 2002:a5d:6482:: with SMTP id o2mr6904217wri.367.1627074364680; 
+ Fri, 23 Jul 2021 14:06:04 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id r18sm34311444wrt.96.2021.07.23.14.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jul 2021 14:06:04 -0700 (PDT)
+Subject: Re: [PATCH v2] mips/tlb_helper: Add support for 'info tlb' cmd
+To: Arkadiy <arkaisp2021@gmail.com>, qemu-devel@nongnu.org
+References: <20210723092242.17024-1-arkaisp2021@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2cd15299-a92e-5cde-cbfc-de4de41c1f14@amsat.org>
+Date: Fri, 23 Jul 2021 23:06:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210723092242.17024-1-arkaisp2021@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.203,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,170 +88,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: aleksandar.rikalo@syrmia.com, aurelien@aurel32.net,
+ pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mirror the behavour of /proc/sys/abi/sve_default_vector_length
-under the real linux kernel.  We have no way of passing along
-a real default across exec like the kernel can, but this is a
-decent way of adjusting the startup vector length of a process.
+Hi,
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/482
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- docs/system/arm/cpu-features.rst | 11 ++++++
- target/arm/cpu.h                 |  5 +++
- target/arm/cpu.c                 | 14 ++++++--
- target/arm/cpu64.c               | 60 ++++++++++++++++++++++++++++++++
- 4 files changed, 88 insertions(+), 2 deletions(-)
+On 7/23/21 11:22 AM, Arkadiy wrote:
+> From: NDNF <arkaisp2021@gmail.com>
+> 
+> This adds hmp 'info tlb' command support for the mips platform.
+> 1k pages are not supported.
+> 
+> Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
+> ---
+>  hmp-commands-info.hx     |  3 ++-
+>  target/mips/cpu.h        |  3 +++
+>  target/mips/meson.build  |  1 +
+>  target/mips/monitor.c    | 26 ++++++++++++++++++++++
+>  target/mips/tlb_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 80 insertions(+), 1 deletion(-)
+>  create mode 100644 target/mips/monitor.c
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 117ba25f91..d6aab9839c 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -222,7 +222,8 @@ SRST
+>  ERST
+>  
+>  #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
+> -    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
+> +    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
+> +    defined(TARGET_MIPS) || defined(TARGET_MIPS64)
+>      {
+>          .name       = "tlb",
+>          .args_type  = "",
+> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> index b9e227a30e..5aa6f2b760 100644
+> --- a/target/mips/cpu.h
+> +++ b/target/mips/cpu.h
+> @@ -1337,6 +1337,9 @@ void itc_reconfigure(struct MIPSITUState *tag);
+>  /* helper.c */
+>  target_ulong exception_resume_pc(CPUMIPSState *env);
+>  
+> +/*tlb_helper.c*/
+> +void dump_mmu(CPUMIPSState *env);
+> +
+>  static inline void cpu_get_tb_cpu_state(CPUMIPSState *env, target_ulong *pc,
+>                                          target_ulong *cs_base, uint32_t *flags)
+>  {
+> diff --git a/target/mips/meson.build b/target/mips/meson.build
+> index 9741545440..c0b19048ee 100644
+> --- a/target/mips/meson.build
+> +++ b/target/mips/meson.build
+> @@ -31,6 +31,7 @@ mips_softmmu_ss.add(files(
+>    'cp0_timer.c',
+>    'machine.c',
+>    'mips-semi.c',
+> +  'monitor.c',
+>  ))
+>  mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+>    'cp0_helper.c',
+> diff --git a/target/mips/monitor.c b/target/mips/monitor.c
+> new file mode 100644
+> index 0000000000..9c9dfd2caa
+> --- /dev/null
+> +++ b/target/mips/monitor.c
+> @@ -0,0 +1,26 @@
+> +/*
+> + * monitor.c
+> + *
+> + * Copyright (c) 2010-2021 Institute for System Programming
+> + *                         of the Russian Academy of Sciences.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "monitor/monitor.h"
+> +#include "monitor/hmp-target.h"
+> +#include "monitor/hmp.h"
+> +
+> +void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+> +{
+> +    CPUArchState *env = mon_get_cpu_env(mon);
 
-diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-index c455442eaf..4ff36cc83f 100644
---- a/docs/system/arm/cpu-features.rst
-+++ b/docs/system/arm/cpu-features.rst
-@@ -376,3 +376,14 @@ verbose command lines.  However, the recommended way to select vector
- lengths is to explicitly enable each desired length.  Therefore only
- example's (1), (4), and (6) exhibit recommended uses of the properties.
- 
-+SVE User-mode Default Vector Length Property
-+--------------------------------------------
-+
-+For qemu-aarch64, the cpu property `sve-default-vector-length=N` is
-+defined to mirror the Linux kernel parameter file
-+`/proc/sys/abi/sve_default_vector_length`.  The default length, `N`,
-+is in units of bytes and must be between 16 and 8192.  
-+If not specified, the default vector length is 64.
-+
-+If the default length is larger than the maximum vector length enabled
-+with `sve<N>` properties, the actual vector length will be reduced.
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index be9a4dceae..9f0a5f84d5 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1006,6 +1006,11 @@ struct ARMCPU {
-     /* Used to set the maximum vector length the cpu will support.  */
-     uint32_t sve_max_vq;
- 
-+#ifdef CONFIG_USER_ONLY
-+    /* Used to set the default vector length at process start. */
-+    uint32_t sve_default_vq;
-+#endif
-+
-     /*
-      * In sve_vq_map each set bit is a supported vector length of
-      * (bit-number + 1) * 16 bytes, i.e. each bit number + 1 is the vector
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 752b15bb79..2866dd7658 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -201,7 +201,8 @@ static void arm_cpu_reset(DeviceState *dev)
-         env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 16, 2, 3);
-         /* with reasonable vector length */
-         if (cpu_isar_feature(aa64_sve, cpu)) {
--            env->vfp.zcr_el[1] = MIN(cpu->sve_max_vq - 1, 3);
-+            env->vfp.zcr_el[1] =
-+                aarch64_sve_zcr_get_valid_len(cpu, cpu->sve_default_vq - 1);
-         }
-         /*
-          * Enable TBI0 but not TBI1.
-@@ -1051,7 +1052,16 @@ static void arm_cpu_initfn(Object *obj)
-     QLIST_INIT(&cpu->pre_el_change_hooks);
-     QLIST_INIT(&cpu->el_change_hooks);
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+# ifdef TARGET_AARCH64
-+    /*
-+     * The linux kernel defaults to 512-bit vectors, when sve is supported.
-+     * See documentation for /proc/sys/abi/sve_default_vector_length, and
-+     * our corresponding sve-default-vector-length cpu property.
-+     */
-+    cpu->sve_default_vq = 4;
-+# endif
-+#else
-     /* Our inbound IRQ and FIQ lines */
-     if (kvm_enabled()) {
-         /* VIRQ and VFIQ are unused with KVM but we add them to maintain
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index c7a1626bec..c690318a9b 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -559,6 +559,59 @@ static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
-     cpu->isar.id_aa64pfr0 = t;
- }
- 
-+#ifdef CONFIG_USER_ONLY
-+/* Mirror linux /proc/sys/abi/sve_default_vector_length. */
-+static void cpu_arm_set_sve_default_vec_len(Object *obj, Visitor *v,
-+                                            const char *name, void *opaque,
-+                                            Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+    int32_t default_len, default_vq, remainder;
-+
-+    if (!visit_type_int32(v, name, &default_len, errp)) {
-+        return;
-+    }
-+
-+    /* Undocumented, but the kernel allows -1 to indicate "maximum". */
-+    if (default_len == -1) {
-+        cpu->sve_default_vq = ARM_MAX_VQ;
-+        return;
-+    }
-+
-+    default_vq = default_len / 16;
-+    remainder = default_len % 16;
-+
-+    /*
-+     * Note that the 512 max comes from include/uapi/asm/sve_context.h
-+     * and is the maximum architectural width of ZCR_ELx.LEN.
-+     */
-+    if (remainder || default_vq < 1 || default_vq > 512) {
-+        error_setg(errp, "cannot set sve-default-vector-length");
-+        if (remainder) {
-+            error_append_hint(errp, "Vector length not a multiple of 16\n");
-+        } else if (default_vq < 1) {
-+            error_append_hint(errp, "Vector length smaller than 16\n");
-+        } else {
-+            error_append_hint(errp, "Vector length larger than %d\n",
-+                              512 * 16);
-+        }
-+        return;
-+    }
-+
-+    cpu->sve_default_vq = default_vq;
-+}
-+
-+static void cpu_arm_get_sve_default_vec_len(Object *obj, Visitor *v,
-+                                            const char *name, void *opaque,
-+                                            Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+    int32_t value = cpu->sve_default_vq * 16;
-+
-+    visit_type_int32(v, name, &value, errp);
-+}
-+#endif
-+
- void aarch64_add_sve_properties(Object *obj)
- {
-     uint32_t vq;
-@@ -571,6 +624,13 @@ void aarch64_add_sve_properties(Object *obj)
-         object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
-                             cpu_arm_set_sve_vq, NULL, NULL);
-     }
-+
-+#ifdef CONFIG_USER_ONLY
-+    /* Mirror linux /proc/sys/abi/sve_default_vector_length. */
-+    object_property_add(obj, "sve-default-vector-length", "int32",
-+                        cpu_arm_get_sve_default_vec_len,
-+                        cpu_arm_set_sve_default_vec_len, NULL, NULL);
-+#endif
- }
- 
- void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
--- 
-2.25.1
+I don't understand which core you are dumping.
 
+Please dump all cores instead. Or take the core index as
+argument. See hmp_mce() which does qdict_get_int(qdict, "cpu_index");
+Maybe hmp_info_registers() is a good example, as it uses CPU_FOREACH().
+
+> +    if (!env) {
+> +        monitor_printf(mon, "No CPU available\n");
+> +        return;
+> +    }
+> +    dump_mmu(env);
+> +}
+> diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+> index 082c17928d..1c0c2831d6 100644
+> --- a/target/mips/tlb_helper.c
+> +++ b/target/mips/tlb_helper.c
+> @@ -24,6 +24,7 @@
+>  #include "exec/cpu_ldst.h"
+>  #include "exec/log.h"
+>  #include "hw/mips/cpudevs.h"
+> +#include "qemu/qemu-print.h"
+>  
+>  enum {
+>      TLBRET_XI = -6,
+> @@ -37,6 +38,53 @@ enum {
+>  
+>  #if !defined(CONFIG_USER_ONLY)
+>  
+> +static void r4k_mmu_dump(CPUMIPSState *env)
+> +{
+> +    int i;
+
+Maybe display TLB count?
+
+> +    for (i = 0; i < env->tlb->tlb_in_use; i++) {
+> +        r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
+> +
+> +        bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+> +
+> +        qemu_printf("TLB[%i]:\nG = %i EHINV = %i\nPageMask = %08x", i, tlb->G,
+
+Please prefix hexadecimal with 0x.
+
+> +                    tlb->EHINV, tlb->PageMask);
+> +        if (!tlb->EHINV) {
+> +            if (mi) {
+> +                qemu_printf(" MMID = %i", tlb->MMID);
+> +            } else if (!tlb->G) {
+> +                qemu_printf(" ASID = %i", tlb->ASID);
+> +            }
+> +            qemu_printf("\nVPN = "TARGET_FMT_lx" PFN[0] = %08lx RI0 = %i"
+> +                        " XI0 = %i C0 = %i D0 = %i V0 = %i\n"
+> +                        "VPN = "TARGET_FMT_lx" PFN[1] = %08lx RI1 = %i XI1 = %i"
+> +                        " C1 = %i D1 = %i V1 = %i\n", tlb->VPN, tlb->PFN[0],
+> +                        tlb->RI0, tlb->XI0, tlb->C0, tlb->D0, tlb->V0, tlb->VPN,
+> +                        tlb->PFN[1], tlb->RI1, tlb->XI1,
+> +                        tlb->C1, tlb->D1, tlb->V1);
+> +        }
+> +    }
+> +}
+> +
+> +void dump_mmu(CPUMIPSState *env)
+> +{
+> +    switch (env->cpu_model->mmu_type) {
+> +    case MMU_TYPE_NONE:
+> +        qemu_printf("no MMU emulation\n");
+
+Maybe "No TLB (no MMU)"
+
+> +        break;
+> +    case MMU_TYPE_R4000:
+> +        r4k_mmu_dump(env);
+> +        break;
+> +    case MMU_TYPE_FMT:
+> +        qemu_printf("fixed mapping MMU emulation\n");
+
+and "No TLB (fixed mapping MMU)"?
+
+> +        break;
+> +    case MMU_TYPE_R3000:
+> +    case MMU_TYPE_R6000:
+> +    case MMU_TYPE_R8000:
+> +    default:
+> +        qemu_printf("MMU type not supported\n");
+
+Simply g_assert_not_reached().
+
+> +    }
+> +}
+> +
+>  /* no MMU emulation */
+>  int no_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
+>                         target_ulong address, int rw, int access_type)
+> 
 
