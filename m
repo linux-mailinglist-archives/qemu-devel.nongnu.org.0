@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A2E3D3804
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:47:17 +0200 (CEST)
-Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F307C3D3809
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:50:14 +0200 (CEST)
+Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6rm0-0002PA-3d
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51844)
+	id 1m6ros-00045K-1g
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6rl6-0001jM-Uw
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:46:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56142)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6rnt-0003Oo-Ly
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:49:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6rl4-0007PT-IY
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:46:20 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m6rnr-0001Kc-OX
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:49:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627033577;
+ s=mimecast20190719; t=1627033750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9HgamgFluq47Bc5OqZJKTeT+KbYTavRqzCOIvXlzbqc=;
- b=NaiTzmGwtTPllsEWzBtRC+xZNfB345D2ZGknRwXrXDZp/C7q5eZ5Ofm8wtg1K+fXWrO50Z
- mj2XDJQVY7fkrsd36bjCemz4Oc4/DIi+e5Fvo8ngpmatposEHyEXuJ1wrTRT422i7C1dzE
- Kygl4Y564MchufGvtESo28ayp3m2LQw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-oKnLiQGBOTmLGa_zv2Kx0g-1; Fri, 23 Jul 2021 05:46:16 -0400
-X-MC-Unique: oKnLiQGBOTmLGa_zv2Kx0g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43529CC624
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:46:15 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
- [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07BC93AC1;
- Fri, 23 Jul 2021 09:46:15 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6BF7018000A3; Fri, 23 Jul 2021 11:46:13 +0200 (CEST)
-Date: Fri, 23 Jul 2021 11:46:13 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
+ bh=ou5EZhFcAYkXbf2a9agdBySzNAI7jZtn866h8oW+UGA=;
+ b=M4LqvaNCX1GMJoC+hlj9t6yZ9rOzAiLH9Bgax6f3Ch5wmx8/RKjq21wUqwkwMtNRdE0Gog
+ fQ8cd0eFpoee0vpf0QCqN/V4/9mdxKidfafoSO05dlEGo30s4BVI9DNcOqL8MK5m8qyVCY
+ QvSH4iyGi4h4LEPwDboBguqRe4rEN6c=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-POZuaGKHMY6f5NC4iwIOoA-1; Fri, 23 Jul 2021 05:49:09 -0400
+X-MC-Unique: POZuaGKHMY6f5NC4iwIOoA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a19-20020a1709063e93b0290551ea218ea2so445214ejj.5
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 02:49:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ou5EZhFcAYkXbf2a9agdBySzNAI7jZtn866h8oW+UGA=;
+ b=GVTrj7D5Ze1aIunGJXfa+6uhIE4bONc7YgQNdzzWuf1rH8jNawmbAky8thPDTkVAwC
+ 1IfIoyhWnc9n47koDaoz0kaLcne1nLld7hX9m0AmpuliMwRy6x7QIYDzNiYtPfDWbssA
+ IQ1yKi30FbU7U2ARI5xTcSPrdTg/M0RxNitd+3XIjPR23U7fLeUV0IQHwOM5xrLl74mw
+ aTe/yfz/chdTSGZ75P42S7bVUIHqGHd7z+Vlf4156ow1hL0pG+18Jn2EGCZPIDLJ/OSO
+ ekmW0qkpVOjVvJ2ZXLrgQdA4gc6BWUR0pkWV0A80fzOoXpLn29ONewVALkM3cygnOJX9
+ TWvQ==
+X-Gm-Message-State: AOAM5336eFesxi83VEYj6ynmVTFkPuobz4dPmLhCM2EKs4J25gXaLaKZ
+ UFkUj2kKNFyJSj1SkW1Ok+423L+2gWGxnKC8C8W41+VOl6710g7kftZz3dqv1TQ7NzuF9pkzwmD
+ 4OqoJKWo8cfoGR1L+SrG1Ixbz6MzIOAe4RtFVCTPrlY3rIe1dAxV03pde2bjADfpIUUY=
+X-Received: by 2002:a05:6402:3453:: with SMTP id
+ l19mr4524256edc.88.1627033747917; 
+ Fri, 23 Jul 2021 02:49:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykhiIl4B/MjV6gdnB6MQ3e9CHYlCAsriHUPdwXj+VjylS9fl1QOTIQwQwznfvRKBq3GN4cMA==
+X-Received: by 2002:a05:6402:3453:: with SMTP id
+ l19mr4524232edc.88.1627033747737; 
+ Fri, 23 Jul 2021 02:49:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
+ ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.gmail.com with ESMTPSA id j1sm13592800edl.80.2021.07.23.02.49.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jul 2021 02:49:07 -0700 (PDT)
+Subject: Re: [PATCH 1/2] qapi: introduce forwarding visitor
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/2] qxl: remove assert in qxl_pre_save.
-Message-ID: <20210723094613.zyhljyfhnb5kl2xv@sirius.home.kraxel.org>
-References: <20210721093347.338536-1-kraxel@redhat.com>
- <20210721093347.338536-2-kraxel@redhat.com>
- <YPmEZnBuCMwXq98p@work-vm>
- <20210723063233.ktjex5knfgz77pbq@sirius.home.kraxel.org>
- <13c8a40f-a879-a981-12f0-36a5289b39b1@redhat.com>
- <20210723065527.glqc44gyga2lnqyc@sirius.home.kraxel.org>
- <0196b381-47ca-fb37-d809-e2a25f3c677e@redhat.com>
- <87im11beuw.fsf@dusky.pond.sub.org>
+References: <20210719104033.185109-1-pbonzini@redhat.com>
+ <20210719104033.185109-2-pbonzini@redhat.com>
+ <87v952fnut.fsf@dusky.pond.sub.org>
+ <3426ca4c-fc26-1730-76f8-c46bc7fddca3@redhat.com>
+ <87zguee50k.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7b6ac329-fe04-0b37-680a-597771cd9d69@redhat.com>
+Date: Fri, 23 Jul 2021 11:49:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <87im11beuw.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <87zguee50k.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,55 +106,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> >> Migration fails and you want know why.
-> >> 
-> >> Reason migration fails is the guest violates qxl specs (which doesn't
-> >> cause actual problems unless you want migrate the guest).
-> >
-> > Then I agree error_report() is better ("Report an error to the current
-> > monitor if we have one, else stderr").
+On 22/07/21 17:34, Markus Armbruster wrote:
+>> This is not a fifth type of visitor, it's a wrapper for the existing
+>> types (two of them, input and output; the other two don't break
+>> horribly but make no sense either).
 > 
-> No good for QMP, I'm afraid.
+> Unlike the other visitors, this one isn't of a fixed type.  I think
+> mentioning this would be nice.  Perhaps add to the paragraph
+
+Ah okay, I didn't understand that paragraph referred to the actual 
+visitors and not just the kinds in the enum.
+
+>>> Can you explain why you treat names in sub-structs differently than
+>>> names other than the alias name in the root struct?
+>>
+>> Taking the example of QOM alias properties, if the QOM property you're
+>> aliasing is a struct, its field names are irrelevant.  The caller may
+>> not even know what they are, as they are not part of the namespace (e.g.
+>> the toplevel QDict returned by keyval_parse) that is being modified.
+>>
+>> There are no aliased compound QOM properties that I can make a proper
+>> example with, unfortunately.
 > 
-> error_report() reports to stderr in QMP monitor context.  To get an
-> error to the QMP client, you need to use error_setg() and propagate all
-> the way to the QMP core.
+> Since the intent is to forward *only* the alias, I wonder why we forward
+> *everything* when v->depth > 0.
 > 
-> Back to the patch.  If the thing we report is actually an *error*,
-> i.e. something that makes migration fail, then the QMP failure will
-> contain an error message.  That error must come from further up the call
-> stack.  If it's good enough, we don't need error_report() here.  Else,
-> we should error_setg() here.
+> Oh.  Is it because to get to v->depth > 0, we must have entered the
+> alias, so whatever we forward there must be members of the alias?
 
-Caller is here (migration/vmstate.c):
+Yes, exactly.  v->depth is only nonzero after the name translation has 
+succeeded (and until end_struct/end_list).
 
-int vmstate_save_state_v(QEMUFile *f, const VMStateDescription *vmsd,
-                         void *opaque, JSONWriter *vmdesc, int version_id)
-{
-    [ ... ]
-    if (vmsd->pre_save) {
-        ret = vmsd->pre_save(opaque);
-        trace_vmstate_save_state_pre_save_res(vmsd->name, ret);
-        if (ret) {
-            error_report("pre-save failed: %s", vmsd->name);
-            return ret;
-        }
-    }
-    [ ... ]
-}
+>>>> +Visitor *visitor_forward_field(Visitor *target, const char *from, const char *to)
+>>>> +{
+>>>> +    ForwardFieldVisitor *v = g_new0(ForwardFieldVisitor, 1);
+>>>> +
+>>>> +    v->visitor.type = target->type;
+>>>
+>>> Do arbitrary types work?  Or is this limited to input and output
+>>> visitors?
+>>
+>> They don't crash, but they don't make sense because 1) they should not
+>> live outside qapi_clone and visit_free_* 2) they use NULL for the
+>> outermost name.
+> 
+> I'd prefer to restrict the forwarding visitor to the cases that make
+> sense and have test coverage.
 
-No error_setg() anywhere close, it's error_report() all over the place.
-I guess that makes adding error_report() the only short-term (aka 6.1)
-option.
+Yup, I had added an assertion in the incremental diff already.
 
-take care,
-  Gerd
+>>> Not forwarded: method .type_size().  Impact: visit_type_size() will call
+>>> the wrapped visitor's .type_uint64() instead of its .type_size().  The
+>>> two differ for the opts visitor, the keyval input visitor, the string
+>>> input visitor, and the string output visitor.
+>>
+>> Fixed, of course.  Incremental diff after my sig.
+> 
+> Looks good to me apart from rather long lines in block comments.
+> Best to wrap these around column 70, unless the wrapping obviously
+> reduces legibility.
+
+Thanks!
+
+paolo
 
 
