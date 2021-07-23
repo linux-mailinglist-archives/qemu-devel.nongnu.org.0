@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A505E3D3E4A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:14:58 +0200 (CEST)
-Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643033D3E27
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:06:51 +0200 (CEST)
+Received: from localhost ([::1]:39214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ylF-0006fC-LF
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
+	id 1m6ydO-0003H9-EK
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6ybE-0000MT-Rx
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:36 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45024)
+ id 1m6ybC-0000Dx-LM
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:34 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6ybD-0005Zn-A2
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:36 -0400
-Received: by mail-wr1-x436.google.com with SMTP id z7so3037787wrn.11
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:04:34 -0700 (PDT)
+ id 1m6ybA-0005Yc-I8
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:34 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id l4so3095833wrs.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DdhiyG3Ap5qOGoxwCSdJAPdf0AmDzvCwhcSIcB81ztU=;
- b=kcv08TDOjRE/uHyuCCard4UnEj5xrFpqiE6QZHBjXZ7gD18yXRNeVQ3ePKO6IA/UvX
- OQFqoNYwVnU8SBa9JlILFRMXdIjQ9jEvnFTwn7areD29+UVYHGgZfzjz1EwioFTUI30h
- MClBEERcWqOfBLHQ7IuJZs0C+WybXWT2jfvUBS5DqKe1tFtRQBlO/MpncFNZPOGdzUji
- wWJ0y51D7TMvHBQxPFU8cgRtpUTZAHqiKKYPbKh77Eru3paiUj8y8gyloMGMT0z+UkOO
- 6hyQlUvhNF206x7SSwHMZukfs89vlhAvdVNAtikw/teM17czWT9c259jWL60MRMEjsrj
- 3gaw==
+ bh=7A3WGnkOs+qRthpwoEL0FOqFN/r46SG5xMOZzViNpoY=;
+ b=XxpLtdpws22A0O6Qbyr3WLEh56h4QZZC7E4JQz/yK3wCGLCTAbhNLp+1Zj/jnZgCgr
+ MERvIzDFhLO1ayYDTVZrVGkaEvfednhKm439eQXIh6p2In6/yYv1cEpSWm02lWbhyMwE
+ Qa/k5Cn+WGA6eforPszjgymvV2M7wLeyXoggbAUZohx4q4bPFqqdwVHh+kVej4PtEn1n
+ ss1kSViVRl/BqEBVrnNtgNz91tudLU+lMSpi7cEyzuhe86Lfy0rCtp0Yc6QvQF24sDko
+ /iH7qOyOdr9sQ8rzgmzOStMFD5vU+LGYVPFa8xHw1N6Vc2FOpDujgT/8Ehp8h+b67Y9e
+ Krzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DdhiyG3Ap5qOGoxwCSdJAPdf0AmDzvCwhcSIcB81ztU=;
- b=V4toeh6suZXTduitOheDOF8tVKzhNySyax/W7zCuEjlP3oosMtgaBhV1WcAVPlu6IX
- UZjayHJaVHTpgoL9xQsZuRMhbKXkvFDFEIC7eJgbEW5+zYLAnYiwFSN+DUPixVPs3hDx
- XLtEJnpTIEUadL9GKZR4w41ksAu4+zGSYKRv6igzidB8/2r8Mde65oWY/mPCzTCprg3L
- hVOIOmHKVYNpxiJQM10xW/xKputpJ89kl5M9FfBiwQJtP0AbLhhYpt253v37pZC4K8Vj
- F0otJ5ASRNWK7PblGmDBni6V0prESTmjTIpi4QhjEfYhsYxIHAlRtlaPEkqlxtBiwsIc
- t6jg==
-X-Gm-Message-State: AOAM531Cf+yJliQAIQwc9ls9cyThmhHnqLjjTqEMnc9Pt2EZg1DT7WqD
- F+feumj6G6yYm4Qu+iZ4uYbXDQ==
-X-Google-Smtp-Source: ABdhPJy9Eqbhw+pdcFcwDfJTXvveKpoDfCxU7Fx8w8dGQ2+YFI7k4K+ECk8tmQbzMmbWDEfWW17cXA==
-X-Received: by 2002:adf:fb8f:: with SMTP id a15mr6441466wrr.92.1627059873905; 
- Fri, 23 Jul 2021 10:04:33 -0700 (PDT)
+ bh=7A3WGnkOs+qRthpwoEL0FOqFN/r46SG5xMOZzViNpoY=;
+ b=iN77ZncBWq3Y/lEQ5+Cx56ZS26dRTU7am4udNgegXTj08SpIeKQcI5WDClP5qDmapO
+ b1KIFf7d9VqYdPfiNkRxR0LK+AHr2zLzn+D+Dt4TGLpZ9zdGf6ZoNyxwy20TaIPFBR/D
+ Oe8HFqqryiTWJ2JWDZ4mHhvCaa72RSv3Dy2xE3ZfTGYZKZjl+2TZcCxeLi5LS24Nf4V3
+ o2JgsyRXzY+fuVj6PmAEmrEZM+rnO8A005F3f9tf/lcWvLf1g7VcxaTEVzVlUZBBbKsR
+ qS5A2kibhr5gsTFIvkJvqgLARPF86opumAaXNOP15ULfO5EOpl1kOMQahd6s+eU4y4mX
+ cCCQ==
+X-Gm-Message-State: AOAM530rWa9u5DbUl/05bOgXKKdn6+PUsF8vf99Hrf5r4qcLve52Xhfr
+ DEPZO/c/Rszu+cjdViPnzD5iBQ==
+X-Google-Smtp-Source: ABdhPJzOj915DS/e6ajiyhnu2Hl1Tpymx8n+dTT3aHtZp6JNUKHxzFTIPHfLr/VOL7mlPkf84ivlaQ==
+X-Received: by 2002:a5d:6a51:: with SMTP id t17mr2122244wrw.305.1627059871251; 
+ Fri, 23 Jul 2021 10:04:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm25600825wms.21.2021.07.23.10.04.16
+ by smtp.gmail.com with ESMTPSA id s4sm31617662wmh.41.2021.07.23.10.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 23 Jul 2021 10:04:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 004471FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 1423D1FF98;
  Fri, 23 Jul 2021 18:03:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/28] contrib/gitdm: add a group mapping for robot scanners
-Date: Fri, 23 Jul 2021 18:03:34 +0100
-Message-Id: <20210723170354.18975-9-alex.bennee@linaro.org>
+Subject: [PULL 09/28] gitdm.config: sort the corporate GroupMap entries
+Date: Fri, 23 Jul 2021 18:03:35 +0100
+Message-Id: <20210723170354.18975-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210723170354.18975-1-alex.bennee@linaro.org>
 References: <20210723170354.18975-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,43 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This mostly affects Reported-by: tags
+Lets try and keep them that way.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210720232703.10650-9-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210720232703.10650-10-alex.bennee@linaro.org>
 
-diff --git a/contrib/gitdm/group-map-robots b/contrib/gitdm/group-map-robots
-new file mode 100644
-index 0000000000..ffd956c2eb
---- /dev/null
-+++ b/contrib/gitdm/group-map-robots
-@@ -0,0 +1,7 @@
-+#
-+# There are various automatic robots that occasionally scan and report
-+# bugs. Let's group them together here.
-+#
-+
-+# Euler Robot
-+euler.robot@huawei.com
 diff --git a/gitdm.config b/gitdm.config
-index c01c219078..7378238c20 100644
+index 7378238c20..a3542d2fc7 100644
 --- a/gitdm.config
 +++ b/gitdm.config
-@@ -43,6 +43,9 @@ GroupMap contrib/gitdm/group-map-janustech Janus Technologies
- GroupMap contrib/gitdm/group-map-individuals (None)
- GroupMap contrib/gitdm/group-map-academics Academics (various)
+@@ -28,15 +28,15 @@ EmailMap contrib/gitdm/domain-map
+ #
+ # Use GroupMap to map a file full of addresses to the
+ # same employer. This is used for people that don't post from easily
+-# identifiable corporate emails.
++# identifiable corporate emails. Please keep this list sorted.
+ #
  
-+# Group together robots and other auto-reporters
-+GroupMap contrib/gitdm/group-map-robots Robots (various)
-+
- #
- #
- # Use FileTypeMap to map a file types to file names using regular
+-GroupMap contrib/gitdm/group-map-redhat Red Hat
+-GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+ GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
+ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+ GroupMap contrib/gitdm/group-map-ibm IBM
+ GroupMap contrib/gitdm/group-map-janustech Janus Technologies
++GroupMap contrib/gitdm/group-map-redhat Red Hat
++GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+ 
+ # Also group together our prolific individual contributors
+ # and those working under academic auspices
 -- 
 2.20.1
 
