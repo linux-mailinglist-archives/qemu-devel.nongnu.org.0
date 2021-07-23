@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FA83D4055
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 20:38:09 +0200 (CEST)
-Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46423D405D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 20:42:32 +0200 (CEST)
+Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m703j-0005lJ-Np
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 14:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
+	id 1m707z-0007sF-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 14:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m702P-000545-Eh
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 14:36:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m707G-0007Ca-U1
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 14:41:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m702L-0005Ir-Uq
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 14:36:44 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m707F-0000GW-B9
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 14:41:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627065400;
+ s=mimecast20190719; t=1627065704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fkfzcbQNCpAhenx8UuEEpWx7I5l3+/xcN0YuSEjLTBw=;
- b=CueRzn71NHz3Wj5rrRMLgYEjvgd5oDnXJgbxWOdS2CKhZIgigXWE6INR08X7N1NUpfIh/m
- ciMWe35DrfERYdPzcXbefTfryI+CmzZ74HdfNVug02Jjnq8/9zHTZL6DhvBVc5FVRtRu+j
- klcV2NP4KnFoaE0lHleHHjbP+bkGXYQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-iiG2Hcu9MyirdO_SRA44MQ-1; Fri, 23 Jul 2021 14:36:36 -0400
-X-MC-Unique: iiG2Hcu9MyirdO_SRA44MQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- f2-20020a5d50c20000b0290138092aea94so1254441wrt.20
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 11:36:36 -0700 (PDT)
+ bh=ClkEToMkywy2EnFu9KQLa7RhgqSLRYUFIXzNTSkLrSA=;
+ b=at5gPEPTL458Oqvh1BV8ePzVT7r5RdFMkXjHSgmjCcSQH/hI2x1HtK4ElZDZSAqvAElCAE
+ uNGqggRA+9BH0aQD09cbN/0RZq2SVsTjRrSuNi4IINLcnoJCxXJT0TdPJxqbwGrRvlrNXQ
+ xVU5sWWascbk3Q/aqgFWQ5jaAruxHKk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-598-9lXzhSa2M4OFmSbZpbzBZw-1; Fri, 23 Jul 2021 14:41:43 -0400
+X-MC-Unique: 9lXzhSa2M4OFmSbZpbzBZw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ q188-20020a1ca7c50000b0290241f054d92aso205450wme.5
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 11:41:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=fkfzcbQNCpAhenx8UuEEpWx7I5l3+/xcN0YuSEjLTBw=;
- b=Et6wZAu9Y78lUKrCKIVd1+5yHv0S0BAksaHlZjyhACRliH5O0vi82iHS3zlM5WL2nW
- AfHrvmN/hyJ1WwsR7t0TEIAJa1mvCNjrotaAjLOKeNZ457igaMHhBgy+/IlbF0jqU3lS
- w49sp6gjY85YtnlEbKImeSn+JCcwQtMI8i/lK5EofuGT9TtsE4ot+yh3u/qrSNkoD/cd
- kbxGrX0M3Y2EbA4kgotOFQPDHIJyvt8nQ3/gL6MeVR+Ey+MjR+8+j1K+epdQiOxGDVI0
- y3FrtzjGn01hJi150hHUO8WP8CffJCo75w/g9kTFlzZ3I3iX2Uj9nIyAB6VEs/YdslYK
- DY4A==
-X-Gm-Message-State: AOAM532R6zMNER6CJa9eGQVnjwTcJAzEVzciPScH2xoLhaOWWp9Z9/qa
- JoPPtI8HtvlYxVI86iJaAMCPKnk4gpbZTc8fkzG7HoU6N8o/UjjPOxZlUUXsGDXOrbKZwlh+/Ch
- ne5R91OH9HhtPaGQ=
-X-Received: by 2002:a5d:610b:: with SMTP id v11mr6733777wrt.58.1627065395429; 
- Fri, 23 Jul 2021 11:36:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXR/NyatU810K/tlOzChRTw/VbAhncS3sk9EDxBQ2+4gjJ03KK3TN0oRk/kbb2N0BxUirvXA==
-X-Received: by 2002:a5d:610b:: with SMTP id v11mr6733755wrt.58.1627065395133; 
- Fri, 23 Jul 2021 11:36:35 -0700 (PDT)
+ bh=ClkEToMkywy2EnFu9KQLa7RhgqSLRYUFIXzNTSkLrSA=;
+ b=sZZK7QmmPxIzRypGLD9o6BvoP3msSm2AsrCFFtjDn+U+2kgYbRYQUmLIzw5hUxsW+X
+ wmuQsXXR235pTt+ZzFA/75WnOeSRgyW0YBXtClKxdiKFnOdYAX2mK402P/f+0Z5MbIe6
+ zUch3M4VlWj71uVFPie4+tdujRhlM0YkOIXptSgyywQ72b/5CES1klPGLXB9HBOtpcbz
+ y68VPzOUld/2ioQ56BpInPT1GmyVGAEx1Ij8SWNif3w4wpNy7J0ZuWZPNWEkg0wTX3tV
+ girv0bwtVcOQt4+28uumjWyWNM7xBn6Xg2xd8wHcAsFf1RGFWCspn6rwl1KtbP/ah0SG
+ MQGQ==
+X-Gm-Message-State: AOAM530P5RaRSu/4TVnFafQ2Xn31220EHmDjbvYJqXDMGOUKEnQOcYlQ
+ Q0c8H9JPEenfBFyktKtE7yMa0tnZqnOeyDOLETEInUzM+FFbCGq1znbgLSi/lU9KMqFNhrJHG9z
+ S7tRwnayyQKloYxo=
+X-Received: by 2002:a5d:6982:: with SMTP id g2mr6612533wru.119.1627065701842; 
+ Fri, 23 Jul 2021 11:41:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzciOrB2bPeJjKaHanax0cA1iTmCXe1sMWcUFkY1GyNW3Pfz8+aR8Is7uczs/8h6/n6NyrFnQ==
+X-Received: by 2002:a5d:6982:: with SMTP id g2mr6612511wru.119.1627065701630; 
+ Fri, 23 Jul 2021 11:41:41 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c676e.dip0.t-ipconnect.de. [91.12.103.110])
- by smtp.gmail.com with ESMTPSA id o7sm39175585wrv.72.2021.07.23.11.36.33
+ by smtp.gmail.com with ESMTPSA id o15sm5896781wmh.40.2021.07.23.11.41.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 11:36:34 -0700 (PDT)
-Subject: Re: [PATCH v2 5/6] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
+ Fri, 23 Jul 2021 11:41:41 -0700 (PDT)
+Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
 To: Peter Xu <peterx@redhat.com>
 References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-6-david@redhat.com> <YPrvfST43SFOMA1F@t490s>
+ <YPlWqs8N+NiFH/yj@work-vm> <800e421c-70b8-1ef2-56f7-cdbce7a7706b@redhat.com>
+ <YPrqfkCk7EM7QLpa@t490s>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <2ce949f2-6950-5404-70e4-73a2e41b4ca8@redhat.com>
-Date: Fri, 23 Jul 2021 20:36:32 +0200
+Message-ID: <ea9e9071-4ecb-9c28-9567-92585a18b4eb@redhat.com>
+Date: Fri, 23 Jul 2021 20:41:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPrvfST43SFOMA1F@t490s>
+In-Reply-To: <YPrqfkCk7EM7QLpa@t490s>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -100,10 +101,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
  Alex Williamson <alex.williamson@redhat.com>,
  Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
@@ -111,71 +113,67 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> +static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
->> +                                 ram_addr_t start, uint64_t haddr)
->> +{
->> +    /*
->> +     * Discarded pages (via RamDiscardManager) are never migrated. On unlikely
->> +     * access, place a zeropage, which will also set the relevant bits in the
->> +     * recv_bitmap accordingly, so we won't try placing a zeropage twice.
->> +     */
->> +    if (ramblock_page_is_discarded(rb, start)) {
->> +        bool received = ramblock_recv_bitmap_test_byte_offset(rb, start);
+On 23.07.21 18:12, Peter Xu wrote:
+> On Thu, Jul 22, 2021 at 01:43:41PM +0200, David Hildenbrand wrote:
+>>>> a) In precopy code, always clearing all dirty bits from the bitmap that
+>>>>      correspond to discarded range, whenever we update the dirty bitmap. This
+>>>>      results in logically unplugged memory to never get migrated.
+>>>
+>>> Have you seen cases where discarded areas are being marked as dirty?
+>>> That suggests something somewhere is writing to them and shouldn't be.
+>>
+>> I have due to sub-optimal clear_bmap handling to be sorted out by
+>>
+>> https://lkml.kernel.org/r/20210722083055.23352-1-wei.w.wang@intel.com
+>>
+>> Whereby the issue is rather that initially dirty bits don't get cleared in
+>> lower layers and keep popping up as dirty.
+>>
+>> The issue with postcopy recovery code setting discarded ranges dirty in
+>> the dirty bitmap, I did not try reproducing. But from looking at the
+>> code, it's pretty clear that it would happen.
+>>
+>> Apart from that, nothing should dirty that memory. Of course,
+>> malicious guests could trigger it for now, in which case we wouldn't catch it
+>> and migrate such pages with postcopy, because the final bitmap sync in
+>> ram_postcopy_send_discard_bitmap() is performed without calling notifiers
+>> right now.
 > 
-> Will received be set for any case with the current code base?  As I thought
-> virtio-mem forbids plug/unplug during the whole lifecycle of migration.
+> I have the same concern with Dave: does it mean that we don't need to touch at
+> least ramblock_sync_dirty_bitmap in patch 3?
 
-receive would only be set if you have two CPUs faulting on the same 
-address at the same time and the first one already placed a zeropage on 
-this code path (as the comment said, that will implicitly set it in the 
-rceivedmask).
+Yes, see the comment in patch #3:
 
-So, pretty unlikely to happen, but if the stars align ... :)
+"
+Note: If discarded ranges span complete clear_bmap chunks, we'll never
+clear the corresponding bits from clear_bmap and consequently never call
+memory_region_clear_dirty_bitmap on the affected regions. While this is
+perfectly fine, we're still synchronizing the bitmap of discarded ranges,
+for example, in
+ramblock_sync_dirty_bitmap()->cpu_physical_memory_sync_dirty_bitmap()
+but also during memory_global_dirty_log_sync().
+
+In the future, it might make sense to never even synchronize the dirty 
+log of these ranges, for example in KVM code, skipping discarded ranges
+completely.
+"
+
+The KVM path might be even more interesting (with !dirty ring IIRC).
+
+So that might certainly be worth looking into if we find it to be a real 
+performance problem.
 
 > 
->> +
->> +        return received ? 0 : postcopy_place_page_zero(mis, (void *)haddr, rb);
+> Doing that for bitmap init and postcopy recovery looks right.
 > 
-> (now we can fill up pages in two threads.. but looks thread-safe)
-> 
-> Meanwhile if this is highly not wanted, maybe worth an error_report_once() so
-> the admin could see something?
+> One other trivial comment is instead of touching up ram_dirty_bitmap_reload(),
+> IMHO it's simpler to set all 1's to disgarded memories on dst receivedmap;
+> imagine multiple postcopy recovery happened, then with that we walk the disgard
+> memory list only once for each migration.  Not a big deal, though.
 
-
-You mean, if postcopy_place_page_zero() fails?
-
-[...]
-
->>   
->> +/*
->> + * Check if a page falls into a discarded range as managed by a
->> + * RamDiscardManager responsible for the mapped memory region of the RAMBlock.
->> + * Pages inside discarded ranges are never migrated and postcopy has to
->> + * place zeropages instead.
->> + *
->> + * Note: The result is only stable while migration (precopy/postcopy).
->> + */
->> +bool ramblock_page_is_discarded(RAMBlock *rb, ram_addr_t offset)
->> +{
->> +    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
->> +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
->> +        MemoryRegionSection section = {
->> +            .mr = rb->mr,
->> +            .offset_within_region = offset,
->> +            .size = int128_get64(TARGET_PAGE_SIZE),
-> 
-> rb->page_size?
-> 
-> Although I think it should also work with TARGET_PAGE_SIZE in this specific
-> case, but maybe still better to use what we have.
-
-
-If rb->page_size is discarded, TARGET_PAGE_SIZE is certainly discarded 
-as well (as TARGET_PAGE_SIZE <= rb->page_size).
-
-But yes, sounds cleaner.
-
-Thanks Peter!
+Right, but I decided to reuse 
+ramblock_dirty_bitmap_exclude_discarded_pages() such that I can avoid 
+yet another helper.
 
 -- 
 Thanks,
