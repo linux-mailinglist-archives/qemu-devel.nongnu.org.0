@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D600B3D3678
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:17:47 +0200 (CEST)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDD13D368E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:20:20 +0200 (CEST)
+Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6qNO-000446-Sr
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34616)
+	id 1m6qPr-0005df-S6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6qMM-00031a-SD
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:16:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33913)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6qMJ-0006sn-UR
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:16:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627028198;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6qOn-0004rp-WF
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:19:14 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:51972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6qOm-0000Vu-DJ
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:19:13 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0D68621D52;
+ Fri, 23 Jul 2021 08:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627028351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qYQIP3wotaPTSGZwqHBJ55y7q1gGCjl/ZiOTfuHAaTE=;
- b=hH+kKLvVPp9oPPX6nhO4sgxyadBrkKAbg1HD3kNFAz+wlPRdDxZ+Z1wTo4U+JbM9pqa3iI
- f92EZtu/pHOf7YfPbTNnpJl9mvCMsa83S0d7jI4vcMeT5fx1u+W1eZZ+/H5OHGHayHJida
- a4mDVhGHbuLdh1Van1+XmtLjmu7klkI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-U2aIawobPHyAdqqc5FamCQ-1; Fri, 23 Jul 2021 04:16:37 -0400
-X-MC-Unique: U2aIawobPHyAdqqc5FamCQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n7-20020a05600c3b87b029024e59a633baso130562wms.5
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 01:16:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=qYQIP3wotaPTSGZwqHBJ55y7q1gGCjl/ZiOTfuHAaTE=;
- b=OtTAqvPnkqCxzF9eiSyZol7tkSFN08xh58hic3XrVVTT6hLmZ1QZJxCsl3cMj/1aNp
- YKXNJY4e+xLcHeqZeftcKjN6xdiTbFXNfBmEexA9TE25ePIetwv09lEXjBllE5EiSczs
- XydBiBRRHpj0CQyxeRRGOMUU36hb8ZfOj0KRQT71wegIzV4CjMim2Um2aL60DHhfGMET
- DdxrVTO3WnRvykpZ6+1AFEq1tqZJzQN/zM5UP7tz4pHAfm0nMAIKDz3oX0bLYTfdOdoP
- 6pvTyMPW52SpaGrWcAGL1SYAeRHPoNcoY9+c6x547/E3gyGEnE9aSYOVtcS8MEEv+KCH
- Tnvw==
-X-Gm-Message-State: AOAM533h3OAXLhONiFfKW9QdkAps4lFMa3AQ8IhkqDYDHUwrNzhZmB3v
- dgwxBQ4kXZlBUZdjDoYDFe9rRktTPLDqCve+OPArabwNLHF/ZFt5e+RieuaybskXodY4QKcCg/z
- qBq2GbMpiU+nOLMA=
-X-Received: by 2002:a7b:c18f:: with SMTP id y15mr3249750wmi.128.1627028196357; 
- Fri, 23 Jul 2021 01:16:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/KC1vbPCdpo2ftKOH4vWtr1aDWsXBpv1vHiRhaTQIEoVLH3yr3W5cyQQn3AK7sRVePPTKZg==
-X-Received: by 2002:a7b:c18f:: with SMTP id y15mr3249724wmi.128.1627028196145; 
- Fri, 23 Jul 2021 01:16:36 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c676e.dip0.t-ipconnect.de. [91.12.103.110])
- by smtp.gmail.com with ESMTPSA id a14sm7554541wrf.97.2021.07.23.01.16.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 01:16:35 -0700 (PDT)
-Subject: Re: [PATCH v3] migration: clear the memory region dirty bitmap when
- skipping free pages
-To: "Wang, Wei W" <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>
-References: <20210722083055.23352-1-wei.w.wang@intel.com>
- <0faf5f01-399f-621f-431e-d35b3e87b9ff@redhat.com>
- <b39f279ef6634325ab2be8d903e41001@intel.com> <YPmF1BAHA059yYln@t490s>
- <ab4a5e1e-ed7f-5b4b-88e6-d4c56ed5a256@redhat.com> <YPmt3vrn5MfH6I13@t490s>
- <087670b0-d28c-7f3d-caf4-f37acf8f7d7e@redhat.com>
- <30a4eb65544241719a55bc2a9e9e1605@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <9d891b0f-65ff-b6e8-3ef1-81d038e9d010@redhat.com>
-Date: Fri, 23 Jul 2021 10:16:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=ql2fcmTGz0MmlQQY9t4vq6bY3ciS+6xBTlBqgNeteqk=;
+ b=sQE1tWzFuQqD49bJAyDb7i1Qcf/Stf8p4ZEVJ+zjWaaPWm6GEr94aGpFZwehVpI8/dInnN
+ phOfPU36LwYeb65+zJ+aFL8qqUE+ZrqtmzPGRkUCJPYXcdMuCAiJZvLqm0GUyCiT/DbwGr
+ WsomG6HIlluOgPUfKsVCX52QnmXYvmM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627028351;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ql2fcmTGz0MmlQQY9t4vq6bY3ciS+6xBTlBqgNeteqk=;
+ b=wpC3Lay2q8l97TU/nHCp2zbIe5xpFOvz8I8M4xmjS1iSMQgqgXDrS2vylGwVxPihUJeWE8
+ PqREebt7Uhm96MBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C791C13DF5;
+ Fri, 23 Jul 2021 08:19:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id qUHvLn57+mA4ZQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Jul 2021 08:19:10 +0000
+Subject: Re: [PATCH for-6.1] i386: do not call cpudef-only models functions
+ for max, host, base
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210722083851.24068-1-cfontana@suse.de>
+ <101ca50d-5bec-d4cc-7874-a296bf43421f@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ed9132b0-6b10-ad8b-3344-6cf0e3ed25b5@suse.de>
+Date: Fri, 23 Jul 2021 10:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <30a4eb65544241719a55bc2a9e9e1605@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <101ca50d-5bec-d4cc-7874-a296bf43421f@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,35 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.07.21 10:14, Wang, Wei W wrote:
-> On Friday, July 23, 2021 3:50 PM, David Hildenbrand wrote:
+On 7/22/21 6:13 PM, Philippe Mathieu-Daudé wrote:
+> On 7/22/21 10:38 AM, Claudio Fontana wrote:
+> 
+> It seems the subject got dropped and the first line
+> used as subject... But I'm not sure you want to
+> start the description with it.
+
+hmm the subject got dropped from where? I see it in the mail subject..
+> 
+>> properties set by function x86_cpu_apply_props, including
+>> kvm_default_props, tcg_default_props,
+>> and the "vendor" property for KVM and HVF,
 >>
->> Migration of a 8 GiB VM
->> * within the same host
->> * after Linux is up and idle
->> * free page hinting enabled
->> * after dirtying most VM memory using memhog
 > 
-> Thanks for the tests!
+> This newline is what confuses me.
+
+hmm maybe better:
+
+"
+Some cpu properties have to be set only for cpu models in builtin_x86_defs,
+registered with x86_register_cpu_model_type, and not for
+cpu models "base", "max", and the subclass "host".
+
+These properties are the ones set by function x86_cpu_apply_props,
+(also including kvm_default_props, tcg_default_props),
+and the "vendor" property for the KVM and HVF accelerators.
+
+After recent refactoring of cpu, which also affected these properties,
+they were instead set unconditionally for all x86 cpus.
+
+>> This has been detected as a bug with Nested on AMD with cpu "host",
+>> as svm was not turned on by default, due to the wrongful setting of
+>> kvm_default_props via x86_cpu_apply_props.
+
+.. which set svm to "off".
+
+>> Rectify the bug introduced in commit "i386: split cpu accelerators"
+>> and document the functions that are builtin_x86_defs-only.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+>> Fixes: f5cc5a5c ("i386: split cpu accelerators from cpu.c,"...)
+>> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/477
 > 
-> I think it would be better to test using idle guests (no memhog).
-> With memhog eating most of the guest free pages, it's likely no or very few free pages are reported during the test.
+> If you want to have gitlab closes the issue once merged, you'd
+> need to use Resolves:/Fixes: tag instead, see
+> https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#default-closing-pattern
 
-*After dirtying*. memhog is no longer running.
+I'll try Resolves: to avoid collision with Fixes: used to mark the commit that introduced the regression.
 
-... and also look again at the numbers how much memory we actually 
-migrate :)
+Wdyt about the new text?
 
--- 
 Thanks,
 
-David / dhildenb
+Claudio
+
+> 
+>> ---
+>>  target/i386/cpu.c         |  19 ++++++-
+>>  target/i386/host-cpu.c    |  13 +++--
+>>  target/i386/kvm/kvm-cpu.c | 105 ++++++++++++++++++++------------------
+>>  target/i386/tcg/tcg-cpu.c |  11 ++--
+>>  4 files changed, 89 insertions(+), 59 deletions(-)
+> 
 
 
