@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D983D3178
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 03:58:49 +0200 (CEST)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585EC3D317D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 04:01:38 +0200 (CEST)
+Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6kSe-0004WY-V3
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 21:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40974)
+	id 1m6kVN-0006r7-DB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 22:01:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6kRJ-0003qx-T6
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:57:25 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2196)
+ id 1m6kTz-0005Oz-DR
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:00:11 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6kRH-0006TB-A1
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:57:25 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GWC4j6gclz7x8g;
- Fri, 23 Jul 2021 09:52:37 +0800 (CST)
+ id 1m6kTx-0008O0-CI
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 22:00:11 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GWC6c2b5wzYf2f;
+ Fri, 23 Jul 2021 09:54:16 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 09:57:15 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
+ 15.1.2176.2; Fri, 23 Jul 2021 10:00:05 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 09:57:15 +0800
-Subject: Re: [PATCH for-6.1 v2] machine: Disallow specifying topology
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 23 Jul 2021 10:00:04 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH for-6.1 v3 0/1] machine: Disallow specifying topology
  parameters as zero
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210722154326.1464-1-wangyanan55@huawei.com>
- <20210722154326.1464-2-wangyanan55@huawei.com>
- <874kcm0ywx.fsf@p50.localhost.localdomain>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <38c23728-e2b4-cbd2-450f-ed4c95c7fba4@huawei.com>
-Date: Fri, 23 Jul 2021 09:57:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Date: Fri, 23 Jul 2021 10:00:01 +0800
+Message-ID: <20210723020002.18456-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-In-Reply-To: <874kcm0ywx.fsf@p50.localhost.localdomain>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,63 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, wanghaibin.wang@huawei.com,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
+ yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cleber,
+In the SMP configuration, we should either specify a topology
+parameter with a reasonable value (equal to or greater than 1)
+or just leave it omitted and QEMU will calculate its value.
+Configurations which explicitly specify the topology parameters
+as zero like "sockets=0" are meaningless, so disallow them.
 
-On 2021/7/23 6:25, Cleber Rosa wrote:
-> Yanan Wang writes:
->
->> In the SMP configuration, we should either specify a topology
->> parameter with a reasonable value (equal to or greater than 1)
->> or just leave it omitted and QEMU will calculate its value.
->> Configurations which explicitly specify the topology parameters
->> as zero like "sockets=0" are meaningless, so disallow them.
->>
->> However, the commit 1e63fe685804d
->> (machine: pass QAPI struct to mc->smp_parse) has documented that
->> '0' has the same semantics as omitting a parameter in the qapi
->> comment for SMPConfiguration. So this patch fixes the doc and
->> also adds the corresponding sanity check in the smp parsers.
->>
->> Suggested-by: Andrew Jones <drjones@redhat.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/core/machine.c | 14 ++++++++++++++
->>   qapi/machine.json |  6 +++---
->>   qemu-options.hx   | 12 +++++++-----
->>   3 files changed, 24 insertions(+), 8 deletions(-)
-> Hi Yanan,
->
-> This looks somewhat similar to this very old patch of mine:
->
->     https://mail.gnu.org/archive/html/qemu-devel/2020-10/msg03039.html
->
-> I'm putting a reference here because I believe the test can be salvaged
-> and slightly adapted for this patch of yours.
->
-> Let me know if I can help anyhow.
->
-Thanks for this.
-I was introducing an unit test for the smp parsing in [1], in which all
-possible valid and invalid smp configs were covered, and actually the
-"parameter=0" stuff was also covered. You can have a look, and
-suggestions are welcome. I'm not sure we need two different tests
-for the same part. :)
+However; the commit 1e63fe685804d
+(machine: pass QAPI struct to mc->smp_parse) has documented that
+'0' has the same semantics as omitting a parameter in the qapi
+comment for SMPConfiguration. So this patch fixes the doc and
+also adds the corresponding sanity check in the smp parsers.
 
-[1] 
-https://lore.kernel.org/qemu-devel/20210719032043.25416-12-wangyanan55@huawei.com/
+This patch originly comes form [1], and it was suggested that
+this patch fixing the doc should be sent for 6.1 to avoid a
+deprecation process in the future.
 
-Thanks,
-Yanan
-.
+[1] https://lore.kernel.org/qemu-devel/YPWsThPiZa3mF+zp@redhat.com/
+
+v2->v3:
+- improve the error message
+- v2: https://lore.kernel.org/qemu-devel/20210722154326.1464-1-wangyanan55@huawei.com/
+
+v1->v2:
+- move the check to machine_set_smp
+- update qemu-option.hx
+- v1: https://lore.kernel.org/qemu-devel/20210722021512.2600-1-wangyanan55@huawei.com/
+
+Yanan Wang (1):
+  machine: Disallow specifying topology parameters as zero
+
+ hw/core/machine.c | 15 +++++++++++++++
+ qapi/machine.json |  6 +++---
+ qemu-options.hx   | 12 +++++++-----
+ 3 files changed, 25 insertions(+), 8 deletions(-)
+
+--
+2.19.1
 
 
