@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4288B3D3945
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:14:53 +0200 (CEST)
-Received: from localhost ([::1]:55480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27DC3D3946
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:15:06 +0200 (CEST)
+Received: from localhost ([::1]:56360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6t8m-0001jM-Ap
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38424)
+	id 1m6t8z-0002JP-SC
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6t6i-0007hn-Th
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:12:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34325)
+ id 1m6t73-0008I6-Nc
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6t6g-0004lO-9I
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:12:44 -0400
+ id 1m6t72-00054f-5R
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627038761;
+ s=mimecast20190719; t=1627038783;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mRyLiquDtlamBpQi2PQ2TXH7VcZ0wdRgXtzznNo6/uQ=;
- b=V0E2OSdOtYHhF6FMXUA01HVZ1il/j9DTgQ5Udz/5XxmAlXg/mFUfn3YmVRgVyNQeEjO1qI
- sKW1HIZEj2nF6KQUZEZdAZzQZumReRToCFG37oi3ewWjMi/knXxoGxZ2RwfqyV8aAINWic
- FPArtQNllEaZW7jsAPgwIaPUpvx7YsA=
+ bh=mkNq7FI8fyaM27cGWJd+NqG3VvQr3pbVjRpTDT78z3A=;
+ b=Q/4wgK8k8Xv6iqGUdTHWUzXfvBxet/7saebw5cuiU9WRdrE/nAl20BWr8oxOW8kdAf0XE8
+ Iubyx9LaANpK3GJ5K283Dc4iPGOHL6kBTJj9zHt5vLvpEn+TTbzRQ3crW3VIC4xzN4r59u
+ SyxAJWSMtrZxxXhrtcs4zKLLipOv2og=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-WTmm8XAYPhy-qNdevaNR4Q-1; Fri, 23 Jul 2021 07:12:34 -0400
-X-MC-Unique: WTmm8XAYPhy-qNdevaNR4Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-202-eF_eF8x6ObSnbcukB3n8OA-1; Fri, 23 Jul 2021 07:13:02 -0400
+X-MC-Unique: eF_eF8x6ObSnbcukB3n8OA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B900801A92;
- Fri, 23 Jul 2021 11:12:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3797A1084F53;
+ Fri, 23 Jul 2021 11:13:01 +0000 (UTC)
 Received: from redhat.com (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63E4369CBA;
- Fri, 23 Jul 2021 11:12:24 +0000 (UTC)
-Date: Fri, 23 Jul 2021 12:12:21 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A31519C46;
+ Fri, 23 Jul 2021 11:12:52 +0000 (UTC)
+Date: Fri, 23 Jul 2021 12:12:49 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.1 v3 1/4] docs: Document GitLab custom CI/CD
- variables
-Message-ID: <YPqkFbmaDQJpn4Sw@redhat.com>
+Subject: Re: [PATCH-for-6.1 v3 2/4] gitlab-ci: Fix 'when:' condition in
+ acceptance_test_job_template
+Message-ID: <YPqkMSbPpWhEK7fT@redhat.com>
 References: <20210723110800.855648-1-philmd@redhat.com>
- <20210723110800.855648-2-philmd@redhat.com>
+ <20210723110800.855648-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210723110800.855648-2-philmd@redhat.com>
+In-Reply-To: <20210723110800.855648-3-philmd@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,17 +92,18 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 01:07:57PM +0200, Philippe Mathieu-Daudé wrote:
-> We introduced the QEMU_CI_AVOCADO_TESTING variable in commit f56bf4caf
-> ("gitlab: Run Avocado tests manually (except mainstream CI)"), but
-> forgot to document it properly. Do it now.
+On Fri, Jul 23, 2021 at 01:07:58PM +0200, Philippe Mathieu-Daudé wrote:
+> Jobs depending on another should not use the 'when: always'
+> condition, because if a dependency failed we should not keep
+> running jobs depending on it. The correct condition is
+> 'when: on_success'.
 > 
-> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Fixes: f56bf4caf71 ("gitlab: Run Avocado tests manually (except mainstream CI)")
+> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  docs/devel/ci.rst | 40 ++++++++++++++++++++++++++++++++++++++++
->  .gitlab-ci.yml    | 19 ++-----------------
->  2 files changed, 42 insertions(+), 17 deletions(-)
+>  .gitlab-ci.d/buildtest-template.yml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
