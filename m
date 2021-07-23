@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB163D40E5
+	by mail.lfdr.de (Postfix) with ESMTPS id 339243D40E6
 	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 21:36:45 +0200 (CEST)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:32958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m70yR-0000Id-Gq
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 15:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39398)
+	id 1m70yS-0000Ke-8A
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 15:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wi-0006Cl-9X
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:34:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45698)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wj-0006D1-8E
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:34:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wf-0002M3-GR
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:34:55 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wh-0002MX-LW
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:34:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627068892;
+ s=mimecast20190719; t=1627068895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a+1Gg6Qd3Ft2AlRxiHvpmsB+B0uldsPLxouTTAZo0PI=;
- b=Rq67QRnx8zG+FjjK0/2Ww91GIqL5NLc4rO7gZk1+bXA7BlnGUiMy7AnDEr7glBMFbTQ1H3
- 5XqP3tzFu3HlHVjzcImbKtD9Z+a6PyYe9GJaXZ/+Km7NK5bNIaSpCI6AEE/UW2DC7nJGx5
- zoRc0dv/Ll/ByzBnvy/hSy39tL721RE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-dRRlGShJPP6Z8wfaQbyslg-1; Fri, 23 Jul 2021 15:34:51 -0400
-X-MC-Unique: dRRlGShJPP6Z8wfaQbyslg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 15-20020a0562140dcfb02902e558bb7a04so2453302qvt.10
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 12:34:51 -0700 (PDT)
+ bh=cNXEr+T+XapNQFW5Dh4TjsXCTgxO/qnoJkHQYagRHIo=;
+ b=dqIeMfk6Ob9Dj+xXiKNWMXSwVmt47oEA/3JJLhBg665yeW9AnA/NSIp/wZINZ1ZE4j67s9
+ KWkbhiJRzzBHEzyl4XV9fuzkHWFpuKL8xS/xOzskw52il77R2ZccTLPMg9vzi/r7KsnOoX
+ KBzzXWpv8rwItWMJf3+z53zt+P/ssko=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-LU8ejLzrP4SWbm3Oh3S7Hw-1; Fri, 23 Jul 2021 15:34:53 -0400
+X-MC-Unique: LU8ejLzrP4SWbm3Oh3S7Hw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ k5-20020a05620a4145b02903b8eff05707so1934339qko.5
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 12:34:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a+1Gg6Qd3Ft2AlRxiHvpmsB+B0uldsPLxouTTAZo0PI=;
- b=OY751rltg72WPnNbG4hRw2eAzrNDwRQrM81nPXRmOCOcyJ3VTgsyihW/n+N2xoOC0n
- vzJ9EffC2dVy7kpFNKz4pTJPOpIHvz14NUhE55ne9DWjWcpvCehK/FXEqbM6qpzAhJiq
- UxGZkMjqBMHPSg1iTWC8hXILZaOin9gmwYYpGQ2WiNFXCuZ0Y3HYE9/5w04ieINIuvVM
- bXe7r9OJZ6RhBsxvnzw76YUD9QLQV+rnJc4Sf74pFZ/KmuyWTRSKR42sOfsA7ZiG79TM
- lGpvAC2NxOPtyIl0c/o0Y7CPwNWYu8nCtgEUPqQ5e24JsPLczX/8ba7DCBq/EZlynKmE
- oAtQ==
-X-Gm-Message-State: AOAM530ISrAKEIkJjlTepFjQxq9G4iXYvoTcO6iAjN4nuQotCHpNdk6M
- K9mcjw7wcZD2gAtofQhjcmVTJwNtk7JPaeBFyZl0ZRFowCPRC1sE+6Pz4lYtGtFil1KH/gEcLpP
- UCicE68eYCH/qn2Ismfg8Ea4IuVSFjBk9qfWYa2oSC17N5d+fqnVPhqUxYolEgjw7
-X-Received: by 2002:ac8:5546:: with SMTP id o6mr5393563qtr.69.1627068890676;
- Fri, 23 Jul 2021 12:34:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynU7kl1qIcfZA9Ydi42l2IddQ51VSSTc8+/qUuRaDgW9Kj+uTEmXI1CPy72LcvW5ETsAq4VQ==
-X-Received: by 2002:ac8:5546:: with SMTP id o6mr5393539qtr.69.1627068890387;
- Fri, 23 Jul 2021 12:34:50 -0700 (PDT)
+ bh=cNXEr+T+XapNQFW5Dh4TjsXCTgxO/qnoJkHQYagRHIo=;
+ b=s9aX0FnFO4djDGBdMHpebP/8q46WuxV3raLO/Wf8fDmLfQiKLm/H6XhQYBIgtO/gfv
+ swdTmRqWS5p4xtphEb4h2E9Cj7EXGwHEFBImCazlgiu9jAGeOcqbfsEkBnm/cNAEW2Dx
+ +S/eOlLhnhLvXejiex7wzEVhOw1woki62l8/dm8XZuuFGyfYtMYPnWhmA93beo8lb8xl
+ cNctCrnV1Jkf2A8Ct2581lwDNCZWbkzhxW4+NNgU67SFO5FVcvJJeDKRjwljKr/VTqI+
+ C7o7dUs/PgR0bJnBPHNpw3uOam1fg16VbCVQ1wiFjOFL+0H1SLaA5an1zNNp3r92pODE
+ 4hxA==
+X-Gm-Message-State: AOAM530pFGBtUSZGcGiqNgnR9A5xW0Y/pKUCv7+hlonCM4xsD0Stuuhp
+ TtmXzPZLj24r9gDpqau4FYsR0uKmd9WlfWWS+UjAW5cjEebN9ksNWmz4X0KLs6TV7rngeGTt4Q5
+ R0VrS+ATMEeX63pNsC1PEa/Xkl3pcKkPpsFrR9db5znNyj0uZ4ILAvICaGwEtm06t
+X-Received: by 2002:a05:622a:1995:: with SMTP id
+ u21mr5379597qtc.77.1627068892357; 
+ Fri, 23 Jul 2021 12:34:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVFEj+pRNDkG5aMg/y96+Jory/NmN8qzGAfjNytehFwJt4SJBOfrK1mlaJKFa4EKJbiKpQ/g==
+X-Received: by 2002:a05:622a:1995:: with SMTP id
+ u21mr5379579qtc.77.1627068892112; 
+ Fri, 23 Jul 2021 12:34:52 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id o2sm12659104qkm.109.2021.07.23.12.34.48
+ by smtp.gmail.com with ESMTPSA id o2sm12659104qkm.109.2021.07.23.12.34.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 12:34:49 -0700 (PDT)
+ Fri, 23 Jul 2021 12:34:50 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] cpus: Export queue work related fields to cpu.h
-Date: Fri, 23 Jul 2021 15:34:36 -0400
-Message-Id: <20210723193444.133412-2-peterx@redhat.com>
+Subject: [PATCH v2 2/9] cpus: Move do_run_on_cpu into softmmu/cpus.c
+Date: Fri, 23 Jul 2021 15:34:37 -0400
+Message-Id: <20210723193444.133412-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723193444.133412-1-peterx@redhat.com>
 References: <20210723193444.133412-1-peterx@redhat.com>
@@ -99,70 +101,112 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch has no functional change, but prepares for moving the function
-do_run_on_cpu() into softmmu/cpus.c.  It does:
-
-  1. Move qemu_work_item into hw/core/cpu.h.
-  2. Export queue_work_on_cpu()/qemu_work_cond.
-
-All of them will be used by softmmu/cpus.c later.
+It's only used by softmmu binaries not linux-user ones.  Make it static and
+drop the definition in the header too.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- cpus-common.c         | 11 ++---------
- include/hw/core/cpu.h | 10 +++++++++-
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ cpus-common.c         | 25 -------------------------
+ include/hw/core/cpu.h | 12 ------------
+ softmmu/cpus.c        | 26 ++++++++++++++++++++++++++
+ 3 files changed, 26 insertions(+), 37 deletions(-)
 
 diff --git a/cpus-common.c b/cpus-common.c
-index 6e73d3e58d..d814b2439a 100644
+index d814b2439a..670826363f 100644
 --- a/cpus-common.c
 +++ b/cpus-common.c
-@@ -27,7 +27,7 @@
- static QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
- static QemuCond exclusive_resume;
--static QemuCond qemu_work_cond;
-+QemuCond qemu_work_cond;
+@@ -124,31 +124,6 @@ void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
+     qemu_cpu_kick(cpu);
+ }
  
- /* >= 1 if a thread is inside start_exclusive/end_exclusive.  Written
-  * under qemu_cpu_list_lock, read with atomic operations.
-@@ -114,14 +114,7 @@ CPUState *qemu_get_cpu(int index)
- /* current CPU in the current thread. It is only valid inside cpu_exec() */
- __thread CPUState *current_cpu;
- 
--struct qemu_work_item {
--    QSIMPLEQ_ENTRY(qemu_work_item) node;
--    run_on_cpu_func func;
--    run_on_cpu_data data;
--    bool free, exclusive, done;
--};
+-void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+-                   QemuMutex *mutex)
+-{
+-    struct qemu_work_item wi;
 -
--static void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
-+void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
+-    if (qemu_cpu_is_self(cpu)) {
+-        func(cpu, data);
+-        return;
+-    }
+-
+-    wi.func = func;
+-    wi.data = data;
+-    wi.done = false;
+-    wi.free = false;
+-    wi.exclusive = false;
+-
+-    queue_work_on_cpu(cpu, &wi);
+-    while (!qatomic_mb_read(&wi.done)) {
+-        CPUState *self_cpu = current_cpu;
+-
+-        qemu_cond_wait(&qemu_work_cond, mutex);
+-        current_cpu = self_cpu;
+-    }
+-}
+-
+ void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
  {
-     qemu_mutex_lock(&cpu->work_mutex);
-     QSIMPLEQ_INSERT_TAIL(&cpu->work_list, wi, node);
+     struct qemu_work_item *wi;
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index bc864564ce..f62ae88524 100644
+index f62ae88524..711ecad62f 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -243,7 +243,15 @@ typedef union {
+@@ -689,18 +689,6 @@ void qemu_cpu_kick(CPUState *cpu);
+  */
+ bool cpu_is_stopped(CPUState *cpu);
  
- typedef void (*run_on_cpu_func)(CPUState *cpu, run_on_cpu_data data);
+-/**
+- * do_run_on_cpu:
+- * @cpu: The vCPU to run on.
+- * @func: The function to be executed.
+- * @data: Data to pass to the function.
+- * @mutex: Mutex to release while waiting for @func to run.
+- *
+- * Used internally in the implementation of run_on_cpu.
+- */
+-void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+-                   QemuMutex *mutex);
+-
+ /**
+  * run_on_cpu:
+  * @cpu: The vCPU to run on.
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 071085f840..52adc98d39 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -382,6 +382,32 @@ void qemu_init_cpu_loop(void)
+     qemu_thread_get_self(&io_thread);
+ }
  
--struct qemu_work_item;
-+struct qemu_work_item {
-+    QSIMPLEQ_ENTRY(qemu_work_item) node;
-+    run_on_cpu_func func;
-+    run_on_cpu_data data;
-+    bool free, exclusive, done;
-+};
++static void
++do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
++              QemuMutex *mutex)
++{
++    struct qemu_work_item wi;
 +
-+void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi);
-+extern QemuCond qemu_work_cond;
- 
- #define CPU_UNSET_NUMA_NODE_ID -1
- #define CPU_TRACE_DSTATE_MAX_EVENTS 32
++    if (qemu_cpu_is_self(cpu)) {
++        func(cpu, data);
++        return;
++    }
++
++    wi.func = func;
++    wi.data = data;
++    wi.done = false;
++    wi.free = false;
++    wi.exclusive = false;
++
++    queue_work_on_cpu(cpu, &wi);
++    while (!qatomic_mb_read(&wi.done)) {
++        CPUState *self_cpu = current_cpu;
++
++        qemu_cond_wait(&qemu_work_cond, mutex);
++        current_cpu = self_cpu;
++    }
++}
++
+ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+ {
+     do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
 -- 
 2.31.1
 
