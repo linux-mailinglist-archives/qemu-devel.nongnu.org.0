@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534903D38C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:33:33 +0200 (CEST)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7848D3D38BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:32:04 +0200 (CEST)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6sUm-0007qp-Cj
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59766)
+	id 1m6sTL-0004wF-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6sQa-0002Sm-SA
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59481)
+ id 1m6sQn-0002kx-4j
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6sQZ-0001xh-8L
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:12 -0400
+ id 1m6sQl-00026s-QF
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627036150;
+ s=mimecast20190719; t=1627036163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B/IvjpArO+VdA1g0iNp2hSCgKmNlOoS8ISY9SoJiSj0=;
- b=Dx/df8Ltgr2241O2/Qcs7eMX8516/iopSHXeX3tKNJAe12flj9XW360dp+qzYcsRP+2JAm
- 7YnORm9ay3F0xz5777C6ZkXQ6U/iJjfCkbgW2RxFP+50bKITvD9LL0JryMgv8Csbj2Q3WJ
- c2L/Rt3lISPQSRcflzG4veCUv/Eg8Q8=
+ bh=S3oemvvROM+fkmJfeLREcmBsRbAxtZUZvrWGihqcfsk=;
+ b=e5QiNQzgv1nvsD+TlZAtqu/pqBpr/e4P96XXj7CE4S+nc5xIMZhBavxKqoHByqU1dJdFKP
+ X5jAeZXP2xUjpKzzyOd0rhs+EugNQFjofJ6qoQKg5++9wik9rKTBTxIIVoi7sXKPiBEboT
+ ZmJpXDfgh8TXKoPYiJDfjXi5/wGOSX0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-b8vxeMp_MOKz0CZh7y8WTw-1; Fri, 23 Jul 2021 06:29:09 -0400
-X-MC-Unique: b8vxeMp_MOKz0CZh7y8WTw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-147-TwQM8pL5NiCFRRXlxvX5_g-1; Fri, 23 Jul 2021 06:29:21 -0400
+X-MC-Unique: TwQM8pL5NiCFRRXlxvX5_g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F939C742C
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:29:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA3731015186
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:29:12 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC575DD68;
- Fri, 23 Jul 2021 10:28:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0666069CBA;
+ Fri, 23 Jul 2021 10:29:11 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] chardev: fix qemu_chr_open_fd() being called with fd=-1
-Date: Fri, 23 Jul 2021 14:28:22 +0400
-Message-Id: <20210723102825.1790112-2-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/4] chardev: fix qemu_chr_open_fd() with fd_in==fd_out
+Date: Fri, 23 Jul 2021 14:28:23 +0400
+Message-Id: <20210723102825.1790112-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
 References: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -86,45 +86,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The "file" chardev may call qemu_chr_open_fd() with fd_in=-1. This may
-cause invalid system calls, as the QIOChannel is assumed to be properly
-initialized later on.
+The "serial" chardev calls qemu_chr_open_fd() with the same fd. This
+may lead to double-close as each QIOChannel owns the fd.
+
+Instead, share the reference to the same QIOChannel.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- chardev/char-fd.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ chardev/char-fd.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index 1cd62f2779..ee85a52c06 100644
+index ee85a52c06..32166182bf 100644
 --- a/chardev/char-fd.c
 +++ b/chardev/char-fd.c
-@@ -133,15 +133,19 @@ void qemu_chr_open_fd(Chardev *chr,
-     FDChardev *s = FD_CHARDEV(chr);
-     char *name;
- 
--    s->ioc_in = QIO_CHANNEL(qio_channel_file_new_fd(fd_in));
--    name = g_strdup_printf("chardev-file-in-%s", chr->label);
--    qio_channel_set_name(QIO_CHANNEL(s->ioc_in), name);
--    g_free(name);
--    s->ioc_out = QIO_CHANNEL(qio_channel_file_new_fd(fd_out));
--    name = g_strdup_printf("chardev-file-out-%s", chr->label);
--    qio_channel_set_name(QIO_CHANNEL(s->ioc_out), name);
--    g_free(name);
--    qemu_set_nonblock(fd_out);
-+    if (fd_in >= 0) {
-+        s->ioc_in = QIO_CHANNEL(qio_channel_file_new_fd(fd_in));
-+        name = g_strdup_printf("chardev-file-in-%s", chr->label);
+@@ -139,13 +139,24 @@ void qemu_chr_open_fd(Chardev *chr,
+         qio_channel_set_name(QIO_CHANNEL(s->ioc_in), name);
+         g_free(name);
+     }
+-    if (fd_out >= 0) {
++
++    if (fd_out < 0) {
++        return;
++    }
++
++    if (fd_out == fd_in) {
++        s->ioc_out = QIO_CHANNEL(object_ref(s->ioc_in));
++        name = g_strdup_printf("chardev-file-%s", chr->label);
 +        qio_channel_set_name(QIO_CHANNEL(s->ioc_in), name);
 +        g_free(name);
-+    }
-+    if (fd_out >= 0) {
-+        s->ioc_out = QIO_CHANNEL(qio_channel_file_new_fd(fd_out));
-+        name = g_strdup_printf("chardev-file-out-%s", chr->label);
-+        qio_channel_set_name(QIO_CHANNEL(s->ioc_out), name);
-+        g_free(name);
-+        qemu_set_nonblock(fd_out);
-+    }
++    } else {
+         s->ioc_out = QIO_CHANNEL(qio_channel_file_new_fd(fd_out));
+         name = g_strdup_printf("chardev-file-out-%s", chr->label);
+         qio_channel_set_name(QIO_CHANNEL(s->ioc_out), name);
+         g_free(name);
+-        qemu_set_nonblock(fd_out);
+     }
++
++    qemu_set_nonblock(fd_out);
  }
  
  static void char_fd_class_init(ObjectClass *oc, void *data)
