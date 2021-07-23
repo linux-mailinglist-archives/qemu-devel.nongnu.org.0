@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6653D3DB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:39:49 +0200 (CEST)
-Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7983D3DBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:40:21 +0200 (CEST)
+Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6yDE-0000qo-TB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52570)
+	id 1m6yDk-0001Un-BL
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6yBR-0007Kv-4w
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:37:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60255)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6yBo-0007rv-Cy
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:38:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6yBM-0000FH-10
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:37:56 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m6yBl-0000Si-MZ
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:38:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627058271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UtPF7Mbc0GFMIALgZprmx34idb2F7aRh8MXAxd8fatc=;
- b=NzjTggv9vnF4MJRyRoReS2SClwuW/Vt9CiI/IYJuGhVg5P9Zej00h4giOw4LvVr2SsD6Cd
- Ztedrgs85OrLRQO/sHtslIKOBpaPiU7XSRSe3NfQtNJ5492nMxEGiD5teOJhocdzV5e/Ga
- IAJEfPjb0kzu3cGMQmVmqAkZC7p8TCg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-OeUa-OhpNFSY2ISO5XvVZA-1; Fri, 23 Jul 2021 12:37:50 -0400
-X-MC-Unique: OeUa-OhpNFSY2ISO5XvVZA-1
-Received: by mail-qt1-f200.google.com with SMTP id
- s14-20020ac8528e0000b029025f76cabdfcso1408081qtn.15
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:37:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UtPF7Mbc0GFMIALgZprmx34idb2F7aRh8MXAxd8fatc=;
- b=rxhlsOYhHT1UYIykF3EU5T3qOtV8ZI7WFxD7fbzPU7db+W2q5bcNgkGaQQhl5Z94rE
- nDvhcx7kKaLn8Bsd6+NjGsKnEk8gp0VeooEnzhpccfusCrUSrDpvsjPl/zAO7Kyh6uFa
- b9dslMDL7grd4NbLqVkgRAJhJuTTw6zwWYeujStNdVX/xOKP/I4WeTHX1V+kGp67aIJ3
- F//6EbH8Tg3LzzNu2siQhutWJt3yfMM43EzGBpDNl9wGHtOKr2oHMgS+BORmv6NYzkWc
- mA5L5kwzFM8wjwzKm2qp5+QXtcysITc3hpfgh7q90SCxShVinO8iDcKFSC9y6mQqi6EQ
- hhnQ==
-X-Gm-Message-State: AOAM532yN7JyjMRlV5ikMRjryrXrMjJlZOT+qnPzV3X6DVMlICYmYB6C
- Jx/0bndjnshaV1iyi8QRshl7Cg5rdgVhp2aB1X6VV2xs4NV5TpyaSiyWsHyhji2tI332aqRX4Uy
- ORCFkSHAzTKDzJ1U=
-X-Received: by 2002:a05:622a:14d3:: with SMTP id
- u19mr4699784qtx.258.1627058269989; 
- Fri, 23 Jul 2021 09:37:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYe69BUwMJuxCsO3AUVGf7APUPRBJnBN2EDS+MVp2bX3PZRXxbv7mv1jtMaGBg0fR5HMezUg==
-X-Received: by 2002:a05:622a:14d3:: with SMTP id
- u19mr4699772qtx.258.1627058269816; 
- Fri, 23 Jul 2021 09:37:49 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id c1sm43189qtj.36.2021.07.23.09.37.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 09:37:49 -0700 (PDT)
-Date: Fri, 23 Jul 2021 12:37:47 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 6/6] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-Message-ID: <YPrwW+43fLe7JEVN@t490s>
-References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-7-david@redhat.com>
+ s=mimecast20190719; t=1627058297;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/KTerWmCXJKKubeE5f+vl/NONMoP0D8flc39sMTie3c=;
+ b=Farozw6H1KM0FKR72AD/cnoSHuj0F8hQ0ovDQ4ICME5EK5qV8ZFpz+BBtY2iZ5TJfD7ZFQ
+ TR0+rF4dVWvuKEbopa7OQxbyNadJg5br7fZOsV2Zb/xlwJJnrFkoCxBaoK8d964Y/fxhGI
+ kClB0bVOFplEoLXpDse3rN+yti/DODA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-fo-c-W-XP1G9zQ0xA25HfQ-1; Fri, 23 Jul 2021 12:38:12 -0400
+X-MC-Unique: fo-c-W-XP1G9zQ0xA25HfQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC83E1084F54;
+ Fri, 23 Jul 2021 16:38:10 +0000 (UTC)
+Received: from redhat.com (ovpn-113-197.ams2.redhat.com [10.36.113.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5280A10016FB;
+ Fri, 23 Jul 2021 16:38:09 +0000 (UTC)
+Date: Fri, 23 Jul 2021 17:38:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
+Message-ID: <YPrwbgY9Q4e1ORP1@redhat.com>
+References: <20210723103303.1731437-1-rjones@redhat.com>
+ <20210723103303.1731437-2-rjones@redhat.com>
+ <YPrr72N494WKnJA5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721092759.21368-7-david@redhat.com>
+In-Reply-To: <YPrr72N494WKnJA5@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -83,7 +67,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,49 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: vsementsov@virtuozzo.com, eblake@redhat.com,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 11:27:59AM +0200, David Hildenbrand wrote:
-> We already don't ever migrate memory that corresponds to discarded ranges
-> as managed by a RamDiscardManager responsible for the mapped memory region
-> of the RAMBlock.
+On Fri, Jul 23, 2021 at 06:18:55PM +0200, Kevin Wolf wrote:
+> Am 23.07.2021 um 12:33 hat Richard W.M. Jones geschrieben:
+> > Under SELinux, Unix domain sockets have two labels.  One is on the
+> > disk and can be set with commands such as chcon(1).  There is a
+> > different label stored in memory (called the process label).  This can
+> > only be set by the process creating the socket.  When using SELinux +
+> > SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
+> > you must set both labels correctly first.
+> > 
+> > For qemu-nbd the options to set the second label are awkward.  You can
+> > create the socket in a wrapper program and then exec into qemu-nbd.
+> > Or you could try something with LD_PRELOAD.
+> > 
+> > This commit adds the ability to set the label straightforwardly on the
+> > command line, via the new --selinux-label flag.  (The name of the flag
+> > is the same as the equivalent nbdkit option.)
+> > 
+> > A worked example showing how to use the new option can be found in
+> > this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+> > 
+> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+> > Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
 > 
-> virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
-> Right now, we still populate zeropages for the whole usable part of the
-> RAMBlock, which is undesired because:
-> 
-> 1. Even populating the shared zeropage will result in memory getting
->    consumed for page tables.
-> 2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
->    will populate an actual, fresh page, resulting in an unintended
->    memory consumption.
-> 
-> Discarded ("logically unplugged") parts have to remain discarded. As
-> these pages are never part of the migration stream, there is no need to
-> track modifications via userfaultfd WP reliably for these parts.
-> 
-> Further, any writes to these ranges by the VM are invalid and the
-> behavior is undefined.
-> 
-> Note that Linux only supports userfaultfd WP on private anonymous memory
-> for now, which usually results in the shared zeropage getting populated.
-> The issue will become more relevant once userfaultfd WP supports shmem
-> and hugetlb.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> I suppose this would also be relevant for the built-in NBD server,
+> especially in the context of qemu-storage-daemon?
 
-Acked-by: Peter Xu <peterx@redhat.com>
+It depends on the usage scenario really. nbdkit / qemu-nbd are
+not commonly run under any SELinux policy, so then end up being
+unconfined_t. A QEMU NBD client can't connect to an unconfined_t
+socket, so we need to override it with this arg.
 
+In the case of qemu system emulator, under libvirt, it will
+already have a svirt_t type, so in that case there is no need
+to override the type for the socket.
+
+For qsd there's not really any strong practice established
+but i expect most current usage is unconfined_t too and
+would benefit from setting label.
+
+> If so, is this something specific to NBD sockets, or would it actually
+> make sense to have it as a generic option in UnixSocketAddress?
+
+It is applicable to inet sockets too in fact.
+
+
+Regards,
+Daniel
 -- 
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
