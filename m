@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27DC3D3946
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:15:06 +0200 (CEST)
-Received: from localhost ([::1]:56360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769EE3D3947
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:15:44 +0200 (CEST)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6t8z-0002JP-SC
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
+	id 1m6t9b-0002h3-HY
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:15:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6t73-0008I6-Nc
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58158)
+ id 1m6t7S-0000KR-6H
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6t72-00054f-5R
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:05 -0400
+ id 1m6t7Q-0005OY-LQ
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:13:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627038783;
+ s=mimecast20190719; t=1627038807;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mkNq7FI8fyaM27cGWJd+NqG3VvQr3pbVjRpTDT78z3A=;
- b=Q/4wgK8k8Xv6iqGUdTHWUzXfvBxet/7saebw5cuiU9WRdrE/nAl20BWr8oxOW8kdAf0XE8
- Iubyx9LaANpK3GJ5K283Dc4iPGOHL6kBTJj9zHt5vLvpEn+TTbzRQ3crW3VIC4xzN4r59u
- SyxAJWSMtrZxxXhrtcs4zKLLipOv2og=
+ bh=MaNdVE4zcmOKgy9gRR4yJ4T+OzXqQGR8AR7KApTnCAQ=;
+ b=A+vos12akKx31TwnKle8LkjDy/nKDmLnxcKvtZyznn8f/4FAd7FCrUJai3bF9Py6wYdSqf
+ 2UUKR1n1+y6Vft++NbhyO8alj2EUSgcnWowQ2OEAvhMaPTp+xNNVpbSGtV+xoRh/gLQXtj
+ st24ExEnhTYQZduRCLvtG7eugGzPhNE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-eF_eF8x6ObSnbcukB3n8OA-1; Fri, 23 Jul 2021 07:13:02 -0400
-X-MC-Unique: eF_eF8x6ObSnbcukB3n8OA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-600-n5f4W1NcM46QbLWZu0PDRw-1; Fri, 23 Jul 2021 07:13:26 -0400
+X-MC-Unique: n5f4W1NcM46QbLWZu0PDRw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3797A1084F53;
- Fri, 23 Jul 2021 11:13:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A88E6184E167;
+ Fri, 23 Jul 2021 11:13:25 +0000 (UTC)
 Received: from redhat.com (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A31519C46;
- Fri, 23 Jul 2021 11:12:52 +0000 (UTC)
-Date: Fri, 23 Jul 2021 12:12:49 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FAD61ABDF;
+ Fri, 23 Jul 2021 11:13:17 +0000 (UTC)
+Date: Fri, 23 Jul 2021 12:13:14 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.1 v3 2/4] gitlab-ci: Fix 'when:' condition in
- acceptance_test_job_template
-Message-ID: <YPqkMSbPpWhEK7fT@redhat.com>
+Subject: Re: [PATCH-for-6.1 v3 3/4] gitlab-ci: Fix 'when:' condition in EDK2
+ jobs
+Message-ID: <YPqkSkSFzc0+WorW@redhat.com>
 References: <20210723110800.855648-1-philmd@redhat.com>
- <20210723110800.855648-3-philmd@redhat.com>
+ <20210723110800.855648-4-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210723110800.855648-3-philmd@redhat.com>
+In-Reply-To: <20210723110800.855648-4-philmd@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,21 +92,20 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 01:07:58PM +0200, Philippe Mathieu-Daudé wrote:
+On Fri, Jul 23, 2021 at 01:07:59PM +0200, Philippe Mathieu-Daudé wrote:
 > Jobs depending on another should not use the 'when: always'
 > condition, because if a dependency failed we should not keep
 > running jobs depending on it. The correct condition is
 > 'when: on_success'.
 > 
-> Fixes: f56bf4caf71 ("gitlab: Run Avocado tests manually (except mainstream CI)")
+> Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries")
 > Reported-by: Daniel P. Berrangé <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  .gitlab-ci.d/buildtest-template.yml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .gitlab-ci.d/edk2.yml | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
 
 Regards,
 Daniel
