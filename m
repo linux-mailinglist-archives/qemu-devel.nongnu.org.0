@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D983D3E26
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:06:47 +0200 (CEST)
-Received: from localhost ([::1]:38922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1DC3D3E2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:07:44 +0200 (CEST)
+Received: from localhost ([::1]:43870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ydK-00035O-4C
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57998)
+	id 1m6yeF-0006O2-70
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6yav-00009v-Da
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:19 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38793)
+ id 1m6yb3-0000BJ-3O
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:26 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6yat-0005PC-UP
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:17 -0400
-Received: by mail-wr1-x429.google.com with SMTP id o1so3097089wrp.5
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:04:15 -0700 (PDT)
+ id 1m6yax-0005Qx-B3
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:22 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b7so3073468wri.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ne/z5Gv0CAc17gk1fX6YTUeREKNOhWQSB8sL1YVywMA=;
- b=TcusK1K6vnsp8I3J3O1O+E4Qd3jshj8R24pHoNPzOalHlPZDhqf4dAtbnJsKImdHkF
- s2LtTYMxbXCEQ1OYDQzNX5l0qvm2pLluQQykkgfvb758h7uri4M4AdsAqjvSYfTVtT4w
- vkUBnF7GV3zuS7S+3F56rHP4Uuyq/kSR4WgZtOX7aj6d0LaRsgzesfMMdEiuQ2Rz4eF6
- DtEBn/u252Zyk6wMX79xtCpIIILNDv+51El1g6nXyIycLwMi1uonQhvd7S/CI2jBONT+
- Yysj05MiiWLUTpN+diG9qZkTU5c/HPd6g0Kz7Ps/VP4Opvysq2uVT+p/p+IuP514HqpY
- yzfw==
+ bh=TK26LfdZXPpYghFl5vK6J3cYjHv0xRQAKz+x9nOqQGM=;
+ b=sErB/vXo/zW4jdgBgNGFj3S9cEt9H5TJIHtPniR8qfN5MJbVrmXZj4NfCSr0em+/CO
+ FrVqWVu3890HG4ByDuJHEx73CsvdT8KlmDHLHeOc7G02rJDK3Y7DZSge0RjM2B3pc0t3
+ nTo4ZvqoxTlUseexOe/wKef1/phpdAlim5EaRQzsRM3dTizFi1qgYakXqpwemT1KwVmC
+ Xkp/YBgp2B+e1M3mtUvgytiZLMpxSr/oMfnleCVY8Kw0g6FQ8z6NsuNckwaK6zCyHFfg
+ Ef0awaBsWHDsNmS8EMf41z66dTtCaYTVjTsi6vKpULz6mM8HnoZ1VBNTYQnzDsv9gQCf
+ AM5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ne/z5Gv0CAc17gk1fX6YTUeREKNOhWQSB8sL1YVywMA=;
- b=RRY+2LimEeBF9qu0e1yKlaepwjpt04wcv6RMq2/fhnzjLZH+W5a1H1fSXnFLZiZKbU
- ZXa8gPF2I6ls3zdJMgrT9fGlSRbM0+dc8hSmxGaYDksBZiWr7sC75AWG7RBzr6zAMWxe
- cTb/+loBB9IRwD7hG4jv/2yFxIv4XNO8+pHJhw1aHciCZ0HSw0qZU1aO38P3fEfEksdK
- 1zS58fJOs1N1avg7ADJ983f/adT0BMvkyZhc4+nf2Pmmho3bh80kT2QWCR9Ybsruzh9g
- 303pvBdCwiSQYMIG9jNK0chxSVt4wqp9p+b9p9axSimCrOw/KQ3cNztpz3CpLDFcZ5yW
- dhbA==
-X-Gm-Message-State: AOAM533MxxtQPAUIfm408+Is+CVm8tesmse25Jq2XOvFoAA/C33oqms+
- fuH3PGGGfPLgY4gmxzq+BP2+Vw==
-X-Google-Smtp-Source: ABdhPJx7wd+NehUdtHcLq2+khHWLLW2M5GoLoGCHDYOm32XGQptPBozo5SXrXTpC76RNDkhGSocFeg==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr6609266wrs.97.1627059854237; 
- Fri, 23 Jul 2021 10:04:14 -0700 (PDT)
+ bh=TK26LfdZXPpYghFl5vK6J3cYjHv0xRQAKz+x9nOqQGM=;
+ b=b8LKoFj1XnRBooKpDC6OMenRNH22m5Knn4R696calwzUxbit/dPg+Bt7/HVxu4ZPgg
+ LLjPyDRHSYs7GD/1TlMtD0DmdNmu+Aw3GuQmegYGFlnah20Du9q4/139j0jZLo7a1eCe
+ 1IgXtTr4B6JWhFYus3rH0cbfFOnwDnHFkZa+ih/MQfc8LLJA9iwkVwXogkY19kOUMh48
+ iBzHJZdeYwQmHNZLD6gMAVlH+rClu014FEWmuTcybFgSUQ4MrleYdiOJOTSBLQwseDD7
+ 7bm/sWUFRE+fGt93n5cEt5E/JIxDz+S+Cey/rgNHztb6FkGueVtz6Adr6td3H6zih5O0
+ QgiA==
+X-Gm-Message-State: AOAM530qtlrPeleXphJCgTLFhyVDlAmRvCP2TOZy46FAMZKlGj1c3RRD
+ sbtc7h7NtVvOSOE/0i88ScyM5A==
+X-Google-Smtp-Source: ABdhPJwEMryTVbuWE74Qeb6kbwLdXahTmbMT04fI8HfHYw2zXG8GdCCfGfA4xpvvw9Z1zA4xScJOew==
+X-Received: by 2002:a5d:6148:: with SMTP id y8mr6405511wrt.20.1627059857651;
+ Fri, 23 Jul 2021 10:04:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o17sm1222291wmp.31.2021.07.23.10.03.58
+ by smtp.gmail.com with ESMTPSA id g3sm33488345wru.95.2021.07.23.10.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 23 Jul 2021 10:04:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8E9281FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id A234A1FF90;
  Fri, 23 Jul 2021 18:03:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/28] docs: add a section on the generalities of vhost-user
-Date: Fri, 23 Jul 2021 18:03:29 +0100
-Message-Id: <20210723170354.18975-4-alex.bennee@linaro.org>
+Subject: [PULL 04/28] configure: remove needless if leg
+Date: Fri, 23 Jul 2021 18:03:30 +0100
+Message-Id: <20210723170354.18975-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210723170354.18975-1-alex.bennee@linaro.org>
 References: <20210723170354.18975-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,106 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we do mention some of this stuff in the various daemons and
-manuals the subtleties of the socket and memory sharing are sometimes
-missed. This document attempts to give some background on vhost-user
-daemons in general terms.
+It was pointed out in review of the previous patch that the if leg
+isn't needed as the for loop will not enter on an empty $device_archs.
 
+Fixes: d1d5e9eefd ("configure: allow the selection of alternate config in the build")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210720232703.10650-4-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210720232703.10650-5-alex.bennee@linaro.org>
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index d6085f7045..7fc693521e 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -1,3 +1,5 @@
-+.. _vhost_user_proto:
-+
- ===================
- Vhost-user Protocol
- ===================
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 8adf05f606..7afcfd8064 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -86,4 +86,5 @@ Emulated Devices
-    devices/net.rst
-    devices/nvme.rst
-    devices/usb.rst
-+   devices/vhost-user.rst
-    devices/virtio-pmem.rst
-diff --git a/docs/system/devices/vhost-user.rst b/docs/system/devices/vhost-user.rst
-new file mode 100644
-index 0000000000..86128114fa
---- /dev/null
-+++ b/docs/system/devices/vhost-user.rst
-@@ -0,0 +1,59 @@
-+.. _vhost_user:
-+
-+vhost-user back ends
-+--------------------
-+
-+vhost-user back ends are way to service the request of VirtIO devices
-+outside of QEMU itself. To do this there are a number of things
-+required.
-+
-+vhost-user device
-+===================
-+
-+These are simple stub devices that ensure the VirtIO device is visible
-+to the guest. The code is mostly boilerplate although each device has
-+a ``chardev`` option which specifies the ID of the ``--chardev``
-+device that connects via a socket to the vhost-user *daemon*.
-+
-+vhost-user daemon
-+=================
-+
-+This is a separate process that is connected to by QEMU via a socket
-+following the :ref:`vhost_user_proto`. There are a number of daemons
-+that can be built when enabled by the project although any daemon that
-+meets the specification for a given device can be used.
-+
-+Shared memory object
-+====================
-+
-+In order for the daemon to access the VirtIO queues to process the
-+requests it needs access to the guest's address space. This is
-+achieved via the ``memory-backend-file`` or ``memory-backend-memfd``
-+objects. A reference to a file-descriptor which can access this object
-+will be passed via the socket as part of the protocol negotiation.
-+
-+Currently the shared memory object needs to match the size of the main
-+system memory as defined by the ``-m`` argument.
-+
-+Example
-+=======
-+
-+First start you daemon.
-+
-+.. parsed-literal::
-+
-+  $ virtio-foo --socket-path=/var/run/foo.sock $OTHER_ARGS
-+
-+The you start your QEMU instance specifying the device, chardev and
-+memory objects.
-+
-+.. parsed-literal::
-+
-+  $ |qemu_system| \\
-+      -m 4096 \\
-+      -chardev socket,id=ba1,path=/var/run/foo.sock \\
-+      -device vhost-user-foo,chardev=ba1,$OTHER_ARGS \\
-+      -object memory-backend-memfd,id=mem,size=4G,share=on \\
-+      -numa node,memdev=mem \\
-+        ...
-+
+diff --git a/configure b/configure
+index 0005cd140d..69cef68861 100755
+--- a/configure
++++ b/configure
+@@ -5103,12 +5103,10 @@ if test "$skip_meson" = no; then
+   echo "[properties]" >> $cross
+ 
+   # unroll any custom device configs
+-  if test -n "$device_archs"; then
+-      for a in $device_archs; do
+-          eval "c=\$devices_${a}"
+-          echo "${a}-softmmu = '$c'" >> $cross
+-      done
+-  fi
++  for a in $device_archs; do
++      eval "c=\$devices_${a}"
++      echo "${a}-softmmu = '$c'" >> $cross
++  done
+ 
+   test -z "$cxx" && echo "link_language = 'c'" >> $cross
+   echo "[built-in options]" >> $cross
 -- 
 2.20.1
 
