@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D063D38EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:49:14 +0200 (CEST)
-Received: from localhost ([::1]:34762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130463D392D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:10:14 +0200 (CEST)
+Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6sjw-0003KU-TD
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34584)
+	id 1m6t4G-0001YG-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:10:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6sip-0002RU-Rb
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:48:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33557)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2I-0008EI-9t
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6sim-0000sv-41
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:48:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2F-0000t5-0X
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627037278;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FpSVxKEQTZjvIo4qTJDLQBTZ0gPaac7coM1DIHWrius=;
- b=i32bDwSLQsEWnturZVQFPhtjM+6n2lkdtbh0jZ91AFZ9HVm02QxV6vrcMMNKPTxaTgjQgZ
- 4I+CFUCqwhCAmUXTajpvyKNQRtfTbWk7FEbtrOXS+03py9UTgjmqqdbs/zqptJi/5Q2lot
- avEMdArfIPZnmSwfVleJC6L7WjfJY0M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-XrnVx0EOPNq7EAdTBanwMg-1; Fri, 23 Jul 2021 06:47:57 -0400
-X-MC-Unique: XrnVx0EOPNq7EAdTBanwMg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 012FB87D541;
- Fri, 23 Jul 2021 10:47:56 +0000 (UTC)
-Received: from redhat.com (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F4745D9D5;
- Fri, 23 Jul 2021 10:47:54 +0000 (UTC)
-Date: Fri, 23 Jul 2021 11:47:51 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
-Message-ID: <YPqePyWeE9p6NkxR@redhat.com>
-References: <20210723103303.1731437-1-rjones@redhat.com>
- <20210723103303.1731437-2-rjones@redhat.com>
+ s=mimecast20190719; t=1627038485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pQ3zn2L+jPrprslv0R6hN7dGCXRToVnyl+5MLRgp+7g=;
+ b=jCMQM9nc4bs8gPkC/XBLJmfkefplGDDBuHxkvQwnNBZuNONXbTWB+GCY1mYbi54evzL2kr
+ l6LjdPmJBl1fY2a5JuSzcVHjo4L/SxZfzH3OZPFV1UWUVpodKmAun2DEnO6YTO1/R6ceh3
+ tsbZV0bxDLt2kYiphq+ajp6EECR4WYU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-HJCAyKvtNlC8M8lasm_hTQ-1; Fri, 23 Jul 2021 07:08:04 -0400
+X-MC-Unique: HJCAyKvtNlC8M8lasm_hTQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a7-20020adfeec70000b0290140ab4d8389so865829wrp.10
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:08:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=61GNq1wBmGOY4S6EKJm8reHUz9vEkXbV3DGh7ykkK6M=;
+ b=P1RiXCgScuZu3MvtLUScwiQKgxQX6uuSAjlAGkmNlJHpZE7i15SmyTezu/opRtNMVy
+ 5Du8VaaZMJnMt64pfmo9kguWkwtfJ07VRmNDM0VJaIsN3wS09J76NqB5Y3bRyxA41Mo3
+ KtHTNpjGU5k159smDb28mRf+gDuF7CtwjxCDoFlB/zNeWSNI1+6nrGgD2d6Tz/XJ0E/t
+ 1MWWiR4AGK2qt3HeRwR1dq/SrfkNJCnOJlBbcZi4AwWVQbYxGlJngcS9EyBKvfUDyf4I
+ ap8SURJJ+/s7SezTXQp1MRy/fsRiBiyY+SP9C9kCN9Taod9GfAaGlFS31dk/fz7sFwIm
+ u4Dg==
+X-Gm-Message-State: AOAM531GTidMwRiRjZIkKsqk1RX8Ozu6Oto8/vUSbbofsxffLYI8pSaI
+ OIoPydmbwm8OHrxYWHntKDfivjmMHmfjKW5tVoT1GvFNRCSdL7K4lkOPYWGNXmaem0SnDPMtoCw
+ wDclDfGArTrVTFtALiaNcouD3h3qzp3VZP/V/KiJUj/BH/3joBwC1+IUsPWc51cq0
+X-Received: by 2002:a05:6000:18c8:: with SMTP id
+ w8mr4716803wrq.90.1627038482656; 
+ Fri, 23 Jul 2021 04:08:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgDrPuHpyODNQKIJYYfSUrazH3DQt5MJ361tDGEoTAXYDDJMa7HNQaINu+rPIOnH+VzYk7uQ==
+X-Received: by 2002:a05:6000:18c8:: with SMTP id
+ w8mr4716768wrq.90.1627038482408; 
+ Fri, 23 Jul 2021 04:08:02 -0700 (PDT)
+Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id
+ o28sm34536607wra.71.2021.07.23.04.08.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 04:08:02 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.1 v3 0/4] gitlab-ci: Document custom CI/CD variables,
+ fix 'when:' conditions
+Date: Fri, 23 Jul 2021 13:07:56 +0200
+Message-Id: <20210723110800.855648-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210723103303.1731437-2-rjones@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -82,53 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: vsementsov@virtuozzo.com, eblake@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 11:33:03AM +0100, Richard W.M. Jones wrote:
-> Under SELinux, Unix domain sockets have two labels.  One is on the
-> disk and can be set with commands such as chcon(1).  There is a
-> different label stored in memory (called the process label).  This can
-> only be set by the process creating the socket.  When using SELinux +
-> SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> you must set both labels correctly first.
-> 
-> For qemu-nbd the options to set the second label are awkward.  You can
-> create the socket in a wrapper program and then exec into qemu-nbd.
-> Or you could try something with LD_PRELOAD.
-> 
-> This commit adds the ability to set the label straightforwardly on the
-> command line, via the new --selinux-label flag.  (The name of the flag
-> is the same as the equivalent nbdkit option.)
-> 
-> A worked example showing how to use the new option can be found in
-> this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> ---
->  configure                                     |  9 ++++-
->  meson.build                                   | 10 +++++-
->  meson_options.txt                             |  3 ++
->  qemu-nbd.c                                    | 33 +++++++++++++++++++
->  tests/docker/dockerfiles/centos8.docker       |  1 +
->  tests/docker/dockerfiles/fedora.docker        |  1 +
->  tests/docker/dockerfiles/opensuse-leap.docker |  1 +
->  tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
->  tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
->  9 files changed, 58 insertions(+), 2 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+- Document custom CI/CD variables (thuth)=0D
+- Fix 'when:' condition (danpb)=0D
+=0D
+Supersedes: <20210722181322.516635-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  docs: Document GitLab custom CI/CD variables=0D
+  gitlab-ci: Fix 'when:' condition in acceptance_test_job_template=0D
+  gitlab-ci: Fix 'when:' condition in EDK2 jobs=0D
+  gitlab-ci: Extract OpenSBI job rules and fix 'when:' condition=0D
+=0D
+ docs/devel/ci.rst                   | 40 +++++++++++++++++++++++++++++=0D
+ .gitlab-ci.d/buildtest-template.yml |  4 +--=0D
+ .gitlab-ci.d/edk2.yml               |  6 ++---=0D
+ .gitlab-ci.d/opensbi.yml            | 30 +++++++++++++---------=0D
+ .gitlab-ci.yml                      | 19 ++------------=0D
+ 5 files changed, 65 insertions(+), 34 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
