@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF433D397F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:30:24 +0200 (CEST)
-Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E53D3D3983
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:32:05 +0200 (CEST)
+Received: from localhost ([::1]:43104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6tNi-0003MS-R6
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41310)
+	id 1m6tPQ-0005Xe-Bq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:32:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1m6tLT-0001jA-Jc
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:27:59 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42851)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6tMv-0003Zm-O7
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:29:30 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:54606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1m6tLR-0001Fl-TV
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:27:59 -0400
-Received: by mail-ej1-x634.google.com with SMTP id e19so3086168ejs.9
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dfMBATw7w9UeqJjgtNMeVbuCu2O4PoU9wbCqZASRcYY=;
- b=b9d6JyGBthaX92iCuK1T2yPI857GxTZwb0c78vqm6GdA3CvbedVGZfc8/xwf/ubNa/
- kv55vxD0QjZitMulcn6nbcge+sFdId509DgGQwoBizLSMPBvqB7UeddTotEQRsV1bSdv
- Sarluumo0U947Ufj+5MVsobLYFeF+oWI0qVOvvbfSeHylIybfbkYSp2TEmUGIGjTNXgt
- J6D2KDSH1i3nv5wnBAvcQPiOGraqpjJ/SLqPInaJ/mMhqtdDRPpQzP7RVKkZdB0y7Wpj
- HaquHnJ9oZboWu9zEdYYKjpLZOqoSDPwU5uzrW9P3sYq3M2LgOvEvk6ixoou6sqZ/XEB
- iMqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dfMBATw7w9UeqJjgtNMeVbuCu2O4PoU9wbCqZASRcYY=;
- b=Nh73kp66k5fkVmaF9VckB8h2fQub/kw/lsxNujDtwAdBx3GntCF9kNRm/N+YDXtS6t
- JZB3FPxPfo995V5UvAwgzvmC9ib9VTFOL5zyfp3YGtt4Gwt2uWaWdGHWFdGPzLSTN8Sw
- ObOWqN9w4m9C5SjwZNDSmeO1t5nwHQBUl9KHq1ULSqE8z3W/AhhBt3o7+bIAPp0E6dyt
- sbAjUwVSrmz4oVpObmya7JOrICjmXqt74ZMnCiyXaZBlvpZIkqSVeMY6HzEHUWMdXWWQ
- bxAONj2ChNZPB0jDEbYy8ivncBnwZXyV/zwcytCkoqX92BPK8E20rARhed5g54HIh+DE
- Ph5A==
-X-Gm-Message-State: AOAM530HDlIqm4TKydWO6zAzXAMj9P9hhsm9PLTEa9H1g1kBeR1kX8f5
- K9elgUMzmF31yM2Pf8VAOojLV0IkPir9kw==
-X-Google-Smtp-Source: ABdhPJy9K4117WFb02X+Dim/ZYPolZm8odz9QFc1ktxvhxrI4Hhu7Qamtfbwsz4kpsdtjzVjr8gzNw==
-X-Received: by 2002:a17:907:7887:: with SMTP id
- ku7mr4196674ejc.102.1627039676554; 
- Fri, 23 Jul 2021 04:27:56 -0700 (PDT)
-Received: from localhost.localdomain ([151.68.138.167])
- by smtp.gmail.com with ESMTPSA id m15sm13729581edp.73.2021.07.23.04.27.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 04:27:56 -0700 (PDT)
-From: Lara Lazier <laramglazier@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: Added VGIF feature
-Date: Fri, 23 Jul 2021 13:27:53 +0200
-Message-Id: <20210723112753.46047-1-laramglazier@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6tMq-000281-KO
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:29:29 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 48ADA21E29;
+ Fri, 23 Jul 2021 11:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627039763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hLEV1q7Zp9Rw43Am7wFNZwBQD0B34B6HuRlsfq8IUiQ=;
+ b=aMhfz+qYeBzvdEWETEJsbLv0F+59Wvuzqmkq5Fazcj/sLKJiwsStDFg3PkM4b2FMmjO4Ey
+ ytyTy2+le9eOwcJDq4K1FFLRE1E+gJuiI9QGxC3jiwv7TPjze/N6wTseN8xpRZe9wHnMzW
+ Q8cPhVxoqFjNSrreAYpP/YZHJ5/nuS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627039763;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hLEV1q7Zp9Rw43Am7wFNZwBQD0B34B6HuRlsfq8IUiQ=;
+ b=EeY1bNmmM4s0nEqjvZIoqZ5lV9tAJhWoqp5NsIhFpxpkl4BSc3I0WpG+8YO1rtD0MqcKmj
+ rJH2A4fHuLzHFYDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F211F13E02;
+ Fri, 23 Jul 2021 11:29:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NxDvOBKo+mCgHAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Jul 2021 11:29:22 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions for
+ max, host, base
+Date: Fri, 23 Jul 2021 13:29:21 +0200
+Message-Id: <20210723112921.12637-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=laramglazier@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,121 +77,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGIF allows STGI and CLGI to execute in guest mode and control virtual
-interrupts in guest mode.
-When the VGIF feature is enabled then:
- * executing STGI in the guest sets bit 9 of the VMCB offset 60h.
- * executing CLGI in the guest clears bit 9 of the VMCB offset 60h.
+Some cpu properties have to be set only for cpu models in builtin_x86_defs,
+registered with x86_register_cpu_model_type, and not for
+cpu models "base", "max", and the subclass "host".
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+These properties are the ones set by function x86_cpu_apply_props,
+(also including kvm_default_props, tcg_default_props),
+and the "vendor" property for the KVM and HVF accelerators.
+
+After recent refactoring of cpu, which also affected these properties,
+they were instead set unconditionally for all x86 cpus.
+
+This has been detected as a bug with Nested on AMD with cpu "host",
+as svm was not turned on by default, due to the wrongful setting of
+kvm_default_props via x86_cpu_apply_props, which set svm to "off".
+
+Rectify the bug introduced in commit "i386: split cpu accelerators"
+and document the functions that are builtin_x86_defs-only.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: f5cc5a5c ("i386: split cpu accelerators from cpu.c,"...)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/477
 ---
- target/i386/cpu.c                   |  3 ++-
- target/i386/svm.h                   |  6 +++++
- target/i386/tcg/sysemu/svm_helper.c | 36 +++++++++++++++++++++++++----
- 3 files changed, 39 insertions(+), 6 deletions(-)
+ target/i386/cpu.c         |  19 ++++++-
+ target/i386/host-cpu.c    |  13 +++--
+ target/i386/kvm/kvm-cpu.c | 105 ++++++++++++++++++++------------------
+ target/i386/tcg/tcg-cpu.c |  11 ++--
+ 4 files changed, 89 insertions(+), 59 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 48b55ebd0a..5e6d2b4294 100644
+index 48b55ebd0a..edb97ebbbe 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -631,7 +631,8 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
- #define TCG_EXT3_FEATURES (CPUID_EXT3_LAHF_LM | CPUID_EXT3_SVM | \
-           CPUID_EXT3_CR8LEG | CPUID_EXT3_ABM | CPUID_EXT3_SSE4A)
- #define TCG_EXT4_FEATURES 0
--#define TCG_SVM_FEATURES CPUID_SVM_NPT
-+#define TCG_SVM_FEATURES (CPUID_SVM_NPT | CPUID_SVM_VGIF | \
-+          CPUID_SVM_SVME_ADDR_CHK)
- #define TCG_KVM_FEATURES 0
- #define TCG_7_0_EBX_FEATURES (CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_SMAP | \
-           CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ADX | \
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index e54670ef12..dab2f90925 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -9,6 +9,12 @@
- #define V_IRQ_SHIFT 8
- #define V_IRQ_MASK (1 << V_IRQ_SHIFT)
- 
-+#define V_GIF_ENABLED_SHIFT 25
-+#define V_GIF_ENABLED_MASK (1 << V_GIF_ENABLED_SHIFT)
-+
-+#define V_GIF_SHIFT 9
-+#define V_GIF_MASK (1 << V_GIF_SHIFT)
-+
- #define V_INTR_PRIO_SHIFT 16
- #define V_INTR_PRIO_MASK (0x0f << V_INTR_PRIO_SHIFT)
- 
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 6118f6f587..ea85e3cae8 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -118,6 +118,11 @@ static inline void svm_vmrun_canonicalization(CPUX86State *env)
-     env->tr.base = (long) ((uint32_t) env->tr.base);
+@@ -4919,6 +4919,9 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     return r;
  }
  
-+static inline bool virtual_gif_enabled(CPUX86State *env, uint32_t int_ctl)
++/*
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
+ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+ {
+     PropValue *pv;
+@@ -4931,7 +4934,11 @@ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+     }
+ }
+ 
+-/* Apply properties for the CPU model version specified in model */
++/*
++ * Apply properties for the CPU model version specified in model.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
++
+ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+ {
+     const X86CPUVersionDefinition *vdef;
+@@ -4960,7 +4967,9 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+     assert(vdef->version == version);
+ }
+ 
+-/* Load data from X86CPUDefinition into a X86CPU object
++/*
++ * Load data from X86CPUDefinition into a X86CPU object.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
+  */
+ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
+ {
+@@ -5051,6 +5060,12 @@ static void x86_register_cpu_model_type(const char *name, X86CPUModel *model)
+     type_register(&ti);
+ }
+ 
++
++/*
++ * register builtin_x86_defs;
++ * "max", "base" and subclasses ("host") are not registered here.
++ * See x86_cpu_register_types for all model registrations.
++ */
+ static void x86_register_cpudef_types(const X86CPUDefinition *def)
+ {
+     X86CPUModel *m;
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index 4ea9e354ea..10f8aba86e 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -150,13 +150,16 @@ void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping)
+ 
+ void host_cpu_instance_init(X86CPU *cpu)
+ {
+-    uint32_t ebx = 0, ecx = 0, edx = 0;
+-    char vendor[CPUID_VENDOR_SZ + 1];
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
+ 
+-    host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
+-    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
++    if (xcc->model) {
++        uint32_t ebx = 0, ecx = 0, edx = 0;
++        char vendor[CPUID_VENDOR_SZ + 1];
+ 
+-    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++        host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
++        x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
++        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
++    }
+ }
+ 
+ void host_cpu_max_instance_init(X86CPU *cpu)
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index bbe817764d..d95028018e 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -52,47 +52,6 @@ static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
+     return host_cpu_realizefn(cs, errp);
+ }
+ 
+-/*
+- * KVM-specific features that are automatically added/removed
+- * from all CPU models when KVM is enabled.
+- *
+- * NOTE: features can be enabled by default only if they were
+- *       already available in the oldest kernel version supported
+- *       by the KVM accelerator (see "OS requirements" section at
+- *       docs/system/target-i386.rst)
+- */
+-static PropValue kvm_default_props[] = {
+-    { "kvmclock", "on" },
+-    { "kvm-nopiodelay", "on" },
+-    { "kvm-asyncpf", "on" },
+-    { "kvm-steal-time", "on" },
+-    { "kvm-pv-eoi", "on" },
+-    { "kvmclock-stable-bit", "on" },
+-    { "x2apic", "on" },
+-    { "kvm-msi-ext-dest-id", "off" },
+-    { "acpi", "off" },
+-    { "monitor", "off" },
+-    { "svm", "off" },
+-    { NULL, NULL },
+-};
+-
+-void x86_cpu_change_kvm_default(const char *prop, const char *value)
+-{
+-    PropValue *pv;
+-    for (pv = kvm_default_props; pv->prop; pv++) {
+-        if (!strcmp(pv->prop, prop)) {
+-            pv->value = value;
+-            break;
+-        }
+-    }
+-
+-    /*
+-     * It is valid to call this function only for properties that
+-     * are already present in the kvm_default_props table.
+-     */
+-    assert(pv->prop);
+-}
+-
+ static bool lmce_supported(void)
+ {
+     uint64_t mce_cap = 0;
+@@ -150,21 +109,69 @@ static void kvm_cpu_xsave_init(void)
+     }
+ }
+ 
++/*
++ * KVM-specific features that are automatically added/removed
++ * from cpudef models when KVM is enabled.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ *
++ * NOTE: features can be enabled by default only if they were
++ *       already available in the oldest kernel version supported
++ *       by the KVM accelerator (see "OS requirements" section at
++ *       docs/system/target-i386.rst)
++ */
++static PropValue kvm_default_props[] = {
++    { "kvmclock", "on" },
++    { "kvm-nopiodelay", "on" },
++    { "kvm-asyncpf", "on" },
++    { "kvm-steal-time", "on" },
++    { "kvm-pv-eoi", "on" },
++    { "kvmclock-stable-bit", "on" },
++    { "x2apic", "on" },
++    { "kvm-msi-ext-dest-id", "off" },
++    { "acpi", "off" },
++    { "monitor", "off" },
++    { "svm", "off" },
++    { NULL, NULL },
++};
++
++/*
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
++ */
++void x86_cpu_change_kvm_default(const char *prop, const char *value)
 +{
-+    return (int_ctl & V_GIF_ENABLED_MASK) && (env->features[FEAT_SVM] & CPUID_SVM_VGIF);
++    PropValue *pv;
++    for (pv = kvm_default_props; pv->prop; pv++) {
++        if (!strcmp(pv->prop, prop)) {
++            pv->value = value;
++            break;
++        }
++    }
++
++    /*
++     * It is valid to call this function only for properties that
++     * are already present in the kvm_default_props table.
++     */
++    assert(pv->prop);
 +}
 +
- void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ static void kvm_cpu_instance_init(CPUState *cs)
  {
-     CPUState *cs = env_cpu(env);
-@@ -353,9 +358,12 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-         tlb_flush(cs);
-         break;
-     }
--
--    env->hflags2 |= HF2_GIF_MASK;
--
-+    if (virtual_gif_enabled(env, int_ctl)) {
-+        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
-+                        int_ctl |= V_GIF_MASK);
-+    } else {
-+        env->hflags2 |= HF2_GIF_MASK;
-+    }
-     if (int_ctl & V_IRQ_MASK) {
-         CPUState *cs = env_cpu(env);
+     X86CPU *cpu = X86_CPU(cs);
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
  
-@@ -513,13 +521,31 @@ void helper_vmsave(CPUX86State *env, int aflag)
- void helper_stgi(CPUX86State *env)
- {
-     cpu_svm_check_intercept_param(env, SVM_EXIT_STGI, 0, GETPC());
--    env->hflags2 |= HF2_GIF_MASK;
-+
-+    CPUState *cs = env_cpu(env);
-+    uint32_t int_ctl = x86_ldl_phys(cs,
-+                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-+    if (virtual_gif_enabled(env, int_ctl) && likely(env->hflags & HF_GUEST_MASK)) {
-+        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
-+                        int_ctl |= V_GIF_MASK);
-+    } else {
-+        env->hflags2 |= HF2_GIF_MASK;
+     host_cpu_instance_init(cpu);
+ 
+-    if (!kvm_irqchip_in_kernel()) {
+-        x86_cpu_change_kvm_default("x2apic", "off");
+-    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
+-        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+-    }
+-
+-    /* Special cases not set in the X86CPUDefinition structs: */
++    if (xcc->model) {
++        /* only applies to builtin_x86_defs cpus */
++        if (!kvm_irqchip_in_kernel()) {
++            x86_cpu_change_kvm_default("x2apic", "off");
++        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
++            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
++        }
+ 
+-    x86_cpu_apply_props(cpu, kvm_default_props);
++        /* Special cases not set in the X86CPUDefinition structs: */
++        x86_cpu_apply_props(cpu, kvm_default_props);
 +    }
+ 
+     if (cpu->max_features) {
+         kvm_cpu_max_instance_init(cpu);
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index e96ec9bbcc..e86bc93384 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -99,7 +99,8 @@ static void tcg_cpu_xsave_init(void)
  }
  
- void helper_clgi(CPUX86State *env)
+ /*
+- * TCG-specific defaults that override all CPU models when using TCG
++ * TCG-specific defaults that override cpudef models when using TCG.
++ * Only for builtin_x86_defs models initialized with x86_register_cpudef_types.
+  */
+ static PropValue tcg_default_props[] = {
+     { "vme", "off" },
+@@ -109,8 +110,12 @@ static PropValue tcg_default_props[] = {
+ static void tcg_cpu_instance_init(CPUState *cs)
  {
-     cpu_svm_check_intercept_param(env, SVM_EXIT_CLGI, 0, GETPC());
--    env->hflags2 &= ~HF2_GIF_MASK;
+     X86CPU *cpu = X86_CPU(cs);
+-    /* Special cases not set in the X86CPUDefinition structs: */
+-    x86_cpu_apply_props(cpu, tcg_default_props);
++    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
 +
-+    CPUState *cs = env_cpu(env);
-+    uint32_t int_ctl = x86_ldl_phys(cs,
-+                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-+    if (virtual_gif_enabled(env, int_ctl) && likely(env->hflags & HF_GUEST_MASK)) {
-+        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
-+                        int_ctl &= ~V_GIF_MASK);
-+    } else {
-+        env->hflags2 &= ~HF2_GIF_MASK;
++    if (xcc->model) {
++        /* Special cases not set in the X86CPUDefinition structs: */
++        x86_cpu_apply_props(cpu, tcg_default_props);
 +    }
- }
  
- bool cpu_svm_has_intercept(CPUX86State *env, uint32_t type)
+     tcg_cpu_xsave_init();
+ }
 -- 
-2.25.1
+2.26.2
 
 
