@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF7E3D3854
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:08:10 +0200 (CEST)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DE73D3857
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:09:41 +0200 (CEST)
+Received: from localhost ([::1]:52568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6s6C-0005SN-9U
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
+	id 1m6s7g-0008Bb-Rx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:09:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s43-00034S-4o
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28095)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s40-0002wv-Kp
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s3w-0007C4-1Y
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:54 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6s3x-0007FY-Jy
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:05:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627034747;
+ s=mimecast20190719; t=1627034749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qmbyY9+dCBfOfDQ4ImscPjRaMqu27KsEx4qXonP/C90=;
- b=HTsEoCSrZXhPTf0r5/+5h5Lu5DoPGHoGhiS5F5cVyTs8opBt0H2PhkBo66iCkRHeA+ooy7
- MKjcHR7oYUTWPQf8nVOjkdCRqLVg/eZL7+AuI0ZeCgDM9EK6I2Wq/iEuL3AKk4YFHQAFeZ
- gun5X04gv9Ecb2cmlXxoSU4RfqWgfEg=
+ bh=GN6pgXZNs4ngS7CjJRFpmIK7L+C9Jao6DY9HTA1vLtE=;
+ b=GYdG/gXei0lsLkUwic3pDSVOcizzjkaDbo6CVDf8hloVhSwnmBWCjoq3UPW9RrMkmOysT5
+ kKWtZcs5bWZe679e1ZqdkUhX7BFkY0ch4ndSsL1LLMA5iM5sEBKC6DVKEIeqwXihOG2lg6
+ rnxPnYfz+Ds0NbM3d7BicYPJCXgJ5QM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-M7ePelveMn6x8bDMLJYjaw-1; Fri, 23 Jul 2021 06:05:45 -0400
-X-MC-Unique: M7ePelveMn6x8bDMLJYjaw-1
+ us-mta-485-v4UFg3tLMteTzSUuC10UAQ-1; Fri, 23 Jul 2021 06:05:47 -0400
+X-MC-Unique: v4UFg3tLMteTzSUuC10UAQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F87100E424;
- Fri, 23 Jul 2021 10:05:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0659180FCCD;
+ Fri, 23 Jul 2021 10:05:46 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-253.ams2.redhat.com [10.36.112.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C871118431;
- Fri, 23 Jul 2021 10:05:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5AC18431;
+ Fri, 23 Jul 2021 10:05:45 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] MAINTAINERS: Add Peter Xu and myself as co-maintainer of
+Subject: [PATCH 3/3] MAINTAINERS: Add memory_mapping.h and memory_mapping.c to
  "Memory API"
-Date: Fri, 23 Jul 2021 12:05:31 +0200
-Message-Id: <20210723100532.27353-3-david@redhat.com>
+Date: Fri, 23 Jul 2021 12:05:32 +0200
+Message-Id: <20210723100532.27353-4-david@redhat.com>
 In-Reply-To: <20210723100532.27353-1-david@redhat.com>
 References: <20210723100532.27353-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -83,8 +83,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter and myself volunteered to help out co-maintaining "Memory API"
-with Paolo, so let's update the MAINTAINERS file.
+Both files logically belong to "Memory API" and are not yet listed
+anywhere else explicitly. Let's add them to "Memory API".
 
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -95,18 +95,21 @@ Signed-off-by: David Hildenbrand <david@redhat.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 420c8a48a1..190a90b541 100644
+index 190a90b541..445f7fe2d1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2452,6 +2452,8 @@ F: tests/tcg/multiarch/gdbstub/
- 
- Memory API
- M: Paolo Bonzini <pbonzini@redhat.com>
-+M: Peter Xu <peterx@redhat.com>
-+M: David Hildenbrand <david@redhat.com>
- S: Supported
- F: include/exec/ioport.h
- F: include/exec/memop.h
+@@ -2460,9 +2460,11 @@ F: include/exec/memop.h
+ F: include/exec/memory.h
+ F: include/exec/ram_addr.h
+ F: include/exec/ramblock.h
++F: include/sysemu/memory_mapping.h
+ F: softmmu/dma-helpers.c
+ F: softmmu/ioport.c
+ F: softmmu/memory.c
++F: softmmu/memory_mapping.c
+ F: softmmu/physmem.c
+ F: include/exec/memory-internal.h
+ F: scripts/coccinelle/memory-region-housekeeping.cocci
 -- 
 2.31.1
 
