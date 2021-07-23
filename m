@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BBF3D3C38
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 17:11:55 +0200 (CEST)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6912C3D3C39
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 17:11:58 +0200 (CEST)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6wqA-0006gE-4k
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 11:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
+	id 1m6wqD-0006on-Cf
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 11:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6woF-0005Gu-PR
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49548)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6woN-0005Lo-HP
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:10:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6woB-0007FI-93
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:09:54 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6woL-0007N8-Fa
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:10:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627052988;
+ s=mimecast20190719; t=1627053000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IkXXwFH2FUkaGexZmbZ+UYqm5KyldCYM3AIaJsfo0fk=;
- b=JH98RHfawNj0DEmLdyTVNR/yHoCJIUdVzzuq8Ce56iGpuqnlwbhikfS87WIf4qB3YRSXHG
- +3kpdaFQWd3VhKIRhZr9mVa4GT9M9/ojUcOY5tOcdXXXEiISZfAI9aB7JCWR8jlD2XeNl8
- 1WBYXdaYRBXZRNuX8b/0+scBHkMBEK4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-ris4WkCmOWOF1RWKG-Hm3g-1; Fri, 23 Jul 2021 11:09:47 -0400
-X-MC-Unique: ris4WkCmOWOF1RWKG-Hm3g-1
-Received: by mail-qk1-f197.google.com with SMTP id
- h5-20020a05620a0525b02903b861bec838so1387157qkh.7
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 08:09:47 -0700 (PDT)
+ bh=ol3eea+Z0gMEwjE2UFl9IUiPCwa++mVWa2eLuvX6QrQ=;
+ b=JEB9TARb2DAh/+IyaTrMFbFly19pXOG8rnzEDKSxPhPVSpjdaBoE0fhqeGkjaYBepX7Civ
+ KhHCzibpitccjcqJRaPPhbdapxSOBItIUdBfT4t1YipdJhSsXrIXN93AdhIoajbMeKZI2y
+ 0FvVd+Uh/4bmAvWdN/slmRCgLcG1fUo=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-miSgYX3RM8257Ezzm8e4wA-1; Fri, 23 Jul 2021 11:09:59 -0400
+X-MC-Unique: miSgYX3RM8257Ezzm8e4wA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ l24-20020ac872580000b029024e988e8277so1252470qtp.23
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 08:09:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=IkXXwFH2FUkaGexZmbZ+UYqm5KyldCYM3AIaJsfo0fk=;
- b=p9We0/YdOzanbKwff10MW7wKW1gPCCe2Zc9xjqKaFJZ1cUtUti5pqx7w9oMM7uvhoq
- CwLdHm6nMWBc81Zc29bMbobuq+RcHOEJ4OjNfLOoD5/JK626SEGK2Tmk5hKvpFCf/h93
- vkCIemJnbrwZHyMhiKycUmMxB6XcM7yATNwpaaZNwG5LcURfq1++tBg6HlP9Gfx1fun/
- US0kCJb8Wojez3hCo79vMQLfytrcxUSFJFTpyK8s1fCn1AZMTEYoMBYYESrpNCEORrRu
- 8fxoihkTUcFst5hP9nhpnfuiZ2r70nKzC1m61edg+d2ojerH3yjZ8LuDLAF/0/+p9PJP
- RQkg==
-X-Gm-Message-State: AOAM532WMtCqecY6m2jQMAhThOxDdcX8Yx7vPqRUboqbbLzLKStDCO1i
- CPMvQWIkGWRvQmPG46LWphaOpeIk+JLp+GSeEGoZOvonYe5Zv0bZv7qKOvJMSbY6jyO0vzwK1Pv
- qxX7ZofpGuWxSUfk=
-X-Received: by 2002:a37:44cb:: with SMTP id r194mr5106625qka.436.1627052987382; 
- Fri, 23 Jul 2021 08:09:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpv1vrERlczCXUSj/K6WZeHGJAnHQ+1JI9Hmnf7yPRpDZNauA/zXCMEtNZiYgAvZb/93N2ew==
-X-Received: by 2002:a37:44cb:: with SMTP id r194mr5106607qka.436.1627052987179; 
- Fri, 23 Jul 2021 08:09:47 -0700 (PDT)
+ bh=ol3eea+Z0gMEwjE2UFl9IUiPCwa++mVWa2eLuvX6QrQ=;
+ b=X8NvlQ5kGEhc7ZTNK/0wj1whgkcx+7uebTdF85sxnilOQyvgH0JUEpcRMBJXk2UW7J
+ 4ZzWFG/Xru8eV8odWD7Ss9AhV82DfKymUetN2gz+iYHtnccHcLTGLSbkjjyTjIGMEy3W
+ emRd0crSUDiWoqIKhiWa4GH6NqeiVZxzjRXyKKzxjs0uo8S7ItggEIX2Q/2paGmLB7Rt
+ zV9mIuUySbRACCHFHhp3sxejyVGHO18rBpXCCocxoKLND2g8RTJaOa548qNdD2eGGrbS
+ QEBXwVZNUMvgMC1h+IZ1tTwAMriDiGB8eZIZHz6oWzbt7jVIssp+G6FsxL6oIZkiIELn
+ bU5A==
+X-Gm-Message-State: AOAM533xQv/BMA6E09fGoH1Ewccis92OACbHOZcvRwtePqL28vBBFeam
+ eFxGhUnNJvcYMNhXt1qzox8je8/NJI+RmA6CQ7A3zIATsCoz+s/7qyHXZRe/+EK4KxAHCJYFx02
+ +G4lL81cdRfbklE0=
+X-Received: by 2002:ac8:5a96:: with SMTP id c22mr4262189qtc.229.1627052999075; 
+ Fri, 23 Jul 2021 08:09:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxF0X+mbVdVhmvTmVy+r8mLyPAnD4jpX6aCPObXy3PwSSEqVXn1ysT0nmk+eYshTrijcc8tEw==
+X-Received: by 2002:ac8:5a96:: with SMTP id c22mr4262171qtc.229.1627052998874; 
+ Fri, 23 Jul 2021 08:09:58 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id o63sm1672313qkf.4.2021.07.23.08.09.45
+ by smtp.gmail.com with ESMTPSA id m23sm11434115qtq.53.2021.07.23.08.09.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 08:09:46 -0700 (PDT)
-Date: Fri, 23 Jul 2021 11:09:45 -0400
+ Fri, 23 Jul 2021 08:09:58 -0700 (PDT)
+Date: Fri, 23 Jul 2021 11:09:56 -0400
 From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH resend v2 3/5] softmmu/memory_mapping: never merge ranges
- accross memory regions
-Message-ID: <YPrbuQzy6KCOpYlN@t490s>
+Subject: Re: [PATCH resend v2 4/5] softmmu/memory_mapping: factor out adding
+ physical memory ranges
+Message-ID: <YPrbxKEY74/5MMiJ@t490s>
 References: <20210720130304.26323-1-david@redhat.com>
- <20210720130304.26323-4-david@redhat.com>
+ <20210720130304.26323-5-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210720130304.26323-4-david@redhat.com>
+In-Reply-To: <20210720130304.26323-5-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,7 +76,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -108,9 +108,9 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 03:03:02PM +0200, David Hildenbrand wrote:
-> Let's make sure to not merge when different memory regions are involved.
-> Unlikely, but theoretically possible.
+On Tue, Jul 20, 2021 at 03:03:03PM +0200, David Hildenbrand wrote:
+> Let's factor out adding a MemoryRegionSection to the list, to be reused in
+> RamDiscardManager context next.
 > 
 > Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Cc: Paolo Bonzini <pbonzini@redhat.com>
