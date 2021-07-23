@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F093D3DAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:36:30 +0200 (CEST)
-Received: from localhost ([::1]:44790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9DF3D3DAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:36:50 +0200 (CEST)
+Received: from localhost ([::1]:46652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6yA1-00032n-D0
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51696)
+	id 1m6yAL-0004MO-Ir
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8K-0000OW-EU
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56919)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1m6y8R-0000ke-MX
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8I-00074F-Vw
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:44 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1m6y8P-00077B-Qk
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627058082;
+ s=mimecast20190719; t=1627058088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Rh+MXpU6QdIYDZM4TF1eoJE14yYVPDfmiIgvFbAasow=;
- b=cwOA6kAJiPvS78vXFy9TC2bbL7BeDyZcz7PfsjNBe5OHqQyoVo5+M3lSLkdA1n1ZB0ZYlv
- 8EVgSr5bHhay12vg/7TRat7uYjmKv0sVcVaauQjkUU1sjCk0z9dK4sUi5r6VTeuHxl97iU
- 7aODw5R3Qp6BAINgmBdpB8TvVh6kw+U=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-tkjq5iesOhKrJrDk1BYBQQ-1; Fri, 23 Jul 2021 12:34:38 -0400
-X-MC-Unique: tkjq5iesOhKrJrDk1BYBQQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- h12-20020a0562140dacb029030449450d37so2091346qvh.14
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:34:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Rh+MXpU6QdIYDZM4TF1eoJE14yYVPDfmiIgvFbAasow=;
- b=haf5+vXjgXqlx+MjH1LjOYn7iHLcGXVCuP14cTvFR2T0xlWTEnw/KLD2yBIRY6HqfI
- UUHc5ZZE2EUpVqLfK8pGmDE6uzUJjtKNDy1cf9WR+XJmTobIQvV7ME+zY2ZpwNxpHtVe
- fPavMFpdUdBIkPVnA5uYL2vaQDQp/xqhq2qKZAAFY4iaucbwJG7AnnbfvzaK5tQ/2lkl
- LKae17TladlpNvRWxt8q1HQmNQvA90+6A85xo5pAjZmw2RfntbO43vHaMAq9OJSllmT2
- 2ajy8Stff7xB1a6O7onIIPO8ID0vn2mm6o0hYdcTyXT6vbm9mIBWUhp10UFV2jVg1yy5
- ZfAQ==
-X-Gm-Message-State: AOAM531207DrcyWnDTQ1GjkMgNfJ0fos9Z9+8DZa4d+WJ7HbvxM7fRqi
- 7DXWu8VhwTbT644cbIdEgVOeCy64O9lXX3/TMv0N1y3nkpT/QzNwxSvPERrb8lCds0ZdSkku0TD
- FouQYtqjIhTxphLY=
-X-Received: by 2002:ac8:7482:: with SMTP id v2mr4707714qtq.84.1627058078521;
- Fri, 23 Jul 2021 09:34:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoTTu+B0sIrbx0fCxXh+9ePfTqyx2+LkornJVWZoLDkvgGskL8Fb5MqwKsc9BkvukSCJAYSg==
-X-Received: by 2002:ac8:7482:: with SMTP id v2mr4707695qtq.84.1627058078342;
- Fri, 23 Jul 2021 09:34:38 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id h16sm6228869qtx.23.2021.07.23.09.34.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 09:34:37 -0700 (PDT)
-Date: Fri, 23 Jul 2021 12:34:35 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 1/6] memory: Introduce replay_discarded callback for
- RamDiscardManager
-Message-ID: <YPrvm+ChrMg9qt5X@t490s>
-References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-2-david@redhat.com>
+ bh=ko0b6cUI5gb4uCqonS1YBLJBplB8JO5bdnK6gLlRpOE=;
+ b=DXwqZIoJnQuYwvvVPqkX6p6lgNKe9nO7CpUvlFSe2JjGwTwrH0YJhp2hDq2Svi5Ty1kC4p
+ fvBZm1KiOmsHJcK6LHzTvsNZsXt1MzdLYPTRdAyJTqDtl+l5+LaP6ZiicmJxclTT+hnfsS
+ TdSvB7f/pHqgJg0vQwC3YBTXr6m/00Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-uam8KiP1PYuDlZxBwtuXxg-1; Fri, 23 Jul 2021 12:34:44 -0400
+X-MC-Unique: uam8KiP1PYuDlZxBwtuXxg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B370804309;
+ Fri, 23 Jul 2021 16:34:43 +0000 (UTC)
+Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4615219C46;
+ Fri, 23 Jul 2021 16:34:43 +0000 (UTC)
+Date: Fri, 23 Jul 2021 17:34:42 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
+Message-ID: <20210723163442.GO26415@redhat.com>
+References: <20210723103303.1731437-1-rjones@redhat.com>
+ <20210723103303.1731437-2-rjones@redhat.com>
+ <YPrr72N494WKnJA5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721092759.21368-2-david@redhat.com>
+In-Reply-To: <YPrr72N494WKnJA5@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -94,27 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: berrange@redhat.com, vsementsov@virtuozzo.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 11:27:54AM +0200, David Hildenbrand wrote:
-> Introduce replay_discarded callback similar to our existing
-> replay_populated callback, to be used my migration code to never migrate
-> discarded memory.
+On Fri, Jul 23, 2021 at 06:18:55PM +0200, Kevin Wolf wrote:
+> Am 23.07.2021 um 12:33 hat Richard W.M. Jones geschrieben:
+> > Under SELinux, Unix domain sockets have two labels.  One is on the
+> > disk and can be set with commands such as chcon(1).  There is a
+> > different label stored in memory (called the process label).  This can
+> > only be set by the process creating the socket.  When using SELinux +
+> > SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
+> > you must set both labels correctly first.
+> > 
+> > For qemu-nbd the options to set the second label are awkward.  You can
+> > create the socket in a wrapper program and then exec into qemu-nbd.
+> > Or you could try something with LD_PRELOAD.
+> > 
+> > This commit adds the ability to set the label straightforwardly on the
+> > command line, via the new --selinux-label flag.  (The name of the flag
+> > is the same as the equivalent nbdkit option.)
+> > 
+> > A worked example showing how to use the new option can be found in
+> > this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+> > 
+> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+> > Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> I suppose this would also be relevant for the built-in NBD server,
+> especially in the context of qemu-storage-daemon?
+>
+> If so, is this something specific to NBD sockets, or would it actually
+> make sense to have it as a generic option in UnixSocketAddress?
 
-Acked-by: Peter Xu <peterx@redhat.com>
+For other NBD sockets, most likely.  I'm not sure about Unix sockets
+in general (as in: I know they also have the two label thing, but I
+don't know if there's a situation where SVirt protects other sockets
+apart from NBD sockets).  I'm sure Dan will know ...
+
+By the way although it appears that setsockcreatecon_raw is setting a
+global flag, it seems to actually use a thread-local variable, so
+implementing this (although still ugly) would not require locks.
+
+https://github.com/SELinuxProject/selinux/blob/32611aea6543e3a8f32635857e37b4332b0b5c99/libselinux/src/procattr.c#L347
+
+Rich.
 
 -- 
-Peter Xu
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
 
