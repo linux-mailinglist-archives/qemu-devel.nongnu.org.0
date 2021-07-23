@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569183D375B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:06:40 +0200 (CEST)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A51D3D37A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:24:02 +0200 (CEST)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6r8h-0006JX-Dw
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
+	id 1m6rPV-00039k-4w
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m6r6m-0004jf-Sg
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m6r6j-0005FZ-T9
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:04:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627031076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wgWh7vafa3tgTrBptO6XTnONlSm9JR3Hno9YBw/pF94=;
- b=Gx8m5NzhOC3KAud8oVEVTIOzLo3n1zl8y5nbKaOsYmzYZpGykY6E5lB11G8wigZXfG8Ojj
- QgA3ZIvX04PIhffzOvGo8ArIfZfxM2c4ot+k0iRlLYk5rMKacIZYVQSp9vOj0WjvYKaBZ1
- K3E3A0f/HUXxLCnsZVJukRPqU7RWS6w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-d4zNa4MfMy2RaTcm-lPlCg-1; Fri, 23 Jul 2021 05:04:35 -0400
-X-MC-Unique: d4zNa4MfMy2RaTcm-lPlCg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9936180FCCD;
- Fri, 23 Jul 2021 09:04:34 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E791A10016DB;
- Fri, 23 Jul 2021 09:04:25 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1m6rOP-0002Js-Gm
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:22:53 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:35754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1m6rON-00044q-Ox
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:22:53 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id r17so1054497lfe.2
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 02:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jz/u9tOOl2W1QF1nAisy1JhcAcBdW4I3ROAIqA0mVZU=;
+ b=XVR9INil/xX+QyQhNCnAsiMW1Mc9eBDK3jVs0QtTwD/6HJYGh3F0ZNX9sNh3UbexUI
+ kxPaG2MwYNwx80XsS9sFhOnLgnLsI3QW3RqI0/EZUFvaertJjPXKZgGW93lOT4BZmwmM
+ qWkX22GAGxKYlRz5XYME/2dBc/W0AGYG1/eVeoSj8dP9Mck1sRWw4Autm4hUnuxSdOuI
+ YLtfaYTpW3YjXVY4O9gCnSU1WJUawJhYJUhB7o7ETItRCGnCKTkQ8ytioStRZmonrk8v
+ Ed9T5fT/bbshRaoN1nXgTqs6MnqTBYIpOQ52rbaihUHOcXdNAZA0BWqriopuqXPPXi5W
+ SL6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jz/u9tOOl2W1QF1nAisy1JhcAcBdW4I3ROAIqA0mVZU=;
+ b=o3tGFwvfm8Xc98enrjAxUZoA88a4lNdBlYQeWZy9vVNmHrXcvtesVogLHfWGwax1Bm
+ AjEUYCZ0+gbhUfl1QgUwoh8QY6qFILVCwQkn3U0JuuyL9rA4048KhjIzJGYlydlBHYwT
+ 1VTaQK7uSfhhPg2oKNGKYiTWo0ucpskQhVdOH/gb6kOKJaDCGm9rcRLM+TJ71lZ51n7C
+ 0lwgWHobmPHUp8RLPd7EVBRwdWDYrjRycZONJl/tUo1x1ESiAhjxuwyXW/NI7SYjD8v0
+ dg8MVwOyfgsaSs3+y9Om704duT2F8a/pgvSDqRPKjGQQ1oGEP0Se9LaA46kdCUKMXoLK
+ Mslw==
+X-Gm-Message-State: AOAM530mJsKel7ZtvLsSTefRe1zEAWhw8o/fpATRvUCZ91vQXccDbDRn
+ z9qTtwXrANE/gtqFfM7ovtJjH3vt40Z09VEr
+X-Google-Smtp-Source: ABdhPJwi05V+L7KwB73pI09mIhaEnjnUll6xPHeo6Y6tkAmu+bdC08WR9r2d5jFzP5pCSGHGWJbluQ==
+X-Received: by 2002:ac2:59db:: with SMTP id x27mr2409934lfn.547.1627032168893; 
+ Fri, 23 Jul 2021 02:22:48 -0700 (PDT)
+Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
+ by smtp.gmail.com with ESMTPSA id f8sm1539914lfe.141.2021.07.23.02.22.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 02:22:48 -0700 (PDT)
+From: Arkadiy <arkaisp2021@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] acpi: x86: pcihp: add support hotplug on multifunction
- bridges
-Date: Fri, 23 Jul 2021 05:04:24 -0400
-Message-Id: <20210723090424.2092226-1-imammedo@redhat.com>
+Subject: [PATCH v2] mips/tlb_helper: Add support for 'info tlb' cmd
+Date: Fri, 23 Jul 2021 12:22:42 +0300
+Message-Id: <20210723092242.17024-1-arkaisp2021@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,151 +81,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
- berrange@redhat.com, mst@redhat.com, jusual@redhat.com
+Cc: aleksandar.rikalo@syrmia.com, f4bug@amsat.org, NDNF <arkaisp2021@gmail.com>,
+ pavel.dovgaluk@ispras.ru, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit [1] switched PCI hotplug from native to ACPI one by default.
+From: NDNF <arkaisp2021@gmail.com>
 
-That however breaks hotplug on following CLI that used to work:
-   -nodefaults -machine q35 \
-   -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
-   -device pcie-root-port,id=pcie-root-port-1,port=0x1,addr=0x1.0x1,bus=pcie.0,chassis=2
+This adds hmp 'info tlb' command support for the mips platform.
+1k pages are not supported.
 
-where PCI device is hotplugged to pcie-root-port-1 with error on guest side:
-
-  ACPI BIOS Error (bug): Could not resolve symbol [^S0B.PCNT], AE_NOT_FOUND (20201113/psargs-330)
-  ACPI Error: Aborting method \_SB.PCI0.PCNT due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
-  ACPI Error: Aborting method \_GPE._E01 due to previous error (AE_NOT_FOUND) (20201113/psparse-531)
-  ACPI Error: AE_NOT_FOUND, while evaluating GPE method [_E01] (20201113/evgpe-515)
-
-cause is that QEMU's ACPI hotplug never supported functions other then 0
-and due to bug it was generating notification entries for not described
-functions.
-
-Technically there is no reason not to describe cold-plugged bridges
-(root ports) on functions other then 0, as they similarly to bridge
-on function 0 are unpluggable.
-
-So since we need to describe multifunction devices iterate over
-fuctions as well. But describe only cold-plugged bridges[root ports]
-on functions other than 0 as well.
-
-1)
-Fixes: 17858a169508609ca9063c544833e5a1adeb7b52 (hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35)
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reported-by: Laurent Vivier <lvivier@redhat.com>
+Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
 ---
-v2:
-  * squash 1/2 "acpi: x86: pcihp: cleanup devfn usage in  build_append_pci_bus_devices()"
-    into the main patch
-  * drop Sxx -> Sxxx change as devfn fits into 2 digits anyway
-  * cleanup PCI_FUN/DEVFN and use func/devfn local variables instead
-  * fix typos
----
- hw/i386/acpi-build.c | 44 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 30 insertions(+), 14 deletions(-)
+ hmp-commands-info.hx     |  3 ++-
+ target/mips/cpu.h        |  3 +++
+ target/mips/meson.build  |  1 +
+ target/mips/monitor.c    | 26 ++++++++++++++++++++++
+ target/mips/tlb_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 target/mips/monitor.c
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 17836149fe..a33ac8b91e 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -374,7 +374,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-     Aml *dev, *notify_method = NULL, *method;
-     QObject *bsel;
-     PCIBus *sec;
--    int i;
-+    int devfn;
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 117ba25f91..d6aab9839c 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -222,7 +222,8 @@ SRST
+ ERST
  
-     bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
-     if (bsel) {
-@@ -384,23 +384,31 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         notify_method = aml_method("DVNT", 2, AML_NOTSERIALIZED);
-     }
+ #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
+-    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
++    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
++    defined(TARGET_MIPS) || defined(TARGET_MIPS64)
+     {
+         .name       = "tlb",
+         .args_type  = "",
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index b9e227a30e..5aa6f2b760 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1337,6 +1337,9 @@ void itc_reconfigure(struct MIPSITUState *tag);
+ /* helper.c */
+ target_ulong exception_resume_pc(CPUMIPSState *env);
  
--    for (i = 0; i < ARRAY_SIZE(bus->devices); i += PCI_FUNC_MAX) {
-+    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-         DeviceClass *dc;
-         PCIDeviceClass *pc;
--        PCIDevice *pdev = bus->devices[i];
--        int slot = PCI_SLOT(i);
-+        PCIDevice *pdev = bus->devices[devfn];
-+        int slot = PCI_SLOT(devfn);
-+        int func = PCI_FUNC(devfn);
-+        /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
-+        int adr = slot << 16 | func;
-         bool hotplug_enabled_dev;
-         bool bridge_in_acpi;
-         bool cold_plugged_bridge;
- 
-         if (!pdev) {
--            if (bsel) { /* add hotplug slots for non present devices */
-+            /*
-+             * add hotplug slots for non present devices.
-+             * hotplug is supported only for non-multifunction device
-+             * so generate device description only for function 0
-+             */
-+            if (bsel && !func) {
-                 if (pci_bus_is_express(bus) && slot > 0) {
-                     break;
-                 }
--                dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-+                dev = aml_device("S%.02X", devfn);
-                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--                aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-+                aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
-                 method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-                 aml_append(method,
-                     aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-@@ -436,9 +444,18 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             continue;
-         }
- 
--        /* start to compose PCI slot descriptor */
--        dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
--        aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-+        /*
-+         * allow describing coldplugged bridges in ACPI even if they are not
-+         * on function 0, as they are not unpluggable, for all other devices
-+         * generate description only for function 0 per slot
-+         */
-+        if (func && !bridge_in_acpi) {
-+            continue;
-+        }
++/*tlb_helper.c*/
++void dump_mmu(CPUMIPSState *env);
 +
-+        /* start to compose PCI device descriptor */
-+        dev = aml_device("S%.02X", devfn);
-+        aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
+ static inline void cpu_get_tb_cpu_state(CPUMIPSState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 9741545440..c0b19048ee 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -31,6 +31,7 @@ mips_softmmu_ss.add(files(
+   'cp0_timer.c',
+   'machine.c',
+   'mips-semi.c',
++  'monitor.c',
+ ))
+ mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'cp0_helper.c',
+diff --git a/target/mips/monitor.c b/target/mips/monitor.c
+new file mode 100644
+index 0000000000..9c9dfd2caa
+--- /dev/null
++++ b/target/mips/monitor.c
+@@ -0,0 +1,26 @@
++/*
++ * monitor.c
++ *
++ * Copyright (c) 2010-2021 Institute for System Programming
++ *                         of the Russian Academy of Sciences.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "monitor/monitor.h"
++#include "monitor/hmp-target.h"
++#include "monitor/hmp.h"
++
++void hmp_info_tlb(Monitor *mon, const QDict *qdict)
++{
++    CPUArchState *env = mon_get_cpu_env(mon);
++    if (!env) {
++        monitor_printf(mon, "No CPU available\n");
++        return;
++    }
++    dump_mmu(env);
++}
+diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+index 082c17928d..1c0c2831d6 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tlb_helper.c
+@@ -24,6 +24,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/log.h"
+ #include "hw/mips/cpudevs.h"
++#include "qemu/qemu-print.h"
  
-         if (bsel) {
-             /*
-@@ -496,7 +513,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+ enum {
+     TLBRET_XI = -6,
+@@ -37,6 +38,53 @@ enum {
  
-             build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-         }
--        /* slot descriptor has been composed, add it into parent context */
-+        /* device descriptor has been composed, add it into parent context */
-         aml_append(parent_scope, dev);
-     }
+ #if !defined(CONFIG_USER_ONLY)
  
-@@ -525,13 +542,12 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         /* Notify about child bus events in any case */
-         if (pcihp_bridge_en) {
-             QLIST_FOREACH(sec, &bus->child, sibling) {
--                int32_t devfn = sec->parent_dev->devfn;
--
-                 if (pci_bus_is_root(sec)) {
-                     continue;
-                 }
- 
--                aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-+                aml_append(method, aml_name("^S%.02X.PCNT",
-+                                            sec->parent_dev->devfn));
-             }
-         }
- 
++static void r4k_mmu_dump(CPUMIPSState *env)
++{
++    int i;
++    for (i = 0; i < env->tlb->tlb_in_use; i++) {
++        r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
++
++        bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
++
++        qemu_printf("TLB[%i]:\nG = %i EHINV = %i\nPageMask = %08x", i, tlb->G,
++                    tlb->EHINV, tlb->PageMask);
++        if (!tlb->EHINV) {
++            if (mi) {
++                qemu_printf(" MMID = %i", tlb->MMID);
++            } else if (!tlb->G) {
++                qemu_printf(" ASID = %i", tlb->ASID);
++            }
++            qemu_printf("\nVPN = "TARGET_FMT_lx" PFN[0] = %08lx RI0 = %i"
++                        " XI0 = %i C0 = %i D0 = %i V0 = %i\n"
++                        "VPN = "TARGET_FMT_lx" PFN[1] = %08lx RI1 = %i XI1 = %i"
++                        " C1 = %i D1 = %i V1 = %i\n", tlb->VPN, tlb->PFN[0],
++                        tlb->RI0, tlb->XI0, tlb->C0, tlb->D0, tlb->V0, tlb->VPN,
++                        tlb->PFN[1], tlb->RI1, tlb->XI1,
++                        tlb->C1, tlb->D1, tlb->V1);
++        }
++    }
++}
++
++void dump_mmu(CPUMIPSState *env)
++{
++    switch (env->cpu_model->mmu_type) {
++    case MMU_TYPE_NONE:
++        qemu_printf("no MMU emulation\n");
++        break;
++    case MMU_TYPE_R4000:
++        r4k_mmu_dump(env);
++        break;
++    case MMU_TYPE_FMT:
++        qemu_printf("fixed mapping MMU emulation\n");
++        break;
++    case MMU_TYPE_R3000:
++    case MMU_TYPE_R6000:
++    case MMU_TYPE_R8000:
++    default:
++        qemu_printf("MMU type not supported\n");
++    }
++}
++
+ /* no MMU emulation */
+ int no_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
+                        target_ulong address, int rw, int access_type)
 -- 
-2.27.0
+2.25.1
 
 
