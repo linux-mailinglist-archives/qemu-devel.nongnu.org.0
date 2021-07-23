@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF3D3D3725
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:56:52 +0200 (CEST)
-Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703C93D3727
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:58:11 +0200 (CEST)
+Received: from localhost ([::1]:56418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6qzD-0000hT-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1m6r0U-0002lN-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1m6qy6-00089o-Jz
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1m6qy2-0005tn-NM
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:55:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627030534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3aNKE5imqLeDXSxGIumV2gEUBOgFz9Imgzr12p0vh1E=;
- b=AiaCB2YXGxZuc9287VAKuXWHVANVlA43jG2EfdeN33vdpQg0a229i86WR6uojPW15RdPi7
- XjzuiiQqk1eLiwJpd83VmORXF9jheDSkT9Jiqzi3e30Ks6PoPzxjcJ+TxwQRWdyo5kUxfL
- 0j2tXxwANV3D8mFt4XS7Sid/tbxXqW4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-X87zrqcoOgSuk6QBtVxMFQ-1; Fri, 23 Jul 2021 04:55:32 -0400
-X-MC-Unique: X87zrqcoOgSuk6QBtVxMFQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q132-20020a1ca78a0000b029023448cbd285so571805wme.2
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 01:55:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m6qzd-0001tZ-Cg
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:57:17 -0400
+Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:40536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m6qzb-0007Qf-FQ
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:57:17 -0400
+Received: by mail-il1-x136.google.com with SMTP id d10so890133ils.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 01:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JooSUbxPqY4sLF4byQL/rzI+jHqNpkj7+DUyF9gRBS0=;
+ b=L0KpOyak0ySQ/UkPtyu/iURQtB1Wm330Y4OJuoQgUvBn+SIdXJ0BOE42UIEb50blBw
+ BJNS1QYwhqOXLEkEgPeplHcUgJu1isOyT+dGYzoUqO/qb/UQaXy1lDL1FVVZOEctIZ/0
+ ppUKP+hDc/2+uxbv9I5q6tjGeNOmOAUJ66XEXxEALoLhlj2VqB19e4b2s/r8ef6qss60
+ boG2UnEiBovn3OK55NcVhd1sPxEo4YxC2PRj0gDcMV1DQuetsrWhC08p2HGfwKHYXU0M
+ TTRiRztfmYqpce0M/Ft8pYfzHCREAmZn0IzXCF2nWg4mhe3YB0hr5uTocfMelKVlLGgD
+ 3jPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3aNKE5imqLeDXSxGIumV2gEUBOgFz9Imgzr12p0vh1E=;
- b=bAeNzfu38W8W+Ycqv+qnCo1Jt+S2M9MKd0b6l/O+r3sBN/0YvEn2icCs+5G5EoHhKg
- FfQcfPmsh1bH0ktssmfKH1SE9aZsmHuQRYNajRJMcFTcnxP7i5CT1AS6L92A/eyAv00g
- Y1Ni+NmWfEBJbqGPVysJmKR9VgwkTCVbrkF8cAYoRP142wlMMtYxLwQP3FQHMqeDDEL4
- 90ekS7jmlIOWXlcF1SHfst3NmFarBumvpwD0DtUtUPmMiUG8JKmQ63wAQzQf45Zu662b
- uBkXqICNntMYRB0f7l17jjqryUyvAlYgLXIra9V6qGVFZLFudGTZQRQ9kIbQaTG8uQe3
- x5yQ==
-X-Gm-Message-State: AOAM5317pkfwjcpv71dhEJ47ULp7q6Xlqnf+uKCSL5uSsVbZMIqDJRXA
- hmACslwYlhEfUWdseocg6/SI/g1BNFgg5/r2o9ExElorrE3QewBmaNFnbBwPr1Kq6xypScs6YCh
- XHIEKZwbK1eCSOcs=
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr4237230wri.164.1627030531739; 
- Fri, 23 Jul 2021 01:55:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZQCtoET4rgd0UmkKnDBskPLcCNqrIvUFLhrOlcMS6ryyv5IQPeZfqPRVK5w0QiNz56YVOvQ==
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr4237207wri.164.1627030531542; 
- Fri, 23 Jul 2021 01:55:31 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.2.134])
- by smtp.gmail.com with ESMTPSA id n23sm27058125wmc.38.2021.07.23.01.55.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 01:55:31 -0700 (PDT)
-Subject: Re: [PATCH v4] failover: unregister ROM on unplug
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210721160905.234915-1-lvivier@redhat.com>
- <20210721121922-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <ded25268-597e-e697-8e24-690929652064@redhat.com>
-Date: Fri, 23 Jul 2021 10:55:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JooSUbxPqY4sLF4byQL/rzI+jHqNpkj7+DUyF9gRBS0=;
+ b=UXClJXEy20175Q+4zlJpkP+a5rBpZZIrkkpO57OwnjRehTAu7c7eXx4ed6hie8/Tgt
+ lQESCQtrMHq637ilLuxc/+37VZzDNTOBWlqWBIP9pO4JjL4SuWrYjC8OUru9/pdzDfDC
+ pPsEH3tYAzjZFcuYYLoLfQDF6FJflxNm3woXV6m8ma4G4OO3aQvWYkx+wnBY6IMyNQNO
+ f6TFCiN9+qYl9z+JGwcqZMR7l9ripVphgj9qZdBxO3yeS0Cgi2zFMKvr6Xwev7En2Vfb
+ tDVJz/9vvHJ7dvhWn0IzMfS1z0Jy89WEcnUz+jwTCP7nBn2Ojeqzik7eeYoXVbYY1Ymw
+ KzBA==
+X-Gm-Message-State: AOAM533qsNGD52S0FD5ZgnruZ7y/a2b423dkeoanYI1E3SyQF5ZJ9VMl
+ nAmNL1AlPx+nzKrFPMf1vM4G0klrG3OQsqynGCMH34o1Uao=
+X-Google-Smtp-Source: ABdhPJyYVROLj991TsLQWiVv1satBkLum8VmWIfFe/4LGa+BLKOZ4YJDSnpgvBma6gzwKsef/lcaFKZYz2I6D78UwiM=
+X-Received: by 2002:a92:d3cb:: with SMTP id c11mr2909544ilh.178.1627030633900; 
+ Fri, 23 Jul 2021 01:57:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210721121922-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.203, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210722071236.139520-1-ma.mandourr@gmail.com>
+In-Reply-To: <20210722071236.139520-1-ma.mandourr@gmail.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Fri, 23 Jul 2021 10:57:02 +0200
+Message-ID: <CAD-LL6i_qQcpR08nvRMcjm1RkSE858RkXDzR1sav_P6P9uztrg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] new plugin argument passing scheme
+To: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000f8ed5d05c7c69606"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,55 +76,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: "Emilio G. Cota" <cota@braap.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/07/2021 18:19, Michael S. Tsirkin wrote:
-> On Wed, Jul 21, 2021 at 06:09:05PM +0200, Laurent Vivier wrote:
->> The intend of failover is to allow to migrate a VM with a VFIO
->> networking card without disrupting the network operation by switching
->> to a virtio-net device during the migration.
->>
->> This simple change allows to test failover with a simulated device
->> like e1000e rather than a vfio device, even if it's useless in real
->> life it can help to debug failover.
->>
->> This is interesting to developers that want to test failover on
->> a system with no vfio device. Moreover it simplifies host networking
->> configuration as we can use the same bridge for virtio-net and
->> the other failover networking device.
->>
->> Without this change the migration of a system configured with failover
->> fails with:
->>
->>   ...
->>   -device virtio-net-pci,id=virtionet0,failover=on,...  \
->>   -device e1000,failover_pair_id=virtionet0,... \
->>   ...
->>
->>   (qemu) migrate ...
->>
->>   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
->>   error while loading state for instance 0x0 of device 'ram'
->>   load of migration failed: Invalid argument
->>
->> This happens because QEMU correctly unregisters the interface vmstate but
->> not the ROM one. This patch fixes that.
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> 
-> And does failover_replug_primary roll it all back then?
+--000000000000f8ed5d05c7c69606
+Content-Type: text/plain; charset="UTF-8"
 
-In fact, I think we cannot roll it back because we don't have all the information to do
-the vmstate_register() again. Perhaps we can implement a
-vmstate_disable()/vmstate_enable() to disable the state migration without removing the
-information from the list?
+On Thu, Jul 22, 2021 at 9:12 AM Mahmoud Mandour <ma.mandourr@gmail.com>
+wrote:
 
-Thanks,
-Laurent
+> Hello,
+>
+> This series removes passing arguments to plugins through "arg=" since
+> it's redundant and reduces readability especially when the argument
+> itself is composed of a name and a value.
+>
+> Also, passing arguments through "arg=" still works but is marked as
+> deprecated and will produce a deprecation warning.
+>
+> Right now, the code for parsing the argument before passing it to the
+> plugin is unfortunately not so clean but that's mainly because "arg=" is
+> still supported.
+>
+> At first, considering boolean parameters, those were not special to
+> plugins and QEMU did not complain about passing them in the form
+> "arg=bool_arg" even though that's considered a short-form boolean, which
+> is deprecated. As "arg" is removed, a deprecation warning is issued.
+>
+> This is mitigated by making plugins aware of boolean arguments and
+> parses them through a newly exposed API, namely the `qapi_bool_parse`
+> function through a plugin API function. Now plugins expect boolean
+> parameters to be passed in the form that other parts of QEMU expect,
+> i.e. "bool_arg=[on|true|yes|off|false|no]".
+>
+> Since we're still supporting "arg=arg_name", there are some assumptions
+> that I made that I think are suitable:
+>
+>     1. "arg=arg_name" will be passed to the plugin as "arg_name=on".
+>     2. "arg=on" and "arg" will not be assumed to be the old way of
+>         passing args. Instead, it will assume that the argument name is
+>         "arg" and it's a boolean parameter. (will be passed to plugin
+>         as "arg=on")
+>
+> The docs are updated accordingly and a deprecation notice is put in the
+> deprecated.rst file.
+>
+> Based-on: <20210722065428.134608-1-ma.mandourr@gmail.com>
+>
+> However, the dependency is so light and it should only be in the patch
+>
+>     docs/tcg-plugins: new passing parameters scheme for cache docs
+>
+> where it depends on
+>
+>     docs/devel/tcg-plugins: added cores arg to cache plugin
+>
+> in the aforementioned series (conflict lies in the argument "cores=N"
+> only.)
+>
+> Patches that still need review:
+>     plugins/api: added a boolean parsing plugin api
+>     docs/deprecated: deprecate passing plugin args through `arg=`
+>
 
+The patch
+    plugins/hwprofile: adapt to the new plugin arguments scheme
+was also not reviewed in the previous versions so it still needs review.
+
+
+>
+> v2 -> v3:
+>     1. Protected calling `qapi_bool_parse` by ensuring name & value are
+>     not NULL.
+>     2. Updated the docs for the hotpages plugin to include its arguments
+>     3. Typo in tests/plugins/mem (hadrr -> haddr)
+>     4. Reword the deprecation entry in deprecated.rst
+>
+> Mahmoud Mandour (13):
+>   plugins: allow plugin arguments to be passed directly
+>   plugins/api: added a boolean parsing plugin api
+>   plugins/hotpages: introduce sortby arg and parsed bool args correctly
+>   plugins/hotblocks: Added correct boolean argument parsing
+>   plugins/lockstep: make socket path not positional & parse bool arg
+>   plugins/hwprofile: adapt to the new plugin arguments scheme
+>   plugins/howvec: Adapting to the new argument passing scheme.
+>   docs/tcg-plugins: new passing parameters scheme for cache docs
+>   tests/plugins/bb: adapt to the new arg passing scheme
+>   tests/plugins/insn: made arg inline not positional and parse it as
+>     bool
+>   tests/plugins/mem: introduce "track" arg and make args not positional
+>   tests/plugins/syscalls: adhere to new arg-passing scheme
+>   docs/deprecated: deprecate passing plugin args through `arg=`
+>
+>  contrib/plugins/hotblocks.c | 14 ++++++++--
+>  contrib/plugins/hotpages.c  | 30 ++++++++++++++-------
+>  contrib/plugins/howvec.c    | 27 +++++++++++++------
+>  contrib/plugins/hwprofile.c | 39 ++++++++++++++++++---------
+>  contrib/plugins/lockstep.c  | 31 +++++++++++++++-------
+>  docs/devel/tcg-plugins.rst  | 53 ++++++++++++++++++++++++-------------
+>  docs/system/deprecated.rst  |  7 +++++
+>  include/qemu/qemu-plugin.h  | 13 +++++++++
+>  linux-user/main.c           |  2 +-
+>  plugins/api.c               |  5 ++++
+>  plugins/loader.c            | 24 ++++++++++++++---
+>  qemu-options.hx             |  9 +++----
+>  tests/plugin/bb.c           | 15 ++++++++---
+>  tests/plugin/insn.c         | 14 ++++++++--
+>  tests/plugin/mem.c          | 47 +++++++++++++++++++-------------
+>  tests/plugin/syscall.c      | 23 +++++++++++-----
+>  16 files changed, 252 insertions(+), 101 deletions(-)
+>
+> --
+> 2.25.1
+>
+>
+
+--000000000000f8ed5d05c7c69606
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 22, 2021 at 9:12 AM Mahmo=
+ud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Hello,<br>
+<br>
+This series removes passing arguments to plugins through &quot;arg=3D&quot;=
+ since<br>
+it&#39;s redundant and reduces readability especially when the argument<br>
+itself is composed of a name and a value.<br>
+<br>
+Also, passing arguments through &quot;arg=3D&quot; still works but is marke=
+d as<br>
+deprecated and will produce a deprecation warning.<br>
+<br>
+Right now, the code for parsing the argument before passing it to the<br>
+plugin is unfortunately not so clean but that&#39;s mainly because &quot;ar=
+g=3D&quot; is<br>
+still supported.<br>
+<br>
+At first, considering boolean parameters, those were not special to<br>
+plugins and QEMU did not complain about passing them in the form<br>
+&quot;arg=3Dbool_arg&quot; even though that&#39;s considered a short-form b=
+oolean, which<br>
+is deprecated. As &quot;arg&quot; is removed, a deprecation warning is issu=
+ed.<br>
+<br>
+This is mitigated by making plugins aware of boolean arguments and<br>
+parses them through a newly exposed API, namely the `qapi_bool_parse`<br>
+function through a plugin API function. Now plugins expect boolean<br>
+parameters to be passed in the form that other parts of QEMU expect,<br>
+i.e. &quot;bool_arg=3D[on|true|yes|off|false|no]&quot;.<br>
+<br>
+Since we&#39;re still supporting &quot;arg=3Darg_name&quot;, there are some=
+ assumptions<br>
+that I made that I think are suitable:<br>
+<br>
+=C2=A0 =C2=A0 1. &quot;arg=3Darg_name&quot; will be passed to the plugin as=
+ &quot;arg_name=3Don&quot;.<br>
+=C2=A0 =C2=A0 2. &quot;arg=3Don&quot; and &quot;arg&quot; will not be assum=
+ed to be the old way of<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 passing args. Instead, it will assume that the =
+argument name is<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;arg&quot; and it&#39;s a boolean paramete=
+r. (will be passed to plugin<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 as &quot;arg=3Don&quot;)<br>
+<br>
+The docs are updated accordingly and a deprecation notice is put in the<br>
+deprecated.rst file.<br>
+<br>
+Based-on: &lt;<a href=3D"mailto:20210722065428.134608-1-ma.mandourr@gmail.c=
+om" target=3D"_blank">20210722065428.134608-1-ma.mandourr@gmail.com</a>&gt;=
+<br>
+<br>
+However, the dependency is so light and it should only be in the patch<br>
+<br>
+=C2=A0 =C2=A0 docs/tcg-plugins: new passing parameters scheme for cache doc=
+s<br>
+<br>
+where it depends on<br>
+<br>
+=C2=A0 =C2=A0 docs/devel/tcg-plugins: added cores arg to cache plugin<br>
+<br>
+in the aforementioned series (conflict lies in the argument &quot;cores=3DN=
+&quot; only.)<br>
+<br>
+Patches that still need review:<br>
+=C2=A0 =C2=A0 plugins/api: added a boolean parsing plugin api<br>
+=C2=A0 =C2=A0 docs/deprecated: deprecate passing plugin args through `arg=
+=3D`<br></blockquote><div><br></div><div>The patch</div><div>=C2=A0 =C2=A0 =
+plugins/hwprofile: adapt to the new plugin arguments scheme<br></div><div>w=
+as also not reviewed in the previous versions so it still needs review.</di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+v2 -&gt; v3:<br>
+=C2=A0 =C2=A0 1. Protected calling `qapi_bool_parse` by ensuring name &amp;=
+ value are<br>
+=C2=A0 =C2=A0 not NULL.<br>
+=C2=A0 =C2=A0 2. Updated the docs for the hotpages plugin to include its ar=
+guments<br>
+=C2=A0 =C2=A0 3. Typo in tests/plugins/mem (hadrr -&gt; haddr)<br>
+=C2=A0 =C2=A0 4. Reword the deprecation entry in deprecated.rst<br>
+<br>
+Mahmoud Mandour (13):<br>
+=C2=A0 plugins: allow plugin arguments to be passed directly<br>
+=C2=A0 plugins/api: added a boolean parsing plugin api<br>
+=C2=A0 plugins/hotpages: introduce sortby arg and parsed bool args correctl=
+y<br>
+=C2=A0 plugins/hotblocks: Added correct boolean argument parsing<br>
+=C2=A0 plugins/lockstep: make socket path not positional &amp; parse bool a=
+rg<br>
+=C2=A0 plugins/hwprofile: adapt to the new plugin arguments scheme<br>
+=C2=A0 plugins/howvec: Adapting to the new argument passing scheme.<br>
+=C2=A0 docs/tcg-plugins: new passing parameters scheme for cache docs<br>
+=C2=A0 tests/plugins/bb: adapt to the new arg passing scheme<br>
+=C2=A0 tests/plugins/insn: made arg inline not positional and parse it as<b=
+r>
+=C2=A0 =C2=A0 bool<br>
+=C2=A0 tests/plugins/mem: introduce &quot;track&quot; arg and make args not=
+ positional<br>
+=C2=A0 tests/plugins/syscalls: adhere to new arg-passing scheme<br>
+=C2=A0 docs/deprecated: deprecate passing plugin args through `arg=3D`<br>
+<br>
+=C2=A0contrib/plugins/hotblocks.c | 14 ++++++++--<br>
+=C2=A0contrib/plugins/hotpages.c=C2=A0 | 30 ++++++++++++++-------<br>
+=C2=A0contrib/plugins/howvec.c=C2=A0 =C2=A0 | 27 +++++++++++++------<br>
+=C2=A0contrib/plugins/hwprofile.c | 39 ++++++++++++++++++---------<br>
+=C2=A0contrib/plugins/lockstep.c=C2=A0 | 31 +++++++++++++++-------<br>
+=C2=A0docs/devel/tcg-plugins.rst=C2=A0 | 53 ++++++++++++++++++++++++-------=
+------<br>
+=C2=A0docs/system/deprecated.rst=C2=A0 |=C2=A0 7 +++++<br>
+=C2=A0include/qemu/qemu-plugin.h=C2=A0 | 13 +++++++++<br>
+=C2=A0linux-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +=
+-<br>
+=C2=A0plugins/api.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 5 ++++<br>
+=C2=A0plugins/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 24 ++++++=
+++++++++---<br>
+=C2=A0qemu-options.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 9 +++----<br>
+=C2=A0tests/plugin/bb.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 15 ++++++=
+++---<br>
+=C2=A0tests/plugin/insn.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++--<=
+br>
+=C2=A0tests/plugin/mem.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 47 +++++++++++=
+++++++++-------------<br>
+=C2=A0tests/plugin/syscall.c=C2=A0 =C2=A0 =C2=A0 | 23 +++++++++++-----<br>
+=C2=A016 files changed, 252 insertions(+), 101 deletions(-)<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
+
+--000000000000f8ed5d05c7c69606--
 
