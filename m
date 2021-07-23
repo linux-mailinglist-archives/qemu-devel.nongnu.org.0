@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250533D38CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:35:48 +0200 (CEST)
-Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D658F3D38CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:36:14 +0200 (CEST)
+Received: from localhost ([::1]:53714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6sWx-0002za-7B
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59862)
+	id 1m6sXN-0004P4-SM
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6sR7-000322-Af
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23553)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1m6sVc-0002HC-98
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m6sR5-0002Mh-L8
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:29:45 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1m6sVa-0006AL-AI
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627036183;
+ s=mimecast20190719; t=1627036458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rDlqza9ppyMWIbKA6/N4dLr7smXxOlJzWxuJjWesUEQ=;
- b=dw3vgHVZlIh05/gMqgBf2gOjK3odg79Ni/DqZokXsFYc+/SjjZ3PjV2Tp2wtmoFycKQYOx
- nUuvoWOdGfrxMRLB5lC089j0q5a7gx57fWKQHyp3Wpq0d/sLYPmsufAUPNwte8AhD4VkcS
- PCmDmymjIx2W4KTZKai62Ur4xRXuYTE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+3CdpMpZCj2aot57fDyAqbE/uCnADmSUIvscaRiL/5M=;
+ b=JaRGORtdFfKJyxFZFRYEN1a4AoEYvGqgQxbTTJwaNSqouyhrVu57Oby62fwHXpYxScWi+q
+ zn2CqP96N8gHJqwoUj4A5+j8yR+i/wfYcgIP2pIbWqYEc87ARm0McB84TVao4rW92Xs5CT
+ tYAthSEwwbA1kraV/o0mlN/rRH94lIY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-jGrnw9pYPiOEH0GUAVeERg-1; Fri, 23 Jul 2021 06:29:41 -0400
-X-MC-Unique: jGrnw9pYPiOEH0GUAVeERg-1
+ us-mta-586-g3YTNLbiNiKLL0ZeZRH8NQ-1; Fri, 23 Jul 2021 06:34:16 -0400
+X-MC-Unique: g3YTNLbiNiKLL0ZeZRH8NQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4D8A10804D4
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:29:22 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86F1D5C1D5;
- Fri, 23 Jul 2021 10:29:21 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] chardev: add some comments about the class methods
-Date: Fri, 23 Jul 2021 14:28:25 +0400
-Message-Id: <20210723102825.1790112-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
-References: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F04D184E165;
+ Fri, 23 Jul 2021 10:34:15 +0000 (UTC)
+Received: from devr9.home.annexia.org (ovpn-114-133.ams2.redhat.com
+ [10.36.114.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D00FB5C1D5;
+ Fri, 23 Jul 2021 10:34:13 +0000 (UTC)
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: eblake@redhat.com
+Subject: [PATCH v2] nbd/server: Add --selinux-label option
+Date: Fri, 23 Jul 2021 11:33:02 +0100
+Message-Id: <20210723103303.1731437-1-rjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -79,81 +74,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- berrange@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+v1 was here:
+https://lists.nongnu.org/archive/html/qemu-block/2021-07/threads.html#00713
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- include/chardev/char.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+v2 adds the changes to CI docker files as suggested by
+Dan Berrange in his review.
 
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 589e7fe46d..2e4c16f82f 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -254,24 +254,57 @@ struct ChardevClass {
- 
-     bool internal; /* TODO: eventually use TYPE_USER_CREATABLE */
-     bool supports_yank;
-+
-+    /* parse command line options and populate QAPI @backend */
-     void (*parse)(QemuOpts *opts, ChardevBackend *backend, Error **errp);
- 
-+    /* called after construction, open/starts the backend */
-     void (*open)(Chardev *chr, ChardevBackend *backend,
-                  bool *be_opened, Error **errp);
- 
-+    /* write buf to the backend */
-     int (*chr_write)(Chardev *s, const uint8_t *buf, int len);
-+
-+    /*
-+     * Read from the backend (blocking). A typical front-end will instead rely
-+     * on char_can_read/chr_read being called when polling/looping.
-+     */
-     int (*chr_sync_read)(Chardev *s, const uint8_t *buf, int len);
-+
-+    /* create a watch on the backend */
-     GSource *(*chr_add_watch)(Chardev *s, GIOCondition cond);
-+
-+    /* update the backend internal sources */
-     void (*chr_update_read_handler)(Chardev *s);
-+
-+    /* send an ioctl to the backend */
-     int (*chr_ioctl)(Chardev *s, int cmd, void *arg);
-+
-+    /* get ancillary-received fds during last read */
-     int (*get_msgfds)(Chardev *s, int* fds, int num);
-+
-+    /* set ancillary fds to be sent with next write */
-     int (*set_msgfds)(Chardev *s, int *fds, int num);
-+
-+    /* accept the given fd */
-     int (*chr_add_client)(Chardev *chr, int fd);
-+
-+    /* wait for a connection */
-     int (*chr_wait_connected)(Chardev *chr, Error **errp);
-+
-+    /* disconnect a connection */
-     void (*chr_disconnect)(Chardev *chr);
-+
-+    /* called by frontend when it can read */
-     void (*chr_accept_input)(Chardev *chr);
-+
-+    /* set terminal echo */
-     void (*chr_set_echo)(Chardev *chr, bool echo);
-+
-+    /* notify the backend of frontend open state */
-     void (*chr_set_fe_open)(Chardev *chr, int fe_open);
-+
-+    /* handle various events */
-     void (*chr_be_event)(Chardev *s, QEMUChrEvent event);
- };
- 
--- 
-2.32.0.264.g75ae10bc75
+Rich.
+
 
 
