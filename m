@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38F23D35BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 09:52:16 +0200 (CEST)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20493D35BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 09:54:28 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6pyh-0008Oi-R7
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 03:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
+	id 1m6q0p-0001kB-QT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 03:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6pwx-0007HB-ED
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 03:50:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35254)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m6pzk-0000rk-9f
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 03:53:20 -0400
+Received: from 5.mo52.mail-out.ovh.net ([188.165.45.220]:42438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6pws-0001P9-VL
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 03:50:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627026622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HbGkJXD/fNICnlay3/xcrHhiq5jqGyc9cZ+9+PiImYk=;
- b=FrBTOeubrQ8sB+qOPgeRDlmHpKEfmHRIbyURX5Rq/Gy39TZr03PF1uvr+Vy5lo8f+FVhII
- VGfoCP6BSEu4/mZq/UEWszLCcu4fMPdYudcbxzerfHQt76JOMhwEMUUZSAsltQG66wy/hb
- eosbjRaYl23zE7U1iGwCObcznhpi2Tg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-_j8C5GYYPGWlKgB37YTwMA-1; Fri, 23 Jul 2021 03:50:21 -0400
-X-MC-Unique: _j8C5GYYPGWlKgB37YTwMA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f10-20020a7bcc0a0000b0290229a389ceb2so1146423wmh.0
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 00:50:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=HbGkJXD/fNICnlay3/xcrHhiq5jqGyc9cZ+9+PiImYk=;
- b=RECXzIr4ydqNX2n07O4AA8ohpI/sKKGwxBhdTglDiE0xm/GDeVA0dK+c0xMvDPi0lL
- m2fCDzO+R/v/GBZ9997E/agT/M5NNhDTIpru7BNO3zpmfoMhBPKGmeMXRkfP1hl1rafn
- 5gA0CiwShT2+fSl6b83keqcUzqEAv/KSB+Ioaha5KPbwgCoAiheXPC/LiG+Xq1CPPBdN
- 8aoDzv3XiUlneaNkDmYoeN35brq9FxukWsF0IpsKs1nSHUg+P2rcXef2vYvwAKpZtA2a
- UUTFHjvpisxNmc0Qm+eQ1n+zaKvTJtrSsm8gew7t4FYZapzc0Yl8eplr5FfpOEmKKakE
- faQA==
-X-Gm-Message-State: AOAM530l/3EavT1c5fhmGYYZeg6LF0yGTGYz9h8FvoMZb2w58grqh6ii
- LX0SJE5Zovja5mCda/9oxQiRmX9jmMZkH55I2FLgy0VPspFoxoJ1NfpdqX+uB0dhsVkq1ZNlo69
- mST24BrxLnhL+PFw=
-X-Received: by 2002:adf:ea4c:: with SMTP id j12mr3782565wrn.138.1627026619995; 
- Fri, 23 Jul 2021 00:50:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrjlGKK6fgveqv6hoGzUEBJ/rroHBObMl7UPqH4+IhQNalhDvPYEWMOk2v8RH/1OqOqogDWQ==
-X-Received: by 2002:adf:ea4c:: with SMTP id j12mr3782548wrn.138.1627026619791; 
- Fri, 23 Jul 2021 00:50:19 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c676e.dip0.t-ipconnect.de. [91.12.103.110])
- by smtp.gmail.com with ESMTPSA id u2sm26149881wmc.42.2021.07.23.00.50.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 00:50:19 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>
-References: <20210722083055.23352-1-wei.w.wang@intel.com>
- <0faf5f01-399f-621f-431e-d35b3e87b9ff@redhat.com>
- <b39f279ef6634325ab2be8d903e41001@intel.com> <YPmF1BAHA059yYln@t490s>
- <ab4a5e1e-ed7f-5b4b-88e6-d4c56ed5a256@redhat.com> <YPmt3vrn5MfH6I13@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3] migration: clear the memory region dirty bitmap when
- skipping free pages
-Message-ID: <087670b0-d28c-7f3d-caf4-f37acf8f7d7e@redhat.com>
-Date: Fri, 23 Jul 2021 09:50:18 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m6pzh-0003ho-VL
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 03:53:20 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.102])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 12E2328C6C2;
+ Fri, 23 Jul 2021 09:53:05 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 23 Jul
+ 2021 09:53:05 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006c29741a4-1e0a-43c9-9ff8-06f7504ebb55,
+ CCFD3B4E31AF20DD7D8BEE14B896D6F8BB7C2A05) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH] misc/pca9552: Fix LED status register indexing in
+ pca955x_get_led()
+To: Andrew Jeffery <andrew@aj.id.au>
+References: <20210723043624.348158-1-andrew@aj.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <b7ab107a-1dd2-bc77-c1e7-7cea625cdb95@kaod.org>
+Date: Fri, 23 Jul 2021 09:53:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPmt3vrn5MfH6I13@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210723043624.348158-1-andrew@aj.id.au>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 8b652633-3b89-4d64-992c-c23b9be89062
+X-Ovh-Tracer-Id: 8458041576511474595
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrfeejgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegrnhgurhgvfiesrghjrdhiugdrrghu
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo52.mail-out.ovh.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,107 +70,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wang, Wei W" <wei.w.wang@intel.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, joel@jms.id.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.07.21 19:41, Peter Xu wrote:
-> On Thu, Jul 22, 2021 at 04:51:48PM +0200, David Hildenbrand wrote:
->> I'll give it a churn.
+On 7/23/21 6:36 AM, Andrew Jeffery wrote:
+> There was a bit of a thinko in the state calculation where every odd pin
+> in was reported in e.g. "pwm0" mode rather than "off". This was the
+> result of an incorrect bit shift for the 2-bit field representing each
+> LED state.
 > 
-> Thanks, David.
-> 
+> Fixes: a90d8f84674d ("misc/pca9552: Add qom set and get")
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-Migration of a 8 GiB VM
-* within the same host
-* after Linux is up and idle
-* free page hinting enabled
-* after dirtying most VM memory using memhog
-* keeping bandwidth set to QEMU defaults
-* On my 16 GiB notebook with other stuff running
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
+I don't think we need this fix for 6.1 since it has been there since 
+January 2020. Tell me otherwise.
 
-Current upstream with 63268c4970a, without this patch:
-
-total time: 28606 ms
-downtime: 33 ms
-setup: 3 ms
-transferred ram: 3722913 kbytes
-throughput: 1066.37 mbps
-remaining ram: 0 kbytes
-total ram: 8389384 kbytes
-duplicate: 21674 pages
-skipped: 0 pages
-normal: 928866 pages
-normal bytes: 3715464 kbytes
-dirty sync count: 5
-pages-per-second: 32710
-
-Current upstream without 63268c4970a, without this patch:
-
-total time: 28530 ms
-downtime: 277 ms
-setup: 4 ms
-transferred ram: 3726266 kbytes
-throughput: 1070.21 mbps
-remaining ram: 0 kbytes
-total ram: 8389384 kbytes
-duplicate: 21890 pages
-skipped: 0 pages
-normal: 929702 pages
-normal bytes: 3718808 kbytes
-dirty sync count: 5
-pages-per-second: 32710
-
-
-Current upstream without 63268c4970a, with this patch:
-
-total time: 5115 ms
-downtime: 37 ms
-setup: 5 ms
-transferred ram: 659532 kbytes
-throughput: 1057.94 mbps
-remaining ram: 0 kbytes
-total ram: 8389384 kbytes
-duplicate: 20748 pages
-skipped: 0 pages
-normal: 164516 pages
-normal bytes: 658064 kbytes
-dirty sync count: 4
-pages-per-second: 32710
-
-
-Current upstream with 63268c4970a, with this patch:
-
-total time: 5205 ms
-downtime: 45 ms
-setup: 3 ms
-transferred ram: 659636 kbytes
-throughput: 1039.39 mbps
-remaining ram: 0 kbytes
-total ram: 8389384 kbytes
-duplicate: 20264 pages
-skipped: 0 pages
-normal: 164543 pages
-normal bytes: 658172 kbytes
-dirty sync count: 4
-pages-per-second: 32710
-
-
-
-I repeated the last two measurements two times and took the "better" 
-results.
-
-Looks like this patch does it job and that 63268c4970a doesn't seem to 
-degrade migration in this combination/setup significantly (if at all, we 
-would have to do more measurements).
-
--- 
 Thanks,
 
-David / dhildenb
+C.
+
+> ---
+>  hw/misc/pca9552.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+> index b7686e27d7fa..fff19e369a39 100644
+> --- a/hw/misc/pca9552.c
+> +++ b/hw/misc/pca9552.c
+> @@ -272,7 +272,7 @@ static void pca955x_get_led(Object *obj, Visitor *v, const char *name,
+>       * reading the INPUTx reg
+>       */
+>      reg = PCA9552_LS0 + led / 4;
+> -    state = (pca955x_read(s, reg) >> (led % 8)) & 0x3;
+> +    state = (pca955x_read(s, reg) >> ((led % 4) * 2)) & 0x3;
+>      visit_type_str(v, name, (char **)&led_state[state], errp);
+>  }
+>  
+> 
 
 
