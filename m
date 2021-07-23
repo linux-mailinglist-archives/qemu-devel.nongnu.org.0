@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B201D3D392E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:10:28 +0200 (CEST)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA6D3D3930
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:10:34 +0200 (CEST)
+Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6t4V-00021x-NU
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37540)
+	id 1m6t4b-0002H9-1M
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2O-0008Kg-C5
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48141)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2S-0008UL-NX
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2M-00010r-QK
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2R-00014q-9h
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627038494;
+ s=mimecast20190719; t=1627038498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v8MzHpNZAnKpENgpYi7cnpOvXuv0pKcpWhVnCTIEAsU=;
- b=OyAGK3sd2uw7bWmckZFNXj8q1/J0Zf5wO/n6oyy+W4ebh7ayyNrrs0jtttOI09sBGbai36
- JUFErG0E9tLGog1D7Ncv249Ww6NQ0U2WvugPxBDricJREhsDGhvit04DyLCiQyn26XNaqE
- cnshmoGv+7T7vjc/nvBaK/UFSxVhetQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-wszEulpCOSmQUs-uYTuHVQ-1; Fri, 23 Jul 2021 07:08:13 -0400
-X-MC-Unique: wszEulpCOSmQUs-uYTuHVQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u11-20020a5d434b0000b029013e2027cf9aso859379wrr.9
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:08:13 -0700 (PDT)
+ bh=XidfJlF9uLw0ONlJoTjRYGZYc29iEXG+CBqqwyBgpGk=;
+ b=H26cPRA2T9rYZv0qxcfkmkssvWgnOiP5ZBj1wrWExX+29DcOFlYptvN3J7C1Nga2RWWY48
+ ewElNWPqtlMEGv3ePyBNP98xjpF8Cs1PI7lyWpNd8q10gj1AzeOmvnuiiRHtYBHwua6DfM
+ fZaCMu3fIF0fAf6v1A0mAbB0TBtL6Aw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-SedXIzv7M76sCl5MK_DsXQ-1; Fri, 23 Jul 2021 07:08:17 -0400
+X-MC-Unique: SedXIzv7M76sCl5MK_DsXQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p12-20020a5d68cc0000b02901426384855aso856773wrw.11
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:08:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v8MzHpNZAnKpENgpYi7cnpOvXuv0pKcpWhVnCTIEAsU=;
- b=Mg9bnMiW8g6aPOogjTQJBquvZviCUaCVcdmk69JxRvrsnEIaUPUObd1x+nxy3uVWcD
- hW9Ks9F4lDJoUFG9Qy4nPI2jhEN/LG1P5T43WpE5gpeN/3SB9JEzo8r0VnFXKOB5EYzH
- uM63wpUMj8Cw53+jxdOW+oy/no0L1uAaoljGYPZpd3+rcWZIbWtci4iNEXQsuPh5j/i3
- gI7zfa0XGT1HV1Epu/Nsd9DgiCMUHZC53t3kG3wAixjNIQ9rzNJgneBz3X6cq/DKQJaF
- UEvDk0TkLbDmeJaUtJ0g2NqK6vWDFVGgvWjt4Qt6KZjo7nlaeXPQ57KvjdHriONo4Z7A
- dckw==
-X-Gm-Message-State: AOAM533o8i67pxHbTExNUqw5kIAPN/HpJMi6FsDkIUK1H20si7/16eUm
- Jk7yjlCws5G5cbeLG0I8rLsn7tBOEggsZ6VA4ymTjDl7PzRGvRWGW0qTewEIDOCYqvyxpc8RLE1
- w/asj+yrwN4IBD5FgUdiVWQNIClMSChZ6zUz5qAXo9X+YmYzsrRb2QE1t0Q4J7Y1j
-X-Received: by 2002:a5d:4010:: with SMTP id n16mr4703110wrp.142.1627038491958; 
- Fri, 23 Jul 2021 04:08:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyzxjfYrFb6YXdKI3FuaKZZGzKz5awc0OnzJj5PlESIoVPcV1ZPhyUj/nONmLtDglRp+09MA==
-X-Received: by 2002:a5d:4010:: with SMTP id n16mr4703072wrp.142.1627038491670; 
- Fri, 23 Jul 2021 04:08:11 -0700 (PDT)
+ bh=XidfJlF9uLw0ONlJoTjRYGZYc29iEXG+CBqqwyBgpGk=;
+ b=I4/dN9LCbdwUD9tv9p0iJ2KoU4oQ2PJ27b0rerK+EAOFMA3d20LtCh+1hW4yHaeMi7
+ mzvxtcoqrms6WLNNbeDgqHPT6Ov+am16AMmBgV6JaI+r8WIAS9SAtV+L/bedq9fcq28y
+ 2T8zQ4rQK7sC0xkjQ3I9dSB0ZiGsLbUua5PzdfRV3PqXtHcA5vT6LF3touJmZjUfeoCl
+ HVrNdYJX9obE8CzLV8YZ4xmPx4HKxl6mmOm/J2mVQPNn+c8d/tza1bUryhFoEwoodogF
+ 8+zRmsqzw4ajoujxB/xcZYMggux1uJls17hEXq2Ucw9Vczcwu074vk0cMO4wKeJUuCJV
+ ZyQQ==
+X-Gm-Message-State: AOAM5312Zh5VnhzMosxHNpeq7NJt9XclTmV0FE3H2hq2OH4EBVMC1qau
+ lOCHk6W64RuBS6g454Db6WN/hu7DFKEAF1d9ROqDQ5LLdg/gQJ96x9ub7aG0mJ9ilZ00dxlGhS7
+ Ztfayjp0rbotGZa5sIvbQj4gZi+o/TU0+IOFZWfnDvkn3i4YlMXAwcCewyGHIEouJ
+X-Received: by 2002:a1c:1dcf:: with SMTP id d198mr243047wmd.103.1627038496383; 
+ Fri, 23 Jul 2021 04:08:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyev2IvkcNXfbbBaa+H25DPErEH/dkOuryws+ARsaH/OFnHtfOHxpbWWxNt84luxEZ2GYPKww==
+X-Received: by 2002:a1c:1dcf:: with SMTP id d198mr243018wmd.103.1627038496162; 
+ Fri, 23 Jul 2021 04:08:16 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- d203sm179149wmd.38.2021.07.23.04.08.10
+ a10sm32157785wrm.12.2021.07.23.04.08.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 04:08:11 -0700 (PDT)
+ Fri, 23 Jul 2021 04:08:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 v3 2/4] gitlab-ci: Fix 'when:' condition in
- acceptance_test_job_template
-Date: Fri, 23 Jul 2021 13:07:58 +0200
-Message-Id: <20210723110800.855648-3-philmd@redhat.com>
+Subject: [PATCH-for-6.1 v3 3/4] gitlab-ci: Fix 'when:' condition in EDK2 jobs
+Date: Fri, 23 Jul 2021 13:07:59 +0200
+Message-Id: <20210723110800.855648-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723110800.855648-1-philmd@redhat.com>
 References: <20210723110800.855648-1-philmd@redhat.com>
@@ -74,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -110,29 +109,32 @@ condition, because if a dependency failed we should not keep
 running jobs depending on it. The correct condition is
 'when: on_success'.
 
-Fixes: f56bf4caf71 ("gitlab: Run Avocado tests manually (except mainstream CI)")
+Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries")
 Reported-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/buildtest-template.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .gitlab-ci.d/edk2.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 3e3e19d96bd..fcbcc4e627a 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -73,9 +73,9 @@
-     # in its namespace setting or via git-push option, see documentation
-     # in /.gitlab-ci.yml of this repository).
-     - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
--      when: always
-+      when: on_success
-     - if: '$QEMU_CI_AVOCADO_TESTING'
--      when: always
-+      when: on_success
-     # Otherwise, set to manual (the jobs are created but not run).
-     - when: manual
-       allow_failure: true
+diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+index aae2f7ad880..62497ba47fb 100644
+--- a/.gitlab-ci.d/edk2.yml
++++ b/.gitlab-ci.d/edk2.yml
+@@ -8,11 +8,11 @@
+    - .gitlab-ci.d/edk2/Dockerfile
+    # or roms/edk2/ is modified (submodule updated)
+    - roms/edk2/*
+-   when: always
++   when: on_success
+  - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
+-   when: always
++   when: on_success
+  - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
+-   when: always
++   when: on_success
+ 
+ docker-edk2:
+  extends: .edk2_job_rules
 -- 
 2.31.1
 
