@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81313D40E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 21:36:50 +0200 (CEST)
-Received: from localhost ([::1]:33572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DAA3D40E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 21:36:52 +0200 (CEST)
+Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m70yX-0000lc-Lt
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 15:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
+	id 1m70yZ-0000sy-5F
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 15:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wo-0006O6-3H
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:35:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48975)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wn-0006NC-Fw
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:35:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wm-0002QU-JG
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m70wm-0002Q8-2g
  for qemu-devel@nongnu.org; Fri, 23 Jul 2021 15:35:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627068900;
+ s=mimecast20190719; t=1627068899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g6S0/tR0WMas8i+0FqgBbnpbGUceg0X5GOSPvU0OplU=;
- b=OtgZvFf8XKu42y1k2b0LqjIKQYuY35SNuvZoU4l27Yr7QTN6SPxQPfjKzsnl2fcfHuQEmQ
- zH3ggpd+1R1g1tj9y9jCAMHWLlGINYoVTmoBPEHmZXyFOkcRH6qsOQFk2jW9XFlJ8g7M+G
- D7WA8WabTY2JnqF2dU1JMsWiu1uhmMw=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-I_gMe9HWO3upq10_j3LUXQ-1; Fri, 23 Jul 2021 15:34:57 -0400
-X-MC-Unique: I_gMe9HWO3upq10_j3LUXQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- gm10-20020a056214268ab02902eaed054a57so2408925qvb.15
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 12:34:57 -0700 (PDT)
+ bh=jDJuGytz2IzGkl27XsjXnAQtzsd9r+txZlchoEebT5o=;
+ b=PmWI3Oj8qU15PuGMQ1yXynYl2Ysrv80hQ+MM/4pCU3ix39vq3Hp0WcbUUsVgZxvBzWLqjC
+ Pj8clxUI0C6txzj2OibjJHza9/RL6RGw7A8fXXJcvq3Fq35xv/h0+Y255/QAq5eI0CZnly
+ FrUB+/BCs+2Vu1jbQHjpjeIPmn3aSFY=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-57faYHM_MBOG1wpYtjscRQ-1; Fri, 23 Jul 2021 15:34:58 -0400
+X-MC-Unique: 57faYHM_MBOG1wpYtjscRQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ h5-20020a05620a0525b02903b861bec838so1920834qkh.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 12:34:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g6S0/tR0WMas8i+0FqgBbnpbGUceg0X5GOSPvU0OplU=;
- b=H7WBgDwjflz+dCshTOqOqn8yNZruEjhr0FoMn4WbjOyo1uWT98WQEe+dRzFQpAbbpl
- VrvNtoGcY98LI46/uwESGNtveEdcl99aM5X745Zf+RLvcUcDzPTWX3JdwJuoyvept0Ul
- w3VkjgkpZsd85vVetbtWMsl7K5CCLupCarUkvIr3DpI9L4wgxkazCfAKiSvPBee/w745
- uDTnw+K0tUlJ9gye01ZijWJiAPuq1fONe9dXXBIAeE5/gSs9s6R+TKzTUypDIhxjWLWD
- KMRvoBGXW+RzkeBljq9n6qeEGoEcmfV25NL2fjS7ci+Klmth9tbMs4Lf+bdMWKUuG1Kk
- 3VAQ==
-X-Gm-Message-State: AOAM5323s5KXJ0k7+vsE7jGayap6l019o9Lv+ecKThpLBb/CUUYtf8XK
- IsBHrNzhsQow2mKl7obCqivwBtzBF96WPlVqu+3gvn+rR9l1LgRR4neb7jb7zaGVwXGypGVBpg4
- aXI/9uxib/8n7N/9fmirVmpQ8iY87J+Q6kZh7NWtaxCSOtX1e9LMxw12M/YDJ9/sv
-X-Received: by 2002:a05:622a:54e:: with SMTP id
- m14mr5339545qtx.74.1627068896268; 
- Fri, 23 Jul 2021 12:34:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOeO7kYn5EQqrIOVXeXxU0dTmjJmttRBnf4OW4ka4eTc/C1wvtHuAt+YlheW18hqOdTqKuRA==
-X-Received: by 2002:a05:622a:54e:: with SMTP id
- m14mr5339523qtx.74.1627068895967; 
- Fri, 23 Jul 2021 12:34:55 -0700 (PDT)
+ bh=jDJuGytz2IzGkl27XsjXnAQtzsd9r+txZlchoEebT5o=;
+ b=eUMN8iuMmknoEFAGTcbDTQf6jp/+3FaH4VFO+D1V8WK/cJu75a0Oerc0djetoZ4C/0
+ A+QYhcKylhOsGboh6dARoNmkAHFVDHQdzgba/4Lhs9KlRIf12k5LAEwAuVZgVOGiL4MK
+ fooSBe+koelWwPq0SzWQXvAya8og7FH/HMqGdlh4e1TTrROhLch89PFGfMEQctKC/9qg
+ GV8wouXZeqk9oDY6Lo+PtwhGCABMUbHA5oMyXIDMNYFOfCWRCkodgNSCMdkSbe/gb4zL
+ mvhMIY73u5WOue72y4cfaocQfmeJ76rLYovup9YGGG3s0OSg06PvETNuB8n5IzvtUBVV
+ j7Vw==
+X-Gm-Message-State: AOAM532/8JsUv6mbWHfwMvcmfNk44EsqrtpARNy9RX4qXWstFOd6Tzsi
+ SkV9g6jYe1aWHabuc7ufeT7EpS6ha7YROQkImP3N3R8giMjW0ucoO9Fsqy125rKO5AJD4LyIYx+
+ ssyt7ghxVNXVUWL6Uq+XUW1VN3WopXCzLDCQrTWBGrTDq6olMBqgQ1FFdU63sTMmT
+X-Received: by 2002:ac8:7ed9:: with SMTP id x25mr5391221qtj.202.1627068897655; 
+ Fri, 23 Jul 2021 12:34:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7uOpMFIgPmsLxTiFcubEW0MZm704OjA8gxpe4J0a2XHJDZ9pgaL7+fa9y7WJXni0JZgikxw==
+X-Received: by 2002:ac8:7ed9:: with SMTP id x25mr5391201qtj.202.1627068897386; 
+ Fri, 23 Jul 2021 12:34:57 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id o2sm12659104qkm.109.2021.07.23.12.34.54
+ by smtp.gmail.com with ESMTPSA id o2sm12659104qkm.109.2021.07.23.12.34.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 12:34:55 -0700 (PDT)
+ Fri, 23 Jul 2021 12:34:56 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/9] memory: Don't do topology update in memory finalize()
-Date: Fri, 23 Jul 2021 15:34:39 -0400
-Message-Id: <20210723193444.133412-5-peterx@redhat.com>
+Subject: [PATCH v2 5/9] cpus: Use qemu_cond_wait_iothread() where proper
+Date: Fri, 23 Jul 2021 15:34:40 -0400
+Message-Id: <20210723193444.133412-6-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723193444.133412-1-peterx@redhat.com>
 References: <20210723193444.133412-1-peterx@redhat.com>
@@ -101,67 +99,45 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Topology update could be wrongly triggered in memory region finalize() if
-there's bug somewhere else.  It'll be a very confusing stack when it
-happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
-only until it fails!).
+The helper is introduced but we've still got plenty of places that are directly
+referencing the qemu_global_mutex itself.  Spread the usage.
 
-Instead of that, we use the push()/pop() helper to avoid memory transaction
-commit, at the same time we use assertions to make sure there's no pending
-updates or it's a nested transaction, so it could fail even earlier and in a
-more explicit way.
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/memory.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ softmmu/cpus.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 1a3e9ff8ad..dfce4a2bda 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
-     EventNotifier *e;
- };
- 
-+/* Returns whether there's any pending memory updates */
-+static bool memory_region_has_pending_update(void)
-+{
-+    return memory_region_update_pending || ioeventfd_update_pending;
-+}
-+
- static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
-                                            MemoryRegionIoeventfd *b)
- {
-@@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
-      * and cause an infinite loop.
-      */
-     mr->enabled = false;
--    memory_region_transaction_begin();
-+
-+    /*
-+     * Use push()/pop() instead of begin()/commit() to make sure below block
-+     * won't trigger any topology update (which should never happen, but it's
-+     * still a safety belt).
-+     */
-+    memory_region_transaction_push();
-     while (!QTAILQ_EMPTY(&mr->subregions)) {
-         MemoryRegion *subregion = QTAILQ_FIRST(&mr->subregions);
-         memory_region_del_subregion(mr, subregion);
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 52adc98d39..94c2804192 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -442,7 +442,7 @@ void qemu_wait_io_event(CPUState *cpu)
+             slept = true;
+             qemu_plugin_vcpu_idle_cb(cpu);
+         }
+-        qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(cpu->halt_cond);
      }
--    memory_region_transaction_commit();
-+    memory_region_transaction_pop();
-+
-+    /*
-+     * Make sure we're either in a nested transaction or there must have no
-+     * pending updates due to memory_region_del_subregion() above.
-+     */
-+    assert(memory_region_transaction_depth ||
-+           !memory_region_has_pending_update());
+     if (slept) {
+         qemu_plugin_vcpu_resume_cb(cpu);
+@@ -585,7 +585,7 @@ void pause_all_vcpus(void)
+     replay_mutex_unlock();
  
-     mr->destructor(mr);
-     memory_region_clear_coalescing(mr);
+     while (!all_vcpus_paused()) {
+-        qemu_cond_wait(&qemu_pause_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(&qemu_pause_cond);
+         CPU_FOREACH(cpu) {
+             qemu_cpu_kick(cpu);
+         }
+@@ -656,7 +656,7 @@ void qemu_init_vcpu(CPUState *cpu)
+     cpus_accel->create_vcpu_thread(cpu);
+ 
+     while (!cpu->created) {
+-        qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(&qemu_cpu_cond);
+     }
+ }
+ 
 -- 
 2.31.1
 
