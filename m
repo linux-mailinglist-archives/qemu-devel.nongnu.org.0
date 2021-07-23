@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8F73D33F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 07:14:46 +0200 (CEST)
-Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C303D33F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 07:14:57 +0200 (CEST)
+Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6nWH-0007pS-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 01:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36270)
+	id 1m6nWS-00005e-IK
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 01:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6nUb-000629-R2
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:01 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46071)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m6nV6-0006YH-TA
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:32 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:46035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6nUa-0005AK-4a
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:01 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- j17-20020a17090aeb11b029017613554465so2239631pjz.4
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 22:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=N3PHkCrd8XCqkd/IGMAYs0REJxMcjsCFgqFy2cmHVL8=;
- b=Fp/IRoUDR3ZydjZgM0qib0Qnhr4rgVlB3clTuSySlz/jB6TzC2Lw20V+CzvaYFgRjb
- YLOoaShdkgvjvIW8RHU+zA3R92xujYeKtm6BDWWtRdlgf3Y8WvWXa2/knghRype5IGgK
- nxA8+oJdxnEoiDpM6dX9OeF5W9FO7CGlASZMeceZIMBOTgu2CQmiy9OWvOR8TGXU3cTW
- saxnFxL2J8tBz0msY5eFLxElOBuZw24r4ij85zW4+zDDVW0+LsWog9Gqp9UpNCi4o2lK
- ZUzFLQx/6MhoNi1ES98zdhbB/fvDrvxrhgxQQdFruHm+xX2hXZrvYC1rBqRGYmuPDHL/
- GNEA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m6nV5-0005dz-8c
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 01:13:32 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id l126so1080616ioa.12
+ for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 22:13:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ODLscsVz3K/04SxjEinY/EQOuk/llEQ9IB6Jru5phiQ=;
+ b=HhDc4210nYVmmevU7KjHZ2KcvtsNEcWjo8vbNFL72As/o/Xmi2qfqGZEFxBl1KGK1Y
+ 8FgVpLDjxcbbYPRNM+tXVQa2kYqfAEqb5vVPBPaf7qD4wZnMOcU4CPgt7FfZJmiKvyie
+ 7UBgyPWQ6pP7OHpTXeMi0u7QrSx0NIe/xNF3ZuKVSKLu7JMimHuR/X5klc8xE347eHxU
+ rutqXvZ8wRZnA7px06nLh0q+Y9kXg3FDH3gLp6ML57/14HQGEfP5ZIVo9jlLM0HYY4wG
+ rr1s6dw+t5WqUoPUgNoD2dNzTQhUQqQWSBsAbxt+qNwZo/vY2R++slzLaPxFlxiqPB2O
+ ZA6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=N3PHkCrd8XCqkd/IGMAYs0REJxMcjsCFgqFy2cmHVL8=;
- b=C9ozgA9hzywWYv7Zv/nA9yufbN9/HJkdO8MtjQ6KWpym+DL5H+FE6YRd3QPt5q9lFw
- BIffXEpWlQ2eGlvpQytujRpXx+62InDfFOKo5bLbZ3+yd/Nzp+UTGrKbykwop54uuupS
- imF/UIFODhM8z+jV97i46Zo3CYg7KwmHi7o608EE4K5URGunRkQE6qV5wP6bG3yhfBJ8
- p1HZ1SaBUg2sjDqdvagQdF9FjxkURjKW5oAm1CjdjNkX4j6MlnauNeIMW7JlrqAL8amM
- Dm/PBCXQlXxpBLe9QM5K7CBi3BKztsvKHHV43W1gapMlvb8rW+ruNK22pEoVF2msZ4Dq
- QN/g==
-X-Gm-Message-State: AOAM533mLYfMGA+WGTWDwikfmi/Osw602FzUkfME0DJaXQZJL+D0o1V8
- +XmqXNL3I+Cs+ogRDON+quKMDA==
-X-Google-Smtp-Source: ABdhPJytMLt1rFNOGSYxcRhLynGBLSzHiB8YfNGlDCt848KofkwhHWD94ayFd9UGUUgAhR+D/g8Wyw==
-X-Received: by 2002:a63:e350:: with SMTP id o16mr3335507pgj.98.1627017178327; 
- Thu, 22 Jul 2021 22:12:58 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id v25sm31491042pfm.202.2021.07.22.22.12.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 22:12:57 -0700 (PDT)
-Subject: Re: [PATCH v2 12/22] target/loongarch: Add fixed point extra
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
-Date: Thu, 22 Jul 2021 19:12:54 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ODLscsVz3K/04SxjEinY/EQOuk/llEQ9IB6Jru5phiQ=;
+ b=Cr4km++6mxO4gjC8E1bOEVUID2pXrCHtCnOitMQXk9InzP938/iqIjOUJtflt/xCSb
+ A3DgqvY1F9DbVZQCkKYmeMhEO5JuoZLGRiobR3qoLzA8+d6ZYYAaRJcPFUk/2aFSR7gU
+ SVx7yoTUdTSmTzQwiYuuUUVDUYqhtWWAT+h9oEppclq+Te5D5H9aneCx8ylexN6hzfhW
+ ClB1qwqn5rDuIuilhlCJYCg+U0Xsbl0aIxAC0ukxKuSD8qHNmUraxBTvgvHUGJEYbs7q
+ RVFUOUUmmkyd2SUCQnt+1NT7mdwf928BiNiJK6x8rzVL2vtSAqrGHnLWnFJZdIIBEZdj
+ FPgQ==
+X-Gm-Message-State: AOAM530YCk84AgfhaOD+KX1iMcSHFd8ixwBROtHmgsYYT1TP78Txn85/
+ S4V0YCBG2+Jh4EC6yexlulxoZtCmvi4HRwfTc0c=
+X-Google-Smtp-Source: ABdhPJwV3bd35xd9jhTqPERQ4vKLtOkvS28nGhgbEn1prtmspHqbEP2p6Vc7bxdyv+1NEFUkOjSTeVrqvnDLg/HU1Qw=
+X-Received: by 2002:a6b:7905:: with SMTP id i5mr2629119iop.175.1627017210111; 
+ Thu, 22 Jul 2021 22:13:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
+References: <1626805903-162860-1-git-send-email-joe.komlodi@xilinx.com>
+In-Reply-To: <1626805903-162860-1-git-send-email-joe.komlodi@xilinx.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Jul 2021 15:13:04 +1000
+Message-ID: <CAKmqyKMzKC84wF+xx31rTHiUs=QhKt3aDZq2VCEkyyNHS9zChw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Add more 64-bit utilities
+To: Joe Komlodi <joe.komlodi@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,111 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, laurent@vivier.eu,
- maobibo@loongson.cn, alistair.francis@wdc.com, pbonzini@redhat.com,
- alex.bennee@linaro.org
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 11:53 PM, Song Gao wrote:
-> +target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
-> +{
-> +    target_ulong r = 0;
-> +
-> +    switch (rj) {
-> +    case 0:
-> +        r = env->CSR_MCSR0 & 0xffffffff;
-> +        break;
-> +    case 1:
-> +        r = (env->CSR_MCSR0 & 0xffffffff00000000) >> 32;
-> +        break;
+On Wed, Jul 21, 2021 at 4:31 AM Joe Komlodi <joe.komlodi@xilinx.com> wrote:
+>
+> Changelog:
+> v2 -> v3
+>  - 1/2: register block init should also be uint64_t
+> v1 -> v2
+>  - 2/2: Use uint64_t for 64-bit value
+>
+> Hi all,
+>
+> This adds more utilities for 64-bit registers.
+> As part of it, it also fixes FIELD_DP64 to work with bit fields wider than
+> 32-bits.
+>
+> Thanks!
+> Joe
+>
+> Joe Komlodi (2):
+>   hw/core/register: Add more 64-bit utilities
+>   hw/registerfields: Use 64-bit bitfield for FIELD_DP64
 
-Why do you represent all of these as high and low portions of a 64-bit internal value, 
-when the manual describes them as 32-bit values?
+Thanks!
 
+Applied to riscv-to-apply.next
 
-> +/* Fixed point extra instruction translation */
-> +static bool trans_crc_w_b_w(DisasContext *ctx, arg_crc_w_b_w *a)
-> +{
-> +    TCGv t0, t1;
-> +    TCGv Rd = cpu_gpr[a->rd];
-> +    TCGv_i32 tsz = tcg_const_i32(1 << 1);
+Alistair
 
-This size is wrong.  It should be 1, not 1 << 1 (2).
-
-
-> +static bool trans_crc_w_w_w(DisasContext *ctx, arg_crc_w_w_w *a)
-> +{
-> +    TCGv t0, t1;
-> +    TCGv Rd = cpu_gpr[a->rd];
-> +    TCGv_i32 tsz = tcg_const_i32(1 << 4);
-
-Because this size most certainly should not be 16...
-
-> +static bool trans_crc_w_d_w(DisasContext *ctx, arg_crc_w_d_w *a)
-> +{
-> +    TCGv t0, t1;
-> +    TCGv Rd = cpu_gpr[a->rd];
-> +    TCGv_i32 tsz = tcg_const_i32(1 << 8);
-
-... and this size should not be 256.  Both well larger than the 8 byte buffer that you've 
-allocated.
-
-Also, you need a helper so that you don't have 8 copies of this code.
-
-> +static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
-> +{
-> +    TCGv t0, t1;
-> +
-> +    t0 = get_gpr(a->rj);
-> +    t1 = get_gpr(a->rk);
-> +
-> +    gen_helper_asrtle_d(cpu_env, t0, t1);
-> +
-> +    return true;
-> +}
-> +
-> +static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
-> +{
-> +    TCGv t0, t1;
-> +
-> +    t0 = get_gpr(a->rj);
-> +    t1 = get_gpr(a->rk);
-> +
-> +    gen_helper_asrtgt_d(cpu_env, t0, t1);
-> +
-> +    return true;
-> +}
-
-I'm not sure why both of these instructions are in the ISA, since
-
-   ASRTLE X,Y <-> ASRTGT Y,X
-
-but we certainly don't need two different helpers.
-Just swap the arguments for one of them.
-
-> +static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
-> +{
-> +    /* Nop */
-> +    return true;
-> +}
-> +
-> +static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
-> +{
-> +    /* Nop */
-> +    return true;
-> +}
-> +
-> +static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
-> +{
-> +    /* Nop */
-> +    return true;
-> +}
-
-If you don't want to implement these right now, you should at least initialize the 
-destination register to 0, or something.
-
-
-r~
+>
+>  hw/core/register.c          | 12 ++++++++++++
+>  include/hw/register.h       |  8 ++++++++
+>  include/hw/registerfields.h | 10 +++++++++-
+>  3 files changed, 29 insertions(+), 1 deletion(-)
+>
+> --
+> 2.7.4
+>
 
