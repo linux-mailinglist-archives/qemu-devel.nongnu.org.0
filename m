@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AB43D34D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:51:15 +0200 (CEST)
-Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699BE3D34E1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 08:57:20 +0200 (CEST)
+Received: from localhost ([::1]:47270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6p1e-0007Bj-33
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48098)
+	id 1m6p7X-0000hB-FV
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 02:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m6p0B-0006VV-Iz; Fri, 23 Jul 2021 02:49:43 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:41552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m6p09-0001kF-SV; Fri, 23 Jul 2021 02:49:43 -0400
-Received: by mail-io1-xd30.google.com with SMTP id r6so1315886ioj.8;
- Thu, 22 Jul 2021 23:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2CH9A/tfe+xMt3Y7V7bY7+S5mOk+r4qtWWfwZSVA5JI=;
- b=iI9plTLfbMp+yveUx9CEEBrH8vfu3GMX7+8/zPwzQpE9m3wxlfp8DfrIbEQO5fFRfV
- 9LeVB0fvML1M4sG+iHqARfZbjwqCKDXCbr/IBeFXDKNl5V/H5Iasn2DYzteGQ4J9TzWm
- +Kd+pCSMkhPz3utLpg9r3WSdgCZq5/0nplatLM9IvYOiCFSC5R+4ZtBTSwsvQ/6jUfmH
- la4IhUK843t1uTuszmE2/88EIKz/K+94lQWIFRChVJ334NncsM5sUAByOB/ucsZ7yMDf
- nOY1p4oEZ58zB6MsVaL5CB+1/0fVnLbDiIvhGnXmDLDAakaxwtVf2OyJqgsQQRHS7dYj
- RrhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2CH9A/tfe+xMt3Y7V7bY7+S5mOk+r4qtWWfwZSVA5JI=;
- b=XCP5FDggrSIGg8bACFFXy70fltv4LdZuqh3IGa2GOUAx8ClpzGtdX5uAnoVuAMMs1B
- 1Fk1GFUfiJKG2aaifJSedt58iCYB0YEaxx/+qhyonvwStexfTlYOYfGSNj9sEmC2rlgn
- Zjf5gtuYjaUA/bKBwSaKTiBmtT+IWsCikTHUKMdb5RLEkv7KyTAGH7gnuXYlK36oZeMZ
- P1AuvLEvIumO4w3ZntCk41YrBNJUHqufb3elg+dQ3vbTSG0Q9QkbP2bJ4Es2Xh6hZCh1
- bPv0ak0PrdQlLz7inZ2seWk72+gvTWpponXIqIp2cWMwKZ0h0OXGEXdVNM1Dsi3/5Aeo
- 91gQ==
-X-Gm-Message-State: AOAM532yljDSSZfF3Br0pZaIHVFbCieqP7csbAS2wkJoPb/dVfbSCQLs
- 0gtyTPBWaDKwaoH5LJsNW/EWpJtvc70/o2r+rCI=
-X-Google-Smtp-Source: ABdhPJz7WKdFJc36bPDRAp/SdFCETc0Vpt5ZuoeqmlFdAvUvhyudvNuHz+H2HF4/lBYcxtXq3jTZjrx1YRqwALYLwcI=
-X-Received: by 2002:a6b:f101:: with SMTP id e1mr2841276iog.118.1627022980409; 
- Thu, 22 Jul 2021 23:49:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6p5s-0008Q3-UL
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:55:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6p5q-0006Un-Ri
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 02:55:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627023333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iaDzdIz16MvB7iJZBjj5VZGvfAaWj4QQT3ecnWS+dds=;
+ b=LyN6VS5z49JC50/unwdfNfxXO9XCgixsNn02MhC97woxjd0lrJnYPUcRilj1hYhxAbfKj6
+ owbmpefR66uHsZvhXh9wPlXUofDuu1F0gSAvUwzZ/Kkgc4P28MViBqZ5W7muT/W8mV58mZ
+ oIx0/j12r5IiRkmmU6R15iw6NOvX0+0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-jjlPJ4y-MoWgcuvRBf5hqw-1; Fri, 23 Jul 2021 02:55:31 -0400
+X-MC-Unique: jjlPJ4y-MoWgcuvRBf5hqw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D681618C89CF
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 06:55:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B2D260877;
+ Fri, 23 Jul 2021 06:55:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id ACD931800926; Fri, 23 Jul 2021 08:55:27 +0200 (CEST)
+Date: Fri, 23 Jul 2021 08:55:27 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/2] qxl: remove assert in qxl_pre_save.
+Message-ID: <20210723065527.glqc44gyga2lnqyc@sirius.home.kraxel.org>
+References: <20210721093347.338536-1-kraxel@redhat.com>
+ <20210721093347.338536-2-kraxel@redhat.com>
+ <YPmEZnBuCMwXq98p@work-vm>
+ <20210723063233.ktjex5knfgz77pbq@sirius.home.kraxel.org>
+ <13c8a40f-a879-a981-12f0-36a5289b39b1@redhat.com>
 MIME-Version: 1.0
-References: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
- <78eb66f16d6096a60479759e2c1deb524c39757e.1626247467.git.alistair.francis@wdc.com>
- <CAEUhbmUKULm0kc8xeKyh+4uUT+fBW6juRh7mmVSB+uD56rxuKw@mail.gmail.com>
-In-Reply-To: <CAEUhbmUKULm0kc8xeKyh+4uUT+fBW6juRh7mmVSB+uD56rxuKw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 23 Jul 2021 16:49:14 +1000
-Message-ID: <CAKmqyKOPns5F6Na0VOBaBuH+rXzU=CDrxV7=XWAH+bYGfN1kYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] hw/intc: ibex_timer: Convert the timer to use
- RISC-V CPU GPIO lines
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <13c8a40f-a879-a981-12f0-36a5289b39b1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,129 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: armbru@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 15, 2021 at 6:21 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Wed, Jul 14, 2021 at 3:25 PM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Instead of using riscv_cpu_update_mip() let's instead use the new RISC-=
-V
-> > CPU GPIO lines to set the timer MIP bits.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  include/hw/timer/ibex_timer.h |  2 ++
-> >  hw/riscv/opentitan.c          |  3 +++
-> >  hw/timer/ibex_timer.c         | 17 ++++++++++++-----
-> >  3 files changed, 17 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_time=
-r.h
-> > index 6a43537003..b6f69b38ee 100644
-> > --- a/include/hw/timer/ibex_timer.h
-> > +++ b/include/hw/timer/ibex_timer.h
-> > @@ -48,5 +48,7 @@ struct IbexTimerState {
-> >      uint32_t timebase_freq;
-> >
-> >      qemu_irq irq;
-> > +
-> > +    qemu_irq m_timer_irq;
-> >  };
-> >  #endif /* HW_IBEX_TIMER_H */
-> > diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> > index 88a0200972..fb0750c16f 100644
-> > --- a/hw/riscv/opentitan.c
-> > +++ b/hw/riscv/opentitan.c
-> > @@ -176,6 +176,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *d=
-ev_soc, Error **errp)
-> >      sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
-> >                         0, qdev_get_gpio_in(DEVICE(&s->plic),
-> >                         IBEX_TIMER_TIMEREXPIRED0_0));
-> > +    qdev_connect_gpio_out_named(DEVICE(&s->timer), NULL, 0,
->
-> nits: use qdev_connect_gpio_out
->
-> > +                                qdev_get_gpio_in(DEVICE(qemu_get_cpu(0=
-)),
->
-> Does this timer device only support one CPU?
+On Fri, Jul 23, 2021 at 08:47:09AM +0200, Philippe Mathieu-Daudé wrote:
+> On 7/23/21 8:32 AM, Gerd Hoffmann wrote:
+> > On Thu, Jul 22, 2021 at 03:44:54PM +0100, Dr. David Alan Gilbert wrote:
+> >> * Gerd Hoffmann (kraxel@redhat.com) wrote:
+> >>> Since commit 551dbd0846d2 ("migration: check pre_save return in
+> >>> vmstate_save_state") the pre_save hook can fail.  So lets finally
+> >>> use that to drop the guest-triggerable assert in qxl_pre_save().
+> >>>
+> >>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> >>> ---
+> >>>  hw/display/qxl.c | 4 +++-
+> >>>  1 file changed, 3 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> >>> index 84f99088e0a0..3867b94fe236 100644
+> >>> --- a/hw/display/qxl.c
+> >>> +++ b/hw/display/qxl.c
+> >>> @@ -2283,7 +2283,9 @@ static int qxl_pre_save(void *opaque)
+> >>>      } else {
+> >>>          d->last_release_offset = (uint8_t *)d->last_release - ram_start;
+> >>>      }
+> >>> -    assert(d->last_release_offset < d->vga.vram_size);
+> >>> +    if (d->last_release_offset < d->vga.vram_size) {
+> >>> +        return 1;
+> >>
+> >> It would be great if there was an error_report or something there
+> >> so that we get some idea of what happened.
+> > 
+> > Hmm.  Strictly speaking qemu_log_mask(LOG_GUEST_ERROR, "..."); would be
+> > the correct approach here, but I guess that wouldn't help much for
+> > trouble-shooting as the message would only show up with "-d
+> > guest_errors".  So better make that error_report("...") ?
+> 
+> It depends who is interested in such errors.
 
-Yes, it does.
+Migration fails and you want know why.
 
-Alistair
+Reason migration fails is the guest violates qxl specs (which doesn't
+cause actual problems unless you want migrate the guest).
 
->
-> > +                                                 IRQ_M_TIMER));
-> >
-> >      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-> >          memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-> > diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-> > index 5befb53506..66e1f8e48c 100644
-> > --- a/hw/timer/ibex_timer.c
-> > +++ b/hw/timer/ibex_timer.c
-> > @@ -77,7 +77,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
-> >          /*
-> >           * If the mtimecmp was in the past raise the interrupt now.
-> >           */
-> > -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> > +        qemu_irq_raise(s->m_timer_irq);
-> >          if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
-> >              s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
-> >              qemu_set_irq(s->irq, true);
-> > @@ -86,7 +86,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
-> >      }
-> >
-> >      /* Setup a timer to trigger the interrupt in the future */
-> > -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-> > +    qemu_irq_lower(s->m_timer_irq);
-> >      qemu_set_irq(s->irq, false);
-> >
-> >      diff =3D cpu->env.timecmp - now;
-> > @@ -106,10 +106,8 @@ static void ibex_timer_update_irqs(IbexTimerState =
-*s)
-> >  static void ibex_timer_cb(void *opaque)
-> >  {
-> >      IbexTimerState *s =3D opaque;
-> > -    CPUState *cs =3D qemu_get_cpu(0);
-> > -    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> >
-> > -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> > +    qemu_irq_raise(s->m_timer_irq);
-> >      if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
-> >          s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
-> >          qemu_set_irq(s->irq, true);
-> > @@ -280,12 +278,21 @@ static void ibex_timer_init(Object *obj)
-> >      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
-> >  }
-> >
-> > +static void ibex_timer_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    IbexTimerState *s =3D IBEX_TIMER(dev);
-> > +
-> > +    qdev_init_gpio_out(dev, &s->m_timer_irq, 1);
-> > +}
-> > +
-> > +
-> >  static void ibex_timer_class_init(ObjectClass *klass, void *data)
-> >  {
-> >      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> >
-> >      dc->reset =3D ibex_timer_reset;
-> >      dc->vmsd =3D &vmstate_ibex_timer;
-> > +    dc->realize =3D ibex_timer_realize;
-> >      device_class_set_props(dc, ibex_timer_properties);
-> >  }
-> >
->
-> Regards,
-> Bin
+take care,
+  Gerd
+
 
