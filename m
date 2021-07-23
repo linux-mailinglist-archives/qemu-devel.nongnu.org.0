@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9153D3E64
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:20:36 +0200 (CEST)
-Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B10F3D3E84
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:22:32 +0200 (CEST)
+Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6yqh-0003hO-MR
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
+	id 1m6ysZ-0000by-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6yg7-0005ft-JV
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:09:39 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36382)
+ id 1m6ygC-0005wX-Df
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:09:49 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m6yg5-0008Df-Tk
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:09:39 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g15so3128956wrd.3
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:09:37 -0700 (PDT)
+ id 1m6ygA-0008GQ-RN
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:09:44 -0400
+Received: by mail-wm1-x335.google.com with SMTP id h15so1226538wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uS1pSxcrnef9Bi6E/um0jmW2U80D77g2Q5XIJv/shJM=;
- b=kEr55rufDlLnSGjL9H2TVkP5kY/XcpJRlY8KUhlyqH+DqbdYIftsCmYCluzRrFlDLT
- kQg7d4KuapxfVj6PfHFsnuswZOmLZ2V2odbD2Fp4hlqCdAhc/PsSUgVI/t/f0Mly2ZrD
- HnjDXhoYMncJTA0wU2HoQhDCPlCTWUxjq1B2QZ6ElR3LNRnn+r/b+GC2DbwkYoARTpNC
- 9pulf3UYLnytkK7fD7adXLUZ1WWqp7la1aOqJyf0bu559mt5kX7pV7Txkf2BInu9qyNZ
- slUZ0VQRGgKt0o5cu26AxPg4rdulsU2RyJm0ZwyNmxEaquzpFp+QzHWC/Sd6ukRcKe+F
- 5dPQ==
+ bh=QvYwZmYtXKv7T39rkMEAc/2GKSIETpKxhUXh+rpSwYM=;
+ b=zb2gBkefS+LjWo7Ua1gdqGIbVnf0CMnMPD34k9lYRlBBr2CuZLByml3tgTcQwfVfO9
+ shNru1WTasLdrjp8LSmejwaTgalC2J9znOqTQIB+PIo9AMidN0uKhsBpCcdPohJJfy7R
+ Cc4tU/TLSVtyG9sEk66o7NIHMWUBMbmppjRpTr3LBqQf4H/YCj4cPLNQkBKVDGk3uHPZ
+ NmDsTWXANJ8JsZp3BgTI/chpN+198zG58v8xM/HMwR6WjxtuWwaUnynmFtT+rsvF6av5
+ YPaSXetrsYwMrl0NQesmj1kT6pYpFAy0P+plpYVUuqQptnxUz+zz8xluWBxaj6w8/ItJ
+ DpGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uS1pSxcrnef9Bi6E/um0jmW2U80D77g2Q5XIJv/shJM=;
- b=GdddSRa60UUgUKHuHOJwBgS7ER2NgCaD9JTvA0siNV8tjUhhTGXfOdtENfXosgD2/c
- in637B8+ixsh+/yt17H4Ege+bnhyfSvX/0px8FCi1vT9+mXG2u0ktrZ2vnP56H+OkGcx
- fSRzdEPmvNU/pgiE0RmygK5TSucY6mH6Ze9uBYYhOSRUrLaEizIXNZ+aePdI6R+Q3MqK
- Q4tKPX7MMmiwtdjscVqb2pTm4YjdNzB+MkGQ9dAAwSFBj3rNsXbwfr7mHMlOh6p/kdRS
- 6JzyvuBRVZWjyFDBdJ8sec7cczyPhlXTzuwv/bcpScNNVZ6lhm6IjyfPD+yMsOPVi8Yx
- 5pJw==
-X-Gm-Message-State: AOAM531GR1nyM0vXZF+2xE9mb1I1ex/7HO7X2igNu31uLcERy8Q1lyHl
- xfmdHz7eP0ZHamW+4ojhFd8qTQ==
-X-Google-Smtp-Source: ABdhPJz/A9/GGwKGRQrknEm/t8Yl7F/NCBW9wOhMDk9IaaGvqPG0E1s1+R1IdjGTUDfSlB/3H4ctww==
-X-Received: by 2002:adf:ffc3:: with SMTP id x3mr2813169wrs.136.1627060176592; 
- Fri, 23 Jul 2021 10:09:36 -0700 (PDT)
+ bh=QvYwZmYtXKv7T39rkMEAc/2GKSIETpKxhUXh+rpSwYM=;
+ b=oVZj8jJPvCbTU5+4VH2ujv2Qkmzf8EiFsc0yw2R9H0XCOkHdy3Ca+AzhOEUT+DdPtm
+ 4GPfYYyZ68jkwAb4vxSw14KxfGN+dtfhBOElajNAoffyczPWPE6LdOP1RNA++TfyOMVM
+ 8uLk2hRXCoF7D+t5wmK3dB4VZF4MmkvWq16CntEXLb9e3L+fS+g5tO5jPYviXioKodiQ
+ jQqU1hnffSHs23Ia/eCw9hUMw5k7W5PkiblaZ6OCw3DEPC+NLxHBg1ng4ddiNGaSTfCo
+ 4p1C+35KH5+bDqbFi10ednvzS5FoK+MkWw8WV6Bv2C3XVq5XqqXKD8R2eYi+tnrUfdny
+ EJKw==
+X-Gm-Message-State: AOAM533oTwrV5/jKB08WLwSrdVvoLuJAyXjRTSsbRJ/lGxM0309gYp7U
+ 1p84vu+kY145mFskpFfVw6Ce1w==
+X-Google-Smtp-Source: ABdhPJxqKWp3zV56QosDNWs/Qi7I44L6woY2DX3X7d9TOZPmUZ2TKQ4X6GrCEHeiq5gdHr1/kWBH0g==
+X-Received: by 2002:a1c:35c2:: with SMTP id c185mr5478377wma.126.1627060181521; 
+ Fri, 23 Jul 2021 10:09:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r11sm16276173wma.24.2021.07.23.10.09.29
+ by smtp.gmail.com with ESMTPSA id w16sm19823345wru.58.2021.07.23.10.09.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 10:09:30 -0700 (PDT)
+ Fri, 23 Jul 2021 10:09:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6864B1FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id 7C6C31FFB1;
  Fri, 23 Jul 2021 18:03:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 24/28] plugins: Fix physical address calculation for IO regions
-Date: Fri, 23 Jul 2021 18:03:50 +0100
-Message-Id: <20210723170354.18975-25-alex.bennee@linaro.org>
+Subject: [PULL 25/28] tests/tcg/configure.sh: add handling for assembler only
+ builds
+Date: Fri, 23 Jul 2021 18:03:51 +0100
+Message-Id: <20210723170354.18975-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210723170354.18975-1-alex.bennee@linaro.org>
 References: <20210723170354.18975-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,42 +88,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Aaron Lindsay <aaron@os.amperecomputing.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
+Up until this point we only handled local compilers or assumed we had
+everything in the container. This falls down when we are building QEMU
+inside the container.
 
-The address calculation for IO regions introduced by
+This special handling only affects tricore for now but I put it in a
+case just in case we add any other "special" targets. Setting
+CROSS_CC_GUEST is a bit of a hack just to ensure the test runs as we
+gate on a detected compiler even though the Makefile won't actually
+use it. It also means we display something sane in the configure
+output.
 
-commit 787148bf928a54b5cc86f5b434f9399e9737679c
-Author: Aaron Lindsay <aaron@os.amperecomputing.com>
-    plugins: Expose physical addresses instead of device offsets
-
-is not always accurate. Use the more correct
-MemoryRegionSection.offset_within_address_space.
-
-Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210720195735.3934473-1-aaron@os.amperecomputing.com>
-Message-Id: <20210720232703.10650-25-alex.bennee@linaro.org>
+Message-Id: <20210720232703.10650-27-alex.bennee@linaro.org>
 
-diff --git a/plugins/api.c b/plugins/api.c
-index 78b563c5c5..2d521e6ba8 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -319,7 +319,7 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
-             return block->offset + offset + block->mr->addr;
-         } else {
-             MemoryRegionSection *mrs = haddr->v.io.section;
--            return haddr->v.io.offset + mrs->mr->addr;
-+            return mrs->offset_within_address_space + haddr->v.io.offset;
-         }
-     }
- #endif
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index aa7c24328a..1f985ccfc0 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -72,6 +72,10 @@ fi
+ : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_x86_64="-m64"}
+ 
++# tricore is special as it doesn't have a compiler
++: ${cross_as_tricore="tricore-as"}
++: ${cross_ld_tricore="tricore-ld"}
++
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
+@@ -247,6 +251,20 @@ for target in $target_list; do
+               fi
+           fi
+       fi
++
++      # Special handling for assembler only tests
++      eval "target_as=\"\${cross_as_$arch}\""
++      eval "target_ld=\"\${cross_ld_$arch}\""
++      if has $target_as && has $target_ld; then
++          case $target in
++              tricore-softmmu)
++                  echo "CROSS_CC_GUEST=$target_as" >> $config_target_mak
++                  echo "CROSS_AS_GUEST=$target_as" >> $config_target_mak
++                  echo "CROSS_LD_GUEST=$target_ld" >> $config_target_mak
++                  got_cross_cc=yes
++                  ;;
++          esac
++      fi
+   fi
+ 
+   if test $got_cross_cc = yes; then
 -- 
 2.20.1
 
