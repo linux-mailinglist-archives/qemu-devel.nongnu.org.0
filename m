@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7983D3DBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:40:21 +0200 (CEST)
-Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E0E3D3E31
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:08:39 +0200 (CEST)
+Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6yDk-0001Un-BL
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1m6yf8-000071-FT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6yBo-0007rv-Cy
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:38:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m6yBl-0000Si-MZ
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:38:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627058297;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/KTerWmCXJKKubeE5f+vl/NONMoP0D8flc39sMTie3c=;
- b=Farozw6H1KM0FKR72AD/cnoSHuj0F8hQ0ovDQ4ICME5EK5qV8ZFpz+BBtY2iZ5TJfD7ZFQ
- TR0+rF4dVWvuKEbopa7OQxbyNadJg5br7fZOsV2Zb/xlwJJnrFkoCxBaoK8d964Y/fxhGI
- kClB0bVOFplEoLXpDse3rN+yti/DODA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-fo-c-W-XP1G9zQ0xA25HfQ-1; Fri, 23 Jul 2021 12:38:12 -0400
-X-MC-Unique: fo-c-W-XP1G9zQ0xA25HfQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC83E1084F54;
- Fri, 23 Jul 2021 16:38:10 +0000 (UTC)
-Received: from redhat.com (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5280A10016FB;
- Fri, 23 Jul 2021 16:38:09 +0000 (UTC)
-Date: Fri, 23 Jul 2021 17:38:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
-Message-ID: <YPrwbgY9Q4e1ORP1@redhat.com>
-References: <20210723103303.1731437-1-rjones@redhat.com>
- <20210723103303.1731437-2-rjones@redhat.com>
- <YPrr72N494WKnJA5@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6yb5-0000Bu-Nj
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:30 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m6yb2-0005TZ-Ry
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 13:04:26 -0400
+Received: by mail-wr1-x435.google.com with SMTP id j2so3056284wrx.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 10:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4gcbr/YCwz2K8G5uZyX70n/KlnxCHfoTozSOD316tYc=;
+ b=P+fYd9/S1o+PBRP09fErnN5uGTfFCWygXrAP4pOv5h5QQvHxWlPsV7qhxuaccVKjZJ
+ /57umL4Khg7fY30We+7oaX9jd+XYQwg2Ay7xBz6ktcCQtOMlvnlT1xR1YeJ5OPuhpDJ0
+ c5lQvfl5twZE3IeAooqqAvSWb5FlB8T+LDYgLbChGKer3cOkRORRy4Bn9p32y1QMFCxh
+ qmPqAAth/yFeHpMd0gi1TQJBhElSgxIK0ESsStbPC1eRA+TovtDqLCkUNx+DpKHoZIjq
+ OxNqTBl9yBVwMnKIUmxb+H2quEk7jQcFjzQi+c0WRVU1+cyVmSgTH0CuLQeBkTKanwt4
+ GIiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4gcbr/YCwz2K8G5uZyX70n/KlnxCHfoTozSOD316tYc=;
+ b=YCWjnLtZH1gVZh5KHHj0umZ9vvoG+wwh7ofwmF3S1V5J8t8dnk4gVQpWMcvrbFk8V8
+ ntqlx0OBeBBOjUDRVB8r1zmkB5otPq8DRg660w0IYPsg0ov4pQR5ST0k8U3oCQ3tC7ph
+ LZejBaCGSTj9fbBDc/yNs7ZI/NszaxvmUaObtuUC0BxLgwbSiZMeUi7XpdMIgFsD78lX
+ 5M3Yla5e0gBXTM8Vpf5sH1u/QkxqkE3JVuGwal/JHx+T0dh7akUSPa3EYNMMQV8Q2NUL
+ lRNzh525Fkte9CVVR5IKjc3gnS9Wo2NCN5Ka/FmrXR+3gGXloP/rcXcD+iyiCqmeQD+Q
+ JBfQ==
+X-Gm-Message-State: AOAM5330aLIdLrq08xri1BsV8Dw379nOPdeiEh7XlHPi8a9mWddsF0De
+ NLxxZIqcTuDMvpYOxVy4hFXK/Q==
+X-Google-Smtp-Source: ABdhPJzX7GVxya8zc7BqfciD3YZ1J1Q/zgGtMMgi9XbaPH6neJL1DfU2x0iIWtTtVSxtcIcLth2ekw==
+X-Received: by 2002:a5d:598f:: with SMTP id n15mr6478293wri.149.1627059861757; 
+ Fri, 23 Jul 2021 10:04:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v30sm36217592wrv.85.2021.07.23.10.03.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 10:04:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4C4C41FF7E;
+ Fri, 23 Jul 2021 18:03:54 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL for 6.1-rc1 00/28] doc, metadata, plugin and testing updates
+Date: Fri, 23 Jul 2021 18:03:26 +0100
+Message-Id: <20210723170354.18975-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <YPrr72N494WKnJA5@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,63 +84,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: vsementsov@virtuozzo.com, eblake@redhat.com,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 06:18:55PM +0200, Kevin Wolf wrote:
-> Am 23.07.2021 um 12:33 hat Richard W.M. Jones geschrieben:
-> > Under SELinux, Unix domain sockets have two labels.  One is on the
-> > disk and can be set with commands such as chcon(1).  There is a
-> > different label stored in memory (called the process label).  This can
-> > only be set by the process creating the socket.  When using SELinux +
-> > SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> > you must set both labels correctly first.
-> > 
-> > For qemu-nbd the options to set the second label are awkward.  You can
-> > create the socket in a wrapper program and then exec into qemu-nbd.
-> > Or you could try something with LD_PRELOAD.
-> > 
-> > This commit adds the ability to set the label straightforwardly on the
-> > command line, via the new --selinux-label flag.  (The name of the flag
-> > is the same as the equivalent nbdkit option.)
-> > 
-> > A worked example showing how to use the new option can be found in
-> > this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> > 
-> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> > Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> 
-> I suppose this would also be relevant for the built-in NBD server,
-> especially in the context of qemu-storage-daemon?
+I realised I'm on holiday next week so I thought I'd better send this now.
 
-It depends on the usage scenario really. nbdkit / qemu-nbd are
-not commonly run under any SELinux policy, so then end up being
-unconfined_t. A QEMU NBD client can't connect to an unconfined_t
-socket, so we need to override it with this arg.
+The following changes since commit a146af86c8247f41b641783428b95ee71eb0e43f:
 
-In the case of qemu system emulator, under libvirt, it will
-already have a svirt_t type, so in that case there is no need
-to override the type for the socket.
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20210723-pull-request' into staging (2021-07-23 12:16:12 +0100)
 
-For qsd there's not really any strong practice established
-but i expect most current usage is unconfined_t too and
-would benefit from setting label.
+are available in the Git repository at:
 
-> If so, is this something specific to NBD sockets, or would it actually
-> make sense to have it as a generic option in UnixSocketAddress?
+  https://github.com/stsquad/qemu.git tags/pull-for-6.1-rc1-230721-1
 
-It is applicable to inet sockets too in fact.
+for you to fetch changes up to 0a9487d80af9ed6fa14d2696bc34a920b32e53e5:
 
+  gitlab-ci: Extract OpenSBI job rules to reusable section (2021-07-23 17:22:16 +0100)
 
-Regards,
-Daniel
+----------------------------------------------------------------
+Doc, metadata, plugin and testing updates for 6.1-rc1:
+
+  - git ignore some file editor detritus
+  - add overview on device emulation terminology
+  - remove needless if leg in configure custom devices logic
+  - numerous gitdm/mailmap updates
+  - fix plugin_exit race for linux-user
+  - fix a few bugs in cache modelling plugin
+  - fix plugin calculation of physical address
+  - handle pure assembler/linker tcg tests outside of docker
+  - add tricore build to gitlab
+  - remove superfluous MacOSX task
+  - generalise the OpenBSI gitlab rules
+
+----------------------------------------------------------------
+Aaron Lindsay (1):
+      plugins: Fix physical address calculation for IO regions
+
+Alex Bennée (21):
+      docs: collect the disparate device emulation docs into one section
+      docs: add a section on the generalities of vhost-user
+      configure: remove needless if leg
+      contrib/gitdm: add some new aliases to fix up commits
+      .mailmap: fix up some broken commit authors
+      contrib/gitdm: add domain-map for MontaVista
+      contrib/gitdm: add a group mapping for robot scanners
+      gitdm.config: sort the corporate GroupMap entries
+      contrib/gitdm: add domain-map/group-map mappings for Samsung
+      contrib/gitdm: add domain-map for Eldorado
+      contrib/gitdm: add domain-map/group-map for Wind River
+      contrib/gitdm: un-ironically add a mapping for LWN
+      contrib/gitdm: add domain-map for Crudebyte
+      contrib/gitdm: add domain-map for NVIDIA
+      contrib/gitdm: add group-map for Netflix
+      contrib/gitdm: add an explicit academic entry for BU
+      contrib/gitdm: add a new interns group-map for GSoC/Outreachy work
+      contrib/gitdm: add more individual contributor entries.
+      tcg/plugins: implement a qemu_plugin_user_exit helper
+      tests/tcg/configure.sh: add handling for assembler only builds
+      gitlab: enable a very minimal build with the tricore container
+
+Mahmoud Mandour (3):
+      plugins/cache: Fixed a bug with destroying FIFO metadata
+      plugins/cache: limited the scope of a mutex lock
+      plugins/cache: Fixed "function decl. is not a prototype" warnings
+
+Philippe Mathieu-Daudé (1):
+      gitlab-ci: Extract OpenSBI job rules to reusable section
+
+Thomas Huth (1):
+      gitlab-ci: Remove the second superfluous macos task
+
+Viresh Kumar (1):
+      gitignore: Update with some filetypes
+
+ docs/interop/vhost-user.rst                        |  2 +
+ docs/system/device-emulation.rst                   | 90 ++++++++++++++++++++++
+ docs/system/{ => devices}/ivshmem.rst              |  0
+ docs/system/{ => devices}/net.rst                  |  0
+ docs/system/{ => devices}/nvme.rst                 |  0
+ docs/system/{ => devices}/usb.rst                  |  0
+ docs/system/devices/vhost-user.rst                 | 59 ++++++++++++++
+ docs/system/{ => devices}/virtio-pmem.rst          |  0
+ docs/system/index.rst                              |  6 +-
+ configure                                          | 10 +--
+ include/qemu/plugin.h                              | 12 +++
+ include/qemu/qemu-plugin.h                         | 13 ++++
+ bsd-user/syscall.c                                 |  6 +-
+ contrib/plugins/cache.c                            | 11 ++-
+ linux-user/exit.c                                  |  2 +-
+ plugins/api.c                                      |  2 +-
+ plugins/core.c                                     | 39 ++++++++++
+ .gitignore                                         |  2 +
+ .gitlab-ci.d/buildtest.yml                         | 11 +++
+ .gitlab-ci.d/cirrus.yml                            | 15 ----
+ .gitlab-ci.d/opensbi.yml                           | 28 ++++---
+ .mailmap                                           |  4 +
+ contrib/gitdm/aliases                              |  6 ++
+ contrib/gitdm/domain-map                           |  7 ++
+ contrib/gitdm/group-map-academics                  |  3 +
+ contrib/gitdm/group-map-individuals                |  5 ++
+ contrib/gitdm/group-map-interns                    | 13 ++++
+ contrib/gitdm/group-map-netflix                    |  5 ++
+ contrib/gitdm/group-map-robots                     |  7 ++
+ gitdm.config                                       | 13 +++-
+ .../docker/dockerfiles/debian-tricore-cross.docker | 34 ++++++--
+ tests/tcg/configure.sh                             | 18 +++++
+ 32 files changed, 366 insertions(+), 57 deletions(-)
+ create mode 100644 docs/system/device-emulation.rst
+ rename docs/system/{ => devices}/ivshmem.rst (100%)
+ rename docs/system/{ => devices}/net.rst (100%)
+ rename docs/system/{ => devices}/nvme.rst (100%)
+ rename docs/system/{ => devices}/usb.rst (100%)
+ create mode 100644 docs/system/devices/vhost-user.rst
+ rename docs/system/{ => devices}/virtio-pmem.rst (100%)
+ create mode 100644 contrib/gitdm/group-map-interns
+ create mode 100644 contrib/gitdm/group-map-netflix
+ create mode 100644 contrib/gitdm/group-map-robots
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
