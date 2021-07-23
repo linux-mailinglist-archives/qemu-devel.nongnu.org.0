@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D2F3D3839
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 11:59:55 +0200 (CEST)
-Received: from localhost ([::1]:33144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1D3D384B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 12:02:24 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6ryE-0003LS-KN
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 05:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54196)
+	id 1m6s0d-0004tD-KY
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 06:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6rwY-0000gS-IV
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:58:10 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2169)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m6ryR-0003xp-Bq
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:00:07 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:53112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m6rwW-0000u3-IT
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 05:58:10 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GWPmd1z4Bz7tBJ;
- Fri, 23 Jul 2021 17:54:25 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 17:58:06 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 17:58:05 +0800
-Subject: Re: [PATCH for-6.1 v4 0/1] machine: Disallow specifying topology
- parameters as zero
-To: <qemu-devel@nongnu.org>
-References: <20210723073122.7720-1-wangyanan55@huawei.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <3d938e8c-4625-5168-ad7d-5a62e7c50b12@huawei.com>
-Date: Fri, 23 Jul 2021 17:58:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m6ryO-0002PC-3N
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 06:00:06 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 50CA02E154F;
+ Fri, 23 Jul 2021 13:00:00 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ om34PLjL35-000qNMFo; Fri, 23 Jul 2021 13:00:00 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1627034400; bh=fOA+38xnq0cGpg2y8H2BqrwPsGWzzr06dLBJAiA/mAw=;
+ h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
+ b=ltj8k0XbWcRI+ct2egMDe0ucaZNANtOkTyDppm/8SqJa4oIhhYeaqQWUQ+a4E1PhV
+ ADir9rnnsAx8Zlbx6WePelncZdGLy79gHbxtyilgaJciW+ZFozKKEp6tNqvaQhjV/5
+ xnpxIazdS8qYb+NvqnUf+foaaUO2H/6hjcdTgF74=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:10::1:c])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 7WE6JIlLon-xx3K77MD; Fri, 23 Jul 2021 12:59:59 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: [PING][PATCH v2] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+References: <20210719142138.24543-1-den-plotnikov@yandex-team.ru>
+Message-ID: <8f3959d9-2dd8-3fc0-f350-b4ea98a10f38@yandex-team.ru>
+Date: Fri, 23 Jul 2021 12:59:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210723073122.7720-1-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210719142138.24543-1-den-plotnikov@yandex-team.ru>
+Content-Type: multipart/alternative;
+ boundary="------------00857B476DC3EF8ADC802E8C"
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,61 +76,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, wanghaibin.wang@huawei.com,
- Cornelia Huck <cohuck@redhat.com>, Markus
- Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note: the latest v5 has been sent with minor text change. Hopefully that 
-would be the last version.
+This is a multi-part message in MIME format.
+--------------00857B476DC3EF8ADC802E8C
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks,
-Yanan
+ping!
 
-On 2021/7/23 15:31, Yanan Wang wrote:
-> In the SMP configuration, we should either specify a topology
-> parameter with a reasonable value (equal to or greater than 1)
-> or just leave it omitted and QEMU will calculate its value.
-> Configurations which explicitly specify the topology parameters
-> as zero like "sockets=0" are meaningless, so disallow them.
->                                                                                      
-> However; the commit 1e63fe685804d
-> (machine: pass QAPI struct to mc->smp_parse) has documented that
-> '0' has the same semantics as omitting a parameter in the qapi
-> comment for SMPConfiguration. So this patch fixes the doc and
-> also adds the corresponding sanity check in the smp parsers.
->                                                                                      
-> This patch originly comes form [1], and it was suggested that
-> this patch fixing the doc should be sent for 6.1 to avoid a
-> deprecation process in the future.
->                                                                                      
-> [1] https://lore.kernel.org/qemu-devel/YPWsThPiZa3mF+zp@redhat.com/
+On 19.07.2021 17:21, Denis Plotnikov wrote:
+> On vhost-user-blk migration, qemu normally sends a number of commands
+> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+> VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+> data logging.
+> The issue is that qemu doesn't wait for reply from the vhost daemon
+> for these commands which may result in races between qemu expectation
+> of logging starting and actual login starting in vhost daemon.
 >
-> v3->v4:
-> - fix the typos
-> - v3: https://lore.kernel.org/qemu-devel/20210723020002.18456-1-wangyanan55@huawei.com/
->                                                                                      
-> v2->v3:
-> - improve the error message
-> - v2: https://lore.kernel.org/qemu-devel/20210722154326.1464-1-wangyanan55@huawei.com/
->                                                                                      
-> v1->v2:
-> - move the check to machine_set_smp
-> - update qemu-option.hx
-> - v1: https://lore.kernel.org/qemu-devel/20210722021512.2600-1-wangyanan55@huawei.com/
+> The race can appear as follows: on migration setup, qemu enables dirty page
+> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+> vhost-user-blk daemon immediately and the daemon needs some time to turn the
+> logging on internally. If qemu doesn't wait for reply, after sending the
+> command, qemu may start migrate memory pages to a destination. At this time,
+> the logging may not be actually turned on in the daemon but some guest pages,
+> which the daemon is about to write to, may have already been transferred
+> without logging to the destination. Since the logging wasn't turned on,
+> those pages won't be transferred again as dirty. So we may end up with
+> corrupted data on the destination.
+> The same scenario is applicable for "used ring" data logging, which is
+> turned on with VHOST_USER_SET_VRING_ADDR command.
 >
-> Yanan Wang (1):
->    machine: Disallow specifying topology parameters as zero
+> To resolve this issue, this patch makes qemu wait for the commands result
+> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
+> logging is enabled.
 >
->   hw/core/machine.c | 15 +++++++++++++++
->   qapi/machine.json |  6 +++---
->   qemu-options.hx   | 12 +++++++-----
->   3 files changed, 25 insertions(+), 8 deletions(-)
+> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> ---
+> v1 -> v2:
+>    * send reply only when logging is enabled [mst]
 >
+> v0 -> v1:
+>    * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
+>    
+>   hw/virtio/vhost-user.c | 37 ++++++++++++++++++++++++++++++++++---
+>   1 file changed, 34 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index ee57abe04526..133588b3961e 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1095,6 +1095,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+>       return 0;
+>   }
+>   
+> +static bool log_enabled(uint64_t features)
+> +{
+> +    return !!(features & (0x1ULL << VHOST_F_LOG_ALL));
+> +}
+> +
+>   static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+>                                        struct vhost_vring_addr *addr)
+>   {
+> @@ -1105,10 +1110,21 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+>           .hdr.size = sizeof(msg.payload.addr),
+>       };
+>   
+> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +
+> +    if (reply_supported && log_enabled(msg.hdr.flags)) {
+> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +    }
+> +
+>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>           return -1;
+>       }
+>   
+> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+>       return 0;
+>   }
+>   
+> @@ -1288,7 +1304,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
+>       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+>   }
+>   
+> -static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+> +static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
+> +                              bool need_reply)
+>   {
+>       VhostUserMsg msg = {
+>           .hdr.request = request,
+> @@ -1297,23 +1314,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+>           .hdr.size = sizeof(msg.payload.u64),
+>       };
+>   
+> +    if (need_reply) {
+> +        bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +        if (reply_supported) {
+> +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +        }
+> +    }
+> +
+>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>           return -1;
+>       }
+>   
+> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+>       return 0;
+>   }
+>   
+>   static int vhost_user_set_features(struct vhost_dev *dev,
+>                                      uint64_t features)
+>   {
+> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
+> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
+> +                              log_enabled(features));
+>   }
+>   
+>   static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+>                                               uint64_t features)
+>   {
+> -    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
+> +    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
+> +                              false);
+>   }
+>   
+>   static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
 
+--------------00857B476DC3EF8ADC802E8C
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font size="+1"><font face="monospace">ping!</font></font><br>
+    </p>
+    <div class="moz-cite-prefix">On 19.07.2021 17:21, Denis Plotnikov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210719142138.24543-1-den-plotnikov@yandex-team.ru">
+      <pre class="moz-quote-pre" wrap="">On vhost-user-blk migration, qemu normally sends a number of commands
+to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+data logging.
+The issue is that qemu doesn't wait for reply from the vhost daemon
+for these commands which may result in races between qemu expectation
+of logging starting and actual login starting in vhost daemon.
+
+The race can appear as follows: on migration setup, qemu enables dirty page
+logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+vhost-user-blk daemon immediately and the daemon needs some time to turn the
+logging on internally. If qemu doesn't wait for reply, after sending the
+command, qemu may start migrate memory pages to a destination. At this time,
+the logging may not be actually turned on in the daemon but some guest pages,
+which the daemon is about to write to, may have already been transferred
+without logging to the destination. Since the logging wasn't turned on,
+those pages won't be transferred again as dirty. So we may end up with
+corrupted data on the destination.
+The same scenario is applicable for "used ring" data logging, which is
+turned on with VHOST_USER_SET_VRING_ADDR command.
+
+To resolve this issue, this patch makes qemu wait for the commands result
+explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
+logging is enabled.
+
+Signed-off-by: Denis Plotnikov <a class="moz-txt-link-rfc2396E" href="mailto:den-plotnikov@yandex-team.ru">&lt;den-plotnikov@yandex-team.ru&gt;</a>
+---
+v1 -&gt; v2:
+  * send reply only when logging is enabled [mst]
+
+v0 -&gt; v1:
+  * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
+  
+ hw/virtio/vhost-user.c | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ee57abe04526..133588b3961e 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1095,6 +1095,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+     return 0;
+ }
+ 
++static bool log_enabled(uint64_t features)
++{
++    return !!(features &amp; (0x1ULL &lt;&lt; VHOST_F_LOG_ALL));
++}
++
+ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+                                      struct vhost_vring_addr *addr)
+ {
+@@ -1105,10 +1110,21 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+         .hdr.size = sizeof(msg.payload.addr),
+     };
+ 
++    bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++
++    if (reply_supported &amp;&amp; log_enabled(msg.hdr.flags)) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
+     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
+         return -1;
+     }
+ 
++    if (msg.hdr.flags &amp; VHOST_USER_NEED_REPLY_MASK) {
++        return process_message_reply(dev, &amp;msg);
++    }
++
+     return 0;
+ }
+ 
+@@ -1288,7 +1304,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
+     return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+ }
+ 
+-static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
++static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
++                              bool need_reply)
+ {
+     VhostUserMsg msg = {
+         .hdr.request = request,
+@@ -1297,23 +1314,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+         .hdr.size = sizeof(msg.payload.u64),
+     };
+ 
++    if (need_reply) {
++        bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
++                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
++        if (reply_supported) {
++            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++        }
++    }
++
+     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
+         return -1;
+     }
+ 
++    if (msg.hdr.flags &amp; VHOST_USER_NEED_REPLY_MASK) {
++        return process_message_reply(dev, &amp;msg);
++    }
++
+     return 0;
+ }
+ 
+ static int vhost_user_set_features(struct vhost_dev *dev,
+                                    uint64_t features)
+ {
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
++    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
++                              log_enabled(features));
+ }
+ 
+ static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+                                             uint64_t features)
+ {
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
++    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
++                              false);
+ }
+ 
+ static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------00857B476DC3EF8ADC802E8C--
 
