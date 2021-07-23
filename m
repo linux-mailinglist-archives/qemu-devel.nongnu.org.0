@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439793D3DB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:38:12 +0200 (CEST)
-Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E733D3DAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:36:45 +0200 (CEST)
+Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6yBf-0006s2-37
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
+	id 1m6yAG-00042V-5Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8Q-0000ge-K4
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29558)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8c-00018H-Pk
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:35:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8P-000770-5D
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:34:50 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6y8b-0007Cm-0j
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627058088;
+ s=mimecast20190719; t=1627058100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SqAkq+kIhxlcU9lKo8TEB6+AAhXt/4JRBq/LF9JRbW4=;
- b=QggasS/c5ygskPqTuUnJGr/O3XPCPI1NnpLIjc+0HiTTs6QXL5NzeTIf7RVpzy4zV6/kec
- Fboirhd4fiEfL3fcNr26PCVxN9PBERrALN/tICTBHxZQZRrmRFEsgFRS0POUZW1Y2S2lhw
- Wi4K63Pw5/84d5EUIQ35oIBGyIer19g=
+ bh=XMa1Vsuz9TqFqBpHErHQNycZlKQiL142Muxk7a7pMc0=;
+ b=dGUW4CMVsbBZUQBnfaHPA2dNrAVB1ROU5kd6H2KPMZVDbNIlkCUt3KHaa2ML2TqM4gOaIt
+ HYG44HTnHceBY8c2XEynwXUXyVfOQuG4seI2RY8Pquf4jYSfHwEJwP/S23jgGqtiph5661
+ qwu+z0gBr81pTXzOFn5JeLyfbOMDLDo=
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
  [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-_zLRlnmZM4OZee5FJ-rTiw-1; Fri, 23 Jul 2021 12:34:47 -0400
-X-MC-Unique: _zLRlnmZM4OZee5FJ-rTiw-1
+ us-mta-574-RaxPkMxYODmRbkViYFp79A-1; Fri, 23 Jul 2021 12:34:57 -0400
+X-MC-Unique: RaxPkMxYODmRbkViYFp79A-1
 Received: by mail-qk1-f200.google.com with SMTP id
- w2-20020a3794020000b02903b54f40b442so1611697qkd.0
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:34:47 -0700 (PDT)
+ a26-20020a05620a16dab02903b960837cbfso720320qkn.10
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:34:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=SqAkq+kIhxlcU9lKo8TEB6+AAhXt/4JRBq/LF9JRbW4=;
- b=Gl6g0IUxTus0ICa/4Jh5sF+akmvBxDvSXNdY5h8Z54W4+/QlTqyd8ifyCbMf0i+bgv
- 0jkkSqFL8MAzqfKQoap2L5h4TNhTvPdnWd5gSXWiDiv7KQxzPHiP8mOiscek3OuhvxJA
- i4sXk+QShdrsdAhikkg2nAVj9OV12x+n3cyOl6osbJOzAtUFch+3OdZ+jmCTp1dPoqZc
- 6MKv4/eViXdCUj9KixmDE/TIYYs2NZyc10WIXoWxd6f7gHEHfMIqMmXrDGgcJRFzpd4A
- P82DmGuSuyuOvwFq7vWhzZEboI0KCmw66j7KEnDqJ92TiY85NgRdppJ0ZtnPa49lPN9e
- mWFQ==
-X-Gm-Message-State: AOAM530d66UnfoqpF6YEFxgfhZ4wOci0ovTzWJwPkyF/fRWe/2/vuoOr
- aRjGO68lOlTE4A6vYQaY16Oa3jUVuZzDsyHDpDcBsC3z2cU1xusWRN1ZPJmot3YjRGlgHyEEl3T
- 7S9wB8umdrNGaXJY=
-X-Received: by 2002:a05:620a:887:: with SMTP id
- b7mr5345765qka.447.1627058087061; 
- Fri, 23 Jul 2021 09:34:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7N/3QTz7y6m3WjkTmUhaK7SDWfr2AFqRH49Rtf7De113QOUZ5J3oHIUG/Z9dPnA15PjC3BA==
-X-Received: by 2002:a05:620a:887:: with SMTP id
- b7mr5345756qka.447.1627058086870; 
- Fri, 23 Jul 2021 09:34:46 -0700 (PDT)
+ bh=XMa1Vsuz9TqFqBpHErHQNycZlKQiL142Muxk7a7pMc0=;
+ b=EscqKetstBuZqxlOydqqdp0GGvv1F2mPvvjLeGzTPMB8TQibNb9p7Dr5+8HGbbvmAX
+ SBHIqa54h9S1SnR0rgoIh7Lsx/S8ml1JSMdte0jpIcHEJYdqinesUaNZDVFD7JeuhPvD
+ K7Y7UER5RmFztRS/xtGWqJ7OVP9VoxYmbTtcnUMjsgcp6DY0LT/ElaDJ4D/G6Pa53VtE
+ SFFiCkxDiwK8GTm+Fd2poLdi6V4VoNOOsMKz8/+rl+FKFga8EBEtDWc00GWmGr+WbKLp
+ tuygjBCEF6RosfMPFlAr15a/5UYfvJ5muFmwMJNfr8XtB8ryXapDbti15pdML71xFgdu
+ XmgA==
+X-Gm-Message-State: AOAM530I5uYRsf5Wh8HL/1sPeFcdY25XlDT/LzcBFWdk1+9K/RF8puEq
+ uV8eVAT5VMUDrqKWxT8c3VsV27pMQXLYvSrEym28dES/MeOQCC4XiIBRWfBEvW2hhYCQqtFGzCM
+ 7BCFgWywAssgfez8=
+X-Received: by 2002:a0c:fa87:: with SMTP id o7mr1500857qvn.14.1627058096726;
+ Fri, 23 Jul 2021 09:34:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCvF1Uc5W2zXvL8j6WToHXu+WkP1ODV+g/1QD40pW0bZQri0FeX6efD7Swso/SJktVIdMwTg==
+X-Received: by 2002:a0c:fa87:: with SMTP id o7mr1500835qvn.14.1627058096558;
+ Fri, 23 Jul 2021 09:34:56 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id j5sm4492729qki.80.2021.07.23.09.34.45
+ by smtp.gmail.com with ESMTPSA id i21sm14669724qkl.20.2021.07.23.09.34.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 09:34:46 -0700 (PDT)
-Date: Fri, 23 Jul 2021 12:34:44 -0400
+ Fri, 23 Jul 2021 09:34:55 -0700 (PDT)
+Date: Fri, 23 Jul 2021 12:34:54 -0400
 From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 2/6] virtio-mem: Implement replay_discarded
- RamDiscardManager callback
-Message-ID: <YPrvpNbSVQ+QiIaY@t490s>
+Subject: Re: [PATCH v2 4/6] virtio-mem: Drop precopy notifier
+Message-ID: <YPrvri1dUmARpA1Z@t490s>
 References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-3-david@redhat.com>
+ <20210721092759.21368-5-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721092759.21368-3-david@redhat.com>
+In-Reply-To: <20210721092759.21368-5-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -107,9 +104,12 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 11:27:55AM +0200, David Hildenbrand wrote:
-> Implement it similar to the replay_populated callback.
+On Wed, Jul 21, 2021 at 11:27:57AM +0200, David Hildenbrand wrote:
+> Migration code now properly handles RAMBlocks which are indirectly managed
+> by a RamDiscardManager. No need for manual handling via the free page
+> optimization interface, let's get rid of it.
 > 
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 
 Acked-by: Peter Xu <peterx@redhat.com>
