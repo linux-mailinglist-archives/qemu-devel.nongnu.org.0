@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8323D3C08
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 16:52:15 +0200 (CEST)
-Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458633D3C0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 16:54:18 +0200 (CEST)
+Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6wX8-0000ls-8j
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 10:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54510)
+	id 1m6wZ7-0004Yz-AR
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 10:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m6wRW-0002gk-8K
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:46:27 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:37502)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6wXk-00039t-0d
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:52:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m6wRR-0007Oq-SX
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:46:26 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-YfbIQEUvPE2P_fL3WhfHqw-1; Fri, 23 Jul 2021 10:46:08 -0400
-X-MC-Unique: YfbIQEUvPE2P_fL3WhfHqw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD982760FB;
- Fri, 23 Jul 2021 14:46:06 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E5046C8D5;
- Fri, 23 Jul 2021 14:46:05 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] configure: Fix excessive error detection when handling
- --cross-cc-FOO
-Date: Fri, 23 Jul 2021 16:46:01 +0200
-Message-Id: <20210723144601.1038381-3-groug@kaod.org>
-In-Reply-To: <20210723144601.1038381-1-groug@kaod.org>
-References: <20210723144601.1038381-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6wXg-0003Wb-1M
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:52:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627051965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9y/PqKteAfvBTq9e0oqFOyML6XICHz17CtGJQ/jKIuE=;
+ b=FZai+bP2yCkd0YM9a8SF6sIoSHKFenRyU5JXt4+E5ka0UfS/RqZAC6mjJN56MB1DnR4g4L
+ ivWVbGnUcPRyKyt+yvf0o/h3q6xOGKgY6ux9adw1UBP/aurVv4z7JJj+5muADOZA5BzgJh
+ zdvhLaDiQP3xL9wEjUw8iE9dlqLJTFs=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-6YKCFJtdOyKzEfqeeerlZw-1; Fri, 23 Jul 2021 10:52:44 -0400
+X-MC-Unique: 6YKCFJtdOyKzEfqeeerlZw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ w26-20020a05620a129ab02903b9eeb8b45dso1177167qki.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9y/PqKteAfvBTq9e0oqFOyML6XICHz17CtGJQ/jKIuE=;
+ b=pyj6Ci5OVBaQcrjrGW4bHHcBDlns4AbnMdnD5NloFqU6JfbKswMohs0PQXoG/NSxBK
+ YeUxGlIRZzmFUgKyO8P5wC4LcynFdfKsb/oB3eDIn0Ga9if7PN+8v3JQ/FIZBZjzGBeA
+ iRUEqYN4Brd8h9twsn/NKCkQqcxCUA4z2kuJaKJO4qA0mDXxk9yVCx7LvgOnpB21Lb85
+ rsLPHZELzgbMD521cC7LJZb6kuijaoFa90COH9kv4tTTyt47IaH4hxuhZiWPkYSKcINS
+ 7M/sRLd6ZAvBM5dMZjdR0x2+qlVoaUOF5mapIxzQlmJdKcfitPyr96DrmgWuIyieXDye
+ E1EA==
+X-Gm-Message-State: AOAM531NJMFnR4kb9/PPKnqAi0PGQY36TQN2KTHYITfRG38U8RWTKJCZ
+ Qve5IeA4xeeclwDYzgi8OTjBH6Rrf1zj7VZgMVLmS0Pd/oSluGXXFZEFm2ELPJl/0EbqAls1QQ0
+ x48qVZed/jDueKbY=
+X-Received: by 2002:ac8:5656:: with SMTP id 22mr4221874qtt.323.1627051964280; 
+ Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz18WgbpWfzC6cozjITgTfapyL4Tmh74sCo6NQ/5LZNf/0Q8MkokwZ0KC4gwUg32RBwSxRCPA==
+X-Received: by 2002:ac8:5656:: with SMTP id 22mr4221854qtt.323.1627051964065; 
+ Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id z68sm14508594qke.86.2021.07.23.07.52.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 07:52:43 -0700 (PDT)
+Date: Fri, 23 Jul 2021 10:52:42 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH resend v2 1/5] tpm: mark correct memory region range
+ dirty when clearing RAM
+Message-ID: <YPrXutNkup2E4k6k@t490s>
+References: <20210720130304.26323-1-david@redhat.com>
+ <20210720130304.26323-2-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210720130304.26323-2-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,90 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Greg Kurz <groug@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Passing a --cross-cc-cflags-* option with a value that contains a '=3D'
-causes configure to exit:
+On Tue, Jul 20, 2021 at 03:03:00PM +0200, David Hildenbrand wrote:
+> @@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+>          guest_phys_blocks_init(&guest_phys_blocks);
+>          guest_phys_blocks_append(&guest_phys_blocks);
+>          QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
+> +            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
+> +
+>              trace_tpm_ppi_memset(block->host_addr,
+>                                   block->target_end - block->target_start);
+>              memset(block->host_addr, 0,
+>                     block->target_end - block->target_start);
+> -            memory_region_set_dirty(block->mr, 0,
+> +            memory_region_set_dirty(block->mr, block->target_start - mr_start,
+>                                      block->target_end - block->target_start);
 
-$ ./configure --cross-cc-cflags-arm=3D'-DFOO=3Dbar'
+target_start should falls in gpa range, while mr_start is ram_addr_t.  I am not
+sure whether this is right..
 
-ERROR: Passed bad --cross-cc-FOO option
+Neither do I know how to get correct mr offset with the existing info we've got
+from GuestPhysBlock.  Maybe we need to teach guest_phys_blocks_region_add() to
+also record section->offset_within_region?
 
-This is an annoying limitation since '=3D' is frequently found
-in CFLAGS.
-
-This is caused by this line in the CC options parsing loop:
-
-  --cross-cc-*[!a-zA-Z0-9_-]*=3D*) error_exit "Passed bad --cross-cc-FOO op=
-tion"
-
-The '[!a-zA-Z0-9_-]' pattern matches the first '=3D' in the
-option and the '=3D' pattern matches the other one. The '*'
-patterns then match the rest.
-
-The intent seems to be that we only want characters from the
-range [a-zA-Z0-9_-] in the option name. Shell pattern matching
-isn't powerful enough to do that with a single expression.
-
-First, isolate the option name, i.e. before the first '=3D' character,
-with a regular expression. Only error out if there's at least one
-unwanted character in the name.
-
-Fixes: d75402b5ee29 ("configure: add support for --cross-cc-FOO")
-Cc: alex.bennee@linaro.org
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- configure | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
-
-diff --git a/configure b/configure
-index 3a926ff8fc23..61a415e4dc61 100755
---- a/configure
-+++ b/configure
-@@ -472,16 +472,23 @@ for opt do
-   ;;
-   --disable-debug-info) debug_info=3D"no"
-   ;;
--  --cross-cc-*[!a-zA-Z0-9_-]*=3D*) error_exit "Passed bad --cross-cc-FOO o=
-ption"
--  ;;
--  --cross-cc-cflags-*) cc_arch=3D${opt#--cross-cc-cflags-}; cc_arch=3D${cc=
-_arch%%=3D*}
--                      eval "cross_cc_cflags_${cc_arch}=3D\$optarg"
--                      cross_cc_vars=3D"$cross_cc_vars cross_cc_cflags_${cc=
-_arch}"
--  ;;
--  --cross-cc-*) cc_arch=3D${opt#--cross-cc-}; cc_arch=3D${cc_arch%%=3D*}
--                cc_archs=3D"$cc_archs $cc_arch"
--                eval "cross_cc_${cc_arch}=3D\$optarg"
--                cross_cc_vars=3D"$cross_cc_vars cross_cc_${cc_arch}"
-+  --cross-cc-*=3D*)
-+    optname=3D$(expr "x$opt" : 'x\([^=3D]*\)=3D.*')
-+    case "$optname" in
-+    *[!a-zA-Z0-9_-]*) error_exit "Passed bad $optname option"
-+    ;;
-+    esac
-+    case "$opt" in
-+    --cross-cc-cflags-*) cc_arch=3D${opt#--cross-cc-cflags-}; cc_arch=3D${=
-cc_arch%%=3D*}
-+                         eval "cross_cc_cflags_${cc_arch}=3D\$optarg"
-+                         cross_cc_vars=3D"$cross_cc_vars cross_cc_cflags_$=
-{cc_arch}"
-+    ;;
-+    --cross-cc-*) cc_arch=3D${opt#--cross-cc-}; cc_arch=3D${cc_arch%%=3D*}
-+                  cc_archs=3D"$cc_archs $cc_arch"
-+                  eval "cross_cc_${cc_arch}=3D\$optarg"
-+                  cross_cc_vars=3D"$cross_cc_vars cross_cc_${cc_arch}"
-+    ;;
-+    esac
-   ;;
-   esac
- done
---=20
-2.31.1
+-- 
+Peter Xu
 
 
