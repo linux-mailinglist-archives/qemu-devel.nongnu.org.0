@@ -2,86 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458633D3C0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 16:54:18 +0200 (CEST)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF863D3C32
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 17:08:55 +0200 (CEST)
+Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6wZ7-0004Yz-AR
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 10:54:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
+	id 1m6wnG-00045o-2G
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 11:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6wXk-00039t-0d
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31232)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1m6wmQ-00031l-RT
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:08:02 -0400
+Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:34392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6wXg-0003Wb-1M
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 10:52:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627051965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9y/PqKteAfvBTq9e0oqFOyML6XICHz17CtGJQ/jKIuE=;
- b=FZai+bP2yCkd0YM9a8SF6sIoSHKFenRyU5JXt4+E5ka0UfS/RqZAC6mjJN56MB1DnR4g4L
- ivWVbGnUcPRyKyt+yvf0o/h3q6xOGKgY6ux9adw1UBP/aurVv4z7JJj+5muADOZA5BzgJh
- zdvhLaDiQP3xL9wEjUw8iE9dlqLJTFs=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-6YKCFJtdOyKzEfqeeerlZw-1; Fri, 23 Jul 2021 10:52:44 -0400
-X-MC-Unique: 6YKCFJtdOyKzEfqeeerlZw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- w26-20020a05620a129ab02903b9eeb8b45dso1177167qki.8
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9y/PqKteAfvBTq9e0oqFOyML6XICHz17CtGJQ/jKIuE=;
- b=pyj6Ci5OVBaQcrjrGW4bHHcBDlns4AbnMdnD5NloFqU6JfbKswMohs0PQXoG/NSxBK
- YeUxGlIRZzmFUgKyO8P5wC4LcynFdfKsb/oB3eDIn0Ga9if7PN+8v3JQ/FIZBZjzGBeA
- iRUEqYN4Brd8h9twsn/NKCkQqcxCUA4z2kuJaKJO4qA0mDXxk9yVCx7LvgOnpB21Lb85
- rsLPHZELzgbMD521cC7LJZb6kuijaoFa90COH9kv4tTTyt47IaH4hxuhZiWPkYSKcINS
- 7M/sRLd6ZAvBM5dMZjdR0x2+qlVoaUOF5mapIxzQlmJdKcfitPyr96DrmgWuIyieXDye
- E1EA==
-X-Gm-Message-State: AOAM531NJMFnR4kb9/PPKnqAi0PGQY36TQN2KTHYITfRG38U8RWTKJCZ
- Qve5IeA4xeeclwDYzgi8OTjBH6Rrf1zj7VZgMVLmS0Pd/oSluGXXFZEFm2ELPJl/0EbqAls1QQ0
- x48qVZed/jDueKbY=
-X-Received: by 2002:ac8:5656:: with SMTP id 22mr4221874qtt.323.1627051964280; 
- Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz18WgbpWfzC6cozjITgTfapyL4Tmh74sCo6NQ/5LZNf/0Q8MkokwZ0KC4gwUg32RBwSxRCPA==
-X-Received: by 2002:ac8:5656:: with SMTP id 22mr4221854qtt.323.1627051964065; 
- Fri, 23 Jul 2021 07:52:44 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id z68sm14508594qke.86.2021.07.23.07.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 07:52:43 -0700 (PDT)
-Date: Fri, 23 Jul 2021 10:52:42 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH resend v2 1/5] tpm: mark correct memory region range
- dirty when clearing RAM
-Message-ID: <YPrXutNkup2E4k6k@t490s>
-References: <20210720130304.26323-1-david@redhat.com>
- <20210720130304.26323-2-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1m6wmO-00060N-Gu
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:08:02 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: fahien) with ESMTPSA id 7AEDD1F44AF7
+Subject: Re: virtio-gpu: Mapping blob resources
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <0eb17319-0b1d-5f43-f5d9-8ccadb0839ef@collabora.com>
+ <20210723135242.w5bcqwwrm5stec3b@sirius.home.kraxel.org>
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
+Message-ID: <baf58f3a-6b82-74c4-5383-117ac51d6579@collabora.com>
+Date: Fri, 23 Jul 2021 17:07:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210720130304.26323-2-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210723135242.w5bcqwwrm5stec3b@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e3e3;
+ envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,41 +55,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ vivek.kasireddy@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 03:03:00PM +0200, David Hildenbrand wrote:
-> @@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
->          guest_phys_blocks_init(&guest_phys_blocks);
->          guest_phys_blocks_append(&guest_phys_blocks);
->          QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
-> +            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
+Awesome, thanks!
+
+I already cherry-picked that commit. :D
+
+I am experimenting with memory regions now. So, I created a ram 
+subregion, did I use the right type for the task?
+
+I added it to the gpu hostmem at the offset specified by the map 
+command. I enabled the subregion, and then I used subregion->addr for 
+the vkMapMemory call.
+
+Running the program I do not get complaints but I can not say if it 
+actually works since it is now stuck on an assert at presentation time, 
+which is a new kind of error, therefore it is good news!
+
+
+Cheers,
+Antonio
+
+
+
+On 23/07/21 15:52, Gerd Hoffmann wrote:
+> On Fri, Jul 23, 2021 at 03:33:24PM +0200, Antonio Caggiano wrote:
+>> Hi,
+>>
+>> I am trying to implement blob resource mapping support, but there is
+>> something I still did not manage to figure out.
+>>
+>> According to the spec, VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB maps a host-only
+>> blob resource into an offset in the host visible memory region. So, I
+>> believe I will need something like:
+>>
+>>> void *data = g->hotstmem[mblob.offset]; // pseudo-code
+>>> virgl_renderer_resource_map(..., &data, ...);
+>>
+>> Questions:
+>> - Does my approach make sense?
+> 
+> No ;)
+> 
+>> - How do I get an address to the host visible memory region?
+> 
+> You don't need that.
+> 
+> qemu has a memory api for that which manages a tree of regions.
+> Each pci bar is such a region.  Below is an old patch from an
+> archived branch adding a pci bar and memory region and some virtio
+> feature flag stuff.  Surely will not apply as-is, but should show
+> what you need to do.
+> 
+> Then you can create a new memory region for each (mappable) host
+> resource and register that as sub-region of the pci bar memory region.
+> sub-regions can be moved around (set offset) and enabled (aka mapped)
+> and disabled (aka unmapped), and qemu will take care to update the
+> guest's view of the memory as needed.
+> 
+> HTH,
+>    Gerd
+> 
+> commit e3e24a1ff3f68335a5691d9948f29d7f50b65929
+> Author: Gerd Hoffmann <kraxel@redhat.com>
+> Date:   Wed Sep 25 14:54:29 2019 +0200
+> 
+>      virtio-gpu: hostmem [wip]
+> 
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+> index decc940048e1..9bb26139e686 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -108,12 +108,15 @@ enum virtio_gpu_base_conf_flags {
+>       (_cfg.flags & (1 << VIRTIO_GPU_FLAG_SHARED_ENABLED))
+>   #define virtio_gpu_blob_enabled(_cfg) \
+>       (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
+> +#define virtio_gpu_hostmem_enabled(_cfg) \
+> +    (_cfg.hostmem > 0)
+>   
+>   struct virtio_gpu_base_conf {
+>       uint32_t max_outputs;
+>       uint32_t flags;
+>       uint32_t xres;
+>       uint32_t yres;
+> +    uint64_t hostmem;
+>   };
+>   
+>   struct virtio_gpu_ctrl_command {
+> @@ -137,6 +140,8 @@ typedef struct VirtIOGPUBase {
+>       int renderer_blocked;
+>       int enable;
+>   
+> +    MemoryRegion hostmem;
 > +
->              trace_tpm_ppi_memset(block->host_addr,
->                                   block->target_end - block->target_start);
->              memset(block->host_addr, 0,
->                     block->target_end - block->target_start);
-> -            memory_region_set_dirty(block->mr, 0,
-> +            memory_region_set_dirty(block->mr, block->target_start - mr_start,
->                                      block->target_end - block->target_start);
-
-target_start should falls in gpa range, while mr_start is ram_addr_t.  I am not
-sure whether this is right..
-
-Neither do I know how to get correct mr offset with the existing info we've got
-from GuestPhysBlock.  Maybe we need to teach guest_phys_blocks_region_add() to
-also record section->offset_within_region?
-
--- 
-Peter Xu
-
+>       struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
+>   
+>       int enabled_output_bitmask;
+> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+> index 09f2efb09968..985f92983a4c 100644
+> --- a/hw/display/virtio-gpu-base.c
+> +++ b/hw/display/virtio-gpu-base.c
+> @@ -194,6 +194,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+>       if (virtio_gpu_blob_enabled(g->conf)) {
+>           features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+>       }
+> +    if (virtio_gpu_hostmem_enabled(g->conf)) {
+> +        features |= (1 << VIRTIO_GPU_F_HOSTMEM);
+> +    }
+>   
+>       return features;
+>   }
+> diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+> index 3d152ff5c873..3f81f4952e59 100644
+> --- a/hw/display/virtio-gpu-pci.c
+> +++ b/hw/display/virtio-gpu-pci.c
+> @@ -33,6 +33,19 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>       int i;
+>       Error *local_error = NULL;
+>   
+> +    if (virtio_gpu_hostmem_enabled(g->conf)) {
+> +        vpci_dev->msix_bar_idx = 1;
+> +        vpci_dev->modern_mem_bar_idx = 2;
+> +        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
+> +                           g->conf.hostmem);
+> +        pci_register_bar(&vpci_dev->pci_dev, 4,
+> +                         PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                         PCI_BASE_ADDRESS_MEM_PREFETCH |
+> +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
+> +                         &g->hostmem);
+> +        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
+> +    }
+> +
+>       qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+>       virtio_pci_force_virtio_1(vpci_dev);
+>       object_property_set_bool(OBJECT(vdev), true, "realized", &local_error);
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 795c4c1d429c..58bcd9c116c8 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -1213,11 +1213,20 @@ static void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
+>           }
+>       }
+>   
+> +    if (virtio_gpu_hostmem_enabled(g->parent_obj.conf)) {
+> +        /* FIXME: to be investigated ... */
+> +        if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
+> +            error_setg(errp, "hostmem and virgl are not compatible (yet)");
+> +            return;
+> +        }
+> +    }
+> +
+>       if (virtio_gpu_shared_enabled(g->parent_obj.conf) ||
+> -        virtio_gpu_blob_enabled(g->parent_obj.conf)) {
+> +        virtio_gpu_blob_enabled(g->parent_obj.conf) ||
+> +        virtio_gpu_hostmem_enabled(g->parent_obj.conf)) {
+>           /* FIXME: must xfer resource type somehow */
+>           error_setg(&g->parent_obj.migration_blocker,
+> -                   "shared/blob is not migratable (yet)");
+> +                   "shared/blob/hostmem is not migratable (yet)");
+>           migrate_add_blocker(g->parent_obj.migration_blocker, &local_err);
+>           if (local_err) {
+>               error_propagate(errp, local_err);
+> @@ -1344,6 +1353,7 @@ static Property virtio_gpu_properties[] = {
+>   #endif
+>       DEFINE_PROP_BIT("shared", VirtIOGPU, parent_obj.conf.flags,
+>                       VIRTIO_GPU_FLAG_SHARED_ENABLED, false),
+> +    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+> index 2b4c2aa126c7..933b74c496e5 100644
+> --- a/hw/display/virtio-vga.c
+> +++ b/hw/display/virtio-vga.c
+> @@ -112,8 +112,21 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>        * virtio regions are moved to the end of bar #2, to make room for
+>        * the stdvga mmio registers at the start of bar #2.
+>        */
+> -    vpci_dev->modern_mem_bar_idx = 2;
+> -    vpci_dev->msix_bar_idx = 4;
+> +    if (!virtio_gpu_hostmem_enabled(g->conf)) {
+> +        vpci_dev->modern_mem_bar_idx = 2;
+> +        vpci_dev->msix_bar_idx = 4;
+> +    } else {
+> +        vpci_dev->msix_bar_idx = 1;
+> +        vpci_dev->modern_mem_bar_idx = 2;
+> +        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
+> +                           g->conf.hostmem);
+> +        pci_register_bar(&vpci_dev->pci_dev, 4,
+> +                         PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                         PCI_BASE_ADDRESS_MEM_PREFETCH |
+> +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
+> +                         &g->hostmem);
+> +        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
+> +    }
+>   
+>       if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
+>           /*
+> 
+> 
 
