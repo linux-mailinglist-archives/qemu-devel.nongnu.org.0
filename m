@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA6D3D3930
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:10:34 +0200 (CEST)
-Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5470B3D3935
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 13:13:05 +0200 (CEST)
+Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6t4b-0002H9-1M
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
+	id 1m6t72-0006vk-B3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 07:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2S-0008UL-NX
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29284)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2b-0000Gj-51
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2R-00014q-9h
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m6t2Y-00019l-0X
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 07:08:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627038498;
+ s=mimecast20190719; t=1627038505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XidfJlF9uLw0ONlJoTjRYGZYc29iEXG+CBqqwyBgpGk=;
- b=H26cPRA2T9rYZv0qxcfkmkssvWgnOiP5ZBj1wrWExX+29DcOFlYptvN3J7C1Nga2RWWY48
- ewElNWPqtlMEGv3ePyBNP98xjpF8Cs1PI7lyWpNd8q10gj1AzeOmvnuiiRHtYBHwua6DfM
- fZaCMu3fIF0fAf6v1A0mAbB0TBtL6Aw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-SedXIzv7M76sCl5MK_DsXQ-1; Fri, 23 Jul 2021 07:08:17 -0400
-X-MC-Unique: SedXIzv7M76sCl5MK_DsXQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p12-20020a5d68cc0000b02901426384855aso856773wrw.11
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:08:17 -0700 (PDT)
+ bh=MgVf1UaIIsKpWFBNlJub9Vl0Re2X6ZB97rXqZyhYWzE=;
+ b=UdOGmKpLEkDePHb32l8o5dO4bl8CMfvWX6pf/CqkonHpzbVNvgcj6d5tXUFHQvlLL57ZOk
+ DHY00lHAehYYMJV/nTT9pu7vXEMOygTm6+Eo1Tq0t6q0vqLgqsKgHE6FT17j5AgYM9riPY
+ fI7o+VWWrOivgYL548xT4Jjgf7jHqr8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-sX_Bghu6MWyrvkl6xN5DSQ-1; Fri, 23 Jul 2021 07:08:22 -0400
+X-MC-Unique: sX_Bghu6MWyrvkl6xN5DSQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o25-20020a05600c5119b0290218757e2783so663658wms.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 04:08:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XidfJlF9uLw0ONlJoTjRYGZYc29iEXG+CBqqwyBgpGk=;
- b=I4/dN9LCbdwUD9tv9p0iJ2KoU4oQ2PJ27b0rerK+EAOFMA3d20LtCh+1hW4yHaeMi7
- mzvxtcoqrms6WLNNbeDgqHPT6Ov+am16AMmBgV6JaI+r8WIAS9SAtV+L/bedq9fcq28y
- 2T8zQ4rQK7sC0xkjQ3I9dSB0ZiGsLbUua5PzdfRV3PqXtHcA5vT6LF3touJmZjUfeoCl
- HVrNdYJX9obE8CzLV8YZ4xmPx4HKxl6mmOm/J2mVQPNn+c8d/tza1bUryhFoEwoodogF
- 8+zRmsqzw4ajoujxB/xcZYMggux1uJls17hEXq2Ucw9Vczcwu074vk0cMO4wKeJUuCJV
- ZyQQ==
-X-Gm-Message-State: AOAM5312Zh5VnhzMosxHNpeq7NJt9XclTmV0FE3H2hq2OH4EBVMC1qau
- lOCHk6W64RuBS6g454Db6WN/hu7DFKEAF1d9ROqDQ5LLdg/gQJ96x9ub7aG0mJ9ilZ00dxlGhS7
- Ztfayjp0rbotGZa5sIvbQj4gZi+o/TU0+IOFZWfnDvkn3i4YlMXAwcCewyGHIEouJ
-X-Received: by 2002:a1c:1dcf:: with SMTP id d198mr243047wmd.103.1627038496383; 
- Fri, 23 Jul 2021 04:08:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyev2IvkcNXfbbBaa+H25DPErEH/dkOuryws+ARsaH/OFnHtfOHxpbWWxNt84luxEZ2GYPKww==
-X-Received: by 2002:a1c:1dcf:: with SMTP id d198mr243018wmd.103.1627038496162; 
- Fri, 23 Jul 2021 04:08:16 -0700 (PDT)
+ bh=MgVf1UaIIsKpWFBNlJub9Vl0Re2X6ZB97rXqZyhYWzE=;
+ b=UgEtsYT+vz6tV/XO8Z7wjpcvqZk2hLQOg0Njot1MFeOOdQKoCGLS16SQ4+9NAeGpFO
+ NqcrAC5kltUui2WSZ7AZUxlm01X+S00aUvQlGO2R7jWm6WGamW2/YizJ1gfSIc+sOlwm
+ KDYMUbYXR2y69bUMt/0XJwx+j5FWtMiWQejf2f0YfOKiC1EymBgo7y7eAuc2BSGb+4Ga
+ yFu5XTuSlBmiBg5nzEE5umfkwuRc3x5tfoKIfYAFROo2gnf613ZEUWf5P2LwonfRPFDi
+ jBExf3vBlCkUorBP/jn8u6kpK95P2SIH6DYhgzOOFqBFfN7nGK1hnrOfbTd7rb/NxH1n
+ 6tYA==
+X-Gm-Message-State: AOAM533Zz7XosiOVL2SAWDmcHk6+T05ikI7jL/kR2fz2Dgp15sLmYP2v
+ FjXmSQd7RxbehQ8fXR96lL7Cu+JeqvbQLDgEoYhUS8epai4YOMHgh4TtDTkK8gOeBI+WLzhzeNR
+ 4g0Tx0GLG+6cjgUJYgsNqApZ4jduJp67N4gKuAaz8n3+yBCTyDTOp/IeiWfHSp61M
+X-Received: by 2002:a1c:ed13:: with SMTP id l19mr3073089wmh.48.1627038500990; 
+ Fri, 23 Jul 2021 04:08:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTeCidQNnCLQKQpmyQxSYsy+smZFue4QXZlkNqt7Ushhzmbf5mLwkaAy1HjJXHA5ceypXOzg==
+X-Received: by 2002:a1c:ed13:: with SMTP id l19mr3073053wmh.48.1627038500683; 
+ Fri, 23 Jul 2021 04:08:20 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- a10sm32157785wrm.12.2021.07.23.04.08.15
+ d5sm542167wre.77.2021.07.23.04.08.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 04:08:15 -0700 (PDT)
+ Fri, 23 Jul 2021 04:08:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 v3 3/4] gitlab-ci: Fix 'when:' condition in EDK2 jobs
-Date: Fri, 23 Jul 2021 13:07:59 +0200
-Message-Id: <20210723110800.855648-4-philmd@redhat.com>
+Subject: [PATCH-for-6.1 v3 4/4] gitlab-ci: Extract OpenSBI job rules and fix
+ 'when:' condition
+Date: Fri, 23 Jul 2021 13:08:00 +0200
+Message-Id: <20210723110800.855648-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210723110800.855648-1-philmd@redhat.com>
 References: <20210723110800.855648-1-philmd@redhat.com>
@@ -99,42 +100,90 @@ Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jobs depending on another should not use the 'when: always'
-condition, because if a dependency failed we should not keep
-running jobs depending on it. The correct condition is
-'when: on_success'.
+First, all jobs depending on 'docker-opensbi' job must use at most
+all the rules that triggers it. The simplest way to ensure that is
+to always use the same rules. Extract all the rules to a reusable
+section, and include this section (with the 'extends' keyword) in
+both 'docker-opensbi' and 'build-opensbi' jobs.
 
-Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries")
+Second, jobs depending on another should not use the 'when: always'
+condition, because if a dependency failed we should not keep running
+jobs depending on it. The correct condition is 'when: on_success'.
+
+The problems were introduced in commit c6fc0fc1a71 ("gitlab-ci.yml:
+Add jobs to build OpenSBI firmware binaries"), but were revealed in
+commit 91e9c47e50a ("docker: OpenSBI build job depends on OpenSBI
+container").
+
+This fix is similar to the one used with the EDK2 firmware job in
+commit ac0595cf6b3 ("gitlab-ci: Extract EDK2 job rules to reusable
+section").
+
 Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.d/edk2.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .gitlab-ci.d/opensbi.yml | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index aae2f7ad880..62497ba47fb 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -8,11 +8,11 @@
-    - .gitlab-ci.d/edk2/Dockerfile
-    # or roms/edk2/ is modified (submodule updated)
-    - roms/edk2/*
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index f66cd1d9089..5e0a2477c5d 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -1,10 +1,23 @@
+-docker-opensbi:
+- stage: containers
+- rules: # Only run this job when the Dockerfile is modified
++# All jobs needing docker-opensbi must use the same rules it uses.
++.opensbi_job_rules:
++ rules: # Only run this job when ...
+  - changes:
++   # this file is modified
+    - .gitlab-ci.d/opensbi.yml
++   # or the Dockerfile is modified
+    - .gitlab-ci.d/opensbi/Dockerfile
 -   when: always
 +   when: on_success
-  - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
--   when: always
++ - changes: # or roms/opensbi/ is modified (submodule updated)
++   - roms/opensbi/*
 +   when: on_success
-  - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
--   when: always
++ - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
 +   when: on_success
++ - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
++   when: on_success
++
++docker-opensbi:
++ extends: .opensbi_job_rules
++ stage: containers
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+@@ -24,16 +37,9 @@ docker-opensbi:
+  - docker push $IMAGE_TAG
  
- docker-edk2:
-  extends: .edk2_job_rules
+ build-opensbi:
++ extends: .opensbi_job_rules
+  stage: build
+  needs: ['docker-opensbi']
+- rules: # Only run this job when ...
+- - changes: # ... roms/opensbi/ is modified (submodule updated)
+-   - roms/opensbi/*
+-   when: always
+- - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+-   when: always
+- - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+-   when: always
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+    - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
 -- 
 2.31.1
 
