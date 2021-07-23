@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C4C3D3C6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 17:29:08 +0200 (CEST)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0748F3D3C76
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 17:31:45 +0200 (CEST)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6x6p-00075G-66
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 11:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
+	id 1m6x9M-0000YG-2o
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 11:31:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6x5F-0006M3-Pf
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:27:31 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:39162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m6x5D-0002dL-UF
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:27:29 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 643A821D4B;
- Fri, 23 Jul 2021 15:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627054046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6x6E-00077g-O1
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:28:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m6x6B-0003Dj-4Z
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 11:28:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627054102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nsYPmtc3jhYmBrD4ICTo/gylls09smKZVZ9dMIALuBg=;
- b=UP1K9P+GWmcUl1ILg3zlPjwzm6d0zI7elF1y7mMUku2mQ76l5VmbJEAq8BHRtm6d4EjGHI
- 6Kfca4YD0dfM4myP42DIiQIdGDkXecm9ZItp+MIJ80Dw67QlXuLt74pB7937hBP85EBh0t
- J04kAur41X938gaVXGTSlEjmyQWQvxs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627054046;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nsYPmtc3jhYmBrD4ICTo/gylls09smKZVZ9dMIALuBg=;
- b=8+vN6+vDdWxgv8gv8TToUkDngKv86URpvWh445fulP+DvRJFkJKA6x9Fzbn2tGrsI5IbFJ
- ji6/Cw9zbu1Gc0CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B84313E02;
- Fri, 23 Jul 2021 15:27:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cQv2CN7f+mCwWgAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 23 Jul 2021 15:27:26 +0000
-Subject: Re: [PATCH v2 1/1] modules: Improve error message when module is not
- found
-To: "Jose R. Ziviani" <jziviani@suse.de>
-References: <20210722220952.17444-1-jziviani@suse.de>
- <20210722220952.17444-2-jziviani@suse.de>
- <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de> <YPrJMTF+3lfeNdC5@pizza>
- <1dec44e9-3587-ff96-f8c4-81399f689e58@suse.de> <YPrT8skFWqzJIccG@pizza>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <328ee832-c151-8d93-c776-d200fa06adaf@suse.de>
-Date: Fri, 23 Jul 2021 17:27:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=IW2j5C3fYmX+4K1gOAo9JPVDmK7GnLKzldSC15c/Dcg=;
+ b=b94/GaL6ps0KIa1i/Iy2DUWelLe9STzyHYF3bb4ZteU1u4P2l9818vfGWhP/+IGBqjqUq2
+ N82nf1TtOl5ywsbyf/2IVodxGHujjL5DJEw/fJYl3hx0NmzvA3etqjll1S5Uuel9duzUcf
+ DXlVLhcijx4qevJt+CNB+Sa/PW+MWwY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-td9X9nxuNKGMVVBksUPNNQ-1; Fri, 23 Jul 2021 11:28:21 -0400
+X-MC-Unique: td9X9nxuNKGMVVBksUPNNQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ 15-20020ac84e8f0000b029024e8c2383c1so1350599qtp.5
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 08:28:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IW2j5C3fYmX+4K1gOAo9JPVDmK7GnLKzldSC15c/Dcg=;
+ b=sinNkRlSXmv4V0+ndgrKIODwTDQS+UKr5j8dvvYOy1ykky7fR4Al/Vf5CrPYzI9ATZ
+ rhmLYaRlvWKRNwD+pQvBq07C6VwS60om+pDqSQU1FY86KIFxf2G2DIt9vOgsTopzSd3k
+ cORknuwou89asnisUgQGHBiWVJq1bMPbXB2pQppz3GTEcD/l5zSVSciCxXA38cHsFp/2
+ XGikgX21C1Y/cQ1w7xWkZjXx32cj+OlRcFgm5Ju0yuheTau5k/2niS4iFJ10SheialLH
+ bVYzjSNkIqUB1TTWb7yxTqWCSRgBKt06ubQGB+hkt09GeWwOjM8vpZmbouaFrmIUIukV
+ U1FQ==
+X-Gm-Message-State: AOAM532HE8URtDZP9SM+FDlxSyCdmoIfDNEwl0Iv+hABTUihtSvjg6m/
+ y8jGVzdSH+CcO8lmsHLB3g6sc9D0dyfTwEGLqg+JRXYAyvrDJz4W2iNTG/s8NEfDrROz+fXazix
+ RUcZHBmlvOyrWyTI=
+X-Received: by 2002:a0c:ff01:: with SMTP id w1mr5316765qvt.28.1627054100980;
+ Fri, 23 Jul 2021 08:28:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6opvqXDL9v1bRP+rXVytCXJLkIrv2LBePRcRK/YRPjCFu+6ZLkRjw6fhgJRasUnveC8VOHQ==
+X-Received: by 2002:a0c:ff01:: with SMTP id w1mr5316734qvt.28.1627054100737;
+ Fri, 23 Jul 2021 08:28:20 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id 6sm14532939qkv.115.2021.07.23.08.28.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 08:28:19 -0700 (PDT)
+Date: Fri, 23 Jul 2021 11:28:17 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH resend v2 5/5] softmmu/memory_mapping: optimize for
+ RamDiscardManager sections
+Message-ID: <YPrgEXkl2wsXYs03@t490s>
+References: <20210720130304.26323-1-david@redhat.com>
+ <20210720130304.26323-6-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YPrT8skFWqzJIccG@pizza>
+In-Reply-To: <20210720130304.26323-6-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,200 +97,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/21 4:36 PM, Jose R. Ziviani wrote:
-> On Fri, Jul 23, 2021 at 04:02:26PM +0200, Claudio Fontana wrote:
->> On 7/23/21 3:50 PM, Jose R. Ziviani wrote:
->>> On Fri, Jul 23, 2021 at 11:41:19AM +0200, Claudio Fontana wrote:
->>>> On 7/23/21 12:09 AM, Jose R. Ziviani wrote:
->>>>> When a module is not found, specially accelerators, QEMU displays
->>>>> a error message that not easy to understand[1]. This patch improves
->>>>> the readability by offering a user-friendly message[2].
->>>>>
->>>>> This patch also moves the accelerator ops check to runtine (instead
->>>>> of the original g_assert) because it works better with dynamic
->>>>> modules.
->>>>>
->>>>> [1] qemu-system-x86_64 -accel tcg
->>>>> ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed:
->>>>> (ops != NULL)
->>>>> Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces:
->>>>> assertion failed: (ops != NULL)
->>>>>     31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
->>>>>
->>>>> [2] qemu-system-x86_64 -accel tcg
->>>>> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
->>>>>
->>>>> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
->>>>> ---
->>>>>  accel/accel-softmmu.c |  5 ++++-
->>>>>  util/module.c         | 14 ++++++++------
->>>>>  2 files changed, 12 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->>>>> index 67276e4f52..52449ac2d0 100644
->>>>> --- a/accel/accel-softmmu.c
->>>>> +++ b/accel/accel-softmmu.c
->>>>> @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>>>>       * all accelerators need to define ops, providing at least a mandatory
->>>>>       * non-NULL create_vcpu_thread operation.
->>>>>       */
->>>>> -    g_assert(ops != NULL);
->>>>> +    if (ops == NULL) {
->>>>> +        exit(1);
->>>>> +    }
->>>>> +
->>>>
->>>>
->>>> Ah, again, why?
->>>> This change looks wrong to me, 
->>>>
->>>> the ops code should be present when ops interfaces are initialized:
->>>> it should be a code level assertion, as it has to do with the proper order of initializations in QEMU,
->>>>
->>>> why would we want to do anything else but to assert here?
->>>>
->>>> Am I blind to something obvious?
->>>
->>> Hello!
->>>
->>> Thank you for reviewing it!
->>>
->>> The problem is that if your TCG module is not installed and you start
->>> QEMU like:
->>>
->>> ./qemu-system-x86_64 -accel tcg
->>>
->>> You'll get the error message + a crash with a core dump:
->>>
->>> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
->>> **
->>> ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
->>> Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
->>> [1]    5740 IOT instruction (core dumped)  ./qemu-system-x86_64 -accel tcg
->>>
->>> I was digging a little bit more in order to move this responsibility to
->>> module.c but there isn't enough information there to safely exit() in
->>> all situations that a module may be loaded. As Gerd mentioned, more work
->>> is needed in order to achieve that.
->>>
->>> However, it's not nice to have a crash due to an optional module missing.
->>> It's specially confusing because TCG has always been native. Considering
->>> also that we're already in hard freeze for 6.1, I thought to have this
->>> simpler check instead.
->>>
->>> What do you think if we have something like:
->>>
->>> /* FIXME: this isn't the right place to handle a missing module and
->>>    must be reverted when the module refactoring is completely done */
->>> #ifdef CONFIG_MODULES
->>> if (ops == NULL) {
->>>     exit(1);
->>> }
->>> #else
->>> g_assert(ops != NULL);
->>> #endif
->>>
->>> Regards!
->>
->>
->> For the normal builds (without modular tcg), this issue does not appear right?
+On Tue, Jul 20, 2021 at 03:03:04PM +0200, David Hildenbrand wrote:
+> virtio-mem logically plugs/unplugs memory within a sparse memory region
+> and notifies via the RamDiscardManager interface when parts become
+> plugged (populated) or unplugged (discarded).
 > 
-> Yes, but OpenSUSE already builds with --enable-modules, we've already been shipping
-> several modules as optional RPMs, like qemu-hw-display-virtio-gpu for example. I sent
-> a patch some weeks ago to add "--enable-tcg-builtin" in the build system but there're
-> more work required in that area as well.
+> Currently, we end up (via the two users)
+> 1) zeroing all logically unplugged/discarded memory during TPM resets.
+> 2) reading all logically unplugged/discarded memory when dumping, to
+>    figure out the content is zero.
 > 
->> So maybe there is no pressure to change anything for 6.1, and we can work on the right solution on master?
->>
->> Not sure how we consider this feature for 6.1, I guess it is still not a supported option,
->> (is there any CI for this? Probably not right?),
->>
->> so I would consider building modular tcg in 6.1 as "experimental", and we can proceed to do the right thing on master?
+> 1) is always bad, because we assume unplugged memory stays discarded
+>    (and is already implicitly zero).
+> 2) isn't that bad with anonymous memory, we end up reading the zero
+>    page (slow and unnecessary, though). However, once we use some
+>    file-backed memory (future use case), even reading will populate memory.
 > 
-> For OpenSUSE Tumbleweed, when we release QEMU 6.1, I can add my patch to
-> "--enable-tcg-builtin" for downstream only. I'm fine with it too.
-
-Hi Jose,
-
-indeed if we need to do something downstream it's fine,
-but lets keep the discussion on this list focused on what is best for upstream.
-
-Ciao, thanks :-)
-
-Claudio
-
+> Let's cut out all parts marked as not-populated (discarded) via the
+> RamDiscardManager. As virtio-mem is the single user, this now means that
+> logically unplugged memory ranges will no longer be included in the
+> dump, which results in smaller dump files and faster dumping.
 > 
-> Thank you!!!
+> virtio-mem has a minimum granularity of 1 MiB (and the default is usually
+> 2 MiB). Theoretically, we can see quite some fragmentation, in practice
+> we won't have it completely fragmented in 1 MiB pieces. Still, we might
+> end up with many physical ranges.
 > 
->>
->> Thanks,
->>
->> Claudio
->>
->>>
->>>>
->>>>>      if (ops->ops_init) {
->>>>>          ops->ops_init(ops);
->>>>>      }
->>>>> diff --git a/util/module.c b/util/module.c
->>>>> index 6bb4ad915a..268a8563fd 100644
->>>>> --- a/util/module.c
->>>>> +++ b/util/module.c
->>>>> @@ -206,13 +206,10 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
->>>>>  out:
->>>>>      return ret;
->>>>>  }
->>>>> -#endif
->>>>>  
->>>>>  bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->>>>>  {
->>>>>      bool success = false;
->>>>> -
->>>>> -#ifdef CONFIG_MODULES
->>>>>      char *fname = NULL;
->>>>>  #ifdef CONFIG_MODULE_UPGRADES
->>>>>      char *version_dir;
->>>>> @@ -300,6 +297,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->>>>>  
->>>>>      if (!success) {
->>>>>          g_hash_table_remove(loaded_modules, module_name);
->>>>> +        fprintf(stderr, "%s module is missing, install the "
->>>>> +                        "package or config the library path "
->>>>> +                        "correctly.\n", module_name);
->>>>>          g_free(module_name);
->>>>>      }
->>>>>  
->>>>> @@ -307,12 +307,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->>>>>          g_free(dirs[i]);
->>>>>      }
->>>>>  
->>>>> -#endif
->>>>>      return success;
->>>>>  }
->>>>>  
->>>>> -#ifdef CONFIG_MODULES
->>>>> -
->>>>>  static bool module_loaded_qom_all;
->>>>>  
->>>>>  void module_load_qom_one(const char *type)
->>>>> @@ -384,4 +381,9 @@ void qemu_load_module_for_opts(const char *group) {}
->>>>>  void module_load_qom_one(const char *type) {}
->>>>>  void module_load_qom_all(void) {}
->>>>>  
->>>>> +bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->>>>> +{
->>>>> +    return false;
->>>>> +}
->>>>> +
->>>>>  #endif
->>>>>
->>>>
->>
+> Both, the ELF format and kdump seem to be ready to support many
+> individual ranges (e.g., for ELF it seems to be UINT32_MAX, kdump has a
+> linear bitmap).
+> 
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Claudio Fontana <cfontana@suse.de>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: "Alex Bennée" <alex.bennee@linaro.org>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Stefan Berger <stefanb@linux.ibm.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  softmmu/memory_mapping.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
+> index b7e4f3f788..856778a109 100644
+> --- a/softmmu/memory_mapping.c
+> +++ b/softmmu/memory_mapping.c
+> @@ -246,6 +246,15 @@ static void guest_phys_block_add_section(GuestPhysListener *g,
+>  #endif
+>  }
+>  
+> +static int guest_phys_ram_populate_cb(MemoryRegionSection *section,
+> +                                      void *opaque)
+> +{
+> +    GuestPhysListener *g = opaque;
+> +
+> +    guest_phys_block_add_section(g, section);
+> +    return 0;
+> +}
+> +
+>  static void guest_phys_blocks_region_add(MemoryListener *listener,
+>                                           MemoryRegionSection *section)
+>  {
+> @@ -257,6 +266,17 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+>          memory_region_is_nonvolatile(section->mr)) {
+>          return;
+>      }
+> +
+> +    /* for special sparse regions, only add populated parts */
+> +    if (memory_region_has_ram_discard_manager(section->mr)) {
+> +        RamDiscardManager *rdm;
+> +
+> +        rdm = memory_region_get_ram_discard_manager(section->mr);
+> +        ram_discard_manager_replay_populated(rdm, section,
+> +                                             guest_phys_ram_populate_cb, g);
+> +        return;
+> +    }
+> +
+>      guest_phys_block_add_section(g, section);
+>  }
+
+As I've asked this question previously elsewhere, it's more or less also
+related to the design decision of having virtio-mem being able to sparsely
+plugged in such a small granularity rather than making the plug/unplug still
+continuous within GPA range (so we move page when unplug).
+
+There's definitely reasons there and I believe you're the expert on that (as
+you mentioned once: some guest GUPed pages cannot migrate so cannot get those
+ranges offlined otherwise), but so far I still not sure whether that's a kernel
+issue to solve on GUP, although I agree it's a complicated one anyway!
+
+Maybe it's a trade-off you made at last, I don't have enough knowledge to tell.
+
+The patch itself looks okay to me, there's just a slight worry on not sure how
+long would the list be at last; if it's chopped in 1M/2M small chunks.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
