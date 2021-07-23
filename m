@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169043D3D6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:19:51 +0200 (CEST)
-Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8FB3D3D80
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 18:24:30 +0200 (CEST)
+Received: from localhost ([::1]:47958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6xtu-00078s-51
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48636)
+	id 1m6xyP-0002n2-OB
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 12:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m6xt9-0006IL-N6
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:19:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m6xt8-0007Xl-3D
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627057140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gIY8iU3tWE+z8Zf+bZYZYnf42kpGzlZ/+1OpyKvPH9k=;
- b=iuUiSqN7rJ4BS1LSFvSi7dT68m4+mViY8UKAAev4mNABCWPGAwXHz5Q89/u4lFDSUoak9f
- t429ycyNseMNJv4q1J24XTv6GvkYbAAkiddWOB6/8Gv4b8U27uL4UMiR3EoHyD4sJSIeux
- 5TB/c7Lx6q0Cg/VeUo4/Wa+iJ3uLIuU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-URDhtawrNeC-hegExSRE2A-1; Fri, 23 Jul 2021 12:18:59 -0400
-X-MC-Unique: URDhtawrNeC-hegExSRE2A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CF4810086C7;
- Fri, 23 Jul 2021 16:18:58 +0000 (UTC)
-Received: from redhat.com (ovpn-113-114.ams2.redhat.com [10.36.113.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A155F6A05B;
- Fri, 23 Jul 2021 16:18:56 +0000 (UTC)
-Date: Fri, 23 Jul 2021 18:18:55 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
-Message-ID: <YPrr72N494WKnJA5@redhat.com>
-References: <20210723103303.1731437-1-rjones@redhat.com>
- <20210723103303.1731437-2-rjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6xvr-0008NU-LE
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:51 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m6xvq-0000kA-5U
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 12:21:51 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r2so3006530wrl.1
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 09:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pC3higFKBpWHoN/o0EaoEZiCD97XB+WWIsCQWkN89RI=;
+ b=sYzIkFHiFA0k+1SCYscQ3bpka5ogoD4koPYecSEvQCgUwpGLmQ3vGlCS7RJYUlX2u1
+ r+CkC9S2T8x6+BlB16AzLVFBoYILzf31zeoHdxC1cQyOef7nlT6IR++8zojq2efjO798
+ 0+LOqfNgE/yIJqBADQz9bWujb9aNZK4OuOvU+tu7MP+tqzVSDPpuMKj0tiV6LsL6X0V1
+ pQA0dTm7Zcin6du9vEA2tn/0cxoA6NrWWUkHlQShYqjoklC/1CLfNN6pUWXJuFms/zew
+ Rc0gkIrR8Ejg8Q0UjLa/qshYfGA+3ImaZXowyubpXt2hzS2m9zQJ98ieUi/i8MKWkacE
+ kaUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pC3higFKBpWHoN/o0EaoEZiCD97XB+WWIsCQWkN89RI=;
+ b=Fs8aLqmQf0TfHICpmuTvRWEccf6Bqdrlc1OIFC+8G4mt4EnORvdJcjeUxkLa5OUaQA
+ g9V98PiTHnW7KUbOfyqyvEY90PMrcTIpImIx/u2e3B3yWp7L3tMY0jymsIXZ7PXG2R5i
+ AU6erk3Pxb9qJHwRDOi1UhELr79ca0s9esio5h1PhFaNpo+yT1X9xfYCpTdr2GiQz4sx
+ ESKptFoTvPCkfPhO7H+SmdSgph+eh/qz1qFc2+XAsgY+8G42QdelbWBqfa63KlpxQJyf
+ ELkVjEhiiXy/wzOp9kYKMNf89mdrJqZTpiZ+3dHuyCZlI1Lk3Y6bslljrT/Cn7XJ606h
+ 4MfQ==
+X-Gm-Message-State: AOAM532lKBPRRTJ316wRLMavluLBJHInGaQ4SMRCKBhL0zx1bPD+eMnb
+ oCfhtoVHFirDDROFHJuEGZjqd6QGPY9pPw==
+X-Google-Smtp-Source: ABdhPJy3p1CeoJEaOh1gkaDwyFwCfb1xPXeyoXsWu2oXdHuoP8JZGNO6quny1ARwS1068V1dQ+1D2Q==
+X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr6375067wrw.30.1627057308726;
+ Fri, 23 Jul 2021 09:21:48 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y11sm5721416wmi.33.2021.07.23.09.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 09:21:48 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-6.1 0/6] arm: Fix a handful of M-profile bugs
+Date: Fri, 23 Jul 2021 17:21:40 +0100
+Message-Id: <20210723162146.5167-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210723103303.1731437-2-rjones@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,39 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, vsementsov@virtuozzo.com, eblake@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.07.2021 um 12:33 hat Richard W.M. Jones geschrieben:
-> Under SELinux, Unix domain sockets have two labels.  One is on the
-> disk and can be set with commands such as chcon(1).  There is a
-> different label stored in memory (called the process label).  This can
-> only be set by the process creating the socket.  When using SELinux +
-> SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> you must set both labels correctly first.
-> 
-> For qemu-nbd the options to set the second label are awkward.  You can
-> create the socket in a wrapper program and then exec into qemu-nbd.
-> Or you could try something with LD_PRELOAD.
-> 
-> This commit adds the ability to set the label straightforwardly on the
-> command line, via the new --selinux-label flag.  (The name of the flag
-> is the same as the equivalent nbdkit option.)
-> 
-> A worked example showing how to use the new option can be found in
-> this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
+This patchset fixes a handful of minor M-profile bugs:
+ * The low 2 bits of SP should not be writeable (they are always 0)
+ * Missing 'return' statements for some "tail chain to another
+   exception after detecting an error during exception return" cases
+ * Alignment faults were being incorrectly reported to the guest
+   as MMU faults
+ * ISCR.ISRPENDING wasn't being set if there was a pending
+   but non-enabled interrupt
+ * ISCR.VECTPENDING is 9 bits, not 8
+ * ISCR.VECTPENDING was missing the new-for-v8.1M behaviour where
+   it hides the identity of a pending Secure exception from a
+   NonSecure read of the register
 
-I suppose this would also be relevant for the built-in NBD server,
-especially in the context of qemu-storage-daemon?
+Nothing here is very critical, but they might as well go into
+6.1 because they are bugfixes.
 
-If so, is this something specific to NBD sockets, or would it actually
-make sense to have it as a generic option in UnixSocketAddress?
+thanks
+-- PMM
 
-Kevin
+Peter Maydell (6):
+  target/arm: Enforce that M-profile SP low 2 bits are always zero
+  target/arm: Add missing 'return's after calling v7m_exception_taken()
+  target/arm: Report M-profile alignment faults correctly to the guest
+  hw/intc/armv7m_nvic: ISCR.ISRPENDING is set for non-enabled pending
+    interrupts
+  hw/intc/armv7m_nvic: Correct size of ICSR.VECTPENDING
+  hw/intc/armv7m_nvic: for v8.1M VECTPENDING hides S exceptions from NS
+
+ hw/intc/armv7m_nvic.c  | 40 ++++++++++++++++++++++++++++------------
+ target/arm/gdbstub.c   |  4 ++++
+ target/arm/m_helper.c  | 24 ++++++++++++++++++------
+ target/arm/translate.c |  3 +++
+ 4 files changed, 53 insertions(+), 18 deletions(-)
+
+-- 
+2.20.1
 
 
