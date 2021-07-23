@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2B73D3162
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 03:50:45 +0200 (CEST)
-Received: from localhost ([::1]:49108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D983D3178
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 03:58:49 +0200 (CEST)
+Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6kKq-00020K-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 21:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39806)
+	id 1m6kSe-0004WY-V3
+	for lists+qemu-devel@lfdr.de; Thu, 22 Jul 2021 21:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6kJU-0001Gj-Ct
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:49:20 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:50888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m6kJT-0000jv-2Y
- for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:49:20 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id l19so181081pjz.0
- for <qemu-devel@nongnu.org>; Thu, 22 Jul 2021 18:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2phKtDmikTnXvD+zBW1mFIlsNU7XuCMCu2himmIUlK0=;
- b=D5wIR2dk2xD/QjIWzQDsVSSEc18hRz/rJlPEmeoWh9rinIyJJeR21B7QhAxZP6JiGV
- 6YSYkPs5oyF10/lZHiaB8cEY6FXUHdpYAp3iQ2AS7vgsSETqXwQg4TNcjUtEr1DRaRjg
- ZRiej7OcqfJl17aqyhW27GdXFIDD2HWUXNuTxodndAkzqnGsH2hhp3ulG2cXvWJmdW/U
- 4UiMnskD5tvKrJRxPQqSZNaYerfpgKRPBM205IWBaP+8x9nS25K4VRxJnav6bLTDcuR/
- r6y+Zi0MXE3cbn7VXkXT/LCs6qQ6hg3JLBTGSBEA9qYedCOh41ZeGNO5M5Z5NRoZ7a/1
- uXjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2phKtDmikTnXvD+zBW1mFIlsNU7XuCMCu2himmIUlK0=;
- b=tCeObWXVyWzOx7zJE0dH8KVkvnu7AEo25d268YE32v2fJ25u3fBFTKuz4YOr+SDO3Q
- N4f4C2h5H120afkXByMJkLgIF8HquuPHq8/03jHXDX4m8BgQUB5IVwvIi2IbUE26Gpr2
- Ix82QxSas+492By2gXqN4z8cjx2++Hi9iCy6VZLm5KWMPRjnQuGqQ53dQ2aNd3CUqev3
- 43uabZPEe9LKtEbjgE2uRFBAuj31SAcFFN8fEtRwfvXc9O+WlDadufFodc+K6Wo7MeDU
- KSOFJgZeSH8IwyTfsxJ5okah0Du3/U2kiGsGltJuyiU079LA5/2crfBMxZO9BH1wL/y5
- s91w==
-X-Gm-Message-State: AOAM532bQNxHsCh2i9uLDrigTgWzDd6D+zFsAXhtrpAihV1ks5+7g6Jx
- thFfA9ux/ZJdKTObQi58KoHtgQ==
-X-Google-Smtp-Source: ABdhPJwlJ9BAWPcEPOrFEBvJHk3QlhU6WZb/xIwREPEofl4Vt/aWoUUtHC+aT9qdWdVaFNnbBIDjyA==
-X-Received: by 2002:a63:5b17:: with SMTP id p23mr2749233pgb.94.1627004957685; 
- Thu, 22 Jul 2021 18:49:17 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id a8sm13728639pgd.50.2021.07.22.18.49.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jul 2021 18:49:17 -0700 (PDT)
-Subject: Re: [PATCH v2 11/22] target/loongarch: Add fixed point atomic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-12-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b4f41a3-1f7c-6eaa-d0d4-e676888fdc98@linaro.org>
-Date: Thu, 22 Jul 2021 15:49:13 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6kRJ-0003qx-T6
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:57:25 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m6kRH-0006TB-A1
+ for qemu-devel@nongnu.org; Thu, 22 Jul 2021 21:57:25 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GWC4j6gclz7x8g;
+ Fri, 23 Jul 2021 09:52:37 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 23 Jul 2021 09:57:15 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 23 Jul 2021 09:57:15 +0800
+Subject: Re: [PATCH for-6.1 v2] machine: Disallow specifying topology
+ parameters as zero
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210722154326.1464-1-wangyanan55@huawei.com>
+ <20210722154326.1464-2-wangyanan55@huawei.com>
+ <874kcm0ywx.fsf@p50.localhost.localdomain>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <38c23728-e2b4-cbd2-450f-ed4c95c7fba4@huawei.com>
+Date: Fri, 23 Jul 2021 09:57:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <1626861198-6133-12-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <874kcm0ywx.fsf@p50.localhost.localdomain>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.203,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,44 +70,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, laurent@vivier.eu,
- maobibo@loongson.cn, alistair.francis@wdc.com, pbonzini@redhat.com,
- alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 11:53 PM, Song Gao wrote:
-> +#define TRANS_AM_W(name, op)                                      \
-> +static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
-> +{                                                                 \
-> +    TCGv addr, val, ret;                                          \
-> +    TCGv Rd = cpu_gpr[a->rd];                                     \
-> +    int mem_idx = ctx->mem_idx;                                   \
-> +                                                                  \
-> +    if (a->rd == 0) {                                             \
-> +        return true;                                              \
-> +    }                                                             \
-> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
-> +        printf("%s: warning, register equal\n", __func__);        \
-> +        return false;                                             \
-> +    }                                                             \
-> +                                                                  \
-> +    addr = get_gpr(a->rj);                                        \
-> +    val = get_gpr(a->rk);                                         \
-> +    ret = tcg_temp_new();                                         \
-> +                                                                  \
-> +    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TESL |   \
-> +                            ctx->default_tcg_memop_mask);         \
-> +    tcg_gen_mov_tl(Rd, ret);                                      \
-> +                                                                  \
-> +    tcg_temp_free(ret);                                           \
-> +                                                                  \
-> +    return true;                                                  \
-> +}
+Hi Cleber,
 
-No printf.  Use a common routine instead of macros.
+On 2021/7/23 6:25, Cleber Rosa wrote:
+> Yanan Wang writes:
+>
+>> In the SMP configuration, we should either specify a topology
+>> parameter with a reasonable value (equal to or greater than 1)
+>> or just leave it omitted and QEMU will calculate its value.
+>> Configurations which explicitly specify the topology parameters
+>> as zero like "sockets=0" are meaningless, so disallow them.
+>>
+>> However, the commit 1e63fe685804d
+>> (machine: pass QAPI struct to mc->smp_parse) has documented that
+>> '0' has the same semantics as omitting a parameter in the qapi
+>> comment for SMPConfiguration. So this patch fixes the doc and
+>> also adds the corresponding sanity check in the smp parsers.
+>>
+>> Suggested-by: Andrew Jones <drjones@redhat.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/core/machine.c | 14 ++++++++++++++
+>>   qapi/machine.json |  6 +++---
+>>   qemu-options.hx   | 12 +++++++-----
+>>   3 files changed, 24 insertions(+), 8 deletions(-)
+> Hi Yanan,
+>
+> This looks somewhat similar to this very old patch of mine:
+>
+>     https://mail.gnu.org/archive/html/qemu-devel/2020-10/msg03039.html
+>
+> I'm putting a reference here because I believe the test can be salvaged
+> and slightly adapted for this patch of yours.
+>
+> Let me know if I can help anyhow.
+>
+Thanks for this.
+I was introducing an unit test for the smp parsing in [1], in which all
+possible valid and invalid smp configs were covered, and actually the
+"parameter=0" stuff was also covered. You can have a look, and
+suggestions are welcome. I'm not sure we need two different tests
+for the same part. :)
 
+[1] 
+https://lore.kernel.org/qemu-devel/20210719032043.25416-12-wangyanan55@huawei.com/
 
-r~
+Thanks,
+Yanan
+.
+
 
