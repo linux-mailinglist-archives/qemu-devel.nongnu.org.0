@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351093D4011
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:59:13 +0200 (CEST)
-Received: from localhost ([::1]:60814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3493D4012
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 19:59:33 +0200 (CEST)
+Received: from localhost ([::1]:33530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6zS3-0007fo-NV
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47394)
+	id 1m6zSO-0008Jb-96
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 13:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1m6zPf-0005bb-8K; Fri, 23 Jul 2021 13:56:43 -0400
+ id 1m6zPo-0005mO-A2; Fri, 23 Jul 2021 13:56:52 -0400
 Received: from [201.28.113.2] (port=37617 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1m6zPc-00038U-78; Fri, 23 Jul 2021 13:56:42 -0400
+ id 1m6zPm-00038U-R3; Fri, 23 Jul 2021 13:56:52 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 23 Jul 2021 14:56:34 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 23 Jul 2021 14:56:39 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 3A05C801022;
- Fri, 23 Jul 2021 14:56:34 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0BF01801022;
+ Fri, 23 Jul 2021 14:56:39 -0300 (-03)
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 0/3] target/ppc: MMU clean up
-Date: Fri, 23 Jul 2021 14:56:24 -0300
-Message-Id: <20210723175627.72847-1-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v5 2/3] target/ppc: moved ppc_store_sdr1 to mmu_common.c
+Date: Fri, 23 Jul 2021 14:56:26 -0300
+Message-Id: <20210723175627.72847-3-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 23 Jul 2021 17:56:34.0353 (UTC)
- FILETIME=[134CD210:01D77FEC]
+In-Reply-To: <20210723175627.72847-1-lucas.araujo@eldorado.org.br>
+References: <20210723175627.72847-1-lucas.araujo@eldorado.org.br>
+X-OriginalArrivalTime: 23 Jul 2021 17:56:39.0150 (UTC)
+ FILETIME=[1628C8E0:01D77FEC]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,35 +61,92 @@ Cc: luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series aims to clean up some of the code mmu_helper.c,
-including removing the #includes inside ifdef.
+ppc_store_sdr1 was at first in mmu_helper.c and was moved as part
+the patches to enable the disable-tcg option, now it's being moved
+back to a file that will be compiled with that option
 
-This version of the patch has been rebased on the current ppc-for-6.2
-branch as adapted accordingly.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ target/ppc/cpu.c        | 28 ----------------------------
+ target/ppc/mmu_common.c | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 28 deletions(-)
 
-v4: Moved functions declarations from cpu.h to internal.h when possible.
-
-v5: Changed the copyright of target/ppc/mmu_common.c to be the same as
-target/ppc/mmu_helper.c. Updated the message of helper_regs.c
-
-Comments are welcome, thanks,
-Lucas Mateus.
-
-Lucas Mateus Castro (alqotel) (3):
-  target/ppc: divided mmu_helper.c in 2 files
-  target/ppc: moved ppc_store_sdr1 to mmu_common.c
-  target/ppc: moved store_40x_sler to helper_regs.c
-
- target/ppc/cpu.c         |   28 -
- target/ppc/cpu.h         |    9 +
- target/ppc/helper_regs.c |   12 +
- target/ppc/internal.h    |   39 +
- target/ppc/meson.build   |    8 +-
- target/ppc/mmu_common.c  | 1620 ++++++++++++++++++++++++++++++++++++++
- target/ppc/mmu_helper.c  | 1590 +------------------------------------
- 7 files changed, 1686 insertions(+), 1620 deletions(-)
- create mode 100644 target/ppc/mmu_common.c
-
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index a29299882a..7ad9bd6044 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -67,34 +67,6 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
+     return env->vscr | (sat << VSCR_SAT);
+ }
+ 
+-#ifdef CONFIG_SOFTMMU
+-void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+-{
+-    PowerPCCPU *cpu = env_archcpu(env);
+-    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+-    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
+-#if defined(TARGET_PPC64)
+-    if (mmu_is_64bit(env->mmu_model)) {
+-        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+-        target_ulong htabsize = value & SDR_64_HTABSIZE;
+-
+-        if (value & ~sdr_mask) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
+-                     " set in SDR1", value & ~sdr_mask);
+-            value &= sdr_mask;
+-        }
+-        if (htabsize > 28) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
+-                     " stored in SDR1", htabsize);
+-            return;
+-        }
+-    }
+-#endif /* defined(TARGET_PPC64) */
+-    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+-    env->spr[SPR_SDR1] = value;
+-}
+-#endif /* CONFIG_SOFTMMU */
+-
+ /* GDBstub can read and write MSR... */
+ void ppc_store_msr(CPUPPCState *env, target_ulong value)
+ {
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index ec4dce4ddc..a0518f611b 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -58,6 +58,32 @@
+ #  define LOG_BATS(...) do { } while (0)
+ #endif
+ 
++void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
++    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
++#if defined(TARGET_PPC64)
++    if (mmu_is_64bit(env->mmu_model)) {
++        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
++        target_ulong htabsize = value & SDR_64_HTABSIZE;
++
++        if (value & ~sdr_mask) {
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
++                     " set in SDR1", value & ~sdr_mask);
++            value &= sdr_mask;
++        }
++        if (htabsize > 28) {
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
++                     " stored in SDR1", htabsize);
++            return;
++        }
++    }
++#endif /* defined(TARGET_PPC64) */
++    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
++    env->spr[SPR_SDR1] = value;
++}
++
+ /*****************************************************************************/
+ /* PowerPC MMU emulation */
+ 
 -- 
 2.17.1
 
