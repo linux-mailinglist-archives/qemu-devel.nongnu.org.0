@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539623D360B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:04:01 +0200 (CEST)
-Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCE93D361D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Jul 2021 10:05:57 +0200 (CEST)
+Received: from localhost ([::1]:37300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6qA4-00083c-D6
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
+	id 1m6qBw-0001po-6V
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 04:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6q8z-0007O7-V9
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:02:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41457)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6q9O-0007js-4s
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:03:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m6q8x-0003mv-8Q
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:02:53 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m6q9M-00047V-L3
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 04:03:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627027370;
+ s=mimecast20190719; t=1627027396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C41s+cxFDve2fB+LwOAyOoaqnVhovgqA3hp/MUIbBI4=;
- b=OfGs3y2dLU8yL0TJZXe2/M2n1MNSR6hFbL+asr8WYX8UZwa+TcygpMC79MzqeMA701MMN9
- LomydqbO1ahNs4l/JIxlGqOUCncUtwtH7zxXwDECIC2zg+V0MAtXpf+eN5gPiOMcM5WG9Q
- s6CMO4wLPn87Nz3wpyc1H09qgQweQYQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-oFiZyUWuOjuMpo70SHAwMQ-1; Fri, 23 Jul 2021 04:02:48 -0400
-X-MC-Unique: oFiZyUWuOjuMpo70SHAwMQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D1531074661;
- Fri, 23 Jul 2021 08:02:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
- [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31C03100164C;
- Fri, 23 Jul 2021 08:02:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AE51611326B9; Fri, 23 Jul 2021 10:02:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH for-6.1 v2] machine: Disallow specifying topology
- parameters as zero
-References: <20210722154326.1464-1-wangyanan55@huawei.com>
- <20210722154326.1464-2-wangyanan55@huawei.com>
- <YPmWTutShepWX32R@redhat.com>
-Date: Fri, 23 Jul 2021 10:02:43 +0200
-In-Reply-To: <YPmWTutShepWX32R@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 22 Jul 2021 17:01:18 +0100")
-Message-ID: <87o8atcva4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=h/kDh7ZKYgoQIgvnpN7VgBGd0aTtWE8zYzSfbc1bDHU=;
+ b=HRxeU92aRUHcvSp8QvnzB4ePd3Us3W3qK4iQGOW05MQjRQyvqjD3Rkc4QJmq7TGSOfLzRu
+ TLqwXPyyKZ5197X9wVVgPdr6Tm5pML5OY4+5+ODcI5Yb/LNTgoY7i2BRno36WM6gY7pJxc
+ 7QsSPnqp2MeK/UFJH0b5FmwugsV6IaY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-_VP7KN-wMfGr7W-hTEYf2A-1; Fri, 23 Jul 2021 04:03:12 -0400
+X-MC-Unique: _VP7KN-wMfGr7W-hTEYf2A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l12-20020a5d6d8c0000b029011a3b249b10so699353wrs.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 01:03:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=h/kDh7ZKYgoQIgvnpN7VgBGd0aTtWE8zYzSfbc1bDHU=;
+ b=HBbq6cAit8AQ0RX8FQTAWSpnDYfLPUZKBJ+Fs8c+cp6GkhVY94iN8KPJ8ox1HAHDBX
+ SKYhoqSIQ2Qm6gno34ddCVBB4PUUuatqcd34Y9ULVGbhZBsHrCRJrFi9EdFsLmrZ/JBH
+ nXREKj/boNNAbmffDxV6/UawERUB0KXyAs3sA9bRksrYhwu++y9c6Jd0jiArjmrxIUlp
+ kehxnhQW1dOqNfWOeMgXSlxjdgP7haQCljPCmw9wOPw2ORr80d25oGnc3WPtxevtVkao
+ VquUtgR/S2WjUr65MXiaR2FW7s58uiCU+RZHeLo4u5yvsO0WESQjjJkGwYkwyd6LhmTP
+ tlbA==
+X-Gm-Message-State: AOAM5324IV/+EI/o4D6K0TIHDepNr6rDuYhQIRK4mFE7xykUJVeiY1Se
+ jP/yG24a3qNsPQloAExGPzMk+mF+2ptKxY6mLquLpQ7Vz+tKbhYX7LkfgE0wHwTOH0jHHcYEVSM
+ oub7oBPnpnS/dpbc=
+X-Received: by 2002:a5d:6849:: with SMTP id o9mr4064603wrw.250.1627027391481; 
+ Fri, 23 Jul 2021 01:03:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJ3SCzsh+c9nUO1vXvs3gECKr7OHGsUy6VnBaRkqyYelXSo2S1A5WOwOCCHbRL3lD8jeW0Jw==
+X-Received: by 2002:a5d:6849:: with SMTP id o9mr4064577wrw.250.1627027391269; 
+ Fri, 23 Jul 2021 01:03:11 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c676e.dip0.t-ipconnect.de. [91.12.103.110])
+ by smtp.gmail.com with ESMTPSA id p11sm31539182wro.78.2021.07.23.01.03.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jul 2021 01:03:10 -0700 (PDT)
+Subject: Re: [PATCH v3] migration: clear the memory region dirty bitmap when
+ skipping free pages
+To: Peter Xu <peterx@redhat.com>, "Wang, Wei W" <wei.w.wang@intel.com>
+References: <20210722083055.23352-1-wei.w.wang@intel.com>
+ <0faf5f01-399f-621f-431e-d35b3e87b9ff@redhat.com>
+ <b39f279ef6634325ab2be8d903e41001@intel.com> <YPmF1BAHA059yYln@t490s>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <5a276434-a59d-bdaf-6a1b-f66e9e9b36e7@redhat.com>
+Date: Fri, 23 Jul 2021 10:03:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YPmF1BAHA059yYln@t490s>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.203,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,124 +100,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 22.07.21 16:51, Peter Xu wrote:
+> On Thu, Jul 22, 2021 at 09:57:13AM +0000, Wang, Wei W wrote:
+>> On Thursday, July 22, 2021 5:48 PM, David Hildenbrand wrote:
+>>> On 22.07.21 10:30, Wei Wang wrote:
+>>>> When skipping free pages to send, their corresponding dirty bits in
+>>>> the memory region dirty bitmap need to be cleared. Otherwise the
+>>>> skipped pages will be sent in the next round after the migration
+>>>> thread syncs dirty bits from the memory region dirty bitmap.
+>>>>
+>>>> Cc: David Hildenbrand <david@redhat.com>
+>>>> Cc: Peter Xu <peterx@redhat.com>
+>>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>>>> Reported-by: David Hildenbrand <david@redhat.com>
+>>>> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+>>>> ---
+>>>>    migration/ram.c | 74
+>>> +++++++++++++++++++++++++++++++++++++------------
+>>>>    1 file changed, 56 insertions(+), 18 deletions(-)
+>>>>
+>>>
+>>> LGTM, thanks
+>>>
+>>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>>>
+>>
+>> Thanks. Please remember to have a regression test together with Peterx's that patch when you get a chance.
+> 
+> I can continue to try that; but it's slightly low priority to me so it could be
+> a bit delayed.  If either of you could help that would be great, as I still
+> don't know last time why I didn't use free-page-hint right (note: I definitely
+> checked lsmod for sure; so it's there).  So I'll need to figure that out first.
 
-> On Thu, Jul 22, 2021 at 11:43:26PM +0800, Yanan Wang wrote:
->> In the SMP configuration, we should either specify a topology
->> parameter with a reasonable value (equal to or greater than 1)
->> or just leave it omitted and QEMU will calculate its value.
->> Configurations which explicitly specify the topology parameters
->> as zero like "sockets=3D0" are meaningless, so disallow them.
->>=20
->> However, the commit 1e63fe685804d
->> (machine: pass QAPI struct to mc->smp_parse) has documented that
->> '0' has the same semantics as omitting a parameter in the qapi
->> comment for SMPConfiguration. So this patch fixes the doc and
->> also adds the corresponding sanity check in the smp parsers.
->>=20
->> Suggested-by: Andrew Jones <drjones@redhat.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>  hw/core/machine.c | 14 ++++++++++++++
->>  qapi/machine.json |  6 +++---
->>  qemu-options.hx   | 12 +++++++-----
->>  3 files changed, 24 insertions(+), 8 deletions(-)
->>=20
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 775add0795..db129d937b 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -829,6 +829,20 @@ static void machine_set_smp(Object *obj, Visitor *v=
-, const char *name,
->>          return;
->>      }
->> =20
->> +    /*
->> +     * The topology parameters must be specified equal to or great than=
- one
->> +     * or just omitted, explicit configuration like "cpus=3D0" is not a=
-llowed.
->> +     */
->> +    if ((config->has_cpus && config->cpus =3D=3D 0) ||
->> +        (config->has_sockets && config->sockets =3D=3D 0) ||
->> +        (config->has_dies && config->dies =3D=3D 0) ||
->> +        (config->has_cores && config->cores =3D=3D 0) ||
->> +        (config->has_threads && config->threads =3D=3D 0) ||
->> +        (config->has_maxcpus && config->maxcpus =3D=3D 0)) {
->> +        error_setg(errp, "parameters must be equal to or greater than o=
-ne if provided");
->
-> I'd suggest a slight tweak since when seen it lacks context:
->
-> $ ./qemu-system-x86_64 -smp 4,cores=3D0,sockets=3D2
-> qemu-system-x86_64: parameters must be equal to or greater than one if pr=
-ovided
->
->
->     error_setg(errp, "CPU topology parameters must be equal to or greater=
- than one if provided");
+Just for the records:
 
-Let's scratch "if provided".
+Add the following to your QEMU cmdline to make it work:
 
-I'd replace "must be equal to or greater than one" by "must be
-positive", or maybe "must be greater than zero".
+     -object iothread,id=t0 \
+     -device virtio-balloon-pci,id=balloon,iothread=t0,free-page-hint=on
 
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 99ed5ec5f1..b0168f8c48 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -223,11 +223,13 @@ SRST
->>      of computing the CPU maximum count.
->> =20
->>      Either the initial CPU count, or at least one of the topology param=
-eters
->> -    must be specified. Values for any omitted parameters will be comput=
-ed
->> -    from those which are given. Historically preference was given to th=
-e
->> -    coarsest topology parameters when computing missing values (ie sock=
-ets
->> -    preferred over cores, which were preferred over threads), however, =
-this
->> -    behaviour is considered liable to change.
->> +    must be specified. The specified parameters must be equal to or gre=
-at
->
-> s/great/greater/
->
->> +    than one, explicit configuration like "cpus=3D0" is not allowed. Va=
-lues
+Most upstream distributions (e.g., Fedora) should have virtio-balloon 
+build as module and there is no action inside the guest required to get 
+it running. Just wait until Linux in the guest booted up.
 
-"positive" again.
+-- 
+Thanks,
 
->> +    for any omitted parameters will be computed from those which are gi=
-ven.
->> +    Historically preference was given to the coarsest topology paramete=
-rs
->> +    when computing missing values (ie sockets preferred over cores, whi=
-ch
->> +    were preferred over threads), however, this behaviour is considered
->> +    liable to change.
->>  ERST
->
->
-> If you make the text changes, then feel free to add this when posting v2:
->
->  Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->  Tested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> =20
->
->
-> Regards,
-> Daniel
+David / dhildenb
 
 
