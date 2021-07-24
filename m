@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742B33D4301
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 00:37:18 +0200 (CEST)
-Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CE73D43FB
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 02:31:52 +0200 (CEST)
+Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m73nB-0006kw-Iu
-	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 18:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36382)
+	id 1m75a3-0006Y0-Al
+	for lists+qemu-devel@lfdr.de; Fri, 23 Jul 2021 20:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m73m6-0005V7-Ft
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 18:36:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37345)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m75Z8-0005rk-42
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 20:30:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m73m4-0005aw-ER
- for qemu-devel@nongnu.org; Fri, 23 Jul 2021 18:36:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m75Z4-0006de-6n
+ for qemu-devel@nongnu.org; Fri, 23 Jul 2021 20:30:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627079767;
+ s=mimecast20190719; t=1627086648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zF8KGU2KcEOALTdw4g+yy8TcTXSCzVJkHdbCzel++g0=;
- b=ODXB0NAILL1gX0gkXeNfKXYHNQvHB24dJtof7Eq8ys/z6CLqf9undFRx/dlPRpqdIUQaD3
- vJ6Wc5V4/i/wZ3L/RVV+iv4Z5A5zZtVdGMOA5MxiNJZkuFepMn1CjJ8A4XX7W414jcs8uD
- F3UazqvCnQh2Qwgszwfv3bkgFeSPuLQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-Do_UbJ7CPGKDmp6HQ1-pVg-1; Fri, 23 Jul 2021 18:36:05 -0400
-X-MC-Unique: Do_UbJ7CPGKDmp6HQ1-pVg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- w26-20020a05620a129ab02903b9eeb8b45dso2082722qki.8
- for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 15:36:05 -0700 (PDT)
+ bh=vmZsvGmb699rKTx3oeMkbRqiRZipB6epa+q8jrZOjbI=;
+ b=SaHnytCdPtnmj6GFxC5s+vPvZdRYloUyX17dQCrSQTgneyzzasSFDBKc8TNKv9MtzosYhg
+ 3OWesvHxjlShTuPDc0UQWxyyDRhR7TFwmojy5vIxnT0DPwD4lS1u1SSKycbkNSkNkoPWYi
+ rGntndWzruQ9TS9HnFxabYhEBBE5wfM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-4EJpUwPpNyiAhKcoRufJYw-1; Fri, 23 Jul 2021 20:30:46 -0400
+X-MC-Unique: 4EJpUwPpNyiAhKcoRufJYw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u26-20020adfb21a0000b029013e2b4a9d1eso1547542wra.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Jul 2021 17:30:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zF8KGU2KcEOALTdw4g+yy8TcTXSCzVJkHdbCzel++g0=;
- b=YvzyG6g4xoQUvi0b7jXd9D1sF6NRTRskCz2dtq+Bvtr4T/ePUkFKckFO+exVIKBk41
- R5kRmkxCwio1Nxlfby34p4/OdEKtgEuWeVusYJFLwgHLlIg+HPI1vBqDQTC9nsQVrkU0
- SuPZjyhTTaJP6j3yARm2CYrLLgXH//xMUi566+T+sUSoT/iFxDyUpDdPzZZu30ig9Meh
- ctAJdnT5gv7MICdadHvKRwhEAuRB6v8FUAudGOKyImM8NuRLPVacn2EjrOjwmRppb03P
- oMKyuro1OVd9rVsV6J4HPrQ6Fm0lPXXDtkbzTx4Oat0AhaIMd18RjZvmXSae6U92LFhA
- eiSQ==
-X-Gm-Message-State: AOAM530QP2Da/d8nduHTZwiBWE2dnYYzwo2oIp3DZORV1+f4vKSBHEIO
- f6qD+mTtLia/xaLzekt8U0vOU6TrAPVfI9JzuLSHyBaISV5hwe3jmyV4gAus7/5z3D0yTB8Mvcm
- CU6RV/dGMXfdqvUF7rF3agupyeJ93FvTeT3Zqm+WNTE+pIiGveGwgzgk96S63sZrS
-X-Received: by 2002:a05:620a:c9b:: with SMTP id
- q27mr6665851qki.131.1627079764907; 
- Fri, 23 Jul 2021 15:36:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkdVHkY/f3E3L4gtYGOzJEiRSqXXDHM7VvBiOb3mnQQ5BuEtjaaVGEhrRcJtybK8sh+TgyZA==
-X-Received: by 2002:a05:620a:c9b:: with SMTP id
- q27mr6665835qki.131.1627079764678; 
- Fri, 23 Jul 2021 15:36:04 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id x21sm15410769qkn.0.2021.07.23.15.36.03
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vmZsvGmb699rKTx3oeMkbRqiRZipB6epa+q8jrZOjbI=;
+ b=e4uVrYuXJjK/0uWKaMD4ByhSRrKeC1+IsRaQbdbwWhu8t8VMsNmYKHLSdGULYv3uX8
+ eRdLxUwvVDC2gcAlCpWMZEhz0jy0zoVGp6l++Q1uz53qlJ/iGvzeoDrUbk9eGnZaKIab
+ 5Y8HLnm+ify0Vzy19JcdyuvSOKqLBxAWgFlS/eRS/uPHcUoiWi62Q4Jl5F2UR5gYLHj+
+ 1ILV6+9S4hFMJmRwubYCeBwHmh+MZaOPfORfRZQmWqbAUgVkyOC5xwZA9o7dYiLIiMYe
+ BKj+iNZ+M+dzRv+yV54q5pX1PA0aV5eqNkcNZj2OlbG2LuW9NugvwMoKAgec7kS9/z9j
+ EoaA==
+X-Gm-Message-State: AOAM530ZQsITXnkrYOHIm2lmWtocyQ8ukjDIt647WEiBMqYE/0O0oc9m
+ riddLGKW9w4e6B5HSxrmh/W3NwF2tVK0aho8+cyBjcN84027FdfMI9Waqq0peBrPm8MkV5nK8GB
+ J6X6RP0BwiImZ9is=
+X-Received: by 2002:a1c:7314:: with SMTP id d20mr6535808wmb.167.1627086645756; 
+ Fri, 23 Jul 2021 17:30:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8fyE+HZN5BBYs9QpbZ2knIjNTWI+LAu37PCxpP6N95cuVZ1MwUizdEA0iazCLZIkAuRAdNw==
+X-Received: by 2002:a1c:7314:: with SMTP id d20mr6535786wmb.167.1627086645532; 
+ Fri, 23 Jul 2021 17:30:45 -0700 (PDT)
+Received: from redhat.com ([2.55.16.196])
+ by smtp.gmail.com with ESMTPSA id f15sm6329897wmj.15.2021.07.23.17.30.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 15:36:04 -0700 (PDT)
-Date: Fri, 23 Jul 2021 18:36:02 -0400
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/9] memory: Sanity checks memory transaction when
- releasing BQL
-Message-ID: <YPtEUon+qEn3eX2W@t490s>
-References: <20210723193444.133412-1-peterx@redhat.com>
+ Fri, 23 Jul 2021 17:30:44 -0700 (PDT)
+Date: Fri, 23 Jul 2021 20:30:37 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 00/16] Various error handling fixes and cleanups
+Message-ID: <20210723203023-mutt-send-email-mst@kernel.org>
+References: <20210720125408.387910-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210723193444.133412-1-peterx@redhat.com>
+In-Reply-To: <20210720125408.387910-1-armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -95,50 +94,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Jagannathan Raman <jag.raman@oracle.com>, Juan Quintela <quintela@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Aravinda Prasad <arawinda.p@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Cornelia Huck <cornelia.huck@de.ibm.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 03:34:35PM -0400, Peter Xu wrote:
-> This is v2 of the series.  It was actually got forgotten for months until it
-> was used to identify another potential issue of bql usage here (besides it
-> could still be helpful when debugging a previous kvm dirty ring issue in that
-> series):
+On Tue, Jul 20, 2021 at 02:53:52PM +0200, Markus Armbruster wrote:
+> I doubt the fixes are 6.1 material at this late stage.  If you
+> disagree, let me know.
 > 
-> https://lore.kernel.org/qemu-devel/CH0PR02MB7898BBD73D0F3F7D5003BB178BE19@CH0PR02MB7898.namprd02.prod.outlook.com/
-> 
-> So I figured maybe it's still worth to have it, hence a repost.
-> 
-> There're some changes against v1:
-> 
->   - patch "cpus: Introduce qemu_cond_timedwait_iothread()" is dropped because
->     it's introduced in another commit already (b0c3cf9407e64).
-> 
->   - two more patches to move do_run_on_cpu() into softmmu/ to fix a linux-user
->     compliation issue.
-> 
-> Please review, thanks.
-> 
-> === Original Cover letter ===
-> 
-> This is a continuous work of previous discussion on memory transactions [1].
-> It should be helpful to fail QEMU far earlier if there's misuse of BQL against
-> the QEMU memory model.
-> 
-> One example is run_on_cpu() during memory commit.  That'll work previously, but
-> it'll fail with very strange errors (like KVM ioctl failure due to memslot
-> already existed, and it's not guaranteed to trigger constantly).  Now it'll
-> directly fail when run_on_cpu() is called.
-> 
-> Please have a look, thanks.
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03205.html
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Aravinda Prasad <arawinda.p@gmail.com>
+> Cc: Cornelia Huck <cornelia.huck@de.ibm.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Cc: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Jagannathan Raman <jag.raman@oracle.com>
+> Cc: John G Johnson <john.g.johnson@oracle.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Kamil Rytarowski <kamil@netbsd.org>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Kirti Wankhede <kwankhede@nvidia.com>
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Cc: Marcelo Tosatti <mtosatti@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Reinoud Zandijk <reinoud@netbsd.org>
+> Cc: Sergio Lopez <slp@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
+> Cc: Thomas Huth <thuth@redhat.com>
 
-CC Phil too.
 
--- 
-Peter Xu
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+agree it's not 6.1 material
+
+> Markus Armbruster (16):
+>   error: Use error_fatal to simplify obvious fatal errors (again)
+>   spapr: Plug memory leak when we can't add a migration blocker
+>   spapr: Explain purpose of ->fwnmi_migration_blocker more clearly
+>   multi-process: Fix pci_proxy_dev_realize() error handling
+>   vhost-scsi: Plug memory leak on migrate_add_blocker() failure
+>   i386: Never free migration blocker objects instead of sometimes
+>   vfio: Avoid error_propagate() after migrate_add_blocker()
+>   whpx nvmm: Drop useless migrate_del_blocker()
+>   migration: Unify failure check for migrate_add_blocker()
+>   migration: Handle migration_incoming_setup() errors consistently
+>   microvm: Drop dead error handling in microvm_machine_state_init()
+>   vhost: Clean up how VhostOpts method vhost_get_config() fails
+>   vhost: Clean up how VhostOpts method vhost_backend_init() fails
+>   Remove superfluous ERRP_GUARD()
+>   vl: Clean up -smp error handling
+>   vl: Don't continue after -smp help.
+> 
+>  backends/tpm/tpm_emulator.c |  3 +--
+>  hw/display/qxl.c            |  8 ++++----
+>  hw/i386/microvm.c           |  5 -----
+>  hw/ppc/spapr_events.c       | 20 ++++++++++----------
+>  hw/remote/mpqemu-link.c     |  3 ---
+>  hw/remote/proxy.c           | 10 +++++++++-
+>  hw/s390x/ipl.c              |  6 +-----
+>  hw/scsi/vhost-scsi.c        |  4 ++--
+>  hw/vfio/migration.c         |  6 ++----
+>  hw/virtio/vhost-user.c      |  8 ++++++++
+>  hw/virtio/vhost.c           | 16 +++-------------
+>  migration/migration.c       | 34 ++++++++++------------------------
+>  qemu-img.c                  |  6 +-----
+>  qemu-io.c                   |  6 +-----
+>  qemu-nbd.c                  |  5 +----
+>  qga/commands-posix-ssh.c    | 17 -----------------
+>  qga/commands-win32.c        |  1 -
+>  scsi/qemu-pr-helper.c       | 11 +++--------
+>  softmmu/vl.c                | 19 +++++++------------
+>  target/i386/kvm/kvm.c       |  9 +++------
+>  target/i386/nvmm/nvmm-all.c |  4 +---
+>  target/i386/sev.c           |  8 +-------
+>  target/i386/whpx/whpx-all.c |  4 +---
+>  ui/console.c                |  7 ++-----
+>  ui/spice-core.c             |  7 +------
+>  25 files changed, 72 insertions(+), 155 deletions(-)
+> 
+> -- 
+> 2.31.1
 
 
