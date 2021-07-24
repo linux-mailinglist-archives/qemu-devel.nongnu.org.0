@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1483D4685
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 10:59:53 +0200 (CEST)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94A43D4684
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 10:59:52 +0200 (CEST)
+Received: from localhost ([::1]:48528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7DVg-000343-Bj
-	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 04:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
+	id 1m7DVf-0002ya-PA
+	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 04:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m7DR0-00034D-Mx
+ id 1m7DR3-00034J-4U
  for qemu-devel@nongnu.org; Sat, 24 Jul 2021 04:55:05 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39459)
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m7DQz-0002wQ-5P
- for qemu-devel@nongnu.org; Sat, 24 Jul 2021 04:55:02 -0400
-Received: by mail-ed1-x533.google.com with SMTP id q13so4687681edr.6
- for <qemu-devel@nongnu.org>; Sat, 24 Jul 2021 01:55:00 -0700 (PDT)
+ id 1m7DQz-0002wv-SP
+ for qemu-devel@nongnu.org; Sat, 24 Jul 2021 04:55:03 -0400
+Received: by mail-ed1-x530.google.com with SMTP id h10so4672917edv.8
+ for <qemu-devel@nongnu.org>; Sat, 24 Jul 2021 01:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VUJlrWl+4FB407CX+X2TbXRleCCYnj6iPIcXEGt1Hfc=;
- b=nE6o0tmGp3skkWH3OkhYhFd79YchpuoOMEUVfki4sVVy5sO8Fy6LGZU84+a03CWbHZ
- 6e02x9TdsUeB8Xy7X6K4NMPTUr08WYFnejFhWrCmGCZb1bc4bvmiQE093uJwWhbIOFO4
- G9lc4HzLKtG3GMMFjRdXmuCgOVKVtODX9gbBCRGYZe7cX+7ldhcWjGS4iJra1tmQFGn2
- su/Gtmbqwayk8HGnxHPU1GQy8FmGI1TE2MeyNuikYnpMhZ/+epM7TIw/Qz7D3SGPNvuu
- x2GSx7wN2WRVNUQuTL5y6i9U3z93am2gHmRXSdCPPIJDZxWacpyDqe+nqTrBjMqwQ96d
- otOA==
+ bh=GunVyRx6o/LzyjiMTpXKLJjGGHesCVbnI05qmeGk7yE=;
+ b=ZqqtHDDrhMf8Musblx1RDL7qgTSkVtVEapKW42Ey896oOY+yC/wOQbkJxOIfVLKTOC
+ R+C9EmJ+ZZ+ALpzSm6f7yVp9d5yNkCo6pUlN9Pe1Jgc6JV65oGK+srU2G63Wu6JydzO6
+ Bx8l6ygNq637gHxpGGs6yuraDfegbcxkt58ylERkb45maR/hJVOQ2DpwRyHf0mF2K9Ti
+ Jbc9BUljpXm3Xqtxh3bam/bQV/q+0NTNTEDeWwpUUDiQbXKGV4u3Lvg1yXUungXbwkcS
+ Y3yI+JA5sIzZFnyxWJcSxsnXD69fJjL7Dec0gGmtlyQT3yo6F1tSEHN3/f3iU3t4Urm4
+ +1sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VUJlrWl+4FB407CX+X2TbXRleCCYnj6iPIcXEGt1Hfc=;
- b=rlQjQW7RjlBo1B4wSwzWEGXxCR+UxiXRglnuaEXkdfnUo0qWtsvIWis1OVOkAVkUYH
- 5xCq+pRua6zbNWZ34fAj1XoSHbdSmHwhLPGQKACOqh5RiZ948wSyX9d+RffYj5nmViL0
- Q28nkIZyF0KZ89NXXT9zDIB8P7tvi7rk0/+3rX829Tn+rP/XPXT8eem7dIqiPd4tzxv+
- m458vDsLSKThFlpb8aWDEn9g0A5OJ7w9/F6y/oA5wxxV+aArHYokcKrTeF+sHfSNX+t/
- EZ4ca/U+sN2Q8+D1bUEMUWMgsWwCeAIDV3LNuglw4cnhkTXWLuNA0tmsLB6c9DTEwFHT
- LuXA==
-X-Gm-Message-State: AOAM533S6DoWKvwqRBL0ittQGbhq0VwJXvKj37PaIR6R8qs6r8NPEXhV
- 0pN+0ViWVdczRjFFI4s22WfNh4kC4oqTJQ==
-X-Google-Smtp-Source: ABdhPJxWKWzi7ERLRsDotpdgiCek1gRNLj/Zgrt6M7ruUdn45BVSsdJY4Csn5ChIWReEUF7MFxYoLQ==
-X-Received: by 2002:a05:6402:1385:: with SMTP id
- b5mr10178708edv.276.1627116899934; 
- Sat, 24 Jul 2021 01:54:59 -0700 (PDT)
+ bh=GunVyRx6o/LzyjiMTpXKLJjGGHesCVbnI05qmeGk7yE=;
+ b=bVkMrwPUcnMOzxGd/ZyyXg+pied3hTrwD4Cgg9yzTsQEwieqfysgca3wzjA7/anLCj
+ SZGKxYToPs1V73a6jztn02P2nhzFWqicKZ5De8FBb8CesaGRR69J/S48STWs4xj4fz75
+ ET+3JUjNT2iYhH4tpFDAT5PXCdgI9IMsKGYJwsKbMaLWPzEsxFKSm1gFo8PTO1H4vOFs
+ 61CQf2oi02QpPzsLw0v071pJCjnKnnmc/QHzLdA/4qdpG/d2F8OczE7VR/h1vG+fwcXL
+ Siqt7bMsfmEDf2RtyStzPTM+JKH55HcY6zwQy0u287HpZq2Izbh8cVDQ3Dn9PmDhXiTg
+ jB+A==
+X-Gm-Message-State: AOAM531gedx4soPW3cRXAv+3TR3Ml520SNZq9Xe94AbxpNyxAHgW9KJL
+ ke5y3JCy9R2rDvJnuR0cE5JwOq+GEfl86w==
+X-Google-Smtp-Source: ABdhPJxwb9Er3NuCpmBjBba5wDZ/Nqvvg6gVbeJsYm+aPoR8deJOKSocBV6Iyvzf92ItWA7pSzdB9Q==
+X-Received: by 2002:aa7:d543:: with SMTP id u3mr10240780edr.37.1627116900647; 
+ Sat, 24 Jul 2021 01:55:00 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id j21sm15723881edq.76.2021.07.24.01.54.59
+ by smtp.gmail.com with ESMTPSA id j21sm15723881edq.76.2021.07.24.01.55.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Jul 2021 01:54:59 -0700 (PDT)
+ Sat, 24 Jul 2021 01:55:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] MAINTAINERS: Add memory_mapping.h and memory_mapping.c to
- "Memory API"
-Date: Sat, 24 Jul 2021 10:54:50 +0200
-Message-Id: <20210724085453.16791-7-pbonzini@redhat.com>
+Subject: [PULL 7/9] gitlab: only let pages be published from default branch
+Date: Sat, 24 Jul 2021 10:54:51 +0200
+Message-Id: <20210724085453.16791-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210724085453.16791-1-pbonzini@redhat.com>
 References: <20210724085453.16791-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,43 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Both files logically belong to "Memory API" and are not yet listed
-anywhere else explicitly. Let's add them to "Memory API".
+GitLab will happily publish pages generated by the latest CI pipeline
+from any branch:
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210723100532.27353-4-david@redhat.com>
+https://docs.gitlab.com/ee/user/project/pages/introduction.html
+
+  "Remember that GitLab Pages are by default branch/tag agnostic
+   and their deployment relies solely on what you specify in
+   .gitlab-ci.yml. You can limit the pages job with the only
+   parameter, whenever a new commit is pushed to a branch used
+   specifically for your pages."
+
+The current "pages" job is not limited, so it is happily publishing
+docs content from any branch/tag in qemu.git that gets pushed to.
+This means we're potentially publishing from the "staging" branch
+or worse from outdated "stable-NNN" branches
+
+This change restricts it to only publish from the default branch
+in the main repository. For contributor forks, however, we allow
+it to publish from any branch, since users will have arbitrarily
+named topic branches in flight at any time.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210723113051.2792799-1-berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 190a90b541..445f7fe2d1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2460,9 +2460,11 @@ F: include/exec/memop.h
- F: include/exec/memory.h
- F: include/exec/ram_addr.h
- F: include/exec/ramblock.h
-+F: include/sysemu/memory_mapping.h
- F: softmmu/dma-helpers.c
- F: softmmu/ioport.c
- F: softmmu/memory.c
-+F: softmmu/memory_mapping.c
- F: softmmu/physmem.c
- F: include/exec/memory-internal.h
- F: scripts/coccinelle/memory-region-housekeeping.cocci
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 89df51517c..80b57b7082 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -663,6 +663,17 @@ build-tools-and-docs-debian:
+ 
+ # Prepare for GitLab pages deployment. Anything copied into the
+ # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
++#
++# GitLab publishes from any branch that triggers a CI pipeline
++#
++# For the main repo we don't want to publish from 'staging'
++# since that content may not be pushed, nor do we wish to
++# publish from 'stable-NNN' branches as that content is outdated.
++# Thus we restrict to just the default branch
++#
++# For contributor forks we want to publish from any repo so
++# that users can see the results of their commits, regardless
++# of what topic branch they're currently using
+ pages:
+   image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+   stage: test
+@@ -681,3 +692,10 @@ pages:
+   artifacts:
+     paths:
+       - public
++  rules:
++    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
++      when: on_success
++    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
++      when: never
++    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
++      when: on_success
 -- 
 2.31.1
 
