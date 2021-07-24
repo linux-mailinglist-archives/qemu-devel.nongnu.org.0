@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A253B3D49F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 22:48:59 +0200 (CEST)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F31E3D4AA6
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 01:28:21 +0200 (CEST)
+Received: from localhost ([::1]:40710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7OZu-0006By-9Y
-	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 16:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57356)
+	id 1m7R47-0007tX-Oe
+	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 19:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7OZ5-0005X6-KJ
- for qemu-devel@nongnu.org; Sat, 24 Jul 2021 16:48:07 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36496)
+ id 1m7R3N-0007De-Ur
+ for qemu-devel@nongnu.org; Sat, 24 Jul 2021 19:27:33 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:33355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7OZ2-0005yY-Vu
- for qemu-devel@nongnu.org; Sat, 24 Jul 2021 16:48:06 -0400
+ id 1m7R3L-0001c7-L9
+ for qemu-devel@nongnu.org; Sat, 24 Jul 2021 19:27:33 -0400
 Received: by mail-pj1-x102a.google.com with SMTP id
- ds11-20020a17090b08cbb0290172f971883bso14085244pjb.1
- for <qemu-devel@nongnu.org>; Sat, 24 Jul 2021 13:48:04 -0700 (PDT)
+ gv20-20020a17090b11d4b0290173b9578f1cso9540985pjb.0
+ for <qemu-devel@nongnu.org>; Sat, 24 Jul 2021 16:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/1YVkD9BKjCyuLBILAGi09C4qgMddmMNnMNCB741E6U=;
- b=aJZcPPK5FFJQXhfuHIwjyNqDrT9Q2P0lLDS0GAFcIb2cHdiTg5DX+sR1HKR5in5xXw
- N8iPAhAAFELejKmFgVgcSTjmwLNsPeCV63bpA9LAx//2G92gPc5t2tzcG+rzEdWPW3B/
- zp3Nh99a8ehEJUR9x0o/T2/yLk9R84lr8+UZFB9jhGcQo+LVz2+Ht4EgzF2gOFjezpwo
- UmgbQpKccAumV3nQrOPUc2VnWayRDpb5wMiZS0JJAQghuL7ad8LKQCDm/o/S5HWZs21r
- yHoz+eRyzdiPUa3Pq/NoWyMiz+gcB/t08wRPypTUk14BLtnZyRPcWQyzX2C/1lfUVbtv
- cBnw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QF3ut61RzFRGp2rmeww3gz2Yg7nMCKmS91f908ePqrU=;
+ b=AraDkAVr9ioO3HVzJPBbGL60djOLxErmX6i5an8k6YBYDMTD76KrIN2qM4dXRs7Vss
+ qg12XTq5SY504pz5YajBNIQNlxPr+Gw/WLYtKoxLWAWB7FFVJuMAV1sgesrY/VgNH7Al
+ J4TvADD9df8kl0Sdr8bTaqzxbiAqvp180iGg+DJWm3viKgk0KHX15FAmXbWAr5FrEwM9
+ XzlVR+KHjPwWuD8tqp1AjpiWRYO0cvESWYfs3JJ2BqqW3ubgG9XDV5OfMdr4LoaX7pEZ
+ 6oOiqoQ6omYeO06BpPSU8HNaSex/EsFcFX8QwGDGct+UrCxmiMd7qFoIBFypOjSZC/eU
+ sydQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/1YVkD9BKjCyuLBILAGi09C4qgMddmMNnMNCB741E6U=;
- b=Qv/EIThZqcI5RaYG9cDsqkdPjX67k2NN/AfYwiLsvXacoKudY903a4ihYZGHM3SSWy
- j4mZd+uWNGF+vKrcLwVfu1ZdCNy8W/6nRYXzbv2Q4Rrb0t+lHPBhNZqrgiXdkaU83UWR
- kpjfQZx2ZaX5ZS0St1q38uUQjXIoteCUf7lTNxUo2cd0RNnvcylexl/kI2+pjA5Uhiun
- 6GaTV5kQ8rrxh/+2+KjbBiCBWv0j7flCmPfYUYiTZb/efso3uHqyekaBfent0zgoyTNL
- ILiW4h4WsHsM+DmmJrpdEVw3JqscXtqokPuK/Oazj6wuteqhufIJs/APRXdC8M/fQ/ys
- OBAw==
-X-Gm-Message-State: AOAM532QAKJBZBzxaJl8xS/KdtDhgJDCptmMSGLx2bCv0Xq3DJLhR2J5
- 2M2b2EznLSN/9jPck55TpJ5WWQ==
-X-Google-Smtp-Source: ABdhPJwzrDTEb7XDz0FiRZvXxzUIApnh8X91nd1ZgC2PbufIA2Il/dkboCVzp8997bRQ1s/4FehAoA==
-X-Received: by 2002:a63:5904:: with SMTP id n4mr11012433pgb.176.1627159683419; 
- Sat, 24 Jul 2021 13:48:03 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
+ bh=QF3ut61RzFRGp2rmeww3gz2Yg7nMCKmS91f908ePqrU=;
+ b=nQ/gquSjsVGDOowoVSHqAsIeyqKJn3XaL+qywRZ+3QHYcpwH5ITzSgjHIJ4vkEPTV+
+ QlhW9VM+wTzGIof0hPku86FYFp+OQgxK2iASZbQmVd28wMqpp1BhbObyuDI1cdPhMI3u
+ SsoMM3rzNeC6/5b1ZJIdmqOjKbvS3mdkW/W9+PvhWqS1K+/cY8OVo/fwTd/1jQqDyEbU
+ 7qMxxWYTT5RPHw7CNVy4/W8OZLRK/HFT5wwZc0ANJuM8TcQyFJXaXn8bIOJscxoq/hU8
+ FQjvhG3RswhyMWsIdSZJ7shcWD9iJgj6ZlXxtR6SCMmNDrYIRTyxs0J/h1iUtlyl59Ca
+ 0gJw==
+X-Gm-Message-State: AOAM533Hg7Ya8jTcLEmNl8UBQYCfPrnURqIl7KwbGYmfZZQhmrQQmuVL
+ TBliVoqxA1VF4yAdB4fKEYr7qsIrDtLv4w==
+X-Google-Smtp-Source: ABdhPJz9CAEKzaA8lhz4x8UP1+zRTVD4jGKDsDHUO7TtJRtOFFEiWgFR/lt+0d5dHbu6glkD1PpHKw==
+X-Received: by 2002:aa7:804f:0:b029:334:4951:da88 with SMTP id
+ y15-20020aa7804f0000b02903344951da88mr10910287pfm.29.1627169249878; 
+ Sat, 24 Jul 2021 16:27:29 -0700 (PDT)
+Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id u24sm39286390pfm.200.2021.07.24.13.48.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jul 2021 13:48:03 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 0/2] target/sparc: Drop use of gen_io_end()
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <20210724134902.7785-1-peter.maydell@linaro.org>
- <CAFEAcA-r_WUVx+5dFrpRPGppzMon_pDBzytTp5QwVcnbVxCzSw@mail.gmail.com>
+ by smtp.gmail.com with ESMTPSA id ml9sm5409358pjb.53.2021.07.24.16.27.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Jul 2021 16:27:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0750612a-5945-290c-d907-9f01e0baf336@linaro.org>
-Date: Sat, 24 Jul 2021 10:47:59 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Revert "accel/tcg: Reduce CF_COUNT_MASK to match
+ TCG_MAX_INSNS"
+Date: Sat, 24 Jul 2021 13:27:26 -1000
+Message-Id: <20210724232726.1223693-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-r_WUVx+5dFrpRPGppzMon_pDBzytTp5QwVcnbVxCzSw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.058,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,30 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/24/21 10:27 AM, Peter Maydell wrote:
-> On Sat, 24 Jul 2021 at 14:49, Peter Maydell <peter.maydell@linaro.org> wrote:
->> There is a slight difficulty here with testing this: icount
->> doesn't seem to work for sparc Linux guests in master at the
->> moment. For instance if you get the advent calendar image from
->>    https://www.qemu-advent-calendar.org/2018/download/day11.tar.xz
->> it will boot without icount with a command line like
->>    qemu-system-sparc -display none -vga none -machine SS-20 -serial stdio -kernel /tmp/day11/zImage.elf
->> But if you add '-icount auto' it will get as far as
->> "bootconsole [earlyprom0] disabled" and then apparently hang.
->> I'm not sure what's going on here :-(
->> (I filed this as https://gitlab.com/qemu-project/qemu/-/issues/499)
-> 
-> This turns out to be a recent regression, caused by commit 78ff82bb
-> ("accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS"). It's
-> an intermittent rather than a 100% reproducible hang.
+This reverts commit 78ff82bb1b67c0d79113688e4b3427fc99cab9d4.
 
-Ouch.  Ok, I'll have a look.
+This produces transient errors in the 2018 advent calendar day 11
+image for sparc when using -icount auto.
 
-r~
+It is not clear what the problem is with the narrower CF_COUNT_MASK
+value, since we bound the insns_left value in cpu_loop_exec_tb and
+we bound the insns translated in tb_gen_code.  But it is late in the
+release cycle and reverting the change does fix the problem.
+
+In the meantime, CF_NO_GOTO_TB, CF_NO_GOTO_PTR and CF_SINGLE_STEP
+were added and so need to be moved to different bits.
+
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/exec-all.h   | 9 ++++-----
+ accel/tcg/translate-all.c | 4 +++-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5d1b6d80fb..bccd7724dc 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -493,16 +493,15 @@ struct TranslationBlock {
+     uint32_t flags; /* flags defining in which context the code was generated */
+     uint32_t cflags;    /* compile flags */
+ 
+-/* Note that TCG_MAX_INSNS is 512; we validate this match elsewhere. */
+-#define CF_COUNT_MASK    0x000001ff
+-#define CF_NO_GOTO_TB    0x00000200 /* Do not chain with goto_tb */
+-#define CF_NO_GOTO_PTR   0x00000400 /* Do not chain with goto_ptr */
+-#define CF_SINGLE_STEP   0x00000800 /* gdbstub single-step in effect */
++#define CF_COUNT_MASK    0x00007fff
+ #define CF_LAST_IO       0x00008000 /* Last insn may be an IO access.  */
+ #define CF_MEMI_ONLY     0x00010000 /* Only instrument memory ops */
+ #define CF_USE_ICOUNT    0x00020000
+ #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
++#define CF_NO_GOTO_TB    0x00100000 /* Do not chain with goto_tb */
++#define CF_NO_GOTO_PTR   0x00200000 /* Do not chain with goto_ptr */
++#define CF_SINGLE_STEP   0x00400000 /* gdbstub single-step in effect */
+ #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+ 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index bbfcfb698c..0226123981 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1428,9 +1428,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ 
+     max_insns = cflags & CF_COUNT_MASK;
+     if (max_insns == 0) {
++        max_insns = CF_COUNT_MASK;
++    }
++    if (max_insns > TCG_MAX_INSNS) {
+         max_insns = TCG_MAX_INSNS;
+     }
+-    QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
+ 
+  buffer_overflow:
+     tb = tcg_tb_alloc(tcg_ctx);
+-- 
+2.25.1
 
 
