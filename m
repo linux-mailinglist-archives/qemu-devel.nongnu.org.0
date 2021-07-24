@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529273D47E9
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 15:40:49 +0200 (CEST)
-Received: from localhost ([::1]:49066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0043D47EB
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 15:40:59 +0200 (CEST)
+Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7HtX-0004n2-TU
-	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 09:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36030)
+	id 1m7Hti-0005HV-CJ
+	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 09:40:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m7Hs4-0002iw-Ti; Sat, 24 Jul 2021 09:39:17 -0400
+ id 1m7Hs7-0002kg-8J; Sat, 24 Jul 2021 09:39:19 -0400
 Received: from mail-vi1eur05on2132.outbound.protection.outlook.com
  ([40.107.21.132]:24064 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m7Hs2-0004Sk-Q0; Sat, 24 Jul 2021 09:39:16 -0400
+ id 1m7Hs5-0004Sk-CW; Sat, 24 Jul 2021 09:39:18 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ftMkflIE/lQBC80R2A2gT6E3I+jiRImy8FWaTh3Q9Cz68bvogeZ052erFHRd7MkFdLQZMsXx3ModCif1TeseMJCYzdpc04hfNSmGPUVzqOYNHtXyawMJQwLASNm6ooGebK3aH1tp6NBWVA+G0zBq2IhU9eLzsbfNtCt1UZWFBAQy87cfCXxOlqsRWXmWVWL5GlDKo0p4VtRrsQY/de1QAsSENOOWFQqSvytltuS3upip+hk3v68s2TiBKXwVgh3HJeMXUOAwHCZLihm1O+dnKIwaQbPha18LjODh6Z5Q3QMPl2pge/1PT4RcgFg1PZhxgwyZRyaHSx5tfyXHsjKM/A==
+ b=i5nJbXtI2G/YkdH6XcDSDk3HqMXRjcuFMlbWI3qRzLEbx0PVreLeAgI/k2O5WJpPd2VYJWwsdHmOPpkFjZ/S8okTy7A2eRgit89B0SY07gqv42SL788UXEQ3xJp2LEfd+tS0Q68nnPaT5vQF/vX5niY8FXc/irujCaBhVjy9LXBZxfpc11wCPq+tkLyRjjMgdjZBZlRZxU4ikbUcWyDRkuVIjoN+Ldrr0JoLsFYoHwX/qYyyvTso+J4ZnRiUwoKrQJ+7EndprDp6+O6YDDvkfpFvCvDjsCsrJv4yutyLXY7jPjvkYPt3v4nfsYc6u5VeoDalCqdxURqR+rfK5p8Bfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uwss4VCHQfW+gcHM5dV3FT+dK+d+Q0v01sd6CXn0kqA=;
- b=jLiYesAWsWEC1+cc6br1desalUKZtosoIovUNsMPoDGLvX5Ps9O6AqXxSowL8qyqaO9gkxeCi1S29AwUCFh4d2pguBw77Ot5IKg/FeugCp5x2SaoHUi4aGio/JpbvqPJ3SKeMP9xgGw0vwU28Kat7D3uKUJPfSPXe2sGf7YQFRieL4qLXMd3MMmaPww69jXi/FPBWe16haC2abjJhEgOFOWRmniZIqDjtmvzW2aCGcLo0khNGpNvhwKG3kdfk5rAowB9vDsenOI5kLaWYPEGupwWn170GgJHThi7LDjaImwQe/gDeomJh6qFEF4loep73aaodX3KBl4S1Se0AdcFCw==
+ bh=6ClUjHS+sHx6XTswdLnAwhSmeHdWPK17RmhjgXgtOu0=;
+ b=nVMCap5xeuXsxaE1GNgAguN2BnX47LFL1sAVGaUBi1+TrieBg/3O2m26VcqWYEQLuDusvtodz0+Ga4kxLvjL2Euhz+9dVGdfKOCfx7wJHEuC2RmrxFSQnIFEYInyckKGNmSWnYXdj9QwbWm3HAn7arupMLRw4OT2NSxwe/7SJc6VZz1CN2NwvpRcXQXzLheFVlzH1QdAG3aM4FfWNXTd3LQBDBrtMtLTZBqGWQpeq0TRrNfpgjwlrMrr0hQSyWne2BolFwj4x9/lEk0sWvKrhZj0O6D++UcVNb631RH4py/gnXKFKhsZXT5DYzH20fhQvPu1dQ3YN8Tsd3ltPfw61w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uwss4VCHQfW+gcHM5dV3FT+dK+d+Q0v01sd6CXn0kqA=;
- b=gK1NLHDfv3yNqtdVki+ElXFIv9psxlx3PKZmh96drF7iqBYIKbMutYG/zz5n84q16khXD9Mlp/XYZyoJtNVsGGHyYDBUN+7l7JWi+dsA5V4KyxkkBYbqYxHIKlddmN+WRh08mC3IfCi7IZ5KXoBcOfrZHqqdbYZH2XDqYuYLyZ0=
+ bh=6ClUjHS+sHx6XTswdLnAwhSmeHdWPK17RmhjgXgtOu0=;
+ b=Kc1yB8crU6rDZMUlbu+l4uH/svmeTjvB5M8ljPbG0LOkY+HHa9Du26LCcytdU7yeD98KSvyUImHBQOqdV/s3Ffho3XxqcwnTGjaJ/Aeh2Rct/lsCFq4NQAlpTHnL4sp5Gtrf71gU/6TRk4v8MjRcuz3TtB4A6gJeN7tUyq0lXrc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6805.eurprd08.prod.outlook.com (2603:10a6:20b:396::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Sat, 24 Jul
- 2021 13:39:08 +0000
+ 2021 13:39:09 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c%7]) with mapi id 15.20.4352.029; Sat, 24 Jul 2021
- 13:39:08 +0000
+ 13:39:09 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, mreitz@redhat.com,
  kwolf@redhat.com, den@openvz.org
-Subject: [PATCH 0/3] qcow2: relax subclusters allocation dependencies
-Date: Sat, 24 Jul 2021 16:38:43 +0300
-Message-Id: <20210724133846.64614-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/3] simplebench: add img_bench_templater.py
+Date: Sat, 24 Jul 2021 16:38:44 +0300
+Message-Id: <20210724133846.64614-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210724133846.64614-1-vsementsov@virtuozzo.com>
+References: <20210724133846.64614-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: HE1PR05CA0200.eurprd05.prod.outlook.com
  (2603:10a6:3:f9::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
@@ -62,61 +64,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1PR05CA0200.eurprd05.prod.outlook.com (2603:10a6:3:f9::24) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.26 via Frontend Transport; Sat, 24 Jul 2021 13:39:07 +0000
+ 15.20.4352.26 via Frontend Transport; Sat, 24 Jul 2021 13:39:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3099d375-38ab-4db9-aaa4-08d94ea869b3
+X-MS-Office365-Filtering-Correlation-Id: 3994ab50-db10-4296-b9cd-08d94ea86a46
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6805:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB68053C4955DE1F3ABE4F40F3C1E69@AS8PR08MB6805.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6805334CD49E8BDD200931A6C1E69@AS8PR08MB6805.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: loTBCHrLBEvZP5k9SQ4jUQK9D7H9Is7/hyXDHbw43Ho4yc5BJEo3Kcldhui8V6N+ZgPVJWTC6/VX3J2BTm1D3f8VMBV196Du+eVc/I4G1zs54clsGNJ0rI8+xf4NfGyHwybVzICkBLuid2r37I/Uln081a4z1nGjac8ZAHnVhB83UpsqnGwkvAvBagv5NiPMQsncfJVdBLzosEYYEuwH0mB68GPPyXgCjS6h4V7Dq95dGEQBA4AFg0eSXxw8M7AHnhFOr3KLStwVzNbMcCrCvbX9crLaJHSKj/G5IVzFKHIeFauOilL/NIUu0H7m63to5TVyZyvlI65hEp7/8FVgEQjYaNwR/VN7Lw6s9rfr1PRKOBdwdoIfWaq+c8g/7PFR1nKe8BHpTapBlP21vJ5+y6tblQsaPqIqlopoigIYlqtOf0sWq85HmGq8Tkqsfx3q+/RpGJKIaitEWKUTUsRuRZweCbhF6gCblop3zxFIrJKgbw3mvdwdZlVYB1juM83rdsF8UEiAAuWbOXBMOfjDZRoLd9Q6eZKa0dBq2kC8hdQnsOk9ogd/o1yTP+ruMvaEBkUeq5Zg7RjX4NlUXoWBrv4EeVqXU5iohE7oy3qFv6EbFs3r9ao1Eb9pwUyyiqjnVpLtuR962XjjNrhIAtdwInlXnMT1qgAuGHUmg3D3nPLxrU3CYcs7D8e6NKDAzrbuscA4wtwQhXbvPhPxg3d3Rg==
+X-Microsoft-Antispam-Message-Info: Vn59ZPWzLFNcq+CLgOldSlj6rnzRQLkWeNHYaDiyN0lhF7YNFHg6g7FLMjRuC7dueGYc4kyL3sc6IA4NuI32V6SV36p8PDPMPTacptPqlQiWLvS59+wj2x5E4nhJKxfY/preFgwq2fzL/Jo7gjx0GVV+Pgs57D5fjDahUUULh3zsu9YOzzKi5vyYEhXmmK+Guej0q8Ec6/Osf3MVwFly65GQZYdmGL7MLLaBC0emqX2/EkyjNU8cUcfFxegyZJVAuqFGj2xs7SDsp86q5DgS5y5LC/sk5buQAVTAd/Sue2TTmAIYwpMIt/wiFA/UD8v6HzbwHuwDAXRimXJ95XjKY5pG6/V+3tt/77nwcgToAOn21uu/Wjl8LDCI1P4cyvLFZWxQ+1Hpk/nsZHiRjwsA3byMKio8dekMSrC97bL4BkAExcsJnvvbR8JBkFgauftjlGMDHCslfDmbKRCqVL7Y1W7XMPDcsC9Hj8CLASfbil7fcLV7TUK1eBQR9dxkpMpbjJqf8OtVgejC8nKZrqaTb0J9z3j4kQF5v1bPC1mzzeXMSQNT1VzYn5iRWonyrhSeH0DxDIIkzAj9rQfAUkb0Lmqq0Kh+s+8WSyuf3TCRhzjiIvH8u/TmkkI7VG1mR6rLggjX5joWs5c79FGLdL1X12oUchFABxcM+rxiHjqSEKbAgjBd2LGE5HSRo6tuw1ZyLyTYuHtPQKFym8BimJbx22IbSaCWlQfZ80xwidztgfzLwy6Ic9h765v5xfNcmHLx5e1YTxhZQhSqB8QWMhK2KMW3B0QcNLOxEwcJskgu1eWQpkkSylTqFBeS4doVJzxR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(366004)(136003)(39830400003)(376002)(478600001)(186003)(6486002)(66946007)(8676002)(6506007)(5660300002)(956004)(2616005)(66556008)(8936002)(66476007)(6666004)(36756003)(2906002)(6512007)(6916009)(26005)(86362001)(4326008)(1076003)(316002)(52116002)(107886003)(83380400001)(38100700002)(38350700002);
+ SFS:(4636009)(346002)(396003)(366004)(136003)(39830400003)(376002)(478600001)(186003)(6486002)(66946007)(8676002)(6506007)(5660300002)(956004)(2616005)(66556008)(8936002)(66476007)(6666004)(36756003)(2906002)(6512007)(6916009)(26005)(86362001)(4326008)(1076003)(316002)(52116002)(107886003)(38100700002)(38350700002)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVAwVWJsY3NIb1BHRTQwcTZ0clVpU0YvTjFlOFd0WnBnMnphOGI0M2xMa3ZU?=
- =?utf-8?B?Y3BlTjVYaXlqakVPeGUvOVl3ajg0d3J4bERqbzdUdXh1UHAzMDJockorV0pX?=
- =?utf-8?B?eTN1a1BKRWU2dlM3b2VLRnZ3RDh2UC94TExUVS9EY28rQU8yMnZvNWQvVTZo?=
- =?utf-8?B?anBRc3RjRytqc3RHd2pqRGJsdzAvTUFEUUcyZC8yeS93WmRXT25TRDlqbUZC?=
- =?utf-8?B?TGFRSHVhKzdkNEpUU21GdWdPZ21BbEE4NDdweS9CQlZGQy9LL3VpcjVmYWpW?=
- =?utf-8?B?cENEanNlMHBUQ2d0ZFFUdTRnQmVuaTduN0s1alU3MlNybHg4WU93S05pVWVv?=
- =?utf-8?B?REhBRmRmR3lPVWJndkJzbjV1TmZOWkg5dVhGK1ZteGd0c2J6TndoSE5WMG1x?=
- =?utf-8?B?Zi8vK0pWVWcwNmdpaDVEMGRzUTdRRGJRUmRCK3BvSUlDL1ZycENleHRmZFBK?=
- =?utf-8?B?NHh6NUk5QkZLa1lSaGV4ZkJhcWZNdTByN0hvRzBqUyswK2F0RHR3emViTnhl?=
- =?utf-8?B?MGhjeDc5TVBZRkw3ZTh3UkRnYS8rQ0U5cVEvVXRnaUVWZUh0MzBpbGg5a1U4?=
- =?utf-8?B?S0hsRFZxOE9FSktxTkFHbXVZOUxVVW9wZUs3Mk00OW5kR1VYN0YxbmlUc1dx?=
- =?utf-8?B?UG5xSU1OczJub0FBREN6dHNLaUF0eS9GQk4xRUVYbmF1OHQxS3ZqVlZWVW92?=
- =?utf-8?B?ZlBGVnRHb3Y1MUlaQm5HSDZEcUwwcnFTVk1Jd0E1aVJLcW9wcytrZ2F2L1E5?=
- =?utf-8?B?RWgraGFCc0NlUWhXM2FIUnZ5WTBzbG1BNHdxWU9ZQXF2ZHVSSjN5Y2lXSm9Y?=
- =?utf-8?B?alUrcytFbmpGelhBVW96bmpPS2JCWmdHcXNnQnNOS0RoaU9kTk55QVJGWWRG?=
- =?utf-8?B?bWVJVjI0RXAyS0FscC8ySEE3aHVicXUvQ3ZyK1ZuU1d4d2IyUzRpUFB1VGds?=
- =?utf-8?B?VitUUWl4Qm4xYUdobWxXUTcxYlNPa1MzZzdQSGZXdURQVE0wY3ozbUJSMGd0?=
- =?utf-8?B?TnZhR1Z6TEZIVkxvMlFqNzF1aXJnNXpxdDgvWWNNM0hqVFpsanRWVVNyTVN3?=
- =?utf-8?B?R0l4T2RZdXFnelhKL1lzaE5MS0NZYmRtSVdrdXA3RmF6MEhIR0lyK1VnNC9S?=
- =?utf-8?B?U2RHU0hPT3hpWHh4L25QMlJwYTJtMG9VTGFsR0V4QzZUWHUrbnh0QVdHb0VV?=
- =?utf-8?B?R3ZXL3Urb1k0Z2lZYzZaTXZJM3R5K0YyTHZtem5tcTZaQ1UrQ1pLOTdQZndi?=
- =?utf-8?B?U0U5QTlqQmpoUjEycUZPYTBuemFuWGdXZkJwTGRtRUtrLy9TSWtwR0lGcTk0?=
- =?utf-8?B?dkN3Q0Zlc0cyVmhEOVJmczdjVFVZL20zVlF6NXpzR2NhellRK2hoWkxiUENQ?=
- =?utf-8?B?UWtzaHllaXorTCt0TVFJekh4dWU5a0VjSEVCQTlKQXRPOVhwYXB1cS9pZm5E?=
- =?utf-8?B?aXM4b2tzOUI3OVF3L2dqajhVT20wZWdaeEZTREJwWFpLM2NybkE2UjJtdVhL?=
- =?utf-8?B?WWJndjhvN0JoRUwxNXFsbm5EUkFHSnZmL0JmZER6RXljbzJGTGxFV05jRWpr?=
- =?utf-8?B?Y2NkdmFoamZQckQwV0RjMEhqMkxIZXc2VS9aaUZqR2hVci84MXYvYlFacU5t?=
- =?utf-8?B?SmgzMmJoUndkMmxxeEc5cVJOZlVoUHd5S3JIUXRxUENoeHdNYnRUc3IwMXBP?=
- =?utf-8?B?dDV5YUZJM1lMOE5IbTRMdEp3UnVRTVE0bVhtMVQrMHM0NEVvMjhhTnQxK3I5?=
- =?utf-8?Q?HvpKDA0QuyZUkdPghslzoutGzyCzVb6h5CH8Qnb?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jA50yCw54OEuz++YXAYaWXS1WlZeVplHR+9ue9nHK7j+855gxWleaEydBgoJ?=
+ =?us-ascii?Q?uK9g9G8XKnM5UEkCfGTmR2MekbPPfpB1GOdi4nxVRyDo05W1BhOhEkwTWZEr?=
+ =?us-ascii?Q?0fL9/CA+PVPVHvIiCh17g11SzObZ03nwkTaLX5iKk0of1fkoidjQmx4CMiXY?=
+ =?us-ascii?Q?/mqqM5yVtX2Zcw+E0z6PZJxBce9o3L+pPL1DcIPxMQi9Eua4/RWc++/1CVbH?=
+ =?us-ascii?Q?zn2BoAV+c4sHm+14/zoFie4Pp7v6zm4yYxPInnag9d0jQ89su9aPVyQfM3We?=
+ =?us-ascii?Q?DAihOKSPSAkMUna10avTYB+y5QH2u7woKL6d41JigOvMqkdfaGisEJI+v+kN?=
+ =?us-ascii?Q?His6FVYaXX9CJhvkRghHugnFixgmLss4NNcUKdWpzd1u8Qk65zGGr5Vl35BT?=
+ =?us-ascii?Q?wIv86TyMcLeLUr2rQofCT3zWXEF3+pfgGhzkzVJGKuhC73RG/CO4xgSJPsT9?=
+ =?us-ascii?Q?P4GLUgfKlAROyxP0dg9XIJVp6kwPGaLoLNfQywPTwL3kv+JVRNJIVyC0teYd?=
+ =?us-ascii?Q?lp6j1UJlM86jktTGdCli2dx97OnXmJn7dwEjmVZK78XP0HBNNSlhPmsgFEO9?=
+ =?us-ascii?Q?88FpsUWOa6wkQeDmDw0qbwphZ+mdwKZ3ppjDpXDGwGdXyY6YFVuFfSbvyAms?=
+ =?us-ascii?Q?6XDRq1AqJr97+6TbTb6KAlohCf0/lag6ivMs4PzmkFF9z3iayR8bLV+72Qyc?=
+ =?us-ascii?Q?44WNa1GXXT5cB+QR5iLtpjEn89If3TGzlPRaFOvKgRVDPiFhLS5i15FiVMgV?=
+ =?us-ascii?Q?codGIxo4QSBwIkyh2L+IvtfZT75MxgA1Fv8ZFCXLneL6Zp8ZbLAUl0teWmlG?=
+ =?us-ascii?Q?EBMU+YqFBjz/FMnfXR0cRNVZZ6tBe6amGubr1wFOc37AzB6j3SANafZa6AmZ?=
+ =?us-ascii?Q?++7D0NRF8XEIyzA8YVuS302Gn2vYaiUJF9D+S+aBaO0CAMmtVubl4ZKo+Rk1?=
+ =?us-ascii?Q?fS4OPbZElsxuC9GZli9ZUZhChehhiCRG6NRap2p8kR6DhNwz7PZp/QoS0/hW?=
+ =?us-ascii?Q?ubT5VFS1tjZZ/QyViG8vGuXjISGQaFC6Nt3inkvnNKA+MAWSUI5ltXdmFHxs?=
+ =?us-ascii?Q?YFrT6TTMsHDuFnYk9RrQcAB8ou/lZoAhdKVBXjApwgIkLIhzrHdcmeLGIkbN?=
+ =?us-ascii?Q?e1UCc4apG812sBdoo110oCv5vS1OPh9jks1lcUJAJOGXPfQ3UUZ3i49TRuCr?=
+ =?us-ascii?Q?Mp8UCVXBhOQFPVD45Et5jwd0MzTC5k2j/IS9C5f1lJ7HoKR3prspuL7ajjqR?=
+ =?us-ascii?Q?uWMHxdwI25as7XWDQT5/CaTcXd9ZFsDX/M2FjX7q2XiYDE/VzroPEbPWjJ26?=
+ =?us-ascii?Q?856/AyWZ9+oCl8yJyxPiIRgj?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3099d375-38ab-4db9-aaa4-08d94ea869b3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3994ab50-db10-4296-b9cd-08d94ea86a46
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2021 13:39:08.6182 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2021 13:39:09.5960 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +oaLyiUf7wRnsC7jV2q+qO5GM8KwJnRel7I8Mz5DjbgLo7qjyuDTtWr0S19r76bRNeb9sRscaQ+rxNtN1FapKcggnySQXub0BUoyn6cW7eo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: uUaHj8QO39BB6C8Aqd/7SEpzTnGyRtQd5Q4Z69Gsdkp5tWQdwV5mERUrhLuR1E5vhcRYJ6TDPk8jGboJMAg601BZFfc/YDeVMp1IEEYhWfA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6805
 Received-SPF: pass client-ip=40.107.21.132;
  envelope-from=vsementsov@virtuozzo.com;
@@ -144,43 +139,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Add simple grammar-parsing template benchmark.
 
-Parallel small writes to unallocated cluster works bad when subclusters
-enabled.
-
-Look, without subclusters, one of write requests will allocate the whole
-cluster, and all other writes to this cluster will be independent of
-each other, they depend only on the first one that does allocation.
-
-With subclusters, each write to unallocated subcluster will block the
-whole cluster for parallel writing.
-
-So, assume we write 8 consecutive 4k chunks in parallel:
-
-Without subclusters, one of the chunks will block all the cluster and
-write L2 entry. The remaining 7 chunks are written in parallel.
-
-With subclusters, each of the chunks will allocate new subcluster and
-block the whole cluster. All the chunks are dependent on each other and
-queue depth becomes 1. That's not good.
-
-Let's improve the situation.
-
-Vladimir Sementsov-Ogievskiy (3):
-  simplebench: add img_bench_templater.py
-  qcow2: refactor handle_dependencies() loop body
-  qcow2: handle_dependencies(): relax conflict detection
-
- block/qcow2-cluster.c                      | 60 +++++++++------
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
  scripts/simplebench/img_bench_templater.py | 85 ++++++++++++++++++++++
  scripts/simplebench/table_templater.py     | 62 ++++++++++++++++
- tests/qemu-iotests/271                     |  4 +-
- tests/qemu-iotests/271.out                 |  2 -
- 5 files changed, 187 insertions(+), 26 deletions(-)
+ 2 files changed, 147 insertions(+)
  create mode 100755 scripts/simplebench/img_bench_templater.py
  create mode 100644 scripts/simplebench/table_templater.py
 
+diff --git a/scripts/simplebench/img_bench_templater.py b/scripts/simplebench/img_bench_templater.py
+new file mode 100755
+index 0000000000..d18a243d35
+--- /dev/null
++++ b/scripts/simplebench/img_bench_templater.py
+@@ -0,0 +1,85 @@
++#!/usr/bin/env python3
++#
++# Run img-bench template tests
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++
++import sys
++import subprocess
++import re
++import json
++
++import simplebench
++from results_to_text import results_to_text
++from table_templater import Templater
++
++
++def bench_func(env, case):
++    test = templater.gen(env['data'], case['data'])
++
++    p = subprocess.run(test, shell=True, stdout=subprocess.PIPE,
++                       stderr=subprocess.STDOUT, universal_newlines=True)
++
++    if p.returncode == 0:
++        try:
++            m = re.search(r'Run completed in (\d+.\d+) seconds.', p.stdout)
++            return {'seconds': float(m.group(1))}
++        except Exception:
++            return {'error': f'failed to parse qemu-img output: {p.stdout}'}
++    else:
++        return {'error': f'qemu-img failed: {p.returncode}: {p.stdout}'}
++
++
++if __name__ == '__main__':
++    if len(sys.argv) > 1:
++        print("""
++Usage: no arguments. Just pass template test to stdin. Template test is
++a bash script, last command should be qemu-img bench (it's output is parsed
++to get a result). For templating use the following synax:
++
++  column templating: {var1|var2|...} - test will use different values in
++  different columns. You may use several {} constructions in the test, in this
++  case product of all choice-sets will be used.
++
++  row templating: [var1|var2|...] - similar thing to define rows (test-cases)
++
++Test tempalate example:
++
++Assume you want to compare two qemu-img binaries, called qemu-img-old and
++qemu-img-new in your build directory in two test-cases with 4K writes and 64K
++writes. Test may look like this:
++
++qemu_img=/path/to/qemu/build/qemu-img-{old|new}
++$qemu_img create -f qcow2 /ssd/x.qcow2 1G
++$qemu_img bench -c 100 -d 8 [-s 4K|-s 64K] -w -t none -n /ssd/x.qcow2
++
++If pass it to stdin of img_bench_templater.py, the resulting comparison table
++will contain two columns (for two binaries) and two rows (for two test-cases).
++""")
++        sys.exit()
++
++    templater = Templater(sys.stdin.read())
++
++    envs = [{'id': ' / '.join(x), 'data': x} for x in templater.columns]
++    cases = [{'id': ' / '.join(x), 'data': x} for x in templater.rows]
++
++    result = simplebench.bench(bench_func, envs, cases, count=5,
++                               initial_run=False)
++    print(results_to_text(result))
++    with open('results.json', 'w') as f:
++        json.dump(result, f, indent=4)
+diff --git a/scripts/simplebench/table_templater.py b/scripts/simplebench/table_templater.py
+new file mode 100644
+index 0000000000..950f3b3024
+--- /dev/null
++++ b/scripts/simplebench/table_templater.py
+@@ -0,0 +1,62 @@
++# Parser for test templates
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import itertools
++from lark import Lark
++
++grammar = """
++start: ( text | column_switch | row_switch )+
++
++column_switch: "{" text ["|" text]+ "}"
++row_switch: "[" text ["|" text]+ "]"
++text: /[^|{}\[\]]+/
++"""
++
++parser = Lark(grammar)
++
++class Templater:
++    def __init__(self, template):
++        self.tree = parser.parse(template)
++
++        c_switches = []
++        r_switches = []
++        for x in self.tree.children:
++            if x.data == 'column_switch':
++                c_switches.append([el.children[0].value for el in x.children])
++            elif x.data == 'row_switch':
++                r_switches.append([el.children[0].value for el in x.children])
++
++        self.columns = list(itertools.product(*c_switches))
++        self.rows = list(itertools.product(*r_switches))
++
++    def gen(self, column, row):
++        i = 0
++        j = 0
++        result = []
++
++        for x in self.tree.children:
++            if x.data == 'text':
++                result.append(x.children[0].value)
++            elif x.data == 'column_switch':
++                result.append(column[i])
++                i += 1
++            elif x.data == 'row_switch':
++                result.append(row[j])
++                j += 1
++
++        return ''.join(result)
 -- 
 2.29.2
 
