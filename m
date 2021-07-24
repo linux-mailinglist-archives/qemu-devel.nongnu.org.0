@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309A33D4656
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 10:39:05 +0200 (CEST)
-Received: from localhost ([::1]:33492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE34B3D467A
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Jul 2021 10:57:40 +0200 (CEST)
+Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7DBX-0008RB-Ed
-	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 04:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1m7DTX-0005mg-Uz
+	for lists+qemu-devel@lfdr.de; Sat, 24 Jul 2021 04:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m7D7M-0007UP-Ct; Sat, 24 Jul 2021 04:34:44 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:44469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m7D7K-0002j1-9m; Sat, 24 Jul 2021 04:34:44 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 126B158165F;
- Sat, 24 Jul 2021 04:34:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sat, 24 Jul 2021 04:34:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=PiF8QmSO3HgEIvm8pivHAG6L1EK
- t68sKUyLG7nvtd7k=; b=AlD1Q0CoQYMX0PVnEWE2invWWa2Tbrp7U8MDUJQ0jrB
- 3FgMbnRDBj2Oe5XHYhnEmDgfNKn/Lv0vwrrv8LU9UqWWFv3zldQc9cqoW+C+sMZ0
- I8veaLhwRPF+gSlGcHX4jnknudlq9BuvdNhhtWoI7yg+dacfPswcs/sGsW5sil51
- eVmG0eWI9TnXYoR0jtBmCPr/HtNsCFPkwNDusIEInLVNVEbT9WYlmT2heb5Qd5BR
- CYAb+0sKDDyYsQ05eoIrIyUbyHvYJODDDXSyTjY5iTAMVKUTxYUhS+kGduwEAGNw
- 8zvEShL3fOi+By1COI1oWo0WJTuloUXbcvd7j3OwslQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=PiF8Qm
- SO3HgEIvm8pivHAG6L1EKt68sKUyLG7nvtd7k=; b=NWZxHTMbESlKZz9FaMeb1E
- /vvFeHjNInOKyeSwyFoqB5R2I2lknfvDelz53zArYX61oQIJzJhRYHGL/vBgbwwI
- Soa6kSZvrXJ1MehrEg2UoN5ySL4hoS5zHTqCfB8kie7cxf5iFentZK55yWIKQi0/
- DhE2bhLxAkPAIJWLgNW5usRV8wlclJFfTmS6MmL+gjTFhLNXjFFDdtrxG5uFj9Fd
- dxHfcGdwfdtCuv6QHtS2ugiWTwOe2v0ANtvDXHvBXgcCX/CJmGbncLMTtUPi4q24
- m3BZNfUItncUo0UHmBCc2GxGHJZmrKc2ljO3WR3VT3apm69nJPMuTbs7KwcmQ62w
- ==
-X-ME-Sender: <xms:ndD7YFnoufpqXQ1HLUSH9B7KIUKgJkwIKD2WwtbsgXt5QsmLPx8dRw>
- <xme:ndD7YA0A6m-K41TlnwTP7xNUsMNSC88XlEtZwM4zJG_4umfXxmjQOK2qCvIu66g7i
- RUS3aAr1eXChypME7M>
-X-ME-Received: <xmr:ndD7YLoLCiz3Z49RjnwCJSdz9v0COpnncSMouUwGwJ1OAtXUSgP3UcI3IjJoGcnjXidA2DJKi2AjA_0MK3QDzO5cQrPaO1qnFvvdtM2yvhB8fuK8FQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgedtgddtgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ndD7YFmGKycGva64X-VIC8w-2ifRGfsZ236lBy3zy1LXlMmRMNsNcQ>
- <xmx:ndD7YD3uiwxfBIS47Qcj-xOlMi3P21ZiB5Hiz9lpekhdvLFtyozgyQ>
- <xmx:ndD7YEvawRb21ZmO8yrhSfk3RxnOkR3UaYUnbGOdxUcIU9bOxeIT6g>
- <xmx:n9D7YK2-KmxEQSidvh0h7zEksMLd6-JtSOEtHry5RXX1wO6QecKzJQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 24 Jul 2021 04:34:35 -0400 (EDT)
-Date: Sat, 24 Jul 2021 10:34:32 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v5 1/5] hw/nvme: split pmrmsc register into upper and lower
-Message-ID: <YPvQmEJI85eIwMKf@apples.localdomain>
-References: <20210719224647.68559-1-its@irrelevant.dk>
- <20210719224647.68559-2-its@irrelevant.dk>
- <CAFEAcA_i5NZ9=EcuT++7BzFGi-y-V9N_q-4pydmzrrSRfgoW3A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m7DQw-00031h-Tf
+ for qemu-devel@nongnu.org; Sat, 24 Jul 2021 04:54:58 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m7DQu-0002s7-PP
+ for qemu-devel@nongnu.org; Sat, 24 Jul 2021 04:54:58 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id nd39so7285708ejc.5
+ for <qemu-devel@nongnu.org>; Sat, 24 Jul 2021 01:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IC2i2vuTfa+cyYoyYXkt/a3Uufs3zOIEu83YDHIxIuk=;
+ b=NDbOig9OtiIEtUWt8+5QyylrcgBjO4EbtPxgkeI6kjzsYya1gTjvFBykVq/+n+8YDN
+ QWO6VQMaB7VsK4WbY0Q5j7IZwyZBEMEe4hLBjpL9PQCh0EKv4yc9B5/4W/dXaJOkiKiR
+ iQolW7lrrFIjyUpvT1ePbgJ+k69AyazTzMan+xWwp7eN/b07NJAHKj/lcvK5AiLyAuZH
+ 1tvat+0iitEty0z/RSJhshG1FoBxGYzh7X9ZYfVjx9js/qk0O3y5IUcOKMZ3rnScMLqN
+ +5tVr/CgKa1y8Ey1RY7lvvajLLFPbycHDEfXkIeRlJ4w7m1UxAFNYx8GKkdPa8xEdmrj
+ Bc4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=IC2i2vuTfa+cyYoyYXkt/a3Uufs3zOIEu83YDHIxIuk=;
+ b=rlTGH5v8k13U6EPPrbsjpoMTDXg8JQXFV19+kez6Jr/f4vuf1DBcX6QMbFByFf74MU
+ HdPwdqIP+Ac5h7Ez8dyNRBpmWZa1frF3gurmTlwGAFIKxPv7Vy/ltKQirmFi2s29o/4w
+ T7qv7bPIaRk0cIfM8Qct0WUdLY901plCRpAe8KXhtaN0N7gWApxBRw/4umk2p1KGZbYp
+ H4AnSHTlEikYHqb+qvXmKcnJqTj4UWtLBi5ZpaTrsr9NL4oFl7p1XoEGakrpG+B/bK9s
+ LjNsOEkeQHzWddovJ3Exk+SHFcwA+YFNsUUThLcY8nxCOeduuDcX1e5MphcQlHmmdoae
+ 3/4w==
+X-Gm-Message-State: AOAM5330BmfZCU7uQivF23fVRskim+wdnjniK22uNRZJIIN8K2ZcqEm0
+ yQI9JHcAIHp9rb1Gar+5cHGmryFWjWAizQ==
+X-Google-Smtp-Source: ABdhPJwxecX8xHQQ586vobsT5hu1wtqfLuk6EPaJA4zkjUrpU7z0z5Hjj6DLUd3VgPV7oMRU5tMusA==
+X-Received: by 2002:a17:907:9719:: with SMTP id
+ jg25mr8178664ejc.362.1627116895358; 
+ Sat, 24 Jul 2021 01:54:55 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id j21sm15723881edq.76.2021.07.24.01.54.54
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Jul 2021 01:54:54 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Misc QEMU patches for 6.0-rc
+Date: Sat, 24 Jul 2021 10:54:44 +0200
+Message-Id: <20210724085453.16791-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cPeM/AvExqgv5hJL"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_i5NZ9=EcuT++7BzFGi-y-V9N_q-4pydmzrrSRfgoW3A@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,84 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 7b7ca8ebde4ee6fba171004b2726ae1ff5489c03:
 
---cPeM/AvExqgv5hJL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-22 18:32:02 +0100)
 
-On Jul 20 14:40, Peter Maydell wrote:
-> On Mon, 19 Jul 2021 at 23:46, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >
-> > The specification uses a set of 32 bit PMRMSCL and PMRMSCU registers to
-> > make up the 64 bit logical PMRMSC register.
-> >
-> > Make it so.
-> >
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->=20
-> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > index 2f0524e12a36..28299c6f3764 100644
-> > --- a/hw/nvme/ctrl.c
-> > +++ b/hw/nvme/ctrl.c
-> > @@ -5916,11 +5916,12 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr =
-offset, uint64_t data,
-> >              return;
-> >          }
-> >
-> > -        n->bar.pmrmsc =3D (n->bar.pmrmsc & ~0xffffffff) | (data & 0xff=
-ffffff);
-> > +        n->bar.pmrmscl =3D data & 0xffffffff;
->=20
-> This mask is unnecessary because pmrmscl is uint32_t.
->=20
-> >          n->pmr.cmse =3D false;
-> >
-> > -        if (NVME_PMRMSC_CMSE(n->bar.pmrmsc)) {
-> > -            hwaddr cba =3D NVME_PMRMSC_CBA(n->bar.pmrmsc) << PMRMSC_CB=
-A_SHIFT;
-> > +        if (NVME_PMRMSCL_CMSE(n->bar.pmrmscl)) {
-> > +            hwaddr cba =3D n->bar.pmrmscu |
->=20
-> pmrmscu still needs to be shifted left by 32 here.
->=20
+are available in the Git repository at:
 
-Hi Peter,
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Patch 4 fixed this, but I have added the fix as well in this patch in
-v6.
+for you to fetch changes up to cbc94d9702882128c52b72b252b8eb775b0e73af:
 
-I believe the series is ready now, it just needs an R-b.
+  qom: use correct field name when getting/setting alias properties (2021-07-23 18:17:17 +0200)
 
-Thanks for your reviews on this!
+----------------------------------------------------------------
+Bugfixes.
 
---cPeM/AvExqgv5hJL
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+Claudio Fontana (1):
+      i386: do not call cpudef-only models functions for max, host, base
 
------BEGIN PGP SIGNATURE-----
+Daniel P. Berrangé (1):
+      gitlab: only let pages be published from default branch
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmD70JQACgkQTeGvMW1P
-DenUeAgAn0yAnzINwBfqdY0XjRfBjPpqNlRcrVRvHGMbBJokHDHcR5cWCeQSXPOm
-b8Y/UP/WpR26jYiccsHDqJzLPirCJxt6iIPk5iUbLSxwet9Nvb3TRPIStnCLUTtn
-yvskx6moaLEno/1wslNvUSciM3uJNqlFBy3Mm6jnfEgbXXZ/27trMTzpSYwHyVdi
-78P4MSU3ORrVRp84TOpE44HEJ9NqmDukdhOPIfnlx6rX4KFgoJ4Z22aLQ9zCMDOe
-ji9jZakjNhRD4bVVQ3VIEm7z+vt/mBuxr6ZsvlEfyao3x7oSM5Qbq/MiI4nrP5oT
-oXiTxLjK6jnnkhghBh09OJhNMWdhjQ==
-=MnqC
------END PGP SIGNATURE-----
+David Hildenbrand (3):
+      MAINTAINERS: Replace Eduardo as "Host Memory Backends" maintainer
+      MAINTAINERS: Add Peter Xu and myself as co-maintainer of "Memory API"
+      MAINTAINERS: Add memory_mapping.h and memory_mapping.c to "Memory API"
 
---cPeM/AvExqgv5hJL--
+Gerd Hoffmann (1):
+      meson: fix dependencies for modinfo #2
+
+Lara Lazier (1):
+      target/i386: Added consistency checks for CR3
+
+Paolo Bonzini (2):
+      qapi: introduce forwarding visitor
+      qom: use correct field name when getting/setting alias properties
+
+ .gitlab-ci.d/buildtest.yml           |  18 ++
+ MAINTAINERS                          |   6 +-
+ include/qapi/forward-visitor.h       |  27 +++
+ meson.build                          |   4 +-
+ qapi/meson.build                     |   1 +
+ qapi/qapi-forward-visitor.c          | 326 +++++++++++++++++++++++++++++++++++
+ qom/object.c                         |   9 +-
+ target/i386/cpu.c                    |  19 +-
+ target/i386/host-cpu.c               |  13 +-
+ target/i386/kvm/kvm-cpu.c            | 105 +++++------
+ target/i386/tcg/sysemu/misc_helper.c |   7 +
+ target/i386/tcg/sysemu/svm_helper.c  |  10 +-
+ target/i386/tcg/tcg-cpu.c            |  11 +-
+ tests/unit/meson.build               |   1 +
+ tests/unit/test-forward-visitor.c    | 197 +++++++++++++++++++++
+ 15 files changed, 687 insertions(+), 67 deletions(-)
+ create mode 100644 include/qapi/forward-visitor.h
+ create mode 100644 qapi/qapi-forward-visitor.c
+ create mode 100644 tests/unit/test-forward-visitor.c
+-- 
+2.31.1
+
 
