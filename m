@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AF43D4D5E
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 14:29:10 +0200 (CEST)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA933D4D62
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 14:29:49 +0200 (CEST)
+Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7dFl-0003oH-UH
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 08:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
+	id 1m7dGO-0005Rt-I9
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 08:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dBG-0000fL-8Y
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:30 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:38537)
+ id 1m7dBH-0000mr-QP
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:31 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:33645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dBE-0003oZ-Sj
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:30 -0400
-Received: by mail-pl1-x636.google.com with SMTP id e21so3904719pla.5
- for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:28 -0700 (PDT)
+ id 1m7dBG-0003oq-3Z
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:31 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ gv20-20020a17090b11d4b0290173b9578f1cso10516334pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zE5MTjUi9y133mTU7/pQadmSuW4/bah/7+NERAt/57k=;
- b=uQ/dHF1fncyUiNaFC5Cvg2GRealO8bbRMDMxRDICmId94PvmwllRT+XZN4u+4ig5Fi
- H2cDcuqNLdkhrndkcjtHFGBhky3w/TdR9RUiC1FE2LmMG0whzOtLmuZ/5Wu99aTBCoY1
- 9Xj8rHv6IBhge9EEzadF8RCRuZ1yo//UN3hl2oyrnTxx7Ypd6fTe9ibG9LWowTYYcsUl
- N+vFPPlC1CP5w+1IExUlVfBq8pFqkb2/C4Tf7TeKlVLXXmVLesQbZOvlzUKQoCZewgFF
- ddMd2f81YgRS+yE4nBlV7d2YHeM2E5J9q1lBr9CW69p4ERh4UwxPTAuPd2W3JdPBhv0v
- IK5Q==
+ bh=QxBjgCMLIKAw85vE8mpb69QJsoP7x3luF33C4fQ6fGY=;
+ b=dc8UfeWSgIKb1HefXC0VyHkMikz/9soVWErK9termVgqLKQTWcuqRk0abkp1ej8tXU
+ BiIGlVPWMYU6lnnl0c3k8eRYVIGj4b4nySAQWv3oKR0KYDJ2adyMLCyYsqpCTj+wPoM0
+ ZGHYW6uADUKMDJwe6hDeG9nYp1KzNBwvl2ead4Q1GKS1xUeS6+b/2WtGu/q/MbE1CdtE
+ tHwmRQYpL/cruBh+WzlI9/PcDb4AlQof+Vn1Lvt3GlOIV6T5G1WIg1aGuy0Ytp32n0OA
+ SenfQPm0GGmuX1xhfAZfqLZNLb7fzXl4DfHTNU+DqXtqJ2MDYlBhAvRIOCJEaJrIpIQX
+ R4jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zE5MTjUi9y133mTU7/pQadmSuW4/bah/7+NERAt/57k=;
- b=cVar8wyR5e3hHpof6D3J7NKAHgv8/Ed/0xuoR2GbQoyZKk4Bqi46JcFMNE+Z3Y4zQ5
- 2E2xN3cnpnlFRgcxVKmf/gIsTK2VuiCdlKUnYjh1nQ4ufMQSYd0W3OWNTmvvJwf4T4P/
- Jc1WuiapmEc618O80PfbSK7IsDy2eEmU39p4kmqrqfTCKhsE9VKDjr7GAOyvL+PbHV8p
- BUe8pmYMy6rO72KtnJbSo59c3QHJJrm/6Nlod8InQddM6mf9oOQe3WfUYESxm5lrgbZF
- SwrYZf7wpCol5Fi8B1c5bDfqt4u60EezW0Rrr9HjTjoEzGotIP8AC1+ZgF7xdd3IYIMI
- 1jHw==
-X-Gm-Message-State: AOAM532t3jSOhb2MUJUi7MTnbHEgAWIximgL6o8qUxpDzBn/Ovx0uugX
- FUurQtiXuh5CEy+z5nYESKtei90Z1k0YzA==
-X-Google-Smtp-Source: ABdhPJwu6Prz4x/QO+VqpdpGAiodLhud7h1cOkSJNBZqTRY+YAOERN8ClfQYcU4J1JGYkbE9jD5SPw==
-X-Received: by 2002:aa7:98c6:0:b029:32e:608b:7e86 with SMTP id
- e6-20020aa798c60000b029032e608b7e86mr12996753pfm.68.1627215867699; 
- Sun, 25 Jul 2021 05:24:27 -0700 (PDT)
+ bh=QxBjgCMLIKAw85vE8mpb69QJsoP7x3luF33C4fQ6fGY=;
+ b=bsteiTZVHbM/O7gBYIG4nc3M1mRJBxnoQSXsbXOoCOkhFCxyKGENNRLFOu0vPMHV+W
+ PyttG8GKTLMCjBVcjV3kKfaX8h9lzTFe0iLNJkkzAJTwxoAUHyErNuVQW0IdsSIpsZPc
+ Wo0B4M3GwT2wmDgyCSZ049/00vm5+76uejmtWtzeD6ykFU/TXlOAoUVtJmw5qvqMfJ+U
+ QZkiL8WhU7RhT/++rPyN5JQGt9opS8cVpqtk/9ueqmf0sufFBrYhaKmJG+Jg2GL7deR7
+ NFA5TYT/jPbP9DO3IbEeL2pfxyfpZfMtIrbcQl/ntxOEeuyz1VW7KiUPLGw4qRMlolWp
+ vDMQ==
+X-Gm-Message-State: AOAM531U/Vwtcu1tQAF+tFsdgheFnQlNu/RXPDun+jniAtrznNIGzAE9
+ IwbmUPx0y4n8vAWX21KQL3LFb7fChjnsGw==
+X-Google-Smtp-Source: ABdhPJx4qIShfWZ4SQMEVYv79mV6Jg6RFXyieubeUEUK4opYbS06vWL3EN1+6zdg6fJtWZtJRVbfzA==
+X-Received: by 2002:aa7:8a07:0:b029:332:958b:7f07 with SMTP id
+ m7-20020aa78a070000b0290332958b7f07mr13174289pfa.70.1627215868820; 
+ Sun, 25 Jul 2021 05:24:28 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.26
+ by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jul 2021 05:24:27 -0700 (PDT)
+ Sun, 25 Jul 2021 05:24:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1? v2 8/9] linux-user/syscall: Remove unused variable
- from execve
-Date: Sun, 25 Jul 2021 02:24:15 -1000
-Message-Id: <20210725122416.1391332-9-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1? v2 9/9] tests/unit: Remove unused variable from
+ test_io
+Date: Sun, 25 Jul 2021 02:24:16 -1000
+Message-Id: <20210725122416.1391332-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210725122416.1391332-1-richard.henderson@linaro.org>
 References: <20210725122416.1391332-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,48 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From clang-13:
-linux-user/syscall.c:8503:17: error: variable 'total_size' set but not used \
+tests/unit/test-iov.c:161:26: error: variable 't' set but not used \
     [-Werror,-Wunused-but-set-variable]
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 3 ---
- 1 file changed, 3 deletions(-)
+ tests/unit/test-iov.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 376629c689..ccd3892b2d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8364,7 +8364,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             abi_ulong guest_envp;
-             abi_ulong addr;
-             char **q;
--            int total_size = 0;
+diff --git a/tests/unit/test-iov.c b/tests/unit/test-iov.c
+index 9c415e2f1f..5371066fb6 100644
+--- a/tests/unit/test-iov.c
++++ b/tests/unit/test-iov.c
+@@ -158,7 +158,7 @@ static void test_io(void)
  
-             argc = 0;
-             guest_argp = arg2;
-@@ -8396,7 +8395,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                     break;
-                 if (!(*q = lock_user_string(addr)))
-                     goto execve_efault;
--                total_size += strlen(*q) + 1;
-             }
-             *q = NULL;
+     int sv[2];
+     int r;
+-    unsigned i, j, k, s, t;
++    unsigned i, j, k, s;
+     fd_set fds;
+     unsigned niov;
+     struct iovec *iov, *siov;
+@@ -182,7 +182,6 @@ static void test_io(void)
  
-@@ -8408,7 +8406,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                     break;
-                 if (!(*q = lock_user_string(addr)))
-                     goto execve_efault;
--                total_size += strlen(*q) + 1;
-             }
-             *q = NULL;
+     FD_ZERO(&fds);
  
+-    t = 0;
+     if (fork() == 0) {
+        /* writer */
+ 
+@@ -201,7 +200,6 @@ static void test_io(void)
+                    g_assert(memcmp(iov, siov, sizeof(*iov)*niov) == 0);
+                    if (r >= 0) {
+                        k += r;
+-                       t += r;
+                        usleep(g_test_rand_int_range(0, 30));
+                    } else if (errno == EAGAIN) {
+                        select(sv[1]+1, NULL, &fds, NULL, NULL);
+@@ -238,7 +236,6 @@ static void test_io(void)
+                    g_assert(memcmp(iov, siov, sizeof(*iov)*niov) == 0);
+                    if (r > 0) {
+                        k += r;
+-                       t += r;
+                    } else if (!r) {
+                        if (s) {
+                            break;
 -- 
 2.25.1
 
