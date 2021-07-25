@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0570F3D4F71
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 20:19:22 +0200 (CEST)
-Received: from localhost ([::1]:33188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176EA3D4F72
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 20:20:41 +0200 (CEST)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7iif-0006fZ-2Y
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 14:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
+	id 1m7ijw-0008CV-5S
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 14:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7ifm-00046e-57
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 14:16:26 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:39823)
+ id 1m7ihe-0006nj-HH
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 14:18:22 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7ifj-0002Xs-Np
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 14:16:21 -0400
-Received: by mail-pl1-x635.google.com with SMTP id e5so7003212pld.6
- for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 11:16:19 -0700 (PDT)
+ id 1m7ihd-0003sv-4g
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 14:18:18 -0400
+Received: by mail-pl1-x632.google.com with SMTP id i10so5862481pla.3
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 11:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=T0rXdxYYGfrICfq2Vs2XvjqztMZXQxCus06EsOgZ6x8=;
- b=QpwX/jF5Dohfk8jht0UmVIuUTZR7hyIQrfXDmDG/JSwI7KHvld0dFFH/x+aDoN/o7M
- kbQEF0M2Mv7Mlmm3PrueaKMJjF4ZhusBS/6RGHLtvNrdSLXdkWdWBTa/3gaGPdaH9cbn
- c4H5oPjIlKqcOvBf9gAXnIjxepmtI4flGDIU/quhnnlfEZTmMcwyg4CZasl+tcBbxI+S
- b7+Ara+yJW/KoUJ1zgC1YhA1XTjbGl7w3KPROuHUaZd+WUy0NXQOERHqkmgl5uXyFQYk
- WdY87VGAjIkKx5x4w4RZff6w0r9a203yoYTVWMwTlzJ+AtUqty1q869/+IPqz6N3fb55
- +vnQ==
+ bh=JBKtoajRFqAQmYRHIJJ0fkQH8d+bSUkkequ4cY7/wgI=;
+ b=TAkzfKwmBifcXRmyDdqIUJG7bHydT2k2D93tjpOyKfl7+OaC/7kWOa6cqmqiZD8bWc
+ lZsSwbO59fGaeKs+rHhM/NUE3JJ8VLKC1CxrXiDngMZeL+S2oVzhmYdTwQNSCuAKBdoz
+ HopPo1UbwVtT5E6K8Z6TFV+bQZ63/IboKC6KL0lxqdYw3u/ktP08tl5CZmK/+ldLxnQW
+ 1Y2/MLZUXwjd5QXmMyJz7wOSfaetcfrF3NlAcjgcfOebO6oF0PC5ckCRHxgD4X8bQCtK
+ yThnOBBD+GSP3m0bnPYgV2uKvBwy0s9zIOFkaKDCbJf3twG7OMEKG42nTOM/vb/Qz7Eu
+ Yi3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=T0rXdxYYGfrICfq2Vs2XvjqztMZXQxCus06EsOgZ6x8=;
- b=YpgaP07xwpbgpjR/VIBQCnhLx2uPUO7QLw6VQwWk3kSZylHCx7tgISe2b0i2mfPfx8
- fyJsfyT8Hu5O9EEiDLebO08AJ3tzvUrA0+GJWxiZbR+0Xoaa6fT6jzH5U/iIWQhgjyZJ
- QoQ1E9Afa+aW2NgA+lj4MH13045Y+ARa1ZTnHymW5knzBog7/FUxxAhWZ0a6mh6tRAKU
- YavoijmKF3KrP9BD74t7G+pN8dHNaC4qd+ikQft+e/ccraLin7eSv1KDyJtZ+1L69DM1
- D6Ocf86qIGR3+iXMxdeCWYMkQ1U6YmcoX2xwqn64DLE7vb3k5BzrSqCXRxrrPthuGkfo
- nIwA==
-X-Gm-Message-State: AOAM530ydXiXjfoGMhCXNQDHecfemPozbb09efWOrC+TWe2zHRvoBPgK
- KhRrRltG7P19X2wGx9QX7vRLwnalgExpKA==
-X-Google-Smtp-Source: ABdhPJy4w+S88BFceIL+MAuEPCuXv/P3y7IxpviVwo8rv6PcsKP4gtQamzbgR+dpH/FdL+5rzEUNyg==
-X-Received: by 2002:aa7:8284:0:b029:312:1c62:cc0f with SMTP id
- s4-20020aa782840000b02903121c62cc0fmr14584730pfm.75.1627236978397; 
- Sun, 25 Jul 2021 11:16:18 -0700 (PDT)
+ bh=JBKtoajRFqAQmYRHIJJ0fkQH8d+bSUkkequ4cY7/wgI=;
+ b=dTOp8B/dDZ5KBFi2te2+5XSGmi6pSdhC5g6M9AzaPfMQQzTCTaiENNQTjJo5Wlu8hK
+ p2wG35BVt+QlVdyevlCvZfGqo4ZL9UydVe/7yHFpVILZYciHdqdk0uBnDMn6sK5O3IZq
+ wqaJKL4G+8zvW/SgGOqkH5EcRkmnlvOjmureS9JaV1CyFfUmIrT298zHjrpRt7a5Lv6s
+ UYHS7Jrq/9EP3UyVuxtT0ehLkY4ne0OEDJE4mX96wU99Uy49YqdIgrwrq4Z8qhhSL7oi
+ SuW2rz055aUgGx5t9VKJaTYs7qdQ+IZGwzDb/eXyGAUU68iK7O0b4/Nwwl5ytgL2Lzpb
+ MObw==
+X-Gm-Message-State: AOAM530FEc+EfcHzzDCm05r6oHxxKBwdbTKlb9TTYEzw51RO/ufEpMJP
+ RmLvMC2Q3SHWMLKqkjaxWnOP2ZMVOmaQ8w==
+X-Google-Smtp-Source: ABdhPJxxvSY0hLInFlnnAcCEe8fo44sxocVrPbfijCjWaUNOwgwgz2g69Y45wwR38Zv40cW46B3GOA==
+X-Received: by 2002:a17:90a:a013:: with SMTP id
+ q19mr22288467pjp.224.1627237095792; 
+ Sun, 25 Jul 2021 11:18:15 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id h20sm41200296pfn.173.2021.07.25.11.16.17
+ by smtp.gmail.com with ESMTPSA id f5sm8498143pjo.23.2021.07.25.11.18.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Jul 2021 11:16:18 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 3/6] target/arm: Report M-profile alignment faults
- correctly to the guest
+ Sun, 25 Jul 2021 11:18:15 -0700 (PDT)
+Subject: Re: [PATCH for-6.1 4/6] hw/intc/armv7m_nvic: ISCR.ISRPENDING is set
+ for non-enabled pending interrupts
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210723162146.5167-1-peter.maydell@linaro.org>
- <20210723162146.5167-4-peter.maydell@linaro.org>
+ <20210723162146.5167-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e8fa3d4f-1521-6090-3052-62760ea12047@linaro.org>
-Date: Sun, 25 Jul 2021 08:16:15 -1000
+Message-ID: <9df91161-c097-81b2-6062-c7961fec3938@linaro.org>
+Date: Sun, 25 Jul 2021 08:18:13 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210723162146.5167-4-peter.maydell@linaro.org>
+In-Reply-To: <20210723162146.5167-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,28 +96,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/23/21 6:21 AM, Peter Maydell wrote:
-> For M-profile, we weren't reporting alignment faults triggered by the
-> generic TCG code correctly to the guest.  These get passed into
-> arm_v7m_cpu_do_interrupt() as an EXCP_DATA_ABORT with an A-profile
-> style exception.fsr value of 1.  We didn't check for this, and so
-> they fell through into the default of "assume this is an MPU fault"
-> and were reported to the guest as a data access violation MPU fault.
+> The ISCR.ISRPENDING bit is set when an external interrupt is pending.
+> This is true whether that external interrupt is enabled or not.
+> This means that we can't use 's->vectpending == 0' as a shortcut to
+> "ISRPENDING is zero", because s->vectpending indicates only the
+> highest priority pending enabled interrupt.
 > 
-> Report these alignment faults as UsageFaults which set the UNALIGNED
-> bit in the UFSR.
+> Remove the incorrect optimization so that if there is no pending
+> enabled interrupt we fall through to scanning through the whole
+> interrupt array.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> The other approach would be to have arm_cpu_do_unaligned_access()
-> raise the EXCP_UNALIGNED which we already use for Unaligned
-> UsageFaults which are raised by m-profile specific helper code,
-> but I think this way is in line with the current design that
-> generally prefers to report exception information in an A-profile
-> format and then re-arrange that into the M-profile information
-> in arm_v7m_cpu_do_interrupt().
-> ---
->   target/arm/m_helper.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   hw/intc/armv7m_nvic.c | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
