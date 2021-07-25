@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B413D4F3F
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 19:45:54 +0200 (CEST)
-Received: from localhost ([::1]:36600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3B23D4F42
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 19:47:48 +0200 (CEST)
+Received: from localhost ([::1]:41720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7iCG-0005FY-OL
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 13:45:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34994)
+	id 1m7iE7-0000Ws-Fy
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 13:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m7iAd-0003ub-Cq
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:11 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40528)
+ id 1m7iAf-0003v1-80
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:13 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m7iAb-0006Py-Q6
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:11 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- z8-20020a1c4c080000b029022d4c6cfc37so6657301wmf.5
+ id 1m7iAc-0006Q2-6d
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:13 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ f14-20020a05600c154eb02902519e4abe10so496999wmg.4
  for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 10:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W790QlvERPMT3GyGM+xkfX+d60Mt7d5YaSYrUzQFl4w=;
- b=gjh60luGdb6xZ7fdcgELoFGiVwEXWKy8pKSuE2i2vRtqR264aZvZS6M+uQQ9sIzIJn
- MUBgZNB9geTeE3M6VY6ZuEkLjC+WfuXQmr/lRjtSkBBHmxIjjaUk+oSSvPQMq7EU2tjU
- 5/M4V45D0g5r9skQNwbotAwsSIaGbyufWERtYNhGqMbDdZQfsqGDSwCzdJjVQZ6edNbk
- lrplNZRlSFgDvIgh1FwUsp1mUwxLgmcIBGyTveX6Sfb2rsqF+iVvlheyEhKGJELMAidI
- 16TQscdvu0nPu6KrTDdVjkRp6w/vHl6kOduHRt6q2+JQZqEFCORx3wuBrlSATFqZb9dH
- YEOA==
+ bh=W/EOd9NVG4jg0l2RelALFJTn19qCwhoAFbcCaykxst8=;
+ b=kYzsvNlpzqPRnq7ukV7Lovu5c16RQjQ1Jt/tk2tqxPAFgCPCRzn7zEncsrU/Wia5DT
+ PhrWTDliGrYmqL3Sxl4nnHWWHz8ApTsT6ErNcSqObSKlgMVFsZMUfridqrh/JFKaDyx2
+ BvjcCYUxJw/7Ym+mMiQ8OW9fzoJjaLZOUlWkWTd5cHOa+oD0CXX3Brkxl7qDETtqlPgb
+ RwUsOnV6CX1vYSHjKRBXyw+N9fpe5VNcKnQdAYGyj9Nyck409a15QcejfBHCkDUbBkcI
+ 0eRFGhSLIjOJ99JRfqv/g4Qe8fEKTkwEQjj1jrSBYNULmcPNKw4B6Wk751wuKsP4dTz2
+ B0Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W790QlvERPMT3GyGM+xkfX+d60Mt7d5YaSYrUzQFl4w=;
- b=dqYwtfPuyWWxfQKmt0/y6Bqqi/J/wU/mf3rEjYclTbCst9DseTS+ji+2LjiLXD24pn
- EJQlZVA+QlXgO3TZP/AED6cRipLMPl36puSk7n0J0asYyC4G/WrDlCptJukBY8zeotxV
- X/KkTXBgyZB9Uq65yWfchMseHNcxbxb11yeLUVvYhtg9HS4CzXm4zqaI+mOBFpdPR6H2
- svHvVotR9ZaNU7JTEPHbZiShxmN/EPj6LLswqTbWN240bni6pidyHCOiE8p2EuhxbUbh
- mmSrbU64U40YA3khJETy5Qr036U2KKWK3JIYosgVbz2i4JfF3Zg5gJijL9geSc9LOxBK
- CACw==
-X-Gm-Message-State: AOAM5316UrjRlaOyph9tpiZWtVzNIXucPJSroXndN47T8Gv4DTyLEMbG
- kbVxsjjC6nlaQT4ZyiH5Lr8ZYpP4hbfqeQ==
-X-Google-Smtp-Source: ABdhPJxvZoZr06OTrPL8MCrJS7qjKDp4Tl2XIM3MOl0Zjo5WyobpYBZznIabKf5PVOOoX7ZgUdy+CQ==
-X-Received: by 2002:a7b:c111:: with SMTP id w17mr23432975wmi.163.1627235048257; 
+ bh=W/EOd9NVG4jg0l2RelALFJTn19qCwhoAFbcCaykxst8=;
+ b=Zeo6dkme+YcwK2k4u/LBBCGdIULg+ZlQefaximO/BAfQhVj0z4JtQO7mS4pfZftRww
+ xQxsq1PNf8aAwA56/quQ5Di4Qe85pht8FncEw19qp4RiAFMKq/mwF1z3w7s+OyFANPEY
+ pWqIR9IDt71tnjdc8W/w36Qjb5pozt4ciU5ECH/+doWuV/hAWQadZT12D1UPaBgstRNk
+ 4jTwALRtDJyuLfuPxsjpwfIUkl7b8KUjek0SJwvN72Yul/VcFxxmMtBhKaPK6a9XGzuG
+ f/MhMmJKQvu9x3COFNU6K0Xz1IAd66wmYxS5Qm6XhtiWKqvBXakqDY4iTmfiB+qxzKKC
+ sRZw==
+X-Gm-Message-State: AOAM533/N9nvNq0J9TVWziKiOpKDnp+YJzsotBoyN5woRMeq9BXP3rrC
+ rxp88RgIPvmZvd22JWLQMUXChZtXesaNaQ==
+X-Google-Smtp-Source: ABdhPJwD2HF3NklQ5phpEiKA1O3WlTPuO5uHM6bovS8QVKqto8dWXr51R0tF7SOqVme5esk+Eid2KA==
+X-Received: by 2002:a05:600c:2104:: with SMTP id
+ u4mr13828429wml.45.1627235048974; 
  Sun, 25 Jul 2021 10:44:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m15sm33666655wmc.20.2021.07.25.10.44.07
+ by smtp.gmail.com with ESMTPSA id m15sm33666655wmc.20.2021.07.25.10.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jul 2021 10:44:07 -0700 (PDT)
+ Sun, 25 Jul 2021 10:44:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 1/2] accel/tcg: Don't use CF_COUNT_MASK as the max
- value of icount_decr.u16.low
-Date: Sun, 25 Jul 2021 18:44:04 +0100
-Message-Id: <20210725174405.24568-2-peter.maydell@linaro.org>
+Subject: [PATCH for-6.1 2/2] accel/tcg: Remove unnecessary check on
+ icount_extra in cpu_loop_exec_tb()
+Date: Sun, 25 Jul 2021 18:44:05 +0100
+Message-Id: <20210725174405.24568-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210725174405.24568-1-peter.maydell@linaro.org>
 References: <20210725174405.24568-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,38 +89,48 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In cpu_loop_exec_tb() we were bounding the number of insns we might
-try to execute in a TB using CF_COUNT_MASK.  This is incorrect,
-because we can validly put up to 0xffff into icount_decr.u16.low.  In
-particular, since commit 78ff82bb1b67c0d7 reduced CF_COUNT_MASK to
-511 this meant that we would incorrectly only try to execute 511
-instructions in a 512-instruction TB, which could result in QEMU
-hanging when in icount mode.
+In cpu_loop_exec_tb(), we decide whether to look for a TB with
+exactly insns_left instructions in it using the condition
+ (!cpu->icount_extra && insns_left > 0 && insns_left < tb->icount)
 
-Use the actual maximum value, which is 0xffff. (This brings this code
-in to line with the similar logic in icount_prepare_for_run() in
-tcg-accel-ops-icount.c.)
+The check for icount_extra == 0 is unnecessary, because we just set
+  insns_left = MIN(0xffff, cpu->icount_budget);
+  icount_extra = icount_budget - insns_left;
+and so icount_extra can only be non-zero if icount_budget > 0xffff
+and insns_left == 0xffff. But in that case insns_left >= tb->icount
+because 0xffff is much larger than TCG_MAX_INSNS, so the condition
+will be false anyway.
 
-Fixes: 78ff82bb1b67c0d7
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/499
+Remove the unnecessary check, and instead assert:
+ * that we are only going to execute a partial TB here if the
+   icount budget has run out (ie icount_extra == 0)
+ * that the number of insns we're going to execute does fit into
+   the CF_COUNT_MASK
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You could argue that we don't need the asserts, if you like.
+The first one would have caught the bug fixed in the previous
+commit, though.
+---
+ accel/tcg/cpu-exec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index fc895cf51e4..6e8dc291197 100644
+index 6e8dc291197..5aa42fbff35 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -834,7 +834,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-     /* Ensure global icount has gone forward */
-     icount_update(cpu);
-     /* Refill decrementer and continue execution.  */
--    insns_left = MIN(CF_COUNT_MASK, cpu->icount_budget);
-+    insns_left = MIN(0xffff, cpu->icount_budget);
-     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
- 
+@@ -843,7 +843,9 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+      * execute we need to ensure we find/generate a TB with exactly
+      * insns_left instructions in it.
+      */
+-    if (!cpu->icount_extra && insns_left > 0 && insns_left < tb->icount)  {
++    if (insns_left > 0 && insns_left < tb->icount)  {
++        assert(insns_left <= CF_COUNT_MASK);
++        assert(cpu->icount_extra == 0);
+         cpu->cflags_next_tb = (tb->cflags & ~CF_COUNT_MASK) | insns_left;
+     }
+ #endif
 -- 
 2.20.1
 
