@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC5A3D4D57
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 14:26:12 +0200 (CEST)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875213D4D58
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 14:26:13 +0200 (CEST)
+Received: from localhost ([::1]:38940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7dCs-0002z4-Uw
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 08:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51448)
+	id 1m7dCu-000359-IA
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 08:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dB8-0000Hc-Ki
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:22 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42806)
+ id 1m7dB9-0000Hk-AP
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:23 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:35630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dB7-0003l6-5f
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:22 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- o44-20020a17090a0a2fb0290176ca3e5a2fso2925587pjo.1
- for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:20 -0700 (PDT)
+ id 1m7dB7-0003lk-RD
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:23 -0400
+Received: by mail-pl1-x634.google.com with SMTP id n10so731027plc.2
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z1A48850AmNUJ480HY8JI9Go9HwmCZPrdsNHUIsFpfk=;
- b=O6wjwYAYDErFEsUdmRgMWTml4W3+DIF/x+RXtlSKy8cKyIlhz6dI4yITwq7FK8vPBr
- cwz76QdqU8190FO2eJHus+q8a6EyPBzjV0BYVKsvhrrZusGFKDkt2Rw4oR6fK+Ac3rXI
- z2KDydI+mlLQ+Lp+CwhLApv006OU+hC++HvxeZmIS14jIr5uy3jpuMKOicyBmu44MHaj
- oG2OQezPVBeH0gttPeGmEQG6tNRiU3AO8iLBOXnFvMisWry9QwNAwYR5NA52y/xNjxL0
- mey45aONdxhkJKIVGvJTPoZx6GfbrNVOJVo+vFDPK949EKXPXnpudD+LknXA8QfR3X0d
- VZGA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=m3B9CrnRSDOeKXxeWXGDcKxMgiwIzx47M7NAowChwks=;
+ b=sektDWaTOg1KfikvBoZ5sssayiL6yKwrTFwKeUxY78VFhiBMRlwS/nJWw8Z7Tyx9Wc
+ KnveDM2nMRYQI7AgxByPdXpdYNpNI/MVH9ADwg+fFA4VFXZ5EJlB232VnwSEw4vSF+j3
+ sA5mKxcfZqVqTOYCNZJQduumswfpZabuayRiv96XFxo2P6/iCt0ni+NOblLbFT4kBw2M
+ weYli2ZhlZbM7MNgbGrQNkP3+0I1/bKV8zpxF+zlBnCdKLxNPK95/3UXhVlan9e6lRTh
+ vr2Bf6x0ja+tmjaNfDyW/e83FQIC6UR2SBRVP0KDITen/0GdnKdRZCF01j1VKbPrgQB8
+ aTNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z1A48850AmNUJ480HY8JI9Go9HwmCZPrdsNHUIsFpfk=;
- b=r3PaXpmLlQsmskmX72TvJDY4ksBDQcK7O/FZpJ8l1sag8Yy71qKlo7pRAQIxLc8rJx
- N0eyiet+rChWdPU/ImYCpCgITG+EcTbGtQt8NiT25s7jadV1a6DGgwraei6RImgNoyh4
- 3AY6GZRl4PhBGpqljgQI3tyZ62HKm6TFqJukuExrWdvYANgHmi04GZSWP3iv3RAPpWIp
- YQ7Rt8d0yb/V8xyu8bEtE64+jqVIDZvOUScsay/0INKdFcKADQ+K5XG3lTI+PksW7X2n
- hmLMabJ5RLK8NO2lS3f8fHHb5mEJAfjvu/N03zckdsL09wBX9Ek7QaS7/3p7UmqvIBL1
- 3CAw==
-X-Gm-Message-State: AOAM5334sdehaj3BDBRXGMxbm/StYn5g0NjUgS8gmBeKWMgbVpg9zyU7
- H1furUZTbQ7f8VEY/2sYWznzqr96JYI5hg==
-X-Google-Smtp-Source: ABdhPJxT0ZFR/ojDyeuGP3TTh2Mf0qioK5xQHEQnlFd2qqdvyMI08/jc17ZL3WRFPQf/dFKnV29t4A==
-X-Received: by 2002:a17:902:7005:b029:12b:9b9f:c463 with SMTP id
- y5-20020a1709027005b029012b9b9fc463mr10479031plk.76.1627215859097; 
- Sun, 25 Jul 2021 05:24:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=m3B9CrnRSDOeKXxeWXGDcKxMgiwIzx47M7NAowChwks=;
+ b=muHJlwUsGBheTELaiEAzbZznJ0f5xU5aiJ05KdA+PZA/bh1H1BwDdfMOikmZ3qXvAb
+ 7wilaVhEls7+c8r67Py7veRNqr+zD+ME8LqEFtkKya0jy62QlE1TfWXiS+Cjm/m2laLd
+ UFbTjqcV724t/K2cW4r8p0+twOcpil/0bQeN7sOwJiPM5mzJNgi9BDLHNDhyTgmg2sdu
+ qDdi8jKjNlwr+iIUA5wtKyQCHpBl3NOyAXZnHRxQy7bsmlvm6OW8tLIYXmcktG0kBLtD
+ mtOqc3k0RtjmWiHzulvnXfuzBmQuRQ520e9rwJzutrSDjeMnIAScYwcHVbx33KlNz3bN
+ BxXQ==
+X-Gm-Message-State: AOAM530u2hTDPnJBlk/nE6tJprmYrx2iqcw/CzJr18k8GyrPL62D6HbJ
+ yHQ15X5uBWF4Xc8LkISU+07kKRNdECrHCg==
+X-Google-Smtp-Source: ABdhPJwZnvq8BihUY/OWBYw/A5dxz5DqIYMKUqtNGbJWlpaH1fJ3sd11jp7NddjbUOR4Y+iXFWGeKA==
+X-Received: by 2002:a17:902:e84d:b029:12b:b2aa:5266 with SMTP id
+ t13-20020a170902e84db029012bb2aa5266mr10572277plg.65.1627215860453; 
+ Sun, 25 Jul 2021 05:24:20 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.17
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jul 2021 05:24:18 -0700 (PDT)
+ Sun, 25 Jul 2021 05:24:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1? v2 0/9] Fixes for clang-13
-Date: Sun, 25 Jul 2021 02:24:07 -1000
-Message-Id: <20210725122416.1391332-1-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1? v2 1/9] nbd/server: Mark variable unused in
+ nbd_negotiate_meta_queries
+Date: Sun, 25 Jul 2021 02:24:08 -1000
+Message-Id: <20210725122416.1391332-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210725122416.1391332-1-richard.henderson@linaro.org>
+References: <20210725122416.1391332-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,41 +86,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are all "variable set but not used" Werrors when building
-with clang master.
+From clang-13:
+nbd/server.c:976:22: error: variable 'bitmaps' set but not used \
+    [-Werror,-Wunused-but-set-variable]
 
-Patch 1 is clearly a clang bug, not considering the side-effects
-of g_autofree, but the rest are legitimate.
+which is incorrect; see //bugs.llvm.org/show_bug.cgi?id=3888.
 
+Cc: qemu-block@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ nbd/server.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-r~
-
-
-Richard Henderson (9):
-  nbd/server: Mark variable unused in nbd_negotiate_meta_queries
-  accel/tcg: Remove unused variable in cpu_exec
-  util/selfmap: Discard mapping on error
-  net/checksum: Remove unused variable in net_checksum_add_iov
-  hw/audio/adlib: Remove unused variable in adlib_callback
-  hw/ppc/spapr_events: Remove unused variable from check_exception
-  hw/pci-hist/pnv_phb4: Fix typo in pnv_phb4_ioda_write
-  linux-user/syscall: Remove unused variable from execve
-  tests/unit: Remove unused variable from test_io
-
- accel/tcg/cpu-exec.c   | 10 ++--------
- hw/audio/adlib.c       |  3 +--
- hw/pci-host/pnv_phb4.c |  2 +-
- hw/ppc/spapr_events.c  |  5 -----
- linux-user/syscall.c   |  3 ---
- nbd/server.c           |  3 ++-
- net/checksum.c         |  4 +---
- tests/unit/test-iov.c  |  5 +----
- util/selfmap.c         | 29 +++++++++++++++++------------
- 9 files changed, 25 insertions(+), 39 deletions(-)
-
+diff --git a/nbd/server.c b/nbd/server.c
+index b60ebc3ab6..3927f7789d 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -973,7 +973,8 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+ {
+     int ret;
+     g_autofree char *export_name = NULL;
+-    g_autofree bool *bitmaps = NULL;
++    /* Mark unused to work around https://bugs.llvm.org/show_bug.cgi?id=3888 */
++    g_autofree G_GNUC_UNUSED bool *bitmaps = NULL;
+     NBDExportMetaContexts local_meta = {0};
+     uint32_t nb_queries;
+     size_t i;
 -- 
 2.25.1
 
