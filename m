@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C99D3D4ED2
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 18:52:24 +0200 (CEST)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0CF3D4F3E
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 19:45:54 +0200 (CEST)
+Received: from localhost ([::1]:36582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7hMV-0004nZ-L9
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 12:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
+	id 1m7iCG-0005Ew-Nv
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 13:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1m7hLj-000480-2s
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 12:51:35 -0400
-Received: from mailout01.t-online.de ([194.25.134.80]:45778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1m7hLh-00050P-1K
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 12:51:34 -0400
-Received: from fwd15.aul.t-online.de (fwd15.aul.t-online.de [172.20.27.63])
- by mailout01.t-online.de (Postfix) with SMTP id 210937399E;
- Sun, 25 Jul 2021 18:50:40 +0200 (CEST)
-Received: from linpower.localnet
- (S8lyNmZfYhjT1auAr1OWO5WGcBnD6UgXz5nse0LAs6wkUlpH35lVm7ZZX4yYs6mg21@[79.208.26.7])
- by fwd15.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1m7hKp-1KoC9I0; Sun, 25 Jul 2021 18:50:39 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 410152001F9; Sun, 25 Jul 2021 18:50:39 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH for 6.1 v2 1/1] ui/gtk: add a keyboard fifo to the VTE consoles
-Date: Sun, 25 Jul 2021 18:50:39 +0200
-Message-Id: <20210725165039.5242-1-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
-References: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m7iAd-0003ua-Cp
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:11 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m7iAb-0006PC-E0
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 13:44:10 -0400
+Received: by mail-wm1-x330.google.com with SMTP id n11so3890223wmd.2
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 10:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DP9DMYTv9aNOInLo2WQBwZnaKKn2mpapQJ3IaaZINkg=;
+ b=U6iUKn6CTinShAMAp0cN/v5ExJvOj+0UgmJGlZGMUL10BbVUE8EizLOtz09LDMNgEs
+ jGAuUP25qbkg3/UugqqjhTAOw/Ld2ZNs1AKqIrU+XvPPS/g03skGBlU5NXr57uJUHAV9
+ 9GZG/EcDrnD3yN6Lqw5i+sNbssKbDrgJ2cZAmz/MzEfAixHT5ohfAdkZSqWP9U/iKdyQ
+ zkSVfor+OUI0w9dasLWaYw5QotLTHGyJJ2iPLugoXTBjINaJHwuz1BMnFeboiprmz99G
+ O4a+Hdv4BZFSMLvaPdng9IPMHCTZ7Rxti7vMZNMVYJ/VemUtKCxz6JCXIkP+UfzahZrx
+ tohg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DP9DMYTv9aNOInLo2WQBwZnaKKn2mpapQJ3IaaZINkg=;
+ b=qb6foAXEuiv/VkvusSDMI9cFQ0Uaf0JUQ7iA6zwL0D8dYfWGFSs6N8Tm6qfaXZT6gv
+ O46rxDe+gXUGGTKkdsFxrIPxw4G8vcP9weDtViSKe+f8BnxPevBxDwZKpGdPq9y1LXLO
+ MxbN5GAyX58qqoPcWIrRfogy7YaaEs4eLHw+tzdzVbMP4KlwZFoNqV845kGnpmqJBxJe
+ phSwbv1rItk7FtErUNUStJTuBkziunyNZceTILghY7o2WSbPcW0X7RGb49hAgJKuQua8
+ kTBefQgm14aEl7Uv552Jsx93dYpBzRYnZYgzHLnCDMr0+UgxrkVuITRyZhjzI3E3bym+
+ usVQ==
+X-Gm-Message-State: AOAM531gX6B8ObAsJ2sq9yCsoagXCZ+N2QNPwSr5ZZKIkwZFlpJmFNrg
+ EntY9NUPv9WTh5or94voZJkMGOlGhV74hQ==
+X-Google-Smtp-Source: ABdhPJweBvnMhFLBfsA2NFB7c1XqbJx5mV58+7jemHDymwMIrQ5W3GQaM84h6eD5T0UoM4aUsY4Vmw==
+X-Received: by 2002:a1c:9a97:: with SMTP id c145mr23404954wme.42.1627235047648; 
+ Sun, 25 Jul 2021 10:44:07 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id m15sm33666655wmc.20.2021.07.25.10.44.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Jul 2021 10:44:07 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.1 0/2] accel/tcg: Fix hang when running in icount mode
+Date: Sun, 25 Jul 2021 18:44:03 +0100
+Message-Id: <20210725174405.24568-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: S8lyNmZfYhjT1auAr1OWO5WGcBnD6UgXz5nse0LAs6wkUlpH35lVm7ZZX4yYs6mg21
-X-TOI-EXPURGATEID: 150726::1627231839-0001577D-DAAE0966/0/0 CLEAN NORMAL
-X-TOI-MSGID: 15cc0740-d1da-404e-9ace-26a7b9efa31c
-Received-SPF: none client-ip=194.25.134.80;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,144 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 8eb13bbbac ("ui/gtk: vte: fix sending multiple
-characeters") it's very easy to lock up QEMU with the GTK ui.
-If you configure a guest with a serial device and the guest
-doesn't listen on this device, QEMU will lock up after
-entering two characters in the serial console. That's because
-current code uses a busy loop for the chardev write retries
-and the busy loop doesn't terminate in this case.
+This patchset fixes the intermittent hang seen when running a guest in
+icount mode, as reported in
+  https://gitlab.com/qemu-project/qemu/-/issues/499 .
 
-To fix this problem add a fifo to the VTE consoles and use the
-chr_accept_input() callback function to write the remaining
-characters in the queue to the chardev.
+The underlying cause of the hang is that code in cpu_loop_exec_tb()
+was using CF_COUNT_MASK as the maximum possible number of instructions
+it would try to execute from a TB when it set the icount_decr.u16.low
+field. This is wrong, because (a) that field can validly be set to any
+unsigned 16-bit integer and (b) now that CF_COUNT_MASK has been
+reduced to 511 in commit 78ff82bb1b67c0d7, it might be less than the
+number of insns in the TB.
 
-The fifo has a size of 4096 bytes, so one can copy and paste
-a fairly large URL or file path.
+Patch one fixes cpu_loop_exec_tb() to use the actual maximum valid
+value for icount_decr.u16.low, which is 0xffff.  Patch two adjusts the
+"should we ask for a TB with exactly this many insns in it?" condition
+so that instead of testing "cpu->icount_extra == 0", which should be
+always true if (insns_left > 0 && insns_left < tb->icount), we assert
+it instead.  This assertion would have caught the bug fixed in patch
+one.
 
-Fixes: 8eb13bbbac ("ui/gtk: vte: fix sending multiple characeters")
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- include/ui/gtk.h |  4 ++++
- ui/gtk.c         | 42 +++++++++++++++++++++++++++++++++---------
- 2 files changed, 37 insertions(+), 9 deletions(-)
+Tested using the same iterating loop test described in the bug report;
+without the fix QEMU hangs within a handful of iterations. With the
+fix it managed 175 successful iterations before I got bored and hit ^C.
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 9516670ebc..80d6bbd9b5 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -25,6 +25,9 @@
- #include "ui/egl-helpers.h"
- #include "ui/egl-context.h"
- #endif
-+#ifdef CONFIG_VTE
-+#include "qemu/fifo8.h"
-+#endif
- 
- #define MAX_VCS 10
- 
-@@ -62,6 +65,7 @@ typedef struct VirtualVteConsole {
-     GtkWidget *scrollbar;
-     GtkWidget *terminal;
-     Chardev *chr;
-+    Fifo8 out_fifo;
-     bool echo;
- } VirtualVteConsole;
- #endif
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 376b4d528d..6cbcceda12 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1652,6 +1652,25 @@ static void gd_vc_adjustment_changed(GtkAdjustment *adjustment, void *opaque)
-     }
- }
- 
-+static void gd_vc_send_chars(VirtualConsole *vc)
-+{
-+    uint32_t len, avail;
-+
-+    len = qemu_chr_be_can_write(vc->vte.chr);
-+    avail = fifo8_num_used(&vc->vte.out_fifo);
-+    if (len > avail) {
-+        len = avail;
-+    }
-+    while (len > 0) {
-+        const uint8_t *buf;
-+        uint32_t size;
-+
-+        buf = fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
-+        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
-+        len -= size;
-+    }
-+}
-+
- static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
- {
-     VCChardev *vcd = VC_CHARDEV(chr);
-@@ -1661,6 +1680,14 @@ static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
-     return len;
- }
- 
-+static void gd_vc_chr_accept_input(Chardev *chr)
-+{
-+    VCChardev *vcd = VC_CHARDEV(chr);
-+    VirtualConsole *vc = vcd->console;
-+
-+    gd_vc_send_chars(vc);
-+}
-+
- static void gd_vc_chr_set_echo(Chardev *chr, bool echo)
- {
-     VCChardev *vcd = VC_CHARDEV(chr);
-@@ -1700,6 +1727,7 @@ static void char_gd_vc_class_init(ObjectClass *oc, void *data)
-     cc->parse = qemu_chr_parse_vc;
-     cc->open = gd_vc_open;
-     cc->chr_write = gd_vc_chr_write;
-+    cc->chr_accept_input = gd_vc_chr_accept_input;
-     cc->chr_set_echo = gd_vc_chr_set_echo;
- }
- 
-@@ -1714,6 +1742,7 @@ static gboolean gd_vc_in(VteTerminal *terminal, gchar *text, guint size,
-                          gpointer user_data)
- {
-     VirtualConsole *vc = user_data;
-+    uint32_t free;
- 
-     if (vc->vte.echo) {
-         VteTerminal *term = VTE_TERMINAL(vc->vte.terminal);
-@@ -1733,16 +1762,10 @@ static gboolean gd_vc_in(VteTerminal *terminal, gchar *text, guint size,
-         }
-     }
- 
--    int remaining = size;
--    uint8_t* p = (uint8_t *)text;
--    while (remaining > 0) {
--        int can_write = qemu_chr_be_can_write(vc->vte.chr);
--        int written = MIN(remaining, can_write);
--        qemu_chr_be_write(vc->vte.chr, p, written);
-+    free = fifo8_num_free(&vc->vte.out_fifo);
-+    fifo8_push_all(&vc->vte.out_fifo, (uint8_t *)text, MIN(free, size));
-+    gd_vc_send_chars(vc);
- 
--        remaining -= written;
--        p += written;
--    }
-     return TRUE;
- }
- 
-@@ -1759,6 +1782,7 @@ static GSList *gd_vc_vte_init(GtkDisplayState *s, VirtualConsole *vc,
-     vc->s = s;
-     vc->vte.echo = vcd->echo;
-     vc->vte.chr = chr;
-+    fifo8_create(&vc->vte.out_fifo, 4096);
-     vcd->console = vc;
- 
-     snprintf(buffer, sizeof(buffer), "vc%d", idx);
+thanks
+-- PMM
+
+Peter Maydell (2):
+  accel/tcg: Don't use CF_COUNT_MASK as the max value of
+    icount_decr.u16.low
+  accel/tcg: Remove unnecessary check on icount_extra in
+    cpu_loop_exec_tb()
+
+ accel/tcg/cpu-exec.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
 -- 
-2.26.2
+2.20.1
 
 
