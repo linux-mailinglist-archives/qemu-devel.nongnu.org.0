@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87393D4D5C
+	by mail.lfdr.de (Postfix) with ESMTPS id 3828E3D4D5B
 	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 14:27:49 +0200 (CEST)
-Received: from localhost ([::1]:46524 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7dES-00085e-VH
+	id 1m7dES-00080v-9U
 	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 08:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dBC-0000NG-2H
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:26 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37621)
+ id 1m7dBD-0000RK-21
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:27 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:44621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dBA-0003mv-Ic
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:25 -0400
+ id 1m7dBB-0003nK-Ko
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 08:24:26 -0400
 Received: by mail-pj1-x1034.google.com with SMTP id
- a4-20020a17090aa504b0290176a0d2b67aso7275384pjq.2
- for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:24 -0700 (PDT)
+ e2-20020a17090a4a02b029016f3020d867so10251580pjh.3
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 05:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=jKT88FJaIPG7gZArl0HUCsFrykLbgFymcE0AdSiWRRE=;
- b=vXcKDBWKStWTi5GZZVyCE/pbQxstLGlu90bkIZdCapznmbZRHj7iSSao0QMDzFJ/vd
- sMpP3fTaLASqJ6fM/lmlMgOcYOKFrkXzzonNsuTut7sd6Ba9M3YbxccBaNPvwCDCbzyn
- o8sG8f606bMYcIQZbbKBMhil+8GaYi5kt4CvrFCN5vp7r+P9mm7QN47K5c6T1LiY0tPY
- WGeKz9wHacltN6h0Vk+3kDwfswuMWwqKjSVqGQO7VMr/etxm8kMAEVpNND5qqPbTm987
- Rus4I4nZhX5UvbLpxmCLG4QUw7/dNBbolrrkM6y018E4vNJzgsc6Q4tH+IihWUN99df6
- wONg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hBw/k/z1d1LuXlQIfNytxkYVglrkLJic6NwTbw5pZ6k=;
+ b=sJy7zBVGQg4uRG9RykxQYUTe6BHcjNm6ixAgvpXWXq/Uj1kn6Lm1aE3nq9vKRaOm5G
+ isAJNbFDEeb9HxzFpKbuEMH98Lni478HvIpK0//Gq0l3dUDxl3GyfqinsJqmmqN6eD/U
+ COzSLma20B2nxrPqTJujnd1upMWfUrVt2JAc7LYd02pT/BsQy+8OooBPMKwQnoE57l5T
+ IQTE7P0XXY4+L7uVLz1pX+Mgmgoi5CoNtX2FcAvwA18LBPym7FYDQaJDu6cbc3JiIgmC
+ VF58sC0tdb26dwzPxigACFZhluucx8pbp49CqjY7rBhrkoin+pnamum7IzoRe1m5+PtG
+ 1V1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jKT88FJaIPG7gZArl0HUCsFrykLbgFymcE0AdSiWRRE=;
- b=Y0vdU8btJZ32dJPHzIsZUuu+XABvLNf4jpbwqwfS6H5StEtyirJo22pLvrH0J/FL5G
- LTcibCd+E/NfNHIISQccs7soHg/fdOrlglC4Jml8mckaVhrVuwRAyZUAavxyD3wRlBYE
- HtpR2EVKX9d+T0Wuk3+CZZmb7BIt16OiPOH1NPmIS257OF20YDv9sujy29/Tz9zd8Dqu
- 4psQHthdVbD8dQlDqJRk98GMFMxxQontjFjODGBybx1ZrmzbdDMwRaSybthWWtQ9SGlb
- Lq7ARp3AqLjZt6qTffVOwRsTvbx0ZeipHZ0pNVODAVOeT48u8XHAeiLQIY6yoOMyP/10
- 2Xxg==
-X-Gm-Message-State: AOAM5312GHO7SFD4wk8rtTOiq1IwZrKFNmOoid/vG45OdqnE3UukugxI
- m8qd3Ls/LdxJxeTDNejck5ZqZCaIqSn2pQ==
-X-Google-Smtp-Source: ABdhPJxgFUWeUlhPt3ZoG9NkOycU/5V6yPrE5xwLl2JQy1KRr/uGpJDqBSBvk7EiUuu44w3d0r2SAg==
-X-Received: by 2002:a63:cc0c:: with SMTP id x12mr13337759pgf.1.1627215863384; 
- Sun, 25 Jul 2021 05:24:23 -0700 (PDT)
+ bh=hBw/k/z1d1LuXlQIfNytxkYVglrkLJic6NwTbw5pZ6k=;
+ b=FIvh5oVcc1Ozoj/pU6JNAhc/lBsKOY8hWTcm4pdO6B3+CZAIUUG9610U7CZokODKpX
+ gLybalwmLEdNI3Nmk6ZSEff4+zjoq6Bl1lomXpJEot9i/SExCNwfHs8MAc3zvNRSigNQ
+ bvR6ybmzcQTSPaIJtfAv13ydH9l7+J2n0jBRG4RyvOSdflrbMcNE3Ityfr551HGi2YaH
+ i3/p+ExgXrMv+m5jPGd9nop5WkYHCQueDEwwHqkIGgBljsjbYYZq4iDnBx0hpv5+Mf2p
+ X39brhUqMW/1mnJP5rm692ZI4gGb1Hz9imIujiRl0TTsNPAP/hccSbjlifuQVPbA4aI1
+ an8g==
+X-Gm-Message-State: AOAM5335auIiWb3xMI/tVIo/2N+JiGFz74aMlSHaGAfmx/KIQM9985m6
+ YULwBq0GN9XQTSyCg+RlIUlLAOEQDjW4Og==
+X-Google-Smtp-Source: ABdhPJw2g8Qcv04y0AX31f92X1vd9eOXHMKwqC58xgwCvBc24gcW9oce7lwgwxQLQ8hPqjoR77S50w==
+X-Received: by 2002:a17:902:e051:b029:12b:4f40:7c7c with SMTP id
+ x17-20020a170902e051b029012b4f407c7cmr10695366plx.20.1627215864413; 
+ Sun, 25 Jul 2021 05:24:24 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.22
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id k37sm15005093pgm.84.2021.07.25.05.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jul 2021 05:24:23 -0700 (PDT)
+ Sun, 25 Jul 2021 05:24:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1? v2 4/9] net/checksum: Remove unused variable in
- net_checksum_add_iov
-Date: Sun, 25 Jul 2021 02:24:11 -1000
-Message-Id: <20210725122416.1391332-5-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1? v2 5/9] hw/audio/adlib: Remove unused variable in
+ adlib_callback
+Date: Sun, 25 Jul 2021 02:24:12 -1000
+Message-Id: <20210725122416.1391332-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210725122416.1391332-1-richard.henderson@linaro.org>
 References: <20210725122416.1391332-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
@@ -87,43 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From clang-13:
-../qemu/net/checksum.c:189:23: error: variable 'buf_off' set but not used \
+hw/audio/adlib.c:189:18: error: variable 'net' set but not used \
     [-Werror,-Wunused-but-set-variable]
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- net/checksum.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/audio/adlib.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/net/checksum.c b/net/checksum.c
-index 70f4eaeb3a..68245fd748 100644
---- a/net/checksum.c
-+++ b/net/checksum.c
-@@ -186,12 +186,11 @@ uint32_t
- net_checksum_add_iov(const struct iovec *iov, const unsigned int iov_cnt,
-                      uint32_t iov_off, uint32_t size, uint32_t csum_offset)
+diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
+index 42d50d2fdc..5f979b1487 100644
+--- a/hw/audio/adlib.c
++++ b/hw/audio/adlib.c
+@@ -186,7 +186,7 @@ static int write_audio (AdlibState *s, int samples)
+ static void adlib_callback (void *opaque, int free)
  {
--    size_t iovec_off, buf_off;
-+    size_t iovec_off;
-     unsigned int i;
-     uint32_t res = 0;
+     AdlibState *s = opaque;
+-    int samples, net = 0, to_play, written;
++    int samples, to_play, written;
  
-     iovec_off = 0;
--    buf_off = 0;
-     for (i = 0; i < iov_cnt && size; i++) {
-         if (iov_off < (iovec_off + iov[i].iov_len)) {
-             size_t len = MIN((iovec_off + iov[i].iov_len) - iov_off , size);
-@@ -200,7 +199,6 @@ net_checksum_add_iov(const struct iovec *iov, const unsigned int iov_cnt,
-             res += net_checksum_add_cont(len, chunk_buf, csum_offset);
-             csum_offset += len;
+     samples = free >> SHIFT;
+     if (!(s->active && s->enabled) || !samples) {
+@@ -219,7 +219,6 @@ static void adlib_callback (void *opaque, int free)
+         written = write_audio (s, samples);
  
--            buf_off += len;
-             iov_off += len;
-             size -= len;
+         if (written) {
+-            net += written;
+             samples -= written;
+             s->pos = (s->pos + written) % s->samples;
          }
 -- 
 2.25.1
