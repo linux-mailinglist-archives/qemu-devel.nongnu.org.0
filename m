@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3D3D4DAC
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 15:16:59 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50063D4DB1
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Jul 2021 15:22:33 +0200 (CEST)
+Received: from localhost ([::1]:55224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7e02-0000lx-8J
-	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 09:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57884)
+	id 1m7e5Q-0002p2-OY
+	for lists+qemu-devel@lfdr.de; Sun, 25 Jul 2021 09:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dzF-0008Vz-4y
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 09:16:09 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33646)
+ id 1m7e4M-00029L-2G
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 09:21:26 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m7dzA-000575-RL
- for qemu-devel@nongnu.org; Sun, 25 Jul 2021 09:16:08 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id a20so8704000plm.0
- for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 06:16:03 -0700 (PDT)
+ id 1m7e4K-0007pv-Cv
+ for qemu-devel@nongnu.org; Sun, 25 Jul 2021 09:21:25 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso4318914pjf.4
+ for <qemu-devel@nongnu.org>; Sun, 25 Jul 2021 06:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kOuDiSh41YIUeII5CsFCEl7K0RVQxQgvwOtacPkxKHQ=;
- b=URTYvD5f3YWv3IRQiEuI7puit0TQKZ6sJ2UE3bEr5zA1/o6M4eEtkvjinMuP6/erfc
- 7ruwXU/nE6I1bthbCGYOMHO9b3mNxfnAPdaMEjVQ78+ub11yhIqc4zJveSDFfFTF6cCV
- 7nygNq26PCx90FvqBj5Xpg1Eo1QD72yUUtDkjcPGMBocqdKN767w7uHA4orUFlwx0H7Y
- svepQg+3AfivjU/6p8VoLusKnG/8xALSGqcO4Ll5IfodMrzLGHqbJGR8J4qOjAahRQ+b
- dLuvDKdFMwaYP83nUUzXAeOKIh4+DyLvU8u7IeB8FPZHNlQ7l1QW4N4vuD9HOOpbvAw+
- SbLw==
+ bh=d2/4624cnC7PlfzzXleej5DvT9JGDQb8z7g1XxXZ9nk=;
+ b=Om6dDv8HmIwxWRUvHPM5M3lwQJN4OydeyHD3J11xTPlwVr6dbZ3kPxrdLeaz0WazFm
+ pRg0vqPaIVrZOstud1SxRUcpoJrWv90J+DTbloc+bjZ+8zw5eD47pgxGSsKKrAnoY+kW
+ 9U/GHSx6qli7srWFT4yo4T6Y3SpHY/k0Oht3mXS+OOfMVtIJPcvQU1/WsVsW/00IZXJS
+ D2pndILufvYmNp/2ApIGDrwmnRLKGhJOyFgZE6oe3R47Fu852wtw0GUUalpdXsJbmBoo
+ +UiTrCvRISOGc0iolY2nFIk5MAnmIKbWb5363bC92Jmjvf9Xiejpm+PDwq5uZI73vlsK
+ aJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kOuDiSh41YIUeII5CsFCEl7K0RVQxQgvwOtacPkxKHQ=;
- b=chxVpLAxiBwQckgTktrGMnoXEBfC2/OlRBX/i1CWkc8OOUDWjvCZuUhtZ67YP1nOAY
- U5G5txgqt2tGVOzbCDu4H7wR339tbbDzQyDxJ6QtmYo58nUcktFnulcelts+wBzofetq
- /p77cWlzeUevF1GKSjz/ARc3wZuTD8D0LMiuz+pqRXqubWRtwOIJXCjMQ09im16JafNF
- gkjbmVQxXq3/zbnJMl0mnWJYLxkDOs5vhdi4+f5NE5Bw1SIV5ojWXPGGwXTPJH0m/cKB
- NbOUjBx6cgNZPOeJFvy4Z2zPC/pR3LuAZL8oe4HUL4wdIH2zPaNR3fm1va/xJMocoYUN
- TYoQ==
-X-Gm-Message-State: AOAM530XAjH1w9reSoyyz1KKfdSpmpqqmySeF74RV049erH/JX1QDggH
- sRCZL+5ZkL/ohFpB4/HFu/mhSA==
-X-Google-Smtp-Source: ABdhPJz+BjO1m91Xent9mR9HN+HRMh6Vc009Qi/CirXeLCCvkMu1lM0VXnwiRoPQwmnXX3V0eySPaA==
-X-Received: by 2002:a62:cd47:0:b029:329:714e:cce2 with SMTP id
- o68-20020a62cd470000b0290329714ecce2mr13396143pfg.22.1627218962601; 
- Sun, 25 Jul 2021 06:16:02 -0700 (PDT)
+ bh=d2/4624cnC7PlfzzXleej5DvT9JGDQb8z7g1XxXZ9nk=;
+ b=qigLxgCilCWeckvYnP0tt1jWI80hZkON8yLLD+7ttIY7mS1er66/Cu5xnYKdhIuBZV
+ y5Yf+3KiRry/L6YjsUn0ydJ9jrlLeoJkfKntFy5COLxi419jWfZX3Hbc0vgWFFwI/AGI
+ exdzxbKu7leBLFEOcjBWEi1dKlT4+zHpC6Fe2FDDl6vgDgLiJQ8UJXytSK0MTd9cueIs
+ ZVA0koqy2EXxoHIaNRXynxW/T/WZMVzC+NRRdx1vOJ+kYhSRTEsMJ5NR63hCrHt/kM/s
+ xSkwGi+vSBwh6XFrZZucne0ryXi9bg+aRDMEFYtuEkIeN/nr2KVVNkZzKdZ1dZ3u1g2i
+ eZ+w==
+X-Gm-Message-State: AOAM533r1qA66YUS715L4CDQgQDMTM5oTKnkqS1CjcQpsAyPpHYEcbcB
+ pZMBbmKXt4/Cbb2U7dPhNTozQg==
+X-Google-Smtp-Source: ABdhPJweS7pAxhE/lMgMOdIomy1wsWdLiNxoAwIfHzDY9UkRAjdu5FKa/MCMkAnR2lcpCkqZnSgOtQ==
+X-Received: by 2002:a65:6110:: with SMTP id z16mr10120117pgu.152.1627219282041; 
+ Sun, 25 Jul 2021 06:21:22 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id x7sm41059880pfc.96.2021.07.25.06.16.01
+ by smtp.gmail.com with ESMTPSA id d2sm40376081pfa.84.2021.07.25.06.21.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Jul 2021 06:16:02 -0700 (PDT)
-Subject: Re: [PATCH 10/20] Hexagon HVX (target/hexagon) C preprocessor for
- decode tree
+ Sun, 25 Jul 2021 06:21:21 -0700 (PDT)
+Subject: Re: [PATCH 11/20] Hexagon HVX (target/hexagon) instruction utility
+ functions
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
- <1625528074-19440-11-git-send-email-tsimpson@quicinc.com>
+ <1625528074-19440-12-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f02f146f-e96e-7f9a-4303-abd14f4de508@linaro.org>
-Date: Sun, 25 Jul 2021 03:15:59 -1000
+Message-ID: <e6275f42-7dfe-2eb2-37ff-bb60aec15b8b@linaro.org>
+Date: Sun, 25 Jul 2021 03:21:18 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1625528074-19440-11-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1625528074-19440-12-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,10 +96,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/5/21 1:34 PM, Taylor Simpson wrote:
-> +        char *name = (char *)opcode_names[opcode];
-> +        if (strncmp(name, test, strlen(test)) == 0) {
+> Functions to support scatter/gather
+...
+> +uint32_t count_leading_ones_2(uint16_t src)
+> +{
+> +    int ret;
+> +    for (ret = 0; src & 0x8000; src <<= 1) {
+> +        ret++;
+> +    }
+> +    return ret;
+> +}
 
-Why did you cast away const here?
+Not related to scatter/gather.
+
+Also, much better implemented as
+
+   clz32(~src & 0xffff) - 16
 
 
 r~
