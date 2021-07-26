@@ -2,147 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32D13D5AE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:01:37 +0200 (CEST)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6923D3D5B81
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:22:33 +0200 (CEST)
+Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m81Am-0006jw-An
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:01:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36966)
+	id 1m81V1-0003ZT-V5
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1m818k-0005ed-J2
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:59:30 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:12290)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m81U6-0002tx-9d
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:21:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1m818h-0008Bk-Mm
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:59:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1627307967; x=1627912767;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=NGuP+YzmlDDbIfqF3MMt7y2CfIODuVNaAGqkdRgzt3A=;
- b=HigvYuOLPFrB1l1wDyt8wIQs6Bqj4VjTmXzLGBL7GtvMP0MxuHLS7QhW
- PPKANTnPSkDUEyMiPWPapevXX/Dkh9vaUKf7zaXd2TtYVeiy6hYQS524K
- UJXQnZUvG0Bt4ACY+b/WKjIrGJIGDrFDyMydOtPbpnxdg0F9QJG93JtLu A=;
-Received: from mail-co1nam11lp2175.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.175])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 13:59:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OUotPvOVOVdCBLAdExRuJUI/Vcm1YkNmTtqVV5OeNOklYzBzgeA4dz8xYOUdcOD3n93xFin0PYhncVDXjxqUpoF0l5dn2tmyaz+/0O5sCBhZrZdl08DyZWXuliQwQ9kC6I+H4YbAzbznxVflE1ebFZuYwPnD4dlrGeoFJuZ0XE62hVIqFRVflsCVeWR92rgCpWbQGa4uBl2l2sb8mXlCHx1Bnyxk6op7BXoBbOjS/i1efRBW/hpNTmQkgP/uHKguMluAcDqnc2S6Mv1rgmTYZpq5vaF1VHRp6KrD0NsP6SfgAC4Li5NwSm6o1z9diqP+ffm76d+BM2nBs0uiid7u8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NGuP+YzmlDDbIfqF3MMt7y2CfIODuVNaAGqkdRgzt3A=;
- b=lTtCFDehS0b80bkA+RW3IZdZsw4afrvQLlG+BMRuxgghRPs5hePbNd2bvHRux/SxJ7vfsWlP10xjStXz/rbysxhrvBJmU12zFhmLustRUn2SzemvmSqQRHMikxMt2Kj6WKhE4phPCrIgBKOBOQodEiBhFLD+JEOtlJqQVzD9sSY/zOyuA1oxQ/vmTHfiS5/N/RvGyPD2EGsoI9VzslkgwZjFiZP2Y8ejs5hg/lK0t2QZPAsHv8PZXEMYk4JFNgC1SKRRDQ9ZmP11JvMIjSIxvIwB8I1NZn3CP4Rc/fPFe7VmmgYfKjNK4uxuklOkSPwe7AYFY5dPR6WbPdcoWHSewg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by SJ0PR02MB8768.namprd02.prod.outlook.com (2603:10b6:a03:3d8::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Mon, 26 Jul
- 2021 13:59:23 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::d91d:e6d8:ee5d:77b5]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::d91d:e6d8:ee5d:77b5%6]) with mapi id 15.20.4352.031; Mon, 26 Jul 2021
- 13:59:23 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Rob Landley <rob@landley.net>, Sid Manning <sidneym@quicinc.com>, Brian
- Cain <bcain@quicinc.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>
-Subject: RE: [PATCH 01/20] Hexagon HVX (target/hexagon) README
-Thread-Topic: [PATCH 01/20] Hexagon HVX (target/hexagon) README
-Thread-Index: AQHXgfF3/he55WAk8kG54TKUu5AbZatU892AgABUuSA=
-Date: Mon, 26 Jul 2021 13:59:23 +0000
-Message-ID: <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
- <1625528074-19440-2-git-send-email-tsimpson@quicinc.com>
- <1b632e88-43d4-3034-cf7b-d42be056d842@landley.net>
- <SN6PR02MB42054B50C60ABA378256492DB8159@SN6PR02MB4205.namprd02.prod.outlook.com>
- <553c32e8-188c-5b2c-2f4a-a8cfd7b903a9@landley.net>
- <BN7PR02MB4194007550E66EBE877625A6B8E19@BN7PR02MB4194.namprd02.prod.outlook.com>
- <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
- <8845de00-ddc7-86a3-600f-6ede81e168c2@landley.net>
- <8192e9bb-a0de-1b2a-271c-ac7323be8244@landley.net>
-In-Reply-To: <8192e9bb-a0de-1b2a-271c-ac7323be8244@landley.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: landley.net; dkim=none (message not signed)
- header.d=none;landley.net; dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a831005c-2c30-4d04-a442-08d9503d92f5
-x-ms-traffictypediagnostic: SJ0PR02MB8768:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SJ0PR02MB8768D047869976CD466C5492DEE89@SJ0PR02MB8768.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: soLlSYKcl8Ftn+ouftEk6Hqbh5Jm1GWohD1lh8sUnOZcFx9RHx42/h7NIW37Dj18AT4haW2tnVflOVzz0YHmHsfdFfQ6vXuDvJX3uLjWF8/6LGlei4ohkA+ujTDp+FVKlmhljMxmttxaYZhjA7GriqgJ9DVrGKoO1W7DL5rX6mWJdSjn2BsNbI2OCfhutQR6zSLoV7sG6OfYCP8O7/3Hl6Ryk8IyKMsf5MuVQWiPMFh1yN1xq6J3ijn1YCoyCDJ7n4ZkQEcPy+irzD6Osb9CT/mmbuyg3tg1Xjf8PNYKrcLXM2F2ZgoeF8TsA3e3FiZOwKno2AGhkzTUN9wAgjaj6c7xriBhMV176LeLZflS43qUtE5sylUCg5qyVaPe7vEmbR1zxXw1F5ikK8PD0EQJ8mAERXMIvnNevIIBRaCo8oTdeHjSyLpsmHQONe9lQdf0guYCtMUl5zD3T3dUR19BN+oFkxcTrp8oKCiSXf2NaXnSIt/2GeY9WThsGA5/iHH/Q6crWJOIMjbL55n0LNrPQmMjijOw0Nlmhio9wmuBhzfJ1yVC1BzHCoo517vuq45he33jfZd9SKowERltL2f2Y00Kn4AfGtA+dDmx6X2Iwyk+TPdl9t5pNchqVBqkRTpgZmoJGfzvQ4R3U5kvUwAhIqMOiwNvRxwPsABQZGsj7mR/AHkPca+g4zC0UvqKxMsdU12r4GTErUW/+DStxlYKBQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(39860400002)(366004)(396003)(7696005)(110136005)(86362001)(54906003)(316002)(5660300002)(26005)(53546011)(6506007)(478600001)(122000001)(33656002)(71200400001)(2906002)(52536014)(76116006)(66946007)(38100700002)(55016002)(9686003)(8936002)(186003)(66446008)(83380400001)(4326008)(8676002)(66476007)(64756008)(66556008)(38070700004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d3IvZlNtWDl5UVYxYkY3UDVyTThqMkJ3WG5YTDZRNnlJdzR6a09SRjZCeXBG?=
- =?utf-8?B?S3RZZENjQmYwdlgvc0ZDSnhBZHlqNitTd0RZVzUreExUQWpFYnVrVkI0eHVo?=
- =?utf-8?B?d3RvUHBiN2ZPY0Nzc1ZteXN0YzJjaUNwT2JPMGtCZW9Ec2ZJVEhDSmJBTWo1?=
- =?utf-8?B?OTNlOXJzWlJJRFN6eDNaRU5SRDZzK0JHVGVYdjZ5UHFuTzhyakltQ05yOGtX?=
- =?utf-8?B?UDd5NGRjTlFwSkVlWTdSNEkwa2YwUVZNWWhzWWRYMTF4WVFvNGZmd05QRnFF?=
- =?utf-8?B?Z1NvOTA1NkZmaEJlOUh6L2FDYTN2by9lckNrMUtaTytONmdJSzljTk5yUENz?=
- =?utf-8?B?bDlzdGU3eTVZSnpBdCtIMWR5NzBBRmora3k2QVBjUDhuVzVRRUVQY3dQV3NS?=
- =?utf-8?B?V0phbHNYR0dqODhoODk2SHI3Q0NUTmIzbzBxUEg2VnVEMWg3dzNSa21WUEpS?=
- =?utf-8?B?anRNNm5FblFCMi9OdFpaaWVqUGgyN283Z2ZFSHNRdzVvc0NFb1JDUlFkVm1I?=
- =?utf-8?B?WG1hU0hRa05ycWFQaERPdmYzZnM1MERXVTZWNzNwYk9WY1duOXhqb3dDK251?=
- =?utf-8?B?QWJJa0tvUkFFd3FXc2l4VlNEcVp3RGVEM2hPVVVrYkhWUXQ0dWdZUnZ6M3Rs?=
- =?utf-8?B?KzV3L0NDR1ZLSUdzdURNU0VqMmEva3lEN2ttU2lqN0tYbzFIRkxJbENFdS9E?=
- =?utf-8?B?ajZobDFBUWRad0szK211V2l2aHd3YUFVN1o1ak1wWFhLL3ZQdjk5bTFrNGlk?=
- =?utf-8?B?SE1GaVNuQnp4M0dkMjdiR1RtclNnOVFObG5BZFZnejUrZ2J0bGROSk5nR24x?=
- =?utf-8?B?dkUxQnBYcXpJaVJoZVRtV201b09sQjBzeE5URVlJV1dDbWY5WENnUDFubG1Z?=
- =?utf-8?B?Z3l2K0N1QU5KUTI1dUJJb0FpSGhDbjN1ZkU1QWdmWnIyOFdnaFJQREEyRWdv?=
- =?utf-8?B?Nkxtc1RvdFcvM2UzRlRhS0hycEswTE5ZeFR3R2V2TURMckxlRUhHRnp5M0g4?=
- =?utf-8?B?MjJTVU9vSHVMZDYwNGVWQ2IybFc0OVhFQW1ENUZTNlNGYUNxN1lWbW40RVVJ?=
- =?utf-8?B?dVVac1laZmtRbmRldWEzTWN0NDk5ZWg1ZWh4WW9WcFZFamxLUnlvSDJqS0tX?=
- =?utf-8?B?UUxmeHhIc0dVTmhTODVYUXZNNkljRVlqRm1OcGR5YllmaVNOQm1HRzBYKzZH?=
- =?utf-8?B?TG53TjIvQ0tESmlaSHcvMlM2OUUrcFJvT0ZKb29kck9YZStLODcwRVRZOXpO?=
- =?utf-8?B?SnNQZlFOMHF6YWVudkJNc3p2RGhQTFRWMGN0MDZqaVdRd0hhUGZxOEVKdW1v?=
- =?utf-8?B?TEdWc3VKa05ReE9MRjRQamlOS2E5cVFsMENHZzVCRHcvc2FXaWg5NElob05s?=
- =?utf-8?B?S0hBYzN4TTk4djBnR0grazJlK0V6aVFteko5Qm9LS0JObFVFVWF1amJLNzMv?=
- =?utf-8?B?U0g5VzlnM3Npb3dKbFN3Y3RRTUNsSTRiOU5LRzR2eE0rdzUydFpGTFZvcXZq?=
- =?utf-8?B?ZEJ4TlNPWTV0UjhhcEloL3R4cWFkRGwvMTg4QW5maHd4eTZLc2hKWnFuTU42?=
- =?utf-8?B?OTlRTmNwbUlOMmhHZFpybWRUZHhxUk45TGxHRlJhbnNYa2V4aXA2cTBrRm5I?=
- =?utf-8?B?bVhtVUtVc01RdlhWZlRlVWxzRlhOd0d3Sll2dUZRUVZVMWw1ZTdEdWtwYThO?=
- =?utf-8?B?MHdqckR5VjAxRytodkRIeVpPQTRwd041bGdzRjBnVDV0cTdVVTlmK1NJNTA3?=
- =?utf-8?Q?FuMnkcvHhahJYpi7z3rMnxQoMMs5l+koOxCY5+K?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m81U2-0006sg-A8
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:21:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627309288;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Do2QCvNj6roVNNQw3lAkDSI5CZDn6uYTFDHnyZXXrvA=;
+ b=hgh2OdnRNSLs4ZDRYE/MKp7cM/OgcSo6d/Z/TFXRmmQ5rF9lT/MyIIRLlQEa2hUQpn2f+p
+ PE59nCIG3pbQX5NP1GCnNP4Egky2kI7A+P3iiNf5WpDCalnZil5mUibzhz+eOAdaksNO+G
+ SvM/bDKVSnNjCSGQffGt1mo8D4dq8Ek=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-cK2fo3KFPSuLLlw4t1yklw-1; Mon, 26 Jul 2021 10:21:27 -0400
+X-MC-Unique: cK2fo3KFPSuLLlw4t1yklw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ a2-20020a0562141302b02903303839b843so1174667qvv.13
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 07:21:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Do2QCvNj6roVNNQw3lAkDSI5CZDn6uYTFDHnyZXXrvA=;
+ b=gXldvdrBPO75CRgT4DyiQXb2jATLX7j0IMzUyhF2bqyLLrdrJvoxJCuLZY/tnn9y2Y
+ 0FOgD6aZJUwO0Cylln1kh3k0TwKB5pLRmKHrZug67aJ1hPoUu+LeWKe5R1hx5tv6Y/lB
+ 4kLJDVOeFo4rPoOrSaNgcs7tx1NZ1J9iHL5nCoHdb0tIvQQu/47v2Z/2KxoDnGhAl64J
+ a0S0sZ+XiRu0UDMOrwpWSEitUBMbqjRAMXPGfKGzpcIgyPYc68SuyHceYJcCDzyOWiAH
+ j0QimqMs7lAo/pfdzInfDcQjBRLyzvPJO8vyGqkaZH+GW1XaH2qIHn4RxfdyhPkgOYOW
+ wuhQ==
+X-Gm-Message-State: AOAM5338YQjC2MZyrFlnSOP8lhdFwiQLofYSajLSaYR4o5l3HO6Zo+hM
+ I8MJ1YwylFhBSMPpLqYKh0tTPJi+VsJk+G/SMR1D8tntp2rraLEwsQ3nPP6m2hj+IEKCz6v4M83
+ uzQ0H5Fatlo1QPU8=
+X-Received: by 2002:a05:620a:7e4:: with SMTP id
+ k4mr17703759qkk.328.1627309286938; 
+ Mon, 26 Jul 2021 07:21:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwu6l3tDzs2whdL/f1HYKt++I2GUzPLT4ieIxd2Pvk53JYSkPnrLyfonQs6CLPxVfJIxsdRBg==
+X-Received: by 2002:a05:620a:7e4:: with SMTP id
+ k4mr17703740qkk.328.1627309286694; 
+ Mon, 26 Jul 2021 07:21:26 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id i4sm39478qka.130.2021.07.26.07.21.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 07:21:25 -0700 (PDT)
+Date: Mon, 26 Jul 2021 10:21:24 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH resend v2 1/5] tpm: mark correct memory region range
+ dirty when clearing RAM
+Message-ID: <YP7E5M6d1MMlpNC/@t490s>
+References: <20210720130304.26323-1-david@redhat.com>
+ <20210720130304.26323-2-david@redhat.com> <YPrXutNkup2E4k6k@t490s>
+ <c4bc5d98-7a34-6a9c-3c07-10e5b52cd06a@redhat.com>
+ <YPtEGpcLd4bT/5sD@t490s>
+ <c8da89a3-dc2a-c0fc-a562-ed3028b2acf3@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a831005c-2c30-4d04-a442-08d9503d92f5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2021 13:59:23.7405 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zMRpCCU1rEAJ3h3QJ2CQTUsufoxtAmt2S95x+ZaAkXJWwtnake4Te1jCzROYlwDWFHdVQlIUuus+UX7zSGCYYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB8768
-Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c8da89a3-dc2a-c0fc-a562-ed3028b2acf3@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -155,63 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V2UncmUgd29ya2luZyBvbiBzeXN0ZW0gbW9kZSBzdXBwb3J0IGZvciBIZXhhZ29uLCBhbmQgd2Ug
-cGxhbiB0byB1cHN0cmVhbSBpdCB3aGVuIGl0IGlzIHJlYWR5Lg0KDQpUaGFua3MsDQpUYXlsb3IN
-Cg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUm9iIExhbmRsZXkg
-PHJvYkBsYW5kbGV5Lm5ldD4NCj4gU2VudDogTW9uZGF5LCBKdWx5IDI2LCAyMDIxIDM6NTUgQU0N
-Cj4gVG86IFNpZCBNYW5uaW5nIDxzaWRuZXltQHF1aWNpbmMuY29tPjsgQnJpYW4gQ2FpbiA8YmNh
-aW5AcXVpY2luYy5jb20+Ow0KPiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+
-OyBxZW11LWRldmVsQG5vbmdudS5vcmc7IGxpbnV4LQ0KPiBoZXhhZ29uQHZnZXIua2VybmVsLm9y
-Zw0KPiBDYzogYWxlQHJldi5uZzsgcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnOyByaWNoYXJkLmhl
-bmRlcnNvbkBsaW5hcm8ub3JnOw0KPiBwaGlsbWRAcmVkaGF0LmNvbQ0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIIDAxLzIwXSBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIFJFQURNRQ0KPiANCj4g
-T24gNy8yNi8yMSAyOjU3IEFNLCBSb2IgTGFuZGxleSB3cm90ZToNCj4gPiBBbnl3YXkuLi4gaXQg
-ZG9lc24ndCBsb29rIGxpa2UgcWVtdS1zeXN0ZW0taGV4YWdvbiAoc29mdG1tdSkgaXRzDQo+ID4g
-Y3VycmVudGx5IGluIHZhbmlsbGEgcWVtdT8gSXMgdGhlcmUgYSBwdWJsaWMgZm9yayB0aGF0IGhh
-cyB0aGlzIHNvbWV3aGVyZT8NCj4gDQo+IEkgZGlkIGEgbGl0dGxlIHdpbGQgZmxhaWxpbmcgdG8g
-Z2V0IC4vY29uZmlndXJlIHRvIGdpdmUgbWUgYSBxZW11LXN5c3RlbS1oZXhhZ29uDQo+IG9wdGlv
-biAocGF0Y2ggYXR0YWNoZWQpLCBJLkUuIGp1c3QgZW5vdWdoIHRvIGdldCBtZXNvbiB0byBzaHV0
-IHVwIGFuZCBxdWl0ZQ0KPiBwb3NzaWJseSBzdGlsbCBtaXNzaW5nIHNvbWV0aGluZyBpbXBvcnRh
-bnQuIChJcyB0aGlzIHB5dGhvbj8gSXQgbG9va3Mga2luZCBvZiBsaWtlDQo+IHB5dGhvbi4pDQo+
-IA0KPiBVbmZvcnR1bmF0ZWx5IGFmdGVyIGxpYmVyYWxseSBjcmliYmluZyBmcm9tIHRoZSBjcmlz
-IGFyY2hpdGVjdHVyZSAod2hpY2ggc2VlbXMNCj4gbGlrZSB0aGUgc2ltcGxlc3Qgb25lKSBJJ20g
-bGVmdCB3aXRoIHNldmVyYWwgbmV3IEMgZmlsZXMgdG8gaW1wbGVtZW50LCBhbGwNCj4gY3VycmVu
-dGx5IHplcm8gbGVuZ3RoIGluIHRoZSBwYXRjaDoNCj4gDQo+ICAgaHcvaGV4YWdvbi9ib290LmMN
-Cj4gICBody9oZXhhZ29uL2hleGFnb25fY29tZXQuYw0KPiAgIHRhcmdldC9oZXhhZ29uL21hY2hp
-bmUuYw0KPiAgIHRhcmdldC9oZXhhZ29uL21tdS5jDQo+IA0KPiAoSW4gdGhlb3J5IHRoZXJlJ3Mg
-YSAibm9uZSIgYm9hcmQgb24gYWxsIHRoZSBjdXJyZW50IHFlbXUtc3lzdGVtDQo+IGFyY2hpdGVj
-dHVyZXMsIGJ1dCBJJ3ZlIG5ldmVyIGZpZ3VyZWQgb3V0IHdoYXQgdG8gRE8gd2l0aCB0aG9zZS4u
-LikNCj4gDQo+IEFsbCB0aGlzIHJhaXNlcyB0d28gcHJvYmxlbXM6DQo+IA0KPiAxKSBJIGR1bm5v
-IGhvdyB0aGUgaGV4YWdvbiBtbXUgd29ya3MuIChJIGNhbiBwcmVzdW1hYmx5IHJlYWQgdGhlIGtl
-cm5lbA0KPiBjb2RlIGFuZCByZXZlcnNlIGVuZ2luZWVyIHdoYXQgdGhhdCdzIGxvb2tpbmcgZm9y
-LCBidXQgaXQgd291bGQgYmUgcmVhbGx5IG5pY2UNCj4gbm90IHRvIF9oYXZlXyB0bz8pDQo+IA0K
-PiAyKSBXaGF0J3MgYSBjb21ldCBib2FyZD8gKE1lbW9yeSBsYXlvdXQ/IEkvTyBkZXZpY2VzPyBJ
-IGd1ZXNzIGFsbCBJIG5lZWQgZm9yDQo+IHNlcmlhbCBjb25zb2xlIG9uIGluaXRyYW1mcyBpcyBh
-IGNvbnRpZ3VvdXMgYmxvY2sgb2YgRFJBTSwgdGltZXIgaW50ZXJydXB0IHRvDQo+IGRyaXZlIHRo
-ZSBzY2hlZHVsZXIsIGFuZCBhIHNlcmlhbCBwb3J0LiBJIGtlZXAgdGhpbmtpbmcgdGhlcmUgc2hv
-dWxkIGJlIGEgd2F5DQo+IHRvIHRlbGwgdGhlICJub25lIiBib2FyZCB0byBhZGQgdGhhdCBzdHVm
-ZiBmcm9tIHRoZSBjb21tYW5kIGxpbmUuLi4gYnV0DQo+IGR1bm5vIGhvdy4NCj4gIm1hcCBEUkFN
-IGhlcmUiLiAiYWRkIHRoaXMgY2xvY2sgaGFyZHdhcmUgYXQgaGVyZSIuICJhZGQgdGhpcyBraW5k
-IG9mIHNlcmlhbA0KPiBwb3J0IGF0IGhlcmUuIiAiY2FsbCBlbGZfbG9hZCBvbiB0aGlzIGZpbGUg
-YW5kIHN0YXJ0IGV4ZWN1dGluZyBhdCBpdHMgZW50cnkNCj4gcG9pbnQiLi4uKQ0KPiANCj4gMykg
-UmVhZGluZyB0aGUgYXJjaC9oZXhhZ29uIGtlcm5lbCBzdHVmZiBhbGEgInNvIHdoYXQgSVMgaW4g
-YSBjb21ldCBib2FyZCIuLi4NCj4gQ09ORklHX0hFWEFHT05fQ09NRVQgaXMgb25seSBldmVyIHVz
-ZWQgdG8gZ3VhcmQgb25lICNkZWZpbmUgaW4gYQ0KPiBoZWFkZXIgZmlsZToNCj4gDQo+ICAgYXJj
-aC9oZXhhZ29uL2luY2x1ZGUvYXNtL3RpbWVyLXJlZ3MuaDojZGVmaW5lDQo+IFJUT1NfVElNRVJf
-UkVHU19BRERSDQo+IA0KPiBXaGljaCBpcyB0aGVuIHVzZWQgdG8gaW5pdGlhbGl6ZSBzdHJ1Y3R1
-cmUgbWVtYmVycyBpbg0KPiBhcmNoL2hleGFnb24va2VybmVsL3RpbWUuYyB3aXRob3V0IGFueSBz
-b3J0IG9mIGd1YXJkIHRoZXJlLCBhbmQgbm8gaXQgaXNuJ3QNCj4gI2RlZmluZWQgdG8gMCBieSBk
-ZWZhdWx0IGFueXdoZXJlIEkgY2FuIHNlZT8gQW5kIG9mIGNvdXJzZSBvYmoteSArPSB0aW1lLm8N
-Cj4gaW4gYXJjaC9oZXhhZ29uL2tlcm5lbC9NYWtlZmlsZSBoYXMgbm8gY29uZmlnIGd1YXJkIHRo
-ZXJlIGVpdGhlci4gU28gaWYgaXQNCj4gd2Fzbid0IHNldCwgdGhlIGJ1aWxkIHdvdWxkIGJyZWFr
-LiBBbmQgdGhhdCdzIGN1cnJlbnRseSBhbGwgdGhlIHN5bWJvbCBkb2VzPw0KPiANCj4gQW55d2F5
-LCBJIHN0aWxsIGhvcGUgc29tZWJvZHkgZWxzZSBoYXMgYWxyZWFkeSBkb25lIG1vc3Qgb2YgdGhp
-cyBpbiBhIGdpdCB0cmVlDQo+IHNvbWV3aGVyZS4gOikNCj4gDQo+IFJvYg0K
+On Mon, Jul 26, 2021 at 10:08:59AM +0200, David Hildenbrand wrote:
+> diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+> index 362edcc5c9..fab49524d7 100644
+> --- a/hw/tpm/tpm_ppi.c
+> +++ b/hw/tpm/tpm_ppi.c
+> @@ -30,11 +30,14 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+>          guest_phys_blocks_init(&guest_phys_blocks);
+>          guest_phys_blocks_append(&guest_phys_blocks);
+>          QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
+> +            hwaddr mr_offs = (uint8_t *) memory_region_get_ram_ptr(block->mr) -
+> +                             block->host_addr;
+> +
+>              trace_tpm_ppi_memset(block->host_addr,
+>                                   block->target_end - block->target_start);
+>              memset(block->host_addr, 0,
+>                     block->target_end - block->target_start);
+> -            memory_region_set_dirty(block->mr, 0,
+> +            memory_region_set_dirty(block->mr, mr_offs,
+>                                      block->target_end - block->target_start);
+>          }
+>          guest_phys_blocks_free(&guest_phys_blocks);
+> 
+> 
+> That should make more sense :)
+
+Yep, looks good to me (and simpler!).
+
+-- 
+Peter Xu
+
 
