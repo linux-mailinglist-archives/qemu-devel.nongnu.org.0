@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D5C3D59F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:59:20 +0200 (CEST)
-Received: from localhost ([::1]:59622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DA53D5A03
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 15:05:39 +0200 (CEST)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m80CV-00031t-73
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
+	id 1m80Ic-0007AM-4q
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 09:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m80BN-0001gd-Lx
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:58:09 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53560 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m80BK-0006KR-V8
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:58:09 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn0JXsf5g5BUkAA--.23471S3; 
- Mon, 26 Jul 2021 20:58:00 +0800 (CST)
-Subject: Re: [PATCH v2 12/22] target/loongarch: Add fixed point extra
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
- <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <a08adb9a-67fe-b8aa-4b72-a3b3548f4945@loongson.cn>
-Date: Mon, 26 Jul 2021 20:57:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m80Gl-00050L-LJ
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:03:43 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35518)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m80Gh-0000mJ-B5
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:03:41 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id u12so10481217eds.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 06:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o9YtlpMs57gkF874ra4K+P45JBe0PW3DkFA2j/etbWw=;
+ b=mAQVaOPwGXEWm/EDSx46gn+L/yUR5b0L/GYAM9ZzeUYtU52/PZ8pz+NBWR1EF/wXNs
+ FfICTnEw4J+A3DQm/77PhMSCaSB/O+GZ/RjXnFyN6oJpHEV+iFdABHnQE1AdMXF6Usx5
+ 9sSc86Wsb2QTnHlM08aLnXp8DcbDA+TDifft3c+iXaK4QaRi/xxAcmHc7DilRtlrY0Op
+ 4nx7YQxtuL9X8LNljP9kio+iMBXq11jEgzmY/Ni4jfgVyl2OcOwkMG1Hp4BcnBspBLRm
+ 3lCXit6/rUQCiwlGVoF/o69OayJ5YJ3PGF1f3Y0muU1pJMI55suxaIWs/o3wf3ZZzckn
+ KMpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o9YtlpMs57gkF874ra4K+P45JBe0PW3DkFA2j/etbWw=;
+ b=aiwpJe2FaqWXC2XHIw8rzzhvlG9IMSq9Ljn1P4S5/V2X9l2b2ZxkwfBwfBFVhaIEcx
+ enZOZ/dv5ihtQjJv/IlWBp48zKj4ykS8PNRevKgYbnhd9+u9pr3+275++7KfHu4t3iel
+ o96HVnzPkaISdit4viNCdyvprg2MxoFCQuKHosyFm7WG2mj09bntSw4QQjAQHlRSXd/K
+ IyCsEkjniQsMLnOcszQpMYcwCfy7MUfgCWVHODLAS/fsrnTZKoTjFjgnrvDV5/NyCXfe
+ aVjsQBsvKvwOunrmaFqd3TrJMZDQI5sKo1fGX047fFv9r2h5nmcE6rqn7lhbo52hOaKe
+ sjtw==
+X-Gm-Message-State: AOAM5330yUsC8RiywAfW3/4QkRQmUpfp8fmYbe1DzzSjCMcUbJ7MDEyd
+ znze3r/mvkG4d9oI0Ox5CZeeNABESDvN4bhZBcN+tA==
+X-Google-Smtp-Source: ABdhPJx7jejGkwwXVwjDTXDdOmURQXPyr83rZBlKYngv9ii01e3wTTtd7dViwGlOX+8vnjheQpBH0RQYRtUjN1I/4rg=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr20962239edt.100.1627304617709; 
+ Mon, 26 Jul 2021 06:03:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn0JXsf5g5BUkAA--.23471S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCry7Cr1UGryxtw15urW3ZFb_yoW5WFWrpF
- n5JFW8GrWUKF95Z34UGr15JFySyF48t3WUJ3sYqa98AFsFkwn2gr15urs09F1rZr4kWr4a
- y3yUZwnrZr47trDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
- x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
- GwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4
- x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI
- 1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r
- yrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
- 04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
- IEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5sjjDUUUU
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20210709094948.60344-1-sebastian.huber@embedded-brains.de>
+ <20210725080817.ivlkutnow7sojoyd@sekoia-pc.home.lmichel.fr>
+ <57459310-fe80-0cc2-5ffb-5b42bfe1a351@embedded-brains.de>
+In-Reply-To: <57459310-fe80-0cc2-5ffb-5b42bfe1a351@embedded-brains.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Jul 2021 14:02:55 +0100
+Message-ID: <CAFEAcA8DAt+o-XZepg8xtj4i3xLW_yChwPnDZVM0O=rW8+9qJQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/arm_gic: Fix set/clear pending of PPI/SPI
+To: Sebastian Huber <sebastian.huber@embedded-brains.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,123 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, Luc Michel <luc@lmichel.fr>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Hi, Richard.
-
-On 07/23/2021 01:12 PM, Richard Henderson wrote:
-> On 7/20/21 11:53 PM, Song Gao wrote:
->> +target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
->> +{
->> +    target_ulong r = 0;
->> +
->> +    switch (rj) {
->> +    case 0:
->> +        r = env->CSR_MCSR0 & 0xffffffff;
->> +        break;
->> +    case 1:
->> +        r = (env->CSR_MCSR0 & 0xffffffff00000000) >> 32;
->> +        break;
-> 
-> Why do you represent all of these as high and low portions of a 64-bit internal value, when the manual describes them as 32-bit values?
-> 
-This method can reduce variables on env.
-> >> +/* Fixed point extra instruction translation */
->> +static bool trans_crc_w_b_w(DisasContext *ctx, arg_crc_w_b_w *a)
->> +{
->> +    TCGv t0, t1;
->> +    TCGv Rd = cpu_gpr[a->rd];
->> +    TCGv_i32 tsz = tcg_const_i32(1 << 1);
-> 
-> This size is wrong.  It should be 1, not 1 << 1 (2).
-> > 
->> +static bool trans_crc_w_w_w(DisasContext *ctx, arg_crc_w_w_w *a)
->> +{
->> +    TCGv t0, t1;
->> +    TCGv Rd = cpu_gpr[a->rd];
->> +    TCGv_i32 tsz = tcg_const_i32(1 << 4);
-> 
-> Because this size most certainly should not be 16...
->>> +static bool trans_crc_w_d_w(DisasContext *ctx, arg_crc_w_d_w *a)
->> +{
->> +    TCGv t0, t1;
->> +    TCGv Rd = cpu_gpr[a->rd];
->> +    TCGv_i32 tsz = tcg_const_i32(1 << 8);
-> 
-> ... and this size should not be 256.  Both well larger than the 8 byte buffer that you've allocated.
-> 
-
-I'm not sure about that.
-
-> Also, you need a helper so that you don't have 8 copies of this code.
-> 
-OK.
->> +static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
->> +{
->> +    TCGv t0, t1;
->> +
->> +    t0 = get_gpr(a->rj);
->> +    t1 = get_gpr(a->rk);
->> +
->> +    gen_helper_asrtle_d(cpu_env, t0, t1);
->> +
->> +    return true;
->> +}
->> +
->> +static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
->> +{
->> +    TCGv t0, t1;
->> +
->> +    t0 = get_gpr(a->rj);
->> +    t1 = get_gpr(a->rk);
->> +
->> +    gen_helper_asrtgt_d(cpu_env, t0, t1);
->> +
->> +    return true;
->> +}
-> 
-> I'm not sure why both of these instructions are in the ISA, since
-> 
->   ASRTLE X,Y <-> ASRTGT Y,X
-> 
-> but we certainly don't need two different helpers.
-> Just swap the arguments for one of them.
+On Mon, 26 Jul 2021 at 09:06, Sebastian Huber
+<sebastian.huber@embedded-brains.de> wrote:
+> Ok, I will remove this part from the patch in v2. I probably didn't
+> fully understand how the Qemu GICv2 emulation works. What I wanted to
+> address is this behaviour (see GICv2 manual) when someone changes the
+> GICD_ITARGETSR<n> (n > 1):
 >
-OK.
- 
->> +static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
->> +{
->> +    /* Nop */
->> +    return true;
->> +}
->> +
->> +static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
->> +{
->> +    /* Nop */
->> +    return true;
->> +}
->> +
->> +static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
->> +{
->> +    /* Nop */
->> +    return true;
->> +}
-> 
-> If you don't want to implement these right now, you should at least initialize the destination register to 0, or something.
-> 
-OK.
-> 
-> r~
+> "Has an effect on any pending interrupts. This means:
+>
+> * adding a CPU interface to the target list of a pending interrupt makes
+> that interrupt pending on that CPU interface
+>
+>
+> * removing a CPU interface from the target list of a pending interrupt
+> removes the pending state of that interrupt on that CPU interface.
+>
+> Note
+>
+> There is a small but finite time required for any change to take effect."
 
-Again ,thanks you kindly help.
+We do get this wrong, but none of your changes to the file actually
+change this behaviour :-)
 
-Thanks
-Song Gao.
+What we currently do for writes to GICD_ITARGETS<r> is:
 
+        /* Interrupt CPU Target. RAZ/WI on uniprocessor GICs, with the
+         * annoying exception of the 11MPCore's GIC.
+         */
+        if (s->num_cpu != 1 || s->revision == REV_11MPCORE) {
+            irq = (offset - 0x800);
+            if (irq >= s->num_irq) {
+                goto bad_reg;
+            }
+            if (irq < 29 && s->revision == REV_11MPCORE) {
+                value = 0;
+            } else if (irq < GIC_INTERNAL) {
+                value = ALL_CPU_MASK;
+            }
+            s->irq_target[irq] = value & ALL_CPU_MASK;
+        }
+
+which is to say that we update irq_target[] but we don't change the
+status of any pending interrupt. We should add code here that
+checks whether irq is pending on any core and if so marks it as
+instead pending on the targets we just set up, something like
+
+ if (irq >= GIC_INTERNAL && s->irq_state[irq].pending) {
+     /*
+      * Changing the target of an interrupt that is currently pending
+      * updates the set of CPUs it is pending on
+      */
+     GIC_DIST_SET_PENDING(irq, value);
+ }
+
+thanks
+-- PMM
 
