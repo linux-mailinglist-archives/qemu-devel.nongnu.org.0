@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBF13D588E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:33:46 +0200 (CEST)
-Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CB43D58C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:47:27 +0200 (CEST)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7yrh-0000oy-UI
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56442)
+	id 1m7z4w-0001v5-Ac
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m7ypo-0007ev-D5
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:31:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52835)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m7z3A-0000Uh-3T
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:45:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m7ypm-0001tZ-HJ
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:31:48 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m7z36-0001dD-Dl
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:45:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627299103;
+ s=mimecast20190719; t=1627299930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uIQy7xdV5DaZXgmtB3lTx23nMFbOtxAMqZyDkKoXLd8=;
- b=LtyYbTBOM8DPKbnK0Dvl8SyeIYIZujuy3u6QramsyTi4xYNActKrXGs9k5WuTpl2B9cV2e
- q0RGyHSpqVHMJp95dIwR5I+oy3KmMYKMHNoLL2wZNZBvF/MxayyV7IGqLuLT3JpQEtDmgc
- CyL/69NoR88onXbBlAjMJkscTCgvvqY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-R1A9vassPxm36oh_yvU-Lw-1; Mon, 26 Jul 2021 07:31:42 -0400
-X-MC-Unique: R1A9vassPxm36oh_yvU-Lw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a1-20020a7bc1c10000b0290225338d8f53so3048918wmj.8
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 04:31:41 -0700 (PDT)
+ bh=80oCDLAzBvuMfQmiE+FG0Sajvct7qaJHkEzXRaQ4Qvw=;
+ b=ZL3luCJ3lfQS+JXbeUMg9Xcnrejf8B9x2dGO4euHkNBT3ZnECkUm5G8c1ADHvejXI6c8xv
+ OzqDF7Bbrk2I/eKdXKxl+iIfBcKreIwyRKqkWnyYDT3jaSyumvfpnfiO5f41emV6FSzQsV
+ yihYf71dP4C/vlLY2K+DXsocxPFHfWY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-y8GM_oyRMfqaaDAPLxzRUQ-1; Mon, 26 Jul 2021 07:45:29 -0400
+X-MC-Unique: y8GM_oyRMfqaaDAPLxzRUQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n1-20020a5d59810000b029013cd60e9baaso4630520wri.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 04:45:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uIQy7xdV5DaZXgmtB3lTx23nMFbOtxAMqZyDkKoXLd8=;
- b=GzIRPipZd+9PAngHVvP/sE2cRU+Jviplo1jeD4JBpyrk5vrNxalQJDrYyOsoGZSRxi
- UX2WKZzheMx0lAacUXa/45sJ7xQ/HyHX8/FjoJYw6XvVj9KXwevnQcWpNh9fxSwH2u4l
- +kTrb3l5sasd82i8TxKjpzq6ivQHayplvZy0ow5M4c3PWRZ+O08zd1xWfc2N/jzxlLu0
- QSJi5NuhpIigl0vxwJzZL0XbEFjMj608O1h4wG6mJuoyD04sXVpWWMUZNwEdPURI+vzR
- 10heGdAHmAAQpWjXejp/zT8BmNvxdPX+E6hhPuQ+WCU/tp8dGqSaVX3ipp6YuDZ7/EkA
- 7kLA==
-X-Gm-Message-State: AOAM533JFZFDbetBoaWSCuP9bJ39UId7dWiGdedu9t0HsNFlfPWymrTi
- g3y/oatdv/PcwogCuJblVgkJPYksXXfKfWEBkgPkFdc0GrqCzNyZ2K10ntEmkmhcQr4TBf45kTR
- nByu+iZ8g1H9pT60=
-X-Received: by 2002:a05:600c:3b98:: with SMTP id
- n24mr26562507wms.182.1627299100894; 
- Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdhod9h4m8x89fxy9GjnXUlh443l7FWmGlG8nb4BP7dMiCmsXtfEGSyCVTtf9u9DyeAMT28A==
-X-Received: by 2002:a05:600c:3b98:: with SMTP id
- n24mr26562485wms.182.1627299100687; 
- Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id s1sm13371839wmj.8.2021.07.26.04.31.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
-Subject: Re: Prefetches in buffer_zero_*
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Joe Mario <jmario@redhat.com>
-References: <YPlCJpMIOb2Umc+Z@work-vm>
- <092f9b8b-4a14-d059-49be-010b760828aa@linaro.org> <YPnDdT1VYANI0Wzw@work-vm>
- <CA+c1WK7XCgdYTbG5FK3q=x9S1t2p2vxcreEwtiZf5L=rsg0i6g@mail.gmail.com>
- <YP52r9ck8jmV/RkR@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bcbca5e4-d804-2a2f-2dff-4b19f4ef07cf@redhat.com>
-Date: Mon, 26 Jul 2021 13:31:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=80oCDLAzBvuMfQmiE+FG0Sajvct7qaJHkEzXRaQ4Qvw=;
+ b=aHFBXwlBc2RXR9GYbh19LHHySWE4WyMreLpnJYAO1hl4baPVpB92A6hb3dpMwamcjM
+ 51bteFNYzDy/kr2wbVm76IZsXcHhNNA0Lg+NNLv/A0TYQVUnTXYVmWs1InsSpf0zCub8
+ vd/nP+VH0IVjToen+hdhWBC++1VS6p17iPpS/1Ow74GjRYayDlWZtVbyccQb6bYP1zSt
+ qpiYQzFEVu+p12j/smLYgP9Ce6S3P0cqxY2fcEZQcNSpMzgUJiDAvdwmceOMHCg/b/k/
+ epHU+I94lJ9KAxP0JdkqaKCbvc5IDC/sV0kocF5Ssu2Gzc73//ttMzOhCknCwu7igJ1J
+ e8Cw==
+X-Gm-Message-State: AOAM532Xu1+Z2uHm/IWi+djv6oR8cNUR+Akq7HMFIkH9FbZmOQ14P821
+ N6HUm7g4asWDiRsejknW81B8cbVJXg+YSQ+DXXP6UXwdG0SXkYAPs2n9fewMm4G/jUw2jney6fz
+ fi/c8eQOoNczh6QI=
+X-Received: by 2002:a05:600c:2105:: with SMTP id
+ u5mr16693967wml.18.1627299928252; 
+ Mon, 26 Jul 2021 04:45:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJynJonF+5AlqbA9dIB4FWij1HbWSv1DWCGeWOzZkBG8FfTyAKhIGTdoEvoaiDxRTuMwmapnvQ==
+X-Received: by 2002:a05:600c:2105:: with SMTP id
+ u5mr16693939wml.18.1627299927949; 
+ Mon, 26 Jul 2021 04:45:27 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id e6sm13090382wme.28.2021.07.26.04.45.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 04:45:27 -0700 (PDT)
+Date: Mon, 26 Jul 2021 13:45:26 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v5 09/10] ACPI ERST: qtest for ERST
+Message-ID: <20210726134526.0eb2cff7@redhat.com>
+In-Reply-To: <f80724d7-f319-1e97-ce3a-7dc8682ac193@oracle.com>
+References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
+ <1625080041-29010-10-git-send-email-eric.devolder@oracle.com>
+ <20210720153830.71bd4b8e@redhat.com>
+ <f80724d7-f319-1e97-ce3a-7dc8682ac193@oracle.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YP52r9ck8jmV/RkR@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,112 +100,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Lukáš
+On Wed, 21 Jul 2021 11:18:44 -0500
+Eric DeVolder <eric.devolder@oracle.com> wrote:
 
-On 7/26/21 10:47 AM, Dr. David Alan Gilbert wrote:
-> * Joe Mario (jmario@redhat.com) wrote:
->> On Thu, Jul 22, 2021 at 3:14 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
->> wrote:
->>
->>> * Richard Henderson (richard.henderson@linaro.org) wrote:
->>>> On 7/22/21 12:02 AM, Dr. David Alan Gilbert wrote:
->>>>> Hi Richard,
->>>>>    I think you were the last person to fiddle with the prefetching
->>>>> in buffer_zero_avx2 and friends; Joe (cc'd) wondered if explicit
->>>>> prefetching still made sense on modern CPUs, and that their hardware
->>>>> generally figures stuff out better on simple increments.
->>>>>
->>>>>    What was your thinking on this, and did you actually measure
->>>>> any improvement?
->>>>
->>>> Ah, well, that was 5 years ago so I have no particular memory of this.
->>> It
->>>> wouldn't surprise me if you can't measure any improvement on modern
->>>> hardware.
->>>>
->>>> Do you now measure an improvement with the prefetches gone?
->>>
->>> Not tried, it just came from Joe's suggestion that it was generally a
->>> bad idea these days; I do remember that the behaviour of those functions
->>> is quite tricky because there performance is VERY data dependent - many
->>> VMs actually have pages that are quite dirty so you never iterate the
->>> loop, but then you hit others with big zero pages and you spend your
->>> entire life in the loop.
->>>
->>>
->> Dave, Richard:
->> My curiosity got the best of me.  So I created a small test program that
->> used the buffer_zero_avx2() routine from qemu's bufferiszero.c.
-> 
-> Thanks for testing,
-> 
->> When I run it on an Intel Cascade Lake processor, the cost of calling
->> "__builtin_prefetch(p)" is in the noise range .  It's always "just
->> slightly" slower.  I doubt it could ever be measured in qemu.
->>
->> Ironically, when I disabled the hardware prefetchers, the program slowed
->> down over 33%.  And the call to "__builtin_prefetch(p)" actually hurt
->> performance by over 3%.
-> 
-> Yeh that's a bit odd.
-> 
->> My results are below, (only with the hardware prefetchers enabled).  The
->> program is attached.
->> Joe
->>
->> # gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do
->> ./a.out; done
->> TSC 356144 Kcycles.
->> TSC 356714 Kcycles.
->> TSC 356707 Kcycles.
->> TSC 356565 Kcycles.
->> TSC 356853 Kcycles.
->> # gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
->> TSC 355520 Kcycles.
->> TSC 355961 Kcycles.
->> TSC 355872 Kcycles.
->> TSC 355948 Kcycles.
->> TSC 355918 Kcycles.
-> 
-> This basically agrees with the machines I've just tried your test on -
-> *except* AMD EPYC 7302P's - that really like the prefetch:
-> 
-> [root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do ./a.out; done
-> TSC 322162 Kcycles.
-> TSC 321861 Kcycles. 
-> TSC 322212 Kcycles. 
-> TSC 321957 Kcycles.
-> TSC 322085 Kcycles. 
->  
-> [root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
-> TSC 377988 Kcycles. 
-> TSC 380125 Kcycles. 
-> TSC 379440 Kcycles.
-> TSC 379689 Kcycles. 
-> TSC 379571 Kcycles. 
->  
-> The 1st gen doesn't seem to see much difference with/without it.
-> 
-> Probably best to leave this code as is!
+> On 7/20/21 8:38 AM, Igor Mammedov wrote:
+> > On Wed, 30 Jun 2021 15:07:20 -0400
+> > Eric DeVolder <eric.devolder@oracle.com> wrote:
+> >   
+> >> This change provides a qtest that locates and then does a simple
+> >> interrogation of the ERST feature within the guest.
+> >>
+> >> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> >> ---
+> >>   tests/qtest/erst-test.c | 129 ++++++++++++++++++++++++++++++++++++++++++++++++
+> >>   tests/qtest/meson.build |   2 +
+> >>   2 files changed, 131 insertions(+)
+> >>   create mode 100644 tests/qtest/erst-test.c
+> >>
+> >> diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
+> >> new file mode 100644
+> >> index 0000000..ce014c1
+> >> --- /dev/null
+> >> +++ b/tests/qtest/erst-test.c
+> >> @@ -0,0 +1,129 @@
+> >> +/*
+> >> + * QTest testcase for ACPI ERST
+> >> + *
+> >> + * Copyright (c) 2021 Oracle
+> >> + *
+> >> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> >> + * See the COPYING file in the top-level directory.
+> >> + */
+> >> +
+> >> +#include "qemu/osdep.h"
+> >> +#include "qemu/bitmap.h"
+> >> +#include "qemu/uuid.h"
+> >> +#include "hw/acpi/acpi-defs.h"
+> >> +#include "boot-sector.h"
+> >> +#include "acpi-utils.h"
+> >> +#include "libqos/libqtest.h"
+> >> +#include "qapi/qmp/qdict.h"
+> >> +
+> >> +#define RSDP_ADDR_INVALID 0x100000 /* RSDP must be below this address */
+> >> +
+> >> +static uint64_t acpi_find_erst(QTestState *qts)
+> >> +{
+> >> +    uint32_t rsdp_offset;
+> >> +    uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
+> >> +    uint32_t rsdt_len, table_length;
+> >> +    uint8_t *rsdt, *ent;
+> >> +    uint64_t base = 0;
+> >> +
+> >> +    /* Wait for guest firmware to finish and start the payload. */
+> >> +    boot_sector_test(qts);
+> >> +
+> >> +    /* Tables should be initialized now. */
+> >> +    rsdp_offset = acpi_find_rsdp_address(qts);
+> >> +
+> >> +    g_assert_cmphex(rsdp_offset, <, RSDP_ADDR_INVALID);
+> >> +
+> >> +    acpi_fetch_rsdp_table(qts, rsdp_offset, rsdp_table);
+> >> +    acpi_fetch_table(qts, &rsdt, &rsdt_len, &rsdp_table[16 /* RsdtAddress */],
+> >> +                     4, "RSDT", true);
+> >> +
+> >> +    ACPI_FOREACH_RSDT_ENTRY(rsdt, rsdt_len, ent, 4 /* Entry size */) {
+> >> +        uint8_t *table_aml;
+> >> +        acpi_fetch_table(qts, &table_aml, &table_length, ent, 4, NULL, true);
+> >> +        if (!memcmp(table_aml + 0 /* Header Signature */, "ERST", 4)) {
+> >> +            /*
+> >> +             * Picking up ERST base address from the Register Region
+> >> +             * specified as part of the first Serialization Instruction
+> >> +             * Action (which is a Begin Write Operation).
+> >> +             */
+> >> +            memcpy(&base, &table_aml[56], sizeof(base));
+> >> +            g_free(table_aml);
+> >> +            break;
+> >> +        }
+> >> +        g_free(table_aml);
+> >> +    }
+> >> +    g_free(rsdt);
+> >> +    return base;
+> >> +}  
+> > I'd drop this, bios-tables-test should do ACPI table check
+> > as for PCI device itself you can test it with qtest accelerator
+> > that allows to instantiate it and access registers directly
+> > without overhead of running actual guest.  
+> Yes, bios-tables-test checks the ACPI table, but not the functionality.
+> This test has actually caught a problem/bug during development.
 
-Regardless the decision of changing the code or not, it would be
-nice to have this test committed in the repository to run
-performance regression testing from time to time.
+What I'm saying is not to drop test, but rather use qtest
+accelerator to test PCI hardware registers. Which doesn't run
+guest code. but lets you directly program/access PCI device.
 
->> /*
->>  * Simple program to test if a prefetch helps or hurts buffer_zero_avx2.
->>  *
->>  * Compile with either:
->>  *  gcc -mavx buffer_zero_avx.c -O 
->>  * or
->>  *  gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH 
->>  */
->>
-[...]
+So instead of searching/parsing ERST table, you'd program BARs
+manually on behalf of BIOS, and then test that it works as expected.
+
+As for ACPI tables, we don't have complete testing infrastructure
+in tree, bios-tables-test, only tests matching to committed
+reference blobs. And verifying that reference blob is correct,
+is manual process currently.
+
+To test whole stack one could write an optional acceptance test,
+which would run actual guest (if you wish to add that, you can look at
+docs/devel/testing.rst "Acceptance tests ...").
+
+
+
+> > As example you can look into megasas-test.c, ivshmem-test.c
+> > or other PCI device tests.  
+> But I'll look at these and see about migrating to this approach.
+> 
+> >   
+> >> +static char disk[] = "tests/erst-test-disk-XXXXXX";
+> >> +
+> >> +#define ERST_CMD()                              \
+> >> +    "-accel kvm -accel tcg "                    \
+> >> +    "-object memory-backend-file," \
+> >> +      "id=erstnvram,mem-path=tests/acpi-erst-XXXXXX,size=0x10000,share=on " \
+> >> +    "-device acpi-erst,memdev=erstnvram " \
+> >> +    "-drive id=hd0,if=none,file=%s,format=raw " \
+> >> +    "-device ide-hd,drive=hd0 ", disk
+> >> +
+> >> +static void erst_get_error_log_address_range(void)
+> >> +{
+> >> +    QTestState *qts;
+> >> +    uint64_t log_address_range = 0;
+> >> +    unsigned log_address_length = 0;
+> >> +    unsigned log_address_attr = 0;
+> >> +
+> >> +    qts = qtest_initf(ERST_CMD());
+> >> +
+> >> +    uint64_t base = acpi_find_erst(qts);
+> >> +    g_assert(base != 0);
+> >> +
+> >> +    /* Issue GET_ERROR_LOG_ADDRESS_RANGE command */
+> >> +    qtest_writel(qts, base + 0, 0xD);
+> >> +    /* Read GET_ERROR_LOG_ADDRESS_RANGE result */
+> >> +    log_address_range = qtest_readq(qts, base + 8);\
+> >> +
+> >> +    /* Issue GET_ERROR_LOG_ADDRESS_RANGE_LENGTH command */
+> >> +    qtest_writel(qts, base + 0, 0xE);
+> >> +    /* Read GET_ERROR_LOG_ADDRESS_RANGE_LENGTH result */
+> >> +    log_address_length = qtest_readq(qts, base + 8);\
+> >> +
+> >> +    /* Issue GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES command */
+> >> +    qtest_writel(qts, base + 0, 0xF);
+> >> +    /* Read GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES result */
+> >> +    log_address_attr = qtest_readq(qts, base + 8);\
+> >> +
+> >> +    /* Check log_address_range is not 0,~0 or base */
+> >> +    g_assert(log_address_range != base);
+> >> +    g_assert(log_address_range != 0);
+> >> +    g_assert(log_address_range != ~0UL);
+> >> +
+> >> +    /* Check log_address_length is ERST_RECORD_SIZE */
+> >> +    g_assert(log_address_length == (8 * 1024));
+> >> +
+> >> +    /* Check log_address_attr is 0 */
+> >> +    g_assert(log_address_attr == 0);
+> >> +
+> >> +    qtest_quit(qts);
+> >> +}
+> >> +
+> >> +int main(int argc, char **argv)
+> >> +{
+> >> +    int ret;
+> >> +
+> >> +    ret = boot_sector_init(disk);
+> >> +    if (ret) {
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    g_test_init(&argc, &argv, NULL);
+> >> +
+> >> +    qtest_add_func("/erst/get-error-log-address-range",
+> >> +                   erst_get_error_log_address_range);
+> >> +
+> >> +    ret = g_test_run();
+> >> +    boot_sector_cleanup(disk);
+> >> +
+> >> +    return ret;
+> >> +}
+> >> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> >> index 0c76738..deae443 100644
+> >> --- a/tests/qtest/meson.build
+> >> +++ b/tests/qtest/meson.build
+> >> @@ -66,6 +66,7 @@ qtests_i386 = \
+> >>     (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+> >>     (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
+> >>     (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
+> >> +  (config_all_devices.has_key('CONFIG_ACPI') ? ['erst-test'] : []) +                 \
+> >>     qtests_pci +                                                                              \
+> >>     ['fdc-test',
+> >>      'ide-test',
+> >> @@ -237,6 +238,7 @@ qtests = {
+> >>     'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+> >>     'cdrom-test': files('boot-sector.c'),
+> >>     'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
+> >> +  'erst-test': files('erst-test.c', 'boot-sector.c', 'acpi-utils.c'),
+> >>     'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
+> >>     'migration-test': files('migration-helpers.c'),
+> >>     'pxe-test': files('boot-sector.c'),  
+> >   
+> 
 
 
