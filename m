@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBA13D6040
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:02:52 +0200 (CEST)
-Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D963D6042
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:04:51 +0200 (CEST)
+Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8347-0005as-II
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
+	id 1m8362-0001pe-2c
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m831K-0002kG-Ho
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:59:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53992)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m832Z-00044v-6z
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:01:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m831I-0007ZH-R0
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:59:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627315195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=inrL5lBClgNE0iy4qYbLSftqWgQC0WR9cM1BurP2M3g=;
- b=fwpCSUnsMQ+xF1szJciaNHtRokWTbMywY1soBNZiuJVOq4M+CXHW32Bw7XZLwNfZWlkWK4
- xj/Pde7hJer+EqOP2doKpaRRk4nwkQCZIxwT7910CBIwC7hbhGa/YDIPRJHeVB2hyRcyW8
- ESTA6A41bcADhgUAQ0kHO5f5IDY5HT4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-55D40c4fNayRS0TBu_69vQ-1; Mon, 26 Jul 2021 11:59:53 -0400
-X-MC-Unique: 55D40c4fNayRS0TBu_69vQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9096C1084F61;
- Mon, 26 Jul 2021 15:59:52 +0000 (UTC)
-Received: from localhost (ovpn-113-151.ams2.redhat.com [10.36.113.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19A221000358;
- Mon, 26 Jul 2021 15:59:51 +0000 (UTC)
-Date: Mon, 26 Jul 2021 16:59:50 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] raw-format: drop WRITE and RESIZE child perms when
- possible
-Message-ID: <YP7b9guLztT5XBXB@stefanha-x1.localdomain>
-References: <20210726122839.822900-1-stefanha@redhat.com>
- <57dd2772-352b-75b1-6ed2-474423d7680e@virtuozzo.com>
- <YP7X92k+dWBNvORR@redhat.com>
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m832W-0008Qn-4w
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:01:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A55660551
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 16:01:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627315269;
+ bh=RsNK0q3TOMNzmgr13IPx01t1ywLSD9vPqTSxfXidUFo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PPYqChSqI1sv/co6ZT52ONLUNwUy51tiPLSuMCYlq6zBAUt8rusi5gMpxGAL9xVSc
+ 6kO8ylJmphaDwYmNTKLxUW3t4Sn/5ej5S+t/h1Y23mAQdcbNleNO+MaN7LMQMxlVBL
+ sQesUuY8p1nzOhN7Pch98jzDNBzQ52PA8x/v8Jh91m+KP5uE/MWFrGOMQEAcgZdfUu
+ 8DNyAbyPCSAgHnpxkK16S/9kTnkdp4fLEyOM3WWOWMaQNEoXp3x2HMsmC/Eih8MF7S
+ KMVnfBabQ46yHT+t2IN9XXzgRixn1QrAlhkSVdmP51lNOxyYclLgtrzmVx5RUz4lIa
+ hRkG7CDEyj9LA==
+Received: by mail-oi1-f181.google.com with SMTP id y18so11446053oiv.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:01:09 -0700 (PDT)
+X-Gm-Message-State: AOAM533Szrw1Sqn7THv1zf5SJl63/q1rKmWeVQsC4qIfWkwUnvEwQ7ud
+ Pj4mNT5uEw7WuMNA3Tq66GFplixChAlWprBQrc4=
+X-Google-Smtp-Source: ABdhPJwqoVD3LfE+HMB9B46OfY98ZvbmQtnMcRbX071NuQOh+RDmSSgftcWnuJB+Z6MdE4pSuhE83NgAz9mzPW83zNY=
+X-Received: by 2002:aca:4c49:: with SMTP id z70mr11453286oia.174.1627315269019; 
+ Mon, 26 Jul 2021 09:01:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YP7X92k+dWBNvORR@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BamFBM83qcEUBR80"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+In-Reply-To: <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 26 Jul 2021 18:00:57 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+Message-ID: <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,171 +72,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, afrosi@redhat.com, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---BamFBM83qcEUBR80
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+(cc Bjorn)
 
-On Mon, Jul 26, 2021 at 05:42:47PM +0200, Kevin Wolf wrote:
-> Am 26.07.2021 um 16:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > 26.07.2021 15:28, Stefan Hajnoczi wrote:
-> > > The following command-line fails due to a permissions conflict:
-> > >=20
-> > >    $ qemu-storage-daemon \
-> > >        --blockdev driver=3Dnvme,node-name=3Dnvme0,device=3D0000:08:00=
-.0,namespace=3D1 \
-> > >        --blockdev driver=3Draw,node-name=3Dl1-1,file=3Dnvme0,offset=
-=3D0,size=3D1073741824 \
-> > >        --blockdev driver=3Draw,node-name=3Dl1-2,file=3Dnvme0,offset=
-=3D1073741824,size=3D1073741824 \
-> > >        --nbd-server addr.type=3Dunix,addr.path=3D/tmp/nbd.sock,max-co=
-nnections=3D2 \
-> > >        --export type=3Dnbd,id=3Dnbd-l1-1,node-name=3Dl1-1,name=3Dl1-1=
-,writable=3Don \
-> > >        --export type=3Dnbd,id=3Dnbd-l1-2,node-name=3Dl1-2,name=3Dl1-2=
-,writable=3Don
-> > >=20
-> > >    qemu-storage-daemon: --export type=3Dnbd,id=3Dnbd-l1-1,node-name=
-=3Dl1-1,name=3Dl1-1,writable=3Don: Permission conflict on node 'nvme0': per=
-missions 'resize' are both required by node 'l1-1' (uses node 'nvme0' as 'f=
-ile' child) and unshared by node 'l1-2' (uses node 'nvme0' as 'file' child)=
-.
-> > >=20
-> > > The problem is that block/raw-format.c relies on bdrv_default_perms()=
- to
-> > > set permissions on the nvme node. The default permissions add RESIZE =
-in
-> > > anticipation of a format driver like qcow2 that needs to grow the ima=
-ge
-> > > file. This fails because RESIZE is unshared, so we cannot get the RES=
-IZE
-> > > permission.
-> > >=20
-> > > Max Reitz pointed out that block/crypto.c already handles this case b=
-y
-> > > implementing a custom ->bdrv_child_perm() function that adjusts the
-> > > result of bdrv_default_perms().
-> > >=20
-> > > This patch takes the same approach in block/raw-format.c so that RESI=
-ZE
-> > > is only required if it's actually necessary (e.g. the parent is qcow2=
-).
-> > >=20
-> > > Cc: Max Reitz <mreitz@redhat.com>
-> > > Cc: Kevin Wolf <kwolf@redhat.com>
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > > This is not a bug fix, so I didn't mark it for QEMU 6.1. It's new
-> > > behavior that hasn't been supported before. I want to split an NVMe
-> > > drive using the raw format's offset=3D/size=3D feature.
-> > > ---
-> > >   block/raw-format.c | 21 ++++++++++++++++++++-
-> > >   1 file changed, 20 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/block/raw-format.c b/block/raw-format.c
-> > > index 7717578ed6..c26f493688 100644
-> > > --- a/block/raw-format.c
-> > > +++ b/block/raw-format.c
-> > > @@ -580,6 +580,25 @@ static void raw_cancel_in_flight(BlockDriverStat=
-e *bs)
-> > >       bdrv_cancel_in_flight(bs->file->bs);
-> > >   }
-> > > +static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
-> > > +                           BdrvChildRole role,
-> > > +                           BlockReopenQueue *reopen_queue,
-> > > +                           uint64_t parent_perm, uint64_t parent_sha=
-red,
-> > > +                           uint64_t *nperm, uint64_t *nshared)
-> > > +{
-> > > +    bdrv_default_perms(bs, c, role, reopen_queue, parent_perm,
-> > > +                       parent_shared, nperm, nshared);
-> > > +
-> > > +    /*
-> > > +     * bdrv_default_perms() may add WRITE and/or RESIZE (see comment=
- in
-> > > +     * bdrv_default_perms_for_storage() for an explanation) but we o=
-nly need
-> > > +     * them if they are in parent_perm. Drop WRITE and RESIZE whenev=
-er possible
-> > > +     * to avoid permission conflicts.
-> > > +     */
-> > > +    *nperm &=3D ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
-> > > +    *nperm |=3D parent_perm & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
-> > > +}
-> > > +
-> > >   BlockDriver bdrv_raw =3D {
-> > >       .format_name          =3D "raw",
-> > >       .instance_size        =3D sizeof(BDRVRawState),
-> > > @@ -588,7 +607,7 @@ BlockDriver bdrv_raw =3D {
-> > >       .bdrv_reopen_commit   =3D &raw_reopen_commit,
-> > >       .bdrv_reopen_abort    =3D &raw_reopen_abort,
-> > >       .bdrv_open            =3D &raw_open,
-> > > -    .bdrv_child_perm      =3D bdrv_default_perms,
-> > > +    .bdrv_child_perm      =3D raw_child_perm,
-> > >       .bdrv_co_create_opts  =3D &raw_co_create_opts,
-> > >       .bdrv_co_preadv       =3D &raw_co_preadv,
-> > >       .bdrv_co_pwritev      =3D &raw_co_pwritev,
-> > >=20
-> >=20
-> > I think it's OK:
-> >=20
-> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >=20
-> >=20
-> > Still, did you consider an alternative of making
-> > bdrv_filter_default_perm() function public and just do
-> > ".bdrv_child_perm =3D bdrv_filter_default_perm," here?
-> >=20
-> > raw_format is not considered to be filter, but for it's permissions I
-> > think it works exactly like filter.
->=20
-> I had the same thought, but then commit 69dca43d6b6 explicitly made the
-> opposite change. I seem to remember that Max never liked raw being
-> treated like a filter much.
+On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 7/26/21 12:56 AM, Guenter Roeck wrote:
+> > On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+> >> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+> >>> Hi all,
+> >>>
+> >>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
+> >>> work. Analysis shows that PCI devices with IO ports do not instantiat=
+e
+> >>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affe=
+cts
+> >>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+> >>> affects
+> >>> aarch64, not x86/x86_64.
+> >>>
+> >>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
+> >>> keep firmware resource map"). Since this commit, PCI device BAR
+> >>> allocation has changed. Taking tulip as example, the kernel reports
+> >>> the following PCI bar assignments when running qemu v5.2.
+> >>>
+> >>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> >>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> >>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f=
+]
 
-Additionally:
+IIUC, these lines are read back from the BARs
 
-  static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-                      Error **errp)
-  {
-  ...
-      /*
-       * Without offset and a size limit, this driver behaves very much
-       * like a filter.  With any such limit, it does not.
-       */
-      if (offset || has_size) {
-          file_role =3D BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY;
-      } else {
-          file_role =3D BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY;
-      }
+> >>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+> >>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+> >>> 0x10000000-0x1000007f]
+> >>>
 
-Whether the raw child node acts as FILTERED or DATA depends on whether
-offset=3D/size=3D were given.
+... and this is the assignment created by the kernel.
 
-Stefan
+> >>> With qemu v6.0, the assignment is reported as follows.
+> >>>
+> >>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> >>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> >>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f=
+]
+> >>>
 
---BamFBM83qcEUBR80
-Content-Type: application/pgp-signature; name="signature.asc"
+The problem here is that Linux, for legacy reasons, does not support
+I/O ports <=3D 0x1000 on PCI, so the I/O assignment created by EFI is
+rejected.
 
------BEGIN PGP SIGNATURE-----
+This might make sense on x86, where legacy I/O ports may exist, but on
+other architectures, this makes no sense.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmD+2/YACgkQnKSrs4Gr
-c8hlTAgAoVEavLlyZ7NVmSdofBLTFeWnJJHdUmJKF6alAI5OVgw53bwRrVlnelC/
-X6H29CkaYik8zCUySqWcnBNSBl94PxtQFb1i8R59iTa4Byg72u83gNqeoQriYQ7Z
-f3H5DeOlkbe7mM5q2OgLdW5KBjsqoxy/rXnp/MGpZk/As6CPPfpo+ThGY/VkprPV
-Jin2RAq5TmGONKAXXRiJTSWTFpq0MnzN8l+xn9YjUcMC3k/nGbO41lTVceALMhMp
-rF6x/KF7LfaswV5OTD1zwJtOWKMogY70avyL518O0Qgz7myQY5EX6m/zQTmNw91D
-uVAqw6rPeUi5BtkIc+jFNZIRznIvlA==
-=uENr
------END PGP SIGNATURE-----
 
---BamFBM83qcEUBR80--
+> >>> and the controller does not instantiate. The problem disapears after
+> >>> reverting commit 0cf8882fd0.
+> >>>
+> >>> Attached is a summary of test runs with various devices and qemu v5.2
+> >>> as well as qemu v6.0, and the command line I use for efi boots.
+> >>>
+> >>> Did commit 0cf8882fd0 introduce a bug, do I now need need some differ=
+ent
+> >>> command line to instantiate PCI devices with io ports, or are such
+> >>> devices
+> >>> simply no longer supported if the system is booted with efi support ?
+> >>>
+> >>> Thanks,
+> >>> Guenter
+> >>
+> >>
+> >> So that commit basically just says don't ignore what efi did.
+> >>
+> >> The issue's thus likely efi.
+> >>
+> >
+> > I don't see the problem with efi boots on x86 and x86_64.
+> > Any idea why that might be the case ?
+> >
+> > Thanks,
+> > Guenter
+> >
+> >> Cc the maintainer. Philippe can you comment pls?
+>
+> I'll have a look. Cc'ing Ard for EDK2/Aarch64.
+>
 
+So a potential workaround would be to use a different I/O resource
+window for ArmVirtPkg, that starts at 0x1000. But I would prefer to
+fix Linux instead.
+
+
+> >>
+> >>> ---
+> >>> Command line (tulip network interface):
+> >>>
+> >>> CMDLINE=3D"root=3D/dev/vda console=3DttyAMA0"
+> >>> ROOTFS=3D"rootfs.ext2"
+> >>>
+> >>> qemu-system-aarch64 -M virt -kernel arch/arm64/boot/Image -no-reboot =
+\
+> >>>          -m 512 -cpu cortex-a57 -no-reboot \
+> >>>          -device tulip,netdev=3Dnet0 -netdev user,id=3Dnet0 \
+> >>>          -bios QEMU_EFI-aarch64.fd \
+> >>>          -snapshot \
+> >>>          -device virtio-blk-device,drive=3Dd0 \
+> >>>          -drive file=3D${ROOTFS},if=3Dnone,id=3Dd0,format=3Draw \
+> >>>          -nographic -serial stdio -monitor none \
+> >>>          --append "${CMDLINE}"
+> >>>
+> >>> ---
+> >>> Boot tests with various devices known to work in qemu v5.2.
+> >>>
+> >>>         v5.2    v6.0    v6.0
+> >>>         efi    non-efi    efi
+> >>> e1000        pass    pass    pass
+> >>> e1000-82544gc    pass    pass    pass
+> >>> e1000-82545em    pass    pass    pass
+> >>> e1000e        pass    pass    pass
+> >>> i82550        pass    pass    pass
+> >>> i82557a        pass    pass    pass
+> >>> i82557b        pass    pass    pass
+> >>> i82557c        pass    pass    pass
+> >>> i82558a        pass    pass    pass
+> >>> i82559b        pass    pass    pass
+> >>> i82559c        pass    pass    pass
+> >>> i82559er    pass    pass    pass
+> >>> i82562        pass    pass    pass
+> >>> i82801        pass    pass    pass
+> >>> ne2k_pci    pass    pass    fail    <--
+> >>> pcnet        pass    pass    pass
+> >>> rtl8139        pass    pass    pass
+> >>> tulip        pass    pass    fail    <--
+> >>> usb-net        pass    pass    pass
+> >>> virtio-net-device
+> >>>         pass    pass    pass
+> >>> virtio-net-pci    pass    pass    pass
+> >>> virtio-net-pci-non-transitional
+> >>>         pass    pass    pass
+> >>>
+> >>> usb-xhci    pass    pass    pass
+> >>> usb-ehci    pass    pass    pass
+> >>> usb-ohci    pass    pass    pass
+> >>> usb-uas-xhci    pass    pass    pass
+> >>> virtio        pass    pass    pass
+> >>> virtio-blk-pci    pass    pass    pass
+> >>> virtio-blk-device
+> >>>         pass    pass    pass
+> >>> nvme        pass    pass    pass
+> >>> sdhci        pass    pass    pass
+> >>> dc390        pass    pass    fail    <--
+> >>> am53c974    pass    pass    fail    <--
+> >>> lsi53c895ai    pass    pass    pass
+> >>> mptsas1068    pass    pass    pass
+> >>> lsi53c810    pass    pass    pass
+> >>> megasas        pass    pass    pass
+> >>> megasas-gen2    pass    pass    pass
+> >>> virtio-scsi-device
+> >>>         pass    pass    pass
+> >>> virtio-scsi-pci    pass    pass    pass
+> >>
+> >
+>
 
