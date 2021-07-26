@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DA53D5A03
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 15:05:39 +0200 (CEST)
-Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE043D5A3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 15:21:34 +0200 (CEST)
+Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m80Ic-0007AM-4q
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 09:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48232)
+	id 1m80Y0-0004sS-P1
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 09:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m80Gl-00050L-LJ
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:03:43 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m80Gh-0000mJ-B5
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 09:03:41 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id u12so10481217eds.2
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 06:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o9YtlpMs57gkF874ra4K+P45JBe0PW3DkFA2j/etbWw=;
- b=mAQVaOPwGXEWm/EDSx46gn+L/yUR5b0L/GYAM9ZzeUYtU52/PZ8pz+NBWR1EF/wXNs
- FfICTnEw4J+A3DQm/77PhMSCaSB/O+GZ/RjXnFyN6oJpHEV+iFdABHnQE1AdMXF6Usx5
- 9sSc86Wsb2QTnHlM08aLnXp8DcbDA+TDifft3c+iXaK4QaRi/xxAcmHc7DilRtlrY0Op
- 4nx7YQxtuL9X8LNljP9kio+iMBXq11jEgzmY/Ni4jfgVyl2OcOwkMG1Hp4BcnBspBLRm
- 3lCXit6/rUQCiwlGVoF/o69OayJ5YJ3PGF1f3Y0muU1pJMI55suxaIWs/o3wf3ZZzckn
- KMpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o9YtlpMs57gkF874ra4K+P45JBe0PW3DkFA2j/etbWw=;
- b=aiwpJe2FaqWXC2XHIw8rzzhvlG9IMSq9Ljn1P4S5/V2X9l2b2ZxkwfBwfBFVhaIEcx
- enZOZ/dv5ihtQjJv/IlWBp48zKj4ykS8PNRevKgYbnhd9+u9pr3+275++7KfHu4t3iel
- o96HVnzPkaISdit4viNCdyvprg2MxoFCQuKHosyFm7WG2mj09bntSw4QQjAQHlRSXd/K
- IyCsEkjniQsMLnOcszQpMYcwCfy7MUfgCWVHODLAS/fsrnTZKoTjFjgnrvDV5/NyCXfe
- aVjsQBsvKvwOunrmaFqd3TrJMZDQI5sKo1fGX047fFv9r2h5nmcE6rqn7lhbo52hOaKe
- sjtw==
-X-Gm-Message-State: AOAM5330yUsC8RiywAfW3/4QkRQmUpfp8fmYbe1DzzSjCMcUbJ7MDEyd
- znze3r/mvkG4d9oI0Ox5CZeeNABESDvN4bhZBcN+tA==
-X-Google-Smtp-Source: ABdhPJx7jejGkwwXVwjDTXDdOmURQXPyr83rZBlKYngv9ii01e3wTTtd7dViwGlOX+8vnjheQpBH0RQYRtUjN1I/4rg=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr20962239edt.100.1627304617709; 
- Mon, 26 Jul 2021 06:03:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1m80Vt-0002oO-UE; Mon, 26 Jul 2021 09:19:21 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1m80Vq-0003JU-R1; Mon, 26 Jul 2021 09:19:21 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GYL5R09bQzZt61;
+ Mon, 26 Jul 2021 21:15:39 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 26 Jul 2021 21:19:05 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Mon, 26 Jul 2021 21:19:05 +0800
+Subject: Re: [question] Shall we flush ITS tables into guest RAM when shutdown
+ the VM?
+To: <eric.auger@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, "open
+ list:ARM cores" <qemu-arm@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <ef4df56d-5b60-99f1-fec6-fe2e62434d3f@huawei.com>
+ <82c78e1f-98ef-982e-fbcc-34da6b8aaad7@redhat.com>
+ <91d179e0-8365-e3b4-cee6-d05ce918a32d@huawei.com>
+ <1d9123e9-705a-36ef-3286-b2f347ec5894@redhat.com>
+ <5ccf2a18-0615-8f1c-47cb-163f80037feb@huawei.com>
+ <eb63f96e-59e8-55cb-d8ba-119f75ce032f@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <1e77ca5d-0fd9-156f-7183-446246c391ab@huawei.com>
+Date: Mon, 26 Jul 2021 21:19:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210709094948.60344-1-sebastian.huber@embedded-brains.de>
- <20210725080817.ivlkutnow7sojoyd@sekoia-pc.home.lmichel.fr>
- <57459310-fe80-0cc2-5ffb-5b42bfe1a351@embedded-brains.de>
-In-Reply-To: <57459310-fe80-0cc2-5ffb-5b42bfe1a351@embedded-brains.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Jul 2021 14:02:55 +0100
-Message-ID: <CAFEAcA8DAt+o-XZepg8xtj4i3xLW_yChwPnDZVM0O=rW8+9qJQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gic: Fix set/clear pending of PPI/SPI
-To: Sebastian Huber <sebastian.huber@embedded-brains.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <eb63f96e-59e8-55cb-d8ba-119f75ce032f@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,65 +73,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Luc Michel <luc@lmichel.fr>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: wanghaibin.wang@huawei.com, lushenming@huawei.com, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 09:06, Sebastian Huber
-<sebastian.huber@embedded-brains.de> wrote:
-> Ok, I will remove this part from the patch in v2. I probably didn't
-> fully understand how the Qemu GICv2 emulation works. What I wanted to
-> address is this behaviour (see GICv2 manual) when someone changes the
-> GICD_ITARGETSR<n> (n > 1):
->
-> "Has an effect on any pending interrupts. This means:
->
-> * adding a CPU interface to the target list of a pending interrupt makes
-> that interrupt pending on that CPU interface
->
->
-> * removing a CPU interface from the target list of a pending interrupt
-> removes the pending state of that interrupt on that CPU interface.
->
-> Note
->
-> There is a small but finite time required for any change to take effect."
+Hi Eric,
 
-We do get this wrong, but none of your changes to the file actually
-change this behaviour :-)
+On 2021/7/6 21:52, Eric Auger wrote:
+> Hi,
+>
+> On 7/6/21 10:18 AM, Kunkun Jiang wrote:
+>> Hi Eric,
+>>
+>> On 2021/6/30 17:16, Eric Auger wrote:
+>>> On 6/30/21 3:38 AM, Kunkun Jiang wrote:
+>>>> On 2021/6/30 4:14, Eric Auger wrote:
+>>>>> Hi Kunkun,
+>>>>>
+>>>>> On 6/29/21 11:33 AM, Kunkun Jiang wrote:
+>>>>>> Hi all,
+>>>>>>
+>>>>>> Accroding to the patch cddafd8f353d2d251b1a5c6c948a577a85838582,
+>>>>>> our original intention is to flush the ITS tables into guest RAM at
+>>>>>> the point
+>>>>>> RUN_STATE_FINISH_MIGRATE, but sometimes the VM gets stopped before
+>>>>>> migration launch so let's simply flush the tables each time the VM
+>>>>>> gets
+>>>>>> stopped.
+>>>>>>
+>>>>>> But I encountered an error when I shut down the virtual machine.
+>>>>>>
+>>>>>>> qemu-system-aarch64: KVM_SET_DEVICE_ATTR failed: Group 4 attr
+>>>>>>> 0x0000000000000001: Permission denied
+>>>>>> Shall we need to flush ITS tables into guest RAM when 'shutdown' the
+>>>>>> VM?
+>>>>>> Or do you think this error is normal?
+>>>>> yes we determined in the past this was the right moment do save the
+>>>>> tables
+>>>>>
+>>>>> "with a live migration the guest is still running after
+>>>>> the RAM has been first saved, and so the tables may still change
+>>>>> during the iterative RAM save. You would actually need to do this
+>>>>> at just the point we stop the VM before the final RAM save; that
+>>>>> *might*
+>>>>> be possible by using a notifier hook a vm run state change to
+>>>>> RUN_STATE_FINISH_MIGRATE
+>>>>> - if you can do the changes just as the migration flips into that mode
+>>>>> it *should* work. " said David.
+>>>>>
+>>>>> But sometimes as the commit msg says, the VM is stopped before the
+>>>>> migration launch - I do not remember the exact scenario tbh -.
+>>>> Well, I initially wanted to know more about this scenario to determine
+>>>> whether
+>>>> a normal shutdown would fall into it.😂
+>>> I think it was for save/restore use case. In that case you need to flush
+>>> the KVM cache in memory on VM shutdown.
+>> Sorry for late reply.
+>>
+>> Can we distinguish from the 'RunState'?
+>> When we stop the VM, the RunState will be set. There are many types of
+>> RunState, such as RUN_STATE_FINISH_MIGRATE/RUN_STATE_SAVE_VM/
+>> RUN_STATE_SHUTDOWN/RUN_STATE_GUEST_PANICKED, etc.
+>>
+>> Maybe RUN_STATE_SHUTDOWN doesn't belong to save/restore use case,
+>> right?
+> Adding Dave, Juan and Peter in the loop for migration expertise.
+>
+> At the moment we save the ARM ITS MSI controller tables whenever the VM
+> gets stopped. Saving the tables from KVM caches into the guest RAM is
+> needed for migration and save/restore use cases.
+> However with GICv4 this fails at KVM level because some MSIs are
+> forwarded and saving their state is not supported with GICv4.
+>
+> While GICv4 migration is not supported we would like the VM to work
+> properly, ie. being stoppable without taking care of table saving.
+>
+> So could we be more precise and identifiy the save/restore and migration
+> use cases instead of saving the tables on each VM shutdown.
+>
+> The tables are saved into guest RAM so when need the CPUs and devices to
+> be stopped but we need the guest RAM to be saved after the ITS save
+> operation.
+>
+> Kunkun, by the way you currently just get an error from qemu, ie. qemu
+> does not exit? Couldn't we just ignore -EACCESS error?
+Sorry for late reply. There is something wrong with my mailbox,
+so I didn't receive your email...
 
-What we currently do for writes to GICD_ITARGETS<r> is:
+Yeah, just get an error. I just wanted to know if you have a good
+way to solve it. It's not causing any other problems, so ignoring
+it should be OK.
 
-        /* Interrupt CPU Target. RAZ/WI on uniprocessor GICs, with the
-         * annoying exception of the 11MPCore's GIC.
-         */
-        if (s->num_cpu != 1 || s->revision == REV_11MPCORE) {
-            irq = (offset - 0x800);
-            if (irq >= s->num_irq) {
-                goto bad_reg;
-            }
-            if (irq < 29 && s->revision == REV_11MPCORE) {
-                value = 0;
-            } else if (irq < GIC_INTERNAL) {
-                value = ALL_CPU_MASK;
-            }
-            s->irq_target[irq] = value & ALL_CPU_MASK;
-        }
+Thanks,
+Kunkun Jiang
+>
+> Thanks
+>
+> Eric
+>
+>
+>
+>
+>>>> In my opinion, when the virtual machine is normally shutdown, flushing
+>>>> the
+>>>> ITS tables is not necessary. If we can't tell the difference between
+>>>> 'normal shutdown'
+>>>> and the above scenario, then this 'error' is inevitable.
+>>>>> So each time the VM is stopped we flush the caches into guest RAM.
+>>>>>
+>>>>>
+>>>>>
+>>>>>> This error occurs in the following scenario:
+>>>>>> Kunpeng 920 、enable GICv4、passthrough a accelerator Hisilicon SEC
+>>>>>> to
+>>>>>> the VM.
+>>>>>>
+>>>>>> The flow is as follows:
+>>>>>>
+>>>>>> QEMU:
+>>>>>> vm_shutdown
+>>>>>>        do_vm_stop(RUN_STATE_SHUTDOWN)
+>>>>>>            vm_state_notify
+>>>>>>                ...
+>>>>>>                vm_change_state_handler (hw/intc/arm_gicv3_its_kvm.c)
+>>>>>>                    kvm_device_access
+>>>>>>
+>>>>>> Kernel:
+>>>>>>        vgic_its_save_tables_v0
+>>>>>>            vgic_its_save_device_tables
+>>>>>>                vgic_its_save_itt
+>>>>>>
+>>>>>> There is such a code in vgic_its_save_itt():
+>>>>>>> /*
+>>>>>>>     * If an LPI carries the HW bit, this means that this
+>>>>>>>     * interrupt is controlled by GICv4, and we do not
+>>>>>>>     * have direct access to that state without GICv4.1.
+>>>>>>>     * Let's simply fail the save operation...
+>>>>>>>     */
+>>>>>>> if (ite->irq->hw && !kvm_vgic_global_state.has_gicv4_1)
+>>>>>>>              return -EACCES;
+>>> Maybe we miss a piece of code for 4.0 that unsets the forwarding. The
+>>> only way to handle this is to make sure  ite->irq->hw is not set on
+>>> shutdown, no?
+>> It's not going to return -EACCES here, if we unset the forwarding
+>> first. But
+>> this may cause problems in save/restore scenarios. The GICv4 architecture
+>> doesn't give any guarantee that the pending state is written into the
+>> pending table.
+>>
+>> Thanks,
+>> Kunkun Jiang
+>>> Thanks
+>>>
+>>> Eric
+>>>>> As far as I understand you need a v4.1 to migrate,
+>>>>> following Shenming's series
+>>>>> [PATCH v5 0/6] KVM: arm64: Add VLPI migration support on GICv4.1
+>>>>> Maybe sync with him?
+>>>> Yes, GICv4 does not support live migrate.
+>>>>
+>>>> Thanks,
+>>>> Kunkun Jiang
+>>>>> Thanks
+>>>>>
+>>>>> Eric
+>>>>>
+>>>>>
+>>>>>> Looking forward to your reply.
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Kunkun Jiang
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>> .
+>>> .
+>>
+>
+> .
 
-which is to say that we update irq_target[] but we don't change the
-status of any pending interrupt. We should add code here that
-checks whether irq is pending on any core and if so marks it as
-instead pending on the targets we just set up, something like
 
- if (irq >= GIC_INTERNAL && s->irq_state[irq].pending) {
-     /*
-      * Changing the target of an interrupt that is currently pending
-      * updates the set of CPUs it is pending on
-      */
-     GIC_DIST_SET_PENDING(irq, value);
- }
-
-thanks
--- PMM
 
