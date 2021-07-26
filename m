@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053F93D6380
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:36:13 +0200 (CEST)
-Received: from localhost ([::1]:54394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77BF3D6388
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:40:19 +0200 (CEST)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m83aO-0004Ws-3m
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41400)
+	id 1m83eM-0006C9-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m83Yt-0003Bu-4b
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:34:40 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36704)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m83dG-0005X4-FP
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:39:10 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:52895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m83Yq-0005da-Oi
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:34:38 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id b7so11412675edu.3
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LI4MIKIrXobAvcOjaEFEW9fX3wqLTr3kgXCgQ2vuxmo=;
- b=ZyxET+Kn9xyaFy81cRsRSXnJCIc4J/JyZpH+63QbixhNAKA79h5+FTzdP0/dfHGjuK
- OvcJ9X2vt4Uokwxkfaa+J3E8eCpDin0BQOf9sGJh5IHq+hwnAOxb5tncZl+nDov16WTe
- UYyBWEztgZDwiXg+IA/cxjMLgJAEF8LG/+oe5Zyr7CiuSE/Av20dxLDzIyshaxiP771U
- wnLDn3ui0ASUEb2QNaSUrvOkKC9YPEPzAwPsg8Wj5mxCER03EZBrmya/8ycl/qs9jFlQ
- Y53rFSZjDN3Ksh4kDWH8siogcyXcZbOI4PKnT1X5QTOncG6y7p2ITH0P9K0/kT0A1K83
- XEWQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m83dE-00007X-TZ
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:39:10 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id m1so13670504pjv.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:39:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HounEtXdJXkaiDOqTkSK8pSP6w+pOyqHckSdVoGV8Ho=;
+ b=jCvtNWlTMf9z3nUWR8WuFCr7ntrRSSnHy/0FU7+Y3zOTppOI3J/M5PtCLFOYfjndMA
+ BZNYHV1H4lL0b4nnhG20ZAKYLjNZgtvWSxqyr8NqfE2/uCL81EXt2MC07F2NOdxB/dhM
+ v0956ngdSwAHja6rl7xtTHrhIotkruCzprD+ROnruBuYtiJtdHWO41dvbisz3UzYQI/R
+ hS7wpnaTpH5Ul2HL8UyMTAjsjwtf3JgKqFP5rQ8+BbUhTQXjAtzKkUsvnaVQVCa29DzO
+ w68ZNoWQXgnQTHoJc+QCcbUClyHbtvrwL5DYywmnU0PXbL31zudNV3cYZMR+a9qmLypI
+ u7zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LI4MIKIrXobAvcOjaEFEW9fX3wqLTr3kgXCgQ2vuxmo=;
- b=FqfNY2X0KY+l2YSXCugDzgkGF73qW+HiaABqnItZceiXBSc3VpwH/cdcO0jHfN6rD8
- POs+Eh41ZFBU9EXEG7dovZ8/PJRcjIKa6EaufJ2JdMUtpF2vX4EZamJIkZv8ZAvUpLcV
- WYjRZ5V7IBRqqYqaexdX0nLt5O2slmHKi+c4yZoWXo5w0EjPxn1iJGlm9lrRhzLTum5K
- Ne3Le5hVNjht+ETeUC37lIr1mkFV1a93LVrJhWMkQet/Gf74xHOiW6kxi3XehkHbWwmG
- AdIHIeEVKJJ1iU+rfKNAMVP1dSp7sjIHoXcMzPTeDk+aUoVbVOJvN1Da3E4NUIC/Lcae
- VJDw==
-X-Gm-Message-State: AOAM530LzlZW7gWGzGQeHVUhQujJ/FMF2pcGOCm8tanImINt9EUw6nAc
- atfrkWpDYIfyBI8YujRtDDbYSrRhEQtcYyPynf4=
-X-Google-Smtp-Source: ABdhPJzqCsvV33+fZWN6zPFRMUJ4V7Le+N3Ag7cXVJSDsb7doYq2WxXXTY6I6J+BF7rr2hZkOGcPZcNcYQqB6u5w8JY=
-X-Received: by 2002:a05:6402:b79:: with SMTP id
- cb25mr22410506edb.164.1627317274721; 
- Mon, 26 Jul 2021 09:34:34 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HounEtXdJXkaiDOqTkSK8pSP6w+pOyqHckSdVoGV8Ho=;
+ b=E0D9so/2H7+lkcto97swOkHY3tO8A6INmC5yKDjoDHFV4T6znq3UzSTPq9zUqiIIHe
+ 7a9VxrfIleUkDCwcYiT3WPStTe9GSqLAgHffSlWJwzhivlMKdhJO39nyvG/jGOVBkWSt
+ Hi+hFgf2mKXL6Ot/x0zVPwWw6nkYBI6OXlPvfCC+38oTLkU9W89gPuUUt/Xd2GnvQwEr
+ ysjuX2G6aSsqhVN+i1j9mvvUn6XwXgUFMZ9SqnpwWAT7NqfBSZQrDUgZXxl52S4KWu15
+ RIRcJVgpCIIsVaskUDsJmOwF86hWaYj/ESVijHfbk2nQI4Iivl35NjORdz2gdTOIZ0Gh
+ JWkQ==
+X-Gm-Message-State: AOAM532KtHo3KhnPVThON6dLUHzCYh92/Bn8c0E5RwDjrH9pnI1m19OG
+ JaFPXDnjbU34/n5wVwI0ec6ypQ==
+X-Google-Smtp-Source: ABdhPJza1kriRjZW1SFyf6oj5quWByZDJVcDqIc4htKrcSdwssTBJe5T+AaQsxpkhTxkITcoOIBLtQ==
+X-Received: by 2002:a65:6088:: with SMTP id t8mr18777781pgu.371.1627317547051; 
+ Mon, 26 Jul 2021 09:39:07 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
+ (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
+ [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
+ by smtp.gmail.com with ESMTPSA id u12sm138645pju.15.2021.07.26.09.39.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jul 2021 09:39:06 -0700 (PDT)
+Subject: Re: [PATCH v2 09/22] target/loongarch: Add fixed point bit
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-10-git-send-email-gaosong@loongson.cn>
+ <41541363-117c-6428-cc46-2660827cb803@linaro.org>
+ <302f3f01-79b7-343f-9616-644fed0d146d@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d6f078bc-6f30-adb8-454f-101ae543428d@linaro.org>
+Date: Mon, 26 Jul 2021 06:39:02 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210726155235.2249878-1-kraxel@redhat.com>
- <20210726155235.2249878-4-kraxel@redhat.com>
-In-Reply-To: <20210726155235.2249878-4-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 26 Jul 2021 20:34:22 +0400
-Message-ID: <CAJ+F1CKaXPoQUNRtAqSPpJS+YEiHK0tvFNf4NAP390M=tKaUiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] qemu-ga/msi: fix w32 libgcc name
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000018c0eb05c8095497"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <302f3f01-79b7-343f-9616-644fed0d146d@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,96 +92,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000018c0eb05c8095497
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 7/26/21 2:22 AM, Song Gao wrote:
+> Hi, Richard.
+> 
+> On 07/23/2021 09:29 AM, Richard Henderson wrote:
+>> On 7/20/21 11:53 PM, Song Gao wrote:
+>>> This patch implement fixed point bit instruction translation.
+>>>
+>>> This includes:
+>>> - EXT.W.{B/H}
+>>> - CL{O/Z}.{W/D}, CT{O/Z}.{W/D}
+>>> - BYTEPICK.{W/D}
+>>> - REVB.{2H/4H/2W/D}
+>>> - REVH.{2W/D}
+>>> - BITREV.{4B/8B}, BITREV.{W/D}
+>>> - BSTRINS.{W/D}, BSTRPICK.{W/D}
+>>> - MASKEQZ, MASKNEZ
+>>>
+>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>> ---
+>>>    target/loongarch/helper.h     |  10 +
+>>>    target/loongarch/insns.decode |  45 +++
+>>>    target/loongarch/op_helper.c  | 119 ++++++++
+>>>    target/loongarch/trans.inc.c  | 665 ++++++++++++++++++++++++++++++++++++++++++
+>>>    4 files changed, 839 insertions(+)
+>>>
+>>> diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+>>> index 6c7e19b..bbbcc26 100644
+>>> --- a/target/loongarch/helper.h
+>>> +++ b/target/loongarch/helper.h
+>>> @@ -8,3 +8,13 @@
+>>>      DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+>>>    DEF_HELPER_2(raise_exception, noreturn, env, i32)
+>>> +
+>>> +DEF_HELPER_2(cto_w, tl, env, tl)
+>>> +DEF_HELPER_2(ctz_w, tl, env, tl)
+>>> +DEF_HELPER_2(cto_d, tl, env, tl)
+>>> +DEF_HELPER_2(ctz_d, tl, env, tl)
+>>
+>> The count leading and trailing zero operations are built into tcg.  Count leading and trailing one simply needs a NOT operation to convert it to zero.
+>>
+> 
+> My understanding is this：
+>     
+>    cto -> NOT operation (tcg_gen_not_tl)  -> ctz,
+> 
+>    is right?
 
-Hi
+Yes.
 
-On Mon, Jul 26, 2021 at 7:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> This is what I find on my Fedora 34 mingw install.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  qga/installer/qemu-ga.wxs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> index 9cb4c3d73302..ce7b25b5e16f 100644
-> --- a/qga/installer/qemu-ga.wxs
-> +++ b/qga/installer/qemu-ga.wxs
-> @@ -31,7 +31,7 @@
->    <?endif?>
->
->    <?if $(var.Arch) =3D "32"?>
-> -    <?define ArchLib=3Dlibgcc_s_sjlj-1.dll?>
-> +    <?define ArchLib=3Dlibgcc_s_dw2-1.dll?>
->      <?define GaProgramFilesFolder=3D"ProgramFilesFolder" ?>
->    <?endif?>
->
->
-msitools/wixl has Fedora WXI (wxs includes files) for that
-https://gitlab.gnome.org/GNOME/msitools/-/blob/master/data/wixl/gcc.wxi
-
-In theory, all you need is: "<?require $DEP.wxi?>" at the top level, and
-reference the component group "<ComponentGroupRef Id=3D"CG.$DEP"/>"
-
-That's how we handle the dozens for dependencies in virt-viewer/spice.
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000018c0eb05c8095497
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 26, 2021 at 7:56 PM Ger=
-d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This i=
-s what I find on my Fedora 34 mingw install.<br>
-<br>
-Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br>
----<br>
-=C2=A0qga/installer/qemu-ga.wxs | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs<br>
-index 9cb4c3d73302..ce7b25b5e16f 100644<br>
---- a/qga/installer/qemu-ga.wxs<br>
-+++ b/qga/installer/qemu-ga.wxs<br>
-@@ -31,7 +31,7 @@<br>
-=C2=A0 =C2=A0&lt;?endif?&gt;<br>
-<br>
-=C2=A0 =C2=A0&lt;?if $(var.Arch) =3D &quot;32&quot;?&gt;<br>
--=C2=A0 =C2=A0 &lt;?define ArchLib=3Dlibgcc_s_sjlj-1.dll?&gt;<br>
-+=C2=A0 =C2=A0 &lt;?define ArchLib=3Dlibgcc_s_dw2-1.dll?&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?define GaProgramFilesFolder=3D&quot;ProgramFilesFo=
-lder&quot; ?&gt;<br>
-=C2=A0 =C2=A0&lt;?endif?&gt;<br>
-<br></blockquote><div><br></div><div>msitools/wixl has Fedora WXI (wxs incl=
-udes files) for that</div><div><a href=3D"https://gitlab.gnome.org/GNOME/ms=
-itools/-/blob/master/data/wixl/gcc.wxi">https://gitlab.gnome.org/GNOME/msit=
-ools/-/blob/master/data/wixl/gcc.wxi</a></div><div><br></div>In theory, all=
- you need is: &quot;&lt;?require $DEP.wxi?&gt;&quot; at the top level, and =
-reference the component group &quot;&lt;ComponentGroupRef Id=3D&quot;CG.$DE=
-P&quot;/&gt;&quot;</div><div class=3D"gmail_quote"><br></div><div class=3D"=
-gmail_quote">That&#39;s how we handle the dozens for dependencies in virt-v=
-iewer/spice.</div><div class=3D"gmail_quote"><br></div>-- <br><div dir=3D"l=
-tr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000018c0eb05c8095497--
+r~
 
