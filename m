@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E83D692D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 00:03:01 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3873D6986
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 00:29:03 +0200 (CEST)
+Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m88gd-0001YW-RS
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 18:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1m895q-0003UQ-Bq
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 18:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m88fN-00009S-8w
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 18:01:41 -0400
-Received: from mga03.intel.com ([134.134.136.65]:54562)
+ id 1m894a-0001d3-QB
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 18:27:44 -0400
+Received: from mga11.intel.com ([192.55.52.93]:11570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m88fL-0006oU-IY
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 18:01:41 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="212361124"
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="212361124"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 15:01:34 -0700
+ id 1m894X-00072n-LG
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 18:27:44 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="209216061"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="209216061"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 15:27:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="416674394"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="474148865"
 Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
- by orsmga006.jf.intel.com with ESMTP; 26 Jul 2021 15:01:34 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 26 Jul 2021 15:27:37 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] ui/gtk-egl: blitting partial guest fb to the proper
- scanout surface
-Date: Mon, 26 Jul 2021 14:59:50 -0700
-Message-Id: <20210726215950.26705-2-dongwon.kim@intel.com>
+Subject: [PATCH 1/3] ui/gtk: adds status bar for expressing ups and fps
+Date: Mon, 26 Jul 2021 15:25:49 -0700
+Message-Id: <20210726222551.28795-1-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210726215950.26705-1-dongwon.kim@intel.com>
-References: <20210706235255.7575-1-dongwon.kim@intel.com>
- <20210726215950.26705-1-dongwon.kim@intel.com>
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=dongwon.kim@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=dongwon.kim@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,104 +53,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, vivek.kasireddy@intel.com,
- kraxel@redhat.com
+Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-eb_fb_blit should be able to blit partial image that represent a specific
-guest display in case there are multiple displays connected to the guest
-(One guest scanout FB contains all display outputs in a single dmabuf (blob-
-resource).).
+With a display option, "show-fps=on", qemu adds a status bar and print
+following performance numbers on the bar,
 
-v2: egl_fb includes dmabuf info then make egl_fb_blit position and size
-    parameters programmed in dmabuf structure (previously position/size
-    parameters were given to egl_fb_blit separately)
-    (Vivek Kasireddy)
+ups = update per seconds - the rate the guest scanout is updated.
+fps = frame per seconds - the frame rate of VC's GL drawing area
 
-    changed the commit message as there is no interface change to egl_fb_blit
+One function, gd_gl_count_frame is added to count # frames
+and calculate ups and fps every 100 frames or guest scanout updates.
 
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
 ---
- include/ui/egl-helpers.h |  1 +
- ui/egl-helpers.c         | 25 +++++++++++++++++++++----
- ui/gtk-egl.c             |  4 ++++
- 3 files changed, 26 insertions(+), 4 deletions(-)
+ include/ui/console.h |  4 +++-
+ include/ui/gtk.h     |  2 ++
+ qapi/ui.json         |  6 +++++-
+ ui/console.c         |  6 ++++++
+ ui/gtk.c             | 51 ++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 67 insertions(+), 2 deletions(-)
 
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index f1bf8f97fc..b6fced7062 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -19,6 +19,7 @@ typedef struct egl_fb {
-     GLuint texture;
-     GLuint framebuffer;
-     bool delete_texture;
-+    QemuDmaBuf *dmabuf;
- } egl_fb;
+diff --git a/include/ui/console.h b/include/ui/console.h
+index b30b63976a..3ca8d07220 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -243,7 +243,8 @@ typedef struct DisplayChangeListenerOps {
+     /* required if GL */
+     void (*dpy_gl_update)(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+-
++    /* optional */
++    void (*dpy_gl_count_frame)(DisplayChangeListener *dcl, bool ups);
+ } DisplayChangeListenerOps;
  
- void egl_fb_destroy(egl_fb *fb);
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 6d0cb2b5cb..80bc61fb70 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -90,14 +90,31 @@ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
+ struct DisplayChangeListener {
+@@ -314,6 +315,7 @@ void dpy_gl_release_dmabuf(QemuConsole *con,
+                            QemuDmaBuf *dmabuf);
+ void dpy_gl_update(QemuConsole *con,
+                    uint32_t x, uint32_t y, uint32_t w, uint32_t h);
++void dpy_gl_count_frame(QemuConsole *con, bool ups);
  
- void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip)
- {
--    GLuint y1, y2;
-+    GLuint x1 = 0;
-+    GLuint y1 = 0;
-+    GLuint x2, y2;
-+    GLuint w = src->width;
-+    GLuint h = src->height;
+ QEMUGLContext dpy_gl_ctx_create(QemuConsole *con,
+                                 QEMUGLParams *params);
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 9516670ebc..8d1a6c2cef 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -118,6 +118,7 @@ struct GtkDisplayState {
+     GtkWidget *show_tabs_item;
+     GtkWidget *untabify_item;
+     GtkWidget *show_menubar_item;
++    GtkWidget *status_bar;
  
-     glBindFramebuffer(GL_READ_FRAMEBUFFER, src->framebuffer);
-     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, dst->framebuffer);
-     glViewport(0, 0, dst->width, dst->height);
--    y1 = flip ? src->height : 0;
--    y2 = flip ? 0 : src->height;
--    glBlitFramebuffer(0, y1, src->width, y2,
+     GtkWidget *vbox;
+     GtkWidget *notebook;
+@@ -152,6 +153,7 @@ extern bool gtk_use_gl_area;
+ /* ui/gtk.c */
+ void gd_update_windowsize(VirtualConsole *vc);
+ int gd_monitor_update_interval(GtkWidget *widget);
++void gd_gl_count_frame(DisplayChangeListener *dcl, bool ups);
+ 
+ /* ui/gtk-egl.c */
+ void gd_egl_init(VirtualConsole *vc);
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 1052ca9c38..a0882d6428 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1035,13 +1035,17 @@
+ #               assuming the guest will resize the display to match
+ #               the window size then.  Otherwise it defaults to "off".
+ #               Since 3.1
++# @show-fps:    Enable showing Guest Scanout's update rate (UPS) and
++#               Surface render swap rate (FPS) on a status bar (default: off).
++#               Since 6.0
+ #
+ # Since: 2.12
+ #
+ ##
+ { 'struct'  : 'DisplayGTK',
+   'data'    : { '*grab-on-hover' : 'bool',
+-                '*zoom-to-fit'   : 'bool'  } }
++                '*zoom-to-fit'   : 'bool',
++                '*show-fps'      : 'bool'  } }
+ 
+ ##
+ # @DisplayEGLHeadless:
+diff --git a/ui/console.c b/ui/console.c
+index 2de5f4105b..31efdb0512 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1924,6 +1924,12 @@ void dpy_gl_update(QemuConsole *con,
+     con->gl->ops->dpy_gl_update(con->gl, x, y, w, h);
+ }
+ 
++void dpy_gl_count_frame(QemuConsole *con, bool ups)
++{
++    assert(con->gl);
++    con->gl->ops->dpy_gl_count_frame(con->gl, ups);
++}
 +
-+    if (src->dmabuf) {
-+        x1 = src->dmabuf->x;
-+        y1 = src->dmabuf->y;
-+        w = src->dmabuf->scanout_width;
-+        h = src->dmabuf->scanout_height;
+ /***********************************************************/
+ /* register display */
+ 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b..091da08028 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -549,6 +549,47 @@ static void gd_switch(DisplayChangeListener *dcl,
+     }
+ }
+ 
++void gd_gl_count_frame(DisplayChangeListener *dcl, bool ups)
++{
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++    gchar ups_fps_str[100];
++    static guint prev, curr;
++    static guint ups_cnt, fps_cnt, status_bar_id;
++    struct timeval tv;
++
++    if (!vc->s->opts->show_fps) {
++        return;
 +    }
 +
-+    w = (x1 + w) > src->width ? src->width - x1 : w;
-+    h = (y1 + h) > src->height ? src->height - y1 : h;
++    if (prev == 0) {
++        gettimeofday(&tv, NULL);
++        prev = tv.tv_sec * 1000000 + tv.tv_usec;
++    }
 +
-+    y2 = flip ? y1 : h + y1;
-+    y1 = flip ? h + y1 : y1;
-+    x2 = x1 + w;
++    if (ups) {
++        ups_cnt++;
++    } else {
++        fps_cnt++;
++    }
 +
-+    glBlitFramebuffer(x1, y1, x2, y2,
-                       0, 0, dst->width, dst->height,
-                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
- }
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index 2a2e6d3a17..636b2aa02c 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -209,6 +209,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
-                            QemuDmaBuf *dmabuf)
- {
- #ifdef CONFIG_GBM
-+    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++    /* update rate is calculated for every 200 frames */
++    if (ups_cnt == 200 || fps_cnt == 200) {
++        gettimeofday(&tv, NULL);
++        curr = tv.tv_sec * 1000000 + tv.tv_usec;
++        prev = curr - prev;
++        sprintf(ups_fps_str, "UPS : %0.2f u/s  FPS : %0.2f f/s",
++                ups_cnt * 1000000/(gfloat)prev, fps_cnt * 1000000/(gfloat)prev);
 +
-     egl_dmabuf_import_texture(dmabuf);
-     if (!dmabuf->texture) {
-         return;
-@@ -217,6 +219,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
-     gd_egl_scanout_texture(dcl, dmabuf->texture,
-                            false, dmabuf->width, dmabuf->height,
-                            0, 0, dmabuf->width, dmabuf->height);
++        status_bar_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(vc->s->status_bar),
++                                                     "ups_fps_info");
++        gtk_statusbar_pop(GTK_STATUSBAR(vc->s->status_bar), status_bar_id);
++        gtk_statusbar_push(GTK_STATUSBAR(vc->s->status_bar), status_bar_id, ups_fps_str);
++        prev = curr;
++        fps_cnt = 0;
++        ups_cnt = 0;
++     }
++}
 +
-+    vc->gfx.guest_fb.dmabuf = dmabuf;
- #endif
- }
+ static const DisplayChangeListenerOps dcl_ops = {
+     .dpy_name             = "gtk",
+     .dpy_gfx_update       = gd_update,
+@@ -594,6 +635,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
++    .dpy_gl_count_frame      = gd_gl_count_frame,
+ };
  
+ #ifdef CONFIG_X11
+@@ -618,6 +660,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
+     .dpy_gl_update           = gd_egl_scanout_flush,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
++    .dpy_gl_count_frame      = gd_gl_count_frame,
+ };
+ 
+ #endif
+@@ -2208,6 +2251,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     s->notebook = gtk_notebook_new();
+     s->menu_bar = gtk_menu_bar_new();
+ 
++    if (opts->show_fps) {
++        s->status_bar = gtk_statusbar_new();
++    }
++
+     s->free_scale = FALSE;
+ 
+     /* Mostly LC_MESSAGES only. See early_gtk_display_init() for details. For
+@@ -2248,6 +2295,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     gtk_box_pack_start(GTK_BOX(s->vbox), s->menu_bar, FALSE, TRUE, 0);
+     gtk_box_pack_start(GTK_BOX(s->vbox), s->notebook, TRUE, TRUE, 0);
+ 
++    if (opts->show_fps) {
++        gtk_box_pack_start(GTK_BOX(s->vbox), s->status_bar, FALSE, TRUE, 0);
++    }
++
+     gtk_container_add(GTK_CONTAINER(s->window), s->vbox);
+ 
+     gtk_widget_show_all(s->window);
 -- 
 2.17.1
 
