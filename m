@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC763D6781
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:31:52 +0200 (CEST)
-Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B523F3D678F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:37:38 +0200 (CEST)
+Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m86KN-0005N4-H2
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43338)
+	id 1m86Px-0002DM-Kn
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:37:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m868Q-0004fK-90; Mon, 26 Jul 2021 15:19:30 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:41785)
+ id 1m868T-0004h3-8k; Mon, 26 Jul 2021 15:19:33 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:36209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m868N-0007n0-OJ; Mon, 26 Jul 2021 15:19:30 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 0045A580411;
- Mon, 26 Jul 2021 15:19:27 -0400 (EDT)
+ id 1m868R-0007q7-LU; Mon, 26 Jul 2021 15:19:33 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E1A9B580411;
+ Mon, 26 Jul 2021 15:19:30 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 26 Jul 2021 15:19:27 -0400
+ by compute6.internal (MEProxy); Mon, 26 Jul 2021 15:19:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=Zu/rZACoGrJMQ
- vsq5CXXPNYtt/8U/uQ6Gucb6dmydZA=; b=XuzEI/+wLfztVg5p/EC2y5SPB/Tf+
- EbMMSEDrc6lQYZOMu1yQuQYjV0jlXzuig/xTkIhA5bYRc0EMiHrZ/+0AVFsfCAtJ
- KjuJnYif502smO0pTaYu+Ca1DAOJDZQ1/laqS2xKU1U5xM4FoPnpBC01BWGcIIq8
- DRS74FTA67lguayZB6T1p77tVXP8GkPaJA/Mxaw9IJeL5fBuFPSXUTX+9wC7vD9L
- Gb4mV1QvsP4LNhAlAoSjGo5NRXI/xiVysYJVqQDd3lZJTXN6p1TAXqmUG6O2TzAa
- otHm6FVOLOhQR+LM7TCBH/smYHzCJ+2fp9Xl3flOdSD2ErD0zlAzmzWCw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=p628K/cVIOKqD
+ l9bgic2q9Dr8HRS2yD8wYlwNPoN++A=; b=FzM5GsIDiS5d50xmN1n3OOBVkBhSK
+ mBF42+MpadmwuiWeBANwZp21EruzH+sPiRhqE/Lclw/1MtSkdqVdX1l/8dOdZdf/
+ V29qKacnbfZ5gKbHgJZFvG36fCGflqFqbcORleKEbWI615ZEwD8mUe/KzTTBjxZx
+ AyUc5NSFhZ0pLJ5pe8hh3e9/KAulm9HlSx2wLk7n4wAZxCnSF7/UXnwsEgX1ny9K
+ A+15KmC8uARdoZdqynnpK9fynPOb0IIdaDqGTZGnchlCaEpQ79kcEwyS69zfCfEh
+ L7n0+YvgpfhiEs3XANEw/SfbyTNRE50lUvGJp266NDg2cKcSvhvFZY55Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=Zu/rZACoGrJMQvsq5CXXPNYtt/8U/uQ6Gucb6dmydZA=; b=CM1KVaLS
- c9BWPMBY3lAJDQ9qOQV0xkPe+TCJuf5qIp2vGk6HsCf3CS7v2EN+VyJz+smxfRvf
- XNiHQXhZNjf4pjBPZfdPqvkN55a2iOn/kw24QSsbo1JxrEB4z2AG/CNvC1e+t9ML
- OprBbWw1j1wC/HS67bfiXaSmoqPr5c26RHbiIjVXwz5i7mb0qhl6I49KHWNiqJTt
- +M7HP4zSlovYpV3iZeXafzORGPeV9IiTL4pRy+CtE3+hUIAqk2Zmm81Gzshlqnbq
- ieN0JIGff0b33ui0L/2lffVQZRjcZLfcawu21HXCVmPN5Zg15SMXmyvCvo4z3+0b
- Jb/R8kbmwD9uvg==
-X-ME-Sender: <xms:vgr_YG4nQ-5P2TxxsfcBz0hZXuZdumZ5GzDEto_rc6jQJu9ekWJQ-A>
- <xme:vgr_YP65Ys3dmST9BTEQC_JqYLaJvWaEJE7N1_2QKcU-YnU9MH2D41QgfFuGZJ9D-
- no1kPZg9rSU0N3W3mI>
-X-ME-Received: <xmr:vgr_YFe9q9dYYGAhNmFUa038tc1cU0cT52fxNufgehusiqWw_qEplZOA5iPcPbH3mL6MWJsybbPib5qBtNWdi3kqKLcA8huVetZoalhY3w>
+ fm3; bh=p628K/cVIOKqDl9bgic2q9Dr8HRS2yD8wYlwNPoN++A=; b=oBy6YurA
+ xeKbGy8gfthCjlymD12io7t+eIeqIfJTf8e96iz2aZ2nF4YVXTAkxVOzFjPhF9sr
+ RUsU2UQZmT9xCINxJ/YchaJlP1qZy2WqvbqqrhJ+L3bO8f8cnpVgxoeGpG6afqJJ
+ fphC0P5W8PHt5/ZQRkkSxSvozb9yRwx/8TUgcXdRwrUL3xUbV23PX6QmQsOCLj7f
+ 0r0vA61GjAoUXjxfTST/GnINLV83walr3ME/KemUGEEk3AlB6/d7LkXAXSiPy6J5
+ 0JCjIjX/n2Hcs3sNZwkSp+YvvqL+St2TSx5LeEuirhfVXJHQgGtjOj+9qRotzHy2
+ hu9EpXCWLMC5/g==
+X-ME-Sender: <xms:wgr_YCK8rHVl3QcjecQRY9ID2AsTa13nquwe4D_K996925g1E8OKAA>
+ <xme:wgr_YKLC4H7iB4BPbbpawHDgtBrSfgJAYTU--EywDB0QS_7DUN9DGEEZtH78pjmm5
+ H_PAQ3l1_jfT7MTn6s>
+X-ME-Received: <xmr:wgr_YCvDSNXeI68iuh5X1Acqz8H7W31yMZi8OPQdlBIVS8L2GtFkFqEkYMOSuW8IZMT9g0Zr5aC3LerF6HHA8oDcYl9aWRQyz8w0oC4y7Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgddufedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:vgr_YDI0U2PRHh8FPzks9YnSwjcaUW7NMCCDnPSsmDpQBAFqHauiwg>
- <xmx:vgr_YKLprcGA5YnMpU67A7nrHrfEDPCwoM8XqsakGu-afpzDa-i95g>
- <xmx:vgr_YEyiMhXTldzyQYsJJsTgrr9PEi5GNhN0c8xEZjRE-zs6Wv_BWQ>
- <xmx:vgr_YMCwRcP7eVOV0lqnIgEUamaEJDTfFEFSemSBRbU1TmD0ttGBSg>
+X-ME-Proxy: <xmx:wgr_YHYn26k9wr4HUG7U3GK1p5qeKbg7CXlZZr41pem73Ft8fxEjLw>
+ <xmx:wgr_YJaVzygNQItgVLmVEjSwU5OVJUdE9LdysVXODgDy7sEF9_dlIA>
+ <xmx:wgr_YDAR9ls-REAB6KkNktGd_F35P_I_2R5UIgO1JWgkD3JmOMr7LA>
+ <xmx:wgr_YNSsPhE9zECUdo1LrFCUbtMnsJImHFAzt0cvQy1jOptuLoZSnw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Jul 2021 15:19:24 -0400 (EDT)
+ 26 Jul 2021 15:19:27 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL for-6.1 05/11] tests/qtest/nvme-test: add persistent memory
- region test
-Date: Mon, 26 Jul 2021 21:18:55 +0200
-Message-Id: <20210726191901.4680-6-its@irrelevant.dk>
+Subject: [PULL for-6.1 06/11] hw/nvme: fix controller hot unplugging
+Date: Mon, 26 Jul 2021 21:18:56 +0200
+Message-Id: <20210726191901.4680-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210726191901.4680-1-its@irrelevant.dk>
 References: <20210726191901.4680-1-its@irrelevant.dk>
@@ -95,117 +94,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This will test the PMR functionality.
+Prior to this patch the nvme-ns devices are always children of the
+NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
+unrealized when the parent device is removed. However, when subsystems
+are involved, this is not what we want since the namespaces may be
+attached to other controllers as well.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-[k.jensen: replaced memory-backend-file with memory-backend-ram]
+This patch adds an additional NvmeBus on the subsystem device. When
+nvme-ns devices are realized, if the parent controller device is linked
+to a subsystem, the parent bus is set to the subsystem one instead. This
+makes sure that namespaces are kept alive and not unrealized.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- tests/qtest/nvme-test.c | 61 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+ hw/nvme/nvme.h   | 15 ++++++++-------
+ hw/nvme/ctrl.c   | 14 ++++++--------
+ hw/nvme/ns.c     | 18 ++++++++++++++++++
+ hw/nvme/subsys.c |  3 +++
+ 4 files changed, 35 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
-index d32c953a3824..47e757d7e2af 100644
---- a/tests/qtest/nvme-test.c
-+++ b/tests/qtest/nvme-test.c
-@@ -13,6 +13,7 @@
- #include "libqos/libqtest.h"
- #include "libqos/qgraph.h"
- #include "libqos/pci.h"
-+#include "include/block/nvme.h"
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index c4065467d877..83ffabade4cf 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -33,12 +33,20 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROADCAST - 1);
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
  
- typedef struct QNvme QNvme;
++#define TYPE_NVME_BUS "nvme-bus"
++OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
++
++typedef struct NvmeBus {
++    BusState parent_bus;
++} NvmeBus;
++
+ #define TYPE_NVME_SUBSYS "nvme-subsys"
+ #define NVME_SUBSYS(obj) \
+     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
  
-@@ -66,12 +67,65 @@ static void nvmetest_oob_cmb_test(void *obj, void *data, QGuestAllocator *alloc)
-     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=, 0x44332211);
+ typedef struct NvmeSubsystem {
+     DeviceState parent_obj;
++    NvmeBus     bus;
+     uint8_t     subnqn[256];
+ 
+     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+@@ -365,13 +373,6 @@ typedef struct NvmeCQueue {
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+ } NvmeCQueue;
+ 
+-#define TYPE_NVME_BUS "nvme-bus"
+-#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
+-
+-typedef struct NvmeBus {
+-    BusState parent_bus;
+-} NvmeBus;
+-
+ #define TYPE_NVME "nvme"
+ #define NVME(obj) \
+         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index ead7531bde5e..2f0524e12a36 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6527,16 +6527,14 @@ static void nvme_exit(PCIDevice *pci_dev)
+ 
+     nvme_ctrl_reset(n);
+ 
+-    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+-        ns = nvme_ns(n, i);
+-        if (!ns) {
+-            continue;
++    if (n->subsys) {
++        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
++            ns = nvme_ns(n, i);
++            if (ns) {
++                ns->attached--;
++            }
+         }
+ 
+-        nvme_ns_cleanup(ns);
+-    }
+-
+-    if (n->subsys) {
+         nvme_subsys_unregister_ctrl(n->subsys, n);
+     }
+ 
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 3c4f5b8c714a..b7cf1494e75b 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -441,6 +441,15 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
+     }
  }
  
-+static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator *alloc)
++static void nvme_ns_unrealize(DeviceState *dev)
 +{
-+    QNvme *nvme = obj;
-+    QPCIDevice *pdev = &nvme->dev;
-+    QPCIBar pmr_bar, nvme_bar;
-+    uint32_t pmrcap, pmrsts;
++    NvmeNamespace *ns = NVME_NS(dev);
 +
-+    qpci_device_enable(pdev);
-+    pmr_bar = qpci_iomap(pdev, 4, NULL);
-+
-+    /* Without Enabling PMRCTL check bar enablemet */
-+    qpci_io_writel(pdev, pmr_bar, 0, 0xccbbaa99);
-+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=, 0x99);
-+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=, 0xaa99);
-+
-+    /* Map NVMe Bar Register to Enable the Mem Region */
-+    nvme_bar = qpci_iomap(pdev, 0, NULL);
-+
-+    pmrcap = qpci_io_readl(pdev, nvme_bar, 0xe00);
-+    g_assert_cmpint(NVME_PMRCAP_RDS(pmrcap), ==, 0x1);
-+    g_assert_cmpint(NVME_PMRCAP_WDS(pmrcap), ==, 0x1);
-+    g_assert_cmpint(NVME_PMRCAP_BIR(pmrcap), ==, 0x4);
-+    g_assert_cmpint(NVME_PMRCAP_PMRWBM(pmrcap), ==, 0x2);
-+    g_assert_cmpint(NVME_PMRCAP_CMSS(pmrcap), ==, 0x1);
-+
-+    /* Enable PMRCTRL */
-+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x1);
-+
-+    qpci_io_writel(pdev, pmr_bar, 0, 0x44332211);
-+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), ==, 0x11);
-+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), ==, 0x2211);
-+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), ==, 0x44332211);
-+
-+    pmrsts = qpci_io_readl(pdev, nvme_bar, 0xe08);
-+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), ==, 0x0);
-+
-+    /* Disable PMRCTRL */
-+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x0);
-+
-+    qpci_io_writel(pdev, pmr_bar, 0, 0x88776655);
-+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=, 0x55);
-+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=, 0x6655);
-+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), !=, 0x88776655);
-+
-+    pmrsts = qpci_io_readl(pdev, nvme_bar, 0xe08);
-+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), ==, 0x1);
-+
-+    qpci_iounmap(pdev, nvme_bar);
-+    qpci_iounmap(pdev, pmr_bar);
++    nvme_ns_drain(ns);
++    nvme_ns_shutdown(ns);
++    nvme_ns_cleanup(ns);
 +}
 +
- static void nvme_register_nodes(void)
+ static void nvme_ns_realize(DeviceState *dev, Error **errp)
  {
-     QOSGraphEdgeOptions opts = {
-         .extra_device_opts = "addr=04.0,drive=drv0,serial=foo",
-         .before_cmd_line = "-drive id=drv0,if=none,file=null-co://,"
--                           "file.read-zeroes=on,format=raw",
-+                           "file.read-zeroes=on,format=raw "
-+                           "-object memory-backend-ram,id=pmr0,"
-+                           "share=on,size=8",
-     };
+     NvmeNamespace *ns = NVME_NS(dev);
+@@ -462,6 +471,14 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+                        "linked to an nvme-subsys device");
+             return;
+         }
++    } else {
++        /*
++         * If this namespace belongs to a subsystem (through a link on the
++         * controller device), reparent the device.
++         */
++        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
++            return;
++        }
+     }
  
-     add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
-@@ -83,6 +137,11 @@ static void nvme_register_nodes(void)
-     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGraphTestOptions) {
-         .edge.extra_device_opts = "cmb_size_mb=2"
-     });
+     if (nvme_ns_setup(ns, errp)) {
+@@ -552,6 +569,7 @@ static void nvme_ns_class_init(ObjectClass *oc, void *data)
+ 
+     dc->bus_type = TYPE_NVME_BUS;
+     dc->realize = nvme_ns_realize;
++    dc->unrealize = nvme_ns_unrealize;
+     device_class_set_props(dc, nvme_ns_props);
+     dc->desc = "Virtual NVMe namespace";
+ }
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index 92caa604a280..93c35950d69d 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -50,6 +50,9 @@ static void nvme_subsys_realize(DeviceState *dev, Error **errp)
+ {
+     NvmeSubsystem *subsys = NVME_SUBSYS(dev);
+ 
++    qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
++                        dev->id);
 +
-+    qos_add_test("pmr-test-access", "nvme", nvmetest_pmr_reg_test,
-+                 &(QOSGraphTestOptions) {
-+        .edge.extra_device_opts = "pmrdev=pmr0"
-+    });
+     nvme_subsys_setup(subsys);
  }
  
- libqos_init(nvme_register_nodes);
 -- 
 2.32.0
 
