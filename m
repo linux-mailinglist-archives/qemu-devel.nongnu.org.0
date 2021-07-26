@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414CD3D685B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:01:57 +0200 (CEST)
-Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D023D696A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 00:21:57 +0200 (CEST)
+Received: from localhost ([::1]:58036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m87jX-0000RI-SV
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
+	id 1m88yx-0007pe-MY
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 18:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m87iO-00086u-Iu
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:00:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22540)
+ (Exim 4.90_1) (envelope-from <helgaas@kernel.org>)
+ id 1m87xj-0002ai-HT
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:16:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m87iK-0008Rs-Mq
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627333235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=c0QK0wzaYu7CL+Lx/Egmnlnla0nySEPLVQPqc9xpxSU=;
- b=GlqM5NG5wCKfuWVc/6bcujabM8J2F+Pd7mfEodXM7d2kgJOEDaVLLlwtZ3f98jBeLs3v53
- DFmQyfJJ2AnmS1T4vCw1YnDMpekK0HM3yYk9g/PbE7jDc692pehqt8OjdcWTq2J79+3Yyl
- Dk3oAeIwa+PqIBHqugZTC61OhQHrQbg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-w4Li0QyCOo6fyWnCYu6CwQ-1; Mon, 26 Jul 2021 17:00:20 -0400
-X-MC-Unique: w4Li0QyCOo6fyWnCYu6CwQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7474B1074661;
- Mon, 26 Jul 2021 21:00:19 +0000 (UTC)
-Received: from localhost (unknown [10.22.9.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7812101E249;
- Mon, 26 Jul 2021 21:00:18 +0000 (UTC)
-Date: Mon, 26 Jul 2021 17:00:18 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Jade Cheng <chengjiayao@bytedance.com>
-Subject: Re: [PATCH] Fix CPUID_Fn8000001E_EBX for AMD
-Message-ID: <20210726210018.bfpd7rpnatw5377z@habkost.net>
-References: <20210630082551.12956-1-chengjiayao@bytedance.com>
+ (Exim 4.90_1) (envelope-from <helgaas@kernel.org>)
+ id 1m87xg-0002AN-N9
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:16:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 63C0760F5A;
+ Mon, 26 Jul 2021 21:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627334189;
+ bh=TW3imY0eqWpjUVT7VigS5rrty4JOmaH1xYhAU48sXjI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=FquQcsAyUEYu/B8EowmAViL4zRb3KWExdq0dnQ9Iq01+yulPqSzC6aldArjYG6fM9
+ VYyd5lvzicAV3gfFdM5lziq/vTQJFTf+t2U24eno1k6bEuvM1N9lcqVzE3DwOE8un7
+ RMmNmBMOhALps24OYL3aMuUSKMJkk10MSHk0XxIsqQ9s1O0dLZ6WH9ODpacCpw/aq3
+ +6lwBX3A+n5j0tnfsSQlSr+5lWO0VeYrJ0YkqTB1PtmkeuNZiAZDhHo1jyXKZ7yDYJ
+ 2ga/7vJFujKJpbMXuDOAKhtDEh5vWTy4Yq4mxGnCyqCAfX7XqQ8r+Ju/u27mZAbRpR
+ qdjqrubo4vvaA==
+Date: Mon, 26 Jul 2021 16:16:28 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+Message-ID: <20210726211628.GA640636@bjorn-Precision-5520>
 MIME-Version: 1.0
-In-Reply-To: <20210630082551.12956-1-chengjiayao@bytedance.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=helgaas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 26 Jul 2021 18:20:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,68 +63,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, pizhenwei@bytedance.com,
- Babu Moger <babu.moger@amd.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CCing the original author of that code (Babu Moger).
-
-On Wed, Jun 30, 2021 at 04:25:51PM +0800, Jade Cheng wrote:
-> According to AMD64 Arch Programmer's Manual Appendix D,
-> bits 7:0 in Fn8000_001E_EBX should be physical core(s) per logical processor, not per die.
-
-Do you mean physical cores per package/socket?
-
+On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
+> (cc Bjorn)
 > 
-> Signed-off-by: Jade Cheng <chengjiayao@bytedance.com>
-
-Do you have a pointer to the specific paragraph of the
-documentation that states that?
-
-https://www.amd.com/system/files/TechDocs/24594.pdf
-page 634 says:
-
-  CPUID Fn8000_001E_EBX Compute Unit Identifiers
-  [...]
-  7:0 ComputeUnitId Compute unit ID. Identifies a Compute Unit,
-                    which may be one or more physical cores that each implement
-                    one or more logical processors
-
-I don't see any content referencing physical cores per logical
-processor, or physical cores per package/socket.
-
-Which problem are you trying to fix here?
-
-
-> ---
->  target/i386/cpu.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> > On 7/26/21 12:56 AM, Guenter Roeck wrote:
+> > > On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+> > >> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+> > >>> Hi all,
+> > >>>
+> > >>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
+> > >>> work. Analysis shows that PCI devices with IO ports do not instantiate
+> > >>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affects
+> > >>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+> > >>> affects
+> > >>> aarch64, not x86/x86_64.
+> > >>>
+> > >>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
+> > >>> keep firmware resource map"). Since this commit, PCI device BAR
+> > >>> allocation has changed. Taking tulip as example, the kernel reports
+> > >>> the following PCI bar assignments when running qemu v5.2.
+> > >>>
+> > >>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> > >>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> > >>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
 > 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index a9fe1662d3..417f5ba81f 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -381,7 +381,13 @@ static void encode_topo_cpuid8000001e(X86CPU *cpu, X86CPUTopoInfo *topo_info,
->       *  NOTE: CoreId is already part of apic_id. Just use it. We can
->       *  use all the 8 bits to represent the core_id here.
->       */
-> -    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.core_id & 0xFF);
-> +    uint32_t core_id = topo_ids.core_id;
-> +
-> +    if (IS_AMD_CPU(&cpu->env)) {
-> +        core_id = topo_ids.core_id + topo_ids.die_id * topo_info->cores_per_die;
-> +    }
-> +
-> +    *ebx = ((topo_info->threads_per_core - 1) << 8) | (core_id & 0xFF);
->  
->      /*
->       * CPUID_Fn8000001E_ECX [Node Identifiers] (NodeId)
-> -- 
-> 2.24.3 (Apple Git-128)
+> IIUC, these lines are read back from the BARs
 > 
+> > >>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+> > >>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+> > >>> 0x10000000-0x1000007f]
+> > >>>
+> 
+> ... and this is the assignment created by the kernel.
+> 
+> > >>> With qemu v6.0, the assignment is reported as follows.
+> > >>>
+> > >>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> > >>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> > >>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+> 
+> The problem here is that Linux, for legacy reasons, does not support
+> I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI is
+> rejected.
+> 
+> This might make sense on x86, where legacy I/O ports may exist, but on
+> other architectures, this makes no sense.
 
--- 
-Eduardo
+I guess this is the "#define PCIBIOS_MIN_IO 0x1000" in
+arm64/include/asm/pci.h.  From a PCI point of view, I'm not opposed to
+changing that to 0, as it is on csky, riscv, sh, sparc, um.  But it's
+really an arch question, so the arm64 folks would have to weigh in.
 
+But I don't think that would fix this.  PCIBIOS_MIN_IO is mainly used
+when we assign or reassign resources to a BAR, and if firmware tells
+us to preserve the assignments done by firmware, Linux shouldn't be
+doing any assignment or reassignment.
+
+Linux received 00:01.0 BAR 0 as [io 0x0000-0x007f], and Guenter didn't
+report any reassignment, so I assume Linux saw the
+DSM_PCI_PRESERVE_BOOT_CONFIG [1] and didn't change anything.
+
+Could this be due to drivers assuming that an I/O BAR of 0 is invalid?
+I see that at least ne2k_pci_init_one() [2] seems to assume that.  And
+tulip_init_one() [3] and pci_esp_probe_one() (am53c974.c, [4]) use
+pci_iomap() [5], which fails if the resource starts at 0.
+
+So pci_iomap() is probably already broken on the arches above that
+allow I/O BARs to be zero.  Maybe pci_iomap() should only fail on
+"!start" for *memory* BARs, e.g.,
+
+diff --git a/lib/pci_iomap.c b/lib/pci_iomap.c
+index 2d3eb1cb73b8..77455e702a3e 100644
+--- a/lib/pci_iomap.c
++++ b/lib/pci_iomap.c
+@@ -34,7 +34,9 @@ void __iomem *pci_iomap_range(struct pci_dev *dev,
+ 	resource_size_t len = pci_resource_len(dev, bar);
+ 	unsigned long flags = pci_resource_flags(dev, bar);
+ 
+-	if (len <= offset || !start)
++	if (flags & IORESOURCE_MEM && !start)
++		return NULL;
++	if (len <= offset)
+ 		return NULL;
+ 	len -= offset;
+ 	start += offset;
+
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/acpi/pci_root.c?id=v5.13#n915
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/8390/ne2k-pci.c?id=v5.13#n247
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/dec/tulip/tulip_core.c?id=v5.13#n1418
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/am53c974.c?id=v5.13#n431
+[5] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/pci_iomap.c?id=v5.13#n37
+
+> > >>> and the controller does not instantiate. The problem disapears after
+> > >>> reverting commit 0cf8882fd0.
+> > >>>
+> > >>> Attached is a summary of test runs with various devices and qemu v5.2
+> > >>> as well as qemu v6.0, and the command line I use for efi boots.
+> > >>>
+> > >>> Did commit 0cf8882fd0 introduce a bug, do I now need need some different
+> > >>> command line to instantiate PCI devices with io ports, or are such
+> > >>> devices
+> > >>> simply no longer supported if the system is booted with efi support ?
+> > >>>
+> > >>> Thanks,
+> > >>> Guenter
+> > >>
+> > >>
+> > >> So that commit basically just says don't ignore what efi did.
+> > >>
+> > >> The issue's thus likely efi.
+> > >>
+> > >
+> > > I don't see the problem with efi boots on x86 and x86_64.
+> > > Any idea why that might be the case ?
+> > >
+> > > Thanks,
+> > > Guenter
+> > >
+> > >> Cc the maintainer. Philippe can you comment pls?
+> >
+> > I'll have a look. Cc'ing Ard for EDK2/Aarch64.
+> 
+> So a potential workaround would be to use a different I/O resource
+> window for ArmVirtPkg, that starts at 0x1000. But I would prefer to
+> fix Linux instead.
+> 
+> 
+> > >>
+> > >>> ---
+> > >>> Command line (tulip network interface):
+> > >>>
+> > >>> CMDLINE="root=/dev/vda console=ttyAMA0"
+> > >>> ROOTFS="rootfs.ext2"
+> > >>>
+> > >>> qemu-system-aarch64 -M virt -kernel arch/arm64/boot/Image -no-reboot \
+> > >>>          -m 512 -cpu cortex-a57 -no-reboot \
+> > >>>          -device tulip,netdev=net0 -netdev user,id=net0 \
+> > >>>          -bios QEMU_EFI-aarch64.fd \
+> > >>>          -snapshot \
+> > >>>          -device virtio-blk-device,drive=d0 \
+> > >>>          -drive file=${ROOTFS},if=none,id=d0,format=raw \
+> > >>>          -nographic -serial stdio -monitor none \
+> > >>>          --append "${CMDLINE}"
+> > >>>
+> > >>> ---
+> > >>> Boot tests with various devices known to work in qemu v5.2.
+> > >>>
+> > >>>         v5.2    v6.0    v6.0
+> > >>>         efi    non-efi    efi
+> > >>> e1000        pass    pass    pass
+> > >>> e1000-82544gc    pass    pass    pass
+> > >>> e1000-82545em    pass    pass    pass
+> > >>> e1000e        pass    pass    pass
+> > >>> i82550        pass    pass    pass
+> > >>> i82557a        pass    pass    pass
+> > >>> i82557b        pass    pass    pass
+> > >>> i82557c        pass    pass    pass
+> > >>> i82558a        pass    pass    pass
+> > >>> i82559b        pass    pass    pass
+> > >>> i82559c        pass    pass    pass
+> > >>> i82559er    pass    pass    pass
+> > >>> i82562        pass    pass    pass
+> > >>> i82801        pass    pass    pass
+> > >>> ne2k_pci    pass    pass    fail    <--
+> > >>> pcnet        pass    pass    pass
+> > >>> rtl8139        pass    pass    pass
+> > >>> tulip        pass    pass    fail    <--
+> > >>> usb-net        pass    pass    pass
+> > >>> virtio-net-device
+> > >>>         pass    pass    pass
+> > >>> virtio-net-pci    pass    pass    pass
+> > >>> virtio-net-pci-non-transitional
+> > >>>         pass    pass    pass
+> > >>>
+> > >>> usb-xhci    pass    pass    pass
+> > >>> usb-ehci    pass    pass    pass
+> > >>> usb-ohci    pass    pass    pass
+> > >>> usb-uas-xhci    pass    pass    pass
+> > >>> virtio        pass    pass    pass
+> > >>> virtio-blk-pci    pass    pass    pass
+> > >>> virtio-blk-device
+> > >>>         pass    pass    pass
+> > >>> nvme        pass    pass    pass
+> > >>> sdhci        pass    pass    pass
+> > >>> dc390        pass    pass    fail    <--
+> > >>> am53c974    pass    pass    fail    <--
+> > >>> lsi53c895ai    pass    pass    pass
+> > >>> mptsas1068    pass    pass    pass
+> > >>> lsi53c810    pass    pass    pass
+> > >>> megasas        pass    pass    pass
+> > >>> megasas-gen2    pass    pass    pass
+> > >>> virtio-scsi-device
+> > >>>         pass    pass    pass
+> > >>> virtio-scsi-pci    pass    pass    pass
+> > >>
+> > >
+> >
+> 
 
