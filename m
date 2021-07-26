@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47203D5D87
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 17:43:40 +0200 (CEST)
-Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B553D5DC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 17:44:11 +0200 (CEST)
+Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m82lX-000798-QD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 11:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
+	id 1m82m2-00009j-Hg
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 11:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m82kH-0006Fn-Qj
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:42:21 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m82kF-0003oj-UM
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:42:21 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id f13so8443998edq.13
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 08:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xn17/w/cYHBEpRlaWDRS5HB25/bVhOhpdJGaS1Uhjio=;
- b=fcmCMs2Zv5oZQilxuhbAOfoxQzabTKQDu2pnD/VvFnMoqzCygjpnu5Q3yPRkzcmY36
- XTTzFtIy92b5WQofJIJo50JRoyuIEP8+jzuMzocWaC75piO44PbV4BqFYmFlelaff2ur
- CGQ3e1TcWykM7RIxudxQGy3GMEQ6PLgpYl4nnnOarIiXAmsMVrG4wdl7CdgKxPDs7XWu
- 8YLyWLa6KNtjQu+SIajCePEt1e0LgSCio3CkqLfgpu3zTDtKNcFJijw1Zt4k3kMVVyd/
- XJHvS1GMJ05mq5vyvQR4lYQWNzv+Zr4NcHW6H50jh8GjzcZWdzdc/74d/bjOK7616Ljq
- 7RXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xn17/w/cYHBEpRlaWDRS5HB25/bVhOhpdJGaS1Uhjio=;
- b=du4h718D+KIHQ6SeRUBf6jQfMWY40Dyzx7Gs7NuZTuBON2gtSiD+C2ttOXq49Lgo8B
- gfE8U7S550yBmhOccsbkHm4cybFhtJqyMNZuu+JelBcLcgh/o+MfgcF8i/v8xZwb1Xus
- fk86AjJxbSuJiBZa/B6qncf/tOUdi7Jzu5gu3hfI2XFPFJ94uRn2rK1oyPlCQhGuniz3
- GRLBVWpp8njo8WQ0Bn/8nr1kcdIXJ4+dFtex18d32pNmtYYtksaEhvJ6aohMf/2+uTQy
- qOCw63pt04AtxrQeihRKn3bnHMBUh4a15fHnVLQz7sdVzFGd8W6ua7OTkU2pIqxoAeae
- 3iTg==
-X-Gm-Message-State: AOAM531R6jTkk2og3vaOC3DkkTfDvxpxEwExZF7PQcZ1N+n+9QNszBM3
- eliKtRPbWe2U33yRg3vvk7zG++qar1Y9GyFabimn2g==
-X-Google-Smtp-Source: ABdhPJxoYYdWSHF6pUxT1Ub2ZDBOLoug/vS9sHe0MmKjOr0j3zgPcFqc20Or7uSxE0EfPFyvJfD/iqraaZWUwIs4AVs=
-X-Received: by 2002:a50:f615:: with SMTP id c21mr5770570edn.146.1627314137732; 
- Mon, 26 Jul 2021 08:42:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m82kt-00078F-7I
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:42:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m82kr-0004Di-IR
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:42:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627314176;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6b0Xr49/wTVW6DHTeUbSGF7FnjrVsFlUZXt0NfEEl8Y=;
+ b=azr+Di1bg3BpxnYb7BH/6fxCX205YRVZ4Obkk8iHL9Om1kYhYwKLzV0TmLTZFFdl+Zz1E5
+ iVdDYynEHje++uTrasbX1ydwOL7Cqifc70Cg4es6CRR10k2nP3mG9pQjATb8obPckTx6Ay
+ AHWSAQFLFIfq77hYlprsE07hI4LsHzo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-yf4q2UWRMRabw9_gk9_eDQ-1; Mon, 26 Jul 2021 11:42:55 -0400
+X-MC-Unique: yf4q2UWRMRabw9_gk9_eDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33B1F800D55;
+ Mon, 26 Jul 2021 15:42:54 +0000 (UTC)
+Received: from redhat.com (ovpn-113-84.ams2.redhat.com [10.36.113.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C09FD5D9D3;
+ Mon, 26 Jul 2021 15:42:48 +0000 (UTC)
+Date: Mon, 26 Jul 2021 17:42:47 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] raw-format: drop WRITE and RESIZE child perms when
+ possible
+Message-ID: <YP7X92k+dWBNvORR@redhat.com>
+References: <20210726122839.822900-1-stefanha@redhat.com>
+ <57dd2772-352b-75b1-6ed2-474423d7680e@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210723203344.968563-1-richard.henderson@linaro.org>
- <CAFEAcA_AKpibWQuX4gapGD+u=KCL9-er-ejPGS_cVyNbsuLJJQ@mail.gmail.com>
- <20210726150056.2sis5ssif2l3xjcf@gator>
-In-Reply-To: <20210726150056.2sis5ssif2l3xjcf@gator>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Jul 2021 16:41:35 +0100
-Message-ID: <CAFEAcA8=ve-eDuk43yNV=VKvXX=cq_NswXWayrMkbAJu2VTdbg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] target/arm: Add sve-default-vector-length cpu
- property
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <57dd2772-352b-75b1-6ed2-474423d7680e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,59 +77,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-block@nongnu.org, afrosi@redhat.com, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 16:01, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Mon, Jul 26, 2021 at 01:42:45PM +0100, Peter Maydell wrote:
-> > On Fri, 23 Jul 2021 at 21:34, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> > >
-> > > This is intended to resolve #482.
-> > >
-> > > Changes for v2:
-> > >   * Split out length bounding fix to new patch.
-> > >   * Use byte units for sve-default-vector-length.
-> > >   * Support undocumented -1 "maximum".
-> > >   * Add documentation.
-> >
-> > I'm going to apply this to target-arm.next with the following
-> > docs tweak squashed into patch 3:
-> >
-> > diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-> > index 4ff36cc83f0..7b97df442aa 100644
-> > --- a/docs/system/arm/cpu-features.rst
-> > +++ b/docs/system/arm/cpu-features.rst
-> > @@ -379,11 +379,14 @@ example's (1), (4), and (6) exhibit recommended
-> > uses of the properties.
-> >  SVE User-mode Default Vector Length Property
-> >  --------------------------------------------
-> >
-> > -For qemu-aarch64, the cpu property `sve-default-vector-length=N` is
-> > +For qemu-aarch64, the cpu property ``sve-default-vector-length=N`` is
-> >  defined to mirror the Linux kernel parameter file
-> > -`/proc/sys/abi/sve_default_vector_length`.  The default length, `N`,
-> > -is in units of bytes and must be between 16 and 8192.
-> > +``/proc/sys/abi/sve_default_vector_length``.  The default length, ``N``,
-> > +is in units of bytes and must be between 16 and 8192.
-> >  If not specified, the default vector length is 64.
-> >
-> >  If the default length is larger than the maximum vector length enabled
-> > -with `sve<N>` properties, the actual vector length will be reduced.
-> > +with ``sve<N>`` properties, the actual vector length will be reduced.
+Am 26.07.2021 um 16:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 26.07.2021 15:28, Stefan Hajnoczi wrote:
+> > The following command-line fails due to a permissions conflict:
+> > 
+> >    $ qemu-storage-daemon \
+> >        --blockdev driver=nvme,node-name=nvme0,device=0000:08:00.0,namespace=1 \
+> >        --blockdev driver=raw,node-name=l1-1,file=nvme0,offset=0,size=1073741824 \
+> >        --blockdev driver=raw,node-name=l1-2,file=nvme0,offset=1073741824,size=1073741824 \
+> >        --nbd-server addr.type=unix,addr.path=/tmp/nbd.sock,max-connections=2 \
+> >        --export type=nbd,id=nbd-l1-1,node-name=l1-1,name=l1-1,writable=on \
+> >        --export type=nbd,id=nbd-l1-2,node-name=l1-2,name=l1-2,writable=on
+> > 
+> >    qemu-storage-daemon: --export type=nbd,id=nbd-l1-1,node-name=l1-1,name=l1-1,writable=on: Permission conflict on node 'nvme0': permissions 'resize' are both required by node 'l1-1' (uses node 'nvme0' as 'file' child) and unshared by node 'l1-2' (uses node 'nvme0' as 'file' child).
+> > 
+> > The problem is that block/raw-format.c relies on bdrv_default_perms() to
+> > set permissions on the nvme node. The default permissions add RESIZE in
+> > anticipation of a format driver like qcow2 that needs to grow the image
+> > file. This fails because RESIZE is unshared, so we cannot get the RESIZE
+> > permission.
+> > 
+> > Max Reitz pointed out that block/crypto.c already handles this case by
+> > implementing a custom ->bdrv_child_perm() function that adjusts the
+> > result of bdrv_default_perms().
+> > 
+> > This patch takes the same approach in block/raw-format.c so that RESIZE
+> > is only required if it's actually necessary (e.g. the parent is qcow2).
+> > 
+> > Cc: Max Reitz <mreitz@redhat.com>
+> > Cc: Kevin Wolf <kwolf@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> > This is not a bug fix, so I didn't mark it for QEMU 6.1. It's new
+> > behavior that hasn't been supported before. I want to split an NVMe
+> > drive using the raw format's offset=/size= feature.
+> > ---
+> >   block/raw-format.c | 21 ++++++++++++++++++++-
+> >   1 file changed, 20 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/block/raw-format.c b/block/raw-format.c
+> > index 7717578ed6..c26f493688 100644
+> > --- a/block/raw-format.c
+> > +++ b/block/raw-format.c
+> > @@ -580,6 +580,25 @@ static void raw_cancel_in_flight(BlockDriverState *bs)
+> >       bdrv_cancel_in_flight(bs->file->bs);
+> >   }
+> > +static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
+> > +                           BdrvChildRole role,
+> > +                           BlockReopenQueue *reopen_queue,
+> > +                           uint64_t parent_perm, uint64_t parent_shared,
+> > +                           uint64_t *nperm, uint64_t *nshared)
+> > +{
+> > +    bdrv_default_perms(bs, c, role, reopen_queue, parent_perm,
+> > +                       parent_shared, nperm, nshared);
 > > +
-> > +If this property is set to ``-1`` then the default vector length
-> > +is set to the maximum possible length.
->
-> This file is full of single backtick usage. Isn't it better to stay
-> consistent? Or do we need a patch that converts all the rest now?
+> > +    /*
+> > +     * bdrv_default_perms() may add WRITE and/or RESIZE (see comment in
+> > +     * bdrv_default_perms_for_storage() for an explanation) but we only need
+> > +     * them if they are in parent_perm. Drop WRITE and RESIZE whenever possible
+> > +     * to avoid permission conflicts.
+> > +     */
+> > +    *nperm &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > +    *nperm |= parent_perm & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > +}
+> > +
+> >   BlockDriver bdrv_raw = {
+> >       .format_name          = "raw",
+> >       .instance_size        = sizeof(BDRVRawState),
+> > @@ -588,7 +607,7 @@ BlockDriver bdrv_raw = {
+> >       .bdrv_reopen_commit   = &raw_reopen_commit,
+> >       .bdrv_reopen_abort    = &raw_reopen_abort,
+> >       .bdrv_open            = &raw_open,
+> > -    .bdrv_child_perm      = bdrv_default_perms,
+> > +    .bdrv_child_perm      = raw_child_perm,
+> >       .bdrv_co_create_opts  = &raw_co_create_opts,
+> >       .bdrv_co_preadv       = &raw_co_preadv,
+> >       .bdrv_co_pwritev      = &raw_co_pwritev,
+> > 
+> 
+> I think it's OK:
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> 
+> Still, did you consider an alternative of making
+> bdrv_filter_default_perm() function public and just do
+> ".bdrv_child_perm = bdrv_filter_default_perm," here?
+> 
+> raw_format is not considered to be filter, but for it's permissions I
+> think it works exactly like filter.
 
-I just sent one of those:
-https://patchew.org/QEMU/20210726142338.31872-1-peter.maydell@linaro.org/
+I had the same thought, but then commit 69dca43d6b6 explicitly made the
+opposite change. I seem to remember that Max never liked raw being
+treated like a filter much.
 
--- PMM
+Kevin
+
 
