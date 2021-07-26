@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BDE3D53A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:15:11 +0200 (CEST)
-Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6BF3D53A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:13:19 +0200 (CEST)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7upS-00009v-EJ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
+	id 1m7une-00061l-1p
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m7ulp-00037x-I5
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:11:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m7ulo-0005iO-5N
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:11:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627283483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CQW5EdNWYsSAKmBO7uBQCqRMkqpBvMDyooh4DcoS2Ww=;
- b=T/5ZEDH3gBnuCwaVqciGePWnmMLq3Rd9ODsV43PQiapkZgnDv10o+yrSIfB6GJ8ZgVVISF
- K/Xj1Cf638/Q/uMHsXf1LOjgVXXPdK9t2SSlv/ZjQiN5kGEIRw54dEoUnisLbahbleYLoo
- X7ueqkR6eKveR2v7mPK4IKcP/vRwSXU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-vJNJcDH5MnC9A6WG0NEc3A-1; Mon, 26 Jul 2021 03:11:22 -0400
-X-MC-Unique: vJNJcDH5MnC9A6WG0NEc3A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p2-20020a5d48c20000b0290150e4a5e7e0so4296451wrs.13
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:11:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m7umQ-00040g-44
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:12:03 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m7umN-0006H7-9J
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:12:00 -0400
+Received: by mail-wm1-x333.google.com with SMTP id n21so4647098wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:11:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ADWwS/U5K4vAGcDsI303o9ZAZkML+r9ejuSJ5UL0Rc=;
+ b=kNa7y9VxqLHxgEpc/mlhCpfSreWqSK7Q3mwVhS9cmP1KCWm0BiQTcS6yfS4Zzz69KM
+ 50l9RySY2agxOJkbmLv5DupEloAy80zEYSA4i0a06tMd6xYCVvFCo0CfamBtWbIux50A
+ KK26Tfo8+gdsK4isQFi0LKIqi6H3CuqXrYoOXAn7qKuPieCABEOt80xsmKpHQZj3Cbwq
+ 6yUx/UoyqxzH1IDX76Z4pRbsstb5NE1i9eaJY6/5/tBDFcpVMQ+Kg67WzsAFT0YZSFxM
+ bbQaR0W9HHFi+3H/lD3UpbN+Bied8rT9x9xvqU5l/akNm9GrSMPSM+jOTQBSu10EdosQ
+ vcng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=CQW5EdNWYsSAKmBO7uBQCqRMkqpBvMDyooh4DcoS2Ww=;
- b=Im9CnYqK+IDJWfmTpGJqbmqBnAUG63n4nGM6Bt16GOQQbKKvXTGrlzVCT6MqBTBthr
- 1GiJpwfXbq5DggceluPKAzNong1slG5rjLs1oJw0Kb+AoZUEFSZvLX0FhDxk0HHaHp1B
- y7YSitMk2N0VdmhV79afxACR2mUaLN8LbWIB7AlnWkwxsUaNiHQ87BcdyW/kMefxNYY+
- J2cQ6W7KtF8hat118QM/pve8yNKuiuNZ18PvgzzI0lj5jbQ99JgMxdLz6ayNnoILCWIu
- krNOyZ57l2zzWIV/ztthPIkLIznhTPlUW0P56n5a4OFxOBRsw8Ii3ljBRng7+DPp/B8V
- ZH0Q==
-X-Gm-Message-State: AOAM530dh2xfC8gwkk3+DyDw0z2igxYDHE9kLSUEB+jZ9aoPhK43PFR4
- Hl6bh7IGmc2koLbOWIEM4wHS60Cixrq2WkcYx0BNbI/9YnRrWUiYJwWlAlm8sGmXtAtob86kL83
- NRV07o3SQmkSCD2Q=
-X-Received: by 2002:a1c:9ace:: with SMTP id c197mr4161788wme.170.1627283480833; 
- Mon, 26 Jul 2021 00:11:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLoF94W2IjYzZBlSmEXANhBA7kte3thjkqHtnmLWXUx6RlhTbdPUCCrH4tpK/zRlIFm3mwjA==
-X-Received: by 2002:a1c:9ace:: with SMTP id c197mr4161763wme.170.1627283480651; 
- Mon, 26 Jul 2021 00:11:20 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- j15sm4875561wms.20.2021.07.26.00.11.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 00:11:20 -0700 (PDT)
-Subject: Re: [PATCH for-6.1? 1/6] mirror: Keep s->synced on error
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210722122627.29605-1-mreitz@redhat.com>
- <20210722122627.29605-2-mreitz@redhat.com>
- <09dec00d-0ffc-f30c-2edd-c6ef886de05f@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <ff9fc44a-a40d-04f7-0091-99a1cb40b472@redhat.com>
-Date: Mon, 26 Jul 2021 09:11:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ADWwS/U5K4vAGcDsI303o9ZAZkML+r9ejuSJ5UL0Rc=;
+ b=t9KDb57sRJLqgDyDy662v9bB5WZqPSlX497n4LoinycSB2Fs/dVP6383WBZ+2PTxS2
+ nuT5fL3VWJedS4DS4Op1SqDaWgzCTwqaQjqaRqON3v3GyqJzsVp5L+FUPF8wQn5IgMJB
+ cFG8UQ6uxrdR64vty2ujfLnDgeFF3Ch0CWF6RIml8iLW+HpyTMFO+pO3Ja1FNTtnSXbH
+ DofqNoIuamNzZr/NSUw+34kARnaET48t540+Q3C0vHDDd5e8XvJAVknE2erevQ90CvYz
+ P5Ioxu6gtEK4CSb6xZtGc/WPqnTmrlDvJqmxuadPRZb8Y7Z6LZfa8hQzc7tmRszXfRpA
+ ngOQ==
+X-Gm-Message-State: AOAM533eRQizPt1ikXXNKK2W5FWLtVWTGyg0CgKwUgX007TBMQzeFftY
+ 6GArKBYuIwSFRUWnj84TVp76M/dJgL+82gzg
+X-Google-Smtp-Source: ABdhPJwsrXTy+Om4u0NKCOtv/O2bqDVEtlxqtkP78ehZanCPio+9ed1mRUKcnmFAtRrw+ZprTRpSCA==
+X-Received: by 2002:a05:600c:4103:: with SMTP id
+ j3mr2191873wmi.12.1627283516781; 
+ Mon, 26 Jul 2021 00:11:56 -0700 (PDT)
+Received: from lb01399.fkb.profitbricks.net
+ (p200300ca572b5e23c4ffd69035d3b735.dip0.t-ipconnect.de.
+ [2003:ca:572b:5e23:c4ff:d690:35d3:b735])
+ by smtp.gmail.com with ESMTPSA id h9sm34524933wmb.35.2021.07.26.00.11.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 00:11:56 -0700 (PDT)
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+To: xiaoguangrong.eric@gmail.com,
+	pankaj.gupta.linux@gmail.com
+Subject: [PATCH] docs/nvdimm: Update nvdimm option value in machine example
+Date: Mon, 26 Jul 2021 09:11:45 +0200
+Message-Id: <20210726071145.150832-1-pankaj.gupta.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <09dec00d-0ffc-f30c-2edd-c6ef886de05f@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.091, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,53 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Pankaj Gupta <pankaj.gupta@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.07.21 18:25, Vladimir Sementsov-Ogievskiy wrote:
-> 22.07.2021 15:26, Max Reitz wrote:
->> An error does not take us out of the READY phase, which is what
->> s->synced signifies.  It does of course mean that source and target are
->> no longer in sync, but that is what s->actively_sync is for -- s->synced
->> never meant that source and target are in sync, only that they were at
->> some point (and at that point we transitioned into the READY phase).
->>
->> The tangible problem is that we transition to READY once we are in sync
->> and s->synced is false.  By resetting s->synced here, we will transition
->> from READY to READY once the error is resolved (if the job keeps
->> running), and that transition is not allowed.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block/mirror.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/block/mirror.c b/block/mirror.c
->> index 98fc66eabf..d73b704473 100644
->> --- a/block/mirror.c
->> +++ b/block/mirror.c
->> @@ -121,7 +121,6 @@ typedef enum MirrorMethod {
->>   static BlockErrorAction mirror_error_action(MirrorBlockJob *s, bool 
->> read,
->>                                               int error)
->>   {
->> -    s->synced = false;
->>       s->actively_synced = false;
->>       if (read) {
->>           return block_job_error_action(&s->common, s->on_source_error,
->>
->
-> Looked through.. Yes, seems s->synced used as "is ready". Isn't it 
-> better to drop s->synced at all and use job_is_read() instead?
+Update nvdimm option value in example command from "-machine pc,nvdimm"
+to "-machine pc,nvdimm=on" as former complains with the below error:
 
-Sounds good, though I think for the change to be clear, I’d like to keep 
-this patch and then drop s->synced on top.
+"qemu-system-x86_64: -machine pc,nvdimm: Expected '=' after parameter 'nvdimm'"
 
-Max
+Signed-off-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+---
+ docs/nvdimm.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Hmm, s->actively_synced used only for assertion in 
-> active_write_settle().. That's not wrong, just interesting.
+diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+index 0aae682be3..fd7773dc5a 100644
+--- a/docs/nvdimm.txt
++++ b/docs/nvdimm.txt
+@@ -15,7 +15,7 @@ backend (i.e. memory-backend-file and memory-backend-ram). A simple
+ way to create a vNVDIMM device at startup time is done via the
+ following command line options:
+ 
+- -machine pc,nvdimm
++ -machine pc,nvdimm=on
+  -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
+  -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
+  -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
+-- 
+2.25.1
 
 
