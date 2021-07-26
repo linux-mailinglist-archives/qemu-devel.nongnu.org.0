@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146523D64E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:58:42 +0200 (CEST)
-Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E8A3D6504
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:59:38 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m83w9-0007Oe-42
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45766)
+	id 1m83x3-0001Ho-Rs
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m83uq-0006NT-5R
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:57:20 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46859)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m83vl-0007l8-KE
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:58:17 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:46776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m83uo-0004Ev-Kv
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:57:19 -0400
-Received: by mail-pl1-x631.google.com with SMTP id t21so12235375plr.13
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=yX5WE8bIGK52Ocfe9CK6RougKV7AdE/rQmAUiYgnU9w=;
- b=ii72v+cFFCvJf7naj8lKCHF5pJQXEPgkvZk+qbGEon10fLo0Gy6W3oGCytQYDAqAxg
- iCInYmfXJLQ3Y5TnrVzHk9z4YQTuJyEwPiy+fu5ihMxIBX4INtX8zwMU1J5IVjHev96j
- 2rGy4EvL7HegTOHzQ+uajthrQTDj2kOjPdhbmNXqakolvMG3640BwFK1+soSzhwwVfdH
- fRSBkGP65y2XiRxCbDetZlMOFAfY+0O8DatkEAm1MBsCXOOn1exio4nsPccaQvaj6IKv
- L74ehBSQFh1uaR/rxtfcXiMxOydet0X5+e5NV+1znlSHbgM37ONiCGol34jORcMvbaAt
- 1qGw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m83vj-0004vC-T8
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:58:17 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ g23-20020a17090a5797b02901765d605e14so913168pji.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lrnAM9OtU559p3/5DEFSvb97GHwmTAh1xbV3NDIG6ck=;
+ b=Ne/DqKqQpKkuGUdh40FdlhzCDnt4cvob4H4XzqE2y96HtuS8v+mxb7fLSEe+WYlCoT
+ hAGnhcNoy515xUgAoVrrlqjT/sn/wJe4pfO4JiDJtu/E9+hxyHIjJPbMTnxKxkZUKoWV
+ aDvpGbE01fqHtQldODIBMdTJgFBlrF8CjVaeOfIeztxGZ4fXHLPYcXKWEGbp2bCOyHBA
+ Eif+UAawsX+O2H+36yje3egEpjYxSR8qoKXEw5WILpujvpdykC2a1lqHE/5RqDB4AM1Y
+ WXQgPnKH/7elNVPobohZLLkkb1kFCVBNwNpc44zIr53+Gv7AFn6bA3446Wz4QY4tJ8FV
+ ADaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=yX5WE8bIGK52Ocfe9CK6RougKV7AdE/rQmAUiYgnU9w=;
- b=ZRa0HRf4Y8NG9E1Bt/C0fbuMe5HA9BzTu9NKJC6N7mct6goyATdom162LOnqeKUSz6
- VmVqtdXh6yL5g+Eao7XnR5bcay3QAAVBvDZgCsSl3UJ5nOTxa4ZUukJrvSl4O1mpd/iD
- VB9bkl+hDHTLIdvURatlDE+XoNa7LlBPRf8BqN0Y8MR38BDFqRuDMoIWKmkJiuCLmtOQ
- VuNwyqalq9Qc765sP4NjWUDJ2aaktmMDUVZ2hHWuGOXgg2lqP7Ec2yQT2qU1UEeLLn5t
- Sx7O5PJh4n46+mUrrAGZvAbt9nxYYEH+LCRnTuhK2IsPbudSZo+g7UgdobQu1TFQgP63
- 9+hA==
-X-Gm-Message-State: AOAM530AxV6oskUtohdRbBapwSPC1AvkJaSX3HhR8l7b5sMoste0Yks2
- Qi3pZNhDdOqb5kDVUaA8tG++jQ==
-X-Google-Smtp-Source: ABdhPJxU1lVbKBp8WnP6wIBhh6VQDhutg4dZGWazYt+o18oWIZfqQm0+DgvpckQJOvqjuL8uE4BVYw==
-X-Received: by 2002:a17:90b:1947:: with SMTP id
- nk7mr27253482pjb.67.1627318636970; 
- Mon, 26 Jul 2021 09:57:16 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id g12sm533324pfv.167.2021.07.26.09.57.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 09:57:16 -0700 (PDT)
-Subject: Re: [PATCH for-6.1?] bitops.h: revert db1ffc32dd ("qemu/bitops.h: add
- bitrev8 implementation")
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org, f4bug@amsat.org, laurent@vivier.eu
-References: <20210725110557.3007-1-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5a04dc6f-ddb9-f8fd-b514-fc143406bb29@linaro.org>
-Date: Mon, 26 Jul 2021 06:57:13 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=lrnAM9OtU559p3/5DEFSvb97GHwmTAh1xbV3NDIG6ck=;
+ b=gVYePQs/lRMnYzEdRtCpyfXzKJ2llle+rsqo+URaiuYyh7HfcmCfcONgszXGpEpbA0
+ wNi5nHaN7d1reZLEMnkQ3ZrX5cpt/fE8kdWbHoc0WPW8C1W5ne74awG5hzQe9KwDcDHb
+ RJP6K9pGB44c+pqtN5Jfmdyg66Keifh5hT/3jPzfM1ZDXS5VwVZ1jv4c8MKDUVAajcm2
+ Df/QO95xZyX1it/iSqGA8jPy0HM5zDbt6NQg0InVGdtFxq779jebluaBop5jc5UPBHMN
+ 2j6qV3oURoOLvBIICF8Lt5AJcKw2i604ZqVtEz7q0ZEV9SSGKW4Jb+lbj5R9L2uTRg0Q
+ fbww==
+X-Gm-Message-State: AOAM5306JyF8nXBoiPvTUbcjT6+1gdcxq11rFvk7ifciJRxfDXaafvjD
+ GBdPuk0YEH2UnpStTx282yCqaO4OKWsqBA==
+X-Google-Smtp-Source: ABdhPJx3Jh33tWDyNHrNP/2s6hlixSUlOGm7KfpRN7B5Nu/MbgPuXubXfV4ZHEJudMbIskWbsHOp9A==
+X-Received: by 2002:a63:580a:: with SMTP id m10mr19228266pgb.254.1627318694287; 
+ Mon, 26 Jul 2021 09:58:14 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.238.202])
+ by smtp.googlemail.com with ESMTPSA id x4sm571663pfb.27.2021.07.26.09.58.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 09:58:13 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] hw/acpi: add an assertion check for non-null return from
+ acpi_get_i386_pci_host
+Date: Mon, 26 Jul 2021 22:27:43 +0530
+Message-Id: <20210726165743.232073-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210725110557.3007-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,38 +80,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, jusual@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/21 1:05 AM, Mark Cave-Ayland wrote:
-> Commit db1ffc32dd ("qemu/bitops.h: add bitrev8 implementation") introduced a
-> bitrev8() function to reverse the bit ordering required for storing the MAC
-> address in the q800 PROM.
-> 
-> This function is not required since QEMU implements its own revbit8() function
-> which does exactly the same thing. Remove the extraneous bitrev8() function and
-> switch its only caller in hw/m68k/q800.c to use revbit8() instead.
-> 
-> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/m68k/q800.c        |  2 +-
->   include/qemu/bitops.h | 22 ----------------------
->   2 files changed, 1 insertion(+), 23 deletions(-)
-> 
-> ---
-> I picked this up reading the loongarch thread where I realised that QEMU
-> already has a revbit8() function - I was searching for bitrev8() before
-> deciding that this needed to be added since this was the name of the equivalent
-> function in Linux.
-> 
-> I think this is a good candidate for 6.1 still because a) it only has 1 caller
-> which is easy for me to test and b) it prevents anyone else coming along and
-> accidentally using it later.
-> 
-> MCA.
+All existing code using acpi_get_i386_pci_host() checks for a non-null
+return value from this function call. Instead of returning early when the value
+returned is NULL, assert instead. Since there are only two possible host buses
+for i386 - q35 and i440fx, a null value return from the function does not make
+sense in most cases and is likely an error situation.
 
-Queued for 6.1.
+Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
 
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/acpi/pcihp.c      |  8 ++++++++
+ hw/i386/acpi-build.c | 15 ++++++---------
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-r~
+changelog:
+v1: initial patch
+v2: removed comment addition - that can be sent as a separate patch.
+v3: added assertion for null host values for all cases except one.
+
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index f4d706e47d..054ee8cbc5 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -116,6 +116,12 @@ static void acpi_set_pci_info(void)
+     bsel_is_set = true;
+ 
+     if (!host) {
++        /*
++         * This function can be eventually called from
++         * qemu_devices_reset() -> acpi_pcihp_reset() even
++         * for architectures other than i386. Hence, we need
++         * to ignore null values for host here.
++         */
+         return;
+     }
+ 
+@@ -136,6 +142,8 @@ static void acpi_pcihp_disable_root_bus(void)
+         return;
+     }
+ 
++    assert(host);
++
+     bus = PCI_HOST_BRIDGE(host)->bus;
+     if (bus) {
+         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 17836149fe..83fb1d55c0 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -321,9 +321,7 @@ static void acpi_get_pci_holes(Range *hole, Range *hole64)
+ 
+     pci_host = acpi_get_i386_pci_host();
+ 
+-    if (!pci_host) {
+-        return;
+-    }
++    assert(pci_host);
+ 
+     range_set_bounds1(hole,
+                       object_property_get_uint(pci_host,
+@@ -1769,9 +1767,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+ 
+         pci_host = acpi_get_i386_pci_host();
+ 
+-        if (pci_host) {
+-            bus = PCI_HOST_BRIDGE(pci_host)->bus;
+-        }
++        assert(pci_host);
++
++        bus = PCI_HOST_BRIDGE(pci_host)->bus;
+ 
+         if (bus) {
+             Aml *scope = aml_scope("PCI0");
+@@ -2389,9 +2387,8 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
+     QObject *o;
+ 
+     pci_host = acpi_get_i386_pci_host();
+-    if (!pci_host) {
+-        return false;
+-    }
++
++    assert(pci_host);
+ 
+     o = object_property_get_qobject(pci_host, PCIE_HOST_MCFG_BASE, NULL);
+     if (!o) {
+-- 
+2.25.1
+
 
