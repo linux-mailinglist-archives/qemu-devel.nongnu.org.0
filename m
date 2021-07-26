@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD1A3D54A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:52:40 +0200 (CEST)
-Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3EF53D547A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:41:53 +0200 (CEST)
+Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7vPj-0007I1-DW
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:52:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
+	id 1m7vFI-0004o8-Ch
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m7vOv-0006bG-QJ
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:51:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m7vOn-0006K1-Os
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:51:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627285900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nYPhxYSsxX50ZEWswkfSQFBKssFfnAUqVs0WWAN32Y0=;
- b=M2Q5HrW4UqvBCHRvmRiEAx2qH1vE2GAOYEGr/2OYg1DWbDZg0qz1OFrq7Qk48qesbnGzxn
- 4c+GCeoRG1rzRac8sKenkAV6nawvvUxat6bNqoc11wdtJsrM08FJdEZxJxr6AYl9Cc2qUQ
- 0pxxzLiOlbHcCP/FhpguFwMk7lasXuw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-i5i-OZk8MJG5SqrWpQCNgA-1; Mon, 26 Jul 2021 03:51:38 -0400
-X-MC-Unique: i5i-OZk8MJG5SqrWpQCNgA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 85-20020a1c01580000b02902511869b403so381144wmb.8
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:51:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1m7vDR-0003jV-03
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:39:57 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1m7vDO-0004YD-Lf
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:39:56 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ 61-20020a9d0d430000b02903eabfc221a9so9269064oti.0
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=5hkghwkvys+4a9QwIwM4q5g8CwsMCnuSKtY93R2nTlI=;
+ b=DTNW8hAHvGsk3gHMY+X7zZ2sPohYwurcJLgcHXwkGM+fAtBRhkG/hRPdWj51AFVkYv
+ znrvFhhlFjv4w9prEf7ZgjNA9rMqVBhUlLj4b6BdiAxhyRaw60uqTaJYbNP33hZHT/2u
+ x+CklYrirKCc9NLPQ3OuysSAgmal9Uh9+DM1bVSiXZ414ferpBUa/YKAXUEkMjyWNpiz
+ HIztrgDu0YwajxhfyOR7cD3E6txSObrPBbfELbb8Z9/VPpD00v6L+OnPKQfmNPqo97kR
+ +XWBk/BS2O1RJOzpBtb2YTNQeccwmNLBqil4/2vAxMFFxtFxTrex4NU27ApyeYN0EzPV
+ tWcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=nYPhxYSsxX50ZEWswkfSQFBKssFfnAUqVs0WWAN32Y0=;
- b=OfoBy89slrKhLEanETgCWlTsBeqjjacumW69n+zaKcgmXel0nhf7KZtor7NzO8Ag8I
- XRaekChAkClGDMVb3cFG+HXYyolOWDtsQYYwkAlnIsYsfJQJ4x5X4gPif1o7zvxdh5ZP
- qJkEJdgQRLfQcQyZEU27MjenGKlPvWbUj9BLi5hexC3qxbR2rKfJ9l2NbaVOM25CJcfU
- +W8dTspBXQISu6rzVf8/X6DMhZxUNgITwrSSsGfCp205foLBhevrmKZBAxaURmwZS87v
- u7TF9Qg2ro+wDdNpbhs9Vp+D/tIqmMV5ZYPZzYykD3nfj8STEkkjtWPe5VicC/uMD1WN
- cuaA==
-X-Gm-Message-State: AOAM530lJnEwsVW8KES/+wEjfTFT2EgLDOnytJIkIMphBa9ZSPtjbRwD
- 2mZwjDeqm3k6TXhbcxFpVu537KuYT5zCmmqM89nfSklQZP8QdRPlmXWJt0dv8ZNi+e2QzM8ggJu
- pUk6Yat5ZgSpAAag=
-X-Received: by 2002:a5d:44c8:: with SMTP id z8mr6352367wrr.291.1627285897643; 
- Mon, 26 Jul 2021 00:51:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7YJmw0vriZcc3ZmXwP5f5a077tD5eh8o/5GC2e8zcfJ9x8SmdQfG3K2QGRZ0+s1dOhouG3A==
-X-Received: by 2002:a5d:44c8:: with SMTP id z8mr6352338wrr.291.1627285897429; 
- Mon, 26 Jul 2021 00:51:37 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23b33.dip0.t-ipconnect.de. [79.242.59.51])
- by smtp.gmail.com with ESMTPSA id
- f11sm12323386wmb.14.2021.07.26.00.51.27
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=5hkghwkvys+4a9QwIwM4q5g8CwsMCnuSKtY93R2nTlI=;
+ b=iwwXYfZ9Ud6tLYbJ3Y+szijLSsX/C9/uDXLG6YeZwlKIECW6UwsrV5VbVCeEKbhCwY
+ E53hqD+9t/flje3DTSFiPhCfYe6dVziI7hSMLBFXa4mFM+kx3CvVQyj/nhdJtTmf1Man
+ ut70Y7BoDSQgMZy4j+KO1rQujq+0UGeSlwJDp7Y6tTdlineEU0f4ocVE4a/lUmguiiFV
+ 0rF5+2iyTYP4rJ4Y9hMtTIu9NyNLAwcOsNwU3zM65pTXNP0PCm2BTeqq7dS1pnXytPYD
+ yOlvfXytr7ZZ1hM2bqtwYTW0XJn68XUKyW9JCRToKCaDT/rlls89sxTlz18MqcWZ8THd
+ /53A==
+X-Gm-Message-State: AOAM533fSoJfOMmtaCAsg33Ln2zew+k4TH8W6+xoJrV5vwla4EknllKU
+ ds9taPOzfuRilty9Ovapr5ZD3A==
+X-Google-Smtp-Source: ABdhPJxxPUD8G7V0vdG/9HEnNZWse+lzcsEEJU6s0cxbzuInS8XSEGbQB3e2584WLIocYimtea5gPg==
+X-Received: by 2002:a05:6830:2241:: with SMTP id
+ t1mr10689969otd.180.1627285192627; 
+ Mon, 26 Jul 2021 00:39:52 -0700 (PDT)
+Received: from [192.168.11.11] ([172.58.97.112])
+ by smtp.gmail.com with ESMTPSA id q15sm3180016otf.70.2021.07.26.00.39.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 00:51:36 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>
-References: <20210720130304.26323-1-david@redhat.com>
- <20210720130304.26323-6-david@redhat.com> <YPrgEXkl2wsXYs03@t490s>
- <32088854-3df2-cdc8-0a1a-ce6cf2289adb@redhat.com> <YPtDsQxJcy4Am2wG@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH resend v2 5/5] softmmu/memory_mapping: optimize for
- RamDiscardManager sections
-Message-ID: <162c3460-a8a3-4f7c-c85b-4d423bbbb40a@redhat.com>
-Date: Mon, 26 Jul 2021 09:51:25 +0200
+ Mon, 26 Jul 2021 00:39:51 -0700 (PDT)
+Subject: Re: [PATCH 01/20] Hexagon HVX (target/hexagon) README
+To: Sid Manning <sidneym@quicinc.com>, Brian Cain <bcain@quicinc.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
+ <1625528074-19440-2-git-send-email-tsimpson@quicinc.com>
+ <1b632e88-43d4-3034-cf7b-d42be056d842@landley.net>
+ <SN6PR02MB42054B50C60ABA378256492DB8159@SN6PR02MB4205.namprd02.prod.outlook.com>
+ <553c32e8-188c-5b2c-2f4a-a8cfd7b903a9@landley.net>
+ <BN7PR02MB4194007550E66EBE877625A6B8E19@BN7PR02MB4194.namprd02.prod.outlook.com>
+ <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
+From: Rob Landley <rob@landley.net>
+Message-ID: <8845de00-ddc7-86a3-600f-6ede81e168c2@landley.net>
+Date: Mon, 26 Jul 2021 02:57:43 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPtDsQxJcy4Am2wG@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
+Content-Type: multipart/mixed; boundary="------------89AC309B8CECE92A09A316A7"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.091, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::329;
+ envelope-from=rob@landley.net; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.091, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,125 +92,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.07.21 00:33, Peter Xu wrote:
-> On Fri, Jul 23, 2021 at 08:56:54PM +0200, David Hildenbrand wrote:
->>>
->>> As I've asked this question previously elsewhere, it's more or less also
->>> related to the design decision of having virtio-mem being able to sparsely
->>> plugged in such a small granularity rather than making the plug/unplug still
->>> continuous within GPA range (so we move page when unplug).
->>
->> Yes, in an ideal world that would be optimal solution. Unfortunately, we're
->> not living in an ideal world :)
->>
->> virtio-mem in Linux guests will as default try unplugging highest-to-lowest
->> address, and I have on my TODO list an item to shrink the usable region (->
->> later, shrinking the actual RAMBlock) once possible.
->>
->> So virtio-mem is prepared for that, but it will only apply in some cases.
->>
->>>
->>> There's definitely reasons there and I believe you're the expert on that (as
->>> you mentioned once: some guest GUPed pages cannot migrate so cannot get those
->>> ranges offlined otherwise), but so far I still not sure whether that's a kernel
->>> issue to solve on GUP, although I agree it's a complicated one anyway!
->>
->> To do something like that reliably, you have to manage hotplugged memory in
->> a special way, for example, in a movable zone.
->>
->> We have a at least 4 cases:
->>
->> a) The guest OS supports the movable zone and uses it for all hotplugged
->>     memory
->> b) The guest OS supports the movable zone and uses it for some
->>     hotplugged memory
->> c) The guest OS supports the movable zone and uses it for no hotplugged
->>     memory
->> d) The guest OS does not support the concept of movable zones
->>
->>
->> a) is the dream but only applies in some cases if Linux is properly
->> configured (e.g., never hotplug more than 3 times boot memory)
->> b) will be possible under Linux soon (e.g., when hotplugging more than 3
->> times boot memory)
->> c) is the default under Linux for most Linux distributions
->> d) Is Windows
->>
->> In addition, we can still have random unplug errors when using the movable
->> zone, for example, if someone references a page just a little too long.
->>
->> Maybe that helps.
-> 
-> Yes, thanks.
-> 
->>
->>>
->>> Maybe it's a trade-off you made at last, I don't have enough knowledge to tell.
->>
->> That's the precise description of what virtio-mem is. It's a trade-off
->> between which OSs we want to support, what the guest OS can actually do, how
->> we can manage memory in the hypervisor efficiently, ...
->>
->>>
->>> The patch itself looks okay to me, there's just a slight worry on not sure how
->>> long would the list be at last; if it's chopped in 1M/2M small chunks.
->>
->> I don't think that's really an issue: take a look at
->> qemu_get_guest_memory_mapping(), which will create as many entries as
->> necessary to express the guest physical mapping of the guest virtual (!)
->> address space with such chunks. That can be a lot :)
-> 
-> I'm indeed a bit surprised by the "paging" parameter.. I gave it a try, the
-> list grows into tens of thousands.
+This is a multi-part message in MIME format.
+--------------89AC309B8CECE92A09A316A7
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Yes, and the bigger the VM, the more entries you should get ... like 
-with virtio-mem.
+On 7/19/21 11:19 AM, Sid Manning wrote:>> -----Original Message-----
+>> From: Brian Cain <bcain@quicinc.com>
+>> Sent: Monday, July 19, 2021 8:40 AM
+>> To: Rob Landley <rob@landley.net>; Taylor Simpson
+>> <tsimpson@quicinc.com>; qemu-devel@nongnu.org; Sid Manning
+>> <sidneym@quicinc.com>
+>> Cc: ale@rev.ng; peter.maydell@linaro.org; richard.henderson@linaro.org;
+>> philmd@redhat.com
+>> Subject: RE: [EXT] Re: [PATCH 01/20] Hexagon HVX (target/hexagon)
+>> README
+>> 
+>> > -----Original Message-----
+>> > From: Rob Landley <rob@landley.net>
+>> ...
+>> > On 7/12/21 8:42 AM, Brian Cain wrote:
+>> ...
+>> > > and there's also a binary hexagon-linux cross toolchain that we
+>> > > shared for use by kernel developers.  The hexagon linux toolchain is
+>> > > built on Ubuntu 16.04.
+>> >
+>> > Where's that one?
+>> 
+>> https://codelinaro.jfrog.io/artifactory/codelinaro-qemu/2021-05-
+>> 12/clang+llvm-12.0.0-cross-hexagon-unknown-linux-musl.tar.xz -
+>> 	- Built on Ubuntu 16.04, similar dynamic dependencies as
+>> releases.llvm.org binaries
 
-> 
-> One last question: will virtio-mem still do best-effort to move the pages, so
-> as to grant as less holes as possible?
+Indeed, in a "that also does not run on devuan, which is 99% stock debian" way. :(
 
-That depends on the guest OS.
+Luckily, I built a working hexagon toolchain with the attached script, as in
+"qemu-hexagon ran a statically linked toybox", and it even built a kernel.
 
-Linux guests will unplug highest-to-lowest addresses. They will try 
-migrating pages away (alloc_contig_range()) to minimize fragmentation. 
-Further, when (un)plugging, they will try a) unplug within already 
-fragmented Linux memory blocks (e.g., 128 MiB) b) plugging within 
-already fragmented Linux memory blocks first. Because the goal is to 
-require as little as possible Linux memory blocks to reduce metadata 
-(memmap) overhead.
+I'm still trimming the build script down, that clang-rt section is WAY too big,
+and I need to static link the binaires it produces so I can tar 'em up and use
+them under a different distro, and I haven't even _started_ making a native
+toolchain yet.[1]
 
-I recall that the Windows prototype also tries unplug highest-to-lowest 
-using the Windows range allocator, however, I have no idea what that 
-range allcoator actually does (if it only grabs free pages or if it can 
-actually move around busy pages).
+Next question: is there a qemu-system-hexagon anywhere?
 
-For Linux guests, there is a work item to continue defragmenting the 
-layout to free up complete Linux memory blocks over time.
+I mentioned I built a comet_defconfig kernel, ala:
 
+LLVM_IAS=1
+CROSS_COMPILE=~/toybox/hexagon/ccc/cross_bin/hexagon-unknown-linux-musl- make
+ARCH=hexagon CC=~/toybox/hexagon/ccc/cross_bin/hexagon-unknown-linux-musl-cc
 
-With a 1 TiB virtio-mem device and a 2 MiB block size (default), in the 
-worst case we would get 262144 individual blocks (every second one 
-plugged). While this is far from realistic, I assume we can get 
-something comparable when dumping a huge VM in paging mode.
+Which is kinda silly because:
 
-With 262144 entires, with ~48 byte (6*8 byte) per element, we'd consume 
-12 MiB for the whole list. Not perfect, but not too bad.
+1) Other packages figure out that ${CROSS}cc works but Linux insists on
+${CROSS}gcc, and you can't even do "CC=cc make" because then it won't add the
+cross compiler prefix. (And if I say LLVM=1 on the kernel command line, which I
+shouldn't have to do, it uses _unprefixed_ clang as the $CC name, despite cross
+compiling.)
 
--- 
+2) If you don't set LLVM_IAS it tries to call the UNPREFIXED assembler, again
+while cross compiling.
+
+Anyway, I've got a compiler now and I (awkwardly) built a kernel and I'm sitting
+down to try to figure out how to get qemu to invoke it: does this arch want
+vmlinux or arch/hexagon/boot/$RANDOMFORMAT, is serial on console=ttyS0 or
+/significant/dev/prefix/ttyasparagus0 or...
+
+See https://github.com/landley/toybox/blob/master/scripts/mkroot.sh#L186 for the
+other architectures I've already added to toybox's mkroot, yes I have a ~250
+line bash script that builds bootable Linux systems for a bunch of different
+architectures and adding a new architecture looks like:
+
+elif [ "$TARGET" == m68k ]; then
+QEMU="m68k -M q800" KARCH=m68k KARGS=ttyS0 VMLINUX=vmlinux
+KCONF=MMU,M68040,M68KFPU_EMU,MAC,SCSI_MAC_ESP,MACINTOSH_DRIVERS,ADB,ADB_MACII,NET_CORE,MACSONIC,SERIAL_PMACZILOG,SERIAL_PMACZILOG_TTYS,SERIAL_PMACZILOG_CONSOLE
+
+(There's a little documentation at https://landley.net/toybox/faq.html#mkroot if
+you're curious.)
+
+Anyway... it doesn't look like qemu-system-hexagon (softmmu) its currently in
+vanilla qemu? Is there a public fork that has this somewhere?
+
 Thanks,
 
-David / dhildenb
+Rob
 
+[1] Why does https://llvm.org/docs/GettingStarted.html#cross-compiling-llvm talk
+about osx? Dear compiler writers: a compiler is conceptually the same as an html
+to pdf converter. It takes input files, it produces output files. Yes some of
+the input files are common library stuff like fonts reused by multiple
+input/output pairs... again like an html to pdf converter. This is not
+unprecedented black magic. Sure it's clever. So was Quake, which has now been
+genericized into a broad industry from WoW to Skyrim.
+
+--------------89AC309B8CECE92A09A316A7
+Content-Type: application/x-shellscript;
+ name="script.sh"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="script.sh"
+
+I2dpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vbGx2bS9sbHZtLXByb2plY3QKI2dpdCBj
+bG9uZSBodHRwczovL2dpdGh1Yi5jb20vcXVpYy9tdXNsIC1iIGhleGFnb24KI2dpdCBjbG9u
+ZSBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgKClRPUD0iJFBXRCIKUFJFRklY
+PSIkUFdEIi9jY2MKVFlQRT1oZXhhZ29uLXVua25vd24tbGludXgtbXVzbApDUk9TUz0iJFBS
+RUZJWCIvY3Jvc3NfYmluLyRUWVBFLQpVU1I9IiRQUkVGSVgvJFRZUEUvdXNyIgoKIyBCdWls
+ZCBjbGFuZy9sbHZtCgpta2RpciAtcCBidWlsZC1sbHZtICYmIGNkIGJ1aWxkLWxsdm0gJiYK
+IyB5YW5rZWQgLURMTFZNX0VOQUJMRV9MTEQ9T04KY21ha2UgLUcgTmluamEgLURDTUFLRV9C
+VUlMRF9UWVBFPVJlbGVhc2UgLURDTUFLRV9JTlNUQUxMX1BSRUZJWD0kUFJFRklYIFwKICAg
+IC1ETExWTV9FTkFCTEVfUFJPSkVDVFM9ImNsYW5nO2xsZCIgIiRUT1AvbGx2bS1wcm9qZWN0
+L2xsdm0iIFwKICAgIC1ETExWTV9UQVJHRVRTX1RPX0JVSUxEPSJIZXhhZ29uIiAmJgpuaW5q
+YSBhbGwgaW5zdGFsbCAmJgplY2hvICItRzAgLS1zeXNyb290PSckUFJFRklYLyRUWVBFJyIg
+PiAiJFBSRUZJWCIvYmluLyRUWVBFLmNmZyAmJgpta2RpciAkUFJFRklYL2Nyb3NzX2JpbiAm
+JgpsbiAtc2YgLi4vYmluL2NsYW5nICIkQ1JPU1MiY2MgJiYKbG4gLXNmIC4uL2Jpbi9jbGFu
+ZysrICIkQ1JPU1MiYysrICYmCmxuIC1zZiAuLi9iaW4vbGxkICIkQ1JPU1MibGQgJiYKZm9y
+IGkgaW4gYXIgbm0gb2JqZHVtcCBvYmpjb3B5IHJlYWRlbGYgcmFubGliCmRvIGxuIC1zZiAu
+Li9iaW4vbGx2bS0kaSAiJENST1NTIiRpOyBkb25lICYmCmNkIC4uICYmIHJtIC1yZiBidWls
+ZC1sbHZtIHx8IGV4aXQgMQoKIyBBZGQgaXQgdG8gdGhlIHBhdGgsIGNyZWF0ZSBhcmNoIGRp
+cmVjdG9yeS4KCmV4cG9ydCBQQVRIPSIkUFJFRklYL2Nyb3NzX2JpbjokUEFUSCIKbWtkaXIg
+LXAgIiRVU1IiCgojIEluc3RhbGwga2VybmVsIGFuZCBtdXNsIGhlYWRlcnMKKGNkIGxpbnV4
+ICYmIG1ha2UgQVJDSD1oZXhhZ29uIElOU1RBTExfSERSX1BBVEg9IiRVU1IiIFwKICAgZGlz
+dGNsZWFuIGNvbWV0X2RlZmNvbmZpZyBoZWFkZXJzX2luc3RhbGwpIHx8IGV4aXQgMQooY2Qg
+bXVzbCAmJiBtYWtlIGNsZWFuICYmCiBDUk9TU19DT01QSUxFPSIkQ1JPU1MiIC4vY29uZmln
+dXJlIC0tdGFyZ2V0PWhleGFnb24gLS1wcmVmaXg9LyAmJgogbWFrZSBERVNURElSPSIkVVNS
+IiBpbnN0YWxsLWhlYWRlcnMpIHx8IGV4aXQgMQoKIyBidWlsZCBjbGFuZy1ydDogZGVwZW5k
+cyBvbiB0aGUgdXNlcnNwYWNlIGhlYWRlcnMgZm9yIHNvbWUgcmVhc29uPyE/Pwpta2RpciAt
+cCBidWlsZC1ydCAmJiBjZCBidWlsZC1ydCAmJgpjbWFrZSAtRyBOaW5qYSBcCiAgICAtRENN
+QUtFX0JVSUxEX1RZUEU9UmVsZWFzZSAtRENNQUtFX1NZU1RFTV9OQU1FPUxpbnV4IFwKICAg
+IC1ETExWTV9DT05GSUdfUEFUSD0iJFBSRUZJWC9iaW4vbGx2bS1jb25maWciIFwKICAgIC1E
+Q01BS0VfQVNNX0ZMQUdTPSItRzAgLW1sb25nLWNhbGxzIC1mbm8tcGljIC0tdGFyZ2V0PSRU
+WVBFICIgXAogICAgLURDTUFLRV9DX0NPTVBJTEVSPSIke0NST1NTfWNjIiAtRENNQUtFX0FT
+TV9DT01QSUxFUj0iJHtDUk9TU31jYyIgXAogICAgLURDTUFLRV9JTlNUQUxMX1BSRUZJWD0i
+JFVTUiIgLURDTUFLRV9DUk9TU0NPTVBJTElORz1PTiBcCiAgICAtRENNQUtFX0NfQ09NUElM
+RVJfRk9SQ0VEPU9OIC1EQ01BS0VfQ1hYX0NPTVBJTEVSX0ZPUkNFRD1PTiBcCiAgICAtRENP
+TVBJTEVSX1JUX0JVSUxEX0JVSUxUSU5TPU9OIC1EQ09NUElMRVJfUlRfQlVJTFRJTlNfRU5B
+QkxFX1BJQz1PRkYgXAogICAgLURDTUFLRV9TSVpFT0ZfVk9JRF9QPTQgLURDT01QSUxFUl9S
+VF9PU19ESVI9IC1EQ0FOX1RBUkdFVF9oZXhhZ29uPTEgXAogICAgLURDQU5fVEFSR0VUX3g4
+Nl82ND0wIC1EQ09NUElMRVJfUlRfU1VQUE9SVEVEX0FSQ0g9aGV4YWdvbiBcCiAgICAtRExM
+Vk1fRU5BQkxFX1BST0pFQ1RTPSJjb21waWxlci1ydCIgIiRUT1AvbGx2bS1wcm9qZWN0L2Nv
+bXBpbGVyLXJ0IiAmJgpuaW5qYSBpbnN0YWxsLWNvbXBpbGVyLXJ0ICYmCmNkIC4uICYmIHJt
+IC1yZiBidWlsZC1ydCB8fCBleGl0IDEKCiMgYnVpbGQgbXVzbApjZCBtdXNsICYmIG1ha2Ug
+Y2xlYW4gJiYKQ1JPU1NfQ09NUElMRT0iJENST1NTIiBMSUJDQz0iJFVTUiIvbGliL2xpYmNs
+YW5nX3J0LmJ1aWx0aW5zLWhleGFnb24uYSBcCiAgLi9jb25maWd1cmUgLS10YXJnZXQ9aGV4
+YWdvbiAtLXByZWZpeD0vICYmCm1ha2UgLWogJChucHJvYykgREVTVERJUj0iJFVTUiIgaW5z
+dGFsbAo=
+--------------89AC309B8CECE92A09A316A7--
 
