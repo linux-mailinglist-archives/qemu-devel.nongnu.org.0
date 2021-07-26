@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E1F3D5B83
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:25:37 +0200 (CEST)
-Received: from localhost ([::1]:48844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EDD3D5B85
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:25:44 +0200 (CEST)
+Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m81Y0-0007v6-DN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1m81Y8-0008K9-07
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m81WC-0005M9-33
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:44 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42754)
+ id 1m81WE-0005Qx-Qp
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:46 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m81W9-0008NR-Q7
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:43 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j2so11274421wrx.9
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 07:23:41 -0700 (PDT)
+ id 1m81WB-0008OW-A3
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:46 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m20-20020a05600c4f54b029024e75a15716so106571wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 07:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d1DNiMDGg9h9DaXzc3N3hgHSj90PXnBL9MtBH1CZvWQ=;
- b=a/xnfo/SwiqCyjqioCg0vI54NgxGJktrKs2qsfYSeeFnCbAbTE6xUg/V14ecE4iKc8
- Bu3b9PrhZbq7Qszpk3IkSPeW+qEtJsrf83+YS/wI81gy9jTKvXkHHcJkfBdB58qhMx18
- dY1vxksi1MqA5XgH3ylHyOIq6MnI6y9gpPE6ZlaE6eS8FEr5uFZZAdXBKBNqBcwsrfZX
- PxnN19+BK0Hs71oBFvxs0Y7Sdt9i5UnCnQFIlSUBoC+AA94vww1mUVrlAnq4i1F/xwMQ
- 2qFg5/vPdUeFpF8xfm1P+opF9KXBByrRtqdQBx9XImEXT00Ptpgt36j7i8iNJmjPhtfF
- EdhA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BclT581nL+X48QrymfdimieJ72usL8dxLS92vg+pwCY=;
+ b=k4IPyJqcAi2Cg6BN8QCVThjNPusUjdv1pt+elv+XtVflrhMXV5spPLGpvcdqqBrtNW
+ xAAQsEa/2skYMmDgKl7keguOO0h2NbLCoRAHEoS+QVZkTgJZkmG/dZ5oWwkfoqePPqDY
+ roFlAZZaG3RRrGlMO9rSFfMf2Ocw9fv95/bPxckjs6TsNZEqpENXa4b0m85qw2BnSGsq
+ xWLCDN1VqSpzYuX7V3ZFdABv9teY/xUG/X4D2PxvvhjPzsWRyWv8QmgQNqR5dEr773hL
+ ZBJcwiEFoObrzCwApkKF6ZzesziCbqH/zS5+A64G+tjVYYMgQKvKmM/eb6KwbnofTpy8
+ S3xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d1DNiMDGg9h9DaXzc3N3hgHSj90PXnBL9MtBH1CZvWQ=;
- b=tO/T+MXoeEvkTn1Ul32lbO16jECM31k7ltOiZr3NduOPtgJe4Y84hLz+nknO75DR10
- 3vq2rcfVrkXeUwHu0qkO8GSksRdNQ3dY7AZ72BDymSDVL6fntNG7FnNdXrRIQQLmb4Y/
- 1kSRIrJQwTv3NSN73DEE5gRqbPXtP5iYYfndAGTswrb782J27TgLavuDJbxa1mecDfIC
- av7j4+vvGpR6NQsVz9t+c9VcajX2Z9n7sp2EI+E5GYKd/H5dVFi+0D/wbcuZvm62TMLc
- hE+FMmQ0LNTWr7HkqfJVe6K1cfzAgaOUkDnEaFBi5uWw0dK8O6G068GwSEJbPnJ63qoK
- s56g==
-X-Gm-Message-State: AOAM5301RQTgXD9gTkC5CpQdNXKILXqj/1nBxboStUyetDoWSumIiu42
- x/Mo+Lh7N+NLICnMEHFFAlVDAcwY2wFXXQ==
-X-Google-Smtp-Source: ABdhPJxiLZAK/vSl+Pv80OB21cnXs70LJbg19mY51bJrmveJemHQG7jUvKhaJU2wgihLgugCtz7VQQ==
-X-Received: by 2002:a5d:5506:: with SMTP id b6mr19228709wrv.318.1627309420338; 
- Mon, 26 Jul 2021 07:23:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BclT581nL+X48QrymfdimieJ72usL8dxLS92vg+pwCY=;
+ b=orUsWMWuV8nGh0brKqUcbm1isb5U1iNwYMDZGe2dp82HfgYR9S3b0QJ8CeF8kWn38D
+ rPYgWW5ej7jg5BCmUQAWlsWL/pKDEF+iSO0InsPYzX9ZyVvinfkAH76L2l1407wbgWTj
+ yrLE2TeX8NcyDaTFuZPolYnXbXiU+pjdJOsBHWngFZeNA6Bc3Q7xIb74f4jFS9stCpvt
+ w401xHX5hwGhkijPhiF/ubrHEW2nl6giYWkwFX/8Oo70HxkwdnoqKOXiXODo2jk/PB8q
+ L26A8VPT9gfSxZsZHWt09sEkxi8u9eJH68BuELM63aE3xBZUKDqN6dcF0YnlHZxf0IIw
+ Frqg==
+X-Gm-Message-State: AOAM5331BySyPWfE16+1spC8vJZFnGsWc3giHy9m7Am80kyRCq6LsRRW
+ jeD++5pqNzp/hCx2B9pYCPMbhNlNyUAbSA==
+X-Google-Smtp-Source: ABdhPJwXC43fuxAW2UnUsDMmsHvdU7hM2Rea/3EzaCzX24wI+UddR1JbWcEXrRuUvNpiaQpksN8Vig==
+X-Received: by 2002:a05:600c:354a:: with SMTP id
+ i10mr10500941wmq.171.1627309421470; 
+ Mon, 26 Jul 2021 07:23:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 6sm13823427wmi.3.2021.07.26.07.23.39
+ by smtp.gmail.com with ESMTPSA id 6sm13823427wmi.3.2021.07.26.07.23.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 07:23:39 -0700 (PDT)
+ Mon, 26 Jul 2021 07:23:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 00/10] docs: Format literals correctly in rST
-Date: Mon, 26 Jul 2021 15:23:28 +0100
-Message-Id: <20210726142338.31872-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.1 01/10] docs/devel/build-system.rst: Format literals
+ correctly
+Date: Mon, 26 Jul 2021 15:23:29 +0100
+Message-Id: <20210726142338.31872-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210726142338.31872-1-peter.maydell@linaro.org>
+References: <20210726142338.31872-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,64 +97,414 @@ text", which can be handled as a bunch of different things if tagged
 with a specific "role":
 https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#interpreted-text
 (the most common one for us is "reference to a URL, which gets
-hyperlinked", but it can also be "reference to some other section in
-the documentation", "reference to a manpage", or many other things).
+hyperlinked").
 
 The default "role" if none is specified is "title_reference",
 intended for references to book or article titles, and it renders
 into the HTML as <cite>...</cite> (usually comes out as italics).
 
-This patchseries fixes various places in the manual which were using
-single backticks when double backticks (for literal text) were
-probably intended.  It also fixes a handful of other backtick related
-errors that I noticed while finding these errors.
+build-system.rst seems to have been written under the mistaken
+assumption that single-backticks mark up literal text (function
+names, etc) which should be rendered in a fixed-width font.
+The rST markup for this is ``double backticks``.
 
-I used
-  git grep '\(^\|[^`]\)`\($\|[^`]\)' docs
-to find these mistakes. (That command will also show a lot of
-valid uses of single-backtick for URL and other references.)
+Update all the markup.
 
-A handful of files made this mistake pervasively, and I've given
-those their own commit each.  Changes which aren't just
-single-backtick-to-double-backtick also get their own commit. 
-Otherwise I've rolled up the rest of the fixes into "other
-docs/devel" and "other".
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/devel/build-system.rst | 156 ++++++++++++++++++------------------
+ 1 file changed, 78 insertions(+), 78 deletions(-)
 
-
-Peter Maydell (10):
-  docs/devel/build-system.rst: Format literals correctly
-  docs/devel/build-system.rst: Correct typo in example code
-  docs/devel/ebpf_rss.rst: Format literals correctly
-  docs/devel/migration.rst: Format literals correctly
-  docs/devel: Format literals correctly
-  docs/system/s390x/protvirt.rst: Format literals correctly
-  docs/system/arm/cpu-features.rst: Format literals correctly
-  docs: Format literals correctly
-  docs/about/removed-features: Fix markup error
-  docs/tools/virtiofsd.rst: Delete stray backtick
-
- docs/about/index.rst                       |   2 +-
- docs/about/removed-features.rst            |   2 +-
- docs/devel/build-system.rst                | 160 ++++++++++-----------
- docs/devel/ebpf_rss.rst                    |  18 +--
- docs/devel/migration.rst                   |  36 ++---
- docs/devel/qgraph.rst                      |   8 +-
- docs/devel/tcg-plugins.rst                 |  14 +-
- docs/devel/testing.rst                     |   8 +-
- docs/interop/live-block-operations.rst     |   2 +-
- docs/system/arm/cpu-features.rst           | 116 +++++++--------
- docs/system/arm/nuvoton.rst                |   2 +-
- docs/system/arm/sbsa.rst                   |   4 +-
- docs/system/arm/virt.rst                   |   2 +-
- docs/system/cpu-hotplug.rst                |   2 +-
- docs/system/guest-loader.rst               |   6 +-
- docs/system/ppc/powernv.rst                |   8 +-
- docs/system/riscv/microchip-icicle-kit.rst |   2 +-
- docs/system/riscv/virt.rst                 |   2 +-
- docs/system/s390x/protvirt.rst             |  12 +-
- docs/tools/virtiofsd.rst                   |   2 +-
- 20 files changed, 204 insertions(+), 204 deletions(-)
-
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index fd1650442ec..ee660a998d0 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -53,14 +53,14 @@ following tasks:
+  - Add a Meson build option to meson_options.txt.
+ 
+  - Add support to the command line arg parser to handle any new
+-   `--enable-XXX`/`--disable-XXX` flags required by the feature.
++   ``--enable-XXX``/``--disable-XXX`` flags required by the feature.
+ 
+  - Add information to the help output message to report on the new
+    feature flag.
+ 
+  - Add code to perform the actual feature check.
+ 
+- - Add code to include the feature status in `config-host.h`
++ - Add code to include the feature status in ``config-host.h``
+ 
+  - Add code to print out the feature status in the configure summary
+    upon completion.
+@@ -116,51 +116,51 @@ Helper functions
+ The configure script provides a variety of helper functions to assist
+ developers in checking for system features:
+ 
+-`do_cc $ARGS...`
++``do_cc $ARGS...``
+    Attempt to run the system C compiler passing it $ARGS...
+ 
+-`do_cxx $ARGS...`
++``do_cxx $ARGS...``
+    Attempt to run the system C++ compiler passing it $ARGS...
+ 
+-`compile_object $CFLAGS`
++``compile_object $CFLAGS``
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS. The test program must have been previously written to a file
+-   called $TMPC.  The replacement in Meson is the compiler object `cc`,
+-   which has methods such as `cc.compiles()`,
+-   `cc.check_header()`, `cc.has_function()`.
++   called $TMPC.  The replacement in Meson is the compiler object ``cc``,
++   which has methods such as ``cc.compiles()``,
++   ``cc.check_header()``, ``cc.has_function()``.
+ 
+-`compile_prog $CFLAGS $LDFLAGS`
++``compile_prog $CFLAGS $LDFLAGS``
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS and link it with the system linker using $LDFLAGS. The test
+    program must have been previously written to a file called $TMPC.
+-   The replacement in Meson is `cc.find_library()` and `cc.links()`.
++   The replacement in Meson is ``cc.find_library()`` and ``cc.links()``.
+ 
+-`has $COMMAND`
++``has $COMMAND``
+    Determine if $COMMAND exists in the current environment, either as a
+    shell builtin, or executable binary, returning 0 on success.  The
+-   replacement in Meson is `find_program()`.
++   replacement in Meson is ``find_program()``.
+ 
+-`check_define $NAME`
++``check_define $NAME``
+    Determine if the macro $NAME is defined by the system C compiler
+ 
+-`check_include $NAME`
++``check_include $NAME``
+    Determine if the include $NAME file is available to the system C
+-   compiler.  The replacement in Meson is `cc.has_header()`.
++   compiler.  The replacement in Meson is ``cc.has_header()``.
+ 
+-`write_c_skeleton`
++``write_c_skeleton``
+    Write a minimal C program main() function to the temporary file
+    indicated by $TMPC
+ 
+-`feature_not_found $NAME $REMEDY`
++``feature_not_found $NAME $REMEDY``
+    Print a message to stderr that the feature $NAME was not available
+    on the system, suggesting the user try $REMEDY to address the
+    problem.
+ 
+-`error_exit $MESSAGE $MORE...`
++``error_exit $MESSAGE $MORE...``
+    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+    configure script with non-zero status
+ 
+-`query_pkg_config $ARGS...`
++``query_pkg_config $ARGS...``
+    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
+    then --static will be automatically added to $ARGS
+ 
+@@ -187,7 +187,7 @@ process for:
+ 
+ 4) other data files, such as icons or desktop files
+ 
+-All executables are built by default, except for some `contrib/`
++All executables are built by default, except for some ``contrib/``
+ binaries that are known to fail to build on some platforms (for example
+ 32-bit or big-endian platforms).  Tests are also built by default,
+ though that might change in the future.
+@@ -195,14 +195,14 @@ though that might change in the future.
+ The source code is highly modularized, split across many files to
+ facilitate building of all of these components with as little duplicated
+ compilation as possible. Using the Meson "sourceset" functionality,
+-`meson.build` files group the source files in rules that are
++``meson.build`` files group the source files in rules that are
+ enabled according to the available system libraries and to various
+ configuration symbols.  Sourcesets belong to one of four groups:
+ 
+ Subsystem sourcesets:
+   Various subsystems that are common to both tools and emulators have
+-  their own sourceset, for example `block_ss` for the block device subsystem,
+-  `chardev_ss` for the character device subsystem, etc.  These sourcesets
++  their own sourceset, for example ``block_ss`` for the block device subsystem,
++  ``chardev_ss`` for the character device subsystem, etc.  These sourcesets
+   are then turned into static libraries as follows::
+ 
+     libchardev = static_library('chardev', chardev_ss.sources(),
+@@ -211,8 +211,8 @@ Subsystem sourcesets:
+ 
+     chardev = declare_dependency(link_whole: libchardev)
+ 
+-  As of Meson 0.55.1, the special `.fa` suffix should be used for everything
+-  that is used with `link_whole`, to ensure that the link flags are placed
++  As of Meson 0.55.1, the special ``.fa`` suffix should be used for everything
++  that is used with ``link_whole``, to ensure that the link flags are placed
+   correctly in the command line.
+ 
+ Target-independent emulator sourcesets:
+@@ -221,16 +221,16 @@ Target-independent emulator sourcesets:
+   This includes error handling infrastructure, standard data structures,
+   platform portability wrapper functions, etc.
+ 
+-  Target-independent code lives in the `common_ss`, `softmmu_ss` and
+-  `user_ss` sourcesets.  `common_ss` is linked into all emulators,
+-  `softmmu_ss` only in system emulators, `user_ss` only in user-mode
++  Target-independent code lives in the ``common_ss``, ``softmmu_ss`` and
++  ``user_ss`` sourcesets.  ``common_ss`` is linked into all emulators,
++  ``softmmu_ss`` only in system emulators, ``user_ss`` only in user-mode
+   emulators.
+ 
+   Target-independent sourcesets must exercise particular care when using
+-  `if_false` rules.  The `if_false` rule will be used correctly when linking
++  ``if_false`` rules.  The ``if_false`` rule will be used correctly when linking
+   emulator binaries; however, when *compiling* target-independent files
+-  into .o files, Meson may need to pick *both* the `if_true` and
+-  `if_false` sides to cater for targets that want either side.  To
++  into .o files, Meson may need to pick *both* the ``if_true`` and
++  ``if_false`` sides to cater for targets that want either side.  To
+   achieve that, you can add a special rule using the ``CONFIG_ALL``
+   symbol::
+ 
+@@ -245,14 +245,14 @@ Target-dependent emulator sourcesets:
+   In the target-dependent set lives CPU emulation, some device emulation and
+   much glue code. This sometimes also has to be compiled multiple times,
+   once for each target being built.  Target-dependent files are included
+-  in the `specific_ss` sourceset.
++  in the ``specific_ss`` sourceset.
+ 
+-  Each emulator also includes sources for files in the `hw/` and `target/`
++  Each emulator also includes sources for files in the ``hw/`` and ``target/``
+   subdirectories.  The subdirectory used for each emulator comes
+   from the target's definition of ``TARGET_BASE_ARCH`` or (if missing)
+-  ``TARGET_ARCH``, as found in `default-configs/targets/*.mak`.
++  ``TARGET_ARCH``, as found in ``default-configs/targets/*.mak``.
+ 
+-  Each subdirectory in `hw/` adds one sourceset to the `hw_arch` dictionary,
++  Each subdirectory in ``hw/`` adds one sourceset to the ``hw_arch`` dictionary,
+   for example::
+ 
+     arm_ss = ss.source_set()
+@@ -262,8 +262,8 @@ Target-dependent emulator sourcesets:
+ 
+   The sourceset is only used for system emulators.
+ 
+-  Each subdirectory in `target/` instead should add one sourceset to each
+-  of the `target_arch` and `target_softmmu_arch`, which are used respectively
++  Each subdirectory in ``target/`` instead should add one sourceset to each
++  of the ``target_arch`` and ``target_softmmu_arch``, which are used respectively
+   for all emulators and for system emulators only.  For example::
+ 
+     arm_ss = ss.source_set()
+@@ -273,11 +273,11 @@ Target-dependent emulator sourcesets:
+     target_softmmu_arch += {'arm': arm_softmmu_ss}
+ 
+ Module sourcesets:
+-  There are two dictionaries for modules: `modules` is used for
+-  target-independent modules and `target_modules` is used for
+-  target-dependent modules.  When modules are disabled the `module`
+-  source sets are added to `softmmu_ss` and the `target_modules`
+-  source sets are added to `specific_ss`.
++  There are two dictionaries for modules: ``modules`` is used for
++  target-independent modules and ``target_modules`` is used for
++  target-dependent modules.  When modules are disabled the ``module``
++  source sets are added to ``softmmu_ss`` and the ``target_modules``
++  source sets are added to ``specific_ss``.
+ 
+   Both dictionaries are nested.  One dictionary is created per
+   subdirectory, and these per-subdirectory dictionaries are added to
+@@ -290,15 +290,15 @@ Module sourcesets:
+     modules += { 'hw-display': hw_display_modules }
+ 
+ Utility sourcesets:
+-  All binaries link with a static library `libqemuutil.a`.  This library
++  All binaries link with a static library ``libqemuutil.a``.  This library
+   is built from several sourcesets; most of them however host generated
+-  code, and the only two of general interest are `util_ss` and `stub_ss`.
++  code, and the only two of general interest are ``util_ss`` and ``stub_ss``.
+ 
+   The separation between these two is purely for documentation purposes.
+-  `util_ss` contains generic utility files.  Even though this code is only
++  ``util_ss`` contains generic utility files.  Even though this code is only
+   linked in some binaries, sometimes it requires hooks only in some of
+   these and depend on other functions that are not fully implemented by
+-  all QEMU binaries.  `stub_ss` links dummy stubs that will only be linked
++  all QEMU binaries.  ``stub_ss`` links dummy stubs that will only be linked
+   into the binary if the real implementation is not present.  In a way,
+   the stubs can be thought of as a portable implementation of the weak
+   symbols concept.
+@@ -307,8 +307,8 @@ Utility sourcesets:
+ The following files concur in the definition of which files are linked
+ into each emulator:
+ 
+-`default-configs/devices/*.mak`
+-  The files under `default-configs/devices/` control the boards and devices
++``default-configs/devices/*.mak``
++  The files under ``default-configs/devices/`` control the boards and devices
+   that are built into each QEMU system emulation targets. They merely contain
+   a list of config variable definitions such as::
+ 
+@@ -316,18 +316,18 @@ into each emulator:
+     CONFIG_XLNX_ZYNQMP_ARM=y
+     CONFIG_XLNX_VERSAL=y
+ 
+-`*/Kconfig`
+-  These files are processed together with `default-configs/devices/*.mak` and
++``*/Kconfig``
++  These files are processed together with ``default-configs/devices/*.mak`` and
+   describe the dependencies between various features, subsystems and
+   device models.  They are described in :ref:`kconfig`
+ 
+-`default-configs/targets/*.mak`
+-  These files mostly define symbols that appear in the `*-config-target.h`
++``default-configs/targets/*.mak``
++  These files mostly define symbols that appear in the ``*-config-target.h``
+   file for each emulator [#cfgtarget]_.  However, the ``TARGET_ARCH``
+-  and ``TARGET_BASE_ARCH`` will also be used to select the `hw/` and
+-  `target/` subdirectories that are compiled into each target.
++  and ``TARGET_BASE_ARCH`` will also be used to select the ``hw/`` and
++  ``target/`` subdirectories that are compiled into each target.
+ 
+-.. [#cfgtarget] This header is included by `qemu/osdep.h` when
++.. [#cfgtarget] This header is included by ``qemu/osdep.h`` when
+                 compiling files from the target-specific sourcesets.
+ 
+ These files rarely need changing unless you are adding a completely
+@@ -339,19 +339,19 @@ Support scripts
+ ---------------
+ 
+ Meson has a special convention for invoking Python scripts: if their
+-first line is `#! /usr/bin/env python3` and the file is *not* executable,
++first line is ``#! /usr/bin/env python3`` and the file is *not* executable,
+ find_program() arranges to invoke the script under the same Python
+ interpreter that was used to invoke Meson.  This is the most common
+ and preferred way to invoke support scripts from Meson build files,
+ because it automatically uses the value of configure's --python= option.
+ 
+-In case the script is not written in Python, use a `#! /usr/bin/env ...`
++In case the script is not written in Python, use a ``#! /usr/bin/env ...``
+ line and make the script executable.
+ 
+ Scripts written in Python, where it is desirable to make the script
+ executable (for example for test scripts that developers may want to
+ invoke from the command line, such as tests/qapi-schema/test-qapi.py),
+-should be invoked through the `python` variable in meson.build. For
++should be invoked through the ``python`` variable in meson.build. For
+ example::
+ 
+   test('QAPI schema regression tests', python,
+@@ -375,10 +375,10 @@ rules and wraps them so that e.g. submodules are built before QEMU.
+ The resulting build system is largely non-recursive in nature, in
+ contrast to common practices seen with automake.
+ 
+-Tests are also ran by the Makefile with the traditional `make check`
+-phony target, while benchmarks are run with `make bench`.  Meson test
+-suites such as `unit` can be ran with `make check-unit` too.  It is also
+-possible to run tests defined in meson.build with `meson test`.
++Tests are also ran by the Makefile with the traditional ``make check``
++phony target, while benchmarks are run with ``make bench``.  Meson test
++suites such as ``unit`` can be ran with ``make check-unit`` too.  It is also
++possible to run tests defined in meson.build with ``meson test``.
+ 
+ Important files for the build system
+ ====================================
+@@ -390,28 +390,28 @@ The following key files are statically defined in the source tree, with
+ the rules needed to build QEMU. Their behaviour is influenced by a
+ number of dynamically created files listed later.
+ 
+-`Makefile`
++``Makefile``
+   The main entry point used when invoking make to build all the components
+   of QEMU. The default 'all' target will naturally result in the build of
+   every component. Makefile takes care of recursively building submodules
+   directly via a non-recursive set of rules.
+ 
+-`*/meson.build`
++``*/meson.build``
+   The meson.build file in the root directory is the main entry point for the
+   Meson build system, and it coordinates the configuration and build of all
+   executables.  Build rules for various subdirectories are included in
+   other meson.build files spread throughout the QEMU source tree.
+ 
+-`tests/Makefile.include`
++``tests/Makefile.include``
+   Rules for external test harnesses. These include the TCG tests,
+-  `qemu-iotests` and the Avocado-based acceptance tests.
++  ``qemu-iotests`` and the Avocado-based acceptance tests.
+ 
+-`tests/docker/Makefile.include`
++``tests/docker/Makefile.include``
+   Rules for Docker tests. Like tests/Makefile, this file is included
+   directly by the top level Makefile, anything defined in this file will
+   influence the entire build system.
+ 
+-`tests/vm/Makefile.include`
++``tests/vm/Makefile.include``
+   Rules for VM-based tests. Like tests/Makefile, this file is included
+   directly by the top level Makefile, anything defined in this file will
+   influence the entire build system.
+@@ -427,11 +427,11 @@ Makefile.
+ 
+ Built by configure:
+ 
+-`config-host.mak`
++``config-host.mak``
+   When configure has determined the characteristics of the build host it
+   will write a long list of variables to config-host.mak file. This
+   provides the various install directories, compiler / linker flags and a
+-  variety of `CONFIG_*` variables related to optionally enabled features.
++  variety of ``CONFIG_*`` variables related to optionally enabled features.
+   This is imported by the top level Makefile and meson.build in order to
+   tailor the build output.
+ 
+@@ -446,29 +446,29 @@ Built by configure:
+ 
+ Built by Meson:
+ 
+-`${TARGET-NAME}-config-devices.mak`
++``${TARGET-NAME}-config-devices.mak``
+   TARGET-NAME is again the name of a system or userspace emulator. The
+   config-devices.mak file is automatically generated by make using the
+   scripts/make_device_config.sh program, feeding it the
+   default-configs/$TARGET-NAME file as input.
+ 
+-`config-host.h`, `$TARGET-NAME/config-target.h`, `$TARGET-NAME/config-devices.h`
++``config-host.h``, ``$TARGET-NAME/config-target.h``, ``$TARGET-NAME/config-devices.h``
+   These files are used by source code to determine what features
+   are enabled.  They are generated from the contents of the corresponding
+-  `*.h` files using the scripts/create_config program. This extracts
++  ``*.h`` files using the scripts/create_config program. This extracts
+   relevant variables and formats them as C preprocessor macros.
+ 
+-`build.ninja`
++``build.ninja``
+   The build rules.
+ 
+ 
+ Built by Makefile:
+ 
+-`Makefile.ninja`
++``Makefile.ninja``
+   A Makefile include that bridges to ninja for the actual build.  The
+   Makefile is mostly a list of targets that Meson included in build.ninja.
+ 
+-`Makefile.mtest`
++``Makefile.mtest``
+   The Makefile definitions that let "make check" run tests defined in
+   meson.build.  The rules are produced from Meson's JSON description of
+   tests (obtained with "meson introspect --tests") through the script
+@@ -478,9 +478,9 @@ Built by Makefile:
+ Useful make targets
+ -------------------
+ 
+-`help`
++``help``
+   Print a help message for the most common build targets.
+ 
+-`print-VAR`
++``print-VAR``
+   Print the value of the variable VAR. Useful for debugging the build
+   system.
 -- 
 2.20.1
 
