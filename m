@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F123D59C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:49:25 +0200 (CEST)
-Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F743D59CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:51:10 +0200 (CEST)
+Received: from localhost ([::1]:48764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m802u-000067-MH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:49:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1m804b-0003r6-TA
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m7zxf-0000Bi-UB
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:43:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28470)
+ id 1m7zxm-0000Jw-9S
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:44:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m7zxd-0007qM-Ul
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:43:59 -0400
+ id 1m7zxf-0007rn-Ns
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:44:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627303437;
+ s=mimecast20190719; t=1627303439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q+LP+hPMA1owHGXjwUkB2LoCimXQUKCWKxOFN2urMxQ=;
- b=To1aCqN2izySj/gtzj0GneDvDueHur+xnxXwqgiInsUc4YwHPxS7t6k8uKSLJ5UEai5Yps
- /7z3++K4h5vXURrRWo8yHcVYm/6OHHx1BqXdxuaMUKY/zLmHgPEaXZjyqkLqlOXzTowC9R
- P5+W3Ji6w8D49nCPGnpaOYYJcSxx7Eg=
+ bh=U/gl5wfsyWRK+zKZ13uSTxhB2b9wzq8TiiOdh9by1cI=;
+ b=dq1qmJEqFMArLHhbqtrMV6cvRTm7laWdtc9wwmmi+kdct/WfE118DFfOvNPLILwhlCdlgc
+ y62gtMjIX9FBi2X7wj8chcLLThYt46JENPvPiJxAtf9O8dAXyNI7YxZT6hrCYfKaiFI/2N
+ DAn66/kj4xlQCNXjO/8HQA5DWSAdqi4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-KEQ6XA1QOMCiX9vS2iI8ew-1; Mon, 26 Jul 2021 08:43:55 -0400
-X-MC-Unique: KEQ6XA1QOMCiX9vS2iI8ew-1
+ us-mta-302-ZTxtfoenNn2-ywjqX18gnQ-1; Mon, 26 Jul 2021 08:43:57 -0400
+X-MC-Unique: ZTxtfoenNn2-ywjqX18gnQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE65A3639F;
- Mon, 26 Jul 2021 12:43:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A974F80292B;
+ Mon, 26 Jul 2021 12:43:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-117.ams2.redhat.com
  [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6332860C4A;
- Mon, 26 Jul 2021 12:43:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35A3A60C4A;
+ Mon, 26 Jul 2021 12:43:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	wei.w.wang@intel.com,
 	peterx@redhat.com
-Subject: [PULL 3/7] migration: Make from_dst_file accesses thread-safe
-Date: Mon, 26 Jul 2021 13:43:27 +0100
-Message-Id: <20210726124331.124710-4-dgilbert@redhat.com>
+Subject: [PULL 4/7] migration: Introduce migration_ioc_[un]register_yank()
+Date: Mon, 26 Jul 2021 13:43:28 +0100
+Message-Id: <20210726124331.124710-5-dgilbert@redhat.com>
 In-Reply-To: <20210726124331.124710-1-dgilbert@redhat.com>
 References: <20210726124331.124710-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,162 +88,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Accessing from_dst_file is potentially racy in current code base like below:
+There're plenty of places in migration/* that checks against either socket or
+tls typed ioc for yank operations.  Provide two helpers to hide all these
+information.
 
-  if (s->from_dst_file)
-    do_something(s->from_dst_file);
-
-Because from_dst_file can be reset right after the check in another
-thread (rp_thread).  One example is migrate_fd_cancel().
-
-Use the same qemu_file_lock to protect it too, just like to_dst_file.
-
-When it's safe to access without lock, comment it.
-
-There's one special reference in migration_thread() that can be replaced by
-the newly introduced rp_thread_created flag.
-
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210722175841.938739-4-peterx@redhat.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Message-Id: <20210722175841.938739-3-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  with Peter's fixup
 ---
- migration/migration.c | 39 +++++++++++++++++++++++++++++----------
- migration/migration.h |  8 +++++---
- migration/ram.c       |  1 +
- 3 files changed, 35 insertions(+), 13 deletions(-)
+ migration/channel.c           | 15 ++-------------
+ migration/multifd.c           |  8 ++------
+ migration/qemu-file-channel.c |  8 ++------
+ migration/yank_functions.c    | 28 ++++++++++++++++++++++++++++
+ migration/yank_functions.h    |  2 ++
+ 5 files changed, 36 insertions(+), 25 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 21b94f75a3..62dbcb7d52 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1879,9 +1879,11 @@ static void migrate_fd_cancel(MigrationState *s)
-     QEMUFile *f = migrate_get_current()->to_dst_file;
-     trace_migrate_fd_cancel();
- 
--    if (s->rp_state.from_dst_file) {
--        /* shutdown the rp socket, so causing the rp thread to shutdown */
--        qemu_file_shutdown(s->rp_state.from_dst_file);
-+    WITH_QEMU_LOCK_GUARD(&s->qemu_file_lock) {
-+        if (s->rp_state.from_dst_file) {
-+            /* shutdown the rp socket, so causing the rp thread to shutdown */
-+            qemu_file_shutdown(s->rp_state.from_dst_file);
-+        }
+diff --git a/migration/channel.c b/migration/channel.c
+index 01275a9162..c4fc000a1a 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -44,13 +44,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+                              TYPE_QIO_CHANNEL_TLS)) {
+         migration_tls_channel_process_incoming(s, ioc, &local_err);
+     } else {
+-        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+-            object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+-            yank_register_function(MIGRATION_YANK_INSTANCE,
+-                                   migration_yank_iochannel,
+-                                   QIO_CHANNEL(ioc));
+-        }
+-
++        migration_ioc_register_yank(ioc);
+         migration_ioc_process_incoming(ioc, &local_err);
      }
  
-     do {
-@@ -2686,6 +2688,23 @@ static int migrate_handle_rp_resume_ack(MigrationState *s, uint32_t value)
-     return 0;
- }
+@@ -94,12 +88,7 @@ void migration_channel_connect(MigrationState *s,
+         } else {
+             QEMUFile *f = qemu_fopen_channel_output(ioc);
  
-+/* Release ms->rp_state.from_dst_file in a safe way */
-+static void migration_release_from_dst_file(MigrationState *ms)
+-            if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+-                object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+-                yank_register_function(MIGRATION_YANK_INSTANCE,
+-                                       migration_yank_iochannel,
+-                                       QIO_CHANNEL(ioc));
+-            }
++            migration_ioc_register_yank(ioc);
+ 
+             qemu_mutex_lock(&s->qemu_file_lock);
+             s->to_dst_file = f;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index ab41590e71..377da78f5b 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -987,12 +987,8 @@ int multifd_load_cleanup(Error **errp)
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDRecvParams *p = &multifd_recv_state->params[i];
+ 
+-        if ((object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET) ||
+-             object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS))
+-            && OBJECT(p->c)->ref == 1) {
+-            yank_unregister_function(MIGRATION_YANK_INSTANCE,
+-                                     migration_yank_iochannel,
+-                                     QIO_CHANNEL(p->c));
++        if (OBJECT(p->c)->ref == 1) {
++            migration_ioc_unregister_yank(p->c);
+         }
+ 
+         object_unref(OBJECT(p->c));
+diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+index fad340ea7a..867a5ed0c3 100644
+--- a/migration/qemu-file-channel.c
++++ b/migration/qemu-file-channel.c
+@@ -107,12 +107,8 @@ static int channel_close(void *opaque, Error **errp)
+     int ret;
+     QIOChannel *ioc = QIO_CHANNEL(opaque);
+     ret = qio_channel_close(ioc, errp);
+-    if ((object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+-         object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS))
+-        && OBJECT(ioc)->ref == 1) {
+-        yank_unregister_function(MIGRATION_YANK_INSTANCE,
+-                                 migration_yank_iochannel,
+-                                 QIO_CHANNEL(ioc));
++    if (OBJECT(ioc)->ref == 1) {
++        migration_ioc_unregister_yank(ioc);
+     }
+     object_unref(OBJECT(ioc));
+     return ret;
+diff --git a/migration/yank_functions.c b/migration/yank_functions.c
+index 96c90e17dc..23697173ae 100644
+--- a/migration/yank_functions.c
++++ b/migration/yank_functions.c
+@@ -11,6 +11,9 @@
+ #include "qapi/error.h"
+ #include "io/channel.h"
+ #include "yank_functions.h"
++#include "qemu/yank.h"
++#include "io/channel-socket.h"
++#include "io/channel-tls.h"
+ 
+ void migration_yank_iochannel(void *opaque)
+ {
+@@ -18,3 +21,28 @@ void migration_yank_iochannel(void *opaque)
+ 
+     qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+ }
++
++/* Return whether yank is supported on this ioc */
++static bool migration_ioc_yank_supported(QIOChannel *ioc)
 +{
-+    QEMUFile *file;
-+
-+    WITH_QEMU_LOCK_GUARD(&ms->qemu_file_lock) {
-+        /*
-+         * Reset the from_dst_file pointer first before releasing it, as we
-+         * can't block within lock section
-+         */
-+        file = ms->rp_state.from_dst_file;
-+        ms->rp_state.from_dst_file = NULL;
-+    }
-+
-+    qemu_fclose(file);
++    return object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
++        object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS);
 +}
 +
- /*
-  * Handles messages sent on the return path towards the source VM
-  *
-@@ -2827,11 +2846,13 @@ out:
-              * Maybe there is something we can do: it looks like a
-              * network down issue, and we pause for a recovery.
-              */
--            qemu_fclose(rp);
--            ms->rp_state.from_dst_file = NULL;
-+            migration_release_from_dst_file(ms);
-             rp = NULL;
-             if (postcopy_pause_return_path_thread(ms)) {
--                /* Reload rp, reset the rest */
-+                /*
-+                 * Reload rp, reset the rest.  Referencing it is safe since
-+                 * it's reset only by us above, or when migration completes
-+                 */
-                 rp = ms->rp_state.from_dst_file;
-                 ms->rp_state.error = false;
-                 goto retry;
-@@ -2843,8 +2864,7 @@ out:
-     }
- 
-     trace_source_return_path_thread_end();
--    ms->rp_state.from_dst_file = NULL;
--    qemu_fclose(rp);
-+    migration_release_from_dst_file(ms);
-     rcu_unregister_thread();
-     return NULL;
- }
-@@ -2852,7 +2872,6 @@ out:
- static int open_return_path_on_source(MigrationState *ms,
-                                       bool create_thread)
- {
--
-     ms->rp_state.from_dst_file = qemu_file_get_return_path(ms->to_dst_file);
-     if (!ms->rp_state.from_dst_file) {
-         return -1;
-@@ -3746,7 +3765,7 @@ static void *migration_thread(void *opaque)
-      * If we opened the return path, we need to make sure dst has it
-      * opened as well.
-      */
--    if (s->rp_state.from_dst_file) {
-+    if (s->rp_state.rp_thread_created) {
-         /* Now tell the dest that it should open its end so it can reply */
-         qemu_savevm_send_open_return_path(s->to_dst_file);
- 
-diff --git a/migration/migration.h b/migration/migration.h
-index c302879fad..7a5aa8c2fd 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -154,12 +154,13 @@ struct MigrationState {
-     QemuThread thread;
-     QEMUBH *vm_start_bh;
-     QEMUBH *cleanup_bh;
-+    /* Protected by qemu_file_lock */
-     QEMUFile *to_dst_file;
-     QIOChannelBuffer *bioc;
-     /*
--     * Protects to_dst_file pointer.  We need to make sure we won't
--     * yield or hang during the critical section, since this lock will
--     * be used in OOB command handler.
-+     * Protects to_dst_file/from_dst_file pointers.  We need to make sure we
-+     * won't yield or hang during the critical section, since this lock will be
-+     * used in OOB command handler.
-      */
-     QemuMutex qemu_file_lock;
- 
-@@ -192,6 +193,7 @@ struct MigrationState {
- 
-     /* State related to return path */
-     struct {
-+        /* Protected by qemu_file_lock */
-         QEMUFile     *from_dst_file;
-         QemuThread    rp_thread;
-         bool          error;
-diff --git a/migration/ram.c b/migration/ram.c
-index b5fc454b2f..f728f5072f 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4012,6 +4012,7 @@ static void ram_dirty_bitmap_reload_notify(MigrationState *s)
- int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
- {
-     int ret = -EINVAL;
-+    /* from_dst_file is always valid because we're within rp_thread */
-     QEMUFile *file = s->rp_state.from_dst_file;
-     unsigned long *le_bitmap, nbits = block->used_length >> TARGET_PAGE_BITS;
-     uint64_t local_size = DIV_ROUND_UP(nbits, 8);
++void migration_ioc_register_yank(QIOChannel *ioc)
++{
++    if (migration_ioc_yank_supported(ioc)) {
++        yank_register_function(MIGRATION_YANK_INSTANCE,
++                               migration_yank_iochannel,
++                               QIO_CHANNEL(ioc));
++    }
++}
++
++void migration_ioc_unregister_yank(QIOChannel *ioc)
++{
++    if (migration_ioc_yank_supported(ioc)) {
++        yank_unregister_function(MIGRATION_YANK_INSTANCE,
++                                 migration_yank_iochannel,
++                                 QIO_CHANNEL(ioc));
++    }
++}
+diff --git a/migration/yank_functions.h b/migration/yank_functions.h
+index 055ea22523..74c7f18c91 100644
+--- a/migration/yank_functions.h
++++ b/migration/yank_functions.h
+@@ -15,3 +15,5 @@
+  * @opaque: QIOChannel to shutdown
+  */
+ void migration_yank_iochannel(void *opaque);
++void migration_ioc_register_yank(QIOChannel *ioc);
++void migration_ioc_unregister_yank(QIOChannel *ioc);
 -- 
 2.31.1
 
