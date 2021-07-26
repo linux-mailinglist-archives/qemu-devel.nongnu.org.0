@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF193D596E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:26:59 +0200 (CEST)
-Received: from localhost ([::1]:48140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECD43D5980
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:29:52 +0200 (CEST)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7zhC-0007kv-M0
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:26:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
+	id 1m7zjz-0001Wi-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m7zgH-0006WJ-SS
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:26:01 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:48684 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m7zgF-0005ye-Tz
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:26:01 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn0LSqf5gZxMkAA--.23458S3; 
- Mon, 26 Jul 2021 20:25:55 +0800 (CST)
-Subject: Re: [PATCH v2 11/22] target/loongarch: Add fixed point atomic
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-12-git-send-email-gaosong@loongson.cn>
- <1b4f41a3-1f7c-6eaa-d0d4-e676888fdc98@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <c7c20423-a027-5f93-bb15-9b483dc0be58@loongson.cn>
-Date: Mon, 26 Jul 2021 20:25:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m7zj1-0000aT-6a
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:28:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m7ziz-0007nN-2F
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:28:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627302528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mp4ubmuRwJfgQpPqzsxHIpFw60DKCsKYP1z8mt/ql8U=;
+ b=P/6iLJ2DXNiC0rX7j0GbtgHdM1Jq34q41DetBzA+SC/J9JiuTeI2MINCXRHXa9gNCUG9Dg
+ llvcLvbLcQmTBFz2EM0u4WKZDYBDR4C6l1iNjTtU6+0MnNI/pRRgo63r/ZXo/+Kqkjl8hY
+ KylfYiLw/Nmn7fb1clt93kJt+/08dgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-3j61S3p0M0KgnHw4Fjl90Q-1; Mon, 26 Jul 2021 08:28:44 -0400
+X-MC-Unique: 3j61S3p0M0KgnHw4Fjl90Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 217AE80292B;
+ Mon, 26 Jul 2021 12:28:44 +0000 (UTC)
+Received: from localhost (ovpn-113-151.ams2.redhat.com [10.36.113.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36D5C3AC0;
+ Mon, 26 Jul 2021 12:28:39 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] raw-format: drop WRITE and RESIZE child perms when possible
+Date: Mon, 26 Jul 2021 13:28:39 +0100
+Message-Id: <20210726122839.822900-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1b4f41a3-1f7c-6eaa-d0d4-e676888fdc98@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn0LSqf5gZxMkAA--.23458S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCryruF1UAF4kCF1xJr1rCrg_yoWrJry5pr
- 18Jr1UJryUJr18Jr1UJr1UJryUJr1UJw1UJr1UJF1UJr1UJr1jqr1UXr1jgr1UJr48Jr1U
- Jr1UJr1UZr1UJrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
- JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- ACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
- 07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8V
- W5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbE_M3UUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,52 +76,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, afrosi@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard.
-
-On 07/23/2021 09:49 AM, Richard Henderson wrote:
-> On 7/20/21 11:53 PM, Song Gao wrote:
->> +#define TRANS_AM_W(name, op)                                      \
->> +static bool trans_ ## name(DisasContext *ctx, arg_ ## name * a)   \
->> +{                                                                 \
->> +    TCGv addr, val, ret;                                          \
->> +    TCGv Rd = cpu_gpr[a->rd];                                     \
->> +    int mem_idx = ctx->mem_idx;                                   \
->> +                                                                  \
->> +    if (a->rd == 0) {                                             \
->> +        return true;                                              \
->> +    }                                                             \
->> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) { \
->> +        printf("%s: warning, register equal\n", __func__);        \
->> +        return false;                                             \
->> +    }                                                             \
->> +                                                                  \
->> +    addr = get_gpr(a->rj);                                        \
->> +    val = get_gpr(a->rk);                                         \
->> +    ret = tcg_temp_new();                                         \
->> +                                                                  \
->> +    tcg_gen_atomic_##op##_tl(ret, addr, val, mem_idx, MO_TESL |   \
->> +                            ctx->default_tcg_memop_mask);         \
->> +    tcg_gen_mov_tl(Rd, ret);                                      \
->> +                                                                  \
->> +    tcg_temp_free(ret);                                           \
->> +                                                                  \
->> +    return true;                                                  \
->> +}
-> 
-> No printf.  Use a common routine instead of macros.
-> 
-OK.
-
-Thanks
-Song Gao.
-> 
-> r~
+VGhlIGZvbGxvd2luZyBjb21tYW5kLWxpbmUgZmFpbHMgZHVlIHRvIGEgcGVybWlzc2lvbnMgY29u
+ZmxpY3Q6CgogICQgcWVtdS1zdG9yYWdlLWRhZW1vbiBcCiAgICAgIC0tYmxvY2tkZXYgZHJpdmVy
+PW52bWUsbm9kZS1uYW1lPW52bWUwLGRldmljZT0wMDAwOjA4OjAwLjAsbmFtZXNwYWNlPTEgXAog
+ICAgICAtLWJsb2NrZGV2IGRyaXZlcj1yYXcsbm9kZS1uYW1lPWwxLTEsZmlsZT1udm1lMCxvZmZz
+ZXQ9MCxzaXplPTEwNzM3NDE4MjQgXAogICAgICAtLWJsb2NrZGV2IGRyaXZlcj1yYXcsbm9kZS1u
+YW1lPWwxLTIsZmlsZT1udm1lMCxvZmZzZXQ9MTA3Mzc0MTgyNCxzaXplPTEwNzM3NDE4MjQgXAog
+ICAgICAtLW5iZC1zZXJ2ZXIgYWRkci50eXBlPXVuaXgsYWRkci5wYXRoPS90bXAvbmJkLnNvY2ss
+bWF4LWNvbm5lY3Rpb25zPTIgXAogICAgICAtLWV4cG9ydCB0eXBlPW5iZCxpZD1uYmQtbDEtMSxu
+b2RlLW5hbWU9bDEtMSxuYW1lPWwxLTEsd3JpdGFibGU9b24gXAogICAgICAtLWV4cG9ydCB0eXBl
+PW5iZCxpZD1uYmQtbDEtMixub2RlLW5hbWU9bDEtMixuYW1lPWwxLTIsd3JpdGFibGU9b24KCiAg
+cWVtdS1zdG9yYWdlLWRhZW1vbjogLS1leHBvcnQgdHlwZT1uYmQsaWQ9bmJkLWwxLTEsbm9kZS1u
+YW1lPWwxLTEsbmFtZT1sMS0xLHdyaXRhYmxlPW9uOiBQZXJtaXNzaW9uIGNvbmZsaWN0IG9uIG5v
+ZGUgJ252bWUwJzogcGVybWlzc2lvbnMgJ3Jlc2l6ZScgYXJlIGJvdGggcmVxdWlyZWQgYnkgbm9k
+ZSAnbDEtMScgKHVzZXMgbm9kZSAnbnZtZTAnIGFzICdmaWxlJyBjaGlsZCkgYW5kIHVuc2hhcmVk
+IGJ5IG5vZGUgJ2wxLTInICh1c2VzIG5vZGUgJ252bWUwJyBhcyAnZmlsZScgY2hpbGQpLgoKVGhl
+IHByb2JsZW0gaXMgdGhhdCBibG9jay9yYXctZm9ybWF0LmMgcmVsaWVzIG9uIGJkcnZfZGVmYXVs
+dF9wZXJtcygpIHRvCnNldCBwZXJtaXNzaW9ucyBvbiB0aGUgbnZtZSBub2RlLiBUaGUgZGVmYXVs
+dCBwZXJtaXNzaW9ucyBhZGQgUkVTSVpFIGluCmFudGljaXBhdGlvbiBvZiBhIGZvcm1hdCBkcml2
+ZXIgbGlrZSBxY293MiB0aGF0IG5lZWRzIHRvIGdyb3cgdGhlIGltYWdlCmZpbGUuIFRoaXMgZmFp
+bHMgYmVjYXVzZSBSRVNJWkUgaXMgdW5zaGFyZWQsIHNvIHdlIGNhbm5vdCBnZXQgdGhlIFJFU0la
+RQpwZXJtaXNzaW9uLgoKTWF4IFJlaXR6IHBvaW50ZWQgb3V0IHRoYXQgYmxvY2svY3J5cHRvLmMg
+YWxyZWFkeSBoYW5kbGVzIHRoaXMgY2FzZSBieQppbXBsZW1lbnRpbmcgYSBjdXN0b20gLT5iZHJ2
+X2NoaWxkX3Blcm0oKSBmdW5jdGlvbiB0aGF0IGFkanVzdHMgdGhlCnJlc3VsdCBvZiBiZHJ2X2Rl
+ZmF1bHRfcGVybXMoKS4KClRoaXMgcGF0Y2ggdGFrZXMgdGhlIHNhbWUgYXBwcm9hY2ggaW4gYmxv
+Y2svcmF3LWZvcm1hdC5jIHNvIHRoYXQgUkVTSVpFCmlzIG9ubHkgcmVxdWlyZWQgaWYgaXQncyBh
+Y3R1YWxseSBuZWNlc3NhcnkgKGUuZy4gdGhlIHBhcmVudCBpcyBxY293MikuCgpDYzogTWF4IFJl
+aXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4KQ2M6IEtldmluIFdvbGYgPGt3b2xmQHJlZGhhdC5jb20+
+ClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0t
+ClRoaXMgaXMgbm90IGEgYnVnIGZpeCwgc28gSSBkaWRuJ3QgbWFyayBpdCBmb3IgUUVNVSA2LjEu
+IEl0J3MgbmV3CmJlaGF2aW9yIHRoYXQgaGFzbid0IGJlZW4gc3VwcG9ydGVkIGJlZm9yZS4gSSB3
+YW50IHRvIHNwbGl0IGFuIE5WTWUKZHJpdmUgdXNpbmcgdGhlIHJhdyBmb3JtYXQncyBvZmZzZXQ9
+L3NpemU9IGZlYXR1cmUuCi0tLQogYmxvY2svcmF3LWZvcm1hdC5jIHwgMjEgKysrKysrKysrKysr
+KysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL2Jsb2NrL3Jhdy1mb3JtYXQuYyBiL2Jsb2NrL3Jhdy1mb3JtYXQuYwpp
+bmRleCA3NzE3NTc4ZWQ2Li5jMjZmNDkzNjg4IDEwMDY0NAotLS0gYS9ibG9jay9yYXctZm9ybWF0
+LmMKKysrIGIvYmxvY2svcmF3LWZvcm1hdC5jCkBAIC01ODAsNiArNTgwLDI1IEBAIHN0YXRpYyB2
+b2lkIHJhd19jYW5jZWxfaW5fZmxpZ2h0KEJsb2NrRHJpdmVyU3RhdGUgKmJzKQogICAgIGJkcnZf
+Y2FuY2VsX2luX2ZsaWdodChicy0+ZmlsZS0+YnMpOwogfQogCitzdGF0aWMgdm9pZCByYXdfY2hp
+bGRfcGVybShCbG9ja0RyaXZlclN0YXRlICpicywgQmRydkNoaWxkICpjLAorICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgQmRydkNoaWxkUm9sZSByb2xlLAorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgQmxvY2tSZW9wZW5RdWV1ZSAqcmVvcGVuX3F1ZXVlLAorICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdWludDY0X3QgcGFyZW50X3Blcm0sIHVpbnQ2NF90IHBhcmVudF9zaGFyZWQsCisg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50NjRfdCAqbnBlcm0sIHVpbnQ2NF90ICpuc2hh
+cmVkKQoreworICAgIGJkcnZfZGVmYXVsdF9wZXJtcyhicywgYywgcm9sZSwgcmVvcGVuX3F1ZXVl
+LCBwYXJlbnRfcGVybSwKKyAgICAgICAgICAgICAgICAgICAgICAgcGFyZW50X3NoYXJlZCwgbnBl
+cm0sIG5zaGFyZWQpOworCisgICAgLyoKKyAgICAgKiBiZHJ2X2RlZmF1bHRfcGVybXMoKSBtYXkg
+YWRkIFdSSVRFIGFuZC9vciBSRVNJWkUgKHNlZSBjb21tZW50IGluCisgICAgICogYmRydl9kZWZh
+dWx0X3Blcm1zX2Zvcl9zdG9yYWdlKCkgZm9yIGFuIGV4cGxhbmF0aW9uKSBidXQgd2Ugb25seSBu
+ZWVkCisgICAgICogdGhlbSBpZiB0aGV5IGFyZSBpbiBwYXJlbnRfcGVybS4gRHJvcCBXUklURSBh
+bmQgUkVTSVpFIHdoZW5ldmVyIHBvc3NpYmxlCisgICAgICogdG8gYXZvaWQgcGVybWlzc2lvbiBj
+b25mbGljdHMuCisgICAgICovCisgICAgKm5wZXJtICY9IH4oQkxLX1BFUk1fV1JJVEUgfCBCTEtf
+UEVSTV9SRVNJWkUpOworICAgICpucGVybSB8PSBwYXJlbnRfcGVybSAmIChCTEtfUEVSTV9XUklU
+RSB8IEJMS19QRVJNX1JFU0laRSk7Cit9CisKIEJsb2NrRHJpdmVyIGJkcnZfcmF3ID0gewogICAg
+IC5mb3JtYXRfbmFtZSAgICAgICAgICA9ICJyYXciLAogICAgIC5pbnN0YW5jZV9zaXplICAgICAg
+ICA9IHNpemVvZihCRFJWUmF3U3RhdGUpLApAQCAtNTg4LDcgKzYwNyw3IEBAIEJsb2NrRHJpdmVy
+IGJkcnZfcmF3ID0gewogICAgIC5iZHJ2X3Jlb3Blbl9jb21taXQgICA9ICZyYXdfcmVvcGVuX2Nv
+bW1pdCwKICAgICAuYmRydl9yZW9wZW5fYWJvcnQgICAgPSAmcmF3X3Jlb3Blbl9hYm9ydCwKICAg
+ICAuYmRydl9vcGVuICAgICAgICAgICAgPSAmcmF3X29wZW4sCi0gICAgLmJkcnZfY2hpbGRfcGVy
+bSAgICAgID0gYmRydl9kZWZhdWx0X3Blcm1zLAorICAgIC5iZHJ2X2NoaWxkX3Blcm0gICAgICA9
+IHJhd19jaGlsZF9wZXJtLAogICAgIC5iZHJ2X2NvX2NyZWF0ZV9vcHRzICA9ICZyYXdfY29fY3Jl
+YXRlX29wdHMsCiAgICAgLmJkcnZfY29fcHJlYWR2ICAgICAgID0gJnJhd19jb19wcmVhZHYsCiAg
+ICAgLmJkcnZfY29fcHdyaXRldiAgICAgID0gJnJhd19jb19wd3JpdGV2LAotLSAKMi4zMS4xCgo=
 
 
