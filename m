@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16663D681A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 22:23:37 +0200 (CEST)
-Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414CD3D685B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:01:57 +0200 (CEST)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m878S-0005y4-H1
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 16:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
+	id 1m87jX-0000RI-SV
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m877d-0005Hw-59
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:22:45 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m877b-0007jX-NT
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:22:44 -0400
-Received: by mail-ed1-x529.google.com with SMTP id x90so5914216ede.8
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 13:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l4FFvZP2tXQubXiEAhztVxsysssM4vfPQ3LQb+RLFCE=;
- b=dPs2Lj5ETzztzugXI+Yi+z1qD9BtyyRknOFQaBB5Z+TNhi8COG8aqqyAjMTY33hL2M
- 8sQTeVwoS0y/0fzxJU5oBLSRvh3VhJ5/jWbKvKNZDRGNG5HQHynoUsA5nYc6iN0mtwv3
- rW+1QWFAc7vDoe71JnWRoFeae0bW3HYIZcdQ98wrwmezdAcd1VIe1oDK7JDE2rIew1zJ
- Fu1+ssRIkBPd7L1LMMv4yccEBY4by25XBlkTzbIEQR894Fq57kC8I3UMyMFbI+WW329f
- VI9A7ZyO9SgheMqZGT6sb1K2h0OSGGL/8Jn5LMe9oT6vORFOu1QDKLCxDyDFwPjRgrRn
- mdNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l4FFvZP2tXQubXiEAhztVxsysssM4vfPQ3LQb+RLFCE=;
- b=efM251Ph1n+WmslxeGZjN5iwlWHpxG7QANZfG++hOSamBhA7E8I/vAvjK4dPwqUU49
- MTSZNllmObwpDNmkYm7FWEWjtIL0//Jk3UWVkbJjdN8xoK5YROHaqUu+j0/ccDLqcrRb
- HGaC76IFr3DeKd3JLcaQ+AHmQW2uEgIBNcakXmHV+wXimrDqUCr4hxrRkKMdRI389KcL
- tGIFMZJd1NyTi5TWCy5bIOXje6Z0JG+DMXToV0JA20iRZV63tE5TUUAUREZn7Iu89jaQ
- D+SXQED0dZilcXclshZEu57Sz+qxC0Jz2u2IM8f7ZAlKkJ9vHXoms39ZClsCIrl2nJKv
- /shw==
-X-Gm-Message-State: AOAM531Yn8FFqMgmCGUWJDFc2hGFOSsDgzxsB1zEGqumNhod7PvZXwq5
- EUbkAobLbHlmvU96+syn87sNImxM2lHVx71rVvfJMg==
-X-Google-Smtp-Source: ABdhPJyWfn0m6ShQZs6UXpwX8odnq0dMhbBmeyPZ2ghBzWEnUKGnYbdRMLkWw8rLC+LOWBoZ0Ezb8h4g48gdnsyKCT0=
-X-Received: by 2002:aa7:d30e:: with SMTP id p14mr4760417edq.204.1627330962192; 
- Mon, 26 Jul 2021 13:22:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m87iO-00086u-Iu
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:00:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m87iK-0008Rs-Mq
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:00:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627333235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c0QK0wzaYu7CL+Lx/Egmnlnla0nySEPLVQPqc9xpxSU=;
+ b=GlqM5NG5wCKfuWVc/6bcujabM8J2F+Pd7mfEodXM7d2kgJOEDaVLLlwtZ3f98jBeLs3v53
+ DFmQyfJJ2AnmS1T4vCw1YnDMpekK0HM3yYk9g/PbE7jDc692pehqt8OjdcWTq2J79+3Yyl
+ Dk3oAeIwa+PqIBHqugZTC61OhQHrQbg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-w4Li0QyCOo6fyWnCYu6CwQ-1; Mon, 26 Jul 2021 17:00:20 -0400
+X-MC-Unique: w4Li0QyCOo6fyWnCYu6CwQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7474B1074661;
+ Mon, 26 Jul 2021 21:00:19 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7812101E249;
+ Mon, 26 Jul 2021 21:00:18 +0000 (UTC)
+Date: Mon, 26 Jul 2021 17:00:18 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Jade Cheng <chengjiayao@bytedance.com>
+Subject: Re: [PATCH] Fix CPUID_Fn8000001E_EBX for AMD
+Message-ID: <20210726210018.bfpd7rpnatw5377z@habkost.net>
+References: <20210630082551.12956-1-chengjiayao@bytedance.com>
 MIME-Version: 1.0
-References: <20210726201109.1875632-1-richard.henderson@linaro.org>
-In-Reply-To: <20210726201109.1875632-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Jul 2021 21:22:00 +0100
-Message-ID: <CAFEAcA_h9v9CHBwftHcC9ZsLP+N-awQCQf7YJMvXO8fO47R-VA@mail.gmail.com>
-Subject: Re: [PATCH] fixup! target/arm: Add sve-default-vector-length cpu
- property
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210630082551.12956-1-chengjiayao@bytedance.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,38 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, pizhenwei@bytedance.com,
+ Babu Moger <babu.moger@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 21:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
+CCing the original author of that code (Babu Moger).
+
+On Wed, Jun 30, 2021 at 04:25:51PM +0800, Jade Cheng wrote:
+> According to AMD64 Arch Programmer's Manual Appendix D,
+> bits 7:0 in Fn8000_001E_EBX should be physical core(s) per logical processor, not per die.
+
+Do you mean physical cores per package/socket?
+
+> 
+> Signed-off-by: Jade Cheng <chengjiayao@bytedance.com>
+
+Do you have a pointer to the specific paragraph of the
+documentation that states that?
+
+https://www.amd.com/system/files/TechDocs/24594.pdf
+page 634 says:
+
+  CPUID Fn8000_001E_EBX Compute Unit Identifiers
+  [...]
+  7:0 ComputeUnitId Compute unit ID. Identifies a Compute Unit,
+                    which may be one or more physical cores that each implement
+                    one or more logical processors
+
+I don't see any content referencing physical cores per logical
+processor, or physical cores per package/socket.
+
+Which problem are you trying to fix here?
+
+
 > ---
->  docs/system/arm/cpu-features.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-> index 79b87f7c5f..67847a5cc1 100644
-> --- a/docs/system/arm/cpu-features.rst
-> +++ b/docs/system/arm/cpu-features.rst
-> @@ -385,5 +385,6 @@ defined to mirror the Linux kernel parameter file
->  is in units of bytes and must be between 16 and 8192.
->  If not specified, the default vector length is 64.
->
-> -If the default length is larger than the maximum vector length enabled
-> -with ``sve<N>`` properties, the actual vector length will be reduced.
-> +If the default length is larger than the maximum vector length enabled,
-> +the actual vector length will be reduced.  Note that the maximum vector
-> +length supported by QEMU is 256.
+>  target/i386/cpu.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index a9fe1662d3..417f5ba81f 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -381,7 +381,13 @@ static void encode_topo_cpuid8000001e(X86CPU *cpu, X86CPUTopoInfo *topo_info,
+>       *  NOTE: CoreId is already part of apic_id. Just use it. We can
+>       *  use all the 8 bits to represent the core_id here.
+>       */
+> -    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.core_id & 0xFF);
+> +    uint32_t core_id = topo_ids.core_id;
+> +
+> +    if (IS_AMD_CPU(&cpu->env)) {
+> +        core_id = topo_ids.core_id + topo_ids.die_id * topo_info->cores_per_die;
+> +    }
+> +
+> +    *ebx = ((topo_info->threads_per_core - 1) << 8) | (core_id & 0xFF);
+>  
+>      /*
+>       * CPUID_Fn8000001E_ECX [Node Identifiers] (NodeId)
+> -- 
+> 2.24.3 (Apple Git-128)
+> 
 
-Thanks. I've squashed that into the patch in target-arm.next.
+-- 
+Eduardo
 
-I plan to send this as part of a pullreq for rc1 tomorrow probably
-midday-ish UK time, unless somebody speaks up now to say they'd
-rather have more time for review/testing/whatever. (That wouldn't
-mean it missed 6.1, as a bugfix-of-sorts this can go in rc2 if
-necessary.)
-
--- PMM
 
