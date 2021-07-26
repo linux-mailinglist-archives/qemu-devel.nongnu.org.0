@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED563D68EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:48:53 +0200 (CEST)
-Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6F83D68ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:48:57 +0200 (CEST)
+Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m88Sy-0004Gd-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
+	id 1m88T2-0004Pi-BY
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88Rk-0002Le-7F
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:36 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38581)
+ id 1m88Rl-0002Lx-Kg
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:37 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88Ri-00064d-FX
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:35 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- mz5-20020a17090b3785b0290176ecf64922so980269pjb.3
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:33 -0700 (PDT)
+ id 1m88Rj-000655-Cw
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:37 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ ds11-20020a17090b08cbb0290172f971883bso1016578pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XkkMpDBXhAYyPCcb4zqpBx/YrT6Q370X+NlgFKUoQu8=;
- b=DyVq7Uz3VDv4+iWRtNMmWQQBEaPDUlmvbtFpjGYaYgiT+llty6gUdSS6ynUt1klF7b
- WvP9/RfRTzoR8sU3TeOS1GAXp0s9/+4gPJARUBul48tVgIwr6ouNlrupuHwECGRdvN/y
- x/w3dEXv1IklaFkfZM9gPtlvx8f8bxZ/8kriVBs0WleNGtqMursal+Xo8hUb6DHAgYmU
- JF9CDCMf9sqjsUhD5ca5vphg6n6v2gncOKQ31vsPrure2j4nTtIPDN7klG5rIVZ5XHcD
- /DHKJ97oesjivvqxn4mQs4pfZQRPA0QNaWdxiIDwJRlDpUei1hLkR3JLasztdvSQTpLM
- QqHw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=seot653Ng9+5CYOwzmZozwtUeX2yMDtfyc+Kr3qYmEI=;
+ b=jEL055HzoTzc+JltEs90SVn6YBKfLkYZBMD6i7iwy1v9gCWtUcYjRh94mBdHySaHlf
+ M37o8I7RqFSzrMgaKtgF6u+e8MSBxzRgfhcNFl4OwuSXupM87RBnEcPscRZobIQIEf+P
+ AL5DzQOgDPqTZYZBwJPYeiuJcRBnHBky5rBf2tK5xzQxf/7nUwz0raP9RdDbnoTm1GZO
+ o5ajOfG1hT/6N8zPtRA+LtHBDbJHioace64buNpr0nNt8AZUrF8JX6Iv4VfEQw9K9Y7h
+ AedQK/pTbR7SSO6mtpoJRxVYKG3Pd0QIOeqQPXBS1ZZTCTwGI71emBUkuAB2PS+4r8ml
+ OWjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XkkMpDBXhAYyPCcb4zqpBx/YrT6Q370X+NlgFKUoQu8=;
- b=TfpRQeQ5WPZCGGV+r7EobiN1c1g5ILeAx55DWKjviicnGQSOk8EvbNCqUq2aK0KUy3
- 6gMiAmppuYf9JZ+is+V0ae21mprF/8wkodYhulerKQVygBHmz7v7ghLXfKvqmitBWdO1
- W/1EOs2SxLB3/02uK193aL/S0CTm3x5niMF+JP2EFbdb7dYWzSN/ASsYo2348VTTKWUp
- rKIIFeQfn+CsTJiz0JqZ+InNWjtnTe1dSDmMPIC4yQmLeXp0YIDdr51jHwDIP9MIgPbI
- 2d/kW9XFWCBVBi+u0mYtjOcHigBqXps02uq7syQJgyGflp6pXP2JVIWiiAjfxncUJuvz
- GYmQ==
-X-Gm-Message-State: AOAM532v0jbl4QkYNSOP7jt99esya1/RUNY6c9FtYyTDT1qX3tJnJ+YV
- uGRLs4xPZsnIYh2pvttqwyhr0MrFiYFpPA==
-X-Google-Smtp-Source: ABdhPJx1BAphabBRVG04WcIn1Htem1z2EWV6SrfuqB985HWDkeyEJ0X0glo5BuWcVrk9rcag6EBeVA==
-X-Received: by 2002:a17:90a:5141:: with SMTP id
- k1mr934368pjm.185.1627336052878; 
- Mon, 26 Jul 2021 14:47:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=seot653Ng9+5CYOwzmZozwtUeX2yMDtfyc+Kr3qYmEI=;
+ b=TgK9/m/QPd2mQHL25CJw4J9BbQ5WrVTtCzuxF4LjgJ6QmqXi3wnDVJuIK30zps1tiG
+ O+K733tOnegCHZS3fBvtJkVPf0wP+K+ztevk7w3S9TGI0s4aRjVDE8tpH8TLaLYtBu6W
+ gjolwTpzuG5Jq6xTeT/y1C3rAhjabedjV161LqaEKos92wx3lIDIDUcF8T9gProG1zBV
+ LlB5hHg/TUg4D/6DVCk3KmgtHCkHbX9YbwUvZBdTWofxqapxtbV6sFLYfs7uNnTFd6Ii
+ Dk8yzp3i3Y8YGErJFbmIYPUVnCn9aci/j+zv5Q0HRq2GINp/+XdMkGUucyHpc7JyJOsV
+ howw==
+X-Gm-Message-State: AOAM531oW7Y9V7MW4Oi0oOOrrYWytmzR+0I0DpuwTEy5aHXMyBccAcSg
+ 8YS+8blMDa6XQWB1bGa1B4+KhEHKqHyOiA==
+X-Google-Smtp-Source: ABdhPJxFn+mINky9/7FohTDZ9Dcu5c9yLDShJeJR2+nZ5SgpqWSBB38HQJfvPnclNLD9EbJSTqXpDA==
+X-Received: by 2002:a17:90b:3905:: with SMTP id
+ ob5mr4901734pjb.211.1627336054108; 
+ Mon, 26 Jul 2021 14:47:34 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.31
+ by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 14:47:32 -0700 (PDT)
+ Mon, 26 Jul 2021 14:47:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.1 00/12] tcg and misc patch queue
-Date: Mon, 26 Jul 2021 11:47:17 -1000
-Message-Id: <20210726214729.2062862-1-richard.henderson@linaro.org>
+Subject: [PULL for-6.1 01/12] accel/tcg: Don't use CF_COUNT_MASK as the max
+ value of icount_decr.u16.low
+Date: Mon, 26 Jul 2021 11:47:18 -1000
+Message-Id: <20210726214729.2062862-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210726214729.2062862-1-richard.henderson@linaro.org>
+References: <20210726214729.2062862-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,56 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 34fd92ab4142bde5b54adacd16e6682f4ea83da1:
+From: Peter Maydell <peter.maydell@linaro.org>
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-for-6.1-rc1-230721-1' into staging (2021-07-26 11:00:15 +0100)
+In cpu_loop_exec_tb() we were bounding the number of insns we might
+try to execute in a TB using CF_COUNT_MASK.  This is incorrect,
+because we can validly put up to 0xffff into icount_decr.u16.low.  In
+particular, since commit 78ff82bb1b67c0d7 reduced CF_COUNT_MASK to
+511 this meant that we would incorrectly only try to execute 511
+instructions in a 512-instruction TB, which could result in QEMU
+hanging when in icount mode.
 
-are available in the Git repository at:
+Use the actual maximum value, which is 0xffff. (This brings this code
+in to line with the similar logic in icount_prepare_for_run() in
+tcg-accel-ops-icount.c.)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210726
+Fixes: 78ff82bb1b67c0d7
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/499
+Message-Id: <20210725174405.24568-2-peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 2bf07e788eb69bee843be274386fb20f4ab6b0f6:
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index fc895cf51e..6e8dc29119 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -834,7 +834,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+     /* Ensure global icount has gone forward */
+     icount_update(cpu);
+     /* Refill decrementer and continue execution.  */
+-    insns_left = MIN(CF_COUNT_MASK, cpu->icount_budget);
++    insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+     cpu->icount_extra = cpu->icount_budget - insns_left;
+ 
+-- 
+2.25.1
 
-  tests/unit: Remove unused variable from test_io (2021-07-26 07:07:28 -1000)
-
-----------------------------------------------------------------
-Fix icount accounting.
-Replace bitrev8 with revbit8.
-Fixes for set but not used warnings.
-
-----------------------------------------------------------------
-Mark Cave-Ayland (1):
-      bitops.h: revert db1ffc32dd ("qemu/bitops.h: add bitrev8 implementation")
-
-Peter Maydell (2):
-      accel/tcg: Don't use CF_COUNT_MASK as the max value of icount_decr.u16.low
-      accel/tcg: Remove unnecessary check on icount_extra in cpu_loop_exec_tb()
-
-Richard Henderson (9):
-      nbd/server: Mark variable unused in nbd_negotiate_meta_queries
-      accel/tcg: Remove unused variable in cpu_exec
-      util/selfmap: Discard mapping on error
-      net/checksum: Remove unused variable in net_checksum_add_iov
-      hw/audio/adlib: Remove unused variable in adlib_callback
-      hw/ppc/spapr_events: Remove unused variable from check_exception
-      hw/pci-hist/pnv_phb4: Fix typo in pnv_phb4_ioda_write
-      linux-user/syscall: Remove unused variable from execve
-      tests/unit: Remove unused variable from test_io
-
- include/qemu/bitops.h  | 22 ----------------------
- accel/tcg/cpu-exec.c   | 16 ++++++----------
- hw/audio/adlib.c       |  3 +--
- hw/m68k/q800.c         |  2 +-
- hw/pci-host/pnv_phb4.c |  2 +-
- hw/ppc/spapr_events.c  |  5 -----
- linux-user/syscall.c   |  3 ---
- nbd/server.c           |  3 ++-
- net/checksum.c         |  4 +---
- tests/unit/test-iov.c  |  5 +----
- util/selfmap.c         | 29 +++++++++++++++++------------
- 11 files changed, 30 insertions(+), 64 deletions(-)
 
