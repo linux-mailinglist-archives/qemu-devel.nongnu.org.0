@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9DA3D68F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:50:38 +0200 (CEST)
-Received: from localhost ([::1]:52116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121003D68EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:48:59 +0200 (CEST)
+Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m88Uf-0008Uh-Jf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38910)
+	id 1m88T4-0004Wr-2P
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88Rm-0002Mf-1a
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:38 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:33390)
+ id 1m88Rn-0002P1-6W
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:39 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88Rk-00065h-H6
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:37 -0400
+ id 1m88Rl-00066e-LM
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:38 -0400
 Received: by mail-pj1-x102e.google.com with SMTP id
- gv20-20020a17090b11d4b0290173b9578f1cso1120136pjb.0
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:36 -0700 (PDT)
+ ds11-20020a17090b08cbb0290172f971883bso1016802pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dczMECoCZ2fE11SIUOsBRrLY8h7p8j2HpmwPdyA/v6o=;
- b=Wggx+YzDxrfg/4O9cLnBAxj+Rgk/ng+sse/jf9XIUIxtvJnZsgjMEk4RkZWlLSzNdh
- +k38iNFGyLnB6Jg4Huvx8WHvvLMxQkivZuh7NsMRDwFH4vqnuaNtGmH1/cDgrAbSP74s
- Ta3ZDRLUjs2lG08OghVE/2mOpwRWPgzSfnmIAEAsEBLp2wN2xX8eB2/NyGmCel1i9fon
- QpABpg1tXDMYArPmz8wVKdWNK5veSIWnDQcvdenfaEBnOmxRvx6sFVLSqmo50s9U73Br
- MZo1o1989pnxDXmqBSSVJg+d46uSwz41zkdpU+JLNcBa0qLJ+RI/UWp5itmBiL6joZoP
- iVEg==
+ bh=zdI8+8nFNnxTYtRyQ8td0fUaRpYVtNk1B3zMGvwjcGA=;
+ b=mlC4dz9dm5HBlcHuhh9jzfeJWxr1RKvDeSXrOF9F/ztICm5geh7LDty/NIBLaHOsnH
+ 6DUUd3YDzPZwwhmTYXRGWNKO7/W8wLUZ/qHTKMPM88+GDPS0WXGySelmaKY4H3HtMxzs
+ wgDo5kAOAUgGUIpCPISkkjIg2TrSsNF7d4RZ5m9h3wQRtFz0sskc1gYjssz2XBukpdZP
+ 9xlnD2OOXZ1LeYCNSV76hsxHEogzdJflGx/MV8xYCA+uGPzwVIZmzBRa7gtqTkv9bYiR
+ Kxsm4bSujwm2aTCDGE3fCnmSVanbYI7XH9Ua9JgisQUS+D3J/WL2LalMl3XYmRMSL8Qa
+ JWgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dczMECoCZ2fE11SIUOsBRrLY8h7p8j2HpmwPdyA/v6o=;
- b=YacIJ+VIKs3VoxJ1Cx5cwG/EoKxgNqJCEk3o65o5qO/8ATlbOTpWdklJTgkFgoNwOC
- /jtdG2nz14dwdwtUyLprtWA//9/TPspRO7CGjm25YdZjk0XLiF8h14a3W312MHrqWkmw
- D/XVMBJ0lRknQGZOkSwuAu5MXyP3B0WQI9MTjVWLs8eoKTi1OVmKA3HpXGisfLx253d3
- TS5EEk4la6zmyAax1rrdyXHEJTR1kCbctG/k6lrLNwFRFktmv4pdR3141MRk6tW4eyJw
- It1ykZRkWAr2DeAjcLpHDZt0ilYpnzgXgn0BRP3fAtJw0Evwz7rzHF7mcvdGvMyA0A4c
- Ieow==
-X-Gm-Message-State: AOAM530+/QhEU07bAaDTfQCG0rd/BoEQFp/aVAkftHDSWTEX92JSjQux
- QZRTRQqK8yUbtRgqWKACw+LgNf6EcatY4g==
-X-Google-Smtp-Source: ABdhPJyRxgdustE5umvJM9/ZytUFXbP2beNZNmyxooOV1JKJNMHKmB/q4weEr8Qhg85XCBszgEEL5A==
-X-Received: by 2002:a17:902:7c81:b029:12b:6ac2:3ad9 with SMTP id
- y1-20020a1709027c81b029012b6ac23ad9mr15843971pll.76.1627336055122; 
- Mon, 26 Jul 2021 14:47:35 -0700 (PDT)
+ bh=zdI8+8nFNnxTYtRyQ8td0fUaRpYVtNk1B3zMGvwjcGA=;
+ b=oAqjJwB14ujdD8RGpvc/MlBtm3Yo7sdhDjYYPTrkaDZ/wMEIXAsjym+QdLNcrW0aiz
+ mhdiDU1T6Xo/vxMISqLQqYrkeWt444Ozej1yPMqJHo3vJabD2Y+oUPUIeCWdsif6hy7Z
+ oPUWpu11at29kQDtkLDQXWt5ixwHh6u9iN9LEXAUcEV+vehXnacQLUSIrQ0YE/vvyCqJ
+ QOprSGP1pn/dako21/s0nfQErkXIJ/D0yqB+Glyt5KCz0lrUXH3xQfqtysGWK/39fs5R
+ aH6iN2RVtKl1TIzBHQn2J8SYLlobduC7lJfwH5anMYxshODD5muC08O+bTAmpSAoGtSl
+ BqrQ==
+X-Gm-Message-State: AOAM531FrCTpSZ0kcUKv7YryVCWGG5BKeo5LCGWgiqSBd49EuWx80TXn
+ BFbUfaW93nchOvjTBmdVROVJtJFIQfkacw==
+X-Google-Smtp-Source: ABdhPJzw4IJYLWw35dzjgnEUA+h+Nmf9v5fmtvds42RqgwGmx+ZMyc9o2xZOXC90JHNtFESld7uMAg==
+X-Received: by 2002:a17:902:e851:b029:12b:c50a:1ebc with SMTP id
+ t17-20020a170902e851b029012bc50a1ebcmr13947312plg.84.1627336056466; 
+ Mon, 26 Jul 2021 14:47:36 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
  [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.34
+ by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 14:47:34 -0700 (PDT)
+ Mon, 26 Jul 2021 14:47:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.1 02/12] accel/tcg: Remove unnecessary check on
- icount_extra in cpu_loop_exec_tb()
-Date: Mon, 26 Jul 2021 11:47:19 -1000
-Message-Id: <20210726214729.2062862-3-richard.henderson@linaro.org>
+Subject: [PULL for-6.1 03/12] bitops.h: revert db1ffc32dd ("qemu/bitops.h: add
+ bitrev8 implementation")
+Date: Mon, 26 Jul 2021 11:47:20 -1000
+Message-Id: <20210726214729.2062862-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210726214729.2062862-1-richard.henderson@linaro.org>
 References: <20210726214729.2062862-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
@@ -87,53 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-In cpu_loop_exec_tb(), we decide whether to look for a TB with
-exactly insns_left instructions in it using the condition
- (!cpu->icount_extra && insns_left > 0 && insns_left < tb->icount)
+Commit db1ffc32dd ("qemu/bitops.h: add bitrev8 implementation") introduced
+a bitrev8() function to reverse the bit ordering required for storing the
+MAC address in the q800 PROM.
 
-The check for icount_extra == 0 is unnecessary, because we just set
-  insns_left = MIN(0xffff, cpu->icount_budget);
-  icount_extra = icount_budget - insns_left;
-and so icount_extra can only be non-zero if icount_budget > 0xffff
-and insns_left == 0xffff. But in that case insns_left >= tb->icount
-because 0xffff is much larger than TCG_MAX_INSNS, so the condition
-will be false anyway.
+This function is not required since QEMU implements its own revbit8()
+function which does exactly the same thing. Remove the extraneous
+bitrev8() function and switch its only caller in hw/m68k/q800.c to
+use revbit8() instead.
 
-Remove the unnecessary check, and instead assert:
- * that we are only going to execute a partial TB here if the
-   icount budget has run out (ie icount_extra == 0)
- * that the number of insns we're going to execute does fit into
-   the CF_COUNT_MASK
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210725174405.24568-3-peter.maydell@linaro.org>
+Message-Id: <20210725110557.3007-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/qemu/bitops.h | 22 ----------------------
+ hw/m68k/q800.c        |  2 +-
+ 2 files changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 6e8dc29119..5aa42fbff3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -843,7 +843,9 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-      * execute we need to ensure we find/generate a TB with exactly
-      * insns_left instructions in it.
-      */
--    if (!cpu->icount_extra && insns_left > 0 && insns_left < tb->icount)  {
-+    if (insns_left > 0 && insns_left < tb->icount)  {
-+        assert(insns_left <= CF_COUNT_MASK);
-+        assert(cpu->icount_extra == 0);
-         cpu->cflags_next_tb = (tb->cflags & ~CF_COUNT_MASK) | insns_left;
-     }
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 110c56e099..03213ce952 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -618,26 +618,4 @@ static inline uint64_t half_unshuffle64(uint64_t x)
+     return x;
+ }
+ 
+-/**
+- * bitrev8:
+- * @x: 8-bit value to be reversed
+- *
+- * Given an input value with bits::
+- *
+- *   ABCDEFGH
+- *
+- * return the value with its bits reversed from left to right::
+- *
+- *   HGFEDCBA
+- *
+- * Returns: the bit-reversed value.
+- */
+-static inline uint8_t bitrev8(uint8_t x)
+-{
+-    x = ((x >> 1) & 0x55) | ((x << 1) & 0xaa);
+-    x = ((x >> 2) & 0x33) | ((x << 2) & 0xcc);
+-    x = (x >> 4) | (x << 4) ;
+-    return x;
+-}
+-
  #endif
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 6817c8b5d1..ac0a13060b 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -334,7 +334,7 @@ static void q800_init(MachineState *machine)
+     prom = memory_region_get_ram_ptr(dp8393x_prom);
+     checksum = 0;
+     for (i = 0; i < 6; i++) {
+-        prom[i] = bitrev8(nd_table[0].macaddr.a[i]);
++        prom[i] = revbit8(nd_table[0].macaddr.a[i]);
+         checksum ^= prom[i];
+     }
+     prom[7] = 0xff - checksum;
 -- 
 2.25.1
 
