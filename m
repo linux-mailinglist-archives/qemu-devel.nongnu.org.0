@@ -2,65 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4553D55E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:51:56 +0200 (CEST)
-Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0553D55D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:49:19 +0200 (CEST)
+Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7wL5-0007g6-8P
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:51:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
+	id 1m7wIY-0004ZH-Pl
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m7wHI-0003Qn-OS
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:48:03 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:33032 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m7wHE-0002t4-Ae
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:48:00 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxWuCvdv5go_4jAA--.47984S3; 
- Mon, 26 Jul 2021 16:47:45 +0800 (CST)
-Subject: Re: [PATCH v2 03/22] target/loongarch: Add core definition
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-4-git-send-email-gaosong@loongson.cn>
- <ea7be587-1bc6-f770-1c9f-4f57e1c3c7eb@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <ce2e4871-bed6-e5a7-b8ec-faf23c836307@loongson.cn>
-Date: Mon, 26 Jul 2021 16:47:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m7wHB-0003BX-Lv
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:47:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m7wH9-0002th-K2
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:47:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627289269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aP1cPA2/DkOODxdpVKYD4mPU5pFc4X4E4WVwENcjDS8=;
+ b=WnUXb4pE4ZNSr4Xpc/Y2/BbUVpKpam+08gLYEpqZaWJbl88dMPuCLUeuFTeCHHrUy9oh79
+ /7ovw1xjhsYM5hi2erYyP+U2amMsoIEM5ToGbhQAwRwlhmKt0LpORPuML+mBUAyKHGn0Yo
+ hDSayIei0M8YnKqwaSZzWAE5ZFEpJTY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-KHH705jmNyGCdBtEc7MaYw-1; Mon, 26 Jul 2021 04:47:47 -0400
+X-MC-Unique: KHH705jmNyGCdBtEc7MaYw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so605769wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 01:47:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=aP1cPA2/DkOODxdpVKYD4mPU5pFc4X4E4WVwENcjDS8=;
+ b=MrNhbqy1CJ1irqmcCKX7MA9UjWX1zFCrEqjYK7R9hA9oN0UBUzmS2GqSx8AyumkHfA
+ PnJSQ2luWFYF7w2aABIiZMhXf0QHPxesIGSussDP16jqB1/OstAP1wBIC7eDJWWbw8ae
+ U8cfG5HWiN92tuwA88FyEDlO30Dgyodje4HYniiDNXatLXdVK8nocP7AwMjx3zCCQXU4
+ 1MdhhBHcq/hXqpLjp/BlEFMsQzliueTIYlVyQjE1/hijA5UNeOSZrjcqfsXb1vvAhJId
+ +eAnRLQP7GI+BhyWmkXDwkpIBI8xL8X5GLe3bjBJQc2aX02PZr3NQ2htxz/VfDCPrED4
+ QbCQ==
+X-Gm-Message-State: AOAM530p0pGQSOnNjNQCRqg2Y3tYNCcKisEhofUcv3b81ubNfOrx7B39
+ fEJoJf15xlrQuCsVpoEf5iH4z97Bu0kjK1iJCK7jlQIoDlF+GQJ9FMul/OtL8rjRnYeoHe6KP+s
+ TCehM1+ZFWu06+V8=
+X-Received: by 2002:a5d:4a43:: with SMTP id v3mr18242085wrs.194.1627289266516; 
+ Mon, 26 Jul 2021 01:47:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbxpd5e/8JTFE0ppkpaO5m90S9hKjjeUXgv80FM+MeYBVUDyc/0abFhzDuHTbm6W5rMCRvRg==
+X-Received: by 2002:a5d:4a43:: with SMTP id v3mr18242058wrs.194.1627289266228; 
+ Mon, 26 Jul 2021 01:47:46 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id p7sm36711408wmq.5.2021.07.26.01.47.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 01:47:45 -0700 (PDT)
+Date: Mon, 26 Jul 2021 09:47:43 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Joe Mario <jmario@redhat.com>
+Subject: Re: Prefetches in buffer_zero_*
+Message-ID: <YP52r9ck8jmV/RkR@work-vm>
+References: <YPlCJpMIOb2Umc+Z@work-vm>
+ <092f9b8b-4a14-d059-49be-010b760828aa@linaro.org>
+ <YPnDdT1VYANI0Wzw@work-vm>
+ <CA+c1WK7XCgdYTbG5FK3q=x9S1t2p2vxcreEwtiZf5L=rsg0i6g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ea7be587-1bc6-f770-1c9f-4f57e1c3c7eb@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxWuCvdv5go_4jAA--.47984S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3uF18CrWkGrW8Gw47Ar1rtFb_yoWkWr1Upr
- 18Ar45JryUJrs7Jw1xJw15Jry5Jr18Gw1UCr1IqF4UJr4UJr10gr1jqrn0gF1UXr48Jr1U
- AF1UXr1UZF17JrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBq1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
- vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
- 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
- x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
- 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
- AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
- cVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+In-Reply-To: <CA+c1WK7XCgdYTbG5FK3q=x9S1t2p2vxcreEwtiZf5L=rsg0i6g@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.091,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,274 +98,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Hi, Richard.
-
-On 07/23/2021 06:43 AM, Richard Henderson wrote:
-> On 7/20/21 11:52 PM, Song Gao wrote:
->> This patch add target state header, target definitions
->> and initialization routines.
->>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>   target/loongarch/cpu-param.h |  21 ++++
->>   target/loongarch/cpu-qom.h   |  40 ++++++
->>   target/loongarch/cpu.c       | 293 +++++++++++++++++++++++++++++++++++++++++++
->>   target/loongarch/cpu.h       | 265 ++++++++++++++++++++++++++++++++++++++
->>   4 files changed, 619 insertions(+)
->>   create mode 100644 target/loongarch/cpu-param.h
->>   create mode 100644 target/loongarch/cpu-qom.h
->>   create mode 100644 target/loongarch/cpu.c
->>   create mode 100644 target/loongarch/cpu.h
->>
->> diff --git a/target/loongarch/cpu-param.h b/target/loongarch/cpu-param.h
->> new file mode 100644
->> index 0000000..582ee29
->> --- /dev/null
->> +++ b/target/loongarch/cpu-param.h
->> @@ -0,0 +1,21 @@
->> +/*
->> + * LoongArch cpu parameters for qemu.
->> + *
->> + * Copyright (c) 2021 Loongson Technology Corporation Limited
->> + *
->> + * SPDX-License-Identifier: LGPL-2.1+
->> + */
->> +
->> +#ifndef LOONGARCH_CPU_PARAM_H
->> +#define LOONGARCH_CPU_PARAM_H 1
->> +
->> +#ifdef TARGET_LOONGARCH64
->> +#define TARGET_LONG_BITS 64
+* Joe Mario (jmario@redhat.com) wrote:
+> On Thu, Jul 22, 2021 at 3:14 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
+> wrote:
 > 
-> Why the ifdef for TARGET_LOONGARCH64?
-> Nothing will compile without that set.
-> 
+> > * Richard Henderson (richard.henderson@linaro.org) wrote:
+> > > On 7/22/21 12:02 AM, Dr. David Alan Gilbert wrote:
+> > > > Hi Richard,
+> > > >    I think you were the last person to fiddle with the prefetching
+> > > > in buffer_zero_avx2 and friends; Joe (cc'd) wondered if explicit
+> > > > prefetching still made sense on modern CPUs, and that their hardware
+> > > > generally figures stuff out better on simple increments.
+> > > >
+> > > >    What was your thinking on this, and did you actually measure
+> > > > any improvement?
+> > >
+> > > Ah, well, that was 5 years ago so I have no particular memory of this.
+> > It
+> > > wouldn't surprise me if you can't measure any improvement on modern
+> > > hardware.
+> > >
+> > > Do you now measure an improvement with the prefetches gone?
+> >
+> > Not tried, it just came from Joe's suggestion that it was generally a
+> > bad idea these days; I do remember that the behaviour of those functions
+> > is quite tricky because there performance is VERY data dependent - many
+> > VMs actually have pages that are quite dirty so you never iterate the
+> > loop, but then you hit others with big zero pages and you spend your
+> > entire life in the loop.
+> >
+> >
+> Dave, Richard:
+> My curiosity got the best of me.  So I created a small test program that
+> used the buffer_zero_avx2() routine from qemu's bufferiszero.c.
 
-OK, I'll remove it.
+Thanks for testing,
 
->> +#ifdef CONFIG_TCG
->> +static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
->> +                                              const TranslationBlock *tb)
->> +{
->> +    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
->> +    CPULoongArchState *env = &cpu->env;
->> +
->> +    env->active_tc.PC = tb->pc;
->> +    env->hflags &= ~LOONGARCH_HFLAG_BMASK;
->> +    env->hflags |= tb->flags & LOONGARCH_HFLAG_BMASK;
->> +}
+> When I run it on an Intel Cascade Lake processor, the cost of calling
+> "__builtin_prefetch(p)" is in the noise range .  It's always "just
+> slightly" slower.  I doubt it could ever be measured in qemu.
 > 
-> Loongarch has no branch delay slots, so you should not have replicated the mips branch delay slot handling.  There should be no BMASK at all.
->
-OK
+> Ironically, when I disabled the hardware prefetchers, the program slowed
+> down over 33%.  And the call to "__builtin_prefetch(p)" actually hurt
+> performance by over 3%.
+
+Yeh that's a bit odd.
+
+> My results are below, (only with the hardware prefetchers enabled).  The
+> program is attached.
+> Joe
+> 
+> # gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do
+> ./a.out; done
+> TSC 356144 Kcycles.
+> TSC 356714 Kcycles.
+> TSC 356707 Kcycles.
+> TSC 356565 Kcycles.
+> TSC 356853 Kcycles.
+> # gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
+> TSC 355520 Kcycles.
+> TSC 355961 Kcycles.
+> TSC 355872 Kcycles.
+> TSC 355948 Kcycles.
+> TSC 355918 Kcycles.
+
+This basically agrees with the machines I've just tried your test on -
+*except* AMD EPYC 7302P's - that really like the prefetch:
+
+[root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do ./a.out; done
+TSC 322162 Kcycles.
+TSC 321861 Kcycles. 
+TSC 322212 Kcycles. 
+TSC 321957 Kcycles.
+TSC 322085 Kcycles. 
  
->> +#ifdef CONFIG_TCG
->> +#include "hw/core/tcg-cpu-ops.h"
->> +
->> +static struct TCGCPUOps loongarch_tcg_ops = {
->> +    .initialize = loongarch_tcg_init,
->> +    .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
->> +};
->> +#endif /* CONFIG_TCG */
-> 
-> May I presume that Loongarch has virtualization hardware, and will eventually support KVM?  If not, there is no need for CONFIG_TCG anywhere.
->
-Yes, Loongarch has virtualization hardware,  We plan to support KVM in QEMU in the future.  
+[root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
+TSC 377988 Kcycles. 
+TSC 380125 Kcycles. 
+TSC 379440 Kcycles.
+TSC 379689 Kcycles. 
+TSC 379571 Kcycles. 
  
->> +#define TCG_GUEST_DEFAULT_MO (0)
->> +#define UNASSIGNED_CPU_ID 0xFFFFFFFF
->> +
->> +typedef union fpr_t fpr_t;
->> +union fpr_t {
->> +    float64  fd;   /* ieee double precision */
->> +    float32  fs[2];/* ieee single precision */
->> +    uint64_t d;    /* binary double fixed-point */
->> +    uint32_t w[2]; /* binary single fixed-point */
->> +};
-> 
-> For what it's worth, we already have a CPU_DoubleU type that could be used.  But frankly, float64 *is* uint64_t, so there's very little use in putting them together into a union. It would seem that you don't even use fs and w for more than fpu_dump_state, and you're even doing it wrong there.
->
-OK， I'll correct it.
- 
->> +typedef struct CPULoongArchFPUContext CPULoongArchFPUContext;
->> +struct CPULoongArchFPUContext {
->> +    /* Floating point registers */
->> +    fpr_t fpr[32];
->> +    float_status fp_status;
->> +
->> +    bool cf[8];
->> +    /*
->> +     * fcsr0
->> +     * 31:29 |28:24 |23:21 |20:16 |15:10 |9:8 |7  |6  |5 |4:0
->> +     *        Cause         Flags         RM   DAE TM     Enables
->> +     */
->> +    uint32_t fcsr0;
->> +    uint32_t fcsr0_mask;
->> +    uint32_t vcsr16;
->> +
->> +#define FCSR0_M1    0xdf         /* FCSR1 mask, DAE, TM and Enables */
->> +#define FCSR0_M2    0x1f1f0000   /* FCSR2 mask, Cause and Flags */
->> +#define FCSR0_M3    0x300        /* FCSR3 mask, Round Mode */
->> +#define FCSR0_RM    8            /* Round Mode bit num on fcsr0 */
->> +#define GET_FP_CAUSE(reg)        (((reg) >> 24) & 0x1f)
->> +#define GET_FP_ENABLE(reg)       (((reg) >>  0) & 0x1f)
->> +#define GET_FP_FLAGS(reg)        (((reg) >> 16) & 0x1f)
->> +#define SET_FP_CAUSE(reg, v)      do { (reg) = ((reg) & ~(0x1f << 24)) | \
->> +                                               ((v & 0x1f) << 24);       \
->> +                                     } while (0)
->> +#define SET_FP_ENABLE(reg, v)     do { (reg) = ((reg) & ~(0x1f <<  0)) | \
->> +                                               ((v & 0x1f) << 0);        \
->> +                                     } while (0)
->> +#define SET_FP_FLAGS(reg, v)      do { (reg) = ((reg) & ~(0x1f << 16)) | \
->> +                                               ((v & 0x1f) << 16);       \
->> +                                     } while (0)
->> +#define UPDATE_FP_FLAGS(reg, v)   do { (reg) |= ((v & 0x1f) << 16); } while (0)
->> +#define FP_INEXACT        1
->> +#define FP_UNDERFLOW      2
->> +#define FP_OVERFLOW       4
->> +#define FP_DIV0           8
->> +#define FP_INVALID        16
->> +};
->> +
->> +#define TARGET_INSN_START_EXTRA_WORDS 2
->> +#define LOONGARCH_FPU_MAX 1
->> +#define N_IRQS      14
->> +
->> +enum loongarch_feature {
->> +    LA_FEATURE_3A5000,
->> +};
->> +
->> +typedef struct TCState TCState;
->> +struct TCState {
->> +    target_ulong gpr[32];
->> +    target_ulong PC;
->> +};
->> +
->> +typedef struct CPULoongArchState CPULoongArchState;
->> +struct CPULoongArchState {
->> +    TCState active_tc;
->> +    CPULoongArchFPUContext active_fpu;
-> 
-> Please don't replicate the mips foolishness with active_tc and active_fpu.  There is no inactive_fpu with which to contrast this.  Just include these fields directly into the main CPULoongArchState structure.
-> 
+The 1st gen doesn't seem to see much difference with/without it.
 
-OK.
+Probably best to leave this code as is!
 
->> +
->> +    uint32_t current_tc;
->> +    uint64_t scr[4];
->> +    uint32_t current_fpu;
->> +
->> +    /* LoongArch CSR register */
->> +    CPU_LOONGARCH_CSR
->> +    target_ulong lladdr; /* LL virtual address compared against SC */
->> +    target_ulong llval;
->> +
->> +    CPULoongArchFPUContext fpus[LOONGARCH_FPU_MAX];
-> 
-> More copying from MIPS?  What is this for?
->
-Oh, It semms so. 
-
-> 
->> +
->> +    /* QEMU */
->> +    int error_code;
->> +    uint32_t hflags;    /* CPU State */
->> +#define TLB_NOMATCH   0x1
->> +#define INST_INAVAIL  0x2 /* Invalid instruction word for BadInstr */
->> +    /* TMASK defines different execution modes */
->> +#define LOONGARCH_HFLAG_TMASK  0x1F5807FF
->> +#define LOONGARCH_HFLAG_KU     0x00003 /* kernel/supervisor/user mode mask   */
->> +#define LOONGARCH_HFLAG_UM     0x00003 /* user mode flag                     */
->> +#define LOONGARCH_HFLAG_KM     0x00000 /* kernel mode flag                   */
->> +#define LOONGARCH_HFLAG_64     0x00008 /* 64-bit instructions enabled        */
-> 
-> Is there a 32-bit mode for LoongArch?  I don't see this big in CRMD.  This big overlaps the "Direct address translation mode enable bit".  Which does sound like it should be present in tb->flags,
->
-
-No.
- 
->> +#define LOONGARCH_HFLAG_FPU    0x00020 /* FPU enabled                        */
->> +#define LOONGARCH_HFLAG_F64    0x00040 /* 64-bit FPU enabled                 */
-> 
-> I don't see that there is a mode-switch for a 32-bit fpu either.
-> 
->> +#define LOONGARCH_HFLAG_BMASK  0x3800
->> +#define LOONGARCH_HFLAG_B      0x00800 /* Unconditional branch               */
->> +#define LOONGARCH_HFLAG_BC     0x01000 /* Conditional branch                 */
->> +#define LOONGARCH_HFLAG_BR     0x02000 /* branch to register (can't link TB) */
-> 
-> None of the BMASK stuff applies to LoongArch.
->> 
->> +#define LOONGARCH_HFLAG_FRE   0x2000000 /* FRE enabled */
->> +#define LOONGARCH_HFLAG_ELPA  0x4000000
->> +    target_ulong btarget;        /* Jump / branch target               */
->> +    target_ulong bcond;          /* Branch condition (if needed)       */
-> 
-> Nor this.
-OK, I'll remove them.
-
-> 
->> +static inline LoongArchCPU *loongarch_env_get_cpu(CPULoongArchState *env)
->> +{
->> +    return container_of(env, LoongArchCPU, env);
->> +}
->> +
->> +#define ENV_GET_CPU(e) CPU(loongarch_env_get_cpu(e))
-> 
-> You have copied this from a very old version of qemu.  These were replaced by generic functions in include/exec/cpu-all.h.
-
-Right, We copied this from 3.10 version, the version is really old.  
-
-> 
->> +void loongarch_tcg_init(void);
->> +
->> +void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->> +
->> +void QEMU_NORETURN do_raise_exception_err(CPULoongArchState *env,Drop all of the branch delay slot stuff.
-Use a common routine and pass in the TCGCond
->> +                                          uint32_t exception,
->> +                                          int error_code,
->> +                                          uintptr_t pc);
->> +
->> +static inline void QEMU_NORETURN do_raise_exception(CPULoongArchState *env,
->> +                                                    uint32_t exception,
->> +                                                    uintptr_t pc)
->> +{
->> +    do_raise_exception_err(env, exception, 0, pc);
->> +}
->> +
->> +static inline void compute_hflags(CPULoongArchState *env)
->> +{
->> +    env->hflags &= ~(LOONGARCH_HFLAG_64 | LOONGARCH_HFLAG_FPU |
->> +                     LOONGARCH_HFLAG_KU | LOONGARCH_HFLAG_ELPA);
->> +
->> +    env->hflags |= (env->CSR_CRMD & CSR_CRMD_PLV);
->> +    env->hflags |= LOONGARCH_HFLAG_64;
->> +
->> +    if (env->CSR_EUEN & CSR_EUEN_FPEN) {
->> +        env->hflags |= LOONGARCH_HFLAG_FPU;
->> +    }
->> +}
->> +
->> +const char *loongarch_exception_name(int32_t exception);
-> 
-> These should not be declared in cpu.h.
->
-
-Hmm,  but where can we declared in ? such as ARM architecture declared in internals.h, is that OK?
+Dave
 
 
-Thanks 
-Song Gao
+> Dave
+> > >
+> > > r~
+> > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
+> >
+
+> /*
+>  * Simple program to test if a prefetch helps or hurts buffer_zero_avx2.
+>  *
+>  * Compile with either:
+>  *  gcc -mavx buffer_zero_avx.c -O 
+>  * or
+>  *  gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH 
+>  */
+> 
+> #include <immintrin.h>
+> #include <stdio.h>
+> #include <stdint.h>
+> #include <stddef.h>
+> #include <sys/mman.h>
+> #include <string.h>
+> 
+> #define likely(x)       __builtin_expect((x),1)
+> #define unlikely(x)     __builtin_expect((x),0)
+> 
+> static __inline__ u_int64_t start_clock();
+> static __inline__ u_int64_t stop_clock();
+> static int buffer_zero_avx2(const void *buf, size_t len);
+> 
+> /*
+>  * Allocate a large chuck of anon memory, touch/zero it, 
+>  * and then time the call to buffer_zero_avx2().
+>  */
+> int main() 
+> {
+>    long i;
+>    size_t mmap_len = 2UL*1024*1024*1024;
+>    char *ptr = mmap(NULL, mmap_len,
+>        PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0L);
+> 
+>    if (ptr == MAP_FAILED) {
+>        perror(" mmap");
+>        exit(1);
+>    }
+> 
+>    // Touch the pages (they're already cleared)
+>    memset(ptr,0x0,mmap_len);
+> 
+>    u_int64_t start_rdtsc = start_clock();
+> 
+>    buffer_zero_avx2(ptr, mmap_len);
+> 
+>    u_int64_t stop_rdtsc = stop_clock();
+>    u_int64_t diff = stop_rdtsc - start_rdtsc;
+> 
+>    printf("TSC %ld Kcycles. \n", diff/1000);
+> 
+> }
+> 
+> static int 
+> buffer_zero_avx2(const void *buf, size_t len)
+> {
+>     /* Begin with an unaligned head of 32 bytes.  */
+>     __m256i t = _mm256_loadu_si256(buf);
+>     __m256i *p = (__m256i *)(((uintptr_t)buf + 5 * 32) & -32);
+>     __m256i *e = (__m256i *)(((uintptr_t)buf + len) & -32);
+> 
+>     if (likely(p <= e)) {
+>         /* Loop over 32-byte aligned blocks of 128.  */
+>         do {
+> #ifdef DO_PREFETCH
+>              __builtin_prefetch(p);
+> #endif
+>             if (unlikely(!_mm256_testz_si256(t, t))) {
+>                 printf("In unlikely buffer_zero, p:%lx \n",p);
+>                 return 0;
+>             }
+>             t = p[-4] | p[-3] | p[-2] | p[-1];
+>             p += 4;
+>         } while (p <= e);
+>     } else {
+>         t |= _mm256_loadu_si256(buf + 32);
+>         if (len <= 128) {
+>             goto last2;
+>         }
+>     }
+> 
+>     /* Finish the last block of 128 unaligned.  */
+>     t |= _mm256_loadu_si256(buf + len - 4 * 32);
+>     t |= _mm256_loadu_si256(buf + len - 3 * 32);
+> last2:
+>     t |= _mm256_loadu_si256(buf + len - 2 * 32);
+>     t |= _mm256_loadu_si256(buf + len - 1 * 32);
+>   
+>     // printf("End of buffer_zero_avx2\n");
+>     return _mm256_testz_si256(t, t);
+> }
+> 
+> static __inline__ u_int64_t 
+> start_clock() {
+>     // See: Intel Doc #324264, "How to Benchmark Code Execution Times on Intel...",
+>     u_int32_t hi, lo;
+>     __asm__ __volatile__ (
+>         "CPUID\n\t"
+>         "RDTSC\n\t"
+>         "mov %%edx, %0\n\t"
+>         "mov %%eax, %1\n\t": "=r" (hi), "=r" (lo)::
+>         "%rax", "%rbx", "%rcx", "%rdx");
+>     return ( (u_int64_t)lo) | ( ((u_int64_t)hi) << 32);
+> }
+> 
+> static __inline__ u_int64_t 
+> stop_clock() {
+>     // See: Intel Doc #324264, "How to Benchmark Code Execution Times on Intel...",
+>     u_int32_t hi, lo;
+>     __asm__ __volatile__(
+>         "RDTSCP\n\t"
+>         "mov %%edx, %0\n\t"
+>         "mov %%eax, %1\n\t"
+>         "CPUID\n\t": "=r" (hi), "=r" (lo)::
+>         "%rax", "%rbx", "%rcx", "%rdx");
+>     return ( (u_int64_t)lo) | ( ((u_int64_t)hi) << 32);
+> }
+> 
+> 
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
