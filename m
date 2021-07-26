@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6BF3D53A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:13:19 +0200 (CEST)
-Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD1A3D54A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 09:52:40 +0200 (CEST)
+Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7une-00061l-1p
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
+	id 1m7vPj-0007I1-DW
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 03:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m7umQ-00040g-44
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:12:03 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m7umN-0006H7-9J
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:12:00 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n21so4647098wmq.5
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5ADWwS/U5K4vAGcDsI303o9ZAZkML+r9ejuSJ5UL0Rc=;
- b=kNa7y9VxqLHxgEpc/mlhCpfSreWqSK7Q3mwVhS9cmP1KCWm0BiQTcS6yfS4Zzz69KM
- 50l9RySY2agxOJkbmLv5DupEloAy80zEYSA4i0a06tMd6xYCVvFCo0CfamBtWbIux50A
- KK26Tfo8+gdsK4isQFi0LKIqi6H3CuqXrYoOXAn7qKuPieCABEOt80xsmKpHQZj3Cbwq
- 6yUx/UoyqxzH1IDX76Z4pRbsstb5NE1i9eaJY6/5/tBDFcpVMQ+Kg67WzsAFT0YZSFxM
- bbQaR0W9HHFi+3H/lD3UpbN+Bied8rT9x9xvqU5l/akNm9GrSMPSM+jOTQBSu10EdosQ
- vcng==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m7vOv-0006bG-QJ
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:51:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m7vOn-0006K1-Os
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 03:51:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627285900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nYPhxYSsxX50ZEWswkfSQFBKssFfnAUqVs0WWAN32Y0=;
+ b=M2Q5HrW4UqvBCHRvmRiEAx2qH1vE2GAOYEGr/2OYg1DWbDZg0qz1OFrq7Qk48qesbnGzxn
+ 4c+GCeoRG1rzRac8sKenkAV6nawvvUxat6bNqoc11wdtJsrM08FJdEZxJxr6AYl9Cc2qUQ
+ 0pxxzLiOlbHcCP/FhpguFwMk7lasXuw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-i5i-OZk8MJG5SqrWpQCNgA-1; Mon, 26 Jul 2021 03:51:38 -0400
+X-MC-Unique: i5i-OZk8MJG5SqrWpQCNgA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 85-20020a1c01580000b02902511869b403so381144wmb.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 00:51:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5ADWwS/U5K4vAGcDsI303o9ZAZkML+r9ejuSJ5UL0Rc=;
- b=t9KDb57sRJLqgDyDy662v9bB5WZqPSlX497n4LoinycSB2Fs/dVP6383WBZ+2PTxS2
- nuT5fL3VWJedS4DS4Op1SqDaWgzCTwqaQjqaRqON3v3GyqJzsVp5L+FUPF8wQn5IgMJB
- cFG8UQ6uxrdR64vty2ujfLnDgeFF3Ch0CWF6RIml8iLW+HpyTMFO+pO3Ja1FNTtnSXbH
- DofqNoIuamNzZr/NSUw+34kARnaET48t540+Q3C0vHDDd5e8XvJAVknE2erevQ90CvYz
- P5Ioxu6gtEK4CSb6xZtGc/WPqnTmrlDvJqmxuadPRZb8Y7Z6LZfa8hQzc7tmRszXfRpA
- ngOQ==
-X-Gm-Message-State: AOAM533eRQizPt1ikXXNKK2W5FWLtVWTGyg0CgKwUgX007TBMQzeFftY
- 6GArKBYuIwSFRUWnj84TVp76M/dJgL+82gzg
-X-Google-Smtp-Source: ABdhPJwsrXTy+Om4u0NKCOtv/O2bqDVEtlxqtkP78ehZanCPio+9ed1mRUKcnmFAtRrw+ZprTRpSCA==
-X-Received: by 2002:a05:600c:4103:: with SMTP id
- j3mr2191873wmi.12.1627283516781; 
- Mon, 26 Jul 2021 00:11:56 -0700 (PDT)
-Received: from lb01399.fkb.profitbricks.net
- (p200300ca572b5e23c4ffd69035d3b735.dip0.t-ipconnect.de.
- [2003:ca:572b:5e23:c4ff:d690:35d3:b735])
- by smtp.gmail.com with ESMTPSA id h9sm34524933wmb.35.2021.07.26.00.11.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 00:11:56 -0700 (PDT)
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-To: xiaoguangrong.eric@gmail.com,
-	pankaj.gupta.linux@gmail.com
-Subject: [PATCH] docs/nvdimm: Update nvdimm option value in machine example
-Date: Mon, 26 Jul 2021 09:11:45 +0200
-Message-Id: <20210726071145.150832-1-pankaj.gupta.linux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=nYPhxYSsxX50ZEWswkfSQFBKssFfnAUqVs0WWAN32Y0=;
+ b=OfoBy89slrKhLEanETgCWlTsBeqjjacumW69n+zaKcgmXel0nhf7KZtor7NzO8Ag8I
+ XRaekChAkClGDMVb3cFG+HXYyolOWDtsQYYwkAlnIsYsfJQJ4x5X4gPif1o7zvxdh5ZP
+ qJkEJdgQRLfQcQyZEU27MjenGKlPvWbUj9BLi5hexC3qxbR2rKfJ9l2NbaVOM25CJcfU
+ +W8dTspBXQISu6rzVf8/X6DMhZxUNgITwrSSsGfCp205foLBhevrmKZBAxaURmwZS87v
+ u7TF9Qg2ro+wDdNpbhs9Vp+D/tIqmMV5ZYPZzYykD3nfj8STEkkjtWPe5VicC/uMD1WN
+ cuaA==
+X-Gm-Message-State: AOAM530lJnEwsVW8KES/+wEjfTFT2EgLDOnytJIkIMphBa9ZSPtjbRwD
+ 2mZwjDeqm3k6TXhbcxFpVu537KuYT5zCmmqM89nfSklQZP8QdRPlmXWJt0dv8ZNi+e2QzM8ggJu
+ pUk6Yat5ZgSpAAag=
+X-Received: by 2002:a5d:44c8:: with SMTP id z8mr6352367wrr.291.1627285897643; 
+ Mon, 26 Jul 2021 00:51:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7YJmw0vriZcc3ZmXwP5f5a077tD5eh8o/5GC2e8zcfJ9x8SmdQfG3K2QGRZ0+s1dOhouG3A==
+X-Received: by 2002:a5d:44c8:: with SMTP id z8mr6352338wrr.291.1627285897429; 
+ Mon, 26 Jul 2021 00:51:37 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23b33.dip0.t-ipconnect.de. [79.242.59.51])
+ by smtp.gmail.com with ESMTPSA id
+ f11sm12323386wmb.14.2021.07.26.00.51.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jul 2021 00:51:36 -0700 (PDT)
+To: Peter Xu <peterx@redhat.com>
+References: <20210720130304.26323-1-david@redhat.com>
+ <20210720130304.26323-6-david@redhat.com> <YPrgEXkl2wsXYs03@t490s>
+ <32088854-3df2-cdc8-0a1a-ce6cf2289adb@redhat.com> <YPtDsQxJcy4Am2wG@t490s>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH resend v2 5/5] softmmu/memory_mapping: optimize for
+ RamDiscardManager sections
+Message-ID: <162c3460-a8a3-4f7c-c85b-4d423bbbb40a@redhat.com>
+Date: Mon, 26 Jul 2021 09:51:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YPtDsQxJcy4Am2wG@t490s>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.091, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,34 +102,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Pankaj Gupta <pankaj.gupta@ionos.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update nvdimm option value in example command from "-machine pc,nvdimm"
-to "-machine pc,nvdimm=on" as former complains with the below error:
+On 24.07.21 00:33, Peter Xu wrote:
+> On Fri, Jul 23, 2021 at 08:56:54PM +0200, David Hildenbrand wrote:
+>>>
+>>> As I've asked this question previously elsewhere, it's more or less also
+>>> related to the design decision of having virtio-mem being able to sparsely
+>>> plugged in such a small granularity rather than making the plug/unplug still
+>>> continuous within GPA range (so we move page when unplug).
+>>
+>> Yes, in an ideal world that would be optimal solution. Unfortunately, we're
+>> not living in an ideal world :)
+>>
+>> virtio-mem in Linux guests will as default try unplugging highest-to-lowest
+>> address, and I have on my TODO list an item to shrink the usable region (->
+>> later, shrinking the actual RAMBlock) once possible.
+>>
+>> So virtio-mem is prepared for that, but it will only apply in some cases.
+>>
+>>>
+>>> There's definitely reasons there and I believe you're the expert on that (as
+>>> you mentioned once: some guest GUPed pages cannot migrate so cannot get those
+>>> ranges offlined otherwise), but so far I still not sure whether that's a kernel
+>>> issue to solve on GUP, although I agree it's a complicated one anyway!
+>>
+>> To do something like that reliably, you have to manage hotplugged memory in
+>> a special way, for example, in a movable zone.
+>>
+>> We have a at least 4 cases:
+>>
+>> a) The guest OS supports the movable zone and uses it for all hotplugged
+>>     memory
+>> b) The guest OS supports the movable zone and uses it for some
+>>     hotplugged memory
+>> c) The guest OS supports the movable zone and uses it for no hotplugged
+>>     memory
+>> d) The guest OS does not support the concept of movable zones
+>>
+>>
+>> a) is the dream but only applies in some cases if Linux is properly
+>> configured (e.g., never hotplug more than 3 times boot memory)
+>> b) will be possible under Linux soon (e.g., when hotplugging more than 3
+>> times boot memory)
+>> c) is the default under Linux for most Linux distributions
+>> d) Is Windows
+>>
+>> In addition, we can still have random unplug errors when using the movable
+>> zone, for example, if someone references a page just a little too long.
+>>
+>> Maybe that helps.
+> 
+> Yes, thanks.
+> 
+>>
+>>>
+>>> Maybe it's a trade-off you made at last, I don't have enough knowledge to tell.
+>>
+>> That's the precise description of what virtio-mem is. It's a trade-off
+>> between which OSs we want to support, what the guest OS can actually do, how
+>> we can manage memory in the hypervisor efficiently, ...
+>>
+>>>
+>>> The patch itself looks okay to me, there's just a slight worry on not sure how
+>>> long would the list be at last; if it's chopped in 1M/2M small chunks.
+>>
+>> I don't think that's really an issue: take a look at
+>> qemu_get_guest_memory_mapping(), which will create as many entries as
+>> necessary to express the guest physical mapping of the guest virtual (!)
+>> address space with such chunks. That can be a lot :)
+> 
+> I'm indeed a bit surprised by the "paging" parameter.. I gave it a try, the
+> list grows into tens of thousands.
 
-"qemu-system-x86_64: -machine pc,nvdimm: Expected '=' after parameter 'nvdimm'"
+Yes, and the bigger the VM, the more entries you should get ... like 
+with virtio-mem.
 
-Signed-off-by: Pankaj Gupta <pankaj.gupta@ionos.com>
----
- docs/nvdimm.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> One last question: will virtio-mem still do best-effort to move the pages, so
+> as to grant as less holes as possible?
 
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index 0aae682be3..fd7773dc5a 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -15,7 +15,7 @@ backend (i.e. memory-backend-file and memory-backend-ram). A simple
- way to create a vNVDIMM device at startup time is done via the
- following command line options:
- 
-- -machine pc,nvdimm
-+ -machine pc,nvdimm=on
-  -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
-  -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
-  -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
+That depends on the guest OS.
+
+Linux guests will unplug highest-to-lowest addresses. They will try 
+migrating pages away (alloc_contig_range()) to minimize fragmentation. 
+Further, when (un)plugging, they will try a) unplug within already 
+fragmented Linux memory blocks (e.g., 128 MiB) b) plugging within 
+already fragmented Linux memory blocks first. Because the goal is to 
+require as little as possible Linux memory blocks to reduce metadata 
+(memmap) overhead.
+
+I recall that the Windows prototype also tries unplug highest-to-lowest 
+using the Windows range allocator, however, I have no idea what that 
+range allcoator actually does (if it only grabs free pages or if it can 
+actually move around busy pages).
+
+For Linux guests, there is a work item to continue defragmenting the 
+layout to free up complete Linux memory blocks over time.
+
+
+With a 1 TiB virtio-mem device and a 2 MiB block size (default), in the 
+worst case we would get 262144 individual blocks (every second one 
+plugged). While this is far from realistic, I assume we can get 
+something comparable when dumping a huge VM in paging mode.
+
+With 262144 entires, with ~48 byte (6*8 byte) per element, we'd consume 
+12 MiB for the whole list. Not perfect, but not too bad.
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
 
