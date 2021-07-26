@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33D23D5535
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:20:30 +0200 (CEST)
-Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810E23D559F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:29:58 +0200 (CEST)
+Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7vqf-0007LR-Fl
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:20:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
+	id 1m7vzp-0002u1-KN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vpk-0006g5-3d
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:19:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34597)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vz0-0002E8-Pq
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:29:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vpi-0004lN-02
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:19:31 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vyx-0004MY-4m
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:29:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627287568;
+ s=mimecast20190719; t=1627288142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sGjjDLevKz7itjOeacUjE3LF8OI+9gijDwhgidVB74I=;
- b=RQDu8bY+JxdFoL1cg3Rpc21ay8fKveyATaGhuOImo+AANiZwEQYQuQqdnMfHkI5RLyBJ4x
- dy9WhXq/p+D7JEU+jyaVcxZrnpe1Rvh+rossHzWpP94p1r05Z493uhnAlPIwQa967GEUMJ
- 2laYdGF7+b+6DjdNN7alfE2ybXzmmww=
+ bh=W9kmOokahWKjjVJJ7MaTDyZRepKr3q06SKBmmnAUkig=;
+ b=C7MTCwrpiPzqsLwk2ZVnorM2m8D2S88gDNH4NX702D6u9U5DHqCTl4Y6cuxZNelsug3/k0
+ 4I5tZA8oRKPbBifb3w+oAmQSkT1hUX6MnPmaiEqD6+qlIDNNdasRPvb2YXO5g/iC06AAaG
+ ZkTMQF+WEbJUKWRFQXQ/thaPCNpDi+w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-L-6g4IewMG6HEiCQCUn2uQ-1; Mon, 26 Jul 2021 04:19:24 -0400
-X-MC-Unique: L-6g4IewMG6HEiCQCUn2uQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-500-XjaCffjeOoiEJvQHUcRAKQ-1; Mon, 26 Jul 2021 04:29:00 -0400
+X-MC-Unique: XjaCffjeOoiEJvQHUcRAKQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1531B1084F4B;
- Mon, 26 Jul 2021 08:19:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06E538010F4;
+ Mon, 26 Jul 2021 08:29:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD2F319D9B;
- Mon, 26 Jul 2021 08:19:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1B6D5DAA5;
+ Mon, 26 Jul 2021 08:28:59 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1DBA718003A4; Mon, 26 Jul 2021 10:19:21 +0200 (CEST)
-Date: Mon, 26 Jul 2021 10:19:21 +0200
+ id 0F68D18003A4; Mon, 26 Jul 2021 10:28:58 +0200 (CEST)
+Date: Mon, 26 Jul 2021 10:28:58 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Subject: Re: virtio-gpu: Mapping blob resources
-Message-ID: <20210726081921.yekhfrxg6bccvn64@sirius.home.kraxel.org>
-References: <0eb17319-0b1d-5f43-f5d9-8ccadb0839ef@collabora.com>
- <20210723135242.w5bcqwwrm5stec3b@sirius.home.kraxel.org>
- <baf58f3a-6b82-74c4-5383-117ac51d6579@collabora.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH v2 0/1] ui/gtk: prevent QEMU lock up
+Message-ID: <20210726082858.gyfwksemesr7kg75@sirius.home.kraxel.org>
+References: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <baf58f3a-6b82-74c4-5383-117ac51d6579@collabora.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,29 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- vivek.kasireddy@intel.com
+Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 05:07:52PM +0200, Antonio Caggiano wrote:
-> Awesome, thanks!
+  Hi,
+
+> Since commit 8eb13bbbac ("ui/gtk: vte: fix sending multiple
+> characeters") it's very easy to lock up QEMU with the GTK ui.
+> If you configure a guest with a serial device and the guest
+> doesn't listen on this device, QEMU will lock up after
+> entering two characters in the serial console.
 > 
-> I already cherry-picked that commit. :D
-> 
-> I am experimenting with memory regions now. So, I created a ram subregion,
-> did I use the right type for the task?
+> v2:
+> Gerd suggested to use the chr_accept_input() callback function
+> instead of a write retry timer and to drop patch 2/2.
 
-Yes, ram is correct.
+Very nice and easy to read patch now.
 
-> I added it to the gpu hostmem at the offset specified by the map command. I
-> enabled the subregion, and then I used subregion->addr for the vkMapMemory
-> call.
+Queued up for 6.1.
 
-Hmm, no.  I'd suggest to first vkMapMemory into qemu address space, then
-pass the address of the mapping to memory_region_init_ram_device_ptr().
-
-take care,
+thanks,
   Gerd
 
 
