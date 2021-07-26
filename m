@@ -2,91 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7D23D5889
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:32:34 +0200 (CEST)
-Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBF13D588E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:33:46 +0200 (CEST)
+Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7yqX-0007n4-44
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56124)
+	id 1m7yrh-0000oy-UI
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m7yoS-0006hz-Uo
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:30:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33513)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m7ypo-0007ev-D5
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:31:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m7yoR-00015V-8c
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:30:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m7ypm-0001tZ-HJ
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:31:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627299021;
+ s=mimecast20190719; t=1627299103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tz7g436YV7E8CMU7uiXNkrE/gYjY5ZHB+G4x6pbxxaU=;
- b=hWGQMDuWKo5ZaUzo3BVkOmhaCBsHOcZEr9xJuEC15Ea9DPAlBdXjSz+BZbuIM1XAXWtpI2
- UGlWMZ+Hj2DysgGxfZ/RhSn1ZEM9xhMEdJ/W3cJMAa85etMIhTp+uumlIKzkf0sXPAkt/Q
- rJv7VvChwvQrukC5s74yyu+POnTQgN0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-DICSbqY_NHeDJBQGUSVQVQ-1; Mon, 26 Jul 2021 07:30:20 -0400
-X-MC-Unique: DICSbqY_NHeDJBQGUSVQVQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l12-20020a5d6d8c0000b029011a3b249b10so4598851wrs.3
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 04:30:20 -0700 (PDT)
+ bh=uIQy7xdV5DaZXgmtB3lTx23nMFbOtxAMqZyDkKoXLd8=;
+ b=LtyYbTBOM8DPKbnK0Dvl8SyeIYIZujuy3u6QramsyTi4xYNActKrXGs9k5WuTpl2B9cV2e
+ q0RGyHSpqVHMJp95dIwR5I+oy3KmMYKMHNoLL2wZNZBvF/MxayyV7IGqLuLT3JpQEtDmgc
+ CyL/69NoR88onXbBlAjMJkscTCgvvqY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-604-R1A9vassPxm36oh_yvU-Lw-1; Mon, 26 Jul 2021 07:31:42 -0400
+X-MC-Unique: R1A9vassPxm36oh_yvU-Lw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a1-20020a7bc1c10000b0290225338d8f53so3048918wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 04:31:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tz7g436YV7E8CMU7uiXNkrE/gYjY5ZHB+G4x6pbxxaU=;
- b=UAmws/DcM+F1WxEFBulkFA0mSdO6/j6XawUr1gG3WE02J9bFOrmhmS+6fey8m0uZj+
- NtT1A8DSXp3ewPgJ4p9E8zJvvJsdxqgzMstj+JKT0TS2FO0KyeM1xtcZbytuM7XbyFVF
- CmCmp1xTPmj22OKQBQDIOYs/0NWEkJX2zsa0QUOeofnlmTbKPBxxVOIQq1s4Cz4oi9Nw
- +0rjnrrMliSFCUuwM4Z0nNdbCGE1akpizhv47PtwL20TxIjYyHNI8FrJoBx1RtLmBWe3
- ZCN9PydPZ7WeOLPcF7orUZXNnwtnqPu3JbZ4oCeZT96tkJpmgHoABpp8Kz3RjJl0FO2Y
- QctQ==
-X-Gm-Message-State: AOAM533FAc/PckUUUQE/E/sRBD4fkT/NJFox0O/OKxNRXQT80opqzwmo
- KboZTfgyuUsb77t7Abj+MhP22yV7xxREJSeZgG6M1V8klqZS4O0BgHS+9szRxs2vHg9x1oXiyTE
- uspJXqQgBRMEq3Ro=
-X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr5897844wmj.53.1627299019599;
- Mon, 26 Jul 2021 04:30:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDsXDJev+vOwrcpc2DUPskoTLPtElvDf4qOY6WVrlg8c2Yf10Q/tzZmf6osisrZfjuam9Iww==
-X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr5897817wmj.53.1627299019435;
- Mon, 26 Jul 2021 04:30:19 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id a7sm32583811wru.67.2021.07.26.04.30.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 04:30:19 -0700 (PDT)
-Date: Mon, 26 Jul 2021 13:30:17 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v5 08/10] ACPI ERST: create ACPI ERST table for pc/x86
- machines.
-Message-ID: <20210726133017.6b0d0031@redhat.com>
-In-Reply-To: <3916035d-a628-f7e2-44f3-1a724e3d523f@oracle.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <1625080041-29010-9-git-send-email-eric.devolder@oracle.com>
- <20210720151924.2eb89d31@redhat.com>
- <3916035d-a628-f7e2-44f3-1a724e3d523f@oracle.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uIQy7xdV5DaZXgmtB3lTx23nMFbOtxAMqZyDkKoXLd8=;
+ b=GzIRPipZd+9PAngHVvP/sE2cRU+Jviplo1jeD4JBpyrk5vrNxalQJDrYyOsoGZSRxi
+ UX2WKZzheMx0lAacUXa/45sJ7xQ/HyHX8/FjoJYw6XvVj9KXwevnQcWpNh9fxSwH2u4l
+ +kTrb3l5sasd82i8TxKjpzq6ivQHayplvZy0ow5M4c3PWRZ+O08zd1xWfc2N/jzxlLu0
+ QSJi5NuhpIigl0vxwJzZL0XbEFjMj608O1h4wG6mJuoyD04sXVpWWMUZNwEdPURI+vzR
+ 10heGdAHmAAQpWjXejp/zT8BmNvxdPX+E6hhPuQ+WCU/tp8dGqSaVX3ipp6YuDZ7/EkA
+ 7kLA==
+X-Gm-Message-State: AOAM533JFZFDbetBoaWSCuP9bJ39UId7dWiGdedu9t0HsNFlfPWymrTi
+ g3y/oatdv/PcwogCuJblVgkJPYksXXfKfWEBkgPkFdc0GrqCzNyZ2K10ntEmkmhcQr4TBf45kTR
+ nByu+iZ8g1H9pT60=
+X-Received: by 2002:a05:600c:3b98:: with SMTP id
+ n24mr26562507wms.182.1627299100894; 
+ Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdhod9h4m8x89fxy9GjnXUlh443l7FWmGlG8nb4BP7dMiCmsXtfEGSyCVTtf9u9DyeAMT28A==
+X-Received: by 2002:a05:600c:3b98:: with SMTP id
+ n24mr26562485wms.182.1627299100687; 
+ Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id s1sm13371839wmj.8.2021.07.26.04.31.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jul 2021 04:31:40 -0700 (PDT)
+Subject: Re: Prefetches in buffer_zero_*
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Joe Mario <jmario@redhat.com>
+References: <YPlCJpMIOb2Umc+Z@work-vm>
+ <092f9b8b-4a14-d059-49be-010b760828aa@linaro.org> <YPnDdT1VYANI0Wzw@work-vm>
+ <CA+c1WK7XCgdYTbG5FK3q=x9S1t2p2vxcreEwtiZf5L=rsg0i6g@mail.gmail.com>
+ <YP52r9ck8jmV/RkR@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bcbca5e4-d804-2a2f-2dff-4b19f4ef07cf@redhat.com>
+Date: Mon, 26 Jul 2021 13:31:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YP52r9ck8jmV/RkR@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,109 +104,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Jul 2021 11:16:42 -0500
-Eric DeVolder <eric.devolder@oracle.com> wrote:
++Lukáš
 
-> On 7/20/21 8:19 AM, Igor Mammedov wrote:
-> > On Wed, 30 Jun 2021 15:07:19 -0400
-> > Eric DeVolder <eric.devolder@oracle.com> wrote:
-> >   
-> >> This change exposes ACPI ERST support for x86 guests.
-> >>
-> >> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>  
-> > looks good to me, maybe move find_erst_dev() impl. here as well
-> > if it's the patch it's first used.  
+On 7/26/21 10:47 AM, Dr. David Alan Gilbert wrote:
+> * Joe Mario (jmario@redhat.com) wrote:
+>> On Thu, Jul 22, 2021 at 3:14 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> wrote:
+>>
+>>> * Richard Henderson (richard.henderson@linaro.org) wrote:
+>>>> On 7/22/21 12:02 AM, Dr. David Alan Gilbert wrote:
+>>>>> Hi Richard,
+>>>>>    I think you were the last person to fiddle with the prefetching
+>>>>> in buffer_zero_avx2 and friends; Joe (cc'd) wondered if explicit
+>>>>> prefetching still made sense on modern CPUs, and that their hardware
+>>>>> generally figures stuff out better on simple increments.
+>>>>>
+>>>>>    What was your thinking on this, and did you actually measure
+>>>>> any improvement?
+>>>>
+>>>> Ah, well, that was 5 years ago so I have no particular memory of this.
+>>> It
+>>>> wouldn't surprise me if you can't measure any improvement on modern
+>>>> hardware.
+>>>>
+>>>> Do you now measure an improvement with the prefetches gone?
+>>>
+>>> Not tried, it just came from Joe's suggestion that it was generally a
+>>> bad idea these days; I do remember that the behaviour of those functions
+>>> is quite tricky because there performance is VERY data dependent - many
+>>> VMs actually have pages that are quite dirty so you never iterate the
+>>> loop, but then you hit others with big zero pages and you spend your
+>>> entire life in the loop.
+>>>
+>>>
+>> Dave, Richard:
+>> My curiosity got the best of me.  So I created a small test program that
+>> used the buffer_zero_avx2() routine from qemu's bufferiszero.c.
 > 
-> I've followed your previous suggestion of mimicking find_vmgenid_dev(), which
-> declares it in its header file. I've done the same, find_erst_dev() is
-> declared in its header file and used in these files.
-
-it's fine doing like this but
-it would be easier to follow if this were part of [6/10],
-so that function is introduced and used in the same patch.
-
-
-> >   
-> >> ---
-> >>   hw/i386/acpi-build.c   | 9 +++++++++
-> >>   hw/i386/acpi-microvm.c | 9 +++++++++
-> >>   2 files changed, 18 insertions(+)
-> >>
-> >> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> >> index de98750..d2026cc 100644
-> >> --- a/hw/i386/acpi-build.c
-> >> +++ b/hw/i386/acpi-build.c
-> >> @@ -43,6 +43,7 @@
-> >>   #include "sysemu/tpm.h"
-> >>   #include "hw/acpi/tpm.h"
-> >>   #include "hw/acpi/vmgenid.h"
-> >> +#include "hw/acpi/erst.h"
-> >>   #include "hw/boards.h"
-> >>   #include "sysemu/tpm_backend.h"
-> >>   #include "hw/rtc/mc146818rtc_regs.h"
-> >> @@ -2327,6 +2328,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-> >>       GArray *tables_blob = tables->table_data;
-> >>       AcpiSlicOem slic_oem = { .id = NULL, .table_id = NULL };
-> >>       Object *vmgenid_dev;
-> >> +    Object *erst_dev;
-> >>       char *oem_id;
-> >>       char *oem_table_id;
-> >>   
-> >> @@ -2388,6 +2390,13 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-> >>                       ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-> >>                       x86ms->oem_table_id);
-> >>   
-> >> +    erst_dev = find_erst_dev();
-> >> +    if (erst_dev) {
-> >> +        acpi_add_table(table_offsets, tables_blob);
-> >> +        build_erst(tables_blob, tables->linker, erst_dev,
-> >> +                   x86ms->oem_id, x86ms->oem_table_id);
-> >> +    }
-> >> +
-> >>       vmgenid_dev = find_vmgenid_dev();
-> >>       if (vmgenid_dev) {
-> >>           acpi_add_table(table_offsets, tables_blob);
-> >> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> >> index ccd3303..0099b13 100644
-> >> --- a/hw/i386/acpi-microvm.c
-> >> +++ b/hw/i386/acpi-microvm.c
-> >> @@ -30,6 +30,7 @@
-> >>   #include "hw/acpi/bios-linker-loader.h"
-> >>   #include "hw/acpi/generic_event_device.h"
-> >>   #include "hw/acpi/utils.h"
-> >> +#include "hw/acpi/erst.h"
-> >>   #include "hw/boards.h"
-> >>   #include "hw/i386/fw_cfg.h"
-> >>   #include "hw/i386/microvm.h"
-> >> @@ -160,6 +161,7 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-> >>       X86MachineState *x86ms = X86_MACHINE(mms);
-> >>       GArray *table_offsets;
-> >>       GArray *tables_blob = tables->table_data;
-> >> +    Object *erst_dev;
-> >>       unsigned dsdt, xsdt;
-> >>       AcpiFadtData pmfadt = {
-> >>           /* ACPI 5.0: 4.1 Hardware-Reduced ACPI */
-> >> @@ -209,6 +211,13 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-> >>                       ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-> >>                       x86ms->oem_table_id);
-> >>   
-> >> +    erst_dev = find_erst_dev();
-> >> +    if (erst_dev) {
-> >> +        acpi_add_table(table_offsets, tables_blob);
-> >> +        build_erst(tables_blob, tables->linker, erst_dev,
-> >> +                   x86ms->oem_id, x86ms->oem_table_id);
-> >> +    }
-> >> +
-> >>       xsdt = tables_blob->len;
-> >>       build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
-> >>                  x86ms->oem_table_id);  
-> >   
+> Thanks for testing,
 > 
+>> When I run it on an Intel Cascade Lake processor, the cost of calling
+>> "__builtin_prefetch(p)" is in the noise range .  It's always "just
+>> slightly" slower.  I doubt it could ever be measured in qemu.
+>>
+>> Ironically, when I disabled the hardware prefetchers, the program slowed
+>> down over 33%.  And the call to "__builtin_prefetch(p)" actually hurt
+>> performance by over 3%.
+> 
+> Yeh that's a bit odd.
+> 
+>> My results are below, (only with the hardware prefetchers enabled).  The
+>> program is attached.
+>> Joe
+>>
+>> # gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do
+>> ./a.out; done
+>> TSC 356144 Kcycles.
+>> TSC 356714 Kcycles.
+>> TSC 356707 Kcycles.
+>> TSC 356565 Kcycles.
+>> TSC 356853 Kcycles.
+>> # gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
+>> TSC 355520 Kcycles.
+>> TSC 355961 Kcycles.
+>> TSC 355872 Kcycles.
+>> TSC 355948 Kcycles.
+>> TSC 355918 Kcycles.
+> 
+> This basically agrees with the machines I've just tried your test on -
+> *except* AMD EPYC 7302P's - that really like the prefetch:
+> 
+> [root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH ; for i in {1..5}; do ./a.out; done
+> TSC 322162 Kcycles.
+> TSC 321861 Kcycles. 
+> TSC 322212 Kcycles. 
+> TSC 321957 Kcycles.
+> TSC 322085 Kcycles. 
+>  
+> [root@virtlab720 ~]# gcc -mavx buffer_zero_avx.c -O ; for i in {1..5}; do ./a.out; done
+> TSC 377988 Kcycles. 
+> TSC 380125 Kcycles. 
+> TSC 379440 Kcycles.
+> TSC 379689 Kcycles. 
+> TSC 379571 Kcycles. 
+>  
+> The 1st gen doesn't seem to see much difference with/without it.
+> 
+> Probably best to leave this code as is!
+
+Regardless the decision of changing the code or not, it would be
+nice to have this test committed in the repository to run
+performance regression testing from time to time.
+
+>> /*
+>>  * Simple program to test if a prefetch helps or hurts buffer_zero_avx2.
+>>  *
+>>  * Compile with either:
+>>  *  gcc -mavx buffer_zero_avx.c -O 
+>>  * or
+>>  *  gcc -mavx buffer_zero_avx.c -O -DDO_PREFETCH 
+>>  */
+>>
+[...]
 
 
