@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C848D3D58CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:47:38 +0200 (CEST)
-Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B573D58EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:57:43 +0200 (CEST)
+Received: from localhost ([::1]:55868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7z57-0002D1-Tf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59780)
+	id 1m7zEr-0007rP-VB
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m7z3I-0000d1-Ej
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:45:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m7z3G-0001iz-MC
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:45:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627299941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GXIU8OS+7HBqso3cPQettC6w6oIcKOODBf8sCbPSxXI=;
- b=IFpAwdB/UtJe8PI2ubJf2a+lyoSf3lMsOHV1w3Zd9WAmU7B3wRvmYMSYmqLIHnUR1G2yd1
- q8P7OQRcFS4o4CSVqPWjha0Df66D3wit4ZpeiFexfHVzed3WWC1lBQ7P+vaXAaAplLy+Mv
- MnaiLx5GXHvzww/XsUeTJPThPZUZgXU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-k-Rq9-jEPCKe__hJmFLzBQ-1; Mon, 26 Jul 2021 07:45:40 -0400
-X-MC-Unique: k-Rq9-jEPCKe__hJmFLzBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k13-20020a05600c1c8db029025018ac4f7dso1401254wms.2
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 04:45:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=GXIU8OS+7HBqso3cPQettC6w6oIcKOODBf8sCbPSxXI=;
- b=Kg9Pc2B8zQ1NKPA5R5/H3MByI1b5PxBqA+brCjvAVlC3OCXa4COKz8uMj3iStiRVOw
- 4J23lJMt7G7iyqxws7CWDX+7upS34HuEbDqBFrxbMM3RNdnooXsVusojT+osc6tpAEjL
- xRa+Ev+kYKZSTBtEx6aFc6/+kp8HyIrRScmzGpROqRG3UYTkyhh/nkHZbGKpRyraqI4p
- Yjdwjq/KQIY1LnydWER92b5XrBUq/bpjpGlI28lpGJwWqACZxt9iTyRTXJy1HIVdTYhv
- ODmi5nYhmNrQZP2RxjNFIOC6AkOtpnCxu4m1Fxp8nhAxwegzC/EhGRoNcuQfJZGRqm/s
- gCmQ==
-X-Gm-Message-State: AOAM532AwTipKIFRYlAQ9UY1T3wZRoIZ/VNNPRnskl311pIg86zgn/iC
- OBORwWMCMhQzvJyGAi12Lxl5CT8Vv4KYM0NFskjMB9vc51rMzXh6s4bbKJ/ad3V463XluAfLeCv
- rl3vmytX5lICgTqM=
-X-Received: by 2002:adf:dd89:: with SMTP id x9mr366152wrl.401.1627299939596;
- Mon, 26 Jul 2021 04:45:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkYdsMTcvnejo9cDPHW6H9tyDbbeUp6owlOBmdK5CBQVuo2u70TmuA2rrPP40iGPiGqndu6w==
-X-Received: by 2002:adf:dd89:: with SMTP id x9mr366127wrl.401.1627299939356;
- Mon, 26 Jul 2021 04:45:39 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id g138sm43042246wmg.32.2021.07.26.04.45.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 04:45:38 -0700 (PDT)
-Date: Mon, 26 Jul 2021 12:45:36 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 0/5] migrations: Fix potential rare race of
- migration-test after yank
-Message-ID: <YP6gYODsPyyQIDyV@work-vm>
-References: <20210722175841.938739-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1m7zDz-0006pa-0I
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:56:47 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43842 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1m7zDw-00080L-3D
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:56:46 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr0Pyov5g0RAkAA--.23475S3; 
+ Mon, 26 Jul 2021 19:56:36 +0800 (CST)
+Subject: Re: [PATCH v2 07/22] target/loongarch: Add fixed point arithmetic
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-8-git-send-email-gaosong@loongson.cn>
+ <ad086e2a-3bfc-aa4b-d873-68d159ea2cbe@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <95b0ee7b-ca4d-2ee1-85cf-2c49160d3a5d@loongson.cn>
+Date: Mon, 26 Jul 2021 19:56:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210722175841.938739-1-peterx@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ad086e2a-3bfc-aa4b-d873-68d159ea2cbe@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr0Pyov5g0RAkAA--.23475S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3WFyxCFykWFyxZw1UGrWUCFg_yoW7CF47pF
+ 1kJrW8WFyUJrn3Jw1UJr45WFyayr18t3WDtwnYqa15tr47Ar10gr1jgrs09r15Ar4fWr4Y
+ yw15ursrZ3W7J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBa1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
+ 07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8V
+ W5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+ IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,91 +74,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> v3:
-> - Use WITH_QEMU_LOCK_GUARD() for patch 2 [Eric]
->   (potentially I can also replace other existing uses of qemu_file_lock into
->    WITH_QEMU_LOCK_GUARD, but I decided to took Dave's r-b first and leave that
->    for later)
-> - Added r-bs for Dave on patch 2/4
-> - Add a comment in patch 5 to explain why it's safe to unregister yank without
->   qemu_file_lock, in postcopy_pause() [Dave]
-> 
-> v2:
-> - Pick r-b for Dave on patch 1/3
-> - Move migration_file_get_ioc() from patch 5 to patch 4, meanwhile rename it to
->   qemu_file_get_ioc(). [Dave]
-> - Patch 2 "migration: Shutdown src in await_return_path_close_on_source()" is
->   replaced by patch "migration: Make from_dst_file accesses thread-safe" [Dave]
-> 
-> Patch 1 fixes a possible race that migration thread can accidentally skip
-> join() of rp_thread even if the return thread is enabled.  Patch 1 is suspected
-> to also be the root cause of the recent hard-to-reproduce migration-test
-> failure here reported by PMM:
-> 
-> https://lore.kernel.org/qemu-devel/YPamXAHwan%2FPPXLf@work-vm/
-> 
-> I didn't reproduce it myself; but after co-debugged with Dave it's suspected
-> that the race of rp_thread could be the cause.  It's not exposed before because
-> yank is soo strict on releasing instances, while we're not that strict before,
-> and didn't join() on rp_thread wasn't so dangerous after all when migration
-> succeeded before.
-> 
-> Patch 2 fixes another theoretical race on accessing from_dst_file spotted by
-> Dave.  I don't think there's known issues with it, but may still worth fixing.
-> 
-> Patch 3 should be a cleanup on yank that I think would be nice to have.
-> 
-> Patch 4-5 are further cleanups to remove the ref==1 check in channel_close(),
-> finally, as I always thought that's a bit hackish.  So I used explicit
-> unregister of the yank function at necessary places to replace that ref==1 one.
-> 
-> I still think having patch 3-5 altogether would be great, however I think patch
-> 1 should still be the most important to be reviewed.  Also it would be great to
-> know whether patch 1 could fix the known yank crash.
-> 
-> Please review, thanks.
+Hi, Richard.
 
-Queued with the fix; it survived over a long weekend running about 50k
-times OK.
+On 07/23/2021 08:46 AM, Richard Henderson wrote:
+> On 7/20/21 11:53 PM, Song Gao wrote:
+>> +/* Fixed point arithmetic operation instruction translation */
+>> +static bool trans_add_w(DisasContext *ctx, arg_add_w *a)
+>> +{
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv Rj = cpu_gpr[a->rj];
+>> +    TCGv Rk = cpu_gpr[a->rk];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    if (a->rj != 0 && a->rk != 0) {
+>> +        tcg_gen_add_tl(Rd, Rj, Rk);
+>> +        tcg_gen_ext32s_tl(Rd, Rd);
+>> +    } else if (a->rj == 0 && a->rk != 0) {
+>> +        tcg_gen_mov_tl(Rd, Rk);
+>> +    } else if (a->rj != 0 && a->rk == 0) {
+>> +        tcg_gen_mov_tl(Rd, Rj);
+>> +    } else {
+>> +        tcg_gen_movi_tl(Rd, 0);
+>> +    }
+>> +
+>> +    return true;
+>> +}
+> 
+> Do not do all of this "if reg(n) zero" testing.
+> 
+> Use a common function to perform the gpr lookup, and a small callback function for the operation.  Often, the callback function already exists within include/tcg/tcg-op.h.
+> 
+> Please see my riscv cleanup patch set I referenced vs patch 6.
 
-Dave
+I am not sure  that 'riscv cleanup' patchs at:
+  
+   https://patchew.org/QEMU/20210709042608.883256-1-richard.henderson@linaro.org 
 
-> Peter Xu (5):
->   migration: Fix missing join() of rp_thread
->   migration: Make from_dst_file accesses thread-safe
->   migration: Introduce migration_ioc_[un]register_yank()
->   migration: Teach QEMUFile to be QIOChannel-aware
->   migration: Move the yank unregister of channel_close out
+It seems that  gpr_dst/gpr_src are common function to perform the gpr lookup. is that right? 
+
+
 > 
->  migration/channel.c           | 15 ++-------
->  migration/migration.c         | 57 +++++++++++++++++++++++++++--------
->  migration/migration.h         | 15 +++++++--
->  migration/multifd.c           |  8 ++---
->  migration/qemu-file-channel.c | 11 ++-----
->  migration/qemu-file.c         | 17 ++++++++++-
->  migration/qemu-file.h         |  4 ++-
->  migration/ram.c               |  3 +-
->  migration/savevm.c            | 11 +++++--
->  migration/yank_functions.c    | 42 ++++++++++++++++++++++++++
->  migration/yank_functions.h    |  3 ++
->  11 files changed, 138 insertions(+), 48 deletions(-)
+>> +static bool trans_orn(DisasContext *ctx, arg_orn *a)
+>> +{
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv Rj = cpu_gpr[a->rj];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    TCGv t0 = tcg_temp_new();
+>> +    gen_load_gpr(t0, a->rk);
+>> +
+>> +    tcg_gen_not_tl(t0, t0);
+>> +    tcg_gen_or_tl(Rd, Rj, t0);
 > 
-> -- 
-> 2.31.1
+> tcg_gen_orc_tl.
 > 
+OK.
+>> +static bool trans_andn(DisasContext *ctx, arg_andn *a)
+>> +{
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv Rj = cpu_gpr[a->rj];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    TCGv t0 = tcg_temp_new();
+>> +    gen_load_gpr(t0, a->rk);
+>> +
+>> +    tcg_gen_not_tl(t0, t0);
+>> +    tcg_gen_and_tl(Rd, Rj, t0);
 > 
+> tcg_gen_andc_tl.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+OK.
+
+>> +static bool trans_mul_d(DisasContext *ctx, arg_mul_d *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +
+>> +    check_loongarch_64(ctx);
+> 
+> Architecture checks go first, before you've decided the operation is a nop.
+> 
+OK.
+
+>> +static bool trans_mulh_d(DisasContext *ctx, arg_mulh_d *a)
+>> +{
+>> +    TCGv t0, t1, t2;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +    t2 = tcg_temp_new();
+>> +
+>> +    check_loongarch_64(ctx);
+>> +    tcg_gen_muls2_i64(t2, Rd, t0, t1);
+> 
+> If you actually supported LA32, you'd notice this doesn't compile.  Are you planning to support LA32 in the future?
+> 
+No. 
+>> +static bool trans_lu32i_d(DisasContext *ctx, arg_lu32i_d *a)
+>> +{
+>> +    TCGv_i64 t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    t0 = tcg_temp_new_i64();
+>> +    t1 = tcg_temp_new_i64();
+>> +
+>> +    tcg_gen_movi_tl(t0, a->si20);
+>> +    tcg_gen_concat_tl_i64(t1, Rd, t0);
+>> +    tcg_gen_mov_tl(Rd, t1);
+> 
+> Hmm.  Better as
+> 
+>   tcg_gen_deposit_tl(Rd, Rd, tcg_constant_tl(a->si20), 32, 32);
+>
+OK.>> +static bool trans_lu52i_d(DisasContext *ctx, arg_lu52i_d *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    t0 = tcg_temp_new();
+>> +    t1 = tcg_temp_new();
+>> +
+>> +    gen_load_gpr(t1, a->rj);
+>> +
+>> +    tcg_gen_movi_tl(t0, a->si12);
+>> +    tcg_gen_shli_tl(t0, t0, 52);
+>> +    tcg_gen_andi_tl(t1, t1, 0xfffffffffffffU);
+>> +    tcg_gen_or_tl(Rd, t0, t1);
+> 
+> Definitely better as
+> 
+>   tcg_gen_deposit_tl(Rd, Rd, tcg_constant_tl(a->si12), 52, 12);
+> 
+OK.
+>> +static bool trans_addi_w(DisasContext *ctx, arg_addi_w *a)
+>> +{
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv Rj = cpu_gpr[a->rj];
+>> +    target_ulong uimm = (target_long)(a->si12);
+>> +
+>> +    if (a->rd == 0) {
+>> +        /* Nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    if (a->rj != 0) {
+>> +        tcg_gen_addi_tl(Rd, Rj, uimm);
+>> +        tcg_gen_ext32s_tl(Rd, Rd);
+>> +    } else {
+>> +        tcg_gen_movi_tl(Rd, uimm);
+>> +    }
+>> +
+>> +    return true;
+>> +}
+> 
+> Again, there should be a common function for all of the two-register-immediate operations.  The callback here is exactly the same as for trans_add_w.
+> 
+OK.
+>> +static bool trans_xori(DisasContext *ctx, arg_xori *a)
+>> +{
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv Rj = cpu_gpr[a->rj];
+>> +
+>> +    target_ulong uimm = (uint16_t)(a->ui12);
+> 
+> You shouldn't need these sorts of casts.
+> 
+OK. 
+
+Thank you kindly help.
+
+Thanks
+Song Gao
 
 
