@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708D13D6510
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 19:01:00 +0200 (CEST)
-Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3653D6539
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 19:12:10 +0200 (CEST)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m83yN-0002xr-GU
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 13:00:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
+	id 1m849A-0007Qu-OQ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 13:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m83w7-000080-9A
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:58:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m83w4-00057S-CC
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:58:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627318715;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CGjaKRNZ3S9GgLMz9rV0IEKk+VnFPDYVufmk2NhxfqI=;
- b=WgLfxTiR347RcGlvG0zrCgsuECUQvWjiwk8lRwa7vckaRCfGCTLB2RV497+IjWHLFJcARL
- sb0lK9mj9Jm0d3gK8kxOasM3iTWVy3f/sVyTxpQ/rbsa0y4KAMse2+z6cjD9ZAjI94YO80
- HLNiHplGadawt8Ut5WtRIfqbcyQ+KaA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-ZYJv0sY7O8qAa-kZAbza2Q-1; Mon, 26 Jul 2021 12:58:34 -0400
-X-MC-Unique: ZYJv0sY7O8qAa-kZAbza2Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n1-20020a5d59810000b029013cd60e9baaso4966560wri.7
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 09:58:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m847u-0006gK-0Y
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 13:10:50 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m847s-0004cD-FY
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 13:10:49 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ o44-20020a17090a0a2fb0290176ca3e5a2fso993489pjo.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 10:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=wm2fjCefRH2ZOtSOAmyH7LaqIb9pQK/O4ZqMWJXvito=;
+ b=PCjNkOSmAEjS+RPmW+PGnKYcHyfuDTc7fE6uvFCioGIFxROpAWkX2BIn5O3Daaw+xT
+ UgK2101Txb7WMnNJOLox8wSGtlokbuXYjKro0uI/wBeyC3XToe3SZ81T6kZdhbLwOsn+
+ tRxqDMsIFGGJbov609fXmIxTZ1Bmz/YxGIupBsX2ALN8e65uVq04PmA0ubpWWfI+c3it
+ yjV4ljeGA8mcsbct9KG/hSSBcRUgmFSPK81PucKQBzFGz0YhfbfoSsqrDw7YoUJz6rsn
+ pBrxiXWy84xKyMBvsw8ograpTnWeWcOprnf16FEGTkKkyzH2CwXHUMAfJE7uAViXX79E
+ CZfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=CGjaKRNZ3S9GgLMz9rV0IEKk+VnFPDYVufmk2NhxfqI=;
- b=i0wXWnphHMnJkukMdZJYzlkEcX5qBa7ocPbZILCcEVdrrKapvZjr83CPK3xCyrQKVP
- KKCWUz6x5W9c00juO/w2bAbqZ2eG0VmUKknwdMmPWq3dU0idpvr/ymPl30NMS0tHlfuY
- JK6T31CQp1RSOlQgjXVeG4aPLzO/ODJXsaz+wq3B7aBjDyIowkjMaROHQrM6ypsnmOVQ
- WwIRf4QaolcWGcGONCB2zlYcEMr3/Jg+VYbTBsCGtQDX3XG9HYZfMxry4Tl9JkhaC2i9
- wEaaGqYtATS2CPjij5XF9PX5MDydYn/tl5+GPPCP6Nc5Ijb2ZOrJpRDAs+v1+qLWn8Wb
- zO2Q==
-X-Gm-Message-State: AOAM531QhImgb1FhwJp+CSWWPRO/WHT02V1UUQ8wmvOytI39RwsOMNO9
- zitrFea26J78l5qK3p8znmRjtzSb/WAWueozRBX5DG5ojLYEbgsYjCIYEG1B0j9fwAIRbzzYPk1
- VCCoydGowRNVY76g=
-X-Received: by 2002:adf:dc82:: with SMTP id r2mr21029494wrj.33.1627318713365; 
- Mon, 26 Jul 2021 09:58:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxO9sNX7hbxpgPcrptIyZuwtcCIeDs/PDxohl39KU6xSTusQk+F/k26u/R417VdYkJRPix8zw==
-X-Received: by 2002:adf:dc82:: with SMTP id r2mr21029465wrj.33.1627318713183; 
- Mon, 26 Jul 2021 09:58:33 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23b33.dip0.t-ipconnect.de. [79.242.59.51])
- by smtp.gmail.com with ESMTPSA id
- 140sm307834wmb.43.2021.07.26.09.58.32
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wm2fjCefRH2ZOtSOAmyH7LaqIb9pQK/O4ZqMWJXvito=;
+ b=bgXgn+w5h4YjKaNZ4Zqpc9OusJOmGRqyXIQe2X+v70j9KDiHsRMnVRR0Hj1F+rue5A
+ iOIm+3LoymefuHILWd4Twkw3K0DzZhrd32aPwrFDptaQL+RhkMovtR1xZ4uartaYhWAC
+ ot1+6EuW4cC6gN4kHZ18YcyzwKBGyvRIBDoZzvf+6ea+u061EXYxE23WbLDTc9tADV8S
+ EsfK89b7JNbYGxBjhd6N7KGe7RqJlF1fpcEju43BOU8bn73lO8NpA6BdGCyS7/ehoeOD
+ HLUWOmDdvfEEdMwXK7jjCsgCE457utzJioUv2iCPUTVfoy0MenL7RqD9Qwu2qpmWsw8f
+ RGMQ==
+X-Gm-Message-State: AOAM531BmfTNWKvn+hg1/jDth6a9VeSWjr1OV4Dr+tjhDxoi0Kby+3Ok
+ Kp4HbAx/1qlPpi45Ob8CMN+Syqpld5ZXQg==
+X-Google-Smtp-Source: ABdhPJzEW+kpx5IFe//ChqPPmd/oukgno5iLlEHxhYL2Yw3KxEqWqwJMEyc7psCoYM5yLRlAL9T7/A==
+X-Received: by 2002:a17:902:d48a:b029:12c:2142:6702 with SMTP id
+ c10-20020a170902d48ab029012c21426702mr5317385plg.53.1627319446895; 
+ Mon, 26 Jul 2021 10:10:46 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
+ (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
+ [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
+ by smtp.gmail.com with ESMTPSA id w10sm273841pgl.46.2021.07.26.10.10.46
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 09:58:32 -0700 (PDT)
-Subject: Re: [PATCH v3 1/4] tpm: mark correct memory region range dirty when
- clearing RAM
-To: Peter Xu <peterx@redhat.com>
-References: <20210726160346.109915-1-david@redhat.com>
- <20210726160346.109915-2-david@redhat.com> <YP7ph0a9kI9p4zhs@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <d88d74e3-aac3-0a04-abeb-407eee2d3c15@redhat.com>
-Date: Mon, 26 Jul 2021 18:58:31 +0200
+ Mon, 26 Jul 2021 10:10:46 -0700 (PDT)
+Subject: Re: [PATCH for-6.1? v2 0/9] Fixes for clang-13
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20210725122416.1391332-1-richard.henderson@linaro.org>
+Message-ID: <e9481343-96f9-e713-33bc-dc1adc75f317@linaro.org>
+Date: Mon, 26 Jul 2021 07:10:43 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YP7ph0a9kI9p4zhs@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210725122416.1391332-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,66 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.07.21 18:57, Peter Xu wrote:
-> On Mon, Jul 26, 2021 at 06:03:43PM +0200, David Hildenbrand wrote:
->> We might not start at the beginning of the memory region. Let's
->> calculate the offset into the memory region via the difference in the
->> host addresses.
->>
->> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
->> Fixes: ffab1be70692 ("tpm: clear RAM when "memory overwrite" requested")
->> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Cc: Alex Williamson <alex.williamson@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Claudio Fontana <cfontana@suse.de>
->> Cc: Thomas Huth <thuth@redhat.com>
->> Cc: "Alex Bennée" <alex.bennee@linaro.org>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Laurent Vivier <lvivier@redhat.com>
->> Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   hw/tpm/tpm_ppi.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
->> index 362edcc5c9..f243d9d0f6 100644
->> --- a/hw/tpm/tpm_ppi.c
->> +++ b/hw/tpm/tpm_ppi.c
->> @@ -30,11 +30,14 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
->>           guest_phys_blocks_init(&guest_phys_blocks);
->>           guest_phys_blocks_append(&guest_phys_blocks);
->>           QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
->> +            hwaddr mr_offs = (uint8_t *)memory_region_get_ram_ptr(block->mr) -
->> +                             block->host_addr;
+On 7/25/21 2:24 AM, Richard Henderson wrote:
 > 
-> Didn't look closely previous - should it be reversed instead?
-> 
->    block->host_addr - memory_region_get_ram_ptr(block->mr)
+> Richard Henderson (9):
+>    nbd/server: Mark variable unused in nbd_negotiate_meta_queries
+>    accel/tcg: Remove unused variable in cpu_exec
+>    util/selfmap: Discard mapping on error
+>    net/checksum: Remove unused variable in net_checksum_add_iov
+>    hw/audio/adlib: Remove unused variable in adlib_callback
+>    hw/ppc/spapr_events: Remove unused variable from check_exception
+>    hw/pci-hist/pnv_phb4: Fix typo in pnv_phb4_ioda_write
+>    linux-user/syscall: Remove unused variable from execve
+>    tests/unit: Remove unused variable from test_io
 
-Of course it should :(
+Queued for 6.1.
+Thanks for the reviews, all.
 
-Thanks! :)
-
--- 
-Thanks,
-
-David / dhildenb
-
+r~
 
