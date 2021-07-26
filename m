@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834D03D59D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:53:57 +0200 (CEST)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E13D59F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:58:30 +0200 (CEST)
+Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m807I-0006pI-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
+	id 1m80Bh-0001Kq-NV
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m805q-0005RS-NW
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:52:26 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46721)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m80A3-0008HV-NE
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:56:47 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m805o-0003Zn-Qp
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:52:26 -0400
-Received: by mail-pl1-x632.google.com with SMTP id t21so11311535plr.13
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 05:52:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m80A2-0005hE-1o
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:56:47 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id b6so12749287pji.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 05:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F1wYxlOf9hTWb/t0NEphNFRymKw1grBMbGFy1xuXcfc=;
- b=aEmIDByZdrL8ml+KqLdW9vLUkk65jXsYZsRmPgHgSzqSV5UClXcbGPc96hLK2gbvoO
- 0CTugssNWVIgdicuUYfqpHJN63gP4a4bVBmFTtTwBHgdurtlPPmQ7dOtE570owBuEy7q
- cFiVmAbNWXZYzitBMlbrj5pvB2+6yxsZ/mOltbMYsR3txoVMYlUKhZ+164h7M9G/P/05
- xzBtp4CoysHHN6dloOOkmTnUA6IRkrsLjYOGoijeRcuFzII4x0lA9yPV2uhu1+Wm3gQA
- IeyRMVFiyo1iFGiIxgg+UigHb3RTYpujpe7/PGxg/gKd6JDhPfTgPGSoOYgV7xwvYRSN
- 6CBA==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=d2PQlLfmZwzJiCQjJvx17rJ2OSylDhflruwU02Uuvfo=;
+ b=ke7s9peSkvnmQtVc7w9gqNG8fMuhZrnlrRyPu5xwSTGGstFNqGHh1b11tog9kAVQMC
+ C7pfrtvDU1J3B2ZdUXTPeCSyIzzm9FU++YDH6YV3xpM0/6HsrPcuzpefu7/k1KTxilZ3
+ EmzxR4IvKzqJSKITV9QF9yTeEpot0q+ZnFg3SptXwLA+2wdGYTGRdTAXhigG+g9d1O9M
+ dhQJFXfpcE7ZQS4P/t/hvBYpUGziQha1vEunoSCUbs3IocirlIpRwlcyYEm+KpVxIwaF
+ zi0PT02IwgcmbSTZl8ycJgQagPREOClzjfNojHmk/S+jX3pTOvJeDOXBWXV5KqQ6nu1l
+ LfuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F1wYxlOf9hTWb/t0NEphNFRymKw1grBMbGFy1xuXcfc=;
- b=FqqSSyFiJfvZa7NRRZcRyKxx4xoBzP5kuRRyMXhWpKX5WCGVpic3Vp/LMSpVnRUUHs
- B1cknhLPtr+hMUAwSFLHQURDbq+gjvG6XlyoLA0QBt9F6g4z0ha10YstdCxoHrKSwy/8
- 75k3ARW4/8COSmUrcxXcbZtHpJtQ1B0iUREaHjCK8zJj7JZEAgkV84O3w/vC+Fhq/LY0
- dr7a62N8tZfJ1Trj9uI2TWX/qUf4s/YQkmJ1OP7UPWjDNHOXO8P9Xx94YwByggaoANnm
- +XzFoRCgrj7HHEGkfzF4hZegMKBbpQ/kr4P2o7H6YZccLftHs+I81j1I1BwkMTZbExX9
- X66A==
-X-Gm-Message-State: AOAM531okszxULStzag8lFGEu3ifsVny5Nldz54+hdkDn3hX1dBeTlh/
- Vx19AfCIVkdjQJTZwYkqxrcRB24Yi+/JCQ==
-X-Google-Smtp-Source: ABdhPJyVoh6qz8Xkpwp876+GDT2qNrBE4+hv3vzN5cbDPITR0gBiZgHfzUJEryuLXVecRJGlf1d/VA==
-X-Received: by 2002:a65:5a8f:: with SMTP id c15mr11911642pgt.143.1627303942428; 
- Mon, 26 Jul 2021 05:52:22 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.238.202])
- by smtp.googlemail.com with ESMTPSA id m18sm12429721pjq.32.2021.07.26.05.52.19
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=d2PQlLfmZwzJiCQjJvx17rJ2OSylDhflruwU02Uuvfo=;
+ b=UtuHH/+Uz3lkjHvl+DhHx4tRbWecf2khuCRRxqc9YM3KKfS7Z4oTxoHYEc+pAZTsqb
+ HGzHtNikNgKtg1ryR0vZxcr2jm4ZHBmcOBHf2kIXb4T0FgA9Npl7IOlphMSZqoo9xhSU
+ AXdAnX0sYc3dnEi5xeFS69Ndaj1gklus5xzlF2U7mS5AaX35yrrFyhVQu0fAoDZTftGs
+ Bnjnob85CKOMjune/MHDRvq++0PaRTIiSlvWnyPh2kzKQvk9XbxsGPFoe5n9jBMAFblI
+ 2FnBgXON/iLWmc32IDGC8y2lUQHl6Z6tXIwWAqpoKmZ7PKbzJ/OujItPc4506CIiy6t8
+ gzsA==
+X-Gm-Message-State: AOAM530xyH99lPbbnXy+PlxUPcMKL9cdcENqQT2IQgVMX50jlJJB3EdP
+ ASz/8BlskelKOBKYdn18/Tr/yA==
+X-Google-Smtp-Source: ABdhPJz2Zqy5G4N+HYpZ2fuvB0owxbeqR7HT1TtAGKAsdKwotF7PQIzlTMp6ZfgGz786fQgWWapnYg==
+X-Received: by 2002:a05:6a00:26e5:b029:330:be3:cacd with SMTP id
+ p37-20020a056a0026e5b02903300be3cacdmr17958402pfw.78.1627304204002; 
+ Mon, 26 Jul 2021 05:56:44 -0700 (PDT)
+Received: from anisinha-lenovo ([203.163.238.202])
+ by smtp.googlemail.com with ESMTPSA id f3sm4757763pfe.123.2021.07.26.05.56.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 05:52:21 -0700 (PDT)
+ Mon, 26 Jul 2021 05:56:43 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/acpi: some cosmetic improvements to existing code
-Date: Mon, 26 Jul 2021 18:22:09 +0530
-Message-Id: <20210726125209.37573-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Mon, 26 Jul 2021 18:26:28 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] hw/acpi: some cosmetic improvements to existing code
+In-Reply-To: <20210726135949.6e55593b@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2107261823010.37646@anisinha-lenovo>
+References: <20210721141610.139310-1-ani@anisinha.ca>
+ <20210726135949.6e55593b@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -78,43 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- jusual@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, jusual@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All existing code using acpi_get_i386_pci_host() checks for a non-null
-return from this function call. This change brings the same check to
-acpi_pcihp_disable_root_bus() function.
 
-Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/pcihp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On Mon, 26 Jul 2021, Igor Mammedov wrote:
 
-changelog:
-v1: initial patch
-v2: removed comment addition - that can be sent as a separate patch.
+> On Wed, 21 Jul 2021 19:46:10 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > All existing code using acpi_get_i386_pci_host() checks for a non-null
+> > return from this function call. This change brings the same check to
+> > acpi_pcihp_disable_root_bus() function. Also adds a comment describing
+> > why we unconditionally pass a truth value to the last argument when calling
+> > acpi_pcihp_reset() from ich9 platform.
+> >
+> > Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  hw/acpi/ich9.c  | 1 +
+> >  hw/acpi/pcihp.c | 5 +++++
+> >  2 files changed, 6 insertions(+)
+> >
+> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> > index 778e27b659..58d8430eb9 100644
+> > --- a/hw/acpi/ich9.c
+> > +++ b/hw/acpi/ich9.c
+> > @@ -281,6 +281,7 @@ static void pm_reset(void *opaque)
+> >      pm->smi_en_wmask = ~0;
+> >
+> >      if (pm->use_acpi_hotplug_bridge) {
+> > +        /* on root PCIE bus, we always use native or SHPC based hotplug */
+> I had an impression that root bus doesn't support hotplug at all,
+> and to have hotplug there one should attach a root-port to root bus at
+> start up time.
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f4d706e47d..856c6e1b47 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -136,6 +136,11 @@ static void acpi_pcihp_disable_root_bus(void)
-         return;
-     }
- 
-+    if (!host) {
-+        root_hp_disabled = true;
-+        return;
-+    }
-+
-     bus = PCI_HOST_BRIDGE(host)->bus;
-     if (bus) {
-         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
--- 
-2.25.1
+I think you are right. However, I will let others confirm this and update
+the comment accordingly in a separate patch.
 
+
+>
+> >          acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
+> >      }
+> >
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index f4d706e47d..856c6e1b47 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -136,6 +136,11 @@ static void acpi_pcihp_disable_root_bus(void)
+> >          return;
+> >      }
+> >
+> > +    if (!host) {
+> > +        root_hp_disabled = true;
+> > +        return;
+> > +    }
+> It should be a separate patch,
+> when this could return NULL?
+> If it should never be null then assert here would be better.
+
+I have sent a v2 without the comment addition. I left the code this way
+because everywhere else, the code checking host for NULL value is similar.
+I wanted to keep the symmetry. However, if you strongly feel about the
+assertion, I will send a v3.
+
+
+>
+> > +
+> >      bus = PCI_HOST_BRIDGE(host)->bus;
+> >      if (bus) {
+> >          /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
+>
+>
 
