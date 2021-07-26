@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FF23D5B8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:29:16 +0200 (CEST)
-Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20DF3D5BB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 16:31:44 +0200 (CEST)
+Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m81bX-0000l5-Iy
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
+	id 1m81dv-0005ir-P3
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 10:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m81WJ-0005jV-OY
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:51 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33382)
+ id 1m81WK-0005p3-WC
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:53 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m81WI-0008TX-37
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:51 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q3so11389729wrx.0
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 07:23:49 -0700 (PDT)
+ id 1m81WI-0008UH-PR
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 10:23:52 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c16so1465753wrp.13
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 07:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1SF2wV60jHXpA3/icP5948eF0SHHMvzDyypIB3tlxP8=;
- b=dbHTRdhfOgl6Vgp0Zt7GiL44umoKZVLFrc4odmfVULSChFxBeg35TxdtuAx63qP0ei
- VCXvMw9k56TSY4oGDXU+2D3WjU4Yksof7512PYFzORhE0oVTrFZKNHSwgWvy21e/uJSi
- WJKpUWGYfcKGfc/GP6qEVGfkYIwA0y2GksIR1Uq94wwRtgGSelcEG6jhELqXqBpdlwEj
- 1dNeJ+8Bm8CVhjABS8xlutZi4SVWFZyNqBpSF6fkFznjdVRkQsfTuH7fraReGyPHul+P
- 9KYVdjvIdSHinBffHwnZ4AHj5xrIDBHZTEosPzHGvRUkUF8pOchXjORbPjgtG/HHQTAi
- D9ig==
+ bh=JXrACPGjJOl3ZLJ79V5z4zW3o5n82UJCSBx/ivJqqSs=;
+ b=ZR5K3lRPENDy/hWL++45V1vyRgdWrQdWgY0/u2u94TmcaSBP66JcZIicFyND5I5Ih7
+ UJX9MVuvQa4wFBsWkUWRV8xqxE7WPSVrT5cVpaKKl7rrNNekYBFgZUIqA1JwWaO6+Cun
+ rlRR+ifTqA6X2OWQUoY73VoKVUk7LxSfjfLLnL04D2Ok1daJjaBKzM5dVaO1+3CjEco4
+ bMNmdBcHEy/i+BiGJ0ftlbWMOZPN6CINnX9iQgdyVGwrELMkYBMMl9li87aR/qrkfGP2
+ gFXOwIlt329hnGiqKqJhTn+BGiHp8QtV8fZ66+Lgvbw3TXuc7DTwgzut4p+vdR9cykfB
+ hvuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1SF2wV60jHXpA3/icP5948eF0SHHMvzDyypIB3tlxP8=;
- b=EsVNCaCQuXYdJzad6WGbYfJkvmlItlja87Yw1Rss5Dw31OY+A4eR8EgzUw43g67EPC
- ZvCbpmQSsE+JausFo9jl6+iplhCdNQdg0kRrOR4Xx6+q4q71j4zkGUwfhX1I8eXBRGnu
- OxZG3mTTb5ZiP6CyM+8SkmwlQAGlNnWVtttUVAeVk1F5gbzQh4ZgDMl8583KchcSOaSY
- foW6VolP5LwxIZksA3p9WVrYB7XLShi6xywcwhV16+gab54R5RQHAysXwubLopvjTYIK
- k5qokQ7XB9+rYDxDmQUwswgx4AM7J4PDr/U7+DUYTDrwmG2k5uc53GzmCPpal96Q2TRE
- IWFg==
-X-Gm-Message-State: AOAM533F1fEi+9A/4uPZEqMLjzGgiVj3YpPD0OYU4J8vWLB6Lb8cVJ6Z
- KrzhxySxTZ1moIGe6MTLDMPkgpHxaqBerQ==
-X-Google-Smtp-Source: ABdhPJyVw2FNMuMyo9z9mKboe0pdB+lK1vxXqHOa/kQ18rPdlPDSCcXhwpgLvWJqXGG2jbD+1FBZVQ==
-X-Received: by 2002:a05:6000:1841:: with SMTP id
- c1mr19037308wri.423.1627309428721; 
- Mon, 26 Jul 2021 07:23:48 -0700 (PDT)
+ bh=JXrACPGjJOl3ZLJ79V5z4zW3o5n82UJCSBx/ivJqqSs=;
+ b=Qhuc0Bf456snE8vOqiPvJWFJRio6QRPLnc3v+cwD0uRx6J+lWnuhBXV6trUw+jdkSV
+ 9xsacGBUsDmGg3YrCaJyoqSFDKcYwKnwykID/h/6kSwu0oSIXn94UnC1cM5Lp6VpwEHw
+ 5fuyQCR/hTDAA0uwi0bGVP0SUj23NQcKbGlFtA9GZLS4Nc8Qxrd4JYzVp7VGGkOJyJXh
+ upBCxUjP1VIcyXjIE/mnca3Oy+X6FAr+bI8H9xwcKn0GF1DNvDPsZewLvBcd6410phYn
+ qa1aP6tJ3F6dfa9R/EjcQIpG6gZErU9W0eKRBOXwhL5pvRLo1JcEpXhr4KxUT2JFT9mY
+ 3oGw==
+X-Gm-Message-State: AOAM532Ww//1oU/0gw6QuaY1XfaXmsYHQYq+vaKr5rggWdJ+i4I55kZL
+ G+e0MXwdzIBN0yZMSsbPIRUC8u8V+R7qKw==
+X-Google-Smtp-Source: ABdhPJwXpjvE1oH52Gbqbqqarf5UjYU5hhfLcmpJ4KfwDF/t+LFy+7InLEHRqY8Vyzbl6CiSVXwslg==
+X-Received: by 2002:adf:ffca:: with SMTP id x10mr102553wrs.221.1627309429569; 
+ Mon, 26 Jul 2021 07:23:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 6sm13823427wmi.3.2021.07.26.07.23.47
+ by smtp.gmail.com with ESMTPSA id 6sm13823427wmi.3.2021.07.26.07.23.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 07:23:48 -0700 (PDT)
+ Mon, 26 Jul 2021 07:23:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 09/10] docs/about/removed-features: Fix markup error
-Date: Mon, 26 Jul 2021 15:23:37 +0100
-Message-Id: <20210726142338.31872-10-peter.maydell@linaro.org>
+Subject: [PATCH for-6.1 10/10] docs/tools/virtiofsd.rst: Delete stray backtick
+Date: Mon, 26 Jul 2021 15:23:38 +0100
+Message-Id: <20210726142338.31872-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210726142338.31872-1-peter.maydell@linaro.org>
 References: <20210726142338.31872-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +89,28 @@ Cc: Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The section describing the removed feature "-usbdevice ccid" had a
-typo so the markup started with single backtick and ended with double
-backtick; fix it.
+The documentation of the posix_acl option has a stray backtick
+at the end of the text (which is rendered literally into the HTML).
+Delete it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/about/removed-features.rst | 2 +-
+ docs/tools/virtiofsd.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 28bb035043d..07d597847c9 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -124,7 +124,7 @@ devices.  Drives the board doesn't pick up can no longer be used with
- '''''''''''''''''''''''''''''''''''''
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index c4ac7fdf38f..b208f2a6f05 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -102,7 +102,7 @@ Options
+     default is ``no_xattr``.
  
- This option was undocumented and not used in the field.
--Use `-device usb-ccid`` instead.
-+Use ``-device usb-ccid`` instead.
+   * posix_acl|no_posix_acl -
+-    Enable/disable posix acl support.  Posix ACLs are disabled by default`.
++    Enable/disable posix acl support.  Posix ACLs are disabled by default.
  
- RISC-V firmware not booted by default (removed in 5.1)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ .. option:: --socket-path=PATH
+ 
 -- 
 2.20.1
 
