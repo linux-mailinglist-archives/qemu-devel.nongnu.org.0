@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E13D59F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:58:30 +0200 (CEST)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D5C3D59F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 14:59:20 +0200 (CEST)
+Received: from localhost ([::1]:59622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m80Bh-0001Kq-NV
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
+	id 1m80CV-00031t-73
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 08:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m80A3-0008HV-NE
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:56:47 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m80A2-0005hE-1o
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:56:47 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id b6so12749287pji.4
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 05:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=d2PQlLfmZwzJiCQjJvx17rJ2OSylDhflruwU02Uuvfo=;
- b=ke7s9peSkvnmQtVc7w9gqNG8fMuhZrnlrRyPu5xwSTGGstFNqGHh1b11tog9kAVQMC
- C7pfrtvDU1J3B2ZdUXTPeCSyIzzm9FU++YDH6YV3xpM0/6HsrPcuzpefu7/k1KTxilZ3
- EmzxR4IvKzqJSKITV9QF9yTeEpot0q+ZnFg3SptXwLA+2wdGYTGRdTAXhigG+g9d1O9M
- dhQJFXfpcE7ZQS4P/t/hvBYpUGziQha1vEunoSCUbs3IocirlIpRwlcyYEm+KpVxIwaF
- zi0PT02IwgcmbSTZl8ycJgQagPREOClzjfNojHmk/S+jX3pTOvJeDOXBWXV5KqQ6nu1l
- LfuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=d2PQlLfmZwzJiCQjJvx17rJ2OSylDhflruwU02Uuvfo=;
- b=UtuHH/+Uz3lkjHvl+DhHx4tRbWecf2khuCRRxqc9YM3KKfS7Z4oTxoHYEc+pAZTsqb
- HGzHtNikNgKtg1ryR0vZxcr2jm4ZHBmcOBHf2kIXb4T0FgA9Npl7IOlphMSZqoo9xhSU
- AXdAnX0sYc3dnEi5xeFS69Ndaj1gklus5xzlF2U7mS5AaX35yrrFyhVQu0fAoDZTftGs
- Bnjnob85CKOMjune/MHDRvq++0PaRTIiSlvWnyPh2kzKQvk9XbxsGPFoe5n9jBMAFblI
- 2FnBgXON/iLWmc32IDGC8y2lUQHl6Z6tXIwWAqpoKmZ7PKbzJ/OujItPc4506CIiy6t8
- gzsA==
-X-Gm-Message-State: AOAM530xyH99lPbbnXy+PlxUPcMKL9cdcENqQT2IQgVMX50jlJJB3EdP
- ASz/8BlskelKOBKYdn18/Tr/yA==
-X-Google-Smtp-Source: ABdhPJz2Zqy5G4N+HYpZ2fuvB0owxbeqR7HT1TtAGKAsdKwotF7PQIzlTMp6ZfgGz786fQgWWapnYg==
-X-Received: by 2002:a05:6a00:26e5:b029:330:be3:cacd with SMTP id
- p37-20020a056a0026e5b02903300be3cacdmr17958402pfw.78.1627304204002; 
- Mon, 26 Jul 2021 05:56:44 -0700 (PDT)
-Received: from anisinha-lenovo ([203.163.238.202])
- by smtp.googlemail.com with ESMTPSA id f3sm4757763pfe.123.2021.07.26.05.56.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 05:56:43 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Mon, 26 Jul 2021 18:26:28 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] hw/acpi: some cosmetic improvements to existing code
-In-Reply-To: <20210726135949.6e55593b@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2107261823010.37646@anisinha-lenovo>
-References: <20210721141610.139310-1-ani@anisinha.ca>
- <20210726135949.6e55593b@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1m80BN-0001gd-Lx
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:58:09 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:53560 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1m80BK-0006KR-V8
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 08:58:09 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn0JXsf5g5BUkAA--.23471S3; 
+ Mon, 26 Jul 2021 20:58:00 +0800 (CST)
+Subject: Re: [PATCH v2 12/22] target/loongarch: Add fixed point extra
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
+ <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <a08adb9a-67fe-b8aa-4b72-a3b3548f4945@loongson.cn>
+Date: Mon, 26 Jul 2021 20:57:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxn0JXsf5g5BUkAA--.23471S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCry7Cr1UGryxtw15urW3ZFb_yoW5WFWrpF
+ n5JFW8GrWUKF95Z34UGr15JFySyF48t3WUJ3sYqa98AFsFkwn2gr15urs09F1rZr4kWr4a
+ y3yUZwnrZr47trDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
+ jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+ x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+ GwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4
+ x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI
+ 1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r
+ yrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+ IEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5sjjDUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,80 +74,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, jusual@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Hi, Richard.
 
-On Mon, 26 Jul 2021, Igor Mammedov wrote:
+On 07/23/2021 01:12 PM, Richard Henderson wrote:
+> On 7/20/21 11:53 PM, Song Gao wrote:
+>> +target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
+>> +{
+>> +    target_ulong r = 0;
+>> +
+>> +    switch (rj) {
+>> +    case 0:
+>> +        r = env->CSR_MCSR0 & 0xffffffff;
+>> +        break;
+>> +    case 1:
+>> +        r = (env->CSR_MCSR0 & 0xffffffff00000000) >> 32;
+>> +        break;
+> 
+> Why do you represent all of these as high and low portions of a 64-bit internal value, when the manual describes them as 32-bit values?
+> 
+This method can reduce variables on env.
+> >> +/* Fixed point extra instruction translation */
+>> +static bool trans_crc_w_b_w(DisasContext *ctx, arg_crc_w_b_w *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv_i32 tsz = tcg_const_i32(1 << 1);
+> 
+> This size is wrong.  It should be 1, not 1 << 1 (2).
+> > 
+>> +static bool trans_crc_w_w_w(DisasContext *ctx, arg_crc_w_w_w *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv_i32 tsz = tcg_const_i32(1 << 4);
+> 
+> Because this size most certainly should not be 16...
+>>> +static bool trans_crc_w_d_w(DisasContext *ctx, arg_crc_w_d_w *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +    TCGv Rd = cpu_gpr[a->rd];
+>> +    TCGv_i32 tsz = tcg_const_i32(1 << 8);
+> 
+> ... and this size should not be 256.  Both well larger than the 8 byte buffer that you've allocated.
+> 
 
-> On Wed, 21 Jul 2021 19:46:10 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
+I'm not sure about that.
+
+> Also, you need a helper so that you don't have 8 copies of this code.
+> 
+OK.
+>> +static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
+>> +{
+>> +    TCGv t0, t1;
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +
+>> +    gen_helper_asrtle_d(cpu_env, t0, t1);
+>> +
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
+>> +{
+>> +    TCGv t0, t1;
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +
+>> +    gen_helper_asrtgt_d(cpu_env, t0, t1);
+>> +
+>> +    return true;
+>> +}
+> 
+> I'm not sure why both of these instructions are in the ISA, since
+> 
+>   ASRTLE X,Y <-> ASRTGT Y,X
+> 
+> but we certainly don't need two different helpers.
+> Just swap the arguments for one of them.
 >
-> > All existing code using acpi_get_i386_pci_host() checks for a non-null
-> > return from this function call. This change brings the same check to
-> > acpi_pcihp_disable_root_bus() function. Also adds a comment describing
-> > why we unconditionally pass a truth value to the last argument when calling
-> > acpi_pcihp_reset() from ich9 platform.
-> >
-> > Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/acpi/ich9.c  | 1 +
-> >  hw/acpi/pcihp.c | 5 +++++
-> >  2 files changed, 6 insertions(+)
-> >
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 778e27b659..58d8430eb9 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -281,6 +281,7 @@ static void pm_reset(void *opaque)
-> >      pm->smi_en_wmask = ~0;
-> >
-> >      if (pm->use_acpi_hotplug_bridge) {
-> > +        /* on root PCIE bus, we always use native or SHPC based hotplug */
-> I had an impression that root bus doesn't support hotplug at all,
-> and to have hotplug there one should attach a root-port to root bus at
-> start up time.
+OK.
+ 
+>> +static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
+>> +{
+>> +    /* Nop */
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
+>> +{
+>> +    /* Nop */
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
+>> +{
+>> +    /* Nop */
+>> +    return true;
+>> +}
+> 
+> If you don't want to implement these right now, you should at least initialize the destination register to 0, or something.
+> 
+OK.
+> 
+> r~
 
-I think you are right. However, I will let others confirm this and update
-the comment accordingly in a separate patch.
+Again ,thanks you kindly help.
 
+Thanks
+Song Gao.
 
->
-> >          acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
-> >      }
-> >
-> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > index f4d706e47d..856c6e1b47 100644
-> > --- a/hw/acpi/pcihp.c
-> > +++ b/hw/acpi/pcihp.c
-> > @@ -136,6 +136,11 @@ static void acpi_pcihp_disable_root_bus(void)
-> >          return;
-> >      }
-> >
-> > +    if (!host) {
-> > +        root_hp_disabled = true;
-> > +        return;
-> > +    }
-> It should be a separate patch,
-> when this could return NULL?
-> If it should never be null then assert here would be better.
-
-I have sent a v2 without the comment addition. I left the code this way
-because everywhere else, the code checking host for NULL value is similar.
-I wanted to keep the symmetry. However, if you strongly feel about the
-assertion, I will send a v3.
-
-
->
-> > +
-> >      bus = PCI_HOST_BRIDGE(host)->bus;
-> >      if (bus) {
-> >          /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
->
->
 
