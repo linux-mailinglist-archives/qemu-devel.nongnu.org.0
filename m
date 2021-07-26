@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29303D67F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 22:12:43 +0200 (CEST)
-Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16663D681A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 22:23:37 +0200 (CEST)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m86xv-0003U1-2i
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 16:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
+	id 1m878S-0005y4-H1
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 16:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m86wV-0002eq-Di
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:11:15 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44881)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m877d-0005Hw-59
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:22:45 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m86wT-00007b-Rn
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:11:15 -0400
-Received: by mail-pl1-x630.google.com with SMTP id c11so12987452plg.11
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 13:11:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m877b-0007jX-NT
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 16:22:44 -0400
+Received: by mail-ed1-x529.google.com with SMTP id x90so5914216ede.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 13:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UkG0kakO/+JwZW0U6IApa2uq/LS8lVTW4uTiPKl0TQU=;
- b=UOexswVzraIC54zyOeyiOCdywI3357FpjaeO6cP1lZ2kBIn/c/sIgPQZtyuMz7wXEX
- v+67e6qPGOvHR+ZmzD1IMPQYa5Hpxt2ShCTbA0SsgcDG0KFVL/xWcg02PsqINI+7CuLZ
- 2yY7+mUtZ+wCuz5liDmmE/pS60ZKIix8BBM7EoUQw+mnsSeduDGlLB/gcjvjmJ+vsL8l
- Qo6PsavUi+dQ6vf2+5DJNASY5XI1a4To2weOyqjPoKCCSdUKl31G9zGI0OcEUSpzA32w
- AyVrLrusG15uG/8FYzhhjlveA3RibjYel/yfRjD+rV7QmtMPkL6rmiC34eHD8PZ4X2Dz
- Saeg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l4FFvZP2tXQubXiEAhztVxsysssM4vfPQ3LQb+RLFCE=;
+ b=dPs2Lj5ETzztzugXI+Yi+z1qD9BtyyRknOFQaBB5Z+TNhi8COG8aqqyAjMTY33hL2M
+ 8sQTeVwoS0y/0fzxJU5oBLSRvh3VhJ5/jWbKvKNZDRGNG5HQHynoUsA5nYc6iN0mtwv3
+ rW+1QWFAc7vDoe71JnWRoFeae0bW3HYIZcdQ98wrwmezdAcd1VIe1oDK7JDE2rIew1zJ
+ Fu1+ssRIkBPd7L1LMMv4yccEBY4by25XBlkTzbIEQR894Fq57kC8I3UMyMFbI+WW329f
+ VI9A7ZyO9SgheMqZGT6sb1K2h0OSGGL/8Jn5LMe9oT6vORFOu1QDKLCxDyDFwPjRgrRn
+ mdNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UkG0kakO/+JwZW0U6IApa2uq/LS8lVTW4uTiPKl0TQU=;
- b=EBhpvq+yppPlo2mCxwApv6mYtD37wpkdnjhUNCKkpdsqFPqiEd0AZRylLu90h8sKUy
- EZE+1NnVTrni+3vtG1kXwH07BEWKtJ2eYUD83f/aHEY5N/vuyX15B+lmLsfJW4r76I0i
- lktofb8dNqfjZPJeaDyVl2NZIMKqaLInvDV2NCaK5GQCtp/CiEMn9cbeQL7rwVEtAnCY
- NHwNtJPWUveCynfY7gBl9fxkDTPEEoSpPDWR3k5LHGNBDfovJc2UttFs7j/bp3IgQ09J
- Dmfvv4ND/OmvcdIRA9DniA3e0iVfgGtn50puOIzZUdouUwWTDFM76dhyO8Duh4lSWyRj
- X5ig==
-X-Gm-Message-State: AOAM531BErEpG3tXnScz+qM4Hwc8CUOWLLgv5e3t52xD+YTVmu5Rf88K
- XcHFW7VLRreJIJqWyd2qkvivHis7QVahFA==
-X-Google-Smtp-Source: ABdhPJxozbXiO5aNfZQOnB7apEmK2ha2TE42y4OdODsx7evSud84mMQ1JLhfZWn95/vhdmRl5im9vw==
-X-Received: by 2002:a17:90b:3b47:: with SMTP id
- ot7mr628936pjb.149.1627330271919; 
- Mon, 26 Jul 2021 13:11:11 -0700 (PDT)
-Received: from cloudburst.home
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id 10sm533272pjc.41.2021.07.26.13.11.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 13:11:11 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fixup! target/arm: Add sve-default-vector-length cpu property
-Date: Mon, 26 Jul 2021 10:11:09 -1000
-Message-Id: <20210726201109.1875632-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l4FFvZP2tXQubXiEAhztVxsysssM4vfPQ3LQb+RLFCE=;
+ b=efM251Ph1n+WmslxeGZjN5iwlWHpxG7QANZfG++hOSamBhA7E8I/vAvjK4dPwqUU49
+ MTSZNllmObwpDNmkYm7FWEWjtIL0//Jk3UWVkbJjdN8xoK5YROHaqUu+j0/ccDLqcrRb
+ HGaC76IFr3DeKd3JLcaQ+AHmQW2uEgIBNcakXmHV+wXimrDqUCr4hxrRkKMdRI389KcL
+ tGIFMZJd1NyTi5TWCy5bIOXje6Z0JG+DMXToV0JA20iRZV63tE5TUUAUREZn7Iu89jaQ
+ D+SXQED0dZilcXclshZEu57Sz+qxC0Jz2u2IM8f7ZAlKkJ9vHXoms39ZClsCIrl2nJKv
+ /shw==
+X-Gm-Message-State: AOAM531Yn8FFqMgmCGUWJDFc2hGFOSsDgzxsB1zEGqumNhod7PvZXwq5
+ EUbkAobLbHlmvU96+syn87sNImxM2lHVx71rVvfJMg==
+X-Google-Smtp-Source: ABdhPJyWfn0m6ShQZs6UXpwX8odnq0dMhbBmeyPZ2ghBzWEnUKGnYbdRMLkWw8rLC+LOWBoZ0Ezb8h4g48gdnsyKCT0=
+X-Received: by 2002:aa7:d30e:: with SMTP id p14mr4760417edq.204.1627330962192; 
+ Mon, 26 Jul 2021 13:22:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+References: <20210726201109.1875632-1-richard.henderson@linaro.org>
+In-Reply-To: <20210726201109.1875632-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Jul 2021 21:22:00 +0100
+Message-ID: <CAFEAcA_h9v9CHBwftHcC9ZsLP+N-awQCQf7YJMvXO8fO47R-VA@mail.gmail.com>
+Subject: Re: [PATCH] fixup! target/arm: Add sve-default-vector-length cpu
+ property
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,28 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com
+Cc: Andrew Jones <drjones@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- docs/system/arm/cpu-features.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On Mon, 26 Jul 2021 at 21:11, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> ---
+>  docs/system/arm/cpu-features.rst | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
+> index 79b87f7c5f..67847a5cc1 100644
+> --- a/docs/system/arm/cpu-features.rst
+> +++ b/docs/system/arm/cpu-features.rst
+> @@ -385,5 +385,6 @@ defined to mirror the Linux kernel parameter file
+>  is in units of bytes and must be between 16 and 8192.
+>  If not specified, the default vector length is 64.
+>
+> -If the default length is larger than the maximum vector length enabled
+> -with ``sve<N>`` properties, the actual vector length will be reduced.
+> +If the default length is larger than the maximum vector length enabled,
+> +the actual vector length will be reduced.  Note that the maximum vector
+> +length supported by QEMU is 256.
 
-diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-index 79b87f7c5f..67847a5cc1 100644
---- a/docs/system/arm/cpu-features.rst
-+++ b/docs/system/arm/cpu-features.rst
-@@ -385,5 +385,6 @@ defined to mirror the Linux kernel parameter file
- is in units of bytes and must be between 16 and 8192.  
- If not specified, the default vector length is 64.
- 
--If the default length is larger than the maximum vector length enabled
--with ``sve<N>`` properties, the actual vector length will be reduced.
-+If the default length is larger than the maximum vector length enabled,
-+the actual vector length will be reduced.  Note that the maximum vector
-+length supported by QEMU is 256.
--- 
-2.25.1
+Thanks. I've squashed that into the patch in target-arm.next.
 
+I plan to send this as part of a pullreq for rc1 tomorrow probably
+midday-ish UK time, unless somebody speaks up now to say they'd
+rather have more time for review/testing/whatever. (That wouldn't
+mean it missed 6.1, as a bugfix-of-sorts this can go in rc2 if
+necessary.)
+
+-- PMM
 
