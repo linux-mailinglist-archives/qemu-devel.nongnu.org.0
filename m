@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A353D6782
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:32:03 +0200 (CEST)
-Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC763D6781
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:31:52 +0200 (CEST)
+Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m86KY-0005TM-8t
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43300)
+	id 1m86KN-0005N4-H2
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m868M-0004aZ-9j; Mon, 26 Jul 2021 15:19:26 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:40487)
+ id 1m868Q-0004fK-90; Mon, 26 Jul 2021 15:19:30 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:41785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m868K-0007jU-L7; Mon, 26 Jul 2021 15:19:26 -0400
+ id 1m868N-0007n0-OJ; Mon, 26 Jul 2021 15:19:30 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id DE162580411;
- Mon, 26 Jul 2021 15:19:23 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0045A580411;
+ Mon, 26 Jul 2021 15:19:27 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 26 Jul 2021 15:19:23 -0400
+ by compute4.internal (MEProxy); Mon, 26 Jul 2021 15:19:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=kUje2Vxop9TRc
- 4Lak53EzA8xgsjr/JN1irVkKwHRT88=; b=brCXLSl6/u0enYPCEoHcXebZvDiwR
- E6horI252NUa1bNZ3naIjuSmk9x4d2UTJXUmTHFdtVNmQrho/ibUJH7CbTVh3wzm
- j1kcR1OYmicxnaFfTAhgWJwQl3/WmbkvCYPDi8HiZK85KBOF5RmuGN6qwIFTsdv+
- lOkgwnr671eD840FY2oxdRxlrPhUf3xOW02zfeLjD/Sba5CH+JtAQFZ6wrDU5zSg
- b8hQm1U3mcbUkZOD0ENCaIjFMKWR9jw7TUrLFwoZtqAOjUPtFy4ynpDpPQyX6WBF
- NfjlpF5jMLRqq5V0IaSL/1EDBlWc/tzVXk5QEgP/L1qi81T0qsup79QPA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=Zu/rZACoGrJMQ
+ vsq5CXXPNYtt/8U/uQ6Gucb6dmydZA=; b=XuzEI/+wLfztVg5p/EC2y5SPB/Tf+
+ EbMMSEDrc6lQYZOMu1yQuQYjV0jlXzuig/xTkIhA5bYRc0EMiHrZ/+0AVFsfCAtJ
+ KjuJnYif502smO0pTaYu+Ca1DAOJDZQ1/laqS2xKU1U5xM4FoPnpBC01BWGcIIq8
+ DRS74FTA67lguayZB6T1p77tVXP8GkPaJA/Mxaw9IJeL5fBuFPSXUTX+9wC7vD9L
+ Gb4mV1QvsP4LNhAlAoSjGo5NRXI/xiVysYJVqQDd3lZJTXN6p1TAXqmUG6O2TzAa
+ otHm6FVOLOhQR+LM7TCBH/smYHzCJ+2fp9Xl3flOdSD2ErD0zlAzmzWCw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=kUje2Vxop9TRc4Lak53EzA8xgsjr/JN1irVkKwHRT88=; b=MkPpr0wn
- 0v8M8LCtQSgQqaRFmJGor/RsLqu6agj6XkYHyrzSi0G+sPQXqe8tP5c21ODU4jkn
- 0zeRTHby2sHXWmrkUkA04Stju+kL3653ST9w2BTdKjLXy9jP/OM2L9QaYL3mDPog
- +GUnvh2742EDQewNIKbZ17C/sOhZ2rSlQS3zsuCWiVB+iWVqeAgz8U+43UKxRhsU
- D5LicAT4CAVWe5yHBs25YdOsDnHc+bAUikaFurPgMsEbbbU1Vlz+rtneY874w+bj
- q1LOnU9ZVpGkS2pjKIhGTqV2na2zerHhRn1bIam30a31PMX0WrDlMgLO/h3B8qh+
- aZ4S2DN3TYTfLw==
-X-ME-Sender: <xms:uwr_YDHJzolIMm4cX-z1EtNa7hb9_1NGNORq8qTmOZLK_iibXCUvuw>
- <xme:uwr_YAXM77SbvyfPu8G17JlKDFlo9OTuYr-xCXssBsPNh5Bsoz494zlH5868-M3o_
- wwEtdAJNUsdIx3P4SU>
-X-ME-Received: <xmr:uwr_YFK0Yt2aK01XOEcagdVU8iCW-WYqDsCMiWVkyaWZBuP877i_srH1QCLWJnYUBw6YWCAX1kMX6-3DV1edKFtncbejMwjG76rRiJ65Vg>
+ fm3; bh=Zu/rZACoGrJMQvsq5CXXPNYtt/8U/uQ6Gucb6dmydZA=; b=CM1KVaLS
+ c9BWPMBY3lAJDQ9qOQV0xkPe+TCJuf5qIp2vGk6HsCf3CS7v2EN+VyJz+smxfRvf
+ XNiHQXhZNjf4pjBPZfdPqvkN55a2iOn/kw24QSsbo1JxrEB4z2AG/CNvC1e+t9ML
+ OprBbWw1j1wC/HS67bfiXaSmoqPr5c26RHbiIjVXwz5i7mb0qhl6I49KHWNiqJTt
+ +M7HP4zSlovYpV3iZeXafzORGPeV9IiTL4pRy+CtE3+hUIAqk2Zmm81Gzshlqnbq
+ ieN0JIGff0b33ui0L/2lffVQZRjcZLfcawu21HXCVmPN5Zg15SMXmyvCvo4z3+0b
+ Jb/R8kbmwD9uvg==
+X-ME-Sender: <xms:vgr_YG4nQ-5P2TxxsfcBz0hZXuZdumZ5GzDEto_rc6jQJu9ekWJQ-A>
+ <xme:vgr_YP65Ys3dmST9BTEQC_JqYLaJvWaEJE7N1_2QKcU-YnU9MH2D41QgfFuGZJ9D-
+ no1kPZg9rSU0N3W3mI>
+X-ME-Received: <xmr:vgr_YFe9q9dYYGAhNmFUa038tc1cU0cT52fxNufgehusiqWw_qEplZOA5iPcPbH3mL6MWJsybbPib5qBtNWdi3kqKLcA8huVetZoalhY3w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgddufedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:uwr_YBHfg435YYHH1c84MG2cSqTdgT47SWlbsWLLV-x0qE_fd3JbvQ>
- <xmx:uwr_YJUEf1kgmLn36zUwC1EWlg680NYeye4fBXTgSGE4mvRsMcosFA>
- <xmx:uwr_YMNtdSmXNIXm4SH9pBYh7tLJcXbcwOcvZIqV-dAZYsP592u10w>
- <xmx:uwr_YCt9LTMmvxCgvQFsQsDIuwYLHVvPOnMu2HeyMyUEsVl3jg0Yog>
+X-ME-Proxy: <xmx:vgr_YDI0U2PRHh8FPzks9YnSwjcaUW7NMCCDnPSsmDpQBAFqHauiwg>
+ <xmx:vgr_YKLprcGA5YnMpU67A7nrHrfEDPCwoM8XqsakGu-afpzDa-i95g>
+ <xmx:vgr_YEyiMhXTldzyQYsJJsTgrr9PEi5GNhN0c8xEZjRE-zs6Wv_BWQ>
+ <xmx:vgr_YMCwRcP7eVOV0lqnIgEUamaEJDTfFEFSemSBRbU1TmD0ttGBSg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Jul 2021 15:19:21 -0400 (EDT)
+ 26 Jul 2021 15:19:24 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL for-6.1 04/11] hw/nvme: error handling for too many mappings
-Date: Mon, 26 Jul 2021 21:18:54 +0200
-Message-Id: <20210726191901.4680-5-its@irrelevant.dk>
+Subject: [PULL for-6.1 05/11] tests/qtest/nvme-test: add persistent memory
+ region test
+Date: Mon, 26 Jul 2021 21:18:55 +0200
+Message-Id: <20210726191901.4680-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210726191901.4680-1-its@irrelevant.dk>
 References: <20210726191901.4680-1-its@irrelevant.dk>
@@ -93,71 +94,118 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-If the number of PRP/SGL mappings exceed 1024, reads and writes will
-fail because of an internal QEMU limitation of max 1024 vectors.
+This will test the PMR functionality.
 
-Signed-off-by: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-[k.jensen: changed the error message to be more generic]
+[k.jensen: replaced memory-backend-file with memory-backend-ram]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 13 +++++++++++++
- hw/nvme/trace-events |  1 +
- 2 files changed, 14 insertions(+)
+ tests/qtest/nvme-test.c | 61 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 90e3ee2b70ee..ead7531bde5e 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -623,6 +623,10 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg, hwaddr addr, size_t len)
-             return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-         }
+diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
+index d32c953a3824..47e757d7e2af 100644
+--- a/tests/qtest/nvme-test.c
++++ b/tests/qtest/nvme-test.c
+@@ -13,6 +13,7 @@
+ #include "libqos/libqtest.h"
+ #include "libqos/qgraph.h"
+ #include "libqos/pci.h"
++#include "include/block/nvme.h"
  
-+        if (sg->iov.niov + 1 > IOV_MAX) {
-+            goto max_mappings_exceeded;
-+        }
-+
-         if (cmb) {
-             return nvme_map_addr_cmb(n, &sg->iov, addr, len);
-         } else {
-@@ -634,9 +638,18 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg, hwaddr addr, size_t len)
-         return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-     }
+ typedef struct QNvme QNvme;
  
-+    if (sg->qsg.nsg + 1 > IOV_MAX) {
-+        goto max_mappings_exceeded;
-+    }
-+
-     qemu_sglist_add(&sg->qsg, addr, len);
- 
-     return NVME_SUCCESS;
-+
-+max_mappings_exceeded:
-+    NVME_GUEST_ERR(pci_nvme_ub_too_many_mappings,
-+                   "number of mappings exceed 1024");
-+    return NVME_INTERNAL_DEV_ERROR | NVME_DNR;
+@@ -66,12 +67,65 @@ static void nvmetest_oob_cmb_test(void *obj, void *data, QGuestAllocator *alloc)
+     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=, 0x44332211);
  }
  
- static inline bool nvme_addr_is_dma(NvmeCtrl *n, hwaddr addr)
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index f9a1f14e2638..430eeb395b24 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -199,3 +199,4 @@ pci_nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion qu
- pci_nvme_ub_db_wr_invalid_sq(uint32_t qid) "submission queue doorbell write for nonexistent queue, sqid=%"PRIu32", ignoring"
- pci_nvme_ub_db_wr_invalid_sqtail(uint32_t qid, uint16_t new_tail) "submission queue doorbell write value beyond queue size, sqid=%"PRIu32", new_head=%"PRIu16", ignoring"
- pci_nvme_ub_unknown_css_value(void) "unknown value in cc.css field"
-+pci_nvme_ub_too_many_mappings(void) "too many prp/sgl mappings"
++static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator *alloc)
++{
++    QNvme *nvme = obj;
++    QPCIDevice *pdev = &nvme->dev;
++    QPCIBar pmr_bar, nvme_bar;
++    uint32_t pmrcap, pmrsts;
++
++    qpci_device_enable(pdev);
++    pmr_bar = qpci_iomap(pdev, 4, NULL);
++
++    /* Without Enabling PMRCTL check bar enablemet */
++    qpci_io_writel(pdev, pmr_bar, 0, 0xccbbaa99);
++    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=, 0x99);
++    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=, 0xaa99);
++
++    /* Map NVMe Bar Register to Enable the Mem Region */
++    nvme_bar = qpci_iomap(pdev, 0, NULL);
++
++    pmrcap = qpci_io_readl(pdev, nvme_bar, 0xe00);
++    g_assert_cmpint(NVME_PMRCAP_RDS(pmrcap), ==, 0x1);
++    g_assert_cmpint(NVME_PMRCAP_WDS(pmrcap), ==, 0x1);
++    g_assert_cmpint(NVME_PMRCAP_BIR(pmrcap), ==, 0x4);
++    g_assert_cmpint(NVME_PMRCAP_PMRWBM(pmrcap), ==, 0x2);
++    g_assert_cmpint(NVME_PMRCAP_CMSS(pmrcap), ==, 0x1);
++
++    /* Enable PMRCTRL */
++    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x1);
++
++    qpci_io_writel(pdev, pmr_bar, 0, 0x44332211);
++    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), ==, 0x11);
++    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), ==, 0x2211);
++    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), ==, 0x44332211);
++
++    pmrsts = qpci_io_readl(pdev, nvme_bar, 0xe08);
++    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), ==, 0x0);
++
++    /* Disable PMRCTRL */
++    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x0);
++
++    qpci_io_writel(pdev, pmr_bar, 0, 0x88776655);
++    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=, 0x55);
++    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=, 0x6655);
++    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), !=, 0x88776655);
++
++    pmrsts = qpci_io_readl(pdev, nvme_bar, 0xe08);
++    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), ==, 0x1);
++
++    qpci_iounmap(pdev, nvme_bar);
++    qpci_iounmap(pdev, pmr_bar);
++}
++
+ static void nvme_register_nodes(void)
+ {
+     QOSGraphEdgeOptions opts = {
+         .extra_device_opts = "addr=04.0,drive=drv0,serial=foo",
+         .before_cmd_line = "-drive id=drv0,if=none,file=null-co://,"
+-                           "file.read-zeroes=on,format=raw",
++                           "file.read-zeroes=on,format=raw "
++                           "-object memory-backend-ram,id=pmr0,"
++                           "share=on,size=8",
+     };
+ 
+     add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
+@@ -83,6 +137,11 @@ static void nvme_register_nodes(void)
+     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGraphTestOptions) {
+         .edge.extra_device_opts = "cmb_size_mb=2"
+     });
++
++    qos_add_test("pmr-test-access", "nvme", nvmetest_pmr_reg_test,
++                 &(QOSGraphTestOptions) {
++        .edge.extra_device_opts = "pmrdev=pmr0"
++    });
+ }
+ 
+ libqos_init(nvme_register_nodes);
 -- 
 2.32.0
 
