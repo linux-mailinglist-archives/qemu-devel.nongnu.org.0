@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5563D5EC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 17:54:53 +0200 (CEST)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A463D5EC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 17:54:48 +0200 (CEST)
+Received: from localhost ([::1]:37344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m82wO-0006B1-CM
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 11:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
+	id 1m82wI-00063Q-J9
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 11:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m82uX-0003fE-Br
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m82uX-0003fF-Bt
  for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:52:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45887)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m82uU-0002re-0R
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:52:55 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m82uU-0002rg-7S
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:52:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1627314772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1na1ObOSgMN/hDCCm8Al/er/jEks3B1X3LPopU74bkU=;
- b=Rc3uyShKyFw51lfbnQthl6csV/ulWN2D3rP6bwMMPxiFpQBqZwu7ES7sCOY7vRQKK5ok2p
- bLv478epqjhTl0TawceMbS7DOJSzwE+WLfH7Zfi95yokaSvvaHV1raiKVxPHr1Qh52z94W
- zt/brMVSexLtyzNBfQrO6w2iF7tY8Ck=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5papoyz4CHjmdx2Nco/7wq0YEH55m69dpuZXVIZkCDg=;
+ b=VVvqMk9qYKmylTTErxzmeWrlFNjrKmWRulj1JXRS9yfra94cYBaGqPDyPCljGVX84yK3Ml
+ aH3Dp2TloPJRDXGu+Aml7yRbOhUC1WBbt8OxrwppM12KaHi82p6hfVdrHwkuwAx7Ccjr/R
+ KQuZrAktxCu0k/35f8Or0FYh8eWCSuc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-JQb6Tln_OHi98ZKvP6vJJg-1; Mon, 26 Jul 2021 11:52:49 -0400
-X-MC-Unique: JQb6Tln_OHi98ZKvP6vJJg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-602-sCixxFGGNX-bFrqAJAQ9qQ-1; Mon, 26 Jul 2021 11:52:49 -0400
+X-MC-Unique: sCixxFGGNX-bFrqAJAQ9qQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 104BDEC1A1;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8056100E422;
  Mon, 26 Jul 2021 15:52:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EABD010016DB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E96645D9D3;
  Mon, 26 Jul 2021 15:52:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6525618003A4; Mon, 26 Jul 2021 17:52:35 +0200 (CEST)
+ id 715471800843; Mon, 26 Jul 2021 17:52:35 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] build windows installers in ci
-Date: Mon, 26 Jul 2021 17:52:32 +0200
-Message-Id: <20210726155235.2249878-1-kraxel@redhat.com>
+Subject: [PATCH v2 1/3] nsis.py: create dlldir automatically
+Date: Mon, 26 Jul 2021 17:52:33 +0200
+Message-Id: <20210726155235.2249878-2-kraxel@redhat.com>
+In-Reply-To: <20210726155235.2249878-1-kraxel@redhat.com>
+References: <20210726155235.2249878-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -86,28 +89,109 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With 8619b5ddb56f ("ci: build & store windows installer") merged at=0D
-least patch 1/3 should go into 6.1 too so the installers created by=0D
-CI do actually work.=0D
-=0D
-Patches 2+3 are for the guest agent installer.=0D
-=0D
-Gerd Hoffmann (3):=0D
-  nsis.py: create dlldir automatically=0D
-  ci: build & store guest agent msi=0D
-  qemu-ga/msi: fix w32 libgcc name=0D
-=0D
- scripts/nsis.py                               | 27 ++++++++++++++++---=0D
- .gitlab-ci.d/crossbuild-template.yml          |  3 ++-=0D
- .gitlab-ci.d/crossbuilds.yml                  |  2 ++=0D
- meson.build                                   |  1 +=0D
- qga/installer/qemu-ga.wxs                     |  2 +-=0D
- .../dockerfiles/fedora-win32-cross.docker     |  1 +=0D
- .../dockerfiles/fedora-win64-cross.docker     |  1 +=0D
- 7 files changed, 31 insertions(+), 6 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Use objdump do figure which dlls are needed.  Copy them to a temporary
+dlldir and pass that directory to makensis.
+
+This patch removes the need to manually copy dlls to $srcdir/dll/w{32,64}
+to get functional windows installers via "make installer".
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ scripts/nsis.py | 27 +++++++++++++++++++++++----
+ meson.build     |  1 +
+ 2 files changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/nsis.py b/scripts/nsis.py
+index 5135a0583167..5a3cc7c09628 100644
+--- a/scripts/nsis.py
++++ b/scripts/nsis.py
+@@ -7,6 +7,7 @@
+ import argparse
+ import glob
+ import os
++import sys
+ import shutil
+ import subprocess
+ import tempfile
+@@ -19,16 +20,35 @@ def signcode(path):
+     subprocess.run([cmd, path])
+ 
+ 
++def copydlls(binary, srcdir, dstdir):
++    cmdline = [ "objdump", "-p", binary ]
++    result = subprocess.run(cmdline, stdout = subprocess.PIPE,
++                            universal_newlines = True)
++    if result.returncode != 0:
++        sys.exit(result.returncode)
++    for line in result.stdout.split('\n'):
++        if line.find('DLL Name') != -1:
++            dll = line.split()[2]
++            src = os.path.join(srcdir, dll)
++            dst = os.path.join(dstdir, dll)
++            if os.path.isfile(src) and not os.path.isfile(dst):
++                print("nsis.py: copy " + src)
++                shutil.copyfile(src, dst)
++                copydlls(src, srcdir, dstdir)
++
++
+ def main():
+     parser = argparse.ArgumentParser(description="QEMU NSIS build helper.")
+     parser.add_argument("outfile")
+     parser.add_argument("prefix")
+     parser.add_argument("srcdir")
+     parser.add_argument("cpu")
++    parser.add_argument("dllsrc")
+     parser.add_argument("nsisargs", nargs="*")
+     args = parser.parse_args()
+ 
+     destdir = tempfile.mkdtemp()
++    dlldir = tempfile.mkdtemp()
+     try:
+         subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
+         with open(
+@@ -52,6 +72,7 @@ def main():
+ 
+         for exe in glob.glob(os.path.join(destdir + args.prefix, "*.exe")):
+             signcode(exe)
++            copydlls(exe, args.dllsrc, dlldir)
+ 
+         makensis = [
+             "makensis",
+@@ -59,19 +80,17 @@ def main():
+             "-NOCD",
+             "-DSRCDIR=" + args.srcdir,
+             "-DBINDIR=" + destdir + args.prefix,
++            "-DDLLDIR=" + dlldir,
+         ]
+-        dlldir = "w32"
+         if args.cpu == "x86_64":
+-            dlldir = "w64"
+             makensis += ["-DW64"]
+-        if os.path.exists(os.path.join(args.srcdir, "dll")):
+-            makensis += ["-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)]
+ 
+         makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
+         subprocess.run(makensis)
+         signcode(args.outfile)
+     finally:
+         shutil.rmtree(destdir)
++        shutil.rmtree(dlldir)
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/meson.build b/meson.build
+index f2e148eaf98e..4a2d54fbae3f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2790,6 +2790,7 @@ if host_machine.system() == 'windows'
+     get_option('prefix'),
+     meson.current_source_dir(),
+     host_machine.cpu(),
++    config_host['QEMU_GA_MSI_MINGW_DLL_PATH'],
+     '--',
+     '-DDISPLAYVERSION=' + meson.project_version(),
+   ]
+-- 
+2.31.1
 
 
