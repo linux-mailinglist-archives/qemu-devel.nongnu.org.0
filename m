@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FAD3D66D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 20:42:14 +0200 (CEST)
-Received: from localhost ([::1]:50678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2DE3D6776
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:24:37 +0200 (CEST)
+Received: from localhost ([::1]:48290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m85YK-00057b-VX
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 14:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
+	id 1m86DL-0007Sx-W5
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m85X8-0003ub-LH
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 14:40:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39310)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m8689-0004TP-Li; Mon, 26 Jul 2021 15:19:13 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:52599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m85X6-0006yL-Co
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 14:40:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627324855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bsVG8cbp21h0uSsz0yACWufxcxeVw9LXGXHttddYjR0=;
- b=QnHHCG+dvJ2cJz+840RQE1rvsKXWVQzGCDICTHCqedz4nTG6x7rKN21WlhgrzzIpf+ylBl
- y38zNjYbttQiyOAJRqKSOvI38Dw3ZC/2v7COCye2T0Ud70ts7/8nETn742hgoK3RdBhtf2
- lVwvziVSZZsK2PDNoaDbDq6/EuMVBLk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-oAYvP-I_OGW9QvYCEMYgxQ-1; Mon, 26 Jul 2021 14:40:54 -0400
-X-MC-Unique: oAYvP-I_OGW9QvYCEMYgxQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- j12-20020a05620a146cb02903ad9c5e94baso9673653qkl.16
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 11:40:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bsVG8cbp21h0uSsz0yACWufxcxeVw9LXGXHttddYjR0=;
- b=lZGxDlOWKpNRVdpgczW3gvbe5Ca3k12U4J2DomfSQvsp0pMrlOLYiSdG5dXSMEgTvh
- 5+TXcibuZt3Lt4xA7f4uNym6JROUjzMP1G9ESKFpJEN01hh4QvSFQ7HvHxLvNfcFlO2b
- qXHtzZMsrN3b7flpqLhKGwR9wLANURHPArKCcUKCVOy8t9C0zAxuW6P94InlRNJZMt1i
- 8WtDCctNWJb20lMMG3wLWgJoOWeulej/lGVvnifLQbSD/KI2a3QKIsFrkLHOQXJI7sny
- SxsFyHhO5QbyHA4hpAnJeSbDdogBOUJ13vqGcH/0G4ybuPuBOg25bmCgdSqp0AZ0vCO0
- /iOA==
-X-Gm-Message-State: AOAM533FXFUPcBucZBwMBm1pYjIqUo8aoPTzmx5/bCNr29QMzljO3Rlx
- +yoTEOuO2DeaY03DNUtg6VvzOAa5qezuMMYpQtcF7I0E+7+TSU3ezp60sajt/VYceKd9QT1ZzG8
- fYhlugdyJ/gXPsLo=
-X-Received: by 2002:a05:620a:319:: with SMTP id
- s25mr18488305qkm.411.1627324854016; 
- Mon, 26 Jul 2021 11:40:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxzOwsell9kqVfLBSUuY1RUofMj4wyD5XxWJ/zTFD6ctKhOhDS9W/iNdsKExV7YILlXJ4FAmg==
-X-Received: by 2002:a05:620a:319:: with SMTP id
- s25mr18488285qkm.411.1627324853768; 
- Mon, 26 Jul 2021 11:40:53 -0700 (PDT)
-Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id 82sm440326qkl.97.2021.07.26.11.40.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 11:40:53 -0700 (PDT)
-Date: Mon, 26 Jul 2021 20:40:51 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/3] target/arm: Add sve-default-vector-length cpu
- property
-Message-ID: <20210726184051.qn4k3ii4bhkmgotp@gator>
-References: <20210723203344.968563-1-richard.henderson@linaro.org>
- <20210723203344.968563-4-richard.henderson@linaro.org>
- <20210726145951.g3ywwhcfstmsi7vi@gator>
- <df4f3bdc-5110-b321-e173-1a911b7e7c4b@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m8687-0007XW-3y; Mon, 26 Jul 2021 15:19:13 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A8B9A580412;
+ Mon, 26 Jul 2021 15:19:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 26 Jul 2021 15:19:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm3; bh=KtOF5lUYsVN3XbrTgTCgJi3UGj
+ B+++U7lQolnvXqkTU=; b=ZMRsmGIHpTGmpZRkAsCYvMt/tES6flVqn+GGqNhvuJ
+ JTlmbI4Mgrt8OoQw4U1HNLqaw6O/TVCEn5eJWHW8KEY199IjXxllIUXvqyPAD0oV
+ pOdUSewyP+jE5yn+UhXD6BMeUF5/7pI7nrcW4NVbeDovh5dXJVFEMx/jT1Ft0at/
+ Itde22GmQLNy7vrDI1mG2E+JzHjL2Vw8SgmsyIvzGzTCsUShGQTrHEPy5anXtPlI
+ 2UlUMpPUzrQeyMY2ext0l12mjwWTXxHZ5LcPO+fGjKh4lNfe/us8dTb3+fSfpD4V
+ U1OGnFYCeNyfvZg4GPSwAC3jfrzR5lyFt5l4X8VXTV7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KtOF5l
+ UYsVN3XbrTgTCgJi3UGjB+++U7lQolnvXqkTU=; b=SD5xmWTm8nsI1nrXFCmjbj
+ s+yIx4trOD+D1s4nGyUafdf3d3XgHKQiWTu4DGCIg7jOxexXIWc1vLfFr/y6J7Dt
+ HzFt6K0KZ8EfPIfM8S1RbPxRCBtt6TGsq6PmExOm4LZ/9s8uK1gdKPeIyv2CxHCD
+ FS0zeszUZwIQgrOIaSg221pdZBQOpW/S320S9eD9wZN/kounSfbZVAfMHqJdlLRv
+ jsNSG97NiIQZvm+0CtfycvKlwDdAI7t4IhCmYJaZNKmtBJyHyOP55mCpTZrLem7x
+ 9tFxyjShurVuOkD+YpRCFlvt7SjaXV6rwjQ4E1V0NVckVt1V05MSkCr4jOXu3PPg
+ ==
+X-ME-Sender: <xms:rAr_YA8MYOs_m_xnrb7Eq79vBhWVuUvwqQj3VQfu2onX20pPOCTS7g>
+ <xme:rAr_YIu4hOoUp9Zsvcm0SnVJ03Y5ldSjSQDDXxcnc7PT94KcgGTe1iem6DpX3e2IQ
+ rBvtAVFpZ6Wr6L4S-8>
+X-ME-Received: <xmr:rAr_YGDN07m7YAP2KFqwPh4pOy4YeRylMQIg9ab9MX3ND3MhyXe4h4ulalZQ4XHbWoMI5_ypzSPxNTY3DIKRYb3Sf0e8Zc74XqLcjxWknA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgddufedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepvdfhueejueejkedvudeftdetvddtgffhteelgeeluddvveetuefhfeekfeeuhefg
+ necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgu
+ kh
+X-ME-Proxy: <xmx:rAr_YAceFkOJRxSJndtYYup3K4fCMUDAvbOU-uYtT-VMqVlCMhS8dg>
+ <xmx:rAr_YFPXHGyb0bZ2p9bfirBqA5ePwzadSojAjAT__mspGorSQIv9Zw>
+ <xmx:rAr_YKncJu1w3oKCOu-7IaTWp31_yi-MrIsUatT86Z8jyFjQHLm0Ww>
+ <xmx:rQr_YKlrwR8Zslrc9UEWCR1ztnmh4a_7ov2ToDhsYr7te05pH7V39w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Jul 2021 15:19:05 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL for-6.1 00/11] hw/nvme fixes
+Date: Mon, 26 Jul 2021 21:18:50 +0200
+Message-Id: <20210726191901.4680-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <df4f3bdc-5110-b321-e173-1a911b7e7c4b@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,41 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 26, 2021 at 08:33:52AM -1000, Richard Henderson wrote:
-> On 7/26/21 4:59 AM, Andrew Jones wrote:
-> > > +SVE User-mode Default Vector Length Property
-> > > +--------------------------------------------
-> > > +
-> > > +For qemu-aarch64, the cpu property `sve-default-vector-length=N` is
-> > > +defined to mirror the Linux kernel parameter file
-> > > +`/proc/sys/abi/sve_default_vector_length`.  The default length, `N`,
-> > > +is in units of bytes and must be between 16 and 8192.
-> > 
-> > Hmm. If a user inputs anything greater than 256, then won't it get
-> > silently reduced to 256?
-> 
-> Yes.
-> 
-> > > +If not specified, the default vector length is 64.
-> > > +
-> > > +If the default length is larger than the maximum vector length enabled
-> > > +with `sve<N>` properties, the actual vector length will be reduced.
-> > 
-> > Here it's pointed out that the default may be reduced, but it implies that
-> > that only happens if an sve<N> property is also given. Won't users wonder
-> > why they're only getting vectors that are 256 bytes large even when they
-> > ask for more?
-> 
-> I guess adding that 256 is the maximum length supported by qemu should be sufficient?
->
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Works for me.
-
-Thanks,
-drew 
-
+Hi Peter,=0D
+=0D
+The following changes since commit 1d6f147f043bece029a795c6eb9d43c1abd909b6=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/quic/tags/pull-hex-20210725' into s=
+taging (2021-07-26 13:36:51 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
+=0D
+for you to fetch changes up to 9631a8ab21679e3d605f7f540dd8c692b9593e02:=0D
+=0D
+  tests/qtest/nvme-test: add mmio read test (2021-07-26 21:09:39 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+hw/nvme fixes=0D
+=0D
+* new PMR test (Gollu Appalanaidu)=0D
+* pmr/sgl mapping fix (Padmakar Kalghatgi)=0D
+* hotplug fixes (me)=0D
+* mmio out-of-bound read fix (me)=0D
+* big-endian host fixes (me)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gollu Appalanaidu (1):=0D
+  tests/qtest/nvme-test: add persistent memory region test=0D
+=0D
+Klaus Jensen (9):=0D
+  hw/nvme: remove NvmeCtrl parameter from ns setup/check functions=0D
+  hw/nvme: mark nvme-subsys non-hotpluggable=0D
+  hw/nvme: unregister controller with subsystem at exit=0D
+  hw/nvme: fix controller hot unplugging=0D
+  hw/nvme: split pmrmsc register into upper and lower=0D
+  hw/nvme: use symbolic names for registers=0D
+  hw/nvme: fix out-of-bounds reads=0D
+  hw/nvme: fix mmio read=0D
+  tests/qtest/nvme-test: add mmio read test=0D
+=0D
+Padmakar Kalghatgi (1):=0D
+  hw/nvme: error handling for too many mappings=0D
+=0D
+ hw/nvme/nvme.h          |  18 +-=0D
+ include/block/nvme.h    |  60 +++++--=0D
+ hw/nvme/ctrl.c          | 379 +++++++++++++++++++++++-----------------=0D
+ hw/nvme/ns.c            |  55 ++++--=0D
+ hw/nvme/subsys.c        |   9 +=0D
+ tests/qtest/nvme-test.c |  87 ++++++++-=0D
+ hw/nvme/trace-events    |   1 +=0D
+ 7 files changed, 402 insertions(+), 207 deletions(-)=0D
+=0D
+-- =0D
+2.32.0=0D
+=0D
 
