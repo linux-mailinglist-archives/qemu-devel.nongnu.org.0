@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810E23D559F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:29:58 +0200 (CEST)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FF33D55D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 10:47:03 +0200 (CEST)
+Received: from localhost ([::1]:45546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7vzp-0002u1-KN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
+	id 1m7wGM-0001Wt-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 04:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vz0-0002E8-Pq
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:29:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46850)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m7wFL-0000qq-F7
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:46:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7vyx-0004MY-4m
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:29:06 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m7wFH-0001LH-71
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 04:45:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627288142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1627289152;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W9kmOokahWKjjVJJ7MaTDyZRepKr3q06SKBmmnAUkig=;
- b=C7MTCwrpiPzqsLwk2ZVnorM2m8D2S88gDNH4NX702D6u9U5DHqCTl4Y6cuxZNelsug3/k0
- 4I5tZA8oRKPbBifb3w+oAmQSkT1hUX6MnPmaiEqD6+qlIDNNdasRPvb2YXO5g/iC06AAaG
- ZkTMQF+WEbJUKWRFQXQ/thaPCNpDi+w=
+ bh=aNx4YweyP0j/kYcuafl5O8xr9R2I1u+/nnf7tngTLvc=;
+ b=ZJZV0/ekusmAQGBPQ4NH7DHKSkCxLvJSJRoh1ZwMIyTN0AJskJpQUbv6kZeQwIxLBGb6gA
+ ed0vL4VZmpRpcth8m/vKQ3Axu0he2tuouu65GOAGjhy0jlasDC/vivJ8fyP8AW2WnSNFER
+ PL4Tm/yKBOv5kujbimShgsM0D3hcALg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-XjaCffjeOoiEJvQHUcRAKQ-1; Mon, 26 Jul 2021 04:29:00 -0400
-X-MC-Unique: XjaCffjeOoiEJvQHUcRAKQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-575-eDQHXm2oNs2LDLEz2o_ntg-1; Mon, 26 Jul 2021 04:45:49 -0400
+X-MC-Unique: eDQHXm2oNs2LDLEz2o_ntg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06E538010F4;
- Mon, 26 Jul 2021 08:29:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
- [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1B6D5DAA5;
- Mon, 26 Jul 2021 08:28:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0F68D18003A4; Mon, 26 Jul 2021 10:28:58 +0200 (CEST)
-Date: Mon, 26 Jul 2021 10:28:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH v2 0/1] ui/gtk: prevent QEMU lock up
-Message-ID: <20210726082858.gyfwksemesr7kg75@sirius.home.kraxel.org>
-References: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A54F192CC41;
+ Mon, 26 Jul 2021 08:45:48 +0000 (UTC)
+Received: from redhat.com (ovpn-113-137.ams2.redhat.com [10.36.113.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E89D918A9E;
+ Mon, 26 Jul 2021 08:45:46 +0000 (UTC)
+Date: Mon, 26 Jul 2021 09:45:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL for 6.1-rc1 00/28] doc, metadata, plugin and testing updates
+Message-ID: <YP52ODpqY/1nfNmA@redhat.com>
+References: <20210723170354.18975-1-alex.bennee@linaro.org>
+ <e66f26d0-f2d6-c10a-8da3-de7d03d13391@redhat.com>
+ <CAFEAcA9zijOBP++1HsUTiOpE6gt1fnUpYEzHXuDrMWsUxvPz+g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d06fa203-5a89-b454-8b01-8711aaafeea2@t-online.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAFEAcA9zijOBP++1HsUTiOpE6gt1fnUpYEzHXuDrMWsUxvPz+g@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,27 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> Since commit 8eb13bbbac ("ui/gtk: vte: fix sending multiple
-> characeters") it's very easy to lock up QEMU with the GTK ui.
-> If you configure a guest with a serial device and the guest
-> doesn't listen on this device, QEMU will lock up after
-> entering two characters in the serial console.
+On Sat, Jul 24, 2021 at 11:04:03AM +0100, Peter Maydell wrote:
+> On Fri, 23 Jul 2021 at 18:44, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> >
+> > On 7/23/21 7:03 PM, Alex Bennée wrote:
+> > > I realised I'm on holiday next week so I thought I'd better send this now.
+> > >
+> > > The following changes since commit a146af86c8247f41b641783428b95ee71eb0e43f:
+> > >
+> > >   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20210723-pull-request' into staging (2021-07-23 12:16:12 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://github.com/stsquad/qemu.git tags/pull-for-6.1-rc1-230721-1
+> > >
+> > > for you to fetch changes up to 0a9487d80af9ed6fa14d2696bc34a920b32e53e5:
+> > >
+> > >   gitlab-ci: Extract OpenSBI job rules to reusable section (2021-07-23 17:22:16 +0100)
+> > >
+> > > ----------------------------------------------------------------
+> > > Doc, metadata, plugin and testing updates for 6.1-rc1:
+> > >
+> > >   - git ignore some file editor detritus
+> > >   - add overview on device emulation terminology
+> > >   - remove needless if leg in configure custom devices logic
+> > >   - numerous gitdm/mailmap updates
+> > >   - fix plugin_exit race for linux-user
+> > >   - fix a few bugs in cache modelling plugin
+> > >   - fix plugin calculation of physical address
+> > >   - handle pure assembler/linker tcg tests outside of docker
+> > >   - add tricore build to gitlab
+> > >   - remove superfluous MacOSX task
+> > >   - generalise the OpenBSI gitlab rules
+> > >
+> > > ----------------------------------------------------------------
+> >
+> >
+> > > Philippe Mathieu-Daudé (1):
+> > >       gitlab-ci: Extract OpenSBI job rules to reusable section
+> >
+> > Oops this isn't to latest version of this patch :/
+> >
+> > https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg06130.html
 > 
-> v2:
-> Gerd suggested to use the chr_accept_input() callback function
-> instead of a write retry timer and to drop patch 2/2.
+> Given Alex is on holiday, should I apply this pullreq anyway and
+> then you could send a patch to fix up the differences afterwards,
+> or should we drop the pullreq (and maybe this stuff doesn't
+> go in for rc1)?
 
-Very nice and easy to read patch now.
+I think it is fine to apply the pullreq anyway.
 
-Queued up for 6.1.
+While there is a bug in the OpenSBI job rules patch, it is still better
+than what currently exists in git master. We've also already merged the
+identical rules change into the EDK job. So no matter what we'll need
+to followup later with more fixes.
 
-thanks,
-  Gerd
+The bug in the patch merely means that if the container build fails,
+we'll then still try the next build job which will now also possibly
+fail.  This is annoying but functionally harmless, as the overall
+pipeline will be in a fail state no matter what.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
