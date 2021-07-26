@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A32C3D679B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:42:42 +0200 (CEST)
-Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F4A3D679F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 21:45:07 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m86Ur-0007tU-J5
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
+	id 1m86XC-0002Ov-VC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 15:45:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m86TQ-0006Qc-Dn
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 15:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m86TO-0005LA-Si
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 15:41:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627328470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KhlsmPdrc+AsalWQUH1F+feSIsWBPOjlkdfQPIp3TNk=;
- b=HuxXLnmwjeNZq3Io4SX064Wme/Ulmaa7O5Ct24oVfu0u6mWcCC9A1T6CEDMJ5wQF1th3AL
- 1001OQd+MuOucVlF4e9zu4XbBRTNNKkXSLpu/nrMXni3y8f+dPKaVNhY9e29jl0ui9wRu0
- Ij+kAQ9Ps/B73+Cj0j3jGG9lRi/zlmk=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-nIDgmkHPN6Oy_HcOtoneZw-1; Mon, 26 Jul 2021 15:41:09 -0400
-X-MC-Unique: nIDgmkHPN6Oy_HcOtoneZw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- o13-20020a17090a9f8db0290176ab79fd33so285384pjp.5
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 12:41:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m86WG-0001PX-7e
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 15:44:08 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:37753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m86WE-0007Qk-9c
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 15:44:07 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id h8so12150995ede.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 12:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZADfshDZCDv4B5CFVHr24DoKi+hKcHz8fvwE0bi+tgA=;
+ b=c/yfqTi5BocyMRWBIAibd8U74GxbEnM19SFLXJMNMS9TA1Js+T7YaYOHl9+UFgI/YC
+ 7bTCgLWKxC/FJrLbZI99GIPjXvjMPCjnYW4xKx0Au+ufBcz7jx98S7jlrPbJkmanCDu1
+ ZQTsjSc+IR2w085XTbbygY9bcIabjC1y5NEHx32gTBFgchVllujXswT/vE6fhE8mbVEy
+ tcc3eD9AQ77J0oU1BdXMbnixYZ9HIjZiCgASMgd8vL8znXicpCg2jq8ApsgYSZp/8/b5
+ 3KSYr0zcQP0NxdINawk0BD+rYnrruufWmzeSfOEj5mRxSsjDto+ITUvwv2LvYrA/62Nn
+ cX8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KhlsmPdrc+AsalWQUH1F+feSIsWBPOjlkdfQPIp3TNk=;
- b=scuA/veWw7FXDE5ozXexnZsjKhVnPvqdQMQQyRPL5aOpkPGBvdKBlUQawKZoWjHisO
- 4vpPTONFKtL6gsbx0tUksMo+OgIhbCREiGn6PHn8hTYK+UDN8EFLoYcYz8tJrIsvkJC/
- 7znv2CxVefXlq8EJDPRbNcntxV3YHNBlFuuuAgeZg5lkixOpOc9KgFWGm1q59AnbWGZG
- 5MFQjC4NOESHOgNyJF/jnb0xmRoo9/J8TFgL5gUgiXc6NEQb1K2dOPABp2uXlwMPk0bc
- 5TRy8FIjTk+aBXUwzHYvttj6gFdKBKdZEleFHY403rtuD6SQyRQsHzKVm3tFh202y8zF
- L5Zg==
-X-Gm-Message-State: AOAM530Viecpt2tcR5sSovv/2d8vYizsQG0RsWmbxAm1EHu9Zi52uCy+
- Q8z9clb5Ca5ISrtMIWx9xSGoqQsh5Dig23pWsJm3arU7IQlSu7pW2JnDQoqAF7FHEjRJGUYSpHw
- ZHWDYNFoKdA11U7JHFkmWPn+8wbxQXTU=
-X-Received: by 2002:a17:90b:344a:: with SMTP id
- lj10mr579197pjb.108.1627328467976; 
- Mon, 26 Jul 2021 12:41:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+3QEl2EfqU6Dl6elwyt6FnT32XYMr80B1Tv0sMwGM7GGq9yq/LYFREcSkEqr/ZqORjV71n0giKKnNS++ntEM=
-X-Received: by 2002:a17:90b:344a:: with SMTP id
- lj10mr579182pjb.108.1627328467761; 
- Mon, 26 Jul 2021 12:41:07 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=ZADfshDZCDv4B5CFVHr24DoKi+hKcHz8fvwE0bi+tgA=;
+ b=eiPRtP+ZJnqU/KlXzXfxQKQwRJHvUU1gCgnxjCSCRHnCMaq8YuodQWehq/bHXlDZ5y
+ Lmdsty+pyCByw61eQNMvMZl7oKk1OVgTM7l+HbLLOgmoPaJLuB7Gth6DL/9yUpRz2EvE
+ pjg4V0LNbZX9IQxd6xjlNYjiTH7lnTL6HbuiDsE39qRc077U2l+iSHQaXofcQelNgNOc
+ F+nWp24qHWrhjFQnOBmpdPEL1+OS2Dh4UHbK8ekJTB9FLAJxtzR3bycQVv2LJoseLCqP
+ WTnaSBiLmU85UNVCKrFI43TLcKXGVFHUUtcJoy6QR11Ys+UIjJOa6eFLV/Wi/4U9i4JG
+ qUHw==
+X-Gm-Message-State: AOAM531Z6H93woqh34nx2R3XFrDwjlEXqOva8Z+pG6L62OtUZlQLuC+0
+ uVv6X/6CAVG8UR59NqFg7DcZqD0DO22cexa60LsEXg==
+X-Google-Smtp-Source: ABdhPJxz3TB1w3l5r6jnRRpbjrnIOnINdpwY3h3/xvN4FOzSfIDAgTqFqBTbiy711Bvl3aZ9R926VWng24cFKxouU38=
+X-Received: by 2002:a05:6402:35c7:: with SMTP id
+ z7mr23579936edc.36.1627328644561; 
+ Mon, 26 Jul 2021 12:44:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726150429.1216251-1-philmd@redhat.com>
- <20210726150429.1216251-4-philmd@redhat.com>
-In-Reply-To: <20210726150429.1216251-4-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 26 Jul 2021 16:40:41 -0300
-Message-ID: <CAKJDGDa_rWmomTwNDdCv4od3CyMQxbcAncRXi6f_f4RUkNJdPQ@mail.gmail.com>
-Subject: Re: [PATCH-for-6.1 v4 3/4] gitlab-ci: Fix 'when:' condition in EDK2
- jobs
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210726085306.729309-1-stefanha@redhat.com>
+In-Reply-To: <20210726085306.729309-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Jul 2021 20:43:22 +0100
+Message-ID: <CAFEAcA-fdRDKDreKnw5S5qWHT5-CM+Dw05UstkL6LsucbsqCJg@mail.gmail.com>
+Subject: Re: [PULL for-6.1 0/1] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,30 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 26, 2021 at 12:07 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Mon, 26 Jul 2021 at 09:53, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Jobs depending on another should not use the 'when: always'
-> condition, because if a dependency failed we should not keep
-> running jobs depending on it. The correct condition is
-> 'when: on_success'.
+> The following changes since commit a2376507f615495b1d16685449ce0ea78c2caf9d:
 >
-> Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binar=
-ies")
-> Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .gitlab-ci.d/edk2.yml | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-24 11:04:57 +0100)
 >
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 15a730e7a3aaac180df72cd5730e0617bcf44a5a:
+>
+>   block/nvme: Fix VFIO_MAP_DMA failed: No space left on device (2021-07-26 09:38:12 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> Phil's block/nvme.c ENOSPC fix for newer Linux kernels that return this errno.
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
