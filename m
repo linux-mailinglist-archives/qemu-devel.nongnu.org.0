@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980F73D6045
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:07:08 +0200 (CEST)
-Received: from localhost ([::1]:36188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BAA93D6049
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:08:54 +0200 (CEST)
+Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m838F-0007Qf-NF
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36238)
+	id 1m839x-0002ei-LH
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m836p-0004yz-Ls
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:05:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56730)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m837A-0005gu-BU
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:06:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m836o-0002iB-0B
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:05:39 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8378-00031O-Nz
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 12:06:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627315537;
+ s=mimecast20190719; t=1627315558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zg2rRImryq8KfAmpDVFmGL30U08l4spZunQYLca4K6Y=;
- b=O9VoU4oUP3H+b8T2aGpWaSh8tzEsS+qff+lRj6FmEMamVoKDhXVeG3PTu+SWCkC8o+pSLl
- sbHa3ycDXbNe0ItJ5Eqm0ILcxAFtflntsc5c2djNwewExBvxBsLZSDkt4ax/0aTPJVGDZR
- mlOz5tkh+6fXZ2CFx/pnG57rnIX9P84=
+ bh=QWbJXupkNWTpT6UPSCDGnbzUKlgS5wqFAFc3ha2JxH4=;
+ b=Tg5343JLjp0AHylOMkXCdXZHRTTbjDRNRgdMmXWGbDtwzDpwhMph1/v1mmSIOB6GT7KP4e
+ Mp5vD8JD9MslFY7ojT7yVhoZwZdBH6n9PucAEaIV1mGhm4UATNwB6LDbl5jN4cDStuN8uK
+ MZ2GO3yDG4pFtD0zZpr0/xQTMfi15a8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-xzqDj9qHOHaEqqghrGuVow-1; Mon, 26 Jul 2021 12:05:34 -0400
-X-MC-Unique: xzqDj9qHOHaEqqghrGuVow-1
+ us-mta-245-RXKjzudPP8CZeMuMuBHimw-1; Mon, 26 Jul 2021 12:05:56 -0400
+X-MC-Unique: RXKjzudPP8CZeMuMuBHimw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF42B18C8C03;
- Mon, 26 Jul 2021 16:05:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69DB6100E420;
+ Mon, 26 Jul 2021 16:05:55 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-199.ams2.redhat.com [10.36.112.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE8E35C1D1;
- Mon, 26 Jul 2021 16:05:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 509805C1CF;
+ Mon, 26 Jul 2021 16:05:33 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] softmmu/memory_mapping: factor out adding physical
- memory ranges
-Date: Mon, 26 Jul 2021 18:03:45 +0200
-Message-Id: <20210726160346.109915-4-david@redhat.com>
+Subject: [PATCH v3 4/4] softmmu/memory_mapping: optimize for RamDiscardManager
+ sections
+Date: Mon, 26 Jul 2021 18:03:46 +0200
+Message-Id: <20210726160346.109915-5-david@redhat.com>
 In-Reply-To: <20210726160346.109915-1-david@redhat.com>
 References: <20210726160346.109915-1-david@redhat.com>
 MIME-Version: 1.0
@@ -89,10 +89,35 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's factor out adding a MemoryRegionSection to the list, to be reused in
-RamDiscardManager context next.
+virtio-mem logically plugs/unplugs memory within a sparse memory region
+and notifies via the RamDiscardManager interface when parts become
+plugged (populated) or unplugged (discarded).
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Currently, we end up (via the two users)
+1) zeroing all logically unplugged/discarded memory during TPM resets.
+2) reading all logically unplugged/discarded memory when dumping, to
+   figure out the content is zero.
+
+1) is always bad, because we assume unplugged memory stays discarded
+   (and is already implicitly zero).
+2) isn't that bad with anonymous memory, we end up reading the zero
+   page (slow and unnecessary, though). However, once we use some
+   file-backed memory (future use case), even reading will populate memory.
+
+Let's cut out all parts marked as not-populated (discarded) via the
+RamDiscardManager. As virtio-mem is the single user, this now means that
+logically unplugged memory ranges will no longer be included in the
+dump, which results in smaller dump files and faster dumping.
+
+virtio-mem has a minimum granularity of 1 MiB (and the default is usually
+2 MiB). Theoretically, we can see quite some fragmentation, in practice
+we won't have it completely fragmented in 1 MiB pieces. Still, we might
+end up with many physical ranges.
+
+Both, the ELF format and kdump seem to be ready to support many
+individual ranges (e.g., for ELF it seems to be UINT32_MAX, kdump has a
+linear bitmap).
+
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -109,70 +134,47 @@ Cc: Laurent Vivier <lvivier@redhat.com>
 Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/memory_mapping.c | 41 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 21 deletions(-)
+ softmmu/memory_mapping.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index d401ca7e31..a2af02c41c 100644
+index a2af02c41c..a62eaa49cc 100644
 --- a/softmmu/memory_mapping.c
 +++ b/softmmu/memory_mapping.c
-@@ -193,29 +193,14 @@ typedef struct GuestPhysListener {
-     MemoryListener listener;
- } GuestPhysListener;
- 
--static void guest_phys_blocks_region_add(MemoryListener *listener,
-+static void guest_phys_block_add_section(GuestPhysListener *g,
-                                          MemoryRegionSection *section)
- {
--    GuestPhysListener *g;
--    uint64_t section_size;
--    hwaddr target_start, target_end;
--    uint8_t *host_addr;
--    GuestPhysBlock *predecessor;
--
--    /* we only care about RAM */
--    if (!memory_region_is_ram(section->mr) ||
--        memory_region_is_ram_device(section->mr) ||
--        memory_region_is_nonvolatile(section->mr)) {
--        return;
--    }
--
--    g            = container_of(listener, GuestPhysListener, listener);
--    section_size = int128_get64(section->size);
--    target_start = section->offset_within_address_space;
--    target_end   = target_start + section_size;
--    host_addr    = memory_region_get_ram_ptr(section->mr) +
--                   section->offset_within_region;
--    predecessor  = NULL;
-+    const hwaddr target_start = section->offset_within_address_space;
-+    const hwaddr target_end = target_start + int128_get64(section->size);
-+    uint8_t *host_addr = memory_region_get_ram_ptr(section->mr) +
-+                         section->offset_within_region;
-+    GuestPhysBlock *predecessor = NULL;
- 
-     /* find continuity in guest physical address space */
-     if (!QTAILQ_EMPTY(&g->list->head)) {
-@@ -261,6 +246,20 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+@@ -246,6 +246,15 @@ static void guest_phys_block_add_section(GuestPhysListener *g,
  #endif
  }
  
-+static void guest_phys_blocks_region_add(MemoryListener *listener,
-+                                         MemoryRegionSection *section)
++static int guest_phys_ram_populate_cb(MemoryRegionSection *section,
++                                      void *opaque)
 +{
-+    GuestPhysListener *g = container_of(listener, GuestPhysListener, listener);
++    GuestPhysListener *g = opaque;
 +
-+    /* we only care about RAM */
-+    if (!memory_region_is_ram(section->mr) ||
-+        memory_region_is_ram_device(section->mr) ||
-+        memory_region_is_nonvolatile(section->mr)) {
-+        return;
-+    }
 +    guest_phys_block_add_section(g, section);
++    return 0;
 +}
 +
- void guest_phys_blocks_append(GuestPhysBlockList *list)
+ static void guest_phys_blocks_region_add(MemoryListener *listener,
+                                          MemoryRegionSection *section)
  {
-     GuestPhysListener g = { 0 };
+@@ -257,6 +266,17 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+         memory_region_is_nonvolatile(section->mr)) {
+         return;
+     }
++
++    /* for special sparse regions, only add populated parts */
++    if (memory_region_has_ram_discard_manager(section->mr)) {
++        RamDiscardManager *rdm;
++
++        rdm = memory_region_get_ram_discard_manager(section->mr);
++        ram_discard_manager_replay_populated(rdm, section,
++                                             guest_phys_ram_populate_cb, g);
++        return;
++    }
++
+     guest_phys_block_add_section(g, section);
+ }
+ 
 -- 
 2.31.1
 
