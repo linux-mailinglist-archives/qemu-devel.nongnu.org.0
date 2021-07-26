@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D013D5EC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 17:55:09 +0200 (CEST)
-Received: from localhost ([::1]:38204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBA13D6040
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 18:02:52 +0200 (CEST)
+Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m82we-0006bi-C6
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 11:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1m8347-0005as-II
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 12:02:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m82um-0003t4-46
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:53:13 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m82uh-00030k-Ku
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:53:10 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- pf12-20020a17090b1d8cb0290175c085e7a5so20413389pjb.0
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 08:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qFg8GB5l+tf/mVM73GyHHtwPNjzeLskhxwZD1ZuA7LE=;
- b=OEu96tjkzDUv0MqV9rJB5cGFpTSXO/Jl4vEgyyz/pxMqNiulnhF20DrWFHzvscUjHR
- Gc+J/K0uB3YxlafbGN4tdKaoKYdkSD0ePBbdfqMNgtfTAvpfiPebIGgFoVXyQ8W33TNk
- RnlZ2HWdn2rPRRgSsj3V9MqGCIhBPg+IahptfnYBHnXbEsbXomDrULrY3gHFsvDekjMq
- 6cpTE0UQRtAJHmyCcK/tz1Xk6daU+YolcqQpDljs7Bt3iWt+Dq8wfMheJcdj+gwDpFmO
- wDjqWAVdBgKxCk462gJObDkLt8FwTCrHyFIIoYz9dnPGhOgoCOrn1KP4BKQDkZosrb7M
- QjbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qFg8GB5l+tf/mVM73GyHHtwPNjzeLskhxwZD1ZuA7LE=;
- b=pgXxUjbs+zJ2xQCN7GLEtmqLvKulu4CUmgnWLbF5Zzp88STpSi5/xfIUe4Vn/T55jz
- 7ymSje5nFXS/rgpjEoS3CVqa3uzxn0p0bu5X/cT1o1OFpKI7/HD0mgh6b9ALKUN8yFe1
- X9r+QUx59IlPwbM8kMEXTtRhYgKXyFvOJgkfKfT4hwPP+LVIrL7Pq/IIy07wUqVR26Te
- rPlRNqYXbe2RPxhADU4Pcu0oWtxsWv/zMNm7b9sSp328tfeZereeZbzkLOfToxD8NwW4
- AZcv4DuiqN9ho/c+oFWB5RcKOjyqWh/29mG57nwuf5BU4Aws10hTJ7SO1I/72OgLpIj+
- rf1g==
-X-Gm-Message-State: AOAM532MsClU0m4c7aJxkSgxcqc2XU0Y7l3YDbcVly0Bmpitp8H50Qyg
- RZtarM1bP38jtv/Ct9F0G9/4bQ==
-X-Google-Smtp-Source: ABdhPJyCLCCk8l3cVy4IHYamPMRyrEJ1oMP6TWrXIKKQLbrtnNuxJ4P13BNkb43T/stwEW8MvkYJbw==
-X-Received: by 2002:a65:420d:: with SMTP id c13mr2563667pgq.123.1627314786088; 
- Mon, 26 Jul 2021 08:53:06 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id f4sm84239pgi.68.2021.07.26.08.53.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 08:53:05 -0700 (PDT)
-Subject: Re: [PATCH v2 07/22] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-8-git-send-email-gaosong@loongson.cn>
- <ad086e2a-3bfc-aa4b-d873-68d159ea2cbe@linaro.org>
- <95b0ee7b-ca4d-2ee1-85cf-2c49160d3a5d@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dce97537-8e36-4bab-7c89-4c2f7aa6f814@linaro.org>
-Date: Mon, 26 Jul 2021 05:53:01 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m831K-0002kG-Ho
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:59:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m831I-0007ZH-R0
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 11:59:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627315195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=inrL5lBClgNE0iy4qYbLSftqWgQC0WR9cM1BurP2M3g=;
+ b=fwpCSUnsMQ+xF1szJciaNHtRokWTbMywY1soBNZiuJVOq4M+CXHW32Bw7XZLwNfZWlkWK4
+ xj/Pde7hJer+EqOP2doKpaRRk4nwkQCZIxwT7910CBIwC7hbhGa/YDIPRJHeVB2hyRcyW8
+ ESTA6A41bcADhgUAQ0kHO5f5IDY5HT4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-55D40c4fNayRS0TBu_69vQ-1; Mon, 26 Jul 2021 11:59:53 -0400
+X-MC-Unique: 55D40c4fNayRS0TBu_69vQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9096C1084F61;
+ Mon, 26 Jul 2021 15:59:52 +0000 (UTC)
+Received: from localhost (ovpn-113-151.ams2.redhat.com [10.36.113.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19A221000358;
+ Mon, 26 Jul 2021 15:59:51 +0000 (UTC)
+Date: Mon, 26 Jul 2021 16:59:50 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] raw-format: drop WRITE and RESIZE child perms when
+ possible
+Message-ID: <YP7b9guLztT5XBXB@stefanha-x1.localdomain>
+References: <20210726122839.822900-1-stefanha@redhat.com>
+ <57dd2772-352b-75b1-6ed2-474423d7680e@virtuozzo.com>
+ <YP7X92k+dWBNvORR@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <95b0ee7b-ca4d-2ee1-85cf-2c49160d3a5d@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YP7X92k+dWBNvORR@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BamFBM83qcEUBR80"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,85 +81,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, afrosi@redhat.com, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/21 1:56 AM, Song Gao wrote:
-> Hi, Richard.
-> 
-> On 07/23/2021 08:46 AM, Richard Henderson wrote:
->> On 7/20/21 11:53 PM, Song Gao wrote:
->>> +/* Fixed point arithmetic operation instruction translation */
->>> +static bool trans_add_w(DisasContext *ctx, arg_add_w *a)
->>> +{
->>> +    TCGv Rd = cpu_gpr[a->rd];
->>> +    TCGv Rj = cpu_gpr[a->rj];
->>> +    TCGv Rk = cpu_gpr[a->rk];
->>> +
->>> +    if (a->rd == 0) {
->>> +        /* Nop */
->>> +        return true;
->>> +    }
->>> +
->>> +    if (a->rj != 0 && a->rk != 0) {
->>> +        tcg_gen_add_tl(Rd, Rj, Rk);
->>> +        tcg_gen_ext32s_tl(Rd, Rd);
->>> +    } else if (a->rj == 0 && a->rk != 0) {
->>> +        tcg_gen_mov_tl(Rd, Rk);
->>> +    } else if (a->rj != 0 && a->rk == 0) {
->>> +        tcg_gen_mov_tl(Rd, Rj);
->>> +    } else {
->>> +        tcg_gen_movi_tl(Rd, 0);
->>> +    }
->>> +
->>> +    return true;
->>> +}
->>
->> Do not do all of this "if reg(n) zero" testing.
->>
->> Use a common function to perform the gpr lookup, and a small callback function for the operation.  Often, the callback function already exists within include/tcg/tcg-op.h.
->>
->> Please see my riscv cleanup patch set I referenced vs patch 6.
-> 
-> I am not sure  that 'riscv cleanup' patchs at:
->    
->     https://patchew.org/QEMU/20210709042608.883256-1-richard.henderson@linaro.org
-> 
-> It seems that  gpr_dst/gpr_src are common function to perform the gpr lookup. is that right?
+--BamFBM83qcEUBR80
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-More than that.  The gen_arith() function, for example, performs all of the bookkeeping 
-for a binary operation.
+On Mon, Jul 26, 2021 at 05:42:47PM +0200, Kevin Wolf wrote:
+> Am 26.07.2021 um 16:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > 26.07.2021 15:28, Stefan Hajnoczi wrote:
+> > > The following command-line fails due to a permissions conflict:
+> > >=20
+> > >    $ qemu-storage-daemon \
+> > >        --blockdev driver=3Dnvme,node-name=3Dnvme0,device=3D0000:08:00=
+.0,namespace=3D1 \
+> > >        --blockdev driver=3Draw,node-name=3Dl1-1,file=3Dnvme0,offset=
+=3D0,size=3D1073741824 \
+> > >        --blockdev driver=3Draw,node-name=3Dl1-2,file=3Dnvme0,offset=
+=3D1073741824,size=3D1073741824 \
+> > >        --nbd-server addr.type=3Dunix,addr.path=3D/tmp/nbd.sock,max-co=
+nnections=3D2 \
+> > >        --export type=3Dnbd,id=3Dnbd-l1-1,node-name=3Dl1-1,name=3Dl1-1=
+,writable=3Don \
+> > >        --export type=3Dnbd,id=3Dnbd-l1-2,node-name=3Dl1-2,name=3Dl1-2=
+,writable=3Don
+> > >=20
+> > >    qemu-storage-daemon: --export type=3Dnbd,id=3Dnbd-l1-1,node-name=
+=3Dl1-1,name=3Dl1-1,writable=3Don: Permission conflict on node 'nvme0': per=
+missions 'resize' are both required by node 'l1-1' (uses node 'nvme0' as 'f=
+ile' child) and unshared by node 'l1-2' (uses node 'nvme0' as 'file' child)=
+.
+> > >=20
+> > > The problem is that block/raw-format.c relies on bdrv_default_perms()=
+ to
+> > > set permissions on the nvme node. The default permissions add RESIZE =
+in
+> > > anticipation of a format driver like qcow2 that needs to grow the ima=
+ge
+> > > file. This fails because RESIZE is unshared, so we cannot get the RES=
+IZE
+> > > permission.
+> > >=20
+> > > Max Reitz pointed out that block/crypto.c already handles this case b=
+y
+> > > implementing a custom ->bdrv_child_perm() function that adjusts the
+> > > result of bdrv_default_perms().
+> > >=20
+> > > This patch takes the same approach in block/raw-format.c so that RESI=
+ZE
+> > > is only required if it's actually necessary (e.g. the parent is qcow2=
+).
+> > >=20
+> > > Cc: Max Reitz <mreitz@redhat.com>
+> > > Cc: Kevin Wolf <kwolf@redhat.com>
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > > This is not a bug fix, so I didn't mark it for QEMU 6.1. It's new
+> > > behavior that hasn't been supported before. I want to split an NVMe
+> > > drive using the raw format's offset=3D/size=3D feature.
+> > > ---
+> > >   block/raw-format.c | 21 ++++++++++++++++++++-
+> > >   1 file changed, 20 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/block/raw-format.c b/block/raw-format.c
+> > > index 7717578ed6..c26f493688 100644
+> > > --- a/block/raw-format.c
+> > > +++ b/block/raw-format.c
+> > > @@ -580,6 +580,25 @@ static void raw_cancel_in_flight(BlockDriverStat=
+e *bs)
+> > >       bdrv_cancel_in_flight(bs->file->bs);
+> > >   }
+> > > +static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
+> > > +                           BdrvChildRole role,
+> > > +                           BlockReopenQueue *reopen_queue,
+> > > +                           uint64_t parent_perm, uint64_t parent_sha=
+red,
+> > > +                           uint64_t *nperm, uint64_t *nshared)
+> > > +{
+> > > +    bdrv_default_perms(bs, c, role, reopen_queue, parent_perm,
+> > > +                       parent_shared, nperm, nshared);
+> > > +
+> > > +    /*
+> > > +     * bdrv_default_perms() may add WRITE and/or RESIZE (see comment=
+ in
+> > > +     * bdrv_default_perms_for_storage() for an explanation) but we o=
+nly need
+> > > +     * them if they are in parent_perm. Drop WRITE and RESIZE whenev=
+er possible
+> > > +     * to avoid permission conflicts.
+> > > +     */
+> > > +    *nperm &=3D ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > > +    *nperm |=3D parent_perm & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > > +}
+> > > +
+> > >   BlockDriver bdrv_raw =3D {
+> > >       .format_name          =3D "raw",
+> > >       .instance_size        =3D sizeof(BDRVRawState),
+> > > @@ -588,7 +607,7 @@ BlockDriver bdrv_raw =3D {
+> > >       .bdrv_reopen_commit   =3D &raw_reopen_commit,
+> > >       .bdrv_reopen_abort    =3D &raw_reopen_abort,
+> > >       .bdrv_open            =3D &raw_open,
+> > > -    .bdrv_child_perm      =3D bdrv_default_perms,
+> > > +    .bdrv_child_perm      =3D raw_child_perm,
+> > >       .bdrv_co_create_opts  =3D &raw_co_create_opts,
+> > >       .bdrv_co_preadv       =3D &raw_co_preadv,
+> > >       .bdrv_co_pwritev      =3D &raw_co_pwritev,
+> > >=20
+> >=20
+> > I think it's OK:
+> >=20
+> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >=20
+> >=20
+> > Still, did you consider an alternative of making
+> > bdrv_filter_default_perm() function public and just do
+> > ".bdrv_child_perm =3D bdrv_filter_default_perm," here?
+> >=20
+> > raw_format is not considered to be filter, but for it's permissions I
+> > think it works exactly like filter.
+>=20
+> I had the same thought, but then commit 69dca43d6b6 explicitly made the
+> opposite change. I seem to remember that Max never liked raw being
+> treated like a filter much.
 
-For example,
+Additionally:
 
-static bool gen_arith(DisasContext *ctx, arg_fmt_rdrjrk *a,
-                       void (*func)(TCGv, TCGv, TCGv))
-{
-    TCGv dest = gpr_dst(ctx, a->rd);
-    TCGv src1 = gpr_src(ctx, a->rj);
-    TCGv src2 = gpr_src(ctx, a->rk);
+  static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+  {
+  ...
+      /*
+       * Without offset and a size limit, this driver behaves very much
+       * like a filter.  With any such limit, it does not.
+       */
+      if (offset || has_size) {
+          file_role =3D BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY;
+      } else {
+          file_role =3D BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY;
+      }
 
-     func(dest, src1, src2);
-     return true;
-}
+Whether the raw child node acts as FILTERED or DATA depends on whether
+offset=3D/size=3D were given.
 
-#define TRANS(NAME, FUNC, ...) \
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-     { return FUNC(ctx, a, __VA_ARGS__); }
+Stefan
 
-static void gen_add_w(TCGv dest, TCGv src1, TCGv src2)
-{
-     tcg_gen_add_tl(dest, src1, src2);
-     tcg_gen_ext32s_tl(dest, dest);
-}
+--BamFBM83qcEUBR80
+Content-Type: application/pgp-signature; name="signature.asc"
 
-TRANS(add_w, gen_arith, gen_add_w)
-TRANS(add_d, gen_arith, tcg_gen_add_tl)
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmD+2/YACgkQnKSrs4Gr
+c8hlTAgAoVEavLlyZ7NVmSdofBLTFeWnJJHdUmJKF6alAI5OVgw53bwRrVlnelC/
+X6H29CkaYik8zCUySqWcnBNSBl94PxtQFb1i8R59iTa4Byg72u83gNqeoQriYQ7Z
+f3H5DeOlkbe7mM5q2OgLdW5KBjsqoxy/rXnp/MGpZk/As6CPPfpo+ThGY/VkprPV
+Jin2RAq5TmGONKAXXRiJTSWTFpq0MnzN8l+xn9YjUcMC3k/nGbO41lTVceALMhMp
+rF6x/KF7LfaswV5OTD1zwJtOWKMogY70avyL518O0Qgz7myQY5EX6m/zQTmNw91D
+uVAqw6rPeUi5BtkIc+jFNZIRznIvlA==
+=uENr
+-----END PGP SIGNATURE-----
 
-r~
+--BamFBM83qcEUBR80--
+
 
