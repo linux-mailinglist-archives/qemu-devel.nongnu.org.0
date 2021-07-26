@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2831E3D68CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:40:04 +0200 (CEST)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED563D68EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:48:53 +0200 (CEST)
+Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m88KQ-0007D4-MR
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:40:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
+	id 1m88Sy-0004Gd-Ni
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m88JV-0006Ok-63
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m88JR-00009L-IK
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:39:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627335540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KMDtVcleQq6s0YU4e2AEJ+pVl+IDzEQoC8YG6Lp9CTM=;
- b=S4SZVBFrb0SL/tLHeHJpPSoPNO8rZI6CAcXVZcAL94nSjBzHWHzmsztfF9fBEW7o6Wov7Z
- 8jh5Eh/wl7+AN4/LJnCojaBnLYZQANRmbj35GGhSvqpMBktsXqFVleG4W3vTLuPqWvTyVG
- zhF4ElvMPZCyIzZSI+0gEiyHqc7DrNE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-KytFabGTNUyLzQq0qer5WA-1; Mon, 26 Jul 2021 17:38:57 -0400
-X-MC-Unique: KytFabGTNUyLzQq0qer5WA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35DC4871805;
- Mon, 26 Jul 2021 21:38:56 +0000 (UTC)
-Received: from redhat.com (ovpn-114-43.phx2.redhat.com [10.3.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 87AEC60C5F;
- Mon, 26 Jul 2021 21:38:55 +0000 (UTC)
-Date: Mon, 26 Jul 2021 16:38:53 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-6.1? v2 4/7] jobs: Give Job.force_cancel more meaning
-Message-ID: <20210726213853.n7pp5sklriztmn7g@redhat.com>
-References: <20210726144613.954844-1-mreitz@redhat.com>
- <20210726144613.954844-5-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m88Rk-0002Le-7F
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:36 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m88Ri-00064d-FX
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:35 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ mz5-20020a17090b3785b0290176ecf64922so980269pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XkkMpDBXhAYyPCcb4zqpBx/YrT6Q370X+NlgFKUoQu8=;
+ b=DyVq7Uz3VDv4+iWRtNMmWQQBEaPDUlmvbtFpjGYaYgiT+llty6gUdSS6ynUt1klF7b
+ WvP9/RfRTzoR8sU3TeOS1GAXp0s9/+4gPJARUBul48tVgIwr6ouNlrupuHwECGRdvN/y
+ x/w3dEXv1IklaFkfZM9gPtlvx8f8bxZ/8kriVBs0WleNGtqMursal+Xo8hUb6DHAgYmU
+ JF9CDCMf9sqjsUhD5ca5vphg6n6v2gncOKQ31vsPrure2j4nTtIPDN7klG5rIVZ5XHcD
+ /DHKJ97oesjivvqxn4mQs4pfZQRPA0QNaWdxiIDwJRlDpUei1hLkR3JLasztdvSQTpLM
+ QqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XkkMpDBXhAYyPCcb4zqpBx/YrT6Q370X+NlgFKUoQu8=;
+ b=TfpRQeQ5WPZCGGV+r7EobiN1c1g5ILeAx55DWKjviicnGQSOk8EvbNCqUq2aK0KUy3
+ 6gMiAmppuYf9JZ+is+V0ae21mprF/8wkodYhulerKQVygBHmz7v7ghLXfKvqmitBWdO1
+ W/1EOs2SxLB3/02uK193aL/S0CTm3x5niMF+JP2EFbdb7dYWzSN/ASsYo2348VTTKWUp
+ rKIIFeQfn+CsTJiz0JqZ+InNWjtnTe1dSDmMPIC4yQmLeXp0YIDdr51jHwDIP9MIgPbI
+ 2d/kW9XFWCBVBi+u0mYtjOcHigBqXps02uq7syQJgyGflp6pXP2JVIWiiAjfxncUJuvz
+ GYmQ==
+X-Gm-Message-State: AOAM532v0jbl4QkYNSOP7jt99esya1/RUNY6c9FtYyTDT1qX3tJnJ+YV
+ uGRLs4xPZsnIYh2pvttqwyhr0MrFiYFpPA==
+X-Google-Smtp-Source: ABdhPJx1BAphabBRVG04WcIn1Htem1z2EWV6SrfuqB985HWDkeyEJ0X0glo5BuWcVrk9rcag6EBeVA==
+X-Received: by 2002:a17:90a:5141:: with SMTP id
+ k1mr934368pjm.185.1627336052878; 
+ Mon, 26 Jul 2021 14:47:32 -0700 (PDT)
+Received: from cloudburst.home
+ (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
+ [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
+ by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 14:47:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL for-6.1 00/12] tcg and misc patch queue
+Date: Mon, 26 Jul 2021 11:47:17 -1000
+Message-Id: <20210726214729.2062862-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210726144613.954844-5-mreitz@redhat.com>
-User-Agent: NeoMutt/20210205-647-5d4e008
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,52 +85,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 26, 2021 at 04:46:10PM +0200, Max Reitz wrote:
-> We largely have two cancel modes for jobs:
-> 
-> First, there is actual cancelling.  The job is terminated as soon as
-> possible, without trying to reach a consistent result.
-> 
-> Second, we have mirror in the READY state.  Technically, the job is not
-> really cancelled, but it just is a different completion mode.  The job
-> can still run for an indefinite amount of time while it tries to reach a
-> consistent result.
-> 
-> We want to be able to clearly distinguish which cancel mode a job is in
-> (when it has been cancelled).  We can use Job.force_cancel for this, but
-> right now it only reflects cancel requests from the user with
-> force=true, but clearly, jobs that do not even distinguish between
-> force=false and force=true are effectively always force-cancelled.
-> 
-> So this patch has Job.force_cancel signify whether the job will
-> terminate as soon as possible (force_cancel=true) or whether it will
-> effectively remain running despite being "cancelled"
-> (force_cancel=false).
-> 
-> To this end, we let jobs that provide JobDriver.cancel() tell the
-> generic job code whether they will terminate as soon as possible or not,
-> and for jobs that do not provide that method we assume they will.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  include/qemu/job.h | 11 ++++++++++-
->  block/backup.c     |  3 ++-
->  block/mirror.c     | 24 ++++++++++++++++++------
->  job.c              |  6 +++++-
->  4 files changed, 35 insertions(+), 9 deletions(-)
->
+The following changes since commit 34fd92ab4142bde5b54adacd16e6682f4ea83da1:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-for-6.1-rc1-230721-1' into staging (2021-07-26 11:00:15 +0100)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210726
+
+for you to fetch changes up to 2bf07e788eb69bee843be274386fb20f4ab6b0f6:
+
+  tests/unit: Remove unused variable from test_io (2021-07-26 07:07:28 -1000)
+
+----------------------------------------------------------------
+Fix icount accounting.
+Replace bitrev8 with revbit8.
+Fixes for set but not used warnings.
+
+----------------------------------------------------------------
+Mark Cave-Ayland (1):
+      bitops.h: revert db1ffc32dd ("qemu/bitops.h: add bitrev8 implementation")
+
+Peter Maydell (2):
+      accel/tcg: Don't use CF_COUNT_MASK as the max value of icount_decr.u16.low
+      accel/tcg: Remove unnecessary check on icount_extra in cpu_loop_exec_tb()
+
+Richard Henderson (9):
+      nbd/server: Mark variable unused in nbd_negotiate_meta_queries
+      accel/tcg: Remove unused variable in cpu_exec
+      util/selfmap: Discard mapping on error
+      net/checksum: Remove unused variable in net_checksum_add_iov
+      hw/audio/adlib: Remove unused variable in adlib_callback
+      hw/ppc/spapr_events: Remove unused variable from check_exception
+      hw/pci-hist/pnv_phb4: Fix typo in pnv_phb4_ioda_write
+      linux-user/syscall: Remove unused variable from execve
+      tests/unit: Remove unused variable from test_io
+
+ include/qemu/bitops.h  | 22 ----------------------
+ accel/tcg/cpu-exec.c   | 16 ++++++----------
+ hw/audio/adlib.c       |  3 +--
+ hw/m68k/q800.c         |  2 +-
+ hw/pci-host/pnv_phb4.c |  2 +-
+ hw/ppc/spapr_events.c  |  5 -----
+ linux-user/syscall.c   |  3 ---
+ nbd/server.c           |  3 ++-
+ net/checksum.c         |  4 +---
+ tests/unit/test-iov.c  |  5 +----
+ util/selfmap.c         | 29 +++++++++++++++++------------
+ 11 files changed, 30 insertions(+), 64 deletions(-)
 
