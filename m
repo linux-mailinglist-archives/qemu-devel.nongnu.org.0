@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864063D584E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:09:53 +0200 (CEST)
-Received: from localhost ([::1]:46730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0E03D5843
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 13:08:42 +0200 (CEST)
+Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m7yUa-0007zJ-Ic
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50754)
+	id 1m7yTR-0004P9-9X
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 07:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7yQq-0001MD-GS
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7yQp-0001M5-MK
  for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:06:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20205)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7yQi-0004XO-4h
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:05:59 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m7yQm-0004aQ-1q
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 07:05:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627297551;
+ s=mimecast20190719; t=1627297555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yFI/grHANkwgUrvMvQNBnH4O4JxWVJ4Zyp1pB7Hsols=;
- b=dckGaKyBieOjXN7WDh2wR7GI61BzbhqIuFNxnDs7bYaNk9W+q+YxZUbCs4LQZu06URdpJV
- SRE6r5UnoNf1y/0Yo08OfY+YV9IzmEaem7XeJL8bwz2NMtvTECFi+sY+V92+XYlG46AOmg
- emz/A2vCH/IH2CP5l+UslCc6CDSRb7Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Qho4eUmI2j3ooWz1Puc624X/X0cOSrEZ+/Jzjb9PEk=;
+ b=jUbgYZVfJAsh1PctRyqZglOp3pIHIJDCxRfBrIdcdBhhUKNiF6jr5P+904RdVouXauQ8xQ
+ MK0IAATAy3fjwaa4ekcZyauFvEHWYi1gQMeaf53u/n/CkVSwMn3/K7seXcWh/Tw+ASMlgE
+ kRFCJ+5VrfprGNAORqqMhwNfwo6Qkxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-afXrsYhJNCa1gkENr78cog-1; Mon, 26 Jul 2021 07:05:50 -0400
-X-MC-Unique: afXrsYhJNCa1gkENr78cog-1
+ us-mta-502-SOE7j1YDMcq5lbQEQmQmqw-1; Mon, 26 Jul 2021 07:05:53 -0400
+X-MC-Unique: SOE7j1YDMcq5lbQEQmQmqw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80D74C7400;
- Mon, 26 Jul 2021 11:05:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E112D1008061;
+ Mon, 26 Jul 2021 11:05:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC1C160C0F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAF4F60C5F;
  Mon, 26 Jul 2021 11:05:45 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3839E18003A4; Mon, 26 Jul 2021 13:05:44 +0200 (CEST)
+ id 420691800903; Mon, 26 Jul 2021 13:05:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Fixes 20210726 patches
-Date: Mon, 26 Jul 2021 13:05:38 +0200
-Message-Id: <20210726110544.1934386-1-kraxel@redhat.com>
+Subject: [PULL 1/6] ui/gtk: Fix relative mouse with multiple monitors
+Date: Mon, 26 Jul 2021 13:05:39 +0200
+Message-Id: <20210726110544.1934386-2-kraxel@redhat.com>
+In-Reply-To: <20210726110544.1934386-1-kraxel@redhat.com>
+References: <20210726110544.1934386-1-kraxel@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -76,53 +79,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Dennis=20W=C3=B6lfing?= <denniswoelfing@gmx.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a2376507f615495b1d16685449ce0ea78c2caf9d=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
-nto staging (2021-07-24 11:04:57 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/fixes-20210726-pull-request=0D
-=0D
-for you to fetch changes up to 584af1f1d955476aacba3350c4efb5865fc91c09:=0D
-=0D
-  ui/gtk: add a keyboard fifo to the VTE consoles (2021-07-26 10:24:49 +020=
-0)=0D
-=0D
-----------------------------------------------------------------=0D
-ui: fixes for 6.1=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Akihiko Odaki (4):=0D
-  ui/spice: Use HAVE_SPICE_GL for OpenGL checks=0D
-  ui/egl-headless: Remove a check for CONFIG_OPENGL=0D
-  ui/cocoa: Fix the type of main's argv=0D
-  ui: update keycodemapdb submodule commit=0D
-=0D
-Dennis W=C3=B6lfing (1):=0D
-  ui/gtk: Fix relative mouse with multiple monitors=0D
-=0D
-Volker R=C3=BCmelin (1):=0D
-  ui/gtk: add a keyboard fifo to the VTE consoles=0D
-=0D
- include/ui/gtk.h  |  4 +++=0D
- ui/egl-headless.c |  2 --=0D
- ui/gtk.c          | 68 ++++++++++++++++++++++++++++-------------------=0D
- ui/spice-app.c    |  3 ++-=0D
- ui/spice-core.c   |  2 +-=0D
- ui/cocoa.m        |  4 +--=0D
- ui/keycodemapdb   |  2 +-=0D
- 7 files changed, 50 insertions(+), 35 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+From: Dennis Wölfing <denniswoelfing@gmx.de>
+
+To handle relative mouse input the event handler needs to move the mouse
+away from the screen edges. Failing to do so results in the mouse
+getting stuck at invisible walls. However the current implementation for
+this is broken on hosts with multiple monitors.
+
+With multiple monitors the mouse can be located outside of the current
+monitor which is not handled by the current code. Also the monitor
+itself might be located at coordinates different from (0, 0).
+
+Signed-off-by: Dennis Wölfing <denniswoelfing@gmx.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210720143940.291413-1-denniswoelfing@gmx.de>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/gtk.c | 26 +++++++-------------------
+ 1 file changed, 7 insertions(+), 19 deletions(-)
+
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 376b4d528daa..18542c763312 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -865,37 +865,25 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+         GdkWindow *win = gtk_widget_get_window(widget);
+         GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
+         GdkRectangle geometry;
+-        int screen_width, screen_height;
+ 
+         int x = (int)motion->x_root;
+         int y = (int)motion->y_root;
+ 
+         gdk_monitor_get_geometry(monitor, &geometry);
+-        screen_width = geometry.width;
+-        screen_height = geometry.height;
+ 
+         /* In relative mode check to see if client pointer hit
+-         * one of the screen edges, and if so move it back by
+-         * 200 pixels. This is important because the pointer
++         * one of the monitor edges, and if so move it back to the
++         * center of the monitor. This is important because the pointer
+          * in the server doesn't correspond 1-for-1, and so
+          * may still be only half way across the screen. Without
+          * this warp, the server pointer would thus appear to hit
+          * an invisible wall */
+-        if (x == 0) {
+-            x += 200;
+-        }
+-        if (y == 0) {
+-            y += 200;
+-        }
+-        if (x == (screen_width - 1)) {
+-            x -= 200;
+-        }
+-        if (y == (screen_height - 1)) {
+-            y -= 200;
+-        }
+-
+-        if (x != (int)motion->x_root || y != (int)motion->y_root) {
++        if (x <= geometry.x || x - geometry.x >= geometry.width - 1 ||
++            y <= geometry.y || y - geometry.y >= geometry.height - 1) {
+             GdkDevice *dev = gdk_event_get_device((GdkEvent *)motion);
++            x = geometry.x + geometry.width / 2;
++            y = geometry.y + geometry.height / 2;
++
+             gdk_device_warp(dev, screen, x, y);
+             s->last_set = FALSE;
+             return FALSE;
+-- 
+2.31.1
 
 
