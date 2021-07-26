@@ -2,79 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F53D690F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:54:16 +0200 (CEST)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EDB3D6911
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Jul 2021 23:55:45 +0200 (CEST)
+Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m88YB-0000JK-5o
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
+	id 1m88Zc-0004Tc-8U
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 17:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88S0-00039s-8W
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:52 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:34430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m88Ry-0006Fx-Pb
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:47:51 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- b1-20020a17090a8001b029017700de3903so1084650pjn.1
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 14:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QxBjgCMLIKAw85vE8mpb69QJsoP7x3luF33C4fQ6fGY=;
- b=tw0GFODHjjeT/CubWiaPClxZa9EegPJxFDwyEjPeUxAAf8YICDKMyBZp95OcZ7d6Kf
- d30tMCl5UcUIKmLOFT9ImokFLSAF5qQ1LRrJEgCF+XIqJXzUJ3olEOdRLHRoNIQljgYE
- xmQ9YYNLe8kbFsJ/QHsdJPfNzcpCnGrLfNA/vNeBcEbQI/IgFjTOfp2DwBSYiPalZJCh
- NR5+h/+zNPyp27hcSvNuXNfys5nNY+EnSqb48PYMQS1d+GaNp+RsaifneqJYPw41rV/X
- 2ksD7IEKBGRqqyhFchEKAPCa71+MexMianq0VXT8V4x7gHbUw1urLanhlZyDoXXyOH+5
- JB0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QxBjgCMLIKAw85vE8mpb69QJsoP7x3luF33C4fQ6fGY=;
- b=amUlJDBCLyIqRNBHWCamEMDZ5VDo3gHDLMg+uMolv5HH5qloZIq8iH4/cvB6+G3O28
- aYz8m1dd/06KMEXirV3/qcQ4/YQYcLta+tWz+kIIu/p3nz0GkFFLDbZcc+xEWbuG+s3M
- GOTON1uSZBsTw+Pe6HfsvzPuNJziFEfv/sp17mCFEjK6ohrWgUPf2NtVHSAOlDZXH7wQ
- YhzxYOi+fUCerEUQ0+0c7nLPgWAu5boe9fsI+opvSuJk4B52hqZ+wOUhIGBxgRH3vGGV
- 2EC0jzwshJJ60b0oFRGGACzA1uDZarSLKKj0i1U9f9yFSL+CtGxGbr0tNEz7DRvOlK4k
- IxcA==
-X-Gm-Message-State: AOAM533PsWqoM/C2ds4P/0KnjHpFl02d/JZskw5LNjqft4MCjj3B6WT5
- ScmZLkEP4XyzFPDlzAVaSHlhWAGw55U3iQ==
-X-Google-Smtp-Source: ABdhPJyHFDUpzhZTBFT/1oUcewccLwtjeK9tYqb60Z+KJfgps4Gxq96OJv1Jyk1DFaBNz/LIJ3TVlQ==
-X-Received: by 2002:a17:903:2445:b029:12b:9d0e:6b97 with SMTP id
- l5-20020a1709032445b029012b9d0e6b97mr16170274pls.84.1627336069486; 
- Mon, 26 Jul 2021 14:47:49 -0700 (PDT)
-Received: from cloudburst.home
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id e8sm997679pfm.218.2021.07.26.14.47.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 14:47:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m88YV-0002q9-Ri
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:54:35 -0400
+Received: from mga18.intel.com ([134.134.136.126]:20211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m88YT-0001t6-69
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 17:54:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="199551418"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="199551418"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 14:54:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="455897847"
+Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
+ by orsmga007.jf.intel.com with ESMTP; 26 Jul 2021 14:54:27 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.1 12/12] tests/unit: Remove unused variable from test_io
-Date: Mon, 26 Jul 2021 11:47:29 -1000
-Message-Id: <20210726214729.2062862-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210726214729.2062862-1-richard.henderson@linaro.org>
-References: <20210726214729.2062862-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2 1/2] ui/gtk: detach_all option for making all VCs detached
+ upon starting
+Date: Mon, 26 Jul 2021 14:52:46 -0700
+Message-Id: <20210726215246.26435-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210719214157.5863-1-dongwon.kim@intel.com>
+References: <20210719214157.5863-1-dongwon.kim@intel.com>
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=dongwon.kim@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,59 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From clang-13:
-tests/unit/test-iov.c:161:26: error: variable 't' set but not used \
-    [-Werror,-Wunused-but-set-variable]
+With "detach-all=on" for display, all VCs are detached from the beginning.
+This is useful when there are multiple displays assigned to a guest OS.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+v2: Move "detach-all" option to under DisplayGTK as it's GTK specific
+    (Thomas Huth)
+
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
 ---
- tests/unit/test-iov.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ qapi/ui.json | 5 ++++-
+ ui/gtk.c     | 7 +++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/unit/test-iov.c b/tests/unit/test-iov.c
-index 9c415e2f1f..5371066fb6 100644
---- a/tests/unit/test-iov.c
-+++ b/tests/unit/test-iov.c
-@@ -158,7 +158,7 @@ static void test_io(void)
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 1052ca9c38..e37af91683 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1035,13 +1035,16 @@
+ #               assuming the guest will resize the display to match
+ #               the window size then.  Otherwise it defaults to "off".
+ #               Since 3.1
++# @detach-all:  Detach all VirtualConsoles when starting Qemu (default: off).
++#               Since 6.0
+ #
+ # Since: 2.12
+ #
+ ##
+ { 'struct'  : 'DisplayGTK',
+   'data'    : { '*grab-on-hover' : 'bool',
+-                '*zoom-to-fit'   : 'bool'  } }
++                '*zoom-to-fit'   : 'bool',
++                '*detach-all'    : 'bool'  } }
  
-     int sv[2];
-     int r;
--    unsigned i, j, k, s, t;
-+    unsigned i, j, k, s;
-     fd_set fds;
-     unsigned niov;
-     struct iovec *iov, *siov;
-@@ -182,7 +182,6 @@ static void test_io(void)
+ ##
+ # @DisplayEGLHeadless:
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b..48c1fff54f 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2189,6 +2189,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     GdkDisplay *window_display;
+     GtkIconTheme *theme;
+     char *dir;
++    int i;
  
-     FD_ZERO(&fds);
+     if (!gtkinit) {
+         fprintf(stderr, "gtk initialization failed\n");
+@@ -2268,6 +2269,12 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+     }
+     gd_clipboard_init(s);
++
++    if (opts->u.gtk.detach_all) {
++        for (i = 0; i < s->nb_vcs - 1; i++) {
++            gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
++        }
++    }
+ }
  
--    t = 0;
-     if (fork() == 0) {
-        /* writer */
- 
-@@ -201,7 +200,6 @@ static void test_io(void)
-                    g_assert(memcmp(iov, siov, sizeof(*iov)*niov) == 0);
-                    if (r >= 0) {
-                        k += r;
--                       t += r;
-                        usleep(g_test_rand_int_range(0, 30));
-                    } else if (errno == EAGAIN) {
-                        select(sv[1]+1, NULL, &fds, NULL, NULL);
-@@ -238,7 +236,6 @@ static void test_io(void)
-                    g_assert(memcmp(iov, siov, sizeof(*iov)*niov) == 0);
-                    if (r > 0) {
-                        k += r;
--                       t += r;
-                    } else if (!r) {
-                        if (s) {
-                            break;
+ static void early_gtk_display_init(DisplayOptions *opts)
 -- 
-2.25.1
+2.17.1
 
 
