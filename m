@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959873D7A7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:05:33 +0200 (CEST)
-Received: from localhost ([::1]:40866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF3B3D7A8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:09:46 +0200 (CEST)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8PaG-0007cz-2U
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:05:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
+	id 1m8PeL-0002mk-3r
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PX6-000326-Qu
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:02:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34112)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PdG-0001gR-O4
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:08:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PX3-0004Wj-PN
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:02:16 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8Pd8-0000g9-TH
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:08:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627401730;
+ s=mimecast20190719; t=1627402109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tF/804m/i6Te+Rgw6XB6u58fSt5OLkc4F6d1QRyYadE=;
- b=gu+bUrzxz4fJbt26GfyX8Z8tKPxdhFQMd4yAJjOgD3igvmPuVi456EJ6B+OngSH1YhNCIr
- yM5FJHWf8fSUBVaTiuqs2CxXrIdakRMxyJbvNe1WA2i3fKnrt8247km3Iz/TzA7EfIwIbb
- ZL+eEKm2R6Lzk0z9WvGPV6iQN2UdCaA=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-kQgaSZAtPsKRwpnBxWi5Lg-1; Tue, 27 Jul 2021 12:02:07 -0400
-X-MC-Unique: kQgaSZAtPsKRwpnBxWi5Lg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bm25-20020a05620a1999b02903a9c3f8b89fso11962696qkb.2
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:02:07 -0700 (PDT)
+ bh=8X7BDZj2kyOTBsqcK49p6o5fNjAyjBZ5Y5X/Z2qPShA=;
+ b=iz1clAusHx1kjh/xxzKHZir0h84VDMxAjxdyRLP7UCpkNlHoP4HxXTebXIDD1WM8iJcpH7
+ gDQ+f4HszQmHa6RidKG4P1vJL//X8uP9qnQDijxve/G2DgAU9GZSsjmJ+dfzzbBz9kXaaR
+ FhczBnAqXWgvr2NAZ/B9UfQRjNtiMvY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-kbqQfXXEOGah_pumDNv08w-1; Tue, 27 Jul 2021 12:08:26 -0400
+X-MC-Unique: kbqQfXXEOGah_pumDNv08w-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ v16-20020a0562140510b029032511e85975so9780364qvw.23
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:08:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tF/804m/i6Te+Rgw6XB6u58fSt5OLkc4F6d1QRyYadE=;
- b=Nn5rmXx0IMgoTDj9JfosreLXlE8ANfVLFJBgE07sj5ozzKDsMgLnf+OMZkekcF/8Pt
- p6fFSy84x2j7hI4sNrqkiwc1TxcgkoDMNzK8fGOUHA+k2P2gfE0q7BkYEl/DT7kpzOBW
- dIrxF/q16O6yO9jMNeOAIVWFB6OKS+b7jPSt9m0KOrMHej+S07mY+1cp/oVnyScnNOle
- u6bKlkcbKAs0PfjqnLvgolJL/eQ1ePFvJbDFl19PBD5ZvHzR8DzZ3wo4Q7xTTWMuviSw
- cIVmC9aLSjowcWSHJD1wbf2bK5bquhUtNXqL+hFAVLud8HBic8hPeYboEeV+9rCI8cCe
- FcSQ==
-X-Gm-Message-State: AOAM532xqFX/33R4lCzvfxBmhzZ+LLAnINRZja4+00dolGr5QDaov93t
- hw/Q7eSzW3CP1JeufHlXTNgu8Z3y4w+G/TgCsIMQvUXPEIp477uzRcGhYR1sQgabvz+uNjZwyqY
- OZkCCm2lKAlkcK0Y=
-X-Received: by 2002:ac8:47d9:: with SMTP id d25mr19757463qtr.277.1627401726817; 
- Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGg/lHfI/QsMJ2CNQeCAiNeo4i0UUc+yDB5XRFfG194SQ4PPU5+sowjX12wvMUdGMmdP/y0A==
-X-Received: by 2002:ac8:47d9:: with SMTP id d25mr19757439qtr.277.1627401726588; 
- Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
+ bh=8X7BDZj2kyOTBsqcK49p6o5fNjAyjBZ5Y5X/Z2qPShA=;
+ b=Z7L1EruSLoZsIeJvLdUKGO6O+dBK93gwwh21Q1mGofxXHFBrAtX/9IP2VXPgrlfd2f
+ Y/VwYhxirZ3f7XU640iNK8bXW8+sSlmXDSN9i4El1s+D8fkSzIC8gDP1GxoljXYEyjY2
+ 6gImXcgbuesfgFC9fnsvzhR+yg8NXcNpz85hkGFtv7zTwmyD0EZ/ASHQ/SQ1lJ40F0pc
+ l+qyPvXWkIAT77eZb05A15r9HpEZxgQayTRIziatS/KcIv8s0jdNL+8fz7ipPgTcD3W2
+ eqyBq2sAISeiNDD6upTBHBw3cUdc7xgXV2J8jJDfKxncFN6M1tPZsmE+pTcfrKbVcMsz
+ ncoQ==
+X-Gm-Message-State: AOAM530KZQTJNIkP7uOoQ8f9yfd/8hbgfVjoJOBNV1YVM5wInF80DY/F
+ yK6tBWq/qZz7tVBuZv0prBUuhFOQ/Kwqv2uH2woG2lb5qpijeOtWHqZ9lFNEXAi0DdXlF/ymEHq
+ nGyDRqVMwkt6d7kM=
+X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr20027883qtd.240.1627402105859; 
+ Tue, 27 Jul 2021 09:08:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyO/JN4qfecr+HwV6iG4ioqcERTONi0332orQRZYuhJj/DVGin5Q72alUlQHckGEYoPWmSW+Q==
+X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr20027864qtd.240.1627402105661; 
+ Tue, 27 Jul 2021 09:08:25 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id s81sm1890447qka.82.2021.07.27.09.02.05
+ by smtp.gmail.com with ESMTPSA id az37sm1753481qkb.91.2021.07.27.09.08.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
-Date: Tue, 27 Jul 2021 12:02:05 -0400
+ Tue, 27 Jul 2021 09:08:24 -0700 (PDT)
+Date: Tue, 27 Jul 2021 12:08:24 -0400
 From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 4/9] memory: Don't do topology update in memory
- finalize()
-Message-ID: <YQAt/V06OZgjhpI6@t490s>
+Subject: Re: [PATCH v2 7/9] cpus: Introduce
+ qemu_mutex_unlock_iothread_prepare()
+Message-ID: <YQAveIvA2SB1SmSI@t490s>
 References: <20210723193444.133412-1-peterx@redhat.com>
- <20210723193444.133412-5-peterx@redhat.com>
- <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
+ <20210723193444.133412-8-peterx@redhat.com>
+ <0fb73c64-f915-7630-ba64-0524c6b8ed40@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
+In-Reply-To: <0fb73c64-f915-7630-ba64-0524c6b8ed40@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.717, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,60 +100,65 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 27, 2021 at 03:21:31PM +0200, David Hildenbrand wrote:
+On Tue, Jul 27, 2021 at 02:59:26PM +0200, David Hildenbrand wrote:
 > On 23.07.21 21:34, Peter Xu wrote:
-> > Topology update could be wrongly triggered in memory region finalize() if
-> > there's bug somewhere else.  It'll be a very confusing stack when it
-> > happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
-> > only until it fails!).
+> > The prepare function before unlocking BQL.  There're only three places that can
+> > release the BQL: unlock(), cond_wait() or cond_timedwait().
 > > 
-> > Instead of that, we use the push()/pop() helper to avoid memory transaction
-> > commit, at the same time we use assertions to make sure there's no pending
-> > updates or it's a nested transaction, so it could fail even earlier and in a
-> > more explicit way.
-> > 
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 > > Signed-off-by: Peter Xu <peterx@redhat.com>
 > > ---
-> >   softmmu/memory.c | 23 +++++++++++++++++++++--
-> >   1 file changed, 21 insertions(+), 2 deletions(-)
+> >   softmmu/cpus.c | 7 +++++++
+> >   1 file changed, 7 insertions(+)
 > > 
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 1a3e9ff8ad..dfce4a2bda 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
-> >       EventNotifier *e;
-> >   };
-> > +/* Returns whether there's any pending memory updates */
-> > +static bool memory_region_has_pending_update(void)
+> > diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> > index 9131f77f87..6085f8edbe 100644
+> > --- a/softmmu/cpus.c
+> > +++ b/softmmu/cpus.c
+> > @@ -66,6 +66,10 @@
+> >   static QemuMutex qemu_global_mutex;
+> > +static void qemu_mutex_unlock_iothread_prepare(void)
 > > +{
-> > +    return memory_region_update_pending || ioeventfd_update_pending;
 > > +}
 > > +
-> >   static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
-> >                                              MemoryRegionIoeventfd *b)
+> >   bool cpu_is_stopped(CPUState *cpu)
 > >   {
-> > @@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
-> >        * and cause an infinite loop.
-> >        */
-> >       mr->enabled = false;
-> > -    memory_region_transaction_begin();
-> > +
-> > +    /*
-> > +     * Use push()/pop() instead of begin()/commit() to make sure below block
-> > +     * won't trigger any topology update (which should never happen, but it's
-> > +     * still a safety belt).
-> > +     */
+> >       return cpu->stopped || !runstate_is_running();
+> > @@ -523,16 +527,19 @@ void qemu_mutex_unlock_iothread(void)
+> >   {
+> >       g_assert(qemu_mutex_iothread_locked());
+> >       iothread_locked = false;
+> > +    qemu_mutex_unlock_iothread_prepare();
+> >       qemu_mutex_unlock(&qemu_global_mutex);
+> >   }
+> >   void qemu_cond_wait_iothread(QemuCond *cond)
+> >   {
+> > +    qemu_mutex_unlock_iothread_prepare();
+> >       qemu_cond_wait(cond, &qemu_global_mutex);
+> >   }
+> >   void qemu_cond_timedwait_iothread(QemuCond *cond, int ms)
+> >   {
+> > +    qemu_mutex_unlock_iothread_prepare();
+> >       qemu_cond_timedwait(cond, &qemu_global_mutex, ms);
+> >   }
+> > 
 > 
-> Hmm, I wonder if we can just keep the begin/end semantics and just do an
-> assertion before doing the commit? Does anything speak against that?
+> I'd squash this patch into the next one.
+> 
+> I don't quite like the function name, but don't really have a better
+> suggestion .... maybe qemu_mutex_might_unlock_iothread(), similar to
+> might_sleep() or might_fault() in the kernel. (although here it's pretty
+> clear and not a "might"; could be useful in other context where we might
+> conditionally unlock the BQL at some point in the future, though)
 
-That sounds working too for the case of run_on_cpu and similar, but I think
-this patch should be able to cover more.  For example, it's possible depth==0
-when enter memory_region_finalize(), but some removal of subregions could
-further cause memory layout changes.  IMHO we should also bail out early for
-those cases too.  Thanks,
+Yes, IMHO "might" describes a capability of doing something, here it's not
+(this one should only be called right before releasing bql, not within any
+context of having some capability).  The other option I thought was "pre" but
+it will be just a short version of "prepare".
+
+Let me know if you have a better suggestion on naming. :) Otherwise I'll keep
+the naming, squash this patch into the next and keep your r-b for that.
+
+Thanks,
 
 -- 
 Peter Xu
