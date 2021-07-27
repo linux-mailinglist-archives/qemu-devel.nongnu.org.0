@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D493D7BB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:08:03 +0200 (CEST)
-Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2A23D7BF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:14:31 +0200 (CEST)
+Received: from localhost ([::1]:44150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8QYk-0005KC-U9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
+	id 1m8Qf0-000423-GF
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWM-0008Vx-QD
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:34 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:36064)
+ id 1m8QWO-00009M-Ej
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:36 -0400
+Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:36066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWK-0007Md-KR
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:34 -0400
+ id 1m8QWK-0007Me-KU
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:36 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id 67CD41F43319
+ (Authenticated sender: fahien) with ESMTPSA id B25A81F4331A
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] virtio-gpu: CONTEXT_INIT feature
-Date: Tue, 27 Jul 2021 19:05:04 +0200
-Message-Id: <20210727170510.2116383-2-antonio.caggiano@collabora.com>
+Subject: [PATCH 2/7] virtio-gpu: hostmem [wip]
+Date: Tue, 27 Jul 2021 19:05:05 +0200
+Message-Id: <20210727170510.2116383-3-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
 References: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
@@ -50,100 +50,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antonio Caggiano <antonio.caggiano@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create virgl renderer context with flags using context_id when valid.
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 ---
- hw/display/virtio-gpu-base.c                |  2 ++
- hw/display/virtio-gpu-virgl.c               | 10 ++++++++--
- include/hw/virtio/virtio-gpu-bswap.h        |  2 +-
- include/standard-headers/linux/virtio_gpu.h |  9 +++++++--
- 4 files changed, 18 insertions(+), 5 deletions(-)
+ hw/display/virtio-gpu-base.c                |  4 +++
+ hw/display/virtio-gpu-pci.c                 | 14 +++++++++
+ hw/display/virtio-gpu.c                     |  1 +
+ hw/display/virtio-vga.c                     | 32 +++++++++++++++------
+ include/hw/virtio/virtio-gpu.h              |  5 ++++
+ include/standard-headers/linux/virtio_gpu.h |  5 ++++
+ 6 files changed, 52 insertions(+), 9 deletions(-)
 
 diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index c8da4806e0..619185a9d2 100644
+index 619185a9d2..31b430664f 100644
 --- a/hw/display/virtio-gpu-base.c
 +++ b/hw/display/virtio-gpu-base.c
-@@ -212,6 +212,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
+@@ -214,6 +214,10 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
  
-+    features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
+     features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
+ 
++    if (virtio_gpu_hostmem_enabled(g->conf)) {
++        features |= (1 << VIRTIO_GPU_F_HOSTMEM);
++    }
 +
      return features;
  }
  
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 18d054922f..5a184cf445 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -97,8 +97,14 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
-     trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
-                                     cc.debug_name);
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index e36eee0c40..9808663d05 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -33,6 +33,20 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *vdev = DEVICE(g);
+     int i;
  
--    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
--                                  cc.debug_name);
-+    if (cc.context_init) {
-+        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
-+                                                 cc.context_init,
-+                                                 cc.nlen,
-+                                                 cc.debug_name);
-+    } else {
-+        virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
++    if (virtio_gpu_hostmem_enabled(g->conf)) {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
 +    }
- }
++
++    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
+     virtio_pci_force_virtio_1(vpci_dev);
+     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
+         return;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 990e71fd40..9686f17d79 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1392,6 +1392,7 @@ static Property virtio_gpu_properties[] = {
+                      256 * MiB),
+     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
+                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
++    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- static void virgl_cmd_context_destroy(VirtIOGPU *g,
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-index e2bee8f595..6267cb57e5 100644
---- a/include/hw/virtio/virtio-gpu-bswap.h
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -24,7 +24,7 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
-     le32_to_cpus(&hdr->flags);
-     le64_to_cpus(&hdr->fence_id);
-     le32_to_cpus(&hdr->ctx_id);
--    le32_to_cpus(&hdr->padding);
-+    le32_to_cpus(&hdr->info);
- }
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 9e57f61e9e..61993dd3f2 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -125,16 +125,30 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     pci_register_bar(&vpci_dev->pci_dev, 0,
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &vga->vram);
  
- static inline void
+-    /*
+-     * Configure virtio bar and regions
+-     *
+-     * We use bar #2 for the mmio regions, to be compatible with stdvga.
+-     * virtio regions are moved to the end of bar #2, to make room for
+-     * the stdvga mmio registers at the start of bar #2.
+-     */
+-    vpci_dev->modern_mem_bar_idx = 2;
+-    vpci_dev->msix_bar_idx = 4;
+     vpci_dev->modern_io_bar_idx = 5;
++  
++    if (!virtio_gpu_hostmem_enabled(g->conf)) {
++        /*
++        * Configure virtio bar and regions
++        *
++        * We use bar #2 for the mmio regions, to be compatible with stdvga.
++        * virtio regions are moved to the end of bar #2, to make room for
++        * the stdvga mmio registers at the start of bar #2.
++        */
++        vpci_dev->modern_mem_bar_idx = 2;
++        vpci_dev->msix_bar_idx = 4;
++    } else {
++        vpci_dev->msix_bar_idx = 1;
++        vpci_dev->modern_mem_bar_idx = 2;
++        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
++                           g->conf.hostmem);
++        pci_register_bar(&vpci_dev->pci_dev, 4,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                         &g->hostmem);
++        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
++    }
+ 
+     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
+         /*
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 24c6628944..835ebcb1a0 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -102,12 +102,15 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+ #define virtio_gpu_blob_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
++#define virtio_gpu_hostmem_enabled(_cfg) \
++    (_cfg.hostmem > 0)
+ 
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
+     uint32_t flags;
+     uint32_t xres;
+     uint32_t yres;
++    uint64_t hostmem;
+ };
+ 
+ struct virtio_gpu_ctrl_command {
+@@ -131,6 +134,8 @@ struct VirtIOGPUBase {
+     int renderer_blocked;
+     int enable;
+ 
++    MemoryRegion hostmem;
++
+     struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
+ 
+     int enabled_output_bitmask;
 diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
-index 1357e4774e..c9f9c24d6a 100644
+index c9f9c24d6a..85898d41a7 100644
 --- a/include/standard-headers/linux/virtio_gpu.h
 +++ b/include/standard-headers/linux/virtio_gpu.h
-@@ -59,6 +59,11 @@
-  * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
+@@ -65,6 +65,11 @@
   */
- #define VIRTIO_GPU_F_RESOURCE_BLOB       3
-+/*
-+ * VIRTIO_GPU_CMD_CREATE_CONTEXT with
-+ * context_init
-+ */
-+#define VIRTIO_GPU_F_CONTEXT_INIT        4
+ #define VIRTIO_GPU_F_CONTEXT_INIT        4
  
++/*
++ * shared memory
++ */
++#define VIRTIO_GPU_F_HOSTMEM             5
++
  enum virtio_gpu_ctrl_type {
  	VIRTIO_GPU_UNDEFINED = 0,
-@@ -129,7 +134,7 @@ struct virtio_gpu_ctrl_hdr {
- 	uint32_t flags;
- 	uint64_t fence_id;
- 	uint32_t ctx_id;
--	uint32_t padding;
-+	uint32_t info;
- };
- 
- /* data passed in the cursor vq */
-@@ -272,7 +277,7 @@ struct virtio_gpu_resource_create_3d {
- struct virtio_gpu_ctx_create {
- 	struct virtio_gpu_ctrl_hdr hdr;
- 	uint32_t nlen;
--	uint32_t padding;
-+	uint32_t context_init;
- 	char debug_name[64];
- };
  
 -- 
 2.30.2
