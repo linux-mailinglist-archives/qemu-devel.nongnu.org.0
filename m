@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775D13D776E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 15:48:11 +0200 (CEST)
-Received: from localhost ([::1]:46624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85C03D7776
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 15:49:35 +0200 (CEST)
+Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8NRK-0007uy-2a
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 09:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1m8NSg-0000xN-PH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 09:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8NQb-0007FJ-0B
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:47:25 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41547)
+ id 1m8NRn-0000Gx-0U
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:48:39 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8NQZ-0001Sw-Fy
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:47:24 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id x90so9049936ede.8
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 06:47:22 -0700 (PDT)
+ id 1m8NRl-0002Fp-Dv
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:48:38 -0400
+Received: by mail-ed1-x532.google.com with SMTP id z26so15467595edr.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 06:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XU4InaJWOJ5VADzWRzMtfMqBGo0Ld1RaVDZvpFv6mcw=;
- b=y3waN348wqLPJ1GV+MhrrpXxQQi+yH8vo1Y/udUL9K55k1GiIUwBH/5bBkz2obddI/
- EBdnxlFhm5wfdwjZGQ5VSdtw/BM8vSGjBoKszZ/LVA/ivjgN85SMjMLSkyb1d2HLP7Qw
- ilmWQNvSKjSbTCeK9dgFHKyxHbqgauDQlVpx2DWM2lYzfI1tIR2FC2BeW1M+RdsRsXc8
- wVWlQIhS4V89Zg4w5kdk0bDLCeOmP3AOIrNN8qljZR4waw3sb+xZcFx7/zora4XlZi7H
- +EA8oisnaaUQuQRNbNfeJNWf4w/qogdwPXt+C8ANNKdaNbMmQ7iwiVwfXWaCA+4UGuZN
- hlMQ==
+ :cc; bh=GnRhRiKjHZdIa5CuWhQq2K24UUMDj0z2MMk8hRUarB0=;
+ b=kVsfw0Am6biptykMSpdtyHKTIRTD6T6wEuazAH6r4UP1QUMZEHJNjTFdHSNQXNRtTn
+ g28PfVYq0nEuVh22V14cRP6w8hPBALBYbgK77KUuCb0PkAphiwnk4AnS+7DA/Aytan6+
+ 3/Wq0DFDLKA1ERZm0X3t4UigX9j9f3D88+JjJUtYtLAPISAbffKNmRgkosredZwmGv38
+ 0e7xNFTB9fj308VFq5pUbNSVNu+jPff8YinVxGx6XSdmOUJeeMftBFivMW7fR9iJEKyH
+ TEhFPNwdFNN94n0rkCoPm/om4X87C+ykLLx3Gqa/kTkLt9Z9kuA8sWjES7QTk10WMkoA
+ Zjzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XU4InaJWOJ5VADzWRzMtfMqBGo0Ld1RaVDZvpFv6mcw=;
- b=FPsLQfM0UfkhTQmQSLQNuzE6oywwkiQbYUhz+12a2sy+dIGgiNqmGu6vUvm0l05na9
- HEvxkH7qltBlfgVOGmHRkzdxSXi0V0qKcCyuLFWsKE5H5LLiz9ozZuDx9z3h89u8j116
- mSzAL3BXoBvoye/hFzkrFzmVQmakxDmX0F0bpVU2AtjUiITdJ2lrf5gxbt0uYNaPxmSe
- RQM63if4XUb1v2B5A0rUU7S2K8hPno5wWn0cfDzbTtoYDsgsPgmwR2qGECAapAP+awZg
- h5U9cM3Ns9wLey9jm71Rnr7414/wFeO0qV2oC8Wg/ZFDbtHV4wEET4bF1A9/E1S5IbOp
- oulQ==
-X-Gm-Message-State: AOAM531PMPrKMqLv9IJx95WgXIi5WRkIjI4VILjtucEGR6K0pKILoEKP
- DKDJDuv/YeNkJSku/XhHp40SKruOpxpWT8VI5ZvWIw==
-X-Google-Smtp-Source: ABdhPJy4RpdiVPDXZgQej1TXvf+UXh70aF7T7nvgFsYrAe9OT8Pti6XdultxE6aE+Mavft7K2iYQBjbJqZDjQDJQ35w=
-X-Received: by 2002:aa7:d30e:: with SMTP id p14mr8958785edq.204.1627393641799; 
- Tue, 27 Jul 2021 06:47:21 -0700 (PDT)
+ bh=GnRhRiKjHZdIa5CuWhQq2K24UUMDj0z2MMk8hRUarB0=;
+ b=LULBZZzIUnp+u5T2Q8AQHXSmSBo3HG6c+YflNyWde8WA4cV7JdT0dcvCFoJMUGHep1
+ bwblwlb5gHsgupbavMMy1bTrr/g1so18uxC1vUDeg/g3aMgFnfFWdst+8i3Y5HCIoicT
+ niKSX0zVtlKHzZq/XsW8y+B5olCC4zjQPM+cwYXKYHa9IuZmhQt/eKbCGWV220dUdMXT
+ ysLYDseiMcQ33SFuvOcUyg66GiqZ481iLgP/TaCWK0fNfJHIgXBOvt6QGvjGPy8ent0z
+ OtOP2CH0AxtU3HcCfjwKtDS5EGG7CHjVoM7qs8mScLUNXmvGEGQNKsusn6jQV0s8YjBK
+ wavg==
+X-Gm-Message-State: AOAM532MiT3OCIKmBswnlGCXFn28tsvspE4y4//w7fTz8+EkUKSYw5jL
+ 4PHKEXcaLRWDEjbfpMEco1410Z7i3PEaq3fbCns3Uz7k95I=
+X-Google-Smtp-Source: ABdhPJwNVEmxunOqq0IcqEqXpoPmBTYLO7a7bNhwaJd9MQZdn8R0MSfGO/JE5T3C0yI9lDK5Ij4/X7gizsXFUqRs8lU=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr27249510edy.44.1627393715564; 
+ Tue, 27 Jul 2021 06:48:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <87pmv4zj22.fsf@p50.localhost.localdomain>
- <CAFEAcA-UZMGK3azd5fHGhk8vivzv4agY=GXLAdWJfsErDkORPg@mail.gmail.com>
- <CA+bd_6K1QWbi17sCBNcBqZgTWcrgtJ3trKJ7v2ZRTnXHO9G=bg@mail.gmail.com>
-In-Reply-To: <CA+bd_6K1QWbi17sCBNcBqZgTWcrgtJ3trKJ7v2ZRTnXHO9G=bg@mail.gmail.com>
+ <CAFEAcA8eEyhhV88RoTfSMnQb05uODYcL4RVHOzLaxPGPUUc_GA@mail.gmail.com>
+ <CA+bd_6+zxLQP1XL_wXM3UZvbAZ6FvNspzSAV7XGqrEgfWjWFZQ@mail.gmail.com>
+In-Reply-To: <CA+bd_6+zxLQP1XL_wXM3UZvbAZ6FvNspzSAV7XGqrEgfWjWFZQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Jul 2021 14:46:39 +0100
-Message-ID: <CAFEAcA8omDvvyMN02rFBhXF0LkpX1B9ERr95Aq-onU2NRrwmtg@mail.gmail.com>
+Date: Tue, 27 Jul 2021 14:47:53 +0100
+Message-ID: <CAFEAcA8aEkSRABqJ4-_SJ9-dS=M4jeaW=OQH99BaZUs5Lq0u=w@mail.gmail.com>
 Subject: Re: Regression caught by
  replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
 To: Cleber Rosa <crosa@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,16 +86,23 @@ Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Jul 2021 at 14:18, Cleber Rosa <crosa@redhat.com> wrote:
+On Tue, 27 Jul 2021 at 14:24, Cleber Rosa <crosa@redhat.com> wrote:
+> Yes, I've spent quite some time with some flaky behavior while running
+> the replay tests as well. But in the end, the test remained unchanged
+> because we found the issues in the actual code under test (one time
+> the recording of the replay file would sometimes be corrupted when
+> using >=1 CPUs, but 100% of the time when using a single CPU).
 >
-> On Tue, Jul 27, 2021 at 3:37 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > This is probably fixed by
-> > https://patchew.org/QEMU/20210725174405.24568-1-peter.maydell@linaro.org/
-> > (which is in RTH's pullreq currently on list).
+> This time, it was failing 100% of the time in my experience, and now,
+> after the fix in df3a2de51a07089a4a729fe1f792f658df9dade4, it's
+> passing 100% of the time.  So I guess even tests with some observed
+> flakiness can have their value.
 
-> Actually, it is already fixed by df3a2de51a07089a4a729fe1f792f658df9dade4.
-
-That is the patchset I linked to above, which has now reached master :-)
+To me they have very little value, because once I notice a test
+is flaky I simply start to ignore whether it is passing or failing,
+and then it might as well not be there at all.
+(This is happening currently with the gitlab CI tests, which have
+been failing for a week.)
 
 -- PMM
 
