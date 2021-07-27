@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5373D739F
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1363D739E
 	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:49:47 +0200 (CEST)
-Received: from localhost ([::1]:37300 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Kef-0004GI-Pc
+	id 1m8Kef-0004HS-P3
 	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Kd5-0001eE-Bz
+ id 1m8Kd5-0001eM-Ra
  for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:07 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36505)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Kd3-0004rL-Gp
+ id 1m8Kd3-0004rO-JM
  for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:07 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g15so14674956wrd.3
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:04 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id h14so6693567wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Vm8qkI5Fksw2oZJcXjM/ZMr+MZw51dyeLAEO49VBPmY=;
- b=fzXBuf73wSDfGTfJMQALf+KXisgVLb9wD1ezupo8bX7fPhChiO+3OZ+RveDU4VweiV
- m9WVVBnE5N5jI6PbRLLETz9D6ZRPPM7IcTx4wprrneoVzJZzZRWJ/kugmV0ygyhBCdvX
- C5+oQR9WRmKp+QshhE7duG1Cw/Cw3HtJiErp2Nr+LS+L8jb6naoHxQi+fYUBs7GZ0XT9
- +kypNM+Ap9J52n42x9Ef/iVyHPudwEXI1wiWd2otvnm8ekTjc6WBWZzFAHoLFAsuYnCO
- 64tnIusnJDL60qbJwqbLrsG/XvCLglFHuOVM5NRaODnkakRnsEpDFHY9879OKjI7LAis
- SjKg==
+ bh=1mZJ5FGvYLau6qKYyaJX7Qgxa7nGm6Q4YV3hT8YcFO0=;
+ b=SHxxglEmzEVG8HQ1zLp5BxASUP0gA5uO7697FTD4OVaZevenor+lNeqruL6Sp13fm4
+ oHqm+BC0UaPsxiMugO7ClOgMJE9kM2cewVcleVPchuZqTLyDoF9b5Pd9wZv3ScMmp4T4
+ VeKGPXqPFr82Sh0dVQXn3ThrywsqkR2PNPnzfGBUgmsLJP2yQtOiA9hChY7sh55kblZs
+ pO0VZutwzmwU3sR+sogkbVkZgXl3HjyE1ajHDz0O4cLQ0tMRZSBHTwWBGcKc3cFTFtax
+ TVgB/5wvnOCleNcyljaynA76k3lwdz8pOz2ZXp770lCWNRGdPChRnR6sp4jA7Ijph4I9
+ N+4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vm8qkI5Fksw2oZJcXjM/ZMr+MZw51dyeLAEO49VBPmY=;
- b=VHlXhJxf0diX+BbvyJ4r41C3b56lbISu/Lm7gfLePthfDRSz7L9azsIKckhBfRFBZE
- zLrHA0JUzdp0pmE472PmUJZk6Livf5ZKg5FdCSzyDbJcolxj9wwiFxJ2REzRPqHjHQXq
- mHfl6z9qRvC0//qdNaCTskjL14V5nbHWa/gCZ4SsHqfnsLvSNBdrbcyd0Zt1t+FmwKRh
- n7/sMk44CVmMY0vxVbEjeBloAvf6+Ug52FMTm9goJi9MZZnEg1fkwch0oPUxVDdOD3LW
- obWqlNODCEB9Kn7ONCsVw78dqvSQEeeVrsA/6eBHOLYLsOQnwM4mLET8iVXOpUd9sfnE
- 1IzQ==
-X-Gm-Message-State: AOAM533m0HfQC2u0MMd7/Y4Cw7/pykF80zRA00q8Rq2V0WjHy3/XEcF1
- f6WzJRHtjPDqD3YAm1J8CauhYT3v1J4qDA==
-X-Google-Smtp-Source: ABdhPJySCfJg4+MNnO4nqxtTEw34KdcKajl/sYkiu4CsPvIE/FQ6vNCm3EM5mIUk4XTyDb8LaHHj7A==
-X-Received: by 2002:a05:6000:184c:: with SMTP id
- c12mr14302430wri.52.1627382883456; 
- Tue, 27 Jul 2021 03:48:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1mZJ5FGvYLau6qKYyaJX7Qgxa7nGm6Q4YV3hT8YcFO0=;
+ b=cwTzO36AmtWY153DaYT5onNBUrYlJz/WRlJIxWISA7T62W1lf41oQUBc0FJBnAuXmQ
+ oMeJn5ycmal/eWwNNcGZHqQOiFSApGni9ul09/ncGSIUw5oplvT2p+nF53ZKPvXH1Cm9
+ YZbTKEnuqSChGQCDmTrPrCDcdxJvfm60ZGaLYAKqbBhoiMh32ot7aZIL7LPQnbdCUQ91
+ csuE1gA85DBN9pdauloFWwA8zn0qyQMDC+D3XyKK0kuzD6gQbGkO84+ZDAGNy+lLimjB
+ KkIUUcRrOokxmdqk0/ACiLu2o0EmGpzNudcDemhukTapLkt0XNPbsfy43jB0WFUNEHCM
+ E/Bg==
+X-Gm-Message-State: AOAM531FxwiKAGkG0mFF4CqVGOdezCpmShLLL9xGgdsmYAAtp1SkWeUQ
+ LE1wnz4HwKDoLEzMvTL5mRP1/oGBEaMQGQ==
+X-Google-Smtp-Source: ABdhPJw5dfSBDVVlMdSqAqOGx1vYd5b2gJAst5mrA8Ijm0lL8TW1tULfHu6TJWdRlmUPSJ/zevpYbQ==
+X-Received: by 2002:adf:d087:: with SMTP id y7mr2715884wrh.323.1627382884168; 
+ Tue, 27 Jul 2021 03:48:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.02
+ by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Jul 2021 03:48:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] target-arm queue
-Date: Tue, 27 Jul 2021 11:47:47 +0100
-Message-Id: <20210727104801.29728-1-peter.maydell@linaro.org>
+Subject: [PULL 01/14] hw/arm/smmuv3: Check 31st bit to see if CD is valid
+Date: Tue, 27 Jul 2021 11:47:48 +0100
+Message-Id: <20210727104801.29728-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210727104801.29728-1-peter.maydell@linaro.org>
+References: <20210727104801.29728-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,82 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-arm pullreq for rc1. All minor bugfixes, except for the sve-default-vector-length
-patches, which are somewhere between a bugfix and a new feature.
+From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-thanks
--- PMM
+The bit to see if a CD is valid is the last bit of the first word of the CD.
 
-The following changes since commit c08ccd1b53f488ac86c1f65cf7623dc91acc249a:
+Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
+Message-id: 1626728232-134665-2-git-send-email-joe.komlodi@xilinx.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/smmuv3-internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210726' into staging (2021-07-27 08:35:01 +0100)
+diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+index 3dac5766ca3..d1885ae3f25 100644
+--- a/hw/arm/smmuv3-internal.h
++++ b/hw/arm/smmuv3-internal.h
+@@ -570,7 +570,7 @@ static inline int pa_range(STE *ste)
+ 
+ /* CD fields */
+ 
+-#define CD_VALID(x)   extract32((x)->word[0], 30, 1)
++#define CD_VALID(x)   extract32((x)->word[0], 31, 1)
+ #define CD_ASID(x)    extract32((x)->word[1], 16, 16)
+ #define CD_TTB(x, sel)                                      \
+     ({                                                      \
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210727
-
-for you to fetch changes up to e229a179a503f2aee43a76888cf12fbdfe8a3749:
-
-  hw: aspeed_gpio: Fix memory size (2021-07-27 11:00:00 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/smmuv3: Check 31st bit to see if CD is valid
- * qemu-options.hx: Fix formatting of -machine memory-backend option
- * hw: aspeed_gpio: Fix memory size
- * hw/arm/nseries: Display hexadecimal value with '0x' prefix
- * Add sve-default-vector-length cpu property
- * docs: Update path that mentions deprecated.rst
- * hw/intc/armv7m_nvic: for v8.1M VECTPENDING hides S exceptions from NS
- * hw/intc/armv7m_nvic: Correct size of ICSR.VECTPENDING
- * hw/intc/armv7m_nvic: ISCR.ISRPENDING is set for non-enabled pending interrupts
- * target/arm: Report M-profile alignment faults correctly to the guest
- * target/arm: Add missing 'return's after calling v7m_exception_taken()
- * target/arm: Enforce that M-profile SP low 2 bits are always zero
-
-----------------------------------------------------------------
-Joe Komlodi (1):
-      hw/arm/smmuv3: Check 31st bit to see if CD is valid
-
-Joel Stanley (1):
-      hw: aspeed_gpio: Fix memory size
-
-Mao Zhongyi (1):
-      docs: Update path that mentions deprecated.rst
-
-Peter Maydell (7):
-      qemu-options.hx: Fix formatting of -machine memory-backend option
-      target/arm: Enforce that M-profile SP low 2 bits are always zero
-      target/arm: Add missing 'return's after calling v7m_exception_taken()
-      target/arm: Report M-profile alignment faults correctly to the guest
-      hw/intc/armv7m_nvic: ISCR.ISRPENDING is set for non-enabled pending interrupts
-      hw/intc/armv7m_nvic: Correct size of ICSR.VECTPENDING
-      hw/intc/armv7m_nvic: for v8.1M VECTPENDING hides S exceptions from NS
-
-Philippe Mathieu-Daudé (1):
-      hw/arm/nseries: Display hexadecimal value with '0x' prefix
-
-Richard Henderson (3):
-      target/arm: Correctly bound length in sve_zcr_get_valid_len
-      target/arm: Export aarch64_sve_zcr_get_valid_len
-      target/arm: Add sve-default-vector-length cpu property
-
- docs/system/arm/cpu-features.rst | 15 ++++++++++
- configure                        |  2 +-
- hw/arm/smmuv3-internal.h         |  2 +-
- target/arm/cpu.h                 |  5 ++++
- target/arm/internals.h           | 10 +++++++
- hw/arm/nseries.c                 |  2 +-
- hw/gpio/aspeed_gpio.c            |  3 +-
- hw/intc/armv7m_nvic.c            | 40 +++++++++++++++++++--------
- target/arm/cpu.c                 | 14 ++++++++--
- target/arm/cpu64.c               | 60 ++++++++++++++++++++++++++++++++++++++++
- target/arm/gdbstub.c             |  4 +++
- target/arm/helper.c              |  8 ++++--
- target/arm/m_helper.c            | 24 ++++++++++++----
- target/arm/translate.c           |  3 ++
- target/i386/cpu.c                |  2 +-
- MAINTAINERS                      |  2 +-
- qemu-options.hx                  | 30 +++++++++++---------
- 17 files changed, 183 insertions(+), 43 deletions(-)
 
