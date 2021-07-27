@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051E13D7AB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:14:04 +0200 (CEST)
-Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199A93D7AE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:27:08 +0200 (CEST)
+Received: from localhost ([::1]:52532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8PiV-0005Ek-3g
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
+	id 1m8Pv8-0000At-LX
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8PhS-0004Wd-SV
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:12:58 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:45647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8PhR-0003zZ-8S
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:12:58 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- m10-20020a17090a34cab0290176b52c60ddso5539109pjf.4
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:12:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oILhkNlBuyd5Kcghq0LheeBJif+xl+Do1B7FYkuwrFI=;
- b=PMgFaRb+DFCsDuHugiBIRscnUzbEe5f2xp/yE2sRAwtj6FI3zsl7ED5CgfRLbEAMfR
- 5i2YHr0MTfl/p9FBYAQP3mgAmvRk+6I2WPnl8jnK1QKa+Jqv/IRqT4PNrtKmDSKdVDUC
- xosKv9zRKdEOMvxCVpYwfa99j6x+cGJuCZqUae9rfHwPrx5rEIQXdFBbfkkSp0+dxrWn
- GtP+mIo/+YWEDaiU9oOrRpxJBnc3sIyebWwpKCaFc8AV/W+algrCe8v9aNpcVnSRlBMl
- LDSbmFqXr2AlFWUW9ODnfkjmCFLEs5n2OAoqkmw/eE5HFHIzw0OG6bN3JtmVIe0ZVZG4
- f9UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oILhkNlBuyd5Kcghq0LheeBJif+xl+Do1B7FYkuwrFI=;
- b=iVAiveCAYhFyZJRWchLq68QbLtl6436rH+FCmlmSXWi1mtHZkKHdkJhaoihtWgLiEB
- QzvAEUneC8sqEn/MwRgo1LM5DeQaX3izIirMhpm/EwsL91xaVuhttyXBBu8pIskhVwTR
- T0VBQc8pj4aAu5R90Mvakjdoo3u6+mpca0YMNNc+nc6n3kx67ztsa1Rz+dWawKh6RGDt
- Gubkujn3VKn518tbzrXFQz7kyleLC6iFM/7qjXjdM36Jk/hu6XAxMjxHTebcpxmHG9bZ
- DE508Pk7J9SQ96mgelxPkfRXUCb+VUmkTw1+OUZ9IPfY61UKqQiW2AQzgQxj7ExPMN27
- lUXw==
-X-Gm-Message-State: AOAM532nB4szxocZHPuQ6jY9k1aFOTHn/D1bCWVtW1bTaSEbWsiYSwwX
- 8dM6QW9Pq0+RbMllyYEaCaNzig==
-X-Google-Smtp-Source: ABdhPJzakS9cj4Pk6w0oamYi4VVRTr1WbkNUQL+WBGsfHWrkJdfUdn0DUlwx6aYVpfWzEJ7a1GWgNQ==
-X-Received: by 2002:a17:902:8348:b029:12b:b2a0:941b with SMTP id
- z8-20020a1709028348b029012bb2a0941bmr19406410pln.62.1627402374073; 
- Tue, 27 Jul 2021 09:12:54 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id n56sm4088523pfv.65.2021.07.27.09.12.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 09:12:53 -0700 (PDT)
-Subject: Re: [PATCH v2 13/22] target/loongarch: Add floating point arithmetic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-14-git-send-email-gaosong@loongson.cn>
- <1729aea1-a773-ad78-59d3-294eb968a7ba@linaro.org>
- <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <179b2d4e-7b0d-43ba-9f35-84ac728029f1@linaro.org>
-Date: Tue, 27 Jul 2021 06:12:49 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8PuA-0007lf-IS
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:26:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8Pu4-0004ft-Qv
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:26:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627403159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S2Crpu+MaWtG09w3UX9BtSBoQFQqwqdlXukffUEqwnw=;
+ b=SshjCtrbKG3WBpZTd46H7Zmg3u0d/wgOKBkwpN3DNvueR0OrMVTpgBFpVDkcJUE60bislw
+ DbtXQLY6thzsPGlxi8qcxhqgsSCOR9LhPCTm9K6jy6eweNolmDAaMTZTxe8K4lo7EzWPty
+ nlXrsIyqbDLNfVq3TPv4u+FGlaeYmQk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-oH2k8MksPVKosVkMw_7aqg-1; Tue, 27 Jul 2021 12:25:58 -0400
+X-MC-Unique: oH2k8MksPVKosVkMw_7aqg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1699210509E1;
+ Tue, 27 Jul 2021 16:25:50 +0000 (UTC)
+Received: from thuth.com (ovpn-113-58.ams2.redhat.com [10.36.113.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B7415D9DD;
+ Tue, 27 Jul 2021 16:25:48 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] gitlab-ci.d/buildtest: Disable iotests 197 and 215
+Date: Tue, 27 Jul 2021 18:25:42 +0200
+Message-Id: <20210727162542.318882-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,85 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/21 9:17 PM, Song Gao wrote:
->> I think this should be as simple as
->>
->>    gen_helper_fp_add_s(cpu_fpu[a->fd], cpu_env,
->>                        cpu_fpu[a->fj], cpu_fpu[a->fk]);
->>
->> I also think that loongarch should learn from risc-v and change the architecture to "nan-box" single-precision results -- fill the high 32-bits with 1s.  This is an SNaN representation for double-precision and will immediately fail when incorrectly using a single-precision value as a double-precision input.
->>
->> Thankfully the current architecture is backward compatible with nan-boxing.
->>
-> 
-> by this method,  the trans_fadd_s is
-> 
-> static bool trans_fadd_s(DisasContext *ctx, arg_fadd_s * a)
-> {
->      TCGv_i64 fp0, fp1;
-> 
->      fp0 = tcg_temp_new_i64();
->      fp1 = tcg_temp_new_i64();
-> 
->      check_fpu_enabled(ctx);
->      gen_load_fpr64(fp0, a->fj);
->      gen_load_fpr64(fp1, a->fk);
->      gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
-> 
->      gen_check_nanbox_s(fp0, fp0); /* from riscv */
-> 
->      gen_store_fpr64(fp0, a->fd);
-> 
->      tcg_temp_free_i64(fp0);
->      tcg_temp_free_i64(fp1);
-> 
->      return true;
-> }
+The iotests 197 and 215 are occasionally failing in the gitlab-CI now.
+According to the log, the failure is "./common.rc: Killed" which might
+be an indication that the process has been killed due to out-of-memory
+reasons. Both tests are doing a big read with 2G that likely causes
+this issue. It used to work fine in the gitlab-CI in the past, but
+either the program is now requiring more free memory, or the the CI
+containers have changed, so that the OOM condition now sometimes occurs.
 
-A few points here:
+Anyway, these two tests are not really suitable for CI containers if
+they are doing things like huge reads (which is likely also the reason
+why they haven't been added to the "auto" group in the past), so let's
+simply disable them in the gitlab-CI now, too.
 
-(1) You do not need gen_load_fpr64 and gen_store_fpr64 at all.
-     These were from mips to deal with the varying fpu sizes.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/buildtest.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-(2) If we need to call a helper, then the helper as much of
-     the work a possible.  Therefore the nanboxing should be
-     done there.  See riscv/fpu_helper.c, and the use of
-     nanbox_s within that file.
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index ee0c83b600..63f1903f07 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -305,10 +305,10 @@ build-tcg-disabled:
+     - cd tests/qemu-iotests/
+     - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
+             052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 163
+-            170 171 183 184 192 194 197 208 215 221 222 226 227 236 253 277
++            170 171 183 184 192 194 208 221 222 226 227 236 253 277
+     - ./check -qcow2 028 051 056 057 058 065 068 082 085 091 095 096 102 122
+-            124 132 139 142 144 145 151 152 155 157 165 194 196 197 200 202
+-            208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 258
++            124 132 139 142 144 145 151 152 155 157 165 194 196 200 202
++            208 209 216 218 222 227 234 246 247 248 250 254 255 257 258
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
+-- 
+2.27.0
 
-(3) Again, use a helper function:
-
-static bool gen_binary_fp(DisasContext *ctx, arg_fmt_fdfjfk *a,
-                           void (*func)(TCGv_i64, TCGv_env,
-                                        TCGv_i64, TCGv_i64))
-{
-     if (check_fpu_enabled(ctx)) {
-         func(cpu_fpr[a->fd], cpu_env,
-              cpu_fpr[a->fj], cpu_fpr[a->fk]);
-     }
-     return true;
-}
-
-TRANS(fadd_s, gen_binary_fp, gen_helper_fp_add_s)
-TRANS(fadd_d, gen_binary_fp, gen_helper_fp_add_d)
-
-> uint64_t helper_fp_add_s(CPULoongArchState *env, uint64_t fp, uint64_t fp1)
-> {
->      uint32_t fp2;
-> 
->      fp2 = float32_add((uint32_t)fp, (uint32_t)fp1, &env->active_fpu.fp_status);
->      update_fcsr0(env, GETPC());
->      return (uint64_t)fp2;
-> }
-
-with return nanbox_s(fp2);
-
-
-r~
 
