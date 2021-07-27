@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BE13D7E41
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 21:05:27 +0200 (CEST)
-Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7268F3D7EB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 21:51:19 +0200 (CEST)
+Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8SOM-0007uM-LP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 15:05:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57024)
+	id 1m8T6i-0007ze-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 15:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m8SNB-0007Da-CG
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 15:04:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m8SN9-0006HG-F1
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 15:04:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627412650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jkByroHCkB5GSEYhO8uE5E3/DEdaxZbPmLy6jNb01Ls=;
- b=bxjVxmYeh3i4GeDyibdzrUVpbsRw9Hk0tgre2g/KCJfjgCXJuFKa1FiB5cccMSu2EmLIAl
- GwJj3T4NxYNDrweSyWkZ/5X/Fq7LFoEFgkvslYf28cqUwXN7pLNxDxoQW9DMuRsb+XtvRf
- R1qPI2rDuqA2QZnzcp3N1forFA8WQ3w=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-2ei65G1YPB68DH3YhTDphQ-1; Tue, 27 Jul 2021 15:04:09 -0400
-X-MC-Unique: 2ei65G1YPB68DH3YhTDphQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- z10-20020adfdf8a0000b02901536d17cd63so3647620wrl.21
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 12:04:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m8T5W-00079T-1j
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 15:50:02 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m8T5T-0003k7-VY
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 15:50:01 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id g15so16553685wrd.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 12:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CNR/QKhyRALfJ6KC37o8U+8AYpJeiYxeiiRqsrWsbuM=;
+ b=i0ahNlK1rp6x42mm4htGw8krDtUxAzmW3tjagFyVtmp6cEvoqm9ADG1KEEVwvu03Uu
+ sZSHjtAQBBdBtMg1WUaT5irz4n+yzL9hbn6wPUFhxmgnr5N/bwrrgtxMKStxnY+Bri4w
+ OHYJD6DAQO//3T+novH/+5p++nj+bfpqBn/4AR1cHmwroislGiTlO2PoC3Xl3+2KJXW2
+ E9oc+e78PDrLU5jZumHwPqIaCwO3gqQJcvXWPJj6Am9A5kSsCnLK7W9WyI0zIIue2J7z
+ 9PDpKsKB8e4MxZ3VSdNa5k0WcEvZ+Hcqq3sLTgOoEJBXYtQYc1c0wjVXjmZ8OjbE/xjw
+ wNRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jkByroHCkB5GSEYhO8uE5E3/DEdaxZbPmLy6jNb01Ls=;
- b=pRcVWEdQh98hy1BkTi+VSVNnZ3hioMqxhBk2F9JyN09/N8bi4/o8YxnGqlZvm6p2Dv
- 4F5qc8t5rEvrovyB/sZYCCyTR+wXioK+t+Piyat9wQCBQxNlDw23RSkXa1OGoOuX8Tey
- VBPUQAqMRQYJ39liZPbv1MQa6vGK3y1v9BeFk5pK5vcCr0FbCFL9Wc8hnXmdUdvHb8Ey
- 7qLXc/skJ9EMX677K3rZU08vFzaa/0hvE31kJvCYQ+9cc45C7ygtYbwr2LerTa5sU34H
- ZVhZgUfXE6NVZ48A00Kzgwsyf4BKhDZH0ETKmFQmZziAWEiWPAfCH1de1Wv6C3XHtMuf
- ZMDg==
-X-Gm-Message-State: AOAM533df3lc9Mjzo5pqbRutUYHFRIkjQkbXD4YprXNkp66URcYhYWHJ
- GiCXSTct6d42peH8sF+jgu1C/dcKtQUwLdCRcwkjktkUM2CPP9rC5V78FC2CJu2pZVNld5yNJOX
- nHINOf/jRoVgjzwQ=
-X-Received: by 2002:a1c:a94f:: with SMTP id s76mr3586649wme.17.1627412648222; 
- Tue, 27 Jul 2021 12:04:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6exJCxE/dIeyYpT4Kqq0eeMjOnkThiUvt0i43cyMOwfenxq5HVP9QseGkXxiKa2IEK4+UxA==
-X-Received: by 2002:a1c:a94f:: with SMTP id s76mr3586635wme.17.1627412648088; 
- Tue, 27 Jul 2021 12:04:08 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id m15sm3969413wmc.20.2021.07.27.12.04.07
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CNR/QKhyRALfJ6KC37o8U+8AYpJeiYxeiiRqsrWsbuM=;
+ b=MxgbVaP1ieEqBvlKf5W4JG4f7ztJK3VigEmcxwfMtUUdYDaKYNbmuqYFu9IbXReUGR
+ SNvxDJ5J68d4F4Qgd4KKlRR6L6gwadtE4klJhZmvDwNpWGLwGyfckzL+jed0RfqXiCod
+ F+G4M0CgX0bnjgBJq3Rr+Tet5zlkDDgWJ8lNw7PkSgNYF1Eipc4/b/mhSzSuCNTMPlwi
+ OKtszOPC6F0noGRcJVUb+dALGrsovS+EXocaXI0PJcTIr1CxJ5uhWHEM6ouCO5BY8dBY
+ EnqeJEDoAB3roN3NPgzWKgDP1D94dKHALW8RvtwZKcLRh2l8WvW/BmUDu11FG329gPz5
+ WNZg==
+X-Gm-Message-State: AOAM530V5L3y0P/12m1PAmA3YnVn7t9Zyp4oiDp0LpXRtAAIFoxR7fzf
+ lXeqZr393Z9Vw50NxEujspUsHNFmqpmUdA==
+X-Google-Smtp-Source: ABdhPJw5D3BRYcOq8j3GDO345/dfsOI6rbW1uaDQMDhhrgVo7t0CHMG9Min+CWBgZfiHSlclnQ4k9Q==
+X-Received: by 2002:adf:e507:: with SMTP id j7mr8372022wrm.113.1627415397899; 
+ Tue, 27 Jul 2021 12:49:57 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id n8sm4217404wrx.46.2021.07.27.12.49.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 12:04:07 -0700 (PDT)
-Date: Tue, 27 Jul 2021 20:04:05 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 4/6] util/oslib-posix: Avoid creating a single thread
- with MADV_POPULATE_WRITE
-Message-ID: <YQBYpfgfUa8c9q0G@work-vm>
-References: <20210722123635.60608-1-david@redhat.com>
- <20210722123635.60608-5-david@redhat.com>
+ Tue, 27 Jul 2021 12:49:57 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs: Move bootindex.txt into system section and rstify
+Date: Tue, 27 Jul 2021 20:49:55 +0100
+Message-Id: <20210727194955.7764-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210722123635.60608-5-david@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +80,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> Let's simplify the case when we only want a single thread and don't have
-> to mess with signal handlers.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  util/oslib-posix.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index a1d309d495..1483e985c6 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -568,6 +568,14 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->      }
->  
->      if (use_madv_populate_write) {
-> +        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
-> +        if (context.num_threads == 1) {
-> +            if (qemu_madvise(area, hpagesize * numpages,
-> +                             QEMU_MADV_POPULATE_WRITE)) {
+Move bootindex.txt into the system section of the manual and turn it
+into rST format.  To make the document make more sense in the context
+of the system manual, expand the title and introductory paragraphs to
+give more context.
 
-Do you never have to fall back if this particular memory region is the
-one that can't do madv?
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/bootindex.txt        | 52 ---------------------------
+ docs/system/bootindex.rst | 76 +++++++++++++++++++++++++++++++++++++++
+ docs/system/index.rst     |  1 +
+ 3 files changed, 77 insertions(+), 52 deletions(-)
+ delete mode 100644 docs/bootindex.txt
+ create mode 100644 docs/system/bootindex.rst
 
-Dave
-
-> +                return true;
-> +            }
-> +            return false;
-> +        }
->          touch_fn = do_madv_populate_write_pages;
->      } else {
->          touch_fn = do_touch_pages;
-> -- 
-> 2.31.1
-> 
+diff --git a/docs/bootindex.txt b/docs/bootindex.txt
+deleted file mode 100644
+index 6937862ba0d..00000000000
+--- a/docs/bootindex.txt
++++ /dev/null
+@@ -1,52 +0,0 @@
+-= Bootindex property =
+-
+-Block and net devices have bootindex property. This property is used to
+-determine the order in which firmware will consider devices for booting
+-the guest OS. If the bootindex property is not set for a device, it gets
+-lowest boot priority. There is no particular order in which devices with
+-unset bootindex property will be considered for booting, but they will
+-still be bootable.
+-
+-== Example ==
+-
+-Let's assume we have a QEMU machine with two NICs (virtio, e1000) and two
+-disks (IDE, virtio):
+-
+-qemu -drive file=disk1.img,if=none,id=disk1
+-     -device ide-hd,drive=disk1,bootindex=4
+-     -drive file=disk2.img,if=none,id=disk2
+-     -device virtio-blk-pci,drive=disk2,bootindex=3
+-     -netdev type=user,id=net0 -device virtio-net-pci,netdev=net0,bootindex=2
+-     -netdev type=user,id=net1 -device e1000,netdev=net1,bootindex=1
+-
+-Given the command above, firmware should try to boot from the e1000 NIC
+-first.  If this fails, it should try the virtio NIC next; if this fails
+-too, it should try the virtio disk, and then the IDE disk.
+-
+-== Limitations ==
+-
+-1. Some firmware has limitations on which devices can be considered for
+-booting.  For instance, the PC BIOS boot specification allows only one
+-disk to be bootable.  If boot from disk fails for some reason, the BIOS
+-won't retry booting from other disk.  It can still try to boot from
+-floppy or net, though.
+-
+-2. Sometimes, firmware cannot map the device path QEMU wants firmware to
+-boot from to a boot method.  It doesn't happen for devices the firmware
+-can natively boot from, but if firmware relies on an option ROM for
+-booting, and the same option ROM is used for booting from more then one
+-device, the firmware may not be able to ask the option ROM to boot from
+-a particular device reliably.  For instance with the PC BIOS, if a SCSI HBA
+-has three bootable devices target1, target3, target5 connected to it,
+-the option ROM will have a boot method for each of them, but it is not
+-possible to map from boot method back to a specific target.  This is a
+-shortcoming of the PC BIOS boot specification.
+-
+-== Mixing bootindex and boot order parameters ==
+-
+-Note that it does not make sense to use the bootindex property together
+-with the "-boot order=..." (or "-boot once=...") parameter. The guest
+-firmware implementations normally either support the one or the other,
+-but not both parameters at the same time. Mixing them will result in
+-undefined behavior, and thus the guest firmware will likely not boot
+-from the expected devices.
+diff --git a/docs/system/bootindex.rst b/docs/system/bootindex.rst
+new file mode 100644
+index 00000000000..8b057f812f2
+--- /dev/null
++++ b/docs/system/bootindex.rst
+@@ -0,0 +1,76 @@
++Managing device boot order with bootindex properties
++====================================================
++
++QEMU can tell QEMU-aware guest firmware (like the x86 PC BIOS)
++which order it should look for a bootable OS on which devices.
++A simple way to set this order is to use the ``-boot order=`` option,
++but you can also do this more flexibly, by setting a ``bootindex``
++property on the individual block or net devices you specify
++on the QEMU command line.
++
++The ``bootindex`` properties are used to determine the order in which
++firmware will consider devices for booting the guest OS. If the
++``bootindex`` property is not set for a device, it gets the lowest
++boot priority. There is no particular order in which devices with no
++``bootindex`` property set will be considered for booting, but they
++will still be bootable.
++
++Some guest machine types (for instance the s390x machines) do
++not support ``-boot order=``; on those machines you must always
++use ``bootindex`` properties.
++
++There is no way to set a ``bootindex`` property if you are using
++a short-form option like ``-hda`` or ``-cdrom``, so to use
++``bootindex`` properties you will need to expand out those options
++into long-form ``-drive`` and ``-device`` option pairs.
++
++Example
++-------
++
++Let's assume we have a QEMU machine with two NICs (virtio, e1000) and two
++disks (IDE, virtio):
++
++.. parsed-literal::
++
++  |qemu_system| -drive file=disk1.img,if=none,id=disk1 \\
++                -device ide-hd,drive=disk1,bootindex=4 \\
++                -drive file=disk2.img,if=none,id=disk2 \\
++                -device virtio-blk-pci,drive=disk2,bootindex=3 \\
++                -netdev type=user,id=net0 \\
++                -device virtio-net-pci,netdev=net0,bootindex=2 \\
++                -netdev type=user,id=net1 \\
++                -device e1000,netdev=net1,bootindex=1
++
++Given the command above, firmware should try to boot from the e1000 NIC
++first.  If this fails, it should try the virtio NIC next; if this fails
++too, it should try the virtio disk, and then the IDE disk.
++
++Limitations
++-----------
++
++Some firmware has limitations on which devices can be considered for
++booting.  For instance, the PC BIOS boot specification allows only one
++disk to be bootable.  If boot from disk fails for some reason, the BIOS
++won't retry booting from other disk.  It can still try to boot from
++floppy or net, though.
++
++Sometimes, firmware cannot map the device path QEMU wants firmware to
++boot from to a boot method.  It doesn't happen for devices the firmware
++can natively boot from, but if firmware relies on an option ROM for
++booting, and the same option ROM is used for booting from more then one
++device, the firmware may not be able to ask the option ROM to boot from
++a particular device reliably.  For instance with the PC BIOS, if a SCSI HBA
++has three bootable devices target1, target3, target5 connected to it,
++the option ROM will have a boot method for each of them, but it is not
++possible to map from boot method back to a specific target.  This is a
++shortcoming of the PC BIOS boot specification.
++
++Mixing bootindex and boot order parameters
++------------------------------------------
++
++Note that it does not make sense to use the bootindex property together
++with the ``-boot order=...`` (or ``-boot once=...``) parameter. The guest
++firmware implementations normally either support the one or the other,
++but not both parameters at the same time. Mixing them will result in
++undefined behavior, and thus the guest firmware will likely not boot
++from the expected devices.
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index 64a424ae99b..650409d1566 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -26,6 +26,7 @@ or Hypervisor.Framework.
+    authz
+    gdb
+    managed-startup
++   bootindex
+    cpu-hotplug
+    pr-manager
+    targets
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.20.1
 
 
