@@ -2,82 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFE83D78B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 16:44:04 +0200 (CEST)
-Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC68D3D78CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 16:48:33 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8OJP-0002iK-J9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 10:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39432)
+	id 1m8ONk-00058p-WC
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 10:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8OIf-00022B-Ig
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 10:43:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27698)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m8OMa-00040W-0q; Tue, 27 Jul 2021 10:47:20 -0400
+Received: from mail-he1eur02on0701.outbound.protection.outlook.com
+ ([2a01:111:f400:fe05::701]:43748
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8OIc-0006EX-1h
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 10:43:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627396992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IBkWcG29FM8yKxsPfXeFA/J5fEcreUx2TQkNK1oQcAw=;
- b=Jlo5uFebOREY9G5it+9VlouC6CrbJwYAlnYI1AVnRU8v6XaXi9t5lhZaynokuJYStj23EU
- t3rtEdFidtDFP9lF5Q+FYLY9MdaeScLHHlDGVC0jBZ7vOZ3LB4XF6z3wagMVP/wtfk2x1p
- gaeByiISUlOfr9yIisZKvtux04KN170=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-AoOd_tXOMn--7mFpoYdZJw-1; Tue, 27 Jul 2021 10:43:04 -0400
-X-MC-Unique: AoOd_tXOMn--7mFpoYdZJw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- r11-20020a17090a2e8bb029017382031497so15300224pjd.5
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 07:43:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IBkWcG29FM8yKxsPfXeFA/J5fEcreUx2TQkNK1oQcAw=;
- b=Vq4I25/l+T9wdh+D7aACw157viPNasykl52EQRGW1jpubzKFq+FPQrAHneG8G84T5z
- 1lqaoxjT2kvV0pNB3L1G4NFNuB0FXy9piHGvfRpTHabA8+QlAlBAbmQQfJ9JgtP7Po30
- gT7THP/Zgx8mCg6M/ScCobQ0NCU4MpZ49IK5mu7Y+Zb39OwgD+Y/kti7nKzv6Uxx3NzS
- 87MSm1FxqOG5m2aN7BrX+rXxx29qPA7fYdYHiqo/gT75iYBrJzTGDo+FewUtWFxxjGr5
- hDEpiCwb8Bd+s2qDjyzy4K7XTYtwpBwJF1E1j2LzkYMQcxdbT72kEPJB8zGbhacNX8tO
- bSgg==
-X-Gm-Message-State: AOAM530OzWQd/36ayL70xcK2SYEsCxo5pA7AtFFS1qDKt4s1Dx2nTqkm
- jBqN0mnWRTw+wx4zlwDpJBWloQItIcUCTREvIBFSEXOdQTMniHx0TuAqyvJ35HbhiXERnuNtEMt
- LhqBYFoeou9FSh6BlmlobYds2lMFzk+g=
-X-Received: by 2002:a65:6243:: with SMTP id q3mr23951105pgv.297.1627396982973; 
- Tue, 27 Jul 2021 07:43:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybLeYBE5UwZIczUWRUDjokXv6qW4kUGhOU91kmQwwhc1c9kyR+Xhgdaz8zzGBYE/9g8KEDVjg1l/753J/gTog=
-X-Received: by 2002:a65:6243:: with SMTP id q3mr23951081pgv.297.1627396982692; 
- Tue, 27 Jul 2021 07:43:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m8OMX-0000nJ-OX; Tue, 27 Jul 2021 10:47:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FB1kLUbPSZwzqmJAV8+h27hjnDilamCq+kB31SyA+SBrjdT9F2cK07HDShPw17m8oKqSPDxq81S/8MY8j15UJX2zDnlyoBu5aS/evhvorWNo4RL+qQj4HwesxHwxbB/0WD5WWGGbgegzhOIzHmoB5Xne/KsbiUawE4yUNOKukfJOLPh1TccndLlVfcBFwJn0EjyMzbRsRWxTfisWCToJenYrFiVrJO+VrbGTlxFR9FPe5ZzqsshktSxQgZT9fN1GQulEqHPqiGkYwHTFSWMNFqowwEMrDJ+uy7nS/Loc6YJ2nnuw7CqiMz9C1va6RzdxEI4guk8JHCrI8t1ThkITbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QkA2yREVKMT5jSvIrqn3KWnrwj8HG/XoyzuQOSXIbWI=;
+ b=Jws4eAr6he5oe0cYwgL0QpYz8hWTld567dNOydZi4BlEXaQ+ZH4ErPo7P9tVUPuOHP3bZlR7Eh4T8I2XaJgY0WCjOtd/ZpD8KnYKKuR/GaCcA44yLhJLJevPtdw2fvX7T9trtpsKKqLW6hPEwePv7oyPVdHrSxIodgsYzojefajGCV0G0LZKAVYe8oZSO1rRIoh9c2ly9hAjBFeCnSrMET9+v6qrPmwrQDiW4BVvaodzFNon/X75iqXE/5dGx51DNB9c+oMKN6WsFwiVERwiFWwJJrGiM76BzUpVhkC8NlGn5lIjpXrT1rtuDdHZuJtGVY+waK2Dzm25n1wtvbwsjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QkA2yREVKMT5jSvIrqn3KWnrwj8HG/XoyzuQOSXIbWI=;
+ b=D9M3b0FPzckTA/BXqG/rTyRFX5DMbr1MvcsmLQeO/dI0AHWFaFdme0Ixaflp60T2TUsRqXj2Zy3Rh/Qtec4l5032k6ZhvRzyKjCWzelu/U6NLpCvNdVLb2IYZmkQairbj2Tf1yK+Fm0rNWyIzErkWjq1z0X+i34XwmVisbalDvE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6948.eurprd08.prod.outlook.com (2603:10a6:20b:347::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17; Tue, 27 Jul
+ 2021 14:47:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c%7]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
+ 14:47:13 +0000
+Subject: Re: [PATCH for-6.1? 4/6] job: Add job_cancel_requested()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <20210722122627.29605-1-mreitz@redhat.com>
+ <20210722122627.29605-5-mreitz@redhat.com>
+ <a6a675f1-4ca3-a657-9fe0-35b73a6f441a@virtuozzo.com>
+ <32463d65-834c-64ba-aab4-36f1810ddb43@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <bd4d225d-0bcd-9a38-9813-af229d8fbe4f@virtuozzo.com>
+Date: Tue, 27 Jul 2021 17:47:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <32463d65-834c-64ba-aab4-36f1810ddb43@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR04CA0091.eurprd04.prod.outlook.com
+ (2603:10a6:208:be::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210723113051.2792799-1-berrange@redhat.com>
-In-Reply-To: <20210723113051.2792799-1-berrange@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 27 Jul 2021 11:42:36 -0300
-Message-ID: <CAKJDGDYQ2h3V52cRNNDrh_QWpHUnaep6coPKoEVNfR6BQEQ=zg@mail.gmail.com>
-Subject: Re: [PATCH v2] gitlab: only let pages be published from default branch
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.211) by
+ AM0PR04CA0091.eurprd04.prod.outlook.com (2603:10a6:208:be::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.26 via Frontend Transport; Tue, 27 Jul 2021 14:47:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0902821b-c612-4b5c-4d42-08d9510d6bf2
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6948:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6948F04F08E2E74CFD752E43C1E99@AS8PR08MB6948.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8yLWnQLQ8VOicCsFkBLI2PfIm6/9k6ATAPYMypGF9IvnxeQ5pC/Bf5GnrPTujL2VQW0o4xN6elOjBTG/imdRAZbHY7GZgIdrxZWRmVkSdxqiGEEEOoJMW50ShuUW0/B3+yRxWjed0QftUZQjHVFgy+LDR8T9daLLGlEIM9XK478u1SVo4QudHL9TtAXfJog/AHI8J7QJ1hsZp9XQm+MFAxDSL6eQ10ZLEJK+AQpt/I37mDm7BlyIOQr7D6SidZlKsUq3Cp/OZ+bBcSSGFqoKskaUR0fV0kwmc4uVKr9DSCQHqOovYMIVwTyrUmWEX77wInqCTEtVtlChm5hu94sajdDErq0dzQdW5n30u1Ec5tHiQCnWk6cKWLFeylfhpi2/cAFstpjCAhQtaazjdF09lXJxxdtMyXsP3As9u9a9H54+HP60twSFzb/FSoIdSihlxBnPqbcKBK01RmwpO2MJnYq71hiCutm5OV0eHzVZYJaICXUZbEMK/qd0OXkX1m+sw/BjDgFMWUkCc2/iZUJX+FbvC6ZmvIv9hAWfHxuqq5BC7edI7RdPm3VN0wNn15R9P6MLIjYTOF+SrwF7lVlvWBQaBoVMKb4B2fgRjTTSpViPdn+4dqHhARIiPbEIAjtB3mDuGMZePYDuu4ARPagroq+HJBsUXroGApwZJpcHElKSByrtfLsn72kxFPmMMzgN60D+/QBQIto7DLUPTFodg2FUfokY3JBc76JKbrC8iGr3GEmYz2Pie5xLZj+HsKEejQnyRHjZtPMvYdDd3ASjAw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66556008)(956004)(38350700002)(8676002)(8936002)(36756003)(508600001)(66946007)(6486002)(66476007)(2616005)(83380400001)(38100700002)(52116002)(26005)(2906002)(86362001)(31686004)(5660300002)(16576012)(316002)(186003)(4744005)(31696002)(4326008)(54906003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emV1Vm1FVUloN1JVbHFSM3JOSTdGd2hHejJhUVdYK3RIU1pKeHdaVnJsMUFT?=
+ =?utf-8?B?Y29hQVdweTRGMEdLcjAvM3llZDl6RHMxQlRKUnpzOXhxZkpRbFJyL2ZLaEZQ?=
+ =?utf-8?B?Vjk2U2hkc1F2RVorY2dmbXA0ZlNrTkR1V1FXUW5PMFZ4R1JlYVRmd2VWRXNq?=
+ =?utf-8?B?V1B2d1JrNmhaa0dZMTRPRFJqZEU1ZEt0elY4OFVYYTl1UWhJZjdHRlBiMFNj?=
+ =?utf-8?B?Wmd1dnlMR21VckNiRk81N3JTWENxQTN0cElsZnBsN3NTWElNRHlUZ05LWWJ2?=
+ =?utf-8?B?aFZWWVA5WlZ2SVlYVDdTQ0djR0F4U3Y4Z2lsZy9FR0psV3VSVU5aaHNmZ3RT?=
+ =?utf-8?B?OEx6NmQ2UExRT0R5L0JxSG85YjczM3lQM0VxbWU5WER5ZlREY0Y3MUx1Qk15?=
+ =?utf-8?B?a3RtVlZYcDJQbzFuTTE1MjYyNzhSOVFtSXIrS1VFbzh5VjVRczRNdEUvdmJz?=
+ =?utf-8?B?ODBhWHhRMTlSdXVFM3Jqd1BjK3Y5QzhWSkJxZjlmU1pvY21QK25CUVFreW8y?=
+ =?utf-8?B?M05UeCtzVS9vbjgwVTlOYlJCNGl4dVhBSEl2TWFGalhwSHEzcEszUzJ3TmUv?=
+ =?utf-8?B?Rjg5R0hIM2hLc0s5VkJReHJIeENSNkl0dGdLOWlnYWRsNjE4OWt1QkY1anpI?=
+ =?utf-8?B?QWtLVkRheUVhSG5XTnhBeTAyVGhITnFzZkIzK25xdVJhMFVYZUUrZUoza21R?=
+ =?utf-8?B?cE95N1pReXM2NlA0Z1pXaUw1RDF3Mm9icUZ4UENCRVZGdDMzazN2VkZOQk1u?=
+ =?utf-8?B?NWVCZzYxaVllT3UydGQzb2hQckx1RGE4RnpTYlBqaHhqZFhOaUpwQVNQZWxC?=
+ =?utf-8?B?Mk5ueW04ZGhUZ1UvM002Qmk4R1pkOHA0N3BqMkx0VlZrTlYwOFV5OVR4S1NT?=
+ =?utf-8?B?ckxnV1BGc1lqQlZKU2YrYjJxeks0eHZ5SER4UWNQeUpXdWR6Rkt2VTVyRWNh?=
+ =?utf-8?B?OWhhbnBKYUJVRW9TQW83dFp2YkRtKzBIVlZuWFNiTUt5VlRlUVErYm1xd016?=
+ =?utf-8?B?aGdxY0dFMm15Wmc3cms2NE1yOGswZzAvMTlCd1pxeFJSYm0xZnYvZ21tNkIy?=
+ =?utf-8?B?N2pPRmtkNVBzVUNuYlZIdWpMOFVmdjRjdHNUZW90bWswaFlGNXFyeXZ3bWl4?=
+ =?utf-8?B?YlJQek1mNnJHU3I5RHVRZWhTTUM0TXJvQlZmbmE2RldVL1d6cWlDQ1BQZFFw?=
+ =?utf-8?B?Mmx5VjVCWmZJY0hnRjQzOWFoTmIyQ1ZUYno0NWtJSFhFd2RrNmlXcUs1TnZn?=
+ =?utf-8?B?ZG5PVmhYSEJtQ0pRc2F0QzBXYTZNZjU1UndubWc1M1hLSEN1eWd0OGlkVVRr?=
+ =?utf-8?B?R04rdnphbXllZG41NnhHRE1rcWFwOEpCekY2Nmo1MkJPUXdBRklZTlcwdnJS?=
+ =?utf-8?B?K0dxU1huZFVXYjF4K1E0dDR5VVNxRDJ3T1czTXBGYmdQNmUwd0o4dGpWaVlR?=
+ =?utf-8?B?Nk5GVDlWcUFwTjhscGVFdDNOS3Z2N1VFOU5YcGlLQk9Ja1djUC9JMDFKQTBy?=
+ =?utf-8?B?U1FnZ3pqbnNUMzlML3hvaUd3VDNXajB0OHhLVkxmTEZZQ01PbUhtdVVSc09a?=
+ =?utf-8?B?Q3JGeFBGTzB5SlVmWkdiQ1NsMXA3cHEvc3NwbGFuYmtuK09TM0tlT0RaQm5O?=
+ =?utf-8?B?Q2s4UGE3UnRZMHNkaytIMjVhY0h6K1dNNG1hZ3dlNHdaUUJ2OHF1MGU0VU5X?=
+ =?utf-8?B?c1hENGxFUGJwTEZlcE1KLzRscXo5bEdWL0N2b2xGeDFaRHh1TzVxa01pdThQ?=
+ =?utf-8?Q?pgOt9YJMMsjvOF+vrmfME07a5kjEGDiJhyEQAqk?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0902821b-c612-4b5c-4d42-08d9510d6bf2
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 14:47:13.8565 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8BuxLUa8Tp1Rmj1ZQkCfu75Cziw4yY9ONOGhL/D/Yk8AFaDEUZ/D1jexHqvXxISIH26vyJWv8NI7UEOKUu7a9H+kTlu9PGtnPqTq83828h4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6948
+Received-SPF: pass client-ip=2a01:111:f400:fe05::701;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.438, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,44 +147,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 23, 2021 at 8:31 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> GitLab will happily publish pages generated by the latest CI pipeline
-> from any branch:
->
-> https://docs.gitlab.com/ee/user/project/pages/introduction.html
->
->   "Remember that GitLab Pages are by default branch/tag agnostic
->    and their deployment relies solely on what you specify in
->    .gitlab-ci.yml. You can limit the pages job with the only
->    parameter, whenever a new commit is pushed to a branch used
->    specifically for your pages."
->
-> The current "pages" job is not limited, so it is happily publishing
-> docs content from any branch/tag in qemu.git that gets pushed to.
-> This means we're potentially publishing from the "staging" branch
-> or worse from outdated "stable-NNN" branches
->
-> This change restricts it to only publish from the default branch
-> in the main repository. For contributor forks, however, we allow
-> it to publish from any branch, since users will have arbitrarily
-> named topic branches in flight at any time.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
+26.07.2021 10:09, Max Reitz wrote:
+> 
+>>>           job->ret = -ECANCELED;
+>>>       }
+>>>       if (job->ret) {
+>>> @@ -704,7 +709,7 @@ static int job_finalize_single(Job *job)
+>>>         /* Emit events only if we actually started */
+>>>       if (job_started(job)) {
+>>> -        if (job_is_cancelled(job)) {
+>>> +        if (job_cancel_requested(job)) {
+>>>               job_event_cancelled(job);
+>>
+>> Same question here.. Shouldn't mirror report COMPLETED event in case of not-force cancelled in READY state?
+> 
+> Same here, I thought this is user-visible, nothing internal, so I should leave it as-is.
+> 
+> Now I see that cancelling mirror post-READY indeed should result in a COMPLETED event.  So I’m actually not exactly sure how mirror does that, despite this code here
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
+Hmm. Now looking at mirror code, I see that it does "s->common.job.cancelled = false"
+
+-- 
+Best regards,
+Vladimir
 
