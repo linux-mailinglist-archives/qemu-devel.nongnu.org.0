@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE8B3D6A03
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 01:10:34 +0200 (CEST)
-Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900F33D6B29
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 02:40:56 +0200 (CEST)
+Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m89k1-0008VM-9v
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 19:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49122)
+	id 1m8B9T-00008D-6p
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 20:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m89ig-0007od-NF
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 19:09:10 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m89if-0000gE-C4
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 19:09:10 -0400
-Received: by mail-pl1-x631.google.com with SMTP id f13so3052751plj.2
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 16:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2z8V9DUKiD8XgfgKZyc/q/JwVW00qKF4Og+WnWaO4Oc=;
- b=sl+VpqsQETaILJVPEVE4bnikp6XEddY2DpkxpUGvj4kvAZPJEwqbICQxYMIM1moSuk
- 2eT+Z4hCnIqmDByK97LTD2d0MR8n1xBoXwAXHuHHp6o4MV8BOYv37uxACqJuLTqbppEn
- U2bly3+f9d008Q9GdONU4j6Els1UweyxZJTm1t1wZxw3Q+Ces6HC4UxtlwKAEyN7le+A
- dKlbxK7C4W5v0rpvLkdqTxn5QQR1vf5MIMzGVf8iwUWEUaQT81PwJd2+WxqDXzRFJoru
- vtnuFf/2o95QyGaL3KLMRTjvlOdJ/x+qMRWBoYkEB8bwHhC9gDnHCKeVQ0VmNQqzaDdh
- KBmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2z8V9DUKiD8XgfgKZyc/q/JwVW00qKF4Og+WnWaO4Oc=;
- b=BfWaOzP6ASGCAXXJaYPJO8ytoER265fmIYorY+T1E5e0N2A+5xevgxsWDKEpKcH3ir
- YqY1bVz6EfZIwEdbNSlJMV8zLFlbn5IWyKRaKl9NV0jh74d1f3uV1RL5Uh5Gz39j8W70
- CjnTDS7FLmLAJAMzpcnvQFIO5tSqfwVaiA6N/p0FVvhr/+xQAMXUnlg17eOBQNqOvpPs
- xjplCALFPVhCgKUox1JADFh7+rlANT9aS6G4X+2jBO8Dbosdg464Cs2rR/RtUbqG7/lK
- zdb3W9rahD22tgSqPS4dlXvSpCYyHVhsg49BjckFhaL+IcYfI+9JjXoT1DpQl99wobi/
- Tmig==
-X-Gm-Message-State: AOAM530u1sVBfJIly2T8ay7CabHibiIUZfSzm8ccw36GRF3Zv8Avn+LW
- L/pi5jLC0fnYt63oWqD8UCGi+A==
-X-Google-Smtp-Source: ABdhPJxtwLX1FwO2vzWLXCamJtL5L4zG0sM+9IO9Y5L5ICOlwMZHxZjZpLFheaXWiq85mh/SO1POZw==
-X-Received: by 2002:a63:794:: with SMTP id 142mr20301599pgh.344.1627340947963; 
- Mon, 26 Jul 2021 16:09:07 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
- (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
- [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
- by smtp.gmail.com with ESMTPSA id v31sm906050pgl.49.2021.07.26.16.09.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 16:09:07 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 00/10] docs: Format literals correctly in rST
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210726142338.31872-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <11eec79c-b186-de54-d6d8-fe7e6a02b7e0@linaro.org>
-Date: Mon, 26 Jul 2021 13:09:04 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m8B8M-0007tV-9E
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 20:39:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m8B8I-0003ff-Iz
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 20:39:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627346380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=h7TFrk4LgCeEFJuwOkFvMgoB9q8J9uiduW27iL62i7o=;
+ b=IGFODE+B2lzEM7PYFh17rv44ty/28dz0vcJ7Vb71Wu/BH0Z3TvmTWfRqvp9oXTYNlc0UBn
+ H/P/NtoYcD1WTv70XQQNNHj3bSjpHtDNete3jN1hYtUoFAV3iBVBfjSRI0AfwbWeLGYBX0
+ F0XFXswTfVOSDvhXAf6X2Cg4CaDv9Oo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-UR3OHlFBO-K4G1NWgiByAA-1; Mon, 26 Jul 2021 20:39:36 -0400
+X-MC-Unique: UR3OHlFBO-K4G1NWgiByAA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A27887D541;
+ Tue, 27 Jul 2021 00:39:35 +0000 (UTC)
+Received: from p50.localhost.localdomain.some.host.somewhere.org
+ (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8F2210013D7;
+ Tue, 27 Jul 2021 00:39:34 +0000 (UTC)
+User-agent: mu4e 1.4.15; emacs 27.2
+From: Cleber Rosa <crosa@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ QEMU devel <qemu-devel@nongnu.org>
+Subject: Regression caught by
+ replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+Date: Mon, 26 Jul 2021 20:39:33 -0400
+Message-ID: <87pmv4zj22.fsf@p50.localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210726142338.31872-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/21 4:23 AM, Peter Maydell wrote:
-> Peter Maydell (10):
->    docs/devel/build-system.rst: Format literals correctly
->    docs/devel/build-system.rst: Correct typo in example code
->    docs/devel/ebpf_rss.rst: Format literals correctly
->    docs/devel/migration.rst: Format literals correctly
->    docs/devel: Format literals correctly
->    docs/system/s390x/protvirt.rst: Format literals correctly
->    docs/system/arm/cpu-features.rst: Format literals correctly
->    docs: Format literals correctly
->    docs/about/removed-features: Fix markup error
->    docs/tools/virtiofsd.rst: Delete stray backtick
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi everyone,
 
-r~
+tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+is currently failing consistently (first found that in [1]).
+
+I've bisected it down to the following commit:
+
+---
+
+78ff82bb1b67c0d79113688e4b3427fc99cab9d4 is the first bad commit
+commit 78ff82bb1b67c0d79113688e4b3427fc99cab9d4
+Author: Richard Henderson <richard.henderson@linaro.org>
+
+    accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS
+   =20
+    The space reserved for CF_COUNT_MASK was overly large.
+    Reduce to free up cflags bits and eliminate an extra test.
+   =20
+    Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+    Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+    Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+    Message-Id: <20210717221851.2124573-2-richard.henderson@linaro.org>
+
+ accel/tcg/translate-all.c | 5 ++---
+ include/exec/exec-all.h   | 4 +++-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+---
+
+To reproduce it:
+
+1. configure --target-list=3Daarch64-softmmu
+2. meson compile
+3. make check-venv
+4. ./tests/venv/bin/avocado --show=3Dtest run tests/acceptance/replay_kerne=
+l.py:ReplayKernelNormal.test_aarch64_virt
+
+PS: I haven't had the time yet to scan the mailing list for possible
+discussions about it.
+
+[1] https://gitlab.com/qemu-project/qemu/-/jobs/1445513133#L268
+
+--=20
+Cleber Rosa
+[ Sr Software Engineer - Virtualization Team - Red Hat ]
+[ Avocado Test Framework - avocado-framework.github.io ]
+[  7ABB 96EB 8B46 B94D 5E0F  E9BB 657E 8D33 A5F2 09F3  ]
+
 
