@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEFD3D7606
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 15:22:46 +0200 (CEST)
-Received: from localhost ([::1]:35382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CCC3D763B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 15:25:19 +0200 (CEST)
+Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8N2j-0006lH-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 09:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50704)
+	id 1m8N5C-0008Hf-CK
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 09:25:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8N1d-00065W-Qd
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:21:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58522)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m8N43-0007bS-F5
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:24:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8N1c-0005bx-7c
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:21:37 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m8N41-0006Ga-8x
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 09:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627392095;
+ s=mimecast20190719; t=1627392244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jX4gq6F87ckLPKtkc50Qxrkk6MyEoKf0YQPnXZGGK5w=;
- b=HQWAUbQX4qIn26xS/zZWy4XDh5NHXHmk8fNEoYbXAO9wcTuGmyN8eR4CaqVliuMrg0uy9j
- I1ZQmXMOxg4ADYPZxN9NWbf1LNZcjERyc/AmoayUlGSBIQposAcqc1+sld4gNsII1QUTYa
- s1CTLG3gcB+rpVoweiSvkdzKTPwmPzQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-hb_dplakNGmxdsomzpqZhA-1; Tue, 27 Jul 2021 09:21:34 -0400
-X-MC-Unique: hb_dplakNGmxdsomzpqZhA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d10-20020a056000114ab02901537f048363so2799608wrx.8
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 06:21:34 -0700 (PDT)
+ bh=VWMWNJcjMkhxs4Pij/ATOwM9Y4y2N8zbBs3L5NM3ndc=;
+ b=FbyipENVGhGpGhOOl/UriQcj35sYDjvkJ/PozkNR3ayuRFwGLA76eVgWPjlh5nyZjy9yQS
+ QMsxF/yjblAfNmGqwAuJfE06SRskDulOSdaa2U+/lwobD34Rj29lfSZRc3M4OKvNDFJj2Z
+ vgM+BbZBNbeY67G2mt8KKV9npOLDR9s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-NkDGR_4RPQuLvjZbowya7Q-1; Tue, 27 Jul 2021 09:24:02 -0400
+X-MC-Unique: NkDGR_4RPQuLvjZbowya7Q-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a19-20020a1709063e93b0290551ea218ea2so3138016ejj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 06:24:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=jX4gq6F87ckLPKtkc50Qxrkk6MyEoKf0YQPnXZGGK5w=;
- b=R0qIU/5VsCe2I/2e1Vkkc9p5cLiAWfmWYOkht2kgc9t0oVhrCxIfFltR8Q1vGrFZw3
- /z3vi9i56bw0wOT3Aj9kWj3YLZ62NH4zEmIol2zjCYMBK6+/uQYE/z2CI9FZhvVK1u2R
- H9joSWJyr2BOknrJPh8x4T7LLX7kQA5majlqpDL+vuhtGGSAHqH4AEWF9rRk2T6qfNQK
- 2GGZ8EOr/QMsUUqq1uOOjnM4njaTN/qqqdeAsUiT/QOWehiR+dd79fZXYRFMdQoETNVP
- Ezwz19b8wa+leMLRIfVmUvmjr9mObRTnyxfEm7cmh7514+UyDQW0HjVjmYHmTVf4CNK7
- CHig==
-X-Gm-Message-State: AOAM532Sc1NzBv6XSj0Wq2hVmXHzftUyUuOklvidPM85TIkzPZWb5tlw
- 9JnZXVtHez/zIlAz6Au04RL+1A98qTXcGE5zNCGcbdUEwfQSnqPYwQ42wJDussan6HpM2utUyWN
- xBc2GpnrlbS5Gr3M=
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr25375381wri.164.1627392093062; 
- Tue, 27 Jul 2021 06:21:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUmdmR/8xndTi0wdK9b5AFpxyLOYJ8i6fQuAkiIixmyd6qW2e6k7a2GZEpikE/iOH2fQkE5w==
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr25375360wri.164.1627392092866; 
- Tue, 27 Jul 2021 06:21:32 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23c36.dip0.t-ipconnect.de. [79.242.60.54])
- by smtp.gmail.com with ESMTPSA id
- l18sm2941137wmq.0.2021.07.27.06.21.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 06:21:32 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20210723193444.133412-1-peterx@redhat.com>
- <20210723193444.133412-5-peterx@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2 4/9] memory: Don't do topology update in memory
- finalize()
-Message-ID: <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
-Date: Tue, 27 Jul 2021 15:21:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VWMWNJcjMkhxs4Pij/ATOwM9Y4y2N8zbBs3L5NM3ndc=;
+ b=UedOe6cJw4koL0X1IO4qFJgHYbjd4c9qpWikMBE1LgPCPXx80Vp47UdRwyCmA87cuB
+ pB1fi3AgF88jyMv/KJKnubye5+NduTzWmIAYnjx4tff+RgWdYCN5ExdatM7+7/HiZ0WS
+ OeAqLfjDKtEqR4XIZCv5q4iXmogiUEKCsv7NnOHzE+5qaJAkXvHpOaZdvV5bIYWiptFS
+ bilfCxf1A1PK/yz3I4zJxG0jI7saINXZLUSRypWL3Tz5Z6WlCGU6clwzpxiWiegtfypV
+ 9jF5QyI8jrwvYV26ai+Q82aT1uEt1TLL2+35TgD4TuFrH0QV5qVv5KPvc5itb7JeqynS
+ M+ZQ==
+X-Gm-Message-State: AOAM530DfHjCnw2WLXRpglYXSPGUdspcZ41hbsqs9Gw8CH0YG29jT/Wh
+ w7Lv06qHnqcWgJoKJ4DyiDfGauIepDeHTEQ+rewqO4sIINQr49L6Hi9DrYUEncfcDpUeKaZH9+R
+ AuYIG0F0EhiyZBlPfc2Gj4k7v/QmpVPU=
+X-Received: by 2002:a05:6402:1011:: with SMTP id
+ c17mr26595533edu.144.1627392241810; 
+ Tue, 27 Jul 2021 06:24:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz5baIwDqTYWSquT37N66Ba1X7fw1D4ZBf6GSC73svOpd9BKlPfSHZ6TD5ABJqtlVmZzHilltzpaRnU3aMifQ=
+X-Received: by 2002:a05:6402:1011:: with SMTP id
+ c17mr26595516edu.144.1627392241641; 
+ Tue, 27 Jul 2021 06:24:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210723193444.133412-5-peterx@redhat.com>
+References: <87pmv4zj22.fsf@p50.localhost.localdomain>
+ <CAFEAcA8eEyhhV88RoTfSMnQb05uODYcL4RVHOzLaxPGPUUc_GA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8eEyhhV88RoTfSMnQb05uODYcL4RVHOzLaxPGPUUc_GA@mail.gmail.com>
+From: Cleber Rosa <crosa@redhat.com>
+Date: Tue, 27 Jul 2021 09:23:51 -0400
+Message-ID: <CA+bd_6+zxLQP1XL_wXM3UZvbAZ6FvNspzSAV7XGqrEgfWjWFZQ@mail.gmail.com>
+Subject: Re: Regression caught by
+ replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+To: Peter Maydell <peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,62 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.07.21 21:34, Peter Xu wrote:
-> Topology update could be wrongly triggered in memory region finalize() if
-> there's bug somewhere else.  It'll be a very confusing stack when it
-> happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
-> only until it fails!).
-> 
-> Instead of that, we use the push()/pop() helper to avoid memory transaction
-> commit, at the same time we use assertions to make sure there's no pending
-> updates or it's a nested transaction, so it could fail even earlier and in a
-> more explicit way.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->   softmmu/memory.c | 23 +++++++++++++++++++++--
->   1 file changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 1a3e9ff8ad..dfce4a2bda 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
->       EventNotifier *e;
->   };
->   
-> +/* Returns whether there's any pending memory updates */
-> +static bool memory_region_has_pending_update(void)
-> +{
-> +    return memory_region_update_pending || ioeventfd_update_pending;
-> +}
-> +
->   static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
->                                              MemoryRegionIoeventfd *b)
->   {
-> @@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
->        * and cause an infinite loop.
->        */
->       mr->enabled = false;
-> -    memory_region_transaction_begin();
-> +
-> +    /*
-> +     * Use push()/pop() instead of begin()/commit() to make sure below block
-> +     * won't trigger any topology update (which should never happen, but it's
-> +     * still a safety belt).
-> +     */
+On Tue, Jul 27, 2021 at 5:17 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 27 Jul 2021 at 01:39, Cleber Rosa <crosa@redhat.com> wrote:
+> > tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+> > is currently failing consistently (first found that in [1]).
+>
+> FWIW I find that on my local machine this test is consistently flaky
+> and always has been, so I just ignore any failure I see in it when
+> running 'make check-acceptance' locally.
+>
+> -- PMM
+>
 
-Hmm, I wonder if we can just keep the begin/end semantics and just do an 
-assertion before doing the commit? Does anything speak against that?
+Hi Peter,
 
--- 
-Thanks,
+Yes, I've spent quite some time with some flaky behavior while running
+the replay tests as well. But in the end, the test remained unchanged
+because we found the issues in the actual code under test (one time
+the recording of the replay file would sometimes be corrupted when
+using >=1 CPUs, but 100% of the time when using a single CPU).
 
-David / dhildenb
+This time, it was failing 100% of the time in my experience, and now,
+after the fix in df3a2de51a07089a4a729fe1f792f658df9dade4, it's
+passing 100% of the time.  So I guess even tests with some observed
+flakiness can have their value.
+
+Cheers,
+- Cleber.
 
 
