@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9E53D71D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 11:20:32 +0200 (CEST)
-Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F613D71DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 11:25:11 +0200 (CEST)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8JGJ-0006Sg-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 05:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
+	id 1m8JKo-0008CI-K7
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 05:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8JEr-0005Fq-66
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:19:02 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34801)
+ id 1m8JJs-0007W6-0a
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:24:12 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:47091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8JEk-0003DT-4H
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:18:57 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id da26so14458585edb.1
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:18:53 -0700 (PDT)
+ id 1m8JJq-0006gt-FJ
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:24:11 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id f13so11724456edq.13
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=peTq3EUlBydrgfKap+VyP4eLWmc3Zuk125IpO8u02Z8=;
- b=heGxfIdobrCHXGSDzgigIjFbVNJ0wdSEFxKOe6enu80xQd3CNmFxCVBvAhHApK4+Bx
- G9YFtwADL6YpKsp1kbg0ocVbsDSBipY4kK1u/BN6HO7vvn8pdFZq5BmTjfaZh0+D94JP
- YwC+POSbP4cppsRUd2bSSMvBCCMwEQHEIE0pEMKuPXylfRKNacS/gkYuVcVsdX/F1C4P
- MnOjibvAeDdmqegzT6YzcGibrFD4E2WUPc5mLf3d9e4RufzwgfRnQZMOiYltiAtHVw9n
- 9VTk04PmPFzJwa9A08areSkNGVQLKtl56vWu2AqvW5LDHQcU2+J70RQoekzaMvxFiePc
- o31w==
+ bh=9iLjJ5S0wd4k9Fpnvvoxg6hpK80evotnLuMaXzjs7GI=;
+ b=H07DRP6sQd9It6QdEOu6FacBR94D85pyF28xIlwwtYk/gdrGenCmyWMnSjA5snPP+d
+ IVPb3L+GtTftUAw6UkXQFHRieIJlC4FPpzgI9l+g51iarhvRffcDfNQGkDjoJEtQyydM
+ Uvdt+lZoXliQ+GLkgdC+8+CvZIsFpq6CU6NhVxrB2oZpnXWzIIYUfjpjyloyFNvkzgsf
+ adcatuTaQOp8PoI10P5OKC+NVzi6pgVySUOsVxDPHPX4vGnmkVJqfKmIF5ppcezqO7yo
+ UoiozmXLA016C6DrzPIlYcGDiPnrkHUKmT+xVDM/gf00svYmSrjKCp74vf+UQYmBaDO3
+ /FGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=peTq3EUlBydrgfKap+VyP4eLWmc3Zuk125IpO8u02Z8=;
- b=AtsJ0KybCzYm6kCZU5awW/j8Y20/fAtX7v5CHrccXPmWmikfjSyLuX+aZyWF9/VS3I
- tf9F5ZSyoiLgf/Ffakmpjt1AeWcxPvaZ+x6WXQw2MV3QhBeLEMF60l7pulGlzqeYWzA8
- rgZQ/jWru8rQ3W93AQX+B3p1+iKdjZ+Rb12AJ/A89TYHqyHaarPKfMYIp8YOqJcdPvfw
- NgpzvzSenXxi7h/7WHTFoMMvzCakbSIOU0Pv2aNCoBF5v7s1hoZPYeUKt4cyWhTMxyz5
- p++068XvAgWAQwmRLzi4OvASh+HhuHOlySNBeRhKPcDxpxO9fM54dbJw4aXBs2uKddLM
- DOcg==
-X-Gm-Message-State: AOAM532dUfEcHdNeoq7pSkshNzNK7xLHoWBK8ZWwUG+rC8pItnkhJ0pX
- tue2+Sy1MbnF30x4e43xc08+d4TCCsPf0JLUiYirzA==
-X-Google-Smtp-Source: ABdhPJwIZNHsNQBa94J+PQl+LXldhbFuRd+28cjHKAagZaTJnqCWv7jJl6mvdx04y4wEahDBxWcMoMZv7Eh23/grB2M=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr26163809edt.100.1627377532630; 
- Tue, 27 Jul 2021 02:18:52 -0700 (PDT)
+ bh=9iLjJ5S0wd4k9Fpnvvoxg6hpK80evotnLuMaXzjs7GI=;
+ b=sHlrdPOn90PPFtCl0xRSDJzLuRplCiDn5tBgwUQaGZle735Nl9JLJqKyNnZi+To5Gc
+ mz5A2wUsHH5PTHV7G3YknOjhTO/TPbIVWLMIo5JS44VeDgzwzbXarmCPAdQMlfXA5cLC
+ lNS19vtPf3yWwP+cGkh2i2IVna471+ITTxEC6uLUueitzr4zo7ejK4+GJyysTzAbbuQM
+ kWMbAGsMD72gnBx1sZ/f+O83xA6K/JJeogHI+aZcg4aMVaWORIRLYjQGoQWVlMbkpXtm
+ iIC1EKWMm/Y6ND0V1QsgpXdAoDQ6A8WDiwHNyIuDpxhnf/ocni+A2oAhj3ReLtnZlDEy
+ RG7Q==
+X-Gm-Message-State: AOAM533PBFINmA/oHThuMpyMGFqLYvs/Whj8MQPoMfx9/H+syvyFSfDl
+ 5zMLKOz6taTbbIu1oqAMw6yid2UFfAVblzH/hrNqKQ==
+X-Google-Smtp-Source: ABdhPJwHD7zgZHo6EWHEp5J+oDyoT+8ScL+hb2cntHTFrSVhLPDP+FJknqopzbynyQr3dLCuY4dt+uj4c6sOE9VJmUU=
+X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr17001152eds.251.1627377848719; 
+ Tue, 27 Jul 2021 02:24:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726150953.1218690-1-f4bug@amsat.org>
-In-Reply-To: <20210726150953.1218690-1-f4bug@amsat.org>
+References: <CAMiADQ8S9XSgH_zEGTw2bQpoPh4BqKByEaAUA5TTL2rLwYV=gA@mail.gmail.com>
+In-Reply-To: <CAMiADQ8S9XSgH_zEGTw2bQpoPh4BqKByEaAUA5TTL2rLwYV=gA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Jul 2021 10:18:10 +0100
-Message-ID: <CAFEAcA9M5u-NF9v1MmGctbCh_LMRyhtvLc9yKzuP2SFsgPbViQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/nseries: Display hexadecimal value with '0x' prefix
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 27 Jul 2021 10:23:26 +0100
+Message-ID: <CAFEAcA8DqSSg3i5L+Rj6m+9X3BWzr===FdufFJgR49tvq6dq=A@mail.gmail.com>
+Subject: Re: QEMU question: upstreaming I2C device with unpublished datasheet
+To: Shengtan Mao <stmao@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,35 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Hao Wu <wuhaotsh@google.com>, Patrick Venture <venture@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Chris Rauer <crauer@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 16:09, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Wed, 21 Jul 2021 at 22:06, Shengtan Mao <stmao@google.com> wrote:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/nseries.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-> index 906c915df78..af3164c5519 100644
-> --- a/hw/arm/nseries.c
-> +++ b/hw/arm/nseries.c
-> @@ -692,7 +692,7 @@ static uint32_t mipid_txrx(void *opaque, uint32_t cmd=
-, int len)
->      default:
->      bad_cmd:
->          qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "%s: unknown command %02x\n", __func__, s->cmd);
-> +                      "%s: unknown command 0x%02x\n", __func__, s->cmd);
->          break;
->      }
+> Hi everyone,
+> we are hoping to upstream a MAX I2C device to QEMU. The device's datashee=
+t is not public, and we are contacting the Maxim company to get their permi=
+ssion. If Maxim is okay with upstreaming the device with an unpublished dat=
+asheet, will this still be an issue with QEMU?
 
+It's not inherently a blocker, but the difficulty is code review.
+Without knowing how the device should behave, it's hard to tell
+whether the model is doing the right thing. Ideally Maxim should
+just publish their datasheet, so if you/your company has any
+leverage with them you should push them to do that :-)
 
+That said, we do have other device models in the tree which
+don't have public datasheets, and as long as the device is not
+too complicated we should be OK as long as you can also submit
+enough test cases that we could refactor the device in future
+without worrying too much that we're breaking it because we don't
+know how it's supposed to behave.
 
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
