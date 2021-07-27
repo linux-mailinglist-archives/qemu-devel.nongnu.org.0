@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121613D79A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 17:24:47 +0200 (CEST)
-Received: from localhost ([::1]:42212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A973D79A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 17:25:41 +0200 (CEST)
+Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Owo-0001Jj-4Q
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 11:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52464)
+	id 1m8Oxh-00032Z-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 11:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Out-00085e-OB
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49200)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Ov6-0008AR-2S
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:23:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Ous-0000uF-8H
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Ov3-00013y-Mu
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627399363;
+ s=mimecast20190719; t=1627399376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6g8hAnKN475+HK+CD5THwQXKTF2wP3yeE+KEpvj9ipk=;
- b=DQCD9+Lcq0dtV50vDHoS6weKQ5DpdBS7NgKi3WjJJx+OHH7q8qaadNjD02g7aGDmEzCIoS
- y1evPo5sjDYw5oP4ECgBpWF5VxCq8Q+Xt6FufLF6sBBG4OQ849M9qTljc3e7xbXm2Q3GpR
- sZfN2ZttMHgv6lBHvwc7wVoR5b84bik=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aTQzhB5mIxDT02D6WCp7EgCPW274nLz8l5qxKayrCVk=;
+ b=a+6ZjurI5lrE0zLMySB8IQS8mWaRqL0l3wR0hFWdlNrx3kgiqbVTD0LWs6roccueKOfaRw
+ ojeAMe6oPgWVVxZD899WEg6voPHBdOcyjZ8R2r7bmtJ4utIwBLWltjnZG4WOF/HHwpV5+R
+ M8WOUeGUWDl/QIPGVL1pFbSkoO/lmGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-NGGCKUHEMRSjdLY-_SAS9g-1; Tue, 27 Jul 2021 11:22:41 -0400
-X-MC-Unique: NGGCKUHEMRSjdLY-_SAS9g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-534-BE66zwQfM6qxf3UxCGqsDQ-1; Tue, 27 Jul 2021 11:22:54 -0400
+X-MC-Unique: BE66zwQfM6qxf3UxCGqsDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB0961932483;
- Tue, 27 Jul 2021 15:22:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67772107ACF5;
+ Tue, 27 Jul 2021 15:22:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
  [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D4E360854;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AACBD5D9DD;
  Tue, 27 Jul 2021 15:22:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 26AAA11326B9; Tue, 27 Jul 2021 17:22:39 +0200 (CEST)
+ id 28D2E112D841; Tue, 27 Jul 2021 17:22:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] Miscellaneous patches for 2021-07-27
-Date: Tue, 27 Jul 2021 17:22:38 +0200
-Message-Id: <20210727152239.829519-1-armbru@redhat.com>
+Subject: [PULL 1/1] vl: Don't continue after -smp help.
+Date: Tue, 27 Jul 2021 17:22:39 +0200
+Message-Id: <20210727152239.829519-2-armbru@redhat.com>
+In-Reply-To: <20210727152239.829519-1-armbru@redhat.com>
+References: <20210727152239.829519-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,32 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@ionos.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ca4b5ef371d6602b73bc5eec08e3199b05caf146:
+We continue after -smp help:
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-migration-20210726a' into staging (2021-07-27 10:55:50 +0100)
+    $ qemu-system-x86_64 -smp help -display none -monitor stdio
+    smp-opts options:
+      cores=<num>
+      cpus=<num>
+      dies=<num>
+      maxcpus=<num>
+      sockets=<num>
+      threads=<num>
+    QEMU 6.0.50 monitor - type 'help' for more information
+    (qemu)
 
-are available in the Git repository at:
+Other options, such as -object help and -device help, don't.
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-misc-2021-07-27
+Adjust -smp not to continue either.
 
-for you to fetch changes up to 3e61a13af3d3a1942a1ec2f6dfd7b407a43e4273:
-
-  vl: Don't continue after -smp help. (2021-07-27 16:52:37 +0200)
-
-----------------------------------------------------------------
-Miscellaneous patches for 2021-07-27
-
-----------------------------------------------------------------
-Markus Armbruster (1):
-      vl: Don't continue after -smp help.
-
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210720125408.387910-17-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+---
  softmmu/vl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f815acccaa..4dee472c79 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1545,7 +1545,7 @@ machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
+     prop = keyval_parse(arg, opts_list->implied_opt_name, &help, errp);
+     if (help) {
+         qemu_opts_print_help(opts_list, true);
+-        return;
++        exit(0);
+     }
+     opts = qdict_new();
+     qdict_put(opts, propname, prop);
 -- 
 2.31.1
 
