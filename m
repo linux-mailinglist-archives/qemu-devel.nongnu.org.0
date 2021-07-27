@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586F03D6ECD
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 08:09:46 +0200 (CEST)
-Received: from localhost ([::1]:41062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC103D6F82
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 08:32:07 +0200 (CEST)
+Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8GHh-0004sp-Dy
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 02:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47612)
+	id 1m8GdD-0000xQ-Uz
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 02:31:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8GGs-0004AR-3Y
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:08:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34900)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8Gbv-0000Eg-Gx
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:30:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8GGo-0008J5-Va
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:08:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8Gbr-0001um-Qb
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627366129;
+ s=mimecast20190719; t=1627367433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5JA/drTRG6TJPryqszUuYU4KzTIW4U1VpMgqWT+IhCw=;
- b=a3cHJItGq7g3aOtBlW51/qSxHSU39QLFkdPRo4EaoU0ViMsaMDPZ4seLZcCE5IgErp+Mqf
- NLE5+jGgt1eVC0Zcpw3FT30HBmHtbcyNPYrduNJzYRaaufWucBCfGkjqMtwjmQicA8J6g7
- nHDJC2Xq6uEBfUOyg0+4jJ3ZuG9Ub2s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426--UmezTsJN3SGfakMOGrF7A-1; Tue, 27 Jul 2021 02:08:48 -0400
-X-MC-Unique: -UmezTsJN3SGfakMOGrF7A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a25-20020a05600c2259b02902540009f03cso53064wmm.4
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 23:08:48 -0700 (PDT)
+ bh=zPcbzy2/auTKgd3xCsr1flHj/wFJNkFnMKC+M7D+BCU=;
+ b=gjc3WIUec7gzld62/gvl9jg/I47RzbXLHkBjpK07yj0/n46Rc+7JJVXSsMpkFhPy6neOjE
+ tcSrMIjlbD5dgK0yyf1gxXuDmzEbb7unQVKFtTz4fU3AelqhK/0vPfCHEyl6ax859FAiRg
+ sIuHbcjMvnRaMLntsPj4zrrO1VlCzxs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-pWMqr8qpPoGc2AR7T20aBQ-1; Tue, 27 Jul 2021 02:30:31 -0400
+X-MC-Unique: pWMqr8qpPoGc2AR7T20aBQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c41-20020a05600c4a29b0290253935d0f82so308873wmp.9
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 23:30:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5JA/drTRG6TJPryqszUuYU4KzTIW4U1VpMgqWT+IhCw=;
- b=j16o543BbcKHX6DxzLoSZ5zOzVd82ulkconLI6S1QTHEdo0nITwfEiXoyAXoRWKW9O
- g0E1OnqApX6SusZi7TrGPw1n5G9sDJgG8WKvKx6kgk41etTlQCLkhpXIfxZ/okceKrKj
- BP+3tf3+PUxfI/GRCBM/ofy7IC5XB1GkmhoPot7QzdwGzJwzKgeHHCsHKNHhFKL5p1Gq
- htbooJnRAAtyIAG4/NDtre0x5nF6sUMmYjuFEVDAEydYxf0wf/ihTNsrXm0EOtb93ynU
- XxNtBaYxaIt/djabuZRKx7VqdlAtlDaW/F1AoE4JonSpLeti8HnUZjAVFLrsGm1OgwJV
- DtMA==
-X-Gm-Message-State: AOAM530I+5EciOvp4HxHFTDcVF52CR/p53jzGSNX5FPay+2lEf0D3gX1
- uVcDinrKEgV595CZ+orGlky0mK8oqKo3kA5mGVBFluU9+Tla3TdPlYx2kURMZXLlCXY0JqzTuRY
- MenoUWKS1YbC2gdA=
-X-Received: by 2002:a05:6000:184c:: with SMTP id
- c12mr13118611wri.52.1627366127013; 
- Mon, 26 Jul 2021 23:08:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtguqZdW1AWxa80CKKPIcypNvSSNc6XaDAI3USGtc5eyIjQJ812VjMpq2BD+nzf8tqaowMiw==
-X-Received: by 2002:a05:6000:184c:: with SMTP id
- c12mr13118601wri.52.1627366126871; 
- Mon, 26 Jul 2021 23:08:46 -0700 (PDT)
+ bh=zPcbzy2/auTKgd3xCsr1flHj/wFJNkFnMKC+M7D+BCU=;
+ b=EX9249LU8/BkzwD9ipUdB4KmoBEzPssGSVmqF6074DHT31PadrxcMgQqg+dSM++dVO
+ tD/9SQN46r0hTKhGlA52dHwxSoDl1MQ+1KfJFQRHrCq6dqqJGUKqjuURntDYXjPqLHqL
+ OAfU+PkiDXNWyHIs1MHkgjSsirZJQ8c7zELawdxez+r4iWOiAnImpLpuAo3SWIP2vzbb
+ ebROxLsNkZuJ73hfJ0QYdLvP+uSjofvc+5Hz2j8Zq06yTm6fJNIQRifjlT3EXZBsCWzD
+ JrohoPlO+OgTOiHF9sh49YTkpmfHAvJ/fIsVt0GwDSPmU50oomGsFeD2p+VzOCbSGT60
+ 0eHA==
+X-Gm-Message-State: AOAM531iJQtkpI6t5bqtFncq917rtEZ6oMg2OMkCVsmTiXKyhwFDVuBJ
+ AbgjX8dZQJtCkyIH9R24Q0HWlfCJcn2Om9ryiSNto4Q9QbMhjz00lYcy0zfWr1viQSi4VpsmrQi
+ lKPl9TonWMBsQhZw=
+X-Received: by 2002:adf:f112:: with SMTP id r18mr336687wro.160.1627367430507; 
+ Mon, 26 Jul 2021 23:30:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsfrJKvG0LwHfsK2pNfRlh5Vin81nwORA5SoInaGII59NuetER+hfS4UvavOLCfxSXi8WewA==
+X-Received: by 2002:adf:f112:: with SMTP id r18mr336661wro.160.1627367430304; 
+ Mon, 26 Jul 2021 23:30:30 -0700 (PDT)
 Received: from thuth.remote.csb (pd9575250.dip0.t-ipconnect.de. [217.87.82.80])
- by smtp.gmail.com with ESMTPSA id l3sm1592489wmq.2.2021.07.26.23.08.46
+ by smtp.gmail.com with ESMTPSA id y3sm1980759wrh.16.2021.07.26.23.30.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 23:08:46 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1 v4 3/4] gitlab-ci: Fix 'when:' condition in EDK2
- jobs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Mon, 26 Jul 2021 23:30:29 -0700 (PDT)
+Subject: Re: [PATCH v2] gitlab: only let pages be published from default branch
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-References: <20210726150429.1216251-1-philmd@redhat.com>
- <20210726150429.1216251-4-philmd@redhat.com>
+References: <20210723113051.2792799-1-berrange@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c1caf8a1-e630-17a7-385c-8a3b24db0f94@redhat.com>
-Date: Tue, 27 Jul 2021 08:08:45 +0200
+Message-ID: <08333e81-ea0d-6fb2-1526-c128eb264e61@redhat.com>
+Date: Tue, 27 Jul 2021 08:30:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210726150429.1216251-4-philmd@redhat.com>
+In-Reply-To: <20210723113051.2792799-1-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,44 +98,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/07/2021 17.04, Philippe Mathieu-Daudé wrote:
-> Jobs depending on another should not use the 'when: always'
-> condition, because if a dependency failed we should not keep
-> running jobs depending on it. The correct condition is
-> 'when: on_success'.
+On 23/07/2021 13.30, Daniel P. Berrangé wrote:
+> GitLab will happily publish pages generated by the latest CI pipeline
+> from any branch:
 > 
-> Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries")
-> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> https://docs.gitlab.com/ee/user/project/pages/introduction.html
+> 
+>    "Remember that GitLab Pages are by default branch/tag agnostic
+>     and their deployment relies solely on what you specify in
+>     .gitlab-ci.yml. You can limit the pages job with the only
+>     parameter, whenever a new commit is pushed to a branch used
+>     specifically for your pages."
+> 
+> The current "pages" job is not limited, so it is happily publishing
+> docs content from any branch/tag in qemu.git that gets pushed to.
+> This means we're potentially publishing from the "staging" branch
+> or worse from outdated "stable-NNN" branches
+> 
+> This change restricts it to only publish from the default branch
+> in the main repository. For contributor forks, however, we allow
+> it to publish from any branch, since users will have arbitrarily
+> named topic branches in flight at any time.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   .gitlab-ci.d/edk2.yml | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
 > 
-> diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-> index aae2f7ad880..62497ba47fb 100644
-> --- a/.gitlab-ci.d/edk2.yml
-> +++ b/.gitlab-ci.d/edk2.yml
-> @@ -8,11 +8,11 @@
->      - .gitlab-ci.d/edk2/Dockerfile
->      # or roms/edk2/ is modified (submodule updated)
->      - roms/edk2/*
-> -   when: always
-> +   when: on_success
->    - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
-> -   when: always
-> +   when: on_success
->    - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
-> -   when: always
-> +   when: on_success
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 89df51517c..80b57b7082 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -663,6 +663,17 @@ build-tools-and-docs-debian:
 >   
->   docker-edk2:
->    extends: .edk2_job_rules
+>   # Prepare for GitLab pages deployment. Anything copied into the
+>   # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
+> +#
+> +# GitLab publishes from any branch that triggers a CI pipeline
+> +#
+> +# For the main repo we don't want to publish from 'staging'
+> +# since that content may not be pushed, nor do we wish to
+> +# publish from 'stable-NNN' branches as that content is outdated.
+> +# Thus we restrict to just the default branch
+> +#
+> +# For contributor forks we want to publish from any repo so
+> +# that users can see the results of their commits, regardless
+> +# of what topic branch they're currently using
+>   pages:
+>     image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+>     stage: test
+> @@ -681,3 +692,10 @@ pages:
+>     artifacts:
+>       paths:
+>         - public
+> +  rules:
+> +    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+> +      when: on_success
+> +    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
+> +      when: never
+> +    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
+> +      when: on_success
+> 
+
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
