@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC103D6F82
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 08:32:07 +0200 (CEST)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14E93D6FEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 09:05:57 +0200 (CEST)
+Received: from localhost ([::1]:53564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8GdD-0000xQ-Uz
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 02:31:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1m8HA4-0007yN-GG
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 03:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8Gbv-0000Eg-Gx
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:30:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56573)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m8H8n-0007DJ-P4
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:04:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8Gbr-0001um-Qb
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:30:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627367433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zPcbzy2/auTKgd3xCsr1flHj/wFJNkFnMKC+M7D+BCU=;
- b=gjc3WIUec7gzld62/gvl9jg/I47RzbXLHkBjpK07yj0/n46Rc+7JJVXSsMpkFhPy6neOjE
- tcSrMIjlbD5dgK0yyf1gxXuDmzEbb7unQVKFtTz4fU3AelqhK/0vPfCHEyl6ax859FAiRg
- sIuHbcjMvnRaMLntsPj4zrrO1VlCzxs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-pWMqr8qpPoGc2AR7T20aBQ-1; Tue, 27 Jul 2021 02:30:31 -0400
-X-MC-Unique: pWMqr8qpPoGc2AR7T20aBQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c41-20020a05600c4a29b0290253935d0f82so308873wmp.9
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 23:30:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zPcbzy2/auTKgd3xCsr1flHj/wFJNkFnMKC+M7D+BCU=;
- b=EX9249LU8/BkzwD9ipUdB4KmoBEzPssGSVmqF6074DHT31PadrxcMgQqg+dSM++dVO
- tD/9SQN46r0hTKhGlA52dHwxSoDl1MQ+1KfJFQRHrCq6dqqJGUKqjuURntDYXjPqLHqL
- OAfU+PkiDXNWyHIs1MHkgjSsirZJQ8c7zELawdxez+r4iWOiAnImpLpuAo3SWIP2vzbb
- ebROxLsNkZuJ73hfJ0QYdLvP+uSjofvc+5Hz2j8Zq06yTm6fJNIQRifjlT3EXZBsCWzD
- JrohoPlO+OgTOiHF9sh49YTkpmfHAvJ/fIsVt0GwDSPmU50oomGsFeD2p+VzOCbSGT60
- 0eHA==
-X-Gm-Message-State: AOAM531iJQtkpI6t5bqtFncq917rtEZ6oMg2OMkCVsmTiXKyhwFDVuBJ
- AbgjX8dZQJtCkyIH9R24Q0HWlfCJcn2Om9ryiSNto4Q9QbMhjz00lYcy0zfWr1viQSi4VpsmrQi
- lKPl9TonWMBsQhZw=
-X-Received: by 2002:adf:f112:: with SMTP id r18mr336687wro.160.1627367430507; 
- Mon, 26 Jul 2021 23:30:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsfrJKvG0LwHfsK2pNfRlh5Vin81nwORA5SoInaGII59NuetER+hfS4UvavOLCfxSXi8WewA==
-X-Received: by 2002:adf:f112:: with SMTP id r18mr336661wro.160.1627367430304; 
- Mon, 26 Jul 2021 23:30:30 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575250.dip0.t-ipconnect.de. [217.87.82.80])
- by smtp.gmail.com with ESMTPSA id y3sm1980759wrh.16.2021.07.26.23.30.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 23:30:29 -0700 (PDT)
-Subject: Re: [PATCH v2] gitlab: only let pages be published from default branch
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210723113051.2792799-1-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <08333e81-ea0d-6fb2-1526-c128eb264e61@redhat.com>
-Date: Tue, 27 Jul 2021 08:30:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m8H8l-000245-5K
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:04:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D3DBF6112D
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 07:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627369472;
+ bh=lUqVfQgBY2zWG8CvX/dY83EP7TtxDwDynTqaNApa7YM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=f/9Vt339iCkSjGY5H9z2afA+MRLT+O8Otk5SPyVwp0RkXdPGGDa0VBP+OeKwKhxaG
+ xiJD0G6stCWpoKj7S6BhKC56leClQ7P/2XZUOQbH7EnKZVfMa0Ult1QZIbl8oCwFUc
+ FFjCsnLVKsBP6NZ9L+L60sjVudh8aCoikdpI32wwiVUpu1VRusZQ+LmCOnPck1JRRY
+ M8+KsIyYB3BTjuu/IoxZB6oTXoW3pQ4fwwB4vsXmKNaGHWrfLanVyP0dRjvRiG/f5B
+ o1mmyDbnNfLeD2pLu+BADisNXO3IbUfgxLWkmYEChf+VMkb3/ZNfIr9qy9lp6F3Msr
+ V2SjM8PfZXn0A==
+Received: by mail-ot1-f54.google.com with SMTP id
+ 68-20020a9d0f4a0000b02904b1f1d7c5f4so11566673ott.9
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 00:04:32 -0700 (PDT)
+X-Gm-Message-State: AOAM532hD3Tsp3WVKic5AkjZwfMxle57dH5cL6d0jiizKRWrO+6Teotl
+ 9TjVsvMuDU0EHeTsnxyw0VIQCSRJnjh4uwj+Rz4=
+X-Google-Smtp-Source: ABdhPJxcVAdmMcddF7bjASVwweQadI0N/uf32j8O7RjmDaI5mxOu57YPpSO6k82hrQydK5Aruv+LxvsUjm4Z7/PbD8c=
+X-Received: by 2002:a05:6830:2316:: with SMTP id
+ u22mr14486892ote.90.1627369472218; 
+ Tue, 27 Jul 2021 00:04:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210723113051.2792799-1-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+ <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+ <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+In-Reply-To: <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 27 Jul 2021 09:04:20 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
+Message-ID: <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,76 +76,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/07/2021 13.30, Daniel P. Berrangé wrote:
-> GitLab will happily publish pages generated by the latest CI pipeline
-> from any branch:
-> 
-> https://docs.gitlab.com/ee/user/project/pages/introduction.html
-> 
->    "Remember that GitLab Pages are by default branch/tag agnostic
->     and their deployment relies solely on what you specify in
->     .gitlab-ci.yml. You can limit the pages job with the only
->     parameter, whenever a new commit is pushed to a branch used
->     specifically for your pages."
-> 
-> The current "pages" job is not limited, so it is happily publishing
-> docs content from any branch/tag in qemu.git that gets pushed to.
-> This means we're potentially publishing from the "staging" branch
-> or worse from outdated "stable-NNN" branches
-> 
-> This change restricts it to only publish from the default branch
-> in the main repository. For contributor forks, however, we allow
-> it to publish from any branch, since users will have arbitrarily
-> named topic branches in flight at any time.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   .gitlab-ci.d/buildtest.yml | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 89df51517c..80b57b7082 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -663,6 +663,17 @@ build-tools-and-docs-debian:
->   
->   # Prepare for GitLab pages deployment. Anything copied into the
->   # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
-> +#
-> +# GitLab publishes from any branch that triggers a CI pipeline
-> +#
-> +# For the main repo we don't want to publish from 'staging'
-> +# since that content may not be pushed, nor do we wish to
-> +# publish from 'stable-NNN' branches as that content is outdated.
-> +# Thus we restrict to just the default branch
-> +#
-> +# For contributor forks we want to publish from any repo so
-> +# that users can see the results of their commits, regardless
-> +# of what topic branch they're currently using
->   pages:
->     image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
->     stage: test
-> @@ -681,3 +692,10 @@ pages:
->     artifacts:
->       paths:
->         - public
-> +  rules:
-> +    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-> +      when: on_success
-> +    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-> +      when: never
-> +    - if: '$CI_PROJECT_NAMESPACE != "qemu-project"'
-> +      when: on_success
-> 
+On Tue, 27 Jul 2021 at 07:12, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
+> > On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
+> >> (cc Bjorn)
+> >>
+> >> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daud=C3=A9 <philmd@redh=
+at.com> wrote:
+> >>>
+> >>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
+> >>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+> >>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+> >>>>>> Hi all,
+> >>>>>>
+> >>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no long=
+er
+> >>>>>> work. Analysis shows that PCI devices with IO ports do not instant=
+iate
+> >>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem a=
+ffects
+> >>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+> >>>>>> affects
+> >>>>>> aarch64, not x86/x86_64.
+> >>>>>>
+> >>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os=
+ to
+> >>>>>> keep firmware resource map"). Since this commit, PCI device BAR
+> >>>>>> allocation has changed. Taking tulip as example, the kernel report=
+s
+> >>>>>> the following PCI bar assignments when running qemu v5.2.
+> >>>>>>
+> >>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x02000=
+0
+> >>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> >>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x10000=
+07f]
+> >>
+> >> IIUC, these lines are read back from the BARs
+> >>
+> >>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107=
+f]
+> >>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+> >>>>>> 0x10000000-0x1000007f]
+> >>>>>>
+> >>
+> >> ... and this is the assignment created by the kernel.
+> >>
+> >>>>>> With qemu v6.0, the assignment is reported as follows.
+> >>>>>>
+> >>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x02000=
+0
+> >>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> >>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x10000=
+07f]
+> >>>>>>
+> >>
+> >> The problem here is that Linux, for legacy reasons, does not support
+> >> I/O ports <=3D 0x1000 on PCI, so the I/O assignment created by EFI is
+> >> rejected.
+> >>
+> >> This might make sense on x86, where legacy I/O ports may exist, but on
+> >> other architectures, this makes no sense.
+> >
+> >
+> > Fixing Linux makes sense but OTOH EFI probably shouldn't create mapping=
+s
+> > that trip up existing guests, right?
+> >
+>
+> I think it is difficult to draw a line. Sure, maybe EFI should not create
+> such mappings, but then maybe qemu should not suddenly start to enforce
+> those mappings for existing guests either.
+>
 
+EFI creates the mappings primarily for itself, and up until DSM #5
+started to be enforced, all PCI resource allocations that existed at
+boot were ignored by Linux and recreated from scratch.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Also, the commit in question looks dubious to me. I don't think it is
+likely that Linux would fail to create a resource tree. What does
+happen is that BARs get moved around, which may cause trouble in some
+cases: for instance, we had to add special code to the EFI framebuffer
+driver to copy with framebuffer BARs being relocated.
 
+> For my own testing, I simply reverted commit 0cf8882fd0 in my copy of
+> qemu. That solves my immediate problem, giving us time to find a solution
+> that is acceptable for everyone. After all, it doesn't look like anyone
+> else has noticed the problem, so there is no real urgency.
+>
+
+I would argue that it is better to revert that commit. DSM #5 has a
+long history of debate and misinterpretation, and while I think we
+ended up with something sane, I don't think we should be using it in
+this particular case.
 
