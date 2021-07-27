@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB9B3D71EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 11:26:23 +0200 (CEST)
-Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B333D720A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 11:31:57 +0200 (CEST)
+Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8JLy-0001Cl-MH
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 05:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36394)
+	id 1m8JRM-00033y-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 05:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8JKw-0000SZ-Uj
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:25:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40136)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m8JQA-0002IO-D3
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:30:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8JKs-0007KG-QW
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:25:17 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m8JQ8-0002iN-I9
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:30:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627377913;
+ s=mimecast20190719; t=1627378239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4sy5VKX6f9vv9sxpEeEkM0CmH0qj7IcENG93OrN8s6M=;
- b=YjsSQgVzR2KUgY1M4igsVYB9ZROkaBMQ5OddAjKZ+pvmzHP/SA4axXvz8qBvTeqGoDWAoL
- ZdqphBquW1SgPXa5vVG3YRsRPqfUnJW1U11LU8B2e8GYUHTvnowvjushfU9RUBWKiQ81UX
- LBVJPpHtq70A0tMvFD1/SG3Z0aJupWo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-2ASqKr13PlCb9h5iOvpGlA-1; Tue, 27 Jul 2021 05:25:12 -0400
-X-MC-Unique: 2ASqKr13PlCb9h5iOvpGlA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n1-20020a5d59810000b029013cd60e9baaso5756796wri.7
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:25:11 -0700 (PDT)
+ bh=53MhhRr4ec4yG4/6bOptih40UdyBB8hPPeQ/fvRIaEY=;
+ b=MuA0jiiYe1FY5sWN7vKDarQs825vfmcmY8WeFQZSr9JZoT+J7OijnrWLkjWSUkmW1q65To
+ xL9aNYo54ksylhxZcaOHISRuxxQsz/Xl+8UK8LfTP7zep3WMFeGWb4h2MsvFsnpoVqe8ug
+ 356ySlrVxkyxM/KHAtjNp62dSxLLBvI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-nWBngfSAOsmwfnREVe5Zhw-1; Tue, 27 Jul 2021 05:30:36 -0400
+X-MC-Unique: nWBngfSAOsmwfnREVe5Zhw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ a23-20020a50ff170000b02903b85a16b672so6305366edu.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:30:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:references:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=4sy5VKX6f9vv9sxpEeEkM0CmH0qj7IcENG93OrN8s6M=;
- b=l4J27Go3VHQj5XpSvdhrpSquZ2a/hV0skHNsI7O27SKy10+WLrLZv/BUp4ydbGgqMJ
- nqJMjdLSNvIT3gxXeAu7G/8RVY+Zp7e+v0i1PBxVrzxvb4nNHIMQQPwP0CU1/7ioRy/c
- ps+qMD9ypKWIxyUlJ5vp4xQYUNOEpSA7fvYeDnF7dDh05HRnWVDWRWj4Kt0pJkT0zNHV
- 1z5PCrHYAj/6EjidDMBQH3xsi/rfoJaWxtdCIpe/u6PdX9Z77c2eNGWVshUyoTLGGzYl
- FSfTzJGNKbc3acULfHFvbtFhQGW2EiaZ+gtJC5xDsxnoGdJfrytGqfBkoSIlsAUZy9Ls
- By9w==
-X-Gm-Message-State: AOAM532n+tvMlBSuGa+d8br/wSWxBB8ASDeMsAvwrXzVAlw6pK+O1n2f
- lP5DiXyzS26ZY1mzukZPicG99cn1ICaIxyESLfjAz2hInX7q8R9xdZTgUJTTqh2ZBxvGJT+6Hom
- 3Mw74At/U5LXGnn8=
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr23464697wrs.405.1627377910738; 
- Tue, 27 Jul 2021 02:25:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJ5HX0kFjlzyRsppCHUFsyxyKfZujRO3kMlbfBza8gliYGj/ilOjOz/K8QmsOJFNqkKFd3iQ==
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr23464676wrs.405.1627377910415; 
- Tue, 27 Jul 2021 02:25:10 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23c36.dip0.t-ipconnect.de. [79.242.60.54])
- by smtp.gmail.com with ESMTPSA id
- p8sm2663962wrn.79.2021.07.27.02.25.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 02:25:09 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-References: <20210721092759.21368-1-david@redhat.com>
- <YPlWqs8N+NiFH/yj@work-vm> <800e421c-70b8-1ef2-56f7-cdbce7a7706b@redhat.com>
- <YPrqfkCk7EM7QLpa@t490s> <ea9e9071-4ecb-9c28-9567-92585a18b4eb@redhat.com>
- <YPtAd+JqfNeQqGib@t490s>
-Organization: Red Hat
-Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
- RamDiscardManager
-Message-ID: <da54f4ab-2f20-a780-1a9c-b6f4c1c50969@redhat.com>
-Date: Tue, 27 Jul 2021 11:25:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=53MhhRr4ec4yG4/6bOptih40UdyBB8hPPeQ/fvRIaEY=;
+ b=kcugSixboU9vdcIcrdj7GuScvJA6asowtTgTq1Htr+qsgLd6T4gkgh3DKywYsNNbk9
+ Fset+V4ccqwZd8lM3Evdzglph5EDY6iFh9Pz20qexpUGdcZ29cyRJCCfF1Vq1TW4Mm77
+ gnfJgV1xfwm5I+DVlGoVEbNTCmK9ha4Qg+CXHOokZqWzGrcQtKTKv+2RFHP0fW6yG3ri
+ xk8ENJ5UpaQtzHvAn8ExFU/cQNBdJSIhejkrNVPteSLW/XBKc6CEOv1Nrc+hMK8ZtFnL
+ kRKApeB/Vo3ERzUxJkgtj8kd4qOwSmGpkfXjY53NjEWsIlLPphLZ5ITLMddeINtKXL04
+ Dbwg==
+X-Gm-Message-State: AOAM5336+5K0aOYtBDXdxLB/UUHculqv8BdibvfuBx1YctTWDZktCTHE
+ VjN1Ji2nEjQjGlQLoNSaeZXKdRL1gSyC6Ov4nDAiTwcxQnX7cKQL1mRHaAL0X9eSHC2/5SsyZvz
+ lbdvfPZWvfuvlM2s=
+X-Received: by 2002:a17:906:3699:: with SMTP id
+ a25mr20725518ejc.452.1627378235062; 
+ Tue, 27 Jul 2021 02:30:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2F8H5urTAkqAQZsIoXP/boAFl6v4NMdX2yt6IVlHAf+thyODCjoF2GCmwsMHfjL2XyhVxwg==
+X-Received: by 2002:a17:906:3699:: with SMTP id
+ a25mr20725488ejc.452.1627378234828; 
+ Tue, 27 Jul 2021 02:30:34 -0700 (PDT)
+Received: from redhat.com ([2.55.128.141])
+ by smtp.gmail.com with ESMTPSA id dh8sm428852edb.14.2021.07.27.02.30.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 02:30:32 -0700 (PDT)
+Date: Tue, 27 Jul 2021 05:30:29 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+Message-ID: <20210727052516-mutt-send-email-mst@kernel.org>
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+ <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+ <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+ <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YPtAd+JqfNeQqGib@t490s>
+In-Reply-To: <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,135 +103,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.07.21 00:19, Peter Xu wrote:
-> On Fri, Jul 23, 2021 at 08:41:40PM +0200, David Hildenbrand wrote:
->> On 23.07.21 18:12, Peter Xu wrote:
->>> On Thu, Jul 22, 2021 at 01:43:41PM +0200, David Hildenbrand wrote:
->>>>>> a) In precopy code, always clearing all dirty bits from the bitmap that
->>>>>>       correspond to discarded range, whenever we update the dirty bitmap. This
->>>>>>       results in logically unplugged memory to never get migrated.
->>>>>
->>>>> Have you seen cases where discarded areas are being marked as dirty?
->>>>> That suggests something somewhere is writing to them and shouldn't be.
->>>>
->>>> I have due to sub-optimal clear_bmap handling to be sorted out by
->>>>
->>>> https://lkml.kernel.org/r/20210722083055.23352-1-wei.w.wang@intel.com
->>>>
->>>> Whereby the issue is rather that initially dirty bits don't get cleared in
->>>> lower layers and keep popping up as dirty.
->>>>
->>>> The issue with postcopy recovery code setting discarded ranges dirty in
->>>> the dirty bitmap, I did not try reproducing. But from looking at the
->>>> code, it's pretty clear that it would happen.
->>>>
->>>> Apart from that, nothing should dirty that memory. Of course,
->>>> malicious guests could trigger it for now, in which case we wouldn't catch it
->>>> and migrate such pages with postcopy, because the final bitmap sync in
->>>> ram_postcopy_send_discard_bitmap() is performed without calling notifiers
->>>> right now.
->>>
->>> I have the same concern with Dave: does it mean that we don't need to touch at
->>> least ramblock_sync_dirty_bitmap in patch 3?
->>
->> Yes, see the comment in patch #3:
->>
->> "
->> Note: If discarded ranges span complete clear_bmap chunks, we'll never
->> clear the corresponding bits from clear_bmap and consequently never call
->> memory_region_clear_dirty_bitmap on the affected regions. While this is
->> perfectly fine, we're still synchronizing the bitmap of discarded ranges,
->> for example, in
->> ramblock_sync_dirty_bitmap()->cpu_physical_memory_sync_dirty_bitmap()
->> but also during memory_global_dirty_log_sync().
->>
->> In the future, it might make sense to never even synchronize the dirty log
->> of these ranges, for example in KVM code, skipping discarded ranges
->> completely.
->> "
->>
->> The KVM path might be even more interesting (with !dirty ring IIRC).
->>
->> So that might certainly be worth looking into if we find it to be a real
->> performance problem.
+On Tue, Jul 27, 2021 at 09:04:20AM +0200, Ard Biesheuvel wrote:
+> On Tue, 27 Jul 2021 at 07:12, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
+> > > On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
+> > >> (cc Bjorn)
+> > >>
+> > >> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> > >>>
+> > >>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
+> > >>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+> > >>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+> > >>>>>> Hi all,
+> > >>>>>>
+> > >>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
+> > >>>>>> work. Analysis shows that PCI devices with IO ports do not instantiate
+> > >>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affects
+> > >>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+> > >>>>>> affects
+> > >>>>>> aarch64, not x86/x86_64.
+> > >>>>>>
+> > >>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
+> > >>>>>> keep firmware resource map"). Since this commit, PCI device BAR
+> > >>>>>> allocation has changed. Taking tulip as example, the kernel reports
+> > >>>>>> the following PCI bar assignments when running qemu v5.2.
+> > >>>>>>
+> > >>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> > >>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> > >>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+> > >>
+> > >> IIUC, these lines are read back from the BARs
+> > >>
+> > >>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+> > >>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+> > >>>>>> 0x10000000-0x1000007f]
+> > >>>>>>
+> > >>
+> > >> ... and this is the assignment created by the kernel.
+> > >>
+> > >>>>>> With qemu v6.0, the assignment is reported as follows.
+> > >>>>>>
+> > >>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+> > >>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+> > >>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+> > >>>>>>
+> > >>
+> > >> The problem here is that Linux, for legacy reasons, does not support
+> > >> I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI is
+> > >> rejected.
+> > >>
+> > >> This might make sense on x86, where legacy I/O ports may exist, but on
+> > >> other architectures, this makes no sense.
+> > >
+> > >
+> > > Fixing Linux makes sense but OTOH EFI probably shouldn't create mappings
+> > > that trip up existing guests, right?
+> > >
+> >
+> > I think it is difficult to draw a line. Sure, maybe EFI should not create
+> > such mappings, but then maybe qemu should not suddenly start to enforce
+> > those mappings for existing guests either.
+> >
 > 
-> OK; hmm then I feel like what's missing is we didn't have the dirty bmap and
-> the clear map synced - say, what if we do memory_region_clear_dirty_bitmap()
-> when dropping the virtio-mem unplugged ranges too?
-
-Is it a problem that we leave clear_bmap set and actually never clear 
-some ranges? I don't think so. To me, this feels like the right thing to 
-do: no need to clear something (in QEMU, in KVM) nobody cares about.
-
-IMHO, the real optimization should be to not even sync discarded ranges 
-(not from the accelerator, not from the memory region), skipping these 
-ranges completely (no sync, no clear). With what you propose, we might 
-end up calling into KVM to clear bitmaps of ranges we are not interested 
-in, no?
-
+> EFI creates the mappings primarily for itself, and up until DSM #5
+> started to be enforced, all PCI resource allocations that existed at
+> boot were ignored by Linux and recreated from scratch.
 > 
-> If disgarded ranges are static during migration, the clear dirty log should
-> happen once for them at bitmap init time.  Then IIUC when sync we don't need to
-> worry about unplugged memory anymore.
+> Also, the commit in question looks dubious to me. I don't think it is
+> likely that Linux would fail to create a resource tree. What does
+> happen is that BARs get moved around, which may cause trouble in some
+> cases: for instance, we had to add special code to the EFI framebuffer
+> driver to copy with framebuffer BARs being relocated.
+> 
+> > For my own testing, I simply reverted commit 0cf8882fd0 in my copy of
+> > qemu. That solves my immediate problem, giving us time to find a solution
+> > that is acceptable for everyone. After all, it doesn't look like anyone
+> > else has noticed the problem, so there is no real urgency.
+> >
+> 
+> I would argue that it is better to revert that commit. DSM #5 has a
+> long history of debate and misinterpretation, and while I think we
+> ended up with something sane, I don't think we should be using it in
+> this particular case.
 
-Again, I'm not sure why we want to clear something we don't care about.
+I think revert might make sense, however:
 
+0: No (The operating system shall not ignore the PCI configuration that firmware has done
+at boot time. However, the operating system is free to configure the devices in this hierarchy
+that have not been configured by the firmware. There may be a reduced level of hot plug
+capability support in this hierarchy due to resource constraints. This situation is the same as
+the legacy situation where this _DSM is not provided.)
 
-There are 3 cases to handle I think:
-
-1) Initially, when the bitmap is set to 1, we want to exclude all 
-discarded ranges.
-
-2) Whenever we sync the bitmap, we don't want to get discarded ranges 
-set dirty. (e.g., bits still or again dirty in KVM or the memory region)
-
-3) When reloading the bitmap during postcopy errors.
-
-
-I think for 1) and 3) we seem to agree that clearing the discarded 
-ranges from the dirty bitmap is conceptually the right thing.
-
-
-For 2) I see 3 options:
-
-
-a) Sync everything, fixup the dirty bitmap, never clear the dirty log of 
-discarded parts. It's fairly simple and straight forward, as I can 
-simply reuse the existing helper. Something that's discarded will never 
-be dirty, not even if a misbehaving guest touches memory it shouldn't. 
-[this patch]
-
-b) Sync only populated parts, no need to fixup the dirty bitmap, never 
-clear the dirty log of discarded parts. It's a bit more complicated but 
-achieves the same goal as a). [optimization I propose for the future]
-
-c) Sync everything, don't fixup the dirty bitmap, clear the dirty log of 
-discarded parts initially. There are ways we still might migrate 
-discarded ranges, for example, if a misbehaving guest touches memory it 
-shouldn't. [what you propose]
+^^^^ does not this imply that reporting a 0 as we currently do
+     should be mostly a NOP?
 
 
-Is my understanding correct? Any reasons why we should chose c) over b) 
-long term or c) over a) short term?
+1: Yes (The operating system may ignore the PCI configuration that the firmware has done
+at boot time, and reconfigure/rebalance the resources in the hierarchy.)
 
-Thanks!
+
+So I am debating with myself whether this should be a plain revert or
+return 1 here:
+     /*
+      * 0 - The operating system must not ignore the PCI configuration that
+      *     firmware has done at boot time.
+      */
+     aml_append(ifctx1, aml_return(aml_int(0)));
+-    aml_append(ifctx, ifctx1);
++    aml_append(ifctx1, aml_return(aml_int(1)));
+     aml_append(method, ifctx);
+
+
+
+Guenter what happens if we return 1? Do things work well?
 
 -- 
-Thanks,
-
-David / dhildenb
-
+MST
 
 
