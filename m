@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE753D70EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:11:23 +0200 (CEST)
-Received: from localhost ([::1]:57162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B253D7124
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:26:29 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8IBO-0007cE-Ex
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38894)
+	id 1m8IQ0-0005Sj-6i
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8I9H-0006DJ-M1
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:09:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54340)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m8IOc-0004mu-0X
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:25:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8I9C-0003Lg-C1
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:09:10 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m8IOX-0005pR-GZ
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627373344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fwliveE3vtlmj/y+O0bhlRBjHclCQzz8vHUhqWQcSMk=;
- b=Uin2FignKo+kAInXwRpmMTwh76SUSxFbyR9XiRvMY/q807B3Wv4bvDchaa56Kl/9S+Jt5J
- U57uCDZSlTwUAd/0jjZCTbj/mE5Y6X+ZIgmcGgLSsn9RZi0341i4oAghAgcAeCNAdYAbUl
- fdZngwUBSB/cc9BGnp/2oaIRAMarBc4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-RORNGuWzP3qUQ67_jkSaBg-1; Tue, 27 Jul 2021 04:09:03 -0400
-X-MC-Unique: RORNGuWzP3qUQ67_jkSaBg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u11-20020a5d434b0000b029013e2027cf9aso5647042wrr.9
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 01:09:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fwliveE3vtlmj/y+O0bhlRBjHclCQzz8vHUhqWQcSMk=;
- b=gKNUIeVktA1aUMcomONMetm8RkOL9TZES2lasUchNdV9eh+m2dGxSoWXqoDqfH1E0s
- L7y6N8mnB970j/F4TU6A2yGsaV6sqO8iLDagtGbtFA2Cl5W30MUnDkQHt/q3A7/YvKy1
- 2GGXv+vNr/qsLLeNBm4V9vsbu64Ahelg0Ey7lEbhWCCe75dy3glW59Vg51agX8zyZnIQ
- M/I9nl1LvkZ5+n/ZDM5h6FZkYRK4nsxOFnkqn2ZY/0xoqME8vYJ0+jlHhyEhL/XI+L5n
- rvK6cYjniZn9B0+JcRkcURXdF8ttCkMAwQaoufGNeUBsfs8dW48Vr3bun7O4Si/H0AOe
- Zr5A==
-X-Gm-Message-State: AOAM532lAJe8Qf+x45d5LYGoqwPdeU0gyrbnWjp6HxSQEniIsoReN4I9
- OaPGV+4Ym5zrxS4hTHUAd84OGCbb0R6LA8lF9u3uW97Ejs2u6+TL9yMVCH61RiiVZyiqzO6IwPS
- GMCd/a18rBjbB88k=
-X-Received: by 2002:adf:e0c4:: with SMTP id m4mr23241174wri.312.1627373341968; 
- Tue, 27 Jul 2021 01:09:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZII8NS0ckUiIk8tyOK9mPueaebU5jr0vip4uHaAS2wB4M+IUuzwW4OJx0iESBfeY9Tutihg==
-X-Received: by 2002:adf:e0c4:: with SMTP id m4mr23241162wri.312.1627373341766; 
- Tue, 27 Jul 2021 01:09:01 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e8352f.dip0.t-ipconnect.de.
- [217.232.53.47])
- by smtp.gmail.com with ESMTPSA id y3sm2266228wrh.16.2021.07.27.01.09.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 01:09:01 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1 v4 1/4] docs: Document GitLab custom CI/CD
- variables
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210726150429.1216251-1-philmd@redhat.com>
- <20210726150429.1216251-2-philmd@redhat.com>
- <09a71f22-2f9f-e8bd-148a-a8695af86f8f@redhat.com>
- <efbe182f-710c-fa2e-abf7-9b2bf067ee2c@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <9cba80d2-3052-84e3-3372-1c913a7583ff@redhat.com>
-Date: Tue, 27 Jul 2021 10:09:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ s=mimecast20190719; t=1627374295;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=pICfI16rvnb4Y8iwHH0l2GbLTp6kTg9P2LdXlNfF2PE=;
+ b=gX4grg6vxO2MIUu/9LoGOPi6rdSi2o2pVTujFRTd7OdpyViyHSlu0R0gKtcSVf86+pzq/y
+ KM/LYhSrct3JcPx6vWg6bO1nCKBTwLFpMfpuTUfsVW+FhqEIOD5BVMIgpO3NQJiojWExNj
+ L1lUE+q9nOJE5uTu8tnSbPAEsXLSaQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-oJM2EVWwMCGg2L9cK09emA-1; Tue, 27 Jul 2021 04:24:49 -0400
+X-MC-Unique: oJM2EVWwMCGg2L9cK09emA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3679418C8C3C;
+ Tue, 27 Jul 2021 08:24:48 +0000 (UTC)
+Received: from redhat.com (ovpn-113-151.ams2.redhat.com [10.36.113.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77DDF5C1CF;
+ Tue, 27 Jul 2021 08:24:47 +0000 (UTC)
+Date: Tue, 27 Jul 2021 09:24:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [PATCH 1/3] ui/gtk: adds status bar for expressing ups and fps
+Message-ID: <YP/CzA+IvMpeTgQh@redhat.com>
+References: <20210726222551.28795-1-dongwon.kim@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <efbe182f-710c-fa2e-abf7-9b2bf067ee2c@redhat.com>
+In-Reply-To: <20210726222551.28795-1-dongwon.kim@intel.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,87 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2021 09.55, Philippe Mathieu-Daudé wrote:
-> On 7/27/21 7:59 AM, Thomas Huth wrote:
->> On 26/07/2021 17.04, Philippe Mathieu-Daudé wrote:
->>> We introduced the QEMU_CI_AVOCADO_TESTING variable in commit f56bf4caf
->>> ("gitlab: Run Avocado tests manually (except mainstream CI)"), but
->>> forgot to document it properly. Do it now.
->>>
->>> Suggested-by: Thomas Huth <thuth@redhat.com>
->>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>    docs/devel/ci.rst | 40 ++++++++++++++++++++++++++++++++++++++++
->>>    .gitlab-ci.yml    | 19 ++-----------------
->>>    2 files changed, 42 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
->>> index b3bf3ef615b..53df04afb7f 100644
->>> --- a/docs/devel/ci.rst
->>> +++ b/docs/devel/ci.rst
->>> @@ -8,6 +8,46 @@ found at::
->>>         https://wiki.qemu.org/Testing/CI
->>>    +Custom CI/CD variables
->>> +======================
+On Mon, Jul 26, 2021 at 03:25:49PM -0700, Dongwon Kim wrote:
+> With a display option, "show-fps=on", qemu adds a status bar and print
+> following performance numbers on the bar,
 > 
-> [*]
+> ups = update per seconds - the rate the guest scanout is updated.
+> fps = frame per seconds - the frame rate of VC's GL drawing area
 > 
->>> +
->>> +QEMU CI pipelines can be tuned setting some CI environment variables.
->>
->> "tuned *by* setting" ?
-> 
-> OK.
-> 
->>
->>> +
->>> +Set variable globally in the user's CI namespace
->>> +------------------------------------------------
->>> +
->>> +Variables can be set globally in the user's CI namespace setting.
->>> +
->>> +For further information about how to set these variables, please
->>> refer to::
->>> +
->>> +
->>> https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui
->>>
->>
->> The anchor does not seem to exist anymore?
-> 
-> It will exist once this patch get merged, see [*] ;)
+> One function, gd_gl_count_frame is added to count # frames
+> and calculate ups and fps every 100 frames or guest scanout updates.
 
-The above URL points to the official gitlab documentation...
+This feels like a pretty niche/novelty feature. Is this really
+something we can justify adding to the UI, considering that it
+means we will be maintaining this UI and supporting code long
+term. 
 
->>> index 6dc5385e697..9762dda2ee3 100644
->>> --- a/.gitlab-ci.yml
->>> +++ b/.gitlab-ci.yml
->>> @@ -16,24 +16,9 @@
->>>    # QEMU CI jobs are based on templates. Some templates provide
->>>    # user-configurable options, modifiable via configuration variables.
->>>    #
->>> -# These variables can be set globally in the user's CI namespace
->>> -# setting:
->>> -#
->>> https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui
->>>
->>> -# or set manually each time a branch/tag is pushed, as a git-push
->>> -# command line argument:
->>> -#
->>> https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
->>>
->>> +# See
->>> https://qemu-project.gitlab.io/qemu/devel/ci.html#custom-ci-cd-variables
->>> +# for more information.
 
-... and not to the new one here. I think you mixed that up.
-
-  Thomas
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
