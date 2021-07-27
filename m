@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA693D7129
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:29:36 +0200 (CEST)
-Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1793D713D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:32:42 +0200 (CEST)
+Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8IT1-00017S-Id
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1m8IW1-0006Dp-85
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8IR3-0007UG-4p
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:27:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43018)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m8IRi-0000Ff-Hi
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:28:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8IR1-0007k4-Fz
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:27:32 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m8IRe-0008Ap-JO
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627374450;
+ s=mimecast20190719; t=1627374489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QWbJXupkNWTpT6UPSCDGnbzUKlgS5wqFAFc3ha2JxH4=;
- b=I33a7P7l4cO7gl3hmvN+oDoJz0MIicBRLxd8mpFQZDVLJrNO9XLRVd4GjMHFisSskHPy2B
- xu6a2IdHtfL19c6yEHHOc3e14xXa7eil167C8S7vO8LK9abFohY563rXLwB+x2RXEUXcCy
- NxzR9uaBfVC1DsMcYk7dJ2ly4PfwKSM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-fH-Aq6z_Mpy3tpEgmXxzHA-1; Tue, 27 Jul 2021 04:27:26 -0400
-X-MC-Unique: fH-Aq6z_Mpy3tpEgmXxzHA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D261107465F;
- Tue, 27 Jul 2021 08:27:23 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-128.ams2.redhat.com [10.36.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDC5960C0F;
- Tue, 27 Jul 2021 08:26:59 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] softmmu/memory_mapping: optimize for RamDiscardManager
- sections
-Date: Tue, 27 Jul 2021 10:25:45 +0200
-Message-Id: <20210727082545.17934-5-david@redhat.com>
-In-Reply-To: <20210727082545.17934-1-david@redhat.com>
-References: <20210727082545.17934-1-david@redhat.com>
+ bh=6X0Iabb0FhBxeKcx21Ajt0IQPCONpGDQJOOttphAHNA=;
+ b=SjdthOYw2n+B33LTtYL8RmTwa1MoXVeTUC+pUxcbnWcUva5phcqXnPyNhLbOBJD4/67xJo
+ DnZ2VCOFHwIrd4E7wFVtYKFKqAcce9HGbzJ1OEdTEESTcU3k67uGtcRy/zly8V0CBsmFQ9
+ cVZRi7gDpATF+zb8qXlQ5UNWwP3oIJc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-ggZEyLACOku2Jdeyyh0Vjw-1; Tue, 27 Jul 2021 04:28:07 -0400
+X-MC-Unique: ggZEyLACOku2Jdeyyh0Vjw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o26-20020a05600c511ab0290252d0248251so1060395wms.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 01:28:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=6X0Iabb0FhBxeKcx21Ajt0IQPCONpGDQJOOttphAHNA=;
+ b=KmSq44yfi+/LbTrc+2mpDIsAuTU46QCTit5Ul4+FpNniGSBFplvOf+uqg4h0jAMrIy
+ O9EYpyqx81LOEUAdLlu5Uv7Mo4N1NtPSqcbKGSMoEwIklWcE2Srsi2HeNOAM7DXAFkmb
+ r2pGbk1dLneS5u0H3GOR7YLBlk2Ls4WOuy0JSE7LEDdiBIAz/gi2i7MHGYo5WNknyLTa
+ wT+yiHrDXKncgqY9A0DLE6nG7JayTYptND18pVJrLyEwNaBYB4r3VDMPLqDqOaibrpWT
+ mUXNk/W5t2pS039kxYDp7cfgUMGd8RS7Wbx4X9CWAtThN8VMLAjA37vq7O7UduA/66ZL
+ miWQ==
+X-Gm-Message-State: AOAM5327dIWuOitWpGBTR1plikJfdqZYd7luha93U1YGmdbrCsdnYQT9
+ l4WXZAcbvoUS7k+Yz1UhdQa0dptovnCg5ftk3GjhQPlmJdm8UEPJR5sJotTZdHuuo0VOpIapD7h
+ XR4RODh/39pGrG4E=
+X-Received: by 2002:a05:600c:1c1f:: with SMTP id
+ j31mr2842126wms.132.1627374486205; 
+ Tue, 27 Jul 2021 01:28:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGQFg9YMagm+Jl0dw+uJwHyYpCvej5EVEzVrlQMxbnY3nDUO4FGYbYY07xW4rR23KmKH1G2A==
+X-Received: by 2002:a05:600c:1c1f:: with SMTP id
+ j31mr2842106wms.132.1627374485970; 
+ Tue, 27 Jul 2021 01:28:05 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id v5sm2474691wrd.74.2021.07.27.01.28.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 01:28:05 -0700 (PDT)
+Date: Tue, 27 Jul 2021 09:28:03 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [PATCH v4] i386: Add ratelimit for bus locks acquired in guest
+Message-ID: <YP/DkxqH3h4fROM/@work-vm>
+References: <20210521043820.29678-1-chenyi.qiang@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210521043820.29678-1-chenyi.qiang@intel.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,105 +97,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio-mem logically plugs/unplugs memory within a sparse memory region
-and notifies via the RamDiscardManager interface when parts become
-plugged (populated) or unplugged (discarded).
+* Chenyi Qiang (chenyi.qiang@intel.com) wrote:
+> A bus lock is acquired through either split locked access to writeback
+> (WB) memory or any locked access to non-WB memory. It is typically >1000
+> cycles slower than an atomic operation within a cache and can also
+> disrupts performance on other cores.
+> 
+> Virtual Machines can exploit bus locks to degrade the performance of
+> system. To address this kind of performance DOS attack coming from the
+> VMs, bus lock VM exit is introduced in KVM and it can report the bus
+> locks detected in guest. If enabled in KVM, it would exit to the
+> userspace to let the user enforce throttling policies once bus locks
+> acquired in VMs.
+> 
+> The availability of bus lock VM exit can be detected through the
+> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+> bitmap is the only supported strategy at present. It indicates that KVM
+> will exit to userspace to handle the bus locks.
+> 
+> This patch adds a ratelimit on the bus locks acquired in guest as a
+> mitigation policy.
+> 
+> Introduce a new field "bus_lock_ratelimit" to record the limited speed
+> of bus locks in the target VM. The user can specify it through the
+> "bus-lock-ratelimit" as a machine property. In current implementation,
+> the default value of the speed is 0 per second, which means no
+> restrictions on the bus locks.
+> 
+> As for ratelimit on detected bus locks, simply set the ratelimit
+> interval to 1s and restrict the quota of bus lock occurence to the value
+> of "bus_lock_ratelimit". A potential alternative is to introduce the
+> time slice as a property which can help the user achieve more precise
+> control.
+> 
+> The detail of bus lock VM exit can be found in spec:
+> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+> 
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 
-Currently, we end up (via the two users)
-1) zeroing all logically unplugged/discarded memory during TPM resets.
-2) reading all logically unplugged/discarded memory when dumping, to
-   figure out the content is zero.
+Hi Chenyi,
 
-1) is always bad, because we assume unplugged memory stays discarded
-   (and is already implicitly zero).
-2) isn't that bad with anonymous memory, we end up reading the zero
-   page (slow and unnecessary, though). However, once we use some
-   file-backed memory (future use case), even reading will populate memory.
+  I noticed in this patch:
 
-Let's cut out all parts marked as not-populated (discarded) via the
-RamDiscardManager. As virtio-mem is the single user, this now means that
-logically unplugged memory ranges will no longer be included in the
-dump, which results in smaller dump files and faster dumping.
 
-virtio-mem has a minimum granularity of 1 MiB (and the default is usually
-2 MiB). Theoretically, we can see quite some fragmentation, in practice
-we won't have it completely fragmented in 1 MiB pieces. Still, we might
-end up with many physical ranges.
+> +static void kvm_rate_limit_on_bus_lock(void)
+> +{
+> +    uint64_t delay_ns = ratelimit_calculate_delay(&bus_lock_ratelimit_ctrl, 1);
+> +
+> +    if (delay_ns) {
+> +        g_usleep(delay_ns / SCALE_US);
+> +    }
+> +}
 
-Both, the ELF format and kdump seem to be ready to support many
-individual ranges (e.g., for ELF it seems to be UINT32_MAX, kdump has a
-linear bitmap).
+and wondered if this would block cpu kicks, and what would happen if
+delay_ns got quite big - Eduardo thinks it might get upto 1s.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: "Alex Bennée" <alex.bennee@linaro.org>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Stefan Berger <stefanb@linux.ibm.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- softmmu/memory_mapping.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Also, it feels similar to what migration does during 'auto converge';
+see softmuu/cpu-throttle.c - instead of doing your own g_usleep
+you could call cpu_throttle_set with a given throttle rate.
 
-diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index a2af02c41c..a62eaa49cc 100644
---- a/softmmu/memory_mapping.c
-+++ b/softmmu/memory_mapping.c
-@@ -246,6 +246,15 @@ static void guest_phys_block_add_section(GuestPhysListener *g,
- #endif
- }
- 
-+static int guest_phys_ram_populate_cb(MemoryRegionSection *section,
-+                                      void *opaque)
-+{
-+    GuestPhysListener *g = opaque;
-+
-+    guest_phys_block_add_section(g, section);
-+    return 0;
-+}
-+
- static void guest_phys_blocks_region_add(MemoryListener *listener,
-                                          MemoryRegionSection *section)
- {
-@@ -257,6 +266,17 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
-         memory_region_is_nonvolatile(section->mr)) {
-         return;
-     }
-+
-+    /* for special sparse regions, only add populated parts */
-+    if (memory_region_has_ram_discard_manager(section->mr)) {
-+        RamDiscardManager *rdm;
-+
-+        rdm = memory_region_get_ram_discard_manager(section->mr);
-+        ram_discard_manager_replay_populated(rdm, section,
-+                                             guest_phys_ram_populate_cb, g);
-+        return;
-+    }
-+
-     guest_phys_block_add_section(g, section);
- }
- 
+Dave
+
+> +
+>  MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>  {
+>      X86CPU *x86_cpu = X86_CPU(cpu);
+> @@ -4237,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>      } else {
+>          env->eflags &= ~IF_MASK;
+>      }
+> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
+> +        kvm_rate_limit_on_bus_lock();
+> +    }
+>  
+>      /* We need to protect the apic state against concurrent accesses from
+>       * different threads in case the userspace irqchip is used. */
+> @@ -4595,6 +4632,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>          ioapic_eoi_broadcast(run->eoi.vector);
+>          ret = 0;
+>          break;
+> +    case KVM_EXIT_X86_BUS_LOCK:
+> +        /* already handled in kvm_arch_post_run */
+> +        ret = 0;
+> +        break;
+>      default:
+>          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>          ret = -1;
+> -- 
+> 2.17.1
+> 
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
