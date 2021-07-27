@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876833D7BE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:10:26 +0200 (CEST)
-Received: from localhost ([::1]:58814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D493D7BB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:08:03 +0200 (CEST)
+Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Qb3-0002xH-I8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57664)
+	id 1m8QYk-0005KC-U9
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWO-00008J-5k
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:36 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:36062)
+ id 1m8QWM-0008Vx-QD
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:34 -0400
+Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:36064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWK-0007Mc-L1
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:35 -0400
+ id 1m8QWK-0007Md-KR
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:34 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id 1CAF71F43318
+ (Authenticated sender: fahien) with ESMTPSA id 67CD41F43319
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] virtio-gpu: Support Venus Vulkan driver
-Date: Tue, 27 Jul 2021 19:05:03 +0200
-Message-Id: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
+Subject: [PATCH 1/7] virtio-gpu: CONTEXT_INIT feature
+Date: Tue, 27 Jul 2021 19:05:04 +0200
+Message-Id: <20210727170510.2116383-2-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
+References: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e3e3;
  envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,66 +54,97 @@ Cc: Antonio Caggiano <antonio.caggiano@collabora.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches enables support for the Venus VirtIO-GPU Vulkan
-driver by adding some features required by the driver:
+Create virgl renderer context with flags using context_id when valid.
 
-- CONTEXT_INIT
-- HOSTMEM
-- RESOURCE_UUID
-- BLOB_RESOURCES
+Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+---
+ hw/display/virtio-gpu-base.c                |  2 ++
+ hw/display/virtio-gpu-virgl.c               | 10 ++++++++--
+ include/hw/virtio/virtio-gpu-bswap.h        |  2 +-
+ include/standard-headers/linux/virtio_gpu.h |  9 +++++++--
+ 4 files changed, 18 insertions(+), 5 deletions(-)
 
-In addition to these features, Venus capset support was required
-together with the implementation for Virgl blob resource commands.
-
-With this in place, QEMU can take advantage of GPU acceleration to
-render a simple program such as vkcube [0] in headless mode [1]. Further
-work is needed to enable rendering with other kinds of surfaces.
-
-Tested with Chia-I Wu kernel venus-5 branch [2], Mesa v21.1 [3], and my
-WIP virglrenderer res-mapping branch [4].
-
-Relevant QEMU command line parameters:
-
--m 4G \
--object memory-backend-memfd,id=mem1,size=4G \
--machine memory-backend=mem1 \
--display gtk,gl=on,show-cursor=on \
--vga none \
--device virtio-vga-gl,blob=true,hostmem=1G \
-
-[0] https://github.com/krh/vkcube
-[1] https://share.collabora.com/index.php/s/RM5igzZMH2o749W/preview
-[2] https://gitlab.freedesktop.org/olv/drm-misc-next/-/tree/venus-5
-[3] https://gitlab.freedesktop.org/mesa/mesa/-/tree/21.1
-[4] https://gitlab.freedesktop.org/Fahien/virglrenderer/-/tree/res-mapping
-
-Antonio Caggiano (5):
-  virtio-gpu: CONTEXT_INIT feature
-  virtio-gpu: Resource UUID
-  virtio-gpu: Support Venus capset
-  virtio-gpu: Initialize Venus
-  virtio-gpu: Handle resource blob commands
-
-Dr. David Alan Gilbert (1):
-  virtio: Add shared memory capability
-
-Gerd Hoffmann (1):
-  virtio-gpu: hostmem [wip]
-
- hw/display/trace-events                     |   1 +
- hw/display/virtio-gpu-base.c                |   8 +
- hw/display/virtio-gpu-pci.c                 |  14 ++
- hw/display/virtio-gpu-virgl.c               | 184 +++++++++++++++++++-
- hw/display/virtio-gpu.c                     |  36 +++-
- hw/display/virtio-vga.c                     |  32 +++-
- hw/virtio/virtio-pci.c                      |  19 ++
- hw/virtio/virtio-pci.h                      |   5 +
- include/hw/virtio/virtio-gpu-bswap.h        |  20 ++-
- include/hw/virtio/virtio-gpu.h              |  10 ++
- include/standard-headers/linux/virtio_gpu.h |  16 +-
- meson.build                                 |   1 +
- 12 files changed, 319 insertions(+), 27 deletions(-)
-
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index c8da4806e0..619185a9d2 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -212,6 +212,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+     }
+ 
++    features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
++
+     return features;
+ }
+ 
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+index 18d054922f..5a184cf445 100644
+--- a/hw/display/virtio-gpu-virgl.c
++++ b/hw/display/virtio-gpu-virgl.c
+@@ -97,8 +97,14 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
+     trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
+                                     cc.debug_name);
+ 
+-    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
+-                                  cc.debug_name);
++    if (cc.context_init) {
++        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
++                                                 cc.context_init,
++                                                 cc.nlen,
++                                                 cc.debug_name);
++    } else {
++        virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
++    }
+ }
+ 
+ static void virgl_cmd_context_destroy(VirtIOGPU *g,
+diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
+index e2bee8f595..6267cb57e5 100644
+--- a/include/hw/virtio/virtio-gpu-bswap.h
++++ b/include/hw/virtio/virtio-gpu-bswap.h
+@@ -24,7 +24,7 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
+     le32_to_cpus(&hdr->flags);
+     le64_to_cpus(&hdr->fence_id);
+     le32_to_cpus(&hdr->ctx_id);
+-    le32_to_cpus(&hdr->padding);
++    le32_to_cpus(&hdr->info);
+ }
+ 
+ static inline void
+diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
+index 1357e4774e..c9f9c24d6a 100644
+--- a/include/standard-headers/linux/virtio_gpu.h
++++ b/include/standard-headers/linux/virtio_gpu.h
+@@ -59,6 +59,11 @@
+  * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
+  */
+ #define VIRTIO_GPU_F_RESOURCE_BLOB       3
++/*
++ * VIRTIO_GPU_CMD_CREATE_CONTEXT with
++ * context_init
++ */
++#define VIRTIO_GPU_F_CONTEXT_INIT        4
+ 
+ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_UNDEFINED = 0,
+@@ -129,7 +134,7 @@ struct virtio_gpu_ctrl_hdr {
+ 	uint32_t flags;
+ 	uint64_t fence_id;
+ 	uint32_t ctx_id;
+-	uint32_t padding;
++	uint32_t info;
+ };
+ 
+ /* data passed in the cursor vq */
+@@ -272,7 +277,7 @@ struct virtio_gpu_resource_create_3d {
+ struct virtio_gpu_ctx_create {
+ 	struct virtio_gpu_ctrl_hdr hdr;
+ 	uint32_t nlen;
+-	uint32_t padding;
++	uint32_t context_init;
+ 	char debug_name[64];
+ };
+ 
 -- 
 2.30.2
 
