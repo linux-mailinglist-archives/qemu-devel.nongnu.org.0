@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14E93D6FEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 09:05:57 +0200 (CEST)
-Received: from localhost ([::1]:53564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0133D702B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 09:18:34 +0200 (CEST)
+Received: from localhost ([::1]:56090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8HA4-0007yN-GG
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 03:05:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1m8HMH-00027e-4z
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 03:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m8H8n-0007DJ-P4
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:04:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1m8H8l-000245-5K
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:04:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3DBF6112D
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 07:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627369472;
- bh=lUqVfQgBY2zWG8CvX/dY83EP7TtxDwDynTqaNApa7YM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=f/9Vt339iCkSjGY5H9z2afA+MRLT+O8Otk5SPyVwp0RkXdPGGDa0VBP+OeKwKhxaG
- xiJD0G6stCWpoKj7S6BhKC56leClQ7P/2XZUOQbH7EnKZVfMa0Ult1QZIbl8oCwFUc
- FFjCsnLVKsBP6NZ9L+L60sjVudh8aCoikdpI32wwiVUpu1VRusZQ+LmCOnPck1JRRY
- M8+KsIyYB3BTjuu/IoxZB6oTXoW3pQ4fwwB4vsXmKNaGHWrfLanVyP0dRjvRiG/f5B
- o1mmyDbnNfLeD2pLu+BADisNXO3IbUfgxLWkmYEChf+VMkb3/ZNfIr9qy9lp6F3Msr
- V2SjM8PfZXn0A==
-Received: by mail-ot1-f54.google.com with SMTP id
- 68-20020a9d0f4a0000b02904b1f1d7c5f4so11566673ott.9
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 00:04:32 -0700 (PDT)
-X-Gm-Message-State: AOAM532hD3Tsp3WVKic5AkjZwfMxle57dH5cL6d0jiizKRWrO+6Teotl
- 9TjVsvMuDU0EHeTsnxyw0VIQCSRJnjh4uwj+Rz4=
-X-Google-Smtp-Source: ABdhPJxcVAdmMcddF7bjASVwweQadI0N/uf32j8O7RjmDaI5mxOu57YPpSO6k82hrQydK5Aruv+LxvsUjm4Z7/PbD8c=
-X-Received: by 2002:a05:6830:2316:: with SMTP id
- u22mr14486892ote.90.1627369472218; 
- Tue, 27 Jul 2021 00:04:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1m8HL9-0001TH-UU
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:17:23 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45470 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1m8HL6-0001vn-1O
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:17:23 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxiuDvsv9gxW8kAA--.207S3;
+ Tue, 27 Jul 2021 15:17:05 +0800 (CST)
+Subject: Re: [PATCH v2 13/22] target/loongarch: Add floating point arithmetic
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-14-git-send-email-gaosong@loongson.cn>
+ <1729aea1-a773-ad78-59d3-294eb968a7ba@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
+Date: Tue, 27 Jul 2021 15:17:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20210724185234.GA2265457@roeck-us.net>
- <20210725181334-mutt-send-email-mst@kernel.org>
- <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
- <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
- <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
- <20210727004401-mutt-send-email-mst@kernel.org>
- <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
-In-Reply-To: <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 27 Jul 2021 09:04:20 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
-Message-ID: <CAMj1kXEx1wqGJqTsNDNpBNLhFzn=kXmKFJ8m6AqZCPhfF1WC1g@mail.gmail.com>
-Subject: Re: aarch64 efi boot failures with qemu 6.0+
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1729aea1-a773-ad78-59d3-294eb968a7ba@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxiuDvsv9gxW8kAA--.207S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCry7try5ZFWUKr4rAw4fZrb_yoWrGryfpr
+ s5JrW7Xay0gF95X3srXw1UWF98Ar18K3W5WwnYqFsYkF48Ar1v9r1agrsF9r48Aws7Xr15
+ AFWqqrsrZ3Z7Xa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+ e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
+ 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+ xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
+ IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
+ 6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,105 +74,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiahui Cen <cenjiahui@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
- Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Jul 2021 at 07:12, Guenter Roeck <linux@roeck-us.net> wrote:
+Hi, Richard.
+
+On 07/23/2021 01:44 PM, Richard Henderson wrote:
+> On 7/20/21 11:53 PM, Song Gao wrote:
+>> +uint64_t helper_fp_sqrt_d(CPULoongArchState *env, uint64_t fp)
+>> +{
+>> +    fp = float64_sqrt(fp, &env->active_fpu.fp_status);
+>> +    update_fcsr0(env, GETPC());
+>> +    return fp;
+>> +}
+>> +
+>> +uint32_t helper_fp_sqrt_s(CPULoongArchState *env, uint32_t fp)
+>> +{
+>> +    fp = float32_sqrt(fp, &env->active_fpu.fp_status);
+>> +    update_fcsr0(env, GETPC());
+>> +    return fp;
+>> +}
+> 
+> I believe you will find it easier to take and return uint64_t, even for 32-bit operations.  The manual says that the high bits may contain any value, so in my opinion you should not work hard to preserve the high bits, as you currently do with
+> 
+>> +    gen_load_fpr32(fp0, a->fj);
+>> +    gen_load_fpr32(fp1, a->fk);
+>> +    gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
+>> +    gen_store_fpr32(fp0, a->fd);
+> 
+> I think this should be as simple as
+> 
+>   gen_helper_fp_add_s(cpu_fpu[a->fd], cpu_env,
+>                       cpu_fpu[a->fj], cpu_fpu[a->fk]);
 >
-> On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
-> > On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
-> >> (cc Bjorn)
-> >>
-> >> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daud=C3=A9 <philmd@redh=
-at.com> wrote:
-> >>>
-> >>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
-> >>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
-> >>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
-> >>>>>> Hi all,
-> >>>>>>
-> >>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no long=
-er
-> >>>>>> work. Analysis shows that PCI devices with IO ports do not instant=
-iate
-> >>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem a=
-ffects
-> >>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
-> >>>>>> affects
-> >>>>>> aarch64, not x86/x86_64.
-> >>>>>>
-> >>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os=
- to
-> >>>>>> keep firmware resource map"). Since this commit, PCI device BAR
-> >>>>>> allocation has changed. Taking tulip as example, the kernel report=
-s
-> >>>>>> the following PCI bar assignments when running qemu v5.2.
-> >>>>>>
-> >>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x02000=
-0
-> >>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
-> >>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x10000=
-07f]
-> >>
-> >> IIUC, these lines are read back from the BARs
-> >>
-> >>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107=
-f]
-> >>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
-> >>>>>> 0x10000000-0x1000007f]
-> >>>>>>
-> >>
-> >> ... and this is the assignment created by the kernel.
-> >>
-> >>>>>> With qemu v6.0, the assignment is reported as follows.
-> >>>>>>
-> >>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x02000=
-0
-> >>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
-> >>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x10000=
-07f]
-> >>>>>>
-> >>
-> >> The problem here is that Linux, for legacy reasons, does not support
-> >> I/O ports <=3D 0x1000 on PCI, so the I/O assignment created by EFI is
-> >> rejected.
-> >>
-> >> This might make sense on x86, where legacy I/O ports may exist, but on
-> >> other architectures, this makes no sense.
-> >
-> >
-> > Fixing Linux makes sense but OTOH EFI probably shouldn't create mapping=
-s
-> > that trip up existing guests, right?
-> >
->
-> I think it is difficult to draw a line. Sure, maybe EFI should not create
-> such mappings, but then maybe qemu should not suddenly start to enforce
-> those mappings for existing guests either.
+> I also think that loongarch should learn from risc-v and change the architecture to "nan-box" single-precision results -- fill the high 32-bits with 1s.  This is an SNaN representation for double-precision and will immediately fail when incorrectly using a single-precision value as a double-precision input.
+> 
+> Thankfully the current architecture is backward compatible with nan-boxing.
 >
 
-EFI creates the mappings primarily for itself, and up until DSM #5
-started to be enforced, all PCI resource allocations that existed at
-boot were ignored by Linux and recreated from scratch.
+by this method,  the trans_fadd_s is   
 
-Also, the commit in question looks dubious to me. I don't think it is
-likely that Linux would fail to create a resource tree. What does
-happen is that BARs get moved around, which may cause trouble in some
-cases: for instance, we had to add special code to the EFI framebuffer
-driver to copy with framebuffer BARs being relocated.
+static bool trans_fadd_s(DisasContext *ctx, arg_fadd_s * a)
+{
+    TCGv_i64 fp0, fp1;
 
-> For my own testing, I simply reverted commit 0cf8882fd0 in my copy of
-> qemu. That solves my immediate problem, giving us time to find a solution
-> that is acceptable for everyone. After all, it doesn't look like anyone
-> else has noticed the problem, so there is no real urgency.
+    fp0 = tcg_temp_new_i64();
+    fp1 = tcg_temp_new_i64();
+
+    check_fpu_enabled(ctx);
+    gen_load_fpr64(fp0, a->fj);
+    gen_load_fpr64(fp1, a->fk);
+    gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
+
+    gen_check_nanbox_s(fp0, fp0); /* from riscv */
+
+    gen_store_fpr64(fp0, a->fd);
+
+    tcg_temp_free_i64(fp0);
+    tcg_temp_free_i64(fp1);
+
+    return true;
+}
+
+uint64_t helper_fp_add_s(CPULoongArchState *env, uint64_t fp, uint64_t fp1)
+{
+    uint32_t fp2;
+
+    fp2 = float32_add((uint32_t)fp, (uint32_t)fp1, &env->active_fpu.fp_status);
+    update_fcsr0(env, GETPC());
+    return (uint64_t)fp2;
+}
+
+is this right?
+
+ 
+>> +/* Floating point arithmetic operation instruction translation */
+>> +static bool trans_fadd_s(DisasContext *ctx, arg_fadd_s * a)
+>> +{
+>> +    TCGv_i32 fp0, fp1;
+>> +
+>> +    fp0 = tcg_temp_new_i32();
+>> +    fp1 = tcg_temp_new_i32();
+>> +
+>> +    check_fpu_enabled(ctx);
+>> +    gen_load_fpr32(fp0, a->fj);
+>> +    gen_load_fpr32(fp1, a->fk);
+>> +    gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
+>> +    gen_store_fpr32(fp0, a->fd);
+>> +
+>> +    tcg_temp_free_i32(fp0);
+>> +    tcg_temp_free_i32(fp1);
+>> +
+>> +    return true;
+>> +}
+> 
+> Again, you should use some helper functions to reduce the repetition.
 >
+OK>> +static bool trans_fmadd_d(DisasContext *ctx, arg_fmadd_d *a)
+>> +{
+>> +    TCGv_i64 fp0, fp1, fp2, fp3;
+>> +
+>> +    fp0 = tcg_temp_new_i64();
+>> +    fp1 = tcg_temp_new_i64();
+>> +    fp2 = tcg_temp_new_i64();
+>> +    fp3 = tcg_temp_new_i64();
+>> +
+>> +    check_fpu_enabled(ctx);
+>> +    gen_load_fpr64(fp0, a->fj);
+>> +    gen_load_fpr64(fp1, a->fk);
+>> +    gen_load_fpr64(fp2, a->fa);
+>> +    check_fpu_enabled(ctx);
+> 
+> Repeating check_fpu_enabled.
+> 
+OK.
+>> +    gen_helper_fp_madd_d(fp3, cpu_env, fp0, fp1, fp2);
+>> +    gen_store_fpr64(fp3, a->fd);
+> 
+> I think you might as well pass in the float_muladd_* constant to a single helper rather than having 4 different helpers.
+> 
+OK
+> 
+> r~
 
-I would argue that it is better to revert that commit. DSM #5 has a
-long history of debate and misinterpretation, and while I think we
-ended up with something sane, I don't think we should be using it in
-this particular case.
+Again. thank you kindly help.
+
+Thanks
+Song Gao.
+
 
