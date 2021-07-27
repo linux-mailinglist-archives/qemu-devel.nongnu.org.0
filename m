@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7A03D7A53
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 17:59:10 +0200 (CEST)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959873D7A7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:05:33 +0200 (CEST)
+Received: from localhost ([::1]:40866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8PU5-0005bI-Ij
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 11:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35746)
+	id 1m8PaG-0007cz-2U
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8PSu-0003xU-Pe
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38201)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PX6-000326-Qu
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:02:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8PSs-0001aL-Gs
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:57:56 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PX3-0004Wj-PN
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:02:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627401472;
+ s=mimecast20190719; t=1627401730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vBWf+K9WmCYkmoNIKW5TjiYUq9mBkr5gxWxHlU2W67o=;
- b=LWfetoCAs6vjfT4MHA0cNFJ9v8wxVE3WHLZgW80K/3ZA/fwi0kMSTT6sZiPjeZIFD96bUS
- wmKZUN2khREl2ZxvTb941kTH8KZJO4OlPeL+hIbGKQwn5KBkRO9DFwF7yszhpp/kcNl8MF
- oUz0Aa2ezARH4kspmIwN9xttSvBQMT4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-cGtqClSEMNG5LxF_xzXr5w-1; Tue, 27 Jul 2021 11:57:50 -0400
-X-MC-Unique: cGtqClSEMNG5LxF_xzXr5w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- f6-20020adfe9060000b0290153abe88c2dso1903060wrm.20
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 08:57:50 -0700 (PDT)
+ bh=tF/804m/i6Te+Rgw6XB6u58fSt5OLkc4F6d1QRyYadE=;
+ b=gu+bUrzxz4fJbt26GfyX8Z8tKPxdhFQMd4yAJjOgD3igvmPuVi456EJ6B+OngSH1YhNCIr
+ yM5FJHWf8fSUBVaTiuqs2CxXrIdakRMxyJbvNe1WA2i3fKnrt8247km3Iz/TzA7EfIwIbb
+ ZL+eEKm2R6Lzk0z9WvGPV6iQN2UdCaA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-kQgaSZAtPsKRwpnBxWi5Lg-1; Tue, 27 Jul 2021 12:02:07 -0400
+X-MC-Unique: kQgaSZAtPsKRwpnBxWi5Lg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bm25-20020a05620a1999b02903a9c3f8b89fso11962696qkb.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:02:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vBWf+K9WmCYkmoNIKW5TjiYUq9mBkr5gxWxHlU2W67o=;
- b=BvGRM40NbHB0xhU64WAKH0LGvVPw5bWJOGS+2spKKN3GAOpZHUk+iiZc5T0CFUcLK8
- g0FFJrRWaemKhv9Z7Ag/hShi17yW2ki/lplk4c8B4AlO5ViutVslgiexTDz3n1LZ5s6j
- 5tJTJwduPq+wlRsQg1xVj3eOTe0/wua8XTBmKB15MkZvugyDeo3eI8ZsUQvIG2qeoF0K
- RpeNwuFIC8gQ3SDt7fCNnsM7LhStkoKL1Evj5KWdpnT9UHKp4jLu1CdWXjfyKmRHDue3
- 5XQ8wYR1Bjl2PYKl9Z+A7L425jncp6+o4hDb49IJiLuniq+N3lv7T44h+pvMOzgJ8UDY
- GrsQ==
-X-Gm-Message-State: AOAM530//G6gXS3Cv3zTMEHgamz+oL1lxOlTfvs9VmD7v0/wWfc6OF7k
- 3pYP2vOa6yWxGR6x6Od0fT8Iigz9wcQYOqYR6IIRZf50aoL09ZJ9Nhis8jlldsGfjTPRrKLLgre
- onmuU4nX/2/+BPGE=
-X-Received: by 2002:adf:f081:: with SMTP id n1mr17399425wro.235.1627401469812; 
- Tue, 27 Jul 2021 08:57:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSjpxhx05ffWbVKDnHYX7jILxf62HtqnDMWdhLjGDts/VnLy9ZEk9pEdrHR0bI3p0V2PWxww==
-X-Received: by 2002:adf:f081:: with SMTP id n1mr17399413wro.235.1627401469649; 
- Tue, 27 Jul 2021 08:57:49 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e8352f.dip0.t-ipconnect.de.
- [217.232.53.47])
- by smtp.gmail.com with ESMTPSA id u11sm3629374wrp.26.2021.07.27.08.57.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 08:57:49 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1 v5 0/4] gitlab-ci: Document custom CI/CD
- variables, fix 'when:' conditions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210727142431.1672530-1-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c970138a-7fb5-5243-910d-7f3a8d66cfcd@redhat.com>
-Date: Tue, 27 Jul 2021 17:57:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tF/804m/i6Te+Rgw6XB6u58fSt5OLkc4F6d1QRyYadE=;
+ b=Nn5rmXx0IMgoTDj9JfosreLXlE8ANfVLFJBgE07sj5ozzKDsMgLnf+OMZkekcF/8Pt
+ p6fFSy84x2j7hI4sNrqkiwc1TxcgkoDMNzK8fGOUHA+k2P2gfE0q7BkYEl/DT7kpzOBW
+ dIrxF/q16O6yO9jMNeOAIVWFB6OKS+b7jPSt9m0KOrMHej+S07mY+1cp/oVnyScnNOle
+ u6bKlkcbKAs0PfjqnLvgolJL/eQ1ePFvJbDFl19PBD5ZvHzR8DzZ3wo4Q7xTTWMuviSw
+ cIVmC9aLSjowcWSHJD1wbf2bK5bquhUtNXqL+hFAVLud8HBic8hPeYboEeV+9rCI8cCe
+ FcSQ==
+X-Gm-Message-State: AOAM532xqFX/33R4lCzvfxBmhzZ+LLAnINRZja4+00dolGr5QDaov93t
+ hw/Q7eSzW3CP1JeufHlXTNgu8Z3y4w+G/TgCsIMQvUXPEIp477uzRcGhYR1sQgabvz+uNjZwyqY
+ OZkCCm2lKAlkcK0Y=
+X-Received: by 2002:ac8:47d9:: with SMTP id d25mr19757463qtr.277.1627401726817; 
+ Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGg/lHfI/QsMJ2CNQeCAiNeo4i0UUc+yDB5XRFfG194SQ4PPU5+sowjX12wvMUdGMmdP/y0A==
+X-Received: by 2002:ac8:47d9:: with SMTP id d25mr19757439qtr.277.1627401726588; 
+ Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id s81sm1890447qka.82.2021.07.27.09.02.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 09:02:06 -0700 (PDT)
+Date: Tue, 27 Jul 2021 12:02:05 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 4/9] memory: Don't do topology update in memory
+ finalize()
+Message-ID: <YQAt/V06OZgjhpI6@t490s>
+References: <20210723193444.133412-1-peterx@redhat.com>
+ <20210723193444.133412-5-peterx@redhat.com>
+ <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210727142431.1672530-1-philmd@redhat.com>
+In-Reply-To: <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,36 +95,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2021 16.24, Philippe Mathieu-Daudé wrote:
-> Since v4:
-> - Fixed typo, update link (thuth)
+On Tue, Jul 27, 2021 at 03:21:31PM +0200, David Hildenbrand wrote:
+> On 23.07.21 21:34, Peter Xu wrote:
+> > Topology update could be wrongly triggered in memory region finalize() if
+> > there's bug somewhere else.  It'll be a very confusing stack when it
+> > happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
+> > only until it fails!).
+> > 
+> > Instead of that, we use the push()/pop() helper to avoid memory transaction
+> > commit, at the same time we use assertions to make sure there's no pending
+> > updates or it's a nested transaction, so it could fail even earlier and in a
+> > more explicit way.
+> > 
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >   softmmu/memory.c | 23 +++++++++++++++++++++--
+> >   1 file changed, 21 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/softmmu/memory.c b/softmmu/memory.c
+> > index 1a3e9ff8ad..dfce4a2bda 100644
+> > --- a/softmmu/memory.c
+> > +++ b/softmmu/memory.c
+> > @@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
+> >       EventNotifier *e;
+> >   };
+> > +/* Returns whether there's any pending memory updates */
+> > +static bool memory_region_has_pending_update(void)
+> > +{
+> > +    return memory_region_update_pending || ioeventfd_update_pending;
+> > +}
+> > +
+> >   static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
+> >                                              MemoryRegionIoeventfd *b)
+> >   {
+> > @@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
+> >        * and cause an infinite loop.
+> >        */
+> >       mr->enabled = false;
+> > -    memory_region_transaction_begin();
+> > +
+> > +    /*
+> > +     * Use push()/pop() instead of begin()/commit() to make sure below block
+> > +     * won't trigger any topology update (which should never happen, but it's
+> > +     * still a safety belt).
+> > +     */
 > 
-> Since v3:
-> - Unfortunately patch 4 v2 got merged as 0a9487d80af so
->    rebase & reword.
-> 
-> Philippe Mathieu-Daudé (4):
->    docs: Document GitLab custom CI/CD variables
->    gitlab-ci: Fix 'when:' condition in acceptance_test_job_template
->    gitlab-ci: Fix 'when:' condition in EDK2 jobs
->    gitlab-ci: Fix 'when:' condition in OpenSBI jobs
-> 
->   docs/devel/ci.rst                   | 40 +++++++++++++++++++++++++++++
->   .gitlab-ci.d/buildtest-template.yml |  4 +--
->   .gitlab-ci.d/edk2.yml               |  6 ++---
->   .gitlab-ci.d/opensbi.yml            |  8 +++---
->   .gitlab-ci.yml                      | 19 ++------------
->   5 files changed, 51 insertions(+), 26 deletions(-)
+> Hmm, I wonder if we can just keep the begin/end semantics and just do an
+> assertion before doing the commit? Does anything speak against that?
 
-Thanks, queued to my testing-next tree now:
+That sounds working too for the case of run_on_cpu and similar, but I think
+this patch should be able to cover more.  For example, it's possible depth==0
+when enter memory_region_finalize(), but some removal of subregions could
+further cause memory layout changes.  IMHO we should also bail out early for
+those cases too.  Thanks,
 
-https://gitlab.com/thuth/qemu/-/commits/testing-next/
-
-  Thomas
+-- 
+Peter Xu
 
 
