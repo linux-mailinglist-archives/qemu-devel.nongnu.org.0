@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4633D73D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:56:31 +0200 (CEST)
-Received: from localhost ([::1]:57482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B733D73C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:53:38 +0200 (CEST)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8KlC-00012p-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
+	id 1m8KiP-0002Ym-K7
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8KdA-0001of-8X
+ id 1m8KdA-0001qw-Se
  for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:12 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43729)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Kd8-0004vd-8X
+ id 1m8Kd9-0004w9-2q
  for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:12 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h14so6693879wrx.10
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:09 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id b7so14647409wri.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NHiMPvXEuzz+3gZNYeGUJg4yQo5E4dPUtk/o5Z9hxz8=;
- b=ljK0vz3VDTfLyhx9gTcwzXgIVnOzeF0AivMDhU9Vhl5spfhA1eHjgvFzcP7aVA7W4O
- JHzR4mdETgp/jdSqvhrWR7oRYToGTJ7FK306Xi2xVbvHNRhYzjC7vwbZI+lLzEa2+gZx
- 8wN28ORGvxDjdKsc5LKnAt00XownHu2S8PEHL5Q+sdxcK/sxNEqbAFY+7cZB6wY3EEgI
- YqrG8pQa34DzJRpeystzOvJBCMhzafD7DNvCYxZkJKpTfP+pjuP6tnfxEI0OueD/IoO4
- psO8yPUSXGF3eGsLTgdtUSpm3wJajd9ui6FF/Ks8OyR6ntOSOCPtfQXauG3Q5iwQgAYE
- JA+g==
+ bh=9bOeALNfsi9kwgNj2lgc+kwfoBDFcZ0aq/Tk9pto5GQ=;
+ b=gnV6/Xoz7KZO0EZ2xqu9phk6AFrUdv66l3CRuZTBACPBzgtLz9RWoic8iScqdh36LA
+ +aeL+gzTYPY82kGtdRh0bvXyWwEigaXyqveE4F9ufpV+1xY67qs43j66pj+pTV5RrJRl
+ E6JrmDHz8uE/9H2ftT59kxyB3DNN8GloeWRV/NxJ7LI4oZ9zqlnIPZq77Fol2JCtH2rp
+ 2JQb7nZnuVE1rhvlKsiOoLV3vuioclTJ/DZi8uh6OIZWT+u/mlYX5xmg90hqBpQ6UUKi
+ nVzwYdakQdoAaCMB0nD6Orb4XJOks4FCeRYqfIl00lL1rGuv53XJQjSUmAfga8MoPbOR
+ 0CTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NHiMPvXEuzz+3gZNYeGUJg4yQo5E4dPUtk/o5Z9hxz8=;
- b=jDOwHfdjWcT3jZJLVJNnhoi2jqbRVrcc9oFuwimufPK0dVH1jGXrNgcuuI5eUR4dLk
- gE23UTS8660RGf2v9gDkErD5oJVirBGdq6q+SkF3wv8nIgX9TyWKh4vapGUB/NNcwe+0
- pNhuLCR7vk2vlZYW3kjJWbt0CIFkJoQjd0XQR7mlJFSI/VgS5YafoIZdPHF0clzdGjOV
- otbCLP7q1/nQY4Pa2By6Zv2s4OWvgvQHnWU5oJiKRALGeQ7zoRrCD4RKDQFYMd/Ph6Bl
- aQzeMXMX9Tae13uyfc0cmvC9U7yYaemSrMAo7wyWsmzNIn8xFUN6FwUluRj6x9z3+XHi
- fFGw==
-X-Gm-Message-State: AOAM532FV8Bskov9zHy5BBfPYQ5O2T6WBgtYr8GguCTLyDjsxy1kvK62
- ieXfK2or+nERHU+knx3udNQ/eZiKw9p5gQ==
-X-Google-Smtp-Source: ABdhPJz948EmRohTwA+By+E2SFgdkjAf+cWBLBxeuqqlXx/n6y+CqqI0AHA3wg16I1gZ9ydMIDwZaw==
-X-Received: by 2002:a05:6000:10f:: with SMTP id
- o15mr23485756wrx.347.1627382888922; 
- Tue, 27 Jul 2021 03:48:08 -0700 (PDT)
+ bh=9bOeALNfsi9kwgNj2lgc+kwfoBDFcZ0aq/Tk9pto5GQ=;
+ b=XaIiUMSytFZeQnDYBi7TWSLTvt0P/GlAyV8Xn+wifAAsnBrNYkbOxO1vLDK2C/GOEc
+ 6wvnDe/kHPfSPJN/Xctc3b90AdUT30RQMd/LS/8c6ipwDNa2go5Sfr5rTIlaZGwt8jFn
+ kgxa8AVMUuM+YVlQRuFJO/l1omRKcK+0iOLHrKWZxPS4TCvGBz7URcV8EvnrzladQMEZ
+ RF2jFQjxUPuc659ItJjUzgJeIFXP9ymN5vofW9SrZPv19DMpGnWtaaalUGVcbh2YPyrg
+ zKFwuUpb4XE3ReP3WVGvCCugy3zKHX9Y6Vdek2ngeSw4SCstsvzi0N/VXkU/WT2LhVGJ
+ 04Yw==
+X-Gm-Message-State: AOAM532GpPLvVR7dw+aTYHUXATyCM9pS9k80uzLYvsOFVKwHSbVLKv12
+ E4FXD+PLnNyTbM6B2G7jbMrQGUHF+lyhAw==
+X-Google-Smtp-Source: ABdhPJwcxxRFr/b+JY5upAe4+PW1foXF9l1PNwnVn6P0h8J6yIOQ/i2CsPi9StKJ1/lgayh7YJCB+Q==
+X-Received: by 2002:adf:fc0c:: with SMTP id i12mr13912610wrr.373.1627382889664; 
+ Tue, 27 Jul 2021 03:48:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.08
+ by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 03:48:08 -0700 (PDT)
+ Tue, 27 Jul 2021 03:48:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/14] hw/intc/armv7m_nvic: for v8.1M VECTPENDING hides S
- exceptions from NS
-Date: Tue, 27 Jul 2021 11:47:55 +0100
-Message-Id: <20210727104801.29728-9-peter.maydell@linaro.org>
+Subject: [PULL 09/14] docs: Update path that mentions deprecated.rst
+Date: Tue, 27 Jul 2021 11:47:56 +0100
+Message-Id: <20210727104801.29728-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210727104801.29728-1-peter.maydell@linaro.org>
 References: <20210727104801.29728-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,75 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In Arm v8.1M the VECTPENDING field in the ICSR has new behaviour: if
-the register is accessed NonSecure and the highest priority pending
-enabled exception (that would be returned in the VECTPENDING field)
-targets Secure, then the VECTPENDING field must read 1 rather than
-the exception number of the pending exception. Implement this.
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
+Missed in commit f3478392 "docs: Move deprecation, build
+and license info out of system/"
+
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20210723065828.1336760-1-maozhongyi@cmss.chinamobile.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210723162146.5167-7-peter.maydell@linaro.org
 ---
- hw/intc/armv7m_nvic.c | 31 ++++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
+ configure         | 2 +-
+ target/i386/cpu.c | 2 +-
+ MAINTAINERS       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index c9149a3b221..1e7ddcb94cb 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -804,6 +804,16 @@ void armv7m_nvic_acknowledge_irq(void *opaque)
-     nvic_irq_update(s);
- }
+diff --git a/configure b/configure
+index 69cef688612..79e2ddc74e0 100755
+--- a/configure
++++ b/configure
+@@ -5230,7 +5230,7 @@ fi
  
-+static bool vectpending_targets_secure(NVICState *s)
-+{
-+    /* Return true if s->vectpending targets Secure state */
-+    if (s->vectpending_is_s_banked) {
-+        return true;
-+    }
-+    return !exc_is_banked(s->vectpending) &&
-+        exc_targets_secure(s, s->vectpending);
-+}
-+
- void armv7m_nvic_get_pending_irq_info(void *opaque,
-                                       int *pirq, bool *ptargets_secure)
- {
-@@ -813,12 +823,7 @@ void armv7m_nvic_get_pending_irq_info(void *opaque,
+ if test -n "${deprecated_features}"; then
+     echo "Warning, deprecated features enabled."
+-    echo "Please see docs/system/deprecated.rst"
++    echo "Please see docs/about/deprecated.rst"
+     echo "  features: ${deprecated_features}"
+ fi
  
-     assert(pending > ARMV7M_EXCP_RESET && pending < s->num_irq);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index edb97ebbbee..34a7ce865bb 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4110,7 +4110,7 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+  * none", but this is just for compatibility while libvirt isn't
+  * adapted to resolve CPU model versions before creating VMs.
+  * See "Runnability guarantee of CPU models" at
+- * docs/system/deprecated.rst.
++ * docs/about/deprecated.rst.
+  */
+ X86CPUVersion default_cpu_version = 1;
  
--    if (s->vectpending_is_s_banked) {
--        targets_secure = true;
--    } else {
--        targets_secure = !exc_is_banked(pending) &&
--            exc_targets_secure(s, pending);
--    }
-+    targets_secure = vectpending_targets_secure(s);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 445f7fe2d19..42ac45c3e50 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3439,7 +3439,7 @@ F: contrib/gitdm/*
  
-     trace_nvic_get_pending_irq_info(pending, targets_secure);
+ Incompatible changes
+ R: libvir-list@redhat.com
+-F: docs/system/deprecated.rst
++F: docs/about/deprecated.rst
  
-@@ -1039,7 +1044,19 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-         /* VECTACTIVE */
-         val = cpu->env.v7m.exception;
-         /* VECTPENDING */
--        val |= (s->vectpending & 0x1ff) << 12;
-+        if (s->vectpending) {
-+            /*
-+             * From v8.1M VECTPENDING must read as 1 if accessed as
-+             * NonSecure and the highest priority pending and enabled
-+             * exception targets Secure.
-+             */
-+            int vp = s->vectpending;
-+            if (!attrs.secure && arm_feature(&cpu->env, ARM_FEATURE_V8_1M) &&
-+                vectpending_targets_secure(s)) {
-+                vp = 1;
-+            }
-+            val |= (vp & 0x1ff) << 12;
-+        }
-         /* ISRPENDING - set if any external IRQ is pending */
-         if (nvic_isrpending(s)) {
-             val |= (1 << 22);
+ Build System
+ ------------
 -- 
 2.20.1
 
