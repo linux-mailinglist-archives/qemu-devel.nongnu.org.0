@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF3B3D7A8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:09:46 +0200 (CEST)
-Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051E13D7AB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 18:14:04 +0200 (CEST)
+Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8PeL-0002mk-3r
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
+	id 1m8PiV-0005Ek-3g
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 12:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8PdG-0001gR-O4
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:08:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8Pd8-0000g9-TH
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:08:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627402109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8X7BDZj2kyOTBsqcK49p6o5fNjAyjBZ5Y5X/Z2qPShA=;
- b=iz1clAusHx1kjh/xxzKHZir0h84VDMxAjxdyRLP7UCpkNlHoP4HxXTebXIDD1WM8iJcpH7
- gDQ+f4HszQmHa6RidKG4P1vJL//X8uP9qnQDijxve/G2DgAU9GZSsjmJ+dfzzbBz9kXaaR
- FhczBnAqXWgvr2NAZ/B9UfQRjNtiMvY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-kbqQfXXEOGah_pumDNv08w-1; Tue, 27 Jul 2021 12:08:26 -0400
-X-MC-Unique: kbqQfXXEOGah_pumDNv08w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- v16-20020a0562140510b029032511e85975so9780364qvw.23
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:08:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m8PhS-0004Wd-SV
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:12:58 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:45647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m8PhR-0003zZ-8S
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 12:12:58 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso5539109pjf.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 09:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oILhkNlBuyd5Kcghq0LheeBJif+xl+Do1B7FYkuwrFI=;
+ b=PMgFaRb+DFCsDuHugiBIRscnUzbEe5f2xp/yE2sRAwtj6FI3zsl7ED5CgfRLbEAMfR
+ 5i2YHr0MTfl/p9FBYAQP3mgAmvRk+6I2WPnl8jnK1QKa+Jqv/IRqT4PNrtKmDSKdVDUC
+ xosKv9zRKdEOMvxCVpYwfa99j6x+cGJuCZqUae9rfHwPrx5rEIQXdFBbfkkSp0+dxrWn
+ GtP+mIo/+YWEDaiU9oOrRpxJBnc3sIyebWwpKCaFc8AV/W+algrCe8v9aNpcVnSRlBMl
+ LDSbmFqXr2AlFWUW9ODnfkjmCFLEs5n2OAoqkmw/eE5HFHIzw0OG6bN3JtmVIe0ZVZG4
+ f9UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8X7BDZj2kyOTBsqcK49p6o5fNjAyjBZ5Y5X/Z2qPShA=;
- b=Z7L1EruSLoZsIeJvLdUKGO6O+dBK93gwwh21Q1mGofxXHFBrAtX/9IP2VXPgrlfd2f
- Y/VwYhxirZ3f7XU640iNK8bXW8+sSlmXDSN9i4El1s+D8fkSzIC8gDP1GxoljXYEyjY2
- 6gImXcgbuesfgFC9fnsvzhR+yg8NXcNpz85hkGFtv7zTwmyD0EZ/ASHQ/SQ1lJ40F0pc
- l+qyPvXWkIAT77eZb05A15r9HpEZxgQayTRIziatS/KcIv8s0jdNL+8fz7ipPgTcD3W2
- eqyBq2sAISeiNDD6upTBHBw3cUdc7xgXV2J8jJDfKxncFN6M1tPZsmE+pTcfrKbVcMsz
- ncoQ==
-X-Gm-Message-State: AOAM530KZQTJNIkP7uOoQ8f9yfd/8hbgfVjoJOBNV1YVM5wInF80DY/F
- yK6tBWq/qZz7tVBuZv0prBUuhFOQ/Kwqv2uH2woG2lb5qpijeOtWHqZ9lFNEXAi0DdXlF/ymEHq
- nGyDRqVMwkt6d7kM=
-X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr20027883qtd.240.1627402105859; 
- Tue, 27 Jul 2021 09:08:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyO/JN4qfecr+HwV6iG4ioqcERTONi0332orQRZYuhJj/DVGin5Q72alUlQHckGEYoPWmSW+Q==
-X-Received: by 2002:ac8:5ac7:: with SMTP id d7mr20027864qtd.240.1627402105661; 
- Tue, 27 Jul 2021 09:08:25 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id az37sm1753481qkb.91.2021.07.27.09.08.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 09:08:24 -0700 (PDT)
-Date: Tue, 27 Jul 2021 12:08:24 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 7/9] cpus: Introduce
- qemu_mutex_unlock_iothread_prepare()
-Message-ID: <YQAveIvA2SB1SmSI@t490s>
-References: <20210723193444.133412-1-peterx@redhat.com>
- <20210723193444.133412-8-peterx@redhat.com>
- <0fb73c64-f915-7630-ba64-0524c6b8ed40@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oILhkNlBuyd5Kcghq0LheeBJif+xl+Do1B7FYkuwrFI=;
+ b=iVAiveCAYhFyZJRWchLq68QbLtl6436rH+FCmlmSXWi1mtHZkKHdkJhaoihtWgLiEB
+ QzvAEUneC8sqEn/MwRgo1LM5DeQaX3izIirMhpm/EwsL91xaVuhttyXBBu8pIskhVwTR
+ T0VBQc8pj4aAu5R90Mvakjdoo3u6+mpca0YMNNc+nc6n3kx67ztsa1Rz+dWawKh6RGDt
+ Gubkujn3VKn518tbzrXFQz7kyleLC6iFM/7qjXjdM36Jk/hu6XAxMjxHTebcpxmHG9bZ
+ DE508Pk7J9SQ96mgelxPkfRXUCb+VUmkTw1+OUZ9IPfY61UKqQiW2AQzgQxj7ExPMN27
+ lUXw==
+X-Gm-Message-State: AOAM532nB4szxocZHPuQ6jY9k1aFOTHn/D1bCWVtW1bTaSEbWsiYSwwX
+ 8dM6QW9Pq0+RbMllyYEaCaNzig==
+X-Google-Smtp-Source: ABdhPJzakS9cj4Pk6w0oamYi4VVRTr1WbkNUQL+WBGsfHWrkJdfUdn0DUlwx6aYVpfWzEJ7a1GWgNQ==
+X-Received: by 2002:a17:902:8348:b029:12b:b2a0:941b with SMTP id
+ z8-20020a1709028348b029012bb2a0941bmr19406410pln.62.1627402374073; 
+ Tue, 27 Jul 2021 09:12:54 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:497b:6ae4:953c:7ad1?
+ (2603-800c-3202-ffa7-497b-6ae4-953c-7ad1.res6.spectrum.com.
+ [2603:800c:3202:ffa7:497b:6ae4:953c:7ad1])
+ by smtp.gmail.com with ESMTPSA id n56sm4088523pfv.65.2021.07.27.09.12.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Jul 2021 09:12:53 -0700 (PDT)
+Subject: Re: [PATCH v2 13/22] target/loongarch: Add floating point arithmetic
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-14-git-send-email-gaosong@loongson.cn>
+ <1729aea1-a773-ad78-59d3-294eb968a7ba@linaro.org>
+ <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <179b2d4e-7b0d-43ba-9f35-84ac728029f1@linaro.org>
+Date: Tue, 27 Jul 2021 06:12:49 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <0fb73c64-f915-7630-ba64-0524c6b8ed40@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.717, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,72 +94,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 27, 2021 at 02:59:26PM +0200, David Hildenbrand wrote:
-> On 23.07.21 21:34, Peter Xu wrote:
-> > The prepare function before unlocking BQL.  There're only three places that can
-> > release the BQL: unlock(), cond_wait() or cond_timedwait().
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >   softmmu/cpus.c | 7 +++++++
-> >   1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> > index 9131f77f87..6085f8edbe 100644
-> > --- a/softmmu/cpus.c
-> > +++ b/softmmu/cpus.c
-> > @@ -66,6 +66,10 @@
-> >   static QemuMutex qemu_global_mutex;
-> > +static void qemu_mutex_unlock_iothread_prepare(void)
-> > +{
-> > +}
-> > +
-> >   bool cpu_is_stopped(CPUState *cpu)
-> >   {
-> >       return cpu->stopped || !runstate_is_running();
-> > @@ -523,16 +527,19 @@ void qemu_mutex_unlock_iothread(void)
-> >   {
-> >       g_assert(qemu_mutex_iothread_locked());
-> >       iothread_locked = false;
-> > +    qemu_mutex_unlock_iothread_prepare();
-> >       qemu_mutex_unlock(&qemu_global_mutex);
-> >   }
-> >   void qemu_cond_wait_iothread(QemuCond *cond)
-> >   {
-> > +    qemu_mutex_unlock_iothread_prepare();
-> >       qemu_cond_wait(cond, &qemu_global_mutex);
-> >   }
-> >   void qemu_cond_timedwait_iothread(QemuCond *cond, int ms)
-> >   {
-> > +    qemu_mutex_unlock_iothread_prepare();
-> >       qemu_cond_timedwait(cond, &qemu_global_mutex, ms);
-> >   }
-> > 
+On 7/26/21 9:17 PM, Song Gao wrote:
+>> I think this should be as simple as
+>>
+>>    gen_helper_fp_add_s(cpu_fpu[a->fd], cpu_env,
+>>                        cpu_fpu[a->fj], cpu_fpu[a->fk]);
+>>
+>> I also think that loongarch should learn from risc-v and change the architecture to "nan-box" single-precision results -- fill the high 32-bits with 1s.  This is an SNaN representation for double-precision and will immediately fail when incorrectly using a single-precision value as a double-precision input.
+>>
+>> Thankfully the current architecture is backward compatible with nan-boxing.
+>>
 > 
-> I'd squash this patch into the next one.
+> by this method,  the trans_fadd_s is
 > 
-> I don't quite like the function name, but don't really have a better
-> suggestion .... maybe qemu_mutex_might_unlock_iothread(), similar to
-> might_sleep() or might_fault() in the kernel. (although here it's pretty
-> clear and not a "might"; could be useful in other context where we might
-> conditionally unlock the BQL at some point in the future, though)
+> static bool trans_fadd_s(DisasContext *ctx, arg_fadd_s * a)
+> {
+>      TCGv_i64 fp0, fp1;
+> 
+>      fp0 = tcg_temp_new_i64();
+>      fp1 = tcg_temp_new_i64();
+> 
+>      check_fpu_enabled(ctx);
+>      gen_load_fpr64(fp0, a->fj);
+>      gen_load_fpr64(fp1, a->fk);
+>      gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
+> 
+>      gen_check_nanbox_s(fp0, fp0); /* from riscv */
+> 
+>      gen_store_fpr64(fp0, a->fd);
+> 
+>      tcg_temp_free_i64(fp0);
+>      tcg_temp_free_i64(fp1);
+> 
+>      return true;
+> }
 
-Yes, IMHO "might" describes a capability of doing something, here it's not
-(this one should only be called right before releasing bql, not within any
-context of having some capability).  The other option I thought was "pre" but
-it will be just a short version of "prepare".
+A few points here:
 
-Let me know if you have a better suggestion on naming. :) Otherwise I'll keep
-the naming, squash this patch into the next and keep your r-b for that.
+(1) You do not need gen_load_fpr64 and gen_store_fpr64 at all.
+     These were from mips to deal with the varying fpu sizes.
 
-Thanks,
+(2) If we need to call a helper, then the helper as much of
+     the work a possible.  Therefore the nanboxing should be
+     done there.  See riscv/fpu_helper.c, and the use of
+     nanbox_s within that file.
 
--- 
-Peter Xu
+(3) Again, use a helper function:
 
+static bool gen_binary_fp(DisasContext *ctx, arg_fmt_fdfjfk *a,
+                           void (*func)(TCGv_i64, TCGv_env,
+                                        TCGv_i64, TCGv_i64))
+{
+     if (check_fpu_enabled(ctx)) {
+         func(cpu_fpr[a->fd], cpu_env,
+              cpu_fpr[a->fj], cpu_fpr[a->fk]);
+     }
+     return true;
+}
+
+TRANS(fadd_s, gen_binary_fp, gen_helper_fp_add_s)
+TRANS(fadd_d, gen_binary_fp, gen_helper_fp_add_d)
+
+> uint64_t helper_fp_add_s(CPULoongArchState *env, uint64_t fp, uint64_t fp1)
+> {
+>      uint32_t fp2;
+> 
+>      fp2 = float32_add((uint32_t)fp, (uint32_t)fp1, &env->active_fpu.fp_status);
+>      update_fcsr0(env, GETPC());
+>      return (uint64_t)fp2;
+> }
+
+with return nanbox_s(fp2);
+
+
+r~
 
