@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B95C3D6DB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 06:47:48 +0200 (CEST)
-Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79033D6DDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 07:13:43 +0200 (CEST)
+Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8F0N-0003tS-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 00:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34644)
+	id 1m8FPS-0007Ts-FY
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 01:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m8Eyq-0002jO-Es
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 00:46:12 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36532)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8FOW-0006og-Iv
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 01:12:44 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:36754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m8Eym-0004pz-NB
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 00:46:12 -0400
-Received: by mail-pl1-x632.google.com with SMTP id i10so11287569pla.3
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 21:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lOIOYNdB3fNX3h1Ge5giFUpseAy+LYr/Eb/x8dSryOg=;
- b=Z0+jpDkGj21GAH/Qj+0O0WfJ2HCWX2218v6aFQzcySrkfo6QqkXcnGdnZb7Gx3VKF0
- zqO8FeVWbqcPWWOi/4XC3WFmTzsaySfs9srRb1+GXJ4eDVVVfMendBbpkJfZJqaBQ+as
- D9dKO5xey+oDwz7IfhK5iIMa3W/9BAteh4oHu6Pso84Sf7QZf/cZArOPe7TkH6So9Zeu
- St2LGQW2EZFBqGIyAd52sT2SNk0f5kgM5zmo9S6Y7nGxO2P+vBooyyoej1kuusj+QUeR
- cvuTMtzKsP3JYQyQn3hRml9DOHjIMGoSUcT9p2nSklFOu/HXxur4TVGN9IvqlFVMWelS
- OyRQ==
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8FOU-0002Pi-P1
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 01:12:44 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id w10so8766356qtj.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 22:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7rmiDr/vuodBbJ6WxLeSUgUqgLd+TZh+BwaCgu1h0Bc=;
+ b=hG/6OFx/c6r05wkJZMgMUH5AvLpRR+LaRzI7Y4v5CVgsRMaqAVRx8c4DtYZ2Vc4l8r
+ iTQvsyiqEQTQdJccSOe60l8KBnyI7LLJ8l/PxUqmsBbefeHeXM/VUZ4j4XAdcFVyvjSe
+ mgblWoKZToJShaTJAK2ZzpBtlGFUhx+tpgyIBhS+Y18LOXSibulgTfsPQBqBzZp7VJB9
+ GnXNP6Wat/lp/fI0zV5KG53ugua59ieYryhAnOLTgRm4nAcyGcWllue2C9/byec8cHrf
+ akWXb6/+/kgNky6rWUsScJ+cB5m0OUMOcuag6GZmy3wuSGbZfwMMW0ypn4bGoLhUXTnr
+ mesg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lOIOYNdB3fNX3h1Ge5giFUpseAy+LYr/Eb/x8dSryOg=;
- b=rAY2xnIyUofGMD30d2HTA/KljpodFOFWA7aZX5RmSLEIIoLrarERJRUwh2CdpGbq/I
- OFGVjHL5AhWKlCzoCGkJqDgXVIEvnQtjz8XDVg+UUfcrxbbXHUq30zBOnWUQIQZmKrtY
- 19yTrjlB6Hi+ap8WeqrPBMdzNztDOsIJRb6Mjgvw0Gj2QLuw4k5CvmyA3m4cBuU02Vqv
- XX2cgfeRR+CzbcJNiTsBb/hsu+Ba+h6Uzd70iV/z3wMAyD2DanwZEE0c46i4/YwPnJvd
- x04ZBxioLT9jL3nSdcqe3fFGPBb0Lwlb5634+0fhWDV7vYP9kagDDgmMzPhZ6cdMiaN4
- bVqA==
-X-Gm-Message-State: AOAM530/HM2df/mmcwO/k9t33jfV6g4yvR5nYhRwV14n0YqlbRFA3peE
- RrYbJDJERJGGsqVLcr/93HfnWfe/JikVtA==
-X-Google-Smtp-Source: ABdhPJyUIAu7uN+Xsz4Df6P+fLKPgJY7yd7yrXd4JfgvQYXmU65w1XX6moLfpDEGZE964PBLwToecg==
-X-Received: by 2002:a17:903:187:b029:12b:aed5:d2c5 with SMTP id
- z7-20020a1709030187b029012baed5d2c5mr17225000plg.81.1627361166851; 
- Mon, 26 Jul 2021 21:46:06 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.105.121])
- by smtp.googlemail.com with ESMTPSA id z6sm1687043pgs.4.2021.07.26.21.46.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 21:46:06 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/i386/ich9: add comment explaining an argument to
- acpi_pcihp_reset call
-Date: Tue, 27 Jul 2021 10:15:46 +0530
-Message-Id: <20210727044546.246363-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+ bh=7rmiDr/vuodBbJ6WxLeSUgUqgLd+TZh+BwaCgu1h0Bc=;
+ b=sy5px/2OU4txn6f4W4Fq44w20+lO7FhrFe0TRRAU0zGikX/mXBU1FGN6uIXB3Cj1Z8
+ 8U5bRsio52AvatinjBuv/uvv2RFI62XfNU/YQh6Rwc6sEc6FF0Bw7YqIWuqeEI3gdKJj
+ NgeSJt6bd9usPTmjyVJ5Xml6qKiZhzBLaBdQDPxZSaPi6P1j54Uu0BL2O+ExDVycL3LF
+ BSx+ZWbpXXC7H3vxYHuwOVaX6+AJT7oug2FjslAe6/YQtSvI+XaVy8bhCniM/ibAk0+2
+ JKzXl7tdVbk84VOxledr7lY3biNORecsQiVHJgGg/SNx8b6wyYDW2qhTN1GtzHR1SfdS
+ WXhw==
+X-Gm-Message-State: AOAM5315VXU24kv+84rdgLy4RGpYAJnokMX46OcbIdJD7BFBHliAbclF
+ bbIVvMgLA3AjgPvwpDuvd74=
+X-Google-Smtp-Source: ABdhPJzrVvUvEIwrn6z2QzUydPndUG79gt1iahhukL1nTKXpO5MNQ1dqkkdtCaJjzdsfS8My6hRG+g==
+X-Received: by 2002:ac8:6994:: with SMTP id o20mr18072262qtq.21.1627362761724; 
+ Mon, 26 Jul 2021 22:12:41 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ a132sm1179897qkg.55.2021.07.26.22.12.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jul 2021 22:12:41 -0700 (PDT)
+To: "Michael S. Tsirkin" <mst@redhat.com>, Ard Biesheuvel <ardb@kernel.org>
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+ <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+Message-ID: <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+Date: Mon, 26 Jul 2021 22:12:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210727004401-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=groeck7@gmail.com; helo=mail-qt1-x82d.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,37 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-acpi_pcihp_reset() call from ich9/pm_reset() passes an unconditional truth value
-as the second argument. Added a commnet here to explain the reason why the
-argument is being passed unconditionally.
+On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
+> On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
+>> (cc Bjorn)
+>>
+>> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>>
+>>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
+>>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+>>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+>>>>>> Hi all,
+>>>>>>
+>>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
+>>>>>> work. Analysis shows that PCI devices with IO ports do not instantiate
+>>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affects
+>>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+>>>>>> affects
+>>>>>> aarch64, not x86/x86_64.
+>>>>>>
+>>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
+>>>>>> keep firmware resource map"). Since this commit, PCI device BAR
+>>>>>> allocation has changed. Taking tulip as example, the kernel reports
+>>>>>> the following PCI bar assignments when running qemu v5.2.
+>>>>>>
+>>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+>>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+>>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+>>
+>> IIUC, these lines are read back from the BARs
+>>
+>>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+>>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+>>>>>> 0x10000000-0x1000007f]
+>>>>>>
+>>
+>> ... and this is the assignment created by the kernel.
+>>
+>>>>>> With qemu v6.0, the assignment is reported as follows.
+>>>>>>
+>>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+>>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+>>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+>>>>>>
+>>
+>> The problem here is that Linux, for legacy reasons, does not support
+>> I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI is
+>> rejected.
+>>
+>> This might make sense on x86, where legacy I/O ports may exist, but on
+>> other architectures, this makes no sense.
+> 
+> 
+> Fixing Linux makes sense but OTOH EFI probably shouldn't create mappings
+> that trip up existing guests, right?
+> 
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/ich9.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I think it is difficult to draw a line. Sure, maybe EFI should not create
+such mappings, but then maybe qemu should not suddenly start to enforce
+those mappings for existing guests either.
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 778e27b659..b2e3c46075 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -281,6 +281,11 @@ static void pm_reset(void *opaque)
-     pm->smi_en_wmask = ~0;
- 
-     if (pm->use_acpi_hotplug_bridge) {
-+        /*
-+         * PCI Express root buses do not support hot-plug, for
-+         * details see docs/pcie.txt. Hence, the second argument
-+         * is unconditionally true.
-+         */
-         acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
-     }
- 
--- 
-2.25.1
+For my own testing, I simply reverted commit 0cf8882fd0 in my copy of
+qemu. That solves my immediate problem, giving us time to find a solution
+that is acceptable for everyone. After all, it doesn't look like anyone
+else has noticed the problem, so there is no real urgency.
 
+Thanks,
+Guenter
 
