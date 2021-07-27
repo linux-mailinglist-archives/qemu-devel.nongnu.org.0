@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D183D6BA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 03:53:06 +0200 (CEST)
-Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9810C3D6BE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 04:22:53 +0200 (CEST)
+Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8CHJ-0004L1-FY
-	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 21:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41280)
+	id 1m8Ck8-0000A8-9P
+	for lists+qemu-devel@lfdr.de; Mon, 26 Jul 2021 22:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m8CGL-0003CF-UM
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 21:52:05 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:38876 helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <AIERPATIJIANG1@kingsoft.com>)
+ id 1m8CjP-0007xk-MY
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 22:22:07 -0400
+Received: from [114.255.44.146] (port=39367 helo=mail.kingsoft.com)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m8CGJ-0001lZ-AW
- for qemu-devel@nongnu.org; Mon, 26 Jul 2021 21:52:05 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr0O7Zv9gCk0kAA--.23826S3; 
- Tue, 27 Jul 2021 09:51:57 +0800 (CST)
-Subject: Re: [PATCH v2 07/22] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-8-git-send-email-gaosong@loongson.cn>
- <ad086e2a-3bfc-aa4b-d873-68d159ea2cbe@linaro.org>
- <95b0ee7b-ca4d-2ee1-85cf-2c49160d3a5d@loongson.cn>
- <dce97537-8e36-4bab-7c89-4c2f7aa6f814@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <54d4b762-5d77-7968-2beb-7afa24fdfdc9@loongson.cn>
-Date: Tue, 27 Jul 2021 09:51:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <AIERPATIJIANG1@kingsoft.com>) id 1m8CjL-00050P-RE
+ for qemu-devel@nongnu.org; Mon, 26 Jul 2021 22:22:07 -0400
+X-AuditID: 0a580157-8b5ff700000015d4-ff-60ff6dbc702a
+Received: from mail.kingsoft.com (localhost [10.88.1.78])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 4B.28.05588.CBD6FF06;
+ Tue, 27 Jul 2021 10:21:48 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL3.kingsoft.cn
+ (10.88.1.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Tue, 27 Jul
+ 2021 10:21:48 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::7d5f:5fcb:9c30:789b]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::7d5f:5fcb:9c30:789b%6]) with mapi id
+ 15.01.2176.014; Tue, 27 Jul 2021 10:21:48 +0800
+From: =?utf-8?B?QUlFUlBBVElKSUFORzEgW+iJvuWwlOW4leaPkOaxn8K36Zi/5biD6YO96LWb?=
+ =?utf-8?B?5Lmw5o+QXQ==?= <AIERPATIJIANG1@kingsoft.com>
+To: "lvivier@redhat.com" <lvivier@redhat.com>, "amit@kernel.org"
+ <amit@kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
+Subject: [PATCH] hw/char/virtio-serial-bus: fix: Unpop throttled
+ VirtQueueElement to queue before discard vq data
+Thread-Topic: [PATCH] hw/char/virtio-serial-bus: fix: Unpop throttled
+ VirtQueueElement to queue before discard vq data
+Thread-Index: AQHXfhCIoeZCoIzDgkWI30flJ82In6tWICuA
+Date: Tue, 27 Jul 2021 02:21:48 +0000
+Message-ID: <330EE4BB-DE8D-4D4A-9E6E-08E50BDA5E45@kingsoft.com>
+References: <2904D378-AA27-4510-A3C8-7E2E34DF37EF@kingsoft.com>
+In-Reply-To: <2904D378-AA27-4510-A3C8-7E2E34DF37EF@kingsoft.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.2.22]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0F75A6B234C88348B35D5366FB4F3411@kingsoft.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <dce97537-8e36-4bab-7c89-4c2f7aa6f814@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxr0O7Zv9gCk0kAA--.23826S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCry5CFW3Gr48trW5Jr15CFg_yoW5Gr4rpF
- n5JF48ZrWUtFn3Jw4UKw47WF9FyFWrtw1UJw1vga4YyF4fAr12gr4jqr4q9r1Fyr4fWr4U
- Zw4j9r9xZF13J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
- vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
- xVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcV
- AKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0S
- jxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7
- Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l
- IxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZa9-UUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LhimD0092T+z/BYOMiY4vPd+ewW3xqkLI4
+ 3ruDxeL1pP+sDiwem1Z1snk8ubaZyeP9vqtsAcxRXDYpqTmZZalF+nYJXBkLumezFUyQqNi4
+ aiFrA+MB8S5GTg4JAROJiWvvMHUxcnEICUxnklg0/TULhPOCUeL0pmvsEM4eRomnFxcygjhs
+ Au2MEocPT2cFcUQEtjBK/G1rZAUZJixQLPH093/mLkYOoESFxK0/KSBhEQEjian3FzKD2CwC
+ qhIdDQ/AbF4Be4kna54zgpQLAdm7FtuAhDkFHCQ+tV4EK2EUkJWY9ug+E4jNLCAuMXfaLFaI
+ swUkluw5zwxhi0q8fPwPKi4nseFEJzvISGYBTYn1u/QhWq0ldsx8zQ5hK0pM6X7IDnGBoMTJ
+ mU9YJjCKzUKyYRZC9ywk3bOQdM9C0r2AkXUVI0txbrrhJkZIRIXvYJzX9FHvECMTB+MhRgkO
+ ZiURXocVvxOEeFMSK6tSi/Lji0pzUosPMUpzsCiJ85Yc/JcgJJCeWJKanZpakFoEk2Xi4JRq
+ YKpS/bTuY8DkqI1HpYJinWsXXJHePT9+h7a2XzqbvWdEwGbpG9rZjDvqrIM3N1bJJ4ge6Zu8
+ vs2jzPrnk5uvTm3KyExrTOdJWNaRwGzTYKj16fz1mDdRRj4zde/t2OliUZJ93+xif6RqImuW
+ 66qS7RzL+q89jol3cVkXJZe2am+Fg+WHa/dNpGMqgretkDBaon5VKLf14qJpdw0cK+b+nPpo
+ DfvZOUsl63zaZpnem7T6SFKqxZewGVXLnZ/srfp9I/zUPD4HAzGtfZHMypcOfdS/eTbwZeF0
+ TaX7vM0XSuZlRcZd35S9o6dya/ekR8mJl46s2and3RNhF1QTv6678NOzmqu2PDOsmr6wB1x9
+ p8RSnJFoqMVcVJwIAPdPZAcXAwAA
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.255.44.146 (failed)
+Received-SPF: pass client-ip=114.255.44.146;
+ envelope-from=AIERPATIJIANG1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,92 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard.
-
-On 07/26/2021 11:53 PM, Richard Henderson wrote:
-> On 7/26/21 1:56 AM, Song Gao wrote:
->> Hi, Richard.
->>
->> On 07/23/2021 08:46 AM, Richard Henderson wrote:
->>> On 7/20/21 11:53 PM, Song Gao wrote:
->>>> +/* Fixed point arithmetic operation instruction translation */
->>>> +static bool trans_add_w(DisasContext *ctx, arg_add_w *a)
->>>> +{
->>>> +    TCGv Rd = cpu_gpr[a->rd];
->>>> +    TCGv Rj = cpu_gpr[a->rj];
->>>> +    TCGv Rk = cpu_gpr[a->rk];
->>>> +
->>>> +    if (a->rd == 0) {
->>>> +        /* Nop */
->>>> +        return true;
->>>> +    }
->>>> +
->>>> +    if (a->rj != 0 && a->rk != 0) {
->>>> +        tcg_gen_add_tl(Rd, Rj, Rk);
->>>> +        tcg_gen_ext32s_tl(Rd, Rd);
->>>> +    } else if (a->rj == 0 && a->rk != 0) {
->>>> +        tcg_gen_mov_tl(Rd, Rk);
->>>> +    } else if (a->rj != 0 && a->rk == 0) {
->>>> +        tcg_gen_mov_tl(Rd, Rj);
->>>> +    } else {
->>>> +        tcg_gen_movi_tl(Rd, 0);
->>>> +    }
->>>> +
->>>> +    return true;
->>>> +}
->>>
->>> Do not do all of this "if reg(n) zero" testing.
->>>
->>> Use a common function to perform the gpr lookup, and a small callback function for the operation.  Often, the callback function already exists within include/tcg/tcg-op.h.
->>>
->>> Please see my riscv cleanup patch set I referenced vs patch 6.
->>
->> I am not sure  that 'riscv cleanup' patchs at:
->>        https://patchew.org/QEMU/20210709042608.883256-1-richard.henderson@linaro.org
->>
->> It seems that  gpr_dst/gpr_src are common function to perform the gpr lookup. is that right?
-> 
-> More than that.  The gen_arith() function, for example, performs all of the bookkeeping for a binary operation.
-> 
-> For example,
-> 
-> static bool gen_arith(DisasContext *ctx, arg_fmt_rdrjrk *a,
->                       void (*func)(TCGv, TCGv, TCGv))
-> {
->    TCGv dest = gpr_dst(ctx, a->rd);
->    TCGv src1 = gpr_src(ctx, a->rj);
->    TCGv src2 = gpr_src(ctx, a->rk);
-> 
->     func(dest, src1, src2);
->     return true;
-> }
-> 
-> #define TRANS(NAME, FUNC, ...) \
->     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
->     { return FUNC(ctx, a, __VA_ARGS__); }
-> 
-> static void gen_add_w(TCGv dest, TCGv src1, TCGv src2)
-> {
->     tcg_gen_add_tl(dest, src1, src2);
->     tcg_gen_ext32s_tl(dest, dest);
-> }
-> 
-> TRANS(add_w, gen_arith, gen_add_w)
-> TRANS(add_d, gen_arith, tcg_gen_add_tl)
-> 
-> 
-OK
-
-Again, thank you kindly help.
-
-Thanks
-Song Gao.
-
+UG9ydHMgZW50ZXIgYSAidGhyb3R0bGVkIiBzdGF0ZSB3aGVuIHdyaXRpbmcgdG8gdGhlIGNoYXJk
+ZXYgd291bGQgYmxvY2suDQpUaGUgY3VycmVudCBvdXRwdXQgVmlydFF1ZXVlRWxlbWVudCBpcyBr
+ZXB0IGFyb3VuZCB1bnRpbCB0aGUgY2hhcmRldg0KYmVjb21lcyB3cml0YWJsZSBhZ2Fpbi4NCsKg
+DQpCZWNhdXNlIGNsb3NpbmcgdGhlIHZpcnRpbyBzZXJpYWwgZGV2aWNlIGRvZXMgbm90IHJlc2V0
+IHRoZSBxdWV1ZSwgd2UgY2Fubm90DQpkaXJlY3RseSBkaXNjYXJkIHRoaXMgZWxlbWVudCwgwqBv
+dGhlcndpc2UgdGhlIGNvbnRyb2wgdmFyaWFibGVzIG9mIHRoZSBmcm9udA0KYW5kIGJhY2sgZW5k
+cyBvZiB0aGUgcXVldWUgYXJlIGluY29uc2lzdGVudCBzdWNoIGFzIHVzZWRfaW5kZXguIFdlIHNo
+b3VsZCB1bnBvcCB0aGUNClZpcnRRdWV1ZUVsZW1lbnQgdG8gcXVldWUsIGxldCBkaXNjYXJkX3Zx
+X2RhdGEgcHJvY2VzcyBpdC4NCsKgDQpUaGUgdGVzdCBlbnZpcm9ubWVudDoNCmtlcm5lbDogbGlu
+dXgtNS4xMg0KUWVtdSBjb21tYW5kOg0KUWVtdS1zeXN0ZW0teDg2IC1tYWNoaW5lIHBjLGFjY2Vs
+PWt2bSBcDQrCoMKgwqAgLWNwdSBob3N0LGhvc3QtcGh5cy1iaXRzIFwNCsKgwqDCoCAtc21wIDQg
+XA0KwqDCoMKgIC1tIDRHIFwNCsKgwqDCoCAta2VybmVsIC4va2VybmVsIFwNCsKgwqDCoCAtZGlz
+cGxheSBub25lIFwNCsKgwqDCoCAtbm9kZWZhdWx0cyBcDQrCoMKgwqAgLXNlcmlhbCBtb246c3Rk
+aW8gXA0KwqDCoMKgIC1hcHBlbmQgInBhbmljPTEgbm9fdGltZXJfY2hlY2sgbm9yZXBsYWNlLXNt
+cCByb290ZmxhZ3M9ZGF0YT1vcmRlcmVkIHJvb3Rmc3R5cGU9ZXh0NCBjb25zb2xlPXR0eVMwIHJl
+Ym9vdD1rIHJvb3Q9L2Rldi92ZGExIHJ3IiBcDQrCoMKgwqAgLWRyaXZlIGlkPW9zLGZpbGU9Li9k
+aXNrLGlmPW5vbmUgXA0KwqDCoMKgIC1kZXZpY2UgdmlydGlvLWJsay1wY2ksZHJpdmU9b3MgXA0K
+wqDCoMKgIC1kZXZpY2UgdmlydGlvLXNlcmlhbC1wY2ksaWQ9dmlydGlvLXNlcmlhbDAsYnVzPXBj
+aS4wLGFkZHI9MHg0IFwNCsKgwqDCoCAtY2hhcmRldiBzb2NrZXQsaWQ9Y2hhcmNoYW5uZWwwLHBh
+dGg9L3RtcC9jaGFyLWRldi10ZXN0LHNlcnZlcixub3dhaXQgXA0KICAtZGV2aWNlIHZpcnRzZXJp
+YWxwb3J0LGJ1cz12aXJ0aW8tc2VyaWFsMC4wLG5yPTEsY2hhcmRldj1jaGFyY2hhbm5lbDAsaWQ9
+Y2hhbm5lbDAsbmFtZT1vcmcucWVtdS5ndWVzdF9hZ2VudC4wDQrCoA0KZnVsbCB1cCB2aXJ0aW8g
+cXVldWUgYWZ0ZXIgVk0gc3RhcnRlZDoNCkNhdCAvbGFyZ2UtZmlsZSA+IC9kZXYvdnBvcnQxcDEN
+CsKgDQpIb3N0IHNpZGU6DQpPcGVuIGFuZCBjbG9zZSBjaGFyYWN0ZXIgZGV2aWNlIHNvY2tldHMg
+cmVwZWF0ZWRseQ0KwqANCkFmdGVyIGF3aGlsZSB3ZSBjYW7igJl0IHdyaXRlIGFueSByZXF1ZXN0
+IHRvIC9kZXYvdnBvcnQxcDEgYXQgVk0gc2lkZSwgVk0ga2VybmVsIHNvZnQgbG9ja3VwIGF0IGRy
+aXZlcnMvY2hhci92aXJ0aW9fY29uc29sZS5jOiBfX3NlbmRfdG9fcG9ydA0KwqANCsKgDQpTaWdu
+ZWQtb2ZmLWJ5OiBBcmFmYXRtcyA8YWllcnBhdGlqaWFuZzFAa2luZ3NvZnQuY29tPg0KwqANCmRp
+ZmYgLS1naXQgYS9ody9jaGFyL3ZpcnRpby1zZXJpYWwtYnVzLmMgYi9ody9jaGFyL3ZpcnRpby1z
+ZXJpYWwtYnVzLmMNCmluZGV4IGRkNmJjMjdiM2IuLjM2MjM2ZGVmZGYgMTAwNjQ0DQotLS0gYS9o
+dy9jaGFyL3ZpcnRpby1zZXJpYWwtYnVzLmMNCisrKyBiL2h3L2NoYXIvdmlydGlvLXNlcmlhbC1i
+dXMuYw0KQEAgLTE1MCw4ICsxNTAsMTIgQEAgc3RhdGljIHZvaWQgZGlzY2FyZF92cV9kYXRhKFZp
+cnRRdWV1ZSAqdnEsIFZpcnRJT0RldmljZSAqdmRldikNCsKgDQpzdGF0aWMgdm9pZCBkaXNjYXJk
+X3Rocm90dGxlX2RhdGEoVmlydElPU2VyaWFsUG9ydCAqcG9ydCkNCnsNCivCoMKgwqAgaWYgKCF2
+aXJ0aW9fcXVldWVfcmVhZHkocG9ydC0+b3ZxKSkgew0KK8KgwqDCoMKgwqDCoMKgIHJldHVybjsN
+CivCoMKgwqAgfQ0KKw0KwqDCoMKgwqAgaWYgKHBvcnQtPmVsZW0pIHsNCi3CoMKgwqDCoMKgwqDC
+oCB2aXJ0cXVldWVfZGV0YWNoX2VsZW1lbnQocG9ydC0+b3ZxLCBwb3J0LT5lbGVtLCAwKTsNCivC
+oMKgwqDCoMKgwqDCoCB2aXJ0cXVldWVfdW5wb3AocG9ydC0+b3ZxLCBwb3J0LT5lbGVtLCAwKTsN
+CsKgwqDCoMKgwqDCoMKgwqAgZ19mcmVlKHBvcnQtPmVsZW0pOw0KwqDCoMKgwqDCoMKgwqDCoCBw
+b3J0LT5lbGVtID0gTlVMTDsNCsKgwqDCoMKgIH0NCg0K
 
