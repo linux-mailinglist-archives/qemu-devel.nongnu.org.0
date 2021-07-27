@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A70A3D6E95
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 08:01:31 +0200 (CEST)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2783D6EB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 08:07:00 +0200 (CEST)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8G9i-0008K8-7p
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 02:01:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44390)
+	id 1m8GF1-0002JA-L6
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 02:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8G8N-0007Y7-Kd
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:00:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30647)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8GDf-0001bu-38
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:05:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8G8H-0000iv-Cf
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:00:04 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8GDZ-0005cK-CU
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 02:05:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627365600;
+ s=mimecast20190719; t=1627365928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RaKtBf3juklipxo3DVY6FsGF9/a/zQ8lgahZzHbU/W8=;
- b=Qap+4q/bo8TS3zsSBP3zkLZn1nVijaVCF4T6950dXDge6jV1frbNzxccG+o5ERJkYniquh
- YmXpFBJufkib7zdin8XYSTCR9DeJZ5O4RCWDEEooomI8C86tsWwc22syvtPz0uHCMx9fc0
- GtJC0pc8uBIcZMFQnT+hzx5ixRBPXJY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-0pLpjUgtPp6xeNT9iU9OSQ-1; Tue, 27 Jul 2021 01:59:57 -0400
-X-MC-Unique: 0pLpjUgtPp6xeNT9iU9OSQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so913982wmj.6
- for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 22:59:56 -0700 (PDT)
+ bh=SUKV0GDnGN3A2A1qYOR3nx3391n/yZTGC48YAkRDn7s=;
+ b=NhJU7gr1/7LS9DC2HW/1heGJu634eNbI9JfuNOw6NqJQJWjyUaHg5B8l2oe6bT6F6AdJtt
+ rcFZ/lSLEWPFxR+TZrvcyBNYTmeZTmhRP3ZKkxr/nRXHFuwmyUcpmoFwlMdX4aAX/1I4y9
+ VoSAArxi9LaSiXwDXIfQ9A8bGIWblXQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-akU8sEAENpi1Qj0HW1qKvg-1; Tue, 27 Jul 2021 02:05:26 -0400
+X-MC-Unique: akU8sEAENpi1Qj0HW1qKvg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ f6-20020adfe9060000b0290153abe88c2dso1285529wrm.20
+ for <qemu-devel@nongnu.org>; Mon, 26 Jul 2021 23:05:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RaKtBf3juklipxo3DVY6FsGF9/a/zQ8lgahZzHbU/W8=;
- b=q+ORgiHnA/yppt+TqA5qBwa2rpoxjdX6QOgVbL/l/J8nkF1qeZHKlGx56ly95aEIs0
- ogX2WuyKTbKKFlVbuxSPa60qYfXUcbEAXuqLyAIUu1elFjlcnaNmQKEsEIcJHDY1eIrg
- nOlFRWuEY92TeYZKFuRo+UH6q0yYcF4dxNp8gmAKeJyDiw+sK0lQzrMnwJdWKzwoUOLe
- VZA7ZBHHmsq+ZoJ/VrmHDYvJapy2gynxmgmnt/9FhOF3DKRfcBw9HEaG0f1GZNL1LUyu
- NbCtXlatslSViOjZ0iCrnrchh/hgmj31NUxj8mFXhcHUXPeWR05VF+CVPUms64C6jMY+
- nvYQ==
-X-Gm-Message-State: AOAM533jxLSxGHvsqhPAOLh2Ji2Op2GE9USZunaU8dHlG4lrsuPjXqt0
- yfEf9nVr4fSxw41lKrfGuqvBT0gSZkKiSLd62ALfoSV4lEKiOAcslwZGpTqNnSXXR8r+KMHjrNb
- tZi3ueRtp3OztGWc=
-X-Received: by 2002:a5d:428d:: with SMTP id k13mr22919288wrq.269.1627365595870; 
- Mon, 26 Jul 2021 22:59:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFMlF7bEzyFf0t8oqZBDtf/B3hoDX5EFk1Iza/yc3ZomSGq5vVRjsAJiTUhj6olTK9ghhnTQ==
-X-Received: by 2002:a5d:428d:: with SMTP id k13mr22919266wrq.269.1627365595619; 
- Mon, 26 Jul 2021 22:59:55 -0700 (PDT)
+ bh=SUKV0GDnGN3A2A1qYOR3nx3391n/yZTGC48YAkRDn7s=;
+ b=HqrpA/CzSTAV8sPCUwzjndfAhwKO9geJEqtmXrQ019ImoiPlQBSiosCIGP1Gywb+5I
+ SEFAoQDQCKfMRH72bgGT2PThvquNQOBJz+PInCTMWtKUTF8ww8ndDqu0Rp9VDvlSuqZW
+ akupjYt8WM6t/ZfJO4OwdllhzDbrInWM9aZKcqSyZITjUjl4jZcnntxvS7HrE0IMZp2l
+ QEWRjgVXsSI0UV3gKLieS3Vg2gf74NRt5QP49hhe+9veDuXXFpdEFHV9l6eqbYudIIN+
+ 0r6q0C40l9ksnRPJSQVfGCnbiGyR4dVMo8wq5su9lz91rSVsMUQVlCAEQLbnCDEZd4TN
+ ighQ==
+X-Gm-Message-State: AOAM531kWP4dPFsgZ7o0nUSSZwzMk3iZDZqJEMxlIkdyOTvcM1bnUWdh
+ AMXvI8p8y4BLolmtLCCCh/c6df8s6apaVmAands64gI9/+bn6RSY+IeSVhrzczAAQ0mUvfGxmWo
+ F3YhCDeU5549llNo=
+X-Received: by 2002:adf:f110:: with SMTP id r16mr22609378wro.358.1627365925765; 
+ Mon, 26 Jul 2021 23:05:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGolVjOh1wvzk5mVc7dZqfM4avSaardUbsftGsw02KZbg9ZIoUmO50N/lhIs+TQgcRr4UbAA==
+X-Received: by 2002:adf:f110:: with SMTP id r16mr22609361wro.358.1627365925586; 
+ Mon, 26 Jul 2021 23:05:25 -0700 (PDT)
 Received: from thuth.remote.csb (pd9575250.dip0.t-ipconnect.de. [217.87.82.80])
- by smtp.gmail.com with ESMTPSA id k6sm859317wrm.10.2021.07.26.22.59.54
+ by smtp.gmail.com with ESMTPSA id q17sm1969197wre.3.2021.07.26.23.05.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jul 2021 22:59:55 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1 v4 1/4] docs: Document GitLab custom CI/CD
- variables
+ Mon, 26 Jul 2021 23:05:25 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 v4 2/4] gitlab-ci: Fix 'when:' condition in
+ acceptance_test_job_template
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210726150429.1216251-1-philmd@redhat.com>
- <20210726150429.1216251-2-philmd@redhat.com>
+ <20210726150429.1216251-3-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <09a71f22-2f9f-e8bd-148a-a8695af86f8f@redhat.com>
-Date: Tue, 27 Jul 2021 07:59:54 +0200
+Message-ID: <bd8736a4-4db8-f3bb-f937-6d44d90a526c@redhat.com>
+Date: Tue, 27 Jul 2021 08:05:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210726150429.1216251-2-philmd@redhat.com>
+In-Reply-To: <20210726150429.1216251-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -106,108 +106,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26/07/2021 17.04, Philippe Mathieu-Daudé wrote:
-> We introduced the QEMU_CI_AVOCADO_TESTING variable in commit f56bf4caf
-> ("gitlab: Run Avocado tests manually (except mainstream CI)"), but
-> forgot to document it properly. Do it now.
+> Jobs depending on another should not use the 'when: always'
+> condition, because if a dependency failed we should not keep
+> running jobs depending on it. The correct condition is
+> 'when: on_success'.
 > 
-> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Fixes: f56bf4caf71 ("gitlab: Run Avocado tests manually (except mainstream CI)")
+> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
 > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   docs/devel/ci.rst | 40 ++++++++++++++++++++++++++++++++++++++++
->   .gitlab-ci.yml    | 19 ++-----------------
->   2 files changed, 42 insertions(+), 17 deletions(-)
+>   .gitlab-ci.d/buildtest-template.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-> index b3bf3ef615b..53df04afb7f 100644
-> --- a/docs/devel/ci.rst
-> +++ b/docs/devel/ci.rst
-> @@ -8,6 +8,46 @@ found at::
->   
->      https://wiki.qemu.org/Testing/CI
->   
-> +Custom CI/CD variables
-> +======================
-> +
-> +QEMU CI pipelines can be tuned setting some CI environment variables.
-
-"tuned *by* setting" ?
-
-> +
-> +Set variable globally in the user's CI namespace
-> +------------------------------------------------
-> +
-> +Variables can be set globally in the user's CI namespace setting.
-> +
-> +For further information about how to set these variables, please refer to::
-> +
-> +  https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui
-
-The anchor does not seem to exist anymore?
-
-> +Set variable manually when pushing a branch or tag to the user's repository
-> +---------------------------------------------------------------------------
-> +
-> +Variables can be set manually when pushing a branch or tag, using
-> +git-push command line arguments.
-> +
-> +Example setting the QEMU_CI_EXAMPLE_VAR variable:
-> +
-> +.. code::
-> +
-> +   git push -o ci.variable="QEMU_CI_EXAMPLE_VAR=value" myrepo mybranch
-> +
-> +For further information about how to set these variables, please refer to::
-> +
-> +  https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
-> +
-> +Here is a list of the most used variables:
-> +
-> +QEMU_CI_AVOCADO_TESTING
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +By default, tests using the Avocado framework are not run automatically in
-> +the pipelines (because multiple artifacts have to be downloaded, and if
-> +these artifacts are not already cached, downloading them make the jobs
-> +reach the timeout limit). Set this variable to have the tests using the
-> +Avocado framework run automatically.
-> +
->   Jobs on Custom Runners
->   ======================
->   
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 6dc5385e697..9762dda2ee3 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -16,24 +16,9 @@
->   # QEMU CI jobs are based on templates. Some templates provide
->   # user-configurable options, modifiable via configuration variables.
->   #
-> -# These variables can be set globally in the user's CI namespace
-> -# setting:
-> -# https://docs.gitlab.com/ee/ci/variables/#create-a-custom-variable-in-the-ui
-> -# or set manually each time a branch/tag is pushed, as a git-push
-> -# command line argument:
-> -# https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
-> +# See https://qemu-project.gitlab.io/qemu/devel/ci.html#custom-ci-cd-variables
-> +# for more information.
->   #
-> -# Example setting the QEMU_CI_EXAMPLE_VAR variable:
-> -#
-> -#   git push -o ci.variable="QEMU_CI_EXAMPLE_VAR=value" myrepo mybranch
-> -#
-> -# ----------------------------------------------------------------------
-> -#
-> -# List of environment variables that can be use to modify the set
-> -# of jobs selected:
-> -#
-> -# - QEMU_CI_AVOCADO_TESTING
-> -#   If set, tests using the Avocado framework will be run
->   
->   include:
->     - local: '/.gitlab-ci.d/qemu-project.yml'
+> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+> index 3e3e19d96bd..fcbcc4e627a 100644
+> --- a/.gitlab-ci.d/buildtest-template.yml
+> +++ b/.gitlab-ci.d/buildtest-template.yml
+> @@ -73,9 +73,9 @@
+>       # in its namespace setting or via git-push option, see documentation
+>       # in /.gitlab-ci.yml of this repository).
+>       - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
+> -      when: always
+> +      when: on_success
+>       - if: '$QEMU_CI_AVOCADO_TESTING'
+> -      when: always
+> +      when: on_success
+>       # Otherwise, set to manual (the jobs are created but not run).
+>       - when: manual
+>         allow_failure: true
 > 
 
-With the two issues above fixed:
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
