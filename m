@@ -2,42 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A143D7BE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:13:15 +0200 (CEST)
-Received: from localhost ([::1]:40852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1E33D7BE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 19:11:35 +0200 (CEST)
+Received: from localhost ([::1]:33394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Qdm-0001hK-3q
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
+	id 1m8QcA-0004qQ-7w
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 13:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWQ-0000H1-Vm
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:39 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:36080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8QWO-0007R0-Uq
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:05:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id 4B1021F43322
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] virtio-gpu: Handle resource blob commands
-Date: Tue, 27 Jul 2021 19:05:10 +0200
-Message-Id: <20210727170510.2116383-8-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
-References: <20210727170510.2116383-1-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m8QXJ-00031R-FV
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:06:34 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m8QXH-0007zk-UF
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 13:06:33 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id qk33so4654957ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 10:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=erqCUn6fHQ6JNAQyZL50fVbjnFuXlzyqyq8g/oUB+wk=;
+ b=zP04g7h3nvC+6238kd8VkjA/AhJfe0QlhKNLNdF28+wbAXsM+SS2AO7daNVW8VxK7V
+ 2IGUXppk1pmyCUeM9ypM6Wp5D0eo0fLl91eBxMn6wBxz52In8MNePWU1I8T2ccrEj531
+ FRDnqA2lxDXzAK/Vy0Huwn4pIsBr1ZtA9YM4LQP8z/268I/+twI/57AiZcoRhd4ZyDmb
+ OjO10xCkMKn6TnoTDle4yLsDApNwjFdFjgvNRk3Ax+tZPC1V2uccAUmvmt06h1a92aiH
+ a7SqJPNw4QVhhO6Y/s2T9qLi5XQ+Ecs16iwmGl5s1kZQ+68dqogr1e/DxNvk5QbMz0jI
+ gquA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=erqCUn6fHQ6JNAQyZL50fVbjnFuXlzyqyq8g/oUB+wk=;
+ b=i4KaogpeSnhZtjZQ/kRJnwCasFV0r+f6JeisNtGsVq6RApX+yB4d7hmgkMMSnhmzYy
+ B8OKDTY30eqmiKHsBkYj6E4VwINyKdskwe6CmNqf9TxlDwqWRLa+7fLk7JpXQFAdbOl8
+ TSATesh3rtW9G6dki/eMB1Qbtq+KHloij1zZSEMLL7Nk11X5cK6qZ6XQzDxuH2YMUb9S
+ Z0/mYtTVUBT4jIiLkuJ4hjWHzWMyPxaMiNOZV2sMlTHIWbQgiAm4OUOzCzA94YRIqP99
+ R0WsQ9UGJhoZmhFuIZ8+CpHuBRrD/KEIuULjVuOVJmYCwTlsGN60HyyTEiwcy3JDTn9j
+ zyzQ==
+X-Gm-Message-State: AOAM532ElAWOg/dI43ChSI3ZurxHLkVAC0Ugg8EcfGQAFKJmBF5WG8K3
+ ReL3oaNdX2PCnuz1cPRFoffnLpqI9/DIfRdPhEtH0tc3zWM=
+X-Google-Smtp-Source: ABdhPJy9agYXxpu9EmrbNrhvBSw3RcIvv3dt6FRyumchL1oBCxD+T7tAAsP85x7ovTBPuX1ULHYC+MQqeMqPfhENZI8=
+X-Received: by 2002:a17:906:d93a:: with SMTP id
+ rn26mr9535695ejb.382.1627405589724; 
+ Tue, 27 Jul 2021 10:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e3e3;
- envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+References: <20210727104801.29728-1-peter.maydell@linaro.org>
+In-Reply-To: <20210727104801.29728-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Jul 2021 18:05:47 +0100
+Message-ID: <CAFEAcA8=qgwVZ7vVK_jbwGdR6DOn30Y2avbpp0GUNcib2E9wVA@mail.gmail.com>
+Subject: Re: [PULL 00/14] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,275 +77,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antonio Caggiano <antonio.caggiano@collabora.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support BLOB resources creation by calling virgl_renderer_resource_create_blob.
+On Tue, 27 Jul 2021 at 11:48, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> arm pullreq for rc1. All minor bugfixes, except for the sve-default-vector-length
+> patches, which are somewhere between a bugfix and a new feature.
+>
+> thanks
+> -- PMM
+>
+> The following changes since commit c08ccd1b53f488ac86c1f65cf7623dc91acc249a:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210726' into staging (2021-07-27 08:35:01 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210727
+>
+> for you to fetch changes up to e229a179a503f2aee43a76888cf12fbdfe8a3749:
+>
+>   hw: aspeed_gpio: Fix memory size (2021-07-27 11:00:00 +0100)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * hw/arm/smmuv3: Check 31st bit to see if CD is valid
+>  * qemu-options.hx: Fix formatting of -machine memory-backend option
+>  * hw: aspeed_gpio: Fix memory size
+>  * hw/arm/nseries: Display hexadecimal value with '0x' prefix
+>  * Add sve-default-vector-length cpu property
+>  * docs: Update path that mentions deprecated.rst
+>  * hw/intc/armv7m_nvic: for v8.1M VECTPENDING hides S exceptions from NS
+>  * hw/intc/armv7m_nvic: Correct size of ICSR.VECTPENDING
+>  * hw/intc/armv7m_nvic: ISCR.ISRPENDING is set for non-enabled pending interrupts
+>  * target/arm: Report M-profile alignment faults correctly to the guest
+>  * target/arm: Add missing 'return's after calling v7m_exception_taken()
+>  * target/arm: Enforce that M-profile SP low 2 bits are always zero
+>
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
----
- hw/display/virtio-gpu-virgl.c        | 148 +++++++++++++++++++++++++++
- hw/display/virtio-gpu.c              |   9 +-
- include/hw/virtio/virtio-gpu-bswap.h |  18 ++++
- include/hw/virtio/virtio-gpu.h       |   3 +
- 4 files changed, 170 insertions(+), 8 deletions(-)
 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index ea903172dd..62ca9bacbf 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -16,6 +16,8 @@
- #include "trace.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
-+#include "hw/virtio/virtio-gpu-bswap.h"
-+#include "hw/virtio/virtio-iommu.h"
- 
- #include <virglrenderer.h>
- 
-@@ -409,6 +411,143 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
-     g_free(resp);
- }
- 
-+static void virgl_cmd_resource_create_blob(VirtIOGPU *g,
-+                                           struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_create_blob cblob;
-+    int ret;
-+
-+    VIRTIO_GPU_FILL_CMD(cblob);
-+    virtio_gpu_create_blob_bswap(&cblob);
-+    trace_virtio_gpu_cmd_res_create_blob(cblob.resource_id, cblob.size);
-+
-+    if (cblob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, cblob.resource_id);
-+    if (res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
-+                      __func__, cblob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = g_new0(struct virtio_gpu_simple_resource, 1);
-+    res->resource_id = cblob.resource_id;
-+    res->blob_size = cblob.size;
-+
-+    if (res->iov) {
-+        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+        return;
-+    }
-+
-+    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_HOST3D) {
-+        ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
-+                                            cmd, &res->addrs, &res->iov,
-+                                            &res->iov_cnt);
-+        if (ret != 0) {
-+            cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+            return;
-+        }
-+    }
-+
-+    if (cblob.blob_mem == VIRTIO_GPU_BLOB_MEM_GUEST) {
-+        virtio_gpu_init_udmabuf(res);
-+    }
-+    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
-+
-+    const struct virgl_renderer_resource_create_blob_args virgl_args = {
-+        .res_handle = cblob.resource_id,
-+        .ctx_id = cblob.hdr.ctx_id,
-+        .blob_mem = cblob.blob_mem,
-+        .blob_id = cblob.blob_id,
-+        .blob_flags = cblob.blob_flags,
-+        .size = cblob.size,
-+        .iovecs = res->iov,
-+        .num_iovs = res->iov_cnt,
-+    };
-+    ret = virgl_renderer_resource_create_blob(&virgl_args);
-+    if (ret) {
-+        g_print("Virgl blob create error: %s\n", strerror(-ret));
-+    }
-+}
-+
-+static void virgl_cmd_resource_map_blob(VirtIOGPU *g,
-+                                        struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_map_blob mblob;
-+    int ret;
-+    void *data;
-+    uint64_t size;
-+    MemoryRegion *region;
-+    struct virtio_gpu_resp_map_info resp;
-+
-+    VIRTIO_GPU_FILL_CMD(mblob);
-+    virtio_gpu_map_blob_bswap(&mblob);
-+
-+    if (mblob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, mblob.resource_id);
-+    if (!res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n",
-+                      __func__, mblob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    ret = virgl_renderer_resource_map(mblob.hdr.ctx_id, res->resource_id, &data, &size);
-+    if (ret) {
-+        g_print("Virgl blob resource map error: %s\n", strerror(-ret));
-+    }
-+
-+    region = g_new0(MemoryRegion, 1);
-+    memory_region_init_ram_device_ptr(region, OBJECT(g), NULL, size, data);
-+    memory_region_add_subregion(&g->parent_obj.hostmem, mblob.offset, region);
-+    memory_region_set_enabled(region, true);
-+
-+    memset(&resp, 0, sizeof(resp));
-+    resp.hdr.type = VIRTIO_GPU_RESP_OK_MAP_INFO;
-+    virgl_renderer_resource_get_map_info(mblob.resource_id, &resp.map_info);
-+    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
-+}
-+
-+static void virgl_cmd_resource_unmap_blob(VirtIOGPU *g,
-+                                        struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_unmap_blob ublob;
-+    VIRTIO_GPU_FILL_CMD(ublob);
-+    virtio_gpu_unmap_blob_bswap(&ublob);
-+
-+    if (ublob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, ublob.resource_id);
-+    if (!res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n",
-+                      __func__, ublob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    virgl_renderer_resource_unmap(ublob.hdr.ctx_id, ublob.resource_id);
-+}
-+
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-                                       struct virtio_gpu_ctrl_command *cmd)
- {
-@@ -478,6 +617,15 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-     case VIRTIO_GPU_CMD_GET_EDID:
-         virtio_gpu_get_edid(g, cmd);
-         break;
-+    case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
-+        virgl_cmd_resource_create_blob(g, cmd);
-+        break;
-+    case VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB:
-+        virgl_cmd_resource_map_blob(g, cmd);
-+        break;
-+    case VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB:
-+        virgl_cmd_resource_unmap_blob(g, cmd);
-+        break;
-     default:
-         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-         break;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 26b819dd3d..c7ee584063 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -33,8 +33,6 @@
- 
- #define VIRTIO_GPU_VM_VERSION 1
- 
--static struct virtio_gpu_simple_resource*
--virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
- static struct virtio_gpu_simple_resource *
- virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
-                                bool require_backing,
-@@ -115,7 +113,7 @@ static void update_cursor(VirtIOGPU *g, struct virtio_gpu_update_cursor *cursor)
-                   cursor->resource_id ? 1 : 0);
- }
- 
--static struct virtio_gpu_simple_resource *
-+struct virtio_gpu_simple_resource *
- virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)
- {
-     struct virtio_gpu_simple_resource *res;
-@@ -1316,11 +1314,6 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-             error_setg(errp, "cannot enable blob resources without udmabuf");
-             return;
-         }
--
--        if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
--            error_setg(errp, "blobs and virgl are not compatible (yet)");
--            return;
--        }
-     }
- 
-     if (!virtio_gpu_base_device_realize(qdev,
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-index 6267cb57e5..0d868f56f9 100644
---- a/include/hw/virtio/virtio-gpu-bswap.h
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -64,10 +64,28 @@ virtio_gpu_create_blob_bswap(struct virtio_gpu_resource_create_blob *cblob)
- {
-     virtio_gpu_ctrl_hdr_bswap(&cblob->hdr);
-     le32_to_cpus(&cblob->resource_id);
-+    le32_to_cpus(&cblob->blob_mem);
-     le32_to_cpus(&cblob->blob_flags);
-+    le32_to_cpus(&cblob->nr_entries);
-+    le64_to_cpus(&cblob->blob_id);
-     le64_to_cpus(&cblob->size);
- }
- 
-+static inline void
-+virtio_gpu_map_blob_bswap(struct virtio_gpu_resource_map_blob *mblob)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&mblob->hdr);
-+    le32_to_cpus(&mblob->resource_id);
-+    le64_to_cpus(&mblob->offset);
-+}
-+
-+static inline void
-+virtio_gpu_unmap_blob_bswap(struct virtio_gpu_resource_unmap_blob *ublob)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&ublob->hdr);
-+    le32_to_cpus(&ublob->resource_id);
-+}
-+
- static inline void
- virtio_gpu_scanout_blob_bswap(struct virtio_gpu_set_scanout_blob *ssb)
- {
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 5cab5f42ac..050c8ee372 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -245,6 +245,9 @@ void virtio_gpu_base_fill_display_info(VirtIOGPUBase *g,
-                         struct virtio_gpu_resp_display_info *dpy_info);
- 
- /* virtio-gpu.c */
-+struct virtio_gpu_simple_resource *
-+virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
-+
- void virtio_gpu_ctrl_response(VirtIOGPU *g,
-                               struct virtio_gpu_ctrl_command *cmd,
-                               struct virtio_gpu_ctrl_hdr *resp,
--- 
-2.30.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
