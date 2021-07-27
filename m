@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9C33D7170
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:46:51 +0200 (CEST)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6406E3D7177
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:49:00 +0200 (CEST)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Iji-00049v-7W
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1m8Iln-0007gC-GD
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1m8IiR-0002jM-Dt
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:45:31 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:44510)
+ id 1m8IiT-0002kX-Qf
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:45:33 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:44536)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1m8IiN-0002tA-71
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:45:30 -0400
+ id 1m8IiR-0002wZ-7H
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:45:33 -0400
 Received: from [127.0.1.1] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id BD6AE40755CD;
- Tue, 27 Jul 2021 08:45:23 +0000 (UTC)
-Subject: [PATCH v3 2/5] tests/acceptance: add replay kernel test for openrisc
+ by mail.ispras.ru (Postfix) with ESMTPSA id 8DAE340755CB;
+ Tue, 27 Jul 2021 08:45:29 +0000 (UTC)
+Subject: [PATCH v3 3/5] tests/acceptance: add replay kernel test for nios2
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 27 Jul 2021 11:45:23 +0300
-Message-ID: <162737552350.1735673.14603125561530143423.stgit@pasha-ThinkPad-X280>
+Date: Tue, 27 Jul 2021 11:45:29 +0300
+Message-ID: <162737552919.1735673.12493523185952280539.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <162737551207.1735673.5022919664900932604.stgit@pasha-ThinkPad-X280>
 References: <162737551207.1735673.5022919664900932604.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -58,7 +58,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds record/replay test which boots Linux
-kernel on openrisc platform. The test uses kernel binaries
+kernel on nios2 platform. The test uses kernel binaries
 taken from boot_linux_console test.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
@@ -68,23 +68,23 @@ Reviewed-by: Willian Rampazzo <willianr@redhat.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 779db2a51f..a6db1b6556 100644
+index a6db1b6556..89079987ee 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -318,6 +318,17 @@ def test_ppc64_e500(self):
+@@ -329,6 +329,17 @@ def test_or1k_sim(self):
          file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-         self.do_test_advcal_2018(file_path, 'uImage')
+         self.do_test_advcal_2018(file_path, 'vmlinux')
  
-+    def test_or1k_sim(self):
++    def test_nios2_10m50(self):
 +        """
-+        :avocado: tags=arch:or1k
-+        :avocado: tags=machine:or1k-sim
++        :avocado: tags=arch:nios2
++        :avocado: tags=machine:10m50-ghrd
 +        """
-+        tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
++        tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
 +        tar_url = ('https://www.qemu-advent-calendar.org'
-+                   '/2018/download/day20.tar.xz')
++                   '/2018/download/day14.tar.xz')
 +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        self.do_test_advcal_2018(file_path, 'vmlinux')
++        self.do_test_advcal_2018(file_path, 'vmlinux.elf')
 +
      def test_ppc_g3beige(self):
          """
