@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608353D726A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 11:56:36 +0200 (CEST)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E93783D7279
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:00:51 +0200 (CEST)
+Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8JpD-0003Vs-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 05:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
+	id 1m8JtK-0005Ov-Vj
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8JoR-0002pa-H8
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:55:47 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35610)
+ id 1m8JsC-0004Ug-Tl
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:59:40 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8JoP-0002lK-S2
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:55:47 -0400
-Received: by mail-ed1-x534.google.com with SMTP id u12so14588496eds.2
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:55:45 -0700 (PDT)
+ id 1m8JsB-0005TF-9V
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 05:59:40 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id r16so14541790edt.7
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 02:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OLcLVMFfKV70lAAHWGz2K50FtOOAzFb5ONjrp4/aE9w=;
- b=T8aZxumnSRkn3iFcL8FzVbsXr+sNaUUjOsbD6SPNsVEpn8l8uq437EUbdhXrWMG3pZ
- 6Nso+6Tiv4YbL7h4mULTN2q/+4sMIv1icaQgYs+wLJ0GSuzFXGEtVH2qMJN7Cp9EOEkm
- K83iXdE9GEwb8DsbL102RqeU9gJiRRl21d3y7PViRSxmEvqiUraZjNUZwJIdCE8nNlO+
- 63RMRA6UutJPWF7V0bq9wGujPcxCH2xwZ/pikM2NfnAzKtmfMp+wnCBkY2tKBgLHZ1+i
- FICTOqSu/a1xQr0ab9fX14GQKkYGnaWF63vKAEIbRjkga3H6jDrw1CTzr6tofdoAi2LC
- ElVQ==
+ :cc:content-transfer-encoding;
+ bh=lArMNQEDdOlxa3qae9jy7hBhFApSQSSTf8XVUotnVBM=;
+ b=Oag5gO49g/2Gp45IwV/nk7OcsGwy2nQ+tOMQsL8T66bYOOjGXXYPgdAkA24jv4VPA1
+ FRGKxH0UUmPiVBWIWr8q6902auD+4XaqJECV0RwRgpVoyapqKfIeM83RIl8g0c/mw8p8
+ 1dN3e+sneht4TqdpnVQQIlZvYOcTzG5uuT1jIBi09eaF/DAsnJuYQ2kbtg5KZam3dA7X
+ hcInjJ9Hg5CdJ1XKCXecojI+eEk24bLBrwKqqWZobKE1M0NX8ZkwU6QGCcOPg9GT5FRV
+ 47I22cq/k6oYhNfFPxyyyXPxaTe5/1wGvn5Kkw1b6dXMGUXMOuYwWfWnePdubGHLGYH8
+ VBqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OLcLVMFfKV70lAAHWGz2K50FtOOAzFb5ONjrp4/aE9w=;
- b=NKuYA4BOdGSo7Br6zYwP7bXgtdXC1abJD1WKJ6YQqYib5y52bT20njX3Akrh1Aotxq
- ixMc/zu6ix3Dtd+02T9uz/fmedWp71YV5qfGEvZjsfUse5EoRnXqFeeG5KQYL2NT/IIT
- FUlAcDzUEeHd0Ck2Gq6vU8+wBt9HHIpTWjqLHrsbsm6cOlZ4s4NRj9ltqHBgBzG4BlEu
- NRe1imO07kOJrdZ0b+KeuTUU+OZ7B2D8Ywx2Pzqw4TcJVdLSQgSUlxOlp6SUDJzW6SEL
- 29MTHxaTqRfXwhcauwbljmHlBm8GszVr6leTslzBmLwROULLokDnfLLowEdZ29ExApv7
- j3/w==
-X-Gm-Message-State: AOAM531/+U49e2SN50/Yh1wPpq9Rr7+V0zOMgSrWp3UuGf3H884ROptv
- A8tGnhTyIzrqTdoBvJlf4wwaxs4kwr5ID6D2vdUS8w==
-X-Google-Smtp-Source: ABdhPJw1jzhRlVlUtlyqxymnIkU9saWQJtyFiCmX9c94JXRJ4E1L3xOPP4/W41wOzQWZclD3T5NS9SN7eIAiTmajnOQ=
-X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr17119714eds.251.1627379743992; 
- Tue, 27 Jul 2021 02:55:43 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lArMNQEDdOlxa3qae9jy7hBhFApSQSSTf8XVUotnVBM=;
+ b=WJAS6yesY0i2MOP5Z719BsbIUT3S5bLAleE/IogmvM2bC1T7M6tgOXXxwVdnliQmQz
+ 88Dl2+XP9vG13j7Jy4YLHmNYWPUS7f/MdboMruL7wWKOSflE56ZGWmrZU+T+LDp9h6g3
+ jeLYjE8jvkY/BV16YaFSErQMsjqR5HF9lPMu/vDBCJGOeMmPUvDW+KZbBvq4fbsjBoRT
+ 27YDwFNaby+4z7Q30inPFS5iQ4HnMKTcoO56vpcXeRtyegJ+qmbHlRsDQ+dGDRG9f7OF
+ gxZD+IHL425HZfOUDK4Vp7BLSfuv+VEurQxaKCrwqbQCPEAmZRMZfnWZxpFy+wmwtysK
+ t4PA==
+X-Gm-Message-State: AOAM530v+UybmWARqKb5vfdC0BWKQUvuCD6gjCpQslFIpteWiuqYrm28
+ pXvw8aW9Dw6wifb2M2r/J2Wfn+Uqo/soI0tGresR1A==
+X-Google-Smtp-Source: ABdhPJxvRn7th90Sila9lMsPVBv1MEE9fTY1nDp8LKkbPvnnWzTmpWezLjgS7V1R4mWbZqnhGXaF2bLBc8ojnsrJWII=
+X-Received: by 2002:a05:6402:35c7:: with SMTP id
+ z7mr26917308edc.36.1627379977943; 
+ Tue, 27 Jul 2021 02:59:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726214729.2062862-1-richard.henderson@linaro.org>
-In-Reply-To: <20210726214729.2062862-1-richard.henderson@linaro.org>
+References: <20210713065854.134634-1-joel@jms.id.au>
+ <20210713065854.134634-2-joel@jms.id.au>
+ <7c5dd20c-4710-4bdb-605f-e35ed7bfb35a@kaod.org>
+ <CACPK8Xe=v4KRT1TqC8-DFWxqUoCak1MisWr84_9ug-xfXezWEA@mail.gmail.com>
+In-Reply-To: <CACPK8Xe=v4KRT1TqC8-DFWxqUoCak1MisWr84_9ug-xfXezWEA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Jul 2021 10:55:01 +0100
-Message-ID: <CAFEAcA_5hECqDe=4ak63S9=j7-3hCLxnmZZR0NM_38K9B5==EQ@mail.gmail.com>
-Subject: Re: [PULL for-6.1 00/12] tcg and misc patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 27 Jul 2021 10:58:55 +0100
+Message-ID: <CAFEAcA9t4P-h2fnY7=s_jt0RmB0pj2gUuz6zVZ7YfF9uXzKj9g@mail.gmail.com>
+Subject: Re: [SPAM] [PATCH v2 1/3] hw: aspeed_gpio: Fix memory size
+To: Joel Stanley <joel@jms.id.au>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,35 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 22:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 27 Jul 2021 at 09:02, Joel Stanley <joel@jms.id.au> wrote:
 >
-> The following changes since commit 34fd92ab4142bde5b54adacd16e6682f4ea83da1:
->
->   Merge remote-tracking branch 'remotes/stsquad/tags/pull-for-6.1-rc1-230721-1' into staging (2021-07-26 11:00:15 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210726
->
-> for you to fetch changes up to 2bf07e788eb69bee843be274386fb20f4ab6b0f6:
->
->   tests/unit: Remove unused variable from test_io (2021-07-26 07:07:28 -1000)
->
-> ----------------------------------------------------------------
-> Fix icount accounting.
-> Replace bitrev8 with revbit8.
-> Fixes for set but not used warnings.
+> On Mon, 19 Jul 2021 at 16:02, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> >
+> > On 7/13/21 8:58 AM, Joel Stanley wrote:
+> > > The macro used to calculate the maximum memory size of the MMIO regio=
+n
+> > > had a mistake, causing all GPIO models to create a mapping of 0x9D8.
+> > > The intent was to have it be 0x9D8 - 0x800.
+> > >
+> > > This extra size doesn't matter on ast2400 and ast2500, which have a 4=
+KB
+> > > region set aside for the GPIO controller.
+> > >
+> > > On the ast2600 the 3.3V and 1.8V GPIO controllers are 2KB apart, so t=
+he
+> > > regions would overlap. Worse was the 1.8V controller would map over t=
+he
+> > > top of the following perianal, which happens to be the RTC.
 
+I'm going to assume this is an unfortunate autocorrect for
+"following peripheral", and will tweak the commit message...
 
-Applied, thanks.
+> > >
+> > > The mmio region used by each device is a maximum of 2KB, so avoid the
+> > > calculations and hard code this as the maximum.
+> > >
+> > > Fixes: 36d737ee82b2 ("hw/gpio: Add in AST2600 specific implementation=
+")
+> > > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> >
+> > Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> Cedric, Peter; can we please get this merged for 6.1? Without it the
+> RTC model is not functional on the ast2500.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+I'm doing an arm pullreq today so I'll put it into that.
 
+thanks
 -- PMM
 
