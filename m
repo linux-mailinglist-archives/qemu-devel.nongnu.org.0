@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A413D7076
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 09:36:32 +0200 (CEST)
-Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20703D7077
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 09:37:58 +0200 (CEST)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Hdf-0007As-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 03:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33722)
+	id 1m8Hf3-0000Bz-Si
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 03:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Hc8-0006Lz-PT
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:34:56 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43577)
+ id 1m8HeC-0007x4-9G
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:37:04 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Hc7-0005l2-1O
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:34:56 -0400
-Received: by mail-ej1-x630.google.com with SMTP id ga41so20456006ejc.10
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 00:34:54 -0700 (PDT)
+ id 1m8HeA-0007C4-Ii
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 03:37:04 -0400
+Received: by mail-ed1-x531.google.com with SMTP id y12so6047816edo.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 00:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ecZnnuuQVdyeJTDzyfNWgz84AWUOXf6o3fNUGnhUp9g=;
- b=bUW1dm/QT1appNet+OeZmEiYEg/zYKEO4tsdjhSi4kbKpvtEnUXSOa9kQxeScdG1uf
- m7GcW3Nlxcd511nbzw0htMEre1loHOHamyzdmWCsBK42mAFqQmlpXbBYQS0PRazJy1I4
- IX2yQu+bSfdpDhdxJ+Ay9Uato9nQ4cx/azYQ84mE+EU6ZoI2mNQyBxz1knntDOg76bAC
- uC58g7ihfA/KqKMs6dX+dTsaaY82hIdo4eryh4i9gY9OETeh8V8XUcex5xwbqmzsi4AM
- 9RLbndFhRQKgtJzlgGCq+xq5gX+Qp2SD4OamJLQ7PeOsb44y1F42RReuB//uDM2iCbUD
- vezA==
+ :cc:content-transfer-encoding;
+ bh=cnmDSLD9Sr+DQ9v7u55WYeLJ1kZn8Z9wPx9jO2I25mw=;
+ b=tyUNBq957m58U1OD0bLuVToEV4UYcKdy8NQLZkd08Dv4QQeFKJSqen39yG9Emj9aAi
+ nDpaJTJ2hzkVZxyJ/ojHaWu5Y56sw6Ksx6EdFjXI2lOtNDF7myHsJb9yj/IZC/Bjt9j/
+ 45U1ZB8fM8tltOSZ64SfuTISLO6+arynqcvKHEjCXMzdg94lzuz14O0QpEZrNJBFgBlo
+ hD6f24WUrAErqQbuc22nAaCV1l0HPii7S6GO5NYGXW37BlIn0c1kgod1aDPNZUaOozct
+ z+fu34qNaIQYts4iCTYyr1ci5YwDt3RC2IsTrD1n/Rh/OacEHg5qyq6Ko23YxbZdRe08
+ gGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ecZnnuuQVdyeJTDzyfNWgz84AWUOXf6o3fNUGnhUp9g=;
- b=bxJRpeEqzbu1nrXUmZkblHv5EWd0vPnCfmM8XFOUZ5dbjz9oIg1ub1gThEz79K3SJJ
- k17Tn0QqOG8iwj07XEZmwoSkip5I/5CLU8iG49Y2pL4XgM28DqUlWytA+7eiWmOItd6s
- y86wqi63wJF91R2IQJTDv3/81C38j/irmwttkWKagcSe8FEHZcwv1yoRcuWHOndvrQfT
- fZavsixw78/wRrYjplQL6xpJiS8y3NTIo0q/5XMO1sMkijLcuyjytTk1ZAetw4sT4bop
- trbJx/2xSjedr4mkahD9S27E0GwbyeBWK9eQx4/iiidq2xpSljYMnTwzL781Sw8GD+6h
- e+wg==
-X-Gm-Message-State: AOAM5330JyPMf8e3jF3I4BExMm8hRQZ9OB4XcsgomanAHkX3OuxJjugd
- QWhhLiRAqNUMdQ5PANqafXKtEOgIKJo8pjlWj2h6cg==
-X-Google-Smtp-Source: ABdhPJytniFAB2MWWExz0iuqAADa0p3saKnLNrpfCRUyGddmcncseT6yAqs9QN2qkwvdqCNjKtf9TdSq3WT6QfV8ajc=
-X-Received: by 2002:a17:906:16cd:: with SMTP id
- t13mr21186463ejd.250.1627371293379; 
- Tue, 27 Jul 2021 00:34:53 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cnmDSLD9Sr+DQ9v7u55WYeLJ1kZn8Z9wPx9jO2I25mw=;
+ b=Mw+QqJa2iaYfjm1gKYcq6yt2MpSmZaqVCG4kkaqYjg/8MvRIBqjqlltCSqEBUrFk9T
+ ThvSoGIuiHMxtwNnTP9jv80YDb9eI3OXLxM2DDhIyWZOHfgdOoAx94kpAKnkOsQRqy8w
+ 3IE2exzpQ63OVD/ZgYbqIsGDuY3pvIJDg7DX6tY5M9xaHos6U/c9L+fxPUvhx4x801Wk
+ bGMg3qlskUq4RU5EziU/QFlO/+DTaAAc7ZBom76CCIKjw3agX8+yV/3tC5ZCtBixc967
+ pJcTLe7QeLaLOo0JUe1BA5Ke/xhcAYPKBctNB0uYoK7MmIYqaxSojc+l8BIVJu63OoQC
+ qAnQ==
+X-Gm-Message-State: AOAM5327iRHPBVA8BR77FVYsQl6ixaRG8boD+gc8c4hFQExjJlbFpRhC
+ Tx3bD/b97mshBKVph9XXJoV5wWvH82GsOPlWUCKzGw==
+X-Google-Smtp-Source: ABdhPJzCmbBKhQOuqQVvqZ7D79xG+FFSo2gsAgno7iLjMljLWIjiCe8KPaeWrFLRRaHGD9j/qgLgXhtjzdVD0DC8lTY=
+X-Received: by 2002:a05:6402:1ca4:: with SMTP id
+ cz4mr26083826edb.52.1627371421053; 
+ Tue, 27 Jul 2021 00:37:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726110544.1934386-1-kraxel@redhat.com>
-In-Reply-To: <20210726110544.1934386-1-kraxel@redhat.com>
+References: <87pmv4zj22.fsf@p50.localhost.localdomain>
+In-Reply-To: <87pmv4zj22.fsf@p50.localhost.localdomain>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Jul 2021 08:34:11 +0100
-Message-ID: <CAFEAcA91AP-aXk0LiYLLCiakkMskCj8tYgREyFzjPKgbMRC+gA@mail.gmail.com>
-Subject: Re: [PULL 0/6] Fixes 20210726 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Tue, 27 Jul 2021 08:36:18 +0100
+Message-ID: <CAFEAcA-UZMGK3azd5fHGhk8vivzv4agY=GXLAdWJfsErDkORPg@mail.gmail.com>
+Subject: Re: Regression caught by
+ replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+To: Cleber Rosa <crosa@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,34 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Jul 2021 at 12:05, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Tue, 27 Jul 2021 at 01:39, Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The following changes since commit a2376507f615495b1d16685449ce0ea78c2caf9d:
 >
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-24 11:04:57 +0100)
+> Hi everyone,
 >
-> are available in the Git repository at:
+> tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+> is currently failing consistently (first found that in [1]).
 >
->   git://git.kraxel.org/qemu tags/fixes-20210726-pull-request
+> I've bisected it down to the following commit:
 >
-> for you to fetch changes up to 584af1f1d955476aacba3350c4efb5865fc91c09:
+> ---
 >
->   ui/gtk: add a keyboard fifo to the VTE consoles (2021-07-26 10:24:49 +0200)
+> 78ff82bb1b67c0d79113688e4b3427fc99cab9d4 is the first bad commit
+> commit 78ff82bb1b67c0d79113688e4b3427fc99cab9d4
+> Author: Richard Henderson <richard.henderson@linaro.org>
 >
-> ----------------------------------------------------------------
-> ui: fixes for 6.1
+>     accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS
 >
-> ----------------------------------------------------------------
+>     The space reserved for CF_COUNT_MASK was overly large.
+>     Reduce to free up cflags bits and eliminate an extra test.
+>
+>     Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>     Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>     Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>     Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>     Message-Id: <20210717221851.2124573-2-richard.henderson@linaro.org>
+>
+>  accel/tcg/translate-all.c | 5 ++---
+>  include/exec/exec-all.h   | 4 +++-
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+This is probably fixed by
+https://patchew.org/QEMU/20210725174405.24568-1-peter.maydell@linaro.org/
+(which is in RTH's pullreq currently on list).
 
 -- PMM
 
