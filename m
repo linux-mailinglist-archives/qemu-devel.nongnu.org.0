@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD383D73DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:58:06 +0200 (CEST)
-Received: from localhost ([::1]:35372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EDB3D73A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 12:49:57 +0200 (CEST)
+Received: from localhost ([::1]:37950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8Kmj-0005Hn-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50318)
+	id 1m8Keq-0004fn-K1
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 06:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8KdB-0001tc-JL
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:13 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35338)
+ id 1m8KdC-0001xb-F7
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:14 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8Kd9-0004wL-TZ
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id n12so11095602wrr.2
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:11 -0700 (PDT)
+ id 1m8KdA-0004wZ-OF
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 06:48:14 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ f18-20020a05600c4e92b0290253c32620e7so1302198wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 03:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iUbjtNnRqrk7535NLiLOddt55EKxFB+7vT/kNGnsiqE=;
- b=DvSWTo6mocLSSb6Emt9JY2EnbkMh+qK2bAOliZCyIXQkEK/hY95Bk1moYZY+7lSbkt
- +/OUWZLk8CjDS1Ow4dgCXL866XpQ1H7dds53erl4I6KjRQXEYQU4tgl3Meui4+Ehd5wv
- Tx8SAwPdnSsslh880Wd5mWfBHyHcljj2k7PPyT8VfOiQE5MwAJUB18IvJ33OR38lCIG3
- Ssxm6CjHPVD+E3sWzQHEkcmqcq8MNmscxp0GkDZN/t/+NksLBgByubXprJkt8F7TBqLa
- Wa9c9za4YsVt3i1B60sT1WemSoWU6xT7rrMncudl5EEfmvLDrdKAc+ryucBBLt6UNBh/
- +n2Q==
+ bh=XgMOQ9Ss4JDoAEWFMiQANwzLP5WjR3DsnYhdpNBuwd0=;
+ b=GPoM2rXxUQpj+5GC+TzF5vMgCbS7Gqx+HVoEgAJygRMqPtczAtFbkHroRtUyE+W3eW
+ maVRuCDq/GmvylSzoiflRTHhBmwQpurrBG51EjkYMJ++bfPSNDPCUe7IEDg+yFizMkk2
+ 3i52wgYetN4sxALtUOaIC7v2po6DOnRSeJwd51/9VeuOt0Aa/dgC9W0IWM3Jz15/OdWr
+ dPpUFeG/Ql34juAMYy4aM6U2KvytFZjHirqJCKCVycJoQNe2gZAQKR4DwxqEoNtO+RLo
+ ZNWKtpeJl/ZVVu7NUZ/hhJrn/fahABUZ6KQbkV64mvGwm7PA8p+MwZlQlVcO3w/cU83n
+ cMVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iUbjtNnRqrk7535NLiLOddt55EKxFB+7vT/kNGnsiqE=;
- b=DQaXBmRs4wKuidZ0uiD7L9L19m1Rl+dhHj4/vOiuWYBAt0bVMrVEQtOSkVikIMLzOs
- uIJ9T447/GaxAdAWHASLsRSAhe2t74ioKEdALfWdCh0fg8My0OGmFvXUZxg464TcqXq3
- MTMKO42DDAS5PyxIPND5WM2H+wdTRb1R9HMAi/eqQ+g+mWOReY5E7vGyAs6K0d8Z3ghs
- i88NSxRv8Ay9mvsyo5hCBnAX1caf2JaysUNWuKB7R/7kp/d3aV+th04k/14PjEZAn9EH
- w18sR0aiWKeXyqbI96wsJP1A7cxETKYAQIZRjzF3i6dqchhuoa1I8e+9wyDsfQBDtmlD
- mNkw==
-X-Gm-Message-State: AOAM533Ks5rHcbVBIJrPpZDJqh2LBOdzw1D2EexMCPlaq9VNMl2yCqXV
- hylHVci3g6xyba0tPo5f8Q14hHMLn1rjuQ==
-X-Google-Smtp-Source: ABdhPJzDFqJnMcmNeKcZ3vA0NpbgQVL29jQMr3uxlSa5DYv05y5bs5AWwzFho5XB//tH0q8RaAfMLg==
-X-Received: by 2002:adf:dfcb:: with SMTP id q11mr18707675wrn.16.1627382890575; 
- Tue, 27 Jul 2021 03:48:10 -0700 (PDT)
+ bh=XgMOQ9Ss4JDoAEWFMiQANwzLP5WjR3DsnYhdpNBuwd0=;
+ b=h9HYaXXtR7B4VAgZpl0FVOJyrRBpzKb1bx2tfQb7zR1iY2oikW53RbaDwqgRmkTwqo
+ E7ijt6MEeTEofTbIdBxHcXgyU1ozuOv7yjdYRQnnzdj2nGJi6T/poJURkAnHtIJnYwuR
+ m67iRwtJlR/FMdZZtDwDAHisVtdSpcnmUKvJRiL/z59DTq2HjRVpN12u6QyxcEZezvHe
+ rEOxGUM65bIRRXSbtmODlT8UW/+COnxcHArJYbCX4HGvU5t+XAcNyDRfXWwvU/A8SO2E
+ +RYJ9kWhA3RHpv3HASqr3Z6yTprjlYocQxCiwCGbz5RFqYccBgl5b0bB6/LTme41749z
+ yQPg==
+X-Gm-Message-State: AOAM532pjyLhEDYsr8fd59iqIJ8j1BJ6swsV/TPBtTD7hFitE/B0j2HW
+ Gv8FG0mQ/lmkUIuAlEpXJuEfj8QI3GCr1w==
+X-Google-Smtp-Source: ABdhPJwil4V7TjZRTaNrir3D43Qm5K5XuyKbpRbhrR+vJH1s2zgPv39WBK3K/LMsDBDTlcue+nalYw==
+X-Received: by 2002:a05:600c:190d:: with SMTP id
+ j13mr3325294wmq.6.1627382891238; 
+ Tue, 27 Jul 2021 03:48:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.09
+ by smtp.gmail.com with ESMTPSA id y11sm2413598wmi.33.2021.07.27.03.48.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 03:48:09 -0700 (PDT)
+ Tue, 27 Jul 2021 03:48:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/14] target/arm: Correctly bound length in
- sve_zcr_get_valid_len
-Date: Tue, 27 Jul 2021 11:47:57 +0100
-Message-Id: <20210727104801.29728-11-peter.maydell@linaro.org>
+Subject: [PULL 11/14] target/arm: Export aarch64_sve_zcr_get_valid_len
+Date: Tue, 27 Jul 2021 11:47:58 +0100
+Message-Id: <20210727104801.29728-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210727104801.29728-1-peter.maydell@linaro.org>
 References: <20210727104801.29728-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Currently, our only caller is sve_zcr_len_for_el, which has
-already masked the length extracted from ZCR_ELx, so the
-masking done here is a nop.  But we will shortly have uses
-from other locations, where the length will be unmasked.
-
-Saturate the length to ARM_MAX_VQ instead of truncating to
-the low 4 bits.
+Rename from sve_zcr_get_valid_len and make accessible
+from outside of helper.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210723203344.968563-2-richard.henderson@linaro.org
+Message-id: 20210723203344.968563-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/arm/internals.h | 10 ++++++++++
+ target/arm/helper.c    |  4 ++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 11a72013f51..cd2ea8a3883 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -177,6 +177,16 @@ void arm_translate_init(void);
+ void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ #endif /* CONFIG_TCG */
+ 
++/**
++ * aarch64_sve_zcr_get_valid_len:
++ * @cpu: cpu context
++ * @start_len: maximum len to consider
++ *
++ * Return the maximum supported sve vector length <= @start_len.
++ * Note that both @start_len and the return value are in units
++ * of ZCR_ELx.LEN, so the vector bit length is (x + 1) * 128.
++ */
++uint32_t aarch64_sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len);
+ 
+ enum arm_fprounding {
+     FPROUNDING_TIEEVEN,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0c07ca98376..8c1d8dbce36 100644
+index 8c1d8dbce36..155d8bf2399 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6461,7 +6461,9 @@ static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
+@@ -6457,7 +6457,7 @@ int sve_exception_el(CPUARMState *env, int el)
+     return 0;
+ }
+ 
+-static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
++uint32_t aarch64_sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
  {
      uint32_t end_len;
  
--    end_len = start_len &= 0xf;
-+    start_len = MIN(start_len, ARM_MAX_VQ - 1);
-+    end_len = start_len;
-+
-     if (!test_bit(start_len, cpu->sve_vq_map)) {
-         end_len = find_last_bit(cpu->sve_vq_map, start_len);
-         assert(end_len < start_len);
+@@ -6489,7 +6489,7 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+     }
+ 
+-    return sve_zcr_get_valid_len(cpu, zcr_len);
++    return aarch64_sve_zcr_get_valid_len(cpu, zcr_len);
+ }
+ 
+ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.20.1
 
