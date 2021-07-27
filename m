@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC773D70CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:06:32 +0200 (CEST)
-Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966743D70DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 10:08:49 +0200 (CEST)
+Received: from localhost ([::1]:52420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8I6h-00025K-Kw
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
+	id 1m8I8u-0004NE-LS
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 04:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1m8I2s-00014C-N5; Tue, 27 Jul 2021 04:02:34 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:44645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1m8I2q-0007Qb-NM; Tue, 27 Jul 2021 04:02:34 -0400
-Received: by mail-qt1-x836.google.com with SMTP id g11so8914561qts.11;
- Tue, 27 Jul 2021 01:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jN7UpphmA47gcdFkRfOr3Vi5bpHQ5t1x0cnEDH0ZD4I=;
- b=LoFRJWJJ8fZniC75MSkIyv3haIQZjGTdpYiKWLvoav8ydgC9MCCv0qcCXgTO3dmNvl
- vVgEtUYx5Y2/3E+v+qqp7TPd/1z4jjEx/hGudyjXLaN2U+VghTK1ua4KNDKJlTKej4S+
- WjPYukitquky3+il4uOge+XU0v45qMSzqKMQc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jN7UpphmA47gcdFkRfOr3Vi5bpHQ5t1x0cnEDH0ZD4I=;
- b=GE7ZnltVCGL2FOFda0AJ4yOTY3WsbDHqSxZvZ2/VkOJ2KNM1YZjPmcuJN9f6Mppmky
- Rjjy/mrXK63Fmy++gB6+Yv5Mz2t5k4ZhIqe/dvKgFdZfAsPTSeFQgFdWmyESEaSkGzdJ
- INafMYtffCy366NSbhvOWyK9DSO2pThtzRoKYF0Exf9zVvjOvIAzkbHKsBjqCNl5UpPr
- eaO+yg65fPVA9XUD7TTuAPCXmK/63Y56w+PiWEDe+hXnINAK3UTirwIu6BYLCR+vw/IK
- xb01GmqTiSBAYKLmtXtQST3dNg7oVKQJVR5IuV3fKK48Nk7Ka26blzkr+mZh1A7iUDVC
- dW6Q==
-X-Gm-Message-State: AOAM532tFxqEO5nfPmghmrUWxVeIF3JOFBGoHQo0kKdKy/j+bcnqJGgf
- 55Le6dvYaS5T6P0CzMSF8UHcfSH7gn04URwfLqY=
-X-Google-Smtp-Source: ABdhPJxNh1SxBz2aGPztYueoQTe5EuLZg+h/dA70HGIPjGzlNztT0CP0WAFhSVEfhVK35lNo1FqSqrBKqeBLpGMGAKo=
-X-Received: by 2002:ac8:5289:: with SMTP id s9mr18200371qtn.385.1627372949921; 
- Tue, 27 Jul 2021 01:02:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1m8I6a-0002iq-NE
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:06:24 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56684 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1m8I6X-0001Y0-Gb
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 04:06:24 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx70Byvv9g3XQkAA--.45413S3; 
+ Tue, 27 Jul 2021 16:06:12 +0800 (CST)
+Subject: Re: [PATCH v2 16/22] target/loongarch: Add floating point move
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-17-git-send-email-gaosong@loongson.cn>
+ <643a7954-cf1c-78dd-2d08-f0969ea6127e@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <2c3e340c-73f4-408d-4ece-a857a699da22@loongson.cn>
+Date: Tue, 27 Jul 2021 16:06:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20210713065854.134634-1-joel@jms.id.au>
- <20210713065854.134634-2-joel@jms.id.au>
- <7c5dd20c-4710-4bdb-605f-e35ed7bfb35a@kaod.org>
-In-Reply-To: <7c5dd20c-4710-4bdb-605f-e35ed7bfb35a@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 27 Jul 2021 08:02:17 +0000
-Message-ID: <CACPK8Xe=v4KRT1TqC8-DFWxqUoCak1MisWr84_9ug-xfXezWEA@mail.gmail.com>
-Subject: Re: [SPAM] [PATCH v2 1/3] hw: aspeed_gpio: Fix memory size
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=joel.stan@gmail.com; helo=mail-qt1-x836.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <643a7954-cf1c-78dd-2d08-f0969ea6127e@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx70Byvv9g3XQkAA--.45413S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCryxWr4kZry7KFy8AF1DKFg_yoW5trW3pr
+ 97ArW5JrWUJFs3Jr13Ja45XFy5Ar18K3WUJF1xX3W5AF4UAr1Iqr1UXr1qgFyUJw48Jr1U
+ Aw1UZr4UuFyUXrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+ z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
+ vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ XVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
+ 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
+ x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+ 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+ AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+ cVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUp6wZUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +74,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Jul 2021 at 16:02, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+Hi, Richard.
+
+On 07/23/2021 02:29 PM, Richard Henderson wrote:
+> On 7/20/21 11:53 PM, Song Gao wrote:
+>> This patch implement floationg point move instruction translation.
+>>
+>> This includes:
+>> - FMOV.{S/D}
+>> - FSEL
+>> - MOVGR2FR.{W/D}, MOVGR2FRH.W
+>> - MOVFR2GR.{S/D}, MOVFRH2GR.S
+>> - MOVGR2FCSR, MOVFCSR2GR
+>> - MOVFR2CF, MOVCF2FR
+>> - MOVGR2CF, MOVCF2GR
+>>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> ---
+>>   target/loongarch/fpu_helper.c |  80 +++++++++++++
+>>   target/loongarch/helper.h     |   6 +
+>>   target/loongarch/insns.decode |  41 +++++++
+>>   target/loongarch/trans.inc.c  | 270 ++++++++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 397 insertions(+)
+>>
+>> diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+>> index 162085a..7662715 100644
+>> --- a/target/loongarch/fpu_helper.c
+>> +++ b/target/loongarch/fpu_helper.c
+>> @@ -379,6 +379,11 @@ uint64_t helper_fp_logb_d(CPULoongArchState *env, uint64_t fp)
+>>       return fp1;
+>>   }
+>>   +void helper_movreg2cf(CPULoongArchState *env, uint32_t cd, target_ulong src)
+>> +{
+>> +    env->active_fpu.cf[cd & 0x7] = src & 0x1;
+>> +}
+> 
+> tcg_gen_andi_tl + tcg_gen_st8_tl.
+> 
+OK.
+>> +target_ulong helper_fsel(CPULoongArchState *env, target_ulong fj,
+>> +                         target_ulong fk, uint32_t ca)
+>> +{
+>> +    if (env->active_fpu.cf[ca & 0x7]) {
+>> +        return fk;
+>> +    } else {
+>> +        return fj;
+>> +    }
+>> +}
+> 
+> tcg_gen_movcond_i64.
+> 
+OK.
+>> +void helper_movgr2fcsr(CPULoongArchState *env, target_ulong arg1,
+>> +                       uint32_t fcsr)
+>> +{
+>> +    switch (fcsr) {
+>> +    case 0:
+>> +        env->active_fpu.fcsr0 = arg1;
+>> +        break;
+>> +    case 1:
+>> +        env->active_fpu.fcsr0 = (arg1 & FCSR0_M1) |
+>> +                                (env->active_fpu.fcsr0 & ~FCSR0_M1);
+>> +        break;
+>> +    case 2:
+>> +        env->active_fpu.fcsr0 = (arg1 & FCSR0_M2) |
+>> +                                (env->active_fpu.fcsr0 & ~FCSR0_M2);
+>> +        break;
+>> +    case 3:
+>> +        env->active_fpu.fcsr0 = (arg1 & FCSR0_M3) |
+>> +                                (env->active_fpu.fcsr0 & ~FCSR0_M3);
+>> +        break;
+> 
+> This is easily implemented inline, followed by a single helper call to re-load the rounding mode (if required by the mask).
+> 
+OK.
+>> +    case 16:
+>> +        env->active_fpu.vcsr16 = arg1;
+>> +        break;
+> 
+> The documentation I have does not describe the vector stuff?
+> 
+
+Yes, It is described in Volume II, but now  I need remove it .
+
+>> +    default:
+>> +        printf("%s: warning, fcsr '%d' not supported\n", __func__, fcsr);
+>> +        assert(0);
+>> +        break;
+> 
+> No printfs, no assert.  This should have been caught by
+> 
+>> +target_ulong helper_movcf2reg(CPULoongArchState *env, uint32_t cj)
+>> +{
+>> +    return (target_ulong)env->active_fpu.cf[cj & 0x7];
+>> +}
+> 
+> tcg_gen_ld8u_tl.
 >
-> On 7/13/21 8:58 AM, Joel Stanley wrote:
-> > The macro used to calculate the maximum memory size of the MMIO region
-> > had a mistake, causing all GPIO models to create a mapping of 0x9D8.
-> > The intent was to have it be 0x9D8 - 0x800.
-> >
-> > This extra size doesn't matter on ast2400 and ast2500, which have a 4KB
-> > region set aside for the GPIO controller.
-> >
-> > On the ast2600 the 3.3V and 1.8V GPIO controllers are 2KB apart, so the
-> > regions would overlap. Worse was the 1.8V controller would map over the
-> > top of the following perianal, which happens to be the RTC.
-> >
-> > The mmio region used by each device is a maximum of 2KB, so avoid the
-> > calculations and hard code this as the maximum.
-> >
-> > Fixes: 36d737ee82b2 ("hw/gpio: Add in AST2600 specific implementation")
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
->
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+OK.> 
+> r~
 
-Cedric, Peter; can we please get this merged for 6.1? Without it the
-RTC model is not functional on the ast2500.
+Again. Thank you kindly help.
 
-The other patches in this series are cleanups that can wait for future rele=
-ases.
+Thanks
+Song Gao.
 
-Cheers,
-
-Joel
-
->
-> > ---
-> >  hw/gpio/aspeed_gpio.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> > index 6ae0116be70b..b3dec4448009 100644
-> > --- a/hw/gpio/aspeed_gpio.c
-> > +++ b/hw/gpio/aspeed_gpio.c
-> > @@ -207,7 +207,6 @@
-> >  #define GPIO_1_8V_MEM_SIZE            0x9D8
-> >  #define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
-> >                                        GPIO_1_8V_REG_OFFSET) >> 2)
-> > -#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE, GPIO_1_8V_=
-MEM_SIZE)
-> >
-> >  static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int=
- gpio)
-> >  {
-> > @@ -849,7 +848,7 @@ static void aspeed_gpio_realize(DeviceState *dev, E=
-rror **errp)
-> >      }
-> >
-> >      memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
-> > -            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
-> > +            TYPE_ASPEED_GPIO, 0x800);
-> >
-> >      sysbus_init_mmio(sbd, &s->iomem);
-> >  }
-> >
->
 
