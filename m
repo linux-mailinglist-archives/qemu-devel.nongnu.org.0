@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995593D799E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 17:24:18 +0200 (CEST)
-Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121613D79A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Jul 2021 17:24:47 +0200 (CEST)
+Received: from localhost ([::1]:42212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8OwL-0008IS-5H
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 11:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52290)
+	id 1m8Owo-0001Jj-4Q
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 11:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8OuA-0007FV-1v
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51789)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Out-00085e-OB
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8Ou5-0000OG-OM
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:00 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m8Ous-0000uF-8H
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 11:22:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627399313;
+ s=mimecast20190719; t=1627399363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aHo/Ps5/tZ7dbhKjkn0xOlLD3/KQIwWywR90vR4YYOc=;
- b=J2RctmtOPzRujwvLHVyYljbDGJnBVO6KM4K6cnxDlKI1RZYb+11s93HCTgBmKj9eb+UquA
- Pw5KwUH8RNo1PMbxhyReVsFh2LyvLacIxpaosRJvCRP+0P6Kh6jsNCykty+SdPU8RGnbsD
- caPajvzJkur+Jm+FPcChy8ypktluSOo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-oUTbFiw-NOyHtiHTACiUJA-1; Tue, 27 Jul 2021 11:21:52 -0400
-X-MC-Unique: oUTbFiw-NOyHtiHTACiUJA-1
-Received: by mail-pl1-f197.google.com with SMTP id
- x14-20020a170902ec8eb029012bb183b35cso12638105plg.3
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 08:21:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aHo/Ps5/tZ7dbhKjkn0xOlLD3/KQIwWywR90vR4YYOc=;
- b=aFbYhHvKTnrZARnQsl4RcIWOU4G0w44CeGZx4r4Zk3yluXYyWwqiphlrM825sC4jko
- o5B0x/I9j3doQu+FvOoWVcvCMVSS/fz9IeM6aUB3DJj9Jt8GRS6KU36B0Tt4gcjwhGS8
- QfRhooGlZ4r/rmEA2XPnu88+frTc6edrgzm82v89O2CoiDV2auI9KG4jZcAseIKpCSQc
- fMloU0UEYJ9eFjMy/sR3GMNtXDwNTgsnB79OOB7nBHjsAVaiRUGyh1+kcHm9dg3enOal
- ZZyfHx7fNPdlUpS+j8oPuSg5IbR5fpWXXKTZI4a5TFf77rEbC+uYtl8ANWrYJuG8NfLH
- mnIQ==
-X-Gm-Message-State: AOAM531cyQpvZGDnTVBQQSP8RFcqq0GwEc8O6PwVVOnRYbmbL0hZ5K0g
- qMPXV76kxrDFU30h1Mawol1rHwIHNSadn+qe9mpLlqAfwretLNLkuduyD4xcsITcojecd1cNy2E
- LufGjkxsbwePO/pCwgRUJwbQGE4yAVGg=
-X-Received: by 2002:a17:90b:344a:: with SMTP id
- lj10mr4781349pjb.108.1627399311112; 
- Tue, 27 Jul 2021 08:21:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwK8lKnDbG/zJn++N/jUn0qklPzBph1TdGLvRHM/etyN9rvev8Fdu0HExrh16hJTapIzD3LU8GnZ7yum0aatj0=
-X-Received: by 2002:a17:90b:344a:: with SMTP id
- lj10mr4781336pjb.108.1627399310911; 
- Tue, 27 Jul 2021 08:21:50 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6g8hAnKN475+HK+CD5THwQXKTF2wP3yeE+KEpvj9ipk=;
+ b=DQCD9+Lcq0dtV50vDHoS6weKQ5DpdBS7NgKi3WjJJx+OHH7q8qaadNjD02g7aGDmEzCIoS
+ y1evPo5sjDYw5oP4ECgBpWF5VxCq8Q+Xt6FufLF6sBBG4OQ849M9qTljc3e7xbXm2Q3GpR
+ sZfN2ZttMHgv6lBHvwc7wVoR5b84bik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-NGGCKUHEMRSjdLY-_SAS9g-1; Tue, 27 Jul 2021 11:22:41 -0400
+X-MC-Unique: NGGCKUHEMRSjdLY-_SAS9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB0961932483;
+ Tue, 27 Jul 2021 15:22:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
+ [10.36.114.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D4E360854;
+ Tue, 27 Jul 2021 15:22:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 26AAA11326B9; Tue, 27 Jul 2021 17:22:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] Miscellaneous patches for 2021-07-27
+Date: Tue, 27 Jul 2021 17:22:38 +0200
+Message-Id: <20210727152239.829519-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20210727142431.1672530-1-philmd@redhat.com>
- <20210727142431.1672530-5-philmd@redhat.com>
-In-Reply-To: <20210727142431.1672530-5-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 27 Jul 2021 12:21:25 -0300
-Message-ID: <CAKJDGDbmzNtOYtM4pEav1Xi7-hzrC4J2bGz2wrjzOJKxDz-d9g@mail.gmail.com>
-Subject: Re: [PATCH-for-6.1 v5 4/4] gitlab-ci: Fix 'when:' condition in
- OpenSBI jobs
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -94,31 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 27, 2021 at 11:27 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Jobs depending on another should not use the 'when: always'
-> condition, because if a dependency failed we should not keep
-> running jobs depending on it. The correct condition is
-> 'when: on_success'.
->
-> Fixes: c6fc0fc1a71 ("gitlab-ci.yml: Add jobs to build OpenSBI firmware bi=
-naries")
-> Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .gitlab-ci.d/opensbi.yml | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
+The following changes since commit ca4b5ef371d6602b73bc5eec08e3199b05caf146:
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-migration-20210726a' into staging (2021-07-27 10:55:50 +0100)
+
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-misc-2021-07-27
+
+for you to fetch changes up to 3e61a13af3d3a1942a1ec2f6dfd7b407a43e4273:
+
+  vl: Don't continue after -smp help. (2021-07-27 16:52:37 +0200)
+
+----------------------------------------------------------------
+Miscellaneous patches for 2021-07-27
+
+----------------------------------------------------------------
+Markus Armbruster (1):
+      vl: Don't continue after -smp help.
+
+ softmmu/vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.31.1
 
 
