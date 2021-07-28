@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391363D8647
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 05:53:50 +0200 (CEST)
-Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7629B3D864B
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 05:55:47 +0200 (CEST)
+Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8adh-000369-89
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 23:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
+	id 1m8afa-0008GW-G8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 23:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8aZD-0000Zo-6j
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:11 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2260)
+ id 1m8aZE-0000e7-9w
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:12 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8aZ9-0005cQ-2y
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:10 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GZKHw0DZrz1CPbc;
- Wed, 28 Jul 2021 11:43:08 +0800 (CST)
+ id 1m8aZ9-0005du-K3
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:12 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GZKHx5PWVz1CPbZ;
+ Wed, 28 Jul 2021 11:43:09 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 11:49:03 +0800
+ 15.1.2176.2; Wed, 28 Jul 2021 11:49:05 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 11:49:02 +0800
+ 15.1.2176.2; Wed, 28 Jul 2021 11:49:04 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v3 10/11] machine: Remove smp_parse callback from
- MachineClass
-Date: Wed, 28 Jul 2021 11:48:47 +0800
-Message-ID: <20210728034848.75228-11-wangyanan55@huawei.com>
+Subject: [PATCH for-6.2 v3 11/11] machine: Move smp_prefer_sockets to struct
+ SMPCompatProps
+Date: Wed, 28 Jul 2021 11:48:48 +0800
+Message-ID: <20210728034848.75228-12-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210728034848.75228-1-wangyanan55@huawei.com>
 References: <20210728034848.75228-1-wangyanan55@huawei.com>
@@ -47,10 +47,10 @@ X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.255;
  envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,60 +80,125 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have a generic smp parser for all arches, and there will
-not be any other arch specific ones, so let's remove the callback
-from MachineClass and call the parser directly.
+Now we have a common structure SMPCompatProps used to store information
+about SMP compatibility stuff, so we can also move smp_prefer_sockets
+there for cleaner code.
+
+No functional change intended.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine.c   | 3 +--
- include/hw/boards.h | 5 -----
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ hw/arm/virt.c              | 2 +-
+ hw/core/machine.c          | 2 +-
+ hw/i386/pc_piix.c          | 2 +-
+ hw/i386/pc_q35.c           | 2 +-
+ hw/ppc/spapr.c             | 2 +-
+ hw/s390x/s390-virtio-ccw.c | 2 +-
+ include/hw/boards.h        | 3 ++-
+ 7 files changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7babea40dc..ae029680da 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2797,7 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
+ {
+     virt_machine_6_2_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+-    mc->smp_prefer_sockets = true;
++    mc->smp_props.prefer_sockets = true;
+ }
+ DEFINE_VIRT_MACHINE(6, 1)
+ 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 76b6c3bc64..8f84e38e2e 100644
+index 8f84e38e2e..61d1f643f4 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -934,7 +934,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-         goto out_free;
-     }
+@@ -834,7 +834,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+     } else {
+         maxcpus = maxcpus > 0 ? maxcpus : cpus;
  
--    mc->smp_parse(ms, config, errp);
-+    smp_parse(ms, config, errp);
-     if (errp) {
-         goto out_free;
-     }
-@@ -963,7 +963,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     /* Default 128 MB as guest ram size */
-     mc->default_ram_size = 128 * MiB;
-     mc->rom_file_has_mr = true;
--    mc->smp_parse = smp_parse;
+-        if (mc->smp_prefer_sockets) {
++        if (mc->smp_props.prefer_sockets) {
+             /* prefer sockets over cores over threads before 6.2 */
+             if (sockets == 0) {
+                 cores = cores > 0 ? cores : 1;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 9b811fc6ca..a60ebfc2c1 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -432,7 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
+     m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+-    m->smp_prefer_sockets = true;
++    m->smp_props.prefer_sockets = true;
+ }
  
-     /* numa node memory size aligned on 8MB by default.
-      * On Linux, each node's border has to be 8MB aligned
+ DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 88efb7fde4..4b622ffb82 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -372,7 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+     m->alias = NULL;
+     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+-    m->smp_prefer_sockets = true;
++    m->smp_props.prefer_sockets = true;
+ }
+ 
+ DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index a481fade51..efdea43c0d 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4702,7 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
+ {
+     spapr_machine_6_2_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+-    mc->smp_prefer_sockets = true;
++    mc->smp_props.prefer_sockets = true;
+ }
+ 
+ DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index b40e647883..5bdef9b4d7 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -809,7 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
+ {
+     ccw_machine_6_2_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+-    mc->smp_prefer_sockets = true;
++    mc->smp_props.prefer_sockets = true;
+ }
+ DEFINE_CCW_MACHINE(6_1, "6.1", false);
+ 
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 0631900c08..72123f594d 100644
+index 72123f594d..23671a0f8f 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -177,10 +177,6 @@ typedef struct {
-  *    kvm-type may be NULL if it is not needed.
-  * @numa_mem_supported:
-  *    true if '--numa node.mem' option is supported and false otherwise
-- * @smp_parse:
-- *    The function pointer to hook different machine specific functions for
-- *    parsing "smp-opts" from QemuOpts to MachineState::CpuTopology and more
-- *    machine specific topology fields, such as smp_dies for PCMachine.
-  * @hotplug_allowed:
-  *    If the hook is provided, then it'll be called for each device
-  *    hotplug to check whether the device hotplug is allowed.  Return
-@@ -217,7 +213,6 @@ struct MachineClass {
-     void (*reset)(MachineState *state);
-     void (*wakeup)(MachineState *state);
-     int (*kvm_type)(MachineState *machine, const char *arg);
--    void (*smp_parse)(MachineState *ms, SMPConfiguration *config, Error **errp);
+@@ -110,9 +110,11 @@ typedef struct {
  
-     BlockInterfaceType block_default_type;
-     int units_per_default_bus;
+ /**
+  * SMPCompatProps:
++ * @prefer_sockets - whether sockets is preferred over cores in smp parsing
+  * @dies_supported - whether dies is supported by the machine
+  */
+ typedef struct {
++    bool prefer_sockets;
+     bool dies_supported;
+ } SMPCompatProps;
+ 
+@@ -250,7 +252,6 @@ struct MachineClass {
+     bool nvdimm_supported;
+     bool numa_mem_supported;
+     bool auto_enable_numa;
+-    bool smp_prefer_sockets;
+     SMPCompatProps smp_props;
+     const char *default_ram_id;
+ 
 -- 
 2.19.1
 
