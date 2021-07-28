@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320393D9527
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:19:21 +0200 (CEST)
-Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60393D9528
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:19:30 +0200 (CEST)
+Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8o9I-0004tj-6S
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51236)
+	id 1m8o9R-0005Yu-Vz
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m8o7g-000253-Sm; Wed, 28 Jul 2021 14:17:40 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38607)
+ id 1m8o7m-0002QR-Jc; Wed, 28 Jul 2021 14:17:46 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m8o7f-0005GJ-9R; Wed, 28 Jul 2021 14:17:40 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- o5-20020a1c4d050000b02901fc3a62af78so5021341wmh.3; 
- Wed, 28 Jul 2021 11:17:38 -0700 (PDT)
+ id 1m8o7k-0005Jn-Hr; Wed, 28 Jul 2021 14:17:46 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id z4so3650129wrv.11;
+ Wed, 28 Jul 2021 11:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rpJr73sHcD06uaEUnanxw7L+gRVTgFYkDb7sUWR7li8=;
- b=IZlCmLCtZtTVWI/l7DJ2ATbnmmDJMYSGAJZVba0a8irrPX6zOYMF3OYFWkslxvJzh8
- 2LIO6Tira7B594R6Sxr7011d+0l9qwhlviexow7ZsHzSynWeVzWjPNRgGyhU70P8/906
- 8ly4XwuJi+T83lwtNrnwBSM72iB1xfCcFhr27HkRUbTA1OAJ6e1N7DoHfMNfJwkwV/km
- itGFvxAe2LTzEXRSXbi9AOiRODoCfTONeifdcOW+ZYpL/bFy23MJ2bM0nt5nZqS+WfdJ
- XredUAhkyw3ldWYfhjKx0qnllJ7tKgJoTNp1SYmxOHAC411C8i/o8z06kMEBJRG5/CX1
- BleA==
+ bh=YwYKVHNgecu5jiIKoXnoWtjk/FNw2rOw7861LGYxMNs=;
+ b=fy9J5xznGE0VLXw+HWBexvcNxEB0SuThh+YUPyuqh/X+TgrMej8Tz3M63H4ONwFB1u
+ JYzurTtXN3lCT+/MPRvpbNjGnKccz3TbFZIpCkfDow4OM9goCMQxAoHvLXRZk7ZTH1bH
+ LcVpTjbsBY6oxeAoq6BBWa0pjlKZR7Nn1TWQj4qiO+wqJL/UXmJZLr1sE/h/DdDgaXgG
+ 0k2QersmTjfrYvfCDrqNPZDH1iozBuPQj+0m9YXl1bCV+za12sd9+4CaxcEb7d61aR+z
+ tzQpnnddtwNQh5W/627bZiViwgyrwzJD4IvIPh0GEO4UEp3zzgq0SmpUPxPQhKYsaBK+
+ hvMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rpJr73sHcD06uaEUnanxw7L+gRVTgFYkDb7sUWR7li8=;
- b=YSoUUvfbR7DtK4SUGzuks9HCLzArVWTDX8RWNjt4bklW6U03jApjX7usEv/9IBG50Z
- Z3onSXScs/e5rCkWu9EpHwOgdXuqtDCasH8rQOA/f0nURgqVXw1XfHUrZg6PXFQv10Ct
- h9mzEJp7M7j5eWuvVlVAc0y10ZSi7rrY7vAYbjiai0NdscgFe6ZM7PvC5Tg8Za+kuaYp
- B3hviLIQFgFzkHwEcDODZdPcAGLoF+zOp2ODM3Pbbj1j5dsBpFjsoH8owZEFW1lHCIsa
- VULyJq+Uvg/3coeB2P3Ynk13YVy8TtNC4WEiCvbkjOcDil7Pgf4e/ZpVQ0d15UKnVkjT
- iHXw==
-X-Gm-Message-State: AOAM532EjZOJR/K/Sf/HVVEV3d8xxzWrnc5DGgbh89HeBoregMM64rzZ
- GR6hdowGTMb9EaY3WaBTU+XxOQJc7eGteA==
-X-Google-Smtp-Source: ABdhPJzkJ8R6AgWyZK+P3LG7TxygmbudutwlPUmcX9tFnKkwLuz2XHJPqCjxxXv8x1bg1JyF+PYMRQ==
-X-Received: by 2002:a1c:7314:: with SMTP id d20mr10670921wmb.156.1627496256645; 
- Wed, 28 Jul 2021 11:17:36 -0700 (PDT)
+ bh=YwYKVHNgecu5jiIKoXnoWtjk/FNw2rOw7861LGYxMNs=;
+ b=HnVIOfUOgKrrmrNJfvXWmPztVKMVpyeGv0jw3/q6V2NmHw2Udf5TXwTSrp04n3G+is
+ 94GILoILwhdhEvIlPZ7OuhC59l8W8NrUTd5AQ2qmS2f3KngPHcmiu7QBTw2HixvefEen
+ CME3GhcM1kNuT2asIw2ab8m4lMMbxlRg1xSZ9zjTLzQkeeNpCyr5CrB+oqns83vFQNff
+ ZAUtzRwJWVtmmJAqCKqmkO5sazcga54d2KTRh0p1va7uzOhKm+Lg/EJRiBb7TU/cPuBq
+ b+ZB2mf2LdPmv/bZ77X3s/iBZ/sfXZS29dUuUZOpNQaJj/2H1fbmR0QYV2GvnGbrXx8A
+ 2pUw==
+X-Gm-Message-State: AOAM532HJSGgPYxPqU9mnPGG2MyWvL5MpakfHIe5Shp7pM1AP/fEkbwG
+ 9c8LLmAKSzmdt+hrBv47coEaXMvjLoTDCw==
+X-Google-Smtp-Source: ABdhPJyZYmkpkyVUCqBdcQVKEoSji5VcnZDFm4a411qC3uQzfpzGwoJj7JuoSLL2P0xKIbUluKhIlg==
+X-Received: by 2002:adf:f1c6:: with SMTP id z6mr674996wro.207.1627496261720;
+ Wed, 28 Jul 2021 11:17:41 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- k17sm605872wrw.53.2021.07.28.11.17.35
+ v5sm614199wrd.74.2021.07.28.11.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 11:17:36 -0700 (PDT)
+ Wed, 28 Jul 2021 11:17:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 1/3] hw/sd/sdcard: Document out-of-range addresses for
- SEND_WRITE_PROT
-Date: Wed, 28 Jul 2021 20:17:26 +0200
-Message-Id: <20210728181728.2012952-2-f4bug@amsat.org>
+Subject: [PATCH-for-6.1 2/3] hw/sd/sdcard: Fix assertion accessing
+ out-of-range addresses with CMD30
+Date: Wed, 28 Jul 2021 20:17:27 +0200
+Message-Id: <20210728181728.2012952-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728181728.2012952-1-f4bug@amsat.org>
 References: <20210728181728.2012952-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,53 +84,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
- qemu-arm@nongnu.org,
+Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ qemu-stable@nongnu.org, Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the 'Physical Layer Simplified Specification Version 3.01',
-Table 4-22: 'Block Oriented Write Protection Commands'
+OSS-Fuzz found sending illegal addresses when querying the write
+protection bits triggers the assertion added in commit 84816fb63e5
+("hw/sd/sdcard: Assert if accessing an illegal group"):
 
-  SEND_WRITE_PROT (CMD30)
+  qemu-fuzz-i386-target-generic-fuzz-sdhci-v3: ../hw/sd/sd.c:824: uint32_t sd_wpbits(SDState *, uint64_t):
+  Assertion `wpnum < sd->wpgrps_size' failed.
+  #3 0x7f62a8b22c91 in __assert_fail
+  #4 0x5569adcec405 in sd_wpbits hw/sd/sd.c:824:9
+  #5 0x5569adce5f6d in sd_normal_command hw/sd/sd.c:1389:38
+  #6 0x5569adce3870 in sd_do_command hw/sd/sd.c:1737:17
+  #7 0x5569adcf1566 in sdbus_do_command hw/sd/core.c:100:16
+  #8 0x5569adcfc192 in sdhci_send_command hw/sd/sdhci.c:337:12
+  #9 0x5569adcfa3a3 in sdhci_write hw/sd/sdhci.c:1186:9
+  #10 0x5569adfb3447 in memory_region_write_accessor softmmu/memory.c:492:5
 
-  If the card provides write protection features, this command asks
-  the card to send the status of the write protection bits [1].
+It is legal for the CMD30 to query for out-of-range addresses.
+Such invalid addresses are simply ignored in the response (write
+protection bits set to 0).
 
-  [1] 32 write protection bits (representing 32 write protect groups
-  starting at the specified address) [...]
-  The last (least significant) bit of the protection bits corresponds
-  to the first addressed group. If the addresses of the last groups
-  are outside the valid range, then the corresponding write protection
-  bits shall be set to 0.
+Note, we had an off-by-one in the wpgrps_size check since commit
+a1bb27b1e98. Since we have a total of 'wpgrps_size' bits, the latest
+valid group bit is 'wpgrps_size - 1'.
 
+Since we now check the group bit is in range, remove the assertion.
+
+Include the qtest reproducer provided by Alexander Bulekov:
+
+  $ make check-qtest-i386
+  ...
+  Running test qtest-i386/fuzz-sdcard-test
+  qemu-system-i386: ../hw/sd/sd.c:824: sd_wpbits: Assertion `wpnum < sd->wpgrps_size' failed.
+
+Cc: qemu-stable@nongnu.org
+Reported-by: OSS-Fuzz (Issue 29225)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/495
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ hw/sd/sd.c                     |  4 ++--
+ tests/qtest/fuzz-sdcard-test.c | 36 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 1f964e022b1..707dcc12a14 100644
+index 707dcc12a14..273af75c1be 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -822,7 +822,14 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
+@@ -820,8 +820,8 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
  
-     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
-         assert(wpnum < sd->wpgrps_size);
--        if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
-+        if (addr >= sd->size) {
-+            /*
-+             * If the addresses of the last groups are outside the valid range,
-+             * then the corresponding write protection bits shall be set to 0.
-+             */
-+            continue;
-+        }
-+        if (test_bit(wpnum, sd->wp_groups)) {
-             ret |= (1 << i);
-         }
-     }
+     wpnum = sd_addr_to_wpnum(addr);
+ 
+-    for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
+-        assert(wpnum < sd->wpgrps_size);
++    for (i = 0; i < 32 && wpnum < sd->wpgrps_size - 1;
++                i++, wpnum++, addr += WPGROUP_SIZE) {
+         if (addr >= sd->size) {
+             /*
+              * If the addresses of the last groups are outside the valid range,
+diff --git a/tests/qtest/fuzz-sdcard-test.c b/tests/qtest/fuzz-sdcard-test.c
+index 96602eac7e5..ae14305344a 100644
+--- a/tests/qtest/fuzz-sdcard-test.c
++++ b/tests/qtest/fuzz-sdcard-test.c
+@@ -52,6 +52,41 @@ static void oss_fuzz_29225(void)
+     qtest_quit(s);
+ }
+ 
++/*
++ * https://gitlab.com/qemu-project/qemu/-/issues/495
++ * Used to trigger:
++ *  Assertion `wpnum < sd->wpgrps_size' failed.
++ */
++static void oss_fuzz_36217(void)
++{
++    QTestState *s;
++
++    s = qtest_init(" -display none -m 32 -nodefaults -nographic"
++                   " -device sdhci-pci,sd-spec-version=3 "
++                   "-device sd-card,drive=d0 "
++                   "-drive if=none,index=0,file=null-co://,format=raw,id=d0");
++
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_outl(s, 0xcfc, 0xe0000000);
++    qtest_outl(s, 0xcf8, 0x80001004);
++    qtest_outw(s, 0xcfc, 0x02);
++    qtest_bufwrite(s, 0xe000002c, "\x05", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x37", 0x1);
++    qtest_bufwrite(s, 0xe000000a, "\x01", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x29", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x02", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x03", 0x1);
++    qtest_bufwrite(s, 0xe0000005, "\x01", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x06", 0x1);
++    qtest_bufwrite(s, 0xe000000c, "\x05", 0x1);
++    qtest_bufwrite(s, 0xe000000e, "\x20", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x08", 0x1);
++    qtest_bufwrite(s, 0xe000000b, "\x3d", 0x1);
++    qtest_bufwrite(s, 0xe000000f, "\x1e", 0x1);
++
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     const char *arch = qtest_get_arch();
+@@ -60,6 +95,7 @@ int main(int argc, char **argv)
+ 
+    if (strcmp(arch, "i386") == 0) {
+         qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
++        qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
+    }
+ 
+    return g_test_run();
 -- 
 2.31.1
 
