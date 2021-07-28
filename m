@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2FF3D903D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:19:15 +0200 (CEST)
-Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BFA3D9037
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:18:00 +0200 (CEST)
+Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8kOw-0001xz-Fh
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57294)
+	id 1m8kNj-0007Ha-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8kKw-0004O3-38
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:15:06 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:44004)
+ id 1m8kKx-0004RA-Ny
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:15:08 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m8kKt-0007TR-KR
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:15:05 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- m20-20020a05600c4f54b029024e75a15716so1799561wmq.2
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:15:03 -0700 (PDT)
+ id 1m8kKv-0007UT-Hz
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:15:07 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r2so2783730wrl.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SlUzvXZUcVgIl02AlwheprRJgr/gy9rUBBkrbVbr+0E=;
- b=ESXvtD8R2ECnxUpUG1fQiqDercKSUIUXnTs255iCmOCXFStAhy/1CephFhAHamqzLk
- 48HCvsgZvFPw70+5selfRQ91ODU9uPgG8OeSvCcPEbODygky2nI8vpMO4eS6ECP4dFA9
- FzXaNvo4hs8swo5U2wVM3gbX9bxx7f+O6yNWWcreILFsiCkjjpIjzdTXRpvXaQuyOSoe
- vLYSjIWJM8S+ld6VHQYNRaqdEwJs48UEGDaulve84GURAdEvJ2OAHitgdXlbKfrQxXrF
- IkliXT0US/7oaYWXF1TQDPTLX6YwOk0IVbZUewT3xsDAnEdY9qvMo4lckkok4JB3tSZx
- Reqw==
+ bh=+UN3ZxKmtOqLJCCR6zn7wm0RZkJocDT1JRQPYi7dhl8=;
+ b=obzU5glNhTiaSbVEcnBl6EtTkacIa5mqHvtXJfh29Cd4egu9sKo0ilpQ9cO7O6iUn5
+ 242ig0VeP3jHXQB6hIdckUcR5bG0HZgji/TVmP7cTSGVL3HWW3+TsytOJnU/sbkxDe5S
+ CEc6yj/ppnbY7NpQC+s1Mvxh8ECn+dsEkPisr33EbXCpJTwyNAyS776ykmuQl1+otk8O
+ a+gRzT3Y8V9HnfaPADP4jypI3k159Ggjt+To9q4eTJ0u2sLGo3zVgg89OJxdEdXw6DpJ
+ uL+BlXK/6ytgCLQpU6U2uNIAHNpmOu7sHgH8g8oTCqLcOZke1RmRfsbaiNCCtugA3CN8
+ HdHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SlUzvXZUcVgIl02AlwheprRJgr/gy9rUBBkrbVbr+0E=;
- b=WqmfNI3D9HWWJYpSIx4d4ElSfPXZWPlrpf2v/g9sJ31R65FEOJGlG7Die+EqxB5F74
- QBXMFjWscSmwBgDYZ8TFQxuwMJUysmZ7F0ufCJbQD8ffMHwDDchMH3op462VvP9gry/K
- 5Qt808uM9qDz/YpcrBoXxS/kgX/roqXpOBAViDhrV0n9meLBgm2aeMAxUu7f8sVsOYJg
- JyYwqzX1yR0EWgPaWzZyNYvBquGtsSD38Lh6/lanlHBQDru+yMnLp+wK78pHbIj9hFbx
- RV70lksTDWpL6jdiZm4C62AuTMkWXE///+0AtFVORasbe3/iFdNpWDo6MtSEO0TZA6U3
- YiXA==
-X-Gm-Message-State: AOAM531J5rnbNvE8oR2tCykHSNxgkqLcxBt8QKxFujA4xTy8gvRt7aDb
- aDGnoMbkPdzLZDscgMRcnwlxu4v60/Kq8Q==
-X-Google-Smtp-Source: ABdhPJxNyyvkHWhotzkxZnfE4F0iy+bV7my8sx+f7stGgljF+6uKeASW69REG98oLVGINTsL7d3FSA==
-X-Received: by 2002:a05:600c:2251:: with SMTP id
- a17mr2098108wmm.189.1627481701866; 
- Wed, 28 Jul 2021 07:15:01 -0700 (PDT)
+ bh=+UN3ZxKmtOqLJCCR6zn7wm0RZkJocDT1JRQPYi7dhl8=;
+ b=BnuG4RTNh70/xsO6QhW2hwEmG62t+7UETaHANrgIm8IoJ5CWcU/67/ZHupJfRqnfO9
+ XO+C2OkYWy70WHOnvXeULN47IR8RgC1E4RbWwnX2uFQ+Vr7L1qVDnIiGokYYzBBgXjkH
+ sSsCuo7AvuDQ8sfO5qpBWz+dJ+wUnA3qL5uee7QxW+QKP6fWmz5n65C/IRB+/+VPTWBi
+ 28g2FHs8BH9teBUEZ/K2gRfWWcA0wSzK4ngIHM58zoE0n0BEkYK0S/JAH8iBe+YnvQwa
+ VcN9KIMnTKmvYBBztuUv7IZGOY5gQKf2FoHbLGNPScO4HCDhSLDsLuUft9J8AWVCBuI4
+ o6pQ==
+X-Gm-Message-State: AOAM531nz8JUrYH4NJKvNAt/JXZueuP82uLqXuC0J8++7NluhyhIcKz4
+ Njv53FqRwmUTT6bzTEI9q1Y54MyrPsRMVg==
+X-Google-Smtp-Source: ABdhPJxBo0CrFRoUSW30RLKwqIBZwLxyHD+yjR6GmFWlQuvgKdSPmWJVy7IbJuK+fLYl7M7RkFDp4A==
+X-Received: by 2002:adf:ff92:: with SMTP id j18mr13902109wrr.334.1627481703976; 
+ Wed, 28 Jul 2021 07:15:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d8sm7598247wrv.20.2021.07.28.07.15.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 07:15:01 -0700 (PDT)
+ Wed, 28 Jul 2021 07:15:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] docs: Incorporate information in usb-storage.txt into rST
- manual
-Date: Wed, 28 Jul 2021 15:14:54 +0100
-Message-Id: <20210728141457.14825-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/4] docs: Fold usb2.txt USB controller information into
+ usb.rst
+Date: Wed, 28 Jul 2021 15:14:55 +0100
+Message-Id: <20210728141457.14825-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210728141457.14825-1-peter.maydell@linaro.org>
 References: <20210728141457.14825-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,178 +87,203 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have a section on USB in the rST manual; fold
-the information in docs/usb-storage.txt into it.
-
-We add 'format=raw' to the various -drive options in the code
-examples, because QEMU will print warnings these days if you
-omit it.
+Fold the information in docs/usb2.txt about the different
+kinds of supported USB controller into the main rST manual.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/devices/usb.rst | 57 ++++++++++++++++++++++++++++++-----
- docs/usb-storage.txt        | 59 -------------------------------------
- MAINTAINERS                 |  2 +-
- 3 files changed, 51 insertions(+), 67 deletions(-)
- delete mode 100644 docs/usb-storage.txt
+ docs/system/devices/usb.rst | 86 +++++++++++++++++++++++++++++++++++++
+ docs/usb2.txt               | 82 -----------------------------------
+ 2 files changed, 86 insertions(+), 82 deletions(-)
 
 diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-index eeab78dcfbe..7da142ecbb9 100644
+index 7da142ecbb9..9f0e613dcc7 100644
 --- a/docs/system/devices/usb.rst
 +++ b/docs/system/devices/usb.rst
-@@ -28,17 +28,46 @@ option or the ``device_add`` monitor command. Available devices are:
+@@ -8,6 +8,92 @@ plug virtual USB devices or real host USB devices (only works with
+ certain host operating systems). QEMU will automatically create and
+ connect virtual USB hubs as necessary to connect multiple USB devices.
  
- ``usb-storage,drive=drive_id``
-    Mass storage device backed by drive_id (see the :ref:`disk images`
--   chapter in the System Emulation Users Guide)
-+   chapter in the System Emulation Users Guide). This is the classic
-+   bulk-only transport protocol used by 99% of USB sticks. This
-+   example shows it connected to an XHCI USB controller and with
-+   a drive backed by a raw format disk image:
++USB controllers
++~~~~~~~~~~~~~~~
 +
-+   .. parsed-literal::
++XHCI controller support
++^^^^^^^^^^^^^^^^^^^^^^^
 +
-+       |qemu_system| [...]                                   \\
-+        -drive if=none,id=stick,format=raw,file=/path/to/file.img \\
-+        -device nec-usb-xhci,id=xhci                              \\
-+        -device usb-storage,bus=xhci.0,drive=stick
++QEMU has XHCI host adapter support.  The XHCI hardware design is much
++more virtualization-friendly when compared to EHCI and UHCI, thus XHCI
++emulation uses less resources (especially CPU).  So if your guest
++supports XHCI (which should be the case for any operating system
++released around 2010 or later) we recommend using it:
++
++    qemu -device qemu-xhci
++
++XHCI supports USB 1.1, USB 2.0 and USB 3.0 devices, so this is the
++only controller you need.  With only a single USB controller (and
++therefore only a single USB bus) present in the system there is no
++need to use the bus= parameter when adding USB devices.
++
++
++EHCI controller support
++^^^^^^^^^^^^^^^^^^^^^^^
++
++The QEMU EHCI Adapter supports USB 2.0 devices.  It can be used either
++standalone or with companion controllers (UHCI, OHCI) for USB 1.1
++devices.  The companion controller setup is more convenient to use
++because it provides a single USB bus supporting both USB 2.0 and USB
++1.1 devices.  See next section for details.
++
++When running EHCI in standalone mode you can add UHCI or OHCI
++controllers for USB 1.1 devices too.  Each controller creates its own
++bus though, so there are two completely separate USB buses: One USB
++1.1 bus driven by the UHCI controller and one USB 2.0 bus driven by
++the EHCI controller.  Devices must be attached to the correct
++controller manually.
++
++The easiest way to add a UHCI controller to a ``pc`` machine is the
++``-usb`` switch.  QEMU will create the UHCI controller as function of
++the PIIX3 chipset.  The USB 1.1 bus will carry the name ``usb-bus.0``.
++
++You can use the standard ``-device`` switch to add a EHCI controller to
++your virtual machine.  It is strongly recommended to specify an ID for
++the controller so the USB 2.0 bus gets an individual name, for example
++``-device usb-ehci,id=ehci``.  This will give you a USB 2.0 bus named
++``ehci.0``.
++
++When adding USB devices using the ``-device`` switch you can specify the
++bus they should be attached to.  Here is a complete example:
++
++.. parsed-literal::
++
++    |qemu_system| -M pc ${otheroptions}                        \\
++        -drive if=none,id=usbstick,format=raw,file=/path/to/image   \\
++        -usb                                                        \\
++        -device usb-ehci,id=ehci                                    \\
++        -device usb-tablet,bus=usb-bus.0                            \\
++        -device usb-storage,bus=ehci.0,drive=usbstick
++
++This attaches a USB tablet to the UHCI adapter and a USB mass storage
++device to the EHCI adapter.
++
++
++Companion controller support
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The UHCI and OHCI controllers can attach to a USB bus created by EHCI
++as companion controllers.  This is done by specifying the ``masterbus``
++and ``firstport`` properties.  ``masterbus`` specifies the bus name the
++controller should attach to.  ``firstport`` specifies the first port the
++controller should attach to, which is needed as usually one EHCI
++controller with six ports has three UHCI companion controllers with
++two ports each.
++
++There is a config file in docs which will do all this for
++you, which you can use like this:
++
++.. parsed-literal::
++
++   |qemu_system| -readconfig docs/config/ich9-ehci-uhci.cfg
++
++Then use ``bus=ehci.0`` to assign your USB devices to that bus.
++
++Using the ``-usb`` switch for ``q35`` machines will create a similar
++USB controller configuration.
++
++
+ .. _Connecting USB devices:
  
- ``usb-uas``
--   USB attached SCSI device, see
--   `usb-storage.txt <https://git.qemu.org/?p=qemu.git;a=blob_plain;f=docs/usb-storage.txt>`__
--   for details
-+   USB attached SCSI device. This does not create a SCSI disk, so
-+   you need to explicitly create a ``scsi-hd`` or ``scsi-cd`` device
-+   on the command line, as well as using the ``-drive`` option to
-+   specify what those disks are backed by. One ``usb-uas`` device can
-+   handle multiple logical units (disks). This example creates three
-+   logical units: two disks and one cdrom drive:
-+
-+   .. parsed-literal::
-+
-+      |qemu_system| [...]                                         \\
-+       -drive if=none,id=uas-disk1,format=raw,file=/path/to/file1.img  \\
-+       -drive if=none,id=uas-disk2,format=raw,file=/path/to/file2.img  \\
-+       -drive if=none,id=uas-cdrom,media=cdrom,format=raw,file=/path/to/image.iso \\
-+       -device nec-usb-xhci,id=xhci                                    \\
-+       -device usb-uas,id=uas,bus=xhci.0                               \\
-+       -device scsi-hd,bus=uas.0,scsi-id=0,lun=0,drive=uas-disk1       \\
-+       -device scsi-hd,bus=uas.0,scsi-id=0,lun=1,drive=uas-disk2       \\
-+       -device scsi-cd,bus=uas.0,scsi-id=0,lun=5,drive=uas-cdrom
+ Connecting USB devices
+diff --git a/docs/usb2.txt b/docs/usb2.txt
+index 172614d3a7e..adf4ba3f2a0 100644
+--- a/docs/usb2.txt
++++ b/docs/usb2.txt
+@@ -1,86 +1,4 @@
  
- ``usb-bot``
--   Bulk-only transport storage device, see
--   `usb-storage.txt <https://git.qemu.org/?p=qemu.git;a=blob_plain;f=docs/usb-storage.txt>`__
--   for details here, too
-+   Bulk-only transport storage device. This presents the guest with the
-+   same USB bulk-only transport protocol interface as ``usb-storage``, but
-+   the QEMU command line option works like ``usb-uas`` and does not
-+   automatically create SCSI disks for you. ``usb-bot`` supports up to
-+   16 LUNs. Unlike ``usb-uas``, the LUN numbers must be continuous,
-+   i.e. for three devices you must use 0+1+2. The 0+1+5 numbering from the
-+   ``usb-uas`` example above won't work with ``usb-bot``.
+-USB Quick Start
+-===============
+-
+-XHCI controller support
+------------------------
+-
+-QEMU has XHCI host adapter support.  The XHCI hardware design is much
+-more virtualization-friendly when compared to EHCI and UHCI, thus XHCI
+-emulation uses less resources (especially cpu).  So if your guest
+-supports XHCI (which should be the case for any operating system
+-released around 2010 or later) we recommend using it:
+-
+-    qemu -device qemu-xhci
+-
+-XHCI supports USB 1.1, USB 2.0 and USB 3.0 devices, so this is the
+-only controller you need.  With only a single USB controller (and
+-therefore only a single USB bus) present in the system there is no
+-need to use the bus= parameter when adding USB devices.
+-
+-
+-EHCI controller support
+------------------------
+-
+-The QEMU EHCI Adapter supports USB 2.0 devices.  It can be used either
+-standalone or with companion controllers (UHCI, OHCI) for USB 1.1
+-devices.  The companion controller setup is more convenient to use
+-because it provides a single USB bus supporting both USB 2.0 and USB
+-1.1 devices.  See next section for details.
+-
+-When running EHCI in standalone mode you can add UHCI or OHCI
+-controllers for USB 1.1 devices too.  Each controller creates its own
+-bus though, so there are two completely separate USB buses: One USB
+-1.1 bus driven by the UHCI controller and one USB 2.0 bus driven by
+-the EHCI controller.  Devices must be attached to the correct
+-controller manually.
+-
+-The easiest way to add a UHCI controller to a 'pc' machine is the
+-'-usb' switch.  QEMU will create the UHCI controller as function of
+-the PIIX3 chipset.  The USB 1.1 bus will carry the name "usb-bus.0".
+-
+-You can use the standard -device switch to add a EHCI controller to
+-your virtual machine.  It is strongly recommended to specify an ID for
+-the controller so the USB 2.0 bus gets an individual name, for example
+-'-device usb-ehci,id=ehci".  This will give you a USB 2.0 bus named
+-"ehci.0".
+-
+-When adding USB devices using the -device switch you can specify the
+-bus they should be attached to.  Here is a complete example:
+-
+-    qemu -M pc ${otheroptions}                           \
+-        -drive if=none,id=usbstick,file=/path/to/image   \
+-        -usb                                             \
+-        -device usb-ehci,id=ehci                         \
+-        -device usb-tablet,bus=usb-bus.0                 \
+-        -device usb-storage,bus=ehci.0,drive=usbstick
+-
+-This attaches a USB tablet to the UHCI adapter and a USB mass storage
+-device to the EHCI adapter.
+-
+-
+-Companion controller support
+-----------------------------
+-
+-The UHCI and OHCI controllers can attach to a USB bus created by EHCI
+-as companion controllers.  This is done by specifying the masterbus
+-and firstport properties.  masterbus specifies the bus name the
+-controller should attach to.  firstport specifies the first port the
+-controller should attach to, which is needed as usually one EHCI
+-controller with six ports has three UHCI companion controllers with
+-two ports each.
+-
+-There is a config file in docs which will do all this for
+-you, just try ...
+-
+-    qemu -readconfig docs/config/ich9-ehci-uhci.cfg
+-
+-... then use "bus=ehci.0" to assign your USB devices to that bus.
+-
+-Using the '-usb' switch for 'q35' machines will create a similar
+-USB controller configuration.
+-
+-
+ More USB tips & tricks
+ ======================
  
- ``usb-mtp,rootdir=dir``
-    Media transfer protocol device, using dir as root of the file tree
-@@ -84,6 +113,20 @@ option or the ``device_add`` monitor command. Available devices are:
- ``u2f-{emulated,passthru}``
-    Universal Second Factor device
- 
-+Hotplugging USB storage
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The ``usb-bot`` and ``usb-uas`` devices can be hotplugged.  In the hotplug
-+case they are added with ``attached = false`` so the guest will not see
-+the device until the ``attached`` property is explicitly set to true.
-+That allows you to attach one or more scsi devices before making the
-+device visible to the guest. The workflow looks like this:
-+
-+#. ``device-add usb-bot,id=foo``
-+#. ``device-add scsi-{hd,cd},bus=foo.0,lun=0``
-+#. optionally add more devices (luns 1 ... 15)
-+#. ``scripts/qmp/qom-set foo.attached = true``
-+
- .. _host_005fusb_005fdevices:
- 
- Using host USB devices on a Linux host
-diff --git a/docs/usb-storage.txt b/docs/usb-storage.txt
-deleted file mode 100644
-index 551af6f88bb..00000000000
---- a/docs/usb-storage.txt
-+++ /dev/null
-@@ -1,59 +0,0 @@
--
--qemu usb storage emulation
----------------------------
--
--QEMU has three devices for usb storage emulation.
--
--Number one emulates the classic bulk-only transport protocol which is
--used by 99% of the usb sticks on the market today and is called
--"usb-storage".  Usage (hooking up to xhci, other host controllers work
--too):
--
--  qemu ${other_vm_args}                                \
--       -drive if=none,id=stick,file=/path/to/file.img  \
--       -device nec-usb-xhci,id=xhci                    \
--       -device usb-storage,bus=xhci.0,drive=stick
--
--
--Number two is the newer usb attached scsi transport.  This one doesn't
--automagically create a scsi disk, so you have to explicitly attach one
--manually.  Multiple logical units are supported.  Here is an example
--with tree logical units:
--
--  qemu ${other_vm_args}                                                \
--       -drive if=none,id=uas-disk1,file=/path/to/file1.img             \
--       -drive if=none,id=uas-disk2,file=/path/to/file2.img             \
--       -drive if=none,id=uas-cdrom,media=cdrom,file=/path/to/image.iso \
--       -device nec-usb-xhci,id=xhci                                    \
--       -device usb-uas,id=uas,bus=xhci.0                               \
--       -device scsi-hd,bus=uas.0,scsi-id=0,lun=0,drive=uas-disk1       \
--       -device scsi-hd,bus=uas.0,scsi-id=0,lun=1,drive=uas-disk2       \
--       -device scsi-cd,bus=uas.0,scsi-id=0,lun=5,drive=uas-cdrom
--
--
--Number three emulates the classic bulk-only transport protocol too.
--It's called "usb-bot".  It shares most code with "usb-storage", and
--the guest will not be able to see the difference.  The qemu command
--line interface is similar to usb-uas though, i.e. no automatic scsi
--disk creation.  It also features support for up to 16 LUNs.  The LUN
--numbers must be continuous, i.e. for three devices you must use 0+1+2.
--The 0+1+5 numbering from the "usb-uas" example isn't going to work
--with "usb-bot".
--
--Starting with qemu version 2.7 usb-bot and usb-uas devices can be
--hotplugged.  In the hotplug case they are added with "attached =
--false" so the guest will not see the device until the "attached"
--property is explicitly set to true.  That allows to attach one or more
--scsi devices before making the device visible to the guest, i.e. the
--workflow looks like this:
--
--   (1) device-add usb-bot,id=foo
--   (2) device-add scsi-{hd,cd},bus=foo.0,lun=0
--   (2b) optionally add more devices (luns 1 ... 15).
--   (3) scripts/qmp/qom-set foo.attached = true
--
--enjoy,
--  Gerd
--
----
--Gerd Hoffmann <kraxel@redhat.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ae9c2680134..bb82bebf59e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1840,7 +1840,7 @@ S: Maintained
- F: hw/usb/*
- F: stubs/usb-dev-stub.c
- F: tests/qtest/usb-*-test.c
--F: docs/usb2.txt
-+F: docs/system/devices/usb.rst
- F: docs/usb-storage.txt
- F: include/hw/usb.h
- F: include/hw/usb/
 -- 
 2.20.1
 
