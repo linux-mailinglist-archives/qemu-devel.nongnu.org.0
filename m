@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556593D8CCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 13:33:23 +0200 (CEST)
-Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC783D8CEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 13:40:52 +0200 (CEST)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8hoQ-0001rH-DX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 07:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
+	id 1m8hvf-0005Xp-5C
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 07:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m8hnR-00014s-Df
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:32:21 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:33531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m8hnP-0006Gv-Ty
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:32:21 -0400
-Received: by mail-io1-xd32.google.com with SMTP id n19so2670784ioz.0
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 04:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=80opOfY//I7YbRXq9K4Hf+FpspPiUX3ddybE9Ejy2jw=;
- b=pY0uoMv3OIC7D8Vft+IJyEfu8CPv4RzmAemMpezF977tqOuu7vDSPARQXcEB5oCoA2
- RzARi9vqjzmsIjijzZN1cvGik5n61qBsmlssXRir3jQl3TuRsB2/iP6HdL4HcArOpir5
- PmJzVZqiI/DLSxkOb4OOA6RsPYTkhJ1fgAhsy1CSw2qbm2+EskCJ8fmJgR0EEWLas3S+
- 4k6t8KXREKktYSP+KUbFjMNuh/H6RhoNiajA38dVhLuTPesY1dDBZSCa4a7zdZJ45HvO
- eUpUzzRuDhSuwP0QIYo4KVW27EySzBo2TQZ9eEHQsOOcjdFiv0Sb8sAdlpHxs8YBmGWt
- PplA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=80opOfY//I7YbRXq9K4Hf+FpspPiUX3ddybE9Ejy2jw=;
- b=CxxYssfIyuiuCQ4dvJqkbsaE+wymjLsirX/XqE+yJjGbkFxMg9TibwOz2OnH8UmlTA
- GAAvwpJmJ9mplk1qJ66Btv3nuhHzct8xP9oIXEz2uZqvwG+UnJ7uH/tOdnPDN5YHCy8z
- 7o/fp1xq0oNy6LOwEG8vwE5yiDGwL13vQNiwf+kEbDSDrmTD4wftkBJ4fqyY7PH7f2+a
- lYydc+vBpBv1g6dePDf9fnjIcjUAPg1d5aD/SXJ1znMwyyh6/qtj7dkxrOQfWkllgQHd
- hGHszNeLFRE8iluVi7qYt3ykpIgDjkTQSQGTDiCcjtebd1u+WtB0gcCFTUPQeWBCp95n
- 2y+w==
-X-Gm-Message-State: AOAM532wf1HrTOnKrXJd/aanMZ013XpV9xZ77Q29SoyGnqHtWqJFNwme
- RYuKdTUGm6sUJ7NI2TXUuJmrM6DAv4ZZJnCDe5s=
-X-Google-Smtp-Source: ABdhPJyyqpiojbbg23I3VHzz4TmcS7MgO3a1+8nELJodY7e2gTfpJUSMy4RnhiLmvg0g9Ch+otBmz5n/qC5Wz50EmpI=
-X-Received: by 2002:a02:4b04:: with SMTP id q4mr26311961jaa.89.1627471938759; 
- Wed, 28 Jul 2021 04:32:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210722123635.60608-1-david@redhat.com>
- <20210722123635.60608-5-david@redhat.com>
-In-Reply-To: <20210722123635.60608-5-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 28 Jul 2021 13:32:07 +0200
-Message-ID: <CAM9Jb+jOQFx3O0Z5R4HD-4L72L9o341QKU9RucAENphdxpmarw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] util/oslib-posix: Avoid creating a single thread
- with MADV_POPULATE_WRITE
-To: David Hildenbrand <david@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1m8hsM-0004JF-Tb
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:37:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1380)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1m8hsL-0001EX-3U
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:37:26 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16SBZL7Y142241; Wed, 28 Jul 2021 07:37:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=JmcSy3fnHrna0aOQbfXOLePQBJGeaA568WkmOAC5fA4=;
+ b=slPp/ZJjAXEfjRD8ekEaiF0t43MqIHNV+zTrFIBbNkCSDbIXrtX1k4p7s5YKhQTmgVRh
+ mlhoP+O0ETe4ee7wEe+W56jVknVEr749WQx2frNZe0cCDRgGUVjO0J/F508Dt8phTlH5
+ eEj8AQ8tlGmaxamPag8dx46H16iw/ZyhN36F/YPzvWWTEaP3HO+UMyGNX0oOMHXSQBMK
+ vpmUeDYM1jJeVGLoziQojUNEKy0qx6XMeWOe09XQHFEPAFpzfmTTC7LH+RMdoYdFGfio
+ 3XI5bBpWExqy+HNt8Yi0hhDlup2wA2+3eWy5qEoSAQ6EPCZ/euKCfc/dpNUBj59yTu1g 7g== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3a36g8851y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Jul 2021 07:37:16 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16SBUJZm009155;
+ Wed, 28 Jul 2021 11:37:10 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3a235krnnp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Jul 2021 11:37:10 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 16SBYSX222544830
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Jul 2021 11:34:28 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9062842042;
+ Wed, 28 Jul 2021 11:37:07 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4FC4C4204B;
+ Wed, 28 Jul 2021 11:37:07 +0000 (GMT)
+Received: from sig-9-145-77-113.uk.ibm.com (unknown [9.145.77.113])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Jul 2021 11:37:07 +0000 (GMT)
+Message-ID: <9f0b0c165529b972566948b3a1484f3c35a4e343.camel@linux.ibm.com>
+Subject: Re: [PATCH PING] tests/tcg/linux-test: Fix random hangs in test_socket
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Laurent Vivier
+ <laurent@vivier.eu>
+Date: Wed, 28 Jul 2021 13:37:06 +0200
+In-Reply-To: <20210601142030.3129967-1-iii@linux.ibm.com>
+References: <20210601142030.3129967-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: oQQRzHHV6mnx_-q4wF0m8MdrQZri3bdH
+X-Proofpoint-ORIG-GUID: oQQRzHHV6mnx_-q4wF0m8MdrQZri3bdH
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-28_07:2021-07-27,
+ 2021-07-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ impostorscore=0 suspectscore=0 phishscore=0 adultscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107280064
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,41 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's simplify the case when we only want a single thread and don't have
-> to mess with signal handlers.
->
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Tue, 2021-06-01 at 16:20 +0200, Ilya Leoshkevich wrote:
+> test_socket hangs randomly in connect(), especially when run without
+> qemu. Apparently the reason is that linux started treating backlog
+> value of 0 literally instead of rounding it up since v4.4 (commit
+> ef547f2ac16b).
+> 
+> So set it to 1 instead.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  util/oslib-posix.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index a1d309d495..1483e985c6 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -568,6 +568,14 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->      }
->
->      if (use_madv_populate_write) {
-> +        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
-> +        if (context.num_threads == 1) {
-> +            if (qemu_madvise(area, hpagesize * numpages,
-> +                             QEMU_MADV_POPULATE_WRITE)) {
-> +                return true;
-> +            }
-> +            return false;
-> +        }
->          touch_fn = do_madv_populate_write_pages;
->      } else {
->          touch_fn = do_touch_pages;
+>  tests/tcg/multiarch/linux-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/tcg/multiarch/linux-test.c
+> b/tests/tcg/multiarch/linux-test.c
+> index eba07273f7..3b256f6c02 100644
+> --- a/tests/tcg/multiarch/linux-test.c
+> +++ b/tests/tcg/multiarch/linux-test.c
+> @@ -263,7 +263,7 @@ static int server_socket(void)
+>      sockaddr.sin_port = htons(0); /* choose random ephemeral port)
+> */
+>      sockaddr.sin_addr.s_addr = 0;
+>      chk_error(bind(fd, (struct sockaddr *)&sockaddr,
+> sizeof(sockaddr)));
+> -    chk_error(listen(fd, 0));
+> +    chk_error(listen(fd, 1));
+>      return fd;
+>  
+>  }
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Hello,
+
+I would like to ping this patch.
+
+Best regards,
+Ilya
+
 
