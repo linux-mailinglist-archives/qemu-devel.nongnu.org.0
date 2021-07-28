@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E243D8925
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 09:55:15 +0200 (CEST)
-Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC343D892A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 09:56:38 +0200 (CEST)
+Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8ePK-00058X-GX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 03:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43084)
+	id 1m8eQf-00078K-C7
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 03:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m8eOA-0003K4-QM
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:54:02 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:38471)
+ id 1m8eOV-0003zx-Ft
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:54:23 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:39672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m8eO8-0003Dm-NR
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:54:02 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id f26so2457959ybj.5
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 00:54:00 -0700 (PDT)
+ id 1m8eOT-0003TU-Hs
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:54:23 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id p145so1413978ybg.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 00:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dEXb+C+110v6lLhnLt+mg/+SDu8+xBhuNq+A7JkwWE8=;
- b=Y8bUFR/rnRTE9gShshiMfo4iPHzqwJcMjk7hg2V7Ub8Lb1aHxR5uHbGnwJzCqm3/Ru
- 50yPwt11pe3udVElABL39yp7c6GD834ra9EV+jTdamtBOWJurrT745SSoTp9G6krDCul
- /RbpP0kzpo4ybVR6GruAlHERndbKvEHGKnQGteX+zyFqtoaEhfsHQTggNhEt82hQOkEp
- AVrMt7vSg4pqHazVuKbZLzqlivX5b3zvAan3Uo5N030gUsAsPeRpY3CcvqJ4c2u8z01W
- 05NUFRRmtyYxfhP/JdK/22EraSoBsgWqprbwVNi/ltItgcKYsJzM3nIc776pOGsZ7kRo
- 6UVA==
+ :cc; bh=DjeOczhcqL3Id3xhMhFWu9Z8BY4v7Kv0f6BFxK8VYy0=;
+ b=VFgZl+UKBbwU3iYJDzQwkNeMda6dEsCBWRvYDxtyjbrgouKDclR8VeM2M1ELHfYNi4
+ zd/M8fZ+/Hz3hZqoukKVlE5+Crjt1apyH4pIGQKYH461aOstM/e6JFBjC3c4ead1T//K
+ 0digmMMIaXHmSZEKOYFJQFrvjZU8f+WvQNzNRqBnx3bfCDzi63mTuDCUdQ+h1e7HWmFU
+ lC4tS3mHlhkvSQNmRFxJO93NiPdMeqg3B1NZagZ+tuFB46LibvprTiuxMH81Y5of5OCI
+ 4oEdE5mSuFm3eOUcAxp/m17Vs3BvxJjWMAPhD4FtGfgnlyLG/PMUzMCz67+iCv1cI+WX
+ dqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dEXb+C+110v6lLhnLt+mg/+SDu8+xBhuNq+A7JkwWE8=;
- b=Qn2shv0JmY+ZsNxnxWtlEDLxKVoBf54av4A1BVRm4oB4vwOiqCFgQByC+KU039bkmy
- XW5pCRUr5u2O7aWNcjkA/jlvev+gZYWYYCqjlPlsTRgP3H1Q6O5vbzgXRbUCxBcMN5E0
- rYoCVSU6GpePQ9xOOjiQuVIFJ1rpRM+PMShsiOb9mHYSCHwZCytsPoF91xBnElly3rlO
- kNcQJU2jLLjiDwUBODAoMU2oLDh7qWn20Lbj2QmxDZSDCmlMz7NTcg9OvuHxGExSAsNz
- CO9da056k6aipFV7Xrxc8ON+3lJ+I39VqF8XXNng9kdWv0szuWsA7pKlJhSTQazBfG+g
- Hg6w==
-X-Gm-Message-State: AOAM530tMc0Jk/t4Zbidebh+RdIkxlDih5f3r+ctUVrT8hmYOJNUyH3Z
- bvvn9NfmUDZnsEX6MPYKUEgsm5Z0rb5qA7tM6Tyz9A==
-X-Google-Smtp-Source: ABdhPJzRtstMfcHG8VPeqChrpUuBM57lesNOBhhgn0WhIetGEVyQpPi7BF5jnrMpyuwY/jNcEOtFlQAjghrJUV8P6QI=
-X-Received: by 2002:a25:4486:: with SMTP id
- r128mr32790230yba.372.1627458839971; 
- Wed, 28 Jul 2021 00:53:59 -0700 (PDT)
+ bh=DjeOczhcqL3Id3xhMhFWu9Z8BY4v7Kv0f6BFxK8VYy0=;
+ b=G+RLuIrVx8CKy5dCfOlmXpWt78TnqjTDMYYMMw7eXpzoZNB6f1Eonl/hL4W+DUjSxD
+ w0ILEac1sLPE7gCpc3ygNawAH4wzPb7eBAmlJcAfbXz3Vl41aBkkp65lOQjOGKWs9Dnr
+ tRSn6tAF5lK3orqOseD3ODWyA7ieg5kxMSjW+Wm31b/VJt+2BzUDUnxEhS9dIC02+ir0
+ fvZ/k73kFyID60QbctWFWqzMTY3AjbKzWLkAJ8CzX1w4FHW2sICvLP1BFgAW7nxBgFX6
+ dR8ajxOd9sFr1tCqSn/JPWcCDBtLkUhu3afyWSgJYUMUkB1iCKer76m8/AOO4FCec83e
+ YxzA==
+X-Gm-Message-State: AOAM5322gYsVwjzTMt57wozlcW4SzUGcxhjXYBtwXuSkoiw/+2cyX6kA
+ abyeZOsXhU29CHUJ+lCJtAF1bKc4n+3Qn/WI0/QB2A==
+X-Google-Smtp-Source: ABdhPJzxIVeK+L2e+onyoruFbk5PK1574ToAhK5uI3ldOjqqBWc10scrDjIH2jCqLpQpkmENVOjLw/AbjiJEiUPKQXA=
+X-Received: by 2002:a25:8888:: with SMTP id d8mr31629782ybl.379.1627458860667; 
+ Wed, 28 Jul 2021 00:54:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210405131420.598273-1-basil@daynix.com>
- <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
- <162620162248.49683.11801775260591979390@amd.com>
- <CAJ28CFSV-=caj-3VqZ=CFjEAdJ19296PNpcVAOc1TOWhxZccew@mail.gmail.com>
-In-Reply-To: <CAJ28CFSV-=caj-3VqZ=CFjEAdJ19296PNpcVAOc1TOWhxZccew@mail.gmail.com>
+References: <20210610155811.3313927-1-konstantin@daynix.com>
+ <YMI3gundDsLZq1lw@redhat.com>
+ <CAJ28CFR0CBAsq4WokeW_OG8gG2UFGSL3H0UB-p2FgXxH3pjhbg@mail.gmail.com>
+ <YMI6dP82HBpGM5Bj@redhat.com>
+ <CAJ28CFQ6yMm6kCPMY5DckAg1__Qrk+Ar47FNXc5ON6QfvtDmgg@mail.gmail.com>
+In-Reply-To: <CAJ28CFQ6yMm6kCPMY5DckAg1__Qrk+Ar47FNXc5ON6QfvtDmgg@mail.gmail.com>
 From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Wed, 28 Jul 2021 10:53:49 +0300
-Message-ID: <CAJ28CFR=2c7g6VsdZbjvjHW4g7n0kr-zi1AJoq1YytFEmFm+ug@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
- instead of 10
+Date: Wed, 28 Jul 2021 10:54:09 +0300
+Message-ID: <CAJ28CFQFxZxsEcy_3zDK1aLRbX0F2ZaMux8KgcE0thLXzm6kkA@mail.gmail.com>
+Subject: Re: [PATCH v2] qga-win: Free GMatchInfo properly
 To: Michael Roth <michael.roth@amd.com>
-Content-Type: multipart/alternative; boundary="0000000000000b1dbc05c82a4ac4"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b36;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb36.google.com
+Content-Type: multipart/alternative; boundary="00000000000046e8a705c82a4b20"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,182 +80,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Developers <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000b1dbc05c82a4ac4
+--00000000000046e8a705c82a4b20
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 ping
 
-On Wed, Jul 14, 2021 at 9:17 AM Konstantin Kostiuk <konstantin@daynix.com>
+On Wed, Jul 14, 2021 at 10:26 AM Konstantin Kostiuk <konstantin@daynix.com>
 wrote:
 
-> Hi Michael,
+> CC Michael Roth
 >
-> qga-vss.dll has many dependencies. Please check that all DLLs are present
-> in the same directory.
+> On Thu, Jun 10, 2021 at 7:14 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com>
+> wrote:
 >
-> Also, I have a similar problem in my setup. In my case, libgcc_s_seh-1.dll
-> was renamed in MinGW which I used.
->
-> Best wishes,
-> Kostiantyn Kostiuk
->
->
-> On Tue, Jul 13, 2021 at 9:40 PM Michael Roth <michael.roth@amd.com> wrote:
->
->> Quoting Konstantin Kostiuk (2021-04-22 02:43:25)
->> > ping
+>> On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiuk wrote:
+>> > On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com
+>> >
+>> > wrote:
+>> >
+>> > > On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk wrote:
+>> > > > The g_regex_match function creates match_info even if it
+>> > > > returns FALSE. So we should always call g_match_info_free.
+>> > > > A better solution is using g_autoptr for match_info variable.
+>> > > >
+>> > > > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+>> > > > ---
+>> > > >  qga/commands-win32.c | 3 +--
+>> > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+>> > > >
+>> > > > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+>> > > > index 300b87c859..785a5cc6b2 100644
+>> > > > --- a/qga/commands-win32.c
+>> > > > +++ b/qga/commands-win32.c
+>> > > > @@ -2494,7 +2494,7 @@ GuestDeviceInfoList
+>> *qmp_guest_get_devices(Error
+>> > > **errp)
+>> > > >              continue;
+>> > > >          }
+>> > > >          for (j =3D 0; hw_ids[j] !=3D NULL; j++) {
+>> > > > -            GMatchInfo *match_info;
+>> > > > +            g_autoptr(GMatchInfo) match_info;
+>> > >
+>> > > This should be initialized to NULL otherwise...
+>> > >
+>> > > >              GuestDeviceIdPCI *id;
+>> > > >              if (!g_regex_match(device_pci_re, hw_ids[j], 0,
+>> > > &match_info)) {
+>> > > >                  continue;
+>> > >
+>> > > this continue will trigger freeing of unintialized memory
+>> > >
+>> >
+>> > But we always call match_info, so match_info is always initialized.
+>> > The g_regex_match function creates match_info even if it returns FALSE=
+.
 >>
->> I've been trying to get these queued but I'm hitting an issue where qga
->> reports:
+>> Opps, yes, you are right.
 >>
->>   failed to load qga-vss.dll: The specified module could not be found.
+>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 >>
->> via LoadLibraryA(QGA_VSS_DLL) returning error code 126. What's weird is
->> it seems to find qga-vss.dll in the install directory, and you can see it
->> access it in WinDBG and various trace tools, but somehow it reports not
->> found. Are you seeing this issue?
 >>
->> I'll debug more this week and try to get these in for rc1, but if you
->> happen
->> to have more of a clue than me then any insights would be much
->> appreciated.
+>> Regards,
+>> Daniel
+>> --
+>> |: https://berrange.com      -o-
+>> https://www.flickr.com/photos/dberrange :|
+>> |: https://libvirt.org         -o-
+>> https://fstop138.berrange.com :|
+>> |: https://entangle-photo.org    -o-
+>> https://www.instagram.com/dberrange :|
 >>
->> >
->> > On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
->> >
->> >     Currently Requester freeze times out after 10 seconds, while
->> >     the default timeout for Writer Freeze is 60 seconds. according to
->> >     VSS Documentation [1].
->> >     [1]: https://docs.microsoft.com/en-us/windows/win32/vss/
->> >     overview-of-processing-a-backup-under-vss
->> >
->> >     Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
->> >
->> >     Signed-off-by: Basil Salman <bsalman@daynix.com>
->> >     Signed-off-by: Basil Salman <basil@daynix.com>
->> >     ---
->> >      qga/vss-win32/requester.cpp | 2 +-
->> >      1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> >     diff --git a/qga/vss-win32/requester.cpp
->> b/qga/vss-win32/requester.cpp
->> >     index 5378c55d23..940a2c8f55 100644
->> >     --- a/qga/vss-win32/requester.cpp
->> >     +++ b/qga/vss-win32/requester.cpp
->> >     @@ -18,7 +18,7 @@
->> >      #include <inc/win2003/vsbackup.h>
->> >
->> >      /* Max wait time for frozen event (VSS can only hold writes for 10
->> >     seconds) */
->> >     -#define VSS_TIMEOUT_FREEZE_MSEC 10000
->> >     +#define VSS_TIMEOUT_FREEZE_MSEC 60000
->> >
->> >      /* Call QueryStatus every 10 ms while waiting for frozen event */
->> >      #define VSS_TIMEOUT_EVENT_MSEC 10
->> >     --
->> >     2.17.2
->> >
->> >
 >>
->
 
---0000000000000b1dbc05c82a4ac4
+--00000000000046e8a705c82a4b20
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 9:17 AM Konstantin Kostiuk=
- &lt;<a href=3D"mailto:konstantin@daynix.com">konstantin@daynix.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div>Hi Michael,<br></div><div dir=3D"ltr"><br></div><div dir=3D"l=
-tr">qga-vss.dll has many dependencies. Please check that all DLLs are prese=
-nt in the same directory. <br></div><div dir=3D"ltr"><br></div><div>Also, I=
- have a similar problem in my setup. In my case, libgcc_s_seh-1.dll was ren=
-amed in MinGW <span lang=3D"en"><span><span>which I used.</span></span></sp=
-an> </div><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr"><div dir=
-=3D"ltr"><div>Best wishes,</div><div>Kostiantyn Kostiuk</div></div></div></=
-div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Tue, Jul 13, 2021 at 9:40 PM Michael Roth &lt;<a href=3D"mailto:=
-michael.roth@amd.com" target=3D"_blank">michael.roth@amd.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Quoting Konstan=
-tin Kostiuk (2021-04-22 02:43:25)<br>
-&gt; ping<br>
-<br>
-I&#39;ve been trying to get these queued but I&#39;m hitting an issue where=
- qga<br>
-reports:<br>
-<br>
-=C2=A0 failed to load qga-vss.dll: The specified module could not be found.=
-<br>
-<br>
-via LoadLibraryA(QGA_VSS_DLL) returning error code 126. What&#39;s weird is=
-<br>
-it seems to find qga-vss.dll in the install directory, and you can see it<b=
+tr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 10:26 AM Konstantin Kostiu=
+k &lt;<a href=3D"mailto:konstantin@daynix.com">konstantin@daynix.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
+r=3D"ltr">CC Michael Roth<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Jun 10, 2021 at 7:14 PM Daniel P. Ber=
+rang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank">ber=
+range@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiu=
+k wrote:<br>
+&gt; On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk wrot=
+e:<br>
+&gt; &gt; &gt; The g_regex_match function creates match_info even if it<br>
+&gt; &gt; &gt; returns FALSE. So we should always call g_match_info_free.<b=
 r>
-access it in WinDBG and various trace tools, but somehow it reports not<br>
-found. Are you seeing this issue?<br>
+&gt; &gt; &gt; A better solution is using g_autoptr for match_info variable=
+.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:kons=
+tantin@daynix.com" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 qga/commands-win32.c | 3 +--<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+&gt; &gt; &gt; index 300b87c859..785a5cc6b2 100644<br>
+&gt; &gt; &gt; --- a/qga/commands-win32.c<br>
+&gt; &gt; &gt; +++ b/qga/commands-win32.c<br>
+&gt; &gt; &gt; @@ -2494,7 +2494,7 @@ GuestDeviceInfoList *qmp_guest_get_dev=
+ices(Error<br>
+&gt; &gt; **errp)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br=
+>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; hw_ids[j] !=
+=3D NULL; j++) {<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GMatchInfo *match=
+_info;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autoptr(GMatchI=
+nfo) match_info;<br>
+&gt; &gt;<br>
+&gt; &gt; This should be initialized to NULL otherwise...<br>
+&gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDeviceI=
+dPCI *id;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!g_regex=
+_match(device_pci_re, hw_ids[j], 0,<br>
+&gt; &gt; &amp;match_info)) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue;<br>
+&gt; &gt;<br>
+&gt; &gt; this continue will trigger freeing of unintialized memory<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; But we always call match_info, so match_info is always initialized.<br=
+>
+&gt; The g_regex_match function creates match_info even if it returns FALSE=
+.<br>
 <br>
-I&#39;ll debug more this week and try to get these in for rc1, but if you h=
-appen<br>
-to have more of a clue than me then any insights would be much appreciated.=
+Opps, yes, you are right.<br>
+<br>
+Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
+com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
 <br>
 <br>
-&gt; <br>
-&gt; On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &lt;<a href=3D"mailto:basi=
-l@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Currently Requester freeze times out after 10 secon=
-ds, while<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the default timeout for Writer Freeze is 60 seconds=
-. according to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0VSS Documentation [1].<br>
-&gt;=C2=A0 =C2=A0 =C2=A0[1]: <a href=3D"https://docs.microsoft.com/en-us/wi=
-ndows/win32/vss/" rel=3D"noreferrer" target=3D"_blank">https://docs.microso=
-ft.com/en-us/windows/win32/vss/</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0overview-of-processing-a-backup-under-vss<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Buglink: <a href=3D"https://bugzilla.redhat.com/sho=
-w_bug.cgi?id=3D1909073" rel=3D"noreferrer" target=3D"_blank">https://bugzil=
-la.redhat.com/show_bug.cgi?id=3D1909073</a><br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Basil Salman &lt;<a href=3D"mailto:b=
-salman@daynix.com" target=3D"_blank">bsalman@daynix.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Basil Salman &lt;<a href=3D"mailto:b=
-asil@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A01 file changed, 1 insertion(+), 1 deletion(-)=
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
 <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0diff --git a/qga/vss-win32/requester.cpp b/qga/vss-=
-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0index 5378c55d23..940a2c8f55 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0--- a/qga/vss-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+++ b/qga/vss-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0@@ -18,7 +18,7 @@<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0/* Max wait time for frozen event (VSS can on=
-ly hold writes for 10<br>
-&gt;=C2=A0 =C2=A0 =C2=A0seconds) */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0/* Call QueryStatus every 10 ms while waiting=
- for frozen event */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
-&gt;=C2=A0 =C2=A0 =C2=A0--<br>
-&gt;=C2=A0 =C2=A0 =C2=A02.17.2<br>
-&gt; <br>
-&gt;<br>
-</blockquote></div></div>
+</blockquote></div>
 </blockquote></div>
 
---0000000000000b1dbc05c82a4ac4--
+--00000000000046e8a705c82a4b20--
 
