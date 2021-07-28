@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BAF3D853F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 03:20:10 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550BF3D85BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 04:01:44 +0200 (CEST)
+Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8YEy-0001mp-S4
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 21:20:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35996)
+	id 1m8YtC-0005NO-UL
+	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 22:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1m8YDb-000150-36
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 21:18:43 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40710 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1m8YDY-0001j6-6Z
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 21:18:42 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0JisABhX+MkAA--.24151S3; 
- Wed, 28 Jul 2021 09:18:28 +0800 (CST)
-Subject: Re: [PATCH v2 13/22] target/loongarch: Add floating point arithmetic
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-14-git-send-email-gaosong@loongson.cn>
- <1729aea1-a773-ad78-59d3-294eb968a7ba@linaro.org>
- <8e5f166a-ed88-af3c-9aae-63c9977446ec@loongson.cn>
- <179b2d4e-7b0d-43ba-9f35-84ac728029f1@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <8a5ea059-6ed2-8303-2fa0-a056241edf80@loongson.cn>
-Date: Wed, 28 Jul 2021 09:18:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m8YrQ-0004Fx-Us
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 21:59:53 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m8YrO-0004vo-Op
+ for qemu-devel@nongnu.org; Tue, 27 Jul 2021 21:59:52 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ o44-20020a17090a0a2fb0290176ca3e5a2fso2006778pjo.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 18:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e1TAkuPQZVIxLJEmozC8tyHj+++XkXGY7EC20rblwvQ=;
+ b=rCcLVEXptziY2kWewP129GI2F6+zv/fqlPGNSpB0D9dqfgIYi30WHzP8yE8tvvygiN
+ ZroaJj/W8j7ad9/9DxoF9QUYwRpVV71TQKI62ol++u4ty2l1zFhCYamDklIiD2VVbcEC
+ ZyOIwlVYJbbB9cuKH5vWzBTOHsoUJlLr5g5QWGsxWEYj63RCfrvQk7VjqJvlo6AFYips
+ u5dpVkwp5tAlgNwICwppCRy0hndcAuHAe/fPAwD9PHlqOKBxtaR+eTAFoySac3JpepRE
+ 2cOWJI8JaseRAi7t0UbfxmmMTDAYv1eWs62VhEtawMiGeb7rMtJGIIEAXsQr8OVy+/s4
+ mZMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e1TAkuPQZVIxLJEmozC8tyHj+++XkXGY7EC20rblwvQ=;
+ b=YiRgyfMh270Jf6hVnKKGLUZpNvD523f4sK/qceYm46JnjjDS1ndIJ2jsUhqsDHL4gG
+ a0Uh8Pfw0F4Y9hf3jPvRmpO4CotEar2UxdBumpstKOM7hENWOD7m9CrlXbT91F/FlJop
+ duIU0lZuWFGdK/7DpVFXLh77szAv1IvOsthKqAzBYJ3e9CGp2Og9s8vPujc9K1ff1KCi
+ KPYLeOiFxKof/f31HFdlTZh1NMAwsUrp2/H0U6jWF1N7x+56gSXpJd+QzM6UQgSFIRyD
+ lREDL4YE6C6689nxSQ3lB3LCh9gr1UMA7WzJZVSVHILrRoTJjbRUs/Cq5Rfr66Ipm6fY
+ 7zBg==
+X-Gm-Message-State: AOAM533Iju9cRBMBYaTRc4L+t3yOefsdXnYbNvq7le0Fhe1BvRZktiPZ
+ 6ZjZMYF7HtnNdp5VFpIssbg5zeMSr90qRg==
+X-Google-Smtp-Source: ABdhPJzLV0Se7VvgVlZdk1vAW/dWTOcUIt1/0YKUwcrKufWkv9BVUDUYzfUXi5B5Iy5XSeq2WJH6Rw==
+X-Received: by 2002:a17:90a:3b4f:: with SMTP id
+ t15mr4294925pjf.85.1627437587947; 
+ Tue, 27 Jul 2021 18:59:47 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:5d28:f5a2:7589:a0b2])
+ by smtp.gmail.com with ESMTPSA id 30sm5956238pgq.31.2021.07.27.18.59.45
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 27 Jul 2021 18:59:47 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] ui/cocoa: Use qemu_input_map_osx_to_qcode
+Date: Wed, 28 Jul 2021 10:59:35 +0900
+Message-Id: <20210728015935.25984-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <179b2d4e-7b0d-43ba-9f35-84ac728029f1@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0JisABhX+MkAA--.24151S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFy5urW7ArW8tw1fWF45Wrg_yoW5Xw1rpr
- 95tFW7Jry5KF95Jr1qgw1UJFyjyr4UJw15Xrn8JFyrCr48Jr1qvr47Xw4j9r15Aw4xXr1U
- XrnrtrsrZF17XF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
- CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
- Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY
- 0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaV
- Av8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
- 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
- IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
- 0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,95 +83,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard.
+ui/cocoa used to have a conversion table from macOS keycode to QKeyCode.
+It is an unnecessary redundancy as ui/input-keymap.c already has such a
+table. Worse, I added an incorrect mapping of kVK_JIS_Eisu and
+kVK_JIS_Kana with commit 708b72557ff510493ab3653c7a1ebfe983009469.
+According to the following documentations, the definitions in
+ui/keycodemapdb/keymaps.csv, which ui/input-keymap.c uses, are correct:
+https://developer.apple.com/documentation/uikit/uikeyboardhidusage/uikeyboardhidusagekeyboardlang1?language=objc
+https://developer.apple.com/documentation/uikit/uikeyboardhidusage/uikeyboardhidusagekeyboardlang2?language=objc
+https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/keyboard-japan-ime
 
-On 07/28/2021 12:12 AM, Richard Henderson wrote:
-> On 7/26/21 9:17 PM, Song Gao wrote:
->>> I think this should be as simple as
->>>
->>>    gen_helper_fp_add_s(cpu_fpu[a->fd], cpu_env,
->>>                        cpu_fpu[a->fj], cpu_fpu[a->fk]);
->>>
->>> I also think that loongarch should learn from risc-v and change the architecture to "nan-box" single-precision results -- fill the high 32-bits with 1s.  This is an SNaN representation for double-precision and will immediately fail when incorrectly using a single-precision value as a double-precision input.
->>>
->>> Thankfully the current architecture is backward compatible with nan-boxing.
->>>
->>
->> by this method,  the trans_fadd_s is
->>
->> static bool trans_fadd_s(DisasContext *ctx, arg_fadd_s * a)
->> {
->>      TCGv_i64 fp0, fp1;
->>
->>      fp0 = tcg_temp_new_i64();
->>      fp1 = tcg_temp_new_i64();
->>
->>      check_fpu_enabled(ctx);
->>      gen_load_fpr64(fp0, a->fj);
->>      gen_load_fpr64(fp1, a->fk);
->>      gen_helper_fp_add_s(fp0, cpu_env, fp0, fp1);
->>
->>      gen_check_nanbox_s(fp0, fp0); /* from riscv */
->>
->>      gen_store_fpr64(fp0, a->fd);
->>
->>      tcg_temp_free_i64(fp0);
->>      tcg_temp_free_i64(fp1);
->>
->>      return true;
->> }
-> 
-> A few points here:
-> 
-> (1) You do not need gen_load_fpr64 and gen_store_fpr64 at all.
->     These were from mips to deal with the varying fpu sizes.
-> 
-> (2) If we need to call a helper, then the helper as much of
->     the work a possible.  Therefore the nanboxing should be
->     done there.  See riscv/fpu_helper.c, and the use of
->     nanbox_s within that file.
-> 
-> (3) Again, use a helper function:
-> 
-> static bool gen_binary_fp(DisasContext *ctx, arg_fmt_fdfjfk *a,
->                           void (*func)(TCGv_i64, TCGv_env,
->                                        TCGv_i64, TCGv_i64))
-> {
->     if (check_fpu_enabled(ctx)) {
->         func(cpu_fpr[a->fd], cpu_env,
->              cpu_fpr[a->fj], cpu_fpr[a->fk]);
->     }
->     return true;
-> }
-> 
-> TRANS(fadd_s, gen_binary_fp, gen_helper_fp_add_s)
-> TRANS(fadd_d, gen_binary_fp, gen_helper_fp_add_d)
-> 
->> uint64_t helper_fp_add_s(CPULoongArchState *env, uint64_t fp, uint64_t fp1)
->> {
->>      uint32_t fp2;
->>
->>      fp2 = float32_add((uint32_t)fp, (uint32_t)fp1, &env->active_fpu.fp_status);
->>      update_fcsr0(env, GETPC());
->>      return (uint64_t)fp2;
->> }
-> 
-> with return nanbox_s(fp2);
->
-OK.
+Use qemu_input_map_osx_to_qcode to eliminate the redundancy and
+incorrect mappings.
 
-Again, thank you kindly help.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 129 +----------------------------------------------------
+ 1 file changed, 2 insertions(+), 127 deletions(-)
 
-Thanks
-Song Gao.
-> 
-> r~
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index e8e46e309ef..fcc7a4ff249 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -142,138 +142,13 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+     return val;
+ }
+ 
+-// Mac to QKeyCode conversion
+-static const int mac_to_qkeycode_map[] = {
+-    [kVK_ANSI_A] = Q_KEY_CODE_A,
+-    [kVK_ANSI_B] = Q_KEY_CODE_B,
+-    [kVK_ANSI_C] = Q_KEY_CODE_C,
+-    [kVK_ANSI_D] = Q_KEY_CODE_D,
+-    [kVK_ANSI_E] = Q_KEY_CODE_E,
+-    [kVK_ANSI_F] = Q_KEY_CODE_F,
+-    [kVK_ANSI_G] = Q_KEY_CODE_G,
+-    [kVK_ANSI_H] = Q_KEY_CODE_H,
+-    [kVK_ANSI_I] = Q_KEY_CODE_I,
+-    [kVK_ANSI_J] = Q_KEY_CODE_J,
+-    [kVK_ANSI_K] = Q_KEY_CODE_K,
+-    [kVK_ANSI_L] = Q_KEY_CODE_L,
+-    [kVK_ANSI_M] = Q_KEY_CODE_M,
+-    [kVK_ANSI_N] = Q_KEY_CODE_N,
+-    [kVK_ANSI_O] = Q_KEY_CODE_O,
+-    [kVK_ANSI_P] = Q_KEY_CODE_P,
+-    [kVK_ANSI_Q] = Q_KEY_CODE_Q,
+-    [kVK_ANSI_R] = Q_KEY_CODE_R,
+-    [kVK_ANSI_S] = Q_KEY_CODE_S,
+-    [kVK_ANSI_T] = Q_KEY_CODE_T,
+-    [kVK_ANSI_U] = Q_KEY_CODE_U,
+-    [kVK_ANSI_V] = Q_KEY_CODE_V,
+-    [kVK_ANSI_W] = Q_KEY_CODE_W,
+-    [kVK_ANSI_X] = Q_KEY_CODE_X,
+-    [kVK_ANSI_Y] = Q_KEY_CODE_Y,
+-    [kVK_ANSI_Z] = Q_KEY_CODE_Z,
+-
+-    [kVK_ANSI_0] = Q_KEY_CODE_0,
+-    [kVK_ANSI_1] = Q_KEY_CODE_1,
+-    [kVK_ANSI_2] = Q_KEY_CODE_2,
+-    [kVK_ANSI_3] = Q_KEY_CODE_3,
+-    [kVK_ANSI_4] = Q_KEY_CODE_4,
+-    [kVK_ANSI_5] = Q_KEY_CODE_5,
+-    [kVK_ANSI_6] = Q_KEY_CODE_6,
+-    [kVK_ANSI_7] = Q_KEY_CODE_7,
+-    [kVK_ANSI_8] = Q_KEY_CODE_8,
+-    [kVK_ANSI_9] = Q_KEY_CODE_9,
+-
+-    [kVK_ANSI_Grave] = Q_KEY_CODE_GRAVE_ACCENT,
+-    [kVK_ANSI_Minus] = Q_KEY_CODE_MINUS,
+-    [kVK_ANSI_Equal] = Q_KEY_CODE_EQUAL,
+-    [kVK_Delete] = Q_KEY_CODE_BACKSPACE,
+-    [kVK_CapsLock] = Q_KEY_CODE_CAPS_LOCK,
+-    [kVK_Tab] = Q_KEY_CODE_TAB,
+-    [kVK_Return] = Q_KEY_CODE_RET,
+-    [kVK_ANSI_LeftBracket] = Q_KEY_CODE_BRACKET_LEFT,
+-    [kVK_ANSI_RightBracket] = Q_KEY_CODE_BRACKET_RIGHT,
+-    [kVK_ANSI_Backslash] = Q_KEY_CODE_BACKSLASH,
+-    [kVK_ANSI_Semicolon] = Q_KEY_CODE_SEMICOLON,
+-    [kVK_ANSI_Quote] = Q_KEY_CODE_APOSTROPHE,
+-    [kVK_ANSI_Comma] = Q_KEY_CODE_COMMA,
+-    [kVK_ANSI_Period] = Q_KEY_CODE_DOT,
+-    [kVK_ANSI_Slash] = Q_KEY_CODE_SLASH,
+-    [kVK_Space] = Q_KEY_CODE_SPC,
+-
+-    [kVK_ANSI_Keypad0] = Q_KEY_CODE_KP_0,
+-    [kVK_ANSI_Keypad1] = Q_KEY_CODE_KP_1,
+-    [kVK_ANSI_Keypad2] = Q_KEY_CODE_KP_2,
+-    [kVK_ANSI_Keypad3] = Q_KEY_CODE_KP_3,
+-    [kVK_ANSI_Keypad4] = Q_KEY_CODE_KP_4,
+-    [kVK_ANSI_Keypad5] = Q_KEY_CODE_KP_5,
+-    [kVK_ANSI_Keypad6] = Q_KEY_CODE_KP_6,
+-    [kVK_ANSI_Keypad7] = Q_KEY_CODE_KP_7,
+-    [kVK_ANSI_Keypad8] = Q_KEY_CODE_KP_8,
+-    [kVK_ANSI_Keypad9] = Q_KEY_CODE_KP_9,
+-    [kVK_ANSI_KeypadDecimal] = Q_KEY_CODE_KP_DECIMAL,
+-    [kVK_ANSI_KeypadEnter] = Q_KEY_CODE_KP_ENTER,
+-    [kVK_ANSI_KeypadPlus] = Q_KEY_CODE_KP_ADD,
+-    [kVK_ANSI_KeypadMinus] = Q_KEY_CODE_KP_SUBTRACT,
+-    [kVK_ANSI_KeypadMultiply] = Q_KEY_CODE_KP_MULTIPLY,
+-    [kVK_ANSI_KeypadDivide] = Q_KEY_CODE_KP_DIVIDE,
+-    [kVK_ANSI_KeypadEquals] = Q_KEY_CODE_KP_EQUALS,
+-    [kVK_ANSI_KeypadClear] = Q_KEY_CODE_NUM_LOCK,
+-
+-    [kVK_UpArrow] = Q_KEY_CODE_UP,
+-    [kVK_DownArrow] = Q_KEY_CODE_DOWN,
+-    [kVK_LeftArrow] = Q_KEY_CODE_LEFT,
+-    [kVK_RightArrow] = Q_KEY_CODE_RIGHT,
+-
+-    [kVK_Help] = Q_KEY_CODE_INSERT,
+-    [kVK_Home] = Q_KEY_CODE_HOME,
+-    [kVK_PageUp] = Q_KEY_CODE_PGUP,
+-    [kVK_PageDown] = Q_KEY_CODE_PGDN,
+-    [kVK_End] = Q_KEY_CODE_END,
+-    [kVK_ForwardDelete] = Q_KEY_CODE_DELETE,
+-
+-    [kVK_Escape] = Q_KEY_CODE_ESC,
+-
+-    /* The Power key can't be used directly because the operating system uses
+-     * it. This key can be emulated by using it in place of another key such as
+-     * F1. Don't forget to disable the real key binding.
+-     */
+-    /* [kVK_F1] = Q_KEY_CODE_POWER, */
+-
+-    [kVK_F1] = Q_KEY_CODE_F1,
+-    [kVK_F2] = Q_KEY_CODE_F2,
+-    [kVK_F3] = Q_KEY_CODE_F3,
+-    [kVK_F4] = Q_KEY_CODE_F4,
+-    [kVK_F5] = Q_KEY_CODE_F5,
+-    [kVK_F6] = Q_KEY_CODE_F6,
+-    [kVK_F7] = Q_KEY_CODE_F7,
+-    [kVK_F8] = Q_KEY_CODE_F8,
+-    [kVK_F9] = Q_KEY_CODE_F9,
+-    [kVK_F10] = Q_KEY_CODE_F10,
+-    [kVK_F11] = Q_KEY_CODE_F11,
+-    [kVK_F12] = Q_KEY_CODE_F12,
+-    [kVK_F13] = Q_KEY_CODE_PRINT,
+-    [kVK_F14] = Q_KEY_CODE_SCROLL_LOCK,
+-    [kVK_F15] = Q_KEY_CODE_PAUSE,
+-
+-    // JIS keyboards only
+-    [kVK_JIS_Yen] = Q_KEY_CODE_YEN,
+-    [kVK_JIS_Underscore] = Q_KEY_CODE_RO,
+-    [kVK_JIS_KeypadComma] = Q_KEY_CODE_KP_COMMA,
+-    [kVK_JIS_Eisu] = Q_KEY_CODE_MUHENKAN,
+-    [kVK_JIS_Kana] = Q_KEY_CODE_HENKAN,
+-
+-    /*
+-     * The eject and volume keys can't be used here because they are handled at
+-     * a lower level than what an Application can see.
+-     */
+-};
+-
+ static int cocoa_keycode_to_qemu(int keycode)
+ {
+-    if (ARRAY_SIZE(mac_to_qkeycode_map) <= keycode) {
++    if (qemu_input_map_osx_to_qcode_len <= keycode) {
+         error_report("(cocoa) warning unknown keycode 0x%x", keycode);
+         return 0;
+     }
+-    return mac_to_qkeycode_map[keycode];
++    return qemu_input_map_osx_to_qcode[keycode];
+ }
+ 
+ /* Displays an alert dialog box with the specified message */
+-- 
+2.30.1 (Apple Git-130)
 
 
