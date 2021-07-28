@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1353D9611
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 21:32:55 +0200 (CEST)
-Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCBB3D961E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 21:39:32 +0200 (CEST)
+Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8pIU-0005Yp-6Z
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 15:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
+	id 1m8pOt-00085f-MT
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 15:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8pGQ-0004Hw-Hz
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:30:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m8pGJ-00041G-IO
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:30:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627500637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ep/Dva8z7hYY53Jz7pw17csWph1G6d8ftkEehvx+Jgw=;
- b=Ij88e/mpNKNadz/cLQ+IFF0m9ACpvAIynJ8r5G5nmaf4RrJm/hxPQZIPs6WU2YRFTxchJj
- 0wiczpsvyiLYpj31c24gAM3YQGzpOacoPYjDuKO4d8UkqKW5bzUYM5FHV01IcrEb35iEe6
- 6mWgWTR4qlvKhIvKcFI+iK4SZn7GrP8=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-xmVoBA9KMrGus8iHVId6Tg-1; Wed, 28 Jul 2021 15:30:33 -0400
-X-MC-Unique: xmVoBA9KMrGus8iHVId6Tg-1
-Received: by mail-pj1-f71.google.com with SMTP id
- pg12-20020a17090b1e0cb0290177328fc06dso3905614pjb.2
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 12:30:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rth7680@gmail.com>) id 1m8pNN-0006iR-MB
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:37:57 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:56023)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rth7680@gmail.com>) id 1m8pNL-0000Ny-Pw
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:37:57 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id ca5so6703111pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 12:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tJCB2hx5xR17KzB2xe6SZl9rKeU7YseN6LInOEmhets=;
+ b=HNMEMEh0bLcJ0/PHIS5StqoWvVqolvIaB1hft6NUKVuMhjjXs6uiQFPUoDFMYWD6CP
+ 6fd7y5sq3lV1TToLd7UpcL1qxAw1ObNhRu4HxdqTb9GlBSryz1rphaynjfJR0nje6GOf
+ V/rxOcDHUjo1PWu/li/O8dU3aF8EmEoFQs4nLrQ0ZvySME3juj8LTVdPjTnUidIhDdsg
+ M54k7xpsgvQryTPOOrpGJIuurcsin9N1QDhrE2VUqlCwubs8fSAwGsb7D3xXy7hdAD2P
+ Ut6hwMuaSgJue9lFGLr+3KNmJduJQmsMa9kNE89cE7pjH5uOezBM47vP9DUyepcAr5wM
+ 5N/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ep/Dva8z7hYY53Jz7pw17csWph1G6d8ftkEehvx+Jgw=;
- b=HZu4O9/dlfa5EwvyveO89Vg9YOPrmP95RH+R9jCT3NKBnDmoZwFYrfxvqa10uD1o2G
- i07nBDCQ08yVIs2ThJYfw978pn8T6njsfSUlNwXXOKjvF/Bj3d5S60ti9vfnCJkSN01n
- szGKTEMg++xQCjXFmaziLHNrY66z+vtBWeF65Ukx0feCUAdeV4qy1d2Sgbx+/aQKMb/X
- Utujo2z4dIzATVamN4ZQbW/Dy0L/AYaiueRbotwVUKvYuu7Lm1eUXcsfz1ZpT0u0Cheh
- 7dnLNcsIqaFxBS1K/gpWsKCn2/0QilguvpRmnthag4bWbeqomBxTvulmSppaFBxgF88Y
- OqrA==
-X-Gm-Message-State: AOAM533LENwaxpdHB2g004klOMBTc3DN3SliD21sGBAt5Ls/st+oz2GF
- Qks5sfbxQI3d0mYKm3eUqTVn+Rw9OuOKziMp4Vmu1xjfj65vFx/mFzJoOsSh8Jh0mTXvhDUc5qV
- WbYPFRgowZdEMN6XciIN9YJCirFVGoX4=
-X-Received: by 2002:a17:902:d681:b029:12b:381c:c86 with SMTP id
- v1-20020a170902d681b029012b381c0c86mr1206110ply.46.1627500632780; 
- Wed, 28 Jul 2021 12:30:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQLNZexbY9Llw/h0VV7brD/odaCDmeOZ6s6Trn6G6u/aGENpWz5zHxV35XOguE2+2XqHwP/HMw+huvTizY3Fo=
-X-Received: by 2002:a17:902:d681:b029:12b:381c:c86 with SMTP id
- v1-20020a170902d681b029012b381c0c86mr1206086ply.46.1627500632520; Wed, 28 Jul
- 2021 12:30:32 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tJCB2hx5xR17KzB2xe6SZl9rKeU7YseN6LInOEmhets=;
+ b=dIaJsl6/JDkV73a8YcE2EF8DgRk5fDVBjn9mXRgLqoSlYcrnZUuuVYD6vlFs6kfLm4
+ KnZp3W3dwIX3TQ1Q0S2uEzCbVyJ2CVAtHcRuHa7i6SD1JPXdWZsrphUmXt13JfJDvn1T
+ oBpU59H1M5HBs1DvLuJlykoCV3IFF6/0jg2DQENceCU7OB7HbA1OIquQSpzrnvF+jz2v
+ RSIrTINqM6h2A7BqujyWp33wuKyswha0kPsFO6hva9dOdhCXer/1WPoD/W5j/rQSg8/g
+ 1qMIz3/d8q8Rg+7qCrl9gB/6xbCN7GQlVSWye1IhAAqs2+XMDm7j8BfLdIaMj9dXSbGE
+ YxGw==
+X-Gm-Message-State: AOAM532oRJTSOkyaCFXumN5J5NRoGSarXF3gu4/BDJSsReeL6kqIDmK0
+ eu49Jp53YEknWHh7DTQnCyc=
+X-Google-Smtp-Source: ABdhPJz76M1BaDdCXHoHWcp4aJ6taiXtrVyU5J6fLXG/XzHOV2XR3pArEbJUzl2zrfeWvFjlqO0ntQ==
+X-Received: by 2002:a17:90b:1b0c:: with SMTP id
+ nu12mr11390896pjb.177.1627501073418; 
+ Wed, 28 Jul 2021 12:37:53 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604?
+ (2603-800c-3202-ffa7-dcaa-9e71-a2b2-2604.res6.spectrum.com.
+ [2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604])
+ by smtp.googlemail.com with ESMTPSA id z3sm506152pjn.43.2021.07.28.12.37.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 12:37:52 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] tests: migration-test: Add dirty ring test
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20210615175523.439830-1-peterx@redhat.com>
+ <20210615175523.439830-3-peterx@redhat.com>
+From: Richard Henderson <rth@twiddle.net>
+Message-ID: <9b93e149-3147-3dca-83ce-474af99ccd2e@twiddle.net>
+Date: Wed, 28 Jul 2021 09:37:48 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210728173857.497523-1-thuth@redhat.com>
-In-Reply-To: <20210728173857.497523-1-thuth@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 28 Jul 2021 16:30:05 -0300
-Message-ID: <CAKJDGDY822PrOL5iy12jg-OsQtiju_oKDGtM04NATHjig12VjQ@mail.gmail.com>
-Subject: Re: [PATCH] gitlab-ci.d/custom-runners: Improve rules for the staging
- branch
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+In-Reply-To: <20210615175523.439830-3-peterx@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=rth7680@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.719, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,33 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa Junior <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 2:39 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> If maintainers are currently pushing to a branch called "staging"
-> in their repository, they are ending up with some stuck jobs - unless
-> they have a s390x CI runner machine available. That's ugly, we should
-> make sure that the related jobs are really only started if such a
-> runner is available. So let's only run these jobs if it's the
-> "staging" branch of the main repository of the QEMU project (where
-> we can be sure that the s390x runner is available), or if the user
-> explicitly set a S390X_RUNNER_AVAILABLE variable in their CI configs
-> to declare that they have such a runner available, too.
->
-> Fixes: 4799c21023 ("Jobs based on custom runners: add job definitions ...")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 6/15/21 7:55 AM, Peter Xu wrote:
+> Add dirty ring test if kernel supports it.  Add the dirty ring parameter on
+> source should be mostly enough, but let's change the dest too to make them
+> match always.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  .gitlab-ci.d/custom-runners.yml | 40 +++++++++++++++++++++++----------
->  1 file changed, 28 insertions(+), 12 deletions(-)
->
+>   tests/qtest/migration-test.c | 58 ++++++++++++++++++++++++++++++++++--
+>   1 file changed, 55 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index d9225f58d4d..9ef6b471353 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -27,6 +27,10 @@
+>   #include "migration-helpers.h"
+>   #include "tests/migration/migration-test.h"
+>   
+> +#if defined(__linux__)
+> +#include "linux/kvm.h"
+> +#endif
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+This breaks the build for hosts that do not support kvm, e.g. sparc:
 
+
+[2/3] Compiling C object tests/qtest/migration-test.p/migration-test.c.o
+FAILED: tests/qtest/migration-test.p/migration-test.c.o
+cc -Itests/qtest/migration-test.p -Itests/qtest -I../qemu/tests/qtest -I. -Iqapi -Itrace 
+-Iui -Iui/shader -I/usr/include/glib-2.0 -I/usr/lib/sparc64-linux-gnu/glib-2.0/include 
+-fdiagnostics-color=auto -pipe -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem 
+/home/rth/qemu/qemu/linux-headers -isystem linux-headers -iquote . -iquote 
+/home/rth/qemu/qemu -iquote /home/rth/qemu/qemu/include -iquote 
+/home/rth/qemu/qemu/disas/libvixl -iquote /home/rth/qemu/qemu/tcg/sparc -pthread 
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -m64 -mcpu=ultrasparc -D_GNU_SOURCE 
+-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef 
+-Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv 
+-Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security 
+-Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels 
+-Wexpansion-to-defined -Wimplicit-fallthrough=2 -Wno-missing-include-dirs 
+-Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ 
+tests/qtest/migration-test.p/migration-test.c.o -MF 
+tests/qtest/migration-test.p/migration-test.c.o.d -o 
+tests/qtest/migration-test.p/migration-test.c.o -c ../qemu/tests/qtest/migration-test.c
+In file included from ../qemu/tests/qtest/migration-test.c:31:
+/home/rth/qemu/qemu/linux-headers/linux/kvm.h:15:10: fatal error: asm/kvm.h: No such file 
+or directory
+    15 | #include <asm/kvm.h>
+       |          ^~~~~~~~~~~
+compilation terminated.
+
+
+r~
 
