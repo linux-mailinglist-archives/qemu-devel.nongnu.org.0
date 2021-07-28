@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDF33D9554
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:34:20 +0200 (CEST)
-Received: from localhost ([::1]:35014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2071D3D9559
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:36:28 +0200 (CEST)
+Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oNn-0000HZ-Rk
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
+	id 1m8oPr-0005w1-63
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLg-0005sM-Is
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33927)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLh-0005ty-QK
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLc-00073H-8O
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:08 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLd-00074t-2M
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497123;
+ s=mimecast20190719; t=1627497124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cv//UpWaAePYoX9vAmEeSqOa6nYsBvCOheG0gcBITT0=;
- b=bVo/9MfWW/CfooNM8tNRP+Vp01evH0FkZmejkL7T67IYyg1u/7Y9Imus7StHY6QyhsJs/H
- Ch92gqcsngZ2+Uadw0RA38mLsTjM94OzORHQL3P/Uj5UcpYXHnlTwMxAesgpzK98mGUpHU
- qJXTWVal3SbfOY3GnwobmzbEfJjtygo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49--Suu1hjnMXeEd_taNQ7YGQ-1; Wed, 28 Jul 2021 14:32:02 -0400
-X-MC-Unique: -Suu1hjnMXeEd_taNQ7YGQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- v16-20020a0562140510b029032511e85975so2424007qvw.23
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:32:01 -0700 (PDT)
+ bh=9ZYp/arNlLB7CqHGh2xkLop1S0WBzyFyzBFrA9ouUuQ=;
+ b=e5iMZo77op+On9Vk43O5u4lJGVL9/WAWoZW7Th9LmyE9BCOV7rMLOQSI+9+3AJSu9B+WH+
+ jfNzMjGWDiVykYoVugy9Cs4J0Fwa5SQl2xU03/IXI/Jyiu35vrUaXFbbDLRtbj0GwUGX6a
+ IDgDtoehjuFiYXZN0K4esai/ILaYrHk=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-mSwf1zMhMZitO-rm1cr_UQ-1; Wed, 28 Jul 2021 14:32:03 -0400
+X-MC-Unique: mSwf1zMhMZitO-rm1cr_UQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ b9-20020a05620a1269b02903b8bd5c7d95so2159204qkl.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:32:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cv//UpWaAePYoX9vAmEeSqOa6nYsBvCOheG0gcBITT0=;
- b=ODGaO+7/DDKehS0xp0zevZyTH48xR879Y8hWqfkHEQzpzxgPALaunFqeQJipNzTWP2
- yOBPRNz0jZLQo4EalYK8gAxnjyZaLDc9XtsYjIQVa2OV5Wrntu22JvqYylq+eIS3vqzS
- hHZ6N9OquHUQQ2udzsQ2oUlHCCXgBXxIsi9sf7j5675xwoaeWO3XVtXMTXekCZ0ORnmE
- pLTxMnQnJ+lE5e0AlBvfYW7mtNXg5liwPe/+jEu8e8bUU53xJzg3LvGZip2r0+7U2qcg
- PXEnlgWF9UIveIVKEh7oGYi0fwba4jAYghsYU+prKW+BT7miS9LxQF+zXzAXjaxZFSq6
- OZDg==
-X-Gm-Message-State: AOAM533Z5/IuL2b0bh0s+lZH3mmLPbvfAxkcKQdDImNvloa0kl+nt3xK
- MJGS6FSVK0fnHdFJ8ZErbfIPptyLXA3Tclg7OLuaomI951DGdt7JT4KxciFtY1rhblsVvKwBLtt
- nBGOzaaaE6x2LBdUoh5QVbAHbeiDX6VwE/2qCpyAtGzw98ny+bIzngIAB7HjmWqgq
-X-Received: by 2002:a37:e15:: with SMTP id 21mr1082172qko.184.1627497120153;
- Wed, 28 Jul 2021 11:32:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFNq9xBhqGgHL2NL9jbxxACJukPayGvMwPXlAz4MAKETMuQPXBw428TOxc9IhjFOmyhkje0A==
-X-Received: by 2002:a37:e15:: with SMTP id 21mr1082140qko.184.1627497119883;
- Wed, 28 Jul 2021 11:31:59 -0700 (PDT)
+ bh=9ZYp/arNlLB7CqHGh2xkLop1S0WBzyFyzBFrA9ouUuQ=;
+ b=eQdf/ra+NNEj2lViTGeVFWLWgkeXU5KYiQ9KjP3jT9eCBgc3pjjw/x8LvTGBVC9Uw9
+ EQ9epuA6j4/MlnBj8kpAeVHCnHz4cA+srbsCtTxpOIEjw2NbDSTPWRhufIEaMG1Zp3fA
+ vmSpb9S5prWiDBJ5HJ9uV0ps3aJMLEud7/Q1C5Lfuj1E3ORnlPDf5tLYpMqjtdUCNxrU
+ DdXsjxXZ586PcqsD0LpCMtrmtq/Rs5kVulfOAwJYVt0J/si+EIznIYPWi877jrzxzCEK
+ yaPE+ttaWd267VXO81xZVT2Pd/YRskhsDiu+T9FuuF9byte0fXwsrpI64DLETHLKr5H+
+ 12oA==
+X-Gm-Message-State: AOAM532T5WiLYiTNUHCsumHLA0gHFirRcRewyfoCV7vfrbjZhZRdpfdZ
+ YSgFiNi/sMTFca5x0EN9GGPyIqrxTkRqIAAskJVYlCGCk1jdKVDZMBA2539SZIneTRxQtp/Y374
+ LijiSTM+o5FH+8/fx/xRqS9OdzeNhE8LvqgrhKyGsdSvBQEe8V+XZqGEAVpYuKpZt
+X-Received: by 2002:a05:6214:948:: with SMTP id
+ dn8mr1432986qvb.30.1627497122002; 
+ Wed, 28 Jul 2021 11:32:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkgQB1tM8v5jUcFkzgaQyc1V8f0EjTx+96KjHCwXEHG/IIy7RocZvRZKjT6hW0VGsagYSwTQ==
+X-Received: by 2002:a05:6214:948:: with SMTP id
+ dn8mr1432962qvb.30.1627497121740; 
+ Wed, 28 Jul 2021 11:32:01 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.31.58
+ by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 11:31:59 -0700 (PDT)
+ Wed, 28 Jul 2021 11:32:01 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/8] memory: Introduce
- memory_region_transaction_depth_{inc|dec}()
-Date: Wed, 28 Jul 2021 14:31:46 -0400
-Message-Id: <20210728183151.195139-4-peterx@redhat.com>
+Subject: [PATCH v3 4/8] memory: Don't do topology update in memory finalize()
+Date: Wed, 28 Jul 2021 14:31:47 -0400
+Message-Id: <20210728183151.195139-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728183151.195139-1-peterx@redhat.com>
 References: <20210728183151.195139-1-peterx@redhat.com>
@@ -101,50 +102,68 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_transaction_{begin|commit}() could be too big when finalizing a
-memory region.  E.g., we should never attempt to update address space topology
-during the finalize() of a memory region.  Provide helpers for further use.
+Topology update could be wrongly triggered in memory region finalize() if
+there's bug somewhere else.  It'll be a very confusing stack when it
+happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
+only until it fails!).
 
+Instead of that, we use the push()/pop() helper to avoid memory transaction
+commit, at the same time we use assertions to make sure there's no pending
+updates or it's a nested transaction, so it could fail even earlier and in a
+more explicit way.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/memory.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ softmmu/memory.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4d..725d57ec17 100644
+index 725d57ec17..35b2568fc2 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -1079,10 +1079,20 @@ static void address_space_update_topology(AddressSpace *as)
-     address_space_set_flatview(as);
- }
+@@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
+     EventNotifier *e;
+ };
  
-+static void memory_region_transaction_depth_inc(void)
++/* Returns whether there's any pending memory updates */
++static bool memory_region_has_pending_update(void)
 +{
-+    memory_region_transaction_depth++;
++    return memory_region_update_pending || ioeventfd_update_pending;
 +}
 +
-+static void memory_region_transaction_depth_dec(void)
-+{
-+    memory_region_transaction_depth--;
-+}
-+
- void memory_region_transaction_begin(void)
+ static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
+                                            MemoryRegionIoeventfd *b)
  {
-     qemu_flush_coalesced_mmio_buffer();
--    ++memory_region_transaction_depth;
+@@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
+      * and cause an infinite loop.
+      */
+     mr->enabled = false;
+-    memory_region_transaction_begin();
++
++    /*
++     * Use depth_inc()/depth_dec() instead of begin()/commit() to make sure
++     * below block won't trigger any topology update (which should never
++     * happen, but it's still a safety belt).
++     */
 +    memory_region_transaction_depth_inc();
- }
- 
- void memory_region_transaction_commit(void)
-@@ -1092,7 +1102,7 @@ void memory_region_transaction_commit(void)
-     assert(memory_region_transaction_depth);
-     assert(qemu_mutex_iothread_locked());
- 
--    --memory_region_transaction_depth;
+     while (!QTAILQ_EMPTY(&mr->subregions)) {
+         MemoryRegion *subregion = QTAILQ_FIRST(&mr->subregions);
+         memory_region_del_subregion(mr, subregion);
+     }
+-    memory_region_transaction_commit();
 +    memory_region_transaction_depth_dec();
-     if (!memory_region_transaction_depth) {
-         if (memory_region_update_pending) {
-             flatviews_reset();
++
++    /*
++     * Make sure we're either in a nested transaction or there must have no
++     * pending updates due to memory_region_del_subregion() above.
++     */
++    assert(memory_region_transaction_depth ||
++           !memory_region_has_pending_update());
+ 
+     mr->destructor(mr);
+     memory_region_clear_coalescing(mr);
 -- 
 2.31.1
 
