@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23DE3D955D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:37:23 +0200 (CEST)
-Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DE13D9556
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:35:34 +0200 (CEST)
+Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oQk-00078Q-2p
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
+	id 1m8oOz-0002KO-9D
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLi-0005um-3J
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55468)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLk-00062u-MJ
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLf-000764-3g
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:09 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLi-00078m-Vp
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497126;
+ s=mimecast20190719; t=1627497130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u1Bbhy9FxQTFvhtC24q8Zh262TZNyYALI7nv979a/e0=;
- b=M+nVBBkq8E1l7Q63db5Iv9DOqki2kWVSjAaz0wxrXcXVtNUrhY6rpK7rfXfepYWCYB+0QX
- qVU0pa2FJnoTRmsrauIDjOfqhXbbeA0egY0OqGdkFMypcJnhlLsEYFG8KQ1B19Y2bosule
- l50W3fl8hftlvxe6DQ01ivR1/eiQ53g=
+ bh=SXpNOomr22RdeatA9jpHJ9wvEFvZE1pzhOgYIChMKV8=;
+ b=S8aqyUjAYKWO1qlqCcgCGJidXLhcltWg2ER7qQnjPdK0i/IKJDmfQJjIYtioh31Zuw0aFx
+ 3S3mmRESdO26o6FKeR6HbcqudL2ejCQCOvA7+NPkRjNbj4Vf/CI9qQSxhrhhJVN+uDhK+6
+ aXWAz3fZlmB6mDUzTe3KTSkv0ZKfyj8=
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
  [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-N1u-VKVROU62AjNaEuyJiQ-1; Wed, 28 Jul 2021 14:32:04 -0400
-X-MC-Unique: N1u-VKVROU62AjNaEuyJiQ-1
+ us-mta-445-A6AyVB4kMwGAb0U-bNRyhg-1; Wed, 28 Jul 2021 14:32:06 -0400
+X-MC-Unique: A6AyVB4kMwGAb0U-bNRyhg-1
 Received: by mail-qk1-f197.google.com with SMTP id
- x12-20020a05620a14acb02903b8f9d28c19so2109554qkj.23
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:32:04 -0700 (PDT)
+ w2-20020a3794020000b02903b54f40b442so2225869qkd.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:32:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u1Bbhy9FxQTFvhtC24q8Zh262TZNyYALI7nv979a/e0=;
- b=UrDNDryCe1Df8seOngBUzZ941hxlNbqk+HC0W2nqtag8u7uef2J4hCogn7pKJSgICz
- Rf4U7BHvQhhb7WZ2e7I1W6mJeVZUk6+w2kS2/Sx6+Dh/OS8Bar4DL/Wmi7A/bP1Hc5OV
- X1ltML363KjB/+oQnxPWGtRTcnxofZqEYP2y2Fo2AS0b1wEEyRYYCJId2AwM7GbK/Hbb
- NwQ18en7XRUNsKgN346/7Uk7qfQypHHb+PGJQuXiDBulOL9t4MQztY/obZf5LK0dlr6c
- P2fJaQ9l9wgyBA3y3bkNPxkBPKXU54zvVtiIH0cAlFBdt3eDzWWJ/AmUdE/JSVMOaHOP
- Ep0A==
-X-Gm-Message-State: AOAM532nH9nGYmvV2wOqR5riyuai1y1kNaXb9jj2R70S7Ax2ofBiC2Mi
- 4/nhyQVYggvgOBZwUnkJ12f+uPyX+/Rd35F4pYIS0NK6uMe8aVal0awizepa7lL1CbXbcdtCQvQ
- 9bILJbPU8qCvFQRBLdC5h4Wsqw7tjBIQJV1OEm/768DsofT1BmxV9OBfeVJ1yxDxp
-X-Received: by 2002:ad4:5b85:: with SMTP id 5mr1413915qvp.24.1627497123790;
- Wed, 28 Jul 2021 11:32:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkK1SQ5P7mMO2LBJA3bSxDOY3Ycl0Ju/N/WQ7U6xpjCVPQ5rjeWT4QZfsQobrECcG1KTPcNQ==
-X-Received: by 2002:ad4:5b85:: with SMTP id 5mr1413891qvp.24.1627497123532;
- Wed, 28 Jul 2021 11:32:03 -0700 (PDT)
+ bh=SXpNOomr22RdeatA9jpHJ9wvEFvZE1pzhOgYIChMKV8=;
+ b=GlnllzDXJSFJBm9BYDJvfiPQWxvUKWifJ6QEdxO4RpinkWKLVUF6pSdTgvv0JIEVDY
+ 85AdBygORA7tzk+XH+HLGlmu/N+SjDKQkIAVxDjnXc6PNPNxssg1TrM9UIA8To6CQuUa
+ JYSTn/GLx845GanyxYB1Qo+wZcBWdQ7E05KVPS0qGPFG0XhcqLqhsy+Tx9u9psMA6wOM
+ 4yRkEEa0Imn7bgHnXhGKmOBuE4SFdGkBxsjEUpkf+iQTuCc3ky8GQR0756rp6iKjRKg+
+ TZOYKQ9K932RIkIDAiJDoe46kUfEaeGFMc1vuR4sogj0oET/Ji/2eUfqQvV/kt6Xlupq
+ q9HQ==
+X-Gm-Message-State: AOAM5337/JUILaDue4smXAoagOAxA8KVZHoFjPV7SEXpx4jvLGeLqboh
+ YA2qpkAiMTpV6MH75x+jloR4ti++GbANVoxOf+zkfRNVsH8wLuu3o8UK9IxLRqf9v6dCn9u9xRQ
+ eE5I9BN03NmP/H4cFpOfiUxbZ7q0HFD+aMyukVLhiFl5b7e1pOWbCeY/LRJTPPa4Q
+X-Received: by 2002:a37:8407:: with SMTP id g7mr1074779qkd.123.1627497125411; 
+ Wed, 28 Jul 2021 11:32:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7PbICOhDrVu2c50VCaRsQAl8z33SOyrpmQs4cR3MndNYXNPwLYRp6NEWmIzhM7ZgXkQga8g==
+X-Received: by 2002:a37:8407:: with SMTP id g7mr1074747qkd.123.1627497125159; 
+ Wed, 28 Jul 2021 11:32:05 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.32.01
+ by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 11:32:02 -0700 (PDT)
+ Wed, 28 Jul 2021 11:32:04 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/8] cpus: Use qemu_cond_wait_iothread() where proper
-Date: Wed, 28 Jul 2021 14:31:48 -0400
-Message-Id: <20210728183151.195139-6-peterx@redhat.com>
+Subject: [PATCH v3 6/8] cpus: Remove the mutex parameter from do_run_on_cpu()
+Date: Wed, 28 Jul 2021 14:31:49 -0400
+Message-Id: <20210728183151.195139-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728183151.195139-1-peterx@redhat.com>
 References: <20210728183151.195139-1-peterx@redhat.com>
@@ -73,14 +73,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,46 +100,47 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper is introduced but we've still got plenty of places that are directly
-referencing the qemu_global_mutex itself.  Spread the usage.
+We must use the BQL for do_run_on_cpu() without much choice, it means the
+parameter is useless.  Remove it.  Meanwhile use the newly introduced
+qemu_cond_wait_iothread() in do_run_on_cpu().
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/cpus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ softmmu/cpus.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 49e0368438..e714dfbf2b 100644
+index e714dfbf2b..9154cd7e78 100644
 --- a/softmmu/cpus.c
 +++ b/softmmu/cpus.c
-@@ -439,7 +439,7 @@ void qemu_wait_io_event(CPUState *cpu)
-             slept = true;
-             qemu_plugin_vcpu_idle_cb(cpu);
-         }
--        qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
-+        qemu_cond_wait_iothread(cpu->halt_cond);
-     }
-     if (slept) {
-         qemu_plugin_vcpu_resume_cb(cpu);
-@@ -582,7 +582,7 @@ void pause_all_vcpus(void)
-     replay_mutex_unlock();
+@@ -383,8 +383,7 @@ void qemu_init_cpu_loop(void)
+ }
  
-     while (!all_vcpus_paused()) {
--        qemu_cond_wait(&qemu_pause_cond, &qemu_global_mutex);
-+        qemu_cond_wait_iothread(&qemu_pause_cond);
-         CPU_FOREACH(cpu) {
-             qemu_cpu_kick(cpu);
-         }
-@@ -653,7 +653,7 @@ void qemu_init_vcpu(CPUState *cpu)
-     cpus_accel->create_vcpu_thread(cpu);
+ static void
+-do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+-              QemuMutex *mutex)
++do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+ {
+     struct qemu_work_item wi = {
+         .func = func,
+@@ -400,14 +399,14 @@ do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+     while (!qatomic_mb_read(&wi.done)) {
+         CPUState *self_cpu = current_cpu;
  
-     while (!cpu->created) {
--        qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
-+        qemu_cond_wait_iothread(&qemu_cpu_cond);
+-        qemu_cond_wait(&qemu_work_cond, mutex);
++        qemu_cond_wait_iothread(&qemu_work_cond);
+         current_cpu = self_cpu;
      }
  }
  
+ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+ {
+-    do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
++    do_run_on_cpu(cpu, func, data);
+ }
+ 
+ static void qemu_cpu_stop(CPUState *cpu, bool exit)
 -- 
 2.31.1
 
