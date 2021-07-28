@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE463D97B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 23:40:28 +0200 (CEST)
-Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D7B3D97B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 23:42:48 +0200 (CEST)
+Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8rHu-0001gS-NQ
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 17:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
+	id 1m8rKB-0003ho-Gn
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 17:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8rGr-00011M-0l
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:39:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37931)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8rJ1-00031P-NT
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:41:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8rGn-0007dQ-CU
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:39:19 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8rJ0-0000jT-6O
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:41:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627508355;
+ s=mimecast20190719; t=1627508493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=muX+q79AMrvFFcSDNNwF1F40VYOfboh5qaaafoj2xq8=;
- b=KPRwuZnRXcGDmOxr6V1tsTHevZGxqv5qmsds+ajk4a8WSliNa1wgBVMIa8bXiqq0zFzYJ2
- GJSEf62DZQaJuprfMMiBHmVhR0t4WG7PL8t0zsFsYoeEH4cXXdEIuZH1MdJCx2U0vbfdWs
- WmPdZncretEwOz9sR3mpzX/HwSC/6Ds=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-hOp85wISO3q4AZC_3ptzow-1; Wed, 28 Jul 2021 17:39:14 -0400
-X-MC-Unique: hOp85wISO3q4AZC_3ptzow-1
-Received: by mail-qv1-f70.google.com with SMTP id
- r14-20020a0c8d0e0000b02902e82df307f0so2768370qvb.4
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 14:39:14 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Dty4nNLVepfTl3vJ9c9FYg2rp1FK77r1aFxBpbH8x9I=;
+ b=OS4GfHJA7m+iBmvVwX+bBscSokrYhDVqI0llIqc/Ea4qQDP3x5mYjWiknyJQzeSe4WbIvd
+ uj4ibmtRA3ui5leqdIq6AO36SXTsIRcHEAJfLgje/wQUFdJabO/OBqxykPH3mSbIMQJ7br
+ C7NwwPhzsp4HTppPmnVt1ynzCn8thZ8=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-XKbRXbJEOLCTmXdix0xIKA-1; Wed, 28 Jul 2021 17:41:32 -0400
+X-MC-Unique: XKbRXbJEOLCTmXdix0xIKA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ v19-20020ad455530000b029032620cab853so2767416qvy.8
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 14:41:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=muX+q79AMrvFFcSDNNwF1F40VYOfboh5qaaafoj2xq8=;
- b=Th04isuOK5t7YE3Y8+o0S3gZ06cKjJsYn0dRZYRi81F34pqktTlqvPl8eRqUpdFFa/
- 1AvDNjbxQbGbOC6i+5aovP3G780RU/lDceyzAaIW22/Tb6fveGDdd40AEH+USEAKPPWE
- E/8aeM658NsfQ/RWBPtLkKs96E2GG+n/89SCL7W6IYDpHZX5SFk4HsxU4FCSMVdzOH5k
- Bsfz1B9J8mCKc6y6lNvk7HyATzGemMuX2SFrUWpwDjSqVEtPPr94vLLseUZN8Surx6Gk
- k9hIuf7zfot1d7790t4P764RWbkKmryFzBLhrw4rJyuU2Pff6xMLV5QRtXkI3gT5KllN
- HKrw==
-X-Gm-Message-State: AOAM532gpkpQJqlARLdy0k1jyGkjM1xX67YswPZsujDikXtVZ1jEU45m
- lzCY5ORiVjnCKTjIU3KenVpu8m/Eq3TJ15lWW7wk+L/YNIASZUy4rsjueLPGVdgbMMyVjdGS0dc
- e+HiUbiLn3Db/H6w=
-X-Received: by 2002:a05:622a:1a1f:: with SMTP id
- f31mr1478885qtb.353.1627508353731; 
- Wed, 28 Jul 2021 14:39:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw5Oqw2Xu9lAK+RTXEK9u5YASBn6cb40rMOLoMw+ZrX0b6QgZr4tAhn/08AnDKAERKBLsUAaw==
-X-Received: by 2002:a05:622a:1a1f:: with SMTP id
- f31mr1478868qtb.353.1627508353479; 
- Wed, 28 Jul 2021 14:39:13 -0700 (PDT)
-Received: from t490s
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dty4nNLVepfTl3vJ9c9FYg2rp1FK77r1aFxBpbH8x9I=;
+ b=P0hgdW03jBw13Z9JEilwqRwfRKcJM81po/D+adZl9ncK8Yv/K1xAzQ/cXsD7iNykj2
+ g69S6Hec6JfXwujvciHrWsAnyPvC53MdV/E8qTF4mHGI/6pYR6PfcadkAHUnDec9rABs
+ S5vruHhyUQ+UPCW6kPdQc8BdP4n+fKViJMwZWGqsXFHLXFnwOfLzwPYhOMFLlH4HO/aw
+ rtxhaxo5YCKwjGzlZIhsuyyNhH2Q0oXTzqgFpbKS5AxmAiIYCXKUgyGgTVAvjp1y3sgz
+ 9mblrBGifsOsmdntDvn566GwwtvFZKUaIvdQ3TNnR/gsF8sGCEpTcvfqjiGhtIADLRtS
+ 7S3Q==
+X-Gm-Message-State: AOAM533hJw6wgoroNLq25rgYZSM6yAmAz8UY/bhaFrVptTIkaKYG9pFA
+ JIp5PruUUafFpqawihScAN3WWZMknBEzRoyLcTygP2ZpTp7hettmZTF2SJeEHjmVeYvLdXMGCWO
+ FVPAknbTFTePOF4/ktH/6n1YqNj9SZ7ALIzgi1ypS7C3pZDAcg5+dwhnNFGVHvFXA
+X-Received: by 2002:a37:660b:: with SMTP id a11mr1812716qkc.395.1627508491967; 
+ Wed, 28 Jul 2021 14:41:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4T7Uyt9FrjxUtLIJwE1wSXJxw6tJ2VZxV2cWIB5O9exOonmRLJS3SkoEGfCZnk7bHLd/L5Q==
+X-Received: by 2002:a37:660b:: with SMTP id a11mr1812694qkc.395.1627508491702; 
+ Wed, 28 Jul 2021 14:41:31 -0700 (PDT)
+Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id v5sm655657qkh.39.2021.07.28.14.39.12
+ by smtp.gmail.com with ESMTPSA id y1sm634947qki.59.2021.07.28.14.41.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 14:39:12 -0700 (PDT)
-Date: Wed, 28 Jul 2021 17:39:11 -0400
+ Wed, 28 Jul 2021 14:41:31 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 2/2] tests: migration-test: Add dirty ring test
-Message-ID: <YQHOfzpA4JF69Y8V@t490s>
-References: <20210615175523.439830-1-peterx@redhat.com>
- <20210615175523.439830-3-peterx@redhat.com>
- <9b93e149-3147-3dca-83ce-474af99ccd2e@twiddle.net>
- <YQHAJy8lX0vt+yl2@t490s>
- <c0dbbbbe-e1c8-02e0-0455-bb954dd5f79b@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: Fix migration-test build failure for sparc
+Date: Wed, 28 Jul 2021 17:41:28 -0400
+Message-Id: <20210728214128.206198-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <c0dbbbbe-e1c8-02e0-0455-bb954dd5f79b@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -98,38 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 11:11:30AM -1000, Richard Henderson wrote:
-> On 7/28/21 10:37 AM, Peter Xu wrote:
-> > A quick fix attached; would that work for us?
-> 
-> Looks plausible, though perhaps just as easy to list the 5 platforms as just the one:
-> 
-> #if defined(__linux__) && \
->     (defined(HOST_X86_64) || \
->      defined(HOST_S390X) || \
->      ...)
-> # define HAVE_KVM
-> #endif
+Even if <linux/kvm.h> seems to exist for all archs on linux, however including
+it with __linux__ defined seems to be not working yet as it'll try to include
+asm/kvm.h and that can be missing for archs that do not support kvm.
 
-That looks good to me, especially for the long term to identify whether kvm is
-with us, but for the short-term I hope I can still use the (literally :)
-simpler patch as attached so hopefully that'll be more welcomed as rc2+
-material..
+To fix this (instead of any attempt to fix linux headers..), we can mark the
+header to be x86_64 only, because it's so far only service for adding the kvm
+dirty ring test.
 
-Note again that the kvm.h inclusion is only for kvm dirty ring test in
-migration-test so far, meanwhile that's only supported on x86_64, so we won't
-lose anything on the rest 4 archs.
+No need to have "Fixes" as the issue is just introduced very recently.
 
-Thanks!
+Reported-by: Richard Henderson <rth@twiddle.net>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ tests/qtest/migration-test.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 1e8b7784ef..cc5e83d98a 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -27,7 +27,8 @@
+ #include "migration-helpers.h"
+ #include "tests/migration/migration-test.h"
+ 
+-#if defined(__linux__)
++/* For dirty ring test; so far only x86_64 is supported */
++#if defined(__linux__) && defined(HOST_X86_64)
+ #include "linux/kvm.h"
+ #endif
+ 
+@@ -1395,7 +1396,7 @@ static void test_multifd_tcp_cancel(void)
+ 
+ static bool kvm_dirty_ring_supported(void)
+ {
+-#if defined(__linux__)
++#if defined(__linux__) && defined(HOST_X86_64)
+     int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
+ 
+     if (kvm_fd < 0) {
 -- 
-Peter Xu
+2.31.1
 
 
