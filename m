@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6C83D900D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:06:23 +0200 (CEST)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEBD3D902C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:13:52 +0200 (CEST)
+Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8kCU-0005Zv-53
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
+	id 1m8kJj-0001jy-IC
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8k9u-0003Av-I0
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:03:42 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:36790)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m8kIj-00014D-9f
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:12:49 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:42806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8k9s-0008AL-GV
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:03:42 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id w10so1399549qtj.3
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wPRryln6SuRZCmFyxlQP12/WhmR2lTKUJTci+E1GqRA=;
- b=QGVVw6lsQMUKtHZtKOysmjuKZTAHkxLZS0kafaMfDZDwEkW9RaulwR7LQF4+BZ9vA2
- y0pm6TrsOEv0fV29T8PbSVhuVy76aYpgMUjBLxjuCy87b/E49m2LBU0Iscy1jWXFpTkd
- raK32DP1jZip2K44kEGWXdiCLSwJZK14wkxg4pm1yRHHufN+1d9cYq778Lw2DYr6XJtv
- 0T00MOHm2e9qSv4nPRon2m1ts1wkq90t4JQhQs1aQIZmA1xJZBzfsDlDYRr0bN/lD/cD
- tQ4dyfCFthZZPWveqTsEPjhnB3rLD2kQ3unBnW4lpo8oq/NzOGc+yvfjKDGqeikxBTsK
- KA5w==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m8kIg-0005xr-7j
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:12:48 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o44-20020a17090a0a2fb0290176ca3e5a2fso4330790pjo.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=d+FXGWPL9qq3D4ZFcJesLA54aMQo+5RH+k4/fDfg0/0=;
+ b=gJ64OFeZBbPOnWum1QrKhwzk5N3QGcOSpYL4zvrkqS7J/PKu0IACawLmxyT8h28RmP
+ uydHbtk7NJv91xqlK8NiidO1Udn9J26R47fQeem7asVdDrVw+qA7MUHikYyFardLyEcm
+ kjvIHH6Bbitut14BwkEP11h3vOwvyRpqKskvs9Dlp76DyBXcVCzfkiQ21jPbE56HTZel
+ 9ZBYjdjoRM/GnpHlYmjSy0BchMdobvmlDdfpDTWIS3u4og/rR8i+au0ieh525Sv7XBN9
+ x5BWvbtlTfRDfJxBZgrFXT/kBgNg7jYg8CvJMlmgrWNIkqa2zWJRM0jb6iZYnqT+w2ar
+ yLCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wPRryln6SuRZCmFyxlQP12/WhmR2lTKUJTci+E1GqRA=;
- b=Gutd815M8tPRTRSk7HOV/oQKKcpFIztxlGii6u9U3rEZExHI6dYu8wtbrFZPDcSTZ4
- 5HCt54WFRdC7QqIlYR8/9i9fKOES/PeQiTr8T2u2UvFXF/keJJ2xSTdElzsKJNsHp2an
- kE/eJjs3skWIUXnDK6ykrVVjMg5135kSIK02LYiT5/zhDNbQiq0mh1fN4NMy8mm3E99Q
- WWyrfYSkopoH2gV0JYbxRCb8TnuyG6qEs0sar07YQFYIaiRtAp/OTTvRs7Q8wpEQYbSD
- yToeNH0VHeJc7xH5niX8/mY3FthtBTOBSqCTXYdzNeQp24WsZnx1DYz2CqWM6wrOkJrg
- m/dw==
-X-Gm-Message-State: AOAM530s6DU5MnPp6R/pURp9pbggi8JsfN4aEmW2woEIEbs+LT93Aiqk
- r3sNFMTOs2AhccVCH8nt690=
-X-Google-Smtp-Source: ABdhPJzE8BOhc6luwIJa/dzvA79+IKg5nBqbTnQo2fvPas+qpDxWPREJPGiMTN2Bajb7tpl+jPtsRg==
-X-Received: by 2002:ac8:c0d:: with SMTP id k13mr24360772qti.11.1627481018523; 
- Wed, 28 Jul 2021 07:03:38 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- n5sm29092qkp.116.2021.07.28.07.03.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 07:03:37 -0700 (PDT)
-Subject: Re: aarch64 efi boot failures with qemu 6.0+
-To: Ard Biesheuvel <ardb@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210724185234.GA2265457@roeck-us.net>
- <20210725181334-mutt-send-email-mst@kernel.org>
- <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
- <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
- <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
- <20210727004401-mutt-send-email-mst@kernel.org>
- <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
- <20210727045315-mutt-send-email-mst@kernel.org>
- <20210727123603.6119c34c@redhat.com>
- <20210728090555-mutt-send-email-mst@kernel.org>
- <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
-Date: Wed, 28 Jul 2021 07:03:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=d+FXGWPL9qq3D4ZFcJesLA54aMQo+5RH+k4/fDfg0/0=;
+ b=nczzYC4SYlTnS98aapYy+AiJVHiXvvHKHb7PwoK8ISMf0flHN3AHzPT73Z4eLFixSE
+ AuNpfk6xKbSKLMj7YxxHYKaY5tm12qMtb/LJ+bSdPL04nDD4PHDEK2hYcaqsuJTKYSmw
+ k+00YJZwlxZadDQbqRsZYc5umF8djWWaC+3ooxwMG2dyktf+FcoMXha8EnZsNHgYb/6h
+ XNdAi87ibo/s8jtwEdlNzYcGxByO9etB5yuDkryUWaB0yGQVNVp1pq/8w85Ki31H1fCk
+ NioZ+sv2EWz9CyMxArb5UfwsQnznqvSQ4Xxk9IivndoiwOaClRMaat/09dF8hEiaKEHn
+ gAng==
+X-Gm-Message-State: AOAM531Vlze1DygKcAc9ps9JeKNBgu0OhD4Kg6rTf56Ya2SBbV/JPOXh
+ i4zWUtXAOruaj/YkEHJMhsZXAg==
+X-Google-Smtp-Source: ABdhPJw7dPpBObZ9/qNjGhb2ShLK27uAOfaXoLWuy1Y2bb3B4JIdMdcNGdzop1Gz0I++fMOzHRjjiw==
+X-Received: by 2002:a17:90a:19db:: with SMTP id
+ 27mr10060779pjj.216.1627481563272; 
+ Wed, 28 Jul 2021 07:12:43 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.109.28])
+ by smtp.googlemail.com with ESMTPSA id l11sm6018574pjg.22.2021.07.28.07.12.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 07:12:42 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Wed, 28 Jul 2021 19:42:26 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
+ from acpi_get_i386_pci_host
+In-Reply-To: <20210728085437-mutt-send-email-mst@kernel.org>
+Message-ID: <alpine.DEB.2.22.394.2107281940020.352775@anisinha-lenovo>
+References: <20210726165743.232073-1-ani@anisinha.ca>
+ <20210728085437-mutt-send-email-mst@kernel.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=groeck7@gmail.com; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,175 +86,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiahui Cen <cenjiahui@huawei.com>,
- Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
- Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, jusual@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 6:25 AM, Ard Biesheuvel wrote:
-> On Wed, 28 Jul 2021 at 15:11, Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Tue, Jul 27, 2021 at 12:36:03PM +0200, Igor Mammedov wrote:
->>> On Tue, 27 Jul 2021 05:01:23 -0400
->>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>
->>>> On Mon, Jul 26, 2021 at 10:12:38PM -0700, Guenter Roeck wrote:
->>>>> On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
->>>>>> On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
->>>>>>> (cc Bjorn)
->>>>>>>
->>>>>>> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>>>>>>
->>>>>>>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
->>>>>>>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
->>>>>>>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
->>>>>>>>>>> Hi all,
->>>>>>>>>>>
->>>>>>>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
->>>>>>>>>>> work. Analysis shows that PCI devices with IO ports do not instantiate
->>>>>>>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affects
->>>>>>>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
->>>>>>>>>>> affects
->>>>>>>>>>> aarch64, not x86/x86_64.
->>>>>>>>>>>
->>>>>>>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
->>>>>>>>>>> keep firmware resource map"). Since this commit, PCI device BAR
->>>>>>>>>>> allocation has changed. Taking tulip as example, the kernel reports
->>>>>>>>>>> the following PCI bar assignments when running qemu v5.2.
->>>>>>>>>>>
->>>>>>>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
->>>>>>>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
->>>>>>>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
->>>>>>>
->>>>>>> IIUC, these lines are read back from the BARs
->>>>>>>
->>>>>>>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
->>>>>>>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
->>>>>>>>>>> 0x10000000-0x1000007f]
->>>>>>>>>>>
->>>>>>>
->>>>>>> ... and this is the assignment created by the kernel.
->>>>>>>
->>>>>>>>>>> With qemu v6.0, the assignment is reported as follows.
->>>>>>>>>>>
->>>>>>>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
->>>>>>>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
->>>>>>>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
->>>>>>>>>>>
->>>>>>>
->>>>>>> The problem here is that Linux, for legacy reasons, does not support
->>>>>>> I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI is
->>>>>>> rejected.
->>>>>>>
->>>>>>> This might make sense on x86, where legacy I/O ports may exist, but on
->>>>>>> other architectures, this makes no sense.
->>>>>>
->>>>>>
->>>>>> Fixing Linux makes sense but OTOH EFI probably shouldn't create mappings
->>>>>> that trip up existing guests, right?
->>>>>>
->>>>>
->>>>> I think it is difficult to draw a line. Sure, maybe EFI should not create
->>>>> such mappings, but then maybe qemu should not suddenly start to enforce
->>>>> those mappings for existing guests either.
->>>>
->>>> I would say both. But about QEMU actually I think you have a point here.
->>>> Re-reading the spec:
->>>>
->>>> 0: No (The operating system shall not ignore the PCI configuration that firmware has done
->>>> at boot time. However, the operating system is free to configure the devices in this hierarchy
->>>> that have not been configured by the firmware. There may be a reduced level of hot plug
->>>> capability support in this hierarchy due to resource constraints. This situation is the same as
->>>> the legacy situation where this _DSM is not provided.)
->>>> 1: Yes (The operating system may ignore the PCI configuration that the firmware has done
->>>> at boot time, and reconfigure/rebalance the resources in the hierarchy.)
->>>>
->>>>
->>>> I think I misread the spec previously, and understood it to mean that
->>>> 1 means must ignore. In fact 1 gives the most flexibility.
->>>> So why are we suddenly telling the guest it must not override
->>>> firmware?
->>>>
->>>> The commit log says
->>>>      The diffences could result in resource assignment failure.
->>>>
->>>> which is kind of vague ...
->>>>
->>>> Jiahui Cen, Igor, what do you think about it?
->>>> I'm inclined to revert 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14
->>>> at least for now.
->>> Looking at patch history, it seems consensus was that it's better to
->>> enforce firmware allocations.
->>>
->>> Also letting OS do as it pleases might break PCI devices that
->>> don't tolerate reallocation. ex: firmware initializes PCI device
->>> IO/BARs and then fetches ACPI tables, which get patched with
->>> assigned resources.
->>>
->>> to me returning 0 seems to be correct choice.
->>> In addition resource hinting also works via firmware allocations,
->>> if we revert the commit it might change those configs.
->>
->>
->> Well if firmware people now tell us their allocations were never
->> intended for guest OS use then maybe we should not intervene.
->>
-> 
-> DSM #5 was introduced to permit firmware running on x86_64 systems to
-> boot 32-bit OSes (read Windows) unmodified, while still leaving
-> enlightened, 64-bit OSes the opportunity to reorganize the BARs if
-> there is sufficient space in the resource windows, and if the OS runs
-> in long mode so it can address all of it.
-> 
-> This is why the default-if-absent according to the spec is '0', and I
-> already explained up-thread why arm64 deviates from this.
-> 
-> But Igor has a point: there are cases where especially bus numbers
-> should not be touched, as firmware tables consumed by the OS may carry
-> b/d/f identifiers for things like SMMU pass through, where changing
-> the bus numbers obviously invalidates this information.
-> 
-> These are exceptional cases, though, and I would argue that these
-> should be considered individually, rather than setting DSM #5 to 0x0
-> simply because there might be cases where not doing so could
-> theoretically break things, given that doing so has proven to break
-> things.
-> 
-> 
->> As others noted the original commit was kind of vague:
->>
->> 1. it said "Using _DSM #5 method to inform guest os not to ignore the PCI configuration
->> that firmware has done at boot time could handle the differences."
->> which is not what the spec says and not what the patch did -
->> guest os does not ignore configuration even without this,
->> it is just allowed to change it.
->>
->>
->> 2. is says could result but does not report whether that happened in the
->> field.
->>
->>
->> Given this causes a regression I'm inclined to just revert for now.
->> We can figure it out for the next release.
->>
-> 
-> For a revert of commit 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14, feel
-> free to include
-> 
-> Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> 
 
-and:
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+On Wed, 28 Jul 2021, Michael S. Tsirkin wrote:
 
-> and please also involve me if any future debates on this subject flare up again.
-> 
+> On Mon, Jul 26, 2021 at 10:27:43PM +0530, Ani Sinha wrote:
+> > All existing code using acpi_get_i386_pci_host() checks for a non-null
+> > return value from this function call. Instead of returning early when the value
+> > returned is NULL, assert instead. Since there are only two possible host buses
+> > for i386 - q35 and i440fx, a null value return from the function does not make
+> > sense in most cases and is likely an error situation.
+>
+> add "on i386"?
+>
+> > Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+>
+> This that seems inappropriate, this is not a bugfix.
+>
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+>
+>
+> Frankly I don't see this as a useful cleanup.
+> assert is generally a last resort thing.
+>
 
-Same here.
+Igor pushed in the direction of assertion. Otherwise, see my v2.
 
-Thanks,
-Guenter
+> > ---
+> >  hw/acpi/pcihp.c      |  8 ++++++++
+> >  hw/i386/acpi-build.c | 15 ++++++---------
+> >  2 files changed, 14 insertions(+), 9 deletions(-)
+> >
+> > changelog:
+> > v1: initial patch
+> > v2: removed comment addition - that can be sent as a separate patch.
+> > v3: added assertion for null host values for all cases except one.
+> >
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index f4d706e47d..054ee8cbc5 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -116,6 +116,12 @@ static void acpi_set_pci_info(void)
+> >      bsel_is_set = true;
+> >
+> >      if (!host) {
+> > +        /*
+> > +         * This function can be eventually called from
+> > +         * qemu_devices_reset() -> acpi_pcihp_reset() even
+> > +         * for architectures other than i386. Hence, we need
+>
+> why call out i386 here? well because currently host
+> is only non-null for q35 and i440fx which are both i386.
+> all the above is not a given and we won't remember to update
+> the comment if we change it. Generally graceful failure
+> is the default or should be.
+
+Hmm. there is much debate to be had about graceful and unfraceful
+failures :-) Some might say ungraceful failures helps to catch issues
+earlier before the state is messed up.
+
 
