@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9570B3D9653
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 22:03:20 +0200 (CEST)
-Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB9D3D9666
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 22:08:36 +0200 (CEST)
+Received: from localhost ([::1]:54112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8plu-0003lG-5G
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 16:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
+	id 1m8pr1-0005VF-4p
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 16:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1m8pk7-0002G4-Ns
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:01:30 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1m8pk5-0007Z7-V2
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:01:27 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- j18-20020a17090aeb12b029017737e6c349so3653040pjz.0
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 13:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5V+3TulVXEpX/pMbaAYmxkuA071az55HT2aQQNzw7t0=;
- b=bSKcByMzvPLm7BSPPR3H4n9NyxqF2iNg0oXrCBrVhce4Nj84UHSbEY4rlJDSPmi3Xn
- phpRFe23OLEKyIkQ4gCWRzrAYct0IyodFdLq37IJJ8yU9hydxE7+JeWLzAFyfj6sPBTw
- 7FK+4crJwWQlDIxQeTx05qLAyG06knq0293gXfCAo/DpDspwvYzGbAU/DeLfHMKhDYCB
- 9xvuMP9kLkMD8Ni/k3UI10v7uMFFOtJLCs2BWkj4jmLyKxg7gtI+lv7fB9nTBk8n49EY
- xSCKZwFW2XDobOHIaqIqb0xcD3Rxc9u//VjGhZyYHzXBoMit6hvGqsba2KwLP+OOIknA
- W8gw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8ppX-0004ne-9E
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:07:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8ppU-0002m1-2K
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:07:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627502817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QO7sd+jVVZ67ZHmqVQ0dBFmLmpsK2lNUMmR3DzNcj1I=;
+ b=iI51dd3KXorSKZVEVqpKgxUUJfcAl1OCR3/S8MYw2AWVisRXH+zdbzdKtLogh9Dnqxt2JJ
+ V3JBpxgnzftSvjHjShlGJx4v+Q8+EoCXhgfUKYJu6l7IAEemwIPm/TmGNOqNDzVrnbtwbk
+ aw3fH20m4cKmgAhETybhWM9ybvopEe8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-KTSA1FJzN0G8TSWxquLE2A-1; Wed, 28 Jul 2021 16:06:56 -0400
+X-MC-Unique: KTSA1FJzN0G8TSWxquLE2A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r14-20020a5d4e4e0000b029015409d80a01so1076237wrt.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 13:06:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5V+3TulVXEpX/pMbaAYmxkuA071az55HT2aQQNzw7t0=;
- b=K6y5UULQcwA4Ja3Ldip8PaiaLrEwmoSLnonPYzTt3ag4FpddaCxOkzptJ4mFZbt3aY
- e0YjgXQrtWHNKhpoW6SQejdyWCM1609AQyOxxkfA+8O52d7FEaBMU6e4ZkQZFfHcXM7I
- YqnaukirnP01u+Wt5LXyHcGIKriRwU67RYDh+DJCEIiWaqBmqZxxoTyCgQELT7XIomlS
- jh5rUcIMzfGENgCXq78GkIK8b3O0RU4DUqSDh/MyMY5ANlB+eYX089ARGgM1wCXjdC9f
- heLGXD7TxPUQOOgv/iL114ZCOezjq2aDY6U+8SML3QfYdblY3nOs5ye76OvvdWUJrGaA
- aaRw==
-X-Gm-Message-State: AOAM531QgiyN31P8MxtEZHytSmCPneC87zUIhT7Ou1NuLeeaODNJxd7z
- 5bjWHnb23lWHLKfyjjjM9vpqeg==
-X-Google-Smtp-Source: ABdhPJzOYCEbSuawoSYEZLeDPr383fnT41sSJYHqTkot1VEMVQ+3sJU9slGWbeKrG6TyJvglvWdlIg==
-X-Received: by 2002:a63:5f87:: with SMTP id t129mr541168pgb.85.1627502483188; 
- Wed, 28 Jul 2021 13:01:23 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id b184sm856993pfg.72.2021.07.28.13.01.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 13:01:22 -0700 (PDT)
-Date: Wed, 28 Jul 2021 20:01:18 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: harry harry <hiharryharryharry@gmail.com>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, stefanha@redhat.com,
- mathieu.tarral@protonmail.com
-Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
- shadow page table in Linux QEMU/KVM
-Message-ID: <YQG3jg9kSqfzmbPB@google.com>
-References: <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
- <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
- <YOxYM+8qCIyV+rTJ@google.com>
- <CA+-xGqOSd0yhU4fEcobf3tW0mLb0TmLGycTwXNVUteyvvnXjdw@mail.gmail.com>
- <YO8jPvScgCmtj0JP@google.com>
- <CA+-xGqOkH-hU1guGx=t-qtjsRdO92oX+8HhcO1eXnCigMc+NPw@mail.gmail.com>
- <YPC1lgV5dZC0CyG0@google.com>
- <CA+-xGqN75O37cr9uh++dyPj57tKcYm0fD=+-GBErki8nGNcemQ@mail.gmail.com>
- <YPiLBLA2IjwovNCP@google.com>
- <CA+-xGqP7=m47cLD65DhTumOF8+sWZvc81gh+04aKMS56WWkVtA@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=QO7sd+jVVZ67ZHmqVQ0dBFmLmpsK2lNUMmR3DzNcj1I=;
+ b=MNMRVQxxdfVfkyo59QtX31y57VBC0TLIPiupuH7fRdIQiETzl5DDJkQScZFCuJKlcq
+ K+KxSFWQqTN1NnDZukfJjRED4rPNIyo1UzreWzqtcF0LfjpGMkqKKIzOr1TgyHKiWKpE
+ RZ1AoC/0/SsHN2e49BaQYzMcXlyVW8rwVV62b8ga0boYw93UrfeWjgu9PDLqR7b46nij
+ sV8aUCcBtItePa9ZeFv6esKKTuCfMsVhu3YLfeiUvE6nkuD72qGu0z4f7MYnVCL3VEOF
+ 7VsAqJG0mQjlMlvFkbIPAmNuX8+Z5x1+2f0qHBHcsz3u5FACMv4IIVcKO0ThEdht3iYo
+ I0xQ==
+X-Gm-Message-State: AOAM532aLeflosY67ZCIXE6kPKW/nsQpAHZKXCOvwiZ196T76+8BLsuG
+ C0J36dUqm2NcmS11ruyumbWL3bMsvdep1TT+nfGbK1c1Da/h2y/DUeoIJn5FeCz4n0sz0/zPk0W
+ nkCYDxExoe2Oglrg=
+X-Received: by 2002:a5d:5048:: with SMTP id h8mr1055131wrt.292.1627502814761; 
+ Wed, 28 Jul 2021 13:06:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyH4YB2dvMV+O1qQRLuA3F9S8ioOt3NJ6VsS1hOpreQtS+c8T3253moFq3Gk6wTQvSwOiD51Q==
+X-Received: by 2002:a5d:5048:: with SMTP id h8mr1055115wrt.292.1627502814465; 
+ Wed, 28 Jul 2021 13:06:54 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
+ (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
+ [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+ by smtp.gmail.com with ESMTPSA id f15sm855975wre.66.2021.07.28.13.06.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 13:06:54 -0700 (PDT)
+Subject: Re: [PATCH v3 3/8] memory: Introduce
+ memory_region_transaction_depth_{inc|dec}()
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20210728183151.195139-1-peterx@redhat.com>
+ <20210728183151.195139-4-peterx@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <b9c34e9b-c2e9-58ef-d2b2-3a6e72764cb5@redhat.com>
+Date: Wed, 28 Jul 2021 22:06:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+-xGqP7=m47cLD65DhTumOF8+sWZvc81gh+04aKMS56WWkVtA@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -146
-X-Spam_score: -14.7
-X-Spam_bar: --------------
-X-Spam_report: (-14.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <20210728183151.195139-4-peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=2.896, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,39 +102,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021, harry harry wrote:
-> Sean, sorry for the late reply. Thanks for your careful explanations.
+On 28.07.21 20:31, Peter Xu wrote:
+> memory_region_transaction_{begin|commit}() could be too big when finalizing a
+> memory region.  E.g., we should never attempt to update address space topology
+> during the finalize() of a memory region.  Provide helpers for further use.
 > 
-> > For emulation of any instruction/flow that starts with a guest virtual address.
-> > On Intel CPUs, that includes quite literally any "full" instruction emulation,
-> > since KVM needs to translate CS:RIP to a guest physical address in order to fetch
-> > the guest's code stream.  KVM can't avoid "full" emulation unless the guest is
-> > heavily enlightened, e.g. to avoid string I/O, among many other things.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>   softmmu/memory.c | 14 ++++++++++++--
+>   1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> Do you mean the emulated MMU is needed when it *only* wants to
-> translate GVAs to GPAs in the guest level?
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4d..725d57ec17 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1079,10 +1079,20 @@ static void address_space_update_topology(AddressSpace *as)
+>       address_space_set_flatview(as);
+>   }
+>   
+> +static void memory_region_transaction_depth_inc(void)
+> +{
+> +    memory_region_transaction_depth++;
+> +}
+> +
+> +static void memory_region_transaction_depth_dec(void)
+> +{
+> +    memory_region_transaction_depth--;
+> +}
+> +
+>   void memory_region_transaction_begin(void)
+>   {
+>       qemu_flush_coalesced_mmio_buffer();
+> -    ++memory_region_transaction_depth;
+> +    memory_region_transaction_depth_inc();
+>   }
+>   
+>   void memory_region_transaction_commit(void)
+> @@ -1092,7 +1102,7 @@ void memory_region_transaction_commit(void)
+>       assert(memory_region_transaction_depth);
+>       assert(qemu_mutex_iothread_locked());
+>   
+> -    --memory_region_transaction_depth;
+> +    memory_region_transaction_depth_dec();
+>       if (!memory_region_transaction_depth) {
+>           if (memory_region_update_pending) {
+>               flatviews_reset();
+> 
 
-Not quite, though gva_to_gpa() is the main use.  The emulated MMU is also used to
-inject guest #PF and to load/store guest PDTPRs.  
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-> In such cases, the hardware MMU cannot be used because hardware MMU
-> can only translate GVAs to HPAs, right?
+-- 
+Thanks,
 
-Sort of.  The hardware MMU does translate GVA to GPA, but the GPA value is not
-visible to software (unless the GPA->HPA translation faults).  That's also true
-for VA to PA (and GVA to HPA).  Irrespective of virtualization, x86 ISA doesn't
-provide an instruction to retrive the PA for a given VA.
+David / dhildenb
 
-If such an instruction did exist, and it was to be usable for a VMM to do a
-GVA->GPA translation, the magic instruction would need to take all MMU params as
-operands, e.g. CR0, CR3, CR4, and EFER.  When KVM is active (not the guest), the
-hardware MMU is loaded with the host MMU configuration, not the guest.  In both
-VMX and SVM, vCPU state is mostly ephemeral in the sense that it ceases to exist
-in hardware when the vCPU exits to the host.  Some state is retained in hardware,
-e.g. TLB and cache entries, but those are associated with select properties of
-the vCPU, e.g. EPTP, CR3, etc..., not with the vCPU itself, i.e. not with the
-VMCS (VMX) / VMCB (SVM).
 
