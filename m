@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5312A3D96F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 22:43:01 +0200 (CEST)
-Received: from localhost ([::1]:60814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7D83D9755
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 23:12:44 +0200 (CEST)
+Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8qOK-0005fz-D5
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 16:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48348)
+	id 1m8qr4-0003kJ-U3
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 17:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m8qN7-0004JF-Rm
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:41:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45445)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m8qN5-0001n3-1R
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:41:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627504902;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=akknP60QakeLGifJMV55QmFBWWFY1qMunDfj9WyFqn4=;
- b=AJZXrFnDy2dtBc+nX4IosDF2EMEH1BaX8hVxYKzVnfMEjgjafSne6S+sYHtYhtd8zzKLLq
- keYb8LiJBoYtAo7onKhfb72AU8QL5AdbBSQnVLxujUY4m75v8odr3sjzlligJLTnn6hjDd
- pS7lJyFjGEDQoXphv53XErb//nrIVQA=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-IHUY8_hFMe6hcJHhwog3rw-1; Wed, 28 Jul 2021 16:41:39 -0400
-X-MC-Unique: IHUY8_hFMe6hcJHhwog3rw-1
-Received: by mail-io1-f70.google.com with SMTP id
- e7-20020a0566020447b029050017e563a6so2456171iov.4
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 13:41:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m8qq3-00033v-PT
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:11:40 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m8qq2-0005Sj-33
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 17:11:39 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ mz5-20020a17090b3785b0290176ecf64922so12115719pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 14:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fqpig+pAt9kg/fvDVMJm4O/WBuqg1r88ul5coIPllqA=;
+ b=i8jnAiHbvHPkLfQvW56Am0UIspjRAcBGsnX4fzg1Sa0GRqyx43NfKCgf9zPgWRMIjo
+ F1UvNFC6XIQluxLbRJgLO0KgMjRDl6fD9Pcz9FUVXLfmcZ3KLjszON/gELxzPNxF4ixk
+ gdGfCDlXrk0UUqdhwOHKs62CTREzzBWOMgufKrutEZ/+p3xE+nbKm1Xxww8/IzMKavbp
+ 3FH448B9cn5GOCKNU1ne9fF4HGjYGjRPk+pOjtS+E2SmShq7bNuwW1xGdL2E735PsqWm
+ 1r3gaefawxBDnC6JAV+2ckAvELZmVVPtJpezLLAHSZIFHbJN+YoxeJ3uOJJWxuqo+uie
+ UwBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=akknP60QakeLGifJMV55QmFBWWFY1qMunDfj9WyFqn4=;
- b=mHcXMDbYSwQkIkRKNeYxPS3ziaJDRkWJqMlSo5Wm21B1pd37MtLs1pN6QKBs0Nzacc
- ndCbWFFs9rEbSwzTSOUIzh0YCNI8SFDnojkBozf7WegiRhhw9u/rDmOO+m4hWeb7Dgxv
- zCFPcsilY1dUdK3msEpr0UJxsvP+LLm9SIbBlWZVq6Hdfs4hfOftWHRHmzXKD3+YG48j
- Yox4GVwjHQSeU6LkJhDWymtREJsx5+znpauWL2AHnyzhFaHAPv2ore6x34ovhSH585V3
- XTPOnwJe9qfPUSmt8ZKJ3Ec69NBO5jns+6cYt7I80ZjYknEInceSM880B5Qk5MyGay5Y
- w0Cw==
-X-Gm-Message-State: AOAM532Qqq0CY/IFyzfrP0IZMGZ6As3r7jl8YWRsv35wkzkP82aFCD49
- 76iL5ICUG5enizIVrcILoZRtlP7+9PJ6fmuShXt+9C8f+LrBtabP/UQrJnWGN+L++yKUkKNj40a
- 5ds1nRpsQqr6O7wA=
-X-Received: by 2002:a6b:b5ce:: with SMTP id e197mr1024574iof.123.1627504898566; 
- Wed, 28 Jul 2021 13:41:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFY8aAUmM058VQt6ivuV8wjW5wySB8XCqHwDx8clluhrjEert/JeAMexbZkqqeyayKQEdGHw==
-X-Received: by 2002:a6b:b5ce:: with SMTP id e197mr1024543iof.123.1627504898432; 
- Wed, 28 Jul 2021 13:41:38 -0700 (PDT)
-Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id i7sm577915ilk.7.2021.07.28.13.41.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 13:41:38 -0700 (PDT)
-Date: Wed, 28 Jul 2021 22:41:35 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.2 v3 09/11] machine: Make smp_parse generic enough
- for all arches
-Message-ID: <20210728204135.ddge53fb5heybc26@gator>
-References: <20210728034848.75228-1-wangyanan55@huawei.com>
- <20210728034848.75228-10-wangyanan55@huawei.com>
- <20210728203854.algjktwccs2t663w@gator>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fqpig+pAt9kg/fvDVMJm4O/WBuqg1r88ul5coIPllqA=;
+ b=JtjyT620rHL5j9I7Pf/AZQEqkGrU7WT+rQ2RR7cWmCzHQUeO0FwBhqrVjoxGzZCv33
+ CzF/TWkTWVjOwAek+DF3/BAqa3zu8TMEOlIQhLxDV34KPK7VskEPrPvE652713iBEFx6
+ g5sG55hVmBPSC4fMQbrKY66qke0T4WXA/wuDnXDzMXe2tgl7uVCswguBj3ZOUKI5RBKK
+ deYhE/ZSP1W9a4kiPsFigpTuR8g5NSarMf5KOsc45XdC5jj5aUzlhK2hc1kXZYRfvoBV
+ FNM+KGkA7n6jR0hI3obvBSLi7ACpAFJu2EItRLZLiwU4ArM1z0ObNeni3pOHg75NanPf
+ F03A==
+X-Gm-Message-State: AOAM531iWstJ6unT8OIqnZL5IZosoavVETR08J22piuGJjQfZ78GQHPq
+ LcV3ZLqyBYyWpexq1Wa+jfOAag==
+X-Google-Smtp-Source: ABdhPJwdj2lAo9VUc8IXmIVQ5V4jvy929LmAofzPp4nx+2N+jrfV7qaXrC9NghLgyBPBLdnf5+e4cQ==
+X-Received: by 2002:aa7:93ac:0:b029:32e:4fce:bde1 with SMTP id
+ x12-20020aa793ac0000b029032e4fcebde1mr1742981pff.54.1627506695487; 
+ Wed, 28 Jul 2021 14:11:35 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604?
+ (2603-800c-3202-ffa7-dcaa-9e71-a2b2-2604.res6.spectrum.com.
+ [2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604])
+ by smtp.gmail.com with ESMTPSA id p3sm949924pfw.171.2021.07.28.14.11.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 14:11:34 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] tests: migration-test: Add dirty ring test
+To: Peter Xu <peterx@redhat.com>, Richard Henderson <rth@twiddle.net>
+References: <20210615175523.439830-1-peterx@redhat.com>
+ <20210615175523.439830-3-peterx@redhat.com>
+ <9b93e149-3147-3dca-83ce-474af99ccd2e@twiddle.net> <YQHAJy8lX0vt+yl2@t490s>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c0dbbbbe-e1c8-02e0-0455-bb954dd5f79b@linaro.org>
+Date: Wed, 28 Jul 2021 11:11:30 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728203854.algjktwccs2t663w@gator>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YQHAJy8lX0vt+yl2@t490s>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,44 +92,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 10:38:57PM +0200, Andrew Jones wrote:
-> On Wed, Jul 28, 2021 at 11:48:46AM +0800, Yanan Wang wrote:
-> > @@ -248,6 +256,7 @@ struct MachineClass {
-> >      bool numa_mem_supported;
-> >      bool auto_enable_numa;
-> >      bool smp_prefer_sockets;
-> > +    SMPCompatProps smp_props;
-> >      const char *default_ram_id;
-> >  
-> >      HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-> > -- 
-> > 2.19.1
-> >
-> 
-> What about putting smp_prefer_sockets in SMPCompatProps too (as
-> prefer_sockets)?
+On 7/28/21 10:37 AM, Peter Xu wrote:
+> A quick fix attached; would that work for us?
 
-Ah, I see patch 11/11 does that.
+Looks plausible, though perhaps just as easy to list the 5 platforms as just the one:
 
-Thanks,
-drew
+#if defined(__linux__) && \
+     (defined(HOST_X86_64) || \
+      defined(HOST_S390X) || \
+      ...)
+# define HAVE_KVM
+#endif
 
-> 
-> Otherwise
-> 
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
 
+r~
 
