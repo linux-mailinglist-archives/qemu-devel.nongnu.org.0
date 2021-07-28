@@ -2,98 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911B63D9003
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:03:18 +0200 (CEST)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6C83D900D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:06:23 +0200 (CEST)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8k9V-0001Qr-Ln
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:03:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54436)
+	id 1m8kCU-0005Zv-53
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8k8R-0000Zo-PI
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:02:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m8k8L-000765-8T
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:02:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627480923;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4h9I1P9g5o3ADlfUVRX9qHGC0PMa/ZwZFmRwYxcFRk=;
- b=KWlqDdj7thOvWPmBoInICpmf6+hvXflLvyJ6QaD3zQIaOGGAwbsimZrHyq6AMOpPzx/Pi1
- AYzHczEkr1btrcFzh8Yz+gni9gp7BsGmp13OMrqlezUFhUG+EzyqLCOJbg1/EGNMUFq5x0
- 5OFfWZYZZF5NK4FwC/4Nn10wWy3+OFU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-IDTKza8wNfSyC-RUa0ujYw-1; Wed, 28 Jul 2021 10:02:01 -0400
-X-MC-Unique: IDTKza8wNfSyC-RUa0ujYw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d13-20020adfc3cd0000b02901531b0b7c89so987169wrg.23
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:02:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8k9u-0003Av-I0
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:03:42 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:36790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1m8k9s-0008AL-GV
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:03:42 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id w10so1399549qtj.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 07:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wPRryln6SuRZCmFyxlQP12/WhmR2lTKUJTci+E1GqRA=;
+ b=QGVVw6lsQMUKtHZtKOysmjuKZTAHkxLZS0kafaMfDZDwEkW9RaulwR7LQF4+BZ9vA2
+ y0pm6TrsOEv0fV29T8PbSVhuVy76aYpgMUjBLxjuCy87b/E49m2LBU0Iscy1jWXFpTkd
+ raK32DP1jZip2K44kEGWXdiCLSwJZK14wkxg4pm1yRHHufN+1d9cYq778Lw2DYr6XJtv
+ 0T00MOHm2e9qSv4nPRon2m1ts1wkq90t4JQhQs1aQIZmA1xJZBzfsDlDYRr0bN/lD/cD
+ tQ4dyfCFthZZPWveqTsEPjhnB3rLD2kQ3unBnW4lpo8oq/NzOGc+yvfjKDGqeikxBTsK
+ KA5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=O4h9I1P9g5o3ADlfUVRX9qHGC0PMa/ZwZFmRwYxcFRk=;
- b=mGqt65jiIM7qdMWpcRFKMZHG1JE1k0DNyUSokAIY13659HIKVfr3LUGygV6jqntliV
- k1O2NvN2lkFVJu6i9QTAhZ5IIHNI4VvS7/JYzKCUX8pYOogNqOuxXesoW0XbxbLkdo2Q
- /fnjF7rzs4r6WoFDNod+2y6v2a/Svm7Vo4y9F/fcJmF+Na/z5bdsW0CRAQC7cEV9KF6x
- FRdRDphwmZKcyin+bfDpOACQMdrCgv32PWcUuwrM/r2dAtjZGHPsU9h2TMXTbr1i77r6
- BCOkLSVILaW7TeBB/5bd6bFkZXzXIMf7UBrtFlr0Bq1M0tUqyZan1Y5HZBzpgnzU4adE
- g06A==
-X-Gm-Message-State: AOAM532SC2en+xbQMMhnYmCK2lWzCIJx3EyuNzrq3wuBhy0rbSXmXU1a
- EBBxCuZu1pNthDvHsQysB+dXo0IXSRNsXK+/D0sgqWVw4L4MvBR145CbkQU/yPmcPh8qxXDXDGc
- uAVMjeQdJutqx9iw=
-X-Received: by 2002:a05:600c:1906:: with SMTP id
- j6mr9299641wmq.108.1627480920369; 
- Wed, 28 Jul 2021 07:02:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyg67KaNdPFyqshf2+/dJEYIyViKMZeSqyJximGtipD+FPbVMzhaMoJGy7lCKx1j+kYy/0QuA==
-X-Received: by 2002:a05:600c:1906:: with SMTP id
- j6mr9299614wmq.108.1627480920092; 
- Wed, 28 Jul 2021 07:02:00 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id s13sm6171183wmc.47.2021.07.28.07.01.59
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wPRryln6SuRZCmFyxlQP12/WhmR2lTKUJTci+E1GqRA=;
+ b=Gutd815M8tPRTRSk7HOV/oQKKcpFIztxlGii6u9U3rEZExHI6dYu8wtbrFZPDcSTZ4
+ 5HCt54WFRdC7QqIlYR8/9i9fKOES/PeQiTr8T2u2UvFXF/keJJ2xSTdElzsKJNsHp2an
+ kE/eJjs3skWIUXnDK6ykrVVjMg5135kSIK02LYiT5/zhDNbQiq0mh1fN4NMy8mm3E99Q
+ WWyrfYSkopoH2gV0JYbxRCb8TnuyG6qEs0sar07YQFYIaiRtAp/OTTvRs7Q8wpEQYbSD
+ yToeNH0VHeJc7xH5niX8/mY3FthtBTOBSqCTXYdzNeQp24WsZnx1DYz2CqWM6wrOkJrg
+ m/dw==
+X-Gm-Message-State: AOAM530s6DU5MnPp6R/pURp9pbggi8JsfN4aEmW2woEIEbs+LT93Aiqk
+ r3sNFMTOs2AhccVCH8nt690=
+X-Google-Smtp-Source: ABdhPJzE8BOhc6luwIJa/dzvA79+IKg5nBqbTnQo2fvPas+qpDxWPREJPGiMTN2Bajb7tpl+jPtsRg==
+X-Received: by 2002:ac8:c0d:: with SMTP id k13mr24360772qti.11.1627481018523; 
+ Wed, 28 Jul 2021 07:03:38 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ n5sm29092qkp.116.2021.07.28.07.03.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 07:01:59 -0700 (PDT)
-Subject: Re: [PATCH v2 4/9] memory: Don't do topology update in memory
- finalize()
-To: Peter Xu <peterx@redhat.com>
-References: <20210723193444.133412-1-peterx@redhat.com>
- <20210723193444.133412-5-peterx@redhat.com>
- <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com> <YQAt/V06OZgjhpI6@t490s>
- <5fb63e79-7a75-d7bc-2c62-9149f91c5d83@redhat.com> <YQFiDqy7FyXabG55@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <8f60030d-fbea-7dac-af1d-e8c9f9f5d8b1@redhat.com>
-Date: Wed, 28 Jul 2021 16:01:58 +0200
+ Wed, 28 Jul 2021 07:03:37 -0700 (PDT)
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+To: Ard Biesheuvel <ardb@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+ <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+ <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+ <20210727045315-mutt-send-email-mst@kernel.org>
+ <20210727123603.6119c34c@redhat.com>
+ <20210728090555-mutt-send-email-mst@kernel.org>
+ <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
+Date: Wed, 28 Jul 2021 07:03:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YQFiDqy7FyXabG55@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=groeck7@gmail.com; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,94 +97,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Jiahui Cen <cenjiahui@huawei.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.07.21 15:56, Peter Xu wrote:
-> On Wed, Jul 28, 2021 at 02:13:17PM +0200, David Hildenbrand wrote:
->> On 27.07.21 18:02, Peter Xu wrote:
->>> On Tue, Jul 27, 2021 at 03:21:31PM +0200, David Hildenbrand wrote:
->>>> On 23.07.21 21:34, Peter Xu wrote:
->>>>> Topology update could be wrongly triggered in memory region finalize() if
->>>>> there's bug somewhere else.  It'll be a very confusing stack when it
->>>>> happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
->>>>> only until it fails!).
->>>>>
->>>>> Instead of that, we use the push()/pop() helper to avoid memory transaction
->>>>> commit, at the same time we use assertions to make sure there's no pending
->>>>> updates or it's a nested transaction, so it could fail even earlier and in a
->>>>> more explicit way.
->>>>>
->>>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>>>> Signed-off-by: Peter Xu <peterx@redhat.com>
->>>>> ---
->>>>>     softmmu/memory.c | 23 +++++++++++++++++++++--
->>>>>     1 file changed, 21 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>>>> index 1a3e9ff8ad..dfce4a2bda 100644
->>>>> --- a/softmmu/memory.c
->>>>> +++ b/softmmu/memory.c
->>>>> @@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
->>>>>         EventNotifier *e;
->>>>>     };
->>>>> +/* Returns whether there's any pending memory updates */
->>>>> +static bool memory_region_has_pending_update(void)
->>>>> +{
->>>>> +    return memory_region_update_pending || ioeventfd_update_pending;
->>>>> +}
->>>>> +
->>>>>     static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
->>>>>                                                MemoryRegionIoeventfd *b)
->>>>>     {
->>>>> @@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
->>>>>          * and cause an infinite loop.
->>>>>          */
->>>>>         mr->enabled = false;
->>>>> -    memory_region_transaction_begin();
->>>>> +
->>>>> +    /*
->>>>> +     * Use push()/pop() instead of begin()/commit() to make sure below block
->>>>> +     * won't trigger any topology update (which should never happen, but it's
->>>>> +     * still a safety belt).
->>>>> +     */
->>>>
->>>> Hmm, I wonder if we can just keep the begin/end semantics and just do an
->>>> assertion before doing the commit? Does anything speak against that?
->>>
->>> That sounds working too for the case of run_on_cpu and similar, but I think
->>> this patch should be able to cover more.  For example, it's possible depth==0
->>> when enter memory_region_finalize(), but some removal of subregions could
->>> further cause memory layout changes.  IMHO we should also bail out early for
->>> those cases too.  Thanks,
->>>
+On 7/28/21 6:25 AM, Ard Biesheuvel wrote:
+> On Wed, 28 Jul 2021 at 15:11, Michael S. Tsirkin <mst@redhat.com> wrote:
 >>
->> Do we really have to switch to push/pop to catch these cases early? I'd
->> assume we'd just have to formulate the right assertions :)
+>> On Tue, Jul 27, 2021 at 12:36:03PM +0200, Igor Mammedov wrote:
+>>> On Tue, 27 Jul 2021 05:01:23 -0400
+>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>>>
+>>>> On Mon, Jul 26, 2021 at 10:12:38PM -0700, Guenter Roeck wrote:
+>>>>> On 7/26/21 9:45 PM, Michael S. Tsirkin wrote:
+>>>>>> On Mon, Jul 26, 2021 at 06:00:57PM +0200, Ard Biesheuvel wrote:
+>>>>>>> (cc Bjorn)
+>>>>>>>
+>>>>>>> On Mon, 26 Jul 2021 at 11:08, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>>>>>>>
+>>>>>>>> On 7/26/21 12:56 AM, Guenter Roeck wrote:
+>>>>>>>>> On 7/25/21 3:14 PM, Michael S. Tsirkin wrote:
+>>>>>>>>>> On Sat, Jul 24, 2021 at 11:52:34AM -0700, Guenter Roeck wrote:
+>>>>>>>>>>> Hi all,
+>>>>>>>>>>>
+>>>>>>>>>>> starting with qemu v6.0, some of my aarch64 efi boot tests no longer
+>>>>>>>>>>> work. Analysis shows that PCI devices with IO ports do not instantiate
+>>>>>>>>>>> in qemu v6.0 (or v6.1-rc0) when booting through efi. The problem affects
+>>>>>>>>>>> (at least) ne2k_pci, tulip, dc390, and am53c974. The problem only
+>>>>>>>>>>> affects
+>>>>>>>>>>> aarch64, not x86/x86_64.
+>>>>>>>>>>>
+>>>>>>>>>>> I bisected the problem to commit 0cf8882fd0 ("acpi/gpex: Inform os to
+>>>>>>>>>>> keep firmware resource map"). Since this commit, PCI device BAR
+>>>>>>>>>>> allocation has changed. Taking tulip as example, the kernel reports
+>>>>>>>>>>> the following PCI bar assignments when running qemu v5.2.
+>>>>>>>>>>>
+>>>>>>>>>>> [    3.921801] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+>>>>>>>>>>> [    3.922207] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+>>>>>>>>>>> [    3.922505] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+>>>>>>>
+>>>>>>> IIUC, these lines are read back from the BARs
+>>>>>>>
+>>>>>>>>>>> [    3.927111] pci 0000:00:01.0: BAR 0: assigned [io  0x1000-0x107f]
+>>>>>>>>>>> [    3.927455] pci 0000:00:01.0: BAR 1: assigned [mem
+>>>>>>>>>>> 0x10000000-0x1000007f]
+>>>>>>>>>>>
+>>>>>>>
+>>>>>>> ... and this is the assignment created by the kernel.
+>>>>>>>
+>>>>>>>>>>> With qemu v6.0, the assignment is reported as follows.
+>>>>>>>>>>>
+>>>>>>>>>>> [    3.922887] pci 0000:00:01.0: [1011:0019] type 00 class 0x020000
+>>>>>>>>>>> [    3.923278] pci 0000:00:01.0: reg 0x10: [io  0x0000-0x007f]
+>>>>>>>>>>> [    3.923451] pci 0000:00:01.0: reg 0x14: [mem 0x10000000-0x1000007f]
+>>>>>>>>>>>
+>>>>>>>
+>>>>>>> The problem here is that Linux, for legacy reasons, does not support
+>>>>>>> I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI is
+>>>>>>> rejected.
+>>>>>>>
+>>>>>>> This might make sense on x86, where legacy I/O ports may exist, but on
+>>>>>>> other architectures, this makes no sense.
+>>>>>>
+>>>>>>
+>>>>>> Fixing Linux makes sense but OTOH EFI probably shouldn't create mappings
+>>>>>> that trip up existing guests, right?
+>>>>>>
+>>>>>
+>>>>> I think it is difficult to draw a line. Sure, maybe EFI should not create
+>>>>> such mappings, but then maybe qemu should not suddenly start to enforce
+>>>>> those mappings for existing guests either.
+>>>>
+>>>> I would say both. But about QEMU actually I think you have a point here.
+>>>> Re-reading the spec:
+>>>>
+>>>> 0: No (The operating system shall not ignore the PCI configuration that firmware has done
+>>>> at boot time. However, the operating system is free to configure the devices in this hierarchy
+>>>> that have not been configured by the firmware. There may be a reduced level of hot plug
+>>>> capability support in this hierarchy due to resource constraints. This situation is the same as
+>>>> the legacy situation where this _DSM is not provided.)
+>>>> 1: Yes (The operating system may ignore the PCI configuration that the firmware has done
+>>>> at boot time, and reconfigure/rebalance the resources in the hierarchy.)
+>>>>
+>>>>
+>>>> I think I misread the spec previously, and understood it to mean that
+>>>> 1 means must ignore. In fact 1 gives the most flexibility.
+>>>> So why are we suddenly telling the guest it must not override
+>>>> firmware?
+>>>>
+>>>> The commit log says
+>>>>      The diffences could result in resource assignment failure.
+>>>>
+>>>> which is kind of vague ...
+>>>>
+>>>> Jiahui Cen, Igor, what do you think about it?
+>>>> I'm inclined to revert 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14
+>>>> at least for now.
+>>> Looking at patch history, it seems consensus was that it's better to
+>>> enforce firmware allocations.
+>>>
+>>> Also letting OS do as it pleases might break PCI devices that
+>>> don't tolerate reallocation. ex: firmware initializes PCI device
+>>> IO/BARs and then fetches ACPI tables, which get patched with
+>>> assigned resources.
+>>>
+>>> to me returning 0 seems to be correct choice.
+>>> In addition resource hinting also works via firmware allocations,
+>>> if we revert the commit it might change those configs.
+>>
+>>
+>> Well if firmware people now tell us their allocations were never
+>> intended for guest OS use then maybe we should not intervene.
+>>
 > 
-> The subject and commit message was trying to tell why. :)
+> DSM #5 was introduced to permit firmware running on x86_64 systems to
+> boot 32-bit OSes (read Windows) unmodified, while still leaving
+> enlightened, 64-bit OSes the opportunity to reorganize the BARs if
+> there is sufficient space in the resource windows, and if the OS runs
+> in long mode so it can address all of it.
 > 
-> "memory: Don't do topology update in memory finalize()"
+> This is why the default-if-absent according to the spec is '0', and I
+> already explained up-thread why arm64 deviates from this.
 > 
-> The root reason is errors within memory commit can be very hard to digest,
-> however the assertion failure is easier to understand because any memory layout
-> change is not expected to happen.
+> But Igor has a point: there are cases where especially bus numbers
+> should not be touched, as firmware tables consumed by the OS may carry
+> b/d/f identifiers for things like SMMU pass through, where changing
+> the bus numbers obviously invalidates this information.
 > 
-> The push/pop (I renamed it after your other comment to depth_inc/dec) avoids
-> memory commit happening at all within finalize(), and make sure we always fail
-> at the assertion as long as there's any potential memory update (even if the
-> memory update won't crash qemu immediately).
+> These are exceptional cases, though, and I would argue that these
+> should be considered individually, rather than setting DSM #5 to 0x0
+> simply because there might be cases where not doing so could
+> theoretically break things, given that doing so has proven to break
+> things.
+> 
+> 
+>> As others noted the original commit was kind of vague:
+>>
+>> 1. it said "Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+>> that firmware has done at boot time could handle the differences."
+>> which is not what the spec says and not what the patch did -
+>> guest os does not ignore configuration even without this,
+>> it is just allowed to change it.
+>>
+>>
+>> 2. is says could result but does not report whether that happened in the
+>> field.
+>>
+>>
+>> Given this causes a regression I'm inclined to just revert for now.
+>> We can figure it out for the next release.
+>>
+> 
+> For a revert of commit 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14, feel
+> free to include
+> 
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> 
 
-Okay, makes sense to me, thanks
+and:
 
-Acked-by: David Hildenbrand <david@redhat.com>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
+> and please also involve me if any future debates on this subject flare up again.
+> 
 
--- 
+Same here.
+
 Thanks,
-
-David / dhildenb
-
+Guenter
 
