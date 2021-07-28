@@ -2,134 +2,187 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5533D915D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 16:56:38 +0200 (CEST)
-Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78473D91AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 17:18:25 +0200 (CEST)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8kz6-0006OR-M0
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 10:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38530)
+	id 1m8lKC-00014T-Ai
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 11:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
- id 1m8kxq-0005hj-Dv
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:55:18 -0400
-Received: from mail-am6eur05on2126.outbound.protection.outlook.com
- ([40.107.22.126]:32265 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1m8lJ0-0000MV-C7
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 11:17:10 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:29830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
- id 1m8kxn-0001lz-7j
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 10:55:17 -0400
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1m8lIw-0000Bh-AA
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 11:17:09 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16SFClsW026750; Wed, 28 Jul 2021 15:17:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=JxsrdJL/wruvKPTZhWHwF6L9Tk4X049k0B0y9GeAzTE=;
+ b=antc9nzgo/UvtVeLfdO098IQcu/AVX2ZU3E1zZvN8oq5kEbRHKG+ED1i6uaX6xpJy4KQ
+ yg6VvBqh93HYaWcBNBWneuCTgAihmWpr/AOn0fTtErox2wnyLuKXLgu9e4wR7Wq1C2tx
+ zf/ASzyrqRcmL7C891LvL8YXspRtp9o7q9IpCVxGvLCOcWB6CbcExC2MW39AkeLmGjiJ
+ YVppHQmOfSL5wj231hukkZDlBaMhUHpr04ryzquMO9mOC69BPqqPYaNu25wqOGypk6fD
+ GARM8vJFRY2afSrqnu69ba/n+TrlNtzj6oQiVnubiJiRpxiD2P8Sd/oi+socpbXPXYwD +Q== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=JxsrdJL/wruvKPTZhWHwF6L9Tk4X049k0B0y9GeAzTE=;
+ b=h9vRAo3pIOa0WWQeJ83zYxncmhc4p86UZ46j2febKCii3KQMXQxRAvgL7vao7TdvXB2Y
+ Rv7VcLjBtUlC4U04EJpgOxrUarv1ictX9HkT5zxxsxzJPzWIqCqsPc7Mi/yKm//b3cSK
+ GTGF6wJwZDhxmE03w1yZSghtEBssOqCWKyCaWOgFxwbFzMv5ny3sZQ6Q2r55oZEnV02V
+ DwA1zEkAh0y+oOr3/AThKo0YGlzrHm26EY78by6XmwmfWhPZXcWh4K3MFZNTPZvYORiL
+ qdzqKB9nO9KfxjeeACJfSDcAnFtcuOgKColOGJNOFDj6gKdTe8WDpckHLnJIj9xxrGAG iQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3a2jkfb28h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Jul 2021 15:17:01 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16SFAqt7032373;
+ Wed, 28 Jul 2021 15:17:00 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2041.outbound.protection.outlook.com [104.47.57.41])
+ by userp3020.oracle.com with ESMTP id 3a234xx95b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Jul 2021 15:17:00 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hi3x1Myp8cAuiuxLNmpgQi5Pyn83BTv0QPeixrgc2/OoTSCFw5Sb+qW2A4u3a5lohVPl16S34AStUuE8o9dqiVVntJV6bBuNrMJcnjHWGxWQB8NBE8AvMcMvbHRv3/KwBIAcsETvd7rCSFNp4gJ+KkkJqOf0L6Gm5OGdXrB6cW8d7xBHc9uMYxRtRcKj/TXAtsjQ45Jl17JKGCKgdKa54zMgr7m4ihYLl3PMxCDcp5gGo6pgIk4aJJVCinfMvRDLNjUYFF0KiDA8wJxdhIPHebX1k9T+amigc7tqzXnFjVWL4r0pmQpzUxAERFEbqt6+jGWTX44N2gIBzy5b9zvxrA==
+ b=lQ/n+MuAJhnZB9+fzxmn6XaDbRiU6G472i9gtTqZ8rUVL7JdUV0+YEsuhnqxfjKhv7Hc7MKit3bsUoIvf1g9Ns0lyul0niy6iBe0nxdy2EzmrtQIz1JqcSdFlfcbeJQhkU8uHNNan8VWa2JA919lw5kcH2T+86kjq+g5Es7iRXlLVDXmc7VgxB5suTOWclZfLm9kSHEkTyrsH/koFBFnTjuQYvnFS+ht9Xh4P9y5Q35/hk6J9XaDnGFnvUrWbTmOZUe9pscqZCMo12XoTyMb1A2OccUNvCKrnbYZ5bE78OnkEucLPwfX2vEblAGRVGwAj1UDXgjRuLHIUIpOwpbhMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=blojPQ1ja9lnW+TXqDp5T58KdVwDk1bbeKJqWw5xoLA=;
- b=a5r39SEgZmviZzV0iREgUArhzJKGAEbgMDbhcAvXU2LWbQlH/mzjNWxD45B2V3KIrQcKpjW0YLP2Clp55HWKoh9/DNNCHK8J8a3rGutrOe/YpPN5tCW4vdyfKsi988FWlqwVmzRbCkqSOLr9aeBM5hldjmUT0LnPlhuv3hTXOI02dtuN4+wdawzY7/EvSR1XHtTYZcW+EFaTfprwdl8mDHzFZokQZCFUTzNshU4sLu0f01UcESCL0NK30ZQ3tXcmcoiQS6o5Hz7COvsMhxpBpXhBs8wGDbJfYoNgpl4yIv7nbVzm+8pXPG870HxLXISpqUsZgRIifHVaSOc+HBt/tQ==
+ bh=JxsrdJL/wruvKPTZhWHwF6L9Tk4X049k0B0y9GeAzTE=;
+ b=G6ZGgOQj9soJOxn7SpPA01HAF6tDbnkuuY4+K8fhoAqqEz+LWtpZcF6A1iT4FMk3dPb9fXx0rWBkHDo1FK9DE9o0Kx+zSSdiXiJu3sNd9Q/Ee98einlZXRsm9+hYilKlmokt8OpyJL2Q0aVCJ/q6WowkGFT00qVy/b0uEaeFt1rEwxKjKwOIOAI0cUmNwiFSrSFSrL8EHFPR6IzOJZr32ALcOSTlXoyWEflahp9hXtmLjN0L14OcIMvLcl4Aw/U0roDJJ/TJbXgShM9GinstmJ4FBcNA5o8un38n6PngrQFzzmrVsTq+Z+skjg9jt0Q64ovZrb/lDaOtqme6Wi3bxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=blojPQ1ja9lnW+TXqDp5T58KdVwDk1bbeKJqWw5xoLA=;
- b=a4aVZ+y5ztfM/QSQHgVrIdMcl+hHseUJxwhWKKPrbKqJhZl1XDb99NE8t1IyKEfT/lwrHz/n7jtWMg9I11Q/a0VtNB0xzvGD3WGka+9iKCzp9AdDqGplcwIZigwzzQcTsl1Q/EAd+jhozH+3X7RcSYgNCr5li6tUunjADAhJgvk=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB5988.eurprd08.prod.outlook.com (2603:10a6:20b:283::19)
- by AM9PR08MB6997.eurprd08.prod.outlook.com (2603:10a6:20b:418::17)
+ bh=JxsrdJL/wruvKPTZhWHwF6L9Tk4X049k0B0y9GeAzTE=;
+ b=NDUmuQjoJ/ChR4sgXr+7pa2o7XAZCbwqpGaObpHHjWvWmmvX3LM91LjngRidJbBKv/5IjRGz1rNS8t5cRuta7VU39lL2pMroEJ684gEhTGh7QeUnj5IDvUSW4fPjTqRt6vk2NCcqf9TTHiWc6K2AmlRTvYDyoq46QxQtGHZ6ooI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
+ by CO6PR10MB5636.namprd10.prod.outlook.com (2603:10b6:303:14b::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.19; Wed, 28 Jul
- 2021 14:55:11 +0000
-Received: from AM9PR08MB5988.eurprd08.prod.outlook.com
- ([fe80::2d48:8cfb:a44e:f543]) by AM9PR08MB5988.eurprd08.prod.outlook.com
- ([fe80::2d48:8cfb:a44e:f543%9]) with mapi id 15.20.4373.020; Wed, 28 Jul 2021
- 14:55:11 +0000
-From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: [PATCH v13] qapi: introduce 'query-x86-cpuid' QMP command.
-Date: Wed, 28 Jul 2021 17:54:54 +0300
-Message-Id: <20210728145454.3506-1-valeriy.vdovin@virtuozzo.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: AS8P250CA0021.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:330::26) To AM9PR08MB5988.eurprd08.prod.outlook.com
- (2603:10a6:20b:283::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17; Wed, 28 Jul
+ 2021 15:16:58 +0000
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::cd0a:e210:15eb:dc5]) by CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::cd0a:e210:15eb:dc5%5]) with mapi id 15.20.4373.020; Wed, 28 Jul 2021
+ 15:16:58 +0000
+Subject: Re: [PATCH v5 02/10] ACPI ERST: specification for ERST support
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
+ <1625080041-29010-3-git-send-email-eric.devolder@oracle.com>
+ <CO1PR10MB453117598D1ED99EB0A7AA3B97019@CO1PR10MB4531.namprd10.prod.outlook.com>
+ <20210719170244.7402e008@redhat.com>
+ <c0b0a60a-bd4e-ef2c-d398-bef96d8731dc@oracle.com>
+ <20210726120650.4bb9272f@redhat.com>
+ <8631ab5a-943c-900d-ab45-973191cb1064@oracle.com>
+ <20210727134523.086b3ed0@redhat.com>
+From: Eric DeVolder <eric.devolder@oracle.com>
+Message-ID: <f1c13525-e359-67aa-f7d3-8feb6dfdd3bf@oracle.com>
+Date: Wed, 28 Jul 2021 10:16:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <20210727134523.086b3ed0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0701CA0019.namprd07.prod.outlook.com
+ (2603:10b6:803:28::29) To CO1PR10MB4531.namprd10.prod.outlook.com
+ (2603:10b6:303:6c::22)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (176.106.247.78) by
- AS8P250CA0021.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:330::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4373.17 via Frontend Transport; Wed, 28 Jul 2021 14:55:10 +0000
+Received: from [IPv6:2606:b400:414:8061:221:28ff:fea5:27c8]
+ (2606:b400:8024:1010::112a) by SN4PR0701CA0019.namprd07.prod.outlook.com
+ (2603:10b6:803:28::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
+ Transport; Wed, 28 Jul 2021 15:16:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0fbe9ea-c3f4-4b96-bee5-08d951d7b2d4
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6997:
+X-MS-Office365-Filtering-Correlation-Id: 984fd81d-846e-485d-bb35-08d951dabcc6
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5636:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM9PR08MB69978321DEF21425DF06800187EA9@AM9PR08MB6997.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <CO6PR10MB56368D86544CDE007184839097EA9@CO6PR10MB5636.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Nlb4JJ7MAFT1AgRn57wvt6ANzp7zg12/a37fkbqhNoS74O9Lb23SkYa7yafpCNBA5bZtnGRPgpD7QhVN/PgSCDuIiFxq5UHDfSkpF3at+vkJ3DFPwV6VVTqkHBF3KoObpfD4xSdHkT6ebElttCUEW6ox+YXs+0V8ZH/lcn/LfwoXumrV+9TEXhYfKcOi2dGmoWIvm53V0waQBYowkfIJdahxkvL9GyswZIiT01U6D8pEqWP4BWleLhFTy6sOmTY6nW4Be8voVSe1U9wu1R7e7pzNcLsfL26S1604dlfEuYarDaIjuMZxsA1e81/Wonwx3g7ikhNgmNVelfUHsxUYcZ6Fpf7sMune+DC8BzkZZ5J1YcvKhh6qdUKCfjy1+5Lvyfehl3bPRU8B3AjOEMXvcBL4mJIxdKQ8g1yWHpHftNQ3LvbHelV4KRiR26ABSCYBKZBuhI94oZbab8AoW8HeEaIl0Qkz2BZlw58vAzTtJvJF7o3eAjrc7GH4pwZnVsqnLGnEI7NhIGx2mhZQGGyOhdZzj3OHS6cAno7ARG9h273W8q2mranEMau5gU3Go4Ix5Xyk9eaf3NMgscwwMdzWjAwL8aHpI4y1oVtW/3R0mOFirGEPvbRwSZneKmAtGRagDU8lNPuhq7pSpPBM+nEePFld59ADm2UT+mnCfX2HLdNKP2nZ6nAyYtq5qhByIDWbXqWjyd3SzeNUQubYgrhGKw==
+X-Microsoft-Antispam-Message-Info: CtUC1WGN1rCxxgF59oQcDtP60fK33sZQJ51AwoHKe72wdWOH55mYAPBRp/8w+V6APq8/sG7oL/PH2e0jOQPrK4nH2TCjML8dW+0igSxulPllWF8nNX6CtZrvq46vVNHCKGyImZfbhBZfHi//hpWEDC3B8dgYCrkaMxk/B9hv2Li1f0adiIhneGeS+ROeXVbl4CU95OhZ4NV4YO3I+LrtA/EK2agMZLJFAeZCGWPwdZkWHPbBxKtsjEgobqIFwN+YAtqJnhERqd6lHv9X1/j8VwaPaWwtwfE1PMieHs0cl/I3QZVwBeOQtjIA+TtxUzAuVdZJovuXiOL0upWSlOGwdxDPZ+YVN436nY9H1hViVES4yuB0PDzx0ZMOGMzKmCZ1gFx7DUiQ6jWxFplKAUmA9xIn4T/EqUYZjDRRfscMYIqjF+Bn1DvJEGxuoucjzfw38Bvbb2h9kNOZyAi2Z4IW1/eNtcBeldDrvBTM6qIjE6rRnpzfNbsGDKbCGb5zg4DBsHDwH1B4QCr6Rz1dxDoAXx4uzAAsnaR4M6VYdh+7aQ4vlsIIuezadpFq8Gaey9lke11j0JzqQaDlVy6853GPIdRgyRqT1OUl0pN2GdqfoI+Tr7Z2W+1AHqPBAVBHsK+Ek7+Q57nwJ4X/LLDV8jvyhwTlTqItzQF4ahQoMDC+m3/soD8on8VMP74dIKBgAwwahXKCIAjMd8LwCfBRl25LoD2T0q2Oxut2+2VgD7Of/tJAtuP9G3EtLJTWCMLhROMoc2fPkLTzCFsfLhPprvItJosl724EVN91kgRcqqJk4wJcZutARnwfAgPvp3ZLsOLh
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB5988.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(366004)(39840400004)(396003)(6666004)(26005)(6512007)(316002)(186003)(6506007)(66556008)(66946007)(8676002)(66476007)(1076003)(6486002)(478600001)(2906002)(7416002)(107886003)(8936002)(44832011)(2616005)(956004)(54906003)(4326008)(38100700002)(38350700002)(86362001)(36756003)(6916009)(83380400001)(5660300002)(52116002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(376002)(39860400002)(346002)(366004)(54906003)(31696002)(316002)(5660300002)(4326008)(186003)(6486002)(8936002)(83380400001)(38100700002)(86362001)(478600001)(66476007)(66556008)(2616005)(45080400002)(6916009)(36756003)(53546011)(31686004)(30864003)(8676002)(66946007)(966005)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GAA47iGqZ9jSdQCggSqnHOvoG/tpDP1Zpc6ByBHv4GbHR2AWhSxGCkWzm/gx?=
- =?us-ascii?Q?3S4i8AL4hvRiIT25YoGBsX5p/hjsDmoRDJxSVWCInNTdUSZLTyZzhf+Si4uz?=
- =?us-ascii?Q?xzJpMUcNVY3YW1Ic9znfRXICF6XLZ16ydpsdlBKp9BNSEcyKIKpANSCbDxEO?=
- =?us-ascii?Q?sjkrRoX+SUm6vg+7cAw0N7ltr4LZ5TeC2sZP6WE5fmyFrfy+8g0UtUe80T/b?=
- =?us-ascii?Q?5WYD5GLkYVPdPJTRZR8NeDdaBjVKaLo8fVWIfSjy8nNGH0zVNNM64ZT7bhpl?=
- =?us-ascii?Q?vYwmTtjT+Dj7MTcmsA6S+wBJit+pD6Aa/S6elWe5ig9CJR8CPGR/30kN9oOI?=
- =?us-ascii?Q?E0ubMX+uj6G7qbjvXtl11Dt5cjSKpCGHImNRJjqVmAE9Wj5xCo8B4FIfZkgC?=
- =?us-ascii?Q?ZR3XazUfQNl72lh33LhU+BLnggrXoP2oHGEray+TT94E3GOPPDgo9os4P0/V?=
- =?us-ascii?Q?HRlNL7ZNTmHA6b0vhvkXeMhl5iNS4GEP9kEp3huBYI5T5FATVVxfCXKp9hOh?=
- =?us-ascii?Q?EYycD58AErutBupYfKxOB80ZZf4vTrkegRFzbMt/fDLG21nx8TBzXHilrG51?=
- =?us-ascii?Q?TQYDVvy+IQ63Vw+yxChErex+1Na4Q2gl48bi7d3ltv0m5Ap/timvxlPB65Ye?=
- =?us-ascii?Q?ZjB5dUvhVNW0ynuIKts8F4KaSzPskYRmC06kt2drQba6fSoe3/67A76Usxv7?=
- =?us-ascii?Q?BIY8k5MJBPqKySNfFDZ+rpOB2psCuZOmu7RrtnA0qdL03LPT8C6Bi/uhk6ju?=
- =?us-ascii?Q?nAE9H2TM4xJ1dwe7H42Z2AKgLXxEQSiGy1kCk4H/18ZSUmjS3M7Egfj6j2yF?=
- =?us-ascii?Q?/IDnyz0pBCr4pOhiCA2WQiPgZSzjpN/qPAGjCWZrnoWwpCWcVpQiRfvsKyBb?=
- =?us-ascii?Q?BveRV+Ag7XsDljlokcOdmNSEk7CBBRFo0rmcqb2KhwHhLZ5l+G5T7K9XZQUW?=
- =?us-ascii?Q?4QbaG166XWQScI+Wuops7/2ucEmaNZTN0/Ehq9mny7tazLvALzkzr5JZD7FD?=
- =?us-ascii?Q?wjbgiiFxxtRSGQR/JX4FEI19iOmJXpEDLUsKEOKUq6X2IETBmn4HLxenJyb7?=
- =?us-ascii?Q?ptRi4EcSYrTuFL1pnoiih5/1KbPwTG1R/duKsbB+13jNyofl7jPu3k1Lm3qE?=
- =?us-ascii?Q?ply8KP0C+FGvsIdTEkqTS8uA931s4OC6tEbcZ3hjSLZUvGk9qFty26FRwC5r?=
- =?us-ascii?Q?0pWHf+tvP5Sd1G9wmgfcjXbqmlWzjLpB4lUotebw5DXsmF55tyPTIIp0kH0U?=
- =?us-ascii?Q?41Uva9tNEjVyfuzqgFnmwdWJt6M2rdXdVonA9WUJqQDtqzqQoFu7oeaBagpn?=
- =?us-ascii?Q?pFtHEXIUob2Z1bVDWh+PfnDA?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0fbe9ea-c3f4-4b96-bee5-08d951d7b2d4
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB5988.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWE5a3JIbVp5WnJWUzNFL3RTcTVPN2svSmEvWkViSkZPT2hoN1hNWEIyWHgw?=
+ =?utf-8?B?R05nYVV0LzVZTHYwcEJndUFvVGZOV1RpZ2NyeXJNRSsra3h0bGRuamxTWGk5?=
+ =?utf-8?B?MjBCUHJwMEFUWlozZXF3SVJYdVJDSWZJYlR6Y1Z1M2Mya2kxTmtmcktXVXd3?=
+ =?utf-8?B?RVZuaHZhSnlEN3BBUTZyOEEvTjh6ZVBlYVNsQUFwKzZCNkVxSlNlVjFKQTBW?=
+ =?utf-8?B?QnpuRHNCd05ZNEFyTktHbDlRaGV1MkZyczVtQ1FLck5rVE96TTVOQzZYRnZU?=
+ =?utf-8?B?K2N1VTBDZGpLR2NJSm1LLzJzNUdnUmRTNFNQMHk0aDh5QlQ4cy9qWjNsMmx6?=
+ =?utf-8?B?T1p0YzZOTlJNejhZNEdOZTBWcUpMblcyeGVTQldqTVdXb0VsUUdSbkM5NkFx?=
+ =?utf-8?B?QXB6TzBPdDdyakg1ZWcxWlNTQ3M5dmE0OHdmZTZ1d0pOUWM0Q3BReHRSTWFz?=
+ =?utf-8?B?WlM2aWZ6TzVNeGliMURHR2UxTithVlZKck9kUmZRT2p3SFByblZSQjZCTEVI?=
+ =?utf-8?B?NXFNdk1CZ002ZjVySVhXOVB2cHUzQnZyWThML0xvNVlmejFrU0pkSncvUFdv?=
+ =?utf-8?B?R0E1VGgxcGtNdzVyUTJTenJQL01kU0Rkck1MY1NEa2RkNHpJZndEbUV0L0hS?=
+ =?utf-8?B?enFYdzIyN1RBNlg5NitlZHJpRWZ6cWh5ZHgzcmVveXhxaFRyaGFvVjl6VTlO?=
+ =?utf-8?B?WnRFRzUvQUZvUFp2SmsrTFRlODZoZWdBNmY0OHhSR1hXdzBoUXlvZ1NtOHJN?=
+ =?utf-8?B?bVExMlBUcU5KNHVWd3YzdDQ0MGpyNWpFdENKcHcyVmgwVUxjc1ZkM1FON0tO?=
+ =?utf-8?B?NGdQZjZIVFdjczFFRlhVaGNlYU1oQkp1aytiSVc5RmF4ZUdmVEtiZGlFcHFt?=
+ =?utf-8?B?LzlSYUxSVFRNUWdoN1RiMHRHTityUzFodFh2bTNCVmU1bldIRzFJaG9UQ1A4?=
+ =?utf-8?B?NTZuZEhtaitPM01FZjZzZ00vVnhaT2JYU1BTK1N1VmZEMHBKUnFVbHc3NzU2?=
+ =?utf-8?B?Z1I1VDVqUDVISktnb1dzVy9veHIxR3VVZUx4dGF2ZDlGSUlGYm9ORTd3bnds?=
+ =?utf-8?B?Q3JNRWV4dE5XazR5SW1SNG9VYjhrS3hoWEF2REs0L3ptcm9YZmtPN2oveGIz?=
+ =?utf-8?B?Y2ZZT1ZDZEpIaVVKTkRMTE9SbU00bWtwaHI2ZTAxaGtpcmNaS3JhSFhpeHdS?=
+ =?utf-8?B?T2JnM1dqTUl3K1lLdk9BaGxnMllLaEplb0w1MVY3UC9OeFE5RVdRMGZWcUZi?=
+ =?utf-8?B?NjJwYXdNZmhuUU9kbE9SMi9OYlR0RHFtTG4xSkRJOGR5V1hWVk5FbEg3d29K?=
+ =?utf-8?B?SU15MFlNU2JWUm4xaWJWdkpyTjhuejFrMjNPcW5JVVc2N05hamoxZEpHb1NL?=
+ =?utf-8?B?VTlvbjc5cFA1Y3E4cXlUaHl3dFArR1F6TWJHOHNuR3o2NTJ5Q1YveXUxZHE3?=
+ =?utf-8?B?M3gxWXdDQXE3R0p1RlVlTVI4N1BWeENwSElXcXpBN1NkMjNtRmZuMmQyT2xJ?=
+ =?utf-8?B?RFQwN3RCeWF1VEdRbHVqUDJ6SVBueDBtRHlxL1M1MmdJVVVJWTFwemlocndu?=
+ =?utf-8?B?dHFSU3dyTFlMTFFqa2YwWms4M05FWm5PVDRSZmY3Y2NPcGN4VXVrYnFuOHQ0?=
+ =?utf-8?B?Mk4ydVk0YVdKaEh2M2dpbUxzK1JKaU1EcDRLdkZHTlNJbGVpQS9CZnMzWkhy?=
+ =?utf-8?B?bnBrSEh0R2tGeXZzMkdIdThZTFRHYnlGSUNQU0dIWG5sSzhDbFJubytHMWZm?=
+ =?utf-8?B?T1JUNEEwbDN5bVEzaldYZERZNjJ0LzZmRnYwOC9Ra0VDZ1RkcFRZakZJRGs2?=
+ =?utf-8?B?cnNXVG5YR21HdFJNb2ttdz09?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 984fd81d-846e-485d-bb35-08d951dabcc6
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 14:55:11.1593 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 15:16:58.3201 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CLHTB6XAxuqaB2jXY6+wgb+QIdR6OLnZKRH0w0DQNur+K8Pas7pK4nLHR07DN5gdF8TG7bOzEnSI1QNaVO62mWZybOSD+F5/7BGA+R4lxrg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6997
-Received-SPF: pass client-ip=40.107.22.126;
- envelope-from=Valeriy.Vdovin@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-CrossTenant-UserPrincipalName: XVm0sqO2TFa4v35mep4ItVE83RgfSfMxANCH2T6DdVNMUjiAgzFFHDrYNQiNX0F0aDxoxC/ozZaOe8acAHmxfVcMD3Fx5a44gtKkveDQvB0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5636
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10059
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107280085
+X-Proofpoint-GUID: RxIhCvt_0oYNZjgqfxlhBexJkQHEKDAn
+X-Proofpoint-ORIG-GUID: RxIhCvt_0oYNZjgqfxlhBexJkQHEKDAn
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -142,310 +195,442 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>, Konrad Wilk <konrad.wilk@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Eric Blake <eblake@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introducing new QMP command 'query-x86-cpuid'. This command can be used to
-get virtualized cpu model info generated by QEMU during VM initialization in
-the form of cpuid representation.
 
-Diving into more details about virtual CPU generation: QEMU first parses '-cpu'
-command line option. From there it takes the name of the model as the basis for
-feature set of the new virtual CPU. After that it uses trailing '-cpu' options,
-that state if additional cpu features should be present on the virtual CPU or
-excluded from it (tokens '+'/'-' or '=on'/'=off').
-After that QEMU checks if the host's cpu can actually support the derived
-feature set and applies host limitations to it.
-After this initialization procedure, virtual CPU has it's model and
-vendor names, and a working feature set and is ready for identification
-instructions such as CPUID.
 
-To learn exactly how virtual CPU is presented to the guest machine via CPUID
-instruction, new QMP command can be used. By calling 'query-x86-cpuid'
-command, one can get a full listing of all CPUID leaves with subleaves which are
-supported by the initialized virtual CPU.
+On 7/27/21 6:45 AM, Igor Mammedov wrote:
+> On Mon, 26 Jul 2021 14:52:15 -0500
+> Eric DeVolder <eric.devolder@oracle.com> wrote:
+> 
+>> On 7/26/21 5:06 AM, Igor Mammedov wrote:
+>>> On Wed, 21 Jul 2021 10:42:33 -0500
+>>> Eric DeVolder <eric.devolder@oracle.com> wrote:
+>>>    
+>>>> On 7/19/21 10:02 AM, Igor Mammedov wrote:
+>>>>> On Wed, 30 Jun 2021 19:26:39 +0000
+>>>>> Eric DeVolder <eric.devolder@oracle.com> wrote:
+>>>>>       
+>>>>>> Oops, at the end of the 4th paragraph, I meant to state that "Linux does not support the NVRAM mode."
+>>>>>> rather than "non-NVRAM mode", which contradicts everything I stated prior.
+>>>>>> Eric.
+>>>>>> ________________________________
+>>>>>> From: Eric DeVolder <eric.devolder@oracle.com>
+>>>>>> Sent: Wednesday, June 30, 2021 2:07 PM
+>>>>>> To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+>>>>>> Cc: mst@redhat.com <mst@redhat.com>; imammedo@redhat.com <imammedo@redhat.com>; marcel.apfelbaum@gmail.com <marcel.apfelbaum@gmail.com>; pbonzini@redhat.com <pbonzini@redhat.com>; rth@twiddle.net <rth@twiddle.net>; ehabkost@redhat.com <ehabkost@redhat.com>; Konrad Wilk <konrad.wilk@oracle.com>; Boris Ostrovsky <boris.ostrovsky@oracle.com>
+>>>>>> Subject: [PATCH v5 02/10] ACPI ERST: specification for ERST support
+>>>>>>
+>>>>>> Information on the implementation of the ACPI ERST support.
+>>>>>>
+>>>>>> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+>>>>>> ---
+>>>>>>     docs/specs/acpi_erst.txt | 152 +++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>     1 file changed, 152 insertions(+)
+>>>>>>     create mode 100644 docs/specs/acpi_erst.txt
+>>>>>>
+>>>>>> diff --git a/docs/specs/acpi_erst.txt b/docs/specs/acpi_erst.txt
+>>>>>> new file mode 100644
+>>>>>> index 0000000..79f8eb9
+>>>>>> --- /dev/null
+>>>>>> +++ b/docs/specs/acpi_erst.txt
+>>>>>> @@ -0,0 +1,152 @@
+>>>>>> +ACPI ERST DEVICE
+>>>>>> +================
+>>>>>> +
+>>>>>> +The ACPI ERST device is utilized to support the ACPI Error Record
+>>>>>> +Serialization Table, ERST, functionality. The functionality is
+>>>>>> +designed for storing error records in persistent storage for
+>>>>>> +future reference/debugging.
+>>>>>> +
+>>>>>> +The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
+>>>>>> +(APEI)", and specifically subsection "Error Serialization", outlines
+>>>>>> +a method for storing error records into persistent storage.
+>>>>>> +
+>>>>>> +The format of error records is described in the UEFI specification[2],
+>>>>>> +in Appendix N "Common Platform Error Record".
+>>>>>> +
+>>>>>> +While the ACPI specification allows for an NVRAM "mode" (see
+>>>>>> +GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
+>>>>>> +directly exposed for direct access by the OS/guest, this implements
+>>>>>> +the non-NVRAM "mode". This non-NVRAM "mode" is what is implemented
+>>>>>> +by most BIOS (since flash memory requires programming operations
+>>>>>> +in order to update its contents). Furthermore, as of the time of this
+>>>>>> +writing, Linux does not support the non-NVRAM "mode".
+>>>>>
+>>>>> shouldn't it be s/non-NVRAM/NVRAM/ ?
+>>>>
+>>>> Yes, it has been corrected.
+>>>>   
+>>>>>       
+>>>>>> +
+>>>>>> +
+>>>>>> +Background/Motivation
+>>>>>> +---------------------
+>>>>>> +Linux uses the persistent storage filesystem, pstore, to record
+>>>>>> +information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
+>>>>>> +independent of, and runs before, kdump.  In certain scenarios (ie.
+>>>>>> +hosts/guests with root filesystems on NFS/iSCSI where networking
+>>>>>> +software and/or hardware fails), pstore may contain the only
+>>>>>> +information available for post-mortem debugging.
+>>>>>
+>>>>> well,
+>>>>> it's not the only way, one can use existing pvpanic device to notify
+>>>>> mgmt layer about crash and mgmt layer can take appropriate measures
+>>>>> to for post-mortem debugging, including dumping guest state,
+>>>>> which is superior to anything pstore can offer as VM is still exists
+>>>>> and mgmt layer can inspect VMs crashed state directly or dump
+>>>>> necessary parts of it.
+>>>>>
+>>>>> So ERST shouldn't be portrayed as the only way here but rather
+>>>>> as limited alternative to pvpanic in regards to post-mortem debugging
+>>>>> (it's the only way only on bare-metal).
+>>>>>
+>>>>> It would be better to describe here other use-cases you've mentioned
+>>>>> in earlier reviews, that justify adding alternative to pvpanic.
+>>>>
+>>>> I'm not sure how I would change this. I do say "may contain", which means it
+>>>> is not the only way. Pvpanic is a way to notify the mgmt layer/host, but
+>>>> this is a method solely with the guest. Each serves a different purpose;
+>>>> plugs a different hole.
+>>>>   
+>>>
+>>> I'd suggest edit  "pstore may contain the only information" as "pstore may contain information"
+>>>    
+>> Done
+>>
+>>>> As noted in a separate message, my company has intentions of storing other
+>>>> data in ERST beyond panics.
+>>> perhaps add your use cases here as well.
+>>>    
+>>>    
+>>>>>> +Two common storage backends for the pstore filesystem are ACPI ERST
+>>>>>> +and UEFI. Most BIOS implement ACPI ERST.  UEFI is not utilized in
+>>>>>> +all guests. With QEMU supporting ACPI ERST, it becomes a viable
+>>>>>> +pstore storage backend for virtual machines (as it is now for
+>>>>>> +bare metal machines).
+>>>>>> +
+>>>>>       
+>>>>>> +Enabling support for ACPI ERST facilitates a consistent method to
+>>>>>> +capture kernel panic information in a wide range of guests: from
+>>>>>> +resource-constrained microvms to very large guests, and in
+>>>>>> +particular, in direct-boot environments (which would lack UEFI
+>>>>>> +run-time services).
+>>>>> this hunk probably not necessary
+>>>>>       
+>>>>>> +
+>>>>>> +Note that Microsoft Windows also utilizes the ACPI ERST for certain
+>>>>>> +crash information, if available.
+>>>>> a pointer to a relevant source would be helpful here.
+>>>>
+>>>> I've included the reference, here for your benefit.
+>>>> Windows Hardware Error Architecutre, specifically Persistence Mechanism
+>>>> https://docs.microsoft.com/en-us/windows-hardware/drivers/whea/error-record-persistence-mechanism
+>>>>   
+>>>>>       
+>>>>>> +Invocation
+>>>>> s/^^/Configuration|Usage/
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +----------
+>>>>>> +
+>>>>>> +To utilize ACPI ERST, a memory-backend-file object and acpi-erst
+>>>>> s/utilize/use/
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +device must be created, for example:
+>>>>> s/must/can/
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +
+>>>>>> + qemu ...
+>>>>>> + -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,
+>>>>>> +  size=0x10000,share=on
+>>>>> I'd put ^^^ on the same line as -object and use '\' at the end the
+>>>>> so example could be easily copy-pasted
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> + -device acpi-erst,memdev=erstnvram
+>>>>>> +
+>>>>>> +For proper operation, the ACPI ERST device needs a memory-backend-file
+>>>>>> +object with the following parameters:
+>>>>>> +
+>>>>>> + - id: The id of the memory-backend-file object is used to associate
+>>>>>> +   this memory with the acpi-erst device.
+>>>>>> + - size: The size of the ACPI ERST backing storage. This parameter is
+>>>>>> +   required.
+>>>>>> + - mem-path: The location of the ACPI ERST backing storage file. This
+>>>>>> +   parameter is also required.
+>>>>>> + - share: The share=on parameter is required so that updates to the
+>>>>>> +   ERST back store are written to the file immediately as well. Without
+>>>>>> +   it, updates the the backing file are unpredictable and may not
+>>>>>> +   properly persist (eg. if qemu should crash).
+>>>>>
+>>>>> mmap manpage says:
+>>>>>      MAP_SHARED
+>>>>>                 Updates to the mapping ... are carried through to the underlying file.
+>>>>> it doesn't guarantee 'written to the file immediately', though.
+>>>>> So I'd rephrase it to something like that:
+>>>>>
+>>>>> - share: The share=on parameter is required so that updates to the ERST back store
+>>>>>             are written back to the file.
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +
+>>>>>> +The ACPI ERST device is a simple PCI device, and requires this one
+>>>>>> +parameter:
+>>>>> s/^.*:/and ERST device:/
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +
+>>>>>> + - memdev: Is the object id of the memory-backend-file.
+>>>>>> +
+>>>>>> +
+>>>>>> +PCI Interface
+>>>>>> +-------------
+>>>>>> +
+>>>>>> +The ERST device is a PCI device with two BARs, one for accessing
+>>>>>> +the programming registers, and the other for accessing the
+>>>>>> +record exchange buffer.
+>>>>>> +
+>>>>>> +BAR0 contains the programming interface consisting of just two
+>>>>>> +64-bit registers. The two registers are an ACTION (cmd) and a
+>>>>>> +VALUE (data). All ERST actions/operations/side effects happen
+>>>>> s/consisting of... All ERST/consisting of ACTION and VALUE 64-bit registers. All ERST/
+>>>>
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +on the write to the ACTION, by design. Thus any data needed
+>>>>> s/Thus//
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +by the action must be placed into VALUE prior to writing
+>>>>>> +ACTION. Reading the VALUE simply returns the register contents,
+>>>>>> +which can be updated by a previous ACTION.
+>>>>>       
+>>>>>> This behavior is
+>>>>>> +encoded in the ACPI ERST table generated by QEMU.
+>>>>> it's too vague, Either drop sentence or add a reference to relevant place in spec.
+>>>> Corrected
+>>>>   
+>>>>>
+>>>>>       
+>>>>>> +
+>>>>>> +BAR1 contains the record exchange buffer, and the size of this
+>>>>>> +buffer sets the maximum record size. This record exchange
+>>>>>> +buffer size is 8KiB.
+>>>>> s/^^^/
+>>>>> BAR1 contains the 8KiB record exchange buffer, which is the implemented maximum record size limit.
+>>>> Corrected
+>>>>   
+>>>>>
+>>>>>       
+>>>>>> +Backing File
+>>>>>
+>>>>> s/^^^/Backing Storage Format/
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +------------
+>>>>>
+>>>>>       
+>>>>>> +
+>>>>>> +The ACPI ERST persistent storage is contained within a single backing
+>>>>>> +file. The size and location of the backing file is specified upon
+>>>>>> +QEMU startup of the ACPI ERST device.
+>>>>>
+>>>>> I'd drop above paragraph and describe file format here,
+>>>>> ultimately used backend doesn't have to be a file. For
+>>>>> example if user doesn't need it persist over QEMU restarts,
+>>>>> ram backend could be used, guest will still be able to see
+>>>>> it's own crash log after guest is reboot, or it could be
+>>>>> memfd backend passed to QEMU by mgmt layer.
+>>>> Dropped
+>>>>   
+>>>>>
+>>>>>       
+>>>>>> +Records are stored in the backing file in a simple fashion.
+>>>>> s/backing file/backend storage/
+>>>>> ditto for other occurrences
+>>>> Corrected
+>>>>   
+>>>>>       
+>>>>>> +The backing file is essentially divided into fixed size
+>>>>>> +"slots", ERST_RECORD_SIZE in length, with each "slot"
+>>>>>> +storing a single record.
+>>>>>       
+>>>>>> No attempt at optimizing storage
+>>>>>> +through compression, compaction, etc is attempted.
+>>>>> s/^^^//
+>>>>
+>>>> I'd like to keep this statement. It is there because in a number of
+>>>> hardware BIOS I tested, these kinds of features lead to bugs in the
+>>>> ERST support.
+>>> this doc it's not about issues in other BIOSes, it's about conrete
+>>> QEMU impl. So sentence starting with "No attempt" is not relevant here at all.
+>> Dropped
+>>
+>>>       
+>>>>>> +NOTE that any change to this value will make any pre-
+>>>>>> +existing backing files, not of the same ERST_RECORD_SIZE,
+>>>>>> +unusable to the guest.
+>>>>> when that can happen, can we detect it and error out?
+>>>> I've dropped this statement. That value is hard coded, and not a
+>>>> parameter, so there is no simple way to change it. This comment
+>>>> does exist next to the ERST_RECORD_SIZE declaration in the code.
+>>>
+>>> It's not a problem with current impl. but rather with possible
+>>> future expansion.
+>>>
+>>> If you'd add a header with record size at the start of storage,
+>>> it wouldn't be issue as ERST would be able to get used record
+>>> size for storage. That will help with avoiding compat issues
+>>> later on.
+>> I'll go ahead and add the header. I'll put the magic and record size in there,
+>> but I do not intend to put any data that would be "cached" from the records
+>> themselves. So no recordids, in particular, will be cached in this header.
+> maybe also add offset of the 1st slot, so however comes later
+> to fix performance issues will have less compatibility issues.
+Done
 
-Other than debug, the command is useful in cases when we would like to
-utilize QEMU's virtual CPU initialization routines and put the retrieved
-values into kernel CPUID overriding mechanics for more precise control
-over how various processes perceive its underlying hardware with
-container processes as a good example.
+> 
+>>
+>> I'm not even sure I want to record/cache the number of records because:
+>>    - it has almost no use (undermined by the fact overall storage size is not exposed, imho)
+>>    - we backed off requiring the share=on, so it is conceivable this header value could
+>>      encounter data integrity issues, should a guest crash...
+> guest crash won't affect data,  and if backend is not shared then,
+> data won't be persistently stored anyways, they will live only for
+> lifetime of QEMU instance.
+> The only time where integrity is affected is host crash and we already
+> agreed that we don't care about this case.
+See further below
 
-The command is specific to x86. It is currenly only implemented for KVM acceleator.
+> 
+>>    - scans still happen (see next)
+>>
+>> While having it (number of records cached in header) would avoid a startup scan
+>> to compute it, the write operation requires a scan to determine if the incoming
+>> recordid is present or not, in order to determine overwrite or allocate-and-write.
+> if present/non present per slot status is cached, you don't have to do
+> expensive full scan when guest scans slots.
+Done
 
-Output format:
-The output is a plain list of leaf/subleaf argument combinations, that
-return 4 words in registers EAX, EBX, ECX, EDX.
+> 
+>> And typically the first operation that Linux does is effectively a scan to
+>> populate the /sys/fs/pstore entries via the GET_RECORD_IDENTIFIER action.
+>>
+>> And the typical size of the ERST storage [on hardware systems] is 64 to 128KiB;
+>> so not much storage to examine, especially since only looking at 12 bytes of each
+>> 8KiB record.
+>>
+>> I'd still be in favor of putting an upper bound on the hostmem object, to avoid
+>> your worst case fears...
+> 
+> Considering device is not present by default, I give up on
+> trying to convince you to design it efficiently.
+> 
+> If one would wish to use this with container like workloads
+> where fast startup matters, one would have to live with crappy
+> performance or rewrite your impl.
 
-Use example:
-qmp_request: {
-  "execute": "query-x86-cpuid"
-}
+I've embraced your assurance of no data integrity issues, and have changed
+the implementation to include a header that also tracks/caches the record_ids.
+This eliminates all scanning of the entire backend storage.
+My original goal was to offer ERST as BIOS do, so backend storage size of about
+64 to 128KiB; where the current implementation would be just fine.
+But I did mention that we were looking to do more with ERST, and
+the backend storage can be quite large, so you are right to push for
+better implementation.
 
-qmp_response: {
-  "return": [
-    {
-      "eax": 1073741825,
-      "edx": 77,
-      "in-eax": 1073741824,
-      "ecx": 1447775574,
-      "ebx": 1263359563
-    },
-    {
-      "eax": 16777339,
-      "edx": 0,
-      "in-eax": 1073741825,
-      "ecx": 0,
-      "ebx": 0
-    },
-    {
-      "eax": 13,
-      "edx": 1231384169,
-      "in-eax": 0,
-      "ecx": 1818588270,
-      "ebx": 1970169159
-    },
-    {
-      "eax": 198354,
-      "edx": 126614527,
-      "in-eax": 1,
-      "ecx": 2176328193,
-      "ebx": 2048
-    },
-    ....
-    {
-      "eax": 12328,
-      "edx": 0,
-      "in-eax": 2147483656,
-      "ecx": 0,
-      "ebx": 0
-    }
-  ]
-}
 
-Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
----
-v2: - Removed leaf/subleaf iterators.
-    - Modified cpu_x86_cpuid to return false in cases when count is
-      greater than supported subleaves.
-v3: - Fixed structure name coding style.
-    - Added more comments
-    - Ensured buildability for non-x86 targets.
-v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
-    - Fixed comments.
-    - Removed target check in qmp_query_cpu_model_cpuid.
-v5: - Added error handling code in qmp_query_cpu_model_cpuid
-v6: - Fixed error handling code. Added method to query_error_class
-v7: - Changed implementation in favor of cached cpuid_data for
-      KVM_SET_CPUID2
-v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
-    - Modified documentation to qmp method
-    - Removed helper struct declaration
-v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
-    - Pasted more complete response to commit message.
-v10:
-    - Subject changed
-    - Fixes in commit message
-    - Small fixes in QMP command docs
-v11:
-    - Added explanation about CONFIG_KVM to the commit message.
-v12:
-    - Changed title from query-kvm-cpuid to query-x86-cpuid
-    - Removed CONFIG_KVM ifdefs
-    - Added detailed error messages for some stub/unimplemented cases.
-v13:
-    - Tagged with since 6.2
-
- qapi/machine-target.json   | 44 ++++++++++++++++++++++++++++++++
- softmmu/cpus.c             |  2 +-
- target/i386/kvm/kvm-stub.c | 10 ++++++++
- target/i386/kvm/kvm.c      | 51 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |  1 +
- 5 files changed, 107 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index e7811654b7..599394d067 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -329,3 +329,47 @@
- ##
- { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
-   'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-+
-+##
-+# @CpuidEntry:
-+#
-+# A single entry of a CPUID response.
-+#
-+# One entry holds full set of information (leaf) returned to the guest
-+# in response to it calling a CPUID instruction with eax, ecx used as
-+# the agruments to that instruction. ecx is an optional argument as
-+# not all of the leaves support it.
-+#
-+# @in-eax: CPUID argument in eax
-+# @in-ecx: CPUID argument in ecx
-+# @eax: CPUID result in eax
-+# @ebx: CPUID result in ebx
-+# @ecx: CPUID result in ecx
-+# @edx: CPUID result in edx
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'CpuidEntry',
-+  'data': { 'in-eax' : 'uint32',
-+            '*in-ecx' : 'uint32',
-+            'eax' : 'uint32',
-+            'ebx' : 'uint32',
-+            'ecx' : 'uint32',
-+            'edx' : 'uint32'
-+          },
-+  'if': 'defined(TARGET_I386)' }
-+
-+##
-+# @query-x86-cpuid:
-+#
-+# Returns raw data from the emulated CPUID table for the first VCPU.
-+# The emulated CPUID table defines the response to the CPUID
-+# instruction when executed by the guest operating system.
-+#
-+# Returns: a list of CpuidEntry
-+#
-+# Since: 6.2
-+##
-+{ 'command': 'query-x86-cpuid',
-+  'returns': ['CpuidEntry'],
-+  'if': 'defined(TARGET_I386)' }
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index a7ee431187..74fa6b9af4 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -128,7 +128,7 @@ void hw_error(const char *fmt, ...)
- /*
-  * The chosen accelerator is supposed to register this.
-  */
--static const AccelOpsClass *cpus_accel;
-+const AccelOpsClass *cpus_accel;
- 
- void cpu_synchronize_all_states(void)
- {
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index 92f49121b8..27305fc458 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "kvm_i386.h"
-+#include "qapi/error.h"
- 
- #ifndef __OPTIMIZE__
- bool kvm_has_smm(void)
-@@ -39,3 +40,12 @@ bool kvm_hv_vpindex_settable(void)
- {
-     return false;
- }
-+
-+typedef struct CpuidEntryList CpuidEntryList;
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp);
-+
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-+{
-+    error_setg(errp, "Not implemented in --disable-kvm configuration");
-+    return NULL;
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 7fe9f52710..114ed76493 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -20,10 +20,12 @@
- 
- #include <linux/kvm.h>
- #include "standard-headers/asm-x86/kvm_para.h"
-+#include "qapi/qapi-commands-machine-target.h"
- 
- #include "cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
-+#include "sysemu/accel-ops.h"
- #include "sysemu/kvm_int.h"
- #include "sysemu/runstate.h"
- #include "kvm_i386.h"
-@@ -1464,6 +1466,51 @@ static Error *invtsc_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-+struct kvm_cpuid2 *cpuid_data_cached;
-+extern const AccelOpsClass *cpus_accel;
-+
-+static inline int is_kvm_accel(AccelOpsClass *class)
-+{
-+    ObjectClass *parent_class;
-+
-+    parent_class = &class->parent_class;
-+    return strcmp(object_class_get_name(parent_class),
-+        "kvm-accel-ops") == 0;
-+}
-+
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-+{
-+    int i;
-+    struct kvm_cpuid_entry2 *kvm_entry;
-+    CpuidEntryList *head = NULL, **tail = &head;
-+    CpuidEntry *entry;
-+
-+    if (!cpuid_data_cached) {
-+         if (cpus_accel && !is_kvm_accel((AccelOpsClass *)cpus_accel))
-+             error_setg(errp, "Not implemented for non-kvm accel");
-+         else
-+             error_setg(errp, "VCPU was not initialized yet");
-+         return NULL;
-+    }
-+
-+    for (i = 0; i < cpuid_data_cached->nent; ++i) {
-+        kvm_entry = &cpuid_data_cached->entries[i];
-+        entry = g_malloc0(sizeof(*entry));
-+        entry->in_eax = kvm_entry->function;
-+        if (kvm_entry->flags & KVM_CPUID_FLAG_SIGNIFCANT_INDEX) {
-+            entry->in_ecx = kvm_entry->index;
-+            entry->has_in_ecx = true;
-+        }
-+        entry->eax = kvm_entry->eax;
-+        entry->ebx = kvm_entry->ebx;
-+        entry->ecx = kvm_entry->ecx;
-+        entry->edx = kvm_entry->edx;
-+        QAPI_LIST_APPEND(tail, entry);
-+    }
-+
-+    return head;
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
-     struct {
-@@ -1833,6 +1880,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (r) {
-         goto fail;
-     }
-+    if (!cpuid_data_cached) {
-+        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
-+        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
-+    }
- 
-     if (has_xsave) {
-         env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c98b78d033..bd883f7f52 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
-         { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
-         { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
-         { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
-+        { "query-x86-cpuid", ERROR_CLASS_GENERIC_ERROR },
-         { NULL, -1 }
-     };
-     int i;
--- 
-2.17.1
-
+> 
+>>>>>> +Below is an example layout of the backing store file.
+>>>>>> +The size of the file is a multiple of ERST_RECORD_SIZE,
+>>>>>> +and contains N number of "slots" to store records. The
+>>>>>> +example below shows two records (in CPER format) in the
+>>>>>> +backing file, while the remaining slots are empty/
+>>>>>> +available.
+>>>>>> +
+>>>>>> + Slot   Record
+>>>>>> +        +--------------------------------------------+
+>>>>>> +    0   | empty/available                            |
+>>>>>> +        +--------------------------------------------+
+>>>>>> +    1   | CPER                                       |
+>>>>>> +        +--------------------------------------------+
+>>>>>> +    2   | CPER                                       |
+>>>>>> +        +--------------------------------------------+
+>>>>>> +  ...   |                                            |
+>>>>>> +        +--------------------------------------------+
+>>>>>> +    N   | empty/available                            |
+>>>>>> +        +--------------------------------------------+
+>>>>>> +        <-------------- ERST_RECORD_SIZE ------------>
+>>>>>
+>>>>>       
+>>>>>> +Not all slots need to be occupied, and they need not be
+>>>>>> +occupied in a contiguous fashion. The ability to clear/erase
+>>>>>> +specific records allows for the formation of unoccupied
+>>>>>> +slots.
+>>>>> I'd drop this as not necessary
+>>>>
+>>>> I'd like to keep this statement. Again, several BIOS on which I tested
+>>>> ERST had bugs around non-contiguous record storage.
+>>>
+>>> I'd drop this and alter sentence above ending with " in a simple fashion."
+>>> to describe sparse usage of storage and then after that comes example diagram.
+>> Done
+>>
+>>>
+>>> I'd like this part to start with unambiguous concise description of
+>>> format and to be finished with example diagram.
+>>> It is the part that will be considered as the the only true source
+>>> how file should be formatted, when it comes to fixing bugs or
+>>> modifying original impl. later on. So it's important to have clear
+>>> description without any unnecessary information here.
+>> Done
+>>
+>>>
+>>>    
+>>>>>
+>>>>>       
+>>>>>> +
+>>>>>> +
+>>>>>> +References
+>>>>>> +----------
+>>>>>> +
+>>>>>> +[1] "Advanced Configuration and Power Interface Specification",
+>>>>>> +    version 4.0, June 2009.
+>>>>>> +
+>>>>>> +[2] "Unified Extensible Firmware Interface Specification",
+>>>>>> +    version 2.1, October 2008.
+>>>>>> +
+>>>>>> --
+>>>>>> 1.8.3.1
+>>>>>>      
+>>>>>       
+>>>>   
+>>>    
+>>
+> 
 
