@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7183D8D55
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 13:59:17 +0200 (CEST)
-Received: from localhost ([::1]:43342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFEE3D8D64
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 14:01:04 +0200 (CEST)
+Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8iDU-00085k-R9
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 07:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
+	id 1m8iFD-0001La-8C
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 08:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8iBy-0007KS-Mo
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:57:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26923)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8iDO-0008Ul-Ft
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:59:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8iBx-0006xE-8b
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:57:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8iDM-0007x4-FX
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 07:59:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627473460;
+ s=mimecast20190719; t=1627473547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ahqVeH/5hwzIQPmoqIiC5C85UwcIq1U0g6ysFFkYubs=;
- b=VlspgN8vaAha5KG/lTTXZYAF/49gMYvyvVgg14JiSe5zgP3xhJgtC/zNU8gLRIcxD194CQ
- 8KrXHKRcIIptRqFYs9eEXfGZSvPc4xG6Oq9IG8ecKhofp5EBzem+QNRiIR+4JXT0hVkZ1r
- /Rua38IAAVayZK7VA1uzrMoG1vLKuYY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-KJwS-aBaMBS9F-LFzNcqEg-1; Wed, 28 Jul 2021 07:57:39 -0400
-X-MC-Unique: KJwS-aBaMBS9F-LFzNcqEg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adfc3cd0000b02901531b0b7c89so853447wrg.23
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 04:57:38 -0700 (PDT)
+ bh=LR+emZYowadv1cLknMACsogmXpIEIYM/HAbKU9Hrq5E=;
+ b=gvBvHLkLnXiSWXtwUQNxQd7ZQgaTO4r3NnfUF2/q75+Wyk2Dz90baC1JjsNGgP/YpRLucI
+ OeAod4Ax2Iv9s5xSxA6R093lzAMwuywTwfgkKoTjl9xln/vsU2QoJt8ExNAiZ5/k1rNDAX
+ sRFv5OGmkJQFEK334Xbdb2dHzoBP4WA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-p_wyk3DOPrmgLo6ap1pbeg-1; Wed, 28 Jul 2021 07:59:01 -0400
+X-MC-Unique: p_wyk3DOPrmgLo6ap1pbeg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r17-20020adfda510000b02901526f76d738so867590wrl.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 04:59:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ahqVeH/5hwzIQPmoqIiC5C85UwcIq1U0g6ysFFkYubs=;
- b=hIIwBXsji4VTqIepJ8StBYNmg05GP+ci7VR+CPKvIm9QntUx6OZzzcDcJyn9o3mTtO
- r+kcmNahbg4z/RflGZvoKmKTl9/q3UBxF5aVei6uQfzMuSDJIFmnxhydeZfes7+k6Qp+
- PjdMti8s3V/1LS71GdyHjgykWQXL6hYARSvf8gAd50oYij0rm0DGj5sfDtxgxuGBk64o
- 7LmIxaMM01tsyudEl5ZCEKJQ+ZUdNdSI0CvBNpVdKip1C7NpAjYXc+ShdaR2FKUuAFQq
- kIAMtPmb8toPmYQAYl28ReFKbLlZWcI3L6zm/HwPlkBcaa40lcF+hEZzdKEejqXyElFG
- sYgA==
-X-Gm-Message-State: AOAM530gQLP39JYl7BAu58nQRX6O9XoRiiz4ukneLtaMndr7L6sDtwCX
- 8mvzTjSBxjqT5ZNkwv0X+f6Pv7WvlIEO28l+guNdJkyjw4wwDwaiVx8zBtALtPgTJ7b9Q43JZcb
- 0skL3rXfkH5FjwZ0=
-X-Received: by 2002:adf:b305:: with SMTP id j5mr29080603wrd.11.1627473457984; 
- Wed, 28 Jul 2021 04:57:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBgiXNH0jvxbYb/aZLkT1Nnf0pW5aYN6nbrsKu8lTkXNVOVErjCvbLjO/qvgtPMGJ/BwGHig==
-X-Received: by 2002:adf:b305:: with SMTP id j5mr29080586wrd.11.1627473457765; 
- Wed, 28 Jul 2021 04:57:37 -0700 (PDT)
+ bh=LR+emZYowadv1cLknMACsogmXpIEIYM/HAbKU9Hrq5E=;
+ b=Nm5iXq3Qa8DzRmc/igb+NhsNgAaurK2Wl9qCWhnLRZ8wnyGlKFAkCgJHKpUVNLIA+I
+ H7Iadf2XVX9hS4QJLV/Z99zCyneMn0tgMh4naA92kotVH21hXylE56SCe5putmOVVsDi
+ A9SXx9xTuP5XlhkmtXeAOgl03GAckJDhpW7rtn6JQpF+jJPGzttuVZ7uXvSzGIjEvYJd
+ KkHNsFdLQwW31utR81zqzYk30mr2dYvUAiAzAXisRpkmv6biwZ/mT3XFnW8zvL+iUWWw
+ FoKHRaj7StICfGZU2AEW5R9mqukDb1WChzc62NUQGCkjP7R2Jwyhvaxd6Ou+B7exn/j7
+ 3GBA==
+X-Gm-Message-State: AOAM530t1zgW18DqE6Y1IXyBkB+2t8J2IOZYOGyC0s49Dz2PxlFP3foA
+ V0uv2QnFcXRDBIKRSNa/Pu4i+PLsUJ9mXRdOYsi/6NONddvVFlw+kM89dtxoDEr1iGYgFRNaYvj
+ eDEUoN4Nb7KqpM5Y=
+X-Received: by 2002:a1c:43c1:: with SMTP id q184mr3287100wma.173.1627473540749; 
+ Wed, 28 Jul 2021 04:59:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJQ73c5gkCRZBLqqIKBDEiQpy8Y32DDHwx6fHKNF0J8/gzCpdhTywOiMb5sfEBcUJh1Io4ng==
+X-Received: by 2002:a1c:43c1:: with SMTP id q184mr3287089wma.173.1627473540582; 
+ Wed, 28 Jul 2021 04:59:00 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id f15sm6474908wre.66.2021.07.28.04.57.37
+ by smtp.gmail.com with ESMTPSA id z25sm6051485wmf.9.2021.07.28.04.58.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 04:57:37 -0700 (PDT)
-Subject: Re: [PATCH] qga-win: Add support of Windows Server 2022 in get-osinfo
- command
+ Wed, 28 Jul 2021 04:59:00 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 v2] qga-win: Free GMatchInfo properly
 To: Konstantin Kostiuk <konstantin@daynix.com>,
- Developers <qemu-devel@nongnu.org>
-References: <20210621125017.113989-1-konstantin@daynix.com>
- <CAJ28CFSxqVawommAhzH+Fu++Xf4gtQdBQCZ6mHGVpTi6qUK2MA@mail.gmail.com>
- <CAJ28CFS4qBccGOd+e2rSN0dL2k5ROb5NJgcKe2CyzR2RZ+CF3Q@mail.gmail.com>
- <CAJ28CFSuag9RjOfdDHOOtccoGxLUc63EKhkd5F52S5=gFJ_8kw@mail.gmail.com>
- <CAJ28CFQsv7HN5HemsiXByz0zPAPfpuYYyzkNBUN6cyV22vW6qQ@mail.gmail.com>
+ Michael Roth <michael.roth@amd.com>
+References: <20210610155811.3313927-1-konstantin@daynix.com>
+ <YMI3gundDsLZq1lw@redhat.com>
+ <CAJ28CFR0CBAsq4WokeW_OG8gG2UFGSL3H0UB-p2FgXxH3pjhbg@mail.gmail.com>
+ <YMI6dP82HBpGM5Bj@redhat.com>
+ <CAJ28CFQ6yMm6kCPMY5DckAg1__Qrk+Ar47FNXc5ON6QfvtDmgg@mail.gmail.com>
+ <CAJ28CFQFxZxsEcy_3zDK1aLRbX0F2ZaMux8KgcE0thLXzm6kkA@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2ca6c79c-ab03-e361-0efb-e1d232e89835@redhat.com>
-Date: Wed, 28 Jul 2021 13:57:36 +0200
+Message-ID: <e25c930d-0f46-e138-80fa-b81967c1aad3@redhat.com>
+Date: Wed, 28 Jul 2021 13:58:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ28CFQsv7HN5HemsiXByz0zPAPfpuYYyzkNBUN6cyV22vW6qQ@mail.gmail.com>
+In-Reply-To: <CAJ28CFQFxZxsEcy_3zDK1aLRbX0F2ZaMux8KgcE0thLXzm6kkA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -104,72 +104,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Developers <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 9:53 AM, Konstantin Kostiuk wrote:
+Still candidate for 6.1.
+
+On 7/28/21 9:54 AM, Konstantin Kostiuk wrote:
 > ping
-
-Seems merged:
-
-commit c141814d4f495bd9efdabb1229ce0a5b5a239bf3
-Author: Kostiantyn Kostiuk <konstantin@daynix.com>
-Date:   Mon Jun 21 15:50:17 2021 +0300
-
-    qga-win: Add support of Windows Server 2022 in get-osinfo command
-
-    Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
-    Signed-off-by: Michael Roth <michael.roth@amd.com>
-
-> On Wed, Jul 14, 2021 at 10:25 AM Konstantin Kostiuk
+> 
+> On Wed, Jul 14, 2021 at 10:26 AM Konstantin Kostiuk
 > <konstantin@daynix.com <mailto:konstantin@daynix.com>> wrote:
 > 
+>     CC Michael Roth
 > 
->     ping
+>     On Thu, Jun 10, 2021 at 7:14 PM Daniel P. Berrangé
+>     <berrange@redhat.com <mailto:berrange@redhat.com>> wrote:
+> 
+>         On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiuk wrote:
+>         > On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrangé
+>         <berrange@redhat.com <mailto:berrange@redhat.com>>
+>         > wrote:
+>         >
+>         > > On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk
+>         wrote:
+>         > > > The g_regex_match function creates match_info even if it
+>         > > > returns FALSE. So we should always call g_match_info_free.
+>         > > > A better solution is using g_autoptr for match_info variable.
+>         > > >
+>         > > > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com
+>         <mailto:konstantin@daynix.com>>
+>         > > > ---
+>         > > >  qga/commands-win32.c | 3 +--
+>         > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+>         > > >
+>         > > > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+>         > > > index 300b87c859..785a5cc6b2 100644
+>         > > > --- a/qga/commands-win32.c
+>         > > > +++ b/qga/commands-win32.c
+>         > > > @@ -2494,7 +2494,7 @@ GuestDeviceInfoList
+>         *qmp_guest_get_devices(Error
+>         > > **errp)
+>         > > >              continue;
+>         > > >          }
+>         > > >          for (j = 0; hw_ids[j] != NULL; j++) {
+>         > > > -            GMatchInfo *match_info;
+>         > > > +            g_autoptr(GMatchInfo) match_info;
+>         > >
+>         > > This should be initialized to NULL otherwise...
+>         > >
+>         > > >              GuestDeviceIdPCI *id;
+>         > > >              if (!g_regex_match(device_pci_re, hw_ids[j], 0,
+>         > > &match_info)) {
+>         > > >                  continue;
+>         > >
+>         > > this continue will trigger freeing of unintialized memory
+>         > >
+>         >
+>         > But we always call match_info, so match_info is always
+>         initialized.
+>         > The g_regex_match function creates match_info even if it
+>         returns FALSE.
+> 
+>         Opps, yes, you are right.
+> 
+>         Reviewed-by: Daniel P. Berrangé <berrange@redhat.com
+>         <mailto:berrange@redhat.com>>
 > 
 > 
->     On Sun, Jul 11, 2021 at 8:18 PM Konstantin Kostiuk
->     <konstantin@daynix.com <mailto:konstantin@daynix.com>> wrote:
-> 
->         ping
-> 
->         On Sun, Jul 4, 2021 at 8:51 AM Konstantin Kostiuk
->         <konstantin@daynix.com <mailto:konstantin@daynix.com>> wrote:
-> 
->             ping
-> 
->             On Mon, Jun 21, 2021 at 3:50 PM Kostiantyn Kostiuk
->             <konstantin@daynix.com <mailto:konstantin@daynix.com>> wrote:
-> 
->                 Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com
->                 <mailto:konstantin@daynix.com>>
->                 ---
->                  qga/commands-win32.c | 3 ++-
->                  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
->                 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->                 index 300b87c859..93b08fd4b5 100644
->                 --- a/qga/commands-win32.c
->                 +++ b/qga/commands-win32.c
->                 @@ -2209,9 +2209,10 @@ typedef struct
->                 _ga_win_10_0_server_t {
->                      char const *version_id;
->                  } ga_win_10_0_server_t;
-> 
->                 -static ga_win_10_0_server_t const
->                 WIN_10_0_SERVER_VERSION_MATRIX[3] = {
->                 +static ga_win_10_0_server_t const
->                 WIN_10_0_SERVER_VERSION_MATRIX[4] = {
->                      {14393, "Microsoft Windows Server 2016",    "2016"},
->                      {17763, "Microsoft Windows Server 2019",    "2019"},
->                 +    {20344, "Microsoft Windows Server 2022",    "2022"},
->                      {0, 0}
->                  };
-> 
->                 --
->                 2.25.1
+>         Regards,
+>         Daniel
+>         -- 
+>         |: https://berrange.com <https://berrange.com>      -o-   
+>         https://www.flickr.com/photos/dberrange
+>         <https://www.flickr.com/photos/dberrange> :|
+>         |: https://libvirt.org <https://libvirt.org>         -o-       
+>             https://fstop138.berrange.com <https://fstop138.berrange.com> :|
+>         |: https://entangle-photo.org <https://entangle-photo.org>   
+>         -o-    https://www.instagram.com/dberrange
+>         <https://www.instagram.com/dberrange> :|
 > 
 
 
