@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185223D8F9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 15:52:43 +0200 (CEST)
-Received: from localhost ([::1]:60110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5433D8FB0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 15:53:43 +0200 (CEST)
+Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8jzG-0000p8-68
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 09:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
+	id 1m8k0E-0002Pr-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 09:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8ju3-00052Y-PI
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:47:19 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:51748)
+ id 1m8ju4-00053H-4F
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:47:20 -0400
+Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:51758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8ju1-0005SM-UY
+ id 1m8ju2-0005T8-8W
  for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:47:19 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id B8C021F43849
+ (Authenticated sender: fahien) with ESMTPSA id 5B9401F4384B
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/8] virtio-gpu: Shared memory capability
-Date: Wed, 28 Jul 2021 15:46:30 +0200
-Message-Id: <20210728134634.2142156-5-antonio.caggiano@collabora.com>
+Subject: [PATCH v2 5/8] virtio-gpu: Resource UUID
+Date: Wed, 28 Jul 2021 15:46:31 +0200
+Message-Id: <20210728134634.2142156-6-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
 References: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
@@ -54,83 +54,114 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use VIRTIO_GPU_SHM_ID_HOST_VISIBLE as id for virtio-gpu. Also, remove
-struct virtio_pci_shm_cap as virtio_pci_cap64 can be used instead.
+Enable resource UUID feature and implement command resource assign UUID.
+For the moment, use the resource ID as UUID.
 
 Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 ---
- hw/display/virtio-gpu-pci.c                 | 2 +-
- hw/display/virtio-vga.c                     | 2 +-
- hw/virtio/virtio-pci.c                      | 4 ++--
- include/standard-headers/linux/virtio_pci.h | 7 -------
- 4 files changed, 4 insertions(+), 11 deletions(-)
+ hw/display/trace-events        |  1 +
+ hw/display/virtio-gpu-base.c   |  2 ++
+ hw/display/virtio-gpu-virgl.c  |  3 +++
+ hw/display/virtio-gpu.c        | 26 ++++++++++++++++++++++++++
+ include/hw/virtio/virtio-gpu.h |  2 ++
+ 5 files changed, 34 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-index 9808663d05..a79bd751b2 100644
---- a/hw/display/virtio-gpu-pci.c
-+++ b/hw/display/virtio-gpu-pci.c
-@@ -43,7 +43,7 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-                          PCI_BASE_ADDRESS_MEM_PREFETCH |
-                          PCI_BASE_ADDRESS_MEM_TYPE_64,
-                          &g->hostmem);
--        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
-+        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index f03f6655bc..6b178fa75d 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -37,6 +37,7 @@ virtio_gpu_cmd_res_create_blob(uint32_t res, uint64_t size) "res 0x%x, size %" P
+ virtio_gpu_cmd_res_unref(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_back_attach(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_back_detach(uint32_t res) "res 0x%x"
++virtio_gpu_cmd_res_assign_uuid(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_toh_2d(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_toh_3d(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_fromh_3d(uint32_t res) "res 0x%x"
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index 31b430664f..263a888922 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -218,6 +218,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+         features |= (1 << VIRTIO_GPU_F_HOSTMEM);
      }
  
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 61993dd3f2..ca841a0799 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -147,7 +147,7 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-                          PCI_BASE_ADDRESS_MEM_PREFETCH |
-                          PCI_BASE_ADDRESS_MEM_TYPE_64,
-                          &g->hostmem);
--        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, 0);
-+        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
-     }
- 
-     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 3589386412..37a50b4658 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1153,7 +1153,7 @@ int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-                            uint8_t bar, uint64_t offset, uint64_t length,
-                            uint8_t id)
- {
--    struct virtio_pci_shm_cap cap = {
-+    struct virtio_pci_cap64 cap = {
-         .cap.cap_len = sizeof cap,
-         .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-     };
-@@ -1164,7 +1164,7 @@ int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-     cap.length_hi = cpu_to_le32((length >> 32) & mask32);
-     cap.cap.offset = cpu_to_le32(offset & mask32);
-     cap.offset_hi = cpu_to_le32((offset >> 32) & mask32);
--    cap.id = id;
-+    cap.cap.id = id;
-     return virtio_pci_add_mem_cap(proxy, &cap.cap);
++    features |= (1 << VIRTIO_GPU_F_RESOURCE_UUID);
++
+     return features;
  }
  
-diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
-index 85d1420d29..db7a8e2fcb 100644
---- a/include/standard-headers/linux/virtio_pci.h
-+++ b/include/standard-headers/linux/virtio_pci.h
-@@ -172,13 +172,6 @@ struct virtio_pci_cfg_cap {
- 	uint8_t pci_cfg_data[4]; /* Data for BAR access. */
- };
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+index 5a184cf445..38e5ca6c72 100644
+--- a/hw/display/virtio-gpu-virgl.c
++++ b/hw/display/virtio-gpu-virgl.c
+@@ -458,6 +458,9 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+         /* TODO add security */
+         virgl_cmd_ctx_detach_resource(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
++        virtio_gpu_resource_assign_uuid(g, cmd);
++        break;
+     case VIRTIO_GPU_CMD_GET_CAPSET_INFO:
+         virgl_cmd_get_capset_info(g, cmd);
+         break;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 9686f17d79..26b819dd3d 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -932,6 +932,29 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
+     virtio_gpu_cleanup_mapping(g, res);
+ }
  
--struct virtio_pci_shm_cap {
--	struct virtio_pci_cap cap;
--	uint32_t offset_hi;             /* Most sig 32 bits of offset */
--	uint32_t length_hi;             /* Most sig 32 bits of length */
--	uint8_t  id;                    /* To distinguish shm chunks */
--};
--
- /* Macro versions of offsets for the Old Timers! */
- #define VIRTIO_PCI_CAP_VNDR		0
- #define VIRTIO_PCI_CAP_NEXT		1
++void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
++                                     struct virtio_gpu_ctrl_command *cmd)
++{
++    struct virtio_gpu_simple_resource *res;
++    struct virtio_gpu_resource_assign_uuid assign;
++    struct virtio_gpu_resp_resource_uuid resp;
++
++    VIRTIO_GPU_FILL_CMD(assign);
++    virtio_gpu_bswap_32(&assign, sizeof(assign));
++    trace_virtio_gpu_cmd_res_assign_uuid(assign.resource_id);
++
++    res = virtio_gpu_find_check_resource(g, assign.resource_id, false, __func__, &cmd->error);
++    if (!res) {
++        return;
++    }
++
++    memset(&resp, 0, sizeof(resp));
++    resp.hdr.type = VIRTIO_GPU_RESP_OK_RESOURCE_UUID;
++    /* FIXME: for the moment use the resource id as UUID */
++    *((uint32_t*)(resp.uuid + 12)) = assign.resource_id;
++    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
++}
++
+ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+                                    struct virtio_gpu_ctrl_command *cmd)
+ {
+@@ -980,6 +1003,9 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+     case VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING:
+         virtio_gpu_resource_detach_backing(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
++        virtio_gpu_resource_assign_uuid(g, cmd);
++        break;
+     default:
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         break;
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 835ebcb1a0..5cab5f42ac 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -263,6 +263,8 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+                                   uint32_t *niov);
+ void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
+                                     struct iovec *iov, uint32_t count);
++void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
++                                     struct virtio_gpu_ctrl_command *cmd);
+ void virtio_gpu_process_cmdq(VirtIOGPU *g);
+ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp);
+ void virtio_gpu_reset(VirtIODevice *vdev);
 -- 
 2.30.2
 
