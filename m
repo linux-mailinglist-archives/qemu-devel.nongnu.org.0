@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A289B3D89CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 10:33:41 +0200 (CEST)
-Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E423D8A91
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 11:28:19 +0200 (CEST)
+Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8f0W-0005V1-70
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 04:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
+	id 1m8frO-0004YC-85
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 05:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m8ezf-0004ox-J4
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 04:32:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38936)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m8fpb-0003RK-3L
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 05:26:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m8ezc-0002uc-Ox
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 04:32:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m8fpX-0005os-Oh
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 05:26:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627461163;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to; 
- bh=d2ea6Un+fz8q3KstmxBnJGCgTyLanjkZrpvhO3h9c3Q=;
- b=PDgzPca7zTuC9q9QnXgP/2GD3NkMsy5Gjc544QiBijW0+9nPk/hSH5Tnca7y3cObU430yu
- EzprDkSnE8W97DwIf4LqVN2kb0Z79afG7gZb80icnWMfB9YtqdTEYsKFD7r4PXEHJFHt1g
- dfIvP3+Hw+ML3qgTb9LkCUUZw/glqCY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-SIFzUiU8N12V0TalQXEn3g-1; Wed, 28 Jul 2021 04:32:35 -0400
-X-MC-Unique: SIFzUiU8N12V0TalQXEn3g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8951802928;
- Wed, 28 Jul 2021 08:32:34 +0000 (UTC)
-Received: from redhat.com (ovpn-113-133.ams2.redhat.com [10.36.113.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B2B1B5C1B4;
- Wed, 28 Jul 2021 08:32:25 +0000 (UTC)
-Date: Wed, 28 Jul 2021 09:32:22 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci.d/buildtest: Mark the aarch64 and ppc64-s390x
- CFI jobs as manual
-Message-ID: <YQEWFtGPrZMbTYJv@redhat.com>
+ s=mimecast20190719; t=1627464381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sdh8JTRnISr5+jnjXmc1Ork8Euy29ZXVzPqVTpw+lpQ=;
+ b=BAPLJCMNkWP0gDz5HNQ4nCUU0knOXdkeW9umxDxshySCkxjnSeJq/XHb9NirekPKfMCfAG
+ 6x0zTpa3UbeE8iuQ+wamh3sf28/pIwnN1N0fbk5KIiacZH0q1nN21/fEW8EF7dso9GOWf5
+ 9Np7eyZzDqVuuqs5ptk+gBr0ppm4RQs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-xvxJQWSZOwu4Qjrwt4c7mg-1; Wed, 28 Jul 2021 05:26:19 -0400
+X-MC-Unique: xvxJQWSZOwu4Qjrwt4c7mg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ c16-20020aa7d6100000b02903bc4c2a387bso928148edr.21
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 02:26:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Sdh8JTRnISr5+jnjXmc1Ork8Euy29ZXVzPqVTpw+lpQ=;
+ b=IFrBqy8VYgooAOTwESPhjoz9ckOnFg0JawXQUdUIa/aLc23GlPC60VZTpmx7kCt3CT
+ XuV5HAGvqucnbKeMr3Fb0wJS0+gtTTt4RsEhgYHGocQkleqCosqOE46n1Xvv4G2VPGn7
+ 4nvUMFusLrUgcezmC+AC0wZXVaWd0swwVzXyGtl4GUZoqYijvnhgTRMsptsoEpz51shx
+ YRDzg3h74AtVeEbKxZYYNe00mRCrNfDMRyL/DGEBmsrVJ4i0AIK+7j+QXSj7T8cpwRQ1
+ w6CpdGnNVaJEjZI1VvM2Ji6tgZf4H3icpibzFYoJxCy0CWy6uS2hRcHxhjmb4GGR5udQ
+ MIWQ==
+X-Gm-Message-State: AOAM5328vzBvcCOrQa4HSnoCLbFisg+tYpzip/BGdE4gssyvvgt7wlEh
+ zjAD3u4Jf8ZJm/traoeC8KGnSV/SxR9bgLNz3c73Jj19HRAZQFNuHqKOlFr7KoXTj1G/LAy6rSu
+ 4cUJ3hDtKmF83A+bwJ5luMJn+51yL7ovXHalXqFS/Kqap1AR09fujGNDnKWQdeqV+FAI=
+X-Received: by 2002:a17:906:b10e:: with SMTP id
+ u14mr26606251ejy.522.1627464378322; 
+ Wed, 28 Jul 2021 02:26:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhfx2GTgplQ5u9d4XqiAAuefKwovjuRThYfgm122NMLd74yqN/YtdYpNPT2N9ix4XZyIUOIQ==
+X-Received: by 2002:a17:906:b10e:: with SMTP id
+ u14mr26606231ejy.522.1627464378079; 
+ Wed, 28 Jul 2021 02:26:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id m13sm1806785ejg.76.2021.07.28.02.26.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 02:26:17 -0700 (PDT)
+Subject: Re: [PATCH] target/i386: Added consistency checks for event injection
+To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
+References: <20210725090855.19713-1-laramglazier@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <eb892c47-2e9a-f5ed-37f6-c6253b5e4ed8@redhat.com>
+Date: Wed, 28 Jul 2021 11:26:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728075141.400816-1-thuth@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210725090855.19713-1-laramglazier@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FAKE_REPLY_C=1.486, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.438, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,73 +102,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 09:51:41AM +0200, Thomas Huth wrote:
-> These two jobs are currently failing very often - the linker seems to
-> get killed due to out-of-memory problems. Since apparently nobody has
-> currently an idea how to fix that nicely, let's mark the jobs as manual
-> for the time being until someone comes up with a proper fix.
-
-Copying the original author of the CFI work...
-
+On 25/07/21 11:08, Lara Lazier wrote:
+> VMRUN exits with SVM_EXIT_ERR if either:
+>   * The event injected has a reserved type.
+>   * When the event injected is of type 3 (exception), and the vector that
+>   has been specified does not correspond to an exception.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> This does not fix the entire exc_inj test in kvm-unit-tests.
+> 
+> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
 > ---
->  .gitlab-ci.d/buildtest.yml | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>   target/i386/tcg/sysemu/svm_helper.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 63f1903f07..3537c6f1a1 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -416,6 +416,12 @@ build-cfi-aarch64:
->      expire_in: 2 days
->      paths:
->        - build
-> +  rules:
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constraint containers of the shared runners. Thus this is marked as
+> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+> index a61aa23017..70d5c2e35d 100644
+> --- a/target/i386/tcg/sysemu/svm_helper.c
+> +++ b/target/i386/tcg/sysemu/svm_helper.c
+> @@ -395,6 +395,9 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+>               cpu_loop_exit(cs);
+>               break;
+>           case SVM_EVTINJ_TYPE_EXEPT:
+> +            if (vector == EXCP02_NMI || vector >= 31)  {
+> +                cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+> +            }
+>               cs->exception_index = vector;
+>               env->error_code = event_inj_err;
+>               env->exception_is_int = 0;
+> @@ -410,6 +413,9 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+>               qemu_log_mask(CPU_LOG_TB_IN_ASM, "SOFT");
+>               cpu_loop_exit(cs);
+>               break;
+> +        default:
+> +            cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+> +            break;
+>           }
+>           qemu_log_mask(CPU_LOG_TB_IN_ASM, " %#x %#x\n", cs->exception_index,
+>                         env->error_code);
+> 
 
-s/constraint/constrained/
+Queued, thanks.
 
-> +    # manual until the situation has been solved.
-> +    - when: manual
-> +      allow_failure: true
->  
->  check-cfi-aarch64:
->    extends: .native_test_job_template
-> @@ -452,6 +458,12 @@ build-cfi-ppc64-s390x:
->      expire_in: 2 days
->      paths:
->        - build
-> +  rules:
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constraint containers of the shared runners. Thus this is marked as
-
-s/constraint/constrained/
-
-> +    # manual until the situation has been solved.
-> +    - when: manual
-> +      allow_failure: true
->  
->  check-cfi-ppc64-s390x:
->    extends: .native_test_job_template
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
