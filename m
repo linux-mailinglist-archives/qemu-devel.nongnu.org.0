@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755F23D9555
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:35:26 +0200 (CEST)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDF33D9554
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:34:20 +0200 (CEST)
+Received: from localhost ([::1]:35014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oOr-0001oV-EY
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53524)
+	id 1m8oNn-0000HZ-Rk
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLg-0005sp-Vg
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53300)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLg-0005sM-Is
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLc-00074q-Un
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8oLc-00073H-8O
  for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:32:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497124;
+ s=mimecast20190719; t=1627497123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BnurmMofQyRZNu14FFqXtCfqMjzhNHVTjd0gZ+853yw=;
- b=Xos9/UgoVWLRYDAPOcGCq5Z8FP13pjy1a9eXGYtSbdTvLIqA/Dcr0alZcNJ46g835VFhnD
- IDO4H0tpBz9q+jK5QwJ7kfn/U/KZmBU+eJ4NHc8RpcoBk9oHy6lzn+LryDwkX1aWizP6TJ
- 3/3d7kITlQOHFEgnGuUP+AnOg+NlInc=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-faFzZJVvNfGWDLA-mM0iSQ-1; Wed, 28 Jul 2021 14:32:02 -0400
-X-MC-Unique: faFzZJVvNfGWDLA-mM0iSQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- 18-20020a05620a0792b02903b8e915ccceso2130557qka.18
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:31:59 -0700 (PDT)
+ bh=cv//UpWaAePYoX9vAmEeSqOa6nYsBvCOheG0gcBITT0=;
+ b=bVo/9MfWW/CfooNM8tNRP+Vp01evH0FkZmejkL7T67IYyg1u/7Y9Imus7StHY6QyhsJs/H
+ Ch92gqcsngZ2+Uadw0RA38mLsTjM94OzORHQL3P/Uj5UcpYXHnlTwMxAesgpzK98mGUpHU
+ qJXTWVal3SbfOY3GnwobmzbEfJjtygo=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49--Suu1hjnMXeEd_taNQ7YGQ-1; Wed, 28 Jul 2021 14:32:02 -0400
+X-MC-Unique: -Suu1hjnMXeEd_taNQ7YGQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ v16-20020a0562140510b029032511e85975so2424007qvw.23
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:32:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BnurmMofQyRZNu14FFqXtCfqMjzhNHVTjd0gZ+853yw=;
- b=hpraokv5FLNgheWOcuLOOk4oexafVJZQUDlIedSDQp0ieRkGWq33NZLve4aT0C1VGy
- lzcj+03cbig0ppwn8hk3nPcDNETVzX98n1Ar5m3mJ1H1BbaI8W8NmT1+LVnSYP8vJoks
- eslNv6pmzo9781ufjN8H8XQ2bt6z+s5fq2tvJMpZhK3/AHBCwlswjyFfAlXLF3RRDBtk
- oCCWiGdyx4Vs0f5Kzs1P7wqRrAWJ/TPZinGepoafA1AezCOXt4/8fqynrjZwKjzmlNP7
- PniIcvj9O9zkSxoJqDjYRIQ6eoi091YsZcrBIzZMjUvGT6nGnKA0T5zTyh8r8yg6HZgo
- Vafg==
-X-Gm-Message-State: AOAM531NGrA9egK+SmurQyecjycSQqO9A1dIFJGsdtNC+NlEzWBU+QDG
- 8n8jsAbkA9KqLQMaD6j+837SBGo0YAkBmiQImyzATNv9aCdGx1G0Udmn9cS0b8xklxhOltBSntV
- aEfftoY5kqjk+2zUBy1DkAFC7SuqT4BH9n12Y7CFHkGnRwgE8KLxztus+G1JiKpOu
-X-Received: by 2002:a37:a8d3:: with SMTP id r202mr1059759qke.216.1627497118782; 
- Wed, 28 Jul 2021 11:31:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFSZrLLzcNQAimKCszO+vO5fYfQGD92Z0QKhwVg1n1nZ1IpsNLzIpBh88oDBm8uXCBR9BSzQ==
-X-Received: by 2002:a37:a8d3:: with SMTP id r202mr1059726qke.216.1627497118508; 
- Wed, 28 Jul 2021 11:31:58 -0700 (PDT)
+ bh=cv//UpWaAePYoX9vAmEeSqOa6nYsBvCOheG0gcBITT0=;
+ b=ODGaO+7/DDKehS0xp0zevZyTH48xR879Y8hWqfkHEQzpzxgPALaunFqeQJipNzTWP2
+ yOBPRNz0jZLQo4EalYK8gAxnjyZaLDc9XtsYjIQVa2OV5Wrntu22JvqYylq+eIS3vqzS
+ hHZ6N9OquHUQQ2udzsQ2oUlHCCXgBXxIsi9sf7j5675xwoaeWO3XVtXMTXekCZ0ORnmE
+ pLTxMnQnJ+lE5e0AlBvfYW7mtNXg5liwPe/+jEu8e8bUU53xJzg3LvGZip2r0+7U2qcg
+ PXEnlgWF9UIveIVKEh7oGYi0fwba4jAYghsYU+prKW+BT7miS9LxQF+zXzAXjaxZFSq6
+ OZDg==
+X-Gm-Message-State: AOAM533Z5/IuL2b0bh0s+lZH3mmLPbvfAxkcKQdDImNvloa0kl+nt3xK
+ MJGS6FSVK0fnHdFJ8ZErbfIPptyLXA3Tclg7OLuaomI951DGdt7JT4KxciFtY1rhblsVvKwBLtt
+ nBGOzaaaE6x2LBdUoh5QVbAHbeiDX6VwE/2qCpyAtGzw98ny+bIzngIAB7HjmWqgq
+X-Received: by 2002:a37:e15:: with SMTP id 21mr1082172qko.184.1627497120153;
+ Wed, 28 Jul 2021 11:32:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFNq9xBhqGgHL2NL9jbxxACJukPayGvMwPXlAz4MAKETMuQPXBw428TOxc9IhjFOmyhkje0A==
+X-Received: by 2002:a37:e15:: with SMTP id 21mr1082140qko.184.1627497119883;
+ Wed, 28 Jul 2021 11:31:59 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.31.57
+ by smtp.gmail.com with ESMTPSA id n5sm417528qkp.116.2021.07.28.11.31.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 11:31:57 -0700 (PDT)
+ Wed, 28 Jul 2021 11:31:59 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/8] cpus: Move do_run_on_cpu into softmmu/cpus.c
-Date: Wed, 28 Jul 2021 14:31:45 -0400
-Message-Id: <20210728183151.195139-3-peterx@redhat.com>
+Subject: [PATCH v3 3/8] memory: Introduce
+ memory_region_transaction_depth_{inc|dec}()
+Date: Wed, 28 Jul 2021 14:31:46 -0400
+Message-Id: <20210728183151.195139-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728183151.195139-1-peterx@redhat.com>
 References: <20210728183151.195139-1-peterx@redhat.com>
@@ -100,112 +101,50 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's only used by softmmu binaries not linux-user ones.  Make it static and
-drop the definition in the header too.
+memory_region_transaction_{begin|commit}() could be too big when finalizing a
+memory region.  E.g., we should never attempt to update address space topology
+during the finalize() of a memory region.  Provide helpers for further use.
 
-Since at it, initialize variable "wi" with less loc.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- cpus-common.c         | 25 -------------------------
- include/hw/core/cpu.h | 12 ------------
- softmmu/cpus.c        | 23 +++++++++++++++++++++++
- 3 files changed, 23 insertions(+), 37 deletions(-)
+ softmmu/memory.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index d814b2439a..670826363f 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -124,31 +124,6 @@ void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
-     qemu_cpu_kick(cpu);
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bfedaf9c4d..725d57ec17 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1079,10 +1079,20 @@ static void address_space_update_topology(AddressSpace *as)
+     address_space_set_flatview(as);
  }
  
--void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
--                   QemuMutex *mutex)
--{
--    struct qemu_work_item wi;
--
--    if (qemu_cpu_is_self(cpu)) {
--        func(cpu, data);
--        return;
--    }
--
--    wi.func = func;
--    wi.data = data;
--    wi.done = false;
--    wi.free = false;
--    wi.exclusive = false;
--
--    queue_work_on_cpu(cpu, &wi);
--    while (!qatomic_mb_read(&wi.done)) {
--        CPUState *self_cpu = current_cpu;
--
--        qemu_cond_wait(&qemu_work_cond, mutex);
--        current_cpu = self_cpu;
--    }
--}
--
- void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
- {
-     struct qemu_work_item *wi;
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index f62ae88524..711ecad62f 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -689,18 +689,6 @@ void qemu_cpu_kick(CPUState *cpu);
-  */
- bool cpu_is_stopped(CPUState *cpu);
- 
--/**
-- * do_run_on_cpu:
-- * @cpu: The vCPU to run on.
-- * @func: The function to be executed.
-- * @data: Data to pass to the function.
-- * @mutex: Mutex to release while waiting for @func to run.
-- *
-- * Used internally in the implementation of run_on_cpu.
-- */
--void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
--                   QemuMutex *mutex);
--
- /**
-  * run_on_cpu:
-  * @cpu: The vCPU to run on.
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840..49e0368438 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -382,6 +382,29 @@ void qemu_init_cpu_loop(void)
-     qemu_thread_get_self(&io_thread);
- }
- 
-+static void
-+do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
-+              QemuMutex *mutex)
++static void memory_region_transaction_depth_inc(void)
 +{
-+    struct qemu_work_item wi = {
-+        .func = func,
-+        .data = data,
-+    };
-+
-+    if (qemu_cpu_is_self(cpu)) {
-+        func(cpu, data);
-+        return;
-+    }
-+
-+    queue_work_on_cpu(cpu, &wi);
-+    while (!qatomic_mb_read(&wi.done)) {
-+        CPUState *self_cpu = current_cpu;
-+
-+        qemu_cond_wait(&qemu_work_cond, mutex);
-+        current_cpu = self_cpu;
-+    }
++    memory_region_transaction_depth++;
 +}
 +
- void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
++static void memory_region_transaction_depth_dec(void)
++{
++    memory_region_transaction_depth--;
++}
++
+ void memory_region_transaction_begin(void)
  {
-     do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
+     qemu_flush_coalesced_mmio_buffer();
+-    ++memory_region_transaction_depth;
++    memory_region_transaction_depth_inc();
+ }
+ 
+ void memory_region_transaction_commit(void)
+@@ -1092,7 +1102,7 @@ void memory_region_transaction_commit(void)
+     assert(memory_region_transaction_depth);
+     assert(qemu_mutex_iothread_locked());
+ 
+-    --memory_region_transaction_depth;
++    memory_region_transaction_depth_dec();
+     if (!memory_region_transaction_depth) {
+         if (memory_region_update_pending) {
+             flatviews_reset();
 -- 
 2.31.1
 
