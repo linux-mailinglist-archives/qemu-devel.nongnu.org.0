@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CF53D9581
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:47:48 +0200 (CEST)
-Received: from localhost ([::1]:39636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176143D9576
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:45:42 +0200 (CEST)
+Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oap-0005wJ-KY
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
+	id 1m8oYn-0004eK-4i
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oUG-00073p-PW
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:41:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41243)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oXc-0003DM-W8
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:44:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oUF-0004Jt-B6
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:41:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oXb-0006ec-Eg
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:44:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497658;
+ s=mimecast20190719; t=1627497866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h3iH27NbZMfOFgit6q/k8WUrYhL1HTRng3/IhI8CsWw=;
- b=bzqvpS+wvX8Qe40b89BAaIbmKqceWSIrX/Uvew60wDMIYkblgLacepnGWGUvu5P6ltcye2
- OrQNETFTy1hrwgAvULJpobWB5LWT8EEfo5NhybSZja4NsScYZSsEPlGK+e/d5rlkGQk0Qf
- Cc/ugTrWn+qnxbRJx6CyPTuvzgGFLHw=
+ bh=cwpey7SFX+2jBhRg+YnBlCQkCfHlfZwpopGvd74UMt0=;
+ b=Qu4613Dd78aVid+UnY/BmrMlNh60cwZR2XSnKtw7y5IZRgI/KyVACbt2F7grVDYcXU/Pnm
+ uIYEVjyX9HwpH0hi4XIgQYOjUUImYajubvm7ukq7AmihRV2r2EITam8bNZ0W0VIY8PfNOk
+ iHGP8wYstfAvNINL7HhZp/uH9794f0c=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-00lQrzxlPjyLuv-843WOtA-1; Wed, 28 Jul 2021 14:40:57 -0400
-X-MC-Unique: 00lQrzxlPjyLuv-843WOtA-1
+ us-mta-452-EWAuhW9hNAOUXrRDTVp_Bw-1; Wed, 28 Jul 2021 14:44:24 -0400
+X-MC-Unique: EWAuhW9hNAOUXrRDTVp_Bw-1
 Received: by mail-wr1-f72.google.com with SMTP id
- r17-20020adfda510000b02901526f76d738so1274131wrl.0
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:40:57 -0700 (PDT)
+ d13-20020adfc3cd0000b02901531b0b7c89so1265429wrg.23
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:44:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=h3iH27NbZMfOFgit6q/k8WUrYhL1HTRng3/IhI8CsWw=;
- b=FmjvL2M0Dh5mSpp+XH9dx552xK4QKLxymIXXIkQrhIdT/9Zo9eZuVVOw6DHYwCLtPw
- AYvRtjYS5kQXZRqfLrhvwhiCmNEpatHWLr5eqfN8WRPyaEm0XRWCTH1TBSTDXBWWfXPd
- saIxX7d916D2Zt5UqoEdasnihiiq2jP8k7wL8iBw1Sg69mBhL6olXEvW86ccvnFCShhB
- /VSCuo9Lut7xRGdD/mBKhL8kUV3VxMeabtYsNVx5TjsMIfjvWqhCceK1Da2Hjw8lQQOV
- HvE3PPOB1Ys2io1ht7/gFVSYvrMlZ9ULYIcggsl50Ed2+5UhXKnM511IUZnIJZuGdkZo
- NIFg==
-X-Gm-Message-State: AOAM531DjXgcgXUIrEgKy6tWcT390ivvPJRpiFsRTZqFJ+y7kKA8AsL0
- AefiDyhtXH7PR2IgRw7tTqf2JCkebqXOQmnY/aqL7RrALfKhmO7dlJsXtTih84n4eQNdQfj1rOP
- 4SRY4KW6A66fz4TA=
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr737107wrx.271.1627497656229; 
- Wed, 28 Jul 2021 11:40:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhhAMN0XoDctF6HN3hUvvRHurWYblEzNfnxiI3JY8PXoOKdlo9H3CO3AasLOkFgjkifVDZMA==
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr737103wrx.271.1627497656129; 
- Wed, 28 Jul 2021 11:40:56 -0700 (PDT)
+ bh=cwpey7SFX+2jBhRg+YnBlCQkCfHlfZwpopGvd74UMt0=;
+ b=DTL47HiQ7s5Lo4GQR50WIss9PWcvDzNgG2DFOx2G7mUqsCfIyhhzlRQ/KmPyI5fSnf
+ Q7AATnB4tqBH4FATGB4SRz1h+2fxIc0ZcWdUNzL7yAQ18Go2OVOt0yHLii0387t5XtXY
+ XQtQfIH11EZzWR18KyN0oHXymBFg3la51xsesTLhIDE4nzR1MzxjwFiEcnx659isEedG
+ KNFIV0IWcRJ0dW+jlNNOv1C935oD6eW+heHnjczWPY7mlrrde2QiMxBX6OSC6i942TZr
+ OPNGRJ/UFA+iPtWbkhnI7owH435BsD/S7utGQ1xuKKsXYp2ZohTYi+UgzJnLIarRWs3h
+ dafA==
+X-Gm-Message-State: AOAM530tOzi0nXMivfWI1lEGGux52HFLvDdZ+7vbkoPReYzzDajmpH6J
+ JY6n4C2u3pSfNMdzEcBpN+zyLyslW2CPB0R8lVIXOkxxmRN3Oi0W2Fku2Jrdq+3OFAXdm8CBeEg
+ OPNdH746eC1mMIpk=
+X-Received: by 2002:a5d:49c8:: with SMTP id t8mr733869wrs.365.1627497863017;
+ Wed, 28 Jul 2021 11:44:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4qDSKmcSqhh7GZ5389wsVhB5c1CYd1VC+stsVNVzTFzd5gxOVDmySTPoobkamor7tPyCIuQ==
+X-Received: by 2002:a5d:49c8:: with SMTP id t8mr733851wrs.365.1627497862767;
+ Wed, 28 Jul 2021 11:44:22 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id n17sm7585331wmo.18.2021.07.28.11.40.55
+ by smtp.gmail.com with ESMTPSA id q20sm684214wmj.27.2021.07.28.11.44.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 11:40:55 -0700 (PDT)
-Subject: Re: [PATCH v3 1/8] cpus: Export queue work related fields to cpu.h
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20210728183151.195139-1-peterx@redhat.com>
- <20210728183151.195139-2-peterx@redhat.com>
+ Wed, 28 Jul 2021 11:44:22 -0700 (PDT)
+Subject: Re: [PATCH v2 7/8] virtio-gpu: Initialize Venus
+To: Antonio Caggiano <antonio.caggiano@collabora.com>, qemu-devel@nongnu.org
+References: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
+ <20210728134634.2142156-8-antonio.caggiano@collabora.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bb1ba9dd-a8f8-4579-9c41-2fdbe3f572ed@redhat.com>
-Date: Wed, 28 Jul 2021 20:40:55 +0200
+Message-ID: <0953ffe2-0dc8-b6fc-77f5-60fdc28e72ac@redhat.com>
+Date: Wed, 28 Jul 2021 20:44:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728183151.195139-2-peterx@redhat.com>
+In-Reply-To: <20210728134634.2142156-8-antonio.caggiano@collabora.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
@@ -101,27 +99,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- David Hildenbrand <david@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 8:31 PM, Peter Xu wrote:
-> This patch has no functional change, but prepares for moving the function
-> do_run_on_cpu() into softmmu/cpus.c.  It does:
+On 7/28/21 3:46 PM, Antonio Caggiano wrote:
+> Enable VirGL unstable APIs and request Venus when initializing VirGL.
 > 
->   1. Move qemu_work_item into hw/core/cpu.h.
->   2. Export queue_work_on_cpu()/qemu_work_cond.
-> 
-> All of them will be used by softmmu/cpus.c later.
-> 
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 > ---
->  cpus-common.c         | 11 ++---------
->  include/hw/core/cpu.h | 10 +++++++++-
->  2 files changed, 11 insertions(+), 10 deletions(-)
+>  hw/display/virtio-gpu-virgl.c | 2 +-
+>  meson.build                   | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> diff --git a/meson.build b/meson.build
+> index f2e148eaf9..31b65050b7 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -483,6 +483,7 @@ if not get_option('virglrenderer').auto() or have_system
+>                       method: 'pkg-config',
+>                       required: get_option('virglrenderer'),
+>                       kwargs: static_kwargs)
+> +  add_project_arguments('-DVIRGL_RENDERER_UNSTABLE_APIS', language : 'c')
+
+Unstable in mainstream repository doesn't sound right.
+What is the plan for the project to stabilize it?
 
 
