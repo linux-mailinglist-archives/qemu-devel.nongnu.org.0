@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E7F3D9586
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:48:55 +0200 (CEST)
-Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6CC3D95B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 21:02:17 +0200 (CEST)
+Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8obu-00082S-Io
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1m8ooq-0004ZR-B7
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 15:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oZG-0005zW-B1
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:46:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oZC-0007kX-A4
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=38j4KHGfeTtxPMvZ695EDpmZWWPQKj4xsaoyI0iyuLQ=;
- b=G5iiFpt5C7XKF0a89AtwLT0gaE8d/N5oIjzPkc+ZE3tUzcPB2ptTze5eZj/mxh6ZMcKina
- y5RTvAFrd2mxqOtLYMf3GW0SvawPd2fDF3jt4AU8vCZHN+oku/g/lQyLdWgO6FHeVGmp2o
- zQ/7cmEm8YZr6myb3tZAjAOw7u8r5r4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-U-eAgVEcOE2oN2O4POBPdg-1; Wed, 28 Jul 2021 14:46:03 -0400
-X-MC-Unique: U-eAgVEcOE2oN2O4POBPdg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 14-20020a05600c230eb029024b7cd56259so621210wmo.1
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:46:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1m8omw-0003hx-IG
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:00:18 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:46003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1m8omu-0000bN-9G
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 15:00:18 -0400
+Received: by mail-lj1-x229.google.com with SMTP id h11so4256446ljo.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 12:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CF9Ebtn1K2skoonIX3Kl5uPFwf6/mj0sEHZaqTsqkM8=;
+ b=HnOKhABiYVDpWHTEotvy8TRmCEC1QtjeZ/HFGLg2UBX2JmDkodXeXj7V8WiZhzYcQS
+ atrhZprD8sBKRVuteibupgTQvvlDMhN/zFROgRV4nT7LTYg0zAoNJXf32hK/4gVEQAP7
+ iGKgws00WNSaAoGZiUOGR6gHSsSQnLT0XdCP8hF4l+lBNffzWJUUbag8n0ukQZduUZ7B
+ f6YZC8A9czKHd8r+siKbxqI/iLbw8oEXwo82OXsgOkf/Oe0VixfheizX3VwZQTlJCgW8
+ iCsjCsQWvAQ260/Ej27hnSOky7yZ1ZnTTK05RB8qcWyE+whZDV+huaBZEIuYPOknBOVh
+ YrWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=38j4KHGfeTtxPMvZ695EDpmZWWPQKj4xsaoyI0iyuLQ=;
- b=jif9ZF2DQfXGO4i7b2Q6fwjREqI0fc4FTYOyTponazHmkXogtuL5AxXMEZpVvoD5qc
- OZQXrhxn5XiFMjaq4KUBX6XASUzaFbXINtkcwaQv8kiD08nHrIwlRi8MyxTtvX8kKZSC
- jKL2268idfSF5g0PuVfMvBQlXx3kRIWnb0T/epwTT4BbQRtyefyKiov2FLixvr/lwPi4
- yhIPbSBfUukXhmyhN9tLFHvuCOxxHTOf8I7myQKXnyd2wH6CBeweAeMnWc0UT5TQhr1L
- 53+EzHUBMu5kYm2h8jlnTvmXZWlfJw/rDV4TtwbbE4sjhbeuYvncKDPHtPUmMqMmdfbF
- hxxQ==
-X-Gm-Message-State: AOAM530Igl4lOhJY7tLf1MfgiCz9waMaiBIpxzBEzbtSPwbiWpLYEnEC
- t/xH9isVa7Tf7TN+9Z7+pgXdZD4GtSivYOnKLGZKQwi9Htq1AB6wHk8jId7cBwRf3buvFCsGgQn
- Qk0iNVeDcfC5MyKQ=
-X-Received: by 2002:a1c:48d:: with SMTP id 135mr953769wme.31.1627497962876;
- Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzx8tY9940+Kd4MBYvlD4Q/QqcxXxFh8AbRnYrWi3Uszx+vkUXOdaaTP/QpLEhKavJc6a28Q==
-X-Received: by 2002:a1c:48d:: with SMTP id 135mr953746wme.31.1627497962651;
- Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id n17sm7597022wmo.18.2021.07.28.11.46.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
-Subject: Re: [PATCH v2 2/8] virtio-gpu: hostmem [wip]
-To: Antonio Caggiano <antonio.caggiano@collabora.com>, qemu-devel@nongnu.org
-References: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
- <20210728134634.2142156-3-antonio.caggiano@collabora.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b48379de-c286-c6cb-7802-deaf438a9a5d@redhat.com>
-Date: Wed, 28 Jul 2021 20:46:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CF9Ebtn1K2skoonIX3Kl5uPFwf6/mj0sEHZaqTsqkM8=;
+ b=tFXLtpaDaNPSqGdZ9u8bfUW6FJXl8Cv3x8IciYBjG7sktpG2ihKHuA5hVP6hPTpaMx
+ NjU828sPEWTwSJsSQdMwYhEN9NRh4QtgBk4IudT2iphbdXMQ0zZDR1qBJjkvwrwTeaJ5
+ dfDeHbIAcylpV8tuJQY0mKJrXsFPOBES15yAZuv0TAthm19UZCa43vpq0A6zcuxI+JiN
+ 0pC2eaweQUWDlvU4JCStp34m6VUpetrFNGmT3PEwlHNAcvLihZY+ol01/5ELpxg1pWZd
+ DBVgTazB6ysoZQPJ9Udx+Wld7VnsqeEASAuqCinmkQo8BF3MQuSWM67YBNEjTOaNK3Ur
+ mAVA==
+X-Gm-Message-State: AOAM531ZKx296R9Cv4qackGaxfnbHIdvMHiiSCjw5lyYriHZWkm1P0g6
+ cZ2B9jHNTNLPk17j9YhNQmzsJftOQJwRhT9Xoqk=
+X-Google-Smtp-Source: ABdhPJwMmzz0ZTVyuI9BEf3qiVK5oQzhKIRnHD1Mde34Q4f9D/LqLbWCY4pnghV5lqF94ZnmaBPOR9mX6adE6Y0eBfc=
+X-Received: by 2002:a2e:a90e:: with SMTP id j14mr751792ljq.250.1627498813006; 
+ Wed, 28 Jul 2021 12:00:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210728134634.2142156-3-antonio.caggiano@collabora.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.719, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.277,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
+ <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
+ <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
+ <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
+ <YOxYM+8qCIyV+rTJ@google.com>
+ <CA+-xGqOSd0yhU4fEcobf3tW0mLb0TmLGycTwXNVUteyvvnXjdw@mail.gmail.com>
+ <YO8jPvScgCmtj0JP@google.com>
+ <CA+-xGqOkH-hU1guGx=t-qtjsRdO92oX+8HhcO1eXnCigMc+NPw@mail.gmail.com>
+ <YPC1lgV5dZC0CyG0@google.com>
+ <CA+-xGqN75O37cr9uh++dyPj57tKcYm0fD=+-GBErki8nGNcemQ@mail.gmail.com>
+ <YPiLBLA2IjwovNCP@google.com>
+In-Reply-To: <YPiLBLA2IjwovNCP@google.com>
+From: harry harry <hiharryharryharry@gmail.com>
+Date: Wed, 28 Jul 2021 14:00:01 -0500
+Message-ID: <CA+-xGqP7=m47cLD65DhTumOF8+sWZvc81gh+04aKMS56WWkVtA@mail.gmail.com>
+Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
+ shadow page table in Linux QEMU/KVM
+To: Sean Christopherson <seanjc@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=hiharryharryharry@gmail.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,22 +87,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
+ stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 3:46 PM, Antonio Caggiano wrote:
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> 
-> ---
->  hw/display/virtio-gpu-base.c                |  4 +++
->  hw/display/virtio-gpu-pci.c                 | 14 +++++++++
->  hw/display/virtio-gpu.c                     |  1 +
->  hw/display/virtio-vga.c                     | 32 +++++++++++++++------
->  include/hw/virtio/virtio-gpu.h              |  5 ++++
->  include/standard-headers/linux/virtio_gpu.h |  5 ++++
->  6 files changed, 52 insertions(+), 9 deletions(-)
+Sean, sorry for the late reply. Thanks for your careful explanations.
 
-WIP aims for a RFC series.
+> For emulation of any instruction/flow that starts with a guest virtual address.
+> On Intel CPUs, that includes quite literally any "full" instruction emulation,
+> since KVM needs to translate CS:RIP to a guest physical address in order to fetch
+> the guest's code stream.  KVM can't avoid "full" emulation unless the guest is
+> heavily enlightened, e.g. to avoid string I/O, among many other things.
 
+Do you mean the emulated MMU is needed when it *only* wants to
+translate GVAs to GPAs in the guest level?
+In such cases, the hardware MMU cannot be used because hardware MMU
+can only translate GVAs to HPAs, right?
 
