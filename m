@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BE03D96F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 22:41:24 +0200 (CEST)
-Received: from localhost ([::1]:56478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472FD3D96F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 22:42:57 +0200 (CEST)
+Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8qMl-0002mA-8Z
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 16:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1m8qOG-0005TH-Be
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 16:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m8qLH-0001Hq-EC
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:39:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59141)
+ id 1m8qME-0002bs-HQ
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:40:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m8qLF-0000XC-Qq
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:39:51 -0400
+ id 1m8qMC-0001Cc-Kc
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 16:40:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627504789;
+ s=mimecast20190719; t=1627504847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QmEMItRtRm3JbMJFlpsS5o1EGkbPC8Kgs7t/O+IhNxQ=;
- b=RuS02do2Ry26QGn9FV84Q+V2eixyjR1APOLVSO7eiXk+Ux/iIi6CJTZdjb9ZZ38kOOQb9e
- MQqFqAiBVELz1Yt3LdlovE0wtmPDlXfjhbWlZi1OBqQBfzcW0Kw9h1LiJx3lMnzLocqHUp
- sTfJJLu5zrcLr0rIG447j2lC42oWo0w=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-7jIjL-xaM-2RMKdymcgdDw-1; Wed, 28 Jul 2021 16:39:48 -0400
-X-MC-Unique: 7jIjL-xaM-2RMKdymcgdDw-1
-Received: by mail-io1-f70.google.com with SMTP id
- f10-20020a6b620a0000b02904e5ab8bdc6cso1969252iog.22
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 13:39:48 -0700 (PDT)
+ bh=di0pPppwHXqyxO26gW9wr8snEfLNJ2VzoZBI0H3D/vg=;
+ b=NPJQo+dDzCg452zzY+RUWuZ7WT+3FJlJZ9uSwQNTT6DJHe1yMi61A6ay1fUH0KzPYw5Fi9
+ QrL5TJbdLlUoDFzfC3Jl7GZTOYwnAT1KqSGP+X/VRqPO44O9vyyFrhm6wCTwzfYIbJx5qH
+ m5fKhwBor5K3d4k1BmVAyUb6XMXVJTM=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-bL5MM5kJOT-kkyE2ZSqRaA-1; Wed, 28 Jul 2021 16:40:46 -0400
+X-MC-Unique: bL5MM5kJOT-kkyE2ZSqRaA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ 6-20020a9219060000b029020c886c9370so2095107ilz.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 13:40:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=QmEMItRtRm3JbMJFlpsS5o1EGkbPC8Kgs7t/O+IhNxQ=;
- b=GnKHRF1q/Z0pKN7OKCB0wDD2fdV9ugyWbas+HYoQjyKIe+BoYlGi0w3JHSUIBDr+Bu
- OycFkYKKfE/iZoGaOtNDUcVo57VbCnOhr5fKr3NpcNa5v48tN8t9myPqRW2QVui591fi
- r8iXSUrLqyNqabSd1/p1g2+uQaxTrb6yg1Fnik92O3utJkrLG3nE7fOLY5kVi40O7Geh
- pxQADbbuxvNXuhRCrt8/Q8gHwnWoETfpBH6s0vOWQ7WuWfwqDFq7ZaX+nbOvvIlPe1FZ
- cmmZRnT8gDwP3KO5XuHJ+fY/xoFGLStP8EmgaEaud2P/DWs6vG1s8E4QnZy+uZ+L2Dcz
- LGHA==
-X-Gm-Message-State: AOAM530NZHL+5KWpRAMG8kbb3sl7ipSE/oM2/42PNCVJWBs+rctpMuVl
- BbHx9KRFhO2rBU9V9TyO//lVnIi2XpEZVxTRJBzdIZE1gvtJpO8/Erx1XTMtVjvLpTaX/cjUeMO
- 7LWi4Q9YovGDGpCk=
-X-Received: by 2002:a02:c95a:: with SMTP id u26mr1400193jao.49.1627504787563; 
- Wed, 28 Jul 2021 13:39:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpbZF1pGTpKGpzOntOsv9n4FAXMrmH70V0czc/9OZAQTVxxs/d84bCDspBlJJuSPGtkwfpWA==
-X-Received: by 2002:a02:c95a:: with SMTP id u26mr1400170jao.49.1627504787301; 
- Wed, 28 Jul 2021 13:39:47 -0700 (PDT)
+ bh=di0pPppwHXqyxO26gW9wr8snEfLNJ2VzoZBI0H3D/vg=;
+ b=ZTPqSZvwKrCiAHTD10Opj9Lqn9Z1+YKK0rvoCoxIuizWiiG7+e4Qpkcu8Ko/w/C/kV
+ PWc5mLB3qBZuJLQzy5/RhT9suRIFyIGY670mNoUHHXkoYU8Kb07VXTaRi0jHLabNXr8A
+ 2fqrE9f8RIkGach7LwTNw7HqQ6NOeXmyFZ8OFvA3dlWA8KqjTXXjt/3oBmjKiZzQtEh7
+ 32AsJalFA8ZzEKsJ7ONDyrzlOvPu1CmeFwmvN8F/JU24jyNJ7mb31CAxBavwuGENLRO+
+ jSik/b365uFsYjXNlOPVwUtPjVLaAz4ZJEAI1Z7nXGGNDAiHUMTmx15/HHDCjp3JIBGn
+ vYyQ==
+X-Gm-Message-State: AOAM533Du5YaHWbJnaaBnNDlAZb9sQwhBjEakuI0Jg2jMKypoZwj3eb9
+ m8IpjlEGJpt6zTO0qmxa1OEy7xns2LhuNLLzoxhmXB35OvmzBI8PVTNo+BeViBL9GOCmDM4fsxz
+ oBe10RL+lYdQLALE=
+X-Received: by 2002:a02:a80f:: with SMTP id f15mr1404823jaj.142.1627504846214; 
+ Wed, 28 Jul 2021 13:40:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQYnR5T9H20bJAfHqSr3fVn+81/K6n8dy6jzYr3XVsNJPg1/dGx07A7OBpn8wjACOgYXwrEA==
+X-Received: by 2002:a02:a80f:: with SMTP id f15mr1404803jaj.142.1627504846016; 
+ Wed, 28 Jul 2021 13:40:46 -0700 (PDT)
 Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id f9sm602928ile.38.2021.07.28.13.39.46
+ by smtp.gmail.com with ESMTPSA id x4sm647988ilj.52.2021.07.28.13.40.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 13:39:46 -0700 (PDT)
-Date: Wed, 28 Jul 2021 22:39:44 +0200
+ Wed, 28 Jul 2021 13:40:45 -0700 (PDT)
+Date: Wed, 28 Jul 2021 22:40:43 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.2 v3 10/11] machine: Remove smp_parse callback from
- MachineClass
-Message-ID: <20210728203944.arphd55kxsi62iw6@gator>
+Subject: Re: [PATCH for-6.2 v3 11/11] machine: Move smp_prefer_sockets to
+ struct SMPCompatProps
+Message-ID: <20210728204043.vne3tmdp4qhontvw@gator>
 References: <20210728034848.75228-1-wangyanan55@huawei.com>
- <20210728034848.75228-11-wangyanan55@huawei.com>
+ <20210728034848.75228-12-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210728034848.75228-11-wangyanan55@huawei.com>
+In-Reply-To: <20210728034848.75228-12-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,61 +108,126 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 11:48:47AM +0800, Yanan Wang wrote:
-> Now we have a generic smp parser for all arches, and there will
-> not be any other arch specific ones, so let's remove the callback
-> from MachineClass and call the parser directly.
+On Wed, Jul 28, 2021 at 11:48:48AM +0800, Yanan Wang wrote:
+> Now we have a common structure SMPCompatProps used to store information
+> about SMP compatibility stuff, so we can also move smp_prefer_sockets
+> there for cleaner code.
+> 
+> No functional change intended.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/core/machine.c   | 3 +--
->  include/hw/boards.h | 5 -----
->  2 files changed, 1 insertion(+), 7 deletions(-)
+>  hw/arm/virt.c              | 2 +-
+>  hw/core/machine.c          | 2 +-
+>  hw/i386/pc_piix.c          | 2 +-
+>  hw/i386/pc_q35.c           | 2 +-
+>  hw/ppc/spapr.c             | 2 +-
+>  hw/s390x/s390-virtio-ccw.c | 2 +-
+>  include/hw/boards.h        | 3 ++-
+>  7 files changed, 8 insertions(+), 7 deletions(-)
 > 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7babea40dc..ae029680da 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2797,7 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
+>  {
+>      virt_machine_6_2_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+> -    mc->smp_prefer_sockets = true;
+> +    mc->smp_props.prefer_sockets = true;
+>  }
+>  DEFINE_VIRT_MACHINE(6, 1)
+>  
 > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 76b6c3bc64..8f84e38e2e 100644
+> index 8f84e38e2e..61d1f643f4 100644
 > --- a/hw/core/machine.c
 > +++ b/hw/core/machine.c
-> @@ -934,7 +934,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->          goto out_free;
->      }
+> @@ -834,7 +834,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>      } else {
+>          maxcpus = maxcpus > 0 ? maxcpus : cpus;
 >  
-> -    mc->smp_parse(ms, config, errp);
-> +    smp_parse(ms, config, errp);
->      if (errp) {
->          goto out_free;
->      }
-> @@ -963,7 +963,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
->      /* Default 128 MB as guest ram size */
->      mc->default_ram_size = 128 * MiB;
->      mc->rom_file_has_mr = true;
-> -    mc->smp_parse = smp_parse;
+> -        if (mc->smp_prefer_sockets) {
+> +        if (mc->smp_props.prefer_sockets) {
+>              /* prefer sockets over cores over threads before 6.2 */
+>              if (sockets == 0) {
+>                  cores = cores > 0 ? cores : 1;
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 9b811fc6ca..a60ebfc2c1 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -432,7 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
+>      m->is_default = false;
+>      compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>      compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+> -    m->smp_prefer_sockets = true;
+> +    m->smp_props.prefer_sockets = true;
+>  }
 >  
->      /* numa node memory size aligned on 8MB by default.
->       * On Linux, each node's border has to be 8MB aligned
+>  DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 88efb7fde4..4b622ffb82 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -372,7 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+>      m->alias = NULL;
+>      compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>      compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+> -    m->smp_prefer_sockets = true;
+> +    m->smp_props.prefer_sockets = true;
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index a481fade51..efdea43c0d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4702,7 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
+>  {
+>      spapr_machine_6_2_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+> -    mc->smp_prefer_sockets = true;
+> +    mc->smp_props.prefer_sockets = true;
+>  }
+>  
+>  DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index b40e647883..5bdef9b4d7 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -809,7 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
+>  {
+>      ccw_machine_6_2_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+> -    mc->smp_prefer_sockets = true;
+> +    mc->smp_props.prefer_sockets = true;
+>  }
+>  DEFINE_CCW_MACHINE(6_1, "6.1", false);
+>  
 > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 0631900c08..72123f594d 100644
+> index 72123f594d..23671a0f8f 100644
 > --- a/include/hw/boards.h
 > +++ b/include/hw/boards.h
-> @@ -177,10 +177,6 @@ typedef struct {
->   *    kvm-type may be NULL if it is not needed.
->   * @numa_mem_supported:
->   *    true if '--numa node.mem' option is supported and false otherwise
-> - * @smp_parse:
-> - *    The function pointer to hook different machine specific functions for
-> - *    parsing "smp-opts" from QemuOpts to MachineState::CpuTopology and more
-> - *    machine specific topology fields, such as smp_dies for PCMachine.
->   * @hotplug_allowed:
->   *    If the hook is provided, then it'll be called for each device
->   *    hotplug to check whether the device hotplug is allowed.  Return
-> @@ -217,7 +213,6 @@ struct MachineClass {
->      void (*reset)(MachineState *state);
->      void (*wakeup)(MachineState *state);
->      int (*kvm_type)(MachineState *machine, const char *arg);
-> -    void (*smp_parse)(MachineState *ms, SMPConfiguration *config, Error **errp);
+> @@ -110,9 +110,11 @@ typedef struct {
 >  
->      BlockInterfaceType block_default_type;
->      int units_per_default_bus;
+>  /**
+>   * SMPCompatProps:
+> + * @prefer_sockets - whether sockets is preferred over cores in smp parsing
+>   * @dies_supported - whether dies is supported by the machine
+>   */
+>  typedef struct {
+> +    bool prefer_sockets;
+>      bool dies_supported;
+>  } SMPCompatProps;
+>  
+> @@ -250,7 +252,6 @@ struct MachineClass {
+>      bool nvdimm_supported;
+>      bool numa_mem_supported;
+>      bool auto_enable_numa;
+> -    bool smp_prefer_sockets;
+>      SMPCompatProps smp_props;
+>      const char *default_ram_id;
+>  
 > -- 
 > 2.19.1
 >
