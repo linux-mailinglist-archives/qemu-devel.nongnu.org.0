@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03DB3D88E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 09:35:15 +0200 (CEST)
-Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACAA3D88E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 09:36:32 +0200 (CEST)
+Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8e5y-0004sc-UG
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 03:35:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39402)
+	id 1m8e7D-0006Pq-3e
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 03:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m8e5D-0004CY-Ef
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:34:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50978)
+ id 1m8e5S-0004Zr-HL
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:34:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m8e5B-0003XJ-Ug
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:34:27 -0400
+ id 1m8e5P-0003j7-R8
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 03:34:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627457664;
+ s=mimecast20190719; t=1627457678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SPArJxftoTMX4hsN2p0Bnau3qIisjhjNKSo/brslRG4=;
- b=UnSXZI+Pq9KjaldrbkBIyxXaDNveOcyXjdx73VIWCkvypQCD9Jkzrw3z8PbyDVUhm8z+dU
- D/SRtRPcxU6L7OsseA8Bg+KUAW/76d+ygW/9SFLDX/gQ93QW1QRvcFsglH424O5Vhv4A+j
- ZI8/LdBl88T/LZyEz4bVFKFYbU21Llk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-PD88402zMeedzDRBgbdK2Q-1; Wed, 28 Jul 2021 03:34:23 -0400
-X-MC-Unique: PD88402zMeedzDRBgbdK2Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h16-20020aa7de100000b02903a6620f87feso806259edv.18
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 00:34:23 -0700 (PDT)
+ bh=YF9T9NJXxJVXAkJX2wFDG5NvkFDZC+5XD9DYe5bqamY=;
+ b=SmhWtuLQOW+AR3ycfQe0e6+1SoBWgLM5LJZCiioPsW7UknMO8HmGS7K1ChXVZXDJhVfm2G
+ 5bh3YKAoPhajPITdtrVrziT9hDWzwhO5O/hE67EpzVZlG/pXb2YnPvN2k7J4IfhU3Fed2t
+ ZHsDhUPRwDvBr2yOM/+g7/lnFBSVQpM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-LXfWoYV9MpO1rse08dRJuw-1; Wed, 28 Jul 2021 03:34:34 -0400
+X-MC-Unique: LXfWoYV9MpO1rse08dRJuw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ g7-20020a1709068687b029041c273a883dso511594ejx.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 00:34:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SPArJxftoTMX4hsN2p0Bnau3qIisjhjNKSo/brslRG4=;
- b=BPsKwqjbHk2P9zkzISt1xXcS8m6KY2IfaCv9J9JlsCtCqQIBc71rkt4UCiqSypCH9P
- 2bO1szHCtj4DFZxm9Lt0902Pao9Z9615ID77YbOkmXMdOD+7QcMy6w84xow5iTlPJp8z
- qM2mg3HsfBVl1iuLoGaElWhFNq2IpixAH/GcIWL5TSO8NYkVUgzKP6nQpUQtxMqZ2/zO
- pLZ4ke7sOmBr0p0C5RRHpTcgSD3RzIvzM3mZD9jb/jbn8N/wsqtDeULarL+ywFyGwTUv
- /9+BkMyZolvPBmKCn9GuTs9KNHEQbsDSFfMUKaQWZhXE22VlFXGg3kHYaUTH5trFJbk8
- 8Rkg==
-X-Gm-Message-State: AOAM530VlKhiDfK16AehG29voG+wZrLM8Y6knZvPTK/kcFOaildotKHV
- QhiK/ZoPz2SkAOztzD15sWqjCzGwjD3xKApSWX76B0Xvyw6ffOxQqBs9z49YX9J/0yGxIM9Ju87
- IGO/F2qjPzkKxg+U=
-X-Received: by 2002:aa7:c603:: with SMTP id h3mr13288362edq.165.1627457662291; 
- Wed, 28 Jul 2021 00:34:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmObZ3laCwK3tpP9uMlbOqHRkNLmUY+TEsVa22X0MHdKxJj6PyDAVsDbLo4WxRPTHG7G+3Cg==
-X-Received: by 2002:aa7:c603:: with SMTP id h3mr13288352edq.165.1627457662164; 
- Wed, 28 Jul 2021 00:34:22 -0700 (PDT)
+ bh=YF9T9NJXxJVXAkJX2wFDG5NvkFDZC+5XD9DYe5bqamY=;
+ b=Nx05k6Y+byRk1c/9sHYDPRCBpk0O5w0xE/1GK5YNJHqkkUeGsMTpoVjnBDY0IJRQ1T
+ exciOc6SZ+NUHpSM8J7Eo7KcUlhE6/yMCTp2XJ6jM0OCppV1Vx9lGpAYx2dvsB8veAHN
+ rsG37p4g5THCliM7kPWvPNJMi5R4C1zqLdPMDbIWrtcvljzOHrQQReWLSt2SFgD2K0pS
+ sloMv2wPi5/HK/e28VFFdlxSB3eKqLVXQJymHk2qjBlDBI6mzpqfAIQWyKHTKI5Qh9d4
+ x/bmQ+KgSHfu7HPyKbunDS5paQ79LgaQNExhGP0LLHc64bxCeOYAxjmNgwCyOSAiWzLl
+ zNOg==
+X-Gm-Message-State: AOAM533p5dMivG4Udulx6ywweA/oRlIz+8KhVxcMHW7sqCnmjGUgsZmp
+ 8A0KkCeuBMyVFmko74WnHlEUbf9Flx34/lVp1r3mKz5RPEXcwy2z8lr/eWh4kTwgJ9YemuMBwhE
+ Xc9jMRycbqrPYkOQ=
+X-Received: by 2002:a17:906:6d85:: with SMTP id
+ h5mr1934773ejt.305.1627457673649; 
+ Wed, 28 Jul 2021 00:34:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBcbAXYaYY78eub6wr9krsYOlP5GdWuSTHbr15+VoXvAMw8uEpgLrBUL/quVBPZk+7428rCw==
+X-Received: by 2002:a17:906:6d85:: with SMTP id
+ h5mr1934769ejt.305.1627457673506; 
+ Wed, 28 Jul 2021 00:34:33 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id o16sm319117edv.91.2021.07.28.00.34.21
+ by smtp.gmail.com with ESMTPSA id e14sm530461edr.59.2021.07.28.00.34.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 00:34:21 -0700 (PDT)
-Subject: Re: [PATCH 3/3] docs: Move user-facing barrier docs into system manual
+ Wed, 28 Jul 2021 00:34:33 -0700 (PDT)
+Subject: Re: [PATCH 0/3] docs: Convert barrier.txt to rST
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210727204112.12579-1-peter.maydell@linaro.org>
- <20210727204112.12579-4-peter.maydell@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fa424a66-6926-9571-cf84-11c42805def2@redhat.com>
-Date: Wed, 28 Jul 2021 09:34:20 +0200
+Message-ID: <1842c22c-45d2-385f-2fee-4e639c09a07b@redhat.com>
+Date: Wed, 28 Jul 2021 09:34:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210727204112.12579-4-peter.maydell@linaro.org>
+In-Reply-To: <20210727204112.12579-1-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -106,25 +107,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 27/07/21 22:41, Peter Maydell wrote:
-> +where VM-1 is the name the display configured int the Barrier server
+> This patchset converts docs/barrier.txt to rST, putting
+> it in the appropriate places:
+>   * the protocol info lives in interop/
+>   * the "how to use this" info lives in system/
+>   * TODO remarks live in the .c file :-)
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (3):
+>    docs: Move the protocol part of barrier.txt into interop
+>    ui/input-barrier: Move TODOs from barrier.txt to a comment
+>    docs: Move user-facing barrier docs into system manual
+> 
+>   docs/barrier.txt         | 370 ----------------------------------
+>   docs/interop/barrier.rst | 426 +++++++++++++++++++++++++++++++++++++++
+>   docs/interop/index.rst   |   1 +
+>   docs/system/barrier.rst  |  44 ++++
+>   docs/system/index.rst    |   1 +
+>   ui/input-barrier.c       |   5 +
+>   6 files changed, 477 insertions(+), 370 deletions(-)
+>   delete mode 100644 docs/barrier.txt
+>   create mode 100644 docs/interop/barrier.rst
+>   create mode 100644 docs/system/barrier.rst
+> 
 
-in the Barrier server
+Apart from the two typos in patch 3,
 
-> +on the host providing the mouse and the keyboard events.
-> +
-> +by default ``<barrier server address>`` is ``localhost``,
-> +``<port>`` is ``24800``, ``<x-origin>`` and ``<y-origin>`` are set to ``0``,
-> +``<width>`` and ``<height>`` to ``1920`` and ``1080``.
-> +
-> +If Barrier server is stopped QEMU needs to be reconnected manually,
-
-If the Barrier server
-
-> +by removing and re-adding the input-barrier object, for instance
-> +with the help of the HMP monitor::
-> +
-> +    (qemu) object_del barrier0
-
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 Paolo
 
