@@ -2,42 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1498E3D8FB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 15:54:46 +0200 (CEST)
-Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5A13D8FF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 15:59:43 +0200 (CEST)
+Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8k1F-0003pI-5X
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 09:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51810)
+	id 1m8k61-0007za-TD
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 09:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8juC-0005Zd-DK
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:47:28 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:51778)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8k37-0005NJ-My
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:56:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1m8juA-0005UT-G9
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:47:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id 2BAEA1F4384F
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] virtio-gpu: Handle resource blob commands
-Date: Wed, 28 Jul 2021 15:46:34 +0200
-Message-Id: <20210728134634.2142156-9-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
-References: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m8k33-0003GL-If
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 09:56:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627480595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=P52MC5zVeEBT1DGYN5q+HXtjz4BXMmrGpQMJO89I16A=;
+ b=R4N2DV0TpuVpUYrj9TRimqztdlZHWiuqm9DLXCcZBRXVdBBGZVTRI1bidGHIHKWsQFSAhy
+ wNo6I3xn1cE7fXkiz4tBjic+SkzjUHO+VyabQAu3tCyniG/w7TDTwlE97I6R5QYMq1Bh/x
+ CCqreQ5r729pD5WS2qOAZYIYDvY1E1U=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-kfNkmxiDMDCd00a-G0LYig-1; Wed, 28 Jul 2021 09:56:32 -0400
+X-MC-Unique: kfNkmxiDMDCd00a-G0LYig-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 15-20020a0562140dcfb02902e558bb7a04so2003675qvt.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 06:56:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=P52MC5zVeEBT1DGYN5q+HXtjz4BXMmrGpQMJO89I16A=;
+ b=YKTZY2McQg10kBzjSQwk5+SIqnQ5LSN3hlCU+V1sUYLPF/LZkwDrDg6x67fgE6ccCT
+ mf3gpz0ZhgmZ2XKhDgll1myhSFiU791YfGVcyB2sv06WpitGOB8gdxpTgbVnsczS3hEh
+ ZaH0i47SkkGDUdCYPHrHxo6YuMslzf2bkIG71X0BU4FQTiWa05y8UU8lnZCWUpELOWCN
+ 4uM8yK9HhvEu1M77MAA4E5IxuyUSoh40d29vQtpwjycU9OoaKpK5L4EkuE+L6Qaj1wJn
+ pJohcBazB6Ur+TtWlsWTaOdGwuxJcP99jkd+kWCv7CY/GLkxc16i+VyiRjXA2UlENieY
+ YX+w==
+X-Gm-Message-State: AOAM533b/vUw8WINpwHTsqoYVbOsG0+xRvBUaTWSPoRyXBk18LsF1ifd
+ CdwivdIxLVIyCkX9Qr27p6k8m5vUKFlsL4Vc6TFhCYkTAbrffVBxUdffHWciooya0S75XdX43ZE
+ o1oo1T269XIntuqM=
+X-Received: by 2002:ad4:5b8a:: with SMTP id 10mr52662qvp.48.1627480592438;
+ Wed, 28 Jul 2021 06:56:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJQ5rRiN0y3NppSLUQBi0mmYufQhGVgbY/wkCz89H47CgJ7Gv5H5PmIsj2MXRdE4+jBKEt+Q==
+X-Received: by 2002:ad4:5b8a:: with SMTP id 10mr52641qvp.48.1627480592106;
+ Wed, 28 Jul 2021 06:56:32 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id k10sm2823437qtp.76.2021.07.28.06.56.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 06:56:31 -0700 (PDT)
+Date: Wed, 28 Jul 2021 09:56:30 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 4/9] memory: Don't do topology update in memory
+ finalize()
+Message-ID: <YQFiDqy7FyXabG55@t490s>
+References: <20210723193444.133412-1-peterx@redhat.com>
+ <20210723193444.133412-5-peterx@redhat.com>
+ <1ced8a81-18a2-85fe-0323-03dbc606f73e@redhat.com>
+ <YQAt/V06OZgjhpI6@t490s>
+ <5fb63e79-7a75-d7bc-2c62-9149f91c5d83@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e3e3;
- envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5fb63e79-7a75-d7bc-2c62-9149f91c5d83@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,275 +97,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support BLOB resources creation by calling virgl_renderer_resource_create_blob.
+On Wed, Jul 28, 2021 at 02:13:17PM +0200, David Hildenbrand wrote:
+> On 27.07.21 18:02, Peter Xu wrote:
+> > On Tue, Jul 27, 2021 at 03:21:31PM +0200, David Hildenbrand wrote:
+> > > On 23.07.21 21:34, Peter Xu wrote:
+> > > > Topology update could be wrongly triggered in memory region finalize() if
+> > > > there's bug somewhere else.  It'll be a very confusing stack when it
+> > > > happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe it
+> > > > only until it fails!).
+> > > > 
+> > > > Instead of that, we use the push()/pop() helper to avoid memory transaction
+> > > > commit, at the same time we use assertions to make sure there's no pending
+> > > > updates or it's a nested transaction, so it could fail even earlier and in a
+> > > > more explicit way.
+> > > > 
+> > > > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > > ---
+> > > >    softmmu/memory.c | 23 +++++++++++++++++++++--
+> > > >    1 file changed, 21 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/softmmu/memory.c b/softmmu/memory.c
+> > > > index 1a3e9ff8ad..dfce4a2bda 100644
+> > > > --- a/softmmu/memory.c
+> > > > +++ b/softmmu/memory.c
+> > > > @@ -170,6 +170,12 @@ struct MemoryRegionIoeventfd {
+> > > >        EventNotifier *e;
+> > > >    };
+> > > > +/* Returns whether there's any pending memory updates */
+> > > > +static bool memory_region_has_pending_update(void)
+> > > > +{
+> > > > +    return memory_region_update_pending || ioeventfd_update_pending;
+> > > > +}
+> > > > +
+> > > >    static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
+> > > >                                               MemoryRegionIoeventfd *b)
+> > > >    {
+> > > > @@ -1756,12 +1762,25 @@ static void memory_region_finalize(Object *obj)
+> > > >         * and cause an infinite loop.
+> > > >         */
+> > > >        mr->enabled = false;
+> > > > -    memory_region_transaction_begin();
+> > > > +
+> > > > +    /*
+> > > > +     * Use push()/pop() instead of begin()/commit() to make sure below block
+> > > > +     * won't trigger any topology update (which should never happen, but it's
+> > > > +     * still a safety belt).
+> > > > +     */
+> > > 
+> > > Hmm, I wonder if we can just keep the begin/end semantics and just do an
+> > > assertion before doing the commit? Does anything speak against that?
+> > 
+> > That sounds working too for the case of run_on_cpu and similar, but I think
+> > this patch should be able to cover more.  For example, it's possible depth==0
+> > when enter memory_region_finalize(), but some removal of subregions could
+> > further cause memory layout changes.  IMHO we should also bail out early for
+> > those cases too.  Thanks,
+> > 
+> 
+> Do we really have to switch to push/pop to catch these cases early? I'd
+> assume we'd just have to formulate the right assertions :)
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
----
- hw/display/virtio-gpu-virgl.c        | 148 +++++++++++++++++++++++++++
- hw/display/virtio-gpu.c              |   9 +-
- include/hw/virtio/virtio-gpu-bswap.h |  18 ++++
- include/hw/virtio/virtio-gpu.h       |   3 +
- 4 files changed, 170 insertions(+), 8 deletions(-)
+The subject and commit message was trying to tell why. :)
 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index ea903172dd..62ca9bacbf 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -16,6 +16,8 @@
- #include "trace.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
-+#include "hw/virtio/virtio-gpu-bswap.h"
-+#include "hw/virtio/virtio-iommu.h"
- 
- #include <virglrenderer.h>
- 
-@@ -409,6 +411,143 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
-     g_free(resp);
- }
- 
-+static void virgl_cmd_resource_create_blob(VirtIOGPU *g,
-+                                           struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_create_blob cblob;
-+    int ret;
-+
-+    VIRTIO_GPU_FILL_CMD(cblob);
-+    virtio_gpu_create_blob_bswap(&cblob);
-+    trace_virtio_gpu_cmd_res_create_blob(cblob.resource_id, cblob.size);
-+
-+    if (cblob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, cblob.resource_id);
-+    if (res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
-+                      __func__, cblob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = g_new0(struct virtio_gpu_simple_resource, 1);
-+    res->resource_id = cblob.resource_id;
-+    res->blob_size = cblob.size;
-+
-+    if (res->iov) {
-+        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+        return;
-+    }
-+
-+    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_HOST3D) {
-+        ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
-+                                            cmd, &res->addrs, &res->iov,
-+                                            &res->iov_cnt);
-+        if (ret != 0) {
-+            cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-+            return;
-+        }
-+    }
-+
-+    if (cblob.blob_mem == VIRTIO_GPU_BLOB_MEM_GUEST) {
-+        virtio_gpu_init_udmabuf(res);
-+    }
-+    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
-+
-+    const struct virgl_renderer_resource_create_blob_args virgl_args = {
-+        .res_handle = cblob.resource_id,
-+        .ctx_id = cblob.hdr.ctx_id,
-+        .blob_mem = cblob.blob_mem,
-+        .blob_id = cblob.blob_id,
-+        .blob_flags = cblob.blob_flags,
-+        .size = cblob.size,
-+        .iovecs = res->iov,
-+        .num_iovs = res->iov_cnt,
-+    };
-+    ret = virgl_renderer_resource_create_blob(&virgl_args);
-+    if (ret) {
-+        g_print("Virgl blob create error: %s\n", strerror(-ret));
-+    }
-+}
-+
-+static void virgl_cmd_resource_map_blob(VirtIOGPU *g,
-+                                        struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_map_blob mblob;
-+    int ret;
-+    void *data;
-+    uint64_t size;
-+    MemoryRegion *region;
-+    struct virtio_gpu_resp_map_info resp;
-+
-+    VIRTIO_GPU_FILL_CMD(mblob);
-+    virtio_gpu_map_blob_bswap(&mblob);
-+
-+    if (mblob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, mblob.resource_id);
-+    if (!res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n",
-+                      __func__, mblob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    ret = virgl_renderer_resource_map(mblob.hdr.ctx_id, res->resource_id, &data, &size);
-+    if (ret) {
-+        g_print("Virgl blob resource map error: %s\n", strerror(-ret));
-+    }
-+
-+    region = g_new0(MemoryRegion, 1);
-+    memory_region_init_ram_device_ptr(region, OBJECT(g), NULL, size, data);
-+    memory_region_add_subregion(&g->parent_obj.hostmem, mblob.offset, region);
-+    memory_region_set_enabled(region, true);
-+
-+    memset(&resp, 0, sizeof(resp));
-+    resp.hdr.type = VIRTIO_GPU_RESP_OK_MAP_INFO;
-+    virgl_renderer_resource_get_map_info(mblob.resource_id, &resp.map_info);
-+    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
-+}
-+
-+static void virgl_cmd_resource_unmap_blob(VirtIOGPU *g,
-+                                        struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_unmap_blob ublob;
-+    VIRTIO_GPU_FILL_CMD(ublob);
-+    virtio_gpu_unmap_blob_bswap(&ublob);
-+
-+    if (ublob.resource_id == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not allowed\n",
-+                      __func__);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    res = virtio_gpu_find_resource(g, ublob.resource_id);
-+    if (!res) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n",
-+                      __func__, ublob.resource_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-+        return;
-+    }
-+
-+    virgl_renderer_resource_unmap(ublob.hdr.ctx_id, ublob.resource_id);
-+}
-+
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-                                       struct virtio_gpu_ctrl_command *cmd)
- {
-@@ -478,6 +617,15 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-     case VIRTIO_GPU_CMD_GET_EDID:
-         virtio_gpu_get_edid(g, cmd);
-         break;
-+    case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
-+        virgl_cmd_resource_create_blob(g, cmd);
-+        break;
-+    case VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB:
-+        virgl_cmd_resource_map_blob(g, cmd);
-+        break;
-+    case VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB:
-+        virgl_cmd_resource_unmap_blob(g, cmd);
-+        break;
-     default:
-         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-         break;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 26b819dd3d..c7ee584063 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -33,8 +33,6 @@
- 
- #define VIRTIO_GPU_VM_VERSION 1
- 
--static struct virtio_gpu_simple_resource*
--virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
- static struct virtio_gpu_simple_resource *
- virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
-                                bool require_backing,
-@@ -115,7 +113,7 @@ static void update_cursor(VirtIOGPU *g, struct virtio_gpu_update_cursor *cursor)
-                   cursor->resource_id ? 1 : 0);
- }
- 
--static struct virtio_gpu_simple_resource *
-+struct virtio_gpu_simple_resource *
- virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)
- {
-     struct virtio_gpu_simple_resource *res;
-@@ -1316,11 +1314,6 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-             error_setg(errp, "cannot enable blob resources without udmabuf");
-             return;
-         }
--
--        if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
--            error_setg(errp, "blobs and virgl are not compatible (yet)");
--            return;
--        }
-     }
- 
-     if (!virtio_gpu_base_device_realize(qdev,
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-index 6267cb57e5..0d868f56f9 100644
---- a/include/hw/virtio/virtio-gpu-bswap.h
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -64,10 +64,28 @@ virtio_gpu_create_blob_bswap(struct virtio_gpu_resource_create_blob *cblob)
- {
-     virtio_gpu_ctrl_hdr_bswap(&cblob->hdr);
-     le32_to_cpus(&cblob->resource_id);
-+    le32_to_cpus(&cblob->blob_mem);
-     le32_to_cpus(&cblob->blob_flags);
-+    le32_to_cpus(&cblob->nr_entries);
-+    le64_to_cpus(&cblob->blob_id);
-     le64_to_cpus(&cblob->size);
- }
- 
-+static inline void
-+virtio_gpu_map_blob_bswap(struct virtio_gpu_resource_map_blob *mblob)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&mblob->hdr);
-+    le32_to_cpus(&mblob->resource_id);
-+    le64_to_cpus(&mblob->offset);
-+}
-+
-+static inline void
-+virtio_gpu_unmap_blob_bswap(struct virtio_gpu_resource_unmap_blob *ublob)
-+{
-+    virtio_gpu_ctrl_hdr_bswap(&ublob->hdr);
-+    le32_to_cpus(&ublob->resource_id);
-+}
-+
- static inline void
- virtio_gpu_scanout_blob_bswap(struct virtio_gpu_set_scanout_blob *ssb)
- {
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 5cab5f42ac..050c8ee372 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -245,6 +245,9 @@ void virtio_gpu_base_fill_display_info(VirtIOGPUBase *g,
-                         struct virtio_gpu_resp_display_info *dpy_info);
- 
- /* virtio-gpu.c */
-+struct virtio_gpu_simple_resource *
-+virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
-+
- void virtio_gpu_ctrl_response(VirtIOGPU *g,
-                               struct virtio_gpu_ctrl_command *cmd,
-                               struct virtio_gpu_ctrl_hdr *resp,
+"memory: Don't do topology update in memory finalize()"
+
+The root reason is errors within memory commit can be very hard to digest,
+however the assertion failure is easier to understand because any memory layout
+change is not expected to happen.
+
+The push/pop (I renamed it after your other comment to depth_inc/dec) avoids
+memory commit happening at all within finalize(), and make sure we always fail
+at the assertion as long as there's any potential memory update (even if the
+memory update won't crash qemu immediately).
+
+Thanks,
+
 -- 
-2.30.2
+Peter Xu
 
 
