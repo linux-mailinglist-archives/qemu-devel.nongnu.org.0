@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7629B3D864B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 05:55:47 +0200 (CEST)
-Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2033D86D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 06:38:35 +0200 (CEST)
+Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8afa-0008GW-G8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Jul 2021 23:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
+	id 1m8bKz-0006oW-LD
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 00:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8aZE-0000e7-9w
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:12 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8aZ9-0005du-K3
- for qemu-devel@nongnu.org; Tue, 27 Jul 2021 23:49:12 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GZKHx5PWVz1CPbZ;
- Wed, 28 Jul 2021 11:43:09 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 11:49:05 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 11:49:04 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v3 11/11] machine: Move smp_prefer_sockets to struct
- SMPCompatProps
-Date: Wed, 28 Jul 2021 11:48:48 +0800
-Message-ID: <20210728034848.75228-12-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210728034848.75228-1-wangyanan55@huawei.com>
-References: <20210728034848.75228-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m8bK5-00067Y-No
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:37:37 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:36562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m8bK4-0004gV-80
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:37:37 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id f11so1451765ioj.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 21:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PLf+/JiAKwk4VkPym0AT1HgA/bfxU1EKlmGkYknP4t8=;
+ b=pTPjfDqjk1XNhkT8DDP55Ux2LLpvwezkvl1S83nBlXrKuqonPrdYCVwDVLoC5L0O6K
+ 5+5drWzWyo+KyyoI5qDThwWay1ErYyuGAx5wJQN81OgBJIV7xCgIXv4UYQ3/VnscSOYq
+ Zd8OrueFOuyIwF3331woy9YOHvsb+HzR6v/9OngulxzRS7+flR3H6OG8dC+N0iIez607
+ d0nybbUK4ABiecdHvCe06FSGJa3smnE+vomXvAa5FNPn5lRMLssev0zimVEN+iXESHC5
+ Y+6WZGWjMGPDwm5xly16YnHBvCEb6OBurtG3amY+pJDRkOlfxX/eNEOtRjBt4n7JjsDr
+ 0qSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PLf+/JiAKwk4VkPym0AT1HgA/bfxU1EKlmGkYknP4t8=;
+ b=n4HuK7z5PGLVbufcWKTtV+YU/Jr1gLi+BYKLc/E/ztkyzihA0EPIkHvue0nDsklGCT
+ pe2Na+a8OuEOChilbHOg3EakWmNn8ioH1Y54ghnj6nuzHWDFBnLCu+Yuig/Vq8NdcGTl
+ Rm+epwwHLKMdagJOX06aB8Cosp6yn826/PqKh+mIbFTwxu6gXd9u7m7mZ91Ze8+lqVL6
+ ryc4FWmHMetdkh+R/Hcb+DPru4thPd/4AdPEWstfDFGfIWdV66XbKNyR1kU2HTRkx3tV
+ a2vSawY1wybMChV0R90KD9hzyYRg7QpUD+9MMP45+l6IWO0K9XU3mN+gcud4pR6T24KE
+ CRbg==
+X-Gm-Message-State: AOAM530VHX+qt8u2n2uQwq55IhanWaNwzwhF5mW9EW6E2TL9NwduxYMO
+ yDG8Li2JTEGkK7oSKaYkaDr7o2XzdBAyLtNGSIc=
+X-Google-Smtp-Source: ABdhPJytXSv2BO1/R1DkiKheN10WRjjlq0awnWng27CqcR36nLzILZ87P2vR4ZyL/QTWGb9vvYdGiqTte/a1nGTfVyA=
+X-Received: by 2002:a5d:91d8:: with SMTP id k24mr22178909ior.84.1627447054622; 
+ Tue, 27 Jul 2021 21:37:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20210728034848.75228-1-wangyanan55@huawei.com>
+ <20210728034848.75228-8-wangyanan55@huawei.com>
+In-Reply-To: <20210728034848.75228-8-wangyanan55@huawei.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Wed, 28 Jul 2021 06:37:23 +0200
+Message-ID: <CAM9Jb+iEbhm91cH=aWnicX1eQOE+5Yvskkfq_+5FtFh3mB29ug@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 v3 07/11] machine: Use ms instead of global
+ current_machine in sanity-check
+To: Yanan Wang <wangyanan55@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,141 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
  Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have a common structure SMPCompatProps used to store information
-about SMP compatibility stuff, so we can also move smp_prefer_sockets
-there for cleaner code.
+> In the sanity-check of smp_cpus and max_cpus against mc in function
+> machine_set_smp(), we are now using ms->smp.max_cpus for the check
+> but using current_machine->smp.max_cpus in the error message.
+> Tweak this by uniformly using the local ms.
+>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/core/machine.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index a8173a0f45..e13a8f2f34 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -878,7 +878,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+>      } else if (ms->smp.max_cpus > mc->max_cpus) {
+>          error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
+>                     "supported by machine '%s' is %d",
+> -                   current_machine->smp.max_cpus,
+> +                   ms->smp.max_cpus,
+>                     mc->name, mc->max_cpus);
+>      }
+>
 
-No functional change intended.
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- hw/arm/virt.c              | 2 +-
- hw/core/machine.c          | 2 +-
- hw/i386/pc_piix.c          | 2 +-
- hw/i386/pc_q35.c           | 2 +-
- hw/ppc/spapr.c             | 2 +-
- hw/s390x/s390-virtio-ccw.c | 2 +-
- include/hw/boards.h        | 3 ++-
- 7 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7babea40dc..ae029680da 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2797,7 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
- {
-     virt_machine_6_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
- }
- DEFINE_VIRT_MACHINE(6, 1)
- 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 8f84e38e2e..61d1f643f4 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -834,7 +834,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     } else {
-         maxcpus = maxcpus > 0 ? maxcpus : cpus;
- 
--        if (mc->smp_prefer_sockets) {
-+        if (mc->smp_props.prefer_sockets) {
-             /* prefer sockets over cores over threads before 6.2 */
-             if (sockets == 0) {
-                 cores = cores > 0 ? cores : 1;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 9b811fc6ca..a60ebfc2c1 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -432,7 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_prefer_sockets = true;
-+    m->smp_props.prefer_sockets = true;
- }
- 
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 88efb7fde4..4b622ffb82 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -372,7 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     m->alias = NULL;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_prefer_sockets = true;
-+    m->smp_props.prefer_sockets = true;
- }
- 
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a481fade51..efdea43c0d 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4702,7 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
- {
-     spapr_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
- }
- 
- DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index b40e647883..5bdef9b4d7 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -809,7 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
- {
-     ccw_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
- }
- DEFINE_CCW_MACHINE(6_1, "6.1", false);
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 72123f594d..23671a0f8f 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -110,9 +110,11 @@ typedef struct {
- 
- /**
-  * SMPCompatProps:
-+ * @prefer_sockets - whether sockets is preferred over cores in smp parsing
-  * @dies_supported - whether dies is supported by the machine
-  */
- typedef struct {
-+    bool prefer_sockets;
-     bool dies_supported;
- } SMPCompatProps;
- 
-@@ -250,7 +252,6 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
--    bool smp_prefer_sockets;
-     SMPCompatProps smp_props;
-     const char *default_ram_id;
- 
--- 
-2.19.1
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
