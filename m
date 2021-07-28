@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012E13D952C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:20:44 +0200 (CEST)
-Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77163D9546
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:28:06 +0200 (CEST)
+Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oAd-0000OP-2k
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51282)
+	id 1m8oHl-0003V9-TX
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m8o7r-0002lT-Pi; Wed, 28 Jul 2021 14:17:51 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m8o7q-0005NW-2T; Wed, 28 Jul 2021 14:17:51 -0400
-Received: by mail-wr1-x436.google.com with SMTP id n12so3695626wrr.2;
- Wed, 28 Jul 2021 11:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5i0w3FlnQcOgLRKzBoRNyImyhfiPU5ZjX8yICvUvUkE=;
- b=ZaeBtspzj6iIdvkpcIjr63oqg+TVdJfpdhoFCRWh65JrCVKct5oRb4r1qmqDSRjvqG
- sjPIq1sALHWcMAnOA3T/Mz0IzJJe3GI48mPUINNBat3jhDH6mdsFYcecNHNNp3aBDBt4
- PTepUbsRoQ5kYLA+4uWfo5aC3scYFgNQVtDbqwzN5fcX2sOcOclqa6uaNTD7W1CnIvZ0
- mG5qOG1GES9NHRpw2pgTe004ERgkB2wv2qRIA0IzkqEFEFV9AK1xJQWjofdHU9kIwQvw
- Yh6II7/pmuW4+e12DiqE3b69rTJBiK8rD5wqhyAykYyT0OXYy/tDSMv9YKXTE/IiFXAh
- mcTw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oGZ-0002oT-UR
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:26:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oGV-0002x4-M8
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:26:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627496805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W1k+Qz+EILOFI7Mnpv9Gu7pylp23wO44ejalzuAhoMM=;
+ b=fZT7ykmrqXluZVrrJSGbXrrNQ5pX+voS0WEEk/izo5lhWXPUhfPFMtZV9FDv2iZo1MdXC2
+ BEKzmLlidTfDkKCpUw//ZXtBpQCugH4OQIJ3SUliqIRIeZYG48+O9KlsLPbEEkLl0oeQkn
+ qySF6Z/NC3dDVVqRRDXeU2n626RRke8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-RDvOKDo4MtiJFporLJmPjQ-1; Wed, 28 Jul 2021 14:26:44 -0400
+X-MC-Unique: RDvOKDo4MtiJFporLJmPjQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o8-20020a5d4a880000b029013a10564614so1249450wrq.15
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:26:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5i0w3FlnQcOgLRKzBoRNyImyhfiPU5ZjX8yICvUvUkE=;
- b=EiICWPQ3eXMLcJU6xwbFH0RqQ0PrQbKzHPitcd7XaomfAK4AK+uibmBCQ2HdMfTJJC
- cZhqS2INod+7INy97txdW10SbUKWYvsIvgwjuz8PqJupGIJse/I7lPVAOxlQhnS317i3
- P5A/aPAWLGtESVjug++kj+EeoLSyD1T5Y2GK1FG1hdqps+bqV9hxfCu/9a94xJLLCzmo
- Jn1foZI8qT4dJdhqPsEDyRm2p7r7SADaR2p6GOoTsBn+w4HcVeo7sHg4q0J5sXQbALVo
- mQ0qvrF7UyQ7+dtlyz3N+VcEibGvirWWgAQwlQiY/IXPKWpgp1YZ1h228UY5wgVooYym
- uBLw==
-X-Gm-Message-State: AOAM531EvjoJfpAWr8pqxipuSraH7ASYkxFJKL34CYGOVg0TAZyyS+EL
- cZxkgvikQPHuk4eqBEQ7yL6EjuWP6KBp5w==
-X-Google-Smtp-Source: ABdhPJz0L7nY2b/HeOeChHkTBSJYUQY2gip0IMgqN0kUpKH5P1FmXySOR3XM2L+KOzyJ7P7/fPRkqw==
-X-Received: by 2002:adf:d086:: with SMTP id y6mr684960wrh.247.1627496267637;
- Wed, 28 Jul 2021 11:17:47 -0700 (PDT)
-Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id
- h9sm627332wrw.38.2021.07.28.11.17.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 11:17:47 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 3/3] hw/sd/sdcard: Rename Write Protect Group variables
-Date: Wed, 28 Jul 2021 20:17:28 +0200
-Message-Id: <20210728181728.2012952-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210728181728.2012952-1-f4bug@amsat.org>
-References: <20210728181728.2012952-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W1k+Qz+EILOFI7Mnpv9Gu7pylp23wO44ejalzuAhoMM=;
+ b=evYpYaxMb3JmFYdgM/qCqdnwsR5JFvw3a3ymTa2d6ZwRND051BEA0QMA0HHZo9G67g
+ zFBaQ95COqxe5Qrm94bExgReXtv5VDp1cbgWVKL2QGEo3do7YTniCG8IHouaJxnafCx/
+ k1eIFfY1SXfbP74iyNDPi46z8EF/bzPdwSf0pNCLIF6LaEd8MOFLvdRfKDex+n6lj+Nr
+ H0KLf2JoL0mbkodhMtX2EZoa9rmPkmKiY90h7XvtWx3WymRDjY77kJgkN6a6UV8dGTl8
+ zZ203FV5pBXWWjC+OPUjwoUpypFKFydPh9j1FlxL6DtcKLEA9NSe1+eaRPrqNXEdSLDH
+ NrJA==
+X-Gm-Message-State: AOAM532kZoRv1e3Jiyxq+csu4qcpsUL+RIUN3J8X2IOR4gKgCOo0dodr
+ I/m4SegkXVM/shc3SeY/wZv0tcoPA5C1fXemX5rTYvCYKPOG3DW7wqqGH+Ex0igLVAJ820XRtpU
+ +ydZHneL9LdzUseo=
+X-Received: by 2002:a7b:c30f:: with SMTP id k15mr10778440wmj.128.1627496803298; 
+ Wed, 28 Jul 2021 11:26:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzorx/l82fHH2Vpi6CHRbQCgZbcRQ+7J2frS0oiTFZI+c6x3U6BdTWxbQjuSWAw7VfLHAgBRA==
+X-Received: by 2002:a7b:c30f:: with SMTP id k15mr10778418wmj.128.1627496803067; 
+ Wed, 28 Jul 2021 11:26:43 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id p5sm781617wrd.25.2021.07.28.11.26.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 11:26:42 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci.d/custom-runners: Improve rules for the staging
+ branch
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210728173857.497523-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <42b2acfc-cf8e-5b9c-22af-0e3cd1d80283@redhat.com>
+Date: Wed, 28 Jul 2021 20:26:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210728173857.497523-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,131 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'wp_groups' holds a bitmap, rename it as 'wp_group_bmap'.
-'wpgrps_size' is the bitmap size (in bits), rename it as
-'wp_group_bits'.
+On 7/28/21 7:38 PM, Thomas Huth wrote:
+> If maintainers are currently pushing to a branch called "staging"
+> in their repository, they are ending up with some stuck jobs - unless
+> they have a s390x CI runner machine available. That's ugly, we should
+> make sure that the related jobs are really only started if such a
+> runner is available. So let's only run these jobs if it's the
+> "staging" branch of the main repository of the QEMU project (where
+> we can be sure that the s390x runner is available), or if the user
+> explicitly set a S390X_RUNNER_AVAILABLE variable in their CI configs
+> to declare that they have such a runner available, too.
+> 
+> Fixes: 4799c21023 ("Jobs based on custom runners: add job definitions ...")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.d/custom-runners.yml | 40 +++++++++++++++++++++++----------
+>  1 file changed, 28 insertions(+), 12 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+> index 061d3cdfed..564b94565d 100644
+> --- a/.gitlab-ci.d/custom-runners.yml
+> +++ b/.gitlab-ci.d/custom-runners.yml
+> @@ -24,7 +24,8 @@ ubuntu-18.04-s390x-all-linux-static:
+>   - ubuntu_18.04
+>   - s390x
+>   rules:
+> - - if: '$CI_COMMIT_BRANCH =~ /^staging/'
+> + - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+> + - if: "$S390X_RUNNER_AVAILABLE"
 
-Patch created mechanically using:
+If you base this patch on top of "docs: Document GitLab
+custom CI/CD variables" that you already queued, you can
+directly add a description for S390X_RUNNER_AVAILABLE in
+docs/devel/ci.rst, but this can be done later too.
 
-  $ sed -i -e s/wp_groups/wp_group_bmap/ \
-           -e s/wpgrps_size/wp_group_bits/ hw/sd/sd.c
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 273af75c1be..75dcd3f7f65 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -116,8 +116,8 @@ struct SDState {
-     int32_t state;    /* current card state, one of SDCardStates */
-     uint32_t vhs;
-     bool wp_switch;
--    unsigned long *wp_groups;
--    int32_t wpgrps_size;
-+    unsigned long *wp_group_bmap;
-+    int32_t wp_group_bits;
-     uint64_t size;
-     uint32_t blk_len;
-     uint32_t multi_blk_cnt;
-@@ -567,10 +567,10 @@ static void sd_reset(DeviceState *dev)
-     sd_set_cardstatus(sd);
-     sd_set_sdstatus(sd);
- 
--    g_free(sd->wp_groups);
-+    g_free(sd->wp_group_bmap);
-     sd->wp_switch = sd->blk ? !blk_is_writable(sd->blk) : false;
--    sd->wpgrps_size = sect;
--    sd->wp_groups = bitmap_new(sd->wpgrps_size);
-+    sd->wp_group_bits = sect;
-+    sd->wp_group_bmap = bitmap_new(sd->wp_group_bits);
-     memset(sd->function_group, 0, sizeof(sd->function_group));
-     sd->erase_start = INVALID_ADDRESS;
-     sd->erase_end = INVALID_ADDRESS;
-@@ -673,7 +673,7 @@ static const VMStateDescription sd_vmstate = {
-         VMSTATE_UINT32(card_status, SDState),
-         VMSTATE_PARTIAL_BUFFER(sd_status, SDState, 1),
-         VMSTATE_UINT32(vhs, SDState),
--        VMSTATE_BITMAP(wp_groups, SDState, 0, wpgrps_size),
-+        VMSTATE_BITMAP(wp_group_bmap, SDState, 0, wp_group_bits),
-         VMSTATE_UINT32(blk_len, SDState),
-         VMSTATE_UINT32(multi_blk_cnt, SDState),
-         VMSTATE_UINT32(erase_start, SDState),
-@@ -803,8 +803,8 @@ static void sd_erase(SDState *sd)
-         if (sdsc) {
-             /* Only SDSC cards support write protect groups */
-             wpnum = sd_addr_to_wpnum(erase_addr);
--            assert(wpnum < sd->wpgrps_size);
--            if (test_bit(wpnum, sd->wp_groups)) {
-+            assert(wpnum < sd->wp_group_bits);
-+            if (test_bit(wpnum, sd->wp_group_bmap)) {
-                 sd->card_status |= WP_ERASE_SKIP;
-                 continue;
-             }
-@@ -820,7 +820,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
- 
-     wpnum = sd_addr_to_wpnum(addr);
- 
--    for (i = 0; i < 32 && wpnum < sd->wpgrps_size - 1;
-+    for (i = 0; i < 32 && wpnum < sd->wp_group_bits - 1;
-                 i++, wpnum++, addr += WPGROUP_SIZE) {
-         if (addr >= sd->size) {
-             /*
-@@ -829,7 +829,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
-              */
-             continue;
-         }
--        if (test_bit(wpnum, sd->wp_groups)) {
-+        if (test_bit(wpnum, sd->wp_group_bmap)) {
-             ret |= (1 << i);
-         }
-     }
-@@ -869,7 +869,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
- 
- static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
- {
--    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+    return test_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
- }
- 
- static void sd_lock_command(SDState *sd)
-@@ -897,7 +897,7 @@ static void sd_lock_command(SDState *sd)
-             sd->card_status |= LOCK_UNLOCK_FAILED;
-             return;
-         }
--        bitmap_zero(sd->wp_groups, sd->wpgrps_size);
-+        bitmap_zero(sd->wp_group_bmap, sd->wp_group_bits);
-         sd->csd[14] &= ~0x10;
-         sd->card_status &= ~CARD_IS_LOCKED;
-         sd->pwd_len = 0;
-@@ -1348,7 +1348,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            set_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
-@@ -1370,7 +1370,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            clear_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
--- 
-2.31.1
+Regardless of whether docs/devel/ci.rst is updated:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
