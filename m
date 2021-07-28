@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2033D86D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 06:38:35 +0200 (CEST)
-Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0273D86EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 06:57:22 +0200 (CEST)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8bKz-0006oW-LD
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 00:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36238)
+	id 1m8bdA-0002Q4-Mf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 00:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m8bK5-00067Y-No
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:37:37 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:36562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m8bK4-0004gV-80
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:37:37 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id f11so1451765ioj.3
- for <qemu-devel@nongnu.org>; Tue, 27 Jul 2021 21:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PLf+/JiAKwk4VkPym0AT1HgA/bfxU1EKlmGkYknP4t8=;
- b=pTPjfDqjk1XNhkT8DDP55Ux2LLpvwezkvl1S83nBlXrKuqonPrdYCVwDVLoC5L0O6K
- 5+5drWzWyo+KyyoI5qDThwWay1ErYyuGAx5wJQN81OgBJIV7xCgIXv4UYQ3/VnscSOYq
- Zd8OrueFOuyIwF3331woy9YOHvsb+HzR6v/9OngulxzRS7+flR3H6OG8dC+N0iIez607
- d0nybbUK4ABiecdHvCe06FSGJa3smnE+vomXvAa5FNPn5lRMLssev0zimVEN+iXESHC5
- Y+6WZGWjMGPDwm5xly16YnHBvCEb6OBurtG3amY+pJDRkOlfxX/eNEOtRjBt4n7JjsDr
- 0qSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PLf+/JiAKwk4VkPym0AT1HgA/bfxU1EKlmGkYknP4t8=;
- b=n4HuK7z5PGLVbufcWKTtV+YU/Jr1gLi+BYKLc/E/ztkyzihA0EPIkHvue0nDsklGCT
- pe2Na+a8OuEOChilbHOg3EakWmNn8ioH1Y54ghnj6nuzHWDFBnLCu+Yuig/Vq8NdcGTl
- Rm+epwwHLKMdagJOX06aB8Cosp6yn826/PqKh+mIbFTwxu6gXd9u7m7mZ91Ze8+lqVL6
- ryc4FWmHMetdkh+R/Hcb+DPru4thPd/4AdPEWstfDFGfIWdV66XbKNyR1kU2HTRkx3tV
- a2vSawY1wybMChV0R90KD9hzyYRg7QpUD+9MMP45+l6IWO0K9XU3mN+gcud4pR6T24KE
- CRbg==
-X-Gm-Message-State: AOAM530VHX+qt8u2n2uQwq55IhanWaNwzwhF5mW9EW6E2TL9NwduxYMO
- yDG8Li2JTEGkK7oSKaYkaDr7o2XzdBAyLtNGSIc=
-X-Google-Smtp-Source: ABdhPJytXSv2BO1/R1DkiKheN10WRjjlq0awnWng27CqcR36nLzILZ87P2vR4ZyL/QTWGb9vvYdGiqTte/a1nGTfVyA=
-X-Received: by 2002:a5d:91d8:: with SMTP id k24mr22178909ior.84.1627447054622; 
- Tue, 27 Jul 2021 21:37:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1m8bbs-0001UK-5w
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:56:00 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1m8bbp-0003E8-4c
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 00:55:59 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GZLql1Q1szZtm0;
+ Wed, 28 Jul 2021 12:52:19 +0800 (CST)
+Received: from dggpeml500005.china.huawei.com (7.185.36.59) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 28 Jul 2021 12:55:45 +0800
+Received: from [10.174.186.51] (10.174.186.51) by
+ dggpeml500005.china.huawei.com (7.185.36.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 28 Jul 2021 12:55:44 +0800
+From: Zheng Chuan <zhengchuan@huawei.com>
+Subject: Re: [PATCH V5 04/25] cpr: HMP interfaces for reboot
+To: Steve Sistare <steven.sistare@oracle.com>, <qemu-devel@nongnu.org>
+References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
+ <1625678434-240960-5-git-send-email-steven.sistare@oracle.com>
+Message-ID: <fbf9dbc6-e093-6949-0ad9-f301c431292e@huawei.com>
+Date: Wed, 28 Jul 2021 12:55:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20210728034848.75228-1-wangyanan55@huawei.com>
- <20210728034848.75228-8-wangyanan55@huawei.com>
-In-Reply-To: <20210728034848.75228-8-wangyanan55@huawei.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 28 Jul 2021 06:37:23 +0200
-Message-ID: <CAM9Jb+iEbhm91cH=aWnicX1eQOE+5Yvskkfq_+5FtFh3mB29ug@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 v3 07/11] machine: Use ms instead of global
- current_machine in sanity-check
-To: Yanan Wang <wangyanan55@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1625678434-240960-5-git-send-email-steven.sistare@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.51]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500005.china.huawei.com (7.185.36.59)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=zhengchuan@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.438,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +68,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric
+ Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Alex
+ Williamson <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> In the sanity-check of smp_cpus and max_cpus against mc in function
-> machine_set_smp(), we are now using ms->smp.max_cpus for the check
-> but using current_machine->smp.max_cpus in the error message.
-> Tweak this by uniformly using the local ms.
->
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/core/machine.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index a8173a0f45..e13a8f2f34 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -878,7 +878,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->      } else if (ms->smp.max_cpus > mc->max_cpus) {
->          error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
->                     "supported by machine '%s' is %d",
-> -                   current_machine->smp.max_cpus,
-> +                   ms->smp.max_cpus,
->                     mc->name, mc->max_cpus);
->      }
->
+Hi
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+On 2021/7/8 1:20, Steve Sistare wrote:
+> cprsave <file> <mode>
+>   Call cprsave().
+>   Arguments:
+>     file : save vmstate to this file name
+>     mode: must be "reboot"
+> 
+> cprload <file>
+>   Call cprload().
+>   Arguments:
+>     file : load vmstate from this file name
+> 
+> cprinfo
+>   Print to stdout a space-delimited list of modes supported by cprsave.
+>   Arguments: none
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  hmp-commands.hx       | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/monitor/hmp.h |  3 +++
+>  monitor/hmp-cmds.c    | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 95 insertions(+)
+> 
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 8e45bce..11827ae 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -351,6 +351,50 @@ SRST
+>  ERST
+>  
+>      {
+> +        .name       = "cprinfo",
+> +        .args_type  = "",
+> +        .params     = "",
+> +        .help       = "return list of modes supported by cprsave",
+> +        .cmd        = hmp_cprinfo,
+> +    },
+> +
+> +SRST
+> +``cprinfo``
+> +Return a space-delimited list of modes supported by cprsave.
+> +ERST
+> +
+> +    {
+> +        .name       = "cprsave",
+> +        .args_type  = "file:s,mode:s",
+> +        .params     = "file 'reboot'",
+> +        .help       = "create a checkpoint of the VM in file",
+> +        .cmd        = hmp_cprsave,
+> +    },
+> +
+> +SRST
+> +``cprsave`` *file* *mode*
+> +Pause the VCPUs,
+> +create a checkpoint of the whole virtual machine, and save it in *file*.
+> +If *mode* is 'reboot', the checkpoint remains valid after a host kexec
+> +reboot, and guest ram must be backed by persistant shared memory.  To
+
+Should be persistent.
+
+> +resume from the checkpoint, issue the quit command, reboot the system,
+> +and issue the cprload command.
+> +ERST
+> +
+> +    {
+> +        .name       = "cprload",
+> +        .args_type  = "file:s",
+> +        .params     = "file",
+> +        .help       = "load VM checkpoint from file",
+> +        .cmd        = hmp_cprload,
+> +    },
+> +
+> +SRST
+> +``cprload`` *file*
+> +Load a virtual machine from checkpoint file *file* and continue VCPUs.
+> +ERST
+> +
+> +    {
+>          .name       = "delvm",
+>          .args_type  = "name:s",
+>          .params     = "tag",
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 3baa105..98bb775 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -58,6 +58,9 @@ void hmp_balloon(Monitor *mon, const QDict *qdict);
+>  void hmp_loadvm(Monitor *mon, const QDict *qdict);
+>  void hmp_savevm(Monitor *mon, const QDict *qdict);
+>  void hmp_delvm(Monitor *mon, const QDict *qdict);
+> +void hmp_cprinfo(Monitor *mon, const QDict *qdict);
+> +void hmp_cprsave(Monitor *mon, const QDict *qdict);
+> +void hmp_cprload(Monitor *mon, const QDict *qdict);
+>  void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
+>  void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+>  void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 0942027..8e80581 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -33,6 +33,7 @@
+>  #include "qapi/qapi-commands-block.h"
+>  #include "qapi/qapi-commands-char.h"
+>  #include "qapi/qapi-commands-control.h"
+> +#include "qapi/qapi-commands-cpr.h"
+>  #include "qapi/qapi-commands-machine.h"
+>  #include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qapi-commands-misc.h"
+> @@ -1177,6 +1178,53 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+>      qapi_free_AnnounceParameters(params);
+>  }
+>  
+> +void hmp_cprinfo(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *err = NULL;
+> +    CprInfo *cprinfo;
+> +    CprModeList *mode;
+> +
+> +    cprinfo = qmp_cprinfo(&err);
+> +    if (err) {
+> +        goto out;
+> +    }
+> +
+> +    for (mode = cprinfo->modes; mode; mode = mode->next) {
+> +        monitor_printf(mon, "%s ", CprMode_str(mode->value));
+> +    }
+> +
+> +out:
+> +    hmp_handle_error(mon, err);
+> +    qapi_free_CprInfo(cprinfo);
+> +}
+> +
+> +void hmp_cprsave(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *err = NULL;
+> +    const char *mode;
+> +    int val;
+> +
+> +    mode = qdict_get_try_str(qdict, "mode");
+> +    val = qapi_enum_parse(&CprMode_lookup, mode, -1, &err);
+> +
+> +    if (val == -1) {
+> +        goto out;
+> +    }
+> +
+> +    qmp_cprsave(qdict_get_try_str(qdict, "file"), val, &err);
+> +
+> +out:
+> +    hmp_handle_error(mon, err);
+> +}
+> +
+> +void hmp_cprload(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *err = NULL;
+> +
+> +    qmp_cprload(qdict_get_try_str(qdict, "file"), &err);
+> +    hmp_handle_error(mon, err);
+> +}
+> +
+>  void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
+>  {
+>      qmp_migrate_cancel(NULL);
+> 
+
+-- 
+Regards.
+Chuan
 
