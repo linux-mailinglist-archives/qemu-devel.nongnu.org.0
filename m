@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176143D9576
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:45:42 +0200 (CEST)
-Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E7F3D9586
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Jul 2021 20:48:55 +0200 (CEST)
+Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8oYn-0004eK-4i
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:45:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
+	id 1m8obu-00082S-Io
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 14:48:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oXc-0003DM-W8
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:44:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35981)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oZG-0005zW-B1
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:46:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oXb-0006ec-Eg
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:44:28 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m8oZC-0007kX-A4
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 14:46:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627497866;
+ s=mimecast20190719; t=1627497965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cwpey7SFX+2jBhRg+YnBlCQkCfHlfZwpopGvd74UMt0=;
- b=Qu4613Dd78aVid+UnY/BmrMlNh60cwZR2XSnKtw7y5IZRgI/KyVACbt2F7grVDYcXU/Pnm
- uIYEVjyX9HwpH0hi4XIgQYOjUUImYajubvm7ukq7AmihRV2r2EITam8bNZ0W0VIY8PfNOk
- iHGP8wYstfAvNINL7HhZp/uH9794f0c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-EWAuhW9hNAOUXrRDTVp_Bw-1; Wed, 28 Jul 2021 14:44:24 -0400
-X-MC-Unique: EWAuhW9hNAOUXrRDTVp_Bw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adfc3cd0000b02901531b0b7c89so1265429wrg.23
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:44:23 -0700 (PDT)
+ bh=38j4KHGfeTtxPMvZ695EDpmZWWPQKj4xsaoyI0iyuLQ=;
+ b=G5iiFpt5C7XKF0a89AtwLT0gaE8d/N5oIjzPkc+ZE3tUzcPB2ptTze5eZj/mxh6ZMcKina
+ y5RTvAFrd2mxqOtLYMf3GW0SvawPd2fDF3jt4AU8vCZHN+oku/g/lQyLdWgO6FHeVGmp2o
+ zQ/7cmEm8YZr6myb3tZAjAOw7u8r5r4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-U-eAgVEcOE2oN2O4POBPdg-1; Wed, 28 Jul 2021 14:46:03 -0400
+X-MC-Unique: U-eAgVEcOE2oN2O4POBPdg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 14-20020a05600c230eb029024b7cd56259so621210wmo.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 11:46:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cwpey7SFX+2jBhRg+YnBlCQkCfHlfZwpopGvd74UMt0=;
- b=DTL47HiQ7s5Lo4GQR50WIss9PWcvDzNgG2DFOx2G7mUqsCfIyhhzlRQ/KmPyI5fSnf
- Q7AATnB4tqBH4FATGB4SRz1h+2fxIc0ZcWdUNzL7yAQ18Go2OVOt0yHLii0387t5XtXY
- XQtQfIH11EZzWR18KyN0oHXymBFg3la51xsesTLhIDE4nzR1MzxjwFiEcnx659isEedG
- KNFIV0IWcRJ0dW+jlNNOv1C935oD6eW+heHnjczWPY7mlrrde2QiMxBX6OSC6i942TZr
- OPNGRJ/UFA+iPtWbkhnI7owH435BsD/S7utGQ1xuKKsXYp2ZohTYi+UgzJnLIarRWs3h
- dafA==
-X-Gm-Message-State: AOAM530tOzi0nXMivfWI1lEGGux52HFLvDdZ+7vbkoPReYzzDajmpH6J
- JY6n4C2u3pSfNMdzEcBpN+zyLyslW2CPB0R8lVIXOkxxmRN3Oi0W2Fku2Jrdq+3OFAXdm8CBeEg
- OPNdH746eC1mMIpk=
-X-Received: by 2002:a5d:49c8:: with SMTP id t8mr733869wrs.365.1627497863017;
- Wed, 28 Jul 2021 11:44:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4qDSKmcSqhh7GZ5389wsVhB5c1CYd1VC+stsVNVzTFzd5gxOVDmySTPoobkamor7tPyCIuQ==
-X-Received: by 2002:a5d:49c8:: with SMTP id t8mr733851wrs.365.1627497862767;
- Wed, 28 Jul 2021 11:44:22 -0700 (PDT)
+ bh=38j4KHGfeTtxPMvZ695EDpmZWWPQKj4xsaoyI0iyuLQ=;
+ b=jif9ZF2DQfXGO4i7b2Q6fwjREqI0fc4FTYOyTponazHmkXogtuL5AxXMEZpVvoD5qc
+ OZQXrhxn5XiFMjaq4KUBX6XASUzaFbXINtkcwaQv8kiD08nHrIwlRi8MyxTtvX8kKZSC
+ jKL2268idfSF5g0PuVfMvBQlXx3kRIWnb0T/epwTT4BbQRtyefyKiov2FLixvr/lwPi4
+ yhIPbSBfUukXhmyhN9tLFHvuCOxxHTOf8I7myQKXnyd2wH6CBeweAeMnWc0UT5TQhr1L
+ 53+EzHUBMu5kYm2h8jlnTvmXZWlfJw/rDV4TtwbbE4sjhbeuYvncKDPHtPUmMqMmdfbF
+ hxxQ==
+X-Gm-Message-State: AOAM530Igl4lOhJY7tLf1MfgiCz9waMaiBIpxzBEzbtSPwbiWpLYEnEC
+ t/xH9isVa7Tf7TN+9Z7+pgXdZD4GtSivYOnKLGZKQwi9Htq1AB6wHk8jId7cBwRf3buvFCsGgQn
+ Qk0iNVeDcfC5MyKQ=
+X-Received: by 2002:a1c:48d:: with SMTP id 135mr953769wme.31.1627497962876;
+ Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzx8tY9940+Kd4MBYvlD4Q/QqcxXxFh8AbRnYrWi3Uszx+vkUXOdaaTP/QpLEhKavJc6a28Q==
+X-Received: by 2002:a1c:48d:: with SMTP id 135mr953746wme.31.1627497962651;
+ Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id q20sm684214wmj.27.2021.07.28.11.44.22
+ by smtp.gmail.com with ESMTPSA id n17sm7597022wmo.18.2021.07.28.11.46.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 11:44:22 -0700 (PDT)
-Subject: Re: [PATCH v2 7/8] virtio-gpu: Initialize Venus
+ Wed, 28 Jul 2021 11:46:02 -0700 (PDT)
+Subject: Re: [PATCH v2 2/8] virtio-gpu: hostmem [wip]
 To: Antonio Caggiano <antonio.caggiano@collabora.com>, qemu-devel@nongnu.org
 References: <20210728134634.2142156-1-antonio.caggiano@collabora.com>
- <20210728134634.2142156-8-antonio.caggiano@collabora.com>
+ <20210728134634.2142156-3-antonio.caggiano@collabora.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0953ffe2-0dc8-b6fc-77f5-60fdc28e72ac@redhat.com>
-Date: Wed, 28 Jul 2021 20:44:21 +0200
+Message-ID: <b48379de-c286-c6cb-7802-deaf438a9a5d@redhat.com>
+Date: Wed, 28 Jul 2021 20:46:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728134634.2142156-8-antonio.caggiano@collabora.com>
+In-Reply-To: <20210728134634.2142156-3-antonio.caggiano@collabora.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -77,16 +77,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.719, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,25 +103,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/28/21 3:46 PM, Antonio Caggiano wrote:
-> Enable VirGL unstable APIs and request Venus when initializing VirGL.
+> From: Gerd Hoffmann <kraxel@redhat.com>
 > 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 > ---
->  hw/display/virtio-gpu-virgl.c | 2 +-
->  meson.build                   | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>  hw/display/virtio-gpu-base.c                |  4 +++
+>  hw/display/virtio-gpu-pci.c                 | 14 +++++++++
+>  hw/display/virtio-gpu.c                     |  1 +
+>  hw/display/virtio-vga.c                     | 32 +++++++++++++++------
+>  include/hw/virtio/virtio-gpu.h              |  5 ++++
+>  include/standard-headers/linux/virtio_gpu.h |  5 ++++
+>  6 files changed, 52 insertions(+), 9 deletions(-)
 
-> diff --git a/meson.build b/meson.build
-> index f2e148eaf9..31b65050b7 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -483,6 +483,7 @@ if not get_option('virglrenderer').auto() or have_system
->                       method: 'pkg-config',
->                       required: get_option('virglrenderer'),
->                       kwargs: static_kwargs)
-> +  add_project_arguments('-DVIRGL_RENDERER_UNSTABLE_APIS', language : 'c')
-
-Unstable in mainstream repository doesn't sound right.
-What is the plan for the project to stabilize it?
+WIP aims for a RFC series.
 
 
