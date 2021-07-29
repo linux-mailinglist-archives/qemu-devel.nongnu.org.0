@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CE43DAD9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 22:31:29 +0200 (CEST)
-Received: from localhost ([::1]:48996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410533DB008
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 01:48:31 +0200 (CEST)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Cgh-0002Nl-0w
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 16:31:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
+	id 1m9FlN-0001xa-T5
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 19:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9CeL-0000xJ-FW
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 16:29:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32380)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m9FkO-0001Hl-2J
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 19:47:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9CeH-0002yE-Tt
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 16:28:59 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m9FkJ-00034J-Nd
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 19:47:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627590536;
+ s=mimecast20190719; t=1627602441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hdFAFOb5LX/btSalADYe/57ChocyOS2sx514uY74p9Q=;
- b=E78YeqnfjAZHuPr9DkOudcZDk1eLRqGq+JlTJIgjtMBTz4hihdC94LWu7gVIQCgO2ZOBoZ
- NjJiwFH4ZB2vbRdABPyxzF8JGsZh83AG9Hd8WAQqO/VN1pXK+cGXclIYH+RBnzBmvaGuqI
- H7cICmaeSsvJeTPION9t7/FPSQKaMmk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-npY5tnqDNTyL0WTY5p0MWQ-1; Thu, 29 Jul 2021 16:28:55 -0400
-X-MC-Unique: npY5tnqDNTyL0WTY5p0MWQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- b9-20020a05620a1269b02903b8bd5c7d95so4439463qkl.12
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 13:28:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hdFAFOb5LX/btSalADYe/57ChocyOS2sx514uY74p9Q=;
- b=twoEICcAeAnhBxEEL8dbke3LqZ3jSI5R70ZF7X0N/nJWMpTwOXjrN9xzQ/BNQAWpoo
- la/jqbFE/C25KTUxS8k5UkxoHfJpYQR31mF6m3xqVf32UT1eIEC8ouYnqe5JaClPaz+F
- +FvW2OH8zSeZ+7B0mM/T4fZZB/CCVxPAeyVZRbv9UNsHzw1z5RhG7fJvwWkGPl/JGMTB
- KdGFUC2J9KvGK0k0ligyyOp+aBoU4L8B0/FhM9CdtW6MK2AltIkNseQjsDNsY8QEzsIe
- /KffIg3maqomO6tFTGwsaaIGOW9NRarCb2+vCJ/niB+r9RcXinfDgetmbvBSgNfE/Ft+
- 33gA==
-X-Gm-Message-State: AOAM531ZeVpk4HE4JEyI2cOa9vEZDRh6iNxZYYbKk1bV9tsLESO8QoDk
- hUdIxHgmX7siiHI1IQuHS8N9TskoBUEWpDDClCBJU87pF73/kxWaEUPElp/RBagI4WV4j1qGdBE
- GwRxYJc7nG5jyQCo=
-X-Received: by 2002:a37:858:: with SMTP id 85mr7222049qki.70.1627590534858;
- Thu, 29 Jul 2021 13:28:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5dRJS0SfuOMsOZoH3d0BQnYsyWFZyoXxqIE585mhuVqx+/+ZleTzX24A67nCm0g3Q/jUT/g==
-X-Received: by 2002:a37:858:: with SMTP id 85mr7222017qki.70.1627590534519;
- Thu, 29 Jul 2021 13:28:54 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id q8sm1753062qtn.42.2021.07.29.13.28.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 13:28:54 -0700 (PDT)
-Date: Thu, 29 Jul 2021 16:28:52 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
- RamDiscardManager
-Message-ID: <YQMPhOYfRWjLMGkW@t490s>
-References: <YQGzLl9IHod5rJRb@t490s>
- <b54cab91-87a6-298c-e527-0f75f8c38c74@redhat.com>
- <YQG74AsEBE0uaN4U@t490s>
- <a1c80a40-2828-3373-c906-870f0dbb6db8@redhat.com>
- <YQLTUIvrVe+TM/lw@t490s>
- <df5c7623-9986-d282-2ee9-eb28908d2994@redhat.com>
- <YQMCUHWuviDcIc+I@t490s>
- <cebb804b-4b85-8619-0fd0-7aad5a261384@redhat.com>
- <YQMI4HLsgnfsU/Wh@t490s>
- <a5551871-61ce-0cef-dfb1-7738b38d2be8@redhat.com>
+ bh=Nttd3fp2SfB2ZoUNRalGL6SAfCMN3cwQySdLrXgEY4U=;
+ b=XNN1Q4idci1+/iN6iCzasX7xna7ON1n0RiDX1CQkbjPQAfKHzeXqZXpWuxofiVKbT0XgKo
+ ppzz3ErvxBOrtb2XkCmFYZKRq3bHUng6zOUHVxJVH0dhZUsB/Zp39YLMGuBBUBIwxmcnwW
+ pCBncxpb6d3JBYF49ceMctb+TCADVek=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-GeqIfH_-MTehSko3-dvN9g-1; Thu, 29 Jul 2021 19:47:17 -0400
+X-MC-Unique: GeqIfH_-MTehSko3-dvN9g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E54698042E9;
+ Thu, 29 Jul 2021 23:47:16 +0000 (UTC)
+Received: from redhat.com (ovpn-114-43.phx2.redhat.com [10.3.114.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 869C419811;
+ Thu, 29 Jul 2021 23:47:16 +0000 (UTC)
+Date: Thu, 29 Jul 2021 18:47:14 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [PATCH 1/3] ui/gtk: adds status bar for expressing ups and fps
+Message-ID: <20210729234714.anhzbi2whrrxuipv@redhat.com>
+References: <20210726222551.28795-1-dongwon.kim@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <a5551871-61ce-0cef-dfb1-7738b38d2be8@redhat.com>
+In-Reply-To: <20210726222551.28795-1-dongwon.kim@intel.com>
+User-Agent: NeoMutt/20210205-678-cae0f0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,67 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 29, 2021 at 10:06:16PM +0200, David Hildenbrand wrote:
-> On 29.07.21 22:00, Peter Xu wrote:
-> > On Thu, Jul 29, 2021 at 09:39:24PM +0200, David Hildenbrand wrote:
-> > > 
-> > > > > In the meantime I adjusted the code but it does the clearing under the
-> > > > > iothread lock, which should not be what we want ... I'll have a look.
-> > > > 
-> > > > Thanks; if it takes more changes than expected we can still start from simple,
-> > > > IMHO, by taking bql and timely yield it.
-> > > > 
-> > > > At the meantime, I found two things in ram_init_bitmaps() that I'm not sure we
-> > > > need them of not:
-> > > > 
-> > > >     1. Do we need WITH_RCU_READ_LOCK_GUARD() if with both bql and ramlist lock?
-> > > >        (small question)
-> > > 
-> > > Good question, I'm not sure if we need it.
-> > > 
-> > > > 
-> > > >     2. Do we need migration_bitmap_sync_precopy() even if dirty bmap is all 1's?
-> > > >        (bigger question)
-> > > 
-> > > IIRC, the bitmap sync will fetch the proper dirty bitmap from KVM and set
-> > > the proper bits in the clear_bitmap. So once we call
-> > > migration_clear_memory_region_dirty_bitmap_range() etc. later we will
-> > > actually clear dirty bits.
-> > 
-> > Good point, however.. then I'm wondering whether we should just init clear_bmap
-> > to all 1's too when init just like dirty bmap. :)
+On Mon, Jul 26, 2021 at 03:25:49PM -0700, Dongwon Kim wrote:
+
+[meta-comment] When sending a patch series, remember to include a 0/3
+cover letter, as it makes it easier to distinguish replies about the
+series as a whole from review of the first patch.
+
+> With a display option, "show-fps=on", qemu adds a status bar and print
+> following performance numbers on the bar,
 > 
-> Yes, but ... I'm not sure if we have to get the dirty bits into
-> KVMSlot->dirty_bmap as well in order to clear them.
-
-Yes, so far it's closely bound to kvm's dirty_bmap, so sounds needed indeed (in
-kvm_slot_init_dirty_bitmap).
-
+> ups = update per seconds - the rate the guest scanout is updated.
+> fps = frame per seconds - the frame rate of VC's GL drawing area
 > 
-> It could work with "manual_dirty_log_protect". For !manual_dirty_log_protect
-> we might have to keep it that way ... which means we might have to expose
-> some ugly details up to migration/ram.c .
-> Might require some thought :)
+> One function, gd_gl_count_frame is added to count # frames
+> and calculate ups and fps every 100 frames or guest scanout updates.
+> 
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> ---
+>  include/ui/console.h |  4 +++-
+>  include/ui/gtk.h     |  2 ++
+>  qapi/ui.json         |  6 +++++-
+>  ui/console.c         |  6 ++++++
+>  ui/gtk.c             | 51 ++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 67 insertions(+), 2 deletions(-)
 
-We should make sure clear_log() hooks always work, so the memory api should be
-able to call the memory region clear log api without knowing whether it's
-enabled underneath in either kvm or other future clear_log() hooks.  KVM
-currently should be fine as kvm_physical_log_clear() checks manual protect at
-the entry, and it returns directly otherwise.  Thanks,
+> +++ b/qapi/ui.json
+> @@ -1035,13 +1035,17 @@
+>  #               assuming the guest will resize the display to match
+>  #               the window size then.  Otherwise it defaults to "off".
+>  #               Since 3.1
+> +# @show-fps:    Enable showing Guest Scanout's update rate (UPS) and
+> +#               Surface render swap rate (FPS) on a status bar (default: off).
+> +#               Since 6.0
+
+This is too late to make the 6.1 release; at best, it should read
+'since 6.2'
 
 -- 
-Peter Xu
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
