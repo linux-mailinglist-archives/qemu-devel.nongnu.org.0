@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FFE3DA079
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:43:23 +0200 (CEST)
-Received: from localhost ([::1]:55712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1CB3DA07F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:44:55 +0200 (CEST)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m92ZW-00059u-G8
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
+	id 1m92b0-0007dD-Vf
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m92YQ-00039w-9J
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:42:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m92YM-0002GU-R1
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:42:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627551728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jv+0g+Wr9ZESBrUc+CPKD66ATw/ZIXAtlTGFra1MYYU=;
- b=WxgmNWgatocRU0Gim4TjL9fscH7Wyt+tlWYKiREIHsIt7/1dKoziIUOGW8k3bK2KbzmpPj
- vlfuK7y7q+OEe0/Btxr++fqR21z6K7RKqPIex9C9eGtJKPK6bGtml24f6z6Hy4extZ927I
- bnp/Q1pD6++CSgH3HNJXsmcmUdZKBlU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-qoHd37kBOYCz0Eck6Zx5Gg-1; Thu, 29 Jul 2021 05:42:07 -0400
-X-MC-Unique: qoHd37kBOYCz0Eck6Zx5Gg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- a18-20020a05600c2252b02902531dcdc68fso2014677wmm.6
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 02:42:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m92aD-0006ks-RV
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:44:05 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m92aC-0003bV-7j
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:44:05 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id e19so9618597ejs.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 02:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Lne6nm+b8QN/YVq4G3DHwTADJQvygLl78P+89H3EuTw=;
+ b=Rs37zKnIU7FmkH5I9gx92FEQm+iCi7CG1TM4az523Iz8PyS3UoZuOwTfbBJm0Cu8K7
+ 4UpFo2yBvvZ343UftnOTHayMB3hmAVVEgTMHZS9OJMug5NgNwRltknvqHuFcgtL2gaA6
+ hBXMCl5T/S1zJ96nG6SD+3b6jyldHqEypRjmni6wFoKbC7RnX42swENMsR6MlrmFLUPx
+ k9DVWKwJPI0isylP1bRuS1K00F3tzRKb3Rdie7g7Rh/bb/QfE/Fdo/DgAMhXU0TUk0na
+ CfyEMhmNveWgYB/tz2oELYPi6ryCv9rQcPH2SRX/hlGopdjoXB+g2siqXEWyYrfrD8Xo
+ W3jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jv+0g+Wr9ZESBrUc+CPKD66ATw/ZIXAtlTGFra1MYYU=;
- b=BtRp3qPRW1rLfZXyvphzHnTST7UPPN1eJZy4WO9RMV86yKd+jIFKhFXcN2WymJldrd
- Y62nYOp8g0wduhTQC74+fjVFDcxI2IEQOOyi8gEja9xXjAdeV58Q07vdYBxkMZcvNFde
- l3ybAOnOFl4rT08nnnRvW2ODbB4ExdPDOX8ajU6einYsYUhcOkfwMqije6sa84R18DEL
- 63ASS37JFMEFBqHFbSMhs6Gl7xkP78JfO88TAUzGzrkocEfdPP4WFWE1FHP2Z3ZN03oU
- LVj2r4FlyDD4ZgcEXgoc4fDu/lSPQfpZAiTBV6o1qwtajj//xiE50YRshIIfKXCty3f3
- GFqg==
-X-Gm-Message-State: AOAM532+oC/ZKLkvb5594b097ibz9FY3c7qdY4jUWt04p7WpWHjxPUVx
- iiFZghxENe+edsXtb/xWdr05Tz4C4JMmg8UT1eZryU8N7cDjJXOg4rf9/ybw9tK8OQHPuVqMqj7
- f+Vy3tD9/9iq5xUY=
-X-Received: by 2002:a05:600c:ac4:: with SMTP id
- c4mr13479522wmr.10.1627551726371; 
- Thu, 29 Jul 2021 02:42:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz80c67HZ5TAmoj8Mgpq8YrcRFhvZQstcWrJPe0e0IwxoHreD1coh9MmCvtFDAAZ4bwTvgyIg==
-X-Received: by 2002:a05:600c:ac4:: with SMTP id
- c4mr13479507wmr.10.1627551726175; 
- Thu, 29 Jul 2021 02:42:06 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id k22sm2308936wms.47.2021.07.29.02.42.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 02:42:04 -0700 (PDT)
-Subject: Re: [PULL 8/9] tests: Fix migration-test build failure for sparc
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210729082211.532572-1-thuth@redhat.com>
- <20210729082211.532572-9-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f09aafaf-eb28-2b3c-dabd-97cca72680a7@redhat.com>
-Date: Thu, 29 Jul 2021 11:42:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Lne6nm+b8QN/YVq4G3DHwTADJQvygLl78P+89H3EuTw=;
+ b=dgRPz8V70t8n2NrJtaJbKXYLqeS/hVcyKLQlRTxNn4HvRgSugnte0OjvzFpPfw8kC5
+ wFGrBu65P+eayhq3v4k14pOnQrWYoTSjEDpVpaSkBrgn2ngxVTQOQ9a5LNQKqIwwz511
+ ih/elYD2pMkriKm6vMz43yO0RprJzqpTxYPVvGJtCgw7EPTIz6GmUyWTJ+D+X8IKSeCd
+ MomshWHl7ixU47UUc1LNjRdI0o4S3X3DQ8lDH0odKZCwoPIzYqBQdKXbyx289brDFYa6
+ AHly6gCACI6EQ5VawG0PfHOa8o7kEbHJnQrAD4vB7uZDJ0sIn3pnU4Ef+tqSuVNltTPe
+ PuKQ==
+X-Gm-Message-State: AOAM532S7ua0CyzszsNJdsDJ5n9Y8UxH5rqnwJ22+h8cUOTjKOudbJ7v
+ /ltUHethqJbvTZlVvgxTPtalTrblk7SPyGH/1SFhBg==
+X-Google-Smtp-Source: ABdhPJxQ01vLN8rI1DCLaH0JF4QxXeFVrrfAOIlI73RQy9IOmFwqph+p2CtCwaHpzJjD+1cfEDDXRlFKdCh6V+ApSmo=
+X-Received: by 2002:a17:906:c085:: with SMTP id
+ f5mr3858587ejz.250.1627551841788; 
+ Thu, 29 Jul 2021 02:44:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210729082211.532572-9-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <1626413223-32264-1-git-send-email-ishii.shuuichir@fujitsu.com>
+ <1626413223-32264-5-git-send-email-ishii.shuuichir@fujitsu.com>
+ <CAFEAcA-Dd0eh35CUo7_-_adye+DrTuFK471-A3JfBbegxoU9Jg@mail.gmail.com>
+ <TYCPR01MB616010C1BAD136B9156C6B86E9EB9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB616010C1BAD136B9156C6B86E9EB9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Jul 2021 10:43:19 +0100
+Message-ID: <CAFEAcA-_Q2D3WjfabyNXFnHsGsi2i1f=JmYVDGg47=EJamerCg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] docs/system: Add a64fx(Fujitsu A64FX processor) to
+ supported guest CPU type
+To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,34 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Peter Xu <peterx@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 10:22 AM, Thomas Huth wrote:
-> From: Peter Xu <peterx@redhat.com>
-> 
-> Even if <linux/kvm.h> seems to exist for all archs on linux, however including
-> it with __linux__ defined seems to be not working yet as it'll try to include
-> asm/kvm.h and that can be missing for archs that do not support kvm.
-> 
-> To fix this (instead of any attempt to fix linux headers..), we can mark the
-> header to be x86_64 only, because it's so far only service for adding the kvm
-> dirty ring test.
-> 
-> Fixes: 1f546b709d6 ("tests: migration-test: Add dirty ring test")
+On Thu, 29 Jul 2021 at 08:31, ishii.shuuichir@fujitsu.com
+<ishii.shuuichir@fujitsu.com> wrote:
+>
+> Hi, Peter.
+>
+> > This adds a64fx to the list of CPUs we support in the 'virt' board, but it hasn't
+> > changed the valid_cpus[] array in hw/arm/virt.c, so trying to actually use -cpu
+> > a64fx with -machine virt will fail.
+>
+> I'm sorry, but just to be sure, let me check.
+>
+> Is it correct to understand that the above comment means that we need to add
+> the following fixes included in "[PATCH 2/4] target-arm: cpu64: Add support for Fujitsu A64FX" patch
+> within this patch to make it a meaningful fix within one patch?
+>
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 93ab9d2..2e91991 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -202,6 +202,7 @@ static const char *valid_cpus[] = {
+> > ARM_CPU_TYPE_NAME("cortex-a72"),
+> > ARM_CPU_TYPE_NAME("host"),
+> > ARM_CPU_TYPE_NAME("max"),
+> > + ARM_CPU_TYPE_NAME("a64fx"),
+> > };
 
-Thanks :)
+If you want this CPU to work with the virt board, then yes.
+You should put it above 'host' and 'max' (because those are
+not-real-cpu special cases, so it makes more sense for them to be last
+in the list).
 
-> Reported-by: Richard Henderson <rth@twiddle.net>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> Message-Id: <20210728214128.206198-1-peterx@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+More generally: how are you testing this patchset? To test it
+you should have at least one board that lets you use the new
+CPU type so you can boot some guest with it. So if that's not
+"virt" then what is it?
 
+-- PMM
 
