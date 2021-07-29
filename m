@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D173D9EC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 09:37:50 +0200 (CEST)
-Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48B13D9ED9
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 09:40:02 +0200 (CEST)
+Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m90c2-0003It-1B
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 03:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
+	id 1m90e9-0004jA-Mx
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 03:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m90az-0002ck-4N
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:36:45 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44807)
+ id 1m90cn-00044d-T4
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:38:37 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m90aw-0001BW-Da
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:36:44 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z4so5633135wrv.11
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 00:36:41 -0700 (PDT)
+ id 1m90cm-0002W8-Hf
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:38:37 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id p5so5660217wro.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 00:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MRcXjMb6mWbBdexoGdzhK3nAWHRtUEZaiFe/kmAnD90=;
- b=Urevc/OLpSiRQlxta5eLcnurNTZftQRMWiCrSxOjseY1MyENUQxQ18Erdlwoy73Kox
- cMUwffKYpf0GkXQRuGW/EP8HW7/6TJUNopnRqFgkgWqTFU6f7VUzqlJryK0qI01/db93
- bBYs4Nd2Ia10Q9XgPC5wCNptokV4e/7vIHrOfTJF848nNVpRHR3s5VeUqxCzXhP/uE1n
- D9iU34gsGXA3RtMc9asusZ5rwTvQm1xNpe0cTxfxiyIJlb+H5lJkzk5Vbt/GHm2udhTb
- tbB7tM3OKJQgvjeI79bf0IFWFPTR4pNd4nKCjzoERBtqa0psrDZmvXvURhTrZErPozYk
- YDEQ==
+ bh=fO75t05A20gU3QmPd5gF2sdBHYdwtJ9jI6DWrNKFfGA=;
+ b=EXKwPLyrh0Onj06E5vvUlPdzbbwFqUoVjJyseQRPi1ogHV8CaM//2DKwXsrPdi4uzD
+ /WLnNEDVVN+UuVRat0a2I7sBvMGiAV2CBitycguzrBB+NOl621n5m7axKpPPsey3/H2e
+ 3l06anWTjSdmqHgkOHwS3qyD/cRork81fn0njuFfiQpUTX0gTgFGU+noFCQQG1Vs5zjo
+ IpLHpj88ZorEy9pFEHHLs8GQRnaY/4avAAgG1D+AznQfQpBiJ0xLnBOI4PxOmOL/w+sg
+ TEF+lQDCNZWZhhEZWsHml8OSiL2KmjuO+WFhnuXVJoRZdD2kTgm+hCI7sBIilCj+nGVK
+ z7pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MRcXjMb6mWbBdexoGdzhK3nAWHRtUEZaiFe/kmAnD90=;
- b=akcP+CYNAdmW5HUm2efSrnVBbqk3BWPjvhsT7pRr3/betp1K0isRPTaWAmSnk3twwl
- Mh6ODE7Bt9UZnVYjSihNAHs2UQLubO5zkijb+7WTaY10xWr2SQrqMSVapdfIPG/RpfGX
- zjEk7nCqwGou1LCKQqtydD1JL1VF2eUzgalBpKl9tAnv6nnUWo1bYodf5VvBBwrARnzE
- mNsZDa0dzDZhjaPDJWJqm8s7gYp3MMX8GaNpSD8NKbp92mwlob9qyvMRu6Xu+UnTZIMa
- hc+lGaDbcW6HrRqdWnYvKzNdPZ/agA8m2Pkk1hr30UzxcTNRCzkduaax58nVlV/Op55g
- SMfw==
-X-Gm-Message-State: AOAM533p6vOWfS+2y1LBEvv61rYaF/d7uolTpjyiM5ugcktsmPFtyN7z
- p7fVwrICWBldr3OHD4IHtK19RjZmMoRKXQ==
-X-Google-Smtp-Source: ABdhPJxItVwbOzZ+vf+x3VggOeTRYAwEV/0n998f8nEbOgBxBd0kORk9wHXKK+Mh/72H0Wy8PRhMNg==
-X-Received: by 2002:a5d:58c1:: with SMTP id o1mr3319217wrf.6.1627544200329;
- Thu, 29 Jul 2021 00:36:40 -0700 (PDT)
+ bh=fO75t05A20gU3QmPd5gF2sdBHYdwtJ9jI6DWrNKFfGA=;
+ b=CFmxd/VkrQbjrJDUEtjOph3F/5QiFrB/THquvAY7oTiN2KQBAYQhgYRKkZMhgCq4PV
+ /ldBSDn37Iilv2QeZu1FvjJ6PktdRRaWxLouM0SguCeQXerpHQS8UMbKUKc58h9iVZ0a
+ VaGwrg0RDE1WhYh9+b20uEKkWLnyfW0vmspu9LLYMHmkrnSLXvtyOPw+Y95sC4x991YI
+ 4x4nGUyr2DoLL9mfPs53W9+8SOt2ZUPeLOLHONog7CuC/u/f8T3fjgmc+yVCktN7she4
+ TuGaGcFNt4+JC/XIlQAAGYIFxT/atY3KayYoEbJFpIapFnVPgEanpH650RWaS+ofnaZX
+ EP4Q==
+X-Gm-Message-State: AOAM533WFicR9F9zasYiq3WZGiQ5plEQbt/eJ3J2X6VSQtpeytWMYheb
+ MMMXKuNYPGNN8M6b7nH6x3zE34zfXLK9JA==
+X-Google-Smtp-Source: ABdhPJzruteS9IOQXWnU/Rzad8cQPbAYYWvu2yn/ZwY739Sw50T01J6MWv/swWhs6n9MOq+cc81RBA==
+X-Received: by 2002:adf:82ae:: with SMTP id 43mr3270622wrc.73.1627544314434;
+ Thu, 29 Jul 2021 00:38:34 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id 19sm8557560wmj.2.2021.07.29.00.36.38
+ by smtp.gmail.com with ESMTPSA id b15sm2327250wrx.73.2021.07.29.00.38.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 00:36:39 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 33/43] accel/tcg: Move cpu_atomic decls to
- exec/cpu_ldst.h
+ Thu, 29 Jul 2021 00:38:33 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 34/43] target/mips: Use cpu_*_data_ra for msa
+ load/store
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-34-richard.henderson@linaro.org>
+ <20210729004647.282017-35-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7413793a-8feb-0fc8-1768-09e1c414f16a@amsat.org>
-Date: Thu, 29 Jul 2021 09:36:38 +0200
+Message-ID: <eea564b6-5218-548f-64e2-6395c6e780aa@amsat.org>
+Date: Thu, 29 Jul 2021 09:38:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729004647.282017-34-richard.henderson@linaro.org>
+In-Reply-To: <20210729004647.282017-35-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,17 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/29/21 2:46 AM, Richard Henderson wrote:
-> The previous placement in tcg/tcg.h was not logical.
+> We should not have been using the helper_ret_* set of
+> functions, as they are supposed to be private to tcg.
+> Nor should we have been using the plain cpu_*_data set
+> of functions, as they do not handle unwinding properly.
 > 
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/exec/cpu_ldst.h       | 87 +++++++++++++++++++++++++++++++++++
->  include/tcg/tcg.h             | 87 -----------------------------------
->  target/arm/helper-a64.c       |  1 -
->  target/m68k/op_helper.c       |  1 -
->  target/ppc/mem_helper.c       |  1 -
->  target/s390x/tcg/mem_helper.c |  1 -
->  6 files changed, 87 insertions(+), 91 deletions(-)
+>  target/mips/tcg/msa_helper.c | 420 +++++++++++------------------------
+>  1 file changed, 135 insertions(+), 285 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
