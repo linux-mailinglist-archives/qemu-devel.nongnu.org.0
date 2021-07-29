@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6C23DA70A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 17:04:18 +0200 (CEST)
-Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471803DA728
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 17:08:12 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m97a5-0000gn-JN
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 11:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1m97dr-0002rZ-9m
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 11:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m97ZH-0008RW-H4
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:03:27 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39865)
+ id 1m97cj-0001nN-0G
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:07:01 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:39902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m97ZF-0007vX-S5
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:03:27 -0400
-Received: by mail-ej1-x632.google.com with SMTP id go31so11219392ejc.6
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 08:03:25 -0700 (PDT)
+ id 1m97ch-0001tV-ES
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:07:00 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id go31so11240196ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 08:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bipTvjqgbnSeU+m9/WXKnxlUKLbtGHGnHI/Djq2nVu0=;
- b=zVN/Vz/+f2OKjvsG+M8uPYeAwGFQaKXtTqrd5PtUpzy07o5S/6W4OnT0aYZoz3S5Mo
- x3SnVtT64Xa/HXOWunAAKUek543d3nE0BLu8RkuzuuqMLVwpmMdUD33kkI48LfqokXxQ
- Y2yb19Jh9QKT/X2g5RgWApE+05W4yuNLqveSgZ1Rg4dUICw6cJlhRraFdFFAAKIpzavn
- lOzGdSivQRcAnkg6b7oaOswBCFJk3GGZwGtBiOtx6CrnrPD1QkUDdYuK4MHyaRrciVeu
- S5LJgr36WRh6NzWzrjgg0csIoFhlh9KTEPyxpsufQ4RHco7UaiKeAXKucbFQq/cwo2P/
- /A0g==
+ :cc; bh=bbdi17Ps915tTdHshRoZaqRDBkZUTToj1Y1kFfWCPXI=;
+ b=jzDFmqIjpUuYn2JlaqiJDpbosJwIziokjhCjQ3v/5+51VYIQnJxUV/21CNyIC+itB9
+ ac9JCcKsfgcSNYKsc9oQDSLY5Mf+AUQDSnoY0CbXw4hWKTWiy2fxg01zsGljfso6mOAN
+ 5Ei0/y6yXjeifT+u6WqwjCgX/bU+yE9sMicDIuaGupfp235IaVpjjWS2k1URUfMYJWNV
+ WPCkyBbFzUWNf2YXicv0XtCpiIbPj0R2Pw13i1dDfCfWOAPG0UKS0KxEQx/IxbIWzjAM
+ pVa0tu2X4j3JIJM693dDkxX9T9U4rtLZxjfNTRzn2pC9XFo7GnNfevpHnqIy2yNgngGv
+ ix0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bipTvjqgbnSeU+m9/WXKnxlUKLbtGHGnHI/Djq2nVu0=;
- b=P9ABqORmB8Q/xOT/ZsK2N2VFqVXcyIgUb+H1Ostx2Vpfns9bm8ZKN5e/Pj0TQH5eZD
- M+O36yk2i6CNxiK+xTpeY1x92M7t3R9k0o71MeF7Zj/Csh50ED0aGuemgB8wp4K+q9+R
- RGzjJvtPSi6p3zkPMo5CcCHrdqsFEPwL6Fz2KNsxPPTKUS2U9VHplp4AAybUEJofbkTY
- 4nVPLmcVsQdKQSFrlEqxhwUduNaWknJyXbBBxin4k5on9dXHnaUI+eexArprGJHx+066
- YC3D4XJD/2RYXHineRoYMeYIOxCmJniS93Nw7UKFSfuoHiNcW36/xwXY3CbjQ1utopj0
- qJww==
-X-Gm-Message-State: AOAM5322a/+OuiidBHUw6K0QttweWFbsUQ1Jx5IQMGrkRlHQwinsUJDU
- lbxbJVp/kV31QaFvwvzbgI+m/hswb9N6tCwZEWbS2A==
-X-Google-Smtp-Source: ABdhPJygGOMZ9jKKM/4lCh8rSv2gOMAStSwHhR01P7bZYia9lWfMDmXokEB9mt5V5iL4p/JOp9ITClCmqnp93nG2jxM=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr4973173ejy.407.1627571003009; 
- Thu, 29 Jul 2021 08:03:23 -0700 (PDT)
+ bh=bbdi17Ps915tTdHshRoZaqRDBkZUTToj1Y1kFfWCPXI=;
+ b=LP8c7nI/+xHquQiPZN2b93sDr6iO8VRY7k6WaxUQPPoYOoX8Gz+rd8m6p5op6oCFYA
+ 65G3LvXiyfE+pHQ9dNtLHLSznl3sKyO5oh/mG7hzrmOBxIf/12mKt3Z+wm6XHNehHaYn
+ EOFgAN6KYVidwyAsP6O6vhMZkqL5t/o9pJAl317C8vGrr0uHAzRHOzJZkzTB6S4Sf4TI
+ 4ICuoEC5dWKsiZMaPmVSVaHa6QkL9bB2UGaNjqWpKDobd+cUheihKNJQOZIgbmVZzxHm
+ AFub4BHzglxxxSA+42mqreMnCByhP8D1kwkGN6gc6zMWm3e2Bmt3N0e5QogfwsDGG3Ap
+ YRNA==
+X-Gm-Message-State: AOAM531WQvKD+mFWEZq8xqgArw0FimznRmMpUeHFt8OWxAc6cohZI8Sd
+ Py4ibpwzF0zNJ1NpaemobWrONMaUYfZnioVZv+ZiDg==
+X-Google-Smtp-Source: ABdhPJyMaurLXs+vYtu3iC/lVBAWKpir/5guK/7+Abjdk+lSCPv5+eds9dFZ4CvEnQN+m5dJh1TM2lsFU2q9tvr7oEg=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr5029666ejc.4.1627571217775; 
+ Thu, 29 Jul 2021 08:06:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-18-richard.henderson@linaro.org>
-In-Reply-To: <20210729004647.282017-18-richard.henderson@linaro.org>
+References: <20210729082211.532572-1-thuth@redhat.com>
+In-Reply-To: <20210729082211.532572-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Jul 2021 16:02:40 +0100
-Message-ID: <CAFEAcA95v3bfjO23js8sf4wCsTkqeU2f0zCp8z-6wFLr6tqFcA@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 17/43] accel/tcg: Report unaligned atomics for
- user-only
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 29 Jul 2021 16:06:15 +0100
+Message-ID: <CAFEAcA-=T=f38aAQBeBGd0cS_SxTTADq5vS-kxLar3qzSavouQ@mail.gmail.com>
+Subject: Re: [PULL 0/9] Gitlab-CI improvements and some other fixes
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,43 +81,35 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 02:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 29 Jul 2021 at 09:22, Thomas Huth <thuth@redhat.com> wrote:
 >
-> Use the newly exposed do_unaligned_access hook from atomic_mmu_lookup,
-> which has access to complete alignment info from the TCGMemOpIdx arg.
+>  Hi Peter!
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/user-exec.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+> The following changes since commit 69ea12b19a15ae006521cd5cc0f627f27f738746:
 >
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index 90d1a2d327..dd77e90789 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -852,6 +852,16 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-07-27' into staging (2021-07-28 13:32:12 +0100)
 >
->  /* The softmmu versions of these helpers are in cputlb.c.  */
+> are available in the Git repository at:
 >
-> +static void cpu_unaligned_access(CPUState *cpu, vaddr addr,
-> +                                 MMUAccessType access_type,
-> +                                 int mmu_idx, uintptr_t ra)
-> +{
-> +    CPUClass *cc = CPU_GET_CLASS(cpu);
-> +
-> +    cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, ra);
-> +    g_assert_not_reached();
-> +}
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-07-29
+>
+> for you to fetch changes up to b8ee198d21c4bab41b8cb8d1729a956d9f648997:
+>
+>   configure script fix for Haiku (2021-07-29 08:09:32 +0200)
+>
+> ----------------------------------------------------------------
+> * Document GitLab custom CI/CD variables
+> * Fix 'when:' condition in gitlab-CI jobs
+> * Disable tests in the gitlab-CI that fail due to out-of-memory conditions
+> * Allow pushing to "staging" again for maintainers without s390x access
+> * Fix migration-test build failure on SPARC
+> * Compile without "pie" on Haiku
 
-The softmmu version doesn't g_assert_not_reached(), I think
-perhaps with the intent that a CPU implementation could
-in some cases return without raising an exception to
-mean "continue with the unaligned access". We should decide
-whether we want the API to permit that, or else consistently
-have both softmmu and useronly versions be marked noreturn
-and with an assert, and we should document whichever we choose.
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
 -- PMM
 
