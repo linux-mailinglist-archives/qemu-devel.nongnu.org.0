@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD39E3DA85B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 18:03:36 +0200 (CEST)
-Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9938A3DA89D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 18:13:14 +0200 (CEST)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m98VT-0005ag-F4
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 12:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1m98en-0002Fz-5v
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 12:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m98U8-0003qM-91
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39730)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m98dl-0001Zg-GI
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:12:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m98U3-0005yq-IL
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:02:10 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m98dh-0004cN-Ge
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:12:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627574525;
+ s=mimecast20190719; t=1627575124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRiAnUss1J/T4umaPk3d+88IXCFqOqBMCB7K8wiJoEA=;
- b=Fw8YolkZeryM2Vt4n/+fbrglPHITSTAvGmc0gDZM/uE/wmDH5glTopl5zcL03H5vhfpZvj
- F16An/6VdXvXnuScLT2MECNPSsJlrLlUg2kwkKJq67HmkCx6Pnek3ttzdmESP0gQzFpZ5e
- RkpMKqZByuBzhmctqZ7dP8dnyeeREp0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-A-iqUsjnMKKtY5tyTCkJbg-1; Thu, 29 Jul 2021 11:59:51 -0400
-X-MC-Unique: A-iqUsjnMKKtY5tyTCkJbg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- kq12-20020a170906abccb0290591922761bdso863020ejb.7
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 08:59:51 -0700 (PDT)
+ bh=L6C2uO3bJKobMESsssksimSScxfuR/3tAW2gNjV0Efw=;
+ b=jUuocKk1BU8JN9vxlwZ2wguVJjl5yygmWVq8P2nXacRU0I287KkPsu4WEqGCp/rmLLUBVu
+ VjG0yTNgEWRpB+0wHWI1fvktZEojAVxEHFQ/2+cwfJvkwld8PTg2njeZuTYyH67luyyq/b
+ Y1NNo8knd9Sob34TG8cCEHDyTngkjvg=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-8smSKf6-OtWtVAOeMEw2Bg-1; Thu, 29 Jul 2021 12:12:03 -0400
+X-MC-Unique: 8smSKf6-OtWtVAOeMEw2Bg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ x2-20020a05620a0ec2b02903b8bd8b612eso4044948qkm.19
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 09:12:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=nRiAnUss1J/T4umaPk3d+88IXCFqOqBMCB7K8wiJoEA=;
- b=I82I/jd2bOMKhvlV+O5gha04t9/RHoAeBijGErHausbxrz3R+TtaBvMeZPtuAKoCVB
- 8Phb4vA36oNSoH8sy93s7BEZCVn7Kv1/7lPHumocSi4NGUVrzR+QZESCW+iR131nFBOs
- hmfSHtKoZaaJ8cD4wlJlPBwV49tiXKdTB/puIKoLmEZcMhg89LHSbIe7OPh/xun3q9l4
- njL1oYyQ4kJwwhyAupCaKW2mp1ZE27KAUGMNwzCTzSLxYaenh7Fvxro7zfK65VvesLy3
- zpVTeguNpKU26qKCEQNBapGFyeUZaeYGIIcqBNbp5BdDAxtkoAXIoiWfZUE6JdGRc1nd
- I2Og==
-X-Gm-Message-State: AOAM532//pxpRRAI7PI1wGyPAOsu2TL8BZ7yy3AI9C3M7llwRbpdamU+
- MogcVnCjoeqmvOJ+Xrq1VoIk+kkaM1BTwWGrb4JASc9zJKgHIFjB2JgSAzbKxBNLROSVqfeEIEX
- afT8k3T8x4vE5zGs=
-X-Received: by 2002:a05:6402:4cb:: with SMTP id
- n11mr6789782edw.292.1627574390467; 
- Thu, 29 Jul 2021 08:59:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyy1eHwKD4qo8OVkzpVbwAE0slr5M9Tb3ASNjbVm2jKN0RZlXjvDFE/hhgp2Ow9Vj0Btod4tg==
-X-Received: by 2002:a05:6402:4cb:: with SMTP id
- n11mr6789754edw.292.1627574390286; 
- Thu, 29 Jul 2021 08:59:50 -0700 (PDT)
-Received: from redhat.com ([2.55.154.10])
- by smtp.gmail.com with ESMTPSA id z16sm1373970edr.51.2021.07.29.08.59.47
+ :mime-version:content-disposition:in-reply-to;
+ bh=L6C2uO3bJKobMESsssksimSScxfuR/3tAW2gNjV0Efw=;
+ b=Saig64XYc2VsfhW14CCFWY7eQnX3fKtM/4FqMwVqZ5Cs0endm4Vu4LAXjtrkyabh7u
+ Y94mXYzBO9COqOpU8qPAVZh2VL+yOq9s9pg+jMdwHA01kfaZD/Rr5+AFOz5OBsqdcgVw
+ HXf9m/jbHFyLQJPDNuJiUFS6Qx0hkNvfJ1+XHfkbS4QIIqCBZZF2TzcNfmA4YA/02gPM
+ sKN1WcZJKBCrrLRyC7aer4ckQ4UtwDAr6nnmwQURfPNV30HzHjEXf6RqFaxUVadiDa5V
+ DtdPX6ezljce5NK6r2fA3IZGkH9a9yaXi2ZaBIercn/wokCf7q+wCK/4Qmw/vuUF288F
+ wZNA==
+X-Gm-Message-State: AOAM53222y66QDsu6yspmGaciM8RfRcEtZaEg6+JsxlyRgHLiq/FQRN0
+ npl9EPkbj43cre/NBYB2A30ICv1wIP1+EYWhP/S4t5nbJfu8k5DelNNIlB64krubmPBycLK4FUJ
+ 4IzIUd7LvmWJ9Mpc=
+X-Received: by 2002:ac8:6b4c:: with SMTP id x12mr1513079qts.121.1627575122879; 
+ Thu, 29 Jul 2021 09:12:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPpd4oyQ1W6VzqJoQDu9Xc5WNBLNt1ZptJV1O+6kojEjF/T7tuJaKTbEpK2Y6jd81AThj31A==
+X-Received: by 2002:ac8:6b4c:: with SMTP id x12mr1513053qts.121.1627575122607; 
+ Thu, 29 Jul 2021 09:12:02 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id i62sm1994738qke.110.2021.07.29.09.12.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 08:59:49 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:59:45 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: aarch64 efi boot failures with qemu 6.0+
-Message-ID: <20210729115934-mutt-send-email-mst@kernel.org>
-References: <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
- <20210727004401-mutt-send-email-mst@kernel.org>
- <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
- <20210727045315-mutt-send-email-mst@kernel.org>
- <20210727123603.6119c34c@redhat.com>
- <20210728090555-mutt-send-email-mst@kernel.org>
- <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
- <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
- <5de773d1-48c8-1e56-493d-7c94cca78ee7@redhat.com>
- <CAErSpo44E0tnbkjbnvVyUY=6+VUHV51aeXAumYrdmeLOPbPGyg@mail.gmail.com>
+ Thu, 29 Jul 2021 09:12:01 -0700 (PDT)
+Date: Thu, 29 Jul 2021 12:12:00 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Message-ID: <YQLTUIvrVe+TM/lw@t490s>
+References: <YPrqfkCk7EM7QLpa@t490s>
+ <ea9e9071-4ecb-9c28-9567-92585a18b4eb@redhat.com>
+ <YPtAd+JqfNeQqGib@t490s>
+ <da54f4ab-2f20-a780-1a9c-b6f4c1c50969@redhat.com>
+ <YQA+CUCWV4YDdu9C@t490s>
+ <74271964-c481-7168-2a70-ea9eb5067450@redhat.com>
+ <YQGzLl9IHod5rJRb@t490s>
+ <b54cab91-87a6-298c-e527-0f75f8c38c74@redhat.com>
+ <YQG74AsEBE0uaN4U@t490s>
+ <a1c80a40-2828-3373-c906-870f0dbb6db8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAErSpo44E0tnbkjbnvVyUY=6+VUHV51aeXAumYrdmeLOPbPGyg@mail.gmail.com>
+In-Reply-To: <a1c80a40-2828-3373-c906-870f0dbb6db8@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -105,30 +102,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jiahui Cen <cenjiahui@huawei.com>,
- Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ard Biesheuvel <ardb@kernel.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 29, 2021 at 09:42:52AM -0500, Bjorn Helgaas wrote:
-> On Thu, Jul 29, 2021 at 3:08 AM Philippe Mathieu-Daudé
-> <philmd@redhat.com> wrote:
+On Thu, Jul 29, 2021 at 10:14:47AM +0200, David Hildenbrand wrote:
+> > > > > > The thing is I still think this extra operation during sync() can be ignored by
+> > > > > > simply clear dirty log during bitmap init, then.. why not? :)
+> > > > > 
+> > > > > I guess clearing the dirty log (especially in KVM) might be more expensive.
+> > > > 
+> > > > If we send one ioctl per cb that'll be expensive for sure.  I think it'll be
+> > > > fine if we send one clear ioctl to kvm, summarizing the whole bitmap to clear.
+> > > > 
+> > > > The other thing is imho having overhead during bitmap init is always better
+> > > > than having that during sync(). :)
+> > > 
+> > > Oh, right, so you're saying, after we set the dirty bmap to all ones and
+> > > excluded the discarded parts, setting the respective bits to 0, we simply
+> > > issue clearing of the whole area?
+> > > 
+> > > For now I assumed we would have to clear per cb.
+> > 
+> > Hmm when I replied I thought we can pass in a bitmap to ->log_clear() but I
+> > just remembered memory API actually hides the bitmap interface..
+> > 
+> > Reset the whole region works, but it'll slow down migration starts, more
+> > importantly that'll be with mmu write lock so we will lose most clear-log
+> > benefit for the initial round of migration and stuck the guest #pf at the
+> > meantime...
+> > 
+> > Let's try do that in cb()s as you mentioned; I think that'll still be okay,
+> > because so far the clear log block size is much larger (1gb), 1tb is worst case
+> > 1000 ioctls during bitmap init, slightly better than 250k calls during sync(),
+> > maybe? :)
 > 
-> > Michael, if describing the issue in the revert is too complex, could you
-> > include a link to this thread in the revert description?
-> > (Message-Id: <20210724185234.GA2265457@roeck-us.net> or
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg826392.html)
-> 
-> Or https://lore.kernel.org/r/20210724185234.GA2265457@roeck-us.net/,
-> which is a convenient, ad-free, long-term, text-only, tools-friendly
-> archive maintained by the Linux Foundation.
+> Just to get it right, what you propose is calling
+> migration_clear_memory_region_dirty_bitmap_range() from each cb().
 
-OK, thanks!
+Right.  We can provide a more complicated memory api for passing in bitmap but
+I think that can be an overkill and tricky.
+
+> Due to the clear_bmap, we will end up clearing each chunk (e.g., 1GB) at most
+> once.
+>
+> But if our layout is fragmented, we can actually end up clearing all chunks
+> (1024 ioctls for 1TB), resulting in a slower migration start.
+> 
+> Any gut feeling how much slower migration start could be with largish (e.g.,
+> 1 TiB) regions?
+
+I had a vague memory of KVM_GET_DIRTY_LOG that I used to measure which took
+~10ms for 1g guest mem, supposing that's mostly used to protect the pages or
+clearing dirties in the EPT pgtables.  Then the worst case is ~1 second for
+1tb.
+
+But note that it's still during setup phase, so we should expect to see a
+somehow large setup time and longer period that migration stays in SETUP state,
+but I think it's fine.  Reasons:
+
+  - We don't care too much about guest dirtying pages during the setup process
+    because we haven't migrated anything yet, meanwhile we should not block any
+    other thread either (e.g., we don't hold BQL).
+
+  - We don't block guest execution too.  Unlike KVM_GET_DIRTY_LOG without CLEAR
+    we won't hold the mmu lock for a huge long time but do it only in 1g chunk,
+    so guest page faults can still be serviced.  It'll be affected somehow
+    since we'll still run with the mmu write lock critical sections for each
+    single ioctl(), but we do that for 1gb each time so we frequently yield it.
+
+Comparing to the other solution, it'll be different if we spend time during
+sync() because during migration guest vcpu threads are dirtying pages that we
+migrated so page dirtying is aggregating, it should make the migration to
+converge harder just like when sync() is slower.
+
+Thanks,
 
 -- 
-MST
+Peter Xu
 
 
