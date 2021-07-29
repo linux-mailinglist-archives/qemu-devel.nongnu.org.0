@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6946B3D9F26
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:07:06 +0200 (CEST)
-Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1191D3D9F2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:08:09 +0200 (CEST)
+Received: from localhost ([::1]:43572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m914L-0002Il-Fn
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56368)
+	id 1m915M-0004MS-56
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m913O-0000w9-KO
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51787)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m914B-0002wK-Vz
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m913M-0004g7-Uf
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:06 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m914A-0005Ed-58
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627545964;
+ s=mimecast20190719; t=1627546013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RsSoYdVksIUWckZZZ+J9cHXMeThO9NWXcnzQgV5C+oM=;
- b=jKgkussFmulJxON7ysFxrXJrvpVThqg+Et/3kv/C1XWLMG3tM1uO9X4H6TaSxVrxq3MDhX
- mNR2xmN/lZzZwSyYzM7a9C1FfA4DImS0BdmJmd5OcrlBNJMOZT9cr6F38A5bAspudV3My/
- ex5iRlOw+Qk5aq94UYYyP71FDrN9X1s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-QI5B-rmzMlaVkCPtfBxW8w-1; Thu, 29 Jul 2021 04:06:01 -0400
-X-MC-Unique: QI5B-rmzMlaVkCPtfBxW8w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h16-20020aa7de100000b02903a6620f87feso2561136edv.18
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:06:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RsSoYdVksIUWckZZZ+J9cHXMeThO9NWXcnzQgV5C+oM=;
- b=X9aCSB+lvgnb1AM59TxqPC6SXkXe37OX7pe2KApJCH+uu9DPieEcPUw+1zyxFyp08O
- zKF4s+ZfUZ4XXa2FkQZ5/rZQHQWIrSRztebkj/Cm+vwokL1Vq4xrBo4dbU0q4FNimoGO
- Adv4TWIvjbIjtzn/K3h7Ep2cQ2cUMHjQSXo4uzPeqYLTdHWf0iRj2+QvHLFPl5blC0zC
- 9jqkZfok/FrtkG/THU6Z2STw3Uvm/Y4NKQ6UvsIcPcH9F7uKu7d74BWafSdLvOgqWzLH
- 8bEfkPFYNT1ABxuvu5e513JkZ5+nuh2U124rFK2Ps/xh1Rf7ectDZxiun3zff9YZVfmy
- PcTQ==
-X-Gm-Message-State: AOAM53111T9Y3OMq7Y0fbP3Cf/o9+A9r1QoSv8DJ2/ZE1TQlAhhtLU/F
- B1tR7VZdy/JDnHEoEVvbOx7EYatder93Om/AfI2tW539LVRE5VsxGkRBcjiHNQ2PlDPSLvKwKms
- Wz0aKsscWTOP+qdsawHc4Ot9v1o+qq60NUB0zZkW4xOH/fBhbMAuaKGjq2T1sXRi2IQs=
-X-Received: by 2002:a17:906:c342:: with SMTP id
- ci2mr3532774ejb.122.1627545959575; 
- Thu, 29 Jul 2021 01:05:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxenYt9UGOA/nwEG80I/uxC+ckdBhJyfXcqghnbK7osXQLGx1AGA5Wjg+QH4MSyrnlmzfcBRQ==
-X-Received: by 2002:a17:906:c342:: with SMTP id
- ci2mr3532759ejb.122.1627545959413; 
- Thu, 29 Jul 2021 01:05:59 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id t15sm682169ejf.119.2021.07.29.01.05.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 01:05:58 -0700 (PDT)
-Subject: Re: [PATCH 2/2] libvhost-user: fix -Werror=format= warnings with
- __u64 fields
-To: Stefan Hajnoczi <stefanha@redhat.com>, marcandre.lureau@redhat.com
-References: <20210505151313.203258-1-marcandre.lureau@redhat.com>
- <20210505151313.203258-2-marcandre.lureau@redhat.com>
- <YJK72YzBwoLyTyK5@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9ee74a1c-7ddd-ebed-f2e3-e23220b04a9d@redhat.com>
-Date: Thu, 29 Jul 2021 10:05:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=WaYQleQD+G14uKonyMY4wxN97UMxchMMmF3MBMueNXg=;
+ b=UE3doi3pgg+HXXVNYSAk5Dz7zEjMXwFFpR8UHmhPllLFnNixzroXGijP7EJQZJoLnELpgj
+ DrZv8i7WnKQ1zHwF65EK6BUz5pa3v8NYjjKzwKeFI6hABQvWsuZxGR8flbGQyyjq7pcDIt
+ E3ZEe+qiO1sb/LWdMh+40mpNwHqyv+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-bpaJtCxaPUqWGEQZxUDG-g-1; Thu, 29 Jul 2021 04:06:51 -0400
+X-MC-Unique: bpaJtCxaPUqWGEQZxUDG-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 346EB800D55;
+ Thu, 29 Jul 2021 08:06:50 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 221DE10016F7;
+ Thu, 29 Jul 2021 08:06:45 +0000 (UTC)
+Date: Thu, 29 Jul 2021 09:06:45 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH RFC 03/19] vfio-user: define VFIO Proxy and communication
+ functions
+Message-ID: <YQJhlZwTygy8FdqV@stefanha-x1.localdomain>
+References: <cover.1626675354.git.elena.ufimtseva@oracle.com>
+ <cd9d5d6214d957db61120d9c3cbdc99e799a3baa.1626675354.git.elena.ufimtseva@oracle.com>
+ <YQA1kC1P5k2vRd4O@stefanha-x1.localdomain>
+ <090CD4E1-D3B1-46CB-AB05-158321095D74@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <YJK72YzBwoLyTyK5@stefanha-x1.localdomain>
+In-Reply-To: <090CD4E1-D3B1-46CB-AB05-158321095D74@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QmKxKLO9PGb283Gk"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,35 +82,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jag Raman <jag.raman@oracle.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ John Levon <john.levon@nutanix.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/21 17:38, Stefan Hajnoczi wrote:
-> On Wed, May 05, 2021 at 07:13:13PM +0400, marcandre.lureau@redhat.com wrote:
->> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>
->> ../subprojects/libvhost-user/libvhost-user.c:1070:12: error: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 3 has type ‘__u64’ {aka ‘long long unsigned int’} [-Werror=format=]
->>   1070 |     DPRINT("    desc_user_addr:   0x%016" PRIx64 "\n", vra->desc_user_addr);
->>        |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              ~~~~~~~~~~~~~~~~~~~
->>        |                                                           |
->>        |                                                           __u64 {aka long long unsigned int}
->>
->> Rather than using %llx, which may fail if __u64 is declared differently
->> elsewhere, let's just cast the values. Feel free to propose a better solution!
->>
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> ---
->>   subprojects/libvhost-user/libvhost-user.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> Looks good to me:
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> 
+--QmKxKLO9PGb283Gk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Queued both, thanks.
+On Wed, Jul 28, 2021 at 06:08:26PM +0000, John Johnson wrote:
+>=20
+>=20
+> > On Jul 27, 2021, at 9:34 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >=20
+> > On Sun, Jul 18, 2021 at 11:27:42PM -0700, Elena Ufimtseva wrote:
+> >> From: John G Johnson <john.g.johnson@oracle.com>
+> >>=20
+> >> Add user.c and user.h files for vfio-user with the basic
+> >> send and receive functions.
+> >>=20
+> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >> ---
+> >> hw/vfio/user.h                | 120 ++++++++++++++
+> >> include/hw/vfio/vfio-common.h |   2 +
+> >> hw/vfio/user.c                | 286 ++++++++++++++++++++++++++++++++++
+> >> MAINTAINERS                   |   4 +
+> >> hw/vfio/meson.build           |   1 +
+> >> 5 files changed, 413 insertions(+)
+> >> create mode 100644 hw/vfio/user.h
+> >> create mode 100644 hw/vfio/user.c
+> >=20
+> > The multi-threading, coroutine, and blocking I/O requirements of
+> > vfio_user_recv() and vfio_user_send_reply() are unclear to me. Please
+> > document them so it's clear what environment they can be called from. I
+> > guess they are not called from coroutines and proxy->ioc is a blocking
+> > IOChannel?
+> >=20
+>=20
+> =09Yes to both, moreover, a block comment above vfio_user_recv() would
+> be useful.  The call to setup vfio_user_recv() as the socket handler isn=
+=E2=80=99t
+> in this patch, do you want the series re-org=E2=80=99d?
 
-Paolo
+That would help with review, thanks!
+
+Stefan
+
+--QmKxKLO9PGb283Gk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmECYZQACgkQnKSrs4Gr
+c8hOsggAil8JTVa9oboq3oaQtv2LpZsL6YZEGww8X8NRiZCj8/Z8IPAwbu2W06ed
+iNhbvCNDjULj22tc6l2kg+j4N5kDANTrcC6dyyidYTA5KJ9K7B2b19J+xlvIvMAn
+mpPhL9a1I99B18kCrVaUeJasKIKQK+QH4LHlChYTGcliLXmAtQJSLlgUYfPicrfe
+re5wAddPHopheLjmEihcMmG4albSDMKnc5aAnp7s5hWKruBZ7yLwsviOKT7KqpvC
+xisnd/DNaDkITXKHOmXRTEikW4ycS0gOo1hPf2L6mw4oUxx+pLiP5aw4CpLv2UF6
+MGK3mxfcXbKfRXc14zp1g0Rs3uFmig==
+=ZX2B
+-----END PGP SIGNATURE-----
+
+--QmKxKLO9PGb283Gk--
 
 
