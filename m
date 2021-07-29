@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423733DAC43
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:56:53 +0200 (CEST)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47473DAC58
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 22:02:24 +0200 (CEST)
+Received: from localhost ([::1]:35624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9C9D-00064Y-TC
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
+	id 1m9CEZ-0008WU-7s
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 16:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9C8G-0005OP-Fv
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:55:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9C8E-0005GY-Kc
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:55:52 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id n11so4459691wmd.2
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 12:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rHLrVcyrJTqqqkrEEWo5zAcpMEwZDQwr57q8MR3DtkQ=;
- b=jaxU2rDYTl+RA/xE9ysu4QG2aWm+5lOJ2Mo6d0lexShvgxO9fm1UZ1xOnx1jg7Wmsu
- iE+QE33c44BQIA2k36BbgXpke3s8ZRf5/2UrmQq1MGd3JzbTJbDBRY1teiBYajQ/UPUs
- xMoxIfodmQ8yUi2ht3wns8298tcjzoPbseO6G1JyJ47PDt2qWUA61JJ3M1UYEQLot3oN
- 7Xl5H0oPPxxc/tnYAoABHoxpIaz1+AcdK5PSgzA82e7cSXUrAHXCiegDlvnUKamKIkfj
- RkhGa5NHlC9+BrFNeAB+9Jq3S7r1vmBtfY2vE1aAcP/AsMwfTTvmaxTSPpP6UBSlY7bH
- 5STA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9CCy-0007IP-Fa
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 16:00:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9CCu-0000P7-Oq
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 16:00:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627588838;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8t5O3nECuBPMNCvPwHFzPGVaRPKnW6FRtg3Tyf2SzvI=;
+ b=KGTcZDW2LdHuxoOw2015xQyMukmpQMw1GF2jzbrEFCAF/37Iw+lKJjVp+cA7TeViYbeme0
+ oXJsPXvDFBbrMo6X+1RjE1DRNpOwiEGUwrv/weXgjrr2oQSHbGROnQnJGfPZFOTYuZ81kV
+ zQ0vPXUdJv5pB28FGLtNdbAottKWfdA=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-AbQuufbyNYyOVMMz0IkXPQ-1; Thu, 29 Jul 2021 16:00:35 -0400
+X-MC-Unique: AbQuufbyNYyOVMMz0IkXPQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ f19-20020ac846530000b02902682e86c382so3256897qto.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 13:00:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rHLrVcyrJTqqqkrEEWo5zAcpMEwZDQwr57q8MR3DtkQ=;
- b=P+AG4GEeAFGb0hRxlpRfM+YYFtIhv0phmyiaL6d659h/JEI9mEUid3Wfi+R6rPbz3Y
- hPqKVAVBt2W+dg17V6YtZB79tHnQkV3o5NNFWZQeJ/TdnQLwZnkBBErQjzWajhiYmtpx
- rBvA388racX7tJOF4vI+qa0E3odPyKd/d4A3IHqS6wkrIEgkbNCO+a6zfiUxamMKiFvM
- dAj3bzKLUoMmtdFC1LI2sG7lvRShfNqLxzNRLybPPDzBmTtgT5GrM2lt8/tuWAXfVAPI
- QfbhskMhAZXgFs1GfJNp6I/8b7YGaqlaA3Wf6iAmTy/tG3Ab7W+lcb9VhJimBWlsyxMD
- Oj0Q==
-X-Gm-Message-State: AOAM532xaI1+6ttryVCW+ZhbEP7Ks5zVapNnsGbOJI/3y7TvE7y9ojEk
- AMi1aKncqeTo/larnuJ+3+Vp3DsjDQfmNg==
-X-Google-Smtp-Source: ABdhPJycSmkxvxwSX7WQW3uAVnOGIWmqp9FuX+o/Z1+cStGRUt/gRdRF8e93tuFVL17WVVnnEFkl6g==
-X-Received: by 2002:a7b:c144:: with SMTP id z4mr122161wmi.54.1627588548126;
- Thu, 29 Jul 2021 12:55:48 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id t17sm3736404wmq.17.2021.07.29.12.55.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 12:55:47 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 17/43] accel/tcg: Report unaligned atomics for
- user-only
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-18-richard.henderson@linaro.org>
- <CAFEAcA95v3bfjO23js8sf4wCsTkqeU2f0zCp8z-6wFLr6tqFcA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <dcfa2b96-720e-fcc0-b09b-396d072afa97@amsat.org>
-Date: Thu, 29 Jul 2021 21:55:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8t5O3nECuBPMNCvPwHFzPGVaRPKnW6FRtg3Tyf2SzvI=;
+ b=TBzVMsGxQZoEbKjHclXBM9WkypK2QdiLMGWPAPCZUjVMMARk7rVpIq+WQfaVtirQty
+ VOQbYq0izpqFm0UjLhYE3MIZRqi5h5ydVfLVowOdnIX7cWhsOylJ2ok7ZIKnFnkXNYhx
+ mY7tWQwa3Z8BbqklYH9BMvv0JigKefNXpxyTosOsIzYhIn930RR4BrcGOxmndwczLC7Y
+ /9zmLgsuW1xly0TQXTLciFDrTU0wvtDX+/2Fp+FudYRiH7T/swJYUBS0LAr9LfI2+/Q/
+ qzAjM6ygMe5rWP3Chbtzhf46Fa20ThmcLi/VAzJ38/kJ4NC+T8v/0+TrZ5HE4EiAjoO/
+ c8Nw==
+X-Gm-Message-State: AOAM531pQfl3iDtnrYKR8unv1RN4JM/5iMTkkSXhESo+fjfgycuO7Hm0
+ OOlCxHS9dUIolpE1sUWtld+viP54NAP4wVNpgAdo3s5MT3g1x9Ams89zJIBdkpJW1NdLxuuGNm1
+ Lm9PUpdYc0zvLFVk=
+X-Received: by 2002:a05:620a:15f6:: with SMTP id
+ p22mr7026731qkm.469.1627588834693; 
+ Thu, 29 Jul 2021 13:00:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/OInRGT/mZpd1QbaGu1tmkv5EJ7/yNWonw6uqLKVfJXc1B0pUGh2woDjRnDLFMiePVlDUyQ==
+X-Received: by 2002:a05:620a:15f6:: with SMTP id
+ p22mr7026693qkm.469.1627588834394; 
+ Thu, 29 Jul 2021 13:00:34 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id i24sm2318546qki.61.2021.07.29.13.00.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 13:00:33 -0700 (PDT)
+Date: Thu, 29 Jul 2021 16:00:32 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Message-ID: <YQMI4HLsgnfsU/Wh@t490s>
+References: <YQA+CUCWV4YDdu9C@t490s>
+ <74271964-c481-7168-2a70-ea9eb5067450@redhat.com>
+ <YQGzLl9IHod5rJRb@t490s>
+ <b54cab91-87a6-298c-e527-0f75f8c38c74@redhat.com>
+ <YQG74AsEBE0uaN4U@t490s>
+ <a1c80a40-2828-3373-c906-870f0dbb6db8@redhat.com>
+ <YQLTUIvrVe+TM/lw@t490s>
+ <df5c7623-9986-d282-2ee9-eb28908d2994@redhat.com>
+ <YQMCUHWuviDcIc+I@t490s>
+ <cebb804b-4b85-8619-0fd0-7aad5a261384@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA95v3bfjO23js8sf4wCsTkqeU2f0zCp8z-6wFLr6tqFcA@mail.gmail.com>
+In-Reply-To: <cebb804b-4b85-8619-0fd0-7aad5a261384@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.125,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,51 +104,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 5:02 PM, Peter Maydell wrote:
-> On Thu, 29 Jul 2021 at 02:09, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Use the newly exposed do_unaligned_access hook from atomic_mmu_lookup,
->> which has access to complete alignment info from the TCGMemOpIdx arg.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  accel/tcg/user-exec.c | 23 ++++++++++++++++++++++-
->>  1 file changed, 22 insertions(+), 1 deletion(-)
->>
->> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
->> index 90d1a2d327..dd77e90789 100644
->> --- a/accel/tcg/user-exec.c
->> +++ b/accel/tcg/user-exec.c
->> @@ -852,6 +852,16 @@ int cpu_signal_handler(int host_signum, void *pinfo,
->>
->>  /* The softmmu versions of these helpers are in cputlb.c.  */
->>
->> +static void cpu_unaligned_access(CPUState *cpu, vaddr addr,
->> +                                 MMUAccessType access_type,
->> +                                 int mmu_idx, uintptr_t ra)
->> +{
->> +    CPUClass *cc = CPU_GET_CLASS(cpu);
->> +
->> +    cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, ra);
->> +    g_assert_not_reached();
->> +}
+On Thu, Jul 29, 2021 at 09:39:24PM +0200, David Hildenbrand wrote:
 > 
-> The softmmu version doesn't g_assert_not_reached(), I think
-> perhaps with the intent that a CPU implementation could
-> in some cases return without raising an exception to
-> mean "continue with the unaligned access". We should decide
-> whether we want the API to permit that, or else consistently
-> have both softmmu and useronly versions be marked noreturn
-> and with an assert, and we should document whichever we choose.
+> > > In the meantime I adjusted the code but it does the clearing under the
+> > > iothread lock, which should not be what we want ... I'll have a look.
+> > 
+> > Thanks; if it takes more changes than expected we can still start from simple,
+> > IMHO, by taking bql and timely yield it.
+> > 
+> > At the meantime, I found two things in ram_init_bitmaps() that I'm not sure we
+> > need them of not:
+> > 
+> >    1. Do we need WITH_RCU_READ_LOCK_GUARD() if with both bql and ramlist lock?
+> >       (small question)
+> 
+> Good question, I'm not sure if we need it.
+> 
+> > 
+> >    2. Do we need migration_bitmap_sync_precopy() even if dirty bmap is all 1's?
+> >       (bigger question)
+> 
+> IIRC, the bitmap sync will fetch the proper dirty bitmap from KVM and set
+> the proper bits in the clear_bitmap. So once we call
+> migration_clear_memory_region_dirty_bitmap_range() etc. later we will
+> actually clear dirty bits.
 
-Agreed. I'd rather use noreturn, which exposed these bugs:
-- "target/xtensa: clean up unaligned access"
-https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg05890.html
-- "target/nios2: Mark raise_exception() as noreturn"
-https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg07001.html
+Good point, however.. then I'm wondering whether we should just init clear_bmap
+to all 1's too when init just like dirty bmap. :)
+
+Besides: let's not be affected with these details as they should be more
+suitable to be handled separately; maybe I'll follow this up.  It could be a
+place to discuss things, but shouldn't be a burden to block this series.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
