@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3701D3DA1FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:21:04 +0200 (CEST)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293C13DA20C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:24:51 +0200 (CEST)
+Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9462-0001g6-UU
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39846)
+	id 1m949i-0001LM-1z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940j-0000Pv-UA
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:37 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41638)
+ id 1m940g-0000Iy-3X
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:30 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940a-000113-67
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:31 -0400
-Received: by mail-wr1-x433.google.com with SMTP id b7so6454517wri.8
+ id 1m940a-00012B-5S
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:29 -0400
+Received: by mail-wr1-x432.google.com with SMTP id r2so6483503wrl.1
  for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lutAo5Z1ewFuThzfMPVLqlhd9Ml/H60A8yYUE67fuT0=;
- b=S4g7euqEWzT7bP4rdD2sYvFbBbwSftKuNMyQE+CZ1s+ARt7R9TS3+C6p/2rOJT2HJg
- fEYHxyHOEqppsnGzSzfi6kwZ+0tSKYqQdnQPRfA+0ITUNmrRQmLfmKLAzRSgF3FnaPJf
- rKhPjpt6l+TA72FhplyEOLwY1x8abyO0hdMG1jNnSWFuvIuUgsuNj6rWphl71XXmJnrV
- CSX+UBH6SwsI2o1Oog/UqklRbIHVd28P/8v6MPRqZsNn+F3SZ8mgNx4/k0f7C9BZzEQJ
- RSlZJOFqtShsAJuSXlp3146YPX2up/EAjLeV6fF9/Pg07V8v44hRn+v5Bo882sMevKaw
- dXzg==
+ bh=NumtafSnEiF4kjNIFtDKTqX8sKZowsVsCRz2Ds8yzEc=;
+ b=PZZBvpgo2retsmAoruoibwBJfAkNQthPHUnd1T4sSwr5naD0f8YbvQBpcc/Yobx2M8
+ WIL5YrLdK7/nDei+MRptkvqUf63mYpgsyJzitgcvoheFb7ZIwmyOZuIbNP4IiqtY8MCc
+ xrRj896WxnTCMtxIoBrfor9jCGN+ecAefzX5fT373mpNB3kiycL+OkHXnGrYBIhVTBjY
+ E8N8YH+RaHnSt8uGM601PzHoKQZqJNaP/wuyg7paUp0AADFjcy5IUQvkxUPwWrmCi9l0
+ yuw8SiS7dgZjT3LKPuJJWmkywpmjPKxGgwe6F8pMlNx4se7Pb9znp7o8DrxP4szUaRVr
+ FRaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lutAo5Z1ewFuThzfMPVLqlhd9Ml/H60A8yYUE67fuT0=;
- b=g8mf7njnT41GCC8zqwe4yciHUEMbMA3Z7Y1ye3ZM1418z5MFH+YJU4522fhq5zTh9W
- KAitZzRLug5KFJ6aICL3Z+CqmLB9GD5FmvWWZ07w+5YeQPP9Y/1ICnFKS6D7zlKqun1K
- 2F71v0vkmX3OZ3mpplsaF6cVMe9MhR+0wDKULF7tCE7jf4oZwRXnAKGEkw53tsmsWnD+
- yjkXFcHVmGB3P4ZxoldLQa0TxvySRoIW4LgVlFAHp4vrxQiBApBfa8OAXXnuUCJEWY8B
- AVqnVZuvqLrTvSjcGcPKKBcjnMjST8mXM/ym1xhCrs/FdBlI1OXJ0lAMFDf5o+xxb4AA
- vOeg==
-X-Gm-Message-State: AOAM531pG+Kqz2XpZXi2ajOqRoPoL9qi5PKdnLM0jByKyybgkQLSZMMR
- NlqYpfPLLBldUb0LpmFoCh4uLsbS+jRTKQ==
-X-Google-Smtp-Source: ABdhPJzk77pGfWEVLyH1Tqx247JuOFLjPe6wUnNFyhlz6FKsK9xMzbAEy5x6Vep7yRIGLWhNebxy+w==
-X-Received: by 2002:adf:e10c:: with SMTP id t12mr4264501wrz.36.1627557321312; 
- Thu, 29 Jul 2021 04:15:21 -0700 (PDT)
+ bh=NumtafSnEiF4kjNIFtDKTqX8sKZowsVsCRz2Ds8yzEc=;
+ b=cFpGB6A5NgV8EkwLwXCCz6PYBuNIubiTk+i0sGTL7iCFuCnqFO/Rk7BxNU93VFW/Jn
+ zTf6q521fdIaKH03WntlqnzYEspuiZ70H6CqJvBwA9aUKoFYkIkHg4FcMPgu4aN0YYwX
+ uWvE8YG3pBPbvZiHZkuaZp8FkbZthuUT/CsssdKgaWzjE/G9QZNSoseyNEGX28S6Qwyk
+ VEM1setzPeOi+RxWSz+KEMNRYmiWSWTaHvwlqsmwFietZJwGXXwAYw92RSB94kPx8GGR
+ nf3sauqkGLpYTKkfAemQaD4VauWyNSlK8i4J8k4dgpQTSUugDdqXdzDhyfRs1yJELeTg
+ MahA==
+X-Gm-Message-State: AOAM5330Bch2JpT4FJ/vg43yG01H7TybEVnVma8R6S/a9sKAxcCUNIbH
+ /g881PMoUr7jq73AYhStXokOE3wwrSzqmg==
+X-Google-Smtp-Source: ABdhPJwSR9KzEvQ7/CSivSaebU9cOIok2bVMYN81PLDbGp0gUMkeBmL2vmHm7iqMVeB4zJ+gYcYcvw==
+X-Received: by 2002:adf:dcd1:: with SMTP id x17mr4207436wrm.59.1627557322075; 
+ Thu, 29 Jul 2021 04:15:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.20
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
+ Thu, 29 Jul 2021 04:15:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 08/53] target/arm: Fix calculation of LTP mask when LR
- is 0
-Date: Thu, 29 Jul 2021 12:14:27 +0100
-Message-Id: <20210729111512.16541-9-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 09/53] target/arm: Factor out mve_eci_mask()
+Date: Thu, 29 Jul 2021 12:14:28 +0100
+Message-Id: <20210729111512.16541-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,32 +86,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In mve_element_mask(), we calculate a mask for tail predication which
-should have a number of 1 bits based on the value of LR.  However,
-our MAKE_64BIT_MASK() macro has undefined behaviour when passed a
-zero length.  Special case this to give the all-zeroes mask we
-require.
+In some situations we need a mask telling us which parts of the
+vector correspond to beats that are not being executed because of
+ECI, separately from the combined "which bytes are predicated away"
+mask.  Factor this mask calculation out of mve_element_mask() into
+its own function.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/arm/mve_helper.c | 58 ++++++++++++++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 24 deletions(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 1a4b2ef8075..bc67b86e700 100644
+index bc67b86e700..ffff280726d 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -64,7 +64,8 @@ static uint16_t mve_element_mask(CPUARMState *env)
-          */
-         int masklen = env->regs[14] << env->v7m.ltpsize;
-         assert(masklen <= 16);
--        mask &= MAKE_64BIT_MASK(0, masklen);
-+        uint16_t ltpmask = masklen ? MAKE_64BIT_MASK(0, masklen) : 0;
-+        mask &= ltpmask;
+@@ -26,6 +26,35 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
+ 
++static uint16_t mve_eci_mask(CPUARMState *env)
++{
++    /*
++     * Return the mask of which elements in the MVE vector correspond
++     * to beats being executed. The mask has 1 bits for executed lanes
++     * and 0 bits where ECI says this beat was already executed.
++     */
++    int eci;
++
++    if ((env->condexec_bits & 0xf) != 0) {
++        return 0xffff;
++    }
++
++    eci = env->condexec_bits >> 4;
++    switch (eci) {
++    case ECI_NONE:
++        return 0xffff;
++    case ECI_A0:
++        return 0xfff0;
++    case ECI_A0A1:
++        return 0xff00;
++    case ECI_A0A1A2:
++    case ECI_A0A1A2B0:
++        return 0xf000;
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ static uint16_t mve_element_mask(CPUARMState *env)
+ {
+     /*
+@@ -68,30 +97,11 @@ static uint16_t mve_element_mask(CPUARMState *env)
+         mask &= ltpmask;
      }
  
-     if ((env->condexec_bits & 0xf) == 0) {
+-    if ((env->condexec_bits & 0xf) == 0) {
+-        /*
+-         * ECI bits indicate which beats are already executed;
+-         * we handle this by effectively predicating them out.
+-         */
+-        int eci = env->condexec_bits >> 4;
+-        switch (eci) {
+-        case ECI_NONE:
+-            break;
+-        case ECI_A0:
+-            mask &= 0xfff0;
+-            break;
+-        case ECI_A0A1:
+-            mask &= 0xff00;
+-            break;
+-        case ECI_A0A1A2:
+-        case ECI_A0A1A2B0:
+-            mask &= 0xf000;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-
++    /*
++     * ECI bits indicate which beats are already executed;
++     * we handle this by effectively predicating them out.
++     */
++    mask &= mve_eci_mask(env);
+     return mask;
+ }
+ 
 -- 
 2.20.1
 
