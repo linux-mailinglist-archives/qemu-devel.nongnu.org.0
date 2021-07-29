@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5CA3DA204
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:22:03 +0200 (CEST)
-Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5153DA219
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:29:29 +0200 (CEST)
+Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9470-0003zX-1A
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39754)
+	id 1m94EC-0003SR-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940e-0000FY-TI
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:29 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41634)
+ id 1m940k-0000QI-0q
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:37 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:47095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940W-0000ze-U9
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:28 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b7so6454411wri.8
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
+ id 1m940a-00010B-5f
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:33 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c16so6427554wrp.13
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SngGo1vVY/dtcXAMZ+FWnV5QnI/yJF6vZ4XQ33WiT+w=;
- b=BU/lZOxZuQ/YyalcmqPglVnC9D2ypjEIpi2DwBz16NjDeHsYMUSODtB9HJPxQ1u/91
- VDrSsEBBBv/BbhiRO0i8+CHB9wV8PDGre4St7kn8+8kvEFKYIbqB8H3Vj9VNOi8z9cDM
- 4jERJ1CuAcvYN1ntH+3jcBGC+M2zcDJOe7QPhjbosu9lvjngnb7/2BLK2nJpkBZB5TsX
- sgOLNYJHS4Mwdfb2rUkChbRgZ+Dc9hUj3qfUDZr5oRdRHhHES2PcaY/raLYMNJMJL+Ua
- Q/VJoKW6++wf3g1ykqgG7aSu8aTXjSEO7tDoDEr2kx9ddLRVbwpgL0JwTZSzkiC5RWNW
- rJTw==
+ bh=KHg6Srrabt2i/P1wMabf21oSUvedE7e5kSg7WXSq3yY=;
+ b=dzA/zddL6DXQVfgUPv4PH0cqozt2cdld1eme+ZTUV6sOfT+OLDJVEaCgSDY+FzSnxR
+ BZsgX8GOUHy0eeDz8G/vStNLHH17b9AZhuPrljAAEAIg6sCuyYmB+oVzr/YjWL+VHjOB
+ 124p6XzEe0lc71UAEknrAQN1I5r0UzKSMAWQ+Z2p6WoxCJ08U5wRHUDE6SmKOoXJ7OGN
+ nrmzxz1fYHRorntH3bomR17oui9sPG7AGTYm7wJYFc00tnyzN3euiwu6/lLsHlayApsh
+ lnSoFGzrhL8MAXOjRd5h6GzFk4GJl5YbfhVdGI5HHVSbHf/cBTZEjGACK2LXSdW4qew5
+ 9vyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SngGo1vVY/dtcXAMZ+FWnV5QnI/yJF6vZ4XQ33WiT+w=;
- b=DZOm3ag+y8nPoumv3ALiTSqxJlQhieDTwTeJW3SQRYnaXq5JpEhHXnSWO5u5aC9lgV
- NmIMcPF8GPvyhIYo+1UjSP8m4vT+BJKBi0Qp7aDpIQnPCn529XwPCRh945XHB11OZ9MU
- rGuq9vPOg8daLgpMo0WXPallor9yvhHMxatKKgRF8L82o9d5RDzGEcmMrZ6Gs5yTceiy
- 0CKAh1ch6KaA8Z8+smTljWXfTXPMI/ou4+Xl0CFjRV7aJ7Ak6HBvexIm70gFL7RwOvsy
- 2kJEzcUnSMncrLg8tN+MarHUwnovAm6H7qMLI5q4CsOlGTAI/ahTOx0WH7JypRbCOLhn
- 94/Q==
-X-Gm-Message-State: AOAM5332akkmHkGUBTm7+zvZ2WsDK0cwOtYhmfdVItjGLzKLq24Qp4u1
- R6oFVfXVHud6ydNaNs52Mb3gNg==
-X-Google-Smtp-Source: ABdhPJzlYQlXsopXEiAnO6slvFlXfa9APv40jm1pHY3rAcFZVapN2QhIpFMFqjoHnJNsh5QkDV8pVw==
-X-Received: by 2002:adf:a409:: with SMTP id d9mr4284457wra.237.1627557319627; 
- Thu, 29 Jul 2021 04:15:19 -0700 (PDT)
+ bh=KHg6Srrabt2i/P1wMabf21oSUvedE7e5kSg7WXSq3yY=;
+ b=m+vEYZw+XxX3gtsf5yd6qnzSr3mioPnBZgWyavqtmf5UrQDLsZY8OvKVZqR21godO2
+ SwlYL4rWfkSB1Y1j9ZUkRA/Q91Y009tvK+LO6dVckannyUC9bVM2uOQJ0oDayOMMzcdw
+ xpbWXsXWcEUt5NFPFQ3Zfefv2470ivp1JihrhDI8Cc28Qgy3bYU/7CqvaRU3TLIokFOz
+ /+NVVsyaHMszEi0iz+rggyEV3eJZYKGNOAMTx/p9NRzSWMVWPG5bAkeG0rn9GenphF8/
+ 940XHvCJutlRNY/iZKKrmLBTQMZQ1QJx1V3/jpUptXAgA02Y1AN+6glSrlLb5/o2H6rk
+ WoBQ==
+X-Gm-Message-State: AOAM5312Hm0XArDffjw4oleMJPQeG6TkjNITpwpuCedeVtHhhSyJ9sI1
+ FxSK1fvSLnxUEgqbzq0DSKeI5w==
+X-Google-Smtp-Source: ABdhPJx9IRd7dXOldI4aiu1IO/1iEsQAd7scPCTDBCk09B1b25Lzv98SnpvRQyY0cJd/X6unryuITA==
+X-Received: by 2002:a5d:5412:: with SMTP id g18mr4320538wrv.301.1627557320596; 
+ Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.18
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:19 -0700 (PDT)
+ Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 06/53] target/arm: Fix 48-bit saturating shifts
-Date: Thu, 29 Jul 2021 12:14:25 +0100
-Message-Id: <20210729111512.16541-7-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 07/53] target/arm: Fix MVE 48-bit SQRSHRL for small
+ right shifts
+Date: Thu, 29 Jul 2021 12:14:26 +0100
+Message-Id: <20210729111512.16541-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
@@ -64,12 +65,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
  envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,69 +87,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In do_sqrshl48_d() and do_uqrshl48_d() we got some of the edge
-cases wrong and failed to saturate correctly:
+We got an edge case wrong in the 48-bit SQRSHRL implementation: if
+the shift is to the right, although it always makes the result
+smaller than the input value it might not be within the 48-bit range
+the result is supposed to be if the input had some bits in [63..48]
+set and the shift didn't bring all of those within the [47..0] range.
 
-(1) In do_sqrshl48_d() we used the same code that do_shrshl_bhs()
-does to obtain the saturated most-negative and most-positive 48-bit
-signed values for the large-shift-left case.  This gives (1 << 47)
-for saturate-to-most-negative, but we weren't sign-extending this
-value to the 64-bit output as the pseudocode requires.
-
-(2) For left shifts by less than 48, we copied the "8/16 bit" code
-from do_sqrshl_bhs() and do_uqrshl_bhs().  This doesn't do the right
-thing because it assumes the C type we're working with is at least
-twice the number of bits we're saturating to (so that a shift left by
-bits-1 can't shift anything off the top of the value).  This isn't
-true for bits == 48, so we would incorrectly return 0 rather than the
-most-positive value for situations like "shift (1 << 44) right by
-20".  Instead check for saturation by doing the shift and signextend
-and then testing whether shifting back left again gives the original
-value.
+Handle this similarly to the way we already do for this case in
+do_uqrshl48_d(): extend the calculated result from 48 bits,
+and return that if not saturating or if it doesn't change the
+result; otherwise fall through to return a saturated value.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Not squashed into the previous patch because that one has already
+been reviewed, so as this fixes a different edge case I thought
+it clearer kept separate.
+---
+ target/arm/mve_helper.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 847ef5156ad..5730b48f35e 100644
+index 5730b48f35e..1a4b2ef8075 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1576,9 +1576,8 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
+@@ -1563,6 +1563,8 @@ uint64_t HELPER(mve_uqrshll)(CPUARMState *env, uint64_t n, uint32_t shift)
+ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
+                                     bool round, uint32_t *sat)
+ {
++    int64_t val, extval;
++
+     if (shift <= -48) {
+         /* Rounding the sign bit always produces 0. */
+         if (round) {
+@@ -1572,9 +1574,14 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
+     } else if (shift < 0) {
+         if (round) {
+             src >>= -shift - 1;
+-            return (src >> 1) + (src & 1);
++            val = (src >> 1) + (src & 1);
++        } else {
++            val = src >> -shift;
++        }
++        extval = sextract64(val, 0, 48);
++        if (!sat || val == extval) {
++            return extval;
          }
-         return src >> -shift;
+-        return src >> -shift;
      } else if (shift < 48) {
--        int64_t val = src << shift;
--        int64_t extval = sextract64(val, 0, 48);
--        if (!sat || val == extval) {
-+        int64_t extval = sextract64(src << shift, 0, 48);
-+        if (!sat || src == (extval >> shift)) {
-             return extval;
-         }
-     } else if (!sat || src == 0) {
-@@ -1586,7 +1585,7 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
-     }
- 
-     *sat = 1;
--    return (1ULL << 47) - (src >= 0);
-+    return src >= 0 ? MAKE_64BIT_MASK(0, 47) : MAKE_64BIT_MASK(47, 17);
- }
- 
- /* Operate on 64-bit values, but saturate at 48 bits */
-@@ -1609,9 +1608,8 @@ static inline uint64_t do_uqrshl48_d(uint64_t src, int64_t shift,
-             return extval;
-         }
-     } else if (shift < 48) {
--        uint64_t val = src << shift;
--        uint64_t extval = extract64(val, 0, 48);
--        if (!sat || val == extval) {
-+        uint64_t extval = extract64(src << shift, 0, 48);
-+        if (!sat || src == (extval >> shift)) {
-             return extval;
-         }
-     } else if (!sat || src == 0) {
+         int64_t extval = sextract64(src << shift, 0, 48);
+         if (!sat || src == (extval >> shift)) {
 -- 
 2.20.1
 
