@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0235C3D9D9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 08:26:08 +0200 (CEST)
-Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAA13D9DA1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 08:28:16 +0200 (CEST)
+Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8zUd-0002If-3N
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 02:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60230)
+	id 1m8zWh-0005Rc-Ij
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 02:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8zSt-0000cf-AN
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:24:19 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8zSq-0008PE-Ao
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:24:18 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gb0l60Bhnzcjlx;
- Thu, 29 Jul 2021 14:20:34 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 29 Jul 2021 14:24:03 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 29 Jul 2021 14:24:01 +0800
-Subject: Re: [PATCH for-6.2 v3 01/11] machine: Minor refactor/cleanup for the
- smp parsers
-To: Andrew Jones <drjones@redhat.com>
-References: <20210728034848.75228-1-wangyanan55@huawei.com>
- <20210728034848.75228-2-wangyanan55@huawei.com>
- <20210728201649.g4gx644sciq2junf@gator>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <1605c460-1baa-18ce-b08d-561cc32b4035@huawei.com>
-Date: Thu, 29 Jul 2021 14:24:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m8zVc-0003yR-1A
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:27:08 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m8zVa-0002eE-Ee
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:27:07 -0400
+Received: by mail-wr1-x435.google.com with SMTP id n12so5441827wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 23:27:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vgVdneSZqHX+W3l0L++BT6bYcw5BpTc5teDdNybZ2Po=;
+ b=YQKpbOOhLwGe9gvmuxV1Gozd3PyGwltD8tqDP6h5UwR42/xniEFarZAGyVWYwg5eov
+ 8WFY1YCvWUaWkdNXZLjFXjIhv1kSfe0zwSN8KnNGAaWycHiqZsqKxiohYg4qXqJjvhjM
+ Bc6Jz/oVcEr1gUKddMyEkbXp4w/PgcpYl2W+ZLHZoZgGWTGD8eU5SNLDTBfmt9OQ0hFS
+ mRkn69u/nriOaGMnRNV5KfFsrPnMrhZbc9lCnozQmAeFwOGHB+ooRCZR2ZWkE1PyNFmU
+ 3JvEZdCx5jcXXHAC/ca4YoRpI41bZMJFXygKSt8BQ97ZJbRyaVYawXf6TvlIHA5L3Bi/
+ 6Lyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vgVdneSZqHX+W3l0L++BT6bYcw5BpTc5teDdNybZ2Po=;
+ b=duH9xO6FaXcdyXFQ/W+F8DN+6PdX1k+JsVZUXANlP0Dviq7pNrxXlP32US1Q5Xhe74
+ lkNwiQVHOFtXloswlYSM/z2DNWrGhHQm3SEKSxtgW5PrrLW/PTN9aKLaMiKvu5tEPJmk
+ R4nQL0xeBNlGfCudgJ3GJAzw4yn2pLCuFaK3pWVXL3G67RLs9LewCiIXCOvp8zKlkRL3
+ UXZ0qM1TXGA6vZN8WgT101VDJZov2HZMIafWhqyHZqd8UHX9aRznLl1HIoQRkVd03eBR
+ 9jm/JCy7/F0yucAsNt+2XL212EPxQiB8SVzBpAeOKfgS0StFQGbCqfY7/XHcfWJptdd8
+ jL9w==
+X-Gm-Message-State: AOAM531mG3Hn8hKwq2Da5OhIvikrTSu1CtVbICJSzGlG5afa9tg/ImN+
+ n1nL/9hC6+5HGJ0FvBJaiGOQp3lXR+CNKQ==
+X-Google-Smtp-Source: ABdhPJzx+HdTCTJI68hSFmzK1EA1fadmYSxHUftxjDLxaw4Tl/Tm6nQqud9k7zELksIDl3K06Vbhfg==
+X-Received: by 2002:adf:ed4a:: with SMTP id u10mr2877974wro.86.1627540024767; 
+ Wed, 28 Jul 2021 23:27:04 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id a8sm2044210wrt.61.2021.07.28.23.27.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 23:27:04 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 20/43] tcg: Rename TCGMemOpIdx to MemOpIdx
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-21-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <89845d05-91ac-f9ae-cf8e-52ef7bbbcd5c@amsat.org>
+Date: Thu, 29 Jul 2021 08:27:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728201649.g4gx644sciq2junf@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210729004647.282017-21-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.277,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,68 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/29 4:16, Andrew Jones wrote:
-> On Wed, Jul 28, 2021 at 11:48:38AM +0800, Yanan Wang wrote:
->> To pave the way for the functional improvement in later patches,
->> make some refactor/cleanup for the smp parsers, including using
->> local maxcpus instead of ms->smp.max_cpus in the calculation,
->> defaulting dies to 0 initially like other members, cleanup the
->> sanity check for dies.
->>
->> No functional change intended.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/core/machine.c | 19 +++++++++++--------
->>   hw/i386/pc.c      | 23 ++++++++++++++---------
->>   2 files changed, 25 insertions(+), 17 deletions(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index e1533dfc47..ffc0629854 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -747,9 +747,11 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>       unsigned cores   = config->has_cores ? config->cores : 0;
->>       unsigned threads = config->has_threads ? config->threads : 0;
->> +    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
->>   
->> -    if (config->has_dies && config->dies != 0 && config->dies != 1) {
->> +    if (config->has_dies && config->dies > 1) {
->>           error_setg(errp, "dies not supported by this machine's CPU topology");
->> +        return;
->>       }
->>   
->>       /* compute missing values, prefer sockets over cores over threads */
->> @@ -760,8 +762,8 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>               sockets = sockets > 0 ? sockets : 1;
->>               cpus = cores * threads * sockets;
->>           } else {
->> -            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
->> -            sockets = ms->smp.max_cpus / (cores * threads);
->> +            maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> +            sockets = maxcpus / (sockets * cores);
-> Should be divided by (cores * threads) like before.
-Absolutely... Will fix it.
+On 7/29/21 2:46 AM, Richard Henderson wrote:
+> We're about to move this out of tcg.h, so rename it
+> as we did when moving MemOp.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/atomic_template.h   | 24 +++++------
+>  include/tcg/tcg.h             | 74 ++++++++++++++++-----------------
+>  accel/tcg/cputlb.c            | 78 +++++++++++++++++------------------
+>  accel/tcg/user-exec.c         |  2 +-
+>  target/arm/helper-a64.c       | 16 +++----
+>  target/arm/m_helper.c         |  2 +-
+>  target/i386/tcg/mem_helper.c  |  4 +-
+>  target/m68k/op_helper.c       |  2 +-
+>  target/mips/tcg/msa_helper.c  |  6 +--
+>  target/s390x/tcg/mem_helper.c | 20 ++++-----
+>  target/sparc/ldst_helper.c    |  2 +-
+>  tcg/optimize.c                |  2 +-
+>  tcg/tcg-op.c                  | 12 +++---
+>  tcg/tcg.c                     |  2 +-
+>  tcg/tci.c                     | 14 +++----
+>  accel/tcg/atomic_common.c.inc |  6 +--
+>  tcg/aarch64/tcg-target.c.inc  | 14 +++----
+>  tcg/arm/tcg-target.c.inc      | 10 ++---
+>  tcg/i386/tcg-target.c.inc     | 10 ++---
+>  tcg/mips/tcg-target.c.inc     | 12 +++---
+>  tcg/ppc/tcg-target.c.inc      | 10 ++---
+>  tcg/riscv/tcg-target.c.inc    | 16 +++----
+>  tcg/s390/tcg-target.c.inc     | 10 ++---
+>  tcg/sparc/tcg-target.c.inc    |  4 +-
+>  tcg/tcg-ldst.c.inc            |  2 +-
+>  25 files changed, 177 insertions(+), 177 deletions(-)
 
-Thanks,
-Yanan
-> Thanks,
-> drew
->
-> .
+Maybe mention "mechanical change using sed".
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
