@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188E63DA236
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:34:12 +0200 (CEST)
-Received: from localhost ([::1]:45330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F4D3DA20D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:25:34 +0200 (CEST)
+Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m94Ik-0003xw-VW
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40238)
+	id 1m94AP-0002bY-B6
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:25:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940y-0000fy-WA
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:49 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38909)
+ id 1m9415-0000sP-9N
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:55 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940j-0001CX-Lg
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:48 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- o5-20020a1c4d050000b02901fc3a62af78so6568975wmh.3
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:33 -0700 (PDT)
+ id 1m940k-0001DF-IE
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:54 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ f18-20020a05600c4e92b0290253c32620e7so6334972wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wKy0dzwUb/umCJpYC/xTp1e1IUqKJL1s4VW/DPW/sww=;
- b=Zq0HSg9xfVC9uUGymhEm0+zrU9l2afdmPdU1lg3PkCDk0mbpn4fEHZ3ia9L6wTMqxN
- pPVZGnZp8wL7U05z7aVY/zqN7EToqHH/zPvTzPt3PbfIRKJOD3udfbQJT0vvIv0Z/hbS
- vQmxyl8fyOM0S2a6xPtP5/w+sOf8OJttmHrjOXsF6nNEt+1ZX9JDzhzRLZu9JtXsUZii
- H+Qotk2rPjMSAYKqwJRJXfbQWPcbsDhfwIxbhRWLOTaSUv0lEm5lhNGs78/NEqwleyo4
- 4H+aO4cpZhWYsKRLdSega1R747io7/d71AwUH2XT2DnAc4lDhHY4AXPtLo1cmjKb8Qz4
- VLCA==
+ bh=wLBDTVo8uPxsFMze+DTZAhzyPrmDpywm7k5ga1QcofA=;
+ b=Cz8OiGqNYdKuO89rG3X4DMgkrWt+6eQa1VhzC1z3eZw+ifWJkcL90dliz07Gy8gWES
+ HsRTEBONsSvtXn+iUCiwbs2oiX4q4VXfYS7AgxdECut2onxqcfS6ljXFyTzsIJjeJO9h
+ tNNYvnJ6K3dksiM+mPE/MqlRALxixDoYJ4UBR7bpUXuNRCfYLPGmXekJb1dHxB5O0EQz
+ WlBTzfrKk03Gap4kqeZbTAj83xrci1McizG1Xkt/Q1B+3chVqrT13abNi+oV62wMXNB1
+ 42V9AZDvZg4U+IKP4IlcJSfobt9P6EniuXJh9M2dJJoSpKWuDxvfptru6B/U5fVOlcXz
+ uD5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wKy0dzwUb/umCJpYC/xTp1e1IUqKJL1s4VW/DPW/sww=;
- b=NfFYJVY67fiSIBJ9CB0MkP2SbYtuY1gPsv1XF4c0L8JUO0CjB5QngxQF7VtqGHzta9
- Itx/r63xjJZpd61DKPCA/REP11nYsBRuiKt+nC6McRArJ+QLtSFT0xTb8E9Bxn/aXmFj
- za3T42e2WZHA2ZDyadrpXK8qde7bOjAjqn4b6aJDHgi65OK/vy9ePF9xKna3TapXlAGj
- KmuBotbcyBlVunrp8HGR36vuBVheYBWpfIF2av1PEK9UDPHPV4hOL0M9P2xCSMQFBvcD
- 7xrIozIEaFWPyeKZMcaxuG0QWTtdaZ/7JEER9nUs0Fk/DuNA9kqmErvWT+uLzcCyxzv9
- CjAg==
-X-Gm-Message-State: AOAM531crYYqKOsxSy7S3LhKqAwK+vEwc+zMhnIM8Fr26C562axalzST
- AHyk7xrzyxkwVJXqritYwkj9QQ==
-X-Google-Smtp-Source: ABdhPJym6X/QUDXFX36F+j2PSRb6dq+T+8ZOSo3Xmu2uA0dslpu2epLnNjJnaOE/OBMWtgv/d5gw6A==
-X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr4224738wmk.51.1627557332183; 
- Thu, 29 Jul 2021 04:15:32 -0700 (PDT)
+ bh=wLBDTVo8uPxsFMze+DTZAhzyPrmDpywm7k5ga1QcofA=;
+ b=a7mi4s6dT4FxTemS0mjXKbxDREagW4Wva79m/Y1//ErJuDr0+6RWRv6lun/IorZXVm
+ BDLXct/x/EICM+DoczjrnnYUDgftMO6ULn+xICbOv/wvspBgHEUx3Lq+TN52SBHxHTVW
+ WTnCTkCpZWWbTK18oaYAv1RJwiY1p5y4Ym4iBHS5W6Q7vS7AInk+zdZR+MSwDdxVmLAl
+ QMylq8oXP3ARYDUl3hsi36/8BxZRyx8mEBs2p0x0mNcCM2L7Y2s479l/AD6bpWoOmXLZ
+ xQZlPqRht45iLco1pi6szWDX6H9KUVVnxOR+3DXijgXT4IEzl7FWrbxVsbxQj5xePyaR
+ Hm2Q==
+X-Gm-Message-State: AOAM5333BoWGu2UtIuS4bTb0xGEr+Vd6lDIyBI3Wv0N5q9iqqVZPmvyV
+ zL7c5dgE1DxQmzSHC2qndCddUQ==
+X-Google-Smtp-Source: ABdhPJyDNg3DBAIGotuOpfOtgKDJ2im4K+5Q1dO0Vi7qYEQQGaMq0nW+UQrx4s37N2+inFKa2nPOPQ==
+X-Received: by 2002:a05:600c:33a6:: with SMTP id
+ o38mr7760134wmp.131.1627557333007; 
+ Thu, 29 Jul 2021 04:15:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.31
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:31 -0700 (PDT)
+ Thu, 29 Jul 2021 04:15:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 21/53] target/arm: Implement MVE integer min/max
- across vector
-Date: Thu, 29 Jul 2021 12:14:40 +0100
-Message-Id: <20210729111512.16541-22-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 22/53] target/arm: Implement MVE VABAV
+Date: Thu, 29 Jul 2021 12:14:41 +0100
+Message-Id: <20210729111512.16541-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,198 +88,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE integer min/max across vector insns
-VMAXV, VMINV, VMAXAV and VMINAV, which find the maximum
-from the vector elements and a general purpose register,
-and store the maximum back into the general purpose
-register.
-
-These insns overlap with VRMLALDAVH (they use what would
-be RdaHi=0b110).
+Implement the MVE VABAV insn, which computes absolute differences
+between elements of two vectors and accumulates the result into
+a general purpose register.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Changes v1->v2: Drop the harmless but unnecessary
-"take abs value of 'n'" part of do_maxa() and do_mina()
----
- target/arm/helper-mve.h    | 20 ++++++++++++
- target/arm/mve.decode      | 18 +++++++++--
- target/arm/mve_helper.c    | 66 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c | 48 +++++++++++++++++++++++++++
- 4 files changed, 150 insertions(+), 2 deletions(-)
+ target/arm/helper-mve.h    |  7 +++++++
+ target/arm/mve.decode      |  6 ++++++
+ target/arm/mve_helper.c    | 26 +++++++++++++++++++++++
+ target/arm/translate-mve.c | 43 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 82 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 0ee5ea3cabd..2c66fcba792 100644
+index 2c66fcba792..c7e7aab2cbb 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -379,6 +379,26 @@ DEF_HELPER_FLAGS_3(mve_vaddvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
- DEF_HELPER_FLAGS_3(mve_vaddvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
- DEF_HELPER_FLAGS_3(mve_vaddvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
- 
-+DEF_HELPER_FLAGS_3(mve_vmaxvsb, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxvsh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxvub, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxavb, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxavh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vmaxavw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vminvsb, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminvsh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminvub, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminavb, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminavh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vminavw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+
+@@ -402,6 +402,13 @@ DEF_HELPER_FLAGS_3(mve_vminavw, TCG_CALL_NO_WG, i32, env, ptr, i32)
  DEF_HELPER_FLAGS_3(mve_vaddlv_s, TCG_CALL_NO_WG, i64, env, ptr, i64)
  DEF_HELPER_FLAGS_3(mve_vaddlv_u, TCG_CALL_NO_WG, i64, env, ptr, i64)
  
++DEF_HELPER_FLAGS_4(mve_vabavsb, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vabavsh, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vabavsw, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vabavub, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vabavuh, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vabavuw, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++
+ DEF_HELPER_FLAGS_3(mve_vmovi, TCG_CALL_NO_WG, void, env, ptr, i64)
+ DEF_HELPER_FLAGS_3(mve_vandi, TCG_CALL_NO_WG, void, env, ptr, i64)
+ DEF_HELPER_FLAGS_3(mve_vorri, TCG_CALL_NO_WG, void, env, ptr, i64)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index bdcd660aaf4..83dc0300d69 100644
+index 83dc0300d69..c8a06edca78 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -40,6 +40,7 @@
- &vcmp qm qn size mask
+@@ -41,6 +41,7 @@
  &vcmp_scalar qn rm size mask
  &shl_scalar qda rm size
-+&vmaxv qm rda size
+ &vmaxv qm rda size
++&vabav qn qm rda size
  
  @vldr_vstr ....... . . . . l:1 rn:4 ... ...... imm:7 &vldr_vstr qd=%qd u=0
  # Note that both Rn and Qd are 3 bits only (no D bit)
-@@ -97,6 +98,8 @@
- @vcmp_scalar .... .... .. size:2 qn:3 . .... .... .... rm:4 &vcmp_scalar \
-              mask=%mask_22_13
+@@ -386,6 +387,11 @@ VMLAS            111- 1110 0 . .. ... 1 ... 1 1110 . 100 .... @2scalar
+                  rdahi=%rdahi rdalo=%rdalo
+ }
  
-+@vmaxv .... .... .... size:2 .. rda:4 .... .... .... &vmaxv qm=%qm
++@vabav           .... .... .. size:2 .... rda:4 .... .... .... &vabav qn=%qn qm=%qm
 +
- # Vector loads and stores
- 
- # Widening loads and narrowing stores:
-@@ -314,8 +317,19 @@ VMLALDAV_U       1111 1110 1 ... ... . ... . 1110 . 0 . 0 ... 0 @vmlaldav
- 
- VMLSLDAV         1110 1110 1 ... ... . ... . 1110 . 0 . 0 ... 1 @vmlaldav
- 
--VRMLALDAVH_S     1110 1110 1 ... ... 0 ... . 1111 . 0 . 0 ... 0 @vmlaldav_nosz
--VRMLALDAVH_U     1111 1110 1 ... ... 0 ... . 1111 . 0 . 0 ... 0 @vmlaldav_nosz
-+{
-+  VMAXV_S        1110 1110 1110  .. 10 ....  1111 0 0 . 0 ... 0 @vmaxv
-+  VMINV_S        1110 1110 1110  .. 10 ....  1111 1 0 . 0 ... 0 @vmaxv
-+  VMAXAV         1110 1110 1110  .. 00 ....  1111 0 0 . 0 ... 0 @vmaxv
-+  VMINAV         1110 1110 1110  .. 00 ....  1111 1 0 . 0 ... 0 @vmaxv
-+  VRMLALDAVH_S   1110 1110 1 ... ... 0 ... . 1111 . 0 . 0 ... 0 @vmlaldav_nosz
-+}
++VABAV_S          111 0 1110 10 .. ... 0 .... 1111 . 0 . 0 ... 1 @vabav
++VABAV_U          111 1 1110 10 .. ... 0 .... 1111 . 0 . 0 ... 1 @vabav
 +
-+{
-+  VMAXV_U        1111 1110 1110  .. 10 ....  1111 0 0 . 0 ... 0 @vmaxv
-+  VMINV_U        1111 1110 1110  .. 10 ....  1111 1 0 . 0 ... 0 @vmaxv
-+  VRMLALDAVH_U   1111 1110 1 ... ... 0 ... . 1111 . 0 . 0 ... 0 @vmlaldav_nosz
-+}
+ # Logical immediate operations (1 reg and modified-immediate)
  
- VRMLSLDAVH       1111 1110 1 ... ... 0 ... . 1110 . 0 . 0 ... 1 @vmlaldav_nosz
- 
+ # The cmode/op bits here decode VORR/VBIC/VMOV/VMVN, but
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index ac608fc524b..924ad7f2bdc 100644
+index 924ad7f2bdc..fed0f3cd610 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1254,6 +1254,72 @@ DO_VADDV(vaddvub, 1, uint8_t)
- DO_VADDV(vaddvuh, 2, uint16_t)
- DO_VADDV(vaddvuw, 4, uint32_t)
+@@ -1320,6 +1320,32 @@ DO_VMAXMINV(vminavb, 1, int8_t, uint8_t, do_mina)
+ DO_VMAXMINV(vminavh, 2, int16_t, uint16_t, do_mina)
+ DO_VMAXMINV(vminavw, 4, int32_t, uint32_t, do_mina)
  
-+/*
-+ * Vector max/min across vector. Unlike VADDV, we must
-+ * read ra as the element size, not its full width.
-+ * We work with int64_t internally for simplicity.
-+ */
-+#define DO_VMAXMINV(OP, ESIZE, TYPE, RATYPE, FN)                \
-+    uint32_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vm, \
-+                                    uint32_t ra_in)             \
++#define DO_VABAV(OP, ESIZE, TYPE)                               \
++    uint32_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vn, \
++                                    void *vm, uint32_t ra)      \
 +    {                                                           \
 +        uint16_t mask = mve_element_mask(env);                  \
 +        unsigned e;                                             \
-+        TYPE *m = vm;                                           \
-+        int64_t ra = (RATYPE)ra_in;                             \
++        TYPE *m = vm, *n = vn;                                  \
 +        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {      \
 +            if (mask & 1) {                                     \
-+                ra = FN(ra, m[H##ESIZE(e)]);                    \
++                int64_t n0 = n[H##ESIZE(e)];                    \
++                int64_t m0 = m[H##ESIZE(e)];                    \
++                uint32_t r = n0 >= m0 ? (n0 - m0) : (m0 - n0);  \
++                ra += r;                                        \
 +            }                                                   \
 +        }                                                       \
 +        mve_advance_vpt(env);                                   \
 +        return ra;                                              \
-+    }                                                           \
-+
-+#define DO_VMAXMINV_U(INSN, FN)                         \
-+    DO_VMAXMINV(INSN##b, 1, uint8_t, uint8_t, FN)       \
-+    DO_VMAXMINV(INSN##h, 2, uint16_t, uint16_t, FN)     \
-+    DO_VMAXMINV(INSN##w, 4, uint32_t, uint32_t, FN)
-+#define DO_VMAXMINV_S(INSN, FN)                         \
-+    DO_VMAXMINV(INSN##b, 1, int8_t, int8_t, FN)         \
-+    DO_VMAXMINV(INSN##h, 2, int16_t, int16_t, FN)       \
-+    DO_VMAXMINV(INSN##w, 4, int32_t, int32_t, FN)
-+
-+/*
-+ * Helpers for max and min of absolute values across vector:
-+ * note that we only take the absolute value of 'm', not 'n'
-+ */
-+static int64_t do_maxa(int64_t n, int64_t m)
-+{
-+    if (m < 0) {
-+        m = -m;
 +    }
-+    return MAX(n, m);
-+}
 +
-+static int64_t do_mina(int64_t n, int64_t m)
-+{
-+    if (m < 0) {
-+        m = -m;
-+    }
-+    return MIN(n, m);
-+}
-+
-+DO_VMAXMINV_S(vmaxvs, DO_MAX)
-+DO_VMAXMINV_U(vmaxvu, DO_MAX)
-+DO_VMAXMINV_S(vminvs, DO_MIN)
-+DO_VMAXMINV_U(vminvu, DO_MIN)
-+/*
-+ * VMAXAV, VMINAV treat the general purpose input as unsigned
-+ * and the vector elements as signed.
-+ */
-+DO_VMAXMINV(vmaxavb, 1, int8_t, uint8_t, do_maxa)
-+DO_VMAXMINV(vmaxavh, 2, int16_t, uint16_t, do_maxa)
-+DO_VMAXMINV(vmaxavw, 4, int32_t, uint32_t, do_maxa)
-+DO_VMAXMINV(vminavb, 1, int8_t, uint8_t, do_mina)
-+DO_VMAXMINV(vminavh, 2, int16_t, uint16_t, do_mina)
-+DO_VMAXMINV(vminavw, 4, int32_t, uint32_t, do_mina)
++DO_VABAV(vabavsb, 1, int8_t)
++DO_VABAV(vabavsh, 2, int16_t)
++DO_VABAV(vabavsw, 4, int32_t)
++DO_VABAV(vabavub, 1, uint8_t)
++DO_VABAV(vabavuh, 2, uint16_t)
++DO_VABAV(vabavuw, 4, uint32_t)
 +
  #define DO_VADDLV(OP, TYPE, LTYPE)                              \
      uint64_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vm, \
                                      uint64_t ra)                \
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 44731fc4eb7..2fce74f86ab 100644
+index 2fce74f86ab..247f6719e6f 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -1321,3 +1321,51 @@ DO_VCMP(VCMPGE, vcmpge)
- DO_VCMP(VCMPLT, vcmplt)
- DO_VCMP(VCMPGT, vcmpgt)
- DO_VCMP(VCMPLE, vcmple)
+@@ -45,6 +45,7 @@ typedef void MVEGenVIDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32);
+ typedef void MVEGenVIWDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32);
+ typedef void MVEGenCmpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
+ typedef void MVEGenScalarCmpFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
++typedef void MVEGenVABAVFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
+ 
+ /* Return the offset of a Qn register (same semantics as aa32_vfp_qreg()) */
+ static inline long mve_qreg_offset(unsigned reg)
+@@ -1369,3 +1370,45 @@ DO_VMAXV(VMAXAV, vmaxav)
+ DO_VMAXV(VMINV_S, vminvs)
+ DO_VMAXV(VMINV_U, vminvu)
+ DO_VMAXV(VMINAV, vminav)
 +
-+static bool do_vmaxv(DisasContext *s, arg_vmaxv *a, MVEGenVADDVFn fn)
++static bool do_vabav(DisasContext *s, arg_vabav *a, MVEGenVABAVFn *fn)
 +{
-+    /*
-+     * MIN/MAX operations across a vector: compute the min or
-+     * max of the initial value in a general purpose register
-+     * and all the elements in the vector, and store it back
-+     * into the general purpose register.
-+     */
-+    TCGv_ptr qm;
++    /* Absolute difference accumulated across vector */
++    TCGv_ptr qn, qm;
 +    TCGv_i32 rda;
 +
-+    if (!dc_isar_feature(aa32_mve, s) || !mve_check_qreg_bank(s, a->qm) ||
++    if (!dc_isar_feature(aa32_mve, s) ||
++        !mve_check_qreg_bank(s, a->qm | a->qn) ||
 +        !fn || a->rda == 13 || a->rda == 15) {
 +        /* Rda cases are UNPREDICTABLE */
 +        return false;
@@ -289,32 +214,30 @@ index 44731fc4eb7..2fce74f86ab 100644
 +    }
 +
 +    qm = mve_qreg_ptr(a->qm);
++    qn = mve_qreg_ptr(a->qn);
 +    rda = load_reg(s, a->rda);
-+    fn(rda, cpu_env, qm, rda);
++    fn(rda, cpu_env, qn, qm, rda);
 +    store_reg(s, a->rda, rda);
 +    tcg_temp_free_ptr(qm);
++    tcg_temp_free_ptr(qn);
 +    mve_update_eci(s);
 +    return true;
 +}
 +
-+#define DO_VMAXV(INSN, FN)                                      \
-+    static bool trans_##INSN(DisasContext *s, arg_vmaxv *a)     \
++#define DO_VABAV(INSN, FN)                                      \
++    static bool trans_##INSN(DisasContext *s, arg_vabav *a)     \
 +    {                                                           \
-+        static MVEGenVADDVFn * const fns[] = {                  \
++        static MVEGenVABAVFn * const fns[] = {                  \
 +            gen_helper_mve_##FN##b,                             \
 +            gen_helper_mve_##FN##h,                             \
 +            gen_helper_mve_##FN##w,                             \
 +            NULL,                                               \
 +        };                                                      \
-+        return do_vmaxv(s, a, fns[a->size]);                    \
++        return do_vabav(s, a, fns[a->size]);                    \
 +    }
 +
-+DO_VMAXV(VMAXV_S, vmaxvs)
-+DO_VMAXV(VMAXV_U, vmaxvu)
-+DO_VMAXV(VMAXAV, vmaxav)
-+DO_VMAXV(VMINV_S, vminvs)
-+DO_VMAXV(VMINV_U, vminvu)
-+DO_VMAXV(VMINAV, vminav)
++DO_VABAV(VABAV_S, vabavs)
++DO_VABAV(VABAV_U, vabavu)
 -- 
 2.20.1
 
