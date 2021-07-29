@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD7B3DA36B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:54:28 +0200 (CEST)
-Received: from localhost ([::1]:49978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F783DA3A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 15:03:43 +0200 (CEST)
+Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m95YR-0001We-QG
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1m95hO-0000Ud-FC
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 09:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95VZ-00053g-4z
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25090)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95Vb-00059G-6T
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95VX-0001v2-B9
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:28 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95VZ-0001xZ-D3
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627563086;
+ s=mimecast20190719; t=1627563088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P2G7uEUlC1wBa+DO0orPvkKIN2JlSfV8MvgpAs3qKe0=;
- b=SKd9kiR3nxMgJbCvtccUVaHs1WQLAoArzixN3dCJqfKL+16/sDlo3LybOMqW9eQDronIBF
- IQx8BjgQ4/PLE6AL4FJ7eatXFpslKNCu71IYge/n4Ojdk4NpBh3B7jr8mxsmEPFbarxzLc
- 7D9nH3FH2IUcRBnogwtsFzXVpdGpijE=
+ bh=wMludD6UGs3ht2eHfU0N4k6LyN19995Gi/P5zkCnfoA=;
+ b=S4X6nJjkcgEQ2i4RPvZi/R4CjYLg2idM8wZfAS1/Sm+7L9hCUcOtLVrdIO5A5KnoqKvBeV
+ fkQxQYqi54PBSSoszfRRoMhzBk3jiTCah4QQF0ss/lEYk+ejyp545WQ9a+WysLoNGbzrmJ
+ 69EPKG7qswKd171rgO+SI1IbONUw3R0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-JLKiq9QLOJyyupNXBnroFw-1; Thu, 29 Jul 2021 08:51:23 -0400
-X-MC-Unique: JLKiq9QLOJyyupNXBnroFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-453-X5f9QunaOBmyvRxl_m1r-w-1; Thu, 29 Jul 2021 08:51:27 -0400
+X-MC-Unique: X5f9QunaOBmyvRxl_m1r-w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6398E107ACF5;
- Thu, 29 Jul 2021 12:51:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53AE492505;
+ Thu, 29 Jul 2021 12:51:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B56D5C1D1;
- Thu, 29 Jul 2021 12:51:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00CA126E5E;
+ Thu, 29 Jul 2021 12:51:15 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D2B661800981; Thu, 29 Jul 2021 14:50:44 +0200 (CEST)
+ id E1DAF1800982; Thu, 29 Jul 2021 14:50:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] docs: Fold usb2.txt physical port addressing info into
- usb.rst
-Date: Thu, 29 Jul 2021 14:50:43 +0200
-Message-Id: <20210729125044.3531457-7-kraxel@redhat.com>
+Subject: [PULL 7/7] docs: Fold usb2.txt passthrough information into usb.rst
+Date: Thu, 29 Jul 2021 14:50:44 +0200
+Message-Id: <20210729125044.3531457-8-kraxel@redhat.com>
 In-Reply-To: <20210729125044.3531457-1-kraxel@redhat.com>
 References: <20210729125044.3531457-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,104 +89,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Fold the usb2.txt documentation about specifying which physical
-port a USB device should use into usb.rst.
+Fold the usb2.txt information on device passthrough into usb.rst;
+since this is the last part of the .txt file we can delete it now.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210728141457.14825-4-peter.maydell@linaro.org>
+Message-Id: <20210728141457.14825-5-peter.maydell@linaro.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/usb2.txt               | 32 --------------------------------
- docs/system/devices/usb.rst | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 32 deletions(-)
+ docs/usb2.txt               | 58 -------------------------------------
+ MAINTAINERS                 |  1 -
+ docs/system/devices/usb.rst | 49 +++++++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+), 59 deletions(-)
+ delete mode 100644 docs/usb2.txt
 
 diff --git a/docs/usb2.txt b/docs/usb2.txt
-index adf4ba3f2a0c..6a88d5314f9c 100644
+deleted file mode 100644
+index 6a88d5314f9c..000000000000
 --- a/docs/usb2.txt
-+++ b/docs/usb2.txt
-@@ -6,38 +6,6 @@ Recently the USB pass through driver (also known as usb-host) and the
- QEMU USB subsystem gained a few capabilities which are available only
- via qdev properties, i,e. when using '-device'.
- 
++++ /dev/null
+@@ -1,58 +0,0 @@
 -
--physical port addressing
--------------------------
+-More USB tips & tricks
+-======================
 -
--First you can (for all USB devices) specify the physical port where
--the device will show up in the guest.  This can be done using the
--"port" property.  UHCI has two root ports (1,2).  EHCI has six root
--ports (1-6), the emulated (1.1) USB hub has eight ports.
+-Recently the USB pass through driver (also known as usb-host) and the
+-QEMU USB subsystem gained a few capabilities which are available only
+-via qdev properties, i,e. when using '-device'.
 -
--Plugging a tablet into UHCI port 1 works like this:
+-USB pass through hints
+-----------------------
 -
--        -device usb-tablet,bus=usb-bus.0,port=1
+-The usb-host driver has a bunch of properties to specify the device
+-which should be passed to the guest:
 -
--Plugging a hub into UHCI port 2 works like this:
+-  hostbus=<nr> -- Specifies the bus number the device must be attached
+-  to.
 -
--        -device usb-hub,bus=usb-bus.0,port=2
+-  hostaddr=<nr> -- Specifies the device address the device got
+-  assigned by the guest os.
 -
--Plugging a virtual USB stick into port 4 of the hub just plugged works
--this way:
+-  hostport=<str> -- Specifies the physical port the device is attached
+-  to.
 -
--        -device usb-storage,bus=usb-bus.0,port=2.4,drive=...
+-  vendorid=<hexnr> -- Specifies the vendor ID of the device.
+-  productid=<hexnr> -- Specifies the product ID of the device.
 -
--You can do basically the same in the monitor using the device_add
--command.  If you want to unplug devices too you should specify some
--unique id which you can use to refer to the device ...
+-In theory you can combine all these properties as you like.  In
+-practice only a few combinations are useful:
 -
--        (qemu) device_add usb-tablet,bus=usb-bus.0,port=1,id=my-tablet
--        (qemu) device_del my-tablet
+-  (1) vendorid+productid -- match for a specific device, pass it to
+-      the guest when it shows up somewhere in the host.
 -
--... when unplugging it with device_del.
+-  (2) hostbus+hostport -- match for a specific physical port in the
+-      host, any device which is plugged in there gets passed to the
+-      guest.
 -
+-  (3) hostbus+hostaddr -- most useful for ad-hoc pass through as the
+-      hostaddr isn't stable, the next time you plug in the device it
+-      gets a new one ...
 -
- USB pass through hints
- ----------------------
+-Note that USB 1.1 devices are handled by UHCI/OHCI and USB 2.0 by
+-EHCI.  That means a device plugged into the very same physical port
+-may show up on different buses depending on the speed.  The port I'm
+-using for testing is bus 1 + port 1 for 2.0 devices and bus 3 + port 1
+-for 1.1 devices.  Passing through any device plugged into that port
+-and also assign them to the correct bus can be done this way:
+-
+-    qemu -M pc ${otheroptions}                               \
+-        -usb                                                 \
+-        -device usb-ehci,id=ehci                             \
+-        -device usb-host,bus=usb-bus.0,hostbus=3,hostport=1  \
+-        -device usb-host,bus=ehci.0,hostbus=1,hostport=1
+-
+-enjoy,
+-  Gerd
+-
+---
+-Gerd Hoffmann <kraxel@redhat.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b1f8e82befc6..2089e71007d6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1837,7 +1837,6 @@ F: hw/usb/*
+ F: stubs/usb-dev-stub.c
+ F: tests/qtest/usb-*-test.c
+ F: docs/system/devices/usb.rst
+-F: docs/usb-storage.txt
+ F: include/hw/usb.h
+ F: include/hw/usb/
  
 diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-index 9f0e613dcc7c..bab0cd3fdfd1 100644
+index bab0cd3fdfd1..afb7d6c2268d 100644
 --- a/docs/system/devices/usb.rst
 +++ b/docs/system/devices/usb.rst
-@@ -199,6 +199,39 @@ option or the ``device_add`` monitor command. Available devices are:
- ``u2f-{emulated,passthru}``
-    Universal Second Factor device
+@@ -300,3 +300,52 @@ are not supported yet.
  
-+Physical port addressing
-+^^^^^^^^^^^^^^^^^^^^^^^^
+ When relaunching QEMU, you may have to unplug and plug again the USB
+ device to make it work again (this is a bug).
 +
-+For all the above USB devices, by default QEMU will plug the device
-+into the next available port on the specified USB bus, or onto
-+some available USB bus if you didn't specify one explicitly.
-+If you need to, you can also specify the physical port where
-+the device will show up in the guest.  This can be done using the
-+``port`` property.  UHCI has two root ports (1,2).  EHCI has six root
-+ports (1-6), and the emulated (1.1) USB hub has eight ports.
++``usb-host`` properties for specifying the host device
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+Plugging a tablet into UHCI port 1 works like this::
++The example above uses the ``vendorid`` and ``productid`` to
++specify which host device to pass through, but this is not
++the only way to specify the host device. ``usb-host`` supports
++the following properties:
 +
-+        -device usb-tablet,bus=usb-bus.0,port=1
++``hostbus=<nr>``
++  Specifies the bus number the device must be attached to
++``hostaddr=<nr>``
++  Specifies the device address the device got assigned by the guest os
++``hostport=<str>``
++  Specifies the physical port the device is attached to
++``vendorid=<hexnr>``
++  Specifies the vendor ID of the device
++``productid=<hexnr>``
++  Specifies the product ID of the device.
 +
-+Plugging a hub into UHCI port 2 works like this::
++In theory you can combine all these properties as you like.  In
++practice only a few combinations are useful:
 +
-+        -device usb-hub,bus=usb-bus.0,port=2
++- ``vendorid`` and ``productid`` -- match for a specific device, pass it to
++  the guest when it shows up somewhere in the host.
 +
-+Plugging a virtual USB stick into port 4 of the hub just plugged works
-+this way::
++- ``hostbus`` and ``hostport`` -- match for a specific physical port in the
++  host, any device which is plugged in there gets passed to the
++  guest.
 +
-+        -device usb-storage,bus=usb-bus.0,port=2.4,drive=...
++- ``hostbus`` and ``hostaddr`` -- most useful for ad-hoc pass through as the
++  hostaddr isn't stable. The next time you plug the device into the host it
++  will get a new hostaddr.
 +
-+In the monitor, the ``device_add` command also accepts a ``port``
-+property specification. If you want to unplug devices too you should
-+specify some unique id which you can use to refer to the device.
-+You can then use ``device_del`` to unplug the device later.
-+For example::
++Note that on the host USB 1.1 devices are handled by UHCI/OHCI and USB
++2.0 by EHCI.  That means different USB devices plugged into the very
++same physical port on the host may show up on different host buses
++depending on the speed. Supposing that devices plugged into a given
++physical port appear as bus 1 + port 1 for 2.0 devices and bus 3 + port 1
++for 1.1 devices, you can pass through any device plugged into that port
++and also assign it to the correct USB bus in QEMU like this:
 +
-+        (qemu) device_add usb-tablet,bus=usb-bus.0,port=1,id=my-tablet
-+        (qemu) device_del my-tablet
++.. parsed-literal::
 +
- Hotplugging USB storage
- ~~~~~~~~~~~~~~~~~~~~~~~
- 
++   |qemu_system| -M pc [...]                            \\
++        -usb                                                 \\
++        -device usb-ehci,id=ehci                             \\
++        -device usb-host,bus=usb-bus.0,hostbus=3,hostport=1  \\
++        -device usb-host,bus=ehci.0,hostbus=1,hostport=1
 -- 
 2.31.1
 
