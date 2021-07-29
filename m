@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77553D9D4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 07:56:25 +0200 (CEST)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DD43D9D6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 08:03:54 +0200 (CEST)
+Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8z1s-0000gm-Gc
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 01:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55534)
+	id 1m8z97-0002x4-K9
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 02:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8z0w-0007uy-Tv
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 01:55:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29854)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8z8C-0002Ia-Nu
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:02:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8z0t-0000eD-FG
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 01:55:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m8z8A-0007F5-0V
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:02:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627538121;
+ s=mimecast20190719; t=1627538573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sXCcSnt28rYcldvOSFVJrkOiixriNgVH3OWXvGOjMdo=;
- b=Tz6h/lgG6LHoMYcbCAZzuPP30THmogGpmvvZ1qTaP2YN+RkCFaOCNrkmgaOjUeG0lvkEjj
- sq8PazemvN4IfXMam2INiRUMiei+XF4kKziKCyoKq3u3NFrDqEWzOODeN7nXBiTBduXdmX
- 1Ng7QDVPJivLBQ1LmpQL/GhUfKDsC3A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-bMWuFHh9OvyAv5xTbYZu9A-1; Thu, 29 Jul 2021 01:55:19 -0400
-X-MC-Unique: bMWuFHh9OvyAv5xTbYZu9A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s22-20020adf97960000b02901535eae4100so1829149wrb.14
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 22:55:19 -0700 (PDT)
+ bh=uMHiTBXENiopoyz8iOC9L/yq4L59vwne3f0mU/Ac8Ug=;
+ b=Xj2Dc2OuMfor7tUXlqqK4gdGrAY5fVfR1fYGWHJ4VDnIA3comfbF3OIQ75OVDD0xLOsX3S
+ 59vRjf5fyyzL/4LSyj6FJN/4DUldrwOsUpIVDX4w8HK5ZpUb1fhNPm++k+2+aQOo5nC39T
+ qdqxfJpZOkGpiQn8uIX/nDmFY87Gxmo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-2TArBAR4N2ik5OitGbo9eQ-1; Thu, 29 Jul 2021 02:02:51 -0400
+X-MC-Unique: 2TArBAR4N2ik5OitGbo9eQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o32-20020a05600c5120b0290225ef65c35dso1869620wms.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 23:02:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sXCcSnt28rYcldvOSFVJrkOiixriNgVH3OWXvGOjMdo=;
- b=XO+oZT/2mc1Tpft9BEyp/+aktx4OEbdGZMPNU7RTUtRo910qrakeQrH5rrxaBCJg7l
- j7UowcMmAgqOlamKQ6Lp+0ZI7XuCzhHNjhU21IkSO+3wps9+8oiL7lO8P+CG7MJMk0gU
- qaIUzT8U/vtDkTSneA6iayEck+ob+fW37Vy7z5aOuTjA8pMXRXXJULYmoXd+Cxl/wlWq
- W5KMY+DPFauv4xj0uWgyp61WAoec5lRq/h7AmEasuTDELY4vj/bk/nX0Ujpw1kdB7K4H
- GMdxf1KClg+N2T/PINX69TNxlfuGgeIJNFiFoL/udeufyEEUiKysXmSEBHRs6JGDbR0g
- 3MyA==
-X-Gm-Message-State: AOAM533frePrsgl+Ix63q1zADm9w3qbAhPFX8xpnIo6MDzl8rjtdW580
- Zg5HE0Umj05TO4r0S7tBV+d2e15mbQ/7ylyLiy4Vb8lDUVcr2mxDDHhGHruMwTBLQbjeL5gklCV
- GDF88pDxq+lWiS9I=
-X-Received: by 2002:a05:6000:2a9:: with SMTP id
- l9mr2787809wry.75.1627538118303; 
- Wed, 28 Jul 2021 22:55:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6OBg3+pQ4j6Ya2TzWVzrga3PiW669Kqy7V/lJDj9cOvMkSIUjXvGgWeHO2WwP7FeN3RLxCA==
-X-Received: by 2002:a05:6000:2a9:: with SMTP id
- l9mr2787789wry.75.1627538118098; 
- Wed, 28 Jul 2021 22:55:18 -0700 (PDT)
+ bh=uMHiTBXENiopoyz8iOC9L/yq4L59vwne3f0mU/Ac8Ug=;
+ b=PAi5vT2soZ3fb9CXSPhYx9VmO27GIIW7amPBEBcnKQ6UVRAGqfOhuUf8Z6OnrimMV6
+ rgTl+I1Kzx5F/a7kjF619ERLJ5NfLl+rSG1zGM3PX/sQHKsQ9LlyljcSFRRcsnCd1Gg6
+ FQPqgl2g3ZsjDE/Y8Gekvg4SAhZMaqLc8zaV/T6Tf4UuSxUxq901rC+zEtXVDHZlLPUY
+ xZujk1MVUkm0Yy4esYnbmwpTJ1Hq8rKJJ8WQBiq5zdJYqX5dxnGXvVM9zHaLgjNDNh7Y
+ bw6baD9l1sxZ5kFOWWTNTplyNxnoBYJzhd6BKvR+x2K/drKU5qnqHa0+WgwgxhL0aFzx
+ 7uNA==
+X-Gm-Message-State: AOAM530tzOiY/LXVgjw39SIhHvNnew70sgQ9LaTPd3PeNXbNduI1cgIf
+ g+PDiwLdb3blsanfYCdLE+U9I1FU9EuMDaCybW6rxNGs6OyAN+Qh/WxLaVLwxda42ylt6FBAsaW
+ 0SZOkrvdZh0DHZis=
+X-Received: by 2002:adf:eccf:: with SMTP id s15mr2760793wro.176.1627538570655; 
+ Wed, 28 Jul 2021 23:02:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcg6O4Es2HXPz7F9IEbf1Bcyfx/sM3qkVuAVzYplvWjr5XQwsjT08hNhR/eS4TwdI8WFRxIw==
+X-Received: by 2002:adf:eccf:: with SMTP id s15mr2760767wro.176.1627538570415; 
+ Wed, 28 Jul 2021 23:02:50 -0700 (PDT)
 Received: from thuth.remote.csb (p5791d475.dip0.t-ipconnect.de.
  [87.145.212.117])
- by smtp.gmail.com with ESMTPSA id u11sm1982149wrr.44.2021.07.28.22.55.16
+ by smtp.gmail.com with ESMTPSA id d14sm1960990wrs.49.2021.07.28.23.02.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 22:55:17 -0700 (PDT)
-Subject: Re: [PATCH] tests: Fix migration-test build failure for sparc
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20210728214128.206198-1-peterx@redhat.com>
+ Wed, 28 Jul 2021 23:02:49 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci.d/custom-runners: Improve rules for the staging
+ branch
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210728173857.497523-1-thuth@redhat.com>
+ <42b2acfc-cf8e-5b9c-22af-0e3cd1d80283@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d5093e20-fb32-dcd5-2100-b26eafb55672@redhat.com>
-Date: Thu, 29 Jul 2021 07:55:15 +0200
+Message-ID: <24ab43b4-5994-2ae9-9e0d-5e219c56b0c1@redhat.com>
+Date: Thu, 29 Jul 2021 08:02:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210728214128.206198-1-peterx@redhat.com>
+In-Reply-To: <42b2acfc-cf8e-5b9c-22af-0e3cd1d80283@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
@@ -100,60 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/07/2021 23.41, Peter Xu wrote:
-> Even if <linux/kvm.h> seems to exist for all archs on linux, however including
-> it with __linux__ defined seems to be not working yet as it'll try to include
-> asm/kvm.h and that can be missing for archs that do not support kvm.
+On 28/07/2021 20.26, Philippe Mathieu-Daudé wrote:
+> On 7/28/21 7:38 PM, Thomas Huth wrote:
+>> If maintainers are currently pushing to a branch called "staging"
+>> in their repository, they are ending up with some stuck jobs - unless
+>> they have a s390x CI runner machine available. That's ugly, we should
+>> make sure that the related jobs are really only started if such a
+>> runner is available. So let's only run these jobs if it's the
+>> "staging" branch of the main repository of the QEMU project (where
+>> we can be sure that the s390x runner is available), or if the user
+>> explicitly set a S390X_RUNNER_AVAILABLE variable in their CI configs
+>> to declare that they have such a runner available, too.
+>>
+>> Fixes: 4799c21023 ("Jobs based on custom runners: add job definitions ...")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   .gitlab-ci.d/custom-runners.yml | 40 +++++++++++++++++++++++----------
+>>   1 file changed, 28 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+>> index 061d3cdfed..564b94565d 100644
+>> --- a/.gitlab-ci.d/custom-runners.yml
+>> +++ b/.gitlab-ci.d/custom-runners.yml
+>> @@ -24,7 +24,8 @@ ubuntu-18.04-s390x-all-linux-static:
+>>    - ubuntu_18.04
+>>    - s390x
+>>    rules:
+>> - - if: '$CI_COMMIT_BRANCH =~ /^staging/'
+>> + - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+>> + - if: "$S390X_RUNNER_AVAILABLE"
 > 
-> To fix this (instead of any attempt to fix linux headers..), we can mark the
-> header to be x86_64 only, because it's so far only service for adding the kvm
-> dirty ring test.
-> 
-> No need to have "Fixes" as the issue is just introduced very recently.
-> 
-> Reported-by: Richard Henderson <rth@twiddle.net>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->   tests/qtest/migration-test.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 1e8b7784ef..cc5e83d98a 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -27,7 +27,8 @@
->   #include "migration-helpers.h"
->   #include "tests/migration/migration-test.h"
->   
-> -#if defined(__linux__)
-> +/* For dirty ring test; so far only x86_64 is supported */
-> +#if defined(__linux__) && defined(HOST_X86_64)
->   #include "linux/kvm.h"
->   #endif
->   
-> @@ -1395,7 +1396,7 @@ static void test_multifd_tcp_cancel(void)
->   
->   static bool kvm_dirty_ring_supported(void)
->   {
-> -#if defined(__linux__)
-> +#if defined(__linux__) && defined(HOST_X86_64)
->       int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
->   
->       if (kvm_fd < 0) {
-> 
+> If you base this patch on top of "docs: Document GitLab
+> custom CI/CD variables" that you already queued, you can
+> directly add a description for S390X_RUNNER_AVAILABLE in
+> docs/devel/ci.rst, but this can be done later too.
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+Good idea! But I really want to get this out of the door to finally get a 
+usable gitlab-CI again, so I'll rather send a patch for this later.
 
-Juan, Dave, if you don't mind I can take this through my testing branch - 
-I'm planning to send a pull request today anyway.
-
-  Thomas
+  Thanks,
+   Thomas
 
 
