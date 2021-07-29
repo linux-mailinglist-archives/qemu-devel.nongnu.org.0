@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1191D3D9F2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:08:09 +0200 (CEST)
-Received: from localhost ([::1]:43572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2183D9F32
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:08:56 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m915M-0004MS-56
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
+	id 1m9167-0005sH-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m914B-0002wK-Vz
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33999)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m9152-0004Ty-1e
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m914A-0005Ed-58
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:55 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m9150-0005li-KG
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627546013;
+ s=mimecast20190719; t=1627546065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WaYQleQD+G14uKonyMY4wxN97UMxchMMmF3MBMueNXg=;
- b=UE3doi3pgg+HXXVNYSAk5Dz7zEjMXwFFpR8UHmhPllLFnNixzroXGijP7EJQZJoLnELpgj
- DrZv8i7WnKQ1zHwF65EK6BUz5pa3v8NYjjKzwKeFI6hABQvWsuZxGR8flbGQyyjq7pcDIt
- E3ZEe+qiO1sb/LWdMh+40mpNwHqyv+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-bpaJtCxaPUqWGEQZxUDG-g-1; Thu, 29 Jul 2021 04:06:51 -0400
-X-MC-Unique: bpaJtCxaPUqWGEQZxUDG-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 346EB800D55;
- Thu, 29 Jul 2021 08:06:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 221DE10016F7;
- Thu, 29 Jul 2021 08:06:45 +0000 (UTC)
-Date: Thu, 29 Jul 2021 09:06:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [PATCH RFC 03/19] vfio-user: define VFIO Proxy and communication
- functions
-Message-ID: <YQJhlZwTygy8FdqV@stefanha-x1.localdomain>
-References: <cover.1626675354.git.elena.ufimtseva@oracle.com>
- <cd9d5d6214d957db61120d9c3cbdc99e799a3baa.1626675354.git.elena.ufimtseva@oracle.com>
- <YQA1kC1P5k2vRd4O@stefanha-x1.localdomain>
- <090CD4E1-D3B1-46CB-AB05-158321095D74@oracle.com>
+ bh=2yoBfE5uJ+HTYThNci9pKULCsip8HqNoyhO1zHo8vlQ=;
+ b=YBrjeGZXEPEGrXgFQMIMKNKtCeJYz/yvgWG+T2++Hf9rG8r9mhQaiGwy/p/n8bX1x8WgC0
+ 6gofzSGRWbn2n77TcYfhHsjcKQrQQzBXXGzihlFmPy+xqZ42aNFBO9JmdSviq5kBkCgul/
+ qL1+0eAY4SISIb/54LaRcuV18LiG1AQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-kR2sW5UzN8-_Dyin68ONmQ-1; Thu, 29 Jul 2021 04:07:44 -0400
+X-MC-Unique: kR2sW5UzN8-_Dyin68ONmQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 132-20020a1c018a0000b029025005348905so1737599wmb.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:07:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2yoBfE5uJ+HTYThNci9pKULCsip8HqNoyhO1zHo8vlQ=;
+ b=Jym/G4oKbvz85LG+ChF2v0bB17QBBpRUHD1qwo/Eh7qdOtKZIJg7cQ/JuoOSadGXF2
+ WrifuQmgY7ckCc8mwC2gLBr/4OS96Uv1xCJIp3zZ8Ijxu4/EfDyHzqQUrDuMTFvUCCOO
+ JctsxFE26vqxBkzfunfoNcy9z2l+F1v9IwkI5gLjLX4nSQ2MlSR7GOu/swk5Xdh3HvR3
+ OMnVszLPMt6kw8txQX8pr+okLGaYuFL+4OeKeEMFp+WZKNqGEehAophf3GK09MJo3vf/
+ 2PiEa8ohj6MRfodtss16ym7quJMkyfAmloZvkECf5f+gL+s+v9POpEne9f5V+tsToVGu
+ tcig==
+X-Gm-Message-State: AOAM531IzuUEqxEwe7DYGFBn0aE8XSxelnJ2vUQXvWOZnyrgnue0lCY9
+ ysPLuX3tVI+SI3tdaMVhSKCRZrTu72dxxMeo7GwEgtuZ0N44eJ+aQM1iS16KuEmuH9BwUbAZb8p
+ 97VxrTIj/gX3PTSs=
+X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr3296130wma.111.1627546063253; 
+ Thu, 29 Jul 2021 01:07:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDhyRoFCjwMxusf3r5p855T7Lf8X0ibV3tU4K5FlBod7myDLEk4p7EZev6QyUfdbjnYVXeNw==
+X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr3296110wma.111.1627546063051; 
+ Thu, 29 Jul 2021 01:07:43 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id y6sm2237238wma.48.2021.07.29.01.07.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 01:07:42 -0700 (PDT)
+Date: Thu, 29 Jul 2021 10:07:41 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v5 00/10] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Message-ID: <20210729100741.75437344@redhat.com>
+In-Reply-To: <fa873c6b-feaf-ea86-08f2-f27382632aae@oracle.com>
+References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
+ <20210720165751.52805aed@redhat.com>
+ <20210727145518.2691c7c7@redhat.com>
+ <fa873c6b-feaf-ea86-08f2-f27382632aae@oracle.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <090CD4E1-D3B1-46CB-AB05-158321095D74@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QmKxKLO9PGb283Gk"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,76 +99,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jag Raman <jag.raman@oracle.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- John Levon <john.levon@nutanix.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---QmKxKLO9PGb283Gk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 28 Jul 2021 10:19:51 -0500
+Eric DeVolder <eric.devolder@oracle.com> wrote:
 
-On Wed, Jul 28, 2021 at 06:08:26PM +0000, John Johnson wrote:
->=20
->=20
-> > On Jul 27, 2021, at 9:34 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> >=20
-> > On Sun, Jul 18, 2021 at 11:27:42PM -0700, Elena Ufimtseva wrote:
-> >> From: John G Johnson <john.g.johnson@oracle.com>
-> >>=20
-> >> Add user.c and user.h files for vfio-user with the basic
-> >> send and receive functions.
-> >>=20
-> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >> ---
-> >> hw/vfio/user.h                | 120 ++++++++++++++
-> >> include/hw/vfio/vfio-common.h |   2 +
-> >> hw/vfio/user.c                | 286 ++++++++++++++++++++++++++++++++++
-> >> MAINTAINERS                   |   4 +
-> >> hw/vfio/meson.build           |   1 +
-> >> 5 files changed, 413 insertions(+)
-> >> create mode 100644 hw/vfio/user.h
-> >> create mode 100644 hw/vfio/user.c
-> >=20
-> > The multi-threading, coroutine, and blocking I/O requirements of
-> > vfio_user_recv() and vfio_user_send_reply() are unclear to me. Please
-> > document them so it's clear what environment they can be called from. I
-> > guess they are not called from coroutines and proxy->ioc is a blocking
-> > IOChannel?
-> >=20
->=20
-> =09Yes to both, moreover, a block comment above vfio_user_recv() would
-> be useful.  The call to setup vfio_user_recv() as the socket handler isn=
-=E2=80=99t
-> in this patch, do you want the series re-org=E2=80=99d?
+> On 7/27/21 7:55 AM, Igor Mammedov wrote:
+> > PS:
+> > If I haven't said it already, use checkpatch script before posting patches.
+> >   
+> 
+> I do run checkpatch. On occasion I allow a warning about a line too long. And
+> there is the MAINTAINERs message due to the new files. Is there something else
+> that I'm missing?
+> 
 
-That would help with review, thanks!
-
-Stefan
-
---QmKxKLO9PGb283Gk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmECYZQACgkQnKSrs4Gr
-c8hOsggAil8JTVa9oboq3oaQtv2LpZsL6YZEGww8X8NRiZCj8/Z8IPAwbu2W06ed
-iNhbvCNDjULj22tc6l2kg+j4N5kDANTrcC6dyyidYTA5KJ9K7B2b19J+xlvIvMAn
-mpPhL9a1I99B18kCrVaUeJasKIKQK+QH4LHlChYTGcliLXmAtQJSLlgUYfPicrfe
-re5wAddPHopheLjmEihcMmG4albSDMKnc5aAnp7s5hWKruBZ7yLwsviOKT7KqpvC
-xisnd/DNaDkITXKHOmXRTEikW4ycS0gOo1hPf2L6mw4oUxx+pLiP5aw4CpLv2UF6
-MGK3mxfcXbKfRXc14zp1g0Rs3uFmig==
-=ZX2B
------END PGP SIGNATURE-----
-
---QmKxKLO9PGb283Gk--
+there were warnings about new line or something like this.
 
 
