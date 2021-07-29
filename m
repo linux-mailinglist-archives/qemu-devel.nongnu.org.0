@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A973DA1F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:18:22 +0200 (CEST)
-Received: from localhost ([::1]:51274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833093DA209
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:23:14 +0200 (CEST)
+Received: from localhost ([::1]:39846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m943R-0003ey-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
+	id 1m9487-0006W5-OG
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940a-0008SQ-EY
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:24 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:44552)
+ id 1m940d-0000BV-72
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:27 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:47098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940U-0000vR-Im
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:22 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- d131-20020a1c1d890000b02902516717f562so3766473wmd.3
+ id 1m940V-0000wc-CU
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:26 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c16so6427389wrp.13
  for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GGF4FybEKy96gYcYMu+JcP8KcGdVIAGNRtBK4g3nQ2Y=;
- b=CDDI2YZ3ES72TH9b5xS0B5e8W9Cg1RLQ98gNketTfJN72pYLOY/giiTD+xjj2kQnG6
- d3r/u1uQJRmY0HbVH0iIGLTt2mfXsa1aIeUUSTQ2Ub17R2Cgr/i71CQYIRK5I0SK2kXN
- YMhzkUujolcy8/uaLcpl3YxA2vkghvHqX9JVfYXQ7MRp/Un5Rq0R6IuBR/V0Z8Yr5gpN
- mYGEZL7W7Er9zHDMjXpNMyf8ADZapEfiCpwuIrXTR5did2uP4s8pL2vhauU64OqHVgXS
- zZldVBvs0mOiRcAXzNhirIIWK+jh4QEa65jS49e3PUg/zNvGjJSKlhcvDucbSD6lXMIr
- q23A==
+ bh=2AKLx+FAZSEHTDgotUySXrnfQs5xm57wonDC26WVk28=;
+ b=m/8jrRsIdWQaEvtiM0ZzsiP7w+nuqXtKnLnbQL/QIreJnepWWyOIrMQxJsrQzy7L3f
+ wtBAzFj04ma9Fyo97gjRcLkfAE8qoOETf5rcQTGy3h1KKM2Zgv5rNjKxlZebZGiJEA7Z
+ h9xDfd0/Pxr0A3d+OcwI6o4NIjxdsnbWFFCKEt9hYm5irFPO8UrO/Ton4ezT03Bwz6ce
+ 5ejtZc907GIR7G5aQVJqbX2+KHSvuZiFoTCn+1L86rvt8n/PmUPT9iL2mt8kLL6zJ71B
+ r0OMFJHpxQLXvOiVuuSVDwXDlEh8BTynQiqQSpqFVuKmeSL1Tj1Dc8m4fjNf10mkREnz
+ AZ0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GGF4FybEKy96gYcYMu+JcP8KcGdVIAGNRtBK4g3nQ2Y=;
- b=uXYFA1pOQ7LfGSb5npTKK+aPeEJeoTMX6Ku0FPBTJ5EeHUnKsjJmPPMJtX7OyCD+Yl
- MDakN793V55HHg9NQgTTgVGJu2qWSiVJl+cCvpTfOnSmMP6txtTe0yo0VF+xlGFsEwyv
- 1Rg1RIE6iTZ6UGnge6kaIqNC0v/ig6xxpqP2N6BYz1ZGA3atD5JQAnR/YUDMooszebBW
- 8pWbikEhx/CBf04W49XkaplIGyB3KVSVPSOZr2CV4FsayfKMmVCrNA3DLt7RlJTpZenG
- r29vbelqge39JJ4hScReHaDf6KiuB+qTQ/tJLhvkphIZoL5mElVhf2Wyx+vXycSbvOCR
- jPtA==
-X-Gm-Message-State: AOAM533eoB8GmrOmoXz7IN/rdN7LFdf+RriTGQxfzb4ECqSMPWMii/S0
- bndUSatfPKAczpV8fptw7+a0MA==
-X-Google-Smtp-Source: ABdhPJxua5/SAwlyDsfJZxaG65MFP2B14TaoJug1kIBchCfdBBn/ywYZU5mziOrqXnLbxD5SKq403w==
-X-Received: by 2002:a05:600c:4c96:: with SMTP id
- g22mr13543761wmp.70.1627557317253; 
- Thu, 29 Jul 2021 04:15:17 -0700 (PDT)
+ bh=2AKLx+FAZSEHTDgotUySXrnfQs5xm57wonDC26WVk28=;
+ b=rZDoHt7+IaxOuRrFSCi8EBHI5qRN/wimBQVYRGqfgnNFkvUQTR116dqJhiHct6a4HI
+ qEC2eFiAkrZnPnbM/aKDw+HWamX1v+yX002yyZe5TpT156745937wYP0XOdtsVzVTPJv
+ qzd/P0ErHwgwRpBVesqmxOt3QcSmvBvX93dqUUU1KGXykU5ZvgczEM9gPgKZu3aQ12pf
+ 0vMMeWnMNsT3AvM/lDRprFRY0mFvny5om2BNHZ/83/9m1MxgjcoBlskHiW3YjGSjm3/o
+ MGhNidz5nfETrNLqbFsCn5begsPif0RAo9jC96fFX6+JB8DCKAxMEhNCuHWFEMF60Drx
+ cv8A==
+X-Gm-Message-State: AOAM533TnNQJo4XYYFTWGXjZjIKQs5xusTUDoCtCvNgN0Bi//zSRvqlg
+ aDjAearlA7BI9pt3jZ4d2m6CDg==
+X-Google-Smtp-Source: ABdhPJwOEoMbNAGJklqLss3qcb4JE36wA0LIoXcI4b3t8f5eqTrABeViERrInEBVi1N23FkCHOOMFA==
+X-Received: by 2002:adf:de8a:: with SMTP id w10mr4293021wrl.61.1627557318090; 
+ Thu, 29 Jul 2021 04:15:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.16
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:16 -0700 (PDT)
+ Thu, 29 Jul 2021 04:15:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 03/53] target/arm: Fix MVE VSLI by 0 and VSRI by <dt>
-Date: Thu, 29 Jul 2021 12:14:22 +0100
-Message-Id: <20210729111512.16541-4-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 04/53] target/arm: Fix signed VADDV
+Date: Thu, 29 Jul 2021 12:14:23 +0100
+Message-Id: <20210729111512.16541-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,41 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the MVE shift-and-insert insns, we special case VSLI by 0
-and VSRI by <dt>. VSRI by <dt> means "don't update the destination",
-which is what we've implemented. However VSLI by 0 is "set
-destination to the input", so we don't want to use the same
-special-casing that we do for VSRI by <dt>.
-
-Since the generic logic gives the right answer for a shift
-by 0, just use that.
+A cut-and-paste error meant we handled signed VADDV like
+unsigned VADDV; fix the type used.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/arm/mve_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index db5d6220854..f14fa914b68 100644
+index f14fa914b68..82151b06200 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1279,11 +1279,12 @@ DO_2SHIFT_S(vrshli_s, DO_VRSHLS)
-         uint16_t mask;                                                  \
-         uint64_t shiftmask;                                             \
-         unsigned e;                                                     \
--        if (shift == 0 || shift == ESIZE * 8) {                         \
-+        if (shift == ESIZE * 8) {                                       \
-             /*                                                          \
--             * Only VSLI can shift by 0; only VSRI can shift by <dt>.   \
--             * The generic logic would give the right answer for 0 but  \
--             * fails for <dt>.                                          \
-+             * Only VSRI can shift by <dt>; it should mean "don't       \
-+             * update the destination". The generic logic can't handle  \
-+             * this because it would try to shift by an out-of-range    \
-+             * amount, so special case it here.                         \
-              */                                                         \
-             goto done;                                                  \
-         }                                                               \
+@@ -1182,9 +1182,9 @@ DO_LDAVH(vrmlsldavhxsw, int32_t, int64_t, true, true)
+         return ra;                                              \
+     }                                                           \
+ 
+-DO_VADDV(vaddvsb, 1, uint8_t)
+-DO_VADDV(vaddvsh, 2, uint16_t)
+-DO_VADDV(vaddvsw, 4, uint32_t)
++DO_VADDV(vaddvsb, 1, int8_t)
++DO_VADDV(vaddvsh, 2, int16_t)
++DO_VADDV(vaddvsw, 4, int32_t)
+ DO_VADDV(vaddvub, 1, uint8_t)
+ DO_VADDV(vaddvuh, 2, uint16_t)
+ DO_VADDV(vaddvuw, 4, uint32_t)
 -- 
 2.20.1
 
