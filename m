@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EF03D9F25
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:06:59 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6946B3D9F26
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:07:06 +0200 (CEST)
+Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m914E-0001za-DG
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56004)
+	id 1m914L-0002Il-Fn
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m911n-0007jf-83
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:04:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32771)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m913O-0000w9-KO
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m911k-0003a0-Dn
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:04:26 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m913M-0004g7-Uf
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:06:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627545863;
+ s=mimecast20190719; t=1627545964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tAjwPV4QoUVazfduBeoukH0iFABnmaJEFMIiu+qKzSg=;
- b=Rd83SGNx1UdKP7jjQ2MvFtawFxfrs2V34qX158bPNdSW+sqUHbYQPXt4+I0bKXVV0WNkzC
- wlbrCri0C80voZGbbxXh4BRIPdHzZ7UdWLYQoEzL6BDWJCd0YoXqNeSW2RSdd+JbDWMkGj
- FXs+QPCPYSGQZLlnPhg1hLYQ5RRXkg8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-w__r9MxVNuG0gEzRtPTtkw-1; Thu, 29 Jul 2021 04:04:22 -0400
-X-MC-Unique: w__r9MxVNuG0gEzRtPTtkw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q7-20020a0560001367b02901541c53ad3aso1334668wrz.10
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:04:22 -0700 (PDT)
+ bh=RsSoYdVksIUWckZZZ+J9cHXMeThO9NWXcnzQgV5C+oM=;
+ b=jKgkussFmulJxON7ysFxrXJrvpVThqg+Et/3kv/C1XWLMG3tM1uO9X4H6TaSxVrxq3MDhX
+ mNR2xmN/lZzZwSyYzM7a9C1FfA4DImS0BdmJmd5OcrlBNJMOZT9cr6F38A5bAspudV3My/
+ ex5iRlOw+Qk5aq94UYYyP71FDrN9X1s=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-QI5B-rmzMlaVkCPtfBxW8w-1; Thu, 29 Jul 2021 04:06:01 -0400
+X-MC-Unique: QI5B-rmzMlaVkCPtfBxW8w-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h16-20020aa7de100000b02903a6620f87feso2561136edv.18
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:06:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=tAjwPV4QoUVazfduBeoukH0iFABnmaJEFMIiu+qKzSg=;
- b=OdJKLz7shWtnb4I3tNjUtnAsn5jreDC8HsWazeWyQ3cOllZa9cZNdiN2IvKvzT3ICt
- FOtmpTZG1kyQNoNzCocLsVc63EgEg/uFVn1rSC9DhY1XIfkVfjQzhKx6ea/M9QuMbNwS
- fFjyTiwjF8ITFOFaiE/jQB5Nal4NY7oL/vNFcI2W07+8s9E+8Pp+gVvxmv47kOVxnqYW
- dUmd6u0xY21y5s8f1wetfjXAOETJYfRsQkoOtLC9Rd5uDHFoKF1ErILV0whoEnLWfQjG
- 6RH2qA0d776XU9ps3Apq9Qxk7F+hIypjz5IObRpeoGHdl9zd0a5L2Oq3o04/f3KMCa1/
- 2vkA==
-X-Gm-Message-State: AOAM531g2C75FOgPBpei06fEUsMuIQ5c0cr6IhZFaAh0WV44vAbX6JqK
- NALQQKgfTFqy0oMKiFFZfj2RaiXdUKeMpgw0TfmFrsXav2q9vluM4Wvpf7f/PnwgMbD15KJYzn3
- EN2ttQhSQBvf76RM=
-X-Received: by 2002:a5d:5305:: with SMTP id e5mr3397594wrv.243.1627545861236; 
- Thu, 29 Jul 2021 01:04:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4UVOeBRElhKiYcvzgY09lSoYKnv3K2LqLiIuVKJDz5scesbThdaJSrD6QNv7N6FEmJmyhdg==
-X-Received: by 2002:a5d:5305:: with SMTP id e5mr3397580wrv.243.1627545861090; 
- Thu, 29 Jul 2021 01:04:21 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id w18sm2587147wrg.68.2021.07.29.01.04.20
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RsSoYdVksIUWckZZZ+J9cHXMeThO9NWXcnzQgV5C+oM=;
+ b=X9aCSB+lvgnb1AM59TxqPC6SXkXe37OX7pe2KApJCH+uu9DPieEcPUw+1zyxFyp08O
+ zKF4s+ZfUZ4XXa2FkQZ5/rZQHQWIrSRztebkj/Cm+vwokL1Vq4xrBo4dbU0q4FNimoGO
+ Adv4TWIvjbIjtzn/K3h7Ep2cQ2cUMHjQSXo4uzPeqYLTdHWf0iRj2+QvHLFPl5blC0zC
+ 9jqkZfok/FrtkG/THU6Z2STw3Uvm/Y4NKQ6UvsIcPcH9F7uKu7d74BWafSdLvOgqWzLH
+ 8bEfkPFYNT1ABxuvu5e513JkZ5+nuh2U124rFK2Ps/xh1Rf7ectDZxiun3zff9YZVfmy
+ PcTQ==
+X-Gm-Message-State: AOAM53111T9Y3OMq7Y0fbP3Cf/o9+A9r1QoSv8DJ2/ZE1TQlAhhtLU/F
+ B1tR7VZdy/JDnHEoEVvbOx7EYatder93Om/AfI2tW539LVRE5VsxGkRBcjiHNQ2PlDPSLvKwKms
+ Wz0aKsscWTOP+qdsawHc4Ot9v1o+qq60NUB0zZkW4xOH/fBhbMAuaKGjq2T1sXRi2IQs=
+X-Received: by 2002:a17:906:c342:: with SMTP id
+ ci2mr3532774ejb.122.1627545959575; 
+ Thu, 29 Jul 2021 01:05:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxenYt9UGOA/nwEG80I/uxC+ckdBhJyfXcqghnbK7osXQLGx1AGA5Wjg+QH4MSyrnlmzfcBRQ==
+X-Received: by 2002:a17:906:c342:: with SMTP id
+ ci2mr3532759ejb.122.1627545959413; 
+ Thu, 29 Jul 2021 01:05:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id t15sm682169ejf.119.2021.07.29.01.05.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 01:04:20 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 30/43] target/s390x: Use MO_128 for 16 byte atomics
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-31-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <33260d19-8bc3-d7f7-d552-dc6d99c2cc2c@redhat.com>
-Date: Thu, 29 Jul 2021 10:04:20 +0200
+ Thu, 29 Jul 2021 01:05:58 -0700 (PDT)
+Subject: Re: [PATCH 2/2] libvhost-user: fix -Werror=format= warnings with
+ __u64 fields
+To: Stefan Hajnoczi <stefanha@redhat.com>, marcandre.lureau@redhat.com
+References: <20210505151313.203258-1-marcandre.lureau@redhat.com>
+ <20210505151313.203258-2-marcandre.lureau@redhat.com>
+ <YJK72YzBwoLyTyK5@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9ee74a1c-7ddd-ebed-f2e3-e23220b04a9d@redhat.com>
+Date: Thu, 29 Jul 2021 10:05:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729004647.282017-31-richard.henderson@linaro.org>
+In-Reply-To: <YJK72YzBwoLyTyK5@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -101,46 +105,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.07.21 02:46, Richard Henderson wrote:
-> Cc: qemu-s390x@nongnu.org
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/s390x/tcg/mem_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+On 05/05/21 17:38, Stefan Hajnoczi wrote:
+> On Wed, May 05, 2021 at 07:13:13PM +0400, marcandre.lureau@redhat.com wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> ../subprojects/libvhost-user/libvhost-user.c:1070:12: error: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 3 has type ‘__u64’ {aka ‘long long unsigned int’} [-Werror=format=]
+>>   1070 |     DPRINT("    desc_user_addr:   0x%016" PRIx64 "\n", vra->desc_user_addr);
+>>        |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              ~~~~~~~~~~~~~~~~~~~
+>>        |                                                           |
+>>        |                                                           __u64 {aka long long unsigned int}
+>>
+>> Rather than using %llx, which may fail if __u64 is declared differently
+>> elsewhere, let's just cast the values. Feel free to propose a better solution!
+>>
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>   subprojects/libvhost-user/libvhost-user.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-> index ec88f5dbb0..3782c1c098 100644
-> --- a/target/s390x/tcg/mem_helper.c
-> +++ b/target/s390x/tcg/mem_helper.c
-> @@ -1810,7 +1810,7 @@ void HELPER(cdsg_parallel)(CPUS390XState *env, uint64_t addr,
->       assert(HAVE_CMPXCHG128);
->   
->       mem_idx = cpu_mmu_index(env, false);
-> -    oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
-> +    oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
->       oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv, oi, ra);
->       fail = !int128_eq(oldv, cmpv);
->   
-> @@ -1939,7 +1939,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
->                   cpu_stq_data_ra(env, a1 + 0, int128_gethi(nv), ra);
->                   cpu_stq_data_ra(env, a1 + 8, int128_getlo(nv), ra);
->               } else if (HAVE_CMPXCHG128) {
-> -                MemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
-> +                MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
->                   ov = cpu_atomic_cmpxchgo_be_mmu(env, a1, cv, nv, oi, ra);
->                   cc = !int128_eq(ov, cv);
->               } else {
+> Looks good to me:
+> 
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > 
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Queued both, thanks.
 
--- 
-Thanks,
-
-David / dhildenb
+Paolo
 
 
