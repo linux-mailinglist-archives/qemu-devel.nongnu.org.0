@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577A53DA078
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:42:43 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216B53DA07A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:43:25 +0200 (CEST)
+Received: from localhost ([::1]:55678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m92Ys-000361-Aa
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
+	id 1m92ZY-00058f-6L
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m92XA-0001WG-Ds
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:40:56 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:34566)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m92YL-00039C-2h
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:42:10 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:59232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m92X7-0001H6-N3
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:40:56 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m92YF-00028q-4k
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:42:08 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1156F1FF86;
- Thu, 29 Jul 2021 09:40:51 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 96280223F8;
+ Thu, 29 Jul 2021 09:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627551651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1627551721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h7DgrgJWjD6NJyTfXFvfBl8hr77hdShrdm2Vo9q9gWM=;
- b=J2Y4PQKxJkJ+8wforghLo/r8KumO85jQBcQZ5d1ij26ZEq9Z6nQJdQBgFNtXWPYnDp1BNz
- 6RSM+M5Odl2wh+G6a/L4Jd1n2sObCfA96dz83CeDCDK7plB0GZTQS7Fvu3SnQfn4wrYTso
- yDjEIlBfis86u8YqBGlGS9scqV88fVU=
+ bh=RVtoAlpTjhPm0xOxV5PRfpr/ANv3XOrMzqPKLw+a240=;
+ b=duxlGux9VYTRZaiTliO01pTnH3Y/Jsg7JxtddAfrVDTHqZ7D5IKC5j5Q3UXqyQ7ImHg3Jm
+ Vqxx4gZT/hTGiRG83VluGHWh8soh2NZwJcT2LM80dq0n4w02W09klCi45UpruxC/qbeiw0
+ 86T8Jywk3tAOa/pzuZ5M+GeMBpWZEt8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627551651;
+ s=susede2_ed25519; t=1627551721;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h7DgrgJWjD6NJyTfXFvfBl8hr77hdShrdm2Vo9q9gWM=;
- b=Y0T1X3n4DdxAITJ5CBUX7s2HZr9nlgUkO48jDrxRQBxySTL9/9XKn+/LeogwHmz0yXRiRN
- QFEx970IGJ0M0+CQ==
+ bh=RVtoAlpTjhPm0xOxV5PRfpr/ANv3XOrMzqPKLw+a240=;
+ b=xgTWwNHReJWvcsLBCvbgRWs3i/n4Elft86QUtn/DQTVrS3BxyDZJoUe3UCc0DKMOhUYDA6
+ DqI8Zi7HYvAXvaCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92B441348A;
- Thu, 29 Jul 2021 09:40:50 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0AA4A1348A;
+ Thu, 29 Jul 2021 09:42:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FEzHHqJ3AmFfPwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 29 Jul 2021 09:40:50 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id ZBEIAel3AmGsPwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 29 Jul 2021 09:42:01 +0000
 Subject: Re: modular tcg
 To: Gerd Hoffmann <kraxel@redhat.com>
 References: <20210722220952.17444-1-jziviani@suse.de>
@@ -61,8 +61,8 @@ References: <20210722220952.17444-1-jziviani@suse.de>
  <20210723124858.rh63jh2esxahib4e@sirius.home.kraxel.org>
  <20210729091407.n7bdlyw5rsievdch@sirius.home.kraxel.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d04c1456-e2fb-2b0d-e011-bcdafbacc9ba@suse.de>
-Date: Thu, 29 Jul 2021 11:40:50 +0200
+Message-ID: <f264970b-b12c-4e36-548f-d2411c7e3842@suse.de>
+Date: Thu, 29 Jul 2021 11:42:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
@@ -70,13 +70,13 @@ In-Reply-To: <20210729091407.n7bdlyw5rsievdch@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.277,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.277,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,9 +91,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Jose R. Ziviani" <jziviani@suse.de>
+Cc: "Jose R. Ziviani" <jziviani@suse.de>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, pbonzini@redhat.com,
+ Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -154,15 +155,9 @@ On 7/29/21 11:14 AM, Gerd Hoffmann wrote:
 >  * Arch-specific (functions taking CPUX86State as argument), most of the
 >    unresolved symbols in target/i386/ and i386/ directories go into this
 >    category.
-
-Yes, and we need to think about all targets, not just i386.
-
 >  * Common (functions taking CPUState as argument).  Everything else.
 > 
 > The common functions could be added TCGCPUOps to allow them being called via
-
-TCGCCPUOps are target-specific in their implementation, so I guess it's the arch specific part that could be TCGCPUOps (maybe, would need deep thinking).
-
 > CPUClass->tcg_ops->$name instead of a direct symbol reference.  Not sure this
 > is a good idea though.  Experimental patch covering tcg_exec_realizefn +
 > tcg_exec_unrealizefn below.
@@ -170,13 +165,6 @@ TCGCCPUOps are target-specific in their implementation, so I guess it's the arch
 > No idea yet how to handle arch-specific bits best.  Seems there is no existing
 > infrastructure to untangle target-specific code and tcg, so this probably needs
 > something new.
-
-We need target-specific modules. They could at the beginning absorb also the non-target specific parts in my view.
-So you have a big tcg-arm module, a tcg-i386 module etc.
-
-I think I sketched already the idea in the Makefile I shared before?
-
-
 > 
 > Noticed softmmu/physmem.c has lots of CONFIG_TCG #ifdefs, splitting this into
 > softmmu/physmem-{common,tcg}.c is probably a good idea.
@@ -555,4 +543,10 @@ I think I sketched already the idea in the Makefile I shared before?
 >  static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
 > 
 
+And another comment: I think we should have some progress on ARM with the kvm/tcg split and with the KConfig of boards,
+before we continue here.
+
+Ciao,
+
+C
 
