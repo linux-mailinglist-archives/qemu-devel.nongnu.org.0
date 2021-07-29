@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01D83D9AB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 02:58:13 +0200 (CEST)
-Received: from localhost ([::1]:54856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDB23D9ACC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 03:07:06 +0200 (CEST)
+Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8uNI-0003cl-Gu
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 20:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37028)
+	id 1m8uVs-0003Hv-TO
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 21:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCh-0004N7-2c
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:15 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45020)
+ id 1m8uCi-0004Pf-Qi
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:16 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCf-0002bP-26
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:14 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- e2-20020a17090a4a02b029016f3020d867so6691404pjh.3
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:47:12 -0700 (PDT)
+ id 1m8uCg-0002cP-Et
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:16 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t21so4820539plr.13
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Seo0E+McmsgX4omSDUL/4JZPs0iNMZy60VqUUXL+dtQ=;
- b=FDV65JRA96nWqdE1asuXhwhjd+Q0Kj2+qzLUdG5iAu40gJoOzJg9MIkcAzgdRL6mzt
- G4RWx3U4LTEYY86YAbL4QAV9oLJC3hmDQEHCZne6KFUamJX0vnpXn0N/cJVgbuUSRe/i
- 8LQJLFnWGE4LDXSlo7eC/yNt6wFvZ6z50ed7mOx7PeoCsX4X48/SWN2JPxj1ze6VfOsw
- yq70LDLGuOxnSS4jVGslXvlFoZs3mC1/oFAJcJodNRu0gfEuMHxoWI75PB3BpiCUAWb6
- lyMSEzAw3talCc/bmZ/UUEc+zNTEM99+H5U6Ii5yJ/tXwndr+CpUlZiPQ4KFDFGdf7qs
- YEYw==
+ bh=Yw1oDkJtcE7TYupDuoP+Nk0AqaIbWAB3zjzw2Dkt6Ow=;
+ b=xSUROodWXBIxnUYgk/9jxIC8zx5mdqh+3Vcb2t4mz70j/bKEeZRPDPDs9SbbImwTOu
+ BeMU9mgzIFlveenMgMpKdwp1MrHwnid+G//Ac/0JTORc5WA05h3pc4WPPvaLjI2MD0AI
+ Gc7JR5nvX0lbSd7Btm3WOuQ0dNf7Jfnj6JpeuIXld8ZlfQmGjs36xCjnHhzKvE1IgtVI
+ 1F96mjdaNnEt+ORa8sWfqSVx4M/RLH3pTPqISN4J+Zgl+3KLuN0CMiIftFNji9xNrb8a
+ NAcE8F8fL+l6+w2eaLEXXARjz9M3FFAftwpYVjbt80DmO+pNIqqUrX0iv6ir5o3lW8BX
+ BqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Seo0E+McmsgX4omSDUL/4JZPs0iNMZy60VqUUXL+dtQ=;
- b=TqEvYVa1h9Gn00qBVo7ASmio7jNWBI6FYmaYTNDp0OpWrXC/GgaBPkl3i1mqunU8P/
- 74bJLzShbBXkDQvnjUyVbkbUzcNcEWz1W6ZuJGF+ehJg0ij0plU3D7iAXaBEmsUUKV3S
- suxzQv/o5tEOlTNKbQ6Z04dmRV6y0s+lGETNryih3X8FnKmPQMl9i+PF0nDhlVckJra3
- 2TmiPBoh9npXm3feR0ovdqkApQlF/5wIJzHCzN0vSAilHXZoyCtTRypIrTtO1+abkNiv
- suH5l6YVmHB/1vJgdl9ia/9Z1OiHzTuwyWKM529rpml1TgJ+n3dQkWSeXyPSM4hE0ajX
- euZg==
-X-Gm-Message-State: AOAM531K2B4Vc9KFmuVkB02h6RVkyzl6lqtWruvjthByhHcYXFUjD6ix
- 5lcAHOhvVoUup9mw+DIpLjrhKgwOVCRijg==
-X-Google-Smtp-Source: ABdhPJy1zUJlOY98Jk/rbKjcjMkycin2Jy5kfN/+nyogXSiNhZLYZP+fIsqv5d2KNNEGhIfql+TM/w==
-X-Received: by 2002:a17:902:8d82:b029:120:4377:8e0e with SMTP id
- v2-20020a1709028d82b029012043778e0emr2291677plo.32.1627519631879; 
- Wed, 28 Jul 2021 17:47:11 -0700 (PDT)
+ bh=Yw1oDkJtcE7TYupDuoP+Nk0AqaIbWAB3zjzw2Dkt6Ow=;
+ b=cy9IKWFaCxMnlBBtzZC23oWPhJTKiGVGzqFlKLoMPvkTZdQ9Z4iOlGngvt///iFzB1
+ QM/OJgQ+XJA+kx96BJA0AUWC/9XeaapVMbNbGrFgLudLv6227fEhVsQ7hdQFFpU+EQUu
+ xX7Dixu2Z2/mSGV6Z4jmjVXVo9cOpN4tQhtyevDPu+y42bAVC0c0WmiKcJJM7SFNLPyB
+ uE3tqXUTm0VYJwgjkMQBUZzR40EDAZ+rRe8NPv0R9QOtv6A6CUFfaX2reoHT4wKkzeSp
+ ZRIONjzM7zsa0+G1qISEDK3BJN8WN4vpdyM8u/E1Q+dlc9DDdumCrtl4u0oJq8iIlfRj
+ 4Y4w==
+X-Gm-Message-State: AOAM531orM+mGQka6M85yOWfWLApCAF1jL7awhwW0/yfafRpveyZVem4
+ 0fZHMkRtl7G1NE1UY6QTbl2EcBWKpbtY5w==
+X-Google-Smtp-Source: ABdhPJzVmwW2K1t6GUkDH1n1D3cGj1zN6KYlhqcBrP2k5ESMH34omOylkVmUa3V3zPUlpRwrjqX7eg==
+X-Received: by 2002:aa7:9dc8:0:b029:35f:7eca:72cf with SMTP id
+ g8-20020aa79dc80000b029035f7eca72cfmr2242224pfq.77.1627519633061; 
+ Wed, 28 Jul 2021 17:47:13 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-dcaa-9e71-a2b2-2604.res6.spectrum.com.
  [2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604])
- by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.47.10
+ by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.47.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 17:47:11 -0700 (PDT)
+ Wed, 28 Jul 2021 17:47:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 18/43] accel/tcg: Drop signness in tracing in cputlb.c
-Date: Wed, 28 Jul 2021 14:46:22 -1000
-Message-Id: <20210729004647.282017-19-richard.henderson@linaro.org>
+Subject: [PATCH for-6.2 19/43] tcg: Expand MO_SIZE to 3 bits
+Date: Wed, 28 Jul 2021 14:46:23 -1000
+Message-Id: <20210729004647.282017-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210729004647.282017-1-richard.henderson@linaro.org>
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,149 +89,367 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are already inconsistent about whether or not
-MO_SIGN is set in trace_mem_get_info.  Dropping it
-entirely allows some simplification.
+We have lacked expressive support for memory sizes larger
+than 64-bits for a while.  Fixing that requires adjustment
+to several points where we used this for array indexing,
+and two places that develop -Wswitch warnings after the change.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c    | 10 +++-------
- accel/tcg/user-exec.c | 45 ++++++-------------------------------------
- 2 files changed, 9 insertions(+), 46 deletions(-)
+ include/exec/memop.h                | 14 +++++++++-----
+ target/arm/translate-a64.c          |  2 +-
+ tcg/tcg-op.c                        | 13 ++++++++-----
+ target/s390x/tcg/translate_vx.c.inc |  2 +-
+ tcg/aarch64/tcg-target.c.inc        |  4 ++--
+ tcg/arm/tcg-target.c.inc            |  4 ++--
+ tcg/i386/tcg-target.c.inc           |  4 ++--
+ tcg/mips/tcg-target.c.inc           |  4 ++--
+ tcg/ppc/tcg-target.c.inc            |  8 ++++----
+ tcg/riscv/tcg-target.c.inc          |  4 ++--
+ tcg/s390/tcg-target.c.inc           |  4 ++--
+ tcg/sparc/tcg-target.c.inc          | 16 ++++++++--------
+ 12 files changed, 43 insertions(+), 36 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index b1e5471f94..0a1fdbefdd 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2119,7 +2119,6 @@ static inline uint64_t cpu_load_helper(CPUArchState *env, abi_ptr addr,
-     meminfo = trace_mem_get_info(op, mmu_idx, false);
-     trace_guest_mem_before_exec(env_cpu(env), addr, meminfo);
+diff --git a/include/exec/memop.h b/include/exec/memop.h
+index 529d07b02d..04264ffd6b 100644
+--- a/include/exec/memop.h
++++ b/include/exec/memop.h
+@@ -19,11 +19,15 @@ typedef enum MemOp {
+     MO_16    = 1,
+     MO_32    = 2,
+     MO_64    = 3,
+-    MO_SIZE  = 3,   /* Mask for the above.  */
++    MO_128   = 4,
++    MO_256   = 5,
++    MO_512   = 6,
++    MO_1024  = 7,
++    MO_SIZE  = 0x07,   /* Mask for the above.  */
  
--    op &= ~MO_SIGN;
-     oi = make_memop_idx(op, mmu_idx);
-     ret = full_load(env, addr, oi, retaddr);
+-    MO_SIGN  = 4,   /* Sign-extended, otherwise zero-extended.  */
++    MO_SIGN  = 0x08,   /* Sign-extended, otherwise zero-extended.  */
  
-@@ -2137,8 +2136,7 @@ uint32_t cpu_ldub_mmuidx_ra(CPUArchState *env, abi_ptr addr,
- int cpu_ldsb_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-                        int mmu_idx, uintptr_t ra)
+-    MO_BSWAP = 8,   /* Host reverse endian.  */
++    MO_BSWAP = 0x10,   /* Host reverse endian.  */
+ #ifdef HOST_WORDS_BIGENDIAN
+     MO_LE    = MO_BSWAP,
+     MO_BE    = 0,
+@@ -59,8 +63,8 @@ typedef enum MemOp {
+      * - an alignment to a specified size, which may be more or less than
+      *   the access size (MO_ALIGN_x where 'x' is a size in bytes);
+      */
+-    MO_ASHIFT = 4,
+-    MO_AMASK = 7 << MO_ASHIFT,
++    MO_ASHIFT = 5,
++    MO_AMASK = 0x7 << MO_ASHIFT,
+ #ifdef NEED_CPU_H
+ #ifdef TARGET_ALIGNED_ONLY
+     MO_ALIGN = 0,
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 422e2ac0c9..247c9672be 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1045,7 +1045,7 @@ static void read_vec_element(DisasContext *s, TCGv_i64 tcg_dest, int srcidx,
+                              int element, MemOp memop)
  {
--    return (int8_t)cpu_load_helper(env, addr, mmu_idx, ra, MO_SB,
--                                   full_ldub_mmu);
-+    return (int8_t)cpu_ldub_mmuidx_ra(env, addr, mmu_idx, ra);
+     int vect_off = vec_reg_offset(s, srcidx, element, memop & MO_SIZE);
+-    switch (memop) {
++    switch ((unsigned)memop) {
+     case MO_8:
+         tcg_gen_ld8u_i64(tcg_dest, cpu_env, vect_off);
+         break;
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index c754396575..e01f68f44d 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2780,10 +2780,13 @@ static inline MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
+         }
+         break;
+     case MO_64:
+-        if (!is64) {
+-            tcg_abort();
++        if (is64) {
++            op &= ~MO_SIGN;
++            break;
+         }
+-        break;
++        /* fall through */
++    default:
++        g_assert_not_reached();
+     }
+     if (st) {
+         op &= ~MO_SIGN;
+@@ -3095,7 +3098,7 @@ typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_env, TCGv,
+ # define WITH_ATOMIC64(X)
+ #endif
+ 
+-static void * const table_cmpxchg[16] = {
++static void * const table_cmpxchg[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_8] = gen_helper_atomic_cmpxchgb,
+     [MO_16 | MO_LE] = gen_helper_atomic_cmpxchgw_le,
+     [MO_16 | MO_BE] = gen_helper_atomic_cmpxchgw_be,
+@@ -3297,7 +3300,7 @@ static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
  }
  
- uint32_t cpu_lduw_be_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-@@ -2150,8 +2148,7 @@ uint32_t cpu_lduw_be_mmuidx_ra(CPUArchState *env, abi_ptr addr,
- int cpu_ldsw_be_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-                           int mmu_idx, uintptr_t ra)
+ #define GEN_ATOMIC_HELPER(NAME, OP, NEW)                                \
+-static void * const table_##NAME[16] = {                                \
++static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] = {          \
+     [MO_8] = gen_helper_atomic_##NAME##b,                               \
+     [MO_16 | MO_LE] = gen_helper_atomic_##NAME##w_le,                   \
+     [MO_16 | MO_BE] = gen_helper_atomic_##NAME##w_be,                   \
+diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
+index 0afa46e463..28bf5a23b6 100644
+--- a/target/s390x/tcg/translate_vx.c.inc
++++ b/target/s390x/tcg/translate_vx.c.inc
+@@ -67,7 +67,7 @@ static void read_vec_element_i64(TCGv_i64 dst, uint8_t reg, uint8_t enr,
  {
--    return (int16_t)cpu_load_helper(env, addr, mmu_idx, ra, MO_BESW,
--                                    full_be_lduw_mmu);
-+    return (int16_t)cpu_lduw_be_mmuidx_ra(env, addr, mmu_idx, ra);
+     const int offs = vec_reg_offset(reg, enr, memop & MO_SIZE);
+ 
+-    switch (memop) {
++    switch ((unsigned)memop) {
+     case ES_8:
+         tcg_gen_ld8u_i64(dst, cpu_env, offs);
+         break;
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 5924977b42..6f43c048a5 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1547,7 +1547,7 @@ static void tcg_out_cltz(TCGContext *s, TCGType ext, TCGReg d,
+ /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
+  *                                     TCGMemOpIdx oi, uintptr_t ra)
+  */
+-static void * const qemu_ld_helpers[4] = {
++static void * const qemu_ld_helpers[MO_SIZE + 1] = {
+     [MO_8]  = helper_ret_ldub_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+     [MO_16] = helper_be_lduw_mmu,
+@@ -1564,7 +1564,7 @@ static void * const qemu_ld_helpers[4] = {
+  *                                     uintxx_t val, TCGMemOpIdx oi,
+  *                                     uintptr_t ra)
+  */
+-static void * const qemu_st_helpers[4] = {
++static void * const qemu_st_helpers[MO_SIZE + 1] = {
+     [MO_8]  = helper_ret_stb_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+     [MO_16] = helper_be_stw_mmu,
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 007ceee68e..8939b2c2da 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -1393,7 +1393,7 @@ static void tcg_out_vldst(TCGContext *s, ARMInsn insn,
+ /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
+  *                                     int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_ld_helpers[8] = {
++static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
+     [MO_UB]   = helper_ret_ldub_mmu,
+     [MO_SB]   = helper_ret_ldsb_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+@@ -1414,7 +1414,7 @@ static void * const qemu_ld_helpers[8] = {
+ /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
+  *                                     uintxx_t val, int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_st_helpers[4] = {
++static void * const qemu_st_helpers[MO_SIZE + 1] = {
+     [MO_8]   = helper_ret_stb_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+     [MO_16] = helper_be_stw_mmu,
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 98d924b91a..5fd4e4392f 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -1610,7 +1610,7 @@ static void tcg_out_nopn(TCGContext *s, int n)
+ /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
+  *                                     int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_ld_helpers[16] = {
++static void * const qemu_ld_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_ldub_mmu,
+     [MO_LEUW] = helper_le_lduw_mmu,
+     [MO_LEUL] = helper_le_ldul_mmu,
+@@ -1623,7 +1623,7 @@ static void * const qemu_ld_helpers[16] = {
+ /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
+  *                                     uintxx_t val, int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_st_helpers[16] = {
++static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_stb_mmu,
+     [MO_LEUW] = helper_le_stw_mmu,
+     [MO_LEUL] = helper_le_stl_mmu,
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index bf0eb84e2d..cc279205d6 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -1037,7 +1037,7 @@ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
+ #if defined(CONFIG_SOFTMMU)
+ #include "../tcg-ldst.c.inc"
+ 
+-static void * const qemu_ld_helpers[16] = {
++static void * const qemu_ld_helpers[(MO_SSIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_ldub_mmu,
+     [MO_SB]   = helper_ret_ldsb_mmu,
+     [MO_LEUW] = helper_le_lduw_mmu,
+@@ -1054,7 +1054,7 @@ static void * const qemu_ld_helpers[16] = {
+ #endif
+ };
+ 
+-static void * const qemu_st_helpers[16] = {
++static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_stb_mmu,
+     [MO_LEUW] = helper_le_stw_mmu,
+     [MO_LEUL] = helper_le_stl_mmu,
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index e0f4665213..3fef2aa6b2 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -1916,7 +1916,7 @@ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target)
+ #endif
  }
  
- uint32_t cpu_ldl_be_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-@@ -2175,8 +2172,7 @@ uint32_t cpu_lduw_le_mmuidx_ra(CPUArchState *env, abi_ptr addr,
- int cpu_ldsw_le_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-                           int mmu_idx, uintptr_t ra)
- {
--    return (int16_t)cpu_load_helper(env, addr, mmu_idx, ra, MO_LESW,
--                                    full_le_lduw_mmu);
-+    return (int16_t)cpu_lduw_le_mmuidx_ra(env, addr, mmu_idx, ra);
+-static const uint32_t qemu_ldx_opc[16] = {
++static const uint32_t qemu_ldx_opc[(MO_SSIZE + MO_BSWAP) + 1] = {
+     [MO_UB] = LBZX,
+     [MO_UW] = LHZX,
+     [MO_UL] = LWZX,
+@@ -1929,7 +1929,7 @@ static const uint32_t qemu_ldx_opc[16] = {
+     [MO_BSWAP | MO_Q]  = LDBRX,
+ };
+ 
+-static const uint32_t qemu_stx_opc[16] = {
++static const uint32_t qemu_stx_opc[(MO_SIZE + MO_BSWAP) + 1] = {
+     [MO_UB] = STBX,
+     [MO_UW] = STHX,
+     [MO_UL] = STWX,
+@@ -1950,7 +1950,7 @@ static const uint32_t qemu_exts_opc[4] = {
+ /* helper signature: helper_ld_mmu(CPUState *env, target_ulong addr,
+  *                                 int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_ld_helpers[16] = {
++static void * const qemu_ld_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_ldub_mmu,
+     [MO_LEUW] = helper_le_lduw_mmu,
+     [MO_LEUL] = helper_le_ldul_mmu,
+@@ -1963,7 +1963,7 @@ static void * const qemu_ld_helpers[16] = {
+ /* helper signature: helper_st_mmu(CPUState *env, target_ulong addr,
+  *                                 uintxx_t val, int mmu_idx, uintptr_t ra)
+  */
+-static void * const qemu_st_helpers[16] = {
++static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_stb_mmu,
+     [MO_LEUW] = helper_le_stw_mmu,
+     [MO_LEUL] = helper_le_stl_mmu,
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index c16f96b401..6264e58b3a 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -852,7 +852,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+ /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
+  *                                     TCGMemOpIdx oi, uintptr_t ra)
+  */
+-static void * const qemu_ld_helpers[8] = {
++static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
+     [MO_UB] = helper_ret_ldub_mmu,
+     [MO_SB] = helper_ret_ldsb_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+@@ -878,7 +878,7 @@ static void * const qemu_ld_helpers[8] = {
+  *                                     uintxx_t val, TCGMemOpIdx oi,
+  *                                     uintptr_t ra)
+  */
+-static void * const qemu_st_helpers[4] = {
++static void * const qemu_st_helpers[MO_SIZE + 1] = {
+     [MO_8]   = helper_ret_stb_mmu,
+ #ifdef HOST_WORDS_BIGENDIAN
+     [MO_16] = helper_be_stw_mmu,
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index b82cf19f09..67a2ba5ff3 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -350,7 +350,7 @@ static const uint8_t tcg_cond_to_ltr_cond[] = {
+ };
+ 
+ #ifdef CONFIG_SOFTMMU
+-static void * const qemu_ld_helpers[16] = {
++static void * const qemu_ld_helpers[(MO_SSIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_ldub_mmu,
+     [MO_SB]   = helper_ret_ldsb_mmu,
+     [MO_LEUW] = helper_le_lduw_mmu,
+@@ -365,7 +365,7 @@ static void * const qemu_ld_helpers[16] = {
+     [MO_BEQ]  = helper_be_ldq_mmu,
+ };
+ 
+-static void * const qemu_st_helpers[16] = {
++static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = helper_ret_stb_mmu,
+     [MO_LEUW] = helper_le_stw_mmu,
+     [MO_LEUL] = helper_le_stl_mmu,
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 688827968b..b9bce29282 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -847,8 +847,8 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
  }
  
- uint32_t cpu_ldl_le_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index dd77e90789..f17b75e0aa 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -875,13 +875,7 @@ uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr)
+ #ifdef CONFIG_SOFTMMU
+-static const tcg_insn_unit *qemu_ld_trampoline[16];
+-static const tcg_insn_unit *qemu_st_trampoline[16];
++static const tcg_insn_unit *qemu_ld_trampoline[(MO_SSIZE | MO_BSWAP) + 1];
++static const tcg_insn_unit *qemu_st_trampoline[(MO_SIZE | MO_BSWAP) + 1];
  
- int cpu_ldsb_data(CPUArchState *env, abi_ptr ptr)
+ static void emit_extend(TCGContext *s, TCGReg r, int op)
  {
--    int ret;
--    uint16_t meminfo = trace_mem_get_info(MO_SB, MMU_USER_IDX, false);
--
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsb_p(g2h(env_cpu(env), ptr));
--    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
--    return ret;
-+    return (int8_t)cpu_ldub_data(env, ptr);
- }
+@@ -875,7 +875,7 @@ static void emit_extend(TCGContext *s, TCGReg r, int op)
  
- uint32_t cpu_lduw_be_data(CPUArchState *env, abi_ptr ptr)
-@@ -897,13 +891,7 @@ uint32_t cpu_lduw_be_data(CPUArchState *env, abi_ptr ptr)
- 
- int cpu_ldsw_be_data(CPUArchState *env, abi_ptr ptr)
+ static void build_trampolines(TCGContext *s)
  {
--    int ret;
--    uint16_t meminfo = trace_mem_get_info(MO_BESW, MMU_USER_IDX, false);
--
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsw_be_p(g2h(env_cpu(env), ptr));
--    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
--    return ret;
-+    return (int16_t)cpu_lduw_be_data(env, ptr);
+-    static void * const qemu_ld_helpers[16] = {
++    static void * const qemu_ld_helpers[] = {
+         [MO_UB]   = helper_ret_ldub_mmu,
+         [MO_SB]   = helper_ret_ldsb_mmu,
+         [MO_LEUW] = helper_le_lduw_mmu,
+@@ -887,7 +887,7 @@ static void build_trampolines(TCGContext *s)
+         [MO_BEUL] = helper_be_ldul_mmu,
+         [MO_BEQ]  = helper_be_ldq_mmu,
+     };
+-    static void * const qemu_st_helpers[16] = {
++    static void * const qemu_st_helpers[] = {
+         [MO_UB]   = helper_ret_stb_mmu,
+         [MO_LEUW] = helper_le_stw_mmu,
+         [MO_LEUL] = helper_le_stl_mmu,
+@@ -900,7 +900,7 @@ static void build_trampolines(TCGContext *s)
+     int i;
+     TCGReg ra;
+ 
+-    for (i = 0; i < 16; ++i) {
++    for (i = 0; i < ARRAY_SIZE(qemu_ld_helpers); ++i) {
+         if (qemu_ld_helpers[i] == NULL) {
+             continue;
+         }
+@@ -928,7 +928,7 @@ static void build_trampolines(TCGContext *s)
+         tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_O7, ra);
+     }
+ 
+-    for (i = 0; i < 16; ++i) {
++    for (i = 0; i < ARRAY_SIZE(qemu_st_helpers); ++i) {
+         if (qemu_st_helpers[i] == NULL) {
+             continue;
+         }
+@@ -1110,7 +1110,7 @@ static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addr, int mem_index,
  }
+ #endif /* CONFIG_SOFTMMU */
  
- uint32_t cpu_ldl_be_data(CPUArchState *env, abi_ptr ptr)
-@@ -941,13 +929,7 @@ uint32_t cpu_lduw_le_data(CPUArchState *env, abi_ptr ptr)
+-static const int qemu_ld_opc[16] = {
++static const int qemu_ld_opc[(MO_SSIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = LDUB,
+     [MO_SB]   = LDSB,
  
- int cpu_ldsw_le_data(CPUArchState *env, abi_ptr ptr)
- {
--    int ret;
--    uint16_t meminfo = trace_mem_get_info(MO_LESW, MMU_USER_IDX, false);
--
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsw_le_p(g2h(env_cpu(env), ptr));
--    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
--    return ret;
-+    return (int16_t)cpu_lduw_le_data(env, ptr);
- }
+@@ -1127,7 +1127,7 @@ static const int qemu_ld_opc[16] = {
+     [MO_LEQ]  = LDX_LE,
+ };
  
- uint32_t cpu_ldl_le_data(CPUArchState *env, abi_ptr ptr)
-@@ -984,12 +966,7 @@ uint32_t cpu_ldub_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
+-static const int qemu_st_opc[16] = {
++static const int qemu_st_opc[(MO_SIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = STB,
  
- int cpu_ldsb_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
- {
--    int ret;
--
--    set_helper_retaddr(retaddr);
--    ret = cpu_ldsb_data(env, ptr);
--    clear_helper_retaddr();
--    return ret;
-+    return (int8_t)cpu_ldub_data_ra(env, ptr, retaddr);
- }
- 
- uint32_t cpu_lduw_be_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-@@ -1004,12 +981,7 @@ uint32_t cpu_lduw_be_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
- 
- int cpu_ldsw_be_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
- {
--    int ret;
--
--    set_helper_retaddr(retaddr);
--    ret = cpu_ldsw_be_data(env, ptr);
--    clear_helper_retaddr();
--    return ret;
-+    return (int16_t)cpu_lduw_be_data_ra(env, ptr, retaddr);
- }
- 
- uint32_t cpu_ldl_be_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-@@ -1044,12 +1016,7 @@ uint32_t cpu_lduw_le_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
- 
- int cpu_ldsw_le_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
- {
--    int ret;
--
--    set_helper_retaddr(retaddr);
--    ret = cpu_ldsw_le_data(env, ptr);
--    clear_helper_retaddr();
--    return ret;
-+    return (int16_t)cpu_lduw_le_data_ra(env, ptr, retaddr);
- }
- 
- uint32_t cpu_ldl_le_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
+     [MO_BEUW] = STH,
 -- 
 2.25.1
 
