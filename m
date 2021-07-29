@@ -2,97 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBFA3DABD4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:25:12 +0200 (CEST)
-Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E543DABD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:32:25 +0200 (CEST)
+Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9BeZ-0004ts-LF
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42096)
+	id 1m9BlW-0002Ma-1h
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9BcJ-000391-DC
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:22:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43811)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m9Bkc-0001g0-HT
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:31:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9BcH-0007nD-Nk
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:22:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627586569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/W6V/QwFbfmSoI18mcFu5r7Qthog7nUKOqiwQjODHm4=;
- b=ExhQ3sWissWzYS8ZUs6bs09TE0lK52nN9em+h5/2SoNphP0LB78WqQiRSSMHELVBvgfFOa
- zK8M6N3lLBmkUUznsoLniOoedcfX+MlcvzFq5TtmeWAbqIiTdrvSJj7yZS1sLMKUAoOQWZ
- FUJ+KvDzXUEBSmX9C4EpjXutUmiy1qg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-Zj3_nk-RMrmKBklU8QnhhA-1; Thu, 29 Jul 2021 15:22:47 -0400
-X-MC-Unique: Zj3_nk-RMrmKBklU8QnhhA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so2312867wmj.6
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 12:22:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/W6V/QwFbfmSoI18mcFu5r7Qthog7nUKOqiwQjODHm4=;
- b=s9ax8omWlvv8EP1aU8CEW9hp0gyBumsBPHIJhriQoVflg1SfAFzlqVdb7S2fGYvy5+
- 0WAF5pG0gQ+V/uUYlwpzBhBKzJ3ebJhCx0S2txkTJpKh8dkS7tEnA42o3OWsXxVYsHQJ
- HXlfYNw6sDxxRlw+6GFxHwDekYFsXG/nPLW5fydyuZQKY5kGJG9Xp+gfTi4+pn78yS7Z
- OvEaD4N1J8Oe7fUWzy3ltQmbVOcC9YKU4+zgkUN9anvCyev+NaPfWXZPfTOVWQcFZXlW
- SH977/6ydWWJAOHMa4nyjBVOjGrarqSm9T3bl09ZfJYi5aYlg+e7jzHCYdKgvzZUhsz3
- pviA==
-X-Gm-Message-State: AOAM531/79Qas62XN+csJFd9nHoHpe7qU7lwYVchWmHdgSPSKjjQSFqa
- GxL6I/g84fpJ5C5R8/EFp7Ko1TYTqSq4axGsanH0ImKYWMC5AkdJ7jpwmQSbOaMYWVMd/WR2rTR
- SaHDNcfrdIU91inU=
-X-Received: by 2002:adf:f351:: with SMTP id e17mr6614163wrp.360.1627586566669; 
- Thu, 29 Jul 2021 12:22:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJweGU10mga25+BOncguqQncreCN0U6xFodeRvuZJ0PK+34zKrBO0edNecWpvgXTsq0prXSLBA==
-X-Received: by 2002:adf:f351:: with SMTP id e17mr6614138wrp.360.1627586566451; 
- Thu, 29 Jul 2021 12:22:46 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id j140sm4269135wmj.37.2021.07.29.12.22.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 12:22:45 -0700 (PDT)
-Subject: Re: [PATCH v2 5/6] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
-To: Peter Xu <peterx@redhat.com>
-References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-6-david@redhat.com> <YPrvfST43SFOMA1F@t490s>
- <2ce949f2-6950-5404-70e4-73a2e41b4ca8@redhat.com> <YPsP8+STD836MO3L@t490s>
- <124693ef-5595-85c9-da5a-8f8e6a827c19@redhat.com> <YPs+cO7u1eXMomE0@t490s>
- <de4bd533-efaa-a6e5-c73c-01016d0f229c@redhat.com> <YQLO1QoOIu8dlaEq@t490s>
- <5ede7b00-1048-c124-e239-eeff21d9adb0@redhat.com> <YQL/jxRizBc0OFZS@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <c1edb51d-41c6-a3b8-7b3e-de277abf3ed0@redhat.com>
-Date: Thu, 29 Jul 2021 21:22:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YQL/jxRizBc0OFZS@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m9BkY-0005Jv-K3
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:31:26 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16TJJKY2161353; Thu, 29 Jul 2021 15:31:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=1BTOysQcN2ecBMaGCkte3SDyPKGLavPFdDLtBbyuRkM=;
+ b=VMegyYb/gmnwoPfTrFlViLKVyuD2q4eozBkzhikH5two2Bf+7PeBkoOwbwG5Ec6pRhKM
+ 2FeGhuTBXNiMqfOj8curHexPz4wJoaE546ds7D3tZ3nRaHgxT5HD3GTparJebtdnYDtJ
+ kxzPHnFx6wP/Q2sL8H2lCgn6DRUCKLq44JUqLGr9G/s0hytK6NUNg1tYeuX/OUXMEtnS
+ Uo+omx4uL1TAdm0i++wFOcp7ci7EGJvUYNDt242SiVGHKMrQ8Wo69rqoEVQvj4rwxMte
+ 0TX/2Gnih8+LP8n/ZiwJEOIZ0uDmy/J0dzTSGGlkUvsIQua0FTZSk2cz+V3fGViLiR5c pA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3a42bs09tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Jul 2021 15:31:12 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16TJJU2D164060;
+ Thu, 29 Jul 2021 15:31:11 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3a42bs09sh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Jul 2021 15:31:11 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16TJ8lGm003916;
+ Thu, 29 Jul 2021 19:31:10 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma05wdc.us.ibm.com with ESMTP id 3a23655b91-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Jul 2021 19:31:10 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16TJV81E35258808
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Jul 2021 19:31:08 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76EE66A063;
+ Thu, 29 Jul 2021 19:31:08 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 71E216A054;
+ Thu, 29 Jul 2021 19:31:04 +0000 (GMT)
+Received: from [9.160.123.143] (unknown [9.160.123.143])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 29 Jul 2021 19:31:04 +0000 (GMT)
+Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
+ kernel/initrd/cmdline
+To: Connor Kuehl <ckuehl@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
+ <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
+ <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
+ <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <203b655c-809b-b418-f61c-982e587fa9f2@linux.ibm.com>
+Date: Thu, 29 Jul 2021 22:31:02 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: o8VwFxk4YcREyPoPmvnU8PqBvywRXhd9
+X-Proofpoint-ORIG-GUID: N65U6FIBl92a6ziuWZXwYlqglB2Cpy8n
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-29_16:2021-07-29,
+ 2021-07-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2107140000 definitions=main-2107290117
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,84 +120,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.07.21 21:20, Peter Xu wrote:
-> On Thu, Jul 29, 2021 at 06:15:58PM +0200, David Hildenbrand wrote:
->> On 29.07.21 17:52, Peter Xu wrote:
->>> On Thu, Jul 29, 2021 at 02:14:41PM +0200, David Hildenbrand wrote:
->>>> On 24.07.21 00:10, Peter Xu wrote:
->>>>> On Fri, Jul 23, 2021 at 09:01:42PM +0200, David Hildenbrand wrote:
->>>>>> It can happen in corner cases and is valid: with the current virtio-mem
->>>>>> spec, guests are allowed to read unplugged memory. This will, for example,
->>>>>> happen on older Linux guests when reading /proc/kcore or (with even older
->>>>>> guests) when dumping guest memory via kdump. These corner cases were the
->>>>>> main reason why the spec allows for it -- until we have guests properly
->>>>>> adjusted such that it won't happen even in corner cases.
->>>>>>
->>>>>> A future feature bit will disallow it for the guest: required for supporting
->>>>>> shmem/hugetlb cleanly. With that in place, I agree that we would want to
->>>>>> warn in this case!
->>>>>
->>>>> OK that makes sense; with the page_size change, feel free to add:
->>>>
->>>> I just realized that relying on the page_size would be wrong.
->>>>
->>>> We migrate TARGET_PAGE_SIZE chunks and the offset might not be page_size
->>>> aligned. So if we were to replace TARGET_PAGE_SIZE by rb->page_size, we
->>>> might accidentally cover a "too big" range.
+Hi Paolo, Phil, Connor,
+
+On 08/07/2021 20:16, Connor Kuehl wrote:
+> On 7/8/21 10:03 AM, Philippe Mathieu-Daudé wrote:
+>> On 7/8/21 6:41 PM, Connor Kuehl wrote:
+>>> Hi Paolo,
 >>>
->>> I'm wondering whether we should make the offset page size aligned instead.  For
->>> example, note that postcopy_place_page_zero() should only take page_size
->>> aligned host addr or UFFDIO_COPY could fail (hugetlb doesn't support
->>> UFFDIO_ZEROPAGE yet).
+>>> Please consider this series[1] for inclusion into your next pull request.
+>>>
+>>> Just a note that this series has a companion series that is getting
+>>> upstreamed into OVMF[2]
 >>
->> That is true indeed. I'd assume in that case that we would get called with
->> the proper offset already, right? Because uffd would only report properly
->> aligned pages IIRC.
-> 
-> Nop; it should return the faulted address. So postcopy_request_page() may need
-> some alignment work, as it was handled in migrate_send_rp_req_pages().
-> 
+>> Shouldn't we get the OVMF part merged first?
 
-Right, figured that out myself just now:
+The OVMF companion series has been reviewed by the new OVMF maintainer
+and merged to edk2 master branch as of edk2 commit 514b3aa08ece [1].
 
-static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
-                                  ram_addr_t start, uint64_t haddr)
-{
-     void *aligned = (void *)(uintptr_t)(haddr & -qemu_ram_pagesize(rb));
-
-     /*
-      * Discarded pages (via RamDiscardManager) are never migrated. On unlikely
-      * access, place a zeropage, which will also set the relevant bits in the
-      * recv_bitmap accordingly, so we won't try placing a zeropage twice.
-      *
-      * Checking a single bit is sufficient to handle pagesize > TPS as either
-      * all relevant bits are set or not.
-      */
-     assert(QEMU_IS_ALIGNED(start, qemu_ram_pagesize(rb)));
-     if (ramblock_page_is_discarded(rb, start)) {
-         bool received = ramblock_recv_bitmap_test_byte_offset(rb, start);
-
-         return received ? 0 : postcopy_place_page_zero(mis, aligned, rb);
-     }
-
-     return migrate_send_rp_req_pages(mis, rb, start, haddr);
-}
+[1] https://github.com/tianocore/edk2/commit/514b3aa08ece
 
 
--- 
 Thanks,
+Dov
 
-David / dhildenb
 
+> 
+> The approach taken in the OVMF series doesn't seem very controversial,
+> so I don't anticipate any breaking changes with the current state of
+> those patches as far as QEMU is concerned.
+> 
+> However, I'm fine with erring on the side of caution.
+> 
+> Connor
+> 
 
