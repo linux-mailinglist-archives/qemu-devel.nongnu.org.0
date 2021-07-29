@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7FA3DAB63
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:53:09 +0200 (CEST)
-Received: from localhost ([::1]:45072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DAF3DABB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:14:34 +0200 (CEST)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9B9Y-0006Jb-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
+	id 1m9BUH-0003iI-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9B8Y-0005R4-WF
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:52:07 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39817)
+ id 1m9BTN-00033W-A5
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:13:37 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9B8W-00042n-KF
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:52:06 -0400
-Received: by mail-pl1-x634.google.com with SMTP id e5so8043353pld.6
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:52:04 -0700 (PDT)
+ id 1m9BTL-0001qf-Oc
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:13:37 -0400
+Received: by mail-pl1-x633.google.com with SMTP id d1so8157011pll.1
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 12:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+DxOKe3/E6gEKl5nvpUDjx9yDlNFjtyvBIpuMhRbKbI=;
- b=p2NcOG6H8/k4RGFtygz1iz1S9fMtsyw0AP5A86EXBos+ghppia7I1yQP5O+xu7wLNA
- k7KkpN6VJ13O+QhhOyxDYyU5p/vFVOYhmKehmJdRReqy3gQPY2MxwcXWBDPTJXHRIrWC
- lo27UwtxFnsutiEfHGuDYCgUN/iJ0m67F/ceAzNAC+tbbWgATFxtewlP6BwjHGZafeL4
- Kw6+86wpOSEvBWrLQ1hO3rbgj8A4EzrRW1AEhCfgpk8Su09uxu0xk5KPB9KZBq7xluTQ
- rpqvmcx31723NoXCyyJFUumtCZmR3wQJNBqWTxxx3JS14rYnMnxEsmIp9xWoQMEUxPyp
- BHTA==
+ bh=VxRyvqxYZOjAq5kIjoSXJpmwqhYA9JfP0SaAGBb6/gM=;
+ b=j3IwmntfkD6UMycTdtR19HyB05JsQJLB0zTUOhMAXNR2oy6Yp/PhGIIzCP2vd779bS
+ A3xqa+j96ZcUyjAsMcaCRKZO86h/4c80llpUNXzdCqdrOh7GbVhl4hBFSjUfIyCzw5zW
+ hb93+ILWKJOrKv0jWCTBZNLQN99JnnDSwWN58VUhjuOybui5HUWUfVt1LMPeAfbtavuh
+ m4hhR+ix4x+QEQy5mGJ0TlxS9wLvYCN+y1cMqc2Jt2a+MJF3oH81gi9VOqglt+F2HmLb
+ soz9Ix5Ty3YZy27riKnN6ewo9v1J0Innf4xne4W443XdfDnlngu9VY7f1Q/dtaYFWywg
+ 5HGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+DxOKe3/E6gEKl5nvpUDjx9yDlNFjtyvBIpuMhRbKbI=;
- b=CbpFBsY1mNlOhmjG1JLg0+/4TjgddZtMB6U6MNgIg+7j0q3tzJLEZ0lLLaHcuUIDZs
- Oy+NGuUYK3gHhR5F7yBQ1eiN3WUxL+ZRl9dYeewGIgE5bKnZwsHnfjwpraDb6Knlc1GJ
- gJnpwHzsgEbqOq94xEui7CKglWJR1mkNPkvEAB6VAJlrcVdPx6oRhmrVGzLGGmdV83Fo
- tzdcoz0VMRi4XIaRFTYHQ/F6kdOilQ2D07yrBFeuC6BledcCV9VVv+Kv+vOaSC8IrUBy
- PARclh81TblaQKjyX+5LiZwrSJi8yDhbPo66NhIawiRzy5oD/Bg9DL6dChxRrMBAU411
- YiFA==
-X-Gm-Message-State: AOAM532Mp3mH0xVEctEu17o+7TBiHZQEl916wO4XaSOwFRkku2y6Iz4f
- djhaU/apO69hrrOsmfgdk7jz5A==
-X-Google-Smtp-Source: ABdhPJztPKKvKy6QvTNV+VY4Kg7OsXPCsBA8ErDJ3Wsb0vwcpC34KooMZvu+1QztA9YbSj4ylUDWrw==
-X-Received: by 2002:aa7:8185:0:b029:3aa:29a2:39d3 with SMTP id
- g5-20020aa781850000b02903aa29a239d3mr2702483pfi.28.1627584722967; 
- Thu, 29 Jul 2021 11:52:02 -0700 (PDT)
+ bh=VxRyvqxYZOjAq5kIjoSXJpmwqhYA9JfP0SaAGBb6/gM=;
+ b=SGoKSv/72lzdDGMp+o+wTyE6IF17NUWydN/rlC6dB3W8AP5aWxRReTtQKWsDVcGxCL
+ 3sR7xPgTU7az30RDQMI33/oP3EdXyDgs97I1Nhpf/oUDcD+7lQBR1uy+R4Mw5zxns/n6
+ vNflQM6o1veXOBJQ/9dh1DVAtwPIiTDWF7oLEW7eGGEli36uVrX/EWBkQhMcc5Ifrkx7
+ Y37CnIYbgdhcgeRRUFmJ2hmnODhg9sisoOYGZZaaQZhPvQvFQssn5kkPD3dtM1ivOA6A
+ 7nnuG3Mxr53iXYo7c8dQYhuZ7MLV/u26XU9g2LsRRYNBKjn+xq9dfrwfer/K9kSC5KYZ
+ rL2g==
+X-Gm-Message-State: AOAM532LPXnooJ86dpeL4tzhbMsoJm6lph+y+EBNAcLLhRXVTe3CX6y7
+ UkjweDOWhIbTvV+Y9mChjJCO2Q==
+X-Google-Smtp-Source: ABdhPJwMhL9d2qLPOJTZbZH6/7CmxuarwuFbOEdKBdDjScTSAn6ELKcaw2XOZSBf+cQFFaIJ7wiugQ==
+X-Received: by 2002:a17:903:31d5:b029:129:18a9:6267 with SMTP id
+ v21-20020a17090331d5b029012918a96267mr5828975ple.43.1627586014096; 
+ Thu, 29 Jul 2021 12:13:34 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id d2sm401952pjs.28.2021.07.29.11.52.01
+ by smtp.gmail.com with ESMTPSA id a21sm10127683pjq.2.2021.07.29.12.13.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 11:52:02 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 03/43] target/arm: Implement do_unaligned_access
- for user-only
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-4-richard.henderson@linaro.org>
- <CAFEAcA9ZZK2FhCptvypviDOoC-SQkP1rfANrPWZJH1F99GV87Q@mail.gmail.com>
+ Thu, 29 Jul 2021 12:13:33 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1? v2] target/nios2: Mark raise_exception() as
+ noreturn
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210729101315.2318714-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <38180886-99b6-af82-1b95-ba0d250d06f5@linaro.org>
-Date: Thu, 29 Jul 2021 08:51:59 -1000
+Message-ID: <caba47e2-c139-aae3-d5f1-8a4118c282d8@linaro.org>
+Date: Thu, 29 Jul 2021 09:13:29 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9ZZK2FhCptvypviDOoC-SQkP1rfANrPWZJH1F99GV87Q@mail.gmail.com>
+In-Reply-To: <20210729101315.2318714-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,126 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Marek Vasut <marex@denx.de>, Jeff Da Silva <jdasilva@altera.com>,
+ Chris Wulff <crwulff@gmail.com>, Sandra Loosemore <sandra@codesourcery.com>,
+ Yves Vandervennet <yvanderv@altera.com>, Ley Foon Tan <lftan@altera.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 3:14 AM, Peter Maydell wrote:
-> On Thu, 29 Jul 2021 at 01:47, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Cc: qemu-arm@nongnu.org
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   linux-user/aarch64/cpu_loop.c |  4 ++++
->>   linux-user/arm/cpu_loop.c     | 43 +++++++++++++++++++++++++++--------
->>   target/arm/cpu.c              |  2 +-
->>   target/arm/cpu_tcg.c          |  2 +-
->>   4 files changed, 40 insertions(+), 11 deletions(-)
->>
->> diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
->> index ee72a1c20f..998831f87f 100644
->> --- a/linux-user/aarch64/cpu_loop.c
->> +++ b/linux-user/aarch64/cpu_loop.c
->> @@ -137,6 +137,10 @@ void cpu_loop(CPUARMState *env)
->>               case 0x11: /* Synchronous Tag Check Fault */
->>                   info.si_code = TARGET_SEGV_MTESERR;
->>                   break;
->> +            case 0x21: /* Alignment fault */
->> +                info.si_signo = TARGET_SIGBUS;
->> +                info.si_code = TARGET_BUS_ADRALN;
->> +                break;
->>               default:
->>                   g_assert_not_reached();
->>               }
->> diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
->> index 69632d15be..da7da6a0c1 100644
->> --- a/linux-user/arm/cpu_loop.c
->> +++ b/linux-user/arm/cpu_loop.c
->> @@ -23,6 +23,7 @@
->>   #include "elf.h"
->>   #include "cpu_loop-common.h"
->>   #include "semihosting/common-semi.h"
->> +#include "target/arm/syndrome.h"
+On 7/29/21 12:13 AM, Philippe Mathieu-Daudé wrote:
+> Raised exceptions don't return, so mark the helper with
+> noreturn.
 > 
-> Not a huge fan of linux-user files pulling in target/arm headers, but
-> I guess we do it already in aarch64/cpu_loop.c. (Though that is afaict
-> the only other place ATM...)
-> 
->>
->>   #define get_user_code_u32(x, gaddr, env)                \
->>       ({ abi_long __r = get_user_u32((x), (gaddr));       \
->> @@ -286,9 +287,8 @@ void cpu_loop(CPUARMState *env)
->>   {
->>       CPUState *cs = env_cpu(env);
->>       int trapnr;
->> -    unsigned int n, insn;
->> +    unsigned int n, insn, ec, fsc;
->>       target_siginfo_t info;
->> -    uint32_t addr;
->>       abi_ulong ret;
->>
->>       for(;;) {
->> @@ -437,15 +437,40 @@ void cpu_loop(CPUARMState *env)
->>               break;
->>           case EXCP_PREFETCH_ABORT:
->>           case EXCP_DATA_ABORT:
->> -            addr = env->exception.vaddress;
->> -            {
->> -                info.si_signo = TARGET_SIGSEGV;
->> -                info.si_errno = 0;
->> -                /* XXX: check env->error_code */
->> +            info.si_signo = TARGET_SIGSEGV;
->> +            info.si_errno = 0;
->> +            info._sifields._sigfault._addr = env->exception.vaddress;
->> +            /*
->> +             * We should only arrive here with EC in {DATAABORT, INSNABORT},
->> +             * and short-form FSC, which then tells us to look at the FSR.
->> +             * ??? arm_cpu_reset never sets TTBCR_EAE, so we always get
->> +             * short-form FSC.
->> +             */
->> +            ec = syn_get_ec(env->exception.syndrome);
->> +            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
->> +            fsc = extract32(env->exception.syndrome, 0, 6);
->> +            assert(fsc == 0x3f);
->> +            switch (env->exception.fsr & 0x1f) {
->> +            case 0x1: /* Alignment */
->> +                info.si_signo = TARGET_SIGBUS;
->> +                info.si_code = TARGET_BUS_ADRALN;
->> +                break;
->> +            case 0x3: /* Access flag fault, level 1 */
->> +            case 0x6: /* Access flag fault, level 2 */
->> +            case 0x9: /* Domain fault, level 1 */
->> +            case 0xb: /* Domain fault, level 2 */
->> +            case 0xd: /* Permision fault, level 1 */
->> +            case 0xf: /* Permision fault, level 2 */
->> +                info.si_code = TARGET_SEGV_ACCERR;
->> +                break;
->> +            case 0x5: /* Translation fault, level 1 */
->> +            case 0x7: /* Translation fault, level 2 */
->>                   info.si_code = TARGET_SEGV_MAPERR;
->> -                info._sifields._sigfault._addr = addr;
->> -                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
->> +                break;
->> +            default:
->> +                g_assert_not_reached();
->>               }
->> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
->>               break;
-> 
-> It's slightly sad that we start off with a nicely symbolic
-> ArmMMUFaultInfo type enum value, carefully encode it into a
-> numeric value and then have to switch on the numeric value here,
-> but I can see why we end up this way...
+> Fixes: 032c76bc6f9 ("nios2: Add architecture emulation support")
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
 
-We don't have to leave it that way.
-
-We could move the ARMMMUFaultInfo out of internals.h, create special user-only copies of 
-arm_cpu_tlb_fill and arm_cpu_do_unaligned_access, create a new function to raise the MTE 
-exception, and place the proper enumeraor into env->error_code instead of the hw syndrome.
-
-What we have seemed cleaner on the target/arm/ side at the time.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
