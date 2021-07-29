@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74603DA2AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:59:18 +0200 (CEST)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D426E3DA2D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:07:51 +0200 (CEST)
+Received: from localhost ([::1]:57966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m94h3-00082g-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
+	id 1m94pK-0004C7-U1
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m941f-0001ac-8S
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:16:31 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45898)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m94JX-0008EO-Fr
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:34:59 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m941A-0001W6-9O
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:16:30 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m12so1651011wru.12
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=1nPPw7sf6+ACZS1KSJaNNWd+RZu2j3hEbtkOKyLj6Kw=;
- b=eo5Xakfmv7I1HlifNM/udWOgc6jt+ZL52gj3uUt84STRxjLsqBC83kcqq2qRwdpZaQ
- +/PObFMo41KBDHpcch5MLaiGvv7S5Z/Jy9pv3OD2+5wRIPUKYk3D9wX2iiqoKXqy79xt
- 26lxIE8Ni1Vn9BrX6XzxTxDdZQ4HDbagHF8Zy+hfMCOzl7px4h1jlvWMgoDMl+crjdu0
- hCr0HCWA7cO0MLupQ61o8jH5vE4F7pqJa2D2NWEcwjIjaIVjlp+mk4n+qhYFhzTRgFUX
- 0lY0cvZQF1XhnlkyzzLEWUtaPJVNoRKal05x+PGFnM/GVBox/iqkrk//o9guC5eihDPv
- vuwQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m94JV-0005wZ-Ri
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:34:59 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id b11so1180296wrx.6
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oawC+TPWjxKQ03eEtUgp89PLYF3jc6u0lG055EwBGZM=;
+ b=VqmoFyh+EjPk+fM+N1l+i/9Fi/T1K3VYvcMEa0s8xFmI1Bw8REwXhrGOCp6kLfnQF+
+ KcgqvpRrhGmoICfMZk3tOEePgvdFYO4veVUjmX0a0sxCPQ5wsjTD+wR8yzTxXw5gGWSF
+ 6rHtSD+7bo9NLbjlsOakxPkHvMNbkhRlJPBwC3qL5cTb8EHxMnqCe2KSnWcfwCM5tNAy
+ 97W3/qX1fJNzjkd/q8kkd8TuxHZ1Vlyp1npa6wE1PpZ/P6DrZ8/iQRistV8MekF7Bwl7
+ d+ySOsvOWHkzVKpd2Nin/UR88Lfd7/kpBpFm78Nxbftigc7dDAZ9+oOibuIh7CXTddaf
+ Z1tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1nPPw7sf6+ACZS1KSJaNNWd+RZu2j3hEbtkOKyLj6Kw=;
- b=OqdiS7MDgwJfmpzBh8+eilBzqSgSAq5OdBGJWGpF2UfeMns8TTUor2nLW+vFRzJMeD
- ll5JgxY/RZIBE1bxa0lBrFvCT2PGr6y+3A0ZpyRuBmTokfwOtsfpEiydUaSCtZ9MCDMX
- XF6t1PJVXTqtHCzRaszcoHzNvg1XORikb20/l+IAcSt1Sr4Vd0dGT/Rn/7PC6OW0XDRF
- l1bBUUcB0bhZZsjTMtdDveXAhleDFBwbOPEc4pOhp4GAM6Nj9WNg7vxCp5HXVzVD5T5V
- VkuoITGibCwsRxcFlDKkx96vQsE161B54d6zF9x0xQK3oxybS8zrc8q3X9MG58X0NB1r
- sSJg==
-X-Gm-Message-State: AOAM532sHrfuUzh1QyzImd2h8cm2/3wKcTMw9UrLs7KxpdExTPSIsuvH
- cJP6cczr+SPv9qtTa5UfnVS0og==
-X-Google-Smtp-Source: ABdhPJwpRMycSu+uqxFm+tdQ5QMu/DncPMrjyANSA5GlxOr9K7m/HDmZBS4MkuJa3Gegs9B/p7INuw==
-X-Received: by 2002:a5d:6608:: with SMTP id n8mr4118152wru.427.1627557359030; 
- Thu, 29 Jul 2021 04:15:59 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:58 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 53/53] target/arm: Enable MVE in Cortex-M55
-Date: Thu, 29 Jul 2021 12:15:12 +0100
-Message-Id: <20210729111512.16541-54-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
-References: <20210729111512.16541-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oawC+TPWjxKQ03eEtUgp89PLYF3jc6u0lG055EwBGZM=;
+ b=b4oKtUpXPQVJ41jU5+Kd+xOOc9NoTYzViqC17oCn4IJ/SuCijbM/vhREdrNLAi5DGx
+ Ty0sLRiQ+kqZJLFypjeh4k2WNDfC6dm5PLxF2k/Omunm6fKDEb74ioDX+KPU+mk8mp65
+ VwJGKBwAUqrp8GadsSxBdMRwBAYar2T4HmLBrIvqKqwUGh6b/AtYdH3ItCI5vhlUJrXJ
+ p6ExhHgS1XtSYxXa1Q8xPdREFUfUHTAVLV1nPUY29egYMK6lItFGzuo3v0PoSz86HH9O
+ S3ZSRwixRkEmNdmL2xCcOxgMjjR6g9c19f/3be5j1vI7r3QC3t1i8GBiXWRbfw6/6NQE
+ 6E2g==
+X-Gm-Message-State: AOAM531vKZJDpI42PQkiyPfynkGNZLsiwNuRdGwwQ7RdrmZgdW+El7QU
+ DvJQ1x0HSfCZepE6pdEhB7E=
+X-Google-Smtp-Source: ABdhPJwvNjakT6ePyZUQSVys905GaQ19Yo32Io5K9CcNcUBy6GSCd/vAQYzACOhWWhzPpe/ogTiZrA==
+X-Received: by 2002:a5d:6905:: with SMTP id t5mr4284267wru.78.1627558496343;
+ Thu, 29 Jul 2021 04:34:56 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id u2sm2867646wmc.42.2021.07.29.04.34.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 04:34:55 -0700 (PDT)
+Subject: Re: modular tcg
+To: Claudio Fontana <cfontana@suse.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex Bennee <alex.bennee@linaro.org>
+References: <20210722220952.17444-1-jziviani@suse.de>
+ <20210722220952.17444-2-jziviani@suse.de>
+ <c26fc6f4-341f-c66f-5384-c811e1342891@suse.de>
+ <20210723095231.sfbkhdwdg43nedkk@sirius.home.kraxel.org>
+ <4b5c010f-1365-e746-c269-9b9e48771f7b@suse.de>
+ <6a3940a4-ca70-343b-5724-0f8f59d6fde4@suse.de>
+ <20210723124858.rh63jh2esxahib4e@sirius.home.kraxel.org>
+ <20210729091407.n7bdlyw5rsievdch@sirius.home.kraxel.org>
+ <f264970b-b12c-4e36-548f-d2411c7e3842@suse.de>
+ <20210729102955.k34jqpetqy6owivr@sirius.home.kraxel.org>
+ <75a7378d-63b2-d1d7-c7e1-ca4d13cf01cb@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6514e353-fca6-98a7-cb35-46a90c37389b@amsat.org>
+Date: Thu, 29 Jul 2021 13:34:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <75a7378d-63b2-d1d7-c7e1-ca4d13cf01cb@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.125,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,51 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ "Jose R. Ziviani" <jziviani@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have a complete MVE emulation, so we can enable it in our
-Cortex-M55 model by setting the ID registers to match those of a
-Cortex-M55 with full MVE support.
+On 7/29/21 12:44 PM, Claudio Fontana wrote:
+> On 7/29/21 12:29 PM, Gerd Hoffmann wrote:
+>>   Hi,
+>>
+>>> And another comment: I think we should have some progress on ARM with
+>>> the kvm/tcg split and with the KConfig of boards, before we continue
+>>> here.
+>>
+>> Why?  This can easily be tacked in parallel.  We can flip the switch
+>> for modular tcg per target in meson.build.
+>>
+>> take care,
+>>   Gerd
+>>
+> 
+> Because in the end we need to do this for ARM too and for the other archs too (s390 is already ok),
+> 
+> and in order to be sure not to end up in a dead-end, I think it would be good to have at least a sketch for the other archs as well..
+> 
+> Just my 2c ofc, I think really here still ARM is behind, and we should help it catch up.
+> 
+> If I had more time I would have pushed more on the ARM series, but.. yeah.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/emulation.rst | 1 +
- target/arm/cpu_tcg.c          | 7 ++-----
- 2 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 144dc491d95..89310e4842f 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -87,6 +87,7 @@ for the following architecture extensions:
- - LOB (Low Overhead loops and Branch future)
- - M (Main Extension)
- - MPU (Memory Protection Unit Extension)
-+- MVE (M-Profile Vector Extension)
- - PXN (Privileged Execute Never)
- - RAS (Reliability, Serviceability and Availability): "minimum RAS Extension" only
- - S (Security Extension)
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index ed444bf436a..33cc75af57d 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -654,12 +654,9 @@ static void cortex_m55_initfn(Object *obj)
-     cpu->revidr = 0;
-     cpu->pmsav7_dregion = 16;
-     cpu->sau_sregion = 8;
--    /*
--     * These are the MVFR* values for the FPU, no MVE configuration;
--     * we will update them later when we implement MVE
--     */
-+    /* These are the MVFR* values for the FPU + full MVE configuration */
-     cpu->isar.mvfr0 = 0x10110221;
--    cpu->isar.mvfr1 = 0x12100011;
-+    cpu->isar.mvfr1 = 0x12100211;
-     cpu->isar.mvfr2 = 0x00000040;
-     cpu->isar.id_pfr0 = 0x20000030;
-     cpu->isar.id_pfr1 = 0x00000230;
--- 
-2.20.1
-
+IIUC Alex is waiting 6.2 release to respin.
 
