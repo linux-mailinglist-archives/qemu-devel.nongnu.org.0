@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAA53D9F08
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 09:57:31 +0200 (CEST)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E852A3D9F0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 09:58:37 +0200 (CEST)
+Received: from localhost ([::1]:56436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m90v4-0008CO-EF
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 03:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
+	id 1m90w8-0002Ax-T2
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 03:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m90tT-0006xs-2k
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:55:51 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m90tR-0006CN-FE
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:55:50 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z4so5700582wrv.11
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 00:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tdkYli2Tk8BaC74RTV1mONuyFgGWbPhWPhtFxhHG90o=;
- b=Iu6dTbYp0DFtPjZT7cjynBAn4chhWiBjwx78COfCRGXtgaitHCfaqzFOv8aKCXB+Np
- CPGeG4AATYsrUPF7XQplrbyarrqXr8AUhn+YZgObRD7b4k5AXS5c2U89Gt4C+Fo/y5t0
- Fv+xr8vUZPUZz4RsHR0MGt5Pe1sV6jJXEFxqJ6OuDoihv+GuvZUBS2D0RSXyC3vt1k1x
- jU98lLa32aTfBMdp/SeSs0sU4cRqRE0iLtrOafxOkj+58lNuoDM2xm6a+B6PXX6xSKF+
- Pjn5IuQuq0+7N0FMqotFGKJENaq0KlmoPsqQWdy5xWRJibQX/UGmsOUAxapqY6BMpgAh
- ekHQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m90ui-0000PO-Gs
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:57:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47931)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m90uf-00072e-Sv
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 03:57:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627545425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W7jkDk6hAxoOGHK2T6GpOMTckzq9pO8WN34T7Wxc9OU=;
+ b=Zz4Xoqdi0qQU1xoKGIG0hitHiEGgWUoQJ3AyGLHjHexmB/P2lne8bri52iTj7qUmA+B76J
+ lwyH1ny5nA26IJSBwTh1sHMkHNqgwmZKnY+pU3ZyY1s0O4KE5WA37cF/QPfndoqxeOk4IG
+ pjngBxhFEtt/4L2xeYk/9ZbnMtxJWy4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-4Jc3Ue2TOPe-pwYS1kIkbw-1; Thu, 29 Jul 2021 03:57:03 -0400
+X-MC-Unique: 4Jc3Ue2TOPe-pwYS1kIkbw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ n24-20020aa7c7980000b02903bb4e1d45aaso2532669eds.15
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 00:57:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tdkYli2Tk8BaC74RTV1mONuyFgGWbPhWPhtFxhHG90o=;
- b=MgTyEnImlJjk61vnSBXjgVb7wJuhapV2GblemStp+WqVX477Mxbdvis0qh2om9D8Vp
- EbD9d6dNDqNrJyHCQsCclmV53Dvg5sffVjldnVGSps/4Wl0XD+OgN8e9wW5nrscmc23j
- p/FJNMmlLr4/rDsPHLoNv8/TplUvD/PHCraKycNuFVEfAHSQBFWuqVZrPxUOSQ2uah5v
- txAbzMfXPGqiRMgiP8ooXw9Ap/jZ4Wzogax08v6wtR6HC/Bt4RvC8GIPD+HY9EQGoW+5
- l48FcWiNg96bhkC3mMmi2AF/yRVGLCBYXWTpM69BjDVGNV+Itybe/xhkY7aOi5niCepU
- f6mg==
-X-Gm-Message-State: AOAM531LCABZ/DS13ZtogmxDLBAVTGfb8LWtWosqyChpQ/X4rPEYyz8A
- ruQeCVdruwBYkiqPerBZ6O0=
-X-Google-Smtp-Source: ABdhPJx11Ixc2B2fV1QdVdktFfLLwdDowr68ce5pqXOH4h+K6hptk9L6oafdhlFYOkqUCkWiSqg7eg==
-X-Received: by 2002:a5d:59ab:: with SMTP id p11mr2271926wrr.238.1627545347795; 
- Thu, 29 Jul 2021 00:55:47 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id e5sm2884005wrr.36.2021.07.29.00.55.46
+ bh=W7jkDk6hAxoOGHK2T6GpOMTckzq9pO8WN34T7Wxc9OU=;
+ b=gyiL2x5s02guVxvNNsXKjqfaydmSB8J3gQTVu2fa2oCFiEQMSUWCeYR+stPAwdZxHf
+ CetfZ+T7KaZVcL08oxFw+06o/i7aad/O7PVIf7KOQvQKzewj7EMFwPH3LIeRlrCvyjAe
+ i7H4BC38jEB4rZCSvpPZC4IYsdu3IDo3SDiySss94MtzWUGtCXRF7s3ZqoTuraB1TygR
+ 5RzjDXhWAk/XjvbO2JHJ6LrhPF5QBWQEXNLHi8K/trorgRuEUqSkZC5Wh5ijAas6tqvx
+ cS0LYa9ksiqHQqzhYTl8fgFjcAOJRp56Ho2/UOh4uG1KuqFLxTwpjI7OLONgJqAyuMyO
+ mLvg==
+X-Gm-Message-State: AOAM531wqYhJKc+5BdsQLIMq1C3y4U96NmZaT5hGq6Kwo8dM9xfInlz2
+ bC3cXWu5qY1xjRCIKJCl6viSFvaKSBS+B6wERochOeaPmeMfUXM7kE7z78ZXNChwwi1jHF6yt7N
+ zmrhPXsecmctSClGYrfInU09sZe+QmKE+wJYzHWspN58y2NahY2jsY6n0IHilXayQrnY=
+X-Received: by 2002:a05:6402:48f:: with SMTP id
+ k15mr4471450edv.262.1627545422198; 
+ Thu, 29 Jul 2021 00:57:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1M9P3QHDHAGRP+oisodNpDzLRArSJUeDxiJRFxdrKdmSJGsU8wueSVvYQ2qt9zA/8p2a5Ww==
+X-Received: by 2002:a05:6402:48f:: with SMTP id
+ k15mr4471433edv.262.1627545421953; 
+ Thu, 29 Jul 2021 00:57:01 -0700 (PDT)
+Received: from [192.168.10.118] ([93.56.169.140])
+ by smtp.gmail.com with ESMTPSA id p23sm843778edt.71.2021.07.29.00.57.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 00:55:47 -0700 (PDT)
-Subject: Re: [PATCH 1/3] hw/mips/boston: Massage memory map information
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210729033959.6454-1-jiaxun.yang@flygoat.com>
- <20210729033959.6454-2-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ee274e68-f569-627a-d764-8dac7084372d@amsat.org>
-Date: Thu, 29 Jul 2021 09:55:45 +0200
+ Thu, 29 Jul 2021 00:57:01 -0700 (PDT)
+Subject: Re: [PATCH v2] target/i386: Added V_INTR_PRIO check to virtual
+ interrupts
+To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
+References: <20210728101721.26712-1-laramglazier@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c199cfeb-2cc0-e091-379c-ab04119ed8ae@redhat.com>
+Date: Thu, 29 Jul 2021 09:57:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729033959.6454-2-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210728101721.26712-1-laramglazier@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,57 +102,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 5:39 AM, Jiaxun Yang wrote:
-> Use memmap array to unfiy address of memory map.
-> That would allow us reuse address information for FDT generation.
+On 28/07/21 12:17, Lara Lazier wrote:
+> v1->v2: Fixed Mask
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> The APM2 states that The processor takes a virtual INTR interrupt
+> if V_IRQ and V_INTR_PRIO indicate that there is a virtual interrupt pending
+> whose priority is greater than the value in V_TPR.
+> 
+> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
 > ---
->  hw/mips/boston.c | 95 ++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 71 insertions(+), 24 deletions(-)
+>   target/i386/tcg/sysemu/svm_helper.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+> index 72ea7c9a08..a3138e9f86 100644
+> --- a/target/i386/tcg/sysemu/svm_helper.c
+> +++ b/target/i386/tcg/sysemu/svm_helper.c
+> @@ -65,6 +65,16 @@ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
+>                              sc->base, sc->limit, sc->flags);
+>   }
+>   
+> +static inline bool ctl_has_irq(uint32_t int_ctl)
+> +{
+> +    uint32_t int_prio;
+> +    uint32_t tpr;
+> +
+> +    int_prio = (int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
+> +    tpr = int_ctl & V_TPR_MASK;
+> +    return (int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
+> +}
+> +
+>   static inline bool is_efer_invalid_state (CPUX86State *env)
+>   {
+>       if (!(env->efer & MSR_EFER_SVME)) {
+> @@ -365,7 +375,6 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+>   
+>       if (ctl_has_irq(int_ctl)) {
+>           CPUState *cs = env_cpu(env);
+> -
+>           cs->interrupt_request |= CPU_INTERRUPT_VIRQ;
+>       }
+>   
+> 
 
-> +static const MemMapEntry boston_memmap[] = {
-> +    [BOSTON_LOWDDR] =     {        0x0,    0x10000000 },
-> +    [BOSTON_PCIE0] =      { 0x10000000,     0x2000000 },
-> +    [BOSTON_PCIE1] =      { 0x12000000,     0x2000000 },
-> +    [BOSTON_PCIE2] =      { 0x14000000,     0x2000000 },
-> +    [BOSTON_PCIE2_MMIO] = { 0x16000000,      0x100000 },
-> +    [BOSTON_CM] =         { 0x16100000,       0x20000 },
-> +    [BOSTON_GIC] =        { 0x16120000,       0x20000 },
-> +    [BOSTON_CDMM] =       { 0x16140000,        0x8000 },
-> +    [BOSTON_CPC] =        { 0x16200000,        0x8000 },
-> +    [BOSTON_PLATREG] =    { 0x17ffd000,        0x1000 },
-> +    [BOSTON_UART] =       { 0x17ffe000,        0x1000 },
+Merged, thanks.
 
-0x20?
+Paolo
 
-> +    [BOSTON_LCD] =        { 0x17fff000,           0x8 },
-> +    [BOSTON_FLASH] =      { 0x18000000,     0x8000000 },
-> +    [BOSTON_PCIE1_MMIO] = { 0x20000000,    0x20000000 },
-> +    [BOSTON_PCIE0_MMIO] = { 0x40000000,    0x40000000 },
-> +    [BOSTON_HIGHDDR] =    { 0x80000000,           0x0 },
-> +};
-
->      /*
->       * Setup argument registers to follow the UHI boot protocol:
-> @@ -333,8 +369,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
->      ram_low_sz = MIN(256 * MiB, machine->ram_size);
->      ram_high_sz = machine->ram_size - ram_low_sz;
->      qemu_fdt_setprop_sized_cells(fdt, "/memory@0", "reg",
-> -                                 1, 0x00000000, 1, ram_low_sz,
-> -                                 1, 0x90000000, 1, ram_high_sz);
-> +                                 1, boston_memmap[BOSTON_LOWDDR].base, 1, ram_low_sz,
-> +                                 1, boston_memmap[BOSTON_HIGHDDR].base + ram_low_sz
-> +                                 , 1, ram_high_sz);
-
-Misplaced comma.
-
-BTW shouldn't we check whether ram_high_sz > 0 before adding this cell?
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
