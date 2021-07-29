@@ -2,91 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2183D9F32
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:08:56 +0200 (CEST)
-Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9973D9F39
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:09:59 +0200 (CEST)
+Received: from localhost ([::1]:48564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9167-0005sH-2Z
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1m9178-0007jR-AU
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m9152-0004Ty-1e
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:07:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31892)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m915h-00067M-2s
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:08:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m9150-0005li-KG
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:07:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m915f-0006CB-Gp
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:08:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627546065;
+ s=mimecast20190719; t=1627546106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2yoBfE5uJ+HTYThNci9pKULCsip8HqNoyhO1zHo8vlQ=;
- b=YBrjeGZXEPEGrXgFQMIMKNKtCeJYz/yvgWG+T2++Hf9rG8r9mhQaiGwy/p/n8bX1x8WgC0
- 6gofzSGRWbn2n77TcYfhHsjcKQrQQzBXXGzihlFmPy+xqZ42aNFBO9JmdSviq5kBkCgul/
- qL1+0eAY4SISIb/54LaRcuV18LiG1AQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-kR2sW5UzN8-_Dyin68ONmQ-1; Thu, 29 Jul 2021 04:07:44 -0400
-X-MC-Unique: kR2sW5UzN8-_Dyin68ONmQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 132-20020a1c018a0000b029025005348905so1737599wmb.7
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:07:44 -0700 (PDT)
+ bh=MUM/eQKNTgDIh7wZ+iGb5P8wKyb/ANpqMM1Glo+mkw8=;
+ b=YCCo7Qs5ppisgV37E4uyMOvkn5vdtNuuqH2vnw2JnAc+YwX2WlB4XNx277LIhHkMx2bTg/
+ aNK95kJI+Dxqre8vhDsHa2F+SFANwEC9+O92gznlMZGSWIBYCq/F0M6kJsUivbZkDcZwwO
+ Io8NpTxvfzaZvvLUqwUdqnxdtzBynNA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-T5XgR5e0OeK2OuOHh0KgHw-1; Thu, 29 Jul 2021 04:08:22 -0400
+X-MC-Unique: T5XgR5e0OeK2OuOHh0KgHw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g187-20020a1c20c40000b02902458d430db6so614513wmg.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 01:08:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2yoBfE5uJ+HTYThNci9pKULCsip8HqNoyhO1zHo8vlQ=;
- b=Jym/G4oKbvz85LG+ChF2v0bB17QBBpRUHD1qwo/Eh7qdOtKZIJg7cQ/JuoOSadGXF2
- WrifuQmgY7ckCc8mwC2gLBr/4OS96Uv1xCJIp3zZ8Ijxu4/EfDyHzqQUrDuMTFvUCCOO
- JctsxFE26vqxBkzfunfoNcy9z2l+F1v9IwkI5gLjLX4nSQ2MlSR7GOu/swk5Xdh3HvR3
- OMnVszLPMt6kw8txQX8pr+okLGaYuFL+4OeKeEMFp+WZKNqGEehAophf3GK09MJo3vf/
- 2PiEa8ohj6MRfodtss16ym7quJMkyfAmloZvkECf5f+gL+s+v9POpEne9f5V+tsToVGu
- tcig==
-X-Gm-Message-State: AOAM531IzuUEqxEwe7DYGFBn0aE8XSxelnJ2vUQXvWOZnyrgnue0lCY9
- ysPLuX3tVI+SI3tdaMVhSKCRZrTu72dxxMeo7GwEgtuZ0N44eJ+aQM1iS16KuEmuH9BwUbAZb8p
- 97VxrTIj/gX3PTSs=
-X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr3296130wma.111.1627546063253; 
- Thu, 29 Jul 2021 01:07:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDhyRoFCjwMxusf3r5p855T7Lf8X0ibV3tU4K5FlBod7myDLEk4p7EZev6QyUfdbjnYVXeNw==
-X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr3296110wma.111.1627546063051; 
- Thu, 29 Jul 2021 01:07:43 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id y6sm2237238wma.48.2021.07.29.01.07.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 01:07:42 -0700 (PDT)
-Date: Thu, 29 Jul 2021 10:07:41 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v5 00/10] acpi: Error Record Serialization Table, ERST,
- support for QEMU
-Message-ID: <20210729100741.75437344@redhat.com>
-In-Reply-To: <fa873c6b-feaf-ea86-08f2-f27382632aae@oracle.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <20210720165751.52805aed@redhat.com>
- <20210727145518.2691c7c7@redhat.com>
- <fa873c6b-feaf-ea86-08f2-f27382632aae@oracle.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MUM/eQKNTgDIh7wZ+iGb5P8wKyb/ANpqMM1Glo+mkw8=;
+ b=OuMIwQl7oWxRaGULUxYxzou5LHvWP/uheuzvOvGxVsMfxws+1sFnQhVKHCYInlsqIT
+ Bs5vPWx0cLYX2d/G9PQaPhAx12QosT3sODajsULK3gyzpFeJ4u/fwfGrDCKpP+rCYJWW
+ irNFiRu6Qb319CseVS6hEiJgnDAM7NUwkrheHsJ8DV3E7Q+perFwpo4MP/uL6HGf9337
+ QfzNPwnPItYqFtZxVGB1mGA+kI4J+xXpjedY0cwvV1UVL11EnaLi+Ozwc7nJ9SZ7YCyM
+ bID1HcS8cPPAnjDi37BUHvM/sFKYBeyXKsGQanS3dKFjJSZQGSE7sdvx2La3URcc3xsK
+ F/ng==
+X-Gm-Message-State: AOAM532873ay5jNPq/mbh3uoheSHsTadqWO4w3AUh9tUaRY9jhyJ1N9B
+ mjCcKAhaVVCsCPKJRQwnjOnFgyXZ8PwSaek7GnQxONkHn9lfYwYNckLaLmbVKruT7o+3P/Le2bv
+ JbI3nT8OxkyHpPmQ=
+X-Received: by 2002:adf:f351:: with SMTP id e17mr3455914wrp.360.1627546101691; 
+ Thu, 29 Jul 2021 01:08:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKuywWz0nwx7cyzIMdSHZJkQWbhtsqtldxsMBvZSkM8DBM8qAmfRtxxsHxZGCzijEyCy7MuQ==
+X-Received: by 2002:adf:f351:: with SMTP id e17mr3455902wrp.360.1627546101550; 
+ Thu, 29 Jul 2021 01:08:21 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id j140sm2453785wmj.37.2021.07.29.01.08.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 01:08:21 -0700 (PDT)
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+To: Guenter Roeck <linux@roeck-us.net>, Ard Biesheuvel <ardb@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210724185234.GA2265457@roeck-us.net>
+ <20210725181334-mutt-send-email-mst@kernel.org>
+ <14aff6ab-0b96-fe22-bc35-18d2e8528a5b@roeck-us.net>
+ <2a4076fd-2225-b3a8-7a1e-3bc090046673@redhat.com>
+ <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+ <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+ <20210727045315-mutt-send-email-mst@kernel.org>
+ <20210727123603.6119c34c@redhat.com>
+ <20210728090555-mutt-send-email-mst@kernel.org>
+ <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
+ <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5de773d1-48c8-1e56-493d-7c94cca78ee7@redhat.com>
+Date: Thu, 29 Jul 2021 10:08:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.277, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,25 +110,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, Jiahui Cen <cenjiahui@huawei.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Jul 2021 10:19:51 -0500
-Eric DeVolder <eric.devolder@oracle.com> wrote:
+On 7/28/21 4:03 PM, Guenter Roeck wrote:
+> On 7/28/21 6:25 AM, Ard Biesheuvel wrote:
+>> On Wed, 28 Jul 2021 at 15:11, Michael S. Tsirkin <mst@redhat.com> wrote:
+>>>
+>>> On Tue, Jul 27, 2021 at 12:36:03PM +0200, Igor Mammedov wrote:
 
-> On 7/27/21 7:55 AM, Igor Mammedov wrote:
-> > PS:
-> > If I haven't said it already, use checkpatch script before posting patches.
-> >   
+>>> As others noted the original commit was kind of vague:
+>>>
+>>> 1. it said "Using _DSM #5 method to inform guest os not to ignore the
+>>> PCI configuration
+>>> that firmware has done at boot time could handle the differences."
+>>> which is not what the spec says and not what the patch did -
+>>> guest os does not ignore configuration even without this,
+>>> it is just allowed to change it.
+>>>
+>>>
+>>> 2. is says could result but does not report whether that happened in the
+>>> field.
+>>>
+>>>
+>>> Given this causes a regression I'm inclined to just revert for now.
+>>> We can figure it out for the next release.
+>>>
+>>
+>> For a revert of commit 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14, feel
+>> free to include
+>>
+>> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+>>
 > 
-> I do run checkpatch. On occasion I allow a warning about a line too long. And
-> there is the MAINTAINERs message due to the new files. Is there something else
-> that I'm missing?
+> and:
 > 
+> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> 
+>> and please also involve me if any future debates on this subject flare
+>> up again.
 
-there were warnings about new line or something like this.
+Thanks all, this thread has been very instructive.
+
+Michael, if describing the issue in the revert is too complex, could you
+include a link to this thread in the revert description?
+(Message-Id: <20210724185234.GA2265457@roeck-us.net> or
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg826392.html)
 
 
