@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8FF3DA352
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:46:10 +0200 (CEST)
-Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08233DA357
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:49:17 +0200 (CEST)
+Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m95QP-0002Ri-AR
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
+	id 1m95TQ-0005wH-QB
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m95PD-0001O6-Vb
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m95PA-0005ll-9s
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:44:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627562690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+oOCks80nCfUuRJPuJFhztE8jpHWSNsofBSkbUO7a9Q=;
- b=W+djl7LYdVfUP9jYFfF+DwgM4yyxf8KG2VjqPCQThz+U9fsJfeSjP+HImvSS3NHRv1ASEb
- VaxKrwPFbgfCaXmQ8rStBTgO8orA83rK3oyZWVc1cztwYle147yn3TGkWIxb+OH6TDGiSk
- OBUBIZSwASaG6dtUQbPbji/LjSud/Tg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-JSDCFqgRPp6AEvnh-92DYw-1; Thu, 29 Jul 2021 08:44:47 -0400
-X-MC-Unique: JSDCFqgRPp6AEvnh-92DYw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n1-20020a5d59810000b029013cd60e9baaso2195463wri.7
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 05:44:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m95RW-0003Rg-MU
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:47:18 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m95RU-0007Ui-Qm
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:47:18 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id d6so407215edt.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 05:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bw7wQV8E3r9meBLjeXgKkIQSj8X97H9oa4SoLHZiz5U=;
+ b=Lud6FhtBmy8juU3ooYdMYAUpHMIj5ji4SY7O3z2HUrW9E2hLVARcFug0/dVDzwl5Fh
+ NSRNEurEaozZ7uzgjVgkzzyzRmak3uGgdLqqJJeq6F5yqA83OcrNr2/nAo4NXOnq16oz
+ G462gsr0euq09Xn772DTPvHhyGqOu3xHq2HjG+bNPwRCC5TeVngTYSUo+eRs9n/ICoyO
+ sh1vKjXBA8oNN1TAAV1lfG2dc/remOTFm6GhEH6CDT5WaQJhwvKWK23BNzsByNewuHWa
+ JuIqr3U+TbWRfNROMK8SIqRKw/qpJVLbdqAYqLygkvBwONmDdIlVkhRuLwCx0F9Qd8At
+ GeNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+oOCks80nCfUuRJPuJFhztE8jpHWSNsofBSkbUO7a9Q=;
- b=e/BiPUQe+rvxpN2mX2Cz40Bzibru4DkQCasPMY2NIYXsF6AQWn2lhMtHuB1vqpKt3Z
- +u7Zhnc9hLi6kmrqkeCv39HpEXh90OX/rPtCFQ7AxnAx8g2CFACHCmBxMd8OfaHZsvCg
- Km2BDR+oEfvCl28a9NO0wQsA8DW+fr1LP1pSREJU5EznGsqPv54rJ+6ICjndb2dskRBF
- DBromXOLuC6d+Wszp7ABCHwtY7LiYy3UlEbzLB4iRhhPBc3oWT240vAeRLBzsO81uS+c
- wNPLbNHRd3RRSmwx9gB/G8OevQOSmvQhmtzeKUdTPKL3rOgU0nDmyt7QcR+qOKnt0+he
- ujKg==
-X-Gm-Message-State: AOAM531k8qhI3xolAZV84nYq09HnGYQXsXvsqg/HDNnc8xUD1Fsd+Y8n
- 82Q++g5Xg6zp14NqWhSwcDkXxx+PSDeM8swn2zYa6+y6dK6qrS5zJSw3zu84YJyiqTMgumqQXiK
- vsnwZJadTWClfmC0=
-X-Received: by 2002:a05:6000:1b0c:: with SMTP id
- f12mr4670460wrz.225.1627562686092; 
- Thu, 29 Jul 2021 05:44:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9mKZ1T83yyI+zQhCQC0zZLr8G0Hz/OEkgVOMUhRSX5oAVTsj5ykD9omepfP8lcPeC217TpQ==
-X-Received: by 2002:a05:6000:1b0c:: with SMTP id
- f12mr4670440wrz.225.1627562685858; 
- Thu, 29 Jul 2021 05:44:45 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id n30sm4082218wra.1.2021.07.29.05.44.45
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=bw7wQV8E3r9meBLjeXgKkIQSj8X97H9oa4SoLHZiz5U=;
+ b=BkeJZsN5/3Dxo4ScaN4IPFUhSwfo0e8xq0POwF6rLUIC99+m8WwQ/Znr+bbHSDPWv0
+ 8092yasH5rfYE4DTD0T16gK9qveDYckRRT6zvKRka+Z93Mtt9zVdC92sKJ+QfcffJHDH
+ LD6k1J6+gf4k/ow3Wot2uQiYueUQAX1Lv61w9owNlRV0YQ+E5/Y+njrEh3bVHPRX/3Xn
+ l5mZ7Gpbv7Nn0baYjGjcG7KfH381XuLWSIY1xC7TTKhiyAHr33smjA7PcUXX8BVIUVp2
+ Tb3CcVn71udM70BlfYZ+zKHEBzASqZjLCeMGhYWIq7QKMLgHChgCd7QevxWaBMncwodX
+ LbYQ==
+X-Gm-Message-State: AOAM530OxOfSIbtq2vqnLECHrJY3RiSe6avMELyCIDxoowlm6uhC2/ah
+ rKutr5M/nto8nHWfYEopgZ1xgTJ1BLbFLw==
+X-Google-Smtp-Source: ABdhPJw3reu5Bnd9uqYVfPBZ2Zm/3nbSSyh6Xg++ryI4dPXHdj4oBrXa7nBODtjWBBv4v77XnrO+Gw==
+X-Received: by 2002:a05:6402:2228:: with SMTP id
+ cr8mr5845101edb.309.1627562835027; 
+ Thu, 29 Jul 2021 05:47:15 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id m12sm954659ejd.21.2021.07.29.05.47.14
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 05:44:45 -0700 (PDT)
-Date: Thu, 29 Jul 2021 14:44:44 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jingqi Liu <jingqi.liu@intel.com>
-Subject: Re: [PATCH v2 1/1] nvdimm: add 'target-node' option
-Message-ID: <20210729144444.22104221@redhat.com>
-In-Reply-To: <20210719020153.30574-2-jingqi.liu@intel.com>
-References: <20210719020153.30574-1-jingqi.liu@intel.com>
- <20210719020153.30574-2-jingqi.liu@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Thu, 29 Jul 2021 05:47:14 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] Misc patches for QEMU 6.1-rc2
+Date: Thu, 29 Jul 2021 14:47:06 +0200
+Message-Id: <20210729124713.208422-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,124 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pbonzini@redhat.com, xiaoguangrong.eric@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Jul 2021 10:01:53 +0800
-Jingqi Liu <jingqi.liu@intel.com> wrote:
+The following changes since commit 69ea12b19a15ae006521cd5cc0f627f27f738746:
 
-> Linux kernel version 5.1 brings in support for the volatile-use of
-> persistent memory as a hotplugged memory region (KMEM DAX).
-> When this feature is enabled, persistent memory can be seen as a
-> separate memory-only NUMA node(s). This newly-added memory can be
-> selected by its unique NUMA node.
-> 
-> Add 'target-node' option for 'nvdimm' device to indicate this NUMA
-> node. It can be extended to a new node after all existing NUMA nodes.
-> 
-> The 'node' option of 'pc-dimm' device is to add the DIMM to an
-> existing NUMA node. The 'node' should be in the available NUMA nodes.
-> For KMEM DAX mode, persistent memory can be in a new separate
-> memory-only NUMA node. The new node is created dynamically.
-> So users use 'target-node' to control whether persistent memory
-> is added to an existing NUMA node or a new NUMA node.
-> 
-> An example of configuration is as follows.
-> 
-> Using the following QEMU command:
->  -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
->  -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=2
-> 
-> To list DAX devices:
->  # daxctl list -u
->  {
->    "chardev":"dax0.0",
->    "size":"3.00 GiB (3.22 GB)",
->    "target_node":2,
->    "mode":"devdax"
->  }
-> 
-> To create a namespace in Device-DAX mode as a standard memory:
->  $ ndctl create-namespace --mode=devdax --map=mem
-> To reconfigure DAX device from devdax mode to a system-ram mode:
->  $ daxctl reconfigure-device dax0.0 --mode=system-ram
-> 
-> There are two existing NUMA nodes in Guest. After these operations,
-> persistent memory is configured as a separate Node 2 and
-> can be used as a volatile memory. This NUMA node is dynamically
-> created according to 'target-node'.
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-07-27' into staging (2021-07-28 13:32:12 +0100)
 
+are available in the Git repository at:
 
-Well, I've looked at spec and series pointed at v1 thread,
-and I don't really see a good reason to add duplicate 'target-node'
-property to NVDIMM that for all practical purposes serves the same
-purpose as already existing 'node' property.
-The only thing that it does on top of existing 'node' property is
-facilitate implicit creation of numa nodes on top of user configured
-ones.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-But what I really dislike, is adding implicit path to create
-numa nodes from random place.
+for you to fetch changes up to 4fe29344bef6c54a6eff7aa0343754f8a9df5715:
 
-It just creates mess and and doesn't really work well because you
-will have to plumb into other code to account for implicit nodes
-for it to work properly. (1st thing that comes to mind is HMAT
-configuration won't accept this implicit nodes, there might be
-other places that will not work as expected).
-So I suggest to abandon this approach and use already existing
-numa CLI options to do what you need.
+  libvhost-user: fix -Werror=format= warnings with __u64 fields (2021-07-29 10:15:52 +0200)
 
-What you are trying to achieve can be done without this series
-as QEMU allows to create memory only nodes and even empty ones
-(for future hotplug) just fine.
-The only thing is that one shall specify complete planned
-numa topology on command line.
+----------------------------------------------------------------
+Bugfixes.
 
-Here is an example that works for me:
-   -machine q35,nvdimm=on \
-   -m 4G,slots=4,maxmem=12G \
-   -smp 4,cores=2 \
-   -object memory-backend-ram,size=4G,policy=bind,host-nodes=0,id=ram-node0 \
-   -numa node,nodeid=0,memdev=ram-node0
-# explicitly assign all CPUs
-   -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=0,socket-id=1
-# and create a cpu-less node for you nvdimm
-   -numa node,nodeid=1 
+----------------------------------------------------------------
+Alexey Neyman (1):
+      Makefile: ignore long options
 
-with that you can hotplug nvdimm to with 'node=1' property set
-or provide that at startup, like this:
-   -object memory-backend-file,id=mem1,share=on,mem-path=nvdimmfile,size=3G,align=2M \
-   -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,node=1
+Lara Lazier (1):
+      target/i386: Added consistency checks for event injection
 
-after boot numactl -H will show:
+Marc-André Lureau (2):
+      meson: fix meson 0.58 warning with libvhost-user subproject
+      libvhost-user: fix -Werror=format= warnings with __u64 fields
 
-available: 1 nodes (0)
-node 0 cpus: 0 1 2 3
-node 0 size: 3924 MB
-node 0 free: 3657 MB
-node distances:
-node   0 
-  0:  10 
+Paolo Bonzini (1):
+      target/i386: fix typo in ctl_has_irq
 
-and after initializing nvdimm as a dax device and
-reconfiguring that to system memory it will show
-as 'new' 'memory only' node
+Richard Henderson (1):
+      configure: Add -Werror to avx2, avx512 tests
 
-available: 2 nodes (0-1)
-node 0 cpus: 0 1 2 3
-node 0 size: 3924 MB
-node 0 free: 3641 MB
-node 1 cpus:
-node 1 size: 896 MB
-node 1 free: 896 MB
-node distances:
-node   0   1 
-  0:  10  20 
-  1:  20  10 
+Vitaly Kuznetsov (1):
+      i386: assert 'cs->kvm_state' is not null
 
-> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-[...]
+ Makefile                                         |  8 +++++---
+ configure                                        |  4 ++--
+ subprojects/libvhost-user/include/atomic.h       |  1 +
+ subprojects/libvhost-user/libvhost-user.c        | 10 +++++-----
+ subprojects/libvhost-user/meson.build            |  6 +-----
+ subprojects/libvhost-user/standard-headers/linux |  1 +
+ target/i386/kvm/kvm.c                            | 14 ++++++++++++++
+ target/i386/tcg/sysemu/svm_helper.c              |  8 +++++++-
+ 8 files changed, 36 insertions(+), 16 deletions(-)
+ create mode 120000 subprojects/libvhost-user/include/atomic.h
+ create mode 120000 subprojects/libvhost-user/standard-headers/linux
+-- 
+2.31.1
 
 
