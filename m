@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E396F3DA3B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 15:15:23 +0200 (CEST)
-Received: from localhost ([::1]:54806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF953DA3B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 15:16:32 +0200 (CEST)
+Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m95sg-0008GS-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 09:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48134)
+	id 1m95tn-0001Sj-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 09:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m95rK-0007ZP-St
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:13:58 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51851)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m95sN-0000C7-25
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:15:03 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:44962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1m95rI-0001Cq-Gz
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:13:58 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id mt6so10279745pjb.1
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 06:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=l9GAwyKQrvlLtyEKy0KI+tA981SdIFXs3UU0eM3KcTM=;
- b=LWSlHhCNi1I1lNBPrJVW3NH9r/fO5RTFWvg4zmx1TIvDyN3gFSzZWI6QtECrwnrS52
- njE7c2mjqzzaadcfw4tE+T4HdQBK5gePJejmw5l8TypnwzW2JWFel7l68nw5SLgu8Fzu
- 5eA4VYTf7ITlGVYFe2VkpMOjCsD5BGUu4lC/jtj1tnmawxvdujzxJmdCbSSDmZekcXdq
- dawPMWCd90bcikjzGbHc+XIxtkVV3dKyCoo2Lk7QksZ96IhaaRSx4Bnc8GipBZDt7Ysu
- +3KfljrZqktwf2Havxfl6f0X9gF6tY9dJMWMbVr7oltKRPFClBYpluyi1nGumPcX+NNd
- 4ofg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m95sK-0001r1-UP
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:15:02 -0400
+Received: by mail-ed1-x531.google.com with SMTP id j2so8115547edp.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 06:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XpKUw6IfPdfZIgTTjLrfM7j7Ifebz6JERVNdk1Vkgek=;
+ b=sbyA03FapMvr1Nju2hXXajSDjU7hJaOjNMlDydHgrry2FVwBHx2G5HwbInYbasXZp9
+ k7yhIxhSck1JSwDdRKVIjVokS0wbZAzlzHHELPa8f4NYCG50ZQy4WkuYuPILXHjffn+Z
+ St08309mJPh8Hz8tVgPbu9JZdZOEc64dWxtWwausxHw7NTe5KAQOo9vmwe4TPQlsSxmR
+ HR+1Mv/Edyl0WY3tjhKmkOQXno1DGXO0S6/65qpOMGsZHOwCAITHnhjcMhk/zQOXiQBd
+ f1Ct1Y2Y+Y+J5xZU7XvXl1+9GLBt1Kyt/ZdAkv7cScJEmtdV7t/ERZfHDvMqNyyisPAK
+ mz1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=l9GAwyKQrvlLtyEKy0KI+tA981SdIFXs3UU0eM3KcTM=;
- b=M0/4Fo/KirUGCkjvLzmYkosNc6yhk9hYkUrxsadHqpf4zO2PsrHkctDv5ZwblVWBy7
- BQ6A9Gm9rstKLOR0uB4qR5cUGiAj+SVxxC7kX5ECv/+2iexeF7y8/207pW68amO9CzGu
- guLTZrVHlHRhfIQmhSKS0vRi/kKy94g8c9f8s/x4teZbZh33Rtr1eKCQLi08eV0qoOcW
- yjiHLzviNPnkPR5SkwRCDVh7wixakaTN3c0RXXK2eN/ZbAgC0JtAIEEqLxsVBb48wmEB
- fcBzhxznwLgPKPCT6SM3tY8b80QcoKaT6eeakA71/JuZrj8XWc6sYnZVxRuDnm7YlXgm
- N+nA==
-X-Gm-Message-State: AOAM533v34nIdbUEfXO22celaU08CEQsD3rL0TbYFEtscqklcqBqYnx1
- 9eTcNDq75ZcwVycZ8n/MFxPtrQ==
-X-Google-Smtp-Source: ABdhPJxHuWVXPVPGHeyRzYLKpTzlnWC07N/MY/616Eo+iFrSUhxTbGHxgqRdfZyct2XuXft41S9Qgg==
-X-Received: by 2002:a17:902:da8d:b029:12c:5241:c24e with SMTP id
- j13-20020a170902da8db029012c5241c24emr4545462plx.35.1627564434960; 
- Thu, 29 Jul 2021 06:13:54 -0700 (PDT)
-Received: from anisinha-lenovo ([203.163.242.235])
- by smtp.googlemail.com with ESMTPSA id n35sm3879432pgb.90.2021.07.29.06.13.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 06:13:54 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 29 Jul 2021 18:43:48 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/i386/ich9: add comment explaining an argument to
- acpi_pcihp_reset call
-In-Reply-To: <20210727044546.246363-1-ani@anisinha.ca>
-Message-ID: <alpine.DEB.2.22.394.2107291843440.426350@anisinha-lenovo>
-References: <20210727044546.246363-1-ani@anisinha.ca>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XpKUw6IfPdfZIgTTjLrfM7j7Ifebz6JERVNdk1Vkgek=;
+ b=gv4JHMqQDP/D5LeOY1ZRlNxGtTiv7ILJuqlNEMNR9r6zsjxxCHO7d5iSDHgyfrsHBD
+ hIlbIx+KN/XMAMBfKF24b0AwmmE/D31oM8HZtSRgZCAWXHt46sE/DQiZuLl/lC2UKNu3
+ 7cq67kiH/6IisI8l+rTo8l99ixVb2AGIUdqhYGaw2sFoLoPB6qE0nbukhX/Se7R/pCd2
+ dLd+PHJgwH9oNJhbfCIxJGfZL90c911eo/oNTv8XaUhj8bxXWcV76rpH6smwzweYQ9V7
+ bOIXDr5+BkbFjRJwpFs3gFmd8nVizrG64KnUqtMj5naZUUN7J4MEoOHqPqayLsvvWbMV
+ 4nWg==
+X-Gm-Message-State: AOAM530S0VDyKWWR5PY5UvsGYl9TJfSLPsC2Cds6jkKTXBTJW9mxBDKG
+ NaoxX0xAZHscP59tG/ABqZ8izpiggUHKx7gKJwCM0g==
+X-Google-Smtp-Source: ABdhPJxJSVQsrAOex0CLr1v94ddanhHNJasW0WNkhhFXgWknd63lWTgapMZo5Ukchp36Kc9NmrujHSE3BJSiGUXIAco=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr5919764edy.44.1627564499222; 
+ Thu, 29 Jul 2021 06:14:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-4-richard.henderson@linaro.org>
+In-Reply-To: <20210729004647.282017-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Jul 2021 14:14:16 +0100
+Message-ID: <CAFEAcA9ZZK2FhCptvypviDOoC-SQkP1rfANrPWZJH1F99GV87Q@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 03/43] target/arm: Implement do_unaligned_access
+ for user-only
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,42 +79,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping ...
-
-On Tue, 27 Jul 2021, Ani Sinha wrote:
-
-> acpi_pcihp_reset() call from ich9/pm_reset() passes an unconditional truth value
-> as the second argument. Added a commnet here to explain the reason why the
-> argument is being passed unconditionally.
+On Thu, 29 Jul 2021 at 01:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/acpi/ich9.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  linux-user/aarch64/cpu_loop.c |  4 ++++
+>  linux-user/arm/cpu_loop.c     | 43 +++++++++++++++++++++++++++--------
+>  target/arm/cpu.c              |  2 +-
+>  target/arm/cpu_tcg.c          |  2 +-
+>  4 files changed, 40 insertions(+), 11 deletions(-)
 >
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 778e27b659..b2e3c46075 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -281,6 +281,11 @@ static void pm_reset(void *opaque)
->      pm->smi_en_wmask = ~0;
+> diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+> index ee72a1c20f..998831f87f 100644
+> --- a/linux-user/aarch64/cpu_loop.c
+> +++ b/linux-user/aarch64/cpu_loop.c
+> @@ -137,6 +137,10 @@ void cpu_loop(CPUARMState *env)
+>              case 0x11: /* Synchronous Tag Check Fault */
+>                  info.si_code = TARGET_SEGV_MTESERR;
+>                  break;
+> +            case 0x21: /* Alignment fault */
+> +                info.si_signo = TARGET_SIGBUS;
+> +                info.si_code = TARGET_BUS_ADRALN;
+> +                break;
+>              default:
+>                  g_assert_not_reached();
+>              }
+> diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+> index 69632d15be..da7da6a0c1 100644
+> --- a/linux-user/arm/cpu_loop.c
+> +++ b/linux-user/arm/cpu_loop.c
+> @@ -23,6 +23,7 @@
+>  #include "elf.h"
+>  #include "cpu_loop-common.h"
+>  #include "semihosting/common-semi.h"
+> +#include "target/arm/syndrome.h"
+
+Not a huge fan of linux-user files pulling in target/arm headers, but
+I guess we do it already in aarch64/cpu_loop.c. (Though that is afaict
+the only other place ATM...)
+
 >
->      if (pm->use_acpi_hotplug_bridge) {
-> +        /*
-> +         * PCI Express root buses do not support hot-plug, for
-> +         * details see docs/pcie.txt. Hence, the second argument
-> +         * is unconditionally true.
-> +         */
->          acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
->      }
+>  #define get_user_code_u32(x, gaddr, env)                \
+>      ({ abi_long __r = get_user_u32((x), (gaddr));       \
+> @@ -286,9 +287,8 @@ void cpu_loop(CPUARMState *env)
+>  {
+>      CPUState *cs = env_cpu(env);
+>      int trapnr;
+> -    unsigned int n, insn;
+> +    unsigned int n, insn, ec, fsc;
+>      target_siginfo_t info;
+> -    uint32_t addr;
+>      abi_ulong ret;
 >
-> --
-> 2.25.1
->
->
+>      for(;;) {
+> @@ -437,15 +437,40 @@ void cpu_loop(CPUARMState *env)
+>              break;
+>          case EXCP_PREFETCH_ABORT:
+>          case EXCP_DATA_ABORT:
+> -            addr = env->exception.vaddress;
+> -            {
+> -                info.si_signo = TARGET_SIGSEGV;
+> -                info.si_errno = 0;
+> -                /* XXX: check env->error_code */
+> +            info.si_signo = TARGET_SIGSEGV;
+> +            info.si_errno = 0;
+> +            info._sifields._sigfault._addr = env->exception.vaddress;
+> +            /*
+> +             * We should only arrive here with EC in {DATAABORT, INSNABORT},
+> +             * and short-form FSC, which then tells us to look at the FSR.
+> +             * ??? arm_cpu_reset never sets TTBCR_EAE, so we always get
+> +             * short-form FSC.
+> +             */
+> +            ec = syn_get_ec(env->exception.syndrome);
+> +            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
+> +            fsc = extract32(env->exception.syndrome, 0, 6);
+> +            assert(fsc == 0x3f);
+> +            switch (env->exception.fsr & 0x1f) {
+> +            case 0x1: /* Alignment */
+> +                info.si_signo = TARGET_SIGBUS;
+> +                info.si_code = TARGET_BUS_ADRALN;
+> +                break;
+> +            case 0x3: /* Access flag fault, level 1 */
+> +            case 0x6: /* Access flag fault, level 2 */
+> +            case 0x9: /* Domain fault, level 1 */
+> +            case 0xb: /* Domain fault, level 2 */
+> +            case 0xd: /* Permision fault, level 1 */
+> +            case 0xf: /* Permision fault, level 2 */
+> +                info.si_code = TARGET_SEGV_ACCERR;
+> +                break;
+> +            case 0x5: /* Translation fault, level 1 */
+> +            case 0x7: /* Translation fault, level 2 */
+>                  info.si_code = TARGET_SEGV_MAPERR;
+> -                info._sifields._sigfault._addr = addr;
+> -                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+> +                break;
+> +            default:
+> +                g_assert_not_reached();
+>              }
+> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>              break;
+
+It's slightly sad that we start off with a nicely symbolic
+ArmMMUFaultInfo type enum value, carefully encode it into a
+numeric value and then have to switch on the numeric value here,
+but I can see why we end up this way...
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
