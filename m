@@ -2,88 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1973DA0A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:55:21 +0200 (CEST)
-Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3603DA0BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 11:59:40 +0200 (CEST)
+Received: from localhost ([::1]:36832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m92l5-0001y1-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:55:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1m92pH-0003rD-Ex
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 05:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m92k2-0001A3-KJ
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:54:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30390)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m92oU-0003CG-4A
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:58:50 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:33699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m92jy-0002HW-5M
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:54:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627552449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=skStFmpJ67QMVTtLU4r8jnmSP4g58NZlRw+HXmZLMAM=;
- b=JoLcIPAFllsJS6MaMhqFGtVHzTuz1QFOPaZE0laCJUkyZHKoaHuz+pLbq4KiQaj17HFpU8
- 4TTdmezx5KIjKMHnCCnAsEp2lIkPcv8WNrtCDXPVKDtIgNLRSvZZmYa964emLMROIVX4AI
- y1d+XQas2vWxpxq0f3ptJIad8h1ddvw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-K0ZKzGN1OwSSa27W-vbxZQ-1; Thu, 29 Jul 2021 05:54:05 -0400
-X-MC-Unique: K0ZKzGN1OwSSa27W-vbxZQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- u25-20020aa7d8990000b02903bb6a903d90so2678392edq.17
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 02:54:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=skStFmpJ67QMVTtLU4r8jnmSP4g58NZlRw+HXmZLMAM=;
- b=SlkrGrTB6oU6pgSiFGt/K8mfp1zuP6SsadttkOHAZrj6qNRMoLEGpyXP4xWTtbQAQW
- LmAAyYod6H1YaVtNoP2BupsgWn01m0zyFuxzJ+VxfFaKWFcOlaq3xu3rQAcALTl3wz5Q
- ElM+BtE8qGNQqw3+5KKfmptDCs/GlSy4dCSfyx4m4GQg2XlXjyuEgpIFBX4oDWgZbQOx
- 0sXcfSMDXSLA/EMYGgmtcOeNz/4w/CUtrXl/NVysD4aHFiDCbHcofnlACLrY7xD8G502
- k/YaVNmofgMJ8xyj+FGYAsPNv5O4nYXAvmGusHis6j58dhM+YOdFZhWwnkHMXLK1eFyc
- d3ow==
-X-Gm-Message-State: AOAM530CcPNuo9P01q1u2TRW7bKcSVRcMY6rhH6nOdaOZWAB5uxsBvQM
- W6ewZo3FBYKnqoLffHgRvu7AhsMjAenAGDw9EPvBhTNI/Ao8KbIjAao47nQFO3FEhI7K8nABpS5
- QZTeabxdFNCdDkNY=
-X-Received: by 2002:a05:6402:14da:: with SMTP id
- f26mr5128124edx.259.1627552444767; 
- Thu, 29 Jul 2021 02:54:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzQZrPy3ZPTfgLsh+Nd6hmR3oTXbT1ZlnE+NtZi1WIsSo84WJbKm/y9vC90yCqtwJH03+g9/A==
-X-Received: by 2002:a05:6402:14da:: with SMTP id
- f26mr5128108edx.259.1627552444570; 
- Thu, 29 Jul 2021 02:54:04 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id a35sm987328edf.80.2021.07.29.02.54.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 02:54:04 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:54:02 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH v2] block/io_uring: resubmit when result is -EAGAIN
-Message-ID: <20210729095402.efmtilww4mt2qghe@steredhat>
-References: <20210729091029.65369-1-f.ebner@proxmox.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m92oS-0005dS-Bl
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 05:58:49 -0400
+Received: from [192.168.100.1] ([82.142.21.182]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MPoPd-1mUg7s0Yux-00MpzY; Thu, 29 Jul 2021 11:58:43 +0200
+Subject: Re: [PATCH 1/3] docs: Move the protocol part of barrier.txt into
+ interop
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210727204112.12579-1-peter.maydell@linaro.org>
+ <20210727204112.12579-2-peter.maydell@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <1057128c-6a1a-106e-d720-fc5be94d5551@vivier.eu>
+Date: Thu, 29 Jul 2021 11:58:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729091029.65369-1-f.ebner@proxmox.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210727204112.12579-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XBvj9bEp0/O6H2p/5DqtOZMhsLZ+lRbiHnclmb2GInsToCY1cOG
+ 00Tk4JWe7hsyN1f1ZdihjOLM5HTvTwN5Y9H6rWXKbJEJ6WRV6ce9dUFys71cWq+ItsgbccR
+ OpywE9wn36vmYUUPj1Z5ylPeKUy5kSMt+wWZ2tU2iIq/ov7tUMnher5fR5Q3KvgL6LPzI2J
+ heiILSiOyvCq/4kJO5YIg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ewejOqV+Sno=:Mi+d7x/Egu6W1m7J37yXCT
+ jlJh1m4juFqgB+wx1CIBAHbTcmB+ZtQbDkOw63/S5eyZQChYOc9IUVH2KKFxiBPtQ+NcBSafZ
+ e60GGQHp8wPNAwjEhkIkJHXG03Vh3+zV1b297cPL9CX8I+yFnQxXM3RhxSY6DPLyIoLEXTqpU
+ EULm7bE0x/8QTNMirF/h5CY3LkYhWMYwGEDfGfxAQdQclkBZdsyZFlEluue0f7jBIk83Zk7GR
+ mRkIRZvvUfL5391jXRceqSTRg872C7pGMLe4dL+qV0yuMUciVPkiuUvPQxSSf7+9jKz1aPjgE
+ H1nmEgaeUaS0GPoWaOqGMBwd+T8QoTpgYhcYRaXc0r+ThJbT6knKObnSBfqotyRMJUadveXe4
+ qSh5MUoC0XO/FMvrQBSEmRXtev7KFkHu4ijhOEIP/r6gVpsLzvufASxMWdWjbhAqLgyhYorbp
+ SIiVWgXO+RUAkcJZHLoO3auctdt+JXLCPVbfo/Qe3WzRRxodg/H8MVj1UPHS9Efrxtqep+cP6
+ G/qLaqQNIZbwE4l/v9T7714SKko28Hque3AnRr1F9iUj0VkKYXwl6q4Gnf2GLzEBnpGu4nHfe
+ 6Hb1wFBqty1BE6IUpK/JM0UigLv0D6xM4pR2MtMWJkPzMp/TkrExhYO12t75rR6Ghw9RHfaVr
+ X1Akt9de1ZKU1d1z9yohEyPI5xe4yOdqDWVEnIuvUaMUjl6AdNEkzB/Wu+d1DNC/wUIsISSNw
+ /aTxDSu+kaZseHkNS9GodocnDMoFFj7HDB1+CUggX/Q3pLzv++E3/nsfqURgNTzP46QgjYWL7
+ Xkz8Y6K4xN6fJpbyiEcMVFAVlsUUovAv1NLTEsSAOVQp32097hLGUSSpfJGh0XwrCZ0No3b
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.277,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,37 +72,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Linux io_uring" <qemu-block@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 29, 2021 at 11:10:29AM +0200, Fabian Ebner wrote:
->Linux SCSI can throw spurious -EAGAIN in some corner cases in its
->completion path, which will end up being the result in the completed
->io_uring request.
->
->Resubmitting such requests should allow block jobs to complete, even
->if such spurious errors are encountered.
->
->Co-authored-by: Stefan Hajnoczi <stefanha@gmail.com>
->Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
->Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
->---
->
->Changes from v1:
->    * Focus on what's relevant for the patch itself in the commit
->      message.
->    * Add Stefan's comment.
->    * Add Stefano's R-b tag (I hope that's fine, since there was no
->      change code-wise).
+Le 27/07/2021 à 22:41, Peter Maydell a écrit :
+> Most of docs/barrier.txt is describing the protocol implemented
+> by the input-barrier device. Move this into the interop
+> section of the manual, and rstify it.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  docs/barrier.txt         | 318 -----------------------------
+>  docs/interop/barrier.rst | 426 +++++++++++++++++++++++++++++++++++++++
+>  docs/interop/index.rst   |   1 +
+>  3 files changed, 427 insertions(+), 318 deletions(-)
+>  create mode 100644 docs/interop/barrier.rst
 
-Yep, it's fine :-)
-
-Thanks,
-Stefano
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
