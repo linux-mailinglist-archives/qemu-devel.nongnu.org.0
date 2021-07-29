@@ -2,57 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51463DA343
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:38:25 +0200 (CEST)
-Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8FF3DA352
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:46:10 +0200 (CEST)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m95Iu-00065O-CG
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1m95QP-0002Ri-AR
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1m95FU-0004K0-RU; Thu, 29 Jul 2021 08:34:52 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:30812)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1m95FS-0007fC-6V; Thu, 29 Jul 2021 08:34:52 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 16TCXu5e088617;
- Thu, 29 Jul 2021 14:33:56 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 16TCXtqh006610; Thu, 29 Jul 2021 14:33:55 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 16TCXt6C006609;
- Thu, 29 Jul 2021 14:33:55 +0200
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Qiang Ning <ningqiang1@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2] hw/net/can: sja1000 fix buff2frame_bas and buff2frame_pel
- when dlc is out of std CAN 8 bytes
-Date: Thu, 29 Jul 2021 14:33:27 +0200
-Message-Id: <20210729123327.14650-1-pisa@cmp.felk.cvut.cz>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m95PD-0001O6-Vb
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m95PA-0005ll-9s
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:44:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627562690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+oOCks80nCfUuRJPuJFhztE8jpHWSNsofBSkbUO7a9Q=;
+ b=W+djl7LYdVfUP9jYFfF+DwgM4yyxf8KG2VjqPCQThz+U9fsJfeSjP+HImvSS3NHRv1ASEb
+ VaxKrwPFbgfCaXmQ8rStBTgO8orA83rK3oyZWVc1cztwYle147yn3TGkWIxb+OH6TDGiSk
+ OBUBIZSwASaG6dtUQbPbji/LjSud/Tg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-JSDCFqgRPp6AEvnh-92DYw-1; Thu, 29 Jul 2021 08:44:47 -0400
+X-MC-Unique: JSDCFqgRPp6AEvnh-92DYw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n1-20020a5d59810000b029013cd60e9baaso2195463wri.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 05:44:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+oOCks80nCfUuRJPuJFhztE8jpHWSNsofBSkbUO7a9Q=;
+ b=e/BiPUQe+rvxpN2mX2Cz40Bzibru4DkQCasPMY2NIYXsF6AQWn2lhMtHuB1vqpKt3Z
+ +u7Zhnc9hLi6kmrqkeCv39HpEXh90OX/rPtCFQ7AxnAx8g2CFACHCmBxMd8OfaHZsvCg
+ Km2BDR+oEfvCl28a9NO0wQsA8DW+fr1LP1pSREJU5EznGsqPv54rJ+6ICjndb2dskRBF
+ DBromXOLuC6d+Wszp7ABCHwtY7LiYy3UlEbzLB4iRhhPBc3oWT240vAeRLBzsO81uS+c
+ wNPLbNHRd3RRSmwx9gB/G8OevQOSmvQhmtzeKUdTPKL3rOgU0nDmyt7QcR+qOKnt0+he
+ ujKg==
+X-Gm-Message-State: AOAM531k8qhI3xolAZV84nYq09HnGYQXsXvsqg/HDNnc8xUD1Fsd+Y8n
+ 82Q++g5Xg6zp14NqWhSwcDkXxx+PSDeM8swn2zYa6+y6dK6qrS5zJSw3zu84YJyiqTMgumqQXiK
+ vsnwZJadTWClfmC0=
+X-Received: by 2002:a05:6000:1b0c:: with SMTP id
+ f12mr4670460wrz.225.1627562686092; 
+ Thu, 29 Jul 2021 05:44:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9mKZ1T83yyI+zQhCQC0zZLr8G0Hz/OEkgVOMUhRSX5oAVTsj5ykD9omepfP8lcPeC217TpQ==
+X-Received: by 2002:a05:6000:1b0c:: with SMTP id
+ f12mr4670440wrz.225.1627562685858; 
+ Thu, 29 Jul 2021 05:44:45 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id n30sm4082218wra.1.2021.07.29.05.44.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 05:44:45 -0700 (PDT)
+Date: Thu, 29 Jul 2021 14:44:44 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jingqi Liu <jingqi.liu@intel.com>
+Subject: Re: [PATCH v2 1/1] nvdimm: add 'target-node' option
+Message-ID: <20210729144444.22104221@redhat.com>
+In-Reply-To: <20210719020153.30574-2-jingqi.liu@intel.com>
+References: <20210719020153.30574-1-jingqi.liu@intel.com>
+ <20210719020153.30574-2-jingqi.liu@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 16TCXu5e088617
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.098, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
- SPF_HELO_NONE 0.00, SPF_NONE 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1628166837.85924@BdDccHH9XTy5OQS5MPtL/A
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,50 +98,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>, qemu-stable@nongnu.org,
- Vikram Garhwal <fnu.vikram@xilinx.com>, Jan Charvat <charvj10@fel.cvut.cz>,
- Jin-Yang <jinyang.sia@gmail.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, xiaoguangrong.eric@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Problem reported by openEuler fuzz-sig group.
+On Mon, 19 Jul 2021 10:01:53 +0800
+Jingqi Liu <jingqi.liu@intel.com> wrote:
 
-The buff2frame_bas function (hw\net\can\can_sja1000.c)
-infoleak(qemu5.x~qemu6.x) or stack-overflow(qemu 4.x).
+> Linux kernel version 5.1 brings in support for the volatile-use of
+> persistent memory as a hotplugged memory region (KMEM DAX).
+> When this feature is enabled, persistent memory can be seen as a
+> separate memory-only NUMA node(s). This newly-added memory can be
+> selected by its unique NUMA node.
+> 
+> Add 'target-node' option for 'nvdimm' device to indicate this NUMA
+> node. It can be extended to a new node after all existing NUMA nodes.
+> 
+> The 'node' option of 'pc-dimm' device is to add the DIMM to an
+> existing NUMA node. The 'node' should be in the available NUMA nodes.
+> For KMEM DAX mode, persistent memory can be in a new separate
+> memory-only NUMA node. The new node is created dynamically.
+> So users use 'target-node' to control whether persistent memory
+> is added to an existing NUMA node or a new NUMA node.
+> 
+> An example of configuration is as follows.
+> 
+> Using the following QEMU command:
+>  -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
+>  -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=2
+> 
+> To list DAX devices:
+>  # daxctl list -u
+>  {
+>    "chardev":"dax0.0",
+>    "size":"3.00 GiB (3.22 GB)",
+>    "target_node":2,
+>    "mode":"devdax"
+>  }
+> 
+> To create a namespace in Device-DAX mode as a standard memory:
+>  $ ndctl create-namespace --mode=devdax --map=mem
+> To reconfigure DAX device from devdax mode to a system-ram mode:
+>  $ daxctl reconfigure-device dax0.0 --mode=system-ram
+> 
+> There are two existing NUMA nodes in Guest. After these operations,
+> persistent memory is configured as a separate Node 2 and
+> can be used as a volatile memory. This NUMA node is dynamically
+> created according to 'target-node'.
 
-Reported-by: Qiang Ning <ningqiang1@huawei.com>
-Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
----
- hw/net/can/can_sja1000.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-index 42d2f99dfb..34eea684ce 100644
---- a/hw/net/can/can_sja1000.c
-+++ b/hw/net/can/can_sja1000.c
-@@ -275,6 +275,10 @@ static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
-     }
-     frame->can_dlc = buff[0] & 0x0f;
- 
-+    if (frame->can_dlc > 8) {
-+        frame->can_dlc = 8;
-+    }
-+
-     if (buff[0] & 0x80) { /* Extended */
-         frame->can_id |= QEMU_CAN_EFF_FLAG;
-         frame->can_id |= buff[1] << 21; /* ID.28~ID.21 */
-@@ -311,6 +315,10 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
-     }
-     frame->can_dlc = buff[1] & 0x0f;
- 
-+    if (frame->can_dlc > 8) {
-+        frame->can_dlc = 8;
-+    }
-+
-     for (i = 0; i < frame->can_dlc; i++) {
-         frame->data[i] = buff[2 + i];
-     }
--- 
-2.20.1
+Well, I've looked at spec and series pointed at v1 thread,
+and I don't really see a good reason to add duplicate 'target-node'
+property to NVDIMM that for all practical purposes serves the same
+purpose as already existing 'node' property.
+The only thing that it does on top of existing 'node' property is
+facilitate implicit creation of numa nodes on top of user configured
+ones.
+
+But what I really dislike, is adding implicit path to create
+numa nodes from random place.
+
+It just creates mess and and doesn't really work well because you
+will have to plumb into other code to account for implicit nodes
+for it to work properly. (1st thing that comes to mind is HMAT
+configuration won't accept this implicit nodes, there might be
+other places that will not work as expected).
+So I suggest to abandon this approach and use already existing
+numa CLI options to do what you need.
+
+What you are trying to achieve can be done without this series
+as QEMU allows to create memory only nodes and even empty ones
+(for future hotplug) just fine.
+The only thing is that one shall specify complete planned
+numa topology on command line.
+
+Here is an example that works for me:
+   -machine q35,nvdimm=on \
+   -m 4G,slots=4,maxmem=12G \
+   -smp 4,cores=2 \
+   -object memory-backend-ram,size=4G,policy=bind,host-nodes=0,id=ram-node0 \
+   -numa node,nodeid=0,memdev=ram-node0
+# explicitly assign all CPUs
+   -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=0,socket-id=1
+# and create a cpu-less node for you nvdimm
+   -numa node,nodeid=1 
+
+with that you can hotplug nvdimm to with 'node=1' property set
+or provide that at startup, like this:
+   -object memory-backend-file,id=mem1,share=on,mem-path=nvdimmfile,size=3G,align=2M \
+   -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,node=1
+
+after boot numactl -H will show:
+
+available: 1 nodes (0)
+node 0 cpus: 0 1 2 3
+node 0 size: 3924 MB
+node 0 free: 3657 MB
+node distances:
+node   0 
+  0:  10 
+
+and after initializing nvdimm as a dax device and
+reconfiguring that to system memory it will show
+as 'new' 'memory only' node
+
+available: 2 nodes (0-1)
+node 0 cpus: 0 1 2 3
+node 0 size: 3924 MB
+node 0 free: 3641 MB
+node 1 cpus:
+node 1 size: 896 MB
+node 1 free: 896 MB
+node distances:
+node   0   1 
+  0:  10  20 
+  1:  20  10 
+
+> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+[...]
 
 
