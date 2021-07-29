@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E533DA242
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:36:51 +0200 (CEST)
-Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AA63DA240
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:36:34 +0200 (CEST)
+Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m94LK-0002Zz-5Y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40236)
+	id 1m94L3-0001SQ-Fu
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940y-0000fx-VP
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:48 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55132)
+ id 1m940z-0000iu-R4
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:49 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940f-00018n-Ne
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:48 -0400
-Received: by mail-wm1-x329.google.com with SMTP id b128so3465223wmb.4
+ id 1m940j-00019o-M4
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:49 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o5-20020a1c4d050000b02901fc3a62af78so6568837wmh.3
  for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iZpgClRSEyhYOR+Os3hp/BipliKUZ2Q4cpKVQjciGAc=;
- b=puRrpj8+LWlGrdyULw2nyGEKw2eR29UmKr6UCI6ZunTUJWUsw/w+t+VJbGcChkbsXu
- VPbc83hsoQAIpOuArKLQUNfFe+rKp5I6T8wBN0KMGJ6A6FpB9FhdJt+MKPAYYiaVCwGH
- DdksCqVxm5n4YTCocDkcou7arq37doRH6FjwSUeAoTL58Cn823KGSho9nvWHbkoQly6y
- SAoYEyJZ8ZvRKT/P93SxQqrFgc/JgzWq+VjM7LkmJvAzAX2gNAEtdEnzqBoILeuhnImv
- cDGh9hRpNCRLvbgzjIJVC9rAUjwq7fdGT17UWlfqjUBQpRJvgHlUC2sWhLJc2GyEba8e
- nvlw==
+ bh=H9TZmaWqhZmwH6AhFQ01QX7XQokaEmxCohWlyYnItss=;
+ b=wK6yb4kGx51zJ2lJQyDXkel7EjQqfiMi9z+xK9u1dstCRvhouHXI0YL37JCxadYHcl
+ FmZdXxJ82X2z1V0iBpsPX9GY7DxDu6hkz6B6c6vCKHMkKhH2OVnp09NnajPEC3bD5gKw
+ j0vZt2N2rEOrLUZ5ha4bnrsKfDvSjTTRE/fWmmTBgPby9lEABdij6DBHmCcYn7nU9jqQ
+ DQgGKMpxy3Pslq5+MXvIis/3QUTVoysxM3AI+cM7T9j5uFCEDp7zpzAQ9KMPJwpKJ8F5
+ usa8i2tHfVU5BaDt8SccpqcOfrJsE1Tgx9NDD1y6HwYrs0JdvVI2G0ayu0vAsM03n6zX
+ 96zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iZpgClRSEyhYOR+Os3hp/BipliKUZ2Q4cpKVQjciGAc=;
- b=GKgOHtAUbOU6yQIAJ0+4blW+8AzuUGe33wbYFXpHbKMN7OC16+pW1cnldPYZQXO7+m
- 2+GRUkI4AQgjuMl01z5OdNQbFmzIBb8AR3XgY1Q9G17YcT0asfnGmHxf+KGAwgt1i2h2
- AoYZ7a9rV751IB/UvHuQwnKCN1HDKvjOsRKLMSY918SrisLX49NVaAYMslo5J53FKNyW
- VLCYBzP3wvw71G3BWMKTqaFPemf3lymLa4FcxXutawkc67ZnFyE0bC/vL1tn2b2NWJ0d
- d7kqzTtgKERqksPy6eHMaxeXpxvIYKYV2lH/PhGRY6UNJsElsSmCrRQSMwyCVnqopd/q
- b72w==
-X-Gm-Message-State: AOAM5316CAN0iGIh/0rbPRg7lqWFX4VJXTOYh7e13oS/hnizOsuGlYo0
- B5dPE8aIoi4SDZwBUCK76FlB8zF2YBqHHA==
-X-Google-Smtp-Source: ABdhPJx/WH/7QXT1u+thuHwThH581bSYbap4eYowOIL65Hhd+ElTwPFDWhFwoGmxDGiZ4DYvmS+aYg==
-X-Received: by 2002:a1c:238e:: with SMTP id j136mr4271650wmj.91.1627557328109; 
+ bh=H9TZmaWqhZmwH6AhFQ01QX7XQokaEmxCohWlyYnItss=;
+ b=SMnMGKKbJptF1S7Qtc9hFgQC/IqmiYSxKMnCvDnMLpOpsZT60IxUIdUIVLM1DJu313
+ C2wt6lp7EcuyOuSvTNYnoc2ksYmXgbqURyJJltMjdkfklEHtGZ/zVQPMRXpBRsaMXvJZ
+ 9l3Mfz/aUApJiUMy9nZ/9WcBM9t36NgxOShYZcVGnFmZmu+SPtvzMVUmksyq2djLpxX0
+ 6oOeREAkkFy9dq7vtOSOr05W3z5nD/LjUHeJJkyH6NcwCMHqZ/Dq8xL+lFpFCI2fuo+B
+ cn+PLwtDVTbFtP8/1d7GAUhij83IRyp3B/RxlcJxSX0ku1Y0qCQkwbLFh0eaGrD+ADu+
+ pjsw==
+X-Gm-Message-State: AOAM533CDMunk76CYjtp/fcIxELXjxGVhv5b2KlX/gcaZxa5oF4yalJN
+ QFBBxLfiFxx5MjFzrnNBFhNxr0VubC67JQ==
+X-Google-Smtp-Source: ABdhPJyl3O0gaMW7j4M0nJaclQW460L0TTuarWOH2KJSuqgsMM+SqIy4BrJogu7eApV+dBbHac45WQ==
+X-Received: by 2002:a7b:c0cc:: with SMTP id s12mr725597wmh.0.1627557328943;
  Thu, 29 Jul 2021 04:15:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.27
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 04:15:27 -0700 (PDT)
+ Thu, 29 Jul 2021 04:15:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 16/53] target/arm: Implement MVE integer
- vector-vs-scalar comparisons
-Date: Thu, 29 Jul 2021 12:14:35 +0100
-Message-Id: <20210729111512.16541-17-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 17/53] target/arm: Implement MVE VPSEL
+Date: Thu, 29 Jul 2021 12:14:36 +0100
+Message-Id: <20210729111512.16541-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,234 +87,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE integer vector comparison instructions that compare
-each element against a scalar from a general purpose register.  These
-are "VCMP (vector)" encodings T4, T5 and T6 and "VPT (vector)"
-encodings T4, T5 and T6.
-
-We have to move the decodetree pattern for VPST, because it
-overlaps with VCMP T4 with size = 0b11.
+Implement the MVE VPSEL insn, which sets each byte of the destination
+vector Qd to the byte from either Qn or Qm depending on the value of
+the corresponding bit in VPR.P0.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    | 32 +++++++++++++++++++++++++++
- target/arm/mve.decode      | 18 +++++++++++++---
- target/arm/mve_helper.c    | 44 +++++++++++++++++++++++++++++++-------
- target/arm/translate-mve.c | 43 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 126 insertions(+), 11 deletions(-)
+ target/arm/helper-mve.h    |  2 ++
+ target/arm/mve.decode      |  7 +++++--
+ target/arm/mve_helper.c    | 19 +++++++++++++++++++
+ target/arm/translate-mve.c |  2 ++
+ 4 files changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index ca5a6ab51cc..4f9903e66ef 100644
+index 4f9903e66ef..16c4c3b8f61 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -512,3 +512,35 @@ DEF_HELPER_FLAGS_3(mve_vcmpgtw, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vcmpleb, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vcmpleh, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vcmplew, TCG_CALL_NO_WG, void, env, ptr, ptr)
+@@ -82,6 +82,8 @@ DEF_HELPER_FLAGS_4(mve_vorr, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vorn, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_veor, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ 
++DEF_HELPER_FLAGS_4(mve_vpsel, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
-+DEF_HELPER_FLAGS_3(mve_vcmpeq_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpeq_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpeq_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmpne_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpne_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpne_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmpcs_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpcs_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpcs_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmphi_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmphi_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmphi_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmpge_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpge_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpge_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmplt_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmplt_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmplt_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmpgt_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpgt_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmpgt_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
-+
-+DEF_HELPER_FLAGS_3(mve_vcmple_scalarb, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmple_scalarh, TCG_CALL_NO_WG, void, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vcmple_scalarw, TCG_CALL_NO_WG, void, env, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vaddb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vaddh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vaddw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 76bbf9a6136..ef708ba80ff 100644
+index ef708ba80ff..4bd20a9a319 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -38,6 +38,7 @@
- &vidup qd rn size imm
- &viwdup qd rn rm size imm
- &vcmp qm qn size mask
-+&vcmp_scalar qn rm size mask
- 
- @vldr_vstr ....... . . . . l:1 rn:4 ... ...... imm:7 &vldr_vstr qd=%qd u=0
- # Note that both Rn and Qd are 3 bits only (no D bit)
-@@ -90,6 +91,8 @@
- # Vector comparison; 4-bit Qm but 3-bit Qn
- %mask_22_13      22:1 13:3
- @vcmp    .... .... .. size:2 qn:3 . .... .... .... .... &vcmp qm=%qm mask=%mask_22_13
-+@vcmp_scalar .... .... .. size:2 qn:3 . .... .... .... rm:4 &vcmp_scalar \
-+             mask=%mask_22_13
- 
- # Vector loads and stores
- 
-@@ -349,9 +352,6 @@ VQRDMULH_scalar  1111 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
-                  rdahi=%rdahi rdalo=%rdalo
- }
- 
--# Predicate operations
--VPST             1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
--
- # Logical immediate operations (1 reg and modified-immediate)
- 
- # The cmode/op bits here decode VORR/VBIC/VMOV/VMVN, but
-@@ -474,3 +474,15 @@ VCMPGE            1111 1110 0 . .. ... 1 ... 1 1111 0 0 . 0 ... 0 @vcmp
+@@ -468,8 +468,11 @@ VSHLC             111 0 1110 1 . 1 imm:5 ... 0 1111 1100 rdm:4 qd=%qd
+ # effectively "VCMP then VPST". A plain "VCMP" has a mask field of zero.
+ VCMPEQ            1111 1110 0 . .. ... 1 ... 0 1111 0 0 . 0 ... 0 @vcmp
+ VCMPNE            1111 1110 0 . .. ... 1 ... 0 1111 1 0 . 0 ... 0 @vcmp
+-VCMPCS            1111 1110 0 . .. ... 1 ... 0 1111 0 0 . 0 ... 1 @vcmp
+-VCMPHI            1111 1110 0 . .. ... 1 ... 0 1111 1 0 . 0 ... 1 @vcmp
++{
++  VPSEL           1111 1110 0 . 11 ... 1 ... 0 1111 . 0 . 0 ... 1 @2op_nosz
++  VCMPCS          1111 1110 0 . .. ... 1 ... 0 1111 0 0 . 0 ... 1 @vcmp
++  VCMPHI          1111 1110 0 . .. ... 1 ... 0 1111 1 0 . 0 ... 1 @vcmp
++}
+ VCMPGE            1111 1110 0 . .. ... 1 ... 1 1111 0 0 . 0 ... 0 @vcmp
  VCMPLT            1111 1110 0 . .. ... 1 ... 1 1111 1 0 . 0 ... 0 @vcmp
  VCMPGT            1111 1110 0 . .. ... 1 ... 1 1111 0 0 . 0 ... 1 @vcmp
- VCMPLE            1111 1110 0 . .. ... 1 ... 1 1111 1 0 . 0 ... 1 @vcmp
-+
-+{
-+  VPST            1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
-+  VCMPEQ_scalar   1111 1110 0 . .. ... 1 ... 0 1111 0 1 0 0 .... @vcmp_scalar
-+}
-+VCMPNE_scalar     1111 1110 0 . .. ... 1 ... 0 1111 1 1 0 0 .... @vcmp_scalar
-+VCMPCS_scalar     1111 1110 0 . .. ... 1 ... 0 1111 0 1 1 0 .... @vcmp_scalar
-+VCMPHI_scalar     1111 1110 0 . .. ... 1 ... 0 1111 1 1 1 0 .... @vcmp_scalar
-+VCMPGE_scalar     1111 1110 0 . .. ... 1 ... 1 1111 0 1 0 0 .... @vcmp_scalar
-+VCMPLT_scalar     1111 1110 0 . .. ... 1 ... 1 1111 1 1 0 0 .... @vcmp_scalar
-+VCMPGT_scalar     1111 1110 0 . .. ... 1 ... 1 1111 0 1 1 0 .... @vcmp_scalar
-+VCMPLE_scalar     1111 1110 0 . .. ... 1 ... 1 1111 1 1 1 0 .... @vcmp_scalar
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index b0b380b94b0..1a021a9a817 100644
+index 1a021a9a817..03171766b57 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1787,15 +1787,43 @@ DO_VIWDUP_ALL(vdwdup, do_sub_wrap)
-         mve_advance_vpt(env);                                           \
-     }
- 
--#define DO_VCMP_S(OP, FN)                       \
--    DO_VCMP(OP##b, 1, int8_t, FN)               \
--    DO_VCMP(OP##h, 2, int16_t, FN)              \
--    DO_VCMP(OP##w, 4, int32_t, FN)
-+#define DO_VCMP_SCALAR(OP, ESIZE, TYPE, FN)                             \
-+    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vn,             \
-+                                uint32_t rm)                            \
-+    {                                                                   \
-+        TYPE *n = vn;                                                   \
-+        uint16_t mask = mve_element_mask(env);                          \
-+        uint16_t eci_mask = mve_eci_mask(env);                          \
-+        uint16_t beatpred = 0;                                          \
-+        uint16_t emask = MAKE_64BIT_MASK(0, ESIZE);                     \
-+        unsigned e;                                                     \
-+        for (e = 0; e < 16 / ESIZE; e++) {                              \
-+            bool r = FN(n[H##ESIZE(e)], (TYPE)rm);                      \
-+            /* Comparison sets 0/1 bits for each byte in the element */ \
-+            beatpred |= r * emask;                                      \
-+            emask <<= ESIZE;                                            \
-+        }                                                               \
-+        beatpred &= mask;                                               \
-+        env->v7m.vpr = (env->v7m.vpr & ~(uint32_t)eci_mask) |           \
-+            (beatpred & eci_mask);                                      \
-+        mve_advance_vpt(env);                                           \
-+    }
- 
--#define DO_VCMP_U(OP, FN)                       \
--    DO_VCMP(OP##b, 1, uint8_t, FN)              \
--    DO_VCMP(OP##h, 2, uint16_t, FN)             \
--    DO_VCMP(OP##w, 4, uint32_t, FN)
-+#define DO_VCMP_S(OP, FN)                               \
-+    DO_VCMP(OP##b, 1, int8_t, FN)                       \
-+    DO_VCMP(OP##h, 2, int16_t, FN)                      \
-+    DO_VCMP(OP##w, 4, int32_t, FN)                      \
-+    DO_VCMP_SCALAR(OP##_scalarb, 1, int8_t, FN)         \
-+    DO_VCMP_SCALAR(OP##_scalarh, 2, int16_t, FN)        \
-+    DO_VCMP_SCALAR(OP##_scalarw, 4, int32_t, FN)
+@@ -1842,3 +1842,22 @@ DO_VCMP_S(vcmpge, DO_GE)
+ DO_VCMP_S(vcmplt, DO_LT)
+ DO_VCMP_S(vcmpgt, DO_GT)
+ DO_VCMP_S(vcmple, DO_LE)
 +
-+#define DO_VCMP_U(OP, FN)                               \
-+    DO_VCMP(OP##b, 1, uint8_t, FN)                      \
-+    DO_VCMP(OP##h, 2, uint16_t, FN)                     \
-+    DO_VCMP(OP##w, 4, uint32_t, FN)                     \
-+    DO_VCMP_SCALAR(OP##_scalarb, 1, uint8_t, FN)        \
-+    DO_VCMP_SCALAR(OP##_scalarh, 2, uint16_t, FN)       \
-+    DO_VCMP_SCALAR(OP##_scalarw, 4, uint32_t, FN)
- 
- #define DO_EQ(N, M) ((N) == (M))
- #define DO_NE(N, M) ((N) != (M))
++void HELPER(mve_vpsel)(CPUARMState *env, void *vd, void *vn, void *vm)
++{
++    /*
++     * Qd[n] = VPR.P0[n] ? Qn[n] : Qm[n]
++     * but note that whether bytes are written to Qd is still subject
++     * to (all forms of) predication in the usual way.
++     */
++    uint64_t *d = vd, *n = vn, *m = vm;
++    uint16_t mask = mve_element_mask(env);
++    uint16_t p0 = FIELD_EX32(env->v7m.vpr, V7M_VPR, P0);
++    unsigned e;
++    for (e = 0; e < 16 / 8; e++, mask >>= 8, p0 >>= 8) {
++        uint64_t r = m[H8(e)];
++        mergemask(&r, n[H8(e)], p0);
++        mergemask(&d[H8(e)], r, mask);
++    }
++    mve_advance_vpt(env);
++}
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 2d7211b5271..6c6f159aa3e 100644
+index 6c6f159aa3e..aa38218e08f 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -44,6 +44,7 @@ typedef void MVEGenOneOpImmFn(TCGv_ptr, TCGv_ptr, TCGv_i64);
- typedef void MVEGenVIDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32);
- typedef void MVEGenVIWDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32);
- typedef void MVEGenCmpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
-+typedef void MVEGenScalarCmpFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
+@@ -376,6 +376,8 @@ DO_LOGIC(VORR, gen_helper_mve_vorr)
+ DO_LOGIC(VORN, gen_helper_mve_vorn)
+ DO_LOGIC(VEOR, gen_helper_mve_veor)
  
- /* Return the offset of a Qn register (same semantics as aa32_vfp_qreg()) */
- static inline long mve_qreg_offset(unsigned reg)
-@@ -1209,6 +1210,37 @@ static bool do_vcmp(DisasContext *s, arg_vcmp *a, MVEGenCmpFn *fn)
-     return true;
- }
- 
-+static bool do_vcmp_scalar(DisasContext *s, arg_vcmp_scalar *a,
-+                           MVEGenScalarCmpFn *fn)
-+{
-+    TCGv_ptr qn;
-+    TCGv_i32 rm;
++DO_LOGIC(VPSEL, gen_helper_mve_vpsel)
 +
-+    if (!dc_isar_feature(aa32_mve, s) || !fn || a->rm == 13) {
-+        return false;
-+    }
-+    if (!mve_eci_check(s) || !vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    qn = mve_qreg_ptr(a->qn);
-+    if (a->rm == 15) {
-+        /* Encoding Rm=0b1111 means "constant zero" */
-+        rm = tcg_constant_i32(0);
-+    } else {
-+        rm = load_reg(s, a->rm);
-+    }
-+    fn(cpu_env, qn, rm);
-+    tcg_temp_free_ptr(qn);
-+    tcg_temp_free_i32(rm);
-+    if (a->mask) {
-+        /* VPT */
-+        gen_vpst(s, a->mask);
-+    }
-+    mve_update_eci(s);
-+    return true;
-+}
-+
- #define DO_VCMP(INSN, FN)                                       \
-     static bool trans_##INSN(DisasContext *s, arg_vcmp *a)      \
+ #define DO_2OP(INSN, FN) \
+     static bool trans_##INSN(DisasContext *s, arg_2op *a)       \
      {                                                           \
-@@ -1219,6 +1251,17 @@ static bool do_vcmp(DisasContext *s, arg_vcmp *a, MVEGenCmpFn *fn)
-             NULL,                                               \
-         };                                                      \
-         return do_vcmp(s, a, fns[a->size]);                     \
-+    }                                                           \
-+    static bool trans_##INSN##_scalar(DisasContext *s,          \
-+                                      arg_vcmp_scalar *a)       \
-+    {                                                           \
-+        static MVEGenScalarCmpFn * const fns[] = {              \
-+            gen_helper_mve_##FN##_scalarb,                      \
-+            gen_helper_mve_##FN##_scalarh,                      \
-+            gen_helper_mve_##FN##_scalarw,                      \
-+            NULL,                                               \
-+        };                                                      \
-+        return do_vcmp_scalar(s, a, fns[a->size]);              \
-     }
- 
- DO_VCMP(VCMPEQ, vcmpeq)
 -- 
 2.20.1
 
