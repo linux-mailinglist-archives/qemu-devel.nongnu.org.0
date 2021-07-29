@@ -2,112 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E543DABD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:32:25 +0200 (CEST)
-Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67533DABDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 21:33:52 +0200 (CEST)
+Received: from localhost ([::1]:47418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9BlW-0002Ma-1h
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
+	id 1m9Bmx-0004Az-ML
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 15:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m9Bkc-0001g0-HT
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:31:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21714)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9Blo-0003Kf-R2
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:32:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m9BkY-0005Jv-K3
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:31:26 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16TJJKY2161353; Thu, 29 Jul 2021 15:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=1BTOysQcN2ecBMaGCkte3SDyPKGLavPFdDLtBbyuRkM=;
- b=VMegyYb/gmnwoPfTrFlViLKVyuD2q4eozBkzhikH5two2Bf+7PeBkoOwbwG5Ec6pRhKM
- 2FeGhuTBXNiMqfOj8curHexPz4wJoaE546ds7D3tZ3nRaHgxT5HD3GTparJebtdnYDtJ
- kxzPHnFx6wP/Q2sL8H2lCgn6DRUCKLq44JUqLGr9G/s0hytK6NUNg1tYeuX/OUXMEtnS
- Uo+omx4uL1TAdm0i++wFOcp7ci7EGJvUYNDt242SiVGHKMrQ8Wo69rqoEVQvj4rwxMte
- 0TX/2Gnih8+LP8n/ZiwJEOIZ0uDmy/J0dzTSGGlkUvsIQua0FTZSk2cz+V3fGViLiR5c pA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a42bs09tb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jul 2021 15:31:12 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16TJJU2D164060;
- Thu, 29 Jul 2021 15:31:11 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a42bs09sh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jul 2021 15:31:11 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16TJ8lGm003916;
- Thu, 29 Jul 2021 19:31:10 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma05wdc.us.ibm.com with ESMTP id 3a23655b91-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jul 2021 19:31:10 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16TJV81E35258808
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 29 Jul 2021 19:31:08 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76EE66A063;
- Thu, 29 Jul 2021 19:31:08 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71E216A054;
- Thu, 29 Jul 2021 19:31:04 +0000 (GMT)
-Received: from [9.160.123.143] (unknown [9.160.123.143])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 29 Jul 2021 19:31:04 +0000 (GMT)
-Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
- kernel/initrd/cmdline
-To: Connor Kuehl <ckuehl@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
- <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
- <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
- <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <203b655c-809b-b418-f61c-982e587fa9f2@linux.ibm.com>
-Date: Thu, 29 Jul 2021 22:31:02 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: o8VwFxk4YcREyPoPmvnU8PqBvywRXhd9
-X-Proofpoint-ORIG-GUID: N65U6FIBl92a6ziuWZXwYlqglB2Cpy8n
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m9Bll-0006Cf-Cy
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 15:32:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627587155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LbaKCDi7MQCMWqlM7t+MrEs8Tvz5MgCM8BWqgUiIU+4=;
+ b=I6wGCIBh82JY98tXJW/2rfugXgkAyb2fuwNLf2jIakRLP4Inol0zLusDSCi7bUomCJE8bY
+ rAEBbGLigInqL+WAD3gMgACrXrWS2I/9etHvClNpbytPJZtaFZEgxHHZxVlQOx5Da/Yq0S
+ psxtbZI4Cr2woVJiF0ODQMLXqi8HTx4=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-aSTqb3LPMBWNgy3uI6-CqA-1; Thu, 29 Jul 2021 15:32:34 -0400
+X-MC-Unique: aSTqb3LPMBWNgy3uI6-CqA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ r14-20020a0c8d0e0000b02902e82df307f0so4473573qvb.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 12:32:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LbaKCDi7MQCMWqlM7t+MrEs8Tvz5MgCM8BWqgUiIU+4=;
+ b=uAB8MQ99bZDZOtd90quxV2iGozJHH0LyOnmgwOgzrDBDcp1/3+8Tc/M9IehA0aEhk5
+ A6hcXtLdauKC0BQQRt64fhYaPnLGQpb2vCm6Bt3twZihTGhhyqqE2l1YPXgvXsziO9vI
+ D6wNNeP+iSfz23SKZ0hazpyzflToALQHKtl7M/JBd89QghwTjjtL1PwjrvayzqV4Iz6d
+ suGLT+UOHiTXwoMqEpR31k09brwLsH9kyNIqbYDRAz5WXdOS7kONA2x3NkHaHewvzf3Z
+ 5xrONY7/hFUFYc/C+ZgcDSEGZH9tBRWNz9j1cUuq8koIDXMeIDlBS6liuZ1CaDVLdNn7
+ 3Nrw==
+X-Gm-Message-State: AOAM530VO58i8tUpVBuwf3MdJNky9sewUX7m4FwuiFAUx3hON/KuNJdO
+ /W7NjFAgX1LSVJS5ktH59/RPQurI+rUyXqhFhw3IwDy215GVfYfYicDiYqkRiFAykjVyI4A3o5d
+ jIbNbPXLsHpkDfF8=
+X-Received: by 2002:a0c:aacd:: with SMTP id g13mr7033339qvb.20.1627587154338; 
+ Thu, 29 Jul 2021 12:32:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzN+kqFSGhAz61G2uTto2Cvrx1/peEvvgTqZgTRaotVpKRk+zP+Hez2HPakmGqlr+IeirDY/A==
+X-Received: by 2002:a0c:aacd:: with SMTP id g13mr7033320qvb.20.1627587154146; 
+ Thu, 29 Jul 2021 12:32:34 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id o18sm2344014qko.63.2021.07.29.12.32.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 12:32:33 -0700 (PDT)
+Date: Thu, 29 Jul 2021 15:32:32 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v2 0/6] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Message-ID: <YQMCUHWuviDcIc+I@t490s>
+References: <YPtAd+JqfNeQqGib@t490s>
+ <da54f4ab-2f20-a780-1a9c-b6f4c1c50969@redhat.com>
+ <YQA+CUCWV4YDdu9C@t490s>
+ <74271964-c481-7168-2a70-ea9eb5067450@redhat.com>
+ <YQGzLl9IHod5rJRb@t490s>
+ <b54cab91-87a6-298c-e527-0f75f8c38c74@redhat.com>
+ <YQG74AsEBE0uaN4U@t490s>
+ <a1c80a40-2828-3373-c906-870f0dbb6db8@redhat.com>
+ <YQLTUIvrVe+TM/lw@t490s>
+ <df5c7623-9986-d282-2ee9-eb28908d2994@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-29_16:2021-07-29,
- 2021-07-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2107140000 definitions=main-2107290117
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <df5c7623-9986-d282-2ee9-eb28908d2994@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,48 +104,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Laszlo Ersek <lersek@redhat.com>
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo, Phil, Connor,
+On Thu, Jul 29, 2021 at 06:19:31PM +0200, David Hildenbrand wrote:
+> On 29.07.21 18:12, Peter Xu wrote:
+> > On Thu, Jul 29, 2021 at 10:14:47AM +0200, David Hildenbrand wrote:
+> > > > > > > > The thing is I still think this extra operation during sync() can be ignored by
+> > > > > > > > simply clear dirty log during bitmap init, then.. why not? :)
+> > > > > > > 
+> > > > > > > I guess clearing the dirty log (especially in KVM) might be more expensive.
+> > > > > > 
+> > > > > > If we send one ioctl per cb that'll be expensive for sure.  I think it'll be
+> > > > > > fine if we send one clear ioctl to kvm, summarizing the whole bitmap to clear.
+> > > > > > 
+> > > > > > The other thing is imho having overhead during bitmap init is always better
+> > > > > > than having that during sync(). :)
+> > > > > 
+> > > > > Oh, right, so you're saying, after we set the dirty bmap to all ones and
+> > > > > excluded the discarded parts, setting the respective bits to 0, we simply
+> > > > > issue clearing of the whole area?
+> > > > > 
+> > > > > For now I assumed we would have to clear per cb.
+> > > > 
+> > > > Hmm when I replied I thought we can pass in a bitmap to ->log_clear() but I
+> > > > just remembered memory API actually hides the bitmap interface..
+> > > > 
+> > > > Reset the whole region works, but it'll slow down migration starts, more
+> > > > importantly that'll be with mmu write lock so we will lose most clear-log
+> > > > benefit for the initial round of migration and stuck the guest #pf at the
+> > > > meantime...
+> > > > 
+> > > > Let's try do that in cb()s as you mentioned; I think that'll still be okay,
+> > > > because so far the clear log block size is much larger (1gb), 1tb is worst case
+> > > > 1000 ioctls during bitmap init, slightly better than 250k calls during sync(),
+> > > > maybe? :)
+> > > 
+> > > Just to get it right, what you propose is calling
+> > > migration_clear_memory_region_dirty_bitmap_range() from each cb().
+> > 
+> > Right.  We can provide a more complicated memory api for passing in bitmap but
+> > I think that can be an overkill and tricky.
+> > 
+> > > Due to the clear_bmap, we will end up clearing each chunk (e.g., 1GB) at most
+> > > once.
+> > > 
+> > > But if our layout is fragmented, we can actually end up clearing all chunks
+> > > (1024 ioctls for 1TB), resulting in a slower migration start.
+> > > 
+> > > Any gut feeling how much slower migration start could be with largish (e.g.,
+> > > 1 TiB) regions?
+> > 
+> > I had a vague memory of KVM_GET_DIRTY_LOG that I used to measure which took
+> > ~10ms for 1g guest mem, supposing that's mostly used to protect the pages or
+> > clearing dirties in the EPT pgtables.  Then the worst case is ~1 second for
+> > 1tb.
+> > 
+> > But note that it's still during setup phase, so we should expect to see a
+> > somehow large setup time and longer period that migration stays in SETUP state,
+> > but I think it's fine.  Reasons:
+> > 
+> >    - We don't care too much about guest dirtying pages during the setup process
+> >      because we haven't migrated anything yet, meanwhile we should not block any
+> >      other thread either (e.g., we don't hold BQL).
+> > 
+> >    - We don't block guest execution too.  Unlike KVM_GET_DIRTY_LOG without CLEAR
+> >      we won't hold the mmu lock for a huge long time but do it only in 1g chunk,
+> >      so guest page faults can still be serviced.  It'll be affected somehow
+> >      since we'll still run with the mmu write lock critical sections for each
+> >      single ioctl(), but we do that for 1gb each time so we frequently yield it.
+> > 
+> 
+> Please note that we are holding the iothread lock while setting up the
+> bitmaps + syncing the dirty log. I'll have to make sure that that code runs
+> outside of the BQL, otherwise we'll block guest execution.
 
-On 08/07/2021 20:16, Connor Kuehl wrote:
-> On 7/8/21 10:03 AM, Philippe Mathieu-Daudé wrote:
->> On 7/8/21 6:41 PM, Connor Kuehl wrote:
->>> Hi Paolo,
->>>
->>> Please consider this series[1] for inclusion into your next pull request.
->>>
->>> Just a note that this series has a companion series that is getting
->>> upstreamed into OVMF[2]
->>
->> Shouldn't we get the OVMF part merged first?
-
-The OVMF companion series has been reviewed by the new OVMF maintainer
-and merged to edk2 master branch as of edk2 commit 514b3aa08ece [1].
-
-[1] https://github.com/tianocore/edk2/commit/514b3aa08ece
-
-
-Thanks,
-Dov
-
+Oh right.
 
 > 
-> The approach taken in the OVMF series doesn't seem very controversial,
-> so I don't anticipate any breaking changes with the current state of
-> those patches as far as QEMU is concerned.
-> 
-> However, I'm fine with erring on the side of caution.
-> 
-> Connor
-> 
+> In the meantime I adjusted the code but it does the clearing under the
+> iothread lock, which should not be what we want ... I'll have a look.
+
+Thanks; if it takes more changes than expected we can still start from simple,
+IMHO, by taking bql and timely yield it.
+
+At the meantime, I found two things in ram_init_bitmaps() that I'm not sure we
+need them of not:
+
+  1. Do we need WITH_RCU_READ_LOCK_GUARD() if with both bql and ramlist lock?
+     (small question)
+
+  2. Do we need migration_bitmap_sync_precopy() even if dirty bmap is all 1's?
+     (bigger question)
+
+I feel like those can be dropped.  Dave/Juan?
+
+-- 
+Peter Xu
+
 
