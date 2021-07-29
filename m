@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF363D9F8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:28:02 +0200 (CEST)
-Received: from localhost ([::1]:44802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F493D9F6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 10:24:12 +0200 (CEST)
+Received: from localhost ([::1]:59544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m91Ob-0008Jp-PP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
+	id 1m91Kt-0007Y5-6t
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 04:24:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m91JH-0005Ph-8l
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m91JI-0005QS-JJ
  for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:22:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51466)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m91JF-0007GC-Ig
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:22:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m91JH-0007Hg-0L
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 04:22:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627546948;
+ s=mimecast20190719; t=1627546950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5cTHoIDX4l+l28tkDRBe+lwvvsKlWrUVF2WflQxfCSo=;
- b=aHQeur4TryD+ZCN+sekoQWjqwTrkXrpUwTug8fhZXYeyDkQ8C0/FMTQUquO6LDWL//xC6V
- 1vEDw5QCqgdrPfvEQyCKiuT5FI3FBM9QCLc23BA3hJ6hYk8FbNleK5feO9I+dr7UpRTW1k
- rtt+fbeR2gFjWlkWMwWEuiYd5wPmVb8=
+ bh=D/gePPjMwn7F7GXk19+zEt5+CNwFhdbVNS//v3dpLr4=;
+ b=CxJHcvdlKNogoLUJ8k/LO5CVt1EJh/lHghwnrx2GpAu8hId0wN49mEiJq0Yaxx+sqKVRal
+ VKOLTRk5w0gmNF/6d3V3ByNbxv2rRGTAu95cJhVU8lBIdHtFwMypbPFqJ5iaHfwuQ4pFGE
+ L/gz7uR70DntpEmk/eYjtkb/QS1ZN7U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-og4u8mD_Ooy4024or4H3Aw-1; Thu, 29 Jul 2021 04:22:27 -0400
-X-MC-Unique: og4u8mD_Ooy4024or4H3Aw-1
+ us-mta-433-VwzT1tnjNkugwrVwF9SL7Q-1; Thu, 29 Jul 2021 04:22:28 -0400
+X-MC-Unique: VwzT1tnjNkugwrVwF9SL7Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2A1E107ACF5;
- Thu, 29 Jul 2021 08:22:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD9DA10066E6;
+ Thu, 29 Jul 2021 08:22:27 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 663995D9DC;
- Thu, 29 Jul 2021 08:22:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70BD75D9DC;
+ Thu, 29 Jul 2021 08:22:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/9] gitlab-ci: Fix 'when:' condition in EDK2 jobs
-Date: Thu, 29 Jul 2021 10:22:05 +0200
-Message-Id: <20210729082211.532572-4-thuth@redhat.com>
+Subject: [PULL 4/9] gitlab-ci: Fix 'when:' condition in OpenSBI jobs
+Date: Thu, 29 Jul 2021 10:22:06 +0200
+Message-Id: <20210729082211.532572-5-thuth@redhat.com>
 In-Reply-To: <20210729082211.532572-1-thuth@redhat.com>
 References: <20210729082211.532572-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -90,37 +90,40 @@ condition, because if a dependency failed we should not keep
 running jobs depending on it. The correct condition is
 'when: on_success'.
 
-Fixes: 71920809cea ("gitlab-ci.yml: Add jobs to build EDK2 firmware binaries")
+Fixes: c6fc0fc1a71 ("gitlab-ci.yml: Add jobs to build OpenSBI firmware binaries")
 Reported-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210727142431.1672530-4-philmd@redhat.com>
+Message-Id: <20210727142431.1672530-5-philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/edk2.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .gitlab-ci.d/opensbi.yml | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index aae2f7ad88..62497ba47f 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -8,11 +8,11 @@
-    - .gitlab-ci.d/edk2/Dockerfile
-    # or roms/edk2/ is modified (submodule updated)
-    - roms/edk2/*
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index d8a0456679..5e0a2477c5 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -6,14 +6,14 @@
+    - .gitlab-ci.d/opensbi.yml
+    # or the Dockerfile is modified
+    - .gitlab-ci.d/opensbi/Dockerfile
 -   when: always
 +   when: on_success
-  - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
+  - changes: # or roms/opensbi/ is modified (submodule updated)
+    - roms/opensbi/*
 -   when: always
 +   when: on_success
-  - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
+  - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+-   when: always
++   when: on_success
+  - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
 -   when: always
 +   when: on_success
  
- docker-edk2:
-  extends: .edk2_job_rules
+ docker-opensbi:
+  extends: .opensbi_job_rules
 -- 
 2.27.0
 
