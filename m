@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715D63DAAB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:05:37 +0200 (CEST)
-Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243FD3DAAC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:07:10 +0200 (CEST)
+Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9APY-0008Dd-H6
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52544)
+	id 1m9AR3-00034C-7y
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m9AGZ-00079Z-Iy
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 13:56:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m9AGY-00084A-0I
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 13:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627581377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IXRH/3F3pGyMEXw517FWJVKxJJkdIlHbSaukBYqY7YY=;
- b=T8UrnZFjTTLIjKfv+rjOyJUAUys7kyOJxqfFz73RXgYiLQIxpaAowgATsQMWL0P4Z5ieka
- D65VHhUYSB0VudnBMFld5udhHIbnhAJxcc/rfo8/rDM1CggSQPJw5p6T+FfY+i39wEKWXC
- Z7wjZ2Djlxp3yTlLvdcoYPG1xHx2qKA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-_NQHPLQjOz6L9x76PAYeqw-1; Thu, 29 Jul 2021 13:56:11 -0400
-X-MC-Unique: _NQHPLQjOz6L9x76PAYeqw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F7BD8799E0
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 17:56:10 +0000 (UTC)
-Received: from localhost (unknown [10.22.18.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 193AC60875;
- Thu, 29 Jul 2021 17:56:10 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 10/10] MAINTAINERS: Add qom.rst to QOM section
-Date: Thu, 29 Jul 2021 13:55:54 -0400
-Message-Id: <20210729175554.686474-11-ehabkost@redhat.com>
-In-Reply-To: <20210729175554.686474-1-ehabkost@redhat.com>
-References: <20210729175554.686474-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9AL5-0002JZ-Af
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:00:59 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9AL3-0002wG-9P
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:00:58 -0400
+Received: by mail-pl1-x634.google.com with SMTP id k1so7853597plt.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zrXFFm9TBio1p4bQ/INKXueyykh/PeV1pGctuZ0C9E0=;
+ b=AKYb4J6wcTnf0spBa4jJFvHaFEgLoR0t2BkrMLym0ZD5k8BxiH6a0tu1X9qctiYXh8
+ VMcqB5dM8/Mrdua1U3htZfLRIcYclFu4We4k+36A0bj/FfMshuQcXe6qxcsAWv4Ac28l
+ TnZxRhkErEBV51YpIlttSzll7rLZOZpoCrZ+oC3ZolJA+vHCkdUPw0bTef1zI9A47tBG
+ HqaOKsvpjnJ62c8Gmgpw17F3mTlV6k1qRdQ3tAhX2x0hgA9rXRKMitaqFP67muS/BoqY
+ 1SxKWeydhTYcoAyNm72+d38eWoY+Wd3H6KbCGy+Xj6RfZTMNtLb1pGdo0wgKl/2h0IG9
+ xpqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zrXFFm9TBio1p4bQ/INKXueyykh/PeV1pGctuZ0C9E0=;
+ b=JSNgT68FUEf7mQ2qjqw8MOYflTUv5lWF9YrjlhqLWw8ZwmFGG5kkyWFbR+FlP61nI+
+ +z4djAUqcXs3rUdAqQcWGojIls8rhcnUoI1YB0CFWcI9NfT/L6J2k5e6Kx726/k3cjqg
+ N6OvYNmRH8rYHTc7kdYD3jqOVEV/1mJfl+hotGYIFrMk5yVQUF5Q3uox7vPWeyTlFIz+
+ hfq8XXz0UBYi1UbSaOyIVNI8Lni0/IH27Y727GCGlJbL2s7+r2WZ/EoUDXAPwCQTl8Bt
+ 7pyECqN6XFvvE5HXwYdJIlzD64RobMA1gwfSvO34wyxadd1txm4nkH43YNFo/DmtnMwd
+ ZDrA==
+X-Gm-Message-State: AOAM531tDzrbCOk87R2l7TrB8OvgVP+Wn6+AN6SJSKDTdfrpMIzZ+Z22
+ BB5cIvh6pGH+Q3S6D86TwTXSGQ==
+X-Google-Smtp-Source: ABdhPJzjUhWh5E2kaOc2ZGKL4kP6NIOOEMzswmp0EeYvS/rI+3UpS91Qtg2vIuqSnnKil3gSFuJjDA==
+X-Received: by 2002:a17:90b:ec5:: with SMTP id
+ gz5mr6377021pjb.77.1627581655778; 
+ Thu, 29 Jul 2021 11:00:55 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
+ (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
+ [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
+ by smtp.gmail.com with ESMTPSA id j10sm4690257pfd.200.2021.07.29.11.00.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 11:00:54 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 05/43] target/microblaze: Implement
+ do_unaligned_access for user-only
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-6-richard.henderson@linaro.org>
+ <CAFEAcA-gkse1PAzXuOwCrEbQXDiaMRWctyFSk46CC=A=oZg_tw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <890da7f4-accc-078e-e731-72d48c2122eb@linaro.org>
+Date: Thu, 29 Jul 2021 08:00:50 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-gkse1PAzXuOwCrEbQXDiaMRWctyFSk46CC=A=oZg_tw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,32 +92,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add qom.rst to the QOM section of MAINTAINERS.
+On 7/29/21 3:26 AM, Peter Maydell wrote:
+> On Thu, 29 Jul 2021 at 01:54, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/microblaze/cpu.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+>> index 72d8f2a0da..cbec062ed7 100644
+>> --- a/target/microblaze/cpu.c
+>> +++ b/target/microblaze/cpu.c
+>> @@ -367,11 +367,11 @@ static const struct TCGCPUOps mb_tcg_ops = {
+>>       .synchronize_from_tb = mb_cpu_synchronize_from_tb,
+>>       .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+>>       .tlb_fill = mb_cpu_tlb_fill,
+>> +    .do_unaligned_access = mb_cpu_do_unaligned_access,
+>>
+>>   #ifndef CONFIG_USER_ONLY
+>>       .do_interrupt = mb_cpu_do_interrupt,
+>>       .do_transaction_failed = mb_cpu_transaction_failed,
+>> -    .do_unaligned_access = mb_cpu_do_unaligned_access,
+>>   #endif /* !CONFIG_USER_ONLY */
+>>   };
+> 
+> If I'm reading the kernel sources correctly, for Microblaze it always
+> fixes up unaligned accesses, so for our linux-user code we want
+> "ignore unaligned access errors" rather than reporting them up
+> to cpu-loop.c, I think ?
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Ah, in that case we should not be setting MO_ALIGN for some -cpu xxx, I think?  Or does 
+the MSR_EE bit cover that?  Anyway, it looked reachable at first glance.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 42ac45c3e50..dc3f04242eb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2651,6 +2651,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
- R: Daniel P. Berrange <berrange@redhat.com>
- R: Eduardo Habkost <ehabkost@redhat.com>
- S: Supported
-+F: docs/devel/qom.rst
- F: docs/qdev-device-use.txt
- F: hw/core/qdev*
- F: hw/core/bus.c
--- 
-2.31.1
 
+r~
 
