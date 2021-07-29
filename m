@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C552B3DA611
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 16:12:09 +0200 (CEST)
-Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BB83DA612
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 16:12:11 +0200 (CEST)
+Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m96lc-0001Z2-SP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 10:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
+	id 1m96le-0001fE-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 10:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m96kZ-0000AU-6W
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 10:11:03 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37454)
+ id 1m96ka-0000Ad-4N
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 10:11:04 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m96kX-0006Mc-PH
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 10:11:02 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id nb11so10979532ejc.4
+ id 1m96kY-0006Nc-57
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 10:11:03 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id go31so10930785ejc.6
  for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 07:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4QbrMwzr3wkaL/w9ejgVD7JYBc03Vi8GuvADW7Wdh44=;
- b=HyOuQtDfrLRhPV7ojnbQu6nwnm0Y2lZvYUrJ5Oj35fUJdbN04z7mfv7AZRfq2pxdbQ
- arA/uhsG6EgJc0nngRyJH3bXDRAZHB7VbC6kGatwq4qZGSy+/mC67PuH3JrlaaL3HEaP
- +qXVN8jXwUgs3hIVnJKTRBNsFpFkYFatg0FDOQVbZmkG7prkJGK/FFdJc/E3RBu+6dhC
- t5Qkoe5YehPzB8lsRlwapPGJTESHFFFJBZadmY/m145x27itOXtnWUWWHuHE8mpqX2vN
- anX/X/vmPuvoGpA1rL3S8IYrzN4J07ixp4xIr6Y2TbhoefeB1Su+xx6+I7Kyn21M8j42
- f0uw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uKkyh3OYQ0mfw6Y9gyrWs6boJPfL3KQaIy+v+IFJpNM=;
+ b=t/iOHOTpTHrab11MN/WHq83V6RA9Fg08YO7LGfKQaAFTuQMRBXXB6M4SFza7wx0seh
+ bXYBp5eH6tjtmNAJDKZ9E1EC4eLdslsTQ3oVwv/WeZRUxmTAJHw0ffIyzftHxyWltz0u
+ gqzB7svb4Z8xyhBAk6c96ym82aSxn/tXqwg44Y22XaiHidY1yb1cvp4yxjmGbmpD9nK2
+ VNH1AXUZtWbDSU7ZjVJ4GuzINgTbEdZ4u7tkum0+4sdxChyxt07X/ERqERO6Am7jt27z
+ wpMRm1pFTTTzWS/LNMzvDdv1ANOPK4FDY1/4XLaWWDlMWPG02yZ2QLTo2SJu3Rv8uhrf
+ LFEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=4QbrMwzr3wkaL/w9ejgVD7JYBc03Vi8GuvADW7Wdh44=;
- b=dmJpr+QkDp/mUMBuqB3SdRrf2Mc7Tiw1X+ERIZBjbFHk0LfjzRQ75tWriGIdWekLvi
- ZdM0+ne/d2Z0FPNaOgxW/ud7ZAt+x5b+2gSEermEFhD2ADx+XLod/rGQ4mhW4IADZhtb
- ihEI9yJvQmmQHky2vkL7B9vGqyVJ9s8czAnbt7wacGuoFf8LaylgxGqnkoqve4EzIR3F
- VtcKJxDDaw1uUAn3e+XDQbETSictDSkD3dFGtZcYBTz3GR/piHW4649aqgxwh+svnVoM
- q5HFv0ECBJTyg0nFm6e2RTHdeVi+ETMY8rv1JBQiZe1LmmBmHhFs1d1zVav74+ykZ/he
- RwEg==
-X-Gm-Message-State: AOAM530spRHApju2pRFvAm8BpcgF93mvxJ4DvA8Ai4DNItHFDYyPTj1J
- y2IUBnIhip+m/D0O533A5Rnud5PXrgEHLQ==
-X-Google-Smtp-Source: ABdhPJynPacjCWQDAaFH7RijxLffjwQ/rF81y8NtGwjG1i6+qvudB51ERCZtbGUp7jkw8zeZVjcLuQ==
-X-Received: by 2002:a17:906:3016:: with SMTP id
- 22mr4744818ejz.28.1627567859887; 
- Thu, 29 Jul 2021 07:10:59 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uKkyh3OYQ0mfw6Y9gyrWs6boJPfL3KQaIy+v+IFJpNM=;
+ b=bWGMPmQJqO4g+Y7OryItMEIihazaDtb9J7S5zDjx8VD7eIVW6AZRZ1vDGnt8ttb52y
+ Zq51u14+AR+DcxqulKFE4hxjlS6EycUJb73lT1rzMhepc6p3w2cCvmoYxew/HtiN1F+e
+ 61vW/0/LXZ0RSSwxkvZnV8ASuEruiNxKeqxRpvpOJjYbClsOSSdslUaX1EAtzxobQIND
+ ohYUG3q51st1469I+2wMDYi8Dx6ef9p4HzyxwRDWYwsYFJNXZjnxfl04n8rgeIcdeubU
+ s85lCTYwBCk2T3cz/8u0bCSoV974WdsXLSO+pz9VjKczAjuhpxQSNpJqVsr/BIORpBF0
+ JPZw==
+X-Gm-Message-State: AOAM531NCTHV05l9CBY9VmBG3lf4LRfRtoeGwBrahqXyiElAKvhApwea
+ skGqPVTf6RgAubPaavawjMQz8YSYme/LBg==
+X-Google-Smtp-Source: ABdhPJwixTjf714DwiEMDZ279T1Q0xpAo4HsOcdJBF+NodKmCcZpGlQ24N25uPhlnd56/sl+cTRAvw==
+X-Received: by 2002:a17:906:948f:: with SMTP id
+ t15mr4843007ejx.85.1627567860860; 
+ Thu, 29 Jul 2021 07:11:00 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id mf1sm1024132ejb.51.2021.07.29.07.10.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 07:10:59 -0700 (PDT)
+ Thu, 29 Jul 2021 07:11:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] vl: fix passing smp options via -readconfig
-Date: Thu, 29 Jul 2021 16:10:56 +0200
-Message-Id: <20210729141058.228405-1-pbonzini@redhat.com>
+Subject: [PATCH 1/2] vl: introduce machine_merge_property
+Date: Thu, 29 Jul 2021 16:10:57 +0200
+Message-Id: <20210729141058.228405-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210729141058.228405-1-pbonzini@redhat.com>
+References: <20210729141058.228405-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,17 +88,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though [smp] does not work in config files, [smp-opts] does
-and lxd is using it.  So, fix it.
+It will be used to parse smp-opts config groups from configuration
+files.  The point to note is that it does not steal a reference
+from the caller.  This is better because this function will be called
+from qemu_config_foreach's callback; qemu_config_foreach does not cede
+its reference to the qdict to the callback, and wants to free it.  To
+balance that extra reference, machine_parse_property_opt now needs
+a qobject_unref.
 
-Paolo Bonzini (2):
-  vl: introduce machine_merge_property
-  vl: stop recording -smp in QemuOpts
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ softmmu/vl.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
- softmmu/vl.c | 47 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 14 deletions(-)
-
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 4dee472c79..93aef8e747 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1534,23 +1534,36 @@ static void machine_help_func(const QDict *qdict)
+     }
+ }
+ 
++static void
++machine_merge_property(const char *propname, QDict *prop, Error **errp)
++{
++    QDict *opts;
++
++    opts = qdict_new();
++    /* Preserve the caller's reference to prop.  */
++    qobject_ref(prop);
++    qdict_put(opts, propname, prop);
++    keyval_merge(machine_opts_dict, opts, errp);
++    qobject_unref(opts);
++}
++
+ static void
+ machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
+                            const char *arg, Error **errp)
+ {
+-    QDict *opts, *prop;
++    QDict *prop = NULL;
+     bool help = false;
+-    ERRP_GUARD();
+ 
+     prop = keyval_parse(arg, opts_list->implied_opt_name, &help, errp);
+     if (help) {
+         qemu_opts_print_help(opts_list, true);
+         exit(0);
+     }
+-    opts = qdict_new();
+-    qdict_put(opts, propname, prop);
+-    keyval_merge(machine_opts_dict, opts, errp);
+-    qobject_unref(opts);
++    if (!prop) {
++        return;
++    }
++    machine_merge_property(propname, prop, errp);
++    qobject_unref(prop);
+ }
+ 
+ static const char *pid_file;
 -- 
 2.31.1
+
 
 
