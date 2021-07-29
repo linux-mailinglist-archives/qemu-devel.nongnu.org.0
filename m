@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458F03D9DAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 08:32:44 +0200 (CEST)
-Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5A33D9DB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 08:34:51 +0200 (CEST)
+Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8zb1-0001Os-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 02:32:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33728)
+	id 1m8zd4-0003TP-U3
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 02:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8zZR-0000MK-ES
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:31:09 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m8zZO-00064m-P8
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:31:05 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gb0v51pFKzZv9T;
- Thu, 29 Jul 2021 14:27:29 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 29 Jul 2021 14:30:57 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 29 Jul 2021 14:30:56 +0800
-Subject: Re: [PATCH for-6.2 v3 03/11] machine: Set the value of cpus to match
- maxcpus if it's omitted
-To: Andrew Jones <drjones@redhat.com>
-References: <20210728034848.75228-1-wangyanan55@huawei.com>
- <20210728034848.75228-4-wangyanan55@huawei.com>
- <20210728202248.ihqn533fvjkc3pmu@gator>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <f170ffba-cf5e-b0c1-1dac-a74f37281328@huawei.com>
-Date: Thu, 29 Jul 2021 14:30:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m8zZx-0000px-Vz
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:31:38 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:42962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m8zZw-0006eR-Lr
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 02:31:37 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ e25-20020a05600c4b99b0290253418ba0fbso3238966wmp.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 23:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+MG7MLjQKYL9iUbY+OuAl5aL7NuFaDLLclgkPBS0Ugw=;
+ b=T5qjRX8zeENT5XeUXQJIiJxZ1NAEXf4U5dzgrpTRJMEpuniYzwdh07GOXigAk31bgL
+ OAJvhGCf7SagJQ97h2e4VkX7k2Dnu9n9Jf9mC30VbWub3Q99lHSklrWZyLRz648Np6vP
+ GhDuVueswsFsxS6Ls+QA1PaiurQG5krm5lEwzHZeHEl/dtm+Wv/DbKaFSKeTygxfRjlk
+ yRys5VQAsj5L0/iLxWG8Q3f2Q0BxF7tgdqPi25H0jscMNUg0dERELxmDUUrXGghoR5Lu
+ OZ9p5b5LnqK8pbfxxe3I4LfIFX24KdSU4A+es3ezzxKNa5N2FTd8n5w9eFjs8zf3Smyo
+ rDVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+MG7MLjQKYL9iUbY+OuAl5aL7NuFaDLLclgkPBS0Ugw=;
+ b=s2xomPX2YnFCF3RX84zOtKIGhJZliSxiiGa+ShGmTaNOfL9AgSI9a7P7hEc7FM0ugM
+ waJQqPN5fNen1x3UpkA8AUt1tq24oFhSLWs+FdqNnDS8GUzVXNKa+8E5lwE3Toi8hmDE
+ A5Ad1vuW+gpq27RTPdUbKMgcvxGZQQO6VF1ncMKGB/h4Bdy91tdZNv7XzVLWO5XMasm4
+ 0WiNmom8NzCjjETZwXpj4Uke4VgkxmEkxIJlHLRrMHcID0eT3B2ZLL7zxyl6hjjnVxay
+ t7zlmG3L4dpBjmDMG/IJPjQIO6IaLaUHVZPp8ZIwIPihouEBK1mdteIEcShq8wBPVvmr
+ qIjw==
+X-Gm-Message-State: AOAM530ouPjH8MWi7+25urtmUbcx0YZaHh7CfhIb+9KcBV/v5kFJrILI
+ Yf521RX2chXXNW6XQw99/rzjmdkynEyoTw==
+X-Google-Smtp-Source: ABdhPJwdTZ3v4/8VVGwIxHZYezMy/Js/zcckZMe2bc3byWRmMAYezcfl+JRR0KTBpwXn1wZpQ1yV9w==
+X-Received: by 2002:a7b:c094:: with SMTP id r20mr2976900wmh.107.1627540295049; 
+ Wed, 28 Jul 2021 23:31:35 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id h12sm2040745wrm.62.2021.07.28.23.31.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 23:31:34 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 24/43] accel/tcg: Pass MemOpIdx to
+ atomic_trace_*_post
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-25-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d6372f39-5b7a-dbce-2628-58faf06733df@amsat.org>
+Date: Thu, 29 Jul 2021 08:31:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728202248.ihqn533fvjkc3pmu@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210729004647.282017-25-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.277,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.277,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,173 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/29 4:22, Andrew Jones wrote:
-> On Wed, Jul 28, 2021 at 11:48:40AM +0800, Yanan Wang wrote:
->> Currently we directly calculate the omitted cpus based on the given
->> incomplete collection of parameters. This makes some cmdlines like:
->>    -smp maxcpus=16
->>    -smp sockets=2,maxcpus=16
->>    -smp sockets=2,dies=2,maxcpus=16
->>    -smp sockets=2,cores=4,maxcpus=16
->> not work. We should probably set the value of cpus to match maxcpus
->> if it's omitted, which will make above configs start to work.
->>
->> So the calculation logic of cpus/maxcpus after this patch will be:
->> When both maxcpus and cpus are omitted, maxcpus will be calculated
->> from the given parameters and cpus will be set equal to maxcpus.
->> When only one of maxcpus and cpus is given then the omitted one
->> will be set to its counterpart's value. Both maxcpus and cpus may
->> be specified, but maxcpus must be equal to or greater than cpus.
->>
->> Note: change in this patch won't affect any existing working cmdlines
->> but allows more incomplete configs to be valid.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/core/machine.c | 29 ++++++++++++++++-------------
->>   hw/i386/pc.c      | 29 ++++++++++++++++-------------
->>   qemu-options.hx   | 11 ++++++++---
->>   3 files changed, 40 insertions(+), 29 deletions(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 69979c93dd..958e6e7107 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -755,25 +755,28 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       }
->>   
->>       /* compute missing values, prefer sockets over cores over threads */
->> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -
->> -    if (cpus == 0) {
->> +    if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->>           threads = threads > 0 ? threads : 1;
->> -        cpus = sockets * cores * threads;
->> +    } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -    } else if (sockets == 0) {
->> -        cores = cores > 0 ? cores : 1;
->> -        threads = threads > 0 ? threads : 1;
->> -        sockets = maxcpus / (cores * threads);
->> -    } else if (cores == 0) {
->> -        threads = threads > 0 ? threads : 1;
->> -        cores = maxcpus / (sockets * threads);
->> -    } else if (threads == 0) {
->> -        threads = maxcpus / (sockets * cores);
->> +
->> +        if (sockets == 0) {
->> +            cores = cores > 0 ? cores : 1;
->> +            threads = threads > 0 ? threads : 1;
->> +            sockets = maxcpus / (cores * threads);
->> +        } else if (cores == 0) {
->> +            threads = threads > 0 ? threads : 1;
->> +            cores = maxcpus / (sockets * threads);
->> +        } else if (threads == 0) {
->> +            threads = maxcpus / (sockets * cores);
->> +        }
->>       }
->>   
->> +    maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
->> +    cpus = cpus > 0 ? cpus : maxcpus;
->> +
->>       if (sockets * cores * threads < cpus) {
->>           error_setg(errp, "cpu topology: "
->>                      "sockets (%u) * cores (%u) * threads (%u) < "
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index a9ff9ef52c..9ad7ae5254 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -725,25 +725,28 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       dies = dies > 0 ? dies : 1;
->>   
->>       /* compute missing values, prefer sockets over cores over threads */
->> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -
->> -    if (cpus == 0) {
->> +    if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->>           threads = threads > 0 ? threads : 1;
->> -        cpus = sockets * dies * cores * threads;
->> +    } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -    } else if (sockets == 0) {
->> -        cores = cores > 0 ? cores : 1;
->> -        threads = threads > 0 ? threads : 1;
->> -        sockets = maxcpus / (dies * cores * threads);
->> -    } else if (cores == 0) {
->> -        threads = threads > 0 ? threads : 1;
->> -        cores = maxcpus / (sockets * dies * threads);
->> -    } else if (threads == 0) {
->> -        threads = maxcpus / (sockets * dies * cores);
->> +
->> +        if (sockets == 0) {
->> +            cores = cores > 0 ? cores : 1;
->> +            threads = threads > 0 ? threads : 1;
->> +            sockets = maxcpus / (dies * cores * threads);
->> +        } else if (cores == 0) {
->> +            threads = threads > 0 ? threads : 1;
->> +            cores = maxcpus / (sockets * dies * threads);
->> +        } else if (threads == 0) {
->> +            threads = maxcpus / (sockets * dies * cores);
->> +        }
->>       }
->>   
->> +    maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
->> +    cpus = cpus > 0 ? cpus : maxcpus;
->> +
->>       if (sockets * dies * cores * threads < cpus) {
->>           error_setg(errp, "cpu topology: "
->>                      "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index e077aa80bf..0912236b4b 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -210,9 +210,14 @@ SRST
->>       Simulate a SMP system with '\ ``n``\ ' CPUs initially present on
->>       the machine type board. On boards supporting CPU hotplug, the optional
->>       '\ ``maxcpus``\ ' parameter can be set to enable further CPUs to be
->> -    added at runtime. If omitted the maximum number of CPUs will be
->> -    set to match the initial CPU count. Both parameters are subject to
->> -    an upper limit that is determined by the specific machine type chosen.
->> +    added at runtime. When both parameters are omitted, the maximum number
->> +    of CPUs will be calculated from the provided topology members and the
->> +    initial CPU count will match the maximum number. When only one of them
->> +    is given then the omitted one will be set to its counterpart's value.
->> +    Both parameters may be specified, but the maximum number of CPUs must
->> +    equal to or greater than the initial CPU count. Both parameters are
-> be equal to
-Got it, will fix.
+On 7/29/21 2:46 AM, Richard Henderson wrote:
+> We will shortly use the MemOpIdx directly, but in the meantime
+> re-compute the trace meminfo.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/atomic_template.h   | 48 +++++++++++++++++------------------
+>  accel/tcg/atomic_common.c.inc | 30 +++++++++++-----------
+>  2 files changed, 39 insertions(+), 39 deletions(-)
 
-Thanks,
-Yanan
->> +    subject to an upper limit that is determined by the specific machine
->> +    type chosen.
->>   
->>       To control reporting of CPU topology information, the number of sockets,
->>       dies per socket, cores per die, and threads per core can be specified.
->> -- 
->> 2.19.1
->>
-> Otherwise
->
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
->
-> .
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
