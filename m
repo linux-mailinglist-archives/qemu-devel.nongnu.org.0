@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBC13DAB13
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:38:45 +0200 (CEST)
-Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5501D3DAB49
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:45:57 +0200 (CEST)
+Received: from localhost ([::1]:38872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Avb-0007aM-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33580)
+	id 1m9B2Z-0001jY-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Aue-000685-OZ
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:37:44 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:36815)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1m9B13-00013f-Bs
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:44:21 -0400
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:41943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Auc-0002RL-W0
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:37:44 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- ds11-20020a17090b08cbb0290172f971883bso17087108pjb.1
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:37:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=jWBtxi28pBx+pW2AmheHZD29zgdoF0bdi1z+Lgmni4A=;
- b=tMacxjjj0RxaPAFFM6QEBRdkVfxc/k7D14uWPeMREEdeQRDxQ1VVfailg4II6M7Wh9
- XDJZ5GrKkRsp3aNCdSSO/PPE8OXE7nGhaXXqZZFjpMFb570EaGjXw7g4FxbSXPQpP1NU
- K71YtmjGSqIx5KTc4xuBOVV21X6xNjd9sn++t2CZJa/qxJO8YoNcYgbEJgC5EpWiYeeC
- bvgplp6qfCqbFw1KCIJkbchw1w+jOkQrrc5lAIRK56DtHzDfw/cQqnQB2esaUTsomQX+
- qcx8ejEMAw+1OVfix8nCfkb1UsyPz3Gvrnao4j2mVrDHo4e7tEhTzDZgOhrHCcFzkz4L
- 3uhw==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1m9B11-0007Av-Rm
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:44:21 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id y34so12797461lfa.8
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XFE3Bn4De7JTR/GpwAdD8JE2K5FV0QKHVanE7DAjP/o=;
+ b=SDXDu0/Op3AHFOSZR7En8mjY0XPXo8d2H5qoRVNvjfGepyIdYDik2Ea43muxqlVoWL
+ B9iA/fq/GIIDnc0RwhPCSfzgGDd2ve0y947hwcbL3Q9iVwHUIv4kPISs4L0rMvCtTujH
+ 1G4mqHjdMbIMSJ0IflP2IuItwx/chtb/aV69cLNIWPxAIfhK77idqHx1k7GmpSTDsBJs
+ VsG1lLaRXUfftmfcV2AOaNfpY3leIAlMj7QR275myYlCQ6/YmyWUP2QSmal7Dg2Xl86x
+ e1dQUJoYc3PU2POeS8fZZa8OgSPagx7SLUxOFWmFxtkysxngQs3RYKvgRje3C8aKVZyb
+ 2eVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jWBtxi28pBx+pW2AmheHZD29zgdoF0bdi1z+Lgmni4A=;
- b=HwaQo/Cy/JPPxf/KHFQNKn+JHGyDzm9Pamzlz5EDrjOPSAPp+h9m+3HGD3LmhkvZE+
- IkO4yw4EPgmdvC5gNWVff3sZmjnH3hEDq5u96GkBf6pYQSgCXhRvdbwruzrk4lF4FCAx
- uQDEbks9SK42zdNA/6TxyM0hXwuOC6ioRA4gwD9ChlQ0f0g6wLevub1S2KcRdWBbtMG9
- wcB4jw2uO1jWxVFSyoHmjkU9IcX4DojVUX35JeK70aRSXd443n69XIEJhcSwoA7sq6R7
- eSeE46Rl4XaQlR1b5cmqb51d/DljDMLeuB0zhMaCC4+YGu4ZEtW04SXpS0F1f5nM1c9Z
- cwUw==
-X-Gm-Message-State: AOAM5308j5hFY97Xijuad8mXxDGqom8mgpIL0MIpXtHVqSeO9p5q7/Qz
- M3umS1lkuUznzSSGVtOe56I22sV01OBP0g==
-X-Google-Smtp-Source: ABdhPJzrkuN4VFyP/wHlBd0GpYs95eoev79xm1/NJN3ceYRdq2/hPDBwIgr7zBzEOHIbzNPV/nPyeQ==
-X-Received: by 2002:a62:1d46:0:b029:3a9:eb67:c0c0 with SMTP id
- d67-20020a621d460000b02903a9eb67c0c0mr2835935pfd.60.1627583861191; 
- Thu, 29 Jul 2021 11:37:41 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
- (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
- [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id w4sm2508787pfj.42.2021.07.29.11.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 11:37:38 -0700 (PDT)
-Subject: Re: [PATCH for-6.1? 23/43] accel/tcg: Remove double bswap for
- helper_atomic_sto_*_mmu
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XFE3Bn4De7JTR/GpwAdD8JE2K5FV0QKHVanE7DAjP/o=;
+ b=mImSwNdRfPvV6N4jvQvppmIrFVIT+rCKCCJo1Xtj7JDOY/pWNzIBBd0smHdw3py7HI
+ kaAQFdmLVC37dDIMLOBcAdOr0OlvbR4W6r+HRHibjpGA+YVOvpto6w99iBID6tfmxOPv
+ ErObib38rK2hlYxLjkyBQTGSbocPODFk1+igPtIuV64MPLUKswEW0CTwBJwH18+6tr4j
+ s27ysz0otda8Zx69hmZ0FQWJfrdRW1UnkvUEjkTQYn3hHM3oeiapbgYV3Sj2tTYVZhoO
+ OWDEmKJX04sCeSUVTck6hR886cDw9z3q8gEiHBG2nYTkiN0gy+tgRqUhmzDsQXsOIPTr
+ aFkw==
+X-Gm-Message-State: AOAM531jV+oy6Vvz7OescfZSrIn7782Oymqgf5xQFa+IbG0wpkf7GBSD
+ v5il+nt0Cyu9yvZCF9kniWw=
+X-Google-Smtp-Source: ABdhPJw+xj0w2JlmyQzXdcxpCDLwjvweXfxTnDd/0fxGTZClE3QREGygPBAitrD8CC0imBmooQx5QQ==
+X-Received: by 2002:a19:7101:: with SMTP id m1mr4945207lfc.233.1627584257483; 
+ Thu, 29 Jul 2021 11:44:17 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id j14sm411829lfc.20.2021.07.29.11.44.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 11:44:16 -0700 (PDT)
+Date: Thu, 29 Jul 2021 20:44:16 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH for-6.2 05/43] target/microblaze: Implement
+ do_unaligned_access for user-only
+Message-ID: <20210729184416.GD3586016@toto>
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-24-richard.henderson@linaro.org>
- <1da8d060-4e79-e128-0700-ae6ae17f302b@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <98da42e3-f678-e201-3720-695c6989ec56@linaro.org>
-Date: Thu, 29 Jul 2021 08:37:35 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210729004647.282017-6-richard.henderson@linaro.org>
+ <CAFEAcA-gkse1PAzXuOwCrEbQXDiaMRWctyFSk46CC=A=oZg_tw@mail.gmail.com>
+ <890da7f4-accc-078e-e731-72d48c2122eb@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1da8d060-4e79-e128-0700-ae6ae17f302b@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <890da7f4-accc-078e-e731-72d48c2122eb@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12c.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FSL_HELO_FAKE=2.896, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,36 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 8:29 PM, Philippe Mathieu-Daudé wrote:
-> On 7/29/21 2:46 AM, Richard Henderson wrote:
->> This crept in as either a cut-and-paste error, or rebase error.
->>
->> Fixes: cfec388518d
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/tcg/atomic_template.h | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
->> index 4427fab6df..4230ff2957 100644
->> --- a/accel/tcg/atomic_template.h
->> +++ b/accel/tcg/atomic_template.h
->> @@ -251,7 +251,6 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
->>                                            PAGE_WRITE, retaddr);
->>       uint16_t info = atomic_trace_st_pre(env, addr, oi);
->>   
->> -    val = BSWAP(val);
->>       val = BSWAP(val);
->>       atomic16_set(haddr, val);
->>       ATOMIC_MMU_CLEANUP;
+On Thu, Jul 29, 2021 at 08:00:50AM -1000, Richard Henderson wrote:
+> On 7/29/21 3:26 AM, Peter Maydell wrote:
+> > On Thu, 29 Jul 2021 at 01:54, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> > > 
+> > > Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > > ---
+> > >   target/microblaze/cpu.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+> > > index 72d8f2a0da..cbec062ed7 100644
+> > > --- a/target/microblaze/cpu.c
+> > > +++ b/target/microblaze/cpu.c
+> > > @@ -367,11 +367,11 @@ static const struct TCGCPUOps mb_tcg_ops = {
+> > >       .synchronize_from_tb = mb_cpu_synchronize_from_tb,
+> > >       .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+> > >       .tlb_fill = mb_cpu_tlb_fill,
+> > > +    .do_unaligned_access = mb_cpu_do_unaligned_access,
+> > > 
+> > >   #ifndef CONFIG_USER_ONLY
+> > >       .do_interrupt = mb_cpu_do_interrupt,
+> > >       .do_transaction_failed = mb_cpu_transaction_failed,
+> > > -    .do_unaligned_access = mb_cpu_do_unaligned_access,
+> > >   #endif /* !CONFIG_USER_ONLY */
+> > >   };
+> > 
+> > If I'm reading the kernel sources correctly, for Microblaze it always
+> > fixes up unaligned accesses, so for our linux-user code we want
+> > "ignore unaligned access errors" rather than reporting them up
+> > to cpu-loop.c, I think ?
+
+Yes, I think so.
+
 > 
-> Why not merge this for 6.1? Because old bug, no regression?
+> Ah, in that case we should not be setting MO_ALIGN for some -cpu xxx, I
+> think?  Or does the MSR_EE bit cover that?  Anyway, it looked reachable at
+> first glance.
 
-Probably should.
+Hmm yeah, perhaps we shouldn't be setting MO_ALIGN for linux-user...
 
-
-r~
+Best regards,
+Edgar
 
