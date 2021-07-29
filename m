@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFEB3DA403
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 15:25:13 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1843B3DA416
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 15:28:07 +0200 (CEST)
+Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m962C-0000LE-Ql
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 09:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49874)
+	id 1m9650-0002PY-4Z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 09:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m961M-0007zP-Ax
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:24:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m961H-0007vE-Ll
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:24:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627565053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rngZcRW0oRsYnKTtIxtlb14MgLRrmBYotkQiY5qISu4=;
- b=LO8LQrxkBWABTOdEd/gt8sbEaXyMNQ6HupCas4CL4wNtJw13kCnjM7ZyD9b2Z6OUehtRDQ
- Q2W6dA4untLCZhIrfkE0iT/2EBa5ysL+bgGr8m0sIE2nL2hNpKGBqneAbpnSEJLXTZ0kZC
- yihTuR6Dxf6bcq0cEnNklJXnwhNofrw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-TIJFPhWoMQWXawOyM5UVMg-1; Thu, 29 Jul 2021 09:24:12 -0400
-X-MC-Unique: TIJFPhWoMQWXawOyM5UVMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 366C41006C84;
- Thu, 29 Jul 2021 13:24:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
- [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 389DD60BF1;
- Thu, 29 Jul 2021 13:23:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B49B311326B9; Thu, 29 Jul 2021 15:23:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 00/16] Various error handling fixes and cleanups
-References: <20210720125408.387910-1-armbru@redhat.com>
-Date: Thu, 29 Jul 2021 15:23:42 +0200
-In-Reply-To: <20210720125408.387910-1-armbru@redhat.com> (Markus Armbruster's
- message of "Tue, 20 Jul 2021 14:53:52 +0200")
-Message-ID: <87v94t9rtt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m963j-0001df-F4
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:26:47 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m963h-0001EW-DK
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 09:26:47 -0400
+Received: by mail-ej1-x630.google.com with SMTP id e19so10678988ejs.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 06:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CkAWKfl/aCxpbSTBdWlx7sNjok56q7Wzfi7rgEid1aM=;
+ b=iCjNd6kC23x5A7XRTQ1Yu+h510wHsM8D1Y/k2P5bzDNBhdr18UMGsL+Ft6aLGtt8AY
+ 5myfLZdbSUCi0V4Boo06gayKXyHHIvRL5jYXSCi84GmZ8+yOqwHa5MuvJZ8KjXxjhip4
+ F2358UOPLwI2/nep6lvvmGdkb01Oo7rQrSTB6Mt9vmyAaSIF9fw+FgblY48wtJXP0V34
+ H6RZsi8h0PVyhABEx0QSYMcGy69/tmZ+x5RK8bHj48dM9NlNWCBDDzTqZeoZpLEtHwnZ
+ ahN5Rdc25n9l6NPcwkduBBWHao636uj538W1SmcbjtD+mtj1qr+gu3RvtKUusOArpWKt
+ f+Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CkAWKfl/aCxpbSTBdWlx7sNjok56q7Wzfi7rgEid1aM=;
+ b=AjeY7ZMxHHA024hgf30eXHhH4ttG6DchJdEtB1G8XLrY2A72Ajnjfg/qML4U6e6FAm
+ TThW3+cgKpgyaFOMULFMOounFovmuIx7gTi+VmZ1Dz4BArBqVebFeR68p20AtERvgCtJ
+ ZEp0V5p+YwCi64nRgvx1HE4md0jj62LgoezMEXh6dHqO7A9wIIZGPUrH2ugXQr9sn5IF
+ PDdZ9jTftSLv6llLgytPnXI7eRRr16hpVwCSTI655Uln+KCqExdDKQaZmx3BCPp9UwXw
+ BlWPZhY7RET76hTPz7YwlfVgLPYo8OKFf5/nFN39/Xt70Nk5PlfcLp2rgCqKCedQQcYv
+ rqKQ==
+X-Gm-Message-State: AOAM532AvAbwaqpOv3cY4PRvrkqac3x++NR0KGKnayPOh6dMU8dy9l2I
+ 6z4TjoJ3VYcgSfujauVliSa2TEsWd1s/muvebxFXng==
+X-Google-Smtp-Source: ABdhPJxcJDsUmrOUV5Ecb+wJizRgXUXoemHWvfgFHD8HnZdaacFrwRj7UjXjROPGYMncO2GD3hk5Nyrz5z637yYBQb0=
+X-Received: by 2002:a17:906:948f:: with SMTP id
+ t15mr4659427ejx.85.1627565202787; 
+ Thu, 29 Jul 2021 06:26:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-6-richard.henderson@linaro.org>
+In-Reply-To: <20210729004647.282017-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Jul 2021 14:26:00 +0100
+Message-ID: <CAFEAcA-gkse1PAzXuOwCrEbQXDiaMRWctyFSk46CC=A=oZg_tw@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 05/43] target/microblaze: Implement
+ do_unaligned_access for user-only
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Reinoud Zandijk <reinoud@netbsd.org>, Jagannathan Raman <jag.raman@oracle.com>,
- Juan Quintela <quintela@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Aravinda Prasad <arawinda.p@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Cornelia Huck <cornelia.huck@de.ibm.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Thu, 29 Jul 2021 at 01:54, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/microblaze/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+> index 72d8f2a0da..cbec062ed7 100644
+> --- a/target/microblaze/cpu.c
+> +++ b/target/microblaze/cpu.c
+> @@ -367,11 +367,11 @@ static const struct TCGCPUOps mb_tcg_ops = {
+>      .synchronize_from_tb = mb_cpu_synchronize_from_tb,
+>      .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+>      .tlb_fill = mb_cpu_tlb_fill,
+> +    .do_unaligned_access = mb_cpu_do_unaligned_access,
+>
+>  #ifndef CONFIG_USER_ONLY
+>      .do_interrupt = mb_cpu_do_interrupt,
+>      .do_transaction_failed = mb_cpu_transaction_failed,
+> -    .do_unaligned_access = mb_cpu_do_unaligned_access,
+>  #endif /* !CONFIG_USER_ONLY */
+>  };
 
-> I doubt the fixes are 6.1 material at this late stage.  If you
-> disagree, let me know.
+If I'm reading the kernel sources correctly, for Microblaze it always
+fixes up unaligned accesses, so for our linux-user code we want
+"ignore unaligned access errors" rather than reporting them up
+to cpu-loop.c, I think ?
 
-PATCH 16 has become commit 3e61a13af3.  Remainder queued for 6.2;
-additional review is welcome all the same.
-
-Thanks, guys!
-
+-- PMM
 
