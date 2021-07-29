@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3336C3DA390
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:58:30 +0200 (CEST)
-Received: from localhost ([::1]:36832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1C43DA364
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 14:53:56 +0200 (CEST)
+Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m95cL-0003U7-9T
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40208)
+	id 1m95Xv-00089G-U8
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 08:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95V8-0003XC-AP
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55990)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95V7-0003UX-MA
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95V6-0001XJ-2q
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m95V5-0001XH-RF
  for qemu-devel@nongnu.org; Thu, 29 Jul 2021 08:51:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1627563059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W8XSvBcikguhMKWdYYd1hf+4DSG+TpsFCt3jwnBlt1Q=;
- b=MpoBdK8U1eoDaJ+htgf8HeIANhxYPmXClcn2KnKP3MxaBetAQ3Y2d7+I0U0TwN/PBFTAwH
- E81uTcBMZD+lz2kJhm/DrhES+t1TNjH+eLay/5IwciAJr8EJfM43/Dsdrco7Dk1VL84toJ
- WeDC97ac6CUZ+i/QIo8BWwhm2VV8VnQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8+HU0V9i58oM9KPh6nN6C/jT6DAD+3RxlNKXhTT9tKM=;
+ b=HoFQZ5WaiQnWU6pHDNGHf3R12F16uEWQ6mzcDUhC7aisA3BnrORQ4WDuM6ox39/PYTOqtZ
+ F/X+Ta1U2LHf6/oifeihtIkSlN9AO4a+lHjOuXr5sXEXMiPn+gWoz61gilEIWlIIY+n3TE
+ sPDtkPQrIv63zeMSLSa6f3EPss/Rk7o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-1PJM4AyENyWxGqJ3UmqpBg-1; Thu, 29 Jul 2021 08:50:58 -0400
-X-MC-Unique: 1PJM4AyENyWxGqJ3UmqpBg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-116--Q8tB9MnOVaFysX1b4qMBQ-1; Thu, 29 Jul 2021 08:50:57 -0400
+X-MC-Unique: -Q8tB9MnOVaFysX1b4qMBQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C5E49251D;
- Thu, 29 Jul 2021 12:50:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CFA11084F5D;
+ Thu, 29 Jul 2021 12:50:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
  [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D2D35D6B1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 317835C1D1;
  Thu, 29 Jul 2021 12:50:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 899981800382; Thu, 29 Jul 2021 14:50:44 +0200 (CEST)
+ id 9350518003AA; Thu, 29 Jul 2021 14:50:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] Usb 20210729 patches
-Date: Thu, 29 Jul 2021 14:50:37 +0200
-Message-Id: <20210729125044.3531457-1-kraxel@redhat.com>
+Subject: [PULL 1/7] usb-host: wire up timer for windows
+Date: Thu, 29 Jul 2021 14:50:38 +0200
+Message-Id: <20210729125044.3531457-2-kraxel@redhat.com>
+In-Reply-To: <20210729125044.3531457-1-kraxel@redhat.com>
+References: <20210729125044.3531457-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -84,50 +87,83 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f2da205cb4142259d9bc6b9d4596ebbe2426fe49=
-:=0D
-=0D
-  Update version for v6.1.0-rc1 release (2021-07-27 18:07:52 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/usb-20210729-pull-request=0D
-=0D
-for you to fetch changes up to 30a20f2c5a9cf8f01ffcc918a7a5751dfe956524:=0D
-=0D
-  docs: Fold usb2.txt passthrough information into usb.rst (2021-07-29 11:1=
-8:55 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-usb: fixes for 6.1: usbredir, usb-host for windows, docs.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gerd Hoffmann (3):=0D
-  usb-host: wire up timer for windows=0D
-  ci: add libusb for windows builds=0D
-  usbredir: fix free call=0D
-=0D
-Peter Maydell (4):=0D
-  docs: Incorporate information in usb-storage.txt into rST manual=0D
-  docs: Fold usb2.txt USB controller information into usb.rst=0D
-  docs: Fold usb2.txt physical port addressing info into usb.rst=0D
-  docs: Fold usb2.txt passthrough information into usb.rst=0D
-=0D
- docs/usb-storage.txt                          |  59 -----=0D
- docs/usb2.txt                                 | 172 -------------=0D
- hw/usb/host-libusb.c                          |  33 ++-=0D
- hw/usb/redirect.c                             |   2 +-=0D
- MAINTAINERS                                   |   3 +-=0D
- docs/system/devices/usb.rst                   | 225 +++++++++++++++++-=0D
- .../dockerfiles/fedora-win32-cross.docker     |   1 +=0D
- .../dockerfiles/fedora-win64-cross.docker     |   1 +=0D
- 8 files changed, 254 insertions(+), 242 deletions(-)=0D
- delete mode 100644 docs/usb-storage.txt=0D
- delete mode 100644 docs/usb2.txt=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+On windows we can't wait on file descriptors.
+Poll libusb using a timer instead.
+
+Fixes long-standing FIXME.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/431
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20210623085249.1151901-2-kraxel@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/host-libusb.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index c0f314462aaf..00f6fbb29b39 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -254,6 +254,29 @@ static void usb_host_del_fd(int fd, void *user_data)
+     qemu_set_fd_handler(fd, NULL, NULL, NULL);
+ }
+ 
++#else
++
++static QEMUTimer *poll_timer;
++static uint32_t request_count;
++
++static void usb_host_timer_kick(void)
++{
++    int64_t delay_ns;
++
++    delay_ns = request_count
++        ? (NANOSECONDS_PER_SECOND / 100)  /* 10 ms interval with active req */
++        : (NANOSECONDS_PER_SECOND);       /* 1 sec interval otherwise */
++    timer_mod(poll_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + delay_ns);
++}
++
++static void usb_host_timer(void *opaque)
++{
++    struct timeval tv = { 0, 0 };
++
++    libusb_handle_events_timeout(ctx, &tv);
++    usb_host_timer_kick();
++}
++
+ #endif /* !CONFIG_WIN32 */
+ 
+ static int usb_host_init(void)
+@@ -276,7 +299,8 @@ static int usb_host_init(void)
+     libusb_set_debug(ctx, loglevel);
+ #endif
+ #ifdef CONFIG_WIN32
+-    /* FIXME: add support for Windows. */
++    poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, usb_host_timer, NULL);
++    usb_host_timer_kick();
+ #else
+     libusb_set_pollfd_notifiers(ctx, usb_host_add_fd,
+                                 usb_host_del_fd,
+@@ -364,11 +388,18 @@ static USBHostRequest *usb_host_req_alloc(USBHostDevice *s, USBPacket *p,
+         r->buffer = g_malloc(bufsize);
+     }
+     QTAILQ_INSERT_TAIL(&s->requests, r, next);
++#ifdef CONFIG_WIN32
++    request_count++;
++    usb_host_timer_kick();
++#endif
+     return r;
+ }
+ 
+ static void usb_host_req_free(USBHostRequest *r)
+ {
++#ifdef CONFIG_WIN32
++    request_count--;
++#endif
+     QTAILQ_REMOVE(&r->host->requests, r, next);
+     libusb_free_transfer(r->xfer);
+     g_free(r->buffer);
+-- 
+2.31.1
 
 
