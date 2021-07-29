@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2628D3D9AA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 02:57:52 +0200 (CEST)
-Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD5B3D9AA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 02:57:46 +0200 (CEST)
+Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8uMx-0002qq-1K
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 20:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1m8uMr-0002bt-U5
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 20:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCW-00049X-7U
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:04 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41585)
+ id 1m8uCX-0004Ca-9b
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:05 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:35637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCU-0002TH-Aa
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:03 -0400
-Received: by mail-pl1-x635.google.com with SMTP id z3so3537043plg.8
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:47:01 -0700 (PDT)
+ id 1m8uCV-0002Ty-GO
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:05 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ pf12-20020a17090b1d8cb0290175c085e7a5so12930213pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=79/BDVQB6iIHA8qtbmo8Z058Jh2Dn0Ccb3iPyejC9bY=;
- b=tEWbgDWR8eofMFVmZhKK3SuV9PmAn+At4HUIlJK5fP3xg4nQfkPr4riek11e1Hjao5
- s45wbaPpnUjcXmspC3fqOr6tZ5GWUFo0wqIGjH7vCUwgqL1QXCfo+Rhed51Nk2cZmUmn
- 0w+gEgq3+Dssn2lDedmB6anQ4JZBoSvryn4wL432NOOfAOFVG40RuKjwJeULji3SYFhF
- 0HRvYQJOT/Mss0Puscyk61SHxtz9lCzwMMIPaZVUtajVajCxop+G+BRqfFSkVyBrlj2W
- ufBBhXok/frSEpTzgJMjGoSx4dUebhka/Ey30tzgTtiTk/XPhIugaGiAeedcCYFagAqx
- 36Xg==
+ bh=ulvQvyyu32hA2aH3pV4brLU8E+6uLdo/bjuR1ObgTKw=;
+ b=R5MET2FmieqvuvZYpdd2KAzG2YP84mW3gAsUnjwIuhiXYnUOa03VQCJlOBC0IPj1z9
+ o+ga+8Ux/2zWZgZiq1llgfvyAV+r94sN8ar+d+IzPIMtekWOMSO/IFdHT+FOkHlLfU2p
+ abrOUCLV9Y0akrK0BQMYpmBTgIfwS1KUJ0sT2Gb2X+/yRptMzpjU/Kd/pPEImKC/Dh2q
+ yIoVdZETrkx74CKPWVdcL7ouHtM1LfRUfCVYzDpGQuW74otXBh2OBpfdQFPnRf4mcPcL
+ /OrQW1aio491AUL4oLSVCGGWF+RXJs+YW3YZh5Xx9WJEoUPwRjPa9YK50wOs6TPvlc3E
+ LVGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=79/BDVQB6iIHA8qtbmo8Z058Jh2Dn0Ccb3iPyejC9bY=;
- b=gHsvGmrVRjLoC7kYUz4+rjhKTPdxGhr9KW1PiAoClPYwWHlwmq9IcBcvY70B6tAUvn
- tGGIjj85t27AxGcv9uvtPs/+kRIQ9kUREhTv0BqwEQJjDARwNR9sfa9f2vzFSORn3hAT
- 8vBkfFvD0npVa7tGr7PxntFMcTp02fqILmHwrX1A0mB7u/3Yq0V6Q7XvdZpFQXiod/7o
- 1wJX8B3UJl98aWH1FSuVmE08faJis1f9pHPE1AzAbXal7jsFXrW0CCAy0xX9GZGeCvxR
- 9Kqihm0n/A2PpE14x1YOanar/MsFcyecRuc2iRPKUj2urXkniVLnzyXKAGcSZ33l10rn
- 0xlA==
-X-Gm-Message-State: AOAM5336ooZbvgFUw/zdiM8a7gNPDJGgUqUb2vgUUL/WTpXS6CntCIZP
- PuW0AtBHmvk/kxDGwCMijIrYGSiHkkswEw==
-X-Google-Smtp-Source: ABdhPJxbGs+Mu7JashMQqHSIvRzonhn7Ck24o1FmEAWrBd16W621rj/dDLtKmzf0oNxSnlvjCZY/6A==
-X-Received: by 2002:a17:902:a9c7:b029:12b:349:b318 with SMTP id
- b7-20020a170902a9c7b029012b0349b318mr2132641plr.13.1627519620840; 
- Wed, 28 Jul 2021 17:47:00 -0700 (PDT)
+ bh=ulvQvyyu32hA2aH3pV4brLU8E+6uLdo/bjuR1ObgTKw=;
+ b=ARB+KfdVmSgnp8ZGztjjl5RrPjHjWaHeRk/Aaa+k8UcBm3fzReU1DSYoVkyz7Sd/ej
+ fRAFj1PK1Dg3DulZ5fq/XH22PC8CIrtuoP7Lwh3/tjGy4UpEFr6mWwD3eX8oeoRmSc34
+ GBM8hLskZid5L8QNnYRuEphrqpCHbMwrhqalmCXIXbt/HkakzgKDfcvxPXLemEXcl9r7
+ bi7Yzk4MCGkAH1dsefM2EK2xIfpqV300Bwv81i1sILQ3vIzPaeC44bFhl5kRQpmefkOf
+ kF/hqcT1l8uiE3q+mjHvh0bD090/fiJm5u/6WMICg34Nh5jlOEhqu6WupMZnqSvlHU/6
+ yJaw==
+X-Gm-Message-State: AOAM531WklNwWQ6CgbH2k7mrtzN7inF60J0N3f/VegcD+RF0Z70OtnzY
+ 7VTRRmxL8rYUhfV44CyhF3zNZcoDgxtRWA==
+X-Google-Smtp-Source: ABdhPJxpQAEhYzT+zeUHUX1CxbUliKog7Rjrq5Fn8GzL2OqIjlc8zfW/DudJLokd26EJ/i38l1dmSA==
+X-Received: by 2002:a17:902:b40b:b029:12b:997f:5677 with SMTP id
+ x11-20020a170902b40bb029012b997f5677mr2107776plr.11.1627519622110; 
+ Wed, 28 Jul 2021 17:47:02 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-dcaa-9e71-a2b2-2604.res6.spectrum.com.
  [2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604])
- by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.46.59
+ by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.47.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 17:47:00 -0700 (PDT)
+ Wed, 28 Jul 2021 17:47:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 09/43] target/riscv: Implement do_unaligned_access for
+Subject: [PATCH for-6.2 10/43] target/s390x: Implement do_unaligned_access for
  user-only
-Date: Wed, 28 Jul 2021 14:46:13 -1000
-Message-Id: <20210729004647.282017-10-richard.henderson@linaro.org>
+Date: Wed, 28 Jul 2021 14:46:14 -1000
+Message-Id: <20210729004647.282017-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210729004647.282017-1-richard.henderson@linaro.org>
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,90 +87,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-riscv@nongnu.org
+Cc: qemu-s390x@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/riscv/cpu_loop.c | 7 +++++++
- target/riscv/cpu.c          | 2 +-
- target/riscv/cpu_helper.c   | 8 +++++++-
- 3 files changed, 15 insertions(+), 2 deletions(-)
+ target/s390x/cpu.c             |  2 +-
+ target/s390x/tcg/excp_helper.c | 28 +++++++++++++++-------------
+ 2 files changed, 16 insertions(+), 14 deletions(-)
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 74a9628dc9..0428140d86 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -92,6 +92,13 @@ void cpu_loop(CPURISCVState *env)
-             sigcode = TARGET_SEGV_MAPERR;
-             sigaddr = env->badaddr;
-             break;
-+        case RISCV_EXCP_INST_ADDR_MIS:
-+        case RISCV_EXCP_LOAD_ADDR_MIS:
-+        case RISCV_EXCP_STORE_AMO_ADDR_MIS:
-+            signum = TARGET_SIGBUS;
-+            sigcode = TARGET_BUS_ADRALN;
-+            sigaddr = env->badaddr;
-+            break;
-         case RISCV_EXCP_SEMIHOST:
-             env->gpr[xA0] = do_common_semihosting(cs);
-             env->pc += 4;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 991a6bb760..591d17e62d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -644,11 +644,11 @@ static const struct TCGCPUOps riscv_tcg_ops = {
-     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .tlb_fill = riscv_cpu_tlb_fill,
-+    .do_unaligned_access = riscv_cpu_do_unaligned_access,
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 7b7b05f1d3..9d8cfb37cd 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -267,12 +267,12 @@ static void s390_cpu_reset_full(DeviceState *dev)
+ static const struct TCGCPUOps s390_tcg_ops = {
+     .initialize = s390x_translate_init,
+     .tlb_fill = s390_cpu_tlb_fill,
++    .do_unaligned_access = s390x_cpu_do_unaligned_access,
  
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = riscv_cpu_do_interrupt,
-     .do_transaction_failed = riscv_cpu_do_transaction_failed,
--    .do_unaligned_access = riscv_cpu_do_unaligned_access,
+ #if !defined(CONFIG_USER_ONLY)
+     .cpu_exec_interrupt = s390_cpu_exec_interrupt,
+     .do_interrupt = s390_cpu_do_interrupt,
+     .debug_excp_handler = s390x_cpu_debug_excp_handler,
+-    .do_unaligned_access = s390x_cpu_do_unaligned_access,
  #endif /* !CONFIG_USER_ONLY */
  };
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 968cb8046f..a440b2834f 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -727,6 +727,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                             riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
+ #endif /* CONFIG_TCG */
+diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+index a61917d04f..9cbe160f66 100644
+--- a/target/s390x/tcg/excp_helper.c
++++ b/target/s390x/tcg/excp_helper.c
+@@ -82,6 +82,21 @@ void HELPER(data_exception)(CPUS390XState *env, uint32_t dxc)
+     tcg_s390_data_exception(env, dxc, GETPC());
  }
-+#endif /* !CONFIG_USER_ONLY */
  
- void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                    MMUAccessType access_type, int mmu_idx,
-@@ -734,6 +735,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
++/*
++ * Unaligned accesses are only diagnosed with MO_ALIGN.  At the moment,
++ * this is only for the atomic operations, for which we want to raise a
++ * specification exception.
++ */
++void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
++                                   MMUAccessType access_type,
++                                   int mmu_idx, uintptr_t retaddr)
++{
++    S390CPU *cpu = S390_CPU(cs);
++    CPUS390XState *env = &cpu->env;
 +
-     switch (access_type) {
-     case MMU_INST_FETCH:
-         cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
-@@ -748,11 +750,15 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-         g_assert_not_reached();
++    tcg_s390_program_interrupt(env, PGM_SPECIFICATION, retaddr);
++}
++
+ #if defined(CONFIG_USER_ONLY)
+ 
+ void s390_cpu_do_interrupt(CPUState *cs)
+@@ -602,19 +617,6 @@ void s390x_cpu_debug_excp_handler(CPUState *cs)
      }
-     env->badaddr = addr;
-+
-+#ifdef CONFIG_USER_ONLY
-+    cpu_loop_exit_restore(cs, retaddr);
-+#else
-     env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-                             riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(env, cs->exception_index, retaddr);
-+#endif
  }
--#endif /* !CONFIG_USER_ONLY */
  
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
+-/* Unaligned accesses are only diagnosed with MO_ALIGN.  At the moment,
+-   this is only for the atomic operations, for which we want to raise a
+-   specification exception.  */
+-void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-                                   MMUAccessType access_type,
+-                                   int mmu_idx, uintptr_t retaddr)
+-{
+-    S390CPU *cpu = S390_CPU(cs);
+-    CPUS390XState *env = &cpu->env;
+-
+-    tcg_s390_program_interrupt(env, PGM_SPECIFICATION, retaddr);
+-}
+-
+ static void QEMU_NORETURN monitor_event(CPUS390XState *env,
+                                         uint64_t monitor_code,
+                                         uint8_t monitor_class, uintptr_t ra)
 -- 
 2.25.1
 
