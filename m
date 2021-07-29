@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5153DA219
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:29:29 +0200 (CEST)
-Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3701D3DA1FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:21:04 +0200 (CEST)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m94EC-0003SR-Bt
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
+	id 1m9462-0001g6-UU
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940k-0000QI-0q
+ id 1m940j-0000Pv-UA
  for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:47095)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m940a-00010B-5f
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:33 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id c16so6427554wrp.13
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:21 -0700 (PDT)
+ id 1m940a-000113-67
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:31 -0400
+Received: by mail-wr1-x433.google.com with SMTP id b7so6454517wri.8
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KHg6Srrabt2i/P1wMabf21oSUvedE7e5kSg7WXSq3yY=;
- b=dzA/zddL6DXQVfgUPv4PH0cqozt2cdld1eme+ZTUV6sOfT+OLDJVEaCgSDY+FzSnxR
- BZsgX8GOUHy0eeDz8G/vStNLHH17b9AZhuPrljAAEAIg6sCuyYmB+oVzr/YjWL+VHjOB
- 124p6XzEe0lc71UAEknrAQN1I5r0UzKSMAWQ+Z2p6WoxCJ08U5wRHUDE6SmKOoXJ7OGN
- nrmzxz1fYHRorntH3bomR17oui9sPG7AGTYm7wJYFc00tnyzN3euiwu6/lLsHlayApsh
- lnSoFGzrhL8MAXOjRd5h6GzFk4GJl5YbfhVdGI5HHVSbHf/cBTZEjGACK2LXSdW4qew5
- 9vyg==
+ bh=lutAo5Z1ewFuThzfMPVLqlhd9Ml/H60A8yYUE67fuT0=;
+ b=S4g7euqEWzT7bP4rdD2sYvFbBbwSftKuNMyQE+CZ1s+ARt7R9TS3+C6p/2rOJT2HJg
+ fEYHxyHOEqppsnGzSzfi6kwZ+0tSKYqQdnQPRfA+0ITUNmrRQmLfmKLAzRSgF3FnaPJf
+ rKhPjpt6l+TA72FhplyEOLwY1x8abyO0hdMG1jNnSWFuvIuUgsuNj6rWphl71XXmJnrV
+ CSX+UBH6SwsI2o1Oog/UqklRbIHVd28P/8v6MPRqZsNn+F3SZ8mgNx4/k0f7C9BZzEQJ
+ RSlZJOFqtShsAJuSXlp3146YPX2up/EAjLeV6fF9/Pg07V8v44hRn+v5Bo882sMevKaw
+ dXzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KHg6Srrabt2i/P1wMabf21oSUvedE7e5kSg7WXSq3yY=;
- b=m+vEYZw+XxX3gtsf5yd6qnzSr3mioPnBZgWyavqtmf5UrQDLsZY8OvKVZqR21godO2
- SwlYL4rWfkSB1Y1j9ZUkRA/Q91Y009tvK+LO6dVckannyUC9bVM2uOQJ0oDayOMMzcdw
- xpbWXsXWcEUt5NFPFQ3Zfefv2470ivp1JihrhDI8Cc28Qgy3bYU/7CqvaRU3TLIokFOz
- /+NVVsyaHMszEi0iz+rggyEV3eJZYKGNOAMTx/p9NRzSWMVWPG5bAkeG0rn9GenphF8/
- 940XHvCJutlRNY/iZKKrmLBTQMZQ1QJx1V3/jpUptXAgA02Y1AN+6glSrlLb5/o2H6rk
- WoBQ==
-X-Gm-Message-State: AOAM5312Hm0XArDffjw4oleMJPQeG6TkjNITpwpuCedeVtHhhSyJ9sI1
- FxSK1fvSLnxUEgqbzq0DSKeI5w==
-X-Google-Smtp-Source: ABdhPJx9IRd7dXOldI4aiu1IO/1iEsQAd7scPCTDBCk09B1b25Lzv98SnpvRQyY0cJd/X6unryuITA==
-X-Received: by 2002:a5d:5412:: with SMTP id g18mr4320538wrv.301.1627557320596; 
- Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
+ bh=lutAo5Z1ewFuThzfMPVLqlhd9Ml/H60A8yYUE67fuT0=;
+ b=g8mf7njnT41GCC8zqwe4yciHUEMbMA3Z7Y1ye3ZM1418z5MFH+YJU4522fhq5zTh9W
+ KAitZzRLug5KFJ6aICL3Z+CqmLB9GD5FmvWWZ07w+5YeQPP9Y/1ICnFKS6D7zlKqun1K
+ 2F71v0vkmX3OZ3mpplsaF6cVMe9MhR+0wDKULF7tCE7jf4oZwRXnAKGEkw53tsmsWnD+
+ yjkXFcHVmGB3P4ZxoldLQa0TxvySRoIW4LgVlFAHp4vrxQiBApBfa8OAXXnuUCJEWY8B
+ AVqnVZuvqLrTvSjcGcPKKBcjnMjST8mXM/ym1xhCrs/FdBlI1OXJ0lAMFDf5o+xxb4AA
+ vOeg==
+X-Gm-Message-State: AOAM531pG+Kqz2XpZXi2ajOqRoPoL9qi5PKdnLM0jByKyybgkQLSZMMR
+ NlqYpfPLLBldUb0LpmFoCh4uLsbS+jRTKQ==
+X-Google-Smtp-Source: ABdhPJzk77pGfWEVLyH1Tqx247JuOFLjPe6wUnNFyhlz6FKsK9xMzbAEy5x6Vep7yRIGLWhNebxy+w==
+X-Received: by 2002:adf:e10c:: with SMTP id t12mr4264501wrz.36.1627557321312; 
+ Thu, 29 Jul 2021 04:15:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.19
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Jul 2021 04:15:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 07/53] target/arm: Fix MVE 48-bit SQRSHRL for small
- right shifts
-Date: Thu, 29 Jul 2021 12:14:26 +0100
-Message-Id: <20210729111512.16541-8-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 08/53] target/arm: Fix calculation of LTP mask when LR
+ is 0
+Date: Thu, 29 Jul 2021 12:14:27 +0100
+Message-Id: <20210729111512.16541-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210729111512.16541-1-peter.maydell@linaro.org>
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,56 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We got an edge case wrong in the 48-bit SQRSHRL implementation: if
-the shift is to the right, although it always makes the result
-smaller than the input value it might not be within the 48-bit range
-the result is supposed to be if the input had some bits in [63..48]
-set and the shift didn't bring all of those within the [47..0] range.
-
-Handle this similarly to the way we already do for this case in
-do_uqrshl48_d(): extend the calculated result from 48 bits,
-and return that if not saturating or if it doesn't change the
-result; otherwise fall through to return a saturated value.
+In mve_element_mask(), we calculate a mask for tail predication which
+should have a number of 1 bits based on the value of LR.  However,
+our MAKE_64BIT_MASK() macro has undefined behaviour when passed a
+zero length.  Special case this to give the all-zeroes mask we
+require.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Not squashed into the previous patch because that one has already
-been reviewed, so as this fixes a different edge case I thought
-it clearer kept separate.
----
- target/arm/mve_helper.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ target/arm/mve_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 5730b48f35e..1a4b2ef8075 100644
+index 1a4b2ef8075..bc67b86e700 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1563,6 +1563,8 @@ uint64_t HELPER(mve_uqrshll)(CPUARMState *env, uint64_t n, uint32_t shift)
- static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
-                                     bool round, uint32_t *sat)
- {
-+    int64_t val, extval;
-+
-     if (shift <= -48) {
-         /* Rounding the sign bit always produces 0. */
-         if (round) {
-@@ -1572,9 +1574,14 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
-     } else if (shift < 0) {
-         if (round) {
-             src >>= -shift - 1;
--            return (src >> 1) + (src & 1);
-+            val = (src >> 1) + (src & 1);
-+        } else {
-+            val = src >> -shift;
-+        }
-+        extval = sextract64(val, 0, 48);
-+        if (!sat || val == extval) {
-+            return extval;
-         }
--        return src >> -shift;
-     } else if (shift < 48) {
-         int64_t extval = sextract64(src << shift, 0, 48);
-         if (!sat || src == (extval >> shift)) {
+@@ -64,7 +64,8 @@ static uint16_t mve_element_mask(CPUARMState *env)
+          */
+         int masklen = env->regs[14] << env->v7m.ltpsize;
+         assert(masklen <= 16);
+-        mask &= MAKE_64BIT_MASK(0, masklen);
++        uint16_t ltpmask = masklen ? MAKE_64BIT_MASK(0, masklen) : 0;
++        mask &= ltpmask;
+     }
+ 
+     if ((env->condexec_bits & 0xf) == 0) {
 -- 
 2.20.1
 
