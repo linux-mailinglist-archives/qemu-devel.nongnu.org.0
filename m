@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128293D9A9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 02:54:28 +0200 (CEST)
-Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9683D9A94
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 02:51:02 +0200 (CEST)
+Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m8uJf-0004Ua-0k
-	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 20:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36784)
+	id 1m8uGL-0007ta-TN
+	for lists+qemu-devel@lfdr.de; Wed, 28 Jul 2021 20:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCS-0003y4-9G
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:00 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35809)
+ id 1m8uCT-00040p-9Z
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:01 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m8uCQ-0002Q3-Hv
- for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:00 -0400
-Received: by mail-pl1-x629.google.com with SMTP id f13so4893018plj.2
- for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:46:58 -0700 (PDT)
+ id 1m8uCR-0002Qz-Oz
+ for qemu-devel@nongnu.org; Wed, 28 Jul 2021 20:47:01 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ ds11-20020a17090b08cbb0290172f971883bso12929890pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Jul 2021 17:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5SVn6feIQx+0Ew2ry6c3LKcwRGxaKfiCe+3GLQs/DO0=;
- b=tcCKdAi25mDJZANb8iM5EMuZfgC63vc65PWVHy6dDhCdUcaW5V5Xp1gNCREejml6NN
- /Hkmf3gDdgID6WOL8afhaXSfzS0P1drmf2Lh/1Laf+lra+SjaWbQdXnEU9G0prA6J/1v
- JuMMy8NdVrf6EFVPbqC/aM9tHnXwprn0GFTR1f9LIjdcMsiUrQPh8gz7uvFLSQY34YCT
- PdFxxMBLxCXKLPEw+iCRjJNZhuKlqPmiqDxbijojXUc/M64yP91BLLCv/bqPXBK/wEN6
- 6/42419qYdaQh3Pdd8MDVV9E3GY5jY83+dzvWKlnPLLzd1XVGZNKHmg2yAs9wDQeW6Js
- 24WQ==
+ bh=Q3cYyHXxQVv5PEphtWnVuUV6VU+DjAsyUiTSK40GqUs=;
+ b=eLTRrDsPQUaeWVjcrWqsgFIPWxhdrmpwuHDW3gmDE0ISyDAk+T2yjfa6QfLyI/rDcZ
+ HqfoKE7Mjho2ae3Nyd4SF0XvpFslAEqPla6zCQ1bD0eqrng3kMmKGQtNTYwwwwHZkpmP
+ UHVTL6ZQ9eliB/aOQzMsfS6/arh6b3/QJHesnHuEH0JAsYx5kFhqCumklG8Tx0AlVzKQ
+ IU1vTCsm5Ld1ibpwl18q21jpb+7MIr2dfbqJf3Wa98XEF7lcbdSkNv2tdSY5Csp7dVVL
+ +uKT/fzK942hYzWWqlvyXavgc6UIuXi8p9uyGKgLkujrFiyvdZ4KMEtNJHNAS4V1Yk8Y
+ LovA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5SVn6feIQx+0Ew2ry6c3LKcwRGxaKfiCe+3GLQs/DO0=;
- b=lRYWb7qvLt+HwW0C9It/jnNiSxXD54KQrkQe+5cWOaiCdZ0eaqEUHuoHvsrF3xoY1G
- b4Zw+LihdfDU0PXEP7CyObBAOQ/Oiu2l3erR7sTG8oeuP+24YuxB53OAencyt2qO2ein
- M4028reyGfi0qlnAal2cWm2Mc2dap/VKqmy2bitout4pQeGtTIbH2cej3rgaZDRwLH5y
- 3rpJ0f0v2FWqqwNbhn/erGGg8cLnSXx6T0Ewevv7zXhHsaxZNC9iW/OcV2Xhinx6RzZA
- Qtbc6387xYqOi+7qQjLN5NeQGfZYKAqI4+NCDdy+82fTwdvHjTJaB3C3QIKs9+jYeFmc
- krWg==
-X-Gm-Message-State: AOAM533P1lv9SybCpjn6F9jPhFHQl30zSx20MRYjlVEX6lqSSVcpmVKV
- ChEuYvUdjeFy+W5DF8etbBLFhupRQuohlA==
-X-Google-Smtp-Source: ABdhPJwayyak/CB1xZlaFPtO0Y8fSzLNr4ILL9LNvMuwik9TnxBZYfotsXC5090+yimQM9KleCx+CQ==
-X-Received: by 2002:a63:1e59:: with SMTP id p25mr1468393pgm.110.1627519617374; 
- Wed, 28 Jul 2021 17:46:57 -0700 (PDT)
+ bh=Q3cYyHXxQVv5PEphtWnVuUV6VU+DjAsyUiTSK40GqUs=;
+ b=mjEgxfHgP3T4jfUrH0LY4YYK9/Rraww4j7B3iOxM/eYbfTl8qbotNa+iySjDp9PimQ
+ htjCDu2pSqEJBj/+BFTZ4HIJ1ByZpt0eWNt0DyOkD/WKRR3cJnZMBdgKeRtW9bYZ7gCK
+ PS2LBU/Ll74NeOu1VTGKNcrtA67kAngAKoeIxbQEUvf1rfwrLWBvW/rOc9hqKkt7Ow+f
+ r7myvLwr6OSSuvc9D+bOg0+8sYiw4vvchIL83NE+6Qch9/rvqoJvBobqIAkQe+oFycWv
+ hHjpFU4GQWD3wj+n4ztklUTZic/t79id4cPOyBP1+cHqn/tNDb81mXGFcPLO6u45F0sb
+ Utew==
+X-Gm-Message-State: AOAM532NWiz1rPwHD3QWR3u4BectVhloruwAJm06TxyG494mVT7vFaN5
+ OH/8eL3OCfg5GNMjiJt+7R7/z8bDeORTtw==
+X-Google-Smtp-Source: ABdhPJyAJZSiToAlfa3f/dVag4zJQpDCMBbFI66TdGtXCNaV7/TjaNGOILXAr0OQfMsOcVWtoBCKdQ==
+X-Received: by 2002:a65:4342:: with SMTP id k2mr1480112pgq.138.1627519618488; 
+ Wed, 28 Jul 2021 17:46:58 -0700 (PDT)
 Received: from cloudburst.home
  (2603-800c-3202-ffa7-dcaa-9e71-a2b2-2604.res6.spectrum.com.
  [2603:800c:3202:ffa7:dcaa:9e71:a2b2:2604])
- by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.46.56
+ by smtp.gmail.com with ESMTPSA id t205sm1305005pfc.32.2021.07.28.17.46.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 17:46:57 -0700 (PDT)
+ Wed, 28 Jul 2021 17:46:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 06/43] target/mips: Implement do_unaligned_access for
- user-only
-Date: Wed, 28 Jul 2021 14:46:10 -1000
-Message-Id: <20210729004647.282017-7-richard.henderson@linaro.org>
+Subject: [PATCH for-6.2 07/43] target/ppc: Set fault address in
+ ppc_cpu_do_unaligned_access
+Date: Wed, 28 Jul 2021 14:46:11 -1000
+Message-Id: <20210729004647.282017-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210729004647.282017-1-richard.henderson@linaro.org>
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,130 +86,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+We ought to have been recording the virtual address for reporting
+to the guest trap handler.
+
+Cc: qemu-ppc@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/mips/cpu_loop.c        | 20 ++++++++++++++++----
- target/mips/cpu.c                 |  2 +-
- target/mips/tcg/op_helper.c       |  3 +--
- target/mips/tcg/user/tlb_helper.c | 23 +++++++++++------------
- 4 files changed, 29 insertions(+), 19 deletions(-)
+ target/ppc/excp_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 9d813ece4e..51f4eb65a6 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -158,12 +158,24 @@ done_syscall:
-             break;
-         case EXCP_TLBL:
-         case EXCP_TLBS:
--        case EXCP_AdEL:
--        case EXCP_AdES:
-             info.si_signo = TARGET_SIGSEGV;
-             info.si_errno = 0;
--            /* XXX: check env->error_code */
--            info.si_code = TARGET_SEGV_MAPERR;
-+            info.si_code = (env->error_code & EXCP_TLB_NOMATCH
-+                            ? TARGET_SEGV_MAPERR : TARGET_SEGV_ACCERR);
-+            info._sifields._sigfault._addr = env->CP0_BadVAddr;
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            break;
-+        case EXCP_AdEL:
-+        case EXCP_AdES:
-+            /*
-+             * Note that on real hw AdE is also raised for access to a
-+             * kernel address from user mode instead of a TLB error.
-+             * For simplicity, we do not distinguish this in the user
-+             * version of mips_cpu_tlb_fill so only unaligned comes here.
-+             */
-+            info.si_signo = TARGET_SIGBUS;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_BUS_ADRALN;
-             info._sifields._sigfault._addr = env->CP0_BadVAddr;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index d426918291..a1658af910 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -541,11 +541,11 @@ static const struct TCGCPUOps mips_tcg_ops = {
-     .synchronize_from_tb = mips_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = mips_cpu_exec_interrupt,
-     .tlb_fill = mips_cpu_tlb_fill,
-+    .do_unaligned_access = mips_cpu_do_unaligned_access,
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index a79a0ed465..0b2c6de442 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1503,6 +1503,8 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     CPUPPCState *env = cs->env_ptr;
+     uint32_t insn;
  
- #if !defined(CONFIG_USER_ONLY)
-     .do_interrupt = mips_cpu_do_interrupt,
-     .do_transaction_failed = mips_cpu_do_transaction_failed,
--    .do_unaligned_access = mips_cpu_do_unaligned_access,
-     .io_recompile_replay_branch = mips_io_recompile_replay_branch,
- #endif /* !CONFIG_USER_ONLY */
- };
-diff --git a/target/mips/tcg/op_helper.c b/target/mips/tcg/op_helper.c
-index fafbf1faca..0b874823e4 100644
---- a/target/mips/tcg/op_helper.c
-+++ b/target/mips/tcg/op_helper.c
-@@ -375,8 +375,6 @@ void helper_pmon(CPUMIPSState *env, int function)
-     }
- }
- 
--#if !defined(CONFIG_USER_ONLY)
--
- void mips_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                   MMUAccessType access_type,
-                                   int mmu_idx, uintptr_t retaddr)
-@@ -402,6 +400,7 @@ void mips_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     do_raise_exception_err(env, excp, error_code, retaddr);
- }
- 
-+#if !defined(CONFIG_USER_ONLY)
- void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     vaddr addr, unsigned size,
-                                     MMUAccessType access_type,
-diff --git a/target/mips/tcg/user/tlb_helper.c b/target/mips/tcg/user/tlb_helper.c
-index b835144b82..61a99356e9 100644
---- a/target/mips/tcg/user/tlb_helper.c
-+++ b/target/mips/tcg/user/tlb_helper.c
-@@ -26,24 +26,23 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
-                                 MMUAccessType access_type)
- {
-     CPUState *cs = env_cpu(env);
-+    int error_code = 0;
-+    int flags;
- 
--    env->error_code = 0;
-     if (access_type == MMU_INST_FETCH) {
--        env->error_code |= EXCP_INST_NOTAVAIL;
-+        error_code |= EXCP_INST_NOTAVAIL;
-     }
- 
--    /* Reference to kernel address from user mode or supervisor mode */
--    /* Reference to supervisor address from user mode */
--    if (access_type == MMU_DATA_STORE) {
--        cs->exception_index = EXCP_AdES;
--    } else {
--        cs->exception_index = EXCP_AdEL;
-+    flags = page_get_flags(address);
-+    if (!(flags & PAGE_VALID)) {
-+        error_code |= EXCP_TLB_NOMATCH;
-     }
- 
--    /* Raise exception */
--    if (!(env->hflags & MIPS_HFLAG_DM)) {
--        env->CP0_BadVAddr = address;
--    }
-+    cs->exception_index = (access_type == MMU_DATA_STORE
-+                           ? EXCP_TLBS : EXCP_TLBL);
++    env->spr[SPR_DAR] = vaddr;
 +
-+    env->error_code = error_code;
-+    env->CP0_BadVAddr = address;
- }
- 
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     /* Restore state and reload the insn we executed, for filling in DSISR.  */
+     cpu_restore_state(cs, retaddr, true);
+     insn = cpu_ldl_code(env, env->nip);
 -- 
 2.25.1
 
