@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0640F3DA7EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 17:54:18 +0200 (CEST)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD39E3DA85B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 18:03:36 +0200 (CEST)
+Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m98MS-000595-Jk
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 11:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
+	id 1m98VT-0005ag-F4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 12:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m98LF-0003Y7-Vu
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:53:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45958)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m98U8-0003qM-91
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:02:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m98LD-0007WN-00
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 11:53:00 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m98U3-0005yq-IL
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 12:02:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627573977;
+ s=mimecast20190719; t=1627574525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J+XO+Mo3Cx4HScZtlf/ddyQM8CpEvG1bpMhz9xt5Az4=;
- b=jIN8bGObMALsUQhYz/F2WtjX6YIYIQvNnOP+0hKqWX2IPKWniMGrrJqbF/3DMeTdBEQPHY
- 16qrdRukq765XsbMlviakaTSlEQlv2iqqhSIAmJm42bCkcJNLpgujBjUwWnfPK5oC/OhRU
- 0tFQ/SUAZaOVwKs1DUWFtlmsjlCyG00=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-Xmy_RM1SOn2v-c1RhlNqjA-1; Thu, 29 Jul 2021 11:52:56 -0400
-X-MC-Unique: Xmy_RM1SOn2v-c1RhlNqjA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- o2-20020a05620a1102b02903b9ade0af31so3606754qkk.1
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 08:52:56 -0700 (PDT)
+ bh=nRiAnUss1J/T4umaPk3d+88IXCFqOqBMCB7K8wiJoEA=;
+ b=Fw8YolkZeryM2Vt4n/+fbrglPHITSTAvGmc0gDZM/uE/wmDH5glTopl5zcL03H5vhfpZvj
+ F16An/6VdXvXnuScLT2MECNPSsJlrLlUg2kwkKJq67HmkCx6Pnek3ttzdmESP0gQzFpZ5e
+ RkpMKqZByuBzhmctqZ7dP8dnyeeREp0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-A-iqUsjnMKKtY5tyTCkJbg-1; Thu, 29 Jul 2021 11:59:51 -0400
+X-MC-Unique: A-iqUsjnMKKtY5tyTCkJbg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ kq12-20020a170906abccb0290591922761bdso863020ejb.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 08:59:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=J+XO+Mo3Cx4HScZtlf/ddyQM8CpEvG1bpMhz9xt5Az4=;
- b=ezOVk2H9eaZqebnvFoBAql1WyJNdkehmcWIyi5NO0P7dIvzVoPHbQxhhHCMpIcoH5p
- rClUkjMxRGvZFa/U8sdU29S9pryWyL6GL4wd8Y7XqyDfhWEoxJT7OkIh5y9MWpNrjmAe
- UHrgltoMT76tJZVXh0UemcFIa3Pmmk4F/kMohSjKCZdHQ94ivEpceo0SbmfvEFTC6pAW
- g14iXcT6YG3qckgePza1MhnDx6Jc0AF8zSmiiLWDrnE/UZaxQkyuNg26iORVeszZJHC/
- nBQMFjKK70+ecCvwGU/4dvondUEm63stxRHQy1q1IfTgdwPXCrkaZkFqkjme2qw56CIp
- wVIg==
-X-Gm-Message-State: AOAM533BsHgpeIpJldHKnGV/hkz+sgDvJnQ+yqe1he0k4QoHEUkQ4Jqp
- K8qUu0kvk3V8gN4WkgWriUiQNQccnl2deN7tcxP3Fn9ChnLYDQ3IYnecifI2T9Z5cIJXnWEF5i+
- 9dlX3UHU366IeSp8=
-X-Received: by 2002:ac8:59c8:: with SMTP id f8mr4643845qtf.345.1627573975755; 
- Thu, 29 Jul 2021 08:52:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwA9K8KO6w0TCYnTeXbOcqz70Lf5GPFVakZd+txzkpo6mY4jl/gW23wlbJKIAjOhFZU66CevQ==
-X-Received: by 2002:ac8:59c8:: with SMTP id f8mr4643820qtf.345.1627573975445; 
- Thu, 29 Jul 2021 08:52:55 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id u11sm1952274qkk.72.2021.07.29.08.52.53
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nRiAnUss1J/T4umaPk3d+88IXCFqOqBMCB7K8wiJoEA=;
+ b=I82I/jd2bOMKhvlV+O5gha04t9/RHoAeBijGErHausbxrz3R+TtaBvMeZPtuAKoCVB
+ 8Phb4vA36oNSoH8sy93s7BEZCVn7Kv1/7lPHumocSi4NGUVrzR+QZESCW+iR131nFBOs
+ hmfSHtKoZaaJ8cD4wlJlPBwV49tiXKdTB/puIKoLmEZcMhg89LHSbIe7OPh/xun3q9l4
+ njL1oYyQ4kJwwhyAupCaKW2mp1ZE27KAUGMNwzCTzSLxYaenh7Fvxro7zfK65VvesLy3
+ zpVTeguNpKU26qKCEQNBapGFyeUZaeYGIIcqBNbp5BdDAxtkoAXIoiWfZUE6JdGRc1nd
+ I2Og==
+X-Gm-Message-State: AOAM532//pxpRRAI7PI1wGyPAOsu2TL8BZ7yy3AI9C3M7llwRbpdamU+
+ MogcVnCjoeqmvOJ+Xrq1VoIk+kkaM1BTwWGrb4JASc9zJKgHIFjB2JgSAzbKxBNLROSVqfeEIEX
+ afT8k3T8x4vE5zGs=
+X-Received: by 2002:a05:6402:4cb:: with SMTP id
+ n11mr6789782edw.292.1627574390467; 
+ Thu, 29 Jul 2021 08:59:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyy1eHwKD4qo8OVkzpVbwAE0slr5M9Tb3ASNjbVm2jKN0RZlXjvDFE/hhgp2Ow9Vj0Btod4tg==
+X-Received: by 2002:a05:6402:4cb:: with SMTP id
+ n11mr6789754edw.292.1627574390286; 
+ Thu, 29 Jul 2021 08:59:50 -0700 (PDT)
+Received: from redhat.com ([2.55.154.10])
+ by smtp.gmail.com with ESMTPSA id z16sm1373970edr.51.2021.07.29.08.59.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 08:52:54 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:52:53 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 5/6] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
-Message-ID: <YQLO1QoOIu8dlaEq@t490s>
-References: <20210721092759.21368-1-david@redhat.com>
- <20210721092759.21368-6-david@redhat.com> <YPrvfST43SFOMA1F@t490s>
- <2ce949f2-6950-5404-70e4-73a2e41b4ca8@redhat.com>
- <YPsP8+STD836MO3L@t490s>
- <124693ef-5595-85c9-da5a-8f8e6a827c19@redhat.com>
- <YPs+cO7u1eXMomE0@t490s>
- <de4bd533-efaa-a6e5-c73c-01016d0f229c@redhat.com>
+ Thu, 29 Jul 2021 08:59:49 -0700 (PDT)
+Date: Thu, 29 Jul 2021 11:59:45 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: aarch64 efi boot failures with qemu 6.0+
+Message-ID: <20210729115934-mutt-send-email-mst@kernel.org>
+References: <CAMj1kXGBpyqB3Upt76ynry-cmowRGCcyMpWzHV2xiyS+txytdQ@mail.gmail.com>
+ <20210727004401-mutt-send-email-mst@kernel.org>
+ <f526c655-3d25-bf66-8f96-cef55c9f6fa3@roeck-us.net>
+ <20210727045315-mutt-send-email-mst@kernel.org>
+ <20210727123603.6119c34c@redhat.com>
+ <20210728090555-mutt-send-email-mst@kernel.org>
+ <CAMj1kXFi43BiaG3pheqDLp_uqFpiS327mMaoc-NOt3HuoS5xsw@mail.gmail.com>
+ <80674caa-817a-8be0-2122-fe543ec08a50@roeck-us.net>
+ <5de773d1-48c8-1e56-493d-7c94cca78ee7@redhat.com>
+ <CAErSpo44E0tnbkjbnvVyUY=6+VUHV51aeXAumYrdmeLOPbPGyg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <de4bd533-efaa-a6e5-c73c-01016d0f229c@redhat.com>
+In-Reply-To: <CAErSpo44E0tnbkjbnvVyUY=6+VUHV51aeXAumYrdmeLOPbPGyg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,49 +105,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Jiahui Cen <cenjiahui@huawei.com>,
+ Ard Biesheuvel <ardb+tianocore@kernel.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 29, 2021 at 02:14:41PM +0200, David Hildenbrand wrote:
-> On 24.07.21 00:10, Peter Xu wrote:
-> > On Fri, Jul 23, 2021 at 09:01:42PM +0200, David Hildenbrand wrote:
-> > > It can happen in corner cases and is valid: with the current virtio-mem
-> > > spec, guests are allowed to read unplugged memory. This will, for example,
-> > > happen on older Linux guests when reading /proc/kcore or (with even older
-> > > guests) when dumping guest memory via kdump. These corner cases were the
-> > > main reason why the spec allows for it -- until we have guests properly
-> > > adjusted such that it won't happen even in corner cases.
-> > > 
-> > > A future feature bit will disallow it for the guest: required for supporting
-> > > shmem/hugetlb cleanly. With that in place, I agree that we would want to
-> > > warn in this case!
-> > 
-> > OK that makes sense; with the page_size change, feel free to add:
+On Thu, Jul 29, 2021 at 09:42:52AM -0500, Bjorn Helgaas wrote:
+> On Thu, Jul 29, 2021 at 3:08 AM Philippe Mathieu-Daudé
+> <philmd@redhat.com> wrote:
 > 
-> I just realized that relying on the page_size would be wrong.
+> > Michael, if describing the issue in the revert is too complex, could you
+> > include a link to this thread in the revert description?
+> > (Message-Id: <20210724185234.GA2265457@roeck-us.net> or
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg826392.html)
 > 
-> We migrate TARGET_PAGE_SIZE chunks and the offset might not be page_size
-> aligned. So if we were to replace TARGET_PAGE_SIZE by rb->page_size, we
-> might accidentally cover a "too big" range.
+> Or https://lore.kernel.org/r/20210724185234.GA2265457@roeck-us.net/,
+> which is a convenient, ad-free, long-term, text-only, tools-friendly
+> archive maintained by the Linux Foundation.
 
-I'm wondering whether we should make the offset page size aligned instead.  For
-example, note that postcopy_place_page_zero() should only take page_size
-aligned host addr or UFFDIO_COPY could fail (hugetlb doesn't support
-UFFDIO_ZEROPAGE yet).
-
-Btw, does virtio-mem supports hugetlbfs now?  When with it, the smallest unit
-to plug/unplug would the huge page size (e.g., for 1g huge page, sounds not
-helpful to unplug 2M memory), am I right?
+OK, thanks!
 
 -- 
-Peter Xu
+MST
 
 
