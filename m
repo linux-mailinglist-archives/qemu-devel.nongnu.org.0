@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E77F3DAADA
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:22:07 +0200 (CEST)
-Received: from localhost ([::1]:54032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3EE3DAADC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 20:23:31 +0200 (CEST)
+Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9AfQ-0008G0-EP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57430)
+	id 1m9Ags-00027M-SS
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 14:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9AeE-0007R7-OV
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:20:46 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:41804)
+ id 1m9Ag5-0001Pg-17
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:22:41 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9AeC-0007mV-O4
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:20:46 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id z3so6623459plg.8
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:20:44 -0700 (PDT)
+ id 1m9Ag3-0000sZ-CR
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 14:22:40 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ pf12-20020a17090b1d8cb0290175c085e7a5so17024881pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 11:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7E3T5jNd2SnukY73q1oQYJzCgufoXSk8mAVy6i77gmI=;
- b=L9a610M2n9uCfkaPG8xXn95Jg+HjGgTqVAdk8Xt0N+kx73nMVkXoNqyLvsu1dIpuJ9
- 69u5C8+/feRplEPLge45VO7otzr6Fry6rPn4QomFvTchLiNVND4T+XWgNxRsmaU50ShK
- PTxWK6NxNQS1Z3z47cbkwXTwwDY/hDgq77SJLpPsXVE2QOd9TVAGRsCAGIq07yhUK9vz
- lxQwHHmxqFbSxjq1SygaizOmTNmxtS65PY/PL7LHXFUOE2S6z4rV2jr/3/eQlF5266xp
- pxrmXTXjQ263vCNkWe/Hf/UasfvWm/OoW6oFhfspXDKyuuSH6MBIUepVUclLebdm9fSO
- uIPg==
+ bh=qKKyL3b5yRkd5fRIzUtVY8856WiwZeCdCUxOGQcsB4w=;
+ b=hdPpa+eSX0ds7GnKzISqiS3fmUKPdj7FP7J1Th5g9QJydRgXMr88rbsvz0v7t1lr0P
+ db8pWlk3g+pX2x/07MQpLQ2O9splELEqNJ8wAaNUC5sCUux80jXbRpbisSnjuU45ABN4
+ DEyI7jFzHbs7Hpq7Bi7nVOWLIjT9TOVSE7pTmV2jSvZ7iiDsj9cSULP94KfahoQiYAC4
+ i6KCrbTjadtI3z4ykg9kEmjfSD0HFmeHFyedt9qpeib/YiEBpoPQcH+2eRPs3y24xm/M
+ 6GdkMpv+eTiRufWd9hYPn1ol7TsdVg/7OehasQ5+juorTPYYwGeK0xzKrRRLH0iUZO+w
+ ZT/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7E3T5jNd2SnukY73q1oQYJzCgufoXSk8mAVy6i77gmI=;
- b=iLRyXtRoMj5gSSg1FJzzNeP5Um0ilhJ96/KCyR0Isxyuqckdhac9u+UcHplwRbsbCi
- Z021ih8UqGXBgDlGNbv2l4lgKBEg70GduLNa1f9nxYu7ez8JRuBMfJQ4k93g9RSVMZfE
- 69nSu21DIqXMGdiDEKnk8FeEduF/7ifIkkmnESKatBviJ+AjC24qEsEbGTC76cM+5vPa
- rkqvcsuAilelZkooHm852IbkdzHPy4cJVWdFhLxYv4U4OzZ3ZiPMR376/TgV6o4AZPnU
- at4/qvD/9AeGwIqVCtyTZPA2TeOFRII9ht19aWUB1sikMBZsvHcepRzytKMkNU+bQ3qb
- aPxQ==
-X-Gm-Message-State: AOAM532udf08g1J0Nut7HZg7ArKZ3Z8Pqcd9syYPo7yHy9lWBziZKzrV
- ZfTNboBiS6fWEWopSU1WsbFyQw==
-X-Google-Smtp-Source: ABdhPJzU34eKXCfGVjNIGxJHZUdfpXvf9fYL4SRFztcyDnpqZEOKpIPYf0jEpk/x2M8w1kXfpqENKA==
-X-Received: by 2002:aa7:9497:0:b029:2e5:6989:4f1a with SMTP id
- z23-20020aa794970000b02902e569894f1amr6337239pfk.50.1627582842824; 
- Thu, 29 Jul 2021 11:20:42 -0700 (PDT)
+ bh=qKKyL3b5yRkd5fRIzUtVY8856WiwZeCdCUxOGQcsB4w=;
+ b=smXKNRd15ZXgbBiJlR5YCUWpZuspzlp4SfVr8W4yhldVBlYQcjYDGKaxaoO+V02QnB
+ sgWaMHZvPr8Wq9zOQ916fQziAGHlaPKL3rjXxxYJeN4v0Tqi9rqDUN5vohb6Ithz2cdc
+ xlHWJz0TRT9Y2sIXtRhlwAu1gUV+okPhH0BdTW0lCeQUsdRnQ6nRnVWBgb352qpWmFXm
+ 9q18NQRE1MbrUVHcGLDvTNNXDPgAtmzn3rSPMje4u/NhSdgzcICgTSTAEmxs5IK9gTqf
+ ALvlwUpvjGcyMHw4IdQftb/Dw4/Ibt50bBWKsjIqwUHShU3z6d7x8DsKyZccHQoPiQ77
+ v9/w==
+X-Gm-Message-State: AOAM533CevCO17H5IuzJ9fKF5sxLIYzAWzcMcv/O1VHF6Rva2Axwb5eB
+ juZMWVV29XD2h3rrjZIY627XdQ==
+X-Google-Smtp-Source: ABdhPJwme8FURNxz4SeX8AcOzFj/YP/MUZk9HK7lhikn8QHtD/owQJv+5NY2057oJTPauMTtzDQOXQ==
+X-Received: by 2002:a17:902:e751:b029:12b:b418:3661 with SMTP id
+ p17-20020a170902e751b029012bb4183661mr5850766plf.28.1627582958041; 
+ Thu, 29 Jul 2021 11:22:38 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id y15sm2517842pga.34.2021.07.29.11.20.40
+ by smtp.gmail.com with ESMTPSA id w15sm3938378pjc.45.2021.07.29.11.22.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 11:20:41 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 15/43] target/sparc: Implement do_unaligned_access
- for user-only
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ Thu, 29 Jul 2021 11:22:36 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 16/43] target/xtensa: Implement
+ do_unaligned_access for user-only
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-16-richard.henderson@linaro.org>
- <68561c03-5cc0-700f-2e64-fd348fb85a78@amsat.org>
+ <20210729004647.282017-17-richard.henderson@linaro.org>
+ <CAFEAcA_b2+KA4w0ny3cdtnuySBUQLFoZ_Yix9oEhOw4zABZJAQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8e43f25e-c38f-04b6-e471-cc43765318da@linaro.org>
-Date: Thu, 29 Jul 2021 08:20:38 -1000
+Message-ID: <fc7c3d49-e5c8-adf4-a7e4-3756d9fa4067@linaro.org>
+Date: Thu, 29 Jul 2021 08:22:33 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <68561c03-5cc0-700f-2e64-fd348fb85a78@amsat.org>
+In-Reply-To: <CAFEAcA_b2+KA4w0ny3cdtnuySBUQLFoZ_Yix9oEhOw4zABZJAQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,96 +93,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/21 11:40 PM, Philippe Mathieu-Daudé wrote:
-> On 7/29/21 2:46 AM, Richard Henderson wrote:
->> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 7/29/21 4:55 AM, Peter Maydell wrote:
+> On Thu, 29 Jul 2021 at 02:03, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Cc: Max Filippov <jcmvbkbc@gmail.com>
 >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >> ---
->>   linux-user/sparc/cpu_loop.c | 11 +++++++++++
->>   target/sparc/cpu.c          |  2 +-
->>   target/sparc/ldst_helper.c  |  2 --
->>   3 files changed, 12 insertions(+), 3 deletions(-)
->>
->> diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
->> index 02532f198d..612e77807e 100644
->> --- a/linux-user/sparc/cpu_loop.c
->> +++ b/linux-user/sparc/cpu_loop.c
->> @@ -272,6 +272,17 @@ void cpu_loop (CPUSPARCState *env)
->>                   queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
->>               }
->>               break;
->> +        case TT_UNALIGNED:
->> +            info.si_signo = TARGET_SIGBUS;
->> +            info.si_errno = 0;
->> +            info.si_code = TARGET_BUS_ADRALN;
->> +#ifdef TARGET_SPARC64
->> +            info._sifields._sigfault._addr = env->dmmu.sfar;
->> +#else
->> +            info._sifields._sigfault._addr = env->mmuregs[4];
->> +#endif
->> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
->> +            break;
->>           case EXCP_DEBUG:
->>               info.si_signo = TARGET_SIGTRAP;
->>               info.si_errno = 0;
->> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
->> index da6b30ec74..d33d41e837 100644
->> --- a/target/sparc/cpu.c
->> +++ b/target/sparc/cpu.c
->> @@ -865,11 +865,11 @@ static const struct TCGCPUOps sparc_tcg_ops = {
->>       .synchronize_from_tb = sparc_cpu_synchronize_from_tb,
->>       .cpu_exec_interrupt = sparc_cpu_exec_interrupt,
->>       .tlb_fill = sparc_cpu_tlb_fill,
->> +    .do_unaligned_access = sparc_cpu_do_unaligned_access,
->>   
->>   #ifndef CONFIG_USER_ONLY
->>       .do_interrupt = sparc_cpu_do_interrupt,
->>       .do_transaction_failed = sparc_cpu_do_transaction_failed,
->> -    .do_unaligned_access = sparc_cpu_do_unaligned_access,
->>   #endif /* !CONFIG_USER_ONLY */
->>   };
->>   #endif /* CONFIG_TCG */
->> diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
->> index 7367b48c8b..69b812e68c 100644
->> --- a/target/sparc/ldst_helper.c
->> +++ b/target/sparc/ldst_helper.c
->> @@ -1954,7 +1954,6 @@ void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->>   }
->>   #endif
->>   
->> -#if !defined(CONFIG_USER_ONLY)
->>   void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->>                                                    MMUAccessType access_type,
->>                                                    int mmu_idx,
->> @@ -1973,4 +1972,3 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->>   
->>       cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
->>   }
->> -#endif
->>
+>>   target/xtensa/cpu.c    |  2 +-
+>>   target/xtensa/helper.c | 30 +++++++++++++++---------------
+>>   2 files changed, 16 insertions(+), 16 deletions(-)
 > 
-> Somewhere around this patch I get:
-> 
->    SKIPPED signals on sparc64 because BROKEN awaiting sigframe clean-ups
-> and vdso support
->    TEST    test-mmap (default) on sparc64
-> timeout: the monitored command dumped core
-> Bus error
-> make[2]: *** [tests/tcg/multiarch/Makefile.target:49: run-test-mmap]
-> Error 135
-> make[1]: *** [tests/tcg/Makefile.qemu:102: run-guest-tests] Error 2
-> make: *** [tests/Makefile.include:63: run-tcg-tests-sparc64-linux-user]
+> The xtensa kernel has a CONFIG_XTENSA_UNALIGNED_USER option to
+> make the kernel silently fix up unaligned userspace accesses,
+> and most of the defconfigs for xtensa set it to 'y'.
 
-That's really surprising, since the do_unaligned_access hook is not yet used?  Oh, but 
-then target/sparc/ does some of its own manual TT_UNALIGNED exceptions for some ASI 
-access.  I'll have a look, but you should have been seeing a different assert for that case.
+I believe the load/store-exclusive instructions should still fault.
 
 
 r~
-
 
