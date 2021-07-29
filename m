@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A263DA1A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 12:57:38 +0200 (CEST)
-Received: from localhost ([::1]:43296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F853DA1F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Jul 2021 13:18:20 +0200 (CEST)
+Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m93jN-0004QW-3E
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 06:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33882)
+	id 1m943P-0003T5-0f
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 07:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m93iU-0003kE-7G
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 06:56:42 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:48318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m93iP-0003PG-Ve
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 06:56:40 -0400
-Received: from iva8-c5ee4261001e.qloud-c.yandex.net
- (iva8-c5ee4261001e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id B693E2E14D8;
- Thu, 29 Jul 2021 13:56:29 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- hnLe5c9xXC-uTxqIFvQ; Thu, 29 Jul 2021 13:56:29 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1627556189; bh=pzvZdqLvVz1dPXrh5c2MDEbaLuGGQYmn/mdqW+3XClU=;
- h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
- b=XEs8DJNzJiNb5pqVJT++SieEBwIOa9q4DLHfeblLL6d4nEDn6DEKW1PmxxYRHuC7k
- AGclLgB4UkF9U8q1Vsd2f3wTrNV8ir0s8l8SLBYcs0HzC4EKTHLcwDyv5X9mDNOaEo
- MYyOuj4aPIMwoO+eMqJv6hIN3ox9XjAJbctu/nNQ=
-Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:8007::1:10])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 3MLpfgl1SE-uT2SJZAO; Thu, 29 Jul 2021 13:56:29 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: [PING][PING][PATCH v2] vhost: make SET_VRING_ADDR, SET_FEATURES send
- replies
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-References: <20210719142138.24543-1-den-plotnikov@yandex-team.ru>
- <8f3959d9-2dd8-3fc0-f350-b4ea98a10f38@yandex-team.ru>
-Message-ID: <f809aa3e-dc2f-4a2f-92d1-e5dc8782c1e5@yandex-team.ru>
-Date: Thu, 29 Jul 2021 13:56:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m940U-0008OU-Lx
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:18 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m940S-0000so-Jt
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 07:15:18 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d8so6455037wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 04:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtDYgvBEq5EqQ2Fjyt4QJHmL5eTW+pDDkgFsDDg2i6I=;
+ b=rrYIgLMJfyBEf5PzqjC0rfndd1JR1y96Sj9zDFEKtw7KKv4k5ZkdKHNYkeZqYsjq5Y
+ Cr2H2Yjo9FZ0i/JOJAOfY2Tm06zckLt7mCy7xktUleI0ALz+ttII64yZupHSMDTAYgHF
+ NbPenccsDU4Z0QBvTibaDVrAn7BSVjp1RBCyNgEVxA2LNhC0ZabxVe1DfdEQzoSP60zN
+ KFgmbEQH5v7g7RoGlf5mJGZTiQOaiP3/j4Jf0p7axjspNsTuQezHWUs4OAnsBOu2JJLd
+ 7svp/12NajqdYZP2q+BlrLJoWI0+iE/VX2LPztxlOmq+V7+D0VhdSM4eU0wUpfh7HHzm
+ /L4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtDYgvBEq5EqQ2Fjyt4QJHmL5eTW+pDDkgFsDDg2i6I=;
+ b=uK3Z/eHBZDO0c7jeeUDPgHCtB90HtH0+2fehUuNcq6q1oRz7PSi0ucxumazqu8yXWB
+ rh9WAkauY0tpDy8EwAHaii/Ric0hM+ND8XQOeVZ2EeW/c+fcySzBkDhjpX6QbaL3VGZW
+ 1/NtX1+TA4BvetaZMASCOs7oc06tcA+/FBENpkahiLxP8vfBvEzf9ueWMJI7477vMi85
+ F9LLRqvvnKbLuuZe5x+i7JzLV+9m1Q3L6fCr+ZGhjOJg+7H4s7imIeqjvoqCdH9Do90L
+ yFEOWYArp0QznJDEHLDJG9yrLgLG5N9bh/+OUYyQFYgdKtw04YNcCnJteHdL2+zLFJH8
+ SmJw==
+X-Gm-Message-State: AOAM533p6VK+hFzXdI18Mcf+TgY3s77BZ3DcAAGUMk5OjvWbMbGbfl9w
+ 8SCAfz8DL/M9PLaAMcARc7iGVRKaEjrJ5w==
+X-Google-Smtp-Source: ABdhPJzLfv23fGKMkAdX3WmccGr9Us5jsFA+0+jOPJm3AjjGE+iDsNFZP+fNAbLspjB1HNM3D7NkRg==
+X-Received: by 2002:adf:f202:: with SMTP id p2mr4259002wro.240.1627557314965; 
+ Thu, 29 Jul 2021 04:15:14 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id j140sm3037829wmj.37.2021.07.29.04.15.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 04:15:14 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-6.2 00/53] target/arm: MVE slices 3 and 4
+Date: Thu, 29 Jul 2021 12:14:19 +0100
+Message-Id: <20210729111512.16541-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <8f3959d9-2dd8-3fc0-f350-b4ea98a10f38@yandex-team.ru>
-Content-Type: multipart/alternative;
- boundary="------------78D4F04C895957C03848F88E"
-Content-Language: en-US
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,301 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------78D4F04C895957C03848F88E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+This patchseries provides the third and fourth slices of the MVE
+implementation, which gives us complete coverage of all instructions
+and brings us to the point where we can actually enable it.
 
+In this series:
+ * fixes for minor bugs in a couple of the insns already upstream
+ * all the remaining integer instructions
+ * the remaining loads and stores (scatter-gather and interleaving)
+ * the floating point instructions
+ * patch enabling MVE for the Cortex-M55
 
-On 23.07.2021 12:59, Denis Plotnikov wrote:
->
-> ping!
->
-> On 19.07.2021 17:21, Denis Plotnikov wrote:
->> On vhost-user-blk migration, qemu normally sends a number of commands
->> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
->> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
->> VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
->> data logging.
->> The issue is that qemu doesn't wait for reply from the vhost daemon
->> for these commands which may result in races between qemu expectation
->> of logging starting and actual login starting in vhost daemon.
->>
->> The race can appear as follows: on migration setup, qemu enables dirty page
->> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
->> vhost-user-blk daemon immediately and the daemon needs some time to turn the
->> logging on internally. If qemu doesn't wait for reply, after sending the
->> command, qemu may start migrate memory pages to a destination. At this time,
->> the logging may not be actually turned on in the daemon but some guest pages,
->> which the daemon is about to write to, may have already been transferred
->> without logging to the destination. Since the logging wasn't turned on,
->> those pages won't be transferred again as dirty. So we may end up with
->> corrupted data on the destination.
->> The same scenario is applicable for "used ring" data logging, which is
->> turned on with VHOST_USER_SET_VRING_ADDR command.
->>
->> To resolve this issue, this patch makes qemu wait for the commands result
->> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
->> logging is enabled.
->>
->> Signed-off-by: Denis Plotnikov<den-plotnikov@yandex-team.ru>
->> ---
->> v1 -> v2:
->>    * send reply only when logging is enabled [mst]
->>
->> v0 -> v1:
->>    * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
->>    
->>   hw/virtio/vhost-user.c | 37 ++++++++++++++++++++++++++++++++++---
->>   1 file changed, 34 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index ee57abe04526..133588b3961e 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -1095,6 +1095,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
->>       return 0;
->>   }
->>   
->> +static bool log_enabled(uint64_t features)
->> +{
->> +    return !!(features & (0x1ULL << VHOST_F_LOG_ALL));
->> +}
->> +
->>   static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->>                                        struct vhost_vring_addr *addr)
->>   {
->> @@ -1105,10 +1110,21 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->>           .hdr.size = sizeof(msg.payload.addr),
->>       };
->>   
->> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
->> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
->> +
->> +    if (reply_supported && log_enabled(msg.hdr.flags)) {
->> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->> +    }
->> +
->>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>           return -1;
->>       }
->>   
->> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
->> +        return process_message_reply(dev, &msg);
->> +    }
->> +
->>       return 0;
->>   }
->>   
->> @@ -1288,7 +1304,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
->>       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
->>   }
->>   
->> -static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->> +static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
->> +                              bool need_reply)
->>   {
->>       VhostUserMsg msg = {
->>           .hdr.request = request,
->> @@ -1297,23 +1314,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->>           .hdr.size = sizeof(msg.payload.u64),
->>       };
->>   
->> +    if (need_reply) {
->> +        bool reply_supported = virtio_has_feature(dev->protocol_features,
->> +                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
->> +        if (reply_supported) {
->> +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->> +        }
->> +    }
->> +
->>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>           return -1;
->>       }
->>   
->> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
->> +        return process_message_reply(dev, &msg);
->> +    }
->> +
->>       return 0;
->>   }
->>   
->>   static int vhost_user_set_features(struct vhost_dev *dev,
->>                                      uint64_t features)
->>   {
->> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
->> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
->> +                              log_enabled(features));
->>   }
->>   
->>   static int vhost_user_set_protocol_features(struct vhost_dev *dev,
->>                                               uint64_t features)
->>   {
->> -    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
->> +    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
->> +                              false);
->>   }
->>   
->>   static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
+Things still to do:
+ * MVE loads/stores should check alignment (this will depend on
+   the patchset that RTH just sent out, and I didn't want to
+   entangle the two features unnecessarily)
+ * gdbstub support (blocked on the gdb folks nailing down what
+   the XML for it should be)
+ * optimization: many of the insns should have inline versions
+   to use when we know we aren't doing any predication
 
---------------78D4F04C895957C03848F88E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+But none of those are blockers for this landing upstream once
+we reopen for 6.2.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 23.07.2021 12:59, Denis Plotnikov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:8f3959d9-2dd8-3fc0-f350-b4ea98a10f38@yandex-team.ru">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><font size="+1"><font face="monospace">ping!</font></font><br>
-      </p>
-      <div class="moz-cite-prefix">On 19.07.2021 17:21, Denis Plotnikov
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:20210719142138.24543-1-den-plotnikov@yandex-team.ru">
-        <pre class="moz-quote-pre" wrap="">On vhost-user-blk migration, qemu normally sends a number of commands
-to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
-Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
-VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
-data logging.
-The issue is that qemu doesn't wait for reply from the vhost daemon
-for these commands which may result in races between qemu expectation
-of logging starting and actual login starting in vhost daemon.
+Still to review:
+ 03, 07, 10, 21, 26, and the new patches 36-53
 
-The race can appear as follows: on migration setup, qemu enables dirty page
-logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
-vhost-user-blk daemon immediately and the daemon needs some time to turn the
-logging on internally. If qemu doesn't wait for reply, after sending the
-command, qemu may start migrate memory pages to a destination. At this time,
-the logging may not be actually turned on in the daemon but some guest pages,
-which the daemon is about to write to, may have already been transferred
-without logging to the destination. Since the logging wasn't turned on,
-those pages won't be transferred again as dirty. So we may end up with
-corrupted data on the destination.
-The same scenario is applicable for "used ring" data logging, which is
-turned on with VHOST_USER_SET_VRING_ADDR command.
+thanks
+-- PMM
 
-To resolve this issue, this patch makes qemu wait for the commands result
-explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
-logging is enabled.
+Peter Maydell (53):
+  target/arm: Note that we handle VMOVL as a special case of VSHLL
+  target/arm: Print MVE VPR in CPU dumps
+  target/arm: Fix MVE VSLI by 0 and VSRI by <dt>
+  target/arm: Fix signed VADDV
+  target/arm: Fix mask handling for MVE narrowing operations
+  target/arm: Fix 48-bit saturating shifts
+  target/arm: Fix MVE 48-bit SQRSHRL for small right shifts
+  target/arm: Fix calculation of LTP mask when LR is 0
+  target/arm: Factor out mve_eci_mask()
+  target/arm: Fix VPT advance when ECI is non-zero
+  target/arm: Fix VLDRB/H/W for predicated elements
+  target/arm: Implement MVE VMULL (polynomial)
+  target/arm: Implement MVE incrementing/decrementing dup insns
+  target/arm: Factor out gen_vpst()
+  target/arm: Implement MVE integer vector comparisons
+  target/arm: Implement MVE integer vector-vs-scalar comparisons
+  target/arm: Implement MVE VPSEL
+  target/arm: Implement MVE VMLAS
+  target/arm: Implement MVE shift-by-scalar
+  target/arm: Move 'x' and 'a' bit definitions into vmlaldav formats
+  target/arm: Implement MVE integer min/max across vector
+  target/arm: Implement MVE VABAV
+  target/arm: Implement MVE narrowing moves
+  target/arm: Rename MVEGenDualAccOpFn to MVEGenLongDualAccOpFn
+  target/arm: Implement MVE VMLADAV and VMLSLDAV
+  target/arm: Implement MVE VMLA
+  target/arm: Implement MVE saturating doubling multiply accumulates
+  target/arm: Implement MVE VQABS, VQNEG
+  target/arm: Implement MVE VMAXA, VMINA
+  target/arm: Implement MVE VMOV to/from 2 general-purpose registers
+  target/arm: Implement MVE VPNOT
+  target/arm: Implement MVE VCTP
+  target/arm: Implement MVE scatter-gather insns
+  target/arm: Implement MVE scatter-gather immediate forms
+  target/arm: Implement MVE interleaving loads/stores
+  target/arm: Implement MVE VADD (floating-point)
+  target/arm: Implement MVE VSUB, VMUL, VABD, VMAXNM, VMINNM
+  target/arm: Implement MVE VCADD
+  target/arm: Implement MVE VFMA and VFMS
+  target/arm: Implement MVE VCMUL and VCMLA
+  target/arm: Implement MVE VMAXNMA and VMINNMA
+  target/arm: Implement MVE scalar fp insns
+  target/arm: Implement MVE fp-with-scalar VFMA, VFMAS
+  softfloat: Remove assertion preventing silencing of NaN in default-NaN
+    mode
+  target/arm: Implement MVE FP max/min across vector
+  target/arm: Implement MVE fp vector comparisons
+  target/arm: Implement MVE fp scalar comparisons
+  target/arm: Implement MVE VCVT between floating and fixed point
+  target/arm: Implement MVE VCVT between fp and integer
+  target/arm: Implement MVE VCVT with specified rounding mode
+  target/arm: Implement MVE VCVT between single and half precision
+  target/arm: Implement MVE VRINT insns
+  target/arm: Enable MVE in Cortex-M55
 
-Signed-off-by: Denis Plotnikov <a class="moz-txt-link-rfc2396E" href="mailto:den-plotnikov@yandex-team.ru" moz-do-not-send="true">&lt;den-plotnikov@yandex-team.ru&gt;</a>
----
-v1 -&gt; v2:
-  * send reply only when logging is enabled [mst]
+ docs/system/arm/emulation.rst  |    1 +
+ target/arm/helper-mve.h        |  425 +++++++
+ target/arm/translate-a32.h     |    2 +
+ target/arm/translate.h         |    6 +
+ target/arm/vec_internal.h      |   11 +
+ target/arm/mve.decode          |  463 +++++++-
+ target/arm/t32.decode          |    1 +
+ target/arm/cpu.c               |    3 +
+ target/arm/cpu_tcg.c           |    7 +-
+ target/arm/mve_helper.c        | 1899 +++++++++++++++++++++++++++++++-
+ target/arm/translate-mve.c     | 1154 ++++++++++++++++++-
+ target/arm/translate-neon.c    |    6 -
+ target/arm/translate-vfp.c     |    2 +-
+ target/arm/translate.c         |   33 +
+ target/arm/vec_helper.c        |   14 +-
+ fpu/softfloat-specialize.c.inc |    1 -
+ 16 files changed, 3911 insertions(+), 117 deletions(-)
 
-v0 -&gt; v1:
-  * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
-  
- hw/virtio/vhost-user.c | 37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
+-- 
+2.20.1
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index ee57abe04526..133588b3961e 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1095,6 +1095,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
-     return 0;
- }
- 
-+static bool log_enabled(uint64_t features)
-+{
-+    return !!(features &amp; (0x1ULL &lt;&lt; VHOST_F_LOG_ALL));
-+}
-+
- static int vhost_user_set_vring_addr(struct vhost_dev *dev,
-                                      struct vhost_vring_addr *addr)
- {
-@@ -1105,10 +1110,21 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
-         .hdr.size = sizeof(msg.payload.addr),
-     };
- 
-+    bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
-+                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+
-+    if (reply_supported &amp;&amp; log_enabled(msg.hdr.flags)) {
-+        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+    }
-+
-     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
-         return -1;
-     }
- 
-+    if (msg.hdr.flags &amp; VHOST_USER_NEED_REPLY_MASK) {
-+        return process_message_reply(dev, &amp;msg);
-+    }
-+
-     return 0;
- }
- 
-@@ -1288,7 +1304,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
-     return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
- }
- 
--static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
-+static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
-+                              bool need_reply)
- {
-     VhostUserMsg msg = {
-         .hdr.request = request,
-@@ -1297,23 +1314,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
-         .hdr.size = sizeof(msg.payload.u64),
-     };
- 
-+    if (need_reply) {
-+        bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
-+                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+        if (reply_supported) {
-+            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+        }
-+    }
-+
-     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
-         return -1;
-     }
- 
-+    if (msg.hdr.flags &amp; VHOST_USER_NEED_REPLY_MASK) {
-+        return process_message_reply(dev, &amp;msg);
-+    }
-+
-     return 0;
- }
- 
- static int vhost_user_set_features(struct vhost_dev *dev,
-                                    uint64_t features)
- {
--    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
-+                              log_enabled(features));
- }
- 
- static int vhost_user_set_protocol_features(struct vhost_dev *dev,
-                                             uint64_t features)
- {
--    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
-+                              false);
- }
- 
- static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------78D4F04C895957C03848F88E--
 
