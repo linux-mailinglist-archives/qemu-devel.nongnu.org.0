@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C003DBDAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 19:24:58 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142523DBE11
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:05:06 +0200 (CEST)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9WFk-0003y0-RC
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 13:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48770)
+	id 1m9Wsb-0005PD-3Q
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:05:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m9WEd-00037r-4Q
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 13:23:47 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:36111)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m9WEb-0001BE-9H
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 13:23:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A5D071FF85;
- Fri, 30 Jul 2021 17:23:42 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 30 Jul
- 2021 19:23:41 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00571445348-5dbb-4d86-9bcd-2e6589db47c6,
- 76D9A100687C30740A262902056384F06FAB8BF1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Subject: Re: [PATCH for-6.2 07/43] target/ppc: Set fault address in
- ppc_cpu_do_unaligned_access
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-8-richard.henderson@linaro.org>
- <CAFEAcA-SHZbfEppKBZxVw3+t4VRSRfN7yA4PNNHX9LQ=OkKhjw@mail.gmail.com>
- <b20e658f-f400-3921-a31e-25c0e8451b1e@linaro.org>
- <e77dc226-68e9-a48c-7e73-06ab0f89f845@kaod.org>
-Message-ID: <33efa829-f154-a96d-ab1b-09f3e79a37a0@kaod.org>
-Date: Fri, 30 Jul 2021 19:23:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ctcaulfield@gmail.com>)
+ id 1m9WQl-0005rA-DP
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 13:36:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ctcaulfield@gmail.com>)
+ id 1m9WQj-0001FL-Lk
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 13:36:19 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id c16so12229575wrp.13
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 10:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Nf3h1OxKy8AcQZZllhsu8E3lrraWWb6LtpR+6pWA6IA=;
+ b=B8j7omgsMZOSBRDuNZCyBZI2yaR9rzxye6U2tw7tVyPiG7QpT/6NH+CKMH8tZCKqtr
+ NDm/eWlB6CVq32Blmd3NY0FFoflcBh0iYlJyty5O7joY1hE821b8QpDHz3uP3QyC3w3J
+ aVWRB3+1sSgi5h7v02zPhPi7m9rZaqM9/imUmYfaRUrs/kM4zaal9+3WWTJUGZQr6zDc
+ fluCbobEXizcDebUXyZCjmsCUbiKE3uWENq7LTc9YTYSCANMAFVXIMbcOVRdymaOqOFp
+ HdSjsukf0v7jbkwSYmbop+Lv8sXfKwPm+Dy586ncSqXrs93P3+5Tzjq02mZIBNmWICvb
+ kU4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Nf3h1OxKy8AcQZZllhsu8E3lrraWWb6LtpR+6pWA6IA=;
+ b=aOAE99y59lNfXYi75F3ILkEc/9Qg9h+PHRO76RwvIsYW5qUrM3N4tSjQSf2ma4v0sR
+ FWXG9X/LbGbeZOI4dRmagVwCalfEn2PYQ/FAyEBgdzEmmXGMsfjdmszJfShL6oGtPsMo
+ jGC4DhJ/m9cDw/msqbeUu4MdlIemv7MJ6K5AJuoJ1U+uxG97cI2lIEmjbkNfDHPufsdq
+ 3d9L8Omz3YhinHzsAHGMMaG82uZ90PexUkG5Tj3Y0c8isn5aArg3Z7La4MKs6wmw5yF6
+ K6fugiGncDeInJbwbJDLjqCJDFA+iYJLZbhYSR8MXIaCJUUVkUmjlkRU/t+hEtR41zVL
+ +TOg==
+X-Gm-Message-State: AOAM533RDLdM3AdhrB4nE83QSDZ/Q5aWdAVkaxbiacUB1eGXU79bdt9C
+ Wc4z2SoGGoPlrdpQQSvP/+mIFBkzR+b2MnGmnCl5e9j0GVsYIw==
+X-Google-Smtp-Source: ABdhPJycNgbaQzJoJxVPsYMgGUwgBim9NTxx3x5LMlI9cDGc3XNvfVtQbjdz/B8gZhVOovtg3e+La5KTU0nG7DZ+RnI=
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr4199279wrp.155.1627666575468; 
+ Fri, 30 Jul 2021 10:36:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e77dc226-68e9-a48c-7e73-06ab0f89f845@kaod.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 42850b3b-c3bf-4215-a506-6549a261a234
-X-Ovh-Tracer-Id: 3863525530755107808
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrheehgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffhvfhfkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeelvdffieekfedufedvgefhfeffffffvdelffehvdfhfffggeeiveejjeekudfgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrgh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+From: Christopher Caulfield <ctcaulfield@gmail.com>
+Date: Fri, 30 Jul 2021 10:36:01 -0700
+Message-ID: <CAGu1Vjjot17roFD-YTWmQcDhhMD=Lzi3b3Q51cHNRnz+6JT_HQ@mail.gmail.com>
+Subject: QEMU on x64
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000000b2dd905c85aa8c6"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=ctcaulfield@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.125,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 30 Jul 2021 14:03:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +74,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: alexsmendez@live.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/30/21 7:13 PM, Cédric Le Goater wrote:
-> On 7/29/21 8:05 PM, Richard Henderson wrote:
->> On 7/29/21 3:44 AM, Peter Maydell wrote:
->>> On Thu, 29 Jul 2021 at 01:51, Richard Henderson
->>> <richard.henderson@linaro.org> wrote:
->>>>
->>>> We ought to have been recording the virtual address for reporting
->>>> to the guest trap handler.
->>>>
->>>> Cc: qemu-ppc@nongnu.org
->>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>> ---
->>>>   target/ppc/excp_helper.c | 2 ++
->>>>   1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>>> index a79a0ed465..0b2c6de442 100644
->>>> --- a/target/ppc/excp_helper.c
->>>> +++ b/target/ppc/excp_helper.c
->>>> @@ -1503,6 +1503,8 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
->>>>       CPUPPCState *env = cs->env_ptr;
->>>>       uint32_t insn;
->>>>
->>>> +    env->spr[SPR_DAR] = vaddr;
->>>> +
->>>
->>> Is this the right SPR for all PPC variants? For instance the
->>> kernel's code in arch/powerpc/kernel/exceptions-64e.S looks
->>> in SPRN_DEAR, which is our SPR_BOOKE_DEAR or SPR_40x_DEAR.
-> 
-> Indeed :/
-> 
->> I have no idea.  I glanced through a handful of the mmu's, and looked at the current BookS docs, but that's certainly not all.
-> 
-> I took a look at some more and for instance, e300 uses DAR and e500, 405, 476 use DEAR. 
-> 
-> DAR should be consistent over the server processors.
+--0000000000000b2dd905c85aa8c6
+Content-Type: text/plain; charset="UTF-8"
+
+Hi QEMU community,
+
+This is Christopher from the debugging experiences team at Microsoft
+focused on kernel debugging. I am reaching out with a few questions about
+QEMU on x64.
 
 
-and  is_book3s_arch2x(env) is a good way to test.
+   1. Is it possible for the QEMU-x86-64 GDB Server to send the full set of
+   x64 system registers (whether they are included in a separated system xml
+   file or as part of the core registers xml file)?
+      - e.g. System registers missing from i386-64bit.xml file
 
-Thanks,
+      DWORD64 IDTBase;
+      DWORD64 IDTLimit;
+      DWORD64 GDTBase;
+      DWORD64 GDTLimit;
+      DWORD SelLDT;
+      SEG64_DESC_INFO SegLDT;
+      DWORD SelTSS;
+      SEG64_DESC_INFO SegTSS;
+      2. How can I access x64 MSR registers by using the QEMU-x86-64 GDB
+   server?
+      - #define MSR_EFER 0xc0000080 // extended function enable register
+      #define MSR_STAR 0xc0000081 // system call selectors
+      #define MSR_LSTAR 0xc0000082 // system call 64-bit entry
+      #define MSR_CSTAR 0xc0000083 // system call 32-bit entry
+   3. Going off of #2 - can you access it via reading GDB memory command?
+   if not - is there any plan to support reading/writing to MSRs via
+   QEMU-x86-64 GDB server?
 
-C. 
+
+Thank you for taking time to answer our questions! :)
+
+-Christopher
+LinkedIn <https://www.linkedin.com/in/ctcaulfield/> | Twitter
+<https://twitter.com/ctcaulfield>
+
+--0000000000000b2dd905c85aa8c6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi QEMU community,<br><br>This is Christopher from the deb=
+ugging experiences team at Microsoft focused on kernel debugging. I am reac=
+hing out with a few questions about QEMU on x64.<div><br></div><div><ol><li=
+>Is it possible for the QEMU-x86-64 GDB Server to send the full set of x64 =
+system registers (whether they are included in a separated system xml file =
+or as part of the core registers xml file)?</li><ul><li>e.g. System registe=
+rs missing from i386-64bit.xml file<br><br>DWORD64 IDTBase;<br>DWORD64 IDTL=
+imit;<br>DWORD64 GDTBase;<br>DWORD64 GDTLimit;<br>DWORD SelLDT;<br>SEG64_DE=
+SC_INFO SegLDT;<br>DWORD SelTSS;<br>SEG64_DESC_INFO SegTSS;<br></li></ul><l=
+i>How can I access x64 MSR registers by using the QEMU-x86-64 GDB server?</=
+li><ul><li>#define MSR_EFER 0xc0000080 // extended function enable register=
+<br>#define MSR_STAR 0xc0000081 // system call selectors<br>#define MSR_LST=
+AR 0xc0000082 // system call 64-bit entry<br>#define MSR_CSTAR 0xc0000083 /=
+/ system call 32-bit entry</li></ul><li>Going off of #2 - can you access it=
+ via reading GDB memory command? if not - is there any plan to support read=
+ing/writing to MSRs via QEMU-x86-64 GDB server?<br></li></ol></div><div><br=
+>Thank you for taking time to answer our questions! :)</div><div><br></div>=
+<div>-Christopher</div><div><a href=3D"https://www.linkedin.com/in/ctcaulfi=
+eld/">LinkedIn</a>=C2=A0| <a href=3D"https://twitter.com/ctcaulfield">Twitt=
+er</a></div></div>
+
+--0000000000000b2dd905c85aa8c6--
 
