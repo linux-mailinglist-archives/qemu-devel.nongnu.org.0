@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765CA3DBC4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:28:03 +0200 (CEST)
-Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208FD3DBC75
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:42:51 +0200 (CEST)
+Received: from localhost ([::1]:43676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9UQc-00038D-C5
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54598)
+	id 1m9Uev-0006kU-NC
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1m9UPm-0002Sl-Sk
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:27:11 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8100
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1m9UPj-00073I-DI
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:27:10 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16UF48rx113949; Fri, 30 Jul 2021 11:26:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=aqn/4Zx8ac2H9omLZN8L3X67iMOP2cqhlqgK7m+PP2o=;
- b=LhmshsnB/FjHUkyzcriapReEbfzSHqBZ9u6LNe7OOI5zH9hE+Fig4k1w+OTXiLo4j5E2
- s15sxeYexk4sZqOUJ7wR/JIdbPjo4khZarQi+krCWmE2ETAka7axijPpUCueIP8WLLeg
- uaNgGoAoY9+VTUAz5gQvR3JcEVSbUHYwERrhR98dqsj5a9lSN4vKt91Bri6Ug2Gv8n/x
- cgK55CvVyIPHkRN3k6/95abjaJxp9+LEXzQYRzj99668ciGosJPF/aSP6zpOqA6oYZrn
- NuZmg1c9MnNJ6s26EWDz1xWalXZFMvZiavrN3uGVw5X93eFQb6rVN4cyWgRu0+MdmHML xw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3a4jmb30ur-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Jul 2021 11:26:55 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16UF4rcP123030;
- Fri, 30 Jul 2021 11:26:55 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3a4jmb30u5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Jul 2021 11:26:55 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16UFQh5q002460;
- Fri, 30 Jul 2021 15:26:53 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04dal.us.ibm.com with ESMTP id 3a235stsad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Jul 2021 15:26:53 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16UFQqY933554924
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Jul 2021 15:26:53 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DAA34AE077;
- Fri, 30 Jul 2021 15:26:52 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 19D9CAE071;
- Fri, 30 Jul 2021 15:26:52 +0000 (GMT)
-Received: from [9.211.43.195] (unknown [9.211.43.195])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 30 Jul 2021 15:26:51 +0000 (GMT)
-Subject: Re: [PATCH] gitlab-ci.d/buildtest: Mark the aarch64 and ppc64-s390x
- CFI jobs as manual
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210728075141.400816-1-thuth@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <0a4da13e-2e38-53f3-4948-f2d1f23104e2@linux.vnet.ibm.com>
-Date: Fri, 30 Jul 2021 11:26:51 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m9UdQ-0005yf-VN
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:41:16 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m9UdP-00083k-1y
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:41:16 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d8so11837895wrm.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:41:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UVLNUt8YrBBaGocCmd5M2LTtHcvI1AgI32XF1W0ipvY=;
+ b=IRVlux8KYPQIkRIsa5qbXGkNtKbMRuBm2ZNEIR+9V0bNah3DntUp27hVplBCjMlyfQ
+ UjRstABY9V3eFH6qoWF69vNXhgmc/B58OM1XknmK2P6DkifsJ0LfT62GYh4mPSdhi6Is
+ 0seGJvgyBlZUxfr3quP/eKCTpihmHasKOIJUgGyd9ZZOq9nGv8H+Li91c27WX8gKjNkT
+ 6udS1wOmXE1ilXFqM7/uL53fuHLXRiEEVgEcVherpm5glu6TfrBd4n33KOtZkXsjBLKl
+ C67lSqHzflfRJ56Ww0oeTqsKxIDcsHa5t20g22XozuoxTyE8hNfmRauUiH/e/dZrFFfm
+ 2ldQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UVLNUt8YrBBaGocCmd5M2LTtHcvI1AgI32XF1W0ipvY=;
+ b=BgPJMAxIOVBhqnwjfQ4Ge26iOXXrrf5LVAN0nrzBTGbONT3uG7glDyVj+si9zzZYjb
+ xn3oEXufeVeLQdE4gmku6Pb4nPK3DWJAAuaojNmBSIh/P4GoM8QxFm3pWLg7b41WvooS
+ wML9z7DoXj8VZ3SZB27Xb5VecmlHTSkq281JCgVMLhwk7KRhPUOzkwEUmIRGn2lUdKYc
+ g2jSfl/hNPV5PQmFDHU5Cf2tgBoXRquZeLyy6q+LiQ+xOfytv+XCM/tcxMzfWPsyYg/G
+ EvBhpRnlvxkImz/XXYqZ9l5ujLzpkAhfHdMFCz5KL8QR7yy6da5MRdOkJNLnwxN+RlU5
+ HGig==
+X-Gm-Message-State: AOAM531t+EkrBvWKTqixjSEohrXCe0I1KDICKzRSMahJ3noekLtSJXMi
+ 8ClyTGwuLSlhhNggVZZnDt0=
+X-Google-Smtp-Source: ABdhPJyCIgvzccYRc1ZQikdTQTP11TqzJU3gowyWvSYJ59L7a+pIHplbCPECKoRMJYrriZoLTx5V2Q==
+X-Received: by 2002:adf:f44e:: with SMTP id f14mr3731513wrp.101.1627659673580; 
+ Fri, 30 Jul 2021 08:41:13 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id y197sm2285920wmc.7.2021.07.30.08.41.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 08:41:13 -0700 (PDT)
+Subject: Re: "make check-acceptance" takes way too long
+To: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a79d07ea-31a8-2a9d-37ec-317a61091c32@amsat.org>
+Date: Fri, 30 Jul 2021 17:41:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728075141.400816-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: t1dJqb2E-KTw0TCTabHq6VTlDC336-Bf
-X-Proofpoint-GUID: 00iiWmfeQ44A_Q4RY2CmdbxuoNMnnV-n
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-30_08:2021-07-30,
- 2021-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 clxscore=1011 malwarescore=0 suspectscore=0 impostorscore=0
- bulkscore=0 mlxlogscore=999 phishscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2107300099
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.125,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,58 +90,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I agree, making these manual tasks until we find a fix for this is the 
-only solution I can think of too.
+On 7/30/21 5:12 PM, Peter Maydell wrote:
+> "make check-acceptance" takes way way too long. I just did a run
+> on an arm-and-aarch64-targets-only debug build and it took over
+> half an hour, and this despite it skipping or cancelling 26 out
+> of 58 tests!
+> 
+> I think that ~10 minutes runtime is reasonable. 30 is not;
+> ideally no individual test would take more than a minute or so.
+> 
+> Output saying where the time went. The first two tests take
+> more than 10 minutes *each*. I think a good start would be to find
+> a way of testing what they're testing that is less heavyweight.
 
-Daniele
+IIRC the KVM forum BoF, we suggested a test shouldn't take more than
+60sec. But then it was borderline for some tests so we talked about
+allowing 90-120sec, and more should be discussed and documented.
 
-On 7/28/2021 3:51 AM, Thomas Huth wrote:
-> These two jobs are currently failing very often - the linker seems to
-> get killed due to out-of-memory problems. Since apparently nobody has
-> currently an idea how to fix that nicely, let's mark the jobs as manual
-> for the time being until someone comes up with a proper fix.
+However it was never documented / enforced.
+
+This seems to match my memory:
+
+$ git grep 'timeout =' tests/acceptance/
+tests/acceptance/avocado_qemu/__init__.py:440:    timeout = 900
+tests/acceptance/boot_linux_console.py:99:    timeout = 90
+tests/acceptance/boot_xen.py:26:    timeout = 90
+tests/acceptance/linux_initrd.py:27:    timeout = 300
+tests/acceptance/linux_ssh_mips_malta.py:26:    timeout = 150 # Not for
+'configure --enable-debug --enable-debug-tcg'
+tests/acceptance/machine_arm_canona1100.py:18:    timeout = 90
+tests/acceptance/machine_arm_integratorcp.py:34:    timeout = 90
+tests/acceptance/machine_arm_n8x0.py:20:    timeout = 90
+tests/acceptance/machine_avr6.py:25:    timeout = 5
+tests/acceptance/machine_m68k_nextcube.py:30:    timeout = 15
+tests/acceptance/machine_microblaze.py:14:    timeout = 90
+tests/acceptance/machine_mips_fuloong2e.py:18:    timeout = 60
+tests/acceptance/machine_mips_loongson3v.py:18:    timeout = 60
+tests/acceptance/machine_mips_malta.py:38:    timeout = 30
+tests/acceptance/machine_ppc.py:14:    timeout = 90
+tests/acceptance/machine_rx_gdbsim.py:22:    timeout = 30
+tests/acceptance/machine_s390_ccw_virtio.py:24:    timeout = 120
+tests/acceptance/machine_sparc64_sun4u.py:20:    timeout = 90
+tests/acceptance/machine_sparc_leon3.py:15:    timeout = 60
+tests/acceptance/migration.py:27:    timeout = 10
+tests/acceptance/ppc_prep_40p.py:18:    timeout = 60
+tests/acceptance/replay_kernel.py:34:    timeout = 120
+tests/acceptance/replay_kernel.py:357:    timeout = 180
+tests/acceptance/reverse_debugging.py:33:    timeout = 10
+tests/acceptance/tcg_plugins.py:24:    timeout = 120
+
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   .gitlab-ci.d/buildtest.yml | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 63f1903f07..3537c6f1a1 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -416,6 +416,12 @@ build-cfi-aarch64:
->       expire_in: 2 days
->       paths:
->         - build
-> +  rules:
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constraint containers of the shared runners. Thus this is marked as
-> +    # manual until the situation has been solved.
-> +    - when: manual
-> +      allow_failure: true
-> 
->   check-cfi-aarch64:
->     extends: .native_test_job_template
-> @@ -452,6 +458,12 @@ build-cfi-ppc64-s390x:
->       expire_in: 2 days
->       paths:
->         - build
-> +  rules:
-> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
-> +    # the constraint containers of the shared runners. Thus this is marked as
-> +    # manual until the situation has been solved.
-> +    - when: manual
-> +      allow_failure: true
-> 
->   check-cfi-ppc64-s390x:
->     extends: .native_test_job_template
-> 
+>  (01/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2:
+> PASS (629.74 s)
+>  (02/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3:
+> PASS (628.75 s)
+>  (03/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm:
+> CANCEL: kvm accelerator does not seem to be available (1.18 s)
+
+We could restrict these to one of the projects runners (x86 probably)
+with something like:
+
+  @skipUnless(os.getenv('X86_64_RUNNER_AVAILABLE'), '...')
+
+>  (15/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+> PASS (4.86 s)
+>  (16/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+> PASS (39.85 s)
+>  (17/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+> PASS (53.57 s)
+>  (18/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08:
+> SKIP: storage limited
+>  (19/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9:
+> SKIP: storage limited
+
+I've been thinking about restricting them to my sdmmc-tree, but if
+I don't send pull-req I won't test or catch other introducing
+regressions. They respect the 60sec limit.
+
+We could restrict some jobs to maintainers fork namespace, track
+mainstream master branch and either run the pipelines when /master
+is updated or regularly
+(https://docs.gitlab.com/ee/ci/pipelines/schedules.html)
+but them if the maintainer becomes busy / idle / inactive we
+similarly won't catch regressions in mainstream.
+
+Anyway Daniel already studied the problem and send a RFC but we
+ignored it:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg761087.html
+
+Maybe worth continuing the discussion there?
 
