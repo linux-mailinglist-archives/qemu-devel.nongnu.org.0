@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A903DB0A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 03:28:14 +0200 (CEST)
-Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6328E3DB0A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 03:29:00 +0200 (CEST)
+Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9HJt-0000i1-4K
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 21:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42566)
+	id 1m9HKd-0002QQ-G7
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 21:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <caihuoqing@baidu.com>)
- id 1m9HIR-0007T6-5w
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:26:43 -0400
-Received: from mx20.baidu.com ([111.202.115.85]:49252 helo=baidu.com)
+ id 1m9HJM-0000oQ-Ov
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:27:40 -0400
+Received: from mx20.baidu.com ([111.202.115.85]:50232 helo=baidu.com)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <caihuoqing@baidu.com>) id 1m9HIM-0002mg-9U
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:26:40 -0400
-Received: from Bc-Mail-Ex13.internal.baidu.com (unknown [172.31.51.53])
- by Forcepoint Email with ESMTPS id 6CE625A7E7CFFDF330AE;
- Fri, 30 Jul 2021 09:26:28 +0800 (CST)
+ (envelope-from <caihuoqing@baidu.com>) id 1m9HJK-0003XX-8Z
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:27:40 -0400
+Received: from BC-Mail-Ex11.internal.baidu.com (unknown [172.31.51.51])
+ by Forcepoint Email with ESMTPS id 1E8237DC09D97BF63C8C;
+ Fri, 30 Jul 2021 09:27:27 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- Bc-Mail-Ex13.internal.baidu.com (172.31.51.53) with Microsoft SMTP Server
+ BC-Mail-Ex11.internal.baidu.com (172.31.51.51) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 30 Jul 2021 09:26:28 +0800
+ 15.1.2242.12; Fri, 30 Jul 2021 09:27:26 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 30 Jul 2021 09:26:28 +0800
+ 15.1.2308.14; Fri, 30 Jul 2021 09:27:26 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
-To: <alex.williamson@redhat.com>
-Subject: [PATCH] hw/vfio: Fix typo in comments
-Date: Fri, 30 Jul 2021 09:26:13 +0800
-Message-ID: <20210730012613.2198-1-caihuoqing@baidu.com>
+To: <kraxel@redhat.com>
+Subject: [PATCH] hw/usb: Fix typo in comments and print
+Date: Fri, 30 Jul 2021 09:27:20 +0800
+Message-ID: <20210730012720.2246-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -63,92 +63,145 @@ Cc: Cai Huoqing <caihuoqing@baidu.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix typo in comments:
-*programatically  ==> programmatically
-*disconecting  ==> disconnecting
-*mulitple  ==> multiple
-*timout  ==> timeout
-*regsiter  ==> register
-*forumula  ==> formula
+Fix typo:
+*informations  ==> information
+*enougth  ==> enough
+*enouth  ==> enough
+*registy  ==> registry
+*releated  ==> related
+*Ouptut  ==> Output
+*manualy  ==> manually
+*Attemping  ==> Attempting
+*contine  ==> continue
+*tranceiver  ==> transceiver
+*Tranceiver  ==> Transceiver
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- hw/vfio/igd.c        | 2 +-
- hw/vfio/pci-quirks.c | 2 +-
- hw/vfio/pci.c        | 6 +++---
- hw/vfio/platform.c   | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ hw/usb/desc-msos.c       | 10 +++++-----
+ hw/usb/desc.h            |  2 +-
+ hw/usb/dev-audio.c       |  4 ++--
+ hw/usb/host-libusb.c     |  2 +-
+ hw/usb/quirks-ftdi-ids.h |  4 ++--
+ hw/usb/u2f-emulated.c    |  2 +-
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/vfio/igd.c b/hw/vfio/igd.c
-index 470205f487..d4685709a3 100644
---- a/hw/vfio/igd.c
-+++ b/hw/vfio/igd.c
-@@ -557,7 +557,7 @@ void vfio_probe_igd_bar4_quirk(VFIOPCIDevice *vdev, int nr)
-      * must allocate a 1MB aligned reserved memory region below 4GB with
-      * the requested size (in bytes) for use by the Intel PCI class VGA
-      * device at VM address 00:02.0.  The base address of this reserved
--     * memory region must be written to the device BDSM regsiter at PCI
-+     * memory region must be written to the device BDSM register at PCI
-      * config offset 0x5C.
-      */
-     bdsm_size = g_malloc(sizeof(*bdsm_size));
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index e21a6ede11..0cf69a8c6d 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -1356,7 +1356,7 @@ static bool vfio_radeon_smc_is_running(VFIOPCIDevice *vdev)
+diff --git a/hw/usb/desc-msos.c b/hw/usb/desc-msos.c
+index 836e38c67e..c72c65b650 100644
+--- a/hw/usb/desc-msos.c
++++ b/hw/usb/desc-msos.c
+@@ -5,12 +5,12 @@
  /*
-  * The scope of a config reset is controlled by a mode bit in the misc register
-  * and a fuse, exposed as a bit in another register.  The fuse is the default
-- * (0 = GFX, 1 = whole GPU), the misc bit is a toggle, with the forumula
-+ * (0 = GFX, 1 = whole GPU), the misc bit is a toggle, with the formula
-  * scope = !(misc ^ fuse), where the resulting scope is defined the same as
-  * the fuse.  A truth table therefore tells us that if misc == fuse, we need
-  * to flip the value of the bit in the misc register.
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index e1ea1d8a23..4feaa1cb68 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -1364,7 +1364,7 @@ static void vfio_pci_relocate_msix(VFIOPCIDevice *vdev, Error **errp)
-          * TODO: Lookup table for known devices.
-          *
-          * Logically we might use an algorithm here to select the BAR adding
--         * the least additional MMIO space, but we cannot programatically
-+         * the least additional MMIO space, but we cannot programmatically
-          * predict the driver dependency on BAR ordering or sizing, therefore
-          * 'auto' becomes a lookup for combinations reported to work.
-          */
-@@ -2158,7 +2158,7 @@ static void vfio_pci_pre_reset(VFIOPCIDevice *vdev)
-     }
- 
-     /*
--     * Stop any ongoing DMA by disconecting I/O, MMIO, and bus master.
-+     * Stop any ongoing DMA by disconnecting I/O, MMIO, and bus master.
-      * Also put INTx Disable in known state.
-      */
-     cmd = vfio_pci_read_config(pdev, PCI_COMMAND, 2);
-@@ -2384,7 +2384,7 @@ out_single:
- }
- 
- /*
-- * We want to differentiate hot reset of mulitple in-use devices vs hot reset
-+ * We want to differentiate hot reset of multiple in-use devices vs hot reset
-  * of a single in-use device.  VFIO_DEVICE_RESET will already handle the case
-  * of doing hot resets when there is only a single device per bus.  The in-use
-  * here refers to how many VFIODevices are affected.  A hot reset that affects
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index cc3f66f7e4..f8f08a0f36 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -156,7 +156,7 @@ static void vfio_mmap_set_enabled(VFIOPlatformDevice *vdev, bool enabled)
-  * if there is no more active IRQ
-  * @opaque: actually points to the VFIO platform device
+  * Microsoft OS Descriptors
   *
-- * Called on mmap timer timout, this function checks whether the
-+ * Called on mmap timer timeout, this function checks whether the
-  * IRQ is still active and if not, restores the fast path.
-  * by construction a single eventfd is handled at a time.
-  * if the IRQ is still active, the timer is re-programmed.
+- * Windows tries to fetch some special descriptors with informations
++ * Windows tries to fetch some special descriptors with information
+  * specifically for windows.  Presence is indicated using a special
+  * string @ index 0xee.  There are two kinds of descriptors:
+  *
+  * compatid descriptor
+- *   Used to bind drivers, if usb class isn't specific enougth.
++ *   Used to bind drivers, if usb class isn't specific enough.
+  *   Used for PTP/MTP for example (both share the same usb class).
+  *
+  * properties descriptor
+@@ -23,7 +23,7 @@
+  *   HLM\SYSTEM\CurrentControlSet\Control\usbflags
+  *   HLM\SYSTEM\CurrentControlSet\Enum\USB
+  * Windows will complain it can't delete entries on the second one.
+- * It has deleted everything it had permissions too, which is enouth
++ * It has deleted everything it had permissions too, which is enough
+  * as this includes "Device Parameters".
+  *
+  * http://msdn.microsoft.com/en-us/library/windows/hardware/ff537430.aspx
+@@ -192,8 +192,8 @@ static int usb_desc_msos_prop(const USBDesc *desc, uint8_t *dest)
+     if (desc->msos->SelectiveSuspendEnabled) {
+         /*
+          * Signaling remote wakeup capability in the standard usb
+-         * descriptors isn't enouth to make windows actually use it.
+-         * This is the "Yes, we really mean it" registy entry to flip
++         * descriptors isn't enough to make windows actually use it.
++         * This is the "Yes, we really mean it" registry entry to flip
+          * the switch in the windows drivers.
+          */
+         length += usb_desc_msos_prop_dword(dest+length,
+diff --git a/hw/usb/desc.h b/hw/usb/desc.h
+index 4d81c68e0e..3ac604ecfa 100644
+--- a/hw/usb/desc.h
++++ b/hw/usb/desc.h
+@@ -133,7 +133,7 @@ struct USBDescConfig {
+     const USBDescIface        *ifs;
+ };
+ 
+-/* conceptually an Interface Association Descriptor, and releated interfaces */
++/* conceptually an Interface Association Descriptor, and related interfaces */
+ struct USBDescIfaceAssoc {
+     uint8_t                   bFirstInterface;
+     uint8_t                   bInterfaceCount;
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index f5cb246792..8748c1ba04 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -168,7 +168,7 @@ static const USBDescIface desc_iface[] = {
+                     STRING_FEATURE_UNIT,        /*  u8  iFeature */
+                 }
+             },{
+-                /* Headphone Ouptut Terminal ID3 Descriptor */
++                /* Headphone Output Terminal ID3 Descriptor */
+                 .data = (uint8_t[]) {
+                     0x09,                       /*  u8  bLength */
+                     USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
+@@ -332,7 +332,7 @@ static const USBDescIface desc_iface_multi[] = {
+                     STRING_FEATURE_UNIT,        /*  u8  iFeature */
+                 }
+             },{
+-                /* Headphone Ouptut Terminal ID3 Descriptor */
++                /* Headphone Output Terminal ID3 Descriptor */
+                 .data = (uint8_t[]) {
+                     0x09,                       /*  u8  bLength */
+                     USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index c0f314462a..080fb73be6 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -1675,7 +1675,7 @@ static void usb_host_free_streams(USBDevice *udev, USBEndpoint **eps,
+ /*
+  * This is *NOT* about restoring state.  We have absolutely no idea
+  * what state the host device is in at the moment and whenever it is
+- * still present in the first place.  Attemping to contine where we
++ * still present in the first place.  Attempting to continue where we
+  * left off is impossible.
+  *
+  * What we are going to do here is emulate a surprise removal of
+diff --git a/hw/usb/quirks-ftdi-ids.h b/hw/usb/quirks-ftdi-ids.h
+index 01aca55ca7..f3cb157d6f 100644
+--- a/hw/usb/quirks-ftdi-ids.h
++++ b/hw/usb/quirks-ftdi-ids.h
+@@ -625,9 +625,9 @@
+  * Definitions for Icom Inc. devices
+  */
+ #define ICOM_VID		0x0C26 /* Icom vendor ID */
+-/* Note: ID-1 is a communications tranceiver for HAM-radio operators */
++/* Note: ID-1 is a communications transceiver for HAM-radio operators */
+ #define ICOM_ID_1_PID		0x0004 /* ID-1 USB to RS-232 */
+-/* Note: OPC is an Optional cable to connect an Icom Tranceiver */
++/* Note: OPC is an Optional cable to connect an Icom Transceiver */
+ #define ICOM_OPC_U_UC_PID	0x0018 /* OPC-478UC, OPC-1122U cloning cable */
+ /* Note: ID-RP* devices are Icom Repeater Devices for HAM-radio */
+ #define ICOM_ID_RP2C1_PID	0x0009 /* ID-RP2C Asset 1 to RS-232 */
+diff --git a/hw/usb/u2f-emulated.c b/hw/usb/u2f-emulated.c
+index 9151feb63d..63cceaa5fc 100644
+--- a/hw/usb/u2f-emulated.c
++++ b/hw/usb/u2f-emulated.c
+@@ -307,7 +307,7 @@ static void u2f_emulated_realize(U2FKeyState *base, Error **errp)
+             rc = u2f_emulated_setup_vdev_manualy(key);
+         } else {
+             error_setg(errp, "%s: cert, priv, entropy and counter "
+-                       "parameters must be provided to manualy configure "
++                       "parameters must be provided to manually configure "
+                        "the emulated device", TYPE_U2F_EMULATED);
+             return;
+         }
 -- 
 2.25.1
 
