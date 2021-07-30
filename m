@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8E33DB01C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 02:02:44 +0200 (CEST)
-Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D1E3DB095
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 03:22:37 +0200 (CEST)
+Received: from localhost ([::1]:58634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Fz9-0004aO-GS
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 20:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
+	id 1m9HER-00052Q-Vr
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 21:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Fxr-0003sr-1H
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 20:01:23 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53142)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m9HDK-00049K-3j
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:21:26 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:43982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Fxp-0003l8-EN
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 20:01:22 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id nh14so838700pjb.2
- for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 17:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jmfaji+9M/QC/wTT+8FBRce+Fu/vs2mWCLqtmeZ4Wrs=;
- b=T1fohr2z3qw+DajeU7gQdW2GaaZVIWM11rbVQKZTG6iRDv1IsC7tSk4Bj6VJvxo+fB
- zKSFMxpbNiKIhcAywviTiuwVucnKPMQy72HVwESKK3QM/5PlE4ZpTxLuCByJcmU2J3w4
- 85KCG17EaPOjnjcmulVyYqQJ7OZgc9Cf6E1IS9MPpBnQNgQsTfCLRZd0lzxUf1qdGorV
- 70l8FtFM+rFRqnL83MmKFPFxRPxmTOsAwrO/mxow3oE2JvyIvGI5KwT4qOZTE8vP8BdQ
- B5CgD4t2yipeFTX79+fTb5Notzlo02/fJxaPTKyNwu0xOelkHGGN1A/oBISgkYyFb0kl
- O2sA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m9HDI-0007r4-Gx
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 21:21:25 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id d73so13182951ybc.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 18:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=MjFCNw3ZWIUq/Mm1BOe3TbOyZLPtVZi6FwOLJG9BWuw=;
+ b=DWWazVvIcPW37xUxZeS+iUx4aKwzDRwZ6CxNGSlsS0XXIWqsnBkeQ2cyxpnkWpgwNT
+ yEPVd3yp55rYLwkPTQhdYCAn3QnESG86DHaC4AxjHivtPan+RE96XHF2wA2ZKZ9ep51i
+ BTKtiLJc0oHen1TiyJIXbYcJaoEehSqI662tFwZAzc3d19V0sGMFyn9EAqJCOrPMQs2H
+ +t2LYbb4v+UAsynrEcIWZgPv8XqZJeUhmh+aynpQCEfZjorkY6dX71P2cfKk4wWKTBL5
+ OhgTGEntbUbc0M/AX9x7B3oDbwNKk5EI+WcoWawqT75VIzcdiz465npGB8D3JFJtDMDb
+ 8L4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jmfaji+9M/QC/wTT+8FBRce+Fu/vs2mWCLqtmeZ4Wrs=;
- b=PsH6+5IY7Fow2djFidoLq2HkNMzBOvETgTeNNnZjajK9xVi+kiwCyfrmNNNdDT/p63
- llVji3J+lnfYjdeeQpZxNT/QOfowoEHaPMok+JscCdxWa3JT5YtwABj3Ys25FAnym7zy
- c5sVK0AUWrrtfpH6Co8a4q49+GMdONQ4EYySodlA7tqqBbUO61beThwadZmDR5kN8MuI
- 2ScxdKN4cFCpsKtUyQM/9SRW6hJkEtONNQDsGbP70jdy6HlGTlBovxbEx4+GNtvLIMea
- z+RBfoAu89bFo0SPIv1KaRMLDXqyAOV+Dd0FUtOtIpYghI2elKfiLuITICvs8EknDK0z
- NE2Q==
-X-Gm-Message-State: AOAM533fD57NpnkaZJ2MLq3LYo5p1xEu2AKvKZp0K5SpGqucoGQnzBbk
- N8ESePSnMDyMgDIWM7txL79aTQ==
-X-Google-Smtp-Source: ABdhPJwyqPqyYEh2SmlifUi7S3yQPUra5Yhe6ehxK8XCdihQ23k83OMJot3HyVh4dsDP98vIy/NTZg==
-X-Received: by 2002:a17:90a:d18d:: with SMTP id
- fu13mr7268pjb.206.1627603278888; 
- Thu, 29 Jul 2021 17:01:18 -0700 (PDT)
-Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
- (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
- [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id x26sm4828346pfj.71.2021.07.29.17.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 17:01:18 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 12/43] target/sh4: Implement do_unaligned_access
- for user-only
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-13-richard.henderson@linaro.org>
- <CAFEAcA9yrj7OZPkeZ2jUqAV4+ULVYm4++y6kXeK2_MC8gR3-bg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3318f1ba-0963-155d-4fe7-3de9bf7ee0f6@linaro.org>
-Date: Thu, 29 Jul 2021 14:01:15 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=MjFCNw3ZWIUq/Mm1BOe3TbOyZLPtVZi6FwOLJG9BWuw=;
+ b=Qt9dYIV7/QICkyUl0ZFQgM/ZL1N+xJc3/X6Fxv5lJ92395pxlKaylM7Lyx7233IOKW
+ gJJqDCRd9W47Y0Knl7ly2zLcZX36RJjhMGl3UQlk8eQFb8tnRyXoUS7pVnKI7/A0eLnb
+ GIIz2n13bQiKIFjeLT6n9EtEIIDQYY+wbMEfhbn5IDVO4W/vB3W3rGhLU/KWkmb9MdgM
+ P4mI+9buP0w+mAWXgmCzaDVdZSDOhc8a8dvBtQ97gV72+7TZoqZT5R2r0SrSncvT4b66
+ tItynO4YG7Ovn3StsI/ucXKcnFAmISBX5eknTrUU8wxFC4GD+ytPZ0okqziki8vGwlyn
+ 0BkQ==
+X-Gm-Message-State: AOAM532MUlPXEsgbT/Izx1z9tssEjp/FnM/ovfXsII92FrGsND3mZBa+
+ r9lpfvPkUDs1WtqalDXufp9cMExG4ZyeOs8CAEc=
+X-Google-Smtp-Source: ABdhPJztMLqjI+VATgXawJOUVvgDpM73R3AhhTXWZ6YFWuIPVWm9cm23Cwn9vbG/YQZY+cGGQqRHCd+PpQUi9LWDSmE=
+X-Received: by 2002:a25:bb08:: with SMTP id z8mr10966978ybg.306.1627608083274; 
+ Thu, 29 Jul 2021 18:21:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9yrj7OZPkeZ2jUqAV4+ULVYm4++y6kXeK2_MC8gR3-bg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20210723075512.84897-1-bmeng.cn@gmail.com>
+ <20210723075512.84897-2-bmeng.cn@gmail.com>
+In-Reply-To: <20210723075512.84897-2-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 30 Jul 2021 09:21:12 +0800
+Message-ID: <CAEUhbmVcAj+Je=ynuPCaOLwsgq6a-XhTEk3KTH=AJFEnXCcPhg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] hw/net: e1000e: Correct the initial value of VET
+ register
+To: Jason Wang <jasowang@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,26 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Linux-sh list <linux-sh@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 3:52 AM, Peter Maydell wrote:
-> sh4 kernel default for unaligned accesses seems to be "warn and fixup",
-> not SIGBUS, unless the user changes that by writing to /proc/cpu/alignment
-> or the process changes it via prctl().
+Hi Jason,
 
-We will still need this for load-locked/store-conditional (MOVLI/MOVCO).
+On Fri, Jul 23, 2021 at 3:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Christina Wang <christina.wang@windriver.com>
+>
+> The initial value of VLAN Ether Type (VET) register is 0x8100, as per
+> the manual and real hardware.
+>
+> While Linux e1000e driver always writes VET register to 0x8100, it is
+> not always the case for everyone. Drivers relying on the reset value
+> of VET won't be able to transmit and receive VLAN frames in QEMU.
+>
+> Unlike e1000 in QEMU, e1000e uses a field 'vet' in "struct E1000Core"
+> to cache the value of VET register, but the cache only gets updated
+> when VET register is written. To always get a consistent VET value
+> no matter VET is written or remains its reset value, drop the 'vet'
+> field and use 'core->mac[VET]' directly.
+>
+> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+> Signed-off-by: Christina Wang <christina.wang@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> ---
+>
+> Changes in v4:
+> - Only keep hw_compat_6_0[] changes
+>
+> Changes in v3:
+> - add a "init-vet" property for versioned machines
+>
+> Changes in v2:
+> - keep the 'vet' field in "struct E1000Core" for migration compatibility
+>
+>  hw/core/machine.c    | 1 +
+>  hw/net/e1000e.c      | 8 +++++++-
+>  hw/net/e1000e_core.c | 9 ++++-----
+>  3 files changed, 12 insertions(+), 6 deletions(-)
+>
 
-It appears that the sh4 kernel fails to decode these properly, and will do something ugly, 
-like interpreting MOVLI as a multiple-store instead of a load.
+Will this series be in 6.1?
 
-There are also other instructions that the kernel does not attempt to handle, such as MAC. 
-  I suppose we could begin with turning off TARGET_ALIGNED_ONLY for sh4-linux-user, then 
-re-enabling MO_ALIGN for the atomics (at least).
-
-
-r~
+Regards,
+Bin
 
