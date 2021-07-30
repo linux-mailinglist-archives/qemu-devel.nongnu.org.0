@@ -2,96 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB563DBBCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:12:43 +0200 (CEST)
-Received: from localhost ([::1]:52696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616BE3DBBD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:14:28 +0200 (CEST)
+Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9UBm-0000KR-5t
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
+	id 1m9UDT-0002JE-FB
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9UAc-0006dB-Na
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:11:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9UAZ-0004mR-2I
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:11:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627657886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WmZyup9TduHnZ3V6O6pYYM26XijgZzxKMItXdR8SuhM=;
- b=hPmr13RTcJUWE1BshQQfs+UsdoKecYtnURw875+xNgBRxQvYnybK24j5m6Ta22/eiy9NRH
- j1MvseNbIH7670nRwFYlrlCoz2E7+9qwjC0VxdLH0VlBbqOBtuiqyzWUxrbf/j6Hi5aVwA
- GJf9zzJUtXlx1rEgLqqOu43mAYXXEUQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-LH7wFL_RNTiXKA941RSNxw-1; Fri, 30 Jul 2021 11:11:25 -0400
-X-MC-Unique: LH7wFL_RNTiXKA941RSNxw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f25-20020a1c6a190000b029024fa863f6b0so3293360wmc.1
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:11:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m9UCH-0001Ak-Vk
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:13:14 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m9UCF-0005vI-Qh
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:13:13 -0400
+Received: by mail-ej1-x631.google.com with SMTP id o5so17427199ejy.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=u9J/jkmHlplZ0BrcLiictXYZ+BVFaU2YEhtoQ2pzsn0=;
+ b=u7eNetBIe3NwhgvuQsj4NGU+64vBc1EXAj/dilWF0xc8WOQIsN2d8uII0ldeUCtSPj
+ gTZIhvmr4ATFiyPhULbRcO0hsL6FdFVEmsyTjDU/7wcUscCoXRIWuz/k48YuhgYEhQPd
+ Fj9uXEpRgy2qUiv302K4eMTnn7vVRTgrcs2YVcVON4mz0UAdh/dr9ioOLvW5DMNF06e8
+ fI/T+ncEp7YJrbsWlb2i/DsVvi850iinqEXx7MlGAieDRDl2ICWy33rInxdTCnAB5Tfv
+ 4RxydMZa0fwe5vGodzFh438R1Bbzrxl1DrhgfeEPa4pekakdB7dk1PueDsHyxD9nhVnK
+ AhOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=WmZyup9TduHnZ3V6O6pYYM26XijgZzxKMItXdR8SuhM=;
- b=A9wUSSj759V+6rXc/wtzLK3ABizp301pzst7Rn7lNtoxmjctH4/xVtmu8MMhydjLx4
- TeO/c8O7BVNBIp6tWdACjA6jVHjRcN3ZcYCodOHGJKmAPmniO9BTBRQMS7RaxW4ChmGx
- I+QHqPaRidNQAa2KINN1SGJHLT1/+Xk0rUnveLFrFEUvVnpfbU9jsXn0LiMd4Z3WgWJr
- +BK2x/MSqp32UAkAGxTma8tRR442doxUspRxLAeEns/LpYyvDt5ywP9K0AaWOPZ1kNsL
- AMaEAyZB/y3XkebEceZaZyxe8H9aPeLzmAfEqEhhZYAyfVBn1Ey+vMieLHJ8erwkm8TY
- m56w==
-X-Gm-Message-State: AOAM533D4/Czk3tIbS0xn+J3IRGmFpEUGtpTgNKwveNHF5ruR0757N2Q
- YzJEuUEsPvgz+zMmK3pJNkTQlDx5HQG05vU4PmzFr0QMxlYv0sIbEKZGV7vySkEv+U3O2AeKYXt
- TJgkEL9vcfQXqI7k=
-X-Received: by 2002:a5d:4a85:: with SMTP id o5mr3571956wrq.67.1627657884546;
- Fri, 30 Jul 2021 08:11:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDHMCuXb9PUx8BEcDYJ87tWryM+rKKnpHeQ7PEmdAtT8YGSCehoIQo797PsGzG7GW6+tjh0Q==
-X-Received: by 2002:a5d:4a85:: with SMTP id o5mr3571838wrq.67.1627657883279;
- Fri, 30 Jul 2021 08:11:23 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- 9sm1971338wmf.34.2021.07.30.08.11.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 08:11:22 -0700 (PDT)
-Subject: Re: [PATCH RFC 0/3] mirror: rework soft-cancelling READY mirror
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210727164754.62895-1-vsementsov@virtuozzo.com>
- <eb6db91e-9b6b-331e-8a8d-ee4fcf60ff2f@redhat.com>
- <19e149dc-ff1a-09b3-2d6c-2d046e9daabb@virtuozzo.com>
- <660d9a7b-beb9-c2a2-33eb-d894aae8b1e0@redhat.com>
- <af37e046-46d3-2791-f91d-bdbaec9ee5e5@virtuozzo.com>
- <a8e6f5d7-2bf8-6214-3689-6350592eab07@redhat.com>
- <a3f7afef-8eb2-80b3-1a9e-9c37a1cf85f9@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <5167ea49-ca2b-5fdf-0a24-bae2add0c084@redhat.com>
-Date: Fri, 30 Jul 2021 17:11:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=u9J/jkmHlplZ0BrcLiictXYZ+BVFaU2YEhtoQ2pzsn0=;
+ b=owq3twWY2PylJpLnIm02cxRX2gUrp5UILYAF8dWUkxoVcJPojPQ6CR9KMNeh8t0uBJ
+ evUUXewHMO4wT8bZ0+QtetQ+mm5dEEXVWZHTAMuUzQeF/JLyEbT5gEi8GlMXnCY3y9Dh
+ 9O/TCTO5oyRDbNcZ78qqP1KGCq1DTnIdd8YpvzbwU3BFJDps51Fq2WGa458hS2TeiWpa
+ synGz2DanSmF6Js5zDwQXe61ayrN6JhdmJyIMRLZRfISZBmbjscEhhPFNakQLbEDQkXo
+ 0/lFcZsPNLNc1k8YsdUSa5vjYpNeFZ/f0MSK//xlQeK0nxUroNJWhM/b5g4WD+PoOy9N
+ lkOA==
+X-Gm-Message-State: AOAM530VWa0gtmOb8ZbL/BFWqLe9f72QeZVLNM0qZkPDY5zDCUmaAAJq
+ xmGOOlkVJV1Jo1NzNwa9fi+wNJoi77s7uJzrgPJTzx/F39JNag==
+X-Google-Smtp-Source: ABdhPJx8jiWxPXxjlNHXcEtxpqKDuivc7cvk4nIy8Dn4jaF86Kv2Co0ZvtV4lHatk4KCg9uLxEiQoTotG/XTZQnbntM=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr2947755ejy.407.1627657990306; 
+ Fri, 30 Jul 2021 08:13:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a3f7afef-8eb2-80b3-1a9e-9c37a1cf85f9@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Jul 2021 16:12:27 +0100
+Message-ID: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+Subject: "make check-acceptance" takes way too long
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,152 +74,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.07.21 18:29, Vladimir Sementsov-Ogievskiy wrote:
-> 29.07.2021 16:47, Max Reitz wrote:
->> On 29.07.21 13:35, Vladimir Sementsov-Ogievskiy wrote:
->>> 29.07.2021 13:38, Max Reitz wrote:
->>>> On 29.07.21 12:02, Vladimir Sementsov-Ogievskiy wrote:
->>>>> 28.07.2021 10:00, Max Reitz wrote:
->>>>>> On 27.07.21 18:47, Vladimir Sementsov-Ogievskiy wrote:
->>>>>>> Hi all!
->>>>>>>
->>>>>>> That's an alternative to (part of) Max's
->>>>>>> "[PATCH for-6.1? v2 0/7] mirror: Handle errors after READY cancel"
->>>>>>> and shows' my idea of handling soft-cancelling READY mirror case
->>>>>>> directly in qmp_block_job_cancel. And cleanup all other job 
->>>>>>> cancelling
->>>>>>> functions.
->>>>>>>
->>>>>>> That's untested draft, don't take it to heart :)
->>>>>>
->>>>>> Well, I would have preferred it if you’d rebased this on top of 
->>>>>> that series, precisely because it’s an alternative to only part 
->>>>>> of it. And if it’s just an untested draft, that would have been 
->>>>>> even better, because it would’ve given a better idea on what the 
->>>>>> cleanup looks like.
->>>>>>
->>>>>> There are also things like this series making cancel internally 
->>>>>> always a force-cancel, where I’m not sure whether we want that in 
->>>>>> the replication driver or not[1].  With my series, we add an 
->>>>>> explicit parameter, so we’re forced to think about it, and then 
->>>>>> in this series on top we can just drop the parameter for all 
->>>>>> force-cancel invocations again, and for all non-force-cancel 
->>>>>> invocations we would have to think a bit more.
->>>>>
->>>>> I now don't sure that patch 5 of your series is correct (see my 
->>>>> last answer to it), that's why I decided to not base on it.
->>>>
->>>> Well, we can always take patch 5 from v1.  (Where I changed any 
->>>> job_is_cancelled() to job_cancel_requested() when it influenced the 
->>>> external interface.)
->>>>
->>>>> My series has the benefit of handling soft-mirror-cancel case the 
->>>>> other way and handles mirror finalization in case of soft-cancel 
->>>>> properly.
->>>>>
->>>>>>
->>>>>> Specifically as for this series, I don’t like job_complete_ex() 
->>>>>> very much, I think the parameter should be part of job_complete() 
->>>>>> itself.
->>>>>
->>>>> That was my idea. But job_complete is passed as function pointer, 
->>>>> so changing its prototype would be more work.. But I think it's 
->>>>> possible.
->>>>>
->>>>>>   If we think that’s too specific of a mirror parameter to 
->>>>>> include in normal job_complete(), well, then there shouldn’t be a 
->>>>>> job_complete_ex() either, and do_graph_change should be a 
->>>>>> property of the mirror job (perhaps as pivot_on_completion) 
->>>>>> that’s cleared by qmp_block_job_cancel() before invoking 
->>>>>> job_complete().
->>>>>
->>>>> This way users will lose a way to make a decision during job 
->>>>> running..
->>>>
->>>> On the contrary, it would be a precursor to letting the user change 
->>>> this property explicitly with a new QMP command.
->>>>
->>>>> But probably they don't need actually. Moving the option to mirror 
->>>>> job parameter seems a good option to me.
->>>>>
->>>>>>
->>>>>> Max
->>>>>>
->>>>>> [1] Although looking at it again now, it probably wants 
->>>>>> force-cancel.
->>>>>>
->>>>>
->>>>>
->>>>> What do you think of my idea to keep old bugs as is and just 
->>>>> deprecate block-job-cancel and add a new interface for 
->>>>> "no-graph-change mirror" case?
->>>>
->>>> I don’t see a reason for that.  The fix isn’t that complicated.
->>>>
->>>> Also, honestly, I don’t see a good reason for deprecating anything.
->>>>
->>>
->>> Current interface lead to mess in the code, that's bad. Cancellation 
->>> mode that is actually a kind of completion (and having comments in 
->>> many places about that) - that shows for me that interface is not 
->>> good.. It's a question of terminology, what to call "cancel". Also, 
->>> that's not the first time this question arise. Remember my recent 
->>> cancel-in-flight-requests series, when I thought that "cancel is 
->>> cancel" and didn't consider soft-cancel of mirror.. And reviewers 
->>> didn't caught it. I don't think that interface is good, it will 
->>> always confuse new developers and users. But that's just my opinion, 
->>> I don't impose it )
->>>
->>> If not deprecate, i.e. if we consider old interface to be good, than 
->>> no reason for this my series and for introducing new interface :)
->>
->> I’m not against a better interface, I’m against using this current 
->> bug as an excuse to improve the interface.  We’ve known we want to 
->> improve the interface for quite a long time now, we don’t need an 
->> excuse for that.
->>
->> If we use this bug as an excuse, I’m afraid of becoming hung up on 
->> interface discussions instead of just getting the bug fixed. And we 
->> must get the bug fixed, it’s real, it’s kind of bad, and saying “it 
->> won’t appear with the new interface, let’s not worry about the old 
->> one” is not something I like.
->>
->> OTOH, if we use this bug as an excuse, I’m also afraid of trying to 
->> rush the design instead of actually implementing the interface that 
->> we’ve always desired, i.e. where the user gets to choose the 
->> completion mode via yet-to-be-implemented some job property setter 
->> function.
->>
->> As a final note (but this is precisely the interface discussion that 
->> I want to avoid for now), I said I don’t see a good reason for 
->> deprecating anything, because `job-cancel force=false` can just 
->> internally do `set-job-property .pivot_on_completion=false; 
->> job-complete`.  From an implementation perspective, that should be 
->> simple.
->>
->> I understand that for users the existence of the `force` flag may 
->> still be confusing and so we might want to deprecate it for that 
->> reason, but again, this is the interface discussion that I think we 
->> don’t actually need right now.
->>
->> And that’s why I’d prefer for any clean-up to come on top of fixing 
->> the existing bug, so we can have separate discussions and take our 
->> time with the interface without feeling driven by the need to fix a bug.
->>
->
-> OK, I see your point. Let's just fix a bug with current interface and 
-> anything else is a separate step. Are you going to send v3?
+"make check-acceptance" takes way way too long. I just did a run
+on an arm-and-aarch64-targets-only debug build and it took over
+half an hour, and this despite it skipping or cancelling 26 out
+of 58 tests!
 
-Yep, sure!
+I think that ~10 minutes runtime is reasonable. 30 is not;
+ideally no individual test would take more than a minute or so.
 
-(Still want to look into the exact job->ret details, though. Perhaps I 
-can do better than just to keep it in the v1 state.)
+Output saying where the time went. The first two tests take
+more than 10 minutes *each*. I think a good start would be to find
+a way of testing what they're testing that is less heavyweight.
 
-Max
+ (01/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2:
+PASS (629.74 s)
+ (02/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3:
+PASS (628.75 s)
+ (03/58) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm:
+CANCEL: kvm accelerator does not seem to be available (1.18 s)
+ (04/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_aarch64_virt:
+PASS (3.53 s)
+ (05/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_aarch64_xlnx_versal_virt:
+PASS (41.13 s)
+ (06/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_virt:
+PASS (5.22 s)
+ (07/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_emcraft_sf2:
+PASS (18.88 s)
+ (08/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_uart0:
+PASS (11.30 s)
+ (09/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
+PASS (22.66 s)
+ (10/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_exynos4210_initrd:
+PASS (31.89 s)
+ (11/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_initrd:
+PASS (27.86 s)
+ (12/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_sata:
+PASS (27.19 s)
+ (13/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_quanta_gsj:
+SKIP: Test might timeout
+ (14/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_quanta_gsj_initrd:
+PASS (22.53 s)
+ (15/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+PASS (4.86 s)
+ (16/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+PASS (39.85 s)
+ (17/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+PASS (53.57 s)
+ (18/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08:
+SKIP: storage limited
+ (19/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9:
+SKIP: storage limited
+ (20/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf:
+PASS (1.50 s)
+ (21/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_vexpressa9:
+PASS (10.74 s)
+ (22/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast2400_palmetto_openbmc_v2_9_0:
+PASS (39.43 s)
+ (23/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast2500_romulus_openbmc_v2_9_0:
+PASS (54.01 s)
+ (24/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast2600_debian:
+PASS (40.60 s)
+ (25/58) tests/acceptance/boot_xen.py:BootXen.test_arm64_xen_411_and_dom0:
+PASS (20.22 s)
+ (26/58) tests/acceptance/boot_xen.py:BootXen.test_arm64_xen_414_and_dom0:
+PASS (17.37 s)
+ (27/58) tests/acceptance/boot_xen.py:BootXen.test_arm64_xen_415_and_dom0:
+PASS (23.82 s)
+ (28/58) tests/acceptance/empty_cpu_model.py:EmptyCPUModel.test:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (29/58) tests/acceptance/info_usernet.py:InfoUsernet.test_hostfwd:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (30/58) tests/acceptance/machine_arm_canona1100.py:CanonA1100Machine.test_arm_canona1100:
+PASS (0.20 s)
+ (31/58) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.test_integratorcp_console:
+SKIP: untrusted code
+ (32/58) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.test_framebuffer_tux_logo:
+SKIP: Python NumPy not installed
+ (33/58) tests/acceptance/machine_arm_n8x0.py:N8x0Machine.test_n800:
+SKIP: untrusted code
+ (34/58) tests/acceptance/machine_arm_n8x0.py:N8x0Machine.test_n810:
+SKIP: untrusted code
+ (35/58) tests/acceptance/migration.py:Migration.test_migration_with_tcp_localhost:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (36/58) tests/acceptance/migration.py:Migration.test_migration_with_unix:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (37/58) tests/acceptance/migration.py:Migration.test_migration_with_exec:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (38/58) tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_aarch64:
+CANCEL: kvm accelerator does not seem to be available (0.06 s)
+ (39/58) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt:
+PASS (19.59 s)
+ (40/58) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt:
+PASS (28.73 s)
+ (41/58) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_cubieboard_initrd:
+PASS (52.00 s)
+ (42/58) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_vexpressa9:
+PASS (25.69 s)
+ (43/58) tests/acceptance/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt:
+PASS (2.16 s)
+ (44/58) tests/acceptance/smmu.py:SMMU.test_smmu_noril: CANCEL: kvm
+accelerator does not seem to be available (0.90 s)
+ (45/58) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough:
+CANCEL: kvm accelerator does not seem to be available (0.70 s)
+ (46/58) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict:
+CANCEL: kvm accelerator does not seem to be available (1.02 s)
+ (47/58) tests/acceptance/smmu.py:SMMU.test_smmu_ril: CANCEL: kvm
+accelerator does not seem to be available (0.68 s)
+ (48/58) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough:
+CANCEL: kvm accelerator does not seem to be available (0.98 s)
+ (49/58) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: CANCEL:
+kvm accelerator does not seem to be available (1.00 s)
+ (50/58) tests/acceptance/tcg_plugins.py:PluginKernelNormal.test_aarch64_virt_insn:
+PASS (12.19 s)
+ (51/58) tests/acceptance/tcg_plugins.py:PluginKernelNormal.test_aarch64_virt_insn_icount:
+PASS (12.35 s)
+ (52/58) tests/acceptance/tcg_plugins.py:PluginKernelNormal.test_aarch64_virt_mem_icount:
+PASS (10.21 s)
+ (53/58) tests/acceptance/version.py:Version.test_qmp_human_info_version:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (54/58) tests/acceptance/virtio_check_params.py:VirtioMaxSegSettingsCheck.test_machine_types:
+SKIP: break multi-arch CI
+ (55/58) tests/acceptance/vnc.py:Vnc.test_no_vnc: CANCEL: No QEMU
+binary defined or found in the build tree (0.00 s)
+ (56/58) tests/acceptance/vnc.py:Vnc.test_no_vnc_change_password:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (57/58) tests/acceptance/vnc.py:Vnc.test_change_password_requires_a_password:
+CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ (58/58) tests/acceptance/vnc.py:Vnc.test_change_password: CANCEL: No
+QEMU binary defined or found in the build tree (0.00 s)
+RESULTS    : PASS 32 | ERROR 0 | FAIL 0 | SKIP 8 | WARN 0 | INTERRUPT
+0 | CANCEL 18
+JOB TIME   : 1967.44 s
 
+thanks
+-- PMM
 
