@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B8E3DB78D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:05:46 +0200 (CEST)
-Received: from localhost ([::1]:43180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB35C3DB78E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:05:48 +0200 (CEST)
+Received: from localhost ([::1]:43326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9QKo-0000MU-0A
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42388)
+	id 1m9QKp-0000So-Q4
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QFB-000052-J3
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:57 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44760)
+ id 1m9QFC-00008V-Kr
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:58 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QFA-0002XO-0C
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:57 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- d131-20020a1c1d890000b02902516717f562so6121778wmd.3
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:59:55 -0700 (PDT)
+ id 1m9QFA-0002YX-Nc
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:58 -0400
+Received: by mail-wr1-x431.google.com with SMTP id n12so10808058wrr.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K0LsDdqG46LkMTzSmmUO14QKu3yyiy2ujafOymlz2zw=;
- b=Mv3wLyyo38nn6sGZcE5VnPxF+IxzHuyB8c6mYNk4VqmU3m3s1mGLRF0e7+ViFg/b1+
- j9p0q/BTwUFkwEoiq7CwKyQHEdypX1hW5kAvXqyEx7W+P5CpCLl5u2Ec8W931AtyLl4x
- Lrvu1zGOdtsM6JZAPkWkouhdi9uRlteu/e9LiLdM5lCqvg1SI5zaEUH+VDdX1d7KdguI
- FlKFrPD79rkjlkE4t9l04jN4b417Ww14gU+Ama+LbnclrQlImCDdUORT6iZJw7GpTIzu
- t+/IXDGBFLTP9+Jdo1kjPGZyIuxbsDp1Pqb2X3j9drj+0WG3MszwvYkfyROwoUZuEL7+
- RIdA==
+ bh=LOFXsljOiEvL5KbQ1IGVlqLTkAfDLwXLvWhbRp0q2kQ=;
+ b=UolB3GrBJVoWvyi3D/qfc88Hkav4Q4rouNVKn8TCCBjDK5dbQHnk9hoZYQy+Xn/8s0
+ BCngkK5Fq4vXeU4IX1KUYT5jXcE3u6n7kO6XkQrYG6zhiik2wGt+cfrXSCvv3vz19mkF
+ 6izDdL6zeoKh+hiinYwi5kMde/96663hhOnqS0vjRu1B4H2y7xkkAgtqYVt2AX0gWq7f
+ eEv3LnMfFKGZVhKMXksC5en+ZPPgFg3Gb2ocZd0yjjVs7n/u149BNlfrUZPpoMBFbBi0
+ ETEH0QXF/LYngpdEYMrbCK3vxl9wBYjuX+hjpRBr+KYZ9Jolb6Vba7ad0h5Sirk15Ipa
+ io6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K0LsDdqG46LkMTzSmmUO14QKu3yyiy2ujafOymlz2zw=;
- b=A5KDCfq2KrodHMrJ9iwYUdY6ZY2+LUxV7UtmGivBK7Zeqe1srr+5J93G3cYws01SEo
- ThFK+iQYDDlwpgmdZVV1mOdixPOMVomOkBCvKtcXttgWVmZWVTyRXFaxpgqmVpuZk/Qt
- IPGMZwn/M/ZGJP7KYzfNnd1uCg/dibNfLERzOOoe4SkIyclU5MLUPUJwlqRr4qQ1SN1O
- 4xhcYdPJomY55wxlHIIqkaErL6bwF85rF87reKtN2+eu88bJoPojTlj41isyOwIKniJI
- uw+snuAUhlT6N3CxQhMAIZEq2Rq5gWjDLqcoT4QyYmqGyZvtQpN9ttovT/bhhquFBNRh
- dfGg==
-X-Gm-Message-State: AOAM532SmJu2LF2eRbDQ/DnV/Wg8/N94lTk0x5ausvmBOXnyi8u+qbVp
- 0f98wsoswRjt0IbwkM2aEiP2xwTvefWRhQ==
-X-Google-Smtp-Source: ABdhPJwCJD77kL+THcn/PyIqPusviJLGFdRleEVyYCMAtqXJk1FtGiphFQUKRHh0KfcZj5sT9Zv1oQ==
-X-Received: by 2002:a05:600c:1d11:: with SMTP id
- l17mr2315045wms.185.1627642794667; 
- Fri, 30 Jul 2021 03:59:54 -0700 (PDT)
+ bh=LOFXsljOiEvL5KbQ1IGVlqLTkAfDLwXLvWhbRp0q2kQ=;
+ b=tdRKfhb6bwQ54CYfVT9YkdQJcW3zGq6QUzEtSeaFHPgQnhnTC9ced121Iovvea3dMV
+ 4KRghtq5wOTC8meWypySYJmsvhrouAFV+YVWZIMu2m/av6kKuq09OBvpoNv6lqPSF/V0
+ oX8hSw8AINRMSWyyrftSMEz2UWCXHcEmNV3Qb95bT2YDIInaqOJf1HGiH7/zKNNq9JIx
+ HDUnOYZM6Knwf+9f8+6HLbHTtZfjBVdOopq+u6CKSgBINZzBtFjahuTwxaTTz+BtwfFH
+ FCxPaQp5KjFEaMaccR7RrcDr1GT1rgFTL2nU0nvdij/vyKnqqCg08+AgH49sgD8F7DP/
+ evHQ==
+X-Gm-Message-State: AOAM532pUzVC7cW2ea6L0nVctWjwFg+JnD02do5Klxxqmn5lr7f07mfz
+ wz/CaXFf+aTs9AjE8vARD48V4ZKjECNc0w==
+X-Google-Smtp-Source: ABdhPJyycQzFqOlMrsgEfmQKpCOxlvjOJu/AjysTl0n+/iHpZ9VnCJNx3bAQ3jtWy0SOlsQNUFbzMA==
+X-Received: by 2002:a5d:4521:: with SMTP id j1mr2322783wra.44.1627642795509;
+ Fri, 30 Jul 2021 03:59:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id p2sm1349697wrr.21.2021.07.30.03.59.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 03:59:54 -0700 (PDT)
+ Fri, 30 Jul 2021 03:59:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 6/8] arch_init.h: Move QEMU_ARCH_VIRTIO_* to
- qdev-monitor.c
-Date: Fri, 30 Jul 2021 11:59:45 +0100
-Message-Id: <20210730105947.28215-7-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 7/8] arch_init.h: Don't include arch_init.h
+ unnecessarily
+Date: Fri, 30 Jul 2021 11:59:46 +0100
+Message-Id: <20210730105947.28215-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210730105947.28215-1-peter.maydell@linaro.org>
 References: <20210730105947.28215-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,53 +88,195 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU_ARCH_VIRTIO_* defines are used only in one file,
-qdev-monitor.c. Move them to that file.
+arch_init.h only defines the QEMU_ARCH_* enumeration and the
+arch_type global. Don't include it in files that don't use those.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/sysemu/arch_init.h | 9 ---------
- softmmu/qdev-monitor.c     | 9 +++++++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ blockdev.c                | 1 -
+ hw/i386/pc.c              | 1 -
+ hw/i386/pc_piix.c         | 1 -
+ hw/i386/pc_q35.c          | 1 -
+ hw/mips/jazz.c            | 1 -
+ hw/mips/malta.c           | 1 -
+ hw/ppc/prep.c             | 1 -
+ hw/riscv/sifive_e.c       | 1 -
+ hw/riscv/sifive_u.c       | 1 -
+ hw/riscv/spike.c          | 1 -
+ hw/riscv/virt.c           | 1 -
+ monitor/qmp-cmds.c        | 1 -
+ target/ppc/cpu_init.c     | 1 -
+ target/s390x/cpu-sysemu.c | 1 -
+ 14 files changed, 14 deletions(-)
 
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 60270c5ad15..e7789399508 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -30,13 +30,4 @@ enum {
+diff --git a/blockdev.c b/blockdev.c
+index 3d8ac368a19..e79c5f3b5e8 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -56,7 +56,6 @@
+ #include "sysemu/iothread.h"
+ #include "block/block_int.h"
+ #include "block/trace.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/replay.h"
+ #include "qemu/cutils.h"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c2b9d62a358..102b2239468 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -65,7 +65,6 @@
+ #include "hw/xen/start_info.h"
+ #include "ui/qemu-spice.h"
+ #include "exec/memory.h"
+-#include "sysemu/arch_init.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30b8bd6ea92..1bc30167acc 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -43,7 +43,6 @@
+ #include "sysemu/kvm.h"
+ #include "hw/kvm/clock.h"
+ #include "hw/sysbus.h"
+-#include "sysemu/arch_init.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/xen/xen-x86.h"
+ #include "exec/memory.h"
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 04b4a4788d7..eeb0b185b11 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -31,7 +31,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "hw/loader.h"
+-#include "sysemu/arch_init.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index d6183e18821..f5a26e174d5 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -35,7 +35,6 @@
+ #include "hw/isa/isa.h"
+ #include "hw/block/fdc.h"
+ #include "sysemu/sysemu.h"
+-#include "sysemu/arch_init.h"
+ #include "hw/boards.h"
+ #include "net/net.h"
+ #include "hw/scsi/esp.h"
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 7dcf175d726..b770b8d3671 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -38,7 +38,6 @@
+ #include "hw/mips/mips.h"
+ #include "hw/mips/cpudevs.h"
+ #include "hw/pci/pci.h"
+-#include "sysemu/arch_init.h"
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+ #include "hw/ide.h"
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index acfc2a91d8e..25a2e86b421 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -40,7 +40,6 @@
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/isa/pc87312.h"
+ #include "hw/qdev-properties.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+ #include "trace.h"
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index ddc658c8d68..5b7b245e1f3 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -45,7 +45,6 @@
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_e_prci.h"
+ #include "chardev/char.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
  
- extern const uint32_t arch_type;
+ static const MemMapEntry sifive_e_memmap[] = {
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 87bbd10b211..6cc1a62b0f7 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -55,7 +55,6 @@
+ #include "hw/intc/sifive_plic.h"
+ #include "chardev/char.h"
+ #include "net/eth.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index fead77f0c48..aae36f2cb4d 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -37,7 +37,6 @@
+ #include "hw/char/riscv_htif.h"
+ #include "hw/intc/sifive_clint.h"
+ #include "chardev/char.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
  
--/* default virtio transport per architecture */
--#define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
--                              QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
--                              QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
--                              QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
--                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
--#define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
--#define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
--
- #endif
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 721dec2d820..a304754ab91 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -52,6 +52,15 @@ typedef struct QDevAlias
-     uint32_t arch_mask;
- } QDevAlias;
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4a3cd2599a5..0e55411045a 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -36,7 +36,6 @@
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_test.h"
+ #include "chardev/char.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/pci/pci.h"
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 9ddb9352e65..5c0d5e116b9 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -27,7 +27,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/runstate-action.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/blockdev.h"
+ #include "sysemu/block-backend.h"
+ #include "qapi/error.h"
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 505a0ed6ac0..319a272d4c9 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -22,7 +22,6 @@
+ #include "disas/dis-asm.h"
+ #include "exec/gdbstub.h"
+ #include "kvm_ppc.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/tcg.h"
+diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+index df2c6bf6941..5471e01ee82 100644
+--- a/target/s390x/cpu-sysemu.c
++++ b/target/s390x/cpu-sysemu.c
+@@ -34,7 +34,6 @@
  
-+/* default virtio transport per architecture */
-+#define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
-+                              QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
-+                              QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
-+                              QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
-+                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
-+#define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
-+#define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
-+
- /* Please keep this table sorted by typename. */
- static const QDevAlias qdev_alias_table[] = {
-     { "AC97", "ac97" }, /* -soundhw name */
+ #include "hw/s390x/pv.h"
+ #include "hw/boards.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
+ #include "hw/core/sysemu-cpu-ops.h"
 -- 
 2.20.1
 
