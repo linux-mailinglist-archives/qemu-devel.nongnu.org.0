@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEBE3DBEBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 21:09:16 +0200 (CEST)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19BB3DBEDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 21:15:52 +0200 (CEST)
+Received: from localhost ([::1]:49990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Xsh-0006yx-FY
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 15:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38024)
+	id 1m9Xz5-0002QH-I3
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 15:15:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9XrM-0006FF-Fv
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:07:52 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:41652)
+ id 1m9Xxg-0001Qo-CR
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:14:24 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9XrE-0003Fu-N5
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:07:52 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id z3so10886691plg.8
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 12:07:44 -0700 (PDT)
+ id 1m9Xxd-0007uh-Q9
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:14:24 -0400
+Received: by mail-pl1-x635.google.com with SMTP id d1so12260718pll.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 12:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=yfLKCIIpYn1alvjSmPznCSEY3D64AXXx3zPB/S+I7XU=;
- b=ucJXku9hG9ny5iGFKhLReE6PAlCwP7K04fYi6Ih5+1bJtv4oMYL3+1xsV8jr+Vb403
- zNp6WnucAEam8wj4Q8247by3ZdgvkwAqHKOVEAKboPlSid5AAjITHXnPMBIHv5c8qaFQ
- 7ztx6c1vdFV76/dgtwRNQM0AjcWhiiRksrRqRDY0WIRWhHcecK2Rq4I7vHBJ9X3AYq7w
- UbpQa4PQaCnZZ8A5uxMRD/6lAJDEOQbKMZvz1+N8W+XM0VRCMmviSz96pnR+O3lxgyQs
- r2bW5ipFDYgDU9+dTl6Oy1WSTA8e3gEk23oBY38h2bKEp83dOMqK/QlBO34sOoQzFdbY
- hg4w==
+ bh=HWTHvKwdKomUUSmcYj0zNGkv8JvI5L/356UjqLXSDdE=;
+ b=dSE0YQauJVYzbyUp73ZCqIDbDuBuuJ2s7JuoNY/pxKCB5gkCWjXgAbcS148TGG4t6a
+ 9oLs3bqXlq3LiN5emzfnYU/EKIoJNpj0nqbcjf4PoGyjzbewKTeDW2Rr9gpZZbR4MG0G
+ yeDUsBNR6L2Vj7NIDTb6T1gRSp9nVspfKo5dsVA1uK56BNC5Qd806p5Sl1iOAznNMMnB
+ 4qqn/iqhnFMa8WdmiKNt4ARwh1gn1R3rvRbf4q+sXS63E5FYLSlo64btOxnhpecWAEjK
+ GLAU6eyAkuQe3Hi1PqzKk/xppWyHh9QCizdjj1uZyGfAPAN0y82f2wozwwDgZDbEg69i
+ DOJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yfLKCIIpYn1alvjSmPznCSEY3D64AXXx3zPB/S+I7XU=;
- b=qvt0yLWJ7b3Pm7nAky9Gen+1XZVWOH3o2nt9z4UEEHwUdSxHGBDb8Zj508jpjCxolq
- mFtt+FXu8onof1opv83DYTtyBeLPKmMyOsIBMFIymwWiNnJ646aPUW2zhIh61fBFgHvx
- 9pOsNLKb+p3GG0mZxq1EQ3Yw3FHS0ZdbGvjvhSwm77orG5S6Ow7Ov0tL5NRRHGqoqPBd
- v/Rse2AEXeAkMXsTorbxG+yhFby1oDovQZfvsErpOLfJbEvtIEcBqEJ6Wr9jZEDNcU1J
- F0LM2gqvuc9W93iXBsgOKb6iMiJdOj5PVXB2rFr7eAZyC5P+8e3dcmqP1Og4QM3gIiuC
- wAyg==
-X-Gm-Message-State: AOAM531wItbyL2wVJcHi5AaL8+wRX5g00OXhC2LuuwpnS5bmkcCKMu1W
- 3PrVsoo+D97h0zdVWRIca0wxzblZATjHAQ==
-X-Google-Smtp-Source: ABdhPJyrwMFI23qF3Ho2DECesAV3W+RPT9/sHbmWn4h9lvNjWNEyO7GFyHDgFQiCpCOzET5P3NuoGw==
-X-Received: by 2002:a63:f63:: with SMTP id 35mr1517465pgp.148.1627672063134;
- Fri, 30 Jul 2021 12:07:43 -0700 (PDT)
+ bh=HWTHvKwdKomUUSmcYj0zNGkv8JvI5L/356UjqLXSDdE=;
+ b=huPv+S23jypuxxZ62wkIfUXmqz8JOJZk/1R1JCcBbHycqX89wkF95U3WEKxVOcyG4n
+ wTrYxsklZUDqEs+PcBtDeSr/3iD8zWSithGHNFQ6+dqli5eNc05HVST57btt5NCyyR7e
+ iFjyEOkNOUMgaWO3nVi24m/fwdHUbRPEgmN26NMqwD+GqXuqbjF4Y45Jdyjw2BVe/zFY
+ 7avld1QiUWGPw6Y4utEHXB3voPS+UdPbSzhcaAq84gqVrMbIAQO99qGb9L/vFYJKgKmq
+ f52hnzOJt8m2Qn6JFIWlgXfFm4Lqqhb9C8B39/5Y6qJ0wp3y83ghua1iMQvApg3dUGHB
+ FGLQ==
+X-Gm-Message-State: AOAM530knZi8fgixrGFGZbxkvZEnZ221mbWo2EA6eCYmEnHRrVvyEy8G
+ pUh4NSH+n0PUY0FPL6CEz3bKpXUpUbEONg==
+X-Google-Smtp-Source: ABdhPJxYV0tF7fhclKgFfaR1CAZifc+q50cyBS5+QMUEmxfzJkuDZcgos0O+1TawbWcS31Gn2n99Gg==
+X-Received: by 2002:a17:90a:7505:: with SMTP id
+ q5mr4612627pjk.64.1627672460174; 
+ Fri, 30 Jul 2021 12:14:20 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id s125sm3152527pfb.51.2021.07.30.12.07.41
+ by smtp.gmail.com with ESMTPSA id ge21sm2994354pjb.55.2021.07.30.12.14.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 12:07:42 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 07/53] target/arm: Fix MVE 48-bit SQRSHRL for
- small right shifts
+ Fri, 30 Jul 2021 12:14:19 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 10/53] target/arm: Fix VPT advance when ECI is
+ non-zero
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
- <20210729111512.16541-8-peter.maydell@linaro.org>
+ <20210729111512.16541-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cf01ab07-f7c8-c2f3-9cd2-1a17dab62a8a@linaro.org>
-Date: Fri, 30 Jul 2021 09:07:39 -1000
+Message-ID: <f593a136-7307-61c2-637c-55885ef0c71f@linaro.org>
+Date: Fri, 30 Jul 2021 09:14:16 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729111512.16541-8-peter.maydell@linaro.org>
+In-Reply-To: <20210729111512.16541-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,64 +96,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/29/21 1:14 AM, Peter Maydell wrote:
-> We got an edge case wrong in the 48-bit SQRSHRL implementation: if
-> the shift is to the right, although it always makes the result
-> smaller than the input value it might not be within the 48-bit range
-> the result is supposed to be if the input had some bits in [63..48]
-> set and the shift didn't bring all of those within the [47..0] range.
+> We were not paying attention to the ECI state when advancing the VPT
+> state.  Architecturally, VPT state advance happens for every beat
+> (see the pseudocode VPTAdvance()), so on every beat the 4 bits of
+> VPR.P0 corresponding to the current beat are inverted if required,
+> and at the end of beats 1 and 3 the VPR MASK fields are updated.
+> This means that if the ECI state says we should not be executing all
+> 4 beats then we need to skip some of the updating of the VPR that we
+> currently do in mve_advance_vpt().
 > 
-> Handle this similarly to the way we already do for this case in
-> do_uqrshl48_d(): extend the calculated result from 48 bits,
-> and return that if not saturating or if it doesn't change the
-> result; otherwise fall through to return a saturated value.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> Not squashed into the previous patch because that one has already
-> been reviewed, so as this fixes a different edge case I thought
-> it clearer kept separate.
-> ---
+>   target/arm/mve_helper.c | 24 +++++++++++++++++-------
+>   1 file changed, 17 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
->   target/arm/mve_helper.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-> index 5730b48f35e..1a4b2ef8075 100644
-> --- a/target/arm/mve_helper.c
-> +++ b/target/arm/mve_helper.c
-> @@ -1563,6 +1563,8 @@ uint64_t HELPER(mve_uqrshll)(CPUARMState *env, uint64_t n, uint32_t shift)
->   static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
->                                       bool round, uint32_t *sat)
->   {
-> +    int64_t val, extval;
-> +
->       if (shift <= -48) {
->           /* Rounding the sign bit always produces 0. */
->           if (round) {
-> @@ -1572,9 +1574,14 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
->       } else if (shift < 0) {
->           if (round) {
->               src >>= -shift - 1;
-> -            return (src >> 1) + (src & 1);
-> +            val = (src >> 1) + (src & 1);
-> +        } else {
-> +            val = src >> -shift;
-> +        }
-> +        extval = sextract64(val, 0, 48);
-> +        if (!sat || val == extval) {
-> +            return extval;
->           }
-> -        return src >> -shift;
-
-I'll note two things:
-
-(1) The val == extval check could be sunk to the end of the function and shared with the 
-left shift,
-
-(2) sat will never be unset, as #48 is encoded as sat=1 in the insn.
-
 
 r~
 
