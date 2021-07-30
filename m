@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808C3DBBF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:18:52 +0200 (CEST)
-Received: from localhost ([::1]:36966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765CA3DBC4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:28:03 +0200 (CEST)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9UHj-0000UL-GX
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52400)
+	id 1m9UQc-00038D-C5
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9UFg-0004lp-2x
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:16:44 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9UFd-0008TK-Dq
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:16:43 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id j2so11731008wrx.9
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Y4T9Q0phKt1q1Ay7Q+sG5xGKY/jcAnzqEkcBv03G2Xk=;
- b=c0Dg/rwBHtooBSiVbt8U7eThLZW94LxK2rYijWtW+QuMT9ILkPTDhJN4lTZqjSI3v/
- JnW/HLQ51vSKN9TQg05RHlF1fEg0l4ubICEAhBo8Nyt54gQdPXbfl7vdFjOhDOqiH4Nz
- Hx17qTQBFhwigGvFoV3tIn8CwoFZEjXa+I0gngOCZGxhF/f1nBVLvn/dMaUjDW7kyGQw
- yPDRb0l67D6DqD9zfGAPrbBmM2aVSwC4Y5kG5utwD25yCM5O7YoJmK2Vq+9bfk/qKuDu
- 44QAHHgA6eA4eNUYp+CFVxrAD/eijTcVHmmEiO8SoaXN3lrmTWRiOd1s9+uL/QdwSXvF
- EuYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y4T9Q0phKt1q1Ay7Q+sG5xGKY/jcAnzqEkcBv03G2Xk=;
- b=QnR0lRIFS2C4YPn3cPl/qFqHZJfi7Kc6lu7f+i4uxY3q56yPh9uuoER6yfiPLWYAtW
- Mau3zOcZ90y12thZfOn89h5Q3cUcsAHi0+re5RXTQWy9DcwV2h8xHzCHH3KLXwGTSXbs
- uqej103h8fyuOKpnWqgvrQm3VjeBosOmKm/uQUhH5QwZ/XArQqR6pDzZs0GzjkIuqNjw
- PemCxsSL5nZgSW+G/0K3t8ZaHxRQhmqxW6VFfqro2qYlAkY1LcmT5+BO1oA8k5oQovUt
- jh/WVlUBfH/8LDRqaPpl03cYacvXHDJ2DzawJy5Sfq+6fvhET1ZyYrHqplZoTezZhvEp
- 9jEw==
-X-Gm-Message-State: AOAM530Mp2Mo8BpuHPb+sKUI91DhAssEeJMGijrjZ6CdSA9jnb6Gq63v
- 6GL9/3onw+VTS1Lvf8T76Rkigg==
-X-Google-Smtp-Source: ABdhPJxzQ4bVn7TZr5CXtgdkLCpDAf3LbNtwR5Yb3e/g0SQ8jTMzPQshbfXZd0ofLaYGeQuEUrOH0w==
-X-Received: by 2002:a5d:4410:: with SMTP id z16mr3581312wrq.173.1627658200076; 
- Fri, 30 Jul 2021 08:16:40 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h12sm2020292wrm.62.2021.07.30.08.16.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 08:16:39 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/arm: Implement M-profile trapping on division by
- zero
-Date: Fri, 30 Jul 2021 16:16:36 +0100
-Message-Id: <20210730151636.17254-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210730151636.17254-1-peter.maydell@linaro.org>
-References: <20210730151636.17254-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1m9UPm-0002Sl-Sk
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:27:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8100
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1m9UPj-00073I-DI
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:27:10 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16UF48rx113949; Fri, 30 Jul 2021 11:26:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=aqn/4Zx8ac2H9omLZN8L3X67iMOP2cqhlqgK7m+PP2o=;
+ b=LhmshsnB/FjHUkyzcriapReEbfzSHqBZ9u6LNe7OOI5zH9hE+Fig4k1w+OTXiLo4j5E2
+ s15sxeYexk4sZqOUJ7wR/JIdbPjo4khZarQi+krCWmE2ETAka7axijPpUCueIP8WLLeg
+ uaNgGoAoY9+VTUAz5gQvR3JcEVSbUHYwERrhR98dqsj5a9lSN4vKt91Bri6Ug2Gv8n/x
+ cgK55CvVyIPHkRN3k6/95abjaJxp9+LEXzQYRzj99668ciGosJPF/aSP6zpOqA6oYZrn
+ NuZmg1c9MnNJ6s26EWDz1xWalXZFMvZiavrN3uGVw5X93eFQb6rVN4cyWgRu0+MdmHML xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a4jmb30ur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jul 2021 11:26:55 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16UF4rcP123030;
+ Fri, 30 Jul 2021 11:26:55 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a4jmb30u5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jul 2021 11:26:55 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16UFQh5q002460;
+ Fri, 30 Jul 2021 15:26:53 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma04dal.us.ibm.com with ESMTP id 3a235stsad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jul 2021 15:26:53 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16UFQqY933554924
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Jul 2021 15:26:53 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAA34AE077;
+ Fri, 30 Jul 2021 15:26:52 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19D9CAE071;
+ Fri, 30 Jul 2021 15:26:52 +0000 (GMT)
+Received: from [9.211.43.195] (unknown [9.211.43.195])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 30 Jul 2021 15:26:51 +0000 (GMT)
+Subject: Re: [PATCH] gitlab-ci.d/buildtest: Mark the aarch64 and ppc64-s390x
+ CFI jobs as manual
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210728075141.400816-1-thuth@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <0a4da13e-2e38-53f3-4948-f2d1f23104e2@linux.vnet.ibm.com>
+Date: Fri, 30 Jul 2021 11:26:51 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210728075141.400816-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: t1dJqb2E-KTw0TCTabHq6VTlDC336-Bf
+X-Proofpoint-GUID: 00iiWmfeQ44A_Q4RY2CmdbxuoNMnnV-n
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-30_08:2021-07-30,
+ 2021-07-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 clxscore=1011 malwarescore=0 suspectscore=0 impostorscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107300099
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,139 +113,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike A-profile, for M-profile the UDIV and SDIV insns can be
-configured to raise an exception on division by zero, using the CCR
-DIV_0_TRP bit.
+I agree, making these manual tasks until we find a fix for this is the 
+only solution I can think of too.
 
-Implement support for setting this bit by making the helper functions
-raise the appropriate exception.
+Daniele
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h       |  1 +
- target/arm/helper.h    |  4 ++--
- target/arm/helper.c    | 19 +++++++++++++++++--
- target/arm/m_helper.c  |  4 ++++
- target/arm/translate.c |  4 ++--
- 5 files changed, 26 insertions(+), 6 deletions(-)
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 9f0a5f84d50..5cf8996ae3c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -54,6 +54,7 @@
- #define EXCP_LAZYFP         20   /* v7M fault during lazy FP stacking */
- #define EXCP_LSERR          21   /* v8M LSERR SecureFault */
- #define EXCP_UNALIGNED      22   /* v7M UNALIGNED UsageFault */
-+#define EXCP_DIVBYZERO      23   /* v7M DIVBYZERO UsageFault */
- /* NB: add new EXCP_ defines to the array in arm_log_exception() too */
- 
- #define ARMV7M_EXCP_RESET   1
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 248569b0cd8..aee8f0019b4 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -6,8 +6,8 @@ DEF_HELPER_3(add_saturate, i32, env, i32, i32)
- DEF_HELPER_3(sub_saturate, i32, env, i32, i32)
- DEF_HELPER_3(add_usaturate, i32, env, i32, i32)
- DEF_HELPER_3(sub_usaturate, i32, env, i32, i32)
--DEF_HELPER_FLAGS_2(sdiv, TCG_CALL_NO_RWG_SE, s32, s32, s32)
--DEF_HELPER_FLAGS_2(udiv, TCG_CALL_NO_RWG_SE, i32, i32, i32)
-+DEF_HELPER_FLAGS_3(sdiv, TCG_CALL_NO_RWG, s32, env, s32, s32)
-+DEF_HELPER_FLAGS_3(udiv, TCG_CALL_NO_RWG, i32, env, i32, i32)
- DEF_HELPER_FLAGS_1(rbit, TCG_CALL_NO_RWG_SE, i32, i32)
- 
- #define PAS_OP(pfx)  \
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 8e9c2a2cf8c..56c520cf8e9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9345,6 +9345,18 @@ uint32_t HELPER(sxtb16)(uint32_t x)
-     return res;
- }
- 
-+static void handle_possible_div0_trap(CPUARMState *env, uintptr_t ra)
-+{
-+    /*
-+     * Take a division-by-zero exception if necessary; otherwise return
-+     * to get the usual non-trapping division behaviour (result of 0)
-+     */
-+    if (arm_feature(env, ARM_FEATURE_M)
-+        && (env->v7m.ccr[env->v7m.secure] & R_V7M_CCR_DIV_0_TRP_MASK)) {
-+        raise_exception_ra(env, EXCP_DIVBYZERO, 0, 1, ra);
-+    }
-+}
-+
- uint32_t HELPER(uxtb16)(uint32_t x)
- {
-     uint32_t res;
-@@ -9353,9 +9365,10 @@ uint32_t HELPER(uxtb16)(uint32_t x)
-     return res;
- }
- 
--int32_t HELPER(sdiv)(int32_t num, int32_t den)
-+int32_t HELPER(sdiv)(CPUARMState *env, int32_t num, int32_t den)
- {
-     if (den == 0) {
-+        handle_possible_div0_trap(env, GETPC());
-         return 0;
-     }
-     if (num == INT_MIN && den == -1) {
-@@ -9364,9 +9377,10 @@ int32_t HELPER(sdiv)(int32_t num, int32_t den)
-     return num / den;
- }
- 
--uint32_t HELPER(udiv)(uint32_t num, uint32_t den)
-+uint32_t HELPER(udiv)(CPUARMState *env, uint32_t num, uint32_t den)
- {
-     if (den == 0) {
-+        handle_possible_div0_trap(env, GETPC());
-         return 0;
-     }
-     return num / den;
-@@ -9567,6 +9581,7 @@ void arm_log_exception(int idx)
-             [EXCP_LAZYFP] = "v7M exception during lazy FP stacking",
-             [EXCP_LSERR] = "v8M LSERR UsageFault",
-             [EXCP_UNALIGNED] = "v7M UNALIGNED UsageFault",
-+            [EXCP_DIVBYZERO] = "v7M DIVBYZERO UsageFault",
-         };
- 
-         if (idx >= 0 && idx < ARRAY_SIZE(excnames)) {
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 20761c94877..47903b3dc35 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2252,6 +2252,10 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
-         env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_UNALIGNED_MASK;
-         break;
-+    case EXCP_DIVBYZERO:
-+        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
-+        env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_DIVBYZERO_MASK;
-+        break;
-     case EXCP_SWI:
-         /* The PC already points to the next instruction.  */
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SVC, env->v7m.secure);
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 80c282669f0..28eabeb2323 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7992,9 +7992,9 @@ static bool op_div(DisasContext *s, arg_rrr *a, bool u)
-     t1 = load_reg(s, a->rn);
-     t2 = load_reg(s, a->rm);
-     if (u) {
--        gen_helper_udiv(t1, t1, t2);
-+        gen_helper_udiv(t1, cpu_env, t1, t2);
-     } else {
--        gen_helper_sdiv(t1, t1, t2);
-+        gen_helper_sdiv(t1, cpu_env, t1, t2);
-     }
-     tcg_temp_free_i32(t2);
-     store_reg(s, a->rd, t1);
--- 
-2.20.1
-
+On 7/28/2021 3:51 AM, Thomas Huth wrote:
+> These two jobs are currently failing very often - the linker seems to
+> get killed due to out-of-memory problems. Since apparently nobody has
+> currently an idea how to fix that nicely, let's mark the jobs as manual
+> for the time being until someone comes up with a proper fix.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   .gitlab-ci.d/buildtest.yml | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 63f1903f07..3537c6f1a1 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -416,6 +416,12 @@ build-cfi-aarch64:
+>       expire_in: 2 days
+>       paths:
+>         - build
+> +  rules:
+> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
+> +    # the constraint containers of the shared runners. Thus this is marked as
+> +    # manual until the situation has been solved.
+> +    - when: manual
+> +      allow_failure: true
+> 
+>   check-cfi-aarch64:
+>     extends: .native_test_job_template
+> @@ -452,6 +458,12 @@ build-cfi-ppc64-s390x:
+>       expire_in: 2 days
+>       paths:
+>         - build
+> +  rules:
+> +    # FIXME: This job is often failing, likely due to out-of-memory problems in
+> +    # the constraint containers of the shared runners. Thus this is marked as
+> +    # manual until the situation has been solved.
+> +    - when: manual
+> +      allow_failure: true
+> 
+>   check-cfi-ppc64-s390x:
+>     extends: .native_test_job_template
+> 
 
