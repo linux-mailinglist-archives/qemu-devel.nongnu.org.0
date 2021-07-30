@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410533DB008
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 01:48:31 +0200 (CEST)
-Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8E33DB01C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 02:02:44 +0200 (CEST)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9FlN-0001xa-T5
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 19:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1m9Fz9-0004aO-GS
+	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 20:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m9FkO-0001Hl-2J
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 19:47:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m9FkJ-00034J-Nd
- for qemu-devel@nongnu.org; Thu, 29 Jul 2021 19:47:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627602441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Nttd3fp2SfB2ZoUNRalGL6SAfCMN3cwQySdLrXgEY4U=;
- b=XNN1Q4idci1+/iN6iCzasX7xna7ON1n0RiDX1CQkbjPQAfKHzeXqZXpWuxofiVKbT0XgKo
- ppzz3ErvxBOrtb2XkCmFYZKRq3bHUng6zOUHVxJVH0dhZUsB/Zp39YLMGuBBUBIwxmcnwW
- pCBncxpb6d3JBYF49ceMctb+TCADVek=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-GeqIfH_-MTehSko3-dvN9g-1; Thu, 29 Jul 2021 19:47:17 -0400
-X-MC-Unique: GeqIfH_-MTehSko3-dvN9g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E54698042E9;
- Thu, 29 Jul 2021 23:47:16 +0000 (UTC)
-Received: from redhat.com (ovpn-114-43.phx2.redhat.com [10.3.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 869C419811;
- Thu, 29 Jul 2021 23:47:16 +0000 (UTC)
-Date: Thu, 29 Jul 2021 18:47:14 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [PATCH 1/3] ui/gtk: adds status bar for expressing ups and fps
-Message-ID: <20210729234714.anhzbi2whrrxuipv@redhat.com>
-References: <20210726222551.28795-1-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9Fxr-0003sr-1H
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 20:01:23 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9Fxp-0003l8-EN
+ for qemu-devel@nongnu.org; Thu, 29 Jul 2021 20:01:22 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id nh14so838700pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Jul 2021 17:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jmfaji+9M/QC/wTT+8FBRce+Fu/vs2mWCLqtmeZ4Wrs=;
+ b=T1fohr2z3qw+DajeU7gQdW2GaaZVIWM11rbVQKZTG6iRDv1IsC7tSk4Bj6VJvxo+fB
+ zKSFMxpbNiKIhcAywviTiuwVucnKPMQy72HVwESKK3QM/5PlE4ZpTxLuCByJcmU2J3w4
+ 85KCG17EaPOjnjcmulVyYqQJ7OZgc9Cf6E1IS9MPpBnQNgQsTfCLRZd0lzxUf1qdGorV
+ 70l8FtFM+rFRqnL83MmKFPFxRPxmTOsAwrO/mxow3oE2JvyIvGI5KwT4qOZTE8vP8BdQ
+ B5CgD4t2yipeFTX79+fTb5Notzlo02/fJxaPTKyNwu0xOelkHGGN1A/oBISgkYyFb0kl
+ O2sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jmfaji+9M/QC/wTT+8FBRce+Fu/vs2mWCLqtmeZ4Wrs=;
+ b=PsH6+5IY7Fow2djFidoLq2HkNMzBOvETgTeNNnZjajK9xVi+kiwCyfrmNNNdDT/p63
+ llVji3J+lnfYjdeeQpZxNT/QOfowoEHaPMok+JscCdxWa3JT5YtwABj3Ys25FAnym7zy
+ c5sVK0AUWrrtfpH6Co8a4q49+GMdONQ4EYySodlA7tqqBbUO61beThwadZmDR5kN8MuI
+ 2ScxdKN4cFCpsKtUyQM/9SRW6hJkEtONNQDsGbP70jdy6HlGTlBovxbEx4+GNtvLIMea
+ z+RBfoAu89bFo0SPIv1KaRMLDXqyAOV+Dd0FUtOtIpYghI2elKfiLuITICvs8EknDK0z
+ NE2Q==
+X-Gm-Message-State: AOAM533fD57NpnkaZJ2MLq3LYo5p1xEu2AKvKZp0K5SpGqucoGQnzBbk
+ N8ESePSnMDyMgDIWM7txL79aTQ==
+X-Google-Smtp-Source: ABdhPJwyqPqyYEh2SmlifUi7S3yQPUra5Yhe6ehxK8XCdihQ23k83OMJot3HyVh4dsDP98vIy/NTZg==
+X-Received: by 2002:a17:90a:d18d:: with SMTP id
+ fu13mr7268pjb.206.1627603278888; 
+ Thu, 29 Jul 2021 17:01:18 -0700 (PDT)
+Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
+ (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
+ [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
+ by smtp.gmail.com with ESMTPSA id x26sm4828346pfj.71.2021.07.29.17.01.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 17:01:18 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 12/43] target/sh4: Implement do_unaligned_access
+ for user-only
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-13-richard.henderson@linaro.org>
+ <CAFEAcA9yrj7OZPkeZ2jUqAV4+ULVYm4++y6kXeK2_MC8gR3-bg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3318f1ba-0963-155d-4fe7-3de9bf7ee0f6@linaro.org>
+Date: Thu, 29 Jul 2021 14:01:15 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210726222551.28795-1-dongwon.kim@intel.com>
-User-Agent: NeoMutt/20210205-678-cae0f0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA9yrj7OZPkeZ2jUqAV4+ULVYm4++y6kXeK2_MC8gR3-bg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,49 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Linux-sh list <linux-sh@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 26, 2021 at 03:25:49PM -0700, Dongwon Kim wrote:
+On 7/29/21 3:52 AM, Peter Maydell wrote:
+> sh4 kernel default for unaligned accesses seems to be "warn and fixup",
+> not SIGBUS, unless the user changes that by writing to /proc/cpu/alignment
+> or the process changes it via prctl().
 
-[meta-comment] When sending a patch series, remember to include a 0/3
-cover letter, as it makes it easier to distinguish replies about the
-series as a whole from review of the first patch.
+We will still need this for load-locked/store-conditional (MOVLI/MOVCO).
 
-> With a display option, "show-fps=on", qemu adds a status bar and print
-> following performance numbers on the bar,
-> 
-> ups = update per seconds - the rate the guest scanout is updated.
-> fps = frame per seconds - the frame rate of VC's GL drawing area
-> 
-> One function, gd_gl_count_frame is added to count # frames
-> and calculate ups and fps every 100 frames or guest scanout updates.
-> 
-> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> ---
->  include/ui/console.h |  4 +++-
->  include/ui/gtk.h     |  2 ++
->  qapi/ui.json         |  6 +++++-
->  ui/console.c         |  6 ++++++
->  ui/gtk.c             | 51 ++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 67 insertions(+), 2 deletions(-)
+It appears that the sh4 kernel fails to decode these properly, and will do something ugly, 
+like interpreting MOVLI as a multiple-store instead of a load.
 
-> +++ b/qapi/ui.json
-> @@ -1035,13 +1035,17 @@
->  #               assuming the guest will resize the display to match
->  #               the window size then.  Otherwise it defaults to "off".
->  #               Since 3.1
-> +# @show-fps:    Enable showing Guest Scanout's update rate (UPS) and
-> +#               Surface render swap rate (FPS) on a status bar (default: off).
-> +#               Since 6.0
+There are also other instructions that the kernel does not attempt to handle, such as MAC. 
+  I suppose we could begin with turning off TARGET_ALIGNED_ONLY for sh4-linux-user, then 
+re-enabling MO_ALIGN for the atomics (at least).
 
-This is too late to make the 6.1 release; at best, it should read
-'since 6.2'
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
