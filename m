@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228193DBE39
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:16:55 +0200 (CEST)
-Received: from localhost ([::1]:41012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2243DBE41
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:19:45 +0200 (CEST)
+Received: from localhost ([::1]:43140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9X42-0004eG-6z
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57020)
+	id 1m9X6m-00068o-7U
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m9X2B-0003Al-RU
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50993)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9X59-0005SG-FN
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:18:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m9X29-0001Z0-1l
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9X57-0003Yj-Uq
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:18:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627668895;
+ s=mimecast20190719; t=1627669081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jHbEGFQV9FKpMNBqnQHlCYb5cXEfSMu/IvDihbBEC9Q=;
- b=L15naFTcXjjGV6rEqapEMEmC0mATs3bwgyq93YgBWJ/PgpPLe0FC3nK82BO4fC9nTtiT/k
- U7xvTOBZy1pew+BfGVmdH/kpVBkA8y72T8zNjRyJXkg8LQ9RG9zUMrYTndaW5t9G3HXQcx
- c4XXjLdOPB1Js1FhhYViG88BpP04QK8=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-_PvDmJ3aNWyUY2yMSnFs0A-1; Fri, 30 Jul 2021 14:14:54 -0400
-X-MC-Unique: _PvDmJ3aNWyUY2yMSnFs0A-1
-Received: by mail-oi1-f197.google.com with SMTP id
- v128-20020aca61860000b029025c02a6228cso4848556oib.21
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:14:54 -0700 (PDT)
+ bh=BaaOEQsIuJF+DWtOacVN1Wl5+cS57KfONEPvCAGd0gw=;
+ b=EuKo3wUqSopitUPc7AkhWpkrXUN2D8OYQPcQkoRVWvZH6b4V0xHKWNWAX1B1jSUmEh5a3N
+ 8W4R1nFqwDnEotlaDHdl0ooGjKWJxpyvOl9fqppLf9B4NFyqJSxxbxUwUzepECCj27oZg2
+ aIZtdXgIjInPbRdmcFyHRT00HaWQyPQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-tYq9T_C2NOKwVTWEjzcI7g-1; Fri, 30 Jul 2021 14:17:59 -0400
+X-MC-Unique: tYq9T_C2NOKwVTWEjzcI7g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r17-20020adfda510000b02901526f76d738so3498352wrl.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:17:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding:date
- :message-id:cc:subject:from:to:references:in-reply-to;
- bh=jHbEGFQV9FKpMNBqnQHlCYb5cXEfSMu/IvDihbBEC9Q=;
- b=V5xs+otHr7qdpLJNgE+TcSqLTfsDNJlKnAvuP4e8fhnjku28y1bJh6A68+D+AFYxdD
- ThxUi5PtmxsnttAM1/HGFjDN2Qp4rqkSoN+EzvLuh/qQrCNjFJegLGY2C6HGdsCOMNmw
- zmw18HGVc8lDFHP/fhdLNAFtFw+U5Eoa+2kfZfOaxH7TjuN1ZJCtHZ4zQvBNjGvnVwH8
- FxRcuSJqc8cdzVzjvTF7ydZlfnptx2G0eYshSdkuHysO43WzRHrfd4zOxTxITxrtePkw
- DiYF11bob8sMabDx/t7jrEz9UQR5s25HoiRrKwIUrmCTgxEdOpHFvInc/xi4X+ULyDtx
- a6yA==
-X-Gm-Message-State: AOAM531qh6nFJn38AUs9uimviKas1K1E6WENRqSX4iGLMYZq9xJBcRkW
- SessV4afrn/2iNvvI1c3iwawX1fAHDJ2H24M9RWgz+fvHdTFYOZwPz3LVBAum+mDoVL5aoVdIAb
- L7DXEfLLbQvfPgY4=
-X-Received: by 2002:a9d:5381:: with SMTP id w1mr3010662otg.259.1627668893459; 
- Fri, 30 Jul 2021 11:14:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziJ7W9TQTGZRTpeleOj0Cz+bbvZ0uyQtCnAjC8zipuPhxDxpKJKDHQ75/bFrFw0K+dueFOTw==
-X-Received: by 2002:a9d:5381:: with SMTP id w1mr3010644otg.259.1627668893254; 
- Fri, 30 Jul 2021 11:14:53 -0700 (PDT)
-Received: from localhost (ip68-103-222-15.ks.ok.cox.net. [68.103.222.15])
- by smtp.gmail.com with ESMTPSA id t4sm395581oiw.19.2021.07.30.11.14.52
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BaaOEQsIuJF+DWtOacVN1Wl5+cS57KfONEPvCAGd0gw=;
+ b=n0Q7DpzhUnycIyb4OE7kYBUknrIJn68WkQAbF8xRVgZXhE57G9AWXpXzvwAVo2nIqM
+ PLNb47oSuOjHOgrrEqwh7bkCtkgc25SLYjl2PG6FcXtf1pfxBkLuziOWd2hDs8z8MfYW
+ zQaNpCYvIqdZv2ThpnV9hVxTKeSmFeq5lNqdsYTbuH86pwsGAQy+sWLeB85zMjVkfGjv
+ bYikALzLf+3csskJvk/etsrO9O42xexntct7DhOHl/mv3P5re3egOPLunjdXd88wsAvu
+ l+8dCQTnutEWvqjtqetXA0/jyD4AKxQsPb1TS+LPj1ZWh15ux6X87hqxENi7H5iILEPi
+ Jb+w==
+X-Gm-Message-State: AOAM533cRkDeyO2QL/OuVtoGvy8AsuaHmt3yHtUjZhvTc7MeODPQ0Lua
+ 7eQqqOMvguIl4RkFWnnbOhMkxRPsmIurS9hm1hq1KlmH7+f5wVUkxCzpZoIQIFTymKU3oH69xBg
+ 1t7rr4T2oThNVC38=
+X-Received: by 2002:adf:dd89:: with SMTP id x9mr4397904wrl.401.1627669078088; 
+ Fri, 30 Jul 2021 11:17:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVJ38/RVWFLpNW2W6sd+A/1aBjhpcK494NvQWoNZ7TRRFwBCXC6ncFHhShnJUMbmN2/+RMbA==
+X-Received: by 2002:adf:dd89:: with SMTP id x9mr4397884wrl.401.1627669077917; 
+ Fri, 30 Jul 2021 11:17:57 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id l24sm2490919wmi.30.2021.07.30.11.17.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 11:14:52 -0700 (PDT)
-Mime-Version: 1.0
-Date: Fri, 30 Jul 2021 13:14:51 -0500
-Message-Id: <CD6OGU9ZTOBE.2W1TECD9E7IRG@fedora>
-Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
- kernel/initrd/cmdline
-From: "Connor Kuehl" <ckuehl@redhat.com>
-To: "Dov Murik" <dovmurik@linux.ibm.com>,
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>
-References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
- <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
- <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
- <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
- <203b655c-809b-b418-f61c-982e587fa9f2@linux.ibm.com>
- <CD6K1W4R8HRF.3G3JJ2YD4C8I3@fedora>
- <8af634e5-34be-1532-3afb-75ec4306fc87@linux.ibm.com>
-In-Reply-To: <8af634e5-34be-1532-3afb-75ec4306fc87@linux.ibm.com>
+ Fri, 30 Jul 2021 11:17:57 -0700 (PDT)
+Subject: Re: [PATCH] MAINTAINERS: Added myself as a reviewer for acpi/smbios
+ subsystem
+To: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org
+References: <20210730175514.40147-1-ani@anisinha.ca>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f304715a-aa30-8aff-c5ac-310c751a352a@redhat.com>
+Date: Fri, 30 Jul 2021 20:17:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210730175514.40147-1-ani@anisinha.ca>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 1
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,34 +99,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org, Tobin
- Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri Jul 30, 2021 at 1:02 PM CDT, Dov Murik wrote:
->
->
-> > Awesome! Unfortunately, it's looking like we'll have to wait[1] for QEM=
-U to
-> > thaw before this series goes in.
-> >=20
->
-> Thanks for explaining this. Do I need to do anything after 6.1 is
-> released? Ping? Rebase and re-send?
+On 7/30/21 7:55 PM, Ani Sinha wrote:
+> I have developed an interest in this space and hopefully can lend some
+> helping hand to Igor and Michael in reviewing simpler patches.
 
-Rebase and re-send. I think your patches already have the Reviewed-by
-tags in the patch descriptions, but if that's not the case, make sure
-you add them for the re-send so it's obvious that the patches have
-already been reviewed.
+Help is welcome IMHO, so:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Thank you,
-
-Connor
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4256ad1adb..1c90ea4e6b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1739,6 +1739,7 @@ F: docs/specs/*pci*
+>  ACPI/SMBIOS
+>  M: Michael S. Tsirkin <mst@redhat.com>
+>  M: Igor Mammedov <imammedo@redhat.com>
+> +R: Ani Sinha <ani@anisinha.ca>
+>  S: Supported
+>  F: include/hw/acpi/*
+>  F: include/hw/firmware/smbios.h
+> 
 
 
