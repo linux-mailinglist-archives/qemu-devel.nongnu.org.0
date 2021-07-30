@@ -2,76 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976003DC154
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 00:56:15 +0200 (CEST)
-Received: from localhost ([::1]:57690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9773DC182
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 01:18:32 +0200 (CEST)
+Received: from localhost ([::1]:37084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9bQM-00006r-4e
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 18:56:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42930)
+	id 1m9blv-000879-Ts
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 19:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9bPR-0007ex-TE
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 18:55:17 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9bPQ-0003Lv-0F
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 18:55:17 -0400
-Received: by mail-wm1-x331.google.com with SMTP id b128so6862263wmb.4
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 15:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K1Lp6dR6470DOf4IKPk+V0JlPZFU/7h3vubagA5N4f4=;
- b=TquC3Mkl7nu6P6JvACZO2deXWHrQT24YHqLgXuP4TNgrTfxXxeMa9LiGIyykpJcGbW
- pncs1eSLlRoqoeCf4IsFmU2F7zyilZQYqyniHFIYpOYaVvtdptAfb+awJ30wwCiJLP2a
- /NyVOw2eE8Alo9fS87tOsfRFRYeB3mTApmolVbMivlUngLk//11WlB0593qDipLlCkQl
- sLimvRp9KXVGL8WypJ43x/ZhQ5P5NRq9tmjUI5akSzr6Y+sYPwxYNNiGhHPRB5vUdFAB
- rsYF9ASqOvjIRZScTZ+seTjNsS51ZBQaaswdHWf/OYsoBOdoUViMpHjuhxsEz+jRTPZP
- 6wsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=K1Lp6dR6470DOf4IKPk+V0JlPZFU/7h3vubagA5N4f4=;
- b=SShMSgZNHLwtHIKGMFiRsT+S2QO5jNrhf9Bs9eeTs7QaD4o776Rs2ZC1kROh4Gk8+D
- yZR8UHhjscu61JU/72jorS0L1UK/5ZtCFg4ILI6TEDdh2iptekoC7P4MIbKGifuBucV1
- j8UI5nkVilRN6c6OlfR/EkkuZSo+xEdNoZW6M4E0N+o34LUuKI3bSDHwAMBwjSWw+gnE
- M8XT96O68KDVomyo1x/StfharmBEODZoD6Gdl/kv3SswyGX2SLToj/KFDqjcFvVk+TpQ
- ohR6+YOq8FmorjXlpBb+8FwZkTKqAjso+7s/qcN4+jIKu9S26Wh1n3gCJw5/46LVEild
- MRog==
-X-Gm-Message-State: AOAM532i1dz+t9cchMpnzU3+F87dZJb01gqI6n8/zQvklGZJQTTRB2tL
- AC0Lyo8lDdpyPQoJv9UwUrkADXuG+UVAWQ==
-X-Google-Smtp-Source: ABdhPJwjpQi2QIjWsH4oZv2KJo8gTwBWCxTVYy3fHmcftHyywTUb8x41wq0Ln2H3aNuz+bL7zECqfw==
-X-Received: by 2002:a05:600c:322a:: with SMTP id
- r42mr5706498wmp.153.1627685713094; 
- Fri, 30 Jul 2021 15:55:13 -0700 (PDT)
-Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id
- c10sm3004683wmb.40.2021.07.30.15.55.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 15:55:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips: Remove JR opcode unused arguments
-Date: Sat, 31 Jul 2021 00:55:07 +0200
-Message-Id: <20210730225507.2642827-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1m9bkc-0006U9-Ad; Fri, 30 Jul 2021 19:17:10 -0400
+Received: from mail-dm6nam08on2074.outbound.protection.outlook.com
+ ([40.107.102.74]:60320 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1m9bkZ-0006lB-Le; Fri, 30 Jul 2021 19:17:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qbw/bDY/PK3HEZnUMqDMlMe9NlHozt/msLgsvgxRTfi2PJZN0eRLkAI28ZEp+SgETTht0u2vYjns+Me/QFtrhCpMEPUCMcQYFJw57bygCWtfYFA7wGYynRsqMbnjn8VdBRBwFSAvkxt1Na4wYESxPPBZnUdkqbDSQppsvKjy0faMBvleLYUJPCs35b/HUJ1eTMqDe20rHIde9JqXWDaFfWmoR98st+BSPz2V7FkVomSaAu3Hsq/S4/hMKmPcQlSjfjy/bylmrPtBbTPDcujukkq5UL/cH9eiqOpXkWZJ1eTagzflYDRXWDiOBuqb4cxy1S6hHSRU1/LN7BSTeyHXgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e952KW0u9fXNjcG4KgcdRmH5H3K5ZTf0b0dKezQT3PE=;
+ b=UYATay2ENj9d0Uo1JYHVqZTRLJLELNIoIRBXzXibzsT3yhxk1L82BCiUwkVifvB/MCAdEd18zJciueDHuqODlTSYxyHiXMB9QkrWZyS51/VeMUax3/nT9bsicw+v8omftY0EfnLezn+57KNt5Wyqr8e7rLE1Esb+sR010VqY340IaYj4GnySBwEhw81JUjJG/KeiD+jbgAuC5YGQNv+YQhP30k2rz0/JBCA37S1pAPdzKZh8NOoYYjTspyQ6yiYZN+inVn5Hm/pZDZ9xudqwNgIyW110GvIkko1b8GsxaxHixXyYy/XTYwd0XXqyu4p7xV8KMMrOed+Er5Snjv92Bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e952KW0u9fXNjcG4KgcdRmH5H3K5ZTf0b0dKezQT3PE=;
+ b=LkGS2RYCRMo9dB9tsDDIHL0aEOcv+tn3psnRGDYn3qJOOgmXADuCekeGVbTpc/B4c1wUGC9ISZtlt5G0cebps5y5OK3ThYvhzKfe42CaO930Zyx74C9kcCjMDEP3bi1MmVddgudbtCtnhDjBXsWiDRvH7U9Wu27USHhpR6jOwzU=
+Received: from SA0PR11CA0067.namprd11.prod.outlook.com (2603:10b6:806:d2::12)
+ by DM6PR02MB5993.namprd02.prod.outlook.com (2603:10b6:5:156::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Fri, 30 Jul
+ 2021 23:17:03 +0000
+Received: from SN1NAM02FT0044.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:d2:cafe::bf) by SA0PR11CA0067.outlook.office365.com
+ (2603:10b6:806:d2::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
+ Transport; Fri, 30 Jul 2021 23:17:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0044.mail.protection.outlook.com (10.97.5.46) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4373.18 via Frontend Transport; Fri, 30 Jul 2021 23:17:03 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 30 Jul 2021 16:17:02 -0700
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Fri, 30 Jul 2021 16:17:02 -0700
+Received: from [172.19.2.32] (port=36936 helo=xsjkomlodi50.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <joe.komlodi@xilinx.com>)
+ id 1m9bkU-0006F4-Ov; Fri, 30 Jul 2021 16:17:02 -0700
+From: Joe Komlodi <joe.komlodi@xilinx.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH 0/1] hw/arm/smmu: Add access flag handling
+Date: Fri, 30 Jul 2021 16:17:01 -0700
+Message-ID: <1627687022-366528-1-git-send-email-joe.komlodi@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 32ca90d5-40aa-4e95-086a-08d953b02415
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5993:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB5993D2C68405D2345B208131D0EC9@DM6PR02MB5993.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ud4sXgsSdfNqDLlYdP/hukPerBszBZr0J2i9QXK3eCbnu6fsGskvYRaJznKX5tW53CXqCxaHhQ+A7xX+3MM6UFhMRN+3cpm2oiW9os7K+RCTz9YDOUUs4eOCsizxre4KHGyqNllp9lATDiNncg2e8T3PUMsWn9+hHr0Tb2K5+OfG3CyRj7VHgypU8IjJul8yj/LJfYWjYqGO8iF67YDuu2+hi5WxQPMOOe9k8cUGwZ611aPsBMOjCqIt71HmJKSNZkJlRzrTlu0t/y8s86vUuqjMFd/jYyr2HQWgzK4Of8yGc2Q4VPY6QdMNjd8QjIT2jVZhYjs4rHZLr293koifwqhB6zyiWLEfiUhP2hBs+Hi81XH6F1hAybj77UfuIpHVT/lfUOAdkmrCtltJzR1eqDLveqegrHHyjR3zQLO//+07mheRlOM0BZP4D0v23auGw8skZXr4ydgWBlhqySu2hMBwWrZscQD6XfoKDWBc6wyTdClWSebx6BOqekNCfTM+HkktCaLGCK22GXcaP4UQW53wfTN3qfKuxiQEP61hHKQ+hUnn3Wg+lP8SewepXe47qzMjTQLz3dR6Sbx3T9WIMimGEN3x62b2YfHBQz2jfrb9S8m4HbGoklis+U9igX8ZX15N7zRZR3bOoCgdT9CXtRkrV7m9I1cEbZP1gJMvLhyGmTQ45nfRbkIA3dKaOSoC3+gKw1haOeWGD1UZOI1WwBkNaMoVBUJYDeyw7zZns7M=
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(396003)(39850400004)(36840700001)(46966006)(47076005)(36756003)(5660300002)(6916009)(82310400003)(7696005)(4326008)(4744005)(356005)(82740400003)(8936002)(44832011)(54906003)(9786002)(316002)(7636003)(2906002)(70206006)(70586007)(86362001)(36906005)(26005)(426003)(478600001)(2616005)(186003)(83380400001)(8676002)(36860700001)(336012)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2021 23:17:03.3543 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32ca90d5-40aa-4e95-086a-08d953b02415
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0044.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5993
+Received-SPF: pass client-ip=40.107.102.74; envelope-from=komlodi@xilinx.com;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,68 +119,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-JR opcode (Jump Register) only takes 1 argument, $rs.
-JALR (Jump And Link Register) takes 3: $rs, $rd and $hint.
+Hi all,
 
-Commit 6af0bf9c7c3 added their processing into decode_opc() as:
+This adds a check in SMMU PTW to see if the access flag bit is set in a PTE, and
+if we should fault accordingly or not.
 
-    case 0x08 ... 0x09: /* Jumps */
-        gen_compute_branch(ctx, op1 | EXT_SPECIAL, rs, rd, sa);
+Since we do not support HTTU, the check itself is pretty simple:
+If AFFD == 0 in the context descriptor and AF == 0 in the PTE, we fault.
+Otherwise, we do not have an access fault.
 
-having both opcodes handled in the same function: gen_compute_branch.
+Thanks!
+Joe
 
-Per JR encoding, both $rd and $hint ('sa') are decoded as zero.
+Joe Komlodi (1):
+  hw/arm/smmu: Add access flag handling
 
-Later this code got extracted to decode_opc_special(),
-commit 7a387fffce5 used definitions instead of magic values:
+ hw/arm/smmu-common.c         | 7 +++++++
+ hw/arm/smmu-internal.h       | 8 ++++++++
+ hw/arm/smmuv3-internal.h     | 1 +
+ hw/arm/smmuv3.c              | 1 +
+ include/hw/arm/smmu-common.h | 1 +
+ 5 files changed, 18 insertions(+)
 
-    case OPC_JR ... OPC_JALR:
-        gen_compute_branch(ctx, op1, rs, rd, sa);
-
-Finally commit 0aefa33318b moved OPC_JR out of decode_opc_special,
-to a new 'decode_opc_special_legacy' function:
-
-  @@ -15851,6 +15851,9 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
-  +    case OPC_JR:
-  +        gen_compute_branch(ctx, op1, 4, rs, rd, sa);
-  +        break;
-
-  @@ -15933,7 +15936,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-  -    case OPC_JR ... OPC_JALR:
-  +    case OPC_JALR:
-           gen_compute_branch(ctx, op1, 4, rs, rd, sa);
-           break;
-
-Since JR is now handled individually, it is pointless to decode
-and pass it unused arguments. Replace them by simple zero value
-to avoid confusion with this opcode.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/tcg/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 5b03545f099..bf71724f3f0 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -14203,7 +14203,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
-         break;
- #endif
-     case OPC_JR:
--        gen_compute_branch(ctx, op1, 4, rs, rd, sa, 4);
-+        gen_compute_branch(ctx, op1, 4, rs, 0, 0, 4);
-         break;
-     case OPC_SPIM:
- #ifdef MIPS_STRICT_STANDARD
 -- 
-2.31.1
+2.7.4
 
 
