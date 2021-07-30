@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9513DB46C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 09:22:25 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B903DB4AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 09:47:07 +0200 (CEST)
+Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Mqe-0003ho-ER
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 03:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56928)
+	id 1m9NEY-0000o9-RN
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 03:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m9Mp9-00031A-7g
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:20:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49328)
+ id 1m9NDN-0008VV-1L
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:45:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m9Mp7-00045f-6O
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:20:50 -0400
+ id 1m9NDK-0000Lb-Oj
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:45:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m9Mp1-0000z9-MG
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:20:44 +0000
+ id 1m9NDF-00077i-AT
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:45:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF1952E81A4
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:20:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9F7B22E8198
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:45:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Jul 2021 07:14:57 -0000
+Date: Fri, 30 Jul 2021 07:40:12 -0000
 From: Maxim Devaev <1891748@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -46,14 +46,14 @@ X-Launchpad-Bug-Commenters: ajbennee dilfridge ech1965 laurent-vivier mdevaev
 X-Launchpad-Bug-Reporter: Ech (ech1965)
 X-Launchpad-Bug-Modifier: Maxim Devaev (mdevaev)
 References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <162762929773.22267.1970685051632210338.malone@gac.canonical.com>
+Message-Id: <162763081253.7377.13079552893704042106.malone@chaenomeles.canonical.com>
 Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="33e31d845587d75ee5a0727697204c950ad471d5"; Instance="production"
-X-Launchpad-Hash: 3afad2374de0a1da5b333142a0bb6508184c5619
+X-Launchpad-Hash: 9777d27cba778cd5cfa712441f4d9b2fec852b94
 Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -77,7 +77,13 @@ Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I mean [0...52348] is working.
+Sorry, an error in previous message.
+
+Fixed and detailed diagnostics:
+
+[0    ...  53248] - working
+[53249 ... 61440] - Cannot allocate memory
+[61441 ... 65536 and higher] - Operation not permitted
 
 --=20
 You received this bug notification because you are a member of qemu-
