@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B07A3DBE31
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:15:23 +0200 (CEST)
-Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228193DBE39
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:16:55 +0200 (CEST)
+Received: from localhost ([::1]:41012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9X2Y-00033i-5m
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
+	id 1m9X42-0004eG-6z
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9X1c-0002M6-SP
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:24 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9X1b-0001Ek-4A
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:24 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id hw6so4436890ejc.10
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hPKlkhbuv3l6vSIlurAJUQ1aaNM51rxliVgx3fbgkK0=;
- b=X3ERV3BDlFen8V0QaKDc/IF0VaNBtXlke3gS/tm8bsX0QFKM4U1+1Y0s6E/8Io9J7d
- WZRnuPmx6J9LjK7K1ZmT7C4gFXdvoQ8nBZm6fKdsR5t9rtMt/AIZjXJzt97CC/B4K9TX
- mjGq5MrrOSkPKqUeSKEGU7u+2rSI/qZpy8MRoeF7Wx5TFta820DV6vYljhCqGUXHVKoY
- sUa3l9ph3BMpe6wL60PKwQXbq9S5WGW5Ku+JqU1DEzBQg62aCUa2g0Ek1H8uFHFBBFb6
- DCu8+GeGsTk7lc+jTdBs1zKnPuuvGtHcEPBdCesrZiVTpBBntvuLUyWfYNpq60vr4ViN
- ks9A==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m9X2B-0003Al-RU
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m9X29-0001Z0-1l
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:14:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627668895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jHbEGFQV9FKpMNBqnQHlCYb5cXEfSMu/IvDihbBEC9Q=;
+ b=L15naFTcXjjGV6rEqapEMEmC0mATs3bwgyq93YgBWJ/PgpPLe0FC3nK82BO4fC9nTtiT/k
+ U7xvTOBZy1pew+BfGVmdH/kpVBkA8y72T8zNjRyJXkg8LQ9RG9zUMrYTndaW5t9G3HXQcx
+ c4XXjLdOPB1Js1FhhYViG88BpP04QK8=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-_PvDmJ3aNWyUY2yMSnFs0A-1; Fri, 30 Jul 2021 14:14:54 -0400
+X-MC-Unique: _PvDmJ3aNWyUY2yMSnFs0A-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ v128-20020aca61860000b029025c02a6228cso4848556oib.21
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:14:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hPKlkhbuv3l6vSIlurAJUQ1aaNM51rxliVgx3fbgkK0=;
- b=tvdrQoOZwpESpGoQIFR/jAupDVi7IoYyxkhQMrcIJcsfBokjZSujUxWFPfbvnETv2n
- uEPA87sbbI51v+OPqmgX4Marh7me8ekjL7QvflhdHsHbWv44QRgy3Z5wSO5ql7oYmTC3
- CPzzhs5eh25N9TfXJvYK09DpOR2E3/D2+CBMB87/UmdDLEI/8I9yjjNyblKpfpMkcYMh
- BBjh5nsn+o93w8CwWaPku9RW0fNZM5EncP/A7hx7UvTGOf0fw2TtE2LyuEK754sG9W4L
- 4OFLYWQY/W3O4RD4NGil1otXodpHoxHU5dYJXFNS8LXSQQT2LL0hd4N9Rabotpntr9wQ
- rW9Q==
-X-Gm-Message-State: AOAM5310iFml74lftXveJ7FkCm5KqkoAKwpBh0hasID+KGY2CqC56oRh
- xGnFISkCfafHfWJzE9AsPcFm+8DcRxewWMNaKpVpRA==
-X-Google-Smtp-Source: ABdhPJxhZ1rBeCL7TwJhsQyuiBuP+qXuUcKtY8V+mXgt25jzxw1j50Vd7o4mmDT6CjyR7YOhVIpL7Zvqobx/zdwWH00=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr3723108ejy.407.1627668861347; 
- Fri, 30 Jul 2021 11:14:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGu1Vjjot17roFD-YTWmQcDhhMD=Lzi3b3Q51cHNRnz+6JT_HQ@mail.gmail.com>
-In-Reply-To: <CAGu1Vjjot17roFD-YTWmQcDhhMD=Lzi3b3Q51cHNRnz+6JT_HQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Jul 2021 19:13:38 +0100
-Message-ID: <CAFEAcA9QexXsrXMHMQrS-aGNbA_4_G2CB+9KeRJqMEF5LQ84ig@mail.gmail.com>
-Subject: Re: QEMU on x64
-To: Christopher Caulfield <ctcaulfield@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:content-transfer-encoding:date
+ :message-id:cc:subject:from:to:references:in-reply-to;
+ bh=jHbEGFQV9FKpMNBqnQHlCYb5cXEfSMu/IvDihbBEC9Q=;
+ b=V5xs+otHr7qdpLJNgE+TcSqLTfsDNJlKnAvuP4e8fhnjku28y1bJh6A68+D+AFYxdD
+ ThxUi5PtmxsnttAM1/HGFjDN2Qp4rqkSoN+EzvLuh/qQrCNjFJegLGY2C6HGdsCOMNmw
+ zmw18HGVc8lDFHP/fhdLNAFtFw+U5Eoa+2kfZfOaxH7TjuN1ZJCtHZ4zQvBNjGvnVwH8
+ FxRcuSJqc8cdzVzjvTF7ydZlfnptx2G0eYshSdkuHysO43WzRHrfd4zOxTxITxrtePkw
+ DiYF11bob8sMabDx/t7jrEz9UQR5s25HoiRrKwIUrmCTgxEdOpHFvInc/xi4X+ULyDtx
+ a6yA==
+X-Gm-Message-State: AOAM531qh6nFJn38AUs9uimviKas1K1E6WENRqSX4iGLMYZq9xJBcRkW
+ SessV4afrn/2iNvvI1c3iwawX1fAHDJ2H24M9RWgz+fvHdTFYOZwPz3LVBAum+mDoVL5aoVdIAb
+ L7DXEfLLbQvfPgY4=
+X-Received: by 2002:a9d:5381:: with SMTP id w1mr3010662otg.259.1627668893459; 
+ Fri, 30 Jul 2021 11:14:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziJ7W9TQTGZRTpeleOj0Cz+bbvZ0uyQtCnAjC8zipuPhxDxpKJKDHQ75/bFrFw0K+dueFOTw==
+X-Received: by 2002:a9d:5381:: with SMTP id w1mr3010644otg.259.1627668893254; 
+ Fri, 30 Jul 2021 11:14:53 -0700 (PDT)
+Received: from localhost (ip68-103-222-15.ks.ok.cox.net. [68.103.222.15])
+ by smtp.gmail.com with ESMTPSA id t4sm395581oiw.19.2021.07.30.11.14.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 11:14:52 -0700 (PDT)
+Mime-Version: 1.0
+Date: Fri, 30 Jul 2021 13:14:51 -0500
+Message-Id: <CD6OGU9ZTOBE.2W1TECD9E7IRG@fedora>
+Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
+ kernel/initrd/cmdline
+From: "Connor Kuehl" <ckuehl@redhat.com>
+To: "Dov Murik" <dovmurik@linux.ibm.com>,
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>
+References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
+ <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
+ <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
+ <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
+ <203b655c-809b-b418-f61c-982e587fa9f2@linux.ibm.com>
+ <CD6K1W4R8HRF.3G3JJ2YD4C8I3@fedora>
+ <8af634e5-34be-1532-3afb-75ec4306fc87@linux.ibm.com>
+In-Reply-To: <8af634e5-34be-1532-3afb-75ec4306fc87@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 1
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,48 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alexsmendez@live.com, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org, Tobin
+ Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 19:05, Christopher Caulfield
-<ctcaulfield@gmail.com> wrote:
-> This is Christopher from the debugging experiences team at Microsoft focused on kernel debugging. I am reaching out with a few questions about QEMU on x64.
+On Fri Jul 30, 2021 at 1:02 PM CDT, Dov Murik wrote:
 >
-> Is it possible for the QEMU-x86-64 GDB Server to send the full set of x64 system registers (whether they are included in a separated system xml file or as part of the core registers xml file)?
-
-Do you mean "is it possible for somebody to write code for
-QEMU to make it do that", or "does QEMU do it today if you pass
-it the right command line option" ? The answer to the former
-is "yes", to the latter "no". (If you want the debugger to
-be able to write to the system registers this might be a little
-trickier, mostly in terms of "auditing the code to make sure this
-can't confuse QEMU if you change some sysreg under its feet.".)
-
-> e.g. System registers missing from i386-64bit.xml file
-
-> DWORD64 IDTBase;
-> DWORD64 IDTLimit;
-> DWORD64 GDTBase;
-> DWORD64 GDTLimit;
-> DWORD SelLDT;
-> SEG64_DESC_INFO SegLDT;
-> DWORD SelTSS;
-> SEG64_DESC_INFO SegTSS;
 >
-> How can I access x64 MSR registers by using the QEMU-x86-64 GDB server?
+> > Awesome! Unfortunately, it's looking like we'll have to wait[1] for QEM=
+U to
+> > thaw before this series goes in.
+> >=20
 >
-> #define MSR_EFER 0xc0000080 // extended function enable register
+> Thanks for explaining this. Do I need to do anything after 6.1 is
+> released? Ping? Rebase and re-send?
 
-EFER is in the xml ("x64_efer") so should be already accessible.
-For anything else you're going to need to write some code to
-make it happen.
+Rebase and re-send. I think your patches already have the Reviewed-by
+tags in the patch descriptions, but if that's not the case, make sure
+you add them for the re-send so it's obvious that the patches have
+already been reviewed.
 
->is there any plan to support reading/writing to MSRs via QEMU-x86-64 GDB server?
+Thank you,
 
-Not that I know of. We'd be happy to review patches if you want to
-write them.
+Connor
 
-thanks
--- PMM
 
