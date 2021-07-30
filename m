@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8FB3DBF21
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 21:42:56 +0200 (CEST)
-Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433A23DBF3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 21:49:36 +0200 (CEST)
+Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9YPH-0006rL-CA
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 15:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
+	id 1m9YVi-0001OC-Tz
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 15:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9YO7-0005v6-Qo
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:41:43 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:42767)
+ id 1m9YU3-0008Kx-G0
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:47:51 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:44950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9YO6-0000nQ-99
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:41:43 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- o44-20020a17090a0a2fb0290176ca3e5a2fso15888123pjo.1
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 12:41:41 -0700 (PDT)
+ id 1m9YU2-0004ze-16
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:47:51 -0400
+Received: by mail-pl1-x633.google.com with SMTP id q2so12306999plr.11
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 12:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=XIkIZUOXJZAefI+U0E2hTAaqkdhFCiAxcuC4xPnzYMA=;
- b=VBddcm3j6amC//jKLLg8WLKAY4PPBL1kXTHmQazS0BXzHCpIbSRKe93hU6UCjVyopg
- GqgEQqrmYEv478A+hJ317G9wg4WMY6yP4iHomcTMu2fp8B84wg39mFgGUDImU+8WNvAx
- z2+HUXcvXM3DHQE7zAnEZjw0mmYXhKizjKF8nLEaRA03wxsrNWXI3gfFl+PksSnOJg4w
- a4DIRAhYCqyrwNzzgv7VM6aXUZkKTwqeyJdKW47oF2tRvH0MjTLo5sxS/7KGv1a53cxr
- 2/w8Nkh43Blo62HhVamK9lxeZp0FgcuKiGeoa569P3m0W7/cI3gxGkiZg4E3/pvKtPRD
- A5Pw==
+ bh=Y1fVlefxzFWTPDME/a9xIKg0QQWtUb1i1gNesZX+mJ8=;
+ b=CrZW72gm8eVN2Pibpl1CTyfxrdupFrjGu2OxdpP1EHwgUJp+67mfL5IuNyuNlluVsG
+ H7AK4t45+d12nmLtM5yNNbskUywFaViwDaiwC0MTpNbir0mgoogevdDJKdY5rA00TJXr
+ Lq7cHtp9LJnXGKuEHTB8Uy+7j1Zy7zFik48ZbLuOK1AkURtXAQqPJPKJ5u14w7sBZQx0
+ UENorTkvlVHiJRBV9W0fYJQPTabt+Sr1ng6wSJrHc2ze4CnrJyMMLkmmtDbGU8JYTiy8
+ 7KsUybCrL1t13eaY6l2/pC3PYCdA2uMm4glQ8lVvkuNvD4gz4pXNf2S2DVvo4dHsehUP
+ z6Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XIkIZUOXJZAefI+U0E2hTAaqkdhFCiAxcuC4xPnzYMA=;
- b=hJVsyf8u5RL91nGzpKZI8cRXsBCC5R22XYt7zOom5mT2pi+LvM0hmDSvaSQE7EJss8
- qh15fGQYrh1qmGREXgAzFjZ34tErGlxbENNy/qCbq9Kr1KQmU9ElqfVpTu3A7Qq7Ad6J
- X7Xu3FDmFSaptshlD0Kn788KEqlSsosX7TyzgqDOQ4rhL1kX2aPW1d52dylBkvH+ZgsA
- 9Ps4tLpC/D7LmXVllRJkv8QN81YEGf9job0qNy4JSxZI74cNmjm1fG+H5isA1ke3XVGD
- x/+djbmfivQ2WtQYSOK5ZIOTGJ0Q267eRO4gopQHJMZpFj4ctz0QgMRqH7TpCUTHwx1Y
- RKaw==
-X-Gm-Message-State: AOAM530aaHj3l2z2R6AdUaiAemEKhkobd5iR+Q8/NRhxnDzWzK+rCzOR
- wvdZwRiAQoLCBk12H/SoF5otyilnm+fqQQ==
-X-Google-Smtp-Source: ABdhPJxCne4bxjJLlVFN+40G672h4SNz5Hukj+6TPnD2fw45jMEy0e3lgu6KuF57YYeDE8qwC88pZQ==
-X-Received: by 2002:a17:90b:4d0b:: with SMTP id
- mw11mr4854420pjb.122.1627674100731; 
- Fri, 30 Jul 2021 12:41:40 -0700 (PDT)
+ bh=Y1fVlefxzFWTPDME/a9xIKg0QQWtUb1i1gNesZX+mJ8=;
+ b=uPrIPbetvWk6ki7TXg87YNJ/AAoX87CevlexlsV8b0WST1F/yaDL0jzkm+Y/LYPgSn
+ jkcjifE6JiTnHFSnjgbVTwMI/gb1u3sryoy/IPPQa7Klo4tBUeYiLVQDlA5RdbP7vF4m
+ ifQq9Q/hkL1G1WXPZNdWAH/JYAS38odR6i5w8zWXtyUuFO3p7kZVZtthsXhwegff7Hul
+ RdjZfIqf8XIlfEfRpBogHFRZ/F96NAGUTTcBUPoQmaufR960+B8PjivIJn/7KCh5yo14
+ o5tb/aDPGV5BNLfafZ66+4wGY598bn5z1dBKTbZ3H4z+zezBoJAq9JQQHW6qx61wdFFr
+ e6ew==
+X-Gm-Message-State: AOAM532eEOPrIgud5rOsFBM0I2LAW6MRwfkdUaCuOh4+UN8xB3eR1kRK
+ BdSKNZd0BM7AMesbACrdi31NMlPeIIVdBw==
+X-Google-Smtp-Source: ABdhPJxqlj1faOXbXsVhDSai99gDJIBpe79ATLg+LeU0KjEUKzJpWxz9flG6QcCN6ikyAkbF2Bwlyg==
+X-Received: by 2002:a05:6a00:1c6d:b029:338:322:137d with SMTP id
+ s45-20020a056a001c6db02903380322137dmr4208616pfw.38.1627674468173; 
+ Fri, 30 Jul 2021 12:47:48 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id g14sm3116440pjj.16.2021.07.30.12.41.39
+ by smtp.gmail.com with ESMTPSA id n22sm3299812pfo.125.2021.07.30.12.47.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 12:41:40 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 39/53] target/arm: Implement MVE VFMA and VFMS
+ Fri, 30 Jul 2021 12:47:47 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 40/53] target/arm: Implement MVE VCMUL and VCMLA
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
- <20210729111512.16541-40-peter.maydell@linaro.org>
+ <20210729111512.16541-41-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <10327c97-27e2-b3d2-8e5f-20a4ec41351f@linaro.org>
-Date: Fri, 30 Jul 2021 09:41:37 -1000
+Message-ID: <b598cb8c-2b68-ae6c-f634-ddcf3287a408@linaro.org>
+Date: Fri, 30 Jul 2021 09:47:44 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729111512.16541-40-peter.maydell@linaro.org>
+In-Reply-To: <20210729111512.16541-41-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,29 +95,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/29/21 1:14 AM, Peter Maydell wrote:
-> +            r = FN(n[H##ESIZE(e)], m[H##ESIZE(e)], d[H##ESIZE(e)],      \
-> +                   0, fpst);                                            \
-> +            mergemask(&d[H##ESIZE(e)], r, mask);                        \
-> +        }                                                               \
-> +        mve_advance_vpt(env);                                           \
-> +    }
+> +#define DO_VCMULH(N, M, D, S) float16_mul(N, M, S)
+> +#define DO_VCMULS(N, M, D, S) float32_mul(N, M, S)
 > +
-> +#define DO_VFMS16(N, M, D, F, S) float16_muladd(float16_chs(N), M, D, F, S)
-> +#define DO_VFMS32(N, M, D, F, S) float32_muladd(float32_chs(N), M, D, F, S)
+> +#define DO_VCMLAH(N, M, D, S) float16_muladd(N, M, D, 0, S)
+> +#define DO_VCMLAS(N, M, D, S) float32_muladd(N, M, D, 0, S)
 > +
-> +DO_VFMA(vfmah, 2, uint16_t, float16_muladd)
-> +DO_VFMA(vfmas, 4, uint32_t, float32_muladd)
-> +DO_VFMA(vfmsh, 2, uint16_t, DO_VFMS16)
-> +DO_VFMA(vfmss, 4, uint32_t, DO_VFMS32)
+> +DO_VCMLA(vcmul0h, 2, uint16_t, 0, float16_chs, DO_VCMULH)
+> +DO_VCMLA(vcmul0s, 4, uint32_t, 0, float32_chs, DO_VCMULS)
+> +DO_VCMLA(vcmul90h, 2, uint16_t, 1, float16_chs, DO_VCMULH)
+> +DO_VCMLA(vcmul90s, 4, uint32_t, 1, float32_chs, DO_VCMULS)
+> +DO_VCMLA(vcmul180h, 2, uint16_t, 2, float16_chs, DO_VCMULH)
+> +DO_VCMLA(vcmul180s, 4, uint32_t, 2, float32_chs, DO_VCMULS)
+> +DO_VCMLA(vcmul270h, 2, uint16_t, 3, float16_chs, DO_VCMULH)
+> +DO_VCMLA(vcmul270s, 4, uint32_t, 3, float32_chs, DO_VCMULS)
 
-Here's where I think passing float16/float32 as the type will pay off, with
+Here you don't need to pass in floatN_chs if you use floatN as TYPE.  The macros to merge 
+mul and muladd are clever.
 
-   r = n[H##SIZE(e)];
-   if (CHS) {
-     r = TYPE##_chs(r);
-   }
-   r = TYPE##_muladd(r, m[...], d[...], 0, fpst);
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
