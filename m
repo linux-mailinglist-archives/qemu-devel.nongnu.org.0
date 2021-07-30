@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FC93DB787
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:03:21 +0200 (CEST)
-Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBBF3DB798
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:07:12 +0200 (CEST)
+Received: from localhost ([::1]:48600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9QIS-00030V-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
+	id 1m9QMB-0004BC-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QF9-0008SQ-JZ
+ id 1m9QF9-0008SJ-Ev
  for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:55 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35595)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QF7-0002Ur-28
+ id 1m9QF7-0002Vz-Vr
  for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id n12so10807830wrr.2
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:59:52 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o5-20020a1c4d050000b02901fc3a62af78so8918874wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=grrH4yZDT83NlMAFyF6VZHzq6DhTbZi1iqbpXWdsyig=;
- b=h3DysLmhKRgDni3tfJGA2E7gQdK8+caQVKW98P9d4Z2ve24J2IxnpsOc7nBJCyn97C
- hS3jGQoV2qliLBLPlio4MbYkIqRhKzpyxlwl3yv4/ZNQGXMGuTkgr2cJfFElnNyV7OSZ
- hC3mpadqVOZGaezUIy+u8NALfEKVs1wXR23H5uMJjDiFEMI9QUuopNdT6nCaRoBI8Hmo
- 3j2/NSE93iAto+np9Cg2XeKJts5n8mOKP4XFAyXEFa1oEsz0hl1v36RUGSZuFbmXMDUZ
- NMyaczDlynZdPZ35YSAIAbZ8n99bEkEyzxcEZ1JRBaT+jYs1h/k2vDpcv8Q1o1wxfq7s
- wTpA==
+ bh=iuBWBP4vcXuymhCT8y6Q6tBW7TauWFamJhEjeIMDokc=;
+ b=mr0j8nUbFHySFwzQZ85dAARv71QqFrxjm7qz/dtn0c5CKLy24RRQW01luQ8ExBytj1
+ qM1gGwV07KEVpYcb65rdeO0XwXE/b4Zjv3UFp/8O2yy0vN7mqjfbLHaXlhfEawGiPRD/
+ irIOOGfAqTNvFX3RQwukjUgJXhcZEWxFSHgM7kDsIdVbCRKd4B1o3Hkg2enCCSHwOU2N
+ RNN0xB+iRwtm5tUgwxmbFMtwWXdIyABowizIdOw9YYoYZI11xDatCjA76nuHSdKgth9b
+ ovi58ryAA12aVr9MOG3aTrPJLUK8hKzhRTO3kOQriVbDeu5RW5h1ItLm/JiYnYR8NfgV
+ wcdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=grrH4yZDT83NlMAFyF6VZHzq6DhTbZi1iqbpXWdsyig=;
- b=Er3T8SWGDl3ah8VN9V7351Ov1utVtAAtk27rqx6qMMQSo77pmPcW14OtYTm/BqScrj
- s5b3CG8DZbUyjPFlnMuE3+TPbL6eZHJlmYtf3HUGw2rdrP3mIok/3zP3UTAhio623aaT
- 2CeUULrtq6//if0n0HH6iWfBKtijteCdZbH3Zx+GJfRUMeTwoBdMD1rwImeZF38u6fIf
- 1pF+qsfnOjhOyCTRclvV+dift9Iz7s+80f/INqr0cwuoctg8eI4gRjESnNAkctAdMTVA
- /5vFRm5lh5AbixTmCMyzAMQrKxPRu9dV5GBfPKWexgwjuhlwPNYqh74T/StVZdSVo4bV
- 4KmQ==
-X-Gm-Message-State: AOAM531mlvcCAe+Vt3se4hP8ArGkCC0bVpYQUkIlmxJQD7mCQkkYzO+L
- rcoVKOb9a1+3J2lpAKi0R5V2tqLAnbo0Pw==
-X-Google-Smtp-Source: ABdhPJz8HEE0vDvO5Yuft00jRT/uSVPxXbIdpAaiKZbP8eHTkddhNzUH72N6ukU81nTkBgVNaW1C3A==
-X-Received: by 2002:a05:6000:232:: with SMTP id
- l18mr2426923wrz.24.1627642791608; 
- Fri, 30 Jul 2021 03:59:51 -0700 (PDT)
+ bh=iuBWBP4vcXuymhCT8y6Q6tBW7TauWFamJhEjeIMDokc=;
+ b=KqGDGC9Ca+ru5ZxsdCWvH14TBZgYsJnlAAVfMgFCkYwvqEj91ec0dLG+K4xkVPzHqD
+ Tn73CdkR6Q/nHstv14rjL5JwN/KWfm05hjZLgrzhMvE7uphBAP+g8WA0vxPHdbVN7OaD
+ toytuXxnX1msOi+ufMl6fWB6HbOiKZg66P1Ee1JdyMcnqqeSe+NtW9yyPb9RAMvt1q7e
+ UvAea9vxSWAbRbGuu4or/85HHS4jDTckTIWa3d0g/XaAhLn6E+FfkwwPLC/G4iJc8R36
+ AuS8u+1pt1ItfTLLslLAuyXLwS0+Ym+xf5Yfa9GlMhXO++IeleRvAPu+q0SB7c+ooB6H
+ n7ZQ==
+X-Gm-Message-State: AOAM532qj7/2iWcvKxrOAvf+eKS6vlZ8+WoIroJLMgcuy0jJYZqRHmqy
+ Y/rqrCeKMvh+BcNIHTUKcqqZj3mBz4K0vA==
+X-Google-Smtp-Source: ABdhPJz4l9X2CtiNYEpDmUgIisKV9r8/55WkYQ+OPVS6qlKP89J/A76JtK7BOSLmHTN3EePwpQ+tfg==
+X-Received: by 2002:a05:600c:c9:: with SMTP id
+ u9mr2406848wmm.146.1627642792444; 
+ Fri, 30 Jul 2021 03:59:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p2sm1349697wrr.21.2021.07.30.03.59.50
+ by smtp.gmail.com with ESMTPSA id p2sm1349697wrr.21.2021.07.30.03.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 03:59:51 -0700 (PDT)
+ Fri, 30 Jul 2021 03:59:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 2/8] monitor: Use accel_find("kvm") instead of
- kvm_available()
-Date: Fri, 30 Jul 2021 11:59:41 +0100
-Message-Id: <20210730105947.28215-3-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 3/8] softmmu/arch_init.c: Trim down include list
+Date: Fri, 30 Jul 2021 11:59:42 +0100
+Message-Id: <20210730105947.28215-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210730105947.28215-1-peter.maydell@linaro.org>
 References: <20210730105947.28215-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,65 +89,32 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kvm_available() function reports whether KVM support was
-compiled into the QEMU binary; it returns the value of the
-CONFIG_KVM define.
-
-The only place in the codebase where we use this function is
-in qmp_query_kvm(). Now that accelerators are based on QOM
-classes we can instead use accel_find("kvm") and remove the
-kvm_available() function.
+arch_init.c does very little but has a long list of #include lines.
+Remove all the unnecessary ones.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/sysemu/arch_init.h | 2 --
- monitor/qmp-cmds.c         | 2 +-
- softmmu/arch_init.c        | 9 ---------
- 3 files changed, 1 insertion(+), 12 deletions(-)
+ softmmu/arch_init.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 7acfc62418f..57caad1c675 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -29,8 +29,6 @@ enum {
- 
- extern const uint32_t arch_type;
- 
--int kvm_available(void);
--
- /* default virtio transport per architecture */
- #define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
-                               QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index f7d64a64577..9ddb9352e65 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -58,7 +58,7 @@ KvmInfo *qmp_query_kvm(Error **errp)
-     KvmInfo *info = g_malloc0(sizeof(*info));
- 
-     info->enabled = kvm_enabled();
--    info->present = kvm_available();
-+    info->present = accel_find("kvm");
- 
-     return info;
- }
 diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index 3f4d7c1b1cd..9011af74e4a 100644
+index 9011af74e4a..91cbf883e28 100644
 --- a/softmmu/arch_init.c
 +++ b/softmmu/arch_init.c
-@@ -87,12 +87,3 @@ int graphic_depth = 32;
- #endif
+@@ -23,13 +23,6 @@
+  */
+ #include "qemu/osdep.h"
+ #include "sysemu/arch_init.h"
+-#include "hw/pci/pci.h"
+-#include "hw/audio/soundhw.h"
+-#include "qapi/error.h"
+-#include "qemu/config-file.h"
+-#include "qemu/error-report.h"
+-#include "hw/acpi/acpi.h"
+-#include "qemu/help_option.h"
  
- const uint32_t arch_type = QEMU_ARCH;
--
--int kvm_available(void)
--{
--#ifdef CONFIG_KVM
--    return 1;
--#else
--    return 0;
--#endif
--}
+ #ifdef TARGET_SPARC
+ int graphic_width = 1024;
 -- 
 2.20.1
 
