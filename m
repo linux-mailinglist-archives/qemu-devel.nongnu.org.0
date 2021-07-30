@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B0F3DB736
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 12:37:57 +0200 (CEST)
-Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FC33DB739
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 12:38:50 +0200 (CEST)
+Received: from localhost ([::1]:48278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Pts-0006yt-85
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 06:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39076)
+	id 1m9Puk-0008PS-0R
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 06:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9Psp-0005sc-A2
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:36:52 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:45888)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m9PtA-0006P2-M2
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:37:12 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9Psm-0003YA-QX
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:36:51 -0400
-Received: by mail-ed1-x531.google.com with SMTP id x14so12462360edr.12
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:36:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m9Pt9-0003kS-79
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:37:12 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f14-20020a05600c154eb02902519e4abe10so8854560wmg.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3BSnEsKtnMUfjtuJ2cmvipbicq8L+ExXFMKJLSrmWY0=;
- b=lkYSaKluujz5Vjy8j2UUksk8/7LWtvTnRoWrD2zO3x8nXb3p4f9u3jUBL/BTQHQB4P
- GoKop+5Blvj9pwWx6H60m86KMzIBP2DlM2rXexDqsbsxK3e1AlgwkT321S4muNptNFcl
- BG+cufR8PqXkFu8z+/X8IRbAmCkQWDp6vzX5aEBUxs86yYlCUylGUMrSXCS1MYVUNvp4
- PlqmZ9yovjR2Bes0xgFCsIVy4nyQrCXuNM2mt5Sh+TSXAGQ6hqOAqi6Qd+CYlSaI4Hvf
- +gV4rcBpaqOYppSziGocB95+gkx4kcD7J6vKuVqAXdaqRTxoff6M8HQKVpnXfrwCloAs
- hBVg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=epmtCCoo/rcGjD2WiR9ULFKxd65qQWoNE4dLqPCT7VI=;
+ b=YcCrQwQx5H0cnfKRBn4d9kX+lTLwxLeu7DVb2xcQj6FpmchhMHmMFT9yokOwMLya9M
+ A806ReCSMkHvl+osFrpC/n4MyVjlX/6tKyvHWsqqYc82fGmo0jnkhpBoQEPHer3iUdBf
+ 0Ita9YgoPsOvBJ4ZhZ3QIegtrUJf0DbRYD+NY/wA2x5auMfbT6Zv/cpyGxQyvs5qtwy6
+ MOsizA85OExPbYFYPDqAIKjxXWLrqpwp10miv7Nu0xtyE/3LRVEFVyA/GpzIY68PNbNs
+ oByoXnQRyZ2e7tj4EMgTBxuYgo0UDDKCzIYeNtMPC0owBg+fIRyTEqGthWs2tnP7OH9B
+ s2qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3BSnEsKtnMUfjtuJ2cmvipbicq8L+ExXFMKJLSrmWY0=;
- b=FSuRJ1lnq+JCpcaZxnbfnqvD7rO9KruT3NTm/lnaowtrWXpGTgOW+Iq+DWT/LgZlqS
- i1RG1iz4SETB2hdl2rYE/wUEDwjQp4n7BBZ7U1DVcyIodJUnzvkbN+g2zG4eg9lsoJPW
- 8NIZHMhQT1DKchPplB0pDOgJJBPYbsSlaSUPfFVz5Ari4h+74c/ps9eVzxRrT+NqhoNt
- R8/nRtSE0PS4rF0TY/EWat6bmJTZkaXwz85cstxtuUEiP4dXJjwJD+ElDFTl/+xV2ALu
- bSn3hQDoqnqiLCa8qR9B7B49QHDYsS9lqM1aYF2lqsuKfA5p7JlaBhNMvOcocPCwT/va
- RaUg==
-X-Gm-Message-State: AOAM5300jqgzhac4WDNewNoOS8tZ68uYwjX3d8PGfCwuu0vDRD9Ght3e
- 9bRtNaBrejtc9m9MMJpLxOP3ZDJeBpejUImFdPNXqFNs9Ik=
-X-Google-Smtp-Source: ABdhPJyiOX5nL4FNHpMbRLI0JjqvoJaSOU8255eq75ncwsNaBZB1DRB4S/ireywTXjJP2rshMu8Wv6yLH2/me3eKTx8=
-X-Received: by 2002:a05:6402:31e6:: with SMTP id
- dy6mr2197416edb.36.1627641407361; 
- Fri, 30 Jul 2021 03:36:47 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=epmtCCoo/rcGjD2WiR9ULFKxd65qQWoNE4dLqPCT7VI=;
+ b=V3YcD1cBFP3TjIsm43I4EH7r1pJv2ZGUT+FsENqIxCYOWTeFhCx2U4O2hWoeBNRGoO
+ hGwTVLvvY7yMnooay1UXGQw2bybLOirYLBIRKCr77DV57Sydlje/49f/qMVTR0Ttc2X1
+ +0Y1qmuwY73B0HoOAcoHI2M/fSRWZj6wgfTzLuzFuN0Qyon2HpVkaMv928hBBxUJdsJm
+ 5iMFvMpv5oi21KQlwiIve4vA/kDU9XbuEaJ/PZf+WCJvTg9ZPKHLsJWL0gRQLc8vMsCp
+ pcXGsQuyszt8NdXFqvoMTY3dZyQvAmngxo106ez6Gxpn45wW392HJtPpqkcu+8aQhiT4
+ wogQ==
+X-Gm-Message-State: AOAM5335do+H3/Nrdg/b60vkpbzv+cDK0zOmO5E9wyqj5hj8CXNsu+TA
+ NZXFjL0VTBd5cZdKns+J7B9I1g==
+X-Google-Smtp-Source: ABdhPJzDUJXD+vAo/5YPdljepXlJpayAd3nWKGCWXoHRwemMepdNTA6GwuvpOR8GwOZSp/v3z5Ii0w==
+X-Received: by 2002:a05:600c:35d6:: with SMTP id
+ r22mr2266143wmq.41.1627641428006; 
+ Fri, 30 Jul 2021 03:37:08 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 140sm1256633wmb.43.2021.07.30.03.37.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 03:37:07 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A00C81FF96;
+ Fri, 30 Jul 2021 11:37:05 +0100 (BST)
 References: <20210730030821.231106-1-ishii.shuuichir@fujitsu.com>
- <20210730030821.231106-4-ishii.shuuichir@fujitsu.com>
-In-Reply-To: <20210730030821.231106-4-ishii.shuuichir@fujitsu.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Jul 2021 11:36:04 +0100
-Message-ID: <CAFEAcA-F3V2ByQ=AJjNWU8H1FHiHZBUYAN4UAfEFMjmo8PK7eA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] target-arm: Add A64FX processor support to virt
- machine
+ <20210730030821.231106-2-ishii.shuuichir@fujitsu.com>
+User-agent: mu4e 1.6.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Subject: Re: [PATCH v2 1/3] target-arm: delete ARM_FEATURE_A64FX
+Date: Fri, 30 Jul 2021 11:36:15 +0100
+In-reply-to: <20210730030821.231106-2-ishii.shuuichir@fujitsu.com>
+Message-ID: <87r1fggka6.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +89,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 04:08, Shuuichirou Ishii
-<ishii.shuuichir@fujitsu.com> wrote:
+
+Shuuichirou Ishii <ishii.shuuichir@fujitsu.com> writes:
+
+> The ARM_FEATURE_A64FX property was added,
+> but there is no function that uses this property yet,
+> so it will be removed until a function that uses it is added.
 >
-> Fix for patch consistency.
-> https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg06993.html
-
-Commit messages should describe what the patch is doing and why,
-so the reader can understand it without having to cross-reference
-old mailing list threads.
-
 > Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
 > ---
->  docs/system/arm/virt.rst | 1 +
->  hw/arm/virt.c            | 1 +
->  2 files changed, 2 insertions(+)
+>  target/arm/cpu.h   | 1 -
+>  target/arm/cpu64.c | 1 -
+>  2 files changed, 2 deletions(-)
 >
-> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-> index 27652adfae..5329e952cf 100644
-> --- a/docs/system/arm/virt.rst
-> +++ b/docs/system/arm/virt.rst
-> @@ -55,6 +55,7 @@ Supported guest CPU types:
->  - ``cortex-a53`` (64-bit)
->  - ``cortex-a57`` (64-bit)
->  - ``cortex-a72`` (64-bit)
-> +- ``a64fx`` (64-bit)
->  - ``host`` (with KVM only)
->  - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 81eda46b0b..10286d3fd6 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -200,6 +200,7 @@ static const char *valid_cpus[] = {
->      ARM_CPU_TYPE_NAME("cortex-a53"),
->      ARM_CPU_TYPE_NAME("cortex-a57"),
->      ARM_CPU_TYPE_NAME("cortex-a72"),
-> +    ARM_CPU_TYPE_NAME("a64fx"),
->      ARM_CPU_TYPE_NAME("host"),
->      ARM_CPU_TYPE_NAME("max"),
->  };
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 1b0c7b91ec..9f0a5f84d5 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -2145,7 +2145,6 @@ enum arm_features {
+>      ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
+>      ARM_FEATURE_M_MAIN, /* M profile Main Extension */
+>      ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
+> -    ARM_FEATURE_A64FX, /* Fujitsu A64FX processor HPC extensions
+> support */
 
-thanks
--- PMM
+This is confusing because I can't see this feature flag in the mainline
+branch. Have you inadvertently based this series from an internal branch?=20
+
+>  };
+>=20=20
+>  static inline int arm_feature(CPUARMState *env, int feature)
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index a15f9c0c55..dd72300e88 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -856,7 +856,6 @@ static void aarch64_a64fx_initfn(Object *obj)
+>      ARMCPU *cpu =3D ARM_CPU(obj);
+>=20=20
+>      cpu->dtb_compatible =3D "arm,a64fx";
+> -    set_feature(&cpu->env, ARM_FEATURE_A64FX);
+>      set_feature(&cpu->env, ARM_FEATURE_V8);
+>      set_feature(&cpu->env, ARM_FEATURE_NEON);
+>      set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+
+
+--=20
+Alex Benn=C3=A9e
 
