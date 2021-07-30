@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C023DBE57
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:26:25 +0200 (CEST)
-Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9703DBE5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:29:57 +0200 (CEST)
+Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9XDE-0001HO-LI
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
+	id 1m9XGe-0005YH-43
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m9XCN-0000bo-Vm
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:25:32 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34694)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9XFC-0003co-Jh
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:28:26 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:42756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m9XCM-0008Ly-Dk
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:25:31 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- 48-20020a9d0bb30000b02904cd671b911bso10489350oth.1
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=HdskX8zxdZAM7uLrQ6kx49kV23Wai4M5Kt9JaSPvMq4=;
- b=Kocf4BEQipMTEH24+z18QE7hCnMBtC0gQ5/iy9k6egOubeAxvSWwxyUUQGrr5qU9Pv
- yrIW857572jaMabnJaK2ya267acqDkZbxoMR9MA6Xo2vATr65v3Q3rF4Hxshv1B9Ytzv
- gU/9WobwTkC7VAgLf45+IwHQBTUbP/x0Hwu2LvvfHYbwpLS5635Y7iWGEQh9By6GzFDO
- wYHxRtln/Y5RECA0tgdv35d+gyiRZuX/sT/fPV7eAo8WpqX/PXzgAO37gWszJDT0cgkU
- /Qa+EsG+4z+DsZh+SlBHatBg2F/VXWud3l7jI8LLhfEtNrO5jhtuI3ShFc1EHS+wUJMn
- +2gw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m9XFA-0002F0-VH
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:28:26 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t3so9978036plg.9
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7KpA7daHPuYduk0+qTomUEeK0D/dNyV9992dw1hDW0Y=;
+ b=n2jdPscS4kxt3vnN+ZLhEyAqhBSfhHIY0w25ZEVgFbeGiyKEhSfOhWW3yllV0lTzHq
+ gdsuwndUthZuGxZDHwr+tdyA+RV79uQo5waHLkpAXvXBZUCpZhG+4lWgGx88w173LWdL
+ OabReg3NHuIvc7Vz5+8g/sqgtEIajGSaIvv+K3II/1/UclKcZHCC9bSSl/mgDiRz30dS
+ rEe/5F0MlX5jRSCegGiIN9wzollyJEq74iiAexy/zBzFx5SXz3IAGEfruyA4Pc7VFAz4
+ F5g2Tw3hsxomSL4X1uox8YYWn2OWk7f3X5G3PUW+EOnog+DJ9ss6HonemnpQd5TPkYGw
+ vZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=HdskX8zxdZAM7uLrQ6kx49kV23Wai4M5Kt9JaSPvMq4=;
- b=WMbepderdsKHkDCUQE6CfxGjoPqmA3NmpP0Bcc0Yly2/omLb+9az9hmBua085DDExK
- YAfMtKvoRnsvq8OxWw5xefI+hZAO020AKCVgRf6F9Msa8hDNbVZvpeu640bgsOLuW4VX
- j75qxUnuwj+vgnWRVnlBFFIu1Jpq/EgczHpo+8nYVRoJUmYhvPG2z1rR89yjcryh79aA
- wW/m5OqsXKimUyLAUToNerz9YoM86IjrRzc4QiQKhHCW7YZuHWdDvOcPzUFcfr4fqZeE
- ifKr4RsBxrK0se0vuTOz2vpUDzR2dZome4oPTkMlehoktFe5NH/4A+jZKsOVHctSq33e
- VjlQ==
-X-Gm-Message-State: AOAM532Gzom1+iZi4giu29wQE/mfAYOmUn9iXEGW1Rkc4jKsBo5crrBa
- zqi6iA4sYWHSN4fln2g7qZdVyD6w3T44akYjBFAYiCoUGgE=
-X-Google-Smtp-Source: ABdhPJy8SwxsMOu/Abjr77YLHyEovzh93DXeG+GSyz8n/4tqjEi0tudm7cYDFHLFlhk+/EVeObmGTuPHByyBbt4xE6s=
-X-Received: by 2002:a9d:3e06:: with SMTP id a6mr3130001otd.50.1627669527499;
- Fri, 30 Jul 2021 11:25:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7KpA7daHPuYduk0+qTomUEeK0D/dNyV9992dw1hDW0Y=;
+ b=BG8CzsfH2H9flnRKzvayvEOaHYlLuX8zsmw2FG8c+2oeZhyJTWg5nw3DB4FNr+i2Ay
+ cFSgZua7thhuQY/n/INzxcNDqpOlAUwYoWUcQLeCShDoNCwiIDJz4vW2wrmD/v6xQKgp
+ E414Roe8qJK+21UQ5Hrx1XcfQtOnQT6/8ZH0wkKg/WifYUwLLVLd+u2zCJkicxH/IUma
+ DiXagQEMgefuKOoJzDUypQGKi3J9Lh/Yet+/NOJa4QdBsSUyyFLse+R/4Vwges0eihtd
+ X5W+8JfoZ3ntkBuT3SDS/yiHRyl40Fm2CNDyD8yiVxZaErXRtmjwUiGqmfhPhiiajWVX
+ P+wA==
+X-Gm-Message-State: AOAM531ecHNrW5LWHK23yd6bbNGsSaBLFxxslN0QaHjpSeghHf/iheJ7
+ fUViIugkwlzt+MbIer2e/ebkr5ZOweTVtA==
+X-Google-Smtp-Source: ABdhPJwbbjRoyUYuAoiIcupVet54RN+gOV4WZKdhyFRICYJ5kctNKgyeh+s8/lOpAxKbzhUrhxntsA==
+X-Received: by 2002:a05:6a00:2ac:b029:331:690d:7f26 with SMTP id
+ q12-20020a056a0002acb0290331690d7f26mr3778675pfs.78.1627669703184; 
+ Fri, 30 Jul 2021 11:28:23 -0700 (PDT)
+Received: from cloudburst.home
+ (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
+ [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
+ by smtp.gmail.com with ESMTPSA id k16sm3004185pfu.83.2021.07.30.11.28.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 11:28:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] tcg patch queue for rc2
+Date: Fri, 30 Jul 2021 08:28:18 -1000
+Message-Id: <20210730182820.451248-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Date: Fri, 30 Jul 2021 14:25:16 -0400
-Message-ID: <CAK7rcp_FEt15q5kdYp2mTuP1SdiEZ=vRssYoX_Ba1CKeMyf7WA@mail.gmail.com>
-Subject: Misc questions
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000ffb8f305c85b5719"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=kennethadammiller@gmail.com; helo=mail-ot1-x32e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,46 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ffb8f305c85b5719
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit dbdc621be937d9efe3e4dff994e54e8eea051f7a:
 
-Hello,
+  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-07-30 09:14:56 +0100)
 
+are available in the Git repository at:
 
-I think I need a concurrent radix tree that is written to work with atomic
-updates. I would like to ask if anyone knows of one within qemu? Or at
-least to efficiently obtain the page address/mmu index corresponding for a
-given address.
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210730
 
-Is there any documentation on cpu_mmu_index? Each target provides its own
-implementation, but I find it hard to gather what is expected of this
-except to read all of the references in the periphery.
+for you to fetch changes up to 236f6709ae0da224314c3344c339ed0dc07c15cf:
 
-Lastly, ok I have a working build going and it runs without crashing. But
-when I pass it my image, all it does is show the qemu shell prompt,
-"(qemu)". I'm not sure why it doesn't start running, I think it should at
-least encounter new opcodes and then stop. Can anybody think of anything
-that I might be missing?
+  target/nios2: Mark raise_exception() as noreturn (2021-07-30 08:23:12 -1000)
 
---000000000000ffb8f305c85b5719
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+----------------------------------------------------------------
+Fix double bswap in 16-byte atomic store
+Mark nios2 raise_exception noreturn
 
-<div dir=3D"ltr">Hello,<div><br></div><div><br></div><div>I think I need a =
-concurrent radix tree that is written to work with atomic updates. I would =
-like to ask if anyone knows of one within qemu? Or at least to efficiently =
-obtain the page address/mmu index corresponding for a given address.<br><br=
->Is there any documentation on cpu_mmu_index? Each target provides its own =
-implementation, but I find it hard to gather what is expected of this excep=
-t to read all of the references in the periphery.=C2=A0</div><div><br>Lastl=
-y, ok I have a working build going and it runs without crashing. But when I=
- pass it my image, all it does is show the qemu shell prompt, &quot;(qemu)&=
-quot;. I&#39;m not sure why it doesn&#39;t start running, I think it should=
- at least encounter new opcodes and then stop. Can anybody think of anythin=
-g that I might be missing?</div></div>
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (1):
+      target/nios2: Mark raise_exception() as noreturn
 
---000000000000ffb8f305c85b5719--
+Richard Henderson (1):
+      accel/tcg: Remove double bswap for helper_atomic_sto_*_mmu
+
+ accel/tcg/atomic_template.h | 1 -
+ target/nios2/helper.h       | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
