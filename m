@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F336D3DB529
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 10:45:58 +0200 (CEST)
-Received: from localhost ([::1]:47458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EAD3DB586
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 10:55:26 +0200 (CEST)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9O9V-0005Nv-K8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 04:45:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
+	id 1m9OIe-0000Fq-Jm
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 04:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9O8H-0004gi-PE
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:44:41 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9O8F-0000EI-Qz
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:44:41 -0400
-Received: by mail-ed1-x532.google.com with SMTP id cf5so533915edb.2
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 01:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZRdGf/YKwkDvNfgCZm4Et20I9AkFlynj4+2+IHH7/Kg=;
- b=Pn9FUBigwXj8rFhuyAvzWilLWEQCvGFw4I5hxRB0n0R7oOfkRz9yS3YjaO9nxTfNnW
- JhDgM/AO+YqUoz/TTNVBKyk8Loa6iYZA1Ovb+2bhn8EeQhcYybDChYx8WNCqBOziN3P6
- aDT3eQUbMbC9+Yk+HYH2E4MXXHqtnN4K1M0D9MmbvEE7uqYf+och5WUiSjEEhnzLQjzg
- zoTD2pqRgWPMDicMUmNhro6WbUR5B4rIdJ8EPzpWbQudqNBlm8msACh1n15XgqOVBcZk
- bv+axBgoWtSkSVlyK2Wb0nHfiOtYaDpqAXIXr2ZMqX2H7WntrUMnMNxwWvYxe8vGJ35O
- wLHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZRdGf/YKwkDvNfgCZm4Et20I9AkFlynj4+2+IHH7/Kg=;
- b=PXQYWY35xRGSRFyPSqWhocPv6T5Y1qABSyl1fYz5RI/rm6IbosIsOMOA5Pn1JGyMBN
- Dp3C3fKTlDgQ/gKtgvr6tSQPdw/rnpqfTgRpMa6bOt54LB5AiNdNdFX7lwlSOhnrmxJg
- /eyvZTmg1nXu0ysPFZgtRJwFJhf0ChGUFHycbtR90pVwS5uQ5QBkWbJY7iR2UWOJ05em
- EYUFpY5vWK5OAHL+nd2UxnsFIYgJ03vrgJ3g7GpJN3/LQtNlr+blIS0B7suZonLVn0Yl
- 1UlzHaW7WRVLGeBFNHIJDd6pNZX2iu1ZpTJvi5fYWl/RxL5+PA59FqPnCxrqjlNQRA7c
- o4EQ==
-X-Gm-Message-State: AOAM533ys/sbWXczS1BF4xVdl2iNnb4EjFImCv6pkDJ4PZp/2s8j00U1
- LMgyov9lvCB8cR+ywldiQIHTob7rdOF2++gCkCi/Ww==
-X-Google-Smtp-Source: ABdhPJzmPmZdZ7e2BLUO0jsec847PN6hwlUem35hmLvecc6u/J7pgNbFTFHHIf/yLeNfDQzNftjw0GOd+SUkNLwCYQM=
-X-Received: by 2002:a05:6402:31e6:: with SMTP id
- dy6mr1743277edb.36.1627634678126; 
- Fri, 30 Jul 2021 01:44:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9OGd-0006of-6N
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:53:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9OGZ-0006rz-3E
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627635193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HLSztXQMqToB1EaxyuaDliCMwkbciIGVtYRqlXwAg3E=;
+ b=X+ou5xy4nli4h9kj+GVeuP+ZmjhRB+1tY7FkSw+icCYSOFQZS+G5I8kL9AX9VFxPTnU4Xs
+ J1VGYB1mOd7XxWWFStmk3tx6o250KyBEJykCBLukxLPffBJ1Is8BTwhCJ7AiAcb3JhHcCh
+ 9e+NFe6zmhtu/FCHrlOCmNNqIhX8jvY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-UY89g_gFNIympnbmGzDJQQ-1; Fri, 30 Jul 2021 04:53:11 -0400
+X-MC-Unique: UY89g_gFNIympnbmGzDJQQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB051008062;
+ Fri, 30 Jul 2021 08:53:10 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AED8E60C05;
+ Fri, 30 Jul 2021 08:52:50 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Date: Fri, 30 Jul 2021 10:52:42 +0200
+Message-Id: <20210730085249.8246-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20210729175554.686474-1-ehabkost@redhat.com>
- <20210729175554.686474-7-ehabkost@redhat.com>
- <87eebg43ns.fsf@dusky.pond.sub.org>
-In-Reply-To: <87eebg43ns.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Jul 2021 09:43:55 +0100
-Message-ID: <CAFEAcA8rMcRm90acsrJqUg-TKt1Tj6R9ZTGM7pnvs_M4-5=rPQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 06/10] docs: qom: Remove unnecessary class
- typedefs from example
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,83 +74,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 09:18, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Eduardo Habkost <ehabkost@redhat.com> writes:
->
-> > When there's no specific class struct used for a QOM type, we
-> > normally don't define a typedef for it.  Remove the typedef from
-> > the minimal example, as it is unnecessary.
-> >
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> >  docs/devel/qom.rst | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> > index 05d045bf570..dee60a64c0a 100644
-> > --- a/docs/devel/qom.rst
-> > +++ b/docs/devel/qom.rst
-> > @@ -20,9 +20,6 @@ features:
-> >
-> >     #define TYPE_MY_DEVICE "my-device"
-> >
-> > -   // No new virtual functions: we can reuse the typedef for the
-> > -   // superclass.
-> > -   typedef DeviceClass MyDeviceClass;
-> >     typedef struct MyDevice
-> >     {
-> >         DeviceState parent;
->
-> Documenting existing practice makes sense, but I'm not sure the existing
-> practice to elide this typedef makes sense.
+virtio-mem exposes a dynamic amount of memory within RAMBlocks by
+coordinating with the VM. Memory within a RAMBlock can either get
+plugged and consequently used by the VM, or unplugged and consequently no
+longer used by the VM. Logical unplug is realized by discarding the
+physical memory backing for virtual memory ranges, similar to memory
+ballooning.
 
-The QOMConventions page on the wiki
-https://wiki.qemu.org/Documentation/QOMConventions
-makes what I think is a reasonable distinction:
+However, important difference to virtio-balloon are:
 
-# If your class (a) will be subclassed or (b) has member fields it needs
-# to put in its class struct then you should write all of:
-#
-# a FOO_CLASS macro
-# a FOO_GET_CLASS macro
-# a FooClass structure definition containing at least the parent class field
-#
-# and your TypeInfo for this class should set the .class_size field to
-sizeof(FooClass).
-#
-# These ensure that nothing in future should need changing if new fields are
-# added to your class struct, and that any subclasses have the correct typenames
-# available so they won't need to change either even if your
-implementation changes.
-#
-# If your class meets neither of the above requirements (ie it is a
-simple leaf class) then:
-#
-# don't provide FOO_CLASS or FOO_GET_CLASS
-# don't provide a FooClass structure
-# leave the TypeInfo's .class_size field unset.
-#
-# If a change means a class which didn't provide these macros/types now needs to
-# provide them, then your change should add all of them (ie move the class from
-# the latter category to the former).
+a) A virtio-mem device only operates on its assigned memory region /
+   RAMBlock ("device memory")
+b) Initially, all device memory is logically unplugged
+c) Virtual machines will never accidentally reuse memory that is currently
+   logically unplugged. The spec defines most accesses to unplugged memory
+   as "undefined behavior" -- except reading unplugged memory, which is
+   currently expected to work, but that will change in the future.
+d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
+e) The state (plugged/unplugged) of a memory block is always known and
+   properly tracked.
 
-By those principles, we should never do "typedef DeviceClass MyDeviceClass" --
-either we have a real MyDeviceClass which contains at least the parent
-class field (ie is not a mere typedef), or we don't provide MyDeviceClass
-at all.
+Whenever memory blocks within the RAMBlock get (un)plugged, changes are
+communicated via the RamDiscardManager to other QEMU subsystems, most
+prominently vfio which updates the DMA mapping accordingly. "Unplugging"
+corresponds to "discarding" and "plugging" corresponds to "populating".
 
-I would say the rationale for the wiki's distinction is that we don't
-want to require unnecessary boilerplate for leaf classes without
-methods (which are by far the most common kind of class), but we don't
-want a free-for-all regarding how you write things either. So we define
-a standard pattern for leaves and a standard pattern for everything else.
+While migrating (precopy/postcopy) that state of such memory blocks cannot
+change, as virtio-mem will reject any guest requests that would change
+the state of blocks with "busy". We don't want to migrate such logically
+unplugged memory, because it can result in an unintended memory consumption
+both, on the source (when reading memory from some memory backends) and on
+the destination (when writing memory). Further, migration time can be
+heavily reduced when skipping logically unplugged blocks and we avoid
+populating unnecessary page tables in Linux.
 
--- PMM
+Right now, virtio-mem reuses the free page hinting infrastructure during
+precopy to exclude all logically unplugged ("discarded") parts from the
+migration stream. However, there are some scenarios that are not handled
+properly and need fixing. Further, there are some ugly corner cases in
+postcopy code and background snapshotting code that similarly have to
+handle such special RAMBlocks.
+
+Let's reuse the RamDiscardManager infrastructure to essentially handle
+precopy, postcopy and background snapshots cleanly, which means:
+
+a) In precopy code, fixing up the initial dirty bitmaps (in the RAMBlock
+   and e.g., KVM) to exclude discarded ranges.
+b) In postcopy code, placing a zeropage when requested to handle a page
+   falling into a discarded range -- because the source will never send it.
+   Further, fix up the dirty bitmap when overwriting it in recovery mode.
+c) In background snapshot code, never populating discarded ranges, not even
+   with the shared zeropage, to avoid unintended memory consumption,
+   especially in the future with hugetlb and shmem.
+
+Detail: When realizing a virtio-mem devices, it will register the RAM
+        for migration via vmstate_register_ram(). Further, it will
+        set itself as the RamDiscardManager for the corresponding memory
+        region of the RAMBlock via memory_region_set_ram_discard_manager().
+        Last but not least, memory device code will actually map the
+        memory region into guest physical address space. So migration
+        code can always properly identify such RAMBlocks.
+
+Tested with precopy/postcopy on shmem, where even reading unpopulated
+memory ranges will populate actual memory and not the shared zeropage.
+Tested with background snapshots on anonymous memory, because other
+backends are not supported yet with upstream Linux.
+
+Idealy, this should all go via the migration tree.
+
+v2 -> v3:
+- "migration/ram: Don't passs RAMState to
+   migration_clear_memory_region_dirty_bitmap_*()"
+-- Added to make the next patch easier to implement
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the migration
+   source"
+-- Fixup the dirty bitmaps only initially and during postcopy recovery,
+   not after every bitmap sync. Also properly clear the dirty bitmaps e.g.,
+   in KVM. [Peter]
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Take care of proper host-page alignment [Peter]
+
+v1 -> v2:
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+   migration source"
+-- Added a note how it interacts with the clear_bmap and what we might want
+   to further optimize in the future when synchronizing bitmaps.
+
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Marek Kedzierski <mkedzier@redhat.com>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: teawater <teawaterz@linux.alibaba.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+
+David Hildenbrand (7):
+  memory: Introduce replay_discarded callback for RamDiscardManager
+  virtio-mem: Implement replay_discarded RamDiscardManager callback
+  migration/ram: Don't passs RAMState to
+    migration_clear_memory_region_dirty_bitmap_*()
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+    migration source
+  virtio-mem: Drop precopy notifier
+  migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+    destination
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+    snapshots
+
+ hw/virtio/virtio-mem.c         |  92 +++++++++++-------
+ include/exec/memory.h          |  21 +++++
+ include/hw/virtio/virtio-mem.h |   3 -
+ migration/postcopy-ram.c       |  31 +++++-
+ migration/ram.c                | 166 +++++++++++++++++++++++++++++----
+ migration/ram.h                |   1 +
+ softmmu/memory.c               |  11 +++
+ 7 files changed, 267 insertions(+), 58 deletions(-)
+
+-- 
+2.31.1
+
 
