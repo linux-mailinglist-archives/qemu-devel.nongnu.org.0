@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204A03DBF53
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 22:01:07 +0200 (CEST)
-Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB553DBF57
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 22:02:35 +0200 (CEST)
+Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Ygs-00036l-50
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 16:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
+	id 1m9YiI-0006N7-RY
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 16:02:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Yes-0001fk-L7
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:59:02 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54065)
+ id 1m9Yfy-0003hg-BH
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 16:00:12 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:56183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9Yer-00040Y-6l
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 15:59:02 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id j1so16777076pjv.3
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 12:58:59 -0700 (PDT)
+ id 1m9Yfw-0004s4-1E
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 16:00:10 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id ca5so16747490pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 13:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=gW3esaDocztJGrj/5IssPeCWTzmXdb7RABQk29oxf+w=;
- b=ZVIun8xiyHOUbEpzQEfYL7cvU+MCMXWvYV2xUJhA5sFP1DMZBnc4FTU+FY/JgdyJpF
- f2/jZ8eDrklaK5Fu7H4SESmJCBDkopC6sS9k0FtQ2dD57Hcpi3wUP5S5f7VT0i8Ud8aC
- rEF3vSbfVfUS32FghdZQ31AvohdLhQxqx51Gu34LsEkI37Tukpjqza+z2IPCarBWmnd1
- O0OPokXw4+V86ipWJhTgR90I6nBkrTjopOML5ahvP6ndsu5prKiprY5wy2XQZ3SlE+4r
- u/2galPEIQVVVbIYPAEh2FCtgBjYTNvhOvGof1sotRkf5P8ndETGSVKZKqjhF7mVDTyl
- WzYA==
+ bh=Sehry0BQkrQxk/mPXpFuQxFtXwBOUZhi/xa0ULIHiMo=;
+ b=GB+Qf8j4EIVwaQONv6//GbiQPsaFxdegJW2GxpvlG73XXCn/JQQjuA6fbryzCTEh5M
+ vaA+T1A6CICFcc1mblIQdDZPo6Msetd5+8at7ZnhbdRMPnKoB9Dv16TYdqJzZtPFG+oS
+ rX3F6Pb/fpvUQV6GYSmcVENTtXMJHVwTIyT/q7MNsADUodcKjXoSA0WexK+dNseGpiaf
+ ADoWangIRyJ9oLPl/h1QYuRTOKKFBGXioA0Zfj0rtqpQhSfuCHWvshEI5ht1+ZDOkf+S
+ UUrFhKPoSfeiVdc48W2/wqf3Fov8YQ2mIGuMGtt6mD55XIgGfzApPSbrs84t1SiVAp+Q
+ u5QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gW3esaDocztJGrj/5IssPeCWTzmXdb7RABQk29oxf+w=;
- b=J6yPcZMpwuBIGQQtGNTYNfg4bEdbnXHLeu0eULcb2fvkRvT12WK5m824a019jOWPg1
- 73DdXzkJgCTE4ryG25QZp6PUE1dWGuQk7J8yH4+1+0m2+ZCIyaRRXBZi6kISCErwAiQV
- mFPuUWZ3/1mzh7BB3TKqqO+S3CeCZ6lPXeaPltxuO5IkpIvumwDaNQt6L60hFFMQ8aU1
- zBkTMamkpomWuf40P8iVAjGebthJ4GkIVCeHR1EiJrEAISkz2W5ToDUvuvkqNfucmMfX
- P7tyN5aOjkVhK3hIaPeTbbwF3N01f1MpQh3yuxiKys51RYZX7ATzWARSWJppm51o4BhF
- cWTA==
-X-Gm-Message-State: AOAM531I7kE8IzwNpdZsu0fHaG7YRUpXGsxPn5D1eq+qGQUAaorzKdBD
- 3BvErO11DHe3REHc5tcOH7pAnshxAKfJaQ==
-X-Google-Smtp-Source: ABdhPJxl+/nU6aXhG9zWXRioHB6/LNsAHy/xm9HXQqDmnawFqhL8TDh8oRMO+cFpg0mqXNvgVh5qiQ==
-X-Received: by 2002:a05:6a00:a8a:b029:30c:a10b:3e3f with SMTP id
- b10-20020a056a000a8ab029030ca10b3e3fmr4471558pfl.40.1627675138820; 
- Fri, 30 Jul 2021 12:58:58 -0700 (PDT)
+ bh=Sehry0BQkrQxk/mPXpFuQxFtXwBOUZhi/xa0ULIHiMo=;
+ b=KtWhHm5qFsjkjAsqjTMoFsZ6ZmZqKxHvToZ9gttv5ZvUizONxitsndu6dN+T29QK40
+ 0u37fj2pwvZ1uk8zUs2RHTL1FVotIipK3i5etQvZGbe6prm9Iq4D8zh/aV1iaMMVNZBo
+ NDR5DS1IqPGdwHWsXkxAsFBWKhwX3wOcmJJlrCRNPfJVb4SopYeEd+w3hGeH4FTT2XLr
+ OTr7e5AKm++I4CG2CTDt42MbogTEVdX8JHx++obI9pSumCjjLxxn2Ex6Y+4rZyNRxKmL
+ V2MxIf6wPh1NCEBQCCG96bWmubHDCxilOcJJ6IEvn2pIbDYI4Uc2KoMEs+Zq/eBqFfqG
+ b1Pw==
+X-Gm-Message-State: AOAM530FMWl+JNELF8fuEu5e8PavQnQY6snZF0duKbDGDFKylLowEvHa
+ XNscn1GnD71X6C6Tb6vrMcmHXd/yd4FCgg==
+X-Google-Smtp-Source: ABdhPJxGdn/Iq1A+KTfq84k/HZkB45IgwpdHRNzviUT7j4T+c2ExVGIUMsa3cAz8fJlORECmUTjCbQ==
+X-Received: by 2002:a65:6a4d:: with SMTP id o13mr1743757pgu.361.1627675206351; 
+ Fri, 30 Jul 2021 13:00:06 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id 26sm3986686pgx.72.2021.07.30.12.58.57
+ by smtp.gmail.com with ESMTPSA id x26sm3303870pfm.77.2021.07.30.13.00.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 12:58:58 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 43/53] target/arm: Implement MVE fp-with-scalar
- VFMA, VFMAS
+ Fri, 30 Jul 2021 13:00:06 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 44/53] softfloat: Remove assertion preventing
+ silencing of NaN in default-NaN mode
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210729111512.16541-1-peter.maydell@linaro.org>
- <20210729111512.16541-44-peter.maydell@linaro.org>
+ <20210729111512.16541-45-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a8a09073-0076-8f8d-20b5-a01f8b6c210f@linaro.org>
-Date: Fri, 30 Jul 2021 09:58:55 -1000
+Message-ID: <8d603e08-9f6c-896f-2ad9-8b5c06291767@linaro.org>
+Date: Fri, 30 Jul 2021 10:00:03 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729111512.16541-44-peter.maydell@linaro.org>
+In-Reply-To: <20210729111512.16541-45-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.125,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,15 +95,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/29/21 1:15 AM, Peter Maydell wrote:
-> Implement the MVE fp-with-scalar VFMA and VFMAS insns.
+> In commit a777d6033447a we added an assertion to parts_silence_nan() that
+> prohibits calling float*_silence_nan() when in default-NaN mode.
+> This ties together a property of the output ("do we generate a default
+> NaN when the result is a NaN?") with an operation on an input ("silence
+> this input NaN").
+> 
+> It's true that most of the time when in default-NaN mode you won't
+> need to silence an input NaN, because you can just produce the
+> default NaN as the result instead.  But some functions like
+> float*_maxnum() are defined to be able to work with quiet NaNs, so
+> silencing an input SNaN is still reasonable.  In particular, the
+> upcoming implementation of MVE VMAXNMV would fall over this assertion
+> if we didn't delete it.
+> 
+> Delete the assertion.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/helper-mve.h    |  6 ++++++
->   target/arm/mve.decode      | 14 +++++++++++---
->   target/arm/mve_helper.c    | 37 +++++++++++++++++++++++++++++++++++++
->   target/arm/translate-mve.c |  2 ++
->   4 files changed, 56 insertions(+), 3 deletions(-)
+>   fpu/softfloat-specialize.c.inc | 1 -
+>   1 file changed, 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
