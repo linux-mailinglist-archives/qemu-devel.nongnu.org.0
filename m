@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA70F3DB913
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:11:48 +0200 (CEST)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011743DB924
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:16:36 +0200 (CEST)
+Received: from localhost ([::1]:46118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9SIl-0000YR-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
+	id 1m9SNP-0002nV-1r
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1m9SHu-0008Jr-MW
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:10:54 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2454)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SMA-0001zA-PF
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:15:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1m9SHs-0006hM-3d
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:10:54 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gbnjk25WXzZvfG;
- Fri, 30 Jul 2021 21:07:06 +0800 (CST)
-Received: from dggpeml500005.china.huawei.com (7.185.36.59) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Jul 2021 21:10:27 +0800
-Received: from [10.174.186.51] (10.174.186.51) by
- dggpeml500005.china.huawei.com (7.185.36.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Jul 2021 21:10:27 +0800
-From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: [PATCH V5 00/25] Live Update [restart] : fork mode?
-To: Steve Sistare <steven.sistare@oracle.com>, Qemu Developers
- <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Juan Quintela" <quintela@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, Xiexiangyou <xiexiangyou@huawei.com>
-Message-ID: <ad3f7ebe-8086-d70c-8db7-997e8a5fa411@huawei.com>
-Date: Fri, 30 Jul 2021 21:10:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SM7-0001AX-UG
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:15:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627650914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2UIyfTW4i7sBNmYPwbFKuhGsXjjTwk+XxZ13pgOfCCg=;
+ b=PU6wT84QfdiFPtOcJTgvN1cTmzVCixK4pYRwdxzD6a8a66FaU80TT2sxf0XwP7A0QSObtR
+ Ls2+NXrJgpBrM4QxrymvHx+RPDT3HoZrdRC3kRFklbsLpGUr/d/P8+40TRSAT31XEPIKV+
+ dM8ixVh16B8+cuIL8ThRL7f1xA5ciL4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-LwhvxBj7MVu4-2rTtr3u6w-1; Fri, 30 Jul 2021 09:15:12 -0400
+X-MC-Unique: LwhvxBj7MVu4-2rTtr3u6w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r2-20020a05600c35c2b029023a3f081487so3263174wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 06:15:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2UIyfTW4i7sBNmYPwbFKuhGsXjjTwk+XxZ13pgOfCCg=;
+ b=HJjOj/lbrIC1sDO8Ne5RN+M7WefM/r7ex21M0J73WT3WZ3i7jpqhk2P0PKErrcL2yo
+ dntXLrthzC1syIB3fDIiKihAr4ZVKLH3Zddayhm/Q/QsfGfDFe0lo74oU/eR1w3M/NwU
+ q1htMx6gWMrOWhbCR2V00edTJvebVFhxou1DjNEBH6+hSNH8dwAnuGmefqdOmi23HAJE
+ J0Fc/kNMrjqBd99Ty8ESdZdc9/Nd8UvbynfXGpkVZLdfioGxpMSddn4fhVqHK2szdzIA
+ VtA/nw4nj5SeUGMrZqZBeb+QBkQknCB4LnwEOHw4Tz2kt+Mm9CiAnYjZU6TqOYyvRme4
+ Wfnw==
+X-Gm-Message-State: AOAM532y8mYHW0fJv+V9VahxruIE4xo+4I5dUGvswxYJASRNhkmb23oZ
+ AkZXMsiUYS5hMLJq0TUYe+7EI+c/mahl3Dojpx/FtttcbNciKKg7qhcRYkekrGtKEAwSVrduTt1
+ Vo8l2moTxojz/kaU=
+X-Received: by 2002:a1c:2504:: with SMTP id l4mr2898160wml.55.1627650911354;
+ Fri, 30 Jul 2021 06:15:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxH6B6tUfz/jlcoMJOdiwic7WiJ7040kL0jCyK1xwObhWNs8GzFL4Sq6aXpeXLFR7ioMBgpkQ==
+X-Received: by 2002:a1c:2504:: with SMTP id l4mr2898143wml.55.1627650911192;
+ Fri, 30 Jul 2021 06:15:11 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id v5sm1815625wrd.74.2021.07.30.06.15.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 06:15:10 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 05/10] docs: qom: Add subsection headings to
+ declaration/definition macros section
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20210729175554.686474-1-ehabkost@redhat.com>
+ <20210729175554.686474-6-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5ca987c1-92d7-9cb6-e4f6-533321c07cb0@redhat.com>
+Date: Fri, 30 Jul 2021 15:15:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210729175554.686474-6-ehabkost@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.186.51]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500005.china.huawei.com (7.185.36.59)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=zhengchuan@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,36 +100,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Steve
-I have saw the discussion about the fork+exec mode below:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg815956.html
+On 7/29/21 7:55 PM, Eduardo Habkost wrote:
+> Add two new subsection headings to make the separation between
+> "declaration macros" and "definition macros" more visible.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  docs/devel/qom.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-And I am still very curious and I want to discuss about the possibility to support both fork+exec and exec in cpr framework.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-1.Why
-fork+exec could have some advantages and also drawbacks versus execvp() directly.
-Advantages
-i) fork+exec give the chance to fallback to original process even after we do exec which is important for workload seamless if any error happens.
-ii) smaller downtime since we could remove the vm_start() downtime out of the frozen window.
-Drawbacks
-i）need more codes to handle including fork，address/ports conflict between parent and child.
-ii）more complex life cycle management for the two processes.
-
-2.How
-The cpr framework is flexible and scalable, and maybe we can make use of most codes to support both execvp and fork+exec mode.
-However, we may need to do more work compared to execvp method.
-i) do fork mode in a thread like migration thread
-ii) make parent and child talk to each other through socket or anonymous pipe
-iii）make use of sharing mechanism of fds in cpr framework including memfd, vfio and devices fds
-iv）deal with the conflict about the socket address and port like vnc （do by reuse port and pass the different args by cprexec）
-v) do life cycle managements for two qemu processes and need parent exit and reconnection for the child at last by the management service
-
-Please tell me if I am missing something important:)
-
--- 
-Regards.
-Chuan
 
