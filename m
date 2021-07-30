@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDA23DB4F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 10:16:04 +0200 (CEST)
-Received: from localhost ([::1]:39372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5518A3DB4F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 10:18:15 +0200 (CEST)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9NgY-0006Km-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 04:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
+	id 1m9Nig-0007uq-Dh
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 04:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9NfX-0005aa-71
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:14:59 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9NfV-0008SB-G9
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:14:58 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id gn26so15352878ejc.3
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 01:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KfCNjvtBw8btPxvotabci/DGjYkru4JvEtMXwYRWP3M=;
- b=eeR/QVChtYpAPM2zPcR9lAz87bBKIxj/Je+6VNFNyzvYArAWbYkadc62C7WzluZbSD
- bcZzHBGkZ83S+/YScfcRZhzmlLd8sHSk4FLZYWd7CeqqIRGmnmUzFTLsuIiAT1d+1MlK
- SqO+UDCK3A//bYaWx5luNYyW0lBjr5cmCMSZ9uFt635MfO0B6Zjqm90MlLRrmpdGetYr
- YKMam2zUmoxbKO4L0gbLEb5xYzhs86DmSktdb7L2pGqgEJ7Q66FG75t8IcxiBg+U57yU
- O/wlQFh2I/jv9JmDmdWE8hlc43AZt71taVrcXwV5mBCWekIFAzHeeBuu6BGxqp2JGCvx
- k59w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KfCNjvtBw8btPxvotabci/DGjYkru4JvEtMXwYRWP3M=;
- b=iZBTTU5WdoQA3FkQEBlg2tmwnaNp/B6ypbecKDx4osWL8nlpouN1bsuRl/heSRffwx
- ejn9mgH8EAz/iALCTxKA3GuNhq2LdPojeYXfLoP3xG3YZIPf8UdQK6DWkti96k4XluqY
- RY8pTs/yiFumTMbbJkQAmsG8/XnOd3YK7JlHZB7P2cXI8RM2Tx2yVNOTbTI5E3g6RjLO
- PSOrchrUs5EWRGoRnkNVBH1GZSrRDBJV/IxJYE8+cvbRHn6tGxKztH4FSVb1pyTljkaS
- 92x3DYajYWvSkygIT9iKd40yh7fImT+V0cL3IkQE87uR/uFd2APeejMQ2HL9167lK3HT
- EJZg==
-X-Gm-Message-State: AOAM530iO+QHPM3Nq5F4lXMb93jDM8cOclhN0gKqZ6MWtcfYhWI+yTQX
- AaGSSWLzW8tOQHhg536POAJ598BHJyUj1/WACJEkaA==
-X-Google-Smtp-Source: ABdhPJxBe43PElopJYBgH3WYkwsOWPiEhEeB4+mk5TRxHLVn/PjNUSDREuXuhuj0ukYl48lBman3t5XihvpnkVZQbOE=
-X-Received: by 2002:a17:906:948f:: with SMTP id
- t15mr1452728ejx.85.1627632895158; 
- Fri, 30 Jul 2021 01:14:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m9NhZ-0007Dr-M0
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:17:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m9NhW-0001tH-Ba
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 04:17:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627633020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yuHh2G8m61zl3SFHl0CXftseLo4Vdyu2H/skIm40zIQ=;
+ b=GGewt1Cs6yZtnEibB7CLNlp4LPTDDdRGKvYfpwAHLad7VTo+VS1yQZFm9ePOcxi8rCwcug
+ rdCsFWqD2PI5VEKuWaQoaSeSS2DRuUnnUqh042B0k2ZmKajeoIvZLbEzPYANFawBo8eYD8
+ 2eElkALqcLa7kDA9gn039IdNqCB/nNc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-kESKAXDbMTmqhrBohsCJ8Q-1; Fri, 30 Jul 2021 04:16:58 -0400
+X-MC-Unique: kESKAXDbMTmqhrBohsCJ8Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4312800D55
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:16:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8379410631CC;
+ Fri, 30 Jul 2021 08:16:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0A48311380A0; Fri, 30 Jul 2021 10:16:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH for-6.2 06/10] docs: qom: Remove unnecessary class
+ typedefs from example
+References: <20210729175554.686474-1-ehabkost@redhat.com>
+ <20210729175554.686474-7-ehabkost@redhat.com>
+Date: Fri, 30 Jul 2021 10:16:55 +0200
+In-Reply-To: <20210729175554.686474-7-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Thu, 29 Jul 2021 13:55:50 -0400")
+Message-ID: <87eebg43ns.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210729125044.3531457-1-kraxel@redhat.com>
-In-Reply-To: <20210729125044.3531457-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Jul 2021 09:14:12 +0100
-Message-ID: <CAFEAcA-WyCRfBdoK2AvaJ-=ttZ22em5cHiJZkA6xSB=UAdiS9A@mail.gmail.com>
-Subject: Re: [PULL 0/7] Usb 20210729 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 13:58, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit f2da205cb4142259d9bc6b9d4596ebbe2426fe49:
->
->   Update version for v6.1.0-rc1 release (2021-07-27 18:07:52 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20210729-pull-request
->
-> for you to fetch changes up to 30a20f2c5a9cf8f01ffcc918a7a5751dfe956524:
->
->   docs: Fold usb2.txt passthrough information into usb.rst (2021-07-29 11:18:55 +0200)
->
-> ----------------------------------------------------------------
-> usb: fixes for 6.1: usbredir, usb-host for windows, docs.
->
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
+> When there's no specific class struct used for a QOM type, we
+> normally don't define a typedef for it.  Remove the typedef from
+> the minimal example, as it is unnecessary.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  docs/devel/qom.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+> index 05d045bf570..dee60a64c0a 100644
+> --- a/docs/devel/qom.rst
+> +++ b/docs/devel/qom.rst
+> @@ -20,9 +20,6 @@ features:
+>  
+>     #define TYPE_MY_DEVICE "my-device"
+>  
+> -   // No new virtual functions: we can reuse the typedef for the
+> -   // superclass.
+> -   typedef DeviceClass MyDeviceClass;
+>     typedef struct MyDevice
+>     {
+>         DeviceState parent;
 
-Applied, thanks.
+Documenting existing practice makes sense, but I'm not sure the existing
+practice to elide this typedef makes sense.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
 
