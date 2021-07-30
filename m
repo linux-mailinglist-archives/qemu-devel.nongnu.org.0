@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9293DB940
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:20:47 +0200 (CEST)
-Received: from localhost ([::1]:48502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506B03DB942
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:22:16 +0200 (CEST)
+Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9SRS-0004fg-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
+	id 1m9SSt-0006fh-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SQL-0003zL-EB
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:19:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SQK-00048H-0x
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:19:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627651175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oKA2vdfwhZVJn1WkNOV/AveAK390z9DVLgbha92Tfjw=;
- b=cTcwyEmZDfYydQA/bHqZRvliYiDEGv9xHWKcsMBTJ2/0r5SH5ZXenAybBmg6U9U3AdD/x0
- bzD74DUzF1yzSDSoK03b8ow2aac6F2RQKh1YZPqTLtTRiN3M5i8PM7AFQjgvTUKWs3ipCu
- 4Tw28op3vF9T0+yk86Ji0siIy9FmwJI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-mO5-0cbpMX6Om6dPsC3k-w-1; Fri, 30 Jul 2021 09:19:32 -0400
-X-MC-Unique: mO5-0cbpMX6Om6dPsC3k-w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u11-20020a5d434b0000b029013e2027cf9aso3193934wrr.9
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 06:19:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m9SRQ-0005BC-36
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:20:44 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m9SRN-0004s9-PL
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:20:42 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ l4-20020a05600c1d04b02902506f89ad2dso7734982wms.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 06:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GfBN5KJpyESL2rXXjGyqkzE+vnJ+Y8QT1pKyZpv4gjU=;
+ b=sywJOJafMgHO+Af4ZyKZtPRC8IoeSkTIUZebouyJHpK3hr9ezniDwsNexehgWy9Ct1
+ j+F29/CaeIF0dEmDU+C34nsNk12OuRpDeOzYtJkEmEQYO7HHTD2GdgNKANMiMP15Bsby
+ O1eChtKrN15mWr35+d9ZgUXywQhT9Qv3cIg1eXhmwk9ehcJojd9k4PRhz4xiBUCCIvJy
+ vesxQ+iJRD/unXP7Tg6R+k5I15iEDmGutqkJRpLKO3tNG+/FqIvu9opxilpsfB1pVw55
+ qrf6q3mmC6KpDmFDyaWdv/Mxk1MWBSttOWCS6g7sAjbGJNJ3db/PyNEzF/+eUN0x3qnb
+ L8rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oKA2vdfwhZVJn1WkNOV/AveAK390z9DVLgbha92Tfjw=;
- b=e3TYx0Mh9beGtJONowGBJNEIjnR9PfPxPY4HGtOZavUbsJQbLbnbHWnN362Qrhn1Bf
- 50OM1IjhClL6D6lg41yJa2TduxIPDuGlFPh/fwNfdP14OXLXUu/HYaojQjzeR4O4TqbY
- VX+59uRjhwPDpUYN26xlZn0LpgojGf9ldufhEhpqGVGD1gePCEa/UHBGGpTK9qHt4dvF
- JK11ShWezDA213NNU637HX5ecq6YrDlcKCAeWgAl41zrJxmQcr5G3BEd00bVtpLD7WzJ
- SehJKH1SkQVQn2GLoJXIqByVKNHcAB42snZ5sQWYhtgRSm7pjwivQ7Yp/iWrE2l0l7Hg
- DDdw==
-X-Gm-Message-State: AOAM532ThOIDppyKHw4CqL6DMJ1DR0vrUg4gUgLthw23VugVsP+YRXCR
- z4wcTbk6Z67qkoN0zXr3uTVl+UYR8C/O4eE3NFLlCyAk7wq59yHTWEyWWWaDR/LnmLa0lkle3UD
- r4ZMJUyA7Z6Upl8c=
-X-Received: by 2002:a7b:c7d7:: with SMTP id z23mr2874473wmk.136.1627651171475; 
- Fri, 30 Jul 2021 06:19:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9/IK77IibaD4qpe+GCuRrhxQteagCiaHVHp2b7LyDoAepVqeFpkiXCx9w9BwpnZ/8L1e10w==
-X-Received: by 2002:a7b:c7d7:: with SMTP id z23mr2874465wmk.136.1627651171367; 
- Fri, 30 Jul 2021 06:19:31 -0700 (PDT)
+ bh=GfBN5KJpyESL2rXXjGyqkzE+vnJ+Y8QT1pKyZpv4gjU=;
+ b=nJFdUim5j3WgjJr/b9a1NN6SdKxmDPHnccRf0mM8b3ARVh0i0fIKfOIu4LtJ5TrlCm
+ 4Zff4/sdzkkVDa6mdoMt0DGmWw2PLFEyvH7x8n5VBOPr3DGH2Y95xQqAqbW0C2Uf1kFe
+ JDpl3SERSPtqNgaZCdRdl7v+8/MEjpi0joDvmhoNVBsgXn3dBqwHoL3g5LzYR6Dih4/A
+ TOCge8A7aBV076lUzCpkfjmg/kzsFyku/gcDubH6bVzB9gNq9dJEmwKQtZGMfjxon/ir
+ q3EPijH6tOz3k0SoDpkvCL+H+FSYX5kzevCTIG+GAkMUiiR8S5S2z1WAhmBnWUrxKbpE
+ nVkw==
+X-Gm-Message-State: AOAM531Wcb84m7o5hKFVKdsw0FDlP0DfqBL2BPVfOlqjOHAl/cNQbI0W
+ pII9W/ZXoB6JRBMl3BxAjMU=
+X-Google-Smtp-Source: ABdhPJxZUrv17U5X2TXjf52iFXyhf3an7f6F+O9z7EMV7X1MqcmIVcuKnV01hC8xw/fBwgkxrN9wgA==
+X-Received: by 2002:a05:600c:b46:: with SMTP id
+ k6mr2949354wmr.134.1627651240341; 
+ Fri, 30 Jul 2021 06:20:40 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id k6sm1705352wrm.10.2021.07.30.06.19.30
+ by smtp.gmail.com with ESMTPSA id f2sm1654503wrq.69.2021.07.30.06.20.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 06:19:31 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 4/8] meson.build: Define QEMU_ARCH in
- config-target.h
+ Fri, 30 Jul 2021 06:20:39 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 5/8] arch_init.h: Add QEMU_ARCH_HEXAGON
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210730105947.28215-1-peter.maydell@linaro.org>
- <20210730105947.28215-5-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a73b6953-7372-906e-bbfb-307523af61ac@redhat.com>
-Date: Fri, 30 Jul 2021 15:19:30 +0200
+ <20210730105947.28215-6-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <980f6bb1-5ec4-cb78-a74c-e928a75afe7c@amsat.org>
+Date: Fri, 30 Jul 2021 15:20:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730105947.28215-5-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210730105947.28215-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.125,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,23 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/30/21 12:59 PM, Peter Maydell wrote:
-> Instead of using an ifdef ladder in arch_init.c (which we then have
-> to manually update every time we add or remove a target
-> architecture), have meson.build put "#define QEMU_ARCH QEMU_ARCH_FOO"
-> in the config-target.h file.
+> When Hexagon was added we forgot to add it to the QEMU_ARCH_*
+> enumeration.  This doesn't cause a visible effect because at the
+> moment Hexagon is linux-user only and the QEMU_ARCH_* constants are
+> only used in softmmu, but we might as well add it in, since it's the
+> only architecture currently missing from the list.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  meson.build         |  2 ++
->  softmmu/arch_init.c | 41 -----------------------------------------
->  2 files changed, 2 insertions(+), 41 deletions(-)
+>  include/sysemu/arch_init.h | 1 +
+>  1 file changed, 1 insertion(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
