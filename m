@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298703DBBDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:14:40 +0200 (CEST)
-Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2703DBBEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:17:46 +0200 (CEST)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9UDf-0002ja-85
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
+	id 1m9UGf-0006cr-2G
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9UCQ-0001KN-1Z
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:13:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m9UCN-00060R-Sr
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:13:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627657999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0ksgbG3maQMZih6yHaK+bz4sOnJjK65PPER6x27kiWQ=;
- b=Ri7ehxHUfldvH5jfWJ94Um3w0NYWz1y2Z9WeNErO/0lKfeHAJAAxNovPQxhimLYvveIeev
- NzSynFLOe85nwGJ47ZKCw1qh1rdC1Znt5oY1ZJq4CSWVwvgI55uSkosF9sgzxLlCO9HIXL
- SP03ehHv6Be60WT/rvMbsC14+ewOzVc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-AMSOZvTmMfC8xizfa7a1IA-1; Fri, 30 Jul 2021 11:13:17 -0400
-X-MC-Unique: AMSOZvTmMfC8xizfa7a1IA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l12-20020a05600c1d0cb029024e389bb7f1so2716796wms.0
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:13:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m9UFe-0004jk-Su
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:16:42 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m9UFc-0008Ry-3H
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:16:42 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h14so11719868wrx.10
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:16:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zjDrMTLlUOhiuTOt61+dB6ig0Qs43twSaUJnIxWi7s8=;
+ b=fAbWJjBMjpY51xzLf71RRL23MsBGRWqYx+uR5A/OE6vhnOD8DhDuyKm8e2AA1ncnb+
+ wJDqKZq5dltdu+ckLOYTwtFLzkJFt+U1DH4mWaG5VX1PkmnM6TcjNgIk9/fRyfoG102G
+ A/9JS97D9Ns7jKrChUPGBlV5i5RdBO6a9iAUwitBdliulEHI1rStft90lpNCKLiVpSph
+ yo9kvL4Hd5BGj8+gbwtrp1n0dm1jRLNHwURaP5jyJJOIQUNEgVO5IXrCu9E0oB8Y+cFu
+ cSjapCK7quY45JIepdUpQ+dFooIzWnspYjSghBDh8BryTZ5VCk7pyMqT1AhUAgg247AK
+ LZqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0ksgbG3maQMZih6yHaK+bz4sOnJjK65PPER6x27kiWQ=;
- b=UrAMYe5avBSQhSArWm2yHhLVBBir/+kLRRNi752TJ6ew/ipUVKn5xlxggetmdRKAIY
- 2Mr+cJgsvfJ9sf61KT+8nKP1/GVdi7Kf34rm4jyT0ukRwgcxTD1EGDKRca7kvBwFMCU2
- uA64roR0KLDTnOujqLWHEi1W7HaAps2r+vkPQ/pS67uThw653hDk7cfeV/A+eqkj6ZD/
- WrQFmZRqQmce2wxrDD0GFkUF9x1N1oO0MoreGFYa2AI86vPj2sApHVWDzuveMarV9z8G
- c0VtA5unDWmUJwWgZl/daWBLKZcYzDTSJ0WldaIjge1vH6DF0LDuW/5lfMdP0L6LzPhG
- GJsQ==
-X-Gm-Message-State: AOAM532ObqyTPJDbq+Dzcwq+6pzpgwj8GbsL0X71tDtrREwXBcy+pLIR
- 3sIdlBHz/cfu9TpKaALVazK2T1nuAMeZSdqMRaBY5PJrzh7Y8lA1EPQ0hyB8Qr8Rid606oYCR0p
- Lzr4iHU5HGqgoR+g=
-X-Received: by 2002:a7b:c1d8:: with SMTP id a24mr3532278wmj.155.1627657996764; 
- Fri, 30 Jul 2021 08:13:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyc670LnROMNgru/V5QW0fn+0AZGUHZ0ZK9ZR9ybeoFJPY50XUrUHpnJPe6h+K8uiLb8OSBw==
-X-Received: by 2002:a7b:c1d8:: with SMTP id a24mr3532251wmj.155.1627657996545; 
- Fri, 30 Jul 2021 08:13:16 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id d15sm2158915wri.39.2021.07.30.08.13.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 08:13:15 -0700 (PDT)
-Subject: Re: [PATCH v2 4/6] util/oslib-posix: Avoid creating a single thread
- with MADV_POPULATE_WRITE
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210722123635.60608-1-david@redhat.com>
- <20210722123635.60608-5-david@redhat.com> <YQBYpfgfUa8c9q0G@work-vm>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <f03bd552-1e0d-2152-eda5-188a4aa28ff6@redhat.com>
-Date: Fri, 30 Jul 2021 17:13:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zjDrMTLlUOhiuTOt61+dB6ig0Qs43twSaUJnIxWi7s8=;
+ b=pXK34AyLzqUXGF0V46BRYWm8Z2lAOVzuhS2/mfJn97NEl/0fMrxURF6VfoUj8Qd2i9
+ /ELUft4Xj5UmWASsQI9n/T3dOFedYfE6+dBewvLkhYkRtogaXO9thvAUHoubdru6hd46
+ sr6wOdSv8nEST+Ed/oGi7V83DT9PdD0U6/BpJ0a/IuIl1wTmHFxfRd1WRVz5lXARwooW
+ P7PriFAQIbg6hN9lL4s9Eri5at90dXOACd3+8h6e5L+9qEbV0AfRZlzXcfhc5Ye3vLi7
+ c+kAU5QkSeppsoImI0kbD0uRQ+IRS6luvD55/rqMK44PQHKD80IGkpjv5EVtUHJB92+t
+ xAIw==
+X-Gm-Message-State: AOAM531rk4MbhAOueP84RavcNdFALjvyP+yN4IqG4Y86fGgC/rtHXdXo
+ V9hYMP0Ef+dIYqrDqekEOr+GZA==
+X-Google-Smtp-Source: ABdhPJwKLBqXfzLqAo7zMZk4IJpgL/ZuDB2K2oZAaO5TWXvtbvWNzy5JSm0KBZziVlLi7i8HKLZ/pw==
+X-Received: by 2002:adf:f5d1:: with SMTP id k17mr3648478wrp.123.1627658198493; 
+ Fri, 30 Jul 2021 08:16:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id h12sm2020292wrm.62.2021.07.30.08.16.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 08:16:38 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/2] arm: Implement M-profile trapping on division by zero
+Date: Fri, 30 Jul 2021 16:16:34 +0100
+Message-Id: <20210730151636.17254-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <YQBYpfgfUa8c9q0G@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,49 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.07.21 21:04, Dr. David Alan Gilbert wrote:
-> * David Hildenbrand (david@redhat.com) wrote:
->> Let's simplify the case when we only want a single thread and don't have
->> to mess with signal handlers.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   util/oslib-posix.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
->> index a1d309d495..1483e985c6 100644
->> --- a/util/oslib-posix.c
->> +++ b/util/oslib-posix.c
->> @@ -568,6 +568,14 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->>       }
->>   
->>       if (use_madv_populate_write) {
->> +        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
->> +        if (context.num_threads == 1) {
->> +            if (qemu_madvise(area, hpagesize * numpages,
->> +                             QEMU_MADV_POPULATE_WRITE)) {
-> 
-> Do you never have to fall back if this particular memory region is the
-> one that can't do madv?
+Unlike A-profile, for M-profile the UDIV and SDIV insns can be
+configured to raise an exception on division by zero, using the CCR
+DIV_0_TRP bit.  This patchset implements that missing functionality
+by having the udiv and sdiv helpers raise an exception if needed.
 
-We sense upfront, when detecting use_madv_populate_write, whether it's 
-supported on this very memory type. So, no need to fallback here.
+Some questions:
 
-> 
-> Dave
+Is it worth allowing A-profile to retain the mildly better codegen it
+gets from not having to pass in 'env' and marking the helper as
+no-side-effects (ie having M-specific udiv/sdiv helpers) ?
+
+Is it worth inlining either udiv or sdiv for the A-profile case?
+udiv can be done with movcond/movcond/divu, something like:
+
+    /* t1 = (t2 == 0) ? 0 : t1;    t2 = (t2 == 0) ? 1 : t2 */
+    tcg_gen_movcond_i32(TCG_COND_EQ, t1, t2, tcg_constant_i32(0),
+    tcg_constant_i32(0), t1);
+    tcg_gen_movcond_i32(TCG_COND_EQ, t2, t2, tcg_constant_i32(0),
+    tcg_constant_i32(1), t2);
+    /* Either t1 / t2; or 0 / 1 to give 0 for division-by-zero */
+    tcg_gen_divu_i32(t1, t1, t2);
+
+sdiv is more painful because it needs to check for both x/0 and
+INTMIN/-1 cases.  Some other targets choose to generate inline TCG
+ops for it, though.
+
+Side note, I don't understand the x86-64 codegen for the above
+sketch of an inline udiv. When I try it the TCG ops are
+
+  mov_i32 tmp3,r2
+  mov_i32 tmp6,r3
+  movcond_i32 tmp3,tmp6,$0x0,$0x0,tmp3,eq
+  movcond_i32 tmp6,tmp6,$0x0,$0x1,tmp6,eq
+  mov_i32 tmp7,$0x0
+  divu2_i32 tmp3,tmp7,tmp3,tmp7,tmp6
+  mov_i32 r3,tmp3
+
+but the x86 code is
+0x7f5f1807dc0c:  45 33 f6                 xorl     %r14d, %r14d
+0x7f5f1807dc0f:  45 85 ed                 testl    %r13d, %r13d
+0x7f5f1807dc12:  45 0f 44 e6              cmovel   %r14d, %r12d
+0x7f5f1807dc16:  41 bf 01 00 00 00        movl     $1, %r15d
+0x7f5f1807dc1c:  45 3b ee                 cmpl     %r14d, %r13d
+0x7f5f1807dc1f:  45 0f 44 ef              cmovel   %r15d, %r13d
+0x7f5f1807dc23:  41 8b c4                 movl     %r12d, %eax
+0x7f5f1807dc26:  41 8b d6                 movl     %r14d, %edx
+0x7f5f1807dc29:  41 f7 f5                 divl     %r13d
+
+where the comparison for the first cmovel is 'testl %r13d, %r13d",
+but the second comparison is 'cmpl %r14d, %r13d'.  That's the same
+effect (given r14 is 0) but I don't understand why the backend has
+chosen to generate different code for the two cases.  (Ideally of
+course it would notice that it already had generated the condition
+check and not repeat it.)
+
+thanks
+-- PMM
+
+Peter Maydell (2):
+  target/arm: Re-indent sdiv and udiv helpers
+  target/arm: Implement M-profile trapping on division by zero
+
+ target/arm/cpu.h       |  1 +
+ target/arm/helper.h    |  4 ++--
+ target/arm/helper.c    | 34 ++++++++++++++++++++++++++--------
+ target/arm/m_helper.c  |  4 ++++
+ target/arm/translate.c |  4 ++--
+ 5 files changed, 35 insertions(+), 12 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.20.1
 
 
