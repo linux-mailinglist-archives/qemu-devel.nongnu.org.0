@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41C53DB1C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 05:10:31 +0200 (CEST)
-Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675363DB361
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 08:14:34 +0200 (CEST)
+Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9Ius-0008Ai-SQ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Jul 2021 23:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54526)
+	id 1m9Lmy-0006zV-UD
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 02:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
- id 1m9It9-0004ej-C3; Thu, 29 Jul 2021 23:08:43 -0400
-Received: from esa2.hc1455-7.c3s2.iphmx.com ([207.54.90.48]:23761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
- id 1m9It6-0000NI-BZ; Thu, 29 Jul 2021 23:08:43 -0400
-IronPort-SDR: BAw4Aumc7V26/Zf9Py8usxbh/e5NGoJ6XJlYG74mm15nWTTAW3nzowKsXNdCTy0hMiTo6z9r7n
- 6bMge3X+UZuk0tNo1WP5ohCN+9qHglrJ9un8VE71RDj9hQEh2BZz1hSS/Vm7vxravyL0vdkGlm
- ++0D9BQqnVsIS9JNwivIZQma/Y4vWh5DoIAwUO97NW6Ls40mPgS5/V/JT1XePXAAVJG1cdAQbz
- r+TI2o905bqs+7hjFc0aDpN2rIXT79L3L8gH43NvvoBSUCJ4XjvLjCC74y0drQz+qcIyLigwsI
- u5mbinxA25eRIwm8deXEg26u
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="38308722"
-X-IronPort-AV: E=Sophos;i="5.84,280,1620658800"; d="scan'208";a="38308722"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
- by esa2.hc1455-7.c3s2.iphmx.com with ESMTP; 30 Jul 2021 12:08:38 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com
- [192.168.83.67])
- by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 7A2F46DAE0;
- Fri, 30 Jul 2021 12:08:36 +0900 (JST)
-Received: from oym-om3.fujitsu.com (oym-om3.o.css.fujitsu.com [10.85.58.163])
- by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id B80EAF0A25;
- Fri, 30 Jul 2021 12:08:35 +0900 (JST)
-Received: from localhost.localdomain (n3235113.np.ts.nmh.cs.fujitsu.co.jp
- [10.123.235.113])
- by oym-om3.fujitsu.com (Postfix) with ESMTP id 89E80403D4E19;
- Fri, 30 Jul 2021 12:08:35 +0900 (JST)
-From: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-To: peter.maydell@linaro.org,
-	qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target-arm: Add A64FX processor support to virt machine
-Date: Fri, 30 Jul 2021 12:08:21 +0900
-Message-Id: <20210730030821.231106-4-ishii.shuuichir@fujitsu.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210730030821.231106-1-ishii.shuuichir@fujitsu.com>
-References: <20210730030821.231106-1-ishii.shuuichir@fujitsu.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m9Lm6-0006FI-9r; Fri, 30 Jul 2021 02:13:38 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:40756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m9Lm4-0005T7-DH; Fri, 30 Jul 2021 02:13:37 -0400
+Received: by mail-il1-x131.google.com with SMTP id d10so8292124ils.7;
+ Thu, 29 Jul 2021 23:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8KhohUam7iMysqtuYcPVUjeyX1prd6dKUzB7eDRsXSE=;
+ b=lBWP6CmVsz2hw0si+O3jjOx7Y8d0ZN8tfgvdpAcTRi6BITJTZ2+P81mhqw8Fc+Saus
+ cglXRoeBrn9vPO23TIQ8Ehh8bw0O0C1ju/pfF46dThPINRX68BQ+momOyzx6cB1C5XAH
+ xwTXk5brDVo2Tg1lbvC5Br7yn8/8DvCMADf7+iDXlkuGirQSSDanGnUWdy8efkcHvzwm
+ H1uxFs9Kjirh+b39/ZsseTaMYkWWs22SGts9jluWtTpgmHoQfVdh+NxT2CJ/yPcoTo+5
+ etIVLBROXdOil02qs24gMXde1gOE+mk3G546ig1FUloUIvxOX9sXlSGRxMrl0qzomYkY
+ MczA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8KhohUam7iMysqtuYcPVUjeyX1prd6dKUzB7eDRsXSE=;
+ b=hkpD2viFpkQhe0F32fGLRe+UJlPuDoD6ZNGsgjAY79tCXpCfcjh7rKR8nuvDQkn16v
+ nFKd8ni2UAQFqjinN3GrI/R2mbz28b+MDjcj9pCWfTbNkvf/wFvCotBSx0QvR7uUZZBx
+ jxJ2flARufC1Auq2t5N21X4IHVm4Xt1CEv/H6e8EkQhsR5FriQGZo/e60Aj866Cb9Ugr
+ 2mkCrO9GmKm+oMBeuLy6BaIPrTZz3TeF79rHSkamEkpLN+F94WpFgBSFEfXHIIFU3BuK
+ Oi5dQiLsyQHlAyLTHM86m3yPiZQE9wqMl2fHUTtDelPewhUzgW7md/ZCu/Xr0zfIyT76
+ ErMA==
+X-Gm-Message-State: AOAM530PJq2qoG1ZkqZjqhEgtsSLlzejkHeWj0cx9+vcRgzxborVfbaB
+ DFhM7Vt/8L//yRP+ACzt352bhkAcHZkhmiZ5fvk=
+X-Google-Smtp-Source: ABdhPJx0wMaXVHOl93Qtrl1+Hq1xD7SIXPWBTRghxEnfxKogiSnOXpYFUJ2UYO4endyErDtTwtw/3KXFXzFAK33ejl4=
+X-Received: by 2002:a92:d8cf:: with SMTP id l15mr738834ilo.227.1627625613438; 
+ Thu, 29 Jul 2021 23:13:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-Received-SPF: pass client-ip=207.54.90.48;
- envelope-from=ishii.shuuichir@fujitsu.com; helo=esa2.hc1455-7.c3s2.iphmx.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210729004647.282017-1-richard.henderson@linaro.org>
+ <20210729004647.282017-10-richard.henderson@linaro.org>
+In-Reply-To: <20210729004647.282017-10-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 30 Jul 2021 16:13:07 +1000
+Message-ID: <CAKmqyKMZyVZ_OUVCsdh8BEBhb0pUKzEBLHxX+W4gHV+6m-96og@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 09/43] target/riscv: Implement do_unaligned_access
+ for user-only
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,44 +77,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ishii.shuuichir@fujitsu.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix for patch consistency.
-https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg06993.html
+On Thu, Jul 29, 2021 at 10:55 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: qemu-riscv@nongnu.org
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
----
- docs/system/arm/virt.rst | 1 +
- hw/arm/virt.c            | 1 +
- 2 files changed, 2 insertions(+)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 27652adfae..5329e952cf 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -55,6 +55,7 @@ Supported guest CPU types:
- - ``cortex-a53`` (64-bit)
- - ``cortex-a57`` (64-bit)
- - ``cortex-a72`` (64-bit)
-+- ``a64fx`` (64-bit)
- - ``host`` (with KVM only)
- - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 81eda46b0b..10286d3fd6 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -200,6 +200,7 @@ static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a53"),
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-+    ARM_CPU_TYPE_NAME("a64fx"),
-     ARM_CPU_TYPE_NAME("host"),
-     ARM_CPU_TYPE_NAME("max"),
- };
--- 
-2.27.0
+Alistair
 
+> ---
+>  linux-user/riscv/cpu_loop.c | 7 +++++++
+>  target/riscv/cpu.c          | 2 +-
+>  target/riscv/cpu_helper.c   | 8 +++++++-
+>  3 files changed, 15 insertions(+), 2 deletions(-)
+>
+> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+> index 74a9628dc9..0428140d86 100644
+> --- a/linux-user/riscv/cpu_loop.c
+> +++ b/linux-user/riscv/cpu_loop.c
+> @@ -92,6 +92,13 @@ void cpu_loop(CPURISCVState *env)
+>              sigcode = TARGET_SEGV_MAPERR;
+>              sigaddr = env->badaddr;
+>              break;
+> +        case RISCV_EXCP_INST_ADDR_MIS:
+> +        case RISCV_EXCP_LOAD_ADDR_MIS:
+> +        case RISCV_EXCP_STORE_AMO_ADDR_MIS:
+> +            signum = TARGET_SIGBUS;
+> +            sigcode = TARGET_BUS_ADRALN;
+> +            sigaddr = env->badaddr;
+> +            break;
+>          case RISCV_EXCP_SEMIHOST:
+>              env->gpr[xA0] = do_common_semihosting(cs);
+>              env->pc += 4;
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 991a6bb760..591d17e62d 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -644,11 +644,11 @@ static const struct TCGCPUOps riscv_tcg_ops = {
+>      .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
+>      .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
+>      .tlb_fill = riscv_cpu_tlb_fill,
+> +    .do_unaligned_access = riscv_cpu_do_unaligned_access,
+>
+>  #ifndef CONFIG_USER_ONLY
+>      .do_interrupt = riscv_cpu_do_interrupt,
+>      .do_transaction_failed = riscv_cpu_do_transaction_failed,
+> -    .do_unaligned_access = riscv_cpu_do_unaligned_access,
+>  #endif /* !CONFIG_USER_ONLY */
+>  };
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 968cb8046f..a440b2834f 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -727,6 +727,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+>                              riscv_cpu_two_stage_lookup(mmu_idx);
+>      riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
+>  }
+> +#endif /* !CONFIG_USER_ONLY */
+>
+>  void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>                                     MMUAccessType access_type, int mmu_idx,
+> @@ -734,6 +735,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>  {
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      CPURISCVState *env = &cpu->env;
+> +
+>      switch (access_type) {
+>      case MMU_INST_FETCH:
+>          cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
+> @@ -748,11 +750,15 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>          g_assert_not_reached();
+>      }
+>      env->badaddr = addr;
+> +
+> +#ifdef CONFIG_USER_ONLY
+> +    cpu_loop_exit_restore(cs, retaddr);
+> +#else
+>      env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+>                              riscv_cpu_two_stage_lookup(mmu_idx);
+>      riscv_raise_exception(env, cs->exception_index, retaddr);
+> +#endif
+>  }
+> -#endif /* !CONFIG_USER_ONLY */
+>
+>  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          MMUAccessType access_type, int mmu_idx,
+> --
+> 2.25.1
+>
+>
 
