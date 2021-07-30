@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADAB03DB452
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 09:12:51 +0200 (CEST)
-Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D157A3DB444
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 09:09:29 +0200 (CEST)
+Received: from localhost ([::1]:50126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9MhO-0000k7-Jc
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 03:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
+	id 1m9Me7-0007Vg-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 03:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m9Mg0-0008Rq-Bv
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:11:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44424)
+ (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
+ id 1m9Md0-0006r6-Qv
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:08:18 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m9Mfy-00041T-2X
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:11:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m9Mff-0004l4-K9
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:11:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A2D5B2E81A9
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 07:10:59 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Jul 2021 07:03:26 -0000
-From: Maxim Devaev <1891748@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
+ id 1m9Mcz-0001c8-4N
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 03:08:18 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ d131-20020a1c1d890000b02902516717f562so5681657wmd.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 00:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hB+8MVZry6V5Lt1nx2uV1KkFV7O1ohCnR4EKedLppeE=;
+ b=eENVUmZ4/kFO+go+Wo8ZppU4IJuowrInzMjJJuYDC0wQxNl5gm7N34axZJkcYAsrFY
+ rWQwcKkIVZGYftAJj4egfAbc+FHNzk4lhLa8vgN5JLAn2u9dCMOmLLrC4P763zPWoRD5
+ am1WBvQBslYdLMTe5cQQOnCteWw/FyvwY2uLXnKwC0IhaR2yQwF8vVfnwpSQVdwU0qrn
+ boW6DfP8LgKsCNgFTuKDqRkRweNnMmr4FWjthKw6Bo8Kx6D1fyzMUrrIFqUt+16jtZ8X
+ sgim1IZXwVmyd5mzjwURoO+EO0kFLNdbJT7mq0RuLlLPlOGQRYfjF3yNFweJej81NuOb
+ gmEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hB+8MVZry6V5Lt1nx2uV1KkFV7O1ohCnR4EKedLppeE=;
+ b=kfAKmjBSFV+ajjpi7Z5B8JRP87pCdMWzM+kjSlDQaqfLagcveCQwyRgkACedzDFvoM
+ lUiiWlvP/llwLu6r0UC8BBwKdjr/DpgBfOMWN/E9GL1f2LfDeKxJHZhvrPMY+Xk7PrMV
+ 4u9Ri7ZIKoxG0WbZNRw9KtpEhlmj9bRA+1i0Nlqjoj+shZpXWjkj24xfoDATOvywdR9Q
+ 9Bz9c1ACVOrd2p2Am/eonYlPpHXe1NUGW+P4VUM2xbIVWcWTLRkTg6+jkoxPDQFmNzPb
+ kuAj+D4pcr1rSOsVltY//90xgD8zXRwEvvxIyC78I1CtRuesTtAkQxMY1koqUYH1Qnkf
+ KCGw==
+X-Gm-Message-State: AOAM5329BuqdLOWrqSPmzMsi/gsIMJMbL6zQMKEOQEvDx/g1nY+SxiNp
+ RkasKYbF1CYmpOPkKN1mcwTYBxL91ARVXw==
+X-Google-Smtp-Source: ABdhPJxb3dqUgqWcroJiLb9O+n1YhL9lSYJpGohgiYQiPXVCqmDLuuFvUWsYn6bHTHuVceXd3cREkg==
+X-Received: by 2002:a05:600c:4651:: with SMTP id
+ n17mr1258664wmo.36.1627628895003; 
+ Fri, 30 Jul 2021 00:08:15 -0700 (PDT)
+Received: from localhost.localdomain (93-33-64-120.ip43.fastwebnet.it.
+ [93.33.64.120])
+ by smtp.gmail.com with ESMTPSA id q63sm1030389wme.36.2021.07.30.00.08.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 00:08:14 -0700 (PDT)
+From: Lara Lazier <laramglazier@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=charms; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee dilfridge ech1965 laurent-vivier mdevaev
- mirabilos rth th-huth tsp84
-X-Launchpad-Bug-Reporter: Ech (ech1965)
-X-Launchpad-Bug-Modifier: Maxim Devaev (mdevaev)
-References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <162762860644.30378.4655238758195412679.malone@chaenomeles.canonical.com>
-Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="33e31d845587d75ee5a0727697204c950ad471d5"; Instance="production"
-X-Launchpad-Hash: 75b413b9f3557395b8c03b99af10e303a82bba93
-Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v3] target/i386: Added VGIF feature
+Date: Fri, 30 Jul 2021 09:07:42 +0200
+Message-Id: <20210730070742.9674-1-laramglazier@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=laramglazier@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,43 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Okay, it was found experimentally that the problem is reproduced if
-vm.mmap_min_addr is greater than 53249. If from 0 to 53249 - everything
-works. What can this be related to?
+v2->v3: moved guest check into virtual_gif_enabled
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891748
+VGIF allows STGI and CLGI to execute in guest mode and control virtual
+interrupts in guest mode.
+When the VGIF feature is enabled then:
+ * executing STGI in the guest sets bit 9 of the VMCB offset 60h.
+ * executing CLGI in the guest clears bit 9 of the VMCB offset 60h.
 
-Title:
-  qemu-arm-static 5.1 can't run gcc
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+---
+ target/i386/cpu.c                   |  3 ++-
+ target/i386/svm.h                   |  6 ++++++
+ target/i386/tcg/sysemu/svm_helper.c | 31 +++++++++++++++++++++++++++--
+ 3 files changed, 37 insertions(+), 3 deletions(-)
 
-Status in QEMU:
-  Fix Released
-Status in Juju Charms Collection:
-  New
-
-Bug description:
-  Issue discovered while trying to build pikvm (1)
-
-  Long story short: when using qemu-arm-static 5.1, gcc exits whith
-  message:
-
-  Allocating guest commpage: Operation not permitted
-
- =20
-  when using qemu-arm-static v5.0, gcc "works"
-
-  Steps to reproduce will follow
-
-  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index edb97ebbbe..71d26cf1bd 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -631,7 +631,8 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+ #define TCG_EXT3_FEATURES (CPUID_EXT3_LAHF_LM | CPUID_EXT3_SVM | \
+           CPUID_EXT3_CR8LEG | CPUID_EXT3_ABM | CPUID_EXT3_SSE4A)
+ #define TCG_EXT4_FEATURES 0
+-#define TCG_SVM_FEATURES CPUID_SVM_NPT
++#define TCG_SVM_FEATURES (CPUID_SVM_NPT | CPUID_SVM_VGIF | \
++          CPUID_SVM_SVME_ADDR_CHK)
+ #define TCG_KVM_FEATURES 0
+ #define TCG_7_0_EBX_FEATURES (CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_SMAP | \
+           CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ADX | \
+diff --git a/target/i386/svm.h b/target/i386/svm.h
+index adc058dc76..036597a2ff 100644
+--- a/target/i386/svm.h
++++ b/target/i386/svm.h
+@@ -9,6 +9,12 @@
+ #define V_IRQ_SHIFT 8
+ #define V_IRQ_MASK (1 << V_IRQ_SHIFT)
+ 
++#define V_GIF_ENABLED_SHIFT 25
++#define V_GIF_ENABLED_MASK (1 << V_GIF_ENABLED_SHIFT)
++
++#define V_GIF_SHIFT 9
++#define V_GIF_MASK (1 << V_GIF_SHIFT)
++
+ #define V_INTR_PRIO_SHIFT 16
+ #define V_INTR_PRIO_MASK (0x0f << V_INTR_PRIO_SHIFT)
+ 
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 90a9de30f8..b6ad425cca 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -110,6 +110,17 @@ static inline bool is_efer_invalid_state (CPUX86State *env)
+     return false;
+ }
+ 
++static inline bool virtual_gif_enabled(CPUX86State *env, uint32_t *int_ctl)
++{
++    if (likely(env->hflags & HF_GUEST_MASK)) {
++        *int_ctl = x86_ldl_phys(env_cpu(env),
++                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
++        return (env->features[FEAT_SVM] & CPUID_SVM_VGIF)
++                    && (*int_ctl & V_GIF_ENABLED_MASK);
++    }
++    return false;
++}
++
+ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -503,13 +514,29 @@ void helper_vmsave(CPUX86State *env, int aflag)
+ void helper_stgi(CPUX86State *env)
+ {
+     cpu_svm_check_intercept_param(env, SVM_EXIT_STGI, 0, GETPC());
+-    env->hflags2 |= HF2_GIF_MASK;
++
++    CPUState *cs = env_cpu(env);
++    uint32_t int_ctl;
++    if (virtual_gif_enabled(env, &int_ctl)) {
++        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
++                        int_ctl | V_GIF_MASK);
++    } else {
++        env->hflags2 |= HF2_GIF_MASK;
++    }
+ }
+ 
+ void helper_clgi(CPUX86State *env)
+ {
+     cpu_svm_check_intercept_param(env, SVM_EXIT_CLGI, 0, GETPC());
+-    env->hflags2 &= ~HF2_GIF_MASK;
++
++    CPUState *cs = env_cpu(env);
++    uint32_t int_ctl;
++    if (virtual_gif_enabled(env, &int_ctl)) {
++        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
++                        int_ctl & ~V_GIF_MASK);
++    } else {
++        env->hflags2 &= ~HF2_GIF_MASK;
++    }
+ }
+ 
+ bool cpu_svm_has_intercept(CPUX86State *env, uint32_t type)
+-- 
+2.25.1
 
 
