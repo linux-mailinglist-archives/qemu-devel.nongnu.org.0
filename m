@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD77B3DBE84
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:48:52 +0200 (CEST)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C833DBE83
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 20:48:46 +0200 (CEST)
+Received: from localhost ([::1]:45732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9XYx-0003ve-R3
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
+	id 1m9XYr-0003Uu-MB
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 14:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9XUV-0008Oj-SA
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:44:15 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43785)
+ id 1m9XVo-0000xU-FX
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:45:36 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m9XUU-0004YD-AH
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:44:15 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- pj14-20020a17090b4f4eb029017786cf98f9so5028960pjb.2
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:44:13 -0700 (PDT)
+ id 1m9XVm-0005Xb-Tx
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 14:45:36 -0400
+Received: by mail-pl1-x635.google.com with SMTP id d1so12171191pll.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 11:45:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uoxp9NPDlELL2FQ2gu3nyY1FzoXUrdVppwvHGKm5LFk=;
- b=vzsjN2FrJjF6ZUnWjnL72RGEE1lElpq0GrBCoh0C31e3KNQr2upOFuJuJB2wrk1Ffd
- Xe/I0b6wFTl75l3d+1/UjlVuHftms2TxGtu3UuVOVYdzO2ojzKLf5f7MQsAYRojXzNFW
- Nkhip8acBz/1h6XuWbIIYrTBHvzn7L4D2MXNBMatPUjdi1ZUyTvhZiXnrf4FmK5T/Tuo
- f2ZrkjfCeSCZcvrRuEiKIvtb0Fw2cn3CxgwaBRknLloI3dGYUhtYY3T09iiKSC4jY1i2
- MfJ85tZ8qzZdLqsLD+mEkpBobF243aw875jBp9azwi4pX88C/ouPZy5FBmjhjo5zPGRe
- NSEw==
+ bh=ZVkc6l9Gf9peCwlPgIIifxDpAI7HIOpsyvm203k3p30=;
+ b=Gm8RYj22pLuSUhUTwwKP2JvmPlqTkur5WnllE10YQjDGuH5ArLsYu8CwXn8pNfXzfU
+ zn+0QYuoirOM3FpAAmJ1gtBEMsvltLPBbBdipFklHD6l7c3xmZgkzpCMAdkf5EvQSEm0
+ dK/QHoZ668COJQxU03/a6B7uYpnOuCVU/E73C8AdZIU2aQd5RK0a0EGtaTBzsFx3IB4z
+ iAOD5fCN/kp6W43DajUYgAD2ybliyPq6KbniTLDoxdBqOfjS2uajSgIdajig6WRPsmz7
+ BW+NlK/n48YGpqRrTq+c4zOZtaa8n0nCoBHEIIubcyGSBpuhubZU1YVuLUVzNnHz+9P4
+ 9Wow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uoxp9NPDlELL2FQ2gu3nyY1FzoXUrdVppwvHGKm5LFk=;
- b=C6zISEMk0V+Vucu2Ak4wvUHamapZIbEekoUmlLbn7ELHvsSQYgBuOO1SXaTYDhw4lN
- mnnOMbZaQwRf9ZE1bQJLavo+3C4M5MkHIZX7JiUa/t+RB4hau1FwfHy8VcmtjSp2ITrE
- F1ogvHSAbpvlVWRxLrN60wMoCa6DXskXiYp3dsT7xy36+Y+YBAkDLZ2QgcVIjDc+S+Tw
- pHNjFZl1Qr+5o64I9BpLmECpO26p2rd6XQtfGj6itxTJe771583Bz7fmdaVnVxwTKYEv
- cTGJ8I7A0+p3Wnkv2XlPDBP4MkcYVcfIfGeIY11cERjZ8YVvH59kolXzwOihtzY+tj5x
- kpOw==
-X-Gm-Message-State: AOAM533PFL/n/vkoI7c7vVzaZbpGM/hGpx8i9J5lryzfPJDoLfgANy2C
- Hvox9XMp/0L5wTT4mKddoYtiZPEz79ZecQ==
-X-Google-Smtp-Source: ABdhPJzEpZHgE4a26+jv76gJBNfcNOiQ1JNseQkp3Bzyjv4MHc/3JuBKSsecdZuyFuDzx4Odyq1iAQ==
-X-Received: by 2002:a17:90a:7185:: with SMTP id
- i5mr3903977pjk.236.1627670653118; 
- Fri, 30 Jul 2021 11:44:13 -0700 (PDT)
+ bh=ZVkc6l9Gf9peCwlPgIIifxDpAI7HIOpsyvm203k3p30=;
+ b=aB/wfQUOt35pWF7KBsAMy9X7DDXKi2wk9Oe1NskmSddKqW0DOWtivbMnSs7n3PKIXe
+ O65bZ2YKXW56Hu/BeO3VAs0PY2267o4WotVly8VtX5ww7oz44+36zDtLtzojs1Wwq6zp
+ HKKT0YQitxu7SOj5TBYo1NeIaO95eWvev0FLxhdv3zOh6JUdGj3FPdhLUBJsV/Sr751l
+ H0J9J1aRaNTK+NCVqb2uO6MxH8vGJ0h7Iyfh4Je/KGPu5bHejtLFRXCytvxI5iDOaqbi
+ VLZTEfyE1DBFvc5rHecCeg7edfhN1V4GeyEmz6HWTcyfXLJPiO/gtwj9BwaWx0Ksvzw3
+ oV/g==
+X-Gm-Message-State: AOAM533t8EHaHtGx8w6IxHtoRsmvj8kJErNQ3/bJiR1SXdv2UzaZSd6N
+ exwlbbqrue/4Pwn2xquRqiMuyQ==
+X-Google-Smtp-Source: ABdhPJxY5GLXCgTgmEF3iPtAldOdaVM5+cy/cmq6iJ1t8Q8QYxP4ylGfkWAt7jv7xlrh4gKlIgBFwA==
+X-Received: by 2002:a17:90a:69e3:: with SMTP id
+ s90mr4561807pjj.193.1627670733433; 
+ Fri, 30 Jul 2021 11:45:33 -0700 (PDT)
 Received: from ?IPv6:2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe?
  (2603-800c-3202-ffa7-c4c7-6719-c57e-8ffe.res6.spectrum.com.
  [2603:800c:3202:ffa7:c4c7:6719:c57e:8ffe])
- by smtp.gmail.com with ESMTPSA id h9sm3045388pjk.56.2021.07.30.11.44.11
+ by smtp.gmail.com with ESMTPSA id c24sm3920046pgj.11.2021.07.30.11.45.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 11:44:12 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 5/8] arch_init.h: Add QEMU_ARCH_HEXAGON
+ Fri, 30 Jul 2021 11:45:32 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 7/8] arch_init.h: Don't include arch_init.h
+ unnecessarily
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210730105947.28215-1-peter.maydell@linaro.org>
- <20210730105947.28215-6-peter.maydell@linaro.org>
+ <20210730105947.28215-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d9f8e70a-3a72-1db2-6d26-c82fd935b133@linaro.org>
-Date: Fri, 30 Jul 2021 08:44:09 -1000
+Message-ID: <8aa032d8-7193-7832-5e16-c0d9de4d686f@linaro.org>
+Date: Fri, 30 Jul 2021 08:45:30 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730105947.28215-6-peter.maydell@linaro.org>
+In-Reply-To: <20210730105947.28215-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -97,16 +97,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/30/21 12:59 AM, Peter Maydell wrote:
-> When Hexagon was added we forgot to add it to the QEMU_ARCH_*
-> enumeration.  This doesn't cause a visible effect because at the
-> moment Hexagon is linux-user only and the QEMU_ARCH_* constants are
-> only used in softmmu, but we might as well add it in, since it's the
-> only architecture currently missing from the list.
+> arch_init.h only defines the QEMU_ARCH_* enumeration and the
+> arch_type global. Don't include it in files that don't use those.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/sysemu/arch_init.h | 1 +
->   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
