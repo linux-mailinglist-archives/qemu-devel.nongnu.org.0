@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B703DB79F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:08:42 +0200 (CEST)
-Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3D53DB799
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 13:07:19 +0200 (CEST)
+Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9QNd-00075W-49
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42410)
+	id 1m9QMI-0004VK-JH
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 07:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QFD-0000A4-7N
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:59 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43977)
+ id 1m9QL3-0002te-47
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 07:06:01 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:42705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m9QFB-0002ZI-HX
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 06:59:58 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h14so10755366wrx.10
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 03:59:57 -0700 (PDT)
+ id 1m9QL0-0006eR-5H
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 07:06:00 -0400
+Received: by mail-ed1-x534.google.com with SMTP id p21so12582728edi.9
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 04:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DIUHnJ9StEoveZf4Nm4WQZNeoUt/hCk/vohXCdTI0co=;
- b=xQQK/+hjng0KWP4e3Pk92ItKftKnHAo1MgndzPazELYNPEw1+dCtpvevd0NCFcE3rd
- wWLBle+KSHeqwq1iiyiyht8bRE249j7+xr2/lS9VBosqHgIGD9Grz0N59Ud+a7ABhNB6
- hF1VBSLpCiLnbIK2GwqOTStSGHGxK4/IjDgJEdJK4zP8hd26yEJBDn+3UAcxws/BG6bu
- /NG1RI6XEfvbvTXFwPi8m/UdgytwmPmvhrqAjGLUgb5OAF7FZVeUDtDUKCXLdrw+9I49
- TaDpeBrXWLKUVPe0yUN4KdIlCaZBPhFvNZAxXlKp+CfB1NbNP0ZHCNgyWbG1qQHAdyRP
- j6tw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pxa5a/F/3l28zkFXUewuXhTN1bpnwBxfWBacQ2xuATQ=;
+ b=HKW2j2jZ00xMSNPFKyVpj2IbUPHiIFZYHNBs7OrAyEpV30RTmiIlZuLQ4pmR0HATT5
+ a494gU1nVoMepN9LTupkaQS+fPbbt2UrPmZUzOOcrogj5nWwEERQCzWAHNfSR4rHFZIj
+ 3psHIY3ZUvNt7RA6x+Ju9n4nt2PF0+O3iVAlrXP3b3YaZTCEH6C0Conp9a0FPWw7A+HC
+ /jlgCz0CPlX0NIKXvtGY+/c2PkKJNm1//Qy/fm8fjHa7hNrmwoQ4Im0VC5wPKnf0C718
+ JRltMgfg7bveqPlfrYqhTwjaLRYLPQ6hBoyQ4Iq2q8HLsOF0jLbPc+/Z4QrVRw2so9hi
+ bijQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DIUHnJ9StEoveZf4Nm4WQZNeoUt/hCk/vohXCdTI0co=;
- b=VagZ0QtJqcFoTVkiVB4eYEuKMmiQta8fT6ELB60+3AD7ByDlP0KUHhhSL2NTYvyWif
- t2oYM1630roFIDVdTCjVr7sBwmKI4sF9x0UxI/bQoUijIK5m8vC5W9aGJ2nQ73mAigK4
- sH9/2qHX5DoHDDRsdG8p+DO2CenH8B612gqBG5VvgwU+uF8ZjoR4JWbKraafgx3BOV5L
- m3aBKmR3h3hUrKvnCC71cLt+dOFPqdyyIWaKxZS5FmyEWGCyJnUqdDe9a0qCY5liZ64R
- vL9C+c3Rky5QcPPDV6qrQCXQB9cYunTfk3ciRHZhvY19A5QI2zpjvtUF+0wlryYSsIn9
- vw0w==
-X-Gm-Message-State: AOAM5307OaWNg+dYNFMCMFed4pbRiWmEmii8S1Fc0GQZY/ARTC5yR3lI
- cYvVtB/fREgY0PGGvhqJ9nCMCVUPTlczYg==
-X-Google-Smtp-Source: ABdhPJzazPU943JLsUI1TRFL6hW+1RO6ZeXoB4MNdNJlfiomegZJev3lTgm3BVbPxrNRmgxaL7o6Ig==
-X-Received: by 2002:a05:6000:2c6:: with SMTP id
- o6mr2380312wry.241.1627642796229; 
- Fri, 30 Jul 2021 03:59:56 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p2sm1349697wrr.21.2021.07.30.03.59.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 03:59:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 8/8] stubs: Remove unused arch_type.c stub
-Date: Fri, 30 Jul 2021 11:59:47 +0100
-Message-Id: <20210730105947.28215-9-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210730105947.28215-1-peter.maydell@linaro.org>
-References: <20210730105947.28215-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pxa5a/F/3l28zkFXUewuXhTN1bpnwBxfWBacQ2xuATQ=;
+ b=MSsLinbWTj2qzspAFl+Ek/GD7kavRCVTCrVfUCHOdViMxDXvHfMM9Iyv+xVgGdyDq6
+ 9O+vwvggeb1Sq40GT8r5n4yJlGWtHILrXeRvcNy9jcQVsBhApXEaoy6hxpIJ7ly5UTE6
+ LQCvvyuM7goKfs6uniDv/Y4YTeDiL+CGKyOoK05WuzGoJipA+neIf5ywy/fLLRgZUY/G
+ 3ob1BfIHmUNYYa31eJIfjr3mJrlLdDGtbOPWI4nV8Z0dgNjHehSLNPxO5Q2/DfcxiEr1
+ ZTw5S5m9tuzZ5fa1NVA+69BTQ9xZ+2vxjLi6aZWmrQFvfeA7NHUOS1VnxAJqnH25ZQv/
+ j6uQ==
+X-Gm-Message-State: AOAM530cepi1en09o0ZFo8RdPsuoZlYaBogBY4/4FidJa4nUp7Ja34PQ
+ Kv6o3MEf6qh3KFpUZKROPdJNlIuY+iNDrfIYaW9ueQ==
+X-Google-Smtp-Source: ABdhPJzO1HaVyXG7+4nLsyPIumoM7csQrezGaKfOjQEmhUJUSXKrAL8sfUFXlMk8I5029ahbK9JyhqR3iwwYElN4Hjc=
+X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr2206683eds.251.1627643156538; 
+ Fri, 30 Jul 2021 04:05:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+References: <20210729162239.932125-1-stefanha@redhat.com>
+In-Reply-To: <20210729162239.932125-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Jul 2021 12:05:13 +0100
+Message-ID: <CAFEAcA9HoZVr6j-CkWrv_kOotzGCgU4bSC+LSbhi2QZc3-_HQg@mail.gmail.com>
+Subject: Re: [PULL for-6.1 0/3] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,58 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Julia Suvorova <jusual@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We added a stub for the arch_type global in commit 5964ed56d9a1 so
-that we could compile blockdev.c into the tools.  However, in commit
-9db1d3a2be9bf we removed the only use of arch_type from blockdev.c.
-The stub is therefore no longer needed, and we can delete it again,
-together with the QEMU_ARCH_NONE value that only the stub was using.
+On Thu, 29 Jul 2021 at 17:23, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 3521ade3510eb5cefb2e27a101667f25dad89935:
+>
+>   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-07-29' into staging (2021-07-29 13:17:20 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to cc8eecd7f105a1dff5876adeb238a14696061a4a:
+>
+>   MAINTAINERS: Added myself as a reviewer for the NVMe Block Driver (2021-07-29 17:17:34 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> The main fix here is for io_uring. Spurious -EAGAIN errors can happen and the
+> request needs to be resubmitted.
+>
+> The MAINTAINERS changes carry no risk and we might as well include them in QEMU
+> 6.1.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/sysemu/arch_init.h | 2 --
- stubs/arch_type.c          | 4 ----
- stubs/meson.build          | 1 -
- 3 files changed, 7 deletions(-)
- delete mode 100644 stubs/arch_type.c
 
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index e7789399508..70c579560ad 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,8 +24,6 @@ enum {
-     QEMU_ARCH_RX = (1 << 20),
-     QEMU_ARCH_AVR = (1 << 21),
-     QEMU_ARCH_HEXAGON = (1 << 22),
--
--    QEMU_ARCH_NONE = (1 << 31),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/stubs/arch_type.c b/stubs/arch_type.c
-deleted file mode 100644
-index fc5423bc98a..00000000000
---- a/stubs/arch_type.c
-+++ /dev/null
-@@ -1,4 +0,0 @@
--#include "qemu/osdep.h"
--#include "sysemu/arch_init.h"
--
--const uint32_t arch_type = QEMU_ARCH_NONE;
-diff --git a/stubs/meson.build b/stubs/meson.build
-index d3fa8646b38..717bfa9a999 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -1,4 +1,3 @@
--stub_ss.add(files('arch_type.c'))
- stub_ss.add(files('bdrv-next-monitor-owned.c'))
- stub_ss.add(files('blk-commit-all.c'))
- stub_ss.add(files('blk-exp-close-all.c'))
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
