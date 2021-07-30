@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995F3DB944
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:23:23 +0200 (CEST)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3307C3DB94A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 15:26:17 +0200 (CEST)
+Received: from localhost ([::1]:59170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9STy-00008s-DE
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
+	id 1m9SWl-0004I4-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 09:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SSW-00075p-KN
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:21:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34217)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SUM-0001Ly-NM
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:23:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SSU-0005gt-Tz
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:21:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m9SUL-0006uD-3u
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 09:23:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627651310;
+ s=mimecast20190719; t=1627651424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=14vhNycF9afXoUDc28Sm69WCIZQBjpihKh/QD3r0cN0=;
- b=RgsIhZwaeeCDpQoBosctLfCJxemFCx91G6FIwab3cCr2swCil0q7dBiMmsnLo4RLybPEUC
- kGgH0PYUjnZp5F11oMmQlDujnc3R/Nn6nomO2ItjNXRheSXFYDuCjH4/ShrNsKX0kVXqS5
- DqjdowXvtP2aMIla8OtzWqBC6a1DosI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-XaEJINM8Mue53cmWKCT4Zg-1; Fri, 30 Jul 2021 09:21:49 -0400
-X-MC-Unique: XaEJINM8Mue53cmWKCT4Zg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a1-20020a7bc1c10000b0290225338d8f53so3257928wmj.8
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 06:21:48 -0700 (PDT)
+ bh=hfqW6idA0uXqEVjJSBjEssVkIVsyagJ2aDipAtV/NqA=;
+ b=ip1so7ET+q1/q0tuSHGbOrTmSqRE8qvMF42EFB0U3S/hu32rJQU2ZKTkn3YddtuzduaJ47
+ 0DAEgme7jmJNBSDUJJzd1sdb7CE/XSKWPIOMjlecm/ADstH8uQCr5LzU7YgP6i8MJpK673
+ qUx3YAZ0WJZXDjDwcypakKVsbneqJCs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-AK44nJ8oMKOkkPCV76TQNA-1; Fri, 30 Jul 2021 09:23:43 -0400
+X-MC-Unique: AK44nJ8oMKOkkPCV76TQNA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j11-20020a05600c190bb02902190142995dso3193400wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 06:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=14vhNycF9afXoUDc28Sm69WCIZQBjpihKh/QD3r0cN0=;
- b=k/5nxfBEdN61X2s2cYMw45fHWZjm4214XDYya0pZ5Dj7lPs4fidWRIoSjRXy2qmsNq
- T8QmD1OOKM4f6MJ34xkHS7glGn2gxn1uT3Y55vbB+3gu18FN+9pG3m+C0t1p1A7mhO59
- WBkwgbWFpXsHS+rRmmpD/OAFvOFbz43RLoDFREt9jwoUOduvSq4sEExMu4/HyiALuILh
- gew/XTXEeKYXMN/yCIJ9aSPqRRRQwUXPjEjLiJ5KK6N8W16QLGYa4aQ4XePKVzA4JPKf
- B6ughs1o7LQl50lTSHa9t/nr2PpQrf6sfkyC1NJwuaPQRNjQE/+2x3Sgtcn+npuaQ4es
- SiVg==
-X-Gm-Message-State: AOAM5324uXCXAs9gFy9e6aaBmtuXJAXiheTdoansIZguCW1B/SOvi4Xs
- fZOuEHKPihtdSOz+dUM31s3iq3d+p/QMC8RIKThvYDFKewVk7gRWOGCfMduiHbO39aa0e4WstyP
- Iry8kgsp6HRZtDkQ=
-X-Received: by 2002:a1c:2904:: with SMTP id p4mr2875717wmp.178.1627651308078; 
- Fri, 30 Jul 2021 06:21:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyR0TNkyrHGVqekz/1N4GTbyaFYFDknynQr9Krx7hOZUEGzt9M6rJzO3Y03JWgVbxSE8Vx9AQ==
-X-Received: by 2002:a1c:2904:: with SMTP id p4mr2875702wmp.178.1627651307967; 
- Fri, 30 Jul 2021 06:21:47 -0700 (PDT)
+ bh=hfqW6idA0uXqEVjJSBjEssVkIVsyagJ2aDipAtV/NqA=;
+ b=gZOsl1P0x/39VgSkyBeuNHq93Paqj6VFl0nnI+Anv/LRMIx/4V3R0IXCtb3FpZIRTJ
+ lyYfmKQS8z8DHXjO6oYE7rkdyPNoAGC45CXp5VM6tA/Mg591YcvvrD+IzbrIRg3LFZyq
+ 5MgsIhHEXebNyQuq6E0fXJAcwLc649yfP0ir7zdGIMEPAKMiUrP9Lw1ENAKGziVBvQdS
+ O7wKgpeylop/y3EjjeXhf+gGMNCh+hWvquU/dLEbEHEjKoTgnx2KcuW1Kr7WNif956Jo
+ Fj/aftJbl+Kw3bDjVl3B1qX7B8DNo9ax5cQ29RdKr87vlzs61mOKYzUnHlfkpYx4DGy1
+ SU0w==
+X-Gm-Message-State: AOAM531e3jP67RRQMdqy9HU2EKxEaAo/CQbczd0XC5Io6Js1+y0mh3zi
+ dh28XueV+rK2mBSzgv7160KHyKHJA+UrQp/gZ6zeD2ghtG/mAmlImvNM9C1LoXdkvMGrMwER1Dd
+ 2FyCCDEJSYsCr7zg=
+X-Received: by 2002:a5d:6184:: with SMTP id j4mr3110843wru.340.1627651422140; 
+ Fri, 30 Jul 2021 06:23:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxA4iXdLzJNGw+hmNop5/mu/vC8hr+lMO5z9qydlDZkP0HbvwTV1JOgRkJGBjCnkv4gFs5CUg==
+X-Received: by 2002:a5d:6184:: with SMTP id j4mr3110829wru.340.1627651421993; 
+ Fri, 30 Jul 2021 06:23:41 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id 19sm1945660wmj.2.2021.07.30.06.21.47
+ by smtp.gmail.com with ESMTPSA id a207sm2237541wme.27.2021.07.30.06.23.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 06:21:47 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 7/8] arch_init.h: Don't include arch_init.h
- unnecessarily
+ Fri, 30 Jul 2021 06:23:41 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 8/8] stubs: Remove unused arch_type.c stub
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210730105947.28215-1-peter.maydell@linaro.org>
- <20210730105947.28215-8-peter.maydell@linaro.org>
+ <20210730105947.28215-9-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <79ea0418-d943-f1ba-ab35-4f917fdab6df@redhat.com>
-Date: Fri, 30 Jul 2021 15:21:46 +0200
+Message-ID: <5fa0e76e-d70a-acda-4b56-be8d4cd6615c@redhat.com>
+Date: Fri, 30 Jul 2021 15:23:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730105947.28215-8-peter.maydell@linaro.org>
+In-Reply-To: <20210730105947.28215-9-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,26 +105,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/30/21 12:59 PM, Peter Maydell wrote:
-> arch_init.h only defines the QEMU_ARCH_* enumeration and the
-> arch_type global. Don't include it in files that don't use those.
+> We added a stub for the arch_type global in commit 5964ed56d9a1 so
+> that we could compile blockdev.c into the tools.  However, in commit
+> 9db1d3a2be9bf we removed the only use of arch_type from blockdev.c.
+> The stub is therefore no longer needed, and we can delete it again,
+> together with the QEMU_ARCH_NONE value that only the stub was using.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  blockdev.c                | 1 -
->  hw/i386/pc.c              | 1 -
->  hw/i386/pc_piix.c         | 1 -
->  hw/i386/pc_q35.c          | 1 -
->  hw/mips/jazz.c            | 1 -
->  hw/mips/malta.c           | 1 -
->  hw/ppc/prep.c             | 1 -
->  hw/riscv/sifive_e.c       | 1 -
->  hw/riscv/sifive_u.c       | 1 -
->  hw/riscv/spike.c          | 1 -
->  hw/riscv/virt.c           | 1 -
->  monitor/qmp-cmds.c        | 1 -
->  target/ppc/cpu_init.c     | 1 -
->  target/s390x/cpu-sysemu.c | 1 -
->  14 files changed, 14 deletions(-)
+>  include/sysemu/arch_init.h | 2 --
+>  stubs/arch_type.c          | 4 ----
+>  stubs/meson.build          | 1 -
+>  3 files changed, 7 deletions(-)
+>  delete mode 100644 stubs/arch_type.c
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
