@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679B13DBBBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:09:43 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651A33DBBB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:07:55 +0200 (CEST)
+Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9U8s-0000tU-Dz
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49216)
+	id 1m9U78-0005Le-F2
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9U2C-0005dd-MA
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:02:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43916)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9U2L-00065F-0f
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9U2B-0007pR-07
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:02:48 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9U2J-0007ut-6s
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:02:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627657366;
+ s=mimecast20190719; t=1627657374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K9qTr1Z60td9Uc5D9UyWAoFPjwYkXcgxNFxStzHkNK8=;
- b=R+Dnkh5QuOkd8/ApHl2aiuM0G++ZZbuaKmu5jjkPHGOEtPU9o95hPbLhxddbVDIHdZB6E+
- 593bJz2WqyTn0jaomVzX+NdzxMTWOeFkut4k7dTziVDJW3x5zPFyeilRW6Mo+ebHRGDHaj
- bD/qRye4os4z9f9MNqTyT8K0QiAE1uE=
+ bh=r1VrGYFOcGITCaAF5P5jko2GS5Uy5z7dr+tB0o0MQMI=;
+ b=aMqmecLj0e6o7A4VA5wz1mwlaNEwvkSvDcEKA1scRdICnIam1Y3IHl9uxDtJ+Wz67e/ltK
+ V9N4df1h73X7ctalULmBTaZRIuiiucC3hDAVx3jVAfde1ze+isNRjkhSyE+/A3HHdsREke
+ 29t68GjCAWp+obEo6LYiWovRZ8eDfe8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-0sYFTtoVOlW0k7J7aMJNAw-1; Fri, 30 Jul 2021 11:02:45 -0400
-X-MC-Unique: 0sYFTtoVOlW0k7J7aMJNAw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-106-itB2ai6hNZSMqmHIQ0ieWQ-1; Fri, 30 Jul 2021 11:02:53 -0400
+X-MC-Unique: itB2ai6hNZSMqmHIQ0ieWQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 948FD1966358
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 15:01:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 092EA875054
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 15:01:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EC2A5D9CA;
- Fri, 30 Jul 2021 15:01:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ABCE5C1CF;
+ Fri, 30 Jul 2021 15:01:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v3 02/10] virtiofsd: Add TempFd structure
-Date: Fri, 30 Jul 2021 17:01:26 +0200
-Message-Id: <20210730150134.216126-3-mreitz@redhat.com>
+Subject: [PATCH v3 03/10] virtiofsd: Use lo_inode_open() instead of openat()
+Date: Fri, 30 Jul 2021 17:01:27 +0200
+Message-Id: <20210730150134.216126-4-mreitz@redhat.com>
 In-Reply-To: <20210730150134.216126-1-mreitz@redhat.com>
 References: <20210730150134.216126-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,95 +83,159 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are planning to add file handles to lo_inode objects as an
-alternative to lo_inode.fd.  That means that everywhere where we
-currently reference lo_inode.fd, we will have to open a temporary file
-descriptor that needs to be closed after use.
+The xattr functions want a non-O_PATH FD, so they reopen the lo_inode.fd
+with the flags they need through /proc/self/fd.
 
-So instead of directly accessing lo_inode.fd, there will be a helper
-function (lo_inode_fd()) that either returns lo_inode.fd, or opens a new
-file descriptor with open_by_handle_at().  It encapsulates this result
-in a TempFd structure to let the caller know whether the FD needs to be
-closed after use (opened from the handle) or not (copied from
-lo_inode.fd).
+Similarly, lo_opendir() needs an O_RDONLY FD.  Instead of the
+/proc/self/fd trick, it just uses openat(fd, "."), because the FD is
+guaranteed to be a directory, so this works.
 
-By using g_auto(TempFd) to store this result, callers will not even have
-to care about closing a temporary FD after use.  It will be done
-automatically once the object goes out of scope.
+All cases have one problem in common, though: In the future, when we may
+have a file handle in the lo_inode instead of an FD, querying an
+lo_inode FD may incur an open_by_handle_at() call.  It does not make
+sense to then reopen that FD with custom flags, those should have been
+passed to open_by_handle_at() instead.
+
+Use lo_inode_open() instead of openat().  As part of the file handle
+change, lo_inode_open() will be made to invoke openat() only if
+lo_inode.fd is valid.  Otherwise, it will invoke open_by_handle_at()
+with the right flags from the start.
+
+Consequently, after this patch, lo_inode_open() is the only place to
+invoke openat() to reopen an existing FD with different flags.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 49 ++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 43 ++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 1f27eeabc5..fb5e073e6a 100644
+index fb5e073e6a..a444c3a7e2 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -178,6 +178,28 @@ struct lo_data {
-     int user_posix_acl, posix_acl;
- };
+@@ -1729,18 +1729,26 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+ {
+     int error = ENOMEM;
+     struct lo_data *lo = lo_data(req);
+-    struct lo_dirp *d;
++    struct lo_inode *inode;
++    struct lo_dirp *d = NULL;
+     int fd;
+     ssize_t fh;
  
-+/**
-+ * Represents a file descriptor that may either be owned by this
-+ * TempFd, or only referenced (i.e. the ownership belongs to some
-+ * other object, and the value has just been copied into this TempFd).
-+ *
-+ * The purpose of this encapsulation is to be used as g_auto(TempFd)
-+ * to automatically clean up owned file descriptors when this object
-+ * goes out of scope.
-+ *
-+ * Use temp_fd_steal() to get an owned file descriptor that will not
-+ * be closed when the TempFd goes out of scope.
-+ */
-+typedef struct {
-+    int fd;
-+    bool owned; /* fd owned by this object? */
-+} TempFd;
++    inode = lo_inode(req, ino);
++    if (!inode) {
++        error = EBADF;
++        goto out_err;
++    }
 +
-+#define TEMP_FD_INIT ((TempFd) { .fd = -1, .owned = false })
-+
-+static void temp_fd_clear(TempFd *temp_fd);
-+G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(TempFd, temp_fd_clear);
-+
- static const struct fuse_opt lo_opts[] = {
-     { "sandbox=namespace",
-       offsetof(struct lo_data, sandbox),
-@@ -255,6 +277,33 @@ static struct lo_data *lo_data(fuse_req_t req)
-     return (struct lo_data *)fuse_req_userdata(req);
- }
+     d = calloc(1, sizeof(struct lo_dirp));
+     if (d == NULL) {
+         goto out_err;
+     }
  
-+/**
-+ * Clean-up function for TempFds
-+ */
-+static void temp_fd_clear(TempFd *temp_fd)
-+{
-+    if (temp_fd->owned) {
-+        close(temp_fd->fd);
-+        *temp_fd = TEMP_FD_INIT;
-+    }
-+}
-+
-+/**
-+ * Return an owned fd from *temp_fd that will not be closed when
-+ * *temp_fd goes out of scope.
-+ *
-+ * (TODO: Remove __attribute__ once this is used.)
-+ */
-+static __attribute__((unused)) int temp_fd_steal(TempFd *temp_fd)
-+{
-+    if (temp_fd->owned) {
-+        temp_fd->owned = false;
-+        return temp_fd->fd;
-+    } else {
-+        return dup(temp_fd->fd);
-+    }
-+}
-+
- /*
-  * Load capng's state from our saved state if the current thread
-  * hadn't previously been loaded.
+-    fd = openat(lo_fd(req, ino), ".", O_RDONLY);
+-    if (fd == -1) {
+-        goto out_errno;
++    fd = lo_inode_open(lo, inode, O_RDONLY);
++    if (fd < 0) {
++        error = -fd;
++        goto out_err;
+     }
+ 
+     d->dp = fdopendir(fd);
+@@ -1769,6 +1777,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+ out_errno:
+     error = errno;
+ out_err:
++    lo_inode_put(lo, &inode);
+     if (d) {
+         if (d->dp) {
+             closedir(d->dp);
+@@ -2973,7 +2982,6 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         }
+     }
+ 
+-    sprintf(procname, "%i", inode->fd);
+     /*
+      * It is not safe to open() non-regular/non-dir files in file server
+      * unless O_PATH is used, so use that method for regular files/dir
+@@ -2981,13 +2989,15 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+      * Otherwise, call fchdir() to avoid open().
+      */
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
++        fd = lo_inode_open(lo, inode, O_RDONLY);
+         if (fd < 0) {
+-            goto out_err;
++            saverr = -fd;
++            goto out;
+         }
+         ret = fgetxattr(fd, name, value, size);
+         saverr = ret == -1 ? errno : 0;
+     } else {
++        sprintf(procname, "%i", inode->fd);
+         /* fchdir should not fail here */
+         FCHDIR_NOFAIL(lo->proc_self_fd);
+         ret = getxattr(procname, name, value, size);
+@@ -3054,15 +3064,16 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+         }
+     }
+ 
+-    sprintf(procname, "%i", inode->fd);
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
++        fd = lo_inode_open(lo, inode, O_RDONLY);
+         if (fd < 0) {
+-            goto out_err;
++            saverr = -fd;
++            goto out;
+         }
+         ret = flistxattr(fd, value, size);
+         saverr = ret == -1 ? errno : 0;
+     } else {
++        sprintf(procname, "%i", inode->fd);
+         /* fchdir should not fail here */
+         FCHDIR_NOFAIL(lo->proc_self_fd);
+         ret = listxattr(procname, value, size);
+@@ -3211,14 +3222,14 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+      * setxattr() on the link's filename there.
+      */
+     open_inode = S_ISREG(inode->filetype) || S_ISDIR(inode->filetype);
+-    sprintf(procname, "%i", inode->fd);
+     if (open_inode) {
+-        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
++        fd = lo_inode_open(lo, inode, O_RDONLY);
+         if (fd < 0) {
+-            saverr = errno;
++            saverr = -fd;
+             goto out;
+         }
+     } else {
++        sprintf(procname, "%i", inode->fd);
+         /* fchdir should not fail here */
+         FCHDIR_NOFAIL(lo->proc_self_fd);
+     }
+@@ -3317,16 +3328,16 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+     fuse_log(FUSE_LOG_DEBUG, "lo_removexattr(ino=%" PRIu64 ", name=%s)\n", ino,
+              name);
+ 
+-    sprintf(procname, "%i", inode->fd);
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
++        fd = lo_inode_open(lo, inode, O_RDONLY);
+         if (fd < 0) {
+-            saverr = errno;
++            saverr = -fd;
+             goto out;
+         }
+         ret = fremovexattr(fd, name);
+         saverr = ret == -1 ? errno : 0;
+     } else {
++        sprintf(procname, "%i", inode->fd);
+         /* fchdir should not fail here */
+         FCHDIR_NOFAIL(lo->proc_self_fd);
+         ret = removexattr(procname, name);
 -- 
 2.31.1
 
