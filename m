@@ -2,82 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33883DBBCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:12:07 +0200 (CEST)
-Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB563DBBCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Jul 2021 17:12:43 +0200 (CEST)
+Received: from localhost ([::1]:52696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9UBC-0006j3-W9
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
+	id 1m9UBm-0000KR-5t
+	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 11:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkiwi@redhat.com>) id 1m9U8a-0001v4-9A
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:09:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28000)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9UAc-0006dB-Na
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:11:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkiwi@redhat.com>) id 1m9U8X-0003OR-SY
- for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:09:23 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m9UAZ-0004mR-2I
+ for qemu-devel@nongnu.org; Fri, 30 Jul 2021 11:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627657759;
+ s=mimecast20190719; t=1627657886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ytupz78JcN4pYEhv7NoqyjRiN+YWE0Ozi2WEusV5z1s=;
- b=eVxzOX1J0yufeTVu8Grh9mMf08z9X3uzbUuhITVOlEXFxVXV3dkxUwEOA/ZZITAoWqPo7l
- bP8nEoZM20XLkZ1Yc2CJ8JwFEdyTdTpC4hcAf+0lozFNdmPghGa6h5YkCw+c/gq0lybCgH
- KtJEtPQoUBNRImiOqOUwqab6QI+5Px4=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-Q83rdikBPgKXTZoN3a83JA-1; Fri, 30 Jul 2021 11:09:15 -0400
-X-MC-Unique: Q83rdikBPgKXTZoN3a83JA-1
-Received: by mail-vs1-f71.google.com with SMTP id
- a124-20020a677f820000b029025b7f69ef9aso1771865vsd.22
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:09:15 -0700 (PDT)
+ bh=WmZyup9TduHnZ3V6O6pYYM26XijgZzxKMItXdR8SuhM=;
+ b=hPmr13RTcJUWE1BshQQfs+UsdoKecYtnURw875+xNgBRxQvYnybK24j5m6Ta22/eiy9NRH
+ j1MvseNbIH7670nRwFYlrlCoz2E7+9qwjC0VxdLH0VlBbqOBtuiqyzWUxrbf/j6Hi5aVwA
+ GJf9zzJUtXlx1rEgLqqOu43mAYXXEUQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-LH7wFL_RNTiXKA941RSNxw-1; Fri, 30 Jul 2021 11:11:25 -0400
+X-MC-Unique: LH7wFL_RNTiXKA941RSNxw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f25-20020a1c6a190000b029024fa863f6b0so3293360wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 08:11:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ytupz78JcN4pYEhv7NoqyjRiN+YWE0Ozi2WEusV5z1s=;
- b=J1mOkLcogfjNvT5o6GSnmD23qCoR7mNgkxE+B1on9umNaSouR2ljn+JoqQA+/LpYhE
- 5RHniXF3nc8Mh3kjL3KEVeKf/Oo0vScflwF+86eY5f7xNk3xCuHq/j2L0Ulpyb+Jq4iA
- XCiDLTebNDiSYDPuyoxY88iPholTzWwI1nyL2NGX/2FKYGoe9nBcUW4pb2DNbbaRAcSQ
- HEIEAtlx6+7MPxR8kxsrs0jdwc6BH7xiC0BfbSyVX60LdKN+RGt5bfdwYPEp/GYvyfFE
- HxyDCaO1aWK972GvhziPKz9zlXXEg5gFRDZVsUw1IbQJeER+9xENKB1S68sO7fcEBu/t
- cPNg==
-X-Gm-Message-State: AOAM532jmqUXg3VSsysAnrpJjcmyQR4HiWY/egs0ke45JO89QFv8iFeX
- hRsffAKBU2O8T2UmQymKo7maSDsp6TKI5yPg0TY0c6n9d6faFtfQ8aojLbYjlVe//oYiDveePGC
- QBUyUn5iZDuh6siUdRu5p+nVzx3T47+8=
-X-Received: by 2002:a67:f854:: with SMTP id b20mr2207795vsp.32.1627657755435; 
- Fri, 30 Jul 2021 08:09:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8KSZD8G1qh/5kVGCzfShIX3y+dQtrtjlASh+JyPY8y6ylZcVMiSN2GdFNqIzEr+RWl1udCYQ2/FyRQmBllA8=
-X-Received: by 2002:a67:f854:: with SMTP id b20mr2207766vsp.32.1627657755294; 
- Fri, 30 Jul 2021 08:09:15 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=WmZyup9TduHnZ3V6O6pYYM26XijgZzxKMItXdR8SuhM=;
+ b=A9wUSSj759V+6rXc/wtzLK3ABizp301pzst7Rn7lNtoxmjctH4/xVtmu8MMhydjLx4
+ TeO/c8O7BVNBIp6tWdACjA6jVHjRcN3ZcYCodOHGJKmAPmniO9BTBRQMS7RaxW4ChmGx
+ I+QHqPaRidNQAa2KINN1SGJHLT1/+Xk0rUnveLFrFEUvVnpfbU9jsXn0LiMd4Z3WgWJr
+ +BK2x/MSqp32UAkAGxTma8tRR442doxUspRxLAeEns/LpYyvDt5ywP9K0AaWOPZ1kNsL
+ AMaEAyZB/y3XkebEceZaZyxe8H9aPeLzmAfEqEhhZYAyfVBn1Ey+vMieLHJ8erwkm8TY
+ m56w==
+X-Gm-Message-State: AOAM533D4/Czk3tIbS0xn+J3IRGmFpEUGtpTgNKwveNHF5ruR0757N2Q
+ YzJEuUEsPvgz+zMmK3pJNkTQlDx5HQG05vU4PmzFr0QMxlYv0sIbEKZGV7vySkEv+U3O2AeKYXt
+ TJgkEL9vcfQXqI7k=
+X-Received: by 2002:a5d:4a85:: with SMTP id o5mr3571956wrq.67.1627657884546;
+ Fri, 30 Jul 2021 08:11:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDHMCuXb9PUx8BEcDYJ87tWryM+rKKnpHeQ7PEmdAtT8YGSCehoIQo797PsGzG7GW6+tjh0Q==
+X-Received: by 2002:a5d:4a85:: with SMTP id o5mr3571838wrq.67.1627657883279;
+ Fri, 30 Jul 2021 08:11:23 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ 9sm1971338wmf.34.2021.07.30.08.11.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 08:11:22 -0700 (PDT)
+Subject: Re: [PATCH RFC 0/3] mirror: rework soft-cancelling READY mirror
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210727164754.62895-1-vsementsov@virtuozzo.com>
+ <eb6db91e-9b6b-331e-8a8d-ee4fcf60ff2f@redhat.com>
+ <19e149dc-ff1a-09b3-2d6c-2d046e9daabb@virtuozzo.com>
+ <660d9a7b-beb9-c2a2-33eb-d894aae8b1e0@redhat.com>
+ <af37e046-46d3-2791-f91d-bdbaec9ee5e5@virtuozzo.com>
+ <a8e6f5d7-2bf8-6214-3689-6350592eab07@redhat.com>
+ <a3f7afef-8eb2-80b3-1a9e-9c37a1cf85f9@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <5167ea49-ca2b-5fdf-0a24-bae2add0c084@redhat.com>
+Date: Fri, 30 Jul 2021 17:11:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <MEYP282MB168775224F9A7690C9F5AEF9F9EC9@MEYP282MB1687.AUSP282.PROD.OUTLOOK.COM>
- <82ae0532-50c2-7a67-af16-04226cb2986b@redhat.com>
-In-Reply-To: <82ae0532-50c2-7a67-af16-04226cb2986b@redhat.com>
-From: Klaus Kiwi <kkiwi@redhat.com>
-Date: Fri, 30 Jul 2021 12:09:03 -0300
-Message-ID: <CAELHpAAyLcpisUdxqL_7j=Gh47YM6ZjAQuZmRy_4jZQi2P9TqA@mail.gmail.com>
-Subject: Re: need help with my config
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- clg@kaod.org
+In-Reply-To: <a3f7afef-8eb2-80b3-1a9e-9c37a1cf85f9@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkiwi@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000520e9705c8589a2c"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kkiwi@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, NORMAL_HTTP_TO_IP=0.001, NUMERIC_HTTP_ADDR=1.242,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,220 +105,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Lindsay Ryan <Ryan.Lindsay@petermac.org>,
- "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000520e9705c8589a2c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Just making sure Cedric is also seeing this...
-
- -Klaus
-
-On Fri, Jul 30, 2021 at 10:27 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>
-wrote:
-
-> Cc'ing qemu-ppc@
+On 29.07.21 18:29, Vladimir Sementsov-Ogievskiy wrote:
+> 29.07.2021 16:47, Max Reitz wrote:
+>> On 29.07.21 13:35, Vladimir Sementsov-Ogievskiy wrote:
+>>> 29.07.2021 13:38, Max Reitz wrote:
+>>>> On 29.07.21 12:02, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 28.07.2021 10:00, Max Reitz wrote:
+>>>>>> On 27.07.21 18:47, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>>> Hi all!
+>>>>>>>
+>>>>>>> That's an alternative to (part of) Max's
+>>>>>>> "[PATCH for-6.1? v2 0/7] mirror: Handle errors after READY cancel"
+>>>>>>> and shows' my idea of handling soft-cancelling READY mirror case
+>>>>>>> directly in qmp_block_job_cancel. And cleanup all other job 
+>>>>>>> cancelling
+>>>>>>> functions.
+>>>>>>>
+>>>>>>> That's untested draft, don't take it to heart :)
+>>>>>>
+>>>>>> Well, I would have preferred it if you’d rebased this on top of 
+>>>>>> that series, precisely because it’s an alternative to only part 
+>>>>>> of it. And if it’s just an untested draft, that would have been 
+>>>>>> even better, because it would’ve given a better idea on what the 
+>>>>>> cleanup looks like.
+>>>>>>
+>>>>>> There are also things like this series making cancel internally 
+>>>>>> always a force-cancel, where I’m not sure whether we want that in 
+>>>>>> the replication driver or not[1].  With my series, we add an 
+>>>>>> explicit parameter, so we’re forced to think about it, and then 
+>>>>>> in this series on top we can just drop the parameter for all 
+>>>>>> force-cancel invocations again, and for all non-force-cancel 
+>>>>>> invocations we would have to think a bit more.
+>>>>>
+>>>>> I now don't sure that patch 5 of your series is correct (see my 
+>>>>> last answer to it), that's why I decided to not base on it.
+>>>>
+>>>> Well, we can always take patch 5 from v1.  (Where I changed any 
+>>>> job_is_cancelled() to job_cancel_requested() when it influenced the 
+>>>> external interface.)
+>>>>
+>>>>> My series has the benefit of handling soft-mirror-cancel case the 
+>>>>> other way and handles mirror finalization in case of soft-cancel 
+>>>>> properly.
+>>>>>
+>>>>>>
+>>>>>> Specifically as for this series, I don’t like job_complete_ex() 
+>>>>>> very much, I think the parameter should be part of job_complete() 
+>>>>>> itself.
+>>>>>
+>>>>> That was my idea. But job_complete is passed as function pointer, 
+>>>>> so changing its prototype would be more work.. But I think it's 
+>>>>> possible.
+>>>>>
+>>>>>>   If we think that’s too specific of a mirror parameter to 
+>>>>>> include in normal job_complete(), well, then there shouldn’t be a 
+>>>>>> job_complete_ex() either, and do_graph_change should be a 
+>>>>>> property of the mirror job (perhaps as pivot_on_completion) 
+>>>>>> that’s cleared by qmp_block_job_cancel() before invoking 
+>>>>>> job_complete().
+>>>>>
+>>>>> This way users will lose a way to make a decision during job 
+>>>>> running..
+>>>>
+>>>> On the contrary, it would be a precursor to letting the user change 
+>>>> this property explicitly with a new QMP command.
+>>>>
+>>>>> But probably they don't need actually. Moving the option to mirror 
+>>>>> job parameter seems a good option to me.
+>>>>>
+>>>>>>
+>>>>>> Max
+>>>>>>
+>>>>>> [1] Although looking at it again now, it probably wants 
+>>>>>> force-cancel.
+>>>>>>
+>>>>>
+>>>>>
+>>>>> What do you think of my idea to keep old bugs as is and just 
+>>>>> deprecate block-job-cancel and add a new interface for 
+>>>>> "no-graph-change mirror" case?
+>>>>
+>>>> I don’t see a reason for that.  The fix isn’t that complicated.
+>>>>
+>>>> Also, honestly, I don’t see a good reason for deprecating anything.
+>>>>
+>>>
+>>> Current interface lead to mess in the code, that's bad. Cancellation 
+>>> mode that is actually a kind of completion (and having comments in 
+>>> many places about that) - that shows for me that interface is not 
+>>> good.. It's a question of terminology, what to call "cancel". Also, 
+>>> that's not the first time this question arise. Remember my recent 
+>>> cancel-in-flight-requests series, when I thought that "cancel is 
+>>> cancel" and didn't consider soft-cancel of mirror.. And reviewers 
+>>> didn't caught it. I don't think that interface is good, it will 
+>>> always confuse new developers and users. But that's just my opinion, 
+>>> I don't impose it )
+>>>
+>>> If not deprecate, i.e. if we consider old interface to be good, than 
+>>> no reason for this my series and for introducing new interface :)
+>>
+>> I’m not against a better interface, I’m against using this current 
+>> bug as an excuse to improve the interface.  We’ve known we want to 
+>> improve the interface for quite a long time now, we don’t need an 
+>> excuse for that.
+>>
+>> If we use this bug as an excuse, I’m afraid of becoming hung up on 
+>> interface discussions instead of just getting the bug fixed. And we 
+>> must get the bug fixed, it’s real, it’s kind of bad, and saying “it 
+>> won’t appear with the new interface, let’s not worry about the old 
+>> one” is not something I like.
+>>
+>> OTOH, if we use this bug as an excuse, I’m also afraid of trying to 
+>> rush the design instead of actually implementing the interface that 
+>> we’ve always desired, i.e. where the user gets to choose the 
+>> completion mode via yet-to-be-implemented some job property setter 
+>> function.
+>>
+>> As a final note (but this is precisely the interface discussion that 
+>> I want to avoid for now), I said I don’t see a good reason for 
+>> deprecating anything, because `job-cancel force=false` can just 
+>> internally do `set-job-property .pivot_on_completion=false; 
+>> job-complete`.  From an implementation perspective, that should be 
+>> simple.
+>>
+>> I understand that for users the existence of the `force` flag may 
+>> still be confusing and so we might want to deprecate it for that 
+>> reason, but again, this is the interface discussion that I think we 
+>> don’t actually need right now.
+>>
+>> And that’s why I’d prefer for any clean-up to come on top of fixing 
+>> the existing bug, so we can have separate discussions and take our 
+>> time with the interface without feeling driven by the need to fix a bug.
+>>
 >
-> On 7/30/21 6:25 AM, Lindsay Ryan wrote:
-> > Hi
-> > I'm trying to emulate some physical IBM Power 9's that we have. There
-> > seems to be plenty of examples of using x86_64 qemu, but slightly less
-> > for Power. Unless it's specifically for installing AIX
-> > Anyway, I'm trying to boot the VM as I guess a bare metal Power 9 box,
-> > then install redhat from Iso on a disk and have it on the network.
-> >
-> > ./qemu-system-ppc64 -cpu POWER9 -smp cpus=3D4 -machine pseries -m 4096 =
--M
-> > accel=3Dtcg  -serial stdio -nodefaults -nographic -device
-> > megasas,id=3Dscsi0,bus=3Dpci.0,addr=3D0x5 -drive
-> >
-> file=3D/home/hdisk1.qcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,format=3Dqcow2=
-,cache=3Dnone
-> > -device
-> >
-> scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddrive-scsi0=
--0-0-0,id=3Dscsi0-0-0-0,bootindex=3D2
-> > -cdrom /mnt/images/rhel-8.4-ppc64le-boot.iso -monitor
-> > telnet:0.0.0.0:3344,server,nowait -netdev
-> > bridge,id=3Dnet0,helper=3Dqemu-bridge-helper,br=3Dbridge0,id=3Dhostnet0
-> >
-> > So the megasas gets detected as a raid controller. Yay.
-> > But my qcow2 disk image doesn't seem to be plugged into it correctly as
-> > it's not detected.
-> > It sees the cdrom image and I can boot from it.
-> > The other thing I can't get working is the network card.
-> >
-> > On this host system I have some other x86 kvm's running. So Ideally if =
-I
-> > could plug the nic on this vm into
-> > 7: virbr0
-> >
-> > 6: bridge0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue
-> > state UP group default qlen 1000
-> >     link/ether 00:25:b5:04:2a:1e brd ff:ff:ff:ff:ff:ff
-> >     inet 10.126.24.82/24 brd 10.126.24.255 scope global noprefixroute
-> > bridge0
-> >        valid_lft forever preferred_lft forever
-> >     inet6 fe80::76a8:89ec:fc62:9c94/64 scope link noprefixroute
-> >        valid_lft forever preferred_lft forever
-> > 7: virbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue
-> > state UP group default qlen 1000
-> >     link/ether 52:54:00:51:db:be brd ff:ff:ff:ff:ff:ff
-> >     inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
-> >        valid_lft forever preferred_lft forever
-> >
-> > If I can't do that, then I really only need the ppc64 guest to have
-> > access out to the internet and I can nat anything incoming
-> >
-> > Any help, particularly about how to plug virtual disk drives into
-> > virtual disk controllers would be helpful
-> > regards
-> >
-> >
-> > Ryan Lindsay BEng, MSc.
-> > Linux Storage Administrator
-> > Research Computing Facility
-> >
-> >
-> > *Disclaimer: *This email (including any attachments or links) may
-> > contain confidential and/or legally privileged information and is
-> > intended only to be read or used by the addressee. If you are not the
-> > intended addressee, any use, distribution, disclosure or copying of thi=
-s
-> > email is strictly prohibited. Confidentiality and legal privilege
-> > attached to this email (including any attachments) are not waived or
-> > lost by reason of its mistaken delivery to you. If you have received
-> > this email in error, please delete it and notify us immediately by
-> > telephone or email. Peter MacCallum Cancer Centre provides no guarantee
-> > that this transmission is free of virus or that it has not been
-> > intercepted or altered and will not be liable for any delay in its
-> receipt.
-> >
->
->
->
+> OK, I see your point. Let's just fix a bug with current interface and 
+> anything else is a separate step. Are you going to send v3?
 
---=20
-Klaus Heinrich Kiwi <kkiwi@redhat.com>
-Manager, Software Engineering - Red Hat Virtualization
+Yep, sure!
 
---000000000000520e9705c8589a2c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+(Still want to look into the exact job->ret details, though. Perhaps I 
+can do better than just to keep it in the v1 state.)
 
-<div dir=3D"ltr">Just making sure Cedric is also seeing this...<div><br></d=
-iv><div>=C2=A0-Klaus</div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 10:27 AM Philippe Mathieu=
--Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Cc&#3=
-9;ing qemu-ppc@<br>
-<br>
-On 7/30/21 6:25 AM, Lindsay Ryan wrote:<br>
-&gt; Hi<br>
-&gt; I&#39;m trying to emulate some physical IBM Power 9&#39;s that we have=
-. There<br>
-&gt; seems to be plenty of examples of using x86_64 qemu, but slightly less=
-<br>
-&gt; for Power. Unless it&#39;s specifically for installing AIX<br>
-&gt; Anyway, I&#39;m trying to boot the VM as I guess a bare metal Power 9 =
-box,<br>
-&gt; then install redhat from Iso on a disk and have it on the network.<br>
-&gt; <br>
-&gt; ./qemu-system-ppc64 -cpu POWER9 -smp cpus=3D4 -machine pseries -m 4096=
- -M<br>
-&gt; accel=3Dtcg =C2=A0-serial stdio -nodefaults -nographic -device<br>
-&gt; megasas,id=3Dscsi0,bus=3Dpci.0,addr=3D0x5 -drive<br>
-&gt; file=3D/home/hdisk1.qcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,format=3Dqc=
-ow2,cache=3Dnone<br>
-&gt; -device<br>
-&gt; scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddrive-sc=
-si0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D2<br>
-&gt; -cdrom /mnt/images/rhel-8.4-ppc64le-boot.iso -monitor<br>
-&gt; telnet:<a href=3D"http://0.0.0.0:3344" rel=3D"noreferrer" target=3D"_b=
-lank">0.0.0.0:3344</a>,server,nowait -netdev<br>
-&gt; bridge,id=3Dnet0,helper=3Dqemu-bridge-helper,br=3Dbridge0,id=3Dhostnet=
-0<br>
-&gt; <br>
-&gt; So the megasas gets detected as a raid controller. Yay.=C2=A0<br>
-&gt; But my qcow2 disk image doesn&#39;t seem to be plugged into it correct=
-ly as<br>
-&gt; it&#39;s not detected.=C2=A0<br>
-&gt; It sees the cdrom image and I can boot from it.<br>
-&gt; The other thing I can&#39;t get working is the network card.=C2=A0<br>
-&gt; <br>
-&gt; On this host system I have some other x86 kvm&#39;s running. So Ideall=
-y if I<br>
-&gt; could plug the nic on this vm into=C2=A0<br>
-&gt; 7: virbr0<br>
-&gt; <br>
-&gt; 6: bridge0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noq=
-ueue<br>
-&gt; state UP group default qlen 1000<br>
-&gt; =C2=A0 =C2=A0 link/ether 00:25:b5:04:2a:1e brd ff:ff:ff:ff:ff:ff<br>
-&gt; =C2=A0 =C2=A0 inet <a href=3D"http://10.126.24.82/24" rel=3D"noreferre=
-r" target=3D"_blank">10.126.24.82/24</a> brd 10.126.24.255 scope global nop=
-refixroute<br>
-&gt; bridge0<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0valid_lft forever preferred_lft forever<br>
-&gt; =C2=A0 =C2=A0 inet6 fe80::76a8:89ec:fc62:9c94/64 scope link noprefixro=
-ute<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0valid_lft forever preferred_lft forever<br>
-&gt; 7: virbr0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqu=
-eue<br>
-&gt; state UP group default qlen 1000<br>
-&gt; =C2=A0 =C2=A0 link/ether 52:54:00:51:db:be brd ff:ff:ff:ff:ff:ff<br>
-&gt; =C2=A0 =C2=A0 inet <a href=3D"http://192.168.122.1/24" rel=3D"noreferr=
-er" target=3D"_blank">192.168.122.1/24</a> brd 192.168.122.255 scope global=
- virbr0<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0valid_lft forever preferred_lft forever<br>
-&gt; <br>
-&gt; If I can&#39;t do that, then I really only need the ppc64 guest to hav=
-e<br>
-&gt; access out to the internet and I can nat anything incoming<br>
-&gt; <br>
-&gt; Any help, particularly about how to plug virtual disk drives into<br>
-&gt; virtual disk controllers would be helpful<br>
-&gt; regards<br>
-&gt; <br>
-&gt; <br>
-&gt; Ryan Lindsay BEng, MSc.<br>
-&gt; Linux Storage Administrator<br>
-&gt; Research Computing Facility<br>
-&gt; <br>
-&gt; <br>
-&gt; *Disclaimer:=C2=A0*This email (including any attachments or links) may=
-<br>
-&gt; contain confidential and/or legally privileged information and is<br>
-&gt; intended only to be read or used by the addressee. If you are not the<=
-br>
-&gt; intended addressee, any use, distribution, disclosure or copying of th=
-is<br>
-&gt; email is strictly prohibited. Confidentiality and legal privilege<br>
-&gt; attached to this email (including any attachments) are not waived or<b=
-r>
-&gt; lost by reason of its mistaken delivery to you. If you have received<b=
-r>
-&gt; this email in error, please delete it and notify us immediately by<br>
-&gt; telephone or email. Peter MacCallum Cancer Centre provides no guarante=
-e<br>
-&gt; that this transmission is free of virus or that it has not been<br>
-&gt; intercepted or altered and will not be liable for any delay in its rec=
-eipt.<br>
-&gt; <br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Klaus Heinrich Kiwi &lt;<a href=
-=3D"mailto:kkiwi@redhat.com" target=3D"_blank">kkiwi@redhat.com</a>&gt;<div=
->Manager, Software Engineering - Red Hat Virtualization</div></div></div>
-
---000000000000520e9705c8589a2c--
+Max
 
 
