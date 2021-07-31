@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537193DC400
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 08:33:19 +0200 (CEST)
-Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214D43DC417
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 08:40:58 +0200 (CEST)
+Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9iYg-0006S2-C1
-	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 02:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
+	id 1m9ig5-00010E-6H
+	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 02:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTO-00056p-7P
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:50 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTM-0001I7-Py
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:49 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id o5so20910373ejy.2
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 23:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=302wxsTGGjRjbdAcJ8/o1znsZMnOFR8XXZjoCZCtdac=;
- b=HJQrxrbto/SGg587KewyUS8n7vzc1iGhHtJD3ubokGObUUWiCVEcesYAD9rsagXFyw
- vrTVp0mLU9d6ec0xjg+8i0N9rYJpuCLDUCb5lhdhLPK3NBk5gAKtEt/q13/lgS9LPRVP
- 5FZMu282Zn132Z7rIXXxA8uvs+6yn9Irg7t7+AkcIN5mN6urozXPKsuQ2AhvUB2sjTce
- A0nA+cWch41BFiwfAw5M86yNJ74sDSInD9LT778e2ILosfbAD2e/ra3S1CZXHSjiD2hN
- 9yiJFyo1w23/MFiO3n+0SutYuD+my/KZD7mR2BzliSweoo/2u/T5rS1W83RklCd7wxBb
- B6WA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m9ieo-0008El-8r
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:39:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m9iek-0002Qq-UY
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:39:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627713572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P8SKtKnbejM2m6RyRiT+nyi6RiWKs260tt/gK9jIXoU=;
+ b=GsROCfyiaYKzBMbcdg8HKgVkyq3882f9l/jlltJmxxQhcxrV+BquNmyWjb+jXXar8fVdWs
+ ZT/oRQvVfeg1D5XLChg8UxDy9lvLZbJ0ctQBAy/jHQ5eRE5SQedQx0RCtqDjj3ouXtDygC
+ G/WvVCgPxegBsoxmQym9Z6Njr5bGn0U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-SAcvx3J6NhuiCtisieVJrA-1; Sat, 31 Jul 2021 02:39:31 -0400
+X-MC-Unique: SAcvx3J6NhuiCtisieVJrA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so3905097wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 23:39:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=302wxsTGGjRjbdAcJ8/o1znsZMnOFR8XXZjoCZCtdac=;
- b=s1FKZKyhH3InEaPVVdfEZMPrmyYYj4VRsU8jPZMSRuCIYgRCUM8CSdR+v+i+NNq6u8
- +3rRHlh9njL+F7Ai7ObCw9twMbPOAbqokzz5Y8qh09GOpyKVVjjKc4rTPq5WZaPlTMxm
- rqe8KRuACmb3lBAzEbHG7csX8HeQ1abdQ6TeZU8rE9LC65ZLZwg4sTBFRqsvpRR8R9lS
- LLIwGeKzSBDx+r4V3UhbZrp6ISBuHhXRKWp/TsBDaA1i9cW+1WcXL2JongxwrzzAdSTu
- OlXYtm9KJ4PfkUSJo1FjiWW5YtPjWPtIedmcpsc5VavYNeXbHw6Ccn5nJxBXR/YoAUUN
- 3rSg==
-X-Gm-Message-State: AOAM531pth9xTR0F6XbHNOUX+JUp/vrcxe3NH0s+a1GKtt9qaO/9TuSO
- LUUgjFVzP+u+WvzuHMJSxaS9aB/2U5LMZw==
-X-Google-Smtp-Source: ABdhPJzPhJgUHeoBLB46/FHOuzIrTACM/WPv82LD2kQd0arleBpHHBdvh0p0MhiOjrLOkbBB7jMFew==
-X-Received: by 2002:a17:906:1355:: with SMTP id
- x21mr6345483ejb.490.1627712867472; 
- Fri, 30 Jul 2021 23:27:47 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id
- b25sm1766116edv.9.2021.07.30.23.27.46 for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 23:27:47 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P8SKtKnbejM2m6RyRiT+nyi6RiWKs260tt/gK9jIXoU=;
+ b=pqAOq8qo41NkA2PZhST685bFifAtOy/aM5PQliiT+MI0ohxKaUn2iEfCLEypdrmMJD
+ 14PtLe8Osnc0hSagzspCMI39alKIGLNwbuJ3yVN6v7M51P6xpTDOhO1xxlV28iyR3cMd
+ P5AVU5d1rSzS6SDE5PCVYNAxWG2SJRVrQ4LENSMl4s1g+nIwnKCXQxMfur+OjTj2NcEx
+ id7537ewExHK6RnvO0Sa67gZeZTGI4yZlbVQmtRe4MEGm0IPKga0xMY/ZrB2uSLh4pG8
+ szHmgftdAD1WzeW3oaqIfl9WrtA/MvLJdNpb3wuApFXiI6VXWPuUkYUfJQw8f14KQaiN
+ 9vxg==
+X-Gm-Message-State: AOAM530LzG+9EOaPZfTR4kvBOMJzg1UmZtTCbsnVZdFfReX7ecQITrtH
+ rGo24flhCyHKUATIX0zqTfW5ejoTdi91TFsMHfjncfsO/m5DOt0Ojgx41pjDGm3LJSD+A/+/sGP
+ WGmwnSm8wAAeDZE62kNXoHpkWBr0Caoigd0LURizBFUTcAsPl/LL2S2D8kkoBF9k=
+X-Received: by 2002:a5d:4cc6:: with SMTP id c6mr6659902wrt.383.1627713570027; 
+ Fri, 30 Jul 2021 23:39:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJyzCIXGEkplZu8rq5Z0PQPjqGC+lsOPlEvRtSPmpi3lA0DRYTJMLoKkmIBEWnU7b1LasnHg==
+X-Received: by 2002:a5d:4cc6:: with SMTP id c6mr6659611wrt.383.1627713564767; 
+ Fri, 30 Jul 2021 23:39:24 -0700 (PDT)
+Received: from thuth.remote.csb (p5791d280.dip0.t-ipconnect.de.
+ [87.145.210.128])
+ by smtp.gmail.com with ESMTPSA id k17sm399665wmj.0.2021.07.30.23.39.23
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 23:39:24 -0700 (PDT)
+Subject: Re: "make check-acceptance" takes way too long
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] coverity-model: write models fully for non-array
- allocation functions
-Date: Sat, 31 Jul 2021 08:27:41 +0200
-Message-Id: <20210731062741.301102-7-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210731062741.301102-1-pbonzini@redhat.com>
-References: <20210731062741.301102-1-pbonzini@redhat.com>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA8DX+OJQ7UnWhYLmUOgpa_mTCmvppRdHhZOE+n7HGPKZw@mail.gmail.com>
+ <CA+bd_6JESu=ygwfSNe5BSzpy9WgYd_Ug0OFX6KeB=ut40hpwWw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <20afa6d3-2ecb-c4f4-398b-08f298ae82d7@redhat.com>
+Date: Sat, 31 Jul 2021 08:39:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CA+bd_6JESu=ygwfSNe5BSzpy9WgYd_Ug0OFX6KeB=ut40hpwWw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.125, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,106 +104,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity seems to have issues figuring out the properties of g_malloc0
-and other non *_n functions.  While this was "fixed" by removing the
-custom second argument to __coverity_mark_as_afm_allocated__, inline
-the code from the array-based allocation functions to avoid future
-issues.
+On 31/07/2021 00.04, Cleber Rosa wrote:
+> On Fri, Jul 30, 2021 at 11:43 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Fri, 30 Jul 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>>
+>>> "make check-acceptance" takes way way too long. I just did a run
+>>> on an arm-and-aarch64-targets-only debug build and it took over
+>>> half an hour, and this despite it skipping or cancelling 26 out
+>>> of 58 tests!
+>>>
+>>> I think that ~10 minutes runtime is reasonable. 30 is not;
+>>> ideally no individual test would take more than a minute or so.
+>>
+>> Side note, can check-acceptance run multiple tests in parallel?
+> 
+> Yes, it can, but it's not currently enabled to do so, but I'm planning
+> to.  As a matter of fact, Yesterday I was trying out Avocado's
+> parallel capable runner on a GitLab CI pipeline[1] and it went well.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/model.c | 57 +++++++++++++++++++++++++++++++----
- 1 file changed, 51 insertions(+), 6 deletions(-)
+Was this one of the shared gitlab CI runners? ... well, those feature only a 
+single CPU, so the run was likely not very different compared to a single run.
 
-diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-index 028f13e9e3..9d4fba53d9 100644
---- a/scripts/coverity-scan/model.c
-+++ b/scripts/coverity-scan/model.c
-@@ -269,32 +269,77 @@ void *g_try_realloc_n(void *ptr, size_t nmemb, size_t size)
- 
- void *g_malloc(size_t size)
- {
--    return g_malloc_n(1, size);
-+    void *ptr;
-+
-+    __coverity_negative_sink__(size);
-+    ptr = __coverity_alloc__(size);
-+    if (!ptr) {
-+        __coverity_panic__();
-+    }
-+    __coverity_mark_as_uninitialized_buffer__(ptr);
-+    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
-+    return ptr;
- }
- 
- void *g_malloc0(size_t size)
- {
--    return g_malloc0_n(1, size);
-+    void *ptr;
-+
-+    __coverity_negative_sink__(size);
-+    ptr = __coverity_alloc__(size);
-+    if (!ptr) {
-+        __coverity_panic__();
-+    }
-+    __coverity_writeall0__(ptr);
-+    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
-+    return ptr;
- }
- 
- void *g_realloc(void *ptr, size_t size)
- {
--    return g_realloc_n(ptr, 1, size);
-+    __coverity_negative_sink__(size);
-+    __coverity_escape__(ptr);
-+    ptr = __coverity_alloc__(size);
-+    if (!ptr) {
-+        __coverity_panic__();
-+    }
-+    /*
-+     * Memory beyond the old size isn't actually initialized.  Can't
-+     * model that.  See Coverity's realloc() model
-+     */
-+    __coverity_writeall__(ptr);
-+    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
-+    return ptr;
- }
- 
- void *g_try_malloc(size_t size)
- {
--    return g_try_malloc_n(1, size);
-+    int nomem;
-+
-+    if (nomem) {
-+        return NULL;
-+    }
-+    return g_malloc(size);
- }
- 
- void *g_try_malloc0(size_t size)
- {
--    return g_try_malloc0_n(1, size);
-+    int nomem;
-+
-+    if (nomem) {
-+        return NULL;
-+    }
-+    return g_malloc0(size);
- }
- 
- void *g_try_realloc(void *ptr, size_t size)
- {
--    return g_try_realloc_n(ptr, 1, size);
-+    int nomem;
-+
-+    if (nomem) {
-+        return NULL;
-+    }
-+    return g_realloc(ptr, size);
- }
- 
- /* Other glib functions */
--- 
-2.31.1
+> But the environment on GitLab CI is fluid, and I bet there's already
+> some level of overcommit of (at least) CPUs there.  The only pipeline
+> I ran there with tests running in parallel, resulted in some jobs with
+> improvements, and others with regressions in runtime.  Additionally,
+> lack of adequate resources can make more tests time out, and thus give
+> out false negatives.
+
+It certainly does not make sense to enable parallel tests for the shared 
+runners there.
+
+  Thomas
 
 
