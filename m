@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF6D3DC6A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 17:27:10 +0200 (CEST)
-Received: from localhost ([::1]:60440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8761A3DC6B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 17:42:17 +0200 (CEST)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9qtJ-0001Yk-By
-	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 11:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
+	id 1m9r7w-0003zv-2y
+	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 11:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9qs1-0000pg-NT
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 11:25:49 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m9qs0-00041o-2v
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 11:25:49 -0400
-Received: by mail-wr1-x436.google.com with SMTP id b13so4559596wrs.3
- for <qemu-devel@nongnu.org>; Sat, 31 Jul 2021 08:25:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/WXJIGBY+ztVMhcOsue0YfytGUJdw5DBc4sA4AvIFVA=;
- b=WFPtyDV8Xa8lYKYPWUPTbsUtZncmpGy1wJbHVclOt2yQKS070XHMsdq3Yx3mxq0RbJ
- tEArpeltpd5Wy3l/jWaq0arIMxWbppZRdkGbM3bttV2MUL28NAn4m5Th52oRmI8R1Ou6
- HTc8wZ44TYFIxQwd+m2uqI1nn/sRUyPmjs29ZxCvpqSEp/V+sU/zZez9WZXEkpU4dHAW
- mjw8DsxocEzQet3w9GVcgXqdsx2jZSRikykvohzWutnM+qdUJXUMpRnur5D25itSXqj2
- DwWtFok93tQVjYLYG+ItFrlSH5Xx4kwlCZkXbP//f3Vqgurger8dtwgoHFe6axgSBe7m
- 3RNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/WXJIGBY+ztVMhcOsue0YfytGUJdw5DBc4sA4AvIFVA=;
- b=IuCgsIJX/OhJ/myz1A7xA0666YShK+X/eiXxbN6OSAxtU4f0Np5AnsBTgRQQJyvxM4
- 9WIKni02JGWppUS3bIQ7Su5toEJAMULjqYP3sS57dVcA273uK2ycngCoZ7tVKs7YtJAk
- ZIa8y0/bExrHmoqiRe1xfw8FsZv6gWo9KNzwDRORndQn2Up2p/NlBnxHEmAuE2Sp7Yrc
- 5VNgNeJdLfUXTbUWQzG/cD+ebmjCKEqMCFE/nfIXRsZxXxADD65kJJJ5SuYaOsifqKWz
- KktfWL85r2u6+yHQZ9uHlUWuSO1Q6NA1QkeKENhSk/HjmnErylyAIHSLRiK5rlcGPtRt
- 54Mg==
-X-Gm-Message-State: AOAM531i0AowBIIxUOonrXmX+nOOPRspZSiU9yvf/R11kGpFti+BjCKp
- kgCBKEOZlTolcW5HPjEWypI=
-X-Google-Smtp-Source: ABdhPJx8pszxFztJnr1JogUXIz3olHkrFEc30znhDwN5XkdsHml3mI8HHkqO+3XLLlnUP1TaQtq3Dw==
-X-Received: by 2002:a5d:4b4e:: with SMTP id w14mr8625179wrs.341.1627745146806; 
- Sat, 31 Jul 2021 08:25:46 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id l24sm5099887wmi.30.2021.07.31.08.25.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Jul 2021 08:25:45 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] coverity-scan: Add accelerator and sysemu
- components
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1m9r78-0003KG-9I
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 11:41:26 -0400
+Received: from pv34p98im-ztdg02172101.me.com ([17.143.234.142]:56597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1m9r76-0005uF-O8
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 11:41:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1627746078; bh=31N1n9LDYN9v8O9cW+bYHTEiBlg9kNEUFPw10SV46Ag=;
+ h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:To;
+ b=L2NW/lwJlh/qdnQYoMKEv1YcHbafefWHS5jbYLbelImYdX2ZoBzL8c4mNS7bjlMr2
+ xJklueGVl1cTetgyKcEQt1141Vqe5+LFy8+Zh6eAuPkHK9ix/McHfSY2mo7i4JG/mM
+ snbXFaVoewDYWFKAej5vcgJ29yC8QzRsYZCisXYpTlD9lRGBEuYIaxNXpDcQkAPGgt
+ MWU1etTMsslgtNOOtQHVwpxUMk76Um1rRuN5thgtgtF5Lp4QS2kdWQerTCf7xyTftb
+ MoseB9drKQJVFQz4IDsarAe+GQy5UFuu3nX17PgN+gFDHFhqu5W7ADjS+78aUwHMOU
+ KILzon3TKQI/Q==
+Received: from smtpclient.apple (c-67-180-181-196.hsd1.ca.comcast.net
+ [67.180.181.196])
+ by pv34p98im-ztdg02172101.me.com (Postfix) with ESMTPSA id 125615400D9
+ for <qemu-devel@nongnu.org>; Sat, 31 Jul 2021 15:41:17 +0000 (UTC)
+From: Jason Thorpe <thorpej@me.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3690.0.1\))
+Subject: Please help me understand VIRTIO_F_IOMMU_PLATFORM
+Message-Id: <D2F8C14D-1B82-4BDF-A1AC-AF1BF6D4CDD7@me.com>
+Date: Sat, 31 Jul 2021 08:41:17 -0700
 To: qemu-devel@nongnu.org
-References: <20210708155735.1805767-1-f4bug@amsat.org>
- <d5b87a24-5fa3-eb9f-4105-76342f24f790@amsat.org>
-Message-ID: <ae47059f-623b-2499-8eaf-7d44ca3104e9@amsat.org>
-Date: Sat, 31 Jul 2021 17:25:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <d5b87a24-5fa3-eb9f-4105-76342f24f790@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.124,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Mailer: Apple Mail (2.3690.0.1)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-31_05:2021-07-30,
+ 2021-07-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=317 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2009150000 definitions=main-2107310088
+Received-SPF: pass client-ip=17.143.234.142; envelope-from=thorpej@me.com;
+ helo=pv34p98im-ztdg02172101.me.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,30 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping^2?
+Hey folks =E2=80=94
 
-On 7/22/21 6:08 PM, Philippe Mathieu-Daudé wrote:
-> ping?
-> 
-> On 7/8/21 5:57 PM, Philippe Mathieu-Daudé wrote:
->> Add 'sysemu' component for issues not related to TCG.
->>
->> Since v1:
->> - add accelerator components (Peter)
->>
->> Supersedes: <20210619091342.3660495-1-f4bug@amsat.org>
->>
->> Philippe Mathieu-Daudé (2):
->>   coverity-scan: Add a component for each accelerator
->>   coverity-scan: Add 'sysemu' component
->>
->>  scripts/coverity-scan/COMPONENTS.md | 17 +++++++++++++----
->>  1 file changed, 13 insertions(+), 4 deletions(-)
->>
-> 
+I=E2=80=99d like to be able to use VirtIO with qemu-system-alpha but, at =
+least on a NetBSD x86_64 host, it does not currently work.  This is =
+because virtio_bus_device_plugged() in hw/virtio/virtio-bus.c ends up =
+picking address_space_memory as the DMA address space for the =
+VirtIODevice.  This does not work for alpha because the CPU and PCI have =
+different views of system memory.  All that=E2=80=99s needed to fix it =
+is for virtio_bus_device_plugged() to call =
+klass->get_dma_as(qbus->parent), but the code only does that if:
+
+	bool has_iommu =3D virtio_host_has_feature(vdev, =
+VIRTIO_F_IOMMU_PLATFORM);=20
+
+So, obviously, VIRTIO_F_IOMMU_PLATFORM is not getting set for an =
+emulated alpha system, despite the alpha platform having one[*].  But =
+it=E2=80=99s not clear to me that it=E2=80=99s appropriate for alpha to =
+use VIRTIO_F_IOMMU_PLATFORM, at least from my reading of how it=E2=80=99s =
+used.
+
+In any case, the following extremely simple change allows me to use =
+VirtIO devices in qemu-system-alpha with a NetBSD/alpha guest (and I=E2=80=
+=99m told this also fixes using VirtIO devices in qemu-system-sparc64 =
+for a NetBSD/sparc64 guest):
+
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index 859978d248..c083e8d737 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -85,6 +85,8 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, =
+Error **errp)
+     if (klass->get_dma_as !=3D NULL && has_iommu) {
+         virtio_add_feature(&vdev->host_features, =
+VIRTIO_F_IOMMU_PLATFORM);
+         vdev->dma_as =3D klass->get_dma_as(qbus->parent);
++    } else if (klass->get_dma_as !=3D NULL) {
++        vdev->dma_as =3D klass->get_dma_as(qbus->parent);
+     } else {
+         vdev->dma_as =3D &address_space_memory;
+     }
+
+So, VirtIO experts, please weigh in on the correctness of this change=E2=80=
+=A6 if it is, I=E2=80=99ll post the patch formally.
+
+[*] The way the alpha platform works is that the IOMMU is used if the =
+PCI device performs a memory access to a DMA window where SGMAPs are =
+enabled.  If SGMAPs are not enabled in the DMA window the PCI device is =
+accessing, the translation is performed directly by subtracting the =
+address from the window=E2=80=99s Window Base and appending the result =
+to the window=E2=80=99s Translated Base.  A typical alpha PCI platform =
+has a 1GB DMA window at 1GB from the PCI=E2=80=99s perspective, which =
+maps to 0-1GB in the system address map, and an alpha system with 1GB or =
+less of RAM would thus not need to use the IOMMU, but the translation =
+take place regardless.
+
+-- thorpej
+
 
