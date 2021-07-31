@@ -2,113 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38F53DC181
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 01:18:32 +0200 (CEST)
-Received: from localhost ([::1]:37006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798533DC35D
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 06:36:28 +0200 (CEST)
+Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9blv-00083l-8B
-	for lists+qemu-devel@lfdr.de; Fri, 30 Jul 2021 19:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45344)
+	id 1m9gja-0002h2-W1
+	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 00:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m9bkc-0006UA-B0; Fri, 30 Jul 2021 19:17:10 -0400
-Received: from mail-dm6nam10on2064.outbound.protection.outlook.com
- ([40.107.93.64]:61825 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m9bka-0006lP-07; Fri, 30 Jul 2021 19:17:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j4XTPwM5dbfy9uSUqYPmeQPj7dh+PVVpZ7JH2btYVo5yMGoNXMLbQ/wNE7aq2hEyWqksJN1GlGH2BSEOoLXIdPGJssay9UQBFpsQBMfMnkaOYAYUtsmj40opWcHNLWS/xNwRA7p0g+WA8U88zHJSe71ZfzIoYvvT89Nr2Y5vkByqgSRQB1gSOLWug7N5cBmWO5aWKYpkG+A2EhhqFiuWm49Xbf6Vxpu8s1s0gxFSpQ1xsRtemeNiW38jI1AjHO6Wm5ZfHemvAAuwkq+6vGYjXyHm3Omg88itsj58LuxciFE9/eUK1r8uco352oIYYzJHCRCaaKj3Op4u/oR0t+w30g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g2pWrNBRh8FaPlFfvjIUBmTU0fAgP8ZskTQQ2kya3KU=;
- b=dp6TA/90W6kBKf2GI1ZIFZSdMR/2dBeEVZf6FJxJBBnrA+2yvdocE4UD7sYTbTs7WGtHnD5zB74pp551rGJmfuUYBeYX5aW+zuVYhBUek3qUJL5PjKuCkgFhQhZhGv1pP/iz/0j/KoGfTHWZLOhxvG1l3OAewggJVLLvbvZe06GYV715Snd7hu8IgJ+TOt7xI6I/D/ks4t+NnuDa1mNtsSb0k5XtcQQWd+b+dJpgTd/mkA1RhSaROr9SutmR4AWCV6zyWoJGTkJYqQ0NljRqOjBnOvsDvkwq+e+RVgqxv+R4KZHRdsmpbl2jRs/rDGheMzirKq+ubyz9kaaO526zeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g2pWrNBRh8FaPlFfvjIUBmTU0fAgP8ZskTQQ2kya3KU=;
- b=jwVDYrBcLaelUHgX/kU0xf7L2SibsByo8O94vmPPjBwV9KiUGe9fkwKADKn7VhhBsBnXN/qkaRJTEFKrFxOIY+w4D1cTh9Tb39g5pYRK9trVklU+p/vBqyDJMeaISHxFUrZCOLKNJfr1SwnntHZ6xAcK/1jkJtvIh/bS7XBpJLI=
-Received: from SN7PR04CA0183.namprd04.prod.outlook.com (2603:10b6:806:126::8)
- by BN8PR02MB5972.namprd02.prod.outlook.com (2603:10b6:408:b3::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.25; Fri, 30 Jul
- 2021 23:17:03 +0000
-Received: from SN1NAM02FT0056.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:126:cafe::6d) by SN7PR04CA0183.outlook.office365.com
- (2603:10b6:806:126::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.20 via Frontend
- Transport; Fri, 30 Jul 2021 23:17:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0056.mail.protection.outlook.com (10.97.4.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4373.18 via Frontend Transport; Fri, 30 Jul 2021 23:17:03 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Jul 2021 16:17:02 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Fri, 30 Jul 2021 16:17:02 -0700
-Received: from [172.19.2.32] (port=36936 helo=xsjkomlodi50.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>)
- id 1m9bkU-0006F4-Q1; Fri, 30 Jul 2021 16:17:02 -0700
-From: Joe Komlodi <joe.komlodi@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 1/1] hw/arm/smmu: Add access flag handling
-Date: Fri, 30 Jul 2021 16:17:02 -0700
-Message-ID: <1627687022-366528-2-git-send-email-joe.komlodi@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1627687022-366528-1-git-send-email-joe.komlodi@xilinx.com>
-References: <1627687022-366528-1-git-send-email-joe.komlodi@xilinx.com>
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1m9giN-0001z3-AD
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 00:35:11 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:34640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1m9giL-0000LA-Hi
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 00:35:11 -0400
+Received: by mail-oi1-x236.google.com with SMTP id t128so16219350oig.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 21:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iCN9Mm8Ytz1ntxOBl1T6OsXO4TuZmz/dgW5rHlkvkvk=;
+ b=V/xnnanfxBPw588o5GWnWJaL8lK/iPDERGRa+p+4BWXLUmaXpCiC0HxA46GOkS38hg
+ PmQyqvRD/PIdAtBwrI2ABzU5wYht1iZIEgSbLemzZWuORxeJdzI0rka/jzMg7Hj66Tvz
+ Jm/HbRXsny+I31LlQTo4JGudVm0MQia+buKfaxTXYUSsJK4OFZ/Q06aIK6DLk8x7imbc
+ TVSs4fwnSXpDLKi/ZA86Zh1GbOM3coZXM7doVIQOMqJeRpukyCirNN96fXFnrK8mELhs
+ QcXvGdmHqBbgq2wIrTU4MpBTHZwUrKdPHPIJaX5+obBFhREA0WPsFyLn7upeUz1iZVYt
+ gwpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iCN9Mm8Ytz1ntxOBl1T6OsXO4TuZmz/dgW5rHlkvkvk=;
+ b=ngalIf4B3DWb9a6W/PyhTgUbzQHuLuLmiwY/qs6P4h+zf2Ksf1GoMjtZeAZnPHSmTo
+ QJP/kLb9d7TOFcSzAL3//BB4jxrsl5JNphgn8o0POqIsK7KYOWLSPB4TLdxckLdKHL0Q
+ 7jCEgZ4U1QhUy0PThUJ+WS5r8rcj02kF6TSyIUO0J95MkiSi4u5a8nIRnH9adymltE95
+ 9DH0hB8JP4dY68hiIj+7kVa+IANFthYwBcpdtAqXQKvG54BybIVT0q8dJmdybKpXmxyF
+ o/C1wYWMXY5LnT1oVLasWD3qtzlo7Gp1CK/DIR6qG60r2hykwlOtoJlpbZbkY6j941OB
+ //dA==
+X-Gm-Message-State: AOAM533bCLdup+GJKoRQ0HYuLcrUXpFWTy+Z4+Lpc6wV63kaiQHDq0on
+ FVJBpTdLQeFqtXKApyuhaiFFe2rPwgDZcK9cdy0=
+X-Google-Smtp-Source: ABdhPJzIaleqjVyfUdF3mKlj4euXT7mhlac9YOr1qwD35GXcedD1JUyZ+0itc7aySIu1Zv5ZDyafMtD4Lvw9jGR+/+I=
+X-Received: by 2002:aca:280b:: with SMTP id 11mr4004576oix.62.1627706105592;
+ Fri, 30 Jul 2021 21:35:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84ee1f32-4303-4097-874c-08d953b02428
-X-MS-TrafficTypeDiagnostic: BN8PR02MB5972:
-X-Microsoft-Antispam-PRVS: <BN8PR02MB59726A0F161F6C5498C0FCBDD0EC9@BN8PR02MB5972.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xc07hM6BpP1U7Q8Mgbozd4VumoJlaHgEq0wPP3PPAOEyP5up/Bqbu/tEi0mEISZa6/bRy6hVxG3QzQHb9ovnCSp5LHp4xqXZ7A9wrieWyxqorr7z10VrFg4u7FIa3q3+bLQB8BmwmaTUnDNG18hXvsGhAxSSP36ipUN3hv9Hoq1mJGQf9XjvFS2Kb9uKjlCssEFhTJbxBvusI+Pv2CU2L3A2Vn9Aw0APv6Ht2RoxFLEM9oTAwsyU9yGeI4tKxjFUxUBXwV5tJPbasUpXBVfXU0Svhfhy7u6X8ScNEabdtP6xeUFI/oNZ9z/Wu4Nc31/1lwb0xFm6xXbyxdLlE0YiTNtM3KIj1ryc1OYBhiOwkqpOpTz63Yn1TFrffvm1fI2393ncTH6Q8UnB30BGKZZMKRdcW9XXqio4v6UJS3/KeX+qlNUoAa4+5VgT2IKsX2wmlrHFOm3clfvZ7bgLNcHkzdS5+Uc0JE6IC3KL1NJkw+pGuZqIVvtmMn0UHEcqqg6dxBG5s3xznPUCSqDExqjcqFy3i+ZPLjToJ7z0lW2MlVnHmEOKdunzpztZcA/Umsezv6BI7T63SlIYOHnueuH6YbtgXRfge58VeykNk3aGXus+efGhCmpL09zOTx1tfgfEx1J49jvLZ7BaF7aTVk3GEFHU7jnmeUTrX46Q1xPOOvCdZoMRy1J3qMDse5Kf7JBsgivXvqBslfRyGSJclGOpd+GWKNTcvKPBUDTV9KJuRpc=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(376002)(346002)(46966006)(36840700001)(47076005)(356005)(36860700001)(44832011)(4326008)(2616005)(70206006)(83380400001)(86362001)(426003)(7696005)(8676002)(70586007)(8936002)(336012)(54906003)(316002)(36756003)(2906002)(36906005)(478600001)(82310400003)(26005)(9786002)(5660300002)(7636003)(186003)(6916009)(82740400003)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2021 23:17:03.4831 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84ee1f32-4303-4097-874c-08d953b02428
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0056.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR02MB5972
-Received-SPF: pass client-ip=40.107.93.64; envelope-from=komlodi@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <CABLmASFwffwhuNKTxfxUvHjCxZQHV+BiBTWeu0XoqRC0E1UU9A@mail.gmail.com>
+ <214af2d-c11e-862d-2c4c-4273ef4cef1b@eik.bme.hu>
+In-Reply-To: <214af2d-c11e-862d-2c4c-4273ef4cef1b@eik.bme.hu>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Sat, 31 Jul 2021 06:34:54 +0200
+Message-ID: <CABLmASEo4Pq6bFfdOHn601OSBib4ORdaHCwSmTSC4NHPQc5Q8Q@mail.gmail.com>
+Subject: Re: Bug in qemu-system-ppc running fedora 12 ppc guest
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: multipart/alternative; boundary="00000000000038fe4105c863dc62"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,117 +78,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: matheus.ferst@eldorado.org.br,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMMU should access fault if AF == 0 in a TTD, and if AFFD == 0 in the CD.
+--00000000000038fe4105c863dc62
+Content-Type: text/plain; charset="UTF-8"
 
-Per the spec, an access fault has a higher priority over a permission fault.
-For instance, a write to a writable clean (temporarily non-writable) page with
-AF == 0 && AFFD == 0 will cause an access fault.
-If AF == 1 in this situation, then a permission fault would occur.
+On Thu, Jul 29, 2021 at 12:07 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-Access flag handling is more complicated if HTTU is supported and HA != 0 in
-the CD, however we currently do not support HTTU.
+> Hello,
+>
+> On Thu, 29 Jul 2021, Howard Spoelstra wrote:
+> > Hi,
+> >
+> > Qemu-system-ppc built from current master can no longer run Fedora 12 ppc
+> > as guest. (This the only ppc distro I tested.) Host is Fedora 34. Please
+> > see screen shot attached.
+> > Booting from both an installation DVD and from an installed system fail.
+> >
+> > To reproduce:
+> > compile qemu-system-ppc from current master and run:
+> >
+> > ./qemu-system-ppc \
+> > -M mac99,via=pmu \
+> > -m 1024 \
+> > -L pc-bios \
+> > -boot d \
+> > -cdrom Fedora-12-ppc-DVD.iso \
+> > -g 1024x768x8
+> >
+> > I tracked the issue down to this commit:
+> >
+> > 8f0a4b6a9b40e18116a2bb6bbcc00feb8119c792 is the first bad commit
+> > commit 8f0a4b6a9b40e18116a2bb6bbcc00feb8119c792
+>
+> There's a fix for a similar problem I've seen with AROS and pegasos2
+> firmware 1.2 that's in today's pull request:
+>
+> https://lists.nongnu.org/archive/html/qemu-ppc/2021-07/msg00281.html
+>
+> That should likely fixes this. Can you try with that (either once it's
+> merged or from David's for-6.1 branch).
+>
+> Regards,
+> BALATON Zoltan
+>
 
-Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
----
- hw/arm/smmu-common.c         | 7 +++++++
- hw/arm/smmu-internal.h       | 8 ++++++++
- hw/arm/smmuv3-internal.h     | 1 +
- hw/arm/smmuv3.c              | 1 +
- include/hw/arm/smmu-common.h | 1 +
- 5 files changed, 18 insertions(+)
+Thanks, this issue is indeed fixed by
+https://github.com/qemu/qemu/commit/2d1154bd95a8bfea30cc59de8e080e5a016a9bee
 
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index 0459850..0fcc65c 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -305,6 +305,7 @@ static int smmu_ptw_64(SMMUTransCfg *cfg,
-         uint64_t pte, gpa;
-         dma_addr_t pte_addr = baseaddr + offset * sizeof(pte);
-         uint8_t ap;
-+        bool af;
- 
-         if (get_pte(baseaddr, offset, &pte, info)) {
-                 goto error;
-@@ -341,6 +342,12 @@ static int smmu_ptw_64(SMMUTransCfg *cfg,
-                                      pte_addr, pte, iova, gpa,
-                                      block_size >> 20);
-         }
-+        af = PTE_AF(pte);
-+        if (is_access_fault(af, perm)) {
-+            info->type = SMMU_PTW_ERR_ACCESS;
-+            goto error;
-+        }
-+
-         ap = PTE_AP(pte);
-         if (is_permission_fault(ap, perm)) {
-             info->type = SMMU_PTW_ERR_PERMISSION;
-diff --git a/hw/arm/smmu-internal.h b/hw/arm/smmu-internal.h
-index 2d75b31..9d3b22c 100644
---- a/hw/arm/smmu-internal.h
-+++ b/hw/arm/smmu-internal.h
-@@ -58,6 +58,11 @@
-     ((level == 3) &&                                                    \
-      ((pte & ARM_LPAE_PTE_TYPE_MASK) == ARM_LPAE_L3_PTE_TYPE_PAGE))
- 
-+/* access flag */
-+
-+#define PTE_AF(pte) \
-+    (extract64(pte, 10, 1))
-+
- /* access permissions */
- 
- #define PTE_AP(pte) \
-@@ -66,6 +71,9 @@
- #define PTE_APTABLE(pte) \
-     (extract64(pte, 61, 2))
- 
-+#define is_access_fault(af, cfg) \
-+    (!cfg->affd && !af)
-+
- /*
-  * TODO: At the moment all transactions are considered as privileged (EL1)
-  * as IOMMU translation callback does not pass user/priv attributes.
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index d1885ae..0ccad1d 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -587,6 +587,7 @@ static inline int pa_range(STE *ste)
- #define CD_EPD(x, sel)   extract32((x)->word[0], (16 * (sel)) + 14, 1)
- #define CD_ENDI(x)       extract32((x)->word[0], 15, 1)
- #define CD_IPS(x)        extract32((x)->word[1], 0 , 3)
-+#define CD_AFFD(x)       extract32((x)->word[1], 3 , 1)
- #define CD_TBI(x)        extract32((x)->word[1], 6 , 2)
- #define CD_HD(x)         extract32((x)->word[1], 10 , 1)
- #define CD_HA(x)         extract32((x)->word[1], 11 , 1)
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 01b60be..df5a194 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -483,6 +483,7 @@ static int decode_cd(SMMUTransCfg *cfg, CD *cd, SMMUEventInfo *event)
-     cfg->oas = MIN(oas2bits(SMMU_IDR5_OAS), cfg->oas);
-     cfg->tbi = CD_TBI(cd);
-     cfg->asid = CD_ASID(cd);
-+    cfg->affd = CD_AFFD(cd);
- 
-     trace_smmuv3_decode_cd(cfg->oas);
- 
-diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-index 706be3c..b0e82ad 100644
---- a/include/hw/arm/smmu-common.h
-+++ b/include/hw/arm/smmu-common.h
-@@ -71,6 +71,7 @@ typedef struct SMMUTransCfg {
-     bool disabled;             /* smmu is disabled */
-     bool bypassed;             /* translation is bypassed */
-     bool aborted;              /* translation is aborted */
-+    bool affd;                 /* Access Flag Fault Disabled */
-     uint64_t ttb;              /* TT base address */
-     uint8_t oas;               /* output address width */
-     uint8_t tbi;               /* Top Byte Ignore */
--- 
-2.7.4
+Best,
+Howard
 
+--00000000000038fe4105c863dc62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 29, 2021 at 12:07 PM BALA=
+TON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@eik.bme.hu</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hell=
+o,<br>
+<br>
+On Thu, 29 Jul 2021, Howard Spoelstra wrote:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; Qemu-system-ppc built from current master can no longer run Fedora 12 =
+ppc<br>
+&gt; as guest. (This the only ppc distro I tested.) Host is Fedora 34. Plea=
+se<br>
+&gt; see screen shot attached.<br>
+&gt; Booting from both an installation DVD and from an installed system fai=
+l.<br>
+&gt;<br>
+&gt; To reproduce:<br>
+&gt; compile qemu-system-ppc from current master and run:<br>
+&gt;<br>
+&gt; ./qemu-system-ppc \<br>
+&gt; -M mac99,via=3Dpmu \<br>
+&gt; -m 1024 \<br>
+&gt; -L pc-bios \<br>
+&gt; -boot d \<br>
+&gt; -cdrom Fedora-12-ppc-DVD.iso \<br>
+&gt; -g 1024x768x8<br>
+&gt;<br>
+&gt; I tracked the issue down to this commit:<br>
+&gt;<br>
+&gt; 8f0a4b6a9b40e18116a2bb6bbcc00feb8119c792 is the first bad commit<br>
+&gt; commit 8f0a4b6a9b40e18116a2bb6bbcc00feb8119c792<br>
+<br>
+There&#39;s a fix for a similar problem I&#39;ve seen with AROS and pegasos=
+2 <br>
+firmware 1.2 that&#39;s in today&#39;s pull request:<br>
+<br>
+<a href=3D"https://lists.nongnu.org/archive/html/qemu-ppc/2021-07/msg00281.=
+html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/archive=
+/html/qemu-ppc/2021-07/msg00281.html</a><br>
+<br>
+That should likely fixes this. Can you try with that (either once it&#39;s =
+<br>
+merged or from David&#39;s for-6.1 branch).<br>
+<br>
+Regards,<br>
+BALATON Zoltan<br></blockquote><div><br></div><div><div>Thanks, this issue =
+is indeed fixed by <br></div><div><a href=3D"https://github.com/qemu/qemu/c=
+ommit/2d1154bd95a8bfea30cc59de8e080e5a016a9bee">https://github.com/qemu/qem=
+u/commit/2d1154bd95a8bfea30cc59de8e080e5a016a9bee</a></div><div><br></div><=
+div>Best,</div><div>Howard</div></div><div><br></div></div></div>
+
+--00000000000038fe4105c863dc62--
 
