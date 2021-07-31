@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0613DC635
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 16:03:47 +0200 (CEST)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46E23DC639
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 16:07:14 +0200 (CEST)
+Received: from localhost ([::1]:38328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9pac-0002MS-LP
-	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 10:03:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
+	id 1m9pdx-00066A-Ue
+	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 10:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1m9pWD-0006tq-Pw
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 09:59:13 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:34144
+ id 1m9pYO-0000q5-O6
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 10:01:28 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:17350
  helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1m9pWB-00014z-4v
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 09:59:13 -0400
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AkbAv2q0AlvgckH8gpeAY4gqjBI4kLtp133Aq?=
- =?us-ascii?q?2lEZdPU1SL39qynKppkmPHDP5gr5J0tLpTntAsi9qBDnhPtICOsqTNSftWDd0Q?=
- =?us-ascii?q?PGEGgI1/qB/9SPIU3D398Y/aJhXow7M9foEGV95PyQ3CCIV/om3/mLmZrFudvj?=
-X-IronPort-AV: E=Sophos;i="5.84,284,1620662400"; d="scan'208";a="112154386"
+ (envelope-from <lizhijian@fujitsu.com>) id 1m9pYM-0002Bu-T2
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 10:01:28 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AV+l7CKkYUOUvbNoBsD0kKO1BrKrpDfIQ3DAb?=
+ =?us-ascii?q?v31ZSRFFG/Fw9vre+MjzsCWYtN9/Yh8dcK+7UpVoLUm8yXcX2/h1AV7BZniEhI?=
+ =?us-ascii?q?LAFugLgrcKqAeQeREWmNQ86Y5QN4B6CPDVSWNxlNvG5mCDeOoI8Z2q97+JiI7l?=
+ =?us-ascii?q?o0tQcQ=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.84,284,1620662400"; d="scan'208";a="112154452"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 31 Jul 2021 21:59:08 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id 685DC4D0D480;
- Sat, 31 Jul 2021 21:59:05 +0800 (CST)
+ by heian.cn.fujitsu.com with ESMTP; 31 Jul 2021 22:01:22 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+ by cn.fujitsu.com (Postfix) with ESMTP id 8957A4D0D480;
+ Sat, 31 Jul 2021 22:01:19 +0800 (CST)
 Received: from G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Sat, 31 Jul 2021 21:59:00 +0800
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.23; Sat, 31 Jul 2021 22:01:18 +0800
 Received: from localhost.localdomain (10.167.225.141) by
  G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.23 via Frontend Transport; Sat, 31 Jul 2021 21:58:59 +0800
+ id 15.0.1497.23 via Frontend Transport; Sat, 31 Jul 2021 22:01:18 +0800
 From: Li Zhijian <lizhijian@cn.fujitsu.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <qemu-devel@nongnu.org>
-Subject: [PATCH 2/2] migration/rdma: advise prefetch write for ODP region
-Date: Sat, 31 Jul 2021 22:03:32 +0800
-Message-ID: <20210731140332.8701-3-lizhijian@cn.fujitsu.com>
+Subject: [PATCH v2 1/2] migration: allow multifd for socket protocol only
+Date: Sat, 31 Jul 2021 22:05:51 +0800
+Message-ID: <20210731140552.8818-1-lizhijian@cn.fujitsu.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210731140332.8701-1-lizhijian@cn.fujitsu.com>
-References: <20210731140332.8701-1-lizhijian@cn.fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-yoursite-MailScanner-ID: 685DC4D0D480.AF421
+X-yoursite-MailScanner-ID: 8957A4D0D480.AD505
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: lizhijian@fujitsu.com
 Received-SPF: neutral client-ip=183.91.158.132;
@@ -70,98 +69,131 @@ Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The responder mr registering with ODP will sent RNR NAK back to
-the requester in the face of the page fault.
----------
-ibv_poll_cq wc.status=13 RNR retry counter exceeded!
-ibv_poll_cq wrid=WRITE RDMA!
----------
-ibv_advise_mr(3) helps to make pages present before the actual IO is
-conducted so that the responder does page fault as little as possible.
+multifd with unsupported protocol will cause a segment fault.
+(gdb) bt
+ #0  0x0000563b4a93faf8 in socket_connect (addr=0x0, errp=0x7f7f02675410) at ../util/qemu-sockets.c:1190
+ #1  0x0000563b4a797a03 in qio_channel_socket_connect_sync (ioc=0x563b4d16e8c0, addr=0x0, errp=0x7f7f02675410) at ../io/channel-socket.c:145
+ #2  0x0000563b4a797abf in qio_channel_socket_connect_worker (task=0x563b4cd86c30, opaque=0x0) at ../io/channel-socket.c:168
+ #3  0x0000563b4a792631 in qio_task_thread_worker (opaque=0x563b4cd86c30) at ../io/task.c:124
+ #4  0x0000563b4a91da69 in qemu_thread_start (args=0x563b4c44bb80) at ../util/qemu-thread-posix.c:541
+ #5  0x00007f7fe9b5b3f9 in ?? ()
+ #6  0x0000000000000000 in ?? ()
+
+It's enough to check migrate_multifd_is_allowed() in multifd cleanup() and
+multifd setup() though there are so many other places using migrate_use_multifd().
 
 Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 ---
- migration/rdma.c       | 40 ++++++++++++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 2 files changed, 41 insertions(+)
+ migration/migration.c |  4 ++++
+ migration/multifd.c   | 24 ++++++++++++++++++++++--
+ migration/multifd.h   |  2 ++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 8784b5f22a6..a2ad00d665f 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1117,6 +1117,30 @@ static int qemu_rdma_alloc_qp(RDMAContext *rdma)
-     return 0;
- }
+diff --git a/migration/migration.c b/migration/migration.c
+index 2d306582ebf..212314541f1 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -456,10 +456,12 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
  
-+/*
-+ * ibv_advise_mr to avoid RNR NAK error as far as possible.
-+ * The responder mr registering with ODP will sent RNR NAK back to
-+ * the requester in the face of the page fault.
-+ */
-+static void qemu_rdma_advise_prefetch_write_mr(struct ibv_pd *pd, uint64_t addr,
-+                                               uint32_t len,  uint32_t lkey,
-+                                               const char *name, bool wr)
-+{
-+    int ret;
-+    int advice = wr ? IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE :
-+                 IBV_ADVISE_MR_ADVICE_PREFETCH;
-+    struct ibv_sge sg_list = {.lkey = lkey, .addr = addr, .length = len};
-+
-+    ret = ibv_advise_mr(pd, advice,
-+                        IB_UVERBS_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
-+    /* ignore the error */
-+    if (ret) {
-+        trace_qemu_rdma_advise_mr(name, len, addr, strerror(errno));
-+    } else {
-+        trace_qemu_rdma_advise_mr(name, len, addr, "successed");
-+    }
-+}
-+
- static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
++    migrate_protocol_allow_multifd(false); /* reset it anyway */
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
++        migrate_protocol_allow_multifd(true);
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+@@ -2289,9 +2291,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         }
+     }
+ 
++    migrate_protocol_allow_multifd(false);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
++        migrate_protocol_allow_multifd(true);
+         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+diff --git a/migration/multifd.c b/migration/multifd.c
+index ab41590e714..4a4d16d3888 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -531,7 +531,7 @@ void multifd_save_cleanup(void)
  {
      int i;
-@@ -1140,6 +1164,17 @@ on_demand:
-             perror("Failed to register local dest ram block!\n");
-             break;
-         }
-+
-+        if (access & IBV_ACCESS_ON_DEMAND) {
-+            qemu_rdma_advise_prefetch_write_mr(rdma->pd,
-+                                               (uintptr_t)
-+                                               local->block[i].local_host_addr,
-+                                               local->block[i].length,
-+                                               local->block[i].mr->lkey,
-+                                               local->block[i].block_name,
-+                                               true);
-+        }
-+
-         rdma->total_registrations++;
-     }
  
-@@ -1244,6 +1279,11 @@ on_demand:
-                             rdma->total_registrations);
-             return -1;
-         }
-+        if (access & IBV_ACCESS_ON_DEMAND) {
-+            qemu_rdma_advise_prefetch_write_mr(rdma->pd, (uintptr_t)chunk_start,
-+                                               len, block->pmr[chunk]->lkey,
-+                                               block->block_name, rkey);
-+        }
-         rdma->total_registrations++;
+-    if (!migrate_use_multifd()) {
++    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
+         return;
      }
+     multifd_send_terminate_threads(NULL);
+@@ -864,6 +864,17 @@ cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
+ }
  
-diff --git a/migration/trace-events b/migration/trace-events
-index 5f6aa580def..901c1d54c12 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -213,6 +213,7 @@ qemu_rdma_poll_other(const char *compstr, int64_t comp, int left) "other complet
- qemu_rdma_post_send_control(const char *desc) "CONTROL: sending %s.."
- qemu_rdma_register_and_get_keys(uint64_t len, void *start) "Registering %" PRIu64 " bytes @ %p"
- qemu_rdma_register_odp_mr(const char *name) "Try to register On-Demand Paging memory region: %s"
-+qemu_rdma_advise_mr(const char *name, uint32_t len, uint64_t addr, const char *res) "Try to advise block %s prefetch write at %" PRIu32 "@0x%" PRIx64 ": %s"
- qemu_rdma_registration_handle_compress(int64_t length, int index, int64_t offset) "Zapping zero chunk: %" PRId64 " bytes, index %d, offset %" PRId64
- qemu_rdma_registration_handle_finished(void) ""
- qemu_rdma_registration_handle_ram_blocks(void) ""
++static bool migrate_allow_multifd;
++void migrate_protocol_allow_multifd(bool allow)
++{
++    migrate_allow_multifd = allow;
++}
++
++bool migrate_multifd_is_allowed(void)
++{
++    return migrate_allow_multifd;
++}
++
+ int multifd_save_setup(Error **errp)
+ {
+     int thread_count;
+@@ -874,6 +885,11 @@ int multifd_save_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
++    if (!migrate_multifd_is_allowed()) {
++        error_setg(errp, "multifd is not supported by current protocol");
++        return -1;
++    }
++
+     s = migrate_get_current();
+     thread_count = migrate_multifd_channels();
+     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+@@ -967,7 +983,7 @@ int multifd_load_cleanup(Error **errp)
+ {
+     int i;
+ 
+-    if (!migrate_use_multifd()) {
++    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
+         return 0;
+     }
+     multifd_recv_terminate_threads(NULL);
+@@ -1123,6 +1139,10 @@ int multifd_load_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
++    if (!migrate_multifd_is_allowed()) {
++        error_setg(errp, "multifd is not supported by current protocol");
++        return -1;
++    }
+     thread_count = migrate_multifd_channels();
+     multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
+     multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 8d6751f5ed8..f62a1becd0b 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -13,6 +13,8 @@
+ #ifndef QEMU_MIGRATION_MULTIFD_H
+ #define QEMU_MIGRATION_MULTIFD_H
+ 
++bool migrate_multifd_is_allowed(void);
++void migrate_protocol_allow_multifd(bool allow);
+ int multifd_save_setup(Error **errp);
+ void multifd_save_cleanup(void);
+ int multifd_load_setup(Error **errp);
 -- 
 2.31.1
 
