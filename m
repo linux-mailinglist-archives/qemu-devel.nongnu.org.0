@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06473DC3FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 08:31:43 +0200 (CEST)
-Received: from localhost ([::1]:34654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537193DC400
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 08:33:19 +0200 (CEST)
+Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9iX7-00044H-4o
-	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 02:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49650)
+	id 1m9iYg-0006S2-C1
+	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 02:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTP-0005BZ-Qs
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:51 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34347)
+ id 1m9iTO-00056p-7P
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:50 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTM-0001Ht-0E
- for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:51 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id v20so2399023eda.1
- for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 23:27:47 -0700 (PDT)
+ id 1m9iTM-0001I7-Py
+ for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:49 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id o5so20910373ejy.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 23:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KB5cV0NikdfkiBGJyhuIIvWdyJWHTJa73ThUZLg8tio=;
- b=Y7I+0QnVPkmknxFVdPIFcPf93SllDI7mdllk22cI7Ifd7YI8Xohkb1eOxXh9Y5XaOt
- 1y8jhjFviV2e2qT/2+2w7y2OnohzZ8dNSVAl/oRw8AMiobh+jT33/YbcaMG9pkD77dQX
- oiEbdgJPwj8C3Rhc4czItqhcOMDKxxCRMbvOOOvdTlw6Fd2KcEW/kOwviaCQd7PjhZFP
- NM/DdZkY4ylomOpxDSWOLqhk7uluK6NT4DMUD9uFq/e7feNIx84FWF5Sfu4fkFC2Ktbs
- bkTBimHxzuYf/RcKAQBaKvDz1xuGMzvuVi4QkD5r/O0HGdCe4+ZcLCADjUE7Tzm8hkrq
- EMsA==
+ bh=302wxsTGGjRjbdAcJ8/o1znsZMnOFR8XXZjoCZCtdac=;
+ b=HJQrxrbto/SGg587KewyUS8n7vzc1iGhHtJD3ubokGObUUWiCVEcesYAD9rsagXFyw
+ vrTVp0mLU9d6ec0xjg+8i0N9rYJpuCLDUCb5lhdhLPK3NBk5gAKtEt/q13/lgS9LPRVP
+ 5FZMu282Zn132Z7rIXXxA8uvs+6yn9Irg7t7+AkcIN5mN6urozXPKsuQ2AhvUB2sjTce
+ A0nA+cWch41BFiwfAw5M86yNJ74sDSInD9LT778e2ILosfbAD2e/ra3S1CZXHSjiD2hN
+ 9yiJFyo1w23/MFiO3n+0SutYuD+my/KZD7mR2BzliSweoo/2u/T5rS1W83RklCd7wxBb
+ B6WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KB5cV0NikdfkiBGJyhuIIvWdyJWHTJa73ThUZLg8tio=;
- b=Svnkj136cAKOZlykuB9ErFg4Dn/wCySQ9QbgDzzCoYf1F4o1jiAT2oiv+sQ2O7If3u
- aEGfErL9EINxgq+apCmmETncopaMaEv4qEBuxgEDMp87WPzg7L2p0neFsfyQLzdc7a7G
- 0eYs9WXkuoaMawkSgmlNNo5BySza0ZB7qWQv2kDIlrJiTOebhkebjSt5Wg7DGYJx61FN
- ZaAeRWvikIzN8p3qON/cIW60RlAaoG09CcgTq19Ku0XYrhMSO2JGNCEW+WH/trLv5hiG
- xRSftJASY5G6kT+IqxTBN7vi8LVr76zSqZyzvsdbu4OpGIEqEAaRUNQYnU8DKoW+nBYh
- lgTg==
-X-Gm-Message-State: AOAM530KM/yQT6yXP98mMHhF7PW57kCjSqojT2yYOlP6LYoYi0RERHCk
- 13sVN8B8MRRZ27e7PLbnDIkoPSFfxMgWtw==
-X-Google-Smtp-Source: ABdhPJyf44RC0IAsj1PZNY3s4b0lGtAiJ9IMczpEhfwXOTzxQLtolzXYo6GXvCGT3z1Tnpx8ZJvpew==
-X-Received: by 2002:a50:f1d8:: with SMTP id y24mr7520047edl.275.1627712866717; 
- Fri, 30 Jul 2021 23:27:46 -0700 (PDT)
+ bh=302wxsTGGjRjbdAcJ8/o1znsZMnOFR8XXZjoCZCtdac=;
+ b=s1FKZKyhH3InEaPVVdfEZMPrmyYYj4VRsU8jPZMSRuCIYgRCUM8CSdR+v+i+NNq6u8
+ +3rRHlh9njL+F7Ai7ObCw9twMbPOAbqokzz5Y8qh09GOpyKVVjjKc4rTPq5WZaPlTMxm
+ rqe8KRuACmb3lBAzEbHG7csX8HeQ1abdQ6TeZU8rE9LC65ZLZwg4sTBFRqsvpRR8R9lS
+ LLIwGeKzSBDx+r4V3UhbZrp6ISBuHhXRKWp/TsBDaA1i9cW+1WcXL2JongxwrzzAdSTu
+ OlXYtm9KJ4PfkUSJo1FjiWW5YtPjWPtIedmcpsc5VavYNeXbHw6Ccn5nJxBXR/YoAUUN
+ 3rSg==
+X-Gm-Message-State: AOAM531pth9xTR0F6XbHNOUX+JUp/vrcxe3NH0s+a1GKtt9qaO/9TuSO
+ LUUgjFVzP+u+WvzuHMJSxaS9aB/2U5LMZw==
+X-Google-Smtp-Source: ABdhPJzPhJgUHeoBLB46/FHOuzIrTACM/WPv82LD2kQd0arleBpHHBdvh0p0MhiOjrLOkbBB7jMFew==
+X-Received: by 2002:a17:906:1355:: with SMTP id
+ x21mr6345483ejb.490.1627712867472; 
+ Fri, 30 Jul 2021 23:27:47 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
  b25sm1766116edv.9.2021.07.30.23.27.46 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 23:27:46 -0700 (PDT)
+ Fri, 30 Jul 2021 23:27:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] coverity-model: constrain g_malloc/g_malloc0/g_realloc as
- never returning NULL
-Date: Sat, 31 Jul 2021 08:27:40 +0200
-Message-Id: <20210731062741.301102-6-pbonzini@redhat.com>
+Subject: [PATCH 6/6] coverity-model: write models fully for non-array
+ allocation functions
+Date: Sat, 31 Jul 2021 08:27:41 +0200
+Message-Id: <20210731062741.301102-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210731062741.301102-1-pbonzini@redhat.com>
 References: <20210731062741.301102-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,53 +89,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_malloc/g_malloc0/g_realloc only return NULL if the size is 0; we do not need
-to cover that in the model, and so far have expected __coverity_alloc__
-to model a non-NULL return value.  But that apparently does not work
-anymore, so add some extra conditionals that invoke __coverity_panic__
-for NULL pointers.
+Coverity seems to have issues figuring out the properties of g_malloc0
+and other non *_n functions.  While this was "fixed" by removing the
+custom second argument to __coverity_mark_as_afm_allocated__, inline
+the code from the array-based allocation functions to avoid future
+issues.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/model.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ scripts/coverity-scan/model.c | 57 +++++++++++++++++++++++++++++++----
+ 1 file changed, 51 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-index 2d384bdd79..028f13e9e3 100644
+index 028f13e9e3..9d4fba53d9 100644
 --- a/scripts/coverity-scan/model.c
 +++ b/scripts/coverity-scan/model.c
-@@ -183,6 +183,9 @@ void *g_malloc_n(size_t nmemb, size_t size)
-     __coverity_negative_sink__(nmemb);
-     __coverity_negative_sink__(size);
-     ptr = __coverity_alloc__(nmemb * size);
+@@ -269,32 +269,77 @@ void *g_try_realloc_n(void *ptr, size_t nmemb, size_t size)
+ 
+ void *g_malloc(size_t size)
+ {
+-    return g_malloc_n(1, size);
++    void *ptr;
++
++    __coverity_negative_sink__(size);
++    ptr = __coverity_alloc__(size);
 +    if (!ptr) {
 +        __coverity_panic__();
 +    }
-     __coverity_mark_as_uninitialized_buffer__(ptr);
-     __coverity_mark_as_afm_allocated__(ptr, AFM_free);
-     return ptr;
-@@ -195,6 +198,9 @@ void *g_malloc0_n(size_t nmemb, size_t size)
-     __coverity_negative_sink__(nmemb);
-     __coverity_negative_sink__(size);
-     ptr = __coverity_alloc__(nmemb * size);
++    __coverity_mark_as_uninitialized_buffer__(ptr);
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
++    return ptr;
+ }
+ 
+ void *g_malloc0(size_t size)
+ {
+-    return g_malloc0_n(1, size);
++    void *ptr;
++
++    __coverity_negative_sink__(size);
++    ptr = __coverity_alloc__(size);
 +    if (!ptr) {
 +        __coverity_panic__();
 +    }
-     __coverity_writeall0__(ptr);
-     __coverity_mark_as_afm_allocated__(ptr, AFM_free);
-     return ptr;
-@@ -206,6 +212,9 @@ void *g_realloc_n(void *ptr, size_t nmemb, size_t size)
-     __coverity_negative_sink__(size);
-     __coverity_escape__(ptr);
-     ptr = __coverity_alloc__(nmemb * size);
++    __coverity_writeall0__(ptr);
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
++    return ptr;
+ }
+ 
+ void *g_realloc(void *ptr, size_t size)
+ {
+-    return g_realloc_n(ptr, 1, size);
++    __coverity_negative_sink__(size);
++    __coverity_escape__(ptr);
++    ptr = __coverity_alloc__(size);
 +    if (!ptr) {
 +        __coverity_panic__();
 +    }
-     /*
-      * Memory beyond the old size isn't actually initialized.  Can't
-      * model that.  See Coverity's realloc() model
++    /*
++     * Memory beyond the old size isn't actually initialized.  Can't
++     * model that.  See Coverity's realloc() model
++     */
++    __coverity_writeall__(ptr);
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
++    return ptr;
+ }
+ 
+ void *g_try_malloc(size_t size)
+ {
+-    return g_try_malloc_n(1, size);
++    int nomem;
++
++    if (nomem) {
++        return NULL;
++    }
++    return g_malloc(size);
+ }
+ 
+ void *g_try_malloc0(size_t size)
+ {
+-    return g_try_malloc0_n(1, size);
++    int nomem;
++
++    if (nomem) {
++        return NULL;
++    }
++    return g_malloc0(size);
+ }
+ 
+ void *g_try_realloc(void *ptr, size_t size)
+ {
+-    return g_try_realloc_n(ptr, 1, size);
++    int nomem;
++
++    if (nomem) {
++        return NULL;
++    }
++    return g_realloc(ptr, size);
+ }
+ 
+ /* Other glib functions */
 -- 
 2.31.1
-
 
 
