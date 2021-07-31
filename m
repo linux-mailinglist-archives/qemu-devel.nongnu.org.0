@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53E13DC3F0
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA723DC3F1
 	for <lists+qemu-devel@lfdr.de>; Sat, 31 Jul 2021 08:29:17 +0200 (CEST)
-Received: from localhost ([::1]:55590 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m9iUm-0007bz-CX
+	id 1m9iUm-0007aA-CW
 	for lists+qemu-devel@lfdr.de; Sat, 31 Jul 2021 02:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49592)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTL-00051E-7O
+ id 1m9iTL-00051F-9h
  for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:47 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:37764)
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m9iTJ-0001EQ-Es
+ id 1m9iTJ-0001FD-Eo
  for qemu-devel@nongnu.org; Sat, 31 Jul 2021 02:27:46 -0400
-Received: by mail-ej1-x629.google.com with SMTP id h9so5423978ejs.4
+Received: by mail-ed1-x530.google.com with SMTP id j2so16371851edp.11
  for <qemu-devel@nongnu.org>; Fri, 30 Jul 2021 23:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=URmjWnjOpc0suxIXLv6qxvUnTLJgACtg+S+OcG/C9EA=;
- b=t3qJaj9LP3rHijqwQ9HRpAbZb1VnScasQ57ENqGqBMGONrtdEWR5sF1P+zs/m9poxQ
- 2HevGaJVzoks7uZo4a2kiZj3oO1DJITgQQ0dlDRCgiehv6pV9JXbAakMqhRbg1pY3aLQ
- jsd1hcAI+Men69cTPamXB/PR/TGqvd3RdQ3jL1ffeGKQEOSHSQHtxLgtzMIT7LGDDNLf
- Sfi9kMXiKOOjYm+FbjQCaFOhcEhdDlBMRFOqiidOTHq9u2bC1aj83j/PhGlMbDkfI3WB
- /b1lAY3NHBR0kBiXk1YSjaDowLcdw0mUUCqn7Td4OHktRxztjcvHxEHWzTzCQh9+I/0g
- wn0w==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
+ b=uJfDd8Y/RphhArgS+rYjdYl88K8WXDeMo23L79/pD4cxY+PQIwOUb/UvbLDUanqK2L
+ I0PdoK11b0oDcbGMFJ66DmWWwK9peHRqkiG38LhTjPxgMIqQ5Pxyhi2bGadYWX9mpbs3
+ x+JqhARgL6MNZpeLp8ugxscgVlI+5aeBSIRvU6AjTjJZv7bUSkFPyKPQrlH8fsZ6YPZq
+ zGRZ7D54lbXI1g66oJGZpFY38MgWF+Wx9TVaTJWOF7/Q5yVXkNhdkujvAzLv8tvrxf+Q
+ rlYQBqdCKcDK7BBTB/78qn6EZA4D2NqU8Bl8p4B6Bo3WSD3Mkh/qzTX6XgG6OrBbM/x1
+ Cgeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=URmjWnjOpc0suxIXLv6qxvUnTLJgACtg+S+OcG/C9EA=;
- b=nfl6VQZmePIOPtzLpL4pWDdOh0PjlauIzjXuORWUU3vGvia8SCLLUMmnuA1GoA6np/
- Cp9gehg2srZg1aY2dAcWeR44ZW3cUebUb8HSVJ1DSbl+zby3J/x+aI/vy4fsWplp3jD4
- 8SAo7ccwvBaO6M401Dh0zC2PI2waqGljqPFn4YZSfcPHv7CdJLWqykWo0WA39bk6mhGm
- dxKcrAXXL6WbM6OnpMKr2ai8avZfK7uUpVFwcNtbLaiJnN4yPOI9LAYafu9jprD6I58F
- 1FDuuFdWo0mlVzW+thggsGOiRF1bSBrUe4bDldxdB0d98ZOzR1SAzoeqzg6x3Cz5wANX
- Duyg==
-X-Gm-Message-State: AOAM532iaYUmKeNTHxzEjFzu13E6owlGXVFVpwt8b1RrDudf3pBEzLIZ
- mgNqU/qAUXqQZZtLb0wHQt7iCvgyrJ+j7A==
-X-Google-Smtp-Source: ABdhPJxyXvB97YpAIflItdCPKy12wULivB+Nawnc7iPxBPmfE98uCIXYFNrl5+I2AHjYbxbDQNQIiQ==
-X-Received: by 2002:a17:906:2bd4:: with SMTP id
- n20mr6289533ejg.390.1627712862882; 
- Fri, 30 Jul 2021 23:27:42 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
+ b=loj4rq1iqceuYNJsTe73PwL9CLfvgern60//GyzmH3zUkTX/sL1PPswsUuLwAJZP8P
+ yKrC+KK2j5t4DN3tTzSpOdn5HKYFVfB82CSxHDFpv8OkeqbQc4d5W8T37jGYZAZXo6Ci
+ IW4aoFpZoo36cZlz81bP+Jgl/Llxq8KSC13dzrFLqBcywqtAEqz6Na5lA3pM6OzEkno2
+ X5r6oEbBF8WvOasiTg0QKl++cO9SDqxvUSQm+e/kNL2dGM1f9Y1JeTsgcv5HYY6kj1M+
+ TxX6zKS6kAsbgWFQR6kTGvBnY/BSm/2sBOoEN2d66Udw649d3MGtt8uOTMH0YZ7iVOrz
+ Dq9A==
+X-Gm-Message-State: AOAM531qOaITzeb8YzG7A3WGJjbLkoDQx1DjB7y5i4orCrB4Qa9jGtTm
+ XynUlL9m2bsDk6HCGmhxwOjL7SPbN2bnNg==
+X-Google-Smtp-Source: ABdhPJziW7afJIUccC7cLZYSWLezLhpzqyNIzzTmSSOuuv6FRrAj4HwBXOR89qe9moX7Go6fpBKJ1Q==
+X-Received: by 2002:a05:6402:6cb:: with SMTP id
+ n11mr7637562edy.112.1627712863639; 
+ Fri, 30 Jul 2021 23:27:43 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- b25sm1766116edv.9.2021.07.30.23.27.41 for <qemu-devel@nongnu.org>
+ b25sm1766116edv.9.2021.07.30.23.27.43 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 23:27:42 -0700 (PDT)
+ Fri, 30 Jul 2021 23:27:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] Updates for Coverity modeling file
-Date: Sat, 31 Jul 2021 08:27:35 +0200
-Message-Id: <20210731062741.301102-1-pbonzini@redhat.com>
+Subject: [PATCH 1/6] coverity-model: update address_space_read/write models
+Date: Sat, 31 Jul 2021 08:27:36 +0200
+Message-Id: <20210731062741.301102-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210731062741.301102-1-pbonzini@redhat.com>
+References: <20210731062741.301102-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,63 +88,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently, an update to the Coverity tools caused it to introduce hundreds
-of new complaints about using g_free() to free memory areas allocated
-by GLib functions.  The solution adopted here (patch 2) is to just
-make g_free a synonym of free, removing the custom g_free marker from
-__coverity_mark_as_afm_allocated__ and __coverity_mark_as_afm_freed__.
-This unfortunately goes against the GLib documentation, which suggests
-that g_malloc() should be matched with g_free() and plain malloc() with
-free(); since GLib 2.46 however g_malloc() is hardcoded to always use the
-system malloc implementation, and g_free is just "free" plus a tracepoint.
-Therefore, this should not cause any problem in practice.
+Use void * for consistency with the actual function; provide a model
+for MemoryRegionCache functions and for address_space_rw.  These
+let Coverity understand the bounds of the data that various functions
+read and write even at very high levels of inlining (e.g. pci_dma_read).
 
-There are still problems, in that Coverity believes that the result of
-g_malloc/g_malloc0 can return NULL, which is not true.  What caused the
-issue is anybody's guess; possibly a new version of Coverity changed
-the semantics of __coverity_alloc__, but I also had to inline the model
-of g_malloc_n in g_malloc (and likewise for the other five functions)
-though it seems like Coverity.  This is implemented in patches 5-6.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/coverity-scan/model.c | 48 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 3 deletions(-)
 
-On top of these changes, this includes a few more changes to the model
-file:
-
-- patch 1 include a few more simplified memory read/write models, so
-  that Coverity has a model for all functions in the pci_dma_* and
-  dma_memory_* family.  This fixes a few incorrect out of bounds
-  false positive, where Coverity does not realize that only up to
-  LEN bytes are read/written by those functions
-
-- patch 3 removes the model for various allocation functions, which
-  is unnecessary now that we need not (or cannot) detect their
-  being paired with g_free
-
-- patch 4 is a small cleanup that makes the inlined allocation
-  functions smaller.
-
-This series is a sort of FYI; since the only way to debug the model file
-is to upload it to scan.coverity.com, these changes are all already live.
-The last will be as of the next build, but was effective last Thursday
-and worked (I tried disabling it on Friday in something like a bisection,
-but it failed and I have now reverted to Thursday's model).
-
-Thanks,
-
-Paolo
-
-Paolo Bonzini (6):
-  coverity-model: update address_space_read/write models
-  coverity-model: make g_free a synonym of free
-  coverity-model: remove model for more allocation functions
-  coverity-model: clean up the models for array allocation functions
-  coverity-model: constrain g_malloc/g_malloc0/g_realloc as never
-    returning NULL
-  coverity-model: write models fully for non-array allocation functions
-
- scripts/coverity-scan/model.c | 235 ++++++++++++++++------------------
- 1 file changed, 110 insertions(+), 125 deletions(-)
-
+diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
+index 2c0346ff25..e1bdf0ad84 100644
+--- a/scripts/coverity-scan/model.c
++++ b/scripts/coverity-scan/model.c
+@@ -45,9 +45,10 @@ typedef struct va_list_str *va_list;
+ /* exec.c */
+ 
+ typedef struct AddressSpace AddressSpace;
++typedef struct MemoryRegionCache MemoryRegionCache;
+ typedef uint64_t hwaddr;
+ typedef uint32_t MemTxResult;
+-typedef uint64_t MemTxAttrs;
++typedef struct MemTxAttrs {} MemTxAttrs;
+ 
+ static void __bufwrite(uint8_t *buf, ssize_t len)
+ {
+@@ -67,9 +68,40 @@ static void __bufread(uint8_t *buf, ssize_t len)
+     int last = buf[len-1];
+ }
+ 
++MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
++                                      MemTxAttrs attrs,
++                                      void *buf, int len)
++{
++    MemTxResult result;
++    // TODO: investigate impact of treating reads as producing
++    // tainted data, with __coverity_tainted_data_argument__(buf).
++    __bufwrite(buf, len);
++    return result;
++}
++
++MemTxResult address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
++                                MemTxAttrs attrs,
++                                const void *buf, int len)
++{
++    MemTxResult result;
++    __bufread(buf, len);
++    return result;
++}
++
++MemTxResult address_space_rw_cached(MemoryRegionCache *cache, hwaddr addr,
++                                    MemTxAttrs attrs,
++                                    void *buf, int len, bool is_write)
++{
++    if (is_write) {
++        return address_space_write_cached(cache, addr, attrs, buf, len);
++    } else {
++        return address_space_read_cached(cache, addr, attrs, buf, len);
++    }
++}
++
+ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+                                MemTxAttrs attrs,
+-                               uint8_t *buf, int len)
++                               void *buf, int len)
+ {
+     MemTxResult result;
+     // TODO: investigate impact of treating reads as producing
+@@ -80,13 +112,23 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+ 
+ MemTxResult address_space_write(AddressSpace *as, hwaddr addr,
+                                 MemTxAttrs attrs,
+-                                const uint8_t *buf, int len)
++                                const void *buf, int len)
+ {
+     MemTxResult result;
+     __bufread(buf, len);
+     return result;
+ }
+ 
++MemTxResult address_space_rw(AddressSpace *as, hwaddr addr,
++                             MemTxAttrs attrs,
++                             void *buf, int len, bool is_write)
++{
++    if (is_write) {
++        return address_space_write(as, addr, attrs, buf, len);
++    } else {
++        return address_space_read(as, addr, attrs, buf, len);
++    }
++}
+ 
+ /* Tainting */
+ 
 -- 
 2.31.1
+
 
 
