@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6E73DCE3F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:03:28 +0200 (CEST)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CDC3DCE40
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:04:57 +0200 (CEST)
+Received: from localhost ([::1]:47104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mALQV-0001XH-Ky
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38514)
+	id 1mALRw-0003Si-9Q
+	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALN0-0003vZ-CT
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:50 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36465)
+ id 1mALN6-0004Ct-Qq
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:56 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALMy-0006vR-RS
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:50 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- o7-20020a05600c5107b0290257f956e02dso6254822wms.1
- for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:48 -0700 (PDT)
+ id 1mALN3-0006zQ-E9
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:56 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b7so19329445wri.8
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KZSsIN1jAPSfJjntr6AXDXihP2pfitlG1Z2Ag2JAHRo=;
- b=dqhLhTDrL/eq5BQBOJVw+PEpDpjc54NHc3BkEB78/ynHaOQcBV8gH8l04UZrzSssPX
- FYrP/CRn3BGvd4FtH/v7IgT3sVTa8poZmk66kqKCyl/CUCjg+0U80KGcl3SUVTxIxZ6i
- p1xMmsnxONriqfeVYxP9+OXClAnBSHaOhLqUwxBsOY7E3Lg0kRC31j/6JmZ/FYHYIsWe
- Ust1e1qA1J73FMoz6i4M2S3Lk0O41E5Rh6ysG+PIblFlEoHZiW8rY9CLLNc0mu28Zt6c
- aWGIUDt+MAVSsV5vKNOA3foRqWEVBku4+9+K1V8G5vfA5Lwl8dpg1W3QAneyAF1xzccm
- eR7w==
+ bh=KoQ+85bWw/nU6wuXZueiRA91LFc9fHglW4hLXVIzatU=;
+ b=mmtIgFGDgemFy/F8gsLXfOmooSQiaDXUglonQk3PHE7kOCnvOGA/I4JZlKvCuHjcC5
+ F5iKC9xzijtUhvkSS1GkkwWPFFZhkWOg3s0PUe+eJM3YceDeWmwhDOdGA2wnTunKz3zH
+ cDDoXbFRJFIW8rN/GB+ASzx4wSTUtBqVp8FRHnbtgBciyG9CMwkKndJakLMsmaoixdAB
+ o3QRoS791hU9OYIP2WRF104Kafy32z9ei3VTs2cYNQQ85wcfWkA86F4FYw3Sp6+lZoI/
+ A7Skohmu1GDXQP8ACxBF2urbD8NgH7F8wbr0bpisJjJkwEy1DE/q0uI5YukvbAlKqbpg
+ Tf3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KZSsIN1jAPSfJjntr6AXDXihP2pfitlG1Z2Ag2JAHRo=;
- b=eeZ6tt599hdYVLRNWsBauHQAm6Qd0fpF2GwOVoLFxypOdqcKiybZr862byBwxncLX5
- q8WSokmj9Ba12xCwIbTEJVFwe/c8uJuxM5lL42hkySME9E342TpaMGU/OzRv9MwUr8Mj
- GGHPv1OvUUtbmQ/wM3Nqh+iW+RC4UjRCmxhwd7BdV53Uy80zaK/hUMKKfynuQXen91JG
- YBXegxt3dqDHBHOBjU4StWwfseVkRk6OvJ62j39Y82KruZjF1m4kAwlNYswHTxx6ree6
- vrx56lxSSARBbNLNyX38jzl2/jnbFrsluQfY38sIpdOjTWdcpqcjJ4hD1S+3o8g7JZQK
- rvNw==
-X-Gm-Message-State: AOAM532ijhvADCsK+8P2iSPvv8kIm/TuPka6/JDZTuk5IHhm8gLDQ6qh
- PsoyCFztphzAD9ntWmCopj0PEpkO2y2SPQ==
-X-Google-Smtp-Source: ABdhPJxpaemegPvI7D18zeQ5OVz8GY4mjtBBohkvP1TerO6oblorVi32byPXGQwc9MEQZXzKqZqe6A==
-X-Received: by 2002:a05:600c:2906:: with SMTP id
- i6mr13869674wmd.7.1627862387086; 
- Sun, 01 Aug 2021 16:59:47 -0700 (PDT)
+ bh=KoQ+85bWw/nU6wuXZueiRA91LFc9fHglW4hLXVIzatU=;
+ b=EcUjKMMjpkZra+tjBi71JfdYaaDnY6SVprHzBjiGcP4yZdGBibq9/wnRByXuuPBiM8
+ fZFGiE3QELd5oTq6mMJZsVwz/fGU3BczjVYtjIgTr0lYpa52kjZQjtnAOxYNaRM86Z5s
+ YJ5OTTCZ5fbvaDaCW9tlwgpl0EP1506lSKckcdyEch3k/s9bncasYb+JtT9VRwlSqBse
+ p9gtK0XsjEC0Ga9xIVDSwZx4IL+viW6plXtHr1ctU9ykGeDdR3l9Kz78LVhN0R1rOo/B
+ MKpjhPF2GTpGE8+UtCyDW7ot3H9eFQ37M0jX5JWsTvzNmGQs3c9+G0mlIY9hzYp2uU3r
+ 3+Qw==
+X-Gm-Message-State: AOAM532fyx5Z8yDk+Rgz02VXV0bOS0EUn4FpjFAT2QrMl0atnxTI6l1s
+ 9aw8PdAyH62k0ZCH3FGNdcosnv5TcRgHzA==
+X-Google-Smtp-Source: ABdhPJwl+skDr4hdfHcwAgzi34rqNDzUsNJLPm/xXiM/bMJnqs+H9+TRRNXfgE9c27UOJ0GfAdCiog==
+X-Received: by 2002:adf:efc7:: with SMTP id i7mr14551388wrp.87.1627862391915; 
+ Sun, 01 Aug 2021 16:59:51 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- v15sm8964413wmj.11.2021.08.01.16.59.46
+ g5sm1577169wmh.31.2021.08.01.16.59.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 16:59:46 -0700 (PDT)
+ Sun, 01 Aug 2021 16:59:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 4/5] target/mips: Convert Vr54xx MUL* opcodes to
+Subject: [PATCH-for-6.2 5/5] target/mips: Convert Vr54xx MSA* opcodes to
  decodetree
-Date: Mon,  2 Aug 2021 01:59:25 +0200
-Message-Id: <20210801235926.3178085-5-f4bug@amsat.org>
+Date: Mon,  2 Aug 2021 01:59:26 +0200
+Message-Id: <20210801235926.3178085-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210801235926.3178085-1-f4bug@amsat.org>
 References: <20210801235926.3178085-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,115 +94,154 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Convert the following Integer Multiply-Accumulate opcodes:
 
- * MULHI        Multiply and move HI
- * MULHIU       Unsigned multiply and move HI
- * MULS         Multiply, negate, and move LO
- * MULSHI       Multiply, negate, and move HI
- * MULSHIU      Unsigned multiply, negate, and move HI
- * MULSU        Unsigned multiply, negate, and move LO
+ * MSAC         Multiply, negate, accumulate, and move LO
+ * MSACHI       Multiply, negate, accumulate, and move HI
+ * MSACHIU      Unsigned multiply, negate, accumulate, and move HI
+ * MSACU        Unsigned multiply, negate, accumulate, and move LO
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/vr54xx.decode      |  6 ++++++
- target/mips/tcg/translate.c        | 24 ------------------------
- target/mips/tcg/vr54xx_translate.c | 12 ++++++++++++
- 3 files changed, 18 insertions(+), 24 deletions(-)
+ target/mips/tcg/vr54xx.decode      |  4 +++
+ target/mips/tcg/translate.c        | 55 ++----------------------------
+ target/mips/tcg/vr54xx_translate.c |  8 +++++
+ 3 files changed, 14 insertions(+), 53 deletions(-)
 
 diff --git a/target/mips/tcg/vr54xx.decode b/target/mips/tcg/vr54xx.decode
-index 73778f101a5..79bb5175eab 100644
+index 79bb5175eab..4fc708d80ae 100644
 --- a/target/mips/tcg/vr54xx.decode
 +++ b/target/mips/tcg/vr54xx.decode
-@@ -11,7 +11,13 @@
- 
- @rs_rt_rd       ...... rs:5  rt:5  rd:5  ..... ......   &r
- 
-+MULS            000000 ..... ..... ..... 00011011000    @rs_rt_rd
-+MULSU           000000 ..... ..... ..... 00011011001    @rs_rt_rd
+@@ -15,9 +15,13 @@ MULS            000000 ..... ..... ..... 00011011000    @rs_rt_rd
+ MULSU           000000 ..... ..... ..... 00011011001    @rs_rt_rd
  MACC            000000 ..... ..... ..... 00101011000    @rs_rt_rd
  MACCU           000000 ..... ..... ..... 00101011001    @rs_rt_rd
-+MULHI           000000 ..... ..... ..... 01001011000    @rs_rt_rd
-+MULHIU          000000 ..... ..... ..... 01001011001    @rs_rt_rd
-+MULSHI          000000 ..... ..... ..... 01011011000    @rs_rt_rd
-+MULSHIU         000000 ..... ..... ..... 01011011001    @rs_rt_rd
++MSAC            000000 ..... ..... ..... 00111011000    @rs_rt_rd
++MSACU           000000 ..... ..... ..... 00111011001    @rs_rt_rd
+ MULHI           000000 ..... ..... ..... 01001011000    @rs_rt_rd
+ MULHIU          000000 ..... ..... ..... 01001011001    @rs_rt_rd
+ MULSHI          000000 ..... ..... ..... 01011011000    @rs_rt_rd
+ MULSHIU         000000 ..... ..... ..... 01011011001    @rs_rt_rd
  MACCHI          000000 ..... ..... ..... 01101011000    @rs_rt_rd
  MACCHIU         000000 ..... ..... ..... 01101011001    @rs_rt_rd
++MSACHI          000000 ..... ..... ..... 01111011000    @rs_rt_rd
++MSACHIU         000000 ..... ..... ..... 01111011001    @rs_rt_rd
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 8d29a0d4e4b..4196319d827 100644
+index 4196319d827..bdce6356c27 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -298,14 +298,8 @@ enum {
- #define MASK_MUL_VR54XX(op)         (MASK_SPECIAL(op) | (op & (0x1F << 6)))
- 
- enum {
--    OPC_VR54XX_MULS    = (0x03 << 6) | OPC_MULT,
--    OPC_VR54XX_MULSU   = (0x03 << 6) | OPC_MULTU,
-     OPC_VR54XX_MSAC    = (0x07 << 6) | OPC_MULT,
-     OPC_VR54XX_MSACU   = (0x07 << 6) | OPC_MULTU,
--    OPC_VR54XX_MULHI   = (0x09 << 6) | OPC_MULT,
--    OPC_VR54XX_MULHIU  = (0x09 << 6) | OPC_MULTU,
--    OPC_VR54XX_MULSHI  = (0x0B << 6) | OPC_MULT,
--    OPC_VR54XX_MULSHIU = (0x0B << 6) | OPC_MULTU,
-     OPC_VR54XX_MSACHI  = (0x0F << 6) | OPC_MULT,
-     OPC_VR54XX_MSACHIU = (0x0F << 6) | OPC_MULTU,
+@@ -294,16 +294,6 @@ enum {
+     R6_OPC_SDBBP    = 0x0e | OPC_SPECIAL,
  };
-@@ -3770,30 +3764,12 @@ static void gen_mul_vr54xx(DisasContext *ctx, uint32_t opc,
-     gen_load_gpr(t1, rt);
  
-     switch (opc) {
--    case OPC_VR54XX_MULS:
--        gen_helper_muls(t0, cpu_env, t0, t1);
+-/* Multiplication variants of the vr54xx. */
+-#define MASK_MUL_VR54XX(op)         (MASK_SPECIAL(op) | (op & (0x1F << 6)))
+-
+-enum {
+-    OPC_VR54XX_MSAC    = (0x07 << 6) | OPC_MULT,
+-    OPC_VR54XX_MSACU   = (0x07 << 6) | OPC_MULTU,
+-    OPC_VR54XX_MSACHI  = (0x0F << 6) | OPC_MULT,
+-    OPC_VR54XX_MSACHIU = (0x0F << 6) | OPC_MULTU,
+-};
+-
+ /* REGIMM (rt field) opcodes */
+ #define MASK_REGIMM(op)             (MASK_OP_MAJOR(op) | (op & (0x1F << 16)))
+ 
+@@ -3754,40 +3744,6 @@ static void gen_mul_txx9(DisasContext *ctx, uint32_t opc,
+     tcg_temp_free(t1);
+ }
+ 
+-static void gen_mul_vr54xx(DisasContext *ctx, uint32_t opc,
+-                           int rd, int rs, int rt)
+-{
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    gen_load_gpr(t0, rs);
+-    gen_load_gpr(t1, rt);
+-
+-    switch (opc) {
+-    case OPC_VR54XX_MSAC:
+-        gen_helper_msac(t0, cpu_env, t0, t1);
 -        break;
--    case OPC_VR54XX_MULSU:
--        gen_helper_mulsu(t0, cpu_env, t0, t1);
+-    case OPC_VR54XX_MSACU:
+-        gen_helper_msacu(t0, cpu_env, t0, t1);
 -        break;
-     case OPC_VR54XX_MSAC:
-         gen_helper_msac(t0, cpu_env, t0, t1);
+-    case OPC_VR54XX_MSACHI:
+-        gen_helper_msachi(t0, cpu_env, t0, t1);
+-        break;
+-    case OPC_VR54XX_MSACHIU:
+-        gen_helper_msachiu(t0, cpu_env, t0, t1);
+-        break;
+-    default:
+-        MIPS_INVAL("mul vr54xx");
+-        gen_reserved_instruction(ctx);
+-        goto out;
+-    }
+-    gen_store_gpr(t0, rd);
+-
+- out:
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-}
+-
+ static void gen_cl(DisasContext *ctx, uint32_t opc,
+                    int rd, int rs)
+ {
+@@ -14104,13 +14060,12 @@ static void decode_opc_special_tx79(CPUMIPSState *env, DisasContext *ctx)
+ 
+ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
+ {
+-    int rs, rt, rd, sa;
++    int rs, rt, rd;
+     uint32_t op1;
+ 
+     rs = (ctx->opcode >> 21) & 0x1f;
+     rt = (ctx->opcode >> 16) & 0x1f;
+     rd = (ctx->opcode >> 11) & 0x1f;
+-    sa = (ctx->opcode >> 6) & 0x1f;
+ 
+     op1 = MASK_SPECIAL(ctx->opcode);
+     switch (op1) {
+@@ -14139,13 +14094,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
          break;
-     case OPC_VR54XX_MSACU:
-         gen_helper_msacu(t0, cpu_env, t0, t1);
+     case OPC_MULT:
+     case OPC_MULTU:
+-        if (sa) {
+-            check_insn(ctx, INSN_VR54XX);
+-            op1 = MASK_MUL_VR54XX(ctx->opcode);
+-            gen_mul_vr54xx(ctx, op1, rd, rs, rt);
+-        } else {
+-            gen_muldiv(ctx, op1, rd & 3, rs, rt);
+-        }
++        gen_muldiv(ctx, op1, rd & 3, rs, rt);
          break;
--    case OPC_VR54XX_MULHI:
--        gen_helper_mulhi(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MULHIU:
--        gen_helper_mulhiu(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MULSHI:
--        gen_helper_mulshi(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MULSHIU:
--        gen_helper_mulshiu(t0, cpu_env, t0, t1);
--        break;
-     case OPC_VR54XX_MSACHI:
-         gen_helper_msachi(t0, cpu_env, t0, t1);
-         break;
+     case OPC_DIV:
+     case OPC_DIVU:
 diff --git a/target/mips/tcg/vr54xx_translate.c b/target/mips/tcg/vr54xx_translate.c
-index 85e2ec371b9..1e6000d3d15 100644
+index 1e6000d3d15..6661bf39eee 100644
 --- a/target/mips/tcg/vr54xx_translate.c
 +++ b/target/mips/tcg/vr54xx_translate.c
-@@ -25,6 +25,12 @@
+@@ -25,6 +25,10 @@
   * MACCHI       Multiply, accumulate, and move HI
   * MACCHIU      Unsigned multiply, accumulate, and move HI
   * MACCU        Unsigned multiply, accumulate, and move LO
-+ * MULHI        Multiply and move HI
-+ * MULHIU       Unsigned multiply and move HI
-+ * MULS         Multiply, negate, and move LO
-+ * MULSHI       Multiply, negate, and move HI
-+ * MULSHIU      Unsigned multiply, negate, and move HI
-+ * MULSU        Unsigned multiply, negate, and move LO
-  */
- 
- typedef void gen_helper_mult_acc_t(TCGv, TCGv_ptr, TCGv, TCGv);
-@@ -57,3 +63,9 @@ MULT_ACC(MACC,      gen_helper_macc);
++ * MSAC         Multiply, negate, accumulate, and move LO
++ * MSACHI       Multiply, negate, accumulate, and move HI
++ * MSACHIU      Unsigned multiply, negate, accumulate, and move HI
++ * MSACU        Unsigned multiply, negate, accumulate, and move LO
+  * MULHI        Multiply and move HI
+  * MULHIU       Unsigned multiply and move HI
+  * MULS         Multiply, negate, and move LO
+@@ -63,6 +67,10 @@ MULT_ACC(MACC,      gen_helper_macc);
  MULT_ACC(MACCHI,    gen_helper_macchi);
  MULT_ACC(MACCHIU,   gen_helper_macchiu);
  MULT_ACC(MACCU,     gen_helper_maccu);
-+MULT_ACC(MULHI,     gen_helper_mulhi);
-+MULT_ACC(MULHIU,    gen_helper_mulhiu);
-+MULT_ACC(MULS,      gen_helper_muls);
-+MULT_ACC(MULSHI,    gen_helper_mulshi);
-+MULT_ACC(MULSHIU,   gen_helper_mulshiu);
-+MULT_ACC(MULSU,     gen_helper_mulsu);
++MULT_ACC(MSAC,      gen_helper_msac);
++MULT_ACC(MSACHI,    gen_helper_msachi);
++MULT_ACC(MSACHIU,   gen_helper_msachiu);
++MULT_ACC(MSACU,     gen_helper_msacu);
+ MULT_ACC(MULHI,     gen_helper_mulhi);
+ MULT_ACC(MULHIU,    gen_helper_mulhiu);
+ MULT_ACC(MULS,      gen_helper_muls);
 -- 
 2.31.1
 
