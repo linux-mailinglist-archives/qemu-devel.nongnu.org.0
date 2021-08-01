@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DD3DCE3C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:01:55 +0200 (CEST)
-Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE52A3DCE3D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:02:00 +0200 (CEST)
+Received: from localhost ([::1]:39016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mALP0-000610-5Z
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
+	id 1mALP5-0006PP-SP
+	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALMr-0003bW-P0
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:41 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40512)
+ id 1mALMv-0003l5-Iv
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:45 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALMq-0006pb-4q
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:41 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p5so19342512wro.7
- for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:39 -0700 (PDT)
+ id 1mALMu-0006tA-0L
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:45 -0400
+Received: by mail-wr1-x432.google.com with SMTP id j2so19277641wrx.9
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=StzvGMLMsgqPmTgAHMYz+S6poTEEwTkgQFoR1NPgVPo=;
- b=tpYuqU7ULMhKJXymVktl4eeLz39gZN5KbXfYL6BM8AKi1rzi2Atn7iTbUHXxEPkJVp
- Dco/xvctgWLneB22YkOUeP26Cnocng3QXo9/YpQG7kV1cJx4hD3WhXfR/MzS2ssiZV7v
- qmp0trqshTP2EKAZLtuLWS+s70HisfiG9P0n9TYR6jqsH7VC16Uxs+LJXZDyem/crhrf
- WJl3g/KfWY94W6MsTZvR9FGRIJ8B6CC8Xu88makD2ankr486VsO8BHGb0mSMJDS7PFsF
- 3SVkHJEGFgvU4WIFhiafGMai9SgMOnV2E0K0pT/HvZNU6y8io+rCZBPuI0LI2r4DY++w
- MktQ==
+ bh=ygTviteO4ICr+Dt5AxHx9smElVVVjf1jYJCNvq3bytw=;
+ b=PipBSvp9aZ87XDb0yLykTwnPrk78rZzJHZ6+T2bDEvRM+RbNENTm/fiLKoLfPPaim5
+ BS0vfP3rNiZncbKVqKQDQuY7VZWFqx07DWLbAKVb3ng2WzgLJ9/Xs8l1Ae2NEtDIbpaN
+ WlPhzLpNqKQrJ9x5LB24wpTvjrRN4BG4UZLwTdEFPXAMXAmxUMqRo4u8ojTTS1RIsBgV
+ RqgY+93c4/6cFThoPRG+pr23FGWwcq99Mptijzhwnc2f7ugjYkIc/ECyMe628mybVbxc
+ szKdjvdILAL30aXE1vZpwmks+eFaJTklvUsetyrfDeLT8LgbcYElHIzGGZKTwKZmwIob
+ Cpuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=StzvGMLMsgqPmTgAHMYz+S6poTEEwTkgQFoR1NPgVPo=;
- b=PIF6eusmaAUMnhfSzvBYyWs6T2o+BPy3FPLUGDaBI806h9XK0r4jMcqAKoMPje9Yvq
- WOja/zzDW6LRpdHAiyJgigfUuYA8e2d67xxcOqQJh8f0LXMbY1FBfKA3uDDw9t0exrt+
- pFjITvSDZIt+RKB0W+R1eEz/twnaTCG2LR8/Qro8lY50Mzs0eOPNaWZMVsut6CKfRTJD
- 4ksrwHImkx261CFj/1qJeQobDnQP1W8Dj2qvwxTjiDpVPkvFlwNrlWqHgwJ8weqAkTrL
- BuLVJKwSVIdpWZ8+CxUsi7Axt5+CM87fktkj2N65/etZDaxxbIWwtHqD1gmkH5FXQwTz
- iO8Q==
-X-Gm-Message-State: AOAM530CZw2YObM77y1GHoIUnlBQNpLfjBjuvn9GVYFvsfn/w5xrdjQV
- 4tMRlyjAZk+rtL1Vy3X+fknQCncJgms+Dw==
-X-Google-Smtp-Source: ABdhPJxliFQ5C+u6XOw8fWfQofvit45wu7tofeeO30t6iBGOxhlaC3UUpgMAMc9CBvF2AsQO3QfakA==
-X-Received: by 2002:adf:c3c5:: with SMTP id d5mr14764331wrg.76.1627862377969; 
- Sun, 01 Aug 2021 16:59:37 -0700 (PDT)
+ bh=ygTviteO4ICr+Dt5AxHx9smElVVVjf1jYJCNvq3bytw=;
+ b=qqbPnRpsxNJuIaWmuSTlX2fDfxVd1Dh70o0nvhMTkU36oycrMdlBFst4gRSQO9Fk7j
+ Vj7COJbYyz1AHvT/u7VJ+sA3jAgGSmccUMZdtDqms5Zl1ysHkn6K6PoyeIJNV0RM2k/W
+ r6c5e9q8vN0Zy1Mas6XsyRUF0rtig0VkfefxPnhwWxASyT+k/UnQpDAYXigTCrRmERxo
+ n06HQimWjWjnBRbAHxVFz5Wmh9otUwVuf/CghmZWoBIyW9C5wlsCV9HsTb8j27Gqhzwo
+ hutBcgEqeLKElcRsQj+4bhQpuz5b/AVbS75suKMEhEj7mQrlKFekQY9YFbsXopqEUREH
+ /l/g==
+X-Gm-Message-State: AOAM531SmdxO4NJsKT5ZzuxewbSnXcTROT4Slfvcisgmkj7NpMP3/wI+
+ AgwOrgJ4sMul85KDX1AQHpIUAwxb+jEOYw==
+X-Google-Smtp-Source: ABdhPJzwghYsWLAQxqrLnerG9aZf8/xK3Ha068VBmZKl7nUYXzLp/dO+HI8FyIe+sck/whpj7mIt7Q==
+X-Received: by 2002:a5d:5147:: with SMTP id u7mr14611186wrt.181.1627862382412; 
+ Sun, 01 Aug 2021 16:59:42 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- f26sm9249423wrd.41.2021.08.01.16.59.37
+ u11sm9647414wrt.89.2021.08.01.16.59.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 16:59:37 -0700 (PDT)
+ Sun, 01 Aug 2021 16:59:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 2/5] target/mips: Introduce decodetree structure for
- NEC Vr54xx extension
-Date: Mon,  2 Aug 2021 01:59:23 +0200
-Message-Id: <20210801235926.3178085-3-f4bug@amsat.org>
+Subject: [PATCH-for-6.2 3/5] target/mips: Convert Vr54xx MACC* opcodes to
+ decodetree
+Date: Mon,  2 Aug 2021 01:59:24 +0200
+Message-Id: <20210801235926.3178085-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210801235926.3178085-1-f4bug@amsat.org>
 References: <20210801235926.3178085-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,104 +92,136 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The decoder is called but doesn't decode anything. This will
-ease reviewing the next commit.
+Convert the following Integer Multiply-Accumulate opcodes:
+
+ * MACC         Multiply, accumulate, and move LO
+ * MACCHI       Multiply, accumulate, and move HI
+ * MACCHIU      Unsigned multiply, accumulate, and move HI
+ * MACCU        Unsigned multiply, accumulate, and move LO
+
+Since all opcodes are generated using the same pattern, we
+add the gen_helper_mult_acc_t typedef and MULT_ACC() macro
+to remove boilerplate code.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/translate.h        |  1 +
- target/mips/tcg/vr54xx.decode      |  8 ++++++++
- target/mips/tcg/translate.c        |  3 +++
- target/mips/tcg/vr54xx_translate.c | 19 +++++++++++++++++++
- target/mips/tcg/meson.build        |  2 ++
- 5 files changed, 33 insertions(+)
- create mode 100644 target/mips/tcg/vr54xx.decode
- create mode 100644 target/mips/tcg/vr54xx_translate.c
+ target/mips/tcg/vr54xx.decode      |  9 +++++++
+ target/mips/tcg/translate.c        | 16 ------------
+ target/mips/tcg/vr54xx_translate.c | 40 ++++++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+), 16 deletions(-)
 
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index c25fad597d5..d82c78c9bdc 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -201,5 +201,6 @@ bool decode_ext_txx9(DisasContext *ctx, uint32_t insn);
- #if defined(TARGET_MIPS64)
- bool decode_ext_tx79(DisasContext *ctx, uint32_t insn);
- #endif
-+bool decode_ext_vr54xx(DisasContext *ctx, uint32_t insn);
- 
- #endif
 diff --git a/target/mips/tcg/vr54xx.decode b/target/mips/tcg/vr54xx.decode
-new file mode 100644
-index 00000000000..f6b3e42c999
---- /dev/null
+index f6b3e42c999..73778f101a5 100644
+--- a/target/mips/tcg/vr54xx.decode
 +++ b/target/mips/tcg/vr54xx.decode
-@@ -0,0 +1,8 @@
-+# MIPS VR5432 instruction set extensions
-+#
-+# Copyright (C) 2021  Philippe Mathieu-Daudé
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
-+# Reference: VR5432 Microprocessor User’s Manual
-+#            (Document Number U13751EU5V0UM00)
+@@ -6,3 +6,12 @@
+ #
+ # Reference: VR5432 Microprocessor User’s Manual
+ #            (Document Number U13751EU5V0UM00)
++
++&r              rs rt rd
++
++@rs_rt_rd       ...... rs:5  rt:5  rd:5  ..... ......   &r
++
++MACC            000000 ..... ..... ..... 00101011000    @rs_rt_rd
++MACCU           000000 ..... ..... ..... 00101011001    @rs_rt_rd
++MACCHI          000000 ..... ..... ..... 01101011000    @rs_rt_rd
++MACCHIU         000000 ..... ..... ..... 01101011001    @rs_rt_rd
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 34a96159d15..98dfcf5afd1 100644
+index 98dfcf5afd1..8d29a0d4e4b 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -16109,6 +16109,9 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-     if (cpu_supports_isa(env, INSN_R5900) && decode_ext_txx9(ctx, ctx->opcode)) {
-         return;
-     }
-+    if (cpu_supports_isa(env, INSN_VR54XX) && decode_ext_vr54xx(ctx, ctx->opcode)) {
-+        return;
-+    }
- 
-     if (decode_opc_legacy(env, ctx)) {
-         return;
+@@ -300,16 +300,12 @@ enum {
+ enum {
+     OPC_VR54XX_MULS    = (0x03 << 6) | OPC_MULT,
+     OPC_VR54XX_MULSU   = (0x03 << 6) | OPC_MULTU,
+-    OPC_VR54XX_MACC    = (0x05 << 6) | OPC_MULT,
+-    OPC_VR54XX_MACCU   = (0x05 << 6) | OPC_MULTU,
+     OPC_VR54XX_MSAC    = (0x07 << 6) | OPC_MULT,
+     OPC_VR54XX_MSACU   = (0x07 << 6) | OPC_MULTU,
+     OPC_VR54XX_MULHI   = (0x09 << 6) | OPC_MULT,
+     OPC_VR54XX_MULHIU  = (0x09 << 6) | OPC_MULTU,
+     OPC_VR54XX_MULSHI  = (0x0B << 6) | OPC_MULT,
+     OPC_VR54XX_MULSHIU = (0x0B << 6) | OPC_MULTU,
+-    OPC_VR54XX_MACCHI  = (0x0D << 6) | OPC_MULT,
+-    OPC_VR54XX_MACCHIU = (0x0D << 6) | OPC_MULTU,
+     OPC_VR54XX_MSACHI  = (0x0F << 6) | OPC_MULT,
+     OPC_VR54XX_MSACHIU = (0x0F << 6) | OPC_MULTU,
+ };
+@@ -3780,12 +3776,6 @@ static void gen_mul_vr54xx(DisasContext *ctx, uint32_t opc,
+     case OPC_VR54XX_MULSU:
+         gen_helper_mulsu(t0, cpu_env, t0, t1);
+         break;
+-    case OPC_VR54XX_MACC:
+-        gen_helper_macc(t0, cpu_env, t0, t1);
+-        break;
+-    case OPC_VR54XX_MACCU:
+-        gen_helper_maccu(t0, cpu_env, t0, t1);
+-        break;
+     case OPC_VR54XX_MSAC:
+         gen_helper_msac(t0, cpu_env, t0, t1);
+         break;
+@@ -3804,12 +3794,6 @@ static void gen_mul_vr54xx(DisasContext *ctx, uint32_t opc,
+     case OPC_VR54XX_MULSHIU:
+         gen_helper_mulshiu(t0, cpu_env, t0, t1);
+         break;
+-    case OPC_VR54XX_MACCHI:
+-        gen_helper_macchi(t0, cpu_env, t0, t1);
+-        break;
+-    case OPC_VR54XX_MACCHIU:
+-        gen_helper_macchiu(t0, cpu_env, t0, t1);
+-        break;
+     case OPC_VR54XX_MSACHI:
+         gen_helper_msachi(t0, cpu_env, t0, t1);
+         break;
 diff --git a/target/mips/tcg/vr54xx_translate.c b/target/mips/tcg/vr54xx_translate.c
-new file mode 100644
-index 00000000000..13e58fdd8df
---- /dev/null
+index 13e58fdd8df..85e2ec371b9 100644
+--- a/target/mips/tcg/vr54xx_translate.c
 +++ b/target/mips/tcg/vr54xx_translate.c
-@@ -0,0 +1,19 @@
+@@ -17,3 +17,43 @@
+ 
+ /* Include the auto-generated decoder. */
+ #include "decode-vr54xx.c.inc"
++
 +/*
-+ * VR5432 extensions translation routines
++ * Integer Multiply-Accumulate Instructions
 + *
-+ * Reference: VR5432 Microprocessor User’s Manual
-+ *            (Document Number U13751EU5V0UM00)
-+ *
-+ *  Copyright (c) 2021 Philippe Mathieu-Daudé
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * MACC         Multiply, accumulate, and move LO
++ * MACCHI       Multiply, accumulate, and move HI
++ * MACCHIU      Unsigned multiply, accumulate, and move HI
++ * MACCU        Unsigned multiply, accumulate, and move LO
 + */
 +
-+#include "qemu/osdep.h"
-+#include "tcg/tcg-op.h"
-+#include "exec/helper-gen.h"
-+#include "translate.h"
-+#include "internal.h"
++typedef void gen_helper_mult_acc_t(TCGv, TCGv_ptr, TCGv, TCGv);
 +
-+/* Include the auto-generated decoder. */
-+#include "decode-vr54xx.c.inc"
-diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
-index 68eb284e099..259663a8893 100644
---- a/target/mips/tcg/meson.build
-+++ b/target/mips/tcg/meson.build
-@@ -3,6 +3,7 @@
-   decodetree.process('mips64r6.decode', extra_args: '--static-decode=decode_mips64r6'),
-   decodetree.process('msa.decode', extra_args: '--decode=decode_ase_msa'),
-   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
-+  decodetree.process('vr54xx.decode', extra_args: '--decode=decode_ext_vr54xx'),
- ]
- 
- mips_ss.add(gen)
-@@ -20,6 +21,7 @@
-   'translate_addr_const.c',
-   'txx9_translate.c',
-   'vr54xx_helper.c',
-+  'vr54xx_translate.c',
- ))
- mips_ss.add(when: 'TARGET_MIPS64', if_true: files(
-   'tx79_translate.c',
++static bool trans_mult_acc(DisasContext *ctx, arg_r *a,
++                           gen_helper_mult_acc_t *gen_helper_mult_acc)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rs);
++    gen_load_gpr(t1, a->rt);
++
++    gen_helper_mult_acc(t0, cpu_env, t0, t1);
++
++    gen_store_gpr(t0, a->rd);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return false;
++}
++
++#define MULT_ACC(opcode, gen_helper) \
++static bool trans_##opcode(DisasContext *ctx, arg_r *a) \
++{ \
++    return trans_mult_acc(ctx, a, gen_helper); \
++}
++MULT_ACC(MACC,      gen_helper_macc);
++MULT_ACC(MACCHI,    gen_helper_macchi);
++MULT_ACC(MACCHIU,   gen_helper_macchiu);
++MULT_ACC(MACCU,     gen_helper_maccu);
 -- 
 2.31.1
 
