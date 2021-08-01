@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF2E3DCCAD
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Aug 2021 18:14:24 +0200 (CEST)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C593DCCD8
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Aug 2021 19:12:52 +0200 (CEST)
+Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAE6Y-00050p-Ok
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 12:14:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45948)
+	id 1mAF18-0003m2-QB
+	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 13:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mAE5n-0004Lz-5v
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 12:13:35 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51150
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mAF0J-00036N-Kp
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 13:11:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mAE5l-0007lK-9K
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 12:13:34 -0400
-Received: from host109-158-241-102.range109-158.btcentralplus.com
- ([109.158.241.102] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mAE5V-0006Vx-A5; Sun, 01 Aug 2021 17:13:21 +0100
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210729004647.282017-1-richard.henderson@linaro.org>
- <20210729004647.282017-15-richard.henderson@linaro.org>
- <CAFEAcA8izWZrXSjQ5i-JB=YEtEYQODLi1fQdsf9GMrU7PyhHzw@mail.gmail.com>
- <563efaa1-6e18-75ac-7884-913ec045802f@ilande.co.uk>
- <CAFEAcA-LweAa6NjvvW7xWCcP9fEc4+GemENTAKPf=9qgHND-UQ@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <a7f326c8-4cfa-1438-9bab-446521c3c862@ilande.co.uk>
-Date: Sun, 1 Aug 2021 17:13:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mAF0E-0003uq-L5
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 13:11:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627837912;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j9/vxBtF8qUtt9lHQFlE2Wof5M/b+VFeO0kl8z9Tmag=;
+ b=AvSzgTvfdso9DfkLnAc6+k6yTlQvZA1UqM0Zc3f3dXGkjLQHKWPQevCEoFbK1ot60Z2r3t
+ Ym7hpSpPl3mtHR2prz/YbaDvWq2CGPxkeStZH+qfC6JLjX90fDVsALLaZ51mn5DOI186wR
+ 85Reshd6H9Sqb8Q47dfvsLy7sC18Veg=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-7Tnmp-NAO9qH9luODJZ5sg-1; Sun, 01 Aug 2021 13:11:51 -0400
+X-MC-Unique: 7Tnmp-NAO9qH9luODJZ5sg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ f19-20020ac846530000b02902682e86c382so7241530qto.4
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 10:11:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j9/vxBtF8qUtt9lHQFlE2Wof5M/b+VFeO0kl8z9Tmag=;
+ b=OyAkp8Vrqd4RTvUeAS/gQV7CokQxTYdN8oCZk83B6vXt03M/DQ4fi0kqicSi1eRQwu
+ uhujD9VB66qtGu45oa2kpWxY5I6/0mQcd9PtD5YmVIbdV6Fxx2HI/LsSb2DiaZ68uTez
+ I8diGZaLnSkSNtGK3CsjZrPA8BieWS9pf1N7cDJLCoOnEca6YAG8o2f+QreiSxfujYIM
+ TTbOjtVr8ty1vK3GHFSzXrRxQfgOMaBgBFMTJvCyHIWoFj/oKQhwBYzQayqZFgnG8If5
+ pw0UtTVsFdDJbUM+nxwxceC7KH9AbIhK2MOY9XDh8hJtoWZPYeq1DXtQy1o/TPmS2THF
+ JXbQ==
+X-Gm-Message-State: AOAM532VsdtKqu0ayKbbryxrzdKiWUjVW6AJhu6g0Lw0nqUXou4kvaXI
+ VNcI4JIztQOQmWHL4lcxh+jV+1r9degzCWDuO+EacmIwXeHeuGYyCerzlGKSi9tciBy7NppCSzO
+ gD9yNGtp3KXFPxY/hO0jLDDA78B7v9YiDCDIa5eA+50QtMJf3neXcMWN0/cM5bhBt
+X-Received: by 2002:ac8:5714:: with SMTP id 20mr10557257qtw.337.1627837910297; 
+ Sun, 01 Aug 2021 10:11:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyinS8GSnrXvluQmYTBI3qoXGEQnCcEuECKw4UCvTJwz1yH44FjyMgcJCYZ7U1Hs68Gsfv6aA==
+X-Received: by 2002:ac8:5714:: with SMTP id 20mr10557233qtw.337.1627837909922; 
+ Sun, 01 Aug 2021 10:11:49 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id f13sm4378241qkk.29.2021.08.01.10.11.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Aug 2021 10:11:49 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Makefile: Fix cscope issues on MacOS and soft links
+Date: Sun,  1 Aug 2021 13:11:44 -0400
+Message-Id: <20210801171144.60412-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-LweAa6NjvvW7xWCcP9fEc4+GemENTAKPf=9qgHND-UQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.158.241.102
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH for-6.2 14/43] target/sparc: Set fault address in
- sparc_cpu_do_unaligned_access
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.08,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,71 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, peterx@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/08/2021 16:59, Peter Maydell wrote:
+This patch fixes actually two issues with 'make cscope'.
 
-> On Sun, 1 Aug 2021 at 16:56, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> On 29/07/2021 15:51, Peter Maydell wrote:
->>
->>> On Thu, 29 Jul 2021 at 02:01, Richard Henderson
->>> <richard.henderson@linaro.org> wrote:
->>>>
->>>> We ought to have been recording the virtual address for reporting
->>>> to the guest trap handler.  Mirror the SFSR FIXME from the sparc64
->>>> version of get_physical_address_data.
->>>>
->>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>> ---
->>>>    target/sparc/ldst_helper.c | 8 ++++++++
->>>>    1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
->>>> index 974afea041..7367b48c8b 100644
->>>> --- a/target/sparc/ldst_helper.c
->>>> +++ b/target/sparc/ldst_helper.c
->>>> @@ -1963,6 +1963,14 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->>>>        SPARCCPU *cpu = SPARC_CPU(cs);
->>>>        CPUSPARCState *env = &cpu->env;
->>>>
->>>> +#ifdef TARGET_SPARC64
->>>> +    /* FIXME: ASI field in SFSR must be set */
->>>> +    env->dmmu.sfsr = SFSR_VALID_BIT; /* Fault status register */
->>>> +    env->dmmu.sfar = addr;           /* Fault address register */
->>>> +#else
->>>> +    env->mmuregs[4] = addr;
->>>> +#endif
->>>> +
->>>>        cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
->>>>    }
->>>>    #endif
->>>
->>> The architecture manual seems to be gratuitously opaque about
->>> whether and where the fault address for an alignment fault gets
->>> recorded, but Linux at least for 64-bit seems to pull it out of the
->>> sfar, so I guess that's right.
->>
->> Yeah, this part is actually contained within the UltraSPARC II specification - it can
->> be found in section 6.4 "MMU-Related Faults and Traps" table 6-3 which indicates that
->> for *_mem_address_not_aligned traps the D-SFSR and SFAR registers within the MMU are
->> updated.
-> 
-> Do you know what 32-bit CPUs do? The Linux kernel sources don't help
-> here because they don't bother to report the fault address...
+Firstly, it fixes the command for MacOS "find" command as MacOS will append the
+full path of "$(SRC_PATH)/" before each found entry, then after the final "./"
+replacement trick it'll look like (e.g., "qapi/qmp-dispatch.c"):
 
-The SFSR and SFAR for the 32-bit sun4m machines is described in the Sun4m 
-Architecture manual section 4.4 "Synchronous Fault Registers". Unaligned access 
-behaviour isn't explicitly mentioned AFAICS but fault type 1 is "Invalid Address 
-Error" which seems like a possibility.
+  /qapi/qmp-dispatch.c
 
+Which will point to the root directory instead.
 
-ATB,
+Fix it by simply remove the "/" in "$(SRC_PATH)/" of "find-src-path", then
+it'll work for at least both Linux and MacOS.
 
-Mark.
+The other OS-independent issue is to start proactively ignoring soft links when
+generating tags, otherwise by default on master branch we'll see this error
+when "make cscope":
+
+cscope: cannot find file subprojects/libvhost-user/include/atomic.h
+
+This patch should fix the two issues altogether.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 401c623a65..5562a9b464 100644
+--- a/Makefile
++++ b/Makefile
+@@ -229,7 +229,8 @@ distclean: clean
+ 	rm -f linux-headers/asm
+ 	rm -Rf .sdk
+ 
+-find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o \( -name "*.[chsS]" -o -name "*.[ch].inc" \)
++find-src-path = find "$(SRC_PATH)" -path "$(SRC_PATH)/meson" -prune -o \
++	-type l -prune -o \( -name "*.[chsS]" -o -name "*.[ch].inc" \)
+ 
+ .PHONY: ctags
+ ctags:
+-- 
+2.31.1
+
 
