@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5353C3DCE21
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 01:44:47 +0200 (CEST)
-Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904F63DCE22
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 01:44:49 +0200 (CEST)
+Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAL8Q-0004RR-C5
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 19:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1mAL8S-0004Xq-JY
+	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 19:44:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mAL5t-0002VO-3g
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:42:09 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55948)
+ id 1mAL5v-0002WW-Pk
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:42:11 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mAL5q-0003iG-Gi
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:42:08 -0400
-Received: by mail-wm1-x331.google.com with SMTP id x17so3097858wmc.5
- for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:42:05 -0700 (PDT)
+ id 1mAL5u-0003kL-EN
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:42:11 -0400
+Received: by mail-wr1-x435.google.com with SMTP id h13so5817056wrp.1
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W4oFm4D6gS04bIKsWR2XhXjXG3mrAoRhdMVRkTjrJvI=;
- b=Xmr7WnaH0KcOVH5Jk9IqLouqoo7bOQT9EkjVAPIDzRbqudvqectCL+MeqivRnMp46A
- Ep4apSfB318hwKwAFMxfHT7FQkRy2+F88TIS0GOTbU+/eXSFlnZmoPhEPpHTkseiXnGh
- OEconP8vJQodI2Py5tFKw9+bVdilfhPcNOYz5MV70/ypMDdZ2cxUYQEgIt9Ah5lIG2zT
- 9WlouzmQXPMxMKtpBzKzKxxpmqr2qPfj87TI/HmCLvO133j1Bt7e6AfH/Tw9VKmaDTi7
- FeZZrZUdMJpJmZDLOrhZHr+UYFcrDWzMVG3Kfgm4g4my3qzFEVF32CwVCz5Wg2frmL/9
- G57w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nF2CPaID+VIHHyjgrg/yG4IgKh5kbi2GWmyHFcP4Gh4=;
+ b=NyS1QGTbvNT1A496xSOlAv7v5TyTHcuKQEWXPuT5KDkTsVMg1iuVFs0eMa4nRkQ8nf
+ L3iKqS/WLujpUC6V3fC7VPTOlFSbFtFTjjYahQretqjiPMBUAIy9gkZvz39bfdQkkauO
+ IVZU/H749ZKAqGJwfFtbRgO2rliS4hyJMa2WbDP/Lh5UAYNGr0/5Lk1Ibab61H10ils/
+ 9slzpA1TWT3BdLJPg8Akaf0xFup93whqBwLveFM8NlishOrzJz3EJvl0h9wMXGfzdDMO
+ QnMewp2TjN1YOLU9SkT5mFYBBrlUxYTrHO3w092CglKIwcqKKR0TSZ0Pt6SE1W1wWWUZ
+ QARw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=W4oFm4D6gS04bIKsWR2XhXjXG3mrAoRhdMVRkTjrJvI=;
- b=PpXWkex5YBVOpmzT9V9nBikfX00Rjj2wFHk6xukSKYRnlew/VSRmrbkLcuhn26bbCo
- eusR99+YihYyhY6Nl9Y7QipPg8BNTZk8oQh1k0hA56toZnw+qBI9Gf2pDFuwwxEzQ4oc
- Lm8PnPM0+BGU6mqRbq8yEnD5sPvYYs+3o8Xs1if+ob6Qmh4bb+HAsKX+e28vV++a0/eh
- AWm/tHs3JTxCG0XkGe2D20pJspNeL9rroaKQODU9ihZRW1jzI8T4nt8TLWSYOHgd1RWf
- esxxtSI3kakKNI9VHRhokignffd/IqXQV80lOpDh8dwrR3R2zZpwA86xCOG3y0NSgaf8
- 7Jpw==
-X-Gm-Message-State: AOAM533nzPTpMfmewscUrX0fnZXUqrps3pxVSWCVQCmD3zZpGfmD92TP
- aYv33YKuYd/y3Pkl8ZdVr0zMYsCosqNWYQ==
-X-Google-Smtp-Source: ABdhPJyqlxR7lxZu22NA21YP9/Q+eNoOpV/Ou/wLxn7PXK5astvHfY5V+faAajQeLFlmEDIzNBTZPQ==
-X-Received: by 2002:a7b:c204:: with SMTP id x4mr13753255wmi.70.1627861324304; 
- Sun, 01 Aug 2021 16:42:04 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=nF2CPaID+VIHHyjgrg/yG4IgKh5kbi2GWmyHFcP4Gh4=;
+ b=FJVtEqjYw4qkNGkf4Fh7Zpp2VPGzqBTprs0jU+4PFHkGSPrkPtSZOB5VBogs9pEtFO
+ T5yO4eNNe0p+UzHRESuJuBx1z8BplJxoewPJ2tzt/sd08pgR5oQViQJ/EGHzn2UmvWnX
+ sWeQTFSsBTOnxSyovQzEUi3FO47xu1NPXJlMHDxYwMidwpa+7wihTZFJUaVIVox7YbnG
+ SA30egPt/24KI3KgmxmZX63DjBptg0sjGhfrQdNQTfq2XF7cOt6lvqtOevIEN0at3aUB
+ 5rA4U4H60tAbO6ZT+yHiq9N+QeWFGbM9dT5Plj+T+cJIBgKzsptHMSJwbg4PkwsroeAh
+ dlwA==
+X-Gm-Message-State: AOAM533khb6QJ2E0mUNmLj7lLGUasNAhw2CZEFTrl9kchKy+d+SUGPq4
+ +479mZwJ6XfRImQYXuV36oBuuo+3gw7RnA==
+X-Google-Smtp-Source: ABdhPJxkS0gW73A5jvBmWmcVYCgTOH9/iIoiHGHioWrmRKPSzUZdpw87WBXNowYrRTtZHbEmY4K6YQ==
+X-Received: by 2002:adf:db85:: with SMTP id u5mr14538829wri.167.1627861328964; 
+ Sun, 01 Aug 2021 16:42:08 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- u11sm9262173wrr.44.2021.08.01.16.42.03
+ m64sm10052931wmm.41.2021.08.01.16.42.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 16:42:03 -0700 (PDT)
+ Sun, 01 Aug 2021 16:42:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 0/4] target/mips: Decodetree housekeeping
-Date: Mon,  2 Aug 2021 01:41:58 +0200
-Message-Id: <20210801234202.3167676-1-f4bug@amsat.org>
+Subject: [PATCH-for-6.2 1/4] target/mips: Simpify PREF opcode
+Date: Mon,  2 Aug 2021 01:41:59 +0200
+Message-Id: <20210801234202.3167676-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210801234202.3167676-1-f4bug@amsat.org>
+References: <20210801234202.3167676-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,28 +91,34 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor cleanups while looking at converting more opcodes to decodetree.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  target/mips: Simpify PREF opcode=0D
-  target/mips: Decode vendor extensions before MIPS ISAs=0D
-  target/mips: Merge 32-bit/64-bit release6 decodetree definitions=0D
-  target/mips: Rename 'rtype' as 'r'=0D
-=0D
- target/mips/tcg/mips64r6.decode               | 27 --------=0D
- target/mips/tcg/msa.decode                    |  4 +-=0D
- .../mips/tcg/{mips32r6.decode =3D> rel6.decode} | 17 ++++-=0D
- target/mips/tcg/tx79.decode                   | 14 ++---=0D
- target/mips/tcg/msa_translate.c               |  4 +-=0D
- target/mips/tcg/rel6_translate.c              | 20 +++---=0D
- target/mips/tcg/translate.c                   | 16 +++--=0D
- target/mips/tcg/tx79_translate.c              | 62 +++++++++----------=0D
- target/mips/tcg/meson.build                   |  3 +-=0D
- 9 files changed, 72 insertions(+), 95 deletions(-)=0D
- delete mode 100644 target/mips/tcg/mips64r6.decode=0D
- rename target/mips/tcg/{mips32r6.decode =3D> rel6.decode} (64%)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+check_insn() checks for any bit in the set, and INSN_R5900 is
+just another bit added to the set. No need to special-case it.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/tcg/translate.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 34a96159d15..05efd25e29d 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -15738,12 +15738,8 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+         /* Treat as NOP. */
+         break;
+     case OPC_PREF:
+-        if (ctx->insn_flags & INSN_R5900) {
+-            /* Treat as NOP. */
+-        } else {
+-            check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1);
+-            /* Treat as NOP. */
+-        }
++        check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1 | INSN_R5900);
++        /* Treat as NOP. */
+         break;
+ 
+     /* Floating point (COP1). */
+-- 
+2.31.1
+
 
