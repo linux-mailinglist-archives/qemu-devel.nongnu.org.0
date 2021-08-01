@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD8B3DCE3E
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:03:02 +0200 (CEST)
-Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DD3DCE3C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:01:55 +0200 (CEST)
+Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mALQ5-0000si-CS
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38448)
+	id 1mALP0-000610-5Z
+	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALMn-0003Sx-2v
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36689)
+ id 1mALMr-0003bW-P0
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:41 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALMl-0006mA-0u
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:36 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b13so8467047wrs.3
- for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:34 -0700 (PDT)
+ id 1mALMq-0006pb-4q
+ for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:41 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id p5so19342512wro.7
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zv+GKBWChYiL7jtN3ifnlUeQ3KYEnUk/PWHE3YGCQS4=;
- b=Bh6iUcjzoCSV6h2bYmHzfuXS7lqOdz9zzT+Cbtyim4vG5aYpoLCvgaonTdamSGXEk2
- 36uXtPkLIL6bLwk0L55/LlxnzE27h9hEon3uVWec1OohfCOcN8q8qfKKJywGxKRas9sy
- SPFNR5Z6pJARIaPlJYpMk7bQ2EVxT5/DyqUJSg/KzF67pxsa923M4VEJjtBOt+Z5RMpv
- dPUCA3ufnvGKGVmIj5RLEMWA1JLxypxtx3VnjLUUWYqSVYh2oFVw6z2UYFDNsooB4p71
- 2A0NPH9/vAQXdTM2e05iBbTTM4s/Gj7lpp/kfFFsIk6QU6N+va36KTf5OQlxjgCRIXJq
- /ZZQ==
+ bh=StzvGMLMsgqPmTgAHMYz+S6poTEEwTkgQFoR1NPgVPo=;
+ b=tpYuqU7ULMhKJXymVktl4eeLz39gZN5KbXfYL6BM8AKi1rzi2Atn7iTbUHXxEPkJVp
+ Dco/xvctgWLneB22YkOUeP26Cnocng3QXo9/YpQG7kV1cJx4hD3WhXfR/MzS2ssiZV7v
+ qmp0trqshTP2EKAZLtuLWS+s70HisfiG9P0n9TYR6jqsH7VC16Uxs+LJXZDyem/crhrf
+ WJl3g/KfWY94W6MsTZvR9FGRIJ8B6CC8Xu88makD2ankr486VsO8BHGb0mSMJDS7PFsF
+ 3SVkHJEGFgvU4WIFhiafGMai9SgMOnV2E0K0pT/HvZNU6y8io+rCZBPuI0LI2r4DY++w
+ MktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zv+GKBWChYiL7jtN3ifnlUeQ3KYEnUk/PWHE3YGCQS4=;
- b=ZWZrMcN71ggA+E2NJMLAqDTo+lN9QCSOM2ZX/Q1MjvO4scMK4SMiKIyl2zs7B5lYJ0
- QQfEvo6kD9cynTTxlc7cw11YlJNHnhQP6G1q+UjEIJsIojgD95dRR6DWPcQSIzTI66VF
- Y1XmgJeZsfmCHw+6kp9lDTJd8gmQlRN2BC71S880s/EZzZVklHlGRrkF/x/vNVA6aKmt
- D/lolMz+1sQRUJdF1VhRXtqXXDs+xboD3r++LXadxTgJjNiDltI7xaNvAnoJEm8rkffX
- ElUkSGtpzxB9Nm/NnIHyGDakjyhbQW25Bj1OOPQc50+/m4OpCL//wn8xGMB0CsErdpKq
- 1Slw==
-X-Gm-Message-State: AOAM532t3sLfd8Pc4H4A90XUBj5ldH2YR3bg5C3oRKNMN1Bcxbv8TadP
- kn+6ZUsr6xPOu5Ed24GuqBUgEXm/DCpNOw==
-X-Google-Smtp-Source: ABdhPJyYqXQW+cWmEVAfwRVJP83VmQrlvXxp0tkpQMN38aMoj2cUxfgEpKDPu+lHm3D115C7NHzSFw==
-X-Received: by 2002:adf:ea41:: with SMTP id j1mr14666025wrn.147.1627862373522; 
- Sun, 01 Aug 2021 16:59:33 -0700 (PDT)
+ bh=StzvGMLMsgqPmTgAHMYz+S6poTEEwTkgQFoR1NPgVPo=;
+ b=PIF6eusmaAUMnhfSzvBYyWs6T2o+BPy3FPLUGDaBI806h9XK0r4jMcqAKoMPje9Yvq
+ WOja/zzDW6LRpdHAiyJgigfUuYA8e2d67xxcOqQJh8f0LXMbY1FBfKA3uDDw9t0exrt+
+ pFjITvSDZIt+RKB0W+R1eEz/twnaTCG2LR8/Qro8lY50Mzs0eOPNaWZMVsut6CKfRTJD
+ 4ksrwHImkx261CFj/1qJeQobDnQP1W8Dj2qvwxTjiDpVPkvFlwNrlWqHgwJ8weqAkTrL
+ BuLVJKwSVIdpWZ8+CxUsi7Axt5+CM87fktkj2N65/etZDaxxbIWwtHqD1gmkH5FXQwTz
+ iO8Q==
+X-Gm-Message-State: AOAM530CZw2YObM77y1GHoIUnlBQNpLfjBjuvn9GVYFvsfn/w5xrdjQV
+ 4tMRlyjAZk+rtL1Vy3X+fknQCncJgms+Dw==
+X-Google-Smtp-Source: ABdhPJxliFQ5C+u6XOw8fWfQofvit45wu7tofeeO30t6iBGOxhlaC3UUpgMAMc9CBvF2AsQO3QfakA==
+X-Received: by 2002:adf:c3c5:: with SMTP id d5mr14764331wrg.76.1627862377969; 
+ Sun, 01 Aug 2021 16:59:37 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- l2sm9043969wru.67.2021.08.01.16.59.32
+ f26sm9249423wrd.41.2021.08.01.16.59.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 16:59:33 -0700 (PDT)
+ Sun, 01 Aug 2021 16:59:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 1/5] target/mips: Extract NEC Vr54xx helpers to
- vr54xx_helper.c
-Date: Mon,  2 Aug 2021 01:59:22 +0200
-Message-Id: <20210801235926.3178085-2-f4bug@amsat.org>
+Subject: [PATCH-for-6.2 2/5] target/mips: Introduce decodetree structure for
+ NEC Vr54xx extension
+Date: Mon,  2 Aug 2021 01:59:23 +0200
+Message-Id: <20210801235926.3178085-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210801235926.3178085-1-f4bug@amsat.org>
 References: <20210801235926.3178085-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,311 +87,106 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract NEC Vr54xx helpers from op_helper.c to a new file:
-'vr54xx_helper.c'.
+The decoder is called but doesn't decode anything. This will
+ease reviewing the next commit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201120210844.2625602-14-f4bug@amsat.org>
 ---
- target/mips/tcg/op_helper.c     | 118 --------------------------
- target/mips/tcg/vr54xx_helper.c | 142 ++++++++++++++++++++++++++++++++
- target/mips/tcg/meson.build     |   1 +
- 3 files changed, 143 insertions(+), 118 deletions(-)
- create mode 100644 target/mips/tcg/vr54xx_helper.c
+ target/mips/tcg/translate.h        |  1 +
+ target/mips/tcg/vr54xx.decode      |  8 ++++++++
+ target/mips/tcg/translate.c        |  3 +++
+ target/mips/tcg/vr54xx_translate.c | 19 +++++++++++++++++++
+ target/mips/tcg/meson.build        |  2 ++
+ 5 files changed, 33 insertions(+)
+ create mode 100644 target/mips/tcg/vr54xx.decode
+ create mode 100644 target/mips/tcg/vr54xx_translate.c
 
-diff --git a/target/mips/tcg/op_helper.c b/target/mips/tcg/op_helper.c
-index fafbf1faca7..ef3dafcbb3f 100644
---- a/target/mips/tcg/op_helper.c
-+++ b/target/mips/tcg/op_helper.c
-@@ -26,124 +26,6 @@
- #include "exec/memop.h"
- #include "fpu_helper.h"
+diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
+index c25fad597d5..d82c78c9bdc 100644
+--- a/target/mips/tcg/translate.h
++++ b/target/mips/tcg/translate.h
+@@ -201,5 +201,6 @@ bool decode_ext_txx9(DisasContext *ctx, uint32_t insn);
+ #if defined(TARGET_MIPS64)
+ bool decode_ext_tx79(DisasContext *ctx, uint32_t insn);
+ #endif
++bool decode_ext_vr54xx(DisasContext *ctx, uint32_t insn);
  
--/* 64 bits arithmetic for 32 bits hosts */
--static inline uint64_t get_HILO(CPUMIPSState *env)
--{
--    return ((uint64_t)(env->active_tc.HI[0]) << 32) |
--           (uint32_t)env->active_tc.LO[0];
--}
--
--static inline target_ulong set_HIT0_LO(CPUMIPSState *env, uint64_t HILO)
--{
--    env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
--    return env->active_tc.HI[0] = (int32_t)(HILO >> 32);
--}
--
--static inline target_ulong set_HI_LOT0(CPUMIPSState *env, uint64_t HILO)
--{
--    target_ulong tmp = env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
--    env->active_tc.HI[0] = (int32_t)(HILO >> 32);
--    return tmp;
--}
--
--/* Multiplication variants of the vr54xx. */
--target_ulong helper_muls(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, 0 - ((int64_t)(int32_t)arg1 *
--                                 (int64_t)(int32_t)arg2));
--}
--
--target_ulong helper_mulsu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, 0 - (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_macc(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_macchi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_maccu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, (uint64_t)get_HILO(env) +
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_macchiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)get_HILO(env) +
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_msac(CPUMIPSState *env, target_ulong arg1,
--                         target_ulong arg2)
--{
--    return set_HI_LOT0(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_msachi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_msacu(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HI_LOT0(env, (uint64_t)get_HILO(env) -
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_msachiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)get_HILO(env) -
--                       (uint64_t)(uint32_t)arg1 * (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_mulhi(CPUMIPSState *env, target_ulong arg1,
--                          target_ulong arg2)
--{
--    return set_HIT0_LO(env, (int64_t)(int32_t)arg1 * (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_mulhiu(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
--target_ulong helper_mulshi(CPUMIPSState *env, target_ulong arg1,
--                           target_ulong arg2)
--{
--    return set_HIT0_LO(env, 0 - (int64_t)(int32_t)arg1 *
--                       (int64_t)(int32_t)arg2);
--}
--
--target_ulong helper_mulshiu(CPUMIPSState *env, target_ulong arg1,
--                            target_ulong arg2)
--{
--    return set_HIT0_LO(env, 0 - (uint64_t)(uint32_t)arg1 *
--                       (uint64_t)(uint32_t)arg2);
--}
--
- static inline target_ulong bitswap(target_ulong v)
- {
-     v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
-diff --git a/target/mips/tcg/vr54xx_helper.c b/target/mips/tcg/vr54xx_helper.c
+ #endif
+diff --git a/target/mips/tcg/vr54xx.decode b/target/mips/tcg/vr54xx.decode
 new file mode 100644
-index 00000000000..2255bd11163
+index 00000000000..f6b3e42c999
 --- /dev/null
-+++ b/target/mips/tcg/vr54xx_helper.c
-@@ -0,0 +1,142 @@
++++ b/target/mips/tcg/vr54xx.decode
+@@ -0,0 +1,8 @@
++# MIPS VR5432 instruction set extensions
++#
++# Copyright (C) 2021  Philippe Mathieu-Daudé
++#
++# SPDX-License-Identifier: LGPL-2.1-or-later
++#
++# Reference: VR5432 Microprocessor User’s Manual
++#            (Document Number U13751EU5V0UM00)
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 34a96159d15..98dfcf5afd1 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -16109,6 +16109,9 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+     if (cpu_supports_isa(env, INSN_R5900) && decode_ext_txx9(ctx, ctx->opcode)) {
+         return;
+     }
++    if (cpu_supports_isa(env, INSN_VR54XX) && decode_ext_vr54xx(ctx, ctx->opcode)) {
++        return;
++    }
+ 
+     if (decode_opc_legacy(env, ctx)) {
+         return;
+diff --git a/target/mips/tcg/vr54xx_translate.c b/target/mips/tcg/vr54xx_translate.c
+new file mode 100644
+index 00000000000..13e58fdd8df
+--- /dev/null
++++ b/target/mips/tcg/vr54xx_translate.c
+@@ -0,0 +1,19 @@
 +/*
-+ *  MIPS VR5432 emulation helpers
++ * VR5432 extensions translation routines
 + *
-+ *  Copyright (c) 2004-2005 Jocelyn Mayer
++ * Reference: VR5432 Microprocessor User’s Manual
++ *            (Document Number U13751EU5V0UM00)
 + *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
++ *  Copyright (c) 2021 Philippe Mathieu-Daudé
 + *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
++#include "tcg/tcg-op.h"
++#include "exec/helper-gen.h"
++#include "translate.h"
++#include "internal.h"
 +
-+/* 64 bits arithmetic for 32 bits hosts */
-+static inline uint64_t get_HILO(CPUMIPSState *env)
-+{
-+    return ((uint64_t)(env->active_tc.HI[0]) << 32) |
-+           (uint32_t)env->active_tc.LO[0];
-+}
-+
-+static inline target_ulong set_HIT0_LO(CPUMIPSState *env, uint64_t HILO)
-+{
-+    env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
-+    return env->active_tc.HI[0] = (int32_t)(HILO >> 32);
-+}
-+
-+static inline target_ulong set_HI_LOT0(CPUMIPSState *env, uint64_t HILO)
-+{
-+    target_ulong tmp = env->active_tc.LO[0] = (int32_t)(HILO & 0xFFFFFFFF);
-+    env->active_tc.HI[0] = (int32_t)(HILO >> 32);
-+    return tmp;
-+}
-+
-+/* Multiplication variants of the vr54xx. */
-+target_ulong helper_muls(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, 0 - ((int64_t)(int32_t)arg1 *
-+                                 (int64_t)(int32_t)arg2));
-+}
-+
-+target_ulong helper_mulsu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, 0 - (uint64_t)(uint32_t)arg1 *
-+                                (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_macc(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
-+                                                     (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_macchi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)get_HILO(env) + (int64_t)(int32_t)arg1 *
-+                       (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_maccu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (uint64_t)get_HILO(env) + (uint64_t)(uint32_t)arg1 *
-+                                                      (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_macchiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)get_HILO(env) + (uint64_t)(uint32_t)arg1 *
-+                                                      (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_msac(CPUMIPSState *env, target_ulong arg1,
-+                         target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
-+                                                     (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_msachi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)get_HILO(env) - (int64_t)(int32_t)arg1 *
-+                                                     (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_msacu(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HI_LOT0(env, (uint64_t)get_HILO(env) - (uint64_t)(uint32_t)arg1 *
-+                                                      (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_msachiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)get_HILO(env) - (uint64_t)(uint32_t)arg1 *
-+                                                      (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_mulhi(CPUMIPSState *env, target_ulong arg1,
-+                          target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (int64_t)(int32_t)arg1 * (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_mulhiu(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, (uint64_t)(uint32_t)arg1 *
-+                            (uint64_t)(uint32_t)arg2);
-+}
-+
-+target_ulong helper_mulshi(CPUMIPSState *env, target_ulong arg1,
-+                           target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, 0 - (int64_t)(int32_t)arg1 *
-+                                (int64_t)(int32_t)arg2);
-+}
-+
-+target_ulong helper_mulshiu(CPUMIPSState *env, target_ulong arg1,
-+                            target_ulong arg2)
-+{
-+    return set_HIT0_LO(env, 0 - (uint64_t)(uint32_t)arg1 *
-+                                (uint64_t)(uint32_t)arg2);
-+}
++/* Include the auto-generated decoder. */
++#include "decode-vr54xx.c.inc"
 diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
-index bf4001e5741..68eb284e099 100644
+index 68eb284e099..259663a8893 100644
 --- a/target/mips/tcg/meson.build
 +++ b/target/mips/tcg/meson.build
-@@ -19,6 +19,7 @@
-   'translate.c',
+@@ -3,6 +3,7 @@
+   decodetree.process('mips64r6.decode', extra_args: '--static-decode=decode_mips64r6'),
+   decodetree.process('msa.decode', extra_args: '--decode=decode_ase_msa'),
+   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
++  decodetree.process('vr54xx.decode', extra_args: '--decode=decode_ext_vr54xx'),
+ ]
+ 
+ mips_ss.add(gen)
+@@ -20,6 +21,7 @@
    'translate_addr_const.c',
    'txx9_translate.c',
-+  'vr54xx_helper.c',
+   'vr54xx_helper.c',
++  'vr54xx_translate.c',
  ))
  mips_ss.add(when: 'TARGET_MIPS64', if_true: files(
    'tx79_translate.c',
