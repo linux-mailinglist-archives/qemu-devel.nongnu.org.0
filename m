@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D0B3DD5C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:37:27 +0200 (CEST)
-Received: from localhost ([::1]:48640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FCC3DD5C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:38:01 +0200 (CEST)
+Received: from localhost ([::1]:50828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXCA-0005fX-Iy
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56840)
+	id 1mAXCi-00078C-US
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX9u-0003Gp-Qb
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:35:10 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33401)
+ id 1mAXBp-0005sS-8a
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:37:05 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:37567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX9s-0007e4-Qq
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:35:06 -0400
-Received: by mail-ed1-x532.google.com with SMTP id ec13so23728010edb.0
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:35:04 -0700 (PDT)
+ id 1mAXBn-0008Ld-Mu
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:37:04 -0400
+Received: by mail-ed1-x530.google.com with SMTP id g21so4983820edb.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QgFPsnhpW6bOpU6hpQXBfh/j3kP7qrQHyYS7fIb1Lj0=;
- b=z4MovzgFIbi7w5kSAmc0B0ru3ODdys2rIM0sOZcNw7LmnY+vKcwEyx2aZ++3QumCqt
- C/QBLKdvh8GARmCV74ZrvO8dFS+YyprrJPN8U54KhgXzGKh4YJNxS9qTo8EGJvc9T/P3
- xKOx6a+WxXMM7LfEUt9jlDpjKYLn1LLu1pzyAIWbpI+Y3Jc7VKeIdIuhad8iuBBRt8oI
- jmxUdUObB+Fkv+lezcJH4HGvjYJsKuazqAUsRg3RztVPg6Y10eaRfMhnBE5h7yjaynCj
- EXIAkWXMRn4AdHKbu8Jcb3airT6RdSU8xObNFngO/Yur4M1Lhr3NkeotfsUN1us89VX+
- cpaw==
+ :cc; bh=FmKtBa9fyc7qjRpHH3J5yqPHkK2KJifQsGEJ7PbRq5A=;
+ b=NvbtZaDlSyAZY0ErsSrjM3nqhNECXt6Dsln14B8xD7LEWMRELAMgYfSjbtzaOB6nmO
+ wFRwcaFD3xblbAKh03JPwJiPd/lebV2vFeRm8AMe8S1KGYwB/2brUxom9YugVMDJzmKD
+ +gu+IGB0BhGsWnR7vieCXRzC7MnnzvCYS8eo3HzruBKldBJhaVp9T8Kl8BrCJ/5bD9Ii
+ zrbtoLivbBe91NqWA/aXk2e0a1+7HVuFxE04SWiLZAird0KUvYHRnfWAzXbTaRpHN9N3
+ SPBihFpxELQxZvhW3H8Pwe3HScQTCBNJnkfQ+FOryn4usW6h/eBRPMX4YJCjwP8qvA5t
+ Vk3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QgFPsnhpW6bOpU6hpQXBfh/j3kP7qrQHyYS7fIb1Lj0=;
- b=tV5+oBQTOz6bEqL9tc2/tXV4TrvMmUNVIMMqbruCvNxCVDlpVtpwnykeU6sA1SvjtK
- xSZT1fTCTWzp2N7Bnv6Syma8gf3P0lwTv5tmtglg6CwK8JQWlRh8lXxfsYgiJLYvBEt+
- VQoGS4eb+yzuwD27NTZILPtMH5yDuiTTe4VlnGJw2lZ+x7qQF9p9taHGb11DTt6g6+ue
- aXPPTDVs/520ooatrKKX9WERGVmni1sHJFx4m1dVOMjiy6oM0UE+CIdJxio3tnNdfkzX
- mgGKa7osy1xfePKnKTzM6BVSH0OyeVaHgADq7OCsfJSBwwPdlF0N6RIXl0fCDznx2JSM
- QUnQ==
-X-Gm-Message-State: AOAM531ED1BvFUzOG7Zy46Dkje2zL3YBwnXIjpS9bjBqOLeuDw7LAzhn
- KmNhtMaA7adl0dOBpWXfqDBArr8pmGglFqUc1/qj4Q==
-X-Google-Smtp-Source: ABdhPJyDX6m8dO9cy1WfcztdsUHIq9q9W9QlExwxUcVg/nm4gziYcA4zdXsFgL+/Z6bTU5wX8zVFeJ+3KNsFnpaZvcc=
-X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr18560453eds.251.1627907703111; 
- Mon, 02 Aug 2021 05:35:03 -0700 (PDT)
+ bh=FmKtBa9fyc7qjRpHH3J5yqPHkK2KJifQsGEJ7PbRq5A=;
+ b=dzY7/l6ZEGr8kOjpve6UXpbYRtBibV7QFl26y1X+1uyq8yk9iDv/EUhcw4BvPlI0TK
+ GLlVZ4Vy320cYUbIYOI/IZGFHJ3cpniWvHl+8UdA9Hf2ROs3NRDwwjKdHQ3mq+KbEAa0
+ e35JmJGFdHaC8kn6GoIosCcQuRS+MVIeasW6eHpQ4nSeQnobaa9JxobmowpbydhALsAN
+ EFof6krhyiuNZI38m6/NO0XzuuQyHOM1at96eOTAWGhgvnJ/N03hnw2FMBBnaJ/3fqKb
+ twg52QGBfXKBYsMP/r9wC6xepXbF+jEiQwDDlv2saAtz2tlBzesXor5yTITyE64ixVAt
+ jiqA==
+X-Gm-Message-State: AOAM530oWFvIvmy7l4W6FX2x/w+fo1zr6voXZtCm2EN5VUinuQIghZGJ
+ cb9fGc2FA8FF++pq8Q+RhzBm+ydVOAVwajLk3nMPqg==
+X-Google-Smtp-Source: ABdhPJy6GZgN1ztMdFLq5HpUhG2nsR3BOa9N/8xhmTBFFj+/Kle/FyjSZ8ZNRzwfA13Hzs+h2nj/wwNavdAjiy8UUbk=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr18685056edt.100.1627907822116; 
+ Mon, 02 Aug 2021 05:37:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210731062741.301102-1-pbonzini@redhat.com>
- <20210731062741.301102-4-pbonzini@redhat.com>
-In-Reply-To: <20210731062741.301102-4-pbonzini@redhat.com>
+ <20210731062741.301102-5-pbonzini@redhat.com>
+In-Reply-To: <20210731062741.301102-5-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:34:19 +0100
-Message-ID: <CAFEAcA9i0-Mg954X2D+1uAMtzC62ZN5=6UY1Z7JXUiL9zs5rCw@mail.gmail.com>
-Subject: Re: [PATCH 3/6] coverity-model: remove model for more allocation
- functions
+Date: Mon, 2 Aug 2021 13:36:18 +0100
+Message-ID: <CAFEAcA95XPt-2oeKM1gCCRDOjAyf4m0vkoQNGwLZk4swo4gDAA@mail.gmail.com>
+Subject: Re: [PATCH 4/6] coverity-model: clean up the models for array
+ allocation functions
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,19 +82,42 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 31 Jul 2021 at 07:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Sat, 31 Jul 2021 at 07:31, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> These models are not needed anymore now that Coverity does not check
-> anymore that the result is used with "g_free".  Coverity understands
-> GCC attributes and uses them to detect leaks.
+> sz is only used in one place, so replace it with nmemb * size in
+> that one place.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  scripts/coverity-scan/model.c | 105 +---------------------------------
->  1 file changed, 1 insertion(+), 104 deletions(-)
+>  scripts/coverity-scan/model.c | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
 >
+> diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
+> index 1a5f39d2ae..2d384bdd79 100644
+> --- a/scripts/coverity-scan/model.c
+> +++ b/scripts/coverity-scan/model.c
+> @@ -178,13 +178,11 @@ uint8_t replay_get_byte(void)
+>
+>  void *g_malloc_n(size_t nmemb, size_t size)
+>  {
+> -    size_t sz;
+>      void *ptr;
+>
+>      __coverity_negative_sink__(nmemb);
+>      __coverity_negative_sink__(size);
+> -    sz = nmemb * size;
+> -    ptr = __coverity_alloc__(sz);
+> +    ptr = __coverity_alloc__(nmemb * size);
+>      __coverity_mark_as_uninitialized_buffer__(ptr);
+>      __coverity_mark_as_afm_allocated__(ptr, AFM_free);
+>      return ptr;
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+The real g_malloc_n() returns failure if the multiplication
+would overflow; I guess Coverity currently doesn't have any
+warnings it generates as a result of assuming overflow
+might happen?
 
 thanks
 -- PMM
