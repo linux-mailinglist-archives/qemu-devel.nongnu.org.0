@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3827E3DDD65
+	by mail.lfdr.de (Postfix) with ESMTPS id 5192F3DDD66
 	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 18:17:58 +0200 (CEST)
-Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAadZ-0003oZ-6y
+	id 1mAadZ-0003mW-CT
 	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 12:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mAabV-0000xN-2n
+ id 1mAabV-0000xO-3D
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 12:15:52 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35336)
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:35812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mAabS-0006qA-LL
+ id 1mAabT-0006qY-6s
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 12:15:48 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id o5so31781069ejy.2
+Received: by mail-ed1-x52d.google.com with SMTP id cf5so13693960edb.2
  for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 09:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
- b=UCMg7c/Wa5cq/JaS0xrPZRhKaq5W79m57kOaSkn40L2pR/AlR/i7yhjd2rpzCgzl44
- Az8qY0CAFl7IpZo3K9q/rellwM9RpgXY8Jn8f4AEBuHZOYvPXkgg5yEfzUHvUQ1yKObX
- z32KVUzefawugAL7sh+VOtF9rgSi0ZVE35JERim4Uvs2auRMUuex2PugiU2B/z7vMeQJ
- xCIWuAd0QssHhxza0ZCPpeN5EherRNURDvLHz7T2I8BPu9R3InHqBWb2LDl8PSDJ2nsq
- LxRF8QUUgOphhmQ5JU35+0dJZ9EYBql9i/A3blgaRErxJfDgINELBMycaYsYWL6XRm6B
- VMZQ==
+ bh=fm2UD8Zyz4671JlxJea8LEur7xOb1KFIH/B40VUSEow=;
+ b=oQW17AqWb4W8ZSUEh36z85BVyabfXryFcbonKMC0X0W1HNPWTvxjpSUBu8ysU3Gpvn
+ gn1HYd2jzr+2mhCmXpJKzhUNyPf8T7DL24xudeB+//9H7IDWiEDXB9zTa4vP+PJzBtK3
+ RzBa3DRl7F8ZGfqXYJebcFjSFujz2qZv/ht7EJD8uxL7ycKZBqChEPxsQ5YqIFiDzvNU
+ 0b/Ne8PZr5G0V7lX88RJBNsuV1jYfYFWh4Oj42remS6JrfSk3DEpxqYCJkZkWQqVM6Fy
+ ee6IPu8m2Ju31bV4tI/mbbmbS0252+Lff1g2MreBeWdwmDKul1c3qEuhV0zpgBazJMt2
+ tXGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
- b=mvU6W1ttG43Qkx82pLqmKikxzHaQihqMjF7wyQeYNmg4HJO73k8cxlmfTQunosU7um
- c3YeY1gymSly4rq7+YODeMr6pfOknYGupo5Kc7qs51mVBGVFIAbC0f2+x5WdsWxbhUQ4
- iJx5R3FWg2E9OcKWWu9gUCUYOZVQZoS6fKCYhVktUHulNpBOwqOYwuPBzHmhLE+7A8qW
- 2L1i+xQLruQ3xd8OrDsukSM4HHw3ZwMLlRfR6ji0sAmNRgwiDFkUEbdkiFYs3WryAOeX
- o+PvQZtkBpPvm0gudU9MAQwQncRek6gDufwY34mY6QGgzttjwjnGZ0DrA8nvGcbHJRFG
- OD2g==
-X-Gm-Message-State: AOAM531YtRkGiJG3U0Q2eZWPjEGjIQCtMZtVC28cXz9vgDmtrMEFDdN4
- v4f5BM1N0bFGc+LdR1clALNggxWfVKDTNg==
-X-Google-Smtp-Source: ABdhPJyEuNCkXq8vu1a8+7fZjUpIX+/lPvxr7PZL+X6HkBT9Lu1gQ38BQAPM3BmYlMjcPwkD/CjRlA==
-X-Received: by 2002:a17:906:a3d8:: with SMTP id
- ca24mr16565445ejb.533.1627920945372; 
+ bh=fm2UD8Zyz4671JlxJea8LEur7xOb1KFIH/B40VUSEow=;
+ b=jh/+A4L5gvTr/xbbOHDJsfePgXo88YV+YXAufaSE8m1zx/RNZ/Bha+3GEDjXsYijQa
+ Qh14DzE2xaypCaAKiOmwAM8MLvJaelgPdKIsz8p3ICOWQG0yYJXxMR6qcN1rRdhmswSU
+ offAg8KTUkRZbkzDS7Ss0YXwF5KNzYmPKRoOZqaJCs3MgBFNWqXguH0VdAa6tJk61yyX
+ JBZjLPXXSxvgR5AB4880DHbHSdPHixbF2937Rz3zFQAuIOYHQKi7vW+B1t6+lugeiQ74
+ 5R00wW19LjJ7+dMd24NZtH0LQ2gFCNCDdKga8GjksWyhy47lYOvyxuv/tHZGysLvsaBO
+ HPMA==
+X-Gm-Message-State: AOAM530wm2DV0zXSGb9M/LUaW+9ialEI+zqDsKwshxsmvYo5Icx3LaJQ
+ T+dUf7VmK3KRTsYGaQaVhc46bWiMKeI9Bg==
+X-Google-Smtp-Source: ABdhPJyYIbvg+AbBgP5qU7tqFt5xkl8Rj1ff9oNej7mJvDBOXNjmya8XJaisYd3MSS6+VmM0s2TTFg==
+X-Received: by 2002:a05:6402:34e:: with SMTP id
+ r14mr19964640edw.6.1627920945987; 
  Mon, 02 Aug 2021 09:15:45 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f15sm4835144ejb.125.2021.08.02.09.15.44
+ by smtp.gmail.com with ESMTPSA id f15sm4835144ejb.125.2021.08.02.09.15.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 02 Aug 2021 09:15:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] coverity-model: update address_space_read/write models
-Date: Mon,  2 Aug 2021 18:15:37 +0200
-Message-Id: <20210802161542.381976-4-pbonzini@redhat.com>
+Subject: [PULL 4/8] coverity-model: make g_free a synonym of free
+Date: Mon,  2 Aug 2021 18:15:38 +0200
+Message-Id: <20210802161542.381976-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210802161542.381976-1-pbonzini@redhat.com>
 References: <20210802161542.381976-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,98 +88,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use void * for consistency with the actual function; provide a model
-for MemoryRegionCache functions and for address_space_rw.  These
-let Coverity understand the bounds of the data that various functions
-read and write even at very high levels of inlining (e.g. pci_dma_read).
+Recently, Coverity has started complaining about using g_free() to free
+memory areas allocated by GLib functions not included in model.c,
+such as g_strfreev.  This unfortunately goes against the GLib
+documentation, which suggests that g_malloc() should be matched
+with g_free() and plain malloc() with free(); since GLib 2.46 however
+g_malloc() is hardcoded to always use the system malloc implementation,
+and g_free is just "free" plus a tracepoint.  Therefore, this
+should not cause any problem in practice.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/model.c | 48 ++++++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 3 deletions(-)
+ scripts/coverity-scan/model.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-index 2c0346ff25..e1bdf0ad84 100644
+index e1bdf0ad84..8e64a84c5a 100644
 --- a/scripts/coverity-scan/model.c
 +++ b/scripts/coverity-scan/model.c
-@@ -45,9 +45,10 @@ typedef struct va_list_str *va_list;
- /* exec.c */
- 
- typedef struct AddressSpace AddressSpace;
-+typedef struct MemoryRegionCache MemoryRegionCache;
- typedef uint64_t hwaddr;
- typedef uint32_t MemTxResult;
--typedef uint64_t MemTxAttrs;
-+typedef struct MemTxAttrs {} MemTxAttrs;
- 
- static void __bufwrite(uint8_t *buf, ssize_t len)
- {
-@@ -67,9 +68,40 @@ static void __bufread(uint8_t *buf, ssize_t len)
-     int last = buf[len-1];
+@@ -186,7 +186,7 @@ void *g_malloc_n(size_t nmemb, size_t size)
+     sz = nmemb * size;
+     ptr = __coverity_alloc__(sz);
+     __coverity_mark_as_uninitialized_buffer__(ptr);
+-    __coverity_mark_as_afm_allocated__(ptr, "g_free");
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
+     return ptr;
  }
  
-+MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
-+                                      MemTxAttrs attrs,
-+                                      void *buf, int len)
-+{
-+    MemTxResult result;
-+    // TODO: investigate impact of treating reads as producing
-+    // tainted data, with __coverity_tainted_data_argument__(buf).
-+    __bufwrite(buf, len);
-+    return result;
-+}
-+
-+MemTxResult address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-+                                MemTxAttrs attrs,
-+                                const void *buf, int len)
-+{
-+    MemTxResult result;
-+    __bufread(buf, len);
-+    return result;
-+}
-+
-+MemTxResult address_space_rw_cached(MemoryRegionCache *cache, hwaddr addr,
-+                                    MemTxAttrs attrs,
-+                                    void *buf, int len, bool is_write)
-+{
-+    if (is_write) {
-+        return address_space_write_cached(cache, addr, attrs, buf, len);
-+    } else {
-+        return address_space_read_cached(cache, addr, attrs, buf, len);
-+    }
-+}
-+
- MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
-                                MemTxAttrs attrs,
--                               uint8_t *buf, int len)
-+                               void *buf, int len)
- {
-     MemTxResult result;
-     // TODO: investigate impact of treating reads as producing
-@@ -80,13 +112,23 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
- 
- MemTxResult address_space_write(AddressSpace *as, hwaddr addr,
-                                 MemTxAttrs attrs,
--                                const uint8_t *buf, int len)
-+                                const void *buf, int len)
- {
-     MemTxResult result;
-     __bufread(buf, len);
-     return result;
+@@ -200,7 +200,7 @@ void *g_malloc0_n(size_t nmemb, size_t size)
+     sz = nmemb * size;
+     ptr = __coverity_alloc__(sz);
+     __coverity_writeall0__(ptr);
+-    __coverity_mark_as_afm_allocated__(ptr, "g_free");
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
+     return ptr;
  }
  
-+MemTxResult address_space_rw(AddressSpace *as, hwaddr addr,
-+                             MemTxAttrs attrs,
-+                             void *buf, int len, bool is_write)
-+{
-+    if (is_write) {
-+        return address_space_write(as, addr, attrs, buf, len);
-+    } else {
-+        return address_space_read(as, addr, attrs, buf, len);
-+    }
-+}
+@@ -218,14 +218,14 @@ void *g_realloc_n(void *ptr, size_t nmemb, size_t size)
+      * model that.  See Coverity's realloc() model
+      */
+     __coverity_writeall__(ptr);
+-    __coverity_mark_as_afm_allocated__(ptr, "g_free");
++    __coverity_mark_as_afm_allocated__(ptr, AFM_free);
+     return ptr;
+ }
  
- /* Tainting */
+ void g_free(void *ptr)
+ {
+     __coverity_free__(ptr);
+-    __coverity_mark_as_afm_freed__(ptr, "g_free");
++    __coverity_mark_as_afm_freed__(ptr, AFM_free);
+ }
+ 
+ /*
+@@ -328,7 +328,7 @@ char *g_strdup(const char *s)
+     __coverity_string_null_sink__(s);
+     __coverity_string_size_sink__(s);
+     dup = __coverity_alloc_nosize__();
+-    __coverity_mark_as_afm_allocated__(dup, "g_free");
++    __coverity_mark_as_afm_allocated__(dup, AFM_free);
+     for (i = 0; (dup[i] = s[i]); i++) ;
+     return dup;
+ }
+@@ -362,7 +362,7 @@ char *g_strdup_printf(const char *format, ...)
+ 
+     s = __coverity_alloc_nosize__();
+     __coverity_writeall__(s);
+-    __coverity_mark_as_afm_allocated__(s, "g_free");
++    __coverity_mark_as_afm_allocated__(s, AFM_free);
+     return s;
+ }
+ 
+@@ -375,11 +375,10 @@ char *g_strdup_vprintf(const char *format, va_list ap)
+     __coverity_string_size_sink__(format);
+ 
+     ch = *format;
+-    ch = *(char *)ap;
+ 
+     s = __coverity_alloc_nosize__();
+     __coverity_writeall__(s);
+-    __coverity_mark_as_afm_allocated__(s, "g_free");
++    __coverity_mark_as_afm_allocated__(s, AFM_free);
+ 
+     return len;
+ }
+@@ -395,7 +394,7 @@ char *g_strconcat(const char *s, ...)
+ 
+     s = __coverity_alloc_nosize__();
+     __coverity_writeall__(s);
+-    __coverity_mark_as_afm_allocated__(s, "g_free");
++    __coverity_mark_as_afm_allocated__(s, AFM_free);
+     return s;
+ }
  
 -- 
 2.31.1
