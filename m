@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C53DD584
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:19:06 +0200 (CEST)
-Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FB03DD58F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:21:32 +0200 (CEST)
+Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWuP-00026k-6a
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
+	id 1mAWwj-0006k5-Vf
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWrB-0007SD-Cr
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:15:45 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46846)
+ id 1mAWsQ-0000qB-SI
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:02 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWr7-0000hS-Sp
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:15:44 -0400
-Received: by mail-ed1-x531.google.com with SMTP id f13so24104250edq.13
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:15:41 -0700 (PDT)
+ id 1mAWsP-0001CU-84
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:02 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id cb3so8591663ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tidx8/ydHdVSbK6wUpRTU5/5PMZ4Z9b+/ivRjqw46o4=;
- b=fkWv/oHGdGeovYGhPoKeJSoUnPGhys/ijdlDa0EgeoO/UL8yjDBfNcIQgp7Ob5SXVh
- eAMw4DeTmCyq7jSUs5bS3t+P3F2VEmXOABc/YiZp2MJTKcw3tD/i9Sp65qqExqUUi48s
- mT0qQjOihY0/cnplho/XVtQk7cbSLInRQ2mY5YY45m1pIP/AUe8L2PHQ/jrUj0LHpvqp
- IGpgpZCl1AtWSd6lGJ2TrzEj6SIep9dvFzdJg0U8+mZxAm6MSOZN21MdF3nqqJyvT7FX
- IN8EIL6qYabCsXBHdK2Xq72G6LGZQe6L5GoWA9TSjwmvw1fXHi6vbm+89FkT+WjHQF0v
- debA==
+ :cc; bh=IhZijOkejXKhCzBzgcARey+v39ayxwtXrrlvz6UYEOo=;
+ b=qIWz/gq/v8D3ZMd3THgew6erFE5aoPRHPZMIq8sHiIZqXtu9+zX+ajcY0p7Ee476Dp
+ /2FBVmwHTbyS0G/drga3aWQ6gKGLXuF9ogqg6iy25U2rVxbOEc9yooIr3/Lr3TaHmCoo
+ JgiUji2GtmCFupciDBkH7KOEoz+hUeyIhHVsmwFw4Kp/q7aKwlvRBOeGS6DOhPZLo8N2
+ myBG3JvgFDwjKGz9o2gnA2k5vjdSmxwlzsaTccUiJCt1pKauT0GvIx+KIwefhppeCaiq
+ QQhaP50PflKdn+u2zfPTFKUBJYn0Tkw4lviVhtPh8kcUF7rf5UMBcilG7S42BHLfz9rq
+ kPQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tidx8/ydHdVSbK6wUpRTU5/5PMZ4Z9b+/ivRjqw46o4=;
- b=CUNCIrIMZbc9tLEVF0x3I4GXifOhWDM2qpX/b0BG5v7JVFrj6MeIYGTjqE5OSO7BSb
- mT3zO9A3HuiXLr+Drh5EwUp/7V7DBv4GQkdup39M+qMLIDeOiiityKiVmQIdL/h/7EiR
- 6Vkz5JlfQ4VB0zTWuChl7tWxzktpiJM861IzEVGCzXHNMoBJ5mzcxGXb4rRGzVDKT91k
- IJBPXaqo064OBtzELuDAmASoeEsPOh0rC9Y5wu4cVNqAT2sh62LqN3PExLhqvrCxqWvv
- 8E2zpMoLx2pgLBeCWfTqEWWWCs6EIUi8qL42p0QwhzpL5O9hTZpuvKPffx0sJ/x1Ys2t
- E3qg==
-X-Gm-Message-State: AOAM531xIkWZOAZhQh6HgbCT3S4SXBPX5nsgKhBA9iSsgwT0iNXqwtnE
- /ZUXF+7cCg5KtAig1wMJPNZNbTxSzPFzMbR6VyGFfw==
-X-Google-Smtp-Source: ABdhPJxM8uEW5YlfAC4sKANz16TuJuqLmVP2d8AaOihRpRTasON8HT3J0mA1BuNYvJS9qLMht7ZuE+dqvFQvUb/WgSw=
-X-Received: by 2002:a50:f615:: with SMTP id c21mr19451947edn.146.1627906540393; 
- Mon, 02 Aug 2021 05:15:40 -0700 (PDT)
+ bh=IhZijOkejXKhCzBzgcARey+v39ayxwtXrrlvz6UYEOo=;
+ b=CGnywyYgHh3kAv1Aqtk2Z61h4ijeNEtug3t0NBYMUirkJxueACXW/YXwpTq4fMluiS
+ JTkPa+FWruPJcm8XScpySDx370T37XzEJFrOHmy+DwoArqzTdRunJqz4hsoSm0oAXhRu
+ KKbcip+K2cDTfxu2c6ZN70liAEOgrLhWvxvPIVBV4oz6xJ39U0N46uaeniFiDPSXHqOD
+ ZLUbfhz3KMXMgRRdX98WOV7iPZKoxzycBnshMN8zshQ8VqFmbs70L8NDyxwBgCjYp7fM
+ tWfINaXmBiH9im9ca63cL+qZ3k+ZgcR/2l1q9Eu0Dgpp2kevNOf243ucTZ7yIkB0qE6G
+ Ek0Q==
+X-Gm-Message-State: AOAM5316uJ2FZdMeXX2bvN7sW1dxR1TEdtz5uVhRNj5wHgE0rFED52z+
+ V9bUvwTx/sWB1wkoVfv4LnSuHla/xkYtiqA11bJh3g==
+X-Google-Smtp-Source: ABdhPJxs4ULZlVDn/h9fMnyZka5zWqY+8uKHi/2nbWX4HYrQ3Omb5EE29Rl1Ljo/2MJCWXJeKibehTgsLdhx4Y/nnLk=
+X-Received: by 2002:a17:906:948f:: with SMTP id
+ t15mr15292489ejx.85.1627906619674; 
+ Mon, 02 Aug 2021 05:16:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210729175554.686474-1-ehabkost@redhat.com>
- <20210729175554.686474-2-ehabkost@redhat.com>
-In-Reply-To: <20210729175554.686474-2-ehabkost@redhat.com>
+ <20210729175554.686474-4-ehabkost@redhat.com>
+In-Reply-To: <20210729175554.686474-4-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:14:57 +0100
-Message-ID: <CAFEAcA8FdSL6YwL1GiEqc0sF087SFCzRN3QvjOeOYxWaPoTO2Q@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 01/10] docs: qom: Replace old GTK-Doc #symbol
- syntax with `symbol`
+Date: Mon, 2 Aug 2021 13:16:16 +0100
+Message-ID: <CAFEAcA9+9opQkZWPZi7=X0RGX1uOHzwVZ7Py0DeK0sV9DUoSqg@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 03/10] docs: qom: Fix autoptr expansion example
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,50 +84,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 19:00, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Thu, 29 Jul 2021 at 18:59, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Replace leftover of GTK-Doc #name syntax with `name`, and use
-> default-role:: any, so we can add references to other functions,
-> types, and macros.
->
-> There are 3 cases that required extra care:
-> - #TypeInfo.class_init: kernel-doc doesn't generate c:member::
->   directives, so references to C struct members are not possible
->   yet.  This was replaced with `TypeInfo`.class_init.
-> - #CPUClass.reset and #DeviceClass.realize: cpu.h and qdev docs are not
->   rendered using Sphinx yet, so use ``code`` syntax for those.
+> The wrong type name was being used.  The autoptr cleanup function
+> will be declared for the instance type, not the class type.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  docs/devel/qom.rst | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
->
-> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> index e5fe3597cd8..9c1be5d7fc2 100644
-> --- a/docs/devel/qom.rst
-> +++ b/docs/devel/qom.rst
-> @@ -3,6 +3,7 @@ The QEMU Object Model (QOM)
->  ===========================
->
->  .. highlight:: c
-> +.. default-role:: any
->
->  The QEMU Object Model provides a framework for registering user creatable
->  types and instantiating objects from those types.  QOM provides the following
-> @@ -42,8 +43,8 @@ features:
->
->     type_init(my_device_register_types)
->
-> -In the above example, we create a simple type that is described by #TypeInfo.
-> -#TypeInfo describes information about the type including what it inherits
-> +In the above example, we create a simple type that is described by `TypeInfo`.
-> +`TypeInfo` describes information about the type including what it inherits
+>  docs/devel/qom.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've just gone through all of docs/ finding the places where we had `foo` and
-probably meant ``foo``, so please don't add any new ones. I would suggest
-that you either use the ``double-backtick`` syntax to render as fixed-width
-font, or use an explicit role tag so readers of the rST source can tell that
-that's what you meant to use, ie avoid "default-role".
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
