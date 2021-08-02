@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD30E3DD517
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:03:47 +0200 (CEST)
-Received: from localhost ([::1]:53798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC9B3DD52A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:07:10 +0200 (CEST)
+Received: from localhost ([::1]:34156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWfa-0000gn-MO
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:03:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
+	id 1mAWir-0006PK-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaO-0000ZG-La
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:24 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36492)
+ id 1mAWaP-0000aV-1b
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:25 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaM-0003az-FB
+ id 1mAWaN-0003b8-2q
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:24 -0400
-Received: by mail-wr1-x434.google.com with SMTP id b13so10310260wrs.3
+Received: by mail-wr1-x435.google.com with SMTP id h14so21135297wrx.10
  for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Dg5nApdUFCOrIhZ/JoSJnJ//2SJbZdxUlkIsuGjN9ZI=;
- b=TdV9OYy2qHK6LfHJnZ6XhGbgK2BH++Opqyxc4Xbyf/dIOexeOXIVgw/pBYRQ3jDDVm
- Vkdv/5hyTdPVdBzpCasLBM0plNQqyw5uRRIsHZx1Ja8AK1UN0fHMN98GWQe6zSVZruJM
- E51Y1GgfL4duCTmK+OetPhaG4eJxHYGvAW6FIZTVDGs8wwZHVFqyO6pnJhXjFvVKIW4k
- BPJsw3Rf58NnLaRBCd/FQjSgIGP5g96fabF0xMztSZfNazKlFk+pBguVZboPeRl5q6UQ
- 1If0WvwMR1npYOpayTVuBfbiCxFO2IwVyxXsKv0J3P94KyvV8Xo3vPXI8DOjkpC7ZQYW
- BGTg==
+ bh=aGF2G+/n9eScQIPDnrsebLNRQ810Fm+XJpMurXM/QN0=;
+ b=LQpFA+y6L3wcvpBV31JKdzI2L16uGmqXRBzTOUULfDoMwYEB6yEtkVZGj3xqZkRrQH
+ ujsqGsi9UI48q7AxR8nfsjDbY33MgP5vAFtN1CZXhZf71zdHKO4rBWLFbBc6MdGHt2xc
+ bb+jaqHLofVYmKVkyJh6J/H1H6Ywdi/XvtjHCTjED39iQZwFWOhvq+nUOo3H/VBTzi1H
+ 6K2metXIt5qvZF+9JasT2vOYzEhaUAtRYpJJKwPsRrHh8bfa+5qfIExpwDyCkLOC/EUg
+ XN10pyukdp5XkdSxB0M/NOzHPEW4AAAHcpjQmZ8DTK/22GXHXgNHGN82NYcgbLxhWv6o
+ ezFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dg5nApdUFCOrIhZ/JoSJnJ//2SJbZdxUlkIsuGjN9ZI=;
- b=QTI3bX8pkLQcnBXFOWPIqhqvFsn8TQBLs+1kGkvsJUUh4C1PAQfgszDRO1z+0D14JT
- UMX+isK10svuyT3rGdzXMc1MJN/p9PzZfKRzfs2XU/dQORGwDrItFdpUopDs5sO7Jnwv
- FSAIKK0S0OLGDOidI7NOG8w50w/o5EptpfH27l3e5ckVldvS0lbvtftt156//0JEoAwP
- zXIVyC9IeztCD2sijmz80FtVgJAS8mosjtQMaejYKQ7J510/hUhlda5597WrpadFbloH
- W3RyMl8nxiAOs4yGbvo35PF7cFHKdvJ8r7pptE5rPqHpA9V4GKlyEijtZqZ7V/Y7pvsP
- QtRw==
-X-Gm-Message-State: AOAM532d8VmMSLgyHAbMIZIx/aj9MnPTEHImtVsZk73LtT/RGBA/rUTd
- vP3T4gMVjp9NP3rb/YFsBJqCJ+h/SPlDDg==
-X-Google-Smtp-Source: ABdhPJzYeMQ8hTjxzccq70BwsGae3iXboSWLoszCt256vRmamCgludWQH3twTXR0QSm9aur6d7EPrg==
-X-Received: by 2002:a5d:4b48:: with SMTP id w8mr17321990wrs.109.1627905501034; 
+ bh=aGF2G+/n9eScQIPDnrsebLNRQ810Fm+XJpMurXM/QN0=;
+ b=D9rJ6NA3PTkdZP1xvh9d8kc6ETn7yAS2YS6hkPe/CPDxAKzmsHg+urAVWtvjIJLZnX
+ irRt3PgRztAcrPU6R9+2zqtlssoeAqoqhuj9r2+y/wUFwp5Hnyv/1+SbkYaQIZgboWrh
+ iZqTLYgOzOZ8TJg3iaREEYztKt/Vrb6bKWoZfEY/PO4MVianXs2hSrg9O9nzx5dKLujd
+ f4qsB2CkGutHnv6bIL2sCjm2Ib8N2vAKN31C7mdwxovf3B9X8wt4/xAMo56UKPPu2AOS
+ YTTgF3kJuZz3JDhqQd7pE3vCFBcsaw/WmmNYBNVDdRd0aX9ARRSwjdXDR+OQmQv4zxEf
+ 5dkg==
+X-Gm-Message-State: AOAM530QDO1p28YRitBm9emjVXVRd4sIMFdZS+mpDDhKkwxMZn0EpODz
+ TRwD0Egiy2s/A3yukAmA0VSJHVQ+knMwFA==
+X-Google-Smtp-Source: ABdhPJwPf9zgrXKXL9Uk6z7S/Uak5v4Nk3UFvhoAnkyghJ8+jkOtLtlsQAhSsTzSMOxnA9lR8FNI/A==
+X-Received: by 2002:a5d:53cf:: with SMTP id a15mr17164874wrw.410.1627905501832; 
  Mon, 02 Aug 2021 04:58:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.20
+ by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:58:20 -0700 (PDT)
+ Mon, 02 Aug 2021 04:58:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/21] docs/devel/migration.rst: Format literals correctly
-Date: Mon,  2 Aug 2021 12:58:01 +0100
-Message-Id: <20210802115812.10731-11-peter.maydell@linaro.org>
+Subject: [PULL 11/21] docs/devel: Format literals correctly
+Date: Mon,  2 Aug 2021 12:58:02 +0100
+Message-Id: <20210802115812.10731-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
 References: <20210802115812.10731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,125 +98,132 @@ The default "role" if none is specified is "title_reference",
 intended for references to book or article titles, and it renders
 into the HTML as <cite>...</cite> (usually comes out as italics).
 
-To format a literal (generally rendered as fixed-width font),
-double-backticks are required.
-
-Mostly migration.rst gets this right, but some places incorrectly use
-single backticks where double backticks were intended; correct them.
+Fix various places in the devel section of the manual which were
+using single backticks when double backticks (for literal text)
+were intended.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-id: 20210726142338.31872-5-peter.maydell@linaro.org
+Message-id: 20210726142338.31872-6-peter.maydell@linaro.org
 ---
- docs/devel/migration.rst | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ docs/devel/qgraph.rst      |  8 ++++----
+ docs/devel/tcg-plugins.rst | 14 +++++++-------
+ docs/devel/testing.rst     |  8 ++++----
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index 19c3d4f3eac..24012534827 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -53,7 +53,7 @@ savevm/loadvm functionality.
- Debugging
- =========
+diff --git a/docs/devel/qgraph.rst b/docs/devel/qgraph.rst
+index 318534d4b08..39e293687e6 100644
+--- a/docs/devel/qgraph.rst
++++ b/docs/devel/qgraph.rst
+@@ -66,11 +66,11 @@ Notes for the nodes:
+ Edges
+ ^^^^^^
  
--The migration stream can be analyzed thanks to `scripts/analyze-migration.py`.
-+The migration stream can be analyzed thanks to ``scripts/analyze-migration.py``.
+-An edge relation between two nodes (drivers or machines) `X` and `Y` can be:
++An edge relation between two nodes (drivers or machines) ``X`` and ``Y`` can be:
  
- Example usage:
+-- ``X CONSUMES Y``: `Y` can be plugged into `X`
+-- ``X PRODUCES Y``: `X` provides the interface `Y`
+-- ``X CONTAINS Y``: `Y` is part of `X` component
++- ``X CONSUMES Y``: ``Y`` can be plugged into ``X``
++- ``X PRODUCES Y``: ``X`` provides the interface ``Y``
++- ``X CONTAINS Y``: ``Y`` is part of ``X`` component
  
-@@ -75,8 +75,8 @@ Common infrastructure
- =====================
+ Execution steps
+ ^^^^^^^^^^^^^^^
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 7e54f128375..047bf4ada7c 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -34,11 +34,11 @@ version they were built against. This can be done simply by::
+   QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
  
- The files, sockets or fd's that carry the migration stream are abstracted by
--the  ``QEMUFile`` type (see `migration/qemu-file.h`).  In most cases this
--is connected to a subtype of ``QIOChannel`` (see `io/`).
-+the  ``QEMUFile`` type (see ``migration/qemu-file.h``).  In most cases this
-+is connected to a subtype of ``QIOChannel`` (see ``io/``).
+ The core code will refuse to load a plugin that doesn't export a
+-`qemu_plugin_version` symbol or if plugin version is outside of QEMU's
++``qemu_plugin_version`` symbol or if plugin version is outside of QEMU's
+ supported range of API versions.
  
+-Additionally the `qemu_info_t` structure which is passed to the
+-`qemu_plugin_install` method of a plugin will detail the minimum and
++Additionally the ``qemu_info_t`` structure which is passed to the
++``qemu_plugin_install`` method of a plugin will detail the minimum and
+ current API versions supported by QEMU. The API version will be
+ incremented if new APIs are added. The minimum API version will be
+ incremented if existing APIs are changed or removed.
+@@ -146,12 +146,12 @@ Example Plugins
  
- Saving the state of one device
-@@ -166,14 +166,14 @@ An example (from hw/input/pckbd.c)
-   };
+ There are a number of plugins included with QEMU and you are
+ encouraged to contribute your own plugins plugins upstream. There is a
+-`contrib/plugins` directory where they can go.
++``contrib/plugins`` directory where they can go.
  
- We are declaring the state with name "pckbd".
--The `version_id` is 3, and the fields are 4 uint8_t in a KBDState structure.
-+The ``version_id`` is 3, and the fields are 4 uint8_t in a KBDState structure.
- We registered this with:
+ - tests/plugins
  
- .. code:: c
+ These are some basic plugins that are used to test and exercise the
+-API during the `make check-tcg` target.
++API during the ``make check-tcg`` target.
  
-     vmstate_register(NULL, 0, &vmstate_kbd, s);
+ - contrib/plugins/hotblocks.c
  
--For devices that are `qdev` based, we can register the device in the class
-+For devices that are ``qdev`` based, we can register the device in the class
- init function:
+@@ -163,7 +163,7 @@ with linux-user execution as system emulation tends to generate
+ re-translations as blocks from different programs get swapped in and
+ out of system memory.
  
- .. code:: c
-@@ -210,9 +210,9 @@ another to load the state back.
-                            SaveVMHandlers *ops,
-                            void *opaque);
+-If your program is single-threaded you can use the `inline` option for
++If your program is single-threaded you can use the ``inline`` option for
+ slightly faster (but not thread safe) counters.
  
--Two functions in the ``ops`` structure are the `save_state`
--and `load_state` functions.  Notice that `load_state` receives a version_id
--parameter to know what state format is receiving.  `save_state` doesn't
-+Two functions in the ``ops`` structure are the ``save_state``
-+and ``load_state`` functions.  Notice that ``load_state`` receives a version_id
-+parameter to know what state format is receiving.  ``save_state`` doesn't
- have a version_id parameter because it always uses the latest version.
+ Example::
+@@ -251,7 +251,7 @@ which will lead to a sorted list after the class breakdown::
+   ...
  
- Note that because the VMState macros still save the data in a raw
-@@ -385,18 +385,18 @@ migration of a device, and using them breaks backward-migration
- compatibility; in general most changes can be made by adding Subsections
- (see above) or _TEST macros (see above) which won't break compatibility.
+ To find the argument shorthand for the class you need to examine the
+-source code of the plugin at the moment, specifically the `*opt`
++source code of the plugin at the moment, specifically the ``*opt``
+ argument in the InsnClassExecCount tables.
  
--Each version is associated with a series of fields saved.  The `save_state` always saves
--the state as the newer version.  But `load_state` sometimes is able to
-+Each version is associated with a series of fields saved.  The ``save_state`` always saves
-+the state as the newer version.  But ``load_state`` sometimes is able to
- load state from an older version.
+ - contrib/plugins/lockstep.c
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 8f572255d32..8a9cda33a5d 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -775,7 +775,7 @@ The base test class has also support for tests with more than one
+ QEMUMachine. The way to get machines is through the ``self.get_vm()``
+ method which will return a QEMUMachine instance. The ``self.get_vm()``
+ method accepts arguments that will be passed to the QEMUMachine creation
+-and also an optional `name` attribute so you can identify a specific
++and also an optional ``name`` attribute so you can identify a specific
+ machine and get it more than once through the tests methods. A simple
+ and hypothetical example follows:
  
- You can see that there are several version fields:
+@@ -1062,7 +1062,7 @@ Here is a list of the most used variables:
+ AVOCADO_ALLOW_LARGE_STORAGE
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Tests which are going to fetch or produce assets considered *large* are not
+-going to run unless that `AVOCADO_ALLOW_LARGE_STORAGE=1` is exported on
++going to run unless that ``AVOCADO_ALLOW_LARGE_STORAGE=1`` is exported on
+ the environment.
  
--- `version_id`: the maximum version_id supported by VMState for that device.
--- `minimum_version_id`: the minimum version_id that VMState is able to understand
-+- ``version_id``: the maximum version_id supported by VMState for that device.
-+- ``minimum_version_id``: the minimum version_id that VMState is able to understand
-   for that device.
--- `minimum_version_id_old`: For devices that were not able to port to vmstate, we can
-+- ``minimum_version_id_old``: For devices that were not able to port to vmstate, we can
-   assign a function that knows how to read this old state. This field is
--  ignored if there is no `load_state_old` handler.
-+  ignored if there is no ``load_state_old`` handler.
+ The definition of *large* is a bit arbitrary here, but it usually means an
+@@ -1076,7 +1076,7 @@ skipped by default. The definition of *not safe* is also arbitrary but
+ usually it means a blob which either its source or build process aren't
+ public available.
  
- VMState is able to read versions from minimum_version_id to
- version_id.  And the function ``load_state_old()`` (if present) is able to
-@@ -454,7 +454,7 @@ data and then transferred to the main structure.
+-You should export `AVOCADO_ALLOW_UNTRUSTED_CODE=1` on the environment in
++You should export ``AVOCADO_ALLOW_UNTRUSTED_CODE=1`` on the environment in
+ order to allow tests which make use of those kind of assets.
  
- If you use memory API functions that update memory layout outside
- initialization (i.e., in response to a guest action), this is a strong
--indication that you need to call these functions in a `post_load` callback.
-+indication that you need to call these functions in a ``post_load`` callback.
- Examples of such memory API functions are:
+ AVOCADO_TIMEOUT_EXPECTED
+@@ -1090,7 +1090,7 @@ property defined in the test class, for further details::
+ Even though the timeout can be set by the test developer, there are some tests
+ that may not have a well-defined limit of time to finish under certain
+ conditions. For example, tests that take longer to execute when QEMU is
+-compiled with debug flags. Therefore, the `AVOCADO_TIMEOUT_EXPECTED` variable
++compiled with debug flags. Therefore, the ``AVOCADO_TIMEOUT_EXPECTED`` variable
+ has been used to determine whether those tests should run or not.
  
-   - memory_region_add_subregion()
-@@ -823,12 +823,12 @@ Postcopy migration with shared memory needs explicit support from the other
- processes that share memory and from QEMU. There are restrictions on the type of
- memory that userfault can support shared.
- 
--The Linux kernel userfault support works on `/dev/shm` memory and on `hugetlbfs`
--(although the kernel doesn't provide an equivalent to `madvise(MADV_DONTNEED)`
-+The Linux kernel userfault support works on ``/dev/shm`` memory and on ``hugetlbfs``
-+(although the kernel doesn't provide an equivalent to ``madvise(MADV_DONTNEED)``
- for hugetlbfs which may be a problem in some configurations).
- 
- The vhost-user code in QEMU supports clients that have Postcopy support,
--and the `vhost-user-bridge` (in `tests/`) and the DPDK package have changes
-+and the ``vhost-user-bridge`` (in ``tests/``) and the DPDK package have changes
- to support postcopy.
- 
- The client needs to open a userfaultfd and register the areas
+ GITLAB_CI
 -- 
 2.20.1
 
