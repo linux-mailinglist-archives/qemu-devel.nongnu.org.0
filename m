@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CF63DD62B
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:58:38 +0200 (CEST)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F16F3DD65C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:01:09 +0200 (CEST)
+Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXWf-0002ZJ-3s
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
+	id 1mAXZ6-0004d5-Ey
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAXVP-0001rA-Ka
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:57:19 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAXVO-0006hH-4E
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:57:19 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id x17so4103225wmc.5
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CnybaXaXRXuXzr+hZu8XpTrvMXCOABG1P6Qfhb+BmoE=;
- b=Sr5QH91mlmN1jqWWDkGfwyulWOmON7Mjk33PgfnSr9j5GMdqO1go88n1v1Yo0+Ki45
- /j+7gx6tRp04HvzMPv6xmOyNEJAsaYEy7RxTt5tThoUPLs6ym/OhkR68Y5zFN12XQXSq
- Rc0DPP+YBWfnkNDf4VNudhMLIyNUQgmWTrRyqEb2rgTcJlP7pHr7hgosL9a2N1jvSQry
- od0Xq1q1dyqNM6uD/DuAiIEIL6ASB63JsOAL4Gr8vCklcOGMVnI12qi0rYIi7cUv6pNb
- 4UCvm2xIk72iXrWz5fokLooLE70fhPTGqvNiuIH5fQ/gv0caFN38wokN915mYPnNZdtc
- HyIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CnybaXaXRXuXzr+hZu8XpTrvMXCOABG1P6Qfhb+BmoE=;
- b=eTVcHx+ZxkZf0Vz3qwuqvflOZgl/MMM2YzSxHuiWnxfl5BMzkP6NOluiMBj61PKJxc
- 8FdWVaDE17Td7XZMBg17OwZpI8Htm9ojSSTCTu2TXaBXytp8qR/T3NqxzkdPTE1sibOQ
- eypP8laFdIbhtj9qbAjSEDlBx43Z1zh4w5+ovYN1LbkNEZi9WKPbs4Yca8zKB3nqu9Dg
- /P1z0nBI/wDb/Gnxo4kzcOZ04VImr5n3UDYzrOXHLeqIHeeHFG9EOYSraLe2Rp5uPQ1T
- eXaMCGPXBBTUJhxa2rPhwW1RZz1Isi6YIFuYl/FRvGrbe1bbQtoHyQyBAPtslxJOMjQY
- L5gg==
-X-Gm-Message-State: AOAM530xYxYzqdo0JEO1svR7/1RompiOQJH+6bthF7Cznx4YlrHhnPqz
- XordrRn9hWqgl+sU2we0s+r5iA==
-X-Google-Smtp-Source: ABdhPJxKLcYrdwE9cZP5kCynBeinee0P9XgacBlW1UzNomRaMYho/3erD3drcCEYUlIOGSINpy5Wzw==
-X-Received: by 2002:a05:600c:4eca:: with SMTP id
- g10mr5713878wmq.60.1627909036275; 
- Mon, 02 Aug 2021 05:57:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b20sm8341103wmj.48.2021.08.02.05.57.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 05:57:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 09AE61FF96;
- Mon,  2 Aug 2021 13:57:13 +0100 (BST)
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <YQeu+Jm2Q0NlQ2Im@redhat.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mAXXn-0003P6-C4
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:59:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mAXXk-0007Zp-L7
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:59:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627909183;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OcztPFBK2AhJgcTr3/SnEyRXZ2uYFidxiN1+BXeFM4s=;
+ b=IuqiB4Z3CAkTT8Aa5Rf/cKxm1cjkdTl4Doik7hB/P7Lsjyuggj6OryOyle+95M7a34lxJU
+ cBHkF7R2+680NJ6hq5uilZTxbue6MJzVtUtoQ/mo+AK6U3Ai1xTZ/qqb3+YygnqtUsOLxO
+ k3hOM34ydeR9zz1RifIUi8K6EKZd51M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-Glrw6o70NXyK_Sq9HnZ1Rg-1; Mon, 02 Aug 2021 08:59:42 -0400
+X-MC-Unique: Glrw6o70NXyK_Sq9HnZ1Rg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0705A10082F6;
+ Mon,  2 Aug 2021 12:59:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8985C19C44;
+ Mon,  2 Aug 2021 12:59:19 +0000 (UTC)
+Date: Mon, 2 Aug 2021 13:59:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Subject: Re: "make check-acceptance" takes way too long
-Date: Mon, 02 Aug 2021 13:55:44 +0100
-In-reply-to: <YQeu+Jm2Q0NlQ2Im@redhat.com>
-Message-ID: <878s1kgg2f.fsf@linaro.org>
+Message-ID: <YQfsJBEv92504gXX@redhat.com>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <YQeu+Jm2Q0NlQ2Im@redhat.com> <87bl6gggb2.fsf@linaro.org>
 MIME-Version: 1.0
+In-Reply-To: <87bl6gggb2.fsf@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,39 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Aug 02, 2021 at 01:47:37PM +0100, Alex Bennée wrote:
+> 
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
+> >> "make check-acceptance" takes way way too long. I just did a run
+> >> on an arm-and-aarch64-targets-only debug build and it took over
+> >> half an hour, and this despite it skipping or cancelling 26 out
+> >> of 58 tests!
+> >> 
+> >> I think that ~10 minutes runtime is reasonable. 30 is not;
+> >> ideally no individual test would take more than a minute or so.
+> >> 
+> >> Output saying where the time went. The first two tests take
+> >> more than 10 minutes *each*. I think a good start would be to find
+> >> a way of testing what they're testing that is less heavyweight.
+> >
+> > While there is certainly value in testing with a real world "full" guest
+> > OS, I think it is overkill as the default setup. I reckon we would get
+> > 80-90% of the value, by making our own test image repo, containing minimal
+> > kernel builds for each machine/target combo we need, together with a tiny
+> > initrd containing busybox. This could easily be made to boot in 1 second,
+> > which would make 'make check-acceptance' waaaaay faster, considering how
+> > many times we boot a guest. This would also solve our problem that we're
+> > pointing to URLs to download these giant images, and they're frequently
+> > break URLs.
+> 
+> It's been discussed before but previously the worry has been the hassle
+> of maintaining such images along with such tediousness as ensuring GPL
+> compliance. We've outsourced that problem to the upstream.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+I don't recall discussing that directly - only discussions around
+hosting images / files from other distros on our own infra, that
+does indeed create a compliance burden.
 
-> On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
->> "make check-acceptance" takes way way too long. I just did a run
->> on an arm-and-aarch64-targets-only debug build and it took over
->> half an hour, and this despite it skipping or cancelling 26 out
->> of 58 tests!
->>=20
->> I think that ~10 minutes runtime is reasonable. 30 is not;
->> ideally no individual test would take more than a minute or so.
->>=20
->> Output saying where the time went. The first two tests take
->> more than 10 minutes *each*. I think a good start would be to find
->> a way of testing what they're testing that is less heavyweight.
->
-> While there is certainly value in testing with a real world "full" guest
-> OS, I think it is overkill as the default setup. I reckon we would get
-> 80-90% of the value, by making our own test image repo, containing minimal
-> kernel builds for each machine/target combo we need, together with a tiny
-> initrd containing busybox.
+This is why I suggested /strictly/ nothing more than kernel+busybox
+built from source ourselves, probably using debian cross compilers.
 
-Also another minor wrinkle for this test is because we are booting via
-firmware we need a proper disk image with bootloader and the rest of it
-which involves more faff than a simple kernel+initrd (which is my goto
-format for the local zoo of testing images I have).
+The busybox stuff would only need to be built once per architecture.
+The kernel would potentially need more builds to cope with machine
+board specific configs. We would not need to continually track new
+releases - we can fix on specific kernel + busybox versions for as
+long as they cope with the targets/archs we need.
 
---=20
-Alex Benn=C3=A9e
+I'd expect it all to be done in a gitlab repo, with a CI job to
+publish the results, never any manual builds, so that we ensure
+license compliance.
+
+Of course the main problem is someone doing the leg work to get
+such a system up & running initially to prove the concept.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
