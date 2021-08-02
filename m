@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CDE3DD5B4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:34:36 +0200 (CEST)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2AF3DD5B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:35:28 +0200 (CEST)
+Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAX9P-0001T5-F8
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56274)
+	id 1mAXAF-0001sp-An
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:35:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX6k-0006cg-UP
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:31:51 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36477)
+ id 1mAX86-0008EU-CW
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:33:14 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:37524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX6h-0006ms-Rn
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:31:50 -0400
-Received: by mail-ed1-x533.google.com with SMTP id b7so24259112edu.3
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:31:47 -0700 (PDT)
+ id 1mAX81-00076k-R3
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:33:12 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id g21so4969024edb.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pMoNzIXa6u030OYPooaJrmoPkMEKRZkUdaSHUOHiYFo=;
- b=Mf85v2u3f97cDbsrAZELskKTK/SCLO+6gmDZ/BAX9STWQxIEeH7Wyxx84TNU4fBdj0
- VBVAZUmStJ4K8useqS+svppel9KO5NrpJ4dcqCDfxuK+t9nQUh8jPDcnj3+nRAieB7O/
- 1RDYdMpHPbEimijQbJDfDRAiWTm5txTXceTakayjuHPVNpF1KzyNvP5rvWFW5dBWfKqV
- 0yjUy7hQ11jsuXCChLn5GZV/AVwxMCEgFojJXrExWIJRu5nSziOHeW4RQjyJodmhXSRP
- QOJkow8SgKsa5JIpCYHIoJZ8BDTwK1xJjB50h4R8p9wc1S6K9BUUbnhucvlEOZ/bx5T3
- +NXA==
+ :cc; bh=a+qvyvOqDGfGG5qmtYOz9jsZw6pdy6W6KHtQS90ftX0=;
+ b=A4XGFQvJ+DBMgmsmUyyooNsaNSnUfnxd0tfNwpzR7N1IKFndBRG3A+paRMD0ELn8sl
+ Ly5h8OFLjIEimk0hOkhq+Ci0GmyadWi9gEAdsxQYpRX0Ky+gli6uiKtq+g7fdhOWf2RR
+ JOvo0luDJHa4bsFqbg8+wN3L4RvsiqBfEqsVqj+DrHCpTC/iHfPzecGBVvhUMCkI5/7e
+ 0KBGLa09SmiIFMEDpFhRhDLOxZ16j9ddsSrawPC6Ei/XsgLz4DktA72tDTDBPXUVCdCk
+ xoNtYy+kuuyiQoYwukTBlz8kWRoPl67Ty73zVojd3ymQm5tYPzkthyKFpFLlcZNmp2Zz
+ 06SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pMoNzIXa6u030OYPooaJrmoPkMEKRZkUdaSHUOHiYFo=;
- b=pOHO7EDVloIxE2kdeqcCdpM8QdVYIMGoGmp+0cwUh5VTnSsSi/pb5kyZoPsAf/f28q
- DD1LrcvJFFPMC28ci4vhAO+0/4+sWxnVv2rNDxzHlc82m1ZJbxzEV4HG2OBfxx8UieGY
- HWhGEnJrKFR9CQybzbfaEiurX4z/Rzg1DHGjhMnk68TzE8bAaV8TFpn7f/szhosKyU2r
- 0onrCrgqhhII8DQqfVKjzTA+GMp4TgAhDXgevDNGnY5tKrlv82icDxY+Kzm1gwA1N/yy
- kBWw8XQwhnXmZfKC1OrcpecPTGp2U8LuBcFbC1msGm6p/f0KTgDVA9nkwjVgEOunY9NJ
- XX9w==
-X-Gm-Message-State: AOAM532W3N1xQ2oJAElmsuEGY36VzKUM/2a46hVMhEwkdWnq71P/V0N0
- zm9RMjH5XljgCeTAdPZ6M4PPq+l2csaN8ZUjtrtRZA==
-X-Google-Smtp-Source: ABdhPJw4Wq+HRIFGOqp1w239dOm9yqVaYzAnctZSj26OGQyJl/4uhrXkRPS20OBNfv76mCi5ipAEhubDywxG5p/DgU4=
-X-Received: by 2002:a50:f615:: with SMTP id c21mr19538094edn.146.1627907506572; 
- Mon, 02 Aug 2021 05:31:46 -0700 (PDT)
+ bh=a+qvyvOqDGfGG5qmtYOz9jsZw6pdy6W6KHtQS90ftX0=;
+ b=UHtDbsHce1nKQQFdjM8ExYllm1TdpfyURr+OkAmO9EEDpMBf5dchBOJk4wqBDoMX1Q
+ PTgKNQy9b+lWydQlSOwt7WHUErWso7K+Abvga7HSxfcIpKLDC96r8VLrTAVPBtuLPakj
+ +IsCLt0E/CRn9aGFlFQyc6O2FJ5UKI56xClaqEvuu5uQFlKssVOsP7IfofBvtf+rnvLg
+ 48d9q9OQ2ql5qpv4Som+70qnfT4b6iymiBrllzzAVOUEKndqA3l9KL7SwzwYL6rt2xV4
+ F0TXmJUwkt54aWjFkrRvxkdWwtMEoW+6QaGj7pTsTySpATpfgPHeJODVSNfMvpCWezxh
+ XeUw==
+X-Gm-Message-State: AOAM5300hcg/dnR9ZSP7qZK4loSyo7jW9cWukchJwhMrjFW8/dQcFE4v
+ g239IO/Nnr6VvsqmsCJbhLWKOjopu95WyVBDlNe6ri1GOGI=
+X-Google-Smtp-Source: ABdhPJyy3CePWNn8lE0wurVSk19TRYfO1knsHN9QrwgOVdM/1Y9ryv/e7Z58sxUCPl2wnmrzW/5ZAyRVS4N0i6gswn8=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr18666069edt.100.1627907587929; 
+ Mon, 02 Aug 2021 05:33:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210731062741.301102-1-pbonzini@redhat.com>
- <20210731062741.301102-2-pbonzini@redhat.com>
-In-Reply-To: <20210731062741.301102-2-pbonzini@redhat.com>
+ <20210731062741.301102-3-pbonzini@redhat.com>
+In-Reply-To: <20210731062741.301102-3-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:31:03 +0100
-Message-ID: <CAFEAcA9Vtgs0DPUW_HhVkWnfrHPcsjXmL88jTjXLYGzY4tz35Q@mail.gmail.com>
-Subject: Re: [PATCH 1/6] coverity-model: update address_space_read/write models
+Date: Mon, 2 Aug 2021 13:32:24 +0100
+Message-ID: <CAFEAcA8k7Xxmtf_xVfjyjni0qe2BpAV-rOcU5m0eASDtHTr-Ww@mail.gmail.com>
+Subject: Re: [PATCH 2/6] coverity-model: make g_free a synonym of free
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,13 +83,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 31 Jul 2021 at 07:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Use void * for consistency with the actual function; provide a model
-> for MemoryRegionCache functions and for address_space_rw.  These
-> let Coverity understand the bounds of the data that various functions
-> read and write even at very high levels of inlining (e.g. pci_dma_read).
+> Recently, Coverity has started complaining about using g_free() to free
+> memory areas allocated by GLib functions not included in model.c,
+> such as g_strfreev.  This unfortunately goes against the GLib
+> documentation, which suggests that g_malloc() should be matched
+> with g_free() and plain malloc() with free(); since GLib 2.46 however
+> g_malloc() is hardcoded to always use the system malloc implementation,
+> and g_free is just "free" plus a tracepoint.  Therefore, this
+> should not cause any problem in practice.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
+
+A bit sad to lose the distinction, but as you say the mismatch is now
+guaranteed by glib to not be a bug, and in any case we already managed
+to get most of the errors out of our codebase.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
