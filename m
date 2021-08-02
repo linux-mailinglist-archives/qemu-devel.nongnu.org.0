@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804A43DD6F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:23:22 +0200 (CEST)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DFA3DD70C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:26:41 +0200 (CEST)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXub-0005lh-Jr
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36598)
+	id 1mAXxo-0007Wc-Pp
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mAXtC-00053n-KW
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:21:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20531)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAXwo-0006mt-1y
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:25:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mAXt7-0007en-Dn
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:21:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAXwm-0001mM-DO
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:25:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627910507;
+ s=mimecast20190719; t=1627910735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NFctLxjTCqcc2pwStUZ64DN9XZIalCIu5MRz9RXriUk=;
- b=SEhT8wD4chuDQOeZyPvJNa4OI/yD10y0xysy/qw08shBRt+JPYWGkxyp9gtxgtfOjHcepL
- qemQZnKpiUayF+B/Kys34uDxo7k26GHUAzyrZc8hZ5WMr3kOJn5VkyxoARWUMJco8cvYAB
- 8WqgRWdEm2LUzdd2FkK6XblbuFb8WLw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-xW05zyLkPUKNRKZIjUyiHA-1; Mon, 02 Aug 2021 09:21:45 -0400
-X-MC-Unique: xW05zyLkPUKNRKZIjUyiHA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p2-20020a5d48c20000b0290150e4a5e7e0so6419601wrs.13
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:21:44 -0700 (PDT)
+ bh=SNQ90RLsDBPXB63ofUn9ENLvr8n+XGrcH+NfZtiD9a0=;
+ b=dSAFtlIjqMh1WfLqZcy5iU6opEoyGueE63TEv7+IDRELgbMjuxltaHKBLvQHTxDpsyba/i
+ qgZcmTYZWwNgXb8uWdIN4e5ekzjvLNPgxDXITvyDWFwxiEIikJ95IWzu7BvAFWa5/SjWxT
+ uTwdgWisfh0u3D6jvNRG756V8j2MEL4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-7mlNW6v2PESfOvglFqOMdw-1; Mon, 02 Aug 2021 09:25:33 -0400
+X-MC-Unique: 7mlNW6v2PESfOvglFqOMdw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d10-20020a056000114ab02901537f048363so6472166wrx.8
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:25:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NFctLxjTCqcc2pwStUZ64DN9XZIalCIu5MRz9RXriUk=;
- b=tM1T7LmluN6hI7bnWYorWuPGSPzSSyILalHuwiWNgZSCD6aukkdJ3lzN1+AzJHCoxg
- exSWe0kQILhuGBKNQtcvYUlLyHTN7HH6V5njMYt+meiQx7aKVM40t7xZygQdcjecLgh9
- LMakDL5DD4PqKG9uJNbXf/4BZAkG62Bk94GoBXnX6v1kHM2lvhsqJR9OipOsCLVUDkeY
- kMwOycc27Lv1rddZyloiHQjMv2BpnE8JkO5azWMzoTQBwNaXQYe1U40qdyr8Ileyp0FO
- 9oPXTvIftQjiSbLyp6Q5PCY0GOkuGYNmXw8hBDKM8mkAHA1w0aMXGknm1e8Gx/0UhRHb
- I4Dw==
-X-Gm-Message-State: AOAM5331Oh0SFmvgAkeqjJ/ASQjFMuLFll4qRkatBIsL1W9jPQqkYqks
- fr89O5ZifqHzkYqSpBQLZlUrR1omJwH7+CbCO6gj/pvYudFbnkI8+N7poBGcCY90j7H2VBB38WF
- ErO+2kDOM4jar5MU=
-X-Received: by 2002:a5d:4207:: with SMTP id n7mr17613714wrq.326.1627910503857; 
- Mon, 02 Aug 2021 06:21:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyf5ft490u4ovd7aYW4b5fSn1lENaFBF2iul4b9JudhLALZakLdZ8MuB47JI1xNRTjrlrB/5A==
-X-Received: by 2002:a5d:4207:: with SMTP id n7mr17613688wrq.326.1627910503674; 
- Mon, 02 Aug 2021 06:21:43 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id v15sm10706634wmj.11.2021.08.02.06.21.42
+ bh=SNQ90RLsDBPXB63ofUn9ENLvr8n+XGrcH+NfZtiD9a0=;
+ b=SDczni8xm8wLv3TvWVB4ZRszrebJWahSp1kWhNH+YxEINskZu2wO0cLjJxGNaAF2f/
+ i0BGwjFQswlrDUKAUxcav8e8GAmKgQlbRd1+vQHNB3IVhGBWGMtbfM/i3I9K/eiq9z99
+ VBMPZ2xbV61vUGl/s366uuXN4OqZWAkGSsWvIyHaM1se0XUxL9GdX4e6xZlQ7T+5Ji8Z
+ eefTu3HuxX2xz3bS0xU4wSKXyWJZy9bLKSh6suON2/6ZfTCa+h7q5K8oSOy518Ku08xW
+ 6UUP2bcLhuKDZWGYftB9ZZIY28gLhPqZlabpnvsr3MNRtLlkcS0IJH157MRF8t6+3U9z
+ wbFQ==
+X-Gm-Message-State: AOAM531S6JQxoEoKmqfbwBaJC+zs66NU3c2HruGO4P/PB5nh9Vhbe+8+
+ N9po8wYkhfcT0FLAW7V9cGlFH5uL4o9kxGKhWPeO+5AfKRQbVrs5OKZaxLVU/xpDwDCv2cfTTEQ
+ wnrF3HclM1syCC6I=
+X-Received: by 2002:a1c:2984:: with SMTP id p126mr16796689wmp.58.1627910732585; 
+ Mon, 02 Aug 2021 06:25:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKYkchVmE3JzQRIEF3UfMBVxTkjjCThI9lLvHm0ig5o8Ma7eMdBZAncHtYecNES5HNlRH8WQ==
+X-Received: by 2002:a1c:2984:: with SMTP id p126mr16796667wmp.58.1627910732372; 
+ Mon, 02 Aug 2021 06:25:32 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e83171.dip0.t-ipconnect.de.
+ [217.232.49.113])
+ by smtp.gmail.com with ESMTPSA id t15sm8509967wrw.48.2021.08.02.06.25.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 06:21:43 -0700 (PDT)
-Subject: Re: Windows on ARM64 not able to use attached TPM 2
-To: Ard Biesheuvel <ardb@kernel.org>, Eric Auger <eric.auger@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
-References: <f288d6fb-4286-252c-1e3c-f92076dbc51e@linux.ibm.com>
- <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
- <7207680a-5667-33ea-7d3a-99f6297f4b04@redhat.com>
- <CAMj1kXEX-9GPMhKRU6eoAzBgi-T=zNWxn8k5KP7bqbY9qB7nqQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4eb88a28-5251-dbfa-b7cd-e18f03100b09@redhat.com>
-Date: Mon, 2 Aug 2021 15:21:42 +0200
+ Mon, 02 Aug 2021 06:25:31 -0700 (PDT)
+Subject: Re: "make check-acceptance" takes way too long
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <YQeu+Jm2Q0NlQ2Im@redhat.com> <878s1kgg2f.fsf@linaro.org>
+ <CAFEAcA-JDq7erZNhnnoxQP-2UpNH1b_PMeRGj7j8s3Vx3tJceg@mail.gmail.com>
+ <YQftcinYWVTiscXd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <59a6b17d-1d9e-9e4a-cba7-a029a3c32fe5@redhat.com>
+Date: Mon, 2 Aug 2021 15:25:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXEX-9GPMhKRU6eoAzBgi-T=zNWxn8k5KP7bqbY9qB7nqQ@mail.gmail.com>
+In-Reply-To: <YQftcinYWVTiscXd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,55 +102,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ard Biesheuvel <Ard.Biesheuvel@arm.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding Leif who might add someone who knows ;)
-
-On 8/2/21 2:09 PM, Ard Biesheuvel wrote:
-> On Mon, 2 Aug 2021 at 11:51, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> and also adding Ard if he is aware of any limitation the TPM2
->> integration may suffer for Windows support. On my end I am only able to
->> test on Linux atm.
->>
-> 
-> I never tested Windows with the TPM2 support, so I cannot answer this,
-> unfortunately.
-> 
->>
->> On 8/2/21 11:04 AM, Philippe Mathieu-Daudé wrote:
->>> Cc'ing Marc-André who is your EDK2 co-maintainer.
+On 02/08/2021 15.04, Daniel P. Berrangé wrote:
+> On Mon, Aug 02, 2021 at 02:00:19PM +0100, Peter Maydell wrote:
+>> On Mon, 2 Aug 2021 at 13:57, Alex Bennée <alex.bennee@linaro.org> wrote:
 >>>
->>> On 8/1/21 2:28 AM, Stefan Berger wrote:
->>>> Hello!
+>>>
+>>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>>
+>>>> On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
+>>>>> "make check-acceptance" takes way way too long. I just did a run
+>>>>> on an arm-and-aarch64-targets-only debug build and it took over
+>>>>> half an hour, and this despite it skipping or cancelling 26 out
+>>>>> of 58 tests!
+>>>>>
+>>>>> I think that ~10 minutes runtime is reasonable. 30 is not;
+>>>>> ideally no individual test would take more than a minute or so.
+>>>>>
+>>>>> Output saying where the time went. The first two tests take
+>>>>> more than 10 minutes *each*. I think a good start would be to find
+>>>>> a way of testing what they're testing that is less heavyweight.
 >>>>
->>>>  I maintain the TPM support in QEMU and the TPM emulator (swtpm). I have
->>>> a report from a user who would like to use QEMU on ARM64 (aarch64) with
->>>> EDK2 and use an attached TPM 2 but it doesn't seem to work for him. We
->>>> know that Windows on x86_64 works with EDK2 and can use an attached TPM
->>>> 2 (using swtpm). I don't have an aarch64 host myself nor a Microsoft
->>>> account to be able to access the Windows ARM64 version, so maybe someone
->>>> here has the necessary background, credentials, and hardware to run QEMU
->>>> on using kvm to investigate what the problems may be due to on that
->>>> platform.
->>>>
->>>> https://github.com/stefanberger/swtpm/issues/493
->>>>
->>>> On Linux it seems to access the TPM emulator with the normal tpm_tis
->>>> driver.
->>>>
->>>> Regards,
->>>>
->>>>    Stefan
->>>>
->>>>
->>>>
+>>>> While there is certainly value in testing with a real world "full" guest
+>>>> OS, I think it is overkill as the default setup. I reckon we would get
+>>>> 80-90% of the value, by making our own test image repo, containing minimal
+>>>> kernel builds for each machine/target combo we need, together with a tiny
+>>>> initrd containing busybox.
+>>>
+>>> Also another minor wrinkle for this test is because we are booting via
+>>> firmware we need a proper disk image with bootloader and the rest of it
+>>> which involves more faff than a simple kernel+initrd (which is my goto
+>>> format for the local zoo of testing images I have).
 >>
+>> If you look at the log which has timestamps for the output, UEFI
+>> takes some extra time but it's not too awful. The real timesink is
+>> when it gets into userspace and systemd starts everything including
+>> the kitchen sink.
 > 
+> Is it possible to pass "s" kernel arg to systemd to tell it to boot in
+> single user mode so it skips most of userspace, while still providing
+> a useful test scenario in much less time ?
+
+FWIW, we're doing something similar in 
+tests/acceptance/machine_s390_ccw_virtio.py already: The Debian job is using 
+"BOOT_DEBUG=3" to drop into a debug shell early where we can already do all 
+the necessary tests, and the Fedora-based job is doing the same with 
+"rd.rescue". Additionally the Fedora job is also decompressing its initrd on 
+the host already which is way faster than doing that via TCG in the guest. 
+Both tricks saved us a significant amount of time in these jobs.
+
+  Thomas
 
 
