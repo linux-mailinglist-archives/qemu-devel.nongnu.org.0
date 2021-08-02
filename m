@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03673DD594
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:22:26 +0200 (CEST)
-Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015B73DD5BD
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:36:01 +0200 (CEST)
+Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWxc-0000i2-Il
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54182)
+	id 1mAXAm-0003ZI-2x
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWvI-0006Hy-Tz
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:20:00 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:44900)
+ id 1mAX0s-0007U0-Rm
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:25:46 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWvH-0002aN-Ci
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:20:00 -0400
-Received: by mail-ed1-x531.google.com with SMTP id z11so1760756edb.11
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:19:58 -0700 (PDT)
+ id 1mAX0r-0004Oc-7b
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:25:46 -0400
+Received: by mail-ej1-x629.google.com with SMTP id o5so30630193ejy.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rrbF9dmCb4b/8rhsQkVQHzHZm1a9tvf6Qhsxq7ka71o=;
- b=Doo7LGz84tbArJEasry83owl66QQXwKEQFQWo8NExfuxjsiOWG4iL8IlvnTBTuV8aJ
- 49dD970nhyll0vlGAUEysKKXl3MP6sg9R3O2s/gKGedtOzWFgXJvTbnA/g/15R2IirXM
- k3hRrVZN0Y98+LZIWap9HH2SK9rvfPOZq+1QDLvU4nE30LPC+Ir4XMPwvWhsBiKd2EUJ
- 8JIuNILpP7Az/kfGCNgtpLinDADVuN1Nghxpr1hE35ip+EmShfKzSLcASx5Rh3A77LZ2
- iHYs8LyMSljvweYLUql26yCLX+3TJPvCUtMJ4Vo5s2eTtPXNBH7+s82qcupINx8GV4H7
- yfzg==
+ :cc; bh=Mw610wFf/yDDtOni3UVgb9xm7NvSFIdB3p8TLXg2lig=;
+ b=JVcveSDenE3yt28nK4FBEIw383kSKn89cLzkNHcvPCSn5hsNWUXe+4w9hlz43spXjp
+ O48Panam0fvtEnGLHVM2322s1nor4m2vxZGm9PeBinGnCVuOP8l0VNMEE+8cqjdaX4Nk
+ +LtJljPCCsw/HepNlgSaq6K2umAmGaQ7p0RP3JQKTZjAUCdOiOPC5fCEn8A3QwVLe5KX
+ kSvbzwMfV54zGbDuTIkbkG545YQNJnukPIeQbpv/qFcjEkFPgXv/26xGmdTEhEMwwCr7
+ FxoJ1tFt6VcJCJUaMujUHm446vU+V4cEmko4BOThQJSBeKfU/2Pswwmecz9YVPr77YbC
+ /Now==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rrbF9dmCb4b/8rhsQkVQHzHZm1a9tvf6Qhsxq7ka71o=;
- b=iur1u/FlDohvGbTXIktmsEXULuTVcY9IBvK5ux10t1KBFOX3Z6vop28/p3LAFFAHMz
- G5X2/ChJ/Otf26qdXha32q8OsqX2ptrURvqr0eQIkKiKLqRF+r5di5P0EKTNPHJ040Wa
- AQ1aAgAUym11yg2YTuhUv/1GmzGFFA4tCpS2k7kI90gjcqdECMEJFa2cEHuL7n/4spz1
- +6deupK3AKOONcLzSqFON5u8EyTbR69IgSscEDduIIBTnopyGtMzO75LGTGmU1S8tHvk
- WDJY9XCdqZhUhMJ5y0FONlS2iDxGgPbgX3u2ASXzCKNavu9CKzjLJfeSVVxLZ1qJcbJn
- BEWA==
-X-Gm-Message-State: AOAM532dlKKvgJxXXwJ1sFUy7cc/Q/YvREqEUxa3vYAAlIkgWlVDrV1v
- +tU/o9RxPer32TuJgNazHfDBn8Os01+pNCPWF4babg==
-X-Google-Smtp-Source: ABdhPJxdTB9G98CtNQfALHElZ3sQzabx4BsgeFddl4Ms5ortJ7VY0TTqyRF6YMGhARaC2SusMAstwo7IeMhzZymoxQg=
-X-Received: by 2002:aa7:c647:: with SMTP id z7mr18683725edr.52.1627906797748; 
- Mon, 02 Aug 2021 05:19:57 -0700 (PDT)
+ bh=Mw610wFf/yDDtOni3UVgb9xm7NvSFIdB3p8TLXg2lig=;
+ b=Ly32t7pjpprf8Z70PzFaG6foklX7M8JIZYeLCBR7ajZ5FdEsEwUIiORFgl5CigXub4
+ kQYHyxjzjTSYyqILq/Wa2/GVbvGpv5XABuNMkrACUjUTNpIvyU1ysdvVClT7mSrBnoku
+ LYNVSNq4chJmS4OGuMuiyxi3nZ2fxTVhaixBIziuMKxc/ww2XkaOV6CjiuZd5XlGrxVP
+ XljdUhkvCytSrcGp4G1FkLEsimFNUTOEOW0F0RX1F6OeWsrLj1YYc3z0aVDTy05bQ0lh
+ n5ne3eMUzbzy2CSmC++DXxE36SylHZseUEzS09L/u9J7TqSDzvBVxAZORBDcV5At6cy5
+ R3Iw==
+X-Gm-Message-State: AOAM532uq3EPi4EYcfmyVVLnwjLZhmmB+ledfG+lzNvVSUYncodYeJEZ
+ UV4g9m5kNgWIzf8okRIIUO/CiPM4CXgIVE/lZiGHCg==
+X-Google-Smtp-Source: ABdhPJxYOvhrnMiQaon5CM3p8jKWUpWM0bxU1Y1tU2XtahXrKctPe1LNQw6xUD0YBC/loDJi19xuOc6RiZAy/wyoobU=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr15026836ejy.407.1627907142997; 
+ Mon, 02 Aug 2021 05:25:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210729175554.686474-1-ehabkost@redhat.com>
- <20210729175554.686474-7-ehabkost@redhat.com>
-In-Reply-To: <20210729175554.686474-7-ehabkost@redhat.com>
+ <20210729175554.686474-8-ehabkost@redhat.com>
+In-Reply-To: <20210729175554.686474-8-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:19:14 +0100
-Message-ID: <CAFEAcA9=ZSawKJ8ZAuirNFD=EfmuHs9Oxyr_uDch8ZD6q6Ao2w@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 06/10] docs: qom: Remove unnecessary class
- typedefs from example
+Date: Mon, 2 Aug 2021 13:24:59 +0100
+Message-ID: <CAFEAcA9QSYOegAsEA2bXDP13u5i86Din_4nxJ8G+gAeegnaUwA@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 07/10] docs: qom: Fix OBJECT_DECLARE_SIMPLE_TYPE
+ documentation
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,37 +85,39 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 19:01, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Thu, 29 Jul 2021 at 19:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> When there's no specific class struct used for a QOM type, we
-> normally don't define a typedef for it.  Remove the typedef from
-> the minimal example, as it is unnecessary.
+> The OBJECT_DECLARE_SIMPLE_TYPE documentation was inaccurate: it
+> doesn't define a class struct or class type checking helpers.
+>
+> OBJECT_DECLARE_TYPE expansion looks very similar to the existing
+> example, though.  Rewrite that section to show both both
+> OBJECT_DECLARE_SIMPLE_TYPE and OBJECT_DECLARE_TYPE.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  docs/devel/qom.rst | 3 ---
->  1 file changed, 3 deletions(-)
+>  docs/devel/qom.rst | 31 +++++++++++++++++++++----------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
 >
 > diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> index 05d045bf570..dee60a64c0a 100644
+> index dee60a64c0a..aa1f672efbe 100644
 > --- a/docs/devel/qom.rst
 > +++ b/docs/devel/qom.rst
-> @@ -20,9 +20,6 @@ features:
+> @@ -301,6 +301,27 @@ This is equivalent to the following:
+>  .. code-block:: c
+>     :caption: Expansion from declaring a simple type
 >
->     #define TYPE_MY_DEVICE "my-device"
+> +   typedef struct MyDevice MyDevice;
+> +   G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDevice, object_unref)
+> +   #define MY_DEVICE(void *obj)
+> +           OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
 >
-> -   // No new virtual functions: we can reuse the typedef for the
-> -   // superclass.
-> -   typedef DeviceClass MyDeviceClass;
->     typedef struct MyDevice
->     {
->         DeviceState parent;
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-though I agree with Daniel that in the long-term we should reverse
-the structure of the documents so the recommended macros go first
-and the behind-the-scenes boilerplate last.
+though I note that the macro doesn't actually create a
+MY_DEVICE #define any more -- you get a function named MY_DEVICE().
+I guess "equivalent to" covers that.
 
 thanks
 -- PMM
