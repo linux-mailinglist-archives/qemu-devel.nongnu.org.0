@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 851BF3DD614
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:56:05 +0200 (CEST)
-Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CF63DD62B
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:58:38 +0200 (CEST)
+Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXUC-0000rr-KF
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59468)
+	id 1mAXWf-0002ZJ-3s
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1mAXTF-00008E-OH
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:55:05 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:50720)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mAXVP-0001rA-Ka
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:57:19 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1mAXTE-0005e8-0L
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:55:05 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 310161FF83;
- Mon,  2 Aug 2021 12:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627908901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PI6iWZWZNSrQfcnrv4mjJ4UauK2p997d6XAj1DjsHi0=;
- b=y8cexmhJcD/ycr4QBp9M5ZMEFXOsegfzqDL8Kbpl7Kb2rU3LzNky+u8ZsJCQejPiO6audr
- dypj1IDjf5URAJYZmIVYNCtH5ErHpJ39L9JlU5b9bIS7yrMZ1sQ+jt97TKsJrhALKYGlPQ
- gl0Y+D0Ie38BQ+4m+MvYgFqBib7gsTU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627908901;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PI6iWZWZNSrQfcnrv4mjJ4UauK2p997d6XAj1DjsHi0=;
- b=A3KgdePo2tZpWgit3pphXxyqje84QgbRO7dkXrvI5r+NfSnDcToWdtOJkX7p5vWnK7DSce
- yVHg0QkMVBB5fABA==
-Received: from hawking.suse.de (hawking.suse.de [10.160.4.0])
- by relay2.suse.de (Postfix) with ESMTP id 2791AA3BB6;
- Mon,  2 Aug 2021 12:55:01 +0000 (UTC)
-Received: by hawking.suse.de (Postfix, from userid 17005)
- id 12C1E4461A0; Mon,  2 Aug 2021 14:55:01 +0200 (CEST)
-From: Andreas Schwab <schwab@suse.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/syscall: add support for CLONE_PIDFD
-X-Yow: KARL MALDEN'S NOSE just won an ACADEMY AWARD!!
-Date: Mon, 02 Aug 2021 14:55:00 +0200
-Message-ID: <mvmk0l42ehn.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mAXVO-0006hH-4E
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:57:19 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id x17so4103225wmc.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CnybaXaXRXuXzr+hZu8XpTrvMXCOABG1P6Qfhb+BmoE=;
+ b=Sr5QH91mlmN1jqWWDkGfwyulWOmON7Mjk33PgfnSr9j5GMdqO1go88n1v1Yo0+Ki45
+ /j+7gx6tRp04HvzMPv6xmOyNEJAsaYEy7RxTt5tThoUPLs6ym/OhkR68Y5zFN12XQXSq
+ Rc0DPP+YBWfnkNDf4VNudhMLIyNUQgmWTrRyqEb2rgTcJlP7pHr7hgosL9a2N1jvSQry
+ od0Xq1q1dyqNM6uD/DuAiIEIL6ASB63JsOAL4Gr8vCklcOGMVnI12qi0rYIi7cUv6pNb
+ 4UCvm2xIk72iXrWz5fokLooLE70fhPTGqvNiuIH5fQ/gv0caFN38wokN915mYPnNZdtc
+ HyIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CnybaXaXRXuXzr+hZu8XpTrvMXCOABG1P6Qfhb+BmoE=;
+ b=eTVcHx+ZxkZf0Vz3qwuqvflOZgl/MMM2YzSxHuiWnxfl5BMzkP6NOluiMBj61PKJxc
+ 8FdWVaDE17Td7XZMBg17OwZpI8Htm9ojSSTCTu2TXaBXytp8qR/T3NqxzkdPTE1sibOQ
+ eypP8laFdIbhtj9qbAjSEDlBx43Z1zh4w5+ovYN1LbkNEZi9WKPbs4Yca8zKB3nqu9Dg
+ /P1z0nBI/wDb/Gnxo4kzcOZ04VImr5n3UDYzrOXHLeqIHeeHFG9EOYSraLe2Rp5uPQ1T
+ eXaMCGPXBBTUJhxa2rPhwW1RZz1Isi6YIFuYl/FRvGrbe1bbQtoHyQyBAPtslxJOMjQY
+ L5gg==
+X-Gm-Message-State: AOAM530xYxYzqdo0JEO1svR7/1RompiOQJH+6bthF7Cznx4YlrHhnPqz
+ XordrRn9hWqgl+sU2we0s+r5iA==
+X-Google-Smtp-Source: ABdhPJxKLcYrdwE9cZP5kCynBeinee0P9XgacBlW1UzNomRaMYho/3erD3drcCEYUlIOGSINpy5Wzw==
+X-Received: by 2002:a05:600c:4eca:: with SMTP id
+ g10mr5713878wmq.60.1627909036275; 
+ Mon, 02 Aug 2021 05:57:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b20sm8341103wmj.48.2021.08.02.05.57.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 05:57:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 09AE61FF96;
+ Mon,  2 Aug 2021 13:57:13 +0100 (BST)
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <YQeu+Jm2Q0NlQ2Im@redhat.com>
+User-agent: mu4e 1.6.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: "make check-acceptance" takes way too long
+Date: Mon, 02 Aug 2021 13:55:44 +0100
+In-reply-to: <YQeu+Jm2Q0NlQ2Im@redhat.com>
+Message-ID: <878s1kgg2f.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=schwab@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,129 +88,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add basic support for CLONE_PIDFD, only fork-like clone without additional
-flags.  This is enough to make Qt/forkfd working.
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
----
- linux-user/syscall.c | 52 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 50 insertions(+), 2 deletions(-)
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ccd3892b2d..ad0de26dd7 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -137,6 +137,9 @@
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
- #endif
-+#ifndef CLONE_PIDFD
-+#define CLONE_PIDFD             0x00001000      /* set if a pidfd should be placed in parent */
-+#endif
- 
- /* We can't directly call the host clone syscall, because this will
-  * badly confuse libc (breaking mutexes, for example). So we must
-@@ -163,7 +166,8 @@
- /* Flags for fork which we can implement within QEMU itself */
- #define CLONE_OPTIONAL_FORK_FLAGS               \
-     (CLONE_SETTLS | CLONE_PARENT_SETTID |       \
--     CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)
-+     CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID | \
-+     CLONE_PIDFD)
- 
- /* Flags for thread creation which we can implement within QEMU itself */
- #define CLONE_OPTIONAL_THREAD_FLAGS                             \
-@@ -488,6 +492,39 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource,
-           struct host_rlimit64 *, old_limit)
- #endif
- 
-+#if defined __NR_clone2
-+#define __NR_sys_clone2 __NR_clone2
-+_syscall6(int, sys_clone2, int, flags, void *, child_stack, size_t, stack_size,
-+          int *, ptid, int *, ctid, void *, newtls);
-+#else
-+#define __NR_sys_clone __NR_clone
-+#if defined __cris__ || defined __s390x__
-+_syscall5(int, sys_clone, void *, child_stack, int, flags, int *, ptid,
-+          void *, newtls, int *, ctid);
-+#elif defined __microblaze__
-+_syscall6(int, sys_clone, int, flags, void *, child_stack, size_t, stack_size,
-+          int *, ptid, void *, newtls, int *, ctid);
-+#else
-+/*
-+ * Note: ctid and newtls are swapped on some architectures, but both are
-+ * passed as NULL only for now.
-+ */
-+_syscall5(int, sys_clone, int, flags, void *, child_stack, int *, ptid,
-+          int *, ctid, void *, newtls);
-+#endif
-+#endif
-+static int sys_clone_pidfd(int flags, int *pidfd)
-+{
-+#ifdef __NR_clone2
-+    return sys_clone2(flags, NULL, 0, pidfd, NULL, NULL);
-+#elif defined __cris__ || defined __s390x__
-+    return sys_clone(NULL, flags, pidfd, NULL, NULL);
-+#elif defined __microblaze__
-+    return sys_clone(flags, NULL, 0, pidfd, NULL, NULL);
-+#else
-+    return sys_clone(flags, NULL, pidfd, NULL, NULL);
-+#endif
-+}
- 
- #if defined(TARGET_NR_timer_create)
- /* Maximum of 32 active POSIX timers allowed at any one time. */
-@@ -6346,6 +6383,7 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-     CPUState *new_cpu;
-     CPUArchState *new_env;
-     sigset_t sigmask;
-+    int pidfd;
- 
-     flags &= ~CLONE_IGNORED_FLAGS;
- 
-@@ -6353,6 +6391,10 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-     if (flags & CLONE_VFORK)
-         flags &= ~(CLONE_VFORK | CLONE_VM);
- 
-+    /* Only basic fork-like clone is supported with CLONE_PIDFD for now. */
-+    if (flags & CLONE_PIDFD && flags & ~(CLONE_PIDFD|CSIGNAL))
-+        return -TARGET_EINVAL;
-+
-     if (flags & CLONE_VM) {
-         TaskState *parent_ts = (TaskState *)cpu->opaque;
-         new_thread_info info;
-@@ -6451,7 +6493,11 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-         }
- 
-         fork_start();
--        ret = fork();
-+        if (flags & CLONE_PIDFD) {
-+            ret = sys_clone_pidfd(flags, &pidfd);
-+        } else {
-+            ret = fork();
-+        }
-         if (ret == 0) {
-             /* Child Process.  */
-             cpu_clone_regs_child(env, newsp, flags);
-@@ -6474,6 +6520,8 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-         } else {
-             cpu_clone_regs_parent(env, flags);
-             fork_end(0);
-+            if (flags & CLONE_PIDFD)
-+                put_user_u32(pidfd, parent_tidptr);
-         }
-     }
-     return ret;
--- 
-2.32.0
+> On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
+>> "make check-acceptance" takes way way too long. I just did a run
+>> on an arm-and-aarch64-targets-only debug build and it took over
+>> half an hour, and this despite it skipping or cancelling 26 out
+>> of 58 tests!
+>>=20
+>> I think that ~10 minutes runtime is reasonable. 30 is not;
+>> ideally no individual test would take more than a minute or so.
+>>=20
+>> Output saying where the time went. The first two tests take
+>> more than 10 minutes *each*. I think a good start would be to find
+>> a way of testing what they're testing that is less heavyweight.
+>
+> While there is certainly value in testing with a real world "full" guest
+> OS, I think it is overkill as the default setup. I reckon we would get
+> 80-90% of the value, by making our own test image repo, containing minimal
+> kernel builds for each machine/target combo we need, together with a tiny
+> initrd containing busybox.
 
+Also another minor wrinkle for this test is because we are booting via
+firmware we need a proper disk image with bootloader and the rest of it
+which involves more faff than a simple kernel+initrd (which is my goto
+format for the local zoo of testing images I have).
 
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+--=20
+Alex Benn=C3=A9e
 
