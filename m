@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006BF3DD516
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:03:37 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DD63DD529
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:06:59 +0200 (CEST)
+Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWfQ-0000Dz-0e
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1mAWig-0005sF-5d
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaJ-0000Kr-Fv
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:19 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:43744)
+ id 1mAWaK-0000MZ-21
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:20 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaH-0003YQ-Tz
+ id 1mAWaI-0003ZI-Jk
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:19 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- m20-20020a05600c4f54b029024e75a15716so10839424wmq.2
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:17 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id h13so7694187wrp.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YZEAZ8C/Pl2yg429OjaxJSx9EOz84JN+Qm8dDccl3Ms=;
- b=Irz4OFsojbhxLzThid+SKbF3G8qjpKc7nYpEYgVh89X3EX9Eh3Wb9Kyma7XS2wYJ/6
- Eft9qZFCEe3eqWrjecwbsnOirqd4Fg/2w8qA0H3OG/BQFxhf4F4/DVtJdqix+G1Bz7ZB
- YxrxGFEOhbH3UJiZYbMtCNTWfxbP2YkXDQLEt4wdIdDKh8cNK73udWNu8X5S9swMSR1e
- UWNtFNGjtyeoX98483Kkfp9ho8ZX3GS4hWJ54bVGifiHfJvgByDupTHA8bJigRPJoWXn
- kLb35Z0F2CQh19nYJR9fbSNTb70nQZJUCayVDkjhOYt7fX4q93/cB0nbePXLpXLwpUnD
- mp0g==
+ bh=dYWzxaEjFe3WsD8kw53uK4SvN3H1WbPYqZcSOzz5hJc=;
+ b=qOpf7rm1HPj/uOEOwbKgvTSktlpiPVjimLwm5Dkost258OK61rKIAi1TuaYu1ehzqw
+ 4ZZaHItYLX4YCNPgswNI7mzo72T5FVC7nnkYoz+Qsn2Ugl2HDJF+nxODOV4I+MfymEMk
+ RtdyCPcLQvjQfUX4cPJKITq88YSWuS4AD4klqSp7GltTB4+Kv21gTtCH2oYWhmgfBMdu
+ b6vwsTmyjflmjQGjljxKktaKB+L83fFq42fsbJpv2W85vqnsZS9hz5aWCbqBFYM+Y5qz
+ TTyFSfHDtMhJQuogKVjpfLkKwJSdChvgHXfiGzkCxWwRwXEUJuH9ZOS9HpAJoRaD4ReQ
+ Lmew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YZEAZ8C/Pl2yg429OjaxJSx9EOz84JN+Qm8dDccl3Ms=;
- b=emk8314fdYiE0nXWG1r0rdWfmvk48EgNNKuBfuQz/A+Hm4hIX9b/3bj7zUqdSNtpLF
- qixZzc0sgPO7W3cPo8nB0l3t19+KcnCLRSlDmdIjgYQ0iyXL5TlnU5yBAWuiIlku4cAA
- EohrZ961llD+YB7KELn9D+KJmLpXAeyhIwkZsOB3FfKvYTyI+P+Iw9ZXwTnkSBsWZFeK
- mAiDIJzGg/ztesBDMTF5UEfMi36VgtYLVVx7u0/M4bUWTQRhJ9zJV6a9lTnZfcnP9hyb
- Xf073m8lSo27VoeU83K6jNdAQ4gHRCQDqyVC4tsBgG9DP8uiAS+2v1mRnOhRUiVN0c/f
- 6S9Q==
-X-Gm-Message-State: AOAM5326yM8yU4K1lskOmaN9iZ+Cjp+b/ahO4JS8qQjuu4NCVNvzCNEm
- AR/E9IAy1GD2467Au3mJxWsgj7o5gHppEA==
-X-Google-Smtp-Source: ABdhPJzsk9PURc4DYSy6ojQSWTwb24on3dlMKjzFXNZDheuXg1FTtPg4ZOAk+jJbU+XTJ9tyb+Jh9A==
-X-Received: by 2002:a7b:cb53:: with SMTP id v19mr15989592wmj.127.1627905496640; 
- Mon, 02 Aug 2021 04:58:16 -0700 (PDT)
+ bh=dYWzxaEjFe3WsD8kw53uK4SvN3H1WbPYqZcSOzz5hJc=;
+ b=hrNPJhxPQYOR4eQl0Qxx6uZgQGypqoJqEXcIWEOI76cBng0Iqg2znEvaLqs0R9xOhs
+ +IJR/a95TpLSed4w4levh1X4F7RmnKxLdTFuUcyHJIPD+1iVIEmGXzYICPk9hKFYWhq8
+ VRb0l1Sor72hLEvOSXvOLT9abjm5SeTGX9nrD4NSR7AoLNje+1oVkK6TXaBI8VdLbYvm
+ +YNESN3486aL7e0LAJ+z0bkS3RFS96RUdW3bhvgVy6r2+h4Z6TnylTFkZGFNtYBtBMth
+ N4rddunI1KEh1Xks3DKgctizdTIlUtKcywCwiuUECR1RttGUHfikl3Tml9yGWzFiIT8Q
+ OTEg==
+X-Gm-Message-State: AOAM532/RUxTMpmSdCk4hj2Q/2WO6+49PBJ3XkGiLc3n1J9i4hvJnont
+ bSQoCa5JbGY3qnK8CY3zHYtLpuq2aJoH3g==
+X-Google-Smtp-Source: ABdhPJxDQrQywMce4vHHtp42hA2dOG8QV2bm05iO106kMcGk3rTbYmttBQ9X9gjrRB2EXU0mNU6THw==
+X-Received: by 2002:adf:c549:: with SMTP id s9mr17318115wrf.344.1627905497217; 
+ Mon, 02 Aug 2021 04:58:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.16
  for <qemu-devel@nongnu.org>
@@ -55,17 +54,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Mon, 02 Aug 2021 04:58:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/21] MAINTAINERS: Don't list Andrzej Zaborowski for various
- components
-Date: Mon,  2 Aug 2021 12:57:55 +0100
-Message-Id: <20210802115812.10731-5-peter.maydell@linaro.org>
+Subject: [PULL 05/21] docs: Remove stale TODO comments about license and
+ version
+Date: Mon,  2 Aug 2021 12:57:56 +0100
+Message-Id: <20210802115812.10731-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
 References: <20210802115812.10731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,63 +88,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrzej Zaborowski is listed as an "Odd Fixes" maintainer for the
-nSeries, Palm and PXA2XX boards, as well as the "Maintained" status
-Arm 32-bit TCG backend.
-
-Andrzej's last email to qemu-devel was back in 2017, and the email
-before that was all the way back in 2013.  We don't really need to
-fill his email up with CCs on QEMU patches any more...
-
-Remove Andrzej from the various boards sections (leaving them still
-Odd Fixes with me as the backup patch reviewer).  Add Richard
-Henderson as the maintainer for the Arm TCG backend, since removing
-Andrzej would otherwise leave that section with no M: line at all.
+Since commits 13f934e79fa and 3a50c8f3067aaf, our HTML docs include a
+footer to all pages stating the license and version.  We can
+therefore delete the TODO comments suggesting we should do that from
+our .rst files.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210722180951.29802-1-peter.maydell@linaro.org
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-id: 20210722192016.24915-2-peter.maydell@linaro.org
 ---
- MAINTAINERS | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ docs/interop/qemu-ga-ref.rst                 | 9 ---------
+ docs/interop/qemu-qmp-ref.rst                | 9 ---------
+ docs/interop/qemu-storage-daemon-qmp-ref.rst | 9 ---------
+ 3 files changed, 27 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bda08356d46..37b1a8e4428 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -788,7 +788,6 @@ F: roms/vbootrom
- F: docs/system/arm/nuvoton.rst
+diff --git a/docs/interop/qemu-ga-ref.rst b/docs/interop/qemu-ga-ref.rst
+index db1e9461249..032d4924552 100644
+--- a/docs/interop/qemu-ga-ref.rst
++++ b/docs/interop/qemu-ga-ref.rst
+@@ -1,15 +1,6 @@
+ QEMU Guest Agent Protocol Reference
+ ===================================
  
- nSeries
--M: Andrzej Zaborowski <balrogg@gmail.com>
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
-@@ -806,7 +805,6 @@ F: tests/acceptance/machine_arm_n8x0.py
- F: docs/system/arm/nseries.rst
+-..
+-   TODO: the old Texinfo manual used to note that this manual
+-   is GPL-v2-or-later. We should make that reader-visible
+-   both here and in our Sphinx manuals more generally.
+-
+-..
+-   TODO: display the QEMU version, both here and in our Sphinx manuals
+-   more generally.
+-
+ .. contents::
+    :depth: 3
  
- Palm
--M: Andrzej Zaborowski <balrogg@gmail.com>
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
-@@ -839,7 +837,6 @@ F: include/hw/intc/realview_gic.h
- F: docs/system/arm/realview.rst
+diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
+index b5bebf6b9a9..357effd64f3 100644
+--- a/docs/interop/qemu-qmp-ref.rst
++++ b/docs/interop/qemu-qmp-ref.rst
+@@ -1,15 +1,6 @@
+ QEMU QMP Reference Manual
+ =========================
  
- PXA2XX
--M: Andrzej Zaborowski <balrogg@gmail.com>
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
-@@ -3043,7 +3040,7 @@ F: disas/arm-a64.cc
- F: disas/libvixl/
+-..
+-   TODO: the old Texinfo manual used to note that this manual
+-   is GPL-v2-or-later. We should make that reader-visible
+-   both here and in our Sphinx manuals more generally.
+-
+-..
+-   TODO: display the QEMU version, both here and in our Sphinx manuals
+-   more generally.
+-
+ .. contents::
+    :depth: 3
  
- ARM TCG target
--M: Andrzej Zaborowski <balrogg@gmail.com>
-+M: Richard Henderson <richard.henderson@linaro.org>
- S: Maintained
- L: qemu-arm@nongnu.org
- F: tcg/arm/
+diff --git a/docs/interop/qemu-storage-daemon-qmp-ref.rst b/docs/interop/qemu-storage-daemon-qmp-ref.rst
+index d0ebb42ebd5..9fed68152f5 100644
+--- a/docs/interop/qemu-storage-daemon-qmp-ref.rst
++++ b/docs/interop/qemu-storage-daemon-qmp-ref.rst
+@@ -1,15 +1,6 @@
+ QEMU Storage Daemon QMP Reference Manual
+ ========================================
+ 
+-..
+-   TODO: the old Texinfo manual used to note that this manual
+-   is GPL-v2-or-later. We should make that reader-visible
+-   both here and in our Sphinx manuals more generally.
+-
+-..
+-   TODO: display the QEMU version, both here and in our Sphinx manuals
+-   more generally.
+-
+ .. contents::
+    :depth: 3
+ 
 -- 
 2.20.1
 
