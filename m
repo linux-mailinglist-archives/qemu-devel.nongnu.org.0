@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DD63DD529
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:06:59 +0200 (CEST)
-Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7653DD546
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:09:14 +0200 (CEST)
+Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWig-0005sF-5d
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
+	id 1mAWkr-0002oy-Cn
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaK-0000MZ-21
+ id 1mAWaK-0000Nl-Go
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:20 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34327)
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaI-0003ZI-Jk
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:19 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h13so7694187wrp.1
+ id 1mAWaJ-0003ZO-1L
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:20 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id u15so10252544wmj.1
  for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dYWzxaEjFe3WsD8kw53uK4SvN3H1WbPYqZcSOzz5hJc=;
- b=qOpf7rm1HPj/uOEOwbKgvTSktlpiPVjimLwm5Dkost258OK61rKIAi1TuaYu1ehzqw
- 4ZZaHItYLX4YCNPgswNI7mzo72T5FVC7nnkYoz+Qsn2Ugl2HDJF+nxODOV4I+MfymEMk
- RtdyCPcLQvjQfUX4cPJKITq88YSWuS4AD4klqSp7GltTB4+Kv21gTtCH2oYWhmgfBMdu
- b6vwsTmyjflmjQGjljxKktaKB+L83fFq42fsbJpv2W85vqnsZS9hz5aWCbqBFYM+Y5qz
- TTyFSfHDtMhJQuogKVjpfLkKwJSdChvgHXfiGzkCxWwRwXEUJuH9ZOS9HpAJoRaD4ReQ
- Lmew==
+ bh=x8RJzHi+/BlMs3RtR+24I7t54meXItlsIyK745HJ9J0=;
+ b=MpuFau0Qn8ySebK8aZFb+bdSBN1+EFeZkg8tUGLAzEZ8Sax9VdiUyXGmiJ6Eo8eluD
+ MNVQScQ0JFaEHSSkaSAhXD0CAKrky0qIKqH10JqAYCXXcXD+rYanBCN6FHU5KbAOnrrq
+ yZxhIDxCPHM2T9GfUQGOK1b7jEPC8a6TB8TbeQfscB3IbxAGIiAne32XANi508EeUHMK
+ 5I3G3f10kiAyJR81kRZvEPe27AxTfEJCp1hwGlFn8R2E5iB3Dhd/drfzIEGVgqZcuqj8
+ 8tFE5/oUsY7mQzkM/Yuc+deOHwK1Oo3MPAFjyFd5KjbgEo7AU5eUwqp+noOnPbnFTamI
+ Brew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dYWzxaEjFe3WsD8kw53uK4SvN3H1WbPYqZcSOzz5hJc=;
- b=hrNPJhxPQYOR4eQl0Qxx6uZgQGypqoJqEXcIWEOI76cBng0Iqg2znEvaLqs0R9xOhs
- +IJR/a95TpLSed4w4levh1X4F7RmnKxLdTFuUcyHJIPD+1iVIEmGXzYICPk9hKFYWhq8
- VRb0l1Sor72hLEvOSXvOLT9abjm5SeTGX9nrD4NSR7AoLNje+1oVkK6TXaBI8VdLbYvm
- +YNESN3486aL7e0LAJ+z0bkS3RFS96RUdW3bhvgVy6r2+h4Z6TnylTFkZGFNtYBtBMth
- N4rddunI1KEh1Xks3DKgctizdTIlUtKcywCwiuUECR1RttGUHfikl3Tml9yGWzFiIT8Q
- OTEg==
-X-Gm-Message-State: AOAM532/RUxTMpmSdCk4hj2Q/2WO6+49PBJ3XkGiLc3n1J9i4hvJnont
- bSQoCa5JbGY3qnK8CY3zHYtLpuq2aJoH3g==
-X-Google-Smtp-Source: ABdhPJxDQrQywMce4vHHtp42hA2dOG8QV2bm05iO106kMcGk3rTbYmttBQ9X9gjrRB2EXU0mNU6THw==
-X-Received: by 2002:adf:c549:: with SMTP id s9mr17318115wrf.344.1627905497217; 
+ bh=x8RJzHi+/BlMs3RtR+24I7t54meXItlsIyK745HJ9J0=;
+ b=cvHDufRNEVm0+cKeSXAUBMmCqPxeyb80Y9l+NO2GzlHZcceNdgW+DqerUpurhc936y
+ saBYPQWAwnNRJkUFhVubrXa5hdQv+5CE65fsb74nEENmhpppEo9OM20ru8P57pAKE8ee
+ IsBzD1ZwDHsaz4thOmj2mN9xXnc+fxil2J967fAIuwYbYLrG+o5Ll6uezZBPMDCO7eH2
+ WXgF6+H4b4YSmwFLrNBaX0yP3aKDfwMbq5F9Ztt8wCeh8WZxJ3ExA77WzExmPfjpT7AE
+ iknBLiKkH5PPaT5rnQV2oVwoUZglTFRzCCtmRzWQfYRoi+UEJ4E4Gar/1pTA/oRf/D1J
+ eLBQ==
+X-Gm-Message-State: AOAM531AiGrpsfimNA884gfLLPmvJKp9ZQhUhPCamPv/z/Im8fhk0cWJ
+ RRZl3K39ERuSvc43ADupfCAQDunR9NxGSA==
+X-Google-Smtp-Source: ABdhPJzstM26D4hu/yuSn6HCL601TcheDO2ALt5YkP0AtWm7OhW8MUHmBDGMeAGyqgULPnHotIQYew==
+X-Received: by 2002:a05:600c:4e87:: with SMTP id
+ f7mr14890355wmq.121.1627905497835; 
  Mon, 02 Aug 2021 04:58:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.16
+ by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:58:16 -0700 (PDT)
+ Mon, 02 Aug 2021 04:58:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/21] docs: Remove stale TODO comments about license and
- version
-Date: Mon,  2 Aug 2021 12:57:56 +0100
-Message-Id: <20210802115812.10731-6-peter.maydell@linaro.org>
+Subject: [PULL 06/21] docs: Move licence/copyright from HTML output to rST
+ comments
+Date: Mon,  2 Aug 2021 12:57:57 +0100
+Message-Id: <20210802115812.10731-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
 References: <20210802115812.10731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,82 +89,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commits 13f934e79fa and 3a50c8f3067aaf, our HTML docs include a
-footer to all pages stating the license and version.  We can
-therefore delete the TODO comments suggesting we should do that from
-our .rst files.
+Our built HTML documentation now has a standard footer which
+gives the license for QEMU (and its documentation as a whole).
+In almost all pages, we either don't bother to state the
+copyright/license for the individual rST sources, or we put
+it in an rST comment. There are just three pages which render
+copyright or license information into the user-visible HTML.
 
+Quoting a specific (different) license for an individual HTML
+page within the manual is confusing. Downgrade the license
+and copyright info to a comment within the rST source, bringing
+these pages in line with the rest of our documents.
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 20210722192016.24915-2-peter.maydell@linaro.org
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-id: 20210722192016.24915-3-peter.maydell@linaro.org
 ---
- docs/interop/qemu-ga-ref.rst                 | 9 ---------
- docs/interop/qemu-qmp-ref.rst                | 9 ---------
- docs/interop/qemu-storage-daemon-qmp-ref.rst | 9 ---------
- 3 files changed, 27 deletions(-)
+ docs/interop/vhost-user-gpu.rst |  7 ++++---
+ docs/interop/vhost-user.rst     | 12 +++++++-----
+ docs/system/generic-loader.rst  |  4 ++--
+ 3 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/docs/interop/qemu-ga-ref.rst b/docs/interop/qemu-ga-ref.rst
-index db1e9461249..032d4924552 100644
---- a/docs/interop/qemu-ga-ref.rst
-+++ b/docs/interop/qemu-ga-ref.rst
-@@ -1,15 +1,6 @@
- QEMU Guest Agent Protocol Reference
- ===================================
+diff --git a/docs/interop/vhost-user-gpu.rst b/docs/interop/vhost-user-gpu.rst
+index 3268bf405ce..71a2c52b313 100644
+--- a/docs/interop/vhost-user-gpu.rst
++++ b/docs/interop/vhost-user-gpu.rst
+@@ -2,9 +2,10 @@
+ Vhost-user-gpu Protocol
+ =======================
  
--..
--   TODO: the old Texinfo manual used to note that this manual
--   is GPL-v2-or-later. We should make that reader-visible
--   both here and in our Sphinx manuals more generally.
--
--..
--   TODO: display the QEMU version, both here and in our Sphinx manuals
--   more generally.
--
- .. contents::
-    :depth: 3
+-:Licence: This work is licensed under the terms of the GNU GPL,
+-          version 2 or later. See the COPYING file in the top-level
+-          directory.
++..
++  Licence: This work is licensed under the terms of the GNU GPL,
++           version 2 or later. See the COPYING file in the top-level
++           directory.
  
-diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
-index b5bebf6b9a9..357effd64f3 100644
---- a/docs/interop/qemu-qmp-ref.rst
-+++ b/docs/interop/qemu-qmp-ref.rst
-@@ -1,15 +1,6 @@
- QEMU QMP Reference Manual
- =========================
+ .. contents:: Table of Contents
  
--..
--   TODO: the old Texinfo manual used to note that this manual
--   is GPL-v2-or-later. We should make that reader-visible
--   both here and in our Sphinx manuals more generally.
--
--..
--   TODO: display the QEMU version, both here and in our Sphinx manuals
--   more generally.
--
- .. contents::
-    :depth: 3
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 7fc693521e5..edc3ad84a35 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -3,11 +3,13 @@
+ ===================
+ Vhost-user Protocol
+ ===================
+-:Copyright: 2014 Virtual Open Systems Sarl.
+-:Copyright: 2019 Intel Corporation
+-:Licence: This work is licensed under the terms of the GNU GPL,
+-          version 2 or later. See the COPYING file in the top-level
+-          directory.
++
++..
++  Copyright 2014 Virtual Open Systems Sarl.
++  Copyright 2019 Intel Corporation
++  Licence: This work is licensed under the terms of the GNU GPL,
++           version 2 or later. See the COPYING file in the top-level
++           directory.
  
-diff --git a/docs/interop/qemu-storage-daemon-qmp-ref.rst b/docs/interop/qemu-storage-daemon-qmp-ref.rst
-index d0ebb42ebd5..9fed68152f5 100644
---- a/docs/interop/qemu-storage-daemon-qmp-ref.rst
-+++ b/docs/interop/qemu-storage-daemon-qmp-ref.rst
-@@ -1,15 +1,6 @@
- QEMU Storage Daemon QMP Reference Manual
- ========================================
+ .. contents:: Table of Contents
  
--..
--   TODO: the old Texinfo manual used to note that this manual
--   is GPL-v2-or-later. We should make that reader-visible
--   both here and in our Sphinx manuals more generally.
--
--..
--   TODO: display the QEMU version, both here and in our Sphinx manuals
--   more generally.
--
- .. contents::
-    :depth: 3
+diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.rst
+index 531ddbc8e34..4f9fb005f1d 100644
+--- a/docs/system/generic-loader.rst
++++ b/docs/system/generic-loader.rst
+@@ -1,8 +1,8 @@
+ ..
+    Copyright (c) 2016, Xilinx Inc.
  
+-This work is licensed under the terms of the GNU GPL, version 2 or later.  See
+-the COPYING file in the top-level directory.
++   This work is licensed under the terms of the GNU GPL, version 2 or later.  See
++   the COPYING file in the top-level directory.
+ 
+ Generic Loader
+ --------------
 -- 
 2.20.1
 
