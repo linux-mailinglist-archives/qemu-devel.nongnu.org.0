@@ -2,49 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BD03DD33C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 11:46:06 +0200 (CEST)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD403DD36C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 11:52:28 +0200 (CEST)
+Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAUWL-00013a-F5
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 05:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57874)
+	id 1mAUcV-0004mz-OH
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 05:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mAUV8-0008TU-QE; Mon, 02 Aug 2021 05:44:50 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:48350)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mAUbR-00042w-Bs
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:51:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mAUV6-0005AS-Mw; Mon, 02 Aug 2021 05:44:50 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1729hkFw020818
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 2 Aug 2021 05:43:48 -0400
-Date: Mon, 2 Aug 2021 05:43:46 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-6.2 3/3] hw/sd/sdcard: Rename Write Protect Group
- variables
-Message-ID: <20210802094346.pwbanu4sypqrxqqc@mozz.bu.edu>
-References: <20210728181728.2012952-1-f4bug@amsat.org>
- <20210728181728.2012952-4-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mAUbO-0001Fh-BZ
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:51:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627897876;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0mYlCSzW9L0+aJ8DquP1oBFi2NjUOImTCffeNI/bTB8=;
+ b=IPrBma1ZcoPud4KAohjaf/yxNsRVKS6mPTbWEOymixT1WHG8vzby4QQq/QFoho9I7gI0Pm
+ RaXZ1KQJYtaFicwDFhhpcc1wJ85qEeMbQ6Kckxy/T+pSF6T5SAJKqq+YtGtTLRd1Y2fbho
+ 4TJG8HfO9ylNNHi2msXDLs+P5DOFK68=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-cJywiTasOJquBVuYSVQCnQ-1; Mon, 02 Aug 2021 05:51:14 -0400
+X-MC-Unique: cJywiTasOJquBVuYSVQCnQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f25-20020a1c6a190000b029024fa863f6b0so4915320wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 02:51:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=0mYlCSzW9L0+aJ8DquP1oBFi2NjUOImTCffeNI/bTB8=;
+ b=YtbobiKr/kF9Xe6eMA82pKOaHCbMf4xCYFx0hSqArlcnGwkgqmT6wbhadSNX9GrSH2
+ J7IpNZ4pUpWtT2AESVBXZy81Wy6acJAuWLq9gFP0j6kPU8pJILimYrjTIHoFgM3fS6Tc
+ CN0lwDfGkm6vLyC5i+X3ahXeJZIWTWAtlksCznnHwaBK3Iroz0EGFiX/IXgO7dohcmUc
+ N7E2PP5xyyvkYx6VQmQlO1unNH38PgqIHVfmg+vUgM1weswG8QeCKOQ+ee1GCCz7Hdb1
+ oqlhr7jHXwfMSMrH2AxsfqD0zQilDRVqxfqaC3XE9ygKQmwgn78QsFSQCy6PiFTHh+rz
+ Px3w==
+X-Gm-Message-State: AOAM530impFwuXMgzqr3ojAnXHhZgxTAOiq+C1WlBYM9bo3c++aKVtbF
+ sVVqQ9u9TjBZ57/QgT02Uy0NZEfDg3Yk7PHkox3J/HGyLqR0eF7aVhTQjddt7PZsnpmYgstvI3M
+ lmpZF6E3eIVe1Mf0=
+X-Received: by 2002:a1c:43c1:: with SMTP id
+ q184mr15434746wma.173.1627897873038; 
+ Mon, 02 Aug 2021 02:51:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGH0J9ngR6T8rdbESXb+7TiffKEk35AYlDdR+iYQGU0kYDewamDORVuwVGyct8h9m0LoLRew==
+X-Received: by 2002:a1c:43c1:: with SMTP id
+ q184mr15434733wma.173.1627897872848; 
+ Mon, 02 Aug 2021 02:51:12 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id u2sm10348560wmm.37.2021.08.02.02.51.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Aug 2021 02:51:12 -0700 (PDT)
+Subject: Re: Windows on ARM64 not able to use attached TPM 2
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+References: <f288d6fb-4286-252c-1e3c-f92076dbc51e@linux.ibm.com>
+ <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <7207680a-5667-33ea-7d3a-99f6297f4b04@redhat.com>
+Date: Mon, 2 Aug 2021 11:51:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210728181728.2012952-4-f4bug@amsat.org>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.08, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,135 +105,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Ard Biesheuvel <Ard.Biesheuvel@arm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210728 2017, Philippe Mathieu-Daudé wrote:
-> 'wp_groups' holds a bitmap, rename it as 'wp_group_bmap'.
-> 'wpgrps_size' is the bitmap size (in bits), rename it as
-> 'wp_group_bits'.
-> 
-> Patch created mechanically using:
-> 
->   $ sed -i -e s/wp_groups/wp_group_bmap/ \
->            -e s/wpgrps_size/wp_group_bits/ hw/sd/sd.c
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+and also adding Ard if he is aware of any limitation the TPM2
+integration may suffer for Windows support. On my end I am only able to
+test on Linux atm.
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Thanks
 
--Alex
+Eric
 
-> ---
->  hw/sd/sd.c | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 273af75c1be..75dcd3f7f65 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -116,8 +116,8 @@ struct SDState {
->      int32_t state;    /* current card state, one of SDCardStates */
->      uint32_t vhs;
->      bool wp_switch;
-> -    unsigned long *wp_groups;
-> -    int32_t wpgrps_size;
-> +    unsigned long *wp_group_bmap;
-> +    int32_t wp_group_bits;
->      uint64_t size;
->      uint32_t blk_len;
->      uint32_t multi_blk_cnt;
-> @@ -567,10 +567,10 @@ static void sd_reset(DeviceState *dev)
->      sd_set_cardstatus(sd);
->      sd_set_sdstatus(sd);
->  
-> -    g_free(sd->wp_groups);
-> +    g_free(sd->wp_group_bmap);
->      sd->wp_switch = sd->blk ? !blk_is_writable(sd->blk) : false;
-> -    sd->wpgrps_size = sect;
-> -    sd->wp_groups = bitmap_new(sd->wpgrps_size);
-> +    sd->wp_group_bits = sect;
-> +    sd->wp_group_bmap = bitmap_new(sd->wp_group_bits);
->      memset(sd->function_group, 0, sizeof(sd->function_group));
->      sd->erase_start = INVALID_ADDRESS;
->      sd->erase_end = INVALID_ADDRESS;
-> @@ -673,7 +673,7 @@ static const VMStateDescription sd_vmstate = {
->          VMSTATE_UINT32(card_status, SDState),
->          VMSTATE_PARTIAL_BUFFER(sd_status, SDState, 1),
->          VMSTATE_UINT32(vhs, SDState),
-> -        VMSTATE_BITMAP(wp_groups, SDState, 0, wpgrps_size),
-> +        VMSTATE_BITMAP(wp_group_bmap, SDState, 0, wp_group_bits),
->          VMSTATE_UINT32(blk_len, SDState),
->          VMSTATE_UINT32(multi_blk_cnt, SDState),
->          VMSTATE_UINT32(erase_start, SDState),
-> @@ -803,8 +803,8 @@ static void sd_erase(SDState *sd)
->          if (sdsc) {
->              /* Only SDSC cards support write protect groups */
->              wpnum = sd_addr_to_wpnum(erase_addr);
-> -            assert(wpnum < sd->wpgrps_size);
-> -            if (test_bit(wpnum, sd->wp_groups)) {
-> +            assert(wpnum < sd->wp_group_bits);
-> +            if (test_bit(wpnum, sd->wp_group_bmap)) {
->                  sd->card_status |= WP_ERASE_SKIP;
->                  continue;
->              }
-> @@ -820,7 +820,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
->  
->      wpnum = sd_addr_to_wpnum(addr);
->  
-> -    for (i = 0; i < 32 && wpnum < sd->wpgrps_size - 1;
-> +    for (i = 0; i < 32 && wpnum < sd->wp_group_bits - 1;
->                  i++, wpnum++, addr += WPGROUP_SIZE) {
->          if (addr >= sd->size) {
->              /*
-> @@ -829,7 +829,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
->               */
->              continue;
->          }
-> -        if (test_bit(wpnum, sd->wp_groups)) {
-> +        if (test_bit(wpnum, sd->wp_group_bmap)) {
->              ret |= (1 << i);
->          }
->      }
-> @@ -869,7 +869,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
->  
->  static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
->  {
-> -    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-> +    return test_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
->  }
->  
->  static void sd_lock_command(SDState *sd)
-> @@ -897,7 +897,7 @@ static void sd_lock_command(SDState *sd)
->              sd->card_status |= LOCK_UNLOCK_FAILED;
->              return;
->          }
-> -        bitmap_zero(sd->wp_groups, sd->wpgrps_size);
-> +        bitmap_zero(sd->wp_group_bmap, sd->wp_group_bits);
->          sd->csd[14] &= ~0x10;
->          sd->card_status &= ~CARD_IS_LOCKED;
->          sd->pwd_len = 0;
-> @@ -1348,7 +1348,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              }
->  
->              sd->state = sd_programming_state;
-> -            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-> +            set_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
->              /* Bzzzzzzztt .... Operation complete.  */
->              sd->state = sd_transfer_state;
->              return sd_r1b;
-> @@ -1370,7 +1370,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              }
->  
->              sd->state = sd_programming_state;
-> -            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-> +            clear_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
->              /* Bzzzzzzztt .... Operation complete.  */
->              sd->state = sd_transfer_state;
->              return sd_r1b;
-> -- 
-> 2.31.1
-> 
+On 8/2/21 11:04 AM, Philippe Mathieu-Daudé wrote:
+> Cc'ing Marc-André who is your EDK2 co-maintainer.
+>
+> On 8/1/21 2:28 AM, Stefan Berger wrote:
+>> Hello!
+>>
+>>  I maintain the TPM support in QEMU and the TPM emulator (swtpm). I have
+>> a report from a user who would like to use QEMU on ARM64 (aarch64) with
+>> EDK2 and use an attached TPM 2 but it doesn't seem to work for him. We
+>> know that Windows on x86_64 works with EDK2 and can use an attached TPM
+>> 2 (using swtpm). I don't have an aarch64 host myself nor a Microsoft
+>> account to be able to access the Windows ARM64 version, so maybe someone
+>> here has the necessary background, credentials, and hardware to run QEMU
+>> on using kvm to investigate what the problems may be due to on that
+>> platform.
+>>
+>> https://github.com/stefanberger/swtpm/issues/493
+>>
+>> On Linux it seems to access the TPM emulator with the normal tpm_tis
+>> driver.
+>>
+>> Regards,
+>>
+>>    Stefan
+>>
+>>
+>>
+
 
