@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFDF3DDF98
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 20:51:12 +0200 (CEST)
-Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67C13DDF99
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 20:51:25 +0200 (CEST)
+Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAd1s-0007Sw-1q
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 14:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55622)
+	id 1mAd24-00080X-Un
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 14:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mAd0k-00061v-1H
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:50:02 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:47052)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mAd10-0006Fg-1w; Mon, 02 Aug 2021 14:50:18 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mAd0g-00074r-Ke
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:50:01 -0400
-Received: by mail-ej1-x634.google.com with SMTP id gs8so32371822ejc.13
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 11:49:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mAd0y-0007GK-H1; Mon, 02 Aug 2021 14:50:17 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l18so22582284wrv.5;
+ Mon, 02 Aug 2021 11:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EbSEC9Zybruei3mB0w2HC9KiDFn+lfj9sgbpStKpZG8=;
- b=g84bv1fqqLlTcDh+WyAp7V3BasuhxLbhhIo7bG1w+kkYOsmbUyGlTDLsNCmhGIoyKa
- Ycy5bwYJS5Z1Gr577VGECbpNcHLLraKf5sOM91FkecuvXUnyZJXcjmAZ4w8Utyxfl1ao
- r7YsT33+Win1PM95qFg7M8U1w70OroYZSbeC4dxV4Kl/KWbOjXQBs1LUyvp/6slJARsF
- ZmJtSQQ0w5saQSiEFKAj6vNg3BG/5yuI9nIZrzUotMPh1xdNgQ/V1yH+xiNM+GTAryph
- 020spx9U4n6mDYgg/50fzV5m1E4iiguiZ3auTQnMdIsdisVuebnndmXs1jF85tbP+H5l
- Z+WQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QVX7/y96zMF5CL2+GQg0gRf7ibM3fYXV6K7BsIkR3pg=;
+ b=fpPxqa/BPbFyAOv7w0/xNZoxXk8po1KAM/6QSUfj+GvRiJcxSjosMnqUxLcFcgZ0Q3
+ uqcVgKtRdEuxPzTqDeb4JSH7TrfDRLgtqQxzKUeUldBk75rBFb9t0HIonLv1oi0zzfT9
+ vNqyR1VsecIkZudBLMU8CwCKTegHRWBSbMWKk54+4/p6VktrfpK3aiNI13Y9uivk+EH0
+ xPQJFszguPx61D0e1sTGfnjddStonZHPE995UOVAvY5CQAMErHmb+YbCcR+9BoDlb2lR
+ 16+E6lj4/Jzo5KgMZvTPnB/SN5i5Zs680mdyahjjnRlxyXQuGHd/SPYGzEGDblmTDACw
+ TmPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EbSEC9Zybruei3mB0w2HC9KiDFn+lfj9sgbpStKpZG8=;
- b=GWCZsOtFRJCE+QHH/R4/NdxTkKdP5L6QH900jG1PM9Qx9OWtI779HPg2wTnlcu8b8S
- wmVpPcbXqlTWKQcA8SC1BMpvrbeQ/fZgz/IB5pIP87bwKNCrwohkQZXXXwoRmya8lp+1
- CrCDr6dEwB7CmkByZBn0mpjGiVMdwQorRxCKDPdrtp15m0tX0VnuUzntiFsvEJLB5y9p
- 5EcFg3wkDxyuHaC1650pRDXeNjtDDFggU1GJBMuITA2uiAzuqX0NG/HmHPWIoBJ04/1k
- bnxT4iWFJROIMk7fHs8LpivAWbjWAxDtGB894KwCEnG0NSnNcX5pOHvykCiP0I+5c1rk
- SrTw==
-X-Gm-Message-State: AOAM530zUyINKQsznLUFzHK1p0lD7l5qHCLCUe+90Qh98wJ1NxJYZim5
- BYK+m7/+TSgEWzKNc6u/xbWBIzx7BR4Y98n+Fp4rB8ZGZAk=
-X-Google-Smtp-Source: ABdhPJx6HqrIjWM4zen76sT9bNzFGQRC7AILORaTq1MEE398Ul5xvEZVcmvqlkMNMIzgA+Ya2mNH7Y9xoPH8wFVp5GQ=
-X-Received: by 2002:a17:906:70a:: with SMTP id
- y10mr16514595ejb.381.1627930195806; 
- Mon, 02 Aug 2021 11:49:55 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QVX7/y96zMF5CL2+GQg0gRf7ibM3fYXV6K7BsIkR3pg=;
+ b=QzC5VykTKwRJP7mQMx+xo7uUMoKxiPu40274AztPTh8Pl2rWUUNrTjdTmMRypeO7JP
+ WwVof+mMiaCRJ6aA13mhS7HKsyu5caRT9GJRvaRyxK1om4m7dwvW/1loMorn6UQk4Wmj
+ wHaQK/38uFbIfggxKTADiuDh4TXpFvZ/WFZ8hqYiYfOZPo6PHPmH3YDBrQsTC9feYnZF
+ 8JPWmb10hBzmpMw9acDq4GgBoRyLL2waVRer0x0u2pLRrEizpsux5rKUIDDU+X77igXO
+ vnCAAaJg7zNFWXnFOJ1Rk+AIoEvkwyGRArnVube3A/B6TAR6yysnmKeWUJYxSn6rWkKm
+ bCGw==
+X-Gm-Message-State: AOAM533BYeVecCupVSwcZOTPAg3SS4YIGJWVEvF7mqLzhVuyfnQ2GPNe
+ xxoKH9ucN0WHr5rhOgve0f2LCKd0GRQ/mw==
+X-Google-Smtp-Source: ABdhPJyxwRUwaukEzeHXnoKThFr8rrFUGJ62Hwfg4VOfWiiu7yD3ZRXWZVhxffsWVWFEWTTXKJ/DfQ==
+X-Received: by 2002:a5d:4a84:: with SMTP id o4mr18649434wrq.273.1627930213944; 
+ Mon, 02 Aug 2021 11:50:13 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id o17sm10692281wmp.31.2021.08.02.11.50.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Aug 2021 11:50:13 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 0/3] hw/sd/sdcard: Fix assertion accessing
+ out-of-range addresses with CMD30
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210728181728.2012952-1-f4bug@amsat.org>
+ <CAFEAcA-_tvVnDgATXaQeM2eZew+_Vr2K1YBVsLh=JpG1Fvbriw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <544c8d4f-9d3c-a4b2-48fd-e393ba6ba2e4@amsat.org>
+Date: Mon, 2 Aug 2021 20:50:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 2 Aug 2021 22:49:43 +0400
-Message-ID: <CAJ+F1CLJS3rmqYgJWLz5dOK8Ko0-5s-nr30E5xn3vUyzRZL=Ng@mail.gmail.com>
-Subject: Re: [PATCH 0/4] chardev fixes
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000000a4e3a05c8980976"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-_tvVnDgATXaQeM2eZew+_Vr2K1YBVsLh=JpG1Fvbriw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,96 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000a4e3a05c8980976
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 8/2/21 2:10 PM, Peter Maydell wrote:
+> On Wed, 28 Jul 2021 at 19:17, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Fix an assertion reported by OSS-Fuzz, add corresponding qtest.
+>>
+>> The change simple enough for the next rc.
+>>
+>> Philippe Mathieu-Daudé (3):
+>>   hw/sd/sdcard: Document out-of-range addresses for SEND_WRITE_PROT
+>>   hw/sd/sdcard: Fix assertion accessing out-of-range addresses with
+>>     CMD30
+>>   hw/sd/sdcard: Rename Write Protect Group variables
+> 
+> I've left review comments on individual patches, but my suspicion
+> is that the fix for this assertion failure is just "the
+> assert should be after the test for 'addr < sd->size', not before",
+> something like:
+> 
+> @@ -821,8 +821,12 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
+>      wpnum = sd_addr_to_wpnum(addr);
+> 
+>      for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
+> +        if (addr >= sd->size) {
+> +            /* Out of range groups report as zero */
+> +            continue;
+> +        }
+>          assert(wpnum < sd->wpgrps_size);
+> -        if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
+> +        if (test_bit(wpnum, sd->wp_groups)) {
+>              ret |= (1 << i);
+>          }
+>      }
 
-Hi
-
-On Fri, Jul 23, 2021 at 2:29 PM <marcandre.lureau@redhat.com> wrote:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Hi,
->
-> Two small fixes related to fd handling for "serial" and "file" backend an=
-d
-> some
-> API comments and minor improvement.
->
-> Marc-Andr=C3=A9 Lureau (4):
->   chardev: fix qemu_chr_open_fd() being called with fd=3D-1
->   chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out
->
-
-I think I could queue those 2 patches for 6.1 as fixes. Daniel, care to
-review?
-thanks
-
-  chardev: remove needless class method
->   chardev: add some comments about the class methods
->
->  include/chardev/char.h | 34 +++++++++++++++++++++++++++++++++-
->  chardev/char-fd.c      | 31 +++++++++++++++++++++++--------
->  chardev/char-mux.c     |  6 ++----
->  3 files changed, 58 insertions(+), 13 deletions(-)
->
-> --
-> 2.32.0.264.g75ae10bc75
->
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000000a4e3a05c8980976
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Jul 23, 2021 at 2:29 PM &lt;<a href=
-=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ma=
-rc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" tar=
-get=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Hi,<br>
-<br>
-Two small fixes related to fd handling for &quot;serial&quot; and &quot;fil=
-e&quot; backend and some<br>
-API comments and minor improvement.<br>
-<br>
-Marc-Andr=C3=A9 Lureau (4):<br>
-=C2=A0 chardev: fix qemu_chr_open_fd() being called with fd=3D-1<br>
-=C2=A0 chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out<br></blockquo=
-te><div><br></div><div>I think I could queue those 2 patches for 6.1 as fix=
-es. Daniel, care to review?</div><div>thanks</div><div><br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-=C2=A0 chardev: remove needless class method<br>
-=C2=A0 chardev: add some comments about the class methods<br>
-<br>
-=C2=A0include/chardev/char.h | 34 +++++++++++++++++++++++++++++++++-<br>
-=C2=A0chardev/char-fd.c=C2=A0 =C2=A0 =C2=A0 | 31 +++++++++++++++++++++++---=
------<br>
-=C2=A0chardev/char-mux.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++----<br>
-=C2=A03 files changed, 58 insertions(+), 13 deletions(-)<br>
-<br>
--- <br>
-2.32.0.264.g75ae10bc75<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000000a4e3a05c8980976--
+It is simpler and works :) Thanks!
 
