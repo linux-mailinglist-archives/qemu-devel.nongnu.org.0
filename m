@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FB03DD58F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:21:32 +0200 (CEST)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BED73DD5AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:32:57 +0200 (CEST)
+Received: from localhost ([::1]:37392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWwj-0006k5-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53532)
+	id 1mAX7o-0006Pt-Ee
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWsQ-0000qB-SI
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:02 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34771)
+ id 1mAWsz-0001c8-V1
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:39 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWsP-0001CU-84
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:02 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id cb3so8591663ejb.1
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:17:00 -0700 (PDT)
+ id 1mAWsy-0001Z5-L5
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:17:37 -0400
+Received: by mail-ed1-x532.google.com with SMTP id cf5so12643469edb.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IhZijOkejXKhCzBzgcARey+v39ayxwtXrrlvz6UYEOo=;
- b=qIWz/gq/v8D3ZMd3THgew6erFE5aoPRHPZMIq8sHiIZqXtu9+zX+ajcY0p7Ee476Dp
- /2FBVmwHTbyS0G/drga3aWQ6gKGLXuF9ogqg6iy25U2rVxbOEc9yooIr3/Lr3TaHmCoo
- JgiUji2GtmCFupciDBkH7KOEoz+hUeyIhHVsmwFw4Kp/q7aKwlvRBOeGS6DOhPZLo8N2
- myBG3JvgFDwjKGz9o2gnA2k5vjdSmxwlzsaTccUiJCt1pKauT0GvIx+KIwefhppeCaiq
- QQhaP50PflKdn+u2zfPTFKUBJYn0Tkw4lviVhtPh8kcUF7rf5UMBcilG7S42BHLfz9rq
- kPQg==
+ :cc; bh=umrFQEUVCvl+/O87XcVgzHeP/awmKFwPANKgKkhRvYU=;
+ b=sj+S0bfanknxHtU5hBiJPi3LyLPkRmzx5Z9lr9Rj5po+qipqdhUB1fzCGSvTm/DUrG
+ fM1TdhGXKj5CBPoRV0laZ3mflRqqJwscyk5DhTqpT9rwIBRLhySCiOPqMGD88tkeP/aP
+ tb4qLDf6vOUiWGAIhppiSrpE0Qq8blvwyYb3wT6HoWUedDf2x1EMUxuFH33e0zXx+rxl
+ oPmntLtuDDyISi0Ui3iMpni927V1lbQk8uCzrzIYlW14iR0UscxxA9Rhd3q5c6DHvn2b
+ 8PzqyjIrVhthLYrz2e6dDtEhjvDxHiKsW5ATp7ZVKkQ1+9sbuAN8njDZNO39Wn+4WcNH
+ Gc2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IhZijOkejXKhCzBzgcARey+v39ayxwtXrrlvz6UYEOo=;
- b=CGnywyYgHh3kAv1Aqtk2Z61h4ijeNEtug3t0NBYMUirkJxueACXW/YXwpTq4fMluiS
- JTkPa+FWruPJcm8XScpySDx370T37XzEJFrOHmy+DwoArqzTdRunJqz4hsoSm0oAXhRu
- KKbcip+K2cDTfxu2c6ZN70liAEOgrLhWvxvPIVBV4oz6xJ39U0N46uaeniFiDPSXHqOD
- ZLUbfhz3KMXMgRRdX98WOV7iPZKoxzycBnshMN8zshQ8VqFmbs70L8NDyxwBgCjYp7fM
- tWfINaXmBiH9im9ca63cL+qZ3k+ZgcR/2l1q9Eu0Dgpp2kevNOf243ucTZ7yIkB0qE6G
- Ek0Q==
-X-Gm-Message-State: AOAM5316uJ2FZdMeXX2bvN7sW1dxR1TEdtz5uVhRNj5wHgE0rFED52z+
- V9bUvwTx/sWB1wkoVfv4LnSuHla/xkYtiqA11bJh3g==
-X-Google-Smtp-Source: ABdhPJxs4ULZlVDn/h9fMnyZka5zWqY+8uKHi/2nbWX4HYrQ3Omb5EE29Rl1Ljo/2MJCWXJeKibehTgsLdhx4Y/nnLk=
-X-Received: by 2002:a17:906:948f:: with SMTP id
- t15mr15292489ejx.85.1627906619674; 
- Mon, 02 Aug 2021 05:16:59 -0700 (PDT)
+ bh=umrFQEUVCvl+/O87XcVgzHeP/awmKFwPANKgKkhRvYU=;
+ b=dTqunTW7YomQYyJQNAIchqRs+qfl7AqExWqrUBI2GE+Z/XbE0sMvI5iEABYAhqFfwc
+ BQqTZV8s+lPvohtYB17BfHHVrdYgn+ztA7XbMw1YWGQhTPrdUR6TUU5L/rBc3USb1XPg
+ wkBTmgj9PMeCoX+muViYrWb+L5j9HQVlTAF/7TU+Vf9b61KnW6gE3Drs65tEZAYo+lni
+ Rv+9kwC7NVRu3M7Hnl6fId3wY+7GfNF4vfEAa5A3EgylSvOthjGikCaZsjdDLCRwPhb9
+ JDJgJjwBjB6aC1LjebPwpFikIcughKDVyaU15pCt9UQtxIRJCi3QoZhmUUn+hwxEV2L3
+ CTjg==
+X-Gm-Message-State: AOAM533VJ/ZhLQikNWBLiypOzyxqHcSeyILAM5DfDpKvfcolMIXzvzsD
+ 0Lh67KD5PdVxVuF6oc/q8JZUMVCErnYWsQ1jo/ZZyw==
+X-Google-Smtp-Source: ABdhPJxE4g7Z1xd0RrCVQ5VicQCEx8gjYfipRpUd4zPYDiSvHcqO69qn5s3yGHGIcrljcm1JT+pMSQBjWsgvSpbjb5A=
+X-Received: by 2002:aa7:d30e:: with SMTP id p14mr18697270edq.204.1627906655310; 
+ Mon, 02 Aug 2021 05:17:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210729175554.686474-1-ehabkost@redhat.com>
- <20210729175554.686474-4-ehabkost@redhat.com>
-In-Reply-To: <20210729175554.686474-4-ehabkost@redhat.com>
+ <20210729175554.686474-5-ehabkost@redhat.com>
+In-Reply-To: <20210729175554.686474-5-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:16:16 +0100
-Message-ID: <CAFEAcA9+9opQkZWPZi7=X0RGX1uOHzwVZ7Py0DeK0sV9DUoSqg@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 03/10] docs: qom: Fix autoptr expansion example
+Date: Mon, 2 Aug 2021 13:16:50 +0100
+Message-ID: <CAFEAcA95Ls9j5mQwW9X_YGSPJDTXC0+7X+zbVUowCPoBc0S99w@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 04/10] docs: qom: Fix "API Reference" heading level
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,10 +83,11 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 18:59, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Thu, 29 Jul 2021 at 18:58, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> The wrong type name was being used.  The autoptr cleanup function
-> will be declared for the instance type, not the class type.
+> The API reference section was being rendered as a subsection of
+> the "Standard type declaration and definition macros" subsection.
+> Fix that.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
