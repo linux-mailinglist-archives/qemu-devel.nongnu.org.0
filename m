@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD403DD36C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 11:52:28 +0200 (CEST)
-Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0914C3DD36F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 11:54:16 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAUcV-0004mz-OH
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 05:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
+	id 1mAUeD-0006Kd-Rz
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 05:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mAUbR-00042w-Bs
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:51:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54600)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAUcu-0005bN-2r
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:52:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mAUbO-0001Fh-BZ
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:51:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAUcs-0002Fc-Ay
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 05:52:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627897876;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1627897969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0mYlCSzW9L0+aJ8DquP1oBFi2NjUOImTCffeNI/bTB8=;
- b=IPrBma1ZcoPud4KAohjaf/yxNsRVKS6mPTbWEOymixT1WHG8vzby4QQq/QFoho9I7gI0Pm
- RaXZ1KQJYtaFicwDFhhpcc1wJ85qEeMbQ6Kckxy/T+pSF6T5SAJKqq+YtGtTLRd1Y2fbho
- 4TJG8HfO9ylNNHi2msXDLs+P5DOFK68=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-cJywiTasOJquBVuYSVQCnQ-1; Mon, 02 Aug 2021 05:51:14 -0400
-X-MC-Unique: cJywiTasOJquBVuYSVQCnQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f25-20020a1c6a190000b029024fa863f6b0so4915320wmc.1
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 02:51:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=0mYlCSzW9L0+aJ8DquP1oBFi2NjUOImTCffeNI/bTB8=;
- b=YtbobiKr/kF9Xe6eMA82pKOaHCbMf4xCYFx0hSqArlcnGwkgqmT6wbhadSNX9GrSH2
- J7IpNZ4pUpWtT2AESVBXZy81Wy6acJAuWLq9gFP0j6kPU8pJILimYrjTIHoFgM3fS6Tc
- CN0lwDfGkm6vLyC5i+X3ahXeJZIWTWAtlksCznnHwaBK3Iroz0EGFiX/IXgO7dohcmUc
- N7E2PP5xyyvkYx6VQmQlO1unNH38PgqIHVfmg+vUgM1weswG8QeCKOQ+ee1GCCz7Hdb1
- oqlhr7jHXwfMSMrH2AxsfqD0zQilDRVqxfqaC3XE9ygKQmwgn78QsFSQCy6PiFTHh+rz
- Px3w==
-X-Gm-Message-State: AOAM530impFwuXMgzqr3ojAnXHhZgxTAOiq+C1WlBYM9bo3c++aKVtbF
- sVVqQ9u9TjBZ57/QgT02Uy0NZEfDg3Yk7PHkox3J/HGyLqR0eF7aVhTQjddt7PZsnpmYgstvI3M
- lmpZF6E3eIVe1Mf0=
-X-Received: by 2002:a1c:43c1:: with SMTP id
- q184mr15434746wma.173.1627897873038; 
- Mon, 02 Aug 2021 02:51:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGH0J9ngR6T8rdbESXb+7TiffKEk35AYlDdR+iYQGU0kYDewamDORVuwVGyct8h9m0LoLRew==
-X-Received: by 2002:a1c:43c1:: with SMTP id
- q184mr15434733wma.173.1627897872848; 
- Mon, 02 Aug 2021 02:51:12 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id u2sm10348560wmm.37.2021.08.02.02.51.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 02:51:12 -0700 (PDT)
-Subject: Re: Windows on ARM64 not able to use attached TPM 2
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <f288d6fb-4286-252c-1e3c-f92076dbc51e@linux.ibm.com>
- <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <7207680a-5667-33ea-7d3a-99f6297f4b04@redhat.com>
-Date: Mon, 2 Aug 2021 11:51:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=DFgVNMyrS1V6tPQUHRpt3fm0CkSZfc7Xy9KoGkCnTB4=;
+ b=hF2ItxgCwXK+TxpLmTpimLPfpGn/n7SOwFcOwZPwBVbB6U1OrVrhzipd9eCTKtHyQYGbcY
+ LXwUF2zTNn0A1mD/RVG7+g3dz86MYX+6YVRJyCT7GEcKasUfwkdJksnbfgfT6M3P5x5+mn
+ CrapY6BbUesCGabQDmD/JKQERvKUtZA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-8aqB9WlXNi-Zsmb57oZOLg-1; Mon, 02 Aug 2021 05:52:45 -0400
+X-MC-Unique: 8aqB9WlXNi-Zsmb57oZOLg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BB168042EB
+ for <qemu-devel@nongnu.org>; Mon,  2 Aug 2021 09:52:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C6D65F707;
+ Mon,  2 Aug 2021 09:52:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9C0DA11380A0; Mon,  2 Aug 2021 11:52:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v6 03/11] qapi: add QAPISchemaIfCond.is_present()
+References: <20210618102507.3761128-1-marcandre.lureau@redhat.com>
+ <20210618102507.3761128-4-marcandre.lureau@redhat.com>
+Date: Mon, 02 Aug 2021 11:52:35 +0200
+In-Reply-To: <20210618102507.3761128-4-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Fri, 18 Jun 2021 14:24:59 +0400")
+Message-ID: <87pmuwrx5o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.08, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,47 +82,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
- Ard Biesheuvel <Ard.Biesheuvel@arm.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, jsnow@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-and also adding Ard if he is aware of any limitation the TPM2
-integration may suffer for Windows support. On my end I am only able to
-test on Linux atm.
+marcandre.lureau@redhat.com writes:
 
-Thanks
-
-Eric
-
-On 8/2/21 11:04 AM, Philippe Mathieu-Daudé wrote:
-> Cc'ing Marc-André who is your EDK2 co-maintainer.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> On 8/1/21 2:28 AM, Stefan Berger wrote:
->> Hello!
->>
->>  I maintain the TPM support in QEMU and the TPM emulator (swtpm). I have
->> a report from a user who would like to use QEMU on ARM64 (aarch64) with
->> EDK2 and use an attached TPM 2 but it doesn't seem to work for him. We
->> know that Windows on x86_64 works with EDK2 and can use an attached TPM
->> 2 (using swtpm). I don't have an aarch64 host myself nor a Microsoft
->> account to be able to access the Windows ARM64 version, so maybe someone
->> here has the necessary background, credentials, and hardware to run QEMU
->> on using kvm to investigate what the problems may be due to on that
->> platform.
->>
->> https://github.com/stefanberger/swtpm/issues/493
->>
->> On Linux it seems to access the TPM emulator with the normal tpm_tis
->> driver.
->>
->> Regards,
->>
->>    Stefan
->>
->>
->>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/sphinx/qapidoc.py         | 8 ++++----
+>  scripts/qapi/schema.py         | 7 +++++--
+>  tests/qapi-schema/test-qapi.py | 2 +-
+>  3 files changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+> index 0eac3308b2..511520f33f 100644
+> --- a/docs/sphinx/qapidoc.py
+> +++ b/docs/sphinx/qapidoc.py
+> @@ -139,7 +139,7 @@ def _nodes_for_one_member(self, member):
+>              term.append(nodes.literal('', member.type.doc_type()))
+>          if member.optional:
+>              term.append(nodes.Text(' (optional)'))
+> -        if member.ifcond.ifcond:
+> +        if member.ifcond.is_present():
+>              term.extend(self._nodes_for_ifcond(member.ifcond))
+>          return term
+> =20
+> @@ -154,7 +154,7 @@ def _nodes_for_variant_when(self, variants, variant):
+>                  nodes.literal('', variants.tag_member.name),
+>                  nodes.Text(' is '),
+>                  nodes.literal('', '"%s"' % variant.name)]
+> -        if variant.ifcond.ifcond:
+> +        if variant.ifcond.is_present():
+>              term.extend(self._nodes_for_ifcond(variant.ifcond))
+>          return term
+> =20
+> @@ -209,7 +209,7 @@ def _nodes_for_enum_values(self, doc):
+>          dlnode =3D nodes.definition_list()
+>          for section in doc.args.values():
+>              termtext =3D [nodes.literal('', section.member.name)]
+> -            if section.member.ifcond.ifcond:
+> +            if section.member.ifcond.is_present():
+>                  termtext.extend(self._nodes_for_ifcond(section.member.if=
+cond))
+>              # TODO drop fallbacks when undocumented members are outlawed
+>              if section.text:
+> @@ -277,7 +277,7 @@ def _nodes_for_sections(self, doc):
+>      def _nodes_for_if_section(self, ifcond):
+>          """Return list of doctree nodes for the "If" section"""
+>          nodelist =3D []
+> -        if ifcond.ifcond:
+> +        if ifcond.is_present():
+>              snode =3D self._make_section('If')
+>              snode +=3D nodes.paragraph(
+>                  '', '', *self._nodes_for_ifcond(ifcond, with_if=3DFalse)
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 5e44164bd1..e3bd8f8720 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -29,6 +29,9 @@ class QAPISchemaIfCond:
+>      def __init__(self, ifcond=3DNone):
+>          self.ifcond =3D ifcond or []
+> =20
+> +    def is_present(self):
+> +        return bool(self.ifcond)
+> +
+> =20
+>  class QAPISchemaEntity:
+>      meta: Optional[str] =3D None
+> @@ -599,7 +602,7 @@ def check(self, schema, seen):
+>                      self.info,
+>                      "discriminator member '%s' of %s must not be optiona=
+l"
+>                      % (self._tag_name, base))
+> -            if self.tag_member.ifcond.ifcond:
+> +            if self.tag_member.ifcond.is_present():
+>                  raise QAPISemError(
+>                      self.info,
+>                      "discriminator member '%s' of %s must not be conditi=
+onal"
+> @@ -607,7 +610,7 @@ def check(self, schema, seen):
+>          else:                   # simple union
+>              assert isinstance(self.tag_member.type, QAPISchemaEnumType)
+>              assert not self.tag_member.optional
+> -            assert self.tag_member.ifcond.ifcond =3D=3D []
+> +            assert not self.tag_member.ifcond.is_present()
+>          if self._tag_name:    # flat union
+>              # branches that are not explicitly covered get an empty type
+>              cases =3D {v.name for v in self.variants}
+> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
+.py
+> index 7907b4ac3a..c92be2d086 100755
+> --- a/tests/qapi-schema/test-qapi.py
+> +++ b/tests/qapi-schema/test-qapi.py
+> @@ -94,7 +94,7 @@ def _print_variants(variants):
+> =20
+>      @staticmethod
+>      def _print_if(ifcond, indent=3D4):
+> -        if ifcond.ifcond:
+> +        if ifcond.is_present():
+>              print('%sif %s' % (' ' * indent, ifcond.ifcond))
+> =20
+>      @classmethod
+
+In introspect.py:
+
+        if obj.ifcond:
+            ret +=3D gen_if(obj.ifcond.ifcond)
+        ret +=3D _tree_to_qlit(obj.value, level)
+        if obj.ifcond:
+            ret +=3D '\n' + gen_endif(obj.ifcond.ifcond)
+
+I believe the previous patch should change it to
+
+        if obj.ifcond.ifcond:
+            ret +=3D gen_if(obj.ifcond.ifcond)
+        ret +=3D _tree_to_qlit(obj.value, level)
+        if obj.ifcond.ifcond:
+            ret +=3D '\n' + gen_endif(obj.ifcond.ifcond)
+
+and this one to
+
+        if obj.ifcond.is_present():
+            ret +=3D gen_if(obj.ifcond.ifcond)
+        ret +=3D _tree_to_qlit(obj.value, level)
+        if obj.ifcond.is_present():
+            ret +=3D '\n' + gen_endif(obj.ifcond.ifcond)
+
+Other than that:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
