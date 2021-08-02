@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE1D3DD57B
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:16:17 +0200 (CEST)
-Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C133DD54F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:11:16 +0200 (CEST)
+Received: from localhost ([::1]:48034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWrg-0006pN-SI
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
+	id 1mAWmp-0007iZ-9D
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaX-0000y3-5h
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:33 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33643)
+ id 1mAWd3-0006iz-H1
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:01:09 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaU-0003en-SM
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:32 -0400
-Received: by mail-wr1-x436.google.com with SMTP id k4so10353243wrc.0
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:30 -0700 (PDT)
+ id 1mAWcy-0004R1-1I
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:01:09 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id y7so21866315eda.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=nGpfpSEqJjfEaG1N2BaqzOf+zX9fc5AolwWGoQxIdJg=;
- b=Ss/mBjYikQSQbyqi8kwR1W7m3JHs7fcLCDQ5LQtpfF0+zHsEe8Rhasisu2J3Fhxp5S
- ix2Sfq7Fy2hVHJ3Gyvi1DyYH80iKrxj/Yi2YOcLXanDoVsR1i3z4I4Iz4ew37XFHOrIT
- wTZ2CcVy1lX7ntdu1CcUwXo9cLRTi2ZWy3LPeDBY8OlpqZkk1nbOlO52Lsbu6n6bxSfm
- +P1cpu0kq+juAVyQtqOFZEg0qlVFxoWSx5ILHnf7+zeXuqaI2unHQOlAJ4JRmS4X76K5
- R5DF5guLqc9Xco4Td/HWiylWjGeyiCRqoCgQiWCCoUM8wD8+gVlJZVIThrlJq+/Xbpvy
- vLuQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vHq8CWy0CabcoM7CFgey8Lk7fxauhOp6vwrj4z33uYc=;
+ b=craAnEFVLGh2m+D+bQKGfKtWyZOUShfp0V0qyEKQxq8fo2kSuamDcReamZiDxFrKQg
+ bmFQpk5x3wf1Y+/d4Znv2AgP6gROFn4nQW9PWwjE2rqbE5ljve9Z82UswbdmCa3TcSgz
+ 0jk1WCnL6tOBzE6EiQVPtf4A2ozQRbnUTQAsdY3X49cWcsU+ywPQdGGSTg+0rGgATSKM
+ tLmltgYVJUeYZLlpjwkCmRlhi83C89mX8UYxgB5Dk01pUkW+ZWGQVSW8an98HaHszoxS
+ CvkxkdcNq5oER2yOCPPyHiLvVi8r/p2NO9cSKXSXZQBEF0NexX28jsUcnmQteMX6cTMa
+ 23rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nGpfpSEqJjfEaG1N2BaqzOf+zX9fc5AolwWGoQxIdJg=;
- b=ntAvMs+jwHJlfj7b86LQgAVzwuzBjTeMKq1mWSbhQsHMc8SzkW8dsHz4q+vYc1zBRf
- dJqhx1U8BBSjZyP5k+aKUko72AtpuwSVSO498RnQGYEKve55kR9vhJvDegVBe3SP4127
- wTieLZ4qMDKlGoa/RfTJoEMTCCa6IC92LOaiV+Se5AlIeZv3nMTdmqiYdLK5pnAn/9lx
- EdqLNzIqhklTesyfHXRW2q7sNf2fZSMxmW4Hfn24MUy6Tb89VtsBIw4RxWn2F2UIuNwS
- aHFJ2mIBfiHdlDTzGMArQerVWhIzfXud1xb4IVT+PTgn8Gdf03MMgHU+z0kdksJ3gsM+
- EesA==
-X-Gm-Message-State: AOAM530lxwjJiaklKRMxdKAtaJtnBmPaQpYEucZef2zlZzWXk/l8gFq1
- TDdEhTMurFYDS+CNyYGQNtXKYGbCbvB5Tg==
-X-Google-Smtp-Source: ABdhPJzX8UAP0Lx+lEmPEy/XjmlZr88msGdhegztmsOXW4Y8bRMoLL4mY4VUJQzqocKK6PLqSBgNIw==
-X-Received: by 2002:a5d:4b48:: with SMTP id w8mr17322681wrs.109.1627905509595; 
- Mon, 02 Aug 2021 04:58:29 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.29
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:58:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] docs: Move user-facing barrier docs into system manual
-Date: Mon,  2 Aug 2021 12:58:12 +0100
-Message-Id: <20210802115812.10731-22-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
-References: <20210802115812.10731-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vHq8CWy0CabcoM7CFgey8Lk7fxauhOp6vwrj4z33uYc=;
+ b=Z/V90c1TLil5bnKmYOGhLjw0CSRDGwncm6eH8vwzSosGl9EIj8gxRhaaWMZMMZYQyz
+ f+Q25R1b698PgCSwBpRm7wkdGP5r0dhwP1Zfd7hH2hPGPAr0IbdsbjAF6uMuA8G/rY3h
+ dF7s7ukmwwzLTL+3/mpi8sI/2vYVFatVdYyh9pbNEABGAwiEfzrWgMv9GCmOEQ3s8hrb
+ nZL48mOgFWO/Ej41EpMWfrK9v9dNZmA/KZTK84G+mubMD+FKODyckTd8lPAfS6saHV6d
+ LeRLVsJpyS3fIBxRsYOvlxzFiic73+zK4zwv2rIyUklXyUbmlbhifR11qDN7GZendxX8
+ 9meA==
+X-Gm-Message-State: AOAM5300CKpqlARB93oL0d/uux6cs4f3JBRsG1rynMArdeAaoahyxpBn
+ kEJsga+d3Y8j6HCyRtAw7YczTL9KK+v66Hwllq/xhQ==
+X-Google-Smtp-Source: ABdhPJy3f1Sey8ZDSHk4+rIqDFhZ32aKe3PwwY5OQkfrmC59xoaphAMeBmhfAv7dPzTm0UFnRe7sqqB5Co5cSylSjwk=
+X-Received: by 2002:a50:f615:: with SMTP id c21mr19360591edn.146.1627905662580; 
+ Mon, 02 Aug 2021 05:01:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+References: <20210728181728.2012952-1-f4bug@amsat.org>
+ <20210728181728.2012952-2-f4bug@amsat.org>
+In-Reply-To: <20210728181728.2012952-2-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Aug 2021 13:00:19 +0100
+Message-ID: <CAFEAcA_FSR23eR5Z8ix3HyFmmoFVK7eQCRqwA-YEuSqEMA4TkA@mail.gmail.com>
+Subject: Re: [PATCH-for-6.1 1/3] hw/sd/sdcard: Document out-of-range addresses
+ for SEND_WRITE_PROT
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,143 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Qemu-block <qemu-block@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The remaining text in docs/barrier.txt is user-facing description
-of what the device is and how to use it. Move this into the
-system manual and rstify it.
+On Wed, 28 Jul 2021 at 19:18, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Per the 'Physical Layer Simplified Specification Version 3.01',
+> Table 4-22: 'Block Oriented Write Protection Commands'
+>
+>   SEND_WRITE_PROT (CMD30)
+>
+>   If the card provides write protection features, this command asks
+>   the card to send the status of the write protection bits [1].
+>
+>   [1] 32 write protection bits (representing 32 write protect groups
+>   starting at the specified address) [...]
+>   The last (least significant) bit of the protection bits corresponds
+>   to the first addressed group. If the addresses of the last groups
+>   are outside the valid range, then the corresponding write protection
+>   bits shall be set to 0.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/sd/sd.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 1f964e022b1..707dcc12a14 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -822,7 +822,14 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr=
+)
+>
+>      for (i =3D 0; i < 32; i++, wpnum++, addr +=3D WPGROUP_SIZE) {
+>          assert(wpnum < sd->wpgrps_size);
+> -        if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
+> +        if (addr >=3D sd->size) {
+> +            /*
+> +             * If the addresses of the last groups are outside the valid=
+ range,
+> +             * then the corresponding write protection bits shall be set=
+ to 0.
+> +             */
+> +            continue;
+> +        }
+> +        if (test_bit(wpnum, sd->wp_groups)) {
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210727204112.12579-4-peter.maydell@linaro.org
----
- docs/barrier.txt        | 48 -----------------------------------------
- docs/system/barrier.rst | 44 +++++++++++++++++++++++++++++++++++++
- docs/system/index.rst   |  1 +
- 3 files changed, 45 insertions(+), 48 deletions(-)
- delete mode 100644 docs/barrier.txt
- create mode 100644 docs/system/barrier.rst
+Am I misreading it, or does this commit not actually change
+the behaviour of the code ?
 
-diff --git a/docs/barrier.txt b/docs/barrier.txt
-deleted file mode 100644
-index 54cb5fd8efc..00000000000
---- a/docs/barrier.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--                                QEMU Barrier Client
--
--
--* About
--
--    Barrier is a KVM (Keyboard-Video-Mouse) software forked from Symless's
--    synergy 1.9 codebase.
--
--    See https://github.com/debauchee/barrier
--
--* QEMU usage
--
--    Generally, mouse and keyboard are grabbed through the QEMU video
--    interface emulation.
--
--    But when we want to use a video graphic adapter via a PCI passthrough
--    there is no way to provide the keyboard and mouse inputs to the VM
--    except by plugging a second set of mouse and keyboard to the host
--    or by installing a KVM software in the guest OS.
--
--    The QEMU Barrier client avoids this by implementing directly the Barrier
--    protocol into QEMU.
--
--    This protocol is enabled by adding an input-barrier object to QEMU.
--
--    Syntax: input-barrier,id=<object-id>,name=<guest display name>
--            [,server=<barrier server address>][,port=<barrier server port>]
--            [,x-origin=<x-origin>][,y-origin=<y-origin>]
--            [,width=<width>][,height=<height>]
--
--    The object can be added on the QEMU command line, for instance with:
--
--        ... -object input-barrier,id=barrier0,name=VM-1 ...
--
--    where VM-1 is the name the display configured int the Barrier server
--    on the host providing the mouse and the keyboard events.
--
--    by default <barrier server address> is "localhost", port is 24800,
--    <x-origin> and <y-origin> are set to 0, <width> and <height> to
--    1920 and 1080.
--
--    If Barrier server is stopped QEMU needs to be reconnected manually,
--    by removing and re-adding the input-barrier object, for instance
--    with the help of the HMP monitor:
--
--        (qemu) object_del barrier0
--        (qemu) object_add input-barrier,id=barrier0,name=VM-1
--
-diff --git a/docs/system/barrier.rst b/docs/system/barrier.rst
-new file mode 100644
-index 00000000000..155d7d29013
---- /dev/null
-+++ b/docs/system/barrier.rst
-@@ -0,0 +1,44 @@
-+QEMU Barrier Client
-+===================
-+
-+Generally, mouse and keyboard are grabbed through the QEMU video
-+interface emulation.
-+
-+But when we want to use a video graphic adapter via a PCI passthrough
-+there is no way to provide the keyboard and mouse inputs to the VM
-+except by plugging a second set of mouse and keyboard to the host
-+or by installing a KVM software in the guest OS.
-+
-+The QEMU Barrier client avoids this by implementing directly the Barrier
-+protocol into QEMU.
-+
-+`Barrier <https://github.com/debauchee/barrier>`__
-+is a KVM (Keyboard-Video-Mouse) software forked from Symless's
-+synergy 1.9 codebase.
-+
-+This protocol is enabled by adding an input-barrier object to QEMU.
-+
-+Syntax::
-+
-+    input-barrier,id=<object-id>,name=<guest display name>
-+    [,server=<barrier server address>][,port=<barrier server port>]
-+    [,x-origin=<x-origin>][,y-origin=<y-origin>]
-+    [,width=<width>][,height=<height>]
-+
-+The object can be added on the QEMU command line, for instance with::
-+
-+    -object input-barrier,id=barrier0,name=VM-1
-+
-+where VM-1 is the name the display configured in the Barrier server
-+on the host providing the mouse and the keyboard events.
-+
-+by default ``<barrier server address>`` is ``localhost``,
-+``<port>`` is ``24800``, ``<x-origin>`` and ``<y-origin>`` are set to ``0``,
-+``<width>`` and ``<height>`` to ``1920`` and ``1080``.
-+
-+If the Barrier server is stopped QEMU needs to be reconnected manually,
-+by removing and re-adding the input-barrier object, for instance
-+with the help of the HMP monitor::
-+
-+    (qemu) object_del barrier0
-+    (qemu) object_add input-barrier,id=barrier0,name=VM-1
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 650409d1566..7b9276c05f0 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -20,6 +20,7 @@ or Hypervisor.Framework.
-    linuxboot
-    generic-loader
-    guest-loader
-+   barrier
-    vnc-security
-    tls
-    secrets
--- 
-2.20.1
+>              ret |=3D (1 << i);
+>          }
+>      }
+> --
+> 2.31.1
 
+-- PMM
 
