@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C023A3DE28C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 00:36:25 +0200 (CEST)
-Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6C63DE270
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 00:24:49 +0200 (CEST)
+Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAgXn-00043h-5K
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 18:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
+	id 1mAgMZ-0006eJ-UE
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 18:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
- id 1mAgLz-0007EE-2T
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:24:11 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33616)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mAgL4-0005jq-3E
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:23:14 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
- id 1mAgLw-0004PH-RQ
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:24:10 -0400
-Received: by mail-wr1-x431.google.com with SMTP id k4so12333298wrc.0
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 15:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=aabouzied-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u/vjRXtntVPVd+FW3MUJ70Lgm6SDavAH3r08KdyFmdI=;
- b=HZ9TOpjOORd3jYK9KVHWwpF9U1DD61PmPJ5Mk7G/fvmGHul9bHc6SSWQVC6c2b+imL
- RBQ4EMfQwW2n6a/4xrw2pTBpjusFT860og220LNOZTHF+RbCzdLSEPW/rq/Ecn3MOGTU
- d8Cp51SUg2xy9ZnFHeMwfGAdUBtDbPtDVRXAwn/IKZfVJkH/RJlO6zCgOzAELvibLN29
- Q3ckMSDq4WiyiaHphvneQyZuoHhj+zTfB5zbW2so8tQXGbXQmkM/BgqGvcOQYXs6sjXm
- +/vQCXs24FuIQYMND0HtfSc1XBULFjFGw6Yp1kQbVO4IPLzw/MsS+k/bSdsmVcMMWjQu
- iwPw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mAgL1-0003oN-O9
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:23:13 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id l19so27241713pjz.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 15:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=MKrqpyqx/DBi1r1kDOO6sSlMKyhvTkcKJYB0AH1yfSQ=;
+ b=EkzxGV5/wtFPnq6XBZ/ro91WCJeO8B76JuIiGarvX+6oy7TGPYiq6QF8KhFEZq8qfy
+ MIfjGbij+9ohEtMWDyZJ4CKQKpMy2103Uvx3MrIWuVY1F5IWPx7HQPhc4ULo5Gap8q/q
+ W09GWO82596cKgXRm1TDxxgbCDXZCH6yzio9YGieb6YxR0QHfYb4qKaZpFz2ch+jCm/D
+ 00mfWmNfNYwKCoj10TmEpmNNx4OryZ9Atqwlg48l3nn960ibyPVW1EQnUj0EZATrVMpW
+ 2WCR5OEkO0sFSpo5f/zTFQA0FhCSA4Rj2KwvThVbtwFZc9pXbsu7izg4gUVXCV4WZJP2
+ frUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=u/vjRXtntVPVd+FW3MUJ70Lgm6SDavAH3r08KdyFmdI=;
- b=qhEgRi5Sb09A9wMxK4HzhaipvHF7sAxmc5DqKDrlc85CJEEvW6pLiY19NU/De492yp
- a+jIcAbwqWscCAAtZNP2MLL0uKXY0EJiHT2on0nSP5oFuSW1YJWetebf/04IFtXj3Cke
- QyLFFIO+4d79StSmIX9qzs3Pm+ZkO12zvGj/yN+q/GHycZKAAhUj47GCL7+fvH/Os6rl
- HuJTH4NbGDioNluyG0l1Ttzmy+4bBeeuo4e6QF+vTg541q3JdctM7/VAGOHm7jwx3jp5
- 5hSo4CxqgXuJCB0zbJPTtENf1xhdF4kCdgqK1cBP5N4gMkcPYzUdclM2HMJjVkpe56JJ
- 3vfQ==
-X-Gm-Message-State: AOAM532Wl4ujn4tQnwkIbR4q8CWXF5QjnOmaXJ/Ntih+f+DN8j6RpC0/
- N0sXsq9KayeeI0flDdUv9QZ4Gu8GQ/9jhgoue1k=
-X-Google-Smtp-Source: ABdhPJyMOFJUNcyJmSKCBbhvzp8kAH0FTVylJFxaMBKvON42QS7xzfjkk6J6RbrCAibHiahIPP8X/w==
-X-Received: by 2002:adf:d1e4:: with SMTP id g4mr6398107wrd.371.1627943046050; 
- Mon, 02 Aug 2021 15:24:06 -0700 (PDT)
-Received: from localhost.localdomain ([154.187.38.176])
- by smtp.gmail.com with ESMTPSA id d7sm6111198wrs.39.2021.08.02.15.24.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 15:24:05 -0700 (PDT)
-From: Ahmed Abouzied <email@aabouzied.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/acceptance: Allow overwrite smp and memory
-Date: Tue,  3 Aug 2021 00:22:57 +0200
-Message-Id: <20210802222257.50946-1-email@aabouzied.com>
-X-Mailer: git-send-email 2.25.1
+ bh=MKrqpyqx/DBi1r1kDOO6sSlMKyhvTkcKJYB0AH1yfSQ=;
+ b=ZDLLIXwVlHKkUzE5qy/G/VATMPT4kh0gIgB5l0+JTzPLHS2eegthfH6Jvet3E16kPP
+ ZpTRVmC2mDBTIDhZUsJDU7KuSu8xQsJmXkSAuDX1hy1AMsVMjpcTu6O9YsuRe46S2vvn
+ 6wxVh0uB5xXKU362i5ERHD/BW7aBdS3mu3sPTYzj02fLkwGeIiB7lsElxG+3bscNsmaL
+ oLvoBLNH1a1NdsTiOAPQe/QvjFZbhCg6rragbG3KEx0jBNf/abJcPM1LICr13v73oYIG
+ bSzbg5EeysNSLM9HlcSHJ1qiPbp9kBYrHuTZfZgcPfFd8p8tvgPDtamEQ8D01FxvaVEW
+ oePQ==
+X-Gm-Message-State: AOAM530/aPPoMJ1YwZoxJAiCbOTSFut3mefjTqepHn5Ov85prEk9E99x
+ K4sOVNp7EJcjsFKQeFcEYVfG5CFOqvojXg==
+X-Google-Smtp-Source: ABdhPJwxvC4Mx2c9i68bu5F4IvWW8JpBQeYE5chmhTXLqGdCRfsQjDk3LWxqV1kkcHA5nHeifuRYUQ==
+X-Received: by 2002:a63:7405:: with SMTP id p5mr1730612pgc.426.1627942989915; 
+ Mon, 02 Aug 2021 15:23:09 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id q19sm9297652pfk.49.2021.08.02.15.23.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Aug 2021 15:23:09 -0700 (PDT)
+Subject: Re: [PATCH 0/2] arm: Implement M-profile trapping on division by zero
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210730151636.17254-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <98703606-f970-774f-f8ac-5bad2e67013d@linaro.org>
+Date: Mon, 2 Aug 2021 12:23:05 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::431;
- envelope-from=email@aabouzied.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NO_DNS_FOR_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210730151636.17254-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Abouzied <email@aabouzied.com>, philmd@redhat.com,
- wainersm@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removes the hard-coded values in setUp(). Class inheriting from
-avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
+On 7/30/21 5:16 AM, Peter Maydell wrote:
+> Unlike A-profile, for M-profile the UDIV and SDIV insns can be
+> configured to raise an exception on division by zero, using the CCR
+> DIV_0_TRP bit.  This patchset implements that missing functionality
+> by having the udiv and sdiv helpers raise an exception if needed.
+> 
+> Some questions:
+> 
+> Is it worth allowing A-profile to retain the mildly better codegen it
+> gets from not having to pass in 'env' and marking the helper as
+> no-side-effects (ie having M-specific udiv/sdiv helpers) ?
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
-Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
----
- tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Probably not.
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 2c4fef3e14..2639b89c84 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
-     distro = None
-     username = 'root'
-     password = 'password'
-+    smp = '2'
-+    memory = '1024'
- 
-     def _set_distro(self):
-         distro_name = self.params.get(
-@@ -471,8 +473,8 @@ def _set_distro(self):
-     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
-         super(LinuxTest, self).setUp()
-         self._set_distro()
--        self.vm.add_args('-smp', '2')
--        self.vm.add_args('-m', '1024')
-+        self.vm.add_args('-smp', self.smp)
-+        self.vm.add_args('-m', self.memory)
-         # The following network device allows for SSH connections
-         self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-                          '-device', '%s,netdev=vnet' % network_device_type)
--- 
-2.25.1
+> Is it worth inlining either udiv or sdiv for the A-profile case?
 
+Probably not.
+
+>    mov_i32 tmp3,r2
+>    mov_i32 tmp6,r3
+>    movcond_i32 tmp3,tmp6,$0x0,$0x0,tmp3,eq
+>    movcond_i32 tmp6,tmp6,$0x0,$0x1,tmp6,eq
+>    mov_i32 tmp7,$0x0
+>    divu2_i32 tmp3,tmp7,tmp3,tmp7,tmp6
+>    mov_i32 r3,tmp3
+> 
+> but the x86 code is
+> 0x7f5f1807dc0c:  45 33 f6                 xorl     %r14d, %r14d
+> 0x7f5f1807dc0f:  45 85 ed                 testl    %r13d, %r13d
+> 0x7f5f1807dc12:  45 0f 44 e6              cmovel   %r14d, %r12d
+
+
+At the start of the first movcond, $0x0 is not allocated to a register, and the 
+constraints allow a constant for argument 3.  Then, constraints do not allow a constant 
+for argument 4 so we load $0x0 into a register.
+
+> 0x7f5f1807dc16:  41 bf 01 00 00 00        movl     $1, %r15d
+> 0x7f5f1807dc1c:  45 3b ee                 cmpl     %r14d, %r13d
+> 0x7f5f1807dc1f:  45 0f 44 ef              cmovel   %r15d, %r13d
+
+At the start of the second movcond, $0x0 is loaded into a register, so we use it.
+
+> (Ideally of
+> course it would notice that it already had generated the condition
+> check and not repeat it.)
+
+Yep.
+
+
+r~
 
