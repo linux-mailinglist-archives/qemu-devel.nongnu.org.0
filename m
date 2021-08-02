@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164723DD523
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:05:31 +0200 (CEST)
-Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A59F3DD58E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:21:26 +0200 (CEST)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAWhG-00039D-2F
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
+	id 1mAWwf-0006XK-MJ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaW-0000tx-1E
+ id 1mAWaW-0000wE-J4
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:32 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43651)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWaS-0003dX-Lz
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:31 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h14so21135637wrx.10
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:28 -0700 (PDT)
+ id 1mAWaT-0003dt-RB
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 07:58:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id h14so21135704wrx.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 04:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2q93MWkGScylGxqZKXmfrlqZp6+ohhIWphT95erG1oo=;
- b=SWi6uiUyuTA1+8XcFjIs7hOiRH9WGaZJUOsIuAmWGcQlpXbJljkxDclNGdbkJ6Wju1
- AQvQ0obdzLlM2GHNPtOpUAa1x6ysWSDu67e629MWhmnhoqKY/5wMGFqhNY+DjJAFXdxg
- LXCweJkOarJO4isGL/zRs8qc0UrWrArxFAizq/7e91ORHPT/Dd9pLwWac/3gBjJcUVvK
- yUPr/bRAfK/mrVrxy/dRTZU/Sw42bV/pIkT3J71HSI5Gu2NzVFaAHwpIZOu6d8rkNXqr
- ZNJlieLyxOy4Ehje4jjZwYjA4oGzg3cnfGUcaqjZfUWUGjZQCIhc/5F5TvRbs+D0+HAM
- 6XZg==
+ bh=aypbuCkXg4mRE91Ka+IebcFEmi1TOPTuW9gsne4BRxE=;
+ b=Y+xxBOrWJTreODgsZLkd1X6beKsQzPucAZLoF4YiEf1cZYbD8D+eAN/9vckjXfixPx
+ S0xGGosBeq1dCbB1ftv3hw3JldlCg6iUt3bMiTixckYkLiRVVJf7VcprTFwCPYjzvIil
+ CRSqjHC7vWQtxZI7QX7SHpOkAb/o2NGYVrEYBAPBA8dEzYr5Obm/qJlHH+zHj0YcH3Ij
+ z8CL4WI74NqNIeKSfPHsTpm/0fwF8L0OggvhrMtL90ijeR/rkjZmNtynTJ4WSLap22Go
+ +i3KY4n08FLUBKTFtBO3dee29urSL/SjqcELH3hh6zmkg6TbV3WoQ2t2p8pmXkKfXOPR
+ b43A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2q93MWkGScylGxqZKXmfrlqZp6+ohhIWphT95erG1oo=;
- b=ljXUWLi9iIbpHeEliDomd17OoyGwn5GqUXdYZjk5KtPgU3HV2tgW4SrCSCken/8hYa
- nEa7X/S0PDgpOopUPsvpoAAQ41Y/H0L5Kxtl8SGXMPdsocmtvaFxNqss10rsgReGVQY3
- EZYE00Bvc/bplY7klsN0Nwts2dqoahTEs3NwlJbyNiz/V9x9+rBZm1EpZ0XEVHbd6Mzu
- weHdbFunpSF2OwGdZb9gsy8wCXQyTujig7Z/qAeYAlfcb28PwZ6QX4ATXYhwhA5lPzmI
- aKdxRj4muxm3o2kchXdGh8r8JV91DscI4flcMaGM/oTZFoORqIV+aRlGHVEhk/WO1KXa
- McQw==
-X-Gm-Message-State: AOAM532DLBNfLvd3vW0wbSVO6TUbDBigt1kBEnUpI3BYCnV/6ZrRfREr
- 7D/CM3bIVS10U5sF42UaKNFO3lZyfI50LA==
-X-Google-Smtp-Source: ABdhPJx7KCfI3gUta57uQZtFaxcFWWxOdxOt3i0+fDIzf6hmisl5h6OuneWls3D/pozz0yL4hVqnog==
-X-Received: by 2002:adf:c549:: with SMTP id s9mr17318944wrf.344.1627905507306; 
- Mon, 02 Aug 2021 04:58:27 -0700 (PDT)
+ bh=aypbuCkXg4mRE91Ka+IebcFEmi1TOPTuW9gsne4BRxE=;
+ b=YyXg5cFP6j/lfSvfXfRBNxS+qhlu4ef9WxrKrDAPvlbmRGR3WLDJucWvSxbUsl/a5s
+ EuT17u+4vAapdf81d541/lZB26mP3w6vHlFJxE7ZGbf+Q83C2hlkcyeAV5qEvL/7xsLe
+ qlXGm81meuyPGwooWlGou3Sp1xbrltPhW9UNlZl5DbyUagtgDk8ik/U3h4pn46OBdtfS
+ aqBouU+gmNKcLgKCLmpt5k9XqvmHGtZcDlbrK2xQ2nSP2rfePaHE/YfttXJsmCGPF+2Z
+ nyDJ6r8wo17KJNWmqXJVKovQbne0kEw0f1pCoPEy6seYUf9MKLtAPFtkl1jLcXV1wo6J
+ y1Vw==
+X-Gm-Message-State: AOAM532gNs6QbzUgJLMB2vtIbdacPQKEmT1MJ3YMp/ii7G5g9tjOxqG9
+ atNbLPvlZkE02/o52ro+9HI1hlZXCE2OEA==
+X-Google-Smtp-Source: ABdhPJxhzXKBfHPouPldtv/bg6sOF+lInqSrdwPJXIKN3+0cnRhh5MPmvP4rsWuBXmI4fX9jxsEpjg==
+X-Received: by 2002:a5d:4d85:: with SMTP id b5mr16896292wru.317.1627905508325; 
+ Mon, 02 Aug 2021 04:58:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.26
+ by smtp.gmail.com with ESMTPSA id y66sm10102772wmy.39.2021.08.02.04.58.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:58:26 -0700 (PDT)
+ Mon, 02 Aug 2021 04:58:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/21] docs: Move bootindex.txt into system section and rstify
-Date: Mon,  2 Aug 2021 12:58:09 +0100
-Message-Id: <20210802115812.10731-19-peter.maydell@linaro.org>
+Subject: [PULL 19/21] docs: Move the protocol part of barrier.txt into interop
+Date: Mon,  2 Aug 2021 12:58:10 +0100
+Message-Id: <20210802115812.10731-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
 References: <20210802115812.10731-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,174 +86,794 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move bootindex.txt into the system section of the manual and turn it
-into rST format.  To make the document make more sense in the context
-of the system manual, expand the title and introductory paragraphs to
-give more context.
+Most of docs/barrier.txt is describing the protocol implemented
+by the input-barrier device. Move this into the interop
+section of the manual, and rstify it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 20210727194955.7764-1-peter.maydell@linaro.org
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-id: 20210727204112.12579-2-peter.maydell@linaro.org
 ---
- docs/bootindex.txt        | 52 ---------------------------
- docs/system/bootindex.rst | 76 +++++++++++++++++++++++++++++++++++++++
- docs/system/index.rst     |  1 +
- 3 files changed, 77 insertions(+), 52 deletions(-)
- delete mode 100644 docs/bootindex.txt
- create mode 100644 docs/system/bootindex.rst
+ docs/barrier.txt         | 318 -----------------------------
+ docs/interop/barrier.rst | 426 +++++++++++++++++++++++++++++++++++++++
+ docs/interop/index.rst   |   1 +
+ 3 files changed, 427 insertions(+), 318 deletions(-)
+ create mode 100644 docs/interop/barrier.rst
 
-diff --git a/docs/bootindex.txt b/docs/bootindex.txt
-deleted file mode 100644
-index 6937862ba0d..00000000000
---- a/docs/bootindex.txt
-+++ /dev/null
-@@ -1,52 +0,0 @@
--= Bootindex property =
+diff --git a/docs/barrier.txt b/docs/barrier.txt
+index b21d15015d9..376d0b2d709 100644
+--- a/docs/barrier.txt
++++ b/docs/barrier.txt
+@@ -45,324 +45,6 @@
+ 
+         (qemu) object_del barrier0
+         (qemu) object_add input-barrier,id=barrier0,name=VM-1
 -
--Block and net devices have bootindex property. This property is used to
--determine the order in which firmware will consider devices for booting
--the guest OS. If the bootindex property is not set for a device, it gets
--lowest boot priority. There is no particular order in which devices with
--unset bootindex property will be considered for booting, but they will
--still be bootable.
+-* Message format
 -
--== Example ==
+-    Message format between the server and client is in two parts:
 -
--Let's assume we have a QEMU machine with two NICs (virtio, e1000) and two
--disks (IDE, virtio):
+-        1- the payload length is a 32bit integer in network endianness,
+-        2- the payload
 -
--qemu -drive file=disk1.img,if=none,id=disk1
--     -device ide-hd,drive=disk1,bootindex=4
--     -drive file=disk2.img,if=none,id=disk2
--     -device virtio-blk-pci,drive=disk2,bootindex=3
--     -netdev type=user,id=net0 -device virtio-net-pci,netdev=net0,bootindex=2
--     -netdev type=user,id=net1 -device e1000,netdev=net1,bootindex=1
+-    The payload starts with a 4byte string (without NUL) which is the
+-    command. The first command between the server and the client
+-    is the only command not encoded on 4 bytes ("Barrier").
+-    The remaining part of the payload is decoded according to the command.
 -
--Given the command above, firmware should try to boot from the e1000 NIC
--first.  If this fails, it should try the virtio NIC next; if this fails
--too, it should try the virtio disk, and then the IDE disk.
+-* Protocol Description (from barrier/src/lib/barrier/protocol_types.h)
 -
--== Limitations ==
+-    - barrierCmdHello          "Barrier"
 -
--1. Some firmware has limitations on which devices can be considered for
--booting.  For instance, the PC BIOS boot specification allows only one
--disk to be bootable.  If boot from disk fails for some reason, the BIOS
--won't retry booting from other disk.  It can still try to boot from
--floppy or net, though.
+-      Direction:  server -> client
+-      Parameters: { int16_t minor, int16_t major }
+-      Description:
 -
--2. Sometimes, firmware cannot map the device path QEMU wants firmware to
--boot from to a boot method.  It doesn't happen for devices the firmware
--can natively boot from, but if firmware relies on an option ROM for
--booting, and the same option ROM is used for booting from more then one
--device, the firmware may not be able to ask the option ROM to boot from
--a particular device reliably.  For instance with the PC BIOS, if a SCSI HBA
--has three bootable devices target1, target3, target5 connected to it,
--the option ROM will have a boot method for each of them, but it is not
--possible to map from boot method back to a specific target.  This is a
--shortcoming of the PC BIOS boot specification.
+-          Say hello to client
+-          minor = protocol major version number supported by server
+-          major = protocol minor version number supported by server
 -
--== Mixing bootindex and boot order parameters ==
+-    - barrierCmdHelloBack      "Barrier"
 -
--Note that it does not make sense to use the bootindex property together
--with the "-boot order=..." (or "-boot once=...") parameter. The guest
--firmware implementations normally either support the one or the other,
--but not both parameters at the same time. Mixing them will result in
--undefined behavior, and thus the guest firmware will likely not boot
--from the expected devices.
-diff --git a/docs/system/bootindex.rst b/docs/system/bootindex.rst
+-      Direction:  client ->server
+-      Parameters: { int16_t minor, int16_t major, char *name}
+-      Description:
+-
+-          Respond to hello from server
+-          minor = protocol major version number supported by client
+-          major = protocol minor version number supported by client
+-          name  = client name
+-
+-    - barrierCmdDInfo          "DINF"
+-
+-      Direction:  client ->server
+-      Parameters: { int16_t x_origin, int16_t y_origin, int16_t width, int16_t height, int16_t x, int16_t y}
+-      Description:
+-
+-          The client screen must send this message in response to the
+-          barrierCmdQInfo message.  It must also send this message when the
+-          screen's resolution changes.  In this case, the client screen should
+-          ignore any barrierCmdDMouseMove messages until it receives a
+-          barrierCmdCInfoAck in order to prevent attempts to move the mouse off
+-          the new screen area.
+-
+-    - barrierCmdCNoop          "CNOP"
+-
+-      Direction:  client -> server
+-      Parameters: None
+-      Description:
+-
+-          No operation
+-
+-    - barrierCmdCClose         "CBYE"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Close connection
+-
+-    - barrierCmdCEnter         "CINN"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t x, int16_t y, int32_t seq, int16_t modifier }
+-      Description:
+-
+-          Enter screen.
+-          x,y      = entering screen absolute coordinates
+-          seq      = sequence number, which is used to order messages between
+-                     screens.  the secondary screen must return this number
+-                     with some messages
+-          modifier = modifier key mask.  this will have bits set for each
+-                     toggle modifier key that is activated on entry to the
+-                     screen.  the secondary screen should adjust its toggle
+-                     modifiers to reflect that state.
+-
+-    - barrierCmdCLeave         "COUT"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Leaving screen.  the secondary screen should send clipboard data in
+-          response to this message for those clipboards that it has grabbed
+-          (i.e. has sent a barrierCmdCClipboard for and has not received a
+-          barrierCmdCClipboard for with a greater sequence number) and that
+-          were grabbed or have changed since the last leave.
+-
+-    - barrierCmdCClipboard     "CCLP"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t id, int32_t seq }
+-      Description:
+-
+-          Grab clipboard. Sent by screen when some other app on that screen
+-          grabs a clipboard.
+-          id  = the clipboard identifier
+-          seq = sequence number. Client must use the sequence number passed in
+-                the most recent barrierCmdCEnter.  the server always sends 0.
+-
+-    - barrierCmdCScreenSaver   "CSEC"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t started }
+-      Description:
+-
+-          Screensaver change.
+-          started = Screensaver on primary has started (1) or closed (0)
+-
+-    - barrierCmdCResetOptions  "CROP"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Reset options. Client should reset all of its options to their
+-          defaults.
+-
+-    - barrierCmdCInfoAck       "CIAK"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Resolution change acknowledgment. Sent by server in response to a
+-          client screen's barrierCmdDInfo. This is sent for every
+-          barrierCmdDInfo, whether or not the server had sent a barrierCmdQInfo.
+-
+-    - barrierCmdCKeepAlive     "CALV"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Keep connection alive. Sent by the server periodically to verify
+-          that connections are still up and running.  clients must reply in
+-          kind on receipt.  if the server gets an error sending the message or
+-          does not receive a reply within a reasonable time then the server
+-          disconnects the client.  if the client doesn't receive these (or any
+-          message) periodically then it should disconnect from the server.  the
+-          appropriate interval is defined by an option.
+-
+-    - barrierCmdDKeyDown       "DKDN"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t keyid, int16_t modifier [,int16_t button] }
+-      Description:
+-
+-          Key pressed.
+-          keyid    = X11 key id
+-          modified = modified mask
+-          button   = X11 Xkb keycode (optional)
+-
+-    - barrierCmdDKeyRepeat     "DKRP"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t keyid, int16_t modifier, int16_t repeat [,int16_t button] }
+-      Description:
+-
+-          Key auto-repeat.
+-          keyid    = X11 key id
+-          modified = modified mask
+-          repeat   = number of repeats
+-          button   = X11 Xkb keycode (optional)
+-
+-    - barrierCmdDKeyUp         "DKUP"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t keyid, int16_t modifier [,int16_t button] }
+-      Description:
+-
+-          Key released.
+-          keyid    = X11 key id
+-          modified = modified mask
+-          button   = X11 Xkb keycode (optional)
+-
+-    - barrierCmdDMouseDown     "DMDN"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t button }
+-      Description:
+-
+-          Mouse button pressed.
+-          button = button id
+-
+-    - barrierCmdDMouseUp       "DMUP"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t button }
+-      Description:
+-
+-          Mouse button release.
+-          button = button id
+-
+-    - barrierCmdDMouseMove     "DMMV"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t x, int16_t y }
+-      Description:
+-
+-          Absolute mouse moved.
+-          x,y = absolute screen coordinates
+-
+-    - barrierCmdDMouseRelMove  "DMRM"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t x, int16_t y }
+-      Description:
+-
+-          Relative mouse moved.
+-          x,y = r relative screen coordinates
+-
+-    - barrierCmdDMouseWheel    "DMWM"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t x , int16_t y } or { int16_t y }
+-      Description:
+-
+-          Mouse scroll. The delta should be +120 for one tick forward (away
+-          from the user) or right and -120 for one tick backward (toward the
+-          user) or left.
+-          x = x delta
+-          y = y delta
+-
+-    - barrierCmdDClipboard     "DCLP"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t id, int32_t seq, int8_t mark, char *data }
+-      Description:
+-
+-          Clipboard data.
+-          id  = clipboard id
+-          seq = sequence number. The sequence number is 0 when sent by the
+-                server.  Client screens should use the/ sequence number from
+-                the most recent barrierCmdCEnter.
+-
+-    - barrierCmdDSetOptions    "DSOP"
+-
+-      Direction:  server -> client
+-      Parameters: { int32 t nb, { int32_t id, int32_t val }[] }
+-      Description:
+-
+-          Set options. Client should set the given option/value pairs.
+-          nb  = numbers of { id, val } entries
+-          id  = option id
+-          val = option new value
+-
+-    - barrierCmdDFileTransfer  "DFTR"
+-
+-      Direction:  server -> client
+-      Parameters: { int8_t mark, char *content }
+-      Description:
+-
+-          Transfer file data.
+-          mark = 0 means the content followed is the file size
+-                 1 means the content followed is the chunk data
+-                 2 means the file transfer is finished
+-
+-    - barrierCmdDDragInfo      "DDRG" int16_t char *
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t nb, char *content }
+-      Description:
+-
+-          Drag information.
+-          nb      = number of dragging objects
+-          content = object's directory
+-
+-    - barrierCmdQInfo          "QINF"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Query screen info
+-          Client should reply with a barrierCmdDInfo
+-
+-    - barrierCmdEIncompatible  "EICV"
+-
+-      Direction:  server -> client
+-      Parameters: { int16_t nb, major *minor }
+-      Description:
+-
+-          Incompatible version.
+-          major = major version
+-          minor = minor version
+-
+-    - barrierCmdEBusy          "EBSY"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Name provided when connecting is already in use.
+-
+-    - barrierCmdEUnknown       "EUNK"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Unknown client. Name provided when connecting is not in primary's
+-           screen configuration map.
+-
+-    - barrierCmdEBad           "EBAD"
+-
+-      Direction:  server -> client
+-      Parameters: None
+-      Description:
+-
+-          Protocol violation. Server should disconnect after sending this
+-          message.
+-
+ * TO DO
+ 
+     - Enable SSL
+diff --git a/docs/interop/barrier.rst b/docs/interop/barrier.rst
 new file mode 100644
-index 00000000000..8b057f812f2
+index 00000000000..055f2c1aef3
 --- /dev/null
-+++ b/docs/system/bootindex.rst
-@@ -0,0 +1,76 @@
-+Managing device boot order with bootindex properties
-+====================================================
++++ b/docs/interop/barrier.rst
+@@ -0,0 +1,426 @@
++Barrier client protocol
++=======================
 +
-+QEMU can tell QEMU-aware guest firmware (like the x86 PC BIOS)
-+which order it should look for a bootable OS on which devices.
-+A simple way to set this order is to use the ``-boot order=`` option,
-+but you can also do this more flexibly, by setting a ``bootindex``
-+property on the individual block or net devices you specify
-+on the QEMU command line.
++QEMU's ``input-barrier`` device implements the client end of
++the KVM (Keyboard-Video-Mouse) software
++`Barrier <https://github.com/debauchee/barrier>`__.
 +
-+The ``bootindex`` properties are used to determine the order in which
-+firmware will consider devices for booting the guest OS. If the
-+``bootindex`` property is not set for a device, it gets the lowest
-+boot priority. There is no particular order in which devices with no
-+``bootindex`` property set will be considered for booting, but they
-+will still be bootable.
++This document briefly describes the protocol as we implement it.
 +
-+Some guest machine types (for instance the s390x machines) do
-+not support ``-boot order=``; on those machines you must always
-+use ``bootindex`` properties.
++Message format
++--------------
 +
-+There is no way to set a ``bootindex`` property if you are using
-+a short-form option like ``-hda`` or ``-cdrom``, so to use
-+``bootindex`` properties you will need to expand out those options
-+into long-form ``-drive`` and ``-device`` option pairs.
++Message format between the server and client is in two parts:
 +
-+Example
-+-------
++#. the payload length, a 32bit integer in network endianness
++#. the payload
 +
-+Let's assume we have a QEMU machine with two NICs (virtio, e1000) and two
-+disks (IDE, virtio):
++The payload starts with a 4byte string (without NUL) which is the
++command. The first command between the server and the client
++is the only command not encoded on 4 bytes ("Barrier").
++The remaining part of the payload is decoded according to the command.
 +
-+.. parsed-literal::
++Protocol Description
++--------------------
 +
-+  |qemu_system| -drive file=disk1.img,if=none,id=disk1 \\
-+                -device ide-hd,drive=disk1,bootindex=4 \\
-+                -drive file=disk2.img,if=none,id=disk2 \\
-+                -device virtio-blk-pci,drive=disk2,bootindex=3 \\
-+                -netdev type=user,id=net0 \\
-+                -device virtio-net-pci,netdev=net0,bootindex=2 \\
-+                -netdev type=user,id=net1 \\
-+                -device e1000,netdev=net1,bootindex=1
++This comes from ``barrier/src/lib/barrier/protocol_types.h``.
 +
-+Given the command above, firmware should try to boot from the e1000 NIC
-+first.  If this fails, it should try the virtio NIC next; if this fails
-+too, it should try the virtio disk, and then the IDE disk.
++barrierCmdHello  "Barrier"
++^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+Limitations
-+-----------
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t minor, int16_t major }``
++Description:
++  Say hello to client
 +
-+Some firmware has limitations on which devices can be considered for
-+booting.  For instance, the PC BIOS boot specification allows only one
-+disk to be bootable.  If boot from disk fails for some reason, the BIOS
-+won't retry booting from other disk.  It can still try to boot from
-+floppy or net, though.
++  ``minor`` = protocol major version number supported by server
 +
-+Sometimes, firmware cannot map the device path QEMU wants firmware to
-+boot from to a boot method.  It doesn't happen for devices the firmware
-+can natively boot from, but if firmware relies on an option ROM for
-+booting, and the same option ROM is used for booting from more then one
-+device, the firmware may not be able to ask the option ROM to boot from
-+a particular device reliably.  For instance with the PC BIOS, if a SCSI HBA
-+has three bootable devices target1, target3, target5 connected to it,
-+the option ROM will have a boot method for each of them, but it is not
-+possible to map from boot method back to a specific target.  This is a
-+shortcoming of the PC BIOS boot specification.
++  ``major`` = protocol minor version number supported by server
 +
-+Mixing bootindex and boot order parameters
-+------------------------------------------
++barrierCmdHelloBack  "Barrier"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+Note that it does not make sense to use the bootindex property together
-+with the ``-boot order=...`` (or ``-boot once=...``) parameter. The guest
-+firmware implementations normally either support the one or the other,
-+but not both parameters at the same time. Mixing them will result in
-+undefined behavior, and thus the guest firmware will likely not boot
-+from the expected devices.
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 64a424ae99b..650409d1566 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -26,6 +26,7 @@ or Hypervisor.Framework.
-    authz
-    gdb
-    managed-startup
-+   bootindex
-    cpu-hotplug
-    pr-manager
-    targets
++Direction:
++  client ->server
++Parameters:
++  ``{ int16_t minor, int16_t major, char *name}``
++Description:
++  Respond to hello from server
++
++  ``minor`` = protocol major version number supported by client
++
++  ``major`` = protocol minor version number supported by client
++
++  ``name``  = client name
++
++barrierCmdDInfo  "DINF"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  client ->server
++Parameters:
++  ``{ int16_t x_origin, int16_t y_origin, int16_t width, int16_t height, int16_t x, int16_t y}``
++Description:
++  The client screen must send this message in response to the
++  barrierCmdQInfo message.  It must also send this message when the
++  screen's resolution changes.  In this case, the client screen should
++  ignore any barrierCmdDMouseMove messages until it receives a
++  barrierCmdCInfoAck in order to prevent attempts to move the mouse off
++  the new screen area.
++
++barrierCmdCNoop  "CNOP"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  client -> server
++Parameters:
++  None
++Description:
++  No operation
++
++barrierCmdCClose "CBYE"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Close connection
++
++barrierCmdCEnter "CINN"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t x, int16_t y, int32_t seq, int16_t modifier }``
++Description:
++  Enter screen.
++
++  ``x``, ``y``  = entering screen absolute coordinates
++
++  ``seq``  = sequence number, which is used to order messages between
++  screens.  the secondary screen must return this number
++  with some messages
++
++  ``modifier`` = modifier key mask.  this will have bits set for each
++  toggle modifier key that is activated on entry to the
++  screen.  the secondary screen should adjust its toggle
++  modifiers to reflect that state.
++
++barrierCmdCLeave "COUT"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Leaving screen.  the secondary screen should send clipboard data in
++  response to this message for those clipboards that it has grabbed
++  (i.e. has sent a barrierCmdCClipboard for and has not received a
++  barrierCmdCClipboard for with a greater sequence number) and that
++  were grabbed or have changed since the last leave.
++
++barrierCmdCClipboard "CCLP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t id, int32_t seq }``
++Description:
++  Grab clipboard. Sent by screen when some other app on that screen
++  grabs a clipboard.
++
++  ``id``  = the clipboard identifier
++
++  ``seq`` = sequence number. Client must use the sequence number passed in
++  the most recent barrierCmdCEnter.  the server always sends 0.
++
++barrierCmdCScreenSaver   "CSEC"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t started }``
++Description:
++  Screensaver change.
++
++  ``started`` = Screensaver on primary has started (1) or closed (0)
++
++barrierCmdCResetOptions  "CROP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Reset options. Client should reset all of its options to their
++  defaults.
++
++barrierCmdCInfoAck   "CIAK"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Resolution change acknowledgment. Sent by server in response to a
++  client screen's barrierCmdDInfo. This is sent for every
++  barrierCmdDInfo, whether or not the server had sent a barrierCmdQInfo.
++
++barrierCmdCKeepAlive "CALV"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Keep connection alive. Sent by the server periodically to verify
++  that connections are still up and running.  clients must reply in
++  kind on receipt.  if the server gets an error sending the message or
++  does not receive a reply within a reasonable time then the server
++  disconnects the client.  if the client doesn't receive these (or any
++  message) periodically then it should disconnect from the server.  the
++  appropriate interval is defined by an option.
++
++barrierCmdDKeyDown   "DKDN"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t keyid, int16_t modifier [,int16_t button] }``
++Description:
++  Key pressed.
++
++  ``keyid`` = X11 key id
++
++  ``modified`` = modified mask
++
++  ``button`` = X11 Xkb keycode (optional)
++
++barrierCmdDKeyRepeat "DKRP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t keyid, int16_t modifier, int16_t repeat [,int16_t button] }``
++Description:
++  Key auto-repeat.
++
++  ``keyid`` = X11 key id
++
++  ``modified`` = modified mask
++
++  ``repeat``   = number of repeats
++
++  ``button``   = X11 Xkb keycode (optional)
++
++barrierCmdDKeyUp "DKUP"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t keyid, int16_t modifier [,int16_t button] }``
++Description:
++  Key released.
++
++  ``keyid`` = X11 key id
++
++  ``modified`` = modified mask
++
++  ``button`` = X11 Xkb keycode (optional)
++
++barrierCmdDMouseDown "DMDN"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t button }``
++Description:
++  Mouse button pressed.
++
++  ``button`` = button id
++
++barrierCmdDMouseUp   "DMUP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t button }``
++Description:
++  Mouse button release.
++
++  ``button`` = button id
++
++barrierCmdDMouseMove "DMMV"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t x, int16_t y }``
++Description:
++  Absolute mouse moved.
++
++  ``x``, ``y`` = absolute screen coordinates
++
++barrierCmdDMouseRelMove  "DMRM"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t x, int16_t y }``
++Description:
++  Relative mouse moved.
++
++  ``x``, ``y`` = r relative screen coordinates
++
++barrierCmdDMouseWheel "DMWM"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t x , int16_t y }`` or ``{ int16_t y }``
++Description:
++  Mouse scroll. The delta should be +120 for one tick forward (away
++  from the user) or right and -120 for one tick backward (toward the
++  user) or left.
++
++  ``x`` = x delta
++
++  ``y`` = y delta
++
++barrierCmdDClipboard "DCLP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t id, int32_t seq, int8_t mark, char *data }``
++Description:
++  Clipboard data.
++
++  ``id``  = clipboard id
++
++  ``seq`` = sequence number. The sequence number is 0 when sent by the
++  server.  Client screens should use the/ sequence number from
++  the most recent barrierCmdCEnter.
++
++barrierCmdDSetOptions "DSOP"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int32 t nb, { int32_t id, int32_t val }[] }``
++Description:
++  Set options. Client should set the given option/value pairs.
++
++  ``nb``  = numbers of ``{ id, val }`` entries
++
++  ``id``  = option id
++
++  ``val`` = option new value
++
++barrierCmdDFileTransfer "DFTR"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int8_t mark, char *content }``
++Description:
++  Transfer file data.
++
++  * ``mark`` = 0 means the content followed is the file size
++  * 1 means the content followed is the chunk data
++  * 2 means the file transfer is finished
++
++barrierCmdDDragInfo  "DDRG"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t nb, char *content }``
++Description:
++  Drag information.
++
++  ``nb``  = number of dragging objects
++
++  ``content`` = object's directory
++
++barrierCmdQInfo  "QINF"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Query screen info
++
++  Client should reply with a barrierCmdDInfo
++
++barrierCmdEIncompatible  "EICV"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  ``{ int16_t nb, major *minor }``
++Description:
++  Incompatible version.
++
++  ``major`` = major version
++
++  ``minor`` = minor version
++
++barrierCmdEBusy  "EBSY"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Name provided when connecting is already in use.
++
++barrierCmdEUnknown   "EUNK"
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Unknown client. Name provided when connecting is not in primary's
++  screen configuration map.
++
++barrierCmdEBad   "EBAD"
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Direction:
++  server -> client
++Parameters:
++  None
++Description:
++  Protocol violation. Server should disconnect after sending this
++  message.
++
+diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+index b1bab81e2ee..f9801a9c202 100644
+--- a/docs/interop/index.rst
++++ b/docs/interop/index.rst
+@@ -7,6 +7,7 @@ are useful for making QEMU interoperate with other software.
+ .. toctree::
+    :maxdepth: 2
+ 
++   barrier
+    bitmaps
+    dbus
+    dbus-vmstate
 -- 
 2.20.1
 
