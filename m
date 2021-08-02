@@ -2,97 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB753DDC7E
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 17:31:47 +0200 (CEST)
-Received: from localhost ([::1]:33396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6763DDC97
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAZus-0002FV-Qq
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 11:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
+	id 1mAa0N-0005Nl-OA
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 11:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mAZtH-0001YU-Tu
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 11:30:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32362)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mAZyr-0004b6-DR
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 11:35:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mAZtG-00077t-A6
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 11:30:07 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mAZyp-0003PJ-Fg
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 11:35:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627918205;
+ s=mimecast20190719; t=1627918550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mz+kXSmVPv70K8I+VHGmo4TAfS0XzVMXn3ftLNVemzs=;
- b=PdKVzU6JspiMRPNu8EBs3b+LNlURBfke/QPWOQjK29g0jmXzd30x+JU7dlW5ncbci6RJXw
- EAYRIfsQYAkTh5aPfvvhwfZihQG4jM41dTm/2vMs+upaD1mbDuiswBqqnFzlCiozwBTe04
- MFC+iAZjQiFrPinnQabJmOms8R/IDIk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-rneFf8F9NQSTvoH5GY0R3w-1; Mon, 02 Aug 2021 11:30:04 -0400
-X-MC-Unique: rneFf8F9NQSTvoH5GY0R3w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k13-20020a05600c1c8db029025018ac4f7dso93529wms.2
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 08:30:04 -0700 (PDT)
+ bh=+UQIyBoELMXcEZ1/SOC1FrAiBMV2MDkOFN45xkhkLEg=;
+ b=UwMrRHeYU080+eRvNSrQBYaFf2DGmiNG3FGNBxJa7yXT8+bUpHgFaMDpZ+diaSqB7YCERN
+ FeMPeY39/ViPoaoaz86Wh2bup3lgwbtfFHn6kLKNoWhv3HBk0yLbQeiBh3aTF1ICY/CVq1
+ 4+iD1IuxQfLpImSxcPKBBV4Yg5wyiK0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-mIysjS1OPSCBCWWvJ_jgsw-1; Mon, 02 Aug 2021 11:35:25 -0400
+X-MC-Unique: mIysjS1OPSCBCWWvJ_jgsw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s22-20020adf97960000b02901535eae4100so6615550wrb.14
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 08:35:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=mz+kXSmVPv70K8I+VHGmo4TAfS0XzVMXn3ftLNVemzs=;
- b=Eov98hlCjWgJrY2EcugKvLIjyiWDsi+KC69uhKHJn90mABi1XUINgKTHVwdcBbbZHi
- zHx8WYuFkN0GmxZlRjyhKVqvPqlMnucLqw8HFUjxjAOm6Qwv+2sxopFwVwD/4slVKTpP
- 3j9dK0tDT/bfWOq7zYCREItKMSRByy4ihv6vNGezDfAFpVN3aUlXiZwxG97BQcNNwpT2
- oNrKjqL1x3l0JwlJV+NMN9wBq7wzWhnwyw7EhRM7HMwHCSaJLISYIsks30lLJYrZDmPz
- xu6fdKxOesmK9P/zG3388y2DFwrNFyxwV0wR85BSBfb2UtAfPMDEWDzklWGCZEJsK0lQ
- KP7g==
-X-Gm-Message-State: AOAM530vMAH3vkNOBCMokwGF3P7Tx10djaq0u2y5bBFhIycMa5yPUkaZ
- SfbWzGtQ43rSvwfv7ug9I+HMXhwS0+9toHy/zNAR5afLLunjEUSCmimXAgcUmURTOJAJvoabKAS
- gheTi2Kck8FR1llM=
-X-Received: by 2002:a05:600c:4f90:: with SMTP id
- n16mr17445971wmq.71.1627918203319; 
- Mon, 02 Aug 2021 08:30:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDHpxuNQ24e3GNTY6szGTjIbo72s6m4llcmgZZBmN8ZNHHoXm4S+JeYIT6sty/omi7VkG1cQ==
-X-Received: by 2002:a05:600c:4f90:: with SMTP id
- n16mr17445945wmq.71.1627918203067; 
- Mon, 02 Aug 2021 08:30:03 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c60af.dip0.t-ipconnect.de. [91.12.96.175])
- by smtp.gmail.com with ESMTPSA id
- o22sm3149117wmq.3.2021.08.02.08.30.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 08:30:02 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1] softmmu/physmem: fix wrong assertion in
- qemu_ram_alloc_internal()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210802152238.10783-1-david@redhat.com>
- <4fb72846-d3ab-9488-a755-de9c6e4cf47c@redhat.com>
- <4ed5c12a-539b-9d5e-eefc-447f0dc7f410@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <2345cd63-b285-cd3d-893d-12dfe32f6cf6@redhat.com>
-Date: Mon, 2 Aug 2021 17:30:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+UQIyBoELMXcEZ1/SOC1FrAiBMV2MDkOFN45xkhkLEg=;
+ b=m+l/mjWhC4mOhhLNUsgFmNMtEm38czLVQ8QoA43MeIXhGYDuyNsGOp1FLa4oYwsGZs
+ D8+kGJ7pQ9Aa03y5jcOOAJa8JEbi6D4YMgRMlERByXSj/UyA4/mbSxIt9m8NHy3FS9z0
+ VK4zGon/ja0aGyhRoeB+xxm98W5U4kxGjUrIu4yfGabFvXC/4Yyr8mrcJl0+rNTbsOi+
+ MullBtlVy0EUyMLoKfHZRwIQ0jfNvcaot+p48BwIsir6jFuMyAiztv3xHIJZKIB+rNp4
+ OC9Wfm7b2a6wcpdazkeyJw7vou46qjrsIxgHBqqpp5wXh/b/NncglaEFEpSphyoPa+2X
+ nMvA==
+X-Gm-Message-State: AOAM533xq9eA13ZqgpQFEqbwPfBv3LnwjSCNxt9uKUxmsIaoUubLN8TO
+ zSqIEoW8RF+mk4Q9BAdfWH9dFVR+ywb81c0mlhOTmbqreGeic5c8LKfPEl5eglNxY88AnVUQ3f6
+ zegqP2ADfLutH8TI=
+X-Received: by 2002:a05:600c:2241:: with SMTP id
+ a1mr17604487wmm.171.1627918524001; 
+ Mon, 02 Aug 2021 08:35:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwtwZy6upZ1KKkAeH/3tkmvrn266KE96RAAMpfVvkz1Iv/9u6y37QZtwOH4MDrvlJ2qjCLzpQ==
+X-Received: by 2002:a05:600c:2241:: with SMTP id
+ a1mr17604460wmm.171.1627918523724; 
+ Mon, 02 Aug 2021 08:35:23 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id u11sm11308405wrp.26.2021.08.02.08.35.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 08:35:23 -0700 (PDT)
+Date: Mon, 2 Aug 2021 16:35:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH 1/1] migration: Terminate multifd threads on yank
+Message-ID: <YQgQuCdc8jBKRyLc@work-vm>
+References: <20210730074043.54260-1-leobras@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4ed5c12a-539b-9d5e-eefc-447f0dc7f410@redhat.com>
+In-Reply-To: <20210730074043.54260-1-leobras@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,19 +97,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>
+Cc: Li Xiaohui <xiaohli@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.08.21 17:27, Philippe Mathieu-Daudé wrote:
-> 6.1 material btw.
+* Leonardo Bras (leobras@redhat.com) wrote:
+> From source host viewpoint, losing a connection during migration will
+> cause the sockets to get stuck in sendmsg() syscall, waiting for
+> the receiving side to reply.
+> 
+> In migration, yank works by shutting-down the migration QIOChannel fd.
+> This causes a failure in the next sendmsg() for that fd, and the whole
+> migration gets cancelled.
+> 
+> In multifd, due to having multiple sockets in multiple threads,
+> on a connection loss there will be extra sockets stuck in sendmsg(),
+> and because they will be holding their own mutex, there is good chance
+> the main migration thread can get stuck in multifd_send_pages()
+> waiting for one of those mutexes.
+> 
+> While it's waiting, the main migration thread can't run sendmsg() on
+> it's fd, and therefore can't cause the migration to be cancelled, thus
+> causing yank not to work.
+> 
+> Fixes this by shutting down all migration fds (including multifd ones),
+> so no thread get's stuck in sendmsg() while holding a lock, and thus
+> allowing the main migration thread to properly cancel migration when
+> yank is used.
+> 
+> There is no need to do the same procedure to yank to work in the
+> receiving host since ops->recv_pages() is kept outside the mutex protected
+> code in multifd_recv_thread().
+> 
+> Buglink:https://bugzilla.redhat.com/show_bug.cgi?id=1970337
+> Reported-by: Li Xiaohui <xiaohli@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  migration/multifd.c        | 11 +++++++++++
+>  migration/multifd.h        |  1 +
+>  migration/yank_functions.c |  2 ++
+>  3 files changed, 14 insertions(+)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 377da78f5b..744a180dfe 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -1040,6 +1040,17 @@ void multifd_recv_sync_main(void)
+>      trace_multifd_recv_sync_main(multifd_recv_state->packet_num);
+>  }
+>  
+> +void multifd_shutdown(void)
+> +{
+> +    if (!migrate_use_multifd()) {
+> +        return;
+> +    }
+> +
+> +    if (multifd_send_state) {
+> +        multifd_send_terminate_threads(NULL);
+> +    }
 
-Indeed, should have tagged that right away. thanks!
+That calls :
+    for (i = 0; i < migrate_multifd_channels(); i++) {
+        MultiFDSendParams *p = &multifd_send_state->params[i];
 
+        qemu_mutex_lock(&p->mutex);
+        p->quit = true;
+        qemu_sem_post(&p->sem);
+        qemu_mutex_unlock(&p->mutex);
+    }
 
+so why doesn't this also get stuck in the same mutex you're trying to
+fix?
+
+Does the qio_channel_shutdown actually cause a shutdown on all fd's
+for the multifd?
+
+(I've just seen the multifd/cancel test fail stuck in multifd_send_sync_main
+waiting on one of the locks).
+
+Dave
+
+> +}
+> +
+>  static void *multifd_recv_thread(void *opaque)
+>  {
+>      MultiFDRecvParams *p = opaque;
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 8d6751f5ed..0517213bdf 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -22,6 +22,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+>  void multifd_recv_sync_main(void);
+>  void multifd_send_sync_main(QEMUFile *f);
+>  int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
+> +void multifd_shutdown(void);
+>  
+>  /* Multifd Compression flags */
+>  #define MULTIFD_FLAG_SYNC (1 << 0)
+> diff --git a/migration/yank_functions.c b/migration/yank_functions.c
+> index 8c08aef14a..9335a64f00 100644
+> --- a/migration/yank_functions.c
+> +++ b/migration/yank_functions.c
+> @@ -15,12 +15,14 @@
+>  #include "io/channel-socket.h"
+>  #include "io/channel-tls.h"
+>  #include "qemu-file.h"
+> +#include "multifd.h"
+>  
+>  void migration_yank_iochannel(void *opaque)
+>  {
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>  
+>      qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> +    multifd_shutdown();
+>  }
+>  
+>  /* Return whether yank is supported on this ioc */
+> -- 
+> 2.32.0
+> 
 -- 
-Thanks,
-
-David / dhildenb
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
