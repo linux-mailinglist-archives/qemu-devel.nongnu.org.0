@@ -2,103 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0793DE206
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 23:58:05 +0200 (CEST)
-Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C023A3DE28C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 00:36:25 +0200 (CEST)
+Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAfwi-0002FE-47
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 17:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45440)
+	id 1mAgXn-00043h-5K
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 18:36:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mAfrk-00021m-Px
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 17:52:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mAfrf-0000hB-Rt
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 17:52:56 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 172LY7tt145763
- for <qemu-devel@nongnu.org>; Mon, 2 Aug 2021 17:52:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=23iym0EGirdc4+cfKYIW9LOHsD5V3SX7e26s7qycMdc=;
- b=dEt1Vni0XUDfJQ+/EHDLqNaU5TPmWw7f/RKrmEwJAb1joeTACz4TTEzJlJXMslXUseSJ
- DJK+CsV7eBvd1wdiJYZmm14strBHws6H7dnxH6YMOILR6KQtNMnUWmSdaKxHO1yynUIA
- 9dMvOjOXYab06tYMHyA+5kdh3ZyDZEx67VjYjGfMqHdgNSgG6VwIShDkQvUK7RaIhJka
- n1ADvTHAZlZk0sk7C7I0/d+UQUK7YZi3b/wr25P879WPTq2g0AGKZ8kW/D1LHL9OCM3I
- J/EtOevFhGn62xkhwNj6t/azWIpDPh3rf5C+mJnqaXqK2RSjLlL7rfWeeH9eY4YVBtr3 qQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a5kjvgh18-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 17:52:50 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 172LaSRX151705
- for <qemu-devel@nongnu.org>; Mon, 2 Aug 2021 17:52:49 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a5kjvgh0x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 Aug 2021 17:52:49 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 172LqdcA014734;
- Mon, 2 Aug 2021 21:52:49 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3a4x5bsf6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 02 Aug 2021 21:52:49 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 172Lqm7P35062210
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 2 Aug 2021 21:52:48 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3AC3CB206B;
- Mon,  2 Aug 2021 21:52:48 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 23139B2067;
- Mon,  2 Aug 2021 21:52:48 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon,  2 Aug 2021 21:52:48 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
-Subject: [PATCH-for-6.2 v6 10/10] tests: acpi: tpm1.2: Add expected TPM 1.2
- ACPI blobs
-Date: Mon,  2 Aug 2021 17:52:46 -0400
-Message-Id: <20210802215246.1433175-11-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210802215246.1433175-1-stefanb@linux.ibm.com>
-References: <20210802215246.1433175-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
+ id 1mAgLz-0007EE-2T
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:24:11 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
+ id 1mAgLw-0004PH-RQ
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 18:24:10 -0400
+Received: by mail-wr1-x431.google.com with SMTP id k4so12333298wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 15:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=aabouzied-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u/vjRXtntVPVd+FW3MUJ70Lgm6SDavAH3r08KdyFmdI=;
+ b=HZ9TOpjOORd3jYK9KVHWwpF9U1DD61PmPJ5Mk7G/fvmGHul9bHc6SSWQVC6c2b+imL
+ RBQ4EMfQwW2n6a/4xrw2pTBpjusFT860og220LNOZTHF+RbCzdLSEPW/rq/Ecn3MOGTU
+ d8Cp51SUg2xy9ZnFHeMwfGAdUBtDbPtDVRXAwn/IKZfVJkH/RJlO6zCgOzAELvibLN29
+ Q3ckMSDq4WiyiaHphvneQyZuoHhj+zTfB5zbW2so8tQXGbXQmkM/BgqGvcOQYXs6sjXm
+ +/vQCXs24FuIQYMND0HtfSc1XBULFjFGw6Yp1kQbVO4IPLzw/MsS+k/bSdsmVcMMWjQu
+ iwPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u/vjRXtntVPVd+FW3MUJ70Lgm6SDavAH3r08KdyFmdI=;
+ b=qhEgRi5Sb09A9wMxK4HzhaipvHF7sAxmc5DqKDrlc85CJEEvW6pLiY19NU/De492yp
+ a+jIcAbwqWscCAAtZNP2MLL0uKXY0EJiHT2on0nSP5oFuSW1YJWetebf/04IFtXj3Cke
+ QyLFFIO+4d79StSmIX9qzs3Pm+ZkO12zvGj/yN+q/GHycZKAAhUj47GCL7+fvH/Os6rl
+ HuJTH4NbGDioNluyG0l1Ttzmy+4bBeeuo4e6QF+vTg541q3JdctM7/VAGOHm7jwx3jp5
+ 5hSo4CxqgXuJCB0zbJPTtENf1xhdF4kCdgqK1cBP5N4gMkcPYzUdclM2HMJjVkpe56JJ
+ 3vfQ==
+X-Gm-Message-State: AOAM532Wl4ujn4tQnwkIbR4q8CWXF5QjnOmaXJ/Ntih+f+DN8j6RpC0/
+ N0sXsq9KayeeI0flDdUv9QZ4Gu8GQ/9jhgoue1k=
+X-Google-Smtp-Source: ABdhPJyMOFJUNcyJmSKCBbhvzp8kAH0FTVylJFxaMBKvON42QS7xzfjkk6J6RbrCAibHiahIPP8X/w==
+X-Received: by 2002:adf:d1e4:: with SMTP id g4mr6398107wrd.371.1627943046050; 
+ Mon, 02 Aug 2021 15:24:06 -0700 (PDT)
+Received: from localhost.localdomain ([154.187.38.176])
+ by smtp.gmail.com with ESMTPSA id d7sm6111198wrs.39.2021.08.02.15.24.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 15:24:05 -0700 (PDT)
+From: Ahmed Abouzied <email@aabouzied.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/acceptance: Allow overwrite smp and memory
+Date: Tue,  3 Aug 2021 00:22:57 +0200
+Message-Id: <20210802222257.50946-1-email@aabouzied.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: LO3QoeadE0ZeAk1WREuRyO14A7gIPLun
-X-Proofpoint-GUID: sWcq8hqSB0Y8VVrYc_zsWaTweHLozPW0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-02_07:2021-08-02,
- 2021-08-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108020137
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::431;
+ envelope-from=email@aabouzied.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NO_DNS_FOR_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,131 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- philmd@redhat.com, mst@redhat.com
+Cc: Ahmed Abouzied <email@aabouzied.com>, philmd@redhat.com,
+ wainersm@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TCPA.tis.tpm12 file contains the following:
+Removes the hard-coded values in setUp(). Class inheriting from
+avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
 
-[000h 0000   4]                    Signature : "TCPA"    [Trusted Computing Platform Alliance table]
-[004h 0004   4]                 Table Length : 00000032
-[008h 0008   1]                     Revision : 02
-[009h 0009   1]                     Checksum : 32
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPC    "
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
-
-[024h 0036   2]               Platform Class : 0000
-[026h 0038   4]         Min Event Log Length : 00010000
-[02Ah 0042   8]            Event Log Address : 0000000007FF0000
-
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
+Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
 ---
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 0 -> 8894 bytes
- tests/data/acpi/q35/TCPA.tis.tpm12          | Bin 0 -> 50 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- 3 files changed, 2 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6735e73971c6be95deceb23051a78af6a4573bd8 100644
-GIT binary patch
-literal 8894
-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
-E0|senc>n+a
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/q35/TCPA.tis.tpm12 b/tests/data/acpi/q35/TCPA.tis.tpm12
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a56961b413e7715b3d60f9836d1c8f2f4c7347cb 100644
-GIT binary patch
-literal 50
-qcmWG>4sbMLU|?V}a`Jcf2v%^42yj*a0!E-1hz+7a07U<12eAOxRtEt9
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index fb093b32b9..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.tis.tpm12",
--"tests/data/acpi/q35/TCPA.tis.tpm12",
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 2c4fef3e14..2639b89c84 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
+     distro = None
+     username = 'root'
+     password = 'password'
++    smp = '2'
++    memory = '1024'
+ 
+     def _set_distro(self):
+         distro_name = self.params.get(
+@@ -471,8 +473,8 @@ def _set_distro(self):
+     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
+         super(LinuxTest, self).setUp()
+         self._set_distro()
+-        self.vm.add_args('-smp', '2')
+-        self.vm.add_args('-m', '1024')
++        self.vm.add_args('-smp', self.smp)
++        self.vm.add_args('-m', self.memory)
+         # The following network device allows for SSH connections
+         self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
+                          '-device', '%s,netdev=vnet' % network_device_type)
 -- 
-2.31.1
+2.25.1
 
 
