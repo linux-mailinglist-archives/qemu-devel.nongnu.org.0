@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B953DDEAB
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 19:38:28 +0200 (CEST)
-Received: from localhost ([::1]:54918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F223DDEC5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 19:54:29 +0200 (CEST)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAbtT-000666-2m
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 13:38:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
+	id 1mAc8y-0001tV-3S
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 13:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAbsH-0005Pc-GF
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 13:37:13 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAbsF-0005Wa-O5
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 13:37:13 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c9so2108776wri.8
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 10:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=f70nOleJqO3Qxy5hUVphlkZHY5OGoBlJvgROvyQv1Y0=;
- b=gFDZTBPlLqCE2euNPRc4uVS3u1+lQpiP1byEdcR2hYN8W+TX7lFdsZqZDMUEuojyWY
- l8MWxiZTbR+Tnbb2Nz5HJSFxq612SyOS0QEkrDwpeOYe93UGvRFgTTJTHO3v6eEkDpYI
- 1LWNUPzpGx2BhAsgjCO8CG7ZWxujujtJx8DPJfhT9R4Oa+MT53lise7ngIOw87VZHOzf
- db1i87jHwLzYSRYICXI1vfzFQZNcpKM2NLPOqyKEMeuNGu4xH72lVnmEGWAH7k48dmMf
- 0pV827GbuplXLksxh9eDjeS2ordWRVD/qB/le74L19CHmrGQdTa4xsjBkB+AsJENxl9M
- b+Jw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mAc81-0001Dd-Pf
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 13:53:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42156)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mAc7y-0008Ty-TR
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 13:53:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627926805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AZdiJXOmp0m0YidxiT76JcHCaIPWdR/du3TPqT4BQ3Y=;
+ b=a2DgFYnUsojMTGODa14B64e/G06TDlp2nVDx7GdpvOHrDtRsgNeSjHfKKqSwgOZ62tfSvh
+ QaujdkWB5TGEFszZfqM+kv4t+iYPJML3XzsVFvwyF5CNe0pqz+13pJsqZGGo+/GxI967vI
+ N3RWnk6ydPJZ2BltZCoQWG/vLA4dAkg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-4c3tSuhrPBqiDIcVwuTfSg-1; Mon, 02 Aug 2021 13:53:24 -0400
+X-MC-Unique: 4c3tSuhrPBqiDIcVwuTfSg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q13-20020a05600000cdb02901545f1bdac1so2989313wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 10:53:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=f70nOleJqO3Qxy5hUVphlkZHY5OGoBlJvgROvyQv1Y0=;
- b=SONuZk2rWwI+iCsSTzfmfMfPxRdLue79unP12aWaF8xMZ++950zPnGaTPokUyuXOFR
- FIK4S8PfZaUgFKlUJeA8/rOjG2wPPEMvQH8cOK2YJL69YjI3Mgp0W1tKnNjGCZ8o0+XA
- aH60e6JPfoiRfC7EG5bCdnGFGM/z/M8STzD+yEjoWRcLcpl2OEyL/cGOyFMgbQhmuJIE
- Mb9EMboaj7lpuDezzeoG8kKx8Ef4j1+0yMjyJ4X9ErWk7h5Lrx4ULIgDNCTNcypHjkb6
- RAw4bgmAo/YokEbDYY/vjoXUPoGQ2l7TwoDBVc/E+36Nrswn1coDBOSs6CqI4IlYclmX
- ltpw==
-X-Gm-Message-State: AOAM53082rVP9LjvFAkRfHxAVkeI70evw08YzIe9htXPfrUOTwstWVR0
- G/2AC12q2h8BzIbMl8WPbCbN1g==
-X-Google-Smtp-Source: ABdhPJyVBew0iKJsGBTghFE2sSgzQiERnqZYsnukSLs/igogPS1lCZuPRo7zD1Sfac7F3ofV5r8wFg==
-X-Received: by 2002:adf:efc4:: with SMTP id i4mr19227265wrp.53.1627925829748; 
- Mon, 02 Aug 2021 10:37:09 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i29sm10808425wmb.20.2021.08.02.10.37.08
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AZdiJXOmp0m0YidxiT76JcHCaIPWdR/du3TPqT4BQ3Y=;
+ b=D4sx0mzMybM2CyaUzqGFcHFrpaeWHb4of/b7AC8HDclYHLsgOhPWInBgkLO19N9J2S
+ VumldI50WVbhyC00x1lXGIlyrL0z19NMv+LBts6lAMMLze3uZGVnRCgDp6k/ydhTa6hC
+ ydI2ayG8QZrjiFRJW7pFG6BslAYzGDyaumbL0/kh3lU+36jq5W4OBZuPKvy4iiZWbNxC
+ Xywv4wp1QJAWczKmZwwuQT6WrQb6B6t370FiI27p+Pg69qvuqoyxN3dsSyK11pvd0Dv5
+ jBxfQDS43jg51/mdo6mE0wMhSjEAxqxjnzv+j0Vm9j5oy3rzQPl1jzRmItaQTNWHMdI/
+ mliA==
+X-Gm-Message-State: AOAM533bqcZDlHQw2zHlKkWMMaOAF/i0S5d2J6bw+cpNyBM5aMXoQe7I
+ jykTNsOfwrTu4wT+nyOL+TCz0I/nRe/aRKWw4NAqjSbT9tMbIrj2Un4KHXsGX8GAPdSDdsR6Vhe
+ KWIORceAFdWu5vkI=
+X-Received: by 2002:a1c:4b04:: with SMTP id y4mr18153749wma.133.1627926802809; 
+ Mon, 02 Aug 2021 10:53:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDdYuFILGSo5gVSkJPHQDfv6bC5UCfWEQYL2+wIM9Vf89F/ciKKBD8OsGN0qvBM3iKMjzuAA==
+X-Received: by 2002:a1c:4b04:: with SMTP id y4mr18153732wma.133.1627926802608; 
+ Mon, 02 Aug 2021 10:53:22 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id u11sm12312136wrt.89.2021.08.02.10.53.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 10:37:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7673F1FF96;
- Mon,  2 Aug 2021 18:37:08 +0100 (BST)
-References: <CAGu1Vjjot17roFD-YTWmQcDhhMD=Lzi3b3Q51cHNRnz+6JT_HQ@mail.gmail.com>
- <CAFEAcA9QexXsrXMHMQrS-aGNbA_4_G2CB+9KeRJqMEF5LQ84ig@mail.gmail.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: QEMU on x64
-Date: Mon, 02 Aug 2021 18:27:57 +0100
-In-reply-to: <CAFEAcA9QexXsrXMHMQrS-aGNbA_4_G2CB+9KeRJqMEF5LQ84ig@mail.gmail.com>
-Message-ID: <87zgtzg33v.fsf@linaro.org>
+ Mon, 02 Aug 2021 10:53:21 -0700 (PDT)
+Date: Mon, 2 Aug 2021 18:53:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 10/16] migration: Handle migration_incoming_setup()
+ errors consistently
+Message-ID: <YQgxEGzjyc17PPqX@work-vm>
+References: <20210720125408.387910-1-armbru@redhat.com>
+ <20210720125408.387910-11-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210720125408.387910-11-armbru@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,74 +97,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christopher Caulfield <ctcaulfield@gmail.com>, alexsmendez@live.com,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Commit b673eab4e2 "multifd: Make multifd_load_setup() get an Error
+> parameter" changed migration_incoming_setup() to take an Error **
+> argument, and adjusted the callers accordingly.  It neglected to
+> change adjust multifd_load_setup(): it still exit()s on error.  Clean
+> that up.
+> 
+> The error now gets propagated up two call chains: via
+> migration_fd_process_incoming() to rdma_accept_incoming_migration(),
+> and via migration_ioc_process_incoming() to
+> migration_channel_process_incoming().  Both chain ends report the
+> error with error_report_err(), but otherwise ignore it.  Behavioral
+> change: we no longer exit() on this error.
+> 
+> This is consistent with how we handle other errors here, e.g. from
+> multifd_recv_new_channel() via migration_ioc_process_incoming() to
+> migration_channel_process_incoming().  Wether it's consistently right
+> or consistently wrong I can't tell.
+> 
+> Also clean up the return value from the unusual 0 on success, 1 on
+> error to the more common true on success, false on error.
+> 
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  migration/migration.c | 27 +++++++++------------------
+>  1 file changed, 9 insertions(+), 18 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 231dc24414..c1c0a48647 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -609,30 +609,25 @@ fail:
+>  }
+>  
+>  /**
+> - * @migration_incoming_setup: Setup incoming migration
+> - *
+> - * Returns 0 for no error or 1 for error
+> - *
+> + * migration_incoming_setup: Setup incoming migration
+>   * @f: file for main migration channel
+>   * @errp: where to put errors
+> + *
+> + * Returns: %true on success, %false on error.
+>   */
+> -static int migration_incoming_setup(QEMUFile *f, Error **errp)
+> +static bool migration_incoming_setup(QEMUFile *f, Error **errp)
+>  {
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+> -    Error *local_err = NULL;
+>  
+> -    if (multifd_load_setup(&local_err) != 0) {
+> -        /* We haven't been able to create multifd threads
+> -           nothing better to do */
+> -        error_report_err(local_err);
+> -        exit(EXIT_FAILURE);
+> +    if (multifd_load_setup(errp) != 0) {
+> +        return false;
+>      }
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+What I don't know is how well that will survive; for example in
+multifd_load_setup it creates multiple threads and calls the recv_setup
+member on each thread; now if one of those fails what happens - if we
+don't exit, is it cleaned up enough so you can try another
+migrate_incoming or is it just going to fall over?
 
-> On Fri, 30 Jul 2021 at 19:05, Christopher Caulfield
-> <ctcaulfield@gmail.com> wrote:
->> This is Christopher from the debugging experiences team at Microsoft foc=
-used on kernel debugging. I am reaching out with a few questions about QEMU=
- on x64.
->>
->> Is it possible for the QEMU-x86-64 GDB Server to send the full set
->> of x64 system registers (whether they are included in a separated
->> system xml file or as part of the core registers xml file)?
->
-> Do you mean "is it possible for somebody to write code for
-> QEMU to make it do that", or "does QEMU do it today if you pass
-> it the right command line option" ? The answer to the former
-> is "yes", to the latter "no". (If you want the debugger to
-> be able to write to the system registers this might be a little
-> trickier, mostly in terms of "auditing the code to make sure this
-> can't confuse QEMU if you change some sysreg under its feet.".)
->
->> e.g. System registers missing from i386-64bit.xml file
->
->> DWORD64 IDTBase;
->> DWORD64 IDTLimit;
->> DWORD64 GDTBase;
->> DWORD64 GDTLimit;
->> DWORD SelLDT;
->> SEG64_DESC_INFO SegLDT;
->> DWORD SelTSS;
->> SEG64_DESC_INFO SegTSS;
->>
->> How can I access x64 MSR registers by using the QEMU-x86-64 GDB server?
->>
->> #define MSR_EFER 0xc0000080 // extended function enable register
->
-> EFER is in the xml ("x64_efer") so should be already accessible.
-> For anything else you're going to need to write some code to
-> make it happen.
->
->>is there any plan to support reading/writing to MSRs via QEMU-x86-64
->GDB server?
+Dave
 
-Not at the moment but I am keen to see any eventual solution try to be
-generic rather than hardwired for one architecture. The ARM code
-currently builds custom XML from it's register descriptors to expose
-it's MSR registers to the gdbstub. Ideally architecture front ends
-should register their registers with a new subsystem which can then do
-the glue between gdbstub as well as other systems that also care about
-register values (logging, HMP, TCG plugins).
+>  
+>      if (!mis->from_src_file) {
+>          mis->from_src_file = f;
+>      }
+>      qemu_file_set_blocking(f, false);
+> -    return 0;
+> +    return true;
+>  }
+>  
+>  void migration_incoming_process(void)
+> @@ -675,14 +670,11 @@ static bool postcopy_try_recover(QEMUFile *f)
+>  
+>  void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+>  {
+> -    Error *local_err = NULL;
+> -
+>      if (postcopy_try_recover(f)) {
+>          return;
+>      }
+>  
+> -    if (migration_incoming_setup(f, &local_err)) {
+> -        error_propagate(errp, local_err);
+> +    if (!migration_incoming_setup(f, errp)) {
+>          return;
+>      }
+>      migration_incoming_process();
+> @@ -703,8 +695,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+>              return;
+>          }
+>  
+> -        if (migration_incoming_setup(f, &local_err)) {
+> -            error_propagate(errp, local_err);
+> +        if (!migration_incoming_setup(f, errp)) {
+>              return;
+>          }
+>  
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-That said I'm not going to block any patches that just fix up the
-current XML and target/i386/gdbstub code. I'm not familiar enough with
-what the internal register representation state is for x86 w.r.t to TCG
-and hypervisor based running modes.
-
-> Not that I know of. We'd be happy to review patches if you want to
-> write them.
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
