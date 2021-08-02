@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBE33DD5A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:28:54 +0200 (CEST)
-Received: from localhost ([::1]:59460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C53DD584
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:19:06 +0200 (CEST)
+Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAX3t-00027S-DE
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
+	id 1mAWuP-00026k-6a
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWmw-0000zm-Db
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:11:22 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46797)
+ id 1mAWrB-0007SD-Cr
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:15:45 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAWmu-0007RF-TY
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:11:22 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id gs8so30449171ejc.13
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:11:20 -0700 (PDT)
+ id 1mAWr7-0000hS-Sp
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:15:44 -0400
+Received: by mail-ed1-x531.google.com with SMTP id f13so24104250edq.13
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qy+bHSLelRt1MrpbxyOU1oCZ58pF6821JxWTRkqqLeM=;
- b=xDkvXQYvtKbXQGhxOjaBbf21xvlVRSX3YsmGsSeS+vtwzdPDvT7yKJ523PwEfttFqt
- V4EZk6+OS0rdAB8T/t/nDjkCjVEjaiX/dPzTbQ9T+bwHC7HSaBAqzpvpQX5a8Q3hFgcn
- rU0HfEqrI9Q+sEgQ5RSbkNBGIJ3i3Fax6nWq4FAe5cvsP+Zg4mUDjhWmPuI1fqg5hK9n
- 4RdJbqMsKuOXAeFB7d48bmUXFoQGab7+lDwq3+na4bw9KLhNmUw36Z4z9vLhqyN+QgnR
- YlGiSMMS5SeTlAVkuD3B4/q7q4NQFgrroaj8EXdgQdPN2hGrAkxwgQi0RsukUcod0Fvm
- A/QA==
+ :cc; bh=tidx8/ydHdVSbK6wUpRTU5/5PMZ4Z9b+/ivRjqw46o4=;
+ b=fkWv/oHGdGeovYGhPoKeJSoUnPGhys/ijdlDa0EgeoO/UL8yjDBfNcIQgp7Ob5SXVh
+ eAMw4DeTmCyq7jSUs5bS3t+P3F2VEmXOABc/YiZp2MJTKcw3tD/i9Sp65qqExqUUi48s
+ mT0qQjOihY0/cnplho/XVtQk7cbSLInRQ2mY5YY45m1pIP/AUe8L2PHQ/jrUj0LHpvqp
+ IGpgpZCl1AtWSd6lGJ2TrzEj6SIep9dvFzdJg0U8+mZxAm6MSOZN21MdF3nqqJyvT7FX
+ IN8EIL6qYabCsXBHdK2Xq72G6LGZQe6L5GoWA9TSjwmvw1fXHi6vbm+89FkT+WjHQF0v
+ debA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qy+bHSLelRt1MrpbxyOU1oCZ58pF6821JxWTRkqqLeM=;
- b=pR8xHY/WOUTtSqTHkFCGcdc48VyRiGRvy3Kiq55QoUzwLcASPnocowpMAIu90Npnm4
- UDSNtifAc5VhAS9ABzN/080685ufbFm40zmQVcBs2n9sKxAwBYxAmBFu2qUgNMW1LpDR
- 2LREQY8viy3H/TkyZePMH8xx5yaZE2kCkvu8pL2ZJLHvS4HeQYE0HXi5Gm/hW3o2EMvg
- 4l37Lapkgc1oZNT7cg9nVW1v+bHx+/xBTJO3O0yvJGQYKG+iH3WD4kCOT3kf+3VdCCot
- 90vJ5quQsXYnlhh3VNRkpmemiTZWIpCh0lFPX8fPx84z3DtVvRAo6KOrjicm6tAujtst
- FP5w==
-X-Gm-Message-State: AOAM533VjY5x0nPRQTVxjEDY2T0CF+4zSBqvRmXT5K1hknCvbw2o9eH1
- 3yikVK7s9kQL5xUmXqNByjTVHpOKNu40vLZOcgIQ7Q==
-X-Google-Smtp-Source: ABdhPJwGASgU8efvwCfNp8DkkZu2Dpk4kul4lF5WWoZ2F+vDKrvzBWDLZm5Z0jN/6zpache1B7Agx/2AVfFCs7tqnWY=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr14968836ejy.407.1627906279125; 
- Mon, 02 Aug 2021 05:11:19 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=tidx8/ydHdVSbK6wUpRTU5/5PMZ4Z9b+/ivRjqw46o4=;
+ b=CUNCIrIMZbc9tLEVF0x3I4GXifOhWDM2qpX/b0BG5v7JVFrj6MeIYGTjqE5OSO7BSb
+ mT3zO9A3HuiXLr+Drh5EwUp/7V7DBv4GQkdup39M+qMLIDeOiiityKiVmQIdL/h/7EiR
+ 6Vkz5JlfQ4VB0zTWuChl7tWxzktpiJM861IzEVGCzXHNMoBJ5mzcxGXb4rRGzVDKT91k
+ IJBPXaqo064OBtzELuDAmASoeEsPOh0rC9Y5wu4cVNqAT2sh62LqN3PExLhqvrCxqWvv
+ 8E2zpMoLx2pgLBeCWfTqEWWWCs6EIUi8qL42p0QwhzpL5O9hTZpuvKPffx0sJ/x1Ys2t
+ E3qg==
+X-Gm-Message-State: AOAM531xIkWZOAZhQh6HgbCT3S4SXBPX5nsgKhBA9iSsgwT0iNXqwtnE
+ /ZUXF+7cCg5KtAig1wMJPNZNbTxSzPFzMbR6VyGFfw==
+X-Google-Smtp-Source: ABdhPJxM8uEW5YlfAC4sKANz16TuJuqLmVP2d8AaOihRpRTasON8HT3J0mA1BuNYvJS9qLMht7ZuE+dqvFQvUb/WgSw=
+X-Received: by 2002:a50:f615:: with SMTP id c21mr19451947edn.146.1627906540393; 
+ Mon, 02 Aug 2021 05:15:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210728181728.2012952-1-f4bug@amsat.org>
-In-Reply-To: <20210728181728.2012952-1-f4bug@amsat.org>
+References: <20210729175554.686474-1-ehabkost@redhat.com>
+ <20210729175554.686474-2-ehabkost@redhat.com>
+In-Reply-To: <20210729175554.686474-2-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:10:36 +0100
-Message-ID: <CAFEAcA-_tvVnDgATXaQeM2eZew+_Vr2K1YBVsLh=JpG1Fvbriw@mail.gmail.com>
-Subject: Re: [PATCH-for-6.1 0/3] hw/sd/sdcard: Fix assertion accessing
- out-of-range addresses with CMD30
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 2 Aug 2021 13:14:57 +0100
+Message-ID: <CAFEAcA8FdSL6YwL1GiEqc0sF087SFCzRN3QvjOeOYxWaPoTO2Q@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 01/10] docs: qom: Replace old GTK-Doc #symbol
+ syntax with `symbol`
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,44 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Qemu-block <qemu-block@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Jul 2021 at 19:17, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Thu, 29 Jul 2021 at 19:00, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Fix an assertion reported by OSS-Fuzz, add corresponding qtest.
+> Replace leftover of GTK-Doc #name syntax with `name`, and use
+> default-role:: any, so we can add references to other functions,
+> types, and macros.
 >
-> The change simple enough for the next rc.
+> There are 3 cases that required extra care:
+> - #TypeInfo.class_init: kernel-doc doesn't generate c:member::
+>   directives, so references to C struct members are not possible
+>   yet.  This was replaced with `TypeInfo`.class_init.
+> - #CPUClass.reset and #DeviceClass.realize: cpu.h and qdev docs are not
+>   rendered using Sphinx yet, so use ``code`` syntax for those.
 >
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/sd/sdcard: Document out-of-range addresses for SEND_WRITE_PROT
->   hw/sd/sdcard: Fix assertion accessing out-of-range addresses with
->     CMD30
->   hw/sd/sdcard: Rename Write Protect Group variables
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  docs/devel/qom.rst | 25 +++++++++++++------------
+>  1 file changed, 13 insertions(+), 12 deletions(-)
+>
+> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+> index e5fe3597cd8..9c1be5d7fc2 100644
+> --- a/docs/devel/qom.rst
+> +++ b/docs/devel/qom.rst
+> @@ -3,6 +3,7 @@ The QEMU Object Model (QOM)
+>  ===========================
+>
+>  .. highlight:: c
+> +.. default-role:: any
+>
+>  The QEMU Object Model provides a framework for registering user creatable
+>  types and instantiating objects from those types.  QOM provides the following
+> @@ -42,8 +43,8 @@ features:
+>
+>     type_init(my_device_register_types)
+>
+> -In the above example, we create a simple type that is described by #TypeInfo.
+> -#TypeInfo describes information about the type including what it inherits
+> +In the above example, we create a simple type that is described by `TypeInfo`.
+> +`TypeInfo` describes information about the type including what it inherits
 
-I've left review comments on individual patches, but my suspicion
-is that the fix for this assertion failure is just "the
-assert should be after the test for 'addr < sd->size', not before",
-something like:
+I've just gone through all of docs/ finding the places where we had `foo` and
+probably meant ``foo``, so please don't add any new ones. I would suggest
+that you either use the ``double-backtick`` syntax to render as fixed-width
+font, or use an explicit role tag so readers of the rST source can tell that
+that's what you meant to use, ie avoid "default-role".
 
-@@ -821,8 +821,12 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
-     wpnum =3D sd_addr_to_wpnum(addr);
-
-     for (i =3D 0; i < 32; i++, wpnum++, addr +=3D WPGROUP_SIZE) {
-+        if (addr >=3D sd->size) {
-+            /* Out of range groups report as zero */
-+            continue;
-+        }
-         assert(wpnum < sd->wpgrps_size);
--        if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
-+        if (test_bit(wpnum, sd->wp_groups)) {
-             ret |=3D (1 << i);
-         }
-     }
-
+thanks
 -- PMM
 
