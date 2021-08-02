@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2513DDD6D
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 18:19:45 +0200 (CEST)
-Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3827E3DDD65
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 18:17:58 +0200 (CEST)
+Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAafI-00014H-CQ
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 12:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
+	id 1mAadZ-0003oZ-6y
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 12:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mAabT-0000xG-PT
+ id 1mAabV-0000xN-2n
  for qemu-devel@nongnu.org; Mon, 02 Aug 2021 12:15:52 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37563)
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mAabS-0006pY-2S
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 12:15:47 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id h9so16305115ejs.4
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 09:15:45 -0700 (PDT)
+ id 1mAabS-0006qA-LL
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 12:15:48 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id o5so31781069ejy.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 09:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2fwd9objZBu7/3yhUZG7id8W9kbZ76Fri7jal/zJS04=;
- b=Imz9H59sQ212Pegl0EVDMC49YQD6RvgEVGVrT/fKciL0UNL4d8HnyEGxg0SrH+Hs60
- iVNP5LnzbvTF/Qmo/MjaeR1wlwHjBoBT/12R+CTvNfoV9rpIXxzhoeVQuL8sp7kiblrI
- WPNHDbmiKs/ok76AJXpscKG22NJRv/I3ZDi1b4TNxS57jmVoH7P9VKaH4AtE5XXkpYYM
- E5CCpv4x4OLwA8w3eY1kwtXI/eFC7fQqFJPZAjmUasvxGvyi7uxycWhYFOpTbkduqtAz
- L+oqtKXaO8z4YUDQdsZRTHqC15ZCRD/3LAIryBAUBIFtRu6UTmlmRdlv9Dv5MZfnMFQt
- CB+Q==
+ bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
+ b=UCMg7c/Wa5cq/JaS0xrPZRhKaq5W79m57kOaSkn40L2pR/AlR/i7yhjd2rpzCgzl44
+ Az8qY0CAFl7IpZo3K9q/rellwM9RpgXY8Jn8f4AEBuHZOYvPXkgg5yEfzUHvUQ1yKObX
+ z32KVUzefawugAL7sh+VOtF9rgSi0ZVE35JERim4Uvs2auRMUuex2PugiU2B/z7vMeQJ
+ xCIWuAd0QssHhxza0ZCPpeN5EherRNURDvLHz7T2I8BPu9R3InHqBWb2LDl8PSDJ2nsq
+ LxRF8QUUgOphhmQ5JU35+0dJZ9EYBql9i/A3blgaRErxJfDgINELBMycaYsYWL6XRm6B
+ VMZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2fwd9objZBu7/3yhUZG7id8W9kbZ76Fri7jal/zJS04=;
- b=EQUF9TUbErWlka1kkigcFYzNkm9qu1xlml7WNX/hKfkMZskin0Sp4VWScNFh/wjyYM
- 60iUvc93jntrJLG8GwRKUqv8cWIdZSMR3vwXLqXC3/VfW8WXxS6kM7JzfyUj2bBQXeQo
- IDtc1fRfdrT1qiuh7iD3yunVo06sscGkdmY5HbV5fyXYK0zHy7aoDplCFlF3MgpiG5cK
- 1n9JGhYsOAuu2kvWXoQwvebcx9hlYtlUuy9g92GmLGzk1HZgVAxUdOdjP4oTb8j7TiIQ
- +RF167bBWxSGhNnNQ2AOFhuJzXHNHzS2N16OL1ocg8j246HpDpxqAV+tA5H1j5pKvpx9
- jWZQ==
-X-Gm-Message-State: AOAM530RE3eRJrHGmvXXGqShgstzNJDk5HvTS5OLSSbggvUpZv/QvfBe
- XiKisQoNq6LDZcOLBEdYdoP+G6tdZ9dsXw==
-X-Google-Smtp-Source: ABdhPJzT3G22aY29jV4KRokmhzU7K6sYH3NBSMuT0lFOcgOI3y8638t1HLr5zk/qvNPH6/IS0MwuZQ==
-X-Received: by 2002:a17:906:32d6:: with SMTP id
- k22mr15818313ejk.228.1627920944741; 
- Mon, 02 Aug 2021 09:15:44 -0700 (PDT)
+ bh=wTjOAVjdtymwz9rd5aA6ONu5k4R7mM2ueQUxv/s95TM=;
+ b=mvU6W1ttG43Qkx82pLqmKikxzHaQihqMjF7wyQeYNmg4HJO73k8cxlmfTQunosU7um
+ c3YeY1gymSly4rq7+YODeMr6pfOknYGupo5Kc7qs51mVBGVFIAbC0f2+x5WdsWxbhUQ4
+ iJx5R3FWg2E9OcKWWu9gUCUYOZVQZoS6fKCYhVktUHulNpBOwqOYwuPBzHmhLE+7A8qW
+ 2L1i+xQLruQ3xd8OrDsukSM4HHw3ZwMLlRfR6ji0sAmNRgwiDFkUEbdkiFYs3WryAOeX
+ o+PvQZtkBpPvm0gudU9MAQwQncRek6gDufwY34mY6QGgzttjwjnGZ0DrA8nvGcbHJRFG
+ OD2g==
+X-Gm-Message-State: AOAM531YtRkGiJG3U0Q2eZWPjEGjIQCtMZtVC28cXz9vgDmtrMEFDdN4
+ v4f5BM1N0bFGc+LdR1clALNggxWfVKDTNg==
+X-Google-Smtp-Source: ABdhPJyEuNCkXq8vu1a8+7fZjUpIX+/lPvxr7PZL+X6HkBT9Lu1gQ38BQAPM3BmYlMjcPwkD/CjRlA==
+X-Received: by 2002:a17:906:a3d8:: with SMTP id
+ ca24mr16565445ejb.533.1627920945372; 
+ Mon, 02 Aug 2021 09:15:45 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id f15sm4835144ejb.125.2021.08.02.09.15.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 09:15:44 -0700 (PDT)
+ Mon, 02 Aug 2021 09:15:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] vl: stop recording -smp in QemuOpts
-Date: Mon,  2 Aug 2021 18:15:36 +0200
-Message-Id: <20210802161542.381976-3-pbonzini@redhat.com>
+Subject: [PULL 3/8] coverity-model: update address_space_read/write models
+Date: Mon,  2 Aug 2021 18:15:37 +0200
+Message-Id: <20210802161542.381976-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210802161542.381976-1-pbonzini@redhat.com>
 References: <20210802161542.381976-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,76 +87,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--readconfig is still recording SMP options in QemuOpts instead of
-using machine_opts_dict.  This means that SMP options from -readconfig
-are ignored.
-
-Just stop using QemuOpts for -smp, making it return false for
-is_qemuopts_group.  Configuration files will merge the values in
-machine_opts_dict using the new function machine_merge_property.
-
-At the same time, fix -mem-prealloc which looked at QemuOpts to find the
-number of guest CPUs, which it used as the default number of preallocation
-threads.
+Use void * for consistency with the actual function; provide a model
+for MemoryRegionCache functions and for address_space_rw.  These
+let Coverity understand the bounds of the data that various functions
+read and write even at very high levels of inlining (e.g. pci_dma_read).
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ scripts/coverity-scan/model.c | 48 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 93aef8e747..5ca11e7469 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -31,6 +31,7 @@
- #include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qstring.h"
- #include "qapi/qmp/qjson.h"
- #include "qemu-version.h"
- #include "qemu/cutils.h"
-@@ -2166,7 +2167,8 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
- static bool is_qemuopts_group(const char *group)
+diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
+index 2c0346ff25..e1bdf0ad84 100644
+--- a/scripts/coverity-scan/model.c
++++ b/scripts/coverity-scan/model.c
+@@ -45,9 +45,10 @@ typedef struct va_list_str *va_list;
+ /* exec.c */
+ 
+ typedef struct AddressSpace AddressSpace;
++typedef struct MemoryRegionCache MemoryRegionCache;
+ typedef uint64_t hwaddr;
+ typedef uint32_t MemTxResult;
+-typedef uint64_t MemTxAttrs;
++typedef struct MemTxAttrs {} MemTxAttrs;
+ 
+ static void __bufwrite(uint8_t *buf, ssize_t len)
  {
-     if (g_str_equal(group, "object") ||
--        g_str_equal(group, "machine")) {
-+        g_str_equal(group, "machine") ||
-+        g_str_equal(group, "smp-opts")) {
-         return false;
-     }
-     return true;
-@@ -2186,6 +2188,8 @@ static void qemu_record_config_group(const char *group, QDict *dict,
-          */
-         assert(!from_json);
-         keyval_merge(machine_opts_dict, dict, errp);
-+    } else if (g_str_equal(group, "smp-opts")) {
-+        machine_merge_property("smp", dict, &error_fatal);
-     } else {
-         abort();
-     }
-@@ -2452,13 +2456,15 @@ static void qemu_validate_options(const QDict *machine_opts)
- static void qemu_process_sugar_options(void)
+@@ -67,9 +68,40 @@ static void __bufread(uint8_t *buf, ssize_t len)
+     int last = buf[len-1];
+ }
+ 
++MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
++                                      MemTxAttrs attrs,
++                                      void *buf, int len)
++{
++    MemTxResult result;
++    // TODO: investigate impact of treating reads as producing
++    // tainted data, with __coverity_tainted_data_argument__(buf).
++    __bufwrite(buf, len);
++    return result;
++}
++
++MemTxResult address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
++                                MemTxAttrs attrs,
++                                const void *buf, int len)
++{
++    MemTxResult result;
++    __bufread(buf, len);
++    return result;
++}
++
++MemTxResult address_space_rw_cached(MemoryRegionCache *cache, hwaddr addr,
++                                    MemTxAttrs attrs,
++                                    void *buf, int len, bool is_write)
++{
++    if (is_write) {
++        return address_space_write_cached(cache, addr, attrs, buf, len);
++    } else {
++        return address_space_read_cached(cache, addr, attrs, buf, len);
++    }
++}
++
+ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+                                MemTxAttrs attrs,
+-                               uint8_t *buf, int len)
++                               void *buf, int len)
  {
-     if (mem_prealloc) {
--        char *val;
--
--        val = g_strdup_printf("%d",
--                 (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
--        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
--                                   false);
--        g_free(val);
-+        QObject *smp = qdict_get(machine_opts_dict, "smp");
-+        if (smp && qobject_type(smp) == QTYPE_QDICT) {
-+            QObject *cpus = qdict_get(qobject_to(QDict, smp), "cpus");
-+            if (cpus && qobject_type(cpus) == QTYPE_QSTRING) {
-+                const char *val = qstring_get_str(qobject_to(QString, cpus));
-+                object_register_sugar_prop("memory-backend", "prealloc-threads",
-+                                           val, false);
-+            }
-+        }
-         object_register_sugar_prop("memory-backend", "prealloc", "on", false);
-     }
+     MemTxResult result;
+     // TODO: investigate impact of treating reads as producing
+@@ -80,13 +112,23 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+ 
+ MemTxResult address_space_write(AddressSpace *as, hwaddr addr,
+                                 MemTxAttrs attrs,
+-                                const uint8_t *buf, int len)
++                                const void *buf, int len)
+ {
+     MemTxResult result;
+     __bufread(buf, len);
+     return result;
+ }
+ 
++MemTxResult address_space_rw(AddressSpace *as, hwaddr addr,
++                             MemTxAttrs attrs,
++                             void *buf, int len, bool is_write)
++{
++    if (is_write) {
++        return address_space_write(as, addr, attrs, buf, len);
++    } else {
++        return address_space_read(as, addr, attrs, buf, len);
++    }
++}
+ 
+ /* Tainting */
  
 -- 
 2.31.1
