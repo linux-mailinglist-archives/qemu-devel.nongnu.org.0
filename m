@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD533DD67E
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:09:08 +0200 (CEST)
-Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4357E3DD672
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:07:33 +0200 (CEST)
+Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXgp-0002fV-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33042)
+	id 1mAXfI-0007Ls-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mAXbF-0000jM-KU
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:03:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44855)
+ id 1mAXcp-0004Dv-AL
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mAXbE-0000S3-Ae
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:03:21 -0400
+ id 1mAXcn-0000ud-ID
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:04:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627909399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1627909497;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d0gCLMAdEl7pQfQ6TSrm/lELvECOWIakWq73URsq4yQ=;
- b=W2rdo71bRo4UdfuIxIPshCJe+vzGZ7SlvccPZZgStA1zJgth4lBT67cP6bh+7jEWAD0U4o
- tz0u+ht9Ck4LB+AefkYViPcjp3nRt+o+pUNwNH+RN/A7LWRUXEY0y6O3wq2Hs9qYkgzEDF
- RUGW3X0F+26KYjWr+o4aMwzHN5JBlas=
+ bh=uT6kCdQRqIzS2k5qpFWdiXVNIyY5YePlpE6C+BtNOLA=;
+ b=bxHaqREbsPuzJknLnHFde13G9ukw95Z/fvB/nkIIrbcaFWkalRCxXjBTf3r5ivyPIexnSY
+ kv3blHlwI6fYdfvAuoAo/sr09+NmzuuBsxAGItFgyqQlnEBrunzg/17DakVGE+LxNJ3HJ5
+ OXL1gCv6aSxr9xqJPRTYw0ou9QJKOOM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-LdsMNu_cOKiE885BtM-B_A-1; Mon, 02 Aug 2021 09:03:17 -0400
-X-MC-Unique: LdsMNu_cOKiE885BtM-B_A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-340-nYsJNt_nNs6bIV8k7fCLgw-1; Mon, 02 Aug 2021 09:04:55 -0400
+X-MC-Unique: nYsJNt_nNs6bIV8k7fCLgw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5407734891
- for <qemu-devel@nongnu.org>; Mon,  2 Aug 2021 13:03:16 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.194.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F8AE5FC23;
- Mon,  2 Aug 2021 13:03:15 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] seccomp: block setns, unshare and execveat syscalls
-Date: Mon,  2 Aug 2021 14:03:03 +0100
-Message-Id: <20210802130303.3300108-6-berrange@redhat.com>
-In-Reply-To: <20210802130303.3300108-1-berrange@redhat.com>
-References: <20210802130303.3300108-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71D8363A6;
+ Mon,  2 Aug 2021 13:04:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3964760C05;
+ Mon,  2 Aug 2021 13:04:53 +0000 (UTC)
+Date: Mon, 2 Aug 2021 14:04:50 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: "make check-acceptance" takes way too long
+Message-ID: <YQftcinYWVTiscXd@redhat.com>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <YQeu+Jm2Q0NlQ2Im@redhat.com> <878s1kgg2f.fsf@linaro.org>
+ <CAFEAcA-JDq7erZNhnnoxQP-2UpNH1b_PMeRGj7j8s3Vx3tJceg@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA-JDq7erZNhnnoxQP-2UpNH1b_PMeRGj7j8s3Vx3tJceg@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -78,39 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-setns/unshare are used to change namespaces which is not something QEMU
-needs to be able todo.
+On Mon, Aug 02, 2021 at 02:00:19PM +0100, Peter Maydell wrote:
+> On Mon, 2 Aug 2021 at 13:57, Alex Bennée <alex.bennee@linaro.org> wrote:
+> >
+> >
+> > Daniel P. Berrangé <berrange@redhat.com> writes:
+> >
+> > > On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
+> > >> "make check-acceptance" takes way way too long. I just did a run
+> > >> on an arm-and-aarch64-targets-only debug build and it took over
+> > >> half an hour, and this despite it skipping or cancelling 26 out
+> > >> of 58 tests!
+> > >>
+> > >> I think that ~10 minutes runtime is reasonable. 30 is not;
+> > >> ideally no individual test would take more than a minute or so.
+> > >>
+> > >> Output saying where the time went. The first two tests take
+> > >> more than 10 minutes *each*. I think a good start would be to find
+> > >> a way of testing what they're testing that is less heavyweight.
+> > >
+> > > While there is certainly value in testing with a real world "full" guest
+> > > OS, I think it is overkill as the default setup. I reckon we would get
+> > > 80-90% of the value, by making our own test image repo, containing minimal
+> > > kernel builds for each machine/target combo we need, together with a tiny
+> > > initrd containing busybox.
+> >
+> > Also another minor wrinkle for this test is because we are booting via
+> > firmware we need a proper disk image with bootloader and the rest of it
+> > which involves more faff than a simple kernel+initrd (which is my goto
+> > format for the local zoo of testing images I have).
+> 
+> If you look at the log which has timestamps for the output, UEFI
+> takes some extra time but it's not too awful. The real timesink is
+> when it gets into userspace and systemd starts everything including
+> the kitchen sink.
 
-execveat is a new variant of execve so should be blocked just like
-execve already is.
+Is it possible to pass "s" kernel arg to systemd to tell it to boot in
+single user mode so it skips most of userspace, while still providing
+a useful test scenario in much less time ?
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- softmmu/qemu-seccomp.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-index a7bb5c350f..deaf8a4ef5 100644
---- a/softmmu/qemu-seccomp.c
-+++ b/softmmu/qemu-seccomp.c
-@@ -248,6 +248,11 @@ static const struct QemuSeccompSyscall denylist[] = {
-     { SCMP_SYS(clone3),                 QEMU_SECCOMP_SET_SPAWN,
-       0, NULL, SCMP_ACT_ERRNO(ENOSYS) },
- #endif
-+#ifdef __SNR_execveat
-+    { SCMP_SYS(execveat),               QEMU_SECCOMP_SET_SPAWN },
-+#endif
-+    { SCMP_SYS(setns),                  QEMU_SECCOMP_SET_SPAWN },
-+    { SCMP_SYS(unshare),                QEMU_SECCOMP_SET_SPAWN },
-     /* resource control */
-     { SCMP_SYS(setpriority),            QEMU_SECCOMP_SET_RESOURCECTL,
-       0, NULL, SCMP_ACT_ERRNO(EPERM) },
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
