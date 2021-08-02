@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F5F3DD780
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:44:48 +0200 (CEST)
-Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482A43DD788
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:46:02 +0200 (CEST)
+Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAYFL-0002QB-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
+	id 1mAYGW-0003tT-SN
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mAYEZ-0001k4-AY
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:43:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mAYEX-0006X6-6E
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:43:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627911835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=du19ifu5ag1dZ9c3hLySuDOIY+AVt6SzwUqQreq5B2o=;
- b=PIubQvqVcG1Q7wfrfDTS/Sq+Spj/UAz7eD3iawKuiOkD11Bp7HBp5fEUIRmCm212UILL+g
- kCJ6sv8QxmXWonPwkmCSWvIXigom8nqot3s9pk5JkaxViYb5B3OzbEZ1FO6ZEyJ7rlafac
- V/RXhedS58IAqMWZTwDZSIBi5RYi/6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-zFuW8RelO32N5yUp-1vLdw-1; Mon, 02 Aug 2021 09:43:54 -0400
-X-MC-Unique: zFuW8RelO32N5yUp-1vLdw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBC1287D541;
- Mon,  2 Aug 2021 13:43:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D7160862;
- Mon,  2 Aug 2021 13:43:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 498C4180039F; Mon,  2 Aug 2021 15:43:49 +0200 (CEST)
-Date: Mon, 2 Aug 2021 15:43:49 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: "make check-acceptance" takes way too long
-Message-ID: <20210802134349.shmjoxqlhfjq5lpi@sirius.home.kraxel.org>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <YQeu+Jm2Q0NlQ2Im@redhat.com> <878s1kgg2f.fsf@linaro.org>
- <YQfsb4MQY+EL6LMl@redhat.com>
- <d9600d53-7532-761e-9dfb-44c13967f162@redhat.com>
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAYFB-0002gl-2P
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:44:37 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAYF9-0006wB-Ej
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:44:36 -0400
+Received: by mail-wr1-x434.google.com with SMTP id h14so21524670wrx.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RkucGVt1oGSi8S4iDBzNlrG+iK4Ir1Wzbe2N0x86Pjg=;
+ b=emBcn/YMcVYrV4y4KUKjmgETHrSQzhSmQSoy4JwWW2biI6i8foZZDdTDelhKC7Wbbj
+ k8oUjJxjtOji3BCAJvEEKztNs+Uofo8BnWDAGsEzh4245Qm7551YB3LngpH20M/9ST18
+ /9/VTtfTxAlwSZTGTPMBId8Qh4RVQ9BlXc9S7TR7Me2Q5RfRNszRmfws+KVbjnwyQtE7
+ e9qksCEqV4GsQbdK0s6Tp498KXia7Qw0zTmrJcOE3ZM0Adq44k6VTnQbaY0tBmEMWG+8
+ 1nZCgG5p0ugdE6HrmqWTpwDlAUvFULh6TQWbiYONK/1rSmnLiGbBGrHhJYxO9HUUBMsL
+ Buzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RkucGVt1oGSi8S4iDBzNlrG+iK4Ir1Wzbe2N0x86Pjg=;
+ b=U9WoYg1bpN2YYQZV2rA6YNhlE3itcnvcvRRpGNLClu1LrkP4Z1cHW3gGgqNCXLXntA
+ m/XiSlvwrSeyOmEREKVrylE3BiTNIKJ2zTzBxpCK88INLDf6wsrEI4+00jQyKq6rHxpv
+ VQAP2M4JP59jYOQ8ASlNX/CL/9wkrCHTEjUToHJIKqtl8dBJTlGegItexjKXh23/XalH
+ 24ARRVvp6Lj3HpcNCMkfjhSZ4v/AqgWaedLIO0X4xBs5oTFtwEFVQkxmtjqvt3jkv7bi
+ 1YSKJIoo4QN2p3/e68jlsR8h1M6vEjRfWWxicLi8ziS8gKUaSQZkPlPhRZvcL78sPUVa
+ pHUA==
+X-Gm-Message-State: AOAM532XEbNToo6OEXSfYhtat5NPSjPFquXYZgjti1QNVoH8E7NH36nm
+ SccvbB2iHE6cSfGzOIH09ABRjwgQc0w=
+X-Google-Smtp-Source: ABdhPJwZ76TdFAgYkRwoGvI7LH7t9Dslnm9gwEgvrK2AxypawpJ+/lH8f0cgMn90lz9/3HwS2QtN2w==
+X-Received: by 2002:a5d:4a4f:: with SMTP id v15mr17220709wrs.178.1627911872865; 
+ Mon, 02 Aug 2021 06:44:32 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.223.190])
+ by smtp.gmail.com with ESMTPSA id x15sm10518368wmc.13.2021.08.02.06.44.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 06:44:32 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5] docs/deprecated: deprecate passing plugin args through
+ `arg=`
+Date: Mon,  2 Aug 2021 15:44:14 +0200
+Message-Id: <20210802134414.52037-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87h7g8glor.fsf@linaro.org>
+References: <87h7g8glor.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <d9600d53-7532-761e-9dfb-44c13967f162@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
 
-> > Ok, so that would require a bootloader build too, which is likely going
-> > to be arch specific, so probably the most tedious part.
-> 
-> Maybe we could use buildroot for this. I've used buildroot for my images in
-> the QEMU Advent Calendar, and it was really a great help. See also:
-> 
->  http://people.redhat.com/~thuth/blog/general/2019/01/28/buildroot.html
+v4 -> v5:
+    1. Mentioned that short-form booleans are still usable but not preferable.
 
-/me played with buildroot too: https://gitlab.com/kraxel/br-kraxel
+ docs/system/deprecated.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-userspace systemd does take much time indeed, but buildroot allows to
-build with busybox.  You can also easily include more stuff like
-pciutils to run tests.
-
-bootloader support in buildroot varies much depending on architecture.
-Modern standard platforms (x86, arm) are no problem, but for
-older/exotic platforms (sparc for example) you can't easily generate
-bootable disk images.
-
-take care,
-  Gerd
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e2e0090878..43ae154c85 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -126,6 +126,16 @@ other options have been processed.  This will either have no effect (if
+ if they were not given.  The property is therefore useless and should not be
+ specified.
+ 
++Plugin argument passing through ``arg=<string>`` (since 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Passing TCG plugins arguments through ``arg=`` is redundant is makes the
++command-line less readable, especially when the argument itself consist of a
++name and a value, e.g. ``-plugin plugin_name,arg="arg_name=arg_value"``.
++Therefore, the usage of ``arg`` is redundant. Single-word arguments are treated
++as short-form boolean values, and passed to plugins as ``arg_name=on``.
++However, short-form booleans are deprecated and full explicit ``arg_name=on``
++form is preferred.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+-- 
+2.25.1
 
 
