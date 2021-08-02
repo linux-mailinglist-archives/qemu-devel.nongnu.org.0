@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE913DD8A2
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:53:46 +0200 (CEST)
-Received: from localhost ([::1]:45464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAF03DDAF6
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 16:27:20 +0200 (CEST)
+Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAYO1-0006b4-JA
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
+	id 1mAYuU-0003gw-RF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 10:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAYN3-0005JG-9l
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:52:45 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:42657)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mAYtV-0002wL-Ll
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 10:26:17 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAYN0-0003tx-1n
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:52:44 -0400
-Received: by mail-ej1-x632.google.com with SMTP id e19so31012710ejs.9
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:52:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mAYtU-00028Y-25
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 10:26:17 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ n12-20020a05600c3b8cb029025a67bbd40aso3755531wms.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 07:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=jDOCdiNgIuDFyyhzNV2SN5a/IUQk3cPGZcx6FQY9lME=;
- b=zsXpMvqN4W1D/41C1/A6taN4vjsHxpGHQrQSGeYYsZAMHDSCdSFHFlE7bKdrWdbfIT
- zDsQZrce+pptoDysSYD8oIW2D7NdxXGxzH1ePXCyHdxTH1SOuFLuhAYPkRi7o88YlA73
- s6hOvTHj4HeED4WRMK04GedsvM/30pe6A7EzvmzZPQ525VOJzMQrmW+8rviWpdPqKhnB
- SgmTHISOS4wUTrLw3Yf+Fn0gW12J0OuKlcrUmasz9ZW7Xh3NlwmfLwzDZ9J5kIO3JRyv
- 8PBinuRGh40MMus2SowSwhGxX2cfo8A5VYiURQBnc4HHLCdrCt+8Ink7yFOQqh3u4hXw
- YFmQ==
+ h=user-agent:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4jrWU+7LtbYkFgvUwFUd3JI2ao5tQKaVfi7N6fJBaVE=;
+ b=xTDubonOocyVYDI7G38rK9wrVpIRlJBcm+RUuytYrjHggVHQrFTQgYDGbjViwfteYH
+ 82+woMR26TfczFhgLJX9mtz8Vd37T5p7HDHj+YUj1YE2gaz2QXKFEIcU0AxWJktiX3JV
+ AsC5y1ivnQsRH+qnKELhKn2OUD9ZiEQEegLtvTuJKlp2AI/XkI1EKx+dEoeNRrT6Q5jr
+ V6PUCkeMC1aBR4sCfZgRaGkqBdBETv33i4EgPxqMgba/DyuB/QDFJitt0uO6xeDFN7Ky
+ JzMkEbS03oqtavQj++X3jNXS9m5KSCCkOfU2JyKVjPgV+ZA9eePYnqQ17dawSl4NmrmQ
+ ExtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=jDOCdiNgIuDFyyhzNV2SN5a/IUQk3cPGZcx6FQY9lME=;
- b=QwAcY2AJdI2vXjp6RfQadsr8PtLbo+jujDThitkCLnlw1Xh4KnEOhj8k0OXnEKXQ6P
- 2xnw7oM4hJzUpduerC24YFn5W8i/iNYq9UGJsi6nBz3hpZ3PTXPySxLgw12iEHnMuKs9
- 5nwEiHrpL24CHBHZ9Li0ehi6OPTap9/GE/6UAgSMlCa3c/KSLB7uVG2KZKmuJckfuClZ
- acnnyciX6Bqp87QkeX51PrL3ZfaUflrFgqO04FpJq6+/6A1BbKlPyz4hkjFLERtMvG1z
- cPGUQOY/4CTDWfDFtLBfk3zzm4QE4TsJllzPZ+Ga95igITk+xOLEpVOjXVFWhdPyGx8/
- KhpQ==
-X-Gm-Message-State: AOAM532CfUaZU3C91YVxmF+82/BTPYuSnhTx09jNbe+2/nckulDU6/GH
- O2Ck0+OiGdr3H0m29f2WUiv9Ye+hZZFcKnaD296E7W0cXhY=
-X-Google-Smtp-Source: ABdhPJwdhlUdiE0A+YaBvATQaAlvpOdBwWJZC9iIeDlbg7IcO4JF8waGS8b+q5XD1gFXBEX7C1K9Y40UjpY/ofJ9MG4=
-X-Received: by 2002:a17:906:948f:: with SMTP id
- t15mr15684888ejx.85.1627912360185; 
- Mon, 02 Aug 2021 06:52:40 -0700 (PDT)
+ h=x-gm-message-state:user-agent:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4jrWU+7LtbYkFgvUwFUd3JI2ao5tQKaVfi7N6fJBaVE=;
+ b=PUsPmUASp2l29/cLOZ3iQ6txmCKp9+MyEyJHTsWbVth+0F7QAOQHpXrHvguazeNS1d
+ IF7Ih6rHWrQ5WzR0PPTmF73t06dPA8OgfLEbf079ouFrVOIMSdyatAZOqoZfrwP5Gtc+
+ WbYEPJLk1gYaP5i8SX5k64SMLsKfmhqnkCEWfSh6XSDAauUoeGodDl1HcQLDgmGw+5/y
+ L02opwNamuN6XPdgZ1kWWBLqTOpEr1cZHKGZVCvfzwmz/BW8eYlNT25nSacjiZSjU4fU
+ 7ZumEHIRlT2mOpNA1HGWNBfIHvt98deirdSyo2lbwtdsA/V79L5/VFsm/3lPYV7xsnoq
+ U4hA==
+X-Gm-Message-State: AOAM531XcMBegvMhFsjiyjGuB7rjFHoP7ySJrIj3p6xGBsJPiygWRWNp
+ BJNhEF/f7GvtgZDgiYuola6eeA==
+X-Google-Smtp-Source: ABdhPJy8YTgwDNJ9rgWfkHOxQnQ1ZViwPuz6ONMCWvEnJy6n/eWmbJ+NHB0JA+9ETENzVUpRGDn9Qw==
+X-Received: by 2002:a1c:7907:: with SMTP id l7mr17222941wme.87.1627914374256; 
+ Mon, 02 Aug 2021 07:26:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v12sm11405966wrq.59.2021.08.02.07.26.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 07:26:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 865411FF96;
+ Mon,  2 Aug 2021 15:26:09 +0100 (BST)
+User-agent: mu4e 1.6.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: QEMU Developer Survey for KVM Forum 2021
+Date: Mon, 02 Aug 2021 15:17:29 +0100
+Message-ID: <875ywnhqim.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210802115812.10731-1-peter.maydell@linaro.org>
-In-Reply-To: <20210802115812.10731-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 14:51:57 +0100
-Message-ID: <CAFEAcA8pp3gtbxpdOkG6OGUR-gYXVorizfBozoM1Ukgo7vxDEQ@mail.gmail.com>
-Subject: Re: [PULL 00/21] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +88,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Aug 2021 at 12:58, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> A largish pullreq but it's almost all docs fixes.
->
-> -- PMM
->
-> The following changes since commit 10a3c4a4b3e14208cfed274514d1911e5230935f:
->
->   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-08-02 09:47:07 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210802
->
-> for you to fetch changes up to 4a64939db76b10d8d41d2af3c6aad8142da55450:
->
->   docs: Move user-facing barrier docs into system manual (2021-08-02 12:55:51 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Add documentation of Arm 'mainstone', 'kzm', 'imx25-pdk' boards
->  * MAINTAINERS: Don't list Andrzej Zaborowski for various components
->  * docs: Remove stale TODO comments about license and version
->  * docs: Move licence/copyright from HTML output to rST comments
->  * docs: Format literal text correctly
->  * hw/arm/boot: Report error if there is no fw_cfg device in the machine
->  * docs: rSTify barrier.txt and bootindex.txt
 
+Hi,
 
-Applied, thanks.
+For the QEMU keynote at KVM Forum I'd like to get a rough idea of if our
+working habits have changed over the last two years. To that end I've
+prepared a totally anonymous 5 question survey which should only take a
+few minutes to complete:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+  https://forms.gle/2MrrZ73bPHCG69Z18
 
--- PMM
+I'll present the data along with all the other interesting stats in our
+QEMU keynote session at this years KVM Forum (Sep 15/16th).
+
+Thanks in advance for your time.
+
+--=20
+Alex Benn=C3=A9e
 
