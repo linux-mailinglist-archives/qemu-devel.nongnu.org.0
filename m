@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B413DD5A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:28:47 +0200 (CEST)
-Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47ABB3DD5AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 14:32:17 +0200 (CEST)
+Received: from localhost ([::1]:36044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAX3m-0001o5-Kz
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55374)
+	id 1mAX7A-0005Rl-C6
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 08:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX1a-0000Gh-K7
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:26:30 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41965)
+ id 1mAX3J-0002ay-45
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:28:17 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAX1Y-0004c7-Dk
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:26:30 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id x11so29679180ejj.8
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:26:27 -0700 (PDT)
+ id 1mAX3G-0005fY-Nd
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 08:28:15 -0400
+Received: by mail-ed1-x530.google.com with SMTP id n2so24175337eda.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 05:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QeaDPP+A5aOWxGv9hlDEU9ahJrItkD2Ue4Hqv31h9jc=;
- b=JIDhCtxZXqt8KSTz/d47aSSvEBYs9cNdMk768xJoWanodyWjpI6D6WNxkRPZkrOj0T
- aaGEWkAIcNM1i3C9dwQ2WM4ytdrEMRD7uCZIIkoDdBMrhoFsr45l81mh3YigQ5OPYth3
- clwO9v2yq3J4OYWncwcwHN0ccWhSNFBOO7GFHRh+NaJSnXqN8Ww2y/z94y0I5AACVXsK
- QJtFmr6Odoy0wmYt+4n3vUkswRA7CRhE2zqBeQOiy8ePikp2YHS6AEgg+O/NlhVGZAjg
- sGT6p03LrnQSSyHIRAhKd22Lwc3WIw6etAg4ZUmCinN9VceAuhsYOKO87umrSvm9LuSd
- 9hbA==
+ :cc; bh=5NvdzuHgb4ffFMiYWxPTip5iZMm95ZJH/7V6e4QW/q0=;
+ b=Dd1L/zTaqYKiZYAPwR1p6BmbEbRmNM0T9oo7WAv2LbQJsJ5tt0DEDlEFruQyeUGFzw
+ YeM00FEZfQD7O2TWlWB44rNbSCAD+YdYz2S8O6LuPCcL3spfc2KTr4rkp+3MCnUUWca0
+ N41N0AfIGd3Z0XKV3yaklaUMajIHfakRqaU+V16sVpY/GxIvfdNkULeS0AIV79uxtiV+
+ qRJ7vavQbkwuvMQBOXG+ftW1OmO8iLJuQOR0A7SyWfJyaW3vzb1jtYRyU6p6XVCd2+C8
+ rcnuLJbVnTpzvoB55uAvm3+MyZlyJHqvTR5Rl82fenbH76zaWtY5Kv3j4/QoVR1OaPFn
+ OLHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QeaDPP+A5aOWxGv9hlDEU9ahJrItkD2Ue4Hqv31h9jc=;
- b=BioGLjRu0YR3wMMbG9YFlPHZxnWoJlCGP6ipeElJkTkLHjTEYlyKxnoiRdxLDa/SY+
- SOP9ag6YyDSvYLZNoGwClbKysXnAhYNIrWuLRdc/67UGxhdz4ICxHcl9r5HwiomvuS79
- LgYd0ZpKnFztXsZGk3eMPzzdpv6me20l482kF3yWXy8vShVM3y0H6yj4Vk1VLCsyq8Di
- 02M0JQY8y7J0sX+5hr1G5F2Ov6/iFv5P04erHOd0Ld0NOlivrZKJKFoQwmGp9m8EoXfZ
- viMJY5zk0FjRKIFZxz0B91EoDiQKcfY63VS4aXqZQYmfpz2BaY5HPtOrdPTPDJnfGmRg
- 2nFg==
-X-Gm-Message-State: AOAM531WdN0Dvk6GubrI2WeVIxOfgvtCioslzpFoTJ/MnVv3g6SPx1rc
- Pe9rfCQU7XMQnz0ig895b2CQPbfh4jAldZX+B4wUOg==
-X-Google-Smtp-Source: ABdhPJzOzET5jl9UVhxBIZ2h7yhMPZR5YxyXFVnVCMnbb0EAdFFQ/qjmPP4bsIQtj2hUFWQdvOVziXxmRluORHGYix4=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr15497189ejz.250.1627907186698; 
- Mon, 02 Aug 2021 05:26:26 -0700 (PDT)
+ bh=5NvdzuHgb4ffFMiYWxPTip5iZMm95ZJH/7V6e4QW/q0=;
+ b=JjZREvJ7eivq4tmpCZl6AufXNJrCOIrgsGtL0NhWD/fPikm17oHHrISfxyZsKgiWNU
+ aEqp/HW50XDhYvxZZCt4ukGRY3+9q4XNrwazmdok0QtPtk/LLS/oidnVOeyptZEHqEGk
+ Z1cRGFGW+w6NcilYi3MBoh/3AM1o2Lw0R/86Ekxs7sGc/nsLtnED+V0VgZ/x2bOVudg+
+ 9pJ72yAXLkMJgprN/c8TfUWRxdQWXkTNagp+YvGifJcs8mFTWqPkgMKN+FbiIvq3Hjct
+ g3OSUOJMONvpcKGqZYHUxcE2xaCglCOXavWfAIsNWddNNuY5g8AiUWpETtbhtAoYe5hD
+ bWEQ==
+X-Gm-Message-State: AOAM531On2io7yTh7PuPbKTFuxlepIuQzf96Ip8ME6Ozo2YrekMqvHCy
+ xGrcmec3ZDLnJoAjIsXdmsUI8wNv3JLEzEm9vxTawA==
+X-Google-Smtp-Source: ABdhPJwoxrONaGU16Jn3mFbMnqF0fODGXHP4HDuMK7MRK/ojKaONrouKBwDcVcUzIG9eau+9aQDUel0E8B6DYi5AMXY=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr18639255edt.100.1627907293155; 
+ Mon, 02 Aug 2021 05:28:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210729175554.686474-1-ehabkost@redhat.com>
- <20210729175554.686474-9-ehabkost@redhat.com>
-In-Reply-To: <20210729175554.686474-9-ehabkost@redhat.com>
+ <20210729175554.686474-10-ehabkost@redhat.com>
+In-Reply-To: <20210729175554.686474-10-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Aug 2021 13:25:43 +0100
-Message-ID: <CAFEAcA91NKGOWaydEcBdcxnS_jhYuZdtUHPvcLvnLNkLJDeROg@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 08/10] docs: qom: Show actual typecast functions
- in examples
+Date: Mon, 2 Aug 2021 13:27:29 +0100
+Message-ID: <CAFEAcA-ptzXRqVin9d37RkcFyj8CKnWr2kcbu_0WS4-=6aP7sg@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 09/10] docs: qom: Remove OBJECT_CHECK macro
+ examples
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,58 +84,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Jul 2021 at 19:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Thu, 29 Jul 2021 at 19:05, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> For clarity and to avoid encouraging people to copy the examples,
-> show the actual typecast functions being defined by
-> OBJECT_DECLARE* macros in the examples.
+> We shouldn't encourage people to keep defining typecast macros
+> manually, when we have the OBJECT_DECLARE* macros.  Remove the
+> section showing how to define them, and replace with a section
+> explaining how typecasting works.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  docs/devel/qom.rst | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
->
-> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> index aa1f672efbe..3ae6f75a1a2 100644
-> --- a/docs/devel/qom.rst
-> +++ b/docs/devel/qom.rst
-> @@ -303,8 +303,10 @@ This is equivalent to the following:
->
->     typedef struct MyDevice MyDevice;
->     G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDevice, object_unref)
-> -   #define MY_DEVICE(void *obj)
-> -           OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-> +   static inline MyDevice *MY_DEVICE(void *obj)
-> +   {
-> +       return OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE);
-> +   }
->
->  The 'struct MyDevice' needs to be declared separately.
->
-> @@ -327,12 +329,18 @@ This is equivalent to the following:
->
->     G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDevice, object_unref)
->
-> -   #define MY_DEVICE_GET_CLASS(void *obj) \
-> -           OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-> -   #define MY_DEVICE_CLASS(void *klass) \
-> -           OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-> -   #define MY_DEVICE(void *obj)
-> -           OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-> +   static inline MyDeviceClass *MY_DEVICE_GET_CLASS(void *obj)
-> +   {
-> +       return OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE);
-> +   }
-> +   static inline MyDeviceClass *MY_DEVICE_CLASS(void *klass)
-> +   {
-> +       return OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE);
-> +   }
-> +   static inline MyDevice *MY_DEVICE(void *obj)
-> +   {
-> +       return OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE);
-> +   }
 
-...aha, you can ignore my remark on the previous patch :-)
+other than all the `...` (cf patch 1):
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
