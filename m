@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4357E3DD672
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:07:33 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D7C3DD6C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:18:01 +0200 (CEST)
+Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAXfI-0007Ls-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33378)
+	id 1mAXpR-00078i-0G
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mAXcp-0004Dv-AL
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:04:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mAXcn-0000ud-ID
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:04:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627909497;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uT6kCdQRqIzS2k5qpFWdiXVNIyY5YePlpE6C+BtNOLA=;
- b=bxHaqREbsPuzJknLnHFde13G9ukw95Z/fvB/nkIIrbcaFWkalRCxXjBTf3r5ivyPIexnSY
- kv3blHlwI6fYdfvAuoAo/sr09+NmzuuBsxAGItFgyqQlnEBrunzg/17DakVGE+LxNJ3HJ5
- OXL1gCv6aSxr9xqJPRTYw0ou9QJKOOM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-nYsJNt_nNs6bIV8k7fCLgw-1; Mon, 02 Aug 2021 09:04:55 -0400
-X-MC-Unique: nYsJNt_nNs6bIV8k7fCLgw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71D8363A6;
- Mon,  2 Aug 2021 13:04:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3964760C05;
- Mon,  2 Aug 2021 13:04:53 +0000 (UTC)
-Date: Mon, 2 Aug 2021 14:04:50 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: "make check-acceptance" takes way too long
-Message-ID: <YQftcinYWVTiscXd@redhat.com>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <YQeu+Jm2Q0NlQ2Im@redhat.com> <878s1kgg2f.fsf@linaro.org>
- <CAFEAcA-JDq7erZNhnnoxQP-2UpNH1b_PMeRGj7j8s3Vx3tJceg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mAXnX-0005Sr-9E
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:16:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mAXnR-0004iN-9s
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:15:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1mAXnI-0003Tz-JD
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 13:15:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F07EF2E81BA
+ for <qemu-devel@nongnu.org>; Mon,  2 Aug 2021 13:15:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-JDq7erZNhnnoxQP-2UpNH1b_PMeRGj7j8s3Vx3tJceg@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Aug 2021 13:10:10 -0000
+From: Thomas Huth <1890160@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=th.huth@posteo.de; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159646547209.2548.10551566895698007373.malonedeb@gac.canonical.com>
+Message-Id: <162790981082.23581.17300227785788939711.malone@chaenomeles.canonical.com>
+Subject: [Bug 1890160] Re: Abort in vmxnet3_validate_queues
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8bd362bf86c4b35e805f897f03c203e3576a7006"; Instance="production"
+X-Launchpad-Hash: f42b91bbfd731935cc725ff52743b78c06ee8e8c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
+ helo=indium.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,58 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1890160 <1890160@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 02, 2021 at 02:00:19PM +0100, Peter Maydell wrote:
-> On Mon, 2 Aug 2021 at 13:57, Alex Bennée <alex.bennee@linaro.org> wrote:
-> >
-> >
-> > Daniel P. Berrangé <berrange@redhat.com> writes:
-> >
-> > > On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
-> > >> "make check-acceptance" takes way way too long. I just did a run
-> > >> on an arm-and-aarch64-targets-only debug build and it took over
-> > >> half an hour, and this despite it skipping or cancelling 26 out
-> > >> of 58 tests!
-> > >>
-> > >> I think that ~10 minutes runtime is reasonable. 30 is not;
-> > >> ideally no individual test would take more than a minute or so.
-> > >>
-> > >> Output saying where the time went. The first two tests take
-> > >> more than 10 minutes *each*. I think a good start would be to find
-> > >> a way of testing what they're testing that is less heavyweight.
-> > >
-> > > While there is certainly value in testing with a real world "full" guest
-> > > OS, I think it is overkill as the default setup. I reckon we would get
-> > > 80-90% of the value, by making our own test image repo, containing minimal
-> > > kernel builds for each machine/target combo we need, together with a tiny
-> > > initrd containing busybox.
-> >
-> > Also another minor wrinkle for this test is because we are booting via
-> > firmware we need a proper disk image with bootloader and the rest of it
-> > which involves more faff than a simple kernel+initrd (which is my goto
-> > format for the local zoo of testing images I have).
-> 
-> If you look at the log which has timestamps for the output, UEFI
-> takes some extra time but it's not too awful. The real timesink is
-> when it gets into userspace and systemd starts everything including
-> the kitchen sink.
+Fixed here:
+https://gitlab.com/qemu-project/qemu/-/commit/9010b0c7a9a097590e183
 
-Is it possible to pass "s" kernel arg to systemd to tell it to boot in
-single user mode so it skips most of userspace, while still providing
-a useful test scenario in much less time ?
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890160
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  Abort in vmxnet3_validate_queues
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Hello,
+  Reproducer:
+
+  cat << EOF | ./i386-softmmu/qemu-system-i386 \
+  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
+  outl 0xcf8 0x80001014
+  outl 0xcfc 0xe0001000
+  outl 0xcf8 0x80001018
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0x3e 0x1 0xe1
+  writeq 0xe0001020 0xef0bff5ecafe0000
+  EOF
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  qemu: hardware error: Bad TX queues number: 225
+
+      #6 0x7f04b89d455a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abor=
+t.c:79:7
+      #7 0x558f5be89b67 in hw_error /home/alxndr/Development/qemu/general-f=
+uzz/softmmu/cpus.c:927:5
+      #8 0x558f5d3c3968 in vmxnet3_validate_queues /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1388:9
+      #9 0x558f5d3bb716 in vmxnet3_activate_device /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1449:5
+      #10 0x558f5d3b6fba in vmxnet3_handle_command /home/alxndr/Development=
+/qemu/general-fuzz/hw/net/vmxnet3.c:1576:9
+      #11 0x558f5d3b410f in vmxnet3_io_bar1_write /home/alxndr/Development/=
+qemu/general-fuzz/hw/net/vmxnet3.c:1772:9
+      #12 0x558f5bec4193 in memory_region_write_accessor /home/alxndr/Devel=
+opment/qemu/general-fuzz/softmmu/memory.c:483:5
+      #13 0x558f5bec3637 in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:544:18
+      #14 0x558f5bec1256 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/general-fuzz/softmmu/memory.c:1466:16
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890160/+subscriptions
 
 
