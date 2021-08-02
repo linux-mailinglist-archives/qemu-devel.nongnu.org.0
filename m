@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7119D3DDF8A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 20:47:32 +0200 (CEST)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFDF3DDF98
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 20:51:12 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAcyJ-0004mO-2n
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 14:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54930)
+	id 1mAd1s-0007Sw-1q
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 14:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAcxK-00047q-JI
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:46:30 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:40745)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mAd0k-00061v-1H
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:50:02 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:47052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAcxJ-0004jd-1f
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:46:30 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- u9-20020a17090a1f09b029017554809f35so234293pja.5
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 11:46:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MlMn+6ggw6/B5VYCMquBJNQSdjxb0yVQgMdpLbyqZjI=;
- b=V9/ZizgY3eGdWxZ8Q6J3LMuRJ/k+tOa5rO8cGyrahUwaJxqcnKDPINY93IAAKs4ZR8
- 1sNI5aguGrs1OS6c/Vz1EnmO0kdxIP8Z1Tv6qwKO0T64HyoOdmU7TANxdUgmB2yfvBzl
- 3oO8TqsStm3A98qvGOGDfJnyO+A7r3ZZmnw3JuRV80SQrJkwxZgwuxKv9nSufK1R/ggD
- dug1VXfwW8KiQrUcOpfjFSZA7ZB+3E1JvxI/I0XePvvyEzO/msCof6nBrVpkFMsaCt+6
- cD7+88X4HNl2KwhX+HjzL8O4EB6pF5NBV2z0HtiXSjvDLQD/83Ff0GI7M2WvgxN/QRih
- o9gA==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mAd0g-00074r-Ke
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 14:50:01 -0400
+Received: by mail-ej1-x634.google.com with SMTP id gs8so32371822ejc.13
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 11:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EbSEC9Zybruei3mB0w2HC9KiDFn+lfj9sgbpStKpZG8=;
+ b=g84bv1fqqLlTcDh+WyAp7V3BasuhxLbhhIo7bG1w+kkYOsmbUyGlTDLsNCmhGIoyKa
+ Ycy5bwYJS5Z1Gr577VGECbpNcHLLraKf5sOM91FkecuvXUnyZJXcjmAZ4w8Utyxfl1ao
+ r7YsT33+Win1PM95qFg7M8U1w70OroYZSbeC4dxV4Kl/KWbOjXQBs1LUyvp/6slJARsF
+ ZmJtSQQ0w5saQSiEFKAj6vNg3BG/5yuI9nIZrzUotMPh1xdNgQ/V1yH+xiNM+GTAryph
+ 020spx9U4n6mDYgg/50fzV5m1E4iiguiZ3auTQnMdIsdisVuebnndmXs1jF85tbP+H5l
+ Z+WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MlMn+6ggw6/B5VYCMquBJNQSdjxb0yVQgMdpLbyqZjI=;
- b=EjeHEh639tjnGxEpL2x7v4CDZcRdoj2B6E7foTNIjia72tjf8+qE9Pw0JJVPIfcbN9
- 1D9PibYnmRg0zowbfo4ktKgHEKsKTtPctxIUr83dO6D2ezv505WHW2KsIW+XkeBueDn3
- GoamGHf1A5M/AZ5jisZ2HJBdOpaV2a3dGg2uQ3Rm3FCIh9/ArfI/gJmtpfXCcxKvkN9x
- 2MhFTd7cCp4NY1c2pByv9LmVcROizx7iWsGivpGElIiZk9ooggB8HHIq2eEKs8KANpXX
- pT16c5q/VOCGPPu8A+RJ0S+c2BbiLUIikUXjBljT+0i/dXvgfAPS+W2gdSQsVqV6KxK0
- vgYg==
-X-Gm-Message-State: AOAM5331we+XAnuufOYYphrr+5jBfnmOTqhldqWpBkG9D4x0KUsesReW
- iUdTQ45hyMbfbvZFGLKEtxcIiw==
-X-Google-Smtp-Source: ABdhPJzcnQgCDArSss5gXB8UnBGmuEqvL5SL1XMtI9WwWGy8aUTfXe94rUWGRmJMTks+dk6GRCqLjw==
-X-Received: by 2002:a05:6a00:16d6:b029:32a:ffe9:76a with SMTP id
- l22-20020a056a0016d6b029032affe9076amr18319143pfc.60.1627929987143; 
- Mon, 02 Aug 2021 11:46:27 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id u27sm3567797pfg.83.2021.08.02.11.46.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 11:46:26 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: cmpxchg should not touch accumulator
-To: yqwfh <amdeniulari@protonmail.com>, qemu-devel@nongnu.org
-References: <20210731190507.9007-1-amdeniulari@protonmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b314b0e0-c76e-bcc7-72a2-494ef7ae7f03@linaro.org>
-Date: Mon, 2 Aug 2021 08:46:22 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EbSEC9Zybruei3mB0w2HC9KiDFn+lfj9sgbpStKpZG8=;
+ b=GWCZsOtFRJCE+QHH/R4/NdxTkKdP5L6QH900jG1PM9Qx9OWtI779HPg2wTnlcu8b8S
+ wmVpPcbXqlTWKQcA8SC1BMpvrbeQ/fZgz/IB5pIP87bwKNCrwohkQZXXXwoRmya8lp+1
+ CrCDr6dEwB7CmkByZBn0mpjGiVMdwQorRxCKDPdrtp15m0tX0VnuUzntiFsvEJLB5y9p
+ 5EcFg3wkDxyuHaC1650pRDXeNjtDDFggU1GJBMuITA2uiAzuqX0NG/HmHPWIoBJ04/1k
+ bnxT4iWFJROIMk7fHs8LpivAWbjWAxDtGB894KwCEnG0NSnNcX5pOHvykCiP0I+5c1rk
+ SrTw==
+X-Gm-Message-State: AOAM530zUyINKQsznLUFzHK1p0lD7l5qHCLCUe+90Qh98wJ1NxJYZim5
+ BYK+m7/+TSgEWzKNc6u/xbWBIzx7BR4Y98n+Fp4rB8ZGZAk=
+X-Google-Smtp-Source: ABdhPJx6HqrIjWM4zen76sT9bNzFGQRC7AILORaTq1MEE398Ul5xvEZVcmvqlkMNMIzgA+Ya2mNH7Y9xoPH8wFVp5GQ=
+X-Received: by 2002:a17:906:70a:: with SMTP id
+ y10mr16514595ejb.381.1627930195806; 
+ Mon, 02 Aug 2021 11:49:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210731190507.9007-1-amdeniulari@protonmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+References: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210723102825.1790112-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 2 Aug 2021 22:49:43 +0400
+Message-ID: <CAJ+F1CLJS3rmqYgJWLz5dOK8Ko0-5s-nr30E5xn3vUyzRZL=Ng@mail.gmail.com>
+Subject: Re: [PATCH 0/4] chardev fixes
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000000a4e3a05c8980976"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,45 +77,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniele Ahmed <ahmeddan@amazon.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/21 9:06 AM, yqwfh wrote:
-> Signed-off-by: Daniele Ahmed <ahmeddan@amazon.com>
-> ---
->   target/i386/tcg/translate.c | 9 ---------
->   1 file changed, 9 deletions(-)
-> 
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index aacb605..41386dd 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -5366,7 +5366,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                   gen_lea_modrm(env, s, modrm);
->                   tcg_gen_atomic_cmpxchg_tl(oldv, s->A0, cmpv, newv,
->                                             s->mem_index, ot | MO_LE);
-> -                gen_op_mov_reg_v(s, ot, R_EAX, oldv);
->               } else {
->                   if (mod == 3) {
->                       rm = (modrm & 7) | REX_B(s);
-> @@ -5381,15 +5380,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                   /* store value = (old == cmp ? new : old);  */
->                   tcg_gen_movcond_tl(TCG_COND_EQ, newv, oldv, cmpv, newv, oldv);
->                   if (mod == 3) {
-> -                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
->                       gen_op_mov_reg_v(s, ot, rm, newv);
-> -                } else {
-> -                    /* Perform an unconditional store cycle like physical cpu;
-> -                       must be before changing accumulator to ensure
-> -                       idempotency if the store faults and the instruction
-> -                       is restarted */
-> -                    gen_op_st_v(s, ot, newv, s->A0);
-> -                    gen_op_mov_reg_v(s, ot, R_EAX, oldv);
->                   }
+--0000000000000a4e3a05c8980976
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Obviously incorrect.  You can't *not* store to EAX.  You must conditionally store to EAX.
+Hi
 
+On Fri, Jul 23, 2021 at 2:29 PM <marcandre.lureau@redhat.com> wrote:
 
-r~
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Hi,
+>
+> Two small fixes related to fd handling for "serial" and "file" backend an=
+d
+> some
+> API comments and minor improvement.
+>
+> Marc-Andr=C3=A9 Lureau (4):
+>   chardev: fix qemu_chr_open_fd() being called with fd=3D-1
+>   chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out
+>
+
+I think I could queue those 2 patches for 6.1 as fixes. Daniel, care to
+review?
+thanks
+
+  chardev: remove needless class method
+>   chardev: add some comments about the class methods
+>
+>  include/chardev/char.h | 34 +++++++++++++++++++++++++++++++++-
+>  chardev/char-fd.c      | 31 +++++++++++++++++++++++--------
+>  chardev/char-mux.c     |  6 ++----
+>  3 files changed, 58 insertions(+), 13 deletions(-)
+>
+> --
+> 2.32.0.264.g75ae10bc75
+>
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000000a4e3a05c8980976
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Jul 23, 2021 at 2:29 PM &lt;<a href=
+=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ma=
+rc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" tar=
+get=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Hi,<br>
+<br>
+Two small fixes related to fd handling for &quot;serial&quot; and &quot;fil=
+e&quot; backend and some<br>
+API comments and minor improvement.<br>
+<br>
+Marc-Andr=C3=A9 Lureau (4):<br>
+=C2=A0 chardev: fix qemu_chr_open_fd() being called with fd=3D-1<br>
+=C2=A0 chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out<br></blockquo=
+te><div><br></div><div>I think I could queue those 2 patches for 6.1 as fix=
+es. Daniel, care to review?</div><div>thanks</div><div><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+=C2=A0 chardev: remove needless class method<br>
+=C2=A0 chardev: add some comments about the class methods<br>
+<br>
+=C2=A0include/chardev/char.h | 34 +++++++++++++++++++++++++++++++++-<br>
+=C2=A0chardev/char-fd.c=C2=A0 =C2=A0 =C2=A0 | 31 +++++++++++++++++++++++---=
+-----<br>
+=C2=A0chardev/char-mux.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++----<br>
+=C2=A03 files changed, 58 insertions(+), 13 deletions(-)<br>
+<br>
+-- <br>
+2.32.0.264.g75ae10bc75<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000000a4e3a05c8980976--
 
