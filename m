@@ -2,78 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CDC3DCE40
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 02:04:57 +0200 (CEST)
-Received: from localhost ([::1]:47104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85D13DCF17
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 06:04:17 +0200 (CEST)
+Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mALRw-0003Si-9Q
-	for lists+qemu-devel@lfdr.de; Sun, 01 Aug 2021 20:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38566)
+	id 1mAPBY-0004wO-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 00:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALN6-0004Ct-Qq
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:56 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mALN3-0006zQ-E9
- for qemu-devel@nongnu.org; Sun, 01 Aug 2021 19:59:56 -0400
-Received: by mail-wr1-x435.google.com with SMTP id b7so19329445wri.8
- for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 16:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KoQ+85bWw/nU6wuXZueiRA91LFc9fHglW4hLXVIzatU=;
- b=mmtIgFGDgemFy/F8gsLXfOmooSQiaDXUglonQk3PHE7kOCnvOGA/I4JZlKvCuHjcC5
- F5iKC9xzijtUhvkSS1GkkwWPFFZhkWOg3s0PUe+eJM3YceDeWmwhDOdGA2wnTunKz3zH
- cDDoXbFRJFIW8rN/GB+ASzx4wSTUtBqVp8FRHnbtgBciyG9CMwkKndJakLMsmaoixdAB
- o3QRoS791hU9OYIP2WRF104Kafy32z9ei3VTs2cYNQQ85wcfWkA86F4FYw3Sp6+lZoI/
- A7Skohmu1GDXQP8ACxBF2urbD8NgH7F8wbr0bpisJjJkwEy1DE/q0uI5YukvbAlKqbpg
- Tf3w==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mAPAY-0004Gk-U3
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 00:03:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mAPAX-00072g-DB
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 00:03:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627876992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QaZUZZWA1Agx+oSEtnA9WnZ98LelvBXxh46cRHe4GRU=;
+ b=IEjn3LNWkgSL7urgkWeQxBu8IYKRmkgflx7frY/wA1maTSd+diL9vJZxoOHRosl+fqxS7J
+ KAFy5wTXhfMQbA/jvpa7jThT5VOnHFQnaUFciZdflfiEo+M4Qd0Vbp9eD4m++2h+HAyxZa
+ rFz3meO12eYRMOmxBSt5Pmk0EdYXK5E=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-5JCFcSLEMyORwJ91qNQ37A-1; Mon, 02 Aug 2021 00:03:10 -0400
+X-MC-Unique: 5JCFcSLEMyORwJ91qNQ37A-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ r23-20020a17090aa097b0290176fc47a8b7so260909pjp.6
+ for <qemu-devel@nongnu.org>; Sun, 01 Aug 2021 21:03:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KoQ+85bWw/nU6wuXZueiRA91LFc9fHglW4hLXVIzatU=;
- b=EcUjKMMjpkZra+tjBi71JfdYaaDnY6SVprHzBjiGcP4yZdGBibq9/wnRByXuuPBiM8
- fZFGiE3QELd5oTq6mMJZsVwz/fGU3BczjVYtjIgTr0lYpa52kjZQjtnAOxYNaRM86Z5s
- YJ5OTTCZ5fbvaDaCW9tlwgpl0EP1506lSKckcdyEch3k/s9bncasYb+JtT9VRwlSqBse
- p9gtK0XsjEC0Ga9xIVDSwZx4IL+viW6plXtHr1ctU9ykGeDdR3l9Kz78LVhN0R1rOo/B
- MKpjhPF2GTpGE8+UtCyDW7ot3H9eFQ37M0jX5JWsTvzNmGQs3c9+G0mlIY9hzYp2uU3r
- 3+Qw==
-X-Gm-Message-State: AOAM532fyx5Z8yDk+Rgz02VXV0bOS0EUn4FpjFAT2QrMl0atnxTI6l1s
- 9aw8PdAyH62k0ZCH3FGNdcosnv5TcRgHzA==
-X-Google-Smtp-Source: ABdhPJwl+skDr4hdfHcwAgzi34rqNDzUsNJLPm/xXiM/bMJnqs+H9+TRRNXfgE9c27UOJ0GfAdCiog==
-X-Received: by 2002:adf:efc7:: with SMTP id i7mr14551388wrp.87.1627862391915; 
- Sun, 01 Aug 2021 16:59:51 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- g5sm1577169wmh.31.2021.08.01.16.59.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 16:59:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 5/5] target/mips: Convert Vr54xx MSA* opcodes to
- decodetree
-Date: Mon,  2 Aug 2021 01:59:26 +0200
-Message-Id: <20210801235926.3178085-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210801235926.3178085-1-f4bug@amsat.org>
-References: <20210801235926.3178085-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=QaZUZZWA1Agx+oSEtnA9WnZ98LelvBXxh46cRHe4GRU=;
+ b=L+ydD9/NrpiAci2gWMjH9HN2RnP6LvHTtgUrpyaZkcLedEjxkhnmxbRoAzwhug715/
+ 0m5PwAMvtDYXcZjDSEDXJeAhfsq1lYTn6iuiZtS36HhfTqmgZ/kvGt/VsXzTpRpiPOsQ
+ OU5YJaNF7N0Bx/9m3nm6OC0dSI85KUBdsm2WpzeD7uAYl1UdG9IxHBUD7zqKWtHarGFh
+ kKBmjVH2fxo8rFWpwcypq9O0ztq4gEiUvSNN8fVjieBIbVt3B1BCvfxIEcLloHP4Gudh
+ drMscyF9+KlFRGZGOvzAPazQ7vjwpl83vdFN7hEah5RUcYsy4rDq2KUub+YksDfCW8wt
+ 7Zjg==
+X-Gm-Message-State: AOAM530SA+Lg4MrUBwK1EOMkZLrMfn07ihTrlSzBzR+gX748bYX66YV0
+ l1JkYM3kAQoeUa7oPbJ2/4bJFVoP1wdl+e5y9DuzEc7X136uoa9s69joaBcKDbHaQujhwFTNjC/
+ Vy5UcxZghYyB75L0=
+X-Received: by 2002:a17:90a:930e:: with SMTP id
+ p14mr15160069pjo.132.1627876989986; 
+ Sun, 01 Aug 2021 21:03:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydjZYMmLJRTptn8FOSXZ+ELT5lifmGIkv/8EPO0XIxs5PHpl9aGoOZUQIgNdY/8SA6e24nQw==
+X-Received: by 2002:a17:90a:930e:: with SMTP id
+ p14mr15160046pjo.132.1627876989735; 
+ Sun, 01 Aug 2021 21:03:09 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id x26sm9732183pfm.77.2021.08.01.21.03.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Aug 2021 21:03:09 -0700 (PDT)
+Subject: Re: [PATCH v2] hw/net/can: sja1000 fix buff2frame_bas and
+ buff2frame_pel when dlc is out of std CAN 8 bytes
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Qiang Ning <ningqiang1@huawei.com>
+References: <20210729123327.14650-1-pisa@cmp.felk.cvut.cz>
+ <5e493064-30d8-17b5-7760-bdf143ddf9a7@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <7bf75813-8155-d38e-27c1-d040313ba5c0@redhat.com>
+Date: Mon, 2 Aug 2021 12:03:00 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5e493064-30d8-17b5-7760-bdf143ddf9a7@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.08, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,163 +105,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-stable@nongnu.org, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jan Charvat <charvj10@fel.cvut.cz>, Jin-Yang <jinyang.sia@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the following Integer Multiply-Accumulate opcodes:
 
- * MSAC         Multiply, negate, accumulate, and move LO
- * MSACHI       Multiply, negate, accumulate, and move HI
- * MSACHIU      Unsigned multiply, negate, accumulate, and move HI
- * MSACU        Unsigned multiply, negate, accumulate, and move LO
+在 2021/7/29 下午8:48, Philippe Mathieu-Daudé 写道:
+> "hw/net/can: sja1000 fix buff2frame* when dlc is out of std CAN 8 bytes"
+>
+> On 7/29/21 2:33 PM, Pavel Pisa wrote:
+>> Problem reported by openEuler fuzz-sig group.
+>>
+>> The buff2frame_bas function (hw\net\can\can_sja1000.c)
+>> infoleak(qemu5.x~qemu6.x) or stack-overflow(qemu 4.x).
+> Cc: qemu-stable@nongnu.org
+>
+>> Reported-by: Qiang Ning <ningqiang1@huawei.com>
+>> Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/tcg/vr54xx.decode      |  4 +++
- target/mips/tcg/translate.c        | 55 ++----------------------------
- target/mips/tcg/vr54xx_translate.c |  8 +++++
- 3 files changed, 14 insertions(+), 53 deletions(-)
 
-diff --git a/target/mips/tcg/vr54xx.decode b/target/mips/tcg/vr54xx.decode
-index 79bb5175eab..4fc708d80ae 100644
---- a/target/mips/tcg/vr54xx.decode
-+++ b/target/mips/tcg/vr54xx.decode
-@@ -15,9 +15,13 @@ MULS            000000 ..... ..... ..... 00011011000    @rs_rt_rd
- MULSU           000000 ..... ..... ..... 00011011001    @rs_rt_rd
- MACC            000000 ..... ..... ..... 00101011000    @rs_rt_rd
- MACCU           000000 ..... ..... ..... 00101011001    @rs_rt_rd
-+MSAC            000000 ..... ..... ..... 00111011000    @rs_rt_rd
-+MSACU           000000 ..... ..... ..... 00111011001    @rs_rt_rd
- MULHI           000000 ..... ..... ..... 01001011000    @rs_rt_rd
- MULHIU          000000 ..... ..... ..... 01001011001    @rs_rt_rd
- MULSHI          000000 ..... ..... ..... 01011011000    @rs_rt_rd
- MULSHIU         000000 ..... ..... ..... 01011011001    @rs_rt_rd
- MACCHI          000000 ..... ..... ..... 01101011000    @rs_rt_rd
- MACCHIU         000000 ..... ..... ..... 01101011001    @rs_rt_rd
-+MSACHI          000000 ..... ..... ..... 01111011000    @rs_rt_rd
-+MSACHIU         000000 ..... ..... ..... 01111011001    @rs_rt_rd
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 4196319d827..bdce6356c27 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -294,16 +294,6 @@ enum {
-     R6_OPC_SDBBP    = 0x0e | OPC_SPECIAL,
- };
- 
--/* Multiplication variants of the vr54xx. */
--#define MASK_MUL_VR54XX(op)         (MASK_SPECIAL(op) | (op & (0x1F << 6)))
--
--enum {
--    OPC_VR54XX_MSAC    = (0x07 << 6) | OPC_MULT,
--    OPC_VR54XX_MSACU   = (0x07 << 6) | OPC_MULTU,
--    OPC_VR54XX_MSACHI  = (0x0F << 6) | OPC_MULT,
--    OPC_VR54XX_MSACHIU = (0x0F << 6) | OPC_MULTU,
--};
--
- /* REGIMM (rt field) opcodes */
- #define MASK_REGIMM(op)             (MASK_OP_MAJOR(op) | (op & (0x1F << 16)))
- 
-@@ -3754,40 +3744,6 @@ static void gen_mul_txx9(DisasContext *ctx, uint32_t opc,
-     tcg_temp_free(t1);
- }
- 
--static void gen_mul_vr54xx(DisasContext *ctx, uint32_t opc,
--                           int rd, int rs, int rt)
--{
--    TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
--
--    gen_load_gpr(t0, rs);
--    gen_load_gpr(t1, rt);
--
--    switch (opc) {
--    case OPC_VR54XX_MSAC:
--        gen_helper_msac(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MSACU:
--        gen_helper_msacu(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MSACHI:
--        gen_helper_msachi(t0, cpu_env, t0, t1);
--        break;
--    case OPC_VR54XX_MSACHIU:
--        gen_helper_msachiu(t0, cpu_env, t0, t1);
--        break;
--    default:
--        MIPS_INVAL("mul vr54xx");
--        gen_reserved_instruction(ctx);
--        goto out;
--    }
--    gen_store_gpr(t0, rd);
--
-- out:
--    tcg_temp_free(t0);
--    tcg_temp_free(t1);
--}
--
- static void gen_cl(DisasContext *ctx, uint32_t opc,
-                    int rd, int rs)
- {
-@@ -14104,13 +14060,12 @@ static void decode_opc_special_tx79(CPUMIPSState *env, DisasContext *ctx)
- 
- static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
- {
--    int rs, rt, rd, sa;
-+    int rs, rt, rd;
-     uint32_t op1;
- 
-     rs = (ctx->opcode >> 21) & 0x1f;
-     rt = (ctx->opcode >> 16) & 0x1f;
-     rd = (ctx->opcode >> 11) & 0x1f;
--    sa = (ctx->opcode >> 6) & 0x1f;
- 
-     op1 = MASK_SPECIAL(ctx->opcode);
-     switch (op1) {
-@@ -14139,13 +14094,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
-         break;
-     case OPC_MULT:
-     case OPC_MULTU:
--        if (sa) {
--            check_insn(ctx, INSN_VR54XX);
--            op1 = MASK_MUL_VR54XX(ctx->opcode);
--            gen_mul_vr54xx(ctx, op1, rd, rs, rt);
--        } else {
--            gen_muldiv(ctx, op1, rd & 3, rs, rt);
--        }
-+        gen_muldiv(ctx, op1, rd & 3, rs, rt);
-         break;
-     case OPC_DIV:
-     case OPC_DIVU:
-diff --git a/target/mips/tcg/vr54xx_translate.c b/target/mips/tcg/vr54xx_translate.c
-index 1e6000d3d15..6661bf39eee 100644
---- a/target/mips/tcg/vr54xx_translate.c
-+++ b/target/mips/tcg/vr54xx_translate.c
-@@ -25,6 +25,10 @@
-  * MACCHI       Multiply, accumulate, and move HI
-  * MACCHIU      Unsigned multiply, accumulate, and move HI
-  * MACCU        Unsigned multiply, accumulate, and move LO
-+ * MSAC         Multiply, negate, accumulate, and move LO
-+ * MSACHI       Multiply, negate, accumulate, and move HI
-+ * MSACHIU      Unsigned multiply, negate, accumulate, and move HI
-+ * MSACU        Unsigned multiply, negate, accumulate, and move LO
-  * MULHI        Multiply and move HI
-  * MULHIU       Unsigned multiply and move HI
-  * MULS         Multiply, negate, and move LO
-@@ -63,6 +67,10 @@ MULT_ACC(MACC,      gen_helper_macc);
- MULT_ACC(MACCHI,    gen_helper_macchi);
- MULT_ACC(MACCHIU,   gen_helper_macchiu);
- MULT_ACC(MACCU,     gen_helper_maccu);
-+MULT_ACC(MSAC,      gen_helper_msac);
-+MULT_ACC(MSACHI,    gen_helper_msachi);
-+MULT_ACC(MSACHIU,   gen_helper_msachiu);
-+MULT_ACC(MSACU,     gen_helper_msacu);
- MULT_ACC(MULHI,     gen_helper_mulhi);
- MULT_ACC(MULHIU,    gen_helper_mulhiu);
- MULT_ACC(MULS,      gen_helper_muls);
--- 
-2.31.1
+Applied.
+
+Thanks
+
+
+>
+>> ---
+>>   hw/net/can/can_sja1000.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+>> index 42d2f99dfb..34eea684ce 100644
+>> --- a/hw/net/can/can_sja1000.c
+>> +++ b/hw/net/can/can_sja1000.c
+>> @@ -275,6 +275,10 @@ static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
+>>       }
+>>       frame->can_dlc = buff[0] & 0x0f;
+>>   
+>> +    if (frame->can_dlc > 8) {
+>> +        frame->can_dlc = 8;
+>> +    }
+>> +
+>>       if (buff[0] & 0x80) { /* Extended */
+>>           frame->can_id |= QEMU_CAN_EFF_FLAG;
+>>           frame->can_id |= buff[1] << 21; /* ID.28~ID.21 */
+>> @@ -311,6 +315,10 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
+>>       }
+>>       frame->can_dlc = buff[1] & 0x0f;
+>>   
+>> +    if (frame->can_dlc > 8) {
+>> +        frame->can_dlc = 8;
+>> +    }
+>> +
+>>       for (i = 0; i < frame->can_dlc; i++) {
+>>           frame->data[i] = buff[2 + i];
+>>       }
+>>
 
 
