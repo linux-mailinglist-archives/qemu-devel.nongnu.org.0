@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257793DD1ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 10:27:01 +0200 (CEST)
-Received: from localhost ([::1]:38932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21773DD223
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 10:39:44 +0200 (CEST)
+Received: from localhost ([::1]:41538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mATHn-0003hs-Ow
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 04:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44650)
+	id 1mATU7-00066j-KF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 04:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mATGz-00032z-Ff
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 04:26:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51844)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mATT0-0005Gg-3W
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 04:38:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mATGu-0002Pn-JO
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 04:26:07 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mATSx-0002I9-Cw
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 04:38:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627892762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2tYD413SBp7OjqEft4d8mEssGDd3kwCLlg3bEmv53Ws=;
- b=TBWk/bLCrtcxww3wQvjiwx5GOKSVXBXOe/i0X9Y0bo/OEiNvlev2PIMdL9+6qfNHWeCyNr
- J5Kn452dt+pdI7X/lRNdEBFFGxYlYwUT8QvMwSOoTyu6MTHlS5bNY0ZvjWrp/M4johsWUu
- YcJveZFGvqAqVLgjw6rm4pNySDClehM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-_KLA1Jq2Nhu8IoDFI3H32w-1; Mon, 02 Aug 2021 04:26:00 -0400
-X-MC-Unique: _KLA1Jq2Nhu8IoDFI3H32w-1
-Received: by mail-ed1-f70.google.com with SMTP id
- ay20-20020a0564022034b02903bc515b673dso8337668edb.3
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 01:26:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2tYD413SBp7OjqEft4d8mEssGDd3kwCLlg3bEmv53Ws=;
- b=BuiDhIr+/yQIUyz4HfD2VXlZ7fdXAnai9o++XXFLaqLOJQ0BYQ9Zz+tUhqxEhrd1RV
- HUvO7F0dgetC5CdO9ag93GkqmupSmYTTHDzjf1dgH9gwwMPlA5W6nIin0GHx4PqTGRqV
- eN6JbQDbXOPRCUc9iMvDsLTEfY+25Rrz9vI6GGvRkr9RzNijf0kATQbWbWpbtjAHO8f+
- ap5AMlEWh2P9h+FiLO1VGKmwoip9u1BDPpGGPXYOUDv8culR29z1+L58wfvY9D7/ke2k
- YdUMEvQHkDIEIoTuA1JjusXjY+MQ5KjMFDdO0jqCUz61VfgOF2B5vVk81jTp1tMm9C61
- WPhA==
-X-Gm-Message-State: AOAM533PrfQkHBmw7T9WX8eshWMuoreIOWEqKlT9iIOkibpWHarVFNKR
- cuNydORT6AerJLKpwFd0exVU/ntbmfpY3J7GujnHQ2Mz9M+IazjOqG2PH3YXWwJW3rZSBM4YGZS
- WP3ZzZrtPSKKcH9pJ8DRk+29vnWRnUe/Fo7wBM16Ispw5Ckchrb4jftSGyYTbqa5bDuU=
-X-Received: by 2002:a17:906:14c8:: with SMTP id
- y8mr14609377ejc.475.1627892759210; 
- Mon, 02 Aug 2021 01:25:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYX9vTqVV+kVq4jjdp43iAxqawYWag1B1sf2J0I/cO+IRk2Km11W6wrVsal60PeOoTVU8B2A==
-X-Received: by 2002:a17:906:14c8:: with SMTP id
- y8mr14609357ejc.475.1627892758874; 
- Mon, 02 Aug 2021 01:25:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id bm1sm4201122ejb.38.2021.08.02.01.25.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 01:25:58 -0700 (PDT)
-Subject: Re: [PATCH v3] target/i386: Added VGIF feature
-To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
-References: <20210730070742.9674-1-laramglazier@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3ff32373-41b7-86b9-d170-a801532242c1@redhat.com>
-Date: Mon, 2 Aug 2021 10:25:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ s=mimecast20190719; t=1627893510;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5Hyj4f2hPd//mGZeVwnm/7WlH7DtbnuxN2SBwUE7FwY=;
+ b=CrbUQosQKw/vcrJn1f56CWrWvAq1Otw5ffGIrtJUjkufOUYLlr1SWW0zyxndeUKcvL+d1w
+ PZ4PqhXw5CcSMdmJ+ny/efuZHhusE2kNF249qF+sxHU8BL00xnv2NeIwXpY+dqDLGwe8do
+ 0ci4+VzadmXXh0QWlPV/rP+roM0MA0w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-Xv-5bKqFONaIEThtVBK2Ww-1; Mon, 02 Aug 2021 04:38:22 -0400
+X-MC-Unique: Xv-5bKqFONaIEThtVBK2Ww-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60DB9802923;
+ Mon,  2 Aug 2021 08:38:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6FAD1899A;
+ Mon,  2 Aug 2021 08:38:19 +0000 (UTC)
+Date: Mon, 2 Aug 2021 09:38:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: "make check-acceptance" takes way too long
+Message-ID: <YQeu+Jm2Q0NlQ2Im@redhat.com>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210730070742.9674-1-laramglazier@gmail.com>
+In-Reply-To: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.08, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,122 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/07/21 09:07, Lara Lazier wrote:
-> v2->v3: moved guest check into virtual_gif_enabled
+On Fri, Jul 30, 2021 at 04:12:27PM +0100, Peter Maydell wrote:
+> "make check-acceptance" takes way way too long. I just did a run
+> on an arm-and-aarch64-targets-only debug build and it took over
+> half an hour, and this despite it skipping or cancelling 26 out
+> of 58 tests!
 > 
-> VGIF allows STGI and CLGI to execute in guest mode and control virtual
-> interrupts in guest mode.
-> When the VGIF feature is enabled then:
->   * executing STGI in the guest sets bit 9 of the VMCB offset 60h.
->   * executing CLGI in the guest clears bit 9 of the VMCB offset 60h.
+> I think that ~10 minutes runtime is reasonable. 30 is not;
+> ideally no individual test would take more than a minute or so.
 > 
-> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+> Output saying where the time went. The first two tests take
+> more than 10 minutes *each*. I think a good start would be to find
+> a way of testing what they're testing that is less heavyweight.
 
-This part looks good, I queued it for QEMU 6.2.  However, I am wondering 
-if STGI/CLGI should also affect the emulation of VIRQ.  I am not very 
-familiar with this part of VGIF because KVM does not need it, but it 
-makes sense that STGI/CLGI respectively unmask and mask VIRQ just like 
-STI/CLI do.  Can you look up in the manual if there's anything like 
-this?  We can discuss the implementation tomorrow.
+While there is certainly value in testing with a real world "full" guest
+OS, I think it is overkill as the default setup. I reckon we would get
+80-90% of the value, by making our own test image repo, containing minimal
+kernel builds for each machine/target combo we need, together with a tiny
+initrd containing busybox. This could easily be made to boot in 1 second,
+which would make 'make check-acceptance' waaaaay faster, considering how
+many times we boot a guest. This would also solve our problem that we're
+pointing to URLs to download these giant images, and they're frequently
+break URLs.
 
-Thanks,
+If we want the re-assurance of running a full guest OS, we could wire
+that up 'make check-acceptance FULL_OS=1' and then set that up as a
+nightly CI job to run post-merge as a sanity-check, where speed does
+not matter
 
-Paolo
 
-> ---
->   target/i386/cpu.c                   |  3 ++-
->   target/i386/svm.h                   |  6 ++++++
->   target/i386/tcg/sysemu/svm_helper.c | 31 +++++++++++++++++++++++++++--
->   3 files changed, 37 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index edb97ebbbe..71d26cf1bd 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -631,7 +631,8 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
->   #define TCG_EXT3_FEATURES (CPUID_EXT3_LAHF_LM | CPUID_EXT3_SVM | \
->             CPUID_EXT3_CR8LEG | CPUID_EXT3_ABM | CPUID_EXT3_SSE4A)
->   #define TCG_EXT4_FEATURES 0
-> -#define TCG_SVM_FEATURES CPUID_SVM_NPT
-> +#define TCG_SVM_FEATURES (CPUID_SVM_NPT | CPUID_SVM_VGIF | \
-> +          CPUID_SVM_SVME_ADDR_CHK)
->   #define TCG_KVM_FEATURES 0
->   #define TCG_7_0_EBX_FEATURES (CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_SMAP | \
->             CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ADX | \
-> diff --git a/target/i386/svm.h b/target/i386/svm.h
-> index adc058dc76..036597a2ff 100644
-> --- a/target/i386/svm.h
-> +++ b/target/i386/svm.h
-> @@ -9,6 +9,12 @@
->   #define V_IRQ_SHIFT 8
->   #define V_IRQ_MASK (1 << V_IRQ_SHIFT)
->   
-> +#define V_GIF_ENABLED_SHIFT 25
-> +#define V_GIF_ENABLED_MASK (1 << V_GIF_ENABLED_SHIFT)
-> +
-> +#define V_GIF_SHIFT 9
-> +#define V_GIF_MASK (1 << V_GIF_SHIFT)
-> +
->   #define V_INTR_PRIO_SHIFT 16
->   #define V_INTR_PRIO_MASK (0x0f << V_INTR_PRIO_SHIFT)
->   
-> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-> index 90a9de30f8..b6ad425cca 100644
-> --- a/target/i386/tcg/sysemu/svm_helper.c
-> +++ b/target/i386/tcg/sysemu/svm_helper.c
-> @@ -110,6 +110,17 @@ static inline bool is_efer_invalid_state (CPUX86State *env)
->       return false;
->   }
->   
-> +static inline bool virtual_gif_enabled(CPUX86State *env, uint32_t *int_ctl)
-> +{
-> +    if (likely(env->hflags & HF_GUEST_MASK)) {
-> +        *int_ctl = x86_ldl_phys(env_cpu(env),
-> +                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-> +        return (env->features[FEAT_SVM] & CPUID_SVM_VGIF)
-> +                    && (*int_ctl & V_GIF_ENABLED_MASK);
-> +    }
-> +    return false;
-> +}
-> +
->   void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->   {
->       CPUState *cs = env_cpu(env);
-> @@ -503,13 +514,29 @@ void helper_vmsave(CPUX86State *env, int aflag)
->   void helper_stgi(CPUX86State *env)
->   {
->       cpu_svm_check_intercept_param(env, SVM_EXIT_STGI, 0, GETPC());
-> -    env->hflags2 |= HF2_GIF_MASK;
-> +
-> +    CPUState *cs = env_cpu(env);
-> +    uint32_t int_ctl;
-> +    if (virtual_gif_enabled(env, &int_ctl)) {
-> +        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
-> +                        int_ctl | V_GIF_MASK);
-> +    } else {
-> +        env->hflags2 |= HF2_GIF_MASK;
-> +    }
->   }
->   
->   void helper_clgi(CPUX86State *env)
->   {
->       cpu_svm_check_intercept_param(env, SVM_EXIT_CLGI, 0, GETPC());
-> -    env->hflags2 &= ~HF2_GIF_MASK;
-> +
-> +    CPUState *cs = env_cpu(env);
-> +    uint32_t int_ctl;
-> +    if (virtual_gif_enabled(env, &int_ctl)) {
-> +        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
-> +                        int_ctl & ~V_GIF_MASK);
-> +    } else {
-> +        env->hflags2 &= ~HF2_GIF_MASK;
-> +    }
->   }
->   
->   bool cpu_svm_has_intercept(CPUX86State *env, uint32_t type)
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
