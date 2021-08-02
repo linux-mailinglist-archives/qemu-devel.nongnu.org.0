@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2AC3DD72D
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:33:07 +0200 (CEST)
-Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B093DD72E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Aug 2021 15:33:49 +0200 (CEST)
+Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAY42-0003y8-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
+	id 1mAY4i-0005B3-12
+	for lists+qemu-devel@lfdr.de; Mon, 02 Aug 2021 09:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mAY2M-0002bv-0O
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:31:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mAY2K-0005yD-9S
- for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:31:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627911079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qbZ9rAXZPe37dG36SIRwK5Mr+crLYqeXwBeW7c8rFqg=;
- b=Fl11LxhMKI4wnhPO8w4Tf2U3yu9vPzScO7KkctAaZaXqxO0l1tAuuWJl/XyOOBmnLmAvun
- +YKBASGKOSH4zYVJVRIL6Iotxg8lyeYcXqg8kznWeWS4rv+mHuSug/Ly0s76w5IvOATlfg
- pBdZrXW8oGKNNOh8MUhRqjVq8M8UyW4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237--SNkgk17NOG34DtUBI7T5w-1; Mon, 02 Aug 2021 09:31:16 -0400
-X-MC-Unique: -SNkgk17NOG34DtUBI7T5w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- d72-20020a1c1d4b0000b029025164ff3ebfso5073681wmd.7
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:31:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAY36-0003mi-7p
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:32:08 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:41759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAY34-0006U8-R8
+ for qemu-devel@nongnu.org; Mon, 02 Aug 2021 09:32:08 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n28-20020a05600c3b9cb02902552e60df56so12011wms.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 06:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9CFmELi57VjbDJmiP0jjcNFNorPr3gm5A+o71n7pfb0=;
+ b=Atn7hHRbJh+PqSo6jqAXL1UYFRgD/JmfZt6JTnS7Fh8hdXuDYy667O737liXTtf/dh
+ 3swfx3rGKi1QeLhhYFWCUywRkGAoRjujyr0Yr9xzTyFJDeOmGCbwEH/XBpfWO/k3cAMY
+ iaGRxO2uWnW4Z7Y48NiuTnSHj5HIX9zEEE8DKd07j3Bsvh2E0zVR4eD3vhFXarTap6wT
+ aXK6N9dFS4Mj2Us2f0sO9eE2G1lvr3gin9R+p1Sbe4FAVtQJI7FwuV/4E7gC0wUib+0Z
+ TnCt5AlT3lc5morLqpfPYOKF2BD0dBrFo/7TVVRRj8c76j2gABfM1nFCv7ypkY9F90zN
+ yOHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qbZ9rAXZPe37dG36SIRwK5Mr+crLYqeXwBeW7c8rFqg=;
- b=C1dydnVJ1737g0QChxRvkypgEShn9msmrAQgbr4X2mpQYbTtHT2C7GJjc0KAxgTBfD
- +6biaNaSOIHWlnmm2aKFIw711ek8thkl4Fca472R+rGxrzDeWh/umMPE5enoD7rMHarf
- ifP6MWZt7foxkJ7t2NSjenZ70AQUVYlIhQ1E1cxns8tmNRJlyL9LQgBs06GRErRM5EOY
- mcRcl8kfopbU7YfOqlobg+o7Erz6I5iIC9FgRsRLLPU+8xOFRTj34FjRe7qrZaFo3Qz6
- dQUmOXdap8a5iJILfhIpDcV61+fYAAJ1N+LsTBKMK6rWQSakwbR6rWEyZNZMHRZHjRJY
- HRBA==
-X-Gm-Message-State: AOAM530MAhq2qE2iTiIG2lPnLp3haDnwc8TW2yx4rwpmvd8z2ERqxHol
- ecm8G4kuHxyzjI9HfkqMxEOIkZVjEKhxH/5ss2SzWooKYLux6ZP0rQRIq94318zDXq29Yn7Axl+
- mZmY6fD5Q9rTed8E=
-X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr16641797wmj.53.1627911074993; 
- Mon, 02 Aug 2021 06:31:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3S1yEu0L9/IN9YJ3Wog1HJAjTSS/eFljEwuo3yoJAYM1Rk3Zv1xgIwycCQjMCB3Rhn/dxsQ==
-X-Received: by 2002:a7b:c1c7:: with SMTP id a7mr16641769wmj.53.1627911074706; 
- Mon, 02 Aug 2021 06:31:14 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id 129sm10407473wmz.26.2021.08.02.06.31.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 06:31:14 -0700 (PDT)
-Subject: Re: Windows on ARM64 not able to use attached TPM 2
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <f288d6fb-4286-252c-1e3c-f92076dbc51e@linux.ibm.com>
- <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
-Message-ID: <308ef739-3c19-04f8-86d0-9d41509a87d9@redhat.com>
-Date: Mon, 2 Aug 2021 15:31:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=9CFmELi57VjbDJmiP0jjcNFNorPr3gm5A+o71n7pfb0=;
+ b=YQQYhlaJvuMLy5pzhtLCa4YaYmwUsFyeIjZbErebVU/UzWvfAJN+QIMVZ32UBvgERy
+ QY4U3mHj2/e0Z90M8qVyr82Cv9ZsZUWhNYQB7nKDuI4gOsJ/ncng/dqEvC/KPgYKkQ0v
+ Lp8Jy2ISInxGI1InDm0oBVdSOI1McdKfO/VyfKiVJS0G+Qu2tFdlD2o2Da9z0copmCtN
+ pzXcUVSQvwLK9zXxrru91k2gRQEK3IbxvTLZ4Gu/B3tT6ZbwJv/zyORi0taAsgdKFAgU
+ 8b6fFiIMcyISxaGUgIYiG8zOIcxk5hPbgQfG3j/2UoBhho4L19AfQfrVw9ZsCPU+9r4a
+ rEPQ==
+X-Gm-Message-State: AOAM532LlaxSjEeQznm638G87BBVQp8CIDbX7HLWvY4E1JWGT5AjSh2o
+ RSVK0mMaTIoqpqOupZWnSkZZU4GKDkc=
+X-Google-Smtp-Source: ABdhPJwcdW5tehOu6yo0ATyAZKz6g6EpSgf+SJ2rRiYlak4M6fzHqN8laa8Mo1DMh9x64PxyHob4NQ==
+X-Received: by 2002:a05:600c:2159:: with SMTP id
+ v25mr17227007wml.42.1627911124302; 
+ Mon, 02 Aug 2021 06:32:04 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.223.190])
+ by smtp.gmail.com with ESMTPSA id a2sm11269589wrn.95.2021.08.02.06.32.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Aug 2021 06:32:03 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] plugins/cache: multicore cache modelling
+Date: Mon,  2 Aug 2021 15:31:41 +0200
+Message-Id: <20210802133144.45196-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <5ef559fa-c996-ba42-b9f0-416c7de661c8@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,53 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/2/21 11:04 AM, Philippe Mathieu-Daudé wrote:
-> Cc'ing Marc-André who is your EDK2 co-maintainer.
+Hello,
 
-Oops sorry, I meant your EDK2 "co-designated Package
-Reviewer"
+This series introduce multicore cache modelling in contrib/plugins/cache.c
 
-  R: Package Reviewer: Cc address for patches and questions.
-     Reviewers help maintainers review code, but don't have push access.
-     A designated Package Reviewer is reasonably familiar with the
-     Package (or some modules thereof), and/or provides testing or
-     regression testing for the Package (or some modules thereof),
-     in certain platforms and environments.
+Multi-core cache modelling is handled such that for full-system
+emulation, a private L1 cache is maintained to each core available to
+the system. For multi-threaded userspace emulation, a static number of
+cores is maintained for the overall system, and every memory access go
+through one of these, even if the number of fired threads is more than
+that number.
 
-OvmfPkg: TCG- and TPM2-related modules
-R: Marc-André Lureau <marcandre.lureau@redhat.com>
-R: Stefan Berger <stefanb@linux.ibm.com>
+The changes in the patches are identical to the previous version of the series,
+however:
 
-> On 8/1/21 2:28 AM, Stefan Berger wrote:
->> Hello!
->>
->>  I maintain the TPM support in QEMU and the TPM emulator (swtpm). I have
->> a report from a user who would like to use QEMU on ARM64 (aarch64) with
->> EDK2 and use an attached TPM 2 but it doesn't seem to work for him. We
->> know that Windows on x86_64 works with EDK2 and can use an attached TPM
->> 2 (using swtpm). I don't have an aarch64 host myself nor a Microsoft
->> account to be able to access the Windows ARM64 version, so maybe someone
->> here has the necessary background, credentials, and hardware to run QEMU
->> on using kvm to investigate what the problems may be due to on that
->> platform.
->>
->> https://github.com/stefanberger/swtpm/issues/493
->>
->> On Linux it seems to access the TPM emulator with the normal tpm_tis
->> driver.
->>
->> Regards,
->>
->>    Stefan
->>
->>
->>
-> 
+v3 -> v4:
+    1. Re-based the patched on top of the current master.
+    2. Dropped the patches that were already merged.
+
+Mahmoud Mandour (2):
+  plugins/cache: supported multicore cache modelling
+  docs/devel/tcg-plugins: added cores arg to cache plugin
+
+ contrib/plugins/cache.c    | 154 ++++++++++++++++++++++++++++---------
+ docs/devel/tcg-plugins.rst |  13 ++--
+ 2 files changed, 127 insertions(+), 40 deletions(-)
+
+-- 
+2.25.1
 
 
