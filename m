@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C753DF056
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 16:32:26 +0200 (CEST)
-Received: from localhost ([::1]:37018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AEC3DF052
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 16:31:45 +0200 (CEST)
+Received: from localhost ([::1]:36604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAvSz-0000LO-Ox
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 10:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
+	id 1mAvSK-0008V3-N9
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 10:31:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mAvQZ-0006p5-Qe
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:29:55 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mAvQW-0004WE-Hd
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:29:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id n12so25556830wrr.2
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 07:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1u6HqaD+S/7zzcgUis3rWPi6+PwMjWURSVTw3EyBDzk=;
- b=2Q5SrePKF44CZNKGX2f2FGjFjJtLTGHPSY+nppX/ue4ryiuvVugEzfuGjDlPdmjvhX
- mXqQJGKkaxwK7GmNKwX1ejdeWRXxyYfRTKgZD2QANODZaiHKQXXEtYinXiKqVdudQOEn
- vf4Vpe2Tej9jR/y/FWgseFPEKotoiB3a80wsklc3eQ7xz6MJJ9647tTryLRWu6bqf2Gz
- hQ+Tv/Ma/TUrXJmIKuVz295wCgVl0/AgW2glRl6tYZJdJfok1lthSo7Mc1dEFMu6ins8
- Ib4YbHx0P4Kt23WV3q+gRiGlv4ZrvY0DAwMUPSFZ1sTNVd/0aVvcyEOp1tKwlX/GQfU0
- IOeA==
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mAvQm-0006wI-Uu
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:30:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mAvQl-0004jB-Di
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:30:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628001006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8PwsxxdfORomDSSz+O1zuAM9hrn+w56IKDttKwMV0LQ=;
+ b=QgFNioPkB5qsBCADOnjO0q4DtS7j6Uf1RUBactcEaskBqjcpzSrQR3xe5HfbkLMWAX7n1B
+ EUi+wSOHF/LyhCOTK4ildfH9465bNGFlWkIcROK0SBVoKbeWrliNvjdUnXmhgWySI7MJ5v
+ Om4pFxXIY5SZ1qWxASx2HX3eF8ijCoY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-lyPHj8iOMmuJRQCIUqImgg-1; Tue, 03 Aug 2021 10:30:05 -0400
+X-MC-Unique: lyPHj8iOMmuJRQCIUqImgg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s8-20020a0564020148b02903948b71f25cso10528770edu.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 07:30:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1u6HqaD+S/7zzcgUis3rWPi6+PwMjWURSVTw3EyBDzk=;
- b=Ne/TC4ePf+zqySm/QCUzO6kuinoydyks4wQCj4WA75qarFwJG+KDlmuXGiQkbx46G8
- gWoq18XGDqW4WbEHeqhHjQLhS99KBjX4dDI0MsEX0D2UYDbn6ABHrkJLFQXC5e8ja6fb
- HBNBlGveCFI1NVKvYYBoe65WlTWoT71vZP/c08Mkvobe20l729GKLBfI0356jMYwLiIp
- k4UgjvIKBO/r4NptWUL5mM9ldaHl6zH0TGxoLf+CcJ3ihkuRH//wzZgLdiLlUqNq7YMy
- vQ5wMFwZ2fZhzdEw001cNlYPMS7J+AHbxc1DGipSooMx8liScYY8GN+YC+THJzcXDjdc
- laEg==
-X-Gm-Message-State: AOAM532IRMtkUjufoKNW6U7QgPy7CgMAke3KTo3jL6nOTnYEP1WxoS+Q
- MOeLv8rKDG+ZdXbagtC0iwh0Gg==
-X-Google-Smtp-Source: ABdhPJzgn42J+lTZrcOnToTYDZKqRh4ufpsFYj2Dl5HxJOo4PYrSQTzAh2HlB/rjFcGrfmQb7vS/Bg==
-X-Received: by 2002:adf:efc4:: with SMTP id i4mr23939980wrp.53.1628000990513; 
- Tue, 03 Aug 2021 07:29:50 -0700 (PDT)
-Received: from leviathan (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
- [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id i29sm13595244wmb.20.2021.08.03.07.29.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 07:29:49 -0700 (PDT)
-Date: Tue, 3 Aug 2021 15:29:47 +0100
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.1] hw/arm/boot: Report error if there is no fw_cfg
- device in the machine
-Message-ID: <20210803142947.etblpkgynnna3mvf@leviathan>
-References: <20210726163351.32086-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8PwsxxdfORomDSSz+O1zuAM9hrn+w56IKDttKwMV0LQ=;
+ b=HoK4Lxpx7fghgSYkMbQhKZSBxUeY7Oc1gBE60njWuTrVc3cZUao9yEXr19XMEQ/z8a
+ 4L3SsPH81v+dkv/sHtZ+pX7tRBA+Cp6nfsEkwbM2Y8sthIpQSZtnJ7gsqaNIWnllvZk6
+ oOPus0AcE9HwwRFP9btH9C7au434eB8w9YeU6K9VTypUmnAtNwLuJS+VDbCF6ajQ3bQM
+ s44wubrE/pAk4dkOnR+a+l244QmbNakFmKsnj2VKrfHTpWpRPWFujk7V1073SmpCeU6P
+ 8J9U3vVowmaU/jVcT32SP1w4huOMQbdEB0HAooNJi+VP9vKpdzD6DyxapJ4V77iZltf/
+ TONg==
+X-Gm-Message-State: AOAM530mG5zFEyvJ7gDG5MlwIR3gvKYay/711IGKHmbUPUvFywXlJxGF
+ o4uYhN4SIPHtwYdMsKgwTjk+CQed2PiaWSFwU9uxU5IVlYbHI5+N9NrFmqu9fz0Cffb60cSIkpd
+ HPJCVpNJzrTRO+ZKTji2ZSdYbf1f9k4w=
+X-Received: by 2002:a05:6402:22ac:: with SMTP id
+ cx12mr26249094edb.254.1628001004355; 
+ Tue, 03 Aug 2021 07:30:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCY/5A48IZKI0Nq+sTHnwbAW5LftSgmqbJIyPTa7Iglv772VKCUbuD4ClmL1XF7kQ116nbZSbxqEe6bDK6U3c=
+X-Received: by 2002:a05:6402:22ac:: with SMTP id
+ cx12mr26249058edb.254.1628001004054; 
+ Tue, 03 Aug 2021 07:30:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210726163351.32086-1-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <CAFEAcA_g8F26bV6wHFRUt7TSZMjt8hs6Pip8kHw=s4-WXy_AXg@mail.gmail.com>
+ <CA+bd_6KanUEpDxVv4-T1mxvFMeCsG7XGXv9t06-b-AL3UxK0-w@mail.gmail.com>
+ <CAFEAcA_c=ipCiN8bHn+EK92BqvDbWpzdC5kfs321O5ZGR6jSrw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_c=ipCiN8bHn+EK92BqvDbWpzdC5kfs321O5ZGR6jSrw@mail.gmail.com>
+From: Cleber Rosa <crosa@redhat.com>
+Date: Tue, 3 Aug 2021 10:29:53 -0400
+Message-ID: <CA+bd_6KE6NVt=9CmVHD46tW5E3vZweZKpVkggsgxOOB2S=LMwg@mail.gmail.com>
+Subject: Re: 'make check-acceptance' eats lots of disk space and never cleans
+ it up
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,96 +91,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Radoslaw Biernacki <rad@semihalf.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 26, 2021 at 17:33:51 +0100, Peter Maydell wrote:
-> If the user provides both a BIOS/firmware image and also a guest
-> kernel filename, arm_setup_firmware_boot() will pass the
-> kernel image to the firmware via the fw_cfg device. However we
-> weren't checking whether there really was a fw_cfg device present,
-> and if there wasn't we would crash.
-> 
-> This crash can be provoked with a command line such as
->  qemu-system-aarch64 -M raspi3 -kernel /dev/null -bios /dev/null -display none
-> 
-> It is currently only possible on the raspi3 machine, because unless
-> the machine sets info->firmware_loaded we won't call
-> arm_setup_firmware_boot(), and the only machines which set that are:
->  * virt (has a fw-cfg device)
->  * sbsa-ref (checks itself for kernel_filename && firmware_loaded)
->  * raspi3 (crashes)
-> 
-> But this is an unfortunate beartrap to leave for future machine
-> model implementors, so we should handle this situation in boot.c.
-> 
-> Check in arm_setup_firmware_boot() whether the fw-cfg device exists
-> before trying to load files into it, and if it doesn't exist then
-> exit with a hopefully helpful error message.
-> 
-> Because we now handle this check in a machine-agnostic way, we
-> can remove the check from sbsa-ref.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/503
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Tue, Aug 3, 2021 at 9:47 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 3 Aug 2021 at 13:58, Cleber Rosa <crosa@redhat.com> wrote:
+> >
+> > On Tue, Aug 3, 2021 at 8:43 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > It looks like 'make check-acceptance' creates directories in
+> > > build/clang/tests/results which are huge and which it never
+> > > cleans up. For example one of my build directories (configured
+> > > just for arm targets) has over 350 'job-[timestamp]' directories,
+> > > many of which are 2.5GB or more in size.
+> > >
+> >
+> > Every "job-[timestamp]" directory is the result of an "avocado run"
+> > invocation, that is, one "make check-acceptance" command.
+> >
+> > > I assume most of this is artefacts (disk images etc) needed to
+> > > rerun the tests. That's useful to keep around so you can manually
+> > > run a test. However, we should be sharing this between runs, not
+> > > creating a fresh copy for every time check-acceptance is
+> > > run, surely ?
+> > >
+> >
+> > They contain results and files needed for debugging the results of
+> > tests, not artefacts needed to re-run them.  Everything that is
+> > shareable is in the "~/avocado/data/caches" directory.
+>
+> This doesn't in practice seem to be the case. Picking a subdirectory
+> at random:
+>
+> ./build/clang/tests/results/job-2021-07-30T11.20-63bd0a6/test-results/tmp_dir4_a3m36o/091-tests_acceptance_machine_sparc64_sun4u.py_Sun4uMachine.test_sparc64_sun4u/day23
+>
+> This contains (among other things) a vmlinux file which I assume is
+> the one we run on the guest. It looks to me like this is a directory
+> where we unzipped/untarred a downloaded file with the guest image.
+>
+> And another:
+>
+> ./build/clang/tests/results/job-2021-07-30T11.20-63bd0a6/test-results/tmp_dirwowk1bzp/026-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_arm_cubieboard_initrd/
+>
+> This seems to contain a rootfilesystem for some test or other,
+> with a boot/, lib/, usr/, etc.
+>
+> These all look like artefacts to me, in the sense that they're
+> the same every time.
+>
+> I notice that all these have 'tmp_dir*' directories in the paths. Is the
+> problem just that we're failing to clean up a tempdir in some situations?
+>
 
-Reviewed-by: Leif Lindholm <leif@nuviainc.com>
+These are all directories meant to be temporary (the name gives it
+away) and meant to be cleaned up.  You actually found a bug in the
+"avocado_qemu.Test" class that is *not* calling the base
+"avocado.Test" class tearDown().  It's a trivial one liner fix:
 
-However, the subject line threw me slightly. How about:?
-"Report error if trying to load kernel with no fw_cfg"
+---
 
-> ---
-> I didn't reuse exactly the same wording sbsa-ref used to have,
-> because the bit about loading an OS from hard disk might not
-> apply to all machine types.
-> ---
->  hw/arm/boot.c     | 9 +++++++++
->  hw/arm/sbsa-ref.c | 7 -------
->  2 files changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index d7b059225e6..57efb61ee41 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -1243,6 +1243,15 @@ static void arm_setup_firmware_boot(ARMCPU *cpu, struct arm_boot_info *info)
->          bool try_decompressing_kernel;
->  
->          fw_cfg = fw_cfg_find();
-> +
-> +        if (!fw_cfg) {
-> +            error_report("This machine type does not support loading both "
-> +                         "a guest firmware/BIOS image and a guest kernel at "
-> +                         "the same time. You should change your QEMU command "
-> +                         "line to specify one or the other, but not both.");
-> +            exit(1);
-> +        }
-> +
->          try_decompressing_kernel = arm_feature(&cpu->env,
->                                                 ARM_FEATURE_AARCH64);
->  
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index 43c19b49234..c1629df6031 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -691,13 +691,6 @@ static void sbsa_ref_init(MachineState *machine)
->  
->      firmware_loaded = sbsa_firmware_init(sms, sysmem, secure_sysmem);
->  
-> -    if (machine->kernel_filename && firmware_loaded) {
-> -        error_report("sbsa-ref: No fw_cfg device on this machine, "
-> -                     "so -kernel option is not supported when firmware loaded, "
-> -                     "please load OS from hard disk instead");
-> -        exit(1);
-> -    }
-> -
->      /*
->       * This machine has EL3 enabled, external firmware should supply PSCI
->       * implementation, so the QEMU's internal PSCI is disabled.
-> -- 
-> 2.20.1
-> 
+diff --git a/tests/acceptance/avocado_qemu/__init__.py
+b/tests/acceptance/avocado_qemu/__init__.py
+index 2c4fef3e14..1e807e2e55 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -276,6 +276,7 @@ def tearDown(self):
+        for vm in self._vms.values():
+            vm.shutdown()
+        self._sd = None
++        super(Test, self).tearDown()
+
+    def fetch_asset(self, name,
+                    asset_hash=None, algorithm=None,
+
+---
+
+> thanks
+> -- PMM
+>
+
+Thanks a lot for spotting that, I'll send a fix to the ML right away.
+
+Best regards,
+- Cleber.
+
 
