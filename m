@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8703DF125
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:12:07 +0200 (CEST)
-Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7FB3DF131
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:14:40 +0200 (CEST)
+Received: from localhost ([::1]:56932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAw5N-0008UQ-Vk
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39962)
+	id 1mAw7s-0001iA-16
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mAw4S-0007AQ-Tp
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:11:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mAw4Q-00081X-VD
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:11:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628003465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jF0J2jO28GBMDKS9CeIL8dSFedkEzbotPpyBliN6PU4=;
- b=YLNjpj5mhcHokx+ud+LzQ4833EyFMM+jyP3VkMsUSTYOKNTgMD/W+SFFC+lihMO9hCfy2B
- /aebHL7ZgI+tnqnAiwFMFIs0hcAye5wJVIvuRMLNR/yA3PjkjnFgD1VhvDOvQxplt+j65G
- ajbSL/O82CIijVe1Be8tjMiLsDx90RM=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-ydmMMMkJPK2P9mzpgjZSzg-1; Tue, 03 Aug 2021 11:11:04 -0400
-X-MC-Unique: ydmMMMkJPK2P9mzpgjZSzg-1
-Received: by mail-pl1-f199.google.com with SMTP id
- p21-20020a1709028a95b029012c31764588so2702138plo.12
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:11:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAw6g-0000zD-6W
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:26 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAw6e-0001Co-L2
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:25 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ d131-20020a1c1d890000b02902516717f562so2341819wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:13:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p3J7EaOPCVyzTeOGOv8gZk4/JtmApbvWo8neZi7VsrM=;
+ b=dOGoXD+iuXlB+6d0vTgNEeZ4+sOSihW4ha80pdmDTwULRWIU2WYhPwJ2XtAQe7iPC3
+ YFTaO4Nf0I7M69Nd0sVq3MXEvyua4hDaQV0X+0gvoXAxG9efffNRrx+Zd9132wOEPxYf
+ dAqRtwqNnwVWRyEOS4MbDUgP/JEEmZPmkkcFQvMXYNf6+JVVJTgEc7rpEReEXUbVirBq
+ ZZ7cDgog7KHb5SqnyphiNc1s8UNY+PTpefLLd/I2dm5zipEJLIb2IhfikbaJiFtQVoee
+ NSgGoyo/+cwYkPCRMs85qY2RKUcsbI8Ua2t7EPD7TwsqKU4e91+Tr4HabDykA3yOj2mK
+ kM1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jF0J2jO28GBMDKS9CeIL8dSFedkEzbotPpyBliN6PU4=;
- b=SCDFMI0m0BP9GL9QqwYeTVizZzR/b0qNF5W23Lo+vfbXkLDtMxpVQXVjwviP6LIVoR
- 4tFcX51KMhJvqxU+lCSpnKmBtWsy3IA6eYEm8kUqz3j8R9sI60RsjxNYM7Ssz+jLWCs/
- jhrdQ5oTE+TohR0HbYTHwu6F0IVZwDX+4+fEXQhP/HG6xF+0i8M68CLjd5pMg6odIUZh
- TGZ+9ZVKuSeWEJmlqY9RmceSSy/r83rPerSLdjwcPPowQysjkZwQ6codqT+R7zG55Qnw
- ekx9u+PxabSGi+doCabwzzWVIxM6d6uiUr0KvNXQC1rouIW3ms8aHOX1Axu01OiYH84K
- pliQ==
-X-Gm-Message-State: AOAM531u5Xe7qA4xcBGHNNOec1wx4GFcNgWNB6g3xVKRex08nRFZEwow
- V616ho0J0AtKsZGSgFFse0nvqw2/00e7WEQ59PBhpAGIST6Zf6bMloJVhJITHzu7GLoqQKJ0j0p
- oy5M68TLsUh3eovhmzRcA5t5apWDQ/B0=
-X-Received: by 2002:a62:1609:0:b029:3ab:afdb:acf3 with SMTP id
- 9-20020a6216090000b02903abafdbacf3mr22749128pfw.43.1628003463585; 
- Tue, 03 Aug 2021 08:11:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzREKz5Aqqstl8uDvkT7LxJe/EPuaZvqL0snvw+stC1e8oe0ggmWNAIl2hL8r3cpkExU8oMqKVo2OOU0wjFhm8=
-X-Received: by 2002:a62:1609:0:b029:3ab:afdb:acf3 with SMTP id
- 9-20020a6216090000b02903abafdbacf3mr22749106pfw.43.1628003463332; Tue, 03 Aug
- 2021 08:11:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p3J7EaOPCVyzTeOGOv8gZk4/JtmApbvWo8neZi7VsrM=;
+ b=qB6C1clwuU3nIW3jWLaIBeec+ObpP1RhrT1BMYmO02X8lN7i7/Nhzj9PkZaKwvrikO
+ GIlzz50dGrq39147TlK5n1c3svcsaL+np2WLb2blRne+wxiyxDAIQu8VOLSUbtNZ53Op
+ AgAxQSJ7yzB06rPwY+Nx4D6c7M636RImapSc4MS6bdEDpcOSzWeZ0uZ4PXN3qJC0m3Kx
+ 0+FIbb2nBojRopt2yBsPEdEMy9ewmgZOhW1zOEXAcChFHSomM/Qnn+niEsNNW1vYz1O5
+ a8OGIvdPrCL2zWcbN2KnrRLCIESW2sz0liCBUQP2wiltFT5NSKt18hX8DkxZnZMFbJmm
+ CRRw==
+X-Gm-Message-State: AOAM532yXhYpo6no4icQBdqlUiD8JBvsW86pomOTgNRbQu6ZbqNbEZjJ
+ 4EJV5RKcEp+PfTRcYoV86qOQEnisjSs=
+X-Google-Smtp-Source: ABdhPJx7doyy+qJ366FS28YCJ9sdC+fyfWu26ds5XmKZFsMXUW22Gn/UISjAl1lUweZ3OzKuw9hqZQ==
+X-Received: by 2002:a05:600c:1546:: with SMTP id
+ f6mr1518823wmg.125.1628003601712; 
+ Tue, 03 Aug 2021 08:13:21 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.80.206])
+ by smtp.gmail.com with ESMTPSA id u23sm2737468wmc.24.2021.08.03.08.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Aug 2021 08:13:20 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/2] plugins/cache: multicore cache modelling
+Date: Tue,  3 Aug 2021 17:12:59 +0200
+Message-Id: <20210803151301.123581-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210730143809.717079-1-thuth@redhat.com>
- <20210730143809.717079-4-thuth@redhat.com>
-In-Reply-To: <20210730143809.717079-4-thuth@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 3 Aug 2021 12:10:36 -0300
-Message-ID: <CAKJDGDY5WtXHK+QTFYU0ESAZYqbE4GP29nu3cQFD6FKtkT7jnQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] gitlab-ci: Fix ..._RUNNER_AVAILABLE variables and
- document them
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,30 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 30, 2021 at 11:38 AM Thomas Huth <thuth@redhat.com> wrote:
->
-> The patch that recently introduced the S390X_RUNNER_AVAILABLE variable
-> in custom-runners.yml missed that the bottom half of the file is rather
-> about aarch64 than s390x. Thus rename the S390X_RUNNER_AVAILABLE to
-> AARCH64_RUNNER_AVAILABLE in those jobs.
->
-> Finally mention both variables in our CI documentation, too.
->
-> Fixes: c5dd0f0342 ("Improve rules for the staging branch")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.d/custom-runners.yml | 12 ++++++------
->  docs/devel/ci.rst               | 13 +++++++++++++
->  2 files changed, 19 insertions(+), 6 deletions(-)
->
+Hello,
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+This series introduce multicore cache modelling in contrib/plugins/cache.c
+
+Multi-core cache modelling is handled such that for full-system
+emulation, a private L1 cache is maintained to each core available to
+the system. For multi-threaded userspace emulation, a static number of
+cores is maintained for the overall system, and every memory access go
+through one of these, even if the number of fired threads is more than
+that number.
+
+v4 -> v5:
+    1. Reserved a mutex lock for each cache structure; now callbacks generated
+    by accesses done by different vcpus don't block each other.
+    2. Used atomic increment to access hashtable entries instead of locking.
+    3. Renamed mtx to hashtable_lock to reflect its job more explicitly.
+    4. Dropped the usage of CoreStats, embedded stats in the cache structure.
+    4. append_stats_line now takes the stats explicitly.
+
+Mahmoud Mandour (2):
+  plugins/cache: supported multicore cache modelling
+  docs/devel/tcg-plugins: added cores arg to cache plugin
+
+ contrib/plugins/cache.c    | 176 +++++++++++++++++++++++++++----------
+ docs/devel/tcg-plugins.rst |  13 +--
+ 2 files changed, 140 insertions(+), 49 deletions(-)
+
+-- 
+2.25.1
 
 
