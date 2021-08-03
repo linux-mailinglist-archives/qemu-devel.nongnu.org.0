@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876293DE826
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 10:17:52 +0200 (CEST)
-Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7479F3DE823
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 10:16:39 +0200 (CEST)
+Received: from localhost ([::1]:57634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mApcV-0002og-Kv
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 04:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36668)
+	id 1mApbK-0000HZ-7W
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 04:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mApYH-0003vY-Br
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:13:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37257)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mApZr-00076s-3z
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:15:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mApYD-0001sZ-Iz
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:13:27 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mApZp-0003Dy-Cu
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:15:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627978404;
+ s=mimecast20190719; t=1627978504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WKD+wGXP3FzWjatiz3/ukz0pFScOecR7IFHHYD1iuP0=;
- b=TaTWUH6DPxBPQaJfazbvZMiNZG51kKJ7Lz2qv74z8MDNhbwofW1mp50jvpTwlb+6frf7SP
- c8h/ZurG0VgsZ1CruGChy0k9qSIE1WO2is6o6PEyG4mYj0OqwkTreVTCgKjq/BHMBlvxts
- 5D0zyVfVzuBGJyQI3oa6Pnr85R2V+P4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-igNzonOuMbyJ4fHvICcqMg-1; Tue, 03 Aug 2021 04:13:19 -0400
-X-MC-Unique: igNzonOuMbyJ4fHvICcqMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EA7E1853024;
- Tue,  3 Aug 2021 08:13:17 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 510B85D6A8;
- Tue,  3 Aug 2021 08:13:13 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v6 0/2] target/s390x: Fix SIGILL and SIGFPE psw.addr
- reporting
-In-Reply-To: <20210705210434.45824-1-iii@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20210705210434.45824-1-iii@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 03 Aug 2021 10:13:11 +0200
-Message-ID: <87pmuvymi0.fsf@redhat.com>
+ bh=USQyxxWu6oDZ/xQwExDNksz46YeG05eHN22xdjDcljE=;
+ b=M3RqJtiDTNbXDNvfROydts8JROAGV8tOFf4wuiaKiUJjqV8VmlaVINvvHSGpNvXeSdviBl
+ IcRy5i9LnFY9NR2Yp6TRC8ReysJYLNGOgdLanxXLMGu3edp10XBMIpHjZuit80qAkMCNPP
+ B0SNuxNYveI8f+ZlJa5m4TdV9HDbOqg=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-hYVBpcb2O0WLtE3xIZ6nxw-1; Tue, 03 Aug 2021 04:15:03 -0400
+X-MC-Unique: hYVBpcb2O0WLtE3xIZ6nxw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ j22-20020a17090a7e96b0290175fc969950so2256490pjl.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 01:15:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=USQyxxWu6oDZ/xQwExDNksz46YeG05eHN22xdjDcljE=;
+ b=BGtBgJ+s4WeKlmU8ib2V7y1FlCm8H2wYZuBmZnU6IP9aneOtyhDJ3HwCHqnVe3hXal
+ Hch2xzNlrc7XjBxxAVisK6iXw4fpw1DNBzMuaaa095UMu9OybsyzKjYgn23eDD76aW47
+ a4zt/8/ESfVhfWVVXYu4mCa3faAEDZK+tlO5VuWHftPRN8fvnZZmufZcyCyKV8r/eziy
+ tFzQRgeiI5Xj8j/Kl5N+T+/XjHFo0pFpqA3Wm3GpkiOXGFbVenSYR1pplb6PxkkmI8Mh
+ 2s5wTPzpH5Fx5+3CZ/C88Ix6eUTKpwobswK4mkzn4jkoygvkp3Zhe9V7iN+a1v45bv0Y
+ hDzA==
+X-Gm-Message-State: AOAM532yUwI+LlZfTSwOIyHFPqO88v0V3UTUWkBTXo8rvF2x9NsbbgM7
+ iel58wOguGbVt3k/Ai3mx02pvL2W+fZ70nLhnxJLxPzR7wfZF3Dt/EUPmD7FAWV636ZB9ovKdGk
+ B1gNpaZMyn60pbTjjXkgcQLDqT60XevzDI4caWv2noic/18n69eHnvfVvklx1VMrFH10=
+X-Received: by 2002:a17:90a:ba82:: with SMTP id
+ t2mr3263299pjr.143.1627978502274; 
+ Tue, 03 Aug 2021 01:15:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnlyhKMTJ1AJNwPs68v5frQ5yV8d1hHtvHAxdOt1Ed1Oxl2jFHNGDbmAT86O+riH5Go+H+Dw==
+X-Received: by 2002:a17:90a:ba82:: with SMTP id
+ t2mr3263270pjr.143.1627978501935; 
+ Tue, 03 Aug 2021 01:15:01 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id d4sm14432788pfv.168.2021.08.03.01.14.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Aug 2021 01:15:01 -0700 (PDT)
+Subject: Re: [PATCH] vhost: use large iotlb entry if no IOMMU translation is
+ needed
+To: Chao Gao <chao.gao@intel.com>
+References: <20210721075402.203711-1-chao.gao@intel.com>
+ <20210803042927.GA30466@gao-cwp>
+ <5321eefb-7177-2009-6aae-f8c398731eac@redhat.com>
+ <20210803055127.GA31303@gao-cwp>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <950f83e5-cc48-17b2-4509-902ecb7cc22a@redhat.com>
+Date: Tue, 3 Aug 2021 16:14:57 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210803055127.GA31303@gao-cwp>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,57 +105,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 05 2021, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
 
-> qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
-> should be a pointer to the instruction following the illegal
-> instruction, but at the moment it is a pointer to the illegal
-> instruction itself. This breaks OpenJDK, which relies on this value.
-> A similar problem exists for SIGFPE.
->
-> Patch 1 fixes the issue, patch 2 adds a test.
->
-> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
-> v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
->           magic in the test and add an explanation (David).
->
-> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
-> v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
->           qemu-user).
->
-> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg00299.html
-> v3 -> v4: Fix compiling the test on Ubuntu 20.04 (Jonathan).
->
-> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05848.html
-> v4 -> v5: Greatly simplify the fix (Ulrich).
->
-> v5: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06244.html
-> v5 -> v6: Fix breakpoints (David). Add gdbstub test.
->
-> Note: the compare-and-trap SIGFPE issue is being fixed separately.
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05690.html
->
-> Ilya Leoshkevich (2):
->   target/s390x: Fix SIGILL and SIGFPE psw.addr reporting
->   tests/tcg/s390x: Test SIGILL and SIGSEGV handling
->
->  linux-user/s390x/cpu_loop.c                   |  12 +-
->  tests/tcg/s390x/Makefile.target               |  18 +-
->  tests/tcg/s390x/gdbstub/test-signals-s390x.py |  76 ++++++++
->  tests/tcg/s390x/signals-s390x.c               | 165 ++++++++++++++++++
->  4 files changed, 269 insertions(+), 2 deletions(-)
->  create mode 100644 tests/tcg/s390x/gdbstub/test-signals-s390x.py
->  create mode 100644 tests/tcg/s390x/signals-s390x.c
+在 2021/8/3 下午1:51, Chao Gao 写道:
+> On Tue, Aug 03, 2021 at 12:43:58PM +0800, Jason Wang wrote:
+>> 在 2021/8/3 下午12:29, Chao Gao 写道:
+>>> Ping. Could someone help to review this patch?
+>>>
+>>> Thanks
+>>> Chao
+>>>
+>>> On Wed, Jul 21, 2021 at 03:54:02PM +0800, Chao Gao wrote:
+>>>> If guest enables IOMMU_PLATFORM for virtio-net, severe network
+>>>> performance drop is observed even if there is no IOMMU.
+>>
+>> We see such reports internally and we're testing a patch series to disable
+>> vhost IOTLB in this case.
+>>
+>> Will post a patch soon.
+> OK. put me in the CC list. I would like to test with TDX to ensure your patch
+> fix the performance issue I am facing.
 
-So, I'd like to see this merged, but I'm unsure on what we agreed -- I
-thought this would go via linux-user. Do I misremember?
+
+Sure.
+
+
+>
+>>
+>>
+>>>>    And disabling
+>>>> vhost can mitigate the perf issue. Finally, we found the culprit is
+>>>> frequent iotlb misses: kernel vhost-net has 2048 entries and each
+>>>> entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
+>>>> translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
+>>>> memory for DMA, there are some iotlb misses.
+>>>>
+>>>> If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
+>>>> mode, we can optimistically use large, unaligned iotlb entries instead
+>>>> of 4K-aligned entries to reduce iotlb pressure.
+>>
+>> Instead of introducing new general facilities like unaligned IOTLB entry. I
+>> wonder if we optimize the vtd_iommu_translate() to use e.g 1G instead?
+> using 1G iotlb entry looks feasible.
+
+
+Want to send a patch?
+
+
+>
+>>      } else {
+>>          /* DMAR disabled, passthrough, use 4k-page*/
+>>          iotlb.iova = addr & VTD_PAGE_MASK_4K;
+>>          iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
+>>          iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
+>>          iotlb.perm = IOMMU_RW;
+>>          success = true;
+>>      }
+>>
+>>
+>>>>    Actually, vhost-net
+>>>> in kernel supports unaligned iotlb entry. The alignment requirement is
+>>>> imposed by address_space_get_iotlb_entry() and flatview_do_translate().
+>>
+>> For the passthrough case, is there anyway to detect them and then disable
+>> device IOTLB in those case?
+> yes. I guess so; qemu knows the presence and status of iommu. Currently,
+> in flatview_do_translate(), memory_region_get_iommu() tells whether a memory
+> region is behind an iommu.
+
+
+The issues are:
+
+1) how to know the passthrough mode is enabled (note that passthrough 
+mode doesn't mean it doesn't sit behind IOMMU)
+2) can passthrough mode be disabled on the fly? If yes, we need to deal 
+with them
+
+Thanks
+
+
+>
+> Thanks
+> Chao
+>
 
 
