@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEB83DEA32
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 12:00:31 +0200 (CEST)
-Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6F93DEA39
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 12:02:45 +0200 (CEST)
+Received: from localhost ([::1]:59600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mArDq-0002I0-GR
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 06:00:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
+	id 1mArG0-0004Kh-8t
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 06:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mArCz-0001co-1R
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 05:59:37 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40586)
+ id 1mArEx-0003Bk-CC
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 06:01:39 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mArCx-0001jG-P1
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 05:59:36 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id p5so24682802wro.7
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 02:59:35 -0700 (PDT)
+ id 1mArEv-0003GY-H3
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 06:01:38 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id l18so24648216wrv.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 03:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GDrxo9B5IjifGERoXVxtX87FYSIqgY2btTmDzMyZPLY=;
- b=YxTQMwd6UPe41uBA3hl0dYn+nXj1r3p9yVGqC7fvsaIed+6UUFa0nTxnpVOqKYcRSe
- 8XKaMvmrTAdXxkP2+NSv4OS6+kXFM+2YQiAOROhxrulpAX8qqYOkd3iuMNDbZSuiYhlR
- GiicmJLdhSauboUmtjnLzUb87fSFWQyiAMYud/1aubn7yXEjcrVFa3Pon5GXOhxdOaxY
- UWW1c6RT0jfRfzny+APOxZfsmYwBO7SkklHWdf8rNChl4yqpx/Y5O3ONCA+dCQDeSguD
- 2g4p/UKk62cd4NBaevH+KCN43i1bW7vRKaTYBI1y279PN1Fxe8KgQCMA9AeaGlZnCLLM
- BsYA==
+ bh=YGWQuHX9Uw7UYAKZa5yTm0SzNrdl1u6arGZRKyxjEHo=;
+ b=cW9aOzayUG52nKa+u0iN85QUtS/7AHWXGcwwhVCQ1EKRQ+qcifWZa+ruzlaCxHzKRb
+ eqPbMkJRo3J3RSX/OC9PQlWHYAdMVxcxAUYghh0Zft4AmauJeJM+3RataLFOmWI1y2Oj
+ wSNZdl4Sn0hskstLj29fJufby7ZMF9clh9JSqxd709H5LX+M0dvLYfI3RWkryL95qZGZ
+ qB69brgQJfceQ3IOj4mSNxeMbfQds/WSqA3VQjyt3+HXFcgsmtoNbHwJatMYrN+peiTT
+ 9f/h0lbb0bTTXEyZ9TwDKwjZGIWF2zdQjb62SC8SNYl1NjQrk5+HfdrVGAKBiJR6L9lY
+ JD2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GDrxo9B5IjifGERoXVxtX87FYSIqgY2btTmDzMyZPLY=;
- b=iT+jxu57IutV6pQZ8bidXKVpS97THEv6HDZGCEKCXhaX9J6w8XyrqPfgVj8i3yRCGj
- ZSVBbE7bgtEe4XteJDkwaAZAyG1Mm5BxKDFdXqJbFUxLmNIoWX1KOvBfJz2cWgKNQvEs
- EVuilMDqlkFwrbeaD3qMmIkeoMuGLNGgUQ4Qfz4DS1SZFispXXsdQUg4qQbupMLcJc23
- UYjGsAWRosur2TjnDTLF65Z7tJGvC3eLUyYNHlnCL0uq9jzOkhriLdKPSpuSk4jlVHFT
- UkAT0evchO9mURnWZcOnw7GhjipBUnucqKJ6vVLwiIM7cKd308AmUuZ31yjDa0xh5OcR
- TMPQ==
-X-Gm-Message-State: AOAM5315agZiXpxyOB17a+3YKOBOoTMnNKJ8SU64N2AqQBX/NZWsQEYG
- by/GP69q8LKi2xvFWmc4c3OdayhDVVAR1A==
-X-Google-Smtp-Source: ABdhPJwFYEVtmTCu3Ir36zf8bQkfZU2EhBhj56JedzE2vyd0bBAxaqAZ8mmWYMohoCO60wLkgLbW5A==
-X-Received: by 2002:a05:6000:18c8:: with SMTP id
- w8mr22102099wrq.90.1627984773817; 
- Tue, 03 Aug 2021 02:59:33 -0700 (PDT)
+ bh=YGWQuHX9Uw7UYAKZa5yTm0SzNrdl1u6arGZRKyxjEHo=;
+ b=DV8qAfp28CsAtnXWbz9mpsuFeCnvvckhIQu62HzKsk5AcMve6bAEwCoLhRoQ6ffJuX
+ +9ulh4USsuAXJpg11Gr5dByFiaWw8BIbJg6rPWCQGXDDy+11w/lzCg9Qbfha5tOOckPA
+ WJS8xobV/dPDHcUxPSarDEfx2lQW4f3idCmP/Tmvw3Py+PhU97IQ4ASD4syo2TBvJ5z6
+ Z1Y95At1XvF8KfmCe+LC5ljpY4OydrfRC0C//9UxTTElkleDNIj4s0+D1eSEnSYHX3pi
+ zuoggOvD6StUkkjIIJjQF9COxMzFME8k8y8khH2xa7IxCEhK5EXhFuBEAEpIYZyXfb77
+ q8jg==
+X-Gm-Message-State: AOAM532uxfYV+IhtMsoy++nnELgSBUNbRcZYafqIw2xPR1eg09oC1Xe6
+ RyehjkhXraVUQ0N71GzIgxZFqliFcdeQIA==
+X-Google-Smtp-Source: ABdhPJw+Qjw+EbcRq4OhRIQPf+jxFgvfG+z9cVl+q+rI2wfuvvUyzFEGqZCX9W3C08s/8Hl4l/OElQ==
+X-Received: by 2002:adf:ed51:: with SMTP id u17mr21785802wro.416.1627984895545; 
+ Tue, 03 Aug 2021 03:01:35 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z6sm12793260wmp.1.2021.08.03.02.59.33
+ by smtp.gmail.com with ESMTPSA id p3sm1998042wmp.25.2021.08.03.03.01.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Aug 2021 02:59:33 -0700 (PDT)
-Subject: Re: [PATCH v2 02/55] hw/core: Make do_unaligned_access available to
- user-only
+ Tue, 03 Aug 2021 03:01:35 -0700 (PDT)
+Subject: Re: [PATCH v2 01/55] hw/core: Make do_unaligned_access noreturn
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-3-richard.henderson@linaro.org>
+ <20210803041443.55452-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9aed1ff5-a784-01a3-327b-4426f9098dc5@amsat.org>
-Date: Tue, 3 Aug 2021 11:59:32 +0200
+Message-ID: <44c12946-e1a9-55d4-3fa3-fb61b2644b8f@amsat.org>
+Date: Tue, 3 Aug 2021 12:01:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-3-richard.henderson@linaro.org>
+In-Reply-To: <20210803041443.55452-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,32 +93,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/3/21 6:13 AM, Richard Henderson wrote:
-> We shouldn't be ignoring SIGBUS for user-only.
-> 
-> Move our existing TCGCPUOps hook out from CONFIG_SOFTMMU.
-> Move the wrapper, cpu_unaligned_access, to cpu-exec-common.c.
+> While we may have had some thought of allowing system-mode
+> to return from this hook, we have no guests that require this.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  accel/tcg/internal.h          |  4 ++++
->  include/hw/core/tcg-cpu-ops.h | 16 ++++++++--------
->  accel/tcg/cpu-exec-common.c   | 12 ++++++++++++
->  accel/tcg/cputlb.c            |  9 ---------
->  4 files changed, 24 insertions(+), 17 deletions(-)
-> 
-> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-> index 881bc1ede0..a5e70cd91d 100644
-> --- a/accel/tcg/internal.h
-> +++ b/accel/tcg/internal.h
-> @@ -19,4 +19,8 @@ void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
->  void page_init(void);
->  void tb_htable_init(void);
+>  include/hw/core/tcg-cpu-ops.h  | 3 ++-
+>  target/alpha/cpu.h             | 4 ++--
+>  target/arm/internals.h         | 3 ++-
+>  target/microblaze/cpu.h        | 2 +-
+>  target/mips/tcg/tcg-internal.h | 4 ++--
+>  target/nios2/cpu.h             | 4 ++--
+>  target/ppc/internal.h          | 4 ++--
+>  target/riscv/cpu.h             | 2 +-
+>  target/s390x/s390x-internal.h  | 4 ++--
+>  target/sh4/cpu.h               | 4 ++--
+>  target/xtensa/cpu.h            | 4 ++--
+>  target/hppa/cpu.c              | 7 ++++---
+>  12 files changed, 24 insertions(+), 21 deletions(-)
+
+> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+> index 82df108967..6eb3fcc63e 100644
+> --- a/target/alpha/cpu.h
+> +++ b/target/alpha/cpu.h
+> @@ -283,8 +283,8 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                   MMUAccessType access_type,
+> -                                   int mmu_idx, uintptr_t retaddr);
+> +                                   MMUAccessType access_type, int mmu_idx,
+> +                                   uintptr_t retaddr) QEMU_NORETURN;
 >  
-> +void QEMU_NORETURN cpu_unaligned_access(CPUState *cpu, vaddr addr,
-> +                                        MMUAccessType access_type,
-> +                                        int mmu_idx, uintptr_t retaddr);
+>  #define cpu_list alpha_cpu_list
+>  #define cpu_signal_handler cpu_alpha_signal_handler
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index cd2ea8a388..3da9b1c61e 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -594,7 +594,8 @@ bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
+>  /* Raise a data fault alignment exception for the specified virtual address */
+>  void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+>                                   MMUAccessType access_type,
+> -                                 int mmu_idx, uintptr_t retaddr);
+> +                                 int mmu_idx, uintptr_t retaddr)
+> +    QEMU_NORETURN;
 
-Thanks for using noreturn :)
+This one ended misaligned, I'd align as:
 
+                                    QEMU_NORETURN;
+
+Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
