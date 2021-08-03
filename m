@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134293DF138
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:16:39 +0200 (CEST)
-Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD27B3DF140
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:18:58 +0200 (CEST)
+Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAw9m-0003br-3u
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
+	id 1mAwC1-0007ka-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAw7k-00025w-Up
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:14:32 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36725)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAw7r-0002Ls-O7
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:14:39 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAw7j-0001zN-EN
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:14:32 -0400
-Received: by mail-ej1-x633.google.com with SMTP id c25so201625ejb.3
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OTIq2qqI8Xj2rSyaw0pbbX1YejKINRD4MpWlN1JUrKs=;
- b=KV7xenceAMpl00q2nLRAJbuUARucLzdXkQnyJD8HZYqsVwM5QVkxbHTW8lETxekml2
- +Edl4JLuNw8bjYLUud0Gsn/GjZS82yfX/p57VaeIHb+DmwnMn6jbFBQHYcPg2BzZThBN
- LzXxnT/qyBDQewBeg5NkVl+jzQzi8NEAvrJpUHGD+OWSuGmasC+uUc76exUDtw2XQMGi
- O9JBTm83XnyzqY4xA1ZWRu4CzRKOSeEr/HlQD1I7yhGY/2zLVAuZSohsYGdn/lHXf69f
- APP/dT0tpgIbUAjCA5r3ovZio99IGdho44OBrOcMTLF1roSCuuxbkAJaczNUwWHVSuXN
- nvSA==
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1mAw7q-00024g-G5
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:14:39 -0400
+Received: by mail-wr1-x432.google.com with SMTP id z4so25728378wrv.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BXIENmP7JQGWwK8psbRlEY39IJrKh/OgVz/XYlLNos8=;
+ b=Md+ZHaXY2nY2zdDqulQtIyGa5b2x43ymvSLVhK1UlK5TeK7bhwb/qa+3146vNqlP/u
+ JmcvA6HsaV/UKHWWUHBI2a2FDWbWKHzdNrzsL1nWZqKtyG3tjrOP9JcuHxXVkanxa9RE
+ AERGhHuFQC9P3nvTMnu6Mg2E07anZGqNdca0I7yzfrOdjzxsN9nDLO90WBpRXFMWJXGs
+ LXAJuSYb9+4fCgPSh5VZnm2FgXBymYSJHaqP18fiFyxuIhxCTYhweGe9KVX1Eny7912h
+ 5tmJ/1kSXrsrbpV1IMAa3mOBXFz5diVq57FKmll895ojP7pGWbvVI8CT/JmABl6KWMgC
+ E5jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OTIq2qqI8Xj2rSyaw0pbbX1YejKINRD4MpWlN1JUrKs=;
- b=rt0aPdu0Gu+MNkiAOR1C46/ZrqI90AQ2ApUMMmosWarmDXkekweYrz86zI+b+kE/1U
- PxXzZEaMLjkH/m2zRuNFukfJa1aGuOQ7w/e14ZiLYZIbXIWLVnmmA8LE9LgKyVR1K6Vr
- iXknmZaKcU7aGI2de5rDyB7zioSU4BtSqYBzmjkyRaHSxIlKprVnv2hjrrLfQ4wga4I+
- awZ8x9RfuPLYHPGIhmy0304pdMPzvIp447jrS66QPmvbN5sq8A2a2zQrGW4anFovtE2x
- SQ1aNk43OVrR72Hx9NJeuUW/c12rwBd8j7BqtpocNMvTxRrRkcJkZM/kcyHyjK0uuZto
- 6B6A==
-X-Gm-Message-State: AOAM530n+N89RdGxrqIQuEkxxQEOfGR8aZQdCbZ5wizZJB9iaOTMGsts
- H+1fPVwxwtrTqfw5N72vDknkQ+X1zHUbn8jx+fvFPg==
-X-Google-Smtp-Source: ABdhPJx02561UlMrYDnluPeQ/VBlsIyHg8XbyYCuVmHZB02fdWHUWEZvTsD/+9V+uFnbFjbV3OwWtY4Bu9XovYppGME=
-X-Received: by 2002:a17:906:d93a:: with SMTP id
- rn26mr20685772ejb.382.1628003669932; 
- Tue, 03 Aug 2021 08:14:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BXIENmP7JQGWwK8psbRlEY39IJrKh/OgVz/XYlLNos8=;
+ b=fauIw38zrnaEFjSJQG5mgp9hj9zZUexNqPWKw9cZXOlQkFBHQCcXlDrQCaF0HnCvPx
+ ZsCsyGkJMsZW6FnyZ64zMt9WVSkIuzfXNj/VMz5abVk0J9fHmzWOUcbhPBxOEY3MRdLz
+ XOoo2OEwQH7PredOJ8t6QH9okuMQE9GgchIhEv8L73aT5fAcAP8zi6QENpShVelCD02M
+ iFSuoElBDx0LKr6iGIENQoYXnPy2FDwJProiAYlcgW1zJnlwF4RiXIPU3OAwFezRJv5C
+ HoKlSVxc4VjKsCGb3EJGsyIwOAtdy+2jji3ZhxOwZQoYRDU2OLRGvUhh6DSkZBinSA2o
+ wF0A==
+X-Gm-Message-State: AOAM5328CM1BTf5ziIS8IbuzWuWR1PDH7/GsoCDjquP1e9+qqyZ4/W+4
+ C2p65ugX2W2n7T2KT2ZDS2DaGt7wHy0=
+X-Google-Smtp-Source: ABdhPJxv+BVLpJfC6nEIzX+kZ7oQ04EVpLTTlzOVF/+QQ9MSnKZh5OjN/8ExPxxXqpradGM8envmAg==
+X-Received: by 2002:adf:e8d0:: with SMTP id k16mr23961953wrn.195.1628003676818; 
+ Tue, 03 Aug 2021 08:14:36 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.80.206])
+ by smtp.gmail.com with ESMTPSA id u11sm14732218wrr.44.2021.08.03.08.14.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Aug 2021 08:14:36 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] plugins/execlog: removed unintended "s" at the end of log
+ lines.
+Date: Tue,  3 Aug 2021 17:14:28 +0200
+Message-Id: <20210803151428.125323-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <005fe0a5-10cd-aa47-d649-0a296283a4eb@gmx.de>
-In-Reply-To: <005fe0a5-10cd-aa47-d649-0a296283a4eb@gmx.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Aug 2021 16:13:46 +0100
-Message-ID: <CAFEAcA_EmJ9R73RE_oMqoE7hvz1ALJdKhrWpOy7U6=74xXnzwQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] doc: Remove trailing spaces
-To: Axel Heider <axelheider@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,46 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Aug 2021 at 15:14, Axel Heider <axelheider@gmx.de> wrote:
->
-> Signed-off-by: Axel Heider <axelheider@gmx.de>
-> ---
->   qemu-options.hx | 30 +++++++++++++++---------------
->   1 file changed, 15 insertions(+), 15 deletions(-)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index e3f256fa72..ed91246114 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -244,15 +244,15 @@ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
->       QEMU_ARCH_ALL)
->   SRST
->   ``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
-> -  \
-> +  \
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ contrib/plugins/execlog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Something seems to have gone wrong in sending your patch here --
-the commit message claims it's deleting trailing spaces but the
-patch itself doesn't do that. Something in the email path deleted
-trailing spaces in the patch (I suspect the issue is the 'format=flowed'
-in your email).
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index 2de9f0d7d4..a5275dcc15 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -67,7 +67,7 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+     /* Print previous instruction in cache */
+     if (s->len) {
+         qemu_plugin_outs(s->str);
+-        qemu_plugin_outs("s\n");
++        qemu_plugin_outs("\n");
+     }
+ 
+     /* Store new instruction in cache */
+-- 
+2.25.1
 
-Also, did you check that the docs still build without warnings
-from a range of Sphinx versions and that the rendered HTML still
-looks the same ? These trailing spaces were largely added deliberately
-in commit 09ce5f2d6bd6739144, with the comment
-  * rST does not like definition list entries with no actual
-    definition, but it is possible to work around this by putting a
-    single escaped literal space as the definition line.
-
-so we should be careful not to delete them again unless we've
-confirmed that we definitely don't re-introduce the issue that
-we put them in to avoid...
-
-thanks
--- PMM
 
