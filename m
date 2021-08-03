@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6903DF4E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 20:42:14 +0200 (CEST)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C90C3DF4E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 20:43:47 +0200 (CEST)
+Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAzMj-0003re-GY
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 14:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53600)
+	id 1mAzOE-000759-5n
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 14:43:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBG-0004VD-42
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:30:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41668)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBI-0004Yd-8w
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:30:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBE-0006CA-Ak
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:30:21 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBF-0006Ct-No
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:30:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628015419;
+ s=mimecast20190719; t=1628015421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KQLIDwTTWWvpId6sOG7N570mCXM3zjETZmtkp9nuWMA=;
- b=NRcACrWbF0bfIfWvAFydKnPjhwjtPiP8N/cpkFgdsQV9pY6hPieaDVZj7KihRHU9NE3s55
- M5dOEI9PwETAfs3a9Gbzwnc9UkY9AZj9Yaf/DNBAZGtJ4RpErIE7+p7oiIDABswfgsiIAa
- TX/A93eYHO44pnynlh1W6wEzCg62qvM=
+ bh=TMZfJHQ/g1EhhEeIrPDUsTFf/sGlxyzbBNNesX8oOGI=;
+ b=LFbhmuGThVo2P8jejxjcoL5679HB3etdONgtpK2rWQPPj0dxxZBvvJN9XqwGzkzh9teb6x
+ nLKigDSU2rMfLjSsZr7b38GpE50mc+qhv5DN6cP8aCiOfhYTkD2yAVqaVSUuuoc/mYieYy
+ u82gIY6FrNFI0NaYHGTGYOYvlwWuJDI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-MRCAnIKINniSOnp-PhkJ1A-1; Tue, 03 Aug 2021 14:30:18 -0400
-X-MC-Unique: MRCAnIKINniSOnp-PhkJ1A-1
+ us-mta-19-6fyhcPPcO2uzIqDrNgSrRg-1; Tue, 03 Aug 2021 14:30:20 -0400
+X-MC-Unique: 6fyhcPPcO2uzIqDrNgSrRg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 930D3C7404;
- Tue,  3 Aug 2021 18:30:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2167107ACF5;
+ Tue,  3 Aug 2021 18:30:18 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 502FB781E8;
- Tue,  3 Aug 2021 18:30:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEACB7E46E;
+ Tue,  3 Aug 2021 18:30:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/25] python/aqmp: add _cb_inbound and _cb_outbound
- logging hooks
-Date: Tue,  3 Aug 2021 14:29:27 -0400
-Message-Id: <20210803182941.504537-12-jsnow@redhat.com>
+Subject: [PATCH v3 12/25] python/aqmp: add AsyncProtocol._readline() method
+Date: Tue,  3 Aug 2021 14:29:28 -0400
+Message-Id: <20210803182941.504537-13-jsnow@redhat.com>
 In-Reply-To: <20210803182941.504537-1-jsnow@redhat.com>
 References: <20210803182941.504537-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,107 +85,58 @@ Cc: Willian Rampazzo <wrampazz@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add hooks designed to log/filter incoming/outgoing messages. The primary
-intent for these is to be able to support iotests which may want to log
-messages with specific filters for reproducible output.
+This is added as a courtesy: many protocols are line-based, including
+QMP. Putting it in AsyncProtocol lets us keep the QMP class
+implementation just a pinch more abstract.
 
-Another use is for plugging into Urwid frameworks; all messages in/out
-can be automatically added to a rendering list for the purposes of a
-qmp-shell like tool.
+(And, if we decide to add a QTEST implementation later, it will need
+this, too. (Yes, I have a QTEST implementation.))
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 50 +++++++++++++++++++++++++++++++++---
- 1 file changed, 46 insertions(+), 4 deletions(-)
+ python/qemu/aqmp/protocol.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index 28f025928c0..86aede5d7af 100644
+index 86aede5d7af..066d52dccf4 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -177,6 +177,11 @@ class AsyncProtocol(Generic[T]):
-          can be written after the super() call.
-      - `_on_message`:
-          Actions to be performed when a message is received.
-+     - `_cb_outbound`:
-+         Logging/Filtering hook for all outbound messages.
-+     - `_cb_inbound`:
-+         Logging/Filtering hook for all inbound messages.
-+         This hook runs *before* `_on_message()`.
- 
-     :param name:
-         Name used for logging messages, if any. By default, messages
-@@ -752,6 +757,43 @@ async def _bh_recv_message(self) -> None:
-     # Section: Message I/O
-     # --------------------
+@@ -794,6 +794,35 @@ def _cb_inbound(self, msg: T) -> T:
+         self.logger.debug("<-- %s", str(msg))
+         return msg
  
 +    @upper_half
 +    @bottom_half
-+    def _cb_outbound(self, msg: T) -> T:
++    async def _readline(self) -> bytes:
 +        """
-+        Callback: outbound message hook.
++        Wait for a newline from the incoming reader.
 +
-+        This is intended for subclasses to be able to add arbitrary
-+        hooks to filter or manipulate outgoing messages. The base
-+        implementation does nothing but log the message without any
-+        manipulation of the message.
++        This method is provided as a convenience for upper-layer
++        protocols, as many are line-based.
 +
-+        :param msg: raw outbound message
-+        :return: final outbound message
++        This method *may* return a sequence of bytes without a trailing
++        newline if EOF occurs, but *some* bytes were received. In this
++        case, the next call will raise `EOFError`. It is assumed that
++        the layer 5 protocol will decide if there is anything meaningful
++        to be done with a partial message.
++
++        :raise OSError: For stream-related errors.
++        :raise EOFError:
++            If the reader stream is at EOF and there are no bytes to return.
++        :return: bytes, including the newline.
 +        """
-+        self.logger.debug("--> %s", str(msg))
-+        return msg
++        assert self._reader is not None
++        msg_bytes = await self._reader.readline()
 +
-+    @upper_half
-+    @bottom_half
-+    def _cb_inbound(self, msg: T) -> T:
-+        """
-+        Callback: inbound message hook.
++        if not msg_bytes:
++            if self._reader.at_eof():
++                raise EOFError
 +
-+        This is intended for subclasses to be able to add arbitrary
-+        hooks to filter or manipulate incoming messages. The base
-+        implementation does nothing but log the message without any
-+        manipulation of the message.
-+
-+        This method does not "handle" incoming messages; it is a filter.
-+        The actual "endpoint" for incoming messages is `_on_message()`.
-+
-+        :param msg: raw inbound message
-+        :return: processed inbound message
-+        """
-+        self.logger.debug("<-- %s", str(msg))
-+        return msg
++        return msg_bytes
 +
      @upper_half
      @bottom_half
      async def _do_recv(self) -> T:
-@@ -780,8 +822,8 @@ async def _recv(self) -> T:
- 
-         :return: A single (filtered, processed) protocol message.
-         """
--        # A forthcoming commit makes this method less trivial.
--        return await self._do_recv()
-+        message = await self._do_recv()
-+        return self._cb_inbound(message)
- 
-     @upper_half
-     @bottom_half
-@@ -811,7 +853,7 @@ async def _send(self, msg: T) -> None:
- 
-         :raise OSError: For problems with the underlying stream.
-         """
--        # A forthcoming commit makes this method less trivial.
-+        msg = self._cb_outbound(msg)
-         self._do_send(msg)
- 
-     @bottom_half
-@@ -826,6 +868,6 @@ async def _on_message(self, msg: T) -> None:
-             directly cause the loop to halt, so logic may be best-kept
-             to a minimum if at all possible.
- 
--        :param msg: The incoming message
-+        :param msg: The incoming message, already logged/filtered.
-         """
-         # Nothing to do in the abstract case.
 -- 
 2.31.1
 
