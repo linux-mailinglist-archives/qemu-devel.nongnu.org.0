@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6F93DEA39
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 12:02:45 +0200 (CEST)
-Received: from localhost ([::1]:59600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F293DEAB7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 12:17:39 +0200 (CEST)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mArG0-0004Kh-8t
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 06:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35078)
+	id 1mArUP-00007t-Ql
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 06:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mArEx-0003Bk-CC
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 06:01:39 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mArEv-0003GY-H3
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 06:01:38 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id l18so24648216wrv.5
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 03:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YGWQuHX9Uw7UYAKZa5yTm0SzNrdl1u6arGZRKyxjEHo=;
- b=cW9aOzayUG52nKa+u0iN85QUtS/7AHWXGcwwhVCQ1EKRQ+qcifWZa+ruzlaCxHzKRb
- eqPbMkJRo3J3RSX/OC9PQlWHYAdMVxcxAUYghh0Zft4AmauJeJM+3RataLFOmWI1y2Oj
- wSNZdl4Sn0hskstLj29fJufby7ZMF9clh9JSqxd709H5LX+M0dvLYfI3RWkryL95qZGZ
- qB69brgQJfceQ3IOj4mSNxeMbfQds/WSqA3VQjyt3+HXFcgsmtoNbHwJatMYrN+peiTT
- 9f/h0lbb0bTTXEyZ9TwDKwjZGIWF2zdQjb62SC8SNYl1NjQrk5+HfdrVGAKBiJR6L9lY
- JD2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YGWQuHX9Uw7UYAKZa5yTm0SzNrdl1u6arGZRKyxjEHo=;
- b=DV8qAfp28CsAtnXWbz9mpsuFeCnvvckhIQu62HzKsk5AcMve6bAEwCoLhRoQ6ffJuX
- +9ulh4USsuAXJpg11Gr5dByFiaWw8BIbJg6rPWCQGXDDy+11w/lzCg9Qbfha5tOOckPA
- WJS8xobV/dPDHcUxPSarDEfx2lQW4f3idCmP/Tmvw3Py+PhU97IQ4ASD4syo2TBvJ5z6
- Z1Y95At1XvF8KfmCe+LC5ljpY4OydrfRC0C//9UxTTElkleDNIj4s0+D1eSEnSYHX3pi
- zuoggOvD6StUkkjIIJjQF9COxMzFME8k8y8khH2xa7IxCEhK5EXhFuBEAEpIYZyXfb77
- q8jg==
-X-Gm-Message-State: AOAM532uxfYV+IhtMsoy++nnELgSBUNbRcZYafqIw2xPR1eg09oC1Xe6
- RyehjkhXraVUQ0N71GzIgxZFqliFcdeQIA==
-X-Google-Smtp-Source: ABdhPJw+Qjw+EbcRq4OhRIQPf+jxFgvfG+z9cVl+q+rI2wfuvvUyzFEGqZCX9W3C08s/8Hl4l/OElQ==
-X-Received: by 2002:adf:ed51:: with SMTP id u17mr21785802wro.416.1627984895545; 
- Tue, 03 Aug 2021 03:01:35 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id p3sm1998042wmp.25.2021.08.03.03.01.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Aug 2021 03:01:35 -0700 (PDT)
-Subject: Re: [PATCH v2 01/55] hw/core: Make do_unaligned_access noreturn
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <44c12946-e1a9-55d4-3fa3-fb61b2644b8f@amsat.org>
-Date: Tue, 3 Aug 2021 12:01:34 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mArTb-0007rI-Ur; Tue, 03 Aug 2021 06:16:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:40235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mArTa-0005Ff-2g; Tue, 03 Aug 2021 06:16:47 -0400
+Received: from [192.168.100.1] ([82.142.21.182]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MUokB-1mb5TG1a3V-00Qfzm; Tue, 03 Aug 2021 12:16:35 +0200
+Subject: Re: [PATCH v6 0/2] target/s390x: Fix SIGILL and SIGFPE psw.addr
+ reporting
+To: Cornelia Huck <cohuck@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+References: <20210705210434.45824-1-iii@linux.ibm.com>
+ <87pmuvymi0.fsf@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <c1c33e21-0e89-d2b6-8fc1-71fd34efa1e9@vivier.eu>
+Date: Tue, 3 Aug 2021 12:16:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-2-richard.henderson@linaro.org>
+In-Reply-To: <87pmuvymi0.fsf@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Provags-ID: V03:K1:dBo93dqsJ08bNzsao3k3ynr+tVaer5RvD6ZdM6PBTsqPhzU1toS
+ tJz8iFq6NJSiAfsRlNW3VpwY/214DEhmjiAJp9+QKk17gRkv2n87QANHkxT7In6iCa7ITku
+ MEM2OBATgdgwo9MVmaAiJ8IVz7tl1vKmfP6lOWXYILeIhoer+KStJwSrCa/bqyiZwBWq0Is
+ kqPsVCwyoiy+3km5i3VQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:av1gOKdhcmE=:i4XXF/u7Zm96tWBTbPs0aR
+ /Zkurt1LfZr8u9Tq6UPy8OGn0ovlzuNPVmuSVvFRsFa35ulcMichH32bfxG2wgVmxWKRBFjiz
+ lscHZDHvReu+ydan0bmeD4CDYXG6KUDqSeTflYCO6k/EkGgE+tbOD5a5vYxuhTHQD+z8Z657L
+ iK9KdbueYtoPcdgfUSc6lAu0rxLCZRYsCaLG4eWTMw/9okPMBDq7DuuCU10XlX8kKfXqzoptW
+ XlHkCAWqEkitSJYVLrbTIZlR9orRIKziIEM8XlgWoK4xM2ZrTjB40+r6sXI/F3N1b/DY2JgwU
+ nCp66y/4UPq3UwncFuUyOSU+6bKL8DuNpHC9NROGtTFIZJsbd2zNu40V+IcvYY6ZAvrJe4Bu0
+ rtJPzc4ACOT9pu3kmIS7fVaxDDzKrVfCFVsM/EdQRHxXcJu6uSww66EC8f86LSggPxXdvU4+a
+ I1hnc0MUxOTr1YjATuvqGrdR2ZbGvfFNM9TuOYN2FUilYunjJcEG7uAUw8OMVsX133puXLVVk
+ tw8zgb7MlkbMgqLil+MkDE7rNQdzUlicwn+7mf1ueJAyqyuFXYru5TpxbKg3SVa0w==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,60 +70,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/21 6:13 AM, Richard Henderson wrote:
-> While we may have had some thought of allowing system-mode
-> to return from this hook, we have no guests that require this.
+Le 03/08/2021 à 10:13, Cornelia Huck a écrit :
+> On Mon, Jul 05 2021, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/hw/core/tcg-cpu-ops.h  | 3 ++-
->  target/alpha/cpu.h             | 4 ++--
->  target/arm/internals.h         | 3 ++-
->  target/microblaze/cpu.h        | 2 +-
->  target/mips/tcg/tcg-internal.h | 4 ++--
->  target/nios2/cpu.h             | 4 ++--
->  target/ppc/internal.h          | 4 ++--
->  target/riscv/cpu.h             | 2 +-
->  target/s390x/s390x-internal.h  | 4 ++--
->  target/sh4/cpu.h               | 4 ++--
->  target/xtensa/cpu.h            | 4 ++--
->  target/hppa/cpu.c              | 7 ++++---
->  12 files changed, 24 insertions(+), 21 deletions(-)
+>> qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
+>> should be a pointer to the instruction following the illegal
+>> instruction, but at the moment it is a pointer to the illegal
+>> instruction itself. This breaks OpenJDK, which relies on this value.
+>> A similar problem exists for SIGFPE.
+>>
+>> Patch 1 fixes the issue, patch 2 adds a test.
+>>
+>> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
+>> v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
+>>           magic in the test and add an explanation (David).
+>>
+>> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
+>> v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
+>>           qemu-user).
+>>
+>> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg00299.html
+>> v3 -> v4: Fix compiling the test on Ubuntu 20.04 (Jonathan).
+>>
+>> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05848.html
+>> v4 -> v5: Greatly simplify the fix (Ulrich).
+>>
+>> v5: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06244.html
+>> v5 -> v6: Fix breakpoints (David). Add gdbstub test.
+>>
+>> Note: the compare-and-trap SIGFPE issue is being fixed separately.
+>> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05690.html
+>>
+>> Ilya Leoshkevich (2):
+>>   target/s390x: Fix SIGILL and SIGFPE psw.addr reporting
+>>   tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+>>
+>>  linux-user/s390x/cpu_loop.c                   |  12 +-
+>>  tests/tcg/s390x/Makefile.target               |  18 +-
+>>  tests/tcg/s390x/gdbstub/test-signals-s390x.py |  76 ++++++++
+>>  tests/tcg/s390x/signals-s390x.c               | 165 ++++++++++++++++++
+>>  4 files changed, 269 insertions(+), 2 deletions(-)
+>>  create mode 100644 tests/tcg/s390x/gdbstub/test-signals-s390x.py
+>>  create mode 100644 tests/tcg/s390x/signals-s390x.c
+> 
+> So, I'd like to see this merged, but I'm unsure on what we agreed -- I
+> thought this would go via linux-user. Do I misremember?
+> 
 
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index 82df108967..6eb3fcc63e 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -283,8 +283,8 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
->  void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-> -                                   MMUAccessType access_type,
-> -                                   int mmu_idx, uintptr_t retaddr);
-> +                                   MMUAccessType access_type, int mmu_idx,
-> +                                   uintptr_t retaddr) QEMU_NORETURN;
->  
->  #define cpu_list alpha_cpu_list
->  #define cpu_signal_handler cpu_alpha_signal_handler
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index cd2ea8a388..3da9b1c61e 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -594,7 +594,8 @@ bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
->  /* Raise a data fault alignment exception for the specified virtual address */
->  void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
->                                   MMUAccessType access_type,
-> -                                 int mmu_idx, uintptr_t retaddr);
-> +                                 int mmu_idx, uintptr_t retaddr)
-> +    QEMU_NORETURN;
+Please, take them via the s390x branch.
 
-This one ended misaligned, I'd align as:
-
-                                    QEMU_NORETURN;
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Thanks,
+Laurent
 
