@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1563DF334
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 18:52:09 +0200 (CEST)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332483DF3CE
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 19:19:01 +0200 (CEST)
+Received: from localhost ([::1]:52092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAxeC-0005zA-Mq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 12:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33202)
+	id 1mAy4B-0004mR-O3
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 13:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAxcL-00058p-NK
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 12:50:15 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mAxcK-0001y2-0g
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 12:50:13 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id go31so37247725ejc.6
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 09:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LdpxYlxYxgGIT9zabZPX7LrZutc5OPJHSAEMKmqjD6Y=;
- b=s+jak7iVCGMRGHJj8dTglFmU+36VaA5XNIbk202fVQlfrX52Quf+rj7OEKdIfAUmsa
- l6wyjAj5J3GGWSb+fkbVBGlYhbygnqv1FTiZ2VmdU0HypVB4tQd75vBrjsfba8VNV6mZ
- NR/Pi0EVJj9MwbsdnsMHZ/bwyE1U6zTDBqUWC07xrf7RdS2teBYJz0a12fF1ZruxNQDY
- I1nFnpAfw+jt2KfiNiu0DkLl8tNrTlIsYs6H2UmUv2zfyOwLuE63DY8BJkHFnXecDMV8
- g1f9HzcqHiwAAbRmayZyiysGe/Yoqoz8hEUStOuaI8xUmiv4iqSfu+eWPsWMYnSeGa/z
- HYJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LdpxYlxYxgGIT9zabZPX7LrZutc5OPJHSAEMKmqjD6Y=;
- b=KnmJtBcsN7/c8yce3dHcIZhC+BGPiOYbQvKJlIYG7dm16KmGxZMOm118NEzkNDTfIr
- IwJUzSYjSaW892flzzaxGalL9xh+SvH0AvMVHgRlrRXYSJxUkvp1LkUrLQRyXE8CvGL+
- 4jxv13LQzUtqOZxopIjn+1wBK8IQlA7PaVIvWs+EmXEO6ByALnLCos4mNNZ3p+Z12UUw
- 2LwFPYyS3Jq44QvfLM3oJ/5JaltJYBTVJL14/fMTYcIdUM1l0719hkftmJP7bez5BEKw
- Pl4mUbG+ryzckVYE2vAyF5myBfc7upgQO6yJSFKiJmwjFDuCA0+OzLWG/TneXkVyMGKn
- NfpA==
-X-Gm-Message-State: AOAM5315KTN51P7UZWmhXupPVelEx8RtO4JS+PwTXWUHLBhZjmaP3orw
- GtIHLoFk2hxnen1zf3d+21ppES3Uaef1qCDlHNgwXQ==
-X-Google-Smtp-Source: ABdhPJxhmfTf5IqptmBoL9qHWrY3EEl9qwbsABJ503eYbPUZ8wSl/ipxNAOtVBui+zSKdOQCyi059OPwnQufyY03tJM=
-X-Received: by 2002:a17:907:364:: with SMTP id
- rs4mr21947561ejb.56.1628009410414; 
- Tue, 03 Aug 2021 09:50:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mAy3B-0003yJ-HT
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 13:17:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mAy38-0004di-LY
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 13:17:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628011073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ooo5gkTK52crXEspwGEuVYUXFgAGDz22OzeO8FqXOhI=;
+ b=NzSyVQbII9RLEuxLZZHuXXjXU+G7zHWq1ECdST08S/TPq4mJNzG3LOGfHEa7CssSO5MkFg
+ zWNt1wMkVHwG4B8HXvNahSQNGAfLZs+GCz1bC52tkOyVvXYgrcVZJkJkOhmahczpWSt5c0
+ Ej6eIvGYiDY4f0y3vKpPNQ9w5nqIr8E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-vUd8SiD6OniefrMLFQ29Fw-1; Tue, 03 Aug 2021 13:17:51 -0400
+X-MC-Unique: vUd8SiD6OniefrMLFQ29Fw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5FEA801AEB;
+ Tue,  3 Aug 2021 17:17:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1D5B5E26A;
+ Tue,  3 Aug 2021 17:17:48 +0000 (UTC)
+Date: Tue, 3 Aug 2021 19:17:47 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: Failing iotest 206
+Message-ID: <YQl6O8z0LIOXHzlV@redhat.com>
+References: <87d526f8-53bc-c196-6d5c-72b78a49518b@redhat.com>
+ <20210720011151.l66z3q5hfc7urcfv@redhat.com>
+ <YPaKMLGBINB+uSXz@redhat.com>
 MIME-Version: 1.0
-References: <20210803132450.1093602-1-michael.roth@amd.com>
-In-Reply-To: <20210803132450.1093602-1-michael.roth@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Aug 2021 17:49:27 +0100
-Message-ID: <CAFEAcA-vUT-st1xKK-CY+Tt2_ErmdXYh7EOBiX1Fr1cYO+DVjw@mail.gmail.com>
-Subject: Re: [PULL for-6.1 0/6] qemu-ga patch queue for hard-freeze
-To: Michael Roth <michael.roth@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YPaKMLGBINB+uSXz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,46 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Aug 2021 at 14:26, Michael Roth <michael.roth@amd.com> wrote:
->
-> Hi Peter,
->
-> Sorry for the late submission. These patches affect only the w32 build of
-> qemu-ga. A number of these patches I've had queued for some time, but a bug
-> in the MSI installer that was just fixed was blocking testing. Now that that
-> is working again I am hoping to get these in along with a couple of other
-> fixes that have come in since then.
->
-> The following changes since commit 7f1cab9c628a798ae2607940993771e6300e9e00:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-08-02 17:21:50 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/mdroth/qemu.git tags/qga-pull-2021-08-03-pull-tag
->
-> for you to fetch changes up to e300858ed4a6d0cbd52b7fb5082d3c69cc371965:
->
->   qga-win/msi: fix missing libstdc++-6 DLL in MSI installer (2021-08-03 07:01:36 -0500)
->
-> ----------------------------------------------------------------
-> qemu-ga patch queue for hard-freeze
->
-> * w32: Fix missing/incorrect DLLs in MSI installer
-> * w32: Fix memory leaks in guest-get-osinfo/guest-get-fsinfo
-> * w32: Increase timeout for guest-fsfreeze-freeze
->
-> ----------------------------------------------------------------
+Am 20.07.2021 um 10:32 hat Daniel P. Berrangé geschrieben:
+> On Mon, Jul 19, 2021 at 08:12:58PM -0500, Eric Blake wrote:
+> > On Mon, Jul 19, 2021 at 10:06:01AM +0200, Thomas Huth wrote:
+> > >  Hi,
+> > > 
+> > > iotest 206 fails for me with:
+> > > 
+> > 
+> > > --- 206.out
+> > > +++ 206.out.bad
+> > > @@ -99,55 +99,19 @@
+> > > 
+> > >  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options":
+> > > {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", "cipher-mode":
+> > > "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg":
+> > > "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file":
+> > > {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+> > >  {"return": {}}
+> > > +Job failed: Unsupported cipher algorithm twofish-128 with ctr mode
+> > >  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> > >  {"return": {}}
+> > 
+> > > 
+> > > Looks like it is missing a check for the availability of the corresponding
+> > > crypto stuff? Does anybody got a clue how to fix this?
+> > 
+> > What system is this on? Which crypto library versions are installed?
+> > I suspect this is related to Dan's effort to speed up crypto by
+> > favoring gnutls over nettle, where the switch in favored libraries
+> > failed to account for whether twofish-128 is supported?
+> > 
+> > https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg03886.html
+> 
+> Yes, the gnutls provider doesn't support twofish. This doesn't matter
+> in real world usage because no one is seriously going to ask for twofish
+> instead of AES for luks encryption.
+> 
+> I guess that test suite was simply trying to ask for some non-default
+> values though.
 
+Do we already have a patch somewhere that makes it use a different
+value? Or if not, which value would be most likely to work everywhere?
 
-Applied, thanks.
+Kevin
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
 
