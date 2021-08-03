@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E53DE4F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:16:56 +0200 (CEST)
-Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3AF3DE4F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:16:54 +0200 (CEST)
+Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAlrK-0005Re-UV
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56454)
+	id 1mAlrJ-0005LQ-3a
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAlpK-0002OH-TZ
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:14:50 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:45685)
+ id 1mAlpL-0002OP-BQ
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:14:51 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:41683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAlpJ-0001xd-2j
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:14:50 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- m10-20020a17090a34cab0290176b52c60ddso2973223pjf.4
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:14:48 -0700 (PDT)
+ id 1mAlpJ-0001yK-Ii
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:14:51 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ q17-20020a17090a2e11b02901757deaf2c8so3039144pjd.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Cr9bG5R2wXMBJxA3dnzKH0WkF2sqLYLABDiIamHX2hQ=;
- b=pLo+v3/YJhxQEX/wbqX071PV4GspvxB8JxGVsGZnbS+iqVvdJ6SYqNvOVOd3RNdtFn
- GwZN8QKSfAKsyuRKneFIj5G6g9+7KYy/piACOUftX/H/qBM7D+TlvwQWu2CDubEgKP4/
- xvFBNNNBrZYU9SUA+JKd2mZIMntfbo16yEiFxdVRFaofSpItFWBmoKQhnruEIVxzAoS4
- GURIaXBVOBnzgBLchgE2SwXDMO90n1Gd0y5s3xTuKMe9C5G0hlWZeMNTyqWp2twNH+iD
- E2qlvWLdqGy4SAn+pegIz0REpwKmFXy84/8PHv8CuakT4lOl1M3oTp0RDplfcrkOP3v9
- mzag==
+ bh=GtaQj9QfmURnELbbHbrbfY1ywWXKj/RVJuZ95M6bRY0=;
+ b=STCxblRfVGTpS/32qFLcKO3sKZnfDVgpgDf01GqBgptLSvGOKSyTgRfxjwDJE0J1Ot
+ zVGSgkjLBhF8oYDdAE0dAH/wdxboMzrNzVaBmVrnzAgVG/C5VoOFM3dDoV7FJTnFRDsS
+ dPOUtaqQ1Vt7Sdeg9bSf0Pl1GVt582Lxe/bVcZx68dr4wA2fUgZ21dnXUU25fg1Wd+UW
+ wF0w6xHVGAr53MrguUbe8wPSmVVPpVoe+58F9X+wZA8Drygbtl9Llto96Oau2QR9YH3z
+ TeacgumBByI6FhiIlzTiX/QOk84OT/ebabe3JhwoPpimtDVhllJPzf1guG1WvRJanRs+
+ nLxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cr9bG5R2wXMBJxA3dnzKH0WkF2sqLYLABDiIamHX2hQ=;
- b=ug+3CYZ6untzt+He3qFW4AzqueD+UJQ4YaaRRl8bdDBatQe4W+xTPkG9ISKL3RWEeN
- y6lD55wVGhJ9qztwYl6VYFfiSM/GJ1EiW7TTINp9+7BE3g2MbCanW5ohl4T443DWkvRw
- i4qtqHdzwc1hblaAcW71KMKvnipekPxTkfo646teJDGNsOLxzjJwWsSblvQ4JmrTwFSx
- 5rTlQUKDNrdqZ0PXgVaob0GVVUuJ1GQ7o8uVjNCWpyVvaAI5snelZEnpJwBOh7597Jqn
- MvLncO8Yug9T+C+1emQomyG9GefaCF6+rr5+7GpJyzdZp2B2D0B7nmfTP68zfuwiNfnH
- u8SQ==
-X-Gm-Message-State: AOAM530d7cS4PL9i5WzmrsjciJJ+KWh9xvhS9sMeVTfwyfmOsMd3ZTxk
- Ld94C1nL0ZhY3mI42+EMFPrflxm+B2FWyQ==
-X-Google-Smtp-Source: ABdhPJwRHTxDM5MReOvF+96CZJAa0zgfqTXNsDcDDwcNvTjqn61LkrxSCf3LYO/f2QEFDAtZxtO9Yg==
-X-Received: by 2002:a17:90a:cb12:: with SMTP id
- z18mr20782330pjt.84.1627964087501; 
- Mon, 02 Aug 2021 21:14:47 -0700 (PDT)
+ bh=GtaQj9QfmURnELbbHbrbfY1ywWXKj/RVJuZ95M6bRY0=;
+ b=KhT7iHgHPBddy/gnXcq3uLW+VmdSQpWE1pfsb01eK1Q/8/DeGknVFoaG0C0+ikLaLg
+ FFXTGrUUl8/vYqSlNaWAx+uh+RdOUm1dpWX1ho/lZt5UpTeQfjOfKxSvf0hmXGaYqqTv
+ 6bB0NGiEJnrk5lsqObkvsB0o1d2sSqSI38+96izn9J/l/TTQNHqMgzRi9Q75t4JQHkLl
+ oghos5aCz9/USMBolsdEji94H99XLuEgq5Kz7yvsfkftbqns2QfcDCDI81pQmdsXlugZ
+ 6FzdOR6fsaxL2hMjyZpx0fCb13tYjgyMKEtYHPuNgTzw9SAg11g8CfIm+Dje5KaNcHNj
+ 3JbQ==
+X-Gm-Message-State: AOAM533IMkuAUtx2hzpvGpe0ZgwMfyb8Ef7T+5uXN4n+ZTD8YKwbCgp1
+ ZnLD8SNGbfl1dfb6b5nNv1vA6E34j3gyrA==
+X-Google-Smtp-Source: ABdhPJygOpjvmJ6fNkMqm6HZfHtL+Ua+QkjskDgRlIAWRI7tRPNpA/SrPP4gdq6ZnMq0pl6kWRt7OA==
+X-Received: by 2002:a63:5119:: with SMTP id f25mr802986pgb.271.1627964088417; 
+ Mon, 02 Aug 2021 21:14:48 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id c23sm13718532pfn.140.2021.08.02.21.14.46
+ by smtp.gmail.com with ESMTPSA id c23sm13718532pfn.140.2021.08.02.21.14.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 21:14:47 -0700 (PDT)
+ Mon, 02 Aug 2021 21:14:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/55] hw/core: Make do_unaligned_access noreturn
-Date: Mon,  2 Aug 2021 18:13:49 -1000
-Message-Id: <20210803041443.55452-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/55] hw/core: Make do_unaligned_access available to
+ user-only
+Date: Mon,  2 Aug 2021 18:13:50 -1000
+Message-Id: <20210803041443.55452-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210803041443.55452-1-richard.henderson@linaro.org>
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,205 +89,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we may have had some thought of allowing system-mode
-to return from this hook, we have no guests that require this.
+We shouldn't be ignoring SIGBUS for user-only.
+
+Move our existing TCGCPUOps hook out from CONFIG_SOFTMMU.
+Move the wrapper, cpu_unaligned_access, to cpu-exec-common.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h  | 3 ++-
- target/alpha/cpu.h             | 4 ++--
- target/arm/internals.h         | 3 ++-
- target/microblaze/cpu.h        | 2 +-
- target/mips/tcg/tcg-internal.h | 4 ++--
- target/nios2/cpu.h             | 4 ++--
- target/ppc/internal.h          | 4 ++--
- target/riscv/cpu.h             | 2 +-
- target/s390x/s390x-internal.h  | 4 ++--
- target/sh4/cpu.h               | 4 ++--
- target/xtensa/cpu.h            | 4 ++--
- target/hppa/cpu.c              | 7 ++++---
- 12 files changed, 24 insertions(+), 21 deletions(-)
+ accel/tcg/internal.h          |  4 ++++
+ include/hw/core/tcg-cpu-ops.h | 16 ++++++++--------
+ accel/tcg/cpu-exec-common.c   | 12 ++++++++++++
+ accel/tcg/cputlb.c            |  9 ---------
+ 4 files changed, 24 insertions(+), 17 deletions(-)
 
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 881bc1ede0..a5e70cd91d 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -19,4 +19,8 @@ void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+ void page_init(void);
+ void tb_htable_init(void);
+ 
++void QEMU_NORETURN cpu_unaligned_access(CPUState *cpu, vaddr addr,
++                                        MMUAccessType access_type,
++                                        int mmu_idx, uintptr_t retaddr);
++
+ #endif /* ACCEL_TCG_INTERNAL_H */
 diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index eab27d0c03..ee0795def4 100644
+index ee0795def4..3753af03d8 100644
 --- a/include/hw/core/tcg-cpu-ops.h
 +++ b/include/hw/core/tcg-cpu-ops.h
-@@ -72,10 +72,11 @@ struct TCGCPUOps {
-                                   MemTxResult response, uintptr_t retaddr);
-     /**
-      * @do_unaligned_access: Callback for unaligned access handling
-+     * The callback must exit via raising an exception.
-      */
-     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
-                                 MMUAccessType access_type,
--                                int mmu_idx, uintptr_t retaddr);
-+                                int mmu_idx, uintptr_t retaddr) QEMU_NORETURN;
+@@ -60,6 +60,14 @@ struct TCGCPUOps {
+     /** @debug_excp_handler: Callback for handling debug exceptions */
+     void (*debug_excp_handler)(CPUState *cpu);
  
++    /**
++     * @do_unaligned_access: Callback for unaligned access handling
++     * The callback must exit via raising an exception.
++     */
++    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
++                                MMUAccessType access_type,
++                                int mmu_idx, uintptr_t retaddr) QEMU_NORETURN;
++
+ #ifdef NEED_CPU_H
+ #ifdef CONFIG_SOFTMMU
+     /**
+@@ -70,14 +78,6 @@ struct TCGCPUOps {
+                                   unsigned size, MMUAccessType access_type,
+                                   int mmu_idx, MemTxAttrs attrs,
+                                   MemTxResult response, uintptr_t retaddr);
+-    /**
+-     * @do_unaligned_access: Callback for unaligned access handling
+-     * The callback must exit via raising an exception.
+-     */
+-    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+-                                MMUAccessType access_type,
+-                                int mmu_idx, uintptr_t retaddr) QEMU_NORETURN;
+-
      /**
       * @adjust_watchpoint_address: hack for cpu_check_watchpoint used by ARM
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index 82df108967..6eb3fcc63e 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -283,8 +283,8 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                   MMUAccessType access_type,
--                                   int mmu_idx, uintptr_t retaddr);
-+                                   MMUAccessType access_type, int mmu_idx,
-+                                   uintptr_t retaddr) QEMU_NORETURN;
+      */
+diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
+index be6fe45aa5..eeff20a347 100644
+--- a/accel/tcg/cpu-exec-common.c
++++ b/accel/tcg/cpu-exec-common.c
+@@ -21,6 +21,8 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/tcg.h"
+ #include "exec/exec-all.h"
++#include "hw/core/tcg-cpu-ops.h"
++#include "internal.h"
  
- #define cpu_list alpha_cpu_list
- #define cpu_signal_handler cpu_alpha_signal_handler
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index cd2ea8a388..3da9b1c61e 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -594,7 +594,8 @@ bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
- /* Raise a data fault alignment exception for the specified virtual address */
- void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                  MMUAccessType access_type,
--                                 int mmu_idx, uintptr_t retaddr);
-+                                 int mmu_idx, uintptr_t retaddr)
-+    QEMU_NORETURN;
+ bool tcg_allowed;
  
- /* arm_cpu_do_transaction_failed: handle a memory system error response
-  * (eg "no device/memory present at address") by raising an external abort
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index e4bba8a755..620c3742e1 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -359,7 +359,7 @@ void mb_cpu_do_interrupt(CPUState *cs);
- bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
- void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                 MMUAccessType access_type,
--                                int mmu_idx, uintptr_t retaddr);
-+                                int mmu_idx, uintptr_t retaddr) QEMU_NORETURN;
- void mb_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index 81b14eb219..7ac1e578d1 100644
---- a/target/mips/tcg/tcg-internal.h
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -24,8 +24,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
- void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                  MMUAccessType access_type,
--                                  int mmu_idx, uintptr_t retaddr);
-+                                  MMUAccessType access_type, int mmu_idx,
-+                                  uintptr_t retaddr) QEMU_NORETURN;
- 
- const char *mips_exception_name(int32_t exception);
- 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 2ab82fdc71..27227b1e88 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -198,8 +198,8 @@ void dump_mmu(CPUNios2State *env);
- void nios2_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr nios2_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- void nios2_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                   MMUAccessType access_type,
--                                   int mmu_idx, uintptr_t retaddr);
-+                                   MMUAccessType access_type, int mmu_idx,
-+                                   uintptr_t retaddr) QEMU_NORETURN;
- 
- void do_nios2_semihosting(CPUNios2State *env);
- 
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index f1fd3c8d04..d2163bf5a2 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -213,8 +213,8 @@ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
- 
- /* Raise a data fault alignment exception for the specified virtual address */
- void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
--                                 MMUAccessType access_type,
--                                 int mmu_idx, uintptr_t retaddr);
-+                                 MMUAccessType access_type, int mmu_idx,
-+                                 uintptr_t retaddr) QEMU_NORETURN;
- 
- /* translate.c */
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index bf1c899c00..a5b0047bfd 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -345,7 +345,7 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
- hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                     MMUAccessType access_type, int mmu_idx,
--                                    uintptr_t retaddr);
-+                                    uintptr_t retaddr) QEMU_NORETURN;
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
-index 5506f185e8..96133ac2b6 100644
---- a/target/s390x/s390x-internal.h
-+++ b/target/s390x/s390x-internal.h
-@@ -274,8 +274,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
- void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
--                                   MMUAccessType access_type,
--                                   int mmu_idx, uintptr_t retaddr);
-+                                   MMUAccessType access_type, int mmu_idx,
-+                                   uintptr_t retaddr) QEMU_NORETURN;
- 
- 
- /* fpu_helper.c */
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index 01c4344082..a9191951f8 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -211,8 +211,8 @@ hwaddr superh_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int superh_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int superh_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                    MMUAccessType access_type,
--                                    int mmu_idx, uintptr_t retaddr);
-+                                    MMUAccessType access_type, int mmu_idx,
-+                                    uintptr_t retaddr) QEMU_NORETURN;
- 
- void sh4_translate_init(void);
- int cpu_sh4_signal_handler(int host_signum, void *pinfo,
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 2345cb59c7..aa9c77d719 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -579,8 +579,8 @@ void xtensa_count_regs(const XtensaConfig *config,
- int xtensa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int xtensa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                    MMUAccessType access_type,
--                                    int mmu_idx, uintptr_t retaddr);
-+                                    MMUAccessType access_type, int mmu_idx,
-+                                    uintptr_t retaddr) QEMU_NORETURN;
- 
- #define cpu_signal_handler cpu_xtensa_signal_handler
- #define cpu_list xtensa_cpu_list
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 2eace4ee12..c2c56e7635 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -72,9 +72,10 @@ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
+@@ -81,3 +83,13 @@ void cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc)
+     cpu->exception_index = EXCP_ATOMIC;
+     cpu_loop_exit_restore(cpu, pc);
+ }
++
++void cpu_unaligned_access(CPUState *cpu, vaddr addr,
++                          MMUAccessType access_type,
++                          int mmu_idx, uintptr_t retaddr)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    assert(cc->tcg_ops->do_unaligned_access != NULL);
++    cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
++}
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b1e5471f94..116b289907 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1306,15 +1306,6 @@ static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
+     assert(ok);
  }
  
- #ifndef CONFIG_USER_ONLY
--static void hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
--                                         MMUAccessType access_type,
--                                         int mmu_idx, uintptr_t retaddr)
-+static void QEMU_NORETURN
-+hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-+                             MMUAccessType access_type, int mmu_idx,
-+                             uintptr_t retaddr)
- {
-     HPPACPU *cpu = HPPA_CPU(cs);
-     CPUHPPAState *env = &cpu->env;
+-static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+-                                        MMUAccessType access_type,
+-                                        int mmu_idx, uintptr_t retaddr)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-
+-    cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
+-}
+-
+ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+                                           vaddr addr, unsigned size,
+                                           MMUAccessType access_type,
 -- 
 2.25.1
 
