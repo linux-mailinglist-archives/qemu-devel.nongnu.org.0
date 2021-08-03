@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307F63DF1CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:51:55 +0200 (CEST)
-Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FC53DF1D3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:52:57 +0200 (CEST)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAwht-0005d8-Og
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
+	id 1mAwiu-0007ZQ-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAwh1-0004u3-GN
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:50:59 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40868)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mAwhn-00065h-Eb
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:51:47 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAwgz-0002eh-Om
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:50:59 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id p5so25850311wro.7
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:50:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mAwhl-0003HI-Vc
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:51:47 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id f13so29514622edq.13
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CJIJLU/zjOzJ/qXejskdqZL5g6zRQGnp7lEVLUDl21o=;
- b=BKLMtuhxAcsOQB7WXkKD1t/IWp3h8fC1SsCKF7dci0+x8tH43ql4yUp/BHHimiGRTI
- XMCghtm84u6ZGimsBLl05MQ4yp9Z35tGgOR1d9/VolWbYXi+wKzLHm5o7CiIgK56bqKK
- 7f4+VLB6Wgi8+d8C/L17acIiZWxdobZjCpTsRBhGKML0bvILnq466xssbeMzwFQ3NjzM
- JHUgDQ2dhY1/bcVAQaic6DvQqEgkj11Hhwafpaev8UHdNhiqtVpT1FNN6RY8aTbzTjrn
- 5xXxXSFGJ2ruhNhk2pi3KrblBaCsqF2D81p7E8kIvfFgxQodQ6chSe8Z+a/6oOBIlVhl
- qJTw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uFas8CLsfGwRDis4s/golF+Rg+7pAjiZxUpuBIETY/4=;
+ b=FtOISgG56KH9jJ+yWhJFDwIG4ckNf30iv7CDmSmkT5qETeRohWCEs40naPcQ0o1DUV
+ RVSwNRfobW6wDh8xtRmrFFod8m4kHCKtdsxtQ/Rwur1T+I8sNsIR1F+I02CBCWCXhadk
+ CfvB94mFmDEhkxUTYZcewe2eaYC4xm6z8qip+hkYH/nUI/QhpVr2iQaBx9KBHEFo3nMs
+ pcEvGJzm3+ZtHgi8bW6zB/xBUloYAabokjsTGMv3K45912MDWPO17YS1uE/uKzp0wkuC
+ /nob4Atr/qRFjHdjM4oNX/IcNau3jY4kXEku/Lg9rlp+sweIMWOV60Iidc3vRHrOfpr+
+ Azig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CJIJLU/zjOzJ/qXejskdqZL5g6zRQGnp7lEVLUDl21o=;
- b=pJn3cyoM+sAEzjM0u2zxkEycs0F7Lc6gDknyfTUbfJ/HAyf8jcE3Vbsp3qnfa7WWxn
- KVhlDkQtRPNe30SrvNMynAQhSlGyVyRrO4mtAOXPPHYeJPwh90Otp2CBE70anHoLHF/W
- USriCP+vgVQTmXU8XC3tMqSuS++dYDT6j/2Et2oo6dHv1CmOPiyHb9gtyiOZYOey8phG
- vgxbeetwLmZUTHQ7ODeN6a4aI+i2iq67Ph41z0hkjgTwa5m0fEAHRNMHwtpWpfG7cXfF
- nF8isp5CVREvLJ0Ea5qgqQlw3amSjU+XaUjNW6n0g1bkZdoXXQO9GvbPbCvLX47Jhje5
- SQKg==
-X-Gm-Message-State: AOAM531BRor/KXP7b7Qypli6y5AdYeoRf5lzhEs17GNrNAe0tU2ZV/a1
- pcZ/H37PwBV79hnhcvex/gGqVg==
-X-Google-Smtp-Source: ABdhPJyePds33Ph+H4YxBmbaUORxXCicGffbBM9rh8gda47N4gkYA8OO5Gijj8k7nYzlO1jPPs9M6A==
-X-Received: by 2002:adf:f383:: with SMTP id m3mr23213356wro.81.1628005855589; 
- Tue, 03 Aug 2021 08:50:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p22sm13449383wma.10.2021.08.03.08.50.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 08:50:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A0021FF96;
- Tue,  3 Aug 2021 16:50:54 +0100 (BST)
-References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 01/55] hw/core: Make do_unaligned_access noreturn
-Date: Tue, 03 Aug 2021 16:47:58 +0100
-In-reply-to: <20210803041443.55452-2-richard.henderson@linaro.org>
-Message-ID: <87r1fafrxd.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uFas8CLsfGwRDis4s/golF+Rg+7pAjiZxUpuBIETY/4=;
+ b=cNt1DMjZgb0N2oRbslsEPGhHlWDu17GZQ547mUZE55GlZWSPT6pY46FOuliFdVHeu6
+ /q95ViphGd41wdQ68Iwhfvufx4TPC9J7+jz8Gt+/lYVGSfjqBms/ZTdSvnfyOHhkz7ew
+ 9387F5JQqqphuoyYXLgqhGT7zaOftSHTf5rIywGkk5YoWCjGqmWY+VLEXDd99V1nn5M3
+ ADRjGrez/eX41ZimKJvAkB4/EuL2kklPFkr4OfPUuk41OBFxjxaygeYRvBJFMH9LWUKg
+ FW+41rcjPB9JM/pnIjbWB6qAQixH8sb6oKrEJk3ivvatX35zwVJVY+y2Jwhi3EO7sX7D
+ TBEA==
+X-Gm-Message-State: AOAM531xcioefn2QDtvJNDx1MxQ7aRzWwhDVok/+MFoMp+ovqW4Ak6/w
+ ReaZL7R1YhCGK4CWNxbz6L46bmEvYJg4RoN6whZAHQ==
+X-Google-Smtp-Source: ABdhPJxFGYqFdj8Jgodu5ThcUyBmGA6qCMC8Xsf4sddXwuAmMpaA58xNizOkDiF+KakMT/4iH2PxY6Gp6FXWsUwYDmQ=
+X-Received: by 2002:a05:6402:2789:: with SMTP id
+ b9mr15015906ede.44.1628005904306; 
+ Tue, 03 Aug 2021 08:51:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+References: <005fe0a5-10cd-aa47-d649-0a296283a4eb@gmx.de>
+ <CAFEAcA_EmJ9R73RE_oMqoE7hvz1ALJdKhrWpOy7U6=74xXnzwQ@mail.gmail.com>
+ <4635c699-d733-3673-9f14-9d05e6193e14@gmx.de>
+In-Reply-To: <4635c699-d733-3673-9f14-9d05e6193e14@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Aug 2021 16:51:01 +0100
+Message-ID: <CAFEAcA9K+OodUL0i5vHwEjDa6O8S6kyVrD0r4goRL0mj2kU8rA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] doc: Remove trailing spaces
+To: Axel Heider <axelheider@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,79 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 3 Aug 2021 at 16:24, Axel Heider <axelheider@gmx.de> wrote:
+> Then please drop the patch 2/2 for now and just keep 1/2. I will run
+> more tests about this and see if I can find a way to avoid the need
+> for having traling spaces in the file. They are a bit dangerous as
+> most editors are set up to remove them, whch creates annoying changes
+> all the time then.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+You should configure your editor not to delete trailing spaces
+or otherwise make whole-file changes like that. Otherwise
+you'll constantly be making changes you didn't intend...
 
-> While we may have had some thought of allowing system-mode
-> to return from this hook, we have no guests that require this.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/hw/core/tcg-cpu-ops.h  | 3 ++-
->  target/alpha/cpu.h             | 4 ++--
->  target/arm/internals.h         | 3 ++-
->  target/microblaze/cpu.h        | 2 +-
->  target/mips/tcg/tcg-internal.h | 4 ++--
->  target/nios2/cpu.h             | 4 ++--
->  target/ppc/internal.h          | 4 ++--
->  target/riscv/cpu.h             | 2 +-
->  target/s390x/s390x-internal.h  | 4 ++--
->  target/sh4/cpu.h               | 4 ++--
->  target/xtensa/cpu.h            | 4 ++--
->  target/hppa/cpu.c              | 7 ++++---
->  12 files changed, 24 insertions(+), 21 deletions(-)
->
-> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-> index eab27d0c03..ee0795def4 100644
-> --- a/include/hw/core/tcg-cpu-ops.h
-> +++ b/include/hw/core/tcg-cpu-ops.h
-> @@ -72,10 +72,11 @@ struct TCGCPUOps {
->                                    MemTxResult response, uintptr_t retadd=
-r);
->      /**
->       * @do_unaligned_access: Callback for unaligned access handling
-> +     * The callback must exit via raising an exception.
->       */
->      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
->                                  MMUAccessType access_type,
-> -                                int mmu_idx, uintptr_t retaddr);
-> +                                int mmu_idx, uintptr_t retaddr) QEMU_NOR=
-ETURN;
->=20=20
->      /**
->       * @adjust_watchpoint_address: hack for cpu_check_watchpoint used by=
- ARM
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index 82df108967..6eb3fcc63e 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -283,8 +283,8 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, v=
-addr addr);
->  int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
->  void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-> -                                   MMUAccessType access_type,
-> -                                   int mmu_idx, uintptr_t retaddr);
-> +                                   MMUAccessType access_type, int mmu_id=
-x,
-> +                                   uintptr_t retaddr) QEMU_NORETURN;
+I agree that if we can avoid the trailing spaces that would be
+the best thing -- they're a pretty ugly and fragile workaround
+for a rST awkwardness.
 
-These trailing QEMU_NORETURN's seem to be fairly uncommon in the
-existing code. Indeed I'd glanced at this code and was about to suggest
-one was added. IMHO is scans better when your reading the return type
-for a function and you can always do:
-
-  void QEMU_NORETURN
-  foo_function(bar args);
-
-if you are worried about over indentation. Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+-- PMM
 
