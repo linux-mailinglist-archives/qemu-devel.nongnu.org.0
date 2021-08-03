@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F0A3DF6BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:11:35 +0200 (CEST)
-Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1973DF6BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:12:53 +0200 (CEST)
+Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB1hG-0007bb-Qz
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
+	id 1mB1iW-0000hF-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mB1gW-0006ud-QS
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:10:48 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mB1gV-000452-9J
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:10:48 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j2so26644214wrx.9
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=yCcSN7acP7cJrnE6FfFIUfcyU4cT7V062F+NhUfoaLc=;
- b=GyadiYfLOkja2uEY4SMIF5seW10Jac/IPYz/k7V2I+f0zSDWfPrwkReXyjh8WmczM8
- ymOWSfbbCNmRi20XOyB57FQwJ7gg/y1Q0y0t8RZb39q9T1Yig0mBLqfC/dSDpGPBDr08
- ZJ+agQAEA18SI3EoKUEpW5L2hGdUyfP2GBCcVTmJ16e3y26t6bRbx5YO2bwypd0R1UP2
- FC2PxmW0ESnUyxUwcOV0425/j7uY0RFidid87RrUKg+FeXc9ZozORQPCrYjJZ4vHt+Mg
- zGkGL3poma8CV5KrWE+t52uiYzoCgYs3n6ACEkQQnJoxiYlbhU5nnaFrcIXSuIiTx8U1
- TeQw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mB1hf-0008Ss-JY
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:11:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mB1hc-0004t7-AZ
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:11:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628025114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GamxtMrg0poTDnYI4i9Ff43J0iNNaHviEHdwOHNkXG0=;
+ b=LspQ7z4ah3vG8t7HFSrXi6GajjwfNknZC0iqEeKU52AjYl5fPVPU2I6eajcTaEcDE3rUc/
+ 1fpfXZ8pgBkkEFGfrBI09VBUOQWrhEyqUObbxOolQWceQvaUDlrguLK1Y5WG1eP6PQfFOS
+ l4iaUS1erxyrCEzj80Odja0eNTUYESo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-LI8nBPeRPHWCMk_lvN3-fQ-1; Tue, 03 Aug 2021 17:11:53 -0400
+X-MC-Unique: LI8nBPeRPHWCMk_lvN3-fQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ s12-20020a0cdc0c0000b0290341c280725dso133727qvk.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:11:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=yCcSN7acP7cJrnE6FfFIUfcyU4cT7V062F+NhUfoaLc=;
- b=JVRVb2Xw0gTauVvo5cdNx3inyBVmLM5TyFKmUPBlVZ1RUxRZ4iHo1yeA4regN/w1Be
- B6+8XU30d9uAOAfZfZnOwOfWUfpXzy0LnmBDKbEIBYlLW19DTNLgUXvb2iTkhAZYxogy
- GN/Z//ahHMvmk0kuuTU3jfr6h9RKpOxGZIjaZ4ilP+EVP+y6GKte3cvALStQYuzMmhOG
- Abop549E9A9s7z15/hGFmIRDTAWAJhOdO44h5kI9wN7Y1Kd35bw//HwMeaW07uMktQao
- ZVck+vK9rMMDqTVejGEe1hwoASe1t/LjOZ2kFrlnQg8EehFkg+Vn8aw00Wx++FnDM1OP
- 7UVw==
-X-Gm-Message-State: AOAM530TdIqZhti4XmzKnH6R16k3hTM7j22Fv4tfVDYOAxE9JE9kymee
- 6Bv6aaGRpIP+XvV1Fcg9oWiIzA==
-X-Google-Smtp-Source: ABdhPJxtH00I9cKxkXRz3kWjHDFDb6esw2tAcrhRK5ymQDEsCr+zGNbNUUCEl1as6jYGLTXmeaip0Q==
-X-Received: by 2002:a05:6000:227:: with SMTP id
- l7mr24064169wrz.289.1628025045427; 
- Tue, 03 Aug 2021 14:10:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f15sm80074wrp.12.2021.08.03.14.10.44
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GamxtMrg0poTDnYI4i9Ff43J0iNNaHviEHdwOHNkXG0=;
+ b=lao/HCxQR9Zm4jJzGXrIM4/KS8buzxsSP0rqsH/r9y2B7OENd2dp7Mqfyi3vBtRDgN
+ LXvyfVJoFFFUvgup/c5Ae2uatdHBfZ7zROcpsuNdYamfrF05p4SGUp0+m6sXYkLBMXEO
+ t/1K2OHiXV5pd2Dc81cFSLFEMDl0hcqSzsvcO8X20OQDo0m/gWtvBK1VDXpNEM05ygvU
+ IvSzgW6dFMKbtrvbGcX7B1g/VqEq+NjDirQSK0OsYZKFO58q67Gv6Z15ZlmNZcBZlVf2
+ j/TLRXg0sNk4v5Eyplsg9QeuflwQrWFMhz3LRxzMM3r2EJFrJfeZ4Wzqt66+irSMu0Ts
+ uoHQ==
+X-Gm-Message-State: AOAM531Npk45Amqr3mf5jkWbZ8Dh+VoCeLmveQ9qp0ePBSdEg8tkGUIv
+ pLf9Ss5PD9/DtKlDHcDT28LBatVc+fxJd/30c5LwLk/iQw/mCMpRPFv7R/jEG1Wk4uZqpwZiKgS
+ SUpQQLhLKCbKPOPI=
+X-Received: by 2002:a05:622a:134c:: with SMTP id
+ w12mr19225801qtk.281.1628025112736; 
+ Tue, 03 Aug 2021 14:11:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrS73K5b8enqUOoRMigJ4/wUDZBN1ilmoYYGLUii36dmCB1wySHUadb8okalc8uh65kW7GMw==
+X-Received: by 2002:a05:622a:134c:: with SMTP id
+ w12mr19225784qtk.281.1628025112534; 
+ Tue, 03 Aug 2021 14:11:52 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
+ [76.70.75.133])
+ by smtp.gmail.com with ESMTPSA id l1sm18959qtk.63.2021.08.03.14.11.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 14:10:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 11DAC1FF96;
- Tue,  3 Aug 2021 22:10:44 +0100 (BST)
-References: <20210803151301.123581-1-ma.mandourr@gmail.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v5 0/2] plugins/cache: multicore cache modelling
-Date: Tue, 03 Aug 2021 22:10:38 +0100
-In-reply-to: <20210803151301.123581-1-ma.mandourr@gmail.com>
-Message-ID: <87fsvqfd4b.fsf@linaro.org>
+ Tue, 03 Aug 2021 14:11:51 -0700 (PDT)
+Date: Tue, 3 Aug 2021 17:11:50 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] vhost: use large iotlb entry if no IOMMU translation is
+ needed
+Message-ID: <YQmxFkSo7jZ7pX8Q@t490s>
+References: <20210721075402.203711-1-chao.gao@intel.com>
+ <20210803042927.GA30466@gao-cwp>
+ <5321eefb-7177-2009-6aae-f8c398731eac@redhat.com>
+ <20210803055127.GA31303@gao-cwp>
+ <950f83e5-cc48-17b2-4509-902ecb7cc22a@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <950f83e5-cc48-17b2-4509-902ecb7cc22a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,26 +102,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ Chao Gao <chao.gao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 03, 2021 at 04:14:57PM +0800, Jason Wang wrote:
+> 
+> 在 2021/8/3 下午1:51, Chao Gao 写道:
+> > On Tue, Aug 03, 2021 at 12:43:58PM +0800, Jason Wang wrote:
+> > > 在 2021/8/3 下午12:29, Chao Gao 写道:
+> > > > Ping. Could someone help to review this patch?
+> > > > 
+> > > > Thanks
+> > > > Chao
+> > > > 
+> > > > On Wed, Jul 21, 2021 at 03:54:02PM +0800, Chao Gao wrote:
+> > > > > If guest enables IOMMU_PLATFORM for virtio-net, severe network
+> > > > > performance drop is observed even if there is no IOMMU.
+> > > 
+> > > We see such reports internally and we're testing a patch series to disable
+> > > vhost IOTLB in this case.
+> > > 
+> > > Will post a patch soon.
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+[1]
 
-> Hello,
->
-> This series introduce multicore cache modelling in contrib/plugins/cache.c
->
-> Multi-core cache modelling is handled such that for full-system
-> emulation, a private L1 cache is maintained to each core available to
-> the system. For multi-threaded userspace emulation, a static number of
-> cores is maintained for the overall system, and every memory access go
-> through one of these, even if the number of fired threads is more than
-> that number.
+> > OK. put me in the CC list. I would like to test with TDX to ensure your patch
+> > fix the performance issue I am facing.
+> 
+> 
+> Sure.
+> 
+> 
+> > 
+> > > 
+> > > 
+> > > > >    And disabling
+> > > > > vhost can mitigate the perf issue. Finally, we found the culprit is
+> > > > > frequent iotlb misses: kernel vhost-net has 2048 entries and each
+> > > > > entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
+> > > > > translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
+> > > > > memory for DMA, there are some iotlb misses.
+> > > > > 
+> > > > > If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
+> > > > > mode, we can optimistically use large, unaligned iotlb entries instead
+> > > > > of 4K-aligned entries to reduce iotlb pressure.
+> > > 
+> > > Instead of introducing new general facilities like unaligned IOTLB entry. I
+> > > wonder if we optimize the vtd_iommu_translate() to use e.g 1G instead?
+> > using 1G iotlb entry looks feasible.
+> 
+> 
+> Want to send a patch?
+> 
+> 
+> > 
+> > >      } else {
+> > >          /* DMAR disabled, passthrough, use 4k-page*/
+> > >          iotlb.iova = addr & VTD_PAGE_MASK_4K;
+> > >          iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
+> > >          iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
+> > >          iotlb.perm = IOMMU_RW;
+> > >          success = true;
+> > >      }
+> > > 
+> > > 
+> > > > >    Actually, vhost-net
+> > > > > in kernel supports unaligned iotlb entry. The alignment requirement is
+> > > > > imposed by address_space_get_iotlb_entry() and flatview_do_translate().
+> > > 
+> > > For the passthrough case, is there anyway to detect them and then disable
+> > > device IOTLB in those case?
+> > yes. I guess so; qemu knows the presence and status of iommu. Currently,
+> > in flatview_do_translate(), memory_region_get_iommu() tells whether a memory
+> > region is behind an iommu.
+> 
+> 
+> The issues are:
+> 
+> 1) how to know the passthrough mode is enabled (note that passthrough mode
+> doesn't mean it doesn't sit behind IOMMU)
 
-Queued to plugins/next, thanks.
+memory_region_get_iommu() should return NULL if it's passthrough-ed?
 
---=20
-Alex Benn=C3=A9e
+> 2) can passthrough mode be disabled on the fly? If yes, we need to deal with
+> them
+
+I don't think it happens in reality; e.g. when iommu=pt is set it's set until
+the next guest reboot.  However I don't know whether there's limitation from
+spec-wise.  Also I don't know whether there's special cases, for example when
+we kexec.
+
+I've two questions..
+
+Jason, when you mentioned the "fix" above [1], shouldn't that also fix the same
+issue, and in a better way? Because ideally I think if we know vhost does not
+need a translation for either iommu_platform=off, or passthrough, dev-iotlb
+layer seems an overhead with no real use.
+
+The other question is I'm also wondering why we care about iommu_platform=on
+when there's no vIOMMU at all - it's about why we bother setting the flag at
+all?  Or is it a valid use case?
+
+Thanks,
+
+-- 
+Peter Xu
+
 
