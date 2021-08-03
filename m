@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC57A3DF6C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:16:17 +0200 (CEST)
-Received: from localhost ([::1]:54844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DF33DF6C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:16:29 +0200 (CEST)
+Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB1lo-0003XM-Os
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
+	id 1mB1m0-00048s-P2
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mB1kF-0001ZR-SR
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:14:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36089)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mB1kE-0006li-HX
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:14:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628025277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lfk2GZYtuGrLi5xVRtWNqRfY/o/pI1ocDWzkMdFhfmI=;
- b=F4GsxRFdCWv+egYClkVOG0VyAUsCaXMv9xvv6SqPfyICJ9/ExipGwnAm51OGpT3YYiZP0Q
- 2xHWFEAq1W6RwEaDjY4Rigbc57au7mcKNCAT3fhhat39Kc8n4GxrnIhwO3uHFEWEcKTA5D
- 8lS2J3hC5jzq+rAOBc4q8oEOOJWDrLE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-HMElmyKrMxGCCpRQWC7DZg-1; Tue, 03 Aug 2021 17:14:32 -0400
-X-MC-Unique: HMElmyKrMxGCCpRQWC7DZg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- j13-20020a0cf30d0000b029032dd803a7edso148577qvl.2
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:14:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mB1kQ-0001rb-5j
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:14:50 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mB1kO-0006s6-P9
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:14:49 -0400
+Received: by mail-pl1-x636.google.com with SMTP id q2so589480plr.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8SvlClcTkAy9IpxSg+5sEwKByQJDQF3iPJDtz9PMMBs=;
+ b=te4h3ZXAOTIu/PNpghKhquDGXfdpWp47hX7XGOivXIrMurSnJO8N+ML9XZxgiH5Hzi
+ o1P6MtJWm+rCvSR7EoELCfozdVOxxQm/1sA1l7MMVNhjLDmjfo9LupNMtIaf+tmcYAx4
+ S9y2iHHdIZ3qAGZrgFouD3YuQ9UTDR6LAirBLooviSzZjt2pVX/a974FPD9Aumg5ZWyB
+ KG9/HEYb0GXjw4WIrJD3sAP3FkkA7t3X5Gd9aBHDet4JNp/aK8Ev+MaLVezrNVX5XBpl
+ HX40wUwTZbx8tyYuEF//vk4FjzfkCbQSmU6NBnKxyZqRXpRDsH0+0l2qFnIn/lMtRbS+
+ wKbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lfk2GZYtuGrLi5xVRtWNqRfY/o/pI1ocDWzkMdFhfmI=;
- b=hPoar4yCKEzOXM/bNBIbMMF5qlsLlvDzvxh4oJsLqE4YgcNFRVAeWJlHDdttm0teRj
- yrJ2bLN7PFudpZ/I2Dh8d/IOCYhIk4miHSk6oDyyMCfOE1U+g2IHa1OU8xNJptTUXVXO
- ofD6aAHuGhSUl9oS78vIHgMsE1nAZ/KdB37EShCdk+PehMa0ldz/oYhNpyRAlbvxP6JE
- Ojgg5wgH2cqG5Z6Ys146bRsr730PJDRyBbMqPNBY5PbaXfDYbMmYnvYbUIj8VnF9bX46
- SBvbWJgMLFoDwc5FZMih6OsHNfSzmcPJGLnkgoFZTm4XyZ0nsRXyAsLdA3/6TPPOfSf2
- JGhg==
-X-Gm-Message-State: AOAM5337NdhDwoncHT6HVzAJl73pobd8jRV6SwmiSLdcrMgA5GXxVen2
- Bta/CdvMxrVyFI7BWmHJy95Ro+s22aXw8p2uUGafCPjhI3YfQ93vw3Ksc8V8FgV+esV25LyHnB9
- szfcbUwpXS7YfVQw=
-X-Received: by 2002:a05:620a:1452:: with SMTP id
- i18mr22341667qkl.191.1628025272549; 
- Tue, 03 Aug 2021 14:14:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrmlxeth2DfycQthot/aUFxcQRa7skzKszzjszcs9J06SppYeCjJ9gvSbDSWtyDJvLrNkPng==
-X-Received: by 2002:a05:620a:1452:: with SMTP id
- i18mr22341651qkl.191.1628025272366; 
- Tue, 03 Aug 2021 14:14:32 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
- [76.70.75.133])
- by smtp.gmail.com with ESMTPSA id v4sm99068qkf.52.2021.08.03.14.14.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 14:14:31 -0700 (PDT)
-Date: Tue, 3 Aug 2021 17:14:30 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1] softmmu/physmem: fix wrong assertion in
- qemu_ram_alloc_internal()
-Message-ID: <YQmxtvm9M5r43NM+@t490s>
-References: <20210802152238.10783-1-david@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8SvlClcTkAy9IpxSg+5sEwKByQJDQF3iPJDtz9PMMBs=;
+ b=TkVr5j/4fLwyy08gDqSPQ0J4WOhSh945b8YobY9wDJOoTTTnfWoDBwXlMQQrTBpLG0
+ 3h2jUVuJsIHjonwMdaSE2CMYJgTh1fwZffA/DWvF7k8bFPJ1gN4JNSrVKwkI78DwD1PM
+ v6sJqo6jYb0BMfHO9hFf947biI2iqTJzlJFMoFWLrmfJLhcRwUc8+yuO9uT+yYG8M3lv
+ iA57FBx0nwrek18K3Zf4OhANgPA6X2vR++r+mEBe9dPzY9CvqzGOMLtQZsx30GQNxo7y
+ mTW6Iu8d4ogEhVG3lwETnPwVL+HBFKLTqTiwLDTpamGaMwwfcUrHl9oBJXz0BLgZiIWe
+ Su7A==
+X-Gm-Message-State: AOAM533+tNGPwl9yuTBPDL37FatzSKIXjJHL1sXPTpMouLVIx2OfsMLf
+ ZyO45dGANqv5sp2eW6Ed/mCpbw==
+X-Google-Smtp-Source: ABdhPJx+haUJTaRXxFLYsZD5oOGu5b1oHhAcBVy/WQJW3EdxWDdvJoGROGMPHEUqK9umNeCRaQCoXw==
+X-Received: by 2002:a63:1e5c:: with SMTP id p28mr697962pgm.3.1628025287135;
+ Tue, 03 Aug 2021 14:14:47 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id i1sm3988519pjs.31.2021.08.03.14.14.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Aug 2021 14:14:46 -0700 (PDT)
+Subject: Re: [PATCH] accel/tcg/user-exec: Fix read-modify-write of code on
+ s390 hosts
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210803195406.149446-1-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9812a7a2-89ca-abb8-aeec-d01d6c8b4fcd@linaro.org>
+Date: Tue, 3 Aug 2021 11:14:43 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210802152238.10783-1-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210803195406.149446-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,33 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 02, 2021 at 05:22:38PM +0200, David Hildenbrand wrote:
-> When adding RAM_NORESERVE, we forgot to remove the old assertion when
-> adding the updated one, most probably when reworking the patches or
-> rebasing. We can easily crash QEMU by adding
->   -object memory-backend-ram,id=mem0,size=500G,reserve=off
-> to the QEMU cmdline:
->   qemu-system-x86_64: ../softmmu/physmem.c:2146: qemu_ram_alloc_internal:
->   Assertion `(ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC))
->   == 0' failed.
-> 
-> Fix it by removing the old assertion.
-> 
-> Fixes: 8dbe22c6868b ("memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()")
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 8/3/21 9:54 AM, Ilya Leoshkevich wrote:
+>       /* ??? On linux, the non-rt signal handler has 4 (!) arguments instead
+> -       of the normal 2 arguments.  The 3rd argument contains the "int_code"
+> -       from the hardware which does in fact contain the is_write value.
+> +       of the normal 2 arguments.  The 4th argument contains the "Translation-
+> +       Exception Identification for DAT Exceptions" from the hardware (aka
+> +       "int_parm_long"), which does in fact contain the is_write value.
+>          The rt signal handler, as far as I can tell, does not give this value
+> -       at all.  Not that we could get to it from here even if it were.  */
+> -    /* ??? This is not even close to complete, since it ignores all
+> -       of the read-modify-write instructions.  */
+> +       at all.  Not that we could get to it from here even if it were.
+> +       So fall back to parsing instructions.  Treat read-modify-write ones as
+> +       writes, which is not fully correct, but for tracking self-modifying code
+> +       this is better than treating them as reads.  Checking si_addr page flags
+> +       might be a viable improvement, albeit a racy one.  */
+> +    /* ??? This is not even close to complete.  */
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+You should have gotten a checkpatch warning here.
+Just convert the comment to
 
--- 
-Peter Xu
+   /*
+    * this style
+    */
 
+>       pinsn = (uint16_t *)pc;
+>       switch (pinsn[0] >> 8) {
+>       case 0x50: /* ST */
+>       case 0x42: /* STC */
+>       case 0x40: /* STH */
+> +    case 0xba: /* CS */
+> +    case 0xbb: /* CDS */
+> +    case 0xc8: /* CSST */
+
+CSST is format SSF; you're not checking enough bits to distinguish from LOAD PAIR DISJOINT.
+
+Otherwise, looks good.
+
+r~
 
