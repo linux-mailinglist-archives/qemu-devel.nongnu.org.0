@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AA23DF041
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 16:26:53 +0200 (CEST)
-Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171703DF043
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 16:26:56 +0200 (CEST)
+Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAvNc-0001wi-AU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 10:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
+	id 1mAvNf-0002BE-0L
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 10:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAvM1-0007W5-Uu
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:25:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35088)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAvM6-0007j9-N8
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:25:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAvLz-00018k-RT
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:25:13 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mAvM5-0001DK-5T
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:25:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628000711;
+ s=mimecast20190719; t=1628000716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h/Sv1V243bpQ+RTIttD2wBJ7Rno5NPyWfMsFHgL8vEc=;
- b=f8C2e0HNPBQpha/ftBR93esxKzFOsBoCghdyLxZa/ppOJ2u93W1Iesu+XnfIqCIXfZfFln
- Tl3c9ZzM4pZcOOqrKUJE0VAcN4+aQOE99mZQENeNxxNntOEIzDN1crRJDm9TC+9imfv0yp
- YlHmg9VinPGiOC6+8evbKgOfFIOyzjc=
+ bh=ugd0zwEwz2Nbp9/hIOj5FCBI/JITLW9dOIXoDgUY2/Y=;
+ b=isH5KzVWr98fkxeFeAk3WI9CsRrLbV5wke2pEUj0ctQuXs2uW/fjjT1De62ns2syw6bNbw
+ /nveuqsi7l0rmIF1Oeqz8+dn0oBxPIWNnZXU2Pj+lIb5sdq/Nag5RFvdSrMslaFSrRnK8j
+ Opwhqj3XQlc/PysdIeOw6W+gBZkZlAM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-p5ZJLppuNVKL0kLxHV-aHg-1; Tue, 03 Aug 2021 10:25:09 -0400
-X-MC-Unique: p5ZJLppuNVKL0kLxHV-aHg-1
+ us-mta-45-RKtdI89yP_WhaYSHtud9JA-1; Tue, 03 Aug 2021 10:25:11 -0400
+X-MC-Unique: RKtdI89yP_WhaYSHtud9JA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8092F107ACF5;
- Tue,  3 Aug 2021 14:25:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 575F31853028;
+ Tue,  3 Aug 2021 14:25:10 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C987B19C44;
- Tue,  3 Aug 2021 14:25:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0E8C19C44;
+ Tue,  3 Aug 2021 14:25:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/3] target/s390x: Fix SIGILL and SIGFPE psw.addr reporting
-Date: Tue,  3 Aug 2021 16:24:53 +0200
-Message-Id: <20210803142455.89123-2-thuth@redhat.com>
+Subject: [PULL 2/3] linux-user/s390x: signal with SIGFPE on compare-and-trap
+Date: Tue,  3 Aug 2021 16:24:54 +0200
+Message-Id: <20210803142455.89123-3-thuth@redhat.com>
 In-Reply-To: <20210803142455.89123-1-thuth@redhat.com>
 References: <20210803142455.89123-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,54 +82,106 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
 
-For SIGILL, SIGFPE and SIGTRAP the PSW must point after the
-instruction, and at the instruction for other signals. Currently under
-qemu-user for SIGFILL and SIGFPE it points at the instruction.
+Currently when a compare-and-trap instruction is executed, qemu will
+always raise a SIGILL signal. On real hardware, a SIGFPE is raised.
 
-Fix by advancing psw.addr for these signals.
+Change the PGM_DATA case in cpu_loop to follow the behavior in
+linux kernel /arch/s390/kernel/traps.c.
+ * Only raise SIGILL if DXC == 0
+ * If DXC matches a non-simulated IEEE exception, raise SIGFPE with
+   correct si_code
+ * Raise SIGFPE with si_code == 0 for everything else
 
-Co-developed-by: Ulrich Weigand <ulrich.weigand@de.ibm.com>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/319
-Message-Id: <20210705210434.45824-2-iii@linux.ibm.com>
+When applied on 20210705210434.45824-2-iii@linux.ibm.com, this fixes
+crashes in the java jdk such as the linked bug.
+
+Signed-off-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1920913
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/319
+Message-Id: <20210709160459.4962-2-jonathan.albrecht@linux.vnet.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- linux-user/s390x/cpu_loop.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ linux-user/s390x/cpu_loop.c | 54 +++++++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 20 deletions(-)
 
 diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
-index f2d1215fb1..22f2e89c62 100644
+index 22f2e89c62..6a69a6dd26 100644
 --- a/linux-user/s390x/cpu_loop.c
 +++ b/linux-user/s390x/cpu_loop.c
-@@ -64,7 +64,13 @@ void cpu_loop(CPUS390XState *env)
-         case EXCP_DEBUG:
-             sig = TARGET_SIGTRAP;
-             n = TARGET_TRAP_BRKPT;
--            goto do_signal_pc;
-+            /*
-+             * For SIGTRAP the PSW must point after the instruction, which it
-+             * already does thanks to s390x_tr_tb_stop(). si_addr doesn't need
-+             * to be filled.
-+             */
-+            addr = 0;
-+            goto do_signal;
-         case EXCP_PGM:
-             n = env->int_pgm_code;
-             switch (n) {
-@@ -132,6 +138,10 @@ void cpu_loop(CPUS390XState *env)
+@@ -25,6 +25,35 @@
+ /* s390x masks the fault address it reports in si_addr for SIGSEGV and SIGBUS */
+ #define S390X_FAIL_ADDR_MASK -4096LL
  
-         do_signal_pc:
-             addr = env->psw.addr;
-+            /*
-+             * For SIGILL and SIGFPE the PSW must point after the instruction.
-+             */
-+            env->psw.addr += env->int_pgm_ilen;
-         do_signal:
-             info.si_signo = sig;
-             info.si_errno = 0;
++static int get_pgm_data_si_code(int dxc_code)
++{
++    switch (dxc_code) {
++    /* Non-simulated IEEE exceptions */
++    case 0x80:
++        return TARGET_FPE_FLTINV;
++    case 0x40:
++        return TARGET_FPE_FLTDIV;
++    case 0x20:
++    case 0x28:
++    case 0x2c:
++        return TARGET_FPE_FLTOVF;
++    case 0x10:
++    case 0x18:
++    case 0x1c:
++        return TARGET_FPE_FLTUND;
++    case 0x08:
++    case 0x0c:
++        return TARGET_FPE_FLTRES;
++    }
++    /*
++     * Non-IEEE and simulated IEEE:
++     * Includes compare-and-trap, quantum exception, etc.
++     * Simulated IEEE are included here to match current
++     * s390x linux kernel.
++     */
++    return 0;
++}
++
+ void cpu_loop(CPUS390XState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -106,29 +135,14 @@ void cpu_loop(CPUS390XState *env)
+ 
+             case PGM_DATA:
+                 n = (env->fpc >> 8) & 0xff;
+-                if (n == 0xff) {
+-                    /* compare-and-trap */
++                if (n == 0) {
+                     goto do_sigill_opn;
+-                } else {
+-                    /* An IEEE exception, simulated or otherwise.  */
+-                    if (n & 0x80) {
+-                        n = TARGET_FPE_FLTINV;
+-                    } else if (n & 0x40) {
+-                        n = TARGET_FPE_FLTDIV;
+-                    } else if (n & 0x20) {
+-                        n = TARGET_FPE_FLTOVF;
+-                    } else if (n & 0x10) {
+-                        n = TARGET_FPE_FLTUND;
+-                    } else if (n & 0x08) {
+-                        n = TARGET_FPE_FLTRES;
+-                    } else {
+-                        /* ??? Quantum exception; BFP, DFP error.  */
+-                        goto do_sigill_opn;
+-                    }
+-                    sig = TARGET_SIGFPE;
+-                    goto do_signal_pc;
+                 }
+ 
++                sig = TARGET_SIGFPE;
++                n = get_pgm_data_si_code(n);
++                goto do_signal_pc;
++
+             default:
+                 fprintf(stderr, "Unhandled program exception: %#x\n", n);
+                 cpu_dump_state(cs, stderr, 0);
 -- 
 2.27.0
 
