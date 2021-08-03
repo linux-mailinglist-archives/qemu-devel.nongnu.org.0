@@ -2,97 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0066C3DE5A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:45:40 +0200 (CEST)
-Received: from localhost ([::1]:58026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0B93DEF49
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:49:32 +0200 (CEST)
+Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAmJA-0003IP-12
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:45:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60830)
+	id 1mAunT-0007Uz-BW
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mAmHm-0001Ax-3w
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:44:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mAmHj-0000p1-1p
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:44:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627965848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EnAzh0PoHmFrvviQOwK94t26WuoARN/ePbw2Am6+C78=;
- b=dwjTf1Hq/KUDUdfniF4sOlQK/5P7+uWFOytsw+gVxLEZQZFeLW9iE63yzP8zdcvm27wkh9
- J2r9RGvgbAPEFcxwKKNfJiohxH46Ojn6b+2SnnRV+Towz6xlsg/2Bz5jlc4pH+lxasn8G+
- PGavshO+w45+Wxv2q+aCbhnO163K1JQ=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-HnUas5lWN5qInVOpthEPwA-1; Tue, 03 Aug 2021 00:44:07 -0400
-X-MC-Unique: HnUas5lWN5qInVOpthEPwA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- s4-20020a17090aba04b0290173b4d6dd74so18611254pjr.0
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:44:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=EnAzh0PoHmFrvviQOwK94t26WuoARN/ePbw2Am6+C78=;
- b=WyusKZB6BFFxiUHSCrrUB2FQmaxbiz4g1kdy5YSDWs+0FQHKHfgGc1NXp6Y2aob/sO
- PX0PqKPHv11ROy/MTdXwoOhC37LBJqXgHajpqjwCLIriVi7z0FQV5MGZ1hDrQWe/aHFi
- 175tEmXgWB/H3491hqwdCx55EA99pqan1Ksp0ml0pSu24gTTMT9rm8VX7Bih/YnX+8HA
- Z3GzSb8uf61s9baG57+Xp7wVm0WHcjnJf88ysICipwiVIerX5Fsc6CpxHYSUEosjLD9j
- O5SYdK8E8wZdQrkgXJvkXMkH02T4Es4kkh1kQoJTd4sXiEjVJ58wkqoYc08tfUlj0LWd
- V/Kg==
-X-Gm-Message-State: AOAM531dhruzqVj5BKTEfZK5c3939Qu33SFpTGihTyROnoH/eRZklC2q
- IgqC+eKn9MvQ2RY22SKkccm8GCGyl1Rfw6fl9s4x3m7uXAJwyQ1SGJziTvbtVJR8dvKeCdf7/3K
- OriswSpk7g78AMTb3DOWsboA7YP9PJRy7BKBHfWhaWAUw/Ucm/v3rJEPUv1zzdFXdnpU=
-X-Received: by 2002:a05:6a00:8c7:b029:3a1:119b:736 with SMTP id
- s7-20020a056a0008c7b02903a1119b0736mr20391587pfu.52.1627965846599; 
- Mon, 02 Aug 2021 21:44:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4tRBFt1mZm1XrIZSyVM1ihqVbjk0CcJNp8jHc9IsqivuBxsXeHIQ+mVIfCB8RUsv8cQ94pA==
-X-Received: by 2002:a05:6a00:8c7:b029:3a1:119b:736 with SMTP id
- s7-20020a056a0008c7b02903a1119b0736mr20391567pfu.52.1627965846213; 
- Mon, 02 Aug 2021 21:44:06 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id s195sm13943124pfs.119.2021.08.02.21.44.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 21:44:05 -0700 (PDT)
-Subject: Re: [PATCH] vhost: use large iotlb entry if no IOMMU translation is
- needed
-To: Chao Gao <chao.gao@intel.com>, mst@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com
-References: <20210721075402.203711-1-chao.gao@intel.com>
- <20210803042927.GA30466@gao-cwp>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5321eefb-7177-2009-6aae-f8c398731eac@redhat.com>
-Date: Tue, 3 Aug 2021 12:43:58 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mAnDb-0003gZ-LQ; Tue, 03 Aug 2021 01:43:59 -0400
+Received: from shasxm03.verisilicon.com ([101.89.135.44]:53799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mAnDX-0001JY-Ra; Tue, 03 Aug 2021 01:43:59 -0400
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+ boundary="_000_4C23C17B8E87E74E906A25A3254A03F4F2167B21SHASXM06verisil_"
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1627969111; h=from:subject:to:date:message-id;
+ bh=fDV2llzy2/3juFxxidCbM/hfRwmEYzS4mhMJjGmPpaA=;
+ b=E6yNulbgx/BgLE2u1uf+thlwCCTwpSZlYQUi8tXdxRXpVJz/x38K6U1A7WouVfGr5wE0LFSlF2p
+ J3t6WV75jB/0UkEqc3fDQGkYibQWKptNTwLA0kLqkuHdld2O4JAPJ+8uehUNm8SD+DrUFeyMU+n7a
+ jB6wP02kibmXpmdxdHc=
+Received: from SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda]) by
+ SHASXM03.verisilicon.com ([::1]) with mapi id 14.03.0408.000; Tue, 3 Aug 2021
+ 13:38:30 +0800
+From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>, "edgar.iglesias@gmail.com"
+ <edgar.iglesias@gmail.com>, "alistair@alistair23.me" <alistair@alistair23.me>
+Subject: [PATCH] hw/dma/pl330: Add memory region to replace default
+ address_space_memory
+Thread-Topic: [PATCH] hw/dma/pl330: Add memory region to replace default
+ address_space_memory
+Thread-Index: AQHXiCm49+ngIiAiYE2P0ZLGYFz+rg==
+Date: Tue, 3 Aug 2021 05:38:14 +0000
+Message-ID: <4C23C17B8E87E74E906A25A3254A03F4F2167B21@SHASXM06.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.46.44]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--6.325600-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-In-Reply-To: <20210803042927.GA30466@gao-cwp>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=101.89.135.44;
+ envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 03 Aug 2021 09:47:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,236 +70,588 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Liu,
+ Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
+ Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--_000_4C23C17B8E87E74E906A25A3254A03F4F2167B21SHASXM06verisil_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-在 2021/8/3 下午12:29, Chao Gao 写道:
-> Ping. Could someone help to review this patch?
+RnJvbSBmNzgwYjBlZTJlZTM2YzU2MmFiODE0OTE1ZmZmMGU3MjE3YjI1ZTYzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQ0KRnJvbTogSmlhbnhpYW4gV2VuIDxqaWFueGlhbi53ZW5AdmVyaXNpbGlj
+b24uY29tPg0KRGF0ZTogVHVlLCAzIEF1ZyAyMDIxIDA5OjQ0OjM1ICswODAwDQpTdWJqZWN0OiBb
+UEFUQ0hdIGh3L2RtYS9wbDMzMDogQWRkIG1lbW9yeSByZWdpb24gdG8gcmVwbGFjZSBkZWZhdWx0
+DQphZGRyZXNzX3NwYWNlX21lbW9yeQ0KDQpQTDMzMCBuZWVkcyBhIG1lbW9yeSByZWdpb24gd2hp
+Y2ggY2FuIGNvbm5lY3Qgd2l0aCBTTU1VIHRyYW5zbGF0ZSBJT01NVSByZWdpb24gdG8gc3VwcG9y
+dCBTTU1VLg0KDQpTaWduZWQtb2ZmLWJ5OiBKaWFueGlhbiBXZW4gPGppYW54aWFuLndlbkB2ZXJp
+c2lsaWNvbi5jb20+DQotLS0NCmh3L2FybS9leHlub3M0MjEwLmMgIHwgIDMgKysrDQpody9hcm0v
+eGlsaW54X3p5bnEuYyB8ICAyICsrDQpody9kbWEvcGwzMzAuYyAgICAgICB8IDI0ICsrKysrKysr
+KysrKysrKysrKysrLS0tLQ0KMyBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvaHcvYXJtL2V4eW5vczQyMTAuYyBiL2h3L2FybS9l
+eHlub3M0MjEwLmMNCmluZGV4IDVjN2E1MWJiYS4uYWYwZTQ4MjBkIDEwMDY0NA0KLS0tIGEvaHcv
+YXJtL2V4eW5vczQyMTAuYw0KKysrIGIvaHcvYXJtL2V4eW5vczQyMTAuYw0KQEAgLTE3MSw4ICsx
+NzEsMTEgQEAgc3RhdGljIERldmljZVN0YXRlICpwbDMzMF9jcmVhdGUodWludDMyX3QgYmFzZSwg
+cWVtdV9vcl9pcnEgKm9yZ2F0ZSwNCiAgICAgU3lzQnVzRGV2aWNlICpidXNkZXY7DQogICAgIERl
+dmljZVN0YXRlICpkZXY7DQogICAgIGludCBpOw0KKyAgICBNZW1vcnlSZWdpb24gKnN5c21lbSA9
+IGdldF9zeXN0ZW1fbWVtb3J5KCk7DQogICAgIGRldiA9IHFkZXZfbmV3KCJwbDMzMCIpOw0KKyAg
+ICBvYmplY3RfcHJvcGVydHlfc2V0X2xpbmsoT0JKRUNUKGRldiksICJtZW1vcnkiLA0KKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE9CSkVDVChzeXNtZW0pLCAmZXJyb3JfZmF0
+YWwpOw0KICAgICBxZGV2X3Byb3Bfc2V0X3VpbnQ4KGRldiwgIm51bV9ldmVudHMiLCBuZXZlbnRz
+KTsNCiAgICAgcWRldl9wcm9wX3NldF91aW50OChkZXYsICJudW1fY2hubHMiLCAgOCk7DQogICAg
+IHFkZXZfcHJvcF9zZXRfdWludDgoZGV2LCAibnVtX3BlcmlwaF9yZXEiLCAgbnJlcSk7DQpkaWZm
+IC0tZ2l0IGEvaHcvYXJtL3hpbGlueF96eW5xLmMgYi9ody9hcm0veGlsaW54X3p5bnEuYw0KaW5k
+ZXggMjQ1YWY4MWJiLi5lMGIzYTczYjkgMTAwNjQ0DQotLS0gYS9ody9hcm0veGlsaW54X3p5bnEu
+Yw0KKysrIGIvaHcvYXJtL3hpbGlueF96eW5xLmMNCkBAIC0zMTIsNiArMzEyLDggQEAgc3RhdGlj
+IHZvaWQgenlucV9pbml0KE1hY2hpbmVTdGF0ZSAqbWFjaGluZSkNCiAgICAgc3lzYnVzX2Nvbm5l
+Y3RfaXJxKFNZU19CVVNfREVWSUNFKGRldiksIDAsIHBpY1szOS1JUlFfT0ZGU0VUXSk7DQogICAg
+IGRldiA9IHFkZXZfbmV3KCJwbDMzMCIpOw0KKyAgICBvYmplY3RfcHJvcGVydHlfc2V0X2xpbmso
+T0JKRUNUKGRldiksICJtZW1vcnkiLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIE9CSkVDVChhZGRyZXNzX3NwYWNlX21lbSksICZlcnJvcl9mYXRhbCk7DQogICAgIHFkZXZf
+cHJvcF9zZXRfdWludDgoZGV2LCAibnVtX2NobmxzIiwgIDgpOw0KICAgICBxZGV2X3Byb3Bfc2V0
+X3VpbnQ4KGRldiwgIm51bV9wZXJpcGhfcmVxIiwgIDQpOw0KICAgICBxZGV2X3Byb3Bfc2V0X3Vp
+bnQ4KGRldiwgIm51bV9ldmVudHMiLCAgMTYpOw0KZGlmZiAtLWdpdCBhL2h3L2RtYS9wbDMzMC5j
+IGIvaHcvZG1hL3BsMzMwLmMNCmluZGV4IDk0NGJhMjk2Yi4uMDY3NDdjYTBiIDEwMDY0NA0KLS0t
+IGEvaHcvZG1hL3BsMzMwLmMNCisrKyBiL2h3L2RtYS9wbDMzMC5jDQpAQCAtMjY5LDYgKzI2OSw5
+IEBAIHN0cnVjdCBQTDMzMFN0YXRlIHsNCiAgICAgdWludDhfdCBudW1fZmF1bHRpbmc7DQogICAg
+IHVpbnQ4X3QgcGVyaXBoX2J1c3lbUEwzMzBfUEVSSVBIX05VTV07DQorICAgIC8qIE1lbW9yeSBy
+ZWdpb24gdGhhdCBETUEgb3BlcmF0aW9uIGFjY2VzcyAqLw0KKyAgICBNZW1vcnlSZWdpb24gKm1l
+bV9tcjsNCisgICAgQWRkcmVzc1NwYWNlIG1lbV9hczsNCn07DQogI2RlZmluZSBUWVBFX1BMMzMw
+ICJwbDMzMCINCkBAIC0xMTA4LDcgKzExMTEsOCBAQCBzdGF0aWMgaW5saW5lIGNvbnN0IFBMMzMw
+SW5zbkRlc2MgKnBsMzMwX2ZldGNoX2luc24oUEwzMzBDaGFuICpjaCkNCiAgICAgdWludDhfdCBv
+cGNvZGU7DQogICAgIGludCBpOw0KLSAgICBkbWFfbWVtb3J5X3JlYWQoJmFkZHJlc3Nfc3BhY2Vf
+bWVtb3J5LCBjaC0+cGMsICZvcGNvZGUsIDEpOw0KKyAgICBhZGRyZXNzX3NwYWNlX3JlYWQoJmNo
+LT5wYXJlbnQtPm1lbV9hcywgY2gtPnBjLA0KKyAgICAgICAgICAgICAgICAgICAgICAgIE1FTVRY
+QVRUUlNfVU5TUEVDSUZJRUQsICZvcGNvZGUsIDEpOw0KICAgICBmb3IgKGkgPSAwOyBpbnNuX2Rl
+c2NbaV0uc2l6ZTsgaSsrKSB7DQogICAgICAgICBpZiAoKG9wY29kZSAmIGluc25fZGVzY1tpXS5v
+cG1hc2spID09IGluc25fZGVzY1tpXS5vcGNvZGUpIHsNCiAgICAgICAgICAgICByZXR1cm4gJmlu
+c25fZGVzY1tpXTsNCkBAIC0xMTIyLDcgKzExMjYsOCBAQCBzdGF0aWMgaW5saW5lIHZvaWQgcGwz
+MzBfZXhlY19pbnNuKFBMMzMwQ2hhbiAqY2gsIGNvbnN0IFBMMzMwSW5zbkRlc2MgKmluc24pDQog
+ICAgIHVpbnQ4X3QgYnVmW1BMMzMwX0lOU05fTUFYU0laRV07DQogICAgIGFzc2VydChpbnNuLT5z
+aXplIDw9IFBMMzMwX0lOU05fTUFYU0laRSk7DQotICAgIGRtYV9tZW1vcnlfcmVhZCgmYWRkcmVz
+c19zcGFjZV9tZW1vcnksIGNoLT5wYywgYnVmLCBpbnNuLT5zaXplKTsNCisgICAgYWRkcmVzc19z
+cGFjZV9yZWFkKCZjaC0+cGFyZW50LT5tZW1fYXMsIGNoLT5wYywNCisgICAgICAgICAgICAgICAg
+ICAgICAgICBNRU1UWEFUVFJTX1VOU1BFQ0lGSUVELCBidWYsIGluc24tPnNpemUpOw0KICAgICBp
+bnNuLT5leGVjKGNoLCBidWZbMF0sICZidWZbMV0sIGluc24tPnNpemUgLSAxKTsNCn0NCkBAIC0x
+MTg2LDcgKzExOTEsOCBAQCBzdGF0aWMgaW50IHBsMzMwX2V4ZWNfY3ljbGUoUEwzMzBDaGFuICpj
+aGFubmVsKQ0KICAgICBpZiAocSAhPSBOVUxMICYmIHEtPmxlbiA8PSBwbDMzMF9maWZvX251bV9m
+cmVlKCZzLT5maWZvKSkgew0KICAgICAgICAgaW50IGxlbiA9IHEtPmxlbiAtIChxLT5hZGRyICYg
+KHEtPmxlbiAtIDEpKTsNCi0gICAgICAgIGRtYV9tZW1vcnlfcmVhZCgmYWRkcmVzc19zcGFjZV9t
+ZW1vcnksIHEtPmFkZHIsIGJ1ZiwgbGVuKTsNCisgICAgICAgIGFkZHJlc3Nfc3BhY2VfcmVhZCgm
+cy0+bWVtX2FzLCBxLT5hZGRyLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBNRU1UWEFU
+VFJTX1VOU1BFQ0lGSUVELCBidWYsIGxlbik7DQogICAgICAgICB0cmFjZV9wbDMzMF9leGVjX2N5
+Y2xlKHEtPmFkZHIsIGxlbik7DQogICAgICAgICBpZiAodHJhY2VfZXZlbnRfZ2V0X3N0YXRlX2Jh
+Y2tlbmRzKFRSQUNFX1BMMzMwX0hFWERVTVApKSB7DQogICAgICAgICAgICAgcGwzMzBfaGV4ZHVt
+cChidWYsIGxlbik7DQpAQCAtMTIxNyw3ICsxMjIzLDggQEAgc3RhdGljIGludCBwbDMzMF9leGVj
+X2N5Y2xlKFBMMzMwQ2hhbiAqY2hhbm5lbCkNCiAgICAgICAgICAgICBmaWZvX3JlcyA9IHBsMzMw
+X2ZpZm9fZ2V0KCZzLT5maWZvLCBidWYsIGxlbiwgcS0+dGFnKTsNCiAgICAgICAgIH0NCiAgICAg
+ICAgIGlmIChmaWZvX3JlcyA9PSBQTDMzMF9GSUZPX09LIHx8IHEtPnopIHsNCi0gICAgICAgICAg
+ICBkbWFfbWVtb3J5X3dyaXRlKCZhZGRyZXNzX3NwYWNlX21lbW9yeSwgcS0+YWRkciwgYnVmLCBs
+ZW4pOw0KKyAgICAgICAgICAgIGFkZHJlc3Nfc3BhY2Vfd3JpdGUoJnMtPm1lbV9hcywgcS0+YWRk
+ciwNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1FTVRYQVRUUlNfVU5TUEVDSUZJ
+RUQsIGJ1ZiwgbGVuKTsNCiAgICAgICAgICAgICB0cmFjZV9wbDMzMF9leGVjX2N5Y2xlKHEtPmFk
+ZHIsIGxlbik7DQogICAgICAgICAgICAgaWYgKHRyYWNlX2V2ZW50X2dldF9zdGF0ZV9iYWNrZW5k
+cyhUUkFDRV9QTDMzMF9IRVhEVU1QKSkgew0KICAgICAgICAgICAgICAgICBwbDMzMF9oZXhkdW1w
+KGJ1ZiwgbGVuKTsNCkBAIC0xNTYyLDYgKzE1NjksMTIgQEAgc3RhdGljIHZvaWQgcGwzMzBfcmVh
+bGl6ZShEZXZpY2VTdGF0ZSAqZGV2LCBFcnJvciAqKmVycnApDQogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAiZG1hIiwgUEwzMzBfSU9NRU1fU0laRSk7DQogICAgIHN5c2J1c19pbml0X21taW8o
+U1lTX0JVU19ERVZJQ0UoZGV2KSwgJnMtPmlvbWVtKTsNCisgICAgaWYgKCFzLT5tZW1fbXIpIHsN
+CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIidtZW1fbXInIGxpbmsgaXMgbm90IHNldCIpOw0K
+KyAgICAgICAgcmV0dXJuOw0KKyAgICB9DQorICAgIGFkZHJlc3Nfc3BhY2VfaW5pdCgmcy0+bWVt
+X2FzLCBzLT5tZW1fbXIsICJwbDMzMC1tZW1vcnkiKTsNCisNCiAgICAgcy0+dGltZXIgPSB0aW1l
+cl9uZXdfbnMoUUVNVV9DTE9DS19WSVJUVUFMLCBwbDMzMF9leGVjX2N5Y2xlX3RpbWVyLCBzKTsN
+CiAgICAgcy0+Y2ZnWzBdID0gKHMtPm1ncl9uc19hdF9yc3QgPyAweDQgOiAwKSB8DQpAQCAtMTY1
+Niw2ICsxNjY5LDkgQEAgc3RhdGljIFByb3BlcnR5IHBsMzMwX3Byb3BlcnRpZXNbXSA9IHsNCiAg
+ICAgREVGSU5FX1BST1BfVUlOVDgoInJkX3FfZGVwIiwgUEwzMzBTdGF0ZSwgcmRfcV9kZXAsIDE2
+KSwNCiAgICAgREVGSU5FX1BST1BfVUlOVDE2KCJkYXRhX2J1ZmZlcl9kZXAiLCBQTDMzMFN0YXRl
+LCBkYXRhX2J1ZmZlcl9kZXAsIDI1NiksDQorICAgIERFRklORV9QUk9QX0xJTksoIm1lbW9yeSIs
+IFBMMzMwU3RhdGUsIG1lbV9tciwNCisgICAgICAgICAgICAgICAgICAgICBUWVBFX01FTU9SWV9S
+RUdJT04sIE1lbW9yeVJlZ2lvbiAqKSwNCisNCiAgICAgREVGSU5FX1BST1BfRU5EX09GX0xJU1Qo
+KSwNCn07DQotLQ0K
+
+--_000_4C23C17B8E87E74E906A25A3254A03F4F2167B21SHASXM06verisil_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" id=3D"owaParaStyle"></style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">From f780b0ee2ee36c562ab814915fff0e7217b25e63 Mon Sep =
+17 00:00:00 2001</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">From: Jianxian Wen &lt;jianxian.wen@verisilicon.com&gt=
+;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">Date: Tue, 3 Aug 2021 09:44:35 &#43;0800</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">Subject: [PATCH] hw/dma/pl330: Add memory region to re=
+place default</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">address_space_memory</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">PL330 needs a memory region which can connect with SMM=
+U translate IOMMU region to support SMMU.</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">Signed-off-by: Jianxian Wen &lt;jianxian.wen@verisilic=
+on.com&gt;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">---</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">hw/arm/exynos4210.c&nbsp; |&nbsp; 3 &#43;&#43;&#43;</s=
+pan></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">hw/arm/xilinx_zynq.c |&nbsp; 2 &#43;&#43;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">hw/dma/pl330.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2=
+4 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;----</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">3 files changed, 25 insertions(&#43;), 4 deletions(-)<=
+/span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c=
+</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">index 5c7a51bba..af0e4820d 100644</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">--- a/hw/arm/exynos4210.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&#43;&#43; b/hw/arm/exynos4210.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -171,8 &#43;171,11 @@ static DeviceState *pl330_cre=
+ate(uint32_t base, qemu_or_irq *orgate,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; SysBusDevice *busdev;</span><=
+/p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; DeviceState *dev;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; int i;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; MemoryRegion *sysmem =3D get_s=
+ystem_memory();</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev =3D qdev_new(&quot;p=
+l330&quot;);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; object_property_set_link(OBJEC=
+T(dev), &quot;memory&quot;,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; OBJECT(sysmem), &amp;error_fatal);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_events&quot;, nevents);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_chnls&quot;,&nbsp; 8);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_periph_req&quot;,&nbsp; nreq);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq=
+.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">index 245af81bb..e0b3a73b9 100644</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">--- a/hw/arm/xilinx_zynq.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&#43;&#43; b/hw/arm/xilinx_zynq.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -312,6 &#43;312,8 @@ static void zynq_init(MachineS=
+tate *machine)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; sysbus_connect_irq(SYS_BUS_DE=
+VICE(dev), 0, pic[39-IRQ_OFFSET]);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev =3D qdev_new(&quot;p=
+l330&quot;);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; object_property_set_link(OBJEC=
+T(dev), &quot;memory&quot;,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; OBJECT(address_space_mem), &amp;error_fatal);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_chnls&quot;,&nbsp; 8);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_periph_req&quot;,&nbsp; 4);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; qdev_prop_set_uint8(dev, &quo=
+t;num_events&quot;,&nbsp; 16);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c</span></p=
 >
-> Thanks
-> Chao
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">index 944ba296b..06747ca0b 100644</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">--- a/hw/dma/pl330.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&#43;&#43; b/hw/dma/pl330.c</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -269,6 &#43;269,9 @@ struct PL330State {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint8_t num_faulting;</span><=
+/p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint8_t periph_busy[PL330_PER=
+IPH_NUM];</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; /* Memory region that DMA oper=
+ation access */</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; MemoryRegion *mem_mr;</span></=
+p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; AddressSpace mem_as;</span></p=
 >
-> On Wed, Jul 21, 2021 at 03:54:02PM +0800, Chao Gao wrote:
->> If guest enables IOMMU_PLATFORM for virtio-net, severe network
->> performance drop is observed even if there is no IOMMU.
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">};</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;#define TYPE_PL330 &quot;pl330&quot;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1108,7 &#43;1111,8 @@ static inline const PL330Ins=
+nDesc *pl330_fetch_insn(PL330Chan *ch)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint8_t opcode;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; int i;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp; dma_memory_read(&amp;address_space=
+_memory, ch-&gt;pc, &amp;opcode, 1);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; address_space_read(&amp;ch-&gt=
+;parent-&gt;mem_as, ch-&gt;pc,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; MEMTXATTRS_UNSPECIFIED, &amp;opcode, 1);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; for (i =3D 0; insn_desc[i].si=
+ze; i&#43;&#43;) {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((=
+opcode &amp; insn_desc[i].opmask) =3D=3D insn_desc[i].opcode) {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; return &amp;insn_desc[i];</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1122,7 &#43;1126,8 @@ static inline void pl330_exe=
+c_insn(PL330Chan *ch, const PL330InsnDesc *insn)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint8_t buf[PL330_INSN_MAXSIZ=
+E];</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert(insn-&gt;size &lt=
+;=3D PL330_INSN_MAXSIZE);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp; dma_memory_read(&amp;address_space=
+_memory, ch-&gt;pc, buf, insn-&gt;size);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; address_space_read(&amp;ch-&gt=
+;parent-&gt;mem_as, ch-&gt;pc,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; MEMTXATTRS_UNSPECIFIED, buf, insn-&gt;size);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; insn-&gt;exec(ch, buf[0], &am=
+p;buf[1], insn-&gt;size - 1);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">}</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1186,7 &#43;1191,8 @@ static int pl330_exec_cycle(=
+PL330Chan *channel)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; if (q !=3D NULL &amp;&amp; q-=
+&gt;len &lt;=3D pl330_fifo_num_free(&amp;s-&gt;fifo)) {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int l=
+en =3D q-&gt;len - (q-&gt;addr &amp; (q-&gt;len - 1));</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dma_memory=
+_read(&amp;address_space_memory, q-&gt;addr, buf, len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addres=
+s_space_read(&amp;s-&gt;mem_as, q-&gt;addr,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MEMTXATTRS_UNSPECIFIED, buf, len);</=
+span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; trace=
+_pl330_exec_cycle(q-&gt;addr, len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (t=
+race_event_get_state_backends(TRACE_PL330_HEXDUMP)) {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; pl330_hexdump(buf, len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1217,7 &#43;1223,8 @@ static int pl330_exec_cycle(=
+PL330Chan *channel)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; fifo_res =3D pl330_fifo_get(&amp;s-&gt;fifo, buf, len, q=
+-&gt;tag);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</sp=
+an></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (f=
+ifo_res =3D=3D PL330_FIFO_OK || q-&gt;z) {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; dma_memory_write(&amp;address_space_memory, q-&gt;addr, buf, =
+len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; address_space_write(&amp;s-&gt;mem_as, q-&gt;addr,</span>=
+</p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MEMTXATTRS_U=
+NSPECIFIED, buf, len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; trace_pl330_exec_cycle(q-&gt;addr, len);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP))=
+ {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pl330_hexdump(buf, len);</span><=
+/p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1562,6 &#43;1569,12 @@ static void pl330_realize(D=
+eviceState *dev, Error **errp)</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;dma&quot;, PL330_IOMEM_SIZE);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; sysbus_init_mmio(SYS_BUS_DEVI=
+CE(dev), &amp;s-&gt;iomem);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; if (!s-&gt;mem_mr) {</span></p=
+>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error_=
+setg(errp, &quot;'mem_mr' link is not set&quot;);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return=
+;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; }</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; address_space_init(&amp;s-&gt;=
+mem_as, s-&gt;mem_mr, &quot;pl330-memory&quot;);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; s-&gt;timer =3D timer_new_ns(=
+QEMU_CLOCK_VIRTUAL, pl330_exec_cycle_timer, s);</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s-&gt;cfg[0] =3D (s-&gt;=
+mgr_ns_at_rst ? 0x4 : 0) |</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">@@ -1656,6 &#43;1669,9 @@ static Property pl330_proper=
+ties[] =3D {</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp; &nbsp;&nbsp;&nbsp;DEFINE_PROP_UINT8(&quot;rd_q_=
+dep&quot;, PL330State, rd_q_dep, 16),</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; DEFINE_PROP_UINT16(&quot;data=
+_buffer_dep&quot;, PL330State, data_buffer_dep, 256),</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; DEFINE_PROP_LINK(&quot;memory&=
+quot;, PL330State, mem_mr,</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TYP=
+E_MEMORY_REGION, MemoryRegion *),</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&#43;</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">&nbsp;&nbsp; &nbsp;&nbsp;DEFINE_PROP_END_OF_LIST(),</s=
+pan></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">};</span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US"></span></p>
+<p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; text-align: justi=
+fy; font-size: 10.5pt; font-family: Calibri, sans-serif;">
+<span lang=3D"EN-US">--</span></p>
+</div>
+</body>
+</html>
 
-
-We see such reports internally and we're testing a patch series to 
-disable vhost IOTLB in this case.
-
-Will post a patch soon.
-
-
-
->>   And disabling
->> vhost can mitigate the perf issue. Finally, we found the culprit is
->> frequent iotlb misses: kernel vhost-net has 2048 entries and each
->> entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
->> translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
->> memory for DMA, there are some iotlb misses.
->>
->> If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
->> mode, we can optimistically use large, unaligned iotlb entries instead
->> of 4K-aligned entries to reduce iotlb pressure.
-
-
-Instead of introducing new general facilities like unaligned IOTLB 
-entry. I wonder if we optimize the vtd_iommu_translate() to use e.g 1G 
-instead?
-
-     } else {
-         /* DMAR disabled, passthrough, use 4k-page*/
-         iotlb.iova = addr & VTD_PAGE_MASK_4K;
-         iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
-         iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
-         iotlb.perm = IOMMU_RW;
-         success = true;
-     }
-
-
->>   Actually, vhost-net
->> in kernel supports unaligned iotlb entry. The alignment requirement is
->> imposed by address_space_get_iotlb_entry() and flatview_do_translate().
-
-
-For the passthrough case, is there anyway to detect them and then 
-disable device IOTLB in those case?
-
-Thanks
-
-
->>
->> Introduce IOMMUTLBEntryUnaligned which has a @len field to specify the
->> iotlb size to abstract a generic iotlb entry: aligned (original
->> IOMMUTLBEntry) and unaligned entry. flatview_do_translate() now
->> returns a magic value in @page_mask_out if no IOMMU translation is
->> needed. Then, address_space_get_iotbl_entry() can accordingly return a
->> page-aligned iotlb entry or the whole memory region section where the
->> iova resides as a large iotlb entry.
->>
->> Signed-off-by: Chao Gao <chao.gao@intel.com>
->> ---
->> hw/virtio/vhost.c     |  6 +++---
->> include/exec/memory.h | 16 ++++++++++++++--
->> softmmu/physmem.c     | 37 +++++++++++++++++++++++++++++--------
->> 3 files changed, 46 insertions(+), 13 deletions(-)
->>
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index e8f85a5d2d..6745caa129 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -1010,7 +1010,7 @@ static int vhost_memory_region_lookup(struct vhost_dev *hdev,
->>
->> int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
->> {
->> -    IOMMUTLBEntry iotlb;
->> +    IOMMUTLBEntryUnaligned iotlb;
->>      uint64_t uaddr, len;
->>      int ret = -EFAULT;
->>
->> @@ -1031,8 +1031,8 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
->>              goto out;
->>          }
->>
->> -        len = MIN(iotlb.addr_mask + 1, len);
->> -        iova = iova & ~iotlb.addr_mask;
->> +        len = MIN(iotlb.len, len);
->> +        iova = iotlb.iova;
->>
->>          ret = vhost_backend_update_device_iotlb(dev, iova, uaddr,
->>                                                  len, iotlb.perm);
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index c3d417d317..3f04e8fe88 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -94,6 +94,7 @@ struct MemoryRegionSection {
->> };
->>
->> typedef struct IOMMUTLBEntry IOMMUTLBEntry;
->> +typedef struct IOMMUTLBEntryUnaligned IOMMUTLBEntryUnaligned;
->>
->> /* See address_space_translate: bit 0 is read, bit 1 is write.  */
->> typedef enum {
->> @@ -113,6 +114,15 @@ struct IOMMUTLBEntry {
->>      IOMMUAccessFlags perm;
->> };
->>
->> +/* IOMMUTLBEntryUnaligned may be not page-aligned */
->> +struct IOMMUTLBEntryUnaligned {
->> +    AddressSpace    *target_as;
->> +    hwaddr           iova;
->> +    hwaddr           translated_addr;
->> +    hwaddr           len;
->> +    IOMMUAccessFlags perm;
->> +};
->> +
->> /*
->>   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
->>   * register with one or multiple IOMMU Notifier capability bit(s).
->> @@ -2653,8 +2663,10 @@ void address_space_cache_destroy(MemoryRegionCache *cache);
->> /* address_space_get_iotlb_entry: translate an address into an IOTLB
->>   * entry. Should be called from an RCU critical section.
->>   */
->> -IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->> -                                            bool is_write, MemTxAttrs attrs);
->> +IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
->> +                                                     hwaddr addr,
->> +                                                     bool is_write,
->> +                                                     MemTxAttrs attrs);
->>
->> /* address_space_translate: translate an address range into an address space
->>   * into a MemoryRegion and an address range into that section.  Should be
->> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->> index 3c1912a1a0..469963f754 100644
->> --- a/softmmu/physmem.c
->> +++ b/softmmu/physmem.c
->> @@ -143,6 +143,8 @@ typedef struct subpage_t {
->>
->> #define PHYS_SECTION_UNASSIGNED 0
->>
->> +#define PAGE_MASK_NOT_BEHIND_IOMMU ((hwaddr)-1)
->> +
->> static void io_mem_init(void);
->> static void memory_map_init(void);
->> static void tcg_log_global_after_sync(MemoryListener *listener);
->> @@ -470,7 +472,9 @@ unassigned:
->>   * @page_mask_out: page mask for the translated address. This
->>   *            should only be meaningful for IOMMU translated
->>   *            addresses, since there may be huge pages that this bit
->> - *            would tell. It can be @NULL if we don't care about it.
->> + *            would tell. If the returned memory region section isn't
->> + *            behind an IOMMU, PAGE_MASK_NOT_BEHIND_IOMMU is return.
->> + *            It can be @NULL if we don't care about it.
->>   * @is_write: whether the translation operation is for write
->>   * @is_mmio: whether this can be MMIO, set true if it can
->>   * @target_as: the address space targeted by the IOMMU
->> @@ -508,16 +512,18 @@ static MemoryRegionSection flatview_do_translate(FlatView *fv,
->>                                               target_as, attrs);
->>      }
->>      if (page_mask_out) {
->> -        /* Not behind an IOMMU, use default page size. */
->> -        *page_mask_out = ~TARGET_PAGE_MASK;
->> +        /* return a magic value if not behind an IOMMU */
->> +        *page_mask_out = PAGE_MASK_NOT_BEHIND_IOMMU;
->>      }
->>
->>      return *section;
->> }
->>
->> /* Called from RCU critical section */
->> -IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->> -                                            bool is_write, MemTxAttrs attrs)
->> +IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
->> +                                                     hwaddr addr,
->> +                                                     bool is_write,
->> +                                                     MemTxAttrs attrs)
->> {
->>      MemoryRegionSection section;
->>      hwaddr xlat, page_mask;
->> @@ -535,21 +541,36 @@ IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->>          goto iotlb_fail;
->>      }
->>
->> +    /*
->> +     * If the section isn't behind an IOMMU, return the whole section as an
->> +     * IOMMU TLB entry.
->> +     */
->> +    if (page_mask == PAGE_MASK_NOT_BEHIND_IOMMU) {
->> +        return (IOMMUTLBEntryUnaligned) {
->> +            .target_as = as,
->> +            .iova = section.offset_within_address_space,
->> +            .translated_addr = section.offset_within_address_space,
->> +            .len = section.size,
->> +            /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
->> +            .perm = IOMMU_RW,
->> +        };
->> +    }
->> +
->>      /* Convert memory region offset into address space offset */
->>      xlat += section.offset_within_address_space -
->>          section.offset_within_region;
->>
->> -    return (IOMMUTLBEntry) {
->> +    return (IOMMUTLBEntryUnaligned) {
->>          .target_as = as,
->>          .iova = addr & ~page_mask,
->>          .translated_addr = xlat & ~page_mask,
->> -        .addr_mask = page_mask,
->> +        .len = page_mask + 1,
->>          /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
->>          .perm = IOMMU_RW,
->>      };
->>
->> iotlb_fail:
->> -    return (IOMMUTLBEntry) {0};
->> +    return (IOMMUTLBEntryUnaligned) {0};
->> }
->>
->> /* Called from RCU critical section */
->> -- 
->> 2.25.1
->>
-
+--_000_4C23C17B8E87E74E906A25A3254A03F4F2167B21SHASXM06verisil_--
 
