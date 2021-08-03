@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63FA3DEEB8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:06:31 +0200 (CEST)
-Received: from localhost ([::1]:34518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136083DEEF6
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:18:39 +0200 (CEST)
+Received: from localhost ([::1]:45174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAu7q-0002Py-D3
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
+	id 1mAuJZ-0001wh-Ja
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAu6x-0001kH-Nd
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:05:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42770)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAuII-0001BQ-1K
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:17:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAu6u-0004HP-Cd
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:05:34 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAuIF-0004AG-DS
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:17:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627995930;
+ s=mimecast20190719; t=1627996633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ETRxWTQfnX1yfBqx1VnpNTHKTsD4RRgplIfuJeIv2V0=;
- b=PYGyaOVNvqoRukvTV0otjfx2UW/8kTLRNhX/leYRmqT6PasZ0pqDpMyKDWw/5i1PN9vIpv
- g2sFjXkXvlB7l4hHOg0VbDGlAV3mLB1/ccxnwyLxWOVIAPvzCWV54rmUDT+8+tJdlDx3td
- HuEkNfFkAf7FISBgYwFHTxWHJwfjT9I=
+ bh=qH/s7Qkm5siTJcRMy1DX5Sv7d/FZLrSFx+rcGcK3TP8=;
+ b=QJmcSuFSEIK07Ys3gBXEesIh5jG88f/22t1eWYaP4KT4D1iMohUJAtqltaAPvmm0lx10Zi
+ ss5TebiKDIPNRtkNYjrUn/SWilhD5abPEvcKMhRY+oF4mOs7A/K6hF/WAoRz6RQGmgoWPl
+ 8b0HNofWmsshCVllYk+MkH4mPAQdwiM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-HqxdgmgcPKeVCy0sC__K0A-1; Tue, 03 Aug 2021 09:05:29 -0400
-X-MC-Unique: HqxdgmgcPKeVCy0sC__K0A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-498-dxveKsMQP6WPbpQD7Tb2aQ-1; Tue, 03 Aug 2021 09:17:12 -0400
+X-MC-Unique: dxveKsMQP6WPbpQD7Tb2aQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8933423C5
- for <qemu-devel@nongnu.org>; Tue,  3 Aug 2021 13:05:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CEB41940920
+ for <qemu-devel@nongnu.org>; Tue,  3 Aug 2021 13:17:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
  [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B02E6E0B9;
- Tue,  3 Aug 2021 13:05:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06C9219C44;
+ Tue,  3 Aug 2021 13:17:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C2BBC11380A0; Tue,  3 Aug 2021 15:05:12 +0200 (CEST)
+ id 6C16311380A0; Tue,  3 Aug 2021 15:17:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: marcandre.lureau@redhat.com
 Subject: Re: [PATCH v6 07/11] qapi: replace if condition list with dict
  {'all': [...]}
 References: <20210618102507.3761128-1-marcandre.lureau@redhat.com>
  <20210618102507.3761128-8-marcandre.lureau@redhat.com>
-Date: Tue, 03 Aug 2021 15:05:12 +0200
+Date: Tue, 03 Aug 2021 15:17:02 +0200
 In-Reply-To: <20210618102507.3761128-8-marcandre.lureau@redhat.com> (marcandre
  lureau's message of "Fri, 18 Jun 2021 14:25:03 +0400")
-Message-ID: <87lf5ismpj.fsf@dusky.pond.sub.org>
+Message-ID: <87wnp2r7ld.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,6 +88,8 @@ Cc: Eric Blake <eblake@redhat.com>, jsnow@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+One more thing...
+
 marcandre.lureau@redhat.com writes:
 
 > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
@@ -97,113 +99,9 @@ marcandre.lureau@redhat.com writes:
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  scripts/qapi/common.py                        | 23 +++++--
->  scripts/qapi/expr.py                          | 52 ++++++++++------
->  scripts/qapi/schema.py                        |  2 +-
->  tests/qapi-schema/bad-if-empty-list.json      |  2 +-
->  tests/qapi-schema/bad-if-list.json            |  2 +-
->  tests/qapi-schema/bad-if.err                  |  3 +-
->  tests/qapi-schema/doc-good.json               |  3 +-
->  tests/qapi-schema/doc-good.out                | 13 ++--
->  tests/qapi-schema/doc-good.txt                |  6 ++
->  tests/qapi-schema/enum-if-invalid.err         |  3 +-
->  tests/qapi-schema/features-if-invalid.err     |  2 +-
->  tests/qapi-schema/qapi-schema-test.json       | 25 ++++----
->  tests/qapi-schema/qapi-schema-test.out        | 62 +++++++++----------
->  .../qapi-schema/struct-member-if-invalid.err  |  2 +-
->  .../qapi-schema/union-branch-if-invalid.json  |  2 +-
->  15 files changed, 119 insertions(+), 83 deletions(-)
->
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index 5181a0f167..51463510c9 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -13,7 +13,8 @@
-> =20
->  import re
->  from typing import (
-> -    List,
-> +    Any,
-> +    Dict,
->      Match,
->      Optional,
->      Union,
-> @@ -199,16 +200,28 @@ def guardend(name: str) -> str:
->                   name=3Dc_fname(name).upper())
-> =20
-> =20
-> -def cgen_ifcond(ifcond: Union[str, List[str]]) -> str:
-> +def docgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
 
-Uh, why do you swap cgen_ifcond() and docgen_ifcond()?  Accident?
+[...]
 
->      if not ifcond:
->          return ''
-> -    return '(' + ') && ('.join(ifcond) + ')'
-> +    if isinstance(ifcond, str):
-> +        return ifcond
-> =20
-> +    oper, operands =3D next(iter(ifcond.items()))
-> +    oper =3D {'all': ' and '}[oper]
-> +    operands =3D [docgen_ifcond(o) for o in operands]
-> +    return '(' + oper.join(operands) + ')'
-
-What a nice review speedbump you buried here...
-
-The whole block boils down to the much less exciting
-
-       operands =3D [docgen_ifcond(o) for o in ifcond['all']]
-       return '(' + ' and '.join(operands) + ')'
-
-Peeking ahead, I understand that you did it this way here so you can
-extend it trivially there.  Matter of taste; what counts is the final
-result and minimizing reviewer WTFs/minute along the way.
-
-Since the WTFs/minute is a done deed now, what remains is the final
-result, which I expect to review shortly.  But please try a bit harder
-to be boring next time ;)
-
-> =20
-> -def docgen_ifcond(ifcond: Union[str, List[str]]) -> str:
-> +
-> +def cgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
->      if not ifcond:
->          return ''
-> -    return ' and '.join(ifcond)
-> +    if isinstance(ifcond, str):
-> +        return ifcond
-
-This is what gets rid of the redundant parenthesises in the common case
-"single condition string".
-
-> +
-> +    oper, operands =3D next(iter(ifcond.items()))
-> +    oper =3D {'all': '&&'}[oper]
-> +    operands =3D [cgen_ifcond(o) for o in operands]
-> +    return '(' + (') ' + oper + ' (').join(operands) + ')'
-
-This line is hard to read.  Easier, I think:
-
-       oper =3D {'all': ' && '}[oper]
-       operands =3D ['(' + cgen_ifcond(o) + ')' for o in operands]
-       return oper.join(operands)
-
-Neither your version nor mine gets rid of the redundant parenthesises in
-the (uncommon) case "complex condition expression".
-tests/test-qapi-introspect.c still has
-
-    #if (defined(TEST_IF_COND_1)) && (defined(TEST_IF_COND_2))
-                QLIT_QSTR("feature1"),
-    #endif /* (defined(TEST_IF_COND_1)) && (defined(TEST_IF_COND_2)) */
-
-Mildly annoying.  I'm willing to leave this for later.
-
-Code smell: cgen_ifcond() and docgen_ifcond() are almost identical.  Can
-also be left for later.
-
-> =20
-> =20
->  def gen_if(cond: str) -> str:
 > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
 > index 496f7e0333..3ee66c5f62 100644
 > --- a/scripts/qapi/expr.py
@@ -225,11 +123,6 @@ ne:
 > -      :sugared: ``Union[str, List[str]]``
 > -      :canonical: ``List[str]``
 > +      :canonical: ``Union[str, dict]``
-
-Does this :forms: thing make sense without any :sugared:?  John, you
-added (invented?) it in commit a48653638fa, but no explanation made it
-into the tree.
-
 > =20
 >      :param expr: The expression containing the ``if`` member to validate=
 .
@@ -242,10 +135,6 @@ o, source: str) -> None:
 > -    :return: None, ``expr`` is normalized in-place as needed.
 > +    :return: None
 >      """
-
-Looks like there's a bit more going on than the commit message made me
-expect.
-
 >      ifcond =3D expr.get('if')
 >      if ifcond is None:
 >          return
@@ -284,6 +173,10 @@ ce)
 > -                % (elt, source))
 > +                "'if' condition dict of %s must have one key: "
 > +                "'all'" % source)
+
+Not covered by the negative tests in tests/qapi-schema/.  Please
+double-check that all new errors are covered.
+
 > +        check_keys(cond, info, "'if' condition", [],
 > +                   ["all"])
 > +
@@ -300,172 +193,7 @@ rce))
 > +            _check_if(operand)
 > +
 > +    _check_if(ifcond)
-
-Putting the function's helper in the middle of the function reminds me
-of Mark Twain's "The Awful German Language":
-
-    "The trunks being now ready, he DE- after kissing his mother and
-    sisters, and once more pressing to his bosom his adored Gretchen,
-    who, dressed in simple white muslin, with a single tuberose in the
-    ample folds of her rich brown hair, had tottered feebly down the
-    stairs, still pale from the terror and excitement of the past
-    evening, but longing to lay her poor aching head yet once again upon
-    the breast of him whom she loved more dearly than life itself,
-    PARTED."
-
-I find it hard to read.
-
 > =20
-> =20
->  def normalize_members(members: object) -> None:
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 30d6a01ad1..d2fbdbe583 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -32,7 +32,7 @@
-> =20
->  class QAPISchemaIfCond:
->      def __init__(self, ifcond=3DNone):
-> -        self.ifcond =3D ifcond or []
-> +        self.ifcond =3D ifcond or {}
-> =20
->      def cgen(self):
->          return cgen_ifcond(self.ifcond)
-> diff --git a/tests/qapi-schema/bad-if-empty-list.json b/tests/qapi-schema=
-/bad-if-empty-list.json
-> index 94f2eb8670..b62b5671df 100644
-> --- a/tests/qapi-schema/bad-if-empty-list.json
-> +++ b/tests/qapi-schema/bad-if-empty-list.json
-> @@ -1,3 +1,3 @@
->  # check empty 'if' list
->  { 'struct': 'TestIfStruct', 'data': { 'foo': 'int' },
-> -  'if': [] }
-> +  'if': { 'all': [] } }
-> diff --git a/tests/qapi-schema/bad-if-list.json b/tests/qapi-schema/bad-i=
-f-list.json
-> index ea3d95bb6b..1fefef16a7 100644
-> --- a/tests/qapi-schema/bad-if-list.json
-> +++ b/tests/qapi-schema/bad-if-list.json
-> @@ -1,3 +1,3 @@
->  # check invalid 'if' content
->  { 'struct': 'TestIfStruct', 'data': { 'foo': 'int' },
-> -  'if': ['foo', ' '] }
-> +  'if': { 'all': ['foo', ' '] } }
-> diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
-> index f83dee65da..8278c49368 100644
-> --- a/tests/qapi-schema/bad-if.err
-> +++ b/tests/qapi-schema/bad-if.err
-> @@ -1,2 +1,3 @@
->  bad-if.json: In struct 'TestIfStruct':
-> -bad-if.json:2: 'if' condition of struct must be a string or a list of st=
-rings
-> +bad-if.json:2: 'if' condition has unknown key 'value'
-> +Valid keys are 'all'.
-
-"keys are" is awkward when there's just one.  Okay since there soon will
-be more.
-
-Test case bad-if.json is meant to cover "value of key 'if' has an
-invalid JSON type".  Before the patch, str and list are valid, and the
-test uses (invalid) dict.  Afterwards, str and dict are, and the test
-still uses (now valid) dict.  In other words, it now tests something
-else entirely.
-
-I think this test should be updated to something like
-
-    'if': [ 'defined(TEST_IF_STRUCT)' ]
-
-and a new test added to cover invalid dict key.
-
-> diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good=
-.json
-> index 423ea23e07..25b1053e8a 100644
-> --- a/tests/qapi-schema/doc-good.json
-> +++ b/tests/qapi-schema/doc-good.json
-> @@ -70,7 +70,8 @@
->  # @base1:
->  # the first member
->  ##
-> -{ 'struct': 'Base', 'data': { 'base1': 'Enum' } }
-> +{ 'struct': 'Base', 'data': { 'base1': 'Enum' },
-> +  'if': { 'all': ['IFALL1', 'IFALL2'] } }
-
-We lack cover for this before your patch.  Thanks for fixing it.
-
-> =20
->  ##
->  # @Variant1:
-> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
-out
-> index 8f54ceff2e..689d084f3a 100644
-> --- a/tests/qapi-schema/doc-good.out
-> +++ b/tests/qapi-schema/doc-good.out
-> @@ -12,15 +12,16 @@ enum QType
->  module doc-good.json
->  enum Enum
->      member one
-> -        if ['defined(IFONE)']
-> +        if defined(IFONE)
->      member two
-> -    if ['defined(IFCOND)']
-> +    if defined(IFCOND)
->      feature enum-feat
->  object Base
->      member base1: Enum optional=3DFalse
-> +    if OrderedDict([('all', ['IFALL1', 'IFALL2'])])
->  object Variant1
->      member var1: str optional=3DFalse
-> -        if ['defined(IFSTR)']
-> +        if defined(IFSTR)
->          feature member-feat
->      feature variant1-feat
->  object Variant2
-> @@ -29,7 +30,7 @@ object Object
->      tag base1
->      case one: Variant1
->      case two: Variant2
-> -        if ['IFTWO']
-> +        if IFTWO
->      feature union-feat1
->  object q_obj_Variant1-wrapper
->      member data: Variant1 optional=3DFalse
-> @@ -38,13 +39,13 @@ object q_obj_Variant2-wrapper
->  enum SugaredUnionKind
->      member one
->      member two
-> -        if ['IFTWO']
-> +        if IFTWO
->  object SugaredUnion
->      member type: SugaredUnionKind optional=3DFalse
->      tag type
->      case one: q_obj_Variant1-wrapper
->      case two: q_obj_Variant2-wrapper
-> -        if ['IFTWO']
-> +        if IFTWO
->      feature union-feat2
->  alternate Alternate
->      tag type
-> diff --git a/tests/qapi-schema/doc-good.txt b/tests/qapi-schema/doc-good.=
-txt
-> index 726727af74..4490108cb7 100644
-> --- a/tests/qapi-schema/doc-good.txt
-> +++ b/tests/qapi-schema/doc-good.txt
-> @@ -76,6 +76,12 @@ Members
->     the first member
-> =20
-> =20
-> +If
-> +~~
-> +
-> +"(IFALL1 and IFALL2)"
-> +
-> +
-
-The documentation generated for conditionals is poor before and after
-your work.  Observation, not demand.
-
->  "Variant1" (Object)
->  -------------------
 > =20
 
 [...]
