@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BBE3DF6B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:04:51 +0200 (CEST)
-Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F0A3DF6BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:11:35 +0200 (CEST)
+Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB1aj-0004z4-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1mB1hG-0007bb-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mB1ZF-0003fB-AR
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:03:17 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38705)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mB1gW-0006ud-QS
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:10:48 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mB1ZD-0007Ji-KV
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:03:16 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- mz5-20020a17090b3785b0290176ecf64922so5687349pjb.3
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:03:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mB1gV-000452-9J
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:10:48 -0400
+Received: by mail-wr1-x434.google.com with SMTP id j2so26644214wrx.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OkBDZlgu05lZlUpfdbD1FCpfq4OUU4bJP/czZaM6Opk=;
- b=sDRzX5e0iYuvTryxMXaOG3XuLz72vhkwINjj6cUrsPOYChSitV+xy3JCUSca3UPJns
- odtjRlQxCO3xWmpmpc0wt0+eugrYTxRS1HpuwAGgi7qiM0ceNVQEhCZAr98MsK7N2TYl
- GGYw3ud3qxf93svXSRtnfvm37BO6AEsaxGhEqABHXmA7RcCdlhf5BTVhS+Tq2pMQKJQF
- qJ8dEDa51qFZdhY5BdeyOnHZ6SZrc9cy3DIWQjdnxLfjSnKOGSw5AeEWJRUgH4koHPiJ
- kpY7INWtzYJgrB7ocA50/6qNeWtdrdx9V5i+TDQBDvZ/KW0wl+umaIMqTakL4DcZ2MdK
- 0HAA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yCcSN7acP7cJrnE6FfFIUfcyU4cT7V062F+NhUfoaLc=;
+ b=GyadiYfLOkja2uEY4SMIF5seW10Jac/IPYz/k7V2I+f0zSDWfPrwkReXyjh8WmczM8
+ ymOWSfbbCNmRi20XOyB57FQwJ7gg/y1Q0y0t8RZb39q9T1Yig0mBLqfC/dSDpGPBDr08
+ ZJ+agQAEA18SI3EoKUEpW5L2hGdUyfP2GBCcVTmJ16e3y26t6bRbx5YO2bwypd0R1UP2
+ FC2PxmW0ESnUyxUwcOV0425/j7uY0RFidid87RrUKg+FeXc9ZozORQPCrYjJZ4vHt+Mg
+ zGkGL3poma8CV5KrWE+t52uiYzoCgYs3n6ACEkQQnJoxiYlbhU5nnaFrcIXSuIiTx8U1
+ TeQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OkBDZlgu05lZlUpfdbD1FCpfq4OUU4bJP/czZaM6Opk=;
- b=ionB2wWXv5B300ryVfALqs4/zC+JXwHPWf11rpqoLZWdzPGZxw/50AAxj6m2UCouiu
- tveDtufKwPBJY/hB/ofaAtTVC581GnR4B3fsScUugzjoIGaRMv2TA3TNcYx+CrQciwFO
- wpn1hs4AHjPgyOzI/qwR97/GnXDGV02u0dzOB/OKW56rr6+r/1Ap1SY8/4rA3/kk+5Nk
- U6Ec0JRpPWz2/IZe19ig6CespzXV2QmX7fNbaQJUAPzT6XLMSs//Z5NA+tOJqs5wTxUc
- gGqP0ykbcIBFA9cSHpnzSbdA3SByCWMmYQu1dcafPxyn7Mi/njMX0+lKIFz4QNw5tu87
- b9HA==
-X-Gm-Message-State: AOAM533I4zF0gGFqiUPNUCR1Yog+LvlfHMyaKQm2YPzWU71Je1movkJ/
- 0ujEiZy4ZE605AVD+esd+zXBTQ==
-X-Google-Smtp-Source: ABdhPJyqycVD+gwlM8cdtbnvzCUbJtFoj/yG//7fH6vXHIiyIn/XQSdLjXDp+lRJ+5JxE3NhD/68TQ==
-X-Received: by 2002:a05:6a00:1305:b029:347:676:d38f with SMTP id
- j5-20020a056a001305b02903470676d38fmr23858567pfu.39.1628024591790; 
- Tue, 03 Aug 2021 14:03:11 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id l13sm101255pjh.15.2021.08.03.14.03.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Aug 2021 14:03:11 -0700 (PDT)
-Subject: Re: [PATCH] linux-user: fix guest/host address mixup in i386
- setup_rt_frame()
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>
-References: <20210803171858.148394-1-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0748655e-be89-1542-e1cd-66506c7e54f0@linaro.org>
-Date: Tue, 3 Aug 2021 11:03:08 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=yCcSN7acP7cJrnE6FfFIUfcyU4cT7V062F+NhUfoaLc=;
+ b=JVRVb2Xw0gTauVvo5cdNx3inyBVmLM5TyFKmUPBlVZ1RUxRZ4iHo1yeA4regN/w1Be
+ B6+8XU30d9uAOAfZfZnOwOfWUfpXzy0LnmBDKbEIBYlLW19DTNLgUXvb2iTkhAZYxogy
+ GN/Z//ahHMvmk0kuuTU3jfr6h9RKpOxGZIjaZ4ilP+EVP+y6GKte3cvALStQYuzMmhOG
+ Abop549E9A9s7z15/hGFmIRDTAWAJhOdO44h5kI9wN7Y1Kd35bw//HwMeaW07uMktQao
+ ZVck+vK9rMMDqTVejGEe1hwoASe1t/LjOZ2kFrlnQg8EehFkg+Vn8aw00Wx++FnDM1OP
+ 7UVw==
+X-Gm-Message-State: AOAM530TdIqZhti4XmzKnH6R16k3hTM7j22Fv4tfVDYOAxE9JE9kymee
+ 6Bv6aaGRpIP+XvV1Fcg9oWiIzA==
+X-Google-Smtp-Source: ABdhPJxtH00I9cKxkXRz3kWjHDFDb6esw2tAcrhRK5ymQDEsCr+zGNbNUUCEl1as6jYGLTXmeaip0Q==
+X-Received: by 2002:a05:6000:227:: with SMTP id
+ l7mr24064169wrz.289.1628025045427; 
+ Tue, 03 Aug 2021 14:10:45 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f15sm80074wrp.12.2021.08.03.14.10.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Aug 2021 14:10:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 11DAC1FF96;
+ Tue,  3 Aug 2021 22:10:44 +0100 (BST)
+References: <20210803151301.123581-1-ma.mandourr@gmail.com>
+User-agent: mu4e 1.6.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH v5 0/2] plugins/cache: multicore cache modelling
+Date: Tue, 03 Aug 2021 22:10:38 +0100
+In-reply-to: <20210803151301.123581-1-ma.mandourr@gmail.com>
+Message-ID: <87fsvqfd4b.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210803171858.148394-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,21 +87,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/21 7:18 AM, Ilya Leoshkevich wrote:
-> setup_rt_frame() passes siginfo and ucontext host addresses to guest
-> signal handlers, causing problems when e.g. emulating x86_64 on s390x.
-> 
-> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
-> ---
->   linux-user/i386/signal.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-r~
+> Hello,
+>
+> This series introduce multicore cache modelling in contrib/plugins/cache.c
+>
+> Multi-core cache modelling is handled such that for full-system
+> emulation, a private L1 cache is maintained to each core available to
+> the system. For multi-threaded userspace emulation, a static number of
+> cores is maintained for the overall system, and every memory access go
+> through one of these, even if the number of fired threads is more than
+> that number.
+
+Queued to plugins/next, thanks.
+
+--=20
+Alex Benn=C3=A9e
 
