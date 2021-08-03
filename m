@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC84B3DF0C7
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 16:51:12 +0200 (CEST)
-Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DAD3DF10A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:04:54 +0200 (CEST)
+Received: from localhost ([::1]:39742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAvl9-0003mt-J6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 10:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
+	id 1mAvyO-0006go-SJ
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mAvjw-0002IT-A1
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:49:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21482)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mAvx5-0005sc-P3
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mAvju-0001Uz-JK
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 10:49:55 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mAvx4-0002UL-Cx
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:03:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628002192;
+ s=mimecast20190719; t=1628003009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kY6rZCi8mk/iNrtpnbCqnwWrcXYSGIhAU0iabxUm4I0=;
- b=GwoN23cZtiUIjChSBmsV9blwXcT6LiJv/5dvzjyTBL5dcsbDMWMrEQLCaxxax/J5uhez8i
- 5iIJh+z0D+4HG189QPVlBZ/JqFCHHlPKojhP71g0Y7GVmEfhQ2ZU3uxXdGoVxoYqBS/kjg
- iUTbQmuLf1HxRHU7DjRzXhBmrLgHiIQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-a5OfwQcSPiiNa6Nf_j0ZdQ-1; Tue, 03 Aug 2021 10:49:52 -0400
-X-MC-Unique: a5OfwQcSPiiNa6Nf_j0ZdQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m37-20020a05600c3b25b02902b5a02478adso42815wms.0
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 07:49:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kY6rZCi8mk/iNrtpnbCqnwWrcXYSGIhAU0iabxUm4I0=;
- b=KC66aG8v8U7XSHb6pjXyP7Z8/L4X0ycCOyIAr8b6wYoXu3Nq6GZeoEClwWltn7DePA
- CnVc6MldoJoeLLAVDlb7v+fhDxQEcwZ/97m0+35MjaKFqRvG37N2N5Lw3YWKBLnp48ZK
- mFJRJzoY6+L2b4KoF/3gMyhHn37wLf0cwZZkWSoepzFQ/YeutAfGx82HIZwkxtFCPYQV
- 38V9K+oKpY1UQQg1ZwcHuGIMb+9c/R/qbs8Afb2AAVkrwwTDTTpbn/nEG2ZwE8DZ8h4l
- jsR+AiUFUcRLmGugLqKufnBRsKjM2e7tc8Av25qB1KMPSh+vhlRWwBqVnVvGHNApGQyI
- WuXw==
-X-Gm-Message-State: AOAM5305m5IZCiDlpOYdexcQJcQD268BLaWbBHynXeSTWuh3fGHzD0ST
- /1DCrZDXDjOOAry5fEYnDBXNQROaO1jhy3kLW+yJCqPvDzEjVEYA3gFGBJ+G47/IAz0FzpCcrhf
- LiPV6Xn//IpEcuvM=
-X-Received: by 2002:adf:fe44:: with SMTP id m4mr15749098wrs.133.1628002189942; 
- Tue, 03 Aug 2021 07:49:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRcQ/LoLI3K1sJONz4vOQ5cgVVw9w/BhUXqQAfmCDbBre1ctanHEVIyibjsNa4O/Bbr00dOg==
-X-Received: by 2002:adf:fe44:: with SMTP id m4mr15749068wrs.133.1628002189649; 
- Tue, 03 Aug 2021 07:49:49 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.21.182])
- by smtp.gmail.com with ESMTPSA id u13sm15810780wmj.14.2021.08.03.07.49.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Aug 2021 07:49:49 -0700 (PDT)
-Subject: Re: [PATCH v4] failover: unregister ROM on unplug
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210721160905.234915-1-lvivier@redhat.com>
- <20210803100031-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <9da7b1c8-6d33-b91d-808f-7635154a8a0d@redhat.com>
-Date: Tue, 3 Aug 2021 16:49:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=mxjxKRpNMC6AuQ+8yrfMQ+2QHboOhpGlmI6R5XBq1Yg=;
+ b=VzidJM8XeHSAe4GkPAGStzJOWmzLHjWH9A2m22kJYJoHN5ude1NPODfFVLYSSJQzgKPUkx
+ WDBAH3NFTZsBEdhuaJoPKULA3g8SAeFdAyZ2rBaHYCM0tB0P/KkVpMH6NJFkWgk3sRAePG
+ cgCp/Aqnd4tOsCGckvIwirbs3Rj507k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-vUW9c1Z5PiGEXs4w4Shp_Q-1; Tue, 03 Aug 2021 11:03:20 -0400
+X-MC-Unique: vUW9c1Z5PiGEXs4w4Shp_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73296192CC43;
+ Tue,  3 Aug 2021 15:03:19 +0000 (UTC)
+Received: from redhat.com (ovpn-114-4.phx2.redhat.com [10.3.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E72C779D0;
+ Tue,  3 Aug 2021 15:03:18 +0000 (UTC)
+Date: Tue, 3 Aug 2021 10:03:16 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Zhenyu Ye <yezhenyu2@huawei.com>
+Subject: Re: [Question] qemu-img convert block alignment
+Message-ID: <20210803150316.eo5gm3xqxuetqahq@redhat.com>
+References: <ed4ae175-1c67-b7fb-669d-c8c08ca1a7f7@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210803100031-mutt-send-email-mst@kernel.org>
+In-Reply-To: <ed4ae175-1c67-b7fb-669d-c8c08ca1a7f7@huawei.com>
+User-Agent: NeoMutt/20210205-687-0ed190
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,142 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, pl@kamp.de, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/2021 16:04, Michael S. Tsirkin wrote:
-> On Wed, Jul 21, 2021 at 06:09:05PM +0200, Laurent Vivier wrote:
->> The intend of failover is to allow to migrate a VM with a VFIO
->> networking card without disrupting the network operation by switching
->> to a virtio-net device during the migration.
->>
->> This simple change allows to test failover with a simulated device
->> like e1000e rather than a vfio device, even if it's useless in real
->> life it can help to debug failover.
->>
->> This is interesting to developers that want to test failover on
->> a system with no vfio device. Moreover it simplifies host networking
->> configuration as we can use the same bridge for virtio-net and
->> the other failover networking device.
->>
->> Without this change the migration of a system configured with failover
->> fails with:
->>
->>   ...
->>   -device virtio-net-pci,id=virtionet0,failover=on,...  \
->>   -device e1000,failover_pair_id=virtionet0,... \
->>   ...
->>
->>   (qemu) migrate ...
->>
->>   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
->>   error while loading state for instance 0x0 of device 'ram'
->>   load of migration failed: Invalid argument
->>
->> This happens because QEMU correctly unregisters the interface vmstate but
->> not the ROM one. This patch fixes that.
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+On Fri, Apr 02, 2021 at 11:52:25AM +0800, Zhenyu Ye wrote:
+> Hi all,
 > 
+> commit 8dcd3c9b91 ("qemu-img: align result of is_allocated_sectors")
+> introduces block alignment when doing qemu-img convert. However, the
+> alignment is:
 > 
-> Build fails on qemu-system-m68k:
+> 	s.alignment = MAX(pow2floor(s.min_sparse),
+>                       DIV_ROUND_UP(out_bs->bl.request_alignment,
+>                                    BDRV_SECTOR_SIZE));
 > 
-> /usr/bin/ld: libqemu-m68k-softmmu.fa.p/hw_net_virtio-net.c.o: in function `virtio_net_handle_migration_primary':
-> /scm/qemu/build/../hw/net/virtio-net.c:3259: undefined reference to `pci_del_option_rom'
-> collect2: error: ld returned 1 exit status
-> ninja: build stopped: subcommand failed.
-> make[1]: *** [Makefile:154: run-ninja] Error 1
+> (where the default s.min_sparse is 8)
+> When the target device's bl.request_alignment is smaller than 4K, this
+> will cause additional write-zero overhead and makes the size of target
+> file larger.
 > 
-> It's not pretty to poke at pci from generic virtio.
+> Is this as expected?  Should we change the MAX() to MIN()?
 
-I agree with you. The problem is failover is implemented in virtio-net while it relies on
-virtio-pci hotplug capability.
+Yes it is expected, and no we shouldn't change it.  Even when a target
+advertises a bl.request_alignment of 512, our goal is to avoid needing
+read-modify-write cycles when that target is really on top of a 4k
+sector disk.  Writing extra 0s out to the 4k boundaries does not
+change the fact that allocation is in 4k chunks anyways, regardless of
+whether the disk supports smaller 512-byte reads.
 
-> Should we maybe wrap vmstate_unregister and pci_del_option_rom
-> to allow removing all migrateable things related to the device
-> in one go somehow?
-
-I'm going to have a look to see how to do.
-
-I have already a patch that moves all the failover PCI unplug/hotplug functions into the
-PCI device implementation (and removes all this stuff from virtio-net). Perhaps we can
-rely on that. The bonus with this moves is it allows to automatically unplug/hotplug any
-PCI device during a migration without the failover environment (but failover uses it).
-
-Thanks,
-Laurent
-
-> 
->> ---
->>
->> Notes:
->>     v4:
->>       export and use pci_del_option_rom()
->>     
->>     v3:
->>       remove useless space before comma
->>     
->>     v2:
->>       reset has_rom to false
->>       update commit log message
->>
->>  include/hw/pci/pci.h | 2 ++
->>  hw/net/virtio-net.c  | 1 +
->>  hw/pci/pci.c         | 3 +--
->>  3 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
->> index d0f4266e3725..84707034cbf8 100644
->> --- a/include/hw/pci/pci.h
->> +++ b/include/hw/pci/pci.h
->> @@ -369,6 +369,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
->>  void pci_unregister_vga(PCIDevice *pci_dev);
->>  pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
->>  
->> +void pci_del_option_rom(PCIDevice *pdev);
->> +
->>  int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
->>                         uint8_t offset, uint8_t size,
->>                         Error **errp);
->> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->> index 16d20cdee52a..d6f03633f1b3 100644
->> --- a/hw/net/virtio-net.c
->> +++ b/hw/net/virtio-net.c
->> @@ -3256,6 +3256,7 @@ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
->>      if (migration_in_setup(s) && !should_be_hidden) {
->>          if (failover_unplug_primary(n, dev)) {
->>              vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
->> +            pci_del_option_rom(PCI_DEVICE(dev));
->>              qapi_event_send_unplug_primary(dev->id);
->>              qatomic_set(&n->failover_primary_hidden, true);
->>          } else {
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index 23d2ae2ab232..c210d92b5ba7 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -228,7 +228,6 @@ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
->>  static void pci_update_mappings(PCIDevice *d);
->>  static void pci_irq_handler(void *opaque, int irq_num, int level);
->>  static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
->> -static void pci_del_option_rom(PCIDevice *pdev);
->>  
->>  static uint16_t pci_default_sub_vendor_id = PCI_SUBVENDOR_ID_REDHAT_QUMRANET;
->>  static uint16_t pci_default_sub_device_id = PCI_SUBDEVICE_ID_QEMU;
->> @@ -2429,7 +2428,7 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->>      pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
->>  }
->>  
->> -static void pci_del_option_rom(PCIDevice *pdev)
->> +void pci_del_option_rom(PCIDevice *pdev)
->>  {
->>      if (!pdev->has_rom)
->>          return;
->> -- 
->> 2.31.1
-> 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
