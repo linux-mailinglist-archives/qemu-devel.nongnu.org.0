@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455CD3DEF4A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:49:40 +0200 (CEST)
-Received: from localhost ([::1]:33156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FD13DEF44
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:48:34 +0200 (CEST)
+Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAunb-0008Cp-AK
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51280)
+	id 1mAumX-0005TD-AB
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mAulu-0005hD-Nz; Tue, 03 Aug 2021 09:47:54 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:54240)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mAulD-0004Pl-QR
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mAult-00007C-4U; Tue, 03 Aug 2021 09:47:54 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 173DkbXT010490
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 3 Aug 2021 09:46:41 -0400
-Date: Tue, 3 Aug 2021 09:46:37 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-6.1 v2 0/2] hw/sd/sdcard: Fix assertion accessing
- out-of-range addresses with CMD30
-Message-ID: <20210803134637.nfrjsnhjnagjt6e7@mozz.bu.edu>
-References: <20210802235524.3417739-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mAulC-0007z2-9N
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:47:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627998429;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pjnEbf8Q1dO0K5mqMdWOYQTFlU7UQBS2voiLYIe7zyw=;
+ b=YWIqWgWSZiHkta7aIjzr7dXo9cTBN5SSXDyO/F0+eYfX90CtrvwBbWVJnfhTBZO8F7wjKz
+ 5M8D1R6DEs94I3MOzI72fEM+mc6gkZhd/ndQp8I9CUJ6V7wjRB3MM3L+CKH7b3ANx0iQRS
+ so3BVD5UfqhUZw4RNsBTcVk9SRB4rZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-uEEN_J3KNvm2umkKHiB18Q-1; Tue, 03 Aug 2021 09:47:07 -0400
+X-MC-Unique: uEEN_J3KNvm2umkKHiB18Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4456187D546;
+ Tue,  3 Aug 2021 13:47:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A6815D6A8;
+ Tue,  3 Aug 2021 13:47:05 +0000 (UTC)
+Date: Tue, 3 Aug 2021 14:47:00 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>
+Subject: Re: Status of stable release effort ?
+Message-ID: <YQlI1AEFR2YkIThk@redhat.com>
+References: <YP6K1a/ay16KeiAT@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <YP6K1a/ay16KeiAT@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210802235524.3417739-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,41 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210803 0155, Philippe Mathieu-Daudé wrote:
-> Fix an assertion reported by OSS-Fuzz, add corresponding qtest.
-> 
-> The change is (now) simple enough for the next rc.
-> 
-> Since v1:
-> - Simplified/corrected following Peter's suggestion
-> 
-> Philippe Mathieu-Daudé (2):
->   hw/sd/sdcard: Document out-of-range addresses for SEND_WRITE_PROT
->   hw/sd/sdcard: Fix assertion accessing out-of-range addresses with
->     CMD30
-> 
+Ping, anyone ?
 
-Fuzzed this for 20 mins, based on the OSS-Fuzz corpus, without finding
-anything.
-
-./qemu-fuzz-i386 --fuzz-target=generic-fuzz-sdhci-v3 -jobs=4 -workers=4 \
--focus_function=sd_wpbits \
-~/oss-fuzz/qemu_qemu-fuzz-i386-target-generic-fuzz-sdhci-v3/  
-
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-
-Thanks!
-
->  hw/sd/sd.c                     |  9 ++++++++-
->  tests/qtest/fuzz-sdcard-test.c | 36 ++++++++++++++++++++++++++++++++++
->  2 files changed, 44 insertions(+), 1 deletion(-)
+On Mon, Jul 26, 2021 at 11:13:41AM +0100, Daniel P. Berrangé wrote:
+> We are currently in the final lead up to shipping the 6.1.0 release
 > 
-> -- 
-> 2.31.1
+> AFAICT from git tags, the latest stable release was 5.0.1 in Sep 2020
 > 
+>    https://gitlab.com/qemu-project/qemu/-/tags
+> 
+> There have been many patches sent to qemu-stable each month e.g.
+> 
+>   https://lists.nongnu.org/archive/html/qemu-stable/2021-06/threads.html
+> 
+> but no 5.1.1, 5.2.1 or 6.0.1 releases IIUC
+> 
+> Is QEMU stable still an active effort that we need to CC patches to ?
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
