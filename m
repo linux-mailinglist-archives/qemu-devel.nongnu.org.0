@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134C43DE5B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:47:51 +0200 (CEST)
-Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DC13DE5A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:42:40 +0200 (CEST)
+Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAmLG-0000io-4X
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57682)
+	id 1mAmGF-0003Bs-In
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAltG-0006Np-Py
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:18:54 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41889)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mAlzx-0000Fw-1z
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAltE-0005PM-Oc
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:18:54 -0400
-Received: by mail-pl1-x634.google.com with SMTP id z3so20833860plg.8
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=dGXkyMo+TYvl7Ch8a8BU1OTrI2Jo+/Lq5KQr+xygy8M=;
- b=ngsS90QyLSpCyP0Lu0aRJh8Te/8oXUJ0tAL5PctOzQA2jSDv5meu45pBf30U8QO7FA
- 0ExOrRgY4WnVCWlpDRPAMjt2dOhGYMk3PvjgBK7qzQdjpXO+eFIYGrtJVh0wHDlleUHF
- RMVICfgq4GURAvk8tgRQOVXdH2quHqvYxf2dtQL0IAFqHG0RtRNp8bupI56PZCiF2VdJ
- QmiK/SMXwZk/A+PEJbURaaSnL+bhQ20sCip21X7KZq2ZygaAsDRTJ6ab+w8m6gSivZwv
- qfjGCsi5KrseeIn3+3uyZVI8olWmjZs5oIhRYunWqOr0FOAbQlQbBNj17GSFeNT0UpBZ
- nUnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dGXkyMo+TYvl7Ch8a8BU1OTrI2Jo+/Lq5KQr+xygy8M=;
- b=L/KVWtiVgn1ZpgFsFLu/iuKQZu1dwusRyM/Dyn6nCJ4db2hpNeXcf5I+D/+t2VshPv
- 3DGT9hRUyf5i9/rV85+6y7JY2mnU2pE0w95+5B1KXJ3lakQmvOhlZyUbfCpjlegWvVwq
- yHSwNIZ08xkrSeK61MF0Z5T8T7PPk8rdvnSiCrQclGdn+YXkF6VZ73Mu1aPaQbzSuvab
- h0lvqkL8uw3hOmno3X9nBdSs1i/DzROHKfpEyDUJLW+ymoI0nAaeNDMGfYK3Wi0lqfNj
- bhFLh+0tAcgGqzjBj42uBZFcjSUKiy+VHhNuXQkUWWHUsD6/90ab1Q+k5QrXFIaE09/6
- t/+w==
-X-Gm-Message-State: AOAM531RhWBLGKQJyDrPW5UDzs/GvR88o5fiiGUdw3RvgnPgbJAcxCWK
- +Ia3l5aMYFGA07z9wiYcWsdeLEBnVOkGiQ==
-X-Google-Smtp-Source: ABdhPJzBQQK6bF0ixnET9LsYiq4KJ3s9WAm0VsNjq+TCP+KmZjy9yoY6U9eMUvFxkU2gYv6CxWSbJw==
-X-Received: by 2002:a17:90a:550a:: with SMTP id
- b10mr2369141pji.103.1627964331544; 
- Mon, 02 Aug 2021 21:18:51 -0700 (PDT)
-Received: from localhost.localdomain (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id ns18sm12091020pjb.31.2021.08.02.21.18.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 21:18:51 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 55/55] target/sh4: Implement prctl_unalign_sigbus
-Date: Mon,  2 Aug 2021 18:14:43 -1000
-Message-Id: <20210803041443.55452-56-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210803041443.55452-1-richard.henderson@linaro.org>
-References: <20210803041443.55452-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mAlzu-0002WL-A2
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:25:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1mAlzo-0006cL-IN
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 04:25:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5782D2E8189
+ for <qemu-devel@nongnu.org>; Tue,  3 Aug 2021 04:25:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Aug 2021 04:17:24 -0000
+From: Launchpad Bug Tracker <1878054@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr janitor philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158921780313.11557.11335648957795976711.malonedeb@wampee.canonical.com>
+Message-Id: <162796424418.13313.11137074691053286345.malone@loganberry.canonical.com>
+Subject: [Bug 1878054] Re: Hang with high CPU usage in sdhci_data_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8bd362bf86c4b35e805f897f03c203e3576a7006"; Instance="production"
+X-Launchpad-Hash: 73a64fcd068378406b1ba8e3d4a8464f191f0272
+Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
+ helo=indium.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,233 +69,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1878054 <1878054@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leave TARGET_ALIGNED_ONLY set, but use the new CPUState
-flag to set MO_UNALN for the instructions that the kernel
-handles in the unaligned trap.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-The Linux kernel does not handle all memory operations: no
-floating-point and no MAC.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/sh4/cpu.h       |  4 ++++
- hw/core/cpu-user.c     |  2 +-
- linux-user/syscall.c   |  2 +-
- target/sh4/translate.c | 50 ++++++++++++++++++++++++++++--------------
- 4 files changed, 40 insertions(+), 18 deletions(-)
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878054
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index a9191951f8..5f2dc551e3 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -83,6 +83,7 @@
- #define DELAY_SLOT_RTE         (1 << 2)
- 
- #define TB_FLAG_PENDING_MOVCA  (1 << 3)
-+#define TB_FLAG_UNALIGN        (1 << 4)
- 
- #define GUSA_SHIFT             4
- #ifdef CONFIG_USER_ONLY
-@@ -376,6 +377,9 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
-             | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
-             | (env->sr & (1u << SR_FD))                        /* Bit 15 */
-             | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
-+#ifdef CONFIG_USER_ONLY
-+    *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
-+#endif
- }
- 
- #endif /* SH4_CPU_H */
-diff --git a/hw/core/cpu-user.c b/hw/core/cpu-user.c
-index 6a5edcfb77..0ad009f186 100644
---- a/hw/core/cpu-user.c
-+++ b/hw/core/cpu-user.c
-@@ -24,7 +24,7 @@ static Property cpu_useronly_props[] = {
-      * up its memory. The default if no link is set up is to use the
-      * system address space.
-      */
--#if defined(TARGET_ALPHA) || defined(TARGET_HPPA)
-+#if defined(TARGET_ALPHA) || defined(TARGET_HPPA) || defined(TARGET_SH4)
-     DEFINE_PROP_BOOL("prctl-unalign-sigbus", CPUState,
-                      prctl_unalign_sigbus, false),
- #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 836a7eaee2..784ced821d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6644,7 +6644,7 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-      * We only implement PR_UNALIGN_SIGBUS, and only for those targets
-      * who have had their translator updated to insert MO_ALIGN.
-      */
--#if defined(TARGET_ALPHA) || defined(TARGET_HPPA)
-+#if defined(TARGET_ALPHA) || defined(TARGET_HPPA) || defined(TARGET_SH4)
-     case PR_GET_UNALIGN:
-         {
-             CPUState *cs = env_cpu(env);
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 8704fea1ca..58ec6e8ac9 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -50,8 +50,10 @@ typedef struct DisasContext {
- 
- #if defined(CONFIG_USER_ONLY)
- #define IS_USER(ctx) 1
-+#define UNALIGN(C)   (ctx->tbflags & TB_FLAG_UNALIGN ? MO_UNALN : 0)
- #else
- #define IS_USER(ctx) (!(ctx->tbflags & (1u << SR_MD)))
-+#define UNALIGN(C)   0
- #endif
- 
- /* Target-specific values for ctx->base.is_jmp.  */
-@@ -499,7 +501,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_addi_i32(addr, REG(B11_8), B3_0 * 4);
--            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-+            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-+                                MO_TEUL | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -507,7 +510,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 4);
--            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
-+            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-+                                MO_TESL | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -562,19 +566,23 @@ static void _decode_opc(DisasContext * ctx)
-         tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_UB);
- 	return;
-     case 0x2001:		/* mov.w Rm,@Rn */
--        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUW);
-+        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx,
-+                            MO_TEUW | UNALIGN(ctx));
- 	return;
-     case 0x2002:		/* mov.l Rm,@Rn */
--        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUL);
-+        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx,
-+                            MO_TEUL | UNALIGN(ctx));
- 	return;
-     case 0x6000:		/* mov.b @Rm,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_SB);
- 	return;
-     case 0x6001:		/* mov.w @Rm,Rn */
--        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
-+        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-+                            MO_TESW | UNALIGN(ctx));
- 	return;
-     case 0x6002:		/* mov.l @Rm,Rn */
--        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
-+        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-+                            MO_TESL | UNALIGN(ctx));
- 	return;
-     case 0x2004:		/* mov.b Rm,@-Rn */
- 	{
-@@ -590,7 +598,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_subi_i32(addr, REG(B11_8), 2);
--            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
-+            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-+                                MO_TEUW | UNALIGN(ctx));
- 	    tcg_gen_mov_i32(REG(B11_8), addr);
- 	    tcg_temp_free(addr);
- 	}
-@@ -599,7 +608,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
--            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-+            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-+                                MO_TEUL | UNALIGN(ctx));
- 	    tcg_gen_mov_i32(REG(B11_8), addr);
-         tcg_temp_free(addr);
- 	}
-@@ -610,12 +620,14 @@ static void _decode_opc(DisasContext * ctx)
- 		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 1);
- 	return;
-     case 0x6005:		/* mov.w @Rm+,Rn */
--        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
-+        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-+                            MO_TESW | UNALIGN(ctx));
- 	if ( B11_8 != B7_4 )
- 		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
- 	return;
-     case 0x6006:		/* mov.l @Rm+,Rn */
--        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
-+        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-+                            MO_TESL | UNALIGN(ctx));
- 	if ( B11_8 != B7_4 )
- 		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
- 	return;
-@@ -631,7 +643,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
--            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
-+            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-+                                MO_TEUW | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -639,7 +652,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
--            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-+            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-+                                MO_TEUL | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -655,7 +669,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
--            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESW);
-+            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-+                                MO_TESW | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -663,7 +678,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
--            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
-+            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-+                                MO_TESL | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -1257,7 +1273,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
--            tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_TEUW);
-+            tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx,
-+                                MO_TEUW | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
-@@ -1273,7 +1290,8 @@ static void _decode_opc(DisasContext * ctx)
- 	{
- 	    TCGv addr = tcg_temp_new();
- 	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
--            tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_TESW);
-+            tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx,
-+                                MO_TESW | UNALIGN(ctx));
- 	    tcg_temp_free(addr);
- 	}
- 	return;
--- 
-2.25.1
+Title:
+  Hang with high CPU usage in sdhci_data_transfer
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that causes QEMU to hang with 100% CPU us=
+age.
+  I have waited several minutes, and QEMU is still unresponsive. Using gdb,=
+ It
+  appears that it is stuck in an sdhci_data_transfer:
+
+  #0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x10284920,=
+ size=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/Deve=
+lopment/qemu/memory.c:1378
+  #1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/De=
+velopment/qemu/memory.c:1463
+  #2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=3D<=
+optimized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/qem=
+u/exec.c:3268
+  #5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, len=
+=3D0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+  /home/alxndr/Development/qemu/exec.c:3278
+  #6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>, =
+addr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_=
+FROM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+  #7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D0=
+x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM_DEV=
+ICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+  #8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Developm=
+ent/qemu/include/sysemu/dma.h:122
+  #9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/alxn=
+dr/Development/qemu/hw/sd/sdhci.c:618
+  #10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Develo=
+pment/qemu/hw/sd/sdhci.c:891
+  #11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Development/=
+qemu/hw/sd/sdhci.c:364
+  #12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimize=
+d out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sdhc=
+i.c:1158
+  #13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimize=
+d out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimized=
+ out>, mask=3D<optimized out>, attrs=3D...) at
+  /home/alxndr/Development/qemu/memory.c:483
+  #14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimize=
+d out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_s=
+ize_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219f0=
+, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alxnd=
+r/Development/qemu/memory.c:1476
+  #16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=3D=
+<optimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/exec=
+.c:3137
+  #17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x62100008a=
+d00, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+  #19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x55555827=
+c040 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qemu=
+/qtest.c:567
+  #20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x619=
+00000f640) at /home/alxndr/Development/qemu/qtest.c:710
+
+ =20
+  I am attaching the qtest commands for reproducing it.
+  I can reproduce it in a qemu 5.0 build using:
+
+  qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+  version=3D3 -device sd-card,drive=3Dmydrive -drive
+  if=3Dsd,index=3D0,file=3Dnull-co://,format=3Draw,id=3Dmydrive -nographic
+  -nographic -serial none -monitor none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878054/+subscriptions
 
 
