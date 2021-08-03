@@ -2,138 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A943DEF24
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:33:10 +0200 (CEST)
-Received: from localhost ([::1]:42396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5443DEF1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:31:23 +0200 (CEST)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAuXd-0003DV-8y
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47170)
+	id 1mAuVu-00087l-Up
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mAuQw-0000LZ-Fg
+ id 1mAuQw-0000LA-Ay
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:26:14 -0400
-Received: from mail-dm6nam10hn2220.outbound.protection.outlook.com
- ([52.100.156.220]:55392 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+Received: from mail-dm6nam10on2066.outbound.protection.outlook.com
+ ([40.107.93.66]:8545 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mAuQu-0001f2-LA
+ id 1mAuQu-0001f5-Po
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:26:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0IOH3AYGlboe/O4DI/MJ1s5yXQSc7LB2r/jpfEIaSGLIcmCjPMRyOb0jrdMC7ywXpwKhj3+/Mq95apx6dQBbLHTB7IMtb6lPs0mOdsTHcjQzWHIuxp4hmLvlmwf4IBgqDpZwEesqG2oGrOE2nXcQ8fHKJaMEgHOsfGXg7Odoia9nTsklMTunhzfW0WWYQi6MAcW69ODnxNTkuEO6gEetWt2AofXyB+KHHgrgLIS+8NXP3u6j8ZEnKyFwcAP6LD4k8gTNkcfY9Pkx0L/RTaVipPINh43abzBiP+YW/IAZxHXgls5VzaRznO11jgo0lZqd+832z/Ce8an/GDxVxZ/uw==
+ b=Q5oLQuW467yShFyx2jvdDPEfaoduoyL62lI12D2z5uhF9YU7et2LrNg4DB40agTu0e2LqvW2ZwsSb41tXPJ7QP1+7HNJNyHRxzaRez8LMmRDneT58oWPW9ov6DPOwii/g7w/1BxIm0pZ4JRW1tUr6qD0cqAc4M8T/PYIRTxLidMpfK202Zjl0QOejf663HRKSsk4taZMu/BE++7J0bnhVN/rF6fCWvyPhZlS/5ff1nEybd0sUcCvdp6CCnGdRwNHj318Jdp/0bHqopa95eCHQRoqLGZT86xUbat//e4rkUsXeuJr+GHFcSVGKyQoZtidHpniwreyvPeHgLymV9WuEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEyRwSXM7cVIRuYNGwYcnj8C+/Wd1wRZz3seQ4KNW5Y=;
- b=CKiwYYl9ESj9+ADWF/EcpO2wBuIyO4up4KcO0OfvktvWN4c24OzkxlgYyvV/G5mX+xVme3a6AUlg29cl/m2NQZ4tJLbJ76DV/aWqK1mhn+3wFooOtNXirwOosPuEuNKvBX7il8q5R15LpMH6kxBBq1hECUEXzk03zaNl87eA9PKo7H4vRSs/2pXIh/E8hLFewKoCn6XNWz5GXoLuXMTKocEJdv4mLiZG5pvFVHBN9bH9uVBs/pusHcIBxDalukZVaK/WF2CRJUjx3lqMRumw8MpttHLE4IxOxT/Bz7WAa03IfSKZko8v1xz0ZEdY2O/BdV/f311JM3WIVGUHuKtBTg==
+ bh=RxrHVnImuD7TTn1QHo9DEQ8EhEly7Q//WDul4VH3zBQ=;
+ b=Cw4+S5ppswU7wKETiyANlb4VhAOUGOKwBYRo5lqmuKUjJ8cCO+Dh6kPJM70Y7ZbsKyWFlMEXOigGNjYlCR6B7rrRcv2xynyIp2MYZdvuRzy+PoqyH0hVZlQgDUlMTjdp2I5pdgVf3QnQJnXNHdW2eBKYxISl0DwiCr7b94f/avWCZ7rW6gE57OjemSFTzl1kMu3ZAAWMMa6c1L2tMBKJd0CVhU1TieezfsuJPbLD3/rJsV/c8E7Lwfc0emW4jiAPgUqiYEfTbFxU6IM3o5bM2k3VOHkwXRr4w0FeF9wJ9rcpiikaPLUBl9H0egLY8QtLjX+A0SgguwSKc2GgtJCIEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEyRwSXM7cVIRuYNGwYcnj8C+/Wd1wRZz3seQ4KNW5Y=;
- b=JN5w1n83VP9F7S+9xgFcK4VoQkxQhdGg3y5RlCLOpaIsTo4agfSFbntNmVMmptqXrhr4tSJxXkQoqkLWu2mK7PGUIwgqxHLcQeIEfimo8/POE+0Yfdn8Bp1C0c3HVFGod07TQeCNs4DALrYMiHGNrWBhYXxJ0T8KJ1WRNmYK+iE=
+ bh=RxrHVnImuD7TTn1QHo9DEQ8EhEly7Q//WDul4VH3zBQ=;
+ b=FT5mTskbKl3+9cSl7OGnW2fnbz43gTxG4RnmFwybr0L91tbCN7/YPNFkgVeQQTX5JUqzcP+P9MTf1HK+2pjf+swn5Je08KplCvIGZxAH82CZtEhQrVaAHQvL8nvJzn3TufJwf61CHCYNhL9lz4Y7ounvwKk9HmUfMqHvIgL3kwA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB3909.namprd12.prod.outlook.com (2603:10b6:610:21::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Tue, 3 Aug
- 2021 13:26:08 +0000
+ 2021 13:26:10 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
- 13:26:08 +0000
+ 13:26:10 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Basil Salman <basil@daynix.com>,
- Basil Salman <bsalman@redhat.com>
-Subject: [PULL for-6.1 3/6] qga-win: Fix handle leak in
- ga_get_win_product_name()
-Date: Tue,  3 Aug 2021 08:24:49 -0500
-Message-Id: <20210803132450.1093602-4-michael.roth@amd.com>
+Cc: peter.maydell@linaro.org, Kostiantyn Kostiuk <konstantin@daynix.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PULL for-6.1 4/6] qga-win: Free GMatchInfo properly
+Date: Tue,  3 Aug 2021 08:24:50 -0500
+Message-Id: <20210803132450.1093602-5-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210803132450.1093602-1-michael.roth@amd.com>
 References: <20210803132450.1093602-1-michael.roth@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SN7P220CA0003.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:806:123::8) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN7P220CA0004.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::9) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN7P220CA0003.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::8) with Microsoft
+ SN7P220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Tue, 3 Aug 2021 13:26:07 +0000
+ 15.20.4373.20 via Frontend Transport; Tue, 3 Aug 2021 13:26:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4967e4ee-2964-47ba-4f4a-08d956824097
+X-MS-Office365-Filtering-Correlation-Id: 32d00136-d5a6-41ae-3d14-08d9568241ba
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3909:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB39090BECCB2BD91C0EDBECF895F09@CH2PR12MB3909.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB390974A20B1910624C8E262095F09@CH2PR12MB3909.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:913;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7DCCK16MVSGAREbJ94x1a0apKSWrxzOAz/tT3I7cF6jhltyKx0+39qg4887J?=
- =?us-ascii?Q?Soj29GWbMRs+OSCdiQompTrpyXZrqK0czpKmLsXGuDcTiRhkxKWHmCOteiwi?=
- =?us-ascii?Q?zdcqADPQmvwd0dfWbZBYgrS1yuz0OZq/RJ5IEa8m1W/HLxdzHrzB2XNuKLzp?=
- =?us-ascii?Q?0JfMErTN+j8kMfJ084vw0alELgUp5HYVV306b9/v0OHNfe0uwAf+5qovYkdp?=
- =?us-ascii?Q?H3+8tThfFu2DjqaHT1nimsZEQNvdJTejiJNGX+VDYHaiJ89JTcH8RI3xDi4n?=
- =?us-ascii?Q?j40UQjpIf6crcvLe2zfFnf6Sd0NHnVDvifMgoCk/Z6MdL8CXZhLe8MbYDa2+?=
- =?us-ascii?Q?iZBbB6bCnUUqVXl5WfBLpDGUqhdBwsPLxruUMSxTL4UPQqkSQLqExZcyhK/A?=
- =?us-ascii?Q?IoxdoaRPJRpCW7Zvd/ic7jOt8/nAZ6dkRn0QCt4+RURuK9MXpqcChywe5OL7?=
- =?us-ascii?Q?ZMFCj1psW31rCeKcEFo4c3cSMk4GmK9W2oe6IKe3rH1i7FUUGPQTl6/D9lpL?=
- =?us-ascii?Q?3GCRI9umX8lfPsM1a4HyPRYMMD935tdSXtdZl1n5FoiOpI4sjDjwsjJoDv0u?=
- =?us-ascii?Q?kN9rvUR+6HraUQcSIP5pEPvSj1ZYacS2rwFLTWRepK7G4p9crIJWuROCY6o8?=
- =?us-ascii?Q?LY41V8IT98boCq089TDRLgY2ut+YscaUVegMYMW0Yik1SmIfP0Wv17kRdMdO?=
- =?us-ascii?Q?hVklabyiwMF/0DJ523zoWFGIMjVxQcqQD0PaP7e6OVZCQBTSvqsY8mxEKtgh?=
- =?us-ascii?Q?oykg4I9oX+tSZ/ufv3ED3X9byshPa1oLWUv2JfMHTic1IxJBcue0vuCtzF4I?=
- =?us-ascii?Q?40+r5M6zT58G8wJ70igHYvMW/Svj96ktreJtFmTbYBCidRzPstNOIUNmw34S?=
- =?us-ascii?Q?ckR3ILoT/uXO1erAkkrq22lGqV3oiqsY8ywJe3bE3SCrLOVGMP8Zdgmig7x0?=
- =?us-ascii?Q?J4x6Tu90ebRvJMddt9lUAvkxKKgyY/10qmEuP1IfVZfoUcU1FWuNDanhTOh7?=
- =?us-ascii?Q?gG3xhHKCqn3wKB69ikxhc5uRgLg/huAyvA2azoYyBSviFSegJyy9P7DnDFtO?=
- =?us-ascii?Q?evCsK1GGuZ77N78jfuXts/FrmZwswvueL8jmnGqgtoygjPkI+iu8lhP5BzNI?=
- =?us-ascii?Q?vZeF3O5zTvDd?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
- IPV:NLI; SFV:SPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:OSPM;
- SFS:(4636009)(396003)(366004)(346002)(39860400002)(376002)(136003)(6916009)(86362001)(36756003)(5660300002)(6666004)(966005)(8936002)(54906003)(316002)(478600001)(4326008)(6496006)(52116002)(2906002)(1076003)(8676002)(83380400001)(26005)(66476007)(66556008)(2616005)(956004)(38350700002)(6486002)(38100700002)(186003)(44832011)(66946007)(23200700001);
- DIR:OUT; SFP:1501; 
+X-Microsoft-Antispam-Message-Info: bqrqRfifr7WE66pXaEX6RLhpgVpuWms9ANoTWw8wfaxh+HDStQhu8INQc5B1U2CMRbKBRkUL0xwyOTePIEOIkFblzWWHQmQm62QPh2uc5fwrtnxG0GjSJwCDMzmhavUfNw4cuXURhLvaQEozmUweCQDmHj0YgtLZCeoR78CHXUYOw+aRaItkE9MNc31Vr3RUKBvtfe1wjsRyJb5XXymRLRQ8eLuOt76AqmeHatl/SuDiOD3ZI5HF11C4BN13TP45nNHyTsNSpgUComkjNBg1EAiqEtLCdYnJJQLK1dtWW2voBKYjfNunDnT/YO4JzbO0wboV0SxUibowRvc2R5uNfQGj0vILxsjX8D0ieVN6D41Tbe2HllDdbVDQBn4TmMhK16gT2wKG0bU2VN2cw4JqpfK3RYw2EKPsQ+2EouIb9t53yrat3T/2Bqrvn5mth/cL6TMHsFjAZ/roZoa82rX/UgUkct27L2521MIctWxWvzPALRctniFEPHGe/k3hw+MUIblqrc3vyTMh5w9oN6tjNrsrMUvC45UznQC+X/ZaITOaqDk/Y3WQnZ92nVS/dbiTWQ1YUNoYuvmCeIkiWYtZKNW248Vykk0Rl+Gnp8c6hpe0dADwtj5V6xq03YIdeyjnOG5lGIbyVAYvL6S7KXwZUgkgD5SYh/B3HEtZKjy/2ozI3crGAzH70JlNNAStTCc6IDq98m+iKHLvhWC0Yz5K8A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(346002)(39860400002)(376002)(136003)(6916009)(86362001)(36756003)(5660300002)(6666004)(8936002)(54906003)(316002)(478600001)(4326008)(6496006)(52116002)(2906002)(1076003)(8676002)(83380400001)(26005)(66476007)(66556008)(2616005)(956004)(38350700002)(6486002)(38100700002)(186003)(44832011)(66946007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rcFy/RQmfTHr+yrB4rKkZk/zj8EA5pSIvujsoiM+XqHRN0ZV0DRD27e5pew1?=
- =?us-ascii?Q?LxxzYntCK8LoJCFhvD8/Aa6hpFGbH8Sp0UipPgvwi3/fYshqUWuUgrIr4yxs?=
- =?us-ascii?Q?/Zo0/eVGg/a9ma2nizxUFXK8JF1yL0UELldLwV4ZteJ00WryRYwdW1QxXWGd?=
- =?us-ascii?Q?1TAUk5FuaM2lt9YOrjX+KflQF/Untgc2hCvmznSaDuo5vTha9Ka54VG/SHbQ?=
- =?us-ascii?Q?SKEg5cVxFghh1B+5RoXkVIkhBlhzrxIX0/mBmUn3rQD9MYGSmNkmRKekIH9G?=
- =?us-ascii?Q?d4P9iFeweup7IR9zuTCGl7Lj900qLniPcUfQTA0vq5Oumb0hqeT68P/WnjGG?=
- =?us-ascii?Q?fB0pl47X7A3bH9jqQV9r1ZZFDlOFQLCfoY2b9Ynfu623zBMIwq9JyUSoKLV4?=
- =?us-ascii?Q?J1/Aw5oZIJNN8fmmS9TmBKlbKFMxzwGs5zUuE+QOWSQy4+ftPKYGTaXbbkUP?=
- =?us-ascii?Q?he4ga3BPRONOQr70IdXaaIXwz0l10W6uvcJCyj5FdAvTi6YnrXT+rjX8tOez?=
- =?us-ascii?Q?xjO6/s8Beb3eADqtMzmJacr+QRTZ8fULNoFbd3nXwRiHBBfuFFoGRmFFGTcs?=
- =?us-ascii?Q?Yo7mZNtrNAWO4bO5sPb2HGY7FVO684H0W1EII7re5oecB4P+tzIds/6nyBOs?=
- =?us-ascii?Q?tm2le6WqquG22THvLaDd+aH+LnkphwKPOluRr1Sx32jY6AslLzn5vQ3heX/M?=
- =?us-ascii?Q?WxVsW8YQvtvgpXEVzOSTR7Pbz01z3kJkrN+U0bhWCJoNVpigsOvk36ZF+im6?=
- =?us-ascii?Q?ou09YZKHIQkMjc65k50oFnnLXg9KD4mLLut42merq613T3M+1jWSZgT/3q6s?=
- =?us-ascii?Q?4aHNco24UNnPLhGDb8PaPHs77M1F43wpvVyyRz27QIBA2XADmKTiqIydMrQ4?=
- =?us-ascii?Q?1rA2o+u/QJJhnLQu9S7gw9R0kQz0UJHfqQzwF6I7LM9JC9xXZTu2DmvcZlZs?=
- =?us-ascii?Q?kJbb7XH6k9VSptpyhyxIYmlqvyKyDcDA50qAMYLFblZjZ1jh0xLBrYaoRnPj?=
- =?us-ascii?Q?1c/nHeGL636qefF97iQE9OwLjFyupNQ3roh2x6+X3HIYAEHTSXEg0SFgHqCD?=
- =?us-ascii?Q?DMstkvORmZEQ8pCbpHBFxrP6gCMS2VnBn4D2aQiobuSZhebF2ckWPPKWMDKq?=
- =?us-ascii?Q?SOTNBu+a3CsM2gFb4LUlo763ddcdlVdg+yDOvSDBlPKogjd0//Y9Fcn8UTEo?=
- =?us-ascii?Q?6evQgFi0yd45zFYUBj/GdQc104ODuCnBeSoA4gC3XDcEJoGICOOOHIM3r3kE?=
- =?us-ascii?Q?TvCk8IxxxeJ+nF6d0Mg4GpMrw91qfiSlCLI572NM0dT9ph7n6d/Borw/CdJc?=
- =?us-ascii?Q?AhS3ezIk7tEPpnjchRtWrMFQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzlSdnJRaG1oeStRRXYycy9jRndBZXM1TWh2VkJiUWtWeWM4VjM4UnJaTkw2?=
+ =?utf-8?B?S0dPbkdNenZnNGR4SVcvcE84ZVRFUytGa0JqbFNqWDJCS0o3TkRudzJOMnlq?=
+ =?utf-8?B?a0Z3dUFqUFEwNk54akptTG95YTJ1bDVaWk9hMVJjZjd5dUgvMkdsQ0dSektX?=
+ =?utf-8?B?cFVIcVRSQmw4dU1oWVk1UWhPV0RXS2cvY2dpQldqaFRyakJVd2lpeGlDVmZh?=
+ =?utf-8?B?QnhxVHpIT0ZTenhoNlMrR24vRmFYR2xTS1BQNUU5SWdoSy9XNExZem9mU3Ny?=
+ =?utf-8?B?N1ZVVk93ZU52TFJ0dU1uekRRaVc1K2txQkI5OGlaVFpwWWt2TTN5UHNZdmw2?=
+ =?utf-8?B?UTNGaVdSMElTRXNiSllHcXBzb01rTHdnbmZEOTZ2RitBdHd5TEwwMVFIOTZU?=
+ =?utf-8?B?NndmS2dqSXZTZGJzOFhibGVvMms1SGExQmhXcDQxOVJsTzBDaS83eEgyeXV1?=
+ =?utf-8?B?anVwa3hGVlh0MTlyRHU2YkpTQjhDdVVrdXp6T2tCUXlIcHN6eko4OWh2YVdq?=
+ =?utf-8?B?UVd5ZXJ0KzFOUlRVY3oyWlNRNGtzeVFuRWFHcUZPb0VaS1cvSlNVU3lsN1FC?=
+ =?utf-8?B?VXVFR0RwMlpiM01HK3RTZGJYRUwyRHJJRXNKU0s1V1RKWmF6c1JOVGV1T3FK?=
+ =?utf-8?B?dnAyUUV5cnZGVVQ5Z2F1b2xYNnpwZlhldGQ0RkE2R3RwczF1WGNyT0Q1U3RR?=
+ =?utf-8?B?RVJqQjRVVFhRenZhT1gwZG52VFZ2SHVnamlMMWp5RjNiK3R0YkpuQzVpaXQz?=
+ =?utf-8?B?bHVNL0VIMlBidEcyTWk5S2lwakJJa1FkQzEzdTBFQXJCN05iWjlGVHNsOVZ0?=
+ =?utf-8?B?SFY1SVlSeUw5VWtGbUx0Rk5udHBJYXVHSUMzbWNXS1l3ako4YWlvMmcxekF4?=
+ =?utf-8?B?WCt4eTNISDJYTTcydVdUcXpwZnlvMjR3NDB6Q210ampBNmdUczJoblNubHZu?=
+ =?utf-8?B?MHZuR0paOGdDR1lkTzVaUk85TysrOU5NbjFMTU56eEJmQUd6VTNsdU1sWTF6?=
+ =?utf-8?B?NHVobmhTSXZqZWNXU3lYeEkzTmczbWVLOHpsNEMwVHc0a1MzUys5dittMmRk?=
+ =?utf-8?B?S2FiU04vWVIyMldUUThjYmFWdkJXVHhuTmU3aDRtNlhEdjNKM3BCRzgyK2Nt?=
+ =?utf-8?B?SUJHM1QyTlAxWDBxSFBpVWc4YjNFNWZlaFJhaE9kN1VoTDdYeG9uT21WQTdl?=
+ =?utf-8?B?MzhkQThFajhheVhhZExQU0VPNGpEQi9yTWJ6QXNBRGhJSDFJQXg3Y2swY05h?=
+ =?utf-8?B?L1pWRU1KeFhMWmpFL1lOUXJXRVJxV1BKdndCOEQ5UHg0eG94eCtIYU15Tldv?=
+ =?utf-8?B?eFdGcjQwYXRiY0J4MEZkWTJXTFk2OWM4aTU5ZWdTQVNNYTdLZ280OHZLRFhn?=
+ =?utf-8?B?aVVDNW1qMGRVcFFieEwwYytoN3lldjZHcVNtMThBMGVMY2YzMVJzNldrUlpt?=
+ =?utf-8?B?WkxKZFc0OHN3RERNZmQrMkVMVHpCc0c2NEFiZ2NqUHYraG1ldjhVNmZ1OEdD?=
+ =?utf-8?B?YWFIUEFKeXhXVndxNk5VdnlrQkRHcjNBcDlhM256TXpTZVlaTkJ6M1BWS3RM?=
+ =?utf-8?B?K3RWcXFwOTlFS2pyOEl2LzgzY3lDQXlJaG44a3BmU2hsbHNuVU9HR0xreXFz?=
+ =?utf-8?B?VFVjeFV3cmtGdlBucGtzVXE4bCtqbGhUQVJiNHk2aEhOS1I0S2ZuWVNPZ1lN?=
+ =?utf-8?B?emYwSWNmQW5hZEN4eTM5bzJObFBWbHBoUnpZd0lLSzFRSDZjRDdLcXloOTNy?=
+ =?utf-8?Q?kxZ6GHXC7fH/9JrPJyrdkpkLwisL3uwQAjolhCp?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4967e4ee-2964-47ba-4f4a-08d956824097
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32d00136-d5a6-41ae-3d14-08d9568241ba
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:26:08.0196 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:26:09.9371 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dRD/udwoNDK/8XPZhlMCShT1WqwaeVDhqM6fTd66O/wxmrh+BUy+lQveIO97b6Aa/wDmXO7cZBz5x4dduVOstg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WHfIO/J/5ZMvKscEcJMXA3kFAr1GUJyVKxngIiO89FkFchUf9CaPHq6EdP6fhLYsz2c613yVRNJRovgnXr97tw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3909
-Received-SPF: softfail client-ip=52.100.156.220;
+Received-SPF: softfail client-ip=40.107.93.66;
  envelope-from=Michael.Roth@amd.com;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -159,59 +147,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Basil Salman <basil@daynix.com>
+From: Kostiantyn Kostiuk <konstantin@daynix.com>
 
-In ga_get_win_product_name() a handle to Registry key was open but not
-closed.
+The g_regex_match function creates match_info even if it
+returns FALSE. So we should always call g_match_info_free.
+A better solution is using g_autoptr for match_info variable.
 
-In this patch the handle is closed as part of the free routine.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1929144
-
-Signed-off-by: Basil Salman <basil@daynix.com>
-Signed-off-by: Basil Salman <bsalman@redhat.com>
+Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/commands-win32.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ qga/commands-win32.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 763186efd4..098211e724 100644
+index 098211e724..7bac0c5d42 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -2231,7 +2231,7 @@ static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id)
+@@ -2459,7 +2459,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+             continue;
+         }
+         for (j = 0; hw_ids[j] != NULL; j++) {
+-            GMatchInfo *match_info;
++            g_autoptr(GMatchInfo) match_info;
+             GuestDeviceIdPCI *id;
+             if (!g_regex_match(device_pci_re, hw_ids[j], 0, &match_info)) {
+                 continue;
+@@ -2476,7 +2476,6 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+             id->vendor_id = g_ascii_strtoull(vendor_id, NULL, 16);
+             id->device_id = g_ascii_strtoull(device_id, NULL, 16);
  
- static char *ga_get_win_product_name(Error **errp)
- {
--    HKEY key = NULL;
-+    HKEY key = INVALID_HANDLE_VALUE;
-     DWORD size = 128;
-     char *result = g_malloc0(size);
-     LONG err = ERROR_SUCCESS;
-@@ -2241,7 +2241,8 @@ static char *ga_get_win_product_name(Error **errp)
-                       &key);
-     if (err != ERROR_SUCCESS) {
-         error_setg_win32(errp, err, "failed to open registry key");
--        goto fail;
-+        g_free(result);
-+        return NULL;
-     }
- 
-     err = RegQueryValueExA(key, "ProductName", NULL, NULL,
-@@ -2262,9 +2263,13 @@ static char *ga_get_win_product_name(Error **errp)
-         goto fail;
-     }
- 
-+    RegCloseKey(key);
-     return result;
- 
- fail:
-+    if (key != INVALID_HANDLE_VALUE) {
-+        RegCloseKey(key);
-+    }
-     g_free(result);
-     return NULL;
- }
+-            g_match_info_free(match_info);
+             break;
+         }
+         if (skip) {
 -- 
 2.25.1
 
