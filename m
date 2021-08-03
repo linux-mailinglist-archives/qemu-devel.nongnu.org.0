@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5E03DF4E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 20:41:09 +0200 (CEST)
-Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952B73DF4DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 20:39:07 +0200 (CEST)
+Received: from localhost ([::1]:35248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAzLg-0001CX-Hq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 14:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53954)
+	id 1mAzJi-0005JD-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 14:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBv-0005e1-Sj
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:31:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mAzBr-0006iv-TD
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:31:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628015459;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LHPzQ6bPFJO0tXtePnfnspatMfRqO3TUhyamtqokOf4=;
- b=IRc6/ROnyVsRbrRAXkQHcGGQKJfBmivnJAMTztyIjFpqTqUUXhbTkxAwFSeYcvFf0I9r/l
- muNG7BkWVk2tnJEIet2EIsoeOyISrTqOzZegW/gyRjD3KDuqePRzE6sCs+fj45MN3Y6NQV
- UuOBFfO4OnQ1G5YH3jO5vFINNJ/wL3I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-LB4AWh4nNVy-ZPdJDP-wlQ-1; Tue, 03 Aug 2021 14:30:55 -0400
-X-MC-Unique: LB4AWh4nNVy-ZPdJDP-wlQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE3E3C741B;
- Tue,  3 Aug 2021 18:30:54 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.11.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6F2160854;
- Tue,  3 Aug 2021 18:30:48 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/25] python/aqmp: add AsyncProtocol unit tests
-Date: Tue,  3 Aug 2021 14:29:41 -0400
-Message-Id: <20210803182941.504537-26-jsnow@redhat.com>
-In-Reply-To: <20210803182941.504537-1-jsnow@redhat.com>
-References: <20210803182941.504537-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mAzG9-00080X-Is
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:35:26 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mAzG7-00016d-VE
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 14:35:25 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id b7so327355edu.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 11:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3h0fdLNPM1dEey5JLwy/XFLh2gvXbItFWv3/ztsAUY0=;
+ b=DfP/aX5hQZZWFq2AxSsw4WRsiQYI4TP8YlEl/6CCUOkv4ZiZ7W6rmmegWsyAF5CuY1
+ ll/BLzpdXf79quIdJpnuz/IQObL0o+IjR5zCtxETZyTZjowhKCtQnPkHDmMwc5RS64DB
+ /nK6nQYNqGG/ao6EFXKc3civV1/0HT7GxZQvZ+RUk0TQDzM6iUhktf2NXI26sTj8c95v
+ nKa88FjpVTk6IR9RQwNQ0CDul0sP4GPk16T8qyKEsCBPO4/j4Bkhx3J2aKPeI8tmBu+j
+ CKjmPHDqlKkIi6HIKg0DDAoS2ISReqLEjQ/dM4zOQBEWg88kGZ9HhiLtrJ/hFbfGfCPn
+ dskw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3h0fdLNPM1dEey5JLwy/XFLh2gvXbItFWv3/ztsAUY0=;
+ b=nqXV8S/ozzpFPhjftT9dq16FlsHV4BoJTLzaNBuYlwPipaJShzqlvX5aLV6uBtpnKo
+ Inidi3dOEYoFkVnD/hWgP5TSAUtF104Y5aheyVJY+kazpaw1WrebTSGv2Vge3suwqlgC
+ 8T3wiInxKIw+dyOXvIKBZBqGtHtdvVzGTB7pHC2QwQoNG0iSBWHVelmDmBM8pFc48uF4
+ OUeoGx3BzNR2sFMRssurr/SsZ2MHzLKirlUVLactpagDqKN+ctBlwvl/iB5LjMOlUlpp
+ BbyQHUWC12cRErJ5XWbKiP0HHtl7nHuH4BYJFDME9GjfpuP7p9l5vJWj8kAoYHih2oJ7
+ t0Fg==
+X-Gm-Message-State: AOAM530SZPhhurhOBMdNqwHf+6eVRCeluMcM9adr5eqqNOmR7oHQu50L
+ iqLwOxciLAsHf691d6nYrSh4ZRr/jrVL55EepNtlxw==
+X-Google-Smtp-Source: ABdhPJwrrWZv3GOTqqW/0mZ7J2YXa4cRa+R+xI8hGstQwjhbYOwmClaxQrBS5jh6twkNTeGoOL5xST3691GYXz8U+fA=
+X-Received: by 2002:aa7:d30e:: with SMTP id p14mr26949894edq.204.1628015721679; 
+ Tue, 03 Aug 2021 11:35:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210803172013.148446-1-iii@linux.ibm.com>
+In-Reply-To: <20210803172013.148446-1-iii@linux.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Aug 2021 19:34:38 +0100
+Message-ID: <CAFEAcA8J1odq1mcg4mKD--EbNj2d01JwqP8DnK-_c6Oz2y157A@mail.gmail.com>
+Subject: Re: [PATCH] linux-user/elfload: byteswap i386 registers when dumping
+ core
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,645 +77,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <wrampazz@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Niteesh G . S ." <niteesh.gs@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Andreas Krebbel <krebbel@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests most of protocol.py -- From a hacked up Coverage.py run, it's
-at about 86%. There's a few error cases that aren't very well tested
-yet, they're hard to induce artificially so far. I'm working on it.
+On Tue, 3 Aug 2021 at 18:21, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+>
+> Core dumps from emulating x86_64 on big-endian hosts contain incorrect
+> register values.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/tests/null_proto.py |  70 +++++
- python/tests/protocol.py   | 535 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 605 insertions(+)
- create mode 100644 python/tests/null_proto.py
- create mode 100644 python/tests/protocol.py
 
-diff --git a/python/tests/null_proto.py b/python/tests/null_proto.py
-new file mode 100644
-index 00000000000..c8cedea5942
---- /dev/null
-+++ b/python/tests/null_proto.py
-@@ -0,0 +1,70 @@
-+import asyncio
-+
-+from qemu.aqmp.protocol import AsyncProtocol
-+
-+
-+class NullProtocol(AsyncProtocol[None]):
-+    """
-+    NullProtocol is a test mockup of an AsyncProtocol implementation.
-+
-+    It adds a fake_session instance variable that enables a code path
-+    that bypasses the actual connection logic, but still allows the
-+    reader/writers to start.
-+
-+    Because the message type is defined as None, an asyncio.Event named
-+    'trigger_input' is created that prohibits the reader from
-+    incessantly being able to yield None; this input can be poked to
-+    simulate an incoming message.
-+
-+    For testing symmetry with do_recv, an interface is added to "send" a
-+    Null message.
-+
-+    For testing purposes, a "simulate_disconnection" method is also
-+    added which allows us to trigger a bottom half disconnect without
-+    injecting any real errors into the reader/writer loops; in essence
-+    it performs exactly half of what disconnect() normally does.
-+    """
-+    def __init__(self, name=None):
-+        self.fake_session = False
-+        self.trigger_input: asyncio.Event
-+        super().__init__(name)
-+
-+    async def _establish_session(self):
-+        self.trigger_input = asyncio.Event()
-+        await super()._establish_session()
-+
-+    async def _do_accept(self, address, ssl=None):
-+        if not self.fake_session:
-+            await super()._do_accept(address, ssl)
-+
-+    async def _do_connect(self, address, ssl=None):
-+        if not self.fake_session:
-+            await super()._do_connect(address, ssl)
-+
-+    async def _do_recv(self) -> None:
-+        await self.trigger_input.wait()
-+        self.trigger_input.clear()
-+
-+    def _do_send(self, msg: None) -> None:
-+        pass
-+
-+    async def send_msg(self) -> None:
-+        await self._outgoing.put(None)
-+
-+    async def simulate_disconnect(self) -> None:
-+        """
-+        Simulates a bottom-half disconnect.
-+
-+        This method schedules a disconnection but does not wait for it
-+        to complete. This is used to put the loop into the DISCONNECTING
-+        state without fully quiescing it back to IDLE. This is normally
-+        something you cannot coax AsyncProtocol to do on purpose, but it
-+        will be similar to what happens with an unhandled Exception in
-+        the reader/writer.
-+
-+        Under normal circumstances, the library design requires you to
-+        await on disconnect(), which awaits the disconnect task and
-+        returns bottom half errors as a pre-condition to allowing the
-+        loop to return back to IDLE.
-+        """
-+        self._schedule_disconnect()
-diff --git a/python/tests/protocol.py b/python/tests/protocol.py
-new file mode 100644
-index 00000000000..f0682d29ce5
---- /dev/null
-+++ b/python/tests/protocol.py
-@@ -0,0 +1,535 @@
-+import asyncio
-+from contextlib import contextmanager
-+import os
-+import socket
-+from tempfile import TemporaryDirectory
-+
-+import avocado
-+
-+from qemu.aqmp import ConnectError, Runstate
-+from qemu.aqmp.protocol import AsyncProtocol, StateError
-+from qemu.aqmp.util import asyncio_run, create_task
-+
-+
-+class NullProtocol(AsyncProtocol[None]):
-+    """
-+    NullProtocol is a test mockup of an AsyncProtocol implementation.
-+
-+    It adds a fake_session instance variable that enables a code path
-+    that bypasses the actual connection logic, but still allows the
-+    reader/writers to start.
-+
-+    Because the message type is defined as None, an asyncio.Event named
-+    'trigger_input' is created that prohibits the reader from
-+    incessantly being able to yield None; this event can be poked to
-+    simulate an incoming message.
-+
-+    For testing symmetry with do_recv, an interface is added to "send" a
-+    Null message.
-+
-+    For testing purposes, a "simulate_disconnection" method is also
-+    added which allows us to trigger a bottom half disconnect without
-+    injecting any real errors into the reader/writer loops; in essence
-+    it performs exactly half of what disconnect() normally does.
-+    """
-+    def __init__(self, name=None):
-+        self.fake_session = False
-+        self.trigger_input: asyncio.Event
-+        super().__init__(name)
-+
-+    async def _establish_session(self):
-+        self.trigger_input = asyncio.Event()
-+        await super()._establish_session()
-+
-+    async def _do_accept(self, address, ssl=None):
-+        if not self.fake_session:
-+            await super()._do_accept(address, ssl)
-+
-+    async def _do_connect(self, address, ssl=None):
-+        if not self.fake_session:
-+            await super()._do_connect(address, ssl)
-+
-+    async def _do_recv(self) -> None:
-+        await self.trigger_input.wait()
-+        self.trigger_input.clear()
-+
-+    def _do_send(self, msg: None) -> None:
-+        pass
-+
-+    async def send_msg(self) -> None:
-+        await self._outgoing.put(None)
-+
-+    async def simulate_disconnect(self) -> None:
-+        """
-+        Simulates a bottom-half disconnect.
-+
-+        This method schedules a disconnection but does not wait for it
-+        to complete. This is used to put the loop into the DISCONNECTING
-+        state without fully quiescing it back to IDLE. This is normally
-+        something you cannot coax AsyncProtocol to do on purpose, but it
-+        will be similar to what happens with an unhandled Exception in
-+        the reader/writer.
-+
-+        Under normal circumstances, the library design requires you to
-+        await on disconnect(), which awaits the disconnect task and
-+        returns bottom half errors as a pre-condition to allowing the
-+        loop to return back to IDLE.
-+        """
-+        self._schedule_disconnect()
-+
-+
-+def run_as_task(coro, allow_cancellation=False):
-+    """
-+    Run a given coroutine as a task.
-+
-+    Optionally, wrap it in a try..except block that allows this
-+    coroutine to be canceled gracefully.
-+    """
-+    async def _runner():
-+        try:
-+            await coro
-+        except asyncio.CancelledError:
-+            if allow_cancellation:
-+                return
-+            raise
-+    return create_task(_runner())
-+
-+
-+@contextmanager
-+def jammed_socket():
-+    """
-+    Opens up a random unused TCP port on localhost, then jams it.
-+    """
-+    socks = []
-+
-+    try:
-+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-+        sock.bind(('127.0.0.1', 0))
-+        sock.listen(1)
-+        address = sock.getsockname()
-+
-+        socks.append(sock)
-+
-+        # I don't *fully* understand why, but it takes *two* un-accepted
-+        # connections to start jamming the socket.
-+        for _ in range(2):
-+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+            sock.connect(address)
-+            socks.append(sock)
-+
-+        yield address
-+
-+    finally:
-+        for sock in socks:
-+            sock.close()
-+
-+
-+class Smoke(avocado.Test):
-+
-+    def setUp(self):
-+        self.proto = NullProtocol()
-+
-+    def test__repr__(self):
-+        self.assertEqual(
-+            repr(self.proto),
-+            "<NullProtocol runstate=IDLE>"
-+        )
-+
-+    def testRunstate(self):
-+        self.assertEqual(
-+            self.proto.runstate,
-+            Runstate.IDLE
-+        )
-+
-+    def testDefaultName(self):
-+        self.assertEqual(
-+            self.proto.name,
-+            None
-+        )
-+
-+    def testLogger(self):
-+        self.assertEqual(
-+            self.proto.logger.name,
-+            'qemu.aqmp.protocol'
-+        )
-+
-+    def testName(self):
-+        self.proto = NullProtocol('Steve')
-+
-+        self.assertEqual(
-+            self.proto.name,
-+            'Steve'
-+        )
-+
-+        self.assertEqual(
-+            self.proto.logger.name,
-+            'qemu.aqmp.protocol.Steve'
-+        )
-+
-+        self.assertEqual(
-+            repr(self.proto),
-+            "<NullProtocol name='Steve' runstate=IDLE>"
-+        )
-+
-+
-+class TestBase(avocado.Test):
-+
-+    def setUp(self):
-+        self.proto = NullProtocol(type(self).__name__)
-+        self.assertEqual(self.proto.runstate, Runstate.IDLE)
-+        self.runstate_watcher = None
-+
-+    def tearDown(self):
-+        self.assertEqual(self.proto.runstate, Runstate.IDLE)
-+
-+    async def _asyncSetUp(self):
-+        pass
-+
-+    async def _asyncTearDown(self):
-+        if self.runstate_watcher:
-+            await self.runstate_watcher
-+
-+    @staticmethod
-+    def async_test(async_test_method):
-+        """
-+        Decorator; adds SetUp and TearDown to async tests.
-+        """
-+        async def _wrapper(self, *args, **kwargs):
-+            loop = asyncio.get_event_loop()
-+            loop.set_debug(True)
-+
-+            await self._asyncSetUp()
-+            await async_test_method(self, *args, **kwargs)
-+            await self._asyncTearDown()
-+
-+        return _wrapper
-+
-+    # Definitions
-+
-+    # The states we expect a "bad" connect/accept attempt to transition through
-+    BAD_CONNECTION_STATES = (
-+        Runstate.CONNECTING,
-+        Runstate.DISCONNECTING,
-+        Runstate.IDLE,
-+    )
-+
-+    # The states we expect a "good" session to transition through
-+    GOOD_CONNECTION_STATES = (
-+        Runstate.CONNECTING,
-+        Runstate.RUNNING,
-+        Runstate.DISCONNECTING,
-+        Runstate.IDLE,
-+    )
-+
-+    # Helpers
-+
-+    async def _watch_runstates(self, *states):
-+        """
-+        This launches a task alongside (most) tests below to confirm that
-+        the sequence of runstate changes that occur is exactly as
-+        anticipated.
-+        """
-+        async def _watcher():
-+            for state in states:
-+                new_state = await self.proto.runstate_changed()
-+                self.assertEqual(
-+                    new_state,
-+                    state,
-+                    msg=f"Expected state '{state.name}'",
-+                )
-+
-+        self.runstate_watcher = create_task(_watcher())
-+        # Kick the loop and force the task to block on the event.
-+        await asyncio.sleep(0)
-+
-+
-+class State(TestBase):
-+
-+    @TestBase.async_test
-+    async def testSuperfluousDisconnect(self):
-+        """
-+        Test calling disconnect() while already disconnected.
-+        """
-+        await self._watch_runstates(
-+            Runstate.DISCONNECTING,
-+            Runstate.IDLE,
-+        )
-+        await self.proto.disconnect()
-+
-+
-+class Connect(TestBase):
-+    """
-+    Tests primarily related to calling Connect().
-+    """
-+    async def _bad_connection(self, family: str):
-+        assert family in ('INET', 'UNIX')
-+
-+        if family == 'INET':
-+            await self.proto.connect(('127.0.0.1', 0))
-+        elif family == 'UNIX':
-+            await self.proto.connect('/dev/null')
-+
-+    async def _hanging_connection(self):
-+        with jammed_socket() as addr:
-+            await self.proto.connect(addr)
-+
-+    async def _bad_connection_test(self, family: str):
-+        await self._watch_runstates(*self.BAD_CONNECTION_STATES)
-+
-+        with self.assertRaises(ConnectError) as context:
-+            await self._bad_connection(family)
-+
-+        self.assertIsInstance(context.exception.exc, OSError)
-+        self.assertEqual(
-+            context.exception.error_message,
-+            "Failed to establish connection"
-+        )
-+
-+    @TestBase.async_test
-+    async def testBadINET(self):
-+        """
-+        Test an immediately rejected call to an IP target.
-+        """
-+        await self._bad_connection_test('INET')
-+
-+    @TestBase.async_test
-+    async def testBadUNIX(self):
-+        """
-+        Test an immediately rejected call to a UNIX socket target.
-+        """
-+        await self._bad_connection_test('UNIX')
-+
-+    @TestBase.async_test
-+    async def testCancellation(self):
-+        """
-+        Test what happens when a connection attempt is aborted.
-+        """
-+        # Note that accept() cannot be cancelled outright, as it isn't a task.
-+        # However, we can wrap it in a task and cancel *that*.
-+        await self._watch_runstates(*self.BAD_CONNECTION_STATES)
-+        task = run_as_task(self._hanging_connection(), allow_cancellation=True)
-+
-+        state = await self.proto.runstate_changed()
-+        self.assertEqual(state, Runstate.CONNECTING)
-+
-+        # This is insider baseball, but the connection attempt has
-+        # yielded *just* before the actual connection attempt, so kick
-+        # the loop to make sure it's truly wedged.
-+        await asyncio.sleep(0)
-+
-+        task.cancel()
-+        await task
-+
-+    @TestBase.async_test
-+    async def testTimeout(self):
-+        """
-+        Test what happens when a connection attempt times out.
-+        """
-+        await self._watch_runstates(*self.BAD_CONNECTION_STATES)
-+        task = run_as_task(self._hanging_connection())
-+
-+        # More insider baseball: to improve the speed of this test while
-+        # guaranteeing that the connection even gets a chance to start,
-+        # verify that the connection hangs *first*, then await the
-+        # result of the task with a nearly-zero timeout.
-+
-+        state = await self.proto.runstate_changed()
-+        self.assertEqual(state, Runstate.CONNECTING)
-+        await asyncio.sleep(0)
-+
-+        with self.assertRaises(asyncio.TimeoutError):
-+            await asyncio.wait_for(task, timeout=0)
-+
-+    @TestBase.async_test
-+    async def testRequire(self):
-+        """
-+        Test what happens when a connection attempt is made while CONNECTING.
-+        """
-+        await self._watch_runstates(*self.BAD_CONNECTION_STATES)
-+        task = run_as_task(self._hanging_connection(), allow_cancellation=True)
-+
-+        state = await self.proto.runstate_changed()
-+        self.assertEqual(state, Runstate.CONNECTING)
-+
-+        with self.assertRaises(StateError) as context:
-+            await self._bad_connection('UNIX')
-+
-+        self.assertEqual(
-+            context.exception.error_message,
-+            "NullProtocol is currently connecting."
-+        )
-+        self.assertEqual(context.exception.state, Runstate.CONNECTING)
-+        self.assertEqual(context.exception.required, Runstate.IDLE)
-+
-+        task.cancel()
-+        await task
-+
-+    @TestBase.async_test
-+    async def testImplicitRunstateInit(self):
-+        """
-+        Test what happens if we do not wait on the runstate event until
-+        AFTER a connection is made, i.e., connect()/accept() themselves
-+        initialize the runstate event. All of the above tests force the
-+        initialization by waiting on the runstate *first*.
-+        """
-+        task = run_as_task(self._hanging_connection(), allow_cancellation=True)
-+
-+        # Kick the loop to coerce the state change
-+        await asyncio.sleep(0)
-+        assert self.proto.runstate == Runstate.CONNECTING
-+
-+        # We already missed the transition to CONNECTING
-+        await self._watch_runstates(Runstate.DISCONNECTING, Runstate.IDLE)
-+
-+        task.cancel()
-+        await task
-+
-+
-+class Accept(Connect):
-+    """
-+    All of the same tests as Connect, but using the accept() interface.
-+    """
-+    async def _bad_connection(self, family: str):
-+        assert family in ('INET', 'UNIX')
-+
-+        if family == 'INET':
-+            await self.proto.accept(('example.com', 1))
-+        elif family == 'UNIX':
-+            await self.proto.accept('/dev/null')
-+
-+    async def _hanging_connection(self):
-+        with TemporaryDirectory(suffix='.aqmp') as tmpdir:
-+            sock = os.path.join(tmpdir, type(self.proto).__name__ + ".sock")
-+            await self.proto.accept(sock)
-+
-+
-+class FakeSession(TestBase):
-+
-+    def setUp(self):
-+        super().setUp()
-+        self.proto.fake_session = True
-+
-+    async def _asyncSetUp(self):
-+        await super()._asyncSetUp()
-+        await self._watch_runstates(*self.GOOD_CONNECTION_STATES)
-+
-+    async def _asyncTearDown(self):
-+        await self.proto.disconnect()
-+        await super()._asyncTearDown()
-+
-+    ####
-+
-+    @TestBase.async_test
-+    async def testFakeConnect(self):
-+
-+        """Test the full state lifecycle (via connect) with a no-op session."""
-+        await self.proto.connect('/not/a/real/path')
-+        self.assertEqual(self.proto.runstate, Runstate.RUNNING)
-+
-+    @TestBase.async_test
-+    async def testFakeAccept(self):
-+        """Test the full state lifecycle (via accept) with a no-op session."""
-+        await self.proto.accept('/not/a/real/path')
-+        self.assertEqual(self.proto.runstate, Runstate.RUNNING)
-+
-+    @TestBase.async_test
-+    async def testFakeRecv(self):
-+        """Test receiving a fake/null message."""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        logname = self.proto.logger.name
-+        with self.assertLogs(logname, level='DEBUG') as context:
-+            self.proto.trigger_input.set()
-+            self.proto.trigger_input.clear()
-+            await asyncio.sleep(0)  # Kick reader.
-+
-+        self.assertEqual(
-+            context.output,
-+            [f"DEBUG:{logname}:<-- None"],
-+        )
-+
-+    @TestBase.async_test
-+    async def testFakeSend(self):
-+        """Test sending a fake/null message."""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        logname = self.proto.logger.name
-+        with self.assertLogs(logname, level='DEBUG') as context:
-+            # Cheat: Send a Null message to nobody.
-+            await self.proto.send_msg()
-+            # Kick writer; awaiting on a queue.put isn't sufficient to yield.
-+            await asyncio.sleep(0)
-+
-+        self.assertEqual(
-+            context.output,
-+            [f"DEBUG:{logname}:--> None"],
-+        )
-+
-+    async def _prod_session_api(
-+            self,
-+            current_state: Runstate,
-+            error_message: str,
-+            accept: bool = True
-+    ):
-+        with self.assertRaises(StateError) as context:
-+            if accept:
-+                await self.proto.accept('/not/a/real/path')
-+            else:
-+                await self.proto.connect('/not/a/real/path')
-+
-+        self.assertEqual(context.exception.error_message, error_message)
-+        self.assertEqual(context.exception.state, current_state)
-+        self.assertEqual(context.exception.required, Runstate.IDLE)
-+
-+    @TestBase.async_test
-+    async def testAcceptRequireRunning(self):
-+        """Test that accept() cannot be called when Runstate=RUNNING"""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        await self._prod_session_api(
-+            Runstate.RUNNING,
-+            "NullProtocol is already connected and running.",
-+            accept=True,
-+        )
-+
-+    @TestBase.async_test
-+    async def testConnectRequireRunning(self):
-+        """Test that connect() cannot be called when Runstate=RUNNING"""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        await self._prod_session_api(
-+            Runstate.RUNNING,
-+            "NullProtocol is already connected and running.",
-+            accept=False,
-+        )
-+
-+    @TestBase.async_test
-+    async def testAcceptRequireDisconnecting(self):
-+        """Test that accept() cannot be called when Runstate=DISCONNECTING"""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        # Cheat: force a disconnect.
-+        await self.proto.simulate_disconnect()
-+
-+        await self._prod_session_api(
-+            Runstate.DISCONNECTING,
-+            ("NullProtocol is disconnecting."
-+             " Call disconnect() to return to IDLE state."),
-+            accept=True,
-+        )
-+
-+    @TestBase.async_test
-+    async def testConnectRequireDisconnecting(self):
-+        """Test that connect() cannot be called when Runstate=DISCONNECTING"""
-+        await self.proto.accept('/not/a/real/path')
-+
-+        # Cheat: force a disconnect.
-+        await self.proto.simulate_disconnect()
-+
-+        await self._prod_session_api(
-+            Runstate.DISCONNECTING,
-+            ("NullProtocol is disconnecting."
-+             " Call disconnect() to return to IDLE state."),
-+            accept=False,
-+        )
--- 
-2.31.1
+Looks like these two were the only two guest arch versions of this
+function that were missing the tswapreg calls...
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
