@@ -2,134 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40BC33DEF0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:27:44 +0200 (CEST)
-Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E0F3DEF0D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 15:27:53 +0200 (CEST)
+Received: from localhost ([::1]:56988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAuSN-0002Bv-5k
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
+	id 1mAuSW-0002N5-S4
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 09:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mAuQr-0000DR-2j
+ id 1mAuQr-0000Df-Ct
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:26:09 -0400
-Received: from mail-bn8nam12hn2217.outbound.protection.outlook.com
- ([52.100.165.217]:16512 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+Received: from mail-mw2nam10hn2246.outbound.protection.outlook.com
+ ([52.100.157.246]:23648 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mAuQm-0001TY-Hl
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:26:08 -0400
+ id 1mAuQp-0001X3-O5
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 09:26:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iesiQ9wh+H0lEI1/TPiIifVxQ8rQfnGGJMuxCz/GASHzVKk/ik7+NlkfglHePRDGB5yS9ffEihrWXERKaxAm5Kzjf08EhlLVQG0BRVww4u0tTGjhkHUK0WnWyRSAGXRiba4KuUClYWZLdO11jBljIJNNBc6lPq1EotKDgAyivZjiW0upGXlWBpTr9CyjLs/o+CvsHzJDZiezmkLVuGOPytSvKlqOgYXUXrV1vqwsag2qaxvE76/vReEQfOyO/q1L9ZscgU2nFKlpltzxlkAw3GfsrJTol8wle01Ro/JKdAd2O5rPW62tnO/SULFfbGv6pzglLmzem3ZZ8red0Q1tOA==
+ b=gp4ATomTb6nGDqm2ZlFAroWoOcIAvxdLcvskzFBjWoiRMI3jzK7b393/vUY7XzoYqy3zXi9cJK/5Es5LfzT4q96CO58Iy5QrtEQidobfFuK9HzNVuI9PICeg/WHngs//lYgCfrbJHR9w/ATJmMKaLoyGnadPv0CSoSrHCP3uoUnLAPWaEGiaRyAk9Y0uQ7CNysBwiY2aZc4AoS7tulLnY5t2O0fx7yQ5Tl4ybsVQUWW0jhLro0/8QPRrweUE7dkLOmWZvHElJ+V4wg1KqX3Y34sbAUcMn4lhR+eGc2ht01alWwLFQwu/HpfxpOJgyBVo7S+9QEO36I6QxN6ZK7awIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8N1CHaSICEJCI8TGvBp1Xc3oSEztDh1KQlN9FkuwxXE=;
- b=XVyeAd6tF8tG1elJR3k+vH6HISXz6lpNZIYiOJGQsxnE8Q4cCWgMMZQfz6THhTZYwFGYlsxkqm5reZJMwx6WRSqPHOl/ZYMUZsVSLICXNpZwWXc5bK2hLTMumgE65DERQKfyLeO29lVfjpqIVHu1OtlsDe+K8oaaH776ED+NgbKA1woKkwXPaGTI6iKEZ5p6yV+skSmTteAzJ652Phkvpsax6xznXPS5nghpgovK9Prg2R5RilVDe+ls6fs4xUWoCOvqKDs2+eKfhlslB4WjQZNw6mED1mhDQ/HrFR5Ja7qZa0ND4LsLHww1YYStKPb6i2PVRMz5kLNvvBTaoQ5vzg==
+ bh=et5Km8zdgm2AUr04gfYaQ7eetKwbJS4a1xbFvV7Mdgo=;
+ b=JqEdP2FMtLPa+Yl83d98lh/a+A3F3ORaJTc08jpXwGVDkQe0y8gkER+H+vy7rCrKvPYUttMo4E0qP3gHC7k8KgQ+UDI1bcObWU8kruNKmZb/dG+COR6APND05lWUTlWQCP23sITVw9sxpOVRkMfiVMbhorhaEM0Llod94k1fqhpxaDkgBLu1pvgxa/4XV1bNUS3jVap6ARWrNpCOd4d5TZr0PulMdySAxMhlg1JGKrXOC2/IEZluWHAL/Jcsom2V+QfufCwrm01E6ld7FUvpyiE6VMzQXu43QDHzTpuxrR4tbbA81d7rLrEPytQpz6NCrV63qkhP2zGeLI1o34PQSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8N1CHaSICEJCI8TGvBp1Xc3oSEztDh1KQlN9FkuwxXE=;
- b=PeTHmmvrHwLL/F3T0RZyiD3Ugh0vI7jRxcuZ1kOv3tlOAv0++KZ5Sd3j1RiQkdJwa1TsKCCjEU2aDtB6AqymEx3ER9Zh6zuC+uAGWpqU+SOxwEMW/S2vBNs8VCzRslwrmRJajJBgW7dCiktkhHRvlW2woG17As8Zw1toV5DDPEk=
+ bh=et5Km8zdgm2AUr04gfYaQ7eetKwbJS4a1xbFvV7Mdgo=;
+ b=sovYJFGJMU0r5HuBCzPjVW2hjj1Tqy5wI8vFqWKlZchZzWyhVQu0CRVOQ5eXQoJNldatM74/NsbxK6Kv7pQEmrQsmAeVu4vR4I+BSyM8hh9hIqkoZQ8dVFbOsBk7GVxMRu2FW7OmsZva41A4n5gua83QvcRskjS4yLeu0PCpzuQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB4118.namprd12.prod.outlook.com (2603:10b6:610:a4::23)
+ by CH2PR12MB4136.namprd12.prod.outlook.com (2603:10b6:610:a4::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Tue, 3 Aug
- 2021 13:26:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Tue, 3 Aug
+ 2021 13:26:03 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
- 13:26:01 +0000
+ 13:26:03 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL for-6.1 0/6] qemu-ga patch queue for hard-freeze
-Date: Tue,  3 Aug 2021 08:24:46 -0500
-Message-Id: <20210803132450.1093602-1-michael.roth@amd.com>
+Cc: peter.maydell@linaro.org, Basil Salman <basil@daynix.com>,
+ Basil Salman <bsalman@daynix.com>
+Subject: [PULL for-6.1 1/6] qga-win: Increase VSS freeze timeout to 60 secs
+ instead of 10
+Date: Tue,  3 Aug 2021 08:24:47 -0500
+Message-Id: <20210803132450.1093602-2-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210803132450.1093602-1-michael.roth@amd.com>
+References: <20210803132450.1093602-1-michael.roth@amd.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SN7P222CA0019.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::13) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN7P222CA0030.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::25) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN7P222CA0019.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::13) with Microsoft
+ SN7P222CA0030.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4373.20 via Frontend Transport; Tue, 3 Aug 2021 13:26:01 +0000
+ 15.20.4373.20 via Frontend Transport; Tue, 3 Aug 2021 13:26:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fada3d29-52ac-4b0d-88bd-08d956823ccc
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4118:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4118701FFE6809AA5E7F807C95F09@CH2PR12MB4118.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1122;
+X-MS-Office365-Filtering-Correlation-Id: f22cca02-857f-4eaf-e540-08d956823dfd
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4136:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB413667103567EF2AAC7BE93495F09@CH2PR12MB4136.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JDMMLQhEgaYEOcph7gbxgb1LE5Oo6megw/EJrwNVlLCGDidFsSVg8lH/7iiI?=
- =?us-ascii?Q?8LexD5LqQBxd5rOjtly7c2M/KBH19508MtJkCJAW81uLDOFaRczg14S2AT0n?=
- =?us-ascii?Q?ebjG169hcMM9wbk2WWfh1acOA/1pXTxFnOJeXzojnztFY75hvHDSlp9jI79c?=
- =?us-ascii?Q?Gx+LDY1mbyTd5pGAYJZuFy51GeWm2hflGFQv4pAIoNxwZLr55Eb1eStTDffO?=
- =?us-ascii?Q?mAofY66r9laIGQkC1DB6K4xyOqiP4Py55QBl/rq/PV9IJxijvqqaiJ5D0GfC?=
- =?us-ascii?Q?PXPajSZQKPaC8uTAhc6k2dBc5tJXoEfafTftTFPAL6XeMKRd6zskRg+4bPu1?=
- =?us-ascii?Q?JvVG5dw1DNjyHyoqgewNUwjRi1ILeKBkjV2lOpN8N2YcH7uSF6DlJSOhEkOl?=
- =?us-ascii?Q?ESOMHJfyybG7WLjtMP0KVe1A1d13pPQmdRHZKqVO3YuCg39Ety2P2n6+tNGy?=
- =?us-ascii?Q?PjmEoGdHjulk5279dJ40cyaLUDeKxynvWg/mf8icx5GA1x0uy2Qe8kmIBZOy?=
- =?us-ascii?Q?MZlr4IML9ElNRHZEQ1vNcCD/NZGaJq/UOzOW464HDL18rW3pb37EH9ETqxhH?=
- =?us-ascii?Q?4PA9L742aOTgwJHpCz+Jq5F3JozsiBIIArcoAmJGgPQQiLmFAxR/thBAvXHM?=
- =?us-ascii?Q?KYRmuObxBQ4A4yDpuZVqob1bEMvdIrxxYUDlOYdU62JAQZnphAePfnIhRo3h?=
- =?us-ascii?Q?7pNsiMJbThMJppwEVEm7uhMnu+8zXajzBHXjIzopDPr2RfAS/uADu+Wc2pyx?=
- =?us-ascii?Q?bndQ3STh+1pmlUPjpQkqez/tBCSyPaMtAiqlx+s2gjfYkxV1bJp5SSfHey+Y?=
- =?us-ascii?Q?cdNjQurOgBTLR1BdMAS96pD6y7vYYdUNsEcUTIdgBRXwnML2vo16PIFgj4xQ?=
- =?us-ascii?Q?OzNB+LpEDoXblg5B9isuA5M+fjg7Snuzs6I+FWY2eEB4nNafG0ZxHgUTxC6J?=
- =?us-ascii?Q?mc8lmPz5ZEZFfgYGZabrSbxy8/22l3ssNP6FTrqerliyYtR9mYbvKIJ9A96x?=
- =?us-ascii?Q?Tzb0y2bwstNIjUKyBYDsoUVx5N/DghIU0KdNJ0ywk+hhgCU=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?B/EHXCCL2G4E07ANx2h8fulcveNdiaD4Wd1TyVvdmlW6+NsgLHeC+X28W1ie?=
+ =?us-ascii?Q?g1uTg0FVm3lCzZ93inG3WDWZ2V/StemBCfq5k66CjP0X+TY+1ouHy63Aku9I?=
+ =?us-ascii?Q?yQwH7C7RFsOiRME/GKMLN6SBSzqSrx3yMjSmtmGx8fmaYq/ZAl8azltBq5Zr?=
+ =?us-ascii?Q?Zwwk7e7p1zzzG0n+9KykapHrFfiWQhtTsP6uIe3k6xUB7xaS5LULzY+M/ZOR?=
+ =?us-ascii?Q?OKDjRmpXfMwAv+CauLKlhY4shk7EZHK4MrANGpVObHTCmKEygyrxGDhhlUoI?=
+ =?us-ascii?Q?lZedmwae3Dvrb1aPOQ4q09T2r3pR8n+u0tVx1MibPmyXNFkwJ2zh3jjvRzlv?=
+ =?us-ascii?Q?bB/2Rh84M31qe3TTz8CgYqexbPd+v04y3v0smyQheVFC/vkiS8FCPUtKE4+s?=
+ =?us-ascii?Q?ojcrK/kA74EcHqj7NSNfRY5T84DCUU2r9YZJSrN6ssDM4aJtVR0J+TwQ1xKY?=
+ =?us-ascii?Q?XsNTyHzAw0NW1eRxNE5Z+el5gPHcJcavj/NVAduhymSTfQd5OJsmdJLf4lhc?=
+ =?us-ascii?Q?1Mp8kttxcrl6BDITwwWNgQG0EVKij9M/x9weTW3PBi+0JkcPKF0ZevIiQuD1?=
+ =?us-ascii?Q?2wiGejlUWDmP6NsbK1QGJZmKMi8hrvkXR3Q8Yag689eu8SkHiEetkb84cFEs?=
+ =?us-ascii?Q?j+IxbcOMpq8b1/emnJvsAXpIefeibQWVHA0O5unXEo0hPxO/J1jyZ6Gh2iP0?=
+ =?us-ascii?Q?1P5UVC1uUGDqaE3CHLuC+KH/n12NEiMO4b1PdhNqW5rzFgz7GiRA+Ususeke?=
+ =?us-ascii?Q?lCTK+zvHs8elj6yNqCXyyr9edXldsTug4hl9y24RDIBOYmSq7fN0DHyjAIVd?=
+ =?us-ascii?Q?5te70PxnlYG3722DxjW+XF+A01YPTiue4beBv/38pGXOUMHmw6zcCsgpA6sE?=
+ =?us-ascii?Q?z+Jv7393KBOTg6s3WlcB3rtap5GOzLw6jBoJ1fsnRDpOm7byeYwdGcMV8E6k?=
+ =?us-ascii?Q?fuNX9WSEKVbie9Nhhf0onKPhc862jQxuAvkUx9lfx36h4FL0OVF75wb2M+Z2?=
+ =?us-ascii?Q?BaqpsKnk7HI282pezrc97OXfp6IBTyhslRecaTnkrgDuq5JNWPY2NN8ccF9H?=
+ =?us-ascii?Q?gaSzJJorLxhEysWX1SkcgCEZP2dFWkQKrSNKtx2crMAzjFBB2QtWhwQjD9bb?=
+ =?us-ascii?Q?IO567ZaJgtD+pbQ75hWaKUGZrXipjOM2ODGnMsuOUsXWF50Kr8iesdU=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
  IPV:NLI; SFV:SPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:OSPM;
- SFS:(4636009)(346002)(39860400002)(366004)(396003)(376002)(136003)(316002)(36756003)(86362001)(4326008)(83380400001)(44832011)(956004)(2906002)(186003)(1076003)(2616005)(478600001)(6496006)(5660300002)(8936002)(38350700002)(52116002)(38100700002)(6666004)(8676002)(66946007)(6486002)(6916009)(66476007)(66556008)(26005)(23200700001);
+ SFS:(4636009)(136003)(346002)(39860400002)(366004)(376002)(396003)(316002)(2906002)(38100700002)(44832011)(83380400001)(8936002)(1076003)(36756003)(6486002)(6496006)(52116002)(54906003)(38350700002)(2616005)(956004)(478600001)(5660300002)(66476007)(186003)(66946007)(8676002)(66556008)(26005)(4326008)(6666004)(86362001)(6916009)(966005)(23200700001);
  DIR:OUT; SFP:1501; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jLcJ6SWbLhTcmyPiyZlvO7QbVX23lBa7IU50NhlyCGFsQvTogLOnELK0vmCM?=
- =?us-ascii?Q?SYg0anWyu3+7MSyOlf9dXYf/Swx+/vqA7PvnStruqQfiwp//MOkXkumgM9Zk?=
- =?us-ascii?Q?mZ+9hJYKD3N5fNdCq8FH0ssjIJEQ+S8+iCLhJ5ZWaPEvMQcEmetqCjJ9tMzj?=
- =?us-ascii?Q?/mis3DZm7Oz/CxY8S0bGuXspqZYaFQ6xdlxJvVeZyvxXqISKzBppYpq/By5p?=
- =?us-ascii?Q?JW9DHvwcnP+KTLDPRe50HkggP+wBp3yIrsxEOZeC7eGmoY9ZRyB9NRERUP6M?=
- =?us-ascii?Q?TfEfDsGpKTcz6fSf99VNgAADxmlAR/4mkJHPwhqSab9GyCjuYMVInoFG7LhL?=
- =?us-ascii?Q?vrbwnCZPHfCOWdAWJF/Cq0qao+NSf+Dy/JaZjKQ5m9UvSUecV9cYP/sgg+dK?=
- =?us-ascii?Q?ZHka38+LKX1NY+he+3krf5IV/O13j15Xh4VGvc7lo8zCDHSV1qw5GTR4njOk?=
- =?us-ascii?Q?nJJ6gNOzbudFnhVBwmQ0YjISrWNIYAC55Sd91gSnWn64RjLaKh/jRjCQsCPg?=
- =?us-ascii?Q?pie/OKqUIUcW01n/evBHGVNa5hrI7h/uRuvyAuGWn4zdw77bvX4il//Ugf/B?=
- =?us-ascii?Q?TrZUAtIU6lzb1dktvIouwfDRQNNYqWenpp0n5T27Pkr3yHbBdMnTd94hjMSf?=
- =?us-ascii?Q?ksBrSQtk2pYI+ILis6/veNtl/GABGay/wF/r2qbZpXrVPRebfXrllXsCMRYT?=
- =?us-ascii?Q?1WLVy37mTLkJA3MPMJfNBjAgfsRdAQJxV4EdJZRTzBxP3fBsku8hNf+dsVS5?=
- =?us-ascii?Q?clQXPyXcZBFtAJsgy2PhwwiLpjsV+zhFq5neV71FaO8tRyTYuugeaLQWhAaQ?=
- =?us-ascii?Q?3rUoSrkvKFaT5AySLlHS52LFehvth48XKtMp4vgeo4AlwY/WsiLpJEfFtXdo?=
- =?us-ascii?Q?qKdbLOZLCK+Ha4xcHgiAyp8gttvrVB86uWibdaNbrWkSG24U/ndzfm3QW9o8?=
- =?us-ascii?Q?EKKsrP83/W70WwkAQFRzR5qUx3SXAxJ3PjC4DfBkK/4mKZcmsG9S6P0DgYVQ?=
- =?us-ascii?Q?O9F7Uy9bu0GQDcDWC8TT/ds9GwTBtb5c34yVzEsX5ln8p8wn0yq7viHU+EHl?=
- =?us-ascii?Q?xvcdlLcFniXiT175SWzIvUZ/Z25z08ckhjV/YcPVOcbTLg8E7HX2iP1nytXu?=
- =?us-ascii?Q?t0zbCN96RoD1VOpomT+5IbNOzJlJIXlwysG+tAPuWdNbw3ltva2BW7tn/Et9?=
- =?us-ascii?Q?2rPWRW3Z3lqnvahJovP7BSDUpV342ahq/CKGj6jhOb6jeUBHkJZrDTiNcJxA?=
- =?us-ascii?Q?EdQ98DuFsHNK1rLQVys9b23E9aumQ1BwTgpIUuRg3R/wwy91pE0jizYfFACF?=
- =?us-ascii?Q?AZFmx+3MI1GrcVpqQ5bhP1Ny?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UlJXNpSkCKGzqAXEtfCTBiza1PQ6QxhrUB3kyK0X3Hgn9oP6Dd3RteQKg0hl?=
+ =?us-ascii?Q?7j9cj/ZVBaRp+cZEMtQsiS8WAc0AVGzsddBorTT5zE586fgGOT7fMlNidgLF?=
+ =?us-ascii?Q?L/UQ8CrQt6BzC6jXcJy0VKUjL2kTk7KzrgsctJKAm/FEgnaMaQsz5XJ0n6Uj?=
+ =?us-ascii?Q?8uNlYS6upV78t7cT89YdBLvboggH17JhKTobLtpv9SvaNGgrpkfLZZVqXqwD?=
+ =?us-ascii?Q?Nh7/O1mGGmxnIKKSfNYwondedVVh3FyFp69KpvNXk+l7Gf+i0+0fcJtEGoKg?=
+ =?us-ascii?Q?1VZxMdNPIFpIx5GpJyA0xrIBaAHnThqhuSmPcfb/5JhpXOlwqTlRWulHJnVI?=
+ =?us-ascii?Q?TdLiocaDQoJ8JFYAh1mmju+CrFWUJuV/QM9EtcBTqUGSWU/51tiZtonnyVCL?=
+ =?us-ascii?Q?HkIG/7x3inqn6P2OUhVTdbbjfaY1kB+jPr6p6RmBRSrbvHUWIUNRkW9NpMFZ?=
+ =?us-ascii?Q?LfrPJWqYrGZOlktay4EoBrvBgVAgMIhTjNi2Apj25k/GrGEpOXxdClJrzv+L?=
+ =?us-ascii?Q?EnQVrpMJdYy36j9exFHSH/g27SPNyGb2KAHYsH34a6hgKYsqfv+BQzT6Kwyf?=
+ =?us-ascii?Q?DdXjSbZOFTuBT9uiIsAQvjT/ahrhLtCvZZlhyt46YJ5wd2kSOCjJCJK/xYWr?=
+ =?us-ascii?Q?ZxrlNm3DKOyVPEv8H8paGkVZDtMv1nlN2TcxDZ5qj0HgSn90aiae4mwZRRLg?=
+ =?us-ascii?Q?2X913+aLYEf1VROT6MQ12oJr/n8nzr41sP+ISLbrZ89IltRv6O+KttlwxSYE?=
+ =?us-ascii?Q?x6M7gsDOizx0tuIEVojEBQGG3RJJ0Md4dgySNF7YVjmzBEvDJ9Oo5fz5DL3j?=
+ =?us-ascii?Q?q5Mle53PKZtddJgDLzv0iutCiGRvlhQlaPxQfTXFtkEpeur4lQ0BR8UE3WzK?=
+ =?us-ascii?Q?+w6mpCZtYsE0/TaXhXR6ClduiiwRxW03a5X2Oi0RxgCwmZn4tMHiydkVMzbq?=
+ =?us-ascii?Q?VTWrumloNRiZul8gHpc1JXdFqZ4q27BTITG1w27AnEAuWmwipz5aXXOJEQsf?=
+ =?us-ascii?Q?LRhdfBZYkf6241oAgQr0GFQ/UvgBvXbUkgQDekGlxUdf4KBon+gPyrQjC8NV?=
+ =?us-ascii?Q?zqrNt4XNiff+oeggWseFEaehmZiveWopVsf0Y9y6gX5NO7wWg0aYYLxsHBLS?=
+ =?us-ascii?Q?WrqhweMxQ51pIa3gxDpyB8PGVck92m3Wk3UFH/RWHtd8Q8oLK9ywWlVXljgm?=
+ =?us-ascii?Q?jhDDCK3MQhNFcZ6ei6q25iX3xds4rBkN2thLBFG7ZOVrE84r9IrOy2Ig2mG6?=
+ =?us-ascii?Q?jk8xmsn3d+MOU+9GT/dwe4vgzI99LNemTM9aKS1MzOllKdyWoIZOn5iEJOlL?=
+ =?us-ascii?Q?C/E9pIeaD3dSN6xLJBBjgges?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fada3d29-52ac-4b0d-88bd-08d956823ccc
+X-MS-Exchange-CrossTenant-Network-Message-Id: f22cca02-857f-4eaf-e540-08d956823dfd
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:26:01.7202 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:26:03.6925 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LqgurMacuG0nw5pt2WsQWXhGN+ofE6HJ+G0vbuzA9lDlFp0MXtTx5LyuQis8kpsBPFYnGKW6zL6JACbj//ds0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4118
-Received-SPF: softfail client-ip=52.100.165.217;
+X-MS-Exchange-CrossTenant-UserPrincipalName: cDaoe/O5N5coYvChmmj8yWvMF6cKGQtV1CR7yZsqhycLasyBBKBXd0kRDEa6CZV0sam1J9aIpoL98eDSProSLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4136
+Received-SPF: softfail client-ip=52.100.157.246;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -153,52 +159,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+From: Basil Salman <basil@daynix.com>
 
-Sorry for the late submission. These patches affect only the w32 build of
-qemu-ga. A number of these patches I've had queued for some time, but a bug
-in the MSI installer that was just fixed was blocking testing. Now that that
-is working again I am hoping to get these in along with a couple of other
-fixes that have come in since then.
+Currently Requester freeze times out after 10 seconds, while
+the default timeout for Writer Freeze is 60 seconds. according to
+VSS Documentation [1].
+[1]: https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
 
-The following changes since commit 7f1cab9c628a798ae2607940993771e6300e9e00:
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-08-02 17:21:50 +0100)
+Signed-off-by: Basil Salman <bsalman@daynix.com>
+Signed-off-by: Basil Salman <basil@daynix.com>
+Signed-off-by: Michael Roth <michael.roth@amd.com>
+---
+ qga/vss-win32/requester.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://github.com/mdroth/qemu.git tags/qga-pull-2021-08-03-pull-tag
-
-for you to fetch changes up to e300858ed4a6d0cbd52b7fb5082d3c69cc371965:
-
-  qga-win/msi: fix missing libstdc++-6 DLL in MSI installer (2021-08-03 07:01:36 -0500)
-
-----------------------------------------------------------------
-qemu-ga patch queue for hard-freeze
-
-* w32: Fix missing/incorrect DLLs in MSI installer
-* w32: Fix memory leaks in guest-get-osinfo/guest-get-fsinfo
-* w32: Increase timeout for guest-fsfreeze-freeze
-
-----------------------------------------------------------------
-Basil Salman (3):
-      qga-win: Increase VSS freeze timeout to 60 secs instead of 10
-      qga-win: Fix build_guest_fsinfo() close of nonexistent
-      qga-win: Fix handle leak in ga_get_win_product_name()
-
-Gerd Hoffmann (1):
-      qemu-ga/msi: fix w32 libgcc name
-
-Kostiantyn Kostiuk (1):
-      qga-win: Free GMatchInfo properly
-
-Michael Roth (1):
-      qga-win/msi: fix missing libstdc++-6 DLL in MSI installer
-
- qga/commands-win32.c        | 18 ++++++++++++------
- qga/installer/qemu-ga.wxs   |  6 +++++-
- qga/vss-win32/requester.cpp |  2 +-
- 3 files changed, 18 insertions(+), 8 deletions(-)
-
+diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
+index 5378c55d23..940a2c8f55 100644
+--- a/qga/vss-win32/requester.cpp
++++ b/qga/vss-win32/requester.cpp
+@@ -18,7 +18,7 @@
+ #include <inc/win2003/vsbackup.h>
+ 
+ /* Max wait time for frozen event (VSS can only hold writes for 10 seconds) */
+-#define VSS_TIMEOUT_FREEZE_MSEC 10000
++#define VSS_TIMEOUT_FREEZE_MSEC 60000
+ 
+ /* Call QueryStatus every 10 ms while waiting for frozen event */
+ #define VSS_TIMEOUT_EVENT_MSEC 10
+-- 
+2.25.1
 
 
