@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFAA3DE502
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:22:05 +0200 (CEST)
-Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7933DE505
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:22:58 +0200 (CEST)
+Received: from localhost ([::1]:49080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAlwK-0005lp-9u
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
+	id 1mAlxB-0008G0-RR
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAlpZ-00034J-90
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:15:05 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:46823)
+ id 1mAlpa-00037J-Cy
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:15:06 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mAlpX-0002Bj-Hu
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:15:04 -0400
-Received: by mail-pl1-x636.google.com with SMTP id k2so4598898plk.13
- for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:15:03 -0700 (PDT)
+ id 1mAlpY-0002D1-OW
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:15:06 -0400
+Received: by mail-pl1-x634.google.com with SMTP id c16so22133322plh.7
+ for <qemu-devel@nongnu.org>; Mon, 02 Aug 2021 21:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GXOlbQT0wGZicRa4Afgu+4pPip7Q2NUMioJcGG1uVyI=;
- b=L8hyDq7gkzmLPvYBe6B19El0Bsna1Td5Gmt2ZPtgFCLmNR3ZBLm12OfCyf8xdcWlkw
- hhY07QIpA047ZSpcchkg8OJVoaNKExeMetp0gebjquU+DTn3N8mt6ITYR58wWlAM/eF4
- EuQK+tw7UhAvpVyNmu5hsI3wX+WigaBDGzwUm1fjCcYt3X+f3ZwPSK24bzpmD3N662HG
- y3qhsDLT52lffuY/P2L2h03C/jCbjl9W/gSnORbVhiPRonuVyyXnpkg2iHLs3hIEzYuA
- 9602c4v36D5RK4NvcfcgsQFzIoEDRuXi3m7I9Szei8t6E1k0M3FCw24wC0QGh2AAtWvE
- wPsw==
+ bh=3YfZ/UL664PTCelhcyMYJoABRu6Hh76jEhtzzul4yt8=;
+ b=AKQZMOFDu3jfZF/W4XXAaErD4sM2bnytc//mDM0Cm/vtw4WgPCARkm72zINo4aTJn2
+ 5ZonM3ngy0DtxyNpZW065Wf3R3UtRgf+6HddL7kpIm3QUimqPJtC1tH668PUvzUQqEQ6
+ XAQZDN61N4eVEzW1s3OAc/sSXjTEP7o/swgZ0iSUq2O0VZffE40ifaakciuEbcdP4Kde
+ u0w8D6yqyo18aaIa/jNqGLlEfqigX2YQvEgTXRP4+gkI9zSTa5KN7f0HNuBX04Xxt8HV
+ oceqNF91NpvSGYIGaOSUsKkEXcfClzLO6s3Epknyia3qewbaWnumVNnVIYM+5IoIKWOG
+ lHhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GXOlbQT0wGZicRa4Afgu+4pPip7Q2NUMioJcGG1uVyI=;
- b=YQXzAOKSh0ybiEbF5yHla2fBavfq/SRKXGaLLXKy/Ew2lKCjnQs3cYtAoS2ZUqquob
- +ESS5Kou/NEqmwu5ojIaCA1fXFNLCvw0PHYLXL8P7K+e2oagygj7/T8fhdZOkzhDVGoo
- wSAHSGb0fgpm0rCv8OijkfrkHLGzQeZRffZuTEXNVbzR83R9i1wdz+bCaiUnhQyAvldc
- 0IQpTLtgSJNgFJQQ87HYxaxS66X5mn9O3/n/luODWzmYqt94dpodWLs39l5i61lGFv6g
- 8KkvSX9D7OAKFqiCiPa+opJxv47q3ZRZtQvuSsyfi9Zdg80oZfI6hsG8VEp0mZ3z5moM
- GhIg==
-X-Gm-Message-State: AOAM532sy3eymtB2KAVMP8wyt6QDyZqtaMYI2V3/5fORzhHrpBgV+dux
- 5yJt0wp2neqP+KfB/MFmrRhcuCnjPx8lhg==
-X-Google-Smtp-Source: ABdhPJzHgNE2sWpH/jJHMH3VEG6Pt/+8iHLRQTqPXLkN4BHwC1ocVMTClcwLnXMVIbbSQsSHEpuUfA==
-X-Received: by 2002:aa7:848e:0:b029:333:4742:edb3 with SMTP id
- u14-20020aa7848e0000b02903334742edb3mr19675119pfn.12.1627964102229; 
- Mon, 02 Aug 2021 21:15:02 -0700 (PDT)
+ bh=3YfZ/UL664PTCelhcyMYJoABRu6Hh76jEhtzzul4yt8=;
+ b=D4QYpJ5N6T7/GYLTY8PmpglqzwWYcHKwBXRkMRMy4+pCdlkwlU8B6OxcNJ6hoKvkvT
+ P8Zpu8d+meX51XZCLpSPcHulOnn0IMp/PwwGN/8SoRhJNH5mPiq4wq9zYEWD3CduBZ1j
+ N5ut/kq072yUuBrMUJgMA6eW4GHgKnFxMpeww9TQQ+FeA8keBtAgSKwV9pgEtszqjsFh
+ fXFhFmdbjb+Wkj6ED+n1UlyJyOjn+xjG27uIwSHn21QYkkO+dIHZ54ASVM/HMTrpCaJL
+ SNSV5onffnfTrXy6QQBdZfm7woGxq3CzuZt22BpXIn+iAzHLvSLuTkB5G73+LnICpMZ9
+ h7YQ==
+X-Gm-Message-State: AOAM533etcR9K0z1eD4comJrRWZn5FPAM5kii6dNF6veUqAKpef5CdNa
+ DbRzhdIWKEmzN12TminZ14lyXwOWRjda6Q==
+X-Google-Smtp-Source: ABdhPJzxS+UWmfrsKwExr7wVamfdUbfj9Zs6WLtTYH+N6vN8nlWAxtbjW+7L4vG6H1Ewcy9qC8pbcg==
+X-Received: by 2002:a05:6a00:1508:b029:332:3aab:d842 with SMTP id
+ q8-20020a056a001508b02903323aabd842mr20040884pfu.59.1627964103510; 
+ Mon, 02 Aug 2021 21:15:03 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id c23sm13718532pfn.140.2021.08.02.21.15.01
+ by smtp.gmail.com with ESMTPSA id c23sm13718532pfn.140.2021.08.02.21.15.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 21:15:01 -0700 (PDT)
+ Mon, 02 Aug 2021 21:15:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/55] target/sh4: Implement do_unaligned_access for
- user-only
-Date: Mon,  2 Aug 2021 18:14:02 -1000
-Message-Id: <20210803041443.55452-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/55] target/sparc: Remove DEBUG_UNALIGNED
+Date: Mon,  2 Aug 2021 18:14:03 -1000
+Message-Id: <20210803041443.55452-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210803041443.55452-1-richard.henderson@linaro.org>
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,74 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+The printf should have been qemu_log_mask, the parameters
+themselves no longer compile, and because this is placed
+before unwinding the PC is actively wrong.
+
+We get better (and correct) logging on the other side of
+raising the exception, in sparc_cpu_do_interrupt.
+
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sh4/cpu_loop.c | 8 ++++++++
- target/sh4/cpu.c          | 2 +-
- target/sh4/op_helper.c    | 3 ---
- 3 files changed, 9 insertions(+), 4 deletions(-)
+ target/sparc/ldst_helper.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
-index 222ed1c670..21d97250a8 100644
---- a/linux-user/sh4/cpu_loop.c
-+++ b/linux-user/sh4/cpu_loop.c
-@@ -71,6 +71,14 @@ void cpu_loop(CPUSH4State *env)
-             info._sifields._sigfault._addr = env->tea;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
-+        case 0xe0:
-+        case 0x100:
-+            info.si_signo = TARGET_SIGBUS;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_BUS_ADRALN;
-+            info._sifields._sigfault._addr = env->tea;
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             arch_interrupt = false;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 8326922942..b60234cd31 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -238,10 +238,10 @@ static const struct TCGCPUOps superh_tcg_ops = {
-     .synchronize_from_tb = superh_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = superh_cpu_exec_interrupt,
-     .tlb_fill = superh_cpu_tlb_fill,
-+    .do_unaligned_access = superh_cpu_do_unaligned_access,
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index 22327d7d72..974afea041 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -27,7 +27,6 @@
  
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = superh_cpu_do_interrupt,
--    .do_unaligned_access = superh_cpu_do_unaligned_access,
-     .io_recompile_replay_branch = superh_io_recompile_replay_branch,
- #endif /* !CONFIG_USER_ONLY */
- };
-diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-index d6d70c339f..b46fc1bf11 100644
---- a/target/sh4/op_helper.c
-+++ b/target/sh4/op_helper.c
-@@ -23,7 +23,6 @@
- #include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- 
--#ifndef CONFIG_USER_ONLY
- 
- void superh_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                     MMUAccessType access_type,
-@@ -46,8 +45,6 @@ void superh_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     cpu_loop_exit_restore(cs, retaddr);
- }
- 
--#endif
--
- void helper_ldtlb(CPUSH4State *env)
+ //#define DEBUG_MMU
+ //#define DEBUG_MXCC
+-//#define DEBUG_UNALIGNED
+ //#define DEBUG_UNASSIGNED
+ //#define DEBUG_ASI
+ //#define DEBUG_CACHE_CONTROL
+@@ -364,10 +363,6 @@ static void do_check_align(CPUSPARCState *env, target_ulong addr,
+                            uint32_t align, uintptr_t ra)
  {
- #ifdef CONFIG_USER_ONLY
+     if (addr & align) {
+-#ifdef DEBUG_UNALIGNED
+-        printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
+-               "\n", addr, env->pc);
+-#endif
+         cpu_raise_exception_ra(env, TT_UNALIGNED, ra);
+     }
+ }
+@@ -1968,10 +1963,6 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     SPARCCPU *cpu = SPARC_CPU(cs);
+     CPUSPARCState *env = &cpu->env;
+ 
+-#ifdef DEBUG_UNALIGNED
+-    printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
+-           "\n", addr, env->pc);
+-#endif
+     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
+ }
+ #endif
 -- 
 2.25.1
 
