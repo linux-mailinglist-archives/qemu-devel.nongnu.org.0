@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDF53DEC03
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 13:36:15 +0200 (CEST)
-Received: from localhost ([::1]:46982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FE33DED24
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 13:47:24 +0200 (CEST)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAsiU-00068Z-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 07:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1mAstG-0003h7-Je
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 07:47:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mAshF-0004ka-Cd
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:34:57 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mAshC-0006Z0-PP
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:34:56 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- q17-20020a17090a2e11b02901757deaf2c8so4308884pjd.0
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 04:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=rGxlvywmsqgjfdBGgDqAqDiKj4pLmtyn/aw+nyefOSA=;
- b=KmouhKTB30TGiDwZjFPxZYbS1N6etrXl54L6M9E4DJBPAs9563MRdjfTELN0USM4rd
- yVVbwTF9gGLDZGJBKP9k2pxNlKVsi1PpqI4GtX3SvaClIjL/DameM/19ITRt+L3BrNGu
- SRTiwY9a/qKeg30BlH5w1rRT0hecG6lctJRmlHO8Hi8bpv0gz2JsZiA+HdcIvzDGSf3U
- YGCS73j9YKknff2UHFE12x99ELfvuodg7Pnaz7dMinY0BaW7qfxZR2Z2ZQFPmVZJtI1w
- /NLKdniePKNezaVIKODEzmxTNwmW+wNwq+N8ulq4mSQFgWmbbGKRWZvOYxr0HPAKiO6X
- ZzRA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mAsqw-0001jU-DF
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:44:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mAsqu-0007Gf-0z
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:44:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627991094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TIcl2slq4sOnWcrNx1qCm8Nbxu2Sr4Lp7IUga+wOIPM=;
+ b=GoiPTf5YKyCowX1rT1fd1dR2as3WyaJ1IPtE9UJKp/yJlM91q8KCQaTufHNQLmRIdsHapW
+ nrEUxU8tLNUkzg+LtkZ7rmramz68eBgNXceQsBfo3ppP/gvU+A3ocpU08LNI3UdBHQGKSY
+ 6RAm0ikU5ZnrN0fGkC4McoewAsa6OmI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-XexJ2CO2NQuS-0gl1ELxVg-1; Tue, 03 Aug 2021 07:44:53 -0400
+X-MC-Unique: XexJ2CO2NQuS-0gl1ELxVg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f6-20020adfe9060000b0290153abe88c2dso7486221wrm.20
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 04:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=rGxlvywmsqgjfdBGgDqAqDiKj4pLmtyn/aw+nyefOSA=;
- b=quLPTUABvTHc+Wb9cFcd/pzIIChj3CvzNb3Dd5qK8ybgNzaftRcNDz8Z85N51o14qP
- HZvRI3/YCPuOmdGH4h8Gj4J0EO0fug9eKq9GzHzgrldoBRztWNZjgse0/C8bH5f3/aes
- qIKYaw3KxiOVuKpd5mX6RroD2Hb/rqc+90OPm/XBb5NwQnsBNB1wWtHXq2vCR6t8eIN/
- eWv4Vn4ZDxWyM+BijlHM7QOeWnoECGaK3mhex9vdFqKw0vc869O8U8zsE6pK+/0lkZhR
- 8dNM4p7WDKNOacjQztr/xGWEqy0F5Es7BjqoPTxS3ELl/6M90La2dzmQoMv6+c/5YcSa
- HQaA==
-X-Gm-Message-State: AOAM5335HFQzc+A1Gc/mydAkh75DheAQlaMXoqz/utss9x+rJppQ9l7i
- RiRRBICH35nxVwQAalahT3XNFQ==
-X-Google-Smtp-Source: ABdhPJyIZDlkdQ7xZW4PQ/S6QQdEYPqyifBdbWAadDespic18nESsOKNLbh/vN8QAKiSiC0mFLwy3A==
-X-Received: by 2002:a17:902:b711:b029:11e:6480:258a with SMTP id
- d17-20020a170902b711b029011e6480258amr1037457pls.41.1627990492316; 
- Tue, 03 Aug 2021 04:34:52 -0700 (PDT)
-Received: from anisinha-lenovo ([116.72.128.183])
- by smtp.googlemail.com with ESMTPSA id g11sm13948680pju.13.2021.08.03.04.34.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 04:34:51 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 3 Aug 2021 17:04:36 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/i386/ich9: add comment explaining an argument to
- acpi_pcihp_reset call
-In-Reply-To: <alpine.DEB.2.22.394.2107291843440.426350@anisinha-lenovo>
-Message-ID: <alpine.DEB.2.22.394.2108031704310.51080@anisinha-lenovo>
-References: <20210727044546.246363-1-ani@anisinha.ca>
- <alpine.DEB.2.22.394.2107291843440.426350@anisinha-lenovo>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=TIcl2slq4sOnWcrNx1qCm8Nbxu2Sr4Lp7IUga+wOIPM=;
+ b=EAeYhKzjplh+thacgPWb8Xlufd1AozWiGWV3Nw3q+tpGn7xaIKlGX30Oj8FTzAEX2q
+ sZT1gHi3QGKZVhxAOWzpXoU3mXEbzsN+u6eiTDZ1XUQz02LLgquj02hwOB7AwZzqZ6YP
+ o9C7QgCzarhr5qfsH31ZPLPnmKxSfi2Of5BjjiZv9R2tmw8IietvabvmncCmn/5Gj+CB
+ zxB5DQ1Msw+yON6SaHE8rmE5zdnvsyEAjzcNDo9FZnbSscFCjA11d3sKH7xlVpmsqckt
+ KaV8OesQhlg9pvc2drwIJH7UY9mhOC23Er0ossNNDBq53piN2tef5g/W5egukx6u2s0w
+ henw==
+X-Gm-Message-State: AOAM532VbMJU8Dr2nmj5G3G/INwka52eJotLlABD9BEDPuy4USll3LWZ
+ iE9OK89SxvAWIraGKj2zK0BRc2d3zJ8xK9zfRyl4tW8vFNL0yA3ctMIAa/oSvH98ZMkeksQQnLZ
+ 2rIbNHVZ+5oXYARM=
+X-Received: by 2002:adf:fc50:: with SMTP id e16mr23362285wrs.382.1627991092205; 
+ Tue, 03 Aug 2021 04:44:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzD1HwE1NUAqGWVFUlgzIbo3GawBt/Zp1BIoDP7+mSKSbkRRT/5sGTZWuRbrsD+tmM2RjTQBQ==
+X-Received: by 2002:adf:fc50:: with SMTP id e16mr23362262wrs.382.1627991092015; 
+ Tue, 03 Aug 2021 04:44:52 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23a79.dip0.t-ipconnect.de. [79.242.58.121])
+ by smtp.gmail.com with ESMTPSA id t8sm15076956wmj.5.2021.08.03.04.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Aug 2021 04:44:51 -0700 (PDT)
+Subject: Re: [PATCH v2 38/55] target/s390x: Use cpu_*_mmu instead of
+ helper_*_mmu
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210803041443.55452-1-richard.henderson@linaro.org>
+ <20210803041443.55452-39-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <b2cea948-0800-6b91-30d9-11d091427618@redhat.com>
+Date: Tue, 3 Aug 2021 13:44:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210803041443.55452-39-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,47 +100,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping ...
+On 03.08.21 06:14, Richard Henderson wrote:
+> The helper_*_mmu functions were the only thing available
+> when this code was written.  This could have been adjusted
+> when we added cpu_*_mmuidx_ra, but now we can most easily
+> use the newest set of interfaces.
+> 
+> Cc: qemu-s390x@nongnu.org
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-On Thu, 29 Jul 2021, Ani Sinha wrote:
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-> ping ...
->
-> On Tue, 27 Jul 2021, Ani Sinha wrote:
->
-> > acpi_pcihp_reset() call from ich9/pm_reset() passes an unconditional truth value
-> > as the second argument. Added a commnet here to explain the reason why the
-> > argument is being passed unconditionally.
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/acpi/ich9.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 778e27b659..b2e3c46075 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -281,6 +281,11 @@ static void pm_reset(void *opaque)
-> >      pm->smi_en_wmask = ~0;
-> >
-> >      if (pm->use_acpi_hotplug_bridge) {
-> > +        /*
-> > +         * PCI Express root buses do not support hot-plug, for
-> > +         * details see docs/pcie.txt. Hence, the second argument
-> > +         * is unconditionally true.
-> > +         */
-> >          acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
-> >      }
-> >
-> > --
-> > 2.25.1
-> >
-> >
->
+-- 
+Thanks,
+
+David / dhildenb
+
 
