@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3123DF6CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 23:20:10 +0200 (CEST)
-Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8DA3DF745
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 00:10:03 +0200 (CEST)
+Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB1pZ-0007IF-E3
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 17:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
+	id 1mB2bq-0000en-F7
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 18:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mB1oe-0006bx-P4
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:19:12 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:41735)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mB2ay-0008OM-Bl
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 18:09:08 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mB1od-0001ba-C9
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 17:19:12 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- q17-20020a17090a2e11b02901757deaf2c8so706691pjd.0
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 14:19:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mB2aw-0002Pi-TJ
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 18:09:08 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l34-20020a05600c1d22b02902573c214807so2664165wms.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 15:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aAMZcSuFBZhLZaX+UiDABnHJSJdTgWQItOdKopp79hc=;
- b=r6y/QLUoCD7n50GB7LQPaKqy7bv7MqjA/nQsvQ9sYN9MnZwr2K3i1yYmsnSriJS9IM
- StCAbwRmI8E1Hor/t7eQQreNI6psTkLPjMehMlHCQO4yWwdjoOHhNJEG+sqPTo2BwF58
- 3JNcaIHrGFgYmoMI3KxGXwRSf4fkC+wcQLmpzX2Z/EOYiv3Ruc83RK83ZPZab/aJZD1D
- HGUCp//PXMLOOLfXRn2K2lO/JC2KWuRgJgIYT6NCX+Aq6oYLZjjGQdJxsZG9g/1MLFcG
- r+JhD5koUOJfKEa1BzffIHPFnop/EC8qb3OynSHFIyXcXdv6lC+zrqDKEM+lZoeZMvGL
- sMxw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7Y1lwPgN/zjHZIVEn6mU3j43Jeej/F9zw/ZThc4sgOA=;
+ b=BFPZaUx8BPtoudrcnGLhlITQLgatxpVMQbysAHBAHc6YWQ32qpEl76OKgrklxUUpKI
+ efFbbJ/5CUxB3xdjbN4mKKHYej1whlKYdwzQRKtXAN2zURD9raDep/VA9xcAwiBgCGFa
+ u9H45g5Fs8qIQmcTnoGJ0A7r4Tma8p8jqv6v0f6XQwzKJfkv1hhaeI+yI64svmrFbLAr
+ QSBMTCC/gxiUmg6oPi626mcczBn4vrFRk9hL6Ja/j1Yj7ioSJyOOpSBWC/NNevFEn6QD
+ 4IgrGwL4QSE4wJJFzju5k4aZtcn3GCtI/ekCufEiG7D1LXWKQywiHKxxTmeWpKT/16WV
+ k1zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aAMZcSuFBZhLZaX+UiDABnHJSJdTgWQItOdKopp79hc=;
- b=RBmyGztPZsHw5OaoeCl49EWc/D46Kp27ReOseDYC79kTlBp+4ra8doaJVs+h7TFUlj
- S3Ak6YkLZ7fTW59G5fb4ofi+Yov9eZUCpHcCvLv9PN4SwTBq2cgqAkO6wVHNZF51sC6H
- OGqsZbyfLldTmms1ARynNtU9TGax4blAI2rS2skwhg8f1YKJAYjaBhVn4yQYwIVUPtZt
- WOT6ocN4ip9oVHV0iQiczWJCFJruEwa0p17rdl+t0u1adUfpmqpRn/ijk+P8iVaSUdyb
- wixZrb7fo382PC0Lnqs7kCYn7sTYjRY5P7LGMUqWJc8w1qUzMYefmNltUdlc3SEa+pgH
- Ydxg==
-X-Gm-Message-State: AOAM53028FIqlWd/9k6t0+3h1c03iMHesGOLDO8mgosirWSywzN0hsq+
- i5S9bKSwiULPC8mK2wOzAM6uSHR91otXQQ==
-X-Google-Smtp-Source: ABdhPJzjn63rjm0RPMzWNFGpqsoyScd61oG9U3t9l4ud6ncdQLtfsgKVb8cGZeAGCPVXgxw4d2MAsA==
-X-Received: by 2002:a63:1d41:: with SMTP id d1mr1104244pgm.199.1628025549759; 
- Tue, 03 Aug 2021 14:19:09 -0700 (PDT)
-Received: from localhost.localdomain (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id u16sm14481pgh.53.2021.08.03.14.19.08
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7Y1lwPgN/zjHZIVEn6mU3j43Jeej/F9zw/ZThc4sgOA=;
+ b=Oo6YOQqbcBjXGnbIrfzoCOhjF3bXl7tse79YGEswfSe3OW7zz1TqKdHhmV9zU4LQbI
+ 7IWlldC0aDL7yEOeWMZ4rxbjixREn8TSj0KtdjM5GKoRoiiuW2peK84Le9UonJIi/SU9
+ JR86IskTua5EA7BdyT8bHk8LeIdoaIToXNL7TVArXLmmfBNwCBuVDeJEiccDEdLe2MrX
+ H8dIZGxDVqauPc/qn/0f786tXyVVBgb5+TJ3Ml6bJ+gaprWOnkO5nVZSi+tQURZggEoI
+ p0KiFhg76dGbq5JN2bXmfLMT9Sr07QXJqUSKO6sZv24cpXiX0rZtfVZz8jdTYeA7eyD8
+ j3Tw==
+X-Gm-Message-State: AOAM530FC+zayQ8MeHJQpSn72cnoJqvsCia9QlAvDIM4gOxS4fQwspW0
+ uSa3kmYZJG4bPAlRVGCeCfLohg==
+X-Google-Smtp-Source: ABdhPJwejclC+snAZkhY1BYj46rRxYd9NomIU/gb/bEVkkN2XN5Rqd8rsrpUTxYfsEs81ufUuENEVw==
+X-Received: by 2002:a05:600c:1c13:: with SMTP id
+ j19mr22398944wms.164.1628028545051; 
+ Tue, 03 Aug 2021 15:09:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f17sm236690wrt.18.2021.08.03.15.09.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 14:19:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1?] util: Suppress -Wstringop-overflow in
- qemu_thread_start
-Date: Tue,  3 Aug 2021 11:19:07 -1000
-Message-Id: <20210803211907.150525-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Tue, 03 Aug 2021 15:09:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 850B81FF96;
+ Tue,  3 Aug 2021 23:09:03 +0100 (BST)
+References: <20210730143809.717079-1-thuth@redhat.com>
+User-agent: mu4e 1.6.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/3] Gitlab-CI improvements
+Date: Tue, 03 Aug 2021 23:08:59 +0100
+In-reply-to: <20210730143809.717079-1-thuth@redhat.com>
+Message-ID: <87czqufaf4.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,60 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This seems to be either a glibc or gcc bug, but the code
-appears to be fine with the warning suppressed.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
+Thomas Huth <thuth@redhat.com> writes:
 
-The host is running Centos 7.9, so technically, this is out-of-support. 
-But this is a gcc compile farm machine, so I'm stuck with it.  The rest
-of qemu is still working fine with a locally refreshed compiler.
+> Here are three patches for some small issues that I noticed in our
+> gitlab-CI files recently...
+
+Queued to for-6.1/misc-fixes-for-rc2, thanks.
+
+>
+> Thomas Huth (3):
+>   gitlab-ci: Merge "build-disabled" with "build-without-default-features"
+>   gitlab-ci: Remove superfluous "dnf install" statement
+>   gitlab-ci: Fix ..._RUNNER_AVAILABLE variables and document them
+>
+>  .gitlab-ci.d/buildtest.yml      | 99 +++++----------------------------
+>  .gitlab-ci.d/custom-runners.yml | 12 ++--
+>  docs/devel/ci.rst               | 13 +++++
+>  3 files changed, 32 insertions(+), 92 deletions(-)
 
 
-r~
-
----
- util/qemu-thread-posix.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index fd9d714038..6c5004220d 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -537,9 +537,28 @@ static void *qemu_thread_start(void *args)
-     QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
-     g_free(qemu_thread_args->name);
-     g_free(qemu_thread_args);
-+
-+    /*
-+     * GCC 11 with glibc 2.17 on PowerPC reports
-+     *
-+     * qemu-thread-posix.c:540:5: error: ‘__sigsetjmp’ accessing 656 bytes
-+     *   in a region of size 528 [-Werror=stringop-overflow=]
-+     * 540 |     pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
-+     *     |     ^~~~~~~~~~~~~~~~~~~~
-+     *
-+     * which is clearly nonsense.
-+     */
-+#pragma GCC diagnostic push
-+#ifndef __clang__
-+#pragma GCC diagnostic ignored "-Wstringop-overflow"
-+#endif
-+
-     pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
-     r = start_routine(arg);
-     pthread_cleanup_pop(1);
-+
-+#pragma GCC diagnostic pop
-+
-     return r;
- }
- 
--- 
-2.25.1
-
+--=20
+Alex Benn=C3=A9e
 
