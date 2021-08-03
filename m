@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B2F3DF13B
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:16:58 +0200 (CEST)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18CB3DF13D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 17:17:56 +0200 (CEST)
+Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAwA6-0004Nb-1U
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1mAwB1-0006F6-To
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 11:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mAw6k-00013W-2x
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:30 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54998)
+ id 1mAw6l-00014V-EH
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:31 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mAw6i-0001G9-1u
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:29 -0400
-Received: by mail-wm1-x331.google.com with SMTP id b128so12688920wmb.4
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:13:27 -0700 (PDT)
+ id 1mAw6j-0001IJ-SM
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 11:13:31 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id z4so25723270wrv.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 08:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KeYMrawUHwrwS55IKbM1oBpQj+zKsxIlCkOdSGFSkAY=;
- b=Q+Hi8NZ2cM9VDHvfcTzwCWmLyqTOZRaN+BU6Dd59uh2NNCCZFsfhTC2wm8PVlEacEF
- aNFTYYbUo+/xxK90btmjVAOJk5fG+s2OlEKvGPkU9BLAgvd9KXhInPYWZpf+2R61dXQB
- qnQVnXGuWiyR3IOSBkG2xc3ma1OcQu1iW79UaGYzzlJLM95bENmcLQ0ouO+m4nsuYqZY
- WIP96sw6OIHuDQVsgX7jt6rDV1TKE9KC0Jf0VnYXZroPz0trOB4JDN6AqJ6xur6O+m4q
- Y9G+uSeThTcr37kUnG0XXDyMJl9ragK16iruhSdVIqNf/WcMA9f8pTv6krrNcx9yyHOv
- I7Pg==
+ bh=jjAeLDqMEb8VI0Zdg34bOjhlOJkykWbPtTqIWH2Cx+Q=;
+ b=JawZCfXNAFH//wfb42zgPtabSk599Tm82cqNPYBlTYqS9aI42j09qejHHaGqtEiU0j
+ rhyD69cX5B+WhY6cGXUj0Aw0MGzG65oZP6nnNdVBR7OMAnXScxOho27yapuo/2BeEOql
+ quRKg1V+lODISihxU6AN594z6s1mgpj3ROe0SIArYrWVUCu33x/49q25UNY6+jl2D7IM
+ tqtHzv9aL63KslagLa7uY8V602YKUMpUp+qtlWeo2q/6KouXneWTWv94V+VrxPwG3yRZ
+ +zL5jp2xTKtS9CYYszb8aVkmNXvOIgehaz1yGequG9H7flVZiX4yB5csGDEv5SYCp2SO
+ jAhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KeYMrawUHwrwS55IKbM1oBpQj+zKsxIlCkOdSGFSkAY=;
- b=IsV4rQ8zFw4eDHhC4sCzQWObDGIuLO3iUKhC70vOBxAQSU+rWn0Ujdwbw/Oe8GV9ES
- mGLqRuVTm072uD2m94r2yGLijbBilwEt2MdN0Pp1a0wWVkfT9HldqVLZLUUjG+8F4rVr
- hYUugdCtliO1pWMrwYZzPESg0n8la7KMvFL0dAc+MqseKCAeO5CdbZQAizh+AXS6GJEV
- LRA/nfnBmvjGy36TSli4usCh8NWq7hWyI9RqYKdvwCes8iAkG4yPvs7Spz7GNHSH85qS
- XOli5pQAcjsWQOdYWqxeeNegjqrEU7GVCADyZoOMOCr3rCtX+uPcAV2D1iIIhyagEFyK
- Z5yA==
-X-Gm-Message-State: AOAM531yIwh2cXy103nzKikaYPGj1/N2KrqgjVA+a/cwVpQx3iyC7uf1
- XwcQVu9GONO2duSKWrN/SoVrT3bd7Tw=
-X-Google-Smtp-Source: ABdhPJzcuxbsLFkP/A2PtL5USJa4k1kWERy/sp/iLlFHmajEPZYDRF5gmIEXrqsZdohU63l22Ard+Q==
-X-Received: by 2002:a05:600c:4f05:: with SMTP id
- l5mr4923513wmq.96.1628003605152; 
- Tue, 03 Aug 2021 08:13:25 -0700 (PDT)
+ bh=jjAeLDqMEb8VI0Zdg34bOjhlOJkykWbPtTqIWH2Cx+Q=;
+ b=GPNe0OZrlCXmfcGNBEOYdLpAKrF7Fw0fbhUynwf4/MiIZ6ljetJ0LJn6df+Y5sX7Bs
+ YvCv7yVJ3aF3FKwT1z9bD3Zmqyb80a2667qTYP9UmLHv8LgLNVQUjmibduM1I0PTlowJ
+ nuaTo84bcm+tlwUnI63ydqDN1vLviaKbyTzcM03H0NUZ0R38Ps11KjCSKgvCZmkClwia
+ HlhwZxkcrNVLH+baVsOqKHh1rCPYdGsqvFHUSscamfw0wfVpNHNQp3/zaCcJAbxz/iv7
+ TiY94c1oYPhljtWX0IPGXfw0pyYLoQfsdXL726dL1Vxzit4Xx+alzfluBbw2+5eK/Iib
+ gXGw==
+X-Gm-Message-State: AOAM533GJf1X2ridEpqE7qmsNRfII9N8CwsJOhwojdddK1iPY7GFywls
+ W2cCBBhNC0g2/1XmmQ36Tl/4kQHhZCs=
+X-Google-Smtp-Source: ABdhPJx2v9hYthIgsy0n5ZFmJDrdd946DALsNrtHoCX4XMSwsZO+mNxuvOg8Q7SJhe3B/vTqq+liGw==
+X-Received: by 2002:a5d:500a:: with SMTP id e10mr9994579wrt.408.1628003608014; 
+ Tue, 03 Aug 2021 08:13:28 -0700 (PDT)
 Received: from localhost.localdomain ([197.61.80.206])
- by smtp.gmail.com with ESMTPSA id u23sm2737468wmc.24.2021.08.03.08.13.21
+ by smtp.gmail.com with ESMTPSA id u23sm2737468wmc.24.2021.08.03.08.13.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 08:13:24 -0700 (PDT)
+ Tue, 03 Aug 2021 08:13:26 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/2] plugins/cache: supported multicore cache modelling
-Date: Tue,  3 Aug 2021 17:13:00 +0200
-Message-Id: <20210803151301.123581-2-ma.mandourr@gmail.com>
+Subject: [PATCH v5 2/2] docs/devel/tcg-plugins: added cores arg to cache plugin
+Date: Tue,  3 Aug 2021 17:13:01 +0200
+Message-Id: <20210803151301.123581-3-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210803151301.123581-1-ma.mandourr@gmail.com>
 References: <20210803151301.123581-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,359 +87,39 @@ Cc: Alexandre Iooss <erdnaxe@crans.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Multicore L1 cache modelling is introduced and is supported for both
-full system emulation and linux-user.
-
-For full-system emulation, L1 icache and dcache are maintained for each
-available core, since this information is exposed to the plugin through
-`qemu_plugin_n_vcpus()`.
-
-For linux-user, a static number of cores is assumed (default 1 core, and
-can be provided as a plugin argument `cores=N`). Every memory access
-goes through one of these caches, this approach is taken as it's
-somewhat akin to what happens on real setup, where a program that
-dispatches more threads than the available cores, they'll thrash
-each other
-
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/cache.c | 176 ++++++++++++++++++++++++++++++----------
- 1 file changed, 132 insertions(+), 44 deletions(-)
+ docs/devel/tcg-plugins.rst | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index 066ea6d8ec..a1e03ca882 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -17,18 +17,12 @@ static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 7e54f12837..863828809d 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -355,11 +355,8 @@ configuration when a given working set is run::
  
- static GHashTable *miss_ht;
+ will report the following::
  
--static GMutex mtx;
-+static GMutex hashtable_lock;
- static GRand *rng;
- 
- static int limit;
- static bool sys;
- 
--static uint64_t dmem_accesses;
--static uint64_t dmisses;
+-    Data accesses: 996479, Misses: 507
+-    Miss rate: 0.050879%
 -
--static uint64_t imem_accesses;
--static uint64_t imisses;
--
- enum EvictionPolicy {
-     LRU,
-     FIFO,
-@@ -80,6 +74,8 @@ typedef struct {
-     int blksize_shift;
-     uint64_t set_mask;
-     uint64_t tag_mask;
-+    uint64_t accesses;
-+    uint64_t misses;
- } Cache;
+-    Instruction accesses: 2641737, Misses: 18617
+-    Miss rate: 0.704726%
++    core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imiss rate
++    0       996695         508             0.0510%  2642799        18617           0.7044%
  
- typedef struct {
-@@ -96,7 +92,16 @@ void (*update_miss)(Cache *cache, int set, int blk);
- void (*metadata_init)(Cache *cache);
- void (*metadata_destroy)(Cache *cache);
- 
--Cache *dcache, *icache;
-+static int cores;
-+static Cache **dcaches, **icaches;
+     address, data misses, instruction
+     0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
+@@ -403,3 +400,9 @@ The plugin has a number of arguments, all of them are optional:
+   Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
+   :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
+   both instruction and data caches. (default: POLICY = :code:`lru`)
 +
-+static GMutex *dcache_locks;
-+static GMutex *icache_locks;
++  * arg="cores=N"
 +
-+static uint64_t all_dmem_accesses;
-+static uint64_t all_imem_accesses;
-+static uint64_t all_imisses;
-+static uint64_t all_dmisses;
- 
- static int pow_of_two(int num)
- {
-@@ -233,20 +238,24 @@ static bool bad_cache_params(int blksize, int assoc, int cachesize)
- 
- static Cache *cache_init(int blksize, int assoc, int cachesize)
- {
--    if (bad_cache_params(blksize, assoc, cachesize)) {
--        return NULL;
--    }
--
-     Cache *cache;
-     int i;
-     uint64_t blk_mask;
- 
-+    /*
-+     * This function shall not be called directly, and hence expects suitable
-+     * parameters.
-+     */
-+    g_assert(!bad_cache_params(blksize, assoc, cachesize));
-+
-     cache = g_new(Cache, 1);
-     cache->assoc = assoc;
-     cache->cachesize = cachesize;
-     cache->num_sets = cachesize / (blksize * assoc);
-     cache->sets = g_new(CacheSet, cache->num_sets);
-     cache->blksize_shift = pow_of_two(blksize);
-+    cache->accesses = 0;
-+    cache->misses = 0;
- 
-     for (i = 0; i < cache->num_sets; i++) {
-         cache->sets[i].blocks = g_new0(CacheBlock, assoc);
-@@ -263,6 +272,24 @@ static Cache *cache_init(int blksize, int assoc, int cachesize)
-     return cache;
- }
- 
-+static Cache **caches_init(int blksize, int assoc, int cachesize)
-+{
-+    Cache **caches;
-+    int i;
-+
-+    if (bad_cache_params(blksize, assoc, cachesize)) {
-+        return NULL;
-+    }
-+
-+    caches = g_new(Cache *, cores);
-+
-+    for (i = 0; i < cores; i++) {
-+        caches[i] = cache_init(blksize, assoc, cachesize);
-+    }
-+
-+    return caches;
-+}
-+
- static int get_invalid_block(Cache *cache, uint64_t set)
- {
-     int i;
-@@ -353,6 +380,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
- {
-     uint64_t effective_addr;
-     struct qemu_plugin_hwaddr *hwaddr;
-+    int cache_idx;
-     InsnData *insn;
- 
-     hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
-@@ -361,32 +389,35 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
-     }
- 
-     effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
-+    cache_idx = vcpu_index % cores;
- 
--    g_mutex_lock(&mtx);
--    if (!access_cache(dcache, effective_addr)) {
-+    g_mutex_lock(&dcache_locks[cache_idx]);
-+    if (!access_cache(dcaches[cache_idx], effective_addr)) {
-         insn = (InsnData *) userdata;
--        insn->dmisses++;
--        dmisses++;
-+        __atomic_fetch_add(&insn->dmisses, 1, __ATOMIC_SEQ_CST);
-+        dcaches[cache_idx]->misses++;
-     }
--    dmem_accesses++;
--    g_mutex_unlock(&mtx);
-+    dcaches[cache_idx]->accesses++;
-+    g_mutex_unlock(&dcache_locks[cache_idx]);
- }
- 
- static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
- {
-     uint64_t insn_addr;
-     InsnData *insn;
-+    int cache_idx;
- 
--    g_mutex_lock(&mtx);
-     insn_addr = ((InsnData *) userdata)->addr;
- 
--    if (!access_cache(icache, insn_addr)) {
-+    cache_idx = vcpu_index % cores;
-+    g_mutex_lock(&icache_locks[cache_idx]);
-+    if (!access_cache(icaches[cache_idx], insn_addr)) {
-         insn = (InsnData *) userdata;
--        insn->imisses++;
--        imisses++;
-+        __atomic_fetch_add(&insn->imisses, 1, __ATOMIC_SEQ_CST);
-+        icaches[cache_idx]->misses++;
-     }
--    imem_accesses++;
--    g_mutex_unlock(&mtx);
-+    icaches[cache_idx]->accesses++;
-+    g_mutex_unlock(&icache_locks[cache_idx]);
- }
- 
- static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-@@ -411,7 +442,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-          * new entries for those instructions. Instead, we fetch the same
-          * entry from the hash table and register it for the callback again.
-          */
--        g_mutex_lock(&mtx);
-+        g_mutex_lock(&hashtable_lock);
-         data = g_hash_table_lookup(miss_ht, GUINT_TO_POINTER(effective_addr));
-         if (data == NULL) {
-             data = g_new0(InsnData, 1);
-@@ -421,7 +452,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-             g_hash_table_insert(miss_ht, GUINT_TO_POINTER(effective_addr),
-                                (gpointer) data);
-         }
--        g_mutex_unlock(&mtx);
-+        g_mutex_unlock(&hashtable_lock);
- 
-         qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem_access,
-                                          QEMU_PLUGIN_CB_NO_REGS,
-@@ -453,6 +484,15 @@ static void cache_free(Cache *cache)
-     g_free(cache);
- }
- 
-+static void caches_free(Cache **caches)
-+{
-+    int i;
-+
-+    for (i = 0; i < cores; i++) {
-+        cache_free(caches[i]);
-+    }
-+}
-+
- static int dcmp(gconstpointer a, gconstpointer b)
- {
-     InsnData *insn_a = (InsnData *) a;
-@@ -461,6 +501,37 @@ static int dcmp(gconstpointer a, gconstpointer b)
-     return insn_a->dmisses < insn_b->dmisses ? 1 : -1;
- }
- 
-+static void append_stats_line(GString *line, uint64_t daccess, uint64_t dmisses,
-+                              uint64_t iaccess, uint64_t imisses)
-+{
-+    double dmiss_rate, imiss_rate;
-+
-+    dmiss_rate = ((double) dmisses) / (daccess) * 100.0;
-+    imiss_rate = ((double) imisses) / (iaccess) * 100.0;
-+
-+    g_string_append_printf(line, "%-14lu %-12lu %9.4lf%%  %-14lu %-12lu"
-+                           " %9.4lf%%\n",
-+                           daccess,
-+                           dmisses,
-+                           daccess ? dmiss_rate : 0.0,
-+                           iaccess,
-+                           imisses,
-+                           iaccess ? imiss_rate : 0.0);
-+}
-+
-+static void sum_stats(void)
-+{
-+    int i;
-+
-+    g_assert(cores > 1);
-+    for (i = 0; i < cores; i++) {
-+        all_imisses += icaches[i]->misses;
-+        all_dmisses += dcaches[i]->misses;
-+        all_imem_accesses += icaches[i]->accesses;
-+        all_dmem_accesses += dcaches[i]->accesses;
-+    }
-+}
-+
- static int icmp(gconstpointer a, gconstpointer b)
- {
-     InsnData *insn_a = (InsnData *) a;
-@@ -471,19 +542,29 @@ static int icmp(gconstpointer a, gconstpointer b)
- 
- static void log_stats(void)
- {
--    g_autoptr(GString) rep = g_string_new("");
--    g_string_append_printf(rep,
--        "Data accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
--        dmem_accesses,
--        dmisses,
--        ((double) dmisses / (double) dmem_accesses) * 100.0);
--
--    g_string_append_printf(rep,
--        "Instruction accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
--        imem_accesses,
--        imisses,
--        ((double) imisses / (double) imem_accesses) * 100.0);
-+    int i;
-+    Cache *icache, *dcache;
-+
-+    g_autoptr(GString) rep = g_string_new("core #, data accesses, data misses,"
-+                                          " dmiss rate, insn accesses,"
-+                                          " insn misses, imiss rate\n");
-+
-+    for (i = 0; i < cores; i++) {
-+        g_string_append_printf(rep, "%-8d", i);
-+        dcache = dcaches[i];
-+        icache = icaches[i];
-+        append_stats_line(rep, dcache->accesses, dcache->misses,
-+                icache->accesses, icache->misses);
-+    }
-+
-+    if (cores > 1) {
-+        sum_stats();
-+        g_string_append_printf(rep, "%-8s", "sum");
-+        append_stats_line(rep, all_dmem_accesses, all_dmisses,
-+                all_imem_accesses, all_imisses);
-+    }
- 
-+    g_string_append(rep, "\n");
-     qemu_plugin_outs(rep->str);
- }
- 
-@@ -530,8 +611,8 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-     log_stats();
-     log_top_insns();
- 
--    cache_free(dcache);
--    cache_free(icache);
-+    caches_free(dcaches);
-+    caches_free(icaches);
- 
-     g_hash_table_destroy(miss_ht);
- }
-@@ -579,6 +660,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     policy = LRU;
- 
-+    cores = sys ? qemu_plugin_n_vcpus() : 1;
-+
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
-         if (g_str_has_prefix(opt, "iblksize=")) {
-@@ -595,6 +678,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-             dcachesize = g_ascii_strtoll(opt + 11, NULL, 10);
-         } else if (g_str_has_prefix(opt, "limit=")) {
-             limit = g_ascii_strtoll(opt + 6, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "cores=")) {
-+            cores = g_ascii_strtoll(opt + 6, NULL, 10);
-         } else if (g_str_has_prefix(opt, "evict=")) {
-             gchar *p = opt + 6;
-             if (g_strcmp0(p, "rand") == 0) {
-@@ -615,22 +700,25 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     policy_init();
- 
--    dcache = cache_init(dblksize, dassoc, dcachesize);
--    if (!dcache) {
-+    dcaches = caches_init(dblksize, dassoc, dcachesize);
-+    if (!dcaches) {
-         const char *err = cache_config_error(dblksize, dassoc, dcachesize);
-         fprintf(stderr, "dcache cannot be constructed from given parameters\n");
-         fprintf(stderr, "%s\n", err);
-         return -1;
-     }
- 
--    icache = cache_init(iblksize, iassoc, icachesize);
--    if (!icache) {
-+    icaches = caches_init(iblksize, iassoc, icachesize);
-+    if (!icaches) {
-         const char *err = cache_config_error(iblksize, iassoc, icachesize);
-         fprintf(stderr, "icache cannot be constructed from given parameters\n");
-         fprintf(stderr, "%s\n", err);
-         return -1;
-     }
- 
-+    dcache_locks = g_new0(GMutex, cores);
-+    icache_locks = g_new0(GMutex, cores);
-+
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
- 
++  Sets the number of cores for which we maintain separate icache and dcache.
++  (default: for linux-user, N = 1, for full system emulation: N = cores
++  available to guest)
 -- 
 2.25.1
 
