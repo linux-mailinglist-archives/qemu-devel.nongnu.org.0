@@ -2,76 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E053DE654
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 07:49:30 +0200 (CEST)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613283DE64C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 07:45:19 +0200 (CEST)
+Received: from localhost ([::1]:50706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAnIv-0007hl-U2
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 01:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40124)
+	id 1mAnEs-0004XW-Ds
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 01:45:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAnHv-0006qH-DN
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 01:48:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44026)
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1mAnDq-0003i1-A2
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 01:44:14 -0400
+Received: from mga03.intel.com ([134.134.136.65]:4010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mAnHt-00051U-1J
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 01:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627969702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=go917mmdi4npQ3beJ/AIELLhlj+g2M/fKHjcOcWbnek=;
- b=JUPgKvwXE73guWdZijV2oiIPSE0M3+hfpoVERMDN/16p91gMt0JM6oEQ9z0IMSj+3AWxkF
- 3qqJWRFEQeplxaxqwzhSSXDIeUMukCsG/Mwf/5RqV59lqBwQxpFM7vSR95kAu446ux7vrI
- Hz2pbDW5GG3lXI4r39av1OgboLwn0BY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-addfA5WwPhKucUT0OowFNw-1; Tue, 03 Aug 2021 01:48:21 -0400
-X-MC-Unique: addfA5WwPhKucUT0OowFNw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCD7801E72
- for <qemu-devel@nongnu.org>; Tue,  3 Aug 2021 05:48:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
- [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18A2E136F5;
- Tue,  3 Aug 2021 05:48:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9640911380A0; Tue,  3 Aug 2021 07:48:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 12/16] vhost: Clean up how VhostOpts method
- vhost_get_config() fails
-References: <20210720125408.387910-1-armbru@redhat.com>
- <20210720125408.387910-13-armbru@redhat.com>
- <4d0d6438-dc67-4d4a-96d8-d337e589eea8@redhat.com>
-Date: Tue, 03 Aug 2021 07:48:08 +0200
-In-Reply-To: <4d0d6438-dc67-4d4a-96d8-d337e589eea8@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 2 Aug 2021 20:58:19
- +0200")
-Message-ID: <87wnp3jcyv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
+ id 1mAnDl-0001W8-AT
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 01:44:13 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="213626514"
+X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; d="scan'208";a="213626514"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2021 22:44:04 -0700
+X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; d="scan'208";a="479225382"
+Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.133])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2021 22:44:02 -0700
+Date: Tue, 3 Aug 2021 13:51:29 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] vhost: use large iotlb entry if no IOMMU translation is
+ needed
+Message-ID: <20210803055127.GA31303@gao-cwp>
+References: <20210721075402.203711-1-chao.gao@intel.com>
+ <20210803042927.GA30466@gao-cwp>
+ <5321eefb-7177-2009-6aae-f8c398731eac@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5321eefb-7177-2009-6aae-f8c398731eac@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=chao.gao@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,50 +62,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, "Michael S .
- Tsirkin" <mst@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> On 7/20/21 2:54 PM, Markus Armbruster wrote:
->> vhost_user_get_config() can fail without setting an error.  Unclean.
->> Its caller vhost_dev_get_config() compensates by substituting a
->> generic error then.  Goes back to commit 50de51387f "vhost:
->> Distinguish errors in vhost_dev_get_config()".
->>=20
->> Clean up by moving the generic error from vhost_dev_get_config() to
->> all the failure paths that neglect to set an error.
->>=20
->> Cc: Kevin Wolf <kwolf@redhat.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  hw/virtio/vhost-user.c |  2 ++
->>  hw/virtio/vhost.c      | 10 ++--------
->>  2 files changed, 4 insertions(+), 8 deletions(-)
->>=20
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index 29ea2b4fce..dbbd6fbc25 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -2139,10 +2139,12 @@ static int vhost_user_get_config(struct vhost_de=
-v *dev, uint8_t *config,
->>      msg.payload.config.offset =3D 0;
->>      msg.payload.config.size =3D config_len;
->>      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->> +        error_setg_errno(errp, -EPROTO, "vhost_get_config failed");
->>          return -EPROTO;
->>      }
->> =20
->>      if (vhost_user_read(dev, &msg) < 0) {
->> +        error_setg_errno(errp, -EPROTO, "vhost_get_config failed");
->>          return -EPROTO;
->>      }
+On Tue, Aug 03, 2021 at 12:43:58PM +0800, Jason Wang wrote:
 >
-> Oops, should be error_setg_errno(EPROTO)!
+>在 2021/8/3 下午12:29, Chao Gao 写道:
+>> Ping. Could someone help to review this patch?
+>> 
+>> Thanks
+>> Chao
+>> 
+>> On Wed, Jul 21, 2021 at 03:54:02PM +0800, Chao Gao wrote:
+>> > If guest enables IOMMU_PLATFORM for virtio-net, severe network
+>> > performance drop is observed even if there is no IOMMU.
+>
+>
+>We see such reports internally and we're testing a patch series to disable
+>vhost IOTLB in this case.
+>
+>Will post a patch soon.
 
-D'oh!  Thanks!
+OK. put me in the CC list. I would like to test with TDX to ensure your patch
+fix the performance issue I am facing.
 
+>
+>
+>
+>> >   And disabling
+>> > vhost can mitigate the perf issue. Finally, we found the culprit is
+>> > frequent iotlb misses: kernel vhost-net has 2048 entries and each
+>> > entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
+>> > translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
+>> > memory for DMA, there are some iotlb misses.
+>> > 
+>> > If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
+>> > mode, we can optimistically use large, unaligned iotlb entries instead
+>> > of 4K-aligned entries to reduce iotlb pressure.
+>
+>
+>Instead of introducing new general facilities like unaligned IOTLB entry. I
+>wonder if we optimize the vtd_iommu_translate() to use e.g 1G instead?
+
+using 1G iotlb entry looks feasible.
+
+>
+>    } else {
+>        /* DMAR disabled, passthrough, use 4k-page*/
+>        iotlb.iova = addr & VTD_PAGE_MASK_4K;
+>        iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
+>        iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
+>        iotlb.perm = IOMMU_RW;
+>        success = true;
+>    }
+>
+>
+>> >   Actually, vhost-net
+>> > in kernel supports unaligned iotlb entry. The alignment requirement is
+>> > imposed by address_space_get_iotlb_entry() and flatview_do_translate().
+>
+>
+>For the passthrough case, is there anyway to detect them and then disable
+>device IOTLB in those case?
+
+yes. I guess so; qemu knows the presence and status of iommu. Currently,
+in flatview_do_translate(), memory_region_get_iommu() tells whether a memory
+region is behind an iommu.
+
+Thanks
+Chao
 
