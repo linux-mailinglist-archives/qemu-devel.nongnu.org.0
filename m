@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29A33DE7E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 10:07:08 +0200 (CEST)
-Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39303DE7E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 10:07:06 +0200 (CEST)
+Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mApS7-0003bD-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 04:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1mApS5-0003Tw-Sc
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 04:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mApQp-0000wE-0Y
+ id 1mApQp-0000wF-58
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:05:47 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2456)
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mApQl-00043T-Iz
+ id 1mApQl-00046O-KC
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 04:05:46 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gf6lt6ys7zZwZr;
- Tue,  3 Aug 2021 16:02:02 +0800 (CST)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gf6lw2f9fzZx4H;
+ Tue,  3 Aug 2021 16:02:04 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 3 Aug 2021 16:05:35 +0800
+ 15.1.2176.2; Tue, 3 Aug 2021 16:05:37 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 3 Aug 2021 16:05:34 +0800
+ 15.1.2176.2; Tue, 3 Aug 2021 16:05:36 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v4 04/14] machine: Improve the error reporting of smp
- parsing
-Date: Tue, 3 Aug 2021 16:05:17 +0800
-Message-ID: <20210803080527.156556-5-wangyanan55@huawei.com>
+Subject: [PATCH for-6.2 v4 05/14] hw: Add compat machines for 6.2
+Date: Tue, 3 Aug 2021 16:05:18 +0800
+Message-ID: <20210803080527.156556-6-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210803080527.156556-1-wangyanan55@huawei.com>
 References: <20210803080527.156556-1-wangyanan55@huawei.com>
@@ -80,102 +79,231 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have two requirements for a valid SMP configuration:
-the product of "sockets * cores * threads" must represent all the
-possible cpus, i.e., max_cpus, and then must include the initially
-present cpus, i.e., smp_cpus.
+Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
 
-So we only need to ensure 1) "sockets * cores * threads == maxcpus"
-at first and then ensure 2) "maxcpus >= cpus". With a reasonable
-order of the sanity check, we can simplify the error reporting code.
-When reporting an error message we also report the exact value of
-each topology member to make users easily see what's going on.
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine.c | 22 +++++++++-------------
- hw/i386/pc.c      | 24 ++++++++++--------------
- 2 files changed, 19 insertions(+), 27 deletions(-)
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 9 files changed, 71 insertions(+), 6 deletions(-)
 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 81eda46b0b..01165f7f53 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2788,10 +2788,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_6_2_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
++
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
++    virt_machine_6_2_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
++DEFINE_VIRT_MACHINE(6, 1)
+ 
+ static void virt_machine_6_0_options(MachineClass *mc)
+ {
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 958e6e7107..e879163c3b 100644
+index e879163c3b..458d9736e3 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -777,25 +777,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
+@@ -37,6 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
  
--    if (sockets * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, cores, threads, cpus);
-+    if (sockets * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, cores, threads, maxcpus);
-         return;
-     }
- 
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * cores * threads != maxcpus) {
-         error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, cores, threads, maxcpus, cpus);
-         return;
-     }
- 
++GlobalProperty hw_compat_6_1[] = {};
++const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
++
+ GlobalProperty hw_compat_6_0[] = {
+     { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+     { "i8042", "extended-state", "false"},
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 9ad7ae5254..fcf6905219 100644
+index fcf6905219..afd8b9c283 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -747,25 +747,21 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
+@@ -94,6 +94,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
  
--    if (sockets * dies * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, dies, cores, threads, cpus);
-+    if (sockets * dies * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus);
-         return;
-     }
++GlobalProperty pc_compat_6_1[] = {};
++const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
++
+ GlobalProperty pc_compat_6_0[] = {
+     { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
+     { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30b8bd6ea9..fd5c2277f2 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -413,7 +413,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+ }
  
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * dies * cores * threads != maxcpus) {
--        error_setg(errp, "Invalid CPU topology deprecated: "
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, dies, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus, cpus);
-         return;
-     }
+-static void pc_i440fx_6_1_machine_options(MachineClass *m)
++static void pc_i440fx_6_2_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -422,6 +422,18 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
++                      pc_i440fx_6_2_machine_options);
++
++static void pc_i440fx_6_1_machine_options(MachineClass *m)
++{
++    pc_i440fx_6_2_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
++    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
++}
++
+ DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+                       pc_i440fx_6_1_machine_options);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 04b4a4788d..b45903b15e 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -355,7 +355,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_6_1_machine_options(MachineClass *m)
++static void pc_q35_6_2_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -363,6 +363,17 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
++                   pc_q35_6_2_machine_options);
++
++static void pc_q35_6_1_machine_options(MachineClass *m)
++{
++    pc_q35_6_2_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
++    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
++}
++
+ DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+                    pc_q35_6_1_machine_options);
+ 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 81699d4f8b..d39fd4e644 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4685,15 +4685,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-6.2
++ */
++static void spapr_machine_6_2_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
++
+ /*
+  * pseries-6.1
+  */
+ static void spapr_machine_6_1_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_6_2_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
++DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+ 
+ /*
+  * pseries-6.0
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e4b18aef49..4d25278cf2 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -791,14 +791,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_6_2_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_6_2_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(6_2, "6.2", true);
++
+ static void ccw_machine_6_1_instance_options(MachineState *machine)
+ {
++    ccw_machine_6_2_instance_options(machine);
+ }
+ 
+ static void ccw_machine_6_1_class_options(MachineClass *mc)
+ {
++    ccw_machine_6_2_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+-DEFINE_CCW_MACHINE(6_1, "6.1", true);
++DEFINE_CCW_MACHINE(6_1, "6.1", false);
+ 
+ static void ccw_machine_6_0_instance_options(MachineState *machine)
+ {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index accd6eff35..463a5514f9 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -353,6 +353,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_6_1[];
++extern const size_t hw_compat_6_1_len;
++
+ extern GlobalProperty hw_compat_6_0[];
+ extern const size_t hw_compat_6_0_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 88dffe7517..97b4ab79b5 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -196,6 +196,9 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+ 
++extern GlobalProperty pc_compat_6_1[];
++extern const size_t pc_compat_6_1_len;
++
+ extern GlobalProperty pc_compat_6_0[];
+ extern const size_t pc_compat_6_0_len;
  
 -- 
 2.19.1
