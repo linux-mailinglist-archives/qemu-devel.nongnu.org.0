@@ -2,51 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33B53DE5A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:42:53 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25EE3DE5B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 06:49:17 +0200 (CEST)
+Received: from localhost ([::1]:41256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAmGR-00045c-B3
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58066)
+	id 1mAmMe-0002cI-Oh
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 00:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
- id 1mAlwS-0008Kp-IH
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:22:12 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53894)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mAmEk-0000sT-N1
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:41:06 -0400
+Received: from mail-dm6nam12on2061e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::61e]:59233
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.gao@intel.com>)
- id 1mAlwP-000876-Kx
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:22:11 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="200778269"
-X-IronPort-AV: E=Sophos;i="5.84,290,1620716400"; d="scan'208";a="200778269"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2021 21:22:04 -0700
-X-IronPort-AV: E=Sophos;i="5.84,290,1620716400"; d="scan'208";a="479205693"
-Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.133])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2021 21:22:02 -0700
-Date: Tue, 3 Aug 2021 12:29:29 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: mst@redhat.com, pbonzini@redhat.com, peterx@redhat.com, jasowang@redhat.com
-Subject: Re: [PATCH] vhost: use large iotlb entry if no IOMMU translation is
- needed
-Message-ID: <20210803042927.GA30466@gao-cwp>
-References: <20210721075402.203711-1-chao.gao@intel.com>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mAmEg-0006lP-1r
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 00:41:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LjhDHCgaIkZZOpwUnlZJ9EKWbvNnge3iwaNniz8TDvtLf3QvCfdlxC0b9OtwjhOxjR7YoE9BwWgTuByLJE1YrsQG8lsmQnoJMyDFTSHTDTgYYDBvJ3r/Pzk12mEd+SSM/nrf4AtxI2WvZXO4aaarmLzc2ByP9mf/8bUeIFZEdqlD98yxF4YGbGQl4pl+Tv7hQvaUCxpOXCGXz0ZBzyQ0a44Z46W98UHdspswi3YA780SI+GCrkFev+zqW9x6+Sext9c64qMujA4kxXN9L6OGovWsXv3rcl0vhCbd/2HsjdArnce0EeapEVGoDmKZKnFw97PkzGNs4r+i2Crssk6CCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/gGyydD9peBAQDmEZy04F6S38XwzKqgzV7vaqcEEh8c=;
+ b=egLxichkcIARy3HlJMnR7SDTJEaP4oK7WvrocLh8DyOrcG2P8/R7i2leMBnnNuX+/WWMw+8rqtEiQ5UgyIVq+TyTWWI8Lz0pTXSVFn4d3NNwo+93rfy/Rx4axfaTyC4LoCWZlCo+FIJsHsVQdwPj5QpuPvVc9rrW77Z1a7crgbZ2xMa3YYYLQiE2t4QDWV8eKi1a6U2xBAqktAY0faDP5gnkMC2Iii69n4+FYZqpTbv3pWzAcKKHPP31OpYrI/g1UE/jsxQaIR4+bXqBwNzBdmHale1CNYwWruY/oGOVmztoUQHXkbdpZvLxo3rCixZQrR2W6oZo7rbcYApfLbp0uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/gGyydD9peBAQDmEZy04F6S38XwzKqgzV7vaqcEEh8c=;
+ b=Er1zxeQcYq1bo3lt+WL7M0OysjbHsfOWthVtREEQYcBcwGK1DPfyO+JeMHkM/WCddELvrgI0vBqehEEtmsOEExuNpUgF9Bjfh+PmqhgjyMwL9KU6LmcPKZhqFA608isP17Sx80DF9c4tM3QxvnqHXlB2Yvd5BiufmdlQCmrIlaY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB4822.namprd12.prod.outlook.com (2603:10b6:610:6::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Tue, 3 Aug
+ 2021 04:35:55 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
+ 04:35:55 +0000
+From: Michael Roth <michael.roth@amd.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Kostiantyn Kostiuk <konstantin@daynix.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PATCH for-6.1] qga-win/msi: fix missing libstdc++-6 DLL in MSI
+ installer
+Date: Mon,  2 Aug 2021 23:35:36 -0500
+Message-Id: <20210803043536.1071251-1-michael.roth@amd.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7P220CA0012.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::17) To CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210721075402.203711-1-chao.gao@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.126; envelope-from=chao.gao@intel.com;
- helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.77.11) by
+ SN7P220CA0012.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4373.18 via Frontend Transport; Tue, 3 Aug 2021 04:35:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96f88458-ca89-40ab-2a99-08d956382ead
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4822:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4822C11B825207B02CE4635895F09@CH2PR12MB4822.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bkGJQiyPKYE3jw/fwNQD6yy6UQqAbL7QB3cSdL3q0yrtZ74tgIrZ26DNA9VFK0VADBEDWCNoNaZoqcnE3qCAFqyJTi08wxSDpJ5ygxx4MudyAGKLSkHolnPRdbANS8bhQrrdc1ZWzb3pg82uE1bISa34G14TtcYaoARieve6dn9JAjDYOc0z2bH5SPx3Mbz+RaKoaRA2BDtBjvnpeBvO9oPi5F77YRc7ANb6x0kKjH5iXnxbQxgphW4HtHCOdW2JbPeUQR/uNNe+VqNuEbUJtn5HB9nZdIwbMFj3lj66DLVr6J/rQWPwGt8eRv77r0dwhoLahK4uBUoYKDKc8k8KyQqqlF6h5MD0g8LnMVjUY0qy4B8Mf2aELtIEdAPzKnTw/PovqmRN9zZbpRZwIZkFstN9AAYoBLTzB3cs9GCAudDLvD52cfxiBeWpYh5pvb1hxtI5QFHWnLkRafGJu9QTczwJqvOSXAn7r7Moc1Z92y+L97+cBY7DTY8demC9WGCi7TdT8ZfO7tZbBE8E7opgGu2FQQsD2nBrcV417P4KRpdJWrmBga2S+NYnUCdIU2yJAGhWi/GPlREWSGRn9ulYRI/cmrQPQaxjMuUk/KU8y4bPhUogW3YkYZYDipNS2LX/U+/zlISfCATdDwF/e5N1Af7NUiRTqKqmlURy2uRaDJ4n1tV76CQIxV6a6ydGSgsguA+SRJXPyP/7GBQwhE6HUQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(376002)(346002)(396003)(39860400002)(21480400003)(38100700002)(6666004)(8676002)(6486002)(6916009)(8936002)(54906003)(38350700002)(52116002)(66476007)(66946007)(66556008)(26005)(44832011)(83380400001)(316002)(36756003)(4326008)(86362001)(5660300002)(478600001)(186003)(1076003)(6496006)(2906002)(956004)(2616005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEVMejBDdHlZQ3pnQXFXL1dlWlJVeDN1N0ZTanJjR0dzSmxTKzB1R2FRZFpR?=
+ =?utf-8?B?VC8vQ2JNelBWTUNCTTlCVHNLSG5VQjNIaUQxbEdlM3Vwbzg2V0dOWHNRcEJ1?=
+ =?utf-8?B?alR4dlNqTm8wSEZPQ3phc1Z5NVp1QWdLOElPdTdiemNWcE1kZnp3VlBsWWFj?=
+ =?utf-8?B?eFdFdFhnNXpNVUZuRUcvOEthZlhjWjZNc1NTTlFhL2xrNzlrVnRtRldIeUFu?=
+ =?utf-8?B?UTJVRGN4ZldiMkFma29DaWN5TGtxN1JxTExTS1hCb3BYM2o5a2VWRnhRa3F3?=
+ =?utf-8?B?NEFZWTg0T290SWJydDRLODlIcDFTTjltTmFSaEdkNGhnVFYyellSQWk0OG9n?=
+ =?utf-8?B?UzlhVm5zd0FaR1ZIT1dnRjR0aE9HUVltZHpNOWEzTnZaOXBpT3ZUS05GR0RE?=
+ =?utf-8?B?eERqUm0vSjJ2cHFPd3RyVm5WQjMrSzJmYWJ0aUpIamgvbkp2emlwdzJWME93?=
+ =?utf-8?B?UWtjbll6RUkyLzhlSzFXcUhSOVQ3T0VlM1dNMVVXejJvZXp1Y2xqclRXd1BQ?=
+ =?utf-8?B?cGtsR3R1UnM4d3VVSlBXbURyOHlBbFhqVE5Ob2tMaWhSNFlLcmRuVkdURWFw?=
+ =?utf-8?B?VVJIWkdhYjdUa0VSTWVXMXJvY3hxeDZheXdDVkFDU0k5WlF1dzJaN3h5T29j?=
+ =?utf-8?B?ZjlERjJBZEJiSXVuUkVpNklhTC9MYnBDWEJoVTBCRXpiWWFscWRkWlA3cjhU?=
+ =?utf-8?B?WXJHQjh4a2FQOHN4NkpwbFpxY1loaWttQ1ZlYTBPenNlaTBMWFY5V1g5eEs1?=
+ =?utf-8?B?bmJXTk1BQmxQMEVROGMzb3c4d2x5YnRBNXM4WmZVZkh2RGZ2WEdtOHo5SWZB?=
+ =?utf-8?B?amxoRTQwNkdBZGJrQjJUKytiTi9TQ0REZmRvNjhTa2JwcUNDUU9XTFRvS2Vh?=
+ =?utf-8?B?SE1kYmhnbWwvaDNQMWJaVGV3M0w3cGJvMFFrNXJ5ZDRuV2Z2UmQ2eXk1Nk1R?=
+ =?utf-8?B?OGVwdzNjcEhDdElSZWhDMmRNS2hkY2Fma1pIeDNibmdncnVWK3JDOXJpUisr?=
+ =?utf-8?B?L3RudTNNa2pSaTArK29aRHltc09UMFNsU1R0ZG5oOGdjdnFtZVBuWnREeFl1?=
+ =?utf-8?B?RzlISnJLWmNxcCtPNEIwOGh2MWxpc1oycDNIYlAyWjRYRWp6V2ZQSmlMTUpC?=
+ =?utf-8?B?UFk5U01TVVFCTnlXczBBaEh3OTZ6cTlVTFJKck1UUTMwazF5ajF0cXJGdWVD?=
+ =?utf-8?B?NDNFUTZuNmY2SlNRcEJMWDljYzhGaU1DK3FNeFdvcDRzYWhmYkFETDFOYVRw?=
+ =?utf-8?B?TWJneE01T2tlN2trMXphTG5DRFEwZlFIb3FMQUpraE1ERFhyT0RiMVpJZVc1?=
+ =?utf-8?B?YWdLNW9JVlFiVC9mY1BOdGhnTHIxaDFtL2l1TWU1ckttRVFUSFZZR1NHVFE2?=
+ =?utf-8?B?R2hkOXJaazhhRXNDczBVVkNlT1JaWHk1bzdmL2NEdmRNdzVzMkZLMFhHNWlM?=
+ =?utf-8?B?QjVSTXM2ZzU0azViYU1jTjVqVW5xaHhZbkxjZDdOTFMwdE5ka0xveDZ2a245?=
+ =?utf-8?B?UjNMQytQcGtzczBRam1FaU5acDdpWjBVbUowQTZQT3gyL3pjcmw2UHlNMlNt?=
+ =?utf-8?B?WTBuYmFEc1dyOUdwYmNkLzdUNm95N01hUlBMRHJPZWhxeElMeUFYM3RlYUlw?=
+ =?utf-8?B?bytXRE1ZMUtFVW5tS21oTm4wbklBa1h4Y3pVeGMxWk1jWXNkQXI1dlZ4MURN?=
+ =?utf-8?B?bEVNQ0IyemJheGNiSHZMd21NdkVldEgvWlhjVmZRZnBSSDhrNUtxcjdQSnFz?=
+ =?utf-8?Q?OAgGpGri8yJRnjqA6NLiPWZ6VXcyk0WkCqlzm6e?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96f88458-ca89-40ab-2a99-08d956382ead
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 04:35:55.2417 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TbfxY6vlHJQJLjpvVfM9ekV7bcGZ7e/bV8GAeX7i4k4LH1KVwxvbf5xH0nhzZ9rKj0CenJFasDnlmUHtnWu1+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4822
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::61e;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,198 +144,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping. Could someone help to review this patch?
+libstdc++ is required for the qga-vss.dll that provides fsfreeze
+functionality. Currently it is not provided by the MSI installer,
+resulting in fsfreeze being disabled in guest environments where it has
+not been installed by other means.
 
-Thanks
-Chao
+In the future this would be better handled via gcc-cpp ComponentGroup
+provided by msitools, but that would be better handled with a general
+rework of DLL dependency handling in the installer build. Keep it
+simple for now to fix this regression.
 
-On Wed, Jul 21, 2021 at 03:54:02PM +0800, Chao Gao wrote:
->If guest enables IOMMU_PLATFORM for virtio-net, severe network
->performance drop is observed even if there is no IOMMU. And disabling
->vhost can mitigate the perf issue. Finally, we found the culprit is
->frequent iotlb misses: kernel vhost-net has 2048 entries and each
->entry is 4K (qemu uses 4K for i386 if no IOMMU); vhost-net can cache
->translations for up to 8M (i.e. 4K*2048) IOVAs. If guest uses >8M
->memory for DMA, there are some iotlb misses.
->
->If there is no IOMMU or IOMMU is disabled or IOMMU works in pass-thru
->mode, we can optimistically use large, unaligned iotlb entries instead
->of 4K-aligned entries to reduce iotlb pressure. Actually, vhost-net
->in kernel supports unaligned iotlb entry. The alignment requirement is
->imposed by address_space_get_iotlb_entry() and flatview_do_translate().
->
->Introduce IOMMUTLBEntryUnaligned which has a @len field to specify the
->iotlb size to abstract a generic iotlb entry: aligned (original
->IOMMUTLBEntry) and unaligned entry. flatview_do_translate() now
->returns a magic value in @page_mask_out if no IOMMU translation is
->needed. Then, address_space_get_iotbl_entry() can accordingly return a
->page-aligned iotlb entry or the whole memory region section where the
->iova resides as a large iotlb entry.
->
->Signed-off-by: Chao Gao <chao.gao@intel.com>
->---
-> hw/virtio/vhost.c     |  6 +++---
-> include/exec/memory.h | 16 ++++++++++++++--
-> softmmu/physmem.c     | 37 +++++++++++++++++++++++++++++--------
-> 3 files changed, 46 insertions(+), 13 deletions(-)
->
->diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->index e8f85a5d2d..6745caa129 100644
->--- a/hw/virtio/vhost.c
->+++ b/hw/virtio/vhost.c
->@@ -1010,7 +1010,7 @@ static int vhost_memory_region_lookup(struct vhost_dev *hdev,
-> 
-> int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
-> {
->-    IOMMUTLBEntry iotlb;
->+    IOMMUTLBEntryUnaligned iotlb;
->     uint64_t uaddr, len;
->     int ret = -EFAULT;
-> 
->@@ -1031,8 +1031,8 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
->             goto out;
->         }
-> 
->-        len = MIN(iotlb.addr_mask + 1, len);
->-        iova = iova & ~iotlb.addr_mask;
->+        len = MIN(iotlb.len, len);
->+        iova = iotlb.iova;
-> 
->         ret = vhost_backend_update_device_iotlb(dev, iova, uaddr,
->                                                 len, iotlb.perm);
->diff --git a/include/exec/memory.h b/include/exec/memory.h
->index c3d417d317..3f04e8fe88 100644
->--- a/include/exec/memory.h
->+++ b/include/exec/memory.h
->@@ -94,6 +94,7 @@ struct MemoryRegionSection {
-> };
-> 
-> typedef struct IOMMUTLBEntry IOMMUTLBEntry;
->+typedef struct IOMMUTLBEntryUnaligned IOMMUTLBEntryUnaligned;
-> 
-> /* See address_space_translate: bit 0 is read, bit 1 is write.  */
-> typedef enum {
->@@ -113,6 +114,15 @@ struct IOMMUTLBEntry {
->     IOMMUAccessFlags perm;
-> };
-> 
->+/* IOMMUTLBEntryUnaligned may be not page-aligned */
->+struct IOMMUTLBEntryUnaligned {
->+    AddressSpace    *target_as;
->+    hwaddr           iova;
->+    hwaddr           translated_addr;
->+    hwaddr           len;
->+    IOMMUAccessFlags perm;
->+};
->+
-> /*
->  * Bitmap for different IOMMUNotifier capabilities. Each notifier can
->  * register with one or multiple IOMMU Notifier capability bit(s).
->@@ -2653,8 +2663,10 @@ void address_space_cache_destroy(MemoryRegionCache *cache);
-> /* address_space_get_iotlb_entry: translate an address into an IOTLB
->  * entry. Should be called from an RCU critical section.
->  */
->-IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->-                                            bool is_write, MemTxAttrs attrs);
->+IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
->+                                                     hwaddr addr,
->+                                                     bool is_write,
->+                                                     MemTxAttrs attrs);
-> 
-> /* address_space_translate: translate an address range into an address space
->  * into a MemoryRegion and an address range into that section.  Should be
->diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->index 3c1912a1a0..469963f754 100644
->--- a/softmmu/physmem.c
->+++ b/softmmu/physmem.c
->@@ -143,6 +143,8 @@ typedef struct subpage_t {
-> 
-> #define PHYS_SECTION_UNASSIGNED 0
-> 
->+#define PAGE_MASK_NOT_BEHIND_IOMMU ((hwaddr)-1)
->+
-> static void io_mem_init(void);
-> static void memory_map_init(void);
-> static void tcg_log_global_after_sync(MemoryListener *listener);
->@@ -470,7 +472,9 @@ unassigned:
->  * @page_mask_out: page mask for the translated address. This
->  *            should only be meaningful for IOMMU translated
->  *            addresses, since there may be huge pages that this bit
->- *            would tell. It can be @NULL if we don't care about it.
->+ *            would tell. If the returned memory region section isn't
->+ *            behind an IOMMU, PAGE_MASK_NOT_BEHIND_IOMMU is return.
->+ *            It can be @NULL if we don't care about it.
->  * @is_write: whether the translation operation is for write
->  * @is_mmio: whether this can be MMIO, set true if it can
->  * @target_as: the address space targeted by the IOMMU
->@@ -508,16 +512,18 @@ static MemoryRegionSection flatview_do_translate(FlatView *fv,
->                                              target_as, attrs);
->     }
->     if (page_mask_out) {
->-        /* Not behind an IOMMU, use default page size. */
->-        *page_mask_out = ~TARGET_PAGE_MASK;
->+        /* return a magic value if not behind an IOMMU */
->+        *page_mask_out = PAGE_MASK_NOT_BEHIND_IOMMU;
->     }
-> 
->     return *section;
-> }
-> 
-> /* Called from RCU critical section */
->-IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->-                                            bool is_write, MemTxAttrs attrs)
->+IOMMUTLBEntryUnaligned address_space_get_iotlb_entry(AddressSpace *as,
->+                                                     hwaddr addr,
->+                                                     bool is_write,
->+                                                     MemTxAttrs attrs)
-> {
->     MemoryRegionSection section;
->     hwaddr xlat, page_mask;
->@@ -535,21 +541,36 @@ IOMMUTLBEntry address_space_get_iotlb_entry(AddressSpace *as, hwaddr addr,
->         goto iotlb_fail;
->     }
-> 
->+    /*
->+     * If the section isn't behind an IOMMU, return the whole section as an
->+     * IOMMU TLB entry.
->+     */
->+    if (page_mask == PAGE_MASK_NOT_BEHIND_IOMMU) {
->+        return (IOMMUTLBEntryUnaligned) {
->+            .target_as = as,
->+            .iova = section.offset_within_address_space,
->+            .translated_addr = section.offset_within_address_space,
->+            .len = section.size,
->+            /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
->+            .perm = IOMMU_RW,
->+        };
->+    }
->+
->     /* Convert memory region offset into address space offset */
->     xlat += section.offset_within_address_space -
->         section.offset_within_region;
-> 
->-    return (IOMMUTLBEntry) {
->+    return (IOMMUTLBEntryUnaligned) {
->         .target_as = as,
->         .iova = addr & ~page_mask,
->         .translated_addr = xlat & ~page_mask,
->-        .addr_mask = page_mask,
->+        .len = page_mask + 1,
->         /* IOTLBs are for DMAs, and DMA only allows on RAMs. */
->         .perm = IOMMU_RW,
->     };
-> 
-> iotlb_fail:
->-    return (IOMMUTLBEntry) {0};
->+    return (IOMMUTLBEntryUnaligned) {0};
-> }
-> 
-> /* Called from RCU critical section */
->-- 
->2.25.1
->
+Tested with Fedora 34 mingw build environment.
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kostiantyn Kostiuk <konstantin@daynix.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Michael Roth <michael.roth@amd.com>
+---
+ qga/installer/qemu-ga.wxs | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index ce7b25b5e1..0950e8c6be 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -84,6 +84,9 @@
+             <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="yes" />
+           </Component>
+           <?ifdef var.InstallVss?>
++          <Component Id="libstdc++_6_lib" Guid="{55E737B5-9127-4A11-9FC3-A29367714574}">
++            <File Id="libstdc++-6.lib" Name="libstdc++-6.dll" Source="$(var.Mingw_bin)/libstdc++-6.dll" KeyPath="yes" DiskId="1"/>
++          </Component>
+           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
+             <File Id="qga_vss.dll" Name="qga-vss.dll" Source="$(env.BUILD_DIR)/qga/vss-win32/qga-vss.dll" KeyPath="yes" DiskId="1"/>
+           </Component>
+@@ -164,6 +167,7 @@
+     <Feature Id="QEMUFeature" Title="QEMU Guest Agent" Level="1">
+       <ComponentRef Id="qemu_ga" />
+       <?ifdef var.InstallVss?>
++      <ComponentRef Id="libstdc++_6_lib" />
+       <ComponentRef Id="qga_vss_dll" />
+       <ComponentRef Id="qga_vss_tlb" />
+       <?endif?>
+-- 
+2.25.1
+
 
