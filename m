@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025983DF6A4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 22:54:42 +0200 (CEST)
-Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523333DF6AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 22:56:53 +0200 (CEST)
+Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB1Qv-00030I-1a
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 16:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
+	id 1mB1T2-0000HM-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 16:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mB1Oh-0000f0-Sx
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 16:52:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31467)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mB1Ok-0000nf-QO
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 16:52:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mB1Of-00085y-Od
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 16:52:23 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mB1Oj-00088A-7i
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 16:52:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628023941;
+ s=mimecast20190719; t=1628023944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=T2ArH9QYDpGKNNFTj8WgsUxFaYVT9AXJO9SHdTMENdg=;
- b=b2ERXist/0pirEqEIi+nBEZPqOdWXdpdWd9bohAowFqeMo90uc6L3pfVxXP/Jt9AjYIur+
- jajivuS51e8MqkNJv/NkNejYVaRv4dyzD4+mE5+7NABfNuIltQitcLlVaO7KVPrBpGhd+t
- N2MQ8XRfk7qPHy6s72waDPBj+kX8QeY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-0e9yT9HNO5KtPz_DJRaFKg-1; Tue, 03 Aug 2021 16:52:20 -0400
-X-MC-Unique: 0e9yT9HNO5KtPz_DJRaFKg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- n9-20020a1709063789b02905854bda39fcso121933ejc.1
- for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 13:52:19 -0700 (PDT)
+ bh=wK1Xu5JhENTpsRwRTEKAhUpFEUB412r3ZpP4JDIjNQA=;
+ b=ceis7nOjT60MIBt9Cua3UqfWTpyOQeACqU6LVLscXMN+gQ6Pnl71ivCY62FSI/7POXcLPV
+ z/x7BE0SZkRm0VKqVi5Leq7YNK6KCSfHGF2Mr9Tex2X1f2LrjJ08Fhr7HBayiTGyXyGtCW
+ 75K4RRmE2uHB0iy6CWpj0zmZiBzQML4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-k4kEzLuVNz6fKwukihAkAA-1; Tue, 03 Aug 2021 16:52:23 -0400
+X-MC-Unique: k4kEzLuVNz6fKwukihAkAA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d6-20020a50f6860000b02903bc068b7717so267479edn.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 13:52:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=T2ArH9QYDpGKNNFTj8WgsUxFaYVT9AXJO9SHdTMENdg=;
- b=IUeh2Qcd7Ey4Xf6r7aMFX/WanTkdYTX+cO5WA2ppYcGYK3KK8rF3Gw4oaLZjKE3IU7
- /Hq7pYoFGLiw3oplTDWD8NwL2R5tx1tfpCG+tSgaFraXm4MrJR3T2l8JC+21L0t4m57m
- LQ4yi1S2jKi8YnylzTNw5wfSzPvN1tHw5p+GxYn9lRymJHqSod9ewpYqlQAYLoApOr+/
- 4mVgrk6oQEqiZctfHnUGGyVa8w1W+J5fCgFoqLxcKwqHCKs44iUQp/jN4D93BZs2wTuQ
- gQF9jJJ4grU5GJbJpu7bp182swVH1RZg60GnBfuMK0guJVAaL/KDOnqaiAoLGGGuYmHH
- aJbA==
-X-Gm-Message-State: AOAM532uMnFxibZ1PZ1bvVMCbx4P1QysQorbhutLY8aZyyVSWy2TQ+Gn
- MRxOSlIBmS4SBudsujw/Oam9Vc2eS5yF3xr5u0hRl4RyMWvHbGbKJaYIYqM+t9TyYCiXE5lT5qi
- 4DbbktLJkjOwvUSrWP+kJ6sQJrSYgkQ4kptxSw9W6jjQhruiQ7kw5ck/RHS3c
-X-Received: by 2002:a05:6402:b99:: with SMTP id
- cf25mr27973109edb.130.1628023938532; 
- Tue, 03 Aug 2021 13:52:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw47g4aoQM8p5qs9YtfCeakXjmPid5HnqJWr9ZDkTW7uzyg3laa7E5KWKU2GlzyNrDX1ZK8Ow==
-X-Received: by 2002:a05:6402:b99:: with SMTP id
- cf25mr27973094edb.130.1628023938349; 
- Tue, 03 Aug 2021 13:52:18 -0700 (PDT)
+ bh=wK1Xu5JhENTpsRwRTEKAhUpFEUB412r3ZpP4JDIjNQA=;
+ b=F3Zg7s7mF0+QHdkqUVm8zpQnKGwwNITT2i1lDy6imIHPomM/zMED6Li3yOYZvmFgPV
+ 56yXcIDPyNTdl9Q3ScQvXaAZmeW6mqFIrgnCLz50mWURafgaEJty93NVQSJMzO7EIo39
+ bjW7PjG08Cmm3NPV5tJAr1Eet9XkjPVU6kA+wZ+ALLwK/2b2ylIdKH+kFgUA5LXvPK2k
+ cIFr/XjUKX6gTku/DzD1IbBF9Q/8KQW19is6z8R+g16njI4iD12bLOxbeVypNyeOLa3n
+ RqL1E904gCPWNejm6ClodGaOXBaB30nkD1a/H8Ar3b9XXrVxdGkBg5b2FHLYPCluS2Gl
+ oKMQ==
+X-Gm-Message-State: AOAM533PzSvpBkFipmrUP/3sk8UJH8I1lJdJko6hiC6lQB32Hj8Xx9RP
+ key27Q1GD8pBIi8waO+Ut98s2m9I+BGL1YkUTrGQkB7ubW0zjJKdqqsU3j3gjHGMVJNwdNBkQTW
+ IhgzdkJ71iw05BWUIgffZY+DsQIbk5taVH4dEPb1QnOkeKGC/v4k5/65VSER/
+X-Received: by 2002:aa7:dc18:: with SMTP id b24mr28159994edu.343.1628023941799; 
+ Tue, 03 Aug 2021 13:52:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3RzyNXhxzJWCFIJz9xmigBRt1GCaOxxuwW5R2m8cSUq7CgZGATpWyGSnGmQvKtpg60yFq3g==
+X-Received: by 2002:aa7:dc18:: with SMTP id b24mr28159977edu.343.1628023941625; 
+ Tue, 03 Aug 2021 13:52:21 -0700 (PDT)
 Received: from redhat.com ([2.55.141.248])
- by smtp.gmail.com with ESMTPSA id w6sm19660edq.58.2021.08.03.13.52.15
+ by smtp.gmail.com with ESMTPSA id qa34sm6666352ejc.120.2021.08.03.13.52.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 13:52:17 -0700 (PDT)
-Date: Tue, 3 Aug 2021 16:52:14 -0400
+ Tue, 03 Aug 2021 13:52:21 -0700 (PDT)
+Date: Tue, 3 Aug 2021 16:52:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] Revert "acpi/gpex: Inform os to keep firmware resource map"
-Message-ID: <20210803205043.165034-5-mst@redhat.com>
+Subject: [PULL 5/5] Drop _DSM 5 from expected DSDTs on ARM
+Message-ID: <20210803205043.165034-6-mst@redhat.com>
 References: <20210803205043.165034-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210803205043.165034-1-mst@redhat.com>
@@ -74,14 +72,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,77 +93,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jiahui Cen <cenjiahui@huawei.com>,
- Yubo Miao <miaoyubo@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 0cf8882fd06ba0aeb1e90fa6f23fce85504d7e14.
+diff -rup /tmp/old/tests/data/acpi/microvm/DSDT.pcie.dsl /tmp/new/tests/data/acpi/microvm/DSDT.pcie.dsl
+--- /tmp/old/tests/data/acpi/microvm/DSDT.pcie.dsl	2021-08-03 16:22:52.289295442 -0400
++++ /tmp/new/tests/data/acpi/microvm/DSDT.pcie.dsl	2021-08-03 16:22:40.102286317 -0400
+@@ -1302,14 +1302,9 @@ DefinitionBlock ("", "DSDT", 2, "BOCHS "
+                     {
+                         Return (Buffer (One)
+                         {
+-                             0x21                                             // !
++                             0x01                                             // .
+                         })
+                     }
+-
+-                    If ((Arg2 == 0x05))
+-                    {
+-                        Return (Zero)
+-                    }
+                 }
 
-Which this commit, with aarch64 when using efi PCI devices with IO ports
-do not work.  The reason is that EFI creates I/O port mappings below
-0x1000 (in fact, at 0). However Linux, for legacy reasons, does not
-support I/O ports <= 0x1000 on PCI, so the I/O assignment created by EFI
-is rejected.
+                 Return (Buffer (One)
 
-EFI creates the mappings primarily for itself, and up until DSM #5
-started to be enforced, all PCI resource allocations that existed at
-boot were ignored by Linux and recreated from scratch.
-
-Also, the commit in question looks dubious - it seems unlikely that
-Linux would fail to create a resource tree. What does
-happen is that BARs get moved around, which may cause trouble in some
-cases: for instance, Linux had to add special code to the EFI framebuffer
-driver to copy with framebuffer BARs being relocated.
-
-DSM #5 has a long history of debate and misinterpretation.
-
-Link: https://lore.kernel.org/r/20210724185234.GA2265457@roeck-us.net/
-Fixes: 0cf8882fd06 ("acpi/gpex: Inform os to keep firmware resource map")
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Suggested-by: Ard Biesheuvel <ardb@kernel.org>
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci-host/gpex-acpi.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
+ tests/data/acpi/microvm/DSDT.pcie           | Bin 3031 -> 3023 bytes
+ tests/data/acpi/virt/DSDT                   | Bin 5204 -> 5196 bytes
+ tests/data/acpi/virt/DSDT.memhp             | Bin 6565 -> 6557 bytes
+ tests/data/acpi/virt/DSDT.numamem           | Bin 5204 -> 5196 bytes
+ tests/data/acpi/virt/DSDT.pxb               | Bin 7695 -> 7679 bytes
+ 6 files changed, 5 deletions(-)
 
-diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-index 0f01f13a6e..e7e162a00a 100644
---- a/hw/pci-host/gpex-acpi.c
-+++ b/hw/pci-host/gpex-acpi.c
-@@ -112,26 +112,10 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
-     UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
-     ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-     ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
--    uint8_t byte_list[] = {
--                0x1 << 0 /* support for functions other than function 0 */ |
--                0x1 << 5 /* support for function 5 */
--                };
--    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
-+    uint8_t byte_list[1] = {1};
-+    buf = aml_buffer(1, byte_list);
-     aml_append(ifctx1, aml_return(buf));
-     aml_append(ifctx, ifctx1);
--
--    /*
--     * PCI Firmware Specification 3.1
--     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
--     */
--    /* Arg2: Function Index: 5 */
--    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
--    /*
--     * 0 - The operating system must not ignore the PCI configuration that
--     *     firmware has done at boot time.
--     */
--    aml_append(ifctx1, aml_return(aml_int(0)));
--    aml_append(ifctx, ifctx1);
-     aml_append(method, ifctx);
- 
-     byte_list[0] = 0;
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 8a7fe463c5..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,6 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/DSDT",
+-"tests/data/acpi/virt/DSDT.memhp",
+-"tests/data/acpi/virt/DSDT.numamem",
+-"tests/data/acpi/virt/DSDT.pxb",
+-"tests/data/acpi/microvm/DSDT.pcie",
+diff --git a/tests/data/acpi/microvm/DSDT.pcie b/tests/data/acpi/microvm/DSDT.pcie
+index 3fb373fd970f0a33f30f57b1917720754396f0e9..765f14ef3d1e54d3cadccbf0a880f8adb73b3f1f 100644
+GIT binary patch
+delta 51
+zcmcaEeqNl*CD<k8JU0Ua(~XH-(oCK^H>#U6GCFLIXMD`bp&RcK?8~x1ak3Y;JR{@e
+HBJNZGj^hr8
+
+delta 59
+zcmX>veqEf)CD<k8IyVCYlgC6ZX(q>A8`aGj89g?~Gd||zFpYN!_GMY1IoXR_o>OrF
+P`{XPx)+G#+v$#_M_<|6J
+
+diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+index 134d8ae5b602e0aaade6756b99c9abca45279284..c47503990715d389914fdf9c8bccb510761741ac 100644
+GIT binary patch
+delta 50
+zcmcbjaYlp7CD<jzM}&caY5qhmX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
+G_%Q%n84Z^J
+
+delta 58
+zcmX@3aYcj6CD<h-M1+BXiGL!OG-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
+OIg5*R3B%+};l}{F`45)>
+
+diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
+index 140976b23ebea792bec12435a2a547ac5f5cd8f9..bae36cdd397473afe3923c52f030641a5ab19d5d 100644
+GIT binary patch
+delta 52
+zcmZ2#JlB}ZCD<iot|S8k(}9Ux(o7xGH>yi;GWjiE?8wQ*p&RcK?8~x1ak8hdJR{@g
+ILSYj&0ETJ})&Kwi
+
+delta 60
+zcmbPhywsS>CD<iosU!mfll??4X{Lr58`UK^ncP+^cI4#ZFpYN!_GMY1IoVTKo>OrF
+Q`{XPx)+G#^Glfmq0PR!{)&Kwi
+
+diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
+index 134d8ae5b602e0aaade6756b99c9abca45279284..c47503990715d389914fdf9c8bccb510761741ac 100644
+GIT binary patch
+delta 50
+zcmcbjaYlp7CD<jzM}&caY5qhmX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
+G_%Q%n84Z^J
+
+delta 58
+zcmX@3aYcj6CD<h-M1+BXiGL!OG-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
+OIg5*R3B%+};l}{F`45)>
+
+diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
+index 46b9c4cad5d65cb1b578410fb3168b70a05021be..fbd78f44c4785d19759daea909fe6d6f9a6e6b01 100644
+GIT binary patch
+delta 78
+zcmeCT`ESkT66_N4UzUM^Y5znn8OFOC)g?F?9XC60Hgj_5#=8XjvMf-Xd|F7Ji*bn{
+YGb2NEli%{ie}uSD<QN$z>&QL^0Gn_Z9smFU
+
+delta 94
+zcmexw-EYI?66_MfFUP>ZG;bo84CB3x>Jprco|_#wn>jg5<6VM%Sr%wc{v#tVq_}{6
+hauyfs5{4y$%!~}tO>Qd|e-YwBQNsyWGg(IVF#z_a8;k$|
+
 -- 
 MST
 
