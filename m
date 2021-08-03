@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F473DEB81
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 13:04:08 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13C13DEB8B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Aug 2021 13:05:36 +0200 (CEST)
+Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mAsDO-0007VP-H4
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 07:04:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46146)
+	id 1mAsEq-0002KM-1p
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 07:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAsC4-0005eZ-Qk
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:02:44 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39740)
+ id 1mAsC6-0005g0-5i
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:02:46 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mAsC3-0003fw-9x
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:02:44 -0400
-Received: by mail-wr1-x432.google.com with SMTP id b11so19527971wrx.6
+ id 1mAsC3-0003fy-9c
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 07:02:45 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b11so19528049wrx.6
  for <qemu-devel@nongnu.org>; Tue, 03 Aug 2021 04:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZOnyiACEMsiPUwmm/qUkHA1mDhN36kHA6oD+2+/bm8Y=;
- b=toBrj59kGf9w37oAIVaHR1N0N924d3A0BpwPJ9dnrq1v5DA8lMIxmtBBd7tJdBGciP
- wpX9+5CnaZw6ZEA8tcJjQXMPjtTS2XSWZowsKB4saS19AWcDYLztvDvlEVP+Po8BJ8cj
- JYXAugJoBaEhLaXpaj9COjtYF9LLsz0FZt7Q/bfoxfop1y436YgK8VO1iD/FATJ82Lzl
- pbZiLUwqA/BjYYj376eglxm11NFYdlS5076V1aKk5ZeWgNl+VqRP6b1DokPZfBGWL6no
- fIsMJK3g2/EymqVvAapVRtKKNWOMMNbMujCPi74SZbFxSktkQ5Fm15dsWqX4AbgvAESs
- LZFQ==
+ bh=Ckjd59sQpmqKYyW4+FEhhz62Vn4zdt4oG7Bt5gvCPPw=;
+ b=iZSq1V1cfiL5yFH6unp6nwEsgTZbugFAPZy7dv0cYXtjYfQGORZaF/DawabrudqawO
+ DE6vnBa4qf3XkVNlE/pGf6yOTMvHa2BwVFHSCpo9LuY4kTi81fUzxmIPXV2MZ5zeWWqT
+ Cb5P1GoY4H+uvXYK7P3RrfC4EWAOZ4juhhfIm/KFSLW9aRRQ4Zqo971xGrOkIpHMEu0c
+ 3yhnhDbwP68exGAWheV5F4TKGxVEtcDoSxCbT/qu10nUxakSgMnM3b3z58Q8lf2Lk6Ev
+ aZsQcRQe3azLhQJLgD9fu7D7bvrUAWIo3gBbBkv6HFh3+kO707WPqTaB6akdNZ2BNpKl
+ 2pgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZOnyiACEMsiPUwmm/qUkHA1mDhN36kHA6oD+2+/bm8Y=;
- b=TUQ1pn0GFTaGNByPk6NSQnonqq33iJXtbxk6yG7uSOAhUyKo17ARjybVUxKJ7aB1kX
- dqcskX4rJj6Vjwx3T39vULdMLu6Pn2y+dxI2hbb9jq2PJdB7Uh5cz4awKDJVrj8XguaT
- DZaLrroLyvxOu5TOzGnj6RtBc8fPzBeOMA4YVkXCeqom5nw7HA6yZM5B7j66RnCMPoKu
- MABn+cMetT626m0j6Suw3QaVnFtbODPTX3xKx/1jpiud2uu6NT086ED8IaevneLxbupq
- u9RMUXbEy8oc9ESJwSAhSUy9zY4nXSarrOBsXcHANPq2EEtmIF/1OnWBOERrREA3hXJj
- gAVw==
-X-Gm-Message-State: AOAM531aifHCf8BQmriscy/h9NARDgPQ2Iy3+6Zcph0gQ1vqfks3+2xq
- w93+H0gvWBsASM9ASZVTrtjOsw==
-X-Google-Smtp-Source: ABdhPJxqWfAibh2tawPbOhoKoTUWmVk8WM7al5K6vQeY5cYK5uWgackESfI/616feJQfY4ziH1v+nA==
-X-Received: by 2002:adf:e10c:: with SMTP id t12mr22116068wrz.36.1627988559678; 
- Tue, 03 Aug 2021 04:02:39 -0700 (PDT)
+ bh=Ckjd59sQpmqKYyW4+FEhhz62Vn4zdt4oG7Bt5gvCPPw=;
+ b=bEizfxpNZ1VFQ35amSRaMT5zJJXzSNd9pA/wUZT5as8U/QH95wlXULAhDqEDIsVaI8
+ g3/7PiFcg2fqtFR9rpCcPkwsDEy+stKc0VG57q+qxDtDdZTPT1jXp4CVWMH1BpPAySgf
+ 5jk6zBSItNxiZratUcFiPb9cqP9jlQGRfN3SUU0m5KN75X1RKnxX0kqBRzi1dKHpsxuR
+ fSh43S6CdTMex7BJT51cNSH8ZvJLrBY0rKWHPWecrcxx+SIS8KXhkVORyCmHAdOA7hWx
+ q3nTuxQMSopO/oD/d3M3JuLxCkJFr0qi4t9neQC0xudTzGKTOfdJNN4dKXM6Rgrdst5E
+ oeUw==
+X-Gm-Message-State: AOAM530DQrWPMKZIm2JlUlywHkWgSf7AyaFK0JwqhBM6V8Um0SmZuXqV
+ eZIXfwcYz/lUOFTBBHeyLLzp4w==
+X-Google-Smtp-Source: ABdhPJy8a0MoAdmrZlVsJkEAmsUEAhdfnpXxSt16prAFOPciR54XU/kxYaJX9Oe43N8z916jwhj3uA==
+X-Received: by 2002:adf:f4ca:: with SMTP id h10mr22069240wrp.3.1627988560518; 
+ Tue, 03 Aug 2021 04:02:40 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o17sm14481441wru.11.2021.08.03.04.02.38
+ by smtp.gmail.com with ESMTPSA id v15sm2287209wmj.39.2021.08.03.04.02.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 03 Aug 2021 04:02:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E87131FF98;
+ by zen.linaroharston (Postfix) with ESMTP id F36CF1FF99;
  Tue,  3 Aug 2021 12:02:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/3] configure: don't override the selected host test
- compiler if defined
-Date: Tue,  3 Aug 2021 12:02:35 +0100
-Message-Id: <20210803110237.1051032-2-alex.bennee@linaro.org>
+Subject: [RFC PATCH  2/3] tests/tcg/sha1: remove endian include
+Date: Tue,  3 Aug 2021 12:02:36 +0100
+Message-Id: <20210803110237.1051032-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210803110237.1051032-1-alex.bennee@linaro.org>
 References: <20210803110237.1051032-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,35 +92,27 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, imp@bsdimp.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are not many cases you would want to do this but one is if you
-want to use a test friendly compiler like gcc instead of a system
-compiler like clang. Either way we should honour the users choice if
-they have made it.
+This doesn't exist in BSD world and doesn't seem to be needed by
+either.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Cc: Warner Losh <imp@bsdimp.com>
 ---
- configure | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ tests/tcg/multiarch/sha1.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/configure b/configure
-index 9a79a004d7..eadc434144 100755
---- a/configure
-+++ b/configure
-@@ -1691,8 +1691,11 @@ case "$cpu" in
-     # No special flags required for other host CPUs
- esac
+diff --git a/tests/tcg/multiarch/sha1.c b/tests/tcg/multiarch/sha1.c
+index 87bfbcdf52..0081bd7657 100644
+--- a/tests/tcg/multiarch/sha1.c
++++ b/tests/tcg/multiarch/sha1.c
+@@ -43,7 +43,6 @@ void SHA1Init(SHA1_CTX* context);
+ void SHA1Update(SHA1_CTX* context, const unsigned char* data, uint32_t len);
+ void SHA1Final(unsigned char digest[20], SHA1_CTX* context);
+ /* ================ end of sha1.h ================ */
+-#include <endian.h>
  
--eval "cross_cc_${cpu}=\$cc"
--cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
-+if eval test -z "\${cross_cc_$cpu}"; then
-+    eval "cross_cc_${cpu}=\$cc"
-+    cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
-+fi
-+
- QEMU_CFLAGS="$CPU_CFLAGS $QEMU_CFLAGS"
+ #define rol(value, bits) (((value) << (bits)) | ((value) >> (32 - (bits))))
  
- # For user-mode emulation the host arch has to be one we explicitly
 -- 
 2.30.2
 
