@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BE93DFC7D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 10:08:59 +0200 (CEST)
-Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA393DFC97
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 10:14:46 +0200 (CEST)
+Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBBxS-00048G-Nn
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 04:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
+	id 1mBC33-0007Xo-RU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 04:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mBBvv-0002bu-CC
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 04:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58664)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBC2G-0006rn-V9
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 04:13:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mBBvs-0006XB-JH
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 04:07:23 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBC2E-0003jc-Uc
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 04:13:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628064439;
+ s=mimecast20190719; t=1628064834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sDxbm940JsOSf0x2EP+cydrrvDNg+Ve2z3WOQXX3otU=;
- b=W1bpCPcks21EalkXIALoQpr6FqPgnvuCekazEweP5KyQgb9UsiulN4SIWqCzk+IMA+CfaU
- tFc+q5Mp02Buk/f8/2JIfWfWu/saAVprqi2zr6FfCVBqZTAEwbqZlDkYY3DxB29z38iwko
- n71xoY+GKvBaIk6tnA90vCQ96rDRFkg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-OkVBjttqOq2-SwYyvKZw4A-1; Wed, 04 Aug 2021 04:07:18 -0400
-X-MC-Unique: OkVBjttqOq2-SwYyvKZw4A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o26-20020a05600c511ab0290252d0248251so488575wms.1
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 01:07:18 -0700 (PDT)
+ bh=LwoNzU3RDZ5XTh5ueYdOi4y66uq/p+JoJqnS8OH1w3g=;
+ b=AdZ6JWxmN3JqMxjqVLhaa7ESJ/1J79IGKHnrqEqyYWW/6P0UOvRGwccPZPNVVsv2DjNAb8
+ 2BeVRKUNH2l8ZwZ/dSV4bU//EWwu851c3guttMf3uaKuFR8/XokfRQHGPGSyzbxDhKuVV3
+ hXxsUO6Z3j+hEMlBi/0frtEu7XpUUqs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-l_30tm7zOg2vppJRmeQIrQ-1; Wed, 04 Aug 2021 04:13:52 -0400
+X-MC-Unique: l_30tm7zOg2vppJRmeQIrQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ p2-20020a50c9420000b02903a12bbba1ebso1070250edh.6
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 01:13:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=sDxbm940JsOSf0x2EP+cydrrvDNg+Ve2z3WOQXX3otU=;
- b=nPAAb8bkf3ublBn+bhwBtK/MF3Npzm6m4tV1QImhgpXewedqctT9iU+bCzSmKx/Dsd
- UDs683fD0U/y7BcW6Br31NTLCFE4xviHKwAGWymLcbhheZLI3ZZ6rAVtl2XjuC8y0pfw
- in8yPcTbgOqiZlYnGW2WbU7pAK//2WflKy0I3u1zFcuaBn5tUWUIhGPSA7FPYZJxcadG
- 3GBnO+X7B2rRyezu+Sd3GLtj1oaK+piZ+zowhoTTqHugDpItkTzNdKQEkOeoY2o+vzAJ
- iZUk+JBz9tvcckfbb2RW6N+T9anP2YAMavyZxkiPBpbPP/Qv3koKL2W+B7aOx9cu85wf
- ZW3Q==
-X-Gm-Message-State: AOAM531+NUvPFeF0mL00myaCk+XY9Y0XAmTpowhse0vuVyFSWr+Mb9dm
- EgVWwWMPbSkt8eknbgkChLpp0+n0AlGILf9jsClTrQ6CfOCtQFSmZjSD+KtHIF/5klEtl0mI8+9
- NPsCgHy5hy3wxrxE=
-X-Received: by 2002:adf:db07:: with SMTP id s7mr28364333wri.106.1628064437348; 
- Wed, 04 Aug 2021 01:07:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYSrPke5hOp+2BuTc1qi731TvimMwIS5Y3vWnnxtHUTcGTsoCFPooL3u+fF38VKY63K28E8A==
-X-Received: by 2002:adf:db07:: with SMTP id s7mr28364295wri.106.1628064437016; 
- Wed, 04 Aug 2021 01:07:17 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- f194sm5169607wmf.23.2021.08.04.01.07.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Aug 2021 01:07:16 -0700 (PDT)
-Subject: Re: [PATCH for-6.1? v2 5/7] job: Add job_cancel_requested()
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210726144613.954844-1-mreitz@redhat.com>
- <20210726144613.954844-6-mreitz@redhat.com> <YQlRzOzXOxeBLb0B@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <13d07f4b-9659-4576-1757-a7d75f7e16c2@redhat.com>
-Date: Wed, 4 Aug 2021 10:07:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LwoNzU3RDZ5XTh5ueYdOi4y66uq/p+JoJqnS8OH1w3g=;
+ b=UCpZfIFmPAM/daLP3dce7iC8p3wqU/GpEV+BEzrhSNzqTQf9ZQlM2RXGZQ2SX4MuEl
+ 2TjwPlp/H+TEOi5wGHZroiqaeWCtwO4pV2FwtrWGDLnIX43svhetaSTXddkyaLmc1Eff
+ NaRcSySGaGnAaCxQoK12qN/Z1L4jLYqlOps8KmStr2um8gwT47kPpVC6YR2fx3JoN2ve
+ fTmYAswP4fDKlIz1l1HBSpzyIpjvIAF1uqz2jFWSZJdLHmJY1f5mSYXmh0XLETErhQNQ
+ ZmblCBkobgcgd7pU7HHgioiGOIVaiLXAE6bLMiEBBMjybANghfkZAuRQRIWQLZK7w8rO
+ OusQ==
+X-Gm-Message-State: AOAM530jalGx9b/rQ85+eMzPj2rxI7PnnUXhab2iATWUZCumL6SleHt8
+ nunj2IXCb8fxc8VILbaWFK9BIiu/NrMHlcxW1en0dUwI5X3DsrB6s8UeMdJW3+kUUz2MBikveW5
+ ZXntHJ1JtRb7kToI=
+X-Received: by 2002:a50:d651:: with SMTP id c17mr31045305edj.69.1628064831667; 
+ Wed, 04 Aug 2021 01:13:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfjR/AXynZgO0KIdweF4b5DEKY/o5FO9AJc6uoe5cacW+SIHktBYbtPOwY5RKMAYfaCQiV/g==
+X-Received: by 2002:a50:d651:: with SMTP id c17mr31045272edj.69.1628064831375; 
+ Wed, 04 Aug 2021 01:13:51 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id o7sm431537ejy.48.2021.08.04.01.13.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 01:13:51 -0700 (PDT)
+Date: Wed, 4 Aug 2021 10:13:49 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Jiang Wang <jiang.wang@bytedance.com>
+Subject: Re: [PATCH v4] virtio/vsock: add two more queues for datagram types
+Message-ID: <20210804081349.44gifmmks2uut6r5@steredhat>
+References: <20210803234132.1557394-1-jiang.wang@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <YQlRzOzXOxeBLb0B@redhat.com>
+In-Reply-To: <20210803234132.1557394-1-jiang.wang@bytedance.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,112 +94,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: arseny.krasnov@kaspersky.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.08.21 16:25, Kevin Wolf wrote:
-> Am 26.07.2021 um 16:46 hat Max Reitz geschrieben:
->> Most callers of job_is_cancelled() actually want to know whether the job
->> is on its way to immediate termination.  For example, we refuse to pause
->> jobs that are cancelled; but this only makes sense for jobs that are
->> really actually cancelled.
->>
->> A mirror job that is cancelled during READY with force=false should
->> absolutely be allowed to pause.  This "cancellation" (which is actually
->> a kind of completion) may take an indefinite amount of time, and so
->> should behave like any job during normal operation.  For example, with
->> on-target-error=stop, the job should stop on write errors.  (In
->> contrast, force-cancelled jobs should not get write errors, as they
->> should just terminate and not do further I/O.)
->>
->> Therefore, redefine job_is_cancelled() to only return true for jobs that
->> are force-cancelled (which as of HEAD^ means any job that interprets the
->> cancellation request as a request for immediate termination), and add
->> job_cancel_request() as the general variant, which returns true for any
->> jobs which have been requested to be cancelled, whether it be
->> immediately or after an arbitrarily long completion phase.
->>
->> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   include/qemu/job.h |  8 +++++++-
->>   block/mirror.c     | 10 ++++------
->>   job.c              |  7 ++++++-
->>   3 files changed, 17 insertions(+), 8 deletions(-)
->>
->> diff --git a/include/qemu/job.h b/include/qemu/job.h
->> index 8aa90f7395..032edf3c5f 100644
->> --- a/include/qemu/job.h
->> +++ b/include/qemu/job.h
->> @@ -436,9 +436,15 @@ const char *job_type_str(const Job *job);
->>   /** Returns true if the job should not be visible to the management layer. */
->>   bool job_is_internal(Job *job);
->>   
->> -/** Returns whether the job is scheduled for cancellation. */
->> +/** Returns whether the job is being cancelled. */
->>   bool job_is_cancelled(Job *job);
->>   
->> +/**
->> + * Returns whether the job is scheduled for cancellation (at an
->> + * indefinite point).
->> + */
->> +bool job_cancel_requested(Job *job);
-> I don't think non-force blockdev-cancel for mirror should actually be
-> considered cancellation, so what is the question that this function
-> answers?
+On Tue, Aug 03, 2021 at 11:41:32PM +0000, Jiang Wang wrote:
+>Datagram sockets are connectionless and unreliable.
+>The sender does not know the capacity of the receiver
+>and may send more packets than the receiver can handle.
 >
-> "Is this a cancelled job, or a mirror block job that is supposed to
-> complete soon, but only if it doesn't switch over the users to the
-> target on completion"?
+>Add two more dedicate virtqueues for datagram sockets,
+>so that it will not unfairly steal resources from
+>stream and future connection-oriented sockets.
+>
+>Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+>---
+>v1 -> v2: use qemu cmd option to control number of queues,
+>	removed configuration settings for dgram.
+>v2 -> v3: use ioctl to get features and decide number of
+>        virt queues, instead of qemu cmd option.
+>v3 -> v4: change DGRAM feature bit value to 2. Add an argument
+>	in vhost_vsock_common_realize to indicate dgram is supported or not.
+>
+> hw/virtio/vhost-user-vsock.c                  |  2 +-
+> hw/virtio/vhost-vsock-common.c                | 58 ++++++++++++++++++-
+> hw/virtio/vhost-vsock.c                       |  5 +-
+> include/hw/virtio/vhost-vsock-common.h        |  6 +-
+> include/hw/virtio/vhost-vsock.h               |  4 ++
+> include/standard-headers/linux/virtio_vsock.h |  1 +
+> 6 files changed, 69 insertions(+), 7 deletions(-)
+>
+>diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+>index 6095ed7349..e9ec0e1c00 100644
+>--- a/hw/virtio/vhost-user-vsock.c
+>+++ b/hw/virtio/vhost-user-vsock.c
+>@@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
+>         return;
+>     }
+>
+>-    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
+>+    vhost_vsock_common_realize(vdev, "vhost-user-vsock", false);
+>
+>     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
+>
+>diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+>index 4ad6e234ad..c78536911a 100644
+>--- a/hw/virtio/vhost-vsock-common.c
+>+++ b/hw/virtio/vhost-vsock-common.c
+>@@ -17,6 +17,8 @@
+> #include "hw/virtio/vhost-vsock.h"
+> #include "qemu/iov.h"
+> #include "monitor/monitor.h"
+>+#include <sys/ioctl.h>
+>+#include <linux/vhost.h>
+>
+> int vhost_vsock_common_start(VirtIODevice *vdev)
+> {
+>@@ -196,9 +198,39 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
+>     return 0;
+> }
+>
+>-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
+>+static int vhost_vsock_get_max_qps(bool enable_dgram)
+>+{
+>+    uint64_t features;
+>+    int ret;
+>+    int fd = -1;
+>+
+>+    if (!enable_dgram)
+>+        return MAX_VQS_WITHOUT_DGRAM;
+>+
+>+    fd = qemu_open_old("/dev/vhost-vsock", O_RDONLY);
 
-Well, technically yes, but it was more intended as “Has the user ever 
-invoked (block-)job-cancel on this job?”.
 
-> Is this ever a reasonable question to ask, except maybe inside the
-> mirror implementation itself?
+As I said in the previous version, we cannot directly open 
+/dev/vhost-vsock, for two reasons:
 
-I asked myself the same for v3, but found two places in job.c where I 
-would like to keep it:
+   1. this code is common with vhost-user-vsock which does not use 
+   /dev/vhost-vsock.
 
-First, there’s an assertion in job_completed_txn_abort().  All jobs 
-other than @job have been force-cancelled, and so job_is_cancelled() 
-would be true for them.  As for @job itself, the function is mostly 
-called when the job’s return value is not 0, but a soft-cancelled mirror 
-does have a return value of 0 and so would not end up in that function.
-But job_cancel() invokes job_completed_txn_abort() if the job has been 
-deferred to the main loop, which mostly correlates with the job having 
-been completed (in which case the assertion is skipped), but not 100 % 
-(there’s a small window between setting deferred_to_main_loop and the 
-job changing to a completed state).
-So I’d prefer to keep the assertion as-is functionally, i.e. to only 
-check job->cancelled.
+   2. the fd may have been passed from the management layer and qemu may 
+   not be able to directly open /dev/vhost-vsock.
 
-Second, job_complete() refuses to let a job complete that has been 
-cancelled.  This function is basically only invoked by the user (through 
-qmp_block_job_complete()/qmp_job_complete(), or job_complete_sync(), 
-which comes from qemu-img), so I believe that it should correspond to 
-the external interface we have right now; i.e., if the user has invoked 
-(block-)job-cancel at one point, job_complete() should generally return 
-an error.
+I think is better to move this function in hw/virtio/vhost-vsock.c, 
+using the `vhostfd`, returning true or false if dgram is supported, then 
+you can use it for `enable_dgram` param ...
 
-> job_complete() is the only function outside of mirror that seems to use
-> it. But even there, it feels wrong to make a difference. Either we
-> accept redundant completion requests, or we don't. It doesn't really
-> matter how the job reconfigures the graph on completion. (Also, I feel
-> this should really have been part of the state machine, but I'm not sure
-> if we want to touch it now...)
+>+    if (fd == -1) {
+>+        error_report("vhost-vsock: failed to open device. %s", strerror(errno));
+>+        return -1;
+>+    }
+>+
+>+    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
+>+    if (ret) {
+>+        error_report("vhost-vsock: failed to read  device. %s", strerror(errno));
+>+        qemu_close(fd);
+>+        return ret;
+>+    }
+>+
+>+    qemu_close(fd);
+>+    if (features & (1 << VIRTIO_VSOCK_F_DGRAM))
+>+        return MAX_VQS_WITH_DGRAM;
+>+
+>+    return MAX_VQS_WITHOUT_DGRAM;
+>+}
+>+
+>+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name, bool enable_dgram)
+> {
+>     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>+    int nvqs = MAX_VQS_WITHOUT_DGRAM;
+>
+>     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
+>                 sizeof(struct virtio_vsock_config));
+>@@ -209,12 +241,24 @@ void vhost_vsock_common_realize(VirtIODevice 
+>*vdev, const char *name)
+>     vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>                                        vhost_vsock_common_handle_output);
+>
+>+    nvqs = vhost_vsock_get_max_qps(enable_dgram);
+>+
+>+    if (nvqs < 0)
+>+        nvqs = MAX_VQS_WITHOUT_DGRAM;
 
-Well, yes, I don’t think it makes a difference because I don’t think 
-anyone will first tell the job via block-job-cancel to complete without 
-pivoting, and then change their mind and call block-job-complete after 
-all.  (Not least because that’s an error pre-series.)
+... and here, if `enable_dgram` is true, you can set `nvqs = 
+MAX_VQS_WITH_DGRAM``
 
-Also, I’m not even sure whether completing after a soft cancel request 
-works.  I don’t think any of our code accounts for such a case, so I’d 
-rather avoid allowing it if there’s no need to allow it anyway.
+>+
+>+    if (nvqs == MAX_VQS_WITH_DGRAM) {
+>+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>+                                              vhost_vsock_common_handle_output);
+>+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>+                                               
+>vhost_vsock_common_handle_output);
+>+    }
+>+
 
-Max
+I'm still concerned about compatibility with guests that don't support 
+dgram, as I mentioned in the previous email.
+
+I need to do some testing, but my guess is it won't work if the host 
+(QEMU and vhost-vsock) supports it and the guest doesn't.
+
+I still think that we should allocate an array of queues and then decide 
+at runtime which one to use for events (third or fifth) after the guest 
+has acked the features.
+
+>     /* The event queue belongs to QEMU */
+>     vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>                                        vhost_vsock_common_handle_output);
+>
+>-    vvc->vhost_dev.nvqs = ARRAY_SIZE(vvc->vhost_vqs);
+>-    vvc->vhost_dev.vqs = vvc->vhost_vqs;
+>+    vvc->vhost_dev.nvqs = nvqs;
+>+    vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, vvc->vhost_dev.nvqs);
+>
+>     vvc->post_load_timer = NULL;
+> }
+>@@ -227,6 +271,14 @@ void vhost_vsock_common_unrealize(VirtIODevice *vdev)
+>
+>     virtio_delete_queue(vvc->recv_vq);
+>     virtio_delete_queue(vvc->trans_vq);
+>+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM) {
+>+        virtio_delete_queue(vvc->dgram_recv_vq);
+>+        virtio_delete_queue(vvc->dgram_trans_vq);
+>+    }
+>+
+>+    if (vvc->vhost_dev.vqs)
+>+        g_free(vvc->vhost_dev.vqs);
+>+
+>     virtio_delete_queue(vvc->event_vq);
+>     virtio_cleanup(vdev);
+> }
+>diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+>index 1b1a5c70ed..f73523afaf 100644
+>--- a/hw/virtio/vhost-vsock.c
+>+++ b/hw/virtio/vhost-vsock.c
+>@@ -23,6 +23,7 @@
+>
+> const int feature_bits[] = {
+>     VIRTIO_VSOCK_F_SEQPACKET,
+>+    VIRTIO_VSOCK_F_DGRAM,
+>     VHOST_INVALID_FEATURE_BIT
+> };
+>
+>@@ -116,6 +117,8 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
+>     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>
+>     virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
+>+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM)
+>+        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_DGRAM);
+>     return vhost_get_features(&vvc->vhost_dev, feature_bits,
+>                                 requested_features);
+> }
+>@@ -175,7 +178,7 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+>         qemu_set_nonblock(vhostfd);
+>     }
+>
+>-    vhost_vsock_common_realize(vdev, "vhost-vsock");
+>+    vhost_vsock_common_realize(vdev, "vhost-vsock", true);
+>
+>     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
+>                          VHOST_BACKEND_TYPE_KERNEL, 0, errp);
+>diff --git a/include/hw/virtio/vhost-vsock-common.h b/include/hw/virtio/vhost-vsock-common.h
+>index e412b5ee98..6669d24714 100644
+>--- a/include/hw/virtio/vhost-vsock-common.h
+>+++ b/include/hw/virtio/vhost-vsock-common.h
+>@@ -27,12 +27,13 @@ enum {
+> struct VHostVSockCommon {
+>     VirtIODevice parent;
+>
+>-    struct vhost_virtqueue vhost_vqs[2];
+>     struct vhost_dev vhost_dev;
+>
+>     VirtQueue *event_vq;
+>     VirtQueue *recv_vq;
+>     VirtQueue *trans_vq;
+>+    VirtQueue *dgram_recv_vq;
+>+    VirtQueue *dgram_trans_vq;
+>
+>     QEMUTimer *post_load_timer;
+> };
+>@@ -41,7 +42,8 @@ int vhost_vsock_common_start(VirtIODevice *vdev);
+> void vhost_vsock_common_stop(VirtIODevice *vdev);
+> int vhost_vsock_common_pre_save(void *opaque);
+> int vhost_vsock_common_post_load(void *opaque, int version_id);
+>-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name);
+>+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name,
+>+			       bool enable_dgram);
+> void vhost_vsock_common_unrealize(VirtIODevice *vdev);
+>
+> #endif /* _QEMU_VHOST_VSOCK_COMMON_H */
+>diff --git a/include/hw/virtio/vhost-vsock.h b/include/hw/virtio/vhost-vsock.h
+>index 84f4e727c7..e10319785d 100644
+>--- a/include/hw/virtio/vhost-vsock.h
+>+++ b/include/hw/virtio/vhost-vsock.h
+>@@ -23,6 +23,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(VHostVSock, VHOST_VSOCK)
+> typedef struct {
+>     uint64_t guest_cid;
+>     char *vhostfd;
+>+    bool enable_dgram;
+
+This seems unused.
+
+Thanks,
+Stefano
 
 
