@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019723E074E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:13:09 +0200 (CEST)
-Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35723E0752
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:13:57 +0200 (CEST)
+Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBLO8-0002jI-0j
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
+	id 1mBLOp-0003vi-MS
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBJKh-0002aO-NB
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 12:01:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46518)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBJRv-0003Kr-20
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 12:08:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBJKW-0004tJ-Uf
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 12:01:27 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBJRp-00010l-4z
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 12:08:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628092866;
+ s=mimecast20190719; t=1628093324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Nksofj+gnzY+oFUFHdNaf/B8RXiZirTLa1zhAuBP3cA=;
- b=SK5p48GVfrNEKC7mWJdHTzGdcs7qpeNyTBJjLqTPTihUVQ5MnaGeK8Ev8Bi4Yw4xczp6mb
- +IcXU78iqg7MSxxvbJ87OwMes5sfCxuByOdxWJYmAdSNmCsjqY75H9YXfnKPw7FgvetqAb
- I/7V8R9O5jRLi8rbMQk6Z3gsOLqO2yg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-lblc4tlUORG4HPRxJg7eBw-1; Wed, 04 Aug 2021 12:01:00 -0400
-X-MC-Unique: lblc4tlUORG4HPRxJg7eBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32D3F1932482;
- Wed,  4 Aug 2021 16:00:59 +0000 (UTC)
-Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9A0E6091B;
- Wed,  4 Aug 2021 16:00:57 +0000 (UTC)
-Date: Wed, 4 Aug 2021 11:00:56 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V5 12/25] cpr: QMP interfaces for restart
-Message-ID: <20210804160056.c4k4hwbhewdy3lfg@redhat.com>
-References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
- <1625678434-240960-13-git-send-email-steven.sistare@oracle.com>
+ bh=lnIrMH0EL7yQaBYc10AprCzxqenbq/EcZ2gw0TyO8R4=;
+ b=ILlVkOZVXleLcCe/ujSTXQHCxG58Yq/NxiLFeVJqjzzdyTCwmOUrLFUd3wCbYsp+poU3+Y
+ gOpmu+8R7am8Z00/PX53npbwu77f9L3xK6zZzmO1PHALv2Y6Py12DKlWLql3Kt3QczHxqe
+ 6X4qylrF/xYVTQp4qy9cw2pghV+Dvcs=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-HIak_w0VPOqOBS021KYsYA-1; Wed, 04 Aug 2021 12:08:42 -0400
+X-MC-Unique: HIak_w0VPOqOBS021KYsYA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ o7-20020ac87c470000b029025f8084df09so1257391qtv.6
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 09:08:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lnIrMH0EL7yQaBYc10AprCzxqenbq/EcZ2gw0TyO8R4=;
+ b=FHt37l46qkdGvsUqAk1iutzjNPg13i49ISfv6clP2K6SCSrx0K/2lM+0RHEt3rNB+/
+ 6J1tTGM6XhI5Q7mdum/0B9DS2godeWPG/XEuX5EMpH+4iaJhO0wcYB5YuMTyVeUf4MDU
+ bMELQM3kYfyw/f8CxTZ0vv/hGtIYPnnypErRGh1lmc26QMScn1tRP2MhtremxpcEI9Sx
+ eGMl5Y6mYR5img4F0AUA2PM6J/Ghkz+VzcG3xgNuYdIaFqtunOL0CxuxN5X47LHgI2Sd
+ 9bklbdDaSGVP+ivgg8/9Cuoh3+9illMDIdpePmPmV+4UGolv/q2ANga5ebjPMbd+udol
+ cr3A==
+X-Gm-Message-State: AOAM533cHgo3PqE3L/6qyuRKf0WzOGOcw2SXDk8xMDds10qJzAlZ6YN+
+ vV0EvLXIUnu+J4QgOvSNFjIa/0BpoGu19LiJkxtJ8u5Qp2l+TN3mygRTrRPogZLyrzTumMHYY6z
+ UzzL1eqMusaQz59g=
+X-Received: by 2002:a05:620a:f91:: with SMTP id
+ b17mr144886qkn.107.1628093321920; 
+ Wed, 04 Aug 2021 09:08:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSbThOH9pw89AndcmL2CZdYVYA0P0I+4t317XVeC6bXVEyFEP1Lmz5eaNI6kMdfIVwT/zqeA==
+X-Received: by 2002:a05:620a:f91:: with SMTP id
+ b17mr144861qkn.107.1628093321727; 
+ Wed, 04 Aug 2021 09:08:41 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
+ [76.70.75.133])
+ by smtp.gmail.com with ESMTPSA id a5sm1490357qkk.92.2021.08.04.09.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 09:08:40 -0700 (PDT)
+Date: Wed, 4 Aug 2021 12:08:39 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 0/3] Disable vhost device IOTLB is IOMMU is not enabled
+Message-ID: <YQq7h0OWlmQ+mX8z@t490s>
+References: <20210804034803.1644-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1625678434-240960-13-git-send-email-steven.sistare@oracle.com>
-User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210804034803.1644-1-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,53 +94,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: mst@redhat.com, Wei.Huang2@amd.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, Sriyash.Caculo@amd.com, pbonzini@redhat.com,
+ chao.gao@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 10:20:21AM -0700, Steve Sistare wrote:
-> cprexec calls cprexec().  Syntax:
->   { 'command': 'cprexec', 'data': { 'argv': [ 'str' ] } }
+On Wed, Aug 04, 2021 at 11:48:00AM +0800, Jason Wang wrote:
+> Hi:
 > 
-> Add the restart mode:
->   { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
+> We currently try to enable device IOTLB when iommu_platform is
+> set. This may lead unnecessary trasnsactions between qemu and vhost
+> when vIOMMU is not used (which is the typical case for the encrypted
+> VM).
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  monitor/qmp-cmds.c |  5 +++++
->  qapi/cpr.json      | 16 +++++++++++++++-
->  2 files changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 1128604..7326f7d 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -179,6 +179,11 @@ void qmp_cprsave(const char *file, CprMode mode, Error **errp)
->      cprsave(file, mode, errp);
->  }
->  
-> +void qmp_cprexec(strList *args, Error **errp)
-> +{
-> +    cprexec(args, errp);
-> +}
+> So patch tries to use transport specific method to detect the enalbing
+> of vIOMMU and enable the device IOTLB only if vIOMMU is enalbed.
 
-Why do you need both qmp_cprexec() and cprexec()?  Can you just name
-it qmp_cprexec() in cpr.c from the get-go, rather than having to add a
-one-line wrapper in qmp-cmds.c?
+Just to mention that there's also the ordering requirement for e.g. vfio-pci
+and the iommu device so far because vfio_realize() depends on vIOMMU being
+realized too, so specifying "-device vfio-pci" before "-device intel-iommu"
+will stop working, I think (see the similar pci_device_iommu_address_space()
+call in vfio_realize()).
+
+Do you think vhost can do the same to assume vIOMMU must be specified before
+vhost?  Then vhost can call pci_device_iommu_address_space() freely.  It'll be
+more gentle for vhost even when it's used wrong: instead of not working at all
+(vfio-pci), vhost runs slower.
+
+Currently libvirt should be able to guarantee that ordering so libvirt users
+shouldn't need to bother.  I think libvirt should also guarantee the vIOMMU
+device to be created before all the rest devices, including virtio/vhost.  But
+need to check.  If that's the case libvirt will naturally work for vhost too.
+
+For the long term we may need to think about making device creation to be not
+ordered by user cmdline input but still has a priority specified in the code
+itself.  Migration has something like that (MigrationPriority).  I think we
+just need something similar for general device realizations.  Since vhost
+raised the same need, I think that priority should bump up too.
+
+The other concern is right now vhost has vhost_dev.dma_as but now we're not
+using it for vhost_dev_has_iommu().  It's just a bit confusing as when to use
+which.
+
+What do you think?
+
+Thanks,
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Peter Xu
 
 
