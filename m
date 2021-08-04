@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F543E09C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 23:02:52 +0200 (CEST)
-Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522113E09D5
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 23:06:44 +0200 (CEST)
+Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBO2N-0001sK-V9
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 17:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58592)
+	id 1mBO67-0003mS-CU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 17:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBO1R-00012e-6C
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:01:53 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38648)
+ id 1mBO4e-0002ye-FO
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:05:12 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:46623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBO1P-00085f-Ig
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:01:52 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- i10-20020a05600c354ab029025a0f317abfso4766620wmq.3
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 14:01:51 -0700 (PDT)
+ id 1mBO4c-0001uk-R5
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:05:12 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ h24-20020a1ccc180000b029022e0571d1a0so2236428wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 14:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FZ3d+BTE7qUop2L+aM1UPhzF20Hi7+16d6zr957d/dY=;
- b=om9CzosDeWIL0NjZMqCKP9OPBZdtSliLlqLPHZUEOjmBZ3iWil3lMCZ4p2njM7Y37h
- oBywWsVabEuzE4MnPX1xj8k1XrMus/YN5k/2F/2Aoi3/uPThahopgvzodpOIJU8GMZ9d
- ZVHxwTDE4MD3hPLh46EE9odr8+43IFgryHUF+68fQZjXm7G6VfneYJaxosl3BCqUNvSq
- QgjEU7zwzeil6KVyg68xmeTBOYKqpLi0KqrHVVmHX4c9K60mGpZTNRUEhVZM+TSHBrrQ
- NsF/EDmzGK5GJNlLGptGwIut7sk02bJEzRxXwnPhiTxoKkdWQZ9Eiboq7d+tbtpMOVsS
- Yc2A==
+ bh=eDx7JCySBKIvgnWx6MSqm6HwwzWs/dSFkAYsqsvF7es=;
+ b=FxxmJU4CYvIjxxTpgOsqI9+sEgCqImsabfmxGGQ8HHOtUTYWHQ0XIo0NbFV7PIXA9c
+ YA7I/WEKEUO3xu2z+1+YxP2jFDdNyn3/ThM9abSNkb8FVDzjue3JvCRxS+jxYOPFfFhA
+ riNPd6QnGb7tJLioOZYpDcFDdgQ/cItiEVmGQWyuLHjz2iWafS+z1bmifK8VgNAkrrqe
+ qks1/rBMgQF5jaX3qa5FWMn+6y6o66G6SUv8lZqT+e4aSC5D1sqqUHSkyxkVUEV2t24P
+ B5+UGziI3I5l2fUv4qwaEeEj5E5ugAi6IxmdGamVwHSNx0g1wtvNniZWcVVS+thAQDtb
+ IyGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FZ3d+BTE7qUop2L+aM1UPhzF20Hi7+16d6zr957d/dY=;
- b=qPvOwMfsA7/0cGJMaX/vr+qUNUpofOZEUm1HfLEMPCKBrGhaGc+ZH3UvgHX4HbKrnx
- JA3LgyPtQaxVbssnZ6bRedKlMmFDN4TRzOLQJLa82cjxTSyLubsbkqN7xM7777OZGhpG
- oXFmWG+sPw5YAZD4/qEhv+h9Y4HEaMLrjJDBnhdQA3Dy2cMlDSTcjvYSrYzUV2wgD0zm
- dQ+HLv6HFbaxTFu0cQtYvUHnr3y8qpECY3R3mXz9oeXGZCczSD8vo/N5i/KVBrdwBNZv
- ddkLADYX3pjXhVlG8vWjR3H8rDImQBQhtLORO92k4HylhCPGAgRV+JRv+DWGfFazfjW4
- AWiA==
-X-Gm-Message-State: AOAM5332cAbPnkW50bB76DqcKGrSYWAs+XaCQDo9WqziDdcS1FYAFNa5
- vWLkfHR7dm83yjY5rcbhvsOuHufsHnLgDw==
-X-Google-Smtp-Source: ABdhPJzfBXxqbkRb7z0QlZGg8uLbcWKqBdyMlE2Thu0qh/XyUcN/PRM4j69ZNmpVHzq9wde1kDDhzg==
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr11963394wma.49.1628110909843; 
- Wed, 04 Aug 2021 14:01:49 -0700 (PDT)
+ bh=eDx7JCySBKIvgnWx6MSqm6HwwzWs/dSFkAYsqsvF7es=;
+ b=tbe3YGBZpOUykmVicvfz5VDFRDm/RcHmskjftoO4ljK954hgQNXZ9DAjAQ8vbfDzte
+ zAbE1c4xpjYXVRvccW50RyVswN2nqwamkEyNhpHTRvxsnD/ZJ2hMgshBH2ocZky6XK9s
+ kF+c3fKfdBKea58gipdPBiVHETZm/pW4/cNyQ4gNjoGRoF1p/zaMkm8+Ee5eSuaJnRdc
+ YLw6Hx8mUHM4I5fGKka02f9FfGDj+bKWP1sEI399iD2u3v6nI8zlRRs+ntQeUMZxUBut
+ oGOtD5NRB0rHRb7BeQkC0wc3V07ERhHctWEM6vyGmLIksMgmsmFRtX/uM8wd2DXgDfA+
+ s/Tw==
+X-Gm-Message-State: AOAM530zkijhclik0IX02UW1BTXJXS9m19ioGdvlNQt8Qe3AmdDTINPf
+ cqBFk+CWmroDlVnAx/+Xz6983rw1qeS7RQ==
+X-Google-Smtp-Source: ABdhPJxX+t2ldP4UuFP9/zoI9SWziQbJJsZLMsZhcEAuKeXgr2OR9EEKXOyL80edTJFsXFRCNjht3w==
+X-Received: by 2002:a1c:2984:: with SMTP id p126mr1367669wmp.58.1628111107910; 
+ Wed, 04 Aug 2021 14:05:07 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id i10sm6970288wmq.21.2021.08.04.14.01.48
+ by smtp.gmail.com with ESMTPSA id h11sm6502739wmq.34.2021.08.04.14.05.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Aug 2021 14:01:48 -0700 (PDT)
-Subject: Re: [PATCH 2/2] target/hppa: Clean up DisasCond
+ Wed, 04 Aug 2021 14:05:07 -0700 (PDT)
+Subject: Re: [PATCH 2/4] target/alpha: Use dest_sink for HW_RET temporary
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210708205807.827147-1-richard.henderson@linaro.org>
- <20210708205807.827147-3-richard.henderson@linaro.org>
+References: <20210708182519.750626-1-richard.henderson@linaro.org>
+ <20210708182519.750626-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <521679fb-9295-284d-ef67-f8f459c178c9@amsat.org>
-Date: Wed, 4 Aug 2021 23:01:47 +0200
+Message-ID: <b7ae73e4-a2e0-7b2f-d5c3-18fed90b52d1@amsat.org>
+Date: Wed, 4 Aug 2021 23:05:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708205807.827147-3-richard.henderson@linaro.org>
+In-Reply-To: <20210708182519.750626-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -93,17 +93,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 10:58 PM, Richard Henderson wrote:
-> The a0_is_n flag is redundant with comparing a0 to cpu_psw_n.
-
-Preferably split as 2 patches:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> The a1_is_0 flag can be removed by initializing a1 to $0,
-> which also means that cond_prep can be removed entirely.
+On 7/8/21 8:25 PM, Richard Henderson wrote:
+> This temp is automatically freed, just like ctx->lit.
+> But we're about to remove ctx->lit, so use sink instead.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/hppa/translate.c | 43 +++++++++--------------------------------
->  1 file changed, 9 insertions(+), 34 deletions(-)
+>  target/alpha/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
