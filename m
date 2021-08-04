@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6EC83E06E7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:44:19 +0200 (CEST)
-Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619C13E0518
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 18:01:17 +0200 (CEST)
+Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBKwE-0001ns-SH
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36424)
+	id 1mBJKR-0006ax-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 12:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBIBz-0000GH-BX
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:48:24 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBIBw-0000I8-Nm
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:48:22 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- l11-20020a7bcf0b0000b0290253545c2997so1628659wmg.4
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 07:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=s5AlkAUf0LqO1mz9AU0LUkT1ROhkgzjGo8+akI9yYC4=;
- b=Mb3guP5Km5BxoAtqFEDZ9HqvI0y+2QFyLiOndTu0GEf6rvboSssMmP+jQs2nMEL6aL
- Z3A8MwgwarLzaNaFGmfzSDvbzkp7//CpZA0MQdIDWBjqDgQA0lprqgFacuHXD7AJWD8q
- vg67cMQp3J+IoWrFm3KM7kfcGhcAa8zkBxNsuOTNGLjDZSXTxUzQA8WiQ0zy4buvK+PG
- o/s8dh4OTiA/5GT5LlWCYmJwW5i9E00sdE3qOl6RcYVp8wJdpIbWeRmlslVOdOr6RF6F
- n0+cEh2+nBMSPBdrTLYZgQ30WO/L9vv0qZCs9oELe+waidcYaPrSknDXM1v/BRvKrH5w
- vHnQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBIDa-0000eh-3W
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:50:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBIDT-0001Ka-Ts
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:50:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628088593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cqd1XK7Gd0nvofoNMQmEqRIhSosqr5kTu/cjFjskcpE=;
+ b=Zryip7CbqjFbCf/7z4rN2spoHHG7wZqjLsTBMzIhDKnkDsERml/1jvhJV6DufVy2J+3+wt
+ bqYXQNnQXULDxKdOEA9ooXWTjFxohXPHMe4C4qoGYWTlVcz6mcO+e/w6ooLQ8640mpw74g
+ PRv3ch54rwciyRgq+xX6c2X56efxIZg=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-vFC9NJy1Mv6v_3R65trtmA-1; Wed, 04 Aug 2021 10:49:50 -0400
+X-MC-Unique: vFC9NJy1Mv6v_3R65trtmA-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ a91-20020a9d26640000b02904f073e6bc1dso889919otb.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 07:49:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s5AlkAUf0LqO1mz9AU0LUkT1ROhkgzjGo8+akI9yYC4=;
- b=LAhOGaVctztBb53mySLz7enX+nUfqjdqgyYtz+H2Jc+C2GrXqZBJzfCt0+4mLzaxW7
- uIK5Jzp28Tx+RoqzsUF0adK1Prs14uLCy3exwbzTng9cx44lb1qJE6qwMgRlbFXoAxyJ
- V/7g82CS/nF0kI9bwh8fsOpou8GpdDJC56ODvmZOR9aZ8q3r/YAdxPNpBjpcRNDDeDDZ
- jR34lwG66asnzKZUHhKDDFAZnBM9XAoEDvnqvtcNlCA85y/1FbF5ZhEEk6+A5cUBJjK4
- xkVK8rItYSPFSwKpexEiKNKHT+Sq1M4Ig5F2yszWIrYiVGnRda3FNSL4WQuPqsBhgwVj
- OegQ==
-X-Gm-Message-State: AOAM530ZpqUZwDi9/FQ+/253uPJsiypndOiFy1WKDMVr2kXR47DvMn6e
- moRZTHLf1Br5b84B6B9jINp5Gg==
-X-Google-Smtp-Source: ABdhPJx94k9oE8XrjewJ34D+FH3g+i04tc4lDBm1LWHfojpA9290S9TU0ul3+eSAusNg4a1VWodyFA==
-X-Received: by 2002:a1c:7218:: with SMTP id n24mr20070174wmc.183.1628088497919; 
- Wed, 04 Aug 2021 07:48:17 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i186sm6437488wmi.43.2021.08.04.07.48.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 07:48:16 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89F821FF96;
- Wed,  4 Aug 2021 15:48:15 +0100 (BST)
-References: <20210803151301.123581-1-ma.mandourr@gmail.com>
- <87fsvqfd4b.fsf@linaro.org>
- <CAD-LL6hBoC44T4GythOAvvZBYK1O=WjZhv4KkoNw3QHiAeoMEQ@mail.gmail.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v5 0/2] plugins/cache: multicore cache modelling
-Date: Wed, 04 Aug 2021 15:47:51 +0100
-In-reply-to: <CAD-LL6hBoC44T4GythOAvvZBYK1O=WjZhv4KkoNw3QHiAeoMEQ@mail.gmail.com>
-Message-ID: <8735rpfeq8.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cqd1XK7Gd0nvofoNMQmEqRIhSosqr5kTu/cjFjskcpE=;
+ b=QlwnMTL92R4EYo+ejIsy2ahbmU85VOBOO0BmPr2dPv3xbj2YgGG8Wk/G3vtu7GV11u
+ PMVo3PrY4CvJ0oAnD5o5bUrc/uJ2HUcVZZjY6zHZaNfAGp0zgWfZClU3oQOod78qOc9z
+ wgA5DNvJbIcbbNxdRAnE7F2BAauOKfKmQl1m+byK3JtDHruFRpA503ldnS/lvrpFi35u
+ fu8u/jHzNyvl5F/twPXprFEkWD7FOF3aeWn+0o+A1nILdFa9HSu1Vpf/I7sowSsXg1Y5
+ Z7GGp8JGg1buvq7SC7gB8KQIQ3o0PE+RZ5guwPrpmm0yvjTALPSf/9VjXsPNFHPMSV9R
+ PGFg==
+X-Gm-Message-State: AOAM533IrwrIVjed+37Vak+pO5h8IzIhL5l8YBtezoQWZfyXK0I12ZY5
+ vA8oJm158i2pK5r59+qQz+j3fAa1/M0izKc5iJ+XUUyzyRFh7FRiILFfQLYSJoLtrheYF6LGVUM
+ LiG0CYWvsy3/GKSY+M7nMp78wBdZxX3E=
+X-Received: by 2002:a05:6808:f94:: with SMTP id
+ o20mr7093572oiw.112.1628088589487; 
+ Wed, 04 Aug 2021 07:49:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz61B7w/hPxevr2rWZkl7flw3XGFsJo0BtnUX8Xu1Zk4sXikYPAstlIym9XM1Q+E9SLtp2Rnj44V2SLOGUaZm0=
+X-Received: by 2002:a05:6808:f94:: with SMTP id
+ o20mr7093559oiw.112.1628088589313; 
+ Wed, 04 Aug 2021 07:49:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210720235619.2048797-1-jsnow@redhat.com>
+ <CAFEAcA8fG4Tuk04VuOHoeRBPdjvgDYhyyBUqyKOj045=uqxH1Q@mail.gmail.com>
+ <87im0lioj6.fsf@dusky.pond.sub.org>
+In-Reply-To: <87im0lioj6.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 4 Aug 2021 10:49:38 -0400
+Message-ID: <CAFn=p-a6pNUV4N6Ziq=9tgNaviNH_XnFUvAf2a9YCXoV7NYMNQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] docs: convert qapi-code-gen.txt to qapi-code-gen.rst
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000007792f05c8bcea55"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,43 +90,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000007792f05c8bcea55
+Content-Type: text/plain; charset="UTF-8"
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+On Wed, Aug 4, 2021 at 4:48 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-> On Tue, Aug 3, 2021 at 11:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
->  Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+> > On Wed, 21 Jul 2021 at 00:58, John Snow <jsnow@redhat.com> wrote:
+> >>
+> >> Patch 1 does (roughly) the bare minimum, patch 2 adds some formatting,
+> >> and patch 3 adds cross-references.
+> >>
+> >> John Snow (3):
+> >>   docs: convert qapi-code-gen.txt to ReST
+> >>   docs/qapi-code-gen: Beautify formatting
+> >>   docs/qapi-code-gen: add cross-references
+> >
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 >
->  > Hello,
->  >
->  > This series introduce multicore cache modelling in contrib/plugins/cac=
-he.c
->  >
->  > Multi-core cache modelling is handled such that for full-system
->  > emulation, a private L1 cache is maintained to each core available to
->  > the system. For multi-threaded userspace emulation, a static number of
->  > cores is maintained for the overall system, and every memory access go
->  > through one of these, even if the number of fired threads is more than
->  > that number.
+> Let's queue this after my "[PATCH] docs/devel/qapi-code-gen: Update
+> examples to match current code".
 >
->  Queued to plugins/next, thanks.
 >
-> From what I can see from your fork, qemu/cache.c at plugins/next =C2=B7 s=
-tsquad/qemu =C2=B7 GitHub,=20
-> here, I think you enqueued v4 of the patches
-
-No I just haven't re-pushed the branch yet.
-
->=20=20
->  --=20
->  Alex Benn=C3=A9e
+Sure. Do you need a rebase? (I don't see that patch in origin/master right
+now.)
 
 
---=20
-Alex Benn=C3=A9e
+> For 6.1, or "don't rock the boat now"?
+>
+
+No preference. In response to the same question on the other doc conversion
+patch, "No preference."
+
+--00000000000007792f05c8bcea55
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 4, 2021 at 4:48 AM Markus=
+ Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">=
+peter.maydell@linaro.org</a>&gt; writes:<br>
+<br>
+&gt; On Wed, 21 Jul 2021 at 00:58, John Snow &lt;<a href=3D"mailto:jsnow@re=
+dhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Patch 1 does (roughly) the bare minimum, patch 2 adds some formatt=
+ing,<br>
+&gt;&gt; and patch 3 adds cross-references.<br>
+&gt;&gt;<br>
+&gt;&gt; John Snow (3):<br>
+&gt;&gt;=C2=A0 =C2=A0docs: convert qapi-code-gen.txt to ReST<br>
+&gt;&gt;=C2=A0 =C2=A0docs/qapi-code-gen: Beautify formatting<br>
+&gt;&gt;=C2=A0 =C2=A0docs/qapi-code-gen: add cross-references<br>
+&gt;<br>
+&gt; Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.=
+org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+<br>
+Let&#39;s queue this after my &quot;[PATCH] docs/devel/qapi-code-gen: Updat=
+e<br>
+examples to match current code&quot;.<br>
+<br></blockquote><div><br></div><div>Sure. Do you need a rebase? (I don&#39=
+;t see that patch in origin/master right now.)<br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+For 6.1, or &quot;don&#39;t rock the boat now&quot;?<br></blockquote><div><=
+br></div><div>No preference. In response to the same question on the other =
+doc conversion patch, &quot;No preference.&quot;<br></div></div></div>
+
+--00000000000007792f05c8bcea55--
+
 
