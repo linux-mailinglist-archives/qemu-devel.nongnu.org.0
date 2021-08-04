@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6D23DF91C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 03:03:44 +0200 (CEST)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C39A3DF922
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 03:06:02 +0200 (CEST)
+Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB5Jv-0003UF-H5
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 21:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1mB5M9-0005xs-2t
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 21:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cz-0000WA-4b
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33833)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5D0-0000YV-1P
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cx-0006m5-PR
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cy-0006mj-Ha
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628038591;
+ s=mimecast20190719; t=1628038592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zoDQcMj2O0CanL5RUdfTbw0wI0a9wNEoOK8bZtIqH0Y=;
- b=fzlhQxWFEcX5UdvqDjGvKgolo8xLMY/LKzSBXYY4VrSPMy7bE5kvagOfm9pe3MXAECCXUZ
- scioXUFZ1waJinFNJnJDXwuLV+71ozRcHVvPpgcxrtEgSUnFMnIe0HeopwzYqHpKBn8SIx
- zk4GOjITgp6JvAvR06KnyHqTgdQ0x4U=
+ bh=n2rBwStwU9epry9NfUlJenH68dTUg0XvUTrJOysL/lg=;
+ b=PkS2wkEsMKuQnZYWo3TQjlLAP8jgSE997g32sIuOc2pkIY7anyMfZDvX46TUYXI1YGt6Ws
+ +KPsREawMlZHix+ayMYZs08lEBwaFkIWSsTeI/9zAHKJjLU7VNryFszm3ZQFomuU/w6zsx
+ vcRyK8L2a4R2LGlMShHcEdw/4EmObno=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-0f7YS6uzOvCa9-c7uXXOkw-1; Tue, 03 Aug 2021 20:56:28 -0400
-X-MC-Unique: 0f7YS6uzOvCa9-c7uXXOkw-1
+ us-mta-215-xm4dd8c5OeC-D2DMmh-nMw-1; Tue, 03 Aug 2021 20:56:28 -0400
+X-MC-Unique: xm4dd8c5OeC-D2DMmh-nMw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1EFE801AEB;
- Wed,  4 Aug 2021 00:56:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B90231853028;
+ Wed,  4 Aug 2021 00:56:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D7B15D9DC;
- Wed,  4 Aug 2021 00:56:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2758F5D9DC;
+ Wed,  4 Aug 2021 00:56:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] docs/devel: create "Subsystem APIs" subsection
-Date: Tue,  3 Aug 2021 20:56:20 -0400
-Message-Id: <20210804005621.1577302-6-jsnow@redhat.com>
+Subject: [PATCH 6/6] docs/devel: create "Miscellaneous Topics" subsection
+Date: Tue,  3 Aug 2021 20:56:21 -0400
+Message-Id: <20210804005621.1577302-7-jsnow@redhat.com>
 In-Reply-To: <20210804005621.1577302-1-jsnow@redhat.com>
 References: <20210804005621.1577302-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -81,70 +81,54 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-
----
-
-I tried to grab documents that appeared to document literal internal
-interfaces of QEMU (that weren't better described by some other
-subsection) and put them here in this section.
-
-Name isn't perfect, feel free to suggest alternatives.
+The hallmark of any truly great taxonomical reorganization: the bin of
+leftover bits and pieces that didn't neatly fit elsewhere.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/devel/index.rst              | 10 +---------
- docs/devel/section-subsystems.rst | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+), 9 deletions(-)
- create mode 100644 docs/devel/section-subsystems.rst
+ docs/devel/index.rst        |  9 +--------
+ docs/devel/section-misc.rst | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+), 8 deletions(-)
+ create mode 100644 docs/devel/section-misc.rst
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 71ed48881ef..da579a7b666 100644
+index da579a7b666..ef14f3302e1 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
-@@ -13,19 +13,11 @@ modifying QEMU's source code.
-    section-development
+@@ -14,11 +14,4 @@ modifying QEMU's source code.
     section-testing-debugging
     section-tcg
-+   section-subsystems
-    control-flow-integrity
--   loads-stores
--   memory
--   migration
--   atomics
-    decodetree
--   bitops
--   ui
--   reset
-    s390-dasd-ipl
--   clocks
-    qom
--   modules
-    block-coroutine-wrapper
-    multi-process
-    ebpf_rss
-diff --git a/docs/devel/section-subsystems.rst b/docs/devel/section-subsystems.rst
+    section-subsystems
+-   control-flow-integrity
+-   decodetree
+-   s390-dasd-ipl
+-   qom
+-   block-coroutine-wrapper
+-   multi-process
+-   ebpf_rss
+-   vfio-migration
++   section-misc
+diff --git a/docs/devel/section-misc.rst b/docs/devel/section-misc.rst
 new file mode 100644
-index 00000000000..fbe21f85adf
+index 00000000000..804852ff61c
 --- /dev/null
-+++ b/docs/devel/section-subsystems.rst
-@@ -0,0 +1,16 @@
-+Subsystem APIs
-+==============
++++ b/docs/devel/section-misc.rst
+@@ -0,0 +1,15 @@
++Miscellaneous Topics
++====================
 +
 +.. toctree::
 +   :maxdepth: 2
 +   :includehidden:
 +
-+   atomics
-+   bitops
-+   loads-stores
-+   clocks
-+   memory
-+   ui
-+   migration
-+   reset
-+   modules
++   control-flow-integrity
++   decodetree
++   s390-dasd-ipl
++   qom
++   block-coroutine-wrapper
++   multi-process
++   ebpf_rss
++   vfio-migration
 -- 
 2.31.1
 
