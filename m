@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8719A3DF914
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E233DF915
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 02:58:10 +0200 (CEST)
-Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB5EX-0002ds-FW
+	id 1mB5EX-0002eQ-QJ
 	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 20:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54424)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cw-0000U2-PS
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cw-0000Ty-Oa
  for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46681)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Ct-0006iL-Q3
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Ct-0006iR-JW
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1628038586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9laGmxWKvM+QTuiFtVzqkgdlO0I40dPUxt24ZHp3z54=;
- b=ZPgI9SFSsvHkYApS5MKzJse8zoh7ByZOUVOyyDzyJIRlH+X8TSf/UE/q1rryd5h1xXwScG
- vzQxPk7niDwi1V+DbcYZIAAeHxNp1t4CbFtfDyMtwKTu9S9vPNxwFm+77ARi5SMIWess7y
- E1XS+1JZLysxveORajZlT84oj+JwIhM=
+ bh=bUliIYPptmdoWbIjjqTnA9dyMbDEUVKrNE9j8OFIuG0=;
+ b=TtqfTDSrdhvHpv3VjdXWuu3syrpt1vNrYKudj30jWU3l24YYGA8sO+I5FGCBpwctibQcDw
+ McuCB0F5ueVUDE+7gGFz49miKDub3PiRdBAPCJROtkzhokechfTcyM93wAQfBqRzSP3N5y
+ OvYPTJqWR0nbizCnI/sewh85Xl1xTkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-I4UHm6MUNNmpY4xWZnTF5w-1; Tue, 03 Aug 2021 20:56:24 -0400
-X-MC-Unique: I4UHm6MUNNmpY4xWZnTF5w-1
+ us-mta-593-bZVz6nqnMZayCVRjc-5q3A-1; Tue, 03 Aug 2021 20:56:25 -0400
+X-MC-Unique: bZVz6nqnMZayCVRjc-5q3A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C43401853029;
- Wed,  4 Aug 2021 00:56:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B6D760C1;
+ Wed,  4 Aug 2021 00:56:24 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 279C85D9DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDA905D9DC;
  Wed,  4 Aug 2021 00:56:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] docs/devel: create "Community & Governance" subsection
-Date: Tue,  3 Aug 2021 20:56:16 -0400
-Message-Id: <20210804005621.1577302-2-jsnow@redhat.com>
+Subject: [PATCH 2/6] docs/devel: create "Developing QEMU" subsection
+Date: Tue,  3 Aug 2021 20:56:17 -0400
+Message-Id: <20210804005621.1577302-3-jsnow@redhat.com>
 In-Reply-To: <20210804005621.1577302-1-jsnow@redhat.com>
 References: <20210804005621.1577302-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -81,45 +81,58 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Plonk the Code of Conduct and Conflict Resolution Policy guides into a
-new "Community & Governance" subsection.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/devel/index.rst                        | 3 +--
- docs/devel/section-community-governance.rst | 9 +++++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
- create mode 100644 docs/devel/section-community-governance.rst
+ docs/devel/index.rst               |  6 +-----
+ docs/devel/section-development.rst | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+ create mode 100644 docs/devel/section-development.rst
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 153979caf4b..f32883da8ed 100644
+index f32883da8ed..3cdfb786f1a 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
-@@ -9,8 +9,7 @@ modifying QEMU's source code.
-    :maxdepth: 2
+@@ -10,9 +10,7 @@ modifying QEMU's source code.
     :includehidden:
  
--   code-of-conduct
--   conflict-resolution
-+   section-community-governance
-    build-system
-    style
-    kconfig
-diff --git a/docs/devel/section-community-governance.rst b/docs/devel/section-community-governance.rst
+    section-community-governance
+-   build-system
+-   style
+-   kconfig
++   section-development
+    testing
+    fuzzing
+    control-flow-integrity
+@@ -20,11 +18,9 @@ modifying QEMU's source code.
+    memory
+    migration
+    atomics
+-   stable-process
+    ci
+    qtest
+    decodetree
+-   secure-coding-practices
+    tcg
+    tcg-icount
+    tracing
+diff --git a/docs/devel/section-development.rst b/docs/devel/section-development.rst
 new file mode 100644
-index 00000000000..2c7e07257d1
+index 00000000000..bba4fea30cb
 --- /dev/null
-+++ b/docs/devel/section-community-governance.rst
-@@ -0,0 +1,9 @@
-+Community & Governance
-+======================
++++ b/docs/devel/section-development.rst
+@@ -0,0 +1,12 @@
++Developing QEMU
++===============
 +
 +.. toctree::
 +   :maxdepth: 2
 +   :includehidden:
 +
-+   code-of-conduct
-+   conflict-resolution
++   build-system
++   kconfig
++   style
++   secure-coding-practices
++   stable-process
 -- 
 2.31.1
 
