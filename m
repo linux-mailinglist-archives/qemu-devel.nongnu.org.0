@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D10C3DFBFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 09:21:16 +0200 (CEST)
-Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3473DFC3B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 09:42:13 +0200 (CEST)
+Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBBDG-0007sO-Sh
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 03:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
+	id 1mBBXV-0002ax-JD
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 03:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1mBBBX-0006qG-ML; Wed, 04 Aug 2021 03:19:28 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1mBBBR-00072G-7E; Wed, 04 Aug 2021 03:19:27 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gfjgt3S92zZxPS;
- Wed,  4 Aug 2021 15:15:38 +0800 (CST)
-Received: from dggpemm500017.china.huawei.com (7.185.36.178) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 4 Aug 2021 15:19:11 +0800
-Received: from [10.174.185.76] (10.174.185.76) by
- dggpemm500017.china.huawei.com (7.185.36.178) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 4 Aug 2021 15:19:10 +0800
-Subject: Re: [Question] qemu-img convert block alignment
-To: Eric Blake <eblake@redhat.com>
-References: <ed4ae175-1c67-b7fb-669d-c8c08ca1a7f7@huawei.com>
- <20210803150316.eo5gm3xqxuetqahq@redhat.com>
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <3e4b8fb0-0d3b-a99b-c603-ac3f0b0d3d9d@huawei.com>
-Date: Wed, 4 Aug 2021 15:18:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mBBVx-0001FU-0b
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 03:40:33 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50118 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mBBVu-0000DF-Dl
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 03:40:32 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0FiRAphB0YqAA--.52293S3; 
+ Wed, 04 Aug 2021 15:40:20 +0800 (CST)
+Subject: Re: [PATCH v2 12/22] target/loongarch: Add fixed point extra
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
+ <1626861198-6133-13-git-send-email-gaosong@loongson.cn>
+ <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <d9b20db9-ee1d-7860-45c3-c618399cfa52@loongson.cn>
+Date: Wed, 4 Aug 2021 15:40:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210803150316.eo5gm3xqxuetqahq@redhat.com>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.76]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500017.china.huawei.com (7.185.36.178)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=yezhenyu2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7a500d72-7d16-1a02-2ede-5e07f1383812@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxL0FiRAphB0YqAA--.52293S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZr4kCF1xCFy8WF48GFWrGrg_yoWfuFbEvw
+ 18ur4rXF1vq3y3trn8Jr1DZay7Cr4jyr1Utws09ry7Zan2ka98JryrWas3ArW7Gr4rXFy3
+ Jr9rJa17tF1UZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbh8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+ e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
+ 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+ xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
+ IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
+ 6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,40 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, pl@kamp.de,
- qemu-devel@nongnu.org, Xiexiangyou <xiexiangyou@huawei.com>, mreitz@redhat.com,
- zhengchuan <zhengchuan@huawei.com>, lichuan18@huawei.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
+ philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
+ maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/8/3 23:03, Eric Blake wrote:
-> On Fri, Apr 02, 2021 at 11:52:25AM +0800, Zhenyu Ye wrote:
->> Hi all,
->>
->> commit 8dcd3c9b91 ("qemu-img: align result of is_allocated_sectors")
->> introduces block alignment when doing qemu-img convert. However, the
->> alignment is:
->>
->> 	s.alignment = MAX(pow2floor(s.min_sparse),
->>                       DIV_ROUND_UP(out_bs->bl.request_alignment,
->>                                    BDRV_SECTOR_SIZE));
->>
->> (where the default s.min_sparse is 8)
->> When the target device's bl.request_alignment is smaller than 4K, this
->> will cause additional write-zero overhead and makes the size of target
->> file larger.
->>
->> Is this as expected?  Should we change the MAX() to MIN()?
-> 
-> Yes it is expected, and no we shouldn't change it.  Even when a target
-> advertises a bl.request_alignment of 512, our goal is to avoid needing
-> read-modify-write cycles when that target is really on top of a 4k
-> sector disk.  Writing extra 0s out to the 4k boundaries does not
-> change the fact that allocation is in 4k chunks anyways, regardless of
-> whether the disk supports smaller 512-byte reads.
-> 
 
-Thanks for your reply.
+On 07/23/2021 01:12 PM, Richard Henderson wrote:
+>> +static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
+>> +{
+>> +    TCGv t0, t1;
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +
+>> +    gen_helper_asrtle_d(cpu_env, t0, t1);
+>> +
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
+>> +{
+>> +    TCGv t0, t1;
+>> +
+>> +    t0 = get_gpr(a->rj);
+>> +    t1 = get_gpr(a->rk);
+>> +
+>> +    gen_helper_asrtgt_d(cpu_env, t0, t1);
+>> +
+>> +    return true;
+>> +}
+> 
+> I'm not sure why both of these instructions are in the ISA, since
+> 
+>   ASRTLE X,Y <-> ASRTGT Y,X
+> 
+> but we certainly don't need two different helpers.
+> Just swap the arguments for one of them.
 
-Zhenyu
+Hi, Richard.
+
+I find 'ASRTLE X,Y <-> ASRTGT Y,X ' is not right,
+ 
+    ASRTLE X, Y is X <= Y, raise a exception.
+    ASRTGT Y, X is X < Y, raise a exception, lose X=Y.
+
+Thanks
+Song Gao
+
 
