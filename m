@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097C33DFDC5
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 11:18:35 +0200 (CEST)
-Received: from localhost ([::1]:54094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A783DFDFB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 11:27:20 +0200 (CEST)
+Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBD2n-0005Hr-LZ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 05:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1mBDBH-0008Os-9c
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 05:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBD24-0004aV-HA
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 05:17:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBD21-00062L-GU
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 05:17:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628068663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ExvxJD16SHKpI6OODfkqEQWvCCmFk+Td5MKjZBFFgnA=;
- b=SiJzT2Atf/DwDqruM3iIV1oUTKGxWsfSy2/MkHJm2K4zquSV2Gvc78DkcGJfKvHqrjq6tp
- TVkxyowc1ZRTus4Jm5rm8CcRCg7JlURMJ/HsMwDH3qo4/stjfYJN63hx279YUvMzl8Xo9x
- lk5zVewcTDIDRmnKcF48B3td8sJgcJs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-5l_SPG4FPqSGHUSPhfa2uQ-1; Wed, 04 Aug 2021 05:17:40 -0400
-X-MC-Unique: 5l_SPG4FPqSGHUSPhfa2uQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE2C801B3C
- for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 09:17:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
- [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C10A19C44;
- Wed,  4 Aug 2021 09:17:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EE0E411380A0; Wed,  4 Aug 2021 11:17:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] docs: convert writing-qmp-commands.txt to
- writing-qmp-commands.rst
-References: <20210721165015.2180311-1-jsnow@redhat.com>
-Date: Wed, 04 Aug 2021 11:17:37 +0200
-In-Reply-To: <20210721165015.2180311-1-jsnow@redhat.com> (John Snow's message
- of "Wed, 21 Jul 2021 12:50:15 -0400")
-Message-ID: <87eeb9in66.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1mBD9x-0007hz-V4
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 05:25:57 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:46708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1mBD9w-0004ka-3p
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 05:25:57 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id b21so1769216ljo.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 02:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=D8AyycCp8FaE2+ZW5F2Y9igfgoEvSiYG7zAtvMA5Rag=;
+ b=l2g0qf898V1IkhmkYrG/MSLwc8YxItHOIOPJYt2Zk6+8ayVVqkiU/XAgOvZJ34Q0FK
+ L0/FAdFA2l4K+8yHR+mXHZXsvDXs+3rf+kYW/qWg9KVueD8zIOtUfg9QfuTMR0haHuDM
+ DWHBaEWFTFDj3UT4fiobF2ppD5PKszd3RIJazJDpeUFFyJzLSAPTrWNakVoFE54REGNG
+ h0FC2L11v65I5cOAFCJjrNct876zv03E3WK9tjoUkIl5tL7bI9ujItveEJz47A4KFUC5
+ omYnCgx54ycKIIs4mw3BmeilowvDV4x4C1HvD0eJNX9jGnJVUgB5b3ovW5vXKLLrLvyv
+ B8yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D8AyycCp8FaE2+ZW5F2Y9igfgoEvSiYG7zAtvMA5Rag=;
+ b=LfptLJtErsNkrUcskvNuRS120Dzg4ouRVsBoeEU9ujKmThXbtVJfBsf+gOEZtI3mf8
+ 0DrWhS56tjhZYsV5eocFV6tXm5T3hPmt0qw0Hci+Wuc1ChoslFCVjk9MJ3WIDwNTfPtJ
+ MTslPldVoOw5FCaMCHIn9CtX3UcPG/OCU7BnWn86jn83a1cU9e/3xnA8fwqJ1GKWsOUE
+ 5sNRpky8KGkTx4efN4M4iESx/UBcTkQyLnkSaiTt3WlFSgdfg/PZc/82LfVw50EklhSz
+ I4zZm2HnVYdPzk15QOCZTW9BuxHAxBd3k3x0w9fXc0cEcnA2ZHuTHJSw4gmMUaWdYmg/
+ SmTA==
+X-Gm-Message-State: AOAM5310g8e3Fai9fbJZzpxezTx2mYEqS/z/MK5FeYQ6NCS7EZu7xPtb
+ 4/oAp9aMlTJZ4sMPNSXEhH4=
+X-Google-Smtp-Source: ABdhPJzBjw6vSgChT0cQEd7uGN7S+VRt9nHJJmfSt9PVd1TyjpQ8DLXOVXV989g8637PUG+x1vUHFA==
+X-Received: by 2002:a2e:bf29:: with SMTP id c41mr17464694ljr.63.1628069153267; 
+ Wed, 04 Aug 2021 02:25:53 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id q23sm143022lfp.169.2021.08.04.02.25.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 02:25:52 -0700 (PDT)
+Date: Wed, 4 Aug 2021 11:25:52 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 06/55] target/microblaze: Do not set MO_ALIGN for
+ user-only
+Message-ID: <20210804092552.GE3586016@toto>
+References: <20210803041443.55452-1-richard.henderson@linaro.org>
+ <20210803041443.55452-7-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210803041443.55452-7-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FSL_HELO_FAKE=2.896, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,36 +88,83 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On Mon, Aug 02, 2021 at 06:13:54PM -1000, Richard Henderson wrote:
+> The kernel will fix up unaligned accesses, so emulate that
+> by allowing unaligned accesses to succeed.
 
-> This does about the bare minimum, converting section headers to ReST
-> ones and adding an indent for code blocks.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+
+
+> 
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/devel/index.rst                          |   1 +
->  ...-commands.txt => writing-qmp-commands.rst} | 581 +++++++++---------
->  2 files changed, 304 insertions(+), 278 deletions(-)
->  rename docs/devel/{writing-qmp-commands.txt => writing-qmp-commands.rst} (61%)
->
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index 153979caf4b..331004ad072 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -42,3 +42,4 @@ modifying QEMU's source code.
->     multi-process
->     ebpf_rss
->     vfio-migration
-> +   writing-qmp-commands
-
-Conflicts with your "[PATCH 0/3] docs: convert qapi-code-gen.txt to
-qapi-code-gen.rst", resolution is straightforward.  Still, consider
-avoiding even trivial conflicts by stacking your work.  Use Based-on:
-tags to specify the dependencies.
-
-Same question as for the other series: for 6.1, or "don't rock the boat
-now"?
-
-Regardless, both queued.  Thanks!
-
+>  target/microblaze/translate.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+> index a14ffed784..ef44bca2fd 100644
+> --- a/target/microblaze/translate.c
+> +++ b/target/microblaze/translate.c
+> @@ -727,6 +727,7 @@ static TCGv compute_ldst_addr_ea(DisasContext *dc, int ra, int rb)
+>  }
+>  #endif
+>  
+> +#ifndef CONFIG_USER_ONLY
+>  static void record_unaligned_ess(DisasContext *dc, int rd,
+>                                   MemOp size, bool store)
+>  {
+> @@ -739,6 +740,7 @@ static void record_unaligned_ess(DisasContext *dc, int rd,
+>  
+>      tcg_set_insn_start_param(dc->insn_start, 1, iflags);
+>  }
+> +#endif
+>  
+>  static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+>                      int mem_index, bool rev)
+> @@ -760,12 +762,19 @@ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+>          }
+>      }
+>  
+> +    /*
+> +     * For system mode, enforce alignment if the cpu configuration
+> +     * requires it.  For user-mode, the Linux kernel will have fixed up
+> +     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
+> +     */
+> +#ifndef CONFIG_USER_ONLY
+>      if (size > MO_8 &&
+>          (dc->tb_flags & MSR_EE) &&
+>          dc->cfg->unaligned_exceptions) {
+>          record_unaligned_ess(dc, rd, size, false);
+>          mop |= MO_ALIGN;
+>      }
+> +#endif
+>  
+>      tcg_gen_qemu_ld_i32(reg_for_write(dc, rd), addr, mem_index, mop);
+>  
+> @@ -906,12 +915,19 @@ static bool do_store(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+>          }
+>      }
+>  
+> +    /*
+> +     * For system mode, enforce alignment if the cpu configuration
+> +     * requires it.  For user-mode, the Linux kernel will have fixed up
+> +     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
+> +     */
+> +#ifndef CONFIG_USER_ONLY
+>      if (size > MO_8 &&
+>          (dc->tb_flags & MSR_EE) &&
+>          dc->cfg->unaligned_exceptions) {
+>          record_unaligned_ess(dc, rd, size, true);
+>          mop |= MO_ALIGN;
+>      }
+> +#endif
+>  
+>      tcg_gen_qemu_st_i32(reg_for_read(dc, rd), addr, mem_index, mop);
+>  
+> -- 
+> 2.25.1
+> 
 
