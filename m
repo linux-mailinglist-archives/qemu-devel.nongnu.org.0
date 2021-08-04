@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D551C3E0337
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 16:31:54 +0200 (CEST)
-Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98BF3E0363
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 16:34:14 +0200 (CEST)
+Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBHw1-0001bT-O1
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 10:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60010)
+	id 1mBHyH-0006d8-Nj
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 10:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBHsA-0002kY-9Y
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37444)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBHsH-00038S-9V
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:28:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBHs6-0003KU-S9
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:27:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBHsE-0003Qc-FC
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:28:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628087270;
+ s=mimecast20190719; t=1628087277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s8fn+CHbP6vdoLeFpXBzR9+y5YgSiK+WUd/xfJkUkpA=;
- b=CBurjGYPDsBzaU7oTTmrpyMSYlRXz/9ww90qXfv3iQ1gsn9LsCRy1NRiRcuVYFNpMPXFCM
- SQDpaOpejC2ZihrlD6VesDWc9Z/dkfXygaeuntnDZXRigYzzYmSFNOkuTJJTadYXRX+bEm
- 3FzTJzvexAM/rVsgqavheJuf63HAKzw=
+ bh=FUtcPKkcpAvixTwhou1hQK/9qEHfpZ/obicDdxAHEEc=;
+ b=LbxwTHbtqyxyMJpEoSJzVdsvg4G2uJ06BTRpr7gSn5EqKFSW88MSegS6qwYmbOFhm2ebry
+ qnxJHVlQqrMvtHjU1aPQkgBWS3kgISPZdzVu1OIl/XtoP3bm1zwMuO+v17vbTdo+8zjZca
+ mm/3kyA7o/sjz2ZUQY9mHKfsoFbDZ6k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-Yuxt_W_bNo2k_r7rEv2LyA-1; Wed, 04 Aug 2021 10:27:49 -0400
-X-MC-Unique: Yuxt_W_bNo2k_r7rEv2LyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-451-gJPUBdY5M8iLN7YweBwRpA-1; Wed, 04 Aug 2021 10:27:56 -0400
+X-MC-Unique: gJPUBdY5M8iLN7YweBwRpA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 232ED1026209;
- Wed,  4 Aug 2021 14:27:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 702A5106F8DE;
+ Wed,  4 Aug 2021 14:27:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4ECA60BF4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D38F3226E9;
  Wed,  4 Aug 2021 14:27:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 55A821800987; Wed,  4 Aug 2021 16:27:37 +0200 (CEST)
+ id 64EF81800989; Wed,  4 Aug 2021 16:27:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] floppy: move isa_fdc_init_drives + fdctrl_init_drives
-Date: Wed,  4 Aug 2021 16:27:32 +0200
-Message-Id: <20210804142737.3366441-3-kraxel@redhat.com>
+Subject: [PATCH 3/7] floppy: move fdctrl_init_sysbus
+Date: Wed,  4 Aug 2021 16:27:33 +0200
+Message-Id: <20210804142737.3366441-4-kraxel@redhat.com>
 In-Reply-To: <20210804142737.3366441-1-kraxel@redhat.com>
 References: <20210804142737.3366441-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,100 +86,146 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-isa_fdc_init_drives() is called by pc machine setup,
-and it depends on fdctrl_init_drives().
+Needed by mips machine init.
 
-Move both functions to separate source file so we can
-keep them in core qemu when building floppy as module.
+Move to separate source file so we can keep it in core qemu
+when building floppy as module.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/block/fdc-isa.c    |  5 -----
- hw/block/fdc-module.c | 24 ++++++++++++++++++++++++
- hw/block/fdc.c        | 17 -----------------
- 3 files changed, 24 insertions(+), 22 deletions(-)
+ hw/block/fdc-internal.h | 15 +++++++++++++++
+ hw/block/fdc-module.c   | 21 +++++++++++++++++++++
+ hw/block/fdc-sysbus.c   | 34 ----------------------------------
+ 3 files changed, 36 insertions(+), 34 deletions(-)
 
-diff --git a/hw/block/fdc-isa.c b/hw/block/fdc-isa.c
-index dd7e1669f862..36c246efa822 100644
---- a/hw/block/fdc-isa.c
-+++ b/hw/block/fdc-isa.c
-@@ -57,11 +57,6 @@ static void fdctrl_external_reset_isa(DeviceState *d)
-     fdctrl_reset(s, 0);
- }
+diff --git a/hw/block/fdc-internal.h b/hw/block/fdc-internal.h
+index a74cd5e4b9f2..f6c56f6e827f 100644
+--- a/hw/block/fdc-internal.h
++++ b/hw/block/fdc-internal.h
+@@ -30,6 +30,7 @@
+ #include "hw/block/block.h"
+ #include "hw/block/fdc.h"
+ #include "hw/isa/isa.h"
++#include "hw/sysbus.h"
+ #include "qapi/qapi-types-block.h"
  
--void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds)
--{
--    fdctrl_init_drives(&ISA_FDC(fdc)->state.bus, fds);
--}
--
- static const MemoryRegionPortio fdc_portio_list[] = {
-     { 1, 5, 1, .read = fdctrl_read, .write = fdctrl_write },
-     { 7, 1, 1, .read = fdctrl_read, .write = fdctrl_write },
+ typedef struct FDCtrl FDCtrl;
+@@ -159,6 +160,20 @@ struct FDCtrlISABus {
+     int32_t bootindexB;
+ };
+ 
++#define TYPE_SYSBUS_FDC "base-sysbus-fdc"
++typedef struct FDCtrlSysBusClass FDCtrlSysBusClass;
++typedef struct FDCtrlSysBus FDCtrlSysBus;
++DECLARE_OBJ_CHECKERS(FDCtrlSysBus, FDCtrlSysBusClass,
++                     SYSBUS_FDC, TYPE_SYSBUS_FDC)
++
++struct FDCtrlSysBus {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    struct FDCtrl state;
++};
++
+ extern const FDFormat fd_formats[];
+ extern const VMStateDescription vmstate_fdc;
+ 
 diff --git a/hw/block/fdc-module.c b/hw/block/fdc-module.c
-index 93953bf0aa57..8309e99361bc 100644
+index 8309e99361bc..11e6ae7c0cb9 100644
 --- a/hw/block/fdc-module.c
 +++ b/hw/block/fdc-module.c
-@@ -29,8 +29,32 @@
+@@ -29,10 +29,31 @@
  #include "qemu/osdep.h"
  #include "hw/isa/isa.h"
  #include "hw/block/fdc.h"
-+#include "qapi/error.h"
-+#include "sysemu/blockdev.h"
++#include "hw/sysbus.h"
+ #include "qapi/error.h"
+ #include "sysemu/blockdev.h"
  #include "fdc-internal.h"
  
-+void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
++void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
++                        hwaddr mmio_base, DriveInfo **fds)
 +{
++    FDCtrl *fdctrl;
 +    DeviceState *dev;
-+    int i;
++    SysBusDevice *sbd;
++    FDCtrlSysBus *sys;
 +
-+    for (i = 0; i < MAX_FD; i++) {
-+        if (fds[i]) {
-+            dev = qdev_new("floppy");
-+            qdev_prop_set_uint32(dev, "unit", i);
-+            qdev_prop_set_enum(dev, "drive-type", FLOPPY_DRIVE_TYPE_AUTO);
-+            qdev_prop_set_drive_err(dev, "drive", blk_by_legacy_dinfo(fds[i]),
-+                                    &error_fatal);
-+            qdev_realize_and_unref(dev, &bus->bus, &error_fatal);
-+        }
-+    }
++    dev = qdev_new("sysbus-fdc");
++    sys = SYSBUS_FDC(dev);
++    fdctrl = &sys->state;
++    fdctrl->dma_chann = dma_chann; /* FIXME */
++    sbd = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(sbd, &error_fatal);
++    sysbus_connect_irq(sbd, 0, irq);
++    sysbus_mmio_map(sbd, 0, mmio_base);
++
++    fdctrl_init_drives(&sys->state.bus, fds);
 +}
 +
-+void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds)
-+{
-+    fdctrl_init_drives(&ISA_FDC(fdc)->state.bus, fds);
-+}
-+
- FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i)
+ void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
  {
-     FDCtrlISABus *isa = ISA_FDC(fdc);
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 9014cd30b3ab..ba42537e8d26 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -2297,23 +2297,6 @@ static void fdctrl_result_timer(void *opaque)
+     DeviceState *dev;
+diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
+index 57fc8773f124..5a8d393d31c2 100644
+--- a/hw/block/fdc-sysbus.c
++++ b/hw/block/fdc-sysbus.c
+@@ -32,12 +32,6 @@
+ #include "fdc-internal.h"
+ #include "trace.h"
  
- /* Init functions */
- 
--void fdctrl_init_drives(FloppyBus *bus, DriveInfo **fds)
--{
--    DeviceState *dev;
--    int i;
+-#define TYPE_SYSBUS_FDC "base-sysbus-fdc"
+-typedef struct FDCtrlSysBusClass FDCtrlSysBusClass;
+-typedef struct FDCtrlSysBus FDCtrlSysBus;
+-DECLARE_OBJ_CHECKERS(FDCtrlSysBus, FDCtrlSysBusClass,
+-                     SYSBUS_FDC, TYPE_SYSBUS_FDC)
 -
--    for (i = 0; i < MAX_FD; i++) {
--        if (fds[i]) {
--            dev = qdev_new("floppy");
--            qdev_prop_set_uint32(dev, "unit", i);
--            qdev_prop_set_enum(dev, "drive-type", FLOPPY_DRIVE_TYPE_AUTO);
--            qdev_prop_set_drive_err(dev, "drive", blk_by_legacy_dinfo(fds[i]),
--                                    &error_fatal);
--            qdev_realize_and_unref(dev, &bus->bus, &error_fatal);
--        }
--    }
+ struct FDCtrlSysBusClass {
+     /*< private >*/
+     SysBusDeviceClass parent_class;
+@@ -46,14 +40,6 @@ struct FDCtrlSysBusClass {
+     bool use_strict_io;
+ };
+ 
+-struct FDCtrlSysBus {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
+-
+-    struct FDCtrl state;
+-};
+-
+ static uint64_t fdctrl_read_mem(void *opaque, hwaddr reg, unsigned ize)
+ {
+     return fdctrl_read(opaque, (uint32_t)reg);
+@@ -94,26 +80,6 @@ static void fdctrl_handle_tc(void *opaque, int irq, int level)
+     trace_fdctrl_tc_pulse(level);
+ }
+ 
+-void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+-                        hwaddr mmio_base, DriveInfo **fds)
+-{
+-    FDCtrl *fdctrl;
+-    DeviceState *dev;
+-    SysBusDevice *sbd;
+-    FDCtrlSysBus *sys;
+-
+-    dev = qdev_new("sysbus-fdc");
+-    sys = SYSBUS_FDC(dev);
+-    fdctrl = &sys->state;
+-    fdctrl->dma_chann = dma_chann; /* FIXME */
+-    sbd = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(sbd, &error_fatal);
+-    sysbus_connect_irq(sbd, 0, irq);
+-    sysbus_mmio_map(sbd, 0, mmio_base);
+-
+-    fdctrl_init_drives(&sys->state.bus, fds);
 -}
 -
- void fdctrl_realize_common(DeviceState *dev, FDCtrl *fdctrl, Error **errp)
+ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+                        DriveInfo **fds, qemu_irq *fdc_tc)
  {
-     int i, j;
 -- 
 2.31.1
 
