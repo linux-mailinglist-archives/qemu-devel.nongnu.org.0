@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B1D3E0463
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 17:41:04 +0200 (CEST)
-Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EC83E06E7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:44:19 +0200 (CEST)
+Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBJ0s-0003Fp-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 11:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35716)
+	id 1mBKwE-0001ns-SH
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mBI86-0007t6-6x
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:44:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mBI84-00063P-Mr
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:44:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628088259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gH0VFgCRqk1qi7U3LKL3479tXvUotLhlTiFjwmmnQkI=;
- b=eU37kfacTPaO53MAQLw1tLPy7qKdcWA/JzIyeCYt6Ad4P93trMnj4MmRn5Z8IDB6onF1xQ
- 6oG75Wg2vsFU96anSqYgrR9fZGkTDdiufnRuifnJy+q4CFet1ew9RqgPuWRLPp/rmLAm3J
- 0glVZD23PynqhHc9ZFgzEzJRaqnivoc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-F77lNHb7Py-XWYHx4CSumQ-1; Wed, 04 Aug 2021 10:44:16 -0400
-X-MC-Unique: F77lNHb7Py-XWYHx4CSumQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9216A801AEB;
- Wed,  4 Aug 2021 14:44:15 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12D473AA2;
- Wed,  4 Aug 2021 14:44:09 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] vhost-vdpa: Do not send empty IOTLB update batches
-Date: Wed,  4 Aug 2021 16:44:02 +0200
-Message-Id: <20210804144402.711594-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mBIBz-0000GH-BX
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:48:24 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45885)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mBIBw-0000I8-Nm
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:48:22 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ l11-20020a7bcf0b0000b0290253545c2997so1628659wmg.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 07:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=s5AlkAUf0LqO1mz9AU0LUkT1ROhkgzjGo8+akI9yYC4=;
+ b=Mb3guP5Km5BxoAtqFEDZ9HqvI0y+2QFyLiOndTu0GEf6rvboSssMmP+jQs2nMEL6aL
+ Z3A8MwgwarLzaNaFGmfzSDvbzkp7//CpZA0MQdIDWBjqDgQA0lprqgFacuHXD7AJWD8q
+ vg67cMQp3J+IoWrFm3KM7kfcGhcAa8zkBxNsuOTNGLjDZSXTxUzQA8WiQ0zy4buvK+PG
+ o/s8dh4OTiA/5GT5LlWCYmJwW5i9E00sdE3qOl6RcYVp8wJdpIbWeRmlslVOdOr6RF6F
+ n0+cEh2+nBMSPBdrTLYZgQ30WO/L9vv0qZCs9oELe+waidcYaPrSknDXM1v/BRvKrH5w
+ vHnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=s5AlkAUf0LqO1mz9AU0LUkT1ROhkgzjGo8+akI9yYC4=;
+ b=LAhOGaVctztBb53mySLz7enX+nUfqjdqgyYtz+H2Jc+C2GrXqZBJzfCt0+4mLzaxW7
+ uIK5Jzp28Tx+RoqzsUF0adK1Prs14uLCy3exwbzTng9cx44lb1qJE6qwMgRlbFXoAxyJ
+ V/7g82CS/nF0kI9bwh8fsOpou8GpdDJC56ODvmZOR9aZ8q3r/YAdxPNpBjpcRNDDeDDZ
+ jR34lwG66asnzKZUHhKDDFAZnBM9XAoEDvnqvtcNlCA85y/1FbF5ZhEEk6+A5cUBJjK4
+ xkVK8rItYSPFSwKpexEiKNKHT+Sq1M4Ig5F2yszWIrYiVGnRda3FNSL4WQuPqsBhgwVj
+ OegQ==
+X-Gm-Message-State: AOAM530ZpqUZwDi9/FQ+/253uPJsiypndOiFy1WKDMVr2kXR47DvMn6e
+ moRZTHLf1Br5b84B6B9jINp5Gg==
+X-Google-Smtp-Source: ABdhPJx94k9oE8XrjewJ34D+FH3g+i04tc4lDBm1LWHfojpA9290S9TU0ul3+eSAusNg4a1VWodyFA==
+X-Received: by 2002:a1c:7218:: with SMTP id n24mr20070174wmc.183.1628088497919; 
+ Wed, 04 Aug 2021 07:48:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i186sm6437488wmi.43.2021.08.04.07.48.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 07:48:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 89F821FF96;
+ Wed,  4 Aug 2021 15:48:15 +0100 (BST)
+References: <20210803151301.123581-1-ma.mandourr@gmail.com>
+ <87fsvqfd4b.fsf@linaro.org>
+ <CAD-LL6hBoC44T4GythOAvvZBYK1O=WjZhv4KkoNw3QHiAeoMEQ@mail.gmail.com>
+User-agent: mu4e 1.6.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH v5 0/2] plugins/cache: multicore cache modelling
+Date: Wed, 04 Aug 2021 15:47:51 +0100
+In-reply-to: <CAD-LL6hBoC44T4GythOAvvZBYK1O=WjZhv4KkoNw3QHiAeoMEQ@mail.gmail.com>
+Message-ID: <8735rpfeq8.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,121 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Eli Cohen <elic@nvidia.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the introduction of the batch hinting, meaningless batches can be
-created with no IOTLB updates if the memory region was skipped by
-vhost_vdpa_listener_skipped_section. This is the case of host notifiers
-memory regions, but others could fall on this category. This caused the
-vdpa device to receive dma mapping settings with no changes, a possibly
-expensive operation for nothing.
 
-To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have a
-meaningful (not skipped section) mapping or unmapping operation, and
-VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
-_INVALIDATE has been issued.
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- include/hw/virtio/vhost-vdpa.h |  1 +
- hw/virtio/vhost-vdpa.c         | 38 +++++++++++++++++++++++-----------
- 2 files changed, 27 insertions(+), 12 deletions(-)
+> On Tue, Aug 3, 2021 at 11:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>
+>  Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+>
+>  > Hello,
+>  >
+>  > This series introduce multicore cache modelling in contrib/plugins/cac=
+he.c
+>  >
+>  > Multi-core cache modelling is handled such that for full-system
+>  > emulation, a private L1 cache is maintained to each core available to
+>  > the system. For multi-threaded userspace emulation, a static number of
+>  > cores is maintained for the overall system, and every memory access go
+>  > through one of these, even if the number of fired threads is more than
+>  > that number.
+>
+>  Queued to plugins/next, thanks.
+>
+> From what I can see from your fork, qemu/cache.c at plugins/next =C2=B7 s=
+tsquad/qemu =C2=B7 GitHub,=20
+> here, I think you enqueued v4 of the patches
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index e98e327f12..0a7edbe4eb 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
-     int device_fd;
-     int index;
-     uint32_t msg_type;
-+    size_t n_iotlb_sent_batch;
-     MemoryListener listener;
-     struct vhost_dev *dev;
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 6ce94a1f4d..2517fc6103 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     return ret;
- }
- 
--static void vhost_vdpa_listener_begin(MemoryListener *listener)
-+static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
- {
--    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
--    struct vhost_dev *dev = v->dev;
--    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
--
--    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
--        return;
--    }
--
--    msg.type = v->msg_type;
--    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
-+    struct vhost_msg_v2 msg = {
-+        .type = v->msg_type,
-+        .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
-+    };
- 
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-@@ -120,6 +114,11 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-         return;
-     }
- 
-+    if (v->n_iotlb_sent_batch == 0) {
-+        return;
-+    }
-+
-+    v->n_iotlb_sent_batch = 0;
-     msg.type = v->msg_type;
-     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
- 
-@@ -170,6 +169,14 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
-+    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
-+        if (v->n_iotlb_sent_batch == 0) {
-+            vhost_vdpa_listener_begin_batch(v);
-+        }
-+
-+        v->n_iotlb_sent_batch++;
-+    }
-+
-     ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-                              vaddr, section->readonly);
-     if (ret) {
-@@ -221,6 +228,14 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
-+    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
-+        if (v->n_iotlb_sent_batch == 0) {
-+            vhost_vdpa_listener_begin_batch(v);
-+        }
-+
-+        v->n_iotlb_sent_batch++;
-+    }
-+
-     ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-     if (ret) {
-         error_report("vhost_vdpa dma unmap error!");
-@@ -234,7 +249,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-  * depends on the addnop().
-  */
- static const MemoryListener vhost_vdpa_memory_listener = {
--    .begin = vhost_vdpa_listener_begin,
-     .commit = vhost_vdpa_listener_commit,
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
--- 
-2.27.0
+No I just haven't re-pushed the branch yet.
 
+>=20=20
+>  --=20
+>  Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
