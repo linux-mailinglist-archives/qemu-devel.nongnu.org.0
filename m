@@ -2,73 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B8A3E0036
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 13:32:37 +0200 (CEST)
-Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B40B3E00BA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 14:00:38 +0200 (CEST)
+Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBF8V-00016N-TZ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 07:32:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51418)
+	id 1mBFZd-0005uy-FS
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 08:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mBF79-0008Vx-TE
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:31:11 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mBF78-0000jW-3B
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:31:11 -0400
-Received: by mail-wr1-x430.google.com with SMTP id p5so1845500wro.7
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 04:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dHLRt9TuVHix+tiAlFLN5mFqqxwoh+bArXSR3KDnX4M=;
- b=Ki+8F5FO3GTXAQI1ITWz1InJVxUO16y28Gb8uHQU+40FVkWTzd4WBjALW1qcYUrm6V
- j0Tec5MPsQDuggXM/ri6EFl+isOg6Jmm+3Lcxoexo+1ye/eqD8Nhy0RxVkQ+/gjp5eHJ
- prEKRgvHVDGUdYiRuCyqg72cNZPjIVLRix9t5lI9yhJtaDWEvmrCTcClQ6CLPjCzcEF5
- p+MsR+daniPFCLt6ZCwL9yoMMoL/LCPRw8B0s3T6lKa5DqDhoniOagTU0EDdFBDSOIdR
- Oa/Z0HJg6pSIDRdLNSbYibd8pW6Y+/X/eu6gb8tB7TqVMuL0p1A8T9tfgsRJsSoc6KnU
- CHvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dHLRt9TuVHix+tiAlFLN5mFqqxwoh+bArXSR3KDnX4M=;
- b=OwqYdhAne8IwBOTlvHmTNhK780/UuhDBhJjEFaHJmzjEYIaKGkW+2hv9aRQ1uiPSgT
- RrRzfiM8DeYurv4AbKoJ7i5YMfY1LC75g/E2jUGjEbWpuc7ozmRBAcJDCGHWpbI2wj4e
- ZukXHPYu3E1KEiocoIetQ6ptgxOdkQtuFRDkFBRhWOEzxDUG5qx6XzUa0wJkCUNoWQUR
- livcqgV/Azj6u+oq9o9g1XgElirXfF44owTQNqzY9d30AlbUb1Tk8TzB7Wiiv2pF0NDz
- eckIWmQvmQ9ZxoQ40Ze9XZiER6nteiSZjxUhPZZo5nNfuUS6ZA9ZqKt2+InbP805gRxY
- 2UrQ==
-X-Gm-Message-State: AOAM531eieUGH50Rbbr2RuWUtLXmaMCM9sSfJh6e3AgJrsQE9tLYUlew
- uJF02nWRcMx8Rk3kT6V0SblFqD4wVUheinlHF+E=
-X-Google-Smtp-Source: ABdhPJzHuadLsbfJoXAOClKR0UzRGiApzDnsz3/Chm8AQ1Hp9jHJK0na76gO/nvPxecgDLaswDv/XQ==
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr28664228wrd.104.1628076667757; 
- Wed, 04 Aug 2021 04:31:07 -0700 (PDT)
-Received: from laral.fritz.box
- (200116b82bd8960014b79be16de1e56b.dip.versatel-1u1.de.
- [2001:16b8:2bd8:9600:14b7:9be1:6de1:e56b])
- by smtp.gmail.com with ESMTPSA id q14sm2123388wrs.8.2021.08.04.04.31.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 04:31:07 -0700 (PDT)
-From: Lara Lazier <laramglazier@gmail.com>
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mBFWd-0000kg-7P
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:31 -0400
+Received: from mail-dm6nam12on20627.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::627]:27520
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mBFWa-0002wg-UR
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hKREDx0wQT7684JyCBNRP+f9/h03S8svUjOM7kGTcRFGxjTokFvt5YPvzMkj9CIFiwbKW7lEYNgXy7ogZSskgj3GBtJZqxVsdz7LLfM81HXTR92CIsSN8S/X3rR4Jqmy/VB4BEFn31Bq3u5ENcPjMowJ2iNjaK/D1y46X2+bagNK4lJHG1DoecgvjiAuIn0u2wq73llggBf+Hg5CPhq9gzOxc2SQbvJtDzQb4cAneWW1CkrUQi9UEaLKfjfpi32tvJz1JTS3CDR0Zltr59W/AEw6vl2xSWUzQJNhgOrJVt/aZWi7qFMNQxLaxdCHnjHrTFIOXGbuxWf0whVAjMbozw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wU7ttsmQTWqTcdR1R01qXed2zRQDDWgQfiXN4pxvGPw=;
+ b=apE+chacIr7qkgZYCzjWl0qA66VV7U99kfvILMlYUWQRH1WGgWZc+sNMdIQ+Tjtkh+8KhqwcecKv0sr7vXpdyZQUTNhUSXQSmdD1ojvTbqQGnIpH1N+NKEosNqEKCTXx9tDEBn5UuMBtwf9IhWfiysize4Azt16T04lyPtYWaPtynIhojSOFCKGwEv3hCqI9393uDycAq/BDU50cVuL+FgQJbUG8a+HK6IsVb7nc/w1d3QS70T8C+lpBx8ZjtXoZfiPSBS8O1BPgqDEBKqVuO9HFTMkhIXiCXiIRCguFwkerZzZ6arkRs/8wiceCFdr8cWySGbhXev6aMAESN4GSiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wU7ttsmQTWqTcdR1R01qXed2zRQDDWgQfiXN4pxvGPw=;
+ b=sc9o8TY04/mhzOrLprBu+Q2Clt9dksPp+h/IwOUPsWOaH67YAUh+b/GTBJn2lNa75Z40BIoLRvOVBEjHt9pwCKJ8KT2IsopTdM0Njh9e5yRboCcAHT2iDumFjsuiNGJGFFiOtKxcu0eDd3tJQ81LOnAzXdDUjmPAcrF6+slBVOw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN6PR12MB2687.namprd12.prod.outlook.com (2603:10b6:805:73::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.25; Wed, 4 Aug
+ 2021 11:52:24 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4373.026; Wed, 4 Aug 2021
+ 11:52:24 +0000
+From: Ashish Kalra <Ashish.Kalra@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: VMRUN and VMLOAD canonicalizations
-Date: Wed,  4 Aug 2021 13:30:58 +0200
-Message-Id: <20210804113058.45186-1-laramglazier@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: pbonzini@redhat.com, Thomas.Lendacky@amd.com, brijesh.singh@amd.com,
+ dgilbert@redhat.com, ehabkost@redhat.com, dovmurik@linux.vnet.ibm.com,
+ tobin@ibm.com, jejb@linux.ibm.com
+Subject: [PATCH v4 00/14] Add SEV guest live migration support 
+Date: Wed,  4 Aug 2021 11:52:12 +0000
+Message-Id: <cover.1628076205.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SN4PR0701CA0022.namprd07.prod.outlook.com
+ (2603:10b6:803:28::32) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=laramglazier@gmail.com; helo=mail-wr1-x430.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
+ SN4PR0701CA0022.namprd07.prod.outlook.com (2603:10b6:803:28::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend
+ Transport; Wed, 4 Aug 2021 11:52:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b6e73052-9be9-4198-cf01-08d9573e52f4
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2687:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2687F0CEFD3B7E6C51FE3EEB8EF19@SN6PR12MB2687.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9LiMF4uXs2idphNY4BRx8+L1p/1vGX9cwiw+4+OMOL37BspUJG26T4+Jhn3nuPgcl00rFu9VSenHm8RKfOCi39yZVzlxW8RVXpW3R1XbU1V5Q5VUisCniqs/DVmXyMRNPAx/nvWFVb8IRrHO4S36KOBnT6BbEN9M2qOXIUFnp4OOhU6MC9bg/RKhhMMFx70OvOnZmfdSWg0GqT689jnMRUzRi2cRzQbEAQfDTM6dQv7hINaAgPdhh5df1IBFjPmBXL+0Y/MQlyF/9BbsJWgp5QtSLShCvL0z2CTAMAHTC00bNyt1XZ3iAf0cYPzHvYvwDGBihm5AKhZC5s5Ryzykr67NOEnvOR5Bq01V51OdsEIrX1q+oT5gel1JqB+XmAHLgLLmvYKW1up/t/3qcOC+cM+RiieKrrqdDTIzh0s2uTUAgWNt39fCL0BkolkoxdsmxCNh6zht/BQlwq4Cx5sklIlY5ZAwYG/XuTSj+qNVyPcnNOBwdK55l68ljOI6qMH0Ko8a//3E3BNpAPTmZqfdSfBlqZ/Hhj732T1LYRFbbZfNhGDGUROtlGuAsC8qHfXOMdc/gNdRx4DZG3aG18RFAO4BwTCDqlOjI9fVytewME4m0pT5PX3hlt5W7FIYXF5SG3s0TGnaqqzlLgcbluYyKtnOcrkPQHRK/duj5NnkoEK70d8OaBnEc9lR0MkeESyLsNRt7tdNAOGj5fHpZgHPB38e6IFGneep2A9yiIfIG3ltG/CD/ZgUDf+vwomyHhFY4JXIxtrM371rbXdBGG/MM3BH9J3pFgiZ06xnJbZSdEs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(396003)(366004)(39850400004)(136003)(8676002)(186003)(316002)(8936002)(52116002)(6666004)(956004)(83380400001)(2616005)(6486002)(5660300002)(6916009)(4743002)(86362001)(478600001)(36756003)(4326008)(38350700002)(66946007)(66556008)(38100700002)(966005)(7696005)(26005)(2906002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E1SmI2I/PEBZDEp0TEg6oEAPX45iXgWPOg63xAybg3eKnWTqSfY62sirOLN4?=
+ =?us-ascii?Q?62pxRZPb+W8Uqf/8Z1JHJoF3QG4Y/pRaO2+zQw8Twtlp2J5QpRFxw4BBoF8y?=
+ =?us-ascii?Q?e0t3fph3aVWIQhbeUxWAu98jmFskrvJ4Qa9JE9Mi46o4FKIDkPsPpCY1C3xI?=
+ =?us-ascii?Q?Ba8XEdgsfYOuD5g+mBI0+aPKp7PHpznMYQxeoRNhNZVPTUDHDt5NBm89qtx9?=
+ =?us-ascii?Q?NqqONOH9JuVGO+SZLOyWJLJXUGUFS8iwG7WYSD3hDczAJpEjNfGQKXRbrbpk?=
+ =?us-ascii?Q?OgJUjD+H/X0KgnMjrb8qjb7E5xdFGdsIm9MQRXSG/PhoL+jbiGf8rYuGKPmf?=
+ =?us-ascii?Q?cXkma0HWz7j7eUCGiHjsoqKNzhKsgd/jxPinx0h/24l5cpQKvdLqDRAWKQQB?=
+ =?us-ascii?Q?IwK0EoHwjv28TiG0XFEXuTL+TK0neBr1exqzaRZpWzhAGei9A67pu4HXHG28?=
+ =?us-ascii?Q?180ZmPV8Gy7bB/sECkiFbsNuhtKEulmWIu/IupS46qWBWDuSSYFJ9jnKJZZt?=
+ =?us-ascii?Q?ybUvQmb6xzpF2AbOTgkcfnCmQU3K+S6RnFq2dA/brhh9A8XTNR0ct76MRsQL?=
+ =?us-ascii?Q?MVGSd+70mIQc/5I2PVRXZSiZgKv37dl4z0eY1VWgbswu05FFzV1TLRkak1bN?=
+ =?us-ascii?Q?oe5tYYOdrgbxXQJwf9OwN5gkKoMBudCALdFxSMv11HwbvUaeAdlTu9xLBta1?=
+ =?us-ascii?Q?7i2c/Bj5p6sCx31g9VCp1Ll09Fp6mndAUom6q/xIkXB7jTazkDbNFVxZP9PK?=
+ =?us-ascii?Q?H9ZgFOIyTvrIANzic2pV53LCWADiKXHelbzO0mdu79kZ+RIqAQTrHlj3iUIn?=
+ =?us-ascii?Q?xkomRfKr/ADSQ/bAGs1kdSVfSapBMlHcs7Ck2r0ovh6uTP4LXRVslyJKzVy6?=
+ =?us-ascii?Q?jAhpILr1idntob//PVTUi/4z90hcgZ5AvttvIOhiVOPfSmwpDEzXG8rTkha6?=
+ =?us-ascii?Q?H+qUWtN+VMlEIgL/oDvtXgDeaEJ8ibnECS8v128E/PXTBMRT9ubuofhooDgD?=
+ =?us-ascii?Q?O2dWkZEeEGHY1hwkMCTVtsmXTMqjRn3YS8c/vzXRtLqjg26f84IlasrtQ8+Y?=
+ =?us-ascii?Q?gyEYqzP0iK3x0I3ITLtPEg8fl1k71WFdKV73MLJzbRbIUf9m7AKV0rZ4xZKv?=
+ =?us-ascii?Q?pjWZmJazlPeMHziI5o9nuVqvaU1GTNu/PXrHA8n14YxJLJnWeUcHRCCSOdj5?=
+ =?us-ascii?Q?hO3layC5em79l66pKNektXR5yHmiFnloB9VkdvyqGW0EIY8afQ4fYEZybZTd?=
+ =?us-ascii?Q?fIgj7Xk3lBY7lkXGb1ttqTkOm3dswIe/omCBbSzdq40bXOSXqbxgrDEwYcM1?=
+ =?us-ascii?Q?9R+I5Xnxr/aAyYDjpHX/we2u?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6e73052-9be9-4198-cf01-08d9573e52f4
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 11:52:24.2819 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FNAFv5idYYzXcUZ9zNBpGeUznO/J0Igflq1WhsLX91AWYLefxeqrkt7M7/+W4eUwRaKakPIcOfHbCi8xk4i8Gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2687
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::627;
+ envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,147 +136,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-APM2 requires that VMRUN and VMLOAD canonicalize (sign extend to 63
-from 48/57) all base addresses in the segment registers that have been
-respectively loaded.
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
----
- target/i386/cpu.c                   | 19 +++++++++++--------
- target/i386/cpu.h                   |  2 ++
- target/i386/tcg/sysemu/svm_helper.c | 27 +++++++++++++++++----------
- 3 files changed, 30 insertions(+), 18 deletions(-)
+AMD SEV encrypts the memory of VMs and because this encryption is done using
+an address tweak, the hypervisor will not be able to simply copy ciphertext
+between machines to migrate a VM. Instead the AMD SEV Key Management API
+provides a set of functions which the hypervisor can use to package a
+guest encrypted pages for migration, while maintaining the confidentiality
+provided by AMD SEV.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 71d26cf1bd..de4c8316c9 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5108,6 +5108,15 @@ static void x86_register_cpudef_types(const X86CPUDefinition *def)
+The patch series add the support required in Qemu to perform the SEV
+guest live migration. Before initiating the live migration a user
+should use newly added 'migrate-set-sev-info' command to pass the
+target machines certificate chain. See the docs/amd-memory-encryption.txt
+for further details.
+
+The complete tree with patch is available at:
+https://github.com/AMDESE/qemu/tree/sev_live_migration_v4_1
+
+Changes since v3:
+ - Add new ConfidentialGuestMemoryEncryptionOps in 
+   ConfidentialGuestSupportClass which will be used for migration of
+   encrypted guests.
+ - Add support for KVM_HC_MAP_GPA_RANGE hypercall and it's associated
+   KVM_EXIT_HYPERCALL exit case which is currently used for SEV
+   guest encrypted page status tracking. 
+ - Add support for SEV guest encrypted page status tracking
+   implemented using shared regions list.
+ - Add support for userspace MSR filtering, which is currently used
+   for MSR_KVM_MIGRATION_CONTROL for SEV guests to indicate if the
+   guest is ready for migration. The KVM arch code calls into SEV
+   guest specific code to delete the migrate blocker added during
+   SEV_LAUNCH_FINISH.
+
+Changes since v2:
+ - Remove direct kvm_memcrpt calls from migration.
+ - Add MemoryEcryptionOps in machine which will be used by migration
+   instead of kvm_memcrypt calls.
+ - drop the RAM_SAVE_FLAG_PAGE_ENCRYPTED_BITMAP. Now the RAM_SAVE_FLAG_ENCRYPTED_PAGE
+   can be used for sending bitmap as well as guest RAM encrypted pages
+ - add some bound checks on incoming data
+ - drop migrate-sev-set-info object
+ - extend the migrate-parameters to include the SEV specific certificate fields.
+ - multiple fixes based on the review comments from Dave
  
- }
- 
-+uint32_t cpu_x86_virtual_addr_width(CPUX86State *env)
-+{
-+    if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
-+        return 57; /* 57 bits virtual */
-+    } else {
-+        return 48; /* 48 bits virtual */
-+    }
-+}
-+
- void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-                    uint32_t *ecx, uint32_t *edx)
-@@ -5510,16 +5519,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         break;
-     case 0x80000008:
-         /* virtual & phys address size in low 2 bytes. */
-+        *eax = cpu->phys_bits;
-         if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-             /* 64 bit processor */
--            *eax = cpu->phys_bits; /* configurable physical bits */
--            if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
--                *eax |= 0x00003900; /* 57 bits virtual */
--            } else {
--                *eax |= 0x00003000; /* 48 bits virtual */
--            }
--        } else {
--            *eax = cpu->phys_bits;
-+             *eax |= (cpu_x86_virtual_addr_width(env) << 8);
-         }
-         *ebx = env->features[FEAT_8000_0008_EBX];
-         if (cs->nr_cores * cs->nr_threads > 1) {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6c50d3ab4f..c9c7350c76 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1954,6 +1954,8 @@ typedef struct PropValue {
- } PropValue;
- void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
- 
-+uint32_t cpu_x86_virtual_addr_width(CPUX86State *env);
-+
- /* cpu.c other functions (cpuid) */
- void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 6c29a6a778..032561ef8c 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -41,6 +41,16 @@ static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
-              ((sc->flags >> 8) & 0xff) | ((sc->flags >> 12) & 0x0f00));
- }
- 
-+/*
-+ * VMRUN and VMLOAD canonicalizes (i.e., sign-extend to bit 63) all base
-+ * addresses in the segment registers that have been loaded.
-+ */
-+static inline void svm_canonicalization(CPUX86State *env, target_ulong *seg_base)
-+{
-+    uint16_t shift_amt = 64 - cpu_x86_virtual_addr_width(env);
-+    *seg_base = ((((long) *seg_base) << shift_amt) >> shift_amt);
-+}
-+
- static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
-                                 SegmentCache *sc)
- {
-@@ -53,6 +63,7 @@ static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
-     sc->limit = x86_ldl_phys(cs, addr + offsetof(struct vmcb_seg, limit));
-     flags = x86_lduw_phys(cs, addr + offsetof(struct vmcb_seg, attrib));
-     sc->flags = ((flags & 0xff) << 8) | ((flags & 0x0f00) << 12);
-+    svm_canonicalization(env, &sc->base);
- }
- 
- static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
-@@ -256,16 +267,6 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     env->tsc_offset = x86_ldq_phys(cs, env->vm_vmcb +
-                                offsetof(struct vmcb, control.tsc_offset));
- 
--    env->gdt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                                      save.gdtr.base));
--    env->gdt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                                      save.gdtr.limit));
--
--    env->idt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                                      save.idtr.base));
--    env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                                      save.idtr.limit));
--
-     new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
-     if (new_cr0 & SVM_CR0_RESERVED_MASK) {
-         cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-@@ -319,6 +320,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-                        R_SS);
-     svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.ds),
-                        R_DS);
-+    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.idtr),
-+                       &env->idt);
-+    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.gdtr),
-+                       &env->gdt);
- 
-     env->eip = x86_ldq_phys(cs,
-                         env->vm_vmcb + offsetof(struct vmcb, save.rip));
-@@ -456,6 +461,7 @@ void helper_vmload(CPUX86State *env, int aflag)
-     env->lstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.lstar));
-     env->cstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.cstar));
-     env->fmask = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.sfmask));
-+    svm_canonicalization(env, &env->kernelgsbase);
- #endif
-     env->star = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.star));
-     env->sysenter_cs = x86_ldq_phys(cs,
-@@ -464,6 +470,7 @@ void helper_vmload(CPUX86State *env, int aflag)
-                                                  save.sysenter_esp));
-     env->sysenter_eip = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
-                                                  save.sysenter_eip));
-+
- }
- 
- void helper_vmsave(CPUX86State *env, int aflag)
+Changes since v1:
+ - use the dirty log sync APIs to also sync the page encryption bitmap
+   when SEV is active.
+
+Ashish Kalra (4):
+  kvm: Add support for SEV shared regions list and KVM_EXIT_HYPERCALL.
+  migration/ram: Force encrypted status for flash0 & flash1 devices.
+  migration: for SEV live migration bump downtime limit to 1s.
+  kvm: Add support for userspace MSR filtering and handling of
+    MSR_KVM_MIGRATION_CONTROL.
+
+Brijesh Singh (10):
+  doc: update AMD SEV API spec web link
+  doc: update AMD SEV to include Live migration flow
+  migration.json: add AMD SEV specific migration parameters
+  confidential guest support: introduce
+    ConfidentialGuestMemoryEncryptionOps for encrypted VMs
+  target/i386: sev: provide callback to setup outgoing context
+  target/i386: sev: do not create launch context for an incoming guest
+  target/i386: sev: add support to encrypt the outgoing page
+  target/i386: sev: add support to load incoming encrypted page
+  migration: add support to migrate shared regions list
+  migration/ram: add support to send encrypted pages
+
+ docs/amd-memory-encryption.txt            |  50 +-
+ include/exec/confidential-guest-support.h |  27 +
+ include/sysemu/sev.h                      |  15 +
+ linux-headers/linux/kvm.h                 |   3 +
+ migration/migration.c                     |  65 +++
+ migration/migration.h                     |   1 +
+ migration/ram.c                           | 170 +++++-
+ monitor/hmp-cmds.c                        |  18 +
+ qapi/migration.json                       |  40 +-
+ target/i386/kvm/kvm.c                     | 107 ++++
+ target/i386/sev.c                         | 602 +++++++++++++++++++++-
+ target/i386/trace-events                  |   6 +
+ 12 files changed, 1091 insertions(+), 13 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
 
