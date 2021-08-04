@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C208B3E06F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:52:47 +0200 (CEST)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4BE3E071C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:03:25 +0200 (CEST)
+Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBL4Q-0001Si-Q0
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1mBLEi-0002De-1B
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBJ0z-0007w9-IP
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:41:09 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBJ0q-0000Hl-9L
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:40:59 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h13so2767648wrp.1
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 08:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=DVYhckofxPv5/aAdDXUByoSNSY8m8Bq3tA0apV9u2qg=;
- b=frFrNaTzMNx5h0p+0vZGuXWZDD0gpIUox30yQ+2aRZun/YGNLkSC9yMCCFniqsv9e5
- ylALmycJGC3UCGZjmmR0mXg0ZHCAPEH6trOfKBadMx8mL405CM1FMpdUMI9k7WnOjZGD
- gNcG19abHOKAdSAWmut7YUwZN/WpV6COMYdh3WwI+3sjxApW3A+SsYP8moD/e5qiCNdx
- rvotuxEaM7qHPHJx7hXhpNOtuLSCIqku31q+l+JiUNHV7LRyBDnVD2AxLwO9I0s1Kalu
- uDW+rDJikL9+UizNxa9vrwaC5NxRqh3GSNBNjzg3++d8gJj0grJexG1nFK8nQaqhFNPA
- vx4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=DVYhckofxPv5/aAdDXUByoSNSY8m8Bq3tA0apV9u2qg=;
- b=OUBZZGLgUhnQkqUlfS117vGfvYh8/vLu+40Dohwm1wjEg1aI707W1Uy0qJdbJyJRbc
- 8I8PmR3YK/sK8byeJ3bnl5FnNfXXqjFbrCgdZL11lVlOd6agrxJwXeKRSVnBnfODWTh7
- ieWtW9JPYfdijfOAMiDVNn5bwnhJALS14Un1K2FKKF/rcjHdpnL/JuOWg/MYCz3Dt89z
- OJa3w12RnQmZEHZMRTM5Hf3MMgE495kud9czq5b0KVy0HSHnak8YRYelXVaDMLXWWl1l
- QGk28vHrDobf6XjqpDhXXrto6P/zO+2D/w9+hx0prHzgzUsZZH94OGR8kra8dRVT0Gak
- 1Kpg==
-X-Gm-Message-State: AOAM533AYhEm5gsEKOPwFkSeGfJO8kD6vHAosWg0/AcsNLnTt+ijMFf2
- SO9I5jD4T2ABYUhTbsARA2E8pw==
-X-Google-Smtp-Source: ABdhPJw1UltcObTMfx8uK9D1VBzl6gz9ixLL2t1Kqe1gjp+XuCakiRuVt2C/mH/q78V/ALtDyMSwIA==
-X-Received: by 2002:a5d:4f8b:: with SMTP id d11mr29352916wru.351.1628091654235; 
- Wed, 04 Aug 2021 08:40:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p2sm3084416wrr.21.2021.08.04.08.40.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 08:40:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 37F301FF96;
- Wed,  4 Aug 2021 16:40:52 +0100 (BST)
-References: <20210730135817.17816-1-ma.mandourr@gmail.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v4 00/13] new plugin argument passing scheme
-Date: Wed, 04 Aug 2021 16:40:41 +0100
-In-reply-to: <20210730135817.17816-1-ma.mandourr@gmail.com>
-Message-ID: <87wnp1dxq3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBJ8S-0000nF-VQ
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:48:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58026)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBJ8Q-0005os-3L
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:48:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628092124;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qfm13GfOLKig6tnOxjUxxob5R+AMui9iAEaLXzD7DKw=;
+ b=WzXhBlaFz4pha3Q4ub2xKpmdIYiQyWQmPkWFjzyfaGl2/8VLtAJmogXUR0PxrE/ymJJ1aU
+ mJKj2BX+cNC3m2QvkdaGgGMZ5Z7Q7otqmuhX63q9IFaEOSpkkMp/SXnBJp1/p8O8IywAl3
+ IR8Lep5iPw5WwpOzMZZpSL4lw2mUVgc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-dHgHf1NoMjamh997qsCYcQ-1; Wed, 04 Aug 2021 11:48:42 -0400
+X-MC-Unique: dHgHf1NoMjamh997qsCYcQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CADE8190A7A1;
+ Wed,  4 Aug 2021 15:48:40 +0000 (UTC)
+Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6578790A9;
+ Wed,  4 Aug 2021 15:48:25 +0000 (UTC)
+Date: Wed, 4 Aug 2021 10:48:23 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V5 03/25] cpr: QMP interfaces for reboot
+Message-ID: <20210804154823.xr75z5u65nk7oufg@redhat.com>
+References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
+ <1625678434-240960-4-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1625678434-240960-4-git-send-email-steven.sistare@oracle.com>
+User-Agent: NeoMutt/20210205-687-0ed190
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,22 +77,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 07, 2021 at 10:20:12AM -0700, Steve Sistare wrote:
+> cprsave calls cprsave().  Syntax:
+>   { 'enum': 'CprMode', 'data': [ 'reboot' ] }
+>   { 'command': 'cprsave', 'data': { 'file': 'str', 'mode': 'CprMode' } }
+> 
+> cprload calls cprload().  Syntax:
+>   { 'command': 'cprload', 'data': { 'file': 'str' } }
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+Does this also allow the magic "/dev/fdset/NNN" syntax for opening an
+fd already passed in previously?
+/me goes back to patch 2 to check
+Yes, it looks like it should.
 
-> Hello,
->
-> This series removes passing arguments to plugins through "arg=3D" since
-> it's redundant and reduces readability especially when the argument
-> itself is composed of a name and a value.
-<snip>
+> 
+> cprinfo returns a list of supported modes.  Syntax:
+>   { 'struct': 'CprInfo', 'data': { 'modes': [ 'CprMode' ] } }
+>   { 'command': 'cprinfo', 'returns': 'CprInfo' }
 
-Queued to plugins/next, thanks.
+As pointed out elsewhere, relying on introspection seems nicer than
+adding this command.
 
---=20
-Alex Benn=C3=A9e
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+
+> +++ b/qapi/cpr.json
+> @@ -0,0 +1,74 @@
+> +# -*- Mode: Python -*-
+> +#
+> +# Copyright (c) 2021 Oracle and/or its affiliates.
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2.
+> +# See the COPYING file in the top-level directory.
+> +
+> +##
+> +# = CPR
+
+Might be worth expanding what this acronym stands for here.
+
+> +##
+> +
+> +{ 'include': 'common.json' }
+> +
+> +##
+> +# @CprMode:
+> +#
+> +# @reboot: checkpoint can be cprload'ed after a host kexec reboot.
+> +#
+> +# Since: 6.1
+
+As this missed 6.1, you'll need to (eventually) rebase the series to
+mention 6.2 everywhere.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
