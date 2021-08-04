@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1623E09B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 22:56:49 +0200 (CEST)
-Received: from localhost ([::1]:49182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5F13E09B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 23:01:48 +0200 (CEST)
+Received: from localhost ([::1]:52778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBNwW-00063x-Vu
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 16:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57546)
+	id 1mBO1L-00009i-EC
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 17:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBNuu-0004vW-2x; Wed, 04 Aug 2021 16:55:08 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBNur-0003Re-Ja; Wed, 04 Aug 2021 16:55:07 -0400
-Received: by mail-wr1-x433.google.com with SMTP id p5so3669179wro.7;
- Wed, 04 Aug 2021 13:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iw7cKx9+VBTijDgp2fFG8zAtmwUud6IQbwKLh0PvOw4=;
- b=J14R3xKhXEhYrzF5bpdFNSpzVP812fu2iGP9gh0W2+l7fydG2ZWrL5OlcdRCcDCEzs
- yYkgzbF9HG+NUyeKUxv/DO99/qm+zGMoYZXjADnfQuJErfj0HG56wm+CL2OcvrkFyVkR
- beqx9bJXBfFrgoG7DrLuSK9PZlFhla0DUB1mti/TqjvODC+xK94cIZzg4PE/6yCni1Z8
- ecCN+sLlbWcc2ZwND0xSEjO+yn6Qh8Gd10EB/ZCnj8QRD93SkOY7y+eGuVQts2Eedf9d
- YobZ/n0uMBfS+1n2THwOh3Q2kw6esWARuDdbEYwUrdvqWJUy8oZV+UilmVePACgl/BUI
- YE8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iw7cKx9+VBTijDgp2fFG8zAtmwUud6IQbwKLh0PvOw4=;
- b=gwyIOukydc5McvAB9LSh+qeWC43wlvTtajKN2KHFvZN9szfkpJiiEs2erTU0wIswae
- LLRmuEcuXWnruWmaG7thjhEqEoQD6+T74P3CLywEXBcKpUWaoSAion/WXr8TLzVhNUGI
- FMuZi+dK/ou0Q1D6rifZVpn7llsnWlqZ7BeKAHM3XWBSxVPm+2CmhJsxwWYVeoJ86waq
- yZy3b7H7cw9gVLWP39u52JJt8+gW9ChI5DcSbn2kPtM0DVCeRC5ESh5c56pCjKiuOFyj
- wBIgGgpkpXLqYIKb3sKbYuPwfuqZHjGtFSZPFYep6Pmw0/MG5z+4jfts78LA8LPm9cOi
- Eftw==
-X-Gm-Message-State: AOAM532QxfiHiq/9COoEgGIGnf9vfp9/BaYzOfpdMphuIxGm+w2bVlLe
- VBuYinsJe6vHVw4oxslVcq8=
-X-Google-Smtp-Source: ABdhPJy1FOTttev6gXb6efsPeNy+tfavUH4eo24LkbMzNG69EIwf/P7cWYI1VWPJDp8+FofvT7CzxA==
-X-Received: by 2002:adf:ea52:: with SMTP id j18mr1226154wrn.294.1628110502478; 
- Wed, 04 Aug 2021 13:55:02 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id x16sm3844503wru.40.2021.08.04.13.55.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Aug 2021 13:55:01 -0700 (PDT)
-Subject: Re: [PATCH 5/9] tests/acceptance: Use image_expand() in
- test_arm_orangepi_uboot_netbsd9
-To: qemu-devel@nongnu.org, Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20210623180021.898286-1-f4bug@amsat.org>
- <20210623180021.898286-6-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1507c8d3-e7ae-6dc4-2bb0-3b212f32edbf@amsat.org>
-Date: Wed, 4 Aug 2021 22:54:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mBO0I-0007jb-D9
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:00:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mBO0F-0007HW-41
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:00:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628110837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TUdc9XPrK1mq8ODOtP2d8wtyFqOFU1Zx/9u2RoJ1bKo=;
+ b=RX+wOmhah4UFcBTWP3jY90s13bk4QWWWwtYbwSOcum9gcaiM/JzudB3pd+EN3ExvsywpVI
+ Y9ZXa6Sd5RuDpWp7jnir1vMMTKAvqwoZHgrWb7ZCz7/SdCRHh9zIDeLQOS6vFgEQ8t0BjG
+ lXWN0AryAAjhOlV9/bOk380mc0acKBY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-epDfga8_Ow-aYjRXe5dRCw-1; Wed, 04 Aug 2021 17:00:36 -0400
+X-MC-Unique: epDfga8_Ow-aYjRXe5dRCw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BB641074672;
+ Wed,  4 Aug 2021 21:00:35 +0000 (UTC)
+Received: from localhost (unknown [10.22.11.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D5F8544F1;
+ Wed,  4 Aug 2021 21:00:35 +0000 (UTC)
+Date: Wed, 4 Aug 2021 17:00:34 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.2 01/10] docs: qom: Replace old GTK-Doc #symbol
+ syntax with `symbol`
+Message-ID: <20210804210034.2dp6b2uqlfxkhjjo@habkost.net>
+References: <20210729175554.686474-1-ehabkost@redhat.com>
+ <20210729175554.686474-2-ehabkost@redhat.com>
+ <CAFEAcA8FdSL6YwL1GiEqc0sF087SFCzRN3QvjOeOYxWaPoTO2Q@mail.gmail.com>
+ <20210804203116.nawhr7px2zhkpzxk@habkost.net>
+ <CAFEAcA-cJe9NRVMJ6JFyEs+AJV6Wo8MfT+_1P4coWGVjfzLzVg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210623180021.898286-6-f4bug@amsat.org>
+In-Reply-To: <CAFEAcA-cJe9NRVMJ6JFyEs+AJV6Wo8MfT+_1P4coWGVjfzLzVg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.132,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,55 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Tom Yan <tom.ty89@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- Warner Losh <imp@bsdimp.com>
+Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Niek,
-
-On 6/23/21 8:00 PM, Philippe Mathieu-Daudé wrote:
-> The NetBSD OrangePi image must be at least 2GiB, not less.
-> Expand the SD card image to this size before using it.
+On Wed, Aug 04, 2021 at 09:42:24PM +0100, Peter Maydell wrote:
+> On Wed, 4 Aug 2021 at 21:31, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >
+> > On Mon, Aug 02, 2021 at 01:14:57PM +0100, Peter Maydell wrote:
+> > > On Thu, 29 Jul 2021 at 19:00, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > > > diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+> > > > index e5fe3597cd8..9c1be5d7fc2 100644
+> > > > --- a/docs/devel/qom.rst
+> > > > +++ b/docs/devel/qom.rst
+> > > > @@ -3,6 +3,7 @@ The QEMU Object Model (QOM)
+> > > >  ===========================
+> > > >
+> > > >  .. highlight:: c
+> > > > +.. default-role:: any
+> > > >
+> > > >  The QEMU Object Model provides a framework for registering user creatable
+> > > >  types and instantiating objects from those types.  QOM provides the following
+> > > > @@ -42,8 +43,8 @@ features:
+> > > >
+> > > >     type_init(my_device_register_types)
+> > > >
+> > > > -In the above example, we create a simple type that is described by #TypeInfo.
+> > > > -#TypeInfo describes information about the type including what it inherits
+> > > > +In the above example, we create a simple type that is described by `TypeInfo`.
+> > > > +`TypeInfo` describes information about the type including what it inherits
+> > >
+> > > I've just gone through all of docs/ finding the places where we had `foo` and
+> > > probably meant ``foo``, so please don't add any new ones. I would suggest
+> > > that you either use the ``double-backtick`` syntax to render as fixed-width
+> > > font, or use an explicit role tag so readers of the rST source can tell that
+> > > that's what you meant to use, ie avoid "default-role".
+> >
+> > I don't understand why that would be a reason to not use
+> > default-role.  With default-role, we get an error when misusing
+> > `foo`.  Without default-role, misuse won't be detected at all
+> > (except by manual inspection).
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tests/acceptance/boot_linux_console.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> Ah, I didn't realize that we got an error if we set the default-role
+> to 'any'. That certainly makes it nicer than the default default
+> of 'cite'.
 > 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 61069f0064f..b10f7257503 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -868,7 +868,12 @@ def test_arm_orangepi_uboot_netbsd9(self):
->          :avocado: tags=device:sd
->          :avocado: tags=os:netbsd
->          """
-> -        # This test download a 304MB compressed image and expand it to 2GB
-> +        # This test download a 304MB compressed image and expand it to 2GB,
-> +        # which is the minimum card size required by the NetBSD installer:
-> +        # https://wiki.netbsd.org/ports/evbarm/raspberry_pi/#index7h2
-> +        # "A 2 GB card is the smallest workable size that the installation
-> +        # image will fit on."
+> Is there a sensible default-role we can use as the default for the whole manual,
+> rather than only declaring it in individual .rst files ?  One of the
+> things I don't
+> like about the change here is that it means that `thing` in this individual .rst
+> file is different from `thing` in every other .rst file in our docs.
 
-Do you agree with this comment and the one in the next patch?
+I believe "any" would be a very sensible default role for all
+documents, but I don't know how to set default-role globally.
+I'll try to find out.
 
-> +        NETBSD_SDCARD_MINSIZE = 2 * 1024 * 1024 * 1024
->          deb_url = ('http://snapshot.debian.org/archive/debian/'
->                     '20200108T145233Z/pool/main/u/u-boot/'
->                     'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
-> @@ -886,7 +891,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
->          image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
->          image_path = os.path.join(self.workdir, 'armv7.img')
->          archive.gzip_uncompress(image_path_gz, image_path)
-> -        image_pow2ceil_expand(image_path)
-> +        image_expand(image_path, NETBSD_SDCARD_MINSIZE)
->          image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
->  
->          # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
-> 
+-- 
+Eduardo
 
 
