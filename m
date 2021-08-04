@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0523E0711
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:01:00 +0200 (CEST)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CAE3E0702
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:56:59 +0200 (CEST)
+Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBLCN-0006j3-JQ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:00:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48462)
+	id 1mBL8V-0007b1-1X
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJAE-00010i-UQ
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33175)
+ id 1mBJAM-00011Z-VZ
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:50:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJA4-0006pl-2g
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:50:33 -0400
+ id 1mBJAE-00073O-Nf
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:50:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628092223;
+ s=mimecast20190719; t=1628092232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uOgHoYL0xH0SByObRMXU5nsKFdTNbFLIoFBWTw4YxNM=;
- b=GTsyAksrpu3OW4gKAUIdaiIxv8s6sJWwpy/A4CED5vkSVWq0M1u2d2daFXHNp9z2c8RNPy
- b0wuiDQVRny1AvsC5SlGc7ZzsPD/45veyWggRDeQ9JzmGt0M+9cGUG7aZeWISleDepNi7n
- l2Bweq2A5SXPUgSQ4nYrd7Hka0E4jCQ=
+ bh=K9d2/YF5dgfR8oQIK2i1GyQ8daIEzdmwVt8l6TxHB9Q=;
+ b=ZCG8ufFrdKEmsGbe8M9OpvWHTcvkkNwK81QBzJ6OrvBzvdOX3ko5cneu/btUmU4xrNjS0P
+ NvyhhPBd5gwFz/60xU5MuN5fxV+B0WuksC2dVkuj0rDWtZEbmFvgE42MV1wlV5RoM+4qiw
+ Fe/CJKAcnC3Dh6KLPVFJ5wVYxa8w5lg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-MWMeBJ6yOciJxYLMBC6aNg-1; Wed, 04 Aug 2021 11:50:22 -0400
-X-MC-Unique: MWMeBJ6yOciJxYLMBC6aNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-205-Y5P5IA4QOLesRUXAdmPvMQ-1; Wed, 04 Aug 2021 11:50:31 -0400
+X-MC-Unique: Y5P5IA4QOLesRUXAdmPvMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63623EC1AB
- for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:50:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45ACB80196C
+ for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:50:30 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E70DE10372F3;
- Wed,  4 Aug 2021 15:50:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28FBD6CA21;
+ Wed,  4 Aug 2021 15:50:24 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/11] chardev: fix qemu_chr_open_fd() with fd_in==fd_out
-Date: Wed,  4 Aug 2021 19:48:45 +0400
-Message-Id: <20210804154848.557328-9-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 09/11] chardev: give some context on chardev-add error
+Date: Wed,  4 Aug 2021 19:48:46 +0400
+Message-Id: <20210804154848.557328-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 References: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,56 +87,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The "serial" chardev calls qemu_chr_open_fd() with the same fd. This
-may lead to double-close as each QIOChannel owns the fd.
+Description from Daniel P. Berrangé:
+> The original code reported:
+>
+>  "attempt to add duplicate property 'char2' to object (type 'container')"
+>
+> Since adding yank support, the current code reports
+>
+>  "duplicate yank instance"
+>
+> With this patch applied it now reports:
+>
+>  "Failed to add chardev 'char2': duplicate yank instance"
+>
+> This is marginally better, but still not great, not that the original
+> error was great either.
+>
+> It would be nice if we could report
+>
+>   "chardev with id 'char2' already exists"
 
-Instead, share the reference to the same QIOChannel.
+Related to:
+https://bugzilla.redhat.com/show_bug.cgi?id=1984721
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- chardev/char-fd.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ chardev/char.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index c11b1037f9..93c56913b4 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
-@@ -211,20 +211,31 @@ void qemu_chr_open_fd(Chardev *chr,
-                       int fd_in, int fd_out)
+diff --git a/chardev/char.c b/chardev/char.c
+index d959eec522..f59a61774b 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1031,27 +1031,26 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+                                Error **errp)
  {
-     FDChardev *s = FD_CHARDEV(chr);
--    char *name;
-+    g_autofree char *name = NULL;
-+
-+    if (fd_out >= 0) {
-+        qemu_set_nonblock(fd_out);
-+    }
-+
-+    if (fd_out == fd_in && fd_in >= 0) {
-+        s->ioc_in = QIO_CHANNEL(qio_channel_file_new_fd(fd_in));
-+        name = g_strdup_printf("chardev-file-%s", chr->label);
-+        qio_channel_set_name(QIO_CHANNEL(s->ioc_in), name);
-+        s->ioc_out = QIO_CHANNEL(object_ref(s->ioc_in));
-+        return;
-+    }
++    ERRP_GUARD();
+     const ChardevClass *cc;
+     ChardevReturn *ret;
+-    Chardev *chr;
++    g_autoptr(Chardev) chr = NULL;
  
-     if (fd_in >= 0) {
-         s->ioc_in = QIO_CHANNEL(qio_channel_file_new_fd(fd_in));
-         name = g_strdup_printf("chardev-file-in-%s", chr->label);
-         qio_channel_set_name(QIO_CHANNEL(s->ioc_in), name);
--        g_free(name);
+     cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
+     if (!cc) {
+-        return NULL;
++        goto err;
      }
+ 
+     chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+                       backend, NULL, false, errp);
+     if (!chr) {
+-        return NULL;
++        goto err;
+     }
+ 
+     if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
+                                        errp)) {
+-        object_unref(OBJECT(chr));
+-        return NULL;
++        goto err;
+     }
+-    object_unref(OBJECT(chr));
+ 
+     ret = g_new0(ChardevReturn, 1);
+     if (CHARDEV_IS_PTY(chr)) {
+@@ -1060,6 +1059,10 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+     }
+ 
+     return ret;
 +
-     if (fd_out >= 0) {
-         s->ioc_out = QIO_CHANNEL(qio_channel_file_new_fd(fd_out));
-+        g_free(name);
-         name = g_strdup_printf("chardev-file-out-%s", chr->label);
-         qio_channel_set_name(QIO_CHANNEL(s->ioc_out), name);
--        g_free(name);
--        qemu_set_nonblock(fd_out);
-     }
++err:
++    error_prepend(errp, "Failed to add chardev '%s': ", id);
++    return NULL;
  }
  
+ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
 -- 
 2.32.0.264.g75ae10bc75
 
