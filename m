@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706113DFA17
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 05:49:33 +0200 (CEST)
-Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC263DFA19
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 05:49:36 +0200 (CEST)
+Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB7uO-0000M6-Fo
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 23:49:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
+	id 1mB7uR-0000Z7-GY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 23:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mB7tJ-0006lr-U6
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 23:48:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57822)
+ id 1mB7tN-0006tS-E5
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 23:48:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mB7tI-0000N9-Dt
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 23:48:25 -0400
+ id 1mB7tM-0000Q5-21
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 23:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628048903;
+ s=mimecast20190719; t=1628048907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ptP2saJcjmNSscLJyKkxAtiVNxPPWQgEJ848xCAK5I=;
- b=PI6uxL4ON4ba99ULNue7IH+maM0FybrPIq7yifdU1Crv6lNkDEfVFr8iuTEu80LUDngc98
- tXHWZs94O+h/g4fBfNqYTArbeZRxsuopOp3IXumlguQ+PCvr6+/QB3UO5D6TPtTYmcBpej
- bMJ+aOBMhnkt56/t0ue1gL4rTLu7wS0=
+ bh=67qEV5gdM+CG+tFFSGLrnAUcilav5qnPUbNR3yEn2mo=;
+ b=XwZSdSkXMiDozCfsl9KmXzEecIz6BjOv4gaf/W/l1xVaQB6QN54Fo/eo76kCKwdDTNgiE1
+ UgFKSmyHGZXTIm7ROXVSP3eOle9rV1dP5+pv5J36mcc3JuhPwJyrZjGj5mz+JXRo4MtFAq
+ h5/h+Mfoacda61FLDOZOE8Em5wRjze8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-O_KCfFESP8-eyzzcGBo9mg-1; Tue, 03 Aug 2021 23:48:22 -0400
-X-MC-Unique: O_KCfFESP8-eyzzcGBo9mg-1
+ us-mta-524-fWI7iU1UNmefxA_wOXITVQ-1; Tue, 03 Aug 2021 23:48:26 -0400
+X-MC-Unique: fWI7iU1UNmefxA_wOXITVQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D47F824F8D;
- Wed,  4 Aug 2021 03:48:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC278712D6;
+ Wed,  4 Aug 2021 03:48:24 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-234.pek2.redhat.com
  [10.72.12.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDB4D781E8;
- Wed,  4 Aug 2021 03:48:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3C78781E6;
+ Wed,  4 Aug 2021 03:48:21 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] virtio-bus: introduce iommu_enabled()
-Date: Wed,  4 Aug 2021 11:48:01 +0800
-Message-Id: <20210804034803.1644-2-jasowang@redhat.com>
+Subject: [PATCH 2/3] virtio-pci: implement iommu_enabled()
+Date: Wed,  4 Aug 2021 11:48:02 +0800
+Message-Id: <20210804034803.1644-3-jasowang@redhat.com>
 In-Reply-To: <20210804034803.1644-1-jasowang@redhat.com>
 References: <20210804034803.1644-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -85,60 +85,51 @@ Cc: mst@redhat.com, Jason Wang <jasowang@redhat.com>, Wei.Huang2@amd.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduce a new method for the virtio-bus for the transport
-to report whether or not the IOMMU is enabled for the device.
+This patch implements the PCI transport version of iommu_enabled. This
+is done by comparing the address space returned by
+pci_device_iommu_address_space() against address_space_memory.
+
+Note that an ideal approach is to use pci_device_iommu_address_space()
+in get_dma_as(), but it might not work well since the IOMMU could be
+initialized after the virtio-pci device is initialized.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/virtio-bus.c         | 14 ++++++++++++++
- include/hw/virtio/virtio-bus.h |  4 +++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-pci.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index 859978d248..d23db98c56 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -325,6 +325,20 @@ static char *virtio_bus_get_fw_dev_path(DeviceState *dev)
-     return NULL;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index b321604d9b..050af2517b 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1110,6 +1110,19 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
+     return pci_get_address_space(dev);
  }
  
-+bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev)
++static bool virtio_pci_iommu_enabled(DeviceState *d)
 +{
-+    DeviceState *qdev = DEVICE(vdev);
-+    BusState *qbus = BUS(qdev_get_parent_bus(qdev));
-+    VirtioBusState *bus = VIRTIO_BUS(qbus);
-+    VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
++    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
++    PCIDevice *dev = &proxy->pci_dev;
++    AddressSpace *dma_as = pci_device_iommu_address_space(dev);
 +
-+    if (!klass->iommu_enabled) {
++    if (dma_as == &address_space_memory) {
 +        return false;
 +    }
 +
-+    return klass->iommu_enabled(qbus->parent);
++    return true;
 +}
 +
- static void virtio_bus_class_init(ObjectClass *klass, void *data)
+ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
  {
-     BusClass *bus_class = BUS_CLASS(klass);
-diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
-index ef8abe49c5..7ab8c9dab0 100644
---- a/include/hw/virtio/virtio-bus.h
-+++ b/include/hw/virtio/virtio-bus.h
-@@ -93,6 +93,7 @@ struct VirtioBusClass {
-      */
-     bool has_variable_vring_alignment;
-     AddressSpace *(*get_dma_as)(DeviceState *d);
-+    bool (*iommu_enabled)(DeviceState *d);
- };
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+@@ -2173,6 +2186,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+     k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
+     k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+     k->get_dma_as = virtio_pci_get_dma_as;
++    k->iommu_enabled = virtio_pci_iommu_enabled;
+     k->queue_enabled = virtio_pci_queue_enabled;
+ }
  
- struct VirtioBusState {
-@@ -154,5 +155,6 @@ void virtio_bus_release_ioeventfd(VirtioBusState *bus);
- int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign);
- /* Tell the bus that the ioeventfd handler is no longer required. */
- void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n);
--
-+/* Whether the IOMMU is enabled for this device */
-+bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev);
- #endif /* VIRTIO_BUS_H */
 -- 
 2.25.1
 
