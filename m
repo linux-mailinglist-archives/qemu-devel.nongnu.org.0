@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4153DFE5D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 11:49:55 +0200 (CEST)
-Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCC03DFE44
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 11:44:56 +0200 (CEST)
+Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBDX8-0000q3-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 05:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47228)
+	id 1mBDSJ-00087b-7W
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 05:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mBDMR-0004bp-Vp; Wed, 04 Aug 2021 05:38:52 -0400
+ id 1mBDMU-0004ea-Kh; Wed, 04 Aug 2021 05:38:55 -0400
 Received: from mail-eopbgr70101.outbound.protection.outlook.com
  ([40.107.7.101]:22757 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mBDMQ-0005wf-Fv; Wed, 04 Aug 2021 05:38:51 -0400
+ id 1mBDMS-0005wf-Mz; Wed, 04 Aug 2021 05:38:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VdOVNN0C77z5J/otJIrx2jnL2a3pBPs+5XrfIAS+QJqXFnwQZnjsbIj4lilyYctAsAykzoV7hOpaycGtLZ2Q5YPxAS9ShTu1Ow45OGGXFz2UPy7NViQ2s7EfApXhFE8kzZHdtlw5NObzlMsUnarBxcuq+HZsEZnstq4IDKEuB4ChbOgLa363rl+soSYCOhRKbB8YxV0HUL/xVoSj+DQvEjEAjhgv4DVy9mGl3Ie2BHbtV2yS+45/YjN9Bammf31iDQgTCHK6J7ZN0QrgeF8qjzt1uNsPhM3AFwRGx3hdl7yIcl9ozkzPgc6L82lmyg/7pGtAFd+G0Je9R/ImXC7O5Q==
+ b=Fmk+pQYtHSr5mJ9nHIg+qDMMx1SS/iT/3eGM+OnMwwuB3SMzh1N89V1rq2tYHOZOkZNQ/2DvD7WXbUOTzPrLh76JqrFAxY0qlakz6+r2n+z0rFgzEnoqh2vUOLw//IFF4Zl/Vj0iLUB31lVbRigvu+2Y6Ke9cqMv27zP85RawNsHxlBh+acWxMhclPkJksfwYtk1QCrU56mm5TSLeovBjTTA1u+l26BO1j6uihakIZTLSPCQmkgF8Mj+MaEDCT7Z+HuV5XlZR92O4WiIPmHd8qDpAilDITJTZNMW7ju9X+ITxuAFfN0b77x1SkvXx3dk1Sa48zhQEVnqPWtlw79rqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2TYk/vlRgkhlvjrVIe+Pk/FNNMZHyvuvS9JwUm7efHQ=;
- b=LEgBw2w9vDhgQj1D+YPUBnMAHBHfhXcO0jJQrl00JKavggcL2VFKbD15N07gTZSQBExgFSQSCgV3QH1YHwGjLwl7h8QSXetejUBMpgv8lCH5CU+am8E6t0Ntc8M6WGblchxoeBd2jVv1bD/RXB91VXlYku+/USqNtCHL1uB/snEhzTt7wGSohFlxx0A/KQ4c0tESmcCec9qIrGOh5Ige/hJw2ITECcpwnX75iu6VlFbz7jJMISzXmo8hTrMkq5L2l4q/V9TX4t0STsWSmDbgFEhekdUl32hctsIYNi4ut3QFvhZMHwqivoMNwzEmOwymvdLMswOc5ucj/5EbNkPdpQ==
+ bh=YJfp4qB2n7EBWUo59Of5E9XDnSvgv7wv4W8IEBSsMhQ=;
+ b=C8g6Uwjnb95vJo29Kns9TbSq+KLvjvShPlgi/Kp+nc8WH5M2Pxm5skpx9j1IKaouS6qgj8hQlD7bb7aMyaBjGmp1U/CQnVfhXjyS7EYNekltBtmdoEa4TQ6NNCsbH8Mjz/7+BFWPMZiJE1JDJEarL6bnswn6M1hOXiJ6BmsEG3qe4MIPoFj/QkpvrwasT4pfOGs8bhU8f9KvjFV9eHBXcENu8W0hFh6vtVfSm5hMsivokf8dCjt3PMRWYbwsDD5p1tnP14GcKv+3DIYwbwdUqQzcONF3bXTBJEFq0B9gyCUi47gK4pCmLvhmE95hPh2M+uPlisRiVOKZUlsZwtojCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2TYk/vlRgkhlvjrVIe+Pk/FNNMZHyvuvS9JwUm7efHQ=;
- b=lyPibjoiBSetJ+UHI5VU5bsAR+lkswUim/jFynWFCSHR5KJWTm5tfBo/sFGE/660IDoW7lNq2Y1mUxaWJSWmmuvKwwo+d0CvYBpjAhrU4I/g4xsBhoQILGNBQ/JnvhrQ4Sjs9WzU/0pS4JIusQeXStxqV/yGyv9XA8TY8DMn0Gk=
+ bh=YJfp4qB2n7EBWUo59Of5E9XDnSvgv7wv4W8IEBSsMhQ=;
+ b=QpJd5cWzsPPk4G4+RMYazfAzghvUUr8VUsolAH4S327GRFkhaq/irR9kOPHE/BcXXqpm4DUCHudRSbKCHTwIglYq+E0FMeDif3Iv62FJ7ZxuL0Lrv6VSNbDHNqTGzSw1tuVfMse1SX+4tJhv/Wuek9VGBLnA4o/Dmyaebpe5pwo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3622.eurprd08.prod.outlook.com (2603:10a6:20b:4c::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.26; Wed, 4 Aug
- 2021 09:38:39 +0000
+ 2021 09:38:40 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::44b9:68ac:bdc7:e23c%8]) with mapi id 15.20.4373.026; Wed, 4 Aug 2021
- 09:38:39 +0000
+ 09:38:40 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v7 03/33] qdev-properties: PropertyInfo: add
- realized_set_allowed field
-Date: Wed,  4 Aug 2021 12:37:43 +0300
-Message-Id: <20210804093813.20688-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 04/33] qdev: allow setting drive property for realized
+ device
+Date: Wed,  4 Aug 2021 12:37:44 +0300
+Message-Id: <20210804093813.20688-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210804093813.20688-1-vsementsov@virtuozzo.com>
 References: <20210804093813.20688-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: HE1P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::21)
  To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
@@ -67,54 +67,61 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Wed, 4 Aug 2021 09:38:38 +0000
+ 15.20.4394.15 via Frontend Transport; Wed, 4 Aug 2021 09:38:39 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ac07b52-e8d7-44fb-53e0-08d9572ba3c2
+X-MS-Office365-Filtering-Correlation-Id: f7c5fd67-c0b7-4ffc-65da-08d9572ba49d
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3622:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB36221AA77DB58557CDEE9347C1F19@AM6PR08MB3622.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:595;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3622F197E76E0045379E47FFC1F19@AM6PR08MB3622.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n3GsJradjfMO4jm81AAZABQT9Vls0P/LP9NbJ90QNTQknEBN+uCLrQZlyClSuZtoTLwDYeRmA2dPKoaomkPCKRDJ0Chnkabt5/HnHRHvBIlvFffqXjEBtKC4YptvwqmPVqE2g/4/WoWbcVGErqhPcfJT0hzrYfVNwb/gfemKdfKFH0zV6JM7XSB3k3W/A0nyGwgZIMxMgZN4Q1+84Fp1R0g4407U4VCT611f5JghzisyGndBEfoMN6rXkKW01FZu0JglAoGJvmIT1rX/ctrheKIH1V3mbaw4nWgAdF6isG5D+96KZVwzZ5OnAS+XvG4HWEEGZAjRu0vDZDF/Fm9cwPhSJDjCG5fqWdZw6WJIo2VdvQWemlyilkEqL29hamujV0itFn3/U6+RdPtRlgvhzyRHvQHRIIP9jjiGNQP4/mDKm23wsIo+XRhZ+hARB4c7PsROe+XCmxm5i8cILLYwqkBbgrhaeMD6xeeQ4qquOl32Ddet1VTwoSy9/zfM83qwYqSFgUbLaLHjWBoo+W/U91d0cEMRL9gT9jxmU3MZBFtK56xrD4YEy4ozXTDZQg1ITSxcFFtaz77S781YblPkGFvKGbLwtPqrRts2dx/dR+CGJplcIxS1AIZCTbzCYOBw3+lGIFNOb9Nc4KNqVzu1jxNKKnJ+02Gm6c24ntctKjGONkxBSJDlAokol7ZHeF64CLj+oBONv3aaKrvn0mRNoQ==
+X-Microsoft-Antispam-Message-Info: PW8On3olQyx/RNRdqDL4JevPuRXnkQeuNrtPGWHYlUN9Lu83RDsNBCBCH4/wevehL4G+gGgbArDFTvKgGr//d8FeZKkvlLMuO0WN3rZi5qFJAOi/Bd4sUQKJsDLYhI+gy5PGO00gnCDcn23fqLxEokWFhDp5GZHvlkaRkArc6D6wz/arKrWlmhbVniytbzYucLrDI4eSaP80xCkgeXnjQXXu//TaloI5z/2RF/WJix2GsjcGU338H3NwnkQN3JbxY4oeIiJrbFCOEecwhHQvyicYvYK2JYwAZdCxbUBgZFi9hv+s2OgrHsV+mxc8U1x52XyGGN9CLiWdUYBmEEjh2tsaDV7yY8SpeeicbfihS3hCOd3NzWU/nXeebnHbVYb++oM5UM5z4mXypzKMq1IRTagaSIYd8fyRh4lDJLN0zlnxIURkAfSi8CpoIl0T9/03tMa57C5foxWcMhgu1z2vF18TrHXvqc7aYEyOYLEufvzb61xkPXckofoRB+tz/iBJK2hVYdLiCObGIu0uXNe8zO7gZDl1ZiT+SUTy/Ig85oa4gneqoPJVDOwN4dHYJ0fzzbYoI0CucmoBvY0wU6h2uia2qkArsEnxjLqSaY0HvfoKC/Hk7uns/4EjqVRug9mZ1zRXbfXs75/B3ozDprPNm7QtS/HCYwOOO/x9prT2gwbYYAk5masgIoKFt8LTV2eY3vVr/LwvTh1wPuQn5bLKzw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(376002)(396003)(136003)(39840400004)(366004)(4326008)(1076003)(26005)(8936002)(8676002)(2906002)(316002)(66946007)(6666004)(66556008)(66476007)(6916009)(7416002)(2616005)(6506007)(956004)(86362001)(186003)(36756003)(38350700002)(6512007)(52116002)(478600001)(38100700002)(5660300002)(83380400001)(6486002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vAWNP+5pcjcd2DrEbHeYUIdAtG/WnWyvf/i7ZORnAaNtim9JBbKvI4pVIjy/?=
- =?us-ascii?Q?og5g0az9K4LaS1Xr/5rwNf3ekX+K8Dbog9gew2Zxzw4uK3NLHX237OM1vl3P?=
- =?us-ascii?Q?GinRdNM5aSDZteSI/c3L7oK96yMunwryu8VuW/ptZ1j7Qxv1HS0or9XkxBsu?=
- =?us-ascii?Q?8/Ynu4Rv6BYJmq62OLz3LTOx+Ttr+aIo4UXqy5YbQSB0e+3HgsnBSptMda9y?=
- =?us-ascii?Q?DB3p1/moFLA3q1VmqiA/l0LhLuGycjG06nCvKlSkfq6Edna4YxKXTOJ+wAms?=
- =?us-ascii?Q?yaaCoVqFMuOqU9qnHCFohr7lW8hibeBO2WGafRQ9IUwq4tWtUxN+PxufiJaj?=
- =?us-ascii?Q?ZkS+Ql1lyCHKyCXqgdN2YLBMWneoRj2z+fH/R1PjEOgQZmT8dhHMjqjhldCV?=
- =?us-ascii?Q?2eI7//tyVmKf8R5WYPY8aT4Setxs+6uNr18/JwBuhwykMQFdU6C8fZGwgjP3?=
- =?us-ascii?Q?ucSlYhmrSq5Ke5GahRrOLsdQ2m+XnjaXLbMj+AnFibuuseaALm/QqpLT//Lj?=
- =?us-ascii?Q?Zv48iHMctCUEhMWKUeF6FwmD+qzzLC5WS/K7f5B5HxEU8xNZgichVbsZcyeX?=
- =?us-ascii?Q?FfkyNJmLvFfvQ8v6b7tKyvMV8yTcf6FaVQpWMDKw9MgX8tYs3pqapImVs5d3?=
- =?us-ascii?Q?vl39LBeVOavRR2Dsj7C8vtqA3m042uVZC7rqA3oLFpYXHAEGo2Sm5oYIuYtg?=
- =?us-ascii?Q?EoLPF6h7xtqzFO3rtCx47zPfFSeWX774BboOK+xmNg/zcilARpFnikcJ7oLe?=
- =?us-ascii?Q?oYQnNzx9kRtewsy27dJEJi7yjoUdBocjrJ4nD7egIdyxwf1GMg9zIEpWG97X?=
- =?us-ascii?Q?Va/vYaTS9tHDzNynqUtMdhiUNe9JWMKh+/0LCqrnb7FrjBh9XH61TD5KRWeD?=
- =?us-ascii?Q?INP+CXGgGlws+mVYvPDAyNY7PZyhpwfvrKCCAmIGj/sijFi/LKvTskMU540S?=
- =?us-ascii?Q?QnBZ7JJhSJQ+2Vexey9VTHsbXO84nOm0cIYWNhpOZReldssxpptV4raB1LGA?=
- =?us-ascii?Q?sAGQAthmpi86dXl0ddWXCWZuhlygcyvw7sC+uthkV88KeVDJNutZibOuEmVo?=
- =?us-ascii?Q?8TDRiixTHnI2sDY/s0Q1G/aPwH6trtuM0VJ07QiCjzXFtHSerBAsEgmA/+KM?=
- =?us-ascii?Q?mK4gj4P51XdcU95yytnUYZl1njgvG+C8e9L1RZnyoy9MiCrNQ2MqYgptMuJ5?=
- =?us-ascii?Q?ICg09do159tA9tmnXIIOfnHMpX3BjTINZ3utRVO+H6A47VU6S2u+rg57gi7p?=
- =?us-ascii?Q?Yq/jHSAhip/svkrJvUbSGOvhjdWeF+liQ6Y1d2w7bDEYlCq835pTaxneQM/Q?=
- =?us-ascii?Q?5z0vUiwIgBdiHBuKnHcbm/0D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dy9rRHg2VEJ2TW9GaW40UWUwSGpneCtMTnh6cFNkU3h1bFBpTGRuUTNKT0R0?=
+ =?utf-8?B?eVVSaXJSQ0I5Nk9vZExsK0xybzhlOTVWQldrUHpiaitxRzg1cUhEV3h1L2lW?=
+ =?utf-8?B?Z0gxWDA1L0Y2RTlpNU1ERFBlc0s3REtMNXVmYXJWaTlWdldQOFd5eFpMUG4x?=
+ =?utf-8?B?SWhWSWNCV1pmbUNoYzRHMXpXUERDOWQzalVpa0ZNa3RXWlU3ZnpHM3pac3pN?=
+ =?utf-8?B?TnU3NVpUUXByeEdod2RMeVhha1NnWll2N210cDR6TkZueEtqRUVQZzlpUnI5?=
+ =?utf-8?B?Q2ZUM1A5WUdPUXNLaWZFdFhCVmxXZ0t3OTA4aStQdFcrVExOakhsWStkNHZi?=
+ =?utf-8?B?L3JXeWpmZlk1V05iY2ZIWmRhSkZxS2JnTFQ5Skl2WVRnOGRneVdTdVRsWDQ0?=
+ =?utf-8?B?SHFCc0pVc09pMzluYkxVNTZUOWFhRHRkcitaMFpsZ0NCcE5IUDM0S0hyVE5j?=
+ =?utf-8?B?aVVqVVUzOFd4MTdSMWlocVZITVNlcG1ZVTlJeDFTVnVGMTdXdTNoSUlIUUQ3?=
+ =?utf-8?B?dkdDZWlBSWEvMkp3NHZnSy9RL2Vvbm91UUpSVVBuQjA2WjNmbStaNE91ZzJp?=
+ =?utf-8?B?TkRnSWtFNVZvaTJLbkdQTXQ4eTNNcUdKanFyR2NqSFpKQ1RlNS82NEt4MFNW?=
+ =?utf-8?B?NXJieGdQdDhSa01uSnhqdXh4TWZiSEk0bDVNRm1OaUtLYjVSUWtodllCUjRO?=
+ =?utf-8?B?R2pEQTdydnpQenlnQzdSMDh5eHFnV0g1Mm9VNVZBU1ZoZXBETERZVEZZVVRx?=
+ =?utf-8?B?a2gvZE1DN1BFWG4zWTNPdFFuNTJheVRLekhURXM5NURsZEdxMFhPeVlWSG5M?=
+ =?utf-8?B?eE9PaHN2WHBIcjhyQzY1ak1oNFBUWHJZdWxFUDl4cjRwZDFWOWhkRjIyVEZt?=
+ =?utf-8?B?bmVXUmp5OE8vQ2trL2xFZUNWVXhCVGFNUnRjL2FGVmJQNitEVU5YUnppRDJq?=
+ =?utf-8?B?aEFKRytLRGYrM29lNWlFbXZBc3dBWmVjdDhpNkVtc0RpejRkSHVkZzA0YjI5?=
+ =?utf-8?B?OEJGNUdueGptY0V4NVA2dEpmMmliYmpob0hyQUVXMm44L1V4UGdrRmpaZy9T?=
+ =?utf-8?B?NmM0MVdmYVZlL0VyTWRqKzA5U0NDbDY5b2ZyaEdDekhHZlByRk42Vk9DZWRh?=
+ =?utf-8?B?Szc4bHRPWnJveHlVZVhwYnQ4VjJ5VGtkUHdWaTE5dFhMODZkTjZQcUVrMFJj?=
+ =?utf-8?B?TDBqR3RQeE81NC9KQUl4a0lqZnRVWGhpUE9RR3FqWFBFdllvMFU3Y1NJZmJM?=
+ =?utf-8?B?cWM2WC9NZXdHK3FPY2R2VnExY042eGlTdjNQOGVCaUZjZW9SOGpRTzg3Wmtw?=
+ =?utf-8?B?TC9FV0lxNmY0Q2J0aEZCb2wyUjIwRWdPMXFaMmQ4WHRTTjBEcFdwMzFnL3J3?=
+ =?utf-8?B?bjJvSUtpZ0d3YmVDY05sZGg2c3hjbWJSZEI5WGZMNFlzbVVFYWxZcFA2WUZK?=
+ =?utf-8?B?YktrUThpQnpXVFd5TUVQOHhsc20vNjRDUEZIdS9JSDJodnZSZjJ0dzh3OThR?=
+ =?utf-8?B?N2NKemQ4V1VNS2xuVEdYekhUR1Q3R2Q0OU5saHFkdmtUcFdxTjNzekQyU21r?=
+ =?utf-8?B?TDJRMThPc25PNE5yVVhibStLbWZCcVdBSjFoWEltNFBNQ2Z0bDlzVmJJOU40?=
+ =?utf-8?B?S3d3aVd5Z2RVb3Fsd3dLcC9JazdmdGo3eWExWEVzZ2h0dTM4QTBxTURCT2RQ?=
+ =?utf-8?B?VFI1KzJsMFA5T3ovazNrei9yS0VTRjV6MHU5ZmVHa1U0U3FrRlJSV3JERDg4?=
+ =?utf-8?Q?39HPi8edGt0dGKcl9U7I/N7feAwjFMDN7Onp6PW?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ac07b52-e8d7-44fb-53e0-08d9572ba3c2
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7c5fd67-c0b7-4ffc-65da-08d9572ba49d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 09:38:39.3751 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 09:38:40.8406 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RYP84TZjthJHtjTSTCG5TVl4jIS7nlwBwBwW9tPwClFGjuJHsXhDPWzGfBK9xlGvm6Q3tdZU64DnhsnA4e/RzvN/HL8CzlB/hRsXG5JXk0I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: qwQ1GWwuwZhg94XzcpLRDYQHVXCv/lMcoR4KoiuhzrNYpnYVpwUkkwSvXkJryDcC1N4/vrDMCPOKo5iSwIAfKAFbzl7NIw5SQMMZ+yijcDA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3622
 Received-SPF: pass client-ip=40.107.7.101;
  envelope-from=vsementsov@virtuozzo.com;
@@ -142,54 +149,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add field, so property can declare support for setting the property
-when device is realized. To be used in the following commit.
+We need an ability to insert filters above top block node, attached to
+block device. It can't be achieved with blockdev-reopen command. So, we
+want do it with help of qom-set.
+
+Intended usage:
+
+Assume there is a node A that is attached to some guest device.
+
+1. blockdev-add to create a filter node B that has A as its child.
+
+2. qom-set to change the node attached to the guest device’s
+   BlockBackend from A to B.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/hw/qdev-properties.h | 1 +
- hw/core/qdev-properties.c    | 6 +++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ hw/core/qdev-properties-system.c | 43 +++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 0ef97d60ce..f7925f67d0 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -32,6 +32,7 @@ struct PropertyInfo {
-     const char *name;
-     const char *description;
-     const QEnumLookup *enum_table;
-+    bool realized_set_allowed; /* allow setting property on realized device */
-     int (*print)(Object *obj, Property *prop, char *dest, size_t len);
-     void (*set_default_value)(ObjectProperty *op, const Property *prop);
-     ObjectProperty *(*create)(ObjectClass *oc, const char *name,
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 50f40949f5..c34aac6ebc 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -26,11 +26,11 @@ void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 2760c21f11..e71f5d64d1 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -36,11 +36,11 @@
  
- /* returns: true if property is allowed to be set, false otherwise */
- static bool qdev_prop_allow_set(Object *obj, const char *name,
--                                Error **errp)
-+                                const PropertyInfo *info, Error **errp)
+ static bool check_prop_still_unset(Object *obj, const char *name,
+                                    const void *old_val, const char *new_val,
+-                                   Error **errp)
++                                   bool allow_override, Error **errp)
  {
-     DeviceState *dev = DEVICE(obj);
+     const GlobalProperty *prop = qdev_find_global_prop(obj, name);
  
--    if (dev->realized) {
-+    if (dev->realized && !info->realized_set_allowed) {
-         qdev_prop_set_after_realize(dev, name, errp);
-         return false;
+-    if (!old_val) {
++    if (!old_val || (!prop && allow_override)) {
+         return true;
      }
-@@ -79,7 +79,7 @@ static void field_prop_set(Object *obj, Visitor *v, const char *name,
- {
-     Property *prop = opaque;
  
--    if (!qdev_prop_allow_set(obj, name, errp)) {
-+    if (!qdev_prop_allow_set(obj, name, prop->info, errp)) {
+@@ -93,16 +93,34 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+     BlockBackend *blk;
+     bool blk_created = false;
+     int ret;
++    BlockDriverState *bs;
++    AioContext *ctx;
+ 
+     if (!visit_type_str(v, name, &str, errp)) {
          return;
      }
+ 
+-    /*
+-     * TODO Should this really be an error?  If no, the old value
+-     * needs to be released before we store the new one.
+-     */
+-    if (!check_prop_still_unset(obj, name, *ptr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, *ptr, str, true, errp)) {
++        return;
++    }
++
++    if (*ptr) {
++        /* BlockBackend alread exists. So, we want to change attached node */
++        blk = *ptr;
++        ctx = blk_get_aio_context(blk);
++        bs = bdrv_lookup_bs(NULL, str, errp);
++        if (!bs) {
++            return;
++        }
++
++        if (ctx != bdrv_get_aio_context(bs)) {
++            error_setg(errp, "Different aio context is not supported for new "
++                       "node");
++        }
++
++        aio_context_acquire(ctx);
++        blk_replace_bs(blk, bs, errp);
++        aio_context_release(ctx);
+         return;
+     }
+ 
+@@ -114,7 +132,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+ 
+     blk = blk_by_name(str);
+     if (!blk) {
+-        BlockDriverState *bs = bdrv_lookup_bs(NULL, str, NULL);
++        bs = bdrv_lookup_bs(NULL, str, NULL);
+         if (bs) {
+             /*
+              * If the device supports iothreads, it will make sure to move the
+@@ -123,8 +141,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+              * aware of iothreads require their BlockBackends to be in the main
+              * AioContext.
+              */
+-            AioContext *ctx = iothread ? bdrv_get_aio_context(bs) :
+-                                         qemu_get_aio_context();
++            ctx = iothread ? bdrv_get_aio_context(bs) : qemu_get_aio_context();
+             blk = blk_new(ctx, 0, BLK_PERM_ALL);
+             blk_created = true;
+ 
+@@ -196,6 +213,7 @@ static void release_drive(Object *obj, const char *name, void *opaque)
+ const PropertyInfo qdev_prop_drive = {
+     .name  = "str",
+     .description = "Node name or ID of a block device to use as a backend",
++    .realized_set_allowed = true,
+     .get   = get_drive,
+     .set   = set_drive,
+     .release = release_drive,
+@@ -204,6 +222,7 @@ const PropertyInfo qdev_prop_drive = {
+ const PropertyInfo qdev_prop_drive_iothread = {
+     .name  = "str",
+     .description = "Node name or ID of a block device to use as a backend",
++    .realized_set_allowed = true,
+     .get   = get_drive,
+     .set   = set_drive_iothread,
+     .release = release_drive,
+@@ -238,7 +257,7 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+      * TODO Should this really be an error?  If no, the old value
+      * needs to be released before we store the new one.
+      */
+-    if (!check_prop_still_unset(obj, name, be->chr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, be->chr, str, false, errp)) {
+         return;
+     }
+ 
+@@ -408,7 +427,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
+          * TODO Should this really be an error?  If no, the old value
+          * needs to be released before we store the new one.
+          */
+-        if (!check_prop_still_unset(obj, name, ncs[i], str, errp)) {
++        if (!check_prop_still_unset(obj, name, ncs[i], str, false, errp)) {
+             goto out;
+         }
  
 -- 
 2.29.2
