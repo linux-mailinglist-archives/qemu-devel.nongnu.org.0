@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F873E06A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:18:58 +0200 (CEST)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA943E052C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 18:03:32 +0200 (CEST)
+Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBKXf-0001yk-KS
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:18:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
+	id 1mBJMc-0006pL-Vh
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 12:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBIEu-00015u-5E
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:51:24 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBIEs-0002X7-I7
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:51:23 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id d6so3869962edt.7
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 07:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=dbvuMaCOyOv9D2vFS7OxhUkuUeLmYuDWxIJqHtUpWRI=;
- b=UlXYubxsACzw8sSx1duM3YUGX7fgX9JiHbciw8oAbvJpNg2Lh7ov+ZpHgbXPwYsKNt
- BYaC4YUJOZm+qv9XmjrcpkTf4BnU0QmWDsmG0O11MjJDN6lfphPmDHeQFGzDRgCD4il7
- YjsfCibEemvy+B1W9eql2vB7znl+GaAltUZ49H3h1LTpqDZA9r/LcsIOrfUKKuKODWD7
- /hOqwhyTjRhnQcouI6PsmXLEOyQgi/e9NMj7a9I8ddToncr/1Uo8C4cvc0N5h+Yxrav7
- FzPQLXGAe2QACAUNGscjcBHOPRAFOd6BYO6FPPikhJ/FoLKTwLRgL28467/tKP9mGO+F
- XckA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBIET-0000vN-OV
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:50:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBIEQ-0002D2-5J
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:50:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628088653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yuDZrQJMOKE9pfxIlRrMCYHwPCIvI7DV6jHUVi9+HcU=;
+ b=a6uQtDIZ4c72iFQgQl0m+i78KKdYmGiYkiAcNsTvd8TnR7sYGmpR/AZgddCAyOTyn3RYDc
+ LF59EDj/cAraBRhjg8X7Xjbd9QaI5a6gcBhLCnoxfvU0Ov1JKqQ0A6hWlTZaNe6BU8VjhO
+ FFyu9tTylwQ5QCqfvosCWX1m/vdM88I=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-TApHjE5HNYG0WQDsXKq-Fg-1; Wed, 04 Aug 2021 10:50:52 -0400
+X-MC-Unique: TApHjE5HNYG0WQDsXKq-Fg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ k22-20020a1709061596b02905a370b2f477so905345ejd.17
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 07:50:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=dbvuMaCOyOv9D2vFS7OxhUkuUeLmYuDWxIJqHtUpWRI=;
- b=CWWcFxJedrB1q8Y9itv7Tahmifd87R5HxtcRJ2NYPeE3U58J73+1Jr6nsERFOgxR1Q
- wYwpqhK0t0imSdLp/ghSMF0Kl7NqFmz1q/Ev+ndMJEbxw+U9KALJDtXoYtfuNdSN/syd
- a2xvcE85959RsYsFiBDXQfOywm+j7hmm7rZkMiDOEFYeWQLv0q6zGqWE4UujOLOk2NqB
- NBcEW1LNuyjn6vAfd4aDJOZp9wtyxZscL37//TYjptCdmJ/dCOVvpT8880U5wyukhvgL
- igDg3Y+ahyaUV74CqYWX2rTWqEl+4kJcWUusjyQMgordhbDjkJGRPEiO0klFFnVP8a4w
- HR+Q==
-X-Gm-Message-State: AOAM532+4R4/XvjdHYZHmK85W8cT2Zk6Vuuys31kqPg8N4qMqWg3sfZe
- fuNEeFg+akSi86Gi802W1Vz73IZpEZdBluZd0pfIvGHMfrQ04g==
-X-Google-Smtp-Source: ABdhPJyDOVwzj81uvn5ENnZO05flqy13n8ng5Q1O129A2Ahxl3G8BAaWO06XvQ2dI9QaOL6HsCE9opk7hXAymdkwBC4=
-X-Received: by 2002:a50:f615:: with SMTP id c21mr144213edn.146.1628088680593; 
- Wed, 04 Aug 2021 07:51:20 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yuDZrQJMOKE9pfxIlRrMCYHwPCIvI7DV6jHUVi9+HcU=;
+ b=B/2er0MUxQiKH+PxfCNWBhzGCe2NdbyRpFWP1ZH+7tniMF17GCbENG8YLTn9A955R9
+ gf2ie8jM5Iqu4FRU6AOtAkFpvy7EILt330jBDcGdCQGoKRzhVCZ75vDvJQJUhyROa+iY
+ ZgjviMQuLWX9sHSsauScvRLN46El2RCxGGNESiUg4a3dNpcSeErmi36twYz0kdEcA6UB
+ B/HN17cUqG+DdD/0/k7qRwXx0JIrCE12FgCDZ/fBFVsIDCbrFLgvsqLKjHVKqWne6rHT
+ wAkq7KTE+v+RolBLVayrOYCFj5JDALlPBEd9rSb/46JCNxWMOw2A099ZLjVKU9BrVwqz
+ NCjg==
+X-Gm-Message-State: AOAM533vqf303cGzNboGUFT3f3Zn/hIScWcNavIh+izpm2AU+xhM9IxT
+ e/6LSqKkCMSmYY2n4OlxVKE2P0zHeIzng0VkSPeZQxEUVArK8h5C57swNpy42oBZVNM3wkrGUCW
+ 1SjhZ76ZNBrGqhTY=
+X-Received: by 2002:a05:6402:22b0:: with SMTP id
+ cx16mr83094edb.185.1628088650808; 
+ Wed, 04 Aug 2021 07:50:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9m7llB1Q862hviSiTyXLSbue/gqUr8sSTngVI6vBBmQBNcnNU2f5CwUmXVykvdxriT4pFsQ==
+X-Received: by 2002:a05:6402:22b0:: with SMTP id
+ cx16mr83075edb.185.1628088650657; 
+ Wed, 04 Aug 2021 07:50:50 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id nb39sm718945ejc.95.2021.08.04.07.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 07:50:50 -0700 (PDT)
+Date: Wed, 4 Aug 2021 16:50:48 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] block/io_uring: resubmit when result is -EAGAIN
+Message-ID: <20210804145048.awmlthlwlv3vcohu@steredhat>
+References: <20210729091029.65369-1-f.ebner@proxmox.com>
+ <YQfnxLROKL/JUKyF@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Aug 2021 15:50:37 +0100
-Message-ID: <CAFEAcA8cWrxWWgzzYAYWZRoL6XithZUO=OJ9L1V_wevHScN0FA@mail.gmail.com>
-Subject: improving logging of hanging tests in CI
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YQfnxLROKL/JUKyF@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,71 +97,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:Linux io_uring" <qemu-block@nongnu.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fabian Ebner <f.ebner@proxmox.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of our tests in 'make check' hang intermittently. At the moment
-we have a path to diagnosing these when they happen via my ad-hoc CI
-scripts: I can log into the relevant machine and manually look at
-what has hung, attach gdb, etc. However, for the gitlab CI this
-doesn't work.
+On Mon, Aug 02, 2021 at 02:40:36PM +0200, Kevin Wolf wrote:
+>Am 29.07.2021 um 11:10 hat Fabian Ebner geschrieben:
+>> Linux SCSI can throw spurious -EAGAIN in some corner cases in its
+>> completion path, which will end up being the result in the completed
+>> io_uring request.
+>>
+>> Resubmitting such requests should allow block jobs to complete, even
+>> if such spurious errors are encountered.
+>>
+>> Co-authored-by: Stefan Hajnoczi <stefanha@gmail.com>
+>> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+>> ---
+>>
+>> Changes from v1:
+>>     * Focus on what's relevant for the patch itself in the commit
+>>       message.
+>>     * Add Stefan's comment.
+>>     * Add Stefano's R-b tag (I hope that's fine, since there was no
+>>       change code-wise).
+>>
+>>  block/io_uring.c | 16 +++++++++++++++-
+>>  1 file changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/block/io_uring.c b/block/io_uring.c
+>> index 00a3ee9fb8..dfa475cc87 100644
+>> --- a/block/io_uring.c
+>> +++ b/block/io_uring.c
+>> @@ -165,7 +165,21 @@ static void luring_process_completions(LuringState *s)
+>>          total_bytes = ret + luringcb->total_read;
+>>
+>>          if (ret < 0) {
+>> -            if (ret == -EINTR) {
+>> +            /*
+>> +             * Only writev/readv/fsync requests on regular files or host block
+>> +             * devices are submitted. Therefore -EAGAIN is not expected but it's
+>> +             * known to happen sometimes with Linux SCSI. Submit again and hope
+>> +             * the request completes successfully.
+>> +             *
+>> +             * For more information, see:
+>> +             * https://lore.kernel.org/io-uring/20210727165811.284510-3-axboe@kernel.dk/T/#u
+>> +             *
+>> +             * If the code is changed to submit other types of requests in the
+>> +             * future, then this workaround may need to be extended to deal with
+>> +             * genuine -EAGAIN results that should not be resubmitted
+>> +             * immediately.
+>> +             */
+>> +            if (ret == -EINTR || ret == -EAGAIN) {
+>>                  luring_resubmit(s, luringcb);
+>>                  continue;
+>>              }
+>
+>Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>
+>Question about the preexisting code, though: luring_resubmit() requires
+>that the caller calls ioq_submit() later so that the request doesn't
+>just sit in a queue without getting any attention, but actually gets
+>submitted to the kernel.
+>
+>In the call chain ioq_submit() -> luring_process_completions() ->
+>luring_resubmit(), who takes care of that?
 
-Is it possible to stick something into the 'make check' framework
-that does something like this:
- * for each test run, if it hasn't exited after 5 minutes,
-   assume it has hung
- * in that case, print "ERROR: test $WHATEVER hung" to stdout
- * run something like the below script to capture backtraces
-   (which is just something I threw together this afternoon and
-   could probably be improved)
- * kill the offending subtree of processes
- * make sure 'make' exits with an error
+Mmm, good point.
+There should be the same problem with ioq_submit() -> 
+luring_process_completions() -> luring_resubmit_short_read() -> 
+luring_resubmit().
 
-We'd need to make sure that the CI stuff had 'gdb' installed
-(and that the CI machine config lets gdb attach to processes
-by PID, which we can for our own runners even if the gitlab
-stock setup forbids it.)
+Should we schedule a BH for example in luring_resubmit() to make sure 
+that ioq_submit() is invoked after a resubmission?
 
-The idea is to at least get a backtrace of a hung test into the
-logs, so we have some idea of what happened.
+Thanks,
+Stefano
 
-===backtrace-process-tree===
-#!/bin/bash -e
-# backtrace-process-tree: print a thread backtrace of specified
-# process and all its descendants.
-# Copyright 2021 Linaro
-# License GPL-v2-or-later
-
-if [ $# != 1 ]; then
-    echo "Usage: backtrace-process-id PID"
-    exit 1
-fi
-
-TOPPID="$1"
-
-if [ ! -e "/proc/$TOPPID" ]; then
-    echo "$TOPPID not a PID of a running process?"
-    exit 1
-fi
-
-bt_me_and_children() {
-  ME="$1"
-  echo "==========================================================="
-  echo "PROCESS: $ME"
-  ps -ww -f -p "$ME" | tail -1
-  gdb --nx --batch -ex 'thread apply all bt' /proc/"$ME"/exe "$ME"
-  echo
-
-  for child in $(pgrep -P "$ME"); do
-      bt_me_and_children $child
-  done
-}
-
-echo "Process tree:"
-pstree -pT "$TOPPID"
-
-bt_me_and_children "$TOPPID"
-===endit===
-
--- PMM
 
