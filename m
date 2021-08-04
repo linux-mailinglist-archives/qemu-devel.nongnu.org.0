@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDD83E070E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:00:14 +0200 (CEST)
-Received: from localhost ([::1]:41570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07D53E0701
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 19:56:52 +0200 (CEST)
+Received: from localhost ([::1]:59498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBLBc-0005nS-TY
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48290)
+	id 1mBL8N-0007CV-Rx
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 13:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJ9A-0000t7-9w
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41640)
+ id 1mBJ9J-0000tM-59
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJ96-0006Et-8p
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:32 -0400
+ id 1mBJ9H-0006KM-7h
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628092167;
+ s=mimecast20190719; t=1628092177;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ks+men1F8JpscTEpSWu1efz4WDuDDwCIgdjOTVhmbRA=;
- b=Jms0Fjsy2uFiYRvAJc2nBZYADgQSGUYPPR/3OTm0o4WTDlYdjETvzRtHUjBTqlvVBF1YEL
- pZAM1eiI0AeV5NgvvCfwWFw9bzCKHzaE12fpW0yX9vTca5i7W6uHHhNIdL4QOUat8zXZ1m
- 4d/axRjDdgK9m0xCnT4LssWT1iaZmK4=
+ bh=INJYigyCVoW4cR/1pTHEXIGDHM8nSJFMX+ymiWt53pg=;
+ b=EpDd7U/RoLc5y0m7Sr9pYXSlIi3FVa1yQmHFS7ND1HLNHHXy3+E+PZTGhPVU7BTS+CM67u
+ x97T4AUd3C2nQMz7YOK0SLWe0Pw0F3R2Ci2YzJMUN5WNX/ewqQqXO7vkGQhhQvLHOJmKiT
+ KtsUd/f6zZWiZ6q6M/BV79fhTSSLKvs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-42MgXMdEMWOIBG6uBL6YcA-1; Wed, 04 Aug 2021 11:49:26 -0400
-X-MC-Unique: 42MgXMdEMWOIBG6uBL6YcA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-199-8fx8lUfZPSyj4xc3GGqAGg-1; Wed, 04 Aug 2021 11:49:35 -0400
+X-MC-Unique: 8fx8lUfZPSyj4xc3GGqAGg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1E6EEC1A0
- for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:49:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC5C2EC1A7
+ for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:49:34 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 296AE6B54C;
- Wed,  4 Aug 2021 15:49:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5F7360C0F;
+ Wed,  4 Aug 2021 15:49:29 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/11] chardev: remove needless class method
-Date: Wed,  4 Aug 2021 19:48:40 +0400
-Message-Id: <20210804154848.557328-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 04/11] chardev: add some comments about the class methods
+Date: Wed,  4 Aug 2021 19:48:41 +0400
+Message-Id: <20210804154848.557328-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 References: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,53 +87,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-"chr_option_parsed" is only implemented by the "mux" chardev, we can
-specialize the code there to avoid the needless generic class method.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/chardev/char.h | 1 -
- chardev/char-mux.c     | 6 ++----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ include/chardev/char.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
 diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 7c0444f90d..589e7fe46d 100644
+index 589e7fe46d..a319b5fdff 100644
 --- a/include/chardev/char.h
 +++ b/include/chardev/char.h
-@@ -273,7 +273,6 @@ struct ChardevClass {
+@@ -254,24 +254,57 @@ struct ChardevClass {
+ 
+     bool internal; /* TODO: eventually use TYPE_USER_CREATABLE */
+     bool supports_yank;
++
++    /* parse command line options and populate QAPI @backend */
+     void (*parse)(QemuOpts *opts, ChardevBackend *backend, Error **errp);
+ 
++    /* called after construction, open/starts the backend */
+     void (*open)(Chardev *chr, ChardevBackend *backend,
+                  bool *be_opened, Error **errp);
+ 
++    /* write buf to the backend */
+     int (*chr_write)(Chardev *s, const uint8_t *buf, int len);
++
++    /*
++     * Read from the backend (blocking). A typical front-end will instead rely
++     * on chr_can_read/chr_read being called when polling/looping.
++     */
+     int (*chr_sync_read)(Chardev *s, const uint8_t *buf, int len);
++
++    /* create a watch on the backend */
+     GSource *(*chr_add_watch)(Chardev *s, GIOCondition cond);
++
++    /* update the backend internal sources */
+     void (*chr_update_read_handler)(Chardev *s);
++
++    /* send an ioctl to the backend */
+     int (*chr_ioctl)(Chardev *s, int cmd, void *arg);
++
++    /* get ancillary-received fds during last read */
+     int (*get_msgfds)(Chardev *s, int* fds, int num);
++
++    /* set ancillary fds to be sent with next write */
+     int (*set_msgfds)(Chardev *s, int *fds, int num);
++
++    /* accept the given fd */
+     int (*chr_add_client)(Chardev *chr, int fd);
++
++    /* wait for a connection */
+     int (*chr_wait_connected)(Chardev *chr, Error **errp);
++
++    /* disconnect a connection */
+     void (*chr_disconnect)(Chardev *chr);
++
++    /* called by frontend when it can read */
+     void (*chr_accept_input)(Chardev *chr);
++
++    /* set terminal echo */
      void (*chr_set_echo)(Chardev *chr, bool echo);
++
++    /* notify the backend of frontend open state */
      void (*chr_set_fe_open)(Chardev *chr, int fe_open);
++
++    /* handle various events */
      void (*chr_be_event)(Chardev *s, QEMUChrEvent event);
--    void (*chr_options_parsed)(Chardev *chr);
  };
- 
- Chardev *qemu_chardev_new(const char *id, const char *typename,
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 5baf419010..ada0c6866f 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -386,10 +386,9 @@ void suspend_mux_open(void)
- static int chardev_options_parsed_cb(Object *child, void *opaque)
- {
-     Chardev *chr = (Chardev *)child;
--    ChardevClass *class = CHARDEV_GET_CLASS(chr);
- 
--    if (!chr->be_open && class->chr_options_parsed) {
--        class->chr_options_parsed(chr);
-+    if (!chr->be_open && CHARDEV_IS_MUX(chr)) {
-+        open_muxes(chr);
-     }
- 
-     return 0;
-@@ -412,7 +411,6 @@ static void char_mux_class_init(ObjectClass *oc, void *data)
-     cc->chr_accept_input = mux_chr_accept_input;
-     cc->chr_add_watch = mux_chr_add_watch;
-     cc->chr_be_event = mux_chr_be_event;
--    cc->chr_options_parsed = open_muxes;
-     cc->chr_update_read_handler = mux_chr_update_read_handlers;
- }
  
 -- 
 2.32.0.264.g75ae10bc75
