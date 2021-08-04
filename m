@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490F43DFF3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 12:14:07 +0200 (CEST)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB843DFF71
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 12:35:46 +0200 (CEST)
+Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBDuY-0006pS-B1
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 06:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54276)
+	id 1mBEFU-0005eh-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 06:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mBDtU-00061V-Vz
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 06:13:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35490)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mBEEX-0004m7-0u
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 06:34:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mBDtS-0008PM-39
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 06:13:00 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mBEET-0001jl-VZ
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 06:34:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628071976;
+ s=mimecast20190719; t=1628073280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fOdFeFR2ixOn8ORHx0CFLBXkpQbPgJoWqM/q8jnly0A=;
- b=KJnwb79WTt3UrhkGTPnzGD8+IA5r8za8FlDt7Vq4LmwQOLH2DqOqCP1pPKRm822oPHIPfC
- de2SaCEAQedTmCHH++bHd+rLndX+wZ+5fQgpNcYpXs6ggeuULihoX/rNdOa9TO/w7y5O6L
- 9SojsSnltF0twBj64KFnmfG6Vkd4o9A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-UUyQ1GFvPfqopCFnKv8NfQ-1; Wed, 04 Aug 2021 06:12:55 -0400
-X-MC-Unique: UUyQ1GFvPfqopCFnKv8NfQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f20-20020a1c6a140000b029025b066428ebso582830wmc.5
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 03:12:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=fOdFeFR2ixOn8ORHx0CFLBXkpQbPgJoWqM/q8jnly0A=;
- b=TXw4wLRlpQWRX5CU9/CNy/C2wYTIbpdw/brGVMhxqWR/Xci5Z/14EjZFJry767NGkD
- bhFJ1Ebk6pONYuxV6CFohal7jfyd17XG9Iu46zOsTOWrMVPiB7m1Kp7SquCQRAZyIZIW
- ZIAyQsGIuqftkdToOfnJlUQDbf+h1qW59o7WoRI04ByGl6YDMzmlCgCFVZ4N2vCnNKGv
- Jpul6ZeOUV2XWJu3Hvt7sPEiNa1RH4Q1kvl7LpVGX+X4Lq9lipHy7La1NreoQNRwL9MZ
- 0UvyFsuUJncmSn9BlH5mOrEOyhRdhelDOAPjAXSnXr1b7g8B/vN0xWUAsj09617oZeRf
- f7+A==
-X-Gm-Message-State: AOAM531dwlsQUsEYzhe+NZFSeCuRa+GLhsnqkCIdozHbvs4dNrmTOkLj
- mpwPDsCAhmMjSKWHHg4qnq697oq20+Zhk9st4YDAi4Ejc8eHqeGZxj1bbN4nB9jJEHge0JYA+ZD
- 5qkXpIQjUi4ljHR0=
-X-Received: by 2002:a5d:4312:: with SMTP id h18mr28612597wrq.170.1628071974063; 
- Wed, 04 Aug 2021 03:12:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzm5TPRaJIcSQcqfUie3lcWLHxZQqtzSzRAJo8nY9Yr/Ej8iiCjJPXVOrzjbPKXc4IkDuBS8A==
-X-Received: by 2002:a5d:4312:: with SMTP id h18mr28612562wrq.170.1628071973738; 
- Wed, 04 Aug 2021 03:12:53 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- k1sm2064669wrz.61.2021.08.04.03.12.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Aug 2021 03:12:53 -0700 (PDT)
-Subject: Re: [PATCH for-6.1? v2 6/7] mirror: Check job_is_cancelled() earlier
-To: Kevin Wolf <kwolf@redhat.com>
+ bh=Rc5R40qMNaqwSHw+ah/lPhCRYRtytfnN9s0lVEzX9hI=;
+ b=hcaW/fFWbKFTLLSv7LI7pY4cO9XEzyfXFa+53vZtxEf+S82cx2qxJ4aIDOtAVrkw+MKu+U
+ o2fH01VwgI8Axgz5cOC9UsbIu2tdRPCWC3fkqwgrxCiyBo+aPeFSCZU3oFMsP58USgWnw9
+ +sVH07w4xQ3+cpL7QyQsDD0eJg6grx0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-VLVsb-hIPnisuX8H28jXCw-1; Wed, 04 Aug 2021 06:34:39 -0400
+X-MC-Unique: VLVsb-hIPnisuX8H28jXCw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E92CC73A0;
+ Wed,  4 Aug 2021 10:34:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ADCBB5F724;
+ Wed,  4 Aug 2021 10:34:32 +0000 (UTC)
+Date: Wed, 4 Aug 2021 12:34:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH for-6.1? v2 5/7] job: Add job_cancel_requested()
+Message-ID: <YQptN0CLpV5MN5kb@redhat.com>
 References: <20210726144613.954844-1-mreitz@redhat.com>
- <20210726144613.954844-7-mreitz@redhat.com> <YQlT4rO9OoykGl/b@redhat.com>
- <cbf2f3c8-6e7a-b277-f90a-483699828b6f@redhat.com>
- <YQpihpmOeswUGSlh@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <a8d7fe17-0959-eb6f-4205-f319827a3d92@redhat.com>
-Date: Wed, 4 Aug 2021 12:12:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210726144613.954844-6-mreitz@redhat.com>
+ <YQlRzOzXOxeBLb0B@redhat.com>
+ <13d07f4b-9659-4576-1757-a7d75f7e16c2@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YQpihpmOeswUGSlh@redhat.com>
+In-Reply-To: <13d07f4b-9659-4576-1757-a7d75f7e16c2@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,78 +81,166 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+ qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ pkrempa@redhat.com, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.08.21 11:48, Kevin Wolf wrote:
-> Am 04.08.2021 um 10:25 hat Max Reitz geschrieben:
->> On 03.08.21 16:34, Kevin Wolf wrote:
->>> Am 26.07.2021 um 16:46 hat Max Reitz geschrieben:
->>>> We must check whether the job is force-cancelled early in our main loop,
->>>> most importantly before any `continue` statement.  For example, we used
->>>> to have `continue`s before our current checking location that are
->>>> triggered by `mirror_flush()` failing.  So, if `mirror_flush()` kept
->>>> failing, force-cancelling the job would not terminate it.
->>>>
->>>> A job being force-cancelled should be treated the same as the job having
->>>> failed, so put the check in the same place where we check `s->ret < 0`.
->>>>
->>>> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>    block/mirror.c | 7 +------
->>>>    1 file changed, 1 insertion(+), 6 deletions(-)
->>>>
->>>> diff --git a/block/mirror.c b/block/mirror.c
->>>> index 72e02fa34e..46d1a1e5a2 100644
->>>> --- a/block/mirror.c
->>>> +++ b/block/mirror.c
->>>> @@ -993,7 +993,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
->>>>                mirror_wait_for_any_operation(s, true);
->>>>            }
->>>> -        if (s->ret < 0) {
->>>> +        if (s->ret < 0 || job_is_cancelled(&s->common.job)) {
->>>>                ret = s->ret;
->>>>                goto immediate_exit;
->>>>            }
->>>> @@ -1078,8 +1078,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
->>>>                break;
->>>>            }
->>>> -        ret = 0;
->>>> -
->>>>            if (job_is_ready(&s->common.job) && !should_complete) {
->>>>                delay_ns = (s->in_flight == 0 &&
->>>>                            cnt == 0 ? BLOCK_JOB_SLICE_TIME : 0);
->>>> @@ -1087,9 +1085,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
->>>>            trace_mirror_before_sleep(s, cnt, job_is_ready(&s->common.job),
->>>>                                      delay_ns);
->>>>            job_sleep_ns(&s->common.job, delay_ns);
->>>> -        if (job_is_cancelled(&s->common.job)) {
->>>> -            break;
->>>> -        }
->>> I think it was intentional that the check is here because it means
->>> skipping the job_sleep_ns() and instead cancelling immediately, and we
->>> probably still want that. Between your check above and here, the
->>> coroutine can yield, so cancellation could have been newly requested.
->> I’m afraid I don’t quite understand.
-> Hm, I don't either. Somehow I thought job_sleep_ns() was after the
-> check, while quoting the exact hunk that shows that it comes before
-> it...
->
-> I'm still not sure if sleeping before exiting is really useful, but it
-> seems we never cared about that.
+[ Peter, the question for you is at the end. ]
 
-Jobs that are (force-)cancelled cannot yield or sleep anyway 
-(job_sleep_ns(), job_yield(), and job_pause_point() will all return 
-immediately when called on a cancelled job).
+Am 04.08.2021 um 10:07 hat Max Reitz geschrieben:
+> On 03.08.21 16:25, Kevin Wolf wrote:
+> > Am 26.07.2021 um 16:46 hat Max Reitz geschrieben:
+> > > Most callers of job_is_cancelled() actually want to know whether the job
+> > > is on its way to immediate termination.  For example, we refuse to pause
+> > > jobs that are cancelled; but this only makes sense for jobs that are
+> > > really actually cancelled.
+> > > 
+> > > A mirror job that is cancelled during READY with force=false should
+> > > absolutely be allowed to pause.  This "cancellation" (which is actually
+> > > a kind of completion) may take an indefinite amount of time, and so
+> > > should behave like any job during normal operation.  For example, with
+> > > on-target-error=stop, the job should stop on write errors.  (In
+> > > contrast, force-cancelled jobs should not get write errors, as they
+> > > should just terminate and not do further I/O.)
+> > > 
+> > > Therefore, redefine job_is_cancelled() to only return true for jobs that
+> > > are force-cancelled (which as of HEAD^ means any job that interprets the
+> > > cancellation request as a request for immediate termination), and add
+> > > job_cancel_request() as the general variant, which returns true for any
+> > > jobs which have been requested to be cancelled, whether it be
+> > > immediately or after an arbitrarily long completion phase.
+> > > 
+> > > Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > > ---
+> > >   include/qemu/job.h |  8 +++++++-
+> > >   block/mirror.c     | 10 ++++------
+> > >   job.c              |  7 ++++++-
+> > >   3 files changed, 17 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/include/qemu/job.h b/include/qemu/job.h
+> > > index 8aa90f7395..032edf3c5f 100644
+> > > --- a/include/qemu/job.h
+> > > +++ b/include/qemu/job.h
+> > > @@ -436,9 +436,15 @@ const char *job_type_str(const Job *job);
+> > >   /** Returns true if the job should not be visible to the management layer. */
+> > >   bool job_is_internal(Job *job);
+> > > -/** Returns whether the job is scheduled for cancellation. */
+> > > +/** Returns whether the job is being cancelled. */
+> > >   bool job_is_cancelled(Job *job);
+> > > +/**
+> > > + * Returns whether the job is scheduled for cancellation (at an
+> > > + * indefinite point).
+> > > + */
+> > > +bool job_cancel_requested(Job *job);
+> > I don't think non-force blockdev-cancel for mirror should actually be
+> > considered cancellation, so what is the question that this function
+> > answers?
+> > 
+> > "Is this a cancelled job, or a mirror block job that is supposed to
+> > complete soon, but only if it doesn't switch over the users to the
+> > target on completion"?
+> 
+> Well, technically yes, but it was more intended as “Has the user ever
+> invoked (block-)job-cancel on this job?”.
 
-So I thought you meant that a job can only be cancelled while it is 
-yielding, so we should prefer to put the is_cancelled check after a 
-yield point (like job_pause_point()) than before it.
+I understand this, but is this much more useful to know than "Has the
+user ever called HMP 'change'?", if you know what I mean?
 
-But I mean, if you’re happy, I’ll be happy, too. :)
+> > Is this ever a reasonable question to ask, except maybe inside the
+> > mirror implementation itself?
+> 
+> I asked myself the same for v3, but found two places in job.c where I
+> would like to keep it:
+> 
+> First, there’s an assertion in job_completed_txn_abort().  All jobs
+> other than @job have been force-cancelled, and so job_is_cancelled()
+> would be true for them.  As for @job itself, the function is mostly
+> called when the job’s return value is not 0, but a soft-cancelled
+> mirror does have a return value of 0 and so would not end up in that
+> function.
+> But job_cancel() invokes job_completed_txn_abort() if the job has been
+> deferred to the main loop, which mostly correlates with the job having
+> been completed (in which case the assertion is skipped), but not 100 %
+> (there’s a small window between setting deferred_to_main_loop and the
+> job changing to a completed state).
+> So I’d prefer to keep the assertion as-is functionally, i.e. to only
+> check job->cancelled.
 
-Max
+Well, you don't. It's still job_is_cancelled() after this patch.
+
+So the scenario you're concerned about is a job that has just finished
+successfully (job->ret = 0) and then gets a cancel request?
+
+With force=false, I'm pretty sure the code is wrong anyway because
+calling job_completed_txn_abort() is not the right response. It should
+return an error because you're trying to complete twice, possibly with
+conflicting completion modes. Second best is just ignoring the cancel
+request because we obviously already fulfilled the request of completing
+the job (the completion mode might be different, though).
+
+With force=true, arguably still letting the job fail is correct.
+However, letting it fail involves more than just letting the transaction
+fail. We would have to call job_update_rc() as well so that instead of
+reporting success for the job, ECANCELED is returned and the job
+transitions to JOB_STATUS_ABORTING (after which job_is_completed()
+returns true).
+
+So, just bugs to be fixed.
+
+After this, I think we could even assert(job->ret != 0 ||
+job->status == JOB_STATUS_PENDING) in job_completed_txn_abort().
+ret == 0 can only happen when called from job_do_finalize(), when the
+job is only failing because other jobs in the same transaction have
+failed in their .prepare callback.
+
+> Second, job_complete() refuses to let a job complete that has been
+> cancelled.  This function is basically only invoked by the user
+> (through qmp_block_job_complete()/qmp_job_complete(), or
+> job_complete_sync(), which comes from qemu-img), so I believe that it
+> should correspond to the external interface we have right now; i.e.,
+> if the user has invoked (block-)job-cancel at one point,
+> job_complete() should generally return an error.
+
+True. But it should also return an error if the user has invoked
+job-complete at some point. The distinction between complete and
+non-force cancel doesn't make sense there.
+
+And cancelling with force=false should fail, too, when either job-cancel
+or job-complete was called for the job before.
+
+> > job_complete() is the only function outside of mirror that seems to use
+> > it. But even there, it feels wrong to make a difference. Either we
+> > accept redundant completion requests, or we don't. It doesn't really
+> > matter how the job reconfigures the graph on completion. (Also, I feel
+> > this should really have been part of the state machine, but I'm not sure
+> > if we want to touch it now...)
+> 
+> Well, yes, I don’t think it makes a difference because I don’t think
+> anyone will first tell the job via block-job-cancel to complete
+> without pivoting, and then change their mind and call
+> block-job-complete after all.  (Not least because that’s an error
+> pre-series.)
+
+Right, I'm just arguing that we shouldn't allow the opposite order
+either. Currently I think we do, and it's buggy, as explained above.
+
+> Also, I’m not even sure whether completing after a soft cancel request
+> works.  I don’t think any of our code accounts for such a case, so I’d
+> rather avoid allowing it if there’s no need to allow it anyway.
+
+Yes, definitely avoid it. We should allow only one completion request
+(be it with job-complete or block-job-cancel) and return an error for
+all future completion requests for the same job.
+
+We could in theory keep allowing redundant completion requests when the
+completion mode doesn't conflict, but I don't see the point of that.
+
+Unless libvirt can actually issue multiple completion requests (again,
+this includes both (block-)job-complete and non-force block-job-cancel
+for mirror) for the same block job - Peter, I hope it doesn't?
+
+Kevin
 
 
