@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05123DF917
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 02:59:40 +0200 (CEST)
-Received: from localhost ([::1]:52232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6D23DF91C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 03:03:44 +0200 (CEST)
+Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mB5Fz-0007Md-W4
-	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 20:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54442)
+	id 1mB5Jv-0003UF-H5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Aug 2021 21:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cy-0000UW-69
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51514)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cz-0000WA-4b
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cw-0006l8-OH
- for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:31 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mB5Cx-0006m5-PR
+ for qemu-devel@nongnu.org; Tue, 03 Aug 2021 20:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628038590;
+ s=mimecast20190719; t=1628038591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9XE7x2xUlctIo7gGcYYb2zVxJgjQWg9YTc1HB+zzJig=;
- b=KZiZRTb+vELX3ZcvD3bHG8azME9vADgBZYES/Rr5WTEp+vSmCpaZi87BT4W3MsUq1hBd7K
- thUL/jTbHrUH1WY+7KLZUMWUTvRNwKl7UiXF85LOk/2h7eXumHrn4gl6po7gmIPiGcgc7b
- eXhw2t3/saEHAXNil3ALhv5cYMsNnh8=
+ bh=zoDQcMj2O0CanL5RUdfTbw0wI0a9wNEoOK8bZtIqH0Y=;
+ b=fzlhQxWFEcX5UdvqDjGvKgolo8xLMY/LKzSBXYY4VrSPMy7bE5kvagOfm9pe3MXAECCXUZ
+ scioXUFZ1waJinFNJnJDXwuLV+71ozRcHVvPpgcxrtEgSUnFMnIe0HeopwzYqHpKBn8SIx
+ zk4GOjITgp6JvAvR06KnyHqTgdQ0x4U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-fLs5uBs4OS-2sELDG4pXSQ-1; Tue, 03 Aug 2021 20:56:27 -0400
-X-MC-Unique: fLs5uBs4OS-2sELDG4pXSQ-1
+ us-mta-47-0f7YS6uzOvCa9-c7uXXOkw-1; Tue, 03 Aug 2021 20:56:28 -0400
+X-MC-Unique: 0f7YS6uzOvCa9-c7uXXOkw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 322B2760C0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1EFE801AEB;
  Wed,  4 Aug 2021 00:56:26 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8FF355D9DC;
- Wed,  4 Aug 2021 00:56:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D7B15D9DC;
+ Wed,  4 Aug 2021 00:56:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] docs/devel: create TCG subsection
-Date: Tue,  3 Aug 2021 20:56:19 -0400
-Message-Id: <20210804005621.1577302-5-jsnow@redhat.com>
+Subject: [PATCH 5/6] docs/devel: create "Subsystem APIs" subsection
+Date: Tue,  3 Aug 2021 20:56:20 -0400
+Message-Id: <20210804005621.1577302-6-jsnow@redhat.com>
 In-Reply-To: <20210804005621.1577302-1-jsnow@redhat.com>
 References: <20210804005621.1577302-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,51 +82,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+
 ---
- docs/devel/index.rst       |  5 +----
- docs/devel/section-tcg.rst | 11 +++++++++++
- 2 files changed, 12 insertions(+), 4 deletions(-)
- create mode 100644 docs/devel/section-tcg.rst
+
+I tried to grab documents that appeared to document literal internal
+interfaces of QEMU (that weren't better described by some other
+subsection) and put them here in this section.
+
+Name isn't perfect, feel free to suggest alternatives.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ docs/devel/index.rst              | 10 +---------
+ docs/devel/section-subsystems.rst | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 9 deletions(-)
+ create mode 100644 docs/devel/section-subsystems.rst
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index c560cc78497..71ed48881ef 100644
+index 71ed48881ef..da579a7b666 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
-@@ -12,16 +12,13 @@ modifying QEMU's source code.
-    section-community-governance
+@@ -13,19 +13,11 @@ modifying QEMU's source code.
     section-development
     section-testing-debugging
-+   section-tcg
+    section-tcg
++   section-subsystems
     control-flow-integrity
-    loads-stores
-    memory
-    migration
-    atomics
+-   loads-stores
+-   memory
+-   migration
+-   atomics
     decodetree
--   tcg
--   tcg-icount
--   multi-thread-tcg
--   tcg-plugins
-    bitops
-    ui
-    reset
-diff --git a/docs/devel/section-tcg.rst b/docs/devel/section-tcg.rst
+-   bitops
+-   ui
+-   reset
+    s390-dasd-ipl
+-   clocks
+    qom
+-   modules
+    block-coroutine-wrapper
+    multi-process
+    ebpf_rss
+diff --git a/docs/devel/section-subsystems.rst b/docs/devel/section-subsystems.rst
 new file mode 100644
-index 00000000000..ff046983742
+index 00000000000..fbe21f85adf
 --- /dev/null
-+++ b/docs/devel/section-tcg.rst
-@@ -0,0 +1,11 @@
-+TCG - Tiny Code Generator
-+=========================
++++ b/docs/devel/section-subsystems.rst
+@@ -0,0 +1,16 @@
++Subsystem APIs
++==============
 +
 +.. toctree::
 +   :maxdepth: 2
 +   :includehidden:
 +
-+   tcg
-+   tcg-icount
-+   multi-thread-tcg
-+   tcg-plugins
++   atomics
++   bitops
++   loads-stores
++   clocks
++   memory
++   ui
++   migration
++   reset
++   modules
 -- 
 2.31.1
 
