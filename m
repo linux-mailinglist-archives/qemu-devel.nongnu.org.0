@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6053E09E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 23:12:24 +0200 (CEST)
-Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAD33E09FA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 23:24:18 +0200 (CEST)
+Received: from localhost ([::1]:41684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBOBb-0008WO-7b
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 17:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
+	id 1mBON6-0004OK-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 17:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBOAa-0007QU-PS
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:11:20 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mBOAZ-000662-3p
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:11:20 -0400
-Received: by mail-wr1-x429.google.com with SMTP id j2so3680731wrx.9
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 14:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KIxg99syXp2YaFpge/9xW5i/F3jE7QPjiKQ8iTiAPXM=;
- b=IU+HUYEkIKhxUiFkmTgxWlBj5QYsVku/pWO8JxBo63bYu9PB+VjsQlfINd1mWi6woQ
- fz3Ogxj1VtrdP/5fnGBMUmLXfPPkCIAZxPp0LLHaKK+XYSSQZkWsGIKi97WZIQQ+qY57
- NBLeDQlUavekxMvkLEgGEyOpX1DWHeGKfqGQVUpauuu2LaUTNHZ46ALy52Rm7TGtYEkv
- M/MgHAgeYZVMejmeG+5DeT0slg2BcA+l+LTP/SgOknx1O8B86kc5ePcYBzpbi5Zl6E5T
- 37jyOa2MyS1mP+fXqpC1X35VAebzhvHxvHyMGF4U5GrLUWITsbazXMfsmhPMXRgvO+yV
- 0ZZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KIxg99syXp2YaFpge/9xW5i/F3jE7QPjiKQ8iTiAPXM=;
- b=Fo5Ci7obMohuMZs/qn6hrJu9IStHT/DAf9WvDokeHZ0eqUTE1OuTe5k3RXoo3nJw4m
- uZzuZeUGiI0QEok32RwbSm9ky9NQNVK2PT+5SEFMziBni1aqkbiB/hydMUx1jTkrqdqL
- kegDC+xQzx99LzHnxX0rQQI0BW1j4zzCS9AVQRMswNaf4m/dzE3L8Q+ARwPw8fiNQWiO
- ab5uY6z0dS28UU03YyAw2Qasbyli050kkIA05SM/8WiaH8QDYZ9M+Xi4MOE8AB18Nbd2
- X/ZfDNwkrb67Uxlahp/B3pKC4seS/ytD9KbgZXTbKQsSgI5ZvgZlBaI/8TD8+ufgN6RU
- MQ/g==
-X-Gm-Message-State: AOAM531lKOjMJMxBehm/oIvnC1iH+MergWtkY+ThFvI6T2pNj2ZRNiLP
- jcrIBFNAl37tqoPs+qaRVH4=
-X-Google-Smtp-Source: ABdhPJxskBDsrR+NFyGUfuvMiwbrTPxWGEymHqpA3dIfM6vvgVQtzp+SHwYzTMvBnmLk8fpQbRTehg==
-X-Received: by 2002:a05:6000:10d:: with SMTP id
- o13mr1278716wrx.88.1628111476790; 
- Wed, 04 Aug 2021 14:11:16 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id y11sm4669515wru.0.2021.08.04.14.11.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Aug 2021 14:11:15 -0700 (PDT)
-Subject: Re: [PATCH-for-6.2 v4] memory: Directly dispatch alias accesses on
- origin memory region
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-References: <20210418055708.820980-1-f4bug@amsat.org>
- <6305a06b-c8a0-bcf7-f693-244aa34b16f4@amsat.org>
-Message-ID: <9a2b2717-f531-8774-b631-a4048cc16e6b@amsat.org>
-Date: Wed, 4 Aug 2021 23:11:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBOMK-0003ao-3Q
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:23:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mBOMH-00065i-30
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 17:23:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628112204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MV36502FUnEkLcmXehqDcSYoCaOszuvPSH6I/9YeW7U=;
+ b=TGg3uJv5tw5nwlscFcw53rUnRsKAiXQUWhjXqMvZTodIRi7C+sviaaPzP7SUXX0qX72gJO
+ 0teBvCch+VrIsl9/igucoDFBAOzu/VNBxzzh0hC6JMb/UPcGCAOWp06YzUiLjpKE4XG82u
+ j7KSX/IV2ygpD1qGpoFHKoDWVJbu8cg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-UJeYOX2ZO4yYTrEB38rfiQ-1; Wed, 04 Aug 2021 17:23:21 -0400
+X-MC-Unique: UJeYOX2ZO4yYTrEB38rfiQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61709190A7A1;
+ Wed,  4 Aug 2021 21:23:20 +0000 (UTC)
+Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C1651000186;
+ Wed,  4 Aug 2021 21:23:19 +0000 (UTC)
+Date: Wed, 4 Aug 2021 16:23:17 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH for 6.1] tests: filter out TLS distinguished name in
+ certificate checks
+Message-ID: <20210804212317.oq5pjhlburdpj2ez@redhat.com>
+References: <20210804180330.3469683-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6305a06b-c8a0-bcf7-f693-244aa34b16f4@amsat.org>
+In-Reply-To: <20210804180330.3469683-1-berrange@redhat.com>
+User-Agent: NeoMutt/20210205-687-0ed190
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.132,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,125 +79,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's be honest, this won't make 6.1, so update the subject to 6.2,
-as some scan the list for "6.2" in the subject when 6.1 release
-is out.
+On Wed, Aug 04, 2021 at 07:03:30PM +0100, Daniel P. Berrangé wrote:
+> The version of GNUTLS in Fedora 34 has changed the order in which encodes
+> fields when generating new TLS certificates. This in turn changes the
+> order seen when querying the distinguished name. This ultimately breaks
+> the expected output in the NBD TLS iotests. We don't need to be
+> comparing the exact distinguished name text for the purpose of the test
+> though, so it is fine to filter it out.
+> 
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
 
-On 7/7/21 3:58 PM, Philippe Mathieu-Daudé wrote:
-> Peter Xu already reviewed, but Cc'ing Peter Maydell too due to
-> his last comment on v3:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg800482.html
-> 
-> On 4/18/21 7:57 AM, Philippe Mathieu-Daudé wrote:
->> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
->> regions"), all newly created regions are assigned with
->> unassigned_mem_ops (which might be then overwritten).
->>
->> When using aliased container regions, and there is no region mapped
->> at address 0 in the container, the memory_region_dispatch_read()
->> and memory_region_dispatch_write() calls incorrectly return the
->> container unassigned_mem_ops, because the alias offset is not used.
->>
->> Consider the following setup:
->>
->>     +--------------------+ < - - - - - - - - - - - +
->>     |     Container      |  mr
->>     |  (unassigned_mem)  |                         |
->>     |                    |
->>     |                    |                         |
->>     |                    |  alias_offset
->>     +                    + <- - - - - - +----------+---------+
->>     | +----------------+ |              |                    |
->>     | |  MemoryRegion0 | |              |                    |
->>     | +----------------+ |              |       Alias        |  addr1
->>     | |  MemoryRegion1 | | <~ ~  ~  ~ ~ |                    | <~~~~~~
->>     | +----------------+ |              |                    |
->>     |                    |              +--------------------+
->>     |                    |
->>     |                    |
->>     |                    |
->>     |                    |
->>     | +----------------+ |
->>     | |  MemoryRegionX | |
->>     | +----------------+ |
->>     | |  MemoryRegionY | |
->>     | +----------------+ |
->>     | |  MemoryRegionZ | |
->>     | +----------------+ |
->>     +--------------------+
->>
->> The memory_region_init_alias() flow is:
->>
->>   memory_region_init_alias()
->>   -> memory_region_init()
->>      -> object_initialize(TYPE_MEMORY_REGION)
->>         -> memory_region_initfn()
->>            -> mr->ops = &unassigned_mem_ops;
->>
->> Later when accessing offset=addr1 via the alias, we expect to hit
->> MemoryRegion1. The memory_region_dispatch_read() flow is:
->>
->>   memory_region_dispatch_read(addr1)
->>   -> memory_region_access_valid(mr)   <- addr1 offset is ignored
->>      -> mr->ops->valid.accepts()
->>         -> unassigned_mem_accepts()
->>         <- false
->>      <- false
->>    <- MEMTX_DECODE_ERROR
->>
->> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
->>
->> Fix by dispatching aliases recursively, accessing its origin region
->> after adding the alias offset.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> v4:
->> - added ASCII schema
->> v3:
->> - reworded, mentioning the "alias to container" case
->> - use recursive call instead of while(), because easier when debugging
->>   therefore reset Richard R-b tag.
->> v2:
->> - use while()
->> ---
->>  softmmu/memory.c | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index d4493ef9e43..b899ca6a6b7 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -1442,6 +1442,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
->>      unsigned size = memop_size(op);
->>      MemTxResult r;
->>  
->> +    if (mr->alias) {
->> +        return memory_region_dispatch_read(mr->alias,
->> +                                           mr->alias_offset + addr,
->> +                                           pval, op, attrs);
->> +    }
->>      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
->>          *pval = unassigned_mem_read(mr, addr, size);
->>          return MEMTX_DECODE_ERROR;
->> @@ -1486,6 +1491,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
->>  {
->>      unsigned size = memop_size(op);
->>  
->> +    if (mr->alias) {
->> +        return memory_region_dispatch_write(mr->alias,
->> +                                            mr->alias_offset + addr,
->> +                                            data, op, attrs);
->> +    }
->>      if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
->>          unassigned_mem_write(mr, addr, data, size);
->>          return MEMTX_DECODE_ERROR;
->>
-> 
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
