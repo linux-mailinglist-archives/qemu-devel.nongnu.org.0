@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC1E3E071E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:03:44 +0200 (CEST)
-Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060953E072E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 20:07:06 +0200 (CEST)
+Received: from localhost ([::1]:58998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBLF1-0003Ix-C6
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48328)
+	id 1mBLIH-0000i9-2a
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 14:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJ9R-0000td-1C
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48090)
+ id 1mBJ9a-0000vw-Sg
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:50:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBJ9P-0006Q0-2X
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:48 -0400
+ id 1mBJ9Y-0006Wu-Pc
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 11:49:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628092186;
+ s=mimecast20190719; t=1628092194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xWmshI6xvXrmNBSR0HIPBVNWY3rlO1oiko4FHn7SISo=;
- b=SjPycIfkZ65cRBxpbaQicHf13o4Kv9bFuPv2AThzorxqH3zaGplBU7Q8gAgYRBtNkpwAKf
- djJjC60Aayfj8z6avCmQYx/Y/qu7BfEeqJUFs8+65XpIu4rv/FU1fIRFSiz1washsLvMLb
- y4xcUaSo/Aji6JmmfObYUqjmLMzVV4k=
+ bh=5eIj6utw+10uqzqEZ8tEFlEZN+cB3RuLY7qFxboABWg=;
+ b=aJrW0+2WaZ/8PSoxh3OpN6nk5kFlSUfBaC+8BfiZtiozqMHebkPpJeyqfy0J5/VrtIk04d
+ xyGXhlCMGP7mSb4q0KKBqAMzylm6IoDZd42z7Ulw3NAK7Jxzz4/EZvV9dBcFh1h2jMr3Cx
+ Unk3uar3Iu39p2BhapqT2+KfXfv/pA0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-C775Y44JO_u2xIXX0Gy2Sw-1; Wed, 04 Aug 2021 11:49:44 -0400
-X-MC-Unique: C775Y44JO_u2xIXX0Gy2Sw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-470-nDWsNukOOku8BRR8jo_-rw-1; Wed, 04 Aug 2021 11:49:53 -0400
+X-MC-Unique: nDWsNukOOku8BRR8jo_-rw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F08E1084F59
- for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:49:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B872FEC1A0
+ for <qemu-devel@nongnu.org>; Wed,  4 Aug 2021 15:49:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 14C805D9C6;
- Wed,  4 Aug 2021 15:49:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30B545F724;
+ Wed,  4 Aug 2021 15:49:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/11] chardev: mark explicitly first argument as poisoned
-Date: Wed,  4 Aug 2021 19:48:42 +0400
-Message-Id: <20210804154848.557328-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 06/11] chardev: fix fd_chr_add_watch() when in != out
+Date: Wed,  4 Aug 2021 19:48:43 +0400
+Message-Id: <20210804154848.557328-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 References: <20210804154848.557328-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,205 +87,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Since commit 9894dc0cdcc397ee5b26370bc53da6d360a363c2 "char: convert
-from GIOChannel to QIOChannel", the first argument to the watch callback
-can actually be a QIOChannel, which is not a GIOChannel (but a QEMU
-Object).
-
-Even though we never used that pointer, change the callback type to warn
-the users. Possibly a better fix later, we may want to store the
-callback and call it from intermediary functions.
+Create child sources for the different streams, and dispatch on the
+parent source with the synthesized conditions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/chardev/char-fe.h | 8 +++++++-
- chardev/char-fe.c         | 2 +-
- hw/char/cadence_uart.c    | 2 +-
- hw/char/cmsdk-apb-uart.c  | 2 +-
- hw/char/ibex_uart.c       | 2 +-
- hw/char/nrf51_uart.c      | 2 +-
- hw/char/serial.c          | 2 +-
- hw/char/virtio-console.c  | 2 +-
- hw/usb/redirect.c         | 2 +-
- hw/virtio/vhost-user.c    | 2 +-
- monitor/monitor.c         | 2 +-
- net/vhost-user.c          | 4 ++--
- 12 files changed, 19 insertions(+), 13 deletions(-)
+ chardev/char-fd.c | 78 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 77 insertions(+), 1 deletion(-)
 
-diff --git a/include/chardev/char-fe.h b/include/chardev/char-fe.h
-index a553843364..867ef1b3b2 100644
---- a/include/chardev/char-fe.h
-+++ b/include/chardev/char-fe.h
-@@ -174,6 +174,9 @@ void qemu_chr_fe_set_open(CharBackend *be, int fe_open);
- void qemu_chr_fe_printf(CharBackend *be, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
+diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+index 1cd62f2779..743d3989b4 100644
+--- a/chardev/char-fd.c
++++ b/chardev/char-fd.c
+@@ -28,6 +28,7 @@
+ #include "qemu/sockets.h"
+ #include "qapi/error.h"
+ #include "chardev/char.h"
++#include "chardev/char-fe.h"
+ #include "io/channel-file.h"
  
+ #include "chardev/char-fd.h"
+@@ -80,10 +81,85 @@ static int fd_chr_read_poll(void *opaque)
+     return s->max_size;
+ }
+ 
++typedef struct FDSource {
++    GSource parent;
 +
-+typedef gboolean (*FEWatchFunc)(void *do_not_use, GIOCondition condition, void *data);
++    GIOCondition cond;
++} FDSource;
 +
- /**
-  * qemu_chr_fe_add_watch:
-  * @cond: the condition to poll for
-@@ -188,10 +191,13 @@ void qemu_chr_fe_printf(CharBackend *be, const char *fmt, ...)
-  * Note that you are responsible to update the front-end sources if
-  * you are switching the main context with qemu_chr_fe_set_handlers().
-  *
-+ * Warning: DO NOT use the first callback argument (it may be either
-+ * a GIOChannel or a QIOChannel, depending on the underlying chardev)
-+ *
-  * Returns: the source tag
-  */
- guint qemu_chr_fe_add_watch(CharBackend *be, GIOCondition cond,
--                            GIOFunc func, void *user_data);
-+                            FEWatchFunc func, void *user_data);
- 
- /**
-  * qemu_chr_fe_write:
-diff --git a/chardev/char-fe.c b/chardev/char-fe.c
-index 474715c5a9..7789f7be9c 100644
---- a/chardev/char-fe.c
-+++ b/chardev/char-fe.c
-@@ -354,7 +354,7 @@ void qemu_chr_fe_set_open(CharBackend *be, int fe_open)
++static gboolean
++fd_source_prepare(GSource *source,
++                  gint *timeout_)
++{
++    FDSource *src = (FDSource *)source;
++
++    return src->cond != 0;
++}
++
++static gboolean
++fd_source_check(GSource *source)
++{
++    FDSource *src = (FDSource *)source;
++
++    return src->cond != 0;
++}
++
++static gboolean
++fd_source_dispatch(GSource *source, GSourceFunc callback,
++                   gpointer user_data)
++{
++    FDSource *src = (FDSource *)source;
++    FEWatchFunc func = (FEWatchFunc)callback;
++    gboolean ret = G_SOURCE_CONTINUE;
++
++    if (src->cond) {
++        ret = func(NULL, src->cond, user_data);
++        src->cond = 0;
++    }
++
++    return ret;
++}
++
++static GSourceFuncs fd_source_funcs = {
++  fd_source_prepare,
++  fd_source_check,
++  fd_source_dispatch,
++  NULL, NULL, NULL
++};
++
++static GSource *fd_source_new(FDChardev *chr)
++{
++    return g_source_new(&fd_source_funcs, sizeof(FDSource));
++}
++
++static gboolean child_func(GIOChannel *source,
++                           GIOCondition condition,
++                           gpointer data)
++{
++    FDSource *parent = data;
++
++    parent->cond |= condition;
++
++    return G_SOURCE_CONTINUE;
++}
++
+ static GSource *fd_chr_add_watch(Chardev *chr, GIOCondition cond)
+ {
+     FDChardev *s = FD_CHARDEV(chr);
+-    return qio_channel_create_watch(s->ioc_out, cond);
++    g_autoptr(GSource) source = fd_source_new(s);
++
++    if (s->ioc_out) {
++        g_autoptr(GSource) child = qio_channel_create_watch(s->ioc_out, cond & ~G_IO_IN);
++        g_source_set_callback(child, (GSourceFunc)child_func, source, NULL);
++        g_source_add_child_source(source, child);
++    }
++    if (s->ioc_in) {
++        g_autoptr(GSource) child = qio_channel_create_watch(s->ioc_in, cond & ~G_IO_OUT);
++        g_source_set_callback(child, (GSourceFunc)child_func, source, NULL);
++        g_source_add_child_source(source, child);
++    }
++
++    return g_steal_pointer(&source);
  }
  
- guint qemu_chr_fe_add_watch(CharBackend *be, GIOCondition cond,
--                            GIOFunc func, void *user_data)
-+                            FEWatchFunc func, void *user_data)
- {
-     Chardev *s = be->chr;
-     GSource *src;
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index ceb677bc5a..8ee6f74b8c 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -288,7 +288,7 @@ static void uart_write_rx_fifo(void *opaque, const uint8_t *buf, int size)
-     uart_update_status(s);
- }
- 
--static gboolean cadence_uart_xmit(GIOChannel *chan, GIOCondition cond,
-+static gboolean cadence_uart_xmit(GIOChannel *do_not_use, GIOCondition cond,
-                                   void *opaque)
- {
-     CadenceUARTState *s = opaque;
-diff --git a/hw/char/cmsdk-apb-uart.c b/hw/char/cmsdk-apb-uart.c
-index ba2cbbee3d..b07a9dee4f 100644
---- a/hw/char/cmsdk-apb-uart.c
-+++ b/hw/char/cmsdk-apb-uart.c
-@@ -191,7 +191,7 @@ static uint64_t uart_read(void *opaque, hwaddr offset, unsigned size)
- /* Try to send tx data, and arrange to be called back later if
-  * we can't (ie the char backend is busy/blocking).
-  */
--static gboolean uart_transmit(GIOChannel *chan, GIOCondition cond, void *opaque)
-+static gboolean uart_transmit(GIOChannel *do_not_use, GIOCondition cond, void *opaque)
- {
-     CMSDKAPBUART *s = CMSDK_APB_UART(opaque);
-     int ret;
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index 6b0c9330bf..e493ea08c0 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -135,7 +135,7 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
-     ibex_uart_update_irqs(s);
- }
- 
--static gboolean ibex_uart_xmit(GIOChannel *chan, GIOCondition cond,
-+static gboolean ibex_uart_xmit(GIOChannel *do_not_use, GIOCondition cond,
-                                void *opaque)
- {
-     IbexUartState *s = opaque;
-diff --git a/hw/char/nrf51_uart.c b/hw/char/nrf51_uart.c
-index 045ca5fa40..0b89b0eae4 100644
---- a/hw/char/nrf51_uart.c
-+++ b/hw/char/nrf51_uart.c
-@@ -75,7 +75,7 @@ static uint64_t uart_read(void *opaque, hwaddr addr, unsigned int size)
-     return r;
- }
- 
--static gboolean uart_transmit(GIOChannel *chan, GIOCondition cond, void *opaque)
-+static gboolean uart_transmit(GIOChannel *do_not_use, GIOCondition cond, void *opaque)
- {
-     NRF51UARTState *s = NRF51_UART(opaque);
-     int r;
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index bc2e322970..7061aacbce 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -220,7 +220,7 @@ static void serial_update_msl(SerialState *s)
-     }
- }
- 
--static gboolean serial_watch_cb(GIOChannel *chan, GIOCondition cond,
-+static gboolean serial_watch_cb(void *do_not_use, GIOCondition cond,
-                                 void *opaque)
- {
-     SerialState *s = opaque;
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index 6b132caa29..dd5a02e339 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -38,7 +38,7 @@ struct VirtConsole {
-  * Callback function that's called from chardevs when backend becomes
-  * writable.
-  */
--static gboolean chr_write_unblocked(GIOChannel *chan, GIOCondition cond,
-+static gboolean chr_write_unblocked(void *do_not_use, GIOCondition cond,
-                                     void *opaque)
- {
-     VirtConsole *vcon = opaque;
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 1ec909a63a..5f0ef9cb3b 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -270,7 +270,7 @@ static int usbredir_read(void *priv, uint8_t *data, int count)
-     return count;
- }
- 
--static gboolean usbredir_write_unblocked(GIOChannel *chan, GIOCondition cond,
-+static gboolean usbredir_write_unblocked(void *do_not_use, GIOCondition cond,
-                                          void *opaque)
- {
-     USBRedirDevice *dev = opaque;
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 29ea2b4fce..aec6cc1990 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -303,7 +303,7 @@ struct vhost_user_read_cb_data {
-     int ret;
- };
- 
--static gboolean vhost_user_read_cb(GIOChannel *source, GIOCondition condition,
-+static gboolean vhost_user_read_cb(void *do_not_use, GIOCondition condition,
-                                    gpointer opaque)
- {
-     struct vhost_user_read_cb_data *data = opaque;
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index b90c0f4051..46a171bca6 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -156,7 +156,7 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
- 
- static void monitor_flush_locked(Monitor *mon);
- 
--static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-+static gboolean monitor_unblocked(void *do_not_use, GIOCondition cond,
-                                   void *opaque)
- {
-     Monitor *mon = opaque;
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index ffbd94d944..6adfcd623a 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -208,8 +208,8 @@ static NetClientInfo net_vhost_user_info = {
-         .set_vnet_le = vhost_user_set_vnet_endianness,
- };
- 
--static gboolean net_vhost_user_watch(GIOChannel *chan, GIOCondition cond,
--                                           void *opaque)
-+static gboolean net_vhost_user_watch(void *do_not_use, GIOCondition cond,
-+                                     void *opaque)
- {
-     NetVhostUserState *s = opaque;
- 
+ static void fd_chr_update_read_handler(Chardev *chr)
 -- 
 2.32.0.264.g75ae10bc75
 
