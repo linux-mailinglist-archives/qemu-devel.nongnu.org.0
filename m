@@ -2,129 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117DA3E00C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 14:02:12 +0200 (CEST)
-Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2943E00AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 13:59:31 +0200 (CEST)
+Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBFb9-0008Il-3C
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 08:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
+	id 1mBFYX-0003Rc-Vq
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 07:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mBFW9-0007ji-Gj
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:01 -0400
-Received: from mail-dm6nam10on2052.outbound.protection.outlook.com
- ([40.107.93.52]:54433 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1mBFWb-0000eV-96
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:29 -0400
+Received: from mail-dm6nam10on2060.outbound.protection.outlook.com
+ ([40.107.93.60]:13249 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mBFW6-0002lW-Oc
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:01 -0400
+ id 1mBFWZ-0002wB-0K
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 07:57:28 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kbJidx8oYeqaw0BHCOSj6I5Alj4HSqUcOGmnRR7n7LuTYUCLa5OI1WlGKqgx/01jMHAvujtWam2Fg+u7XUZY21zYL6TSdEm+Cl471YQHPypv0AMARPN+J7xK+RkU5gDiSvdUrq1Pjfe8741g5L8qqw1jxl602ZQP/n+CXJt0ECnSBHwI3HZoMBhzUXYIJ6aS1rrDmcNf66mGEH1I/hUvKjTsQz7YWljsUNCUcmI0Gh56zZM15aFdieMMfsDzOkJQ/oj2zSRF2SBWh2AqohX1/3SGHDwr/qWfl+v4bQTawYCVsBysKMTJOmUM2uexT8nQ9cB6ro5tVZi3fSufkIcRzQ==
+ b=fAyqvijwYU/bliZCCqC2nnyuBpltuzWx6wTG7LI9ZKGgctM8Napw1dHUIZeDpukRgIgdafqAbcdUzLY9lhb5Wu1Ygp0tVi9fZGXVTFnJmpVL0WXot4g8YKqd9YMAZ9G4awWYLwfGd5eroHxvHBkaDtPEijASwcWbf6meN6JdiiNkParfoONpYHc20ypg8Dpq4FLgIFP/+Eait8+pU+vem7VtjrQEGdQWtrm0b/7Csct49a67LIevn2h4qArAgFW2CPs+67ZfnS5p6m/0HsgOCFhkqRkdnN02hDUaTVf9Oj+NRwhLNvqrrhg2dBMxqXF1SKjid9eXFu01O/fglO0iVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IMRxtKOe886+8WHm5aBKQbBiUL49N7e4/8Vv+zZp4tc=;
- b=MzmqS+SDH6Cd5ZR6ktzow6WASePGSkU9owbvKjD7nCxIXGYhzp7HNaHfbz37CbC1DaFfvgHc4RUp3jhPLaJ1/gR8CC1lMi/yyysIUbRs44GBkv0E1NPu559Oc1EF7SLFPoaEs+nJ9PAurWw3kkyZjZSk9nABt7e3Vp+wFv9z29oJcuKIQY+bJ1j6IcBtkp5l7S8M8AkMDefA2otzdJlGx2pYFW3s21Bhs6r9muY5s2MqLfJM9ILoSBOM1oArrB6v28L7Ia+RlbYNe7+m8p1098BypwUDDhK0fUUv7Kwb6xT2I0z6zMDpIYCvkIrziYsiXZVlhC21/13i2q+qNkWQzQ==
+ bh=gi4qn0S1RFoNRfhGi9z8DVODTZoHmTp8KpSpF7oPNLk=;
+ b=KZurtxWVGMsjcj3Yr/JJeMnnCiahc7H9FheinPLGP2j2zSg21fgUvd0ujxlcKLdVyqsQltmZzrn1qj1tmQw02T1MqtHSbjdjkM1KqOI1qVmvaq2HeWgPhpyEaSaijyDAU+K+6jr5lmkOd1xnAgSU6RiTTfDvlCqtYzK6Vj1kJorRHdHR91yt02o+y9Up1XVXZ9qzeFx1zvmZgSZgxrUfxA+Fd1nyw1tRdPiX0pQICyAHSyCvmdARxad29F43i/tSGpDYb3lNga7jl5FgVQ0Zq/J5tRDsMc1R8nuiIIsrjDo0EBtlnazGG5iZXHLRtwVG4f5VdKrhoqByt0+CA5mEGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IMRxtKOe886+8WHm5aBKQbBiUL49N7e4/8Vv+zZp4tc=;
- b=JjN2ZheBShs9W376rbEENSQGFzV9nvzbibZwBW53itQeg4GWVGHUDRkuKARF0PB1m4yOVZcV87mdIsWuwUAN529H7kBStyy/1eYGNZ2aD/1+J6IRvZKEeNq/MtI1wRyv5iTbwCHo+7YpwoNGMTbrGSS3aceEwDJVL834qnG/1tc=
+ bh=gi4qn0S1RFoNRfhGi9z8DVODTZoHmTp8KpSpF7oPNLk=;
+ b=uBs7oaigooyp06XBzC+a2j3ocxtlF8JXrD+yOwXg6KvFuz00BHECHzfy8OJv6sTJUCpYX/wx2XHTMS2WJEh2IKuCyxOVoEFASkUg+h/KCB5Xr3q8eV9S/4Kjx49yCr3oTukrGqrK/SCG3Q5qdHOzGYWcX4CnhY2VoxLrMRRNkhM=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SA0PR12MB4413.namprd12.prod.outlook.com (2603:10b6:806:9e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Wed, 4 Aug
- 2021 11:56:56 +0000
+ by SN1PR12MB2542.namprd12.prod.outlook.com (2603:10b6:802:26::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Wed, 4 Aug
+ 2021 11:57:21 +0000
 Received: from SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
  ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4373.026; Wed, 4 Aug 2021
- 11:56:56 +0000
+ 11:57:21 +0000
 From: Ashish Kalra <Ashish.Kalra@amd.com>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, Thomas.Lendacky@amd.com, brijesh.singh@amd.com,
  dgilbert@redhat.com, ehabkost@redhat.com, dovmurik@linux.vnet.ibm.com,
  tobin@ibm.com, jejb@linux.ibm.com
-Subject: [PATCH v4 07/14] target/i386: sev: add support to encrypt the
- outgoing page
-Date: Wed,  4 Aug 2021 11:56:44 +0000
-Message-Id: <5187c6f86bd3e253be565f3773f85e92879c5391.1628076205.git.ashish.kalra@amd.com>
+Subject: [PATCH v4 08/14] target/i386: sev: add support to load incoming
+ encrypted page
+Date: Wed,  4 Aug 2021 11:57:10 +0000
+Message-Id: <e86e5dccb0450be3d4c02b1263d5183add153b1f.1628076205.git.ashish.kalra@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1628076205.git.ashish.kalra@amd.com>
 References: <cover.1628076205.git.ashish.kalra@amd.com>
 Content-Type: text/plain
-X-ClientProxiedBy: SN4PR0701CA0018.namprd07.prod.outlook.com
- (2603:10b6:803:28::28) To SN6PR12MB2767.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA0PR11CA0018.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::23) To SN6PR12MB2767.namprd12.prod.outlook.com
  (2603:10b6:805:75::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
- SN4PR0701CA0018.namprd07.prod.outlook.com (2603:10b6:803:28::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend
- Transport; Wed, 4 Aug 2021 11:56:55 +0000
+ SA0PR11CA0018.namprd11.prod.outlook.com (2603:10b6:806:d3::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.15 via Frontend Transport; Wed, 4 Aug 2021 11:57:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c9a5285-9a86-4bd0-03d9-08d9573ef500
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4413:
+X-MS-Office365-Filtering-Correlation-Id: c99adf0f-a265-4645-b87e-08d9573f0433
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2542:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB441390FCAA74A62673646C368EF19@SA0PR12MB4413.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:214;
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2542E01C6E20F807B73980DE8EF19@SN1PR12MB2542.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bj0lHDpJFhojrJxqmngggqYmt2lpzMcvf7rwBg43ydP+sBbDmaPQZeWZpNuzYLQof+RsJfH/v+1+bor9sGQXYbd/8nk3TANmRk5nAhpPACOAOFSQOSrZQqZyyQqHcI+g750scYEEmMMVJBQPydqvAScELsrlBC6Q73QglcknZjfp6gXqYMNVKKX+oWhESkbQTdcnHwaUQubOrJFhWYvhtK2ovVVxlJgn4nQPs2yljRARmgLXWPm0G/TS7v88diCrl3ox1kVNoD6X5seuhyJfAop1xTzDFAn7tGkrj2TFjll5q1v19egrSOT2dF6ZlpicG5KAhCqGUeB2MKHA8CpLXibTO71HU6liUEQHR/FNB/g1ReZCOq9PtA+dRDKIInm9pbRGtR0V4h125h6z2b4EVdu6AIs4ColAXrQ4YLcWxez5EB6G+MBEuiPZDau3UJ99pTk9Qi7jLg6s8dRQ/AZC8IDraPLAGYZY/tCLIQxsziGonBc78HOZhHliGRR7L5nd/5+WMdUOdaFfS0in1EyVAvTnn4hSRDVnHg7r8+NjIoZw6zbnLV3cI+3SDXX1/GakqkPvIo74emT1YMYoaZ4qu0S+91szEo1/Ugc/je3Pj3P8kfrnGhQOO2ium9gxXnJNvv17MyjJ+K3dbTfomDB7rYDABw28T0rSomoOmmsM+jc8PUgbfIaGv9xFTchBEIpjiXhAtGWGiuh83A26DeXvwg==
+X-Microsoft-Antispam-Message-Info: ybxzwcccssDLtYwpAifWMxmHyITVXha0D9Er2If8ulU4EdreH9VSnOZ4ZuBJjpmuzCCc9RArjGVldRNtDAqu/fFsY4VJFqlGh+HVIU5gYvkbLo/daqiwjjihiZmFigm4jYW1S/qhu7aX9OE+e0jFceL2ZEwWNsXDQwE9V9/zo+IJnJSDWiTVPDTGGz/kxYHLm5KjqovxEJFM5ia2iIa7ElSq9SXa41uJ5szy1su6SjaDhop9DEzQJjcSsLqvGJv4oBpzxzHY4qQKWxJe/6r+Ig7hoJ4G6H570/0qjc4XkBo1T/CecaCZZVA/nhQ0AEiIIKl9IbBeVWYYZ3+wimbrngzkZmomLsnLY++xHXyxc0zS6CRYjV7R5t5Xam0iW5jEApUVwQrAnf9Mxg2mAAErViy/HlVvuk5EJtegkeUVYfQOyAzK0IrmuIp1lzYRhdry1fUr+YiXJ4AGiSyWSIKfZ52u8O5ClPgnOmpaGZ03uQ8xHe1ypplMAC7s+KP27nGO+VPC/jX3afpCjVG8TtDmkwJOXXflCmDIwAox3Z/NkDWl6p1WqhEY3h3LnfRGzPFOKSMQoIrbF2wlarRje6rNd9uJevetvHMxJThuJGR0Uxdi5somFYlQUTKCNe5F/f0mtA5ARpEsIZ8ULC+ZxJebwp/Tz8IgcWPDXWahtaJ64ygo8Ks0Ob0ENPRXDR/WvCWbrFn2s51a+KB1saE3Pkcdrw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(39860400002)(346002)(136003)(36756003)(38350700002)(2906002)(6486002)(8676002)(38100700002)(86362001)(5660300002)(478600001)(52116002)(7696005)(316002)(83380400001)(66946007)(2616005)(4326008)(186003)(6666004)(6916009)(26005)(66476007)(8936002)(66556008)(956004);
+ SFS:(4636009)(136003)(346002)(396003)(376002)(39850400004)(366004)(4326008)(83380400001)(66946007)(316002)(2906002)(2616005)(956004)(36756003)(86362001)(6666004)(8936002)(38350700002)(26005)(6916009)(38100700002)(478600001)(5660300002)(8676002)(6486002)(66476007)(66556008)(186003)(7696005)(52116002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CUriFtIP8eY0cF8AqJuj38UlDiRhMAbn++EBWfs1TRpyzLZiI/txXj1xMiFM?=
- =?us-ascii?Q?NyxITH9cX6sdFzSssKbwnC8k6BKzXPYGW9btSLuMh6nnNo/clAvL3nV36v70?=
- =?us-ascii?Q?0ZiMPTZXwVQsbjavWEgIHkIuamCzgPe7jeEMvZ0VTNo71y4iqAOFPJvnl55u?=
- =?us-ascii?Q?OLtnP3yYIa2fvO5bgwOXdZH4K32MFH5poi+A5tuesC/B+48COMEYNS8xUVEa?=
- =?us-ascii?Q?1x9Pf40v6RN5ihwn8oITfQl8s1gEkQP2Eptj6BQphsNLMGM/L2OwY3+LUj32?=
- =?us-ascii?Q?DiWtd49+b463nwl2tPzTP6TGaNm1IjahverPqR+ZkauSF8VLPGmhP+eGpSzq?=
- =?us-ascii?Q?cKOzikgZF/tWDic0tbBD0L5et+tzUBE4ZaB4HC4gN1oSo8nHtmwMC01fZ1sd?=
- =?us-ascii?Q?AAgUMH8ZxqrJMNUg9DOUWyLSBUmQBXnr5yoZHaPQdAzb2vm5rg+wwYFgJzdm?=
- =?us-ascii?Q?wasLyHBoDUL5y0Y0YZA8adb9wNlLQLI0YHzJSvZvmOcKO7zOzQ339ahn5oOB?=
- =?us-ascii?Q?aFOT+MjD5JjgW7HfNUO+oFqLhs3lgs6CR0SjKUydBdX/fRli5W4f6GhC2Y4W?=
- =?us-ascii?Q?Ypc3vyRrtlavC0ddVr7xIwmmDiWQg6Sm9ODrs3EKhc3OECJ+LJ2b/s8EhnSs?=
- =?us-ascii?Q?GMSJyba6eDFLIG+g/Fp3vxM8wwajrVmFgiKw8ALFk+XTMDhxT397tnYNHHjt?=
- =?us-ascii?Q?CGnMZMHic+t0QqERoZIEK4dQ1oEcihvyJaxsk+PDx294yRrj/GTZ+bPtI9bG?=
- =?us-ascii?Q?3pVA6VnPnIMsxqWIxdUVNjTSC6v5dRY56y+ej2m2Zy8kRL3Npvls8VAfypBA?=
- =?us-ascii?Q?JEEimBVIxtYDAZgl7aiW6Nd2Fyjb0CRMw6MoYquoXI2uMLhMWBdzIET2YuTf?=
- =?us-ascii?Q?/Wy81vcrUA0w0rvaMt6nyxyXY2a1zmwWKSQDBKz8nZod94qw3Re0fyp8Zr63?=
- =?us-ascii?Q?K2WnYVPxd2VD/5dVUtTezCrj/BwW3Itueo6CV3E8kR5xRsfbHt7dfe3fkOLX?=
- =?us-ascii?Q?U52b3OvPuOuBSgQNiqISOqZZDQnyMmk6JNQZR0mp344Mj42JZMs499spTBFL?=
- =?us-ascii?Q?vqLJRbpDWUFN5M7Duejgbw0OkU7vvodOYE4i6IiWzSTBhxGXqYZTe/+LE65L?=
- =?us-ascii?Q?XB7zrwTsvBDdB1zw0YcK64M6kb0T+LgbD0CMlh6cOT3wllgxSrwypmkwvqb2?=
- =?us-ascii?Q?hgunXYjfK9MlX3lvG5m17hDvfc2lw+rzP9vShF4v2IbG5idTFFJ4ccmOx8w8?=
- =?us-ascii?Q?Ns8kuszVbVAmAGxGjL9qU6Q6pCn4kZNI15nAp+eZwdBolAmm6mpktrW9uEJi?=
- =?us-ascii?Q?mDPtjDEyuN8cXPJsim15lIKQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WPlYSXCRFu4Lx0xz/QH19ZkiZ3bz5kvrrCrEuIfntv8lhWIzr3xtd7iMxsgI?=
+ =?us-ascii?Q?zV0G85QoAZf50iUTCqD2jf8YB2pbcA4qJYYKxAn4oJa8blTcLyen/dtV4HSs?=
+ =?us-ascii?Q?HDbpkd9CNz2iy2ImFkr2u5aaa/woJEwBVo2g480Q9vWxTgkVmopHVmPQYXPh?=
+ =?us-ascii?Q?rypPXOF3Szy5TayGERdmEZ1GW7Rj3rtAsDuyTCATrdy1dZavgqLO3sB1MOSP?=
+ =?us-ascii?Q?MChEYxDQ7tTkOn9NrW4Yrek5E0OnHGzqxswQ+FH+RC5s3Pe45YilOYjY8gbM?=
+ =?us-ascii?Q?Zx8iFWW+JjHSfxuonIqJAcOlPt03MCBjQWjaFg4fw0ygKnYy+MBedytJ17hy?=
+ =?us-ascii?Q?CK1RHrdrFpN3d40ok0EU3OrYq6rll3wxXYudOAoDUHaaWxtrX3azQQiA1FUA?=
+ =?us-ascii?Q?931+f5MRjGyh4Q+olhNaMHZmIlodq7mD9XNSdhJTGovIkI6fHU/H3nRRtoYf?=
+ =?us-ascii?Q?lFoXSbVWKUiAj1VKn2ZqWzpGMftSfsgDm0ziuRfHA+0bGsY9aul3setB+e6+?=
+ =?us-ascii?Q?XoViUQ5KwIkJd6zjHf7AsaK+kcaNGngZL+/VcFbvKn37gkraD6rJIY9vDW1C?=
+ =?us-ascii?Q?VFsX2JlVMFIynxupc/vKTNHg46Beuuk6xKylfW4Wy8dm4a2PrkGZnMh26eod?=
+ =?us-ascii?Q?9zEFia/uKxyA9/If2x0zVQ9PgbPMv+OnpunqGSPiZMFrQ9kb3RXmAxiz4ERd?=
+ =?us-ascii?Q?sveLej1IDw6MRL6yCWxlaBVSIhqON1AZzXDRVsoxbrxuIoJ/8QmrZsoIeBvH?=
+ =?us-ascii?Q?rVtr2bvr9/5w/TlCFKBFpohflRIteoRESLYi8x8skMzBWOVRkoQleEadU57n?=
+ =?us-ascii?Q?5P5DEZqUtaZawx7HEr6a95qQ3+K7sh5x0QML186jR9fUR4/XV7ADSbVM2TA7?=
+ =?us-ascii?Q?q1qSwuMA3lBRSboPGLv+69YVXm3YNWxQkxA+KYhLBScROw81f+t2DFow6t1Q?=
+ =?us-ascii?Q?iTNbCqfi9grH6pvYhbhVcb/9/h7vdYzhWhhf79BFtICvH2cKLVKiFkqRrk/j?=
+ =?us-ascii?Q?v3wOyjL65aSrLp9gFEv+2pR24RA1E4jrz16Ogqu3UWd9zswWN7rspv30Sp9i?=
+ =?us-ascii?Q?kCiW6LbMuPYGckgCtspBI721+ub+mrZJXJWbmdLZNFc+l9bMnQhbkxZezacl?=
+ =?us-ascii?Q?lYtlXC5ylDd+Cp4jqSl82CFGHBeSadoXnB/EizHWXXT8KsnDa4T4lN0l4eHX?=
+ =?us-ascii?Q?gg1P1trkVwvdc39XHifHiP1s5TGR445DNWAug8fBBhRhHnyLiQ/uK5onIgRX?=
+ =?us-ascii?Q?csmWHtPQOJ+nRqODtxcSg+mPOWtqDYW3srqCPI3BHmAs2dAmBEk5AomFgHSY?=
+ =?us-ascii?Q?msjAt0v1pZs+/YNwh40KWEBc?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c9a5285-9a86-4bd0-03d9-08d9573ef500
+X-MS-Exchange-CrossTenant-Network-Message-Id: c99adf0f-a265-4645-b87e-08d9573f0433
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 11:56:56.1072 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 11:57:21.6209 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jCOj0QhitaTphLn91w0my0yFdXPUfr59FdvpS2CNUYzuD7g61Sfw1w5sLIHplM/3oJonJUF1Bn1h+5LYEycVBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4413
-Received-SPF: softfail client-ip=40.107.93.52;
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mzv0KeU3YQ7uFWM5QXDsZfvqYjvMRsW4VgSsSa9h5Ve9ZuwO3or4Aw0psd/3zGfycnOMIxldh6csffKBXyG3WA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2542
+Received-SPF: softfail client-ip=40.107.93.60;
  envelope-from=Ashish.Kalra@amd.com;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,315 +143,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Brijesh Singh <brijesh.singh@amd.com>
 
-The sev_save_outgoing_page() provide the implementation to encrypt the
-guest private pages during the transit. The routines uses the SEND_START
-command to create the outgoing encryption context on the first call then
-uses the SEND_UPDATE_DATA command to encrypt the data before writing it
-to the socket. While encrypting the data SEND_UPDATE_DATA produces some
-metadata (e.g MAC, IV). The metadata is also sent to the target machine.
-After migration is completed, we issue the SEND_FINISH command to transition
-the SEV guest state from sending to unrunnable state.
+The sev_load_incoming_page() provide the implementation to read the
+incoming guest private pages from the socket and load it into the guest
+memory. The routines uses the RECEIVE_START command to create the
+incoming encryption context on the first call then uses the
+RECEIEVE_UPDATE_DATA command to load the encrypted pages into the guest
+memory. After migration is completed, we issue the RECEIVE_FINISH command
+to transition the SEV guest to the runnable state so that it can be
+executed.
 
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 Co-developed-by: Ashish Kalra <ashish.kalra@amd.com>
 Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 ---
- include/sysemu/sev.h     |   2 +
- target/i386/sev.c        | 221 +++++++++++++++++++++++++++++++++++++++
+ include/sysemu/sev.h     |   1 +
+ target/i386/sev.c        | 137 ++++++++++++++++++++++++++++++++++++++-
  target/i386/trace-events |   3 +
- 3 files changed, 226 insertions(+)
+ 3 files changed, 140 insertions(+), 1 deletion(-)
 
 diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-index 64fc88d3c5..aa6b91a53e 100644
+index aa6b91a53e..faa02bdd3d 100644
 --- a/include/sysemu/sev.h
 +++ b/include/sysemu/sev.h
-@@ -21,6 +21,8 @@ bool sev_enabled(void);
- int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
- int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+@@ -23,6 +23,7 @@ int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
  int sev_save_setup(MigrationParameters *p);
-+int sev_save_outgoing_page(QEMUFile *f, uint8_t *ptr,
-+                           uint32_t size, uint64_t *bytes_sent);
+ int sev_save_outgoing_page(QEMUFile *f, uint8_t *ptr,
+                            uint32_t size, uint64_t *bytes_sent);
++int sev_load_incoming_page(QEMUFile *f, uint8_t *ptr);
  int sev_inject_launch_secret(const char *hdr, const char *secret,
                               uint64_t gpa, Error **errp);
  
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 10038d3880..411bd657e8 100644
+index 411bd657e8..1901c9ade4 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -30,6 +30,8 @@
- #include "sysemu/runstate.h"
- #include "trace.h"
- #include "migration/blocker.h"
-+#include "migration/qemu-file.h"
-+#include "migration/misc.h"
- #include "qom/object.h"
- #include "monitor/monitor.h"
- #include "exec/confidential-guest-support.h"
-@@ -75,6 +77,8 @@ struct SevGuestState {
-     size_t remote_plat_cert_len;
-     guchar *amd_cert;
-     size_t amd_cert_len;
-+    gchar *send_packet_hdr;
-+    size_t send_packet_hdr_len;
- 
-     uint32_t reset_cs;
-     uint32_t reset_ip;
-@@ -127,6 +131,7 @@ static const char *const sev_fw_errlist[] = {
- 
+@@ -132,6 +132,7 @@ static const char *const sev_fw_errlist[] = {
  static struct ConfidentialGuestMemoryEncryptionOps sev_memory_encryption_ops = {
      .save_setup = sev_save_setup,
-+    .save_outgoing_page = sev_save_outgoing_page,
+     .save_outgoing_page = sev_save_outgoing_page,
++    .load_incoming_page = sev_load_incoming_page,
  };
  
  static int
-@@ -829,6 +834,40 @@ error:
-     return 1;
- }
- 
-+static void
-+sev_send_finish(void)
-+{
-+    int ret, error;
-+
-+    trace_kvm_sev_send_finish();
-+    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_SEND_FINISH, 0, &error);
-+    if (ret) {
-+        error_report("%s: SEND_FINISH ret=%d fw_error=%d '%s'",
-+                     __func__, ret, error, fw_error_to_str(error));
-+    }
-+
-+    g_free(sev_guest->send_packet_hdr);
-+    sev_set_guest_state(sev_guest, SEV_STATE_RUNNING);
-+}
-+
-+static void
-+sev_migration_state_notifier(Notifier *notifier, void *data)
-+{
-+    MigrationState *s = data;
-+
-+    if (migration_has_finished(s) ||
-+        migration_in_postcopy_after_devices(s) ||
-+        migration_has_failed(s)) {
-+        if (sev_check_state(sev_guest, SEV_STATE_SEND_UPDATE)) {
-+            sev_send_finish();
-+        }
-+    }
-+}
-+
-+static Notifier sev_migration_state_notify = {
-+    .notify = sev_migration_state_notifier,
-+};
-+
- int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
-     SevGuestState *sev
-@@ -933,6 +972,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-     ram_block_notifier_add(&sev_ram_notifier);
-     qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
-     qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
-+    add_migration_state_change_notifier(&sev_migration_state_notify);
- 
-     cgs_class->memory_encryption_ops = &sev_memory_encryption_ops;
- 
-@@ -1143,6 +1183,187 @@ int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size)
-     return 0;
+@@ -778,13 +779,33 @@ sev_launch_finish(SevGuestState *sev)
+     }
  }
  
 +static int
-+sev_get_send_session_length(void)
++sev_receive_finish(SevGuestState *s)
 +{
-+    int ret, fw_err = 0;
-+    struct kvm_sev_send_start start = {};
++    int error, ret = 1;
 +
-+    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_SEND_START, &start, &fw_err);
-+    if (fw_err != SEV_RET_INVALID_LEN) {
-+        ret = -1;
-+        error_report("%s: failed to get session length ret=%d fw_error=%d '%s'",
-+                     __func__, ret, fw_err, fw_error_to_str(fw_err));
++    trace_kvm_sev_receive_finish();
++    ret = sev_ioctl(s->sev_fd, KVM_SEV_RECEIVE_FINISH, 0, &error);
++    if (ret) {
++        error_report("%s: RECEIVE_FINISH ret=%d fw_error=%d '%s'",
++                     __func__, ret, error, fw_error_to_str(error));
 +        goto err;
 +    }
 +
-+    ret = start.session_len;
++    sev_set_guest_state(s, SEV_STATE_RUNNING);
 +err:
 +    return ret;
 +}
 +
+ static void
+ sev_vm_state_change(void *opaque, bool running, RunState state)
+ {
+     SevGuestState *sev = opaque;
+ 
+     if (running) {
+-        if (!sev_check_state(sev, SEV_STATE_RUNNING)) {
++        if (sev_check_state(sev, SEV_STATE_RECEIVE_UPDATE)) {
++            sev_receive_finish(sev);
++        } else if (!sev_check_state(sev, SEV_STATE_RUNNING)) {
+             sev_launch_finish(sev);
+         }
+     }
+@@ -1364,6 +1385,120 @@ int sev_save_outgoing_page(QEMUFile *f, uint8_t *ptr,
+     return sev_send_update_data(s, f, ptr, sz, bytes_sent);
+ }
+ 
 +static int
-+sev_send_start(SevGuestState *s, QEMUFile *f, uint64_t *bytes_sent)
++sev_receive_start(SevGuestState *sev, QEMUFile *f)
 +{
-+    gsize pdh_len = 0, plat_cert_len;
-+    int session_len, ret, fw_error;
-+    struct kvm_sev_send_start start = { };
-+    guchar *pdh = NULL, *plat_cert = NULL, *session = NULL;
-+    Error *local_err = NULL;
++    int ret = 1;
++    int fw_error;
++    struct kvm_sev_receive_start start = { };
++    gchar *session = NULL, *pdh_cert = NULL;
 +
-+    if (!s->remote_pdh || !s->remote_plat_cert || !s->amd_cert_len) {
-+        error_report("%s: missing remote PDH or PLAT_CERT", __func__);
++    /* get SEV guest handle */
++    start.handle = object_property_get_int(OBJECT(sev), "handle",
++                                           &error_abort);
++
++    /* get the source policy */
++    start.policy = qemu_get_be32(f);
++
++    /* get source PDH key */
++    start.pdh_len = qemu_get_be32(f);
++    if (!check_blob_length(start.pdh_len)) {
 +        return 1;
 +    }
 +
-+   start.pdh_cert_uaddr = (uintptr_t) s->remote_pdh;
-+   start.pdh_cert_len = s->remote_pdh_len;
++    pdh_cert = g_new(gchar, start.pdh_len);
++    qemu_get_buffer(f, (uint8_t *)pdh_cert, start.pdh_len);
++    start.pdh_uaddr = (uintptr_t)pdh_cert;
 +
-+   start.plat_certs_uaddr = (uintptr_t)s->remote_plat_cert;
-+   start.plat_certs_len = s->remote_plat_cert_len;
++    /* get source session data */
++    start.session_len = qemu_get_be32(f);
++    if (!check_blob_length(start.session_len)) {
++        return 1;
++    }
++    session = g_new(gchar, start.session_len);
++    qemu_get_buffer(f, (uint8_t *)session, start.session_len);
++    start.session_uaddr = (uintptr_t)session;
 +
-+   start.amd_certs_uaddr = (uintptr_t)s->amd_cert;
-+   start.amd_certs_len = s->amd_cert_len;
++    trace_kvm_sev_receive_start(start.policy, session, pdh_cert);
 +
-+    /* get the session length */
-+   session_len = sev_get_send_session_length();
-+   if (session_len < 0) {
-+       ret = 1;
-+       goto err;
-+   }
-+
-+   session = g_new0(guchar, session_len);
-+   start.session_uaddr = (unsigned long)session;
-+   start.session_len = session_len;
-+
-+   /* Get our PDH certificate */
-+   ret = sev_get_pdh_info(s->sev_fd, &pdh, &pdh_len,
-+                          &plat_cert, &plat_cert_len, &local_err);
-+   if (ret) {
-+       error_report("Failed to get our PDH cert");
-+       goto err;
-+   }
-+
-+   trace_kvm_sev_send_start(start.pdh_cert_uaddr, start.pdh_cert_len,
-+                            start.plat_certs_uaddr, start.plat_certs_len,
-+                            start.amd_certs_uaddr, start.amd_certs_len);
-+
-+   ret = sev_ioctl(s->sev_fd, KVM_SEV_SEND_START, &start, &fw_error);
-+   if (ret < 0) {
-+       error_report("%s: SEND_START ret=%d fw_error=%d '%s'",
-+               __func__, ret, fw_error, fw_error_to_str(fw_error));
-+       goto err;
-+   }
-+
-+   qemu_put_be32(f, start.policy);
-+   qemu_put_be32(f, pdh_len);
-+   qemu_put_buffer(f, (uint8_t *)pdh, pdh_len);
-+   qemu_put_be32(f, start.session_len);
-+   qemu_put_buffer(f, (uint8_t *)start.session_uaddr, start.session_len);
-+   *bytes_sent = 12 + pdh_len + start.session_len;
-+
-+   sev_set_guest_state(s, SEV_STATE_SEND_UPDATE);
-+
-+err:
-+   g_free(pdh);
-+   g_free(plat_cert);
-+   return ret;
-+}
-+
-+static int
-+sev_send_get_packet_len(int *fw_err)
-+{
-+    int ret;
-+    struct kvm_sev_send_update_data update = {};
-+
-+    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_SEND_UPDATE_DATA,
-+                    &update, fw_err);
-+    if (*fw_err != SEV_RET_INVALID_LEN) {
-+        ret = -1;
-+        error_report("%s: failed to get session length ret=%d fw_error=%d '%s'",
-+                    __func__, ret, *fw_err, fw_error_to_str(*fw_err));
++    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_RECEIVE_START,
++                    &start, &fw_error);
++    if (ret < 0) {
++        error_report("Error RECEIVE_START ret=%d fw_error=%d '%s'",
++                      ret, fw_error, fw_error_to_str(fw_error));
 +        goto err;
 +    }
 +
-+    ret = update.hdr_len;
-+
++    object_property_set_int(OBJECT(sev), "handle", start.handle, &error_abort);
++    sev_set_guest_state(sev, SEV_STATE_RECEIVE_UPDATE);
 +err:
++    g_free(session);
++    g_free(pdh_cert);
++
 +    return ret;
 +}
 +
-+static int
-+sev_send_update_data(SevGuestState *s, QEMUFile *f, uint8_t *ptr, uint32_t size,
-+                     uint64_t *bytes_sent)
++static int sev_receive_update_data(QEMUFile *f, uint8_t *ptr)
 +{
-+    int ret, fw_error;
-+    guchar *trans;
-+    struct kvm_sev_send_update_data update = { };
++    int ret = 1, fw_error = 0;
++    gchar *hdr = NULL, *trans = NULL;
++    struct kvm_sev_receive_update_data update = {};
 +
-+    /*
-+     * If this is first call then query the packet header bytes and allocate
-+     * the packet buffer.
-+     */
-+    if (!s->send_packet_hdr) {
-+        s->send_packet_hdr_len = sev_send_get_packet_len(&fw_error);
-+        if (s->send_packet_hdr_len < 1) {
-+            error_report("%s: SEND_UPDATE fw_error=%d '%s'",
-+                         __func__, fw_error, fw_error_to_str(fw_error));
-+            return 1;
-+        }
-+
-+        s->send_packet_hdr = g_new(gchar, s->send_packet_hdr_len);
++    /* get packet header */
++    update.hdr_len = qemu_get_be32(f);
++    if (!check_blob_length(update.hdr_len)) {
++        return 1;
 +    }
 +
-+    /* allocate transport buffer */
-+    trans = g_new(guchar, size);
++    hdr = g_new(gchar, update.hdr_len);
++    qemu_get_buffer(f, (uint8_t *)hdr, update.hdr_len);
++    update.hdr_uaddr = (uintptr_t)hdr;
 +
-+    update.hdr_uaddr = (uintptr_t)s->send_packet_hdr;
-+    update.hdr_len = s->send_packet_hdr_len;
-+    update.guest_uaddr = (uintptr_t)ptr;
-+    update.guest_len = size;
-+    update.trans_uaddr = (uintptr_t)trans;
-+    update.trans_len = size;
-+
-+    trace_kvm_sev_send_update_data(ptr, trans, size);
-+
-+    ret = sev_ioctl(s->sev_fd, KVM_SEV_SEND_UPDATE_DATA, &update, &fw_error);
-+    if (ret) {
-+        error_report("%s: SEND_UPDATE_DATA ret=%d fw_error=%d '%s'",
-+                     __func__, ret, fw_error, fw_error_to_str(fw_error));
++    /* get transport buffer */
++    update.trans_len = qemu_get_be32(f);
++    if (!check_blob_length(update.trans_len)) {
 +        goto err;
 +    }
 +
-+    qemu_put_be32(f, update.hdr_len);
-+    qemu_put_buffer(f, (uint8_t *)update.hdr_uaddr, update.hdr_len);
-+    *bytes_sent = 4 + update.hdr_len;
++    trans = g_new(gchar, update.trans_len);
++    update.trans_uaddr = (uintptr_t)trans;
++    qemu_get_buffer(f, (uint8_t *)update.trans_uaddr, update.trans_len);
 +
-+    qemu_put_be32(f, update.trans_len);
-+    qemu_put_buffer(f, (uint8_t *)update.trans_uaddr, update.trans_len);
-+    *bytes_sent += (4 + update.trans_len);
++    update.guest_uaddr = (uintptr_t) ptr;
++    update.guest_len = update.trans_len;
 +
++    trace_kvm_sev_receive_update_data(trans, ptr, update.guest_len,
++            hdr, update.hdr_len);
++
++    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_RECEIVE_UPDATE_DATA,
++                    &update, &fw_error);
++    if (ret) {
++        error_report("Error RECEIVE_UPDATE_DATA ret=%d fw_error=%d '%s'",
++                     ret, fw_error, fw_error_to_str(fw_error));
++        goto err;
++    }
 +err:
 +    g_free(trans);
++    g_free(hdr);
 +    return ret;
 +}
 +
-+int sev_save_outgoing_page(QEMUFile *f, uint8_t *ptr,
-+                           uint32_t sz, uint64_t *bytes_sent)
++int sev_load_incoming_page(QEMUFile *f, uint8_t *ptr)
 +{
 +    SevGuestState *s = sev_guest;
 +
 +    /*
-+     * If this is a first buffer then create outgoing encryption context
-+     * and write our PDH, policy and session data.
++     * If this is first buffer and SEV is not in recieiving state then
++     * use RECEIVE_START command to create a encryption context.
 +     */
-+    if (!sev_check_state(s, SEV_STATE_SEND_UPDATE) &&
-+        sev_send_start(s, f, bytes_sent)) {
-+        error_report("Failed to create outgoing context");
++    if (!sev_check_state(s, SEV_STATE_RECEIVE_UPDATE) &&
++        sev_receive_start(s, f)) {
 +        return 1;
 +    }
 +
-+    return sev_send_update_data(s, f, ptr, sz, bytes_sent);
++    return sev_receive_update_data(f, ptr);
 +}
 +
  static void
  sev_register_types(void)
  {
 diff --git a/target/i386/trace-events b/target/i386/trace-events
-index 2cd8726eeb..e8d4aec125 100644
+index e8d4aec125..475de65ad4 100644
 --- a/target/i386/trace-events
 +++ b/target/i386/trace-events
-@@ -11,3 +11,6 @@ kvm_sev_launch_measurement(const char *value) "data %s"
- kvm_sev_launch_finish(void) ""
- kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
- kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
-+kvm_sev_send_start(uint64_t pdh, int l1, uint64_t plat, int l2, uint64_t amd, int l3) "pdh 0x%" PRIx64 " len %d plat 0x%" PRIx64 " len %d amd 0x%" PRIx64 " len %d"
-+kvm_sev_send_update_data(void *src, void *dst, int len) "guest %p trans %p len %d"
-+kvm_sev_send_finish(void) ""
+@@ -14,3 +14,6 @@ kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data
+ kvm_sev_send_start(uint64_t pdh, int l1, uint64_t plat, int l2, uint64_t amd, int l3) "pdh 0x%" PRIx64 " len %d plat 0x%" PRIx64 " len %d amd 0x%" PRIx64 " len %d"
+ kvm_sev_send_update_data(void *src, void *dst, int len) "guest %p trans %p len %d"
+ kvm_sev_send_finish(void) ""
++kvm_sev_receive_start(int policy, void *session, void *pdh) "policy 0x%x session %p pdh %p"
++kvm_sev_receive_update_data(void *src, void *dst, int len, void *hdr, int hdr_len) "guest %p trans %p len %d hdr %p hdr_len %d"
++kvm_sev_receive_finish(void) ""
 -- 
 2.17.1
 
