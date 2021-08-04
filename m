@@ -2,125 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F91D3E028B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 15:58:55 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6833E02D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Aug 2021 16:11:47 +0200 (CEST)
+Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBHQ6-0003CC-Im
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 09:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54144)
+	id 1mBHcX-0002pp-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 10:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mBHOX-0001Qr-RP
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 09:57:18 -0400
-Received: from mail-bn8nam08on2112.outbound.protection.outlook.com
- ([40.107.100.112]:9952 helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mBHbY-0001zn-WC
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:10:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mBHOV-0007M7-C9
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 09:57:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XfJTAEKjwl+uI5/AM0N35qsWn66SBQXPA2SJFNb2R/QXNonywFL8RbhZsGxgqpb0KhLfx5WTtkm1ye8w5j+XnjzQhQyTcE/tdTogIFyL/dTTFkBTqI/tGt4ULGIwgH7GqjubivBebUycz4MqPvqY5H1Y1rP37BxhwCZPduyaRpNZWVAgIyhDXW/9HtWuK+CzYiVvcMB+jKKqtjiu2q8sqsA+4SJgjR1jmvHqV1axvITPUFkJPOo51VGqguFuViTgVU0x4Jka1/CBwas6bdvg4Ccf6Y6ByHLXXfsnquOz+ZROg1Opw5o2TqtjGtISMWmhDVKVVzu3vebJ2mdRD6Wa9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JqZvg8+4n6fFzmLglEDEc1931ol06VbYyo0PGmfyLBQ=;
- b=aPpZdIi5G9RG06/hQMpI6IKAZ0deB6LN685nLycwhC9/aqNmfwm0B2RfdZpGxIieFleHSi6mFbFksnhEKo87hcKa6Vpj0z8UJkhMPLcqomHH4uZgTYMBzVC9ZjUn0KStDUte2/U2/p34i4bvefDKmvJS5LOxC3sM2C+gYCeOttump8wA4mGRIbRq8hNneO1UPne3u2gKl7lxp9q12UautHhRs6/u16n0REnmC2uGUMGJJbFExgqted6v2ULoe5xlvfMe4z7iLzUuwwybdUbAZtnu0gpB1oPwNDx3mmIbEGh41NYSfmx3ezFG5SpvU6ZDRFQi0VpQyZCmpB+fS0GbuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JqZvg8+4n6fFzmLglEDEc1931ol06VbYyo0PGmfyLBQ=;
- b=svRq73CixCkFxZjrDqkHAy8j0HCKlYisVMzyHCL5XzCRLcy10pwS1IyqRJLF1wlUAz1LicVAN2ytC6jgG6NMq3QZ3VCNFyEgzETm/CSQApmH+ZFbED8j2kUWIlhXrSMZgNO80Tf01V+PQLiR34qtZYoTX5zec1VvG9Z8sdMR+DE=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB3422.namprd03.prod.outlook.com (2603:10b6:805:4a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Wed, 4 Aug
- 2021 13:56:40 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4373.027; Wed, 4 Aug 2021
- 13:56:40 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] fuzz: unblock SIGALRM so the timeout works
-Date: Wed,  4 Aug 2021 09:56:21 -0400
-Message-Id: <20210804135621.31455-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210804135621.31455-1-alxndr@bu.edu>
-References: <20210804135621.31455-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR22CA0027.namprd22.prod.outlook.com
- (2603:10b6:208:238::32) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mBHbV-0008B5-70
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 10:10:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628086239;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KnJ1Iqrhhg2dQ8YItw9ZfMyMAiMZStfFOOiLa6wOK3Q=;
+ b=QJiPRDIgXgG8R+S79NhkSl8/Q9Tgrzm2IT5sgBImDNFkMj9jGi2oub57ix9KZEjvKyZ6kT
+ fjygiNFo+y+Qx1Jq8ACfGH/B6Rm60xb97AVc2qAIZBoUfsFSxDPcaPz3soyR84+CPBbYOL
+ NuMoJQ4K4UfsOwvDjfoyEi5qMLMH4DQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-wpm3-OPRP2abzYiT_Xjf5w-1; Wed, 04 Aug 2021 10:10:35 -0400
+X-MC-Unique: wpm3-OPRP2abzYiT_Xjf5w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B51892503;
+ Wed,  4 Aug 2021 14:10:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAEC366FFF;
+ Wed,  4 Aug 2021 14:10:32 +0000 (UTC)
+Date: Wed, 4 Aug 2021 15:10:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: Failing iotest 206
+Message-ID: <YQqf1axrlDfGZYLH@redhat.com>
+References: <87d526f8-53bc-c196-6d5c-72b78a49518b@redhat.com>
+ <20210720011151.l66z3q5hfc7urcfv@redhat.com>
+ <YPaKMLGBINB+uSXz@redhat.com> <YQl6O8z0LIOXHzlV@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.74.210.193) by
- MN2PR22CA0027.namprd22.prod.outlook.com (2603:10b6:208:238::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend
- Transport; Wed, 4 Aug 2021 13:56:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 070b9ecd-3901-499a-91e4-08d9574faef7
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3422:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3422085A3A45E42E93F03C4CBAF19@SN6PR03MB3422.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EIK41fXbpnkLInc5STp455QckAwIe7km62SE1mt6HGhWnuvqSypTW87KobM+3Ef5L8FrhwzHWRfCWSVg+4bVezr+hxGtx4xNtopQwDq9y9T259FE8LSmIYl4ylZb+iTZ4UfHdxcfp54N0qDA/hSJ0mvbZ8hh/JLNUjZAQWOCH5NUFALFhkKE0iLOXoIwvEVTgXsuXTmPkVSnbiS2dXyCi+3jJ/5A0IAD4FzkPg03YnKzkPnsc92jaIQ6HVbHkc/ET0AI52QBQj6rquifd2lCFNQtVy4iHKZxpHmbZ3UZVSO2wHDgfU4bvLxrgAgreb4Y21x2jPatNqgONMSrzDpJ7Fk7v8TOLMSt3La9KaBgaMaxmmFevAttEdMGR7V5Hww4L905uhI63ahKgJamBuu1y5EK1G1RKciVN/Q9ErUFj+VUjsKk1f4I5nJ6yp7DdSTChWueHdBnKDIU8Yl60TQnd6E7OOaEuatRRbaupuqNAhBf1CaPalHGgB7B0tJxBPQnmSciGmOY2+aPd1zYYFBYC4o+pBVqnLeI1GgLeToWaMVHbmNb5r2DXO4FluOq9oAETj7KlOoSGJDrng5rWGbnxZKmnV9WeM/cAr1Xnz8Lg+eDes2xBjGpQMXVn8MBN+EaSO/JECQ7Vc2v33vUidJsQZPiNCKe52lQwfiO3ywDt3hgpTOCJ4jHiCptmaCMijDLhr36IsaeS+btuFVJJpobtw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(86362001)(8936002)(66946007)(66476007)(186003)(66556008)(8676002)(6666004)(1076003)(26005)(83380400001)(6512007)(6916009)(2616005)(36756003)(956004)(508600001)(38350700002)(2906002)(786003)(316002)(38100700002)(5660300002)(6486002)(54906003)(52116002)(4326008)(75432002)(6506007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ey6wFM0cpwRHOZr5objKI9hxfZ7RJmVUnzv68F47qOtLoarn2dVsU+avr6fy?=
- =?us-ascii?Q?eiLUan1cxLTf+ikftONK1SvqtT3Mjxc70asxOqbxcLtK2UEfSQ17zr/wAvT8?=
- =?us-ascii?Q?6ZIa7T498H0TQQklocPvvJmY6xs4XCQNXFe+4uv3v7tlXIGKicqpKnwlWvqO?=
- =?us-ascii?Q?GQ/gb8PdXQsBa+d67XEYBD+3OMTd2I2o215xT+efr7kGXWiHwS8ilpFSpey8?=
- =?us-ascii?Q?tL1a4s4dTG0CMMQXYfQyQF7UHPIAA0Dai3RAWGgcGxLy8nhDtwiLlGg98iOP?=
- =?us-ascii?Q?ZRZBFhU15Y7ia7a86U3bALoLDj4uXZOwYbm9Fp5pW92GxCVLQFYa0iJITsLb?=
- =?us-ascii?Q?iHFC4ienNrBxeGtju2YxbzSigjm++dLd4jgqqDYeyYvzDvlb53D/WbCSD0zA?=
- =?us-ascii?Q?ZXEPq7HZB7ELHHKf2hpBptTm2A/vqOBoe+y3T1LIRltIN/4f4BfzZHo5pElV?=
- =?us-ascii?Q?76E4XAwxgyUtWHOdj/1KeggsxsPgDLJyEJ2Z5KBKUvVHE/RIsU9n2KG7SndI?=
- =?us-ascii?Q?+kTYIPBq+aI32dD2xsfQMAoM2xCYA2x3cRzrOtIW3f14+GmLraIK561z2ZGz?=
- =?us-ascii?Q?JGvCZrfW0xWIBaqDMbrq4WbFxtZBR2OgX+qf66hsmle4+CmENXR9oJjWA7zw?=
- =?us-ascii?Q?/4bVLl7CAk6WLRbZzEdH/TQByOjRfjqhhsVm5Vx+K6mXL3We1TYRDopmhpxm?=
- =?us-ascii?Q?+BoRjWIrRbJSMBTJd6h3EEBu0zn+PUcNJm20xVj/7BGSEeZMFcR9jxTlijye?=
- =?us-ascii?Q?C0+2DQDP4PnP+bbBjzfcpl4q0p4Ta3CeCZjsLfzpzVYwLyOqZXVtyYkEM608?=
- =?us-ascii?Q?srqV4FsTGIviwotZieNJAQwajD8dBMNDNPXvS10BlQ10BMjuaXCEjOlYSdPl?=
- =?us-ascii?Q?KfKIQUbaCEIEtL5ZkcbFrrnriSnGpeGLoUlq1mu+dnDgSlzOQgEUijy/rWj8?=
- =?us-ascii?Q?5Z36RnvHhzqbcNPc+SVzDZIg3Pb79UBSdzUHWxFbbc3RC0OcyGC/fzqME8ER?=
- =?us-ascii?Q?DmLW5C45pJaVoi/lP04XuHAIYO9+k+qr8Rtq63zhryBMQBo9NpeUCdIPUYB4?=
- =?us-ascii?Q?QmCtYplb0yq2IkqT88SszIUqIzdU/DRSKpze4csvVr4SsgeBn4cWpjEtZJxm?=
- =?us-ascii?Q?5Ji1xmAuvQhhi/TDKTirQB67DX3y72RwgWqQ4nxz4B+R1EgLrpEd9a5cDcbj?=
- =?us-ascii?Q?pGIp/BsDlcxx1T437fXQR6gXGQ7m82OdkWkvfbbYfh2Jww8AHzruglsA3jAH?=
- =?us-ascii?Q?WiG1ZSrqPP+AByIEga7KM6DoV/0O7pUcrJ6OI33utpRLWqtEQIrikh/1D6Ew?=
- =?us-ascii?Q?JBAZisVaTUWHxAjl0CxFxBA/?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 070b9ecd-3901-499a-91e4-08d9574faef7
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 13:56:40.0508 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tcQtd0ccyZxIl5tXyPEazfUn+llvpUjkJlDBV5uqdbb+de0QJlQtYGb2z5ptNvBh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3422
-Received-SPF: pass client-ip=40.107.100.112; envelope-from=alxndr@bu.edu;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YQl6O8z0LIOXHzlV@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,51 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The timeout mechanism wont work if SIGALRM is blocked. This changes
-unmasks SIGALRM when the timer is installed. This doesn't completely
-solve the problem, as the fuzzer could trigger some device activity that
-re-masks SIGALRM. However, there are currently no inputs on OSS-Fuzz
-that re-mask SIGALRM and timeout. If that turns out to be a real issue,
-we could try to hook sigmask-type calls, or use a separate timer thread.
+On Tue, Aug 03, 2021 at 07:17:47PM +0200, Kevin Wolf wrote:
+> Am 20.07.2021 um 10:32 hat Daniel P. Berrangé geschrieben:
+> > On Mon, Jul 19, 2021 at 08:12:58PM -0500, Eric Blake wrote:
+> > > On Mon, Jul 19, 2021 at 10:06:01AM +0200, Thomas Huth wrote:
+> > > >  Hi,
+> > > > 
+> > > > iotest 206 fails for me with:
+> > > > 
+> > > 
+> > > > --- 206.out
+> > > > +++ 206.out.bad
+> > > > @@ -99,55 +99,19 @@
+> > > > 
+> > > >  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options":
+> > > > {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", "cipher-mode":
+> > > > "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg":
+> > > > "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file":
+> > > > {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+> > > >  {"return": {}}
+> > > > +Job failed: Unsupported cipher algorithm twofish-128 with ctr mode
+> > > >  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> > > >  {"return": {}}
+> > > 
+> > > > 
+> > > > Looks like it is missing a check for the availability of the corresponding
+> > > > crypto stuff? Does anybody got a clue how to fix this?
+> > > 
+> > > What system is this on? Which crypto library versions are installed?
+> > > I suspect this is related to Dan's effort to speed up crypto by
+> > > favoring gnutls over nettle, where the switch in favored libraries
+> > > failed to account for whether twofish-128 is supported?
+> > > 
+> > > https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg03886.html
+> > 
+> > Yes, the gnutls provider doesn't support twofish. This doesn't matter
+> > in real world usage because no one is seriously going to ask for twofish
+> > instead of AES for luks encryption.
+> > 
+> > I guess that test suite was simply trying to ask for some non-default
+> > values though.
+> 
+> Do we already have a patch somewhere that makes it use a different
+> value? Or if not, which value would be most likely to work everywhere?
 
-Based-on: <20210713150037.9297-1-alxndr@bu.edu>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/generic_fuzz.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Ultimately there is only one cipher alg that is guaranteed 'aes',
+which can be used in two keysizes 128/256, and two modes cbc/xts.
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index de427a3727..dd7e25851c 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -670,6 +670,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-     if (fork() == 0) {
-         struct sigaction sact;
-         struct itimerval timer;
-+        sigset_t set;
-         /*
-          * Sometimes the fuzzer will find inputs that take quite a long time to
-          * process. Often times, these inputs do not result in new coverage.
-@@ -684,6 +685,10 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-             sact.sa_handler = handle_timeout;
-             sigaction(SIGALRM, &sact, NULL);
- 
-+            sigemptyset(&set);
-+            sigaddset(&set, SIGALRM);
-+            pthread_sigmask(SIG_UNBLOCK, &set, NULL);
-+
-             memset(&timer, 0, sizeof(timer));
-             timer.it_value.tv_sec = timeout / USEC_IN_SEC;
-             timer.it_value.tv_usec = timeout % USEC_IN_SEC;
+Sine aes-128 with xts is the default, if you want to exercise
+a non-default codepath for LUKS support, i'd suggest aes-256
+with cbc mode, and essiv IV generator.
+
+Regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
