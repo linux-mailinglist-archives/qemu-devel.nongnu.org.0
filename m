@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A253E164E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 16:04:50 +0200 (CEST)
-Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DE23E1660
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 16:06:56 +0200 (CEST)
+Received: from localhost ([::1]:42182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBdzN-0002fm-DG
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 10:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
+	id 1mBe1P-0007lw-Aa
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 10:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBdvT-0002pn-4e
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:00:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26408)
+ id 1mBdvY-0002vl-Pw
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:00:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBdvQ-0002CP-84
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:00:46 -0400
+ id 1mBdvV-0002Hy-Rc
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:00:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628172043;
+ s=mimecast20190719; t=1628172048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jo5ZCM8xI7GoWnJD1j0kh6lkCtRBIRVAHytoh1MC2zw=;
- b=GmMv4sgt9bw1efNfDLXTTGFd7JH9f/vScEwD904cbjdT7uPZW7aCrGiVtGA1i2iSOZEN8I
- MWkl0GPhiBLjPXT3RihfMHOg0noYlEMDPQuhUSkxFiw2oe7jcfkI/0EOBR95EfzE78feyc
- IvnY2L66KpitJ18OKcyF7XEEJg9sWbY=
+ bh=to95uZafGFonwXR9uWkFz4LxEZMdZ3CnyRt1L1hyKXM=;
+ b=DGYbThRt90097lEp3ssSyBAWkGpT2Q1tYIw7rZEKa7i53NpgbZa7FSGcFU1uQrDNRBjcsC
+ rbUgBQPccZWdvbuiOQqRdEAOgPJskkoAuWN9w0aqTSpAjzEfxEx9z6oGtbShtC7/3Q7eXd
+ rGREy9IrSPNejy45SbjmzwielO8pWtU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-1TCS9fGOMx6SeiJlfmoZ1g-1; Thu, 05 Aug 2021 10:00:42 -0400
-X-MC-Unique: 1TCS9fGOMx6SeiJlfmoZ1g-1
+ us-mta-563-vU7y6UADPKa6N7HgSvFe4w-1; Thu, 05 Aug 2021 10:00:47 -0400
+X-MC-Unique: vU7y6UADPKa6N7HgSvFe4w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 649B8C73BE
- for <qemu-devel@nongnu.org>; Thu,  5 Aug 2021 14:00:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625BD100CA89
+ for <qemu-devel@nongnu.org>; Thu,  5 Aug 2021 14:00:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 593B91036D27;
- Thu,  5 Aug 2021 14:00:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA181000186;
+ Thu,  5 Aug 2021 14:00:44 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/18] ui/gtk-clipboard: emit release clipboard events
-Date: Thu,  5 Aug 2021 17:57:14 +0400
-Message-Id: <20210805135715.857938-18-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 18/18] ui/vdagent: add a migration blocker
+Date: Thu,  5 Aug 2021 17:57:15 +0400
+Message-Id: <20210805135715.857938-19-marcandre.lureau@redhat.com>
 In-Reply-To: <20210805135715.857938-1-marcandre.lureau@redhat.com>
 References: <20210805135715.857938-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -86,24 +86,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+The current implementation lacks migration support. After migration,
+vdagent support will be broken (even after a restart of the daemons).
+Let's try to fix it in 6.2.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/gtk-clipboard.c | 2 ++
- 1 file changed, 2 insertions(+)
+ ui/vdagent.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
-index 4e4b3c52bb..35b7a2c228 100644
---- a/ui/gtk-clipboard.c
-+++ b/ui/gtk-clipboard.c
-@@ -163,6 +163,8 @@ static void gd_owner_change(GtkClipboard *clipboard,
-         qemu_clipboard_info_unref(info);
-         break;
-     default:
-+        qemu_clipboard_peer_release(&gd->cbpeer, s);
-+        gd->cbowner[s] = false;
-         break;
-     }
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index 7d8cb963ff..603a2a7bd2 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -6,6 +6,7 @@
+ #include "qemu/option.h"
+ #include "qemu/units.h"
+ #include "hw/qdev-core.h"
++#include "migration/blocker.h"
+ #include "ui/clipboard.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+@@ -23,6 +24,9 @@
+ struct VDAgentChardev {
+     Chardev parent;
+ 
++    /* TODO: migration isn't yet supported */
++    Error *migration_blocker;
++
+     /* config */
+     bool mouse;
+     bool clipboard;
+@@ -599,6 +603,10 @@ static void vdagent_chr_open(Chardev *chr,
+     return;
+ #endif
+ 
++    if (migrate_add_blocker(vd->migration_blocker, errp) != 0) {
++        return;
++    }
++
+     vd->mouse = VDAGENT_MOUSE_DEFAULT;
+     if (cfg->has_mouse) {
+         vd->mouse = cfg->mouse;
+@@ -832,6 +840,8 @@ static void vdagent_chr_init(Object *obj)
+     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(obj);
+ 
+     buffer_init(&vd->outbuf, "vdagent-outbuf");
++    error_setg(&vd->migration_blocker,
++               "The vdagent chardev doesn't yet support migration");
  }
+ 
+ static void vdagent_chr_fini(Object *obj)
+@@ -840,6 +850,7 @@ static void vdagent_chr_fini(Object *obj)
+ 
+     vdagent_disconnect(vd);
+     buffer_free(&vd->outbuf);
++    error_free(vd->migration_blocker);
+ }
+ 
+ static const TypeInfo vdagent_chr_type_info = {
 -- 
 2.32.0.264.g75ae10bc75
 
