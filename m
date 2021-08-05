@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56CB3E0F4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 09:34:57 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F613E0F71
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 09:42:20 +0200 (CEST)
+Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBXu4-0003CF-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 03:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51734)
+	id 1mBY1D-0000IB-55
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 03:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
- id 1mBXs1-0008AX-VZ; Thu, 05 Aug 2021 03:32:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54204)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBY0A-0007Xn-9f
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:41:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
- id 1mBXrz-0005d2-DQ; Thu, 05 Aug 2021 03:32:49 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17574CAd109913; Thu, 5 Aug 2021 03:32:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=3r1gFHcs1M8F9m6Y7swZnRinA+fQU7HkwpjzAIcdS10=;
- b=YxgKKTlcFc6HtJFDlKSp2WTmpLKEHXcAccamVyldaHE/4okSzG85JSXhnawNEL4cMttI
- BGlCJ0yomvKlD6ANpKLSPsoR1lQAHJP9Lr4AAa7n7rgPiB1odrCJE8pwgQh4oyP5vId2
- LXz0wM29jO8+qdJTMGfFixYHhWOhutEqmKreBB4xXNbDXROY30fBDU+jiOhqHyWvR/z0
- 1vjjePPC9u3NlrkpCuj2Nf/5SfPFWWnET9bI86EAkROHVuYAr4Ot5uyWQmU7XAO6+hEn
- N7NZ6hKdBJPFVPp8Ug5xaelEPp4w2j2vcFjltlJXkYcdjt3gov9b7JLgYTex3MfVDkkr 6w== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a846b25we-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 03:32:41 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1757RsPe026816;
- Thu, 5 Aug 2021 07:32:39 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 3a4x592rpe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 07:32:39 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1757Tdui46989706
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Aug 2021 07:29:39 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5008B52050;
- Thu,  5 Aug 2021 07:32:36 +0000 (GMT)
-Received: from bharata.ibmuc.com (unknown [9.102.2.73])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 069435206B;
- Thu,  5 Aug 2021 07:32:34 +0000 (GMT)
-From: Bharata B Rao <bharata@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v0 2/2] ppc,spapr: Handle KVM_EXIT_ESN
-Date: Thu,  5 Aug 2021 13:02:28 +0530
-Message-Id: <20210805073228.502292-3-bharata@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210805073228.502292-1-bharata@linux.ibm.com>
-References: <20210805073228.502292-1-bharata@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBY07-0004J6-FM
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:41:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628149269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XLODFDSfuVCzvzgkymBBCfUeMSi9xUViBnYgxksUVDs=;
+ b=be1FFCZg8bDs+heBjv5HIvqsT+Lc0SDU4cldfAfa1bH13/j63s8oF64EitnyEk/p5sro/5
+ 5uj+rlwIPWB7Ya8NMjEBIROabmISIoK8bl4rAEXPSTe2gzhXHxMNxS2ZCLSmp9zunIsUGD
+ euhHjm86ORSaec9vKaXZbHVULs5+pw8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-vnewzwAAN9uML9mS6YJCWw-1; Thu, 05 Aug 2021 03:41:08 -0400
+X-MC-Unique: vnewzwAAN9uML9mS6YJCWw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o4-20020a5d47c40000b0290154ad228388so1612076wrc.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 00:41:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XLODFDSfuVCzvzgkymBBCfUeMSi9xUViBnYgxksUVDs=;
+ b=W/LBoYCcGJFZ0dLy45df7BDIil0A9dawaB6Ke84fd9HzSAMZrIveX4kZi7wwp+42mp
+ IFAsaDiQqCu/xSiz1a9h9v0va+peFV8nZktIJ61GUW6P00uWh/ocOFyxGK4e6A7vmqv2
+ kUZ0tCBnVKlbR0a5qGvMg7qge5cAkeMaFwykB9Dl4rhyM9oTHa8BhOK/KEzeFg9bJnGT
+ PmslciDhlnYfMj1Z/23MepkcnbN0cBAPF30NIWWZw02uHYYvXtKzAdqFOVd3t1deESvG
+ wwCqA8PvRz6QsN33Bb3mBT0LMu/wWRwQO0JxAGYGbOJjOW6pGhPT2LYBLhwnEga+jBgK
+ yvCQ==
+X-Gm-Message-State: AOAM530lZshszYJ4D1P/DUG81krAMLZz+vmQr+CvpdeQqu0L+jWefEWS
+ E+jKrUs15WBwLldrmUZHL7YuYgHbG97uCFghVHx+mlwTB2KQT9J+cLcpNZvzvx892xfT8bOhw23
+ s94N3LFWXyJo3JkA=
+X-Received: by 2002:a1c:2096:: with SMTP id g144mr2286094wmg.86.1628149267220; 
+ Thu, 05 Aug 2021 00:41:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwla9AcicoQ1r9Xn+FIea80972oRF6smwzHbpCa/xMSxikh6vLI/OYu/DRGQwmetSQvDctxWw==
+X-Received: by 2002:a1c:2096:: with SMTP id g144mr2286062wmg.86.1628149267024; 
+ Thu, 05 Aug 2021 00:41:07 -0700 (PDT)
+Received: from [192.168.43.238] (166.red-193-152-126.dynamicip.rima-tde.net.
+ [193.152.126.166])
+ by smtp.gmail.com with ESMTPSA id i29sm4712307wmb.20.2021.08.05.00.41.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Aug 2021 00:41:05 -0700 (PDT)
+Subject: Re: [PATCH v3 3/7] migration/ram: Don't passs RAMState to
+ migration_clear_memory_region_dirty_bitmap_*()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210730085249.8246-1-david@redhat.com>
+ <20210730085249.8246-4-david@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cd4e4aea-812f-7354-e008-779b85c54da0@redhat.com>
+Date: Thu, 5 Aug 2021 09:41:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210730085249.8246-4-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _F0OItefTQIUfhJqP1m8pUiVghUcfwn2
-X-Proofpoint-GUID: _F0OItefTQIUfhJqP1m8pUiVghUcfwn2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-05_02:2021-08-04,
- 2021-08-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=901
- malwarescore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2107140000 definitions=main-2108050041
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=bharata@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,79 +100,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, Bharata B Rao <bharata@linux.ibm.com>,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle KVM_EXIT_ESN exit by issuing subvention notification
-interrupt to the guest. Guests supporting async-pf feature
-will need this interrupt to wake up tasks that are waiting
-for the expropriated pages to be available.
+On 7/30/21 10:52 AM, David Hildenbrand wrote:
+> The parameter is unused, let's drop it.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  migration/ram.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 
-Note: Updates to linux-headers/linux/kvm.h are temporary
-pending headers update.
-
-Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
----
- linux-headers/linux/kvm.h |  1 +
- target/ppc/kvm.c          | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
-
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index a76945fcbc..105c8b069a 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -269,6 +269,7 @@ struct kvm_xen_exit {
- #define KVM_EXIT_AP_RESET_HOLD    32
- #define KVM_EXIT_X86_BUS_LOCK     33
- #define KVM_EXIT_XEN              34
-+#define KVM_EXIT_ESN              35
- 
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 330985c8a0..6bf3f06b88 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -38,6 +38,7 @@
- #include "hw/ppc/spapr_cpu_core.h"
- #include "hw/hw.h"
- #include "hw/ppc/ppc.h"
-+#include "hw/irq.h"
- #include "migration/qemu-file-types.h"
- #include "sysemu/watchdog.h"
- #include "trace.h"
-@@ -1657,6 +1658,16 @@ static int kvm_handle_debug(PowerPCCPU *cpu, struct kvm_run *run)
-     return DEBUG_RETURN_GUEST;
- }
- 
-+#if defined(TARGET_PPC64)
-+static void kvmppc_handle_esn(PowerPCCPU *cpu)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-+
-+    fprintf(stderr, "%s: ESN exit\n", __func__);
-+    qemu_irq_pulse(spapr_qirq(spapr, SPAPR_IRQ_SNS));
-+}
-+#endif
-+
- int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-@@ -1687,6 +1698,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-                                               run->papr_hcall.args);
-         ret = 0;
-         break;
-+
-+    case KVM_EXIT_ESN:
-+        kvmppc_handle_esn(cpu);
-+        ret = 0;
-+        break;
- #endif
-     case KVM_EXIT_EPR:
-         trace_kvm_handle_epr();
--- 
-2.31.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
