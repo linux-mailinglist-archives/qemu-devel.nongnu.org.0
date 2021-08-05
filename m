@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FC83E14FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:45:03 +0200 (CEST)
-Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315873E1509
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:48:51 +0200 (CEST)
+Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBck9-0002Y8-Jj
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
+	id 1mBcnq-0007vQ-9M
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mBcf1-00045S-MZ; Thu, 05 Aug 2021 08:39:43 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2512)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mBcex-00064a-48; Thu, 05 Aug 2021 08:39:43 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GgSq45CXszYkDK;
- Thu,  5 Aug 2021 20:39:28 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 5 Aug 2021 20:39:36 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 5 Aug 2021 20:39:35 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>
-Subject: [PATCH for-6.2 v5 5/5] hw/acpi/aml-build: Generate PPTT table
-Date: Thu, 5 Aug 2021 20:39:21 +0800
-Message-ID: <20210805123921.62540-6-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210805123921.62540-1-wangyanan55@huawei.com>
-References: <20210805123921.62540-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1mBcmI-0006nX-K3
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:47:14 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:45672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1mBcmG-0000jh-N6
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:47:14 -0400
+Received: by mail-il1-x12a.google.com with SMTP id z3so4920118ile.12
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t1I9vSVQhYS+zrijz1o0IiO59wAliHD2Ee52MLMVuJ0=;
+ b=NQWVTjryV9XAZeg/DXSxRxO7t+4LoI1pbwrwCMYr9t+03qjBH6IbJZwf+/tSxqfgGa
+ Af6Wai1aqOA/6yu3ALQRMKCE+03OX+4lIop3sSJ4E6tQJBqEhsEpYc/K0XP8Q8iefvjz
+ hvDnrFKNjUvgbpTiykJZodE57wUBLG6yq687RbVuwPRhFuguzRGsegcItFla9FEN9516
+ LT8wafqO/92vCKhb8xbDk3t8An6shSMLv9HoavMFn/+cvtVnRNANmNVa8oYYS6dL5sWk
+ ljv1GFrBKqagONCpefDCBLgGk+K3lZj4Wtkulgie/SIwRLRIBX+sYjZD9sonAuX/Isa+
+ W/jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t1I9vSVQhYS+zrijz1o0IiO59wAliHD2Ee52MLMVuJ0=;
+ b=IB68phmoRPuAyKJA/L2StEeF52IuDs/WdWWnZ7EnJQZ0Ne/tqNxV1cBraB4JUlHIPm
+ b1nK/zPlwZjGkte2Ucrd9oS4T8dPDNoQBTYz2KXswp+ga/EvD0Yhpm8pVRYKlxHIR5j/
+ Ju0S2HP37GYHI94bJJ5ydrjIoy6NwYIo1nONI0UobffG9xqmlxB5OBkLdYjad/i/GltK
+ F7isssyOcUx3ItHk2NFwC36nFlY4QvCEP+zbayYQRpRn4p2RZBZF8UJY/JyLzSmKJejG
+ 6TxwtSxiaox8ejZomhRcUks77XBAQl5eaxdMSuCZO91OYLyly8rHYkG3VlaBdgXEe4S1
+ 0SVA==
+X-Gm-Message-State: AOAM530xSohzrRRzf2u23xe/x6v7qOmfAihZh8OI0jtfGpG1Bncw5RkV
+ FAhxBK0hFDwF1Az8NtEFGELm9HBV3j2lEaQXvSk=
+X-Google-Smtp-Source: ABdhPJyvg5qXXhPhKnnJQumFMCTIq2eYJjO17o5lCjYlOGcNE91M9Y5hL8LBZi1do7nDT5M/P46eelNOo/LN/BnfZl0=
+X-Received: by 2002:a05:6e02:ccf:: with SMTP id
+ c15mr285704ilj.238.1628167631480; 
+ Thu, 05 Aug 2021 05:47:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CADV2EAvr0Sb55TE=uffkb4Z17ZHNBCZGLm0nA94qKZrx1WM35A@mail.gmail.com>
+ <0d982751-7dfe-9a45-df5b-fbe57d36ccef@redhat.com>
+ <380cef7a-fe5c-9252-e791-400c44486c2c@redhat.com>
+In-Reply-To: <380cef7a-fe5c-9252-e791-400c44486c2c@redhat.com>
+From: Stevie Lavern <stevie.lavern@gmail.com>
+Date: Thu, 5 Aug 2021 14:47:00 +0200
+Message-ID: <CADV2EAufHABf-wM=qvc=Eg1teW8gQ4SfSb6c2g2Lw6v7ieP5PQ@mail.gmail.com>
+Subject: Re: [Bug] x86 EFLAGS refresh is not happening correctly
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004f2cd005c8cf51df"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=stevie.lavern@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,180 +79,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Salil Mehta <salil.mehta@huawei.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+--0000000000004f2cd005c8cf51df
+Content-Type: text/plain; charset="UTF-8"
 
-Add the Processor Properties Topology Table (PPTT) to expose
-CPU topology information defined by users to ACPI guests.
+Thank for your reply!
 
-Note, a DT-boot Linux guest with a non-flat CPU topology will
-see socket and core IDs being sequential integers starting
-from zero, which is different from ACPI-boot Linux guest,
-e.g. with -smp 4,sockets=2,cores=2,threads=1
+It's still a bit cryptic for me.
+I think i need to precise that I'm using a x86_64 custom user-mode,base on
+linux user-mode, that i'm developing (unfortunately i cannot share the
+code) with modifications in the translation loop (I've added cpu loop exits
+on specific instructions which are not control flow instructions).
+If my understanding is correct, in the user-mode case 'cpu_compute_eflags'
+is called directly by 'x86_cpu_exec_exit' with the intention of
+synchronizing the CPU env->eflags field with its real value (represented by
+the CC_* fields).
+I'm not sure how 'cpu_pre_save' and 'cpu_post_load' are involved in this
+case.
+ As you said in your first email, 'helper_read_eflags' seems to be the
+correct way to go.
 
-a DT boot produces:
+Here is some detail about my current experimentation/understanding of this
+"issue":
+With the current implementation
+         eflags |= cpu_cc_compute_all(env, CC_OP) | (env->df & DF_MASK);
+if I exit the loop with a CC_OP different from CC_OP_EFLAGS, I found that
+the resulting env->eflags may be invalid.
+In my test case, the loop was exiting with eflags = 0x44 and CC_OP =
+CC_OP_SUBL with CC_DST=1, CC_SRC=258, CC_SRC2=0.
+While 'cpu_cc_compute_all' computes the correct flags (ZF:0, PF:0), the
+result will still be 0x44 (ZF:1, PF:1) due to the 'or' operation, thus
+leading to an incorrect eflags value loaded into the CPU env.
+In my case, after loop reentry, it led to an invalid branch to be taken.
 
- cpu:  0 package_id:  0 core_id:  0
- cpu:  1 package_id:  0 core_id:  1
- cpu:  2 package_id:  1 core_id:  0
- cpu:  3 package_id:  1 core_id:  1
 
-an ACPI boot produces:
+Thanks for your time!
+Regards
+Stevie
 
- cpu:  0 package_id: 36 core_id:  0
- cpu:  1 package_id: 36 core_id:  1
- cpu:  2 package_id: 96 core_id:  2
- cpu:  3 package_id: 96 core_id:  3
 
-This is due to several reasons:
+On Thu, Aug 5, 2021 at 1:33 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
- 1) DT cpu nodes do not have an equivalent field to what the PPTT
-    ACPI Processor ID must be, i.e. something equal to the MADT CPU
-    UID or equal to the UID of an ACPI processor container. In both
-    ACPI cases those are platform dependant IDs assigned by the
-    vendor.
+> On 05/08/21 13:24, Paolo Bonzini wrote:
+> > On 05/08/21 11:51, Stevie Lavern wrote:
+> >>
+> >> Shouldn't it be:
+> >> eflags = cpu_cc_compute_all(env, CC_OP) | (env->df & DF_MASK);
+> >> as eflags is entirely reevaluated by "cpu_cc_compute_all" ?
+> >
+> > No, both are wrong.  env->eflags contains flags other than the
+> > arithmetic flags (OF/SF/ZF/AF/PF/CF) and those have to be preserved.
+> >
+> > The right code is in helper_read_eflags.  You can move it into
+> > cpu_compute_eflags, and make helper_read_eflags use it.
+>
+> Ah, actually the two are really the same, the TF/VM bits do not apply to
+> cpu_compute_eflags so it's correct.
+>
+> What seems wrong is migration of the EFLAGS register.  There should be
+> code in cpu_pre_save and cpu_post_load to special-case it and setup
+> CC_DST/CC_OP as done in cpu_load_eflags.
+>
+> Also, cpu_load_eflags should assert that update_mask does not include
+> any of the arithmetic flags.
+>
+> Paolo
+>
 
- 2) While QEMU is the vendor for a guest, if the topology specifies
-    SMT (> 1 thread), then, with ACPI, it is impossible to assign a
-    core-id the same value as a package-id, thus it is not possible
-    to have package-id=0 and core-id=0. This is because package and
-    core containers must be in the same ACPI namespace and therefore
-    must have unique UIDs.
+--0000000000004f2cd005c8cf51df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- 3) ACPI processor containers are not mandatorily required for PPTT
-    tables to be used and, due to the limitations of which IDs are
-    selected described above in (2), they are not helpful for QEMU,
-    so we don't build them with this patch. In the absence of them,
-    Linux assigns its own unique IDs. The maintainers have chosen not
-    to use counters from zero, but rather ACPI table offsets, which
-    explains why the numbers are so much larger than with DT.
+<div dir=3D"ltr"><div dir=3D"ltr">Thank for your reply!<div><br></div><div>=
+It&#39;s still a bit cryptic for me.</div><div>I think i need to precise th=
+at I&#39;m using a x86_64 custom user-mode,base on linux user-mode, that i&=
+#39;m developing (unfortunately i cannot share the code) with modifications=
+ in the translation loop (I&#39;ve added cpu loop exits on specific instruc=
+tions which are not control flow instructions).</div><div>If my understandi=
+ng is correct, in the user-mode case &#39;cpu_compute_eflags&#39; is called=
+ directly by &#39;x86_cpu_exec_exit&#39; with the intention of synchronizin=
+g the CPU env-&gt;eflags field with its real value (represented by the CC_*=
+ fields).</div><div>I&#39;m not sure how &#39;cpu_pre_save&#39; and &#39;cp=
+u_post_load&#39; are involved in this case.</div><div><span style=3D"color:=
+rgb(80,0,80)">=C2=A0</span>As you said in your first email, &#39;helper_rea=
+d_eflags&#39; seems to be the correct way to go.<br></div><div><br></div><d=
+iv>Here is some detail about my current experimentation/understanding of th=
+is &quot;issue&quot;:</div><div>With the current implementation=C2=A0</div>=
+<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<span style=3D"color:rgb(80,0,80)">e=
+flags |=3D cpu_cc_compute_all(env, CC_OP) | (env-&gt;df &amp; DF_MASK);</sp=
+an></div><div>if I exit the loop with a CC_OP different from CC_OP_EFLAGS, =
+I found that the resulting env-&gt;eflags may be invalid.</div><div>In my t=
+est case, the loop was exiting with eflags =3D 0x44 and CC_OP =3D CC_OP_SUB=
+L with CC_DST=3D1, CC_SRC=3D258, CC_SRC2=3D0.</div><div>While &#39;cpu_cc_c=
+ompute_all&#39; computes the correct flags (ZF:0, PF:0), the result will st=
+ill be 0x44 (ZF:1, PF:1) due to the &#39;or&#39; operation, thus leading to=
+ an incorrect eflags value loaded into the CPU env.=C2=A0</div><div>In my c=
+ase, after loop reentry, it led to an invalid branch to be taken.</div><div=
+><br></div><div><br></div><div>Thanks for your time!</div><div>Regards</div=
+><div>Stevie</div><div>=C2=A0</div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 5, 2021 at 1:33 PM Paolo Bon=
+zini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 05/08=
+/21 13:24, Paolo Bonzini wrote:<br>
+&gt; On 05/08/21 11:51, Stevie Lavern wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Shouldn&#39;t it be:<br>
+&gt;&gt; eflags =3D cpu_cc_compute_all(env, CC_OP) | (env-&gt;df &amp; DF_M=
+ASK);<br>
+&gt;&gt; as eflags is entirely reevaluated by &quot;cpu_cc_compute_all&quot=
+; ?<br>
+&gt; <br>
+&gt; No, both are wrong.=C2=A0 env-&gt;eflags contains flags other than the=
+ <br>
+&gt; arithmetic flags (OF/SF/ZF/AF/PF/CF) and those have to be preserved.<b=
+r>
+&gt; <br>
+&gt; The right code is in helper_read_eflags.=C2=A0 You can move it into <b=
+r>
+&gt; cpu_compute_eflags, and make helper_read_eflags use it.<br>
+<br>
+Ah, actually the two are really the same, the TF/VM bits do not apply to <b=
+r>
+cpu_compute_eflags so it&#39;s correct.<br>
+<br>
+What seems wrong is migration of the EFLAGS register.=C2=A0 There should be=
+ <br>
+code in cpu_pre_save and cpu_post_load to special-case it and setup <br>
+CC_DST/CC_OP as done in cpu_load_eflags.<br>
+<br>
+Also, cpu_load_eflags should assert that update_mask does not include <br>
+any of the arithmetic flags.<br>
+<br>
+Paolo<br>
+</blockquote></div></div>
 
- 4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
-    match the logical CPU IDs, because these IDs must be equal to the
-    MADT CPU UID (as no processor containers are present), and QEMU
-    uses the logical CPU ID for these MADT IDs.
-
-So in summary, with QEMU as vender for the guest, we use sequential
-integers starting from zero for non-leaf nodes without valid ID flag,
-so that guest will ignore them and use table offsets as unique IDs.
-And we use logical CPU IDs for leaf nodes to be consistent with MADT.
-
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- hw/acpi/aml-build.c         | 50 +++++++++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c    |  8 +++++-
- include/hw/acpi/aml-build.h |  3 +++
- 3 files changed, 60 insertions(+), 1 deletion(-)
-
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 9fa5024414..aa61c9651e 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1946,6 +1946,56 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-     }
- }
- 
-+/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
-+void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-+                const char *oem_id, const char *oem_table_id)
-+{
-+    int pptt_start = table_data->len;
-+    int uid = 0;
-+    int socket;
-+
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+
-+    for (socket = 0; socket < ms->smp.sockets; socket++) {
-+        uint32_t socket_offset = table_data->len - pptt_start;
-+        int core;
-+
-+        build_processor_hierarchy_node(
-+            table_data,
-+            (1 << 0), /* ACPI 6.2 - Physical package */
-+            0, socket, NULL, 0);
-+
-+        for (core = 0; core < ms->smp.cores; core++) {
-+            uint32_t core_offset = table_data->len - pptt_start;
-+            int thread;
-+
-+            if (ms->smp.threads > 1) {
-+                build_processor_hierarchy_node(table_data, 0, socket_offset,
-+                                               core, NULL, 0);
-+
-+                for (thread = 0; thread < ms->smp.threads; thread++) {
-+                    build_processor_hierarchy_node(
-+                        table_data,
-+                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
-+                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
-+                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
-+                        core_offset, uid++, NULL, 0);
-+                }
-+            } else {
-+                build_processor_hierarchy_node(
-+                    table_data,
-+                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
-+                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
-+                    socket_offset, uid++, NULL, 0);
-+            }
-+        }
-+    }
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + pptt_start), "PPTT",
-+                 table_data->len - pptt_start, 2, oem_id, oem_table_id);
-+}
-+
- /* build rev1/rev3/rev5.1 FADT */
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id)
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 037cc1fd82..db23306a06 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -790,13 +790,19 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     dsdt = tables_blob->len;
-     build_dsdt(tables_blob, tables->linker, vms);
- 
--    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-+    /* FADT MADT PPTT GTDT MCFG SPCR pointed to by RSDT */
-     acpi_add_table(table_offsets, tables_blob);
-     build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
- 
-     acpi_add_table(table_offsets, tables_blob);
-     build_madt(tables_blob, tables->linker, vms);
- 
-+    if (!vmc->no_cpu_topology) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_pptt(tables_blob, tables->linker, ms,
-+                   vms->oem_id, vms->oem_table_id);
-+    }
-+
-     acpi_add_table(table_offsets, tables_blob);
-     build_gtdt(tables_blob, tables->linker, vms);
- 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index ea74b8f6ed..6c29f853cd 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -466,6 +466,9 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-                                     uint32_t parent, uint32_t id,
-                                     uint32_t *priv_rsrc, uint32_t priv_num);
- 
-+void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-+                const char *oem_id, const char *oem_table_id);
-+
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id);
- 
--- 
-2.19.1
-
+--0000000000004f2cd005c8cf51df--
 
