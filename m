@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DAE3E0FA1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 09:50:49 +0200 (CEST)
-Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758583E0FDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 10:06:26 +0200 (CEST)
+Received: from localhost ([::1]:55796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBY9Q-0006hx-N6
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 03:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
+	id 1mBYOX-0003c6-14
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 04:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBY7Y-0004LW-7h
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:48:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37210)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBYMt-0002r1-94
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:04:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBY7W-0002ag-L3
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:48:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mBYMq-0007t0-Qe
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:04:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628149730;
+ s=mimecast20190719; t=1628150679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CcDBk7GZxgB8bFAKx8hY0L3+6fDnaDfWDM0bE8SjWGg=;
- b=MZ5n+klZuCcbp3/enLwUz8q6gDlZb7RHoZiBZEsT03qZMrda01YduUxE4t+oxJWpkW6/KJ
- rB7HGex/J/iOxx7MpitqZJIjkAr/n34nxbPF5VsHHqUqadgVBD2yxPx/oZA9BlNiU1T70+
- 2Oeb4o8d0dZQ6j9UjrofargEDuMBKAA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-moRneOInMAGiAj6iUg0N0Q-1; Thu, 05 Aug 2021 03:48:49 -0400
-X-MC-Unique: moRneOInMAGiAj6iUg0N0Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p12-20020a5d68cc0000b02901426384855aso1624127wrw.11
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 00:48:48 -0700 (PDT)
+ bh=bOLKivnEVEF1ik6sxgd9Z7tgczu+9LZ/r+Dfq18u9yU=;
+ b=R03Gx3ODT7zpzuxEovO8ovjfP6MCoY87ythVOuFHvSqL+AqEVfy3cJtZRT1tX6Y+DMPp11
+ SFk6NRyhSgLfIgCzJoSsOF8WzFg2jZOGPhPgokniS2LwP+qSHAnElroNF28P2UV4y82+1r
+ XLHxAciOmbWngUPASNi3P+qt3+9yQiw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-XKCzlZoUMTyEEDU1p44l6w-1; Thu, 05 Aug 2021 04:04:37 -0400
+X-MC-Unique: XKCzlZoUMTyEEDU1p44l6w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d72-20020a1c1d4b0000b029025164ff3ebfso2724883wmd.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 01:04:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CcDBk7GZxgB8bFAKx8hY0L3+6fDnaDfWDM0bE8SjWGg=;
- b=FsIG2gU/v2reBNQYAi6pZgVIw9pocRIXTDATtjnsitKBZjX8UcldLtkcwHl9jnTWUq
- kYyay3/6H6nobY3aEQHrB/jqnBGljyhUd+5KFnh9XMsEIDQsYn0suOzxlsgvcnrsRFtR
- /ob9+XU91yqkE+Ih9NIk27M46bVnJTBfAu8pQY/swtzAFclMdfL+jiGXd4UDgmSckJOS
- 3bn2O47KGEE3+X/yE6K628aFjZtz+V/d8j5/ZRHNe7DfjSJI29Lchym5YS1qUELZY3Z7
- 03id6K5lTNuQeoe6tOoknOlY6XH+VJQvf9DP8kpH9Ech1Em0rWN2jcGUkhQ/mXxKUUmT
- iLdg==
-X-Gm-Message-State: AOAM530Pb+zZZ4IarbgeJ6+a8zwIrSxmoMgVK1Mayv628BuCcWyHDW4w
- dt7uYn53ZmiZbPtLeMN2Lp7RfuEKM8z48W7+NG311aoXUJ6lq2tFn1fk7TIWbVbc6A2H2xLgUo0
- eypmALtT6+weuyEE=
-X-Received: by 2002:a1c:1b17:: with SMTP id b23mr13584129wmb.178.1628149727878; 
- Thu, 05 Aug 2021 00:48:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx28coKpYTwrLEmC0d46C9+/FuRd1DckBUG+ocWI+n3blVtw7Q1zSwhrc0P/37GZuqR6jWfVw==
-X-Received: by 2002:a1c:1b17:: with SMTP id b23mr13584112wmb.178.1628149727729; 
- Thu, 05 Aug 2021 00:48:47 -0700 (PDT)
+ bh=bOLKivnEVEF1ik6sxgd9Z7tgczu+9LZ/r+Dfq18u9yU=;
+ b=Llw5VvwSDlITv96heYN++aHPJrea5z05/6GnE6iXSmu6/dnz78N7mTujb64T9aTcgY
+ v0LYLvn0Y+gQffw4tpj1STirNnBE9lUc5GrJjYAJWnv/v54wt9Y/yEsR0jVjOBt517hK
+ w1Wb2nR/VcuN0BB3ditJFtADHB6CZz58iCK0vcsB97HYur24ZbW5dlb53IpuR4OY/WFa
+ lZCiQ77CPhIVr3NoxKubYt5IJYDsK1EzL/HrX1D3nxhvCLvwDOydKV66veZKpjlGzfJz
+ Tbc9jaaTzOUv41p66dW+XmiWmXEf9ebSo9iSCL1acT0M0fxKv3TULaFpXFOHHHTN4wPe
+ WENQ==
+X-Gm-Message-State: AOAM531YJ7puGbctBs7ZGzCwww+CQMGIMtUK565kriOt4+h1oTu4AvAX
+ 4uy2XbxAxO/KhDUCyX5Ps8pUueg6WOFTGF6KSWDth/Nnf2fb8GF/9d58AVIxydjOOJ2B2PII5KI
+ UeWPVqshgDCJOgBc=
+X-Received: by 2002:adf:8b86:: with SMTP id o6mr3637860wra.116.1628150676061; 
+ Thu, 05 Aug 2021 01:04:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnXbdGf4bLZV3jor4yauvgely6EXXoLUlGUxDIn3tEtwNfiawcu0zO4Y0WxtTDG7Kh//Kmuw==
+X-Received: by 2002:adf:8b86:: with SMTP id o6mr3637830wra.116.1628150675867; 
+ Thu, 05 Aug 2021 01:04:35 -0700 (PDT)
 Received: from [192.168.43.238] (166.red-193-152-126.dynamicip.rima-tde.net.
  [193.152.126.166])
- by smtp.gmail.com with ESMTPSA id n30sm6025601wra.1.2021.08.05.00.48.46
+ by smtp.gmail.com with ESMTPSA id q14sm5372710wrm.66.2021.08.05.01.04.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 00:48:47 -0700 (PDT)
-Subject: Re: [PATCH v3 6/7] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
+ Thu, 05 Aug 2021 01:04:34 -0700 (PDT)
+Subject: Re: [PATCH v3 7/7] migration/ram: Handle RAMBlocks with a
+ RamDiscardManager on background snapshots
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210730085249.8246-1-david@redhat.com>
- <20210730085249.8246-7-david@redhat.com>
+ <20210730085249.8246-8-david@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5f8c6173-046d-9fc2-c649-93ede45ca77d@redhat.com>
-Date: Thu, 5 Aug 2021 09:48:45 +0200
+Message-ID: <fd43555b-5661-33a5-a4da-2a38939704f7@redhat.com>
+Date: Thu, 5 Aug 2021 10:04:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730085249.8246-7-david@redhat.com>
+In-Reply-To: <20210730085249.8246-8-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -113,51 +113,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/30/21 10:52 AM, David Hildenbrand wrote:
-> Currently, when someone (i.e., the VM) accesses discarded parts inside a
-> RAMBlock with a RamDiscardManager managing the corresponding mapped memory
-> region, postcopy will request migration of the corresponding page from the
-> source. The source, however, will never answer, because it refuses to
-> migrate such pages with undefined content ("logically unplugged"): the
-> pages are never dirty, and get_queued_page() will consequently skip
-> processing these postcopy requests.
+> We already don't ever migrate memory that corresponds to discarded ranges
+> as managed by a RamDiscardManager responsible for the mapped memory region
+> of the RAMBlock.
 > 
-> Especially reading discarded ("logically unplugged") ranges is supposed to
-> work in some setups (for example with current virtio-mem), although it
-> barely ever happens: still, not placing a page would currently stall the
-> VM, as it cannot make forward progress.
+> virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
+> Right now, we still populate zeropages for the whole usable part of the
+> RAMBlock, which is undesired because:
 > 
-> Let's check the state via the RamDiscardManager (the state e.g.,
-> of virtio-mem is migrated during precopy) and avoid sending a request
-> that will never get answered. Place a fresh zero page instead to keep
-> the VM working. This is the same behavior that would happen
-> automatically without userfaultfd being active, when accessing virtual
-> memory regions without populated pages -- "populate on demand".
+> 1. Even populating the shared zeropage will result in memory getting
+>    consumed for page tables.
+> 2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
+>    will populate an actual, fresh page, resulting in an unintended
+>    memory consumption.
 > 
-> For now, there are valid cases (as documented in the virtio-mem spec) where
-> a VM might read discarded memory; in the future, we will disallow that.
-> Then, we might want to handle that case differently, e.g., warning the
-> user that the VM seems to be mis-behaving.
+> Discarded ("logically unplugged") parts have to remain discarded. As
+> these pages are never part of the migration stream, there is no need to
+> track modifications via userfaultfd WP reliably for these parts.
 > 
+> Further, any writes to these ranges by the VM are invalid and the
+> behavior is undefined.
+> 
+> Note that Linux only supports userfaultfd WP on private anonymous memory
+> for now, which usually results in the shared zeropage getting populated.
+> The issue will become more relevant once userfaultfd WP supports shmem
+> and hugetlb.
+> 
+> Acked-by: Peter Xu <peterx@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  migration/postcopy-ram.c | 31 +++++++++++++++++++++++++++----
->  migration/ram.c          | 21 +++++++++++++++++++++
->  migration/ram.h          |  1 +
->  3 files changed, 49 insertions(+), 4 deletions(-)
+>  migration/ram.c | 53 +++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 45 insertions(+), 8 deletions(-)
 > 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 2e9697bdd2..38cdfc09c3 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -671,6 +671,29 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 01cea01774..fd5949734e 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1639,6 +1639,28 @@ out:
 >      return ret;
 >  }
 >  
-> +static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
-> +                                 ram_addr_t start, uint64_t haddr)
+> +static inline void populate_range(RAMBlock *block, hwaddr offset, hwaddr size)
 > +{
-> +    void *aligned = (void *)(uintptr_t)(haddr & -qemu_ram_pagesize(rb));
+> +    char *ptr = (char *) block->host;
+> +
+> +    for (; offset < size; offset += qemu_real_host_page_size) {
+> +        char tmp = *(ptr + offset);
+> +
+> +        /* Don't optimize the read out */
+> +        asm volatile("" : "+r" (tmp));
+> +    }
 
-  void *aligned = QEMU_ALIGN_PTR_DOWN(haddr, qemu_ram_pagesize(rb)));
+This template is now used 3 times, a good opportunity to extract it as
+an (inline?) helper.
 
 
