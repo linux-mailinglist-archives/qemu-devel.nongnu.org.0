@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE943E0EF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 09:13:21 +0200 (CEST)
-Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186273E0F00
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 09:17:27 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBXZA-0005yi-UX
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 03:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
+	id 1mBXd7-000882-20
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 03:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBXYA-0004pZ-VT
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:12:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50845)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mBXbn-0007LO-Ak; Thu, 05 Aug 2021 03:16:03 -0400
+Received: from out28-75.mail.aliyun.com ([115.124.28.75]:37295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mBXY9-00055F-Hw
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 03:12:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628147537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fy8O1M6kBiaQN7uOWnSGD2hLfvxZRvDlVzCC13w2uXI=;
- b=Xr8oftY3vIn9phRVnUrk2iWTMQ69Ej3/q26lIUigOm+yHSmpS+Uu0PSk3w4/o04pGwEyOu
- EOzIn3NT/BrmlU8TtN6C3hHVaRynKWH0MiHDGzk5V6gYJtD+LF+/24IP32N7QgCQb7xLJA
- 9dvtx9ZJq7+ScB/aRHAQpPwoiVzGHCg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-h_vDu8BrPwqzk0EeAKNS4g-1; Thu, 05 Aug 2021 03:12:14 -0400
-X-MC-Unique: h_vDu8BrPwqzk0EeAKNS4g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79E171008063;
- Thu,  5 Aug 2021 07:12:13 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B1FA1000324;
- Thu,  5 Aug 2021 07:11:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C262818000B4; Thu,  5 Aug 2021 09:11:55 +0200 (CEST)
-Date: Thu, 5 Aug 2021 09:11:55 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/7] floppy: build as modules.
-Message-ID: <20210805071155.pkvs4fjjdlx3juoo@sirius.home.kraxel.org>
-References: <20210804142737.3366441-1-kraxel@redhat.com>
- <477961d5-576b-a588-9cea-dad796c592d2@amsat.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mBXbi-0008KU-Ru; Thu, 05 Aug 2021 03:16:02 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1239193|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0150263-0.00069011-0.984284;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KvfdKuw_1628147748; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KvfdKuw_1628147748)
+ by smtp.aliyun-inc.com(10.147.42.135);
+ Thu, 05 Aug 2021 15:15:49 +0800
+Subject: Re: [RFC PATCH 00/13] Support UXL field in mstatus
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
+ <CAKmqyKOCRXbEhZrZSQN-X2ObrX=_aoxgyCsevE05LY9S-TS4hQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <a404e8dd-eb20-4d4a-6aa0-7c444b46c706@c-sky.com>
+Date: Thu, 5 Aug 2021 15:14:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <477961d5-576b-a588-9cea-dad796c592d2@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <CAKmqyKOCRXbEhZrZSQN-X2ObrX=_aoxgyCsevE05LY9S-TS4hQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.75; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-75.mail.aliyun.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.132,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +59,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 04, 2021 at 05:19:02PM +0200, Philippe Mathieu-Daud� wrote:
-> +Mark
-> 
-> On 8/4/21 4:27 PM, Gerd Hoffmann wrote:
-> > Some code shuffling needed beforehand due to floppy being part of
-> > several platforms.  While being at it also make floppy optional
-> > in pc machine type.
-> 
-> >   floppy: move fdctrl_init_sysbus
-> >   floppy: move sun4m_fdctrl_init
-> 
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg84008.html
-> 
-> Mark suggested:
-> 
->   You may be able to simplify this further by removing the
->   global legacy init functions fdctrl_init_sysbus() and
->   sun4m_fdctrl_init(): from what I can see fdctrl_init_sysbus()
->   is only used in hw/mips/jazz.c and sun4m_fdctrl_init() is only
->   used in hw/sparc/sun4m.c so you might as well inline them or
->   move the functions to the relevant files.
-> 
-> I did it and plan to send during 6.2. Sounds simpler than module.
-> You could easily rebase your series on top (or I can include your
-> patches while sending).
 
-Feel free to include them.  But I can also rebase when your patches
-landed upstream.  Your choice ;)
+On 2021/8/5 下午2:01, Alistair Francis wrote:
+> On Thu, Aug 5, 2021 at 12:55 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> This patch set implements UXL field in mstatus register. Programmer can change
+>> UXLEN by writting to this field. So that you can run a 32 bit program
+>> on a 64 bit CPU.
+> Awesome! Do you have any steps for building a rootFS to test this?
 
-take care,
-  Gerd
+Not yet.  It depends on Linux support which  will not start until  
+October.  Maybe as a rough test,
+we can run the 32 glibc test cases on qemu-riscv64 with an option 
+uxl32=true(not implement yet).
 
+Zhiwei
+
+>
+> Alistair
+>
+>> This patch set depends on one patch set by Richard Henderson
+>> https://lists.gnu.org/archive/html/qemu-riscv/2021-07/msg00059.html.
+>>
+>> LIU Zhiwei (13):
+>>    target/riscv: Add UXL to tb flags
+>>    target/riscv: Support UXL32 for branch instructions
+>>    target/riscv: Support UXL32 on 64-bit cpu for load/store
+>>    target/riscv: Support UXL32 for slit/sltiu
+>>    target/riscv: Support UXL32 for shift instruction
+>>    target/riscv: Fix div instructions
+>>    target/riscv: Support UXL32 for RVM
+>>    target/riscv: Support UXL32 for vector instructions
+>>    target/riscv: Support UXL32 for atomic instructions
+>>    target/riscv: Support UXL32 for float instructions
+>>    target/riscv: Fix srow
+>>    target/riscv: Support UXL32 for RVB
+>>    target/riscv: Changing the width of U-mode CSR
+>>
+>>   target/riscv/cpu.h                      |  18 +++
+>>   target/riscv/csr.c                      |  42 +++++-
+>>   target/riscv/insn_trans/trans_rva.c.inc |  36 ++++-
+>>   target/riscv/insn_trans/trans_rvb.c.inc |  51 +++++--
+>>   target/riscv/insn_trans/trans_rvd.c.inc |   4 +-
+>>   target/riscv/insn_trans/trans_rvf.c.inc |   4 +-
+>>   target/riscv/insn_trans/trans_rvi.c.inc |  62 ++++++--
+>>   target/riscv/insn_trans/trans_rvm.c.inc |  24 ++-
+>>   target/riscv/insn_trans/trans_rvv.c.inc |  44 +++---
+>>   target/riscv/translate.c                | 186 ++++++++++++++++++++----
+>>   target/riscv/vector_helper.c            |  54 +++++--
+>>   11 files changed, 414 insertions(+), 111 deletions(-)
+>>
+>> --
+>> 2.17.1
+>>
+>>
 
