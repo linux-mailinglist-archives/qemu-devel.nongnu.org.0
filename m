@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026A43E1E87
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:19:57 +0200 (CEST)
-Received: from localhost ([::1]:48108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168E23E1EBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:32:13 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBliW-0003wu-3K
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56466)
+	id 1mBluO-0001uQ-16
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mBlhS-0003Bk-QR
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:18:50 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:41615)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1mBlsM-0007gK-51
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:30:06 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mBlhQ-0006by-5X
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:18:50 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- u5-20020a17090ae005b029017842fe8f82so3840417pjy.0
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 15:18:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1mBlsK-0005qI-G4
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:30:05 -0400
+Received: by mail-qk1-x731.google.com with SMTP id f12so6798908qkh.10
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 15:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=i/H173aqdFOCQj+m5IIfEIRP6jGTgWAQjQImfUYcgWs=;
- b=bJQB6ky6NJdJFr9B0aUfRW7CEJkseJIyE/veX/n0VjsYhUhebHRfVcOX7NhcORnZ2N
- vMuNAHmJTBBEyRRAbH0CTFejKXbUBSwZBz/xWMIoJvW8AbSsaU2Dh1B9iqimUfeKjbvQ
- 7tXZcrupYzQwoYd2D4r88O44+F5oX1fqhIcHBOaXSpfKi5e6tC4bEjmiqsGNV1RnvCvC
- CxBOVjhtT1pPiqYF5LIFR1eYpVPAvEfrwijswdrUh+TaqM9AeeM3jKGrofpAC2ACdc5K
- bPdqQo7NENhN+jwcQgL/qzfjwoy2ALqjGdxbd0BN2Wx2JYieeSNUe+Ud1jzjhkKuhJQr
- VFAQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tTgbBm4KYGMmUC6CaEAnzc2MAY8fHUQJmsMQCASd5Nk=;
+ b=Ha4WWEC5L9gIk4CBjPBHdxywZfF2kG+xE6Z6XJMm9SN/eBuUJpebgv9oWfCVjyfLPc
+ 4rUHfCg9I0za4yMirGSrl2kjxh9sBzK7664gFuxPhHlivXgr/KAPM181r7yQdhx1kd/P
+ rgXIvvPW/DZTipbYfxTJ25/g0Rh+xW/Uaau/oHkeb/nI1orHSQXy7fLXg81PKDeBAbYK
+ 0YsQbkPcwhlkSK0SGRey109Hhl6jaL29VWn2y4IabBnkNsRwaMHMF9KK/+GFgQnkwZw+
+ lQYGKT1EAa3+tFWKjpGDvFax3kOSpYWcaoAu9oGdkDBRUIf6LXEqCy7Xva9k6RuvEEFe
+ ZBtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=i/H173aqdFOCQj+m5IIfEIRP6jGTgWAQjQImfUYcgWs=;
- b=AOfVvy3TqFGP9fUFmXi5A72pNoFVEFxWA5LgjW8PT+JBYlg07J2Q79b9g6ZQVvZxct
- IQJKWeY5Hk6p2qAeW7P9HlJgHyFAuZp7nFerTdD4iTH4AQdrIfn8LKe3Xi68yRjZjOqe
- oB5m5nsqygAFR0U2AvJYK34HwI72bkDwPeDqoXF3Y9KElM5CH8GuEivoyO2PJihBi53r
- Uc37MUHFWAan9xrD/sjVMZlDs3DrFICVczzb4fNZMIF9ogDmewMbGgBtps4aWJp6TNQP
- 8XXfa4/ugcMxw2TTULLhB3Z0JfHx7QCAErFr6C0ZqebpEj5HqxzvbSWNiTV1XgJjhaS9
- icBg==
-X-Gm-Message-State: AOAM532aehHEx8BrMftJ7lA8GSK8yg61Pm9yVXwVYoeGkJUtFYdTLjIt
- /zZEcBOJy+j3xY4NEx25aJk2Jg==
-X-Google-Smtp-Source: ABdhPJwlgcaKz05P+CmB197BU7ytbWiSIbtZLo1doeKKvEc/UXWJ35Wa7CETn1wH7O+bM+8eQdsmww==
-X-Received: by 2002:a17:90b:215:: with SMTP id
- fy21mr6725578pjb.203.1628201926701; 
- Thu, 05 Aug 2021 15:18:46 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id 129sm2917666pfg.50.2021.08.05.15.18.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 15:18:46 -0700 (PDT)
-Subject: Re: [RFC PATCH 06/13] target/riscv: Fix div instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
- <20210805025312.15720-7-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dd9d55df-523e-2085-c324-e68c54cee403@linaro.org>
-Date: Thu, 5 Aug 2021 12:18:43 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=tTgbBm4KYGMmUC6CaEAnzc2MAY8fHUQJmsMQCASd5Nk=;
+ b=X5Q+5uvcW//WhS1+QzhDoY7iJNTakwU8kMJ9konhnBDIcvRcWT/ZHXD2qFtPp4Vpss
+ iNU++OPQn1x/w3LuZutpjMa3sEOZup8MFlq2NJB0P9on5B+27sInEIg8QN8agfpXt3Ep
+ MqYlztP51ttqF0/FLvhbu6ywNywCci+9vwos24v9ARQcrcufq+MeuA/C+juserqdIlzz
+ NE+Tl9MIXZ9O7VDZ3exvKoJyJuCoxLi11qKQ7kgJtwNwqpWVARJy6B2M+p5M1huhublS
+ NGP1IXnWF66VpQQOxEDvV3SR9rVKkr7RuZdQh/MCTEoIfk7GdGI0EyMAeoQp9EEAuBNs
+ fUTA==
+X-Gm-Message-State: AOAM533qn/gL8Ren+vNzqGMyTDurHdASfd/mskKqgw980ZuWHazrkLI9
+ iDnX7nkm6UBIxMoN686525dCbQ==
+X-Google-Smtp-Source: ABdhPJxhUFA1LTkAPKXruGN45q7TwQ3TF5eXWuHll7/n3DbQ4iuGhBEcETEv6tB+U1Vj1RNstHSxvg==
+X-Received: by 2002:a05:620a:639:: with SMTP id
+ 25mr7140363qkv.179.1628202603301; 
+ Thu, 05 Aug 2021 15:30:03 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
+ by smtp.googlemail.com with ESMTPSA id d28sm3655195qkj.25.2021.08.05.15.30.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 15:30:02 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
+ mst@redhat.com, imammedo@redhat.com
+Subject: [PATCH v7 00/10] GICv3 LPI and ITS feature implementation
+Date: Thu,  5 Aug 2021 18:29:52 -0400
+Message-Id: <20210805223002.144855-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210805025312.15720-7-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/4/21 4:53 PM, LIU Zhiwei wrote:
-> Don't overwrite global source register after
-> https://lists.gnu.org/archive/html/qemu-riscv/2021-07/msg00058.html.
-> 
-> Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
-> ---
->   target/riscv/translate.c | 46 +++++++++++++++++++++++-----------------
->   1 file changed, 26 insertions(+), 20 deletions(-)
+This patchset implements qemu device model for enabling physical
+LPI support and ITS functionality in GIC as per GICv3 specification.
+Both flat table and 2 level tables are implemented.The ITS commands
+for adding/deleting ITS table entries,trigerring LPI interrupts are
+implemented.Translated LPI interrupt ids are processed by redistributor
+to determine priority and set pending state appropriately before
+forwarding the same to cpu interface.
+The ITS feature support has been added to sbsa-ref platform as well as
+virt platform,wherein the emulated functionality co-exists with kvm
+kernel functionality.
 
-FWIW, I have a cleanup to these routines that does more than add temps.  I've been slow to 
-re-post the series; sorry about that.
+Changes in v7:
+ - Restructured the lpi pending table scan logic as per comments in v6
+ - Addressed minor comments from v6
+ - For sbsa-ref platform,ITS memory map has been inserted between
+   distributor & redistributors region similar to GIC-600 layout.
+   Also, introduced sbsa-ref versioning to reflect the latest its memory
+   map change and subsequent future use for helper functions
+ - All kvm_unit_tests PASS
+ - Verified Linux Boot functionality
 
+Shashi Mallela (10):
+  hw/intc: GICv3 ITS initial framework
+  hw/intc: GICv3 ITS register definitions added
+  hw/intc: GICv3 ITS command queue framework
+  hw/intc: GICv3 ITS Command processing
+  hw/intc: GICv3 ITS Feature enablement
+  hw/intc: GICv3 redistributor ITS processing
+  hw/arm/sbsa-ref: add ITS support in SBSA GIC
+  tests/data/acpi/virt: Add IORT files for ITS
+  hw/arm/virt: add ITS support in virt GIC
+  tests/data/acpi/virt: Update IORT files for ITS
 
-r~
+ hw/arm/sbsa-ref.c                      |   79 +-
+ hw/arm/virt.c                          |   28 +-
+ hw/intc/arm_gicv3.c                    |   14 +
+ hw/intc/arm_gicv3_common.c             |   13 +
+ hw/intc/arm_gicv3_cpuif.c              |    7 +-
+ hw/intc/arm_gicv3_dist.c               |    5 +-
+ hw/intc/arm_gicv3_its.c                | 1298 ++++++++++++++++++++++++
+ hw/intc/arm_gicv3_its_common.c         |    7 +-
+ hw/intc/arm_gicv3_its_kvm.c            |    2 +-
+ hw/intc/arm_gicv3_redist.c             |  153 ++-
+ hw/intc/gicv3_internal.h               |  188 +++-
+ hw/intc/meson.build                    |    1 +
+ include/hw/arm/virt.h                  |    2 +
+ include/hw/intc/arm_gicv3_common.h     |   13 +
+ include/hw/intc/arm_gicv3_its_common.h |   32 +-
+ target/arm/kvm_arm.h                   |    4 +-
+ tests/data/acpi/virt/IORT              |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.memhp        |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.numamem      |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.pxb          |  Bin 0 -> 124 bytes
+ 20 files changed, 1818 insertions(+), 28 deletions(-)
+ create mode 100644 hw/intc/arm_gicv3_its.c
+ create mode 100644 tests/data/acpi/virt/IORT
+ create mode 100644 tests/data/acpi/virt/IORT.memhp
+ create mode 100644 tests/data/acpi/virt/IORT.numamem
+ create mode 100644 tests/data/acpi/virt/IORT.pxb
+
+--
+2.27.0
 
