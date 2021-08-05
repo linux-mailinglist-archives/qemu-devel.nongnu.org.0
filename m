@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E143E1EF9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:42:22 +0200 (CEST)
-Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF843E1EEC
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:37:44 +0200 (CEST)
+Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBm4D-0004Ui-GX
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
+	id 1mBlzj-0002rK-EY
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mBltv-0002z8-B1
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:31:43 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:20882)
+ id 1mBluD-0003lF-4l
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:32:02 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:63876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mBlts-0006we-LY
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:31:43 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ id 1mBlu7-0007AW-Gu
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:32:00 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 175MUwuL009440; Thu, 5 Aug 2021 22:31:39 GMT
+ 175MVpa7016768; Thu, 5 Aug 2021 22:31:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=VLrcvTGSeYnuaBBLKjqRwVgUXuJNQ2C6zzV4UzhyKyU=;
- b=WvStCqUmp7E3pcoajz8YxgaSX5ODng2jZj+QnJr5maWktq058Y3cNcp49dL847+O/Ave
- nopG++GPPWl0rsps3mkWMR2Wg+bJA3S7NfN/8DBd9U2mxFySCs/Ck0pD+aJ3iTQWp2QY
- ZfCteMkTbztrT06HlcdfTcK7qmuq5vetGjk/51RIUs5Gh983fUEoKEPJRVtlcnSpSPyi
- vOXdpe9OrQh3l2oWra/Zg/4B+wZ5TkgCw17rN+q7zanjqwFAx5Yjt6UFVbJN+uELa2vb
- 63KFknYsUo9DCEBNiHI5NUfMzrxKJy2Ok0QmvtDEMtTU+OODFbWsbqdeyNxSAgfVmfKm eA== 
+ bh=59x1T9zv+o4pJbI37iM8vQupKYDFEzPsrOXGN0yNsBE=;
+ b=untneudEV4rpZEVTNgJ8Bme4i5FGByiMehGcGj9inlM8BbO0M1lJm7AGd1RY+zfn+Z6H
+ +6HYrJHfK/NWUk8Ck73aSWmuu3dkxS0befMClyc8QBd9o4lqQaRG9DKlV9iHYDH+Sqvp
+ 5nRXHHKFH0nn6HG8hwdkQGTcx8sDp9O8AYfCb7WWNgunfIopH/HNSalAwUx0RxVljsbJ
+ GY6NTVasvSY3RXlZh6EGojBt95NDKvHylOrfiStE12vXvQPK7Xa7F9KDgB/p1fvdTFjL
+ VX7L2KbcfcwMxRqhcjIga5aIS1bZYsovxNguTEz/K1dFepxM3qsK43iLs1S15Gnx+c6f lg== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=VLrcvTGSeYnuaBBLKjqRwVgUXuJNQ2C6zzV4UzhyKyU=;
- b=sPbU/8UEiZvbHJe/5BlTSGEQbP8+YxyPo9LOD6J2kUApG1ncNGl4+IE+5XJT2sEh+nwN
- 1zSP8ChaaTC4/vOUIPiGt16N7cXJHZ3vBbYDE1ai0mqSj02FWitbtrqNP+fM1XKKBrqP
- geXz8S3T9nwT+6R9aydtsVa6lZa+eZBnDpcH2mFC9CB49fj/BVc/0jzSLDospVlzA/8y
- mTRnYBMxgdQ2wGQWwUmIA/HJSkKjY3doZj9XSnU305PMmsW9gnV87sYAsqpLjo0fBZHJ
- rHjEBSL28fEEu9BJ/6f9Od2oElDUya41hqBH4R1t5AhLtS1w6xCvWQlg4v2YwxBOWtZ6 7A== 
+ bh=59x1T9zv+o4pJbI37iM8vQupKYDFEzPsrOXGN0yNsBE=;
+ b=IAs9Yc5NR1u9fnHe//ycjVlhISD1FeZfJWOT+1E47JGEilpkz1OlB/EF7GASo6/RRON5
+ whizdqG1NeIlMaTO0/GvSNk4zdYAel47hRZNfOKPBiJYYOi5q8zR3DYdOxgNO88MZmuu
+ ntcf8wYHPezOh12gnuPanKjUY6/AR7cru8F+Ywf/QxE9H8b1Ywf5y+N1MOUGUXLusxHi
+ HBT9LrcYNuKoXF7yymqTHOjmEv1pQxgXFZbvNWJeoRHLZUHHeQagY/lE4muZiJ+zPizC
+ r9wIYIdscPWmfsKm4N7SFFSWD8UVVVy8ZJQQ43oMk69PC08OrLBRiXDbIOOghqONvYXY TQ== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3a7wqubj6s-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3a7aq0dwks-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 Aug 2021 22:31:39 +0000
+ Thu, 05 Aug 2021 22:31:53 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 175MVa0p008919;
- Thu, 5 Aug 2021 22:31:38 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2177.outbound.protection.outlook.com [104.47.73.177])
- by userp3020.oracle.com with ESMTP id 3a5ga121dh-1
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 175MVYmw008792;
+ Thu, 5 Aug 2021 22:31:41 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by userp3020.oracle.com with ESMTP id 3a5ga121ma-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 Aug 2021 22:31:37 +0000
+ Thu, 05 Aug 2021 22:31:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TpfnJGCDHk7bqlmBrUC61r3IrhFrRTDrb478IpdHwZ/Jt8+/LmD+ECluBeRt9h1izjCkMoyoJRxk26UpvFOU/wwOKS6LF8GZumZuVrSbjGyAaj5vYJCGiCPu2X/KnV9K31HIMzXNdTqYlvtZ4W0dTOa4CokeuTwyPUkYNhjFNbCZtGOYZ+5v//UHPF3VVbnkQirEQOzQqLbrB/ti1mdnD/GKaJU+weOwD/qMD45x5y/7sn/pCVWLQp19bwmw2NrgbHktPEZth0z2lmUP/fvwCEAOwO28MXho6ty27DJt+9E+fLkAjPOgQ6Qr8lL52QfDLJ+wHukB03nL5w+xzXGQAA==
+ b=axBWcMt+cYNmwqRE0I5iz+MF1PoA9Iq69OD/LdFqzT5YViZUaMmaLk413w67/XGFCss8dOatgozIvwBRvgFQBpEsn5Pgccr+axlm2mDzMQCVT/5zaDLfus+0uICfyQ5XPTvS6plUvBzGuCYDkdW9O0F1tsVsYkILv+wIqe/iKFtzhlXFIvMLEAopcx557fUkQH1E2dPqTXiWy7DdjPid5Z57AgT3DjxA7YUM4KrjVlXSQJnFIjM5y4a3ntyqdb49A9SroQ9eWgjkFXtN4sHIpZuK1mPTCqX04/uyRLPWztYjzTgabtzksmEsAj7/UWzqvjtn4mxB5XBayelyWr7Y+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLrcvTGSeYnuaBBLKjqRwVgUXuJNQ2C6zzV4UzhyKyU=;
- b=QpXZ6+MtM2gKhebY55mhu/8poV/vNKohbJFXAPESFfozGODYlpea/zn81qVUe0S+0diVapO7HZ/i1NAuPHg4ZTs4sYURZC1xBCXfxJS1b4+2/TcgaLYN2DkwjfO5Olw/QZQFh8cJjPjSJxM+URedxl6Mq7LFlda8WZ1Dxr9g5mdFLJKq3o0lS3/nSBkB7GZXjf5RCXHEyKKcDFh6YzJDNftzxrmamLlo1OUlcQQX+cMWjIX5Qehs5YvHly7hUmoxASPJhYmH/aewOKoZNjxCFm3V0xcNrk0nqmU/uAGzlNLWXa0HNug9+/4d5YJlTafw/n/dqq1aT1binkUT6JyDcA==
+ bh=59x1T9zv+o4pJbI37iM8vQupKYDFEzPsrOXGN0yNsBE=;
+ b=NEsDuSkcs3+bPi1+bDlCmHao0HGtcmsPmp3DbFUQV5j48SPQplq8QgHEo0HvgxK5EyhnntGvkLWOtRh358zSv+xhqKrs3lD0zwPTiQPL2xgcnTmbiBa5X7QkN5nuFPWkFKZIL/h+UGHOyWYoAtqbFjtF2sPLekpRXSwqkLRsGHs2tQQc8qT3HrBi/piSgCJ742kdLafCiZ+/cF1Nuy81YVblpdor37cL637MiWRy3Zy+693DoL61Bq/OkARUY1ZYJsJihYy3T6/Z4JMEwKilN2EY5CP4zrM5dC9QvzQQewYj1D+P2BP68pmd/m0qFiYT2MCe2ZbIypDoA1tZ+RKrtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLrcvTGSeYnuaBBLKjqRwVgUXuJNQ2C6zzV4UzhyKyU=;
- b=UxX9Q6+Ei86NYdgZ2xEdNYDBQhXnzmPXFs7FrpVVVsztP+ZOEyfBVVToudI4WMYO9C7cMzAyDsfpMmymOPknSNB7kz7rQWKbk3lzyohTwbP/XCtaqH21QvCeQOnIj6Ip+Y8+4qQ3LGTiiYfcIzxyHhAMXQJsOoe1mhqlOWfN8Fk=
+ bh=59x1T9zv+o4pJbI37iM8vQupKYDFEzPsrOXGN0yNsBE=;
+ b=zZQjE9BVos5OJxs28GFyZ7LWtKVeZFF71gwNkhOE51r/bsjJZLG/t9A5YQnoIMDp7pOq5Zxu0GF3Q/xo/NFR0b9RsdMYkvXZR5IFdFvOFTjrWWo5uLehNozF7VFfLFHMgCHN6llLnw9nf6gnM+QiT6vkGMMNa7bM7rQWeUCkPuk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by MWHPR10MB1518.namprd10.prod.outlook.com (2603:10b6:300:25::21)
+ by MWHPR1001MB2221.namprd10.prod.outlook.com (2603:10b6:301:2c::38)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Thu, 5 Aug
- 2021 22:31:23 +0000
+ 2021 22:31:24 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::d23:ea44:5df6:2bbb]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::d23:ea44:5df6:2bbb%2]) with mapi id 15.20.4394.017; Thu, 5 Aug 2021
- 22:31:22 +0000
+ 22:31:24 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org, imammedo@redhat.com
-Subject: [PATCH v6 06/10] ACPI ERST: build the ACPI ERST table
-Date: Thu,  5 Aug 2021 18:30:35 -0400
-Message-Id: <1628202639-16361-7-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v6 07/10] ACPI ERST: create ACPI ERST table for pc/x86 machines
+Date: Thu,  5 Aug 2021 18:30:36 -0400
+Message-Id: <1628202639-16361-8-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
 References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
@@ -98,55 +98,55 @@ Received: from ban25x6uut23.us.oracle.com (138.3.201.23) by
  BY3PR04CA0022.namprd04.prod.outlook.com (2603:10b6:a03:217::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17 via Frontend
- Transport; Thu, 5 Aug 2021 22:31:21 +0000
+ Transport; Thu, 5 Aug 2021 22:31:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3b567b82-14f2-4119-fa90-08d95860c100
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1518:
+X-MS-Office365-Filtering-Correlation-Id: 6ad8f27e-85b2-4f14-9e39-08d95860c1e5
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2221:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR10MB151858E38071FCE8E4196B4D97F29@MWHPR10MB1518.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB2221D24475425CD28725227D97F29@MWHPR1001MB2221.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aekU1QdLkY+Tm3ayhqxB0Rju2h10e/GESzXKjq/EAg8LdtdygBPr/eNMsZIDV5Ng/LBhbTKh3YfDbgtfA6lYdq5MuifGMh9IEk5OvcgE6qcx9sYJ4wK7pbM9ZYd3gYixo30hqKd+UZgZjNJsYR76yHdCKqUas8z4zltjODoQzkjiutRNcCQsxWNNQLCHFtT4GCi64adTMoGDR+Hr2uHr6Ml0LLGBDF0U1j34AyrSaRFFmOlcHzmDERm3rguEIWOWEiuMwiJqtnsnjMp4t0e3ZBIsB6pCeOQXPHNCeYsRFaiF2qYW7j0w2qZ9K+zcpez21HLf9wK0KX8KnFq5xQiEpYi5hOvZQpQFDvOD7fq120qkGJvZ0romDknxvy+l1H0a5hRT42UGUYpZMt6ODXPBgv13m+nWNs1mLHjPcY+MWz5N9fG+2UUAjeStiY4MvqvAFcz2rB6A9wqWdH7em1MJQIienhYwGcaUN/jE1u33z0nz8WnvveUdx7AlyEnrnvNotY8jEmxVrjSQHIlqFUT1qvoz5EI0XFb/PfdHa/sKY6G/N7MbKmJYxU0EKF0i5NVd/BxcyVeWPPI4fKpxNU7H1Xx105R61wJH2awD7ySOOEDKgFzdESCRnVhjqL15mq3DrRjsU0vGaJ+FC2NAgVuzzE0WG1BOCCeMkoOXmiqltXNI7GQSANkzlwAIxobGvTxi/6329dmd9OAdP0XffIhjIw==
+X-Microsoft-Antispam-Message-Info: UXCj8t5hoo9rntQrgXZaI/K0on7DI/Ig75ewfANihgzvnRpeAum1eQejRaM5qsRahDgQiZnuVjr3177wE7aox0pnHItalBlC+PTl/ZZyP5qB7Fpy7+MPBO84eUb3p8MFm098CJ/z6Bv/uz53G0aywI3TUYpIUZoxCCv4IND8xNHhrj3nt3r24QMEf7Lfv/nxyeLpETxyr1dNWVO8dYbICy4lA7A6fyFOMN1FNmPReFelfpTTgkYoxFbH8dYGxttY0sUQJafXWCPzbyeZwpSEoJ6SMTKwkzEVvuanzRvAVlIcAbsVVSJAad/sPh05t5+T339H51ARSJN4e0595RQEqOee7ED8NjKNOwaRpFhB2WBtmjzny+nEu13PS41N+jyd1F+2lpHbmzjyN9oqqYs1c/3mlbFQqJoALjHYAvXVXUFId3VAdyVK9Y3m3pPYziVGHtddzh4gh9AYGKe9xlx086PE/KsKsXyn3wmOpaXTFySn3EsWZVrL20w+rroWG2D0+f9kTD2JwT8jgnIjb/gzueJUsH4ZtqY+q3mhNoCIykC59ml5vN7Kmtj/y18ipds38jNELhx940rYMeajsQDx10UlPHcCMjbDsLfRxUoykOtKbLLRAjr0OLWMzbHpUWhShZlLu50/lrMDmZpFE3FaNZNdyaL3KqPJX5aXgmHPxsISAcO6ttN+drIBpnthYlEQ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(376002)(346002)(396003)(366004)(136003)(66476007)(83380400001)(86362001)(4326008)(66946007)(5660300002)(478600001)(316002)(38100700002)(38350700002)(6666004)(36756003)(66556008)(8936002)(107886003)(6486002)(8676002)(26005)(7696005)(52116002)(2616005)(956004)(2906002)(186003);
+ SFS:(376002)(396003)(366004)(346002)(136003)(39860400002)(8676002)(6486002)(38100700002)(38350700002)(107886003)(66946007)(8936002)(66476007)(66556008)(316002)(2616005)(36756003)(956004)(186003)(5660300002)(52116002)(478600001)(7696005)(86362001)(4326008)(2906002)(26005)(6666004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qWSBBveqVRHgi/lmZQuRPQcY7YXLCV9K8EBfjJJAqWbXswuN//nLFQdNsUgK?=
- =?us-ascii?Q?sfPe6guCsJA/ufNb085yHLq1WXAYcKy2mVq13xbWU5aUUgxH74HSM954AWY8?=
- =?us-ascii?Q?Ju7but9Ccm8Xitej5zIO5hVAPRkjc+CXFcGNbZluO1e5GmuGOZWd8ETPfCrD?=
- =?us-ascii?Q?TdXp3xAtQArWkmwdEF5An/2E4QQk1ybDCiGDK6Z83NTHSlNHBgcmXm6rb4Qh?=
- =?us-ascii?Q?B0qaqUTJNZeDgQyxUS9f4XaZmHJ2Y99uRfUa0rm4jnw0qHW9D1k6/ZDdnPYn?=
- =?us-ascii?Q?xVlRE0d2USJly2C5TjuQdoWiTX+w93pQ7WU0lYtueWJieLvtKjYs4lcC4OnH?=
- =?us-ascii?Q?mids+ZqgEdhj1+EaB+BKZCEHtFMKZbVhYaDm08gX27v4Dv/fEN22xoYCeHMA?=
- =?us-ascii?Q?6/KkcfifKMcGg1FBBJrCO4L9GBtqzIoS0Y6QGTIcZakFefSOHYGDS1HCLXDi?=
- =?us-ascii?Q?AJWigJQu1Wr3r52jEPvfVeFj40BOpUp7++OEXzxNpBOVuwfVtaM+VmgckoAM?=
- =?us-ascii?Q?ZrOmF0EG9GVNHh4r4zn9DjL4Yez/KPK2dpyhI1oRlsRNWe89WUJeGoTHv+gU?=
- =?us-ascii?Q?dSWr3SPRaloSFNeirAt1vUUoNxGwtne/tjzN6tOvExmu7PQQSwNC9vigq3EC?=
- =?us-ascii?Q?ycElx+YcIz6AwenHQSF2Sv+GWyA9W9oQRJnMbnDQADGreQcoZKoPvKq2+YXR?=
- =?us-ascii?Q?YR5XeNa8AbAzNs+ik2FLJX+XrjwQaLoQ5zHU1c1TCU7yvsjgOssi8YXWJFKw?=
- =?us-ascii?Q?5zUQ6x0DYtkO3inQ7CtE/VHVWN6KuWh+Axc3CCvgAqraBRvWMPF9knn2jId4?=
- =?us-ascii?Q?L0Dt7ucw1H0sTandcrBo1JFnSM/cJG+TaUfElcct3wGyTDgMnQWZIZzGTijN?=
- =?us-ascii?Q?VAKfvshRSZmzkyqaxyWhL/p9LSvag2uEWAs3KYJEAguCp6Lx7LYyJvAufaeo?=
- =?us-ascii?Q?olS20bXxczPbB29apNRwAwN/gwLdg3DNUrv18lOhVvHUc4nhAT+s8tw9B6B/?=
- =?us-ascii?Q?/WTL9FPyVfPjacFUMlQk3S7yoj8f1zuH7LYbeio2/lyDhem37AayaaJYkUJN?=
- =?us-ascii?Q?KeOO6QD2Soyv52TmVYfh44x/HcG9qamuztr9m/4jYXuCdzmCjyCuK0K4PtV1?=
- =?us-ascii?Q?LzgL2Ft2jopX5bjtsJ5GihMumTMNYTulPIAIx5GPPOJcDUCUNYZIGl1kt0mI?=
- =?us-ascii?Q?v2yQkjzBbMXg/p0C5kVjVlk+icTbsBMthbgx9k1iHHpPDm5uVkk340g+Oz7D?=
- =?us-ascii?Q?r7HJXsZrCYwr66EnCXQUuiIFu1I834OTkLimrWktFFHNTK/yOo6R/U1x+g1B?=
- =?us-ascii?Q?JipuWVWU6ey9Js7qhavjt6Md?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8RHlwNg8KkJ9IzQNRaIMpkHur0ZiheIqWXdXX8jSDV7wRdeWdR4X6gLns7l6?=
+ =?us-ascii?Q?fUrpT4U5ZFGCn+KQ9jxIxBqSzDg3JytzxrVpevD6uOQsyI9U5m5WhMxipQip?=
+ =?us-ascii?Q?F1lgnMOcAqaZnIngMUZsqQXa9gcvYqayTiu8b7PkChRrOluso6I+rTqmSnHW?=
+ =?us-ascii?Q?ctzBB2y5zndHqSqTOScK+b4WU8JlP6Oz/BChl3tIvCMtPFB81UdUefACkifp?=
+ =?us-ascii?Q?otW2YJ13H8Vw9hsdsEdohb+RufviVjOkWBS+GLBINQh/x/dnle3QqDPe5gYf?=
+ =?us-ascii?Q?TvVHMuWXba7WypnDw25eO09D9UBj7t9dLm5O0KtEOZs4FlRC8gU5IloJGIUY?=
+ =?us-ascii?Q?fHXFbaUPUrMtqZNn2VIbiJTWmTurPxVZwHAFzSXCBVDWpTga/L66pNz3D+aV?=
+ =?us-ascii?Q?kryjBye15ei/bklBwf2d1hVK+KnFEkGlu8nGGfThRt3x1lGlzn65vtG0XhID?=
+ =?us-ascii?Q?2wNS+hKlkubIOPaW4KLOk67IZDGMXv8TQ7mvAzXXmQCmRCs7uVBRgBugMk/P?=
+ =?us-ascii?Q?QlDzEirUlGoXQsifH7TTrs9xu4RE+iUmVkYeibFNcWhBH/m8apTl3OKpi5CU?=
+ =?us-ascii?Q?sXjQwW/JB0/ev6XE9MWe5mDYeP98XIBTKTeqsQNUh0uerVmutQVGdYj5rh70?=
+ =?us-ascii?Q?nLXw+1ebKSuCuGl6XiwNHiWUtlEr+b04IQ+HHkOYiBs1QWYtsmaNyx1XIyYz?=
+ =?us-ascii?Q?3gbGyRvzNpJhoXHvn5YZ4GLVAWmLOiUVu+pL8xZBuUzvxSJF6zInPzUDfmD5?=
+ =?us-ascii?Q?ZNqoLuXpJ/fR5cdlmU1DT2Z/C1AOMV6o6GDXhGpcxS4RvdBoUsvMNBglK8z2?=
+ =?us-ascii?Q?ZXRkX+g9Rf003sXknznUtbEshIWYfCaXzQhEB1OQQRat2a9WXUSFXWHCVWjI?=
+ =?us-ascii?Q?oNSG8To4FWbS5leALQuvmuK16FTLeKfP0KOHUCtFjTNKLNsPCvxDqMRTQiAP?=
+ =?us-ascii?Q?H2btohzZOsNBttNu1wrrjm+HXwZl4LrEwc+dbv4d9XqGMfn5aaD4OJ3x1rKR?=
+ =?us-ascii?Q?0fn0kjRiTSgpptUnHqO/deNl42cGufu0iUJouutHHHEg95uYuucX6ibev92P?=
+ =?us-ascii?Q?cSsHSGDvTs0SXYXjL4BY3fJ+i0CUnbHonrYJqkWbEYZxJ/GcC5aZz0fACR+v?=
+ =?us-ascii?Q?HU9pzfwzrA16Cpsr3cIf7q341TZHZDYak/UqgwZNzWRZr900q/P+cAkfscRf?=
+ =?us-ascii?Q?xYSBNQjziYmEVA9P96qzBKsruqr7SNR+Ud08fZ6KFMPsrVeSx0DwC3SIptJp?=
+ =?us-ascii?Q?s+VLavWmU2CbNqKcFRH1KiYPoHHJX4F8pYFTew4xcKVDxpqDmYIeEuYzw9cK?=
+ =?us-ascii?Q?3IExM8xNSEq+FD8j+fjLu0f5?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b567b82-14f2-4119-fa90-08d95860c100
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ad8f27e-85b2-4f14-9e39-08d95860c1e5
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 22:31:22.8623 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 22:31:24.4573 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3svUSaN2LneugypRmdOSCAhQpMe4r9McYfA7PKh5OzhZ5P6Xk0tXIqZrLG2WyTRvBVLAU2Z127OMexqHO8VMTYE0lNEjJts4BVYKkNlH0QI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1518
+X-MS-Exchange-CrossTenant-UserPrincipalName: X5JrEuYJo9m41qvujgkPgIs/n048eXKEWHCZkKYOQiK+zIok/Qy7ruNNIWROpYK7XNwMNb9pBp86PhoP6viNlN7IDVcG9ExZnc/PxLvKjac=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2221
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10067
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
@@ -154,17 +154,17 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108050131
-X-Proofpoint-GUID: q6Gp-ja49dGg51FUWBjSEXFX3_c5q38D
-X-Proofpoint-ORIG-GUID: q6Gp-ja49dGg51FUWBjSEXFX3_c5q38D
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: 06gi2j6scbEJGBGSgqQ2UucVSUPf0DSl
+X-Proofpoint-GUID: 06gi2j6scbEJGBGSgqQ2UucVSUPf0DSl
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -182,264 +182,97 @@ Cc: ehabkost@redhat.com, konrad.wilk@oracle.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This builds the ACPI ERST table to inform OSPM how to communicate
-with the acpi-erst device.
+This change exposes ACPI ERST support for x86 guests.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 ---
- hw/acpi/erst.c | 239 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 239 insertions(+)
+ hw/i386/acpi-build.c   | 9 +++++++++
+ hw/i386/acpi-microvm.c | 9 +++++++++
+ include/hw/acpi/erst.h | 5 +++++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index eb4ab34..ecf1533 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -601,6 +601,245 @@ static const MemoryRegionOps erst_reg_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index a33ac8b..b55a548 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/tpm.h"
+ #include "hw/acpi/tpm.h"
+ #include "hw/acpi/vmgenid.h"
++#include "hw/acpi/erst.h"
+ #include "sysemu/tpm_backend.h"
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+@@ -2443,6 +2444,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+     GArray *tables_blob = tables->table_data;
+     AcpiSlicOem slic_oem = { .id = NULL, .table_id = NULL };
+     Object *vmgenid_dev;
++    Object *erst_dev;
+     char *oem_id;
+     char *oem_table_id;
  
-+
-+/*******************************************************************/
-+/*******************************************************************/
-+
-+/* ACPI 4.0: Table 17-19 Serialization Instructions */
-+#define INST_READ_REGISTER                 0x00
-+#define INST_READ_REGISTER_VALUE           0x01
-+#define INST_WRITE_REGISTER                0x02
-+#define INST_WRITE_REGISTER_VALUE          0x03
-+#define INST_NOOP                          0x04
-+#define INST_LOAD_VAR1                     0x05
-+#define INST_LOAD_VAR2                     0x06
-+#define INST_STORE_VAR1                    0x07
-+#define INST_ADD                           0x08
-+#define INST_SUBTRACT                      0x09
-+#define INST_ADD_VALUE                     0x0A
-+#define INST_SUBTRACT_VALUE                0x0B
-+#define INST_STALL                         0x0C
-+#define INST_STALL_WHILE_TRUE              0x0D
-+#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-+#define INST_GOTO                          0x0F
-+#define INST_SET_SRC_ADDRESS_BASE          0x10
-+#define INST_SET_DST_ADDRESS_BASE          0x11
-+#define INST_MOVE_DATA                     0x12
-+
-+/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-+static void build_serialization_instruction_entry(GArray *table_data,
-+    uint8_t serialization_action,
-+    uint8_t instruction,
-+    uint8_t flags,
-+    uint8_t register_bit_width,
-+    uint64_t register_address,
-+    uint64_t value,
-+    uint64_t mask)
-+{
-+    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-+    struct AcpiGenericAddress gas;
-+
-+    /* Serialization Action */
-+    build_append_int_noprefix(table_data, serialization_action, 1);
-+    /* Instruction */
-+    build_append_int_noprefix(table_data, instruction         , 1);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, flags               , 1);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0                   , 1);
-+    /* Register Region */
-+    gas.space_id = AML_SYSTEM_MEMORY;
-+    gas.bit_width = register_bit_width;
-+    gas.bit_offset = 0;
-+    switch (register_bit_width) {
-+    case 8:
-+        gas.access_width = 1;
-+        break;
-+    case 16:
-+        gas.access_width = 2;
-+        break;
-+    case 32:
-+        gas.access_width = 3;
-+        break;
-+    case 64:
-+        gas.access_width = 4;
-+        break;
-+    default:
-+        gas.access_width = 0;
-+        break;
+@@ -2504,6 +2506,13 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++    erst_dev = find_erst_dev();
++    if (erst_dev) {
++        acpi_add_table(table_offsets, tables_blob);
++        build_erst(tables_blob, tables->linker, erst_dev,
++                   x86ms->oem_id, x86ms->oem_table_id);
 +    }
-+    gas.address = register_address;
-+    build_append_gas_from_struct(table_data, &gas);
-+    /* Value */
-+    build_append_int_noprefix(table_data, value  , 8);
-+    /* Mask */
-+    build_append_int_noprefix(table_data, mask   , 8);
-+}
 +
-+/* ACPI 4.0: 17.4.1 Serialization Action Table */
-+void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-+    const char *oem_id, const char *oem_table_id)
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+         acpi_add_table(table_offsets, tables_blob);
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index 1a0f77b..6578254 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -30,6 +30,7 @@
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/utils.h"
++#include "hw/acpi/erst.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/microvm.h"
+ #include "hw/pci/pci.h"
+@@ -159,6 +160,7 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+     X86MachineState *x86ms = X86_MACHINE(mms);
+     GArray *table_offsets;
+     GArray *tables_blob = tables->table_data;
++    Object *erst_dev;
+     unsigned dsdt, xsdt;
+     AcpiFadtData pmfadt = {
+         /* ACPI 5.0: 4.1 Hardware-Reduced ACPI */
+@@ -208,6 +210,13 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++    erst_dev = find_erst_dev();
++    if (erst_dev) {
++        acpi_add_table(table_offsets, tables_blob);
++        build_erst(tables_blob, tables->linker, erst_dev,
++                   x86ms->oem_id, x86ms->oem_table_id);
++    }
++
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
+                x86ms->oem_table_id);
+diff --git a/include/hw/acpi/erst.h b/include/hw/acpi/erst.h
+index 9d63717..b747fe7 100644
+--- a/include/hw/acpi/erst.h
++++ b/include/hw/acpi/erst.h
+@@ -16,4 +16,9 @@ void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+ 
+ #define TYPE_ACPI_ERST "acpi-erst"
+ 
++/* returns NULL unless there is exactly one device */
++static inline Object *find_erst_dev(void)
 +{
-+    GArray *table_instruction_data;
-+    unsigned action;
-+    unsigned erst_start = table_data->len;
-+    hwaddr bar0, bar1;
-+
-+    bar0 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-+    trace_acpi_erst_pci_bar_0(bar0);
-+    bar1 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 1);
-+    trace_acpi_erst_pci_bar_1(bar1);
-+
-+#define MASK8  0x00000000000000FFUL
-+#define MASK16 0x000000000000FFFFUL
-+#define MASK32 0x00000000FFFFFFFFUL
-+#define MASK64 0xFFFFFFFFFFFFFFFFUL
-+
-+    /*
-+     * Serialization Action Table
-+     * The serialization action table must be generated first
-+     * so that its size can be known in order to populate the
-+     * Instruction Entry Count field.
-+     */
-+    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-+
-+    /* Serialization Instruction Entries */
-+    action = ACTION_BEGIN_WRITE_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_BEGIN_READ_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_BEGIN_CLEAR_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_END_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_SET_RECORD_OFFSET;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER      , 0, 32,
-+        bar0 + ERST_VALUE_OFFSET , 0, MASK32);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_EXECUTE_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_VALUE_OFFSET , ERST_EXECUTE_OPERATION_MAGIC, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_CHECK_BUSY_STATUS;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER_VALUE , 0, 32,
-+        bar0 + ERST_VALUE_OFFSET, 0x01, MASK8);
-+
-+    action = ACTION_GET_COMMAND_STATUS;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 32,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK8);
-+
-+    action = ACTION_GET_RECORD_IDENTIFIER;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 64,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-+
-+    action = ACTION_SET_RECORD_IDENTIFIER;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER      , 0, 64,
-+        bar0 + ERST_VALUE_OFFSET , 0, MASK64);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_GET_RECORD_COUNT;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 32,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-+
-+    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 64,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 64,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 32,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-+
-+    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-+        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-+    build_serialization_instruction_entry(table_instruction_data,
-+        action, INST_READ_REGISTER       , 0, 64,
-+        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-+
-+    /* Serialization Header */
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+    /* Serialization Header Size */
-+    build_append_int_noprefix(table_data, 48, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data,  0, 4);
-+    /*
-+     * Instruction Entry Count
-+     * Each instruction entry is 32 bytes
-+     */
-+    build_append_int_noprefix(table_data,
-+        (table_instruction_data->len / 32), 4);
-+    /* Serialization Instruction Entries */
-+    g_array_append_vals(table_data, table_instruction_data->data,
-+        table_instruction_data->len);
-+    g_array_free(table_instruction_data, TRUE);
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + erst_start),
-+                 "ERST", table_data->len - erst_start,
-+                 1, oem_id, oem_table_id);
++    return object_resolve_path_type("", TYPE_ACPI_ERST, NULL);
 +}
-+
- /*******************************************************************/
- /*******************************************************************/
- static int erst_post_load(void *opaque, int version_id)
+ #endif
 -- 
 1.8.3.1
 
