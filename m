@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6090A3E0B16
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:06:32 +0200 (CEST)
-Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A876C3E0B17
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:06:42 +0200 (CEST)
+Received: from localhost ([::1]:45778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBQu7-0001h2-27
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57502)
+	id 1mBQuH-0002AP-OX
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQsd-0000Wz-N7
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:04:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60058)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQsm-0000gh-AW
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:05:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQsZ-0005qy-IJ
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:04:57 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQsk-00060C-Rv
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:05:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628121893;
+ s=mimecast20190719; t=1628121905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aQYk8A1JNiB899vBFr+5pnTTApQoeQLzyF8HHnCz1Hg=;
- b=MXigLgIEFv5ylBxwm0lXFzus471Zp25fmI+yUinrXHuOOiymfK+MNCL1EK0xsEjAECbKSS
- yr5AJq5rE01xpjiRGS+AGbssadPzGTOaVvFC2A5VWAG+75BtCzRtoj9x/XrR4fi00Dc8XB
- EGAUawX1d0D4ErTqK1rx0pKIrhvNZJs=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-0JBONmdxPmORP5GExP7kNw-1; Wed, 04 Aug 2021 20:04:52 -0400
-X-MC-Unique: 0JBONmdxPmORP5GExP7kNw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- f19-20020ac846530000b02902682e86c382so1881028qto.4
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 17:04:52 -0700 (PDT)
+ bh=otCVwSSaRZyEqhsCDQMQyzbqs31Ukt0cgLw5f0OrZF8=;
+ b=YUaJusaPJvxgSvL7t3ERlYBqb4D/13mmA56JTEvcM3IDxICemWj7MYHnuFF2z9Z3V+sbB/
+ GbsJ1YMDWnHvrG4hUpeU+TQXj5xcK8VXEl9I/VSwlq0P5EdBOvDyagBMHh4nl3cnQqVYbg
+ KWLu5R19jCbP381fZh5enI360t6XgXM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-FNAteZkmMUqAB-N2GXzISA-1; Wed, 04 Aug 2021 20:05:04 -0400
+X-MC-Unique: FNAteZkmMUqAB-N2GXzISA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ h18-20020ac856920000b029025eb726dd9bso1874562qta.8
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 17:05:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aQYk8A1JNiB899vBFr+5pnTTApQoeQLzyF8HHnCz1Hg=;
- b=CjPMWTHnjcCVYXASTl6QSAwmE8i18KSwmwoHTTJ1dzSTlGwvyeKFR646y8tezVSNVO
- D6zydBonJwI+9OekWXp8xfSUJbBUY9mTE5/lIMaOca3UT+1DpKCUmMeQCMzS//yYf7kV
- tIiqEcpFVANdMeUQtBtdkWhKWmvhAH2rV8TVXlBCShTPTwKAGmbB/vBLagKQlM3qHPM8
- RbaWJtw91K9bzU75oxIC9KtBtCMv5IqQ+/lcPbebyQPvgbJYcCxApZEmClFTkGKcTTyE
- pqgI3LfE3xcC97zYGTg3XllERCwQOEMMBVQYICTPyKheZSvhUaP4YmaEegEYSvJgd/Yb
- aIGA==
-X-Gm-Message-State: AOAM5307ndH3CoywzfEIbuRHUDebYkz36be9JM2iaFnqbKJQKTeRx3sy
- 9nw6iH18jJRDIDbRtphZFPFcfVm1Uke6+rdWVQumIQWfnSy0OqTB6Jv9QmgvVqAYk6eA6fbl7nU
- QIf5SqiqYr4pL6TM=
-X-Received: by 2002:a05:622a:1104:: with SMTP id
- e4mr1995042qty.369.1628121892043; 
- Wed, 04 Aug 2021 17:04:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy1gSoIF08S0sJJmrZihTBLz58n/+XcX/ZoFsSP3OHKN3CERmMo5Xbo5EbkYw83aCoiPxVP2w==
-X-Received: by 2002:a05:622a:1104:: with SMTP id
- e4mr1995008qty.369.1628121891769; 
- Wed, 04 Aug 2021 17:04:51 -0700 (PDT)
+ bh=otCVwSSaRZyEqhsCDQMQyzbqs31Ukt0cgLw5f0OrZF8=;
+ b=T+gk+eIP1fZGzuiCjquPxpP0Q9TXvU2ND0zvZlNmtDY+0TjgeGwtrFs0izRsBv1FRg
+ v0aB2T+80HbBh9GGax/M67ZFsxNe0EJeCkXGB0PLKTUT83Pl8LSoM+KpqNbXrRDoa4SN
+ H8vwA8UncDvxWy6T1pma8lSMJBM8Dcb7LRBAmsqYP/FfRKwfeE/Rug426pmql3zRPS+0
+ S2mVdKxNNIvqZw8qmhgrfdC6xyRWq7REKHFsbwdhreklTBzYnWH/1mZFCI6xnWtjNrxZ
+ pXNxLAri8U+xIm864WMCdw4YmhHbkY40Fom7Z95cfyoNC2wRBOqS6ICVGL9Y+/m/pvPh
+ jwNg==
+X-Gm-Message-State: AOAM531rWzCsRgibOiLGWaikbO+hb1oszU5BdApiKvSHxoXdy9L3CXrM
+ oaytTICQixy/qh4L23ufvT4kgdmV2bQ6Jmj9xaGDKxTlm/95KmnWAx8uiqKZ5GCBC51TLR7x/yF
+ aCEe7iUwkKoZw0Ps=
+X-Received: by 2002:a37:9307:: with SMTP id v7mr2010097qkd.371.1628121904248; 
+ Wed, 04 Aug 2021 17:05:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygGfXrA9V4FiBaYXSv/+Hfv4gTLjO9JsYn0XOK3I2n6gFDlGEvwdFabEPiG0XY4eE8bkrCnA==
+X-Received: by 2002:a37:9307:: with SMTP id v7mr2010077qkd.371.1628121904067; 
+ Wed, 04 Aug 2021 17:05:04 -0700 (PDT)
 Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
  [76.70.75.133])
- by smtp.gmail.com with ESMTPSA id u11sm2205441qkk.72.2021.08.04.17.04.50
+ by smtp.gmail.com with ESMTPSA id g24sm1558025qtr.86.2021.08.04.17.05.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 17:04:50 -0700 (PDT)
-Date: Wed, 4 Aug 2021 20:04:49 -0400
+ Wed, 04 Aug 2021 17:05:03 -0700 (PDT)
+Date: Wed, 4 Aug 2021 20:05:01 -0400
 From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 6/7] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
-Message-ID: <YQsrIQ4gvP6M+/rS@t490s>
+Subject: Re: [PATCH v3 3/7] migration/ram: Don't passs RAMState to
+ migration_clear_memory_region_dirty_bitmap_*()
+Message-ID: <YQsrLUCrMcdRcdME@t490s>
 References: <20210730085249.8246-1-david@redhat.com>
- <20210730085249.8246-7-david@redhat.com>
+ <20210730085249.8246-4-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210730085249.8246-7-david@redhat.com>
+In-Reply-To: <20210730085249.8246-4-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -107,155 +105,12 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 30, 2021 at 10:52:48AM +0200, David Hildenbrand wrote:
-> Currently, when someone (i.e., the VM) accesses discarded parts inside a
-> RAMBlock with a RamDiscardManager managing the corresponding mapped memory
-> region, postcopy will request migration of the corresponding page from the
-> source. The source, however, will never answer, because it refuses to
-> migrate such pages with undefined content ("logically unplugged"): the
-> pages are never dirty, and get_queued_page() will consequently skip
-> processing these postcopy requests.
-> 
-> Especially reading discarded ("logically unplugged") ranges is supposed to
-> work in some setups (for example with current virtio-mem), although it
-> barely ever happens: still, not placing a page would currently stall the
-> VM, as it cannot make forward progress.
-> 
-> Let's check the state via the RamDiscardManager (the state e.g.,
-> of virtio-mem is migrated during precopy) and avoid sending a request
-> that will never get answered. Place a fresh zero page instead to keep
-> the VM working. This is the same behavior that would happen
-> automatically without userfaultfd being active, when accessing virtual
-> memory regions without populated pages -- "populate on demand".
-> 
-> For now, there are valid cases (as documented in the virtio-mem spec) where
-> a VM might read discarded memory; in the future, we will disallow that.
-> Then, we might want to handle that case differently, e.g., warning the
-> user that the VM seems to be mis-behaving.
+On Fri, Jul 30, 2021 at 10:52:45AM +0200, David Hildenbrand wrote:
+> The parameter is unused, let's drop it.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  migration/postcopy-ram.c | 31 +++++++++++++++++++++++++++----
->  migration/ram.c          | 21 +++++++++++++++++++++
->  migration/ram.h          |  1 +
->  3 files changed, 49 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 2e9697bdd2..38cdfc09c3 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -671,6 +671,29 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
->      return ret;
->  }
->  
-> +static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
-> +                                 ram_addr_t start, uint64_t haddr)
-> +{
-> +    void *aligned = (void *)(uintptr_t)(haddr & -qemu_ram_pagesize(rb));
-> +
-> +    /*
-> +     * Discarded pages (via RamDiscardManager) are never migrated. On unlikely
-> +     * access, place a zeropage, which will also set the relevant bits in the
-> +     * recv_bitmap accordingly, so we won't try placing a zeropage twice.
-> +     *
-> +     * Checking a single bit is sufficient to handle pagesize > TPS as either
-> +     * all relevant bits are set or not.
-> +     */
-> +    assert(QEMU_IS_ALIGNED(start, qemu_ram_pagesize(rb)));
 
-Is this check for ramblock_page_is_discarded()?  If so, shall we move this into
-it, e.g. after memory_region_has_ram_discard_manager() returned true?
-
-Other than that it looks good to me, thanks.
-
-> +    if (ramblock_page_is_discarded(rb, start)) {
-> +        bool received = ramblock_recv_bitmap_test_byte_offset(rb, start);
-> +
-> +        return received ? 0 : postcopy_place_page_zero(mis, aligned, rb);
-> +    }
-> +
-> +    return migrate_send_rp_req_pages(mis, rb, start, haddr);
-> +}
-> +
->  /*
->   * Callback from shared fault handlers to ask for a page,
->   * the page must be specified by a RAMBlock and an offset in that rb
-> @@ -690,7 +713,7 @@ int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
->                                          qemu_ram_get_idstr(rb), rb_offset);
->          return postcopy_wake_shared(pcfd, client_addr, rb);
->      }
-> -    migrate_send_rp_req_pages(mis, rb, aligned_rbo, client_addr);
-> +    postcopy_request_page(mis, rb, aligned_rbo, client_addr);
->      return 0;
->  }
->  
-> @@ -984,8 +1007,8 @@ retry:
->               * Send the request to the source - we want to request one
->               * of our host page sizes (which is >= TPS)
->               */
-> -            ret = migrate_send_rp_req_pages(mis, rb, rb_offset,
-> -                                            msg.arg.pagefault.address);
-> +            ret = postcopy_request_page(mis, rb, rb_offset,
-> +                                        msg.arg.pagefault.address);
->              if (ret) {
->                  /* May be network failure, try to wait for recovery */
->                  if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
-> @@ -993,7 +1016,7 @@ retry:
->                      goto retry;
->                  } else {
->                      /* This is a unavoidable fault */
-> -                    error_report("%s: migrate_send_rp_req_pages() get %d",
-> +                    error_report("%s: postcopy_request_page() get %d",
->                                   __func__, ret);
->                      break;
->                  }
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 9776919faa..01cea01774 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -912,6 +912,27 @@ static uint64_t ramblock_dirty_bitmap_clear_discarded_pages(RAMBlock *rb)
->      return cleared_bits;
->  }
->  
-> +/*
-> + * Check if a host-page aligned page falls into a discarded range as managed by
-> + * a RamDiscardManager responsible for the mapped memory region of the RAMBlock.
-> + *
-> + * Note: The result is only stable while migration (precopy/postcopy).
-> + */
-> +bool ramblock_page_is_discarded(RAMBlock *rb, ram_addr_t start)
-> +{
-> +    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
-> +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-> +        MemoryRegionSection section = {
-> +            .mr = rb->mr,
-> +            .offset_within_region = start,
-> +            .size = int128_get64(qemu_ram_pagesize(rb)),
-> +        };
-> +
-> +        return !ram_discard_manager_is_populated(rdm, &section);
-> +    }
-> +    return false;
-> +}
-> +
->  /* Called with RCU critical section */
->  static void ramblock_sync_dirty_bitmap(RAMState *rs, RAMBlock *rb)
->  {
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 4833e9fd5b..dda1988f3d 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -72,6 +72,7 @@ void ramblock_recv_bitmap_set_range(RAMBlock *rb, void *host_addr, size_t nr);
->  int64_t ramblock_recv_bitmap_send(QEMUFile *file,
->                                    const char *block_name);
->  int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *rb);
-> +bool ramblock_page_is_discarded(RAMBlock *rb, ram_addr_t start);
->  
->  /* ram cache */
->  int colo_init_ram_cache(void);
-> -- 
-> 2.31.1
-> 
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
