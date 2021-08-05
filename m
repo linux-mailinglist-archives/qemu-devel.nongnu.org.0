@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C853E1142
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 11:27:30 +0200 (CEST)
-Received: from localhost ([::1]:51756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C0B3E117D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 11:39:26 +0200 (CEST)
+Received: from localhost ([::1]:58548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBZez-0003W5-91
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 05:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47524)
+	id 1mBZqW-0008Vq-0T
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 05:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mBZdq-0002qF-E0
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 05:26:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21901)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBZpE-0007VN-0J
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 05:38:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mBZdp-0003EF-0p
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 05:26:18 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBZpB-0004yO-B8
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 05:38:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628155576;
+ s=mimecast20190719; t=1628156280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YeU5N8eovjrhtGEJVByIT+L9kh2Ko09apTS3jN8rO2o=;
- b=hT5GRXjeYwgFhqq07WRCbBweEHaDJP66OlBojlo3HEITEipUJWUjdYAigsVia/dJeYMtqB
- a/ltHJA5/tqvJCnP7bRgHpdwBdR7jdIgXUTWJN+4eHUpB2FETy0YvB46x+hAV3uWYc8kjk
- hWO2sutk9Dh0ewwooB6K+smV2Scrhks=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-H-tVR2d0P6SICvHvgQEyOw-1; Thu, 05 Aug 2021 05:26:13 -0400
-X-MC-Unique: H-tVR2d0P6SICvHvgQEyOw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a9-20020a0560000509b029015485b95d0cso1726758wrf.5
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 02:26:12 -0700 (PDT)
+ bh=OGjc1kMhPld6+P8ccE5ALL7SqX2T9z9q3eP8tV94MCY=;
+ b=U69RX2J2F71MtM1Sir5JeARl2Ax/vRxQYYBa8S2GI0xckzTmYMTXC6JklNuRXsckqvn61C
+ z5aMvuPin+xjhj7k3EvdAdO0tZWgLfI60ii46sNBMDMioYp2FPE8QFJbSxAFRWRvV9cu/b
+ KVm8qSgZXW/UT6h46BgNvzn6L53N/eA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-D4C2vpZLPKCfEAaiYdE5lg-1; Thu, 05 Aug 2021 05:37:58 -0400
+X-MC-Unique: D4C2vpZLPKCfEAaiYdE5lg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a9-20020a0560000509b029015485b95d0cso1736830wrf.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 02:37:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YeU5N8eovjrhtGEJVByIT+L9kh2Ko09apTS3jN8rO2o=;
- b=DVW/shOhlhdohRmoo9C8uJ3p4VfU+GoA5wI99VuhrBCE9TsWJ2G2Qir+VaUzLRYl8K
- r1baTxNfhfJx+b/Mdo2kFYzydzkCTXJJ0FjzgNCsB+RbyAzXTaNeM+x7WD/W7GmAX42e
- /5DMldePC56mka+VriYpb8OIu4XapaZiC8dmOT3yaDRcRg5Rob4VFpSe0b22IJNpvkhm
- YS03qGTCKhL8yKW7iBQzeXr4pF+qgMEyOtBjxaqCkK+iV7Gz64KWiFFZ4bEoJm1HgKtX
- 3UmYbwM57F6Ig9ZUBR7SsNdRylLhf8lEfnqS2txNnjOpznyJ/RiUK7KrSJhGKucwUKpb
- GsxA==
-X-Gm-Message-State: AOAM530BnxX943IBLQr4x5tBNvzNhFjJZes7a6QagBUzGXKNiFAHD9TY
- b3qEnJ4b0gaYcq/2XC+NCO3y0v0keokZs4kBf4lUn3hPooH8JkBpKiuGO4qTDL4HE9dfTZiMWlV
- Rx7ZYaCafbDPDnnA=
-X-Received: by 2002:a05:600c:4fd1:: with SMTP id
- o17mr14367926wmq.131.1628155571932; 
- Thu, 05 Aug 2021 02:26:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoZeAIh2tRuyt4UuBaoLtDOQ6LxutXHhob38mFPfB4pyRM/oVKSp6dM2Px5Ewl2VelVppMxQ==
-X-Received: by 2002:a05:600c:4fd1:: with SMTP id
- o17mr14367908wmq.131.1628155571765; 
- Thu, 05 Aug 2021 02:26:11 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id j140sm5055288wmj.37.2021.08.05.02.26.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 02:26:11 -0700 (PDT)
-Date: Thu, 5 Aug 2021 11:26:10 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jingqi Liu <jingqi.liu@intel.com>
-Subject: Re: [PATCH] hw/i386/acpi-build: Get NUMA information from struct
- NumaState
-Message-ID: <20210805112610.5c86dfaf@redhat.com>
-In-Reply-To: <20210803063005.72770-1-jingqi.liu@intel.com>
-References: <20210803063005.72770-1-jingqi.liu@intel.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=OGjc1kMhPld6+P8ccE5ALL7SqX2T9z9q3eP8tV94MCY=;
+ b=gcVCzbhgBRWjxEd7tw244bulQDD30RNe/AaQnwXkc3/8pXPpNY0IKKa5jpkpame5Hn
+ kubUZM1LQMy6AosoDnNFgNEalwN34vf67ubRqqJYCEQBVJXX6UpRaT0LqbCUycZGshCQ
+ oTYGXt1XEu0vYcRzQqDhGWHh//w4iO+MEzFO4U6o6lSMS8SRLeippNUrsIusct60D3HE
+ wKjjVGYZ3T25O5HoUNYNz5yEzZUBW9J1ZMP8lgAcjTCJnkwxqQxd7GndnGZg4u8iiES8
+ 2TRsfUYR9EAjegKGVbRMwIOsqopZZ87LTEYNY9nQ4XA+5psYerw4Rj6gWVG9TrZeT4mi
+ bHQg==
+X-Gm-Message-State: AOAM532Md5msb81vOlSTcwF1Ogp4B0876j0uZPVV3c/OnJU7bUOa4TNk
+ xXpqNDUIfv9Ate8yUUhG7HIUK4dSet91IFEJJiVq7CY4rnQCdMp3Ty48ew9kapw+aCdjP+KmabX
+ pBwG4ln03/1ssYCE=
+X-Received: by 2002:a7b:c3ce:: with SMTP id t14mr4026001wmj.50.1628156277218; 
+ Thu, 05 Aug 2021 02:37:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjDKa3HMjAxmmRwjQtqeGKRZOUcj2lvB/B7tXYZabL79hgM7h4hERN0H0F1IzP7DX92QKBDA==
+X-Received: by 2002:a7b:c3ce:: with SMTP id t14mr4025971wmj.50.1628156277013; 
+ Thu, 05 Aug 2021 02:37:57 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c630b.dip0.t-ipconnect.de. [91.12.99.11])
+ by smtp.gmail.com with ESMTPSA id
+ w4sm5890267wrm.24.2021.08.05.02.37.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Aug 2021 02:37:56 -0700 (PDT)
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
+References: <20210804225146.154513-1-iii@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v8] tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+Message-ID: <44c8dc22-c243-6260-c6af-62fd209f21e9@redhat.com>
+Date: Thu, 5 Aug 2021 11:37:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210804225146.154513-1-iii@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,79 +100,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  3 Aug 2021 14:30:05 +0800
-Jingqi Liu <jingqi.liu@intel.com> wrote:
-
-> The NUMA information in PCMachineState is copied from MachineState.
-> We get this information uniformly from struct NumaState in MachineState.
-Is there a another reason behind this patch?
-
-As cleanup it's not complete, why do you keep
-PCMachineState::numa_nodes & co around?
-I'd suggest to remove it completely and use data from
-MachineState everywhere.
-
-> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-> ---
->  hw/i386/acpi-build.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+On 05.08.21 00:51, Ilya Leoshkevich wrote:
+> Verify that s390x-specific uc_mcontext.psw.addr is reported correctly
+> and that signal handling interacts properly with debugging.
 > 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 17836149fe..e3c9ad011e 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1902,6 +1902,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      X86MachineState *x86ms = X86_MACHINE(machine);
->      const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(machine);
->      PCMachineState *pcms = PC_MACHINE(machine);
-> +    int nb_numa_nodes = machine->numa_state->num_nodes;
-> +    NodeInfo *numa_info = machine->numa_state->nodes;
->      ram_addr_t hotplugabble_address_space_size =
->          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
->                                  NULL);
-> @@ -1945,9 +1947,9 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      next_base = 0;
->      numa_start = table_data->len;
->  
-> -    for (i = 1; i < pcms->numa_nodes + 1; ++i) {
-> +    for (i = 1; i < nb_numa_nodes + 1; ++i) {
->          mem_base = next_base;
-> -        mem_len = pcms->node_mem[i - 1];
-> +        mem_len = numa_info[i - 1].node_mem;
->          next_base = mem_base + mem_len;
->  
->          /* Cut out the 640K hole */
-> @@ -1995,7 +1997,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      }
->  
->      slots = (table_data->len - numa_start) / sizeof *numamem;
-> -    for (; slots < pcms->numa_nodes + 2; slots++) {
-> +    for (; slots < nb_numa_nodes + 2; slots++) {
->          numamem = acpi_data_push(table_data, sizeof *numamem);
->          build_srat_memory(numamem, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
->      }
-> @@ -2011,7 +2013,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      if (hotplugabble_address_space_size) {
->          numamem = acpi_data_push(table_data, sizeof *numamem);
->          build_srat_memory(numamem, machine->device_memory->base,
-> -                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
-> +                          hotplugabble_address_space_size, nb_numa_nodes - 1,
->                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->      }
->  
-> @@ -2513,7 +2515,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->          }
->      }
->  #endif
-> -    if (pcms->numa_nodes) {
-> +    if (machine->numa_state->num_nodes) {
->          acpi_add_table(table_offsets, tables_blob);
->          build_srat(tables_blob, tables->linker, machine);
->          if (machine->numa_state->have_numa_distance) {
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+> 
+> v7: https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00463.html
+> v7 -> v8: Another rebase needed due to the conflict with Jonathan's
+>            50e36dd61652.
+> 
+>   tests/tcg/s390x/Makefile.target               |  17 +-
+>   tests/tcg/s390x/gdbstub/test-signals-s390x.py |  76 ++++++++
+>   tests/tcg/s390x/signals-s390x.c               | 165 ++++++++++++++++++
+>   3 files changed, 257 insertions(+), 1 deletion(-)
+>   create mode 100644 tests/tcg/s390x/gdbstub/test-signals-s390x.py
+>   create mode 100644 tests/tcg/s390x/signals-s390x.c
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+> index bd084c7840..cc64dd32d2 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -1,4 +1,5 @@
+> -VPATH+=$(SRC_PATH)/tests/tcg/s390x
+> +S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+> +VPATH+=$(S390X_SRC)
+>   CFLAGS+=-march=zEC12 -m64
+>   TESTS+=hello-s390x
+>   TESTS+=csst
+> @@ -9,3 +10,17 @@ TESTS+=pack
+>   TESTS+=mvo
+>   TESTS+=mvc
+>   TESTS+=trap
+> +TESTS+=signals-s390x
+> +
+> +ifneq ($(HAVE_GDB_BIN),)
+> +GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+> +
+> +run-gdbstub-signals-s390x: signals-s390x
+> +	$(call run-test, $@, $(GDB_SCRIPT) \
+> +		--gdb $(HAVE_GDB_BIN) \
+> +		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+> +		--bin $< --test $(S390X_SRC)/gdbstub/test-signals-s390x.py, \
+> +	"mixing signals and debugging on s390x")
+> +
+> +EXTRA_RUNS += run-gdbstub-signals-s390x
+> +endif
+> diff --git a/tests/tcg/s390x/gdbstub/test-signals-s390x.py b/tests/tcg/s390x/gdbstub/test-signals-s390x.py
+> new file mode 100644
+> index 0000000000..80a284b475
+> --- /dev/null
+> +++ b/tests/tcg/s390x/gdbstub/test-signals-s390x.py
+> @@ -0,0 +1,76 @@
+> +from __future__ import print_function
+> +
+> +#
+> +# Test that signals and debugging mix well together on s390x.
+> +#
+> +# This is launched via tests/guest-debug/run-test.py
+> +#
+> +
+> +import gdb
+> +import sys
+> +
+> +failcount = 0
+> +
+> +
+> +def report(cond, msg):
+> +    """Report success/fail of test"""
+> +    if cond:
+> +        print("PASS: %s" % (msg))
+> +    else:
+> +        print("FAIL: %s" % (msg))
+> +        global failcount
+> +        failcount += 1
+> +
+> +
+> +def run_test():
+> +    """Run through the tests one by one"""
+> +    illegal_op = gdb.Breakpoint("illegal_op")
+> +    stg = gdb.Breakpoint("stg")
+> +    mvc_8 = gdb.Breakpoint("mvc_8")
+> +
+> +    # Expect the following events:
+> +    # 1x illegal_op breakpoint
+> +    # 2x stg breakpoint, segv, breakpoint
+> +    # 2x mvc_8 breakpoint, segv, breakpoint
+> +    for _ in range(14):
+
+How do we come up with the value 14?
+
+> +        gdb.execute("c")
+> +    report(illegal_op.hit_count == 1, "illegal_op.hit_count == 1")
+> +    report(stg.hit_count == 4, "stg.hit_count == 4")
+
+The doc above says we should see this twice, why do we see it 4 times?
+
+> +    report(mvc_8.hit_count == 4, "mvc_8.hit_count == 4")
+> +
+
+Dito
+
+[...]
+
+> diff --git a/tests/tcg/s390x/signals-s390x.c b/tests/tcg/s390x/signals-s390x.c
+> new file mode 100644
+> index 0000000000..dc2f8ee59a
+> --- /dev/null
+> +++ b/tests/tcg/s390x/signals-s390x.c
+> @@ -0,0 +1,165 @@
+> +#include <assert.h>
+> +#include <signal.h>
+> +#include <string.h>
+> +#include <sys/mman.h>
+> +#include <ucontext.h>
+> +#include <unistd.h>
+> +
+> +/*
+> + * Various instructions that generate SIGILL and SIGSEGV. They could have been
+> + * defined in a separate .s file, but this would complicate the build, so the
+> + * inline asm is used instead.
+> + */
+> +
+> +void illegal_op(void);
+> +void after_illegal_op(void);
+> +asm(".globl\tillegal_op\n"
+> +    "illegal_op:\t.byte\t0x00,0x00\n"
+> +    "\t.globl\tafter_illegal_op\n"
+> +    "after_illegal_op:\tbr\t%r14");
+> +
+> +void stg(void *dst, unsigned long src);
+> +asm(".globl\tstg\n"
+> +    "stg:\tstg\t%r3,0(%r2)\n"
+> +    "\tbr\t%r14");
+> +
+> +void mvc_8(void *dst, void *src);
+> +asm(".globl\tmvc_8\n"
+> +    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
+> +    "\tbr\t%r14");
+
+I was wondering if there would be any nicer way to write this,
+like (very prototype and wrong)
+
+
+static void stg(void *dst, unsigned long src)
+{
+     asm volatile("stg %r3,0(%r2)\n");
+}
+
+static void mvc_8(void *dst, void *src)
+{
+     asm volatile("mvc 0(8,%r2),0(%r3)\n");
+}
+
+
+Please ignore if that just doesn't make any sense.
+
+Nothing else jumped at me :)
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
