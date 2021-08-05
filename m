@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DCB3E1771
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 16:59:30 +0200 (CEST)
-Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32D43E17AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 17:13:19 +0200 (CEST)
+Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBeqH-0007KL-BM
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 10:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1mBf3e-0001si-G1
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 11:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mBeos-0006En-Qg
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:58:02 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mBeoq-0001HW-Ma
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:58:02 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id oz16so10078312ejc.7
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 07:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wuhuylTnNEfj6OMEW3ZFqeh6a6aCV1stSvvyPPwiR/0=;
- b=R3Ojl5LIArOQdjBCO3euNs307WlCD7hlTDR3uOXgLRBe4v/n6Tu0F9mUO3mXrDJklD
- IoZgUXIsGpFBa+8KIjGUGMZhPJeWtRAt68r2NsyEN/FpRnmyHR7MQ7G4XM7QDYrzmS2u
- CD9of6wyeDT1U3CWyuW1K6fNg2t68ohYmw9x5+6Beu8PZnp48mf40mdQlHxY17tSkHlZ
- oLg0l9HAxGBSrXTkf/Vh+9v3Zz6pbgeFHwOv7Yve8nK/2yyxMJe+rfhFi3okD1Db0QkH
- mzw6XcjS0cNrp5pNyF4xjHAR9HBcGh+Nxr1JpPbmfpwYjtrIeTemjygyz19SG0rGJ5FH
- tsow==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBf2V-0000Pq-WC
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 11:12:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBf2Q-0003Fy-Po
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 11:12:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628176320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ohI63vUGJsMn3cP0gX+HEvo34uQ3bWbNZy22EYvB+UM=;
+ b=Z5owsyzKSYHQzjIDZtz6o80NPDAZ5TFNGKbFBwhwWJsWkxk5SHDcUgNV0RM527tRCPmk8Z
+ xmdtkOXPB8aFACywO9EfPXmoT5S0wxjhjCFdVArVyltgNjjSImRH2zGpBXroYIttbPA74n
+ 7jYywtLke9O7mYczcbawo+fnmCutJ+s=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-BVOUmhtiNpqYeLZBUIuBMg-1; Thu, 05 Aug 2021 11:11:59 -0400
+X-MC-Unique: BVOUmhtiNpqYeLZBUIuBMg-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ k18-20020a4a94920000b029026767722880so2024319ooi.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 08:11:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wuhuylTnNEfj6OMEW3ZFqeh6a6aCV1stSvvyPPwiR/0=;
- b=gHu6yzhUEfxfr/waHoMYed2wPNLWIwTzZDTr544P02yS89VXSUc6PNVbQv4/WcPF+d
- 3B1WiWMKmO1TDQAw1jryBpi8fov0gqb4tOwseWmU0GiVS02vwlJsD6BkWwh+f7zGneNK
- 1fyQYqoSq4TXYHzc85v5lJWm75TjqRtlWGbzrbJPGk4G/Pd9wuLtTwID8aI6laMWXOq+
- REktgPW1twovevw1o6mQNbL3sSjv7+6z1kC9Nb1LSr4bj4I9JyOTqhE0FEc2pjFl2k2W
- 0pyXBYFL4RkcXT9PLzF4fQtCrxnfos1whQQX5jHGBVAPn7x++pM0HbvyocmIEEojsT9H
- T1pA==
-X-Gm-Message-State: AOAM532cMIgdE+8Aj+hPyGFC5GrCCSbIk8ft9blx8BYaCFpDEyOyaxaR
- PYZ5ytaeeT6MtjVQkoB+a+y6d6VS3s1TH9w+Hm5z6RkHWFRFow==
-X-Google-Smtp-Source: ABdhPJx1uRdgovX8IOszDa3uFDwqn+4W0667Ax6ti84VQAJmi1D+OhHIvMWOWivHwRCkvUf7e3GyWlaxf6uG0yE6U/M=
-X-Received: by 2002:a17:906:c013:: with SMTP id
- e19mr5342538ejz.389.1628175478738; 
- Thu, 05 Aug 2021 07:57:58 -0700 (PDT)
+ bh=ohI63vUGJsMn3cP0gX+HEvo34uQ3bWbNZy22EYvB+UM=;
+ b=rTkbE6qh54kidNGDHZrmTzYFnPXXvKNTFzrP9NVkyuQWYHZMJoS86tL24m3YTftTEB
+ wdg/k7G90xtWZD9rvmi3bE3olLD1NMXp5cWK9vQBPlu8y+2VHcLbC/SQyAuC7gAph1ws
+ Ozjc0FVjpJXA9kpSaJMDyycU5VArGLBxtEZCp9rfvN7ytc0xWIQ0xb6EhZiO/aGeIoHO
+ es1VW5gp9kBWFwF8lxSBO7B+6aoPkiZDVggu8wUBCBIHHEkvX8uqAeO7uJZeKk0SAH2X
+ R7hmPsVM9277piMYlrVdRZJAtw2WQT7eWTYo/v/Wyy14VA12WVR2yv5V4mwk1gK5ywLs
+ iIQQ==
+X-Gm-Message-State: AOAM531BPSMHn4HcFJzAplorkXAWdWRiGjYu0dygdWlq2nPms+oAViel
+ cTmYak/+5EGJBCF982Hl/Hi70Y76i9hWdvh+nK4NPgRbRe7joirb/yOmJzAw6ZoF3h1Ul+pZJXi
+ IPPFTnxDujpwHDBsw1pYqBiLV6npgp6U=
+X-Received: by 2002:a05:6830:1604:: with SMTP id
+ g4mr4217565otr.45.1628176318480; 
+ Thu, 05 Aug 2021 08:11:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3jZlioTI2JlhvFJOxSNcEdZEN1EYf97otuc0atUJ2gOF8sndh176UxdRua5sDdFMeFSqNQPos3BWP5A4H89A=
+X-Received: by 2002:a05:6830:1604:: with SMTP id
+ g4mr4217544otr.45.1628176318178; 
+ Thu, 05 Aug 2021 08:11:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210805135715.857938-1-marcandre.lureau@redhat.com>
- <20210805135715.857938-19-marcandre.lureau@redhat.com>
-In-Reply-To: <20210805135715.857938-19-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 5 Aug 2021 18:57:46 +0400
-Message-ID: <CAJ+F1CJkDd+nvzP0vJn6GVZGBqg95eL-GDaUMb8yb7yBKB+M2g@mail.gmail.com>
-Subject: Re: [PATCH v3 18/18] ui/vdagent: add a migration blocker
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000000ad75905c8d125d6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210618102507.3761128-1-marcandre.lureau@redhat.com>
+ <20210618102507.3761128-8-marcandre.lureau@redhat.com>
+ <87lf5ismpj.fsf@dusky.pond.sub.org>
+In-Reply-To: <87lf5ismpj.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 5 Aug 2021 11:11:46 -0400
+Message-ID: <CAFn=p-YjfyumgxF3uxfo6ar9C5u3W8p673kGUAL2zi=NU20==Q@mail.gmail.com>
+Subject: Re: [PATCH v6 07/11] qapi: replace if condition list with dict
+ {'all': [...]}
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000013bcd605c8d15766"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,174 +92,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000ad75905c8d125d6
+--00000000000013bcd605c8d15766
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 5, 2021 at 6:06 PM <marcandre.lureau@redhat.com> wrote:
+On Tue, Aug 3, 2021 at 9:05 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> marcandre.lureau@redhat.com writes:
 >
-> The current implementation lacks migration support. After migration,
-> vdagent support will be broken (even after a restart of the daemons).
-> Let's try to fix it in 6.2.
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Replace the simple list sugar form with a recursive structure that will
+> > accept other operators in the following commits (all, any or not).
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  scripts/qapi/common.py                        | 23 +++++--
+> >  scripts/qapi/expr.py                          | 52 ++++++++++------
+> >  scripts/qapi/schema.py                        |  2 +-
+> >  tests/qapi-schema/bad-if-empty-list.json      |  2 +-
+> >  tests/qapi-schema/bad-if-list.json            |  2 +-
+> >  tests/qapi-schema/bad-if.err                  |  3 +-
+> >  tests/qapi-schema/doc-good.json               |  3 +-
+> >  tests/qapi-schema/doc-good.out                | 13 ++--
+> >  tests/qapi-schema/doc-good.txt                |  6 ++
+> >  tests/qapi-schema/enum-if-invalid.err         |  3 +-
+> >  tests/qapi-schema/features-if-invalid.err     |  2 +-
+> >  tests/qapi-schema/qapi-schema-test.json       | 25 ++++----
+> >  tests/qapi-schema/qapi-schema-test.out        | 62 +++++++++----------
+> >  .../qapi-schema/struct-member-if-invalid.err  |  2 +-
+> >  .../qapi-schema/union-branch-if-invalid.json  |  2 +-
+> >  15 files changed, 119 insertions(+), 83 deletions(-)
+> >
+> > diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> > index 5181a0f167..51463510c9 100644
+> > --- a/scripts/qapi/common.py
+> > +++ b/scripts/qapi/common.py
+> > @@ -13,7 +13,8 @@
+> >
+> >  import re
+> >  from typing import (
+> > -    List,
+> > +    Any,
+> > +    Dict,
+> >      Match,
+> >      Optional,
+> >      Union,
+> > @@ -199,16 +200,28 @@ def guardend(name: str) -> str:
+> >                   name=3Dc_fname(name).upper())
+> >
+> >
+> > -def cgen_ifcond(ifcond: Union[str, List[str]]) -> str:
+> > +def docgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
 >
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  ui/vdagent.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> Uh, why do you swap cgen_ifcond() and docgen_ifcond()?  Accident?
 >
-> diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index 7d8cb963ff..603a2a7bd2 100644
-> --- a/ui/vdagent.c
-> +++ b/ui/vdagent.c
-> @@ -6,6 +6,7 @@
->  #include "qemu/option.h"
->  #include "qemu/units.h"
->  #include "hw/qdev-core.h"
-> +#include "migration/blocker.h"
->  #include "ui/clipboard.h"
->  #include "ui/console.h"
->  #include "ui/input.h"
-> @@ -23,6 +24,9 @@
->  struct VDAgentChardev {
->      Chardev parent;
+> >      if not ifcond:
+> >          return ''
+> > -    return '(' + ') && ('.join(ifcond) + ')'
+> > +    if isinstance(ifcond, str):
+> > +        return ifcond
+> >
+> > +    oper, operands =3D next(iter(ifcond.items()))
+> > +    oper =3D {'all': ' and '}[oper]
+> > +    operands =3D [docgen_ifcond(o) for o in operands]
+> > +    return '(' + oper.join(operands) + ')'
 >
-> +    /* TODO: migration isn't yet supported */
-> +    Error *migration_blocker;
-> +
->      /* config */
->      bool mouse;
->      bool clipboard;
-> @@ -599,6 +603,10 @@ static void vdagent_chr_open(Chardev *chr,
->      return;
->  #endif
+> What a nice review speedbump you buried here...
 >
-> +    if (migrate_add_blocker(vd->migration_blocker, errp) !=3D 0) {
-> +        return;
-> +    }
-> +
->      vd->mouse =3D VDAGENT_MOUSE_DEFAULT;
->      if (cfg->has_mouse) {
->          vd->mouse =3D cfg->mouse;
-> @@ -832,6 +840,8 @@ static void vdagent_chr_init(Object *obj)
->      VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
+> The whole block boils down to the much less exciting
 >
->      buffer_init(&vd->outbuf, "vdagent-outbuf");
-> +    error_setg(&vd->migration_blocker,
-> +               "The vdagent chardev doesn't yet support migration");
->  }
+>        operands =3D [docgen_ifcond(o) for o in ifcond['all']]
+>        return '(' + ' and '.join(operands) + ')'
 >
->  static void vdagent_chr_fini(Object *obj)
-> @@ -840,6 +850,7 @@ static void vdagent_chr_fini(Object *obj)
+> Peeking ahead, I understand that you did it this way here so you can
+> extend it trivially there.  Matter of taste; what counts is the final
+> result and minimizing reviewer WTFs/minute along the way.
+>
+> Since the WTFs/minute is a done deed now, what remains is the final
+> result, which I expect to review shortly.  But please try a bit harder
+> to be boring next time ;)
+>
+> >
+> > -def docgen_ifcond(ifcond: Union[str, List[str]]) -> str:
+> > +
+> > +def cgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
+> >      if not ifcond:
+> >          return ''
+> > -    return ' and '.join(ifcond)
+> > +    if isinstance(ifcond, str):
+> > +        return ifcond
+>
+> This is what gets rid of the redundant parenthesises in the common case
+> "single condition string".
+>
+> > +
+> > +    oper, operands =3D next(iter(ifcond.items()))
+> > +    oper =3D {'all': '&&'}[oper]
+> > +    operands =3D [cgen_ifcond(o) for o in operands]
+> > +    return '(' + (') ' + oper + ' (').join(operands) + ')'
+>
+> This line is hard to read.  Easier, I think:
+>
+>        oper =3D {'all': ' && '}[oper]
+>        operands =3D ['(' + cgen_ifcond(o) + ')' for o in operands]
+>        return oper.join(operands)
+>
+> Neither your version nor mine gets rid of the redundant parenthesises in
+> the (uncommon) case "complex condition expression".
+> tests/test-qapi-introspect.c still has
+>
+>     #if (defined(TEST_IF_COND_1)) && (defined(TEST_IF_COND_2))
+>                 QLIT_QSTR("feature1"),
+>     #endif /* (defined(TEST_IF_COND_1)) && (defined(TEST_IF_COND_2)) */
+>
+> Mildly annoying.  I'm willing to leave this for later.
+>
+> Code smell: cgen_ifcond() and docgen_ifcond() are almost identical.  Can
+> also be left for later.
+>
+> >
+> >
+> >  def gen_if(cond: str) -> str:
+> > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> > index 496f7e0333..3ee66c5f62 100644
+> > --- a/scripts/qapi/expr.py
+> > +++ b/scripts/qapi/expr.py
+> > @@ -259,14 +259,12 @@ def check_flags(expr: _JSONObject, info:
+> QAPISourceInfo) -> None:
+> >
+> >  def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) ->
+> None:
+> >      """
+> > -    Normalize and validate the ``if`` member of an object.
+> > +    Validate the ``if`` member of an object.
+> >
+> > -    The ``if`` member may be either a ``str`` or a ``List[str]``.
+> > -    A ``str`` value will be normalized to ``List[str]``.
+> > +    The ``if`` member may be either a ``str`` or a dict.
+> >
+> >      :forms:
+> > -      :sugared: ``Union[str, List[str]]``
+> > -      :canonical: ``List[str]``
+> > +      :canonical: ``Union[str, dict]``
+>
+> Does this :forms: thing make sense without any :sugared:?  John, you
+> added (invented?) it in commit a48653638fa, but no explanation made it
+> into the tree.
 >
 >
-Missing
- +    migrate_del_blocker(vd->migration_blocker);
+This is just a "field list" ... it's just markup that renders like a
+bulleted definition list kind of thing. The :field list: syntax is useful
+only so far as we use it consistently; does it make sense without at least
+2 entries? it CAN, if by analogy with the other docstrings. It's just a
+visual consistency thing, it doesn't have any special meaning.
 
-     vdagent_disconnect(vd);
->      buffer_free(&vd->outbuf);
-> +    error_free(vd->migration_blocker);
->  }
->
->  static const TypeInfo vdagent_chr_type_info =3D {
-> --
-> 2.32.0.264.g75ae10bc75
->
->
->
+i.e. unlike the other field lists (param, return, raise) it has no special
+recognition by the Sphinx python domain.
 
---=20
-Marc-Andr=C3=A9 Lureau
+I won't push very hard for having it be kept either way, though Union[str,
+dict] is kind of a cop-out and doesn't actually convey the concrete form,
+which was the intent of adding these in the first place.
 
---0000000000000ad75905c8d125d6
+--js
+
+--00000000000013bcd605c8d15766
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 5, 2021 at 6:06 PM &lt;<a=
- href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fro=
-m: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com=
-" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 3, 2021 at 9:05 AM Markus=
+ Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a hr=
+ef=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lurea=
+u@redhat.com</a> writes:<br>
 <br>
-The current implementation lacks migration support. After migration,<br>
-vdagent support will be broken (even after a restart of the daemons).<br>
-Let&#39;s try to fix it in 6.2.<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Replace the simple list sugar form with a recursive structure that wil=
+l<br>
+&gt; accept other operators in the following commits (all, any or not).<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 scripts/qapi/common.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 23 +++++--<br>
+&gt;=C2=A0 scripts/qapi/expr.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 52 ++++++++++------<br>
+&gt;=C2=A0 scripts/qapi/schema.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+&gt;=C2=A0 tests/qapi-schema/bad-if-empty-list.json=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 2 +-<br>
+&gt;=C2=A0 tests/qapi-schema/bad-if-list.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+&gt;=C2=A0 tests/qapi-schema/bad-if.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
+&gt;=C2=A0 tests/qapi-schema/doc-good.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +-<br>
+&gt;=C2=A0 tests/qapi-schema/doc-good.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 13 ++--<br>
+&gt;=C2=A0 tests/qapi-schema/doc-good.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 ++<br>
+&gt;=C2=A0 tests/qapi-schema/enum-if-invalid.err=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 3 +-<br>
+&gt;=C2=A0 tests/qapi-schema/features-if-invalid.err=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 2 +-<br>
+&gt;=C2=A0 tests/qapi-schema/qapi-schema-test.json=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 25 ++++----<br>
+&gt;=C2=A0 tests/qapi-schema/qapi-schema-test.out=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 62 +++++++++----------<br>
+&gt;=C2=A0 .../qapi-schema/struct-member-if-invalid.err=C2=A0 |=C2=A0 2 +-<=
+br>
+&gt;=C2=A0 .../qapi-schema/union-branch-if-invalid.json=C2=A0 |=C2=A0 2 +-<=
+br>
+&gt;=C2=A0 15 files changed, 119 insertions(+), 83 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py<br>
+&gt; index 5181a0f167..51463510c9 100644<br>
+&gt; --- a/scripts/qapi/common.py<br>
+&gt; +++ b/scripts/qapi/common.py<br>
+&gt; @@ -13,7 +13,8 @@<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 import re<br>
+&gt;=C2=A0 from typing import (<br>
+&gt; -=C2=A0 =C2=A0 List,<br>
+&gt; +=C2=A0 =C2=A0 Any,<br>
+&gt; +=C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Match,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Union,<br>
+&gt; @@ -199,16 +200,28 @@ def guardend(name: str) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0na=
+me=3Dc_fname(name).upper())<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; -def cgen_ifcond(ifcond: Union[str, List[str]]) -&gt; str:<br>
+&gt; +def docgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -&gt; str:<br>
 <br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0ui/vdagent.c | 11 +++++++++++<br>
-=C2=A01 file changed, 11 insertions(+)<br>
+Uh, why do you swap cgen_ifcond() and docgen_ifcond()?=C2=A0 Accident?<br>
 <br>
-diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
-index 7d8cb963ff..603a2a7bd2 100644<br>
---- a/ui/vdagent.c<br>
-+++ b/ui/vdagent.c<br>
-@@ -6,6 +6,7 @@<br>
-=C2=A0#include &quot;qemu/option.h&quot;<br>
-=C2=A0#include &quot;qemu/units.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-core.h&quot;<br>
-+#include &quot;migration/blocker.h&quot;<br>
-=C2=A0#include &quot;ui/clipboard.h&quot;<br>
-=C2=A0#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;ui/input.h&quot;<br>
-@@ -23,6 +24,9 @@<br>
-=C2=A0struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if not ifcond:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;&#39;<br>
+&gt; -=C2=A0 =C2=A0 return &#39;(&#39; + &#39;) &amp;&amp; (&#39;.join(ifco=
+nd) + &#39;)&#39;<br>
+&gt; +=C2=A0 =C2=A0 if isinstance(ifcond, str):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ifcond<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 oper, operands =3D next(iter(ifcond.items()))<br>
+&gt; +=C2=A0 =C2=A0 oper =3D {&#39;all&#39;: &#39; and &#39;}[oper]<br>
+&gt; +=C2=A0 =C2=A0 operands =3D [docgen_ifcond(o) for o in operands]<br>
+&gt; +=C2=A0 =C2=A0 return &#39;(&#39; + oper.join(operands) + &#39;)&#39;<=
+br>
 <br>
-+=C2=A0 =C2=A0 /* TODO: migration isn&#39;t yet supported */<br>
-+=C2=A0 =C2=A0 Error *migration_blocker;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* config */<br>
-=C2=A0 =C2=A0 =C2=A0bool mouse;<br>
-=C2=A0 =C2=A0 =C2=A0bool clipboard;<br>
-@@ -599,6 +603,10 @@ static void vdagent_chr_open(Chardev *chr,<br>
-=C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0#endif<br>
+What a nice review speedbump you buried here...<br>
 <br>
-+=C2=A0 =C2=A0 if (migrate_add_blocker(vd-&gt;migration_blocker, errp) !=3D=
- 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0vd-&gt;mouse =3D VDAGENT_MOUSE_DEFAULT;<br>
-=C2=A0 =C2=A0 =C2=A0if (cfg-&gt;has_mouse) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;mouse =3D cfg-&gt;mouse;<br>
-@@ -832,6 +840,8 @@ static void vdagent_chr_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);<br>
+The whole block boils down to the much less exciting<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0buffer_init(&amp;vd-&gt;outbuf, &quot;vdagent-outbuf&qu=
-ot;);<br>
-+=C2=A0 =C2=A0 error_setg(&amp;vd-&gt;migration_blocker,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;The vdagent c=
-hardev doesn&#39;t yet support migration&quot;);<br>
-=C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0operands =3D [docgen_ifcond(o) for o in ifcond[&=
+#39;all&#39;]]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;(&#39; + &#39; and &#39;.join(operan=
+ds) + &#39;)&#39;<br>
 <br>
-=C2=A0static void vdagent_chr_fini(Object *obj)<br>
-@@ -840,6 +850,7 @@ static void vdagent_chr_fini(Object *obj)<br>
-<br></blockquote><div><br></div><div>Missing<br></div><div>=C2=A0+ =C2=A0 =
-=C2=A0migrate_del_blocker(vd-&gt;migration_blocker);</div><div><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0vdagent_disconnect(vd);<br>
-=C2=A0 =C2=A0 =C2=A0buffer_free(&amp;vd-&gt;outbuf);<br>
-+=C2=A0 =C2=A0 error_free(vd-&gt;migration_blocker);<br>
-=C2=A0}<br>
+Peeking ahead, I understand that you did it this way here so you can<br>
+extend it trivially there.=C2=A0 Matter of taste; what counts is the final<=
+br>
+result and minimizing reviewer WTFs/minute along the way.<br>
 <br>
-=C2=A0static const TypeInfo vdagent_chr_type_info =3D {<br>
--- <br>
-2.32.0.264.g75ae10bc75<br>
+Since the WTFs/minute is a done deed now, what remains is the final<br>
+result, which I expect to review shortly.=C2=A0 But please try a bit harder=
 <br>
+to be boring next time ;)<br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+&gt;=C2=A0 <br>
+&gt; -def docgen_ifcond(ifcond: Union[str, List[str]]) -&gt; str:<br>
+&gt; +<br>
+&gt; +def cgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if not ifcond:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;&#39;<br>
+&gt; -=C2=A0 =C2=A0 return &#39; and &#39;.join(ifcond)<br>
+&gt; +=C2=A0 =C2=A0 if isinstance(ifcond, str):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ifcond<br>
+<br>
+This is what gets rid of the redundant parenthesises in the common case<br>
+&quot;single condition string&quot;.<br>
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 oper, operands =3D next(iter(ifcond.items()))<br>
+&gt; +=C2=A0 =C2=A0 oper =3D {&#39;all&#39;: &#39;&amp;&amp;&#39;}[oper]<br=
+>
+&gt; +=C2=A0 =C2=A0 operands =3D [cgen_ifcond(o) for o in operands]<br>
+&gt; +=C2=A0 =C2=A0 return &#39;(&#39; + (&#39;) &#39; + oper + &#39; (&#39=
+;).join(operands) + &#39;)&#39;<br>
+<br>
+This line is hard to read.=C2=A0 Easier, I think:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0oper =3D {&#39;all&#39;: &#39; &amp;&amp; &#39;}=
+[oper]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0operands =3D [&#39;(&#39; + cgen_ifcond(o) + &#3=
+9;)&#39; for o in operands]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return oper.join(operands)<br>
+<br>
+Neither your version nor mine gets rid of the redundant parenthesises in<br=
+>
+the (uncommon) case &quot;complex condition expression&quot;.<br>
+tests/test-qapi-introspect.c still has<br>
+<br>
+=C2=A0 =C2=A0 #if (defined(TEST_IF_COND_1)) &amp;&amp; (defined(TEST_IF_CON=
+D_2))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QLIT_QSTR(&quot;fea=
+ture1&quot;),<br>
+=C2=A0 =C2=A0 #endif /* (defined(TEST_IF_COND_1)) &amp;&amp; (defined(TEST_=
+IF_COND_2)) */<br>
+<br>
+Mildly annoying.=C2=A0 I&#39;m willing to leave this for later.<br>
+<br>
+Code smell: cgen_ifcond() and docgen_ifcond() are almost identical.=C2=A0 C=
+an<br>
+also be left for later.<br>
+<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def gen_if(cond: str) -&gt; str:<br>
+&gt; diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py<br>
+&gt; index 496f7e0333..3ee66c5f62 100644<br>
+&gt; --- a/scripts/qapi/expr.py<br>
+&gt; +++ b/scripts/qapi/expr.py<br>
+&gt; @@ -259,14 +259,12 @@ def check_flags(expr: _JSONObject, info: QAPISou=
+rceInfo) -&gt; None:<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def check_if(expr: _JSONObject, info: QAPISourceInfo, source: st=
+r) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; -=C2=A0 =C2=A0 Normalize and validate the ``if`` member of an object.<=
+br>
+&gt; +=C2=A0 =C2=A0 Validate the ``if`` member of an object.<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 The ``if`` member may be either a ``str`` or a ``List[s=
+tr]``.<br>
+&gt; -=C2=A0 =C2=A0 A ``str`` value will be normalized to ``List[str]``.<br=
+>
+&gt; +=C2=A0 =C2=A0 The ``if`` member may be either a ``str`` or a dict.<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 :forms:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 :sugared: ``Union[str, List[str]]``<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 :canonical: ``List[str]``<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 :canonical: ``Union[str, dict]``<br>
+<br>
+Does this :forms: thing make sense without any :sugared:?=C2=A0 John, you<b=
+r>
+added (invented?) it in commit a48653638fa, but no explanation made it<br>
+into the tree.<br>
+<br></blockquote><div><br></div><div>This is just a &quot;field list&quot; =
+... it&#39;s just markup that renders like a bulleted definition list kind =
+of thing. The :field list: syntax is useful only so far as we use it consis=
+tently; does it make sense without at least 2 entries? it CAN, if by analog=
+y with the other docstrings. It&#39;s just a visual consistency thing, it d=
+oesn&#39;t have any special meaning.</div><div><br></div><div>i.e. unlike t=
+he other field lists (param, return, raise) it has no special recognition b=
+y the Sphinx python domain.</div><div><br></div><div>I won&#39;t push very =
+hard for having it be kept either way, though Union[str, dict] is kind of a=
+ cop-out and doesn&#39;t actually convey the concrete form, which was the i=
+ntent of adding these in the first place.</div><div><br></div><div>--js<br>=
+</div></div></div>
 
---0000000000000ad75905c8d125d6--
+--00000000000013bcd605c8d15766--
+
 
