@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94D03E19E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:01:15 +0200 (CEST)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C442A3E1A02
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:07:22 +0200 (CEST)
+Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBgk6-00041n-5B
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:01:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45598)
+	id 1mBgq1-0001FM-EK
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mBgiu-0002iZ-Q8
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:00:00 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39933)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1mBgpB-0000ZH-Pb; Thu, 05 Aug 2021 13:06:29 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:45681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mBgis-0001Dv-FQ
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:00:00 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so7424067pjn.4
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 09:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=I8P05sZ5LlRbsTuxl86jvUlowOc/pYgVacJ5D9ymr68=;
- b=Mio4sjJpmmDGxo0iV3wnRYBp4jblzU2SWUaEmglpabNbqpmANcNoXbm90qSnmHwcv/
- mox7z9LO2xtEblAU3kXIHsXKBdvtE20CO1z5LFFqbQsvyEVXBPPDFZxNanrVnoWd+835
- rDqgCm5Y8ncuArmEa/mvOwcPT/QCs6wsq6T57dZojMAYpj4tDAVYMMhxe4uXAsqoUSSk
- lRGztwFoPMsckWQaB5J9QABKqXzx0WlSMgLU3Hzxpsdp4G/Z+fAL8iekthVmLyfvLadl
- PuFhZSJd8QqPPUTDAYTEf1aBUFANWHHYlmboAB2SAr8Aborsq8M472Hi5zOQTG7JejhS
- PqXA==
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1mBgpA-0006Fn-21; Thu, 05 Aug 2021 13:06:29 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso11047175pjf.4; 
+ Thu, 05 Aug 2021 10:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7ZmMW3tRLKZ7x4Mq+WBCbHhzuGjpqCEuIHUICC9/YUc=;
+ b=F16OADYGOpaOpw3QXrfG4rWjlCCbMt5H2rX97CM7BhDZSh+Og+QGUclYp7fF1C80dp
+ F8El776YoShhsdM2y+UZT4vexaKUkGvRoMRlT3pDL0fdtmKH22fnTliixxxGwKZh7/hZ
+ AbPdKKxgYjoi3UOCFME7LA7bPRbKYytC8ynnWRL3V4WXGFwKMV8z2rAlPFFx9ccr6KZH
+ jPnmeGHO92Pb6dnKi5Pmdm+966tzm1jw/uWQJ1eSBsqtq/5tPnbvc1vl3FNBP8B//43c
+ kDEXYVSYd3g9kyae5ubf2S2A6oJu66a1YvUfjNhw8eynqX7TMCs+E0PB4G3E4pEP7Zp+
+ m1Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I8P05sZ5LlRbsTuxl86jvUlowOc/pYgVacJ5D9ymr68=;
- b=uIgABd2lJ7LxOHaHNrVJg9WV1Ll9r3ma0unUONwzPTJzyuvuceGnN8QARQXZVyds+g
- urv6JilFlZrESRnTgrPKqz9YyKBYrVPARLmPixXbvxru6+JsP03q6pzaab5uw/w1NLEC
- HqTImGMfB0BEGIpaNyFOtUqYlGGMlExCqCcpyFbHDoTSs3ZbXIwqZUUZ7HEbRfpeJoYN
- UekoIKnbVz65qeBzp7XzUWylOA6QOUN9CNAR2k+VJb2USgdZNrwSKj/VAGyjOjaymb8r
- 1eP+UarNd46Nwp7MUBhhWw4LkXzmaL4BucXDukDx7w5oB4nTzrSTlI3jHFKEtRNLk1ZR
- /Q2w==
-X-Gm-Message-State: AOAM533FD2EpQuuFxiP/FRsgiuP+4n+Kh/+Tt4pNTJTl1ePFqc3v26cf
- dsGxiV2yTNUB+0pmOJWfUeMDfw==
-X-Google-Smtp-Source: ABdhPJxBNBTgzXNLFMnK9xfS1BvL8jQaQuTZBWzVlakVZIewkE3FTN5upM0lyoji51l7hMmtiXHTYw==
-X-Received: by 2002:a17:90a:de18:: with SMTP id
- m24mr5638254pjv.78.1628182796705; 
- Thu, 05 Aug 2021 09:59:56 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id fs21sm3915942pjb.42.2021.08.05.09.59.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 09:59:56 -0700 (PDT)
-Subject: Re: [PATCH RFC 1/1] accel/tcg: Clear PAGE_WRITE before translation
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210804224633.154083-1-iii@linux.ibm.com>
- <20210804224633.154083-2-iii@linux.ibm.com>
- <507a0eae-6dcf-68c0-ee5f-40499788e2b4@linaro.org>
- <8481e2b62d5bf3295ffb309ce54fbdaf42fcef0b.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <04de9e20-555a-f785-3dea-add345d4e64d@linaro.org>
-Date: Thu, 5 Aug 2021 06:59:51 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7ZmMW3tRLKZ7x4Mq+WBCbHhzuGjpqCEuIHUICC9/YUc=;
+ b=qisv6cjcSgIGXA3yNiWby4DYC6pfqr7gm4taggaBTL0n/xRuVFfeWu1N8LlEvj1dBS
+ 7OGbW3QEWammTPQ95d6bnIW2YNa0fjkRzx9PwPFutzgNZxqzwVSJxAKfeHHL+Z5SaDIt
+ sw5CkN/QYZ9/+zmFBHFjp2D3T1jG2hFP5K74AWXsXYwK02oROK18GqE9ADg6oVaW4edB
+ yrPDAcn+iDB8xLQP2b/jhbnPFQWtPZJUAHJTeqiOgUlnLy0jXNRF9PHnIwIytnBt2nuu
+ mMdED7zpob2a0Yk0IbCbfZchEL1JXvxpMTzPO4oJPJesFfQsSmXI9nOIlFxrEWmaUMj+
+ BnwA==
+X-Gm-Message-State: AOAM532hMeY9oVhKNWS0ZM0baXOi62mbzx4f6qlNr/oYW8z94d04j4+E
+ KKPbGYl26k+2ob9wNQIXyGrXrZF/fJls6xw46HY=
+X-Google-Smtp-Source: ABdhPJytyqBYrLU6Q5sYd1qiQfpP8XPs9hAPaTIN/WmJjKAgLbe501rfI2eY/1ncvkxDGo3SIOmYCd2RPBg0Hl7OYq4=
+X-Received: by 2002:a17:90b:344d:: with SMTP id
+ lj13mr15631990pjb.24.1628183185133; 
+ Thu, 05 Aug 2021 10:06:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8481e2b62d5bf3295ffb309ce54fbdaf42fcef0b.camel@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210623180021.898286-1-f4bug@amsat.org>
+ <20210623180021.898286-6-f4bug@amsat.org>
+ <1507c8d3-e7ae-6dc4-2bb0-3b212f32edbf@amsat.org>
+In-Reply-To: <1507c8d3-e7ae-6dc4-2bb0-3b212f32edbf@amsat.org>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Thu, 5 Aug 2021 19:06:14 +0200
+Message-ID: <CAPan3WovgpksBYSq8cyRdL1VEKvdDtWVmvbmh=ySiZaVOYYNuA@mail.gmail.com>
+Subject: Re: [PATCH 5/9] tests/acceptance: Use image_expand() in
+ test_arm_orangepi_uboot_netbsd9
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000006113cd05c8d2f0aa"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,29 +79,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Tom Yan <tom.ty89@gmail.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/5/21 12:56 AM, Ilya Leoshkevich wrote:
-> On Wed, 2021-08-04 at 14:30 -1000, Richard Henderson wrote:
->> I think that the translator_ld*_swap functions should be moved out of
->> include/exec/translator.h into accel/tcg/translator.c.
-> 
-> Do we really need this? In the end, the added code is not that large.
+--0000000000006113cd05c8d2f0aa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I suppose it's not required, but they're already larger than they need to be.
+Hi Philippe,
 
-In my opinion, if you're going to swap one out-of-line function call for two out-of-line 
-function calls (cpu_ld*_code + plugin_insn_append), you've probably made a bad size trade-off.
+Op wo 4 aug. 2021 22:55 schreef Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>:
 
-With your added code, it'll be 3 out-of-line calls.
+> Hi Niek,
+>
+> On 6/23/21 8:00 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > The NetBSD OrangePi image must be at least 2GiB, not less.
+> > Expand the SD card image to this size before using it.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> >  tests/acceptance/boot_linux_console.py | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> > index 61069f0064f..b10f7257503 100644
+> > --- a/tests/acceptance/boot_linux_console.py
+> > +++ b/tests/acceptance/boot_linux_console.py
+> > @@ -868,7 +868,12 @@ def test_arm_orangepi_uboot_netbsd9(self):
+> >          :avocado: tags=3Ddevice:sd
+> >          :avocado: tags=3Dos:netbsd
+> >          """
+> > -        # This test download a 304MB compressed image and expand it to
+> 2GB
+> > +        # This test download a 304MB compressed image and expand it to
+> 2GB,
+> > +        # which is the minimum card size required by the NetBSD
+> installer:
+> > +        # https://wiki.netbsd.org/ports/evbarm/raspberry_pi/#index7h2
+> > +        # "A 2 GB card is the smallest workable size that the
+> installation
+> > +        # image will fit on."
+>
+> Do you agree with this comment and the one in the next patch?
+>
+
+Yes, this change looks fine for me.
+
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 
 
-r~
+> > +        NETBSD_SDCARD_MINSIZE =3D 2 * 1024 * 1024 * 1024
+> >          deb_url =3D ('http://snapshot.debian.org/archive/debian/'
+> >                     '20200108T145233Z/pool/main/u/u-boot/'
+> >                     'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
+> > @@ -886,7 +891,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+> >          image_path_gz =3D self.fetch_asset(image_url,
+> asset_hash=3Dimage_hash)
+> >          image_path =3D os.path.join(self.workdir, 'armv7.img')
+> >          archive.gzip_uncompress(image_path_gz, image_path)
+> > -        image_pow2ceil_expand(image_path)
+> > +        image_expand(image_path, NETBSD_SDCARD_MINSIZE)
+> >          image_drive_args =3D 'if=3Dsd,format=3Draw,snapshot=3Don,file=
+=3D' +
+> image_path
+> >
+> >          # dd if=3Du-boot-sunxi-with-spl.bin of=3Darmv7.img bs=3D1K see=
+k=3D8
+> conv=3Dnotrunc
+> >
+>
+>
+
+--0000000000006113cd05c8d2f0aa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi Philippe,<br><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">Op wo 4 aug. 2021 22:55 schreef Philippe M=
+athieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a=
+>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">Hi Niek,<br>
+<br>
+On 6/23/21 8:00 PM, Philippe Mathieu-Daud=C3=A9 wrote:<br>
+&gt; The NetBSD OrangePi image must be at least 2GiB, not less.<br>
+&gt; Expand the SD card image to this size before using it.<br>
+&gt; <br>
+&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
+@amsat.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 tests/acceptance/boot_linux_console.py | 9 +++++++--<br>
+&gt;=C2=A0 1 file changed, 7 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance=
+/boot_linux_console.py<br>
+&gt; index 61069f0064f..b10f7257503 100644<br>
+&gt; --- a/tests/acceptance/boot_linux_console.py<br>
+&gt; +++ b/tests/acceptance/boot_linux_console.py<br>
+&gt; @@ -868,7 +868,12 @@ def test_arm_orangepi_uboot_netbsd9(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dos:netbsd<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 304MB compressed i=
+mage and expand it to 2GB<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 304MB compressed i=
+mage and expand it to 2GB,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # which is the minimum card size required=
+ by the NetBSD installer:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # <a href=3D"https://wiki.netbsd.org/port=
+s/evbarm/raspberry_pi/#index7h2" rel=3D"noreferrer noreferrer" target=3D"_b=
+lank">https://wiki.netbsd.org/ports/evbarm/raspberry_pi/#index7h2</a><br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # &quot;A 2 GB card is the smallest worka=
+ble size that the installation<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # image will fit on.&quot;<br>
+<br>
+Do you agree with this comment and the one in the next patch?<br></blockquo=
+te></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, this chan=
+ge looks fine for me.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Re=
+viewed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">=
+nieklinnenbank@gmail.com</a>&gt;</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 NETBSD_SDCARD_MINSIZE =3D 2 * 1024 * 1024=
+ * 1024<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_url =3D (&#39;<a href=3D"http://=
+snapshot.debian.org/archive/debian/" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">http://snapshot.debian.org/archive/debian/</a>&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&#39;20200108T145233Z/pool/main/u/u-boot/&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&#39;u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb&#39;)<br>
+&gt; @@ -886,7 +891,7 @@ def test_arm_orangepi_uboot_netbsd9(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path_gz =3D self.fetch_asset(i=
+mage_url, asset_hash=3Dimage_hash)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path =3D os.path.join(self.wor=
+kdir, &#39;armv7.img&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.gzip_uncompress(image_path_g=
+z, image_path)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_pow2ceil_expand(image_path)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_expand(image_path, NETBSD_SDCARD_MI=
+NSIZE)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_drive_args =3D &#39;if=3Dsd,fo=
+rmat=3Draw,snapshot=3Don,file=3D&#39; + image_path<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # dd if=3Du-boot-sunxi-with-spl.bin =
+of=3Darmv7.img bs=3D1K seek=3D8 conv=3Dnotrunc<br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000006113cd05c8d2f0aa--
 
