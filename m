@@ -2,69 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670C53E1ABE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:48:49 +0200 (CEST)
-Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54363E1AE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:59:59 +0200 (CEST)
+Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBhU8-0005cs-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:48:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
+	id 1mBhew-000541-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBhTQ-0004wx-L1
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:48:04 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBhTP-0001y2-2L
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:48:04 -0400
-Received: by mail-ed1-x529.google.com with SMTP id cf5so9573491edb.2
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 10:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6MFFjMRstg3IIlWBWbpunfVWgwjoLCi59yxrMrVjI6w=;
- b=TeCWN/7RvPQywJL0ZiLbatXPfsuTYvDnDGzqiAMiUVUeOpSdpX0eBOWc/2ENHTQF3m
- o0bDaBEYtZomeg8i3TCoVosF+NbcEjbSa2nrw/1/9lHxVugbwonyzEPidXv8FrfivUHR
- 42Q8FiIjm4smdCF2lKo97U5hpiBE6WefcYOLfR2FoDUuhf38VSBar1lY06RyDHGCgnG3
- PMWR4k+DZ7VoaNpi0joWFTc5Og3atKr6uUC/klqdf624+03siMfWdjsWCRgDtdGvn5SW
- 03391DYK9r9UR+zaxyQeq1ohzcO7RwarhjfejpfZ4BELQ54fEdUu8FS8fKM80M9dSJG0
- 7Liw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6MFFjMRstg3IIlWBWbpunfVWgwjoLCi59yxrMrVjI6w=;
- b=ggOgOpcxrz1ppdKyqAZ4l8DxOdan+9kBs92MaNsrvaidqoR5F88IqL9d1EB8nSzQCw
- zf3caR47hwdh8F0ZkI1OzQlPKMOsIA43MnSQ7LysN8WaqkcKQusNWDZnXnAKbHpX5cdA
- QB5z7YRPBsWaZtrKNgWkhw0nbcpeoVkudfd2u6tBsCHYYHrqQ06PajoIdiGTEHd+z4c5
- SYRLXgFgjzed08lohEYbZrzylIEGjN/WCs9l6Lunm1wq0BoUjApjcBrFhZ71uNKTPiDI
- HEJmpjFYgaxeo+Hw9qLze3wSDVMJ4M0HOb03dy+2CaxIgYCKL+obzfWyVs2WFK0ij/jP
- E+eQ==
-X-Gm-Message-State: AOAM53124nt3B4aWNGnzOyNpSYhHBc0hWsmhCafWr3Uxj0BmY+WpeAUj
- ZqWyMM9hjCbhjj9TAoMVGcyopsmqyHXYpn+lOpteNw==
-X-Google-Smtp-Source: ABdhPJzysY/zuAzv8x5YoC8cbVqgU898YPv/Qs8xH2WP+9GDmzInhyUsR6VpNWYv5YsAxkt8jMbObNoypWsD714E6fw=
-X-Received: by 2002:a50:f615:: with SMTP id c21mr8351017edn.146.1628185681358; 
- Thu, 05 Aug 2021 10:48:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mBhc4-0007e9-4i; Thu, 05 Aug 2021 13:57:00 -0400
+Received: from exmail.andestech.com ([60.248.187.195]:13049
+ helo=ATCSQR.andestech.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mBhbz-0007p6-VK; Thu, 05 Aug 2021 13:56:59 -0400
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 175HuPF5055921;
+ Fri, 6 Aug 2021 01:56:25 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from atcfdc88.andestech.com (10.0.15.120) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
+ Fri, 6 Aug 2021 01:56:26 +0800
+From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [RFC PATCH v4 0/4] Add basic support for custom CSR
+Date: Fri, 6 Aug 2021 01:56:22 +0800
+Message-ID: <20210805175626.11573-1-ruinland@andestech.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-References: <20210805125331.826741-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210805125331.826741-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Aug 2021 18:47:17 +0100
-Message-ID: <CAFEAcA8Bwfyw=DNOgi1RCevUZfkg4wZeGtb=Q7fqiJAPUXufpA@mail.gmail.com>
-Subject: Re: [PULL 0/8] chardev fixes for 6.1
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.0.15.120]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 175HuPF5055921
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,44 +55,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: ruinland@andestech.com, wangjunqiang@iscas.ac.cn, bin.meng@windriver.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Aug 2021 at 13:53, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9=
-eb:
->
->   Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)
->
-> are available in the Git repository at:
->
->   git@gitlab.com:marcandre.lureau/qemu.git tags/chr-fix-pull-request
->
-> for you to fetch changes up to a68403b0a6843f106e381b0bbeaacb29f6d27255:
->
->   chardev: report a simpler error about duplicated id (2021-08-05 16:15:3=
-3 +0400)
->
-> ----------------------------------------------------------------
-> Chardev-related fixes
->
-> Hi
->
-> Here are some bug fixes worthy for 6.1.
->
-> thanks
+From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+
+Dear all,
+
+In this patch, the implementation of custom CSR handling logic is introduced.
+
+If --enable-riscv-custom is set during configuration, custom CSR logic will be
+turned on. During CPU model initialization, setup_custom_csr() is invoked to
+register vendor-provided custom CSR opsets into a hash table.
+When accessing a CSR, in riscv_csrrw(), is_custom_csr() will be called to check
+whether the encountering csrno is a custom CSR. If that's a custom one, a
+struct riscv_csr_operations will be returned and such CSR will be served
+accordingly.
+
+The performance slowdown could be easily tested with a simple program running
+on linux-user mode.
+
+/* test_csr.c */
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/time.h>
+
+int main (int ac, char *av[]) {
+   struct  timeval start;
+   struct  timeval end;
+   gettimeofday(&start,NULL);
+   unsigned int loop_n = 999999 ;
+   unsigned char i;
+   unsigned char o;
+   do {
+       for(i=0; i<32; i++) { 
+       #if defined(FCSR)
+       __asm__("csrw fcsr, %0;"::"r"(i));
+       __asm__("csrr %0, fcsr;":"=r"(o));
+       #elif defined(UITB)
+       __asm__("csrw 0x800, %0;"::"r"(i));
+       __asm__("csrr %0, 0x800;":"=r"(o));
+       #endif
+       }
+       --loop_n;
+   } while (loop_n > 0);
+   gettimeofday(&end,NULL);
+   unsigned long diff = 1000000 * (end.tv_sec-start.tv_sec)+end.tv_usec-start.tv_usec;
+   printf("%f\n", (double)(diff)/1000000);
+   return 0;
+}
+
+$ riscv64-linux-gnu-gcc -static -DUITB ./test_csr.c -o ./u
+$ riscv64-linux-gnu-gcc -static -DFCSR ./test_csr.c -o ./f
+
+For a custom CSR, uitb, being accessed on andes-ax25 :
+$ ./build/qemu-riscv64 -cpu andes-ax25 ./u
+4.283091
+
+For a stock CSR, fcsr, being accessed on andes-ax25:
+$ ./build/qemu-riscv64 ./f
+3.875519
+
+For a custom CSR being accessed on stock rv64:
+$ ./build/qemu-riscv64 -cpu rv64 ./u
+Illegal instruction (core dumped)
+# This is expected to fail.
+
+Currently, the statics on my hands shows that :
+When the custom CSR handling mechanism is activated, we will suffer a 17% slow-
+down on stock CSRs and the penalty of accessing to a custom CSR will be another
+7% more.
+
+Cordially yours,
+Ruinland ChuanTzu Tsai
+
+Changes from v3 :
+* Adding options in configure and meson files to turn on/off custom CSR logic.
+* Adding unlikely() to check if custom_csr_map is set.
+* Moving any32 and any out of !(CONFIG_USER_ONLY) for enabling linux-user mode.
+* Fix comment style, add missing license boilerplate.
 
 
+Ruinalnd ChuanTzu Tsai (4):
+  Adding basic custom/vendor CSR handling mechanism
+  Adding Andes AX25 and A25 CPU model
+  Enable custom CSR logic for Andes AX25 and A25
+  Add options to config/meson files for custom CSR
 
-Applied, thanks.
+ configure                      |   6 ++
+ meson.build                    |   2 +
+ meson_options.txt              |   2 +
+ target/riscv/andes_cpu_bits.h  | 124 +++++++++++++++++++++++++
+ target/riscv/cpu.c             |  51 +++++++++++
+ target/riscv/cpu.h             |  33 ++++++-
+ target/riscv/cpu_bits.h        |   4 +
+ target/riscv/csr.c             |  83 ++++++++++++++---
+ target/riscv/csr_andes.inc.c   | 160 +++++++++++++++++++++++++++++++++
+ target/riscv/custom_cpu_bits.h |  12 +++
+ 10 files changed, 462 insertions(+), 15 deletions(-)
+ create mode 100644 target/riscv/andes_cpu_bits.h
+ create mode 100644 target/riscv/csr_andes.inc.c
+ create mode 100644 target/riscv/custom_cpu_bits.h
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+-- 
+2.32.0
 
--- PMM
 
