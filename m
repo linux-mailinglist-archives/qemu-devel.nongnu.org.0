@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C483E1C45
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 21:16:47 +0200 (CEST)
-Received: from localhost ([::1]:39416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA323E1C41
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 21:16:13 +0200 (CEST)
+Received: from localhost ([::1]:38610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBirG-0001Bg-Hq
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 15:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38226)
+	id 1mBiqh-0000aI-P3
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 15:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBiox-0007Nc-N9
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 15:14:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBiov-0004FN-17
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 15:14:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628190860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j5dZkIBmPHIibfpqvzTivxFZe7OBjU7XgpQUAlAdfeQ=;
- b=L1wAdnF+FDb+PUwBuEoLBpy3igsSsktdXe2pmVMZ1NzwY3AnUbnH424GejnyNMaFoyCQen
- 8q48V1ypXwWzd3OeIPsXBSy5U6ozAIvoUMEZd7TKXVeWp6eeFhHCgL9rIkna1mXO7cBymr
- Ejt/K4uzE9FADHzFTyPeSUNpn1ytj/w=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-c1WYSIKQMyGwS4wqn18ygQ-1; Thu, 05 Aug 2021 15:14:18 -0400
-X-MC-Unique: c1WYSIKQMyGwS4wqn18ygQ-1
-Received: by mail-ot1-f70.google.com with SMTP id
- b1-20020a0568301041b02904d0a18787d4so2505925otp.5
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 12:14:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1mBipJ-0007c0-4M
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 15:14:45 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1mBipH-0004Td-Ki
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 15:14:44 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id z4so7918370wrv.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 12:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jrtc27.com; s=gmail.jrtc27.user;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KHqPM+kMUaBWQ8uLjdZla+l+HWJKT90+z6PtlYMja7Y=;
+ b=UqOJxqhPdfpc5rtxfIwMqXBjK5M8UhpeJsZR957HwBGPlzkaOHgY8+S4o48AxXl16W
+ Tmo+Zx7fMsHBMw0TxYI/LbRSKCWWjtykfkd86Oi4KHy1XyGENK/4Jk9o9FgQ9dANSe8/
+ 6Nb0tjZqaX1abxsj0jQMjDRM0h7mAQ4Aek9EaPyaMxKqp8sa8554q63B5pi2+RcDldzD
+ kBg5d4apj7giD/WIZZtw8SW3KLeJmLbIgaMyW54tlTX3Xkd5BOCWVPNEDRuXj1DRXcEr
+ vnzKZ2ydpbrqAzmskE/MzFedX7cPdJCdhxyt/mRwktGGvMR5jzsayNkOJlYKn4IByw7F
+ UNJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j5dZkIBmPHIibfpqvzTivxFZe7OBjU7XgpQUAlAdfeQ=;
- b=jMvaeb4ValhvP/iaOFK8vMAGw78H78IcYIeCGSIgBjxbL3rbmFctemyXm+Xx5UofiF
- id4ZHN4YM7J9iJFW+8U2LcerYKeWaTHSK6QQTR+Op3uhvCaUAlhrIJfLbUPebCmTzkTc
- agF5LeVsjzk7MAvvKPGbUpj+Yyf7EnbY/VLyXolSMRau8cywPVD6T0AAbRc1aYcYqwt7
- oLR/BY/v+0PamnvNgmXg4FuaedGJHKjHXgN5x/cgJ9r8xf4twbnAZUSqvzHLnRphbX4L
- zv2pXDkKQCKFsh7BiC1CiNWpkVYC/jRYN6N3qnHD3PdbzPZHjOcA6sIlXFuA6DYH/tmg
- 1j7A==
-X-Gm-Message-State: AOAM5339WSFXiL3ZFPU/wknS2VDsl1CQVNHEfOTiL86U4Jy9uGf9Vsid
- KRcSDdUaHR59XZUrhZAtGjFZz3t3zauTmdXiNIfRcORbZPz4ihPDTusijNtUiEN6JSOXjGGY8iF
- ++hlT3/g3Yq8LIfbKdn6KpMcWlxz3y60=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr4894433otb.323.1628190857858; 
- Thu, 05 Aug 2021 12:14:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyB34YJuwHhX4bWvM8b8IEdUOvySe493UeDBu7tNG65JrCX32RP17qaiDhnqwRoMF8P/wHMj2h/T/E4yBvDJg=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr4894417otb.323.1628190857728; 
- Thu, 05 Aug 2021 12:14:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KHqPM+kMUaBWQ8uLjdZla+l+HWJKT90+z6PtlYMja7Y=;
+ b=iJH6ZrGTvzh+lTc+ZLyAt6IpycmelLTFQ1F1PTGywFMAp4uqIR1BKec8765Ry4rQsz
+ va9/VJcmmbMH0MI8OT8KGZlu/BR5zTxtKGIRYO9ZwGnJ9jrqp7uBHffKkjapOjWPmnLN
+ MKFwumahUUQAwh1AEldoAzPnczOXwBC/S2fUb3WeI/+mfSu5R3Ynf6wCoVDDm91RDvCw
+ KK4eBgoqmthcdaasSuwxd5Rrm/4Vdk6dFJIizipeCKS/Lliq2jt9yRdxld9cdZaokxlO
+ PPhon2uy+4izgcw8DKmQk35a2yXBgp3/7Tger7Tv6kkODllWVbmOttPEfzPM4IJJiolS
+ X7UQ==
+X-Gm-Message-State: AOAM533GoSRs3gGcjbRBykHIVfw8RZV+MyNfQAbaE1/WKlegNp+U/ehg
+ X1FetsxPmqCNXojl7ZPa9y593g==
+X-Google-Smtp-Source: ABdhPJxXYWT0piysfvD6QE6DArzxEgo9vGgrXuoZJuNTxXv7beUE3BA8SPcjYQlmulzq6xbPZFm7Ow==
+X-Received: by 2002:a5d:620d:: with SMTP id y13mr6938284wru.45.1628190881409; 
+ Thu, 05 Aug 2021 12:14:41 -0700 (PDT)
+Received: from Jessicas-MacBook-Pro.local
+ (trinity-students-nat.trin.cam.ac.uk. [131.111.193.104])
+ by smtp.gmail.com with ESMTPSA id w1sm9789666wmc.19.2021.08.05.12.14.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 05 Aug 2021 12:14:41 -0700 (PDT)
+Received: by Jessicas-MacBook-Pro.local (Postfix, from userid 501)
+ id 8BA183680124; Thu,  5 Aug 2021 20:14:40 +0100 (BST)
+From: Jessica Clarke <jrtc27@jrtc27.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Partially revert "build: -no-pie is no functional linker flag"
+Date: Thu,  5 Aug 2021 20:14:30 +0100
+Message-Id: <20210805191430.37409-1-jrtc27@jrtc27.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20210730201846.5147-1-niteesh.gs@gmail.com>
- <20210730201846.5147-6-niteesh.gs@gmail.com>
-In-Reply-To: <20210730201846.5147-6-niteesh.gs@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 5 Aug 2021 15:14:07 -0400
-Message-ID: <CAFn=p-bcrx6Aoeq1waZ639Nxxfdd-qtzvEDm08Pk0LiNcHPT5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 05/13] python: add entry point for aqmp-tui
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b3a7f605c8d4b9fa"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,48 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jessica Clarke <jrtc27@jrtc27.com>,
+ qemu-stable@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b3a7f605c8d4b9fa
-Content-Type: text/plain; charset="UTF-8"
+This partially reverts commit bbd2d5a8120771ec59b86a80a1f51884e0a26e53.
 
-On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
+This commit was misguided and broke using --disable-pie on any distro
+that enables PIE by default in their compiler driver, including Debian
+and its derivatives. Whilst -no-pie is not a linker flag, it is a
+compiler driver flag that ensures -pie is not automatically passed by it
+to the linker. Without it, all compile_prog checks will fail as any code
+built with the explicit -fno-pie will fail to link with the implicit
+default -pie due to trying to use position-dependent relocations. The
+only bug that needed fixing was LDFLAGS_NOPIE being used as a flag for
+the linker itself in pc-bios/optionrom/Makefile.
 
-> Add an entry point for aqmp-tui. This will allow it to be run from
-> the command line using "aqmp-tui localhost:1234"
-> More options available in the TUI can be found using "aqmp-tui -h"
->
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
->
+Note this does not reinstate exporting LDFLAGS_NOPIE, as it is unused,
+since the only previous use was the one that should not have existed. I
+have also updated the comment for the -fno-pie and -no-pie checks to
+reflect what they're actually needed for.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+Fixes: bbd2d5a8120771ec59b86a80a1f51884e0a26e53
+Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+---
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
---000000000000b3a7f605c8d4b9fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S N=
-iteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Add an entry point for aqmp-tui. This will allow it to be run from<br>
-the command line using &quot;aqmp-tui localhost:1234&quot;<br>
-More options available in the TUI can be found using &quot;aqmp-tui -h&quot=
-;<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br></blockquote><div><br></=
-div><div>Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsn=
-ow@redhat.com</a>&gt;</div></div></div>
-
---000000000000b3a7f605c8d4b9fa--
+diff --git a/configure b/configure
+index 9a79a004d7..b8b29e1eee 100755
+--- a/configure
++++ b/configure
+@@ -2249,6 +2249,7 @@ EOF
+ # Check we support --no-pie first; we will need this for building ROMs.
+ if compile_prog "-Werror -fno-pie" "-no-pie"; then
+   CFLAGS_NOPIE="-fno-pie"
++  LDFLAGS_NOPIE="-no-pie"
+ fi
+ 
+ if test "$static" = "yes"; then
+@@ -2264,6 +2265,7 @@ if test "$static" = "yes"; then
+   fi
+ elif test "$pie" = "no"; then
+   CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
++  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
+ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+   CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
+-- 
+2.17.1
 
 
