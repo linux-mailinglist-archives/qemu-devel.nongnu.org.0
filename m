@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A713E1E7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:14:26 +0200 (CEST)
-Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4140E3E1E85
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 00:18:15 +0200 (CEST)
+Received: from localhost ([::1]:45654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBldB-0000ja-8V
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55846)
+	id 1mBlgs-0002Kv-Am
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 18:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mBlcO-0008VZ-Tx
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:13:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31053)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mBlcM-00034D-2b
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:13:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628201610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XkgiJdlGCnCROlBVkszbMjS2498F6K+nIAjvuCfdc0c=;
- b=FlJGvjYiRwfEmnD1OYENgnS7L5X8N8Gto3CoTkdhJESxBUdKvVrPKh4FORsNqUujPZfhEi
- 8i0yWLqOrihMY/yYBUK38gbKLug3qIkLfaH6zRW+WjZleNhFt7nROPB4mMKPY12RXsDhGn
- XW7eQe9nTt0IewMlgGenkBL5pJxWW60=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-DckF6hPGOw2cIwQw5InD7w-1; Thu, 05 Aug 2021 18:13:29 -0400
-X-MC-Unique: DckF6hPGOw2cIwQw5InD7w-1
-Received: by mail-ej1-f71.google.com with SMTP id
- lu19-20020a170906fad3b029058768348f55so2534349ejb.12
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 15:13:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mBlfz-0001eq-0G
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:17:19 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mBlfx-0005aD-5G
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 18:17:18 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id nh14so12416995pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 15:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KqCkH3tgZRA7AcC7ENRyfj5iXPhzk9y5YCjpKSv8Fik=;
+ b=CPaBgUXnw5OhZubUqHvRV+e9JR5vTiw3pWKwZfHC15y3KOa6Pto0NfNGuRymgRPxtj
+ u867dnQ41fSKmJKHktqoXuv0v7M+0G4HjmFNiT1D+lCmJgWXUtRYyD+VMhfhCPNE6KiS
+ Tux4eNUC/BPdKx8MRrLBxjeMrzQd7hXHa05/d1uaDnACkzWGuBPzKcpFwY/BIs936NNn
+ x0zRBYK33+ZCJfRUD1K087YlB0Qkrwz0yOJ7cKX9S2pDI1alp3cJzgWRenPQzzjgJV33
+ zq7iN3YYwAjW7IuPjGLbN3sa/Mkx7cVBSwnpSgXu39wF0msdi4F9AtsOYyNrEsxbdSIQ
+ YFeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XkgiJdlGCnCROlBVkszbMjS2498F6K+nIAjvuCfdc0c=;
- b=nDR1Kw2LqsZK4UIDaDANuV3w6NcjJqGY+/ZQW+Ilc8WyfiTyh5muDtogKDpxOss737
- FfssxPABkZuy3mYHiPmKM2PVdw0k/hfp0fRQbcbttLTxjCHYDoVBru4bVgCL5FCKTmpu
- yBdO7nI7XTsJnYLrzBx2pkhl7orrbRaYJBl2xAzVOQ3BWsY2ZQzDOROf9gWZqrXWIS1F
- 5hn0xhUFwhJwJwq+7Ai+Py93hHCPjj1pvd8MBrmpz4Mmi1yIDnXKMxva0MzxQMyOP2PR
- zHLPW0qgv00Qj13Xi2VZfy7KlUtEP45MuMOt3sbu5YSmsRSMf1wx/DAP5QWl52MEamUW
- CSGg==
-X-Gm-Message-State: AOAM531P+bmXhn1TCZFPTj0Huxeyy4Fj0GzRM04HoWJhamag3deGyFli
- 24WrSyrKt20feeVe7e3ZD8NWgLmIgvv8go2D/Blfzac5mmKak0Hy4sothUZO9EWybqOZp+OrBg4
- NEj+mHwvYHZ0ojmg=
-X-Received: by 2002:aa7:d70b:: with SMTP id t11mr6702801edq.20.1628201608304; 
- Thu, 05 Aug 2021 15:13:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQiqvxVKL5yvTY6nRDgn2YrG+gmDhbniizx3h5BqEeKMQdheKM3TgJFPeoTreV4+QZJIJkKg==
-X-Received: by 2002:aa7:d70b:: with SMTP id t11mr6702778edq.20.1628201608077; 
- Thu, 05 Aug 2021 15:13:28 -0700 (PDT)
-Received: from redhat.com ([2.55.141.248])
- by smtp.gmail.com with ESMTPSA id c22sm2960847eds.1.2021.08.05.15.13.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 15:13:25 -0700 (PDT)
-Date: Thu, 5 Aug 2021 18:13:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
- from acpi_get_i386_pci_host
-Message-ID: <20210805180915-mutt-send-email-mst@kernel.org>
-References: <20210726165743.232073-1-ani@anisinha.ca>
- <20210805111543.5fb99abf@redhat.com>
- <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051826190.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KqCkH3tgZRA7AcC7ENRyfj5iXPhzk9y5YCjpKSv8Fik=;
+ b=XAeelqDiwyM69cER2hCzn30VKe3ZO3Ed2oE3yo5YZqOwqhugTAzeLJ/sP++BZ/56Ok
+ F0CSR3SJMgbruCFxJMbcVxHNEMb3cZsacqkmyl1xcfMauuXk+GfoZbjJ5fJf0qHGQxcL
+ Hb6tVwh/BVtIZ1R8ZO+Hylv/VmhCZfKPazqYTmvE09zTPJLx/+VeTbEnTwRmNiTx1Nnm
+ 0lWpg4i0cq/ZraWK3cMvKy02bGUcRds/Sx99zNCuLjH4sMnY6iworWP0G5GiHm+GPa8R
+ Q/5pfbjNz2OMUID76pBdN64sMDc7Cs0P+qNESSJSlIF3fDNerIRYbGQzUHvw2NgZsAra
+ 7KuA==
+X-Gm-Message-State: AOAM5302fnWKxPgcczsvaSZZii2YW9BjqbUdhvvHes/q5IcLWn6JWMe9
+ dtYak5BDAWSK4pPfLS6RZ1LoexhP6UfIgg==
+X-Google-Smtp-Source: ABdhPJwVwW1NVjKl1nKzIHkPI0C2+sDWn++jFnkUSHfGW2RmyfxgShVoDd3MK+eUCELudrSrpnsVow==
+X-Received: by 2002:a65:6493:: with SMTP id e19mr2701596pgv.218.1628201834238; 
+ Thu, 05 Aug 2021 15:17:14 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id d2sm9409815pgk.57.2021.08.05.15.17.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Aug 2021 15:17:13 -0700 (PDT)
+Subject: Re: [RFC PATCH 05/13] target/riscv: Support UXL32 for shift
+ instruction
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
+ <20210805025312.15720-6-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <78383182-7c74-72dc-7bf6-e45c54b97a7e@linaro.org>
+Date: Thu, 5 Aug 2021 12:17:10 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210805025312.15720-6-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,24 +90,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 05, 2021 at 07:42:35PM +0530, Ani Sinha wrote:
-> Also to be noted that there is a stub for acpi_get_i386_pci_host() which
-> simply returns NULL. This activates when CONFIG_PC is disabled. It is this
-> stub that gets called for mips and hence the check for non-null host is
-> needed in acpi_set_pci_info() function.
-> 
+On 8/4/21 4:53 PM, LIU Zhiwei wrote:
+>   static bool trans_srli(DisasContext *ctx, arg_srli *a)
+>   {
+> +    if (ctx->uxl32) {
+> +        return trans_srliw(ctx, a);
+> +    }
+>       return gen_shifti(ctx, a, tcg_gen_shr_tl);
+>   }
 
-Frankly this is generating more discussion that it's worth imho.
-IMHO these tweaks will bring little benefit.
-Igor do you feel differently?
+First, trans_srliw begins with REQUIRE_64BIT, which *should* fail when RV32 is in effect. 
+  This means there's a missing change to is_32bit().
 
--- 
-MST
+Second, the current decode for srli allows 7 bits of shift, while srilw only allows 5.  As 
+a consequence, gen_shifti contains a check for TARGET_LONG_BITS and trans_srliw does not 
+contain a check at all.  We need to diagnose an out-of-range shift for RV32 somewhere.
 
+I recommend extending the gen_shift* family of helpers.
+
+static bool gen_shifti_imm(DisasContext *ctx, arg_shift *a, int width,
+                            void (*func)(TCGv, TCGv, target_long))
+{
+     TCGv dest, src1;
+
+     if (a->shamt >= width) {
+         return false;
+     }
+     dest = gpr_dst(ctx, a->rd);
+     src1 = gpr_src(ctx, a->rs1);
+     func(dest, src1, a->shamt);
+     return true;
+}
+
+static bool gen_shifti(DisasContext *ctx, arg_shift *a, int width,
+                        void (*func)(TCGv, TCGv, TCGv))
+{...}
+
+static void gen_srliw(TCGv dest, TCGv src1, target_long shamt)
+{
+     tcg_gen_extract_tl(dest, src1, shamt, 32 - shamt);
+     tcg_gen_ext32s_tl(dest, dest);
+}
+
+static bool trans_srliw(DisasContext *ctx, arg_shift *a)
+{
+     REQUIRE_64BIT(ctx);
+     return gen_shifti_imm(ctx, a, 32, gen_srliw);
+}
+
+static bool trans_srli(DisasContext *ctx, arg_shift *a)
+{
+     int xlen = is_32bit(ctx) ? 32 : 64;
+     return gen_shifti_imm(ctx, a, xlen,
+                           xlen == TARGET_LONG_BITS
+                           ? tcg_gen_shri_tl : gen_srliw);
+}
+
+etc.  Perhaps that is_32bit() check above could be consolidated into some macro/inline.
+
+
+r~
 
