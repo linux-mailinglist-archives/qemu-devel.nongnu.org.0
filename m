@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61AB3E151B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:53:27 +0200 (CEST)
-Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BB43E1520
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:55:17 +0200 (CEST)
+Received: from localhost ([::1]:40812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBcsJ-0002BO-1E
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
+	id 1mBcu4-0004YF-Tp
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBcr9-0001S6-GY
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:52:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26864)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mBcsa-0002oY-K8
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:53:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBcr6-000362-G8
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:52:14 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mBcsY-0003j4-Uo
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628167930;
+ s=mimecast20190719; t=1628168021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+k5IJx+/uVAhIYzVgX3w5gKSdvV/EFx7p/2WCISahg0=;
- b=V2CLHgNlvyvBIF6lN3amXVpabNa89pG2l4F5GANo3erFluQLK6TSP5t0NdNhamZVi7Wtzs
- tHMfIPSiS1Jx53OwwZg4jrk8YW0Kn1gLMOKNu4L/DTfUY4bGN9t72yy7k6zY6adkwzj+2A
- MleSwODXU5CK0ocC4oPmpQbERpKGbc0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-wfpxKaTCOaeJAGpxVXGbNg-1; Thu, 05 Aug 2021 08:52:10 -0400
-X-MC-Unique: wfpxKaTCOaeJAGpxVXGbNg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- y10-20020a0cd98a0000b029032ca50bbea1so3798545qvj.12
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:52:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+k5IJx+/uVAhIYzVgX3w5gKSdvV/EFx7p/2WCISahg0=;
- b=H4UDshYqeoJEMRRx4G5999pBSpA7nceLRbAp3NU/k2vFngYUUBsKjvQ/zsYC3srHDc
- fE6WtGPhJgC3TkB0rMJ24eXV3caEqpve1Zqk7ZRmXR6i6jF+Y4fydEoSO9bOQ3MQmCHr
- APuqoZ2yBbQVB+IlbmoKZVfIi4+syJu1Aadbzq6cwB1J3fk5/3EoulI8zisAkSMrrbW8
- srgnDPMx5b0+q5T+d8tftjq0EFxkhoEAsJrt3gU6VW93J3j+O0MiDRbLw/ZbAXBBl+sO
- THyoqpfElp7bCgzI8hQBcIKC7ICJ60pKt7+3YoNYZB1TDAkk2KGbh7gli4SQIxnkdoSG
- ZGwA==
-X-Gm-Message-State: AOAM531TTMYB4S/tSYzB8BQDZx6HhxaEy+d5YWSJbgClPgXX51vTw+x0
- ZGu40WHZssxR/sojSRNALSU/MVrmW0UXh9GiO/sdMfFzdFhIKy9xBZqnXyEwut/RLaulOe2VVrp
- TIS90z2hWrrwvWrE=
-X-Received: by 2002:a05:622a:d5:: with SMTP id
- p21mr4200983qtw.75.1628167929582; 
- Thu, 05 Aug 2021 05:52:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwHO+qI/lrexhHXdZiRzGp65+TfjVqBZ4WgwxOYlDtx/rNwm+pik5vAzAMsrhSt071H+ch8Q==
-X-Received: by 2002:a05:622a:d5:: with SMTP id
- p21mr4200966qtw.75.1628167929297; 
- Thu, 05 Aug 2021 05:52:09 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
- [76.70.75.133])
- by smtp.gmail.com with ESMTPSA id m17sm1674230qtq.82.2021.08.05.05.52.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 05:52:08 -0700 (PDT)
-Date: Thu, 5 Aug 2021 08:52:01 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 6/7] migration/postcopy: Handle RAMBlocks with a
- RamDiscardManager on the destination
-Message-ID: <YQve8TRsSPMSvKdN@t490s>
-References: <20210730085249.8246-1-david@redhat.com>
- <20210730085249.8246-7-david@redhat.com> <YQsrIQ4gvP6M+/rS@t490s>
- <14437dd7-88b2-94df-a70f-e5c38ca861e1@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZiXsq2DHzlMMrpoYk3hCFpE0q94o/40cYV/sUCawREs=;
+ b=M5JOeYbpZJQxXf/oCMYzuyqaukwFzycrlPhJrKetiwwlyvuHGterbUDW+7cccDFWwNhrjp
+ BJ7nPR1oiAksHd4mGp+lsoqT3lhINtMkmlLTK0ZXuF2ksTdhcY6N0ojxGj9xYwJQOefCul
+ pZk+5ZAdZScsJFmpBgSYfBndaVbKuAs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-szclMZCuPJKFD2poMg318Q-1; Thu, 05 Aug 2021 08:53:40 -0400
+X-MC-Unique: szclMZCuPJKFD2poMg318Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CED801B3D;
+ Thu,  5 Aug 2021 12:53:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0709917CC8;
+ Thu,  5 Aug 2021 12:53:34 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/8] chardev fixes for 6.1
+Date: Thu,  5 Aug 2021 16:53:23 +0400
+Message-Id: <20210805125331.826741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <14437dd7-88b2-94df-a70f-e5c38ca861e1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -97,89 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 05, 2021 at 10:10:38AM +0200, David Hildenbrand wrote:
-> On 05.08.21 02:04, Peter Xu wrote:
-> > On Fri, Jul 30, 2021 at 10:52:48AM +0200, David Hildenbrand wrote:
-> > > Currently, when someone (i.e., the VM) accesses discarded parts inside a
-> > > RAMBlock with a RamDiscardManager managing the corresponding mapped memory
-> > > region, postcopy will request migration of the corresponding page from the
-> > > source. The source, however, will never answer, because it refuses to
-> > > migrate such pages with undefined content ("logically unplugged"): the
-> > > pages are never dirty, and get_queued_page() will consequently skip
-> > > processing these postcopy requests.
-> > > 
-> > > Especially reading discarded ("logically unplugged") ranges is supposed to
-> > > work in some setups (for example with current virtio-mem), although it
-> > > barely ever happens: still, not placing a page would currently stall the
-> > > VM, as it cannot make forward progress.
-> > > 
-> > > Let's check the state via the RamDiscardManager (the state e.g.,
-> > > of virtio-mem is migrated during precopy) and avoid sending a request
-> > > that will never get answered. Place a fresh zero page instead to keep
-> > > the VM working. This is the same behavior that would happen
-> > > automatically without userfaultfd being active, when accessing virtual
-> > > memory regions without populated pages -- "populate on demand".
-> > > 
-> > > For now, there are valid cases (as documented in the virtio-mem spec) where
-> > > a VM might read discarded memory; in the future, we will disallow that.
-> > > Then, we might want to handle that case differently, e.g., warning the
-> > > user that the VM seems to be mis-behaving.
-> > > 
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > ---
-> > >   migration/postcopy-ram.c | 31 +++++++++++++++++++++++++++----
-> > >   migration/ram.c          | 21 +++++++++++++++++++++
-> > >   migration/ram.h          |  1 +
-> > >   3 files changed, 49 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> > > index 2e9697bdd2..38cdfc09c3 100644
-> > > --- a/migration/postcopy-ram.c
-> > > +++ b/migration/postcopy-ram.c
-> > > @@ -671,6 +671,29 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
-> > >       return ret;
-> > >   }
-> > > +static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
-> > > +                                 ram_addr_t start, uint64_t haddr)
-> > > +{
-> > > +    void *aligned = (void *)(uintptr_t)(haddr & -qemu_ram_pagesize(rb));
-> > > +
-> > > +    /*
-> > > +     * Discarded pages (via RamDiscardManager) are never migrated. On unlikely
-> > > +     * access, place a zeropage, which will also set the relevant bits in the
-> > > +     * recv_bitmap accordingly, so we won't try placing a zeropage twice.
-> > > +     *
-> > > +     * Checking a single bit is sufficient to handle pagesize > TPS as either
-> > > +     * all relevant bits are set or not.
-> > > +     */
-> > > +    assert(QEMU_IS_ALIGNED(start, qemu_ram_pagesize(rb)));
-> > 
-> > Is this check for ramblock_page_is_discarded()?  If so, shall we move this into
-> > it, e.g. after memory_region_has_ram_discard_manager() returned true?
-> > 
-> 
-> It has to hold true also when calling migrate_send_rp_req_pages().
-> 
-> Both callers -- postcopy_request_shared_page() and
-> postcopy_ram_fault_thread() properly align the offset down (but not the host
-> address). This check is just to make sure we don't mess up in the future.
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-OK.
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
+The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9eb=
+:=0D
+=0D
+  Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git@gitlab.com:marcandre.lureau/qemu.git tags/chr-fix-pull-request=0D
+=0D
+for you to fetch changes up to a68403b0a6843f106e381b0bbeaacb29f6d27255:=0D
+=0D
+  chardev: report a simpler error about duplicated id (2021-08-05 16:15:33 =
++0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Chardev-related fixes=0D
+=0D
+Hi=0D
+=0D
+Here are some bug fixes worthy for 6.1.=0D
+=0D
+thanks=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Marc-Andr=C3=A9 Lureau (8):=0D
+  util: fix abstract socket path copy=0D
+  chardev/socket: print a more correct command-line address=0D
+  chardev: mark explicitly first argument as poisoned=0D
+  chardev: fix fd_chr_add_watch() when in !=3D out=0D
+  chardev: fix qemu_chr_open_fd() being called with fd=3D-1=0D
+  chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out=0D
+  chardev: give some context on chardev-add error=0D
+  chardev: report a simpler error about duplicated id=0D
+=0D
+ include/chardev/char-fe.h |   8 ++-=0D
+ chardev/char-fd.c         | 119 ++++++++++++++++++++++++++++++++++----=0D
+ chardev/char-fe.c         |   2 +-=0D
+ chardev/char-socket.c     |   4 +-=0D
+ chardev/char.c            |  20 +++++--=0D
+ hw/char/cadence_uart.c    |   2 +-=0D
+ hw/char/cmsdk-apb-uart.c  |   2 +-=0D
+ hw/char/ibex_uart.c       |   2 +-=0D
+ hw/char/nrf51_uart.c      |   2 +-=0D
+ hw/char/serial.c          |   2 +-=0D
+ hw/char/virtio-console.c  |   2 +-=0D
+ hw/usb/redirect.c         |   2 +-=0D
+ hw/virtio/vhost-user.c    |   2 +-=0D
+ monitor/monitor.c         |   2 +-=0D
+ net/vhost-user.c          |   4 +-=0D
+ util/qemu-sockets.c       |   5 +-=0D
+ 16 files changed, 146 insertions(+), 34 deletions(-)=0D
+=0D
+--=20=0D
+2.32.0.264.g75ae10bc75=0D
+=0D
 
 
