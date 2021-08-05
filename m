@@ -2,96 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2499C3E103E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 10:28:10 +0200 (CEST)
-Received: from localhost ([::1]:51448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0992D3E105C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 10:32:51 +0200 (CEST)
+Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBYjZ-0003fI-7y
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 04:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34884)
+	id 1mBYo6-0005Ur-3b
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 04:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBYil-0002yU-U9
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:27:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57629)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBYnB-0004p3-V2
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:31:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBYik-00020v-AY
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:27:19 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mBYnA-0006FG-6P
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:31:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628152037;
+ s=mimecast20190719; t=1628152311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QCR8wotBj6Y+gZ+KimM+pS/Dg2KJNkY0MqKaKKjb4qg=;
- b=Mh8hWbtFLsM92rNXIXl7UQx6M4nutdLjyDfdX2IP04MgZ05YZt/yqZs4+PoP4Tfb09uIb6
- KZhlbfdskOQiONqDqJJSYi2dw1/xPrWboV8VW2rnSwO/4souFEgUqapPevWNh0MMWf4nYF
- xxiGoAMTGJBOH//a+N5XxdgrgU9FGXA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-j8D8g-dROUipiXyh_9jfYQ-1; Thu, 05 Aug 2021 04:27:16 -0400
-X-MC-Unique: j8D8g-dROUipiXyh_9jfYQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- w1-20020adf8bc10000b0290154bed98988so367802wra.1
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 01:27:16 -0700 (PDT)
+ bh=345HL7K9qPj+/cFdorEOlhisuiaHXrmk4uXAhnFo+Eg=;
+ b=HXaInjdCelTuevjyaKRww7EaO0Q29ylQbx+LSJi5Y1Rv1Cb9PCiU4UrKs/zF4MaYr/g4Bd
+ 2Jl5B2jr/9z9NxeQiUqE3K3hRNbWPS/w2VFFJ1iEHh4cqsdNNc76WC6m1PbbBYV2TeJLqN
+ mD11HhuNKSk6Rh4al3oTFpHf9d9DYCE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397--ihyTJlTOp63UN6p7GkOUg-1; Thu, 05 Aug 2021 04:31:49 -0400
+X-MC-Unique: -ihyTJlTOp63UN6p7GkOUg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ci25-20020a1709072679b029058e79f6c38aso1772691ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 01:31:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=QCR8wotBj6Y+gZ+KimM+pS/Dg2KJNkY0MqKaKKjb4qg=;
- b=Juk6mq+Cybm9U9GjLw9DQVJiZBhtBxmA1lIOGnnezLWb2p5uazAzwGPMMK9A5YF5Um
- EeVV4bnUBD9c3h8CKCdHx6XA9lAiu1ssey+oM4LVhcR3s9TxBnAYUrFYQvN/CmsmQagr
- qDyanEMRViTKGVBy9YRdk/egnUEUz2lKEw7uAbI4wQrGIGY98Z+nMZcd9KjuQ0dz/GXI
- EXplBJMqwkfogCfulqWbbx+wdBuFlEaH5/HT8UYmQd+1u4s3cxrvNzCeiZSu2YXL7q40
- ldtBnihpa0krtqVdLDsGLEQVvdJ5i0ty75iQtogLPPBw6VSF2BXRHRiipoVsb4kxL9VX
- FjWQ==
-X-Gm-Message-State: AOAM5326vfTKqVRFJYL+Po9fkgMrpdVTzJhe08ipVS9x1gIYGLDS2Aa5
- p8Dr78sFz1+VntEuEzkuXaNGvoXfzumvLm07YSqNkLX+nsINu//jhCn1W8+5UpRLd8Vs+tWZO+H
- lnSLR+PPljersgTE=
-X-Received: by 2002:adf:d20a:: with SMTP id j10mr3784037wrh.152.1628152035525; 
- Thu, 05 Aug 2021 01:27:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH5mUTXjQrEQlMal1g+6V/8QAP9FzzNkEa5KT9aCPLAm+JxwcAbup5K3XXzFarravnOgS5GQ==
-X-Received: by 2002:adf:d20a:: with SMTP id j10mr3784010wrh.152.1628152035331; 
- Thu, 05 Aug 2021 01:27:15 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c630b.dip0.t-ipconnect.de. [91.12.99.11])
- by smtp.gmail.com with ESMTPSA id
- f3sm5502250wro.30.2021.08.05.01.27.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 01:27:14 -0700 (PDT)
-Subject: Re: [PATCH v3 7/7] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210730085249.8246-1-david@redhat.com>
- <20210730085249.8246-8-david@redhat.com>
- <fd43555b-5661-33a5-a4da-2a38939704f7@redhat.com>
- <265427ef-ea74-e352-8148-7e4353af6ceb@redhat.com>
- <025af202-759f-3d8b-b40a-dba346a36696@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <385f16de-106e-1d28-1678-56840f5f693d@redhat.com>
-Date: Thu, 5 Aug 2021 10:27:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=345HL7K9qPj+/cFdorEOlhisuiaHXrmk4uXAhnFo+Eg=;
+ b=InM2BmEYXhWqHjt2zzhlz0Ycxu7XNk45+llLlw/XN5ZC/lfLOnbI+OyZxWv3D66yny
+ x7h6LMzs09MPrrY/uWyXoKlDKbeah/8gYMWWE4Bpk49xv78Vx/N5juNxg5rCLmyL0dej
+ wyaC2p60VG0PuBlNev51x67SWMQXlnPj6OAtZGbMB998O3CE5HTbMYOq17Ma+NLXfJU2
+ oXiHsmUStguIccMNQnKq0ke3nVStpWcsHGwmCYQ2b6k/5qjATfLvbXu/ki+9Wb0kh19/
+ BxbDJ+4nADqDHektsgIKuOtKaPKaepFnNaEXaLimZxD5l6/KboAiGOh63MrLCuN0wpQV
+ Yngg==
+X-Gm-Message-State: AOAM530tRAPZdx2M40/xTvKeXg0sdl4+yQbS6z+9XZG1una4gEJNVKQ9
+ yxepB4yENy+BLTr2/Ykq9Fe+O/n1vTtkiL4neoy7AxVNlBxFHwqhKaMx/8eYWcAv2EzPav3HJXD
+ UKyFvxO9BtfhM5CU=
+X-Received: by 2002:a50:ae02:: with SMTP id c2mr5145127edd.307.1628152308676; 
+ Thu, 05 Aug 2021 01:31:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxEGk9nuhTL8FmW9nGy6DfiKbht/v40kw4wKesbpDCooqQR0mfgYPrqhHhHa7NzpeeewOxtyg==
+X-Received: by 2002:a50:ae02:: with SMTP id c2mr5145095edd.307.1628152308409; 
+ Thu, 05 Aug 2021 01:31:48 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id ga20sm1435553ejc.18.2021.08.05.01.31.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 01:31:47 -0700 (PDT)
+Date: Thu, 5 Aug 2021 10:31:45 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] block/io_uring: resubmit when result is -EAGAIN
+Message-ID: <20210805083145.idxfgmwi7i7whzjx@steredhat>
+References: <20210729091029.65369-1-f.ebner@proxmox.com>
+ <YQfnxLROKL/JUKyF@redhat.com>
+ <20210804145048.awmlthlwlv3vcohu@steredhat>
+ <YQrFv9P5/tGPEaH8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <025af202-759f-3d8b-b40a-dba346a36696@redhat.com>
+In-Reply-To: <YQrFv9P5/tGPEaH8@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,97 +97,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: "open list:Linux io_uring" <qemu-block@nongnu.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fabian Ebner <f.ebner@proxmox.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.08.21 10:21, Philippe Mathieu-Daudé wrote:
-> On 8/5/21 10:11 AM, David Hildenbrand wrote:
->> On 05.08.21 10:04, Philippe Mathieu-Daudé wrote:
->>> On 7/30/21 10:52 AM, David Hildenbrand wrote:
->>>> We already don't ever migrate memory that corresponds to discarded
->>>> ranges
->>>> as managed by a RamDiscardManager responsible for the mapped memory
->>>> region
->>>> of the RAMBlock.
->>>>
->>>> virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
->>>> Right now, we still populate zeropages for the whole usable part of the
->>>> RAMBlock, which is undesired because:
->>>>
->>>> 1. Even populating the shared zeropage will result in memory getting
->>>>      consumed for page tables.
->>>> 2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
->>>>      will populate an actual, fresh page, resulting in an unintended
->>>>      memory consumption.
->>>>
->>>> Discarded ("logically unplugged") parts have to remain discarded. As
->>>> these pages are never part of the migration stream, there is no need to
->>>> track modifications via userfaultfd WP reliably for these parts.
->>>>
->>>> Further, any writes to these ranges by the VM are invalid and the
->>>> behavior is undefined.
->>>>
->>>> Note that Linux only supports userfaultfd WP on private anonymous memory
->>>> for now, which usually results in the shared zeropage getting populated.
->>>> The issue will become more relevant once userfaultfd WP supports shmem
->>>> and hugetlb.
->>>>
->>>> Acked-by: Peter Xu <peterx@redhat.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>    migration/ram.c | 53 +++++++++++++++++++++++++++++++++++++++++--------
->>>>    1 file changed, 45 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/migration/ram.c b/migration/ram.c
->>>> index 01cea01774..fd5949734e 100644
->>>> --- a/migration/ram.c
->>>> +++ b/migration/ram.c
->>>> @@ -1639,6 +1639,28 @@ out:
->>>>        return ret;
->>>>    }
->>>>    +static inline void populate_range(RAMBlock *block, hwaddr offset,
->>>> hwaddr size)
->>>> +{
->>>> +    char *ptr = (char *) block->host;
->>>> +
->>>> +    for (; offset < size; offset +=  ) {
->>>> +        char tmp = *(ptr + offset);
->>>> +
->>>> +        /* Don't optimize the read out */
->>>> +        asm volatile("" : "+r" (tmp));
->>>> +    }
->>>
->>> This template is now used 3 times, a good opportunity to extract it as
->>> an (inline?) helper.
->>>
+On Wed, Aug 04, 2021 at 06:52:15PM +0200, Kevin Wolf wrote:
+>Am 04.08.2021 um 16:50 hat Stefano Garzarella geschrieben:
+>> On Mon, Aug 02, 2021 at 02:40:36PM +0200, Kevin Wolf wrote:
+>> > Am 29.07.2021 um 11:10 hat Fabian Ebner geschrieben:
+>> > > Linux SCSI can throw spurious -EAGAIN in some corner cases in its
+>> > > completion path, which will end up being the result in the completed
+>> > > io_uring request.
+>> > >
+>> > > Resubmitting such requests should allow block jobs to complete, even
+>> > > if such spurious errors are encountered.
+>> > >
+>> > > Co-authored-by: Stefan Hajnoczi <stefanha@gmail.com>
+>> > > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>> > > Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+>> > > ---
+>> > >
+>> > > Changes from v1:
+>> > >     * Focus on what's relevant for the patch itself in the commit
+>> > >       message.
+>> > >     * Add Stefan's comment.
+>> > >     * Add Stefano's R-b tag (I hope that's fine, since there was no
+>> > >       change code-wise).
+>> > >
+>> > >  block/io_uring.c | 16 +++++++++++++++-
+>> > >  1 file changed, 15 insertions(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/block/io_uring.c b/block/io_uring.c
+>> > > index 00a3ee9fb8..dfa475cc87 100644
+>> > > --- a/block/io_uring.c
+>> > > +++ b/block/io_uring.c
+>> > > @@ -165,7 +165,21 @@ static void luring_process_completions(LuringState *s)
+>> > >          total_bytes = ret + luringcb->total_read;
+>> > >
+>> > >          if (ret < 0) {
+>> > > -            if (ret == -EINTR) {
+>> > > +            /*
+>> > > +             * Only writev/readv/fsync requests on regular files or host block
+>> > > +             * devices are submitted. Therefore -EAGAIN is not expected but it's
+>> > > +             * known to happen sometimes with Linux SCSI. Submit again and hope
+>> > > +             * the request completes successfully.
+>> > > +             *
+>> > > +             * For more information, see:
+>> > > +             * https://lore.kernel.org/io-uring/20210727165811.284510-3-axboe@kernel.dk/T/#u
+>> > > +             *
+>> > > +             * If the code is changed to submit other types of requests in the
+>> > > +             * future, then this workaround may need to be extended to deal with
+>> > > +             * genuine -EAGAIN results that should not be resubmitted
+>> > > +             * immediately.
+>> > > +             */
+>> > > +            if (ret == -EINTR || ret == -EAGAIN) {
+>> > >                  luring_resubmit(s, luringcb);
+>> > >                  continue;
+>> > >              }
+>> >
+>> > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>> >
+>> > Question about the preexisting code, though: luring_resubmit() requires
+>> > that the caller calls ioq_submit() later so that the request doesn't
+>> > just sit in a queue without getting any attention, but actually gets
+>> > submitted to the kernel.
+>> >
+>> > In the call chain ioq_submit() -> luring_process_completions() ->
+>> > luring_resubmit(), who takes care of that?
 >>
->> Can you point me at the other users?
-> 
-> Oops I got lost reviewing the series.
-> 
->> Isn't populate_range() the inline helper you are looking for? :)
-> 
-> Indeed :)
-> 
-> Being a bit picky, I'd appreciate if you split this patch in 2,
-> extracting populate_range() as a first trivial step.
-> 
+>> Mmm, good point.
+>> There should be the same problem with ioq_submit() ->
+>> luring_process_completions() -> luring_resubmit_short_read() ->
+>> luring_resubmit().
+>>
+>> Should we schedule a BH for example in luring_resubmit() to make sure that
+>> ioq_submit() is invoked after a resubmission?
+>
+>Or just loop in ioq_submit() after calling luring_process_completions()
+>if new requests were added to the queue?
+>
 
-Will do, and while at it again, will use ram_addr_t for the parameters 
-and block->page_size instead of qemu_real_host_page_size.
+I was just concerned that we might cycle a bit if a request always 
+returns -EAGAIN, while scheduling a task might give room for other 
+devices to queue other requests.
 
--- 
-Thanks,
+But maybe this happens so occasionally that we might not worry about 
+it...
 
-David / dhildenb
+Stefano
 
 
