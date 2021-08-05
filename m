@@ -2,65 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576213E1543
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 15:04:41 +0200 (CEST)
-Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0448E3E155A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 15:08:29 +0200 (CEST)
+Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBd3A-0001jO-2w
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 09:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60576)
+	id 1mBd6q-0007pY-1u
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 09:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBcyv-0008N8-WA
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:00:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43466)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBd55-0005vB-NA
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:06:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19186
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBcyu-0006Gx-E1
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:00:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628168415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GyzTEBYOpTPgEaPWaQ6BMDNaUNdSSfH0QMidNsidqB8=;
- b=A+7wuYqR5qqNWk4jkkfE/uDdt/dVPCkv6FztgraxDNutmRDku+/qLE5G2wu9vihPUvdIes
- P8ljBchk0Oqf6wQETvRQsluWRkTtzvp326T27Ih/mLYJQxSq6e3nuFTpkDFRlt54n1na3u
- 04YF6y2dH346lMgy6NzaYghjJKowBJ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-BLHnqo-VOFe7qjR2vKdy3w-1; Thu, 05 Aug 2021 09:00:12 -0400
-X-MC-Unique: BLHnqo-VOFe7qjR2vKdy3w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F25371009456;
- Thu,  5 Aug 2021 12:59:58 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.194.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B74482B6D5;
- Thu,  5 Aug 2021 12:59:39 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] s390x/tcg: fix and optimize SPX (SET PREFIX)
-Date: Thu,  5 Aug 2021 14:59:38 +0200
-Message-Id: <20210805125938.74034-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBd53-0000Bw-Lb
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:06:39 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 175D4IMq159296; Thu, 5 Aug 2021 09:06:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=jXuOILSG/8fq52mYkCDTKINRyl2ZK0rWP7Fcaz9h/pc=;
+ b=LM1x13t0Fty3ZWn+iJtYJZ1azEue0apI/JhF223jDFcQHQ/wajv5cT2NeUkCfQyyDLRk
+ fTQPSKVvWu75H66o1q3dxuvrwtzMV24C9a2TEf7NObJZP1zyjTyXxOqe3ZY1xlaL7QFw
+ eLSaWdDagbQWF0mGYCuyZGIKh/GzxHU+3qE2xVJbNIj+3rhN8x0Y4PQ/CUp5l/1XIXir
+ QqsQ29IY43X0OyYUUeLYHccP9nEgSuDjOUWqEK86PHuCRDv6gCdbcM9Jj/iVzzm8XJdl
+ f9rVmutyAd5rqzJLby6yoZhIHQm7M7eBhxgcVkyMf0J1oVE+UdHFD77wGY8tselSOp8X Tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a88snmem7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 09:06:34 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 175D4oJE166493;
+ Thu, 5 Aug 2021 09:06:34 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a88snmekv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 09:06:34 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 175CwHOr005193;
+ Thu, 5 Aug 2021 13:06:33 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 3a7anja9av-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 13:06:33 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 175D6WNB41746896
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Aug 2021 13:06:32 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0C5BB136060;
+ Thu,  5 Aug 2021 13:06:32 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5867013605E;
+ Thu,  5 Aug 2021 13:06:29 +0000 (GMT)
+Received: from [9.160.123.143] (unknown [9.160.123.143])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Aug 2021 13:06:28 +0000 (GMT)
+Subject: Re: [PATCH v4 05/14] target/i386: sev: provide callback to setup
+ outgoing context
+To: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org
+References: <cover.1628076205.git.ashish.kalra@amd.com>
+ <7521883afc073960728f6f0837dac9be1641dcb6.1628076205.git.ashish.kalra@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <d0fd1154-669a-c5af-188e-9e7ba15b989e@linux.ibm.com>
+Date: Thu, 5 Aug 2021 16:06:27 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <7521883afc073960728f6f0837dac9be1641dcb6.1628076205.git.ashish.kalra@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Uki2Gx0dGwrZsZgYjvKFN9M0DHT8ZKOv
+X-Proofpoint-GUID: jDku2rvrvsnioTNzY3fw5CaWEd6-okwg
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-05_04:2021-08-05,
+ 2021-08-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 clxscore=1015 mlxscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108050080
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,68 +116,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ jejb@linux.ibm.com, tobin@ibm.com, dgilbert@redhat.com,
+ dovmurik@linux.vnet.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We not only invalidate the translation of the range 0x0-0x2000, we also
-invalidate the translation of the new prefix range and the translation
-of the old prefix range -- because real2abs would return different
-results for all of these ranges when changing the prefix location.
 
-This fixes the kvm-unit-tests "edat" test that just hangs before this
-patch because we end up clearing the new prefix area instead of the old
-prefix area.
 
-While at it, let's not do anything in case the prefix doesn't change.
+On 04/08/2021 14:56, Ashish Kalra wrote:
+> From: Brijesh Singh <brijesh.singh@amd.com>
+> 
+> The user provides the target machine's Platform Diffie-Hellman key (PDH)
+> and certificate chain before starting the SEV guest migration. Cache the
+> certificate chain as we need them while creating the outgoing context.
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Co-developed-by: Ashish Kalra <ashish.kalra@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+> ---
+>  include/sysemu/sev.h |  2 ++
+>  target/i386/sev.c    | 61 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 63 insertions(+)
+> 
+> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+> index 94d821d737..64fc88d3c5 100644
+> --- a/include/sysemu/sev.h
+> +++ b/include/sysemu/sev.h
+> @@ -14,11 +14,13 @@
+>  #ifndef QEMU_SEV_H
+>  #define QEMU_SEV_H
+> 
+> +#include <qapi/qapi-types-migration.h>
+>  #include "sysemu/kvm.h"
+> 
+>  bool sev_enabled(void);
+>  int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+>  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+> +int sev_save_setup(MigrationParameters *p);
+>  int sev_inject_launch_secret(const char *hdr, const char *secret,
+>                               uint64_t gpa, Error **errp);
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 83df8c09f6..5e7c87764c 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/module.h"
+>  #include "qemu/uuid.h"
+>  #include "sysemu/kvm.h"
+> +#include "sysemu/sev.h"
+>  #include "sev_i386.h"
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/runstate.h"
+> @@ -68,6 +69,12 @@ struct SevGuestState {
+>      int sev_fd;
+>      SevState state;
+>      gchar *measurement;
+> +    guchar *remote_pdh;
+> +    size_t remote_pdh_len;
+> +    guchar *remote_plat_cert;
+> +    size_t remote_plat_cert_len;
+> +    guchar *amd_cert;
+> +    size_t amd_cert_len;
+> 
+>      uint32_t reset_cs;
+>      uint32_t reset_ip;
+> @@ -116,6 +123,12 @@ static const char *const sev_fw_errlist[] = {
+> 
+>  #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
+> 
+> +#define SEV_FW_BLOB_MAX_SIZE            0x4000          /* 16KB */
+> +
+> +static struct ConfidentialGuestMemoryEncryptionOps sev_memory_encryption_ops = {
+> +    .save_setup = sev_save_setup,
+> +};
+> +
+>  static int
+>  sev_ioctl(int fd, int cmd, void *data, int *error)
+>  {
+> @@ -772,6 +785,50 @@ sev_vm_state_change(void *opaque, bool running, RunState state)
+>      }
+>  }
+> 
+> +static inline bool check_blob_length(size_t value)
+> +{
+> +    if (value > SEV_FW_BLOB_MAX_SIZE) {
+> +        error_report("invalid length max=%d got=%ld",
+> +                     SEV_FW_BLOB_MAX_SIZE, value);
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +int sev_save_setup(MigrationParameters *p)
+> +{
+> +    SevGuestState *s = sev_guest;
+> +    const char *pdh = p->sev_pdh;
+> +    const char *plat_cert = p->sev_plat_cert;
+> +    const char *amd_cert = p->sev_amd_cert;
+> +
+> +    s->remote_pdh = g_base64_decode(pdh, &s->remote_pdh_len);
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc: qemu-s390x@nongnu.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/tcg/misc_helper.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+You should check    if (!s->remote_pdh)   to detect decoding failure
+(for all g_base64_decode calls here).
 
-diff --git a/target/s390x/tcg/misc_helper.c b/target/s390x/tcg/misc_helper.c
-index 33e6999e15..aab9c47747 100644
---- a/target/s390x/tcg/misc_helper.c
-+++ b/target/s390x/tcg/misc_helper.c
-@@ -151,13 +151,26 @@ void HELPER(diag)(CPUS390XState *env, uint32_t r1, uint32_t r3, uint32_t num)
- /* Set Prefix */
- void HELPER(spx)(CPUS390XState *env, uint64_t a1)
- {
-+    const uint32_t prefix = a1 & 0x7fffe000;
-+    const uint32_t old_prefix = env->psa;
-     CPUState *cs = env_cpu(env);
--    uint32_t prefix = a1 & 0x7fffe000;
-+
-+    if (prefix == old_prefix) {
-+        return;
-+    }
- 
-     env->psa = prefix;
-     HELPER_LOG("prefix: %#x\n", prefix);
-     tlb_flush_page(cs, 0);
-     tlb_flush_page(cs, TARGET_PAGE_SIZE);
-+    if (prefix != 0) {
-+        tlb_flush_page(cs, prefix);
-+        tlb_flush_page(cs, prefix + TARGET_PAGE_SIZE);
-+    }
-+    if (old_prefix != 0) {
-+        tlb_flush_page(cs, old_prefix);
-+        tlb_flush_page(cs, old_prefix + TARGET_PAGE_SIZE);
-+    }
- }
- 
- static void update_ckc_timer(CPUS390XState *env)
--- 
-2.31.1
+Though I must say, it would be better to check validity of the
+user-supplied base64 earlier (when migrate-set-parameters QMP call
+occurs), and not later when migration starts.
 
+
+> +    if (!check_blob_length(s->remote_pdh_len)) {
+> +        goto error;
+> +    }
+> +
+> +    s->remote_plat_cert = g_base64_decode(plat_cert,
+> +                                          &s->remote_plat_cert_len);
+> +    if (!check_blob_length(s->remote_plat_cert_len)) {
+> +        goto error;
+> +    }
+> +
+> +    s->amd_cert = g_base64_decode(amd_cert, &s->amd_cert_len);
+> +    if (!check_blob_length(s->amd_cert_len)) {
+> +        goto error;
+> +    }
+> +
+> +    return 0;
+> +
+> +error:
+> +    g_free(s->remote_pdh);
+> +    g_free(s->remote_plat_cert);
+> +    g_free(s->amd_cert);
+> +
+> +    return 1;
+> +}
+> +
+>  int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>  {
+>      SevGuestState *sev
+> @@ -781,6 +838,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>      uint32_t ebx;
+>      uint32_t host_cbitpos;
+>      struct sev_user_data_status status = {};
+> +    ConfidentialGuestSupportClass *cgs_class =
+> +        (ConfidentialGuestSupportClass *) object_get_class(OBJECT(cgs));
+> 
+>      if (!sev) {
+>          return 0;
+> @@ -870,6 +929,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+>      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+> 
+> +    cgs_class->memory_encryption_ops = &sev_memory_encryption_ops;
+> +
+>      cgs->ready = true;
+> 
+>      return 0;
+> 
 
