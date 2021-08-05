@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FA73E1A76
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:35:12 +0200 (CEST)
-Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9491D3E1A7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:35:27 +0200 (CEST)
+Received: from localhost ([::1]:44348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBhGx-0001VC-8W
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56328)
+	id 1mBhHC-0002DK-Au
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBhFv-0000Px-R8
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:34:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22899)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBhGK-0000qS-6o
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:34:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBhFt-0000e2-4v
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:34:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBhGI-0000yh-Qx
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:34:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628184844;
+ s=mimecast20190719; t=1628184869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q0kisS5DDkzp5/B45BHdX5fmNUZs0nCqoDZkGflhwIA=;
- b=Ec0h0pdHqHpZjQhwPnB8ftH0NfP5H7CbxxldCRVxwgVmZ4yT0p0RGR67prLoljg+5od+cq
- M4V/jmX+aH15UsCnDbV7A6eaFdby2hxNRD5Q5wFVTZmN6iSTSOw3mXoxIFb98T+l3crA6Q
- uvTsEzBGyhaHgG3f/vAvtRNMaq9sw/Q=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251--EA5LxSLORqcZAKk9mzo5A-1; Thu, 05 Aug 2021 13:34:00 -0400
-X-MC-Unique: -EA5LxSLORqcZAKk9mzo5A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w1-20020adf8bc10000b0290154bed98988so885557wra.1
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 10:34:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Q0kisS5DDkzp5/B45BHdX5fmNUZs0nCqoDZkGflhwIA=;
- b=nAY+aVtRCazOh0qleYBgp1iXmeGVVTGfUeTdn3keRdCUBW18Dbrh05uYEjCuRTgFcp
- mMdJEAj7ST4n4jvqo38cigteIhf+gfjdaRVHrFgO6XEhIdN3cXHMjpTxCdIRvqn5TcW/
- y9cOUNyW/vKL4oUysFhM5ZqNeT3+vF2Xn/wqls/wVfArPu9toB85g4b5T+ZrPw6QRJk5
- 4M9W5CABaMm3HCvf3CdOKp95DOfpX3+bVU0Ygci5hff5ib/RxmyHopcFBILABp+9W4f9
- PDPopa0+d8hHN07VoKtQwwqKGp9vzQ/JRjzxJKUsO6tKrt+NB8I5/9Dr3/BA3RZ7xtG5
- kE9w==
-X-Gm-Message-State: AOAM530AccNgFsfVBfdP6atcUGDpv60uHftZGVoqm1DkPXx8KK6T9eDx
- wRu20JFwPXAV+jTyRE9EDLHWaRVYYETJMo8MScluK10692OfWlTpDr15BHGw5oFUwRpDVzvmbDO
- tnkPpX/B0by6EcNw=
-X-Received: by 2002:a1c:9d4a:: with SMTP id g71mr6149349wme.116.1628184839745; 
- Thu, 05 Aug 2021 10:33:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEBXc9JfPNZ4xwS1vkRD+sWc+UlUehPdxGSmZqmbq4k6bwW8pEHfwGxEENuZ05NohWc9dGRA==
-X-Received: by 2002:a1c:9d4a:: with SMTP id g71mr6149329wme.116.1628184839574; 
- Thu, 05 Aug 2021 10:33:59 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c630b.dip0.t-ipconnect.de. [91.12.99.11])
- by smtp.gmail.com with ESMTPSA id
- w1sm9589626wmc.19.2021.08.05.10.33.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 10:33:59 -0700 (PDT)
-Subject: Re: [PATCH v1 04/12] s390x/tcg: check for addressing exceptions for
- for RRBE, SSKE and ISKE
-To: qemu-devel@nongnu.org
-References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-5-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <5d6e4ef6-ef73-ddaf-3fec-0a750468fc38@redhat.com>
-Date: Thu, 5 Aug 2021 19:33:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=S4fvNRh5pGe1tBWcHDxtWNvTqCPjkoXLb3MdoQH6V4o=;
+ b=EPyfE2te8iKK9onX9XTwKyGcv+zpTgTvIKNH83hyRcokk5aY+7wXqFuIsmN4vh7dhgDjtw
+ /6GvNzdzHN5SqM7nsd1z8lhl1UBXIYXPmn73lbuyzPmA4rtfqxLAhhZL+spE6Vo0lkam0l
+ d90cnTPr3G5E7YclpxQCJwhcBySMWus=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-EpC5OWspMcqF3ykK3lfh5w-1; Thu, 05 Aug 2021 13:34:28 -0400
+X-MC-Unique: EpC5OWspMcqF3ykK3lfh5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D21D093920;
+ Thu,  5 Aug 2021 17:34:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C4E56E0B9;
+ Thu,  5 Aug 2021 17:34:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 23A6211380A0; Thu,  5 Aug 2021 19:34:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v7 05/10] qapidoc: introduce QAPISchemaIfCond.docgen()
+References: <20210804083105.97531-1-marcandre.lureau@redhat.com>
+ <20210804083105.97531-6-marcandre.lureau@redhat.com>
+ <87im0k9kct.fsf@dusky.pond.sub.org>
+ <CAJ+F1CKRwWQn9njZ+iKifCHsEHJKTxFV4T+sAh88NT0SiQL=2g@mail.gmail.com>
+Date: Thu, 05 Aug 2021 19:34:26 +0200
+In-Reply-To: <CAJ+F1CKRwWQn9njZ+iKifCHsEHJKTxFV4T+sAh88NT0SiQL=2g@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Thu, 5 Aug 2021
+ 16:02:09 +0400")
+Message-ID: <87mtpv3ie5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210805152804.100333-5-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,48 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: John Snow <jsnow@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->   void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
->   {
-> -    MachineState *ms = MACHINE(qdev_get_machine());
->       static S390SKeysState *ss;
->       static S390SKeysClass *skeyclass;
->       uint64_t addr = wrap_address(env, r2);
->       uint8_t key;
-> +    int rc;
->   
->       addr = mmu_real2abs(env, addr);
-> -    if (addr > ms->ram_size) {
-> -        return;
-> +    if (!mmu_absolute_addr_valid(addr, false)) {
-> +        trigger_pgm_exception(env, PGM_ADDRESSING);
->       }
->   
->       if (unlikely(!ss)) {
-> @@ -2213,7 +2216,11 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
->       }
->   
->       key = r1 & 0xfe;
-> -    skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-> +    rc = skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-> +    if (rc) {
-> +        trace_set_skeys_nonzero(rc);
-> +        return 0;
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-^ this has to go.
+> Hi
+>
+> On Thu, Aug 5, 2021 at 3:55 PM Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>
+>> marcandre.lureau@redhat.com writes:
+>>
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > Instead of building the condition documentation from a list of string,
+>> > use the result generated from QAPISchemaIfCond.docgen().
+>> >
+>> > This changes the generated documentation from:
+>> > - COND1, COND2... (where COND1, COND2 are Literal nodes, and ',' is Te=
+xt)
+>> > to:
+>> > - COND1 and COND2 (the whole string as a Literal node)
+>> >
+>> > This will allow us to generate more complex conditions in the followin=
+g
+>> > patches, such as "(COND1 and COND2) or COND3".
+>> >
+>> > Adding back the differentiated formatting is left to the wish list.
+>>
+>> What about a TODO comment?   you suggest a suitable spot?
+>>
+>
+> I don't think this matters much, it will never be a user-friendly text. B=
+ut
+> we can leave a comment in the docgen() function to say that the sphinx
+> build could benefit from a formatted string.
 
+Function docgen_ifcond(), I presume.  Method docgen() is a simple
+wrapper.
 
--- 
-Thanks,
+Something like
 
-David / dhildenb
+    # TODO Doc generated for conditions needs polish
 
 
