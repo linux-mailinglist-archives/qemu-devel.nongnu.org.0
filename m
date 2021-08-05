@@ -2,104 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16813E0B33
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:31:49 +0200 (CEST)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E6E3E0B34
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:32:21 +0200 (CEST)
+Received: from localhost ([::1]:33536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBRIa-00046S-NY
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
+	id 1mBRJ6-0005R5-K3
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1mBRHC-0003Ch-PU; Wed, 04 Aug 2021 20:30:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1mBRHA-0006Gr-Sq; Wed, 04 Aug 2021 20:30:22 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17504Bb1144757; Wed, 4 Aug 2021 20:30:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=gkWQiRZ35wnDj0CGdpy6fZMoSJjWNAowj4Am4/2N/4Y=;
- b=ZrgrECFKPSakND5b4Vp4YkyuyyOP7It5hL7rbO7IINP/1JmoHItiDmLuMp9ZVbgJphHl
- h6aj3jJF6q7m8FrdQX/zbotfH9I5epRfs89LRL2FeAaccTumHPRHU7H6kTZ/MAWw70FR
- Nrlo/DVPCdlqebP96r/Yp3+wJxW7ZASJG6glpXwT8F4Kjq6dyfqz6PUX+Hqmmd+e8U7b
- bb8IReIX3SXxMNNw/bbK+JTAg0NafDyOoeXVnPCHfu4LnsbFV/TSn/JxVWlWCDbHOfCo
- P/hHcCZidlfZRQIT0ah6wBbxlaQB8si9KT2glJoxLDIhl8o1PwkbyKg4V2bNL9jyoVMb QQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a84mus2e7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Aug 2021 20:30:17 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1750M5X1016249;
- Wed, 4 Aug 2021 20:30:16 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3a84mus2dr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Aug 2021 20:30:16 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1750RMhZ015467;
- Thu, 5 Aug 2021 00:30:15 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 3a77h3wbjk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 00:30:15 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1750UEH336176328
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Aug 2021 00:30:14 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 93E5C124053;
- Thu,  5 Aug 2021 00:30:14 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B09B124080;
- Thu,  5 Aug 2021 00:30:14 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.160.21.91])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu,  5 Aug 2021 00:30:13 +0000 (GMT)
-Subject: Re: [PATCH v2 0/2] s390x: improve subchannel error handling (vfio)
-From: Jared Rossi <jrossi@linux.ibm.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>, Cornelia Huck
- <cohuck@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>
-References: <20210705163952.736020-1-cohuck@redhat.com>
- <e2032c05-ec0b-d653-959f-dcc045da2036@linux.ibm.com>
- <e8426672-bd10-de2d-7dc9-1a46a52f3dea@linux.ibm.com>
-Message-ID: <5ba5fc45-1e61-f774-0340-06961dbfc611@linux.ibm.com>
-Date: Wed, 4 Aug 2021 20:30:13 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mBRHm-00043F-KR
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:30:58 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mBRHk-0006m4-3L
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:30:57 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c16so4979853plh.7
+ for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 17:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OocFKKEwW5R0T2fxDuQEwmPtTcQJyAClPgU5jGzahes=;
+ b=EXKyNMtxNimn0h7UmCfLUX3kmpi7lbqqtTrVVIM5uvYvRR5eYqRHH9c2uHHxOhTThP
+ P3Z6dnEPeWmNepyGqJFhLi0DLy98p95LYovHK6IF9t//mZU2222jJUz7GLc1GsdwZd/x
+ k50XaF5yiephqtfrTavaNWCOYT0WV0ej0IEokwDGhQdpHHhr5UWXZ3H10kOt7iujd6If
+ arLNu+WGyGxuGlYYTsyWFLN4midg/u6xLqgnBMTgyCt1q9Z4mHJZ6aYMnd0mB0rqM+xL
+ Q/j2VEEkdZOdtrVUHD3OrBkyDRiUM+POudd1GAOHJHyDPWTl+wmgpoEkSIK8vcP93L+p
+ IsVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OocFKKEwW5R0T2fxDuQEwmPtTcQJyAClPgU5jGzahes=;
+ b=IQ9EdjQj5+gKcPzCgjX3+rwybzEgP/67suWCt1Uw/MhLINn7Z2z81TTeyOzk+NfsIa
+ iKkt0kzuKnu/VNO5k6ZFzA9X0Vk1M8Od+DvHJMfXjl7GZJPTMB/xS/ub6xbvIoDOXenJ
+ AsniQ3Ga8Xj3MryCJcT84nMS0d+5+y5ckdiT+qD0TY5r+qV/dQjiDgOejDgq5aqHr9JP
+ VG/t4alqBkxpHjO73vnu30BB5sYnfPCc/YHUFcFG0gA5djevpoirkWkN8G8GcndBS4I1
+ jg+JvnVCd5TEP2NSRwKwDOjShwIvrOATMtI5ezp3SUjqJG3JBvnECOSzg44QH+2eEyX7
+ ttog==
+X-Gm-Message-State: AOAM532Ku/6zNblmWyvtHANO2HD6u3SGusac90K04595HvIPacWd69Hy
+ rBaMFMDUzc6gFiK61rd22QivLw==
+X-Google-Smtp-Source: ABdhPJx5siXeUHo0fQKECZ9yMvTlbT39YRcYa2q3cVX2M9FNPXpijrX2yV+8LsFqZHAAwtbSLOnfSA==
+X-Received: by 2002:a17:90b:a4c:: with SMTP id
+ gw12mr12121347pjb.187.1628123454433; 
+ Wed, 04 Aug 2021 17:30:54 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id x189sm4889375pfx.99.2021.08.04.17.30.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Aug 2021 17:30:54 -0700 (PDT)
+Subject: Re: [PATCH RFC 1/1] accel/tcg: Clear PAGE_WRITE before translation
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210804224633.154083-1-iii@linux.ibm.com>
+ <20210804224633.154083-2-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <507a0eae-6dcf-68c0-ee5f-40499788e2b4@linaro.org>
+Date: Wed, 4 Aug 2021 14:30:50 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <e8426672-bd10-de2d-7dc9-1a46a52f3dea@linux.ibm.com>
+In-Reply-To: <20210804224633.154083-2-iii@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: djnfM2sBJZX2LhaBsjeU7ParEme83xRz
-X-Proofpoint-ORIG-GUID: emnaX_ZN4jZ73B_qzhjyTgXtLlv9NIuP
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-04_08:2021-08-04,
- 2021-08-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
- adultscore=0 spamscore=0 phishscore=0 suspectscore=0 bulkscore=0
- mlxscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2107140000 definitions=main-2108040151
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jrossi@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,52 +89,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, mkawano@linux.ibm.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've exercised the error paths and it appears to all work correctly.
+On 8/4/21 12:46 PM, Ilya Leoshkevich wrote:
+> translate_insn() implementations fetch instruction bytes piecemeal,
+> which can cause qemu-user to generate inconsistent translations if
+> another thread modifies them concurrently [1].
+> 
+> Fix by marking translation block pages non-writable earlier.
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00644.html
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   accel/tcg/translate-all.c    | 59 +++++++++++++++++++++---------------
+>   accel/tcg/translator.c       | 26 ++++++++++++++--
+>   include/exec/translate-all.h |  1 +
+>   3 files changed, 59 insertions(+), 27 deletions(-)
+> 
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index bbfcfb698c..fb9ebfad9e 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1297,31 +1297,8 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+>       invalidate_page_bitmap(p);
+>   
+>   #if defined(CONFIG_USER_ONLY)
+> -    if (p->flags & PAGE_WRITE) {
+> -        target_ulong addr;
+> -        PageDesc *p2;
+> -        int prot;
+> -
+> -        /* force the host page as non writable (writes will have a
+> -           page fault + mprotect overhead) */
+> -        page_addr &= qemu_host_page_mask;
+> -        prot = 0;
+> -        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
+> -            addr += TARGET_PAGE_SIZE) {
+> -
+> -            p2 = page_find(addr >> TARGET_PAGE_BITS);
+> -            if (!p2) {
+> -                continue;
+> -            }
+> -            prot |= p2->flags;
+> -            p2->flags &= ~PAGE_WRITE;
+> -          }
+> -        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
+> -                 (prot & PAGE_BITS) & ~PAGE_WRITE);
+> -        if (DEBUG_TB_INVALIDATE_GATE) {
+> -            printf("protecting code page: 0x" TB_PAGE_ADDR_FMT "\n", page_addr);
+> -        }
+> -    }
+> +    /* translator_loop() must have made all TB pages non-writable */
+> +    assert(!(p->flags & PAGE_WRITE));
+>   #else
+>       /* if some code is already present, then the pages are already
+>          protected. So we handle the case where only the first TB is
+> @@ -2394,6 +2371,38 @@ int page_check_range(target_ulong start, target_ulong len, int flags)
+>       return 0;
+>   }
+>   
+> +void page_protect(tb_page_addr_t page_addr)
+> +{
+> +    target_ulong addr;
+> +    PageDesc *p;
+> +    int prot;
+> +
+> +    p = page_find(page_addr >> TARGET_PAGE_BITS);
+> +    if (p && (p->flags & PAGE_WRITE)) {
+> +        /*
+> +         * Force the host page as non writable (writes will have a page fault +
+> +         * mprotect overhead).
+> +         */
+> +        page_addr &= qemu_host_page_mask;
+> +        prot = 0;
+> +        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
+> +             addr += TARGET_PAGE_SIZE) {
+> +
+> +            p = page_find(addr >> TARGET_PAGE_BITS);
+> +            if (!p) {
+> +                continue;
+> +            }
+> +            prot |= p->flags;
+> +            p->flags &= ~PAGE_WRITE;
+> +        }
+> +        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
+> +                 (prot & PAGE_BITS) & ~PAGE_WRITE);
+> +        if (DEBUG_TB_INVALIDATE_GATE) {
+> +            printf("protecting code page: 0x" TB_PAGE_ADDR_FMT "\n", page_addr);
+> +        }
+> +    }
+> +}
+> +
+>   /* called from signal handler: invalidate the code and unprotect the
+>    * page. Return 0 if the fault was not handled, 1 if it was handled,
+>    * and 2 if it was handled but the caller must cause the TB to be
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index c53a7f8e44..bfbe7d7ccf 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -14,6 +14,7 @@
+>   #include "exec/exec-all.h"
+>   #include "exec/gen-icount.h"
+>   #include "exec/log.h"
+> +#include "exec/translate-all.h"
+>   #include "exec/translator.h"
+>   #include "exec/plugin-gen.h"
+>   #include "sysemu/replay.h"
+> @@ -47,6 +48,10 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+>   {
+>       uint32_t cflags = tb_cflags(tb);
+>       bool plugin_enabled;
+> +    bool stop = false;
+> +#ifdef CONFIG_USER_ONLY
+> +    target_ulong page_addr = -1;
+> +#endif
+>   
+>       /* Initialize DisasContext */
+>       db->tb = tb;
+> @@ -71,6 +76,21 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+>       plugin_enabled = plugin_gen_tb_start(cpu, tb, cflags & CF_MEMI_ONLY);
+>   
+>       while (true) {
+> +#ifdef CONFIG_USER_ONLY
+> +        /*
+> +         * Make the page containing the next instruction non-writable in order
+> +         * to get a consistent translation if another thread is modifying the
+> +         * code while translate_insn() fetches the instruction bytes piecemeal.
+> +         * Writer threads will wait for mmap_lock() in page_unprotect().
+> +         */
+> +        if ((db->pc_next & TARGET_PAGE_MASK) != page_addr) {
+> +            page_addr = db->pc_next & TARGET_PAGE_MASK;
+> +            page_protect(page_addr);
+> +        }
+> +#endif
+> +        if (stop) {
+> +            break;
+> +        }
 
-On 7/19/21 11:09 AM, Jared Rossi wrote:
-> I will take a look and see if I can exercise the error paths.
->
-> Regards,
->
-> Jared Rossi
->
-> On 7/19/21 10:16 AM, Matthew Rosato wrote:
->> On 7/5/21 12:39 PM, Cornelia Huck wrote:
->>> This is a followup on the first version (which I had sent out in May,
->>> and which kind of fell through the cracks.) While the first patch
->>> is mostly unchanged, I added a second patch to address some possible
->>> problems with the generated unit exceptions; non-vfio subchannels
->>> are not affected by this.
->>>
->>> As before, this works on the good path, and I have not managed to
->>> actually get my system to exercise the error path :(
->>
->> Sorry for the silence, was out of office for a bit and Eric is 
->> unavailable -- Anyway the code LGTM and matches what I see in the 
->> POPs, I'd be willing to ACK but I'd feel better if we could exercise 
->> the error paths before merging.
->>
->> @Jared/@Mike, you've both had eyes on this area of code recently, 
->> would one of you be willing to take a crack at a tested-by (non-zero 
->> CCs on HSCH/CSCH + also drive the sch_gen_unit_exception path)?
->>
->>>
->>> v1->v2:
->>> - add comments regarding -ENODEV/-EACCES handling
->>> - add second patch
->>>
->>> Cornelia Huck (2):
->>>    vfio-ccw: forward halt/clear errors
->>>    css: fix actl handling for unit exceptions
->>>
->>>   hw/s390x/css.c         | 38 ++++++++++++++++++++++++++++++++++----
->>>   hw/vfio/ccw.c          |  4 ++--
->>>   include/hw/s390x/css.h |  3 ++-
->>>   3 files changed, 38 insertions(+), 7 deletions(-)
->>>
->>
+So... I think this isn't quite right.
+
+(1) If we stop exactly at the page break, this protects the *next* page unnecessarily.
+
+(2) This only protects the page of the start of the insn.  If the instruction crosses the 
+page boundary, then the latter part of the insn is still victim to the race we're trying 
+to fix.
+
+I think a protect needs to happen in translator_ld*_swap, before reading the data.
+
+I think that the translator_ld*_swap functions should be moved out of 
+include/exec/translator.h into accel/tcg/translator.c.
+
+I think that the translator_ld* functions should add a DisasContextBase argument, which 
+should then contain the cache for the protection.  This will be a moderately large change, 
+but it should be mostly mechanical.
+
+I think that we should initialize the protection cache before translating the first insn, 
+outside of that loop.  This will mean that you need not check for two pages 
+simultaneously, when a single read crosses the page boundary.  You'll know that (at 
+minimum) the first byte of the first read is already covered, and only need to check the 
+last byte of each subsequent read.  I think the value you use for your cache should be the 
+end of the page for which protection is known to apply, so that the check reduces to
+
+   end = pc + len - 1;
+   if (end > dcbase->page_protect_end) {
+     dcbase->page_protect_end = end | ~TARGET_PAGE_MASK;
+     page_protect(end);
+   }
+
+
+r~
 
