@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC3E3E1533
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:58:50 +0200 (CEST)
-Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B243E153A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:59:59 +0200 (CEST)
+Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBcxW-00032l-0N
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58844)
+	id 1mBcyc-0006Jz-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBctX-0005Cf-U7
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49234)
+ id 1mBctg-0005Lc-96
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:54:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mBctW-00042z-EC
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:54:43 -0400
+ id 1mBcte-000455-Ux
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:54:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628168081;
+ s=mimecast20190719; t=1628168090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K9d2/YF5dgfR8oQIK2i1GyQ8daIEzdmwVt8l6TxHB9Q=;
- b=CSpMkXhSUSa/OQKwde9RgvoE+BUYMC6UBgw7BjBDLdV917odDEXpYXDv2JLjRhIL7nc17C
- o+NHn+5HH7aQYjDAzO3zoM8jgYy10EpWTLTRIb97QjyCTmAL9pqi72vsa7FGyloGR46NUG
- CiAGv+guJbmpEkcbEUAU9oIk3syCWBk=
+ bh=y6QdzSnjdtvRLRdd79lFYLTkD/1lcOyCDNWgBB23tfY=;
+ b=LuKsJRzRT2kwne2LWxJImYcArFAAO3f6dsE+HKj6pdk93xSkgOMlMycHq8Duy/ZcavBGQU
+ n7Ck8o43iEKLKXBNwQhjzMGGGflfQwIdMVCR3jMlzwv4Irh8XXedxTGgLDRqRSeUUEe8M3
+ YNOPo40NJc5RwXVyrRkqOCaz6wcCUq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-FT2c7ZAdOwG_I9nfbcm6wA-1; Thu, 05 Aug 2021 08:54:40 -0400
-X-MC-Unique: FT2c7ZAdOwG_I9nfbcm6wA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-125-kV6RW-MUMf-_fAJhmXvdvQ-1; Thu, 05 Aug 2021 08:54:48 -0400
+X-MC-Unique: kV6RW-MUMf-_fAJhmXvdvQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7549C760C0;
- Thu,  5 Aug 2021 12:54:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1FB18799F7;
+ Thu,  5 Aug 2021 12:54:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BCF527CB1;
- Thu,  5 Aug 2021 12:54:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 394A610016F2;
+ Thu,  5 Aug 2021 12:54:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] chardev: give some context on chardev-add error
-Date: Thu,  5 Aug 2021 16:53:30 +0400
-Message-Id: <20210805125331.826741-8-marcandre.lureau@redhat.com>
+Subject: [PULL 8/8] chardev: report a simpler error about duplicated id
+Date: Thu,  5 Aug 2021 16:53:31 +0400
+Message-Id: <20210805125331.826741-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20210805125331.826741-1-marcandre.lureau@redhat.com>
 References: <20210805125331.826741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,83 +87,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Description from Daniel P. Berrangé:
-> The original code reported:
->
->  "attempt to add duplicate property 'char2' to object (type 'container')"
->
-> Since adding yank support, the current code reports
->
->  "duplicate yank instance"
->
-> With this patch applied it now reports:
->
->  "Failed to add chardev 'char2': duplicate yank instance"
->
-> This is marginally better, but still not great, not that the original
-> error was great either.
->
-> It would be nice if we could report
->
->   "chardev with id 'char2' already exists"
-
-Related to:
-https://bugzilla.redhat.com/show_bug.cgi?id=1984721
+Report:
+  "Chardev with id 'char2' already exists"
+Rather than:
+  "Failed to add chardev 'char2': duplicate yank instance"
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- chardev/char.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ chardev/char.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/chardev/char.c b/chardev/char.c
-index d959eec522..f59a61774b 100644
+index f59a61774b..4595a8d430 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -1031,27 +1031,26 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
- ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-                                Error **errp)
- {
-+    ERRP_GUARD();
-     const ChardevClass *cc;
+@@ -1036,6 +1036,11 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
      ChardevReturn *ret;
--    Chardev *chr;
-+    g_autoptr(Chardev) chr = NULL;
+     g_autoptr(Chardev) chr = NULL;
  
++    if (qemu_chr_find(id)) {
++        error_setg(errp, "Chardev with id '%s' already exists", id);
++        return NULL;
++    }
++
      cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
      if (!cc) {
--        return NULL;
-+        goto err;
-     }
- 
-     chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
-                       backend, NULL, false, errp);
-     if (!chr) {
--        return NULL;
-+        goto err;
-     }
- 
-     if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
-                                        errp)) {
--        object_unref(OBJECT(chr));
--        return NULL;
-+        goto err;
-     }
--    object_unref(OBJECT(chr));
- 
-     ret = g_new0(ChardevReturn, 1);
-     if (CHARDEV_IS_PTY(chr)) {
-@@ -1060,6 +1059,10 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-     }
- 
-     return ret;
-+
-+err:
-+    error_prepend(errp, "Failed to add chardev '%s': ", id);
-+    return NULL;
- }
- 
- ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+         goto err;
 -- 
 2.32.0.264.g75ae10bc75
 
