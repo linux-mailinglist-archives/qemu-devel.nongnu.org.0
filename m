@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFA13E16CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 16:19:32 +0200 (CEST)
-Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205AB3E169D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 16:13:21 +0200 (CEST)
+Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBeDb-0006HK-Nx
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 10:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50364)
+	id 1mBe7c-0000mW-5y
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 10:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBe3d-00008T-0m
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBe3d-00007m-0j
  for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:09:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21013)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBe3Z-0007rk-8i
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBe3Z-0007tS-EX
  for qemu-devel@nongnu.org; Thu, 05 Aug 2021 10:09:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628172547;
+ s=mimecast20190719; t=1628172548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cOmMhpp3p4llkC5OfSZh/ocgsH4YD4+szlbrswEhgg4=;
- b=Z+HzX3PpKmDMzQWpLkjlDg5cYiWEtvr7n4WF81OdBxYbig/K0zsikzb8JxG1Xx9hCkT1hG
- Wa489IPboD/hYV5m0H4wOkFzzjjpJme8MDmOPtjXhMmIrH77qmTCcKGJN3PM+pPtZTAWaF
- tlTAoblU8IfhRxQ94oBqTDv+wqLSS8U=
+ bh=WQDRMeL/paORGn0B5jTVyGJFkDl+x5LjlaDwj/3Y3Cs=;
+ b=CzIbFkOh7zSsvFUzDh/henCA5IaPQ62iVPlw2ftoy6rZ/zctou4FL5FF10riZGdGC14PS/
+ 9NOyOsJmYh58bk1d6VjWJJjeUw0+3LdIT0GQhlXu068wTXdpzhcGxKzjPrAtVh7breR2kM
+ rdmAWKfOqVmuRz9tAcRa1GDd3hQn1ro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-G3TxkWxeOR25Ul3PSfsrQA-1; Thu, 05 Aug 2021 10:09:05 -0400
-X-MC-Unique: G3TxkWxeOR25Ul3PSfsrQA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-250-zbzqajIBP7OHDJTBdbOz3Q-1; Thu, 05 Aug 2021 10:09:05 -0400
+X-MC-Unique: zbzqajIBP7OHDJTBdbOz3Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD40107466A;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 262BA87D541;
  Thu,  5 Aug 2021 14:09:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
  [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 870731000186;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8732E5D6A1;
  Thu,  5 Aug 2021 14:09:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 28BB711380A3; Thu,  5 Aug 2021 16:09:02 +0200 (CEST)
+ id 2E2D411380A4; Thu,  5 Aug 2021 16:09:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] docs/qapi-code-gen: Beautify formatting
-Date: Thu,  5 Aug 2021 16:09:00 +0200
-Message-Id: <20210805140902.2110546-4-armbru@redhat.com>
+Subject: [PULL 4/5] docs/qapi-code-gen: add cross-references
+Date: Thu,  5 Aug 2021 16:09:01 +0200
+Message-Id: <20210805140902.2110546-5-armbru@redhat.com>
 In-Reply-To: <20210805140902.2110546-1-armbru@redhat.com>
 References: <20210805140902.2110546-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,417 +85,384 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Mostly, add ``literal`` markers to a lot of things like C types, add
-code blocks, and fix the way a few things render.
+Add clickables to many places.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210720235619.2048797-3-jsnow@redhat.com>
+Message-Id: <20210720235619.2048797-4-jsnow@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.rst | 172 ++++++++++++++++++-----------------
- 1 file changed, 90 insertions(+), 82 deletions(-)
+ docs/devel/qapi-code-gen.rst | 107 +++++++++++++++++++----------------
+ 1 file changed, 58 insertions(+), 49 deletions(-)
 
 diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index 9155dba262..07b11e2a40 100644
+index 07b11e2a40..26c62b0e7b 100644
 --- a/docs/devel/qapi-code-gen.rst
 +++ b/docs/devel/qapi-code-gen.rst
-@@ -40,7 +40,7 @@ by any commands or events, for the side effect of generated C code
- used internally.
+@@ -156,6 +156,7 @@ from making a forward reference to a type that is only introduced by
+ an outer file.  The parser may be made stricter in the future to
+ prevent incomplete include files.
  
- There are several kinds of types: simple types (a number of built-in
--types, such as 'int' and 'str'; as well as enumerations), arrays,
-+types, such as ``int`` and ``str``; as well as enumerations), arrays,
- complex types (structs and two flavors of unions), and alternate types
- (a choice between other types).
++.. _pragma:
  
-@@ -51,37 +51,37 @@ Schema syntax
- Syntax is loosely based on `JSON <http://www.ietf.org/rfc/rfc8259.txt>`_.
- Differences:
+ Pragma directives
+ -----------------
+@@ -186,6 +187,7 @@ Pragma 'member-name-exceptions' takes a list of types whose member
+ names may contain uppercase letters, and ``"_"`` instead of ``"-"``.
+ Default is none.
  
--* Comments: start with a hash character (#) that is not part of a
-+* Comments: start with a hash character (``#``) that is not part of a
-   string, and extend to the end of the line.
- 
--* Strings are enclosed in 'single quotes', not "double quotes".
-+* Strings are enclosed in ``'single quotes'``, not ``"double quotes"``.
- 
- * Strings are restricted to printable ASCII, and escape sequences to
--  just '\\'.
-+  just ``\\``.
- 
--* Numbers and null are not supported.
-+* Numbers and ``null`` are not supported.
- 
- A second layer of syntax defines the sequences of JSON texts that are
- a correctly structured QAPI schema.  We provide a grammar for this
- syntax in an EBNF-like notation:
- 
--* Production rules look like non-terminal = expression
--* Concatenation: expression A B matches expression A, then B
--* Alternation: expression A | B matches expression A or B
--* Repetition: expression A... matches zero or more occurrences of
--  expression A
--* Repetition: expression A, ... matches zero or more occurrences of
--  expression A separated by ,
--* Grouping: expression ( A ) matches expression A
--* JSON's structural characters are terminals: { } [ ] : ,
--* JSON's literal names are terminals: false true
--* String literals enclosed in 'single quotes' are terminal, and match
--  this JSON string, with a leading '*' stripped off
--* When JSON object member's name starts with '*', the member is
-+* Production rules look like ``non-terminal = expression``
-+* Concatenation: expression ``A B`` matches expression ``A``, then ``B``
-+* Alternation: expression ``A | B`` matches expression ``A`` or ``B``
-+* Repetition: expression ``A...`` matches zero or more occurrences of
-+  expression ``A``
-+* Repetition: expression ``A, ...`` matches zero or more occurrences of
-+  expression ``A`` separated by ``,``
-+* Grouping: expression ``( A )`` matches expression ``A``
-+* JSON's structural characters are terminals: ``{ } [ ] : ,``
-+* JSON's literal names are terminals: ``false true``
-+* String literals enclosed in ``'single quotes'`` are terminal, and match
-+  this JSON string, with a leading ``*`` stripped off
-+* When JSON object member's name starts with ``*``, the member is
-   optional.
--* The symbol STRING is a terminal, and matches any JSON string
--* The symbol BOOL is a terminal, and matches JSON false or true
--* ALL-CAPS words other than STRING are non-terminals
-+* The symbol ``STRING`` is a terminal, and matches any JSON string
-+* The symbol ``BOOL`` is a terminal, and matches JSON ``false`` or ``true``
-+* ALL-CAPS words other than ``STRING`` are non-terminals
- 
- The order of members within JSON objects does not matter unless
- explicitly noted.
-@@ -109,27 +109,30 @@ These are discussed in detail below.
- Built-in Types
- --------------
- 
--The following types are predefined, and map to C as follows::
-+The following types are predefined, and map to C as follows:
- 
--  Schema    C          JSON
--  str       char *     any JSON string, UTF-8
--  number    double     any JSON number
--  int       int64_t    a JSON number without fractional part
--                       that fits into the C integer type
--  int8      int8_t     likewise
--  int16     int16_t    likewise
--  int32     int32_t    likewise
--  int64     int64_t    likewise
--  uint8     uint8_t    likewise
--  uint16    uint16_t   likewise
--  uint32    uint32_t   likewise
--  uint64    uint64_t   likewise
--  size      uint64_t   like uint64_t, except StringInputVisitor
--                       accepts size suffixes
--  bool      bool       JSON true or false
--  null      QNull *    JSON null
--  any       QObject *  any JSON value
--  QType     QType      JSON string matching enum QType values
-+  ============= ============== ============================================
-+  Schema        C              JSON
-+  ============= ============== ============================================
-+  ``str``       ``char *``     any JSON string, UTF-8
-+  ``number``    ``double``     any JSON number
-+  ``int``       ``int64_t``    a JSON number without fractional part
-+                               that fits into the C integer type
-+  ``int8``      ``int8_t``     likewise
-+  ``int16``     ``int16_t``    likewise
-+  ``int32``     ``int32_t``    likewise
-+  ``int64``     ``int64_t``    likewise
-+  ``uint8``     ``uint8_t``    likewise
-+  ``uint16``    ``uint16_t``   likewise
-+  ``uint32``    ``uint32_t``   likewise
-+  ``uint64``    ``uint64_t``   likewise
-+  ``size``      ``uint64_t``   like ``uint64_t``, except
-+                               ``StringInputVisitor`` accepts size suffixes
-+  ``bool``      ``bool``       JSON ``true`` or ``false``
-+  ``null``      ``QNull *``    JSON ``null``
-+  ``any``       ``QObject *``  any JSON value
-+  ``QType``     ``QType``      JSON string matching enum ``QType`` values
-+  ============= ============== ============================================
- 
- 
- Include directives
-@@ -174,14 +177,14 @@ Pragma 'doc-required' takes a boolean value.  If true, documentation
- is required.  Default is false.
- 
- Pragma 'command-name-exceptions' takes a list of commands whose names
--may contain '_' instead of '-'.  Default is none.
-+may contain ``"_"`` instead of ``"-"``.  Default is none.
- 
- Pragma 'command-returns-exceptions' takes a list of commands that may
- violate the rules on permitted return types.  Default is none.
- 
- Pragma 'member-name-exceptions' takes a list of types whose member
--names may contain uppercase letters, and '_' instead of '-'.  Default
--is none.
-+names may contain uppercase letters, and ``"_"`` instead of ``"-"``.
-+Default is none.
- 
++.. _ENUM-VALUE:
  
  Enumeration types
-@@ -200,7 +203,7 @@ Syntax::
- Member 'enum' names the enum type.
+ -----------------
+@@ -228,13 +230,15 @@ additional enumeration constant PREFIX__MAX with value N.
+ Do not use string or an integer type when an enumeration type can do
+ the job satisfactorily.
  
- Each member of the 'data' array defines a value of the enumeration
--type.  The form STRING is shorthand for { 'name': STRING }.  The
-+type.  The form STRING is shorthand for :code:`{ 'name': STRING }`.  The
- 'name' values must be be distinct.
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring the
++schema`_ below for more on this.
  
- Example::
-@@ -243,7 +246,7 @@ Syntax::
- A string denotes the type named by the string.
- 
- A one-element array containing a string denotes an array of the type
--named by the string.  Example: ['int'] denotes an array of 'int'.
-+named by the string.  Example: ``['int']`` denotes an array of ``int``.
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
  
  
- Struct types
-@@ -266,11 +269,11 @@ Member 'struct' names the struct type.
++.. _TYPE-REF:
++
+ Type references and array types
+ -------------------------------
+ 
+@@ -269,11 +273,13 @@ Member 'struct' names the struct type.
  
  Each MEMBER of the 'data' object defines a member of the struct type.
  
--The MEMBER's STRING name consists of an optional '*' prefix and the
--struct member name.  If '*' is present, the member is optional.
-+The MEMBER's STRING name consists of an optional ``*`` prefix and the
-+struct member name.  If ``*`` is present, the member is optional.
++.. _MEMBERS:
++
+ The MEMBER's STRING name consists of an optional ``*`` prefix and the
+ struct member name.  If ``*`` is present, the member is optional.
  
  The MEMBER's value defines its properties, in particular its type.
--The form TYPE-REF is shorthand for { 'type': TYPE-REF }.
-+The form TYPE-REF is shorthand for :code:`{ 'type': TYPE-REF }`.
+-The form TYPE-REF is shorthand for :code:`{ 'type': TYPE-REF }`.
++The form TYPE-REF_ is shorthand for :code:`{ 'type': TYPE-REF }`.
  
  Example::
  
-@@ -334,7 +337,7 @@ union must have at least one branch.
+@@ -300,10 +306,10 @@ both members like this::
+  { "file": "/some/place/my-image",
+    "backing": "/some/place/my-backing-file" }
+ 
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
+ 
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
+ 
+ 
+@@ -337,7 +343,7 @@ union must have at least one branch.
  The BRANCH's STRING name is the branch name.
  
  The BRANCH's value defines the branch's properties, in particular its
--type.  The form TYPE-REF is shorthand for { 'type': TYPE-REF }.
-+type.  The form TYPE-REF is shorthand for :code:`{ 'type': TYPE-REF }`.
+-type.  The form TYPE-REF is shorthand for :code:`{ 'type': TYPE-REF }`.
++type.  The form TYPE-REF_ is shorthand for :code:`{ 'type': TYPE-REF }`.
  
  A simple union type defines a mapping from automatic discriminator
  values to data types like in this example::
-@@ -381,7 +384,7 @@ struct.
- The following example enhances the above simple union example by
- adding an optional common member 'read-only', renaming the
- discriminator to something more applicable than the simple union's
--default of 'type', and reducing the number of {} required on the wire::
-+default of 'type', and reducing the number of ``{}`` required on the wire::
+@@ -368,12 +374,12 @@ Flat unions permit arbitrary common members that occur in all variants
+ of the union, not just a discriminator.  Their discriminators need not
+ be named 'type'.  They also avoid nesting on the wire.
  
-  { 'enum': 'BlockdevDriver', 'data': [ 'file', 'qcow2' ] }
-  { 'union': 'BlockdevOptions',
-@@ -450,7 +453,7 @@ alternate.  An alternate must have at least one branch.
- The ALTERNATIVE's STRING name is the branch name.
+-The 'base' member defines the common members.  If it is a MEMBERS
++The 'base' member defines the common members.  If it is a MEMBERS_
+ object, it defines common members just like a struct type's 'data'
+ member defines struct type members.  If it is a STRING, it names a
+ struct type whose members are the common members.
  
- The ALTERNATIVE's value defines the branch's properties, in particular
--its type.  The form STRING is shorthand for { 'type': STRING }.
-+its type.  The form STRING is shorthand for :code:`{ 'type': STRING }`.
+-All flat union branches must be of struct type.
++All flat union branches must be `Struct types`_.
  
- Example::
+ In the Client JSON Protocol, a flat union is represented by an object
+ with the common members (from the base type) and the selected branch's
+@@ -425,10 +431,10 @@ is identical on the wire to::
+  { 'union': 'Flat', 'base': { 'type': 'Enum' }, 'discriminator': 'type',
+    'data': { 'one': 'Branch1', 'two': 'Branch2' } }
  
-@@ -515,7 +518,7 @@ If 'data' is a MEMBERS object, then MEMBERS defines arguments just
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
+ 
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
+ 
+ 
+@@ -481,10 +487,10 @@ following example objects::
+              "read-only": false,
+              "filename": "/tmp/mydisk.qcow2" } }
+ 
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
+ 
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
+ 
+ 
+@@ -511,10 +517,10 @@ Syntax::
+ 
+ Member 'command' names the command.
+ 
+-Member 'data' defines the arguments.  It defaults to an empty MEMBERS
++Member 'data' defines the arguments.  It defaults to an empty MEMBERS_
+ object.
+ 
+-If 'data' is a MEMBERS object, then MEMBERS defines arguments just
++If 'data' is a MEMBERS_ object, then MEMBERS defines arguments just
  like a struct type's 'data' defines struct type members.
  
  If 'data' is a STRING, then STRING names a complex type whose members
--are the arguments.  A union type requires 'boxed': true.
-+are the arguments.  A union type requires ``'boxed': true``.
+@@ -553,7 +559,7 @@ which would validate this Client JSON Protocol transaction::
  
- Member 'returns' defines the command's return type.  It defaults to an
- empty struct type.  It must normally be a complex type or an array of
-@@ -555,7 +558,7 @@ section "Code generated for commands" for examples.
+ The generator emits a prototype for the C function implementing the
+ command.  The function itself needs to be written by hand.  See
+-section "Code generated for commands" for examples.
++section `Code generated for commands`_ for examples.
+ 
  The function returns the return type.  When member 'boxed' is absent,
  it takes the command arguments as arguments one by one, in QAPI schema
- order.  Else it takes them wrapped in the C struct generated for the
--complex argument type.  It takes an additional Error ** argument in
-+complex argument type.  It takes an additional ``Error **`` argument in
- either case.
- 
- The generator also emits a marshalling function that extracts
-@@ -638,11 +641,11 @@ blocking the guest and other background operations.
- Coroutine safety can be hard to prove, similar to thread safety.  Common
- pitfalls are:
- 
--- The global mutex isn't held across qemu_coroutine_yield(), so
-+- The global mutex isn't held across ``qemu_coroutine_yield()``, so
-   operations that used to assume that they execute atomically may have
-   to be more careful to protect against changes in the global state.
- 
--- Nested event loops (AIO_WAIT_WHILE() etc.) are problematic in
-+- Nested event loops (``AIO_WAIT_WHILE()`` etc.) are problematic in
-   coroutine context and can easily lead to deadlocks.  They should be
-   replaced by yielding and reentering the coroutine when the condition
-   becomes false.
-@@ -650,9 +653,9 @@ pitfalls are:
- Since the command handler may assume coroutine context, any callers
- other than the QMP dispatcher must also call it in coroutine context.
- In particular, HMP commands calling such a QMP command handler must be
--marked .coroutine = true in hmp-commands.hx.
-+marked ``.coroutine = true`` in hmp-commands.hx.
- 
--It is an error to specify both 'coroutine': true and 'allow-oob': true
-+It is an error to specify both ``'coroutine': true`` and ``'allow-oob': true``
- for a command.  We don't currently have a use case for both together and
+@@ -660,10 +666,10 @@ for a command.  We don't currently have a use case for both together and
  without a use case, it's not entirely clear what the semantics should
  be.
-@@ -689,7 +692,7 @@ If 'data' is a MEMBERS object, then MEMBERS defines event-specific
- data just like a struct type's 'data' defines struct type members.
  
- If 'data' is a STRING, then STRING names a complex type whose members
--are the event-specific data.  A union type requires 'boxed': true.
-+are the event-specific data.  A union type requires ``'boxed': true``.
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
  
- An example event is::
- 
-@@ -763,16 +766,16 @@ digits, hyphen, and underscore.  There are two exceptions: enum values
- may start with a digit, and names that are downstream extensions (see
- section Downstream extensions) start with underscore.
- 
--Names beginning with 'q\_' are reserved for the generator, which uses
-+Names beginning with ``q_`` are reserved for the generator, which uses
- them for munging QMP names that resemble C keywords or other
--problematic strings.  For example, a member named "default" in qapi
--becomes "q_default" in the generated C code.
-+problematic strings.  For example, a member named ``default`` in qapi
-+becomes ``q_default`` in the generated C code.
- 
- Types, commands, and events share a common namespace.  Therefore,
- generally speaking, type definitions should always use CamelCase for
- user-defined type names, while built-in types are lowercase.
- 
--Type names ending with 'Kind' or 'List' are reserved for the
-+Type names ending with ``Kind`` or ``List`` are reserved for the
- generator, which uses them for implicit union enums and array types,
- respectively.
- 
-@@ -783,15 +786,15 @@ consistency is preferred over blindly avoiding underscore.
- 
- Event names should be ALL_CAPS with words separated by underscore.
- 
--Member name 'u' and names starting with 'has-' or 'has\_' are reserved
-+Member name ``u`` and names starting with ``has-`` or ``has_`` are reserved
- for the generator, which uses them for unions and for tracking
- optional members.
- 
- Any name (command, event, type, member, or enum value) beginning with
--"x-" is marked experimental, and may be withdrawn or changed
-+``x-`` is marked experimental, and may be withdrawn or changed
- incompatibly in a future release.
- 
--Pragmas 'command-name-exceptions' and 'member-name-exceptions' let you
-+Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` let you
- violate naming rules.  Use for new code is strongly discouraged.
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
  
  
-@@ -805,7 +808,7 @@ who controls the valid, reverse fully qualified domain name RFQDN.
- RFQDN may only contain ASCII letters, digits, hyphen and period.
+@@ -708,15 +714,17 @@ Resulting in this JSON object::
+ The generator emits a function to send the event.  When member 'boxed'
+ is absent, it takes event-specific data one by one, in QAPI schema
+ order.  Else it takes them wrapped in the C struct generated for the
+-complex type.  See section "Code generated for events" for examples.
++complex type.  See section `Code generated for events`_ for examples.
  
- Example: Red Hat, Inc. controls redhat.com, and may therefore add a
--downstream command __com.redhat_drive-mirror.
-+downstream command ``__com.redhat_drive-mirror``.
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
+ 
+-The optional 'features' member specifies features.  See "Features"
++The optional 'features' member specifies features.  See Features_
+ below for more on this.
  
  
- Configuring the schema
-@@ -879,7 +882,7 @@ this particular build.
- Documentation comments
- ----------------------
++.. _FEATURE:
++
+ Features
+ --------
  
--A multi-line comment that starts and ends with a '##' line is a
-+A multi-line comment that starts and ends with a ``##`` line is a
- documentation comment.
+@@ -735,8 +743,8 @@ For this purpose, a list of features can be specified for a command or
+ struct type.  Each list member can either be ``{ 'name': STRING, '*if':
+ COND }``, or STRING, which is shorthand for ``{ 'name': STRING }``.
  
- If the documentation comment starts like ::
-@@ -887,7 +890,7 @@ If the documentation comment starts like ::
-     ##
-     # @SYMBOL:
- 
--it documents the definition if SYMBOL, else it's free-form
-+it documents the definition of SYMBOL, else it's free-form
- documentation.
- 
- See below for more on definition documentation.
-@@ -900,7 +903,7 @@ Headings and subheadings
- ~~~~~~~~~~~~~~~~~~~~~~~~
- 
- A free-form documentation comment containing a line which starts with
--some '=' symbols and then a space defines a section heading::
-+some ``=`` symbols and then a space defines a section heading::
- 
-     ##
-     # = This is a top level heading
-@@ -924,22 +927,22 @@ Documentation markup
- ~~~~~~~~~~~~~~~~~~~~
- 
- Documentation comments can use most rST markup.  In particular,
--a '::' literal block can be used for examples::
-+a ``::`` literal block can be used for examples::
- 
-     # ::
-     #
-     #   Text of the example, may span
-     #   multiple lines
- 
--'*' starts an itemized list::
-+``*`` starts an itemized list::
- 
-     # * First item, may span
-     #   multiple lines
-     # * Second item
- 
--You can also use '-' instead of '*'.
-+You can also use ``-`` instead of ``*``.
- 
--A decimal number followed by '.' starts a numbered list::
-+A decimal number followed by ``.`` starts a numbered list::
- 
-     # 1. First item, may span
-     #    multiple lines
-@@ -952,11 +955,11 @@ If a list item's text spans multiple lines, then the second and
- subsequent lines must be correctly indented to line up with the
- first character of the first line.
- 
--The usual '**strong**', '*emphasised*' and '``literal``' markup should
--be used.  If you need a single literal '*' you will need to
-+The usual ****strong****, *\*emphasized\** and ````literal```` markup
-+should be used.  If you need a single literal ``*``, you will need to
- backslash-escape it.  As an extension beyond the usual rST syntax, you
--can also use '@foo' to reference a name in the schema; this is
--rendered the same way as '``foo``'.
-+can also use ``@foo`` to reference a name in the schema; this is rendered
-+the same way as ````foo````.
+-The optional 'if' member specifies a conditional.  See "Configuring
+-the schema" below for more on this.
++The optional 'if' member specifies a conditional.  See `Configuring
++the schema`_ below for more on this.
  
  Example::
  
-@@ -991,9 +994,9 @@ alternates), or value (for enums), and finally optional tagged
- sections.
+@@ -745,7 +753,7 @@ Example::
+    'features': [ 'allow-negative-numbers' ] }
  
- Descriptions of arguments can span multiple lines.  The description
--text can start on the line following the '@argname:', in which case it
-+text can start on the line following the '\@argname:', in which case it
- must not be indented at all.  It can also start on the same line as
--the '@argname:'.  In this case if it spans multiple lines then second
-+the '\@argname:'.  In this case if it spans multiple lines then second
- and subsequent lines must be indented to line up with the first
- character of the first line of the description::
+ The feature strings are exposed to clients in introspection, as
+-explained in section "Client JSON Protocol introspection".
++explained in section `Client JSON Protocol introspection`_.
  
-@@ -1006,8 +1009,13 @@ character of the first line of the description::
+ Intended use is to have each feature string signal that this build of
+ QEMU shows a certain behaviour.
+@@ -764,7 +772,7 @@ Naming rules and reserved names
+ All names must begin with a letter, and contain only ASCII letters,
+ digits, hyphen, and underscore.  There are two exceptions: enum values
+ may start with a digit, and names that are downstream extensions (see
+-section Downstream extensions) start with underscore.
++section `Downstream extensions`_) start with underscore.
  
- The number of spaces between the ':' and the text is not significant.
+ Names beginning with ``q_`` are reserved for the generator, which uses
+ them for munging QMP names that resemble C keywords or other
+@@ -794,8 +802,9 @@ Any name (command, event, type, member, or enum value) beginning with
+ ``x-`` is marked experimental, and may be withdrawn or changed
+ incompatibly in a future release.
  
--FIXME: the parser accepts these things in almost any order.
--FIXME: union branches should be described, too.
-+.. admonition:: FIXME
-+
-+   The parser accepts these things in almost any order.
-+
-+.. admonition:: FIXME
-+
-+   union branches should be described, too.
+-Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` let you
+-violate naming rules.  Use for new code is strongly discouraged.
++Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` let
++you violate naming rules.  Use for new code is strongly discouraged. See
++`Pragma directives`_ for details.
  
- Extensions added after the definition was first released carry a
- '(since x.y.z)' comment.
+ 
+ Downstream extensions
+@@ -851,7 +860,7 @@ member 'bar' ::
+ A union's discriminator may not be conditional.
+ 
+ Likewise, individual enumeration values be conditional.  This requires
+-the longhand form of ENUM-VALUE.
++the longhand form of ENUM-VALUE_.
+ 
+ Example: an enum type with unconditional value 'foo' and conditional
+ value 'bar' ::
+@@ -861,7 +870,7 @@ value 'bar' ::
+      { 'name' : 'bar', 'if': 'defined(IFCOND)' } ] }
+ 
+ Likewise, features can be conditional.  This requires the longhand
+-form of FEATURE.
++form of FEATURE_.
+ 
+ Example: a struct with conditional feature 'allow-negative-numbers' ::
+ 
+@@ -893,7 +902,7 @@ If the documentation comment starts like ::
+ it documents the definition of SYMBOL, else it's free-form
+ documentation.
+ 
+-See below for more on definition documentation.
++See below for more on `Definition documentation`_.
+ 
+ Free-form documentation may be used to provide additional text and
+ structuring content.
+@@ -984,7 +993,7 @@ Definition documentation
+ Definition documentation, if present, must immediately precede the
+ definition it documents.
+ 
+-When documentation is required (see pragma 'doc-required'), every
++When documentation is required (see pragma_ 'doc-required'), every
+ definition must have documentation.
+ 
+ Definition documentation starts with a line naming the definition,
+@@ -1181,7 +1190,7 @@ the wire then.
+ Each command or event defined with 'data' as MEMBERS object in the
+ QAPI schema implicitly defines an object type.
+ 
+-Example: the SchemaInfo for EVENT_C from section Events ::
++Example: the SchemaInfo for EVENT_C from section Events_ ::
+ 
+     { "name": "EVENT_C", "meta-type": "event",
+       "arg-type": "q_obj-EVENT_C-arg" }
+@@ -1205,7 +1214,7 @@ extensions.  The "members" array is in no particular order; clients
+ must search the entire object when learning whether a particular
+ member is supported.
+ 
+-Example: the SchemaInfo for MyType from section Struct types ::
++Example: the SchemaInfo for MyType from section `Struct types`_ ::
+ 
+     { "name": "MyType", "meta-type": "object",
+       "members": [
+@@ -1216,7 +1225,7 @@ Example: the SchemaInfo for MyType from section Struct types ::
+ "features" exposes the command's feature strings as a JSON array of
+ strings.
+ 
+-Example: the SchemaInfo for TestType from section Features::
++Example: the SchemaInfo for TestType from section Features_::
+ 
+     { "name": "TestType", "meta-type": "object",
+       "members": [
+@@ -1232,7 +1241,7 @@ that provides the variant members for this type tag value).  The
+ list cases in the same order as the corresponding "tag" enum type.
+ 
+ Example: the SchemaInfo for flat union BlockdevOptions from section
+-Union types ::
++`Union types`_ ::
+ 
+     { "name": "BlockdevOptions", "meta-type": "object",
+       "members": [
+@@ -1247,13 +1256,13 @@ Note that base types are "flattened": its members are included in the
+ "members" array.
+ 
+ A simple union implicitly defines an enumeration type for its implicit
+-discriminator (called "type" on the wire, see section Union types).
++discriminator (called "type" on the wire, see section `Union types`_).
+ 
+ A simple union implicitly defines an object type for each of its
+ variants.
+ 
+ Example: the SchemaInfo for simple union BlockdevOptionsSimple from section
+-Union types ::
++`Union types`_ ::
+ 
+     { "name": "BlockdevOptionsSimple", "meta-type": "object",
+       "members": [
+@@ -1273,7 +1282,7 @@ a JSON object with member "type", which names a type.  Values of the
+ alternate type conform to exactly one of its member types.  There is
+ no guarantee on the order in which "members" will be listed.
+ 
+-Example: the SchemaInfo for BlockdevRef from section Alternate types ::
++Example: the SchemaInfo for BlockdevRef from section `Alternate types`_ ::
+ 
+     { "name": "BlockdevRef", "meta-type": "alternate",
+       "members": [
+@@ -1297,13 +1306,13 @@ variant member "values".  The values are listed in no particular
+ order; clients must search the entire enum when learning whether a
+ particular value is supported.
+ 
+-Example: the SchemaInfo for MyEnum from section Enumeration types ::
++Example: the SchemaInfo for MyEnum from section `Enumeration types`_ ::
+ 
+     { "name": "MyEnum", "meta-type": "enum",
+       "values": [ "value1", "value2", "value3" ] }
+ 
+ The SchemaInfo for a built-in type has the same name as the type in
+-the QAPI schema (see section Built-in Types), with one exception
++the QAPI schema (see section `Built-in Types`_), with one exception
+ detailed below.  It has variant member "json-type" that shows how
+ values of this type are encoded on the wire.
+ 
+@@ -1505,7 +1514,7 @@ Example::
+ 
+     [Uninteresting stuff omitted...]
+ 
+-For a modular QAPI schema (see section Include directives), code for
++For a modular QAPI schema (see section `Include directives`_), code for
+ each sub-module SUBDIR/SUBMODULE.json is actually generated into ::
+ 
+  SUBDIR/$(prefix)qapi-types-SUBMODULE.h
+@@ -1643,7 +1652,7 @@ Example::
+ 
+     [Uninteresting stuff omitted...]
+ 
+-For a modular QAPI schema (see section Include directives), code for
++For a modular QAPI schema (see section `Include directives`_), code for
+ each sub-module SUBDIR/SUBMODULE.json is actually generated into ::
+ 
+  SUBDIR/$(prefix)qapi-visit-SUBMODULE.h
+@@ -1773,7 +1782,7 @@ Example::
+     }
+     [Uninteresting stuff omitted...]
+ 
+-For a modular QAPI schema (see section Include directives), code for
++For a modular QAPI schema (see section `Include directives`_), code for
+ each sub-module SUBDIR/SUBMODULE.json is actually generated into::
+ 
+  SUBDIR/$(prefix)qapi-commands-SUBMODULE.h
+@@ -1862,7 +1871,7 @@ Example::
+ 
+     [Uninteresting stuff omitted...]
+ 
+-For a modular QAPI schema (see section Include directives), code for
++For a modular QAPI schema (see section `Include directives`_), code for
+ each sub-module SUBDIR/SUBMODULE.json is actually generated into ::
+ 
+  SUBDIR/$(prefix)qapi-events-SUBMODULE.h
 -- 
 2.31.1
 
