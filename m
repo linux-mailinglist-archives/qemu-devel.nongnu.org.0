@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C5F3E147D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:12:40 +0200 (CEST)
-Received: from localhost ([::1]:60530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43163E1480
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:14:53 +0200 (CEST)
+Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBcEp-0001t4-D5
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47824)
+	id 1mBcGy-0003TY-S7
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcDB-000072-L9
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:10:57 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33668)
+ id 1mBcFt-0002lp-VR
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:13:45 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcDA-0002Rj-3d
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:10:57 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k4so6281759wrc.0
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:10:55 -0700 (PDT)
+ id 1mBcFr-0003WY-BD
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:13:45 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id m12so6218401wru.12
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=l8S7IMdc4SUhiw5I4pOV8PMvaReZnbbuWwyyj8foNcE=;
- b=rg7Qf2QIh34p2094JO5YA1CnII1ub6fHhPWuq9JNtrYCMcD7/DBVRR3U1wABmgZGVj
- /WjPa/CQt7sdr8O63URlwPpw+SYEFnozNLDdo3pbziA+R2Ixu1zamt1E2qE8LwzaboQV
- 6zqRNoWM04zuCjftfbjsYSm5MLrr9kJlkMYu+bI/dVsiwiGweBwslcofR35UYAl6TYaq
- li1ZUlE2XkA/tXyE9f1ErbQQ0awfsDc/utdHASkGg+3F1Ta4u90ZSkLSxiPN4iU2QUWX
- MCxs+D1ps2iIJvSPBNqcGP3e2fewnW8yM1yI9vwHusAoBneOzSWo4cDv3o0DgxY/22x3
- cbqw==
+ bh=SiNQbckGiLHSdAhwjfK5xvVxyTBBf3VLzq5ylGolmws=;
+ b=OTUCZpAkpE6gRwGvLMvsLn29rAFWEFKQiKdkFLnfDn4lfxrBilxxv1D11KtgtRq1xZ
+ A1eY7GaSy/6ihLcZ4o+aZs9ZDdDqJ+n99C0TL6fqYPcsGnrhVrDqlEdPu7eFlupZToYt
+ Xz08nOKFPoaIpxrotG19cmj3ZSiQuPOA4xijwF9s6yiPKGepwLi/Qq8mKQCHWesnPh7a
+ 7NC2ueZ6xDovHQHiR90uchC6VMOVBcSil7PMNnnZmM66x1YoQ7jJ79c7nxJobxAN9H/t
+ 4uY6UB5pvWfsX9KSWhTD8dRZzbN2bMcwieg4pS/DPnMtFV4ySf0OQTAWzCmgM7TOJodr
+ lhXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=l8S7IMdc4SUhiw5I4pOV8PMvaReZnbbuWwyyj8foNcE=;
- b=sM47FqfI4BYTF08ggtClUb2Xpl1+9tCqV+AioQ/qG822juESz1TcbbFBS1RNMCbcO6
- aS5PMGL4ZIGClUW90ktEu0DuISrN5ZTaigTj+SD3a2wxgvaZ/O4pzdIqTBa0F+gl1Nmu
- mF/3NQBwBOK0kSbboxtsvckUalKc9kmQM26+KBAAlWiiJZ5403Q6YZMuPmddEG9AZUyw
- ARG91PP12quyJapkpgS1L8482RiaoLkPSjf04u3X4gEhTgYMWDiobTaq+s0KKqvdkxst
- LAau0FEHEZyhx+NZEk44cnHH8XE5QQV1SvLCG3HxCnM9tUoXojtrzBPAnYUDLUjNgOo/
- Z4kw==
-X-Gm-Message-State: AOAM530jca2wQ7Pfo8U18KTX+/kTnoaFxzdwpXyYUbyjmf9jK50c/BZL
- asv0+tYJnPTiqMjVrJl4E39TlA==
-X-Google-Smtp-Source: ABdhPJwISgSjut+vLfk0mqHTBhK9o4zKXtkWt6DZQf5/vfCAWtGcEk5AONGlY5blfA+FE208uyVVqw==
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr4995433wrw.72.1628165454581;
- Thu, 05 Aug 2021 05:10:54 -0700 (PDT)
+ bh=SiNQbckGiLHSdAhwjfK5xvVxyTBBf3VLzq5ylGolmws=;
+ b=A0ss82ZhNyBSJXo2A4zHvKNVmv/3FN9PyQySHQ1TMYixH5UnwTQdd0g36dm+ja66oo
+ tRLPPdSkn3r1+jumYd6mpjTfZoti2h6g8F4o0Bu/pQ0OjSI2uROutZ8N78XyP2DmJrD7
+ Rb+geAiAFPoHphM2fKShTX9xn+QrNBqm91TgbQHRLIZUug8vIKbl3os48/1BGj6+JblJ
+ aNkmAAcY6R/JnWCiSqspH8SyJoWHg2OcilXRoxBrHkDC4SZM9RGotimPOiT7DczO5MjJ
+ CyB4DXYdVXX7mVdws05gV1IkRj5vHSt64IUBv+bMNeqAfUInV4wysW7EwJEYeOFMe773
+ e6Eg==
+X-Gm-Message-State: AOAM533mmvAMHfwYUbws9MOdpXLURMBDZcMhzU1GwCR0iBM/u40na0Lp
+ AzkA583DMzn8jK1TDYfrdRFaww==
+X-Google-Smtp-Source: ABdhPJw5CQQexXmwb++qaTTrhT4Hd/auJ+tIXPDy0hoYBkKu7v4b0V7a0Qzm8Cv8myhXd1F7M3Svog==
+X-Received: by 2002:a5d:6107:: with SMTP id v7mr4824477wrt.107.1628165621831; 
+ Thu, 05 Aug 2021 05:13:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f26sm6063448wrd.41.2021.08.05.05.10.52
+ by smtp.gmail.com with ESMTPSA id y192sm8728875wmy.1.2021.08.05.05.13.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 05:10:53 -0700 (PDT)
+ Thu, 05 Aug 2021 05:13:40 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D11851FF96;
- Thu,  5 Aug 2021 13:10:51 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id E2EC81FF96;
+ Thu,  5 Aug 2021 13:13:39 +0100 (BST)
 References: <20210804005621.1577302-1-jsnow@redhat.com>
- <20210804005621.1577302-6-jsnow@redhat.com>
+ <20210804005621.1577302-7-jsnow@redhat.com>
 User-agent: mu4e 1.6.1; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 5/6] docs/devel: create "Subsystem APIs" subsection
-Date: Thu, 05 Aug 2021 13:10:47 +0100
-In-reply-to: <20210804005621.1577302-6-jsnow@redhat.com>
-Message-ID: <87a6lwks6s.fsf@linaro.org>
+Subject: Re: [PATCH 6/6] docs/devel: create "Miscellaneous Topics" subsection
+Date: Thu, 05 Aug 2021 13:12:23 +0100
+In-reply-to: <20210804005621.1577302-7-jsnow@redhat.com>
+Message-ID: <877dh0ks24.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,7 +95,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
+> The hallmark of any truly great taxonomical reorganization: the bin of
+> leftover bits and pieces that didn't neatly fit elsewhere.
+>
 > Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/devel/index.rst        |  9 +--------
+>  docs/devel/section-misc.rst | 15 +++++++++++++++
+>  2 files changed, 16 insertions(+), 8 deletions(-)
+>  create mode 100644 docs/devel/section-misc.rst
+>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index da579a7b666..ef14f3302e1 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -14,11 +14,4 @@ modifying QEMU's source code.
+>     section-testing-debugging
+>     section-tcg
+>     section-subsystems
+> -   control-flow-integrity
+> -   decodetree
+
+decodetree is TCG as per Peter's comment
+
+> -   s390-dasd-ipl
+> -   qom
+
+I feel as though QOM should be in the Developing QEMU section as it's a
+fairly core part of the programming experience. Maybe?
+
+Anyway it's an improvement:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
