@@ -2,78 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43163E1480
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:14:53 +0200 (CEST)
-Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C6C3E14A1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:22:12 +0200 (CEST)
+Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBcGy-0003TY-S7
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
+	id 1mBcO3-0005sJ-Dr
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcFt-0002lp-VR
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:13:45 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcFr-0003WY-BD
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:13:45 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id m12so6218401wru.12
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=SiNQbckGiLHSdAhwjfK5xvVxyTBBf3VLzq5ylGolmws=;
- b=OTUCZpAkpE6gRwGvLMvsLn29rAFWEFKQiKdkFLnfDn4lfxrBilxxv1D11KtgtRq1xZ
- A1eY7GaSy/6ihLcZ4o+aZs9ZDdDqJ+n99C0TL6fqYPcsGnrhVrDqlEdPu7eFlupZToYt
- Xz08nOKFPoaIpxrotG19cmj3ZSiQuPOA4xijwF9s6yiPKGepwLi/Qq8mKQCHWesnPh7a
- 7NC2ueZ6xDovHQHiR90uchC6VMOVBcSil7PMNnnZmM66x1YoQ7jJ79c7nxJobxAN9H/t
- 4uY6UB5pvWfsX9KSWhTD8dRZzbN2bMcwieg4pS/DPnMtFV4ySf0OQTAWzCmgM7TOJodr
- lhXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=SiNQbckGiLHSdAhwjfK5xvVxyTBBf3VLzq5ylGolmws=;
- b=A0ss82ZhNyBSJXo2A4zHvKNVmv/3FN9PyQySHQ1TMYixH5UnwTQdd0g36dm+ja66oo
- tRLPPdSkn3r1+jumYd6mpjTfZoti2h6g8F4o0Bu/pQ0OjSI2uROutZ8N78XyP2DmJrD7
- Rb+geAiAFPoHphM2fKShTX9xn+QrNBqm91TgbQHRLIZUug8vIKbl3os48/1BGj6+JblJ
- aNkmAAcY6R/JnWCiSqspH8SyJoWHg2OcilXRoxBrHkDC4SZM9RGotimPOiT7DczO5MjJ
- CyB4DXYdVXX7mVdws05gV1IkRj5vHSt64IUBv+bMNeqAfUInV4wysW7EwJEYeOFMe773
- e6Eg==
-X-Gm-Message-State: AOAM533mmvAMHfwYUbws9MOdpXLURMBDZcMhzU1GwCR0iBM/u40na0Lp
- AzkA583DMzn8jK1TDYfrdRFaww==
-X-Google-Smtp-Source: ABdhPJw5CQQexXmwb++qaTTrhT4Hd/auJ+tIXPDy0hoYBkKu7v4b0V7a0Qzm8Cv8myhXd1F7M3Svog==
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr4824477wrt.107.1628165621831; 
- Thu, 05 Aug 2021 05:13:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y192sm8728875wmy.1.2021.08.05.05.13.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 05:13:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E2EC81FF96;
- Thu,  5 Aug 2021 13:13:39 +0100 (BST)
-References: <20210804005621.1577302-1-jsnow@redhat.com>
- <20210804005621.1577302-7-jsnow@redhat.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 6/6] docs/devel: create "Miscellaneous Topics" subsection
-Date: Thu, 05 Aug 2021 13:12:23 +0100
-In-reply-to: <20210804005621.1577302-7-jsnow@redhat.com>
-Message-ID: <877dh0ks24.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBcN1-0005C2-04
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:21:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54658
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBcMv-0006Xd-Mq
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:21:06 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 175CFUJw040118; Thu, 5 Aug 2021 08:20:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=m9gwTLmKjJqaMwNNBiJZk3nNMDdY6/3oS0Ug2Zd1h/M=;
+ b=MHAbafegJUn07F/EImApkOJFnex24f7vDqIXI4S6RqC45HOUthgMJ619c0K/3h/SXYS4
+ x/ALVz/dSXAdbTv9DaLBl+zpAlv77rUp4TwsUWVx8a7GLgEjAJ8R7XIMlLCbNyV/t4Vx
+ 7RRz7252Xvh3veC7a0zvHnKh1oHQ1Eh0+88jmighWDchqjWzui7FlzIz+CH0nAbB4Uus
+ +jJU1q/qTpxr3uB80g3NA5JjGNgY9fSLPRaPi5Ctg5JokgNK3rfObwG/sRrp0R0wLpwK
+ eSTAUENauIFj5jLoJ+i1A+uNaGoHWeL4EgMWJbNl50VqY36dptOBspfuOS6thIdPyMH0 ww== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a88b9uth7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 08:20:58 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 175CG6mL041599;
+ Thu, 5 Aug 2021 08:20:58 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a88b9uth0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 08:20:58 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 175C8Hr9011160;
+ Thu, 5 Aug 2021 12:20:57 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 3a7anj8b5n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 12:20:57 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 175CKurB51446096
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Aug 2021 12:20:56 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4CBE2136060;
+ Thu,  5 Aug 2021 12:20:56 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C145013605D;
+ Thu,  5 Aug 2021 12:20:53 +0000 (GMT)
+Received: from [9.160.123.143] (unknown [9.160.123.143])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Aug 2021 12:20:53 +0000 (GMT)
+Subject: Re: [PATCH v4 04/14] confidential guest support: introduce
+ ConfidentialGuestMemoryEncryptionOps for encrypted VMs
+To: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org
+References: <cover.1628076205.git.ashish.kalra@amd.com>
+ <74fce7be9bd219ce902851c0b27192fdefbf9ef1.1628076205.git.ashish.kalra@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <a608f479-1eca-6738-d96b-75145c334b29@linux.ibm.com>
+Date: Thu, 5 Aug 2021 15:20:50 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <74fce7be9bd219ce902851c0b27192fdefbf9ef1.1628076205.git.ashish.kalra@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ej4oosB43jTTqiYZuCW1evyoJyIJyvZu
+X-Proofpoint-GUID: ZxlmEs70XmYQqDVayNHkoRTGC31aNoLv
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-05_04:2021-08-05,
+ 2021-08-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ bulkscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108050073
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,47 +116,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ jejb@linux.ibm.com, tobin@ibm.com, dgilbert@redhat.com,
+ dovmurik@linux.vnet.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-John Snow <jsnow@redhat.com> writes:
 
-> The hallmark of any truly great taxonomical reorganization: the bin of
-> leftover bits and pieces that didn't neatly fit elsewhere.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On 04/08/2021 14:55, Ashish Kalra wrote:
+> From: Brijesh Singh <brijesh.singh@amd.com>
+> 
+> When memory encryption is enabled in VM, the guest RAM will be encrypted
+> with the guest-specific key, to protect the confidentiality of data while
+> in transit we need to platform specific hooks to save or migrate the
+> guest RAM.
+> 
+> Introduce the new ConfidentialGuestMemoryEncryptionOps in this patch
+> which will be later used by the encrypted guest for migration.
+
+Do we already have SEV / ConfidentialGuest debug operations? (for
+reading SEV guest memory from gdb if debug is allowed in policy)
+
+Are they supposed to be in the same Ops struct? Another?
+
+
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Co-developed-by: Ashish Kalra <ashish.kalra@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 > ---
->  docs/devel/index.rst        |  9 +--------
->  docs/devel/section-misc.rst | 15 +++++++++++++++
->  2 files changed, 16 insertions(+), 8 deletions(-)
->  create mode 100644 docs/devel/section-misc.rst
->
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index da579a7b666..ef14f3302e1 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -14,11 +14,4 @@ modifying QEMU's source code.
->     section-testing-debugging
->     section-tcg
->     section-subsystems
-> -   control-flow-integrity
-> -   decodetree
+>  include/exec/confidential-guest-support.h | 27 +++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+> index ba2dd4b5df..d8b4bd4c42 100644
+> --- a/include/exec/confidential-guest-support.h
+> +++ b/include/exec/confidential-guest-support.h
+> @@ -20,6 +20,7 @@
+> 
+>  #ifndef CONFIG_USER_ONLY
+> 
+> +#include <qapi/qapi-types-migration.h>
+>  #include "qom/object.h"
+> 
+>  #define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
+> @@ -53,8 +54,34 @@ struct ConfidentialGuestSupport {
+>      bool ready;
+>  };
+> 
+> +/**
+> + * The functions registers with ConfidentialGuestMemoryEncryptionOps will be
+> + * used during the encrypted guest migration.
+> + */
+> +struct ConfidentialGuestMemoryEncryptionOps {
 
-decodetree is TCG as per Peter's comment
+[style] in QEMU you should add a 'typedef' at the beginning and call the
+type ConfidentialGuestMemoryEncryptionOps, and then you don't use the
+keyword 'struct' when you refer to it.  See for example the definition
+of ConfidentialGuestSupportClass below.
 
-> -   s390-dasd-ipl
-> -   qom
 
-I feel as though QOM should be in the Developing QEMU section as it's a
-fairly core part of the programming experience. Maybe?
+> +    /* Initialize the platform specific state before starting the migration */
+> +    int (*save_setup)(MigrationParameters *p);
+> +
+> +    /* Write the encrypted page and metadata associated with it */
+> +    int (*save_outgoing_page)(QEMUFile *f, uint8_t *ptr, uint32_t size,
+> +                              uint64_t *bytes_sent);
+> +
+> +    /* Load the incoming encrypted page into guest memory */
+> +    int (*load_incoming_page)(QEMUFile *f, uint8_t *ptr);
+> +
+> +    /* Check if gfn is in shared/unencrypted region */
+> +    bool (*is_gfn_in_unshared_region)(unsigned long gfn);
 
-Anyway it's an improvement:
+The comment says "shared/unencrypted", but the function name talks about
+"unshared".  I prefer:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+    /* Check if gfn is in encrypted region */
+    bool (*is_gfn_in_encrypted_region)(unsigned long gfn);
 
---=20
-Alex Benn=C3=A9e
+(and then maybe the comment is useless?)
+
+
+> +
+> +    /* Write the shared regions list */
+> +    int (*save_outgoing_shared_regions_list)(QEMUFile *f);
+> +
+> +    /* Load the shared regions list */
+> +    int (*load_incoming_shared_regions_list)(QEMUFile *f);
+> +};
+> +
+>  typedef struct ConfidentialGuestSupportClass {
+>      ObjectClass parent;
+> +    struct ConfidentialGuestMemoryEncryptionOps *memory_encryption_ops;
+
+per above, remove 'struct'.
+
+
+>  } ConfidentialGuestSupportClass;
+> 
+>  #endif /* !CONFIG_USER_ONLY */
+> 
 
