@@ -2,81 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BA53E0E2D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 08:17:54 +0200 (CEST)
-Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95973E0E75
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 08:36:04 +0200 (CEST)
+Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBWhV-0002nq-Nm
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 02:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42034)
+	id 1mBWz5-0007t6-DJ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 02:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mBWgI-0001KW-Kt
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 02:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25606)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBWxz-0006RO-1L
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 02:34:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15640
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mBWgF-0008KN-Pe
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 02:16:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628144194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bsxYXpGYaE153Pgbsv0gIuB/j9TvOd9WnJ6ZdYbZIYg=;
- b=b3AYQaYqvbnyKO0P7EvJtvuGQ2tT/hSONJw+ke+TzqtRlrEbQRabkfyzweFP5llO9RTnLY
- 03EMjD5/0hkQSIWLrrplUi0qwkcOkBSWp3HnuNLqjq9R9Xd3zJqRh1W8f+CJo1XE86yiOY
- k5OvIqOSlCAAvlhg9CPE2s1yp3aPOuw=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-IrnqLubTOh6mGA1nCGcUjw-1; Thu, 05 Aug 2021 02:16:33 -0400
-X-MC-Unique: IrnqLubTOh6mGA1nCGcUjw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- o11-20020a05651205cbb02903b95fe85eefso2148898lfo.23
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 23:16:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bsxYXpGYaE153Pgbsv0gIuB/j9TvOd9WnJ6ZdYbZIYg=;
- b=SZP8Ao6tyOmOjyYgOfEq6UyAH/DH31Q65T7/oATB8m705CfPJB4dmB2SreFwJhzAfB
- Z1wm57GRKxgmqI97u87Nphi0Izuur9ZP8128Fi2Ee7S0M2prHyugRxUCeDXbZGI4l7PO
- K952r6y6DPPkYJ+0M2fh7W0zzRRuCgdfzAIBvY1gaRGOrZ2QKC3j+mRQ8iJOJxSVqrTd
- b+UmEbFPiaVrsqUwn3DWPyGGhXCy0BC4icFCcSRCj2Ua4pkhAJnJ1tyr38D0jzbj2AMj
- sVZ4dImo9lHHBE4zRLcqxDt/mfKnjzaj4kLUIeUBXG1dNnpej1AyiXF94c2gFRl59tYa
- F4mA==
-X-Gm-Message-State: AOAM531CZZpZ9PH5ZTGtujssqo6u+I0XGbWiYMxb9zm90FzpkRKv400p
- i4Liy6q1K009FmvUlHPbJSQa1BBjxs557RqjMkQCtmxW0oxBaMTzZGxirdClSk2NhEBVGdpraC5
- ZSXImmQUDatRNBOkAupojxZW6oZ8apcQ=
-X-Received: by 2002:a19:7103:: with SMTP id m3mr2529546lfc.5.1628144192035;
- Wed, 04 Aug 2021 23:16:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwb5JOpNdmGLuF2VjMesPgUtnjLX/nbWraO7M4fxfdQsfKaCbC9oh8riy+AwCz3ORvMOm5TD9HNBAMGAwbBKh8=
-X-Received: by 2002:a19:7103:: with SMTP id m3mr2529518lfc.5.1628144191770;
- Wed, 04 Aug 2021 23:16:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mBWxx-0006wb-7z
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 02:34:54 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1756YB6v193235; Thu, 5 Aug 2021 02:34:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=EupvH0Z52rmi296cyxW51NyIU/Y8ErAFgaWMcgpKpHM=;
+ b=b1fs0ZrVwAjvrZixnijb0mpHZ6Cma1YCXR6zXKjikrI/hbS7DuEGzs2B1wh9KlBZdbbg
+ Yvhrq225vK3XaoU1m4Fvtz+vvSFrUz2QMw+Ma+Ed69uE/ETjhL80LVTlveSOqDU8lWxo
+ zetIc2lttFimiwEO2Gd3o8JKQ8iZtWgLqYWxRw+43ipK6GequUq63IEF9uLXnCaC5MUt
+ zAXd/rfpvYwb0wbJL6DqRoWZllbUEbSlkS/TBj7JSuQO5OGWgz8RgQ/xf19bt+9YXLVw
+ QoNIXGiaR9a1NlsHVlod3kM/sWY1CSo1lcQfNTg0mZS3/3YPJ3a3tKbHYmkBo5mtuQxe bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a89pqhk6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 02:34:50 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1756Ynnj195167;
+ Thu, 5 Aug 2021 02:34:49 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3a89pqhk6m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 02:34:49 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1756YGni010309;
+ Thu, 5 Aug 2021 06:34:49 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma02dal.us.ibm.com with ESMTP id 3a6j2h4weq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 06:34:49 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1756Ylk646268924
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Aug 2021 06:34:47 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C87B6A066;
+ Thu,  5 Aug 2021 06:34:47 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E2B36A05A;
+ Thu,  5 Aug 2021 06:34:44 +0000 (GMT)
+Received: from [9.160.123.143] (unknown [9.160.123.143])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Aug 2021 06:34:44 +0000 (GMT)
+Subject: Re: [PATCH v4 02/14] doc: update AMD SEV to include Live migration
+ flow
+To: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org
+References: <cover.1628076205.git.ashish.kalra@amd.com>
+ <0e2b3d80e3d61b121ff4b508e5299e3c23f7b090.1628076205.git.ashish.kalra@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <e1eacdaf-3ccb-9e17-af78-5c33a05316e5@linux.ibm.com>
+Date: Thu, 5 Aug 2021 09:34:42 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210804144402.711594-1-eperezma@redhat.com>
-In-Reply-To: <20210804144402.711594-1-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 5 Aug 2021 14:16:20 +0800
-Message-ID: <CACGkMEuW166WvHeB63aoTvYinqK4u_8hDBFHtUXoexWkQy8PpA@mail.gmail.com>
-Subject: Re: [RFC PATCH] vhost-vdpa: Do not send empty IOTLB update batches
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <0e2b3d80e3d61b121ff4b508e5299e3c23f7b090.1628076205.git.ashish.kalra@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7nVygw8P6weL94yTFf9HIK13PdMfp30J
+X-Proofpoint-ORIG-GUID: fOuZQ5vLhvNbpBx1onX6nXNJ3t4CSWZj
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-05_02:2021-08-04,
+ 2021-08-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108050037
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,155 +115,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ jejb@linux.ibm.com, tobin@ibm.com, dgilbert@redhat.com,
+ dovmurik@linux.vnet.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 4, 2021 at 10:44 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> With the introduction of the batch hinting, meaningless batches can be
-> created with no IOTLB updates if the memory region was skipped by
-> vhost_vdpa_listener_skipped_section. This is the case of host notifiers
-> memory regions, but others could fall on this category. This caused the
-> vdpa device to receive dma mapping settings with no changes, a possibly
-> expensive operation for nothing.
->
-> To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have a
-> meaningful (not skipped section) mapping or unmapping operation, and
-> VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
-> _INVALIDATE has been issued.
 
-Hi Eugeni:
 
-This should work but it looks to me it's better to optimize the kernel.
-
-E.g to make sure we don't send set_map() if there is no real updating
-between batch start and end.
-
-This makes sure that it can work for all kinds of userspace (not only for Q=
-emu).
-
-Another optimization is to batch the memory region transaction by adding:
-
-memory_region_transaction_begin() and memory_region_transaction_end() in
-
-both vhost_vdpa_host_notifiers_init() and vhost_vdpa_host_notifiers_uninit(=
-).
-
-This can make sure only at least one memory transactions when
-adding/removing host notifier regions.
-
-Thanks
-
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+On 04/08/2021 14:53, Ashish Kalra wrote:
+> From: Brijesh Singh <brijesh.singh@amd.com>
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 > ---
->  include/hw/virtio/vhost-vdpa.h |  1 +
->  hw/virtio/vhost-vdpa.c         | 38 +++++++++++++++++++++++-----------
->  2 files changed, 27 insertions(+), 12 deletions(-)
->
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
-a.h
-> index e98e327f12..0a7edbe4eb 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
->      int device_fd;
->      int index;
->      uint32_t msg_type;
-> +    size_t n_iotlb_sent_batch;
->      MemoryListener listener;
->      struct vhost_dev *dev;
->      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 6ce94a1f4d..2517fc6103 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v,=
- hwaddr iova,
->      return ret;
->  }
->
-> -static void vhost_vdpa_listener_begin(MemoryListener *listener)
-> +static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
->  {
-> -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
-> -    struct vhost_dev *dev =3D v->dev;
-> -    struct vhost_msg_v2 msg =3D {};
->      int fd =3D v->device_fd;
-> -
-> -    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-> -        return;
-> -    }
-> -
-> -    msg.type =3D v->msg_type;
-> -    msg.iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN;
-> +    struct vhost_msg_v2 msg =3D {
-> +        .type =3D v->msg_type,
-> +        .iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN,
-> +    };
->
->      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
->          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> @@ -120,6 +114,11 @@ static void vhost_vdpa_listener_commit(MemoryListene=
-r *listener)
->          return;
->      }
->
-> +    if (v->n_iotlb_sent_batch =3D=3D 0) {
-> +        return;
-> +    }
+>  docs/amd-memory-encryption.txt | 46 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index 12ca25180e..0d9184532a 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -126,7 +126,51 @@ TODO
+> 
+>  Live Migration
+>  ----------------
+> -TODO
+> +AMD SEV encrypts the memory of VMs and because a different key is used
+> +in each VM, the hypervisor will be unable to simply copy the
+> +ciphertext from one VM to another to migrate the VM. Instead the AMD SEV Key
+> +Management API provides sets of function which the hypervisor can use
+> +to package a guest page for migration, while maintaining the confidentiality
+> +provided by AMD SEV.
 > +
-> +    v->n_iotlb_sent_batch =3D 0;
->      msg.type =3D v->msg_type;
->      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
->
-> @@ -170,6 +169,14 @@ static void vhost_vdpa_listener_region_add(MemoryLis=
-tener *listener,
->
->      llsize =3D int128_sub(llend, int128_make64(iova));
->
-> +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
-> +        if (v->n_iotlb_sent_batch =3D=3D 0) {
-> +            vhost_vdpa_listener_begin_batch(v);
-> +        }
+> +SEV guest VMs have the concept of private and shared memory. The private
+> +memory is encrypted with the guest-specific key, while shared memory may
+> +be encrypted with the hypervisor key. The migration APIs provided by the
+> +SEV API spec should be used for migrating the private pages.
 > +
-> +        v->n_iotlb_sent_batch++;
-> +    }
+> +The KVM_HC_MAP_GPA_RANGE hypercall is used by the SEV guest to notify a
+> +change in the page encryption status to the hypervisor. The hypercall
+> +is invoked when the encryption attribute is changed from encrypted -> decrypted
+> +and vice versa. By default all guest pages are considered encrypted.
 > +
->      ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
->                               vaddr, section->readonly);
->      if (ret) {
-> @@ -221,6 +228,14 @@ static void vhost_vdpa_listener_region_del(MemoryLis=
-tener *listener,
->
->      llsize =3D int128_sub(llend, int128_make64(iova));
->
-> +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
-> +        if (v->n_iotlb_sent_batch =3D=3D 0) {
-> +            vhost_vdpa_listener_begin_batch(v);
-> +        }
+> +This hypercall exits to qemu via KVM_EXIT_HYPERCALL to manage the guest
+> +shared regions and integrate with the qemu's migration code. The shared
+> +region list can be used to check if the given guest page is private or shared.
 > +
-> +        v->n_iotlb_sent_batch++;
-> +    }
-> +
->      ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
->      if (ret) {
->          error_report("vhost_vdpa dma unmap error!");
-> @@ -234,7 +249,6 @@ static void vhost_vdpa_listener_region_del(MemoryList=
-ener *listener,
->   * depends on the addnop().
->   */
->  static const MemoryListener vhost_vdpa_memory_listener =3D {
-> -    .begin =3D vhost_vdpa_listener_begin,
->      .commit =3D vhost_vdpa_listener_commit,
->      .region_add =3D vhost_vdpa_listener_region_add,
->      .region_del =3D vhost_vdpa_listener_region_del,
-> --
-> 2.27.0
->
+> +Before initiating the migration, we need to know the targets machine's public
 
+s/targets/target/
+
+> +Diffie-Hellman key (PDH) and certificate chain. It can be retrieved
+> +with the 'query-sev-capabilities' QMP command or using the sev-tool. The
+> +migrate-set-parameter can be used to pass the target machine's PDH and
+> +certificate chain.
+
+It's better to clarify that you use query-sev-capabilities QMP command
+on the *target* VM (to get its PDF and cert) when it's ready, and then
+use migrate-set-parameter QMP command on the *source* so it can prepare
+the migration for that specific target.
+
+
+> +
+> +During the migration flow, the SEND_START is called on the source hypervisor
+> +to create an outgoing encryption context. The SEV guest policy dictates whether
+> +the certificate passed through the migrate-sev-set-info command will be
+
+Here you say migrate-sev-set-info but above you said
+migrate-set-parameter.  Which one is it?
+
+
+-Dov
+
+> +validated. SEND_UPDATE_DATA is called to encrypt the guest private pages.
+> +After migration is completed, SEND_FINISH is called to destroy the encryption
+> +context and make the VM non-runnable to protect it against cloning.
+> +
+> +On the target machine, RECEIVE_START is called first to create an
+> +incoming encryption context. The RECEIVE_UPDATE_DATA is called to copy
+> +the received encrypted page into guest memory. After migration has
+> +completed, RECEIVE_FINISH is called to make the VM runnable.
+> +
+> +For more information about the migration see SEV API Appendix A
+> +Usage flow (Live migration section).
+> +
+> +NOTE:
+> +To protect against the memory clone SEV APIs are designed to make the VM
+> +unrunnable in case of the migration failure.
+> 
+>  References
+>  -----------------
+> 
 
