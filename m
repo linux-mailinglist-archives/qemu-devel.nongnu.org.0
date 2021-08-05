@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626193E1478
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:11:08 +0200 (CEST)
-Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78453E1479
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 14:11:40 +0200 (CEST)
+Received: from localhost ([::1]:57880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBcDL-0007rY-3D
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47572)
+	id 1mBcDr-00006R-TC
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 08:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcC4-0006Ss-Nw
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:09:48 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35446)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mBcCI-00072i-Px
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:10:02 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:36500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mBcC3-00024M-1s
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:09:48 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- n12-20020a05600c3b8cb029025a67bbd40aso6165306wms.0
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=gtzhoXgFQoZQv46yGzOJIO4zWZC6YJx+umB7xOuQ4yM=;
- b=prMHyf2O6gdJS6UcIL1Qmp2uPGDEr1XvTbvdZKVf96kWyq13o78iQhcykJOV+GyGVt
- PhfRzsc9V0ds+k0xCv0N/kf1C3w8ZBENH8Qyjw3pagwaDhZm43dgvH0r81uA/2JjEjxv
- vXYFUfF5SKHUxk0eAnBg2f9nhYGug/chyxOXWFL6NPgQK2WZIn4ss2giZ3a/5csGrqZL
- NqN9ydzEV7MAwESil3zFoasvw+RTvbe1u9j7BGGxrPgee65nEH2dXQLLgAK03uiBdte2
- Vmb/4gWI4xqP9DoZshghbYYwtLb+LlMw/o8uwv65w4ZRzrm9Og8Fv4blYcB8RjObRNAn
- klvw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mBcCG-00029d-VN
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 08:10:02 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ u13-20020a17090abb0db0290177e1d9b3f7so14237663pjr.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 05:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=mzsaEfLcXVmfGXTtl+BW+UOMxuXzIpucaTiPnykKKVc=;
+ b=LmPC1RodMt8hs5DM0fSciz3hcFM3r2BR15c3t+zVdmXON9Sae1A8c+w0aw1ZuIn9E0
+ +lrrPNvOyODmsyEPjskaAUJLL+EPPD50+J82UiUgBO9v7UPXLZaNhOI8lnTyuKpSZZRd
+ doI2Bf6iRLTmjV/35zi0mFbDk6sPkVuQOyTf1oGllQ5fF+gdkLTk0mDRg8t4iKoFrO5P
+ VmrkdtDDVdpSHA3eOJini92Fyy35DJ93RDgLwnjCh12Fji+jNcFpyP5qZ4hkwU80wKjZ
+ K6fgkJeJ12mj4JuBwKT43akSMK7cpQaGCdQn0OlknuDKVakt/EIUKI9ZZCTCpqSNZSTE
+ eZcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=gtzhoXgFQoZQv46yGzOJIO4zWZC6YJx+umB7xOuQ4yM=;
- b=mJjX2VwLdOW37l2tzD/JMr208U8aIi/K/s8g5K6pVHD6RCdHX+Elttka86TMByhLG3
- p3fh/2q77jbPWjSsgzlqYR9iRp2BXZd3Pw0DFkCKP0Omex7lf6THqrFQt8KJljEl7YVf
- Yb9NzxeadCz6Hh7CgMSxWkMNx10y0UsCSLsV3rlclodGOGmRJbVJ1VMMYTzCcQU1sp89
- H1/Kga1lguw/9U6IKKuCQSTGTj9JKK0N6L1FhMDswTTT1UYaEWpE8Ds0+zeajtIRIiZ6
- QTAymkPjGJwMl1BL9ykwgsHGCS1pwVAdBv2tv1hgp7PwMPPCOKDBVWx4RozCdX9uwuv3
- 20VA==
-X-Gm-Message-State: AOAM533B339Csjmz4hn8nRER2BQ7aCWkLctyJBQNTCtv/lWfFuwXf68Z
- nmGSDQgf3yu4tRK4tboZAC6NVQ==
-X-Google-Smtp-Source: ABdhPJwycJI1X+UMylTovKCcZgcERJEYH6rrI9ncU9OrRc6+yRz4VPHv01cjge/YiFYxfiMMJPbBdg==
-X-Received: by 2002:a1c:4b12:: with SMTP id y18mr14513891wma.67.1628165385664; 
- Thu, 05 Aug 2021 05:09:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i10sm9016328wmq.21.2021.08.05.05.09.44
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=mzsaEfLcXVmfGXTtl+BW+UOMxuXzIpucaTiPnykKKVc=;
+ b=afTjBAU8EZg6usI/zebuBG8vz3w3IxvLPQOIG/TwnxyhiOU+OPO1KjNOFEOLdvYysN
+ +8CE+FVLxTKhO6IDDyb8snPiXEnnlUwZJgCGUXIDeRX0up1+SKZjhHoF51Yx0hysQDJZ
+ 9k3MT8QO2hm/gROuKMpHsicFtq0bUe2+IrRS/gKjlLc+9nXV0k5eDxVn2XD68ogsU7ln
+ 1ILA9S0eUuHXDijBTBzO9DCeIZpfSOAEtaymJHyw2s2IRb2i0m6tezRkmL1LEuLZFt2d
+ CO+Pw16KLNES48dYmi9oabLoJnu4UIcVqwicoWlU1LY+QViGDUp+C+cBT4HOAZpCww+3
+ Lcww==
+X-Gm-Message-State: AOAM530J/84KmtmUZLaKkmg7hUZFDKD/XBeRLWrsjiQcU0NmBXyuVLvB
+ meZZP8KYVgRJJ4xAF60jtrR3Ow==
+X-Google-Smtp-Source: ABdhPJxteZMA/wWxLkL4CTv8zqJec301NfHZNLvOz78uzWcFeFJUr30KD1xqW6DD+fCII1YHy1AjdA==
+X-Received: by 2002:a17:90a:3b0f:: with SMTP id
+ d15mr15426396pjc.71.1628165399520; 
+ Thu, 05 Aug 2021 05:09:59 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.119.116])
+ by smtp.googlemail.com with ESMTPSA id n33sm7503213pgm.55.2021.08.05.05.09.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 05:09:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A50691FF96;
- Thu,  5 Aug 2021 13:09:43 +0100 (BST)
-References: <20210804005621.1577302-1-jsnow@redhat.com>
- <20210804005621.1577302-5-jsnow@redhat.com>
-User-agent: mu4e 1.6.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 4/6] docs/devel: create TCG subsection
-Date: Thu, 05 Aug 2021 13:09:05 +0100
-In-reply-to: <20210804005621.1577302-5-jsnow@redhat.com>
-Message-ID: <87czqsks8o.fsf@linaro.org>
+ Thu, 05 Aug 2021 05:09:59 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 5 Aug 2021 17:39:43 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
+ from acpi_get_i386_pci_host
+In-Reply-To: <20210805111543.5fb99abf@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
+References: <20210726165743.232073-1-ani@anisinha.ca>
+ <20210805111543.5fb99abf@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,20 +86,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, jusual@redhat.com,
+ qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-John Snow <jsnow@redhat.com> writes:
 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On Thu, 5 Aug 2021, Igor Mammedov wrote:
 
-modulo Peter's comments re decodetree:
+> On Mon, 26 Jul 2021 22:27:43 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > All existing code using acpi_get_i386_pci_host() checks for a non-null
+> > return value from this function call. Instead of returning early when the value
+> > returned is NULL, assert instead. Since there are only two possible host buses
+> > for i386 - q35 and i440fx, a null value return from the function does not make
+> > sense in most cases and is likely an error situation.
+> >
+> > Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  hw/acpi/pcihp.c      |  8 ++++++++
+> >  hw/i386/acpi-build.c | 15 ++++++---------
+> >  2 files changed, 14 insertions(+), 9 deletions(-)
+> >
+> > changelog:
+> > v1: initial patch
+> > v2: removed comment addition - that can be sent as a separate patch.
+> > v3: added assertion for null host values for all cases except one.
+> >
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index f4d706e47d..054ee8cbc5 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -116,6 +116,12 @@ static void acpi_set_pci_info(void)
+> >      bsel_is_set = true;
+> >
+> >      if (!host) {
+> > +        /*
+> > +         * This function can be eventually called from
+> > +         * qemu_devices_reset() -> acpi_pcihp_reset() even
+> > +         * for architectures other than i386. Hence, we need
+> > +         * to ignore null values for host here.
+> > +         */
+> >          return;
+> >      }
+>
+> I suspect it's a MIPS target that call this code unnecessarily.
+> It would be better to get rid of this condition altogether.
+> Frr that I can suggest to make acpi_pcihp_reset() stub and
+> replace pcihp.c with stub (perhaps use acpi-x86-stub.c) when building
+> for MIPS.
+>
+> then a bunch of asserts/ifs won't be necessary,
+> just one in acpi_get_i386_pci_host() will be sufficient.
+>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+OK this is a good idea.
+I can see that mips-softmmu-config-devices.h has
+CONFIG_ACPI_X86 turned on for mips. This does not seem right.
 
---=20
-Alex Benn=C3=A9e
+The issue here is:
+
+$ grep -R CONFIG_ACPI_X86 *
+devices/mips-softmmu/common.mak:CONFIG_ACPI_X86=y
+
+So after
+
+-CONFIG_ACPI_X86=y
+-CONFIG_PIIX4=y
+
+(the second one is needed because after removing first one we get:
+
+/usr/bin/ld: libcommon.fa.p/hw_isa_piix4.c.o: in function `piix4_create':
+/home/anisinha/workspace/qemu/build/../hw/isa/piix4.c:269: undefined
+reference to `piix4_pm_init'
+
+This is because in hw/acpi/meson.build, piix4.c is conditional on
+CONFIG_ACPI_X86. )
+
+/usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_gt64xxx_pci.c.o: in
+function `gt64120_pci_set_irq':
+/home/anisinha/workspace/qemu/build/../hw/mips/gt64xxx_pci.c:1020:
+undefined reference to `piix4_dev'
+/usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_malta.c.o: in function
+`mips_malta_init':
+/home/anisinha/workspace/qemu/build/../hw/mips/malta.c:1404: undefined
+reference to `piix4_create'
+
+So should mips be doing piix stuff anyway? Is Piix4 etc not x86 specific?
+
+How to handle this?
+
+
 
