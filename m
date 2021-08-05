@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEB23E0B19
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:07:32 +0200 (CEST)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCDA3E0B22
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 02:22:20 +0200 (CEST)
+Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBQv5-0004BH-TT
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57698)
+	id 1mBR9P-0006Vt-D7
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 20:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQtn-0002Ij-G9
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54638)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBR8A-0005bj-V4
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:21:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mBQtl-0006eU-Sp
- for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:06:11 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBR89-0008DB-6L
+ for qemu-devel@nongnu.org; Wed, 04 Aug 2021 20:21:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628121969;
+ s=mimecast20190719; t=1628122859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p6xzGrBzp8SuOLkMAeQVlgcJo9gEf8Hz2y/fraZIEaA=;
- b=i3+a1+YPIy8JNJa6wqz2WVMK6IUwLeDejixXJ4AgXfq+aJlPKaRrlJQF7PgpW5BY4gkHHc
- RqruwUBviSOp3fLX0aWpDrkqGjXJ6Ft5a8n3OQ6fDzzYseV1Cj8pt3rAaPhfjV6Sn1XRI+
- qCz3p6z+10tmLKeOxnZEE3b1khXDpFc=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-qdQRo0OkM4mmB56oIzoS9A-1; Wed, 04 Aug 2021 20:06:08 -0400
-X-MC-Unique: qdQRo0OkM4mmB56oIzoS9A-1
-Received: by mail-qv1-f70.google.com with SMTP id
- s12-20020ad4446c0000b029033a9344451cso2685488qvt.21
- for <qemu-devel@nongnu.org>; Wed, 04 Aug 2021 17:06:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=p6xzGrBzp8SuOLkMAeQVlgcJo9gEf8Hz2y/fraZIEaA=;
- b=eMMxeBwm4XBsbfTO3Uox9ygHwSr5bBaauS8xS1T8dzWioEd2l1NpzW0isvyH+H1TcN
- RIgOI4nrlfDXj0XizLTj360tMMUDj6EDmkDDhQgUq18jkhNP3WiAndSMQ36XwYlt52SQ
- gKyDcyUQaYe4eMJ0OfF1AnS4BH9ugoYVkCpPlrpIt9+p1xN2GCihRvW/IiAnPPabS0iA
- ZRkzTQO/wfK537UQ7arU9VR/W2thd6ZlQge014fEnUpkXkQdxyuwTi6UQ8NJMejG5rqE
- Itth1d2cUdps74+uvHSIBnC6dfYfwYuzXW8TVk36O8sp31r/CScohhbZnwvKs5sxlVWq
- Ntdw==
-X-Gm-Message-State: AOAM531E6FWlBg4v5gZE9RSItAKKnA05aVXUGnxXs2lGij5zSSDuxfOp
- 28m4aH1bQt5IKl+GEGLxmvyy5pXwxlnkpPY5QJ7276CWBdWcE+Axlhx8Br+ethbE7GXaBuv1eCc
- hh0w6nDI9XXjSV6E=
-X-Received: by 2002:a05:620a:1399:: with SMTP id
- k25mr2081047qki.255.1628121967668; 
- Wed, 04 Aug 2021 17:06:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwD7ERsmI+DxP6xXi+tmgDwqMl13FGvg0T/XJHmyXFrQeFBvRDPmDUxJaJkpGiBq9jTwzOUKQ==
-X-Received: by 2002:a05:620a:1399:: with SMTP id
- k25mr2081037qki.255.1628121967464; 
- Wed, 04 Aug 2021 17:06:07 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-92-76-70-75-133.dsl.bell.ca.
- [76.70.75.133])
- by smtp.gmail.com with ESMTPSA id i62sm2233146qke.110.2021.08.04.17.06.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 17:06:06 -0700 (PDT)
-Date: Wed, 4 Aug 2021 20:06:05 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 4/7] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on the migration source
-Message-ID: <YQsrba6ipWwxA8au@t490s>
-References: <20210730085249.8246-1-david@redhat.com>
- <20210730085249.8246-5-david@redhat.com>
+ bh=5Q4HAdbbnaVHcCg9/ciILon7zzh6V/PFMAbYN6gER1s=;
+ b=ZFSi9TKLhdgmY5RKRX6Dw0ft6khHEkd3OFEqZYlrBNT6fX9VL79uu/T0ltzYQSr33ts4GW
+ v8rTKbW/Wdmvx9jpBXjG+zU/L4BXQg7S7St/rZAS9nyYopMXr38nORng6F44QtAwnA9Uwz
+ ++XhNHeTYujVHc+DGzBD2PTIxzjwNR8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-3BjwJrynOEqMc-v8dBySSg-1; Wed, 04 Aug 2021 20:20:57 -0400
+X-MC-Unique: 3BjwJrynOEqMc-v8dBySSg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 919661084F4C;
+ Thu,  5 Aug 2021 00:20:56 +0000 (UTC)
+Received: from [10.22.11.3] (unknown [10.22.11.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9AA719C44;
+ Thu,  5 Aug 2021 00:20:55 +0000 (UTC)
+Subject: Re: [PATCH v2 0/6] qapi: static typing conversion, pt5b
+To: qemu-devel@nongnu.org
+References: <20210520225710.168356-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <f979caff-c470-6c3f-422e-08de9dafad0f@redhat.com>
+Date: Wed, 4 Aug 2021 20:20:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730085249.8246-5-david@redhat.com>
+In-Reply-To: <20210520225710.168356-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.699, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,54 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Michael Roth <michael.roth@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 30, 2021 at 10:52:46AM +0200, David Hildenbrand wrote:
-> We don't want to migrate memory that corresponds to discarded ranges as
-> managed by a RamDiscardManager responsible for the mapped memory region of
-> the RAMBlock. The content of these pages is essentially stale and
-> without any guarantees for the VM ("logically unplugged").
+On 5/20/21 6:57 PM, John Snow wrote:
+> This is part five (b), and focuses on QAPIDoc in parser.py.
 > 
-> Depending on the underlying memory type, even reading memory might populate
-> memory on the source, resulting in an undesired memory consumption. Of
-> course, on the destination, even writing a zeropage consumes memory,
-> which we also want to avoid (similar to free page hinting).
+> gitlab: https://gitlab.com/jsnow/qemu/-/commits/python-qapi-cleanup-pt5b
 > 
-> Currently, virtio-mem tries achieving that goal (not migrating "unplugged"
-> memory that was discarded) by going via qemu_guest_free_page_hint() - but
-> it's hackish and incomplete.
+> Requirements:
+> - Python 3.6+
+> - mypy >= 0.770
+> - pylint >= 2.6.0 (2.7.0+ when using Python 3.9+)
 > 
-> For example, background snapshots still end up reading all memory, as
-> they don't do bitmap syncs. Postcopy recovery code will re-add
-> previously cleared bits to the dirty bitmap and migrate them.
+> Every commit should pass with:
+>   - `isort -c qapi/`
+>   - `flake8 qapi/`
+>   - `pylint --rcfile=qapi/pylintrc qapi/`
+>   - `mypy --config-file=qapi/mypy.ini qapi/`
 > 
-> Let's consult the RamDiscardManager after setting up our dirty bitmap
-> initially and when postcopy recovery code reinitializes it: clear
-> corresponding bits in the dirty bitmaps (e.g., of the RAMBlock and inside
-> KVM). It's important to fixup the dirty bitmap *after* our initial bitmap
-> sync, such that the corresponding dirty bits in KVM are actually cleared.
+> V2:
+>   - Changed patch 01 to fix error message.
+>   - Add a TODO for fixing the cycle in patch 03.
+>   - Changed some commit messages, patch names
 > 
-> As colo is incompatible with discarding of RAM and inhibits it, we don't
-> have to bother.
+> John Snow (6):
+>    qapi/parser: fix unused check_args_section arguments
+>    qapi/parser: Allow empty QAPIDoc Sections
+>    qapi/parser: add type hint annotations (QAPIDoc)
+>    qapi/parser: enable mypy checks
+>    qapi/parser: Silence too-few-public-methods warning
+>    qapi/parser: enable pylint checks
 > 
-> Note: if a misbehaving guest would use discarded ranges after migration
-> started we would still migrate that memory: however, then we already
-> populated that memory on the migration source.
+>   scripts/qapi/mypy.ini                 |  5 --
+>   scripts/qapi/parser.py                | 98 +++++++++++++++++----------
+>   scripts/qapi/pylintrc                 |  3 +-
+>   tests/qapi-schema/doc-bad-feature.err |  2 +-
+>   4 files changed, 64 insertions(+), 44 deletions(-)
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+ From memory, where we left off was:
 
--- 
-Peter Xu
+- What is our plan for eliminating the cycle in QAPIDoc?
+- What's the actual situation with these "empty" sections?
+
+And my answer to both problems as of today is:
+
+... I'm not really sure yet, but I have a lot of preliminary work 
+building up on implementing a cross-referenceable QAPI domain for 
+sphinx, which might necessitate some heavier changes to how QAPIDoc 
+information is parsed and stored.
+
+I'd like to cover fixing both design problems of QAPIDoc at that time if 
+you'll let me sweep the dirt under the mat until then. I can add FIXME 
+comments to the code -- at the moment, the configuration of ./python/ 
+does not tolerate TODO nor FIXME comments, and I do intend to move 
+./scripts/qapi to ./python/qemu/qapi once we finish typing it, so you 
+can be assured that I'll have to address those to do the thing I want.
+
+In the meantime it means a blemish in the form of TYPE_CHECKING, but it 
+lets us get on with everything else in the meantime.
+
+Worst case scenario: A meteorite pierces my skull and the work goes 
+unfinished. parser.py type checks but has some FIXME comments jangling 
+around that Someone:tm: has to fix, but the Heat Death Of The Universe 
+occurs first. Nobody has any energy left to be dissatisfied with the way 
+things wound up.
+
+--js
 
 
