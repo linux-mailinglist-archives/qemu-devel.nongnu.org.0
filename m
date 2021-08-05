@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB5E3E0C8E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 04:57:32 +0200 (CEST)
-Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979D03E0C91
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 04:59:01 +0200 (CEST)
+Received: from localhost ([::1]:39534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBTZb-0007zY-NC
-	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 22:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
+	id 1mBTb2-0002ok-Mc
+	for lists+qemu-devel@lfdr.de; Wed, 04 Aug 2021 22:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mBTYG-0005eb-B6; Wed, 04 Aug 2021 22:56:08 -0400
-Received: from out28-100.mail.aliyun.com ([115.124.28.100]:57226)
+ id 1mBTYj-000725-Ti; Wed, 04 Aug 2021 22:56:37 -0400
+Received: from out28-101.mail.aliyun.com ([115.124.28.101]:46814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mBTYE-0005x5-9v; Wed, 04 Aug 2021 22:56:08 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436794|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0297705-7.76435e-05-0.970152;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KvYnsuC_1628132160; 
+ id 1mBTYi-0006N2-1r; Wed, 04 Aug 2021 22:56:37 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1007043|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.00286054-4.40044e-05-0.997095;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047204; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KvYntEE_1628132191; 
 Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KvYnsuC_1628132160) by smtp.aliyun-inc.com(10.147.40.2);
- Thu, 05 Aug 2021 10:56:01 +0800
+ fp:SMTPD_---.KvYntEE_1628132191) by smtp.aliyun-inc.com(10.147.40.2);
+ Thu, 05 Aug 2021 10:56:31 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC PATCH 02/13] target/riscv: Support UXL32 for branch instructions
-Date: Thu,  5 Aug 2021 10:53:01 +0800
-Message-Id: <20210805025312.15720-3-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 03/13] target/riscv: Support UXL32 on 64-bit cpu for
+ load/store
+Date: Thu,  5 Aug 2021 10:53:02 +0800
+Message-Id: <20210805025312.15720-4-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
 References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
-Received-SPF: none client-ip=115.124.28.100; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-100.mail.aliyun.com
+Received-SPF: none client-ip=115.124.28.101; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-101.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -58,126 +59,35 @@ Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When UXLEN is 32 on 64-bit CPU, only use the LSB 32 bits of source
-registers and sign-extend or zero-extend it according to different
-operations.
+Get the LSB 32 bits and zero-extend as the base address.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/insn_trans/trans_rvi.c.inc | 38 ++++++++++++++++++++-----
- target/riscv/translate.c                | 22 ++++++++++++++
- 2 files changed, 53 insertions(+), 7 deletions(-)
+ target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index 3705aad380..ea41d1de2d 100644
+index ea41d1de2d..6823a6b3e0 100644
 --- a/target/riscv/insn_trans/trans_rvi.c.inc
 +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -84,11 +84,11 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
-     return true;
- }
- 
--static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
-+static bool gen_branch_internal(DisasContext *ctx, arg_b *a,
-+                                TCGCond cond,
-+                                TCGv src1, TCGv src2)
- {
-     TCGLabel *l = gen_new_label();
--    TCGv src1 = gpr_src(ctx, a->rs1);
--    TCGv src2 = gpr_src(ctx, a->rs2);
- 
-     tcg_gen_brcond_tl(cond, src1, src2, l);
-     gen_goto_tb(ctx, 1, ctx->pc_succ_insn);
-@@ -106,6 +106,30 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
-     return true;
- }
- 
-+static bool gen_branch_s(DisasContext *ctx, arg_b *a, TCGCond cond)
-+{
-+    TCGv src1 = gpr_src_s(ctx, a->rs1);
-+    TCGv src2 = gpr_src_s(ctx, a->rs2);
-+
-+    return gen_branch_internal(ctx, a, cond, src1, src2);
-+}
-+
-+static bool gen_branch_u(DisasContext *ctx, arg_b *a, TCGCond cond)
-+{
-+    TCGv src1 = gpr_src_u(ctx, a->rs1);
-+    TCGv src2 = gpr_src_u(ctx, a->rs2);
-+
-+    return gen_branch_internal(ctx, a, cond, src1, src2);
-+}
-+
-+static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rs1);
-+    TCGv src2 = gpr_src(ctx, a->rs2);
-+
-+    return gen_branch_internal(ctx, a, cond, src1, src2);
-+}
-+
- static bool trans_beq(DisasContext *ctx, arg_beq *a)
- {
-     return gen_branch(ctx, a, TCG_COND_EQ);
-@@ -118,22 +142,22 @@ static bool trans_bne(DisasContext *ctx, arg_bne *a)
- 
- static bool trans_blt(DisasContext *ctx, arg_blt *a)
- {
--    return gen_branch(ctx, a, TCG_COND_LT);
-+    return gen_branch_s(ctx, a, TCG_COND_LT);
- }
- 
- static bool trans_bge(DisasContext *ctx, arg_bge *a)
- {
--    return gen_branch(ctx, a, TCG_COND_GE);
-+    return gen_branch_s(ctx, a, TCG_COND_GE);
- }
- 
- static bool trans_bltu(DisasContext *ctx, arg_bltu *a)
- {
--    return gen_branch(ctx, a, TCG_COND_LTU);
-+    return gen_branch_u(ctx, a, TCG_COND_LTU);
- }
- 
- static bool trans_bgeu(DisasContext *ctx, arg_bgeu *a)
- {
--    return gen_branch(ctx, a, TCG_COND_GEU);
-+    return gen_branch_u(ctx, a, TCG_COND_GEU);
- }
- 
+@@ -163,7 +163,7 @@ static bool trans_bgeu(DisasContext *ctx, arg_bgeu *a)
  static bool gen_load(DisasContext *ctx, arg_lb *a, MemOp memop)
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index ac4a545da8..d334a9db86 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -176,6 +176,28 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
-     }
- }
+ {
+     TCGv dest = gpr_dst(ctx, a->rd);
+-    TCGv addr = gpr_src(ctx, a->rs1);
++    TCGv addr = gpr_src_u(ctx, a->rs1);
+     TCGv temp = NULL;
  
-+static TCGv gpr_src_u(DisasContext *ctx, int reg_num)
-+{
-+    if (reg_num == 0) {
-+        return ctx->zero;
-+    }
-+    if (ctx->uxl32) {
-+        tcg_gen_ext32u_tl(cpu_gpr[reg_num], cpu_gpr[reg_num]);
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
-+static TCGv gpr_src_s(DisasContext *ctx, int reg_num)
-+{
-+    if (reg_num == 0) {
-+        return ctx->zero;
-+    }
-+    if (ctx->uxl32) {
-+        tcg_gen_ext32s_tl(cpu_gpr[reg_num], cpu_gpr[reg_num]);
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
- /* Wrapper for getting reg values - need to check of reg is zero since
-  * cpu_gpr[0] is not actually allocated
-  */
+     if (a->imm) {
+@@ -207,7 +207,7 @@ static bool trans_lhu(DisasContext *ctx, arg_lhu *a)
+ 
+ static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
+ {
+-    TCGv addr = gpr_src(ctx, a->rs1);
++    TCGv addr = gpr_src_u(ctx, a->rs1);
+     TCGv data = gpr_src(ctx, a->rs2);
+     TCGv temp = NULL;
+ 
 -- 
 2.17.1
 
