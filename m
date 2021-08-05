@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34E73E1AB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:46:38 +0200 (CEST)
-Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670C53E1ABE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 19:48:49 +0200 (CEST)
+Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBhS1-0003uH-9S
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
+	id 1mBhU8-0005cs-Gl
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 13:48:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBhPm-000227-Uh
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:44:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mBhPl-0007re-H6
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:44:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628185456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kEfvl2mbytzUtv44BoTUbJ9T36rNoG30yEhqFmSv5Ec=;
- b=RiRVCnbhpmYZ/3Tiz4s1r3Qpt19WuWQ7fuIq2Uhvv5Jx1wK9yNb568zD6lMMnQRvSSCYPK
- 4fhqXWNJlsUTTHVg3E+mTYtuU50csmMzdwbWUqDhOmzzDI9HR0CyZzrUwqoto7hS6IldAS
- FTGfIz1X3kTdIKMmyMhQLQu82xGv50I=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-U4uxFxv9Nl2UEs3JslWHtw-1; Thu, 05 Aug 2021 13:44:15 -0400
-X-MC-Unique: U4uxFxv9Nl2UEs3JslWHtw-1
-Received: by mail-oo1-f71.google.com with SMTP id
- f24-20020a4ada580000b029024abe096a35so2193981oou.12
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 10:44:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBhTQ-0004wx-L1
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:48:04 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBhTP-0001y2-2L
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 13:48:04 -0400
+Received: by mail-ed1-x529.google.com with SMTP id cf5so9573491edb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 10:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6MFFjMRstg3IIlWBWbpunfVWgwjoLCi59yxrMrVjI6w=;
+ b=TeCWN/7RvPQywJL0ZiLbatXPfsuTYvDnDGzqiAMiUVUeOpSdpX0eBOWc/2ENHTQF3m
+ o0bDaBEYtZomeg8i3TCoVosF+NbcEjbSa2nrw/1/9lHxVugbwonyzEPidXv8FrfivUHR
+ 42Q8FiIjm4smdCF2lKo97U5hpiBE6WefcYOLfR2FoDUuhf38VSBar1lY06RyDHGCgnG3
+ PMWR4k+DZ7VoaNpi0joWFTc5Og3atKr6uUC/klqdf624+03siMfWdjsWCRgDtdGvn5SW
+ 03391DYK9r9UR+zaxyQeq1ohzcO7RwarhjfejpfZ4BELQ54fEdUu8FS8fKM80M9dSJG0
+ 7Liw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kEfvl2mbytzUtv44BoTUbJ9T36rNoG30yEhqFmSv5Ec=;
- b=bWtsj5PFSDuSWc/jFlT33kcJPNCLfxN3r8Xhp1fMG/FlRGmkANQdqMUnsadRtrmoSQ
- 5VLEDSL2FOmyX+BJYIVwBnfAdX9yOVzLIl5SADzAtWhmElxiIpabNPc2H+JmNjYNuIvA
- /64cLRQEAjrVyaHvApbbpvZvPpGP8SnW/fYB2qWkrAuL7k6El4r6eZEcsmILrJQvwycC
- bMJb4gI61kcKng2OfCopnNA3oxe5+Lsj9617+zB+RduVAh1r2uongtRXsX/UiZc3FeUq
- l+Ec2VSo88S5Mr8SP8Th9cJjDJakiT78iQDjJ/PzY4OqWkGqhgdxb86X8KUlCbzShFHo
- frEQ==
-X-Gm-Message-State: AOAM532tp2oCp/IdB6uF5BArucfp6p0ZMp91Rv8yir9CsThIOYhCjBZ2
- yV0ZJ96YrqIXRI4yTKtTTZ1YiGRHZQgKG/tbSpX8vdd1+DkfP/DZWgoLOeAUpS2ubunxc2v9Prk
- wfCinHFc8yGFOZVO3MGbJPb+HHZl8OwE=
-X-Received: by 2002:a05:6830:1604:: with SMTP id
- g4mr4744079otr.45.1628185454336; 
- Thu, 05 Aug 2021 10:44:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwR6GIfrA/9nSSbgxPGfQEQR6l+BGN3sSi4vVIsiyP/H9b2aZWxjWlWumfiQWtMKgvlwqNWuK2GA1QYo6J3vV0=
-X-Received: by 2002:a05:6830:1604:: with SMTP id
- g4mr4744068otr.45.1628185454208; 
- Thu, 05 Aug 2021 10:44:14 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6MFFjMRstg3IIlWBWbpunfVWgwjoLCi59yxrMrVjI6w=;
+ b=ggOgOpcxrz1ppdKyqAZ4l8DxOdan+9kBs92MaNsrvaidqoR5F88IqL9d1EB8nSzQCw
+ zf3caR47hwdh8F0ZkI1OzQlPKMOsIA43MnSQ7LysN8WaqkcKQusNWDZnXnAKbHpX5cdA
+ QB5z7YRPBsWaZtrKNgWkhw0nbcpeoVkudfd2u6tBsCHYYHrqQ06PajoIdiGTEHd+z4c5
+ SYRLXgFgjzed08lohEYbZrzylIEGjN/WCs9l6Lunm1wq0BoUjApjcBrFhZ71uNKTPiDI
+ HEJmpjFYgaxeo+Hw9qLze3wSDVMJ4M0HOb03dy+2CaxIgYCKL+obzfWyVs2WFK0ij/jP
+ E+eQ==
+X-Gm-Message-State: AOAM53124nt3B4aWNGnzOyNpSYhHBc0hWsmhCafWr3Uxj0BmY+WpeAUj
+ ZqWyMM9hjCbhjj9TAoMVGcyopsmqyHXYpn+lOpteNw==
+X-Google-Smtp-Source: ABdhPJzysY/zuAzv8x5YoC8cbVqgU898YPv/Qs8xH2WP+9GDmzInhyUsR6VpNWYv5YsAxkt8jMbObNoypWsD714E6fw=
+X-Received: by 2002:a50:f615:: with SMTP id c21mr8351017edn.146.1628185681358; 
+ Thu, 05 Aug 2021 10:48:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210730201846.5147-1-niteesh.gs@gmail.com>
- <20210730201846.5147-4-niteesh.gs@gmail.com>
-In-Reply-To: <20210730201846.5147-4-niteesh.gs@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 5 Aug 2021 13:44:03 -0400
-Message-ID: <CAFn=p-aJ54yJ9PB=ve-=TGzP+kAxo3C54NE4ahekz7Z3N6xmmw@mail.gmail.com>
-Subject: Re: [PATCH v3 03/13] python: Add dependencies for AQMP TUI
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a0777f05c8d37729"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+References: <20210805125331.826741-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210805125331.826741-1-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Aug 2021 18:47:17 +0100
+Message-ID: <CAFEAcA8Bwfyw=DNOgi1RCevUZfkg4wZeGtb=Q7fqiJAPUXufpA@mail.gmail.com>
+Subject: Re: [PULL 0/8] chardev fixes for 6.1
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,53 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a0777f05c8d37729
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
-
-> Added dependencies for the upcoming AQMP TUI under the optional
-> 'tui' group.
+On Thu, 5 Aug 2021 at 13:53, <marcandre.lureau@redhat.com> wrote:
 >
-> The same dependencies have also been added under the devel group
-> since no work around has been found for optional groups to imply
-> other optional groups.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+> The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9=
+eb:
 >
+>   Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@gitlab.com:marcandre.lureau/qemu.git tags/chr-fix-pull-request
+>
+> for you to fetch changes up to a68403b0a6843f106e381b0bbeaacb29f6d27255:
+>
+>   chardev: report a simpler error about duplicated id (2021-08-05 16:15:3=
+3 +0400)
+>
+> ----------------------------------------------------------------
+> Chardev-related fixes
+>
+> Hi
+>
+> Here are some bug fixes worthy for 6.1.
+>
+> thanks
 
-Reviewed-by: John Snow <jsnow@redhat.com>
 
---000000000000a0777f05c8d37729
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S Nitee=
-sh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Add=
-ed dependencies for the upcoming AQMP TUI under the optional<br>
-&#39;tui&#39; group.<br>
-<br>
-The same dependencies have also been added under the devel group<br>
-since no work around has been found for optional groups to imply<br>
-other optional groups.<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br></blockquote><div><br></=
-div><div>Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsn=
-ow@redhat.com</a>&gt;</div></div></div>
+Applied, thanks.
 
---000000000000a0777f05c8d37729--
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
