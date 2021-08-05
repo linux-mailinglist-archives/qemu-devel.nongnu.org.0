@@ -2,108 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0448E3E155A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 15:08:29 +0200 (CEST)
-Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 510C43E15E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 15:43:07 +0200 (CEST)
+Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBd6q-0007pY-1u
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 09:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
+	id 1mBdeL-0007pI-1d
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 09:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mBd55-0005vB-NA
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:06:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19186
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBddX-000799-C4
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:42:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mBd53-0000Bw-Lb
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:06:39 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 175D4IMq159296; Thu, 5 Aug 2021 09:06:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=jXuOILSG/8fq52mYkCDTKINRyl2ZK0rWP7Fcaz9h/pc=;
- b=LM1x13t0Fty3ZWn+iJtYJZ1azEue0apI/JhF223jDFcQHQ/wajv5cT2NeUkCfQyyDLRk
- fTQPSKVvWu75H66o1q3dxuvrwtzMV24C9a2TEf7NObJZP1zyjTyXxOqe3ZY1xlaL7QFw
- eLSaWdDagbQWF0mGYCuyZGIKh/GzxHU+3qE2xVJbNIj+3rhN8x0Y4PQ/CUp5l/1XIXir
- QqsQ29IY43X0OyYUUeLYHccP9nEgSuDjOUWqEK86PHuCRDv6gCdbcM9Jj/iVzzm8XJdl
- f9rVmutyAd5rqzJLby6yoZhIHQm7M7eBhxgcVkyMf0J1oVE+UdHFD77wGY8tselSOp8X Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3a88snmem7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 09:06:34 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 175D4oJE166493;
- Thu, 5 Aug 2021 09:06:34 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3a88snmekv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 09:06:34 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 175CwHOr005193;
- Thu, 5 Aug 2021 13:06:33 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03dal.us.ibm.com with ESMTP id 3a7anja9av-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Aug 2021 13:06:33 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 175D6WNB41746896
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Aug 2021 13:06:32 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C5BB136060;
- Thu,  5 Aug 2021 13:06:32 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5867013605E;
- Thu,  5 Aug 2021 13:06:29 +0000 (GMT)
-Received: from [9.160.123.143] (unknown [9.160.123.143])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Aug 2021 13:06:28 +0000 (GMT)
-Subject: Re: [PATCH v4 05/14] target/i386: sev: provide callback to setup
- outgoing context
-To: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org
-References: <cover.1628076205.git.ashish.kalra@amd.com>
- <7521883afc073960728f6f0837dac9be1641dcb6.1628076205.git.ashish.kalra@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <d0fd1154-669a-c5af-188e-9e7ba15b989e@linux.ibm.com>
-Date: Thu, 5 Aug 2021 16:06:27 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBddT-0005xm-Pa
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 09:42:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628170929;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2UeHW9pW5/34T3G/+Xgcf9X5zYDNhZcdd1wWF1wNGeQ=;
+ b=BE0FjcWFRQS3k2mJ5nbQ5fGLIf/s8GEP8dgTiYaISl6SSFcmBTa6Jn9Tkof9ZvOBkXi8+p
+ QvlVc4OnBML0rXI9mUwgwmQu1LcTfFB4OiZtrno+SE7u3Ui6ohGc3u3xE2bS7hweQUGlRK
+ dvg+Tf4zHMs+guHeMm6GPRSza/Ur3OM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-R6CjHucUOZ6PDOt433oMNQ-1; Thu, 05 Aug 2021 09:42:07 -0400
+X-MC-Unique: R6CjHucUOZ6PDOt433oMNQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04870801AC0
+ for <qemu-devel@nongnu.org>; Thu,  5 Aug 2021 13:42:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CCA46A901;
+ Thu,  5 Aug 2021 13:41:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7A56F11380A0; Thu,  5 Aug 2021 15:41:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v7 06/10] qapi: replace if condition list with dict
+ {'all': [...]}
+References: <20210804083105.97531-1-marcandre.lureau@redhat.com>
+ <20210804083105.97531-7-marcandre.lureau@redhat.com>
+Date: Thu, 05 Aug 2021 15:41:55 +0200
+In-Reply-To: <20210804083105.97531-7-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Wed, 4 Aug 2021 12:31:01 +0400")
+Message-ID: <87y29g6mak.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <7521883afc073960728f6f0837dac9be1641dcb6.1628076205.git.ashish.kalra@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Uki2Gx0dGwrZsZgYjvKFN9M0DHT8ZKOv
-X-Proofpoint-GUID: jDku2rvrvsnioTNzY3fw5CaWEd6-okwg
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-05_04:2021-08-05,
- 2021-08-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 clxscore=1015 mlxscore=0 spamscore=0 impostorscore=0
- malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108050080
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.132,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,162 +83,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
- jejb@linux.ibm.com, tobin@ibm.com, dgilbert@redhat.com,
- dovmurik@linux.vnet.ibm.com, pbonzini@redhat.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+marcandre.lureau@redhat.com writes:
 
-
-On 04/08/2021 14:56, Ashish Kalra wrote:
-> From: Brijesh Singh <brijesh.singh@amd.com>
-> 
-> The user provides the target machine's Platform Diffie-Hellman key (PDH)
-> and certificate chain before starting the SEV guest migration. Cache the
-> certificate chain as we need them while creating the outgoing context.
-> 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> Co-developed-by: Ashish Kalra <ashish.kalra@amd.com>
-> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Replace the simple list sugar form with a recursive structure that will
+> accept other operators in the following commits (all, any or not).
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  include/sysemu/sev.h |  2 ++
->  target/i386/sev.c    | 61 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 63 insertions(+)
-> 
-> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-> index 94d821d737..64fc88d3c5 100644
-> --- a/include/sysemu/sev.h
-> +++ b/include/sysemu/sev.h
-> @@ -14,11 +14,13 @@
->  #ifndef QEMU_SEV_H
->  #define QEMU_SEV_H
-> 
-> +#include <qapi/qapi-types-migration.h>
->  #include "sysemu/kvm.h"
-> 
->  bool sev_enabled(void);
->  int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
->  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
-> +int sev_save_setup(MigrationParameters *p);
->  int sev_inject_launch_secret(const char *hdr, const char *secret,
->                               uint64_t gpa, Error **errp);
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 83df8c09f6..5e7c87764c 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -24,6 +24,7 @@
->  #include "qemu/module.h"
->  #include "qemu/uuid.h"
->  #include "sysemu/kvm.h"
-> +#include "sysemu/sev.h"
->  #include "sev_i386.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/runstate.h"
-> @@ -68,6 +69,12 @@ struct SevGuestState {
->      int sev_fd;
->      SevState state;
->      gchar *measurement;
-> +    guchar *remote_pdh;
-> +    size_t remote_pdh_len;
-> +    guchar *remote_plat_cert;
-> +    size_t remote_plat_cert_len;
-> +    guchar *amd_cert;
-> +    size_t amd_cert_len;
-> 
->      uint32_t reset_cs;
->      uint32_t reset_ip;
-> @@ -116,6 +123,12 @@ static const char *const sev_fw_errlist[] = {
-> 
->  #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
-> 
-> +#define SEV_FW_BLOB_MAX_SIZE            0x4000          /* 16KB */
-> +
-> +static struct ConfidentialGuestMemoryEncryptionOps sev_memory_encryption_ops = {
-> +    .save_setup = sev_save_setup,
-> +};
-> +
->  static int
->  sev_ioctl(int fd, int cmd, void *data, int *error)
->  {
-> @@ -772,6 +785,50 @@ sev_vm_state_change(void *opaque, bool running, RunState state)
->      }
->  }
-> 
-> +static inline bool check_blob_length(size_t value)
-> +{
-> +    if (value > SEV_FW_BLOB_MAX_SIZE) {
-> +        error_report("invalid length max=%d got=%ld",
-> +                     SEV_FW_BLOB_MAX_SIZE, value);
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +int sev_save_setup(MigrationParameters *p)
-> +{
-> +    SevGuestState *s = sev_guest;
-> +    const char *pdh = p->sev_pdh;
-> +    const char *plat_cert = p->sev_plat_cert;
-> +    const char *amd_cert = p->sev_amd_cert;
-> +
-> +    s->remote_pdh = g_base64_decode(pdh, &s->remote_pdh_len);
+>  scripts/qapi/common.py                        | 23 +++++--
+>  scripts/qapi/expr.py                          | 52 ++++++++++------
+>  scripts/qapi/schema.py                        |  2 +-
+>  tests/qapi-schema/bad-if-all.err              |  2 +
+>  tests/qapi-schema/bad-if-all.json             |  3 +
+>  tests/qapi-schema/bad-if-all.out              |  0
+>  tests/qapi-schema/bad-if-empty-list.json      |  2 +-
+>  tests/qapi-schema/bad-if-key.err              |  3 +
+>  tests/qapi-schema/bad-if-key.json             |  3 +
+>  tests/qapi-schema/bad-if-key.out              |  0
+>  tests/qapi-schema/bad-if-keys.err             |  2 +
+>  tests/qapi-schema/bad-if-keys.json            |  3 +
+>  tests/qapi-schema/bad-if-keys.out             |  0
+>  tests/qapi-schema/bad-if-list.json            |  2 +-
+>  tests/qapi-schema/bad-if.err                  |  2 +-
+>  tests/qapi-schema/bad-if.json                 |  2 +-
+>  tests/qapi-schema/doc-good.json               |  3 +-
+>  tests/qapi-schema/doc-good.out                | 13 ++--
+>  tests/qapi-schema/doc-good.txt                |  6 ++
+>  tests/qapi-schema/enum-if-invalid.err         |  3 +-
+>  tests/qapi-schema/features-if-invalid.err     |  2 +-
+>  tests/qapi-schema/meson.build                 |  3 +
+>  tests/qapi-schema/qapi-schema-test.json       | 25 ++++----
+>  tests/qapi-schema/qapi-schema-test.out        | 62 +++++++++----------
+>  .../qapi-schema/struct-member-if-invalid.err  |  2 +-
+>  .../qapi-schema/union-branch-if-invalid.json  |  2 +-
+>  26 files changed, 138 insertions(+), 84 deletions(-)
+>  create mode 100644 tests/qapi-schema/bad-if-all.err
+>  create mode 100644 tests/qapi-schema/bad-if-all.json
+>  create mode 100644 tests/qapi-schema/bad-if-all.out
+>  create mode 100644 tests/qapi-schema/bad-if-key.err
+>  create mode 100644 tests/qapi-schema/bad-if-key.json
+>  create mode 100644 tests/qapi-schema/bad-if-key.out
+>  create mode 100644 tests/qapi-schema/bad-if-keys.err
+>  create mode 100644 tests/qapi-schema/bad-if-keys.json
+>  create mode 100644 tests/qapi-schema/bad-if-keys.out
+>
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index 5181a0f167..51463510c9 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -13,7 +13,8 @@
+> =20
+>  import re
+>  from typing import (
+> -    List,
+> +    Any,
+> +    Dict,
+>      Match,
+>      Optional,
+>      Union,
+> @@ -199,16 +200,28 @@ def guardend(name: str) -> str:
+>                   name=3Dc_fname(name).upper())
+> =20
+> =20
+> -def cgen_ifcond(ifcond: Union[str, List[str]]) -> str:
+> +def docgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
 
-You should check    if (!s->remote_pdh)   to detect decoding failure
-(for all g_base64_decode calls here).
+Looks like you forgot to un-swap cgen_ifcond() and docgen_ifcond().  Can
+do in my tree.
 
-Though I must say, it would be better to check validity of the
-user-supplied base64 earlier (when migrate-set-parameters QMP call
-occurs), and not later when migration starts.
+>      if not ifcond:
+>          return ''
+> -    return '(' + ') && ('.join(ifcond) + ')'
+> +    if isinstance(ifcond, str):
+> +        return ifcond
+> =20
+> +    oper, operands =3D next(iter(ifcond.items()))
+> +    oper =3D {'all': ' and '}[oper]
+> +    operands =3D [docgen_ifcond(o) for o in operands]
+> +    return '(' + oper.join(operands) + ')'
+> =20
+> -def docgen_ifcond(ifcond: Union[str, List[str]]) -> str:
+> +
+> +def cgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
+>      if not ifcond:
+>          return ''
+> -    return ' and '.join(ifcond)
+> +    if isinstance(ifcond, str):
+> +        return ifcond
+> +
+> +    oper, operands =3D next(iter(ifcond.items()))
+> +    oper =3D {'all': '&&'}[oper]
+> +    operands =3D [cgen_ifcond(o) for o in operands]
+> +    return '(' + (') ' + oper + ' (').join(operands) + ')'
 
+I suggested a more legible version in review of v6.  Not worth a respin
+by itself.
 
-> +    if (!check_blob_length(s->remote_pdh_len)) {
-> +        goto error;
-> +    }
+Note to self: try to get rid of redundant parenthesis here.
+
+Note to self: cgen_ifcond() and docgen_ifcond() are almost identical.
+Refactor?
+
+> =20
+> =20
+>  def gen_if(cond: str) -> str:
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index cf98923fa6..b5187bfbca 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -259,14 +259,12 @@ def check_flags(expr: _JSONObject, info: QAPISource=
+Info) -> None:
+> =20
+>  def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> No=
+ne:
+>      """
+> -    Normalize and validate the ``if`` member of an object.
+> +    Validate the ``if`` member of an object.
+> =20
+> -    The ``if`` member may be either a ``str`` or a ``List[str]``.
+> -    A ``str`` value will be normalized to ``List[str]``.
+> +    The ``if`` member may be either a ``str`` or a dict.
+> =20
+>      :forms:
+> -      :sugared: ``Union[str, List[str]]``
+> -      :canonical: ``List[str]``
+> +      :canonical: ``Union[str, dict]``
+
+John hasn't answered my question whether :forms: makes sensw without
+:sugared:.  If it doesn't, I can drop it in my tree.
+
+> =20
+>      :param expr: The expression containing the ``if`` member to validate=
+.
+>      :param info: QAPI schema source file information.
+> @@ -275,31 +273,45 @@ def check_if(expr: _JSONObject, info: QAPISourceInf=
+o, source: str) -> None:
+>      :raise QAPISemError:
+>          When the "if" member fails validation, or when there are no
+>          non-empty conditions.
+> -    :return: None, ``expr`` is normalized in-place as needed.
+> +    :return: None
+>      """
+>      ifcond =3D expr.get('if')
+>      if ifcond is None:
+>          return
+> =20
+> -    if isinstance(ifcond, list):
+> -        if not ifcond:
+> -            raise QAPISemError(
+> -                info, "'if' condition [] of %s is useless" % source)
+> -    else:
+> -        # Normalize to a list
+> -        ifcond =3D expr['if'] =3D [ifcond]
+> +    def _check_if(cond: Union[str, object]) -> None:
+> +        if isinstance(cond, str):
+> +            if not cond.strip():
+> +                raise QAPISemError(
+> +                    info,
+> +                    "'if' condition '%s' of %s makes no sense"
+> +                    % (cond, source))
+> +            return
+> =20
+> -    for elt in ifcond:
+> -        if not isinstance(elt, str):
+> +        if not isinstance(cond, dict):
+>              raise QAPISemError(
+>                  info,
+> -                "'if' condition of %s must be a string or a list of stri=
+ngs"
+> -                % source)
+> -        if not elt.strip():
+> +                "'if' condition of %s must be a string or a dict" % sour=
+ce)
+> +        if len(cond) !=3D 1:
+>              raise QAPISemError(
+>                  info,
+> -                "'if' condition '%s' of %s makes no sense"
+> -                % (elt, source))
+> +                "'if' condition dict of %s must have one key: "
+> +                "'all'" % source)
+> +        check_keys(cond, info, "'if' condition", [],
+> +                   ["all"])
 > +
-> +    s->remote_plat_cert = g_base64_decode(plat_cert,
-> +                                          &s->remote_plat_cert_len);
-> +    if (!check_blob_length(s->remote_plat_cert_len)) {
-> +        goto error;
-> +    }
+> +        oper, operands =3D next(iter(cond.items()))
+> +        if not operands:
+> +            raise QAPISemError(
+> +                info, "'if' condition [] of %s is useless" % source)
 > +
-> +    s->amd_cert = g_base64_decode(amd_cert, &s->amd_cert_len);
-> +    if (!check_blob_length(s->amd_cert_len)) {
-> +        goto error;
-> +    }
+> +        if oper in ("all") and not isinstance(operands, list):
+> +            raise QAPISemError(
+> +                info, "'%s' condition of %s must be a list" % (oper, sou=
+rce))
+> +        for operand in operands:
+> +            _check_if(operand)
 > +
-> +    return 0;
-> +
-> +error:
-> +    g_free(s->remote_pdh);
-> +    g_free(s->remote_plat_cert);
-> +    g_free(s->amd_cert);
-> +
-> +    return 1;
-> +}
-> +
->  int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->  {
->      SevGuestState *sev
-> @@ -781,6 +838,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      uint32_t ebx;
->      uint32_t host_cbitpos;
->      struct sev_user_data_status status = {};
-> +    ConfidentialGuestSupportClass *cgs_class =
-> +        (ConfidentialGuestSupportClass *) object_get_class(OBJECT(cgs));
-> 
->      if (!sev) {
->          return 0;
-> @@ -870,6 +929,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
->      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
-> 
-> +    cgs_class->memory_encryption_ops = &sev_memory_encryption_ops;
-> +
->      cgs->ready = true;
-> 
->      return 0;
-> 
+> +    _check_if(ifcond)
+
+Mind if I squash in the move of the helper function to the beginning?
+
+> =20
+> =20
+>  def normalize_members(members: object) -> None:
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index ff9c4f0a17..627735a431 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -32,7 +32,7 @@
+> =20
+>  class QAPISchemaIfCond:
+>      def __init__(self, ifcond=3DNone):
+> -        self.ifcond =3D ifcond or []
+> +        self.ifcond =3D ifcond or {}
+
+This is slightly subtle.
+
+QAPISchemaIfCond.ifcond can look like one of
+
+* {'all': [COND, ...]}
+
+* {'any': [COND, ...]}          (only after PATCH 07)
+
+* {'not': COND}                 (only after PATCH 08)
+
+* STRING
+
+* {}
+
+This is just like the AST, except "absent" is now {} instead of None.
+It can occur only at the root.
+
+cgen_ifcond() and docgen_ifcond() are recursive, which means they
+happily accept {} anywhere, and generate crap.
+
+I believe the code works anyway, because it only ever creates {} in
+QAPISchemaIfCond.__init__(), i.e. at the root.
+
+Non-local correctness argument.  I'd like to try my hand at tweaking the
+code so it's more obviously correct.  Not now.
+
+> =20
+>      def cgen(self):
+>          return cgen_ifcond(self.ifcond)
+[Tests skipped for now...]
+
 
