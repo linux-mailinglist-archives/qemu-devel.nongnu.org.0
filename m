@@ -2,89 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0992D3E105C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 10:32:51 +0200 (CEST)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D633E1073
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Aug 2021 10:38:33 +0200 (CEST)
+Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBYo6-0005Ur-3b
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 04:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1mBYtc-00014D-Co
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 04:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mBYnB-0004p3-V2
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:31:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38870)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1mBYsi-0000D5-Hh; Thu, 05 Aug 2021 04:37:36 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mBYnA-0006FG-6P
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 04:31:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628152311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=345HL7K9qPj+/cFdorEOlhisuiaHXrmk4uXAhnFo+Eg=;
- b=HXaInjdCelTuevjyaKRww7EaO0Q29ylQbx+LSJi5Y1Rv1Cb9PCiU4UrKs/zF4MaYr/g4Bd
- 2Jl5B2jr/9z9NxeQiUqE3K3hRNbWPS/w2VFFJ1iEHh4cqsdNNc76WC6m1PbbBYV2TeJLqN
- mD11HhuNKSk6Rh4al3oTFpHf9d9DYCE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397--ihyTJlTOp63UN6p7GkOUg-1; Thu, 05 Aug 2021 04:31:49 -0400
-X-MC-Unique: -ihyTJlTOp63UN6p7GkOUg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- ci25-20020a1709072679b029058e79f6c38aso1772691ejc.13
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 01:31:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=345HL7K9qPj+/cFdorEOlhisuiaHXrmk4uXAhnFo+Eg=;
- b=InM2BmEYXhWqHjt2zzhlz0Ycxu7XNk45+llLlw/XN5ZC/lfLOnbI+OyZxWv3D66yny
- x7h6LMzs09MPrrY/uWyXoKlDKbeah/8gYMWWE4Bpk49xv78Vx/N5juNxg5rCLmyL0dej
- wyaC2p60VG0PuBlNev51x67SWMQXlnPj6OAtZGbMB998O3CE5HTbMYOq17Ma+NLXfJU2
- oXiHsmUStguIccMNQnKq0ke3nVStpWcsHGwmCYQ2b6k/5qjATfLvbXu/ki+9Wb0kh19/
- BxbDJ+4nADqDHektsgIKuOtKaPKaepFnNaEXaLimZxD5l6/KboAiGOh63MrLCuN0wpQV
- Yngg==
-X-Gm-Message-State: AOAM530tRAPZdx2M40/xTvKeXg0sdl4+yQbS6z+9XZG1una4gEJNVKQ9
- yxepB4yENy+BLTr2/Ykq9Fe+O/n1vTtkiL4neoy7AxVNlBxFHwqhKaMx/8eYWcAv2EzPav3HJXD
- UKyFvxO9BtfhM5CU=
-X-Received: by 2002:a50:ae02:: with SMTP id c2mr5145127edd.307.1628152308676; 
- Thu, 05 Aug 2021 01:31:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEGk9nuhTL8FmW9nGy6DfiKbht/v40kw4wKesbpDCooqQR0mfgYPrqhHhHa7NzpeeewOxtyg==
-X-Received: by 2002:a50:ae02:: with SMTP id c2mr5145095edd.307.1628152308409; 
- Thu, 05 Aug 2021 01:31:48 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id ga20sm1435553ejc.18.2021.08.05.01.31.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 01:31:47 -0700 (PDT)
-Date: Thu, 5 Aug 2021 10:31:45 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2] block/io_uring: resubmit when result is -EAGAIN
-Message-ID: <20210805083145.idxfgmwi7i7whzjx@steredhat>
-References: <20210729091029.65369-1-f.ebner@proxmox.com>
- <YQfnxLROKL/JUKyF@redhat.com>
- <20210804145048.awmlthlwlv3vcohu@steredhat>
- <YQrFv9P5/tGPEaH8@redhat.com>
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1mBYsg-0002ce-Nx; Thu, 05 Aug 2021 04:37:36 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1758YF7V030082; Thu, 5 Aug 2021 04:37:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : mime-version : content-type
+ : in-reply-to; s=pp1; bh=fQ8/COeoKGoE45HvLzJ8NkCQvRpQDUHXTnq/LlbTkaI=;
+ b=BV/2INGbOpEVXKcW1SIf2h9tpB03X35dp87+fM0kLmvSzo/7wD5AI5sUBZPeHdfRqNOJ
+ V5JaskU43qKYXUdA3E5gD3wt17GvPxoJaDcBpzi8xnRilSIFYQMM/hE9s8B+eQr1dVZZ
+ Wgo+KcttYm1YWEkgpM9Z0bY3QfuSyKwLtlOlwM6+NKUwTo0OP+J1utIfx/1dMQStYBda
+ zxfi3f03bk8uXkqp49VJnS/rU5mOUicAn0xIQI1TAr2C/i3Czj6gVgbfRp2HRtZQ0zg+
+ 4957FHlNgjZxsfLCme4czYlM/QLzx4zs3+oAYamqSm2PMoW+tbltz9SYL9td0NQLqjJz VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3a84mv2wpd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 04:37:28 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1758YNL9030560;
+ Thu, 5 Aug 2021 04:37:28 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3a84mv2wnk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 04:37:28 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1758aSSr027112;
+ Thu, 5 Aug 2021 08:37:26 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3a4x592v6w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Aug 2021 08:37:25 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1758bNWg26345768
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Aug 2021 08:37:23 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 39F844204D;
+ Thu,  5 Aug 2021 08:37:23 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0993842042;
+ Thu,  5 Aug 2021 08:37:22 +0000 (GMT)
+Received: from in.ibm.com (unknown [9.102.2.73])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  5 Aug 2021 08:37:21 +0000 (GMT)
+Date: Thu, 5 Aug 2021 14:07:19 +0530
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [RFC PATCH v0 2/2] ppc,spapr: Handle KVM_EXIT_ESN
+Message-ID: <YQujP6E5dtfHHFNV@in.ibm.com>
+References: <20210805073228.502292-1-bharata@linux.ibm.com>
+ <20210805073228.502292-3-bharata@linux.ibm.com>
+ <a7703577-9c69-cab7-6919-93c95d474a0f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YQrFv9P5/tGPEaH8@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a7703577-9c69-cab7-6919-93c95d474a0f@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hHlUi0w1gZqIbsGk6xJY1SdOGu1n_1_1
+X-Proofpoint-ORIG-GUID: fPiMmBwzrihwbJnDhTTRnu2VxRaBba38
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-05_02:2021-08-04,
+ 2021-08-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=989
+ priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
+ adultscore=0 spamscore=0 phishscore=0 suspectscore=0 bulkscore=0
+ mlxscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2107140000 definitions=main-2108050050
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=bharata@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,97 +108,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Linux io_uring" <qemu-block@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fabian Ebner <f.ebner@proxmox.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Reply-To: bharata@linux.ibm.com
+Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 04, 2021 at 06:52:15PM +0200, Kevin Wolf wrote:
->Am 04.08.2021 um 16:50 hat Stefano Garzarella geschrieben:
->> On Mon, Aug 02, 2021 at 02:40:36PM +0200, Kevin Wolf wrote:
->> > Am 29.07.2021 um 11:10 hat Fabian Ebner geschrieben:
->> > > Linux SCSI can throw spurious -EAGAIN in some corner cases in its
->> > > completion path, which will end up being the result in the completed
->> > > io_uring request.
->> > >
->> > > Resubmitting such requests should allow block jobs to complete, even
->> > > if such spurious errors are encountered.
->> > >
->> > > Co-authored-by: Stefan Hajnoczi <stefanha@gmail.com>
->> > > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
->> > > Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
->> > > ---
->> > >
->> > > Changes from v1:
->> > >     * Focus on what's relevant for the patch itself in the commit
->> > >       message.
->> > >     * Add Stefan's comment.
->> > >     * Add Stefano's R-b tag (I hope that's fine, since there was no
->> > >       change code-wise).
->> > >
->> > >  block/io_uring.c | 16 +++++++++++++++-
->> > >  1 file changed, 15 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/block/io_uring.c b/block/io_uring.c
->> > > index 00a3ee9fb8..dfa475cc87 100644
->> > > --- a/block/io_uring.c
->> > > +++ b/block/io_uring.c
->> > > @@ -165,7 +165,21 @@ static void luring_process_completions(LuringState *s)
->> > >          total_bytes = ret + luringcb->total_read;
->> > >
->> > >          if (ret < 0) {
->> > > -            if (ret == -EINTR) {
->> > > +            /*
->> > > +             * Only writev/readv/fsync requests on regular files or host block
->> > > +             * devices are submitted. Therefore -EAGAIN is not expected but it's
->> > > +             * known to happen sometimes with Linux SCSI. Submit again and hope
->> > > +             * the request completes successfully.
->> > > +             *
->> > > +             * For more information, see:
->> > > +             * https://lore.kernel.org/io-uring/20210727165811.284510-3-axboe@kernel.dk/T/#u
->> > > +             *
->> > > +             * If the code is changed to submit other types of requests in the
->> > > +             * future, then this workaround may need to be extended to deal with
->> > > +             * genuine -EAGAIN results that should not be resubmitted
->> > > +             * immediately.
->> > > +             */
->> > > +            if (ret == -EINTR || ret == -EAGAIN) {
->> > >                  luring_resubmit(s, luringcb);
->> > >                  continue;
->> > >              }
->> >
->> > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
->> >
->> > Question about the preexisting code, though: luring_resubmit() requires
->> > that the caller calls ioq_submit() later so that the request doesn't
->> > just sit in a queue without getting any attention, but actually gets
->> > submitted to the kernel.
->> >
->> > In the call chain ioq_submit() -> luring_process_completions() ->
->> > luring_resubmit(), who takes care of that?
->>
->> Mmm, good point.
->> There should be the same problem with ioq_submit() ->
->> luring_process_completions() -> luring_resubmit_short_read() ->
->> luring_resubmit().
->>
->> Should we schedule a BH for example in luring_resubmit() to make sure that
->> ioq_submit() is invoked after a resubmission?
->
->Or just loop in ioq_submit() after calling luring_process_completions()
->if new requests were added to the queue?
->
+On Thu, Aug 05, 2021 at 09:48:04AM +0200, Laurent Vivier wrote:
+> On 05/08/2021 09:32, Bharata B Rao wrote:
+> > Handle KVM_EXIT_ESN exit by issuing subvention notification
+> > interrupt to the guest. Guests supporting async-pf feature
+> > will need this interrupt to wake up tasks that are waiting
+> > for the expropriated pages to be available.
+> > 
+> > Note: Updates to linux-headers/linux/kvm.h are temporary
+> > pending headers update.
+> > 
+> > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+> > ---
+> >  linux-headers/linux/kvm.h |  1 +
+> >  target/ppc/kvm.c          | 16 ++++++++++++++++
+> >  2 files changed, 17 insertions(+)
+> ...
+> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> > index 330985c8a0..6bf3f06b88 100644
+> > --- a/target/ppc/kvm.c
+> > +++ b/target/ppc/kvm.c
+> ...
+> > @@ -1657,6 +1658,16 @@ static int kvm_handle_debug(PowerPCCPU *cpu, struct kvm_run *run)
+> >      return DEBUG_RETURN_GUEST;
+> >  }
+> >  
+> > +#if defined(TARGET_PPC64)
+> > +static void kvmppc_handle_esn(PowerPCCPU *cpu)
+> > +{
+> > +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> > +
+> > +    fprintf(stderr, "%s: ESN exit\n", __func__);
+> 
+> Do you keep this fprintf() on purpose?
 
-I was just concerned that we might cycle a bit if a request always 
-returns -EAGAIN, while scheduling a task might give room for other 
-devices to queue other requests.
+Not really, just that it survived the pre-post cleanup :-(
 
-But maybe this happens so occasionally that we might not worry about 
-it...
-
-Stefano
-
+Regards,
+Bharata.
 
