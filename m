@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57DB3E31B7
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 00:24:33 +0200 (CEST)
-Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F18E3E31BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 00:26:43 +0200 (CEST)
+Received: from localhost ([::1]:36446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC8GW-0000Ck-St
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 18:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1mC8Ic-0005XT-2A
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 18:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1mC85p-0007OJ-Fu
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 18:13:29 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:35294)
+ id 1mC85r-0007UO-EV
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 18:13:31 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:34466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1mC85n-0004Ew-7o
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 18:13:29 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ id 1mC85p-0004Gx-CK
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 18:13:31 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 176MC34p023309; Fri, 6 Aug 2021 22:13:22 GMT
+ 176MAeTU021384; Fri, 6 Aug 2021 22:13:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=HtPJgQ3FM5PygFIityiYckiHpJusSRipyU6Efojp/Po=;
- b=YcdvHRcHYXRrrDx9J0r8toTheOgGZKwoTpwjTWsxky3h8Wq6CL71MTi6nG8FVgAXndoV
- NEUTItz5nIqBS3N1MdC9zNy7WYN6BbDZk6pJ1g5cGaaB+LUuP2dNdPP2xDY3AXlhP9sa
- Gnn6U9LXRD9XCypMMEVD5uzux4awLYC/KcHAv1P5Q6hFtRRApLzaNgPt7vcwC8yQPsen
- WTJBYhXfTyrA8l/ILa1Av3X3e3DbhmVyRurYz4QM7k1GxKxiqjLO6y6XWTVhX/Xp+2nW
- uZxNNCyfJkegMf2T7aYm/1r67CkMDNsQDOobrzb9H1LWvmCrWc0M1xcCJOaWW8d2Dwg6 ig== 
+ bh=ZZndjaYMVMsu5cSny0e//bgpuCg91ravSz/nJI9JG5g=;
+ b=elICUs+nD2WVd6OSKONsnVcU39Lt5Acg9GSTwMeTZSZnMEOaxXBh2OUMhQYagexGTRIT
+ p1BBR7ADgrsYL7RloWFORhDV2oBg0iwAKdMJ64FVgwLiH73XmoC+JaTxfJlPUwm1iIO/
+ /u2CgHzqTiuSKGFgr3wQ49UyesJuXp8E+gF/oO0i+eKNFyDyb5rmIhNy2HrUqgQGUbiK
+ HUiZfgf0rpkOZQOpVnO+2lp99ETJWz0ieeQWo7Muy1uXKIRWk4o28+LFz81AG0oRPESh
+ ZxIcZr4dJffLYIKwDJP1GGrMyP0x8221yYnhG38t+eaxRSfQ9FEUOuIYlwJh815G4DBz NQ== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=HtPJgQ3FM5PygFIityiYckiHpJusSRipyU6Efojp/Po=;
- b=O/qluE/gchZqt3s1Vj5hQUWSDJk0SO98X4DgebuJhoLgZL+ybUijgMoUaAEtLBg7BRH0
- hpA+HseANgryy/XNWMy1BDwzsdJvM2+c73Swn2ii9ieVx0ns+ZYUa8yznSgCxlZfWqUL
- P+1vIsxAlSMDf67bG/TItgvOx4v4Baffbuo3MdjlMw/JIzDxRUWgus8CNtw6gK0fxHDf
- LGvWEFtoQxNcH/u8HCJVAfcTrPDHbcVIc6gOufRK+fXL0VY1qt2wb1aK+EKNNjM32vMi
- gpZQZzo5JYoflcTQHGYVRq56fy5EPSAU+hr4AzSIGnbf83shNYIJU8SQk6kU9n7IlulH 0Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3a8vy3t4xv-1
+ bh=ZZndjaYMVMsu5cSny0e//bgpuCg91ravSz/nJI9JG5g=;
+ b=knZU6m0IJobt4Ioz4LWl4luE+V41084UIgKII8DUwwfl8sxga85DgQGUeRIqBlI4Tu1o
+ GsGMz5j3T9no8CKTjj7JQBkUqRBqeglpad4bdkbTRP8aUr+4yDEktEwBvLtceb3hLEM8
+ iAPTuj3UGuGgaekDfdzQLlARGH6BlFFL0/hMqD1RmyrkTMaLdFrMGbpLjSU/0DMUl+Px
+ Du18fUiLYTCHQAvZqKHdIlTi+IueBk1Jaqwg7eZoH94XJavJlxrx0Mg01HbddVywyGo4
+ cvuda66gauY2ZnV3O57am/PzSpLVtUqwxG8tzTbIL8Ob7WiOWiUGmguwcxmyJmZttWhK ig== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3a97hqgrn0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 06 Aug 2021 22:13:21 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 176MAC88083053;
- Fri, 6 Aug 2021 22:13:20 GMT
+ Fri, 06 Aug 2021 22:13:23 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 176MBkbb013964;
+ Fri, 6 Aug 2021 22:13:22 GMT
 Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
- by aserp3020.oracle.com with ESMTP id 3a7r4cay2k-1
+ (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+ by userp3030.oracle.com with ESMTP id 3a962pfb15-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 06 Aug 2021 22:13:20 +0000
+ Fri, 06 Aug 2021 22:13:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KBezYn0FPOeIDEvyoJaXF+G1CeuuFbOAfaNDjktuLa3BBKc4d2QZ30y94mIL8otpi42jH6uN1boR3jQDavWf7iQsgAEDlO4VCIvdsyp1VB5TlOEhByAHc8TIObxeESJhUbnmt4l7n5jzx3tqKWTgMlA56ZYWluXya5bACxvYDjr8etyxPQ4DQkB1bsj0N9olR0dvJ0r/87vE/TpKSOdo+j/a9+CP1xGSDPFsh75fXa1qQ4tisucO7MRU7mdRQnDMx0jP1pTvsM7/qp0K8RkRncpgUDTX/BMX+ioO2HR47hTMHoax4bHSo7Qlandm33726TwrY6Ro9LZE+yLNjvR6Ig==
+ b=N05oVYABYSbjtd519fujyikHfLq07rrUyWfkAbC07/ohm2Zk2KEbp8SdmUJR058k8yiRvByqT4ogd/JOYqX0pfnwm8CYyYiqnRHvhWxC7G0HxNLTKP8D0q5pZ607fRQ7o6r0hGddNC+rml+QQt/3JSH+RXQM05bNHPYr8LnLhEtqTpYiVdw1Vjn2ONdAfIl4f5edsMkfLpPVeql8NY57PMBFUXO28KR7zXnpry7xG1kvAJDD7eu/AjssflDv4j1gDZvHBvVIb1C7y6LFt2i5PZ0fwrLFsVabp/WZPPjdKA3Ay0FfD5GmbRUOoXRspiZeO/wVHjY4UMCcxjrP4lGBKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HtPJgQ3FM5PygFIityiYckiHpJusSRipyU6Efojp/Po=;
- b=RIYjW0r6PkAo6twjLfGRp26wtAfa3OCqQiUTJV27ATXUCw8KOn8L3e7RhT6Y5V/vWF584g28+rL+dx2aFFVP9Z7UV0udghL0Z3IFPI8y4zKSGOPMgUjLAZXwnDbpLY+QDUoJ4/J2CUl7D8XIoh9TEasRlCyVSozTS5C8ICWa2nCyCcTTN/nwq7+uu4/1eJKJXrNgNCl+PI5u6LDkdCuEM8NJLYNOC2t/oUbOXuYy8GrDoUBIPlMp8dhXv0HGRK0NffbujhdTVRCNeuGJQf4135Z5uZ1f6X2IDDXFzW0cOhypflpyeCdOZ+dM3/pp/f0DlpDsSGL0Mb5RMYcMNdrc4g==
+ bh=ZZndjaYMVMsu5cSny0e//bgpuCg91ravSz/nJI9JG5g=;
+ b=HFyy/6ZHlH+2Diged361G9bnc6u+ws6S50W2SeLDXnaxjUU6hU02Gq1K8NSye/KbPjOi9hgi7kJMmHM8wTSPbzFm6eSyrUE4k2LNTwcWBJIAM45Ipq8rrMZJxAGeO7VWFzAfFbEWXJf3EU6DMEDfDjtlcno9OrkWOWN5yBnYfjoHLJndgKdv8655y7YbX7wV4uX8KtOWs2rwXXxuGqkl2lrybYinDBa6OFXQBb2COf51xfY12wYu0LwusieNHEjGU0nqWftUBfP7+8wtVe/RfV5a/dZOA7GvwXEpJekV3Tp5fw5X2X4XRTc8FUXTkh5rHtUzR/UONiEixsB7QDv1nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HtPJgQ3FM5PygFIityiYckiHpJusSRipyU6Efojp/Po=;
- b=zo/KRn839Ie/MzzrFjvWLImcZlqwJeEA6Bv33EBzDtOZvqYZjuNtlUgYmNh01PRUvS5tCakjtiBZthU4XLOb+OYMa340WRxab6CUzeKb8dbt/W3OwEvS4M6EdXbUg0YuHplstgwJ7uijwXqyhRfa8IVtDxr0baYT0KNWPlVNVNY=
+ bh=ZZndjaYMVMsu5cSny0e//bgpuCg91ravSz/nJI9JG5g=;
+ b=WwcR4eRzVO30rZY3KNm9RMTXbfdp9RfNNPmRcKqxprV+4OKeXEf/5YZLjaA8PBSg/xknJNDsWS5o2Te9cmmP9haddikruRmruNbUYsZcx7ZIidQwFQo0qrWWO+GvPaYWyLMYyH3yNE7uz2jrfa67Cn2Bsd5ysJRMuDO05hcT0RE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BY5PR10MB4129.namprd10.prod.outlook.com (2603:10b6:a03:210::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Fri, 6 Aug
- 2021 22:13:19 +0000
+ 2021 22:13:20 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::99fe:4091:351d:11e3]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::99fe:4091:351d:11e3%5]) with mapi id 15.20.4373.028; Fri, 6 Aug 2021
- 22:13:19 +0000
+ 22:13:20 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V6 14/27] cpr: restart mode
-Date: Fri,  6 Aug 2021 14:43:48 -0700
-Message-Id: <1628286241-217457-15-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V6 15/27] cpr: restart HMP interfaces
+Date: Fri,  6 Aug 2021 14:43:49 -0700
+Message-Id: <1628286241-217457-16-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
 References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
@@ -97,66 +97,66 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from ca-dev63.us.oracle.com (148.87.23.7) by
  SA9PR03CA0002.namprd03.prod.outlook.com (2603:10b6:806:20::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.16 via Frontend Transport; Fri, 6 Aug 2021 22:13:17 +0000
+ 15.20.4394.16 via Frontend Transport; Fri, 6 Aug 2021 22:13:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 63e54238-d7e4-4262-500f-08d95927654b
+X-MS-Office365-Filtering-Correlation-Id: b534eb10-3f14-47a9-2b14-08d95927666a
 X-MS-TrafficTypeDiagnostic: BY5PR10MB4129:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BY5PR10MB412996AB00D9B0A145EA9332F9F39@BY5PR10MB4129.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <BY5PR10MB412996958B6CD1C6022A9535F9F39@BY5PR10MB4129.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:346;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n6bsG4o3PHe+57ufsiHi0Z2SXL2ARtDDC0KDG+ORlV4qBaB5DyHmbmCYpfSXdGV35IrwUVqwVFPsw8EqRTCfjAS7n7lbKrbdDQBnDG8t8D6QdYwoaIUr47kxNOvLAT4/nKoh6TjldCFx4sr22gODbqF08IV+vh14KYjElQVFN334tBu9pPj7Ocq84XjTSR9G6vJJYXVVKtyGdWUYPpAycmlwx4b4RcO5ZhICUmAouMwgRHjKxY2QtAvnvTiZPrtp8aRS4Kmb0QWLqTXYgac0TQJn8U1EfQ/NYrOzu+jVx2qyOriSpjrG+4h33LAfis3CiptFuM9L0XaemcpCG3IJYAlO6dJeDuwo/4LsaBmA1WtNRE491MG6gu77wZ7dOAGNZGT26SBXW/jxjwVJhwbwp0TgK51GlCOAXbv5IfDLbp8gM9mHKYgceRH8CnfGdLQieFrYb+oahzO+oXetb6eNVFac8U9ANZjIMcUdqNIxP5drjRduEdbrOX6r3VafRx7AHmytlmNl7oi0q7Tug7DKNIL2sWFuR2xCl+Tl9W0abQb0/lYve324A7eEVXZj/BSBCkx3bf+JcO37QCzJpjrXDxj8bJHLu+pE/kj5UBdMja8OooJW0GXBQRE/ZcWsXSK7RSLtFhrhPJ6Gz6Xb9z1UAXBdO1bzLrd7HDqU78OhqHb/3QPylFC+VmcM70qu3QRZ27QGhNDMxfo7veMngxkzKQ==
+X-Microsoft-Antispam-Message-Info: 7SLG17ujWKK7LdAbl0rFFMP6EvR54Q9Nz93Swmzd35pato9ML7Fxx6HLjfVVcwYKo2VvkXvr3D+kpeGUQxGGlRe9nH73TwCVT1AhpPtl8eCYXuKvvzsX1s6JZqPWsky26KC/1IGse6pPlY51mTOhEjwcsbdnfiwV/3nxRXArgbEhenVUaDqFTdnnsFCncpfpegliFMmeGXv9UD8DLx8qIR+fjMc8bH92IqiFWrtmNPG1+wdBVeCEIJP4z1ASivPN6I5gP2jrq7Iem1ZxYnydhwzttgHaiTOAz0Yi9evqOEJtxKE1o2Jv7/yJG8zm0CPBt/scJsFNCDMSfo3xyXHUWBEbjRAYbiKCqpWeR8hZ5Ylnb/QeU6PxXIBsLA1VLgvvCin1099VYyT7Y/gP5x829ifRlGlTrV/7GDdlgTTlqFLyLpug276uYzy7iS9sM23l/mWw11TnR1ayrP/G3jXwGRxoBLdGL2lb1FlRhNpthP++PKxvoP/OiK3f4yg0U0LRQMUxQ2YKjmHAfrYvFTSah/d7QP4CIKlkYC1c8muvBJ1ADwUTOMItux0KVcw3PcMHORZ9uQuE+M9q9nNKVxf6BR/l90HMqeXOW43uFPIHTcJWi3PpG9oqDmD2ectKWmZpOXkpemR3zi4U6CaDd5zm7WI9msD4/K4d+IlBnSOslffIirJ//tQKsb7p/eldPvwfeS51Q/w6W3LmqfHKAficHg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(136003)(396003)(39860400002)(366004)(346002)(376002)(66946007)(66556008)(956004)(2616005)(316002)(7416002)(38350700002)(8936002)(478600001)(66476007)(36756003)(86362001)(38100700002)(5660300002)(54906003)(8676002)(4326008)(6486002)(7696005)(52116002)(186003)(2906002)(6666004)(107886003)(6916009)(26005)(83380400001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tThxw+tTpwfyMdNwK1Xvme7a82ete1ZAihJVexUjAoqXdNX/oMcaHNIYDE3N?=
- =?us-ascii?Q?OuhshJulCYLuiLzu5o9LRv17kK1JMl4AgVSW6c7khrVZqdJ1uLuPzRZfIgUK?=
- =?us-ascii?Q?g2Jrxr4NTxyXeKmeeEw+2UqC4CZSmBZ7bQGq2aqgZgosrMG96t8PZmxG03bh?=
- =?us-ascii?Q?Hw7Ent9LByTmOo+UKv7kp/hYgGuAMxu3nnopd+XnGpNkUQpyJ4aoacl7ao91?=
- =?us-ascii?Q?dMcr+caAwCTbEg/zrarTzfOloGBwojTVMO4vrFWL4ZupbnVCXEt1jlV6jtY3?=
- =?us-ascii?Q?nkRseiO8DBdWAJEZWVPRrXvzmf0ylYaou9yVKtHH4ZwVoNIh86fwv+8LTq88?=
- =?us-ascii?Q?/8pQ4GvEuvRu9e3QN4rhUU11EBMT43zJpZstOInbOzGVvoK6CGtI/M35W7EJ?=
- =?us-ascii?Q?JaBd7BNMjfDVkTK6xWQrdMRW7b6gyw++/kahcblpZLstttawmrMyA54WICrQ?=
- =?us-ascii?Q?A4fEZKqnwc7OPzgkEktAY043fugH0hLFPWPegAvLbG9kRPW83ywukr9WTz04?=
- =?us-ascii?Q?Hi1QkbhgU7xW4pjBvI2x/x7JO1kN0bxVtkXIbpzgR/CKVchd0bicb1T4Dn1W?=
- =?us-ascii?Q?Vz2dbNRIgHlYXYznPSzH6XBARNisRVKVHJ3EE7PW9qWd84xxdEN2rGozxAH1?=
- =?us-ascii?Q?WGIfShQ5J4eo+0GdQSlvgOe8ks41iEgI9O9hCmKP2S0DdRGIpeJ4abivnX3e?=
- =?us-ascii?Q?pUyu7/isleP6Tz+eF3v18nb2jouMbBZ/HLzTqzCHYZdvTzlFrVybZuqjZud+?=
- =?us-ascii?Q?pQ36U490v5mCWlYsGv+cpsr+6/b+cETDycH9KKK8FdCscIDHrJWLQzN3O50E?=
- =?us-ascii?Q?WlTXUtv5wOdCAQYVDCQ/J8goyvtDimkELW4wQ7h6D+jQnP4MvCY0G1V/E6ub?=
- =?us-ascii?Q?mLmRWX7FY6Qdv2VU0WKC+nDgz2EKGETpChISSx/hbcV20g/xGizHF7zADfv7?=
- =?us-ascii?Q?R5N0E9u4kh1IlIeTtn2VcUAirnVi82up7V2PuCqFNiwtrBvflH8GhxGjd4ye?=
- =?us-ascii?Q?wxEcL1lmHtfhCpbELkR7rrAU8cdRUG7EI4PjB1ymQ6oCe/6bAM1TsY0YQfwZ?=
- =?us-ascii?Q?WLXfmuvadyL0N5TzMJqwTF2fOpgXkVcPKUr72XgdmjVqcBqhRtCpr7LBxfnr?=
- =?us-ascii?Q?ga9ckEjCgV+FRkDpreHH5GAaVj2hrz4mSKNA8igU3/1YteSEZBdBu7L/SDFL?=
- =?us-ascii?Q?6/J5bqlM9AA/fhBc/O33LrulZfhmOm9mhNOwbSKREthDZGNBZt6+lB+PWjbP?=
- =?us-ascii?Q?jAT0/+oScInZO1CmYQ9aBjINbvd1tdIi3bMDnPe52N3+B9mmKEOogOKUIQIx?=
- =?us-ascii?Q?96pIrHx6LidAeD9jaepS5rGa?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ahKN960MdJK38/AgeM/LUg8QL5ydHY6xYspkjh65n0Ajn1vdwEwhxkCduyJ5?=
+ =?us-ascii?Q?wbERl6UNIWppQzWUGDUmpATv9xVeAY7uX6Lfp4yYYKbANTI5xinQ417rTD3d?=
+ =?us-ascii?Q?LOfLdrprtWq7k9i/H8QRr9RQDV1JWRyV4aYMvbrl23+zIuH7OCuD4xVGUuuu?=
+ =?us-ascii?Q?+gdMVxp+QKjxLCeftwc+Pyzi+oOAGRi2z40v3ngeYjyv57boH8sG8D6dXdim?=
+ =?us-ascii?Q?TWS4+1GNZL/gudlRDRSfFd2RqDs1opVE82ozhXInOjC1PdHFyoXhBbgOBKeC?=
+ =?us-ascii?Q?iWUPM40L3Pc0h9XRccIeqpE3v/nvu7LP0vK4061H9kpnzmBRbBxkAndW8nUR?=
+ =?us-ascii?Q?//Kf1xU9ANeGs9GzPXqR3gqFQ2bCgQba3nMnRmnI1TmLM1qRg2MSEdTI9eFl?=
+ =?us-ascii?Q?dIF/Rtk0/5sOx5/PXjwncc2GZFqdvsdPAo9fbq+X9c5FVh/o2rsWU/1+5rLY?=
+ =?us-ascii?Q?hOMyAvPACajER30rgLa3uhEEXccuQ9IbcNVl8ivJH5yCUMUggganHQbg2Qap?=
+ =?us-ascii?Q?SzD5k5133aE6Q84bqrZ6zoeSGAiHAwGgniRu6SxTeKmoqDw1R335fkzdFvOR?=
+ =?us-ascii?Q?rilxZtR7cybMnrnvtFIMtK0k2FRkJkwIXTSRD8EexusJVbfKQ8EGccd6rVGo?=
+ =?us-ascii?Q?bvQEwbmJvYMTmpmDxGROcndU08lNOFb99oXqIRipacdte6XMqZafP76VGLHM?=
+ =?us-ascii?Q?btBZbfDfFurZh5FeQSVPKGl2IvKwlhqBm71McVEZR+k1n2XI9AL2o7QJjrcE?=
+ =?us-ascii?Q?A0Q8CIsaAlxp5iCcyOBHxxxLEvCT38WhoaD0PhdX0Xc4/U9IH0R0nA3BauCD?=
+ =?us-ascii?Q?QzrB4gcYxt78mjkVbOzosQ/3rjdshl5/PUdGemxiynkWjr4nrpf4gya714xX?=
+ =?us-ascii?Q?F1D9aR27JfKCqTbpHiOjPqaoV+TE4txj8xy7DMXtx1SoRFzdBGoQH4n7xuqs?=
+ =?us-ascii?Q?gGn1rOrthFFnLVfnTeYH7Trf3mzGq09MJ/ElSf1Te7X6v5grGTGDdjux3aZl?=
+ =?us-ascii?Q?UYAiu98xle806ivrTVi80DW301VBP0RS6OlQWQYo0AxExxSm9NZMxzAPxOYd?=
+ =?us-ascii?Q?58d5BiZVkSVqBPbZ8NSB5gu/t5tx2iYSGbSMH3dGac7G7Cb0x/K38Hft47pV?=
+ =?us-ascii?Q?PPa/10o6BNoZqaZz9h92YgpCJxwtd6s1+qEgwjcSs78aZxn8kYaXz4QRlBOa?=
+ =?us-ascii?Q?MwqZEX78PT0hWDx8u7krmMC9JE2ryZQ8++Y2/WzFuDfydKy8MmlxAcstIDFB?=
+ =?us-ascii?Q?RCCc8eZB7/Xo3RQ4xPPIVvcSalF/PnnVEqqbgkrey6aUicaTiD+I2Wk5wMc3?=
+ =?us-ascii?Q?4iBjzTT0BcnHjq7vXzq6qNN2?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63e54238-d7e4-4262-500f-08d95927654b
+X-MS-Exchange-CrossTenant-Network-Message-Id: b534eb10-3f14-47a9-2b14-08d95927666a
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 22:13:18.9296 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 22:13:20.7735 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oolj5C1h2NrY7K4SZi0bh449hFg5UTmRbVYoA6tpvvyeYT8a/4k2zeIBFV6MlWevh8HlFgv4h1Gt4MgrIgLGJ/c71YuD4oddEHtO4B2sjPs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2QfqOZ4dnBNGsaemsMDCgKikuV3pGju/faj/CyGS4WYZJOkogKpej3B2iKRADpYdnuhPxZY7LVm+3FC6Aekb+qFnM+2BUcsXYZ+BIE1QEmE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4129
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10068
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 spamscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 phishscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 spamscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108060145
-X-Proofpoint-GUID: kGLwqOz0exBIOMa4Dg5INsLxUQopPTzw
-X-Proofpoint-ORIG-GUID: kGLwqOz0exBIOMa4Dg5INsLxUQopPTzw
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: keKUdeGmSBnMHQhiwn1LA6zy8D2xzK0P
+X-Proofpoint-GUID: keKUdeGmSBnMHQhiwn1LA6zy8D2xzK0P
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -191,194 +191,94 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the cpr-save restart mode, which preserves the guest VM across a
-restart of the qemu process.  After cpr-save, the caller passes qemu
-command-line arguments to cpr-exec, which directly exec's the new qemu
-binary.  The arguments must include -S so new qemu starts in a paused state.
-The caller resumes the guest by calling cpr-load.
+cpr-save <filename> <mode>
+  mode may be "restart"
 
-To use the restart mode, all guest RAM objects must be shared.  The
-share=on property is required for memory created with an explicit -object
-option.  The memfd-alloc machine property is required for memory that is
-implicitly created.  The memfd values are saved in special cpr state which
-is retrieved after exec, and are kept open across exec, after which they
-are retrieved and re-mmap'd.  Hence guest RAM is preserved in place,
-albeit with new virtual addresses in the qemu process.
-
-The restart mode supports vfio devices and explicit memory-backend-memfd
-objects in subsequent patches.
-
-cpr-exec syntax:
-  { 'command': 'cpr-exec', 'data': { 'argv': [ 'str' ] } }
-
-Add the restart mode:
-  { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
+cpr-exec <command>
+  Call qmp_cpr_exec().
+  Arguments:
+    command : command line to execute, with space-separated arguments
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- migration/cpr.c   | 30 +++++++++++++++++++++++++++++-
- qapi/cpr.json     | 22 +++++++++++++++++++++-
- softmmu/physmem.c |  5 ++++-
- softmmu/vl.c      |  3 +++
- 4 files changed, 57 insertions(+), 3 deletions(-)
+ hmp-commands.hx       | 21 ++++++++++++++++++++-
+ include/monitor/hmp.h |  1 +
+ monitor/hmp-cmds.c    | 11 +++++++++++
+ 3 files changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/migration/cpr.c b/migration/cpr.c
-index 1ec903f..72a5f4b 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -88,6 +88,34 @@ err:
-     cpr_active_mode = CPR_MODE_NONE;
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 0a45c59..9541871 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -353,7 +353,7 @@ ERST
+     {
+         .name       = "cpr-save",
+         .args_type  = "filename:s,mode:s",
+-        .params     = "filename 'reboot'",
++        .params     = "filename 'reboot'|'restart'",
+         .help       = "create a checkpoint of the VM in file",
+         .cmd        = hmp_cpr_save,
+     },
+@@ -366,6 +366,25 @@ If *mode* is 'reboot', the checkpoint remains valid after a host kexec
+ reboot, and guest ram must be backed by persistent shared memory.  To
+ resume from the checkpoint, issue the quit command, reboot the system,
+ and issue the cpr-load command.
++
++If *mode* is 'restart', the checkpoint remains valid after restarting qemu
++using a subsequent cpr-exec.  All guest RAM objects must be shared.  The
++share=on property is required for memory created with an explicit -object
++option, and the memfd-alloc machine property is required for memory that is
++implicitly created.  To resume from the checkpoint, issue the cpr-load command.
++ERST
++
++    {
++        .name       = "cpr-exec",
++        .args_type  = "command:S",
++        .params     = "command",
++        .help       = "Restart qemu by directly exec'ing command",
++        .cmd        = hmp_cpr_exec,
++    },
++
++SRST
++``cpr-exec`` *command*
++Restart qemu by directly exec'ing *command*, replacing the qemu process.
+ ERST
+ 
+     {
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 01b5df8..90f18fd 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -59,6 +59,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict);
+ void hmp_savevm(Monitor *mon, const QDict *qdict);
+ void hmp_delvm(Monitor *mon, const QDict *qdict);
+ void hmp_cpr_save(Monitor *mon, const QDict *qdict);
++void hmp_cpr_exec(Monitor *mon, const QDict *qdict);
+ void hmp_cpr_load(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index da91a0a..99f75a1 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1172,6 +1172,17 @@ out:
+     hmp_handle_error(mon, err);
  }
  
-+static int preserve_fd(const char *name, int id, int fd, void *opaque)
++void hmp_cpr_exec(Monitor *mon, const QDict *qdict)
 +{
-+    qemu_clear_cloexec(fd);
-+    return 0;
++    Error *err = NULL;
++    const char *command = qdict_get_try_str(qdict, "command");
++    strList *args = strList_from_string(command, ' ');
++
++    qmp_cpr_exec(args, &err);
++    qapi_free_strList(args);
++    hmp_handle_error(mon, err);
 +}
 +
-+void qmp_cpr_exec(strList *args, Error **errp)
-+{
-+    if (xen_enabled()) {
-+        error_setg(errp, "xen does not support cpr-exec");
-+        return;
-+    }
-+    if (!runstate_check(RUN_STATE_SAVE_VM)) {
-+        error_setg(errp, "runstate is not save-vm");
-+        return;
-+    }
-+    if (cpr_active_mode != CPR_MODE_RESTART) {
-+        error_setg(errp, "cpr-exec requires cpr-save with restart mode");
-+        return;
-+    }
-+
-+    cpr_walk_fd(preserve_fd, 0);
-+    if (cpr_state_save(errp)) {
-+        return;
-+    }
-+    qemu_system_exec_request(args);
-+}
-+
- void qmp_cpr_load(const char *filename, Error **errp)
+ void hmp_cpr_load(Monitor *mon, const QDict *qdict)
  {
-     QEMUFile *f;
-@@ -111,7 +139,7 @@ void qmp_cpr_load(const char *filename, Error **errp)
-         return;
-     }
- 
--    cpr_active_mode = CPR_MODE_REBOOT;  /* generalized in a later patch */
-+    cpr_active_mode = cpr_state_mode();
- 
-     ret = qemu_load_device_state(f);
-     qemu_fclose(f);
-diff --git a/qapi/cpr.json b/qapi/cpr.json
-index 2edd08e..56be0e5 100644
---- a/qapi/cpr.json
-+++ b/qapi/cpr.json
-@@ -15,11 +15,12 @@
- # @CprMode:
- #
- # @reboot: checkpoint can be cpr-load'ed after a host kexec reboot.
-+# @restart: checkpoint can be cpr-load'ed after restarting qemu.
- #
- # Since: 6.2
- ##
- { 'enum': 'CprMode',
--  'data': [ 'reboot' ] }
-+  'data': [ 'reboot', 'restart' ] }
- 
- ##
- # @cpr-save:
-@@ -33,6 +34,11 @@
- # For reboot mode, all guest RAM objects must be non-volatile across reboot,
- # and created with the share=on parameter.
- #
-+# For restart mode, all guest RAM objects must be shared.  The share=on
-+# property is required for memory created with an explicit -object option,
-+# and the memfd-alloc machine property is required for memory that is
-+# implicitly created.
-+#
- # @filename: name of checkpoint file
- # @mode: @CprMode mode
- #
-@@ -43,6 +49,20 @@
-             'mode': 'CprMode' } }
- 
- ##
-+# @cpr-exec:
-+#
-+# exec() a command and replace the qemu process.  The PID remains the same.
-+# @argv[0] should be the path of a new qemu binary, or a prefix command that
-+# in turn exec's the new qemu binary.  Must be called after cpr-save restart.
-+#
-+# @argv: arguments to be passed to exec().
-+#
-+# Since: 6.2
-+##
-+{ 'command': 'cpr-exec',
-+  'data': { 'argv': [ 'str' ] } }
-+
-+##
- # @cpr-load:
- #
- # Start virtual machine from checkpoint file that was created earlier using
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index d11455f..2e14314 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -65,6 +65,7 @@
- 
- #include "qemu/pmem.h"
- 
-+#include "migration/cpr.h"
- #include "migration/vmstate.h"
- 
- #include "qemu/range.h"
-@@ -1987,7 +1988,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
-             name = memory_region_name(mr);
-             if (ms->memfd_alloc) {
-                 Object *parent = &mr->parent_obj;
--                int mfd = -1;          /* placeholder until next patch */
-+                int mfd = cpr_find_fd(name, 0);
-                 mr->align = QEMU_VMALLOC_ALIGN;
-                 if (mfd < 0) {
-                     mfd = qemu_memfd_create(name, maxlen + mr->align,
-@@ -1995,6 +1996,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
-                     if (mfd < 0) {
-                         return;
-                     }
-+                    cpr_save_fd(name, 0, mfd);
-                 }
-                 qemu_set_cloexec(mfd);
-                 /* The memory backend already set its desired flags. */
-@@ -2251,6 +2253,7 @@ void qemu_ram_free(RAMBlock *block)
-     }
- 
-     qemu_mutex_lock_ramlist();
-+    cpr_delete_fd(memory_region_name(block->mr), 0);
-     QLIST_REMOVE_RCU(block, next);
-     ram_list.mru_block = NULL;
-     /* Write list before version */
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index cb72ca2..924e8f9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -76,6 +76,7 @@
- #include "hw/i386/pc.h"
- #include "migration/misc.h"
- #include "migration/snapshot.h"
-+#include "migration/cpr.h"
- #include "sysemu/tpm.h"
- #include "sysemu/dma.h"
- #include "hw/audio/soundhw.h"
-@@ -3614,6 +3615,8 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_validate_options(machine_opts_dict);
-     qemu_process_sugar_options();
- 
-+    cpr_state_load(&error_fatal);
-+
-     /*
-      * These options affect everything else and should be processed
-      * before daemonizing.
+     Error *err = NULL;
 -- 
 1.8.3.1
 
