@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17F63E30EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 23:21:10 +0200 (CEST)
-Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19733E314D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 23:44:09 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC7HB-0004oI-O5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 17:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41060)
+	id 1mC7dQ-00038P-GN
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 17:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC7Fg-00022z-Hz
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:19:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC7Fe-0000hW-Nb
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:19:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628284774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PGYgUoE80BzRpCI9195mDYQv6izVDMVZcK79Z9DVZDo=;
- b=DwEB0YD85JctRPmNB0YFAjRQV7/O3olMqU9mpO5iKatCMmdOK9rciXLdKmxHTqD3GFqxDU
- pQLGQOq20zPCDheg8lfRKDktXZL4p9EKaOaLgFb6xJXTEf8aem0ZUbDL5OYshsLV6tx2kb
- eHoHwKBxADR/Xxa+l48xS7LFSEdYYDY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-xSN_i7BvNnCBUIghIxnhpQ-1; Fri, 06 Aug 2021 17:19:31 -0400
-X-MC-Unique: xSN_i7BvNnCBUIghIxnhpQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0DB190B2A0;
- Fri,  6 Aug 2021 21:19:30 +0000 (UTC)
-Received: from redhat.com (ovpn-112-138.phx2.redhat.com [10.3.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E59019CBA;
- Fri,  6 Aug 2021 21:19:29 +0000 (UTC)
-Date: Fri, 6 Aug 2021 16:19:27 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH 2/7] net/vmnet: add new netdevs to qapi/net
-Message-ID: <20210806211927.dvsn7xvy2ghmonip@redhat.com>
-References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
- <20210617143246.55336-3-yaroshchuk2000@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mC7c4-00027A-1I
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:42:44 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mC7c2-0007yk-F4
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:42:43 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ u21-20020a17090a8915b02901782c36f543so15757889pjn.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 14:42:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sHDHuq4bV7ysIgyjY17if5r6zuInXSoMP8uG47uSlv4=;
+ b=P3VurSUMaTa9vL5cZb5VwNDPUilkFuDCz4QzwEnxVxJktJlwuoOgX8GIUEA3YX610w
+ A8yBBRnEJDCVOF4au5Uu96zNpNMd3zBTd1YUpGjEM7LDLN/z6o77IhStjo+R6TZMl7v0
+ sp6+84CGxZzuYgPYqp8+jqq7WmAyWbpwX9zwjjdJY4Hvz8ceJA2wv2lLiHPXpPKvebTN
+ +dGu8k3bv3ssjqt4EacGYXLBlM5aP0dIM1kI8DOs+Oghwp45QdTbD0A3+aeudG410rlZ
+ Y4vuZccwTlRM7bpI8ugHLUgO+iZvhsNO+2qsEmEy44YDZNjVeidx26hbj/IACZrGKhHB
+ w+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sHDHuq4bV7ysIgyjY17if5r6zuInXSoMP8uG47uSlv4=;
+ b=CkgavvONncHFjDe1ySuvyo6DHQx+EyOcYcmJ2khoo60O7YWY5c9wPmsIrLMnHL+b6O
+ 2bTLLiDCRzTIgS+IBHoZkMt7pmQm9Lm5yHbKWe2x8q1BZzO5Ihg4g8FLxjJty0LpBNoH
+ fGq6oXXRlPzuh7R2//UdFIylojzPVuQPlVHd9UgbOpC/xbZS5TGIem6uDhnygsrhTkW0
+ n7xAHxBpcVy0f4tvR7iZXCooc1HhUb3dAVbCAFSN7Ah243/9E4pYJsNeTr9SJWrVHVNw
+ 7vOKkarTcK7yyG3FL3CaHhnGlQNSjXKPu+E0YVwoVAjHEu4f8Ur1lZaOs9Z7k7ccHYgC
+ 5DQw==
+X-Gm-Message-State: AOAM532WaWh0sOs8QJpucpvs4BnudOcWe+o7KVwxXH4FjWbXr03K9AbX
+ ZOCwsKnf156CHrSW+SBnzNyrWXEd09tfRg==
+X-Google-Smtp-Source: ABdhPJxz9fyoQO08HpD0zQ/7PzXZ5C7Qqe5fgGGh59R+vOUwVwc6RR0zMERsRt+bTHrjJBjMwClBpw==
+X-Received: by 2002:a63:2f04:: with SMTP id v4mr922525pgv.380.1628286160410;
+ Fri, 06 Aug 2021 14:42:40 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id w18sm11035701pjg.50.2021.08.06.14.42.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Aug 2021 14:42:39 -0700 (PDT)
+Subject: Re: [PATCH-for-6.2 v2 3/5] target/mips: Convert Vr54xx MACC* opcodes
+ to decodetree
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210806210548.8568-1-f4bug@amsat.org>
+ <20210806210548.8568-4-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b1a62cde-a944-d1be-2c12-8560f3c82756@linaro.org>
+Date: Fri, 6 Aug 2021 11:42:35 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210617143246.55336-3-yaroshchuk2000@gmail.com>
-User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210806210548.8568-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.619,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,150 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, r.bolshakov@yadro.com, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 05:32:41PM +0300, Vladislav Yaroshchuk wrote:
-> Created separate netdev per each vmnet operating mode
-> because they use quite different settings. Especially since
-> macOS 11.0 (vmnet.framework API gets lots of updates)
-> 
-> Three new netdevs are added:
-> - vmnet-host
-> - vmnet-shared
-> - vmnet-bridged
-> 
-> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> ---
-
-> +++ b/qapi/net.json
-> @@ -452,6 +452,89 @@
->      '*vhostdev':     'str',
->      '*queues':       'int' } }
->  
-> +##
-> +# @NetdevVmnetHostOptions:
-> +#
-> +# vmnet (host mode) network backend.
-> +#
-> +# Allows the vmnet interface to communicate with
-> +# other vmnet interfaces that are in host mode and also with the native host.
-> +#
-> +# @dhcpstart: The starting IPv4 address to use for the interface. Must be in the
-> +#             private IP range (RFC 1918). Must be specified along
-> +#             with @dhcpend and @subnetmask.
-> +#             This address is used as the gateway address. The subsequent address
-> +#             up to and including dhcpend are  placed in the DHCP pool.
-> +#
-> +# @dhcpend: The DHCP IPv4 range end address to use for the interface. Must be in
-> +#           the private IP range (RFC 1918). Must be specified along
-> +#           with @dhcpstart and @subnetmask.
-> +#
-> +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be specified
-> +#              along with @dhcpstart and @subnetmask.
-> +#
-> +#
-> +# Since: 6.1,
-> +##
-
-Same comments about 6.1 vs. 6.2 as before (I'll quit pointing it out).
-Spurious trailing comma.
-
-> +{ 'struct': 'NetdevVmnetHostOptions',
-> +  'data': {
-> +    '*dhcpstart':   'str',
-> +    '*dhcpend':     'str',
-> +    '*subnetmask':  'str'
-
-Hmm. You listed all three as optional, but document that they must all
-be specified together.  Why not just make them all required, and
-simplify the documentation?
-
-> +  },
-> +  'if': 'defined(CONFIG_VMNET)' }
+On 8/6/21 11:05 AM, Philippe Mathieu-Daudé wrote:
+> +/*
+> + * Helpers for implementing sets of trans_* functions.
+> + * Defer the implementation of NAME to FUNC, with optional extra arguments.
+> + */
+> +#define TRANS(NAME, FUNC, ...) \
+> +    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
+> +    { return FUNC(ctx, a, __VA_ARGS__); }
 > +
-> +##
-> +# @NetdevVmnetSharedOptions:
-> +#
-> +# vmnet (shared mode) network backend.
-> +#
-> +# Allows traffic originating from the vmnet interface to reach the
-> +# Internet through a network address translator (NAT). The vmnet interface
-> +# can also communicate with the native host. By default, the vmnet interface
-> +# is able to communicate with other shared mode interfaces. If a subnet range
-> +# is specified, the vmnet interface can communicate with other shared mode
-> +# interfaces on the same subnet.
-> +#
-> +# @dhcpstart: The starting IPv4 address to use for the interface. Must be in the
-> +#             private IP range (RFC 1918). Must be specified along
-> +#             with @dhcpend and @subnetmask.
-> +#             This address is used as the gateway address. The subsequent address
-> +#             up to and including dhcpend are  placed in the DHCP pool.
 
-Spurious double space.
+I was thinking this could go in translate.h, for use with the other files at some point.
 
-> +#
-> +# @dhcpend: The DHCP IPv4 range end address to use for the interface. Must be in
-> +#           the private IP range (RFC 1918). Must be specified along
-> +#           with @dhcpstart and @subnetmask.
-> +#
-> +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be specified
-> +#              along with @dhcpstart and @subnetmask.
-> +#
-> +#
-> +# Since: 6.1,
-> +##
-> +{ 'struct': 'NetdevVmnetSharedOptions',
-> +  'data': {
-> +    '*dhcpstart':    'str',
-> +    '*dhcpend':      'str',
-> +    '*subnetmask':   'str'
-> +  },
-> +  'if': 'defined(CONFIG_VMNET)' }
-> +
-> +##
-> +# @NetdevVmnetBridgedOptions:
-> +#
-> +# vmnet (bridged mode) network backend.
-> +#
-> +# Bridges the vmnet interface with a physical network interface.
-> +#
-> +# @ifname: The name of the physical interface to be bridged.
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'NetdevVmnetBridgedOptions',
-> +  'data': { 'ifname': 'str' },
-> +  'if': 'defined(CONFIG_VMNET)' }
-> +
->  ##
->  # @NetClientDriver:
->  #
-> @@ -460,11 +543,16 @@
->  # Since: 2.7
->  #
->  #        @vhost-vdpa since 5.1
-> -#        @vmnet since 6.1
-
-Why are you dropping vmnet?  Especially since you just added it in the
-previous patch?  That feels like needless churn.
-
-> +#        @vmnet-host since 6.1
-> +#        @vmnet-shared since 6.1
-> +#        @vmnet-bridged since 6.1
->  ##
->  { 'enum': 'NetClientDriver',
->    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa', 'vmnet' ] }
-> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-> +            { 'name': 'vmnet-host', 'if': 'defined(CONFIG_VMNET)' },
-> +            { 'name': 'vmnet-shared', 'if': 'defined(CONFIG_VMNET)' },
-> +            { 'name': 'vmnet-bridged', 'if': 'defined(CONFIG_VMNET)' }] }
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
