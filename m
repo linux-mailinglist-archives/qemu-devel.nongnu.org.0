@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489253E2339
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 08:26:37 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08253E233B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 08:26:58 +0200 (CEST)
+Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBtJU-00020Y-C3
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 02:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
+	id 1mBtJp-00031U-Q5
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 02:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBtIT-0000Wh-N7
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 02:25:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59849)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mBtIy-0001fP-AS
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 02:26:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBtIS-0008WU-3R
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 02:25:33 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mBtIw-0000aq-MU
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 02:26:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628231131;
+ s=mimecast20190719; t=1628231161;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4DifUKbjttTtYfjk9v4alOVyN+FdZNPfEEzbpnk+yLs=;
- b=jJc+hMXkjZvhCdI8LPifkM7PzJeUFHNW4IFeSla929ZSUsaqkSFm5auOOjbiJ8z6awUCcH
- SuP4VfzANGG0rsgf46YuZf/RmLiIdpQWcYYKR0y0WzxRUfAk49/udOCb88VBKS07+msh4n
- Fda6WdH/k3pQ8XbPhRAOEcq3j/R65+g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-AeENBxfiOjybOWRi7_cY1Q-1; Fri, 06 Aug 2021 02:25:28 -0400
-X-MC-Unique: AeENBxfiOjybOWRi7_cY1Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a197-20020a1c98ce0000b029025831695a2eso1669017wme.4
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 23:25:28 -0700 (PDT)
+ bh=cUEmi5L1+k3WK3DPbfE0IQYdDsQFRFdy3+OuakQvDCI=;
+ b=gAlHBixgsKxpj0ehQ8HhIzSe9lhISRaNq0ZhAnuEIpFPtGrMAB9x8xKrNNTVEF+7xu0dk0
+ DhWvwzxN68/TJ42/pPu26J46pwzranepoc1T2Jvqtrreg39gDcW8houm9GrzRvxGiZBXES
+ 42/dmYnUkwx3nU8KVkc8q+gVzCVTt0g=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-Os5yPNgWNkW08djuj56EQw-1; Fri, 06 Aug 2021 02:26:00 -0400
+X-MC-Unique: Os5yPNgWNkW08djuj56EQw-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ 16-20020a17090a1990b029017582e03c3bso13965781pji.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 23:26:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4DifUKbjttTtYfjk9v4alOVyN+FdZNPfEEzbpnk+yLs=;
- b=kAtnPg6GJgs/5xVoZ2n8tcXL64cYAonfiHYRTwMLAniDBnsdXAae0h5TSQ4SH4Umvg
- IJQ5v8pGe3kW09eu6jys/mnrVeA+Jq8Cw4oKWl0L6kPstxOykLwrrumFpWLuGXYkXgz3
- UBLbjgYp8e12o24H/GAYpqA0Kw8KuuYK9kc9B69VQdjko7cEY57qS3e6BVKb9TJmlGHQ
- vmLnFMLeDOtNKpn+PRAybNBgB/6XOTDeOz/7jzVFEy7T9ktrLl8Qlu8ZmvWKF8OoDH4J
- c+4E+/lz3g1R7Kn1/SnAUFbTBjMDKT+IQHw1oY3PYqNQ9e8pxUZDMMYzmCzsSgLicdSX
- 3EsA==
-X-Gm-Message-State: AOAM530qUzmXZ8OXViLDGNJKZGRzw5MQsVjaX5OViB/X29+tErH9Co7b
- KQHoZistZEijLv/xo2/vI/LeovlkruEmHi7pEznCBml1EZL8O9STkpxRdbqCO8Bj8OnXPlh3VXr
- L/F0XhlBK4uVxLXg=
-X-Received: by 2002:a05:600c:21d8:: with SMTP id
- x24mr1528542wmj.59.1628231127211; 
- Thu, 05 Aug 2021 23:25:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz18QsjNyw0FCBSXXAHevenbP79IL/JknZVeGNVADlO5VKI2YTk1a2kzUQ5XyvWxrCxaVt6sw==
-X-Received: by 2002:a05:600c:21d8:: with SMTP id
- x24mr1528518wmj.59.1628231126978; 
- Thu, 05 Aug 2021 23:25:26 -0700 (PDT)
-Received: from thuth.remote.csb
- (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
- by smtp.gmail.com with ESMTPSA id t1sm7572131wma.28.2021.08.05.23.25.25
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=cUEmi5L1+k3WK3DPbfE0IQYdDsQFRFdy3+OuakQvDCI=;
+ b=tFdO6CehEtzXxeCDj7nSHxHjR0SMTjrHhWGie8lbRB5DEvlpKOCeARpgySv6LyyCvW
+ rEkntoKoTwLGBIIb9l40mcx8ITHS2ddo6xMsRckfO02rffZ0y0x5KSJgCwkIiCFXIoOD
+ 8yKOVmQpxCFkxiXxhl2rXllyC0t4WB7/mgUtC2HWnJxJqhR6ZyAhoxgdd1nXhIEiQbgg
+ 5hzCSaaD12HZhMqkq9sHJe/K1bdIjPAH1+/RHLG7BYG1lSCBQ5m4SYpsvg1nNxfvxgW0
+ aUt7J7g+NOND084str8PBGqKxXuj6q92NWCVuJXhsdBE4qcqSuTLgAABrjlcMR2cibS2
+ FYfA==
+X-Gm-Message-State: AOAM533l1CDbmRSzRvPF2nLHII8l3YBAcQjkEHVZ9Dpx/3Wl3DaEDfyk
+ Ul9Fpg4SoMuHQrJq03mWBOYlhvkzhe/8q6QXDtQwMkaWcKv5QuCVlV8S6EmvuKOgYOOVKrflxXl
+ Biole5XpZH5XziZE=
+X-Received: by 2002:a62:584:0:b029:32e:3b57:a1c6 with SMTP id
+ 126-20020a6205840000b029032e3b57a1c6mr9033101pff.13.1628231159513; 
+ Thu, 05 Aug 2021 23:25:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyw6hmxlijJJREOJxZ1VnBTugfejrteMWL8asxcwSii9cYjDIIyJBDnVuSW91iWSGneNm+c6A==
+X-Received: by 2002:a62:584:0:b029:32e:3b57:a1c6 with SMTP id
+ 126-20020a6205840000b029032e3b57a1c6mr9033086pff.13.1628231159285; 
+ Thu, 05 Aug 2021 23:25:59 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id w21sm9033871pfq.40.2021.08.05.23.25.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 23:25:26 -0700 (PDT)
-Subject: Re: [PATCH v1 02/12] s390x/tcg: fix ignoring bit 63 when setting the
- storage key in SSKE
-From: Thomas Huth <thuth@redhat.com>
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-3-david@redhat.com>
- <1aa00053-4923-423e-5a7d-d81b203d3eb2@redhat.com>
-Message-ID: <c9cf9879-8a09-5d23-a3b2-50a534acafbf@redhat.com>
-Date: Fri, 6 Aug 2021 08:25:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thu, 05 Aug 2021 23:25:58 -0700 (PDT)
+Subject: Re: [PATCH 1/2] virtio: add a way to disable a queue
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20210729191910.317114-1-lvivier@redhat.com>
+ <20210729191910.317114-2-lvivier@redhat.com>
+ <c9b273fb-797b-4810-bb4c-d99d5173fe6c@redhat.com>
+ <c26fddb3-8954-2c74-c238-1052356a8f00@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c31d2975-7d90-84f9-74ea-838de69e78f5@redhat.com>
+Date: Fri, 6 Aug 2021 14:25:55 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <1aa00053-4923-423e-5a7d-d81b203d3eb2@redhat.com>
+In-Reply-To: <c26fddb3-8954-2c74-c238-1052356a8f00@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -102,43 +103,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2021 08.19, Thomas Huth wrote:
-> On 05/08/2021 17.27, David Hildenbrand wrote:
->> The last bit has to be ignored.
+
+在 2021/8/2 下午4:42, Laurent Vivier 写道:
+> On 02/08/2021 06:50, Jason Wang wrote:
+>> 在 2021/7/30 上午3:19, Laurent Vivier 写道:
+>>> Add virtio_queue_disable()/virtio_queue_enable() to disable/enable a queue
+>>> by setting vring.num to 0 (or num_default).
+>>> This is needed to be able to disable a guest driver from the host side
 >>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   target/s390x/tcg/mem_helper.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> I suspect this won't work correclty for vhost.
+> With my test it seems to work with vhost too.
+
+
+So setting 0 will lead -EINVAL to be returned during 
+VHOST_SET_VRING_NUM. I think qemu will warn the failure in this case.
+
+What's more important, it's not guaranteed to work for the case of 
+vhost-user or vhost-vDPA.
+
+
+>
+>> And I believe we should only do this after the per queue enabling/disabling is supported
+>> by the spec.
 >>
->> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
->> index e0befd0f03..3c0820dd74 100644
->> --- a/target/s390x/tcg/mem_helper.c
->> +++ b/target/s390x/tcg/mem_helper.c
->> @@ -2210,7 +2210,7 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, 
->> uint64_t r2)
->>           skeyclass = S390_SKEYS_GET_CLASS(ss);
->>       }
->> -    key = (uint8_t) r1;
->> +    key = r1 & 0xfe;
-> 
-> I'm not sure about this one ... could you cite a sentence in the PoP where 
-> this is declared? For me it rather sounds like SSKE always sets the whole 
-> storage key...
+>> (only MMIO support that AFAIK)
+> I don't want to modify the spec.
+>
+> I need something that works without modifying existing (old) drivers.
+>
+> The idea is to be able to disable the virtio-net kernel driver from QEMU if the driver is
+> too old (i.e. it doesn't support STANDBY feature).
+>
+> Setting vring.num to 0 forces the kernel driver to exit on error in the probe function.
+> It's what I want: the device is present but disabled (the driver is not loaded).
+>
+> Any other suggestion?
 
-Ah, never mind, I missed that the rightmost bit is undefined and thus this 
-is likely ok. Did you check this on a real CPU, though?
 
-  Thomas
+I think we should probably disable the device instead of doing it per 
+virtqueue.
 
+Thanks
+
+
+>
+> Thanks,
+> Laurent
+>
+>> Thanks
+>>
+>>
+>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>> ---
+>>>    include/hw/virtio/virtio.h |  2 ++
+>>>    hw/virtio/virtio.c         | 10 ++++++++++
+>>>    2 files changed, 12 insertions(+)
+>>>
+>>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+>>> index 8bab9cfb7507..6a3f71b4cd88 100644
+>>> --- a/include/hw/virtio/virtio.h
+>>> +++ b/include/hw/virtio/virtio.h
+>>> @@ -251,6 +251,8 @@ void virtio_config_modern_writel(VirtIODevice *vdev,
+>>>                                     uint32_t addr, uint32_t data);
+>>>    void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr);
+>>>    hwaddr virtio_queue_get_addr(VirtIODevice *vdev, int n);
+>>> +void virtio_queue_enable(VirtIODevice *vdev, int n);
+>>> +void virtio_queue_disable(VirtIODevice *vdev, int n);
+>>>    void virtio_queue_set_num(VirtIODevice *vdev, int n, int num);
+>>>    int virtio_queue_get_num(VirtIODevice *vdev, int n);
+>>>    int virtio_queue_get_max_num(VirtIODevice *vdev, int n);
+>>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>>> index 874377f37a70..fa5228c1a2d6 100644
+>>> --- a/hw/virtio/virtio.c
+>>> +++ b/hw/virtio/virtio.c
+>>> @@ -2244,6 +2244,16 @@ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
+>>>        virtio_init_region_cache(vdev, n);
+>>>    }
+>>>    +void virtio_queue_disable(VirtIODevice *vdev, int n)
+>>> +{
+>>> +    vdev->vq[n].vring.num = 0;
+>>> +}
+>>> +
+>>> +void virtio_queue_enable(VirtIODevice *vdev, int n)
+>>> +{
+>>> +    vdev->vq[n].vring.num = vdev->vq[n].vring.num_default;
+>>> +}
+>>> +
+>>>    void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
+>>>    {
+>>>        /* Don't allow guest to flip queue between existent and
 
 
