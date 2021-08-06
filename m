@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FDF3E2717
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 11:18:45 +0200 (CEST)
-Received: from localhost ([::1]:54254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F53E2718
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 11:18:47 +0200 (CEST)
+Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBw04-0004Ce-Ec
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 05:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
+	id 1mBw06-0004Gj-4a
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 05:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mBvyf-0002tS-NU
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 05:17:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:55997)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mBvyg-0002tb-Uh
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 05:17:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:46963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mBvyd-00055J-TY
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 05:17:17 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mBvye-00057v-56
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 05:17:18 -0400
 Received: from quad ([82.142.6.46]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MZTVu-1mg3W51eSM-00WVT5; Fri, 06
- Aug 2021 11:17:11 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N5FxN-1nASiw3eDt-01197s; Fri, 06
+ Aug 2021 11:17:12 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Linux user for 6.1 patches
-Date: Fri,  6 Aug 2021 11:17:07 +0200
-Message-Id: <20210806091709.2465239-1-laurent@vivier.eu>
+Subject: [PULL 1/2] linux-user: fix guest/host address mixup in i386
+ setup_rt_frame()
+Date: Fri,  6 Aug 2021 11:17:08 +0200
+Message-Id: <20210806091709.2465239-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210806091709.2465239-1-laurent@vivier.eu>
+References: <20210806091709.2465239-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zx0G0k8+owH3I2I8JZW5yKUNfpdS8zvZo7ZoD3VIcjKphQ7RqZ7
- A6cBbg3tk+KdT0xEwcCRuBZlXEp3y5lZN5PmmX/V5/VWCuuNDI1wCq0Wf4gRAUQ099UVgmk
- jP3MMt3yP0ob59Pjcdxv+0xfrYUob6YbowlIeLMA3dec18fn7PDglA4zAUc5+ccom3yyGv4
- vFU43OqvNXgsjVRGKbB7g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B1MtjPYJia4=:NTYSX0fZsKFWlRfKUHjhx1
- 83CC+Er2pUSCdXRp8fgL9lyRkBkAAMYBjdQAiA2SxA3Nr/8SxlF+TwV1KlmsDZL67I2CWqY5S
- 4x8OmDbKdASebIauZBtd614X6uMgIgeTLgCxsY428OO3wM639Gv9lsfUH8dFup4s6QuX6C6Q7
- Qx5BYOVkAYROVqmXCnp/HcUnmhO9WC6NCwgAx0mf9tdfJPejYc/Xm7IHthZdX2lb6q7FlTcrG
- DxtPzofa2P3IfIreXP7Kgj/dygaFwLtb3WJ+7H03AF6yKYWHGbl30fVFX68Q8nK09c33KD0kk
- gp/0Gy9r9AScHeRlSWHnxFFvAFXS4FpXr8TwngzlU00XgEXbVjvU+C92KRAuiqfRUYcuzANOG
- jPY/OqZk8I/R7GqPjTkWkUJVmA9GIzoT4GsSq10B6I/TV3qtHIkxE8UJzVcnBjxQmemqsq6lJ
- ngnM9b9QP1nilbUINR23kNPyJq1F/wR8YqzcSTByWJLmZ7FXzw3ICyGFBWuzqzu6oz9h0s32M
- 5r7W2qM5J49HeFwMfxQdM6AcKv+3vVbbul/RcLC39712jQO4zxyRt5jro0LhPcDbFrBY9Ol1X
- G9/0fwLZlBg3xRyhlV/yeG0R8Nhpq0qDbsm45hcErAMa/zsn3x/wkTNsCyS6EyNvHJ6SZPgSP
- 2rTLaJiHhB7/vbnUnhmf99Rc6nNu9k1q4zt3JwK6zkSatku7waXYOBozJ/i7x8f+JYlReGC7W
- Ui3HinCHVOJPoUq/se4ltDzVyEj9LYykwNjrgjYs9iB6+1B4mUpwXXYLV/nmRWrst4WLjCwkI
- tJZwh3RXs72gkbibtiBwpL/adK0lQa2l1/4rPB/RGafZ9EeaF29ZVMzJw988Pxj4O22Av+7
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:o7hkCkfneED8CJrExvUShojfZw2otOwJn/VyMxlDJue0hJpsQ+r
+ l6uu+/qhwpUWFNAitUOn1jrH3KEnpEgk/h1CKasGOUBNWYfFrSvwJDoxwn82c0SXYeeojF9
+ ILTGpFX6idGKPUdRONHUU0PqJVFVLC1C/gSYJdyplHaE3A1lu/5ZQ7HX22LZBDKZY0QFShv
+ XGovKCLjf29617QqJX5Lg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jVYpc5RaYcc=:CUKurxdyagh4F4fcnocr9F
+ GY6oll9KvJr1C1uT9QAOfqKa2VtOvtO/h5DpnVu/9Lkm7CJW5FQaiX93uhlbYO+V0QpinEgDM
+ elgUKE+GwR909qTeyYmwnTlzxoSdeJCpsMnfgRLKadArPhgWBlti99sUFYtf10/ku0IstWCmz
+ E6h4JxrBWC+EbLrMjImfca1sOC71MEETP3BIcNNmyZJ/+fDFnK3j3SEINOvZY08Kn4lfQuEgw
+ HPB8R8O/c4HeGRAZBBtGOAmLmYxG0cM/JqPJ1YNXL/u5esLhyjQP2pCLQyqwe/GN16fCXzrXI
+ I38h4wdI9abU7Ee0SbbZ9y9sZPhc+t7j2koW1Ybq6CLUanBDM1Xt9djWZ0F59KvGH3ZuK5N5+
+ to9z2SnLLd/sPEE/nw5gKmnLJE7gysBH9u/OOTVxB4IE7tslTPns1BHAz4DzuP6FTNlmQNFkq
+ Hn9X37IB4spfhB7sN7vFYsPaCum67gcDG3QAxLGDmALyBVQZgnEWwDKBQ1bTbvmNr1285paKY
+ dT6S7VLYqz/KwpRUHlWq71OlSlgcuEVa+lPxhcUrWZBlB4Q70XmAhWgt1W1Bby4V9bYDb2b9P
+ 1Zo/ZqGk54dZZ+EAdk04Q9Cg1lasDynb6pF39el/nf4shb4crqzLGXsjN2hrGFJGlvA1cVyaP
+ HJzdI8fA7YA3j33niHlAzWY6SoEBVkNxD/SsEYj83bmo8C0ef8D3sBToaT63lwu857VImWfy0
+ pbpsHUxX0tLU/EpPFLTSJmoZFmsKx8+K179TtKPSBoiDZKNCXNNS8PTeYc2vhp52W1JKozevZ
+ 73HRpGShUMmONIWUC2g+yBwvMoZxeK26T5q0+gxAXyoJswkDXFjult666UyBT6or0qXd0o9
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,40 +67,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9eb=
-:=0D
-=0D
-  Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.1-pull-request=0D
-=0D
-for you to fetch changes up to 030912e01c0385b6b09e76549c1a8a04b624f49a:=0D
-=0D
-  linux-user/elfload: byteswap i386 registers when dumping core (2021-08-05=
- 12:17:30 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user pull request 20210806=0D
-=0D
-Fix endianness and addresses in i386 linux-user target=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Ilya Leoshkevich (2):=0D
-  linux-user: fix guest/host address mixup in i386 setup_rt_frame()=0D
-  linux-user/elfload: byteswap i386 registers when dumping core=0D
-=0D
- linux-user/elfload.c     | 88 ++++++++++++++++++++--------------------=0D
- linux-user/i386/signal.c |  8 ++--=0D
- 2 files changed, 48 insertions(+), 48 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+
+setup_rt_frame() passes siginfo and ucontext host addresses to guest
+signal handlers, causing problems when e.g. emulating x86_64 on s390x.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210803171858.148394-1-iii@linux.ibm.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/i386/signal.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
+index 8701774e3791..841cd1965100 100644
+--- a/linux-user/i386/signal.c
++++ b/linux-user/i386/signal.c
+@@ -436,13 +436,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+ 
+ #ifndef TARGET_X86_64
+     env->regs[R_EAX] = sig;
+-    env->regs[R_EDX] = (unsigned long)&frame->info;
+-    env->regs[R_ECX] = (unsigned long)&frame->uc;
++    env->regs[R_EDX] = frame_addr + offsetof(struct rt_sigframe, info);
++    env->regs[R_ECX] = frame_addr + offsetof(struct rt_sigframe, uc);
+ #else
+     env->regs[R_EAX] = 0;
+     env->regs[R_EDI] = sig;
+-    env->regs[R_ESI] = (unsigned long)&frame->info;
+-    env->regs[R_EDX] = (unsigned long)&frame->uc;
++    env->regs[R_ESI] = frame_addr + offsetof(struct rt_sigframe, info);
++    env->regs[R_EDX] = frame_addr + offsetof(struct rt_sigframe, uc);
+ #endif
+ 
+     cpu_x86_load_seg(env, R_DS, __USER_DS);
+-- 
+2.31.1
+
 
