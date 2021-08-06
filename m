@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024D73E3074
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 22:43:11 +0200 (CEST)
-Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C7D3E3090
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 22:52:51 +0200 (CEST)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC6gQ-0003Dc-3d
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 16:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
+	id 1mC6pm-0007do-AB
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 16:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6fQ-0002Ps-N9
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:42:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6fO-0008RV-J1
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:42:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628282525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ylXLHI43++HtfQDstbyZtgtutxBnW4IgJW9DEGj0vL0=;
- b=XwJoVyihztJ5WJz2+30pq+EvbofZbxiV9C4Zr/kvw+VnrkCVi49ypUyRr6Tvzuynqu8hr3
- Wh22XYCRhP5026ajljbHrTWf4k7DnWVNhaAQYS0aOWkbtgg5YOUTnaMoGusCQ5Ska0aWtI
- yaMxAARQyC/fuJ15UYdV8SQlD9uq/zE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-txtyIJ8VMO2qLHjMfR-MPQ-1; Fri, 06 Aug 2021 16:42:04 -0400
-X-MC-Unique: txtyIJ8VMO2qLHjMfR-MPQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50E4B1008060;
- Fri,  6 Aug 2021 20:42:03 +0000 (UTC)
-Received: from redhat.com (ovpn-112-138.phx2.redhat.com [10.3.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABE5C60853;
- Fri,  6 Aug 2021 20:42:02 +0000 (UTC)
-Date: Fri, 6 Aug 2021 15:42:01 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-6.2 v3 11/12] mirror: Do not clear .cancelled
-Message-ID: <20210806204201.aqizvsjyn4mjbc3w@redhat.com>
-References: <20210806093859.706464-1-mreitz@redhat.com>
- <20210806093859.706464-12-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mC6on-0006uu-A0
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:51:49 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mC6ol-00077v-To
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:51:49 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i10-20020a05600c354ab029025a0f317abfso9816472wmq.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 13:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wlnvU07bgDZpDxLjnaob/1Zn1b1JdDpMQIf9v0uLEKM=;
+ b=WIUOSkhLr4WaPlvs6H1GCs3g2ko/CG5BsQW8NA3F78XLnRnAD826vjOdROY4s+nyVQ
+ FRbyNetIFfefPAwFZoXOVlKcV5cTROC+j4dLI/+uCzwbM/lvOo/qwFKHLLE3z+Vf7UMD
+ KLOgVAzgmw/Mhha+/j/CH0vvlMe4VX9l42izRVSlmInjLbGfpOi1CTXaxfs2K+fbQsrO
+ Z8rlDKI8mWjGCENhi26Ja7T56cKRBP0BCpBabSxzhurMKHFrJmOPTv2l6Ss676OKex3G
+ aC1yHd3qyc+DYYIF6hCjaMEXYipSDEY6bodjBpAdm+0hKwIDLBdVqN1B7Nyf+iBQ/fwQ
+ 5m+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wlnvU07bgDZpDxLjnaob/1Zn1b1JdDpMQIf9v0uLEKM=;
+ b=IBO9BF/HF+SFxhPGiF7z0ofEU0tKby5HeoOLaXf6qQOv6oUEVyJRtxpeVJ/yCVU5fi
+ VUR0SfLxqHX2Rqe/grotqJCDh0tK1C4gMC4f7auNly4SR+rgcfSd0aFv3eEka08XNEA2
+ REhydTa9ZqVuxkYeb0WknfkxXdAoXcG0AVQnOkiZaV41xMsuxpQyRiayy7dJn1OPXyXN
+ mK47KwwP9/UcG4ldj5t3DMwMhlzt0cFNjR0GpsI0Ti/JNNKMURe3xd+rQ8qntesWqI5M
+ cMoRKXmmBzi5ejfvO5QQwHUWfC43KfqLwIuwZsvFnA+349wbP+ko0KY6oFI/uX8189Yq
+ GpLA==
+X-Gm-Message-State: AOAM532LDqp7U7LC8PmA9hvvfZGEH9OCrfbPzsV7/EVU6UZlVcXJOHMj
+ bcShQlhmLbPU3qOxYva9OuU=
+X-Google-Smtp-Source: ABdhPJwRemxzGddQXnTs+1HUgTPkr3bw04UKLHdZDMs+ryV3i0ufiBDM2sH8glGuMo787SNcW5OjXg==
+X-Received: by 2002:a05:600c:3653:: with SMTP id
+ y19mr5138050wmq.147.1628283106422; 
+ Fri, 06 Aug 2021 13:51:46 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id c15sm10631544wrx.70.2021.08.06.13.51.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Aug 2021 13:51:45 -0700 (PDT)
+Subject: Re: [PATCH-for-6.2 0/4] target/mips: Decodetree housekeeping
+To: qemu-devel@nongnu.org
+References: <20210801234202.3167676-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <564e25f3-6dd4-6a46-b4c2-ddf871be8b55@amsat.org>
+Date: Fri, 6 Aug 2021 22:51:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210806093859.706464-12-mreitz@redhat.com>
-User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210801234202.3167676-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.619,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,47 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 06, 2021 at 11:38:58AM +0200, Max Reitz wrote:
-> Clearing .cancelled before leaving the main loop when the job has been
-> soft-cancelled is no longer necessary since job_is_cancelled() only
-> returns true for jobs that have been force-cancelled.
+On 8/2/21 1:41 AM, Philippe Mathieu-Daudé wrote:
+> Minor cleanups while looking at converting more opcodes to decodetree.
 > 
-> Therefore, this only makes a differences in places that call
-> job_cancel_requested().  In block/mirror.c, this is done only before
-> .cancelled was cleared.
-> 
-> In job.c, there are two callers:
-> - job_completed_txn_abort() asserts that .cancelled is true, so keeping
->   it true will not affect this place.
-> 
-> - job_complete() refuses to let a job complete that has .cancelled set.
->   It is correct to refuse to let the user invoke job-complete on mirror
->   jobs that have already been soft-cancelled.
-> 
-> With this change, there are no places that reset .cancelled to false and
-> so we can be sure that .force_cancel can only be true of .cancelled is
+> Philippe Mathieu-Daudé (4):
+>   target/mips: Simpify PREF opcode
+>   target/mips: Decode vendor extensions before MIPS ISAs
+>   target/mips: Merge 32-bit/64-bit release6 decodetree definitions
+>   target/mips: Rename 'rtype' as 'r'
 
-s/of/if/
-
-> true as well.  Assert this in job_is_cancelled().
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block/mirror.c | 2 --
->  job.c          | 4 +++-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Thanks, series applied to mips-next tree.
 
