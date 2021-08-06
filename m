@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCE73E22B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:46:28 +0200 (CEST)
-Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DEF3E22B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:53:41 +0200 (CEST)
+Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBrkZ-00041B-L1
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
+	id 1mBrrY-0006Wn-S1
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1mBrjp-0003KP-TP
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:45:41 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:34727)
+ id 1mBrqq-0005rp-MX
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:52:56 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:44994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1mBrjn-00077c-SI
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:45:41 -0400
-Received: by mail-io1-xd29.google.com with SMTP id i7so3446648iow.1
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:45:39 -0700 (PDT)
+ id 1mBrqn-0004nh-UP
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:52:56 -0400
+Received: by mail-io1-xd29.google.com with SMTP id d22so9689140ioy.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=61yNQURZ6DgBqP61Tk4EnIbtr601tvbMObRUrDow9o0=;
- b=af0oiavUqshsXKslQzfWbRLRcGeosUWQIf5otK6Y/mbmRJyf6XIOM3IQlQ73pRwZ8O
- HAMbN1kPRF42ttmWGGDOIY9W84Wke8DItrhTzT0KmgnsCEYLUFMt9Vb1iTK1B6Y13dKc
- /ALeeOzXUsd2H2wVYqzwVjT5zhD+RuLl8yNG4909BY+Lo2r0MlcwzA44zhqVhUvSaCl3
- 2AUpxlcNIbik6+zLd7vlu2FuPvK+t3aP/MfL42w/2RV9ojnxQsq3Pt/pTunnXWT3+PL+
- yIt7w18wQcmNMao24bJH9hrgQdsb0KBDLJlK9leWQBECeJEl5E6I+ugtJyXA9wJu8iKN
- 3F8w==
+ :cc; bh=ilAcwSibSETY3YwiN6vwTytdn+tNrPmrNM71rUlQAPc=;
+ b=mSH4GiAzcSnqcgiGK9BQgolmWveTfuIxYORjekwm1v6/qmyVe/JCLOaQS48UHjCBiE
+ yPOs2PnnXHbQA6ycMq/VuGhLh7QSBNLnJhoZ+MC08aJOKmrtsfaj4e0TQUwCqPqecBJa
+ JeVtrSW2i4MBbsQccNPvSr+AkkMzcGseBapWcAZOFipny+2IqAzOTUvNiMM3OkXa3/WB
+ Zc80v6WzaNWRnoUAhKH2sY0RR0wvMAx/xmrmoEyO8FzmAYKZQYpP5r9xZDnzOsb8ueG8
+ T+D7H2HXS/G2PVOi78dHi1eCQyck2tHeVtx/tHNhS2w3+SWeW+KNdfCoEoxHeOF9MvWp
+ eVDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=61yNQURZ6DgBqP61Tk4EnIbtr601tvbMObRUrDow9o0=;
- b=Kk0F9WHZVNBI5gdGDXRqQaeZ3uGlG26vsunyGL58nSJAL3/f3evdBv5YDZvsOlISHg
- YdUnha9XwPBw/anuR8cVZNMG5oEUSAB+/+vVKZEZOpxm4lG4TY7Xu3DvcUhkXk3r/BEA
- HgZIRy0CmpcX3a7h2/ssPLA2R3leM4w15bCO2tHUzwYcfjGQqVc6KLz2trFZPdokljoA
- oidHIg164f4/sGeLMmEAVQZ1g7YW4Rj8NfUtlmo2ABHGhr99gZo5I+q5Hxxs0xe43rE7
- h2XOwUujgM/P20lCdAjfAn+KZoTJAQzfw+unF61OrKh++kzLXnaZakk1shVATVCl2Zwx
- CAug==
-X-Gm-Message-State: AOAM533C6aUbVtZuqLKJsF/esuBFN+YcSOxcTYsj177jfxI8OLTSP3zr
- aF2biipmZV/SKY7bd+WHNQtynLVy99Jud7V2OmM=
-X-Google-Smtp-Source: ABdhPJzX3pZtUTLBPMtomaehw6K/gTNrP8Vfg59htG0WT7PxdoPErMDyVKdWWqYz7g1Ew8veRTU3IQm1R7TjtzBFOkA=
-X-Received: by 2002:a05:6602:14a:: with SMTP id
- v10mr161668iot.36.1628225138710; 
- Thu, 05 Aug 2021 21:45:38 -0700 (PDT)
+ bh=ilAcwSibSETY3YwiN6vwTytdn+tNrPmrNM71rUlQAPc=;
+ b=FIddkFYCey65zWlPf+pF2QM5kvgC3ofc4LlIBh2S+YGmtFUfGfMP/4TMI/j/VU4CxV
+ QkCuxQikUh/U4BGZaT4I0TIlfUAXcnXXgL4zevTHVqPtyOnqMPSukKyAz/9SDmxETinX
+ 1G+gkC0g0U71m7sgGG5tD92BbfAa9GuP0hOrI2hwarrXLzAY58M9bKpYZxGlmiqY2S7v
+ g0UDDipb3ZXk7RudjyYuOQ4ibJO7u9rzKxNtp2x0eIcXtcVyYuo9JNwujhVs3W8IA53+
+ s1azch3nraGmkSzXQBNBKOkhdHOlFNnzh5kK++qh6j4ERa4rRkYW9lXCyiNE0zTZ50MF
+ 7myg==
+X-Gm-Message-State: AOAM530O4CvJgK4idHx+XIvEhgXt39SkwXxSRMRNvGZFIYFun0awMr3x
+ TErbr9mDr/y77QRe+z8e/I/lbgw8kOhj30NQh1g=
+X-Google-Smtp-Source: ABdhPJwluXZ/2VwFHxJaOMMMDeBqdomKhDw4qWPAcoGAoUYN5OyLvUZHcFNM5qjQzsraNwLxE+llfzkTlmCoX1hzb7Y=
+X-Received: by 2002:a5d:9d19:: with SMTP id j25mr341344ioj.84.1628225572953;
+ Thu, 05 Aug 2021 21:52:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210803080527.156556-1-wangyanan55@huawei.com>
- <20210803080527.156556-13-wangyanan55@huawei.com>
-In-Reply-To: <20210803080527.156556-13-wangyanan55@huawei.com>
+ <20210803080527.156556-5-wangyanan55@huawei.com>
+In-Reply-To: <20210803080527.156556-5-wangyanan55@huawei.com>
 From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Fri, 6 Aug 2021 06:45:27 +0200
-Message-ID: <CAM9Jb+iUSVohmkBDUYb-wPqimWX74RP0MazHJs9pGmekrR=jpQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 v4 12/14] machine: Put all sanity-check in the
- generic SMP parser
+Date: Fri, 6 Aug 2021 06:52:42 +0200
+Message-ID: <CAM9Jb+gKGCmTwkEa6SLc-X5o7A9YuHfWN=SoBGVhpQD8TtVv2A@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 v4 04/14] machine: Improve the error reporting of
+ smp parsing
 To: Yanan Wang <wangyanan55@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
@@ -92,116 +91,103 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Put both sanity-check of the input SMP configuration and sanity-check
-> of the output SMP configuration uniformly in the generic parser. Then
-> machine_set_smp() will become cleaner, also all the invalid scenarios
-> can be tested only by calling the parser.
+> We have two requirements for a valid SMP configuration:
+> the product of "sockets * cores * threads" must represent all the
+> possible cpus, i.e., max_cpus, and then must include the initially
+> present cpus, i.e., smp_cpus.
 >
+> So we only need to ensure 1) "sockets * cores * threads == maxcpus"
+> at first and then ensure 2) "maxcpus >= cpus". With a reasonable
+> order of the sanity check, we can simplify the error reporting code.
+> When reporting an error message we also report the exact value of
+> each topology member to make users easily see what's going on.
+>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/core/machine.c | 63 +++++++++++++++++++++++------------------------
->  1 file changed, 31 insertions(+), 32 deletions(-)
+>  hw/core/machine.c | 22 +++++++++-------------
+>  hw/i386/pc.c      | 24 ++++++++++--------------
+>  2 files changed, 19 insertions(+), 27 deletions(-)
 >
 > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 443ae5aa1b..3dd6c6f81e 100644
+> index 958e6e7107..e879163c3b 100644
 > --- a/hw/core/machine.c
 > +++ b/hw/core/machine.c
-> @@ -811,6 +811,20 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->      unsigned threads = config->has_threads ? config->threads : 0;
->      unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+> @@ -777,25 +777,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>      maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
+>      cpus = cpus > 0 ? cpus : maxcpus;
 >
-> +    /*
-> +     * A specified topology parameter must be greater than zero,
-> +     * explicit configuration like "cpus=0" is not allowed.
-> +     */
-> +    if ((config->has_cpus && config->cpus == 0) ||
-> +        (config->has_sockets && config->sockets == 0) ||
-> +        (config->has_dies && config->dies == 0) ||
-> +        (config->has_cores && config->cores == 0) ||
-> +        (config->has_threads && config->threads == 0) ||
-> +        (config->has_maxcpus && config->maxcpus == 0)) {
-> +        error_setg(errp, "CPU topology parameters must be greater than zero");
-> +        return;
-> +    }
-> +
->      /*
->       * If not supported by the machine, a topology parameter must be
->       * omitted or specified equal to 1.
-> @@ -889,6 +903,22 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->                     topo_msg, maxcpus, cpus);
->          return;
->      }
-> +
-> +    if (ms->smp.cpus < mc->min_cpus) {
-> +        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
-> +                   "supported by machine '%s' is %d",
-> +                   ms->smp.cpus,
-> +                   mc->name, mc->min_cpus);
-> +        return;
-> +    }
-> +
-> +    if (ms->smp.max_cpus > mc->max_cpus) {
-> +        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-> +                   "supported by machine '%s' is %d",
-> +                   ms->smp.max_cpus,
-> +                   mc->name, mc->max_cpus);
-> +        return;
-> +    }
->  }
->
->  static void machine_get_smp(Object *obj, Visitor *v, const char *name,
-> @@ -911,7 +941,6 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
->  static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->                              void *opaque, Error **errp)
->  {
-> -    MachineClass *mc = MACHINE_GET_CLASS(obj);
->      MachineState *ms = MACHINE(obj);
->      SMPConfiguration *config;
->      ERRP_GUARD();
-> @@ -920,40 +949,10 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+> -    if (sockets * cores * threads < cpus) {
+> -        error_setg(errp, "cpu topology: "
+> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+> -                   "smp_cpus (%u)",
+> -                   sockets, cores, threads, cpus);
+> +    if (sockets * cores * threads != maxcpus) {
+> +        error_setg(errp, "Invalid CPU topology: "
+> +                   "product of the hierarchy must match maxcpus: "
+> +                   "sockets (%u) * cores (%u) * threads (%u) "
+> +                   "!= maxcpus (%u)",
+> +                   sockets, cores, threads, maxcpus);
 >          return;
 >      }
 >
-> -    /*
-> -     * The CPU topology parameters must be specified greater than zero or
-> -     * just omitted, explicit configuration like "cpus=0" is not allowed.
-> -     */
-> -    if ((config->has_cpus && config->cpus == 0) ||
-> -        (config->has_sockets && config->sockets == 0) ||
-> -        (config->has_dies && config->dies == 0) ||
-> -        (config->has_cores && config->cores == 0) ||
-> -        (config->has_threads && config->threads == 0) ||
-> -        (config->has_maxcpus && config->maxcpus == 0)) {
-> -        error_setg(errp, "CPU topology parameters must be greater than zero");
-> -        goto out_free;
+>      if (maxcpus < cpus) {
+> -        error_setg(errp, "maxcpus must be equal to or greater than smp");
+> -        return;
 > -    }
 > -
->      smp_parse(ms, config, errp);
->      if (errp) {
-> -        goto out_free;
-> +        qapi_free_SMPConfiguration(config);
+> -    if (sockets * cores * threads != maxcpus) {
+>          error_setg(errp, "Invalid CPU topology: "
+> +                   "maxcpus must be equal to or greater than smp: "
+>                     "sockets (%u) * cores (%u) * threads (%u) "
+> -                   "!= maxcpus (%u)",
+> -                   sockets, cores, threads,
+> -                   maxcpus);
+> +                   "== maxcpus (%u) < smp_cpus (%u)",
+> +                   sockets, cores, threads, maxcpus, cpus);
+>          return;
 >      }
-> -
-> -    /* sanity-check smp_cpus and max_cpus against mc */
-> -    if (ms->smp.cpus < mc->min_cpus) {
-> -        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
-> -                   "supported by machine '%s' is %d",
-> -                   ms->smp.cpus,
-> -                   mc->name, mc->min_cpus);
-> -    } else if (ms->smp.max_cpus > mc->max_cpus) {
-> -        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-> -                   "supported by machine '%s' is %d",
-> -                   ms->smp.max_cpus,
-> -                   mc->name, mc->max_cpus);
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 9ad7ae5254..fcf6905219 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -747,25 +747,21 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>      maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
+>      cpus = cpus > 0 ? cpus : maxcpus;
+>
+> -    if (sockets * dies * cores * threads < cpus) {
+> -        error_setg(errp, "cpu topology: "
+> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
+> -                   "smp_cpus (%u)",
+> -                   sockets, dies, cores, threads, cpus);
+> +    if (sockets * dies * cores * threads != maxcpus) {
+> +        error_setg(errp, "Invalid CPU topology: "
+> +                   "product of the hierarchy must match maxcpus: "
+> +                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> +                   "!= maxcpus (%u)",
+> +                   sockets, dies, cores, threads, maxcpus);
+>          return;
+>      }
+>
+>      if (maxcpus < cpus) {
+> -        error_setg(errp, "maxcpus must be equal to or greater than smp");
+> -        return;
 > -    }
 > -
-> -out_free:
-> -    qapi_free_SMPConfiguration(config);
->  }
+> -    if (sockets * dies * cores * threads != maxcpus) {
+> -        error_setg(errp, "Invalid CPU topology deprecated: "
+> +        error_setg(errp, "Invalid CPU topology: "
+> +                   "maxcpus must be equal to or greater than smp: "
+>                     "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> -                   "!= maxcpus (%u)",
+> -                   sockets, dies, cores, threads,
+> -                   maxcpus);
+> +                   "== maxcpus (%u) < smp_cpus (%u)",
+> +                   sockets, dies, cores, threads, maxcpus, cpus);
+>          return;
+>      }
 >
->  static void machine_class_init(ObjectClass *oc, void *data)
-
-Looks good.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
