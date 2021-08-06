@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A2C3E21BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 04:43:10 +0200 (CEST)
-Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62263E21C7
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 04:44:47 +0200 (CEST)
+Received: from localhost ([::1]:41858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBppF-0001td-Fb
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 22:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36298)
+	id 1mBpqo-0003Pe-TF
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 22:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mBpoF-000175-Mh; Thu, 05 Aug 2021 22:42:07 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mBpoE-0001fm-Cf; Thu, 05 Aug 2021 22:42:07 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id s48so12545050ybi.7;
- Thu, 05 Aug 2021 19:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bPzzIOoaQGveVzyJhtZod50nH2BTvJRv+3Wi5C3OU+c=;
- b=MZFShYe3dqOLbc2X1oMS+kuvsu9REXVmWE23dx5w08EYxtcYD+fL/yOrHAY+HuMCsL
- Ak6CsW/afPD5vPWAZvxEfK5LKDQ2uWanLEOt6+IDVeG2WPGKcjWW3XMwnmgsSW1Vc4AH
- yTyZKvC185ZDKdejDdS9GRxgKw7Ctclyd9QCTD3yz6TqbAGlgUSjoFHXwS5zxjqiPenH
- 7tgE49Sg1kWzR09ANYB+hi6A9j9oQrMmsQ6nQULXzDXgzVFA4Rcj1UfZrnkDAzoJfBbX
- /g0JxPJdYaO6nmGNyfYzNXGCLGI/qbqXbpQkehZCBUOzJNSwNx2l/JEh4qHpd05SFpUm
- MpKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bPzzIOoaQGveVzyJhtZod50nH2BTvJRv+3Wi5C3OU+c=;
- b=gyK0Sf8rWnwloNVa6LpYtBRydWqqTCbKTettwaHcZdgFTA+WNwg8Pxgnbs0fMsQOKP
- vKJADotTd6h30de5zZSkXkMpshQBmoQhAQidafXUrCOEfh9zxXdR10EGho20j/rKu8bo
- XxYYLpdsG5nyYd6bIvHZo8NdzH0oeW1muyUIJKgfPffMC4Ca/bev/j5EI23T6u5Vy1Vy
- XwStoRG9SS8LRFzJIQn81uHbFUMAvWjQXN/xkfGU0jKIWEOvFQiv5vsudD6hp07hM9/6
- SBciBZUF2FigEwOGaWmkZjmW0WoCI9O5q7Lc/NoZC23AIBMVyA6Zwr9p4ZHozc1l/QKy
- 0FpA==
-X-Gm-Message-State: AOAM530u+1LK2vBRTau3mCK2tj3rzgiiKC6rl9VirFO1Csku5jvDU92L
- z4nDE+16vPU2WRIg+C58u+ekI6D2Ro+Y+pR6MgQ=
-X-Google-Smtp-Source: ABdhPJwQ0DXcc9qhsHV6r/5lo3rXvxH8zPe5p5lPTD7cA1FNujfNjFxGRcZow3UiUgNUNlupjuK7oEeQzzkualyYdl4=
-X-Received: by 2002:a25:cf8a:: with SMTP id
- f132mr10703649ybg.387.1628217724959; 
- Thu, 05 Aug 2021 19:42:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mBppW-0002he-Kq
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 22:43:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mBppV-0002o0-AW
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 22:43:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628217804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F6P7QREKtVH1+bRJbbE8QoP7o6pA4Ps9xZwGYbb0a3I=;
+ b=hWEZqAIum040DY48ZIZdgssmapRgORrx3hfDKYKPTPfLhBaMcAYvD2gu7oTqevrLPuUQgz
+ POMsE3RCpTCSM+kdgMOcgHgd7It4pHCvoMsZ3SHYDgw29lVH8wkqEBhSs6+lhG4/bYe751
+ cjtEovK7z7oMR5lpU2C1Ke5qv/AaJvg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-oUDCHSDgPAS6QpSItzDqsg-1; Thu, 05 Aug 2021 22:43:21 -0400
+X-MC-Unique: oUDCHSDgPAS6QpSItzDqsg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C875180FCBB;
+ Fri,  6 Aug 2021 02:43:20 +0000 (UTC)
+Received: from localhost (unknown [10.22.11.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D168E60BF4;
+ Fri,  6 Aug 2021 02:43:09 +0000 (UTC)
+Date: Thu, 5 Aug 2021 22:43:09 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for-6.2 4/6] s390-sclp-events-bus: Use
+ OBJECT_DECLARE_SIMPLE_TYPE
+Message-ID: <20210806024309.wo45klp35qeq4v5e@habkost.net>
+References: <20210805193431.307761-1-ehabkost@redhat.com>
+ <20210805193431.307761-5-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20210805175626.11573-1-ruinland@andestech.com>
- <20210805175626.11573-2-ruinland@andestech.com>
- <CAEUhbmV=owj70jHsmm2N-qKcCOZyH33citKn_4UcbdkoTvZgKg@mail.gmail.com>
-In-Reply-To: <CAEUhbmV=owj70jHsmm2N-qKcCOZyH33citKn_4UcbdkoTvZgKg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 6 Aug 2021 10:41:53 +0800
-Message-ID: <CAEUhbmWzGTVDkga_76Qm1mhF5K29uzFSVjuEgccm4T++tJ9jyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 1/4] Add options to config/meson files for custom
- CSR
-To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210805193431.307761-5-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Dylan Jhong <dylan@andestech.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 6, 2021 at 10:39 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, Aug 6, 2021 at 1:57 AM Ruinland Chuan-Tzu Tsai
-> <ruinland@andestech.com> wrote:
-> >
-> > From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-> >
-> > Adding option `riscv_custom` to configure script, meson.build and
-> > meson_options.txt so as to toggle custom CSR and will-be-upstreamed custom
-> > instructions handling logic.
-> >
-> > Signed-off-by: Dylan Jhong <dylan@andestech.com>
-> > ---
-> >  configure         | 6 ++++++
-> >  meson.build       | 2 ++
-> >  meson_options.txt | 2 ++
-> >  3 files changed, 10 insertions(+)
-> >
->
-> This sounds like unnecessary to bring such a config option to the meson level.
->
-> I believe a Kconfig option should just be fine.
+On Thu, Aug 05, 2021 at 03:34:29PM -0400, Eduardo Habkost wrote:
+> We have a SCLPEventsBus struct type defined, but no QOM type
+> checkers are declared for the type.
+> 
+> Use OBJECT_DECLARE_SIMPLE_TYPE to declare the struct type and
+> have a SCLP_EVENT_BUS typecast wrapper defined.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: qemu-s390x@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/s390x/event-facility.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index 0a65e16cdd9..9f7883d6e20 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -328,6 +328,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+>  /* qemu object creation and initialization functions */
+>  
+>  #define TYPE_SCLP_EVENTS_BUS "s390-sclp-events-bus"
+> +OBJECT_DECLARE_SIMPLE_TYPE(SCLPEventsBus, SCLP_EVENT_BUS)
 
-+Alistair
+Oops, a typo (should be SCLP_EVENTS_BUS instead).  I will submit
+v2 later as a standalone patch.
+
+-- 
+Eduardo
+
 
