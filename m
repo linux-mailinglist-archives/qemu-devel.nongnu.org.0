@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F403E218D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 04:32:48 +0200 (CEST)
-Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1343E21BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 04:41:04 +0200 (CEST)
+Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBpfD-0005m9-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 22:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
+	id 1mBpnD-0000A9-HS
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 22:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mBpdx-0004AQ-Pc
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 22:31:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mBpdu-0002WB-SF
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 22:31:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628217083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Zjd7se0onNJo2aiTwnoUmHMlJWpyG2rtkXxBgYKFn4A=;
- b=Wh26iR0kVEfJrRY3KoxS6zCQ7g+/ub7z33WkKSNO4lFHnhuDKPB2Oyhd9j6ZcLCAO1b+ok
- E8BImelQpRN8NNLZd7VUYSa9hpKSN48n0D4ycv6sY1UdH5/IA6PZBL/jbTyVW0bmveyH9g
- anpy1chYOeC3m1nUgnhAiP/lMLzFmLo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-1I9_eIxhNLW_HPZoiHDf0Q-1; Thu, 05 Aug 2021 22:31:22 -0400
-X-MC-Unique: 1I9_eIxhNLW_HPZoiHDf0Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E591D802B9F;
- Fri,  6 Aug 2021 02:31:20 +0000 (UTC)
-Received: from localhost (unknown [10.22.11.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B313779D0;
- Fri,  6 Aug 2021 02:31:20 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2] sbsa-ref: Rename SBSA_GWDT enum value
-Date: Thu,  5 Aug 2021 22:31:19 -0400
-Message-Id: <20210806023119.431680-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mBplu-0007Lm-Ke; Thu, 05 Aug 2021 22:39:42 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:46745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mBplt-00089A-9q; Thu, 05 Aug 2021 22:39:42 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id k65so12483707yba.13;
+ Thu, 05 Aug 2021 19:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Pr8llsXm8pIDycBJMwDAm//3aoJX3ZOBbG+azTHxNbs=;
+ b=EgcuRc3+/nYvEbDNQXVE7A3pTxzHw1JRY1aUceMsPr3jlSu5x8TCj1zra1QlHECgQn
+ cQQcctJvodeWEZ8b+bN8JStjDJSnmsCI0oKUFOD+odM+oDWld49q0xRwOnwuhdbpFNFA
+ tz/EjkQhvIpp+FzeaUo4buk4Kx+LmTWKlTANNpgAjlTi5VbgEatJQ+gPUS6ed01Y0aGN
+ qKN5Vp7E5qPhsKv/O9WS5K2NSmTO0eSPnjQ+BjNnbJ1npAFEpaaEYVJJdIwIGV8qDPrx
+ IQ/pDDxmyxVyyN0DsxXJvgg+SNsaPfoHGD7gkTmT6+6uXa6eneBbDFEz6cciwLzybcRX
+ hEGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Pr8llsXm8pIDycBJMwDAm//3aoJX3ZOBbG+azTHxNbs=;
+ b=h5DY/1fWdG7DQiDEzdv/mw4Eda995pzuMFwwMYLqJYbU1ZIxQjUnOWn7ctNHIwrTvW
+ 3WzNS9micVk/beP4Bv/40fdK3SV29R8lJ4MS1hQ5OtR9ePongnGNjGdznGlfKl4CZYgD
+ lsXv5tGe/pEDz7n0o2wkcVlhKwWnrH+LGMqUAfjhlQTej6w+jSJCe9QLvCKJ72eQtUnV
+ DyyrIFTKWej4lHorAoNw0sTgVnvZQ2yAMYBoAIXO9fXMQBhXzjSyFmv+I2t+RaKy64Dl
+ 2FsIXuomfYtTS6JpVn4kIf8TFRJcJMIgo1YlaFH8HTMUHbkKX/4HnEg7IHMoF26uhabi
+ oGDA==
+X-Gm-Message-State: AOAM533s47v5b0keFCiAAQ+9pjhb3TBh0Bcg9Jm5EU6cH45VbGrKkqNZ
+ w9FTzEyY6bpOotiaWVfP90FEpplNw4uyU8t+2Rk=
+X-Google-Smtp-Source: ABdhPJxuZvbkVgBc3itw+0+IVkc8mVPziZV/n4YgMir4ydR0YED71MfI7dRNxq2wKrrDSjWyohMW33LCdyMugIRaCTo=
+X-Received: by 2002:a25:6c04:: with SMTP id h4mr9805316ybc.122.1628217580178; 
+ Thu, 05 Aug 2021 19:39:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210805175626.11573-1-ruinland@andestech.com>
+ <20210805175626.11573-2-ruinland@andestech.com>
+In-Reply-To: <20210805175626.11573-2-ruinland@andestech.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 6 Aug 2021 10:39:29 +0800
+Message-ID: <CAEUhbmV=owj70jHsmm2N-qKcCOZyH33citKn_4UcbdkoTvZgKg@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 1/4] Add options to config/meson files for custom
+ CSR
+To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,65 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
- qemu-arm@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>
+Cc: wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Dylan Jhong <dylan@andestech.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SBSA_GWDT enum value conflicts with the SBSA_GWDT() QOM type
-checking helper, preventing us from using a OBJECT_DEFINE* or
-DEFINE_INSTANCE_CHECKER macro for the SBSA_GWDT() wrapper.
+On Fri, Aug 6, 2021 at 1:57 AM Ruinland Chuan-Tzu Tsai
+<ruinland@andestech.com> wrote:
+>
+> From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+>
+> Adding option `riscv_custom` to configure script, meson.build and
+> meson_options.txt so as to toggle custom CSR and will-be-upstreamed custom
+> instructions handling logic.
+>
+> Signed-off-by: Dylan Jhong <dylan@andestech.com>
+> ---
+>  configure         | 6 ++++++
+>  meson.build       | 2 ++
+>  meson_options.txt | 2 ++
+>  3 files changed, 10 insertions(+)
+>
 
-If I understand the SBSA 6.0 specification correctly, the signal
-being connected to IRQ 16 is the WS0 output signal from the
-Generic Watchdog.  Rename the enum value to SBSA_GWDT_WS0 to be
-more explicit and avoid the name conflict.
+This sounds like unnecessary to bring such a config option to the meson level.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Radoslaw Biernacki <rad@semihalf.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Leif Lindholm <leif@nuviainc.com>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>
-Cc: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org
----
- hw/arm/sbsa-ref.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I believe a Kconfig option should just be fine.
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index c1629df6031..509c5f09b4e 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -65,7 +65,7 @@ enum {
-     SBSA_GIC_DIST,
-     SBSA_GIC_REDIST,
-     SBSA_SECURE_EC,
--    SBSA_GWDT,
-+    SBSA_GWDT_WS0,
-     SBSA_GWDT_REFRESH,
-     SBSA_GWDT_CONTROL,
-     SBSA_SMMU,
-@@ -140,7 +140,7 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_AHCI] = 10,
-     [SBSA_EHCI] = 11,
-     [SBSA_SMMU] = 12, /* ... to 15 */
--    [SBSA_GWDT] = 16,
-+    [SBSA_GWDT_WS0] = 16,
- };
- 
- static const char * const valid_cpus[] = {
-@@ -481,7 +481,7 @@ static void create_wdt(const SBSAMachineState *sms)
-     hwaddr cbase = sbsa_ref_memmap[SBSA_GWDT_CONTROL].base;
-     DeviceState *dev = qdev_new(TYPE_WDT_SBSA);
-     SysBusDevice *s = SYS_BUS_DEVICE(dev);
--    int irq = sbsa_ref_irqmap[SBSA_GWDT];
-+    int irq = sbsa_ref_irqmap[SBSA_GWDT_WS0];
- 
-     sysbus_realize_and_unref(s, &error_fatal);
-     sysbus_mmio_map(s, 0, rbase);
--- 
-2.31.1
-
+Regards,
+Bin
 
