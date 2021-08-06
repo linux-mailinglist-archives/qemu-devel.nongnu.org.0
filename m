@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5A53E2676
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 10:52:29 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4173E267E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 10:54:22 +0200 (CEST)
+Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBvae-0008Ro-N7
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 04:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36790)
+	id 1mBvcT-00022w-9w
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 04:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBvZg-0007gW-Q9
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:51:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43241)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBvbk-0001Ix-7b
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:53:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBvZf-0000I5-CS
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:51:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBvbi-0001zL-Nv
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:53:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628239886;
+ s=mimecast20190719; t=1628240014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p4EzdVgKOJgSKeIrgmz+E8h2vkL68FgNkMcy8T24LSU=;
- b=BRoWt7vgnl1VEohIpmsuYJqEIVyageZqng/gf74wYHo/NnkoaziBGOZ03pNTjw0zqkAFrO
- nqdFz8JG+/f4FJPcHEwt3QO7/lSaf4Sq+VDhMnQuobSRw4gUwlxRX7YoJ+/FFsm4EV++QD
- kO/7zrr+PYysV4iwOSkEGBTvVA28Jqg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-cXSYRDu1NAiWL0SisgERLg-1; Fri, 06 Aug 2021 04:51:23 -0400
-X-MC-Unique: cXSYRDu1NAiWL0SisgERLg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a18-20020a05600c2252b02902531dcdc68fso3622975wmm.6
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 01:51:23 -0700 (PDT)
+ bh=xEQUGvo5UIneZWdOzQBrvCLxT2A7Ul6W58B4NZjmgCk=;
+ b=EQg3GjG3t1fpw7nJaASrWYTP5syz7/ffrIPmpQoAl6VnrzFAWSJqOy+9rBZ8uidROdKxdF
+ a2EM3DwnsTx+XM07ko3gKZigzhN4wqkhJz+RBTyMUxb1WxXJhFkEfEu5FVpRW197WXdq5d
+ hxHzkYPgFQn3KuoE67ADQyIMpPDYdGg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-DgrZwN1xMBC7FTRF7msGBA-1; Fri, 06 Aug 2021 04:53:32 -0400
+X-MC-Unique: DgrZwN1xMBC7FTRF7msGBA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p2-20020a5d48c20000b0290150e4a5e7e0so2900974wrs.13
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 01:53:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p4EzdVgKOJgSKeIrgmz+E8h2vkL68FgNkMcy8T24LSU=;
- b=r2TkkB8LeI/9XaPQksf6Z0VTWKXPZwUQyLyiZL/vhttso6MnrNeiUXyzzonpqvNhHN
- oR1vCH9Pgohy4QAOZwTeMzfrrztHJ711BFKXE/aY6sWAk8BfxRURSRbcfCU1blyP3/aS
- shreWo7PxJcTmcUshwXdrUTo6msGHw4du5qyxFTW5/6TdfY0RNM12iC2PxykFZBKFtRt
- j2LrYFdgcIj+4PnGk8A0+bEgFk/w0hrsvli5/zaOT7mrEzN7nLpInegVeMOiGYcYfr8i
- g+vorNyDQCRGziYf5b79gD0/XJ+9RE9oFvRqSGx7a4jIkmNnaAnKHC0lwcSjkBsxNsg/
- r9qA==
-X-Gm-Message-State: AOAM531MYCT5mXMobGSkUmPfemPjvrFeKtsyGqxsuQk+SCiDa0meZ55B
- OfATDnltPbUyWb4RFhUCGden+LD20VQH7K/DHBKUEC3egb5drrOiYhjhA1j1WXQc+7lebKvIdGA
- lhy/3o7+OY8MmvHY=
-X-Received: by 2002:a1c:f214:: with SMTP id s20mr2107302wmc.14.1628239882677; 
- Fri, 06 Aug 2021 01:51:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXS8VtMwlZlTVziXPUMyvsRs4vJeEIWTdbH/gOaLrk8ZnSGs4vM/A9Fu3HI/dKlKoVZyOOQQ==
-X-Received: by 2002:a1c:f214:: with SMTP id s20mr2107285wmc.14.1628239882502; 
- Fri, 06 Aug 2021 01:51:22 -0700 (PDT)
+ bh=xEQUGvo5UIneZWdOzQBrvCLxT2A7Ul6W58B4NZjmgCk=;
+ b=mkhwjqSCVBafbQm0TGnRAbXM7BkDbocrzwG5fUp5QDd12at6hDrydDndofXmVXAm9i
+ mVhiGqmDIyptoAp9pfYc2NraZndgc/dz7+XYOhP7h3FZj5yOWFeNvuD3GeRhAxGuVFXX
+ e+aNhOaf7I8yTCf8ksq6eMS+MtO8/2skr0EjJtQIh1xnk2ZaxplLzZ5FdOAQqPASgzUa
+ Bp0FGeMeC58764QWZLvYP9dKy3nNzRrw9x5dSinYgBzCdgyltIaQaZbMNwcF2xD0X4Cj
+ AB2qlGzFT2ss01ndn64RCesCCafhJ5Q+HQnEx3hYH2qqeR9C6S0gGiHS5l3dU1nXcsUt
+ WkpA==
+X-Gm-Message-State: AOAM533rCpjgMOF43rWITMB/J5RJqkG8tO5a8o6I2ZJn0Mhx7FwjpvYb
+ vFzcepkTo4yzDwzY7t76XLKGDEYh1xKtko/VukpYVu1Ijjb92t+JOWfzwae6HH0S4um2otAL4yl
+ KNgeanT3mSRCSMsU=
+X-Received: by 2002:a5d:620d:: with SMTP id y13mr9563673wru.45.1628240011780; 
+ Fri, 06 Aug 2021 01:53:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyL5IEeuBVBPSc6GPFLNS03yEXIfodaBdnEYS1zhHoO9++ZUjvbV/mu+m4g60Nab/DSpEUmjg==
+X-Received: by 2002:a5d:620d:: with SMTP id y13mr9563651wru.45.1628240011587; 
+ Fri, 06 Aug 2021 01:53:31 -0700 (PDT)
 Received: from thuth.remote.csb
  (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
- by smtp.gmail.com with ESMTPSA id o28sm4619222wms.14.2021.08.06.01.51.21
+ by smtp.gmail.com with ESMTPSA id a16sm8843844wrx.7.2021.08.06.01.53.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 01:51:22 -0700 (PDT)
-Subject: Re: [PATCH v1 10/12] hw/s390x/s390-skeys: use memory mapping to
- detect which storage keys to dump
+ Fri, 06 Aug 2021 01:53:31 -0700 (PDT)
+Subject: Re: [PATCH v1 11/12] hw/s390x/s390-skeys: check if an address is
+ valid before dumping the key
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-11-david@redhat.com>
+ <20210805152804.100333-12-david@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <90931da4-234f-5f83-60f2-5ada3ead1e00@redhat.com>
-Date: Fri, 6 Aug 2021 10:51:20 +0200
+Message-ID: <fd12be48-6c8c-9afa-ed4b-c5eb674cae88@redhat.com>
+Date: Fri, 6 Aug 2021 10:53:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210805152804.100333-11-david@redhat.com>
+In-Reply-To: <20210805152804.100333-12-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -109,91 +109,61 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 05/08/2021 17.28, David Hildenbrand wrote:
-> Handle it similar to migration. Assert that we're holding the BQL, to
-> make sure we don't see concurrent modifications.
+> Let's validate the given address and report a proper error in case it's
+> not. All call paths now properly check the validity of the given GFN.
+> Remove the TODO.
+> 
+> The errors inside the getter and setter should only trigger if something
+> really goes wrong now, for example, with a broken migration stream. Or
+> when we forget to update the storage key allocation with memory hotplug.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   hw/s390x/s390-skeys.c | 50 ++++++++++++++++++++++++++-----------------
->   1 file changed, 30 insertions(+), 20 deletions(-)
+>   hw/s390x/s390-skeys.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
 > 
 > diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-> index 250685a95a..56a47fe180 100644
+> index 56a47fe180..53e16f1b9c 100644
 > --- a/hw/s390x/s390-skeys.c
 > +++ b/hw/s390x/s390-skeys.c
-> @@ -110,11 +110,10 @@ void qmp_dump_skeys(const char *filename, Error **errp)
+> @@ -18,6 +18,7 @@
+>   #include "qapi/qmp/qdict.h"
+>   #include "qemu/error-report.h"
+>   #include "sysemu/memory_mapping.h"
+> +#include "exec/address-spaces.h"
+>   #include "sysemu/kvm.h"
+>   #include "migration/qemu-file-types.h"
+>   #include "migration/register.h"
+> @@ -86,6 +87,12 @@ void hmp_info_skeys(Monitor *mon, const QDict *qdict)
+>           return;
+>       }
+>   
+> +    if (!address_space_access_valid(&address_space_memory,
+> +                                    addr & TARGET_PAGE_MASK, TARGET_PAGE_SIZE,
+> +                                    false, MEMTXATTRS_UNSPECIFIED)) {
+> +        monitor_printf(mon, "Error: The given address is not valid\n");
+
+I think the code should return here?
+
+> +    }
+> +
+>       r = skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
+>       if (r < 0) {
+>           monitor_printf(mon, "Error: %s\n", strerror(-r));
+> @@ -197,11 +204,6 @@ static int qemu_s390_skeys_enabled(S390SKeysState *ss)
+>       return 1;
+>   }
+>   
+> -/*
+> - * TODO: for memory hotplug support qemu_s390_skeys_set and qemu_s390_skeys_get
+> - * will have to make sure that the given gfn belongs to a memory region and not
+> - * a memory hole.
+> - */
+>   static int qemu_s390_skeys_set(S390SKeysState *ss, uint64_t start_gfn,
+>                                 uint64_t count, uint8_t *keys)
 >   {
->       S390SKeysState *ss = s390_get_skeys_device();
->       S390SKeysClass *skeyclass = S390_SKEYS_GET_CLASS(ss);
-> -    MachineState *ms = MACHINE(qdev_get_machine());
-> -    const uint64_t total_count = ms->ram_size / TARGET_PAGE_SIZE;
-> -    uint64_t handled_count = 0, cur_count;
-> +    GuestPhysBlockList guest_phys_blocks;
-> +    GuestPhysBlock *block;
-> +    uint64_t pages, gfn;
->       Error *lerr = NULL;
-> -    vaddr cur_gfn = 0;
->       uint8_t *buf;
->       int ret;
->       int fd;
-> @@ -145,28 +144,39 @@ void qmp_dump_skeys(const char *filename, Error **errp)
->           goto out;
->       }
->   
-> -    /* we'll only dump initial memory for now */
-> -    while (handled_count < total_count) {
-> -        /* Calculate how many keys to ask for & handle overflow case */
-> -        cur_count = MIN(total_count - handled_count, S390_SKEYS_BUFFER_SIZE);
-> +    assert(qemu_mutex_iothread_locked());
-> +    guest_phys_blocks_init(&guest_phys_blocks);
-> +    guest_phys_blocks_append(&guest_phys_blocks);
->   
-> -        ret = skeyclass->get_skeys(ss, cur_gfn, cur_count, buf);
-> -        if (ret < 0) {
-> -            error_setg(errp, "get_keys error %d", ret);
-> -            goto out_free;
-> -        }
-> +    QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
-> +        assert(QEMU_IS_ALIGNED(block->target_start, TARGET_PAGE_SIZE));
-> +        assert(QEMU_IS_ALIGNED(block->target_end, TARGET_PAGE_SIZE));
->   
-> -        /* write keys to stream */
-> -        write_keys(f, buf, cur_gfn, cur_count, &lerr);
-> -        if (lerr) {
-> -            goto out_free;
-> -        }
-> +        gfn = block->target_start / TARGET_PAGE_SIZE;
-> +        pages = (block->target_end - block->target_start) / TARGET_PAGE_SIZE;
->   
-> -        cur_gfn += cur_count;
-> -        handled_count += cur_count;
-> +        while (pages) {
-> +            const uint64_t cur_pages = MIN(pages, S390_SKEYS_BUFFER_SIZE);
-> +
-> +            ret = skeyclass->get_skeys(ss, gfn, cur_pages, buf);
-> +            if (ret < 0) {
-> +                error_setg_errno(errp, -ret, "get_keys error");
-> +                goto out_free;
-> +            }
-> +
-> +            /* write keys to stream */
-> +            write_keys(f, buf, gfn, cur_pages, &lerr);
-> +            if (lerr) {
-> +                goto out_free;
-> +            }
-> +
-> +            gfn += cur_pages;
-> +            pages -= cur_pages;
-> +        }
->       }
->   
->   out_free:
-> +    guest_phys_blocks_free(&guest_phys_blocks);
->       error_propagate(errp, lerr);
->       g_free(buf);
->   out:
 > 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Thomas
 
 
