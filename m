@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0603E2A4B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 14:06:46 +0200 (CEST)
-Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99A73E2AC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 14:47:42 +0200 (CEST)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBycf-00044M-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 08:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
+	id 1mBzGH-00087t-Gj
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 08:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBybM-0003IS-7P
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:05:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40640)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mBzEX-0006xS-1K
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:45:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBybH-0000g6-Qo
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:05:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mBzET-0005Dy-J1
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:45:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628251517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JG+pPUToM5gGtG1GZmtPAFMG7Ou0TkSkyL4ojlgrCHY=;
- b=WhK9L8JFO9L6LnkZSftzaUhANr5pvl+VePsI+kwL8qRKtNyvnokneMA3O7WcjcB9zyREBT
- sCsgQyCZrG4QFGCI/qzEYD+cGkiTyQefztSAZu9sEdPkkQcLPK9oVYhHX4OYktWKLAgNX+
- 7CnDlDZizEUdgToYnz1cukwTeFX7dik=
+ s=mimecast20190719; t=1628253947;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tWk7Eror2WsriFeC+Kq9elwBRxemw0JH+zlqyc1UzjU=;
+ b=bkkNqU3Sz6Wb0udJUdLL5dSv9d7OsXac8xcdclcF+xBtX3Xd7Q9FMN8iz5EtSwCFlHRAZ7
+ mGQzA+oP2hpxlWze38mYELglvruGhtNpsl+qh86UoYGO65HLaNJGjOBzHGXHjrOUQf84zV
+ xssRV0v2qCMAD96UrrMDQwGkEFD//hU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-QUJ16H95OPaaizvbCkxPEw-1; Fri, 06 Aug 2021 08:05:16 -0400
-X-MC-Unique: QUJ16H95OPaaizvbCkxPEw-1
+ us-mta-587-rfeIVV4vNt-3XsLBdGPpHw-1; Fri, 06 Aug 2021 08:45:35 -0400
+X-MC-Unique: rfeIVV4vNt-3XsLBdGPpHw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB433107ACF5
- for <qemu-devel@nongnu.org>; Fri,  6 Aug 2021 12:05:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
- [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E798360853;
- Fri,  6 Aug 2021 12:05:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D50011380A0; Fri,  6 Aug 2021 14:05:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi: Fix crash on redefinition with a different condition
-Date: Fri,  6 Aug 2021 14:05:10 +0200
-Message-Id: <20210806120510.2367124-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69EB01084F4C;
+ Fri,  6 Aug 2021 12:45:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54C78781EB;
+ Fri,  6 Aug 2021 12:45:32 +0000 (UTC)
+Date: Fri, 6 Aug 2021 13:45:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] bcm2836: Remove redundant typedef and macros
+Message-ID: <YQ0u6bfOmHVrnylm@redhat.com>
+References: <20210805214739.390613-1-ehabkost@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210805214739.390613-1-ehabkost@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -76,76 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, jsnow@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchema._make_implicit_object_type() asserts that when an implicit
-object type is used multiple times, @ifcond is the same for all uses.
-It will be for legitimate uses, i.e. simple union branch wrapper
-types.  A comment explains this.
+On Thu, Aug 05, 2021 at 05:47:39PM -0400, Eduardo Habkost wrote:
+> commit 58b350280e97 ("hw/arm/bcm2836: Restrict BCM283XInfo
+> declaration to C source") didn't just move the struct
+> BCM283XClass definition to bcm2836.c.  It also introduced a
+> typedef (BCM283XClass) and two type checking macros
+> (BCM283X_CLASS, BCM283X_GET_CLASS).
+> 
+> The typedef and macros duplicate what is already defined by the
+> OBJECT_DECLARE_TYPE declaration at bcm2836.h.  Remove the
+> redundant declarations.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Luc Michel <luc.michel@greensocs.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/arm/bcm2836.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 
-The assertion fails when a command or event is redefined with a
-different condition.  The redefinition is an error, but it's flagged
-only later.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Fixing the assertion would complicate matters further.  Not
-worthwhile, drop it instead.  We really need to get rid of simple
-unions.
 
-Tweak test case redefined-event to cover redefinition with a different
-condition.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/schema.py                 | 22 +++++++++++-----------
- tests/qapi-schema/redefined-event.json |  2 +-
- 2 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index d1d27ff7ee..a4ce3972a4 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -997,18 +997,18 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
-         name = 'q_obj_%s-%s' % (name, role)
-         typ = self.lookup_entity(name, QAPISchemaObjectType)
-         if typ:
--            # The implicit object type has multiple users.  This can
--            # happen only for simple unions' implicit wrapper types.
--            # Its ifcond should be the disjunction of its user's
--            # ifconds.  Not implemented.  Instead, we always pass the
--            # wrapped type's ifcond, which is trivially the same for all
--            # users.  It's also necessary for the wrapper to compile.
--            # But it's not tight: the disjunction need not imply it.  We
--            # may end up compiling useless wrapper types.
-+            # The implicit object type has multiple users.  This is
-+            # either a duplicate definition (which will be flagged
-+            # later), or an implicit wrapper type used for multiple
-+            # simple unions.  In the latter case, ifcond should be the
-+            # disjunction of its user's ifconds.  Not implemented.
-+            # Instead, we always pass the wrapped type's ifcond, which
-+            # is trivially the same for all users.  It's also
-+            # necessary for the wrapper to compile.  But it's not
-+            # tight: the disjunction need not imply it.  We may end up
-+            # compiling useless wrapper types.
-             # TODO kill simple unions or implement the disjunction
--
--            # pylint: disable=protected-access
--            assert (ifcond or []) == typ._ifcond
-+            pass
-         else:
-             self._def_entity(QAPISchemaObjectType(
-                 name, info, None, ifcond, None, None, members, None))
-diff --git a/tests/qapi-schema/redefined-event.json b/tests/qapi-schema/redefined-event.json
-index 7717e91c18..09eff18412 100644
---- a/tests/qapi-schema/redefined-event.json
-+++ b/tests/qapi-schema/redefined-event.json
-@@ -1,3 +1,3 @@
- # we reject duplicate events
- { 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
--{ 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
-+{ 'event': 'EVENT_A', 'data': { 'myint': 'int' }, 'if': 'defined(FOO)' }
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
