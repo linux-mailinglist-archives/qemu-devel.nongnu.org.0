@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C06F3E242A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:32:46 +0200 (CEST)
-Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AB83E2430
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:33:58 +0200 (CEST)
+Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBuLV-0006OE-8t
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48002)
+	id 1mBuMf-000853-Ce
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuK9-0005a1-UP
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:31:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22242)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuLZ-00073p-Pm
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:32:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuK8-0007DQ-8C
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:31:21 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuLY-0008Na-CQ
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:32:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628235079;
+ s=mimecast20190719; t=1628235167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bmUe1bWoUYTUc2r5WjyOeCHMYrsSgYKSczF3CstR6aE=;
- b=FLcpojxH31sSsbygcUDdXMwSP69WeSuJyQMW9UjBabXxplME47xYR24HkbXZg7T2ATgJto
- 72/m3y37+Kj/dCXwUKXMjTBKkMKVQ3n4pO4kgsrMEO4qB0EtpYvdLOjPKJFn6PDIDz44UI
- SoV5h/MgdEOCvI4UZRY+dDvBQ6NffZc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-rG1tcKYZNQ-kFbZaotj3cA-1; Fri, 06 Aug 2021 03:30:38 -0400
-X-MC-Unique: rG1tcKYZNQ-kFbZaotj3cA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- w1-20020adf8bc10000b0290154bed98988so1554188wra.1
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:30:38 -0700 (PDT)
+ bh=CKd2Kox4c8vbFsaeJdA49twpf4BNzMGjLVo/+5u5Cxo=;
+ b=h9xWv7EpH2AtdHGiqxs6HrFPiIkDNvSpA3kfbfwNkTLuNhmqkNcdkWtNF0vQvZqjJcC7VB
+ b4mn1Q/eIyhoXUFkirw4CWDy4Xa0gtLVqdYB2LpBtLJFc/nXCSb5X7yZd9/JN2507obA0W
+ J8f+tMq6BuPwVwuSHTpnJvKTpG6KwME=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-2I6ZWRfcMyyQ5udfajEYUw-1; Fri, 06 Aug 2021 03:32:46 -0400
+X-MC-Unique: 2I6ZWRfcMyyQ5udfajEYUw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j16-20020a5d44900000b02901549fdfd4fcso2870506wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:32:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bmUe1bWoUYTUc2r5WjyOeCHMYrsSgYKSczF3CstR6aE=;
- b=VKVtCWa2wNn8g8uY01PhnPjF/eZOduFCJfWQ3U1q+Wqw44KXpYNGjhJqKq9N735zgf
- SsHeE6x6uE9AvqYpG5p611xwl6FXe6nux/guXMdKAHKT+L6yZ/uiwrxPhS38j2ePIHtD
- eESGM3P/DoOOj64Q/V6ioDJBbWBKJSbya1hZ88oSJFLO4DPkK97R0JBGzY1AEGe/6Kdf
- xRdWmkT9dIYTu3/lRQXuaDHCElA3U0xvSm6qmuPR7C0+DJ0LLh3w+zulx/rAu3STe9Xg
- SgRV7GdA8e4rJqGWW+QaCBkBaBsBEq4WauiWmThM2m6OM0bRuBy9GATrqc3l9HSavDV7
- Z4ow==
-X-Gm-Message-State: AOAM533TRCGF1CW5RG8aWaeii+hHQk/iVJVFtKuIwV71GBcWKeKXx87Z
- miNHQmfVLsfua1s1WUtrkgsR7niC2FzjpmPvRec/HvPhWNGFrvgocVI42GhaVN9lurN8U9CQoy5
- T0wsM+0n7sEiKRZA=
-X-Received: by 2002:a5d:6789:: with SMTP id v9mr9367805wru.254.1628235037200; 
- Fri, 06 Aug 2021 00:30:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCYyCx5JiY9V+hxY31OST+31menNCgRpmeca5JIltPEB0Zw3W7/hLhaQiKEWlBaUNDVS48ag==
-X-Received: by 2002:a5d:6789:: with SMTP id v9mr9367778wru.254.1628235036943; 
- Fri, 06 Aug 2021 00:30:36 -0700 (PDT)
+ bh=CKd2Kox4c8vbFsaeJdA49twpf4BNzMGjLVo/+5u5Cxo=;
+ b=S6Fz2WzVnd4HkJYbZfZRt3lIMzeLh7KeZtW0f8v/CcuWQ7jtETDG8FoQpeaPJaELkP
+ wJOZ8LkiVzfvsIJEV71Mcoo2yzprg8n5Id9bnqsOVpRwX+Lopy8wYzbdRJXjCJo5rqsV
+ Me+StRsUAN2gA6RxfWYaDPdKhHFOxrGVdxI+n//HUX0Jsc1IV+SaHSukXsWFQbSqBsH7
+ nI3Xr6QkM/sYwEn3I9jljznadH0Yu0TOOvCV8ZsR3oSYegaCx0bwCu7sfhPw+LkA4AMj
+ sBdsr/pu52igjHJDQrRcMuIldaARwlusHhA0gwQimv66t2es9ZpjFiL/1Kd+1MnzaeU8
+ NnFA==
+X-Gm-Message-State: AOAM533/oa6qItMHsEmoiax/EsNElhwhwzEA2EQKG+1ZBpCVS1uVNISc
+ MIy4LHHpsfZt6hDc5nv1/sH44z/RQkWtrJPf/F5+myl7HB41L1UNpBPJZIOnu1O5PSGhBezfa0a
+ +qm597cDSmGMaO0s=
+X-Received: by 2002:a1c:ed03:: with SMTP id l3mr1746007wmh.56.1628235165398;
+ Fri, 06 Aug 2021 00:32:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUOCF4z7kj0HwvBQCBxAuWurd30g0FKpyye7/QUdUEnG4RxQ6tBZpzVFyT/vC7iAbuLoy9WQ==
+X-Received: by 2002:a1c:ed03:: with SMTP id l3mr1745985wmh.56.1628235165233;
+ Fri, 06 Aug 2021 00:32:45 -0700 (PDT)
 Received: from thuth.remote.csb
  (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
- by smtp.gmail.com with ESMTPSA id b13sm8396150wrf.86.2021.08.06.00.30.35
+ by smtp.gmail.com with ESMTPSA id o34sm11054109wms.10.2021.08.06.00.32.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 00:30:36 -0700 (PDT)
-Subject: Re: [PATCH v1 05/12] s390x/mmu_helper: no need to pass access type to
- mmu_translate_asce()
+ Fri, 06 Aug 2021 00:32:44 -0700 (PDT)
+Subject: Re: [PATCH v1 06/12] s390x/mmu_helper: fixup mmu_translate()
+ documentation
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-6-david@redhat.com>
+ <20210805152804.100333-7-david@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3a4db6af-3f9a-634a-6ff3-2e6cc875b886@redhat.com>
-Date: Fri, 6 Aug 2021 09:30:35 +0200
+Message-ID: <b8422a0d-0e85-fd78-7a26-a11ee5cc5885@redhat.com>
+Date: Fri, 6 Aug 2021 09:32:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210805152804.100333-6-david@redhat.com>
+In-Reply-To: <20210805152804.100333-7-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -109,38 +109,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 05/08/2021 17.27, David Hildenbrand wrote:
-> The access type is unused.
+> Looks like we forgot to adjust documentation of one parameter.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   target/s390x/mmu_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/s390x/mmu_helper.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index 0620b1803e..167f1b1455 100644
+> index 167f1b1455..ca25dadb5b 100644
 > --- a/target/s390x/mmu_helper.c
 > +++ b/target/s390x/mmu_helper.c
-> @@ -125,7 +125,7 @@ static inline bool read_table_entry(CPUS390XState *env, hwaddr gaddr,
->   
->   static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
->                                 uint64_t asc, uint64_t asce, target_ulong *raddr,
-> -                              int *flags, int rw)
-> +                              int *flags)
->   {
->       const bool edat1 = (env->cregs[0] & CR0_EDAT) &&
->                          s390_has_feat(S390_FEAT_EDAT);
-> @@ -428,7 +428,7 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
->       }
->   
->       /* perform the DAT translation */
-> -    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
-> +    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags);
->       if (unlikely(r)) {
->           return r;
->       }
+> @@ -374,7 +374,8 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+>    * @param asc    address space control (one of the PSW_ASC_* modes)
+>    * @param raddr  the translated address is stored to this pointer
+>    * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+> - * @param exc    true = inject a program check if a fault occurred
+> + * @param tec    the translation exception code if stored to this pointer if
+> + *               there is an exception to raise
+>    * @return       0 = success, != 0, the exception to raise
+>    */
+>   int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
 > 
-
-Fixes: 81d7e3bc45 ("s390x/mmu: Inject DAT exceptions from a single place")
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
