@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182273E280B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:06:53 +0200 (CEST)
-Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AA93E286B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:17:14 +0200 (CEST)
+Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBwkd-0002z0-IB
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1mBwuf-0005pn-Bx
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mBwjq-00029I-TR; Fri, 06 Aug 2021 06:06:02 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:33621)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBwtr-0005A5-5r
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:16:23 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:41684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mBwjp-0005d5-5B; Fri, 06 Aug 2021 06:06:02 -0400
-Received: by mail-il1-x12c.google.com with SMTP id y4so8310650ilp.0;
- Fri, 06 Aug 2021 03:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBwtn-0004d3-QU
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:16:22 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id x90so12326340ede.8
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 03:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PWMmefiGpc9vzQDx52OUoZ+PL+lhEEr9ix5Ofw3iTpY=;
- b=Xh5SF8T+ZRkDMa3EaOnjbMFWlHRc7x89tWMSyv4ONyUQJGWf3NX8NDCcAiPJi0eOFp
- UtwR9rLLbm0CngTQD0853HNaos2nJQ1f5iEQgmAueSmaoxUymPJFxu4THXyau0N94y3W
- cwDcAEJg6lEPPZCEdg0d5nQqKW172iLAHefG8U9a1ATzgqlHhcIdA/e9OfRuQl9SSrl/
- 1dHduUSifpBN/1Hf+nWpPe4LWYk/GbOzItJTZK7ErYFUmBNwXcY8Bym9x586YmaApt02
- WwJwrcZj36Vt/dy84OrOqGa4zxOlOVWss1NY7g2/1eOOCNOJ7y9rbLffzfkAII77FguS
- sXXg==
+ :cc; bh=WlA9C9k+WQv8hjuIO+QbwygD3P6PW/4dYPNKgQIyDfo=;
+ b=pF9j4eQO8im0epzJ5B7O2ntWUTyYNy5HrDs8cOSagSX0bxjK+UBQpA3OaqYSYCzNSZ
+ qYDnO3RAhzTU4UHBMT1YQ9pWuL0CrDkDZ9ibfQR6sck3B1lag8PGqVdd8679lALvaGHa
+ pSlOWXeEeSNVH9boJxgoRcLabcxGvf22Prj2MeayY9WlRZlbKNK0kPMYcUanUf2jhnBb
+ 7mSthlR5S6fkbAp+7oBN/ZUN/lf7tCVJIz7lTwpJO0Nhmvom+g92r5M70EmmWKmn1zXo
+ 5oD4GiePWG49wOACoxfCG2lwkUI+6E8Ou3jGJKHLsUWvFgSfyG003hBqtbu4SEg/tG6m
+ 69dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PWMmefiGpc9vzQDx52OUoZ+PL+lhEEr9ix5Ofw3iTpY=;
- b=p2/hDHzPvj7CBbvzR38FryI/BS2G/uArzPkwQTY4UKLjeTw7l5hFt9YC+J8ecDe4mh
- YWyoXQtcssuUPI10Fkl/MhmzbvHzkQsO4O2AbbpU16VdyRsriF8mZcJ37mJvZeZily4j
- RyKr/PbVcx26RrAno7mK76PaSBUqN+OC+BGlGiOGSGsl3F+bn6ielsWEckxS+AYb0KsN
- T7fjE7Mjsw72PPufEP1eWj5jdlAnBt0xXJmcol5Y+tHKuqlMKee0BCItk7r16WBzxPVc
- 9y626NqgeqIGcJLRfo7CS9h7GONyEB03PmoQWzh+2I9vuL6fxcQD+ufQ3v4lfnm5tC2U
- vkOw==
-X-Gm-Message-State: AOAM531FT/C3Va/APg3xCG9CuslO7bRVGuZBrg448vqXOHDTuGRI9VQz
- at5wCOpsKgdB9cMXEIQAHKnc0av6/kJlGAwQYg0=
-X-Google-Smtp-Source: ABdhPJy9woPnNeeHJRxiButx/cEG2NmV9U337wz9jdOaEujb7lUPcZ7r8+u3WKJmB1SOpNOnqxsm4TNcb73THULbMrE=
-X-Received: by 2002:a92:c24d:: with SMTP id k13mr139982ilo.227.1628244359241; 
- Fri, 06 Aug 2021 03:05:59 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=WlA9C9k+WQv8hjuIO+QbwygD3P6PW/4dYPNKgQIyDfo=;
+ b=LrjQioWGf2XhP+27dzaATMzA5HfXpL3rxNER7OIUw1Pykp8v/GlY+MTQIRTTq0ANAt
+ RPkbeOzMrfqG33x9TmkTce0YekZQwI02ZhnXcWC8ENxzBImlGbSHJUaTwDLjNi58zmGp
+ vV3PDqzEvg5UgMfttqM1yzT4+HNuhVTq3LOpOvix3WTlxl0tm6uiQq2/3MPJDoTs0mzg
+ t+KNqHPORByciRBwSKDiJTyR44IEVo5ATSgO1xKWQtZZplUaWuOIL9npWxMePMqN1Y3x
+ Nx/xWwBgmmE6DnI09h8nY8IUXHiJF5r6Jc4105r9e0/UUaXXdPFN1eVjeC0vuRWXiO3v
+ Ssxw==
+X-Gm-Message-State: AOAM531pWqhz9eti4Oh0EKQJo5dSOJCCJle02yN46kD6uxjWg5kt/24E
+ Zsrt3hHK51ahjtESASR8XE5J0APtW7gma8bj28aJmA==
+X-Google-Smtp-Source: ABdhPJwyP4a+VxZiMH6zWWGhuB78hcK2Q2pL8RSwZMZTxnQb+vVAOqO5gC23zXNSvNfpWzfQVV4YXdOu/TgKpqcZy2o=
+X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr11703002eds.251.1628244978437; 
+ Fri, 06 Aug 2021 03:16:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
- <CAKmqyKOCRXbEhZrZSQN-X2ObrX=_aoxgyCsevE05LY9S-TS4hQ@mail.gmail.com>
- <a404e8dd-eb20-4d4a-6aa0-7c444b46c706@c-sky.com>
-In-Reply-To: <a404e8dd-eb20-4d4a-6aa0-7c444b46c706@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 6 Aug 2021 20:05:32 +1000
-Message-ID: <CAKmqyKPEadYomK36PadYFNvuxL-icLOr7VXPOJjoS3LmZsxSzg@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/13] Support UXL field in mstatus
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+In-Reply-To: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Aug 2021 11:15:34 +0100
+Message-ID: <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
+ =?UTF-8?Q?_execution=EF=BC=9F?=
+To: Duo jia <jiaduo19920301@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,86 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 5, 2021 at 5:15 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Fri, 6 Aug 2021 at 07:24, Duo jia <jiaduo19920301@gmail.com> wrote:
+> I am simulating a device. When an interrupt occurs, another interrupt
+> comes, and the second interrupt will not be triggered because the
+> first interrupt has not yet finished.
 >
->
-> On 2021/8/5 =E4=B8=8B=E5=8D=882:01, Alistair Francis wrote:
-> > On Thu, Aug 5, 2021 at 12:55 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote=
-:
-> >> This patch set implements UXL field in mstatus register. Programmer ca=
-n change
-> >> UXLEN by writting to this field. So that you can run a 32 bit program
-> >> on a 64 bit CPU.
-> > Awesome! Do you have any steps for building a rootFS to test this?
->
-> Not yet.  It depends on Linux support which  will not start until
-> October.  Maybe as a rough test,
-> we can run the 32 glibc test cases on qemu-riscv64 with an option
-> uxl32=3Dtrue(not implement yet).
+> I want to know whether qemu can detect whether the interrupt has been
+> executed, will there be a callback here?
+> Or how can I deal with this situation?
 
-Hmmm... That's a pain. We really need some way to test this (and
-ensure no future breakages occur). But I see the problem of no
-software support until this exists.
+End of interrupt handling is entirely dependent on what the
+guest hardware being emulated is. Usually the guest software
+will indicate "interrupt handled" back to the interrupt
+controller (perhaps by writing a register; depends on the
+interrupt controller), and the interrupt controller will
+then look at what the next highest priority pending interrupt
+is and signal that back to the CPU, or do nothing if there's
+no new interrupt. So the second interrupt will automatically
+be taken and handled once the first one has finished,
+as a result of this interrupt controller and guest OS
+interaction.
 
-It sounds like you or a colleague is planning on adding Linux support.
-Maybe we will have to wait until that at least exists before this can
-go upstream. We could at least review this before hand though, so
-thanks for sending the series.
+The original device usually doesn't get told when this
+happens, and it doesn't need to know. For example, one common
+form of device interrupt is level-triggered. Here the device
+has some condition (perhaps "FIFO full") that causes an
+interrupt. So it raises its outbound IRQ line when the FIFO
+is full, and it doesn't lower it again until whatever the
+device specification says is the condition (eg when the
+guest reads from the FIFO, or if the guest writes to some
+'clear interrupt' register on the device). It's the job of
+the guest software to make sure that when it gets an interrupt
+from the device that it handles it such that the device has
+been satisfied and lowered the interrupt.
 
-A 32-bit glibc test on qemu-riscv64 would probably also be enough, at
-least as a start.
+More rarely, some devices are specified to pulse their interrupt
+line when a condition occurs.
 
-Alistair
+In summary, you need to look at the specification of the device
+you're emulating to find out when and how it is supposed to
+raise or lower its interrupt line. ("I didn't get a second
+interrupt" bugs might also be caused by bugs in the interrupt
+controller or in the guest software device driver -- if you're
+just using an existing known-to-work QEMU interrupt controller
+model and a known-to-work device driver and OS, then the
+bug is very likely in your device model. If you're also
+writing the OS device driver at the same time then the bug
+could be there instead.)
 
->
-> Zhiwei
->
-> >
-> > Alistair
-> >
-> >> This patch set depends on one patch set by Richard Henderson
-> >> https://lists.gnu.org/archive/html/qemu-riscv/2021-07/msg00059.html.
-> >>
-> >> LIU Zhiwei (13):
-> >>    target/riscv: Add UXL to tb flags
-> >>    target/riscv: Support UXL32 for branch instructions
-> >>    target/riscv: Support UXL32 on 64-bit cpu for load/store
-> >>    target/riscv: Support UXL32 for slit/sltiu
-> >>    target/riscv: Support UXL32 for shift instruction
-> >>    target/riscv: Fix div instructions
-> >>    target/riscv: Support UXL32 for RVM
-> >>    target/riscv: Support UXL32 for vector instructions
-> >>    target/riscv: Support UXL32 for atomic instructions
-> >>    target/riscv: Support UXL32 for float instructions
-> >>    target/riscv: Fix srow
-> >>    target/riscv: Support UXL32 for RVB
-> >>    target/riscv: Changing the width of U-mode CSR
-> >>
-> >>   target/riscv/cpu.h                      |  18 +++
-> >>   target/riscv/csr.c                      |  42 +++++-
-> >>   target/riscv/insn_trans/trans_rva.c.inc |  36 ++++-
-> >>   target/riscv/insn_trans/trans_rvb.c.inc |  51 +++++--
-> >>   target/riscv/insn_trans/trans_rvd.c.inc |   4 +-
-> >>   target/riscv/insn_trans/trans_rvf.c.inc |   4 +-
-> >>   target/riscv/insn_trans/trans_rvi.c.inc |  62 ++++++--
-> >>   target/riscv/insn_trans/trans_rvm.c.inc |  24 ++-
-> >>   target/riscv/insn_trans/trans_rvv.c.inc |  44 +++---
-> >>   target/riscv/translate.c                | 186 ++++++++++++++++++++--=
---
-> >>   target/riscv/vector_helper.c            |  54 +++++--
-> >>   11 files changed, 414 insertions(+), 111 deletions(-)
-> >>
-> >> --
-> >> 2.17.1
-> >>
-> >>
+-- PMM
 
