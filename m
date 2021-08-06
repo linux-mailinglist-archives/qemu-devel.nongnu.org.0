@@ -2,95 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DEF3E260D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 10:26:17 +0200 (CEST)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB883E261A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 10:29:08 +0200 (CEST)
+Received: from localhost ([::1]:54828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBvBI-0006Co-S5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 04:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60210)
+	id 1mBvE3-0000QJ-9M
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 04:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBvA1-0004Ub-QQ
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:24:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49281)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mBvCy-0007qD-0I
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:28:00 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBv9z-0002gf-UY
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:24:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628238295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1N1ZZTAFOFp/91046WiWbaPTHaHGE+6NjrDWxigMS9I=;
- b=CZSODC9Kt/Q0C+oTXbnjO+dWzpsYwuhn2QjD6dnDwcPYXWCwqkNOgbtrK4TgFwdGpUkk/p
- rfOnyWa/iuU7d0Vn9SyHaGDlzDxkpv6DX9oCt4u2pNbg/gnT0GC8b3TwLPGdl5DP7Rgiwt
- TLQ+4YQ7fuVag64H4q2qyWI2tFVaO3Y=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-Z7oWxlJYMUy9gM19oKZxbw-1; Fri, 06 Aug 2021 04:24:52 -0400
-X-MC-Unique: Z7oWxlJYMUy9gM19oKZxbw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p12-20020a5d68cc0000b02901426384855aso2887713wrw.11
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 01:24:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1N1ZZTAFOFp/91046WiWbaPTHaHGE+6NjrDWxigMS9I=;
- b=oxgSTYP5tsw2CgaR3Hshrx8PDjrJ1scYhgTJneCNmQbT4gDAdUim3FNG5RUwL2Xi1M
- 668acaX5oy6vsByfM1UH9oBqN9cvVuc4Aqk54BMIN6QJ/HH8eC1HYX558OSyxNKAeZaY
- X4CQyf9yq33KScSCQ5BwfPIUu5EiqLhy+yjSEBuZsBMo3XjKwVi79+pSYrtQCUolSILJ
- 4XAil5LJRq7bJaGBhfGFB1CqCuIgquzRliOHsSwd4MuzY1WcmdyEbd77CgUqJK48ijH/
- lQul8qHwiNsO5YJXQGFbxv43mQ+26yOxw+FMhdopO6LlGMDzQxNmAmX/Y5TUKsuaVb/G
- 4sMA==
-X-Gm-Message-State: AOAM5305euMxZvv8LIjjfHe/4WBdYRRcntNwgOeR/yG4watbjpR7BPRL
- vt7Rzr+lw4BRgpih8q8WAZrz2XA2a8aGAZZvpX5o+6eXBdPvRCBSei5GYpbbwhZQxX0xI8OdzKt
- nS39aqdoxa4fcJW0=
-X-Received: by 2002:adf:e60c:: with SMTP id p12mr9456159wrm.285.1628238291056; 
- Fri, 06 Aug 2021 01:24:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwof3bB5C/DMQXqyqDB2SOUMvqj8DdN+uZOWCbz9JhuQZJKAh5iZ14M/FUboS7WszY7+joWVA==
-X-Received: by 2002:adf:e60c:: with SMTP id p12mr9456147wrm.285.1628238290838; 
- Fri, 06 Aug 2021 01:24:50 -0700 (PDT)
-Received: from thuth.remote.csb
- (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
- by smtp.gmail.com with ESMTPSA id e6sm7693908wme.6.2021.08.06.01.24.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 01:24:50 -0700 (PDT)
-Subject: Re: [PATCH v1 07/12] s390x/mmu_helper: move address validation into
- mmu_translate*()
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-8-david@redhat.com>
- <6616c45b-7d5a-3a8f-20fb-0c17113e49b1@redhat.com>
- <debc6b3f-6965-fb69-5bcb-8f4420274dbe@redhat.com>
- <653d280b-98db-91d1-d21a-e6c07aacc972@redhat.com>
- <cbf6ca90-7309-6dc4-0ff5-c10c93d9ca9a@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8e109972-bcb9-5f53-d6d2-dc2e913985ae@redhat.com>
-Date: Fri, 6 Aug 2021 10:24:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mBvCu-0005OX-Hd
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:27:59 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ggz682GrLzZy6F;
+ Fri,  6 Aug 2021 16:24:16 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 16:27:51 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 16:27:50 +0800
+Subject: Re: [PATCH for-6.1 v5 1/1] machine: Disallow specifying topology
+ parameters as zero
+To: <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>, "Marcel
+ Apfelbaum" <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210723095731.4976-1-wangyanan55@huawei.com>
+ <20210723095731.4976-2-wangyanan55@huawei.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <45af8039-09ea-b976-f02b-f636933f6302@huawei.com>
+Date: Fri, 6 Aug 2021 16:27:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <cbf6ca90-7309-6dc4-0ff5-c10c93d9ca9a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210723095731.4976-2-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.132,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,173 +70,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Cornelia
+ Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2021 10.23, David Hildenbrand wrote:
-> On 06.08.21 10:22, Thomas Huth wrote:
->> On 06/08/2021 10.20, David Hildenbrand wrote:
->>> On 06.08.21 10:18, Thomas Huth wrote:
->>>> On 05/08/2021 17.27, David Hildenbrand wrote:
->>>>> Let's move address validation into mmu_translate() and
->>>>> mmu_translate_real(). This allows for checking whether an absolute
->>>>> address is valid before looking up the storage key. We can now get rid of
->>>>> the ram_size check.
->>>>>
->>>>> Interestingly, we're already handling LOAD REAL ADDRESS wrong, because
->>>>> a) We're not supposed to touch storage keys
->>>>> b) We're not supposed to convert to an absolute address
->>>>>
->>>>> Let's use a fake, negative MMUAccessType to teach mmu_translate() to
->>>>> fix that handling and to not perform address validation.
->>>>>
->>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>>> ---
->>>>>     target/s390x/mmu_helper.c      | 36 ++++++++++++++++++++--------------
->>>>>     target/s390x/tcg/excp_helper.c | 13 ------------
->>>>>     target/s390x/tcg/mem_helper.c  |  2 +-
->>>>>     3 files changed, 22 insertions(+), 29 deletions(-)
->>>>>
->>>>> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
->>>>> index ca25dadb5b..36ab4e9c81 100644
->>>>> --- a/target/s390x/mmu_helper.c
->>>>> +++ b/target/s390x/mmu_helper.c
->>>>> @@ -301,14 +301,13 @@ static void mmu_handle_skey(target_ulong addr, int
->>>>> rw, int *flags)
->>>>>     {
->>>>>         static S390SKeysClass *skeyclass;
->>>>>         static S390SKeysState *ss;
->>>>> -    MachineState *ms = MACHINE(qdev_get_machine());
->>>>>         uint8_t key;
->>>>>         int rc;
->>>>> -    if (unlikely(addr >= ms->ram_size)) {
->>>>> -        return;
->>>>> -    }
->>>>> -
->>>>> +    /*
->>>>> +     * We excpect to be called with an absolute address that has already
->>>>> been
->>>>> +     * validated, such that we can reliably use it to lookup the storage
->>>>> key.
->>>>> +     */
->>>>>         if (unlikely(!ss)) {
->>>>>             ss = s390_get_skeys_device();
->>>>>             skeyclass = S390_SKEYS_GET_CLASS(ss);
->>>>> @@ -370,7 +369,7 @@ static void mmu_handle_skey(target_ulong addr, int
->>>>> rw, int *flags)
->>>>>     /**
->>>>>      * Translate a virtual (logical) address into a physical (absolute)
->>>>> address.
->>>>>      * @param vaddr  the virtual address
->>>>> - * @param rw     0 = read, 1 = write, 2 = code fetch
->>>>> + * @param rw     0 = read, 1 = write, 2 = code fetch, < 0 = load real
->>>>> address
->>>>>      * @param asc    address space control (one of the PSW_ASC_* modes)
->>>>>      * @param raddr  the translated address is stored to this pointer
->>>>>      * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this
->>>>> pointer
->>>>> @@ -449,10 +448,17 @@ int mmu_translate(CPUS390XState *env, target_ulong
->>>>> vaddr, int rw, uint64_t asc,
->>>>>         }
->>>>>     nodat:
->>>>> -    /* Convert real address -> absolute address */
->>>>> -    *raddr = mmu_real2abs(env, *raddr);
->>>>> +    if (rw >= 0) {
->>>>> +        /* Convert real address -> absolute address */
->>>>> +        *raddr = mmu_real2abs(env, *raddr);
->>>>> -    mmu_handle_skey(*raddr, rw, flags);
->>>>> +        if (!mmu_absolute_addr_valid(*raddr, rw == MMU_DATA_STORE)) {
->>>>> +            *tec = 0; /* unused */
->>>>> +            return PGM_ADDRESSING;
->>>>> +        }
->>>>> +
->>>>> +        mmu_handle_skey(*raddr, rw, flags);
->>>>> +    }
->>>>>         return 0;
->>>>>     }
->>>>> @@ -473,12 +479,6 @@ static int translate_pages(S390CPU *cpu, vaddr addr,
->>>>> int nr_pages,
->>>>>             if (ret) {
->>>>>                 return ret;
->>>>>             }
->>>>> -        if (!address_space_access_valid(&address_space_memory, pages[i],
->>>>> -                                        TARGET_PAGE_SIZE, is_write,
->>>>> -                                        MEMTXATTRS_UNSPECIFIED)) {
->>>>> -            *tec = 0; /* unused */
->>>>> -            return PGM_ADDRESSING;
->>>>> -        }
->>>>>             addr += TARGET_PAGE_SIZE;
->>>>>         }
->>>>> @@ -588,6 +588,12 @@ int mmu_translate_real(CPUS390XState *env,
->>>>> target_ulong raddr, int rw,
->>>>>         *addr = mmu_real2abs(env, raddr & TARGET_PAGE_MASK);
->>>>> +    if (!mmu_absolute_addr_valid(*addr, rw == MMU_DATA_STORE)) {
->>>>> +        /* unused */
->>>>> +        *tec = 0;
->>>>> +        return PGM_ADDRESSING;
->>>>> +    }
->>>>> +
->>>>>         mmu_handle_skey(*addr, rw, flags);
->>>>>         return 0;
->>>>>     }
->>>>> diff --git a/target/s390x/tcg/excp_helper.c 
->>>>> b/target/s390x/tcg/excp_helper.c
->>>>> index a61917d04f..3d6662a53c 100644
->>>>> --- a/target/s390x/tcg/excp_helper.c
->>>>> +++ b/target/s390x/tcg/excp_helper.c
->>>>> @@ -150,19 +150,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address,
->>>>> int size,
->>>>>             g_assert_not_reached();
->>>>>         }
->>>>> -    /* check out of RAM access */
->>>>> -    if (!excp &&
->>>>> -        !address_space_access_valid(&address_space_memory, raddr,
->>>>> -                                    TARGET_PAGE_SIZE, access_type,
->>>>> -                                    MEMTXATTRS_UNSPECIFIED)) {
->>>>> -        MachineState *ms = MACHINE(qdev_get_machine());
->>>>> -        qemu_log_mask(CPU_LOG_MMU,
->>>>> -                      "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
->>>>> -                      __func__, (uint64_t)raddr, (uint64_t)ms->ram_size);
->>>>> -        excp = PGM_ADDRESSING;
->>>>> -        tec = 0; /* unused */
->>>>> -    }
->>>>> -
->>>>>         env->tlb_fill_exc = excp;
->>>>>         env->tlb_fill_tec = tec;
->>>>> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
->>>>> index a84795cfa3..9c1b9c7d06 100644
->>>>> --- a/target/s390x/tcg/mem_helper.c
->>>>> +++ b/target/s390x/tcg/mem_helper.c
->>>>> @@ -2456,7 +2456,7 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t
->>>>> addr)
->>>>>             tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
->>>>>         }
->>>>> -    exc = mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
->>>>> +    exc = mmu_translate(env, addr, -1, asc, &ret, &flags, &tec);
->>>>
->>>> Do we maybe want a #define for this -1 instead? OTOH, you've added a proper
->>>> comment to the function description, so that should be ok, too.
->>>
->>> Ideally, I'd have used a completely new MMU_* type. But affecting all users
->>> in QEMU for one special case and having to handle it consequently
->>> accordingly all over the place feels wrong.
->>>
->>> Where would you put the define?
->>
->> I agree that this should not go into the common header ... so maybe into
->> s390x-internal.h ?
-> 
-> Maybe calling it MMU_S390_LRA ?
+A gentle ping ...
 
-Sounds good!
+Will this patch be picked up soon for 6.1 or is there anything else to 
+tweak?
 
-  Thomas
+Thanks,
+Yanan
 
+On 2021/7/23 17:57, Yanan Wang wrote:
+> In the SMP configuration, we should either specify a topology
+> parameter with a reasonable value (equal to or greater than 1)
+> or just leave it omitted and QEMU will calculate its value.
+> Configurations which explicitly specify the topology parameters
+> as zero like "sockets=0" are meaningless, so disallow them.
+>
+> However, the commit 1e63fe685804d
+> (machine: pass QAPI struct to mc->smp_parse) has documented that
+> '0' has the same semantics as omitting a parameter in the qapi
+> comment for SMPConfiguration. So this patch fixes the doc and
+> also adds the corresponding sanity check.
+>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+> Tested-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>   hw/core/machine.c | 14 ++++++++++++++
+>   qapi/machine.json |  6 +++---
+>   qemu-options.hx   | 12 +++++++-----
+>   3 files changed, 24 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 775add0795..e1533dfc47 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -829,6 +829,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+>           return;
+>       }
+>   
+> +    /*
+> +     * The CPU topology parameters must be specified greater than zero or
+> +     * just omitted, explicit configuration like "cpus=0" is not allowed.
+> +     */
+> +    if ((config->has_cpus && config->cpus == 0) ||
+> +        (config->has_sockets && config->sockets == 0) ||
+> +        (config->has_dies && config->dies == 0) ||
+> +        (config->has_cores && config->cores == 0) ||
+> +        (config->has_threads && config->threads == 0) ||
+> +        (config->has_maxcpus && config->maxcpus == 0)) {
+> +        error_setg(errp, "CPU topology parameters must be greater than zero");
+> +        goto out_free;
+> +    }
+> +
+>       mc->smp_parse(ms, config, errp);
+>       if (errp) {
+>           goto out_free;
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index c3210ee1fb..9272cb3cf8 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1288,8 +1288,8 @@
+>   ##
+>   # @SMPConfiguration:
+>   #
+> -# Schema for CPU topology configuration.  "0" or a missing value lets
+> -# QEMU figure out a suitable value based on the ones that are provided.
+> +# Schema for CPU topology configuration. A missing value lets QEMU
+> +# figure out a suitable value based on the ones that are provided.
+>   #
+>   # @cpus: number of virtual CPUs in the virtual machine
+>   #
+> @@ -1297,7 +1297,7 @@
+>   #
+>   # @dies: number of dies per socket in the CPU topology
+>   #
+> -# @cores: number of cores per thread in the CPU topology
+> +# @cores: number of cores per die in the CPU topology
+>   #
+>   # @threads: number of threads per core in the CPU topology
+>   #
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 99ed5ec5f1..e077aa80bf 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -223,11 +223,13 @@ SRST
+>       of computing the CPU maximum count.
+>   
+>       Either the initial CPU count, or at least one of the topology parameters
+> -    must be specified. Values for any omitted parameters will be computed
+> -    from those which are given. Historically preference was given to the
+> -    coarsest topology parameters when computing missing values (ie sockets
+> -    preferred over cores, which were preferred over threads), however, this
+> -    behaviour is considered liable to change.
+> +    must be specified. The specified parameters must be greater than zero,
+> +    explicit configuration like "cpus=0" is not allowed. Values for any
+> +    omitted parameters will be computed from those which are given.
+> +    Historically preference was given to the coarsest topology parameters
+> +    when computing missing values (ie sockets preferred over cores, which
+> +    were preferred over threads), however, this behaviour is considered
+> +    liable to change.
+>   ERST
+>   
+>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
 
 
