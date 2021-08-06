@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3593E306B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 22:37:44 +0200 (CEST)
-Received: from localhost ([::1]:49492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A2F3E306D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 22:38:51 +0200 (CEST)
+Received: from localhost ([::1]:51832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC6b9-0008JZ-CT
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 16:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
+	id 1mC6cE-0001TS-OU
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 16:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6aP-0007Vm-85
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:36:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55061)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6bE-0000ZG-UF
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:37:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6aN-0004x6-P9
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:36:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mC6bC-0005VI-Kg
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 16:37:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628282215;
+ s=mimecast20190719; t=1628282266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jlvCeVgJiXqQvYNqLKa27veWPrJmBk0maDpTfVzzPj0=;
- b=b2IqrtGGHeg9Gldv/ftHyQFsIp3qQukD4/sSidtBDlgu2GSK5PcdHcS+iTOsmhXHizGxis
- G5uFFFu4AW6brhZSZLwmt20FPwk9G3gBzhmT+XO+yfZqxnZZOJiZkvsyYQEdRAgSSqEdds
- grOExtoHDKLu+njFJEBJKAxtIBfpafg=
+ bh=pZDnzzzf/tM7gODolZ1crbD9xe1f9SlW/vJWd2FtuaI=;
+ b=St+yjXfFlZVp3mwbR6ptOIOugbRT+NWXSUZFaYDU5QdrQb2tWrT/1aKGSzXpiF/twxt196
+ ZygtIzRHIrn5YYggpkxZDq4dR1QzeDL7mt+/ZGXahj8C+Uh3Sgr6mQuPwjcRqC4rRSkpm6
+ ahtVZnm1e0JE9exg4WPhZunlFcdl4QE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-kkj88SlRMjORzDksAr81-w-1; Fri, 06 Aug 2021 16:36:52 -0400
-X-MC-Unique: kkj88SlRMjORzDksAr81-w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-511-A2ok6-dVPgyQ9O7CTna1Rg-1; Fri, 06 Aug 2021 16:37:44 -0400
+X-MC-Unique: A2ok6-dVPgyQ9O7CTna1Rg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 241F4CC624;
- Fri,  6 Aug 2021 20:36:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D2C1CC624;
+ Fri,  6 Aug 2021 20:37:43 +0000 (UTC)
 Received: from redhat.com (ovpn-112-138.phx2.redhat.com [10.3.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC07F60C04;
- Fri,  6 Aug 2021 20:36:50 +0000 (UTC)
-Date: Fri, 6 Aug 2021 15:36:49 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3043819811;
+ Fri,  6 Aug 2021 20:37:43 +0000 (UTC)
+Date: Fri, 6 Aug 2021 15:37:41 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-6.2 v3 09/12] mirror: Check job_is_cancelled() earlier
-Message-ID: <20210806203649.ahrrwvsjcit5wrnx@redhat.com>
+Subject: Re: [PATCH for-6.2 v3 10/12] mirror: Stop active mirroring after
+ force-cancel
+Message-ID: <20210806203741.vowp7dzzqeczhlfj@redhat.com>
 References: <20210806093859.706464-1-mreitz@redhat.com>
- <20210806093859.706464-10-mreitz@redhat.com>
+ <20210806093859.706464-11-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210806093859.706464-10-mreitz@redhat.com>
+In-Reply-To: <20210806093859.706464-11-mreitz@redhat.com>
 User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,23 +84,19 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 06, 2021 at 11:38:56AM +0200, Max Reitz wrote:
-> We must check whether the job is force-cancelled early in our main loop,
-> most importantly before any `continue` statement.  For example, we used
-> to have `continue`s before our current checking location that are
-> triggered by `mirror_flush()` failing.  So, if `mirror_flush()` kept
-> failing, force-cancelling the job would not terminate it.
+On Fri, Aug 06, 2021 at 11:38:57AM +0200, Max Reitz wrote:
+> Once the mirror job is force-cancelled (job_is_cancelled() is true), we
+> should not generate new I/O requests.  This applies to active mirroring,
+> too, so stop it once the job is cancelled.
 > 
-> Jobs can be cancelled while they yield, and once they are
-> (force-cancelled), they should not generate new I/O requests.
-> Therefore, we should put the check after the last yield before
-> mirror_iteration() is invoked.
+> (We must still forward all I/O requests to the source, though, of
+> course, but those are not really I/O requests generated by the job, so
+> this is fine.)
 > 
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  block/mirror.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  block/mirror.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
