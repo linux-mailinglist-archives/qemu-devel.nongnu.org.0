@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223853E223A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 05:41:26 +0200 (CEST)
-Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6963E2265
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:16:23 +0200 (CEST)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBqjd-0006AS-6Z
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 23:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45666)
+	id 1mBrHS-0003BH-32
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mBqim-000544-Is; Thu, 05 Aug 2021 23:40:32 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:38756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mBqil-0001Hk-05; Thu, 05 Aug 2021 23:40:32 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id c137so12430984ybf.5;
- Thu, 05 Aug 2021 20:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=weAPN+ydW2028eD7P9mR7SZE9Wn5X1XG4WLPLPEGvPM=;
- b=PuKaHG8IHIKS3aMEdndLq25ncovGYYkenT1/l6lHjp/OLzuugYdawFXg7SeTXt6x91
- NgpH0Dics4cxaVv/emjtAqkfFK88j6bCHjqq5WGZKUzCQvdCdJFV/0rGk7dFNT9+q9NJ
- bTGR9yPl3ICSqcCLJVRyoxf8pS9u9tP+nbs/1DTRUYZuCHNt/xsH8k6bXxYocpJbN1hc
- svRPQ8YDF/L07v7ZfVJIJusnRqyLZhgFB+VixZhaDC7AMtiscEbsvSgiO2ro2OVcFP4D
- 4DYGIL4jaYFpatapXsf6aYJVm6V1ndYgUdInwmRYylfVOff3SFHBjU9HXrGl+N33VIyW
- TEug==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrG9-0002Lm-5a
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59005)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrG5-0005V9-St
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628223295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TsptsZIv8WVM+btR5gLxBqNmBuOZpH22zYrEm6c+WLg=;
+ b=aKne5zQ3TQXs8ep6ShpnakJgMnMQNl5y+cebVU8MUkTQIqxkEC33puK/afpZC3cqXe1In9
+ kW2HmR6sJcULZPKppQIJFsdVMP1BC5w58POYD1CGH/UOsKaa4hVBxml4UaTXyZLiNm4DSW
+ B9xY+OiFChBqevo24Db83CKBsQZ6ruA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-8_6YNN6bMLi36cBnFbIS4w-1; Fri, 06 Aug 2021 00:14:53 -0400
+X-MC-Unique: 8_6YNN6bMLi36cBnFbIS4w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f25-20020a1c6a190000b029024fa863f6b0so3472833wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:14:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=weAPN+ydW2028eD7P9mR7SZE9Wn5X1XG4WLPLPEGvPM=;
- b=tuklVxZ7nOVTmenhEqO3S9NhBygxJ+YsNnEYaK+7kYclBsbFdSZEW84GHWmr0dEFGK
- jWMGjeEkmilhcGyEtMQP1vb4gvre2PGK+I2DLiUw9qpIo6eXJRF7jP8/0RzMVMzQncK5
- uxnVhJ6TwVlY1EniM9m+w98gDFsz0eZMSjA3xbOdXQvAZ28gse7Khayw6cur4I+9HhPh
- rXpT94pYANYELaasWxZZeRciriT7nuB8bmPM7d/yzJnRmIeHNzC/nvC4m/iEj+0F+G/8
- sSPC29mZXAqc0YpJviKlo11QxcDSo9g5skghdcJ4ufYqt7z9iylKspZTJgsCo14b/uxa
- j7Ig==
-X-Gm-Message-State: AOAM533+FtE7NOlxCBqdJdT6RVrvkQilAscK2BCEJgUZCXZzCKHQGnIi
- NXI3Y8UXDO80XN37yKSN7fhfsnSOAA5ELuZddeo=
-X-Google-Smtp-Source: ABdhPJz4xy8f0WYoumC2JWIopzFXnWAavm8cRFrTyQXVspN3We0xzETo099SdyrlMnDE4/PyeUikDElAPY3VrI5K3FA=
-X-Received: by 2002:a25:be09:: with SMTP id h9mr10747260ybk.239.1628221229577; 
- Thu, 05 Aug 2021 20:40:29 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TsptsZIv8WVM+btR5gLxBqNmBuOZpH22zYrEm6c+WLg=;
+ b=Z98vB+wyyFjMMo+Iqz7TPEi6tRjzfz02KMU0YfN7epFFKQupS2KuZW2xOSzE1yfw05
+ B3u3D+24HbT9wQoZV27EF3dJaFY3U5SVN3CxV+lTcoD76CHlkO2BReguiEi1KlA8Kypu
+ IBzVWoyl4V1iCCWlmiqti8DdO/yTxV7WI/UaMXcihdYdzqpiCb0+nj7UILP3DVLABQam
+ BI5k0plimVStrKO11nh5Pg/41adZWA5dNmawav9fM41vcK6iLxvBwmA0Hy01zUqk8oxy
+ YHzC+yqvoeFu7wUnefgOJrgPHiKoPaNDxRQxjz/bpormXqdh54JcmJDKni+R6OBexwe0
+ //DA==
+X-Gm-Message-State: AOAM533mhQpP98vBX7NI3uMJpYEefsGyLNwmij1vlhe7T6MaiLWuzqyq
+ NTkhlLQKXJJ/5yDdfXlrmwRWBe6qajm0Fc1GIME44ldyD0iLlzCbvcbUWQj9C51Ni0WHWwI5c6W
+ pC/cRSUVnAGlSTK4=
+X-Received: by 2002:adf:fe89:: with SMTP id l9mr8742985wrr.396.1628223292598; 
+ Thu, 05 Aug 2021 21:14:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTEY6Zg8uGTDRYB8RJF9ISMBecFVYOLZiAGXr+mmvIB7iG9GVDI6DpYg5d+++19f1Qcfl1sw==
+X-Received: by 2002:adf:fe89:: with SMTP id l9mr8742969wrr.396.1628223292426; 
+ Thu, 05 Aug 2021 21:14:52 -0700 (PDT)
+Received: from thuth.remote.csb
+ (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
+ by smtp.gmail.com with ESMTPSA id m64sm8678704wmm.41.2021.08.05.21.14.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Aug 2021 21:14:51 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 v2] s390-sclp-events-bus: Use
+ OBJECT_DECLARE_SIMPLE_TYPE
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20210805193431.307761-5-ehabkost@redhat.com>
+ <20210806024636.446074-1-ehabkost@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e0a067ef-18db-f0fd-bba8-9cd7f19c4aee@redhat.com>
+Date: Fri, 6 Aug 2021 06:14:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210805175626.11573-1-ruinland@andestech.com>
- <20210805175626.11573-4-ruinland@andestech.com>
-In-Reply-To: <20210805175626.11573-4-ruinland@andestech.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 6 Aug 2021 11:40:18 +0800
-Message-ID: <CAEUhbmU=PN0K+jQzYsbw+0WK6C6w85t2tNGhW0uHJMgfeKvCfw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 3/4] Adding Andes AX25 and A25 CPU model
-To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210806024636.446074-1-ehabkost@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,94 +99,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Dylan Jhong <dylan@andestech.com>
+Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 6, 2021 at 2:00 AM Ruinland Chuan-Tzu Tsai
-<ruinland@andestech.com> wrote:
->
-> From: Ruinalnd ChuanTzu Tsai <ruinland@andestech.com>
->
-> Adding Andes AX25 and A25 CPU model into cpu.h and cpu.c without
-
-The latest RISC-V core from Andes is AX45 and A45. Should we just
-support the latest one?
-
-> enhanced features (yet).
->
-> Signed-off-by: Dylan Jhong <dylan@andestech.com>
+On 06/08/2021 04.46, Eduardo Habkost wrote:
+> We have a SCLPEventsBus struct type defined, but no QOM type
+> checkers are declared for the type.
+> 
+> Use OBJECT_DECLARE_SIMPLE_TYPE to declare the struct type and
+> have a SCLP_EVENT_BUS typecast wrapper defined.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  target/riscv/cpu.c | 16 ++++++++++++++++
->  target/riscv/cpu.h |  2 ++
->  2 files changed, 18 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 3a638b5..9eb1e3a 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -182,6 +182,13 @@ static void rv64_base_cpu_init(Object *obj)
->      set_misa(env, RV64);
->  }
->
-> +static void ax25_cpu_init(Object *obj)
+> Changes v1 -> v2:
+> * v1 was previously submitted as part of series:
+>    [PATCH for-6.2 0/6] qom: Fix broken OBJECT_CHECK usage
+>    at https://lore.kernel.org/qemu-devel/20210805193431.307761-5-ehabkost@redhat.com
+> * Fix typo (s/SCLP_EVENT_BUS/SCLP_EVENTS_BUS/)
+> 
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: qemu-s390x@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>   hw/s390x/event-facility.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index ed92ce510d9..4bfd0b194b4 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -328,6 +328,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+>   /* qemu object creation and initialization functions */
+>   
+>   #define TYPE_SCLP_EVENTS_BUS "s390-sclp-events-bus"
+> +OBJECT_DECLARE_SIMPLE_TYPE(SCLPEventsBus, SCLP_EVENTS_BUS)
+>   
+>   static const TypeInfo sclp_events_bus_info = {
+>       .name = TYPE_SCLP_EVENTS_BUS,
+> 
 
-nits: for name consistency, should be rv64_andes_ax25_cpu_init()
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> +{
-> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> +    set_priv_version(env, PRIV_VERSION_1_10_0);
-> +}
-> +
->  static void rv64_sifive_u_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -235,6 +242,13 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->      set_resetvec(env, DEFAULT_RSTVEC);
->      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
->  }
-> +
-> +static void a25_cpu_init(Object *obj)
-
-nits: rv32_andes_a25_cpu_init()
-
-> +{
-> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> +    set_priv_version(env, PRIV_VERSION_1_10_0);
-> +}
->  #endif
->
->  static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
-> @@ -726,8 +740,10 @@ static const TypeInfo riscv_cpu_type_infos[] = {
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_A25,              a25_cpu_init),
->  #elif defined(TARGET_RISCV64)
->      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_AX25,             ax25_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
->  #endif
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 52df9bb..bd79d63 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -37,6 +37,8 @@
->  #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
->  #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
->  #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-> +#define TYPE_RISCV_CPU_A25              RISCV_CPU_TYPE_NAME("andes-a25")
-> +#define TYPE_RISCV_CPU_AX25             RISCV_CPU_TYPE_NAME("andes-ax25")
->  #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
->  #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
->  #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
-
-Regards,
-Bin
 
