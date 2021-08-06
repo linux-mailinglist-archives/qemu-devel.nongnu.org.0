@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00CF3E30D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 23:16:32 +0200 (CEST)
-Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A893E30E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 23:20:23 +0200 (CEST)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC7Ch-0007zy-Uz
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 17:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
+	id 1mC7GQ-0002IQ-TY
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 17:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mC79M-0002Sy-Qs
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:13:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50907)
+ id 1mC79S-0002gG-7X
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:13:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mC79L-0004lW-5E
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:13:04 -0400
+ id 1mC79P-0004ss-MT
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 17:13:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628284382;
+ s=mimecast20190719; t=1628284387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g4IVbQRin8nlExux9nzLQXs10lZD8Z6nZvHg0J/1trY=;
- b=HXiXD7JIcm4/FTXXXQg7SEh106+3bhWkGQNOw9/Lnu2RP3WlSYMmwqpAmsq7P3KaG7AHcF
- dKn5bt33aydpKjNBWIpeR0OiFB4REo3lfRQZ0AVQfW8UIqjEguyd+O384A+/MHuuLzdT5i
- pKQPrFhDqfO0TiXiui3OhgsJ8ze8Bz4=
+ bh=CeG8k63FenJdr7zgWUqqU98P2FwL+xytPYUF0ImaGIc=;
+ b=YNVQMkoSEFKkCNKfkmZJloCDmGqsofJ6qglks4jasNyf0YXbhJd3gbqdbtfDI6bWjjmiXI
+ 0XpLkX4+Oz7sKnK/av5rbxJvNN+l7pB8OFuKjUB17L3e1Ha3oMbZeMrfDwOe/oThWW5M0W
+ LBYrY2WEHK7jKWQtsFYwdXE/ugs1n+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-MTjtXVsxPWmHEHLr0BBBQA-1; Fri, 06 Aug 2021 17:13:01 -0400
-X-MC-Unique: MTjtXVsxPWmHEHLr0BBBQA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-307-6cXLgDWZMoeHPwV6c6AYGQ-1; Fri, 06 Aug 2021 17:13:02 -0400
+X-MC-Unique: 6cXLgDWZMoeHPwV6c6AYGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 804521008061;
- Fri,  6 Aug 2021 21:13:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F8561800D41;
+ Fri,  6 Aug 2021 21:13:01 +0000 (UTC)
 Received: from localhost (unknown [10.22.11.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 492DD100164C;
- Fri,  6 Aug 2021 21:13:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 29EC95D6AD;
+ Fri,  6 Aug 2021 21:13:01 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 08/12] npcm7xx_clk: Use DECLARE_INSTANCE_CHECKER
-Date: Fri,  6 Aug 2021 17:11:23 -0400
-Message-Id: <20210806211127.646908-9-ehabkost@redhat.com>
+Subject: [PATCH for-6.2 09/12] npcm7xx_otp: Use DECLARE_CLASS_CHECKERS
+Date: Fri,  6 Aug 2021 17:11:24 -0400
+Message-Id: <20210806211127.646908-10-ehabkost@redhat.com>
 In-Reply-To: <20210806211127.646908-1-ehabkost@redhat.com>
 References: <20210806211127.646908-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,13 +84,11 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use DECLARE_INSTANCE_CHECKER instead of defining the
-NPCM7XX_CLOCK_PLL, NPCM7XX_CLOCK_SEL, and NPCM7XX_CLOCK_DIVIDER
-macros manually.
+Use DECLARE_CLASS_CHECKERS instead of defining the
+NPCM7XX_OTP_CLASS and NPCM7XX_OTP_GET_CLASS macros manually.
 
-These changes had to be done manually because the codeconverter
-script isn't smart enough to figure out that the typedefs exist
-in a separate header.
+These changes had to be done manually because the typedef and the
+existing macro definitions were in different files.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -99,34 +97,46 @@ Cc: Tyrone Ting <kfting@nuvoton.com>
 Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/misc/npcm7xx_clk.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/hw/nvram/npcm7xx_otp.h | 5 +++--
+ hw/nvram/npcm7xx_otp.c         | 5 -----
+ 2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
-index da6b14c545d..5247acfeb5a 100644
---- a/hw/misc/npcm7xx_clk.c
-+++ b/hw/misc/npcm7xx_clk.c
-@@ -110,14 +110,14 @@ static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
- /* Clock converter functions */
+diff --git a/include/hw/nvram/npcm7xx_otp.h b/include/hw/nvram/npcm7xx_otp.h
+index 4cfc6577e87..0a3ebb091d5 100644
+--- a/include/hw/nvram/npcm7xx_otp.h
++++ b/include/hw/nvram/npcm7xx_otp.h
+@@ -60,12 +60,13 @@ typedef struct NPCM7xxOTPState NPCM7xxOTPState;
+ #define TYPE_NPCM7XX_OTP "npcm7xx-otp"
+ DECLARE_INSTANCE_CHECKER(NPCM7xxOTPState, NPCM7XX_OTP,
+                          TYPE_NPCM7XX_OTP)
++typedef struct NPCM7xxOTPClass NPCM7xxOTPClass;
++DECLARE_CLASS_CHECKERS(NPCM7xxOTPClass, NPCM7XX_OTP,
++                       TYPE_NPCM7XX_OTP)
  
- #define TYPE_NPCM7XX_CLOCK_PLL "npcm7xx-clock-pll"
--#define NPCM7XX_CLOCK_PLL(obj) OBJECT_CHECK(NPCM7xxClockPLLState, \
--        (obj), TYPE_NPCM7XX_CLOCK_PLL)
-+DECLARE_INSTANCE_CHECKER(NPCM7xxClockPLLState, NPCM7XX_CLOCK_PLL,
-+                         TYPE_NPCM7XX_CLOCK_PLL)
- #define TYPE_NPCM7XX_CLOCK_SEL "npcm7xx-clock-sel"
--#define NPCM7XX_CLOCK_SEL(obj) OBJECT_CHECK(NPCM7xxClockSELState, \
--        (obj), TYPE_NPCM7XX_CLOCK_SEL)
-+DECLARE_INSTANCE_CHECKER(NPCM7xxClockSELState, NPCM7XX_CLOCK_SEL,
-+                         TYPE_NPCM7XX_CLOCK_SEL)
- #define TYPE_NPCM7XX_CLOCK_DIVIDER "npcm7xx-clock-divider"
--#define NPCM7XX_CLOCK_DIVIDER(obj) OBJECT_CHECK(NPCM7xxClockDividerState, \
--        (obj), TYPE_NPCM7XX_CLOCK_DIVIDER)
-+DECLARE_INSTANCE_CHECKER(NPCM7xxClockDividerState, NPCM7XX_CLOCK_DIVIDER,
-+                         TYPE_NPCM7XX_CLOCK_DIVIDER)
+ #define TYPE_NPCM7XX_KEY_STORAGE "npcm7xx-key-storage"
+ #define TYPE_NPCM7XX_FUSE_ARRAY "npcm7xx-fuse-array"
  
- static void npcm7xx_clk_update_pll(void *opaque)
+-typedef struct NPCM7xxOTPClass NPCM7xxOTPClass;
+-
+ /**
+  * npcm7xx_otp_array_write - ECC encode and write data to OTP array.
+  * @s: OTP module.
+diff --git a/hw/nvram/npcm7xx_otp.c b/hw/nvram/npcm7xx_otp.c
+index 52b9482419e..61085c5228b 100644
+--- a/hw/nvram/npcm7xx_otp.c
++++ b/hw/nvram/npcm7xx_otp.c
+@@ -73,11 +73,6 @@ struct NPCM7xxOTPClass {
+     const MemoryRegionOps *mmio_ops;
+ };
+ 
+-#define NPCM7XX_OTP_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(NPCM7xxOTPClass, (klass), TYPE_NPCM7XX_OTP)
+-#define NPCM7XX_OTP_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(NPCM7xxOTPClass, (obj), TYPE_NPCM7XX_OTP)
+-
+ static uint8_t ecc_encode_nibble(uint8_t n)
  {
+     uint8_t result = n;
 -- 
 2.31.1
 
