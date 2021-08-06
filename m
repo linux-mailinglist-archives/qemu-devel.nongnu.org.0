@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93B43E23F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:28:19 +0200 (CEST)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C06F3E242A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:32:46 +0200 (CEST)
+Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBuHC-0003qc-UR
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47522)
+	id 1mBuLV-0006OE-8t
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mBuGR-00038Y-L9
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57140)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuK9-0005a1-UP
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:31:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mBuGP-0003Xm-QF
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:27:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBuK8-0007DQ-8C
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:31:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628234848;
+ s=mimecast20190719; t=1628235079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bkL5tj6a3yK14mS+1LG9k62Ohm9j4rDe43ai/gDIn48=;
- b=TKK5MacrrkUSmuYhjq4kWE/G+NF6+0ZxcP99ei3mAMHHeKAGZM1Mfnf0rhlD5CzYBtmjAC
- 6ex8yIaW0g8/yksH7YoLopgaytKNsqv0/nCn5nT4XOEkCzUwEidJ5nYPrcGrP4qGghwBDw
- WjLGVw2WKIe5j13+cr4UWI3nLsV87tg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-8DLOJPKYPZSXZCytLSqe6A-1; Fri, 06 Aug 2021 03:27:25 -0400
-X-MC-Unique: 8DLOJPKYPZSXZCytLSqe6A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- w1-20020adf8bc10000b0290154bed98988so1551042wra.1
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:27:25 -0700 (PDT)
+ bh=bmUe1bWoUYTUc2r5WjyOeCHMYrsSgYKSczF3CstR6aE=;
+ b=FLcpojxH31sSsbygcUDdXMwSP69WeSuJyQMW9UjBabXxplME47xYR24HkbXZg7T2ATgJto
+ 72/m3y37+Kj/dCXwUKXMjTBKkMKVQ3n4pO4kgsrMEO4qB0EtpYvdLOjPKJFn6PDIDz44UI
+ SoV5h/MgdEOCvI4UZRY+dDvBQ6NffZc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-rG1tcKYZNQ-kFbZaotj3cA-1; Fri, 06 Aug 2021 03:30:38 -0400
+X-MC-Unique: rG1tcKYZNQ-kFbZaotj3cA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ w1-20020adf8bc10000b0290154bed98988so1554188wra.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:30:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bkL5tj6a3yK14mS+1LG9k62Ohm9j4rDe43ai/gDIn48=;
- b=dRdTe0CQ2B9NgstqboOLzSMBL8iBpF29JC/Fx8r5BmtApJtvBkvkuIz0MkONKbxM9x
- pVw0sbzdrY/F7fFb/60abwwU5Tfjpf7qxfN8S3qYiI7sXQwdl02oPZrVcNLeEwYS2Kkz
- vsYr2hVcPn9MhK6SHJszslPc7x11QjArWVzNiQ4efrEJTlGxnv2zqt1vmWfCPWbV29FF
- Ik6YeA+KytCpm7Y9bLFxxWwNpnZjf9bCJuul1Sv4guxVjVXaMVf+jO7xZo5QsBuKQYAw
- mKIjLyDNYLJ2D5XRWAC8pLbQpHnVY5xNLW1alL18r782OnLAwd4bPWtLy+j4LPShAFAA
- 7aOQ==
-X-Gm-Message-State: AOAM530CbcYmtsS+sLt6bLKudjZZ/SeIs/+awcwN8SVCWEnqmuXXCvwD
- Xjy/Y2z5y7+GXeEazaxC6+1XSqXvhR1KTfFGOjfDaE74mmLht51jnTetNB1o44e/VuI1PMlEemZ
- ZJehs48DXLj1aeBM=
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr9082206wrt.107.1628234844230; 
- Fri, 06 Aug 2021 00:27:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4x8Z9zxETBBGO3vJRG/1CbbAzaeLLb3Wm/CcwWztBnoalikhtSyt9hw7ZuPvSvsu3rNt8DA==
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr9082189wrt.107.1628234843997; 
- Fri, 06 Aug 2021 00:27:23 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.6.46])
- by smtp.gmail.com with ESMTPSA id m9sm8389929wrz.75.2021.08.06.00.27.22
+ bh=bmUe1bWoUYTUc2r5WjyOeCHMYrsSgYKSczF3CstR6aE=;
+ b=VKVtCWa2wNn8g8uY01PhnPjF/eZOduFCJfWQ3U1q+Wqw44KXpYNGjhJqKq9N735zgf
+ SsHeE6x6uE9AvqYpG5p611xwl6FXe6nux/guXMdKAHKT+L6yZ/uiwrxPhS38j2ePIHtD
+ eESGM3P/DoOOj64Q/V6ioDJBbWBKJSbya1hZ88oSJFLO4DPkK97R0JBGzY1AEGe/6Kdf
+ xRdWmkT9dIYTu3/lRQXuaDHCElA3U0xvSm6qmuPR7C0+DJ0LLh3w+zulx/rAu3STe9Xg
+ SgRV7GdA8e4rJqGWW+QaCBkBaBsBEq4WauiWmThM2m6OM0bRuBy9GATrqc3l9HSavDV7
+ Z4ow==
+X-Gm-Message-State: AOAM533TRCGF1CW5RG8aWaeii+hHQk/iVJVFtKuIwV71GBcWKeKXx87Z
+ miNHQmfVLsfua1s1WUtrkgsR7niC2FzjpmPvRec/HvPhWNGFrvgocVI42GhaVN9lurN8U9CQoy5
+ T0wsM+0n7sEiKRZA=
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr9367805wru.254.1628235037200; 
+ Fri, 06 Aug 2021 00:30:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCYyCx5JiY9V+hxY31OST+31menNCgRpmeca5JIltPEB0Zw3W7/hLhaQiKEWlBaUNDVS48ag==
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr9367778wru.254.1628235036943; 
+ Fri, 06 Aug 2021 00:30:36 -0700 (PDT)
+Received: from thuth.remote.csb
+ (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
+ by smtp.gmail.com with ESMTPSA id b13sm8396150wrf.86.2021.08.06.00.30.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 00:27:23 -0700 (PDT)
-Subject: Re: [PATCH 1/2] virtio: add a way to disable a queue
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20210729191910.317114-1-lvivier@redhat.com>
- <20210729191910.317114-2-lvivier@redhat.com>
- <c9b273fb-797b-4810-bb4c-d99d5173fe6c@redhat.com>
- <c26fddb3-8954-2c74-c238-1052356a8f00@redhat.com>
- <c31d2975-7d90-84f9-74ea-838de69e78f5@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <364daf53-31e4-e7eb-29e3-fd0e3f64e18f@redhat.com>
-Date: Fri, 6 Aug 2021 09:27:21 +0200
+ Fri, 06 Aug 2021 00:30:36 -0700 (PDT)
+Subject: Re: [PATCH v1 05/12] s390x/mmu_helper: no need to pass access type to
+ mmu_translate_asce()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210805152804.100333-1-david@redhat.com>
+ <20210805152804.100333-6-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3a4db6af-3f9a-634a-6ff3-2e6cc875b886@redhat.com>
+Date: Fri, 6 Aug 2021 09:30:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <c31d2975-7d90-84f9-74ea-838de69e78f5@redhat.com>
+In-Reply-To: <20210805152804.100333-6-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -102,64 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2021 08:25, Jason Wang wrote:
+On 05/08/2021 17.27, David Hildenbrand wrote:
+> The access type is unused.
 > 
-> 在 2021/8/2 下午4:42, Laurent Vivier 写道:
->> On 02/08/2021 06:50, Jason Wang wrote:
->>> 在 2021/7/30 上午3:19, Laurent Vivier 写道:
->>>> Add virtio_queue_disable()/virtio_queue_enable() to disable/enable a queue
->>>> by setting vring.num to 0 (or num_default).
->>>> This is needed to be able to disable a guest driver from the host side
->>>
->>> I suspect this won't work correclty for vhost.
->> With my test it seems to work with vhost too.
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   target/s390x/mmu_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> 
-> So setting 0 will lead -EINVAL to be returned during VHOST_SET_VRING_NUM. I think qemu
-> will warn the failure in this case.
-
-I didn't see any error when I tried. I will check the code.
-
-> What's more important, it's not guaranteed to work for the case of vhost-user or vhost-vDPA.
-
-Perhaps we can target only the vhost host case, as this is used for failover and usually
-the virtio-net device is backed by a bridge on same network as the VFIO device?
-
-> 
-> 
->>
->>> And I believe we should only do this after the per queue enabling/disabling is supported
->>> by the spec.
->>>
->>> (only MMIO support that AFAIK)
->> I don't want to modify the spec.
->>
->> I need something that works without modifying existing (old) drivers.
->>
->> The idea is to be able to disable the virtio-net kernel driver from QEMU if the driver is
->> too old (i.e. it doesn't support STANDBY feature).
->>
->> Setting vring.num to 0 forces the kernel driver to exit on error in the probe function.
->> It's what I want: the device is present but disabled (the driver is not loaded).
->>
->> Any other suggestion?
-> 
-> 
-> I think we should probably disable the device instead of doing it per virtqueue.
+> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+> index 0620b1803e..167f1b1455 100644
+> --- a/target/s390x/mmu_helper.c
+> +++ b/target/s390x/mmu_helper.c
+> @@ -125,7 +125,7 @@ static inline bool read_table_entry(CPUS390XState *env, hwaddr gaddr,
+>   
+>   static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
+>                                 uint64_t asc, uint64_t asce, target_ulong *raddr,
+> -                              int *flags, int rw)
+> +                              int *flags)
+>   {
+>       const bool edat1 = (env->cregs[0] & CR0_EDAT) &&
+>                          s390_has_feat(S390_FEAT_EDAT);
+> @@ -428,7 +428,7 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>       }
+>   
+>       /* perform the DAT translation */
+> -    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
+> +    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags);
+>       if (unlikely(r)) {
+>           return r;
+>       }
 > 
 
-I tried to use virtio_set_disabled() but it doesn't work.
-Perhaps it's too late when I call the function (I need to do that in
-virtio_net_set_features()). What I want is to prevent the load of the driver in the guest
-kernel to hide the virtio-net device. Setting vring.num to 0 triggers an error in the
-driver probe function and prevents the load of the driver.
+Fixes: 81d7e3bc45 ("s390x/mmu: Inject DAT exceptions from a single place")
 
-Thanks,
-Laurent
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
