@@ -2,62 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFB83E2498
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:55:45 +0200 (CEST)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4611E3E253B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 10:19:22 +0200 (CEST)
+Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBuhj-0001zx-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
+	id 1mBv4a-0005lN-TY
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 04:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mBugh-0001Jc-CW
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:54:39 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2462)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBv3h-00052L-QS
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:18:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mBugd-0001eO-Vm
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:54:38 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GgyMd3RM0zZy5l;
- Fri,  6 Aug 2021 15:50:53 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 6 Aug 2021 15:54:25 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 6 Aug 2021 15:54:24 +0800
-Subject: Re: [PATCH for-6.2 v4 06/14] machine: Prefer cores over sockets in
- smp parsing since 6.2
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-References: <20210803080527.156556-1-wangyanan55@huawei.com>
- <20210803080527.156556-7-wangyanan55@huawei.com>
- <CAM9Jb+jwNAJWtjA1c3CQ=a4t--03_0kY9ZuMB+0LXfTWbOSVcA@mail.gmail.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <5252d579-5a5a-a62a-69f6-17ab109c8f92@huawei.com>
-Date: Fri, 6 Aug 2021 15:54:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBv3g-0005R1-1c
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 04:18:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628237903;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WneMRu/c5McKUyNOkGVfdW1UlsWa7F0T2UF0of1MX1c=;
+ b=jMbhtwJlMoHoKIgF18qxCYy5f5ppO74K9eFy8tlCo6qikYiGeDP2BjJyl0UWuXgQSPs5MY
+ XhbNjzdcKly/VdicsP4BRp6T652ShomQhlHWpp/o7wxLAP8mqtuiN0T7qoPdhar6qNcw4E
+ Dx+BWKOkH2Ml4UfxkINum29DZfz62iU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-M1aDViJLONiR2GRtLzn3Jg-1; Fri, 06 Aug 2021 04:18:20 -0400
+X-MC-Unique: M1aDViJLONiR2GRtLzn3Jg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l12-20020a5d6d8c0000b029015488313d96so2896738wrs.15
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 01:18:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WneMRu/c5McKUyNOkGVfdW1UlsWa7F0T2UF0of1MX1c=;
+ b=Szoz5VPplT9KERa8DKgYIfp7BYU3LZiaB/1NWFflGX+xR5qrZWWARE2iZQzbMtDMnm
+ ikbT0oiAUH80fFtEJZCagK9X0yY2lYQGnd7yF4HZ74Tcnw1PiphZXKWJeuw0APBDBDSr
+ GZ4slcr7s7HkxfMj7HUvCLzusMYgLwe3BidnsxhYzDvOPXNdZwmu7uhc8zDU8KFjcySa
+ Gx8DtVB3LMTePqTcGzcSBhYViUmo+L/T3knWtVI0aZbPBHIVeRRXUxcPBdwEy5D1I4bl
+ fLsPsUGD5uR2lpAISIC5O/JrA7cUjPiADsKReIRbbcC1hjAwyFPMvSTk/NReFj9pJ+A/
+ yVKg==
+X-Gm-Message-State: AOAM5305qDEotTyVUhpC+PM8LidQ1fUBuBGuLse49zPup/EYVW6NvrC7
+ vGlAVamnwKnenm/xiOG584aGl1+NbHeTk+mxLYu3zn9YZ/m3puSl4ON+wHSeVdorSbPNrJt+Xmm
+ 14GbRmrNg+I0djn4=
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr18824511wmc.15.1628237898822; 
+ Fri, 06 Aug 2021 01:18:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUOclGgi3qeKnT8gyrJbTFzi6v5KPD9ttsMODd+n8jn2zbaz5ovS9vcULFHZo4CfJsdWVpeg==
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr18824475wmc.15.1628237898505; 
+ Fri, 06 Aug 2021 01:18:18 -0700 (PDT)
+Received: from thuth.remote.csb
+ (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
+ by smtp.gmail.com with ESMTPSA id f2sm8622318wrq.69.2021.08.06.01.18.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Aug 2021 01:18:17 -0700 (PDT)
+Subject: Re: [PATCH v1 07/12] s390x/mmu_helper: move address validation into
+ mmu_translate*()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210805152804.100333-1-david@redhat.com>
+ <20210805152804.100333-8-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6616c45b-7d5a-3a8f-20fb-0c17113e49b1@redhat.com>
+Date: Fri, 6 Aug 2021 10:18:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAM9Jb+jwNAJWtjA1c3CQ=a4t--03_0kY9ZuMB+0LXfTWbOSVcA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210805152804.100333-8-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.132,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,278 +99,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew
- Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S .
- Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/8/6 12:41, Pankaj Gupta wrote:
->> In the real SMP hardware topology world, it's much more likely that
->> we have high cores-per-socket counts and few sockets totally. While
->> the current preference of sockets over cores in smp parsing results
->> in a virtual cpu topology with low cores-per-sockets counts and a
->> large number of sockets, which is just contrary to the real world.
->>
->> Given that it is better to make the virtual cpu topology be more
->> reflective of the real world and also for the sake of compatibility,
->> we start to prefer cores over sockets over threads in smp parsing
->> since machine type 6.2 for different arches.
->>
->> In this patch, a boolean "smp_prefer_sockets" is added, and we only
->> enable the old preference on older machines and enable the new one
->> since type 6.2 for all arches by using the machine compat mechanism.
->>
->> Reviewed-by: Andrew Jones <drjones@redhat.com>
->> Acked-by: Cornelia Huck <cohuck@redhat.com>
->> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/arm/virt.c              |  1 +
->>   hw/core/machine.c          | 36 ++++++++++++++++++++++++++----------
->>   hw/i386/pc.c               | 36 ++++++++++++++++++++++++++----------
->>   hw/i386/pc_piix.c          |  1 +
->>   hw/i386/pc_q35.c           |  1 +
->>   hw/ppc/spapr.c             |  1 +
->>   hw/s390x/s390-virtio-ccw.c |  1 +
->>   include/hw/boards.h        |  1 +
->>   qemu-options.hx            |  3 ++-
->>   9 files changed, 60 insertions(+), 21 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 01165f7f53..7babea40dc 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2797,6 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
->>   {
->>       virt_machine_6_2_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   DEFINE_VIRT_MACHINE(6, 1)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 458d9736e3..a8173a0f45 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -746,6 +746,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>
->>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   {
->> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>       unsigned cores   = config->has_cores ? config->cores : 0;
->> @@ -757,7 +758,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>           return;
->>       }
->>
->> -    /* compute missing values, prefer sockets over cores over threads */
->> +    /* compute missing values based on the provided ones */
->>       if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->> @@ -765,15 +766,30 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>
->> -        if (sockets == 0) {
->> -            cores = cores > 0 ? cores : 1;
->> -            threads = threads > 0 ? threads : 1;
->> -            sockets = maxcpus / (cores * threads);
->> -        } else if (cores == 0) {
->> -            threads = threads > 0 ? threads : 1;
->> -            cores = maxcpus / (sockets * threads);
->> -        } else if (threads == 0) {
->> -            threads = maxcpus / (sockets * cores);
->> +        if (mc->smp_prefer_sockets) {
->> +            /* prefer sockets over cores over threads before 6.2 */
->> +            if (sockets == 0) {
->> +                cores = cores > 0 ? cores : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (cores * threads);
->> +            } else if (cores == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * threads);
->> +            } else if (threads == 0) {
->> +                threads = maxcpus / (sockets * cores);
->> +            }
->> +        } else {
->> +            /* prefer cores over sockets over threads since 6.2 */
->> +            if (cores == 0) {
->> +                sockets = sockets > 0 ? sockets : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * threads);
->> +            } else if (sockets == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (cores * threads);
->> +            } else if (threads == 0) {
->> +                threads = maxcpus / (sockets * cores);
->> +            }
-> I feel this code is repeated at multiple places. Also, (threads == 0) case
-> at the end is common for all the cases, we can move it out of if-else?
-Hi Pankaj,
+On 05/08/2021 17.27, David Hildenbrand wrote:
+> Let's move address validation into mmu_translate() and
+> mmu_translate_real(). This allows for checking whether an absolute
+> address is valid before looking up the storage key. We can now get rid of
+> the ram_size check.
+> 
+> Interestingly, we're already handling LOAD REAL ADDRESS wrong, because
+> a) We're not supposed to touch storage keys
+> b) We're not supposed to convert to an absolute address
+> 
+> Let's use a fake, negative MMUAccessType to teach mmu_translate() to
+> fix that handling and to not perform address validation.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   target/s390x/mmu_helper.c      | 36 ++++++++++++++++++++--------------
+>   target/s390x/tcg/excp_helper.c | 13 ------------
+>   target/s390x/tcg/mem_helper.c  |  2 +-
+>   3 files changed, 22 insertions(+), 29 deletions(-)
+> 
+> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+> index ca25dadb5b..36ab4e9c81 100644
+> --- a/target/s390x/mmu_helper.c
+> +++ b/target/s390x/mmu_helper.c
+> @@ -301,14 +301,13 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+>   {
+>       static S390SKeysClass *skeyclass;
+>       static S390SKeysState *ss;
+> -    MachineState *ms = MACHINE(qdev_get_machine());
+>       uint8_t key;
+>       int rc;
+>   
+> -    if (unlikely(addr >= ms->ram_size)) {
+> -        return;
+> -    }
+> -
+> +    /*
+> +     * We excpect to be called with an absolute address that has already been
+> +     * validated, such that we can reliably use it to lookup the storage key.
+> +     */
+>       if (unlikely(!ss)) {
+>           ss = s390_get_skeys_device();
+>           skeyclass = S390_SKEYS_GET_CLASS(ss);
+> @@ -370,7 +369,7 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+>   /**
+>    * Translate a virtual (logical) address into a physical (absolute) address.
+>    * @param vaddr  the virtual address
+> - * @param rw     0 = read, 1 = write, 2 = code fetch
+> + * @param rw     0 = read, 1 = write, 2 = code fetch, < 0 = load real address
+>    * @param asc    address space control (one of the PSW_ASC_* modes)
+>    * @param raddr  the translated address is stored to this pointer
+>    * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+> @@ -449,10 +448,17 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>       }
+>   
+>   nodat:
+> -    /* Convert real address -> absolute address */
+> -    *raddr = mmu_real2abs(env, *raddr);
+> +    if (rw >= 0) {
+> +        /* Convert real address -> absolute address */
+> +        *raddr = mmu_real2abs(env, *raddr);
+>   
+> -    mmu_handle_skey(*raddr, rw, flags);
+> +        if (!mmu_absolute_addr_valid(*raddr, rw == MMU_DATA_STORE)) {
+> +            *tec = 0; /* unused */
+> +            return PGM_ADDRESSING;
+> +        }
+> +
+> +        mmu_handle_skey(*raddr, rw, flags);
+> +    }
+>       return 0;
+>   }
+>   
+> @@ -473,12 +479,6 @@ static int translate_pages(S390CPU *cpu, vaddr addr, int nr_pages,
+>           if (ret) {
+>               return ret;
+>           }
+> -        if (!address_space_access_valid(&address_space_memory, pages[i],
+> -                                        TARGET_PAGE_SIZE, is_write,
+> -                                        MEMTXATTRS_UNSPECIFIED)) {
+> -            *tec = 0; /* unused */
+> -            return PGM_ADDRESSING;
+> -        }
+>           addr += TARGET_PAGE_SIZE;
+>       }
+>   
+> @@ -588,6 +588,12 @@ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+>   
+>       *addr = mmu_real2abs(env, raddr & TARGET_PAGE_MASK);
+>   
+> +    if (!mmu_absolute_addr_valid(*addr, rw == MMU_DATA_STORE)) {
+> +        /* unused */
+> +        *tec = 0;
+> +        return PGM_ADDRESSING;
+> +    }
+> +
+>       mmu_handle_skey(*addr, rw, flags);
+>       return 0;
+>   }
+> diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+> index a61917d04f..3d6662a53c 100644
+> --- a/target/s390x/tcg/excp_helper.c
+> +++ b/target/s390x/tcg/excp_helper.c
+> @@ -150,19 +150,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>           g_assert_not_reached();
+>       }
+>   
+> -    /* check out of RAM access */
+> -    if (!excp &&
+> -        !address_space_access_valid(&address_space_memory, raddr,
+> -                                    TARGET_PAGE_SIZE, access_type,
+> -                                    MEMTXATTRS_UNSPECIFIED)) {
+> -        MachineState *ms = MACHINE(qdev_get_machine());
+> -        qemu_log_mask(CPU_LOG_MMU,
+> -                      "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
+> -                      __func__, (uint64_t)raddr, (uint64_t)ms->ram_size);
+> -        excp = PGM_ADDRESSING;
+> -        tec = 0; /* unused */
+> -    }
+> -
+>       env->tlb_fill_exc = excp;
+>       env->tlb_fill_tec = tec;
+>   
+> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+> index a84795cfa3..9c1b9c7d06 100644
+> --- a/target/s390x/tcg/mem_helper.c
+> +++ b/target/s390x/tcg/mem_helper.c
+> @@ -2456,7 +2456,7 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
+>           tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
+>       }
+>   
+> -    exc = mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
+> +    exc = mmu_translate(env, addr, -1, asc, &ret, &flags, &tec);
 
-Do you mean the code is repeated in the "if (mc->smp_prefer_sockets)"
-branch and "else" branch? The calculations of sockets and cores are
-different in the two branches, I think we have to keep them separately.
+Do we maybe want a #define for this -1 instead? OTOH, you've added a proper 
+comment to the function description, so that should be ok, too.
 
-I agree that (threads=0) case is common and we can try to move it out
-to a common place, I will refine this in next version.
-
-Thanks,
-Yanan
->>           }
->>       }
->>
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index afd8b9c283..5d7c3efc43 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -717,6 +717,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
->>    */
->>   static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   {
->> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>       unsigned dies    = config->has_dies ? config->dies : 0;
->> @@ -727,7 +728,7 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       /* directly default dies to 1 if it's omitted */
->>       dies = dies > 0 ? dies : 1;
->>
->> -    /* compute missing values, prefer sockets over cores over threads */
->> +    /* compute missing values based on the provided ones */
->>       if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->> @@ -735,15 +736,30 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>
->> -        if (sockets == 0) {
->> -            cores = cores > 0 ? cores : 1;
->> -            threads = threads > 0 ? threads : 1;
->> -            sockets = maxcpus / (dies * cores * threads);
->> -        } else if (cores == 0) {
->> -            threads = threads > 0 ? threads : 1;
->> -            cores = maxcpus / (sockets * dies * threads);
->> -        } else if (threads == 0) {
->> -            threads = maxcpus / (sockets * dies * cores);
->> +        if (mc->smp_prefer_sockets) {
->> +            /* prefer sockets over cores over threads before 6.2 */
->> +            if (sockets == 0) {
->> +                cores = cores > 0 ? cores : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (dies * cores * threads);
->> +            } else if (cores == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * dies * threads);
->> +            } else if (threads == 0) {
->> +                threads = maxcpus / (sockets * dies * cores);
->> +            }
->> +        } else {
->> +            /* prefer cores over sockets over threads since 6.2 */
->> +            if (cores == 0) {
->> +                sockets = sockets > 0 ? sockets : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * dies * threads);
->> +            } else if (sockets == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (dies * cores * threads);
->> +            } else if (threads == 0) {
->> +                threads = maxcpus / (sockets * dies * cores);
->> +            }
->>           }
->>       }
->>
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index fd5c2277f2..9b811fc6ca 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -432,6 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
->>       m->is_default = false;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index b45903b15e..88efb7fde4 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -372,6 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
->>       m->alias = NULL;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index d39fd4e644..a481fade51 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4702,6 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       spapr_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 4d25278cf2..b40e647883 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -809,6 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       ccw_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   DEFINE_CCW_MACHINE(6_1, "6.1", false);
->>
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 463a5514f9..2ae039b74f 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -247,6 +247,7 @@ struct MachineClass {
->>       bool nvdimm_supported;
->>       bool numa_mem_supported;
->>       bool auto_enable_numa;
->> +    bool smp_prefer_sockets;
->>       const char *default_ram_id;
->>
->>       HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 06f819177e..451d2cd817 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -238,7 +238,8 @@ SRST
->>       Historically preference was given to the coarsest topology parameters
->>       when computing missing values (ie sockets preferred over cores, which
->>       were preferred over threads), however, this behaviour is considered
->> -    liable to change.
->> +    liable to change. Prior to 6.2 the preference was sockets over cores
->> +    over threads. Since 6.2 the preference is cores over sockets over threads.
->>   ERST
->>
->>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
->> --
->> 2.19.1
->>
-> .
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
