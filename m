@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B2A3E2C5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 16:17:29 +0200 (CEST)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79613E2C5F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 16:18:41 +0200 (CEST)
+Received: from localhost ([::1]:43398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mC0fA-0007hL-NH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 10:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
+	id 1mC0gK-0001Rm-O9
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 10:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mC0e8-0006I6-9L
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 10:16:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37036)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mC0f7-0008Qq-La
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 10:17:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mC0e6-00043h-J9
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 10:16:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mC0f4-0004fq-PQ
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 10:17:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628259380;
+ s=mimecast20190719; t=1628259442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+fMNkUY49fhChuA+cs7tuoPwfMIKiRZB/Rb/YHgVWE4=;
- b=J3WIbfeYLtdfh3MHL7/yGomaM/6Ws0640QWuEfZjtPqAY9VsWhzcUiRQmIFD/fURA/2G1P
- Deywy1JEyJMb9WSJKOObANtnUfVIp362GV3HQCyvsMqwd205VLIKU6IDWJwA+dATfanABB
- UAc7iTQcTL8bPAi614i/qHNqli3rsk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-rHXpY4-6OSiZQRs8jHU1Tg-1; Fri, 06 Aug 2021 10:16:17 -0400
-X-MC-Unique: rHXpY4-6OSiZQRs8jHU1Tg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A371802C98
- for <qemu-devel@nongnu.org>; Fri,  6 Aug 2021 14:16:16 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.18.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 416C719C44;
- Fri,  6 Aug 2021 14:16:08 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id A87AB220261; Fri,  6 Aug 2021 10:16:07 -0400 (EDT)
-Date: Fri, 6 Aug 2021 10:16:07 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v3 01/10] virtiofsd: Limit setxattr()'s creds-dropped
- region
-Message-ID: <YQ1EJxcBlUHA8uek@redhat.com>
-References: <20210730150134.216126-1-mreitz@redhat.com>
- <20210730150134.216126-2-mreitz@redhat.com>
+ bh=rwvJYFIv8mf79U4BELkvPV9qYh7Wo/fiPu1/+DaWV+A=;
+ b=RruoRdaaqYzUaIxpLnu8hLt0NbFTQ6YQVSjuqK5hg7+5BjLqURHD8Kuzx/vBDW+YmTVEyq
+ Esfp4e0eVRkyoNCfPYWRxy8/o+j/GbIzepaBDU31xdyjaHMb1r1BIZzEHoiOUQxNEcDOsL
+ X6kV4DSGoxm4Y/TwIuKptIm2yFSgDuw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-pcHnpPUuP8KzsAmUzyPgZA-1; Fri, 06 Aug 2021 10:17:20 -0400
+X-MC-Unique: pcHnpPUuP8KzsAmUzyPgZA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l12-20020a5d6d8c0000b029015488313d96so3196081wrs.15
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 07:17:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rwvJYFIv8mf79U4BELkvPV9qYh7Wo/fiPu1/+DaWV+A=;
+ b=kczxb/CFYba1mYdzA0vztvJnRD3cV7ni+FU2dDghHc+jqmAAF5FxBau8l8BhEM8nWe
+ Cb4eHz+c4knGNp0SU89i3Fo9R5sxQLWTji/V1ApKYzPOzAzp1ADRGzfcWJfR6++swGWg
+ ss7Ea6++xiNC0M4BdhoTwhYKNpI13l0nJO6ou7y313nBPeIti/hMpt8pfgsyA5A0kFPg
+ df4qAF1gyK6uQhDJ+pH53mVEHcCjKe4SMTskn0btqGmxDAg6dbics6UvQDMv2eAhBj4K
+ VfoFeIMcQIEpA87ezQzt3kofsfonhrwlk+cqN2brgT9NZufDUxIWGHexigNt32GuplEF
+ jKFA==
+X-Gm-Message-State: AOAM531ZCQjWYBpC31FAgmttw0O0TVSuCxuQkjIFt4rWiNgkZy3xQKFp
+ HJvMij60nEpWXO/aAi26oqhnWSA3n77YRXGasFjsYTPOtiH823YQP8PWJHp2p81FsOq62lXU05r
+ ko0MHX86lxHbo350=
+X-Received: by 2002:adf:f4c5:: with SMTP id h5mr11245852wrp.292.1628259439576; 
+ Fri, 06 Aug 2021 07:17:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyev9X1RnON87QZSS3F719nbygWS4PsB/sImY6F29YCued1CECNFKjTnrGliDgLgpCIfyxKAg==
+X-Received: by 2002:adf:f4c5:: with SMTP id h5mr11245829wrp.292.1628259439408; 
+ Fri, 06 Aug 2021 07:17:19 -0700 (PDT)
+Received: from [192.168.43.238] (206.red-95-127-155.staticip.rima-tde.net.
+ [95.127.155.206])
+ by smtp.gmail.com with ESMTPSA id b20sm9581176wmj.48.2021.08.06.07.17.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Aug 2021 07:17:19 -0700 (PDT)
+Subject: Re: [PATCH v1] s390x/ioinst: Fix wrong MSCH alignment check on little
+ endian
+To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210805143753.86520-1-david@redhat.com>
+ <875ywizupc.fsf@redhat.com> <f699dbe2-1cbb-478a-3330-bd207da12055@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <344ed7e5-f9a4-6754-32a5-72821e98f869@redhat.com>
+Date: Fri, 6 Aug 2021 16:17:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730150134.216126-2-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <f699dbe2-1cbb-478a-3330-bd207da12055@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.619, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,113 +100,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 30, 2021 at 05:01:25PM +0200, Max Reitz wrote:
-> We only need to drop/switch our credentials for the (f)setxattr() call
-> alone, not for the openat() or fchdir() around it.
+On 8/6/21 1:30 PM, David Hildenbrand wrote:
+> On 06.08.21 13:19, Cornelia Huck wrote:
+>> On Thu, Aug 05 2021, David Hildenbrand <david@redhat.com> wrote:
+>>
+>>> schib->pmcw.chars is 32bit, not 16bit. This fixes the kvm-unit-tests
+>>> "css" test, which fails with:
+>>>
+>>>    FAIL: Channel Subsystem: measurement block format1: Unaligned MB
+>>> origin:
+>>>    Program interrupt: expected(21) == received(0)
+>>>
+>>> Because we end up not injecting an operand program exception.
+>>>
+>>> Fixes: a54b8ac340c2 ("css: SCHIB measurement block origin must be
+>>> aligned")
+>>> Cc: Halil Pasic <pasic@linux.ibm.com>
+>>> Cc: Cornelia Huck <cohuck@redhat.com>
+>>> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>>> Cc: Thomas Huth <thuth@redhat.com>
+>>> Cc: Pierre Morel <pmorel@linux.ibm.com>
+>>> Cc: qemu-s390x@nongnu.org
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>   target/s390x/ioinst.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> Same question here: still -rc worthy, or not?
+>>
 > 
-> (Right now, this may not be that big of a problem, but with inodes being
-> identified by file handles instead of an O_PATH fd, we will need
-> open_by_handle_at() calls here, which is really fickle when it comes to
-> credentials being dropped.)
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 34 +++++++++++++++++++++++---------
->  1 file changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 38b2af8599..1f27eeabc5 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -3121,6 +3121,7 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      bool switched_creds = false;
->      bool cap_fsetid_dropped = false;
->      struct lo_cred old = {};
-> +    bool open_inode;
->  
->      if (block_xattr(lo, in_name)) {
->          fuse_reply_err(req, EOPNOTSUPP);
-> @@ -3155,7 +3156,24 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      fuse_log(FUSE_LOG_DEBUG, "lo_setxattr(ino=%" PRIu64
->               ", name=%s value=%s size=%zd)\n", ino, name, value, size);
->  
-> +    /*
-> +     * We can only open regular files or directories.  If the inode is
-> +     * something else, we have to enter /proc/self/fd and use
-> +     * setxattr() on the link's filename there.
-> +     */
-> +    open_inode = S_ISREG(inode->filetype) || S_ISDIR(inode->filetype);
->      sprintf(procname, "%i", inode->fd);
-> +    if (open_inode) {
-> +        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-> +        if (fd < 0) {
-> +            saverr = errno;
-> +            goto out;
-> +        }
-> +    } else {
-> +        /* fchdir should not fail here */
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
-> +    }
-> +
->      /*
->       * If we are setting posix access acl and if SGID needs to be
->       * cleared, then switch to caller's gid and drop CAP_FSETID
-> @@ -3176,20 +3194,13 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->          }
->          switched_creds = true;
->      }
-> -    if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
-> -        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-> -        if (fd < 0) {
-> -            saverr = errno;
-> -            goto out;
-> -        }
-> +    if (open_inode) {
-> +        assert(fd >= 0);
->          ret = fsetxattr(fd, name, value, size, flags);
->          saverr = ret == -1 ? errno : 0;
->      } else {
-> -        /* fchdir should not fail here */
-> -        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = setxattr(procname, name, value, size, flags);
->          saverr = ret == -1 ? errno : 0;
-> -        FCHDIR_NOFAIL(lo->root.fd);
->      }
->      if (switched_creds) {
->          if (cap_fsetid_dropped)
-> @@ -3198,6 +3209,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->              lo_restore_cred(&old, false);
->      }
->  
-> +    if (!open_inode) {
-> +        /* Change CWD back, fchdir should not fail here */
-> +        FCHDIR_NOFAIL(lo->root.fd);
-> +    }
-> +
+> It's been broken forever, this can also wait I guess.
 
-This FCHDIR_NOFAIL() will also need to be called if lo_drop_cap_change_cred()
-fails. 
+But the commit referenced is recent:
 
-        ret = lo_drop_cap_change_cred(req, &old, false, "FSETID",
-                                      &cap_fsetid_dropped);
-        if (ret) {
-            saverr = ret;
-            goto out;
-        }
+commit a54b8ac340c20531daa89929c5ce7fed89fa401d
+Date:   Fri Feb 19 14:39:33 2021 +0100
 
-Vivek
-
->  out:
->      if (fd >= 0) {
->          close(fd);
-> -- 
-> 2.31.1
-> 
+    css: SCHIB measurement block origin must be aligned
 
 
