@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6963E2265
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:16:23 +0200 (CEST)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25013E226E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:17:25 +0200 (CEST)
+Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBrHS-0003BH-32
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
+	id 1mBrIS-0004h4-N8
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrG9-0002Lm-5a
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59005)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrGn-00032H-F6
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrG5-0005V9-St
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:00 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mBrGl-0006Mg-SJ
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:15:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628223295;
+ s=mimecast20190719; t=1628223339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TsptsZIv8WVM+btR5gLxBqNmBuOZpH22zYrEm6c+WLg=;
- b=aKne5zQ3TQXs8ep6ShpnakJgMnMQNl5y+cebVU8MUkTQIqxkEC33puK/afpZC3cqXe1In9
- kW2HmR6sJcULZPKppQIJFsdVMP1BC5w58POYD1CGH/UOsKaa4hVBxml4UaTXyZLiNm4DSW
- B9xY+OiFChBqevo24Db83CKBsQZ6ruA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-8_6YNN6bMLi36cBnFbIS4w-1; Fri, 06 Aug 2021 00:14:53 -0400
-X-MC-Unique: 8_6YNN6bMLi36cBnFbIS4w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f25-20020a1c6a190000b029024fa863f6b0so3472833wmc.1
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:14:53 -0700 (PDT)
+ bh=AjbzMrUNCRefHITRjeWegMmOKEhu/UpzfoIUepThUsk=;
+ b=MFoaaivC1K1gnPsJ7T64441Tr8V3/tTVxU0ChbdCMqSOqfPk1jI9RMvhKJDW6ptKByDRU0
+ /sP/bjMDDl1MNxaCZi/dY5bdSdrfLM60fcXYR0Et/HPBW+5pKJAGcL9LWYaXG9ubfmAvwl
+ bUvlhVXEO65fuu+psrrGlR/wu1Qvzgg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-vXK3yUFxOGqJGb95zmy_dQ-1; Fri, 06 Aug 2021 00:15:34 -0400
+X-MC-Unique: vXK3yUFxOGqJGb95zmy_dQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r14-20020a5d4e4e0000b029015409d80a01so2697238wrt.12
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:15:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TsptsZIv8WVM+btR5gLxBqNmBuOZpH22zYrEm6c+WLg=;
- b=Z98vB+wyyFjMMo+Iqz7TPEi6tRjzfz02KMU0YfN7epFFKQupS2KuZW2xOSzE1yfw05
- B3u3D+24HbT9wQoZV27EF3dJaFY3U5SVN3CxV+lTcoD76CHlkO2BReguiEi1KlA8Kypu
- IBzVWoyl4V1iCCWlmiqti8DdO/yTxV7WI/UaMXcihdYdzqpiCb0+nj7UILP3DVLABQam
- BI5k0plimVStrKO11nh5Pg/41adZWA5dNmawav9fM41vcK6iLxvBwmA0Hy01zUqk8oxy
- YHzC+yqvoeFu7wUnefgOJrgPHiKoPaNDxRQxjz/bpormXqdh54JcmJDKni+R6OBexwe0
- //DA==
-X-Gm-Message-State: AOAM533mhQpP98vBX7NI3uMJpYEefsGyLNwmij1vlhe7T6MaiLWuzqyq
- NTkhlLQKXJJ/5yDdfXlrmwRWBe6qajm0Fc1GIME44ldyD0iLlzCbvcbUWQj9C51Ni0WHWwI5c6W
- pC/cRSUVnAGlSTK4=
-X-Received: by 2002:adf:fe89:: with SMTP id l9mr8742985wrr.396.1628223292598; 
- Thu, 05 Aug 2021 21:14:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTEY6Zg8uGTDRYB8RJF9ISMBecFVYOLZiAGXr+mmvIB7iG9GVDI6DpYg5d+++19f1Qcfl1sw==
-X-Received: by 2002:adf:fe89:: with SMTP id l9mr8742969wrr.396.1628223292426; 
- Thu, 05 Aug 2021 21:14:52 -0700 (PDT)
+ bh=AjbzMrUNCRefHITRjeWegMmOKEhu/UpzfoIUepThUsk=;
+ b=Bx56EROIh30ZagAUNM0bf0lOemBezyOn3f56xgSwVi6RgtgXG/+3QkYo1vzZ16gUXc
+ XR0TGnv/G3dLfdOpzbNhFLdHUPyTuxklhcJLxbPhsTB5Vfo5cATUmBK7YfkaDShPHI2a
+ /u1eARqoKkOMQi0nDivWQXE46Pl9hCezhRRQFoJAW7kNYCp0vE/cC1nMcXJ7jKzOusmB
+ IHZ6n6aXTY/pyOP0vTeKF9ZJa+TMSI1JaXmg5D07GEVI3v8juCBZw0/tJpBFEM6B2Oww
+ MOGaY2dBcL5wPONL8hXUP/zDaT+H+9aj2SAxymMnGW/yjY89S2OWZNIRCHu4u2Z9bUcK
+ q0BA==
+X-Gm-Message-State: AOAM5304s1erDAjYL1YSBCJesJquXeMwsAA1r6Z6A7jeane4tLOfqwde
+ kLrm8SV+YUBapMtQCKAsPEPzdHAGVTwwF8vjXaDxHKdLGq0c+6Pcb6uNjmJ27EOo6KKdmDmEVt6
+ gl+GR9rstWf9m53k=
+X-Received: by 2002:adf:e3d2:: with SMTP id k18mr8425500wrm.212.1628223333651; 
+ Thu, 05 Aug 2021 21:15:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHNEREazUZE8lSUM2szD/xV1oyEEmw+mpH5HblqsYvzpSOxePhWLmqos732rFADn4d4Rb90A==
+X-Received: by 2002:adf:e3d2:: with SMTP id k18mr8425491wrm.212.1628223333487; 
+ Thu, 05 Aug 2021 21:15:33 -0700 (PDT)
 Received: from thuth.remote.csb
  (dynamic-046-114-147-107.46.114.pool.telefonica.de. [46.114.147.107])
- by smtp.gmail.com with ESMTPSA id m64sm8678704wmm.41.2021.08.05.21.14.51
+ by smtp.gmail.com with ESMTPSA id q124sm2852159wma.42.2021.08.05.21.15.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 21:14:51 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 v2] s390-sclp-events-bus: Use
- OBJECT_DECLARE_SIMPLE_TYPE
+ Thu, 05 Aug 2021 21:15:33 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 5/6] s390x: event-facility: Use SCLP_EVENT_BUS
+ macro
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20210805193431.307761-5-ehabkost@redhat.com>
- <20210806024636.446074-1-ehabkost@redhat.com>
+References: <20210805193431.307761-1-ehabkost@redhat.com>
+ <20210805193431.307761-6-ehabkost@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e0a067ef-18db-f0fd-bba8-9cd7f19c4aee@redhat.com>
-Date: Fri, 6 Aug 2021 06:14:50 +0200
+Message-ID: <a6f20bc5-9639-0cfb-aa70-88e4a5e1d4af@redhat.com>
+Date: Fri, 6 Aug 2021 06:15:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210806024636.446074-1-ehabkost@redhat.com>
+In-Reply-To: <20210805193431.307761-6-ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -86,7 +86,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,47 +106,40 @@ Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/08/2021 04.46, Eduardo Habkost wrote:
-> We have a SCLPEventsBus struct type defined, but no QOM type
-> checkers are declared for the type.
-> 
-> Use OBJECT_DECLARE_SIMPLE_TYPE to declare the struct type and
-> have a SCLP_EVENT_BUS typecast wrapper defined.
+On 05/08/2021 21.34, Eduardo Habkost wrote:
+> Use the SCLP_EVENT_BUS macro instead of manually calling
+> OBJECT_CHECK.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> Changes v1 -> v2:
-> * v1 was previously submitted as part of series:
->    [PATCH for-6.2 0/6] qom: Fix broken OBJECT_CHECK usage
->    at https://lore.kernel.org/qemu-devel/20210805193431.307761-5-ehabkost@redhat.com
-> * Fix typo (s/SCLP_EVENT_BUS/SCLP_EVENTS_BUS/)
-> 
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: David Hildenbrand <david@redhat.com>
 > Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Thomas Huth <thuth@redhat.com>
 > Cc: Halil Pasic <pasic@linux.ibm.com>
 > Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: David Hildenbrand <david@redhat.com>
 > Cc: qemu-s390x@nongnu.org
 > Cc: qemu-devel@nongnu.org
 > ---
->   hw/s390x/event-facility.c | 1 +
->   1 file changed, 1 insertion(+)
+>   hw/s390x/event-facility.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-> index ed92ce510d9..4bfd0b194b4 100644
+> index 9f7883d6e20..bc706bd19b4 100644
 > --- a/hw/s390x/event-facility.c
 > +++ b/hw/s390x/event-facility.c
-> @@ -328,6 +328,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
->   /* qemu object creation and initialization functions */
+> @@ -532,7 +532,7 @@ BusState *sclp_get_event_facility_bus(void)
+>       SCLPEventsBus *sbus;
 >   
->   #define TYPE_SCLP_EVENTS_BUS "s390-sclp-events-bus"
-> +OBJECT_DECLARE_SIMPLE_TYPE(SCLPEventsBus, SCLP_EVENTS_BUS)
->   
->   static const TypeInfo sclp_events_bus_info = {
->       .name = TYPE_SCLP_EVENTS_BUS,
+>       busobj = object_resolve_path_type("", TYPE_SCLP_EVENTS_BUS, NULL);
+> -    sbus = OBJECT_CHECK(SCLPEventsBus, busobj, TYPE_SCLP_EVENTS_BUS);
+> +    sbus = SCLP_EVENT_BUS(busobj);
+>       if (!sbus) {
+>           return NULL;
+>       }
 > 
 
+I think this could be merged with the previous patch. Anyway:
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
