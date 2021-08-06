@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57273E28AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:35:16 +0200 (CEST)
-Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60E23E28C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:38:24 +0200 (CEST)
+Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBxC7-0001bt-Bt
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
+	id 1mBxF9-0004mC-FO
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mBxAY-0000uh-US
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:33:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mBxAV-0000qb-KO
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:33:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628246011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9PPtsVsL1rO1yfen4MitIY0dgI98HSX65QimFT8oIU=;
- b=DZPmbRQ3oYLOqXgx58YWNGnHmuSJg+JGLhf0sMhd4rmIWZ9LuB7/0u6BgfUUMuKNkA0A8n
- 9iW8JZNptLoijEc7AL8wm+pXMdaSQkjR8FA2G1rX2g4278l6tbLOucWdAPqwSS5e9JplLv
- R9NyFcgTvS5Ez1/2P5cbmOi8evJepWs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-Ir2HidEVOlqN-GQeJQ1VKw-1; Fri, 06 Aug 2021 06:33:30 -0400
-X-MC-Unique: Ir2HidEVOlqN-GQeJQ1VKw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s22-20020adf97960000b02901535eae4100so3004072wrb.14
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 03:33:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBxEN-00046c-Jy
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:37:35 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mBxEL-0003Zp-Q5
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:37:35 -0400
+Received: by mail-ed1-x533.google.com with SMTP id cf5so12426226edb.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 03:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dkbJ28F7o/SE+jfxAjTXNSyglO1W/ahHC64F6ycCd1o=;
+ b=yTwpYQpmxZ25DEAKX8kOlbDUfBrXxEc2hl/5xmY3c5fQjjs9faEjiQa/XFlMPtX4GM
+ jYmTTVP4RTwDM2OP8QWz77ngiTf/VYac/ziRyyZZ/omumcsv1BEgSMwllvK6VbcvPqEH
+ 3eoLXrZO712S9g8IbYuRLJOwFhw6p+bXCMvjnqSaI9LgNwDs4hHm4a079p050Hdu8IJF
+ BF4DxoNo2ltpwOPuQEQBYLOcPZaJoMp7/1UoMfTuaxrZdvSwaoz0zxyE/eYMuaQW/IEk
+ Kn1QV1BbTwMSSdUnv1FFkO5q8tCcVN4lvHWVmV9mFv4Qn9T6uKZFEigJP8Z3uz2IxRKo
+ Eu5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+9PPtsVsL1rO1yfen4MitIY0dgI98HSX65QimFT8oIU=;
- b=FueybC1hbT5JXztYApcDRV/P9gqfvTa0komZnPyolpgAzK1FBZpeWoQWqMJutttcQi
- Mw3S8mR79TDate66ymPEiITYkBZ0oH1KOfD8ruGVvUugHVAB/gALM6maj1ucYcL04Q1z
- W/gR1SoPMdmWiHV4IoGQRgANWukcFPoxjREarfSzH466rYZZs1qoB+qdHkAdoQSL7Sf7
- Myr/mUlGvB4tEbXi8JcZP3wWnnso42Z1vfuWDr1CzQkI0ZIHtOVTshDNC+KhzouI4Lwa
- JHRz2AiUfCUXMiwu06z+HARQ/DzEfYgJy14A1VY0LpC9Yy0KFg4UxwUQ7eoqzWHDgShQ
- pc1w==
-X-Gm-Message-State: AOAM532vml9QwiLUt99aiuPdkckzm8k8hDuabh70ZHD0ZD3/nrhmWq7d
- y0lbs2FQfGGPE3L9dAjC/N7jvr/nUlz+LZt9o4SByuvy+Sre1oqZkuaREhRmJ8VQyvcy08hNAUH
- 3Azee8nRZ9+g8Rw4=
-X-Received: by 2002:adf:cf07:: with SMTP id o7mr9880846wrj.216.1628246009168; 
- Fri, 06 Aug 2021 03:33:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaNHA81+bKeR4N5sz6OWcAA67wZavTl6F/3z/mvlVPl3t+KUAzDx0uPVigslNpVwTgr9Ew3A==
-X-Received: by 2002:adf:cf07:: with SMTP id o7mr9880817wrj.216.1628246008997; 
- Fri, 06 Aug 2021 03:33:28 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id m39sm10574457wms.28.2021.08.06.03.33.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Aug 2021 03:33:28 -0700 (PDT)
-Date: Fri, 6 Aug 2021 12:33:26 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
- from acpi_get_i386_pci_host
-Message-ID: <20210806123326.284595b3@redhat.com>
-In-Reply-To: <20210805180915-mutt-send-email-mst@kernel.org>
-References: <20210726165743.232073-1-ani@anisinha.ca>
- <20210805111543.5fb99abf@redhat.com>
- <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051826190.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
- <20210805180915-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dkbJ28F7o/SE+jfxAjTXNSyglO1W/ahHC64F6ycCd1o=;
+ b=FfSNRKmKm7CDaTNisIXoWXzu6W/DXb4DXXwF/fKEITL5PP01OILqWdNoj2MIdC+wnE
+ v/Lw2xXrqUan2sScJDz3/ObNQ9Em0UpaoKU7tql80/AdMCYH5Q4rsCfx617woL+6keJw
+ vXiwpQoz8nyVuWjugK0cRKi7x5kKjTaQLdCjcSQTAsXseX8YcamDeGGTAWplq9nBfhgS
+ uoIfm6vcUQnNMq5f9+vY4WJQuY3dNixn2cjgNGTLlACqfk6QqaVu45EkGJwXT5vrSTmH
+ hpUd0o/6wKAeD7PYL+XK+NYWz4VKaaS5JyOEmdWAQJcNUSB4IIPg1E0P5NLWLgscJpCy
+ mabA==
+X-Gm-Message-State: AOAM532ZCTeh2sZfBiT+lolUWQXZBf4CwuLHiRuzz4+Vl2FByK4UP1JA
+ /oaymNjnKP9xhvxmzePyd5rcIM0SEby7XqFnfKumxQ==
+X-Google-Smtp-Source: ABdhPJxc/0i+4JNhFVLyo2wcg0MIWEig+1Jj0Nr326Ik02cEhVrtG8xAg41fq9OCBLNRUqKayemzlgkPZyXTo5H5jxg=
+X-Received: by 2002:aa7:c647:: with SMTP id z7mr12021922edr.52.1628246251984; 
+ Fri, 06 Aug 2021 03:37:31 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <CAFEAcA-QcwjGtgzqkLshyU4NCq2ZhhdvJN3V_7rTCA4nUavhaQ@mail.gmail.com>
+ <20210804094231-mutt-send-email-mst@kernel.org>
+ <CAFEAcA9yb9MzY3w1G5xcPdY0h-S=m2Z8YOxc7fLTU4TOJ4z6-w@mail.gmail.com>
+ <CAFEAcA-y8R-tXv1vd68V9x69pyc0whns35yvft5fP5JUMgV2oQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-y8R-tXv1vd68V9x69pyc0whns35yvft5fP5JUMgV2oQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Aug 2021 11:36:48 +0100
+Message-ID: <CAFEAcA8kYpz9LiPNxnWJAPSjc=nv532bEdyfynaBeMeohqBp3A@mail.gmail.com>
+Subject: Re: intermittent failure, s390 host, x86-64 guest, vhost-user-blk test
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,33 +79,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Aug 2021 18:13:21 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Thu, 5 Aug 2021 at 18:39, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 4 Aug 2021 at 15:33, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Wed, 4 Aug 2021 at 14:43, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Wed, Aug 04, 2021 at 01:40:37PM +0100, Peter Maydell wrote:
+> > > > Saw this intermittent as part of my ad-hoc CI test setup.
+> > > > The backtrace says that the QEMU process has somehow hung
+> > > > during 'realize' of the vhost-user device...
+> > >
+> > > Hmm seems to have to do with the daemon not responding ...
+> > > Cc a bunch more people ...
+> >
+> > Here's another one; same thing, but a ppc64 guest, I think.
+>
+> Ran into this again; I'll spare you the backtraces but it was the
+> same 'hang in realize', this one for qemu-system-i386. Same s390 host.
+> This seems to be a fairly frequent intermittent -- can somebody
+> have a look at it ?
 
-> On Thu, Aug 05, 2021 at 07:42:35PM +0530, Ani Sinha wrote:
-> > Also to be noted that there is a stub for acpi_get_i386_pci_host() which
-> > simply returns NULL. This activates when CONFIG_PC is disabled. It is this
-> > stub that gets called for mips and hence the check for non-null host is
-> > needed in acpi_set_pci_info() function.
-> >   
-> 
-> Frankly this is generating more discussion that it's worth imho.
-> IMHO these tweaks will bring little benefit.
-> Igor do you feel differently?
-replacing 'ifs' with assert is a bit cleaner, but if we are cleaning
-it up we should clean up it properly without leaving unnecessary
-code around.
-That's why I suggested to separate x86 specific parts from piix4.
-Philippe (CCed) even have reported issues ACPI parts were
-causing on MIPS machines, so if someone is willing to untangle
-the mess it might be worth the shot.
+I think I have also now seen this hang on aarch64 host:
+
+pm       2507739  0.0  0.0   7300  3104 ?        S    09:29   0:00
+             \_ bash -o pipefail -c echo
+'MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/pm/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-i386
+QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
+tests/qtest/qos-test --tap -k' &&
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/pm/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-i386
+QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
+tests/qtest/qos-test --tap -k -m quick < /dev/null |
+./scripts/tap-driver.pl --test-name="qtest-i386/qos-test"
+pm       2507744  0.0  0.0  88952  8292 ?        Sl   09:29   0:00
+                 \_ tests/qtest/qos-test --tap -k -m quick
+pm       2515688  0.0  0.0 333288 21044 ?        Sl   09:30   0:00
+                 |   \_ ./storage-daemon/qemu-storage-daemon
+--blockdev driver=file,node-name=disk0,filename=qtest.EjWt12 --export
+type=vhost-user-blk,id=disk0,addr.type=unix,addr.path=/tmp/qtest-2507744-sock.s5wii0,node-name=disk0,writable=on,num-queues=1
+pm       2515689  0.0  0.0 869272 65868 ?        Sl   09:30   0:00
+                 |   \_ ./qemu-system-i386 -qtest
+unix:/tmp/qtest-2507744.sock -qtest-log /dev/null -chardev
+socket,path=/tmp/qtest-2507744.qmp,id=char0 -mon
+chardev=char0,mode=control -display none -M pc -device
+vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
+memory-backend-memfd,id=mem,size=256M,share=on -M memory-backend=mem
+-m 256M -chardev socket,id=char1,path=/tmp/qtest-2507744-sock.s5wii0
+-accel qtest
+pm       2507745  0.0  0.0  17404 11244 ?        S    09:29   0:00
+                 \_ perl ./scripts/tap-driver.pl
+--test-name=qtest-i386/qos-test
 
 
+Not 100% sure it's the same hang, because the machine doesn't let
+me do ptrace-attach-to-process, but it seems likely.
+
+-- PMM
 
