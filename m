@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EAD3E22BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 06:58:32 +0200 (CEST)
-Received: from localhost ([::1]:33384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E1F3E22C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 07:05:30 +0200 (CEST)
+Received: from localhost ([::1]:35760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBrwF-0000GO-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 00:58:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
+	id 1mBs2y-0002CJ-W3
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 01:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1mBrvR-0007YT-8l
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:57:41 -0400
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:40780)
+ id 1mBs27-0001UZ-KG
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 01:04:35 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:37539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1mBrvP-0000TQ-Gy
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 00:57:41 -0400
-Received: by mail-il1-x131.google.com with SMTP id l10so1663913ilf.7
- for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 21:57:38 -0700 (PDT)
+ id 1mBs26-0006NR-3K
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 01:04:35 -0400
+Received: by mail-io1-xd34.google.com with SMTP id l20so7536951iom.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Aug 2021 22:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AHIugKnU5Jjrn3e7ya+FJtdYVRi3XKs4Aku2cJClzwY=;
- b=akfGiROBtjxXJO+5OioOOd9kyVaiBPxv8HRtFXIhSXO0tJRVyUstGXLliSFYVkXdqU
- yaduFIgIE2ePq9c+jD8tiZGlor9PFq4puKmkfCDuBtjAPg6ksCiV8dkn+K3w6Z8e2tSb
- bfnPXWw68viJdDx9NcHFgnsBQmPUzcoyHehb+kviZ3Oid6hlSvzD/a9ZxHFCXDza06KY
- 8zbIvE71du1odiDSqGRVr2gQhVIehgpN9+YkYpX9TBH9NkF7e4K9Ei0fB7+jq6ms81IN
- 60KowShicj44Kt64lkjOeCE7UfIqb2+w/tov7ob+/g3jxhXHQgNlcj/T6JFX53eLUYVV
- OMzg==
+ :cc:content-transfer-encoding;
+ bh=bUnBY6tAWP/ifZnbFHHZE0yO2YP/vTEYhaaUurb66vE=;
+ b=KaXMay33b2ei8eyEIwxLwhI+w/XyCGFBLgLprpaaTBRHotpBhdHH0syVdXgnjz9vwJ
+ ewBa+avFx/PLZeDSzZwhYorJ7Tn0crblOPMVwcmMzeLJUhGGPa/DsvhobrZPKy3mL1Hj
+ mwg0QkyZ0a2oQ8uX1Vjn4vW5Iyxp3rFdBqggdYoeqQtHbyBQpZ+UcvvMlNQjWMWLJXd6
+ fGd5hq3vyMg//ZlGSVBtcpfjKXQt54OJyjjZbX4YzKFxmfgdrfEiQnfbITDlEDf8drp1
+ RCcYeuJag0BekckSMSz+ogiSyQ+kZ2GhYWwuvwWuKK/lz5h+e99/qQjS/OYbnwVE49Hv
+ /KoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AHIugKnU5Jjrn3e7ya+FJtdYVRi3XKs4Aku2cJClzwY=;
- b=ntri2NjUWQGGUZbLZ3Ugk6oLKQ1KQEtDryM6aBzdEFFMoD8L1iC9iEKFpml5FgnLuO
- Ui6EY8+wFzhn9gN0+R7JOhqEBgQ/H9jCIw2FvbPyjVf0RF6o1vcx8lwdLTSwu5san/T9
- d5akShgiJFy6Gnt586OL5UKEE2S1wy60Y0Fr6V1ob1ALqny4f6LwckfVzNqkFo033Lnu
- Sn1vAQqAXxR2/WvP2ijxfvQklutI1vsgFSmoFgpSoaFKyvBn5cypHxwQ54W21OgiUm5t
- ekAgHU/EELh53QBvdbV/H76G2nG6aK+T2NRXZ/SwQnJIqo/CgkxQlAylvx6+SW6J7r5s
- rLTw==
-X-Gm-Message-State: AOAM530wyrh3d1nQ6kbG8pZoPahs07O2bdb+4VF0wU2Y2i/TXzL6y8gk
- NiECDI/47VV//DcXTELQnNlXe/7CKe+dcPtX/dw=
-X-Google-Smtp-Source: ABdhPJyLUcxm+8A9R6LPckXG7Ck+0OVRr+/QbL8praecLLfhxZab7ZjyafKD9lRBeKBQAwwAJEJ0A2XTvkeRoCSNzGY=
-X-Received: by 2002:a92:5205:: with SMTP id g5mr245113ilb.22.1628225858095;
- Thu, 05 Aug 2021 21:57:38 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bUnBY6tAWP/ifZnbFHHZE0yO2YP/vTEYhaaUurb66vE=;
+ b=tVsXZAW9Qzuwx9miy2x8aCOZywgoAipqqIDeiTOgMXWVtPpibP9yzeb4TYNs+uDFH1
+ bn0c4V8Gjd2KHISvDovP/EMqqWv9TjF6fbMW1iSzzzx5/af4VfN9VdcMJGrTB4cpialM
+ +vmdBXbQUFBnfi77Vp/s5jhT/vEGp1ZJMtXJpWvp9hwfDjWKdfz4tlds81Ibri5ysH7m
+ fCf4fG1jfhi8XLfXqlaHi+JzawSLHt/h7wiWjGvANMfJWv8GL47UKx0NKhOdy+Os63Ky
+ DL9QmDYXIVM35pc3FvMrbA/js4y5pMRIixvPvTRPgtLT/tPGIl/ne9IQUwrMmqEjvG5o
+ JfVg==
+X-Gm-Message-State: AOAM5339D+97kFXCUUhXH9aXMKlBi0DhHERBDmtp1Tumxk4Elwimc7xj
+ 2HXIa/u4u6M5FkG5uSEKpZyoehNsqJrXWos2QNM=
+X-Google-Smtp-Source: ABdhPJwHeKQZWW7etUF/4LmzUQY8JpW5qZLpvhBVyi1s9pXDV8+xJhkDAQyYN0QIFkI5XbMgf2ADhUcQR7Z4R4rMST4=
+X-Received: by 2002:a5d:9304:: with SMTP id l4mr339179ion.167.1628226272996;
+ Thu, 05 Aug 2021 22:04:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210803080527.156556-1-wangyanan55@huawei.com>
- <20210803080527.156556-3-wangyanan55@huawei.com>
-In-Reply-To: <20210803080527.156556-3-wangyanan55@huawei.com>
+References: <20210805092350.31195-1-david@redhat.com>
+In-Reply-To: <20210805092350.31195-1-david@redhat.com>
 From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Fri, 6 Aug 2021 06:57:27 +0200
-Message-ID: <CAM9Jb+inuDYY1vmmCJH93+n1aQbfJHDZS9fy2DcdPKDWj4WW7g@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 v4 02/14] machine: Uniformly use maxcpus to
- calculate the omitted parameters
-To: Yanan Wang <wangyanan55@huawei.com>
+Date: Fri, 6 Aug 2021 07:04:22 +0200
+Message-ID: <CAM9Jb+jfUSz1573-qNb7E-1rcv4+91NxKSgqNO_AAnifa6Jomg@mail.gmail.com>
+Subject: Re: [PATCH-for-6.1 v2] softmmu/physmem: fix wrong assertion in
+ qemu_ram_alloc_internal()
+To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x131.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,156 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> We are currently using maxcpus to calculate the omitted sockets
-> but using cpus to calculate the omitted cores/threads. This makes
-> cmdlines like:
->   -smp cpus=8,maxcpus=16
->   -smp cpus=8,cores=4,maxcpus=16
->   -smp cpus=8,threads=2,maxcpus=16
-> work fine but the ones like:
->   -smp cpus=8,sockets=2,maxcpus=16
->   -smp cpus=8,sockets=2,cores=4,maxcpus=16
->   -smp cpus=8,sockets=2,threads=2,maxcpus=16
-> break the sanity check.
+> When adding RAM_NORESERVE, we forgot to remove the old assertion when
+> adding the updated one, most probably when reworking the patches or
+> rebasing. We can easily crash QEMU by adding
+>   -object memory-backend-ram,id=3Dmem0,size=3D500G,reserve=3Doff
+> to the QEMU cmdline:
+>   qemu-system-x86_64: ../softmmu/physmem.c:2146: qemu_ram_alloc_internal:
+>   Assertion `(ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC))
+>   =3D=3D 0' failed.
 >
-> Since we require for a valid config that the product of "sockets * cores
-> * threads" should equal to the maxcpus, we should uniformly use maxcpus
-> to calculate their omitted values.
+> Fix it by removing the old assertion.
 >
-> Also the if-branch of "cpus == 0 || sockets == 0" was split into two
-> branches of "cpus == 0" and "sockets == 0" so that we can clearly read
-> that we are parsing the configuration with a preference on cpus over
-> sockets over cores over threads.
->
-> Note: change in this patch won't affect any existing working cmdlines
-> but improves consistency and allows more incomplete configs to be valid.
->
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Fixes: 8dbe22c6868b ("memory: Introduce RAM_NORESERVE and wire it up in q=
+emu_ram_mmap()")
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  hw/core/machine.c | 30 +++++++++++++++---------------
->  hw/i386/pc.c      | 30 +++++++++++++++---------------
->  2 files changed, 30 insertions(+), 30 deletions(-)
 >
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 696d9e8e47..69979c93dd 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -755,24 +755,26 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->      }
+> v1 -> v2:
+> - Added rbs
+> - Tagged for 6.1 inclusion
 >
->      /* compute missing values, prefer sockets over cores over threads */
-> -    if (cpus == 0 || sockets == 0) {
-> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +
-> +    if (cpus == 0) {
-> +        sockets = sockets > 0 ? sockets : 1;
->          cores = cores > 0 ? cores : 1;
->          threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * sockets;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (cores * threads);
-> -        }
-> +        cpus = sockets * cores * threads;
-> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +    } else if (sockets == 0) {
-> +        cores = cores > 0 ? cores : 1;
-> +        threads = threads > 0 ? threads : 1;
-> +        sockets = maxcpus / (cores * threads);
->      } else if (cores == 0) {
->          threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * threads);
-> -        cores = cores > 0 ? cores : 1;
-> +        cores = maxcpus / (sockets * threads);
->      } else if (threads == 0) {
-> -        threads = cpus / (cores * sockets);
-> -        threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * cores * threads < cpus) {
-> +        threads = maxcpus / (sockets * cores);
-> +    }
-> +
-> +    if (sockets * cores * threads < cpus) {
->          error_setg(errp, "cpu topology: "
->                     "sockets (%u) * cores (%u) * threads (%u) < "
->                     "smp_cpus (%u)",
-> @@ -780,8 +782,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->          return;
->      }
+> ---
+>  softmmu/physmem.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
->      if (maxcpus < cpus) {
->          error_setg(errp, "maxcpus must be equal to or greater than smp");
->          return;
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index acd31af452..a9ff9ef52c 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -725,24 +725,26 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->      dies = dies > 0 ? dies : 1;
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 3c1912a1a0..2e18947598 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2143,7 +2143,6 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, =
+ram_addr_t max_size,
+>      RAMBlock *new_block;
+>      Error *local_err =3D NULL;
 >
->      /* compute missing values, prefer sockets over cores over threads */
-> -    if (cpus == 0 || sockets == 0) {
-> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +
-> +    if (cpus == 0) {
-> +        sockets = sockets > 0 ? sockets : 1;
->          cores = cores > 0 ? cores : 1;
->          threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * dies * sockets;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (dies * cores * threads);
-> -        }
-> +        cpus = sockets * dies * cores * threads;
-> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +    } else if (sockets == 0) {
-> +        cores = cores > 0 ? cores : 1;
-> +        threads = threads > 0 ? threads : 1;
-> +        sockets = maxcpus / (dies * cores * threads);
->      } else if (cores == 0) {
->          threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * dies * threads);
-> -        cores = cores > 0 ? cores : 1;
-> +        cores = maxcpus / (sockets * dies * threads);
->      } else if (threads == 0) {
-> -        threads = cpus / (cores * dies * sockets);
-> -        threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * dies * cores * threads < cpus) {
-> +        threads = maxcpus / (sockets * dies * cores);
-> +    }
-> +
-> +    if (sockets * dies * cores * threads < cpus) {
->          error_setg(errp, "cpu topology: "
->                     "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
->                     "smp_cpus (%u)",
-> @@ -750,8 +752,6 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->          return;
->      }
->
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
->      if (maxcpus < cpus) {
->          error_setg(errp, "maxcpus must be equal to or greater than smp");
->          return;
+> -    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC)) =
+=3D=3D 0);
+>      assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
+>                            RAM_NORESERVE)) =3D=3D 0);
+>      assert(!host ^ (ram_flags & RAM_PREALLOC));
+> --
+> 2.31.1
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+
+>
+>
 
