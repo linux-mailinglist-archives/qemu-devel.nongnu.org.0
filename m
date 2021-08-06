@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5BD3E2A40
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 14:02:34 +0200 (CEST)
-Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0603E2A4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 14:06:46 +0200 (CEST)
+Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mByYa-0002G0-9X
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 08:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51738)
+	id 1mBycf-00044M-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 08:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mByWz-0001VZ-SL
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:00:53 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mByWw-000614-Ld
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:00:53 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id d6so12672099edt.7
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 05:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v3gM6ekPZd9tqXfm04uJUnj+wQkzaKtdj0yCOiDCAdQ=;
- b=HzaluWbryBqsY34PjI1xHrpErAWOtUx1R+0wpDcCGQOvO/PaqCGTngFD+1jIgj5Ukf
- kJ+FNBJo6KgVqTKIIggqeIqAnBgUrBSgrsTJ9M5jzZVKvxlQto9Hc/alTr+JrIymsumq
- ODcfB/d+qpvdTTNrCNFS8MQEzONRDJqMmCzBu60yRE+9v5U+fz8rx/ZS863KPBDJuiAa
- 0hBzZN3N/WjESBjGB4kcFMyL0fAcVKXo8RGttW341e5nPvrUMT9mZ07I/7LCm9tOJqmH
- uZdi9LmeT7dHE6k6hAgGXZ9Jiz0kzcxa8ZaUhCA/pms772n2C0tQtfPnYawgniQ1cdCj
- XpMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v3gM6ekPZd9tqXfm04uJUnj+wQkzaKtdj0yCOiDCAdQ=;
- b=nTe5giyFBUb8W78JJw15D50YIrIW2uwSI4UKls0Z30tEpP0aRL2O4TxbNtmvbYYTYx
- +717cyBXMl+VHgHAaRL537eP6iESw3SoIE6HEVn8wzzV+DH0qxM4kbk1z0LlYAnLW3E6
- 8WRSKFRRUv48ccNns6nAX4/iQbBgQES9BVPaZHOTYTOAaaUp0aQQzzCUHHq5Mg+WHN7L
- sW4vDxRAu00wFQ2Bd7N7gkgzxx/0ilm8KzQzuNefAbGC5kP3uPPpaXoqw7xTs3pbj4uv
- /165V8ZbTwIezOLI8umZ1cHGpCvM2b3WAOROSzaQ4whNbwieP1PZW023vQuYEy+Z6KlO
- T99A==
-X-Gm-Message-State: AOAM530Mpvw5+SJAqXqVu5435o68TueoD3os0jF+9S7Q1mQBRBFDyAT+
- 8vHZsyAqqdKcu6yUtSgr9Tr2G81DrdiGP+z+bcf7sQ==
-X-Google-Smtp-Source: ABdhPJyFTGMPaKwjzWK5MEEMz0qiFnI3Rm68p6SIctHkZxbQ8VSaIBrgfqXFlen8iSrey4LSKo1K7eFXvJyVQ6KD5js=
-X-Received: by 2002:a50:ff03:: with SMTP id a3mr2816362edu.100.1628251249089; 
- Fri, 06 Aug 2021 05:00:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBybM-0003IS-7P
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:05:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mBybH-0000g6-Qo
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 08:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628251517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JG+pPUToM5gGtG1GZmtPAFMG7Ou0TkSkyL4ojlgrCHY=;
+ b=WhK9L8JFO9L6LnkZSftzaUhANr5pvl+VePsI+kwL8qRKtNyvnokneMA3O7WcjcB9zyREBT
+ sCsgQyCZrG4QFGCI/qzEYD+cGkiTyQefztSAZu9sEdPkkQcLPK9oVYhHX4OYktWKLAgNX+
+ 7CnDlDZizEUdgToYnz1cukwTeFX7dik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-QUJ16H95OPaaizvbCkxPEw-1; Fri, 06 Aug 2021 08:05:16 -0400
+X-MC-Unique: QUJ16H95OPaaizvbCkxPEw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB433107ACF5
+ for <qemu-devel@nongnu.org>; Fri,  6 Aug 2021 12:05:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E798360853;
+ Fri,  6 Aug 2021 12:05:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6D50011380A0; Fri,  6 Aug 2021 14:05:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Fix crash on redefinition with a different condition
+Date: Fri,  6 Aug 2021 14:05:10 +0200
+Message-Id: <20210806120510.2367124-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20210806091709.2465239-1-laurent@vivier.eu>
-In-Reply-To: <20210806091709.2465239-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Aug 2021 13:00:05 +0100
-Message-ID: <CAFEAcA8hjNAzQhdNsn=CY-K34frVO6phE6LCLsO5m3kUVoMwrA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Linux user for 6.1 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,35 +76,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Aug 2021 at 10:18, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9eb:
->
->   Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-6.1-pull-request
->
-> for you to fetch changes up to 030912e01c0385b6b09e76549c1a8a04b624f49a:
->
->   linux-user/elfload: byteswap i386 registers when dumping core (2021-08-05 12:17:30 +0200)
->
-> ----------------------------------------------------------------
-> linux-user pull request 20210806
->
-> Fix endianness and addresses in i386 linux-user target
->
+QAPISchema._make_implicit_object_type() asserts that when an implicit
+object type is used multiple times, @ifcond is the same for all uses.
+It will be for legitimate uses, i.e. simple union branch wrapper
+types.  A comment explains this.
 
+The assertion fails when a command or event is redefined with a
+different condition.  The redefinition is an error, but it's flagged
+only later.
 
-Applied, thanks.
+Fixing the assertion would complicate matters further.  Not
+worthwhile, drop it instead.  We really need to get rid of simple
+unions.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Tweak test case redefined-event to cover redefinition with a different
+condition.
 
--- PMM
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/schema.py                 | 22 +++++++++++-----------
+ tests/qapi-schema/redefined-event.json |  2 +-
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index d1d27ff7ee..a4ce3972a4 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -997,18 +997,18 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
+         name = 'q_obj_%s-%s' % (name, role)
+         typ = self.lookup_entity(name, QAPISchemaObjectType)
+         if typ:
+-            # The implicit object type has multiple users.  This can
+-            # happen only for simple unions' implicit wrapper types.
+-            # Its ifcond should be the disjunction of its user's
+-            # ifconds.  Not implemented.  Instead, we always pass the
+-            # wrapped type's ifcond, which is trivially the same for all
+-            # users.  It's also necessary for the wrapper to compile.
+-            # But it's not tight: the disjunction need not imply it.  We
+-            # may end up compiling useless wrapper types.
++            # The implicit object type has multiple users.  This is
++            # either a duplicate definition (which will be flagged
++            # later), or an implicit wrapper type used for multiple
++            # simple unions.  In the latter case, ifcond should be the
++            # disjunction of its user's ifconds.  Not implemented.
++            # Instead, we always pass the wrapped type's ifcond, which
++            # is trivially the same for all users.  It's also
++            # necessary for the wrapper to compile.  But it's not
++            # tight: the disjunction need not imply it.  We may end up
++            # compiling useless wrapper types.
+             # TODO kill simple unions or implement the disjunction
+-
+-            # pylint: disable=protected-access
+-            assert (ifcond or []) == typ._ifcond
++            pass
+         else:
+             self._def_entity(QAPISchemaObjectType(
+                 name, info, None, ifcond, None, None, members, None))
+diff --git a/tests/qapi-schema/redefined-event.json b/tests/qapi-schema/redefined-event.json
+index 7717e91c18..09eff18412 100644
+--- a/tests/qapi-schema/redefined-event.json
++++ b/tests/qapi-schema/redefined-event.json
+@@ -1,3 +1,3 @@
+ # we reject duplicate events
+ { 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
+-{ 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
++{ 'event': 'EVENT_A', 'data': { 'myint': 'int' }, 'if': 'defined(FOO)' }
+-- 
+2.31.1
+
 
