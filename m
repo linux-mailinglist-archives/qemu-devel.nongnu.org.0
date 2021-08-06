@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EAA3E2466
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:47:43 +0200 (CEST)
-Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFB83E2498
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:55:45 +0200 (CEST)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBuZy-0006ul-BD
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1mBuhj-0001zx-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1mBuZ4-0005zT-TW; Fri, 06 Aug 2021 03:46:46 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2273)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mBugh-0001Jc-CW
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:54:39 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1mBuZ1-0003C3-86; Fri, 06 Aug 2021 03:46:46 -0400
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GgyGP3YVzz1CSnn;
- Fri,  6 Aug 2021 15:46:21 +0800 (CST)
-Received: from [127.0.0.1] (10.40.193.166) by dggeme756-chm.china.huawei.com
- (10.3.19.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 6 Aug
- 2021 15:46:29 +0800
-Subject: Re: [RESEND RFC] hw/arm/smmuv3: add device properties to disable
- cached iotlb
-To: <eric.auger@redhat.com>
-References: <1628066969-29945-1-git-send-email-chenxiang66@hisilicon.com>
- <5fc0cd6c-1e1d-3cb3-51e5-f20c10736643@redhat.com>
- <c3224918-bf19-4dab-3779-afb616902c39@hisilicon.com>
- <5c64c2b3-b8c3-f50f-0842-cce58e7a7591@redhat.com>
-From: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Message-ID: <a8e9205d-c6be-9a93-b2df-45e087f7e54e@hisilicon.com>
-Date: Fri, 6 Aug 2021 15:46:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mBugd-0001eO-Vm
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:54:38 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GgyMd3RM0zZy5l;
+ Fri,  6 Aug 2021 15:50:53 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 15:54:25 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 15:54:24 +0800
+Subject: Re: [PATCH for-6.2 v4 06/14] machine: Prefer cores over sockets in
+ smp parsing since 6.2
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+References: <20210803080527.156556-1-wangyanan55@huawei.com>
+ <20210803080527.156556-7-wangyanan55@huawei.com>
+ <CAM9Jb+jwNAJWtjA1c3CQ=a4t--03_0kY9ZuMB+0LXfTWbOSVcA@mail.gmail.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <5252d579-5a5a-a62a-69f6-17ab109c8f92@huawei.com>
+Date: Fri, 6 Aug 2021 15:54:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <5c64c2b3-b8c3-f50f-0842-cce58e7a7591@redhat.com>
+In-Reply-To: <CAM9Jb+jwNAJWtjA1c3CQ=a4t--03_0kY9ZuMB+0LXfTWbOSVcA@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.40.193.166]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggeme756-chm.china.huawei.com (10.3.19.102)
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=chenxiang66@hisilicon.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.132,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,361 +70,278 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, linuxarm@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S .
+ Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-
-在 2021/8/5 16:10, Eric Auger 写道:
-> Hi Chenxiang,
-> On 8/5/21 9:48 AM, chenxiang (M) wrote:
->> Hi Eric,
+On 2021/8/6 12:41, Pankaj Gupta wrote:
+>> In the real SMP hardware topology world, it's much more likely that
+>> we have high cores-per-socket counts and few sockets totally. While
+>> the current preference of sockets over cores in smp parsing results
+>> in a virtual cpu topology with low cores-per-sockets counts and a
+>> large number of sockets, which is just contrary to the real world.
 >>
+>> Given that it is better to make the virtual cpu topology be more
+>> reflective of the real world and also for the sake of compatibility,
+>> we start to prefer cores over sockets over threads in smp parsing
+>> since machine type 6.2 for different arches.
 >>
->> 在 2021/8/5 0:26, Eric Auger 写道:
->>> Hi Chenxiang,
->>>
->>> On 8/4/21 10:49 AM, chenxiang wrote:
->>>> From: Xiang Chen <chenxiang66@hisilicon.com>
->>>>
->>>> It splits invalidations into ^2 range invalidations in the patch
->>>> 6d9cd115b(" hw/arm/smmuv3: Enforce invalidation on a power of two
->>>> range").
->>>> So for some scenarios such as the size of invalidation is not ^2 range
->>>> invalidation, it costs more time to invalidate.
->>> this ^² split is not only necessary for internal TLB management but also
->>> for IOMMU MR notifier calls (which use a mask), ie. IOTLB unmap
->>> notifications used for both vhost and vfio integrations.
->>> So you can disable the internal IOTLB but we can't simply remove the pow
->>> of 2 split. See below.
->> Right, in current code of qemu,  it is not right to simply remove the
->> pow of 2 split.
->> But i find that in my local repo, there is a private patch which seems
->> solve the issue, so it works on my test.
+>> In this patch, a boolean "smp_prefer_sockets" is added, and we only
+>> enable the old preference on older machines and enable the new one
+>> since type 6.2 for all arches by using the machine compat mechanism.
 >>
->> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->> index 4a7a183..83d24e1 100644
->> --- a/hw/arm/smmuv3.c
->> +++ b/hw/arm/smmuv3.c
->> @@ -825,7 +825,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
->>       event.type = IOMMU_NOTIFIER_UNMAP;
->>       event.entry.target_as = &address_space_memory;
->>       event.entry.iova = iova;
->> -    event.entry.addr_mask = num_pages * (1 << granule) - 1;
->> +    event.entry.addr_mask = (1 << granule) - 1;
->> +       event.entry.num_pages = num_pages;
-> OK I see. But you change the existing semantic of addr_mask which
-> originally matches the mask of the  full addr range of the IOTLB
-> operation and you replace it by the granule mask and add another
-> num_pages field.
->
-> This is a change in the memory.h API and should be discussed with other
-> memory.h and vIOMMU maintainers if you want to go that way. This
-> typically breaks vhost integration which does not use num_pages and
-> would typically fail invalidating the full range.
->
-> So we have 2 different things: the disablement of the internal IOTLB (x-
-> prop) which can be done easily but what you mostly want it to remove the
-> pow of 2 splits to reduce the interactions with the physical IOMMU in
-> the VFIO/SMMU use case , right?
-
-Yes, i mainly want to remove the pow of 2 splits to reduce the times of 
-invalidations which i think
-it will affect the performance.
-
->   pow of 2 splits is also needed for vhost
-> integration at the moment. Note this use case is not upstreamed and far
-> from being upstreamed given the /dev/iommu redesign, so it will be
-> difficult to justify that kind of change at thims moment.
-
-I am not familar with vhost, and maybe need more investigate on it.
-Do you have any suggestion about how to improve the issue?
-
->
-> Thanks
->
-> Eric
->>       event.entry.perm = IOMMU_NONE;
->>       event.entry.flags = IOMMU_INV_FLAGS_ARCHID;
->>       event.entry.arch_id = asid;
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index a863b7d..7b026f0 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -639,7 +639,7 @@ static void vfio_iommu_unmap_notify(IOMMUNotifier
->> *n, IOMMUTLBEntry *iotlb)
->>       {
->>           hwaddr start = iotlb->iova + giommu->iommu_offset;
->>           struct iommu_inv_addr_info *addr_info;
->> -        size_t size = iotlb->addr_mask + 1;
->> +        size_t size = iotlb->num_pages * (iotlb->addr_mask + 1);
->>           int archid = -1;
+>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>> Acked-by: Cornelia Huck <cohuck@redhat.com>
+>> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+>> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/arm/virt.c              |  1 +
+>>   hw/core/machine.c          | 36 ++++++++++++++++++++++++++----------
+>>   hw/i386/pc.c               | 36 ++++++++++++++++++++++++++----------
+>>   hw/i386/pc_piix.c          |  1 +
+>>   hw/i386/pc_q35.c           |  1 +
+>>   hw/ppc/spapr.c             |  1 +
+>>   hw/s390x/s390-virtio-ccw.c |  1 +
+>>   include/hw/boards.h        |  1 +
+>>   qemu-options.hx            |  3 ++-
+>>   9 files changed, 60 insertions(+), 21 deletions(-)
 >>
->>           addr_info = &ustruct.info.granu.addr_info;
->> @@ -653,8 +653,8 @@ static void vfio_iommu_unmap_notify(IOMMUNotifier
->> *n, IOMMUTLBEntry *iotlb)
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index 01165f7f53..7babea40dc 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -2797,6 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
+>>   {
+>>       virt_machine_6_2_options(mc);
+>>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>> +    mc->smp_prefer_sockets = true;
+>>   }
+>>   DEFINE_VIRT_MACHINE(6, 1)
+>>
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index 458d9736e3..a8173a0f45 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -746,6 +746,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>>
+>>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>   {
+>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>>       unsigned sockets = config->has_sockets ? config->sockets : 0;
+>>       unsigned cores   = config->has_cores ? config->cores : 0;
+>> @@ -757,7 +758,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>           return;
+>>       }
+>>
+>> -    /* compute missing values, prefer sockets over cores over threads */
+>> +    /* compute missing values based on the provided ones */
+>>       if (cpus == 0 && maxcpus == 0) {
+>>           sockets = sockets > 0 ? sockets : 1;
+>>           cores = cores > 0 ? cores : 1;
+>> @@ -765,15 +766,30 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>       } else {
+>>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>>
+>> -        if (sockets == 0) {
+>> -            cores = cores > 0 ? cores : 1;
+>> -            threads = threads > 0 ? threads : 1;
+>> -            sockets = maxcpus / (cores * threads);
+>> -        } else if (cores == 0) {
+>> -            threads = threads > 0 ? threads : 1;
+>> -            cores = maxcpus / (sockets * threads);
+>> -        } else if (threads == 0) {
+>> -            threads = maxcpus / (sockets * cores);
+>> +        if (mc->smp_prefer_sockets) {
+>> +            /* prefer sockets over cores over threads before 6.2 */
+>> +            if (sockets == 0) {
+>> +                cores = cores > 0 ? cores : 1;
+>> +                threads = threads > 0 ? threads : 1;
+>> +                sockets = maxcpus / (cores * threads);
+>> +            } else if (cores == 0) {
+>> +                threads = threads > 0 ? threads : 1;
+>> +                cores = maxcpus / (sockets * threads);
+>> +            } else if (threads == 0) {
+>> +                threads = maxcpus / (sockets * cores);
+>> +            }
+>> +        } else {
+>> +            /* prefer cores over sockets over threads since 6.2 */
+>> +            if (cores == 0) {
+>> +                sockets = sockets > 0 ? sockets : 1;
+>> +                threads = threads > 0 ? threads : 1;
+>> +                cores = maxcpus / (sockets * threads);
+>> +            } else if (sockets == 0) {
+>> +                threads = threads > 0 ? threads : 1;
+>> +                sockets = maxcpus / (cores * threads);
+>> +            } else if (threads == 0) {
+>> +                threads = maxcpus / (sockets * cores);
+>> +            }
+> I feel this code is repeated at multiple places. Also, (threads == 0) case
+> at the end is common for all the cases, we can move it out of if-else?
+Hi Pankaj,
+
+Do you mean the code is repeated in the "if (mc->smp_prefer_sockets)"
+branch and "else" branch? The calculations of sockets and cores are
+different in the two branches, I think we have to keep them separately.
+
+I agree that (threads=0) case is common and we can try to move it out
+to a common place, I will refine this in next version.
+
+Thanks,
+Yanan
 >>           }
->>           addr_info->archid = archid;
->>           addr_info->addr = start;
->> -        addr_info->granule_size = size;
->> -        addr_info->nb_granules = 1;
->> +        addr_info->granule_size = iotlb->addr_mask + 1;
->> +               addr_info->nb_granules = iotlb->num_pages;
->>           trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
->>                                           1, iotlb->leaf);
->>           break;
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index 0c4389c..268a395 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -110,6 +110,7 @@ struct IOMMUTLBEntry {
->>       hwaddr           iova;
->>       hwaddr           translated_addr;
->>       hwaddr           addr_mask;
->> +       uint64_t         num_pages;
->>       IOMMUAccessFlags perm;
->>       IOMMUInvGranularity granularity;
->>   #define IOMMU_INV_FLAGS_PASID  (1 << 0)
+>>       }
 >>
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index afd8b9c283..5d7c3efc43 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -717,6 +717,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+>>    */
+>>   static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>   {
+>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>>       unsigned sockets = config->has_sockets ? config->sockets : 0;
+>>       unsigned dies    = config->has_dies ? config->dies : 0;
+>> @@ -727,7 +728,7 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>>       /* directly default dies to 1 if it's omitted */
+>>       dies = dies > 0 ? dies : 1;
 >>
->>> internal TLB could be disabled through a property but I would rather set
->>> it as an "x-" experimental property for debug purpose. Until recently
->>> this was indeed helpful to debug bugs related to internal IOTLB
->>> management (RIL support) ;-) I hope this period is over though ;-)
->> Ok, maybe we set it as "x-" experimental property currently.
+>> -    /* compute missing values, prefer sockets over cores over threads */
+>> +    /* compute missing values based on the provided ones */
+>>       if (cpus == 0 && maxcpus == 0) {
+>>           sockets = sockets > 0 ? sockets : 1;
+>>           cores = cores > 0 ? cores : 1;
+>> @@ -735,15 +736,30 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>>       } else {
+>>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
 >>
->>>> Currently smmuv3_translate is rarely used (i only see it is used when
->>>> binding msi), so i think maybe we can disable cached iotlb to promote
->>>> efficiency of invalidation. So add device property disable_cached_iotlb
->>>> to disable cached iotlb, and then we can send non-^2 range invalidation
->>>> directly.
->>>> Use tool dma_map_benchmark to have a test on the latency of unmap,
->>>> and we can see it promotes much on unmap when the size of invalidation
->>>> is not ^2 range invalidation (such as g = 7/15/31/511):
->>>>
->>>> t = 1(thread = 1)
->>>>              before opt(us)   after opt(us)
->>>> g=1(4K size)    0.2/7.6        0.2/7.5
->>>> g=4(8K size)    0.4/7.9        0.4/7.9
->>>> g=7(28K size)    0.6/10.2        0.6/8.2
->>>> g=8(32K size)    0.6/8.3        0.6/8.3
->>>> g=15(60K size)    1.1/12.1        1.1/9.1
->>>> g=16(64K size)    1.1/9.2        1.1/9.1
->>>> g=31(124K size)    2.0/14.8        2.0/10.7
->>>> g=32(128K size)    2.1/14.8        2.1/10.7
->>>> g=511(2044K size)    30.9/65.1        31.1/55.9
->>>> g=512(2048K size) 0.3/32.1        0.3/32.1
->>>> t = 10(thread = 10)
->>>>              before opt(us)   after opt(us)
->>>> g=1(4K size)    0.2/39.9        0.2/39.1
->>>> g=4(8K size)    0.5/42.6        0.5/42.4
->>>> g=7(28K size)    0.6/66.4        0.6/45.3
->>>> g=8(32K size)    0.7/45.8        0.7/46.1
->>>> g=15(60K size)    1.1/80.5        1.1/49.6
->>>> g=16(64K size)    1.1/49.8        1.1/50.2
->>>> g=31(124K size)    2.0/98.3        2.1/58.0
->>>> g=32(128K size)    2.1/57.7        2.1/58.2
->>>> g=511(2044K size)    35.2/322.2        35.3/236.7
->>>> g=512(2048K size) 0.8/238.2        0.9/240.3
->>>>
->>>> Note: i test it based on VSMMU enabled with the patchset
->>>> ("vSMMUv3/pSMMUv3 2 stage VFIO integration").
->>>>
->>>> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
->>>> ---
->>>>    hw/arm/smmuv3.c         | 77
->>>> ++++++++++++++++++++++++++++++++-----------------
->>>>    include/hw/arm/smmuv3.h |  1 +
->>>>    2 files changed, 52 insertions(+), 26 deletions(-)
->>>>
->>>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->>>> index 01b60be..7ae668f 100644
->>>> --- a/hw/arm/smmuv3.c
->>>> +++ b/hw/arm/smmuv3.c
->>>> @@ -19,6 +19,7 @@
->>>>    #include "qemu/osdep.h"
->>>>    #include "qemu/bitops.h"
->>>>    #include "hw/irq.h"
->>>> +#include "hw/qdev-properties.h"
->>>>    #include "hw/sysbus.h"
->>>>    #include "migration/vmstate.h"
->>>>    #include "hw/qdev-core.h"
->>>> @@ -682,19 +683,21 @@ static IOMMUTLBEntry
->>>> smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>>>        page_mask = (1ULL << (tt->granule_sz)) - 1;
->>>>        aligned_addr = addr & ~page_mask;
->>>>    -    cached_entry = smmu_iotlb_lookup(bs, cfg, tt, aligned_addr);
->>>> -    if (cached_entry) {
->>>> -        if ((flag & IOMMU_WO) && !(cached_entry->entry.perm &
->>>> IOMMU_WO)) {
->>>> -            status = SMMU_TRANS_ERROR;
->>>> -            if (event.record_trans_faults) {
->>>> -                event.type = SMMU_EVT_F_PERMISSION;
->>>> -                event.u.f_permission.addr = addr;
->>>> -                event.u.f_permission.rnw = flag & 0x1;
->>>> +    if (s->disable_cached_iotlb) {
->>>> +        cached_entry = smmu_iotlb_lookup(bs, cfg, tt, aligned_addr);
->>>> +        if (cached_entry) {
->>>> +            if ((flag & IOMMU_WO) && !(cached_entry->entry.perm &
->>>> IOMMU_WO)) {
->>>> +                status = SMMU_TRANS_ERROR;
->>>> +                if (event.record_trans_faults) {
->>>> +                    event.type = SMMU_EVT_F_PERMISSION;
->>>> +                    event.u.f_permission.addr = addr;
->>>> +                    event.u.f_permission.rnw = flag & 0x1;
->>>> +                }
->>>> +            } else {
->>>> +                status = SMMU_TRANS_SUCCESS;
->>>>                }
->>>> -        } else {
->>>> -            status = SMMU_TRANS_SUCCESS;
->>>> +            goto epilogue;
->>>>            }
->>>> -        goto epilogue;
->>>>        }
->>>>          cached_entry = g_new0(SMMUTLBEntry, 1);
->>>> @@ -742,7 +745,9 @@ static IOMMUTLBEntry
->>>> smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>>>            }
->>>>            status = SMMU_TRANS_ERROR;
->>>>        } else {
->>>> -        smmu_iotlb_insert(bs, cfg, cached_entry);
->>>> +        if (s->disable_cached_iotlb) {
->>>> +            smmu_iotlb_insert(bs, cfg, cached_entry);
->>>> +        }
->>>>            status = SMMU_TRANS_SUCCESS;
->>>>        }
->>>>    @@ -855,8 +860,9 @@ static void
->>>> smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova,
->>>>        }
->>>>    }
->>>>    -static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
->>>> +static void smmuv3_s1_range_inval(SMMUv3State *s, Cmd *cmd)
->>>>    {
->>>> +    SMMUState *bs = ARM_SMMU(s);
->>>>        dma_addr_t end, addr = CMD_ADDR(cmd);
->>>>        uint8_t type = CMD_TYPE(cmd);
->>>>        uint16_t vmid = CMD_VMID(cmd);
->>>> @@ -876,7 +882,9 @@ static void smmuv3_s1_range_inval(SMMUState *s,
->>>> Cmd *cmd)
->>>>        if (!tg) {
->>>>            trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, 1, ttl,
->>>> leaf);
->>>>            smmuv3_inv_notifiers_iova(s, asid, addr, tg, 1);
->>>> -        smmu_iotlb_inv_iova(s, asid, addr, tg, 1, ttl);
->>>> +        if (s->disable_cached_iotlb) {
->>>> +            smmu_iotlb_inv_iova(s, asid, addr, tg, 1, ttl);
->>>> +        }
->>>>            return;
->>>>        }
->>>>    @@ -885,17 +893,23 @@ static void smmuv3_s1_range_inval(SMMUState
->>>> *s, Cmd *cmd)
->>>>        num_pages = (num + 1) * BIT_ULL(scale);
->>>>        granule = tg * 2 + 10;
->>>>    -    /* Split invalidations into ^2 range invalidations */
->>>> -    end = addr + (num_pages << granule) - 1;
->>>> -
->>>> -    while (addr != end + 1) {
->>>> -        uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
->>>> -
->>>> -        num_pages = (mask + 1) >> granule;
->>>> +    if (s->disable_cached_iotlb) {
->>>>            trace_smmuv3_s1_range_inval(vmid, asid, addr, tg,
->>>> num_pages, ttl, leaf);
->>>>            smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
->>>> -        smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
->>> smmuv3_inv_notifiers_iova()
->>> also needs to be called with power of 2 ranges
->>> as it eventually calls memory_region_notify_iommu_one() which sets
->>> event.entry.addr_mask = num_pages * (1 << granule) - 1;
->>>
->>>> -        addr += mask + 1;
->>>> +    } else {
->>>> +        /* Split invalidations into ^2 range invalidations */
->>>> +        end = addr + (num_pages << granule) - 1;
->>>> +
->>>> +        while (addr != end + 1) {
->>>> +            uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
->>>> +
->>>> +            num_pages = (mask + 1) >> granule;
->>>> +            trace_smmuv3_s1_range_inval(vmid, asid, addr,
->>>> +                                        tg, num_pages, ttl, leaf);
->>>> +            smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
->>>> +            smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
->>>> +            addr += mask + 1;
->>>> +        }
->>>>        }
->>>>    }
->>>>    @@ -1028,18 +1042,22 @@ static int smmuv3_cmdq_consume(SMMUv3State
->>>> *s)
->>>>                  trace_smmuv3_cmdq_tlbi_nh_asid(asid);
->>>>                smmu_inv_notifiers_all(&s->smmu_state);
->>>> -            smmu_iotlb_inv_asid(bs, asid);
->>>> +            if (s->disable_cached_iotlb) {
->>>> +                smmu_iotlb_inv_asid(bs, asid);
->>>> +            }
->>>>                break;
->>>>            }
->>>>            case SMMU_CMD_TLBI_NH_ALL:
->>>>            case SMMU_CMD_TLBI_NSNH_ALL:
->>>>                trace_smmuv3_cmdq_tlbi_nh();
->>>>                smmu_inv_notifiers_all(&s->smmu_state);
->>>> -            smmu_iotlb_inv_all(bs);
->>>> +            if (s->disable_cached_iotlb) {
->>>> +                smmu_iotlb_inv_all(bs);
->>>> +            }
->>>>                break;
->>>>            case SMMU_CMD_TLBI_NH_VAA:
->>>>            case SMMU_CMD_TLBI_NH_VA:
->>>> -            smmuv3_s1_range_inval(bs, &cmd);
->>>> +            smmuv3_s1_range_inval(s, &cmd);
->>>>                break;
->>>>            case SMMU_CMD_TLBI_EL3_ALL:
->>>>            case SMMU_CMD_TLBI_EL3_VA:
->>>> @@ -1506,6 +1524,12 @@ static void smmuv3_instance_init(Object *obj)
->>>>        /* Nothing much to do here as of now */
->>>>    }
->>>>    +static Property smmuv3_properties[] = {
->>>> +    DEFINE_PROP_BOOL("disable_cached_iotlb", SMMUv3State,
->>>> +                     disable_cached_iotlb, true),
->>>> +    DEFINE_PROP_END_OF_LIST(),
->>>> +};
->>>> +
->>>>    static void smmuv3_class_init(ObjectClass *klass, void *data)
->>>>    {
->>>>        DeviceClass *dc = DEVICE_CLASS(klass);
->>>> @@ -1515,6 +1539,7 @@ static void smmuv3_class_init(ObjectClass
->>>> *klass, void *data)
->>>>        device_class_set_parent_reset(dc, smmu_reset, &c->parent_reset);
->>>>        c->parent_realize = dc->realize;
->>>>        dc->realize = smmu_realize;
->>>> +    device_class_set_props(dc, smmuv3_properties);
->>>>    }
->>>>      static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
->>>> diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
->>>> index c641e60..c94ab7e 100644
->>>> --- a/include/hw/arm/smmuv3.h
->>>> +++ b/include/hw/arm/smmuv3.h
->>>> @@ -62,6 +62,7 @@ struct SMMUv3State {
->>>>          qemu_irq     irq[4];
->>>>        QemuMutex mutex;
->>>> +    bool disable_cached_iotlb; /* Whether disable/enable cached
->>>> iotlb */
->>>>    };
->>>>      typedef enum {
->>> Thanks
->>>
->>> Eric
->>>
->>>
->>> .
->>>
+>> -        if (sockets == 0) {
+>> -            cores = cores > 0 ? cores : 1;
+>> -            threads = threads > 0 ? threads : 1;
+>> -            sockets = maxcpus / (dies * cores * threads);
+>> -        } else if (cores == 0) {
+>> -            threads = threads > 0 ? threads : 1;
+>> -            cores = maxcpus / (sockets * dies * threads);
+>> -        } else if (threads == 0) {
+>> -            threads = maxcpus / (sockets * dies * cores);
+>> +        if (mc->smp_prefer_sockets) {
+>> +            /* prefer sockets over cores over threads before 6.2 */
+>> +            if (sockets == 0) {
+>> +                cores = cores > 0 ? cores : 1;
+>> +                threads = threads > 0 ? threads : 1;
+>> +                sockets = maxcpus / (dies * cores * threads);
+>> +            } else if (cores == 0) {
+>> +                threads = threads > 0 ? threads : 1;
+>> +                cores = maxcpus / (sockets * dies * threads);
+>> +            } else if (threads == 0) {
+>> +                threads = maxcpus / (sockets * dies * cores);
+>> +            }
+>> +        } else {
+>> +            /* prefer cores over sockets over threads since 6.2 */
+>> +            if (cores == 0) {
+>> +                sockets = sockets > 0 ? sockets : 1;
+>> +                threads = threads > 0 ? threads : 1;
+>> +                cores = maxcpus / (sockets * dies * threads);
+>> +            } else if (sockets == 0) {
+>> +                threads = threads > 0 ? threads : 1;
+>> +                sockets = maxcpus / (dies * cores * threads);
+>> +            } else if (threads == 0) {
+>> +                threads = maxcpus / (sockets * dies * cores);
+>> +            }
+>>           }
+>>       }
 >>
->
+>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>> index fd5c2277f2..9b811fc6ca 100644
+>> --- a/hw/i386/pc_piix.c
+>> +++ b/hw/i386/pc_piix.c
+>> @@ -432,6 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
+>>       m->is_default = false;
+>>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+>> +    m->smp_prefer_sockets = true;
+>>   }
+>>
+>>   DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+>> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+>> index b45903b15e..88efb7fde4 100644
+>> --- a/hw/i386/pc_q35.c
+>> +++ b/hw/i386/pc_q35.c
+>> @@ -372,6 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+>>       m->alias = NULL;
+>>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+>> +    m->smp_prefer_sockets = true;
+>>   }
+>>
+>>   DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index d39fd4e644..a481fade51 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -4702,6 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
+>>   {
+>>       spapr_machine_6_2_class_options(mc);
+>>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>> +    mc->smp_prefer_sockets = true;
+>>   }
+>>
+>>   DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index 4d25278cf2..b40e647883 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -809,6 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
+>>   {
+>>       ccw_machine_6_2_class_options(mc);
+>>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>> +    mc->smp_prefer_sockets = true;
+>>   }
+>>   DEFINE_CCW_MACHINE(6_1, "6.1", false);
+>>
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index 463a5514f9..2ae039b74f 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -247,6 +247,7 @@ struct MachineClass {
+>>       bool nvdimm_supported;
+>>       bool numa_mem_supported;
+>>       bool auto_enable_numa;
+>> +    bool smp_prefer_sockets;
+>>       const char *default_ram_id;
+>>
+>>       HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 06f819177e..451d2cd817 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -238,7 +238,8 @@ SRST
+>>       Historically preference was given to the coarsest topology parameters
+>>       when computing missing values (ie sockets preferred over cores, which
+>>       were preferred over threads), however, this behaviour is considered
+>> -    liable to change.
+>> +    liable to change. Prior to 6.2 the preference was sockets over cores
+>> +    over threads. Since 6.2 the preference is cores over sockets over threads.
+>>   ERST
+>>
+>>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+>> --
+>> 2.19.1
+>>
 > .
->
-
 
 
