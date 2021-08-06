@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A5D3E23D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:18:32 +0200 (CEST)
-Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D683E23F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 09:25:41 +0200 (CEST)
+Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBu7j-0007wN-JY
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
+	id 1mBuEe-00029O-Dj
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 03:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBu6p-00079o-Ia
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:17:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mBu6o-00038Y-6I
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:17:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628234253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/9IHpTcADPANjU27GMvrmRxjRwMx1Koo+6MLKbI6NGk=;
- b=E9EaAwVgGLuPLkw2jmVmmN8aenMfoV6MvmosOMe5FUYe59KtoOzNu12Y1b1d94w6XPROZB
- VCAdh5dAHwF12omgSmdt+mHzPm+jw8rSEODGcJwMPFNMeZtq/9NFOVX+d5ZRCeX3h1Q2xV
- gXbCMT67cf0U553c3HYmGxVrvbWvBxU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-KPDTgeKSPkmz3MzeuVBAtw-1; Fri, 06 Aug 2021 03:17:30 -0400
-X-MC-Unique: KPDTgeKSPkmz3MzeuVBAtw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o67-20020a1ca5460000b0290223be6fd23dso1714633wme.1
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:17:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mBuDo-0001TJ-BT
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:24:48 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mBuDm-00014H-3R
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 03:24:47 -0400
+Received: by mail-ed1-x530.google.com with SMTP id y7so11813856eda.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 00:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f8CzNgCgnfPaWs+t9YcNNnEByrArB+BR0LMxbjKc5rs=;
+ b=ejFv64oyTJuemnKIC4wiGFB5NZGglnWZKbNnxk7pr9u4ECij0MARgJIeADR82bIBSr
+ jJsM4rsGrHOIOUbaQDth4ClHSHXje81LO63Q1A0dAVOUwQNVq/aI34sUpROyZH5Xhr9t
+ FFX0t1l1HGDveEx9CoW16HJIi6LbpCVQjbxNyUJFLQj2wuuzmnUpWo7ZjEBUY/aGRbJB
+ iT2cDUQyN1wjg5LG3z1V8qGnC68sFv1IwUyygUAzzsylrjxfHH227TzJLx80PWjygH0I
+ D/kTQa24thdKh8D3rkdoMeqy1lU2QURLjvZqqc5YUv+1AN4cGTZHP2vYTM99HZYogMHU
+ 4OaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/9IHpTcADPANjU27GMvrmRxjRwMx1Koo+6MLKbI6NGk=;
- b=CNpQWmgUy3jQUE12kSx+DqHwr6EQvp+ZGlY/dMirmRnyPBJJqxVv2QDPTMq3Jq5Ct1
- J35D+aIC0iSk6rK0Hvc8Ik7qbqyzZbgZle/NDSg4aYvw/lionW/5Ggu/7hJyA50/D09o
- E/n+xJcrWf+NRJBSZ7bzGVLxSD6b0iWW3l/uhBrPOeWEcj02Agoyw5E5KHBzleEotLpY
- zNTFD0kIRI6A/8ysKHEuI12Kx63p0JpL56+t1vxgqXKtHxetnXYNq9WO1BBLIt9gX/Tz
- o033ToJx8F+p/RZcpmotmAcRYowVmRmCTfInqOQ79nvNRs1UtOES4Wm0PafLedRORcyW
- C0Tg==
-X-Gm-Message-State: AOAM531dc4okYNgHInPoN1RgQYTKbX9kOcuJ8xYaFKVqdMwV6XIy9s/l
- llGN/3wMLbpGgNO9sjtL5oa8n8Ghv+jT6kJrmwgGBSCYO8KwhJIF3rZw790xS6EY5UVbp18lzH/
- eFsMy4ElQCBTakNw=
-X-Received: by 2002:a1c:238e:: with SMTP id j136mr1762105wmj.91.1628234249169; 
- Fri, 06 Aug 2021 00:17:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwseRYkaBCrXjSccKb3VyJIqPoXmWg1YHHQxAv4Ss/rmlC+1xUiuFW2mQosdZ4JWnnB78R10A==
-X-Received: by 2002:a1c:238e:: with SMTP id j136mr1762083wmj.91.1628234248953; 
- Fri, 06 Aug 2021 00:17:28 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6104.dip0.t-ipconnect.de. [91.12.97.4])
- by smtp.gmail.com with ESMTPSA id x15sm8290240wrs.57.2021.08.06.00.17.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 00:17:28 -0700 (PDT)
-Subject: Re: [PATCH v1 03/12] s390x/tcg: convert real to absolute address for
- RRBE, SSKE and ISKE
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210805152804.100333-1-david@redhat.com>
- <20210805152804.100333-4-david@redhat.com>
- <33c1f057-fd79-d15f-e8d5-2d261fbd1255@redhat.com>
- <c5a589ad-f3ee-b0fe-1bcd-318989e3a23a@redhat.com>
- <2806b81b-4e80-6f85-5f0a-ce78bb6ee3c0@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <efd67ce2-aaff-9887-c318-f184290f2d0a@redhat.com>
-Date: Fri, 6 Aug 2021 09:17:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f8CzNgCgnfPaWs+t9YcNNnEByrArB+BR0LMxbjKc5rs=;
+ b=YQwqMurL4GNgWS1oKAEwMjyuEiLCZAz+frnwlJbd6UklpZoyac+Bvkx8KbT7nqVY5w
+ XD514HYsKHH05YHJNONxwyvmzOyT+Z2uu+c6Yan4JBMXp7Jv5XDOvL7XCdzZ3R4X+YMc
+ +1vFdqFFaTV5evIO7RIYwzIHcVrFd1uCQCuqHlp12AG0g97YUYvCymSX7N4eZTprkbYL
+ XMQAHz67bNmZFIuRdkqUvV/n54ub7i1dnqN5v5st142nRy4alZZSqkIqqMmvYhFcA6/u
+ JvpoveoATtb69DcxVoxkAQOczXcxCWVXToktbr0lPMEAXEpYpzdAoMs9JzbEETB+3UEF
+ xZEg==
+X-Gm-Message-State: AOAM5304yD6sjEK8IrBQE4Pb5jkpzzlffe/UlSMsea+Mzzz2f84yimQ1
+ /EqvB8vOxyADjCSSaZSBO0WI/kvuj2pHDKbTTMM=
+X-Google-Smtp-Source: ABdhPJxO6gqtv6Fdp2s6NBtXxwTyQqsZnHaNsIWNg4H82OgEQ/CQKsnLUPYxZGTeUxjpca3+Qb+fzgNlO4HYBDKD1cA=
+X-Received: by 2002:a05:6402:881:: with SMTP id
+ e1mr11613540edy.53.1628234684196; 
+ Fri, 06 Aug 2021 00:24:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2806b81b-4e80-6f85-5f0a-ce78bb6ee3c0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.132, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <BYAPR12MB319275649A1403C254A9EA43D9F29@BYAPR12MB3192.namprd12.prod.outlook.com>
+In-Reply-To: <BYAPR12MB319275649A1403C254A9EA43D9F29@BYAPR12MB3192.namprd12.prod.outlook.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 6 Aug 2021 11:24:32 +0400
+Message-ID: <CAJ+F1CJGfZBR69gfO4kGxvh73=JRX-w2knZ-AemCoK3pit7XOw@mail.gmail.com>
+Subject: Re: [PATCH] Use EGL device extension in display initialization.
+To: Eugene Huang <eugeneh@nvidia.com>
+Content-Type: multipart/alternative; boundary="000000000000f66b1705c8deed94"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,41 +77,569 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.08.21 09:11, Thomas Huth wrote:
-> On 06/08/2021 08.52, David Hildenbrand wrote:
->>>
->>> According to the PoP:
->>>
->>> "When the enhanced-DAT facility 1 is not installed, or
->>>     when the facility is installed but the multiple-block
->>>     control is zero, general register R 2 contains a real
->>>     address. When the enhanced-DAT facility 1 is
->>>     installed and the multiple-block control is one, gen-
->>>     eral register R 2 contains an absolute address."
->>>
->>> Don't we have to take that into consideration here, too?
->>
->> We don't support EDAT1 a.k.a. huge pages yet. If we ever do, we have to
->> further extend this code.
-> 
-> Ok, then maybe add a comment or assert() to make sure that we don't forget?
+--000000000000f66b1705c8deed94
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Well, we'll need modifications and extensions all over the place to 
-support EDAT1, so I'm not sure this will really help ... we'll have to 
-carefully scan the PoP either way.
+Hi
 
--- 
-Thanks,
+On Fri, Aug 6, 2021 at 2:28 AM Eugene Huang <eugeneh@nvidia.com> wrote:
 
-David / dhildenb
+> This patch enables running generic EGL devices such as Nvidia=E2=80=99s i=
+n
+> headless mode. It assumes single device. More work is needed to support
+> multiple devices.
+>
+>
+>
+> Signed-off-by: Eugene Huang <eugeneh@nvidia.com>
+>
 
+Thanks for the patch. It isn't correctly formatted and git apply fails  (
+https://patchew.org/QEMU/BYAPR12MB319275649A1403C254A9EA43D9F29@BYAPR12MB31=
+92.namprd12.prod.outlook.com/).
+Please use git send-email.
+
+---
+>
+> ui/egl-helpers.c | 41 +++++++++++++++++++++++++++++++++++++----
+>
+> 1 file changed, 37 insertions(+), 4 deletions(-)
+>
+>
+>
+> diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+>
+> index 7c530c2825..c11610c083 100644
+>
+> --- a/ui/egl-helpers.c
+>
+> +++ b/ui/egl-helpers.c
+>
+> @@ -1,6 +1,8 @@
+>
+> /*
+>
+>   * Copyright (C) 2015-2016 Gerd Hoffmann <kraxel@redhat.com>
+>
+>   *
+>
+> + * Copyright (c) 2021, NVIDIA CORPORATION & AFFILIATES. All rights
+> reserved.
+>
+> + *
+>
+>   * This library is free software; you can redistribute it and/or
+>
+>   * modify it under the terms of the GNU Lesser General Public
+>
+>   * License as published by the Free Software Foundation; either
+>
+> @@ -349,11 +351,26 @@ static EGLDisplay
+> qemu_egl_get_display(EGLNativeDisplayType native,
+>
+>      EGLDisplay dpy =3D EGL_NO_DISPLAY;
+>
+>      /* In practise any EGL 1.5 implementation would support the EXT
+> extension */
+>
+> -    if (epoxy_has_egl_extension(NULL, "EGL_EXT_platform_base")) {
+>
+> +    if (epoxy_has_egl_extension(NULL, "EGL_EXT_platform_base")
+>
+> +        && epoxy_has_egl_extension(NULL, "EGL_EXT_platform_device")
+>
+> +        && (epoxy_has_egl_extension(NULL, "EGL_EXT_device_base")
+>
+> +        || epoxy_has_egl_extension(NULL, "EGL_EXT_device_enumeration")))=
+ {
+>
+>          PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplayEXT =3D
+>
+>              (void *) eglGetProcAddress("eglGetPlatformDisplayEXT");
+>
+>          if (getPlatformDisplayEXT && platform !=3D 0) {
+>
+> -            dpy =3D getPlatformDisplayEXT(platform, native, NULL);
+>
+> +            if (platform =3D=3D EGL_PLATFORM_DEVICE_EXT) {
+>
+> +                static const int MAX_DEVICES =3D 4;
+>
+> +                EGLDeviceEXT eglDevs[MAX_DEVICES];
+>
+> +                EGLint numDevices;
+>
+> +
+>
+> +                PFNEGLQUERYDEVICESEXTPROC eglQueryDevicesEXT =3D
+>
+> +                    (PFNEGLQUERYDEVICESEXTPROC)
+>
+> +                eglGetProcAddress("eglQueryDevicesEXT");
+>
+> +                eglQueryDevicesEXT(MAX_DEVICES, eglDevs, &numDevices);
+>
+> +                dpy =3D getPlatformDisplayEXT(platform, eglDevs[0], 0);
+>
+
+Given that the function has a lengthy comment to explain it, and this is
+quite archaic stuff, I think you should update the comments with your
+additions.
+
+
+> +            } else {
+>
+> +                dpy =3D getPlatformDisplayEXT(platform, native, NULL);
+>
+> +            }
+>
+>          }
+>
+>      }
+>
+> @@ -386,6 +403,17 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dp=
+y,
+>
+>          EGL_ALPHA_SIZE, 0,
+>
+>          EGL_NONE,
+>
+>      };
+>
+> +
+>
+> +    static const EGLint conf_att_pbuffer[] =3D {
+>
+> +        EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+>
+> +        EGL_RED_SIZE, 8,
+>
+> +        EGL_GREEN_SIZE, 8,
+>
+> +        EGL_BLUE_SIZE, 8,
+>
+> +        EGL_DEPTH_SIZE, 1,
+>
+> +        EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+>
+> +        EGL_NONE
+>
+> +    };
+>
+> +
+>
+>      EGLint major, minor;
+>
+>      EGLBoolean b;
+>
+>      EGLint n;
+>
+> @@ -411,8 +439,8 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy=
+,
+>
+>      }
+>
+>      b =3D eglChooseConfig(qemu_egl_display,
+>
+> -                        gles ? conf_att_gles : conf_att_core,
+>
+> -                        &qemu_egl_config, 1, &n);
+>
+> +        gles ? conf_att_gles : (platform =3D=3D EGL_PLATFORM_DEVICE_EXT =
+?
+> conf_att_pbuffer : conf_att_core),
+>
+> +        &qemu_egl_config, 1, &n);
+>
+>      if (b =3D=3D EGL_FALSE || n !=3D 1) {
+>
+>          error_report("egl: eglChooseConfig failed (%s mode)",
+>
+>                       gles ? "gles" : "core");
+>
+> @@ -434,6 +462,11 @@ int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy,
+> DisplayGLMode mode)
+>
+>  int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode)
+>
+> {
+>
+> +    // Try EGL Device Extension
+>
+> +    if (qemu_egl_init_dpy(dpy, EGL_PLATFORM_DEVICE_EXT, mode) =3D=3D 0) =
+{
+>
+> +        return 0;
+>
+> +    }
+>
+> +
+>
+> #ifdef EGL_MESA_platform_gbm
+>
+>      return qemu_egl_init_dpy(dpy, EGL_PLATFORM_GBM_MESA, mode);
+>
+> #else
+>
+> --
+>
+> 2.17.1
+>
+>
+>
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000f66b1705c8deed94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 6, 2021 at 2:28 AM=
+ Eugene Huang &lt;<a href=3D"mailto:eugeneh@nvidia.com">eugeneh@nvidia.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+
+
+
+
+<div style=3D"overflow-wrap: break-word;" lang=3D"EN-US">
+<div class=3D"gmail-m_-5372014696273679682WordSection1">
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText">This patch enables ru=
+nning generic EGL devices such as Nvidia=E2=80=99s in headless mode. It ass=
+umes single device. More work is needed to support multiple devices.<u></u>=
+<u></u></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><u></u>=C2=A0<u></u><=
+/p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">Signed-off-by: Eugene Huang &l=
+t;<a href=3D"mailto:eugeneh@nvidia.com" target=3D"_blank">eugeneh@nvidia.co=
+m</a>&gt;</span></p></div></div></blockquote><div><br></div><div>Thanks for=
+ the patch. It isn&#39;t correctly formatted and git apply fails=C2=A0 (<a =
+href=3D"https://patchew.org/QEMU/BYAPR12MB319275649A1403C254A9EA43D9F29@BYA=
+PR12MB3192.namprd12.prod.outlook.com/">https://patchew.org/QEMU/BYAPR12MB31=
+9275649A1403C254A9EA43D9F29@BYAPR12MB3192.namprd12.prod.outlook.com/</a>). =
+Please use git send-email.<br></div><div><br> </div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div style=3D"overflow-wrap: break-word;" lang=
+=3D"EN-US"><div class=3D"gmail-m_-5372014696273679682WordSection1"><p class=
+=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-size:8pt;=
+font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">---<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">ui/egl-helpers.c | 41 ++++++++=
++++++++++++++++++++++++++++++----<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">1 file changed, 37 insertions(=
++), 4 deletions(-)<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u>=C2=A0<u></u></span></p=
+>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">diff --git a/ui/egl-helpers.c =
+b/ui/egl-helpers.c<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">index 7c530c2825..c11610c083 1=
+00644<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">--- a/ui/egl-helpers.c<u></u><=
+u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+++ b/ui/egl-helpers.c<u></u><=
+u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">@@ -1,6 +1,8 @@<u></u><u></u><=
+/span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">/*<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0 * Copyright (C) 2015-20=
+16 Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank"=
+>kraxel@redhat.com</a>&gt;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0 *<u></u><u></u></span><=
+/p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+ * Copyright (c) 2021, NVIDIA=
+ CORPORATION &amp; AFFILIATES. All rights reserved.<u></u><u></u></span></p=
+>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+ *<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0 * This library is free =
+software; you can redistribute it and/or<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0 * modify it under the t=
+erms of the GNU Lesser General Public<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0 * License as published =
+by the Free Software Foundation; either<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">@@ -349,11 +351,26 @@ static E=
+GLDisplay qemu_egl_get_display(EGLNativeDisplayType native,<u></u><u></u></=
+span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 EGLDi=
+splay dpy =3D EGL_NO_DISPLAY;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+/* In practise any EGL 1.5 implementation would support the EXT extension *=
+/<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">-=C2=A0=C2=A0=C2=A0 if (epoxy_=
+has_egl_extension(NULL, &quot;EGL_EXT_platform_base&quot;)) {<u></u><u></u>=
+</span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 if (epoxy_=
+has_egl_extension(NULL, &quot;EGL_EXT_platform_base&quot;)<u></u><u></u></s=
+pan></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &amp;&amp; epoxy_has_egl_extension(NULL, &quot;EGL_EXT_plat=
+form_device&quot;)<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &amp;&amp; (epoxy_has_egl_extension(NULL, &quot;EGL_EXT_dev=
+ice_base&quot;)<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 || epoxy_has_egl_extension(NULL, &quot;EGL_EXT_device_enume=
+ration&quot;))) {<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplayEXT =
+=3D<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *) eglGetProcAddress(&quot=
+;eglGetPlatformDisplayEXT&quot;);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 if (getPlatformDisplayEXT &amp;&amp; platform !=3D 0) {<=
+u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">-=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dpy =3D getPlatformDisplayEXT(platf=
+orm, native, NULL);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (platform =3D=3D EGL_PLATFORM_DE=
+VICE_EXT) {<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static cons=
+t int MAX_DEVICES =3D 4;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EGLDeviceEX=
+T eglDevs[MAX_DEVICES];<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EGLint numD=
+evices;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PFNEGLQUERY=
+DEVICESEXTPROC eglQueryDevicesEXT =3D<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 (PFNEGLQUERYDEVICESEXTPROC)<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eglGetProcA=
+ddress(&quot;eglQueryDevicesEXT&quot;);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eglQueryDev=
+icesEXT(MAX_DEVICES, eglDevs, &amp;numDevices);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dpy =3D get=
+PlatformDisplayEXT(platform, eglDevs[0], 0);</span></p></div></div></blockq=
+uote><div><br></div><div>Given that the function has a lengthy comment to e=
+xplain it, and this is quite archaic stuff, I think you should update the c=
+omments with your additions.<br></div><div>=C2=A0</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div style=3D"overflow-wrap: break-word;" lan=
+g=3D"EN-US"><div class=3D"gmail-m_-5372014696273679682WordSection1"><p clas=
+s=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-size:8pt=
+;font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dpy =3D get=
+PlatformDisplayEXT(platform, native, NULL);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 }<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 }<u><=
+/u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">@@ -386,6 +403,17 @@ static in=
+t qemu_egl_init_dpy(EGLNativeDisplayType dpy,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 EGL_ALPHA_SIZE, 0,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 EGL_NONE,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 };<u>=
+</u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 static con=
+st EGLint conf_att_pbuffer[] =3D {<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_RED_SIZE, 8,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_GREEN_SIZE, 8,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_BLUE_SIZE, 8,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_DEPTH_SIZE, 1,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,<u></u><u></u></span></=
+p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 EGL_NONE<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 };<u></u><=
+u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 EGLin=
+t major, minor;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 EGLBo=
+olean b;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 EGLin=
+t n;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">@@ -411,8 +439,8 @@ static int=
+ qemu_egl_init_dpy(EGLNativeDisplayType dpy,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 }<u><=
+/u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+b =3D eglChooseConfig(qemu_egl_display,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">-=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gles ? conf_att_gles : conf_att_core,<=
+u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">-=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &amp;qemu_egl_config, 1, &amp;n);<u></=
+u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 gles ? conf_att_gles : (platform =3D=3D EGL_PLATFORM_DEVICE=
+_EXT ? conf_att_pbuffer : conf_att_core),<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &amp;qemu_egl_config, 1, &amp;n);<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 if (b=
+ =3D=3D EGL_FALSE || n !=3D 1) {<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 error_report(&quot;egl: eglChooseConfig failed (%s mode)=
+&quot;,<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 gles ? &quot;gles&quot; : &quot;core&quot;);<u></u><u=
+></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">@@ -434,6 +462,11 @@ int qemu_=
+egl_init_dpy_x11(EGLNativeDisplayType dpy, DisplayGLMode mode)<u></u><u></u=
+></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0int qemu_egl_init_dpy_me=
+sa(EGLNativeDisplayType dpy, DisplayGLMode mode)<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">{<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 // Try EGL=
+ Device Extension<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 if (qemu_e=
+gl_init_dpy(dpy, EGL_PLATFORM_DEVICE_EXT, mode) =3D=3D 0) {<u></u><u></u></=
+span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return 0;<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+=C2=A0=C2=A0=C2=A0 }<u></u><u=
+></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">+<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">#ifdef EGL_MESA_platform_gbm<u=
+></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n qemu_egl_init_dpy(dpy, EGL_PLATFORM_GBM_MESA, mode);<u></u><u></u></span>=
+</p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">#else<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">--
+<u></u><u></u></span></p>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;">2.17.1<u></u><u></u></span></p=
+>
+<p class=3D"gmail-m_-5372014696273679682MsoPlainText"><span style=3D"font-s=
+ize:8pt;font-family:&quot;Courier New&quot;"><u></u>=C2=A0<u></u></span></p=
+>
+</div>
+</div>
+
+</blockquote></div><br clear=3D"all"></div><div>thanks</div><div><br></div>=
+<div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lure=
+au<br></div></div></div>
+
+--000000000000f66b1705c8deed94--
 
