@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEF43E2202
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 05:02:00 +0200 (CEST)
-Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AB53E2204
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 05:02:13 +0200 (CEST)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBq7T-0002XR-JK
-	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 23:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1mBq7g-00037a-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 05 Aug 2021 23:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mBq63-0001Gl-0X
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 23:00:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52612)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mBq6S-0001bA-WF
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 23:00:57 -0400
+Received: from mga02.intel.com ([134.134.136.20]:38642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mBq61-0000sc-GC
- for qemu-devel@nongnu.org; Thu, 05 Aug 2021 23:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628218828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=KU412xskKpo2yK0ge/2dmfNOITyUMjm2OVBFCuYVuxg=;
- b=YRF/MBvIadgVoR188U6DEqBXXFjVm0t4L9wSKlYL/8eegEILkBhHz/LF1askSc98VjLkzx
- 0UqBJqleUVLDLliVIWM/5Eqq4e7J5fV+Zf0d7ReToHCtEqe/xji86xz87btGS8Z1v3KJ3r
- WtRf4Wt99sbill94GuNmZOE3kA7Ta9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-RXcOf1I0PfqKycSWtyXcEA-1; Thu, 05 Aug 2021 23:00:26 -0400
-X-MC-Unique: RXcOf1I0PfqKycSWtyXcEA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE74C87180F;
- Fri,  6 Aug 2021 03:00:25 +0000 (UTC)
-Received: from localhost (unknown [10.22.11.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE6A5DF21;
- Fri,  6 Aug 2021 03:00:25 +0000 (UTC)
-Date: Thu, 5 Aug 2021 23:00:24 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Win32 and ACCEL macro/function
-Message-ID: <20210806030024.om77dfa4frxtpw7i@habkost.net>
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mBq6P-0001CB-CR
+ for qemu-devel@nongnu.org; Thu, 05 Aug 2021 23:00:56 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="201469972"
+X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; d="scan'208";a="201469972"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2021 20:00:47 -0700
+X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; d="scan'208";a="513035633"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.6.254])
+ ([10.238.6.254])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2021 20:00:45 -0700
+Subject: Re: [PATCH] hw/i386/acpi-build: Get NUMA information from struct
+ NumaState
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20210803063005.72770-1-jingqi.liu@intel.com>
+ <20210805112610.5c86dfaf@redhat.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <7d6b89fb-4843-7b95-b63f-c3c320edd80d@intel.com>
+Date: Fri, 6 Aug 2021 11:00:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210805112610.5c86dfaf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=jingqi.liu@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.132,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,54 +63,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, "Daniel P. Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
 
-I'm looking for help dealing with a naming conflict when building
-QEMU for Windows hosts.
 
-The summary is: I'm trying to replace the ACCEL() macro in
-include/qemu/accel.h with an inline function, but the ACCEL name
-conflicts with a symbol provided by winuser.h:
+On 8/5/2021 5:26 PM, Igor Mammedov wrote:
+> On Tue,  3 Aug 2021 14:30:05 +0800
+> Jingqi Liu <jingqi.liu@intel.com> wrote:
+> 
+>> The NUMA information in PCMachineState is copied from MachineState.
+>> We get this information uniformly from struct NumaState in MachineState.
+> Is there a another reason behind this patch?
+> 
+> As cleanup it's not complete, why do you keep
+> PCMachineState::numa_nodes & co around?
+> I'd suggest to remove it completely and use data from
+> MachineState everywhere.
+> 
+Thanks for your confirmation.
+I think so too.
+We can get NUMA information completely from MachineState::numa_state.
 
-  In file included from /builds/ehabkost/qemu/include/exec/memory.h:28,
-                   from /builds/ehabkost/qemu/hw/ppc/mac.h:30,
-                   from ../hw/pci-host/uninorth.c:27:
-  /builds/ehabkost/qemu/include/qemu/accel.h:63:45: error: 'ACCEL' redeclared as different kind of symbol
-     63 | OBJECT_DECLARE_TYPE(AccelState, AccelClass, ACCEL)
-        |                                             ^~~~~
-  /builds/ehabkost/qemu/include/qom/object.h:178:5: note: in definition of macro 'DECLARE_INSTANCE_CHECKER'
-    178 |     OBJ_NAME(const void *obj) \
-        |     ^~~~~~~~
-  /builds/ehabkost/qemu/include/qom/object.h:240:5: note: in expansion of macro 'DECLARE_OBJ_CHECKERS'
-    240 |     DECLARE_OBJ_CHECKERS(InstanceType, ClassType, \
-        |     ^~~~~~~~~~~~~~~~~~~~
-  /builds/ehabkost/qemu/include/qemu/accel.h:63:1: note: in expansion of macro 'OBJECT_DECLARE_TYPE'
-     63 | OBJECT_DECLARE_TYPE(AccelState, AccelClass, ACCEL)
-        | ^~~~~~~~~~~~~~~~~~~
-  In file included from /usr/x86_64-w64-mingw32/sys-root/mingw/include/windows.h:72,
-                   from /usr/x86_64-w64-mingw32/sys-root/mingw/include/winsock2.h:23,
-                   from /builds/ehabkost/qemu/include/sysemu/os-win32.h:29,
-                   from /builds/ehabkost/qemu/include/qemu/osdep.h:135,
-                   from ../hw/pci-host/uninorth.c:25:
-  /usr/x86_64-w64-mingw32/sys-root/mingw/include/winuser.h:1757:5: note: previous declaration of 'ACCEL' was here
-   1757 |   } ACCEL,*LPACCEL;
-        |     ^~~~~
-  [338/4278] Compiling C object libqemuutil.a.p/meson-generated_.._trace_trace-scsi.c.obj
-  ninja: build stopped: subcommand failed.
-  make: *** [Makefile:156: run-ninja] Error 1
+Actually, MachineState::numa_state is used everywhere except for 
+pc_guest_info_init(), which just copies NUMA information to 
+PCMachineState::numa_nodes and PCMachineState::node_mem.
 
-(Full log at https://gitlab.com/ehabkost/qemu/-/jobs/1481978645)
+I'll remove them completely.
 
-Does anybody more experienced with Win32 have a suggestion on how
-to deal with this?  Do we really need to include winsock2.h /
-windows.h / winuser.h from qemu/osdep.h?
+Thanks,
+Jingqi
 
--- 
-Eduardo
-
+>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+>> ---
+>>   hw/i386/acpi-build.c | 12 +++++++-----
+>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index 17836149fe..e3c9ad011e 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -1902,6 +1902,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>       X86MachineState *x86ms = X86_MACHINE(machine);
+>>       const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(machine);
+>>       PCMachineState *pcms = PC_MACHINE(machine);
+>> +    int nb_numa_nodes = machine->numa_state->num_nodes;
+>> +    NodeInfo *numa_info = machine->numa_state->nodes;
+>>       ram_addr_t hotplugabble_address_space_size =
+>>           object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+>>                                   NULL);
+>> @@ -1945,9 +1947,9 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>       next_base = 0;
+>>       numa_start = table_data->len;
+>>   
+>> -    for (i = 1; i < pcms->numa_nodes + 1; ++i) {
+>> +    for (i = 1; i < nb_numa_nodes + 1; ++i) {
+>>           mem_base = next_base;
+>> -        mem_len = pcms->node_mem[i - 1];
+>> +        mem_len = numa_info[i - 1].node_mem;
+>>           next_base = mem_base + mem_len;
+>>   
+>>           /* Cut out the 640K hole */
+>> @@ -1995,7 +1997,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>       }
+>>   
+>>       slots = (table_data->len - numa_start) / sizeof *numamem;
+>> -    for (; slots < pcms->numa_nodes + 2; slots++) {
+>> +    for (; slots < nb_numa_nodes + 2; slots++) {
+>>           numamem = acpi_data_push(table_data, sizeof *numamem);
+>>           build_srat_memory(numamem, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
+>>       }
+>> @@ -2011,7 +2013,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>       if (hotplugabble_address_space_size) {
+>>           numamem = acpi_data_push(table_data, sizeof *numamem);
+>>           build_srat_memory(numamem, machine->device_memory->base,
+>> -                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
+>> +                          hotplugabble_address_space_size, nb_numa_nodes - 1,
+>>                             MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+>>       }
+>>   
+>> @@ -2513,7 +2515,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>>           }
+>>       }
+>>   #endif
+>> -    if (pcms->numa_nodes) {
+>> +    if (machine->numa_state->num_nodes) {
+>>           acpi_add_table(table_offsets, tables_blob);
+>>           build_srat(tables_blob, tables->linker, machine);
+>>           if (machine->numa_state->have_numa_distance) {
+> 
 
