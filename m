@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AA93E286B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:17:14 +0200 (CEST)
-Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57273E28AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Aug 2021 12:35:16 +0200 (CEST)
+Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mBwuf-0005pn-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1mBxC7-0001bt-Bt
+	for lists+qemu-devel@lfdr.de; Fri, 06 Aug 2021 06:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBwtr-0005A5-5r
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:16:23 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:41684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mBwtn-0004d3-QU
- for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:16:22 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id x90so12326340ede.8
- for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 03:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WlA9C9k+WQv8hjuIO+QbwygD3P6PW/4dYPNKgQIyDfo=;
- b=pF9j4eQO8im0epzJ5B7O2ntWUTyYNy5HrDs8cOSagSX0bxjK+UBQpA3OaqYSYCzNSZ
- qYDnO3RAhzTU4UHBMT1YQ9pWuL0CrDkDZ9ibfQR6sck3B1lag8PGqVdd8679lALvaGHa
- pSlOWXeEeSNVH9boJxgoRcLabcxGvf22Prj2MeayY9WlRZlbKNK0kPMYcUanUf2jhnBb
- 7mSthlR5S6fkbAp+7oBN/ZUN/lf7tCVJIz7lTwpJO0Nhmvom+g92r5M70EmmWKmn1zXo
- 5oD4GiePWG49wOACoxfCG2lwkUI+6E8Ou3jGJKHLsUWvFgSfyG003hBqtbu4SEg/tG6m
- 69dw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mBxAY-0000uh-US
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:33:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mBxAV-0000qb-KO
+ for qemu-devel@nongnu.org; Fri, 06 Aug 2021 06:33:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628246011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9PPtsVsL1rO1yfen4MitIY0dgI98HSX65QimFT8oIU=;
+ b=DZPmbRQ3oYLOqXgx58YWNGnHmuSJg+JGLhf0sMhd4rmIWZ9LuB7/0u6BgfUUMuKNkA0A8n
+ 9iW8JZNptLoijEc7AL8wm+pXMdaSQkjR8FA2G1rX2g4278l6tbLOucWdAPqwSS5e9JplLv
+ R9NyFcgTvS5Ez1/2P5cbmOi8evJepWs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-Ir2HidEVOlqN-GQeJQ1VKw-1; Fri, 06 Aug 2021 06:33:30 -0400
+X-MC-Unique: Ir2HidEVOlqN-GQeJQ1VKw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s22-20020adf97960000b02901535eae4100so3004072wrb.14
+ for <qemu-devel@nongnu.org>; Fri, 06 Aug 2021 03:33:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WlA9C9k+WQv8hjuIO+QbwygD3P6PW/4dYPNKgQIyDfo=;
- b=LrjQioWGf2XhP+27dzaATMzA5HfXpL3rxNER7OIUw1Pykp8v/GlY+MTQIRTTq0ANAt
- RPkbeOzMrfqG33x9TmkTce0YekZQwI02ZhnXcWC8ENxzBImlGbSHJUaTwDLjNi58zmGp
- vV3PDqzEvg5UgMfttqM1yzT4+HNuhVTq3LOpOvix3WTlxl0tm6uiQq2/3MPJDoTs0mzg
- t+KNqHPORByciRBwSKDiJTyR44IEVo5ATSgO1xKWQtZZplUaWuOIL9npWxMePMqN1Y3x
- Nx/xWwBgmmE6DnI09h8nY8IUXHiJF5r6Jc4105r9e0/UUaXXdPFN1eVjeC0vuRWXiO3v
- Ssxw==
-X-Gm-Message-State: AOAM531pWqhz9eti4Oh0EKQJo5dSOJCCJle02yN46kD6uxjWg5kt/24E
- Zsrt3hHK51ahjtESASR8XE5J0APtW7gma8bj28aJmA==
-X-Google-Smtp-Source: ABdhPJwyP4a+VxZiMH6zWWGhuB78hcK2Q2pL8RSwZMZTxnQb+vVAOqO5gC23zXNSvNfpWzfQVV4YXdOu/TgKpqcZy2o=
-X-Received: by 2002:aa7:d7c1:: with SMTP id e1mr11703002eds.251.1628244978437; 
- Fri, 06 Aug 2021 03:16:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+9PPtsVsL1rO1yfen4MitIY0dgI98HSX65QimFT8oIU=;
+ b=FueybC1hbT5JXztYApcDRV/P9gqfvTa0komZnPyolpgAzK1FBZpeWoQWqMJutttcQi
+ Mw3S8mR79TDate66ymPEiITYkBZ0oH1KOfD8ruGVvUugHVAB/gALM6maj1ucYcL04Q1z
+ W/gR1SoPMdmWiHV4IoGQRgANWukcFPoxjREarfSzH466rYZZs1qoB+qdHkAdoQSL7Sf7
+ Myr/mUlGvB4tEbXi8JcZP3wWnnso42Z1vfuWDr1CzQkI0ZIHtOVTshDNC+KhzouI4Lwa
+ JHRz2AiUfCUXMiwu06z+HARQ/DzEfYgJy14A1VY0LpC9Yy0KFg4UxwUQ7eoqzWHDgShQ
+ pc1w==
+X-Gm-Message-State: AOAM532vml9QwiLUt99aiuPdkckzm8k8hDuabh70ZHD0ZD3/nrhmWq7d
+ y0lbs2FQfGGPE3L9dAjC/N7jvr/nUlz+LZt9o4SByuvy+Sre1oqZkuaREhRmJ8VQyvcy08hNAUH
+ 3Azee8nRZ9+g8Rw4=
+X-Received: by 2002:adf:cf07:: with SMTP id o7mr9880846wrj.216.1628246009168; 
+ Fri, 06 Aug 2021 03:33:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzaNHA81+bKeR4N5sz6OWcAA67wZavTl6F/3z/mvlVPl3t+KUAzDx0uPVigslNpVwTgr9Ew3A==
+X-Received: by 2002:adf:cf07:: with SMTP id o7mr9880817wrj.216.1628246008997; 
+ Fri, 06 Aug 2021 03:33:28 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id m39sm10574457wms.28.2021.08.06.03.33.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Aug 2021 03:33:28 -0700 (PDT)
+Date: Fri, 6 Aug 2021 12:33:26 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
+ from acpi_get_i386_pci_host
+Message-ID: <20210806123326.284595b3@redhat.com>
+In-Reply-To: <20210805180915-mutt-send-email-mst@kernel.org>
+References: <20210726165743.232073-1-ani@anisinha.ca>
+ <20210805111543.5fb99abf@redhat.com>
+ <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2108051826190.291909@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
+ <20210805180915-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
-In-Reply-To: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Aug 2021 11:15:34 +0100
-Message-ID: <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
- =?UTF-8?Q?_execution=EF=BC=9F?=
-To: Duo jia <jiaduo19920301@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,57 +101,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Aug 2021 at 07:24, Duo jia <jiaduo19920301@gmail.com> wrote:
-> I am simulating a device. When an interrupt occurs, another interrupt
-> comes, and the second interrupt will not be triggered because the
-> first interrupt has not yet finished.
->
-> I want to know whether qemu can detect whether the interrupt has been
-> executed, will there be a callback here?
-> Or how can I deal with this situation?
+On Thu, 5 Aug 2021 18:13:21 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-End of interrupt handling is entirely dependent on what the
-guest hardware being emulated is. Usually the guest software
-will indicate "interrupt handled" back to the interrupt
-controller (perhaps by writing a register; depends on the
-interrupt controller), and the interrupt controller will
-then look at what the next highest priority pending interrupt
-is and signal that back to the CPU, or do nothing if there's
-no new interrupt. So the second interrupt will automatically
-be taken and handled once the first one has finished,
-as a result of this interrupt controller and guest OS
-interaction.
+> On Thu, Aug 05, 2021 at 07:42:35PM +0530, Ani Sinha wrote:
+> > Also to be noted that there is a stub for acpi_get_i386_pci_host() which
+> > simply returns NULL. This activates when CONFIG_PC is disabled. It is this
+> > stub that gets called for mips and hence the check for non-null host is
+> > needed in acpi_set_pci_info() function.
+> >   
+> 
+> Frankly this is generating more discussion that it's worth imho.
+> IMHO these tweaks will bring little benefit.
+> Igor do you feel differently?
+replacing 'ifs' with assert is a bit cleaner, but if we are cleaning
+it up we should clean up it properly without leaving unnecessary
+code around.
+That's why I suggested to separate x86 specific parts from piix4.
+Philippe (CCed) even have reported issues ACPI parts were
+causing on MIPS machines, so if someone is willing to untangle
+the mess it might be worth the shot.
 
-The original device usually doesn't get told when this
-happens, and it doesn't need to know. For example, one common
-form of device interrupt is level-triggered. Here the device
-has some condition (perhaps "FIFO full") that causes an
-interrupt. So it raises its outbound IRQ line when the FIFO
-is full, and it doesn't lower it again until whatever the
-device specification says is the condition (eg when the
-guest reads from the FIFO, or if the guest writes to some
-'clear interrupt' register on the device). It's the job of
-the guest software to make sure that when it gets an interrupt
-from the device that it handles it such that the device has
-been satisfied and lowered the interrupt.
 
-More rarely, some devices are specified to pulse their interrupt
-line when a condition occurs.
-
-In summary, you need to look at the specification of the device
-you're emulating to find out when and how it is supposed to
-raise or lower its interrupt line. ("I didn't get a second
-interrupt" bugs might also be caused by bugs in the interrupt
-controller or in the guest software device driver -- if you're
-just using an existing known-to-work QEMU interrupt controller
-model and a known-to-work device driver and OS, then the
-bug is very likely in your device model. If you're also
-writing the OS device driver at the same time then the bug
-could be there instead.)
-
--- PMM
 
