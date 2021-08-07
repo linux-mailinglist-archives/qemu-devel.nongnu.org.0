@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EBE3E375D
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:10:50 +0200 (CEST)
-Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757DF3E375F
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:13:34 +0200 (CEST)
+Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCUWn-00069I-Dx
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
+	id 1mCUZR-0002Ew-Hm
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6X-0000Jg-OW
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:42 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:46049)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6a-0000S8-5R
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:44 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:42829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6W-0005Uq-9M
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:41 -0400
-Received: by mail-io1-xd33.google.com with SMTP id e186so17979869iof.12
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6X-0005WJ-Ck
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:43 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id h1so19883018iol.9
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rfVpKk3K/d551DVmXRmKm6XBuSrm0xhas2vhvUMjkyQ=;
- b=bAo7jySbQTl8v/QAkuQVEWlDLujUZg2yjniRljOyWDd2izsMFyV+cDe0Txd9busFPP
- ZtotqlM12EvrMrtcedIr2TnTJmsrKGlTFdEZR50Hq35B/duxJezTyqUsYUNOSn4Xj9Xk
- gdBmFmpkvNVJcXRNBY22vbw8GXRsHX7QgPzpDCmpeWAalh+GVcxc8yLmbbN5enFmS2+z
- QZhYLooXJW1hYnhOU4ttfgoHnA3bNV+PxxIYm/0MqKDvDrO8Q+BwWNf/QpYufd8Q9vLH
- gRCFdtcviDWlKUow25/c2vp7S29R4MJFiF9YeeCOpRPZtYU5bQy+5NRQmOETxuUYieGu
- KHWQ==
+ bh=D+a7UQ8owCmGXtyzDU3U40GIDHEJl71xOx4FAs8OqMA=;
+ b=DDPtkXkx5v6T1EP45z2hwLUjNPOy/2PrkgOs+KAC3uECbFD2rkHv2DSuDKNcGbbt4d
+ Y0MUNFq+0TOPmQq7tveSfj7sXYuf7+WC1ycMNPP0Rx5IdoAX93WjWeq1nS7v3UCX+2bb
+ ciT8n/ysVLNpULS0fMnPQbRzGOhsYo/i41erR0PIiSZt3a8Rg2lTPKRw38ItLzLp1XJT
+ 3YBi5qsYR2gSvWJH7dt/O78+4p0q+DvNYoHSh1QdJCXA1Y0ypK169EyQL7OlQGGfdPz6
+ SCwM2aeXtdMMgzx1QAdiLCDtu2Tys8qE30TDNz2HqEH90ogr5XTs3j1KRJEzc9k0DJtT
+ pY/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rfVpKk3K/d551DVmXRmKm6XBuSrm0xhas2vhvUMjkyQ=;
- b=bESv46Oxdb8tzpdvGknFAdVbozXm/HwHpBzJtd0tQOAA+SeYUuPWNANX4wrXzKu5Gr
- LDKsGP5be9K1VbuUlvX484jR+APjt0/U0+hW1ctc1crfBFrT2mM5VQKrlhAhW3U5avCv
- ztMtgmikY765dTUikztB4KSvHVc9UzPRTT62Z8x4gScGEec0Zh7V5cePQbQnA5vuzfYB
- K9j+6AB/flCTkcvIjT7u+/4rRH0Rl79x+yn7oLrGSu86J2/J2WawoH2chHomAI7RMtgT
- 3WPdS6xAGxYFceRncHQIlM3HsZg0VI/yCBdjMADrjG8ws1gCbolBxJbURnhAIN0MXq8U
- yWdA==
-X-Gm-Message-State: AOAM530JcgU2zVc3Nq+rOJQfyMtQR/LLyEM/pq/+VdAMLbA2udLKG0Q7
- V81ozEj4PisWGbalTpgEyK7sERWeopssDLFs
-X-Google-Smtp-Source: ABdhPJxx5St20//8fsIDfTjQf/PZ65vNOgoDV25nxo+VfQa4yhEzcxiacC6tXpRenPYuJFboYJFMBg==
-X-Received: by 2002:a05:6e02:550:: with SMTP id
- i16mr19385ils.207.1628372619045; 
- Sat, 07 Aug 2021 14:43:39 -0700 (PDT)
+ bh=D+a7UQ8owCmGXtyzDU3U40GIDHEJl71xOx4FAs8OqMA=;
+ b=aZfxks/bfaHo5WyvzX/Dgkjskj5XvOcI3nqp9bACqcTKYxhzqiSctTeTpJfSbMQlz2
+ 5g/uSoos8Lzelat7+s5R04p3Oe/vZNfoY/bg73tQln/RmnaSEJwLWJj7B0PNskurNuzP
+ Nofd6HNTXC2B9MbW9XAcm+Xpb8hL4pFFkrU5fOQh0ILprinf5sfz43/L/fH0+UEyRblk
+ kKcFXOLkCEhmV4V9AocHp3j8jkqxujB8aqgHCv9lSJiai3hGjwpwTYCJWeMymXSGjgtU
+ 2U/AkL5PwVEMVDFJg+q1kIb0qqZtV8Jc/TwYWnwG6BuML2m6IV2GDqqd2HCmXLyvSkbi
+ USTw==
+X-Gm-Message-State: AOAM5337k4SRsjwNtSOewKiKbu8EYCAgfWEyDtlgyCYNf2gOHhFKSrfS
+ e4LzAbhQ6ES0CLIv/Yx/zPT/bNJCiD9Yrj2w
+X-Google-Smtp-Source: ABdhPJzhyQ2vYSVCJaYzjPi7xG9T2z9NNVyYuiJ08PnXKnpEQa2NQTOU5rJOGAbnmDeR1LxfZliLrA==
+X-Received: by 2002:a05:6e02:2147:: with SMTP id
+ d7mr91494ilv.179.1628372620043; 
+ Sat, 07 Aug 2021 14:43:40 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.38
+ by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 14:43:38 -0700 (PDT)
+ Sat, 07 Aug 2021 14:43:39 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 48/49] bsd-user: Implement cpu_copy() helper routine
-Date: Sat,  7 Aug 2021 15:42:41 -0600
-Message-Id: <20210807214242.82385-49-imp@bsdimp.com>
+Subject: [PATCH for 6.2 49/49] bsd-user: Add '-0 argv0' option to
+ bsd-user/main.c
+Date: Sat,  7 Aug 2021 15:42:42 -0600
+Message-Id: <20210807214242.82385-50-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210807214242.82385-1-imp@bsdimp.com>
 References: <20210807214242.82385-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,66 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Justin Hibbits <chmeeedalf@gmail.com>, Warner Losh <imp@bsdimp.com>,
- Stacey Son <sson@FreeBSD.org>
+Cc: kevans@freebsd.org, Colin Percival <cperciva@tarsnap.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@FreeBSD.org>
+From: Colin Percival <cperciva@tarsnap.com>
 
-cpu_copy shouldbe called when processes are creating new threads. It
-copies the current state of the CPU to a new cpu state needed for the
-new thread.
+Previously it was impossible to emulate a program with a file name
+different from its argv[0].  With this change, you can run
+    qemu -0 fakename realname args
+which runs the program "realname" with an argv of "fakename args".
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Colin Percival <cperciva@tarsnap.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Signed-off-by: Justin Hibbits <chmeeedalf@gmail.com>
 ---
- bsd-user/main.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ bsd-user/main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 2b0716d245..1de5dc189b 100644
+index 1de5dc189b..c3ecdaf824 100644
 --- a/bsd-user/main.c
 +++ b/bsd-user/main.c
-@@ -196,6 +196,36 @@ void init_task_state(TaskState *ts)
-     ts->sigqueue_table[i].next = NULL;
- }
+@@ -284,6 +284,7 @@ int main(int argc, char **argv)
+     char **target_environ, **wrk;
+     envlist_t *envlist = NULL;
+     bsd_type = HOST_DEFAULT_BSD_TYPE;
++    char * argv0 = NULL;
  
-+CPUArchState *cpu_copy(CPUArchState *env)
-+{
-+    CPUState *cpu = env_cpu(env);
-+    CPUState *new_cpu = cpu_create(cpu_type);
-+    CPUArchState *new_env = new_cpu->env_ptr;
-+    CPUBreakpoint *bp;
-+    CPUWatchpoint *wp;
-+
-+    /* Reset non arch specific state */
-+    cpu_reset(new_cpu);
-+
-+    memcpy(new_env, env, sizeof(CPUArchState));
-+
-+    /*
-+     * Clone all break/watchpoints.
-+     * Note: Once we support ptrace with hw-debug register access, make sure
-+     * BP_CPU break/watchpoints are handled correctly on clone.
-+     */
-+    QTAILQ_INIT(&cpu->breakpoints);
-+    QTAILQ_INIT(&cpu->watchpoints);
-+    QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
-+        cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
-+    }
-+    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
-+        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, wp->flags, NULL);
-+    }
-+
-+    return new_env;
-+}
-+
- void gemu_log(const char *fmt, ...)
- {
-     va_list ap;
+     adjust_ssize();
+ 
+@@ -405,6 +406,8 @@ int main(int argc, char **argv)
+             do_strace = 1;
+         } else if (!strcmp(r, "trace")) {
+             trace_opt_parse(optarg);
++        } else if (!strcmp(r, "0")) {
++            argv0 = argv[optind++];
+         } else {
+             usage();
+         }
+@@ -428,6 +431,8 @@ int main(int argc, char **argv)
+         usage();
+     }
+     filename = argv[optind];
++    if (argv0)
++        argv[optind] = argv0;
+ 
+     if (!trace_init_backends()) {
+         exit(1);
 -- 
 2.32.0
 
