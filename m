@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5621A3E35D1
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 16:11:50 +0200 (CEST)
-Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43923E35E1
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 16:23:57 +0200 (CEST)
+Received: from localhost ([::1]:38738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCN3F-0008DY-Dv
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 10:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47344)
+	id 1mCNEy-0002l7-O4
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 10:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mCN28-0006nH-Fn; Sat, 07 Aug 2021 10:10:40 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:41901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mCN23-00051C-HY; Sat, 07 Aug 2021 10:10:40 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- u5-20020a17090ae005b029017842fe8f82so13212659pjy.0; 
- Sat, 07 Aug 2021 07:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n1i7yb3sgyTW4blKIhGbZu52BsapXAydzf9xe+NZo1k=;
- b=ZBJE7OQwUGG1m9AmfuS2bAxG9pKcvfrdqF+bwR9QCZNw47/O2uxUnrqtrguY5Xr2Kj
- LRla3DMdM7iDMdgw3Vv0aJ8lxyN3pVvfvRappMDrRPP4VQc20FULeW0lbqmliQtO3IOU
- BzT3r7PyedGnYEogh3WfrP48TusUelpja7Zkv1QySqA83CJt2acZlLk69khCOncnXmIk
- nBAzKssyMQMzM9DLCr8pO8ugANz9zCh5GVmqSc1l5bExWpTFM9IP93bkGiSs+nYmfyEm
- kaSGSb99s3+kR5jZxzKrBRIh0tOa4kDpwDj6ROWS2J8S6jSWoC4S0RK5g2UeFetDnR7b
- DwAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n1i7yb3sgyTW4blKIhGbZu52BsapXAydzf9xe+NZo1k=;
- b=g8ij4BrKmP3MBxmWlaNFvTZdXG5PjE49lfQy0GyeFLW6ORbz7Zy9EYUSf3DxVf+Wzd
- UFZ2xAkT/t4WwHdHiS/9LnRYeAoizlYG+CVRV6PQozCD0GnZTTrtK7dDGS/nIJik3K5F
- cWeZNuCGz+0sVQBQl9Ano4duASyFMjTdNaybs2ceKPkkZyw8f23hAtPo187dR3JjbE/V
- mUY/XcmoGHSSwmx3MEirGHI7aJgGpZNffrY1tUG337BD0sTPJeqAWClIbq+29HuNd0KX
- zbej/Y1CITPazeeWZqRP+rJKp/gyFiuMD4nKxgbKQAaSEByFIOYuP3tAuCtbd1WTFFqP
- kz6g==
-X-Gm-Message-State: AOAM531pIaUOvwcKZxTIpVXETFvVuCICtapIa0FPO5SSxVsdN6jAJB9n
- Tgo6WgxYGFIJSkiAJmH8tV4=
-X-Google-Smtp-Source: ABdhPJwxgFZDWGV2wzCXJSqqdczisy+CQRVUiByyF0bLUbuodYNSN/4auE0C77BlzcKelYoxYv/YSg==
-X-Received: by 2002:a62:7c4d:0:b029:3b0:b284:fd9c with SMTP id
- x74-20020a627c4d0000b02903b0b284fd9cmr10012853pfc.11.1628345433170; 
- Sat, 07 Aug 2021 07:10:33 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id b3sm14152928pfi.179.2021.08.07.07.10.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 07:10:32 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH] target/riscv: Correct a comment in riscv_csrrw()
-Date: Sat,  7 Aug 2021 22:10:25 +0800
-Message-Id: <20210807141025.31808-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCNDx-00025T-J3
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 10:22:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCNDu-0003LI-Q0
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 10:22:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628346169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mn88nB2Mn33WML8Ivc2xsRfSzqG9DRPUmQ//XqF85LY=;
+ b=B5uu1H0OH+VoclxArWAovHFKXqdKpqFI0DkTXXQZQDo2456mveSNa03GTJQEqg/VirdQDp
+ 1AxmafzZBvyei7DhjEBW6p09n4tiHILEDKSh1s+YBvICJwNGhdpp2CZODfKP28AcTiLU1N
+ afNj+Njah8KQVWR1aeON1GeMPF+ztTg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-UIfdWls6O5-ASsNY-O66YQ-1; Sat, 07 Aug 2021 10:22:46 -0400
+X-MC-Unique: UIfdWls6O5-ASsNY-O66YQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B36B9180FCBC;
+ Sat,  7 Aug 2021 14:22:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C51C5D6AD;
+ Sat,  7 Aug 2021 14:22:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 23B8711380A0; Sat,  7 Aug 2021 16:22:42 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Subject: Re: [PATCH v12] qapi: introduce 'query-x86-cpuid' QMP command.
+References: <20210728125402.2496-1-valeriy.vdovin@virtuozzo.com>
+Date: Sat, 07 Aug 2021 16:22:42 +0200
+In-Reply-To: <20210728125402.2496-1-valeriy.vdovin@virtuozzo.com> (Valeriy
+ Vdovin's message of "Wed, 28 Jul 2021 15:54:02 +0300")
+Message-ID: <87eeb59vwt.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,32 +75,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Denis Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When privilege check fails, RISCV_EXCP_ILLEGAL_INST is returned,
-not -1 (RISCV_EXCP_NONE).
+I'm afraid this needs a rebase now.  Reviewing anyway.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
 
- target/riscv/csr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Introducing new QMP command 'query-x86-cpuid'. This command can be used to
+> get virtualized cpu model info generated by QEMU during VM initialization in
+> the form of cpuid representation.
+>
+> Diving into more details about virtual CPU generation: QEMU first parses '-cpu'
+> command line option. From there it takes the name of the model as the basis for
+> feature set of the new virtual CPU. After that it uses trailing '-cpu' options,
+> that state if additional cpu features should be present on the virtual CPU or
+> excluded from it (tokens '+'/'-' or '=on'/'=off').
+> After that QEMU checks if the host's cpu can actually support the derived
+> feature set and applies host limitations to it.
+> After this initialization procedure, virtual CPU has it's model and
+> vendor names, and a working feature set and is ready for identification
+> instructions such as CPUID.
+>
+> To learn exactly how virtual CPU is presented to the guest machine via CPUID
+> instruction, new QMP command can be used. By calling 'query-x86-cpuid'
+> command, one can get a full listing of all CPUID leaves with subleaves which are
+> supported by the initialized virtual CPU.
+>
+> Other than debug, the command is useful in cases when we would like to
+> utilize QEMU's virtual CPU initialization routines and put the retrieved
+> values into kernel CPUID overriding mechanics for more precise control
+> over how various processes perceive its underlying hardware with
+> container processes as a good example.
+>
+> The command is specific to x86. It is currenly only implemented for KVM acceleator.
+>
+> Output format:
+> The output is a plain list of leaf/subleaf argument combinations, that
+> return 4 words in registers EAX, EBX, ECX, EDX.
+>
+> Use example:
+> qmp_request: {
+>   "execute": "query-x86-cpuid"
+> }
+>
+> qmp_response: {
+>   "return": [
+>     {
+>       "eax": 1073741825,
+>       "edx": 77,
+>       "in-eax": 1073741824,
+>       "ecx": 1447775574,
+>       "ebx": 1263359563
+>     },
+>     {
+>       "eax": 16777339,
+>       "edx": 0,
+>       "in-eax": 1073741825,
+>       "ecx": 0,
+>       "ebx": 0
+>     },
+>     {
+>       "eax": 13,
+>       "edx": 1231384169,
+>       "in-eax": 0,
+>       "ecx": 1818588270,
+>       "ebx": 1970169159
+>     },
+>     {
+>       "eax": 198354,
+>       "edx": 126614527,
+>       "in-eax": 1,
+>       "ecx": 2176328193,
+>       "ebx": 2048
+>     },
+>     ....
+>     {
+>       "eax": 12328,
+>       "edx": 0,
+>       "in-eax": 2147483656,
+>       "ecx": 0,
+>       "ebx": 0
+>     }
+>   ]
+> }
+>
+> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> ---
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9a4ed18ac5..e747fbe0e9 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1423,7 +1423,7 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-     target_ulong old_value;
-     RISCVCPU *cpu = env_archcpu(env);
- 
--    /* check privileges and return -1 if check fails */
-+    /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
- #if !defined(CONFIG_USER_ONLY)
-     int effective_priv = env->priv;
-     int read_only = get_field(csrno, 0xC00) == 3;
--- 
-2.25.1
+[...]
+
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index e7811654b7..db906c9240 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -329,3 +329,47 @@
+>  ##
+>  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+>    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> +
+> +##
+> +# @CpuidEntry:
+> +#
+> +# A single entry of a CPUID response.
+> +#
+> +# One entry holds full set of information (leaf) returned to the guest
+> +# in response to it calling a CPUID instruction with eax, ecx used as
+> +# the agruments to that instruction. ecx is an optional argument as
+
+Typo: arguments
+
+> +# not all of the leaves support it.
+> +#
+> +# @in-eax: CPUID argument in eax
+> +# @in-ecx: CPUID argument in ecx
+> +# @eax: CPUID result in eax
+> +# @ebx: CPUID result in ebx
+> +# @ecx: CPUID result in ecx
+> +# @edx: CPUID result in edx
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'CpuidEntry',
+> +  'data': { 'in-eax' : 'uint32',
+> +            '*in-ecx' : 'uint32',
+> +            'eax' : 'uint32',
+> +            'ebx' : 'uint32',
+> +            'ecx' : 'uint32',
+> +            'edx' : 'uint32'
+> +          },
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @query-x86-cpuid:
+> +#
+> +# Returns raw data from the emulated CPUID table for the first VCPU.
+> +# The emulated CPUID table defines the response to the CPUID
+> +# instruction when executed by the guest operating system.
+> +#
+> +# Returns: a list of CpuidEntry
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'command': 'query-x86-cpuid',
+> +  'returns': ['CpuidEntry'],
+> +  'if': 'defined(TARGET_I386)' }
+
+I understand this fails when the acceleator isn't KVM.  I think that's
+worth documenting.
+
+Is this intended to be a stable interface?  Interfaces intended just for
+debugging usually aren't.
+
+Eduardo, what's your take on this version?
 
 
