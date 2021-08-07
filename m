@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1903E3524
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 13:11:42 +0200 (CEST)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D45C3E352B
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 13:33:49 +0200 (CEST)
+Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCKEv-00030Q-Oe
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 07:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
+	id 1mCKaJ-0000oL-MA
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 07:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCKDD-0000lX-3S
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 07:09:55 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56283)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCKDB-0001oQ-MK
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 07:09:54 -0400
-Received: by mail-wm1-x333.google.com with SMTP id x17so7202592wmc.5
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 04:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=//QOsMcD3tFm4ZPkQ7uMXA3J+aZ71YJiTMzd5TccQ1I=;
- b=RhDmz1uznQomJyKYVnhYMy7Ok/vu8/wZRtvJVX/heU5QCYRL9YwNMRN1rdIyDk3T70
- t8UYtwjIcjU1ar39zDVEH20BoRzVD0HXnwW9KMSAfyxsgi/IFGbDYTTbL8doVt76xjEv
- Zy9tAAmm4/WNarCso4TZoTT+1EjCF4mblbSSBIsAAZD1GuGfYRt+vkOnHRauMzJRFEIm
- Uc8KerqyZgmjOj0mPfgwTYE3EAcRjSR6gMIISmEGL/MzZ9pNLuxz+h68PpW/bfWJ/cYO
- JisXvKSGP0Ucy0wA/6BN98h1BpvKLGeHNTlwgdb8Qt+o+FZA0mCm2ESZJEJD0U8oMzrJ
- RFVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=//QOsMcD3tFm4ZPkQ7uMXA3J+aZ71YJiTMzd5TccQ1I=;
- b=E3nFZWccgq3OOyKluoogSX9BU9917Uv4oEI9fo/XLsIcA0QL1gQFpBH73+gSYN9czk
- mKYkNYRaqbND7T28KEft7ezFV10J5EOCN52X9K5ugnOqUes21pCwrAQLFamtpJpUL0Ru
- COSD16sc/yuNNyCFbcYHUAyVhqmRAiB1xyaQyNcpLsJubNMIzJv6xnbjMj3xd7S5cWBq
- egYT9au7Cd/+SS1AWtc78oRay03j9GjzrocX/A4tbr7PAjkRVSCM7whFzRlA+MpTK5DL
- wWnBM/MNQsadNn5jLt/ridx54uly71oltQ69s+9z2eq3mf1ZM3olODT6Kqzjgl5TuWiH
- eZpQ==
-X-Gm-Message-State: AOAM531RXNXK+YYd8i5lWRfSj82/p6F+blp9CNMeCl7ZA/aWAHc+65Yi
- NIbxS7A1xaMeLa9uzZgS4RnJK0xM4p/k7PZUzOU=
-X-Google-Smtp-Source: ABdhPJyb136XwUrvi/k/Qrd+S4a564jLDhMo0+P/BV9udVSuUh7pVpGDlcG7VmmYpwdKL7gMDazsHw==
-X-Received: by 2002:a1c:1dcf:: with SMTP id
- d198mr24282566wmd.103.1628334591893; 
- Sat, 07 Aug 2021 04:09:51 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- s14sm11091169wmc.25.2021.08.07.04.09.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 04:09:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 2/2] disas/nios2: Simplify endianess conversion
-Date: Sat,  7 Aug 2021 13:09:39 +0200
-Message-Id: <20210807110939.95853-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210807110939.95853-1-f4bug@amsat.org>
-References: <20210807110939.95853-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCKYt-00006K-Hp
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 07:32:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCKYp-0000Y3-Ih
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 07:32:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628335933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mqv2vj/KC8wS3PSnCa43YEjLvPVkj2IjZ8aJs+uTgQs=;
+ b=ZcG0oy0p6JgMP4+kCZbvPIj5zFyYm+j6fpLmuFNTkekP5/DPWWrvqbuLSaLgV10v6qJFFi
+ Cba3Z9oCfS50Ryj1P9k/JQ5v5Ar7pllOUgTi/mK19fAJLpDnBspaKZEW5VowruFSYUm6FA
+ Jdm5eSxygLwLSc/nzD0eCDlC0hpvg4c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-ebfD4Rr7MJOfPnEKO-zMDQ-1; Sat, 07 Aug 2021 07:32:12 -0400
+X-MC-Unique: ebfD4Rr7MJOfPnEKO-zMDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44C4D1006C80;
+ Sat,  7 Aug 2021 11:32:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
+ [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0620417CF0;
+ Sat,  7 Aug 2021 11:32:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8D70A11380A0; Sat,  7 Aug 2021 13:32:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Zhang Chen <chen.zhang@intel.com>
+Subject: Re: [PULL V3 for 6.2 1/6] qapi/net: Add IPFlowSpec and QMP command
+ for filter passthrough
+References: <20210719090051.3824672-1-chen.zhang@intel.com>
+ <20210719090051.3824672-2-chen.zhang@intel.com>
+Date: Sat, 07 Aug 2021 13:32:05 +0200
+In-Reply-To: <20210719090051.3824672-2-chen.zhang@intel.com> (Zhang Chen's
+ message of "Mon, 19 Jul 2021 17:00:46 +0800")
+Message-ID: <874kc1h4ne.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,108 +81,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Thomas Huth <thuth@redhat.com>,
- Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 12b6e9b27d4 ("disas: Clean up CPUDebug initialization")
-the disassemble_info->bfd_endian enum is set for all targets in
-target_disas(). We can directly call print_insn_nios2() and simplify.
+I see Jason queued this while I was failing at keeping up with review.
+I apologize for dropping the ball.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/disas/dis-asm.h |  3 +--
- disas/nios2.c           | 22 +++-------------------
- target/nios2/cpu.c      |  6 +-----
- 3 files changed, 5 insertions(+), 26 deletions(-)
+There still are a few unresolved issues I raised in prior review.  The
+documentation is not ready, and there is no consensus on the design of
+passthrough-filter-del.
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 524f29196d9..08e1beec854 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -455,8 +455,7 @@ int print_insn_crisv32          (bfd_vma, disassemble_info*);
- int print_insn_crisv10          (bfd_vma, disassemble_info*);
- int print_insn_microblaze       (bfd_vma, disassemble_info*);
- int print_insn_ia64             (bfd_vma, disassemble_info*);
--int print_insn_big_nios2        (bfd_vma, disassemble_info*);
--int print_insn_little_nios2     (bfd_vma, disassemble_info*);
-+int print_insn_nios2(bfd_vma, disassemble_info*);
- int print_insn_xtensa           (bfd_vma, disassemble_info*);
- int print_insn_riscv32          (bfd_vma, disassemble_info*);
- int print_insn_riscv64          (bfd_vma, disassemble_info*);
-diff --git a/disas/nios2.c b/disas/nios2.c
-index d124902ae3e..98ac07d72e9 100644
---- a/disas/nios2.c
-+++ b/disas/nios2.c
-@@ -3478,9 +3478,7 @@ nios2_disassemble (bfd_vma address, unsigned long opcode,
-    instruction word at the address given, and prints the disassembled
-    instruction on the stream info->stream using info->fprintf_func. */
- 
--static int
--print_insn_nios2 (bfd_vma address, disassemble_info *info,
--		  enum bfd_endian endianness)
-+int print_insn_nios2(bfd_vma address, disassemble_info *info)
- {
-     bfd_byte buffer[INSNLEN];
-     int status;
-@@ -3488,7 +3486,7 @@ print_insn_nios2 (bfd_vma address, disassemble_info *info,
-     status = (*info->read_memory_func)(address, buffer, INSNLEN, info);
-     if (status == 0) {
-         unsigned long insn;
--        if (endianness == BFD_ENDIAN_BIG) {
-+        if (info->endian == BFD_ENDIAN_BIG) {
-             insn = (unsigned long) bfd_getb32(buffer);
-         } else {
-             insn = (unsigned long) bfd_getl32(buffer);
-@@ -3501,7 +3499,7 @@ print_insn_nios2 (bfd_vma address, disassemble_info *info,
-         status = (*info->read_memory_func)(address, buffer, 2, info);
-         if (status == 0) {
-             unsigned long insn;
--            if (endianness == BFD_ENDIAN_BIG) {
-+            if (info->endian == BFD_ENDIAN_BIG) {
-                 insn = (unsigned long) bfd_getb16(buffer);
-             } else {
-                 insn = (unsigned long) bfd_getl16(buffer);
-@@ -3514,17 +3512,3 @@ print_insn_nios2 (bfd_vma address, disassemble_info *info,
-     (*info->memory_error_func)(status, address, info);
-     return -1;
- }
--
--/* These two functions are the main entry points, accessed from
--   disassemble.c.  */
--int
--print_insn_big_nios2 (bfd_vma address, disassemble_info *info)
--{
--  return print_insn_nios2 (address, info, BFD_ENDIAN_BIG);
--}
--
--int
--print_insn_little_nios2 (bfd_vma address, disassemble_info *info)
--{
--  return print_insn_nios2 (address, info, BFD_ENDIAN_LITTLE);
--}
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 5e37defef80..5b503b5bb99 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -146,11 +146,7 @@ static void nios2_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     /* NOTE: NiosII R2 is not supported yet. */
-     info->mach = bfd_arch_nios2;
--#ifdef TARGET_WORDS_BIGENDIAN
--    info->print_insn = print_insn_big_nios2;
--#else
--    info->print_insn = print_insn_little_nios2;
--#endif
-+    info->print_insn = print_insn_nios2;
- }
- 
- static int nios2_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
--- 
-2.31.1
+If we merge this as is for 6.2, then I want my review to be addressed on
+top.
+
+Zhang Chen <chen.zhang@intel.com> writes:
+
+> Since the real user scenario does not need to monitor all traffic.
+> Add passthrough-filter-add and passthrough-filter-del to maintain
+> a network passthrough list in object with network packet processing
+> function. Add IPFlowSpec struct for all QMP commands.
+> Most the fields of IPFlowSpec are optional,except object-name.
+>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+
+[...]
+
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 7fab2e7cd8..bfe38faab5 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -7,6 +7,7 @@
+>  ##
+>  
+>  { 'include': 'common.json' }
+> +{ 'include': 'sockets.json' }
+>  
+>  ##
+>  # @set_link:
+> @@ -696,3 +697,80 @@
+>  ##
+>  { 'event': 'FAILOVER_NEGOTIATED',
+>    'data': {'device-id': 'str'} }
+> +
+> +##
+> +# @IPFlowSpec:
+> +#
+> +# IP flow specification.
+> +#
+> +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol is the
+> +#            string instead of enum, because it can be passed to getprotobyname(3)
+> +#            and avoid duplication with /etc/protocols.
+
+In review of v8, I wrote:
+
+    The rationale is good, but it doesn't really belong into the interface
+    documentation.  Suggest:
+
+       # @protocol: Transport layer protocol like TCP/UDP, etc.  This will be
+       #            passed to getprotobyname(3).
+
+to which you replied "OK."  Please apply the change.
+
+> +#
+> +# @object-name: The @object-name means a qemu object with network packet
+> +#               processing function, for example colo-compare, filtr-redirector
+> +#               filtr-mirror, etc. VM can running with multi network packet
+
+s/qemu/QEMU/
+
+s/filtr/filter/ two times here, and more below.
+
+s/VM/The VM/
+
+s/multi/multiple/
+
+Also, limit doc comment line length to 70 characters or so.
+
+> +#               processing function objects. They can control different network
+> +#               data paths from netdev or chardev. So it needs the object-name
+> +#               to set the effective module.
+
+Again, this is rationale, which doesn't really belong here.
+
+What does belong here, but isn't: meaning of @object-name, i.e. how it
+is resolved to a "qemu object with network packet processing function",
+whatever that is.
+
+I'm *guessing* it's the QOM path of a QOM object that provides a certain
+interface.  Correct?
+
+If yes, which interface exactly?  Is it a QOM interface?
+
+The comment could then look like
+
+  # QOM path to a QOM object that implements the MUMBLE interface.
+
+with the details corrected / fleshed out.
+
+> +#
+> +# @source: Source address and port.
+> +#
+> +# @destination: Destination address and port.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'IPFlowSpec',
+> +  'data': { '*protocol': 'str', 'object-name': 'str',
+> +    '*source': 'InetSocketAddressBase',
+> +    '*destination': 'InetSocketAddressBase' } }
+> +
+> +##
+> +# @passthrough-filter-add:
+> +#
+> +# Add passthrough entry IPFlowSpec to a qemu object with network packet
+> +# processing function, for example filtr-mirror, COLO-compare, etc.
+> +# The object-name is necessary. The protocol and source/destination IP and
+> +# source/destination ports are optional. if only inputs part of the
+
+Start your sentences with a capital letter, please.
+
+More importantly, the paragraph is confusing.  I suggested
+
+   # Add an entry to the COLO network passthrough list.
+   # Absent protocol, host addresses and ports match anything.
+
+> +# information, it will match all traffic.
+> +#
+> +# Returns: Nothing on success
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "passthrough-filter-add",
+> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'passthrough-filter-add', 'boxed': true,
+> +     'data': 'IPFlowSpec' }
+> +
+> +##
+> +# @passthrough-filter-del:
+> +#
+> +# Delete passthrough entry IPFlowSpec to a qemu object with network packet
+> +# processing function, for example filtr-mirror, COLO-compare, etc.
+> +# The object-name is necessary. The protocol and source/destination IP and
+> +# source/destination ports are optional. if only inputs part of the
+
+Likewise.  I suggested
+
+   # Delete an entry from the COLO network passthrough list.
+
+as first sentence.  The remainder needs to explain how the arguments are
+used to select the entry to delete.  Something like
+
+   # Deletes the entry with exactly this protocol, host addresses and
+   # ports.
+     
+assuming that's what it actually does.
+
+I reiterate my strong dislike for selecting the object to delete with a
+pattern match.  The common way to refer to objects is by ID.
+
+> +# information, only the exact same rule will be deleted.
+> +#
+> +# Returns: Nothing on success
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "passthrough-filter-del",
+> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'passthrough-filter-del', 'boxed': true,
+> +     'data': 'IPFlowSpec' }
 
 
