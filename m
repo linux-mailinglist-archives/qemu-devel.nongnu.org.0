@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252123E374A
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 23:58:57 +0200 (CEST)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F733E3747
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 23:57:00 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCULI-0005Ar-6x
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 17:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1mCUJP-0008GC-Ih
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 17:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6B-0007YC-8L
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6B-0007XK-1O
  for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:19 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:43951)
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:34321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU67-0004vk-Lm
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU68-0004yU-Ju
  for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:18 -0400
-Received: by mail-io1-xd44.google.com with SMTP id y1so19935727iod.10
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:15 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id i7so13719339iow.1
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4iLTEXYEJykh2bTTlKZWJe6xVVV8G6cWYxMWjURtoLo=;
- b=JW5GL89WfBOcRzc6TFUykctsUeZj1e0EIANM0jrNbTWpV1Mt2pHli5f7yvWzkDwYXe
- /N/0W4aoAS4Fw1PBrsblSQPxqisFGc0xiDetbHP82NrxsJb/Np5E72UuVE++IKh9i+hP
- 5H3PIW+nbycFeQ2sqt6h0sWZuU7dllkjQYUJofnXnPOlOyi/5lOeJUFoVQsiyBLqFt0d
- a+Nr9cd917xOgNQmBw+OBnhbYiFBEz549sSRWQihUw4dwH67sFEHPW7eDi0e1P+H70TV
- Ip9DB0MTsQhD7O0wtHgZOidrjoox3KOF7HruT6rYRf6OFHX3WJguP66eteiJAQMSJwg7
- WLbQ==
+ bh=yFsI4djxg/V3HTkQhqunboDRE0OyTH5J7IXvZuWzJ0g=;
+ b=l2Kf0PNFuksvjmNlkyok1Ryc2qChDs1WG7efNRpsX3lt7qbeJ7CBWC49LG6VNtV76E
+ ZuDpP5N7VItAlu+nmZm/kAH9JnM3/9XuyWZdMW8rxbZY558HWiVpgk47FmmhmGnjDRu+
+ rWVaF/M3A+l3Pq7CZ4J16NkvchtLmovLdTRcKdGH9H2KxENB3/DOyUbLoAnPXN+YxQEc
+ n8GhRvHPLtDo6oNMNHEO6lz0XNBffmxxYvUPUFRLK7QN4TSxCOzi8aL46BQQ+Ornf8Y+
+ EnhJY4ZqP65YUzr31T8Vttp1/I52xVGKO5qYcczHh1SdqUx36NmruZisCPqTV7kUKZY2
+ WWnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4iLTEXYEJykh2bTTlKZWJe6xVVV8G6cWYxMWjURtoLo=;
- b=SMhlruiLgCpPmWVClboN6o9HZqqDn8DtPv8P1YUslmWxpznbeTzfKixtyrcUSlOAd6
- C8aTtiR1wkz2+apipGRF7jOhtaukamVVsq0IoWcdF06na3dK4L3d4LLyHBmTQgCnRMCm
- 9YxlW6MTPEGyU4blk5J+Sw9+tlapE3R5rlOWsn6qi+qco2fMNRTCTa7YfKfvfUoUZujd
- j7+di2Mg32+cRBBjs8UyYuiNzZpTKWbpil1i9Xc868GlmkMS3oJSftSYaMplkcK75TDt
- lHjvixePLIlLoqOegeHWHUXs9051pQhQtUQFj25KOj36Hp7VgdX0Wks1nzvEBgsqySWA
- ikdg==
-X-Gm-Message-State: AOAM533AIivEgEZ0WBKv/sXBlLE6F3WTv13cZmeZMOKyPotNuFqjGT6v
- 4ooZk/7SSdTj9437nZVYLZ0gs1YiPIxHGCjh
-X-Google-Smtp-Source: ABdhPJxo2trWTUQvYHqRfTPboAvaUrxNczTN1SoxqtsVj2cFTAB3A8iuX1O033VvB9r939NS+hCSXQ==
-X-Received: by 2002:a05:6e02:525:: with SMTP id
- h5mr444165ils.114.1628372594292; 
- Sat, 07 Aug 2021 14:43:14 -0700 (PDT)
+ bh=yFsI4djxg/V3HTkQhqunboDRE0OyTH5J7IXvZuWzJ0g=;
+ b=uAiRb6s+qj5z/IiTzortsDzjMjyrXbySq51ylEa6JYxRISjAZwJjdeKttNYTLCeDIs
+ bw/fu6uxHD1ASwP1GhHcJC3rqtvibrbGWJB/nEu81NJpOxt4fyQQetGhmdfMDmydfRqC
+ keEQfWulbL+vICUlPbGGGejCGXJUq8rQPIix4P7JiMeXFTrJk7Nj7Ub5uI6FnB3Y5oj5
+ lK7+1fMy57qeghuDyv7D/6cBJsKjAc5t8QpsGol0ATHX2w+2yiA4e3YcgXBhSZqSgkR0
+ XvZukFQWNLDaDaGFAbq07lCn/0FGO95JNwmSEfltKv2B39DLskhaUp3RqdfF3Uho/9hq
+ Q/5A==
+X-Gm-Message-State: AOAM531x7RhKObZxgwXOV/E8cr4VeOfH4SScUHqOA3lkYag7NzUpLdJH
+ w6r4PU/0eG3DZbNp+4342RhpmaQZL0LqvNLR
+X-Google-Smtp-Source: ABdhPJwI/MJ+B2zUbisHYXYo1qComF4gD876D7SQHwma6Spb+n4lKwbh0WTtl5eTIlfbB4dm0UPz8g==
+X-Received: by 2002:a02:9386:: with SMTP id z6mr15898728jah.100.1628372595183; 
+ Sat, 07 Aug 2021 14:43:15 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.12
+ by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 14:43:13 -0700 (PDT)
+ Sat, 07 Aug 2021 14:43:14 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 22/49] bsd-user: Move per-cpu code into
- target_arch_cpu.h
-Date: Sat,  7 Aug 2021 15:42:15 -0600
-Message-Id: <20210807214242.82385-23-imp@bsdimp.com>
+Subject: [PATCH for 6.2 23/49] bsd-user: pull in target_arch_thread.h update
+ target_arch_elf.h
+Date: Sat,  7 Aug 2021 15:42:16 -0600
+Message-Id: <20210807214242.82385-24-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210807214242.82385-1-imp@bsdimp.com>
 References: <20210807214242.82385-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d44;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd44.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd42.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,42 +89,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Move cpu_loop() into target_cpu_loop(), and put that in
-target_arch_cpu.h for each architecture.
+Update target_arch_elf.h to remove thread_init. Move its contents to
+target_arch_thread.h and rename to target_thread_init(). Update
+elfload.c to call it. Create thread_os_thread.h to hold the os specific
+parts of the thread and threat manipulation routines. Currently, it just
+includes target_arch_thread.h. target_arch_thread.h contains the at the
+moment unused target_thread_set_upcall which will be used in the future
+when creating actual thread (i386 has this stubbed, but other
+architectures in the bsd-user tree have real ones).
+
+These changes are all interrelated and could be brokend own, but seem to
+represent a reviewable changeset since most of the change is boiler
+plate.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/i386/target_arch_cpu.c   |   1 +
- bsd-user/i386/target_arch_cpu.h   | 306 ++++++++++++++++++++++++++++
- bsd-user/main.c                   | 309 ++--------------------------
- bsd-user/x86_64/target_arch_cpu.c |   1 +
- bsd-user/x86_64/target_arch_cpu.h | 328 ++++++++++++++++++++++++++++++
- 5 files changed, 651 insertions(+), 294 deletions(-)
- create mode 100644 bsd-user/i386/target_arch_cpu.h
- create mode 100644 bsd-user/x86_64/target_arch_cpu.h
+ bsd-user/elfload.c                   |  4 ++-
+ bsd-user/freebsd/target_os_thread.h  | 25 +++++++++++++
+ bsd-user/i386/target_arch_elf.h      | 52 ++--------------------------
+ bsd-user/i386/target_arch_thread.h   | 47 +++++++++++++++++++++++++
+ bsd-user/netbsd/target_os_thread.h   | 25 +++++++++++++
+ bsd-user/openbsd/target_os_thread.h  | 25 +++++++++++++
+ bsd-user/x86_64/target_arch_elf.h    | 38 ++------------------
+ bsd-user/x86_64/target_arch_thread.h | 40 +++++++++++++++++++++
+ 8 files changed, 169 insertions(+), 87 deletions(-)
+ create mode 100644 bsd-user/freebsd/target_os_thread.h
+ create mode 100644 bsd-user/i386/target_arch_thread.h
+ create mode 100644 bsd-user/netbsd/target_os_thread.h
+ create mode 100644 bsd-user/openbsd/target_os_thread.h
+ create mode 100644 bsd-user/x86_64/target_arch_thread.h
 
-diff --git a/bsd-user/i386/target_arch_cpu.c b/bsd-user/i386/target_arch_cpu.c
-index 7f2f755a11..71998e5ba5 100644
---- a/bsd-user/i386/target_arch_cpu.c
-+++ b/bsd-user/i386/target_arch_cpu.c
-@@ -1,6 +1,7 @@
- /*
-  *  i386 cpu related code
-  *
-+ * Copyright (c) 2013 Stacey Son <sson@FreeBSD.org>
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
-diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index 8a6a72bf05..70a0f81f3d 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -24,6 +24,7 @@
+ #include "qemu/path.h"
+ 
+ #include "target_arch_elf.h"
++#include "target_os_thread.h"
+ 
+ /* this flag is uneffective under linux too, should be deleted */
+ #ifndef MAP_DENYWRITE
+@@ -1001,5 +1002,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ 
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop)
+ {
+-    init_thread(regs, infop);
++
++    target_thread_init(regs, infop);
+ }
+diff --git a/bsd-user/freebsd/target_os_thread.h b/bsd-user/freebsd/target_os_thread.h
 new file mode 100644
-index 0000000000..c7603d4ec6
+index 0000000000..77433acdff
 --- /dev/null
-+++ b/bsd-user/i386/target_arch_cpu.h
-@@ -0,0 +1,306 @@
++++ b/bsd-user/freebsd/target_os_thread.h
+@@ -0,0 +1,25 @@
 +/*
-+ *  i386 cpu init and loop
++ *  FreeBSD thread dependent code and definitions
 + *
++ *  Copyright (c) 2013 Stacey D. Son
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -141,663 +165,144 @@ index 0000000000..c7603d4ec6
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_CPU_H_
-+#define _TARGET_ARCH_CPU_H_
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+#include "target_arch.h"
++#include "target_arch_thread.h"
 +
-+#define TARGET_DEFAULT_CPU_MODEL "qemu32"
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/i386/target_arch_elf.h b/bsd-user/i386/target_arch_elf.h
+index f322fc174b..7a9744140f 100644
+--- a/bsd-user/i386/target_arch_elf.h
++++ b/bsd-user/i386/target_arch_elf.h
+@@ -19,62 +19,14 @@
+ #ifndef _TARGET_ARCH_ELF_H_
+ #define _TARGET_ARCH_ELF_H_
+ 
+-#define ELF_PLATFORM get_elf_platform()
+-
+-static const char *get_elf_platform(void)
+-{
+-    static char elf_platform[] = "i386";
+-    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
+-    if (family > 6) {
+-        family = 6;
+-    }
+-    if (family >= 3) {
+-        elf_platform[1] = '0' + family;
+-    }
+-    return elf_platform;
+-}
+-
+-#define ELF_HWCAP get_elf_hwcap()
+-
+-static uint32_t get_elf_hwcap(void)
+-{
+-    X86CPU *cpu = X86_CPU(thread_cpu);
+-
+-    return cpu->env.features[FEAT_1_EDX];
+-}
+-
+ #define ELF_START_MMAP 0x80000000
++#define ELF_ET_DYN_LOAD_ADDR    0x01001000
++#define elf_check_arch(x) ( ((x) == EM_386) || ((x) == EM_486) )
+ 
+-/*
+- * This is used to ensure we don't load something for the wrong architecture.
+- */
+-#define elf_check_arch(x) (((x) == EM_386) || ((x) == EM_486))
+-
+-/*
+- * These are used to set parameters in the core dumps.
+- */
+ #define ELF_CLASS       ELFCLASS32
+ #define ELF_DATA        ELFDATA2LSB
+ #define ELF_ARCH        EM_386
+ 
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-    regs->esp = infop->start_stack;
+-    regs->eip = infop->entry;
+-
+-    /*
+-     * SVR4/i386 ABI (pages 3-31, 3-32) says that when the program starts %edx
+-     * contains a pointer to a function which might be registered using
+-     * `atexit'.  This provides a mean for the dynamic linker to call DT_FINI
+-     * functions for shared libraries that have been loaded before the code
+-     * runs.
+-     *
+-     * A value of 0 tells we have no such handler.
+-     */
+-    regs->edx = 0;
+-}
+-
+ #define USE_ELF_CORE_DUMP
+ #define ELF_EXEC_PAGESIZE       4096
+ 
+diff --git a/bsd-user/i386/target_arch_thread.h b/bsd-user/i386/target_arch_thread.h
+new file mode 100644
+index 0000000000..e65e476f75
+--- /dev/null
++++ b/bsd-user/i386/target_arch_thread.h
+@@ -0,0 +1,47 @@
++/*
++ *  i386 thread support
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_THREAD_H_
++#define _TARGET_ARCH_THREAD_H_
 +
-+#define TARGET_CPU_RESET(cpu)
-+
-+static inline void target_cpu_init(CPUX86State *env,
-+        struct target_pt_regs *regs)
++/* Compare to vm_machdep.c cpu_set_upcall_kse() */
++static inline void target_thread_set_upcall(CPUX86State *regs, abi_ulong entry,
++    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
 +{
-+    uint64_t *gdt_table;
-+
-+    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-+    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-+    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-+        env->cr[4] |= CR4_OSFXSR_MASK;
-+        env->hflags |= HF_OSFXSR_MASK;
-+    }
-+
-+    /* flags setup : we activate the IRQs by default as in user mode */
-+    env->eflags |= IF_MASK;
-+
-+    /* register setup */
-+    env->regs[R_EAX] = regs->eax;
-+    env->regs[R_EBX] = regs->ebx;
-+    env->regs[R_ECX] = regs->ecx;
-+    env->regs[R_EDX] = regs->edx;
-+    env->regs[R_ESI] = regs->esi;
-+    env->regs[R_EDI] = regs->edi;
-+    env->regs[R_EBP] = regs->ebp;
-+    env->regs[R_ESP] = regs->esp;
-+    env->eip = regs->eip;
-+
-+    /* interrupt setup */
-+    env->idt.limit = 255;
-+
-+    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
-+        PROT_READ|PROT_WRITE, MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-+    bsd_i386_set_idt_base(env->idt.base);
-+    bsd_i386_set_idt(0, 0);
-+    bsd_i386_set_idt(1, 0);
-+    bsd_i386_set_idt(2, 0);
-+    bsd_i386_set_idt(3, 3);
-+    bsd_i386_set_idt(4, 3);
-+    bsd_i386_set_idt(5, 0);
-+    bsd_i386_set_idt(6, 0);
-+    bsd_i386_set_idt(7, 0);
-+    bsd_i386_set_idt(8, 0);
-+    bsd_i386_set_idt(9, 0);
-+    bsd_i386_set_idt(10, 0);
-+    bsd_i386_set_idt(11, 0);
-+    bsd_i386_set_idt(12, 0);
-+    bsd_i386_set_idt(13, 0);
-+    bsd_i386_set_idt(14, 0);
-+    bsd_i386_set_idt(15, 0);
-+    bsd_i386_set_idt(16, 0);
-+    bsd_i386_set_idt(17, 0);
-+    bsd_i386_set_idt(18, 0);
-+    bsd_i386_set_idt(19, 0);
-+    bsd_i386_set_idt(0x80, 3);
-+
-+    /* segment setup */
-+    env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-+            PROT_READ|PROT_WRITE, MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-+    env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
-+    gdt_table = g2h_untagged(env->gdt.base);
-+
-+    bsd_i386_write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
-+
-+    bsd_i386_write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
-+
-+    cpu_x86_load_seg(env, R_CS, __USER_CS);
-+    cpu_x86_load_seg(env, R_SS, __USER_DS);
-+    cpu_x86_load_seg(env, R_DS, __USER_DS);
-+    cpu_x86_load_seg(env, R_ES, __USER_DS);
-+    cpu_x86_load_seg(env, R_FS, __USER_DS);
-+    cpu_x86_load_seg(env, R_GS, __USER_DS);
-+    /* This hack makes Wine work... */
-+    env->segs[R_FS].selector = 0;
++    /* XXX */
 +}
 +
-+static inline void target_cpu_loop(CPUX86State *env)
++static inline void target_thread_init(struct target_pt_regs *regs,
++        struct image_info *infop)
 +{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr;
-+    abi_ulong pc;
-+    /* target_siginfo_t info; */
++    regs->esp = infop->start_stack;
++    regs->eip = infop->entry;
 +
-+    for (;;) {
-+	cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+	cpu_exec_end(cs);
-+	process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case 0x80:
-+            /* syscall from int $0x80 */
-+            if (bsd_type == target_freebsd) {
-+                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-+                    sizeof(int32_t);
-+                int32_t syscall_nr = env->regs[R_EAX];
-+                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-+
-+                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int32_t);
-+                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int64_t);
-+                }
-+                get_user_s32(arg1, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg2, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg3, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg4, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg5, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg6, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg7, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg8, params);
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      syscall_nr,
-+                                                      arg1,
-+                                                      arg2,
-+                                                      arg3,
-+                                                      arg4,
-+                                                      arg5,
-+                                                      arg6,
-+                                                      arg7,
-+                                                      arg8);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EBX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_EBP]);
-+            }
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+#if 0
-+        case EXCP0B_NOSEG:
-+        case EXCP0C_STACK:
-+            info.si_signo = TARGET_SIGBUS;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_SI_KERNEL;
-+            info._sifields._sigfault._addr = 0;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP0D_GPF:
-+            /* XXX: potential problem if ABI32 */
-+            if (env->eflags & VM_MASK) {
-+                handle_vm86_fault(env);
-+            } else {
-+                info.si_signo = TARGET_SIGSEGV;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_SI_KERNEL;
-+                info._sifields._sigfault._addr = 0;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+
-+        case EXCP0E_PAGE:
-+            info.si_signo = TARGET_SIGSEGV;
-+            info.si_errno = 0;
-+            if (!(env->error_code & 1)) {
-+                info.si_code = TARGET_SEGV_MAPERR;
-+            } else {
-+                info.si_code = TARGET_SEGV_ACCERR;
-+            }
-+            info._sifields._sigfault._addr = env->cr[2];
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP00_DIVZ:
-+            if (env->eflags & VM_MASK) {
-+                handle_vm86_trap(env, trapnr);
-+            } else {
-+                /* division by zero */
-+                info.si_signo = TARGET_SIGFPE;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_FPE_INTDIV;
-+                info._sifields._sigfault._addr = env->eip;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+
-+        case EXCP01_DB:
-+        case EXCP03_INT3:
-+            if (env->eflags & VM_MASK) {
-+                handle_vm86_trap(env, trapnr);
-+            } else {
-+                info.si_signo = TARGET_SIGTRAP;
-+                info.si_errno = 0;
-+                if (trapnr == EXCP01_DB) {
-+                    info.si_code = TARGET_TRAP_BRKPT;
-+                    info._sifields._sigfault._addr = env->eip;
-+                } else {
-+                    info.si_code = TARGET_SI_KERNEL;
-+                    info._sifields._sigfault._addr = 0;
-+                }
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+
-+        case EXCP04_INTO:
-+        case EXCP05_BOUND:
-+            if (env->eflags & VM_MASK) {
-+                handle_vm86_trap(env, trapnr);
-+            } else {
-+                info.si_signo = TARGET_SIGSEGV;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_SI_KERNEL;
-+                info._sifields._sigfault._addr = 0;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+
-+        case EXCP06_ILLOP:
-+            info.si_signo = TARGET_SIGILL;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_ILL_ILLOPN;
-+            info._sifields._sigfault._addr = env->eip;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+#endif
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+#if 0
-+        case EXCP_DEBUG:
-+            {
-+
-+                info.si_signo = TARGET_SIGTRAP;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_TRAP_BRKPT;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+#endif
-+
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+
-+        default:
-+            pc = env->segs[R_CS].base + env->eip;
-+            fprintf(stderr, "qemu: 0x%08lx: unhandled CPU exception 0x%x - "
-+                    "aborting\n", (long)pc, trapnr);
-+            abort();
-+        }
-+        process_pending_signals(env);
-+    }
-+}
-+
-+static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
-+{
-+    if (newsp)
-+        env->regs[R_ESP] = newsp;
-+    env->regs[R_EAX] = 0;
-+}
-+
-+static inline void target_cpu_reset(CPUArchState *cpu)
-+{
-+    cpu_reset(env_cpu(cpu));
-+}
-+
-+#endif /* ! _TARGET_ARCH_CPU_H_ */
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index ac435b216a..91e6abb6e4 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -42,6 +42,7 @@
- #include "trace/control.h"
- 
- #include "host-os.h"
-+#include "target_arch_cpu.h"
- 
- #include <sys/sysctl.h>
- 
-@@ -83,177 +84,10 @@ void fork_end(int child)
-     }
- }
- 
--#ifdef TARGET_I386
--/***********************************************************/
--/* CPUX86 core interface */
--
--static void write_dt(void *ptr, unsigned long addr, unsigned long limit,
--                     int flags)
--{
--    unsigned int e1, e2;
--    uint32_t *p;
--    e1 = (addr << 16) | (limit & 0xffff);
--    e2 = ((addr >> 16) & 0xff) | (addr & 0xff000000) | (limit & 0x000f0000);
--    e2 |= flags;
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
--}
--
--static uint64_t *idt_table;
--#ifdef TARGET_X86_64
--static void set_gate64(void *ptr, unsigned int type, unsigned int dpl,
--                       uint64_t addr, unsigned int sel)
--{
--    uint32_t *p, e1, e2;
--    e1 = (addr & 0xffff) | (sel << 16);
--    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
--    p[2] = tswap32(addr >> 32);
--    p[3] = 0;
--}
--/* only dpl matters as we do only user space emulation */
--static void set_idt(int n, unsigned int dpl)
--{
--    set_gate64(idt_table + n * 2, 0, dpl, 0, 0);
--}
--#else
--static void set_gate(void *ptr, unsigned int type, unsigned int dpl,
--                     uint32_t addr, unsigned int sel)
--{
--    uint32_t *p, e1, e2;
--    e1 = (addr & 0xffff) | (sel << 16);
--    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
--}
--
--/* only dpl matters as we do only user space emulation */
--static void set_idt(int n, unsigned int dpl)
-+void cpu_loop(CPUArchState *env)
- {
--    set_gate(idt_table + n, 0, dpl, 0, 0);
--}
--#endif
--
--void cpu_loop(CPUX86State *env)
--{
--    CPUState *cs = env_cpu(env);
--    int trapnr;
--    abi_ulong pc;
--    /* target_siginfo_t info; */
--
--    for (;;) {
--        cpu_exec_start(cs);
--        trapnr = cpu_exec(cs);
--        cpu_exec_end(cs);
--        process_queued_cpu_work(cs);
--
--        switch (trapnr) {
--        case 0x80:
--            /* syscall from int $0x80 */
--            if (bsd_type == target_freebsd) {
--                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
--                    sizeof(int32_t);
--                int32_t syscall_nr = env->regs[R_EAX];
--                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
--
--                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
--                    get_user_s32(syscall_nr, params);
--                    params += sizeof(int32_t);
--                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
--                    get_user_s32(syscall_nr, params);
--                    params += sizeof(int64_t);
--                }
--                get_user_s32(arg1, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg2, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg3, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg4, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg5, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg6, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg7, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg8, params);
--                env->regs[R_EAX] = do_freebsd_syscall(env,
--                                                      syscall_nr,
--                                                      arg1,
--                                                      arg2,
--                                                      arg3,
--                                                      arg4,
--                                                      arg5,
--                                                      arg6,
--                                                      arg7,
--                                                      arg8);
--            } else { /* if (bsd_type == target_openbsd) */
--                env->regs[R_EAX] = do_openbsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EBX],
--                                                      env->regs[R_ECX],
--                                                      env->regs[R_EDX],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_EBP]);
--            }
--            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
--                env->regs[R_EAX] = -env->regs[R_EAX];
--                env->eflags |= CC_C;
--            } else {
--                env->eflags &= ~CC_C;
--            }
--            break;
--#ifndef TARGET_ABI32
--        case EXCP_SYSCALL:
--            /* syscall from syscall instruction */
--            if (bsd_type == target_freebsd) {
--                env->regs[R_EAX] = do_freebsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDX],
--                                                      env->regs[R_ECX],
--                                                      env->regs[8],
--                                                      env->regs[9], 0, 0);
--            } else { /* if (bsd_type == target_openbsd) */
--                env->regs[R_EAX] = do_openbsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDX],
--                                                      env->regs[10],
--                                                      env->regs[8],
--                                                      env->regs[9]);
--            }
--            env->eip = env->exception_next_eip;
--            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
--                env->regs[R_EAX] = -env->regs[R_EAX];
--                env->eflags |= CC_C;
--            } else {
--                env->eflags &= ~CC_C;
--            }
--            break;
--#endif
--        case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
--            break;
--        default:
--            pc = env->segs[R_CS].base + env->eip;
--            fprintf(stderr,
--                    "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
--                    (long)pc, trapnr);
--            abort();
--        }
--        process_pending_signals(env);
--    }
-+    target_cpu_loop(env);
- }
--#endif
- 
- static void usage(void)
- {
-@@ -521,18 +355,11 @@ int main(int argc, char **argv)
-     init_paths(interp_prefix);
- 
-     if (cpu_model == NULL) {
--#if defined(TARGET_I386)
--#ifdef TARGET_X86_64
--        cpu_model = "qemu64";
--#else
--        cpu_model = "qemu32";
--#endif
--#else
--        cpu_model = "any";
--#endif
-+        cpu_model = TARGET_DEFAULT_CPU_MODEL;
-     }
- 
-     cpu_type = parse_cpu_option(cpu_model);
-+
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
-     {
-         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
-@@ -626,124 +453,18 @@ int main(int argc, char **argv)
-     ts->info = info;
-     cpu->opaque = ts;
- 
--#if defined(TARGET_I386)
--    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
--    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
--    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
--        env->cr[4] |= CR4_OSFXSR_MASK;
--        env->hflags |= HF_OSFXSR_MASK;
--    }
--#ifndef TARGET_ABI32
--    /* enable 64 bit mode if possible */
--    if (!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM)) {
--        fprintf(stderr, "The selected x86 CPU does not support 64 bit mode\n");
--        exit(1);
--    }
--    env->cr[4] |= CR4_PAE_MASK;
--    env->efer |= MSR_EFER_LMA | MSR_EFER_LME;
--    env->hflags |= HF_LMA_MASK;
--#endif
--
--    /* flags setup : we activate the IRQs by default as in user mode */
--    env->eflags |= IF_MASK;
--
--    /* linux register setup */
--#ifndef TARGET_ABI32
--    env->regs[R_EAX] = regs->rax;
--    env->regs[R_EBX] = regs->rbx;
--    env->regs[R_ECX] = regs->rcx;
--    env->regs[R_EDX] = regs->rdx;
--    env->regs[R_ESI] = regs->rsi;
--    env->regs[R_EDI] = regs->rdi;
--    env->regs[R_EBP] = regs->rbp;
--    env->regs[R_ESP] = regs->rsp;
--    env->eip = regs->rip;
--#else
--    env->regs[R_EAX] = regs->eax;
--    env->regs[R_EBX] = regs->ebx;
--    env->regs[R_ECX] = regs->ecx;
--    env->regs[R_EDX] = regs->edx;
--    env->regs[R_ESI] = regs->esi;
--    env->regs[R_EDI] = regs->edi;
--    env->regs[R_EBP] = regs->ebp;
--    env->regs[R_ESP] = regs->esp;
--    env->eip = regs->eip;
--#endif
-+    target_set_brk(info->brk);
-+    syscall_init();
-+    signal_init();
- 
--    /* linux interrupt setup */
--#ifndef TARGET_ABI32
--    env->idt.limit = 511;
--#else
--    env->idt.limit = 255;
--#endif
--    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
--                                PROT_READ | PROT_WRITE,
--                                MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--    idt_table = g2h_untagged(env->idt.base);
--    set_idt(0, 0);
--    set_idt(1, 0);
--    set_idt(2, 0);
--    set_idt(3, 3);
--    set_idt(4, 3);
--    set_idt(5, 0);
--    set_idt(6, 0);
--    set_idt(7, 0);
--    set_idt(8, 0);
--    set_idt(9, 0);
--    set_idt(10, 0);
--    set_idt(11, 0);
--    set_idt(12, 0);
--    set_idt(13, 0);
--    set_idt(14, 0);
--    set_idt(15, 0);
--    set_idt(16, 0);
--    set_idt(17, 0);
--    set_idt(18, 0);
--    set_idt(19, 0);
--    set_idt(0x80, 3);
--
--    /* linux segment setup */
--    {
--        uint64_t *gdt_table;
--        env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
--                                    PROT_READ | PROT_WRITE,
--                                    MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--        env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
--        gdt_table = g2h_untagged(env->gdt.base);
--#ifdef TARGET_ABI32
--        write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
--#else
--        /* 64 bit code segment */
--        write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 DESC_L_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
--#endif
--        write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
--    }
 +    /*
-+     * Now that we've loaded the binary, GUEST_BASE is fixed.  Delay
-+     * generating the prologue until now so that the prologue can take
-+     * the real value of GUEST_BASE into account.
++     * SVR4/i386 ABI (pages 3-31, 3-32) says that when the program starts %edx
++     * contains a pointer to a function which might be registered using
++     * `atexit'.  This provides a mean for the dynamic linker to call DT_FINI
++     * functions for shared libraries that have been loaded before the code
++     * runs.
++     *
++     * A value of 0 tells we have no such handler.
 +     */
-+    tcg_prologue_init(tcg_ctx);
- 
--    cpu_x86_load_seg(env, R_CS, __USER_CS);
--    cpu_x86_load_seg(env, R_SS, __USER_DS);
--#ifdef TARGET_ABI32
--    cpu_x86_load_seg(env, R_DS, __USER_DS);
--    cpu_x86_load_seg(env, R_ES, __USER_DS);
--    cpu_x86_load_seg(env, R_FS, __USER_DS);
--    cpu_x86_load_seg(env, R_GS, __USER_DS);
--    /* This hack makes Wine work... */
--    env->segs[R_FS].selector = 0;
--#else
--    cpu_x86_load_seg(env, R_DS, 0);
--    cpu_x86_load_seg(env, R_ES, 0);
--    cpu_x86_load_seg(env, R_FS, 0);
--    cpu_x86_load_seg(env, R_GS, 0);
--#endif
--#else
--#error unsupported target CPU
--#endif
-+    target_cpu_init(env, regs);
- 
-     if (gdbstub) {
-         gdbserver_start(gdbstub);
-diff --git a/bsd-user/x86_64/target_arch_cpu.c b/bsd-user/x86_64/target_arch_cpu.c
-index a2c5b176a4..db822e54c6 100644
---- a/bsd-user/x86_64/target_arch_cpu.c
-+++ b/bsd-user/x86_64/target_arch_cpu.c
-@@ -1,6 +1,7 @@
- /*
-  *  x86_64 cpu related code
-  *
-+ * Copyright (c) 2013 Stacey Son <sson@FreeBSD.org>
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
-diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
++    regs->edx = 0;
++}
++
++#endif /* !_TARGET_ARCH_THREAD_H_ */
+diff --git a/bsd-user/netbsd/target_os_thread.h b/bsd-user/netbsd/target_os_thread.h
 new file mode 100644
-index 0000000000..ba0533ea0c
+index 0000000000..904dd1bf78
 --- /dev/null
-+++ b/bsd-user/x86_64/target_arch_cpu.h
-@@ -0,0 +1,328 @@
++++ b/bsd-user/netbsd/target_os_thread.h
+@@ -0,0 +1,25 @@
 +/*
-+ *  x86_64 cpu init and loop
++ *  NetBSD thread dependent code and definitions
 + *
++ *  Copyright (c) 2013 Stacey D. Son
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -813,316 +318,144 @@ index 0000000000..ba0533ea0c
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_CPU_H_
-+#define _TARGET_ARCH_CPU_H_
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+#include "target_arch.h"
++#include "target_arch_thread.h"
 +
-+#define TARGET_DEFAULT_CPU_MODEL "qemu64"
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/openbsd/target_os_thread.h b/bsd-user/openbsd/target_os_thread.h
+new file mode 100644
+index 0000000000..01ed0d9fc8
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_thread.h
+@@ -0,0 +1,25 @@
++/*
++ *  OpenBSD thread dependent code and definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+#define TARGET_CPU_RESET(cpu)
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+static inline void target_cpu_init(CPUX86State *env,
-+        struct target_pt_regs *regs)
++#include "target_arch_thread.h"
++
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/x86_64/target_arch_elf.h b/bsd-user/x86_64/target_arch_elf.h
+index e7c8aa2755..180ec77a5f 100644
+--- a/bsd-user/x86_64/target_arch_elf.h
++++ b/bsd-user/x86_64/target_arch_elf.h
+@@ -19,48 +19,14 @@
+ #ifndef _TARGET_ARCH_ELF_H_
+ #define _TARGET_ARCH_ELF_H_
+ 
+-#define ELF_PLATFORM get_elf_platform()
+-
+-static const char *get_elf_platform(void)
+-{
+-    static char elf_platform[] = "i386";
+-    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
+-    if (family > 6) {
+-        family = 6;
+-    }
+-    if (family >= 3) {
+-        elf_platform[1] = '0' + family;
+-    }
+-    return elf_platform;
+-}
+-
+-#define ELF_HWCAP get_elf_hwcap()
+-
+-static uint32_t get_elf_hwcap(void)
+-{
+-    X86CPU *cpu = X86_CPU(thread_cpu);
+-
+-    return cpu->env.features[FEAT_1_EDX];
+-}
+-
+ #define ELF_START_MMAP 0x2aaaaab000ULL
+-#define elf_check_arch(x) (((x) == ELF_ARCH))
++#define ELF_ET_DYN_LOAD_ADDR    0x01021000
++#define elf_check_arch(x) ( ((x) == ELF_ARCH) )
+ 
+ #define ELF_CLASS      ELFCLASS64
+ #define ELF_DATA       ELFDATA2LSB
+ #define ELF_ARCH       EM_X86_64
+ 
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-    regs->rax = 0;
+-    regs->rsp = infop->start_stack;
+-    regs->rip = infop->entry;
+-    if (bsd_type == target_freebsd) {
+-        regs->rdi = infop->start_stack;
+-    }
+-}
+-
+ #define USE_ELF_CORE_DUMP
+ #define ELF_EXEC_PAGESIZE       4096
+ 
+diff --git a/bsd-user/x86_64/target_arch_thread.h b/bsd-user/x86_64/target_arch_thread.h
+new file mode 100644
+index 0000000000..d105e43fd3
+--- /dev/null
++++ b/bsd-user/x86_64/target_arch_thread.h
+@@ -0,0 +1,40 @@
++/*
++ *  x86_64 thread support
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_THREAD_H_
++#define _TARGET_ARCH_THREAD_H_
++
++/* Compare to vm_machdep.c cpu_set_upcall_kse() */
++static inline void target_thread_set_upcall(CPUX86State *regs, abi_ulong entry,
++    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
 +{
-+    uint64_t *gdt_table;
-+
-+    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-+    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-+    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-+        env->cr[4] |= CR4_OSFXSR_MASK;
-+        env->hflags |= HF_OSFXSR_MASK;
-+    }
-+
-+    /* enable 64 bit mode if possible */
-+    if (!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM)) {
-+        fprintf(stderr, "The selected x86 CPU does not support 64 bit mode\n");
-+        exit(1);
-+    }
-+    env->cr[4] |= CR4_PAE_MASK;
-+    env->efer |= MSR_EFER_LMA | MSR_EFER_LME;
-+    env->hflags |= HF_LMA_MASK;
-+
-+    /* flags setup : we activate the IRQs by default as in user mode */
-+    env->eflags |= IF_MASK;
-+
-+    /* register setup */
-+    env->regs[R_EAX] = regs->rax;
-+    env->regs[R_EBX] = regs->rbx;
-+    env->regs[R_ECX] = regs->rcx;
-+    env->regs[R_EDX] = regs->rdx;
-+    env->regs[R_ESI] = regs->rsi;
-+    env->regs[R_EDI] = regs->rdi;
-+    env->regs[R_EBP] = regs->rbp;
-+    env->regs[R_ESP] = regs->rsp;
-+    env->eip = regs->rip;
-+
-+    /* interrupt setup */
-+    env->idt.limit = 511;
-+
-+    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
-+        PROT_READ|PROT_WRITE, MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-+    bsd_x86_64_set_idt_base(env->idt.base);
-+    bsd_x86_64_set_idt(0, 0);
-+    bsd_x86_64_set_idt(1, 0);
-+    bsd_x86_64_set_idt(2, 0);
-+    bsd_x86_64_set_idt(3, 3);
-+    bsd_x86_64_set_idt(4, 3);
-+    bsd_x86_64_set_idt(5, 0);
-+    bsd_x86_64_set_idt(6, 0);
-+    bsd_x86_64_set_idt(7, 0);
-+    bsd_x86_64_set_idt(8, 0);
-+    bsd_x86_64_set_idt(9, 0);
-+    bsd_x86_64_set_idt(10, 0);
-+    bsd_x86_64_set_idt(11, 0);
-+    bsd_x86_64_set_idt(12, 0);
-+    bsd_x86_64_set_idt(13, 0);
-+    bsd_x86_64_set_idt(14, 0);
-+    bsd_x86_64_set_idt(15, 0);
-+    bsd_x86_64_set_idt(16, 0);
-+    bsd_x86_64_set_idt(17, 0);
-+    bsd_x86_64_set_idt(18, 0);
-+    bsd_x86_64_set_idt(19, 0);
-+    bsd_x86_64_set_idt(0x80, 3);
-+
-+    /* segment setup */
-+    env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-+            PROT_READ|PROT_WRITE, MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-+    env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
-+    gdt_table = g2h_untagged(env->gdt.base);
-+
-+    /* 64 bit code segment */
-+    bsd_x86_64_write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK | DESC_L_MASK
-+            | (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
-+
-+    bsd_x86_64_write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
-+
-+    cpu_x86_load_seg(env, R_CS, __USER_CS);
-+    cpu_x86_load_seg(env, R_SS, __USER_DS);
-+    cpu_x86_load_seg(env, R_DS, 0);
-+    cpu_x86_load_seg(env, R_ES, 0);
-+    cpu_x86_load_seg(env, R_FS, 0);
-+    cpu_x86_load_seg(env, R_GS, 0);
++    /* XXX */
 +}
 +
-+static inline void target_cpu_loop(CPUX86State *env)
++static inline void target_thread_init(struct target_pt_regs *regs,
++    struct image_info *infop)
 +{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr;
-+    abi_ulong pc;
-+    /* target_siginfo_t info; */
-+
-+    for (;;) {
-+	cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+	cpu_exec_end(cs);
-+	process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case 0x80:
-+            /* syscall from int $0x80 */
-+            if (bsd_type == target_freebsd) {
-+                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-+                    sizeof(int32_t);
-+                int32_t syscall_nr = env->regs[R_EAX];
-+                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-+
-+                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int32_t);
-+                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int64_t);
-+                }
-+                get_user_s32(arg1, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg2, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg3, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg4, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg5, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg6, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg7, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg8, params);
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      syscall_nr,
-+                                                      arg1,
-+                                                      arg2,
-+                                                      arg3,
-+                                                      arg4,
-+                                                      arg5,
-+                                                      arg6,
-+                                                      arg7,
-+                                                      arg8);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EBX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_EBP]);
-+            }
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+        case EXCP_SYSCALL:
-+            /* syscall from syscall instruction */
-+            if (bsd_type == target_freebsd) {
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[8],
-+                                                      env->regs[9], 0, 0);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[10],
-+                                                      env->regs[8],
-+                                                      env->regs[9]);
-+            }
-+            env->eip = env->exception_next_eip;
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+#if 0
-+        case EXCP0B_NOSEG:
-+        case EXCP0C_STACK:
-+            info.si_signo = TARGET_SIGBUS;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_SI_KERNEL;
-+            info._sifields._sigfault._addr = 0;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP0D_GPF:
-+            /* XXX: potential problem if ABI32 */
-+            info.si_signo = TARGET_SIGSEGV;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_SI_KERNEL;
-+            info._sifields._sigfault._addr = 0;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP0E_PAGE:
-+            info.si_signo = TARGET_SIGSEGV;
-+            info.si_errno = 0;
-+            if (!(env->error_code & 1)) {
-+                info.si_code = TARGET_SEGV_MAPERR;
-+            } else {
-+                info.si_code = TARGET_SEGV_ACCERR;
-+            }
-+            info._sifields._sigfault._addr = env->cr[2];
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP00_DIVZ:
-+            /* division by zero */
-+            info.si_signo = TARGET_SIGFPE;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_FPE_INTDIV;
-+            info._sifields._sigfault._addr = env->eip;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP01_DB:
-+        case EXCP03_INT3:
-+            info.si_signo = TARGET_SIGTRAP;
-+            info.si_errno = 0;
-+            if (trapnr == EXCP01_DB) {
-+                info.si_code = TARGET_TRAP_BRKPT;
-+                info._sifields._sigfault._addr = env->eip;
-+            } else {
-+                info.si_code = TARGET_SI_KERNEL;
-+                info._sifields._sigfault._addr = 0;
-+            }
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP04_INTO:
-+        case EXCP05_BOUND:
-+            info.si_signo = TARGET_SIGSEGV;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_SI_KERNEL;
-+            info._sifields._sigfault._addr = 0;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+
-+        case EXCP06_ILLOP:
-+            info.si_signo = TARGET_SIGILL;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_ILL_ILLOPN;
-+            info._sifields._sigfault._addr = env->eip;
-+            queue_signal(env, info.si_signo, &info);
-+            break;
-+#endif
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+#if 0
-+        case EXCP_DEBUG:
-+            {
-+
-+                info.si_signo = TARGET_SIGTRAP;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_TRAP_BRKPT;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+#endif
-+
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+
-+        default:
-+            pc = env->segs[R_CS].base + env->eip;
-+            fprintf(stderr, "qemu: 0x%08lx: unhandled CPU exception 0x%x - "
-+                    "aborting\n", (long)pc, trapnr);
-+            abort();
-+        }
-+        process_pending_signals(env);
++    regs->rax = 0;
++    regs->rsp = infop->start_stack;
++    regs->rip = infop->entry;
++    if (bsd_type == target_freebsd) {
++        regs->rdi = infop->start_stack;
 +    }
 +}
 +
-+static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
-+{
-+    if (newsp)
-+        env->regs[R_ESP] = newsp;
-+    env->regs[R_EAX] = 0;
-+}
-+
-+static inline void target_cpu_reset(CPUArchState *cpu)
-+{
-+    cpu_reset(env_cpu(cpu));
-+}
-+
-+#endif /* ! _TARGET_ARCH_CPU_H_ */
++#endif /* !_TARGET_ARCH_THREAD_H_ */
 -- 
 2.32.0
 
