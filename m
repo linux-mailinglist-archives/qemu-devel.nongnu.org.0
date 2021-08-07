@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757DF3E375F
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:13:34 +0200 (CEST)
-Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00283E3790
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 01:23:28 +0200 (CEST)
+Received: from localhost ([::1]:37774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCUZR-0002Ew-Hm
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:13:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1mCVf5-00087Z-C8
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 19:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6a-0000S8-5R
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:44 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:42829)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mCVe6-000789-Cf; Sat, 07 Aug 2021 19:22:26 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:37416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6X-0005WJ-Ck
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:43 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id h1so19883018iol.9
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=D+a7UQ8owCmGXtyzDU3U40GIDHEJl71xOx4FAs8OqMA=;
- b=DDPtkXkx5v6T1EP45z2hwLUjNPOy/2PrkgOs+KAC3uECbFD2rkHv2DSuDKNcGbbt4d
- Y0MUNFq+0TOPmQq7tveSfj7sXYuf7+WC1ycMNPP0Rx5IdoAX93WjWeq1nS7v3UCX+2bb
- ciT8n/ysVLNpULS0fMnPQbRzGOhsYo/i41erR0PIiSZt3a8Rg2lTPKRw38ItLzLp1XJT
- 3YBi5qsYR2gSvWJH7dt/O78+4p0q+DvNYoHSh1QdJCXA1Y0ypK169EyQL7OlQGGfdPz6
- SCwM2aeXtdMMgzx1QAdiLCDtu2Tys8qE30TDNz2HqEH90ogr5XTs3j1KRJEzc9k0DJtT
- pY/Q==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mCVe4-0004tX-Ob; Sat, 07 Aug 2021 19:22:26 -0400
+Received: by mail-io1-xd33.google.com with SMTP id l20so18123298iom.4;
+ Sat, 07 Aug 2021 16:22:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2t0yqrXB25FTaGR92fNup9m/GC9jY9E7d0B+aRpzuT8=;
+ b=JHTkXzVzATEt2qFY17Q5b/6P2a7P5O1m1Gx9jiD6JCNct4O30JGbp90g5M2v8Io+41
+ t6qfBNw6SFzV4OQFVK3c1+v76IU0WxaocZv7wlJ4qJ/FxmesTFYVl6pohpzbM+DTvbDx
+ JJqgO+lG5qfM51r2SdMGO1gqyBh00RPiig4/vxSqYJ1FUue/2p2hd9eBcYuB7QjAEFoa
+ w0/4/pK9HBb5Pqb/F3QMa0P9J3KsaVD0Oe7kOlcgOwfCyV1mpDYhNvQXFTu18dFGoV90
+ SBIXOL5Jb1y/MSGOZejVSrE1cEDFlVWotSvrmL+H/oWQDGjiD2WIIS9dsAjwuzScOu/z
+ XMsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D+a7UQ8owCmGXtyzDU3U40GIDHEJl71xOx4FAs8OqMA=;
- b=aZfxks/bfaHo5WyvzX/Dgkjskj5XvOcI3nqp9bACqcTKYxhzqiSctTeTpJfSbMQlz2
- 5g/uSoos8Lzelat7+s5R04p3Oe/vZNfoY/bg73tQln/RmnaSEJwLWJj7B0PNskurNuzP
- Nofd6HNTXC2B9MbW9XAcm+Xpb8hL4pFFkrU5fOQh0ILprinf5sfz43/L/fH0+UEyRblk
- kKcFXOLkCEhmV4V9AocHp3j8jkqxujB8aqgHCv9lSJiai3hGjwpwTYCJWeMymXSGjgtU
- 2U/AkL5PwVEMVDFJg+q1kIb0qqZtV8Jc/TwYWnwG6BuML2m6IV2GDqqd2HCmXLyvSkbi
- USTw==
-X-Gm-Message-State: AOAM5337k4SRsjwNtSOewKiKbu8EYCAgfWEyDtlgyCYNf2gOHhFKSrfS
- e4LzAbhQ6ES0CLIv/Yx/zPT/bNJCiD9Yrj2w
-X-Google-Smtp-Source: ABdhPJzhyQ2vYSVCJaYzjPi7xG9T2z9NNVyYuiJ08PnXKnpEQa2NQTOU5rJOGAbnmDeR1LxfZliLrA==
-X-Received: by 2002:a05:6e02:2147:: with SMTP id
- d7mr91494ilv.179.1628372620043; 
- Sat, 07 Aug 2021 14:43:40 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 14:43:39 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 49/49] bsd-user: Add '-0 argv0' option to
- bsd-user/main.c
-Date: Sat,  7 Aug 2021 15:42:42 -0600
-Message-Id: <20210807214242.82385-50-imp@bsdimp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210807214242.82385-1-imp@bsdimp.com>
-References: <20210807214242.82385-1-imp@bsdimp.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2t0yqrXB25FTaGR92fNup9m/GC9jY9E7d0B+aRpzuT8=;
+ b=HdHvXErXShR9X8jcIu4MkMpy2+SA+9Z3RhAWJ3QPGWoAzmY4rxzdfrVNdu0HG5WmAP
+ hKbnd1zY9SNPkcVEnzbfTcqRXDU3OW4cJZYLQjow5AJNdmvbmu9s5I251zbER9PcvrkG
+ gi2DuFzqq0Uh2vGkfK+HZHsqX8kQmK5C+YQbyevblhuTRjQ/Ep7pPyb6IyuqOfF4MDoE
+ zY/WFMOCmiV1PeYQitcKMLzeCAibBLKRCUtGNm8tVD1+IvRM/xD8B+MZlIRU1RRmf8c5
+ lm4XaZg5bqcL4TbE+Hik67SFoWwbV32p8WZZPYebC10rY7XfnldJXeNgG83W14wZyA3p
+ ohEA==
+X-Gm-Message-State: AOAM5324R3T4+SUXGblp84B7NCmV2wS3vpfBUDqRVMY3EAB3mQ7MjM7o
+ wNrJckISZ9hbRXH7ZxfmjNIx3U2BRFt9Ow5V9Ew=
+X-Google-Smtp-Source: ABdhPJw4WpIOTp7nE8OCW7vDHAgEAERZ/pCaX+DFC9UG5cGW/Ca5z0soMpSWdxRVLHjlWHBhPYydNhDgPwEMV5Y0ESU=
+X-Received: by 2002:a5d:8e19:: with SMTP id e25mr470065iod.175.1628378542209; 
+ Sat, 07 Aug 2021 16:22:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20210807141025.31808-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210807141025.31808-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sun, 8 Aug 2021 09:21:54 +1000
+Message-ID: <CAKmqyKNXUrmH_54N=nV=ee6XrnrsBmok076fmrsT7d1S=zGxBw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Correct a comment in riscv_csrrw()
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Colin Percival <cperciva@tarsnap.com>,
- Warner Losh <imp@bsdimp.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Colin Percival <cperciva@tarsnap.com>
+On Sun, Aug 8, 2021 at 12:10 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> When privilege check fails, RISCV_EXCP_ILLEGAL_INST is returned,
+> not -1 (RISCV_EXCP_NONE).
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Previously it was impossible to emulate a program with a file name
-different from its argv[0].  With this change, you can run
-    qemu -0 fakename realname args
-which runs the program "realname" with an argv of "fakename args".
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Colin Percival <cperciva@tarsnap.com>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/main.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Alistair
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 1de5dc189b..c3ecdaf824 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -284,6 +284,7 @@ int main(int argc, char **argv)
-     char **target_environ, **wrk;
-     envlist_t *envlist = NULL;
-     bsd_type = HOST_DEFAULT_BSD_TYPE;
-+    char * argv0 = NULL;
- 
-     adjust_ssize();
- 
-@@ -405,6 +406,8 @@ int main(int argc, char **argv)
-             do_strace = 1;
-         } else if (!strcmp(r, "trace")) {
-             trace_opt_parse(optarg);
-+        } else if (!strcmp(r, "0")) {
-+            argv0 = argv[optind++];
-         } else {
-             usage();
-         }
-@@ -428,6 +431,8 @@ int main(int argc, char **argv)
-         usage();
-     }
-     filename = argv[optind];
-+    if (argv0)
-+        argv[optind] = argv0;
- 
-     if (!trace_init_backends()) {
-         exit(1);
--- 
-2.32.0
-
+> ---
+>
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 9a4ed18ac5..e747fbe0e9 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1423,7 +1423,7 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>      target_ulong old_value;
+>      RISCVCPU *cpu = env_archcpu(env);
+>
+> -    /* check privileges and return -1 if check fails */
+> +    /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv = env->priv;
+>      int read_only = get_field(csrno, 0xC00) == 3;
+> --
+> 2.25.1
+>
+>
 
