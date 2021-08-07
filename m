@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A533E340B
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:17:12 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D10F3E340C
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:18:27 +0200 (CEST)
+Received: from localhost ([::1]:34220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCHW3-0000QB-So
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
+	id 1mCHXG-000207-HJ
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHUv-0007RQ-73
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:16:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40090)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHWF-0001Fz-Nm
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:17:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHUr-0007nh-4z
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:15:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHWE-0000YA-18
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:17:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628324155;
+ s=mimecast20190719; t=1628324241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DdPOhJVU6UVMReBtzPC7S65B6C7QoU/bZvwzfKX2FsA=;
- b=bt/WhXSUmLLufLf6eiy3xmF8zXX7/iJQqncak3sCMuA/VhKtBdCHE3L6D9e4wuU9GRmG1o
- 5xf5h5pUVhoJusVxTbMOKpeSih6eJDo9ZXSvWrsDjYV0QiVesGj8KEQkk4r+sr21puC+Ov
- KrzF6D/F8G7f1+eZytNZVwYuTGIH3nM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-H4ucSiBtMQqOPaEs-sBhcA-1; Sat, 07 Aug 2021 04:15:54 -0400
-X-MC-Unique: H4ucSiBtMQqOPaEs-sBhcA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j16-20020a5d44900000b02901549fdfd4fcso3932116wrq.6
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 01:15:54 -0700 (PDT)
+ bh=JnO11yHz0gOXBZHq9pGEXrLe/X02k7FZeJTNv7tw8So=;
+ b=FiZf+tzKrvrQtDCwEfXfMLYev07oeXW73RZ2y+eLCHacxu2rj2VS/4i/a+7aVwNm1TQATr
+ 8F+nJitfVqZoaoifYzN1vVhDUGs2NUs8HA+Oy/kzL2goq0/taYBvbZAo1iaXMWCB7YmRqF
+ ViF5TdbAE4rnXaNf5ko4bD1RNpy34ro=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-W8EZKVWKPhWHEOerefpQ5w-1; Sat, 07 Aug 2021 04:17:20 -0400
+X-MC-Unique: W8EZKVWKPhWHEOerefpQ5w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b196-20020a1c80cd0000b02902e677003785so344308wmd.7
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 01:17:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DdPOhJVU6UVMReBtzPC7S65B6C7QoU/bZvwzfKX2FsA=;
- b=ODbeKcaeXzdjDB46plMz2wtT1YjIzQYv/g6fZALfjr0g9NfAbDeVKL+JDvv69JRZ8s
- jJ8af+dJSevB0Tki5zP7w9TjjIjA2s+YDUSeZQMzaS3hR3ptgep5NHGaJ2iV4ETvdYk9
- EJXI+vWhq9YLqplDyGHuKkMD8F5eHjGtTw17jXTjqT7TQ6NAzF4WSlJkYtD0vfAhE2iB
- N4YlH34e09EC+mNrV+x6yF4EStiA4zZe/3OLve/+l4dDDzfp0/CqpODkHU1ItA/Gvayf
- Ea8ijYDbwEB5cECLHUx6TREn1YU75GdLs08UMx+UqHbZVdWt9sgPOieQjl+mr2NsWedj
- TcmQ==
-X-Gm-Message-State: AOAM532DEmIjPiRYGwnZhF7ueZT0JdYgk7yzqOK7PjZbr/TeZx2hHA11
- T/l4vXENWxjOi6l50eOcbTNGzVdTiv4l6+NTLpKffBdpRVFyZGHFjYlwqAPxoNke5T9bmqPpqK2
- n6ZiREYJQPVq6NXw=
-X-Received: by 2002:a05:600c:4144:: with SMTP id
- h4mr6956970wmm.138.1628324153354; 
- Sat, 07 Aug 2021 01:15:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8C3diwEs+BLZI5ofb+r26hq7GLoMQCtT7qlf7MNXm1m5KOGCYLU2G9hfqfEF28eVhWnmclw==
-X-Received: by 2002:a05:600c:4144:: with SMTP id
- h4mr6956957wmm.138.1628324153199; 
- Sat, 07 Aug 2021 01:15:53 -0700 (PDT)
+ bh=JnO11yHz0gOXBZHq9pGEXrLe/X02k7FZeJTNv7tw8So=;
+ b=ZTJpMr1priZr/znv9qvyOvOQTwKroUrRCv/24wQTcf8wNe9Pj7FW8rPzpnY1VYxNLm
+ GGLY9UVNZDst5jjVfA2JgUMdTEJpH//LoFPlSwtsRnSeTzuKjLfnn4WI+KYP2lkNZ8sE
+ Pn+R5mXhc3lGbXi7rghSSobBUIwdMe1CmCjtfie+Xr76z7v3WbQb7k38V1Ek8G5zlzmT
+ E2yp8bayzc0QzwGq64yKecBQRwgrbdt5j8MnDR7ZOU5jo7b8hIzAC+ywf4JbHcyf0rct
+ yjAP5HR+qZEoqfQIGRZQVEgMT7PFDpwMNPfg3O0gnbnMRpXRDA4xLiIROic0Or2IQS5B
+ m1Eg==
+X-Gm-Message-State: AOAM531G0Vt2clseQ150Dzwg9LGuPxnf8ji8TmKPd3ksoL8a+p5pKSpD
+ 5q8cD/P/6Hvh8MBrm9Q+Go1JjyJAHIB6hqV+0QlnXPaHpLoKRpkDM6PJpqj6Vjs6A3y0/qwzJ+n
+ ixF+hJFr8/egw6Wc=
+X-Received: by 2002:a05:6000:1366:: with SMTP id
+ q6mr14618772wrz.60.1628324238895; 
+ Sat, 07 Aug 2021 01:17:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNyUwnO1414uqZYlAG/LrLZ2awOtZwYDg+SHpHhKR1lpnO9NlS9t296IIoA74CF9Da4t69Jw==
+X-Received: by 2002:a05:6000:1366:: with SMTP id
+ q6mr14618749wrz.60.1628324238723; 
+ Sat, 07 Aug 2021 01:17:18 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id q2sm1654553wrc.44.2021.08.07.01.15.52
+ by smtp.gmail.com with ESMTPSA id n11sm14485459wrs.81.2021.08.07.01.17.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 01:15:52 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 00/12] qom: Get rid of all manual usage of
- OBJECT_CHECK & friends
+ Sat, 07 Aug 2021 01:17:18 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 02/12] qom: Use DEVICE_*CLASS instead of
+ OBJECT_*CLASS
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20210806211127.646908-1-ehabkost@redhat.com>
+ <20210806211127.646908-3-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <434ed8d4-f52f-375b-99a0-dfd5cf656356@redhat.com>
-Date: Sat, 7 Aug 2021 10:15:52 +0200
+Message-ID: <27c84b6f-cb25-b92a-c7c3-aa166b0a33c4@redhat.com>
+Date: Sat, 7 Aug 2021 10:17:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210806211127.646908-1-ehabkost@redhat.com>
+In-Reply-To: <20210806211127.646908-3-ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -60
@@ -100,21 +101,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/6/21 11:11 PM, Eduardo Habkost wrote:
-> This series gets rid of all manual usage of OBJECT_CHECK,
-> OBJECT_CLASS_CHECK, and OBJECT_GET_CLASS.
+> There are multiple functions where OBJECT_GET_CLASS or
+> OBJECT_CLASS_CHECK are being used directly for
+> DeviceClass/TYPE_DEVICE, instead of the DEVICE_GET_CLASS or
+> DEVICE_CLASS wrappers.  There's no reason to not use the
+> wrappers, so use them.
 > 
-> All type check macros defined manually are replaced with
-> DEFINE_*CHECKER* or OBJECT_DECLARE* macros.
-> 
-> All manual usage of OBJECT_CHECK/OBJECT_CLASS_CHECK/OBJECT_GET_CLASS
-> is manually replaced with the corresponding type-specific wrappers.
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/pci/pci.c           | 3 +--
+>  hw/usb/hcd-ehci-pci.c  | 2 +-
+>  migration/savevm.c     | 3 +--
+>  monitor/misc.c         | 3 +--
+>  softmmu/qdev-monitor.c | 3 +--
+>  5 files changed, 5 insertions(+), 9 deletions(-)
 
-Is INTERFACE_CHECK already converted / in good shape?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
