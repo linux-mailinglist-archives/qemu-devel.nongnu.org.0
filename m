@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EE73E3402
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:02:34 +0200 (CEST)
-Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310B23E3405
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:04:46 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCHHt-0006jQ-7f
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48708)
+	id 1mCHK1-0000O5-96
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCHFm-00056K-44; Sat, 07 Aug 2021 04:00:22 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCHFk-0002am-LE; Sat, 07 Aug 2021 04:00:21 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- o7-20020a05600c5107b0290257f956e02dso10519735wms.1; 
- Sat, 07 Aug 2021 01:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vMTOytzyo1doFUfpz3wZ8k460EeQw0S0LXECWsHvFII=;
- b=p5ZFLCttYH9F075QGNw6lLKp29awPPL+RFM3zfyQjcxTXY/feZWNuthiBPPIdEKyHi
- B5ZinBQ/8jVcEwkBOF7KzLGNntsMRcJ7gEhp/BoskBAPe/nriiopJEsVS7/mvwxrJGsl
- klFcP/kKxratcnE3tV6/6G6pA0Dd8Mgjike9JaBtf6StfDHXWWqtlbL4701TaZTf1lKa
- AOBI+IN0tNHVJFHyiYE0j+JB5yBvUSzAPcih9UrWeV5nmo2X/wLz24ducMwugg7GHZet
- w0EtfODSsBYTmzw8qa+WfX9jhZXnrjC5YbBbX8qQoDkSsE1u89Iunm8MW9gra3EAuPgb
- XDeg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHHk-0007Yg-3g
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:02:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCHHf-0004Qg-OV
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 04:02:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628323338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p74tHzO2gHpwhdtuRmYYRUhCuHgBWJWT/JvCS8HV0uI=;
+ b=gfDdpQAhaBrlB4CZ8c3yo4yV991nPYuAWjyg/wd5UjkEvLfDWp8vaafg28gSKldoCLyH1P
+ PpYNdPNh0wit71AnHA6Y8AFzkfvdeSiIgRaQ1OoGcUs82pTPMJke7//PGVYW6ZRA1BgIBy
+ wJ658j8cEM6R8BJqEzObGKTglRhxsNg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-r4UgXq0qPFmsPXRc0GINnw-1; Sat, 07 Aug 2021 04:02:16 -0400
+X-MC-Unique: r4UgXq0qPFmsPXRc0GINnw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k13-20020a05600c1c8db029025018ac4f7dso2914081wms.2
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 01:02:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vMTOytzyo1doFUfpz3wZ8k460EeQw0S0LXECWsHvFII=;
- b=MyaHjKQLTiubYi4uwpNaX4t86bS8WyEPCVfQD1mjVSiqsPOYl4hYkxASBGKpRX9z1P
- y1dAdVlLkE5ScOoa8jX2YvjTgh2Xsz/frfAal7I3AfIMKp5tkcF7nOKtzgVGXyPRAXxT
- PL0JfpPHMvgX/4GimJIxZRV/LN7nS8aj1lr6OUhFzCi1oKq5AFl097rzkZtr5vuCHDLr
- D9v0bThKral0pLSGWz8x4fhS6l+fuvB/4xj+trihdJP8l3SZrVtphnb7d1fRnyRk9LUu
- D/ErymouQEs7WNfuBmvaREXx8Wdr/AZf+uqRsAQHLIDTply/IpoefoqrvezQYpNsyDtU
- U7Sw==
-X-Gm-Message-State: AOAM5311+Kex5zv9tslyMLVF+41f2crEkigiMWo+Po2ePuNhkazv/TpG
- NmJVicMb2FpMjQJnjL4sf5w=
-X-Google-Smtp-Source: ABdhPJwsyqOorQp/GbfXIL4UZGn2OX+JaD59D0GpXgxwBxEt/PtklP6+prqN1/PyXZbUAh7LZuo84A==
-X-Received: by 2002:a05:600c:a08:: with SMTP id
- z8mr6875962wmp.52.1628323219030; 
- Sat, 07 Aug 2021 01:00:19 -0700 (PDT)
+ bh=p74tHzO2gHpwhdtuRmYYRUhCuHgBWJWT/JvCS8HV0uI=;
+ b=ItWwstwGWUdObEQXnV+dr+RhPT0urO1LuIV7Gq7Dq1HERPUmrgAW8loRp4arIw0X8W
+ InEXgdsg+T7vrbZILQIUP5KBSU1csXfFmJp5Xwfyrq68VRYIGCC/KyWMYD4f2MC3RRGF
+ WtUpBYnqN8ms/MHhSKClQdldidjioDuD0/IWacNcE7XKTbA3f2gkzMTvIP1j6tsUXi0q
+ rnmTqfVvy+ia5ePJQZ+GWIwrFCjraZT7QakPPl4VpU51hgSbp0++VaVi/xtmncBy88Eo
+ qqLjyC/GVNdXV5wf1NKDRxJ76FhVddwHVh3apCO6OS+jm/vzEKePPBRFMYaLPNASnEwt
+ FuFw==
+X-Gm-Message-State: AOAM532WX14SuqF0n+stjgT52xQ7zPkOW11Xz2SShu0majaJbLWjr2aE
+ 91G+knwXrLdEAuMhBQaPqJ9bs69yfRl12WYO7XXaOn5koZKbr2K1GTDztBwqdXkFUiA8Ta9U+Yh
+ rUEimLarzOMB1Op4=
+X-Received: by 2002:a05:600c:4a12:: with SMTP id
+ c18mr24243794wmp.9.1628323335859; 
+ Sat, 07 Aug 2021 01:02:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRDiVpNThLI8LNcLBfscZ/Ah9emQBynaBFAbgi77LGjFMjqshzHwbYFElwHX6LYsZh6X9m9A==
+X-Received: by 2002:a05:600c:4a12:: with SMTP id
+ c18mr24243770wmp.9.1628323335660; 
+ Sat, 07 Aug 2021 01:02:15 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id x21sm14184112wmi.46.2021.08.07.01.00.17
+ by smtp.gmail.com with ESMTPSA id a9sm12117087wrv.37.2021.08.07.01.02.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 01:00:18 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 09/12] npcm7xx_otp: Use DECLARE_CLASS_CHECKERS
+ Sat, 07 Aug 2021 01:02:15 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 11/12] [automated] Use OBJECT_DECLARE_TYPE when
+ possible
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20210806211127.646908-1-ehabkost@redhat.com>
- <20210806211127.646908-10-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <93092f6d-5dec-c361-9880-7c2852722b97@amsat.org>
-Date: Sat, 7 Aug 2021 10:00:17 +0200
+ <20210806211127.646908-12-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dcc5f4ef-9925-57e9-cc34-cce5c9e1142a@redhat.com>
+Date: Sat, 7 Aug 2021 10:02:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210806211127.646908-10-ehabkost@redhat.com>
+In-Reply-To: <20210806211127.646908-12-ehabkost@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.619,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.619, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,29 +101,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/6/21 11:11 PM, Eduardo Habkost wrote:
-> Use DECLARE_CLASS_CHECKERS instead of defining the
-> NPCM7XX_OTP_CLASS and NPCM7XX_OTP_GET_CLASS macros manually.
+> Replace typedefs + DECLARE_OBJ_CHECKERS with equivalent
+> OBJECT_DECLARE_TYPE macro.
 > 
-> These changes had to be done manually because the typedef and the
-> existing macro definitions were in different files.
+> Generated using:
+> 
+> $ ./scripts/codeconverter/converter.py -i \
+>   --pattern=AddObjectDeclareType $(git grep -l '' -- '*.[ch]')
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> Cc: Havard Skinnemoen <hskinnemoen@google.com>
-> Cc: Tyrone Ting <kfting@nuvoton.com>
-> Cc: qemu-arm@nongnu.org
+> Cc: John Snow <jsnow@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: "Cédric Le Goater" <clg@kaod.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: qemu-block@nongnu.org
 > Cc: qemu-devel@nongnu.org
+> Cc: qemu-ppc@nongnu.org
 > ---
->  include/hw/nvram/npcm7xx_otp.h | 5 +++--
->  hw/nvram/npcm7xx_otp.c         | 5 -----
->  2 files changed, 3 insertions(+), 7 deletions(-)
+>  hw/usb/u2f.h                | 6 +-----
+>  include/crypto/tlscreds.h   | 5 +----
+>  include/hw/ppc/spapr_drc.h  | 5 +----
+>  include/hw/ppc/spapr_xive.h | 5 +----
+>  include/qemu/accel.h        | 4 +---
+>  hw/block/fdc-sysbus.c       | 5 +----
+>  6 files changed, 6 insertions(+), 24 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 
