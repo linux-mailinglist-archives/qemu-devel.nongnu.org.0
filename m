@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8113E3401
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:01:42 +0200 (CEST)
-Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EE73E3402
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:02:34 +0200 (CEST)
+Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCHH2-0005kJ-Em
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48642)
+	id 1mCHHt-0006jQ-7f
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCHF9-0004SG-Q0; Sat, 07 Aug 2021 03:59:43 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34627)
+ id 1mCHFm-00056K-44; Sat, 07 Aug 2021 04:00:22 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mCHF8-0001yo-Be; Sat, 07 Aug 2021 03:59:43 -0400
-Received: by mail-wr1-x431.google.com with SMTP id h13so14075341wrp.1;
- Sat, 07 Aug 2021 00:59:41 -0700 (PDT)
+ id 1mCHFk-0002am-LE; Sat, 07 Aug 2021 04:00:21 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ o7-20020a05600c5107b0290257f956e02dso10519735wms.1; 
+ Sat, 07 Aug 2021 01:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QLiv8i5t0PRA2lFWUtHsI2WYPqf9Azi2kSZ1aVvvnDc=;
- b=LtUOeM9K5Ul/gv3Z/Ao7rn1HRcRuxpbefjaBNk2JGTYQzDdK0/zU5fVLPDMdFnnm2r
- BTGOZpf3ds3XziH2m/PsHB71p5YLQ6fkpDTS6uWt4U2kLsIDP7elk1lgpBt05uYV7LHK
- bYLdbBkJAV49E4W6IqjKQz183DUThMuuVgWKV/uwRL5dMEJzTEbLW9IiLqVIdE4jeL4X
- rbVglor/CHAd0QJ+KbMRNhcJmNA8/mwZ40dgsbfWPHPdmB2gR9lz0mrGqF9RwJf4Smy5
- ZECTgtbBhv1Ka8r8v7v6PxLal7i5gFqUHE6APEHlSmv9q11U+1gZYYuqBbzmWkHAax3f
- rsvg==
+ bh=vMTOytzyo1doFUfpz3wZ8k460EeQw0S0LXECWsHvFII=;
+ b=p5ZFLCttYH9F075QGNw6lLKp29awPPL+RFM3zfyQjcxTXY/feZWNuthiBPPIdEKyHi
+ B5ZinBQ/8jVcEwkBOF7KzLGNntsMRcJ7gEhp/BoskBAPe/nriiopJEsVS7/mvwxrJGsl
+ klFcP/kKxratcnE3tV6/6G6pA0Dd8Mgjike9JaBtf6StfDHXWWqtlbL4701TaZTf1lKa
+ AOBI+IN0tNHVJFHyiYE0j+JB5yBvUSzAPcih9UrWeV5nmo2X/wLz24ducMwugg7GHZet
+ w0EtfODSsBYTmzw8qa+WfX9jhZXnrjC5YbBbX8qQoDkSsE1u89Iunm8MW9gra3EAuPgb
+ XDeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QLiv8i5t0PRA2lFWUtHsI2WYPqf9Azi2kSZ1aVvvnDc=;
- b=Q5W5Z1elqylrxYxdgLp6UvFsfTkZqVdTYQGLtw1CFnwoiClzJwWq1lPRA1Ld2UuaY5
- x2HJccP9SQr4ziBRn1fGB2E/tZvOuKA9ppmSwKAkPJRRZ3YR8oy8TyMAndDb9pQ3VmcK
- yUpxFVq/YooAdmdLhAsEzIfJwMLh41tTJGNNyc/7DnItEaNZPKAh3/7yZf3WSV9jeffs
- 4NicBdaCWiptYYzYEWfsbRD0omh+6NMKVJ/CtLFOIplys75SpHOP3mICxYdMBD50AIcK
- NPzjuISXb1ntUGGnjfwIm+gosNqM0hpj0Z8WiOqgHImay9BzpVSGC+LXfYuT1k1IcDcy
- G35w==
-X-Gm-Message-State: AOAM531sU4FEf1japM0876PrNUKKbDApfqkFL3IWQ+kXB8KuT43yKm83
- bMuCQZXWrWpRS0XLu6Mh63E=
-X-Google-Smtp-Source: ABdhPJy1COytHIavx7HiBABsbpVTXnDCPbf13kfVHv06x+YI8NyrU34O3vvGshwSscuzCrz7Bvzeeg==
-X-Received: by 2002:adf:d085:: with SMTP id y5mr14532341wrh.272.1628323180460; 
- Sat, 07 Aug 2021 00:59:40 -0700 (PDT)
+ bh=vMTOytzyo1doFUfpz3wZ8k460EeQw0S0LXECWsHvFII=;
+ b=MyaHjKQLTiubYi4uwpNaX4t86bS8WyEPCVfQD1mjVSiqsPOYl4hYkxASBGKpRX9z1P
+ y1dAdVlLkE5ScOoa8jX2YvjTgh2Xsz/frfAal7I3AfIMKp5tkcF7nOKtzgVGXyPRAXxT
+ PL0JfpPHMvgX/4GimJIxZRV/LN7nS8aj1lr6OUhFzCi1oKq5AFl097rzkZtr5vuCHDLr
+ D9v0bThKral0pLSGWz8x4fhS6l+fuvB/4xj+trihdJP8l3SZrVtphnb7d1fRnyRk9LUu
+ D/ErymouQEs7WNfuBmvaREXx8Wdr/AZf+uqRsAQHLIDTply/IpoefoqrvezQYpNsyDtU
+ U7Sw==
+X-Gm-Message-State: AOAM5311+Kex5zv9tslyMLVF+41f2crEkigiMWo+Po2ePuNhkazv/TpG
+ NmJVicMb2FpMjQJnjL4sf5w=
+X-Google-Smtp-Source: ABdhPJwsyqOorQp/GbfXIL4UZGn2OX+JaD59D0GpXgxwBxEt/PtklP6+prqN1/PyXZbUAh7LZuo84A==
+X-Received: by 2002:a05:600c:a08:: with SMTP id
+ z8mr6875962wmp.52.1628323219030; 
+ Sat, 07 Aug 2021 01:00:19 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id t17sm11833980wru.94.2021.08.07.00.59.39
+ by smtp.gmail.com with ESMTPSA id x21sm14184112wmi.46.2021.08.07.01.00.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 00:59:39 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 08/12] npcm7xx_clk: Use DECLARE_INSTANCE_CHECKER
+ Sat, 07 Aug 2021 01:00:18 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 09/12] npcm7xx_otp: Use DECLARE_CLASS_CHECKERS
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20210806211127.646908-1-ehabkost@redhat.com>
- <20210806211127.646908-9-ehabkost@redhat.com>
+ <20210806211127.646908-10-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6e3a1c96-b85b-17e5-965f-e29405641809@amsat.org>
-Date: Sat, 7 Aug 2021 09:59:38 +0200
+Message-ID: <93092f6d-5dec-c361-9880-7c2852722b97@amsat.org>
+Date: Sat, 7 Aug 2021 10:00:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210806211127.646908-9-ehabkost@redhat.com>
+In-Reply-To: <20210806211127.646908-10-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -94,13 +96,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/6/21 11:11 PM, Eduardo Habkost wrote:
-> Use DECLARE_INSTANCE_CHECKER instead of defining the
-> NPCM7XX_CLOCK_PLL, NPCM7XX_CLOCK_SEL, and NPCM7XX_CLOCK_DIVIDER
-> macros manually.
+> Use DECLARE_CLASS_CHECKERS instead of defining the
+> NPCM7XX_OTP_CLASS and NPCM7XX_OTP_GET_CLASS macros manually.
 > 
-> These changes had to be done manually because the codeconverter
-> script isn't smart enough to figure out that the typedefs exist
-> in a separate header.
+> These changes had to be done manually because the typedef and the
+> existing macro definitions were in different files.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
@@ -109,8 +109,9 @@ On 8/6/21 11:11 PM, Eduardo Habkost wrote:
 > Cc: qemu-arm@nongnu.org
 > Cc: qemu-devel@nongnu.org
 > ---
->  hw/misc/npcm7xx_clk.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  include/hw/nvram/npcm7xx_otp.h | 5 +++--
+>  hw/nvram/npcm7xx_otp.c         | 5 -----
+>  2 files changed, 3 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
