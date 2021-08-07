@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8497B3E33B3
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 08:06:45 +0200 (CEST)
-Received: from localhost ([::1]:50996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8113E3401
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 10:01:42 +0200 (CEST)
+Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCFTo-0002Mi-0s
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 02:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
+	id 1mCHH2-0005kJ-Em
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 04:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCFT4-0001iO-KR
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 02:05:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mCFT0-00042S-Qv
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 02:05:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628316352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i8H/nUpjRlP0Yb0dYoPRPPYSrUxwLQN0jGW+lNSvIUQ=;
- b=ezpj8Cv3bbFJbv1umBhJ5VLEnGyf36ULGaBsJIIJMhGtdxlWbCeGKO6nw7vKsYu4SaNk+T
- z+woNV5wXVSJjNCPU0pcgleh1Wvz0Ir7wkI/HQOO00lBCOaGMgzgZR8ulrb3z5h1gZuzrC
- WLOymOHD4IxSZqPV2927w7QuxiFBmjo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-VcTGg7fdOjmi4bnddhB2fw-1; Sat, 07 Aug 2021 02:05:47 -0400
-X-MC-Unique: VcTGg7fdOjmi4bnddhB2fw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C410185302F
- for <qemu-devel@nongnu.org>; Sat,  7 Aug 2021 06:05:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-12.ams2.redhat.com
- [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 394F927CA9;
- Sat,  7 Aug 2021 06:05:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC0CE11380A0; Sat,  7 Aug 2021 08:05:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v7 00/10] qapi: untie 'if' conditions from C preprocessor
-References: <20210804083105.97531-1-marcandre.lureau@redhat.com>
- <87im0j3iaa.fsf@dusky.pond.sub.org>
-Date: Sat, 07 Aug 2021 08:05:40 +0200
-In-Reply-To: <87im0j3iaa.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Thu, 05 Aug 2021 19:36:45 +0200")
-Message-ID: <87eeb5okln.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mCHF9-0004SG-Q0; Sat, 07 Aug 2021 03:59:43 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mCHF8-0001yo-Be; Sat, 07 Aug 2021 03:59:43 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h13so14075341wrp.1;
+ Sat, 07 Aug 2021 00:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QLiv8i5t0PRA2lFWUtHsI2WYPqf9Azi2kSZ1aVvvnDc=;
+ b=LtUOeM9K5Ul/gv3Z/Ao7rn1HRcRuxpbefjaBNk2JGTYQzDdK0/zU5fVLPDMdFnnm2r
+ BTGOZpf3ds3XziH2m/PsHB71p5YLQ6fkpDTS6uWt4U2kLsIDP7elk1lgpBt05uYV7LHK
+ bYLdbBkJAV49E4W6IqjKQz183DUThMuuVgWKV/uwRL5dMEJzTEbLW9IiLqVIdE4jeL4X
+ rbVglor/CHAd0QJ+KbMRNhcJmNA8/mwZ40dgsbfWPHPdmB2gR9lz0mrGqF9RwJf4Smy5
+ ZECTgtbBhv1Ka8r8v7v6PxLal7i5gFqUHE6APEHlSmv9q11U+1gZYYuqBbzmWkHAax3f
+ rsvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QLiv8i5t0PRA2lFWUtHsI2WYPqf9Azi2kSZ1aVvvnDc=;
+ b=Q5W5Z1elqylrxYxdgLp6UvFsfTkZqVdTYQGLtw1CFnwoiClzJwWq1lPRA1Ld2UuaY5
+ x2HJccP9SQr4ziBRn1fGB2E/tZvOuKA9ppmSwKAkPJRRZ3YR8oy8TyMAndDb9pQ3VmcK
+ yUpxFVq/YooAdmdLhAsEzIfJwMLh41tTJGNNyc/7DnItEaNZPKAh3/7yZf3WSV9jeffs
+ 4NicBdaCWiptYYzYEWfsbRD0omh+6NMKVJ/CtLFOIplys75SpHOP3mICxYdMBD50AIcK
+ NPzjuISXb1ntUGGnjfwIm+gosNqM0hpj0Z8WiOqgHImay9BzpVSGC+LXfYuT1k1IcDcy
+ G35w==
+X-Gm-Message-State: AOAM531sU4FEf1japM0876PrNUKKbDApfqkFL3IWQ+kXB8KuT43yKm83
+ bMuCQZXWrWpRS0XLu6Mh63E=
+X-Google-Smtp-Source: ABdhPJy1COytHIavx7HiBABsbpVTXnDCPbf13kfVHv06x+YI8NyrU34O3vvGshwSscuzCrz7Bvzeeg==
+X-Received: by 2002:adf:d085:: with SMTP id y5mr14532341wrh.272.1628323180460; 
+ Sat, 07 Aug 2021 00:59:40 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id t17sm11833980wru.94.2021.08.07.00.59.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Aug 2021 00:59:39 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 08/12] npcm7xx_clk: Use DECLARE_INSTANCE_CHECKER
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20210806211127.646908-1-ehabkost@redhat.com>
+ <20210806211127.646908-9-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6e3a1c96-b85b-17e5-965f-e29405641809@amsat.org>
+Date: Sat, 7 Aug 2021 09:59:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210806211127.646908-9-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.619,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,34 +87,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On 8/6/21 11:11 PM, Eduardo Habkost wrote:
+> Use DECLARE_INSTANCE_CHECKER instead of defining the
+> NPCM7XX_CLOCK_PLL, NPCM7XX_CLOCK_SEL, and NPCM7XX_CLOCK_DIVIDER
+> macros manually.
+> 
+> These changes had to be done manually because the codeconverter
+> script isn't smart enough to figure out that the typedefs exist
+> in a separate header.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: Havard Skinnemoen <hskinnemoen@google.com>
+> Cc: Tyrone Ting <kfting@nuvoton.com>
+> Cc: qemu-arm@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/misc/npcm7xx_clk.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-> marcandre.lureau@redhat.com writes:
->
->> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> Hi,
->>
->> This series makes the 'if' conditions less liberal, by formalizing a sim=
-ple
->> expression tree based on bare boolean logic of configure option identifi=
-ers.
->>
->> (this allows to express conditions in Rust in my QAPI-Rust PoC series)
->>
->> thanks
->
-> Only a few trivial things left to correct or improve.  I'll take care of
-> it in my tree.  Series
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
-> Thanks!
-
-Queued for 6.2 and pushed to https://repo.or.cz/qemu/armbru.git branch
-qapi-not-next.  Thanks!
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
