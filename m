@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8A63E373B
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Aug 2021 23:53:05 +0200 (CEST)
-Received: from localhost ([::1]:49578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902DD3E375B
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:09:29 +0200 (CEST)
+Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCUFc-0002Rn-HH
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 17:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
+	id 1mCUVU-00039O-K9
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6R-00006t-Cj
- for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:35 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33433)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6S-00008E-5n
+ for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:36 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6O-0005N3-GN
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6P-0005PY-MT
  for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:35 -0400
-Received: by mail-io1-xd44.google.com with SMTP id n19so20056589ioz.0
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:32 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id e186so17979529iof.12
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+TkPtqaplXXdM8u31B/ooyNVIvnQ5JDMIlJ4xfG4jD8=;
- b=gdwMSVCMYhf1tDl8G7y3CZxFsk5KQARuoaUw0mTFNFiz3rEwJMF2XnOtMa/DB3EXpI
- GhoQv49XkdtkAI9jz2wpCItEzNBPrDOhbhEveKQywNWTNrrWRAaIfo5bu5oX9DsGvtFT
- TBlReRZi4aQaKD90eMrd6RIO8KTWoTVsBcr4myFOe41fuEbsFodXENL7vkb3CGPSakGz
- PbkfOCMCAvxzh4FA1fuCuNUW1MYWB27XfX258cdHpFco2oExv3AXz394hlJpFkYFLdge
- bPwhxvHmWoT8LcKPQfEyo2Dg6PpvgwbpU2iWW2UUXvs4aVeQQW6c2ngxOHvQ4Dzy3pRQ
- JBtQ==
+ bh=WLQPaOs/DOZufIV5gvyQZTRg7t28xl8QQf/KMW1vycg=;
+ b=sYguo8Afds5j21pyACTUnWnemT0WftKMJ0m7tcHKXF6eitAU7zoe7XL66IAuUd3v2Y
+ yHDTN+vXJDtJMnKfUf/ZyIVVnjVw1Ekh95JQLVEILPjS/jGXhH7QtbUFLIZDyILBRF2z
+ VIMM0zC6SqMR/DlG3lmBxrqMsNlXwoj/d1CocrYGlEKOFIs98TuIKkFpV6JLVSO0dNv7
+ vDVUXPMNQbvOCd+GnsP/aQA7xYnt545IdH/zBQn8Ehgi7Q9XOr98qZgJoY/kgczxfzR9
+ IN0hSIZ499vDWORx9kwoP6XkV892Of6xg3VfGKGJT+P7a28bhsUnr0Gwxi62ILhENaPz
+ UbOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+TkPtqaplXXdM8u31B/ooyNVIvnQ5JDMIlJ4xfG4jD8=;
- b=UOpUlPy9rGsW1QVHPjkIVfQrjt+8t2nok6MrJNSIPpUF0eVr/UfO4mVl6xE6QPTxls
- JYJKtyNIQC8dWZgeoWqVrYfBFwaX4U7jBFOQZz0Zc8J4bmX//nk8/UguIf+uYcCvdjAV
- Qp+iQ7ETcPrfCp8e6OcTG+IJrRF3I0+aqO56nCquxF0bzsSs9iAqPjgR3+jqABQAgA4w
- GsYOc6MV6hYWrr+GOmC6rXFhj8p2uypWjEFAQZUakSTaxTqtdxkrOchdMK0Nh6k5be/w
- wlW+VPipN0MF4xnmXyi2UUApkN8DM82LvTQToa2zPRSQLmADhLCPhPNmPgpHY6GTIea/
- amKg==
-X-Gm-Message-State: AOAM533sYxzy3TiS5ME7fvGhSX6LchmottImvMmFZ46QhRiIAyDK1SFy
- HiznRU+Nom7ixfMW0NmZEr50JpXdcyBcHpG8
-X-Google-Smtp-Source: ABdhPJyArIm9QHSy+KDIkAcrmVxiWolz/p4/SlF+8YhiV6MIFxzhL3Ce9c8F3RQ5IVS6gaEpiyMo4Q==
-X-Received: by 2002:a05:6638:306:: with SMTP id
- w6mr15615233jap.132.1628372611262; 
- Sat, 07 Aug 2021 14:43:31 -0700 (PDT)
+ bh=WLQPaOs/DOZufIV5gvyQZTRg7t28xl8QQf/KMW1vycg=;
+ b=R1wiT8uKb+7R9tbBEyQr+vBcs7JwoQOZMjBv0O7vBuy/F1bbihULjzJvPyG+Z5tekW
+ Mf/Gkw25tRzYai8QE+z4seHgNtRnMNQv/jHgBrkCgUIOJ0lETxiSIqr+wPvbszKikrf8
+ HkpfdsppOjkVQDjtfnXh6mq+1uSKEhBrGvAxtjpwRUQ+UQL40yxbTGiDzOGz5su5uaiy
+ 3B+3GdAdmOwKU1IBpHMF3m/MlDrRIXwXgjIJRPC8XqRKAoabyzYaI3WjGKcFn2PWpwKU
+ oVs4tRgM45yVfhpOdJ8lYHXX689CKD0XB1+GVKi6MdhPRD49U9oehGWBAUyBk+DMNFHN
+ aFkw==
+X-Gm-Message-State: AOAM530QVw4MPu9Jomn2Gug9lCPawTGBTYnfYNu9K4X951rZQ0zxpw1k
+ S3JvpJJBVEvqzl9yY4L/s4Y0EA8+fza83+mX
+X-Google-Smtp-Source: ABdhPJyjTAhn6WkzeTzrVLNl19kf0bTNslZ9xq7iP1Ge9n0tePV+2kTmoC9Y+N4uGLxnVlNlo08uAw==
+X-Received: by 2002:a02:c98b:: with SMTP id b11mr15876764jap.58.1628372612372; 
+ Sat, 07 Aug 2021 14:43:32 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.30
+ by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 14:43:30 -0700 (PDT)
+ Sat, 07 Aug 2021 14:43:31 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 40/49] bsd-user: Add target_arch_reg to describe a
- target's register set
-Date: Sat,  7 Aug 2021 15:42:33 -0600
-Message-Id: <20210807214242.82385-41-imp@bsdimp.com>
+Subject: [PATCH for 6.2 41/49] bsd-user: Add target_os_user.h to capture the
+ user/kernel structures
+Date: Sat,  7 Aug 2021 15:42:34 -0600
+Message-Id: <20210807214242.82385-42-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210807214242.82385-1-imp@bsdimp.com>
 References: <20210807214242.82385-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d44;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd44.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd41.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,36 +83,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
+ Michal Meloun <mmel@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-target_reg_t is the normal register. target_fpreg_t is the floating
-point registers. target_copy_regs copies the registers out of CPU
-context for things like core dumps.
+This file evolved over the years to capture the user/kernel interfaces,
+including those that changed over time.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Michal Meloun <mmel@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/i386/target_arch_reg.h   | 82 +++++++++++++++++++++++++++
- bsd-user/x86_64/target_arch_reg.h | 92 +++++++++++++++++++++++++++++++
- 2 files changed, 174 insertions(+)
- create mode 100644 bsd-user/i386/target_arch_reg.h
- create mode 100644 bsd-user/x86_64/target_arch_reg.h
+ bsd-user/freebsd/target_os_user.h | 429 ++++++++++++++++++++++++++++++
+ 1 file changed, 429 insertions(+)
+ create mode 100644 bsd-user/freebsd/target_os_user.h
 
-diff --git a/bsd-user/i386/target_arch_reg.h b/bsd-user/i386/target_arch_reg.h
+diff --git a/bsd-user/freebsd/target_os_user.h b/bsd-user/freebsd/target_os_user.h
 new file mode 100644
-index 0000000000..1fce1daf01
+index 0000000000..a265e02439
 --- /dev/null
-+++ b/bsd-user/i386/target_arch_reg.h
-@@ -0,0 +1,82 @@
++++ b/bsd-user/freebsd/target_os_user.h
+@@ -0,0 +1,429 @@
 +/*
-+ *  FreeBSD i386 register structures
++ *  sys/user.h definitions 
 + *
-+ *  Copyright (c) 2015 Stacey Son
-+ *  All rights reserved.
++ *  Copyright (c) 2015 Stacey D. Son (sson at FreeBSD)
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -129,166 +126,416 @@ index 0000000000..1fce1daf01
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_REG_H_
-+#define _TARGET_ARCH_REG_H_
++#ifndef _TARGET_OS_USER_H_
++#define _TARGET_OS_USER_H_
 +
-+/* See sys/i386/include/reg.h */
-+typedef struct target_reg {
-+    uint32_t        r_fs;
-+    uint32_t        r_es;
-+    uint32_t        r_ds;
-+    uint32_t        r_edi;
-+    uint32_t        r_esi;
-+    uint32_t        r_ebp;
-+    uint32_t        r_isp;
-+    uint32_t        r_ebx;
-+    uint32_t        r_edx;
-+    uint32_t        r_ecx;
-+    uint32_t        r_eax;
-+    uint32_t        r_trapno;
-+    uint32_t        r_err;
-+    uint32_t        r_eip;
-+    uint32_t        r_cs;
-+    uint32_t        r_eflags;
-+    uint32_t        r_esp;
-+    uint32_t        r_ss;
-+    uint32_t        r_gs;
-+} target_reg_t;
-+
-+typedef struct target_fpreg {
-+    uint32_t        fpr_env[7];
-+    uint8_t         fpr_acc[8][10];
-+    uint32_t        fpr_ex_sw;
-+    uint8_t         fpr_pad[64];
-+} target_fpreg_t;
-+
-+static inline void target_copy_regs(target_reg_t *regs, const CPUX86State *env)
-+{
-+
-+    regs->r_fs = env->segs[R_FS].selector & 0xffff;
-+    regs->r_es = env->segs[R_ES].selector & 0xffff;
-+    regs->r_ds = env->segs[R_DS].selector & 0xffff;
-+
-+    regs->r_edi = env->regs[R_EDI];
-+    regs->r_esi = env->regs[R_ESI];
-+    regs->r_ebp = env->regs[R_EBP];
-+    /* regs->r_isp = env->regs[R_ISP]; XXX */
-+    regs->r_ebx = env->regs[R_EBX];
-+    regs->r_edx = env->regs[R_EDX];
-+    regs->r_ecx = env->regs[R_ECX];
-+    regs->r_eax = env->regs[R_EAX];
-+    /* regs->r_trapno = env->regs[R_TRAPNO]; XXX */
-+    regs->r_err = env->error_code;  /* XXX ? */
-+    regs->r_eip = env->eip;
-+
-+    regs->r_cs = env->segs[R_CS].selector & 0xffff;
-+
-+    regs->r_eflags = env->eflags;
-+    regs->r_esp = env->regs[R_ESP];
-+
-+    regs->r_ss = env->segs[R_SS].selector & 0xffff;
-+    regs->r_gs = env->segs[R_GS].selector & 0xffff;
-+}
-+
-+#endif /* !_TARGET_ARCH_REG_H_ */
-diff --git a/bsd-user/x86_64/target_arch_reg.h b/bsd-user/x86_64/target_arch_reg.h
-new file mode 100644
-index 0000000000..00e9624517
---- /dev/null
-+++ b/bsd-user/x86_64/target_arch_reg.h
-@@ -0,0 +1,92 @@
 +/*
-+ *  FreeBSD amd64 register structures
-+ *
-+ *  Copyright (c) 2015 Stacey Son
-+ *  All rights reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ * from sys/priority.h
 + */
++struct target_priority {
++    uint8_t     pri_class;      /* Scheduling class. */
++    uint8_t     pri_level;      /* Normal priority level. */
++    uint8_t     pri_native;     /* Priority before propogation. */
++    uint8_t     pri_user;       /* User priority based on p_cpu and p_nice. */
++};
 +
-+#ifndef _TARGET_ARCH_REG_H_
-+#define _TARGET_ARCH_REG_H_
++/*
++ * sys/caprights.h
++ */
++#define TARGET_CAP_RIGHTS_VERSION  0
 +
-+/* See sys/amd64/include/reg.h */
-+typedef struct target_reg {
-+    uint64_t        r_r15;
-+    uint64_t        r_r14;
-+    uint64_t        r_r13;
-+    uint64_t        r_r12;
-+    uint64_t        r_r11;
-+    uint64_t        r_r10;
-+    uint64_t        r_r9;
-+    uint64_t        r_r8;
-+    uint64_t        r_rdi;
-+    uint64_t        r_rsi;
-+    uint64_t        r_rbp;
-+    uint64_t        r_rbx;
-+    uint64_t        r_rdx;
-+    uint64_t        r_rcx;
-+    uint64_t        r_rax;
-+    uint32_t        r_trapno;
-+    uint16_t        r_fs;
-+    uint16_t        r_gs;
-+    uint32_t        r_err;
-+    uint16_t        r_es;
-+    uint16_t        r_ds;
-+    uint64_t        r_rip;
-+    uint64_t        r_cs;
-+    uint64_t        r_rflags;
-+    uint64_t        r_rsp;
-+    uint64_t        r_ss;
-+} target_reg_t;
++typedef struct target_cap_rights {
++    uint64_t    cr_rights[TARGET_CAP_RIGHTS_VERSION + 2];
++} target_cap_rights_t;
 +
-+typedef struct target_fpreg {
-+    uint64_t        fpr_env[4];
-+    uint8_t         fpr_acc[8][16];
-+    uint8_t         fpr_xacc[16][16];
-+    uint64_t        fpr_spare[12];
-+} target_fpreg_t;
++/*
++ * From sys/_socketaddr_storage.h
++ *
++ */
++#define TARGET_SS_MAXSIZE     128U
++#define TARGET_SS_ALIGNSIZE   (sizeof(__int64_t))
++#define TARGET_SS_PAD1SIZE    (TARGET_SS_ALIGNSIZE - sizeof(unsigned char) - \
++        sizeof(uint8_t))
++#define TARGET_SS_PAD2SIZE    (TARGET_SS_MAXSIZE - sizeof(unsigned char) - \
++        sizeof(uint8_t) - TARGET_SS_PAD1SIZE - TARGET_SS_ALIGNSIZE)
 +
-+static inline void target_copy_regs(target_reg_t *regs, const CPUX86State *env)
-+{
++struct target_sockaddr_storage {
++    unsigned char   ss_len;         /* address length */
++    uint8_t         ss_family;      /* address family */
++    char            __ss_pad1[TARGET_SS_PAD1SIZE];
++    __int64_t       __ss_align;     /* force desired struct alignment */
++    char            __ss_pad2[TARGET_SS_PAD2SIZE];
++};
 +
-+    regs->r_r15 = env->regs[15];
-+    regs->r_r14 = env->regs[14];
-+    regs->r_r13 = env->regs[13];
-+    regs->r_r12 = env->regs[12];
-+    regs->r_r11 = env->regs[11];
-+    regs->r_r10 = env->regs[10];
-+    regs->r_r9 = env->regs[9];
-+    regs->r_r8 = env->regs[8];
-+    regs->r_rdi = env->regs[R_EDI];
-+    regs->r_rsi = env->regs[R_ESI];
-+    regs->r_rbp = env->regs[R_EBP];
-+    regs->r_rbx = env->regs[R_EBX];
-+    regs->r_rdx = env->regs[R_EDX];
-+    regs->r_rcx = env->regs[R_ECX];
-+    regs->r_rax = env->regs[R_EAX];
-+    /* regs->r_trapno = env->regs[R_TRAPNO]; XXX */
-+    regs->r_fs = env->segs[R_FS].selector & 0xffff;
-+    regs->r_gs = env->segs[R_GS].selector & 0xffff;
-+    regs->r_err = env->error_code;  /* XXX ? */
-+    regs->r_es = env->segs[R_ES].selector & 0xffff;
-+    regs->r_ds = env->segs[R_DS].selector & 0xffff;
-+    regs->r_rip = env->eip;
-+    regs->r_cs = env->segs[R_CS].selector & 0xffff;
-+    regs->r_rflags = env->eflags;
-+    regs->r_rsp = env->regs[R_ESP];
-+    regs->r_ss = env->segs[R_SS].selector & 0xffff;
-+}
++/*
++ * from sys/user.h
++ */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++#define TARGET_KI_NSPARE_INT        2
++#elif defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
++#define TARGET_KI_NSPARE_INT        4
++#elif defined(__FreeBSD_version) && __FreeBSD_version >= 1000000
++#define TARGET_KI_NSPARE_INT        7
++#else
++#define TARGET_KI_NSPARE_INT        9
++#endif /* ! __FreeBSD_version >= 1000000 */
++#define TARGET_KI_NSPARE_LONG       12
++#define TARGET_KI_NSPARE_PTR        6
 +
-+#endif /* !_TARGET_ARCH_REG_H_ */
++#define TARGET_WMESGLEN             8
++#define TARGET_LOCKNAMELEN          8
++#define TARGET_TDNAMLEN             16
++#define TARGET_COMMLEN              19
++#define TARGET_KI_EMULNAMELEN       16
++#define TARGET_KI_NGROUPS           16
++#define TARGET_LOGNAMELEN           17
++#define TARGET_LOGINCLASSLEN        17
++
++#define	TARGET_KF_TYPE_NONE	0
++#define	TARGET_KF_TYPE_VNODE	1
++#define	TARGET_KF_TYPE_SOCKET	2
++#define	TARGET_KF_TYPE_PIPE	3
++#define	TARGET_KF_TYPE_FIFO	4
++#define	TARGET_KF_TYPE_KQUEUE	5
++#define	TARGET_KF_TYPE_CRYPTO	6
++#define	TARGET_KF_TYPE_MQUEUE	7
++#define	TARGET_KF_TYPE_SHM	8
++#define	TARGET_KF_TYPE_SEM	9
++#define	TARGET_KF_TYPE_PTS	10
++#define	TARGET_KF_TYPE_PROCDESC	11
++#define	TARGET_KF_TYPE_DEV	12
++#define	TARGET_KF_TYPE_UNKNOWN	255
++
++struct target_kinfo_proc {
++    int32_t     ki_structsize;      /* size of this structure */
++    int32_t     ki_layout;          /* reserved: layout identifier */
++    abi_ulong   ki_args;            /* address of command arguments */
++    abi_ulong   ki_paddr;           /* address of proc */
++    abi_ulong   ki_addr;            /* kernel virtual addr of u-area */
++    abi_ulong   ki_tracep;          /* pointer to trace file */
++    abi_ulong   ki_textvp;          /* pointer to executable file */
++    abi_ulong   ki_fd;              /* pointer to open file info */
++    abi_ulong   ki_vmspace;         /* pointer to kernel vmspace struct */
++    abi_ulong   ki_wchan;           /* sleep address */
++    int32_t     ki_pid;             /* Process identifier */
++    int32_t     ki_ppid;            /* parent process id */
++    int32_t     ki_pgid;            /* process group id */
++    int32_t     ki_tpgid;           /* tty process group id */
++    int32_t     ki_sid;             /* Process session ID */
++    int32_t     ki_tsid;            /* Terminal session ID */
++    int16_t     ki_jobc;            /* job control counter */
++    int16_t     ki_spare_short1;    /* unused (just here for alignment) */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++    int32_t     ki_tdev__freebsd11; /* controlling tty dev */
++#else
++    int32_t     ki_tdev;            /* controlling tty dev */
++#endif
++    target_sigset_t ki_siglist;     /* Signals arrived but not delivered */
++    target_sigset_t ki_sigmask;     /* Current signal mask */
++    target_sigset_t ki_sigignore;   /* Signals being ignored */
++    target_sigset_t ki_sigcatch;    /* Signals being caught by user */
++
++    int32_t     ki_uid;             /* effective user id */
++    int32_t     ki_ruid;            /* Real user id */
++    int32_t     ki_svuid;           /* Saved effective user id */
++    int32_t     ki_rgid;            /* Real group id */
++    int32_t     ki_svgid;           /* Saved effective group id */
++    int16_t     ki_ngroups;         /* number of groups */
++    int16_t     ki_spare_short2;    /* unused (just here for alignment) */
++    int32_t     ki_groups[TARGET_KI_NGROUPS];  /* groups */
++
++    abi_long    ki_size;            /* virtual size */
++
++    abi_long    ki_rssize;          /* current resident set size in pages */
++    abi_long    ki_swrss;           /* resident set size before last swap */
++    abi_long    ki_tsize;           /* text size (pages) XXX */
++    abi_long    ki_dsize;           /* data size (pages) XXX */
++    abi_long    ki_ssize;           /* stack size (pages) */
++
++    uint16_t    ki_xstat;           /* Exit status for wait & stop signal */
++    uint16_t    ki_acflag;          /* Accounting flags */
++
++    uint32_t    ki_pctcpu;          /* %cpu for process during ki_swtime */
++
++    uint32_t    ki_estcpu;          /* Time averaged value of ki_cpticks */
++    uint32_t    ki_slptime;         /* Time since last blocked */
++    uint32_t    ki_swtime;          /* Time swapped in or out */
++    uint32_t    ki_cow;             /* number of copy-on-write faults */
++    uint64_t    ki_runtime;         /* Real time in microsec */
++
++    struct  target_freebsd_timeval ki_start;  /* starting time */
++    struct  target_freebsd_timeval ki_childtime; /* time used by process
++                                                    children */
++
++    abi_long    ki_flag;            /* P_* flags */
++    abi_long    ki_kiflag;          /* KI_* flags (below) */
++    int32_t     ki_traceflag;       /* Kernel trace points */
++    char        ki_stat;            /* S* process status */
++    int8_t      ki_nice;            /* Process "nice" value */
++    char        ki_lock;            /* Process lock (prevent swap) count */
++    char        ki_rqindex;         /* Run queue index */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
++    u_char      ki_oncpu_old;       /* Which cpu we are on (legacy) */
++    u_char      ki_lastcpu_old;     /* Last cpu we were on (legacy) */
++#else
++    u_char      ki_oncpu;           /* Which cpu we are on */
++    u_char      ki_lastcpu;         /* Last cpu we were on */
++#endif /* ! __FreeBSD_version >= 1100000 */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++    char        ki_tdname[TARGET_TDNAMLEN+1];  /* thread name */
++#else
++    char        ki_ocomm[TARGET_TDNAMLEN+1];   /* thread name */
++#endif /* ! __FreeBSD_version >= 900000 */
++    char        ki_wmesg[TARGET_WMESGLEN+1];   /* wchan message */
++    char        ki_login[TARGET_LOGNAMELEN+1]; /* setlogin name */
++    char        ki_lockname[TARGET_LOCKNAMELEN+1]; /* lock name */
++    char        ki_comm[TARGET_COMMLEN+1];     /* command name */
++    char        ki_emul[TARGET_KI_EMULNAMELEN+1];  /* emulation name */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++    char        ki_loginclass[TARGET_LOGINCLASSLEN+1]; /* login class */
++#endif /* ! __FreeBSD_version >= 900000 */
++
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++    char        ki_sparestrings[50];    /* spare string space */
++#else
++    char        ki_sparestrings[68];    /* spare string space */
++#endif /* ! __FreeBSD_version >= 900000 */
++    int32_t     ki_spareints[TARGET_KI_NSPARE_INT]; /* spare room for growth */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++	uint64_t ki_tdev;		/* controlling tty dev */
++#endif
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
++    int32_t     ki_oncpu;           /* Which cpu we are on */
++    int32_t     ki_lastcpu;         /* Last cpu we were on */
++    int32_t     ki_tracer;          /* Pid of tracing process */
++#endif /* __FreeBSD_version >= 1100000 */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++    int32_t     ki_flag2;           /* P2_* flags */
++    int32_t     ki_fibnum;          /* Default FIB number */
++#endif /* ! __FreeBSD_version >= 900000 */
++    uint32_t    ki_cr_flags;        /* Credential flags */
++    int32_t     ki_jid;             /* Process jail ID */
++    int32_t     ki_numthreads;      /* XXXKSE number of threads in total */
++
++    int32_t     ki_tid;             /* XXXKSE thread id */
++
++    struct  target_priority ki_pri; /* process priority */
++    struct  target_freebsd_rusage ki_rusage;  /* process rusage statistics */
++        /* XXX - most fields in ki_rusage_ch are not (yet) filled in */
++    struct  target_freebsd_rusage ki_rusage_ch; /* rusage of children
++                                                   processes */
++
++
++    abi_ulong   ki_pcb;             /* kernel virtual addr of pcb */
++    abi_ulong   ki_kstack;          /* kernel virtual addr of stack */
++    abi_ulong   ki_udata;           /* User convenience pointer */
++    abi_ulong   ki_tdaddr;          /* address of thread */
++
++    abi_ulong   ki_spareptrs[TARGET_KI_NSPARE_PTR];  /* spare room for growth */
++    abi_long    ki_sparelongs[TARGET_KI_NSPARE_LONG];/* spare room for growth */
++    abi_long    ki_sflag;           /* PS_* flags */
++    abi_long    ki_tdflags;         /* XXXKSE kthread flag */
++};
++
++struct target_kinfo_file {
++	int32_t		kf_structsize;		/* Variable size of record. */
++	int32_t		kf_type;		/* Descriptor type. */
++	int32_t		kf_fd;			/* Array index. */
++	int32_t		kf_ref_count;		/* Reference count. */
++	int32_t		kf_flags;		/* Flags. */
++	int32_t		kf_pad0;		/* Round to 64 bit alignment. */
++	int64_t		kf_offset;		/* Seek location. */
++#if defined(__FreeBSD_version) && __FreeBSD_version < 1200031
++	int32_t		kf_vnode_type;		/* Vnode type. */
++	int32_t		kf_sock_domain;		/* Socket domain. */
++	int32_t		kf_sock_type;		/* Socket type. */
++	int32_t		kf_sock_protocol;	/* Socket protocol. */
++	struct target_sockaddr_storage kf_sa_local;	/* Socket address. */
++	struct target_sockaddr_storage	kf_sa_peer;	/* Peer address. */
++#endif
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++	union {
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			uint32_t	kf_spareint;
++			/* Socket domain. */
++			int		kf_sock_domain0;
++			/* Socket type. */
++			int		kf_sock_type0;
++			/* Socket protocol. */
++			int		kf_sock_protocol0;
++			/* Socket address. */
++			struct sockaddr_storage kf_sa_local;
++			/* Peer address. */
++			struct sockaddr_storage	kf_sa_peer;
++#endif
++			/* Address of so_pcb. */
++			uint64_t	kf_sock_pcb;
++			/* Address of inp_ppcb. */
++			uint64_t	kf_sock_inpcb;
++			/* Address of unp_conn. */
++			uint64_t	kf_sock_unpconn;
++			/* Send buffer state. */
++			uint16_t	kf_sock_snd_sb_state;
++			/* Receive buffer state. */
++			uint16_t	kf_sock_rcv_sb_state;
++			/* Round to 64 bit alignment. */
++			uint32_t	kf_sock_pad0;
++		} kf_sock;
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			/* Vnode type. */
++			int		kf_file_type;
++			/* Space for future use */
++			int		kf_spareint[3];
++			uint64_t	kf_spareint64[30];
++			/* Vnode filesystem id. */
++			uint64_t	kf_file_fsid;
++			/* File device. */
++			uint64_t	kf_file_rdev;
++			/* Global file id. */
++			uint64_t	kf_file_fileid;
++			/* File size. */
++			uint64_t	kf_file_size;
++			/* Vnode filesystem id, FreeBSD 11 compat. */
++			uint32_t	kf_file_fsid_freebsd11;
++			/* File device, FreeBSD 11 compat. */
++			uint32_t	kf_file_rdev_freebsd11;
++#else
++			/* Global file id. */
++			uint64_t	kf_file_fileid;
++			/* File size. */
++			uint64_t	kf_file_size;
++			/* Vnode filesystem id. */
++			uint32_t	kf_file_fsid;
++			/* File device. */
++			uint32_t	kf_file_rdev;
++#endif
++			/* File mode. */
++			uint16_t	kf_file_mode;
++			/* Round to 64 bit alignment. */
++			uint16_t	kf_file_pad0;
++			uint32_t	kf_file_pad1;
++		} kf_file;
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			uint32_t	kf_spareint[4];
++			uint64_t	kf_spareint64[32];
++#endif
++			uint32_t	kf_sem_value;
++			uint16_t	kf_sem_mode;
++		} kf_sem;
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			uint32_t	kf_spareint[4];
++			uint64_t	kf_spareint64[32];
++#endif
++			uint64_t	kf_pipe_addr;
++			uint64_t	kf_pipe_peer;
++			uint32_t	kf_pipe_buffer_cnt;
++			/* Round to 64 bit alignment. */
++			uint32_t	kf_pipe_pad0[3];
++		} kf_pipe;
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			uint32_t	kf_spareint[4];
++			uint64_t	kf_spareint64[32];
++			uint32_t	kf_pts_dev_freebsd11;
++			uint32_t	kf_pts_pad0;
++			uint64_t	kf_pts_dev;
++			/* Round to 64 bit alignment. */
++			uint32_t	kf_pts_pad1[4];
++#else
++			uint32_t	kf_pts_dev;
++			/* Round to 64 bit alignment. */
++			uint32_t	kf_pts_pad0[7];
++#endif
++		} kf_pts;
++		struct {
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++			uint32_t	kf_spareint[4];
++			uint64_t	kf_spareint64[32];
++#endif
++			int32_t		kf_pid;
++		} kf_proc;
++	} kf_un;
++	uint16_t	kf_status;		/* Status flags. */
++	uint16_t	kf_pad1;		/* Round to 32 bit alignment. */
++	int32_t		_kf_ispare0;		/* Space for more stuff. */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1000000
++	target_cap_rights_t	kf_cap_rights;	/* Capability rights. */
++	uint64_t	_kf_cap_spare;	/* Space for future cap_rights_t. */
++#else /* ! __FreeBSD_version >= 1000000 */
++	uint64_t        kf_cap_rights;
++	int		_kf_ispare[4];
++#endif /* ! __FreeBSD_version >= 1000000 */
++
++#else /* ! __FreeBSD_version >= 900000 */
++	int		_kf_ispare[16];
++#endif /* ! __FreeBSD_version >= 900000 */
++	/* Truncated before copyout in sysctl */
++	char		kf_path[PATH_MAX];	/* Path to file, if any. */
++};
++
++struct target_kinfo_vmentry {
++	int32_t	 kve_structsize;		/* Variable size of record. */
++	int32_t	 kve_type;			/* Type of map entry. */
++	uint64_t kve_start;			/* Starting address. */
++	uint64_t kve_end;			/* Finishing address. */
++	uint64_t kve_offset;			/* Mapping offset in object */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++	uint64_t kve_vn_fileid;			/* inode number if vnode */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++	uint32_t kve_vn_fsid_freebsd11;		/* dev_t of vnode location */
++#else
++	uint32_t kve_vn_fsid;			/* dev_t of vnode location */
++#endif
++#else /* !  __FreeBSD_version >= 900000 */
++	uint64_t kve_fileid;			/* inode number if vnode */
++	uint32_t kve_fsid;			/* dev_t of vnode location */
++#endif /* !  __FreeBSD_version >= 900000 */
++	int32_t	 kve_flags;			/* Flags on map entry. */
++	int32_t	 kve_resident;			/* Number of resident pages. */
++	int32_t	 kve_private_resident;		/* Number of private pages. */
++	int32_t	 kve_protection;		/* Protection bitmask. */
++	int32_t	 kve_ref_count;			/* VM obj ref count. */
++	int32_t	 kve_shadow_count;		/* VM obj shadow count. */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
++	int32_t	 kve_vn_type;			/* Vnode type. */
++	uint64_t kve_vn_size;			/* File size. */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++	uint32_t kve_vn_rdev_freebsd11;		/* Device id if device. */
++#else
++	uint32_t kve_vn_rdev;			/* Device id if device. */
++#endif
++	uint16_t kve_vn_mode;			/* File mode. */
++	uint16_t kve_status;			/* Status flags. */
++#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
++#if (__FreeBSD_version >= 1300501 && __FreeBSD_version < 1400000) || \
++    __FreeBSD_version >= 1400009
++	union {
++		uint64_t _kve_vn_fsid;		/* dev_t of vnode location */
++		uint64_t _kve_obj;		/* handle of anon obj */
++	} kve_type_spec;
++#define	kve_vn_fsid	kve_type_spec._kve_vn_fsid
++#define	kve_obj		kve_type_spec._kve_obj
++#else
++	uint64_t kve_vn_fsid;			/* dev_t of vnode location */
++#endif
++	uint64_t kve_vn_rdev;			/* Device id if device. */
++	int	 _kve_ispare[8];		/* Space for more stuff. */
++#else
++	int32_t	 _kve_ispare[12];		/* Space for more stuff. */
++#endif
++#else /* !  __FreeBSD_version >= 900000 */
++	int	 _kve_pad0;
++	int32_t	 _kve_ispare[16];		/* Space for more stuff. */
++#endif /* !  __FreeBSD_version >= 900000 */
++	/* Truncated before copyout in sysctl */
++	char	 kve_path[PATH_MAX];		/* Path to VM obj, if any. */
++};
++
++#endif /* ! _TARGET_OS_USER_H_ */
 -- 
 2.32.0
 
