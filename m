@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902DD3E375B
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:09:29 +0200 (CEST)
-Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318943E374E
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 00:01:04 +0200 (CEST)
+Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCUVU-00039O-K9
-	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
+	id 1mCUNL-0000xe-8w
+	for lists+qemu-devel@lfdr.de; Sat, 07 Aug 2021 18:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6S-00008E-5n
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6R-00008D-T6
  for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:36 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45765)
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:37720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6P-0005PY-MT
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mCU6Q-0005Pp-Ci
  for qemu-devel@nongnu.org; Sat, 07 Aug 2021 17:43:35 -0400
-Received: by mail-io1-xd41.google.com with SMTP id e186so17979529iof.12
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:33 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id l20so17749618iom.4
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 14:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WLQPaOs/DOZufIV5gvyQZTRg7t28xl8QQf/KMW1vycg=;
- b=sYguo8Afds5j21pyACTUnWnemT0WftKMJ0m7tcHKXF6eitAU7zoe7XL66IAuUd3v2Y
- yHDTN+vXJDtJMnKfUf/ZyIVVnjVw1Ekh95JQLVEILPjS/jGXhH7QtbUFLIZDyILBRF2z
- VIMM0zC6SqMR/DlG3lmBxrqMsNlXwoj/d1CocrYGlEKOFIs98TuIKkFpV6JLVSO0dNv7
- vDVUXPMNQbvOCd+GnsP/aQA7xYnt545IdH/zBQn8Ehgi7Q9XOr98qZgJoY/kgczxfzR9
- IN0hSIZ499vDWORx9kwoP6XkV892Of6xg3VfGKGJT+P7a28bhsUnr0Gwxi62ILhENaPz
- UbOQ==
+ bh=BZUIjC8fUpD63sq4WTQh3jNXrXunBjaoQkdXkjk1BIE=;
+ b=Jxsv0AT+/8KJIxmrnfs8ZZQXcOqOvox/jkk3v+n21zqFQebnSuFPa50BWMnb+JlFc8
+ +R4vG1bIoazryICo/ItkPBnlUq3D0KN2/nw4ZBadOQXh1HkMfh/7moLkInZBQqCmQR7d
+ yXW+XLxu/h30pF/vYB5+NsNSvxJLtqxkfFub3b/Xjr0FLC3C6ErN6y5tDpz/03ul9H/J
+ A9mXUISEklUC0w7pVD6cpNVWUGUNUJjxBThSTOmMLM2vUAbbt9ZpZIfMzMHRws/OhbeR
+ kL6VHsNzMlCiYLb7zOdCT1UvIuR/xgjXyhUZ8weXLz68bMep6X+EPJvlniyYR8fMBUGv
+ LfPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WLQPaOs/DOZufIV5gvyQZTRg7t28xl8QQf/KMW1vycg=;
- b=R1wiT8uKb+7R9tbBEyQr+vBcs7JwoQOZMjBv0O7vBuy/F1bbihULjzJvPyG+Z5tekW
- Mf/Gkw25tRzYai8QE+z4seHgNtRnMNQv/jHgBrkCgUIOJ0lETxiSIqr+wPvbszKikrf8
- HkpfdsppOjkVQDjtfnXh6mq+1uSKEhBrGvAxtjpwRUQ+UQL40yxbTGiDzOGz5su5uaiy
- 3B+3GdAdmOwKU1IBpHMF3m/MlDrRIXwXgjIJRPC8XqRKAoabyzYaI3WjGKcFn2PWpwKU
- oVs4tRgM45yVfhpOdJ8lYHXX689CKD0XB1+GVKi6MdhPRD49U9oehGWBAUyBk+DMNFHN
- aFkw==
-X-Gm-Message-State: AOAM530QVw4MPu9Jomn2Gug9lCPawTGBTYnfYNu9K4X951rZQ0zxpw1k
- S3JvpJJBVEvqzl9yY4L/s4Y0EA8+fza83+mX
-X-Google-Smtp-Source: ABdhPJyjTAhn6WkzeTzrVLNl19kf0bTNslZ9xq7iP1Ge9n0tePV+2kTmoC9Y+N4uGLxnVlNlo08uAw==
-X-Received: by 2002:a02:c98b:: with SMTP id b11mr15876764jap.58.1628372612372; 
- Sat, 07 Aug 2021 14:43:32 -0700 (PDT)
+ bh=BZUIjC8fUpD63sq4WTQh3jNXrXunBjaoQkdXkjk1BIE=;
+ b=oxqADOWa7ncmXu7ZZNibcslPrIvYy14EaYVaDWNp+j42KvgsMb1yv+Cv+Q2PBuq86a
+ 7ECX17q2Jmx0+nrfd/w/1412VlEPVdigHsc25pKvMIYn6h2FdkjsTUw8QJQiidHaWtJn
+ 97Q7ndHJltCfdmXNtunqkECrcGTGzTvuWNFqhQU2bYRbaL7PX0rmvxk9gfCrM29oGKlz
+ vmflXnmNr/KDTu2rNbch5XTPyfSJnXdRWlw3XETQsOrxF+uXL16TYfZRTpmmyq8BYB/c
+ DtrIPVxVeMpPeOmeZE7MLt2gizkUNUrIipwAGme7juFDIqt72IfkjdwKiffFckmMgg+C
+ e2eQ==
+X-Gm-Message-State: AOAM532+SpwwjYc3AA/tXdPgVQm7geiV2T+zPqNEx6RyxzjWSskWPFeJ
+ oSUMUHQlXe9dmjH/q15syqgUwX9JCzEslcGG
+X-Google-Smtp-Source: ABdhPJwxFbjWS8F/+b/5HBmg6qCeQiIw9UPrb+CNF6RLu3hY8/fXxIuozx+uf4EblCDvQ44k5CamTw==
+X-Received: by 2002:a02:6c8d:: with SMTP id w135mr15517994jab.70.1628372613287; 
+ Sat, 07 Aug 2021 14:43:33 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.31
+ by smtp.gmail.com with ESMTPSA id a17sm8062827ios.36.2021.08.07.14.43.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Aug 2021 14:43:31 -0700 (PDT)
+ Sat, 07 Aug 2021 14:43:32 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 41/49] bsd-user: Add target_os_user.h to capture the
- user/kernel structures
-Date: Sat,  7 Aug 2021 15:42:34 -0600
-Message-Id: <20210807214242.82385-42-imp@bsdimp.com>
+Subject: [PATCH for 6.2 42/49] bsd-user: add stubbed out core dump support
+Date: Sat,  7 Aug 2021 15:42:35 -0600
+Message-Id: <20210807214242.82385-43-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210807214242.82385-1-imp@bsdimp.com>
 References: <20210807214242.82385-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d41;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd41.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,459 +82,147 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Michal Meloun <mmel@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
- Stacey Son <sson@FreeBSD.org>
+ Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-This file evolved over the years to capture the user/kernel interfaces,
-including those that changed over time.
+Add a stubbed-out version of the bsd-user fork's core dump support. This
+allows elfload.c to be almost the same between what's upstream and
+what's in qemu-project upstream w/o the burden of reviewing the core
+dump support.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Michal Meloun <mmel@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/freebsd/target_os_user.h | 429 ++++++++++++++++++++++++++++++
- 1 file changed, 429 insertions(+)
- create mode 100644 bsd-user/freebsd/target_os_user.h
 
-diff --git a/bsd-user/freebsd/target_os_user.h b/bsd-user/freebsd/target_os_user.h
+Sponsored by:		Netflix
+---
+ bsd-user/elfcore.c | 10 ++++++++++
+ bsd-user/elfload.c | 24 ++++++++++++++++++++++--
+ bsd-user/qemu.h    |  6 ++++++
+ 3 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 bsd-user/elfcore.c
+
+diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c
 new file mode 100644
-index 0000000000..a265e02439
+index 0000000000..e3c161942d
 --- /dev/null
-+++ b/bsd-user/freebsd/target_os_user.h
-@@ -0,0 +1,429 @@
-+/*
-+ *  sys/user.h definitions 
-+ *
-+ *  Copyright (c) 2015 Stacey D. Son (sson at FreeBSD)
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
++++ b/bsd-user/elfcore.c
+@@ -0,0 +1,10 @@
++/* Stubbed out version of core dump support, explicitly in public domain */
 +
-+#ifndef _TARGET_OS_USER_H_
-+#define _TARGET_OS_USER_H_
++static int elf_core_dump(int signr, CPUArchState *env)
++{
++    struct elf_note en;
 +
-+/*
-+ * from sys/priority.h
-+ */
-+struct target_priority {
-+    uint8_t     pri_class;      /* Scheduling class. */
-+    uint8_t     pri_level;      /* Normal priority level. */
-+    uint8_t     pri_native;     /* Priority before propogation. */
-+    uint8_t     pri_user;       /* User priority based on p_cpu and p_nice. */
-+};
++    bswap_note(&en);
 +
-+/*
-+ * sys/caprights.h
-+ */
-+#define TARGET_CAP_RIGHTS_VERSION  0
++    return 0;
++}
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index c0787a4e52..4390a88b07 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -26,15 +26,19 @@
+ static abi_ulong target_auxents;   /* Where the AUX entries are in target */
+ static size_t target_auxents_sz;   /* Size of AUX entries including AT_NULL */
+ 
++#include "target_arch_reg.h"
+ #include "target_os_elf.h"
+ #include "target_os_stack.h"
+ #include "target_os_thread.h"
+-
+-#include "elf.h"
++#include "target_os_user.h"
+ 
+ abi_ulong target_stksiz;
+ abi_ulong target_stkbas;
+ 
++static int elf_core_dump(int signr, CPUArchState *env);
++static int load_elf_sections(const struct elfhdr *hdr, struct elf_phdr *phdr,
++    int fd, abi_ulong rbase, abi_ulong *baddrp);
 +
-+typedef struct target_cap_rights {
-+    uint64_t    cr_rights[TARGET_CAP_RIGHTS_VERSION + 2];
-+} target_cap_rights_t;
+ static inline void memcpy_fromfs(void *to, const void *from, unsigned long n)
+ {
+     memcpy(to, from, n);
+@@ -100,15 +104,25 @@ static void bswap_sym(struct elf_sym *sym)
+     bswap16s(&sym->st_shndx);
+ }
+ 
++static void bswap_note(struct elf_note *en)
++{
++    bswap32s(&en->n_namesz);
++    bswap32s(&en->n_descsz);
++    bswap32s(&en->n_type);
++}
 +
-+/*
-+ * From sys/_socketaddr_storage.h
-+ *
-+ */
-+#define TARGET_SS_MAXSIZE     128U
-+#define TARGET_SS_ALIGNSIZE   (sizeof(__int64_t))
-+#define TARGET_SS_PAD1SIZE    (TARGET_SS_ALIGNSIZE - sizeof(unsigned char) - \
-+        sizeof(uint8_t))
-+#define TARGET_SS_PAD2SIZE    (TARGET_SS_MAXSIZE - sizeof(unsigned char) - \
-+        sizeof(uint8_t) - TARGET_SS_PAD1SIZE - TARGET_SS_ALIGNSIZE)
+ #else /* ! BSWAP_NEEDED */
+ 
+ static void bswap_ehdr(struct elfhdr *ehdr) { }
+ static void bswap_phdr(struct elf_phdr *phdr, int phnum) { }
+ static void bswap_shdr(struct elf_shdr *shdr, int shnum) { }
+ static void bswap_sym(struct elf_sym *sym) { }
++static void bswap_note(struct elf_note *en) { }
+ 
+ #endif /* ! BSWAP_NEEDED */
+ 
++#include "elfcore.c"
 +
-+struct target_sockaddr_storage {
-+    unsigned char   ss_len;         /* address length */
-+    uint8_t         ss_family;      /* address family */
-+    char            __ss_pad1[TARGET_SS_PAD1SIZE];
-+    __int64_t       __ss_align;     /* force desired struct alignment */
-+    char            __ss_pad2[TARGET_SS_PAD2SIZE];
-+};
-+
-+/*
-+ * from sys/user.h
-+ */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+#define TARGET_KI_NSPARE_INT        2
-+#elif defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
-+#define TARGET_KI_NSPARE_INT        4
-+#elif defined(__FreeBSD_version) && __FreeBSD_version >= 1000000
-+#define TARGET_KI_NSPARE_INT        7
+ /*
+  * 'copy_elf_strings()' copies argument/envelope strings from user
+  * memory to free pages in kernel mem. These are in a format ready
+@@ -833,6 +847,12 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ 
+     info->entry = elf_entry;
+ 
++#ifdef USE_ELF_CORE_DUMP
++    bprm->core_dump = &elf_core_dump;
 +#else
-+#define TARGET_KI_NSPARE_INT        9
-+#endif /* ! __FreeBSD_version >= 1000000 */
-+#define TARGET_KI_NSPARE_LONG       12
-+#define TARGET_KI_NSPARE_PTR        6
-+
-+#define TARGET_WMESGLEN             8
-+#define TARGET_LOCKNAMELEN          8
-+#define TARGET_TDNAMLEN             16
-+#define TARGET_COMMLEN              19
-+#define TARGET_KI_EMULNAMELEN       16
-+#define TARGET_KI_NGROUPS           16
-+#define TARGET_LOGNAMELEN           17
-+#define TARGET_LOGINCLASSLEN        17
-+
-+#define	TARGET_KF_TYPE_NONE	0
-+#define	TARGET_KF_TYPE_VNODE	1
-+#define	TARGET_KF_TYPE_SOCKET	2
-+#define	TARGET_KF_TYPE_PIPE	3
-+#define	TARGET_KF_TYPE_FIFO	4
-+#define	TARGET_KF_TYPE_KQUEUE	5
-+#define	TARGET_KF_TYPE_CRYPTO	6
-+#define	TARGET_KF_TYPE_MQUEUE	7
-+#define	TARGET_KF_TYPE_SHM	8
-+#define	TARGET_KF_TYPE_SEM	9
-+#define	TARGET_KF_TYPE_PTS	10
-+#define	TARGET_KF_TYPE_PROCDESC	11
-+#define	TARGET_KF_TYPE_DEV	12
-+#define	TARGET_KF_TYPE_UNKNOWN	255
-+
-+struct target_kinfo_proc {
-+    int32_t     ki_structsize;      /* size of this structure */
-+    int32_t     ki_layout;          /* reserved: layout identifier */
-+    abi_ulong   ki_args;            /* address of command arguments */
-+    abi_ulong   ki_paddr;           /* address of proc */
-+    abi_ulong   ki_addr;            /* kernel virtual addr of u-area */
-+    abi_ulong   ki_tracep;          /* pointer to trace file */
-+    abi_ulong   ki_textvp;          /* pointer to executable file */
-+    abi_ulong   ki_fd;              /* pointer to open file info */
-+    abi_ulong   ki_vmspace;         /* pointer to kernel vmspace struct */
-+    abi_ulong   ki_wchan;           /* sleep address */
-+    int32_t     ki_pid;             /* Process identifier */
-+    int32_t     ki_ppid;            /* parent process id */
-+    int32_t     ki_pgid;            /* process group id */
-+    int32_t     ki_tpgid;           /* tty process group id */
-+    int32_t     ki_sid;             /* Process session ID */
-+    int32_t     ki_tsid;            /* Terminal session ID */
-+    int16_t     ki_jobc;            /* job control counter */
-+    int16_t     ki_spare_short1;    /* unused (just here for alignment) */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+    int32_t     ki_tdev__freebsd11; /* controlling tty dev */
-+#else
-+    int32_t     ki_tdev;            /* controlling tty dev */
++    bprm->core_dump = NULL;
 +#endif
-+    target_sigset_t ki_siglist;     /* Signals arrived but not delivered */
-+    target_sigset_t ki_sigmask;     /* Current signal mask */
-+    target_sigset_t ki_sigignore;   /* Signals being ignored */
-+    target_sigset_t ki_sigcatch;    /* Signals being caught by user */
 +
-+    int32_t     ki_uid;             /* effective user id */
-+    int32_t     ki_ruid;            /* Real user id */
-+    int32_t     ki_svuid;           /* Saved effective user id */
-+    int32_t     ki_rgid;            /* Real group id */
-+    int32_t     ki_svgid;           /* Saved effective group id */
-+    int16_t     ki_ngroups;         /* number of groups */
-+    int16_t     ki_spare_short2;    /* unused (just here for alignment) */
-+    int32_t     ki_groups[TARGET_KI_NGROUPS];  /* groups */
-+
-+    abi_long    ki_size;            /* virtual size */
-+
-+    abi_long    ki_rssize;          /* current resident set size in pages */
-+    abi_long    ki_swrss;           /* resident set size before last swap */
-+    abi_long    ki_tsize;           /* text size (pages) XXX */
-+    abi_long    ki_dsize;           /* data size (pages) XXX */
-+    abi_long    ki_ssize;           /* stack size (pages) */
-+
-+    uint16_t    ki_xstat;           /* Exit status for wait & stop signal */
-+    uint16_t    ki_acflag;          /* Accounting flags */
-+
-+    uint32_t    ki_pctcpu;          /* %cpu for process during ki_swtime */
-+
-+    uint32_t    ki_estcpu;          /* Time averaged value of ki_cpticks */
-+    uint32_t    ki_slptime;         /* Time since last blocked */
-+    uint32_t    ki_swtime;          /* Time swapped in or out */
-+    uint32_t    ki_cow;             /* number of copy-on-write faults */
-+    uint64_t    ki_runtime;         /* Real time in microsec */
-+
-+    struct  target_freebsd_timeval ki_start;  /* starting time */
-+    struct  target_freebsd_timeval ki_childtime; /* time used by process
-+                                                    children */
-+
-+    abi_long    ki_flag;            /* P_* flags */
-+    abi_long    ki_kiflag;          /* KI_* flags (below) */
-+    int32_t     ki_traceflag;       /* Kernel trace points */
-+    char        ki_stat;            /* S* process status */
-+    int8_t      ki_nice;            /* Process "nice" value */
-+    char        ki_lock;            /* Process lock (prevent swap) count */
-+    char        ki_rqindex;         /* Run queue index */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
-+    u_char      ki_oncpu_old;       /* Which cpu we are on (legacy) */
-+    u_char      ki_lastcpu_old;     /* Last cpu we were on (legacy) */
-+#else
-+    u_char      ki_oncpu;           /* Which cpu we are on */
-+    u_char      ki_lastcpu;         /* Last cpu we were on */
-+#endif /* ! __FreeBSD_version >= 1100000 */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+    char        ki_tdname[TARGET_TDNAMLEN+1];  /* thread name */
-+#else
-+    char        ki_ocomm[TARGET_TDNAMLEN+1];   /* thread name */
-+#endif /* ! __FreeBSD_version >= 900000 */
-+    char        ki_wmesg[TARGET_WMESGLEN+1];   /* wchan message */
-+    char        ki_login[TARGET_LOGNAMELEN+1]; /* setlogin name */
-+    char        ki_lockname[TARGET_LOCKNAMELEN+1]; /* lock name */
-+    char        ki_comm[TARGET_COMMLEN+1];     /* command name */
-+    char        ki_emul[TARGET_KI_EMULNAMELEN+1];  /* emulation name */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+    char        ki_loginclass[TARGET_LOGINCLASSLEN+1]; /* login class */
-+#endif /* ! __FreeBSD_version >= 900000 */
-+
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+    char        ki_sparestrings[50];    /* spare string space */
-+#else
-+    char        ki_sparestrings[68];    /* spare string space */
-+#endif /* ! __FreeBSD_version >= 900000 */
-+    int32_t     ki_spareints[TARGET_KI_NSPARE_INT]; /* spare room for growth */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+	uint64_t ki_tdev;		/* controlling tty dev */
-+#endif
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1100000
-+    int32_t     ki_oncpu;           /* Which cpu we are on */
-+    int32_t     ki_lastcpu;         /* Last cpu we were on */
-+    int32_t     ki_tracer;          /* Pid of tracing process */
-+#endif /* __FreeBSD_version >= 1100000 */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+    int32_t     ki_flag2;           /* P2_* flags */
-+    int32_t     ki_fibnum;          /* Default FIB number */
-+#endif /* ! __FreeBSD_version >= 900000 */
-+    uint32_t    ki_cr_flags;        /* Credential flags */
-+    int32_t     ki_jid;             /* Process jail ID */
-+    int32_t     ki_numthreads;      /* XXXKSE number of threads in total */
-+
-+    int32_t     ki_tid;             /* XXXKSE thread id */
-+
-+    struct  target_priority ki_pri; /* process priority */
-+    struct  target_freebsd_rusage ki_rusage;  /* process rusage statistics */
-+        /* XXX - most fields in ki_rusage_ch are not (yet) filled in */
-+    struct  target_freebsd_rusage ki_rusage_ch; /* rusage of children
-+                                                   processes */
-+
-+
-+    abi_ulong   ki_pcb;             /* kernel virtual addr of pcb */
-+    abi_ulong   ki_kstack;          /* kernel virtual addr of stack */
-+    abi_ulong   ki_udata;           /* User convenience pointer */
-+    abi_ulong   ki_tdaddr;          /* address of thread */
-+
-+    abi_ulong   ki_spareptrs[TARGET_KI_NSPARE_PTR];  /* spare room for growth */
-+    abi_long    ki_sparelongs[TARGET_KI_NSPARE_LONG];/* spare room for growth */
-+    abi_long    ki_sflag;           /* PS_* flags */
-+    abi_long    ki_tdflags;         /* XXXKSE kthread flag */
-+};
-+
-+struct target_kinfo_file {
-+	int32_t		kf_structsize;		/* Variable size of record. */
-+	int32_t		kf_type;		/* Descriptor type. */
-+	int32_t		kf_fd;			/* Array index. */
-+	int32_t		kf_ref_count;		/* Reference count. */
-+	int32_t		kf_flags;		/* Flags. */
-+	int32_t		kf_pad0;		/* Round to 64 bit alignment. */
-+	int64_t		kf_offset;		/* Seek location. */
-+#if defined(__FreeBSD_version) && __FreeBSD_version < 1200031
-+	int32_t		kf_vnode_type;		/* Vnode type. */
-+	int32_t		kf_sock_domain;		/* Socket domain. */
-+	int32_t		kf_sock_type;		/* Socket type. */
-+	int32_t		kf_sock_protocol;	/* Socket protocol. */
-+	struct target_sockaddr_storage kf_sa_local;	/* Socket address. */
-+	struct target_sockaddr_storage	kf_sa_peer;	/* Peer address. */
-+#endif
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+	union {
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			uint32_t	kf_spareint;
-+			/* Socket domain. */
-+			int		kf_sock_domain0;
-+			/* Socket type. */
-+			int		kf_sock_type0;
-+			/* Socket protocol. */
-+			int		kf_sock_protocol0;
-+			/* Socket address. */
-+			struct sockaddr_storage kf_sa_local;
-+			/* Peer address. */
-+			struct sockaddr_storage	kf_sa_peer;
-+#endif
-+			/* Address of so_pcb. */
-+			uint64_t	kf_sock_pcb;
-+			/* Address of inp_ppcb. */
-+			uint64_t	kf_sock_inpcb;
-+			/* Address of unp_conn. */
-+			uint64_t	kf_sock_unpconn;
-+			/* Send buffer state. */
-+			uint16_t	kf_sock_snd_sb_state;
-+			/* Receive buffer state. */
-+			uint16_t	kf_sock_rcv_sb_state;
-+			/* Round to 64 bit alignment. */
-+			uint32_t	kf_sock_pad0;
-+		} kf_sock;
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			/* Vnode type. */
-+			int		kf_file_type;
-+			/* Space for future use */
-+			int		kf_spareint[3];
-+			uint64_t	kf_spareint64[30];
-+			/* Vnode filesystem id. */
-+			uint64_t	kf_file_fsid;
-+			/* File device. */
-+			uint64_t	kf_file_rdev;
-+			/* Global file id. */
-+			uint64_t	kf_file_fileid;
-+			/* File size. */
-+			uint64_t	kf_file_size;
-+			/* Vnode filesystem id, FreeBSD 11 compat. */
-+			uint32_t	kf_file_fsid_freebsd11;
-+			/* File device, FreeBSD 11 compat. */
-+			uint32_t	kf_file_rdev_freebsd11;
-+#else
-+			/* Global file id. */
-+			uint64_t	kf_file_fileid;
-+			/* File size. */
-+			uint64_t	kf_file_size;
-+			/* Vnode filesystem id. */
-+			uint32_t	kf_file_fsid;
-+			/* File device. */
-+			uint32_t	kf_file_rdev;
-+#endif
-+			/* File mode. */
-+			uint16_t	kf_file_mode;
-+			/* Round to 64 bit alignment. */
-+			uint16_t	kf_file_pad0;
-+			uint32_t	kf_file_pad1;
-+		} kf_file;
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			uint32_t	kf_spareint[4];
-+			uint64_t	kf_spareint64[32];
-+#endif
-+			uint32_t	kf_sem_value;
-+			uint16_t	kf_sem_mode;
-+		} kf_sem;
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			uint32_t	kf_spareint[4];
-+			uint64_t	kf_spareint64[32];
-+#endif
-+			uint64_t	kf_pipe_addr;
-+			uint64_t	kf_pipe_peer;
-+			uint32_t	kf_pipe_buffer_cnt;
-+			/* Round to 64 bit alignment. */
-+			uint32_t	kf_pipe_pad0[3];
-+		} kf_pipe;
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			uint32_t	kf_spareint[4];
-+			uint64_t	kf_spareint64[32];
-+			uint32_t	kf_pts_dev_freebsd11;
-+			uint32_t	kf_pts_pad0;
-+			uint64_t	kf_pts_dev;
-+			/* Round to 64 bit alignment. */
-+			uint32_t	kf_pts_pad1[4];
-+#else
-+			uint32_t	kf_pts_dev;
-+			/* Round to 64 bit alignment. */
-+			uint32_t	kf_pts_pad0[7];
-+#endif
-+		} kf_pts;
-+		struct {
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+			uint32_t	kf_spareint[4];
-+			uint64_t	kf_spareint64[32];
-+#endif
-+			int32_t		kf_pid;
-+		} kf_proc;
-+	} kf_un;
-+	uint16_t	kf_status;		/* Status flags. */
-+	uint16_t	kf_pad1;		/* Round to 32 bit alignment. */
-+	int32_t		_kf_ispare0;		/* Space for more stuff. */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1000000
-+	target_cap_rights_t	kf_cap_rights;	/* Capability rights. */
-+	uint64_t	_kf_cap_spare;	/* Space for future cap_rights_t. */
-+#else /* ! __FreeBSD_version >= 1000000 */
-+	uint64_t        kf_cap_rights;
-+	int		_kf_ispare[4];
-+#endif /* ! __FreeBSD_version >= 1000000 */
-+
-+#else /* ! __FreeBSD_version >= 900000 */
-+	int		_kf_ispare[16];
-+#endif /* ! __FreeBSD_version >= 900000 */
-+	/* Truncated before copyout in sysctl */
-+	char		kf_path[PATH_MAX];	/* Path to file, if any. */
-+};
-+
-+struct target_kinfo_vmentry {
-+	int32_t	 kve_structsize;		/* Variable size of record. */
-+	int32_t	 kve_type;			/* Type of map entry. */
-+	uint64_t kve_start;			/* Starting address. */
-+	uint64_t kve_end;			/* Finishing address. */
-+	uint64_t kve_offset;			/* Mapping offset in object */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+	uint64_t kve_vn_fileid;			/* inode number if vnode */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+	uint32_t kve_vn_fsid_freebsd11;		/* dev_t of vnode location */
-+#else
-+	uint32_t kve_vn_fsid;			/* dev_t of vnode location */
-+#endif
-+#else /* !  __FreeBSD_version >= 900000 */
-+	uint64_t kve_fileid;			/* inode number if vnode */
-+	uint32_t kve_fsid;			/* dev_t of vnode location */
-+#endif /* !  __FreeBSD_version >= 900000 */
-+	int32_t	 kve_flags;			/* Flags on map entry. */
-+	int32_t	 kve_resident;			/* Number of resident pages. */
-+	int32_t	 kve_private_resident;		/* Number of private pages. */
-+	int32_t	 kve_protection;		/* Protection bitmask. */
-+	int32_t	 kve_ref_count;			/* VM obj ref count. */
-+	int32_t	 kve_shadow_count;		/* VM obj shadow count. */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 900000
-+	int32_t	 kve_vn_type;			/* Vnode type. */
-+	uint64_t kve_vn_size;			/* File size. */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+	uint32_t kve_vn_rdev_freebsd11;		/* Device id if device. */
-+#else
-+	uint32_t kve_vn_rdev;			/* Device id if device. */
-+#endif
-+	uint16_t kve_vn_mode;			/* File mode. */
-+	uint16_t kve_status;			/* Status flags. */
-+#if defined(__FreeBSD_version) && __FreeBSD_version >= 1200031
-+#if (__FreeBSD_version >= 1300501 && __FreeBSD_version < 1400000) || \
-+    __FreeBSD_version >= 1400009
-+	union {
-+		uint64_t _kve_vn_fsid;		/* dev_t of vnode location */
-+		uint64_t _kve_obj;		/* handle of anon obj */
-+	} kve_type_spec;
-+#define	kve_vn_fsid	kve_type_spec._kve_vn_fsid
-+#define	kve_obj		kve_type_spec._kve_obj
-+#else
-+	uint64_t kve_vn_fsid;			/* dev_t of vnode location */
-+#endif
-+	uint64_t kve_vn_rdev;			/* Device id if device. */
-+	int	 _kve_ispare[8];		/* Space for more stuff. */
-+#else
-+	int32_t	 _kve_ispare[12];		/* Space for more stuff. */
-+#endif
-+#else /* !  __FreeBSD_version >= 900000 */
-+	int	 _kve_pad0;
-+	int32_t	 _kve_ispare[16];		/* Space for more stuff. */
-+#endif /* !  __FreeBSD_version >= 900000 */
-+	/* Truncated before copyout in sysctl */
-+	char	 kve_path[PATH_MAX];		/* Path to VM obj, if any. */
-+};
-+
-+#endif /* ! _TARGET_OS_USER_H_ */
+     return 0;
+ }
+ 
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index a85abb8fe1..b2b7c3b29a 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -54,6 +54,7 @@ extern enum BSDType bsd_type;
+  * kernel
+  */
+ struct image_info {
++    abi_ulong load_bias;
+     abi_ulong load_addr;
+     abi_ulong start_code;
+     abi_ulong end_code;
+@@ -68,6 +69,9 @@ struct image_info {
+     abi_ulong entry;
+     abi_ulong code_offset;
+     abi_ulong data_offset;
++    abi_ulong arg_start;
++    abi_ulong arg_end;
++    uint32_t  elf_flags;
+ };
+ 
+ #define MAX_SIGQUEUE_SIZE 1024
+@@ -134,6 +138,7 @@ struct bsd_binprm {
+         char **envp;
+         char *filename;         /* (Given) Name of binary */
+         char *fullpath;         /* Full path of binary */
++        int (*core_dump)(int, CPUArchState *);
+ };
+ 
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+@@ -147,6 +152,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+                     struct image_info *info);
+ int load_flt_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+                     struct image_info *info);
++int is_target_elf_binary(int fd);
+ 
+ abi_long memcpy_to_target(abi_ulong dest, const void *src,
+                           unsigned long len);
 -- 
 2.32.0
 
