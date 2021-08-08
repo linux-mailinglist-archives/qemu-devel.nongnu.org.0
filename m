@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DE33E38FF
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 07:21:26 +0200 (CEST)
-Received: from localhost ([::1]:53512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122C13E3900
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 07:22:11 +0200 (CEST)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCbFV-0003my-T3
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 01:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47998)
+	id 1mCbGE-0005ud-3r
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 01:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCbDx-0001hC-4a
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:19:49 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35333)
+ id 1mCbEU-0002bI-3H
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:20:22 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:40480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCbDv-0004Gc-Q8
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:19:48 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id u16so12890599ple.2
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 22:19:47 -0700 (PDT)
+ id 1mCbES-0004lB-Nb
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:20:21 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ t7-20020a17090a5d87b029017807007f23so25905013pji.5
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 22:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tvUxrQD1PTGGMC5LERbzRbZlWlH2E5ffY02ZgZuYex8=;
- b=kj7q+EcG5PQOOqGN31vTLq+/R+3DkmiqCdcyq0wJj5QJspbIcDpRF/AjVud9zXdta0
- 7Dil7sCBNipbNVCukjjMFa1dNh1sAszAD9/mJxfvRb/JzJt+YJuAcrRRMQezVg4LQTiR
- R2+7dyBLQudJKwQUQdWInBFU7xuSI8mKP3knfdkLxWHms67mgTPgwcDqE+RjbQI+RcUH
- srUUp70mGdNFrhu3nEcKUjjKFZUL4glGFS99MMNukEmlAv8/XKQC2xw9lS0TjprWzX+C
- LrUXgbKFmsmJ4UDSikld9VgnuUpLvXoq0Oba/l0UJwtgmQoK0LrwwkeJoyY5bvcER77P
- GN0g==
+ bh=c9vf4NB0tVwoK9li+A8vGpzgRhfL2Ekg+37hfV0aeAM=;
+ b=dfDVvNVSLnl1NynfP8FeTlSpiMoFiTJd3pIjs0IO3aFlWA+z0haK+cYv18x7nPrA19
+ YMSOCTfHNrm/UH5M6a2Tvkmyms6V3A0MY/CiJoRjiPO/dXVC2ty9CCht8CPD2SOqgMWD
+ Z0o/myv4sH8KBg9MDBellVkiqwidZOOwMHRpM1lcc6Jt8YLCMwfUt4q4USJXNAsceRE8
+ 5EAvPGeoNs8ZgAD2+39PnuAOc+gdnJZQbuQmjkvNY8v5G5c7pyJSAGqxrgKMQCGDUHz7
+ 5J5dWK2lu98Jj/sSaemZlEtQTaQ4H56vhnvjDXmIbWMpdLCN+smki+meUK1V5RUysZR7
+ 4rcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tvUxrQD1PTGGMC5LERbzRbZlWlH2E5ffY02ZgZuYex8=;
- b=dq3gMYnHftpTVQvg9mOrxRQj3hH+YDLeU7zhUpSd+0psY7z16bXcGqoRO0v64eyPxx
- uiRdptXXu2uvDdCwNhW+2D8AmW/gBPlhWF2UZA0d6ao2E5qqhSK8jLSJqOzBCaBBdI1h
- QqDQcKriyiwQSio/uXoQjTN9sbjnQwiGRWy9RVetCexrHiRzg4psw3bwfEQrMoQuxg2s
- PGfOAKqh0FA0/aLRLIM/ayE+Q3z5l3kVG99RLGf/BEL758bCaXNRZJKkq/pnSbSzLdEz
- qPiEPQrtMrXesbQH6wyp77ap1jCwBawIpFEatZXnK9OLnkdAH2ZydXPFnPIEH5fClGgz
- 0MDA==
-X-Gm-Message-State: AOAM532Kew7UFyhn474HMPFqjNe3a+Sz5KYSzUAfQdWZ0fW6PslcCcZs
- wdWL4kQv05QE3Q7ZR8+8DlTqhg==
-X-Google-Smtp-Source: ABdhPJy8+oT/zpO2p6Kj0Vqmo3nfMhCVX4yuUS/GNJSrHuXAdS7mN8V99enNwK/1t4d55e6BTMLzWg==
-X-Received: by 2002:a63:fd51:: with SMTP id m17mr59127pgj.395.1628399986608;
- Sat, 07 Aug 2021 22:19:46 -0700 (PDT)
+ bh=c9vf4NB0tVwoK9li+A8vGpzgRhfL2Ekg+37hfV0aeAM=;
+ b=MOWQuwPRJLF0mI3QnugvH/ea+HDPUhc+HfZK8IQfoeEtV6jfmP8J/dqZ/7/Yg162Ia
+ kKL4ywTL7RYwDwUltEuc5ZOaTXrVCV5QWmR5h0smyn9TrZ+JpLwhwk/rplTmkBUxzkQt
+ HmVp/eQWTur6/DR80c4itEC27Bl2iJsAwkMAqSkyxFiQnDXv9a6CRRliK9QW7c1C7oEa
+ Y4tvwRlnVfFI9+EFPRFL5Uz/Iu6bD7d30qKlHZAxE5pxr76Zn6RJQGdzs4lF3hHKRCnN
+ onH0FsKON1jrHahNV8wAWtpduWPdHWwz+2dGPw/XYmnOTPYXgG5jSwKrBPOQNuikU9/h
+ yNpg==
+X-Gm-Message-State: AOAM531JfyVYghIOdXgudiIahRTvy1IzdUZoI8rate0vxWvM3WvB4X/u
+ WiXPcUimBUptPQLiDPVH7DzlyQ==
+X-Google-Smtp-Source: ABdhPJynR9+F42aRtxU4hTYM9v6EKhMrfB+zAhxsv5xQkKp2tDOk/47z1UO697MYcTAyM88il6yjcQ==
+X-Received: by 2002:a63:950a:: with SMTP id p10mr157958pgd.362.1628400019181; 
+ Sat, 07 Aug 2021 22:20:19 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id c27sm15865152pfj.34.2021.08.07.22.19.45
+ by smtp.gmail.com with ESMTPSA id fs21sm11221662pjb.42.2021.08.07.22.20.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 22:19:46 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 18/49] bsd-user: add host-os.h
+ Sat, 07 Aug 2021 22:20:18 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 19/49] bsd-user: Include host-os.h from main
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-19-imp@bsdimp.com>
+ <20210807214242.82385-20-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <96f13c01-fd41-89e3-f24a-c42d464c7acf@linaro.org>
-Date: Sat, 7 Aug 2021 19:19:43 -1000
+Message-ID: <7832f221-31d3-84e3-f50a-366c1d54e12c@linaro.org>
+Date: Sat, 7 Aug 2021 19:20:16 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-19-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-20-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,18 +94,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:42 AM, Warner Losh wrote:
-> Host OS specific bits for this implementation go in this file.
+> Include host-os.h from main.c to pick up the default OS to emulate.  Set
+> that default in main().
 > 
 > Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/freebsd/host-os.h | 23 +++++++++++++++++++++++
->   bsd-user/netbsd/host-os.h  | 23 +++++++++++++++++++++++
->   bsd-user/openbsd/host-os.h | 23 +++++++++++++++++++++++
->   3 files changed, 69 insertions(+)
->   create mode 100644 bsd-user/freebsd/host-os.h
->   create mode 100644 bsd-user/netbsd/host-os.h
->   create mode 100644 bsd-user/openbsd/host-os.h
+>   bsd-user/freebsd/host-os.h | 2 ++
+>   bsd-user/main.c            | 4 +++-
+>   bsd-user/netbsd/host-os.h  | 2 ++
+>   bsd-user/openbsd/host-os.h | 2 ++
+>   4 files changed, 9 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
