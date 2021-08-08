@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCEE3E386F
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:29:49 +0200 (CEST)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138C53E3871
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:30:47 +0200 (CEST)
+Received: from localhost ([::1]:59848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCaRY-0000U5-Dg
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44276)
+	id 1mCaSU-0001v3-3N
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaQp-0008FB-I8
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:29:03 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36438)
+ id 1mCaRa-000133-PY
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:29:50 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaQn-0003px-K4
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:29:02 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u13-20020a17090abb0db0290177e1d9b3f7so29030123pjr.1
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:29:00 -0700 (PDT)
+ id 1mCaRZ-0004S9-CL
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:29:50 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id j1so22739063pjv.3
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ed240GZDvuyxAAbe8MiPyru0j1fWLPo+KuoOPQFrVzw=;
- b=xj7CGE9mwhMctf11hCfXLsXdrx/bz5g9EqLxWIvkb8+ExJJ+R2/AqkCW08BL2y2zWm
- dbl/txLOVwEPBjb4YIse8XFQZCqzJP6DVxXRRG/sEYhHLT3aI+ITYv4Cz3n3s32WXpo6
- vU8vB+A7tcYIM6wuKEr5VX4mhuxeu5Z4RQ3yNZy/O/Vv/BUPR0Aq7hMp6NySd/B9VmRm
- fWj17m3CR0wAAVTnkzEMJDdjmJuhrbQ5dfzhux2G7VG+xUvTrXLKmq4Ztmty34E6LPYV
- j0qSW+5ypdA2atdLQTZdVNbHIkdc1vu6pD2qyTrSqYrDd9KM/iUmG/wHwSSgtURfYbe8
- fGmg==
+ bh=ZgMDwssCxsEHomsZxVFDBaqvKN3BiTo8ZRooQyqlq5k=;
+ b=YRrn9AXNke8j/O653Kf4zxQpdWtnBsCbTI0bJViqmTv8KaBSu64MW77xqFdqACsU1e
+ azSwoMhTDnh9jGsaFXMFcTuPRo+dETubVVwEvhNTo44tUzYVhU8efG4/IirAh/FMdf2w
+ +L8yznWHqBzqZkpcdJnH+u6qoWPUHgxZ5Mtrt7gwqYuejrrZh+BXWkJQYTl+I4tKGkVg
+ 9I2UniQxqy9DPyTbhAVMVntzS+PWemNDulJ+Vdipac7hfPlhA6DxkacIcOen55X/GIK7
+ 794LZ6BnfiWMDxbFUyu2SUu24Td3vT9dR7M+rtmzbDOeCqBVoxlBUOTKFTsCKIb1i0g/
+ avGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ed240GZDvuyxAAbe8MiPyru0j1fWLPo+KuoOPQFrVzw=;
- b=O5xXANN8UwcsnMvI3mih3WwoI+XTfRZaTwMcTcW0T3D9TutSVRe5iBFrJudFWjAMGW
- osooxg+D3q9vbwe0rDz1CSSMX+6Zftgrkao7DMJTXLbSAfv+lDAIekKzA9tRZ+If9MXE
- 8yTrgoP/LzkeGk6bGOQ/XVwAkLJFuOQB/sifzM2iUtjpsMwHC3WGdSMTSwfoJQCwjMlH
- 7Rbo4zCv3OVx2aLJifB1PJBu0AbFO96IXMBhNyfIwO32LsZ+uwosW9DtUrC0Q39PT9dx
- FvGk5H6rlzlHnYGShb4+R5UGF4WSE/LMrdersQk6H8s/rhTKyd+9iHCqp29W6ETuAu+Z
- +Myg==
-X-Gm-Message-State: AOAM533NopMt/epqaCx+eo01OCmR56s+PUPGXQ6cGWbPZQ33TBIYm1TS
- xZhDSK8zISKKVNzxqDkF3u3VuQ==
-X-Google-Smtp-Source: ABdhPJz+dOFcXgEty9N+gyV65UQ0rP3YvlR4kWUgZ5QyCgf71Xjc0fyfGnJ2oN9sJJ5DHtk+qsthZA==
-X-Received: by 2002:a17:90a:19db:: with SMTP id
- 27mr17667416pjj.25.1628396938945; 
- Sat, 07 Aug 2021 21:28:58 -0700 (PDT)
+ bh=ZgMDwssCxsEHomsZxVFDBaqvKN3BiTo8ZRooQyqlq5k=;
+ b=s3TrumemX2KId1jTTFx4yPnz9aiNHYh54HvgRnJ4xey4X10IRGB+fqqN5fO8weD21R
+ bVOu9IRPvT7YaWzf3AUg/ocULXzl5uybH/RBtbpySAE3tVlbion5vlUSfI/rRn3El8QI
+ AtDUx/UUF0GibhVGuaG3CaGDkkD+se2kraHlvAUsFUmu1ff+PzBF9VsWuIyzYhjJA7ZQ
+ fXDA96NFbRgx9PVaVmy7ar2ydlqPoT1LJuBuW/ElBeoFdAnnGEo0XE+y+qSBe8ojnZnc
+ c0u6rm5miIpvHVUixm0o+J72Eovu0LoKN2ZCSSP7SvcqQcjWW1Y1jgyp5iWv9xY/Xki2
+ AKoA==
+X-Gm-Message-State: AOAM532M177KZdCT50xkjf6KWGI6yLs6UCjNIvU5+fBvR4EXHS6zoWxX
+ d0XvYnY3BncaETb5XMw1cYpnyA==
+X-Google-Smtp-Source: ABdhPJziNrFcTtFZwPx5xtlItV5VbKpsS6RVqnOG++hH8gWxyhI3PrNBgGgsjSXCOg+7FMnSZBOXFw==
+X-Received: by 2002:a17:902:7889:b029:12b:cf54:4bf1 with SMTP id
+ q9-20020a1709027889b029012bcf544bf1mr15530584pll.85.1628396988035; 
+ Sat, 07 Aug 2021 21:29:48 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id r17sm19340508pgu.8.2021.08.07.21.28.57
+ by smtp.gmail.com with ESMTPSA id e27sm15874357pfj.23.2021.08.07.21.29.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 21:28:58 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 01/49] bsd-user: remove sparc and sparc64
+ Sat, 07 Aug 2021 21:29:47 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 02/49] bsd-user: add copyright header to elfload.c
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-2-imp@bsdimp.com>
+ <20210807214242.82385-3-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bf221b90-537c-186f-fb61-fc5e1738647c@linaro.org>
-Date: Sat, 7 Aug 2021 18:28:54 -1000
+Message-ID: <04322b39-afe5-f1da-e6a4-0008183415d0@linaro.org>
+Date: Sat, 7 Aug 2021 18:29:44 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-2-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-3-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,32 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:41 AM, Warner Losh wrote:
 > From: Warner Losh<imp@FreeBSD.org>
 > 
-> These are broken here and in the bsd-user fork. They won't be fixed as
-> FreeBSD has dropped support for sparc. If people wish to support this in
-> other BSDs, you're better off starting over than starting from these
-> files.
+> Add Stacey's copyright to elfload.c
 > 
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/main.c                        | 290 -------------------------
->   bsd-user/sparc/target_arch_sysarch.h   |  52 -----
->   bsd-user/sparc/target_syscall.h        |  36 ---
->   bsd-user/sparc64/target_arch_sysarch.h |  52 -----
->   bsd-user/sparc64/target_syscall.h      |  37 ----
->   bsd-user/syscall.c                     |  11 -
->   6 files changed, 478 deletions(-)
->   delete mode 100644 bsd-user/sparc/target_arch_sysarch.h
->   delete mode 100644 bsd-user/sparc/target_syscall.h
->   delete mode 100644 bsd-user/sparc64/target_arch_sysarch.h
->   delete mode 100644 bsd-user/sparc64/target_syscall.h
-> 
+>   bsd-user/elfload.c | 19 ++++++++++++++++++-
+>   1 file changed, 18 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
