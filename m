@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AFA3E3BE7
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 19:23:56 +0200 (CEST)
-Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E2B3E3BFA
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 19:32:36 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCmWg-0003J3-TU
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 13:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49678)
+	id 1mCmf5-0006bN-VR
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 13:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mCmVY-0002eA-Pb
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 13:22:44 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:43916)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mCmcx-0004my-Be
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 13:30:24 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mCmVW-000160-Nr
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 13:22:44 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id db14so7809200qvb.10
- for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 10:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=po8pJL4ushFgA8Ja5uaRHHi+Tz39TbLD0kvLm8kiVo4=;
- b=p2j2tGgr3IPK3W2yykDctQ9ZtlIV3EzxVMmw/1n8BCQB0JjzE0vcgqT3aRitDsJYJk
- HShuucee9v2vUuW3eoLLTtADXOaBUBu4AS1ZvXPf/tJxDQ1JNv3V8npulAjAZzQpIjIh
- r1KkHjrYlrv9o0rzFukhaW4aRuvNca7UTsOFeCsNhPOlAh14DCLWDqlympoOnuXM5QKJ
- lmaA8z3LMlnChBd9I1qh7fSfmxCFKTdMy6u/qbWagU/vqqbku6uvYlRfO7bxn+Pv/6iz
- bzI9XcyDNiOx8AaUsG4cM7XIbkziFlTicDLDFw0sT9D3MqjD1zR3aPE3THsentjpCgTJ
- gMjQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mCmcv-0006J0-Lh
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 13:30:23 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z4so18218741wrv.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 10:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hMaTG7WGAPwmvq9tz7x0rhidIZO4rQrr9wrlyN0NAu8=;
+ b=KH0auIrkAlzoZsEBp3OOwyxdsmw2oE2a6L65B9PYkcZGkaPbbeyS16HU2askZxbKhU
+ PIs9lL8bTSB3XVfsI32qefpAtPzxN60wa/7tze9+wiAJ+huBsEpI/isretQNTyGBDdtg
+ LBilDYNTtj/TlVZK58dG2hk7w1eykwxwluaRk8sY/pqVGY10UM0J1eTnUXaUNueQ+Q86
+ Ds1rdykBCVJhZ2hkrEsVm0GUX1UwveEP1uJHXceum8eZiGQ/+YWYQSJ8AKtyDHIT4uqT
+ wUJ6H52itof0lps+2XJM1meXwgO0R/xboEp3CbaAZ38R0HDa2vipXCUdyGT9A4nS/I4c
+ bh9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=po8pJL4ushFgA8Ja5uaRHHi+Tz39TbLD0kvLm8kiVo4=;
- b=FCHG7jDws7/di4KsbJIRT48l47CI3PwV2y0jGZfHaLlp+nfkXbApPwHyFgbbfkP/XM
- e5Q2iRt4fInvECrkaOPcda0oX9ptPdcYaml8LpE/5mUeg2OM+vdjGYtFLV+16ndJUsps
- TuBVjToEKblbHPUIl/qnO30jDfbJqfeFdXzBdqvXE3QGLQdQ9TFYmO5PwXfDWGmxlI2b
- x7G9sWmzBjcgK4hDYqFzNmtfVBqLTmbCEiPX06O414uYViLJxG3o0Km9goJ875P/XZh5
- T5g/4q7nCX9iYrMVT0xpC0AzpEguvmg0ww7v0fgbb+Su8/JazFsujhbgrIemhLdFLAvs
- Y0yA==
-X-Gm-Message-State: AOAM532MRbM2uJSm4C7gRRJoG7+QhFw7NFHfN7BT6BaRx8zGfDZpsDo3
- lz8IavDHnHPWBjL22PDc9H0JZktZga47kRz4Bvzx5A==
-X-Google-Smtp-Source: ABdhPJw7U9e7agButlYwqmzEXP5S/n/fDdj4csIa1FWNjX6RuPYxhz3tbM0MxbdezBkb8mogVrEYlKNHxxuOPqqf3z0=
-X-Received: by 2002:ad4:5b85:: with SMTP id 5mr20495780qvp.24.1628443361333;
- Sun, 08 Aug 2021 10:22:41 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=hMaTG7WGAPwmvq9tz7x0rhidIZO4rQrr9wrlyN0NAu8=;
+ b=AVj/KlMg3S7R0yQrDNDHouonSSv42K1hBo518X9f2hf/So1Jk6Z7lxujIspB9ybLWd
+ NZDV1YDke1LPT1BVnSZE2kxXUh6OqfkelvSy8JIiNFbNW5iSgknW2Q0B15u+OPAoJA0w
+ jF+Zf+grDvYkDXp5T9PfIAtasngwSjUVJBScCL3P7ffkudXnd1cUElfpf8DcICxL043T
+ HSmFh8k38gHkg/ggqjNGoPrfTwa2Rs4yvydMxNSfxzZ4WoxEH/18P8jHBunH0n5YIhtr
+ FWBSfhJf0PCsn2Qv0Kiy+b+CY13uBmiR82MrXdRG2aRgJHTPRRItNAeN9rV4VFtaGJDL
+ wPTQ==
+X-Gm-Message-State: AOAM530UE7mpkkHm9mXGcC7GUWpMHk+immNOkWStMeDUmhjxIIbH1nVH
+ Yc+LuoXe6ytfzftfWHM/IuL0G7SrSZE=
+X-Google-Smtp-Source: ABdhPJz6+5d12UuQjeN0yZp7Jt5ehTO5jOYWQ751Kj31GawToPLiSn2jbwzOUVp+ND0CJfjYIIJzEw==
+X-Received: by 2002:adf:e0c4:: with SMTP id m4mr20677409wri.312.1628443819973; 
+ Sun, 08 Aug 2021 10:30:19 -0700 (PDT)
+Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id
+ a18sm2521433wmg.43.2021.08.08.10.30.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Aug 2021 10:30:19 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.2 v3 0/7] target/mips: Convert NEC Vr54xx to decodetree
+Date: Sun,  8 Aug 2021 19:30:11 +0200
+Message-Id: <20210808173018.90960-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-13-imp@bsdimp.com>
- <bde1f44f-d8a1-4900-e0c6-c6f699d3a8e8@linaro.org>
- <CACNAnaE3dp0Ex7kR58FStcM01PMRi63_sNjRVduVTVOHjO+PVg@mail.gmail.com>
-In-Reply-To: <CACNAnaE3dp0Ex7kR58FStcM01PMRi63_sNjRVduVTVOHjO+PVg@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 8 Aug 2021 11:22:30 -0600
-Message-ID: <CANCZdfrDez57t8iXKs-nU-oH-xMLXKUtxBe45J=sNBBcgznq5g@mail.gmail.com>
-Subject: Re: [PATCH for 6.2 12/49] bsd-user: implement path searching
-To: Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="00000000000016e71405c90f8488"
-Received-SPF: none client-ip=2607:f8b0:4864:20::f30;
- envelope-from=wlosh@bsdimp.com; helo=mail-qv1-xf30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,134 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000016e71405c90f8488
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, Aug 7, 2021 at 11:49 PM Kyle Evans <kevans@freebsd.org> wrote:
-
-> On Sat, Aug 7, 2021 at 10:11 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 8/7/21 11:42 AM, Warner Losh wrote:
-> > > +        path = g_strdup(p);
-> > > +        if (path == NULL) {
-> >
-> > Only returns null when the input is null, which you've already
-> eliminated.
-> >
-> > > +static bool find_in_path(char *path, const char *filename, char
-> *retpath,
-> > > +                         size_t rpsize)
-> > > +{
-> > > +    const char *d;
-> > > +
-> > > +    while ((d = strsep(&path, ":")) != NULL) {
-> > > +        if (*d == '\0') {
-> > > +            d = ".";
-> > > +        }
-> > > +        if (snprintf(retpath, rpsize, "%s/%s", d, filename) >=
-> (int)rpsize) {
-> > > +            continue;
-> > > +        }
-> > > +        if (is_there((const char *)retpath)) {
-> > > +            return true;
-> > > +        }
-> > > +    }
-> > > +    return false;
-> >
-> > Hmm.  Fixed size retpath buffer isn't ideal.
-> > Any reason not to use g_find_program_in_path?
-> >
->
-> g_find_program_in_path may work well here, as well...
->
-
-Quite well:  1 file changed, 5 insertions(+), 42 deletions(-) so a nice
-reduction in code when the unnecessary stuff is removed. I'll have
-that in v2 of the series.
-
-> I note that we don't search the path at all in linux-user/.
-> >
->
-> IIRC imgact_binmisc will have the resolved path but preserve argv as
-> it should have been were it not emulated, so we have to re-evaluate
-> the PATH search here because we try to be faithful to the context.
->
-
-I just looked at the imgact_binmisc code, and that's what it does, so
-that sounds reasonable to me as well.
-
-Warner
-
---00000000000016e71405c90f8488
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Sat, Aug 7, 2021 at 11:49 PM Kyle Evans &lt;<a=
- href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat, Aug 7, 2021 a=
-t 10:11 PM Richard Henderson<br>
-&lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richa=
-rd.henderson@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 8/7/21 11:42 AM, Warner Losh wrote:<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 path =3D g_strdup(p);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (path =3D=3D NULL) {<br>
-&gt;<br>
-&gt; Only returns null when the input is null, which you&#39;ve already eli=
-minated.<br>
-&gt;<br>
-&gt; &gt; +static bool find_in_path(char *path, const char *filename, char =
-*retpath,<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t rpsize)<br>
-&gt; &gt; +{<br>
-&gt; &gt; +=C2=A0 =C2=A0 const char *d;<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 while ((d =3D strsep(&amp;path, &quot;:&quot;)) !=
-=3D NULL) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*d =3D=3D &#39;\0&#39;) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d =3D &quot;.&quot;;<b=
-r>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (snprintf(retpath, rpsize, &quot;=
-%s/%s&quot;, d, filename) &gt;=3D (int)rpsize) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (is_there((const char *)retpath))=
- {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 return false;<br>
-&gt;<br>
-&gt; Hmm.=C2=A0 Fixed size retpath buffer isn&#39;t ideal.<br>
-&gt; Any reason not to use g_find_program_in_path?<br>
-&gt;<br>
-<br>
-g_find_program_in_path may work well here, as well...<br></blockquote><div>=
-<br></div><div>Quite well:=C2=A0=C2=A01 file changed, 5 insertions(+), 42 d=
-eletions(-) so a nice</div><div>reduction in code when the unnecessary stuf=
-f is removed. I&#39;ll have</div><div>that in v2 of the series.</div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; I note that we don&#39;t search the path at all in linux-user/.<br>
-&gt;<br>
-<br>
-IIRC imgact_binmisc will have the resolved path but preserve argv as<br>
-it should have been were it not emulated, so we have to re-evaluate<br>
-the PATH search here because we try to be faithful to the context.<br></blo=
-ckquote><div><br></div><div>I just looked at the imgact_binmisc code, and t=
-hat&#39;s what it does, so</div><div>that sounds reasonable to me as well.<=
-/div><div><br></div><div>Warner</div></div></div>
-
---00000000000016e71405c90f8488--
+Missing review: #1=0D
+=0D
+Trivial conversion, few more lines moved out of the huge translate.c.=0D
+=0D
+Since v2:=0D
+- Move TRANS() to translate.h (rth)=0D
+=0D
+Since v1:=0D
+- Use TRANS() macro from ppc/translate.c, per rth's comment:=0D
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg827660.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (7):=0D
+  target/mips: Introduce generic TRANS() macro for decodetree helpers=0D
+  target/mips: Extract NEC Vr54xx helper definitions=0D
+  target/mips: Extract NEC Vr54xx helpers to vr54xx_helper.c=0D
+  target/mips: Introduce decodetree structure for NEC Vr54xx extension=0D
+  target/mips: Convert Vr54xx MACC* opcodes to decodetree=0D
+  target/mips: Convert Vr54xx MUL* opcodes to decodetree=0D
+  target/mips: Convert Vr54xx MSA* opcodes to decodetree=0D
+=0D
+ target/mips/helper.h                |  18 +---=0D
+ target/mips/tcg/translate.h         |   9 ++=0D
+ target/mips/tcg/vr54xx_helper.h.inc |  24 +++++=0D
+ target/mips/tcg/vr54xx.decode       |  27 ++++++=0D
+ target/mips/tcg/op_helper.c         | 118 -----------------------=0D
+ target/mips/tcg/translate.c         |  98 +------------------=0D
+ target/mips/tcg/vr54xx_helper.c     | 142 ++++++++++++++++++++++++++++=0D
+ target/mips/tcg/vr54xx_translate.c  |  72 ++++++++++++++=0D
+ target/mips/tcg/meson.build         |   3 +=0D
+ 9 files changed, 285 insertions(+), 226 deletions(-)=0D
+ create mode 100644 target/mips/tcg/vr54xx_helper.h.inc=0D
+ create mode 100644 target/mips/tcg/vr54xx.decode=0D
+ create mode 100644 target/mips/tcg/vr54xx_helper.c=0D
+ create mode 100644 target/mips/tcg/vr54xx_translate.c=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
