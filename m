@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D8E3E3877
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:40:25 +0200 (CEST)
-Received: from localhost ([::1]:45252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50443E3878
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:40:55 +0200 (CEST)
+Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCabo-0002nl-Qo
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45150)
+	id 1mCacI-00042t-Ua
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:40:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaZz-0000pu-3v
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:38:32 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38644)
+ id 1mCabA-0002ez-3N
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:39:44 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaZw-0003Im-QR
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:38:30 -0400
-Received: by mail-pl1-x632.google.com with SMTP id bh7so3999284plb.5
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:38:28 -0700 (PDT)
+ id 1mCab8-0004Ee-8u
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:39:43 -0400
+Received: by mail-pl1-x630.google.com with SMTP id q2so12779287plr.11
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5hbwtXMVHpNFzKB6ouIHtyiQUqeXS7fifM44+DBiLDk=;
- b=nJGg/mnIwnrt7t3ado1nLybz6LJA+VVQUkYWw5mAlTfY3H4qXpAb371V9qtIkY0q8S
- I3aoofhLF1A31RXRQNsizedvZZTMP2GQH5/UnO09tBg+cMrdPofLscR0efXAqAxsEAKQ
- AebZXVxzf6ayNI7/Jo4x3y3Zm92BzeZ0LyLUSq+5sr/hvVmGi9SZhx8piMMgUVdGZ8+k
- pPT+VDV9aVQ/ZFwxc/7MkT3ioStLrgwgA7Ghmhc1qmpDsZmjhMFiCKPH51M1N1EgRFT/
- iqNPf+nqo3G058SvWsJwCN2P5VaioMJQYPta2+OlYuu3xBtavfEOqo/KG5NVUgNR5r8F
- DI7w==
+ bh=weSU2w5LuRqLyc+kik4P3MQYKmUOE2fzPQwxF/nNriI=;
+ b=sCrUNmplSiWy1ECaNuJ7jneHEQ+UPoV9tHvXzgFSyQtL0ybKG7DgdABExu6PiPqaVj
+ Yo7joVBe+E/A2wTnkv37wTvglJ5gpxmPO3vXQ3xLj8tcPRF2rMXJJ2f6nWsc9K4IQBhB
+ aU1Xz6JCd/iFCxsLhw1CKFsJZmUDYI6TZMM/Hm3aUjsb2Mx9wHPp/zgdPN2dkRqgvcFh
+ vktpFoocIvCdDJ9R0gDjsWM4MOhzUDHvf2f/yRc2VNiIZi6fjZMd6CeffMzofr16huV9
+ SvUmLB3VKoVJ/1E1BNV6JpYk7Ao8pWPCp2nzBegj1gPSwLvFq9gGuXJxqlOoua8aFlTk
+ 7g3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5hbwtXMVHpNFzKB6ouIHtyiQUqeXS7fifM44+DBiLDk=;
- b=hUFU0K3jIguN5iBYWL/r2cmLy5E2fBdmSVtokA0gWPSUqTQI7meACDRnVQ6BQcqmfC
- ecTz3Q6w/pKnfQWgMRqhS2XMn17zCfPE3rKsrdr4um8VMxo7fd+aseup/UaGI++YyeJ0
- +7lwhQZ65uePCET0+HGT1tHoAiOYnDpltvAKXTg3FH26jvYAS4Eb+BePbS9enpj48tpN
- BPE6500xDfM4c1TcE+Y8vnLLV/GLY1gGv5sxxp0QuhhjxBdzjgJySQu59zP0iPydSmhG
- DiiOUBkVS1nO3/qKzrI/DR4I2kEVv2ohmSDUu3UoHoOE14l1D6h8tU4SOpemidnQrA4J
- P0dg==
-X-Gm-Message-State: AOAM531KRPIJ+zucVZfEz+11W9jHe3iAgYrH3nnnKuoQGxdHplN2K7Q9
- z9b5JxnBlPqZ24XqPKyqIuqmIEaVb7Cc4w==
-X-Google-Smtp-Source: ABdhPJxE3vB16rB/aifGjdebMDPBff/chLthbBgY+lP5C/HP6n9slgtyzbrGZm9BuoSJZWamCmrZrQ==
-X-Received: by 2002:a17:90b:3ecd:: with SMTP id
- rm13mr18098494pjb.109.1628397507519; 
- Sat, 07 Aug 2021 21:38:27 -0700 (PDT)
+ bh=weSU2w5LuRqLyc+kik4P3MQYKmUOE2fzPQwxF/nNriI=;
+ b=rfrTvAG9HR0AKgFTUIRC9lVVDs3s18BmmUcqHWlpcelMcfdpRJBqYnL4Io5wuPuuIM
+ GOmOUqz9x2P4fBGx1VYWACqZ1wHbij3FXIl6lxAEcovFBw7LbCghqx3o29d5RCXfu4Hm
+ i3bwQxx+nvGaadrOYF+3lndj1hor7tz3YcBnETVREuwx2GhhwlTTJ4Gi3r7N/9y4Gi8P
+ FxU3krEjca4yzhFenCw5JzsB3MZlr31PhRUACd99BUTYrS47GgmI/Fcq8kHJlIyx3a3C
+ gB8SxqqD/UEY7zsT68e3aQN38KyQPN8n/b1rtv6DKfBBhdf0mZjF8OtwVuvXF0Az/UXt
+ wr4g==
+X-Gm-Message-State: AOAM532QTmUfp61MbpAQfQGpJTVtp6sDv5DZDMoSP1pw+WaP8PZdW7U/
+ HlPW/W1CN+0PrCrIQaK3M1VU+w==
+X-Google-Smtp-Source: ABdhPJxGkrFCVAbRkv5x36bEQd7weZt49Xuwv8tsXX0HByCqyD3GEoodALGkC53uBKv82UwO8KC4mA==
+X-Received: by 2002:a63:62c7:: with SMTP id w190mr2129pgb.55.1628397580445;
+ Sat, 07 Aug 2021 21:39:40 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id w130sm12682933pfd.118.2021.08.07.21.38.26
+ by smtp.gmail.com with ESMTPSA id z24sm14763946pfn.150.2021.08.07.21.39.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 21:38:27 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 08/49] bsd-user: style nits: fix whitespace issues
- to be qemu standard
+ Sat, 07 Aug 2021 21:39:40 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 09/49] bsd-user: add license
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-9-imp@bsdimp.com>
+ <20210807214242.82385-10-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5fd29a6e-f08b-d629-6462-b08d67e2ee6a@linaro.org>
-Date: Sat, 7 Aug 2021 18:38:24 -1000
+Message-ID: <e2b77f43-a36c-4b9f-61c7-836ae4dd22c0@linaro.org>
+Date: Sat, 7 Aug 2021 18:39:37 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-9-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-10-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,10 +93,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:42 AM, Warner Losh wrote:
+> Pull in the license statement at the top of the bsdload.c file
+> from the bsd-user fork version of this file. No functional changes.
+> 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/bsdload.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   bsd-user/bsdload.c | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
