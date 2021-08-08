@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE58A3E38F8
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 07:18:09 +0200 (CEST)
-Received: from localhost ([::1]:46730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CD43E38F9
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 07:19:51 +0200 (CEST)
+Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCbCK-0007hZ-UZ
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 01:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47836)
+	id 1mCbDy-0001Du-9Y
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 01:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCbBb-0006pn-N8
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:17:23 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40657)
+ id 1mCbCz-0008TH-JD
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:18:49 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCbBZ-0002Ls-4k
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:17:23 -0400
-Received: by mail-pl1-x634.google.com with SMTP id c16so12861587plh.7
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 22:17:20 -0700 (PDT)
+ id 1mCbCx-0003UR-Ud
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 01:18:49 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso24438265pjf.4
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 22:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AR52WIDxj1Zxb8go1mJwsLQJ3+FI8NCPz99g9ipDjlw=;
- b=AQUwqkVZIaXemmbhPsrX/xJdp27Ddq113LVi1wSjIZVnuxnaGEf1v6+iBEFy+k3GwI
- brvthQioJWUpDiRcXCCToe8vOZWxmnlcUohQrmecqRBcMl6A4vf/T0seWUxRA4AIYamb
- nDODzXzlGIK8b5H6Hw1ui6R7E6c/3anqDiqSfkJDLG+BkiDrLstDf+RYWg73u0zD9M3M
- pfiE3NJY5FZU9EzaNT9QPStEdq4Ve0mzqQJsppD8ng7nUnLvkPOGrOl2oWVo/mFDYqbG
- MCnfZqgjDzOdp5cb4CFsWHLkrsytnFCN1qODeQY3Nc8XjTrjbLiaWVWARQLb52tkdZeG
- nFpw==
+ bh=czrXoOa0+Nue3JohDWFelagJwh9gC/eLyqFB01TWC/c=;
+ b=cGTrb3s6/8H5jR09COtyazW5nNrnqw2+nHQr0ukBXFWhSvUcJ9G7XYaajdSAHmjVci
+ LLn8E5wqGwZbI7BhuzSnUm50z0ewuCUT2C7PuVwY4boZ8zwHCui+gFSw+8ixEv4AyHFI
+ t4RD6+mpnoPCqu6AI2zId+oNml7dLbu/Kn7lY6lm07Vqxw1wDNfqLa90x17yaNkNRYBl
+ 0X7BmBRrRNJa+EWQWh1rLxvsDPJlageKycSUbhIS7js7/UO6nS/G/OBOeHf594PyXP7q
+ 28kMtnQVX3p4EhjFmbDFeV6g/cXXtcYtwWbZxxTsE63dRJ9W6wPD+30GXvWlLkPfgJHw
+ OTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AR52WIDxj1Zxb8go1mJwsLQJ3+FI8NCPz99g9ipDjlw=;
- b=E4eCH09L+kuyACHDbmlhA63o9wFu0vN7TClBHP0Bbv0vY3sZluPY+IxjoxeZv2gQU0
- O4r3sRrgop8W36esIo8y7vrQc9Rixd+9Z8HljI7kP63NxotawRg7ytQf26X4z0l+XoNo
- TtakIikRaochCQW8O5XwkXq4+cnKpKyhZ2ejXF2T2LzRD9FBSq8Ka3XYM4+ynA1B+vDj
- oLEAjr2tVa2pZx/xIZTssvPCLNC5p6/dI1SCosp+S8EmNeABGfVVTyFa5IBGcQ5162u0
- 7tiJhp8XvuVBGQLpK8HbUlUsI75RSTn99QgbYZI+1qYvDWLo7lMs26eCTnS5PxA0+7fL
- s1yw==
-X-Gm-Message-State: AOAM532nfIAJUOkwr7MtBFCaiIE2j1Niq/JMI35RX43uLApb3P9Z5ScV
- tsj1Hn6iM2ccr5oNffvCr0npuA==
-X-Google-Smtp-Source: ABdhPJwoQLLtkJqFYlPh/bBMJxUa/6mD9taEbwM+JIAaOHoSRR+hMp5eCDcZy6oAx9szwAW9bjH+Qg==
-X-Received: by 2002:a17:902:b098:b029:12c:8f60:514e with SMTP id
- p24-20020a170902b098b029012c8f60514emr4342338plr.46.1628399839551; 
- Sat, 07 Aug 2021 22:17:19 -0700 (PDT)
+ bh=czrXoOa0+Nue3JohDWFelagJwh9gC/eLyqFB01TWC/c=;
+ b=XST+LzwAvVZPyW6wpA9iWmjrRAgAihRH2xNX+yEjK69ek/hd0HX2DBg6yte2XaEPkI
+ LVecF8u2Lt4OZJaa+1OT4etogIcBUy13SLtoYOokncWIB4mlqeXHhwptecTWoBT8E/Sm
+ pHnoTIahR28B24Hz/9shoEMcmlTCpBQ7dLSKixqma0R6Ga2vANFPTCVrEysqeRlJlQG7
+ Pg7raUvWTsLd2p7HLBwPsuI7k5w9yR1iGlTjqeW9H6cFRVa4Mj3rL+YMqLxruFLralFk
+ H62pw1uHAkWrMBHvGbQXZeaEmQlH2todQK4//g+q4D0xwRChIzVkvU7FPA/dFlo2Yu8B
+ tArQ==
+X-Gm-Message-State: AOAM533Fi5rj4RfExMT0rIMf1wvfCRrnawiiJNnAPLqQUmseIj9ENwWn
+ JsYdrJccVyZAOS7hxfUEYde4PQ==
+X-Google-Smtp-Source: ABdhPJxl6PLHybnfYUvdfbGy7srAWLQcKx7z1tDV6vHARRK8DBXng4MFWo9SOnd0uxoqCV4LbgeiLw==
+X-Received: by 2002:a17:90a:e38b:: with SMTP id
+ b11mr18630864pjz.70.1628399926464; 
+ Sat, 07 Aug 2021 22:18:46 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id d17sm15436228pfn.110.2021.08.07.22.17.18
+ by smtp.gmail.com with ESMTPSA id b2sm13740936pjh.18.2021.08.07.22.18.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 22:17:19 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 16/49] bsd-user: elfload: simplify bswap a bit.
+ Sat, 07 Aug 2021 22:18:46 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 17/49] bsd-user: assume pthreads and support of
+ __thread
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-17-imp@bsdimp.com>
+ <20210807214242.82385-18-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4dc20f97-7b53-c44e-3537-5fc77716f2cd@linaro.org>
-Date: Sat, 7 Aug 2021 19:17:16 -1000
+Message-ID: <d0295c36-881f-57d7-2d45-4d8a3f662c7a@linaro.org>
+Date: Sat, 7 Aug 2021 19:18:43 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-17-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-18-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,13 +96,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:42 AM, Warner Losh wrote:
-> Reduce the number of ifdefs by always calling the swapping routine, but
-> making them empty when swapping isn't needed.
+> All compilers for some time have supported this. Follow linux-user and
+> eliminate the #define THREAD and unconditionally insert __thread where
+> needed.
 > 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/elfload.c | 97 ++++++++++++++++++++++------------------------
->   1 file changed, 47 insertions(+), 50 deletions(-)
+>   bsd-user/main.c |  2 +-
+>   bsd-user/qemu.h | 10 +---------
+>   2 files changed, 2 insertions(+), 10 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
