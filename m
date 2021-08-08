@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54E03E3B4A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 18:10:23 +0200 (CEST)
-Received: from localhost ([::1]:38846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577BA3E3BAA
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 18:45:54 +0200 (CEST)
+Received: from localhost ([::1]:51786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mClNW-0007M0-Nz
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 12:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41264)
+	id 1mClvs-0000zg-Tz
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 12:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mClMB-0005H3-2a
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 12:08:59 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43934)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mClue-0000GG-Jt
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 12:44:36 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:40514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mClM9-0001EZ-Mh
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 12:08:58 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h14so18006110wrx.10
- for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 09:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4UKxjg0cT9vcMkWe9T+oshU7X1oj+8I3wVKETV+/f8c=;
- b=GWXwN4KAxKHBRLM9LyV2g61CWPrWvdp33eP9GPz8GqZxJgSYY1WXikw9hLoIBXVGo7
- xDkcsPhpbO7olpeo5QZFguIcoi7XxSgzMZ6Y8ZqF+teGc023Osv743kjTY2jKC7pD3BA
- 3b0/VoohT1fA8gdtFY4ZtnAHm2C2dM3lEfgcVs2RD5pttEBLhkgXT4VuCb3LvOEWAZAr
- HIZOLxiu8FZHgfglqV3cx93/y0gg/kXjAzr/yJObyIBRG/Ik4QycE+MmvCXXjM0vt+fA
- /QbCIuOMoekKR2tV8qCYt5/lBvS1+U2bjpfkwO+yvU8dWG1nHs/kihCa5LWWkr4646XX
- SMoQ==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mCluc-0008Pz-Ml
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 12:44:36 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id y9so349451qtv.7
+ for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 09:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mL+DYZxNVsL7icvPcQBpdo9LOi3nR/q2KI697GssCzk=;
+ b=A3awW9j0prYGRg3w3xDzQoVcJeIgwgffYJto4gqpIGSQw3bv9yW1hd6yNIkIn1DVKP
+ bRogb38DMARvcp8t/1J0b5EnHfF2R+te4RQT6GNbkUIX6uLyYG25nlk+H4G5jwLDJIBi
+ PRJWG+n9wWHXunXWCxLdIkqjbLEbdL54Nf1lEBJZPfGYud52z0etOrrSKLQBY28BSy4q
+ 64vAN/6MXVNiFd6vXeDW71AitRxyJPdea+/1NFCz6QX6gQIcCz/AuUkNfnax9xGLbBNg
+ BTiVUoSbfxKhcES/fHELxJkCNeOwWgY8DHpExhD6Q84prICGwyjIXcvLwaFqmkaFklYa
+ 7ERA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4UKxjg0cT9vcMkWe9T+oshU7X1oj+8I3wVKETV+/f8c=;
- b=nJYkU9lZXH0TB4QhIL04sn3KSVgx1PTxm58ITXDzYKcoYUxYgVQdZntJYYXh/b0ac6
- JNvhPhLhF5EsTb7RQy29rML11iGRaNA/smBPp2vTbHF8/SCZEuMpUDPhC+mQbrYYMb0o
- KuQ0/Nmi6ZlbUPqcXwxNVthWHCnjSVn3dPGAl+9oMtvqIbnKWf56V53QxK7MQ4NIFrjM
- gzCtkzh3e6uxu6uzh9IKs8UwSTU9RY3UMLWlFpEH8Qq8udPZSQrbA2TXL/AQSLQj3ujt
- oEZMYcTmT/rxrek6jNdBzmwXmGFkCzX5LvC7ZcKdwGtRh5bzn0Rr2m55mI9kixXGO0pU
- lm0Q==
-X-Gm-Message-State: AOAM530synUQZPS+Whkpp5mh5zLACCGWjEYP769GgMQQwW9m/l3TNzVy
- AK0seyB02xmUf7RF7wFxcFm6PVLYnv0=
-X-Google-Smtp-Source: ABdhPJyvj4/j9MkKPnvbe7r6zCz/coNvbKEjIJXQj0sFZhclBmhhDvsmXcsIrJEbIvsLSi5Q4By83w==
-X-Received: by 2002:a05:6000:1863:: with SMTP id
- d3mr21130543wri.200.1628438935828; 
- Sun, 08 Aug 2021 09:08:55 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- d15sm17682800wri.96.2021.08.08.09.08.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Aug 2021 09:08:55 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 2/2] target/mips/mxu: Use tcg_constant_i32()
-Date: Sun,  8 Aug 2021 18:08:43 +0200
-Message-Id: <20210808160843.84957-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210808160843.84957-1-f4bug@amsat.org>
-References: <20210808160843.84957-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mL+DYZxNVsL7icvPcQBpdo9LOi3nR/q2KI697GssCzk=;
+ b=WBtl7g/sd/PQs/HGCDVb1C2RZFdJJfG5FIc9X/5/bVQpTwXpp/IO6wGxc50fTzTu2y
+ FcT3g6Ntk7Vq6hUHeuVAXazh69P7Ob6i/HgjT0A1rO+zeNltrznwSOM36nZ004DeXwy8
+ LpvLSrQTBW/HUBbX5kyy5jwhtnp1N88f2p7oESPaP3K7A8u1vw/J4X//2QpX3MF/n4jn
+ Pn04u90G9SV/l/KZXVSyARXAZd4uYnrcA0graWtA4f7HusJAcHa4fLzdS02dn35Mwb6L
+ FGlh1eNZGJNTX0AXHa9GYDLAb0JxZLL/M95UtErUCO6M2XdHlenH0jl+x2s26mbRZXsX
+ YF7Q==
+X-Gm-Message-State: AOAM532Z8G+01lf69qPXMRFpudvqYOPkgwSrnGwYkNuI4MJjZp5oJkVm
+ e4cLMViFIikcD+hf2ddfjkPrNpw32PI4ab/jxLHDwQ==
+X-Google-Smtp-Source: ABdhPJwADuf4O5Hjy3a3jl5I6JZEIP4zHcOLVaIKy+3gEazXt7sJCMo4Ax5xjwLDvLeDtOVRYerBYD3I8UQpmrdOZf8=
+X-Received: by 2002:ac8:6759:: with SMTP id n25mr16582197qtp.49.1628441073235; 
+ Sun, 08 Aug 2021 09:44:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-21-imp@bsdimp.com>
+ <cb6879c2-441b-dde6-2768-47963bbb60fa@linaro.org>
+In-Reply-To: <cb6879c2-441b-dde6-2768-47963bbb60fa@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 8 Aug 2021 10:44:22 -0600
+Message-ID: <CANCZdfq8UUiv2NtVUULGKRzswEPKsWey-wPoZ2xP5F-sq9ng8A@mail.gmail.com>
+Subject: Re: [PATCH for 6.2 20/49] bsd-user: save the path the qemu emulator
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b54cb005c90efba3"
+Received-SPF: none client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,59 +76,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace uses of tcg_const_i32() with the allocate and free close together.
+--000000000000b54cb005c90efba3
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/tcg/mxu_translate.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Sat, Aug 7, 2021 at 11:24 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-diff --git a/target/mips/tcg/mxu_translate.c b/target/mips/tcg/mxu_translate.c
-index f52244e1b2b..85eb7857d36 100644
---- a/target/mips/tcg/mxu_translate.c
-+++ b/target/mips/tcg/mxu_translate.c
-@@ -1101,7 +1101,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
-         uint32_t XRx = XRb ? XRb : XRc;
-         /* ...and do half-word-wise max/min with one operand 0 */
-         TCGv_i32 t0 = tcg_temp_new();
--        TCGv_i32 t1 = tcg_const_i32(0);
-+        TCGv_i32 t1 = tcg_constant_i32(0);
- 
-         /* the left half-word first */
-         tcg_gen_andi_i32(t0, mxu_gpr[XRx - 1], 0xFFFF0000);
-@@ -1126,7 +1126,6 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
-         /* finally update the destination */
-         tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
- 
--        tcg_temp_free(t1);
-         tcg_temp_free(t0);
-     } else if (unlikely(XRb == XRc)) {
-         /* both operands same -> just set destination to one of them */
-@@ -1198,7 +1197,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
-         uint32_t XRx = XRb ? XRb : XRc;
-         /* ...and do byte-wise max/min with one operand 0 */
-         TCGv_i32 t0 = tcg_temp_new();
--        TCGv_i32 t1 = tcg_const_i32(0);
-+        TCGv_i32 t1 = tcg_constant_i32(0);
-         int32_t i;
- 
-         /* the leftmost byte (byte 3) first */
-@@ -1227,7 +1226,6 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
-             tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
-         }
- 
--        tcg_temp_free(t1);
-         tcg_temp_free(t0);
-     } else if (unlikely(XRb == XRc)) {
-         /* both operands same -> just set destination to one of them */
--- 
-2.31.1
+> On 8/7/21 11:42 AM, Warner Losh wrote:
+> > Save the path to the qemu emulator. This will be used later when we have
+> > a more complete implementation of exec.
+> >
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   bsd-user/main.c | 21 +++++++++++++++++++++
+> >   bsd-user/qemu.h |  1 +
+> >   2 files changed, 22 insertions(+)
+>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> > +char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
+> ...
+> > +    len = PATH_MAX;
+>
+> Maybe better with sizeof?
+>
 
+It is. Thanks! Will make the change.
+
+Warner
+
+--000000000000b54cb005c90efba3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Aug 7, 2021 at 11:24 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 8/7/21 11:42 AM, Warner Losh wrote:<br>
+&gt; Save the path to the qemu emulator. This will be used later when we ha=
+ve<br>
+&gt; a more complete implementation of exec.<br>
+&gt; <br>
+&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/main.c | 21 +++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0bsd-user/qemu.h |=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A02 files changed, 22 insertions(+)<br>
+<br>
+Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.=
+org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+<br>
+&gt; +char qemu_proc_pathname[PATH_MAX];=C2=A0 /* full path to exeutable */=
+<br>
+...<br>
+&gt; +=C2=A0 =C2=A0 len =3D PATH_MAX;<br>
+<br>
+Maybe better with sizeof?<br></blockquote><div><br></div><div>It is. Thanks=
+! Will make the change.</div><div><br></div><div>Warner=C2=A0</div></div></=
+div>
+
+--000000000000b54cb005c90efba3--
 
