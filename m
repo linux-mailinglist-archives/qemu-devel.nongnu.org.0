@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BB33E3874
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:36:44 +0200 (CEST)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB053E3875
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Aug 2021 06:38:05 +0200 (CEST)
+Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCaYF-0006tx-VS
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
+	id 1mCaZY-0008Ks-LS
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 00:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaX0-0006DV-Ke
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:35:28 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44010)
+ id 1mCaYp-0007gX-FC
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:37:19 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mCaWw-0000ik-TN
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:35:26 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id u2so12777902plg.10
- for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:35:22 -0700 (PDT)
+ id 1mCaYo-0002NJ-0O
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 00:37:19 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso24367947pjf.4
+ for <qemu-devel@nongnu.org>; Sat, 07 Aug 2021 21:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YrMUkTonQOJ9w+Ig9PKj7ophmnLSAr2uhxc4fWC7KuU=;
- b=OS1gFM4GkzIKZ5sUhKBvV7d4O8t0INog8fyC5YbhRVfguFCOFL8eKneXeWv1z4nMH8
- b4chezW1Q7jgm867EPJbPxIoZ0jsAlo+KN2hV+/LdKCJHukHIjh7szpZmrev6MRy81z3
- eg4ilw4oK6UkQc8BkeuMgT4WVVQimuaMx9ZqtlJILBxvj3IxSOCwAu6S6pL3l8/H+VRG
- cB6+ugwKDQTujbcYrMX5prnFQzcs0pfN4/zZHFpuCQ+gYR3qORuBSV5YaWdxrMTsodWw
- /ZitprHehywKsi68S/lWZniA9mn1nCa2SKiRIyeTUXVS/7NzOz2wR2TRZcFJzveYMQ7G
- z0Ww==
+ bh=99ADGKK6segoCR7RvP79lHjNWLyTQosYjrtFcpJU590=;
+ b=Ci8jw+9TaAHjOcUflvSxTsRMpFxmYX3T/BuPuv07n/6kSZMArRh6gxiSUYdzlfRmlB
+ 6dm0TTQvcAaSQ40ouoqRO44TfW1MdWtZ2tVcoKogzjA1wvhabih5Tk+vivGzZGl444DJ
+ kPMrJUNFKGDmbUWgoKJrTi+nEs52h33+TaGXyCfZB2G6VIrULjZiLooR89iRNrllQUwd
+ CjS2DlWdzusJYPteOtaTslBPV+LuKL9PGWGhCJAt34epDmJqgcH4skaYlI6CAyJFtYk7
+ loL1Q7GDocVZSTSoMdLdw4pdJI3dyVt64uQLnB8T8qL3fQnUjvBwh7vwLYpZXOO2ugF1
+ olFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YrMUkTonQOJ9w+Ig9PKj7ophmnLSAr2uhxc4fWC7KuU=;
- b=iCc9SeKNrfWyGYG+l2oWukBBSmwd/WrsE2OElLCw6B360E7edfYKVdMP29c8swIkS7
- rTwtXNsb8trRS9XGkZSK9vBpPEoDWr70NtL8Kicu39ucmRk57p0uxfSUeHfWhuyGk+Un
- 9AedlO1r2p+2T78m3NXIU8LrZ8aiaq1ks/GH4StOkxHjLG0ueNHONR5FYeu5SZ98/b6h
- Jq+g35PnuODFnu6AKYUR8wJDPURqK4FVhMGjn4vPm7nfJImEmV1hdMT/blnAUjO+wPys
- trTn9h6vhPVVJfsBn80y4AEq3JHufUZGEohTtz61V+D3hfyLZY18SL+1Ai26Lz/WC/hD
- 9hGg==
-X-Gm-Message-State: AOAM5301rRTWmpPuTMYKgvRVcRfzGkqnWMAESEiJ4LGOKheFC8cN5yQn
- 6zOYCrO6Apj+GKNgxhbMH85wrA==
-X-Google-Smtp-Source: ABdhPJxRvdGaY9IH3QqA2rURVwu+qYJHtVPuCbwyY1cgJZysYr+qB7B61fde4+566LSUIJq++jusBQ==
-X-Received: by 2002:a63:d14c:: with SMTP id c12mr160839pgj.412.1628397321359; 
- Sat, 07 Aug 2021 21:35:21 -0700 (PDT)
+ bh=99ADGKK6segoCR7RvP79lHjNWLyTQosYjrtFcpJU590=;
+ b=Pg1f8Qks7716QdHxLmQw3ygffTF9hJzG2Jlrh2VOkmV5OUvyz0vMLsF9k8LD/he8jc
+ wG6DnLFBzeddImnSrPT2n2qV1iJ+4mgZZevx7HzfF9BEbaR+N8D6OJxoIm5gTNltiVtL
+ e/duXb+3kEGPSfgs3m3UW1o9FuY+ecHIbjbfwQ/9L3fyT8u9Nb0FCbXa8x2Cmr0pgo4E
+ 36smhBZmDAj+IO2vLYRA1TkwXn9jSWI3YOt1rlgSUWtlt0cGl3Qt6RwB0E21gr3H3l8j
+ 9mMfFubDnc+hpHlJ7eeaKZA8VbEgTqOr6hzT1WPiB03KNyg+rx4/plVirKcR4BAPfskM
+ rqbA==
+X-Gm-Message-State: AOAM531Tqbv+g8s045TDpge5lOV0orWGF+Ud/fNdAN2VuoJy4KkpnEK1
+ XAVzuuV5oNZQ8TfOvGy6uRmZ0emrhFwwkw==
+X-Google-Smtp-Source: ABdhPJzk38tMg0JzREZdiS8f+Vwe482kNA2/1Mb6k70Fpt75cwUjIipCHYa7bxHkRtiWmWPYJ8l6hg==
+X-Received: by 2002:a05:6a00:26ec:b029:3c6:2846:2bbd with SMTP id
+ p44-20020a056a0026ecb02903c628462bbdmr12286481pfw.49.1628397436268; 
+ Sat, 07 Aug 2021 21:37:16 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id x2sm13593972pjq.35.2021.08.07.21.35.20
+ by smtp.gmail.com with ESMTPSA id v30sm18250099pgk.25.2021.08.07.21.37.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Aug 2021 21:35:21 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 05/49] bsd-user: move arch specific defines out of
- elfload.c
+ Sat, 07 Aug 2021 21:37:16 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 06/49] bsd-user: merge comments and guards from
+ bsd-user fork
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-6-imp@bsdimp.com>
+ <20210807214242.82385-7-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <35186641-ce39-5d1e-aa5d-51d820bfe71a@linaro.org>
-Date: Sat, 7 Aug 2021 18:35:18 -1000
+Message-ID: <ea8ef333-1a97-a3a1-c83f-c1d1e0f5c108@linaro.org>
+Date: Sat, 7 Aug 2021 18:37:13 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-6-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-7-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:41 AM, Warner Losh wrote:
-> Move the arcitecture specific defines to target_arch_elf.h and delete them from
-> elfload.c. unifdef as appropriate for i386 vs x86_64 versions.
+> Diff reduction against bsd-user fork: bring in the copyright/license
+> comments, and guard ifdefs.
 > 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/elfload.c                | 81 +------------------------------
->   bsd-user/i386/target_arch_elf.h   | 54 +++++++++++++++++++++
->   bsd-user/x86_64/target_arch_elf.h | 41 ++++++++++++++++
->   3 files changed, 97 insertions(+), 79 deletions(-)
->   create mode 100644 bsd-user/i386/target_arch_elf.h
->   create mode 100644 bsd-user/x86_64/target_arch_elf.h
+>   bsd-user/i386/target_arch_elf.h   | 22 ++++++++++++++++++++++
+>   bsd-user/x86_64/target_arch_elf.h | 23 +++++++++++++++++++++++
+>   2 files changed, 45 insertions(+)
+
+Could reasonably be squashed with previous, but not required.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
