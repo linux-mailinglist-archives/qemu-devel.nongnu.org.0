@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DA03E43A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:11:05 +0200 (CEST)
-Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385413E43C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:19:04 +0200 (CEST)
+Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2FM-0007oL-Mk
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
+	id 1mD2N4-0002YK-UM
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mD2Dv-0006OU-Kl
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20722)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mD2ML-0001sF-Qp
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:18:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mD2Du-0008NQ-5Q
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:09:35 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mD2MJ-0006Ib-Ll
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:18:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628503773;
+ s=mimecast20190719; t=1628504294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d71/i2uz+tPW671bGqYHrfhFfU608MepnksqEbG9EMU=;
- b=WvT4GmvDwY2KiWGk1y8Dn+GMp0gYZ56dIgkWq4nYG2MtIxBtcAZHJqNsTfKFrrgdGQ2k6y
- CnJA1HYHOnhft88KN5cBYjVdpEGkJwguFiTMwRa44avegMON1W91gvDyIrsjBIXCQR5UYx
- aG9K2/nP3MF0o2Gt8w3iErjZGgKcM8o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-wimWZCKpPayYB2Mmfp6PoQ-1; Mon, 09 Aug 2021 06:09:27 -0400
-X-MC-Unique: wimWZCKpPayYB2Mmfp6PoQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5-20020a1c00050000b02902e67111d9f0so1549313wma.4
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 03:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=d71/i2uz+tPW671bGqYHrfhFfU608MepnksqEbG9EMU=;
- b=az8B36mHMrpmXvYMMrR27iaSRKoSrjyPFzWg6wLMU59KZqtcyk1tpscTrkU8UoYdPA
- et6t82UbBidW9hVwbHXicS0O3942is88f1mV+b8SN5h5U6jqkfLDZiDXe5WVCWavlzhe
- ethfs6zHhSP3Ql9Ov/hJ/yXMqWmyc/kJVckVQ6hYCsPISUNrRcsmJF7GN8x8znp5d17t
- B+GvRoCwxHsEHTG8z6UTjWwHFwcVgASWftCjGWZJLuiltGMiFbME88X5uaDilWwsnklj
- arBRnSqcOu0wOEK7I7NzWeeldOFlAZQaqQ9G2o/7VnBOkHdmu6JJgTVI/tz2iApRgg0w
- U5WQ==
-X-Gm-Message-State: AOAM530kPBq9kXEKTSAlkyBQU2I30iO9CtS4bRXA4dwA6p6pjs8IwblO
- Z2Hphl52nAKm1CTnRF8wn5Gs2I3S/C7ivFIZrOXWScqqnhCg9vPYNMEr+GNtM1YkoEVJu1ntx0s
- PydyktPeoHQKn9LlVXQu6Wjj/nXwmvR134jFaOimsq+TGg08pNnq0wbLyu7bgKVl9
-X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr15859879wmk.51.1628503765007; 
- Mon, 09 Aug 2021 03:09:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4VlooPWI5ykL8i7YywjHoiZUBZRJVLCiMRjkwx9AKcWrnTsbkL4XTQTooybCMzJXcGcDmNg==
-X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr15859851wmk.51.1628503764720; 
- Mon, 09 Aug 2021 03:09:24 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- o17sm385026wmp.13.2021.08.09.03.09.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 03:09:24 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 v3 05/12] job: @force parameter for
- job_cancel_sync{, _all}()
-To: Eric Blake <eblake@redhat.com>
-References: <20210806093859.706464-1-mreitz@redhat.com>
- <20210806093859.706464-6-mreitz@redhat.com>
- <20210806193938.blsklchugkfbz27i@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <ef68a0a8-26b9-6643-e1d6-7897b06d8e34@redhat.com>
-Date: Mon, 9 Aug 2021 12:09:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=DaT/LZOMBX36WF5LqDCE3UKBPlpYR71enzY4ylnXqik=;
+ b=PRabcHWneEDWbsAuZJp7PA3v6Bpq7ng8ep+QSLlwMozAHOG8sTqb7z5pEe8Mx+n+ZVfhUD
+ vs6GCY8CtAMakEwI6zsL6nP3daO++QB8xKhCpUai106/K6a4W7HAlPxc7O+OFMJuW5+4G4
+ XGiogpUeE/AtRNwMIECmyD9DLl/tR8c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-v6vNdDDiOGGFGj6ZfXoO6A-1; Mon, 09 Aug 2021 06:18:11 -0400
+X-MC-Unique: v6vNdDDiOGGFGj6ZfXoO6A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B809760C0;
+ Mon,  9 Aug 2021 10:18:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 316131036D06;
+ Mon,  9 Aug 2021 10:18:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 677B31800981; Mon,  9 Aug 2021 12:18:08 +0200 (CEST)
+Date: Mon, 9 Aug 2021 12:18:08 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 3/3] ps2: migration support for command reply queue
+Message-ID: <20210809101808.ds3kf37np46gxedc@sirius.home.kraxel.org>
+References: <4d1c8467-d976-2c0f-ba54-c767df7b8fe7@t-online.de>
+ <20210807121202.6294-3-vr_qemu@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <20210806193938.blsklchugkfbz27i@redhat.com>
+In-Reply-To: <20210807121202.6294-3-vr_qemu@t-online.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.707,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,58 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.08.21 21:39, Eric Blake wrote:
-> On Fri, Aug 06, 2021 at 11:38:52AM +0200, Max Reitz wrote:
->> Callers should be able to specify whether they want job_cancel_sync() to
->> force-cancel the job or not.
->>
->> In fact, almost all invocations do not care about consistency of the
->> result and just want the job to terminate as soon as possible, so they
->> should pass force=true.  The replication block driver is the exception.
->>
->> This changes some iotest outputs, because quitting qemu while a mirror
->> job is active will now lead to it being cancelled instead of completed,
->> which is what we want.  (Cancelling a READY mirror job with force=false
->> may take an indefinite amount of time, which we do not want when
->> quitting.  If users want consistent results, they must have all jobs be
->> done before they quit qemu.)
-> Feels somewhat like a bug fix, but I also understand why you'd prefer
-> to delay this to 6.2 (it is not a fresh regression, but a longstanding
-> issue).
+  Hi,
 
-It is, hence the “Buglink” tag below.  However, only all of this series 
-together really fixes that bug (or at least patches 5+7+9 together), 
-just taking one wouldn’t help much.  And together, it’s just too much 
-for 6.2 at this point.
+> +static bool ps2_keyboard_cqueue_needed(void *opaque)
+> +{
+> +    PS2KbdState *s = opaque;
+> +
+> +    return s->common.queue.cwptr != -1; /* the queue is mostly empty */
+> +}
+> +
+> +static const VMStateDescription vmstate_ps2_keyboard_cqueue = {
+> +    .name = "ps2kbd/command_reply_queue",
+> +    .needed = ps2_keyboard_cqueue_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_INT32(common.queue.cwptr, PS2KbdState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
 
->> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->> +++ b/job.c
->> @@ -982,12 +982,24 @@ static void job_cancel_err(Job *job, Error **errp)
->>       job_cancel(job, false);
->>   }
->>   
->> -int job_cancel_sync(Job *job)
->> +/**
->> + * Same as job_cancel_err(), but force-cancel.
->> + */
->> +static void job_force_cancel_err(Job *job, Error **errp)
->>   {
->> -    return job_finish_sync(job, &job_cancel_err, NULL);
->> +    job_cancel(job, true);
->> +}
-> In isolation, it looks odd that errp is passed but not used.  But
-> looking further, it's because this is a callback that must have a
-> given signature, so it's okay.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
->
+Not going to work (the existing vmstate_ps2_keyboard_need_high_bit has
+the same problem btw).  Chicken and egg problem on the receiving side:
+How you properly evaluate ps2_keyboard_cqueue_needed() without having
+common.queue.cwptr received yet?
+
+With "cqueue not needed" being the common case migration will work
+nicely in most cases nevertheless, but when the source machine actually
+sends cqueue state things will break ...
+
+Looking at data sent via vmstate works but ordering is important.  You
+could check write_cmd because that is sent in the migration data stream
+before ps2_keyboard_cqueue_needed() will be evaluated (just an random
+example for the ordering, probably wouldn't help much in this case).
+
+There is some redundancy in the data stream (wptr + rptr would be
+enough, but we also send count).  Maybe that can be used somehow.
+Of course the tricky part is to not confuse old qemu versions on
+the receiving end.
+
+If we can't find something we can add a property simliar to the one
+for the extended keyboard state.
+
+take care,
+  Gerd
 
 
