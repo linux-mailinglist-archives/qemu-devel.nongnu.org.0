@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4745B3E4353
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:53:28 +0200 (CEST)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD4C3E435D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:56:07 +0200 (CEST)
+Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD1yJ-00073D-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50870)
+	id 1mD20s-0003IK-3M
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD1uQ-0006Xm-8i; Mon, 09 Aug 2021 05:49:26 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:38557)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1mD1wi-0003yO-1f
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:51:48 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD1uO-0002Ok-Mz; Mon, 09 Aug 2021 05:49:26 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id c137so27968426ybf.5;
- Mon, 09 Aug 2021 02:49:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1mD1wg-00041y-9j
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:51:47 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c9so20535531wri.8
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 02:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PrHpvK97It637PSbAxyMOq7cMQvzIspToMw8Q6umli8=;
- b=pZlanwEa8Y7c70UZ5Q33LAYHBt1fv4FNwfgisJafBMLCnYmHM+kY0MEIBplewGQ+S3
- 7cbOr8XKPYjKXsPkUalDhnfkl+91C5tCdcz+RovZ4Zz0cZXbv5EuhEXDNPdnwTM/34MD
- USw4/MS9I7Bg+r7rSSjTEppLv7S6nredYCwxaeJCsMtIjis1QQ5zCbqQFR5n9/sm2ETl
- z3nf54/XgV0c1JE1KzxGCFeUc3ZJCc5kV8rbOhQrJtwm+iAyIxtxb/gfpIRfwsjxYghE
- jYT2AF1jOzfEmQxp+sOPW5GmNp5Pfn274V/Z37EjZyXLyX5RINeIYesgENRrfd0qCqD/
- 5JyQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OjKfteoFzzkGVlkdhfE0RFaB7xiHsIRRC5kwXpgmeQA=;
+ b=OtoGHF+l0mLnyv2fVpdwP7KfdwDafsNv9d0QoEGbH8lb3ncbczmUy/YPpJZ95q4Xlp
+ xUuyUs1qvzz+Otjl8QhUI+FTJYpO9H5h13G0YTFd/XL9cvDl6wKQ0dMrKso03PaiMbtN
+ 1k3PCWe3SfiNebGKkq7bua9Ohr6avWvCGTN7tmJgQ5tll3DL8c4ZMZhiKhPrUNxkqQG5
+ hKlIibugVwAEYPRTjr2uo4FvMHzlRdc2HqVLMMItSo9SDbMRRD3dcadOD7Jo103f3iCT
+ tX8+lDUv7wQOjb4aL6Nd9UlyuVVPxXCrjp0N7yOL//L0CAEGrb/LCbFz6efLlUJaVhih
+ a8lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PrHpvK97It637PSbAxyMOq7cMQvzIspToMw8Q6umli8=;
- b=LNwYO3T1ZppZS5cCFRR23IEBABUf5We2+SBPUGH3bmODr3FurPJZ1dWFnebLuOK6UB
- 6iaVaqBeZbV5rJ/VFEpSEzWlq9r0JCDztBeg91tgo+WBKign2q1HSNDuqDBm6esyGNSE
- NKA+RJbXXX+Y0Ix9K7MJn8fOuA02/5GG9pogMAeiHwdZuMGqqRt/EkqNkHjoohpeQn1c
- 5vkH3xZfNDyXWI3nmoNmIIP1ntOTaYU2xYmht7ghwyJOE3PLjmZ3e18cYem/KEqK2PiU
- +4hMweDiNOQ8n/QEIsccLnjrNWT2JxYaPVMDtkX6Wv0IE1z6WT3Y+gSpnAdGl0LSxkY3
- vKIQ==
-X-Gm-Message-State: AOAM532OANyVjOZovwXMHnJs8/1E81B7PigbaMjEoCXWZeCUn3rR0pla
- s1s9p33SJDJJZgvraHu8/YF4IBBu6RRRwslbIJE=
-X-Google-Smtp-Source: ABdhPJwMPI3yobqHn/7k8FuyCL7VxYvOJvQmdYbIZxFwyuze1skrTTtfVrpQVuNqaiqho/K0IdGiXaEiJQ4dUDxhVTU=
-X-Received: by 2002:a25:bb08:: with SMTP id z8mr31868602ybg.306.1628502563346; 
- Mon, 09 Aug 2021 02:49:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OjKfteoFzzkGVlkdhfE0RFaB7xiHsIRRC5kwXpgmeQA=;
+ b=FrwDLBSdidWewFY5MHCPqUZejnIF9kaZMOECuLXyoYrIko3v8Fmtc5nXGwknxHQVEs
+ ZAe9nwHYgNK6lKLlzILqmcmaZPiTnVtIdt3TIOZSNxaHg+15amYpb4iegneLI1V3Tl3m
+ zlEo4TNSrEpyqPwTAp2HqQaWVxj0FSQbdMfdAhB50aeysBkficJrlDFA2NG3G8RuBl4T
+ MksKXNecpqAEedRQyM2izgNyRD5VJ0tB8WB3o2srSkt6UxCxZRAABVEiaQWgBZi5SWy2
+ nHmZGSVbBsTiGNm7Q8MoYvEN3bkpEgiGs2vExslN8pt5SsuZZ9Z4umr1qF66iymPVLVx
+ wslQ==
+X-Gm-Message-State: AOAM530PD7Nd2Ap0tcU0r+oSPJaZXXxNcRPwdqkaVX1m9mROs0zFHfKV
+ OhIf86oVVqbgZF/O4SGhTB7rjuguxMyzkw==
+X-Google-Smtp-Source: ABdhPJzCJMRcdwnZuTpCxvTr5F+tviK/hAeboZyobCUuKklQicKcg1QUidRv5nX+fuoROPaQWTHC8Q==
+X-Received: by 2002:adf:cd0d:: with SMTP id w13mr24345154wrm.25.1628502704591; 
+ Mon, 09 Aug 2021 02:51:44 -0700 (PDT)
+Received: from kali.home (lfbn-ren-1-417-221.w2-10.abo.wanadoo.fr.
+ [2.10.242.221])
+ by smtp.gmail.com with ESMTPSA id a11sm5326985wrq.6.2021.08.09.02.51.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Aug 2021 02:51:44 -0700 (PDT)
+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] block/export/fuse.c: fix musl build
+Date: Mon,  9 Aug 2021 11:51:01 +0200
+Message-Id: <20210809095101.1101336-1-fontaine.fabrice@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210809070727.9245-1-zhiwei_liu@c-sky.com>
- <CAEUhbmXNPE8cmor-V8Vpza79Vt=hgKsP1OE_zeJupAaaF0UdqA@mail.gmail.com>
- <9c3b4476-d640-0b7f-df48-c91ebde2dab6@c-sky.com>
-In-Reply-To: <9c3b4476-d640-0b7f-df48-c91ebde2dab6@c-sky.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 9 Aug 2021 17:49:12 +0800
-Message-ID: <CAEUhbmU1SNVeE2qKtY4841Na8=zL+V9qeC6q7YWW=-piV7-MTQ@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Add User CSRs read-only check
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=fontaine.fabrice@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,72 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Fabrice Fontaine <fontaine.fabrice@gmail.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 9, 2021 at 5:45 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
->
-> On 2021/8/9 =E4=B8=8B=E5=8D=885:35, Bin Meng wrote:
-> > On Mon, Aug 9, 2021 at 3:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> > nits: please write something in the commit message
-> OK
-> >
-> >> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> >> ---
-> >>   target/riscv/csr.c | 6 +++++-
-> >>   1 file changed, 5 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >> index 9a4ed18ac5..ea62d9e653 100644
-> >> --- a/target/riscv/csr.c
-> >> +++ b/target/riscv/csr.c
-> >> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env,=
- int csrno,
-> >>       RISCVException ret;
-> >>       target_ulong old_value;
-> >>       RISCVCPU *cpu =3D env_archcpu(env);
-> >> +    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
-> >>
-> >>       /* check privileges and return -1 if check fails */
-> >>   #if !defined(CONFIG_USER_ONLY)
-> >>       int effective_priv =3D env->priv;
-> >> -    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
-> >>
-> >>       if (riscv_has_ext(env, RVH) &&
-> >>           env->priv =3D=3D PRV_S &&
-> >> @@ -1443,6 +1443,10 @@ RISCVException riscv_csrrw(CPURISCVState *env, =
-int csrno,
-> >>           (!env->debugger && (effective_priv < get_field(csrno, 0x300)=
-))) {
-> >>           return RISCV_EXCP_ILLEGAL_INST;
-> >>       }
-> >> +#else
-> >> +    if (write_mask && read_only) {
-> > This can be merged by the !CONFIG_USER_ONLY case.
->
-> Do you mean
->
-> #if !defined(CONFIG_USER_ONLY)
->       if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
->           return -RISCV_EXCP_ILLEGAL_INST;
-> }
-> #else
+Fix the following build failure on musl raised since version 6.0.0 and
+https://gitlab.com/qemu-project/qemu/-/commit/4ca37a96a75aafe7a37ba51ab1912b09b7190a6b
+because musl does not define FALLOC_FL_ZERO_RANGE:
 
-Should be #endif
+../block/export/fuse.c: In function 'fuse_fallocate':
+../block/export/fuse.c:563:23: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
+  563 |     } else if (mode & FALLOC_FL_ZERO_RANGE) {
+      |                       ^~~~~~~~~~~~~~~~~~~~
 
->       if (write_mask && read_only) {
->           return -RISCV_EXCP_ILLEGAL_INST;
-> }
->
-> #endif
+Fixes:
+ - http://autobuild.buildroot.org/results/b96e3d364fd1f8bbfb18904a742e73327d308f64
 
-and drop this #endif
+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+---
+Changes v1 -> v2 (after review of Philippe Mathieu-Daudé):
+ - Use CONFIG_FALLOCATE_ZERO_RANGE and make safer #ifdef'ry
 
-Regards,
-Bin
+ block/export/fuse.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index ada9e263eb..fc7b07d2b5 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -635,7 +635,9 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+             offset += size;
+             length -= size;
+         } while (ret == 0 && length > 0);
+-    } else if (mode & FALLOC_FL_ZERO_RANGE) {
++    }
++#ifdef CONFIG_FALLOCATE_ZERO_RANGE
++    else if (mode & FALLOC_FL_ZERO_RANGE) {
+         if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
+             /* No need for zeroes, we are going to write them ourselves */
+             ret = fuse_do_truncate(exp, offset + length, false,
+@@ -654,7 +656,9 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+             offset += size;
+             length -= size;
+         } while (ret == 0 && length > 0);
+-    } else if (!mode) {
++    }
++#endif /* CONFIG_FALLOCATE_ZERO_RANGE */
++    else if (!mode) {
+         /* We can only fallocate at the EOF with a truncate */
+         if (offset < blk_len) {
+             fuse_reply_err(req, EOPNOTSUPP);
+-- 
+2.30.2
+
 
