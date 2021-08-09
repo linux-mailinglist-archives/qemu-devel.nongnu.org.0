@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03DC3E464C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:13:49 +0200 (CEST)
-Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896803E4653
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:16:09 +0200 (CEST)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD56D-00055Z-1V
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46536)
+	id 1mD58S-0002VQ-Hy
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53g-00024p-2k; Mon, 09 Aug 2021 09:11:12 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:34310)
+ id 1mD53i-0002CQ-W4; Mon, 09 Aug 2021 09:11:15 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:36460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53e-00019t-60; Mon, 09 Aug 2021 09:11:11 -0400
-Received: by mail-qk1-x731.google.com with SMTP id w197so16906100qkb.1;
- Mon, 09 Aug 2021 06:11:09 -0700 (PDT)
+ id 1mD53g-0001Bp-Tv; Mon, 09 Aug 2021 09:11:14 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id e14so18237333qkg.3;
+ Mon, 09 Aug 2021 06:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DGlUQPK9e7epKwUBSBa5Q0ZSUZZqLkFNIDCZO/0kZRQ=;
- b=Hh4mP8xuT9pt3Vt0hdIO+ov7n/iqMrlhtCR7L1MfhC4X4RVJ+FaWuGPecjG9J+CaW3
- 8BQmNITgavnmvAEyFu1+9smuTCALYkezzb1qlDhg6B1MXiqCmU7AW/Z/tt5KpiNZQBzM
- Md824C+ARJSh/fRHgCYlfawzTFfNCFKh2TF57yk8kacYulUo53UDKuG5DeYZ6i61tBNk
- B5wsN1C6ei5QPR0Uha9M8pcped42KvIIK10UIF+t56vCen8YTLp3EoORK3vXsjdZiYUs
- n2d711g7J97qcCs1q754EWARLyw4Ymw38s3gQOmmv3hSjhJk9pgtoeNC7SkOqs0FdOGU
- NY7A==
+ bh=8n0+nLnybu0Kyb51goI45d2LB7MSxSyiR/dty5Qm2Xs=;
+ b=k+WDN+NIG7oB4naI/EBY/Dvk8tsVQ2G0GRAOkVYBW3dVykb0MmSwEjmh7DqFxFL8h4
+ jHl5r4HcOrliDZlWJVM23yECrigoAv/Z9Liz165Y8NNxnn63L7tgyhIxJnWcpxiao9SO
+ 2NSNSjA+EA4MifkPMqDm1u4UJGnmNFhNjpW8v7UiTxjAhfIpuY/AkTixsbocfcIaC/xI
+ /63hI5WQ34NcaSCeuLcjRLsa09HPZIVrf+iGXNmZSAw8FEeugYIfQSlibjEPeO/BowFX
+ WbKblKQUZRawc2XUcpTYU1m05y9xmeNa2HxaWpbpI7wl9QN0A0q3A9ATC8D84gWBoNwb
+ Z37w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DGlUQPK9e7epKwUBSBa5Q0ZSUZZqLkFNIDCZO/0kZRQ=;
- b=P8Q52ZoOuMMo5EV2d4mqiQKpQRbCPyf/B+1E4nF3VtUbYWJgh3LGxTyynhb5VHpqzB
- W3IstTbthyH3hHo5DI4sdJ1f8ufmHd+g4jbFei0ZTKQLH/2Uio4JSjzjPmuNUbEs7W1d
- pWsd1oKxvEIFehPaIqyUY2dxR4s491xkjnJLKxDrkm/lwW60A+9rmXWFOdSEK4H+FBB4
- 6mww9dxZuWEaZOhIrvxixDzi7D9GxPcSUPuQWmnlBzeTaFVrjdhoE3/DyKojGi2M01sM
- NENexbPewje10RPdCfuBIyszsaVOpvGa+NBUromzGQsJ2HL1Qcqx0w17OTKARlV0sUjI
- 3UJg==
-X-Gm-Message-State: AOAM530NUO/EAjhX9MxQc9Ob5thRewsW/IltnnMBvdwWFihf/3nTkyuM
- 3a8CN0GVnunx6as6LA1rav/NdbutxEJxLg==
-X-Google-Smtp-Source: ABdhPJzHT+U1Thv18v7oW0fhMgRcswsLwBd5N0hUgUZsyGl96jvZD4ebqCOtKzp2LSDravYvMjyZXA==
-X-Received: by 2002:a37:6888:: with SMTP id d130mr4181772qkc.391.1628514668799; 
- Mon, 09 Aug 2021 06:11:08 -0700 (PDT)
+ bh=8n0+nLnybu0Kyb51goI45d2LB7MSxSyiR/dty5Qm2Xs=;
+ b=kmDfekw6i3evMbI9miJLuN5SdWH30c5fd4pBrkg+FWvNcnpqC5AxLyqAgJ9HewSwMu
+ XvQPZbcjYYVMgPn5jz/FNZ2jYtRxwZKXXCK2kW+c6sAnQHo1p2Ja9M1D/Jsq2TG3eGZF
+ TQQ30GQXs2q1I1xIBu5FBJxLGnW3plA0c+jc/Wp2chetz/s8Gc1OH3TxfDcSRbq1d7NM
+ QRhTvpF1jZM0/rjMKyMeHAiq76fQEaMMZ6KDtrMq0JEUn91cs8ET7iW94hZeIfsGLxe3
+ 8cMrnS3ZhKX0Qwk6JnV1IS52aZpjWM4M7CLJ7fA3y5JFltqz5tpje0f2UymLXv8iYmCP
+ /W8Q==
+X-Gm-Message-State: AOAM530S8GW6kHHguTEFjLPsdjTebv36s0/AD9A7xpsi/HNrMjrnBo+X
+ OdlCpcuEp18ejxy80TPnEOIqdYd2PxRtOA==
+X-Google-Smtp-Source: ABdhPJwq315FhOBTdG4W0slEA/ml8+LTYh3S769DcLgcEFEE5crBh2Ot4yz8dBR66N1o0DgtbLTbpw==
+X-Received: by 2002:a37:84c1:: with SMTP id
+ g184mr23286629qkd.102.1628514671434; 
+ Mon, 09 Aug 2021 06:11:11 -0700 (PDT)
 Received: from rekt.ibmuc.com ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.06
+ by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 06:11:08 -0700 (PDT)
+ Mon, 09 Aug 2021 06:11:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/19] target/ppc: add exclusive Book3S PMU reg read/write
- functions
-Date: Mon,  9 Aug 2021 10:10:39 -0300
-Message-Id: <20210809131057.1694145-2-danielhb413@gmail.com>
+Subject: [PATCH 02/19] target/ppc: add exclusive user read function for PMU
+ regs
+Date: Mon,  9 Aug 2021 10:10:40 -0300
+Message-Id: <20210809131057.1694145-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809131057.1694145-1-danielhb413@gmail.com>
 References: <20210809131057.1694145-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,147 +83,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PowerPC PMU, as described by PowerISA v3.1, has a lot of functions
-that freezes, resets and sets counters to specific values depending on
-the circuntances. Some of these are trigged based on read/value of the
-PMU registers (MMCR0, MMCR1, MMCR2, MMCRA and PMC counters).
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-Having to handle the PMU logic using the generic read/write functions
-can impact all other registers that has nothing to do with the PMU that
-uses these functions. This patch creates two new functions,
-spr_read_pmu_generic() and spr_write_pmu_generic, that will be used later
-on to handle PMU logic together with the read/write of PMU registers.
+User read on PowerPC PMU regs requires extra handling in some
+instances. Instead of changing the existing read ureg function
+(spr_read_ureg) this patch adds a specific read function for
+user PMU SPRs, spr_read_pmu_ureg().
 
-We're not ready to add specific PMU logic in these new functions yet, so
-for now these are just stubs that calls spr_read/write_generic(). No
-functional change is made.
+This function does extra handling of UMMCR0 and UMMCR2 and falls
+back to the default behavior for the not yet handled regs. Aside
+for UMMCR0 and UMMCR2 reads, no functional change is made.
 
+CC: Gustavo Romero <gustavo.romero@linaro.org>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu_init.c  | 24 ++++++++++++------------
- target/ppc/spr_tcg.h   |  2 ++
- target/ppc/translate.c | 12 ++++++++++++
- 3 files changed, 26 insertions(+), 12 deletions(-)
+ target/ppc/cpu.h       |  8 ++++++++
+ target/ppc/cpu_init.c  | 26 +++++++++++++-------------
+ target/ppc/spr_tcg.h   |  1 +
+ target/ppc/translate.c | 41 +++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 61 insertions(+), 15 deletions(-)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 500205229c..4d96015f81 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -342,6 +342,14 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
+ 
++/* PMU bits */
++#define MMCR0_FC    PPC_BIT(32)         /* Freeze Counters  */
++#define MMCR0_PMAO  PPC_BIT(56)         /* Perf Monitor Alert Ocurred */
++#define MMCR0_PMAE  PPC_BIT(37)         /* Perf Monitor Alert Enable */
++#define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
++#define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
++#define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
++
+ /* LPCR bits */
+ #define LPCR_VPM0         PPC_BIT(0)
+ #define LPCR_VPM1         PPC_BIT(1)
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 505a0ed6ac..021c1bc750 100644
+index 021c1bc750..d30aa0fe1e 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -6821,47 +6821,47 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
+@@ -6868,47 +6868,47 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
+ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
  {
-     spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_MMCR0, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_MMCR1, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_MMCRA, "MMCRA",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_MMCRA, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC1, "PMC1",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC1, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC2, "PMC2",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC2, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC3, "PMC3",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC3, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC4, "PMC4",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC4, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC5, "PMC5",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC5, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_PMC6, "PMC6",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_PMC6, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_SIAR, "SIAR",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_SIAR, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_SDAR, "SDAR",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_SDAR, 0x00000000);
+     spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UMMCRA, "UMMCRA",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC1, "UPMC1",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC2, "UPMC2",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC3, "UPMC3",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC4, "UPMC4",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC5, "UPMC5",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UPMC6, "UPMC6",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_USIAR, "USIAR",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_USDAR, "USDAR",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
  }
- 
-@@ -6941,7 +6941,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
+@@ -6976,8 +6976,8 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
+ static void register_power8_pmu_user_sprs(CPUPPCState *env)
  {
-     spr_register_kvm(env, SPR_POWER_MMCR2, "MMCR2",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
-+                     &spr_read_pmu_generic, &spr_write_pmu_generic,
-                      KVM_REG_PPC_MMCR2, 0x00000000);
-     spr_register_kvm(env, SPR_POWER_MMCRS, "MMCRS",
-                      SPR_NOACCESS, SPR_NOACCESS,
+     spr_register(env, SPR_POWER_UMMCR2, "UMMCR2",
+-                 &spr_read_ureg, SPR_NOACCESS,
+-                 &spr_read_ureg, &spr_write_ureg,
++                 &spr_read_pmu_ureg, SPR_NOACCESS,
++                 &spr_read_pmu_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_USIER, "USIER",
+                  &spr_read_generic, SPR_NOACCESS,
 diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 0be5f347d5..2aab5878a0 100644
+index 2aab5878a0..84ecba220f 100644
 --- a/target/ppc/spr_tcg.h
 +++ b/target/ppc/spr_tcg.h
-@@ -25,6 +25,8 @@
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
+@@ -27,6 +27,7 @@ void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
  void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
-+void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn);
-+void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn);
++void spr_read_pmu_ureg(DisasContext *ctx, int gprn, int sprn);
  void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
  void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
  void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 171b216e17..c8f3878002 100644
+index c8f3878002..d3a4d42ff8 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -385,6 +385,12 @@ void spr_read_generic(DisasContext *ctx, int gprn, int sprn)
-     spr_load_dump_spr(sprn);
+@@ -522,8 +522,6 @@ void spr_write_ctr(DisasContext *ctx, int sprn, int gprn)
+ 
+ /* User read access to SPR */
+ /* USPRx */
+-/* UMMCRx */
+-/* UPMCx */
+ /* USIA */
+ /* UDECR */
+ void spr_read_ureg(DisasContext *ctx, int gprn, int sprn)
+@@ -531,6 +529,45 @@ void spr_read_ureg(DisasContext *ctx, int gprn, int sprn)
+     gen_load_spr(cpu_gpr[gprn], sprn + 0x10);
  }
  
-+void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn)
++/* User special read access to PMU SPRs */
++void spr_read_pmu_ureg(DisasContext *ctx, int gprn, int sprn)
 +{
-+    /* For now it's just a call to spr_read_generic() */
-+    spr_read_generic(ctx, gprn, sprn);
++    TCGv t0 = tcg_temp_new();
++    int effective_sprn = sprn + 0x10;
++
++    switch (effective_sprn) {
++    case SPR_POWER_MMCR0:
++        /*
++         * Filter out all bits but FC, PMAO, and PMAE, according
++         * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
++         * fourth paragraph.
++         */
++        gen_load_spr(t0, effective_sprn);
++        tcg_gen_andi_tl(t0, t0, MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE);
++        tcg_gen_mov_tl(cpu_gpr[gprn], t0);
++        break;
++    case SPR_POWER_MMCR2:
++        /*
++         * On read, filter out all bits that are not FCnP0 bits.
++         * When MMCR0[PMCC] is set to 0b10 or 0b11, providing
++         * problem state programs read/write access to MMCR2,
++         * only the FCnP0 bits can be accessed. All other bits are
++         * not changed when mtspr is executed in problem state, and
++         * all other bits return 0s when mfspr is executed in problem
++         * state, according to ISA v3.1, section 10.4.6 Monitor Mode
++         * Control Register 2, p. 1316, third paragraph.
++         */
++        gen_load_spr(t0, effective_sprn);
++        tcg_gen_andi_tl(t0, t0, 0x4020100804020000UL);
++        tcg_gen_mov_tl(cpu_gpr[gprn], t0);
++        break;
++    default:
++        gen_load_spr(cpu_gpr[gprn], effective_sprn);
++    }
++
++    tcg_temp_free(t0);
 +}
 +
- static void spr_store_dump_spr(int sprn)
- {
- #ifdef PPC_DUMP_SPR_ACCESSES
-@@ -400,6 +406,12 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
-     spr_store_dump_spr(sprn);
- }
- 
-+void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn)
-+{
-+    /* For now it's just a call to spr_write_generic() */
-+    spr_write_generic(ctx, sprn, gprn);
-+}
-+
- #if !defined(CONFIG_USER_ONLY)
- void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ void spr_write_ureg(DisasContext *ctx, int sprn, int gprn)
  {
 -- 
 2.31.1
