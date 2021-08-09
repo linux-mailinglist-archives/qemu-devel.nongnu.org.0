@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC8C3E4473
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 13:14:37 +0200 (CEST)
-Received: from localhost ([::1]:48828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A06E3E4483
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 13:16:42 +0200 (CEST)
+Received: from localhost ([::1]:51986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD3Eq-0000LM-6w
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 07:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57850)
+	id 1mD3Gq-0002db-33
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 07:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mD3Dg-0007xM-Hg
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 07:13:26 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:42817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mD3Dc-0006Z8-8h
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 07:13:23 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id e19so28208319ejs.9
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 04:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zoOb3RWQdjmHM+sES84MH5a5cMCphrrd8tuuQZLRloQ=;
- b=X7SOIUuLrmcLMEjNPdzucW3uhRN7SUiY9Mfxq9qd2BNbvdwv1bpYLGfz5PcC38n241
- 0oyyG9jduGpFd6J4HTrrLjREGxgeyFyNNxqanSvc/K23KMFSmXVDsbw31YhhZbgjse56
- mvZELnuy0n9a1cyzFMfo3KK2meuTERIoEKZU9+wc5+1IJ/ziUkZPVIVWEOlPYXQE0jTE
- rJTWzfVRf3vX3eD+L56MHzQ2lNCfXRnmf+f7VxaIG20LAYUAtwLGjii6AUiM4N+c1bTM
- iuqeivik1yntpQ9IcN2bgoLzYMnlVDSnfMvjWM3hN+e+WBBHFlIypfS3GaOtOxVre/rf
- Y+CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zoOb3RWQdjmHM+sES84MH5a5cMCphrrd8tuuQZLRloQ=;
- b=N4N+EpJz2qk2163copBh5V7rxLrbIPeP1d2PNyUoja/BKTEzJNvZpST1G8fSvlgm3w
- ckR7hvOX1jbgK58hBvHE1flOs7ZaR7DLxeC9o7XXsC3QUCTiri6sr5zOhrH1bvZEMY8p
- +aPXZXBPSnuBHIHWn9KthJLWyHz0g4dNiAOE6hU9r9fp8I4RSDoAqBRdaM2PpCALTOh2
- uWZqbyNbq2vF63jRg5UjM1EivebCsWnt6Sm6+9R7af56bDs7cqzGv+XoREs3oEyV5Qcn
- FMP/pHEca0IYAJ4bpHBUbhjOCBf+TA1zqtlVtGUqJpfnbQ/7DDtgxkW18svacCK0ai5v
- qzXA==
-X-Gm-Message-State: AOAM533cOhb9SFx/hLQyp159vHL8d1luf2t6WxpN+lfLhwQTxEMzuNo3
- 6jsLb+aduXb5WYSFD7II8G/hJmGm92aNU6Kpmd7n8g==
-X-Google-Smtp-Source: ABdhPJyAO/I8TZAe/lxBKIIMKWkeGlqbJ4iqgkT8tFC7WipMSDeklku4Z2Chf1neF7KEEKVcMgZD+gGWXVJskb2x5tQ=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr22602958ejz.250.1628507598326; 
- Mon, 09 Aug 2021 04:13:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mD3Fy-0001rF-7k
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 07:15:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mD3Fv-00007Y-66
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 07:15:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628507741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rRStzrcrO9K9L9WcJA4dyzfqVjAoj/mp75P4Zbh5EWo=;
+ b=SMS+Xr+nrrqS3OBeYf7Z3tvWfDb9BddqutFqoPvNHY5O6ecECkJH1F8i7zmiggmRZPSZRN
+ ymtoFrG7pilSdXUtcufjdHZCCgtsTT5/V7UkZoQLBuMfvltfRsBcxULeAVRiqYJY+EWdE2
+ xFLJA5iwHCqyQ4x0SXVPr9hXDCRdqpQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-T4k3Wz5COkSoVFlyHJRn-g-1; Mon, 09 Aug 2021 07:15:38 -0400
+X-MC-Unique: T4k3Wz5COkSoVFlyHJRn-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F41B192CC44;
+ Mon,  9 Aug 2021 11:15:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4269869321;
+ Mon,  9 Aug 2021 11:15:36 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, Jared Rossi
+ <jrossi@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2 0/2] s390x: improve subchannel error handling (vfio)
+In-Reply-To: <409ce925-d040-68a6-2d50-f144a1807f2a@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20210705163952.736020-1-cohuck@redhat.com>
+ <e2032c05-ec0b-d653-959f-dcc045da2036@linux.ibm.com>
+ <e8426672-bd10-de2d-7dc9-1a46a52f3dea@linux.ibm.com>
+ <5ba5fc45-1e61-f774-0340-06961dbfc611@linux.ibm.com>
+ <409ce925-d040-68a6-2d50-f144a1807f2a@linux.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Mon, 09 Aug 2021 13:15:34 +0200
+Message-ID: <87czqmyill.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20210217234023.1742406-1-richard.henderson@linaro.org>
- <20210217234023.1742406-7-richard.henderson@linaro.org>
-In-Reply-To: <20210217234023.1742406-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Aug 2021 12:12:34 +0100
-Message-ID: <CAFEAcA8bjA7Wv3G9WWvZOiTd9XsWS8FoviqXR=d2-Y0j4=_whA@mail.gmail.com>
-Subject: Re: [PULL 06/35] Hexagon (disas) disassembler
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.707,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,81 +84,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, mkawano@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Feb 2021 at 23:40, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Aug 04 2021, Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+
+> On 8/4/21 8:30 PM, Jared Rossi wrote:
+>> I've exercised the error paths and it appears to all work correctly.
+>>=20
+>> On 7/19/21 11:09 AM, Jared Rossi wrote:
+>>> I will take a look and see if I can exercise the error paths.
+>>>
+>>> Regards,
+>>>
+>>> Jared Rossi
 >
-> From: Taylor Simpson <tsimpson@quicinc.com>
+> Thanks Jared!  So, with that I'd suggest a
 >
-> Add hexagon to disas/meson.build
-> Add disas/hexagon.c
-> Add hexagon to include/disas/dis-asm.h
+> Tested-by: Jared Rossi <jrossi@linux.ibm.com>
+
+I took the liberty to include that.
+
 >
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <1612763186-18161-6-git-send-email-tsimpson@quicinc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> and as I said earlier the code LGTM -- so for the series:
+>
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-Coverity reports a memory leak in this code (CID 1460121):
+Thanks to you both!
 
+>
+>>>
+>>> On 7/19/21 10:16 AM, Matthew Rosato wrote:
+>>>> On 7/5/21 12:39 PM, Cornelia Huck wrote:
+>>>>> This is a followup on the first version (which I had sent out in May,
+>>>>> and which kind of fell through the cracks.) While the first patch
+>>>>> is mostly unchanged, I added a second patch to address some possible
+>>>>> problems with the generated unit exceptions; non-vfio subchannels
+>>>>> are not affected by this.
+>>>>>
+>>>>> As before, this works on the good path, and I have not managed to
+>>>>> actually get my system to exercise the error path :(
+>>>>
+>>>> Sorry for the silence, was out of office for a bit and Eric is=20
+>>>> unavailable -- Anyway the code LGTM and matches what I see in the=20
+>>>> POPs, I'd be willing to ACK but I'd feel better if we could exercise=
+=20
+>>>> the error paths before merging.
+>>>>
+>>>> @Jared/@Mike, you've both had eyes on this area of code recently,=20
+>>>> would one of you be willing to take a crack at a tested-by (non-zero=
+=20
+>>>> CCs on HSCH/CSCH + also drive the sch_gen_unit_exception path)?
+>>>>
+>>>>>
+>>>>> v1->v2:
+>>>>> - add comments regarding -ENODEV/-EACCES handling
+>>>>> - add second patch
+>>>>>
+>>>>> Cornelia Huck (2):
+>>>>> =C2=A0=C2=A0 vfio-ccw: forward halt/clear errors
+>>>>> =C2=A0=C2=A0 css: fix actl handling for unit exceptions
+>>>>>
+>>>>> =C2=A0 hw/s390x/css.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 38 ++++++++++++++++++++++++++++++++++----
+>>>>> =C2=A0 hw/vfio/ccw.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 4 ++--
+>>>>> =C2=A0 include/hw/s390x/css.h |=C2=A0 3 ++-
+>>>>> =C2=A0 3 files changed, 38 insertions(+), 7 deletions(-)
+>>>>>
+>>>>
 
+Queued to s390-next.
 
-> +int print_insn_hexagon(bfd_vma memaddr, struct disassemble_info *info)
-> +{
-> +    uint32_t words[PACKET_WORDS_MAX];
-> +    bool found_end =3D false;
-> +    GString *buf =3D g_string_sized_new(PACKET_BUFFER_LEN);
-
-We allocate buf here...
-
-> +    int i, len;
-> +
-> +    for (i =3D 0; i < PACKET_WORDS_MAX && !found_end; i++) {
-> +        int status =3D (*info->read_memory_func)(memaddr + i * sizeof(ui=
-nt32_t),
-> +                                               (bfd_byte *)&words[i],
-> +                                               sizeof(uint32_t), info);
-> +        if (status) {
-> +            if (i > 0) {
-> +                break;
-> +            }
-> +            (*info->memory_error_func)(status, memaddr, info);
-> +            return status;
-
-...but in the early error return cases here...
-
-> +        }
-> +        if (is_packet_end(words[i])) {
-> +            found_end =3D true;
-> +        }
-> +    }
-> +
-> +    if (!found_end) {
-> +        (*info->fprintf_func)(info->stream, "<invalid>");
-> +        return PACKET_WORDS_MAX * sizeof(uint32_t);
-
-...and here we do not free it.
-
-> +    }
-> +
-
-Easiest fix is to move the allocation
-   buf =3D g_string_sized_new(PACKET_BUFFER_LEN);
-down to here, just above the point where we're going to use it.
-
-> +    len =3D disassemble_hexagon(words, i, memaddr, buf);
-> +    (*info->fprintf_func)(info->stream, "%s", buf->str);
-> +    g_string_free(buf, true);
-> +
-> +    return len;
-> +}
-
-thanks
--- PMM
 
