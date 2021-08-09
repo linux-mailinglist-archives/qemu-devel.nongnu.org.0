@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCED3E43C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:20:34 +0200 (CEST)
-Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436FD3E43C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:22:15 +0200 (CEST)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2OX-0004H3-AQ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:20:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33252)
+	id 1mD2QA-0005re-CQ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mD2NY-0003RL-W9
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:19:33 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:40806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mD2NX-0007DM-F3
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:19:32 -0400
-Received: by mail-ed1-x530.google.com with SMTP id d6so23720473edt.7
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 03:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dTh9nQgqFZlsz4LgfqU0+nVbrOy7rcth/yzaPja3/5o=;
- b=LkQ+RsY5970SsG+Wwu7mFf+XYT0kKiswMX02lbcgD/ZsaQ60VuP9qNnwf4dK7RG3AX
- RSuHjS6lkx6t4W7op7SElvflsra9CwKnNF3kJ7WSXsgmm0IGsX+l2xi9tpI0u78hSrHl
- AAnHEjknxUYz363lAjpV+S/v/dHyNMvcyq9Gr/2bFx88LjVw107y+jFmih9LAz+95DgA
- CKCwjnmRDtcjqOMbb0+tDNybilwNEvjZf1w6eCHOvi8kii3UULQOIXb58ragxxZzNjU/
- A88mNa9aKj445b6EKj1/B0waZmA1bj0f1sV4fDfHZS52rkVliKoO4BK9ItAPrqRtNikh
- MXSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dTh9nQgqFZlsz4LgfqU0+nVbrOy7rcth/yzaPja3/5o=;
- b=Wttj6Dfmo3kq0bjLbfMUW7ol50rHLn7AfhduRAS5oOc59py95h6TNBSEJNKSjYtvd2
- MruurOjLFgJDe9bTJLFOOwVnUZfFfIpSzCYUAn9wFy3oS714/f2JJ5OSJQuEXjF69uuM
- 7QpikrTaOhHe3z58kfHhdeVIwj4tVjugK62G+9ST4DXlkzRu5Z3Q5+7we/wKz82uTIjP
- qAbKEqSTWfsci+npNr/a7iOoyyNtWdWYX+yowCzwk42Yh9DNB2GjDEYDOpnYVcUvto8H
- 8WHBiOUdqRKzK+rP2C93amd0y3Ww9TI5t2dPzCUYJfr6Z5H90do8BUnNLWIg0OrNMJMg
- E6UQ==
-X-Gm-Message-State: AOAM533qkcZwp7Etl96xXHKSCnd62skMOrhEAyAW7YGh/FJjRLDzGV6v
- PoM/hTcNWNWEPfLpp6Jqp4CLqIXSUJPUBXa1BWlyZg==
-X-Google-Smtp-Source: ABdhPJzrFEYUoydUd6p2ZIx1YHZE8MZj8O2aQp0YW02SAfYZuJSvOKhBgvI67+QUllF6uUbAdBK9+soQvU1f8/9qViM=
-X-Received: by 2002:a50:ff03:: with SMTP id a3mr18963560edu.100.1628504369663; 
- Mon, 09 Aug 2021 03:19:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mD2P6-00056t-K5
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:21:08 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mD2P2-0008Fq-IK
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:21:08 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GjsRd30zDz84MR;
+ Mon,  9 Aug 2021 18:15:57 +0800 (CST)
+Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 9 Aug 2021 18:20:53 +0800
+Received: from [10.174.148.223] (10.174.148.223) by
+ dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 9 Aug 2021 18:20:53 +0800
+Subject: Re: [Question] Reduce the msix_load cost for VFIO device
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <61e3fdd1-13a1-0675-b5c8-f7bfe3e6a042@huawei.com>
+ <20210803081941.66cccf40.alex.williamson@redhat.com>
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+Message-ID: <cc406126-8411-04fa-b6ac-86031ca2c28d@huawei.com>
+Date: Mon, 9 Aug 2021 18:20:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210629184743.230173-1-its@irrelevant.dk>
- <20210629184743.230173-7-its@irrelevant.dk>
-In-Reply-To: <20210629184743.230173-7-its@irrelevant.dk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Aug 2021 11:18:45 +0100
-Message-ID: <CAFEAcA-Xodpue0bUBbG++-CcRPV-+EJh=qw_23aGPEh3sAk0Ow@mail.gmail.com>
-Subject: Re: [PULL 06/23] hw/nvme: namespace parameter for EUI-64
-To: Klaus Jensen <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210803081941.66cccf40.alex.williamson@redhat.com>
+Content-Type: text/plain; charset="gbk"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500016.china.huawei.com (7.185.36.70)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,124 +68,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Jun 2021 at 19:48, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Heinrich Schuchardt <xypron.glpk@gmx.de>
->
-> The EUI-64 field is the only identifier for NVMe namespaces in UEFI device
-> paths. Add a new namespace property "eui64", that provides the user the
-> option to specify the EUI-64.
+Hi Alex,
 
-Hi; Coverity complains about some uses of uninitialized data in this
-code (CID 1458835 1459295 1459580). I think the bug was present in
-the previous version of this function, but this was the last change
-to touch it...
+ÔÚ 2021/8/3 22:19, Alex Williamson Ð´µÀ:
+> On Tue, 3 Aug 2021 16:43:07 +0800
+> "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+> <longpeng2@huawei.com> wrote:
+> 
+>> Hi Alex,
+>>
+>> We found that the msix_load() will cost 40~50ms if the VF has 60+ interrupts,
+>> the following code cost too much for each interrupt:
+>>
+>> msix_load:
+>>   for (vector = 0; vector < 60; vector++)
+>>     msix_handle_mask_update
+>>       vfio_msix_vector_do_use
+>>         vfio_add_kvm_msi_virq
+>>           kvm_irqchip_add_msi_route
+>>             kvm_irqchip_commit_routes <-- cost 0.8ms each time
+>>
+>> In irq remapping mode, the VF interrupts are not routed through KVM irqchip
+> 
+> I'm not sure what this means.  Your MSIX interrupts are going through
+> QEMU anyway?  Why?
+> 
+>> in fact, so maybe we can reduce this cost by "x-no-kvm-msix=ture", right?
+>> Are there any risks if we do in this way ?
+> 
+> You're obviously free to configure your device this way, but the
+> expectation is that any sort of startup latency is more than offset by
+> improved runtime latency through the KVM route.  This option is usually
+> reserved for debugging, when we want to see all interaction with the
+> device in QEMU.
+> 
+> If there's a case where we're not detecting that a KVM route is
+> ineffective, then we should figure out how to detect that and skip this
+> code, but again the expectation is that the KVM route is worthwhile.
+> 
+> If this is specifically about kvm_irqchip_commit_routes(), maybe the
+> setup path needs a way to batch multiple routes and defer the commit,
+> if that's possible.  Thanks,
+> 
 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 7dea64b72e6a..762bb82e3cac 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -4426,19 +4426,19 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->      NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
->      uint32_t nsid = le32_to_cpu(c->nsid);
->      uint8_t list[NVME_IDENTIFY_DATA_SIZE] = {};
-> -
-> -    struct data {
-> -        struct {
-> -            NvmeIdNsDescr hdr;
-> -            uint8_t v[NVME_NIDL_UUID];
-> -        } uuid;
-> -        struct {
-> -            NvmeIdNsDescr hdr;
-> -            uint8_t v;
-> -        } csi;
-> -    };
-> -
-> -    struct data *ns_descrs = (struct data *)list;
-> +    uint8_t *pos = list;
-> +    struct {
-> +        NvmeIdNsDescr hdr;
-> +        uint8_t v[NVME_NIDL_UUID];
-> +    } QEMU_PACKED uuid;
-> +    struct {
-> +        NvmeIdNsDescr hdr;
-> +        uint64_t v;
-> +    } QEMU_PACKED eui64;
-> +    struct {
-> +        NvmeIdNsDescr hdr;
-> +        uint8_t v;
-> +    } QEMU_PACKED csi;
+I've implemented two options and did some simple tests, both options can reduce
+the vfio_msix_enable/msix_load cost, especially in HW live migration case, it
+can significantly reduce the downtime if the VF has more than 60+ vectors.
 
-Here we define locals 'uuid', 'eui64', 'csi', without an initializer.
+Option-1 is "defer the commit": add a kvm virq without immediate commit, the
+virq would be kept in kvm_state.irq_routes for the moment, and only commit once
+at last. But it's not easy to fallback to QEMU route if someone fails.
 
->      trace_pci_nvme_identify_ns_descr_list(nsid);
->
-> @@ -4452,17 +4452,29 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->      }
->
->      /*
-> -     * Because the NGUID and EUI64 fields are 0 in the Identify Namespace data
-> -     * structure, a Namespace UUID (nidt = 3h) must be reported in the
-> -     * Namespace Identification Descriptor. Add the namespace UUID here.
-> +     * If the EUI-64 field is 0 and the NGUID field is 0, the namespace must
-> +     * provide a valid Namespace UUID in the Namespace Identification Descriptor
-> +     * data structure. QEMU does not yet support setting NGUID.
->       */
-> -    ns_descrs->uuid.hdr.nidt = NVME_NIDT_UUID;
-> -    ns_descrs->uuid.hdr.nidl = NVME_NIDL_UUID;
-> -    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
-> +    uuid.hdr.nidt = NVME_NIDT_UUID;
-> +    uuid.hdr.nidl = NVME_NIDL_UUID;
-> +    memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
+Option-2 is "defer the setup": use QEMU route as default in migration resume
+phase, try to switch to KVM route when the vector first firing. The first draft
+of the code is as below, do you have any suggestion ?
 
-Here we fill in some fields of uuid, but we don't touch uuid.hdr.rsvd2[],
-which remains thus 2 bytes of uninitialized junk from our stack.
 
-> +    memcpy(pos, &uuid, sizeof(uuid));
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index e1ea1d8..5656f3a 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -347,6 +347,11 @@ static void vfio_msi_interrupt(void *opaque)
+         get_msg = msix_get_message;
+         notify = msix_notify;
 
-Here we copy all of uuid to a buffer which we're going to hand
-to the guest, so we've just given it two bytes of QEMU stack data
-that it shouldn't really be able to look at.
++        if (vector->need_switch) {
++            vector->need_switch = false;
++            vfio_add_kvm_msix_virq(vdev, vector, nr);
++        }
++
+         /* A masked vector firing needs to use the PBA, enable it */
+         if (msix_is_masked(&vdev->pdev, nr)) {
+             set_bit(nr, vdev->msix->pending);
+@@ -438,6 +443,26 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev,
+VFIOMSIVector *vector,
+     vector->virq = virq;
+ }
 
-> +    pos += sizeof(uuid);
++static void
++vfio_add_kvm_msix_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector, int nr)
++{
++    VFIOMSIVector *vector = &vdev->msi_vectors[nr];
++    Error *err = NULL;
++    int fd;
++
++    vfio_add_kvm_msi_virq(vdev, vector, nr, true);
++    if (vector->virq < 0) {
++        return;
++    }
++
++    fd = event_notifier_get_fd(&vector->kvm_interrupt);
++    if (vfio_set_irq_signaling(&vdev->vbasedev,
++                               VFIO_PCI_MSIX_IRQ_INDEX, nr,
++                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
++        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++    }
++}
++
+ static void vfio_remove_kvm_msi_virq(VFIOMSIVector *vector)
+ {
+     kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
+@@ -490,7 +515,11 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev,
+unsigned int nr,
+         }
+     } else {
+         if (msg) {
+-            vfio_add_kvm_msi_virq(vdev, vector, nr, true);
++            if (vdev->lazy_set_virq) {
++                vector->need_switch = true;
++            } else {
++                vfio_add_kvm_msi_virq(vdev, vector, nr, true);
++            }
+         }
+     }
 
->
-> -    ns_descrs->csi.hdr.nidt = NVME_NIDT_CSI;
-> -    ns_descrs->csi.hdr.nidl = NVME_NIDL_CSI;
-> -    ns_descrs->csi.v = ns->csi;
-> +    if (ns->params.eui64) {
-> +        eui64.hdr.nidt = NVME_NIDT_EUI64;
-> +        eui64.hdr.nidl = NVME_NIDL_EUI64;
-> +        eui64.v = cpu_to_be64(ns->params.eui64);
-> +        memcpy(pos, &eui64, sizeof(eui64));
-> +        pos += sizeof(eui64);
-> +    }
-> +
-> +    csi.hdr.nidt = NVME_NIDT_CSI;
-> +    csi.hdr.nidl = NVME_NIDL_CSI;
-> +    csi.v = ns->csi;
-> +    memcpy(pos, &csi, sizeof(csi));
-> +    pos += sizeof(csi);
+@@ -566,6 +595,16 @@ static void vfio_msix_vector_release(PCIDevice *pdev,
+unsigned int nr)
+     }
+ }
 
-We do the same thing for the rsvd2[] bytes in csi.hdr and eui64.hdr.
++static void vfio_msix_pre_enable(VFIOPCIDevice *vdev)
++{
++    vdev->lazy_set_virq = true;
++}
++
++static void vfio_msix_post_enable(VFIOPCIDevice *vdev)
++{
++    vdev->lazy_set_virq = false;
++}
++
+ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+ {
+     PCIDevice *pdev = &vdev->pdev;
+@@ -2466,7 +2505,9 @@ static int vfio_pci_load_config(VFIODevice *vbasedev,
+QEMUFile *f)
+     if (msi_enabled(pdev)) {
+         vfio_msi_enable(vdev);
+     } else if (msix_enabled(pdev)) {
++        vfio_msix_pre_enable(vdev);
+         vfio_msix_enable(vdev);
++        vfio_msix_post_enable(vdev);
+     }
 
->      return nvme_c2h(n, list, sizeof(list), req);
->  }
+     return ret;
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 6477751..31390f2 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -95,6 +95,7 @@ typedef struct VFIOMSIVector {
+     struct VFIOPCIDevice *vdev; /* back pointer to device */
+     int virq;
+     bool use;
++    bool need_switch; /* try to switch to KVM interrupt ? */
+ } VFIOMSIVector;
 
-Explicitly zero-initializing uuid, csi, eui64 with "= { }" would
-be the most robust fix. If you think it's worth avoiding "zero
-init and then overwrite 90% of the fields anyway" then you could
-explicitly zero the .hdr.rsvd2 bytes.
+ enum {
+@@ -171,6 +172,7 @@ struct VFIOPCIDevice {
+     bool no_kvm_ioeventfd;
+     bool no_vfio_ioeventfd;
+     bool enable_ramfb;
++    bool lazy_set_virq;
+     VFIODisplay *dpy;
+     Notifier irqchip_change_notifier;
+ };
 
-thanks
--- PMM
+
+
+> Alex
+> 
+> .
+> 
 
