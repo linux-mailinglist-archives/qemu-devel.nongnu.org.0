@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4577F3E42F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:37:52 +0200 (CEST)
-Received: from localhost ([::1]:54692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F97D3E4300
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:39:46 +0200 (CEST)
+Received: from localhost ([::1]:58682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD1jD-0004ZC-BM
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
+	id 1mD1l3-0007Kl-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD1gp-0001vk-Gh; Mon, 09 Aug 2021 05:35:23 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD1go-0000lp-2d; Mon, 09 Aug 2021 05:35:23 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id j77so28275792ybj.3;
- Mon, 09 Aug 2021 02:35:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wKl2exgYIC0znOGtls2ytj+e9m40/uDVxtoaJhfA+5Y=;
- b=uREuab4kOD9YSB6Uo6jYhdWRjgJB1l9P/egm6o5n/nAlfBFtdeMc2Fxd8OH0H4Zlok
- TcmFM/Eacu/Tp7ceaa21Glk5WadnQA9dNAPOJepe6LjIz3lQ+xj35rx5abWZ1DhO3Axa
- zNe4vA3QzJc0EalobmEizThGtonpEG0ZHu62CBEEhk3UmAcT57KK7lnTz7SRdhLzTDtZ
- ND7TvubNvW4CO9Bf/bLf5IGw/YAsbV2XOjMtXsyvCA0OcepPu/rcyk7M3tRna2j2QOid
- UrXKGPe9x83sQtlzU0OWQbo1EvXKc3ZINjKasqQTPdGAD5qgDNVh2/u4GnBcFh55GwjG
- Bs3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wKl2exgYIC0znOGtls2ytj+e9m40/uDVxtoaJhfA+5Y=;
- b=VIaQQ/JBz+gypxN4f8qZdkg+yFVZagjYWs3KZ8xE1oS+hCoxmcgNYWdhlq+yYhTQVk
- AryP3nS3q7DiiICNoDFcQ8M2SAgGI7d+DM7y6Y3kBOiu+wC0Ol1yqWspi1cYhKV+z1U0
- uolNfZVAS+/rYKAG9pI/ZlFng+sITKoKdC4zPb0d9dB/RbJsnHVxdq/wFSouNH7QM35v
- oeaNFX9OFJUPK7gRyzM/zfVYuaaAjpenB9HowIkWlFGYjup+XfxAlqTKE4AOyzX1UMtT
- OjlmV8VaQay4t3Z3M/vxAwoF82ZB+GFAHAnudkahZ90ZeZJfmdvRCV+QCyTcWPuf1V04
- I+Mw==
-X-Gm-Message-State: AOAM533VbgT9lZQQNdVafXSfwpTUsaSbmIm5yTsWxEoeDkT4RYMw1592
- lCDsOtbyqncP267wY+GnCr+sWl7UC5P2oQ0GWiA=
-X-Google-Smtp-Source: ABdhPJx7Uz+tztreb6vQxrqSW83itwSOmG6bEc85x6NtYXtp0Kfzs7IcrJ6e8WrScresVQ5JSv6LR93U/RSpYBE4QWI=
-X-Received: by 2002:a5b:304:: with SMTP id j4mr29588374ybp.314.1628501720256; 
- Mon, 09 Aug 2021 02:35:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mD1jO-0005M4-1V; Mon, 09 Aug 2021 05:38:02 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:55308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mD1jM-0002oe-3x; Mon, 09 Aug 2021 05:38:01 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 1799bLnL015881
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 9 Aug 2021 05:37:23 -0400
+Date: Mon, 9 Aug 2021 05:37:20 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] hw/display/xlnx_dp: fix an out-of-bounds read in
+ xlnx_dp_read
+Message-ID: <20210809093720.fslgjimjd5wa3j35@mozz.bu.edu>
+References: <1628059910-12060-1-git-send-email-cyruscyliu@gmail.com>
+ <20210806144209.nbx4vlm6ofkza5pl@mozz.bu.edu>
+ <31b39c41-17e9-3901-66c3-622afc653121@redhat.com>
 MIME-Version: 1.0
-References: <20210809070727.9245-1-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210809070727.9245-1-zhiwei_liu@c-sky.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 9 Aug 2021 17:35:08 +0800
-Message-ID: <CAEUhbmXNPE8cmor-V8Vpza79Vt=hgKsP1OE_zeJupAaaF0UdqA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Add User CSRs read-only check
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <31b39c41-17e9-3901-66c3-622afc653121@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
+ HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,55 +58,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Qiang Liu <cyruscyliu@gmail.com>, Alistair Francis <alistair@alistair23.me>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Bandan Das <bsd@redhat.com>,
+ "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 9, 2021 at 3:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
+On 210809 1131, Philippe Mathieu-Daudé wrote:
+> On 8/6/21 4:42 PM, Alexander Bulekov wrote:
+> > On 210804 1451, Qiang Liu wrote:
+> >> xlnx_dp_read allows an out-of-bounds read at its default branch because
+> >> of an improper index.
+> >>
+> >> According to
+> >> https://www.xilinx.com/html_docs/registers/ug1087/ug1087-zynq-ultrascale-registers.html
+> >> (DP Module), registers 0x3A4/0x3A4/0x3AC are allowed.
+> >>
+> >> DP_INT_MASK     0x000003A4      32      mixed   0xFFFFF03F      Interrupt Mask Register for intrN.
+> >> DP_INT_EN       0x000003A8      32      mixed   0x00000000      Interrupt Enable Register.
+> >> DP_INT_DS       0x000003AC      32      mixed   0x00000000      Interrupt Disable Register.
+> >>
+> >> In xlnx_dp_write, when the offset is 0x3A8 and 0x3AC, the virtual device
+> >> will write s->core_registers[0x3A4
+> >>>> 2]. That is to say, the maxize of s->core_registers could be ((0x3A4
+> >>>> 2) + 1). However, the current size of s->core_registers is (0x3AF >>
+> >>>> 2), that is ((0x3A4 >> 2) + 2), which is out of the range.
+> >> In xlxn_dp_read, the access to offset 0x3A8 or 0x3AC will be directed to
+> >> the offset 0x3A8 (incorrect functionality) or 0x3AC (out-of-bounds read)
+> >> rather than 0x3A4.
+> >>
+> >> This patch enforces the read access to offset 0x3A8 and 0x3AC to 0x3A4,
+> >> but does not adjust the size of s->core_registers to avoid breaking
+> >> migration.
+> >>
+> >> Fixes: 58ac482a66de ("introduce xlnx-dp")
+> >> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> > 
+> > Acked-by: Alexander Bulekov <alxndr@bu.edu>
+> > 
+> > If there is somehow a regression, the test won't fail in a fatal way, so
+> > maybe it makes sense to throw in a setenv(UBSAN_OPTIONS=halt_on_error=1)
+> 
+> Where? Main meson? qtests meson? setenv() in the test (but would
+> override preset variable)?
+> 
 
-nits: please write something in the commit message
-
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/csr.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9a4ed18ac5..ea62d9e653 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->      RISCVException ret;
->      target_ulong old_value;
->      RISCVCPU *cpu = env_archcpu(env);
-> +    int read_only = get_field(csrno, 0xC00) == 3;
->
->      /* check privileges and return -1 if check fails */
->  #if !defined(CONFIG_USER_ONLY)
->      int effective_priv = env->priv;
-> -    int read_only = get_field(csrno, 0xC00) == 3;
->
->      if (riscv_has_ext(env, RVH) &&
->          env->priv == PRV_S &&
-> @@ -1443,6 +1443,10 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->          (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
-> +#else
-> +    if (write_mask && read_only) {
-
-This can be merged by the !CONFIG_USER_ONLY case.
-
-> +        return -RISCV_EXCP_ILLEGAL_INST;
-> +    }
->  #endif
->
->      /* ensure the CSR extension is enabled. */
-
-Regards,
-Bin
+Probably in the test, with overwrite = 0 ? Without halt_on_error the
+test will succeed even if the problem returns..
+-Alex
 
