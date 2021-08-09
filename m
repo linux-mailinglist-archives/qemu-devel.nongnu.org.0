@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44D93E4337
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:50:28 +0200 (CEST)
-Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4745B3E4353
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:53:28 +0200 (CEST)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD1vQ-0007WA-0J
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
+	id 1mD1yJ-00073D-Bc
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD1tt-0005LK-Fo
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:48:53 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36670)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mD1uQ-0006Xm-8i; Mon, 09 Aug 2021 05:49:26 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:38557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD1tr-00023J-As
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:48:53 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- o7-20020a05600c5107b0290257f956e02dso14110813wms.1
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 02:48:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mD1uO-0002Ok-Mz; Mon, 09 Aug 2021 05:49:26 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id c137so27968426ybf.5;
+ Mon, 09 Aug 2021 02:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z6qoHrFsNMH9JJ5Iy6uGbIEe1fk3FvfdjGi8jRps/N0=;
- b=hGXb5+v1wL7bu+XZxCUdJEzIyML+ndxCNxeG7KpUKDrJp76sQ5119rCiiDz7RDDFfY
- 0h+OLkcx3/frF9j71YOhHAfKdJfNE2+EenghU3meX070KAyHLKQ5bBIuxSssHDdFfnn/
- CZGsC1xDX7nLVh2fqJWhvYKZm6EdlDebIo7+d9HwijwidqHKfzQMsk6YFCB15Wizp1p6
- lEJ8actK+DdlWIbWb43F4G9YdUU38XU6leD7FBq24nVeiHGeQ3ePnOHeENcw+ORl6Mwx
- /GLyX5zreiR0jHkJc3Emk5mMU/s5LlSB3PZxRKWRdM3D2OGH3u2oTDBfpmQ55kRp7btV
- 1UEA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PrHpvK97It637PSbAxyMOq7cMQvzIspToMw8Q6umli8=;
+ b=pZlanwEa8Y7c70UZ5Q33LAYHBt1fv4FNwfgisJafBMLCnYmHM+kY0MEIBplewGQ+S3
+ 7cbOr8XKPYjKXsPkUalDhnfkl+91C5tCdcz+RovZ4Zz0cZXbv5EuhEXDNPdnwTM/34MD
+ USw4/MS9I7Bg+r7rSSjTEppLv7S6nredYCwxaeJCsMtIjis1QQ5zCbqQFR5n9/sm2ETl
+ z3nf54/XgV0c1JE1KzxGCFeUc3ZJCc5kV8rbOhQrJtwm+iAyIxtxb/gfpIRfwsjxYghE
+ jYT2AF1jOzfEmQxp+sOPW5GmNp5Pfn274V/Z37EjZyXLyX5RINeIYesgENRrfd0qCqD/
+ 5JyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z6qoHrFsNMH9JJ5Iy6uGbIEe1fk3FvfdjGi8jRps/N0=;
- b=RqLHMHyZyj3eayOhyEpJ4qxoKViYWRR7nVMmAjZUgE30wmtHWZThmYqXqR7XyCiJQk
- GnatsrEv2HMgZVAwW4mt5njsMy1RNo4dO6TL2HOX5g3WVyZ4yx7NZPsONm+LziGCYDbg
- R/DNW0RfiVdi38SMbjqplByJ2fwBMqp1PikpWtC2X5oMFuEZqCZr/2bLLjtkeTALQ8wz
- wcoxWvk47dOcxV1u6YQ45f4blwrN13GqdvqP02j7V2XLvEn4T4FGdJcWBygARECK8c+U
- +QO9BHUvqGpObpgfxmfXm5A+EnH+eXBGCNO6SpAeSJbomi1Cyc8cCWKRUqABBsdulesw
- qHzg==
-X-Gm-Message-State: AOAM530T0xJ7monchBYUF7WVDOarK7fD1BIx4vw4V2e5vBGyOzQNzwYB
- 7eyEVhlFibHZPuF6sx/QTxw=
-X-Google-Smtp-Source: ABdhPJwO1hXd/zzXModjRHe59kqf041ulHAiSlLhXWoj5qin5NNSMnwqMVOEH7WNI1/pT6Ijo3NHaA==
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr32049302wmj.127.1628502530044; 
- Mon, 09 Aug 2021 02:48:50 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id e10sm1391052wrt.82.2021.08.09.02.48.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 02:48:49 -0700 (PDT)
-Subject: Re: [PATCH-for-6.2 2/2] disas/nios2: Simplify endianess conversion
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Marek Vasut <marex@denx.de>
-References: <20210807110939.95853-1-f4bug@amsat.org>
- <20210807110939.95853-3-f4bug@amsat.org>
- <b869358f-caed-6e03-5822-ada080961a11@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bb2a9d03-94c3-bf48-ace0-e9669950f34e@amsat.org>
-Date: Mon, 9 Aug 2021 11:48:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PrHpvK97It637PSbAxyMOq7cMQvzIspToMw8Q6umli8=;
+ b=LNwYO3T1ZppZS5cCFRR23IEBABUf5We2+SBPUGH3bmODr3FurPJZ1dWFnebLuOK6UB
+ 6iaVaqBeZbV5rJ/VFEpSEzWlq9r0JCDztBeg91tgo+WBKign2q1HSNDuqDBm6esyGNSE
+ NKA+RJbXXX+Y0Ix9K7MJn8fOuA02/5GG9pogMAeiHwdZuMGqqRt/EkqNkHjoohpeQn1c
+ 5vkH3xZfNDyXWI3nmoNmIIP1ntOTaYU2xYmht7ghwyJOE3PLjmZ3e18cYem/KEqK2PiU
+ +4hMweDiNOQ8n/QEIsccLnjrNWT2JxYaPVMDtkX6Wv0IE1z6WT3Y+gSpnAdGl0LSxkY3
+ vKIQ==
+X-Gm-Message-State: AOAM532OANyVjOZovwXMHnJs8/1E81B7PigbaMjEoCXWZeCUn3rR0pla
+ s1s9p33SJDJJZgvraHu8/YF4IBBu6RRRwslbIJE=
+X-Google-Smtp-Source: ABdhPJwMPI3yobqHn/7k8FuyCL7VxYvOJvQmdYbIZxFwyuze1skrTTtfVrpQVuNqaiqho/K0IdGiXaEiJQ4dUDxhVTU=
+X-Received: by 2002:a25:bb08:: with SMTP id z8mr31868602ybg.306.1628502563346; 
+ Mon, 09 Aug 2021 02:49:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b869358f-caed-6e03-5822-ada080961a11@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+References: <20210809070727.9245-1-zhiwei_liu@c-sky.com>
+ <CAEUhbmXNPE8cmor-V8Vpza79Vt=hgKsP1OE_zeJupAaaF0UdqA@mail.gmail.com>
+ <9c3b4476-d640-0b7f-df48-c91ebde2dab6@c-sky.com>
+In-Reply-To: <9c3b4476-d640-0b7f-df48-c91ebde2dab6@c-sky.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 9 Aug 2021 17:49:12 +0800
+Message-ID: <CAEUhbmU1SNVeE2qKtY4841Na8=zL+V9qeC6q7YWW=-piV7-MTQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Add User CSRs read-only check
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,58 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alexander Graf <agraf@csgraf.de>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/9/21 8:12 AM, Thomas Huth wrote:
-> On 07/08/2021 13.09, Philippe Mathieu-Daudé wrote:
->> Since commit 12b6e9b27d4 ("disas: Clean up CPUDebug initialization")
->> the disassemble_info->bfd_endian enum is set for all targets in
->> target_disas(). We can directly call print_insn_nios2() and simplify.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   include/disas/dis-asm.h |  3 +--
->>   disas/nios2.c           | 22 +++-------------------
->>   target/nios2/cpu.c      |  6 +-----
->>   3 files changed, 5 insertions(+), 26 deletions(-)
-> [...]
->> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
->> index 5e37defef80..5b503b5bb99 100644
->> --- a/target/nios2/cpu.c
->> +++ b/target/nios2/cpu.c
->> @@ -146,11 +146,7 @@ static void nios2_cpu_disas_set_info(CPUState
->> *cpu, disassemble_info *info)
->>   {
->>       /* NOTE: NiosII R2 is not supported yet. */
->>       info->mach = bfd_arch_nios2;
->> -#ifdef TARGET_WORDS_BIGENDIAN
->> -    info->print_insn = print_insn_big_nios2;
->> -#else
->> -    info->print_insn = print_insn_little_nios2;
->> -#endif
->> +    info->print_insn = print_insn_nios2;
->>   }
-> 
-> Oh, wow, I didn't even know that nios2 could be compiled with different
-> endianness? I mean, we only have a "nios2-softmmu" target, not something
-> like "nios2be-softmmu" and "nios2le-softmmu" ?
+On Mon, Aug 9, 2021 at 5:45 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+>
+> On 2021/8/9 =E4=B8=8B=E5=8D=885:35, Bin Meng wrote:
+> > On Mon, Aug 9, 2021 at 3:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+> > nits: please write something in the commit message
+> OK
+> >
+> >> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> >> ---
+> >>   target/riscv/csr.c | 6 +++++-
+> >>   1 file changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> >> index 9a4ed18ac5..ea62d9e653 100644
+> >> --- a/target/riscv/csr.c
+> >> +++ b/target/riscv/csr.c
+> >> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env,=
+ int csrno,
+> >>       RISCVException ret;
+> >>       target_ulong old_value;
+> >>       RISCVCPU *cpu =3D env_archcpu(env);
+> >> +    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
+> >>
+> >>       /* check privileges and return -1 if check fails */
+> >>   #if !defined(CONFIG_USER_ONLY)
+> >>       int effective_priv =3D env->priv;
+> >> -    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
+> >>
+> >>       if (riscv_has_ext(env, RVH) &&
+> >>           env->priv =3D=3D PRV_S &&
+> >> @@ -1443,6 +1443,10 @@ RISCVException riscv_csrrw(CPURISCVState *env, =
+int csrno,
+> >>           (!env->debugger && (effective_priv < get_field(csrno, 0x300)=
+))) {
+> >>           return RISCV_EXCP_ILLEGAL_INST;
+> >>       }
+> >> +#else
+> >> +    if (write_mask && read_only) {
+> > This can be merged by the !CONFIG_USER_ONLY case.
+>
+> Do you mean
+>
+> #if !defined(CONFIG_USER_ONLY)
+>       if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
+>           return -RISCV_EXCP_ILLEGAL_INST;
+> }
+> #else
 
-$ git grep ENDIAN configs/targets/nios2-*
-$
+Should be #endif
 
-We only build little-endian targets, but looking at commit
-b7862564880 ("nios2: Add Altera 10M50 GHRD emulation")
-hw/nios2/boot.c is ready to load big-endian ELF if we were
-building the big-endian targets.
+>       if (write_mask && read_only) {
+>           return -RISCV_EXCP_ILLEGAL_INST;
+> }
+>
+> #endif
 
-> Anyway, your patch makes a lot of sense to clean this up.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> 
+and drop this #endif
+
+Regards,
+Bin
 
