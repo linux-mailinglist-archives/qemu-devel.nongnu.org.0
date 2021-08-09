@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092193E4403
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:40:53 +0200 (CEST)
-Received: from localhost ([::1]:58384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2554F3E4406
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:42:09 +0200 (CEST)
+Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2iC-00085X-0Q
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
+	id 1mD2jQ-0001GO-5j
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD2gd-0007GH-Oe; Mon, 09 Aug 2021 06:39:15 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:38623)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD2iD-0000EH-07
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:40:53 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mD2gc-0004WE-4t; Mon, 09 Aug 2021 06:39:15 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id c137so28188706ybf.5;
- Mon, 09 Aug 2021 03:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD2iA-0005cH-FS
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:40:52 -0400
+Received: by mail-ed1-x536.google.com with SMTP id y7so23819192eda.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 03:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5dqAlm6szh22vXsbovZP/lAtHWdsPlQqSNM71+utZXg=;
- b=C1z9B97AhUE+qLut/MOnWW7j2TdCFXkZ/3GLL0jBX5g777lguOIveK3sMfCquTfZ2W
- kuy9pqHJ8Ff9c9hT6nAJSgS/XdAV+28q71a9tbofJx/rVR2WgNNoZNfB970WcW75j3CC
- HHFrlTDN2Y1k3hS6zNITfkkhDDFfodBOk6NTKbb4efm41TAwqJPxxgWGCzv7Vc2LH5rr
- 7vHMhlZ6BJxV0bNTPuzlo5KbRSPZXIVrlejNxfa0eNChhSKR6d3HoBT9rGuBC3RyZl4T
- UrWpoffk/eUZ2eDyuqV9FOIT9TsCs3ISDMfoBnrm4xsOA34a1Z2/FA8E1VSCaqO6JzfH
- Tx2A==
+ :cc; bh=BKN+ejNdGSQpWpJgM98wU2elCO0jPtUsbrzh0moYtTw=;
+ b=FMjfrEMAjw5oCJHVsI2kW3YHRcRGGr8wLUxBECcg1H/bXT3xDQMsY7mEjfOcROoCvM
+ SmOhLJD+/tpWK6TWoS+B7FaS0lWIkJh76MdiyNuxg7/nTwylnCILaXmKIArJtzxTamW6
+ 1BpZtPHDwecQpNP+nHI7qjgsR29pJNb1Tg2RqG1Hlj+FySACgRjSUf1+nzbS9HDeDSiD
+ 7BnUmvoRB1v5cuAFNUH/ag+eNqW596FmFOr9FH2vKjwUO6qy54mILXhBaD0RiYYtKnYS
+ zNdI9R/7q8rMmpqE79eAgMCKa4m3GGEEb7paTsOKe2hhq6KuHSf2KUJiPlTGdAKzqFD9
+ y1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5dqAlm6szh22vXsbovZP/lAtHWdsPlQqSNM71+utZXg=;
- b=Y09MHN3mNB3dwmyfOMlEpc5FhPNH9aPuuOL5iNZN8VhSy9nGedBJySdikgzGmTa50s
- XZg52BgeeVYLV3qGqF0TRzzTgW4S9MZlDE+qeEMQiuuY6QwPre2x0m/p1Nv03QZ8PC6J
- i1GM+F4BeAGyhMdXbApiGJdc7Ta8ef7YOrBpwe2h0ZC0jM385XeV+WbytFt6VV9Wc10n
- OV2MPJsjinGVw4k3TFqU/uqlOxy9jTSjKAbGxu9kL4GwwWjMBJ/yxQDd+da+MeDF3FDw
- 9iAHK+vO8XnimAMkS7Q0PlPVOGQ6XPR3lWmFOfhtcWpa8uY2zIAhHoaiQxaqX8sQ5Ve6
- codg==
-X-Gm-Message-State: AOAM532+x3FH7BBacikt1BKt9URXywLhdbGRv8FgIsTQ/u31fVzEk1Yq
- 9S0qrToNa6epMQiPSns38jSG3tYoikTKKj/koAU=
-X-Google-Smtp-Source: ABdhPJw4hM6nbJhhrPYcIpCZJUMXPKUoOQhMagsTCUK0qZKak/BIlkfuX0eMcfM+64e2PZMlZpgqmZHIf41EltCLCZk=
-X-Received: by 2002:a25:bb08:: with SMTP id z8mr32122303ybg.306.1628505552652; 
- Mon, 09 Aug 2021 03:39:12 -0700 (PDT)
+ bh=BKN+ejNdGSQpWpJgM98wU2elCO0jPtUsbrzh0moYtTw=;
+ b=WP+Ui4NHmBm4YC7lGOgjoWWJwbomMw6CY7UiBzTYRNJTc2L6y6ktrOF02bvjXXAXcw
+ cU3mXzq9F2XDA1HAJhgdGcrXYs5W9lGbSecMFJWFG2D6DTvam8lx+W/NlDyoQj7vC5Pc
+ kHUTfQcncU7mL6yxQY6YtAZHF0QB6emMt3TG1aWkZSXYySgRA6keo/oqgZ7e8gB1Utst
+ CX1Zl7MR8/LbDxXE0A6YdGdXZn5f+53dtsdb/NRzBslxtUwfVvdyzXc57GOo/Ol6LEOL
+ Hw4Sweh1xZfhbG0awVzS8xsFEfrHvWC+aSpyxBHsgEyf1dNal62izWWzhZOY25onK4zc
+ zF6w==
+X-Gm-Message-State: AOAM532uRe+7xLnekzM5b518+doVSYwh0Hkrh+KRCL06ZH7FmXAOZHRe
+ Ul5rbjzaTeibJ4lKAtcd124O2WvIDaHX6GKCevNXYQ==
+X-Google-Smtp-Source: ABdhPJzDBZzq7NwjKAY5pzESAoQhAaskpbLChQ6xNzCoFsE+ybvI4fAuaeUYJ88RnMs/XPMH+Ljbf3gp12vWy+yY7SU=
+X-Received: by 2002:a05:6402:31e6:: with SMTP id
+ dy6mr28663833edb.36.1628505648781; 
+ Mon, 09 Aug 2021 03:40:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210809103233.405-1-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210809103233.405-1-zhiwei_liu@c-sky.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 9 Aug 2021 18:39:01 +0800
-Message-ID: <CAEUhbmWc3GVRayARngeopoyyrruAs4_=dApwr2iZpLsav2yZEA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Add User CSRs read-only check
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+References: <20210724085453.16791-1-pbonzini@redhat.com>
+ <20210724085453.16791-9-pbonzini@redhat.com>
+In-Reply-To: <20210724085453.16791-9-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Aug 2021 11:40:04 +0100
+Message-ID: <CAFEAcA9eNFoZ5p8A1hneJ7kZ=9HOSjFMxR_9C1tuMA20sFhDZw@mail.gmail.com>
+Subject: Re: [PULL 8/9] qapi: introduce forwarding visitor
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,59 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 9, 2021 at 6:37 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Sat, 24 Jul 2021 at 10:00, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> For U-mode CSRs, read-only check is also needed.
+> This new adaptor visitor takes a single field of the adaptee, and exposes it
+> with a different name.
 >
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/csr.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+> This will be used for QOM alias properties.  Alias targets can of course
+> have a different name than the alias property itself (e.g. a machine's
+> pflash0 might be an alias of a property named 'drive').  When the target's
+> getter or setter invokes the visitor, it will use a different name than
+> what the caller expects, and the visitor will not be able to find it
+> (or will consume erroneously).
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9a4ed18ac5..360e4bfa33 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->      RISCVException ret;
->      target_ulong old_value;
->      RISCVCPU *cpu = env_archcpu(env);
-> +    int read_only = get_field(csrno, 0xC00) == 3;
+> The solution is for alias getters and setters to wrap the incoming
+> visitor, and forward the sole field that the target is expecting while
+> renaming it appropriately.
 >
->      /* check privileges and return -1 if check fails */
->  #if !defined(CONFIG_USER_ONLY)
->      int effective_priv = env->priv;
-> -    int read_only = get_field(csrno, 0xC00) == 3;
->
->      if (riscv_has_ext(env, RVH) &&
->          env->priv == PRV_S &&
-> @@ -1439,11 +1439,13 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->          effective_priv++;
->      }
->
-> -    if ((write_mask && read_only) ||
-> -        (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
-> +    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->  #endif
-> +    if (write_mask && read_only) {
-> +        return -RISCV_EXCP_ILLEGAL_INST;
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-This should be RISCV_EXCP_ILLEGAL_INST
+Hi; Coverity complains here (CID 1459068) that the call to
+visit_optional() is ignoring its return value (which we check
+in 983 out of the other 989 callsites).
 
+> +static void forward_field_optional(Visitor *v, const char *name, bool *present)
+> +{
+> +    ForwardFieldVisitor *ffv = to_ffv(v);
+> +
+> +    if (!forward_field_translate_name(ffv, &name, NULL)) {
+> +        *present = false;
+> +        return;
 > +    }
->
->      /* ensure the CSR extension is enabled. */
->      if (!cpu->cfg.ext_icsr) {
+> +    visit_optional(ffv->target, name, present);
+> +}
 
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Is it right, or is this its "looks like this is returning an error
+indication" heuristic misfiring again ?
+
+My guess is the latter and it's caused by a mismatch
+between the prototype of visit_optional() (returns a
+status both by setting *present and in its return value)
+and the Visitor::optional method (returns a status only
+by setting *present, return void). I guess ideally we'd
+standardize on whether these things were intended to return
+a value or not.
+
+thanks
+-- PMM
 
