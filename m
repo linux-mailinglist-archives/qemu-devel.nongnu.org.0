@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E063E41DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 10:51:40 +0200 (CEST)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608DC3E41E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 10:53:55 +0200 (CEST)
+Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD10V-0006hk-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 04:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
+	id 1mD12g-0008Rn-Fz
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 04:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1mD0zX-0005zI-LA
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 04:50:39 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46013)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1mD0zV-0002kW-Tu
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 04:50:39 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id m12so20330818wru.12
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 01:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hkRSVEMWyVyeWQ3izgmNEJGvCK8HdwXAoJ2Btv3yX64=;
- b=ScQbze13RAZihVhZUCoeLjdxqXI5R4yP4JG3cI4raeuMiDhjh3++hfwb5J1UHEw2NE
- mUtafuvFztKwjMKy73iWsadLiR/5XL2ga0nYIj8nGWgiFNBWnLJUamhIncJWdstHKNbR
- jzCtf+q8orZyUCFRTR5SlOKNQAz3YrfVvYzaCE/GYaoReHH/+p28nj1fU36c/BjS7V8u
- WVm/SJRanfiaDsgw4peelNnZJUBwoUXA8h6rHDKurkkYmByXaOJGfMe3r0xTQ22H/Y97
- XPAocchSBrS8asQRBTbqZMpcdsF5nMgPlMSUIIGen5tj/izoayjFFMjUDioKtnFuqEGI
- sAqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hkRSVEMWyVyeWQ3izgmNEJGvCK8HdwXAoJ2Btv3yX64=;
- b=UBxhIeCp9IvEd0hZqboJfKxW118r00R6nGLjngx8Ho4kMg9q/EYhzStDDxCQSMhnFg
- n8vhpX5TzJddsI/WUSFEJYFDUqu5kznLCBVKGkiKS4pzDQY85IOKBEMXg98tiJfPYLqm
- EeurhLL3BjUhdSIGQz0oDAq/8qh3pxF2n3RVRyyzmVLGXIE2z6vzW9WN70sfstvt8O3p
- YT1zbhT5sIzin4GvSyMwanSUyC+kyoFXjhT99deYnnmWsCftrBXtoR9gHx4L2dss/bb9
- ziAOnMC9E1uIET57edoyhjxmcUzj9iosTW+6UtRLw8qlhOES6euENIXZWlYauE6/Migw
- aJUw==
-X-Gm-Message-State: AOAM533lBMNEBB+iZQuSN3MaLAEs9ihZ3bBAvl+YBiYqsR9LhDgu1iu3
- frG0GdMGP5aZflHZzQqRShv+rV8g1nMbGg==
-X-Google-Smtp-Source: ABdhPJzBHG1qmC7qf9TbDUs2W/rLAXNWkAsf1j2UADyczbuXn+bc9k0oxROM4DaIIUgjruWu0ajfzg==
-X-Received: by 2002:a5d:4cc6:: with SMTP id c6mr23168180wrt.383.1628499035464; 
- Mon, 09 Aug 2021 01:50:35 -0700 (PDT)
-Received: from kali.home (lfbn-ren-1-417-221.w2-10.abo.wanadoo.fr.
- [2.10.242.221])
- by smtp.gmail.com with ESMTPSA id j14sm19256443wru.58.2021.08.09.01.50.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 01:50:34 -0700 (PDT)
-From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/export/fuse.c: fix musl build
-Date: Mon,  9 Aug 2021 10:50:21 +0200
-Message-Id: <20210809085021.783125-1-fontaine.fabrice@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mD11c-0007Xk-GZ; Mon, 09 Aug 2021 04:52:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30714
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mD11a-000461-1q; Mon, 09 Aug 2021 04:52:48 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1798ZRpt061981; Mon, 9 Aug 2021 04:52:35 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3aa7qagy3r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Aug 2021 04:52:34 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1798ZfCf063401;
+ Mon, 9 Aug 2021 04:52:34 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3aa7qagy35-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Aug 2021 04:52:34 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1798mI8f002222;
+ Mon, 9 Aug 2021 08:52:32 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3a9ht8u9mm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Aug 2021 08:52:32 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1798qT5Z56426828
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Aug 2021 08:52:29 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F38E11C04C;
+ Mon,  9 Aug 2021 08:52:29 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 30AD311C054;
+ Mon,  9 Aug 2021 08:52:29 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  9 Aug 2021 08:52:29 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.54.114])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 412E922003E;
+ Mon,  9 Aug 2021 10:52:28 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH] xive: Remove extra '0x' prefix in trace events
+Date: Mon,  9 Aug 2021 10:52:27 +0200
+Message-Id: <20210809085227.288523-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: f7BlRMenFRHS6IUCon1xm-g1Lk2_NtFQ
+X-Proofpoint-ORIG-GUID: VAYib1zN5XCKP45raoIDv5QMnmkFXIlM
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=fontaine.fabrice@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-09_01:2021-08-06,
+ 2021-08-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ phishscore=0 clxscore=1034 mlxlogscore=999 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108090069
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.398,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +101,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabrice Fontaine <fontaine.fabrice@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the following build failure on musl raised since version 6.0.0 and
-https://gitlab.com/qemu-project/qemu/-/commit/4ca37a96a75aafe7a37ba51ab1912b09b7190a6b
-because musl does not define FALLOC_FL_ZERO_RANGE:
-
-../block/export/fuse.c: In function 'fuse_fallocate':
-../block/export/fuse.c:563:23: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
-  563 |     } else if (mode & FALLOC_FL_ZERO_RANGE) {
-      |                       ^~~~~~~~~~~~~~~~~~~~
-
-Fixes:
- - http://autobuild.buildroot.org/results/b96e3d364fd1f8bbfb18904a742e73327d308f64
-
-Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Cc: thuth@redhat.com
+Fixes: 4e960974d4ee ("xive: Add trace events")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/519
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- block/export/fuse.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/intc/trace-events | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/block/export/fuse.c b/block/export/fuse.c
-index ada9e263eb..07e31129a6 100644
---- a/block/export/fuse.c
-+++ b/block/export/fuse.c
-@@ -635,6 +635,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-             offset += size;
-             length -= size;
-         } while (ret == 0 && length > 0);
-+#ifdef FALLOC_FL_ZERO_RANGE
-     } else if (mode & FALLOC_FL_ZERO_RANGE) {
-         if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
-             /* No need for zeroes, we are going to write them ourselves */
-@@ -654,6 +655,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-             offset += size;
-             length -= size;
-         } while (ret == 0 && length > 0);
-+#endif
-     } else if (!mode) {
-         /* We can only fallocate at the EOF with a truncate */
-         if (offset < blk_len) {
--- 
-2.30.2
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index e56e7dd3b667..6a17d38998d9 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -219,14 +219,14 @@ kvm_xive_source_reset(uint32_t srcno) "IRQ 0x%x"
+ xive_tctx_accept(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr, =
+uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=3D0x%=
+02x CPPR=3D0x%02x NSR=3D0x%02x ACK"
+ xive_tctx_notify(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr, =
+uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=3D0x%=
+02x CPPR=3D0x%02x NSR=3D0x%02x raise !"
+ xive_tctx_set_cppr(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr=
+, uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=3D0=
+x%02x new CPPR=3D0x%02x NSR=3D0x%02x"
+-xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@0x0x=
+%"PRIx64" IRQ 0x%x val=3D0x0x%"PRIx64
+-xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "@0x0=
+x%"PRIx64" IRQ 0x%x val=3D0x0x%"PRIx64
++xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@0x%"=
+PRIx64" IRQ 0x%x val=3D0x%"PRIx64
++xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "@0x%=
+"PRIx64" IRQ 0x%x val=3D0x%"PRIx64
+ xive_router_end_notify(uint8_t end_blk, uint32_t end_idx, uint32_t end_dat=
+a) "END 0x%02x/0x%04x -> enqueue 0x%08x"
+ xive_router_end_escalate(uint8_t end_blk, uint32_t end_idx, uint8_t esc_bl=
+k, uint32_t esc_idx, uint32_t end_data) "END 0x%02x/0x%04x -> escalate END =
+0x%02x/0x%04x data 0x%08x"
+-xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value) "@0=
+x0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+-xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@0x=
+0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
++xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value) "@0=
+x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
++xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@0x=
+%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+ xive_presenter_notify(uint8_t nvt_blk, uint32_t nvt_idx, uint8_t ring) "fo=
+und NVT 0x%x/0x%x ring=3D0x%x"
+-xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "EN=
+D 0x%x/0x%x @0x0x%"PRIx64
++xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "EN=
+D 0x%x/0x%x @0x%"PRIx64
+=20
+ # pnv_xive.c
+ pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=3D0x=
+%"PRIx64
+--=20
+2.31.1
 
 
