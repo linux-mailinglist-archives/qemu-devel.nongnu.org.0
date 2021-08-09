@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B913E4983
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 18:14:20 +0200 (CEST)
-Received: from localhost ([::1]:47640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538833E4994
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 18:17:25 +0200 (CEST)
+Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD7ut-0000nl-TI
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 12:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49302)
+	id 1mD7xs-0002Nu-DA
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 12:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mD7tg-0007ws-Gl
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:13:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mD7te-0005AO-Ve
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:13:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628525578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NqK1vIuxGg5/ghZi1t/3V5Mzgh+124zlvmjbn4DoefE=;
- b=XbiNGVswOnr6cykFppfj8HMHUJxvwVpMMrFHLGFUCd611Dcd0uEcmqttpPzG9vnAuoE/DZ
- skRMDnSvYurthq1pauRJm8nMLRNEL5xHGJbNMT/lwKfrUJ0N7YTo0M0u/NaqWpqSpCQDHm
- oov/QWcxXq5iY32KZ1ptonUhBNbGCXo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-2BLaxra9OPKbeQXAufaBFg-1; Mon, 09 Aug 2021 12:12:57 -0400
-X-MC-Unique: 2BLaxra9OPKbeQXAufaBFg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v18-20020adfe2920000b029013bbfb19640so5488546wri.17
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 09:12:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD7v4-0001TR-U9
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:14:30 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD7v2-0006B7-El
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:14:30 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ o7-20020a05600c5107b0290257f956e02dso15137150wms.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 09:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YChhRY1Q09WDANrUvOKZQuT7fzBpyWYMh1Yu12+F6OI=;
+ b=VdvtdjjlKTWOgABmUxs2T5UBXD54n6VJKs8vzQrlui6/vC0O0BihWedC5ZKQ5Ixr8a
+ yc5P40hOYjXVK52iciWBccwZANJvS5WOSuKebjZreiKygFwF90CizpgxcXZx/MGq/4tu
+ 6H2aHV7agwvCcrrShhpAO5DvJQtXcP9tfRx/OBiykHERXW8xAW7zmM3seplxoPBE+4Ut
+ lrUYJ5JkrJaSKRF0CKgaP9uH4r8cnwOazrURpqLdI0V4kzizDOKgtK+cwXxSEkAUgeru
+ nNfn4Pn0DVSefSOc4SglLK+7nJ1pHKshh63stKcgqc0hDQVDulRs8yS/4inZou/FE715
+ VZsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=NqK1vIuxGg5/ghZi1t/3V5Mzgh+124zlvmjbn4DoefE=;
- b=gqKeJVHy1ZkG/XaxgwMu0KYB6qx4JVG1kc8d63Yc4nS/rwV3RiHCZx39dNnU44KfPI
- c0CQXzJeD6ipU5T4nvRGeRdBwhutNHqBfR9yEBuz6Vzb0wTsQYYwfXr70W1eq8xqfBTp
- VEUvrcY5DdxhUonq061g+oyJ9DCkzLmIP1l4Gp/UFimVyO1ifr0tON/I8S+kWDnk+2bU
- 74IJ1iSZO/uriiO4s+zPvQE+H1dCFyMm3CGix57e1lyylpX9Hq7Waqyrxv9uskL3rbGZ
- XMwdB4e2wXMd/L+faspg4vgnpqc+Y1L0x6wxQgK4A4ngIqvpb2EUtmtmwH1aMCD6M+oO
- eFtA==
-X-Gm-Message-State: AOAM5321IL3QLMKZQdcmWtaQ4rjYBHKt+y2p12LWcTnSzsoR7LTP+aqf
- GdvOo4y1LJxP0UxjVCoCQeyakQTI5p90IT2N5lALhi4cFQR0YNYxSb1TOYYpOO8VJjY4wdToPuL
- govpkdw+q8TtAqCc=
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr4253319wrt.408.1628525576618; 
- Mon, 09 Aug 2021 09:12:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCr/jj8KFDKcfZt4kDHXfoPW+DCcPeZSw1LpLO1/GqVUZkkeECzLTYYqs8VyXVOobbuvqmCg==
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr4253291wrt.408.1628525576379; 
- Mon, 09 Aug 2021 09:12:56 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.28.170])
- by smtp.gmail.com with ESMTPSA id d5sm20003185wre.77.2021.08.09.09.12.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 09:12:55 -0700 (PDT)
-Subject: Re: [PATCH 1/2] virtio: add a way to disable a queue
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20210729191910.317114-1-lvivier@redhat.com>
- <20210729191910.317114-2-lvivier@redhat.com>
- <c9b273fb-797b-4810-bb4c-d99d5173fe6c@redhat.com>
- <c26fddb3-8954-2c74-c238-1052356a8f00@redhat.com>
- <c31d2975-7d90-84f9-74ea-838de69e78f5@redhat.com>
- <364daf53-31e4-e7eb-29e3-fd0e3f64e18f@redhat.com>
- <a298d8a8-b221-29e4-8f8f-a7db158b5e85@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <763ebfaa-72bb-bb0f-03b3-83c93f9a43f1@redhat.com>
-Date: Mon, 9 Aug 2021 18:12:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=YChhRY1Q09WDANrUvOKZQuT7fzBpyWYMh1Yu12+F6OI=;
+ b=r4NZMqrCVcitYGbmMvV8TlshX1lWpqB5UPgrb1nvWFFKS/txkrukrBJt4pu13U5OAJ
+ qk0oJ5t2xBeQku7aIjTLInpR7iHtBcSNpgJbksn72UjaZBaYV4L+3gqEcr4Q9e2GQKBQ
+ wfKmm8SWHMDhJhRGh2O2joMBcaIO7EvgFZT34PFJlofGLTLVkm5hvGHNzBxqsMDkIic4
+ Lbz2HbIDnaeIgMmSejP/LghNVPXLj0+ACqEiGvRKcr9a2RSpqAD3RH29/s42KfzBVqFT
+ a5Jyv19YCCRA5t1HC88/BMbRhnPIQoj/PKbWHO6NrMniU/Ab4tR3wFiDhbG60cX2xKKX
+ gCDA==
+X-Gm-Message-State: AOAM530YrgMZUesBImGiU+Q/eWuor5eHRWAqjQ/MbE+bWFfGlefte+lA
+ vg42ZPjwHOGZ+v0ln0fsL9nU4WPIhAa0uw==
+X-Google-Smtp-Source: ABdhPJy8eUEZyuAnd8HCpztivigxi6Z8GasSeciziJNbNhk0Tqoe4v567PHLXflFJEP/bbUyHE+iXA==
+X-Received: by 2002:a1c:2b04:: with SMTP id r4mr17880469wmr.168.1628525666275; 
+ Mon, 09 Aug 2021 09:14:26 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id u11sm19924148wrt.89.2021.08.09.09.14.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Aug 2021 09:14:25 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/sdl2: Check return value from g_setenv()
+Date: Mon,  9 Aug 2021 17:14:24 +0100
+Message-Id: <20210809161424.32355-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a298d8a8-b221-29e4-8f8f-a7db158b5e85@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,72 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/08/2021 05:01, Jason Wang wrote:
-> 
-> 在 2021/8/6 下午3:27, Laurent Vivier 写道:
->> On 06/08/2021 08:25, Jason Wang wrote:
->>> 在 2021/8/2 下午4:42, Laurent Vivier 写道:
->>>> On 02/08/2021 06:50, Jason Wang wrote:
->>>>> 在 2021/7/30 上午3:19, Laurent Vivier 写道:
->>>>>> Add virtio_queue_disable()/virtio_queue_enable() to disable/enable a queue
->>>>>> by setting vring.num to 0 (or num_default).
->>>>>> This is needed to be able to disable a guest driver from the host side
->>>>> I suspect this won't work correclty for vhost.
->>>> With my test it seems to work with vhost too.
->>>
->>> So setting 0 will lead -EINVAL to be returned during VHOST_SET_VRING_NUM. I think qemu
->>> will warn the failure in this case.
->> I didn't see any error when I tried. I will check the code.
->>
->>> What's more important, it's not guaranteed to work for the case of vhost-user or
->>> vhost-vDPA.
->> Perhaps we can target only the vhost host case, as this is used for failover and usually
->> the virtio-net device is backed by a bridge on same network as the VFIO device?
-> 
-> 
-> Probably not, it should be a general feature that can work for all types of virtio/vhost
-> backends.
-> 
-> 
->>
->>>
->>>>> And I believe we should only do this after the per queue enabling/disabling is supported
->>>>> by the spec.
->>>>>
->>>>> (only MMIO support that AFAIK)
->>>> I don't want to modify the spec.
->>>>
->>>> I need something that works without modifying existing (old) drivers.
->>>>
->>>> The idea is to be able to disable the virtio-net kernel driver from QEMU if the driver is
->>>> too old (i.e. it doesn't support STANDBY feature).
->>>>
->>>> Setting vring.num to 0 forces the kernel driver to exit on error in the probe function.
->>>> It's what I want: the device is present but disabled (the driver is not loaded).
->>>>
->>>> Any other suggestion?
->>>
->>> I think we should probably disable the device instead of doing it per virtqueue.
->>>
->> I tried to use virtio_set_disabled() but it doesn't work.
->> Perhaps it's too late when I call the function (I need to do that in
->> virtio_net_set_features()). What I want is to prevent the load of the driver in the guest
->> kernel to hide the virtio-net device. Setting vring.num to 0 triggers an error in the
->> driver probe function and prevents the load of the driver.
-> 
-> 
-> How about fail the validate_features() in this case?
+Setting environment variables can fail; check the return value
+from g_setenv() and bail out if we couldn't set SDL_VIDEODRIVER.
 
-It's a good suggestion and it seems to work.
+Fixes: Coverity 1458798
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+I followed existing practice in this function for how it
+deals with errors (ie, fprintf to stderr and exit).
+---
+ ui/sdl2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-I'm going to send an updated patch.
-
-Thanks,
-Laurent
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 36d9010cb6c..17c0ec30ebf 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -817,7 +817,10 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+      * This is a bit hackish but saves us from bigger problem.
+      * Maybe it's a good idea to fix this in SDL instead.
+      */
+-    g_setenv("SDL_VIDEODRIVER", "x11", 0);
++    if (!g_setenv("SDL_VIDEODRIVER", "x11", 0)) {
++        fprintf(stderr, "Could not set SDL_VIDEODRIVER environment variable\n");
++        exit(1);
++    }
+ #endif
+ 
+     if (SDL_Init(SDL_INIT_VIDEO)) {
+-- 
+2.20.1
 
 
