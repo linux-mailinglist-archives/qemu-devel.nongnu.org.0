@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D833E4DA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 22:09:19 +0200 (CEST)
-Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD25D3E4DA6
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 22:10:30 +0200 (CEST)
+Received: from localhost ([::1]:34684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDBaH-0006DY-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 16:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40950)
+	id 1mDBbR-0000Yc-WC
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 16:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mDBYn-0004sr-6C
+ id 1mDBYn-0004sq-7u
  for qemu-devel@nongnu.org; Mon, 09 Aug 2021 16:07:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21671)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mDBYk-0008VH-3L
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 16:07:44 -0400
+ id 1mDBYk-0008Vz-Ce
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 16:07:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628539660;
+ s=mimecast20190719; t=1628539661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tKxQqqxy4qN6Zc1/b/V8brwc0wnaWGpYdj6g143KJJ0=;
- b=SIRfJQruU31tS05P/MIfswlM/7hudbubu2ONLoix5jUMjOefB43oFCiycBSgpGA9d2bvWP
- 8e8JYKtS/uGfCKtiYMbsM3pqAdJY6hW/sIqghWLmUfPoiMUU78smwpm9NgJ+zSVT1Jyww4
- pKAE1SDctflVN+zU8S4tukvT+SOZNU4=
+ bh=lCrPTyGgpYsYynJtA9v+4U6VzWZ6CBe0+pxFAtfvSCg=;
+ b=EAzA/HtxBuwuWH3xQY9eO0Bu0x8owqcI+vSKG1Qi4iL49ocnx5a+yI8izXaEXTv/1ySSXk
+ xF/BGqaDRa7GEQA9F19GoqFU3jNrkKk9/KvotmggyRmaQewQBKFWfQZV3bvV3nkNtsuC3f
+ v9Z2zbNkkMX+G7ANxhWZKZVj3sHioe4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-z7BfcPExPBeXpc9FSiStvQ-1; Mon, 09 Aug 2021 16:07:39 -0400
-X-MC-Unique: z7BfcPExPBeXpc9FSiStvQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-424-6PQszkRBMG2pijD55AZiXg-1; Mon, 09 Aug 2021 16:07:40 -0400
+X-MC-Unique: 6PQszkRBMG2pijD55AZiXg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433CE190D340
- for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 20:07:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 327F81020C20;
+ Mon,  9 Aug 2021 20:07:39 +0000 (UTC)
 Received: from localhost (unknown [10.22.32.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED34C19D9D;
- Mon,  9 Aug 2021 20:07:37 +0000 (UTC)
-Date: Mon, 9 Aug 2021 14:00:18 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03A7860854;
+ Mon,  9 Aug 2021 20:07:38 +0000 (UTC)
+Date: Mon, 9 Aug 2021 14:14:10 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH for-6.2 00/12] qom: Get rid of all manual usage of
- OBJECT_CHECK & friends
-Message-ID: <20210809180018.ud6f44oebj6d2wpj@habkost.net>
-References: <20210806211127.646908-1-ehabkost@redhat.com>
- <434ed8d4-f52f-375b-99a0-dfd5cf656356@redhat.com>
+To: Alexandre Iooss <erdnaxe@crans.org>
+Subject: Re: [PATCH] docs/devel: fix missing antislash
+Message-ID: <20210809181410.3rzvwtsawwadl6u4@habkost.net>
+References: <20210809173141.1714998-1-erdnaxe@crans.org>
 MIME-Version: 1.0
-In-Reply-To: <434ed8d4-f52f-375b-99a0-dfd5cf656356@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210809173141.1714998-1-erdnaxe@crans.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -82,31 +78,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 07, 2021 at 10:15:52AM +0200, Philippe Mathieu-Daudé wrote:
-> On 8/6/21 11:11 PM, Eduardo Habkost wrote:
-> > This series gets rid of all manual usage of OBJECT_CHECK,
-> > OBJECT_CLASS_CHECK, and OBJECT_GET_CLASS.
-> > 
-> > All type check macros defined manually are replaced with
-> > DEFINE_*CHECKER* or OBJECT_DECLARE* macros.
-> > 
-> > All manual usage of OBJECT_CHECK/OBJECT_CLASS_CHECK/OBJECT_GET_CLASS
-> > is manually replaced with the corresponding type-specific wrappers.
+On Mon, Aug 09, 2021 at 07:31:41PM +0200, Alexandre Iooss wrote:
+> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
+> ---
+>  docs/devel/qom.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Is INTERFACE_CHECK already converted / in good shape?
+> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+> index e5fe3597cd..b9568c0fb8 100644
+> --- a/docs/devel/qom.rst
+> +++ b/docs/devel/qom.rst
+> @@ -309,7 +309,7 @@ This is equivalent to the following:
+>             OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
+>     #define MY_DEVICE_CLASS(void *klass) \
+>             OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
+> -   #define MY_DEVICE(void *obj)
+> +   #define MY_DEVICE(void *obj) \
+>             OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
 
-Not yet.  I need to refresh my memory by looking at mailing list
-archives, but I have a work in progress branch that I haven't
-touched in a while (except for rebasing it) at:
+Oops, nice catch!
 
-https://gitlab.com/ehabkost/qemu/-/commits/work/qom-declare-interface-type/
-
-Basically it introduces a DECLARE_INTERFACE_CHECKER macro instead
-of reusing OBJECT_CHECK/DECLARE_INSTANCE_CHECKER.
+However, the code above is already going to be deleted by:
+https://lore.kernel.org/qemu-devel/20210729175554.686474-9-ehabkost@redhat.com
 
 -- 
 Eduardo
