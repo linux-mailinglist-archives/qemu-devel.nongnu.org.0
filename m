@@ -2,141 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA543E46D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:43:09 +0200 (CEST)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A4B3E46D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:42:20 +0200 (CEST)
+Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5Ya-0004mh-9d
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
+	id 1mD5Xn-0003e2-NH
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tiberiu.georgescu@nutanix.com>)
- id 1mD5WL-0001iT-GX; Mon, 09 Aug 2021 09:40:49 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:30622)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mD5WT-0001sO-TO
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 09:40:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tiberiu.georgescu@nutanix.com>)
- id 1mD5WI-0004yv-Q8; Mon, 09 Aug 2021 09:40:49 -0400
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 179Dbv8L013026; Mon, 9 Aug 2021 06:40:43 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=proofpoint20171006;
- bh=rFiKEAy+hvqzKl08vrG/l8AsuLvvpXHPwP/RYpFv1Aw=;
- b=QKXe0GKU1KmnmZVxbHRA2/lQqzWFCSOH7YPEPA+vE4KCIBp7H2TxQi4yjKz/NdXTlwff
- lk79qgzJTXvV/o+x5PDe3XtsZIQBmJ1YAPScJJetXwEbz+XMdrwg+G0UjlJBMfqyrv3k
- secw1BTvp+oyb75dYwnevOZVHRLPPkb9A4t5Bapg4UAMcmHgfPt72NbSdDJazDg/BHHs
- eGKj2bAM93G/q3iCvALxTYqg31nJsX6vflRF1Wa/z0KVY76wVZ9Fw8mKYg5EXorwNrGx
- eeaeHpRh3l8BPVqBp7tJ8Az036/4sQqanLZsPCOhcj3kDkCjdp9abhU/Pp/TOvTnVUb8 ng== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
- by mx0a-002c1b01.pphosted.com with ESMTP id 3aawvg8uev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Aug 2021 06:40:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NteEVe0ScaMcN3KXn0GcSABOvNlE06qBYvHjomyfrO7DJ9LSe34OA1QWYAfE7iuicwqKfKUoMxAn9UGHhuMMXxIPoBuxcIwuPTSuwk9wUi31m3moapuTcIQ0meBN//BzVbgMZkphSOiAy9NXNOIKOSb0kfoqkLr6S4ci/CVWY047vjVydfjsl+ecngd1+XgADJRrYv6NgaASyoJTzyCEIcsli+s3vOCL7PDxFrdAK0cddA/q+3FIkUuFyQrigvUO2w42ejWipTOOx9qG2ngexDQKlUC4QLKQhZ8JSScrgyyApD/MvQ2pDf3x7hSjeiYWGkgOxUvVR34gsXbVuvpYTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rFiKEAy+hvqzKl08vrG/l8AsuLvvpXHPwP/RYpFv1Aw=;
- b=mIl16Hp6Ki3jtMe+QnTNmSgxqvTZlUZd9iYmXd7Ept+OBPZMasV4Nv6cC7nszj0qDlMuSqkSfMKHe200C63RdZEI1eI7lkdqBDe2Bq40u4LN+kJXGf37eRURutCbbBpAFeB7B0PB9NgWCny7ejr4cXKyCPbcr7v+TtSY7pn9WmuNqU2zaycdQdQxVmSfBKz5MZBJq3UxrtcyZG4Dsx7L5NPmPAVcDX/JIvtbIUAopshg8VG88WrQ7V4cc0LH3SvzeL4GtXGWIymZGNL94APL1krADuTYZKrY5RObt291ZDO6JboUoYl7onFVCDXLEgeHQMMcOp6+oqozxLQx4edZEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-Received: from DM6PR02MB5578.namprd02.prod.outlook.com (2603:10b6:5:79::13) by
- DM6PR02MB6281.namprd02.prod.outlook.com (2603:10b6:5:1fa::24) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.16; Mon, 9 Aug 2021 13:40:40 +0000
-Received: from DM6PR02MB5578.namprd02.prod.outlook.com
- ([fe80::5116:80a5:77d9:fcc4]) by DM6PR02MB5578.namprd02.prod.outlook.com
- ([fe80::5116:80a5:77d9:fcc4%7]) with mapi id 15.20.4394.023; Mon, 9 Aug 2021
- 13:40:40 +0000
-From: Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
-To: mst@redhat.com, qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Subject: [PATCH] hw/virtio: move vhost_set_backend_type() to vhost.c
-Date: Mon,  9 Aug 2021 13:40:15 +0000
-Message-Id: <20210809134015.67941-1-tiberiu.georgescu@nutanix.com>
-X-Mailer: git-send-email 2.32.0.380.geb27b338a3
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH0PR07CA0093.namprd07.prod.outlook.com
- (2603:10b6:510:4::8) To DM6PR02MB5578.namprd02.prod.outlook.com
- (2603:10b6:5:79::13)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mD5WQ-00054M-KT
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 09:40:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628516451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7znOMU21sABj0oQpqf1pkQM7tKTfvturEVG3NAugRKU=;
+ b=dKVEfPiZOHwtUl0Lz+VRhQIPrqW8IQpHmcBWMTA4CCtqGOM24UkAZqXTOTErAgmUaI84bZ
+ oU+HQXqs3GE1UgxNo0++m+9UqdASTluNi13LY9XH0HAJZdwyRVfKe4BV8MLoi3eadxxKzD
+ vaSGW3exwOMm05Gnd1hoOVaaoVGrIRY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-p6EAJK_PPPqvNJnUK8I0nA-1; Mon, 09 Aug 2021 09:40:50 -0400
+X-MC-Unique: p6EAJK_PPPqvNJnUK8I0nA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b196-20020a1c80cd0000b02902e677003785so2548573wmd.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 06:40:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=7znOMU21sABj0oQpqf1pkQM7tKTfvturEVG3NAugRKU=;
+ b=rIMO/CEGg2jWKtbQFDFcMTX8baUr55UReE7wx72SvU3ciMEEOY/NSu7MBcN6yqo2+y
+ PWLib6kdHM6xFAnUWWHqc4vlM2rxsYZPHk4rpol1P9HQcJNj2qOV+gsr/YhSlUJNUw4h
+ SsOiGevhyNszkn1G55ncJoupgHO2nlpGwUK4o4LRIdSoGulEMkjwJSE1B+YneY9LAAGO
+ yOrjFMsKmwFCgd9+IdejkS0yZ7HQkkP2/7WwtkcXCL2QlAXWe3GNtDbjHUgbNQ33p8O9
+ 5V0BcCdJ9/KVltVHpZYZAaVP/TWo8pOsHbYFPZgEkOVTM+Zp94x8GjqlPw3TvfCL0SfV
+ 2Yeg==
+X-Gm-Message-State: AOAM530bIZEbayUVw/eyXLmhgJG3VygGBlWfzEBiY3xV/NeNO1ki2+nB
+ EgMdkYu231rGCW11jHcTrRY0eqn8AVMDkWvySKsa3XdhxXg+eamUUSK9Ldz0rmMI6D4vIVxBFpD
+ XeZ8kIxyk9pJKT70=
+X-Received: by 2002:a1c:1f17:: with SMTP id f23mr7316074wmf.136.1628516449325; 
+ Mon, 09 Aug 2021 06:40:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEsjydhDXftpPoowt+OtAH0Zcu+H/xmKy0ejPaWGi7dPnCZ1OYfSd1Njry8uoDn0xXMjPlUw==
+X-Received: by 2002:a1c:1f17:: with SMTP id f23mr7316044wmf.136.1628516449004; 
+ Mon, 09 Aug 2021 06:40:49 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ g12sm19575843wri.49.2021.08.09.06.40.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Aug 2021 06:40:48 -0700 (PDT)
+Subject: Re: [PATCH v3 06/10] virtiofsd: Let lo_inode_open() return a TempFd
+To: Vivek Goyal <vgoyal@redhat.com>, Max Reitz <mreitz@redhat.com>
+References: <20210730150134.216126-1-mreitz@redhat.com>
+ <20210730150134.216126-7-mreitz@redhat.com> <YQ2TleuDejJY4O4V@redhat.com>
+From: Max Reitz <hreitz@redhat.com>
+Message-ID: <87ab005c-9ae2-d2c8-f20f-8dea9627ccbc@redhat.com>
+Date: Mon, 9 Aug 2021 15:40:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tiberiu-georgescu.ubvm.nutanix.com (192.146.154.243) by
- PH0PR07CA0093.namprd07.prod.outlook.com (2603:10b6:510:4::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Mon, 9 Aug 2021 13:40:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7636bf1e-b623-482c-7be1-08d95b3b46cf
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6281:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR02MB62812466DB5F44DCE6A99EA9E6F69@DM6PR02MB6281.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Obv6YLPOH2udJZz2MDFG2NkmQQ6MdLuZXwFRJEfSLPZww0mccobfnoa2sJne8pl0mF3gWJhQFwgwyPslYSKG9sFgT8i08DNz6W0ktV+Hokvu8l+vtP2ymflC7/WOdYqVeQJiMc314tD033hrEt5g9c+78f7Na0EqFwYXMjfO7b3HO5pVKSAfflyXiwgs9bGwIbizDBdHSidVNASuNpPT7zATjNnQhy7PaQ6Rsi5SY9P67q+zBOy1mfQsGdYkFrmKz9tmwms2E7Yeao7FbAGZ7W4jLankuKytT0+fxoWm1CHxE95vUpfsFNj55GT4B5VAEARlfNIoSQWDxn+4/HToSfQm/1TsM2o/H5xoewgKH/ljRKjRnxo7RHKookaizdIcSuEB16/53B8jpOBaKKRZQBO7IEFOxMjxMY4EsgIv68WXpDS+OA0OLF67tiBCj+LFjJ0KC0VPVkoAC/s/FvvUJOwDgScyFF+TzsBWLN6sORHDQHKpzC/7u4iDF/WkB31enDlEQkKyNc62Dj/2KBZO9xX1FEzca4E4s+jsnJVsmz5HCnzc1sI0osExBvNhUUHyM7CbfDoxpRo8dD72b8pQE4jQepmG4BeWpX8APvuFMyBj0NXIZ36U6XLqfzK8W+QbuYARzB8yDi6lVg+jwn8EFrJ5AiSPX08/CyNc6nT4Q9mRpMhMhQ1gt0yv3b7B3lUG5wXpsD3g/ReclXZKRsD2WQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR02MB5578.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(346002)(366004)(376002)(39860400002)(186003)(26005)(36756003)(52116002)(7696005)(6666004)(956004)(38350700002)(6486002)(2906002)(2616005)(478600001)(38100700002)(5660300002)(107886003)(316002)(66946007)(66476007)(66556008)(8676002)(86362001)(1076003)(4326008)(83380400001)(8936002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o+Yc3oETmHnF5sIxJB9mynTZVUQs6BNuAeFLffZTeSyWIvT2oRGP83MsewM0?=
- =?us-ascii?Q?Nd3+RgjWdb8PoAHUNoOpLlPtOhEg1W0MAVx7KUQC8Dwc7070nDRD44ZAC2S0?=
- =?us-ascii?Q?9JLtvZoFRJgefbqyicWUeGJBqgyeZi1DfiuOBqIgFZ5hf1+7NFgml0LBgaPE?=
- =?us-ascii?Q?7EJ8T1O6nivUH4zVUf0MOL5DcmSTmDWJWDF2Qkte+/E3Bz3526xeAdL4IcBo?=
- =?us-ascii?Q?HUSph1Q+HbGqqn3Ws4t0DBy/YK0vtbcpaJ2hd3pmMSm7NaLzYHeUD1cwB6Pr?=
- =?us-ascii?Q?NNN0L88kwt/pH+9f/fKQCgSU0m4tC0yJgUr0UDCqzv9BoNf5NFj6J7GgWIk5?=
- =?us-ascii?Q?r8a6FKmRRNyF8mvdBRyHWp/t/q6gbq1E09AjmuMnVWESbZpnEK8XLulrOcbs?=
- =?us-ascii?Q?h8vTLNsV3saqw3YYQ1eJ7IyiXnnHoiSQoG1F7gwkw+m6LoGadqsS9suXcQfY?=
- =?us-ascii?Q?fMQFW7vVXZEFgky7DZHYv3O1/ZeV4QEsH0NWzcs+nMlm2bw26v/pOZzeDyxI?=
- =?us-ascii?Q?gygNUNy+i/nr8giytqtKy38O9ZDYXSwmAxZfuSEglI3pbQpNmPEnzdqkwjqy?=
- =?us-ascii?Q?jNMl+/+FdaDKIBFeuvG1cxY7o2hPanqZFcmT5r04nDPxG9ARGrYWHcWrftiK?=
- =?us-ascii?Q?/JOH5K6RDqMFzMsC8mfIaXtxHi7MDTPWdU0VpDAqVGE49nGcwVXCVhf0FaYY?=
- =?us-ascii?Q?ncrLnb4oPv5jUZZsEInxxER+VkrzV1NcHP2NCOXqmi6ONIfLyh1O2EjiGUqs?=
- =?us-ascii?Q?tsBA3M7AQjdKikLA7zbGeptKoQIEmlv+JAzinOXEE4KXFm6AFHhcbcVcDpbS?=
- =?us-ascii?Q?CKyYY2yNer/okojdWWzDpYDWJKWWvYJ2330YQZQS0ESfFJrLbzVqZWtMjB6O?=
- =?us-ascii?Q?emZGd41xPjPtuG0GpRz4PQJfvRu5kdr23euAoPQEdmPtEwVxWzwO7yMHl2y0?=
- =?us-ascii?Q?GAqkzU+espa2jXSz5bREevrLtx8i4kJA6jkcgZMoXYaZJHz+aPgK0/Z8aH+B?=
- =?us-ascii?Q?Xj1tauQFeHnggdbSQnLNop7Mp3EKSAqREqiB6TUncRjmRiUuxhAsOc+4OKh+?=
- =?us-ascii?Q?nrtNNTyotJRA6QWDWQ2uzoCj8/tZ5SYTHVDfIGlUMelAzb2ilxhOkDzjbDNu?=
- =?us-ascii?Q?H6qsHCu2iHTT3aKKeqkuNcmpd6d9Fh95Q1vStEbzCOiTwuHijYlmlHQAWLVZ?=
- =?us-ascii?Q?tF6tsV8FrCwOprqXwB/qwTvlXUNloqTq3ioMQNXEPI6Tcy2zfeE8VtRle0uG?=
- =?us-ascii?Q?yD0rxfILRcQatnpTuNbal3aC4rBmubaVmAovZwRczVK3+sNn9Nt5VNwdocHu?=
- =?us-ascii?Q?irt+y157XD5eJMrz65PVBqtA?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7636bf1e-b623-482c-7be1-08d95b3b46cf
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB5578.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2021 13:40:40.1505 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1hl++z94Sz7KmS+GFdhyWmHaiIHndQ1dgsgMTY6N/ZuXwaD3iWc8Rjz5zvy4boJ2rmwfOQ196NM2pdWioS47YKdrhxcZ9tWUDTjSqTTnjIw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6281
-X-Proofpoint-GUID: 2H4mBgsoQBljMuoFz_XL_AlxKMrT7xyf
-X-Proofpoint-ORIG-GUID: 2H4mBgsoQBljMuoFz_XL_AlxKMrT7xyf
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-09_04:2021-08-06,
- 2021-08-09 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=tiberiu.georgescu@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+In-Reply-To: <YQ2TleuDejJY4O4V@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -149,150 +98,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tiberiu Georgescu <tiberiu.georgescu@nutanix.com>,
- raphael.norwitz@nutanix.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tiberiu Georgescu <tiberiu.georgescu@nutanix.com>
+On 06.08.21 21:55, Vivek Goyal wrote:
+> On Fri, Jul 30, 2021 at 05:01:30PM +0200, Max Reitz wrote:
+>> Strictly speaking, this is not necessary, because lo_inode_open() will
+>> always return a new FD owned by the caller, so TempFd.owned will always
+>> be true.
+>>
+>> However, auto-cleanup is nice, and in some cases this plays nicely with
+>> an lo_inode_fd() call in another conditional branch (see lo_setattr()).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   tools/virtiofsd/passthrough_ll.c | 138 +++++++++++++------------------
+>>   1 file changed, 59 insertions(+), 79 deletions(-)
+>>
+>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+>> index 9e1bc37af8..292b7f7e27 100644
+>> --- a/tools/virtiofsd/passthrough_ll.c
+>> +++ b/tools/virtiofsd/passthrough_ll.c
+>> @@ -291,10 +291,8 @@ static void temp_fd_clear(TempFd *temp_fd)
+>>   /**
+>>    * Return an owned fd from *temp_fd that will not be closed when
+>>    * *temp_fd goes out of scope.
+>> - *
+>> - * (TODO: Remove __attribute__ once this is used.)
+>>    */
+>> -static __attribute__((unused)) int temp_fd_steal(TempFd *temp_fd)
+>> +static int temp_fd_steal(TempFd *temp_fd)
+>>   {
+>>       if (temp_fd->owned) {
+>>           temp_fd->owned = false;
+>> @@ -673,9 +671,12 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino, TempFd *tfd)
+>>    * when a malicious client opens special files such as block device nodes.
+>>    * Symlink inodes are also rejected since symlinks must already have been
+>>    * traversed on the client side.
+>> + *
+>> + * The fd is returned in tfd->fd.  The return value is 0 on success and -errno
+>> + * otherwise.
+>>    */
+>> -static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+>> -                         int open_flags)
+>> +static int lo_inode_open(const struct lo_data *lo, const struct lo_inode *inode,
+>> +                         int open_flags, TempFd *tfd)
+>>   {
+>>       g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
+>>       int fd;
+>> @@ -694,7 +695,13 @@ static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+>>       if (fd < 0) {
+>>           return -errno;
+>>       }
+>> -    return fd;
+>> +
+>> +    *tfd = (TempFd) {
+>> +        .fd = fd,
+>> +        .owned = true,
+>> +    };
+>> +
+>> +    return 0;
+>>   }
+>>   
+>>   static void lo_init(void *userdata, struct fuse_conn_info *conn)
+>> @@ -852,7 +859,12 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>>           return;
+>>       }
+>>   
+>> -    res = lo_inode_fd(inode, &inode_fd);
+>> +    if (!fi && (valid & FUSE_SET_ATTR_SIZE)) {
+>> +        /* We need an O_RDWR FD for ftruncate() */
+>> +        res = lo_inode_open(lo, inode, O_RDWR, &inode_fd);
+>> +    } else {
+>> +        res = lo_inode_fd(inode, &inode_fd);
+>> +    }
+> A minor nit.
+>
+> So inode_fd could hold either an O_PATH fd returned by lo_inode_fd()
+> or a O_RDWR fd returned by lo_inode_open().
+>
+> Previous code held these fds in two different variables, inode_fd and
+> truncfd respectively. I kind of found that easier to read because looking
+> at variable name, I knew whether I am dealing with O_PATH fd or an
+> O_RDWR fd I just opened.
+>
+> So a minor nit. We could continue to have two variables, say
+> inode_fd and trunc_fd. Just that type of trunc_fd will now be TempFd.
+>
+> Also I liked previous style easier to read where I always got hold
+> of O_PATH fd first. And later opened a O_RDWR fd if operation
+> is FUSE_ATTR_SIZE. So "valid & FUSE_SET_ATTR_SIZE" check was not
+> at two places.
 
-Just a small refactor patch.
+Oh, yes.  The problem with that approach is that we unconditionally need 
+to get an O_PATH fd, which is trivial for when we have one, but with 
+file handles this means an open_by_handle_at() operation – and then 
+another one to get the O_RDWR fd.  So there’s a superfluous 
+open_by_handle_at() operation there.
 
-vhost_set_backend_type() gets called only in vhost.c, so we can move the
-function there and make it static. We can then extern the visibility of
-kernel_ops, to match the other VhostOps in vhost-backend.h.
-The VhostOps constants now make more sense in vhost.h
+I understand this makes the code a bit more complicated, but I felt 
+there was sufficient reason for it.
 
-Suggested-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Signed-off-by: Tiberiu Georgescu <tiberiu.georgescu@nutanix.com>
----
- hw/virtio/vhost-backend.c         | 30 +-----------------------------
- hw/virtio/vhost.c                 | 29 +++++++++++++++++++++++++++++
- include/hw/virtio/vhost-backend.h |  6 ------
- include/hw/virtio/vhost.h         |  4 ++++
- 4 files changed, 34 insertions(+), 35 deletions(-)
+That also means that I don’t really want to differentiate the fd into 
+two distinct fd variables.  Nothing in this function needs an O_PATH fd, 
+it’s just that that’s the easier one to open, so those places can work 
+with any fd.
 
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 594d770b75..b65f8f7e97 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -293,7 +293,7 @@ static void vhost_kernel_set_iotlb_callback(struct vhost_dev *dev,
-         qemu_set_fd_handler((uintptr_t)dev->opaque, NULL, NULL, NULL);
- }
- 
--static const VhostOps kernel_ops = {
-+const VhostOps kernel_ops = {
-         .backend_type = VHOST_BACKEND_TYPE_KERNEL,
-         .vhost_backend_init = vhost_kernel_init,
-         .vhost_backend_cleanup = vhost_kernel_cleanup,
-@@ -328,34 +328,6 @@ static const VhostOps kernel_ops = {
- };
- #endif
- 
--int vhost_set_backend_type(struct vhost_dev *dev, VhostBackendType backend_type)
--{
--    int r = 0;
--
--    switch (backend_type) {
--#ifdef CONFIG_VHOST_KERNEL
--    case VHOST_BACKEND_TYPE_KERNEL:
--        dev->vhost_ops = &kernel_ops;
--        break;
--#endif
--#ifdef CONFIG_VHOST_USER
--    case VHOST_BACKEND_TYPE_USER:
--        dev->vhost_ops = &user_ops;
--        break;
--#endif
--#ifdef CONFIG_VHOST_VDPA
--    case VHOST_BACKEND_TYPE_VDPA:
--        dev->vhost_ops = &vdpa_ops;
--        break;
--#endif
--    default:
--        error_report("Unknown vhost backend type");
--        r = -1;
--    }
--
--    return r;
--}
--
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-                                              uint64_t iova, uint64_t uaddr,
-                                              uint64_t len,
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index e8f85a5d2d..53fccc0ce2 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -174,6 +174,35 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
-     return log_size;
- }
- 
-+static int vhost_set_backend_type(struct vhost_dev *dev,
-+                                  VhostBackendType backend_type)
-+{
-+    int r = 0;
-+
-+    switch (backend_type) {
-+#ifdef CONFIG_VHOST_KERNEL
-+    case VHOST_BACKEND_TYPE_KERNEL:
-+        dev->vhost_ops = &kernel_ops;
-+        break;
-+#endif
-+#ifdef CONFIG_VHOST_USER
-+    case VHOST_BACKEND_TYPE_USER:
-+        dev->vhost_ops = &user_ops;
-+        break;
-+#endif
-+#ifdef CONFIG_VHOST_VDPA
-+    case VHOST_BACKEND_TYPE_VDPA:
-+        dev->vhost_ops = &vdpa_ops;
-+        break;
-+#endif
-+    default:
-+        error_report("Unknown vhost backend type");
-+        r = -1;
-+    }
-+
-+    return r;
-+}
-+
- static struct vhost_log *vhost_log_alloc(uint64_t size, bool share)
- {
-     Error *err = NULL;
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 8475c5a29d..81bf3109f8 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -173,12 +173,6 @@ typedef struct VhostOps {
-     vhost_force_iommu_op vhost_force_iommu;
- } VhostOps;
- 
--extern const VhostOps user_ops;
--extern const VhostOps vdpa_ops;
--
--int vhost_set_backend_type(struct vhost_dev *dev,
--                           VhostBackendType backend_type);
--
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-                                              uint64_t iova, uint64_t uaddr,
-                                              uint64_t len,
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 045d0fd9f2..5ee306568b 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -95,6 +95,10 @@ struct vhost_dev {
-     const VhostDevConfigOps *config_ops;
- };
- 
-+extern const VhostOps kernel_ops;
-+extern const VhostOps user_ops;
-+extern const VhostOps vdpa_ops;
-+
- struct vhost_net {
-     struct vhost_dev dev;
-     struct vhost_virtqueue vqs[2];
--- 
-2.32.0.380.geb27b338a3
+What we could do is have an rw_fd variable and a path_fd variable. The 
+former will only be valid if the conditions are right (!fi && (valid & 
+FUSE_SET_ATTR_SIZE)), the latter will always be valid and will be the 
+same fd as rw_fd if the latter is valid.
+
+However, both need to be TempFds, because both lo_inode_open() and 
+lo_inode_fd() return TempFds.  So copying from rw_fd to path_fd would 
+require a new function temp_fd_copy() or something, so the code would 
+look like:
+
+if (!fi && (valid & FUSE_SET_ATTR_SIZE)) {
+     res = lo_inode_open(..., &rw_fd);
+     if (res >= 0) {
+         temp_fd_copy(&rw_fd, &path_fd);
+     }
+} else {
+     res = lo_inode_fd(..., &path_fd);
+}
+
+with
+
+void temp_fd_copy(const TempFd *from, const TempFd *to)
+{
+     *to = {
+         .fd = to->fd,
+         .owned = false,
+     };
+}
+
+And then we use path_fd wherever an O_PATH fd would suffice, and rw_fd 
+elsewhere (perhaps with a preceding assert(rw_fd.fd >= 0)).  Would that 
+be kind of in accordance with what you had in mind?
+
+> Anyway, this is a minor nit. If you don't like the idea of using
+> two separate variables to hold O_PATH fd and O_RDWR fd, that's ok.
+>
+>
+>>       if (res < 0) {
+>>           saverr = -res;
+>>           goto out_err;
+>> @@ -900,18 +912,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>>           if (fi) {
+>>               truncfd = fd;
+>>           } else {
+>> -            truncfd = lo_inode_open(lo, inode, O_RDWR);
+>> -            if (truncfd < 0) {
+>> -                saverr = -truncfd;
+>> -                goto out_err;
+>> -            }
+>> +            truncfd = inode_fd.fd;
+>>           }
+>>   
+>>           saverr = drop_security_capability(lo, truncfd);
+>>           if (saverr) {
+>> -            if (!fi) {
+>> -                close(truncfd);
+>> -            }
+>>               goto out_err;
+>>           }
+>>   
+>> @@ -919,9 +924,6 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>>               res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
+>>               if (res != 0) {
+>>                   saverr = res;
+>> -                if (!fi) {
+>> -                    close(truncfd);
+>> -                }
+>>                   goto out_err;
+>>               }
+>>           }
+>> @@ -934,9 +936,6 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>>                   fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
+>>               }
+>>           }
+>> -        if (!fi) {
+>> -            close(truncfd);
+>> -        }
+>>           if (res == -1) {
+>>               goto out_err;
+>>           }
+>> @@ -1822,11 +1821,12 @@ static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi)
+>>   static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+>>                          struct fuse_file_info *fi)
+>>   {
+>> +    g_auto(TempFd) inode_fd = TEMP_FD_INIT;
+>>       int error = ENOMEM;
+>>       struct lo_data *lo = lo_data(req);
+>>       struct lo_inode *inode;
+>>       struct lo_dirp *d = NULL;
+>> -    int fd;
+>> +    int res;
+>>       ssize_t fh;
+>>   
+>>       inode = lo_inode(req, ino);
+>> @@ -1840,13 +1840,13 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+>>           goto out_err;
+>>       }
+>>   
+>> -    fd = lo_inode_open(lo, inode, O_RDONLY);
+>> -    if (fd < 0) {
+>> -        error = -fd;
+>> +    res = lo_inode_open(lo, inode, O_RDONLY, &inode_fd);
+>> +    if (res < 0) {
+>> +        error = -res;
+>>           goto out_err;
+>>       }
+>>   
+>> -    d->dp = fdopendir(fd);
+>> +    d->dp = fdopendir(temp_fd_steal(&inode_fd));
+> So we are using temp_fd_steal(), because if fdopendir() is succesful,
+> we don't want to close fd instead it will be closed during closedir()
+> call. inode_fd will be closed once lo_opendir(), so we get fd ownership
+> which will need to close explicitly, when appropriate.
+>
+> Who closes the stolen fd returned by temp_fd_steal() if fdopendir() fails?
+
+Nobody, I forgot handling it in the error path. O:)
+
+Thanks for the catch.
+
+>>       if (d->dp == NULL) {
+>>           goto out_errno;
+>>       }
+>> @@ -1876,8 +1876,6 @@ out_err:
+>>       if (d) {
+>>           if (d->dp) {
+>>               closedir(d->dp);
+>> -        } else if (fd != -1) {
+>> -            close(fd);
+>>           }
+>>           free(d);
+>>       }
+>> @@ -2077,6 +2075,7 @@ static void update_open_flags(int writeback, int allow_direct_io,
+>>   static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+>>                         int existing_fd, struct fuse_file_info *fi)
+>>   {
+>> +    g_auto(TempFd) inode_fd = TEMP_FD_INIT;
+> It bothers me that we are using variable inode_fd both to hold O_PATH
+> fd as well as regular fd. Will be nice if just by looking at variable
+> name I could figure out which type of fd it is.
+>
+> Will it make sense to use path_fd, or ipath_fd, or inode_path_fd to
+> represent where we are using O_PATH fd.
+
+I suppose you mean in general and not specifically for lo_do_open()?  
+Sure, I vote for path_fd.
+
+I can imagine the diff stat may become rather large, though, so while I 
+agree in principle, I’ll have to take a look first to know how invasive 
+such a change would be (and then let you know).
+
+Thanks for you feedback!
+
+Max
 
 
