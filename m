@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2DE3E3E41
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 05:24:30 +0200 (CEST)
-Received: from localhost ([::1]:33382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7956A3E3E42
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 05:24:43 +0200 (CEST)
+Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCvtt-0001q8-9L
-	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 23:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
+	id 1mCvu6-0002RO-H8
+	for lists+qemu-devel@lfdr.de; Sun, 08 Aug 2021 23:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mCvse-0000o7-CE
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 23:23:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52285)
+ id 1mCvt8-00015Z-1P
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 23:23:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mCvsZ-0003xh-So
- for qemu-devel@nongnu.org; Sun, 08 Aug 2021 23:23:11 -0400
+ id 1mCvt6-0004OI-1u
+ for qemu-devel@nongnu.org; Sun, 08 Aug 2021 23:23:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628479385;
+ s=mimecast20190719; t=1628479418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xe9uj/FEunskDw6GaK0hj8QWLWyf52Jf1BODUf4W7+Q=;
- b=DsZicx3ZodeaCwqc7H/+C7tl4Fc6AqSO32SG7WmVe3za0a0yzBhXL7w+dY/HNWj2bsEtSZ
- HVQrdXuBw72sRyZUZOuGRMEXfvk19EeJEKKubg9iKqX3nHB/Kv+1JIOhuSLx+ovZ4HZ67t
- DgWQRG8tkEfKPzrejeJvkcLvo3wL5cg=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-itBkmq6AMiWQ3OE1BndDvg-1; Sun, 08 Aug 2021 23:23:03 -0400
-X-MC-Unique: itBkmq6AMiWQ3OE1BndDvg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- q63-20020a17090a17c5b02901774f4b30ebso15198620pja.1
- for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 20:23:02 -0700 (PDT)
+ bh=UnsGxZ08AR5I39z6HLCfVGxxmuqACWD73I2pG9lwp9Q=;
+ b=BGdaZsZuXXsQWSN4przFcpyUedAWTgSuR5lysUXPZHRT1rgFxButFA24hsg9SBgKHA49aX
+ tXqw1oK/r9NDGwXP6IMvvNsqRBZBwE9UoVH8aaPfyaZuJmSqV34jBfLxz6O4S4ssjfREEA
+ aCw+nxzrSSR/ia4NIXH2NgXjqwzoL5Y=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-6onNL_REOxCKIFtcuRI6-Q-1; Sun, 08 Aug 2021 23:23:35 -0400
+X-MC-Unique: 6onNL_REOxCKIFtcuRI6-Q-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ g12-20020a17090ace8cb029017797b2c0f8so13384349pju.4
+ for <qemu-devel@nongnu.org>; Sun, 08 Aug 2021 20:23:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=xe9uj/FEunskDw6GaK0hj8QWLWyf52Jf1BODUf4W7+Q=;
- b=gLnEaTVn8JIl5oNPz0eGngAeFcAUpJKUIpIc7FcIKpu0UPKlwNHf2yiqrTbwlu8Wt+
- GBC7u6nqja9QCsOPOW2yAgZSvLdUB1xPXvWTJ8shCPN+T2tZiUgKzIfSrKBiJBNm4cxP
- egFR3rgVG0sT9YyPbpZ6AS4mwRqC8r+2oKt4neA2HWBHAd2BCtl5HBc9aWS/4OIRpxoW
- h+77prl5vmV+5Zj1mWt5SFZ6chPhLy74FTf9ajjpJRZjFcLjiHxIlMJCkDA4sjrBrBuu
- NVfYhlTG5pNvLcB728H+SV+iVJs9OJ+m8v7KE/I15hsKxi/7LAJ2B5rjIIkCVZoSQnmq
- auBQ==
-X-Gm-Message-State: AOAM533Hn64WyE8mwqXjKztlaTG8gX6vS7o/cci5inljQGJ3k596EpeG
- ueI2rqqu8NfVwGjHKNej3HSLVOks+YyU1YmtX61BlPQsEWF7mDCdbS6p2VjoWDbd6lAXO/6jmfU
- Dlp6R2wQPADGH0Og=
-X-Received: by 2002:a17:90a:bd18:: with SMTP id
- y24mr34021210pjr.83.1628479381380; 
- Sun, 08 Aug 2021 20:23:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysBuK5RmhiHRKFB1N9sGCrzwVDMlE8g5g/WVRj3dMZRRgyQoowVwKjqP1iviZyZdN+ymHs2A==
-X-Received: by 2002:a17:90a:bd18:: with SMTP id
- y24mr34021180pjr.83.1628479381065; 
- Sun, 08 Aug 2021 20:23:01 -0700 (PDT)
+ bh=UnsGxZ08AR5I39z6HLCfVGxxmuqACWD73I2pG9lwp9Q=;
+ b=EJLBxmmoaSYYvNOrtASXhBHSgqyMOssRaLnWgryeiWJwBFKelqgTQi3hALmMRsib4O
+ L4t07Ef7t2iyaK+g7CeHLcIf8vnKUBUiD0mEtFegzSev13j7S33pwEqzdnrKp10Uoq7h
+ wc72kXoqTlTNnZPkX6atPKZdp3UzKoCpPOjIHLdCINcAW6JsG4aZ9cisbwlHRjFnrGYa
+ pyWs2lXCwQNhDSc3EfSDL5Kdd9zuDH6Pysgf6QldhS3tDVowLxZCFZfM6dxPFlHImkdw
+ sCqJXzy4G4f2lyKmliDnNtpBAzI6lXxweUXoBFfXMqNm7ofHN51VQEx/Y0afwCA/mKds
+ eMhg==
+X-Gm-Message-State: AOAM533arzImA1rHNrKauXSoPIr47HxABPb8ZyyE7tKJKr/OSTo8mDo/
+ Xjin+YffzchpZm5fZwqtkxzHvmmYdAJ/xnaPR8i3EaExP/C8Je8UMpKrkOGAVDzDgVDld/bJiJ4
+ syNKkPnVcb2Zih5Q=
+X-Received: by 2002:a17:902:f541:b029:12d:27cb:832e with SMTP id
+ h1-20020a170902f541b029012d27cb832emr757994plf.22.1628479414892; 
+ Sun, 08 Aug 2021 20:23:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGtJb2IXFaDALVba8JwgglIschX/ys9kayPpPKk7cxBTQA3X++WCdMvUffcpXRfala6WHoSQ==
+X-Received: by 2002:a17:902:f541:b029:12d:27cb:832e with SMTP id
+ h1-20020a170902f541b029012d27cb832emr757985plf.22.1628479414687; 
+ Sun, 08 Aug 2021 20:23:34 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id u3sm14897425pfn.76.2021.08.08.20.22.58
+ by smtp.gmail.com with ESMTPSA id c14sm20776310pgv.86.2021.08.08.20.23.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Aug 2021 20:23:00 -0700 (PDT)
-Subject: Re: [PATCH v3] net/macos: implement vmnet-based netdev
-To: Markus Armbruster <armbru@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20210708054451.9374-1-akihiko.odaki@gmail.com>
- <875ywhfnn6.fsf@dusky.pond.sub.org>
+ Sun, 08 Aug 2021 20:23:34 -0700 (PDT)
+Subject: Re: [PATCH 0/7] Add vmnet.framework based network backend
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, qemu-devel@nongnu.org
+References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
+ <CADO9X9T9LVMCpJBgnwuSRN=FU5w1cvQXUCbpRvezD9jsyaO3xQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <c259cfd2-c13a-6e8b-35a7-79867e0018ea@redhat.com>
-Date: Mon, 9 Aug 2021 11:22:56 +0800
+Message-ID: <006193b9-81db-04b2-a312-dbc22cf531f8@redhat.com>
+Date: Mon, 9 Aug 2021 11:23:31 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <875ywhfnn6.fsf@dusky.pond.sub.org>
+In-Reply-To: <CADO9X9T9LVMCpJBgnwuSRN=FU5w1cvQXUCbpRvezD9jsyaO3xQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,295 +101,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@gmail.com, thuth@redhat.com, hsp.cat7@gmail.com,
- qemu-devel@nongnu.org, Phillip Tennen <phillip@axleos.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/8/7 下午8:24, Markus Armbruster 写道:
-> Jason, did this fall through the cracks?
+在 2021/8/7 上午3:03, Vladislav Yaroshchuk 写道:
+> ping
+> https://patchew.org/QEMU/20210617143246.55336-1-yaroshchuk2000@gmail.com/ 
+> <https://patchew.org/QEMU/20210617143246.55336-1-yaroshchuk2000@gmail.com/>
 
 
-Kind of, will review this week.
-
-6.2 material though.
+Will review this week.
 
 Thanks
 
 
 >
-> My review is for the QAPI schema only.
+> чт, 17 июн. 2021 г. в 17:33, Vladislav Yaroshchuk 
+> <yaroshchuk2000@gmail.com <mailto:yaroshchuk2000@gmail.com>>:
 >
-> Akihiko Odaki <akihiko.odaki@gmail.com> writes:
+>     macOS provides networking API for VMs called vmnet.framework.
+>     I tried to add it as a network backend. All three modes are supported:
 >
->> From: Phillip Tennen <phillip@axleos.com>
->>
->> This patch implements a new netdev device, reachable via -netdev
->> vmnet-macos, that’s backed by macOS’s vmnet framework.
->>
->> The vmnet framework provides native bridging support, and its usage in
->> this patch is intended as a replacement for attempts to use a tap device
->> via the tuntaposx kernel extension. Notably, the tap/tuntaposx approach
->> never would have worked in the first place, as QEMU interacts with the
->> tap device via poll(), and macOS does not support polling device files.
->>
->> vmnet requires either a special entitlement, granted via a provisioning
->> profile, or root access. Otherwise attempts to create the virtual
->> interface will fail with a “generic error” status code. QEMU may not
->> currently be signed with an entitlement granted in a provisioning
->> profile, as this would necessitate pre-signed binary build distribution,
->> rather than source-code distribution. As such, using this netdev
->> currently requires that qemu be run with root access. I’ve opened a
->> feedback report with Apple to allow the use of the relevant entitlement
->> with this use case:
->> https://openradar.appspot.com/radar?id=5007417364447232
->>
->> vmnet offers three operating modes, all of which are supported by this
->> patch via the “mode=host|shared|bridge” option:
->>
->> * "Host" mode: Allows the vmnet interface to communicate with other
->> * vmnet
->> interfaces that are in host mode and also with the native host.
->> * "Shared" mode: Allows traffic originating from the vmnet interface to
->> reach the Internet through a NAT. The vmnet interface can also
->> communicate with the native host.
->> * "Bridged" mode: Bridges the vmnet interface with a physical network
->> interface.
->>
->> Each of these modes also provide some extra configuration that’s
->> supported by this patch:
->>
->> * "Bridged" mode: The user may specify the physical interface to bridge
->> with. Defaults to en0.
->> * "Host" mode / "Shared" mode: The user may specify the DHCP range and
->> subnet. Allocated by vmnet if not provided.
->>
->> vmnet also offers some extra configuration options that are not
->> supported by this patch:
->>
->> * Enable isolation from other VMs using vmnet
->> * Port forwarding rules
->> * Enabling TCP segmentation offload
->> * Only applicable in "shared" mode: specifying the NAT IPv6 prefix
->> * Only available in "host" mode: specifying the IP address for the VM
->> within an isolated network
->>
->> Note that this patch requires macOS 10.15 as a minimum, as this is when
->> bridging support was implemented in vmnet.framework.
->>
->> Rebased to commit 9aef0954195cc592e86846dbbe7f3c2c5603690a by Akihiko
->> Odaki.
->>
->> Signed-off-by: Phillip Tennen <phillip@axleos.com>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->> Message-Id: <20210315103209.20870-1-akihiko.odaki@gmail.com>
-> [...]
+>     -shared:
+>       allows the guest to comminicate with other guests in shared mode and
+>       also with external network (Internet) via NAT
 >
->> diff --git a/qapi/net.json b/qapi/net.json
->> index 7fab2e7cd8a..e3b67f174fc 100644
->> --- a/qapi/net.json
->> +++ b/qapi/net.json
->> @@ -452,6 +452,115 @@
->>       '*vhostdev':     'str',
->>       '*queues':       'int' } }
->>   
->> +##
->> +# @VmnetOperatingMode:
->> +#
->> +# The operating modes in which a vmnet netdev can run
->> +# Only available on macOS
-> Generated qemu-qmp-ref.7 and .html show this as
+>     -host:
+>       allows the guest to communicate with other guests in host mode
 >
->      The operating modes in which a vmnet netdev can run Only available
->      on macOS
+>     -bridged:
+>       bridges the guest with a physical network interface
 >
-> Please end your sentences with periods :)
+>     Separate netdev for each vmnet mode was created because they use quite
+>     different settings, especially since macOS 11.0 when vmnet.framework
+>     gets a lot of updates.
 >
-> More of the same below.  Proof-reading the generated documentation is
-> always a good idea, and often forgotten (I've been guilty of that, too).
+>     Not sure that I use qemu_mutex_lock_iothread() and
+>     qemu_mutex_unlock_iothread() in correct way while sending packet
+>     from vmnet interface to QEMU. I'll be happy to receive
+>     recomendations how to make this thing better if I done sth wrong.
 >
->> +#
->> +# @host: the guest may communicate with the host
->> +#        and other guest network interfaces
->> +#
->> +# @shared: the guest may reach the Internet through a NAT,
-> Scratch "a"?
+>     Also vmnet.framework requires com.apple.vm.networking entitlement to
+>     run without root priveledges. Ad-hoc signing does not fit there,
+>     so I didn't touch anything related to signing. As a result we should
+>     run qemu-system by a priviledged user:
+>     `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+>     otherwise vmnet fails with 'general failure'.
 >
->> +#          and may communicate with the host and other guest
->> +#          network interfaces
->> +#
->> +# @bridged: the guest's traffic is bridged with a
->> +#           physical network interface of the host
-> "bridged width" or "bridged to"?  I'm not a networking guy...
+>     But in any way it seems working now,
+>     I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
+>     models:
+>     - e1000-82545em
+>     - virtio-net-pci
 >
->> +#
->> +# Since: 6.0
-> 6.2
+>     and having such guests:
+>     - macOS 10.15.7
+>     - Ubuntu Bionic (server cloudimg)
 >
->> +##
->> +{ 'enum': 'VmnetOperatingMode',
->> +  'data': [ 'host', 'shared', 'bridged' ],
->> +  'if': 'defined(CONFIG_VMNET)' }
-> I suspect we want 'defined(CONFIG_VMNET) && defined(CONFIG_DARWIN)',
-> here and below.
+>     Vladislav Yaroshchuk (7):
+>       net/vmnet: dependencies setup, initial preparations
+>       net/vmnet: add new netdevs to qapi/net
+>       net/vmnet: create common netdev state structure
+>       net/vmnet: implement shared mode (vmnet-shared)
+>       net/vmnet: implement host mode (vmnet-host)
+>       net/vmnet: implement bridged mode (vmnet-bridged)
+>       net/vmnet: update qemu-options.hx
 >
->> +
->> +##
->> +# @NetdevVmnetModeOptionsBridged:
->> +#
->> +# Options for the vmnet-macos netdev
->> +# that are only available in 'bridged' mode
->> +# Only available on macOS
->> +#
->> +# @ifname: the physical network interface to bridge with
->> +#          (defaults to en0 if not specified)
-> Scratch " if not specified".
+>      configure           |  31 +++++
+>      meson.build         |   5 +
+>      net/clients.h       |  11 ++
+>      net/meson.build     |   7 ++
+>      net/net.c           |  10 ++
+>      net/vmnet-bridged.m | 123 ++++++++++++++++++
+>      net/vmnet-common.m  | 294
+>     ++++++++++++++++++++++++++++++++++++++++++++
+>      net/vmnet-host.c    |  93 ++++++++++++++
+>      net/vmnet-shared.c  |  94 ++++++++++++++
+>      net/vmnet_int.h     |  48 ++++++++
+>      qapi/net.json       |  99 ++++++++++++++-
+>      qemu-options.hx     |  17 +++
+>      12 files changed, 830 insertions(+), 2 deletions(-)
+>      create mode 100644 net/vmnet-bridged.m
+>      create mode 100644 net/vmnet-common.m
+>      create mode 100644 net/vmnet-host.c
+>      create mode 100644 net/vmnet-shared.c
+>      create mode 100644 net/vmnet_int.h
 >
->> +#
->> +# Since: 6.0
->> +##
->> +{ 'struct': 'NetdevVmnetModeOptionsBridged',
->> +  'data': { '*ifname':  'str' },
->> +  'if': 'defined(CONFIG_VMNET)' }
->> +
->> +##
->> +# @NetdevVmnetModeOptionsHostOrShared:
->> +#
->> +# Options for the vmnet-macos netdev
->> +# that are only available in 'host' or 'shared' mode
->> +# Only available on macOS
->> +#
->> +# @dhcp-start-address: the gateway address to use for the interface.
->> +#                      The range to dhcp_end_address is placed in the DHCP pool.
->> +#                      (only valid with mode=host|shared)
->> +#                      (must be specified with dhcp-end-address and
->> +#                       dhcp-subnet-mask)
->> +#                      (allocated automatically if unset)
->> +#
->> +# @dhcp-end-address: the DHCP IPv4 range end address to use for the interface.
->> +#                      (only valid with mode=host|shared)
->> +#                      (must be specified with dhcp-start-address and
->> +#                       dhcp-subnet-mask)
->> +#                      (allocated automatically if unset)
->> +#
->> +# @dhcp-subnet-mask: the IPv4 subnet mask (string) to use on the interface.
->> +#                    (only valid with mode=host|shared)
->> +#                    (must be specified with dhcp-start-address and
->> +#                     dhcp-end-address)
->> +#                    (allocated automatically if unset)
-> No IPv6.  Is it because the underlying OS feature can't do it, or is it
-> merely not implemented in QEMU, yet?
+>     -- 
+>     2.23.0
 >
->> +#
->> +# Since: 6.0
->> +##
->> +{ 'struct': 'NetdevVmnetModeOptionsHostOrShared',
->> +  'data': {
->> +    '*dhcp-start-address': 'str' ,
->> +    '*dhcp-end-address':   'str',
->> +    '*dhcp-subnet-mask':   'str' },
->> +  'if': 'defined(CONFIG_VMNET)' }
->> +
->> +##
->> +# @NetdevVmnetModeOptions:
->> +#
->> +# Options specific to different operating modes of a vmnet netdev
-> Suggest
->
->     # Options for a vmnet network interface backend.
->
->> +# Only available on macOS
->> +#
->> +# @mode: the operating mode vmnet should run in
->> +#
->> +# Since: 6.0
->> +##
->> +{ 'union': 'NetdevVmnetModeOptions',
->> +  'base': { 'mode': 'VmnetOperatingMode' },
->> +  'discriminator': 'mode',
->> +  'data': {
->> +    'bridged':      'NetdevVmnetModeOptionsBridged',
->> +    'host':         'NetdevVmnetModeOptionsHostOrShared',
->> +    'shared':       'NetdevVmnetModeOptionsHostOrShared' },
->> +  'if': 'defined(CONFIG_VMNET)' }
->> +
->> +##
->> +# @NetdevVmnetOptions:
->> +#
->> +# vmnet network backend
->> +# Only available on macOS
->> +#
->> +# @options: a structure specifying the mode and mode-specific options
->> +#           (once QAPI supports a union type as a branch to another union type,
->> +#            this structure can be changed to a union, and the contents of
->> +#            NetdevVmnetModeOptions moved here)
->> +#
->> +# Since: 6.0
->> +##
->> +{ 'struct': 'NetdevVmnetOptions',
->> +  'data': {'options': 'NetdevVmnetModeOptions' },
->> +  'if': 'defined(CONFIG_VMNET)' }
-> Why do you need this wrapper struct?
->
->> +
->>   ##
->>   # @NetClientDriver:
->>   #
->> @@ -460,10 +569,13 @@
->>   # Since: 2.7
->>   #
->>   #        @vhost-vdpa since 5.1
->> +#
->> +#        @vmnet-macos since 6.0 (only available on macOS)
->>   ##
->>   { 'enum': 'NetClientDriver',
->>     'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
->> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
->> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
->> +            { 'name': 'vmnet-macos', 'if': 'defined(CONFIG_VMNET)' } ] }
->>   
->>   ##
->>   # @Netdev:
->> @@ -477,6 +589,8 @@
->>   # Since: 1.2
->>   #
->>   #        'l2tpv3' - since 2.1
->> +#
->> +#        'vmnet-macos' since 6.0 (only available on macOS)
->>   ##
->>   { 'union': 'Netdev',
->>     'base': { 'id': 'str', 'type': 'NetClientDriver' },
->> @@ -492,7 +606,9 @@
->>       'hubport':  'NetdevHubPortOptions',
->>       'netmap':   'NetdevNetmapOptions',
->>       'vhost-user': 'NetdevVhostUserOptions',
->> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
->> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
->> +    'vmnet-macos': { 'type': 'NetdevVmnetOptions',
->> +                     'if': 'defined(CONFIG_VMNET)' } } }
->>   
->>   ##
->>   # @RxState:
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index f7210779409..5ff872b3e84 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -2609,6 +2609,15 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
->>   #ifdef __linux__
->>       "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
->>       "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
->> +#endif
->> +#ifdef CONFIG_VMNET
->> +    "-netdev vmnet-macos,id=str,mode=bridged[,ifname=ifname]\n"
->> +    "         configure a macOS-provided vmnet network in \"physical interface bridge\" mode\n"
->> +    "         the physical interface to bridge with defaults to en0 if unspecified\n"
->> +    "-netdev vmnet-macos,id=str,mode=host|shared\n"
->> +    "                     [,dhcp_start_address=addr,dhcp_end_address=addr,dhcp_subnet_mask=mask]\n"
->> +    "         configure a macOS-provided vmnet network in \"host\" or \"shared\" mode\n"
->> +    "         the DHCP configuration will be set automatically if unspecified\n"
->>   #endif
->>       "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
->>       "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
 
 
