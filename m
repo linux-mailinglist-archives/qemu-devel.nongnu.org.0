@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA383E421C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:09:11 +0200 (CEST)
-Received: from localhost ([::1]:48384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2191A3E422C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:10:47 +0200 (CEST)
+Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD1HS-0005Qu-UT
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34998)
+	id 1mD1J0-0001Fk-67
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mD1AI-0001oE-DU
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:01:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51501)
+ id 1mD1AM-00027K-VO
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:01:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mD1AG-0001hN-P6
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:01:46 -0400
+ id 1mD1AK-0001lj-KR
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:01:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628499704;
+ s=mimecast20190719; t=1628499708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=idIj2q1epKhKLVhwR/EFfGgQo9w5miAWDUdYoyTanlk=;
- b=CelTQuHIqBLGDYxUVOY6R2ya7BDh+FADswQYIVimB1O4uXl6Moy8aPIOQFFW6Zk2nKObXv
- qIA81HoQfKCENCu9SJkH/5oBYRQ3SpCtOh58xBmNGfdgyYS2HCjA5ot1xn/2llRIAvCe+M
- 1NLg12zN2KoDXe+tUoz5ya6oOIZ2Afo=
+ bh=k2jsiDhfrKN+h9mKViT2yviKD38tba7MzbS6fXevvbM=;
+ b=avym8YmGAeVnsKBnaipSkngbltGNrUiRLgj2k3a3XUXSpa0MH6RyFc/nBnSM6jkfrOEZGx
+ E5H2/eDRS23yHE97GG7WyH5PlwjO16Qs+OuGUfJ8vgWYue1k82sYvyRoy/G7FJ6swtSHtP
+ namHDtwo9jSEEfAx6eh6DNMb5KU0/hM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-h27SudzVM5SU1SwvPkeQsw-1; Mon, 09 Aug 2021 05:01:42 -0400
-X-MC-Unique: h27SudzVM5SU1SwvPkeQsw-1
+ us-mta-160-oLg7BjwpMjSEo8m5AbQMiw-1; Mon, 09 Aug 2021 05:01:46 -0400
+X-MC-Unique: oLg7BjwpMjSEo8m5AbQMiw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F93C87D541;
- Mon,  9 Aug 2021 09:01:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C863B1009608;
+ Mon,  9 Aug 2021 09:01:45 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.193.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD09760C25;
- Mon,  9 Aug 2021 09:01:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58AA91B4B8;
+ Mon,  9 Aug 2021 09:01:43 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 09/16] docs/devel/testing: add -gdb option to the debugging
- section of QEMU iotests
-Date: Mon,  9 Aug 2021 11:01:07 +0200
-Message-Id: <20210809090114.64834-10-eesposit@redhat.com>
+Subject: [PATCH v9 10/16] qemu-iotests: extend the check script to prepare
+ supporting valgrind for python tests
+Date: Mon,  9 Aug 2021 11:01:08 +0200
+Message-Id: <20210809090114.64834-11-eesposit@redhat.com>
 In-Reply-To: <20210809090114.64834-1-eesposit@redhat.com>
 References: <20210809090114.64834-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -88,35 +88,83 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- docs/devel/testing.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Currently, the check script only parses the option and sets the
+VALGRIND_QEMU environmental variable to "y".
+Add another local python variable that prepares the command line,
+identical to the one provided in the test scripts.
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 8359f2ae37..01e1919873 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -229,6 +229,17 @@ Debugging a test case
- The following options to the ``check`` script can be useful when debugging
- a failing test:
- 
-+* ``-gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for a
-+  connection from a gdb client.  The options given to ``gdbserver`` (e.g. the
-+  address on which to listen for connections) are taken from the ``$GDB_OPTIONS``
-+  environment variable.  By default (if ``$GDB_OPTIONS`` is empty), it listens on
-+  ``localhost:12345``.
-+  It is possible to connect to it for example with
-+  ``gdb -iex "target remote $addr"``, where ``$addr`` is the address
-+  ``gdbserver`` listens on.
-+  If the ``-gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
-+  regardless of whether it is set or not.
+Because the python script does not know in advance the valgrind
+PID to assign to the log file name, use the "%p" flag in valgrind
+log file name that automatically puts the process PID at runtime.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/check      |  7 ++++---
+ tests/qemu-iotests/iotests.py | 11 +++++++++++
+ tests/qemu-iotests/testenv.py |  1 +
+ 3 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 4365bb8066..ebd27946db 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -39,6 +39,10 @@ def make_argparser() -> argparse.ArgumentParser:
+     p.add_argument('-gdb', action='store_true',
+                    help="start gdbserver with $GDB_OPTIONS options \
+                         ('localhost:12345' if $GDB_OPTIONS is empty)")
++    p.add_argument('-valgrind', action='store_true',
++                    help='use valgrind, sets VALGRIND_QEMU environment '
++                    'variable')
 +
- * ``-d`` (debug) just increases the logging verbosity, showing
-   for example the QMP commands and answers.
+     p.add_argument('-misalign', action='store_true',
+                    help='misalign memory allocations')
+     p.add_argument('--color', choices=['on', 'off', 'auto'],
+@@ -88,9 +92,6 @@ def make_argparser() -> argparse.ArgumentParser:
+     g_bash.add_argument('-o', dest='imgopts',
+                         help='options to pass to qemu-img create/convert, '
+                         'sets IMGOPTS environment variable')
+-    g_bash.add_argument('-valgrind', action='store_true',
+-                        help='use valgrind, sets VALGRIND_QEMU environment '
+-                        'variable')
  
+     g_sel = p.add_argument_group('test selecting options',
+                                  'The following options specify test set '
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index e7e3d92d3e..6aa1dc48ba 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -96,6 +96,17 @@
+     sys.stderr.write('Please run this test via the "check" script\n')
+     sys.exit(os.EX_USAGE)
+ 
++qemu_valgrind = []
++if os.environ.get('VALGRIND_QEMU') == "y" and \
++    os.environ.get('NO_VALGRIND') != "y":
++    valgrind_logfile = "--log-file=" + test_dir
++    # %p allows to put the valgrind process PID, since
++    # we don't know it a priori (subprocess.Popen is
++    # not yet invoked)
++    valgrind_logfile += "/%p.valgrind"
++
++    qemu_valgrind = ['valgrind', valgrind_logfile, '--error-exitcode=99']
++
+ socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
+ 
+ luks_default_secret_object = 'secret,id=keysec0,data=' + \
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 8501c6caf5..8bf154376f 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -298,6 +298,7 @@ def print_env(self) -> None:
+ SOCK_DIR      -- {SOCK_DIR}
+ SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
+ GDB_OPTIONS   -- {GDB_OPTIONS}
++VALGRIND_QEMU -- {VALGRIND_QEMU}
+ """
+ 
+         args = collections.defaultdict(str, self.get_env())
 -- 
 2.31.1
 
