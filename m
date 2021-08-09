@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5925E3E442C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:49:07 +0200 (CEST)
-Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7683E4431
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:51:16 +0200 (CEST)
+Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2q5-0005se-4J
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
+	id 1mD2sF-00037u-GW
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mD2lN-0002VR-BZ; Mon, 09 Aug 2021 06:44:09 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38719)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mD2o0-0005V5-Lf
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:46:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mD2lL-0007x3-IW; Mon, 09 Aug 2021 06:44:09 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id C4104580D78;
- Mon,  9 Aug 2021 06:44:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 09 Aug 2021 06:44:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=On35wC3bmwZKs9VsdtyPRPFix8w
- fUv1pA0CvbS7D1HA=; b=FpFOvlD/9gA0ofPAaKaLOhjazhcwwBhfYNAslba7dy1
- 8oHFCz3aQHCRjsQpdZGY8fyqk58YFPqa4qcmhx9dP1npkNrOOngQrY1vAOLnrJKn
- 88mlMdmebNiDo7D//4wY0bW/mLr/YsjE8jXtGKrYIQraJT566iSlw60RF1qsfkFW
- p1stzb3BZjtfQDAk7fOF2q538GD/V7+wXmDN+ZlPGeb3tCbcRX3AKaYfQ36ZKw3U
- rDYSqcQk0FuthVQAkYugC3nNVPYhhOULtenUe6k3dGREOU4IcCdjQaFyRLxI61CJ
- DvdPkjEPnM720hvc2nRlixkEQ5u0HSvs66CAr7L5j2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=On35wC
- 3bmwZKs9VsdtyPRPFix8wfUv1pA0CvbS7D1HA=; b=S+gifIDTd4fvYU4RS+fALr
- li4/O5caIhPVRmdHEanp39AvoFYbbud2G7IbabqFREaNLG9e5B7BkWcC9SbSCDsf
- k+bgLnkY0ojNooVZz+VZT7yGI7Y2kXvi91ORbIh+hTqlvMvc3sy+pJ492GesYQJ4
- agJnUDZk6TtLKEyperM77bnHkuiIDDMaFDEsLuftmo7Ace+ub2JRbSUxN5PriaFV
- cYVogLX3dDAD5rQtVG3DtcWpimFyLsZa3XUJpHVvN9Wg4u4DzmBRPO7u8aRLabgs
- 64qjOE2rWJ/pMmY+kuiyPq+Z33XUVbgZ0Vhi/GP/L3eLNWto7UOk19e73fkmgdbg
- ==
-X-ME-Sender: <xms:8wYRYU8lhdd7W72DnrKqEWD_lBzDhUD1ZqtTcaAm4z9fBmcO5AsVRw>
- <xme:8wYRYcv4_5G_FgLuEco0W-4daKQUxymFse6QqNAl5jGbsJc5Buu8L_aIr7iVOrBD9
- mzFOIhfZRAd-3Jmv2o>
-X-ME-Received: <xmr:8wYRYaCoB4Bog8ampmzMh6HfGKY-Iz9ibdFd8PkRR8qOtGqWHi6zw_pYqd7kzYPJ0s9v8nOdIyb9n8i40bp3yCv3ffUluIxdU4t7SejsowEWFkkq7A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeejgdefvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefhkedt
- necuffhomhgrihhnpehuuhhiugdruggrthgrnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:8wYRYUf4Jd21V7J9DISg0dPsk4S6W3hzgWv-TJzqw6TAwCZvWQNDOw>
- <xmx:8wYRYZNE8vU9dDSQv8AYrb_C2JIavs1-J03Jfdw6kbUey9giKD1jww>
- <xmx:8wYRYengLZQXDBjmHgq2ytI2VqCc5Im4NkZwFjF5dl-VgUKxo7XDcg>
- <xmx:9AYRYen_kYP5Y1B-GtTuESoYsTSFFIEWbT0XPs3buPqTYCiJr7Nz9A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Aug 2021 06:44:01 -0400 (EDT)
-Date: Mon, 9 Aug 2021 12:44:00 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 06/23] hw/nvme: namespace parameter for EUI-64
-Message-ID: <YREG8BuwApcdqUKu@apples.localdomain>
-References: <20210629184743.230173-1-its@irrelevant.dk>
- <20210629184743.230173-7-its@irrelevant.dk>
- <CAFEAcA-Xodpue0bUBbG++-CcRPV-+EJh=qw_23aGPEh3sAk0Ow@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mD2ny-0001Vg-TK
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:46:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628506010;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qJoWwTt18CjNgsWkVoh+hRmqDKEk5blUqBBY045APAM=;
+ b=aIAd1rSx4FrKafUEihdVwpAeZD/x3WPVicO8Z+qWKdNom8oFheP78zfwb3Ly6wR6dYyBBf
+ c64oMYAlbc2Ng9ibUzFIZ9WRsUB8/Yx29E4WQD9XqlHPje4+3xo5r7vlLZusZUU2SM/kcs
+ LtTK9n3o2nFbP2MVIAMO7FrhH3l6TM0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-ncxUDkqSOBCHViSvH9C7sA-1; Mon, 09 Aug 2021 06:46:49 -0400
+X-MC-Unique: ncxUDkqSOBCHViSvH9C7sA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ y6-20020a1c7d060000b02902e6946a8d1fso648637wmc.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 03:46:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qJoWwTt18CjNgsWkVoh+hRmqDKEk5blUqBBY045APAM=;
+ b=IxsqMzdXbVfdeVq55w+CljMAz6hFkDWT7guGckUj1FW+v+UGGOuApybbFUncujiuqh
+ p0RJWQWFQUigMrUX9V8bAZGXUruDFnHnO9htVk61zJLjBauU4dxjGpUS1/VgYD+0fd6A
+ +W0MOM9XnXz9bhcMqcuLPmqxuOZNHzLAYajsSj4lTVQmhPE/sBoTg/cA43xKmsrRzPLl
+ tUkxOqfgXIB68frE92jh3uZqcEq3pAPx+DGxKlrT+hXvLC2w9KjsFqfUsrFUbHTTdM1q
+ oH2w7iTSc4aGVyU9vEKNE/u1NZXrkw3o4pmCUw0ffLNIAcJDTUT0Ttd39NPDsEFtOdCz
+ f2Gg==
+X-Gm-Message-State: AOAM530eAI70Htwd1y78jYOLmOXH9bDep7HYOaX8OQ+1BNbuqbdxL+8Z
+ xmnKkFcx381ya21O8lJUQdZltocI7jhUL4OFH7MZHeFVp2g6i+wyINQpTtwVcJvkynpLRxfpLv6
+ YmSAILaa+dpnmK7E=
+X-Received: by 2002:adf:fc0d:: with SMTP id i13mr23491523wrr.276.1628506007813; 
+ Mon, 09 Aug 2021 03:46:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxexzFPqB8Y0eKOk7Zn0xTsFK/9IFseHCnPlIu7Eui+BGoe80tM+4FkLAVDqsK2gdc2UmRWcA==
+X-Received: by 2002:adf:fc0d:: with SMTP id i13mr23491512wrr.276.1628506007592; 
+ Mon, 09 Aug 2021 03:46:47 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id j6sm4936579wms.44.2021.08.09.03.46.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Aug 2021 03:46:47 -0700 (PDT)
+Subject: Re: [RFC 3/4] gqa-win: get_pci_info: Add g_autofree for few variables
+To: Kostiantyn Kostiuk <konstantin@daynix.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20210809094839.52312-1-konstantin@daynix.com>
+ <20210809094839.52312-3-konstantin@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <007231ff-bc43-50c2-9bd9-1becfbdf2281@redhat.com>
+Date: Mon, 9 Aug 2021 12:46:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Fsr34rThe80btTmW"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-Xodpue0bUBbG++-CcRPV-+EJh=qw_23aGPEh3sAk0Ow@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210809094839.52312-3-konstantin@daynix.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.707,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,158 +99,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: Michael Roth <michael.roth@amd.com>, Matt Hines <mhines@scalecomputing.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Kostiantyn,
 
---Fsr34rThe80btTmW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/9/21 11:48 AM, Kostiantyn Kostiuk wrote:
+> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 
-On Aug  9 11:18, Peter Maydell wrote:
-> On Tue, 29 Jun 2021 at 19:48, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > From: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> >
-> > The EUI-64 field is the only identifier for NVMe namespaces in UEFI dev=
-ice
-> > paths. Add a new namespace property "eui64", that provides the user the
-> > option to specify the EUI-64.
->=20
-> Hi; Coverity complains about some uses of uninitialized data in this
-> code (CID 1458835 1459295 1459580). I think the bug was present in
-> the previous version of this function, but this was the last change
-> to touch it...
->=20
-> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > index 7dea64b72e6a..762bb82e3cac 100644
-> > --- a/hw/nvme/ctrl.c
-> > +++ b/hw/nvme/ctrl.c
-> > @@ -4426,19 +4426,19 @@ static uint16_t nvme_identify_ns_descr_list(Nvm=
-eCtrl *n, NvmeRequest *req)
-> >      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
-> >      uint32_t nsid =3D le32_to_cpu(c->nsid);
-> >      uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
-> > -
-> > -    struct data {
-> > -        struct {
-> > -            NvmeIdNsDescr hdr;
-> > -            uint8_t v[NVME_NIDL_UUID];
-> > -        } uuid;
-> > -        struct {
-> > -            NvmeIdNsDescr hdr;
-> > -            uint8_t v;
-> > -        } csi;
-> > -    };
-> > -
-> > -    struct data *ns_descrs =3D (struct data *)list;
-> > +    uint8_t *pos =3D list;
-> > +    struct {
-> > +        NvmeIdNsDescr hdr;
-> > +        uint8_t v[NVME_NIDL_UUID];
-> > +    } QEMU_PACKED uuid;
-> > +    struct {
-> > +        NvmeIdNsDescr hdr;
-> > +        uint64_t v;
-> > +    } QEMU_PACKED eui64;
-> > +    struct {
-> > +        NvmeIdNsDescr hdr;
-> > +        uint8_t v;
-> > +    } QEMU_PACKED csi;
->=20
-> Here we define locals 'uuid', 'eui64', 'csi', without an initializer.
->=20
-> >      trace_pci_nvme_identify_ns_descr_list(nsid);
-> >
-> > @@ -4452,17 +4452,29 @@ static uint16_t nvme_identify_ns_descr_list(Nvm=
-eCtrl *n, NvmeRequest *req)
-> >      }
-> >
-> >      /*
-> > -     * Because the NGUID and EUI64 fields are 0 in the Identify Namesp=
-ace data
-> > -     * structure, a Namespace UUID (nidt =3D 3h) must be reported in t=
-he
-> > -     * Namespace Identification Descriptor. Add the namespace UUID her=
-e.
-> > +     * If the EUI-64 field is 0 and the NGUID field is 0, the namespac=
-e must
-> > +     * provide a valid Namespace UUID in the Namespace Identification =
-Descriptor
-> > +     * data structure. QEMU does not yet support setting NGUID.
-> >       */
-> > -    ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
-> > -    ns_descrs->uuid.hdr.nidl =3D NVME_NIDL_UUID;
-> > -    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
-> > +    uuid.hdr.nidt =3D NVME_NIDT_UUID;
-> > +    uuid.hdr.nidl =3D NVME_NIDL_UUID;
-> > +    memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
->=20
-> Here we fill in some fields of uuid, but we don't touch uuid.hdr.rsvd2[],
-> which remains thus 2 bytes of uninitialized junk from our stack.
->=20
-> > +    memcpy(pos, &uuid, sizeof(uuid));
->=20
-> Here we copy all of uuid to a buffer which we're going to hand
-> to the guest, so we've just given it two bytes of QEMU stack data
-> that it shouldn't really be able to look at.
->=20
-> > +    pos +=3D sizeof(uuid);
->=20
-> >
-> > -    ns_descrs->csi.hdr.nidt =3D NVME_NIDT_CSI;
-> > -    ns_descrs->csi.hdr.nidl =3D NVME_NIDL_CSI;
-> > -    ns_descrs->csi.v =3D ns->csi;
-> > +    if (ns->params.eui64) {
-> > +        eui64.hdr.nidt =3D NVME_NIDT_EUI64;
-> > +        eui64.hdr.nidl =3D NVME_NIDL_EUI64;
-> > +        eui64.v =3D cpu_to_be64(ns->params.eui64);
-> > +        memcpy(pos, &eui64, sizeof(eui64));
-> > +        pos +=3D sizeof(eui64);
-> > +    }
-> > +
-> > +    csi.hdr.nidt =3D NVME_NIDT_CSI;
-> > +    csi.hdr.nidl =3D NVME_NIDL_CSI;
-> > +    csi.v =3D ns->csi;
-> > +    memcpy(pos, &csi, sizeof(csi));
-> > +    pos +=3D sizeof(csi);
->=20
-> We do the same thing for the rsvd2[] bytes in csi.hdr and eui64.hdr.
->=20
-> >      return nvme_c2h(n, list, sizeof(list), req);
-> >  }
->=20
-> Explicitly zero-initializing uuid, csi, eui64 with "=3D { }" would
-> be the most robust fix. If you think it's worth avoiding "zero
-> init and then overwrite 90% of the fields anyway" then you could
-> explicitly zero the .hdr.rsvd2 bytes.
->=20
+I'm not sure what you are trying to do here, fix a memory leak?
 
-Thanks Peter,
+> ---
+>  qga/commands-win32.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 724ce76a0e..a8a601776d 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -539,9 +539,9 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+>      dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
+>      dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
+>      for (i = 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++) {
+> -        PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
+> +        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
+>          STORAGE_DEVICE_NUMBER sdn;
+> -        char *parent_dev_id = NULL;
+> +        g_autofree char *parent_dev_id = NULL;
+>          HDEVINFO parent_dev_info;
+>          SP_DEVINFO_DATA parent_dev_info_data;
+>          DWORD j;
+> 
 
-Fix posted!
+Anyhow this function is confuse.
 
---Fsr34rThe80btTmW
-Content-Type: application/pgp-signature; name="signature.asc"
+I think it would be easier to review by replacing the while()
+by 2 calls, as suggested in the documentation:
+https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinterfacedetaila
 
------BEGIN PGP SIGNATURE-----
+-- >8 --
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 7bac0c5d422..2188c5dd80d 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -539,7 +539,6 @@ static GuestPCIAddress *get_pci_info(int number,
+Error **errp)
+     dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
+     dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
+     for (i = 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++) {
+-        PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
+         STORAGE_DEVICE_NUMBER sdn;
+         char *parent_dev_id = NULL;
+         HDEVINFO parent_dev_info;
+@@ -551,25 +550,36 @@ static GuestPCIAddress *get_pci_info(int number,
+Error **errp)
+         if (SetupDiEnumDeviceInterfaces(dev_info, &dev_info_data,
+                                         &GUID_DEVINTERFACE_DISK, 0,
+                                         &dev_iface_data)) {
+-            while (!SetupDiGetDeviceInterfaceDetail(dev_info,
+&dev_iface_data,
+-                                                    pdev_iface_detail_data,
+-                                                    size, &size,
+-                                                    &dev_info_data)) {
+-                if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+-                    pdev_iface_detail_data = g_malloc(size);
+-                    pdev_iface_detail_data->cbSize =
+-                        sizeof(*pdev_iface_detail_data);
+-                } else {
+-                    error_setg_win32(errp, GetLastError(),
+-                                     "failed to get device interfaces");
+-                    goto free_dev_info;
+-                }
++            g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
++                       pdev_iface_detail_data = NULL;
++
++            /* Get the required buffer size. */
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 NULL, 0, &size,
++                                                 &dev_info_data)
++                    && GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
++                error_setg_win32(errp, GetLastError(),
++                                 "failed to get device interfaces
+buffer size");
++                goto free_dev_info;
++            }
++
++            /* Allocate an appropriately sized buffer. */
++            pdev_iface_detail_data = g_malloc(size);
++            pdev_iface_detail_data->cbSize =
+sizeof(*pdev_iface_detail_data);
++
++            /* Get the interface details. */
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 pdev_iface_detail_data,
++                                                 size, &size,
++                                                 &dev_info_data)) {
++                error_setg_win32(errp, GetLastError(),
++                                 "failed to get device interfaces");
++                goto free_dev_info;
+             }
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmERBuoACgkQTeGvMW1P
-Den33QgAkaToWtakbo8HxW0EPIfAmJyvYkTNv5qkhkOmwa0wzMmHvgIV5skYpECr
-4CBJiW/g9xIvlc8XfNy+Xm9xKM11b9xvI9+nRmUKqYcP0ZNt/uAlW28wdcDwt1Uu
-p2SGmkXNffvAfR0PPxE6JfpkwsL7UoJt+x9BqNk0snqydAC+2tc0UENgXu7qWLYl
-prHoQolDRsn4j01dRrN9dWo6hRAd0fa0mJ5aMsJFMv8coo4Xa98Zp/3WP3Zwq61u
-WE4b8X83Uc5f/l+6o2pqOuUOpoNl3yrJGCKgUvwehaN6KwxO8WQh0Xxe2sDQ1tFe
-fEjnvD80h8hvYUbP0MpD0DU3YFK6bQ==
-=5BAO
------END PGP SIGNATURE-----
+             dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
+                                   FILE_SHARE_READ, NULL, OPEN_EXISTING, 0,
+                                   NULL);
+-            g_free(pdev_iface_detail_data);
 
---Fsr34rThe80btTmW--
+             if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
+                                  NULL, 0, &sdn, sizeof(sdn), &size,
+NULL)) {
+---
+
 
