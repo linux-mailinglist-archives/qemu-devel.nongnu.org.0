@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD1B3E4E42
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 23:06:01 +0200 (CEST)
-Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6EF3E4F7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 00:49:10 +0200 (CEST)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDCTA-00067A-SL
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 17:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
+	id 1mDE4z-000791-0o
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 18:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDCSP-0005PZ-VB
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 17:05:14 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38639)
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1mDE3u-0006TQ-FU
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:48:02 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:47003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDCSO-0005wf-HZ
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 17:05:13 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- lw7-20020a17090b1807b029017881cc80b7so945812pjb.3
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 14:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1xTm8KO4njgMGgBQ0Z1uauQ+fjikjom5/+TAa67CU8U=;
- b=pFwbCtupUYhEY1DQRGysO6rkGHLZgotqM8bxU55g7lYUlAXiRXdkVllJGuR/2lo12/
- QDpB8+3VW7VP+00t/Ppgk4bjZyFi7AINKXewDyBkfC59AUnE36bppc9HAtYHwzFx7yLA
- AQ08NRyFeVIzUzimxVyl2zxs5SlnDaXKouzwtwx67kOCSguhkmiziZNywT1aPou3TWxR
- bNkoVX7S8dIATGsp1swybPmXKg0D0rFh9giXe1i1tZmBInokYmbRK52OidCsTiKyWIVW
- AIATs49mEOQEwhjmRvXxNGKEq9QJNHJh3Jirt7Kwqr2fHoD5OEDrHDs88IwilnqzAHon
- fr2w==
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1mDE3o-0001Wz-8Z
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:47:58 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ a7-20020a9d5c870000b029050333abe08aso6033380oti.13
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 15:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qKKtOChUOeG8zAh41aaademq5nm9etkbwSTsfF1otcI=;
+ b=ho3yVEjXsstYR363y9+QrSOfUxINLMlnhe/Gp96Cee8Ko6U0aq7LKROBPnV04rRBe1
+ ahNV4ojwGAfnB+irDTrOm5WyERzBbiTQB935dr2HJLVAxTt5G33HYM4fToyYT+Rg14Cp
+ BCVFqSqwaFhAwRSg76UH5gvspU7IUoXK6lgNzEBOywdho2oxLmCP9s8QacLsubUoj/RX
+ mmSvwKQNwlkJi6lPxeOKW01vsC8Hx6PhjmEeUCoy9fUTjQMt2YeawggZdViJs8z4q6mL
+ gGAyITrB5pXNsE60K67gyMNMOeZem35KpqcUAMf7Qar5CI5TNvOnODOP5bZxP5QRfGAs
+ YAfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1xTm8KO4njgMGgBQ0Z1uauQ+fjikjom5/+TAa67CU8U=;
- b=BSCu3r1nQ4MKrOeytLaPBQ0F/u+AYJM17IdRwJNNDFun1nl/dOFsgweVIVtUAlIA+k
- /FYd1/jXlxkn2JeRDemuiw92cYRjpx8UXhkUh4j9dsJT+qK8hnkrz8N4/3Fn7yYAPz4m
- XPLM8SymVCsA1zFp9yTU3H0e/dsS177nkJCwY13ssXBsJYTlB/+UGD+JsPTMJWIv7mTf
- L1b5eXwRQWhJoO6uXKSisx42c+y171tLSl3dZ1eRJ7jntDfM3LdkfUiG3q7eDz+kKLA0
- EnMw4M79rlfpPa/QvcXyuzx6+RfhZChT8f39AGaAgsTieQGl12bRIW9H9yFL6tsiMe+o
- bl7Q==
-X-Gm-Message-State: AOAM533RyemvGJLt9fq1LLk0z1oSpNrdv4FTU5K0t7c9f303yLu1VJiO
- o+jBNfPSF+rVv1DbuHnsKpCtCQ4YLrPu5Q==
-X-Google-Smtp-Source: ABdhPJzgMKMBvHWyeEyQICflNX054PPr1EIrkEtZ8d3pc5rtR2MFUiP6GnyqJJky05NbNtwy2w9MWQ==
-X-Received: by 2002:a05:6a00:22c3:b029:3b4:e9cc:b6d2 with SMTP id
- f3-20020a056a0022c3b02903b4e9ccb6d2mr19430556pfj.45.1628543110755; 
- Mon, 09 Aug 2021 14:05:10 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id q1sm21835039pfn.6.2021.08.09.14.05.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 14:05:10 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 29/49] bsd-user: Add system independent stack,
- data and text limiting
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-30-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ba4f98fc-5b2a-d258-1205-98ee3ac8cab8@linaro.org>
-Date: Mon, 9 Aug 2021 11:05:07 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qKKtOChUOeG8zAh41aaademq5nm9etkbwSTsfF1otcI=;
+ b=BUSz2YHaAHMtmrD0/kVtKkPJoz9IPe6EbQpShCKFqhDf8XCoN0j6X4cNYBZlvdfh/T
+ EMImTG5wLCxjd09J/NxskqG6khXcR8aQ+BFYCNMJaV1tgXHx6k9twwBSC+DhEDshDrPo
+ yo/5Gg7xIWEE9SUF/ls45LySk5lyf0EVTnmExSFiRRt9A3t51VBU7Gy5Ex+nWWe683FS
+ ueNRytfBksmMX2k3cBNpzQmj9e9yMyf+D25ZGrocAwcFxvnyUqLEvZdjeO4hojRXjji1
+ qSxMT9T3nRZW3Y3cqxsQtoUlo08gddPLhgdhoEtqP4ai67nMLpHCSj/mnA1wgR4ODe/w
+ wphA==
+X-Gm-Message-State: AOAM5325JlWyiaiRLZpHUomO/JPLvvOXgNWsrDoIgUlKyXn1Fn124gHn
+ B9ApPn+xIu6QXFHcsRDOxpK9LrfwtZOFx2kMbsV6zg==
+X-Google-Smtp-Source: ABdhPJwJRqhoKk2xl35xAQWpwrrKHIURLPaisvaZr5hiuc2EnoiL5DxCwJCVUKzX/KBrCek5LXnRUec/zNVqng39/Pg=
+X-Received: by 2002:a9d:c04:: with SMTP id 4mr8327122otr.180.1628549273410;
+ Mon, 09 Aug 2021 15:47:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-30-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210706222607.1058040-1-jiang.wang@bytedance.com>
+ <20210707083312.algmreafmfofg7el@steredhat>
+ <CAP_N_Z-NbofkoDbWby9Pe=VH1CjYQL6-gSbrwWDBZBNDwcnmuA@mail.gmail.com>
+ <20210707172737.j2xpyd45wmufdqc5@steredhat.lan>
+ <CAP_N_Z8ktMLHSG8J7t4WA9MCC5i0o=CUF+VfPSOBnWrMd21idg@mail.gmail.com>
+ <20210804064103.gvhz3a7ck6xlwsm6@steredhat>
+ <CAGxU2F4b0evZfKhZ62S7RmDMWG1jq72q5tii_WuKbNeBuveLsg@mail.gmail.com>
+ <CAP_N_Z_aJ62bMA6kR-e-FnPh-uNhJsQSf67RKPS67bq6=jO-2Q@mail.gmail.com>
+ <20210809104934.xuzyqhqsshmixwhq@steredhat>
+In-Reply-To: <20210809104934.xuzyqhqsshmixwhq@steredhat>
+From: "Jiang Wang ." <jiang.wang@bytedance.com>
+Date: Mon, 9 Aug 2021 15:47:42 -0700
+Message-ID: <CAP_N_Z9-DM+XY6y+LFG49m=FLWh5DNvGYZ-XYpSiORmcVQ40qA@mail.gmail.com>
+Subject: Re: Re: [RFC v3] virtio/vsock: add two more queues for datagram types
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=jiang.wang@bytedance.com; helo=mail-ot1-x32a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,36 +85,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Stacey Son <sson@FreeBSD.org>
+Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
+ Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/21 11:42 AM, Warner Losh wrote:
-> From: Warner Losh<imp@FreeBSD.org>
-> 
-> Eliminate the x86 specific stack stuff in favor of more generic control
-> over the process size:
->      target_maxtsiz  max text size
->      target_dfldsiz  initial data size limit
->      target_maxdsiz  max data size
->      target_dflssiz  initial stack size limit
->      target_maxssiz  max stack size
->      target_sgrowsiz amount to grow stack
-> These can be set on a per-arch basis, and the stack size can be set
-> on the command line. Adjust the stack size parameters at startup.
-> 
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> 
-> Sponsored by:		Netflix
-> ---
->   bsd-user/elfload.c |  2 +-
->   bsd-user/main.c    | 51 +++++++++++++++++++++++++++++++++-------------
->   bsd-user/qemu.h    |  7 ++++++-
->   3 files changed, 44 insertions(+), 16 deletions(-)
+On Mon, Aug 9, 2021 at 3:49 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> On Thu, Aug 05, 2021 at 12:00:05PM -0700, Jiang Wang . wrote:
+> >On Tue, Aug 3, 2021 at 11:49 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >>
+> >> On Wed, Aug 4, 2021 at 8:41 AM Stefano Garzarella <sgarzare@redhat.com>
+> >> wrote:
+> >> >
+> >> > On Tue, Aug 03, 2021 at 11:58:27AM -0700, Jiang Wang . wrote:
+> >> > >On Wed, Jul 7, 2021 at 10:27 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >> > >> On Wed, Jul 07, 2021 at 09:52:46AM -0700, Jiang Wang . wrote:
+> >> > >> >On Wed, Jul 7, 2021 at 1:33 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >> > >> >> On Tue, Jul 06, 2021 at 10:26:07PM +0000, Jiang Wang wrote:
+> >> >
+> >> > [...]
+> >> >
+> >> > >> >> >+
+> >> > >> >> >+    if (nvqs < 0)
+> >> > >> >> >+        nvqs = MAX_VQS_WITHOUT_DGRAM;
+> >> > >> >> >+
+> >> > >> >> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
+> >> > >> >> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> > >> >> >+                                              vhost_vsock_common_handle_output);
+> >> > >> >> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> > >> >> >+                                               vhost_vsock_common_handle_output);
+> >> > >> >> >+    }
+> >> > >> >> >+
+> >> > >> >> >     /* The event queue belongs to QEMU */
+> >> > >> >> >     vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> > >> >> >                                        vhost_vsock_common_handle_output);
+> >> > >> >>
+> >> > >> >> Did you do a test with a guest that doesn't support datagram with QEMU
+> >> > >> >> and hosts that do?
+> >> > >> >>
+> >> > >> >Yes, and it works.
+> >> > >> >
+> >> > >> >> I repost my thoughts that I had on v2:
+> >> > >> >>
+> >> > >> >>      What happen if the guest doesn't support dgram?
+> >> > >> >>
+> >> > >> >>      I think we should dynamically use the 3rd queue or the 5th queue for
+> >> > >> >>      the events at runtime after the guest acked the features.
+> >> > >> >>
+> >> > >> >>      Maybe better to switch to an array of VirtQueue.
+> >> > >> >>
+> >> > >> >I think in current V3, it  already dynamically use 3rd or 5th queue
+> >> > >> >depending
+> >> > >> >on the feature bit.
+> >> > >>
+> >> > >> I'm not sure. IIUC when vhost_vsock_common_realize() is called, we don't
+> >> > >> know the features acked by the guest, so how can it be dynamic?
+> >> > >>
+> >> > >> Here we should know only if the host kernel supports it.
+> >> > >>
+> >> > >> Maybe it works, because in QEMU we use the event queue only after a
+> >> > >> migration to send a reset event, so you can try to migrate a guest to
+> >> > >> check this path.
+> >> > >>
+> >> > >I tried VM migration and didn't see any problems. The migration looks fine
+> >> > >and vsock dgram still works after migration. Is there any more specific test
+> >> > >you want to run to check for this code path?
+> >> > >
+> >> >
+> >> > I meant a migration of a guest from QEMU without this patch to a QEMU
+> >> > with this patch. Of course in that case testing a socket stream.
+> >> >
+> >>
+> >> Sorry, I meant the opposite.
+> >>
+> >> You should try to migrate a guest that does not support dgrams starting
+> >> from a QEMU with this patch (and kernel that supports dgram, so qemu
+> >> uses the 5th queue for event), to a QEMU without this patch.
+> >>
+> >Got it. I tried what you said and saw errors on the destination qemu. Then
+> >I moved event queue up to be number 3 (before adding dgram vqs),
+> >as the following:
+> >
+> >+    /* The event queue belongs to QEMU */
+> >+    vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >+                                       vhost_vsock_common_handle_output);
+> >+
+> >
+> >     nvqs = vhost_vsock_get_max_qps(enable_dgram);
+> >
+> >@@ -253,10 +257,6 @@ void vhost_vsock_common_realize(VirtIODevice
+> >*vdev, const char *name, bool enabl
+> >
+> >vhost_vsock_common_handle_output);
+> >     }
+> >
+> >-    /* The event queue belongs to QEMU */
+> >-    vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >-                                       vhost_vsock_common_handle_output);
+> >-
+> >
+> >But I still see following errors on the destination qemu:
+> >qemu-system-x86_64: Error starting vhost vsock: 14
+> >
+> >Any idea if my above code change is wrong or missing something?
+>
+> No, sorry.
+> Do you have some kernel messages in the host?
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I checked dmesg but did not find any errors. I will debug more.
 
-r~
+> >
+> >Take one step back, what should be the host kernel version? With or
+> >without dgram support? I tried both.  The new dest kernel shows the above error.
+> >The old dest kernel shows a msr error probably not related to vsock.
+>
+> I think the best is to try the host kernel with DGRAM support, so QEMU
+> will allocate all the queues.
+>
+> >
+> >To explain the above qemu 14 error, I think the issue is that the
+> >source host kernel
+> >supports dgram by always setting the DGRAM feature bit(in my
+> >implementation). Then the source
+> >qemu query the source host kernel, and use 5 for event vq. Even if the source
+> >guest kernel does not support dgram, it currently has no way to tell the source
+> >host or the source qemu.
+>
+> Initially I think is better to try the migration on the same host, so we
+> can exclude other issues. When it works properly, you can try to migrate
+> to a different host kernel.
+>
+Got it.
+
+> >
+> >On the source machine, when we start qemu process,  and the guest VM
+> >is still in BIOS or early boot process ( before vsock is initialized), I think
+> >at this time, the qemu vhost_vsock_common_realize() is already called.
+> >So qemu can only check if the host kernel supports dgram or not, but has
+> >no knowledge about the guest kernel. After the guest kernel is fully boot up,
+> >it can tell qemu or the host if it supports dgram or not ( or the host or qemu
+> >detect for that). But I don't think we will change the vq numbers at that time.
+> >
+> >Maybe we should fix that too and change vq numbers ( delete vq and add
+> >back?) at a later
+> >time after the guest kernel is fully boot-up?
+>
+> IIRC vhost-net allocates the maximum number of queues, and then it uses
+> only the queues supported/requested, so I think we can do something
+> similar.
+>
+> Allocates 5 queues and, at runtime, we can decide which queue to use.
+>
+I see. Will dig more. thanks.
+
+> Thanks,
+> Stefano
+>
 
