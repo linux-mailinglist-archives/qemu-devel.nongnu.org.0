@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98863E4D02
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 21:22:55 +0200 (CEST)
-Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83AA3E4D10
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 21:27:01 +0200 (CEST)
+Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDArO-0004ut-FC
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 15:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1mDAvN-0006oP-0X
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 15:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDAqJ-0003jN-Ha
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:21:47 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:53859)
+ id 1mDAuO-00063X-64
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:26:00 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDAqI-0002Ol-3v
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:21:47 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id j1so29573072pjv.3
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 12:21:45 -0700 (PDT)
+ id 1mDAuM-0005C4-Qa
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:25:59 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ u21-20020a17090a8915b02901782c36f543so489876pjn.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 12:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hrt3pVxYW7QDq8oMrl9cVqVRtag3dfi69pku8MvgSAk=;
- b=CDeDK/xYumDnrvUenT6Y9XwqRkST0C9bSeT0ChlzUADhK8otIrQ4KvpkEZB3BaFw/D
- dE7LWamNrbUAUobq+l4exP4yNWTANULDHTHD0HRgUIs4/I/ERCWQ9+/uJ3/eD5ze0957
- fGgGkLxDahUuR+cmqbn9e26FmM7m/dy1jJcIouavN9AZCLK7aPxNEa2hJxh88dv7KqTn
- aLIeFR1Gprha4aKLwMDlExXwGEihKjwvdyXKN8zvkWGhxogPRKYwOC9tIm5qcCwO1it+
- UpogRdz91WMEnC4toS3Gfj68Oiu9Y7GTCA8nV6U9aIYIYomnnIJ8Rj/9qg1IH3B5/edc
- LNbA==
+ bh=ooO3obQdJ8yLzSO6lLf23ir/Dr6Ff+oZNwPb63A5HLc=;
+ b=c+P1XPB706M+S3wZ3a041GqrTrZPX7DvHLt6+QBt1j5orNmBjuBEagAfMtkHgsb+p3
+ zi0J0bhZMoJpO4eqlWAk4EYP+o0Kv7sakDNrOIBHAx8UnI4sBiRB3RQv3zHVBS5TpoA2
+ ZulsZrqnPFNmDPplxMAAxAAoFbfbnyO2THdd/64OQ/oT3NfHZcFXkgjuKH54xu8FhyY7
+ kL6vtBnWu+y27iPA0Z/B+b5AQ2C9ZM4Pk6rn4YHBzF0L1sMOUosHIASIoVEOB9JKckQk
+ ezlq8TBd78DqmQveIiE+gGPwFzwg+OO2diVMgKQZrrikntwAeiOk7QaWBG49QyszyBMK
+ hQPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Hrt3pVxYW7QDq8oMrl9cVqVRtag3dfi69pku8MvgSAk=;
- b=qv7ex/f6bsC6XXYwoQPbl+sqHNCO12WaYzn56GqIrdW9wymWJIGboxH+rPmcl0mdmH
- BYULbeLQSHwZ52qzvKsOXa/0/FsQU/6Zp+SE2VSIAM8PiVLDmT+jQUf6bI/iasem+z3b
- V32uetDJ+OYtwmnAy/lGZrmuaJ/fDwLMJOrgZr8oTSlnUGHtf2FkcjMPvgI6ZfOyk4TL
- j7q1Q2nE4hKhq/nr+ZRdRkHz5xnNNHJ+xr9H79DyBH3gu+IftsuvtnhFsPhy6gxhesB+
- 2bkHkU4acj32CvjWiPJaJ07lhgEoyG9i+LeNL18sAj7xk8b7CmHDgb86ZUk7jhnJ8jFa
- 8d1Q==
-X-Gm-Message-State: AOAM530sol8EDe7ijLsyNt6O7omcz2o/fFSlDTCRAxhIHI5p428HbVPW
- tjw2x6qze0y0vbtgrKZw/j/Z2g==
-X-Google-Smtp-Source: ABdhPJyxqtVgi8j1Px5MojvwYIzuhDJ2ElOSZ18L0b+uSGVhHOCpNRmbsZ7gRyWD/k2QYbwj0JfCyg==
-X-Received: by 2002:a65:5b04:: with SMTP id y4mr886024pgq.195.1628536904689;
- Mon, 09 Aug 2021 12:21:44 -0700 (PDT)
+ bh=ooO3obQdJ8yLzSO6lLf23ir/Dr6Ff+oZNwPb63A5HLc=;
+ b=k5wb4lE02MSGQCn8CN9ptMdV1fvzwlvjsqHXLG/HiEKWqBOdM0FwmSdsKB8ZGxd0rN
+ y5pzdT5RH0ACk4TphNSkKA4ll+7p49BBBjr3dhu84+cftUEG4E9aiykGIrLJxKENsjIH
+ Ryz2XUjgISAlQToR2PSD0jsLt0syjUuu+ZAaWssDsMQ0n3tUS03Xg1cSTm8myShGA5aZ
+ UhwV0FM8uwOeFCYPnsJ2QBtgd2zPcxwWF4O+yLMGpEvSgjC5P4OHPm8YmiO/KC9xfIzh
+ uJkiaJybZMSH3N+1/RZs5O4g76/IwvPcNYZbVJONqPsZCjCAjDc0a0weyUtP6oDkOi0f
+ 0O0g==
+X-Gm-Message-State: AOAM5304/yN0DQ3F16YIbtjS7wUrf5Di0YM+XsEMFZaspOWde8khSjkY
+ L2qtXiJmq3XVH5uYeG57ccGERA==
+X-Google-Smtp-Source: ABdhPJwZ02ba5Sdu66L1TVXABDgV6kuqXGXoJDoba2y61uGe5CaCGrApZXY9AALvbixRSnK3K1a2LA==
+X-Received: by 2002:a17:90a:19db:: with SMTP id
+ 27mr26145254pjj.25.1628537157075; 
+ Mon, 09 Aug 2021 12:25:57 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id o20sm24363592pgv.80.2021.08.09.12.21.43
+ by smtp.gmail.com with ESMTPSA id fv2sm117428pjb.53.2021.08.09.12.25.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 12:21:44 -0700 (PDT)
-Subject: Re: [PATCH-for-6.2 1/2] target/mips/tx79: Use tcg_constant_tl()
+ Mon, 09 Aug 2021 12:25:56 -0700 (PDT)
+Subject: Re: [PATCH-for-6.2 2/2] target/mips/mxu: Use tcg_constant_i32()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210808160843.84957-1-f4bug@amsat.org>
- <20210808160843.84957-2-f4bug@amsat.org>
+ <20210808160843.84957-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <529d393a-a46b-3b3b-5cf1-b6bee07cf91d@linaro.org>
-Date: Mon, 9 Aug 2021 09:21:40 -1000
+Message-ID: <d44606d7-03d4-d391-4bcb-5fca50e844a4@linaro.org>
+Date: Mon, 9 Aug 2021 09:25:53 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210808160843.84957-2-f4bug@amsat.org>
+In-Reply-To: <20210808160843.84957-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,14 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/8/21 6:08 AM, Philippe Mathieu-Daudé wrote:
-> Replace uses of tcg_const_tl() with the allocate and free close together.
+> Replace uses of tcg_const_i32() with the allocate and free close together.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/tcg/tx79_translate.c | 6 ++----
+>   target/mips/tcg/mxu_translate.c | 6 ++----
 >   1 file changed, 2 insertions(+), 4 deletions(-)
 
+In my opinion these functions should be simplified by dropping all of the special casing 
+for the zero register and simply let the tcg optimizer do its thing.
+
+But failing that, this is fine.
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
