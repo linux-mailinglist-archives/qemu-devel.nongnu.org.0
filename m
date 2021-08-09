@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5263E4D12
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 21:27:53 +0200 (CEST)
-Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C2F3E4D15
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 21:30:18 +0200 (CEST)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDAwC-0008ET-Tg
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 15:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
+	id 1mDAyX-0001L7-2M
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 15:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDAvD-0007BU-51
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:26:51 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:35528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDAvB-0005hs-BS
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:26:50 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id u16so17665428ple.2
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 12:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PF5WMvmNYqKZOmvfwFa1tf0Z/i7gZLAoy/02ZSUzMRg=;
- b=aK6oiV64GMyleFDAHE2qvOqb648T4xMmXTx3cuHmrtoj9ju2suBjH5W/anNDEExYZr
- f8VO289T+exFqdBmcXSOf8KSTVtBY7Nab7RxMGBCmNtfXYalQ6AsyntGpq27h3KLA+nz
- +EM1QuBYEp+TgzN/mlgSVNr1ScmaQJOl59Ufzk7J+SGgkfjACl22Ts1dC8grKOl3k/La
- F7ySmTJC5GxugtnDC6vRyXcrkQviEyT6cdRgrJfbHb3thnJfeAqcp08yfi1kVr455/0+
- 3PkrNFq0AZ8Y/vnGmB33zNuDMdKKA9LqVYIkmqrKtco0lEiSw39gEt4Ok8g0aqEcB9fF
- 3img==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PF5WMvmNYqKZOmvfwFa1tf0Z/i7gZLAoy/02ZSUzMRg=;
- b=mjf9CjrTQg1SIFrT8HiQmfSuY5sxAgdFNRt8WoBPfqyafUeBG3NKMDG9xMaQ32I6R+
- 9pBeCl4WMNDg8z/pC9sRvmpaiGeoBKuISw9ZMXPaejLCeUIr7e1EI8aWpHmYCMn0dTp8
- oHvqnXtW1PWYoThXZI9x6X/pQqWYKs4Vf+d+/XGuJ/1hu9rZnF8C1uY1lUBZDyYt5zGn
- 4fyZOfAKhLs9cZ3sz9QQgqbTy3Y1FdS3wB1N0/mIiWPwaktSxs+wRWoPpsHMd+pJaRYx
- uUeFGNBjLk/xtaGAO4e0cxXvXJkGmCKRFehHlfX0IVZEKqbaVNkdSAeeatR3JjnuDQPp
- ISnQ==
-X-Gm-Message-State: AOAM5301L4XoLp8xXdiMgnw/A43+SsAi1kCkvrDWT2A52wQcpvMMJ98k
- MB0UxqvQwpIB18SLZoOaepqTdg==
-X-Google-Smtp-Source: ABdhPJzcj1C1Zf9zWYSXHQgLAkkyYeB/6sjVRoyV+hQ3ddOd3NzJsEjsLnkr6/hiGzZeYJO59PO7Mg==
-X-Received: by 2002:a62:b414:0:b029:32e:3ef0:7735 with SMTP id
- h20-20020a62b4140000b029032e3ef07735mr19872647pfn.61.1628537207869; 
- Mon, 09 Aug 2021 12:26:47 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id o127sm21418407pfb.48.2021.08.09.12.26.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 12:26:47 -0700 (PDT)
-Subject: Re: [PATCH-for-6.2 v3 1/7] target/mips: Introduce generic TRANS()
- macro for decodetree helpers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210808173018.90960-1-f4bug@amsat.org>
- <20210808173018.90960-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aef0dbb5-df40-74d7-de46-3b25c16fe20b@linaro.org>
-Date: Mon, 9 Aug 2021 09:26:44 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mDAxe-0000fz-HC
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:29:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mDAxa-0007WZ-Ui
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 15:29:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628537357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zkdJhDnh+fP2QycBwUZELXeUQ5g2sq8wOfXNbOT8tW0=;
+ b=P5N6Zl1d61NX2pl8tj2e5Ooe6lMwk9audIP+jUMQE4jJoTVyhju58IfyZPYgUG5FRTSQaV
+ 4cW765sKZKGOZeIAYDsNcEQO/8GaQ1vbwAoSvSfQkaJ2UODIwHB0VOZihGe19gQ0yrslf+
+ MsxP9xNJdqUI48vB9zz6hbnS7rdw+o4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-7ItqzJLJMa2b1OiRZvga9w-1; Mon, 09 Aug 2021 15:29:14 -0400
+X-MC-Unique: 7ItqzJLJMa2b1OiRZvga9w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17EAD1006C80
+ for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 19:29:14 +0000 (UTC)
+Received: from wrampazz.redhat.com (unknown [10.22.16.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5700D1B4B8;
+ Mon,  9 Aug 2021 19:29:09 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Acceptance tests: add myself as a reviewer for the acceptance
+ tests.
+Date: Mon,  9 Aug 2021 16:29:07 -0300
+Message-Id: <20210809192907.42138-1-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210808173018.90960-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,24 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/21 7:30 AM, Philippe Mathieu-Daudé wrote:
-> Plain copy/paste of the TRANS() macro introduced in the PPC
-> commit f2aabda8ac9 ("target/ppc: Move D/DS/X-form integer
-> loads to decodetree") to the MIPS target.
-> 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/tcg/translate.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 37b1a8e442..3f8ad63165 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3422,6 +3422,7 @@ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+ R: Cleber Rosa <crosa@redhat.com>
+ R: Philippe Mathieu-Daudé <philmd@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
++R: Willian Rampazzo <willianr@redhat.com>
+ S: Odd Fixes
+ F: tests/acceptance/
+ 
+-- 
+2.31.1
 
-r~
 
