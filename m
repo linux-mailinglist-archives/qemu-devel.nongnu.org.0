@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3134D3E4433
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:52:05 +0200 (CEST)
-Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5925E3E442C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:49:07 +0200 (CEST)
+Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2t2-0005Lt-6z
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40920)
+	id 1mD2q5-0005se-4J
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mD2lN-0002V6-D6
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:44:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43791)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mD2lN-0002VR-BZ; Mon, 09 Aug 2021 06:44:09 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1mD2lJ-0007wO-T3
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:44:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628505843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MSA+Un2sfAUaYhTHKjmQ8O+2yIhpv/ScoIIGxaecx44=;
- b=H/bcKExoa+fn3sZXTZC6Ns0/N4OPX41oxSrgHqHNy+pVkV0J0cIqUobatsMnDRTIEHHocH
- 4spWrRptLeSAtmNNH/Z3/jcWYmWxGLwZOr17fdg0RddSfgj4PdM9rpJ8f/F2e65O3pa01t
- JRzHkkXijN1JCrvfT3sfepPJqEHdoKk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-CxoiAzZKP8W3UN84X0Q4Ng-1; Mon, 09 Aug 2021 06:44:02 -0400
-X-MC-Unique: CxoiAzZKP8W3UN84X0Q4Ng-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m5-20020a5d6a050000b0290154e83dce73so963441wru.19
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 03:44:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=MSA+Un2sfAUaYhTHKjmQ8O+2yIhpv/ScoIIGxaecx44=;
- b=fCAUUPM9Hvj7u8+nygAl/sLgW35cpGMlN0ESM7Cjw9KlIr/I7qf1cUbw566yKRYpJV
- yd8Lyia/RXdJvgvdJc1Wf/cjBSVcmcucr5vYUhmwVNjvkBK7TGf6eQQqEsw9O8g16Dpy
- U8t60I5+lnvoUDZFDcMBOR6Kgr3LZrbLhiPtra0+gPd6fIzYyX4il+se96VBtBzj5uzN
- XigBMPLEyYlAxBe7XR6mCRiED1N47/L5BbvGALeWHp/2MUlXoLhNYYxyKuoepEgohWPZ
- ZE3u0fpm0JPcrwDY2Q5P4ZHI1L1kSdmWR2g1LK9oy9n1giKnAidjR8fzUVAmRFSqVgU7
- 8upQ==
-X-Gm-Message-State: AOAM530xH37oSyKGS3Uz+ojnmPH/aHDUbOdzGDIkrd1nCdFTdvvDWV9v
- KKAmmDj9//HR/b9ktGBvgDMXWR8aFTOYSB4vb6c86kSLCYUtrbsXPkDZiRho2Ynp/2FKvWfEfn2
- 00kE5TMBHQG7nA3Q=
-X-Received: by 2002:adf:eac7:: with SMTP id o7mr24073046wrn.52.1628505841421; 
- Mon, 09 Aug 2021 03:44:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmhbYo0CinZKFIgHoYQLZ2gPjSninIcBgtvNsiedBOiup+9chxg8uqRcDytESadHBvjqAgGg==
-X-Received: by 2002:adf:eac7:: with SMTP id o7mr24073019wrn.52.1628505841131; 
- Mon, 09 Aug 2021 03:44:01 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- g35sm4461539wmp.9.2021.08.09.03.44.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 03:44:00 -0700 (PDT)
-Subject: Re: [PATCH v3 02/10] virtiofsd: Add TempFd structure
-To: Vivek Goyal <vgoyal@redhat.com>
-References: <20210730150134.216126-1-mreitz@redhat.com>
- <20210730150134.216126-3-mreitz@redhat.com> <YQ1KCya+NHd96kvv@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <a9b09a33-b8b6-2e9f-42e9-edefb2459653@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mD2lL-0007x3-IW; Mon, 09 Aug 2021 06:44:09 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C4104580D78;
+ Mon,  9 Aug 2021 06:44:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 09 Aug 2021 06:44:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=On35wC3bmwZKs9VsdtyPRPFix8w
+ fUv1pA0CvbS7D1HA=; b=FpFOvlD/9gA0ofPAaKaLOhjazhcwwBhfYNAslba7dy1
+ 8oHFCz3aQHCRjsQpdZGY8fyqk58YFPqa4qcmhx9dP1npkNrOOngQrY1vAOLnrJKn
+ 88mlMdmebNiDo7D//4wY0bW/mLr/YsjE8jXtGKrYIQraJT566iSlw60RF1qsfkFW
+ p1stzb3BZjtfQDAk7fOF2q538GD/V7+wXmDN+ZlPGeb3tCbcRX3AKaYfQ36ZKw3U
+ rDYSqcQk0FuthVQAkYugC3nNVPYhhOULtenUe6k3dGREOU4IcCdjQaFyRLxI61CJ
+ DvdPkjEPnM720hvc2nRlixkEQ5u0HSvs66CAr7L5j2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=On35wC
+ 3bmwZKs9VsdtyPRPFix8wfUv1pA0CvbS7D1HA=; b=S+gifIDTd4fvYU4RS+fALr
+ li4/O5caIhPVRmdHEanp39AvoFYbbud2G7IbabqFREaNLG9e5B7BkWcC9SbSCDsf
+ k+bgLnkY0ojNooVZz+VZT7yGI7Y2kXvi91ORbIh+hTqlvMvc3sy+pJ492GesYQJ4
+ agJnUDZk6TtLKEyperM77bnHkuiIDDMaFDEsLuftmo7Ace+ub2JRbSUxN5PriaFV
+ cYVogLX3dDAD5rQtVG3DtcWpimFyLsZa3XUJpHVvN9Wg4u4DzmBRPO7u8aRLabgs
+ 64qjOE2rWJ/pMmY+kuiyPq+Z33XUVbgZ0Vhi/GP/L3eLNWto7UOk19e73fkmgdbg
+ ==
+X-ME-Sender: <xms:8wYRYU8lhdd7W72DnrKqEWD_lBzDhUD1ZqtTcaAm4z9fBmcO5AsVRw>
+ <xme:8wYRYcv4_5G_FgLuEco0W-4daKQUxymFse6QqNAl5jGbsJc5Buu8L_aIr7iVOrBD9
+ mzFOIhfZRAd-3Jmv2o>
+X-ME-Received: <xmr:8wYRYaCoB4Bog8ampmzMh6HfGKY-Iz9ibdFd8PkRR8qOtGqWHi6zw_pYqd7kzYPJ0s9v8nOdIyb9n8i40bp3yCv3ffUluIxdU4t7SejsowEWFkkq7A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeejgdefvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefhkedt
+ necuffhomhgrihhnpehuuhhiugdruggrthgrnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:8wYRYUf4Jd21V7J9DISg0dPsk4S6W3hzgWv-TJzqw6TAwCZvWQNDOw>
+ <xmx:8wYRYZNE8vU9dDSQv8AYrb_C2JIavs1-J03Jfdw6kbUey9giKD1jww>
+ <xmx:8wYRYengLZQXDBjmHgq2ytI2VqCc5Im4NkZwFjF5dl-VgUKxo7XDcg>
+ <xmx:9AYRYen_kYP5Y1B-GtTuESoYsTSFFIEWbT0XPs3buPqTYCiJr7Nz9A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Aug 2021 06:44:01 -0400 (EDT)
 Date: Mon, 9 Aug 2021 12:44:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 06/23] hw/nvme: namespace parameter for EUI-64
+Message-ID: <YREG8BuwApcdqUKu@apples.localdomain>
+References: <20210629184743.230173-1-its@irrelevant.dk>
+ <20210629184743.230173-7-its@irrelevant.dk>
+ <CAFEAcA-Xodpue0bUBbG++-CcRPV-+EJh=qw_23aGPEh3sAk0Ow@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YQ1KCya+NHd96kvv@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.707,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Fsr34rThe80btTmW"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-Xodpue0bUBbG++-CcRPV-+EJh=qw_23aGPEh3sAk0Ow@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,124 +94,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.08.21 16:41, Vivek Goyal wrote:
-> On Fri, Jul 30, 2021 at 05:01:26PM +0200, Max Reitz wrote:
->> We are planning to add file handles to lo_inode objects as an
->> alternative to lo_inode.fd.  That means that everywhere where we
->> currently reference lo_inode.fd, we will have to open a temporary file
->> descriptor that needs to be closed after use.
->>
->> So instead of directly accessing lo_inode.fd, there will be a helper
->> function (lo_inode_fd()) that either returns lo_inode.fd, or opens a new
->> file descriptor with open_by_handle_at().  It encapsulates this result
->> in a TempFd structure to let the caller know whether the FD needs to be
->> closed after use (opened from the handle) or not (copied from
->> lo_inode.fd).
-> I am wondering why this notion of "owned". Why not have this requirement
-> of always closing "fd". If we copied it from lo_inode.fd, then we will
-> need to dup() it. Otherwise we opened it from file handle and we will
-> need to close it anyway.
->
-> I guess you are trying to avoid having to call dup() and that's why
-> this notion of "owned" fd.
 
-Yes, I don’t want to dup() it.  One reason is that I’d rather just not.  
-It’s something that we can avoid, and dup-ing every time wouldn’t make 
-the code that much simpler (I think, without having tried).
+--Fsr34rThe80btTmW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-One other is because this affects the current behavior (with O_PATH 
-FDs), which I don’t want to alter.
+On Aug  9 11:18, Peter Maydell wrote:
+> On Tue, 29 Jun 2021 at 19:48, Klaus Jensen <its@irrelevant.dk> wrote:
+> >
+> > From: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> >
+> > The EUI-64 field is the only identifier for NVMe namespaces in UEFI dev=
+ice
+> > paths. Add a new namespace property "eui64", that provides the user the
+> > option to specify the EUI-64.
+>=20
+> Hi; Coverity complains about some uses of uninitialized data in this
+> code (CID 1458835 1459295 1459580). I think the bug was present in
+> the previous version of this function, but this was the last change
+> to touch it...
+>=20
+> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> > index 7dea64b72e6a..762bb82e3cac 100644
+> > --- a/hw/nvme/ctrl.c
+> > +++ b/hw/nvme/ctrl.c
+> > @@ -4426,19 +4426,19 @@ static uint16_t nvme_identify_ns_descr_list(Nvm=
+eCtrl *n, NvmeRequest *req)
+> >      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> >      uint32_t nsid =3D le32_to_cpu(c->nsid);
+> >      uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
+> > -
+> > -    struct data {
+> > -        struct {
+> > -            NvmeIdNsDescr hdr;
+> > -            uint8_t v[NVME_NIDL_UUID];
+> > -        } uuid;
+> > -        struct {
+> > -            NvmeIdNsDescr hdr;
+> > -            uint8_t v;
+> > -        } csi;
+> > -    };
+> > -
+> > -    struct data *ns_descrs =3D (struct data *)list;
+> > +    uint8_t *pos =3D list;
+> > +    struct {
+> > +        NvmeIdNsDescr hdr;
+> > +        uint8_t v[NVME_NIDL_UUID];
+> > +    } QEMU_PACKED uuid;
+> > +    struct {
+> > +        NvmeIdNsDescr hdr;
+> > +        uint64_t v;
+> > +    } QEMU_PACKED eui64;
+> > +    struct {
+> > +        NvmeIdNsDescr hdr;
+> > +        uint8_t v;
+> > +    } QEMU_PACKED csi;
+>=20
+> Here we define locals 'uuid', 'eui64', 'csi', without an initializer.
+>=20
+> >      trace_pci_nvme_identify_ns_descr_list(nsid);
+> >
+> > @@ -4452,17 +4452,29 @@ static uint16_t nvme_identify_ns_descr_list(Nvm=
+eCtrl *n, NvmeRequest *req)
+> >      }
+> >
+> >      /*
+> > -     * Because the NGUID and EUI64 fields are 0 in the Identify Namesp=
+ace data
+> > -     * structure, a Namespace UUID (nidt =3D 3h) must be reported in t=
+he
+> > -     * Namespace Identification Descriptor. Add the namespace UUID her=
+e.
+> > +     * If the EUI-64 field is 0 and the NGUID field is 0, the namespac=
+e must
+> > +     * provide a valid Namespace UUID in the Namespace Identification =
+Descriptor
+> > +     * data structure. QEMU does not yet support setting NGUID.
+> >       */
+> > -    ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
+> > -    ns_descrs->uuid.hdr.nidl =3D NVME_NIDL_UUID;
+> > -    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
+> > +    uuid.hdr.nidt =3D NVME_NIDT_UUID;
+> > +    uuid.hdr.nidl =3D NVME_NIDL_UUID;
+> > +    memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
+>=20
+> Here we fill in some fields of uuid, but we don't touch uuid.hdr.rsvd2[],
+> which remains thus 2 bytes of uninitialized junk from our stack.
+>=20
+> > +    memcpy(pos, &uuid, sizeof(uuid));
+>=20
+> Here we copy all of uuid to a buffer which we're going to hand
+> to the guest, so we've just given it two bytes of QEMU stack data
+> that it shouldn't really be able to look at.
+>=20
+> > +    pos +=3D sizeof(uuid);
+>=20
+> >
+> > -    ns_descrs->csi.hdr.nidt =3D NVME_NIDT_CSI;
+> > -    ns_descrs->csi.hdr.nidl =3D NVME_NIDL_CSI;
+> > -    ns_descrs->csi.v =3D ns->csi;
+> > +    if (ns->params.eui64) {
+> > +        eui64.hdr.nidt =3D NVME_NIDT_EUI64;
+> > +        eui64.hdr.nidl =3D NVME_NIDL_EUI64;
+> > +        eui64.v =3D cpu_to_be64(ns->params.eui64);
+> > +        memcpy(pos, &eui64, sizeof(eui64));
+> > +        pos +=3D sizeof(eui64);
+> > +    }
+> > +
+> > +    csi.hdr.nidt =3D NVME_NIDT_CSI;
+> > +    csi.hdr.nidl =3D NVME_NIDL_CSI;
+> > +    csi.v =3D ns->csi;
+> > +    memcpy(pos, &csi, sizeof(csi));
+> > +    pos +=3D sizeof(csi);
+>=20
+> We do the same thing for the rsvd2[] bytes in csi.hdr and eui64.hdr.
+>=20
+> >      return nvme_c2h(n, list, sizeof(list), req);
+> >  }
+>=20
+> Explicitly zero-initializing uuid, csi, eui64 with "=3D { }" would
+> be the most robust fix. If you think it's worth avoiding "zero
+> init and then overwrite 90% of the fields anyway" then you could
+> explicitly zero the .hdr.rsvd2 bytes.
+>=20
 
-Well, and finally, as a pragmatic reason, virtiofsd-rs uses the same 
-structure and I don’t really want C virtiofsd and virtiofsd-rs to differ 
-too much.
+Thanks Peter,
 
->> By using g_auto(TempFd) to store this result, callers will not even have
->> to care about closing a temporary FD after use.  It will be done
->> automatically once the object goes out of scope.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
->> ---
->>   tools/virtiofsd/passthrough_ll.c | 49 ++++++++++++++++++++++++++++++++
->>   1 file changed, 49 insertions(+)
->>
->> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
->> index 1f27eeabc5..fb5e073e6a 100644
->> --- a/tools/virtiofsd/passthrough_ll.c
->> +++ b/tools/virtiofsd/passthrough_ll.c
->> @@ -178,6 +178,28 @@ struct lo_data {
->>       int user_posix_acl, posix_acl;
->>   };
->>   
->> +/**
->> + * Represents a file descriptor that may either be owned by this
->> + * TempFd, or only referenced (i.e. the ownership belongs to some
->> + * other object, and the value has just been copied into this TempFd).
->> + *
->> + * The purpose of this encapsulation is to be used as g_auto(TempFd)
->> + * to automatically clean up owned file descriptors when this object
->> + * goes out of scope.
->> + *
->> + * Use temp_fd_steal() to get an owned file descriptor that will not
->> + * be closed when the TempFd goes out of scope.
->> + */
->> +typedef struct {
->> +    int fd;
->> +    bool owned; /* fd owned by this object? */
->> +} TempFd;
->> +
->> +#define TEMP_FD_INIT ((TempFd) { .fd = -1, .owned = false })
->> +
->> +static void temp_fd_clear(TempFd *temp_fd);
->> +G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(TempFd, temp_fd_clear);
->> +
->>   static const struct fuse_opt lo_opts[] = {
->>       { "sandbox=namespace",
->>         offsetof(struct lo_data, sandbox),
->> @@ -255,6 +277,33 @@ static struct lo_data *lo_data(fuse_req_t req)
->>       return (struct lo_data *)fuse_req_userdata(req);
->>   }
->>   
->> +/**
->> + * Clean-up function for TempFds
->> + */
->> +static void temp_fd_clear(TempFd *temp_fd)
->> +{
->> +    if (temp_fd->owned) {
->> +        close(temp_fd->fd);
->> +        *temp_fd = TEMP_FD_INIT;
->> +    }
->> +}
->> +
->> +/**
->> + * Return an owned fd from *temp_fd that will not be closed when
->> + * *temp_fd goes out of scope.
->> + *
->> + * (TODO: Remove __attribute__ once this is used.)
->> + */
->> +static __attribute__((unused)) int temp_fd_steal(TempFd *temp_fd)
->> +{
->> +    if (temp_fd->owned) {
->> +        temp_fd->owned = false;
->> +        return temp_fd->fd;
->> +    } else {
->> +        return dup(temp_fd->fd);
->> +    }
->> +}
-> This also will be simpler if we always called dup() and every caller
-> will close() fd.
->
-> I think only downside is having to call dup()/close(). Not sure if this
-> is an expensive operation or not.
->
-> Vivek
->
+Fix posted!
 
+--Fsr34rThe80btTmW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmERBuoACgkQTeGvMW1P
+Den33QgAkaToWtakbo8HxW0EPIfAmJyvYkTNv5qkhkOmwa0wzMmHvgIV5skYpECr
+4CBJiW/g9xIvlc8XfNy+Xm9xKM11b9xvI9+nRmUKqYcP0ZNt/uAlW28wdcDwt1Uu
+p2SGmkXNffvAfR0PPxE6JfpkwsL7UoJt+x9BqNk0snqydAC+2tc0UENgXu7qWLYl
+prHoQolDRsn4j01dRrN9dWo6hRAd0fa0mJ5aMsJFMv8coo4Xa98Zp/3WP3Zwq61u
+WE4b8X83Uc5f/l+6o2pqOuUOpoNl3yrJGCKgUvwehaN6KwxO8WQh0Xxe2sDQ1tFe
+fEjnvD80h8hvYUbP0MpD0DU3YFK6bQ==
+=5BAO
+-----END PGP SIGNATURE-----
+
+--Fsr34rThe80btTmW--
 
