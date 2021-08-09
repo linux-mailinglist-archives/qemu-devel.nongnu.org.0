@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B563E4952
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 17:56:41 +0200 (CEST)
-Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F193E4960
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 18:00:33 +0200 (CEST)
+Received: from localhost ([::1]:46090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD7do-0003M9-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 11:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45760)
+	id 1mD7hX-0005OO-GK
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 12:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD7cr-0002B8-6i; Mon, 09 Aug 2021 11:55:41 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44815)
+ id 1mD7g9-0004Wa-Ke; Mon, 09 Aug 2021 11:59:05 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD7cp-0001kn-Kg; Mon, 09 Aug 2021 11:55:40 -0400
-Received: by mail-wr1-x435.google.com with SMTP id z4so22119509wrv.11;
- Mon, 09 Aug 2021 08:55:38 -0700 (PDT)
+ id 1mD7g7-00044V-Sh; Mon, 09 Aug 2021 11:59:05 -0400
+Received: by mail-wr1-x432.google.com with SMTP id b13so22143194wrs.3;
+ Mon, 09 Aug 2021 08:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FZ9lCCZF3xP8RXLcSvof1xt1odnHTPoLFE4m74RpMc4=;
- b=bO0OFflD6GJabneN56xdDJ8rHJvDqqZnooy4NJovJrKSt10Fe1ksp8kcr4ZGrGAUAD
- /JZ7qcUdCWDeH++S9AV9AFkA2svwZvBOMCawuUaTBlLQFo3729LshyLeQam/oo1BHIUS
- ie90oB8UqYi1YjWCz3PaSradGuz3QRIPdBnOZuliFLe7CUsWVgQJHlxHtDjSqwGHNhhe
- O7oDbko0q8yFNd/1mOSREvvg0nokhMpevgUyQ1d7geuauGc+HSQiJPIXOGeHPTQfzCpw
- UJGeRV1K6uqmOuWYRLQiiXXiHnTqRDvw5LTqaXaLfRO9WquJsPmdC0HlJyWJi9Yw5oSw
- sJOw==
+ bh=5XkhmCkO8+LwzDYUTgKzA6Y1oFL1BxjxbU1uw4eK90c=;
+ b=Sz9HOqzbhQ1LEuWI2mx6b5RRLClb5ZZ92yU5YcVyjilZzArZt6kukbCmeiBzxOC8mA
+ UF6NfTBHOt6WMsrLEvpp167LWpmWVOeQt+sip337FOLMmgQVOU9yzr1cwx+zogCH2P6G
+ 1nPA6ZpOAxVLrkX5bq1ptUPiAQ0ptcZOkGvtYfPu6swawkXDc/C7Gch8Jc53cI8lr68q
+ 52rfBGC7EJ3nXhgoX1aAeHOmhnDjmLVznAVevx6tl2IJT8SAd/J8tjNawdw/3kzFV+wZ
+ 42EYu1jzmkoScIlgy7r2RCbqyLEpXm3Xh6BYiHTUsZHsmi1W6uNNrqBMooMkxJQzuXmB
+ FrwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FZ9lCCZF3xP8RXLcSvof1xt1odnHTPoLFE4m74RpMc4=;
- b=coiTZzPRfnDMcgaZ7tWbgIkCz0Cx1iAj+AMt7VnAkGP2XviEPmBvQWEdhp44uSQxIj
- MeM6aIR9ot8odJxo+zKIy2sJ3HYQYgG2g+Z38BbuwinZWDcG/ixWme0VuqZfQsI3Sl/I
- mK2DgmU2EWErjzf1FPp4SanxtR3j9NwjlN8mzfYIWpt8KJiYfnXuavSJZAGSOa3At9R+
- /CeQ86d6LKv9lYh/5uNBMX/qvQsuyePSCORtj8Ks4Qdq7PL46hXFNz+I4IGYZ9SvdcwS
- ND1/HDmUNLLwmJnjLHivmIQ6jcW1PKYFDOt0jVVnBUOkOM6asqOOtjcPQvsZuNuf2Oax
- y5hA==
-X-Gm-Message-State: AOAM532Jr96a/JbTrsSpswTOjOvz9wIIywMM8Eu5EQmkOb84pSTGxI1W
- oOzVkkfnNb/DzY267adYP8Tt3cU2AyE=
-X-Google-Smtp-Source: ABdhPJyuyYG+oN20gsUrvfngbkZCYDzdeb+zq9QkGQR3o7qFeOd3h9a80JSW8C+xTVO4a1Ba8RYNZw==
-X-Received: by 2002:a5d:4521:: with SMTP id j1mr24837388wra.44.1628524537497; 
- Mon, 09 Aug 2021 08:55:37 -0700 (PDT)
+ bh=5XkhmCkO8+LwzDYUTgKzA6Y1oFL1BxjxbU1uw4eK90c=;
+ b=Wk32UhrJCQxKQvTps4bISx8LQuycuFCZtMVC0Q2l4DEx758sZS/VsI3SW0gbPytY0M
+ KyaekA/BYfmzvBbwX5sa+45pIgb/wL3g1waEGmcsMqWwCMpLkxnIqcuY75YSyvttFX7D
+ bk7OuGdXWEG+pjwajqj14hAXhSYqvKVk8EGmN50aqyG353bcWFVvbpRRFVQIJTVKVOv3
+ TbOUVidZT5aftynrRGB+JujYMIxsu/06jrhit67X2HMLTzgfbgYaI0SDDk9zCCh4/2nR
+ z4OpVRjnQlj0txPExTEkQO9+0CNJ9dDhdkYxbPZzx4wU0xBgc8MzDkE0qvU03KzpMR6V
+ 1lug==
+X-Gm-Message-State: AOAM533OjQaQam9lrwT4OmM1OyyoLxcxxwylWBOqKux0jb00Lgo8W+Om
+ C0gVlRsU591LoaYiuIRewGVHIW5bsfw=
+X-Google-Smtp-Source: ABdhPJx45hNh2wWPoG9d6hUq1yiYtXeO0QN+Lo4dneRLc4k8ooMazrn+SyRnzVY37S2wd1kIZjpYRQ==
+X-Received: by 2002:a5d:63cf:: with SMTP id c15mr25758682wrw.230.1628524741469; 
+ Mon, 09 Aug 2021 08:59:01 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id l9sm5720208wrt.95.2021.08.09.08.55.36
+ by smtp.gmail.com with ESMTPSA id g16sm24279377wro.63.2021.08.09.08.59.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 08:55:36 -0700 (PDT)
-Subject: Re: [PATCH 08/10] aspeed: Emulate the AST2600A3
+ Mon, 09 Aug 2021 08:59:01 -0700 (PDT)
+Subject: Re: [PATCH 09/10] hw/misc: Add Infineon DPS310 sensor model
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20210809131556.686260-1-clg@kaod.org>
- <20210809131556.686260-9-clg@kaod.org>
+ <20210809131556.686260-10-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d41fddce-4c87-5356-faf0-762f9f4fd32b@amsat.org>
-Date: Mon, 9 Aug 2021 17:55:35 +0200
+Message-ID: <1efe1466-a8ee-40be-c703-6cf868721110@amsat.org>
+Date: Mon, 9 Aug 2021 17:59:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210809131556.686260-9-clg@kaod.org>
+In-Reply-To: <20210809131556.686260-10-clg@kaod.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,109 +96,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 8/9/21 3:15 PM, Cédric Le Goater wrote:
 > From: Joel Stanley <joel@jms.id.au>
 > 
-> This is the latest revision of the ASPEED 2600 SoC. As there is no
-> need to model multiple revisions of the same SoC for the moment,
-> update the SCU AST2600 to model the A3 revision instead of the A1 and
-> adapt the AST2600 SoC and machines.
+> This contains some hardcoded register values that were obtained from the
+> hardware after reading the temperature.
 > 
-> Reset values are taken from v8 of the datasheet.
+> It does enough to test the Linux kernel driver. The FIFO mode, IRQs and
+> operation modes other than the default as used by Linux are not modelled.
 > 
 > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> [ clg: - Introduced an Aspeed "ast2600-a3" SoC class
->        - Commit log update ]
-> Message-Id: <20210407171637.777743-21-clg@kaod.org>
+> [ clg: Fix sequential reading ]
+> Message-Id: <20210616073358.750472-2-joel@jms.id.au>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> Message-Id: <20210629142336.750058-3-clg@kaod.org>
+> Message-Id: <20210629142336.750058-4-clg@kaod.org>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  include/hw/misc/aspeed_scu.h |  2 ++
->  hw/arm/aspeed.c              |  6 +++---
->  hw/arm/aspeed_ast2600.c      |  6 +++---
->  hw/misc/aspeed_scu.c         | 36 +++++++++++++++++++++++++++++-------
->  4 files changed, 37 insertions(+), 13 deletions(-)
+>  hw/misc/dps310.c    | 227 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/arm/Kconfig      |   1 +
+>  hw/misc/Kconfig     |   4 +
+>  hw/misc/meson.build |   1 +
+>  4 files changed, 233 insertions(+)
+>  create mode 100644 hw/misc/dps310.c
+> 
+> diff --git a/hw/misc/dps310.c b/hw/misc/dps310.c
+> new file mode 100644
+> index 000000000000..893521ab8516
+> --- /dev/null
+> +++ b/hw/misc/dps310.c
+> @@ -0,0 +1,227 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright 2017-2021 Joel Stanley <joel@jms.id.au>, IBM Corporation
+> + *
+> + * Infineon DPS310 temperature and humidity sensor
+> + *
+> + * https://www.infineon.com/cms/en/product/sensor/pressure-sensors/pressure-sensors-for-iot/dps310/
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/hw.h"
+> +#include "hw/i2c/i2c.h"
+> +#include "qapi/error.h"
+> +#include "qapi/visitor.h"
+> +#include "migration/vmstate.h"
+> +
+> +#define NUM_REGISTERS   0x33
+> +
+> +typedef struct DPS310State {
+> +    /*< private >*/
+> +    I2CSlave i2c;
+> +
+> +    /*< public >*/
+> +    uint8_t regs[NUM_REGISTERS];
+> +
+> +    uint8_t len;
+> +    uint8_t pointer;
+> +
+> +} DPS310State;
 
-> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index 40a38ebd8549..05edebedeb46 100644
-> --- a/hw/misc/aspeed_scu.c
-> +++ b/hw/misc/aspeed_scu.c
-> @@ -101,14 +101,24 @@
->  #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
->  #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
->  #define AST2600_CLK_STOP_CTRL2_CLR TO_REG(0x94)
-> +#define AST2600_DEBUG_CTRL        TO_REG(0xC8)
-> +#define AST2600_DEBUG_CTRL2       TO_REG(0xD8)
->  #define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
->  #define AST2600_HPLL_PARAM        TO_REG(0x200)
->  #define AST2600_HPLL_EXT          TO_REG(0x204)
-> +#define AST2600_APLL_PARAM        TO_REG(0x210)
-> +#define AST2600_APLL_EXT          TO_REG(0x214)
-> +#define AST2600_MPLL_PARAM        TO_REG(0x220)
->  #define AST2600_MPLL_EXT          TO_REG(0x224)
-> +#define AST2600_EPLL_PARAM        TO_REG(0x240)
->  #define AST2600_EPLL_EXT          TO_REG(0x244)
-> +#define AST2600_DPLL_PARAM        TO_REG(0x260)
-> +#define AST2600_DPLL_EXT          TO_REG(0x264)
->  #define AST2600_CLK_SEL           TO_REG(0x300)
->  #define AST2600_CLK_SEL2          TO_REG(0x304)
-> -#define AST2600_CLK_SEL3          TO_REG(0x310)
-> +#define AST2600_CLK_SEL3          TO_REG(0x308)
+> +static void dps310_reset(DeviceState *dev)
+> +{
+> +    DPS310State *s = DPS310(dev);
+> +
+> +    static const uint8_t regs_reset_state[] = {
 
-Is it a bugfix? Otherwise this is annoying.
+       static const uint8_t regs_reset_state[NUM_REGISTERS] = {
 
-Maybe:
+> +        0xfe, 0x2f, 0xee, 0x02, 0x69, 0xa6, 0x00, 0x80, 0xc7, 0x00, 0x00, 0x00,
+> +        0x00, 0x10, 0x00, 0x00, 0x0e, 0x1e, 0xdd, 0x13, 0xca, 0x5f, 0x21, 0x52,
+> +        0xf9, 0xc6, 0x04, 0xd1, 0xdb, 0x47, 0x00, 0x5b, 0xfb, 0x3a, 0x00, 0x00,
+> +        0x20, 0x49, 0x4e, 0xa5, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +        0x60, 0x15, 0x02
+> +    };
+> +
+> +    QEMU_BUILD_BUG_ON(sizeof(regs_reset_state) != sizeof(s->regs));
 
- #define AST2600A1_CLK_SEL3          TO_REG(0x310)
- #define AST2600A3_CLK_SEL3          TO_REG(0x308)
+and drop QEMU_BUILD_BUG_ON?
 
-and...
-
-> +#define AST2600_CLK_SEL4          TO_REG(0x310)
-> +#define AST2600_CLK_SEL5          TO_REG(0x314)
->  #define AST2600_HW_STRAP1         TO_REG(0x500)
->  #define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
->  #define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
-> @@ -433,6 +443,8 @@ static uint32_t aspeed_silicon_revs[] = {
->      AST2500_A1_SILICON_REV,
->      AST2600_A0_SILICON_REV,
->      AST2600_A1_SILICON_REV,
-> +    AST2600_A2_SILICON_REV,
-> +    AST2600_A3_SILICON_REV,
->  };
->  
->  bool is_supported_silicon_rev(uint32_t silicon_rev)
-> @@ -651,16 +663,26 @@ static const MemoryRegionOps aspeed_ast2600_scu_ops = {
->      .valid.unaligned = false,
->  };
->  
-> -static const uint32_t ast2600_a1_resets[ASPEED_AST2600_SCU_NR_REGS] = {
-> +static const uint32_t ast2600_a3_resets[ASPEED_AST2600_SCU_NR_REGS] = {
->      [AST2600_SYS_RST_CTRL]      = 0xF7C3FED8,
-> -    [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
-> +    [AST2600_SYS_RST_CTRL2]     = 0x0DFFFFFC,
->      [AST2600_CLK_STOP_CTRL]     = 0xFFFF7F8A,
->      [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
-> +    [AST2600_DEBUG_CTRL]        = 0x00000FFF,
-> +    [AST2600_DEBUG_CTRL2]       = 0x000000FF,
->      [AST2600_SDRAM_HANDSHAKE]   = 0x00000000,
-> -    [AST2600_HPLL_PARAM]        = 0x1000405F,
-> +    [AST2600_HPLL_PARAM]        = 0x1000408F,
-> +    [AST2600_APLL_PARAM]        = 0x1000405F,
-> +    [AST2600_MPLL_PARAM]        = 0x1008405F,
-> +    [AST2600_EPLL_PARAM]        = 0x1004077F,
-> +    [AST2600_DPLL_PARAM]        = 0x1078405F,
-> +    [AST2600_CLK_SEL]           = 0xF3940000,
-> +    [AST2600_CLK_SEL2]          = 0x00700000,
-> +    [AST2600_CLK_SEL3]          = 0x00000000,
-
-... use AST2600A3_CLK_SEL3 here?
-
-So someone wanting the emulate the A1 doesn't get
-the nasty bug of having CLK_SEL3 misplaced.
-
-> +    [AST2600_CLK_SEL4]          = 0xF3F40000,
-> +    [AST2600_CLK_SEL5]          = 0x30000000,
->      [AST2600_CHIP_ID0]          = 0x1234ABCD,
->      [AST2600_CHIP_ID1]          = 0x88884444,
-> -
->  };
+> +
+> +    memcpy(s->regs, regs_reset_state, sizeof(s->regs));
+> +    s->pointer = 0;
+> +
+> +    /* TODO: assert these after some timeout ? */
+> +    s->regs[DPS310_MEAS_CFG] = DPS310_COEF_RDY | DPS310_SENSOR_RDY
+> +        | DPS310_TMP_RDY | DPS310_PRS_RDY;
+> +}
 
