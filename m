@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DBD3E464B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:13:48 +0200 (CEST)
-Received: from localhost ([::1]:48150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03DC3E464C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:13:49 +0200 (CEST)
+Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD56A-00053G-UX
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
+	id 1mD56D-00055Z-1V
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53g-00024z-4j; Mon, 09 Aug 2021 09:11:12 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:46051)
+ id 1mD53g-00024p-2k; Mon, 09 Aug 2021 09:11:12 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:34310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53d-000186-Fk; Mon, 09 Aug 2021 09:11:11 -0400
-Received: by mail-qk1-x735.google.com with SMTP id bl17so10627536qkb.12;
- Mon, 09 Aug 2021 06:11:07 -0700 (PDT)
+ id 1mD53e-00019t-60; Mon, 09 Aug 2021 09:11:11 -0400
+Received: by mail-qk1-x731.google.com with SMTP id w197so16906100qkb.1;
+ Mon, 09 Aug 2021 06:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6MJctKj+2NkclgdNpY8JxGmncZS4s2kf2MK5lHxnmWg=;
- b=Gt0t348DwOS0KO1kHyukdcaATvFaszauz2FRqdmQOcWYQERre8Nd0v9M3VEhMdofwr
- jORURHNo/1cLFHXiUDBOPD/5fIingRjfk6s1y6S41QWfth5r6vy1vLAx972GTP61wxla
- 11bq+bInlp5zl2bU60w6Tjj6xSqIvj2qAAcoCSX78grQWUjOjFazlYibRRVmsBvKvBqY
- wb2DPSTQP1dQoNos4pTxV7Gn8L/R8zKHua0e01qanq21HprtMm8kjOcPcsfe6se2VKi3
- Q4oTgLVtemyq+fkTuAl+5kgdrTgj65929L3w9qE58S8Ege7i1Ooi8xd6YA/NL/Z3jgAp
- 3ljg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DGlUQPK9e7epKwUBSBa5Q0ZSUZZqLkFNIDCZO/0kZRQ=;
+ b=Hh4mP8xuT9pt3Vt0hdIO+ov7n/iqMrlhtCR7L1MfhC4X4RVJ+FaWuGPecjG9J+CaW3
+ 8BQmNITgavnmvAEyFu1+9smuTCALYkezzb1qlDhg6B1MXiqCmU7AW/Z/tt5KpiNZQBzM
+ Md824C+ARJSh/fRHgCYlfawzTFfNCFKh2TF57yk8kacYulUo53UDKuG5DeYZ6i61tBNk
+ B5wsN1C6ei5QPR0Uha9M8pcped42KvIIK10UIF+t56vCen8YTLp3EoORK3vXsjdZiYUs
+ n2d711g7J97qcCs1q754EWARLyw4Ymw38s3gQOmmv3hSjhJk9pgtoeNC7SkOqs0FdOGU
+ NY7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6MJctKj+2NkclgdNpY8JxGmncZS4s2kf2MK5lHxnmWg=;
- b=PR05MAFhOfPFzhjLu+6ZBT9uob+oepFprYxo464R3p3IVzxGupihI+rDZfnFs8RYrA
- vGimSUmdrOTQFxpMowIhEdZ6J0mcung3hXy1Mrcq42Z6O+NbYUXMStFvkj9iJzH+u5Dg
- H7jIng4wmvlHmrZkByQYMvUSVSn/Rf4M5Mfz6iFqhN+zCBe5Um5/5uuJC6C5P2zo2ZA0
- PkkF4dbLA3bHuUGJQ799e6hK0c9h+u5u2bRUVaFUS3XYUNnyvepwj/ygZsLesLYjHYrT
- 8hWV50u5n3FDbE9/1TVnuK1oNLbFL9Fkn48jctOFpJ8m5XYz8VwFaN0xu8cZxm1YxIJo
- 9olQ==
-X-Gm-Message-State: AOAM533MfhgHDJHsT8SNWPLRZns9B2GhbUOsXXkIN1OPw9dcZ8Mm0ZGo
- vak6poEecQLbX+GD9YszAqlUAgIpW+6kGw==
-X-Google-Smtp-Source: ABdhPJxO9tPlGzgGQL0gcVd8e5gWDZK+u+fqT1A1lZM2HNQx2VYrqsaCL1LSqlKE+my9zoqaXke+Yw==
-X-Received: by 2002:a05:620a:1134:: with SMTP id
- p20mr23028850qkk.397.1628514666272; 
- Mon, 09 Aug 2021 06:11:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DGlUQPK9e7epKwUBSBa5Q0ZSUZZqLkFNIDCZO/0kZRQ=;
+ b=P8Q52ZoOuMMo5EV2d4mqiQKpQRbCPyf/B+1E4nF3VtUbYWJgh3LGxTyynhb5VHpqzB
+ W3IstTbthyH3hHo5DI4sdJ1f8ufmHd+g4jbFei0ZTKQLH/2Uio4JSjzjPmuNUbEs7W1d
+ pWsd1oKxvEIFehPaIqyUY2dxR4s491xkjnJLKxDrkm/lwW60A+9rmXWFOdSEK4H+FBB4
+ 6mww9dxZuWEaZOhIrvxixDzi7D9GxPcSUPuQWmnlBzeTaFVrjdhoE3/DyKojGi2M01sM
+ NENexbPewje10RPdCfuBIyszsaVOpvGa+NBUromzGQsJ2HL1Qcqx0w17OTKARlV0sUjI
+ 3UJg==
+X-Gm-Message-State: AOAM530NUO/EAjhX9MxQc9Ob5thRewsW/IltnnMBvdwWFihf/3nTkyuM
+ 3a8CN0GVnunx6as6LA1rav/NdbutxEJxLg==
+X-Google-Smtp-Source: ABdhPJzHT+U1Thv18v7oW0fhMgRcswsLwBd5N0hUgUZsyGl96jvZD4ebqCOtKzp2LSDravYvMjyZXA==
+X-Received: by 2002:a37:6888:: with SMTP id d130mr4181772qkc.391.1628514668799; 
+ Mon, 09 Aug 2021 06:11:08 -0700 (PDT)
 Received: from rekt.ibmuc.com ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.03
+ by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 06:11:05 -0700 (PDT)
+ Mon, 09 Aug 2021 06:11:08 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/19] PMU-EBB support for PPC64 TCG
-Date: Mon,  9 Aug 2021 10:10:38 -0300
-Message-Id: <20210809131057.1694145-1-danielhb413@gmail.com>
+Subject: [PATCH 01/19] target/ppc: add exclusive Book3S PMU reg read/write
+ functions
+Date: Mon,  9 Aug 2021 10:10:39 -0300
+Message-Id: <20210809131057.1694145-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210809131057.1694145-1-danielhb413@gmail.com>
+References: <20210809131057.1694145-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,96 +87,143 @@ Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The PowerPC PMU, as described by PowerISA v3.1, has a lot of functions
+that freezes, resets and sets counters to specific values depending on
+the circuntances. Some of these are trigged based on read/value of the
+PMU registers (MMCR0, MMCR1, MMCR2, MMCRA and PMC counters).
 
-In this series we introduce Event-Based Branch (EBB) support for PPC64
-TCG. EBB consists of a new instruction called 'rfebb' and interrupt/exception
-logic that redirects the userspace next intruction pointer to another address,
-and the rfebb instruction restores execution back afterwards.
+Having to handle the PMU logic using the generic read/write functions
+can impact all other registers that has nothing to do with the PMU that
+uses these functions. This patch creates two new functions,
+spr_read_pmu_generic() and spr_write_pmu_generic, that will be used later
+on to handle PMU logic together with the read/write of PMU registers.
 
-One way to exercise EBB is the Linux kernel selftests, located in the
-kernel tree tools/testing/selftests/powerpc/pmu/ebb). These tests uses
-the PMU (Performance Monitor Unit). We don't have a PPC64 PMU implementation
-available, so to validate the EBB implementation we also introduced a
-rudimentary PPC64 PMU for TCG. The PMU will not count anything but instructions
-and cycles. There is no support for sampled/random events that are enabled by MMCR2.
-Not all MMCR0 bits are being used. The limitations and capabilities of
-this PMU implementation is described in the docs in the last patch.
+We're not ready to add specific PMU logic in these new functions yet, so
+for now these are just stubs that calls spr_read/write_generic(). No
+functional change is made.
 
-This work was started by Gustavo Romero in 2020. You can find Gustavo's
-patches in his branch at [1]. Gustavo's current work email is CCed in
-the patches so he can follow and participate in the review process if he
-wants to.
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/cpu_init.c  | 24 ++++++++++++------------
+ target/ppc/spr_tcg.h   |  2 ++
+ target/ppc/translate.c | 12 ++++++++++++
+ 3 files changed, 26 insertions(+), 12 deletions(-)
 
-These patches can be divided in 3 parts: 
-
-- Patches 1 to 8: basic PMU support for instructions/cycles counting
-- Patches 9 to 11: EBB implementation
-- Patches 12 to 18: implement counter negative PMU alerts to trigger EBB
-exceptions
-
-Both the PMU and EBB are based on the PowerISA 3.1 specification. 
-
-One notable limitation of the PMU implementation is the icount
-precision. Using the PMU powerpc kernel tests, located in
-tools/testing/selftests/powerpc/pmu, we will consistently fall short in
-tests where 10M or more instructions are sampled, with an error rate of
-around 0,07%.  I am not certain whether this has to do with the logic
-implemented here or with an icount precision limit, or both. Since our
-objective here is to validate the EBB logic I am overlooking these
-errors. All that said, any input/feedback related to how we can improve
-the instruction count is welcome.
-
-The benchmark for this implementation is the EBB powerpc kernel tests,
-located in the kernel tree in tools/testing/selftests/powerpc/pmu/ebb.
-Of the current 22 EBB tests presented in the kernel v5.13 we can pass 20
-of those all the time. . 'instructions_count_test' suffers from the same
-limitations of the PMU tests mentioned above. 'lost_exception_test' will
-pass sometimes, although the most common scenario is a failure. Since
-this is a heavy focused PMU test that happens to use EBB I am also
-overlooking its failure.
-
-[1] https://github.com/gromero/qemu/commits/ebb
-
-
-Daniel Henrique Barboza (15):
-  target/ppc: add exclusive Book3S PMU reg read/write functions
-  target/ppc: PMU Book3s basic insns count for pseries TCG
-  target/ppc/pmu_book3s_helper.c: eliminate code repetition
-  target/ppc/pmu_book3s_helper: enable PMC1-PMC4 events
-  target/ppc/pmu_book3s_helper.c: icount fine tuning
-  target/ppc/pmu_book3s_helper.c: do an actual cycles calculation
-  target/ppc/excp_helper.c: POWERPC_EXCP_EBB adjustments
-  target/ppc/pmu_book3s_helper.c: enable PMC1 counter negative EBB
-  target/ppc/translate: PMU: handle setting of PMCs while running
-  target/ppc/pmu_book3s_helper.c: add generic timeout helpers
-  target/ppc/pmu_book3s_helper: enable counter negative for all PMCs
-  target/ppc/pmu_book3s_helper: adding 0xFA event
-  target/ppc/pmu_book3s_helper.c: add PMC14/PMC56 counter freeze bits
-  target/ppc/pmu_book3s_helper.c: add PM_CMPLU_STALL mock events
-  docs/specs: add PPC64 TCG PMU-EBB documentation
-
-Gustavo Romero (4):
-  target/ppc: add exclusive user read function for PMU regs
-  target/ppc: add exclusive user write function for PMU regs
-  PPC64/TCG: Implement 'rfebb' instruction
-  target/ppc: PMU Event-Based exception support
-
- docs/specs/index.rst           |   1 +
- docs/specs/ppc-tcg-pmu-ebb.rst |  71 +++++
- hw/ppc/spapr_cpu_core.c        |   6 +
- target/ppc/cpu.h               |  47 +++-
- target/ppc/cpu_init.c          |  54 ++--
- target/ppc/excp_helper.c       |  61 +++++
- target/ppc/helper.h            |   2 +
- target/ppc/meson.build         |   1 +
- target/ppc/pmu_book3s_helper.c | 466 +++++++++++++++++++++++++++++++++
- target/ppc/spr_tcg.h           |   4 +
- target/ppc/translate.c         | 151 ++++++++++-
- 11 files changed, 834 insertions(+), 30 deletions(-)
- create mode 100644 docs/specs/ppc-tcg-pmu-ebb.rst
- create mode 100644 target/ppc/pmu_book3s_helper.c
-
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 505a0ed6ac..021c1bc750 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -6821,47 +6821,47 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
+ {
+     spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_MMCR0, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_MMCR1, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_MMCRA, "MMCRA",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_MMCRA, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC1, "PMC1",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC1, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC2, "PMC2",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC2, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC3, "PMC3",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC3, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC4, "PMC4",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC4, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC5, "PMC5",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC5, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC6, "PMC6",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_PMC6, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_SIAR, "SIAR",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_SIAR, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_SDAR, "SDAR",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_SDAR, 0x00000000);
+ }
+ 
+@@ -6941,7 +6941,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
+ {
+     spr_register_kvm(env, SPR_POWER_MMCR2, "MMCR2",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+                      KVM_REG_PPC_MMCR2, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_MMCRS, "MMCRS",
+                      SPR_NOACCESS, SPR_NOACCESS,
+diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+index 0be5f347d5..2aab5878a0 100644
+--- a/target/ppc/spr_tcg.h
++++ b/target/ppc/spr_tcg.h
+@@ -25,6 +25,8 @@
+ void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
++void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn);
++void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 171b216e17..c8f3878002 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -385,6 +385,12 @@ void spr_read_generic(DisasContext *ctx, int gprn, int sprn)
+     spr_load_dump_spr(sprn);
+ }
+ 
++void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn)
++{
++    /* For now it's just a call to spr_read_generic() */
++    spr_read_generic(ctx, gprn, sprn);
++}
++
+ static void spr_store_dump_spr(int sprn)
+ {
+ #ifdef PPC_DUMP_SPR_ACCESSES
+@@ -400,6 +406,12 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
+     spr_store_dump_spr(sprn);
+ }
+ 
++void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn)
++{
++    /* For now it's just a call to spr_write_generic() */
++    spr_write_generic(ctx, sprn, gprn);
++}
++
+ #if !defined(CONFIG_USER_ONLY)
+ void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+ {
 -- 
 2.31.1
 
