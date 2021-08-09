@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6EF3E4F7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 00:49:10 +0200 (CEST)
-Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C31B13E4F82
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 00:51:02 +0200 (CEST)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDE4z-000791-0o
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 18:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1mDE6n-0000GU-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 18:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mDE3u-0006TQ-FU
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:48:02 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:47003)
+ id 1mDE5z-0007xU-Q0
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:50:11 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:43969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mDE3o-0001Wz-8Z
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:47:58 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id
- a7-20020a9d5c870000b029050333abe08aso6033380oti.13
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 15:47:54 -0700 (PDT)
+ id 1mDE5x-0002uK-1R
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 18:50:10 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id s13so16660783oie.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 15:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qKKtOChUOeG8zAh41aaademq5nm9etkbwSTsfF1otcI=;
- b=ho3yVEjXsstYR363y9+QrSOfUxINLMlnhe/Gp96Cee8Ko6U0aq7LKROBPnV04rRBe1
- ahNV4ojwGAfnB+irDTrOm5WyERzBbiTQB935dr2HJLVAxTt5G33HYM4fToyYT+Rg14Cp
- BCVFqSqwaFhAwRSg76UH5gvspU7IUoXK6lgNzEBOywdho2oxLmCP9s8QacLsubUoj/RX
- mmSvwKQNwlkJi6lPxeOKW01vsC8Hx6PhjmEeUCoy9fUTjQMt2YeawggZdViJs8z4q6mL
- gGAyITrB5pXNsE60K67gyMNMOeZem35KpqcUAMf7Qar5CI5TNvOnODOP5bZxP5QRfGAs
- YAfA==
+ :cc; bh=2RrrY0zwAPS4OoGNvgIPdp2PrqzbNjQc7RYXvPx+D0U=;
+ b=CXwqsm/93LXpDNwd/b3bEwuvwmpY1O24mF+P2PKG9ZtgCsABuK3WhuPqdVhV2FlBmb
+ 94T6jehBHdQSOrW1H05K/suMo4wPwWYHz1HJd4wrRaYM9AmVN6uPyrdVtOcm8KkgslPA
+ 09Oh2WM5+21pobsRwGlTnS5w/mhZq7+Sqe/Sosc8aF8FSZ7OviuugTeooKfLHF8Sli3x
+ +hxDCIfe+npmrM0ynm0B767BOR1s4KuVg/Qiah80qw5gsjx9yDzvaqYDYVcPJAkRikyk
+ xQhTii0iU2o5yz1YnAOLqehx4W5lSrcw6Zpb+jFQSgnIcX/7/0hTzXNj2XLT0Wcsb664
+ vtvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qKKtOChUOeG8zAh41aaademq5nm9etkbwSTsfF1otcI=;
- b=BUSz2YHaAHMtmrD0/kVtKkPJoz9IPe6EbQpShCKFqhDf8XCoN0j6X4cNYBZlvdfh/T
- EMImTG5wLCxjd09J/NxskqG6khXcR8aQ+BFYCNMJaV1tgXHx6k9twwBSC+DhEDshDrPo
- yo/5Gg7xIWEE9SUF/ls45LySk5lyf0EVTnmExSFiRRt9A3t51VBU7Gy5Ex+nWWe683FS
- ueNRytfBksmMX2k3cBNpzQmj9e9yMyf+D25ZGrocAwcFxvnyUqLEvZdjeO4hojRXjji1
- qSxMT9T3nRZW3Y3cqxsQtoUlo08gddPLhgdhoEtqP4ai67nMLpHCSj/mnA1wgR4ODe/w
- wphA==
-X-Gm-Message-State: AOAM5325JlWyiaiRLZpHUomO/JPLvvOXgNWsrDoIgUlKyXn1Fn124gHn
- B9ApPn+xIu6QXFHcsRDOxpK9LrfwtZOFx2kMbsV6zg==
-X-Google-Smtp-Source: ABdhPJwJRqhoKk2xl35xAQWpwrrKHIURLPaisvaZr5hiuc2EnoiL5DxCwJCVUKzX/KBrCek5LXnRUec/zNVqng39/Pg=
-X-Received: by 2002:a9d:c04:: with SMTP id 4mr8327122otr.180.1628549273410;
- Mon, 09 Aug 2021 15:47:53 -0700 (PDT)
+ bh=2RrrY0zwAPS4OoGNvgIPdp2PrqzbNjQc7RYXvPx+D0U=;
+ b=hN+jQX/f0L3k16TJNgmqP+01lcK743guz1QWyjqTxNbGd9PfYSN60vLZHVS2OrPblc
+ A1epyWza1lhVPFJp9LHKgOxZ/6+1pGnPz/cFYObAOVVxyibZuCBjII4UxWGcc9g5ldP0
+ A+qCiPT9MNjqaIElHwJUFf6upn9EcMUXPBoeRBlshdmqtlpENRalCsb5fnN7PgCBY0Yt
+ ttp9gUWVfpPbLK6pT6OPdN61dMkxwtlsF2Kd892cdQHEUDfKUdhKdK3nN4LsJIRKyjV3
+ L2PjewQa8Qri+j6YcZS8cszW9VSZHMXnWh+4chbZSfopnAOo7OWqrdirdcQoOfW0pArL
+ rt4A==
+X-Gm-Message-State: AOAM533My64h0qlzaoO2GYUku30jg4jIgMqUt4WLP4uIagHd/bDyOk0e
+ 3h6ECCdl3v0qWVxRlYnd7yTwIy71yGP0X+GzDk6Y6w==
+X-Google-Smtp-Source: ABdhPJw03Cgw2MOtByvdvbTXNx/sIndlUZrwEQ+jBdIvo50Hvym5piPa0cmXtivSaOGiSXUKEIaBH2a5Q3NuZDKFXUg=
+X-Received: by 2002:aca:c1c3:: with SMTP id r186mr18063855oif.97.1628549407562; 
+ Mon, 09 Aug 2021 15:50:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210706222607.1058040-1-jiang.wang@bytedance.com>
- <20210707083312.algmreafmfofg7el@steredhat>
- <CAP_N_Z-NbofkoDbWby9Pe=VH1CjYQL6-gSbrwWDBZBNDwcnmuA@mail.gmail.com>
- <20210707172737.j2xpyd45wmufdqc5@steredhat.lan>
- <CAP_N_Z8ktMLHSG8J7t4WA9MCC5i0o=CUF+VfPSOBnWrMd21idg@mail.gmail.com>
- <20210804064103.gvhz3a7ck6xlwsm6@steredhat>
- <CAGxU2F4b0evZfKhZ62S7RmDMWG1jq72q5tii_WuKbNeBuveLsg@mail.gmail.com>
- <CAP_N_Z_aJ62bMA6kR-e-FnPh-uNhJsQSf67RKPS67bq6=jO-2Q@mail.gmail.com>
- <20210809104934.xuzyqhqsshmixwhq@steredhat>
-In-Reply-To: <20210809104934.xuzyqhqsshmixwhq@steredhat>
+References: <20210803234132.1557394-1-jiang.wang@bytedance.com>
+ <20210804081349.44gifmmks2uut6r5@steredhat>
+ <CAP_N_Z_yhrNJtL0_xZ+Ar8OKqxx=JC-eBejjcPZPbNREWeq_Yg@mail.gmail.com>
+ <20210809105816.l4qtlvq2r6np2e2w@steredhat>
+In-Reply-To: <20210809105816.l4qtlvq2r6np2e2w@steredhat>
 From: "Jiang Wang ." <jiang.wang@bytedance.com>
-Date: Mon, 9 Aug 2021 15:47:42 -0700
-Message-ID: <CAP_N_Z9-DM+XY6y+LFG49m=FLWh5DNvGYZ-XYpSiORmcVQ40qA@mail.gmail.com>
-Subject: Re: Re: [RFC v3] virtio/vsock: add two more queues for datagram types
+Date: Mon, 9 Aug 2021 15:49:56 -0700
+Message-ID: <CAP_N_Z9h1SOm3vkO149LOpk4KGOuYvRTpabkf_tZCF2kyPWJ_Q@mail.gmail.com>
+Subject: Re: Re: [PATCH v4] virtio/vsock: add two more queues for datagram
+ types
 To: Stefano Garzarella <sgarzare@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=jiang.wang@bytedance.com; helo=mail-ot1-x32a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=jiang.wang@bytedance.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,155 +86,184 @@ Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 9, 2021 at 3:49 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+On Mon, Aug 9, 2021 at 3:58 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
 >
-> On Thu, Aug 05, 2021 at 12:00:05PM -0700, Jiang Wang . wrote:
-> >On Tue, Aug 3, 2021 at 11:49 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> On Thu, Aug 05, 2021 at 12:07:02PM -0700, Jiang Wang . wrote:
+> >On Wed, Aug 4, 2021 at 1:13 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
 > >>
-> >> On Wed, Aug 4, 2021 at 8:41 AM Stefano Garzarella <sgarzare@redhat.com>
-> >> wrote:
+> >> On Tue, Aug 03, 2021 at 11:41:32PM +0000, Jiang Wang wrote:
+> >> >Datagram sockets are connectionless and unreliable.
+> >> >The sender does not know the capacity of the receiver
+> >> >and may send more packets than the receiver can handle.
 > >> >
-> >> > On Tue, Aug 03, 2021 at 11:58:27AM -0700, Jiang Wang . wrote:
-> >> > >On Wed, Jul 7, 2021 at 10:27 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
-> >> > >> On Wed, Jul 07, 2021 at 09:52:46AM -0700, Jiang Wang . wrote:
-> >> > >> >On Wed, Jul 7, 2021 at 1:33 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
-> >> > >> >> On Tue, Jul 06, 2021 at 10:26:07PM +0000, Jiang Wang wrote:
+> >> >Add two more dedicate virtqueues for datagram sockets,
+> >> >so that it will not unfairly steal resources from
+> >> >stream and future connection-oriented sockets.
 > >> >
-> >> > [...]
+> >> >Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+> >> >---
+> >> >v1 -> v2: use qemu cmd option to control number of queues,
+> >> >       removed configuration settings for dgram.
+> >> >v2 -> v3: use ioctl to get features and decide number of
+> >> >        virt queues, instead of qemu cmd option.
+> >> >v3 -> v4: change DGRAM feature bit value to 2. Add an argument
+> >> >       in vhost_vsock_common_realize to indicate dgram is supported or not.
 > >> >
-> >> > >> >> >+
-> >> > >> >> >+    if (nvqs < 0)
-> >> > >> >> >+        nvqs = MAX_VQS_WITHOUT_DGRAM;
-> >> > >> >> >+
-> >> > >> >> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
-> >> > >> >> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >> > >> >> >+                                              vhost_vsock_common_handle_output);
-> >> > >> >> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >> > >> >> >+                                               vhost_vsock_common_handle_output);
-> >> > >> >> >+    }
-> >> > >> >> >+
-> >> > >> >> >     /* The event queue belongs to QEMU */
-> >> > >> >> >     vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >> > >> >> >                                        vhost_vsock_common_handle_output);
-> >> > >> >>
-> >> > >> >> Did you do a test with a guest that doesn't support datagram with QEMU
-> >> > >> >> and hosts that do?
-> >> > >> >>
-> >> > >> >Yes, and it works.
-> >> > >> >
-> >> > >> >> I repost my thoughts that I had on v2:
-> >> > >> >>
-> >> > >> >>      What happen if the guest doesn't support dgram?
-> >> > >> >>
-> >> > >> >>      I think we should dynamically use the 3rd queue or the 5th queue for
-> >> > >> >>      the events at runtime after the guest acked the features.
-> >> > >> >>
-> >> > >> >>      Maybe better to switch to an array of VirtQueue.
-> >> > >> >>
-> >> > >> >I think in current V3, it  already dynamically use 3rd or 5th queue
-> >> > >> >depending
-> >> > >> >on the feature bit.
-> >> > >>
-> >> > >> I'm not sure. IIUC when vhost_vsock_common_realize() is called, we don't
-> >> > >> know the features acked by the guest, so how can it be dynamic?
-> >> > >>
-> >> > >> Here we should know only if the host kernel supports it.
-> >> > >>
-> >> > >> Maybe it works, because in QEMU we use the event queue only after a
-> >> > >> migration to send a reset event, so you can try to migrate a guest to
-> >> > >> check this path.
-> >> > >>
-> >> > >I tried VM migration and didn't see any problems. The migration looks fine
-> >> > >and vsock dgram still works after migration. Is there any more specific test
-> >> > >you want to run to check for this code path?
-> >> > >
+> >> > hw/virtio/vhost-user-vsock.c                  |  2 +-
+> >> > hw/virtio/vhost-vsock-common.c                | 58 ++++++++++++++++++-
+> >> > hw/virtio/vhost-vsock.c                       |  5 +-
+> >> > include/hw/virtio/vhost-vsock-common.h        |  6 +-
+> >> > include/hw/virtio/vhost-vsock.h               |  4 ++
+> >> > include/standard-headers/linux/virtio_vsock.h |  1 +
+> >> > 6 files changed, 69 insertions(+), 7 deletions(-)
 > >> >
-> >> > I meant a migration of a guest from QEMU without this patch to a QEMU
-> >> > with this patch. Of course in that case testing a socket stream.
+> >> >diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+> >> >index 6095ed7349..e9ec0e1c00 100644
+> >> >--- a/hw/virtio/vhost-user-vsock.c
+> >> >+++ b/hw/virtio/vhost-user-vsock.c
+> >> >@@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
+> >> >         return;
+> >> >     }
 > >> >
+> >> >-    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
+> >> >+    vhost_vsock_common_realize(vdev, "vhost-user-vsock", false);
+> >> >
+> >> >     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
+> >> >
+> >> >diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> >> >index 4ad6e234ad..c78536911a 100644
+> >> >--- a/hw/virtio/vhost-vsock-common.c
+> >> >+++ b/hw/virtio/vhost-vsock-common.c
+> >> >@@ -17,6 +17,8 @@
+> >> > #include "hw/virtio/vhost-vsock.h"
+> >> > #include "qemu/iov.h"
+> >> > #include "monitor/monitor.h"
+> >> >+#include <sys/ioctl.h>
+> >> >+#include <linux/vhost.h>
+> >> >
+> >> > int vhost_vsock_common_start(VirtIODevice *vdev)
+> >> > {
+> >> >@@ -196,9 +198,39 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
+> >> >     return 0;
+> >> > }
+> >> >
+> >> >-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
+> >> >+static int vhost_vsock_get_max_qps(bool enable_dgram)
+> >> >+{
+> >> >+    uint64_t features;
+> >> >+    int ret;
+> >> >+    int fd = -1;
+> >> >+
+> >> >+    if (!enable_dgram)
+> >> >+        return MAX_VQS_WITHOUT_DGRAM;
+> >> >+
+> >> >+    fd = qemu_open_old("/dev/vhost-vsock", O_RDONLY);
 > >>
-> >> Sorry, I meant the opposite.
 > >>
-> >> You should try to migrate a guest that does not support dgrams starting
-> >> from a QEMU with this patch (and kernel that supports dgram, so qemu
-> >> uses the 5th queue for event), to a QEMU without this patch.
+> >> As I said in the previous version, we cannot directly open
+> >> /dev/vhost-vsock, for two reasons:
 > >>
-> >Got it. I tried what you said and saw errors on the destination qemu. Then
-> >I moved event queue up to be number 3 (before adding dgram vqs),
-> >as the following:
+> >>    1. this code is common with vhost-user-vsock which does not use
+> >>    /dev/vhost-vsock.
+> >>
+> >>    2. the fd may have been passed from the management layer and qemu may
+> >>    not be able to directly open /dev/vhost-vsock.
+> >>
+> >> I think is better to move this function in hw/virtio/vhost-vsock.c,
+> >> using the `vhostfd`, returning true or false if dgram is supported, then
+> >> you can use it for `enable_dgram` param ...
+> >>
 > >
-> >+    /* The event queue belongs to QEMU */
-> >+    vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >+                                       vhost_vsock_common_handle_output);
-> >+
-> >
-> >     nvqs = vhost_vsock_get_max_qps(enable_dgram);
-> >
-> >@@ -253,10 +257,6 @@ void vhost_vsock_common_realize(VirtIODevice
-> >*vdev, const char *name, bool enabl
-> >
-> >vhost_vsock_common_handle_output);
-> >     }
-> >
-> >-    /* The event queue belongs to QEMU */
-> >-    vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >-                                       vhost_vsock_common_handle_output);
-> >-
-> >
-> >But I still see following errors on the destination qemu:
-> >qemu-system-x86_64: Error starting vhost vsock: 14
-> >
-> >Any idea if my above code change is wrong or missing something?
+> >Yes, you are right. Now I remember you said that before but I forgot about that
+> >when I changed the code. I will fix it. Sorry about that.
 >
-> No, sorry.
-> Do you have some kernel messages in the host?
+> No problem :-)
+>
+> >
+> >> >+    if (fd == -1) {
+> >> >+        error_report("vhost-vsock: failed to open device. %s", strerror(errno));
+> >> >+        return -1;
+> >> >+    }
+> >> >+
+> >> >+    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
+> >> >+    if (ret) {
+> >> >+        error_report("vhost-vsock: failed to read  device. %s", strerror(errno));
+> >> >+        qemu_close(fd);
+> >> >+        return ret;
+> >> >+    }
+> >> >+
+> >> >+    qemu_close(fd);
+> >> >+    if (features & (1 << VIRTIO_VSOCK_F_DGRAM))
+> >> >+        return MAX_VQS_WITH_DGRAM;
+> >> >+
+> >> >+    return MAX_VQS_WITHOUT_DGRAM;
+> >> >+}
+> >> >+
+> >> >+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name, bool enable_dgram)
+> >> > {
+> >> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+> >> >+    int nvqs = MAX_VQS_WITHOUT_DGRAM;
+> >> >
+> >> >     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
+> >> >                 sizeof(struct virtio_vsock_config));
+> >> >@@ -209,12 +241,24 @@ void vhost_vsock_common_realize(VirtIODevice
+> >> >*vdev, const char *name)
+> >> >     vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >                                        vhost_vsock_common_handle_output);
+> >> >
+> >> >+    nvqs = vhost_vsock_get_max_qps(enable_dgram);
+> >> >+
+> >> >+    if (nvqs < 0)
+> >> >+        nvqs = MAX_VQS_WITHOUT_DGRAM;
+> >>
+> >> ... and here, if `enable_dgram` is true, you can set `nvqs =
+> >> MAX_VQS_WITH_DGRAM``
+> >>
+> >sure.
+> >
+> >> >+
+> >> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
+> >> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >+                                              vhost_vsock_common_handle_output);
+> >> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >+
+> >> >vhost_vsock_common_handle_output);
+> >> >+    }
+> >> >+
+> >>
+> >> I'm still concerned about compatibility with guests that don't
+> >> support
+> >> dgram, as I mentioned in the previous email.
+> >>
+> >> I need to do some testing, but my guess is it won't work if the host
+> >> (QEMU and vhost-vsock) supports it and the guest doesn't.
+> >>
+> >> I still think that we should allocate an array of queues and then decide
+> >> at runtime which one to use for events (third or fifth) after the guest
+> >> has acked the features.
+> >>
+> >Agree. I will check where the guest ack the feature. If you have any
+>
+> I'm not sure we should delete them, I think we can allocate 5 queues and
+> then use queue 3 or 5 for events in vhost_vsock_common_start(), when the
+> guest already acked the features.
 >
 
-I checked dmesg but did not find any errors. I will debug more.
-
-> >
-> >Take one step back, what should be the host kernel version? With or
-> >without dgram support? I tried both.  The new dest kernel shows the above error.
-> >The old dest kernel shows a msr error probably not related to vsock.
->
-> I think the best is to try the host kernel with DGRAM support, so QEMU
-> will allocate all the queues.
->
-> >
-> >To explain the above qemu 14 error, I think the issue is that the
-> >source host kernel
-> >supports dgram by always setting the DGRAM feature bit(in my
-> >implementation). Then the source
-> >qemu query the source host kernel, and use 5 for event vq. Even if the source
-> >guest kernel does not support dgram, it currently has no way to tell the source
-> >host or the source qemu.
->
-> Initially I think is better to try the migration on the same host, so we
-> can exclude other issues. When it works properly, you can try to migrate
-> to a different host kernel.
->
 Got it.
 
-> >
-> >On the source machine, when we start qemu process,  and the guest VM
-> >is still in BIOS or early boot process ( before vsock is initialized), I think
-> >at this time, the qemu vhost_vsock_common_realize() is already called.
-> >So qemu can only check if the host kernel supports dgram or not, but has
-> >no knowledge about the guest kernel. After the guest kernel is fully boot up,
-> >it can tell qemu or the host if it supports dgram or not ( or the host or qemu
-> >detect for that). But I don't think we will change the vq numbers at that time.
-> >
-> >Maybe we should fix that too and change vq numbers ( delete vq and add
-> >back?) at a later
-> >time after the guest kernel is fully boot-up?
+> >pointers,
+> >just let me know. Also, could we just remove the vq allocation in common_realize
+> >and do it at a later time? Or need to delete and add again as I mentioned in the
+> >previous email?
 >
-> IIRC vhost-net allocates the maximum number of queues, and then it uses
-> only the queues supported/requested, so I think we can do something
-> similar.
+> Instead of having 'recv_vq', 'trans_vq', 'event_vq' fields, we can have
+> an array of VirtQueue pointers and a field that indicates what the index
+> of the event queue is. (or a boolean that indicates if we are enabling
+> dgram or not).
 >
-> Allocates 5 queues and, at runtime, we can decide which queue to use.
+> This should simplify the management.
 >
-I see. Will dig more. thanks.
+I see. I will dig more. thanks.
 
 > Thanks,
 > Stefano
