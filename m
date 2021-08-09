@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E303E431B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:48:21 +0200 (CEST)
-Received: from localhost ([::1]:50048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E813E4317
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 11:47:23 +0200 (CEST)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD1tM-0003sr-7C
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50036)
+	id 1mD1sQ-00018l-6V
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 05:47:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mD1qi-0007Ty-HS
+ id 1mD1qj-0007UD-0e
  for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:45:37 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45722)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mD1qh-0008G0-06
+ id 1mD1qh-0008GG-9H
  for qemu-devel@nongnu.org; Mon, 09 Aug 2021 05:45:36 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l11-20020a7bcf0b0000b0290253545c2997so11063692wmg.4
+Received: by mail-wr1-x430.google.com with SMTP id b11so4397089wrx.6
  for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 02:45:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2CONYzyMfIwqlZKcWFAPMECPa5Mggor1aRHlqwcsDsQ=;
- b=vf3dBxFRuBmKV16JK1GUXo1GWbtbweOZUWennpC8qOHjKbw8iexIDFKTgw94VLcI8W
- OocUaBjgdb+MSGL6uyjMjd7iBhPWbA8eISaswu/A5rYHEh0MSMTtApeDKwSmdrEOKlW0
- hzWeqBJDIW7wZlxdE1Dz1b5r1Cso0sqzyZxtkSGR+CYzb4rhciXnkc8Og0wfMzePe82k
- OyVTLQ43JMD6QyZL7dQI2W54rlOdHW0xfncmX8R+C8aHdSpWrYopJsCH0DtMvKTi83pA
- i700SccPB/eLvgyY/VaK4envvBY9YuiJEKDPo5z+n/Uycza9W0GdzsHPH3J3b72/EBNX
- kP6g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kxGJd17Zc6wHX5EeehREDUvFM+lG65MX3aEsC1BwSI8=;
+ b=IbtMLAU39a8/eTiN9joa01nDDlHrGzciUIH2OZOdIN+CkpJnGzJdmsPq2znivg62vZ
+ x6WHIDbcq7CBbSez4QgEJCNIpRjD3a39jRlJa57mauLGFTWrIB93J92XB8ZiCMG991CJ
+ Nk0lMiI38qOpG/3ygtBzahATRP/aOPFT9lmi2mXaOKDVlXYdleP2NObPqu/U+XXZl0bg
+ XWTYsVYotPJ2UFt2OgC1UxoW0wGWDoTfIWhi1ofl6AlK6+3IQizvBs7Tm6RFtFFcU9uf
+ s81gR3pgOtvFMrrZuHSNOr3lcBB/c1RGDKOZ8MCc4NxYtl6gzLkb50Gdpb+Xgy5qyzFL
+ oYAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=2CONYzyMfIwqlZKcWFAPMECPa5Mggor1aRHlqwcsDsQ=;
- b=S7zWJD5bNedc1+xD1hkNUx2byrzm/wR0J3mjzixHmT2GGjMZOr/R1aboXCgokHlDEp
- at+w/mlpXpOpbNs5dOtYwH71W9oWlC1QSPwoDrJSBnJd/YWHn3A2bub78X4t50oxzGVQ
- KN4tgXE+M9CkevPySJsA30dYIgpZQgo6bvGKdShBwQpAyN8Yq4q0QHstX1PJ5M5ksuo+
- WcAaiXljF8YfuL0dPyruhgD/RwZLzdTJ+xNB80ipIwLq32CYzxHcZgxbbtvWDXzJRkj7
- L5Kff0PsDHeP93fY7Mm/5YoejdnHzXnGg6m4p11qocz6x5pSBBS0nK8xP1kzkrriiJJN
- hMpA==
-X-Gm-Message-State: AOAM531VmmrZqfcpOq8E0gZtHjjbwM4afKkV6pZkhvyovLseNreglutq
- QZfJ5EWj8xlYIpsHUL9P5WOEWbkM6jxhrQ==
-X-Google-Smtp-Source: ABdhPJzU+yjOajtIMuXJ6X/6g0seRDpDxYYerv612Ky5IwbTpMpAm7SlkVkBeAI/rixorOU3FY0MSQ==
-X-Received: by 2002:a7b:c351:: with SMTP id l17mr15778734wmj.120.1628502332603; 
- Mon, 09 Aug 2021 02:45:32 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=kxGJd17Zc6wHX5EeehREDUvFM+lG65MX3aEsC1BwSI8=;
+ b=p4raTPDI/lcGLHurjDW/B5B2dfUytJsPm3HuSxNSr9/RP+DPEKzep+wpBXU3ZdQ74c
+ kuTzBbPUvH7JgGUqPsoNYAser5i9oR0giZgai7gSXxmYji1yXjk02vP1gxCEifw2fzwf
+ zb2l6WhcoViZevwfYlRGHLfyd+hFpavmnsT9CSE1a+hF/A7iP9g1a5GfCS3TA7e0xpKA
+ BEBk2r7rcZE9ZADbcsnteHfV9U0yC70VNSm6NHrDqti3fFERCPWrhTUcWIMkdP5bnf38
+ 1WSnwZOXNVSGP1s9CgEQmdJfh5IbNkiTL24PyHrmaTMsruBf/LTP/s2r2Gmo5xgkN4xO
+ MUUw==
+X-Gm-Message-State: AOAM531O7Su3Z87md2a+83SAe+Uo2/S/NHx36Wxvx01Tm7GDxLdVLOJo
+ v4/ZTuDlj6Dl8e+EsFt835AGdTudXwYudg==
+X-Google-Smtp-Source: ABdhPJwCXmYjbU5xHTZ0bb3R5NZbwUYWAdjGSpuNmlTchMwQsRWuzGfmFHqVJNW2Ao5ayjVkw/UDSQ==
+X-Received: by 2002:a05:6000:232:: with SMTP id
+ l18mr23993422wrz.24.1628502333417; 
+ Mon, 09 Aug 2021 02:45:33 -0700 (PDT)
 Received: from avogadro.redhat.com ([93.56.169.140])
- by smtp.gmail.com with ESMTPSA id y21sm20142820wma.38.2021.08.09.02.45.31
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id y21sm20142820wma.38.2021.08.09.02.45.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 02:45:32 -0700 (PDT)
+ Mon, 09 Aug 2021 02:45:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] Build system patch for 6.1-rc3
-Date: Mon,  9 Aug 2021 11:45:29 +0200
-Message-Id: <20210809094530.230065-1-pbonzini@redhat.com>
+Subject: [PULL 1/1] meson: fix logic for gnutls check
+Date: Mon,  9 Aug 2021 11:45:30 +0200
+Message-Id: <20210809094530.230065-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210809094530.230065-1-pbonzini@redhat.com>
+References: <20210809094530.230065-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,30 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alyssa Ross <hi@alyssa.is>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit dee64246ded3aa7dbada68b96ce1c64e5bea327d:
+From: Alyssa Ross <hi@alyssa.is>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-08-06 10:28:33 +0100)
+The logic before was
 
-are available in the Git repository at:
+	if not get_option('gnutls').auto() or have_system
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Which is equivalent to
 
-for you to fetch changes up to abc14fd05606274d8350f1f90d1ec7bc9e51aa21:
+	if get_option('gnutls').enabled() or get_option('gnutls').disabled() or have_system
 
-  meson: fix logic for gnutls check (2021-08-06 15:36:11 +0000)
+This means that the check for gnutls is performed even if gnutls is
+disabled, which means that the build system will insist on having
+libtasn1 if gnutls is found, even if gnutls support is disabled.
 
-----------------------------------------------------------------
-Fix for gnutls-crypto detection
+When gnutls is disabled, the check for gnutls shouldn't be performed,
+to ensure that further build system logic (like the check for
+libtasn1) doesn't make decisions based on the presence of gnutls,
+rather than the gnutls option.
 
-----------------------------------------------------------------
-Alyssa Ross (1):
-      meson: fix logic for gnutls check
+After making this change, I can successfully ./configure --disable-gnutls
+on my system with gnutls installed, but not libtasn1.
 
+Signed-off-by: Alyssa Ross <hi@alyssa.is>
+Message-Id: <20210806144947.321647-1-hi@alyssa.is>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+---
  meson.build | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index af9bbb83db..b3e7ec0e92 100644
+--- a/meson.build
++++ b/meson.build
+@@ -824,7 +824,7 @@ endif
+ 
+ gnutls = not_found
+ gnutls_crypto = not_found
+-if not get_option('gnutls').auto() or have_system
++if get_option('gnutls').enabled() or (get_option('gnutls').auto() and have_system)
+   # For general TLS support our min gnutls matches
+   # that implied by our platform support matrix
+   #
 -- 
 2.31.1
 
