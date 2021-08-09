@@ -2,45 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5113E46DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:43:24 +0200 (CEST)
-Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C803E46F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:55:48 +0200 (CEST)
+Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5Yp-0005mb-L3
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
+	id 1mD5kp-0001Ht-Md
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:55:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1mD5XN-0003mj-3J
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 09:41:53 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:44438)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mD5ba-0000Zz-Ig; Mon, 09 Aug 2021 09:46:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1mD5XL-0005f4-33
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 09:41:52 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Mon, 9 Aug 2021 15:41:42 +0200
-Received: (qmail 48752 invoked from network); 9 Aug 2021 13:41:41 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
- (relay@kamp.de@::ffff:172.21.12.60)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
- 9 Aug 2021 13:41:41 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
- id DC4DC13D87D; Mon,  9 Aug 2021 15:41:41 +0200 (CEST)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-block@nongnu.org
-Subject: [PATCH] block/rbd: implement bdrv_co_block_status
-Date: Mon,  9 Aug 2021 15:41:36 +0200
-Message-Id: <20210809134136.23140-1-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mD5bW-0000zy-NF; Mon, 09 Aug 2021 09:46:14 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 179DYVVx061286; Mon, 9 Aug 2021 09:45:54 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3aax6c3jf5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Aug 2021 09:45:54 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 179DhA9i024985;
+ Mon, 9 Aug 2021 13:45:52 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3a9hehc32t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Aug 2021 13:45:52 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 179DjnnT55705954
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Aug 2021 13:45:49 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CE08FAE045;
+ Mon,  9 Aug 2021 13:45:49 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 895C6AE04D;
+ Mon,  9 Aug 2021 13:45:49 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  9 Aug 2021 13:45:49 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.54.114])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id BCB05220032;
+ Mon,  9 Aug 2021 15:45:48 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH 00/26] ppc/pnv: Extend the powernv10 machine
+Date: Mon,  9 Aug 2021 15:45:21 +0200
+Message-Id: <20210809134547.689560-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JGIPaCFDVPit98dDJQ3hltU5rx2Bd_7P
+X-Proofpoint-ORIG-GUID: JGIPaCFDVPit98dDJQ3hltU5rx2Bd_7P
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-09_04:2021-08-06,
+ 2021-08-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 clxscore=1034 impostorscore=0 malwarescore=0
+ spamscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=371 phishscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108090101
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,171 +92,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, idryomov@redhat.com, berrange@redhat.com,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, ct@flyingcircus.io,
- pbonzini@redhat.com, idryomov@gmail.com, mreitz@redhat.com,
- dillaman@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- block/rbd.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 119 insertions(+)
+Hi,
 
-diff --git a/block/rbd.c b/block/rbd.c
-index dcf82b15b8..ef1eaa6af3 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -88,6 +88,7 @@ typedef struct BDRVRBDState {
-     char *namespace;
-     uint64_t image_size;
-     uint64_t object_size;
-+    uint64_t features;
- } BDRVRBDState;
- 
- typedef struct RBDTask {
-@@ -983,6 +984,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-     s->image_size = info.size;
-     s->object_size = info.obj_size;
- 
-+    r = rbd_get_features(s->image, &s->features);
-+    if (r < 0) {
-+        error_setg_errno(errp, -r, "error getting image features from %s",
-+                         s->image_name);
-+        rbd_close(s->image);
-+        goto failed_open;
-+    }
-+
-     /* If we are using an rbd snapshot, we must be r/o, otherwise
-      * leave as-is */
-     if (s->snap != NULL) {
-@@ -1259,6 +1268,115 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
-     return spec_info;
- }
- 
-+typedef struct rbd_diff_req {
-+    uint64_t offs;
-+    uint64_t bytes;
-+    int exists;
-+} rbd_diff_req;
-+
-+static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
-+                                       int exists, void *opaque)
-+{
-+    struct rbd_diff_req *req = opaque;
-+
-+    assert(req->offs + req->bytes <= offs);
-+    assert(offs >= req->offs + req->bytes);
-+
-+    if (req->exists && offs > req->offs + req->bytes) {
-+        /*
-+         * we started in an allocated area and jumped over an unallocated area,
-+         * req->bytes contains the length of the allocated area before the
-+         * unallocated area. stop further processing.
-+         */
-+        return -9000;
-+    }
-+    if (req->exists && !exists) {
-+        /*
-+         * we started in an allocated area and reached a hole. req->bytes
-+         * contains the length of the allocated area before the hole.
-+         * stop further processing.
-+         */
-+        return -9000;
-+    }
-+    if (!req->exists && exists && offs > req->offs) {
-+        /*
-+         * we started in an unallocated area and hit the first allocated
-+         * block. req->bytes must be set to the length of the unallocated area
-+         * before the allocated area. stop further processing.
-+         */
-+        req->bytes = offs - req->offs;
-+        return -9000;
-+    }
-+
-+    /*
-+     * assert that we catched all cases above and allocation state has not
-+     * changed during callbacks.
-+     */
-+    assert(exists == req->exists || !req->bytes);
-+    req->exists = exists;
-+
-+    /*
-+     * assert that we either return an unallocated block or have got callbacks
-+     * for all allocated blocks present.
-+     */
-+    assert(!req->exists || offs == req->offs + req->bytes);
-+    req->bytes = offs + len - req->offs;
-+
-+    return 0;
-+}
-+
-+static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-+                                                 bool want_zero, int64_t offset,
-+                                                 int64_t bytes, int64_t *pnum,
-+                                                 int64_t *map,
-+                                                 BlockDriverState **file)
-+{
-+    BDRVRBDState *s = bs->opaque;
-+    int ret, r;
-+    struct rbd_diff_req req = { .offs = offset };
-+
-+    assert(offset + bytes <= s->image_size);
-+
-+    /* default to all sectors allocated */
-+    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
-+    if (map) {
-+        *map = offset;
-+    }
-+    *pnum = bytes;
-+
-+    /* RBD image does not support fast-diff */
-+    if (!(s->features & RBD_FEATURE_FAST_DIFF)) {
-+        goto out;
-+    }
-+
-+    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
-+                          qemu_rbd_co_block_status_cb, &req);
-+    if (r < 0 && r != -9000) {
-+        goto out;
-+    }
-+    assert(req.bytes <= bytes);
-+    if (!req.exists) {
-+        if (r == 0 && !req.bytes) {
-+            /*
-+             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
-+             * except for the case where an overlay has a hole where the parent
-+             * has not. This here catches the case where no callback was
-+             * invoked at all.
-+             */
-+            req.bytes = bytes;
-+        }
-+        ret &= ~BDRV_BLOCK_DATA;
-+        ret |= BDRV_BLOCK_ZERO;
-+    }
-+    *pnum = req.bytes;
-+
-+out:
-+    if (ret > 0 && ret & BDRV_BLOCK_OFFSET_VALID && file) {
-+        *file = bs;
-+    }
-+    return ret;
-+}
-+
- static int64_t qemu_rbd_getlength(BlockDriverState *bs)
- {
-     BDRVRBDState *s = bs->opaque;
-@@ -1494,6 +1612,7 @@ static BlockDriver bdrv_rbd = {
- #ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-     .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
- #endif
-+    .bdrv_co_block_status   = qemu_rbd_co_block_status,
- 
-     .bdrv_snapshot_create   = qemu_rbd_snap_create,
-     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
--- 
-2.17.1
+This series adds the minimum set of models (XIVE2, PHB5) to boot a
+baremetal POWER10 machine using the OpenPOWER firmware images.
 
+The major change is the support for the interrupt controller of the
+POWER10 processor. XIVE2 is very much like XIVE but the register
+interface, the different MMIO regions, the XIVE internal descriptors
+have gone through a major cleanup. It was easier to duplicate the
+models then to try to adapt the current models. XIVE2 adds some new
+set of features. Not all are modeled here but we add the
+"Address-based trigger" mode which is activated by default on the
+PHB5. When using ABT, the PHB5 offloads all interrupt management on
+the IC, this to improve latency.
+
+Thanks,
+
+C.
+
+C=C3=A9dric Le Goater (26):
+  ppc: Add a POWER10 DD2 CPU
+  ppc/pnv: Change the POWER10 machine to support DD2 only
+  ppc/pnv: powerpc_excp: Do not discard HDECR exception when entering
+    power-saving mode
+  ppc/pnv: Use a simple incrementing index for the chip-id
+  ppc/pnv: Distribute RAM among the chips
+  ppc/pnv: add a chip topology index for POWER10
+  ppc/xive: Export PQ get/set routines
+  ppc/xive: Export xive_presenter_notify()
+  ppc/xive2: Introduce a XIVE2 core framework
+  ppc/xive2: Introduce a presenter matching routine
+  ppc/pnv: Add a XIVE2 controller to the POWER10 chip.
+  ppc/pnv: Add a OCC model for POWER10
+  ppc/pnv: Add POWER10 quads
+  ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge
+  ppc/pnv: Add a HOMER model to POWER10
+  ppc/psi: Add support for StoreEOI and 64k ESB pages (POWER10)
+  ppc/xive2: Add support for notification injection on ESB pages
+  ppc/xive: Add support for PQ state bits offload
+  ppc/pnv: Add support for PQ offload on PHB5
+  ppc/pnv: Add support for PHB5 "Address-based trigger" mode
+  pnv/xive2: Introduce new capability bits
+  ppc/pnv: add XIVE Gen2 TIMA support
+  pnv/xive2: Add support XIVE2 P9-compat mode (or Gen1)
+  xive2: Add a get_config() handler for the router configuration
+  pnv/xive2: Add support for automatic save&restore
+  pnv/xive2: Add support for 8bits thread id
+
+ hw/intc/pnv_xive2_regs.h            |  442 ++++++
+ include/hw/pci-host/pnv_phb4.h      |   11 +
+ include/hw/pci-host/pnv_phb4_regs.h |    3 +
+ include/hw/ppc/pnv.h                |   74 +-
+ include/hw/ppc/pnv_homer.h          |    3 +
+ include/hw/ppc/pnv_occ.h            |    2 +
+ include/hw/ppc/pnv_xive.h           |   75 +
+ include/hw/ppc/pnv_xscom.h          |   15 +
+ include/hw/ppc/xive.h               |   18 +-
+ include/hw/ppc/xive2.h              |  115 ++
+ include/hw/ppc/xive2_regs.h         |  210 +++
+ target/ppc/cpu-models.h             |    1 +
+ hw/intc/pnv_xive.c                  |   37 +-
+ hw/intc/pnv_xive2.c                 | 2127 +++++++++++++++++++++++++++
+ hw/intc/spapr_xive.c                |   25 +
+ hw/intc/spapr_xive_kvm.c            |    8 +-
+ hw/intc/xive.c                      |   91 +-
+ hw/intc/xive2.c                     | 1028 +++++++++++++
+ hw/pci-host/pnv_phb4.c              |   87 +-
+ hw/pci-host/pnv_phb4_pec.c          |   44 +
+ hw/ppc/pnv.c                        |  294 +++-
+ hw/ppc/pnv_core.c                   |    2 +-
+ hw/ppc/pnv_homer.c                  |   64 +
+ hw/ppc/pnv_occ.c                    |   16 +
+ hw/ppc/pnv_psi.c                    |   38 +-
+ hw/ppc/pnv_xscom.c                  |    2 +
+ target/ppc/cpu-models.c             |    4 +-
+ target/ppc/cpu_init.c               |    3 +
+ target/ppc/excp_helper.c            |    6 -
+ hw/intc/meson.build                 |    4 +-
+ hw/pci-host/trace-events            |    2 +
+ 31 files changed, 4760 insertions(+), 91 deletions(-)
+ create mode 100644 hw/intc/pnv_xive2_regs.h
+ create mode 100644 include/hw/ppc/xive2.h
+ create mode 100644 include/hw/ppc/xive2_regs.h
+ create mode 100644 hw/intc/pnv_xive2.c
+ create mode 100644 hw/intc/xive2.c
+
+--=20
+2.31.1
 
 
