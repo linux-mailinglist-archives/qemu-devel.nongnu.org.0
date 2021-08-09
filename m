@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BE03E492C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 17:50:00 +0200 (CEST)
-Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9113E4950
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 17:55:38 +0200 (CEST)
+Received: from localhost ([::1]:40802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD7XL-0006SU-7A
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 11:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
+	id 1mD7cn-0001X7-G4
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 11:55:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD7Vo-0005ZV-Uc; Mon, 09 Aug 2021 11:48:24 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43887)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD7bh-0000dV-Qr
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 11:54:29 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:45580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mD7Vn-00051I-FE; Mon, 09 Aug 2021 11:48:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id h14so22049762wrx.10;
- Mon, 09 Aug 2021 08:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=A80UFhLaEIL5T+HKUQPB+W+ONKgn6werpPn4PC1/494=;
- b=W1GowpzXjkXwL+Xac7AO3FWpYCtf6/NCSPQOXI/rYs9zoRobyrr9UkQQB20qiENiHJ
- Mcx/n5zJQ7Q5/+oGde/sqLUDByDC+bSRKCQeZhfhko4VITj9k7hqdO90OXOGecludM4g
- nXKFya2Z2CI3RbkvfSpOKD+OpGDypdHX7YFwRMzimbrKSMHLWgaxdSlBl12wzQJRd922
- zWGsFQq6SVvPyy6q2RKGIkRbKf9BbW2jSyZG5/e9hCmJyTa5yqa+HCnEpTGn3Jjh2EV6
- 3RIosca6gvbgft1g+SzU13rr1kJMJV4GRWhF5f0Zd51Y5SxPMFuQzjnPftdlgShp3Tow
- 0mOQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mD7bg-0000uN-BO
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 11:54:29 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l11-20020a7bcf0b0000b0290253545c2997so340110wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 08:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4M2UWUTdig0XyeZxO+yevJznX4Lrn2aS3krGU2gEJck=;
+ b=JFQgW9PXnDeiTLa+CZ6cgkRPnHF9cZHJCxQan80FfCZ27ydNAj2eXwkPvVzZjxuEOS
+ 0Ctk1TGEhLG/YcqZEPmUUNL5vhBbkjB7Ipg9+h/Z8KdH52p4pPvm4nr4Cwf1qt/kvpF+
+ vrUH+NvpK7GqCQgMe20MJmuzxnb8pZMLDfGHpr92NJT2EGs6gprkFiehbBB2dnNG5BFC
+ 7J8je0g1P/XoaFeNQXiTXWPVcfCaQnXYpti97QQP49aU2WiHrVzW0CTCaLvhe/aG0+sf
+ BLlINskdkWyVOE4jcmQPGMBWG0r0GYcnRYy6NqBvvOE1HITkIAOeC5+OWY55JPiDlpte
+ fR/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=A80UFhLaEIL5T+HKUQPB+W+ONKgn6werpPn4PC1/494=;
- b=VPDerWxYV10PK+rRH6uP/4WmOEpThjxUFr+VXKfTQ4A3Qws7w3XCPCeDnG3fkPhYiC
- xr/nFUM/gaEWrXkeZP6bM4Z3acbYQXDBQX1bcUXCLTZbZMvobO4SyRO7pjb7KGkY1rkv
- VoJN1tz7fBLtb1Z+/Tb9Qu6sEjyZFZ5DbXq6ZGBYpkVcaPhFNd+yHjbLZ2ZZjbOmrTYE
- Pu0RYQ3Y4NSw55CQ7EtXBP9e4qR4qXxJf46Fc/YNaBQmIW3gKIEjFFdV+yvwWSMoezeF
- gqJNClgtVHxhn/EA5uGoGW1J1ehTEcMKjnx2udf/5PlLvwgVgjsAdpFweirBhwegFpls
- +fOg==
-X-Gm-Message-State: AOAM532aISITzm+408u8KOAQs3qUOdg+AlPw8baJ+ThME/A96RKemMhS
- fupG7EIyL0D/EtAj26nsy3iQZEpi/kE=
-X-Google-Smtp-Source: ABdhPJx1RDv+PNzLLa4/mI3F3AKw5VyJWp5E/pK2R4qHEMWEVyZH3ajdvODV4gAL21FIelQ/QiBw8w==
-X-Received: by 2002:a5d:5745:: with SMTP id q5mr24882741wrw.409.1628524101358; 
- Mon, 09 Aug 2021 08:48:21 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id l2sm7650185wme.28.2021.08.09.08.48.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 08:48:20 -0700 (PDT)
-Subject: Re: [PATCH 03/10] watchdog: aspeed: Fix sequential control writes
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210809131556.686260-1-clg@kaod.org>
- <20210809131556.686260-4-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fe5aa2fd-70b1-ca61-ec08-131cc7ee4989@amsat.org>
-Date: Mon, 9 Aug 2021 17:48:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=4M2UWUTdig0XyeZxO+yevJznX4Lrn2aS3krGU2gEJck=;
+ b=SVoZm8yCbMecs2500j21JyXXx3Ur/eFLCRys635qRExV5O4HjzG0m62+4iAmnS17xC
+ fkLQvbyZouY+BZA1jCfiDv9BsCj4vR1ccpd2YOznYRGwTpMdirgTwad9O4ORciiy0g3K
+ F9Lco2lcZ0z5AVhclB/R7UcFWHP2QKRF6FqDjdc0xZLRbHZhzruEVvTdux3xnD7POVGD
+ zATA4MRC5AC/ehx8dXVKmrCZVZqg9Vq8FbHUVzZ7UGY/MjqNP3sBCCTb5oT9JROycAk0
+ 9v8bdfiU0EjYpBCFt6M4wuFrzeJBiBCj6K+MnorwSWKr0+5FQWUDhDEen0DCqZinH2Fi
+ bMAQ==
+X-Gm-Message-State: AOAM533hncE/pjUqJHEv2gF9zSQpqRSVwBQsDZrENlFdp9ELwhaPjaZR
+ 2+zgYG2J9uUMIzyZZX6tHyopMKMusvaleg==
+X-Google-Smtp-Source: ABdhPJycfdDrxbhNluwhGDnesn6sW+0ugi0r/WR5j2sd0WZHN2zOU18H3XklVGI23u0+ia4Bq8gXIQ==
+X-Received: by 2002:a1c:4487:: with SMTP id r129mr33798804wma.62.1628524466613; 
+ Mon, 09 Aug 2021 08:54:26 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d9sm9567982wrw.26.2021.08.09.08.54.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Aug 2021 08:54:26 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Check lock_user result for ip_mreq_source sockopts
+Date: Mon,  9 Aug 2021 16:54:24 +0100
+Message-Id: <20210809155424.30968-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210809131556.686260-4-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/9/21 3:15 PM, Cédric Le Goater wrote:
-> From: Andrew Jeffery <andrew@aj.id.au>
-> 
-> The logic in the handling for the control register required toggling the
-> enable state for writes to stick. Rework the condition chain to allow
-> sequential writes that do not update the enable state.
-> 
-> Fixes: 854123bf8d4b ("wdt: Add Aspeed watchdog device model")
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Message-Id: <20210709053107.1829304-3-andrew@aj.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  hw/watchdog/wdt_aspeed.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index faa3d35fdf21..69c37af9a6e9 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -166,6 +166,8 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
->          } else if (!enable && aspeed_wdt_is_enabled(s)) {
->              s->regs[WDT_CTRL] = data;
->              timer_del(s->timer);
-> +        } else {
-> +            s->regs[WDT_CTRL] = data;
->          }
+In do_setsockopt(), the code path for the options which take a struct
+ip_mreq_source (IP_BLOCK_SOURCE, IP_UNBLOCK_SOURCE,
+IP_ADD_SOURCE_MEMBERSHIP and IP_DROP_SOURCE_MEMBERSHIP) fails to
+check the return value from lock_user().  Handle this in the usual
+way by returning -TARGET_EFAULT.
 
-Alternatively easier to review:
+(In practice this was probably harmless because we'd pass a NULL
+pointer to setsockopt() and the kernel would then return EFAULT.)
 
-           } else {
-               if (!enable && aspeed_wdt_is_enabled(s)) {
-                   timer_del(s->timer);
-               }
-               s->regs[WDT_CTRL] = data;
-           }
+Fixes: Coverity CID 1459987
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Compile-tested only; I don't have a test case to hand that
+uses these socket options.
 
->          break;
->      case WDT_RESET_WIDTH:
-> 
+ linux-user/syscall.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ccd3892b2df..d2b062ea5a9 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -2121,6 +2121,9 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+                 return -TARGET_EINVAL;
+ 
+             ip_mreq_source = lock_user(VERIFY_READ, optval_addr, optlen, 1);
++            if (!ip_mreq_source) {
++                return -TARGET_EFAULT;
++            }
+             ret = get_errno(setsockopt(sockfd, level, optname, ip_mreq_source, optlen));
+             unlock_user (ip_mreq_source, optval_addr, 0);
+             break;
+-- 
+2.20.1
 
 
