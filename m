@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E393E4B44
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 19:54:31 +0200 (CEST)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D833E4DA1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 22:09:19 +0200 (CEST)
+Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD9Tq-0000xQ-Fu
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 13:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
+	id 1mDBaH-0006DY-Jy
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 16:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mD9So-0000Aw-S7
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 13:53:26 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mD9Sn-0007c5-Av
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 13:53:26 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so27500pjn.4
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 10:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=friHGhwjkjqrLJfTDjMAapUMiSru0NpKYBuEdtTn5JE=;
- b=DitKz9scsC5g1FWU9A2SF69MV8vkFvfDjat/Kq1aeZ5kb+tpeKpnHUKr3eyoOqkfHO
- GKTfT+O1N9f/ABWmva9TdlKwjlHRMOmUSoIr8i1Knqqo4XjpBs5fAXB6LrU8ivSHzZnL
- 3tueleKdCncGGkAyAxi/HtJssdtDoQn4uocY8475BaHUkHC7bVbxUv8co1hkmR3gOqET
- WMcL51850oN7HBrAv/eKj+pVIwz9Iz4WNpZYgMlQbHuYF+gBp+wz+u5SqOPDNCNAISgD
- KhqhSAxtPMC/o/rU7o+55+PNUcu2NKfILRSvEGLdVsppNVE7FYWX476jI68gVEUaK+UK
- Wg0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=friHGhwjkjqrLJfTDjMAapUMiSru0NpKYBuEdtTn5JE=;
- b=Ni8Xivgk9Hs1RekdQl3EiU0rnDR7iBApJOCeHs1+vAvNORFHX7RXGkT1WHQ4TcnD5d
- XAAxHFRNblygA/GVr6m9+PW6OD6AydZQJ3yQSqxJv3Abp96TqvT6mUank64KgdLHxinu
- fVxnCkj+eZewO320qrKzg9u8ZmPKpvw8QXN5t4au9fy4gAR2G0E8M74HiEzP0jjVBhKI
- +6pDso5qjidG++PMGD19bz7fsnBO7tQ90yJilw9VozHZhPae8ErjdUdhVDnz5GUvTT/Y
- w1oxrUjYt597I5cNLXI9blGIJ5jZLf3Nkiw9khFCYCGqLHfCUIsk1tgXSVcDqE1FU+JZ
- bVeA==
-X-Gm-Message-State: AOAM533x5nNdAgoTIDtzrC093mRtctryK1qkeUoSAUDVrtgrrt/guMr4
- +CnZKmyNXEHCLcp04SybwzU/jw==
-X-Google-Smtp-Source: ABdhPJwrBju/CjWnzbDJyD0fgFQOhQ74IPs5mM4OirtR5snzySLQ/W5JJ5DwuFTign/xGv48NP0q5Q==
-X-Received: by 2002:a17:902:7b93:b029:12b:a0a5:78d2 with SMTP id
- w19-20020a1709027b93b029012ba0a578d2mr21398216pll.51.1628531602960; 
- Mon, 09 Aug 2021 10:53:22 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id y7sm19906238pfi.204.2021.08.09.10.53.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 10:53:22 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 23/49] bsd-user: pull in target_arch_thread.h
- update target_arch_elf.h
-To: Warner Losh <imp@bsdimp.com>
-References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-24-imp@bsdimp.com>
- <d20c2d8b-6020-2f4c-d3b1-ad8e66ec836e@linaro.org>
- <CANCZdfow5E6fAf2Y4AZh_Qxb0FdP-TrvYpLXg-oxFE23pVPDdw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8595ff5a-059d-3df7-5457-241cd360ee22@linaro.org>
-Date: Mon, 9 Aug 2021 07:53:20 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDBYn-0004sr-6C
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 16:07:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDBYk-0008VH-3L
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 16:07:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628539660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tKxQqqxy4qN6Zc1/b/V8brwc0wnaWGpYdj6g143KJJ0=;
+ b=SIRfJQruU31tS05P/MIfswlM/7hudbubu2ONLoix5jUMjOefB43oFCiycBSgpGA9d2bvWP
+ 8e8JYKtS/uGfCKtiYMbsM3pqAdJY6hW/sIqghWLmUfPoiMUU78smwpm9NgJ+zSVT1Jyww4
+ pKAE1SDctflVN+zU8S4tukvT+SOZNU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-z7BfcPExPBeXpc9FSiStvQ-1; Mon, 09 Aug 2021 16:07:39 -0400
+X-MC-Unique: z7BfcPExPBeXpc9FSiStvQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433CE190D340
+ for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 20:07:38 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED34C19D9D;
+ Mon,  9 Aug 2021 20:07:37 +0000 (UTC)
+Date: Mon, 9 Aug 2021 14:00:18 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH for-6.2 00/12] qom: Get rid of all manual usage of
+ OBJECT_CHECK & friends
+Message-ID: <20210809180018.ud6f44oebj6d2wpj@habkost.net>
+References: <20210806211127.646908-1-ehabkost@redhat.com>
+ <434ed8d4-f52f-375b-99a0-dfd5cf656356@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfow5E6fAf2Y4AZh_Qxb0FdP-TrvYpLXg-oxFE23pVPDdw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <434ed8d4-f52f-375b-99a0-dfd5cf656356@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,23 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stacey Son <sson@freebsd.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/8/21 11:43 AM, Warner Losh wrote:
-> BTW, I've started to notice that many of the
-> items flagged by the style commitcheck.pl <http://commitcheck.pl> script originated in the 
-> linux-user
-> code and it's still that way today...  Do you have any advice for what I should
-> do about that, if anything?
+On Sat, Aug 07, 2021 at 10:15:52AM +0200, Philippe Mathieu-Daudé wrote:
+> On 8/6/21 11:11 PM, Eduardo Habkost wrote:
+> > This series gets rid of all manual usage of OBJECT_CHECK,
+> > OBJECT_CLASS_CHECK, and OBJECT_GET_CLASS.
+> > 
+> > All type check macros defined manually are replaced with
+> > DEFINE_*CHECKER* or OBJECT_DECLARE* macros.
+> > 
+> > All manual usage of OBJECT_CHECK/OBJECT_CLASS_CHECK/OBJECT_GET_CLASS
+> > is manually replaced with the corresponding type-specific wrappers.
+> 
+> Is INTERFACE_CHECK already converted / in good shape?
 
-Fix em on the bsd side.
+Not yet.  I need to refresh my memory by looking at mailing list
+archives, but I have a work in progress branch that I haven't
+touched in a while (except for rebasing it) at:
 
-We have so far resisted style fixes for their own sake, only fixing them up locally when 
-we have to make nearby changes for some other reason.
+https://gitlab.com/ehabkost/qemu/-/commits/work/qom-declare-interface-type/
 
+Basically it introduces a DECLARE_INTERFACE_CHECKER macro instead
+of reusing OBJECT_CHECK/DECLARE_INSTANCE_CHECKER.
 
-r~
+-- 
+Eduardo
+
 
