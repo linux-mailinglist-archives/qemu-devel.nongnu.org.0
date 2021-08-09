@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0533E46B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:34:32 +0200 (CEST)
-Received: from localhost ([::1]:53700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8573E46C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:35:48 +0200 (CEST)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5QF-0005EH-Ui
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1mD5RT-0007iA-DZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:35:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mD58d-0004r3-32; Mon, 09 Aug 2021 09:16:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11486)
+ id 1mD590-0005I7-4F; Mon, 09 Aug 2021 09:16:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mD58X-0004wA-IK; Mon, 09 Aug 2021 09:16:17 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1mD58y-0005Jo-2M; Mon, 09 Aug 2021 09:16:41 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 179D2oUY113729; Mon, 9 Aug 2021 09:16:07 -0400
+ 179DGQud146216; Mon, 9 Aug 2021 09:16:27 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aa7fc00gq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ab1j86667-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Aug 2021 09:16:07 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 179D3ARU115210;
- Mon, 9 Aug 2021 09:16:06 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aa7fc00fg-1
+ Mon, 09 Aug 2021 09:16:26 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 179D45P4055165;
+ Mon, 9 Aug 2021 09:16:08 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ab1j86649-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Aug 2021 09:16:06 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 179CwWbJ022854;
+ Mon, 09 Aug 2021 09:16:08 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 179CwSSj014647;
  Mon, 9 Aug 2021 13:16:05 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 3a9ht8kk4t-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3a9ht8uk5r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Aug 2021 13:16:04 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 179DCtoO61735372
+ Mon, 09 Aug 2021 13:16:05 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 179DG3He55509336
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 9 Aug 2021 13:12:55 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2646A52059;
+ Mon, 9 Aug 2021 13:16:03 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E4A8BA4069;
+ Mon,  9 Aug 2021 13:16:02 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7DE7EA406D;
  Mon,  9 Aug 2021 13:16:02 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id A9FF752050;
- Mon,  9 Aug 2021 13:16:01 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  9 Aug 2021 13:16:02 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.54.114])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id BDAAF220032;
- Mon,  9 Aug 2021 15:16:00 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 979B822016C;
+ Mon,  9 Aug 2021 15:16:01 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 04/10] hw: aspeed_gpio: Simplify 1.8V defines
-Date: Mon,  9 Aug 2021 15:15:50 +0200
-Message-Id: <20210809131556.686260-5-clg@kaod.org>
+Subject: [PATCH 05/10] hw: aspeed_gpio: Clarify GPIO controller name
+Date: Mon,  9 Aug 2021 15:15:51 +0200
+Message-Id: <20210809131556.686260-6-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809131556.686260-1-clg@kaod.org>
 References: <20210809131556.686260-1-clg@kaod.org>
@@ -67,19 +70,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: t7yWWuidxE6Y1UJWhJ7ZeE642Ru9ajgJ
-X-Proofpoint-GUID: Dewkz1IFAfxbTttHXX_Ff7Y4IaGcn8av
+X-Proofpoint-GUID: wFSqpgRHZoK2KjiRsM-BeGwgkVzO94oX
+X-Proofpoint-ORIG-GUID: Vh9F8byva-S0PyrWYIuw3rhcs3wuELLi
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-08-09_04:2021-08-06,
  2021-08-09 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxlogscore=899 clxscore=1034 impostorscore=0
- adultscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ priorityscore=1501
+ clxscore=1034 impostorscore=0 suspectscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0 mlxscore=0
  spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2107140000 definitions=main-2108090099
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -99,7 +102,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
  Rashmica Gupta <rashmica.g@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
@@ -108,142 +110,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-There's no need to define the registers relative to the 0x800 offset
-where the controller is mapped, as the device is instantiated as it's
-own model at the correct memory address.
-
-Simplify the defines and remove the offset to save future confusion.
+There are two GPIO controllers in the ast2600; one is 3.3V and the other
+is 1.8V.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20210713065854.134634-3-joel@jms.id.au>
+Message-Id: <20210713065854.134634-4-joel@jms.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/gpio/aspeed_gpio.c | 73 +++++++++++++++++++++----------------------
- 1 file changed, 36 insertions(+), 37 deletions(-)
+ hw/gpio/aspeed_gpio.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index b3dec4448009..dc721aec5da7 100644
+index dc721aec5da7..dfa6d6cb40a9 100644
 --- a/hw/gpio/aspeed_gpio.c
 +++ b/hw/gpio/aspeed_gpio.c
-@@ -169,44 +169,43 @@
+@@ -164,12 +164,12 @@
+ #define GPIO_YZAAAB_DIRECTION      (0x1E4 >> 2)
+ #define GPIO_AC_DATA_VALUE         (0x1E8 >> 2)
+ #define GPIO_AC_DIRECTION          (0x1EC >> 2)
+-#define GPIO_3_6V_MEM_SIZE         0x1F0
+-#define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
++#define GPIO_3_3V_MEM_SIZE         0x1F0
++#define GPIO_3_3V_REG_ARRAY_SIZE   (GPIO_3_3V_MEM_SIZE >> 2)
 =20
  /* AST2600 only - 1.8V gpios */
  /*
-- * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x=
-198)
-- * and additional 1.8V gpios (memory offsets 0x800-0x9D4).
-+ * The AST2600 two copies of the GPIO controller: the same 3.6V gpios as=
+- * The AST2600 two copies of the GPIO controller: the same 3.6V gpios as=
  the
-+ * AST2400 (memory offsets 0x0-0x198) and a second controller with 1.8V =
++ * The AST2600 two copies of the GPIO controller: the same 3.3V gpios as=
+ the
+  * AST2400 (memory offsets 0x0-0x198) and a second controller with 1.8V =
 gpios
-+ * (memory offsets 0x800-0x9D4).
+  * (memory offsets 0x800-0x9D4).
   */
--#define GPIO_1_8V_REG_OFFSET          0x800
--#define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_DIRECTION      ((0x804 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INT_ENABLE     ((0x808 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INT_SENS_0     ((0x80C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INT_SENS_1     ((0x810 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INT_SENS_2     ((0x814 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INT_STATUS     ((0x818 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_RESET_TOLERANT ((0x81C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_DATA_VALUE        ((0x820 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_DIRECTION         ((0x824 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INT_ENABLE        ((0x828 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INT_SENS_0        ((0x82C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INT_SENS_1        ((0x830 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INT_SENS_2        ((0x834 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INT_STATUS        ((0x838 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_RESET_TOLERANT    ((0x83C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_DEBOUNCE_1     ((0x840 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_DEBOUNCE_2     ((0x844 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_DEBOUNCE_1        ((0x848 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_DEBOUNCE_2        ((0x84C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_DEBOUNCE_TIME_1     ((0x850 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_DEBOUNCE_TIME_2     ((0x854 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_DEBOUNCE_TIME_3     ((0x858 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_COMMAND_SRC_0  ((0x860 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_COMMAND_SRC_1  ((0x864 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_COMMAND_SRC_0     ((0x868 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_COMMAND_SRC_1     ((0x86C - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_DATA_READ      ((0x8C0 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_DATA_READ         ((0x8C4 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_ABCD_INPUT_MASK     ((0x9D0 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_E_INPUT_MASK        ((0x9D4 - GPIO_1_8V_REG_OFFSET) >>=
- 2)
--#define GPIO_1_8V_MEM_SIZE            0x9D8
--#define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
--                                      GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DATA_VALUE     (0x000 >> 2)
-+#define GPIO_1_8V_ABCD_DIRECTION      (0x004 >> 2)
-+#define GPIO_1_8V_ABCD_INT_ENABLE     (0x008 >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_0     (0x00C >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_1     (0x010 >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_2     (0x014 >> 2)
-+#define GPIO_1_8V_ABCD_INT_STATUS     (0x018 >> 2)
-+#define GPIO_1_8V_ABCD_RESET_TOLERANT (0x01C >> 2)
-+#define GPIO_1_8V_E_DATA_VALUE        (0x020 >> 2)
-+#define GPIO_1_8V_E_DIRECTION         (0x024 >> 2)
-+#define GPIO_1_8V_E_INT_ENABLE        (0x028 >> 2)
-+#define GPIO_1_8V_E_INT_SENS_0        (0x02C >> 2)
-+#define GPIO_1_8V_E_INT_SENS_1        (0x030 >> 2)
-+#define GPIO_1_8V_E_INT_SENS_2        (0x034 >> 2)
-+#define GPIO_1_8V_E_INT_STATUS        (0x038 >> 2)
-+#define GPIO_1_8V_E_RESET_TOLERANT    (0x03C >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_1     (0x040 >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_2     (0x044 >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_1        (0x048 >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_2        (0x04C >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_1     (0x050 >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_2     (0x054 >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_3     (0x058 >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_0  (0x060 >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_1  (0x064 >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_0     (0x068 >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_1     (0x06C >> 2)
-+#define GPIO_1_8V_ABCD_DATA_READ      (0x0C0 >> 2)
-+#define GPIO_1_8V_E_DATA_READ         (0x0C4 >> 2)
-+#define GPIO_1_8V_ABCD_INPUT_MASK     (0x1D0 >> 2)
-+#define GPIO_1_8V_E_INPUT_MASK        (0x1D4 >> 2)
-+#define GPIO_1_8V_MEM_SIZE            0x1D8
-+#define GPIO_1_8V_REG_ARRAY_SIZE      (GPIO_1_8V_MEM_SIZE >> 2)
+@@ -380,7 +380,7 @@ static uint32_t update_value_control_source(GPIOSets =
+*regs, uint32_t old_value,
+     return new_value;
+ }
 =20
- static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int g=
-pio)
+-static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] =3D=
  {
++static const AspeedGPIOReg aspeed_3_3v_gpios[GPIO_3_3V_REG_ARRAY_SIZE] =3D=
+ {
+     /* Set ABCD */
+     [GPIO_ABCD_DATA_VALUE] =3D     { 0, gpio_reg_data_value },
+     [GPIO_ABCD_DIRECTION] =3D      { 0, gpio_reg_direction },
+@@ -800,7 +800,7 @@ static const GPIOSetProperties ast2500_set_props[] =3D=
+ {
+     [7] =3D {0x000000ff,  0x000000ff,  {"AC"} },
+ };
+=20
+-static GPIOSetProperties ast2600_3_6v_set_props[] =3D {
++static GPIOSetProperties ast2600_3_3v_set_props[] =3D {
+     [0] =3D {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
+     [1] =3D {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
+     [2] =3D {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
+@@ -927,7 +927,7 @@ static void aspeed_gpio_ast2400_class_init(ObjectClas=
+s *klass, void *data)
+     agc->nr_gpio_pins =3D 216;
+     agc->nr_gpio_sets =3D 7;
+     agc->gap =3D 196;
+-    agc->reg_table =3D aspeed_3_6v_gpios;
++    agc->reg_table =3D aspeed_3_3v_gpios;
+ }
+=20
+ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
+@@ -938,17 +938,17 @@ static void aspeed_gpio_2500_class_init(ObjectClass=
+ *klass, void *data)
+     agc->nr_gpio_pins =3D 228;
+     agc->nr_gpio_sets =3D 8;
+     agc->gap =3D 220;
+-    agc->reg_table =3D aspeed_3_6v_gpios;
++    agc->reg_table =3D aspeed_3_3v_gpios;
+ }
+=20
+-static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void=
+ *data)
++static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass, void=
+ *data)
+ {
+     AspeedGPIOClass *agc =3D ASPEED_GPIO_CLASS(klass);
+=20
+-    agc->props =3D ast2600_3_6v_set_props;
++    agc->props =3D ast2600_3_3v_set_props;
+     agc->nr_gpio_pins =3D 208;
+     agc->nr_gpio_sets =3D 7;
+-    agc->reg_table =3D aspeed_3_6v_gpios;
++    agc->reg_table =3D aspeed_3_3v_gpios;
+ }
+=20
+ static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void=
+ *data)
+@@ -984,10 +984,10 @@ static const TypeInfo aspeed_gpio_ast2500_info =3D =
+{
+     .instance_init  =3D aspeed_gpio_init,
+ };
+=20
+-static const TypeInfo aspeed_gpio_ast2600_3_6v_info =3D {
++static const TypeInfo aspeed_gpio_ast2600_3_3v_info =3D {
+     .name           =3D TYPE_ASPEED_GPIO "-ast2600",
+     .parent         =3D TYPE_ASPEED_GPIO,
+-    .class_init     =3D aspeed_gpio_ast2600_3_6v_class_init,
++    .class_init     =3D aspeed_gpio_ast2600_3_3v_class_init,
+     .instance_init  =3D aspeed_gpio_init,
+ };
+=20
+@@ -1003,7 +1003,7 @@ static void aspeed_gpio_register_types(void)
+     type_register_static(&aspeed_gpio_info);
+     type_register_static(&aspeed_gpio_ast2400_info);
+     type_register_static(&aspeed_gpio_ast2500_info);
+-    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
++    type_register_static(&aspeed_gpio_ast2600_3_3v_info);
+     type_register_static(&aspeed_gpio_ast2600_1_8v_info);
+ }
+=20
 --=20
 2.31.1
 
