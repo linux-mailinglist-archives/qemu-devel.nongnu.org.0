@@ -1,67 +1,67 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE8F3E46A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:30:18 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76183E4660
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:20:32 +0200 (CEST)
+Received: from localhost ([::1]:37340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5Ly-0005xW-ER
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46986)
+	id 1mD5CN-0008Su-L1
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:20:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD54F-0003Nn-Ra; Mon, 09 Aug 2021 09:11:47 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:34314)
+ id 1mD54I-0003Vs-0H; Mon, 09 Aug 2021 09:11:50 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:36468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD54D-0001em-UU; Mon, 09 Aug 2021 09:11:47 -0400
-Received: by mail-qk1-x730.google.com with SMTP id w197so16908272qkb.1;
- Mon, 09 Aug 2021 06:11:44 -0700 (PDT)
+ id 1mD54G-0001gA-2S; Mon, 09 Aug 2021 09:11:49 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id e14so18239431qkg.3;
+ Mon, 09 Aug 2021 06:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=foPHQPIytUhaSntdLdjzsfKrNjlfdNtZqt9i9UGULAo=;
- b=ahv0HuKsGEtKEolHxb+jBy6NnfXqPSQwY01T4PCtltmrQKDIV7NKzP+H8VYibQfNKM
- 8Hq6rxjk0PmwCrVjcEIB9xy0ee5FhmHRx4awFbSHkaCIdJBcwrxzc7Ten80RkrfK8MHZ
- 0Z7RvP02dVirYCCsW60aN8Z+Bzz9mBhrSeKzJbwgCKaL2la1tEC1pYOeRqV6lbNXHcc4
- wBZjKEUb97UOTPfoxbM95euPUI4heirtP90WOhENFXH4CQFECkbydh+OWftCxK7bj36C
- +E/TODVXfz1nTJhVEkKPbSbV0vXnATcLjuQDw2HVoya7FHWsXH0J/FQCYVNCrkoX9STQ
- U+Hw==
+ bh=FWFgfplaTzNkniHNY7tbeVhqT1oZv0wF6B465cGnKGw=;
+ b=mv1UTL+yU66RTGPCMELNUgmOY98eh2wI1djFay+pnXuppBRROHqs+stICHC2KWS/ho
+ NojF6kppwTBa6LodS6ids0s1Y2NUG3a1hUDazuO3SnXFUFgQQaHFBXr41TG6uqs6osYg
+ Y3yaNEHqfOCPsqV1VCaWSFrUnU4SONmfKhZg9gIRGh0KRJijAjjCsoJ7eKZ91Lfl+KdC
+ yX06XegjnRY3vBx5YFHZNE8n1hoQC33yAnFlakdb3adXNpdUmue1ls7zlRyMIjbHSgZD
+ wxG/KL8RUaVRE+gu8IyJLtMuQKUCy6rHK/TpSrTSkxSfLSFJ8I0MUogEfRHjtbLr0soB
+ 12yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=foPHQPIytUhaSntdLdjzsfKrNjlfdNtZqt9i9UGULAo=;
- b=hphXtQAq+nP9LEeZZEOl98MaSRl6sWNIR4u9YKVelw/HExRnbn3v8abOEKCLRxdINp
- 4r5EoOkf+HUrKF5DoslyeE8YNFu4/udxQV2MTV2MEk2DJXIZxV4nY8whHwpHglDokHHS
- oIOTpB2qhAtXak9pgnc6Q6dC6QMdoqLdXirOoKTtmiB6L+BJrFFWYk6dQPsek273bp8O
- ziapNj/0n7+TTblcLBoj2vcZKJ2slHIoAEsDqBHWok4vV/I0vS1C/sF1D2PKSPtVfvhH
- wsbvu9mWup0Lf/RG9DHFZboNKRuESyY4yr0OTfNSQlBoCD6Ll7+aUvuoCTsciKaFyxkY
- +1sw==
-X-Gm-Message-State: AOAM532pA65fiYTbvPiizmTcXknOnF6X3vwQvNyDIRi0kQ7E/chURdyy
- SUuU+1Qc97JDO/uggUd/akRBnvs7rARG/A==
-X-Google-Smtp-Source: ABdhPJzZofbSd2unhsA/Q0igsbsyTpmsPv7xjpx8e/B77Ttf2lMNbiF7o2ubNz19VN25WYI3Fa06Aw==
-X-Received: by 2002:ae9:e30c:: with SMTP id v12mr14321534qkf.206.1628514704341; 
- Mon, 09 Aug 2021 06:11:44 -0700 (PDT)
+ bh=FWFgfplaTzNkniHNY7tbeVhqT1oZv0wF6B465cGnKGw=;
+ b=OLM+xR9AMelSSSLE2Z/qVE7pcMM+0wyvJmHDNZ6DAGkI/INkGmqmFhxqXye6DFOvsm
+ ZHlqQFvuuOMhJ0gozhgJ1BmjlDKUhewJTivPBZw5Zx367k0EKzEBGq0s3oDYrk+isoml
+ sBJAfEQ3ud9lSJJdYkmzlfXn9kJdii+aOwTN/aDKLT0gI85Bv0/YFoJbib6DT8NJjYTp
+ 0Ir43USmC6APBPNcC/4njf2yoUYM1vAF5WYnACEpErfu/wwfvD87rCyo+WUBOf44GIxz
+ QNscjCqLlf/n08w/2kAsj/jojjpYqJVpErDS6Ef0LjwuPspYDvryk23J1YKYNdg+oqFe
+ m0Ew==
+X-Gm-Message-State: AOAM531hHW0O4Ln0U4wdnQFxubb2tvSU3zQl30lwpJJgkjT6ZzQtjchH
+ IiPFtbkGZxbAs3hSt6MYmjP7j/iTpA+8Cg==
+X-Google-Smtp-Source: ABdhPJy50kwLV1/evSm1GSBeksMfltB6STe7VwppoGf19zUqASxF3WVVv+uFhY6TaIixQJy3LQdHWg==
+X-Received: by 2002:a37:6897:: with SMTP id d145mr1206932qkc.490.1628514706769; 
+ Mon, 09 Aug 2021 06:11:46 -0700 (PDT)
 Received: from rekt.ibmuc.com ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.42
+ by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 06:11:44 -0700 (PDT)
+ Mon, 09 Aug 2021 06:11:46 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/19] target/ppc/pmu_book3s_helper: enable counter negative
- for all PMCs
-Date: Mon,  9 Aug 2021 10:10:53 -0300
-Message-Id: <20210809131057.1694145-16-danielhb413@gmail.com>
+Subject: [PATCH 16/19] target/ppc/pmu_book3s_helper: adding 0xFA event
+Date: Mon,  9 Aug 2021 10:10:54 -0300
+Message-Id: <20210809131057.1694145-17-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809131057.1694145-1-danielhb413@gmail.com>
 References: <20210809131057.1694145-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,168 +87,46 @@ Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All performance monitor counters can trigger a counter negative
-condition if the proper MMCR0 bits are set. This patch does that by
-doing the following:
+The PowerISA 3.1 defines the 0xFA event as instructions completed when
+the thread's CTRL register is set. Some EBB powerpc kernel tests use
+this event to exercise both the PMU and the EBB support.
 
-- pmc_counter_negative_enabled() will check whether a given PMC is
-eligible to trigger the counter negative alert;
-
-- get_counter_neg_timeout() will return the timeout for the counter
-negative condition for a given PMC, or -1 if the PMC is not able to
-trigger this alert;
-
-- the existing counter_negative_cond_enabled() now must consider the
-counter negative bit for PMCs 2-6, MMCR0_PMCjCE;
-
-- set_PMU_excp_timer() will now search all existing PMCs for the
-shortest counter negative timeout. The shortest timeout will be used to
-set the PMC interrupt timer.
-
-This change makes most EBB powepc kernel tests pass, validating that the
-existing EBB logic is consistent. There are a few tests that aren't passing
-due to additional PMU bits and perf events that aren't covered yet.
-We'll attempt to cover some of those in the next patches.
+We don't have a way at this moment to tell whether an instruction was
+completed under those conditions. What we can do is to make it
+equivalent to the existing PM_INST_COMPL event that counts all
+instructions completed. For our current purposes with the PMU support
+this is enough.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h               |  1 +
- target/ppc/pmu_book3s_helper.c | 96 ++++++++++++++++++++++++++++++----
- 2 files changed, 87 insertions(+), 10 deletions(-)
+ target/ppc/pmu_book3s_helper.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 5c81d459f4..1aa1fd42af 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -351,6 +351,7 @@ typedef struct ppc_v3_pate_t {
- #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
- #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
- #define MMCR0_PMC1CE PPC_BIT(48)
-+#define MMCR0_PMCjCE PPC_BIT(49)
- 
- #define MMCR1_PMC1SEL_SHIFT (63 - 39)
- #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
 diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
-index 7126e9b3d5..c5c5ab38c9 100644
+index c5c5ab38c9..388263688b 100644
 --- a/target/ppc/pmu_book3s_helper.c
 +++ b/target/ppc/pmu_book3s_helper.c
-@@ -143,22 +143,98 @@ static int64_t get_CYC_timeout(CPUPPCState *env, int sprn)
-     return muldiv64(remaining_cyc, NANOSECONDS_PER_SECOND, PPC_CPU_FREQ);
- }
- 
--static void set_PMU_excp_timer(CPUPPCState *env)
-+static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
- {
--    uint64_t timeout, now;
-+    switch (sprn) {
-+    case SPR_POWER_PMC1:
-+        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
- 
--    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
--        return;
-+    case SPR_POWER_PMC2:
-+    case SPR_POWER_PMC3:
-+    case SPR_POWER_PMC4:
-+    case SPR_POWER_PMC5:
-+    case SPR_POWER_PMC6:
-+        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
-+
-+    default:
-+        break;
-     }
- 
--    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
--    case 0x2:
--        timeout = get_INST_CMPL_timeout(env, SPR_POWER_PMC1);
-+    return false;
-+}
-+
-+static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
-+{
-+    int64_t timeout = -1;
-+
-+    if (!pmc_counter_negative_enabled(env, sprn)) {
-+        return -1;
-+    }
-+
-+    if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL) {
-+        return 0;
-+    }
-+
-+    switch (sprn) {
-+    case SPR_POWER_PMC1:
-+    case SPR_POWER_PMC2:
-+    case SPR_POWER_PMC3:
-+    case SPR_POWER_PMC4:
-+        switch (get_PMC_event(env, sprn)) {
-+        case 0x2:
-+            timeout = get_INST_CMPL_timeout(env, sprn);
-+            break;
-+        case 0x1E:
-+            timeout = get_CYC_timeout(env, sprn);
-+            break;
-+        }
-+
+@@ -52,6 +52,20 @@ static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
          break;
--    case 0x1e:
--        timeout = get_CYC_timeout(env, SPR_POWER_PMC1);
-+    case SPR_POWER_PMC5:
-+        timeout = get_INST_CMPL_timeout(env, sprn);
-+        break;
-+    case SPR_POWER_PMC6:
-+        timeout = get_CYC_timeout(env, sprn);
+     case SPR_POWER_PMC4:
+         event = MMCR1_PMC4SEL & env->spr[SPR_POWER_MMCR1];
++
++        /*
++         * Event 0xFA for PMC4SEL is described as follows in
++         * PowerISA v3.1:
++         *
++         * "The thread has completed an instruction when the RUN bit of
++         * the thread’s CTRL register contained 1"
++         *
++         * Our closest equivalent for this event at this moment is plain
++         * INST_CMPL (event 0x2)
++         */
++        if (event == 0xFA) {
++            event = 0x2;
++        }
          break;
-     default:
-+        break;
-+    }
-+
-+    return timeout;
-+}
-+
-+static void set_PMU_excp_timer(CPUPPCState *env)
-+{
-+    int64_t timeout = -1;
-+    uint64_t now;
-+    int i;
-+
-+    /*
-+     * Scroll through all PMCs and check which one is closer to a
-+     * counter negative timeout.
-+     */
-+    for (i = SPR_POWER_PMC1; i <= SPR_POWER_PMC6; i++) {
-+        int64_t curr_timeout = get_counter_neg_timeout(env, i);
-+
-+        if (curr_timeout == -1) {
-+            continue;
-+        }
-+
-+        if (curr_timeout == 0) {
-+            timeout = 0;
-+            break;
-+        }
-+
-+        if (timeout == -1 || timeout > curr_timeout) {
-+            timeout = curr_timeout;
-+        }
-+    }
-+
-+    /*
-+     * This can happen if counter negative conditions were enabled
-+     * without any events to be sampled.
-+     */
-+    if (timeout == -1) {
-         return;
-     }
- 
-@@ -204,7 +280,7 @@ void cpu_ppc_pmu_timer_init(CPUPPCState *env)
- 
- static bool counter_negative_cond_enabled(uint64_t mmcr0)
- {
--    return mmcr0 & MMCR0_PMC1CE;
-+    return mmcr0 & (MMCR0_PMC1CE | MMCR0_PMCjCE);
- }
- 
- void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+     case SPR_POWER_PMC5:
+         event = 0x2;
 -- 
 2.31.1
 
