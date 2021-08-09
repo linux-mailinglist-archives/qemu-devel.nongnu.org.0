@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597783E40B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 09:14:29 +0200 (CEST)
-Received: from localhost ([::1]:60252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FAE3E40AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 09:08:08 +0200 (CEST)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mCzUS-0008NW-F0
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 03:14:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1mCzOI-0001Ye-HT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 03:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mCzQt-00048l-KR
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 03:10:47 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:53294)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCzNA-0000he-Eb
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 03:06:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mCzQq-0006HA-Tc
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 03:10:47 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 335F1405BA
- for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 07:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1628493042;
- bh=9JGzVK+FkiD3VSfB/+ofry35OkuN1iq5S0X6dPUtKyM=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=RnIr8P5cGHDSrSqZfCJKGjngXKtV2QCQdndOSZ3uLW5P8gZ8oV5e7Z0nzZImvaT0X
- 1uaB+Ds5QSTLZxxZJsJu1MrCY2Pp8e0GgMW8TJUIQ+7JYIj7S5k8G7h7nlJysq+wsU
- T/qv9r1jjlTXNHpN6Atj0OOI413hCXQwambn/3q8xG17HulqhXwIphytcacQnVeurt
- sP8J0VYEMUKBnh/s9iM6Pl444RSz8Weh1/mxkuOWG6RXcAfm5I+ia3xU+z/O6emm/z
- bTxXbC23iV4umiMHbJQR4RFIaGTt83LgIW/8B/JFMjdY+KtlLxrXfAVjgEXulwFDpq
- 2rNqV3nZTEX8w==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B32D32E8047
- for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 07:10:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mCzN7-0003mX-22
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 03:06:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628492810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=occnYyA0lQUpxlAKDPFhxopijqWpmKcTd4+HUGNBhfQ=;
+ b=S1pkHLDbarjrTHLUB4gfD3Wg28jm+PghyY4f+6DuJAX0BPV33B2FgWp3P3U9Qsk6fEhC20
+ gzu+XD0/+vym8PQDmnCTGn1TBIpYLzpShYX56HsuSLgnnfSZnWQqDFceHF912ZlI5S2unF
+ Y13rzSTwWt4UI66FwFXRCtecK7gNkMA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-c5RZQv40P1ejEJiw5HkDqw-1; Mon, 09 Aug 2021 03:06:49 -0400
+X-MC-Unique: c5RZQv40P1ejEJiw5HkDqw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k13-20020a05600c1c8db029025018ac4f7dso4292497wms.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 00:06:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=occnYyA0lQUpxlAKDPFhxopijqWpmKcTd4+HUGNBhfQ=;
+ b=QD/ghXSuN++MwMZDY1JDvjW0qhnfz2Of3joRKtj3DY7IfVKwQIAjSO6Tqrhbawi/Zr
+ cEkAr+95RRgkxiDRn39yZWt0flqhPkFlGn00QNCt0HQoxfNZ2z7q0bLEYX2VquD+x67i
+ r+QkUbY1Dd7IHFwjQTTE2qb1piWDst9pcavS9bmDxYVSiwlwT1LBWKHMG+rDNP8YzQod
+ qpp8rXcSIBysLj3OLn3YKWpL4iuOKEvj1axfte6qeWVtl53Wcz3I8YWz+Gt7wppCNmZi
+ poYgr9Q1red8wKERlCswvsssI5P0TiNCw7jbLs96b8DMU0rgh8LKb9qd4MWLfaHBAnYL
+ rmqg==
+X-Gm-Message-State: AOAM531LDltbxttkq5w+bOQ5uCUx8XFQM/WnCELq2ErhMTpkeozSgNie
+ 62Utzp1/dlHi27l2U6Msr0FwBak0oWSBmWRn7Wi6MqOcbDSfGFgLsaT1YKnCKfysOFu28aC3rQM
+ gqSg4M6WsQY/PoxyrrBmMCcyV2mVfNEWTKStiSFLsWs3RwkGEEFYixRKnibu78Y0c
+X-Received: by 2002:a05:6000:1106:: with SMTP id
+ z6mr23725672wrw.296.1628492808233; 
+ Mon, 09 Aug 2021 00:06:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTj/5HvVbtPuySuKTLnFfSuSveONKwgnkPIQOgzzPX+zDgjq5EH+6JCRdCbTsd7MxfLEYMOg==
+X-Received: by 2002:a05:6000:1106:: with SMTP id
+ z6mr23725642wrw.296.1628492807984; 
+ Mon, 09 Aug 2021 00:06:47 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id i10sm20299580wmq.21.2021.08.09.00.06.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Aug 2021 00:06:47 -0700 (PDT)
+Subject: Re: [PATCH] ppc/pnv: update skiboot to commit 820d43c0a775.
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20210806180040.156999-1-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3935af0a-1fee-9a56-21ea-d4c94b886bd3@redhat.com>
+Date: Mon, 9 Aug 2021 09:06:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Aug 2021 07:00:57 -0000
-From: Thomas Huth <1939179@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alterman th-huth
-X-Launchpad-Bug-Reporter: Arthur Lyubochenya (alterman)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <162828838699.17021.15925888753867381066.malonedeb@soybean.canonical.com>
-Message-Id: <162849245799.754.11236326397745402208.malone@wampee.canonical.com>
-Subject: [Bug 1939179] Re: qemu-ga fsfreeze crashes the kernel
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c08a1e23be9b835a8d0e7a32b2e55270fac05933"; Instance="production"
-X-Launchpad-Hash: efd6b721093fa68da2768663da7aae2dc2e144a3
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <20210806180040.156999-1-clg@kaod.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.707,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,61 +100,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1939179 <1939179@bugs.launchpad.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are currently in progress of retiring this bug tracker here... could
-you please open a new ticket on gitlab instead:
+Hi Cédric,
 
- https://gitlab.com/qemu-project/qemu/-/issues
+On 8/6/21 8:00 PM, Cédric Le Goater wrote:
+> It includes support for the POWER10 processor and the QEMU platform.
 
-Thanks and sorry for the inconvenience.
+1/ Can you include the output of 'git shortlog v6.4..820d43c0' here?
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+> 
+> Built from submodule.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1939179
+2/ Could we have a CI job building this, during 6.2 cycle?
+   (See .gitlab-ci.d/edk2.yml and .gitlab-ci.d/opensbi.yml)
 
-Title:
-  qemu-ga fsfreeze crashes the kernel
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>  pc-bios/skiboot.lid | Bin 1667280 -> 2528128 bytes
+>  roms/skiboot        |   2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/pc-bios/skiboot.lid b/pc-bios/skiboot.lid
+> index 504b95e8b6611aff3a934ff10f789934680591f9..8a3c278512a428a034ed5b1ddbed017ae8c0a9d0 100644
+> GIT binary patch
+> literal 2528128
 
-Status in QEMU:
-  Incomplete
+Consider using 'git-format-patch --no-binary' and a reference
+to your repository to fetch a such big binary patch.
 
-Bug description:
-  Hello,
+> diff --git a/roms/skiboot b/roms/skiboot
+> index 3a6fdede6ce1..820d43c0a775 160000
+> --- a/roms/skiboot
+> +++ b/roms/skiboot
+> @@ -1 +1 @@
+> -Subproject commit 3a6fdede6ce117facec0108afe716cf5d0472c3f
+> +Subproject commit 820d43c0a7751e75a8830561f35535dfffd522bd
 
-  Still required your attention, duplicate from:
-  https://bugs.launchpad.net/bugs/1807073
-  https://bugs.launchpad.net/bugs/1813045
+Thanks,
 
-  We use mainly Cloudlinux, Debian and Centos.
-  We experienced many crashes on our qemu instances based on Cloudlinux dur=
-ing a snapshot.
-  The issue is not related to CloudLinux directly, but to Qemu agent, which=
- does not freeze the file system(s) correctly. What is actually happening:
-
-  When VM backup is invoked, Qemu agent freezes the file systems, so no sin=
-gle change will be made during the backup. But Qemu agent does not respect =
-the loop* devices in freezing order (we have checked its sources), which le=
-ads to the next situation:
-  1) freeze loopback fs
-                ---> send async reqs to loopback thread
-  2) freeze main fs
-  3) loopback thread wakes up and trying to write data to the main fs, whic=
-h is still frozen, and this finally leads to the hung task and kernel crash.
-
-  Moreover, a lot of Proxmox users are complaining about the issue as well:
-  https://forum.proxmox.com/threads/error-vm-100-qmp-command-guest-fsfreeze=
--thaw-failed-got-timeout.68082/
-  https://forum.proxmox.com/threads/problem-with-fsfreeze-freeze-and-qemu-g=
-uest-agent.65707/
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1939179/+subscriptions
+Phil.
 
 
