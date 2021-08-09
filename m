@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24643E4437
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:52:30 +0200 (CEST)
-Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB353E4445
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 12:56:05 +0200 (CEST)
+Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD2tS-0006lY-1n
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1mD2wu-0002W1-KH
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 06:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mD2qy-0002Li-RY
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:49:57 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:36812)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mD2sM-0005c6-0E; Mon, 09 Aug 2021 06:51:22 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:44021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mD2qw-0003cw-7n
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 06:49:56 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id DC2D02E16D6
- for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 13:49:49 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Iuf2KWjjUT-nn0WisaI; Mon, 09 Aug 2021 13:49:49 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1628506189; bh=fxq53Dd0UxzuE//Wn/MBFeavxZiM+/6y+vzcrswVbho=;
- h=In-Reply-To:References:Date:Message-ID:From:To:Subject;
- b=Yicz81KiReSYx4YoWs+k5kzPI7bGkHDOL7Zm5myfN5s/KB3x05CpvVCbsb0ODl0x9
- LAMTZNrlzYEyCkJ1T6uQKWMURwYJy5aOI3Xp91kM1PsxbI/GiaKub8bv9ehEK9IHjt
- VsaAazUPHbQj6pKQW++yJ5LtbsQGvGdRLPLKTGOE=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:8008::1:24])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- T9jhXlYLj7-nn3ijUv8; Mon, 09 Aug 2021 13:49:49 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: Re: [PATCH v3] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
-To: qemu-devel@nongnu.org
-References: <20210809090330.86304-1-den-plotnikov@yandex-team.ru>
- <20210809051757-mutt-send-email-mst@kernel.org>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Message-ID: <a8139030-4390-f780-3b23-1764204655e7@yandex-team.ru>
-Date: Mon, 9 Aug 2021 13:49:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mD2sK-0004dS-3y; Mon, 09 Aug 2021 06:51:21 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id EF1465C0101;
+ Mon,  9 Aug 2021 06:51:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 09 Aug 2021 06:51:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=96D6NZgSVUi+5OoY+JFriqSFMCM
+ tHFN+QaEu5UHFeBc=; b=Mo9X2CGrpRFwi3qKSBAZNvzA042mOhIeDvLVb2z76+G
+ Z2NFYfG+Td7wnPmHNtl/ao2o7ww5Ao3z5Im0fPnq7m42YqUDoCf/UQQMW5pC8CUu
+ 82mHkTBCt5HkNf+s3JRjkBE6Bg6DOeJ36PvAECqMGmVgetNFDr4Kc0+dPwrNKYjR
+ 7I51DmcPgBGBOlrpP52yaNme3J7ZUlyJGtsgl7L1FGgxtZei6pmQ3WAdDc9jEWzi
+ lLh7jbQFyorLSzz6+eYpUpGEGCCNp052UqfXyAIOvQTQAx32MRKume1VZ51YJEyj
+ aYLYtil492mAQ+rBL6ixpysKr1yUPbvmxWemUHbdvqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=96D6NZ
+ gSVUi+5OoY+JFriqSFMCMtHFN+QaEu5UHFeBc=; b=brZ0NHHbSErXFZfSLnCyBb
+ 1N+laQq2KgrXGi9QyU3+7UjjBqLfHnXRpg/ar8jE2GGJuJNrC0VlbPjDM/q4gF/v
+ dsD/hPXIBS2L39NF+GarH+hA0xxn2Y0zLXJcHO1glt7CLoPMlje6TFqN5rQuKQlA
+ 0aLTc9DpAqYtGTZzE6sK5quxbWkMda1Y2gZc3DMez7uiFBHo6u0nm/DREiXIzl/p
+ gA9CdtL11qhk0Zt+Lo73QCdeXu+RvIW+rXCyiSpa+/VxSQ5+E3a6qSaO6UF30raY
+ iFn7cGFdTpzoopq9reNGPfQ6gvE5YZOCDwmtcr1BCuh4HIa18E1xz4yRv9TWwKEw
+ ==
+X-ME-Sender: <xms:pggRYRTM3JCmXMZW8tVCINLT1NF1U3c4pAHbcn032SfW4KN6DGl_9Q>
+ <xme:pggRYaz4ws-HmU1auefeOhMMbSXR9AsR5MyyiWHKdvUpqKKm970l-N1-CCu90MScD
+ lCS4wCu_sMQKOmgnGc>
+X-ME-Received: <xmr:pggRYW3BXv865pjs0kxClz08cZc8tDGRVoLQGr71cNcEVFw-lOe7Mv9GOs4dH1ovs-cM4bM9-TSrjJOzwgH-yy_fD6_yp4dVuMPPKreey5DmjLuLMg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeejgdefgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:pggRYZC1f_jNpRi1HcNfAQ3IS4O9qoyMS4WKiOMn0thawF3nSrHWlg>
+ <xmx:pggRYahygwi49sl_v3ESOK-u03fIh_OPXSleMiXpwKTUbTSL5jmNyA>
+ <xmx:pggRYdpdwZxhBpcs7YuPkF-_Xp0fLoivBh2zsmaE47zIQ3p9a_2WJg>
+ <xmx:pggRYcYxDoXUESw4prnTd5y2R-kGuFLgZ69DEGGK-77L2MWlz9lo3w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Aug 2021 06:51:17 -0400 (EDT)
+Date: Mon, 9 Aug 2021 12:51:15 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.1?] hw/nvme: fix missing variable initializers
+Message-ID: <YREIo4mrctlWYrDL@apples.localdomain>
+References: <20210809104324.49434-1-its@irrelevant.dk>
+ <a28fd42a-1766-c1cc-6a6c-9b5f8321e30f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210809051757-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EGKZkRbIk1cPErNJ"
+Content-Disposition: inline
+In-Reply-To: <a28fd42a-1766-c1cc-6a6c-9b5f8321e30f@redhat.com>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,285 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Keith Busch <kbusch@kernel.org>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 09.08.2021 12:34, Michael S. Tsirkin wrote:
-> Looks good. Some cosmetics:
-all comments addressed in already sent v4
->
-> On Mon, Aug 09, 2021 at 12:03:30PM +0300, Denis Plotnikov wrote:
->> On vhost-user-blk migration, qemu normally sends a number of commands
->> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
->> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
->> VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
->> data logging.
->> The issue is that qemu doesn't wait for reply from the vhost daemon
->> for these commands which may result in races between qemu expectation
->> of logging starting and actual login starting in vhost daemon.
->>
->> The race can appear as follows: on migration setup, qemu enables dirty page
->> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
->> vhost-user-blk daemon immediately and the daemon needs some time to turn the
->> logging on internally. If qemu doesn't wait for reply, after sending the
->> command, qemu may start migrate memory pages to a destination. At this time,
-> start migrating
->
->> the logging may not be actually turned on in the daemon but some guest pages,
->> which the daemon is about to write to, may have already been transferred
->> without logging to the destination. Since the logging wasn't turned on,
->> those pages won't be transferred again as dirty. So we may end up with
->> corrupted data on the destination.
->> The same scenario is applicable for "used ring" data logging, which is
->> turned on with VHOST_USER_SET_VRING_ADDR command.
->>
->> To resolve this issue, this patch makes qemu wait for the commands result
-> command result
->
->> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and logging enabled.
-> typo
->
->> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
->>
->> ---
->> v2 -> v3:
->>    * send VHOST_USER_GET_FEATURES to flush out outstanding messages [mst]
->>
->> v1 -> v2:
->>    * send reply only when logging is enabled [mst]
->>
->> v0 -> v1:
->>    * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
->> ---
->>   hw/virtio/vhost-user.c | 130 ++++++++++++++++++++++++++++-------------
->>   1 file changed, 89 insertions(+), 41 deletions(-)
->>
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index ee57abe04526..18f685df549f 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -1095,23 +1095,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
->>       return 0;
->>   }
->>   
->> -static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->> -                                     struct vhost_vring_addr *addr)
->> -{
->> -    VhostUserMsg msg = {
->> -        .hdr.request = VHOST_USER_SET_VRING_ADDR,
->> -        .hdr.flags = VHOST_USER_VERSION,
->> -        .payload.addr = *addr,
->> -        .hdr.size = sizeof(msg.payload.addr),
->> -    };
->> -
->> -    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->> -        return -1;
->> -    }
->> -
->> -    return 0;
->> -}
->> -
->>   static int vhost_user_set_vring_endian(struct vhost_dev *dev,
->>                                          struct vhost_vring_state *ring)
->>   {
->> @@ -1288,72 +1271,137 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
->>       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
->>   }
->>   
->> -static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->> +
->> +static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
->>   {
->>       VhostUserMsg msg = {
->>           .hdr.request = request,
->>           .hdr.flags = VHOST_USER_VERSION,
->> -        .payload.u64 = u64,
->> -        .hdr.size = sizeof(msg.payload.u64),
->>       };
->>   
->> +    if (vhost_user_one_time_request(request) && dev->vq_index != 0) {
->> +        return 0;
->> +    }
->> +
->>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>           return -1;
->>       }
->>   
->> +    if (vhost_user_read(dev, &msg) < 0) {
->> +        return -1;
->> +    }
->> +
->> +    if (msg.hdr.request != request) {
->> +        error_report("Received unexpected msg type. Expected %d received %d",
->> +                     request, msg.hdr.request);
->> +        return -1;
->> +    }
->> +
->> +    if (msg.hdr.size != sizeof(msg.payload.u64)) {
->> +        error_report("Received bad msg size.");
->> +        return -1;
->> +    }
->> +
->> +    *u64 = msg.payload.u64;
->> +
->>       return 0;
->>   }
->>   
->> -static int vhost_user_set_features(struct vhost_dev *dev,
->> -                                   uint64_t features)
->> +static int vhost_user_get_features(struct vhost_dev *dev, uint64_t *features)
->>   {
->> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
->> +    return vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features);
->>   }
->>   
->> -static int vhost_user_set_protocol_features(struct vhost_dev *dev,
->> -                                            uint64_t features)
->> +static int enforce_reply(struct vhost_dev *dev)
->>   {
->> -    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
->> +   /*
->> +    * we need a reply but can't get it from some command directly,
->> +    * so send the command which must send a reply
->> to make sure
->> +    * the command we sent before is actually completed.
->
-> better:
->
-> We need to wait for a reply but the backend does not
-> support replies for the command we just sent.
-> Send VHOST_USER_GET_FEATURES which makes all backends
-> send a reply.
->
->
->> +    */
->> +    uint64_t dummy;
-> add an empty line here pls.
->
->> +    return vhost_user_get_features(dev, &dummy);
->>   }
->>   
->> -static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
->> +static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->> +                                     struct vhost_vring_addr *addr)
->>   {
->>       VhostUserMsg msg = {
->> -        .hdr.request = request,
->> +        .hdr.request = VHOST_USER_SET_VRING_ADDR,
->>           .hdr.flags = VHOST_USER_VERSION,
->> +        .payload.addr = *addr,
->> +        .hdr.size = sizeof(msg.payload.addr),
->>       };
->>   
->> -    if (vhost_user_one_time_request(request) && dev->vq_index != 0) {
->> -        return 0;
->> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
->> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
->> +
->> +    /* we need a reply anyway if logging is enabled */
-> better:
->
-> wait for a reply if logging is enabled to make sure backend is actually logging changes.
->
->> +    bool need_reply = !!(addr->flags & (1 << VHOST_VRING_F_LOG));
->
-> Do we really need !! here? We are converting to bool here.
->
->> +
->> +    if (reply_supported && need_reply) {
->> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->>       }
->>   
->>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>           return -1;
->>       }
->>   
->> -    if (vhost_user_read(dev, &msg) < 0) {
->> -        return -1;
->> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
->> +        return process_message_reply(dev, &msg);
->> +    } else if (need_reply) {
->> +        return enforce_reply(dev);
->>       }
-> This logic is repeated in two places. How about moving the call
-> to process_message_reply into enforce_reply?
->
->
->>   
->> -    if (msg.hdr.request != request) {
->> -        error_report("Received unexpected msg type. Expected %d received %d",
->> -                     request, msg.hdr.request);
->> -        return -1;
->> +    return 0;
->> +}
->> +
->> +static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
->> +                              bool need_reply)
-> I think a better name would be "wait_for_reply": it's less about
-> needing the reply it's more about the wait.
->
->> +{
->> +    VhostUserMsg msg = {
->> +        .hdr.request = request,
->> +        .hdr.flags = VHOST_USER_VERSION,
->> +        .payload.u64 = u64,
->> +        .hdr.size = sizeof(msg.payload.u64),
->> +    };
->> +
->> +    if (need_reply) {
->> +        bool reply_supported = virtio_has_feature(dev->protocol_features,
->> +                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
->> +        if (reply_supported) {
->> +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->> +        }
->>       }
->>   
->> -    if (msg.hdr.size != sizeof(msg.payload.u64)) {
->> -        error_report("Received bad msg size.");
->> +    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>           return -1;
->>       }
->>   
->> -    *u64 = msg.payload.u64;
->> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
->> +        return process_message_reply(dev, &msg);
->> +    } else if (need_reply) {
->> +        return enforce_reply(dev);
->> +    }
->>   
->>       return 0;
->>   }
->>   
->> -static int vhost_user_get_features(struct vhost_dev *dev, uint64_t *features)
->> +static int vhost_user_set_features(struct vhost_dev *dev,
->> +                                   uint64_t features)
->>   {
->> -    return vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features);
->> +    /* we need a reply anyway if logging is enabled */
-> better:
->
-> wait for a reply if logging is enabled to make sure backend is actually logging changes.
->
->
->> +    bool log_enabled = !!(features & (0x1ULL << VHOST_F_LOG_ALL));
->
-> Do we need !! here?
->
->> +
->> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
->> +                              log_enabled);
->> +}
->> +
->> +static int vhost_user_set_protocol_features(struct vhost_dev *dev,
->> +                                            uint64_t features)
->> +{
->> +    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
->> +                              false);
->>   }
->>   
->>   static int vhost_user_set_owner(struct vhost_dev *dev)
->> -- 
->> 2.25.1
->
+--EGKZkRbIk1cPErNJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Aug  9 12:47, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 8/9/21 12:43 PM, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Coverity found that 'uuid', 'csi' and 'eui64' are uninitialized. While
+> > we set most of the fields, we do not explicitly set the rsvd2 field in
+> > the NvmeIdNsDescr header.
+> >=20
+> > Fix this by explicitly zero-initializing the variables.
+> >=20
+> > Reported-by: Coverity (CID 1458835, 1459295 and 1459580)
+> > Fixes: 6870cfb8140d ("hw/nvme: namespace parameter for EUI-64")
+> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/nvme/ctrl.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+
+Swift as always Philippe, thanks!
+
+Yes, I'll PR this for -rc3 immediately.
+
+--EGKZkRbIk1cPErNJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmERCKIACgkQTeGvMW1P
+DelbSgf9GQyX0l1rrTBzzeaGUov/pQeHgUC0iB5ckX+o/hhaAd701eYFbljflxJ1
+Vwdo9IQtvzS+SPsH40lZ8MfOZk35XIVrU4jLWHntqJjUAKxaXybtHsEont2Jzt2V
+HVAGhcnSIXtgC1sNpGMODKS9yIohcWD5spK+t0Sl85Ey5tDybyfr6BeJZiwbqyWZ
+cj9O0Rz/sBwrNzNVHgckWmB6e9oqAVMySDZTwGLIANdtz+RXKtalYm212bbUB2wi
+Xi4ja108GH6j0N4n5cTqHtFzylEGXLalX2Te5rZczJ7stWtmlDeOEYQ8mRiJf7nz
+Ow4QvTM4XG/XWD2jx6g8XrOIFM9wjA==
+=f/FA
+-----END PGP SIGNATURE-----
+
+--EGKZkRbIk1cPErNJ--
 
