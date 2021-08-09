@@ -1,68 +1,67 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6443E46A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:31:40 +0200 (CEST)
-Received: from localhost ([::1]:45594 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F5F3E46B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:34:38 +0200 (CEST)
+Received: from localhost ([::1]:54040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5N9-00087r-O1
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:31:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
+	id 1mD5QL-0005SJ-Om
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD54N-0003rX-Eh; Mon, 09 Aug 2021 09:11:55 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:46594)
+ id 1mD54P-0003uR-KD; Mon, 09 Aug 2021 09:11:58 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:35461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD54L-0001jf-GH; Mon, 09 Aug 2021 09:11:55 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id f23so1922212qkk.13;
- Mon, 09 Aug 2021 06:11:52 -0700 (PDT)
+ id 1mD54N-0001l2-Ts; Mon, 09 Aug 2021 09:11:57 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id a12so12395774qtb.2;
+ Mon, 09 Aug 2021 06:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XXHLDH1bWrPsXOr8m0aObt+cK/ABxtqGEmMxxYOw+g8=;
- b=M3p2HUarUb+npCPWb92Euoh1I0AdxDAdCwcjfYHg4PivsjHiaraQIV0yMSunWeqFFJ
- 8goStyAYvyiNOuutbwaNk98clSy5AgP01aTtzLP6HvFB7MYxplgNDEwKtb4D1DFpBgP9
- nQhu8uMdcCwxnzliSJI/c5MWyjRpna/UKsbbZZ2SVyKMpZjchC4QRBtkurwlBBi5X7gA
- z0kri6MpyJMUFKdtXE7KH7fV4jiJLnq3HOpW6BdZnF5XzcpL3LfqSToq8rGuOVaPRiVk
- zmyoTGb4K4AYC7Ek91yYBKbYIXcwsa4SFkUF4sq3lThqTh2KQekKm2Ucff/iVFfXmfhY
- rJQw==
+ bh=VlLiPUH07aX5BhUnXhksMTU2lxpYTU9ETbG3rk/uAz4=;
+ b=S3DFDcmufyNkajogv58BxLk5cPj5HNm7Sw+q6AT9BxRH+LrePNm0msyZQVYPe27hVT
+ TYymE+Yb0eaGb5LVy5gWfmu80FVCtL5nzxdvK9gLdS8BSY29sJagIwU+lTexP+lNZCrb
+ Utvkj7DxyXiAzenFV4HyNuGKNhhTdDza9yGNG2oC9/c7RKSXtYwMayiJOp4EsgXFIasQ
+ /BhNlrbIWpZmw4DYY4L1UvXTsUW/uozshOf9ppARBX3XRBOfMpRD5/BUh1YSehyisRx8
+ p7bPkXw0JRuwf1sRbE3XWMRPXFqUjDIR1O6ewAvmSkv+h5iaRHLJA0rkFP/jD946xnkF
+ mqhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XXHLDH1bWrPsXOr8m0aObt+cK/ABxtqGEmMxxYOw+g8=;
- b=Y5ub21e61lmOPxcMykX9sGZh82FqGUB6sgufs9d1lnJiznYWWjA7qEa/dGo3kMrX56
- vmADpt4OJDMqc2Cq5DjGAEmNeGX+YPt6jfGzRc3hNa8DHZHrpQOiVFoTjZZUTHBH5GYK
- ogOdFh9/JJwFhyyjFdv75MMAxjSLXr06lnXAXW6EOyVC+2GkSuzGjjzUiMiJ0dDbww86
- +T94OrxsrgOe23Pa4X9kYiV8ke0SEBelQftcMVuVQgGy4qKyeBrUJPwnygCmgfkC3B0x
- vzyqsSpgUcCo+JKO2kYT0iQ+nsmQR2SSgwqLTEyAmgAyZTZEZ4s2gStqSRiduyCakmtC
- JeYA==
-X-Gm-Message-State: AOAM530iyZcAfmY5Q0HlFKNwjfPpQLRRJWIPumBWcKH4zTzY/LVgBJpJ
- CpFQxSNQj82yeeXio4Coxd4NCW0vYNkN5Q==
-X-Google-Smtp-Source: ABdhPJy6f0DVOcs1RQPk0C4VmUblfBtvSlu+nSfYgX+eD8YugpJm7DyU//mFY8g7VxcEGAfrqoCTFA==
-X-Received: by 2002:a05:620a:d41:: with SMTP id
- o1mr23087439qkl.214.1628514711863; 
- Mon, 09 Aug 2021 06:11:51 -0700 (PDT)
+ bh=VlLiPUH07aX5BhUnXhksMTU2lxpYTU9ETbG3rk/uAz4=;
+ b=NzFoFP0t6C46gT6e9gFw3kNhKIfv8gq/DHRboQpCFzlH/LnlygINOXr+xTukyKI1+Z
+ HurrtFBhJqayQDPpMlI7/sq704bPmk24RlIgmhkpQHqVrldJgx54lnK27ennMO66DqWO
+ rmMzYLKMBDZ7M3mKSnotpoNHe6OOMxIjF3NZZW2/gpc2IUwRbiEpLHH0/boJBbEgY6eJ
+ h8qaKLdPG9r4Z+rmH63PNPOZxPhISoY3ycjJJeC2XeHVMVc/u3CmUxBPyt5GTbqVs7GO
+ V3yBYQALrc1YViwIafYy/p+ZBXKyX1ZYNcPcYjBQOBk7JezCixi/DKnvSrJb391tarnP
+ l4FA==
+X-Gm-Message-State: AOAM532UHeE4+Qlm3htOA5tkGhe+D4E65GpwFoVNJDHPl3KA4P6okT7P
+ yOq72Ldmw8lAiYb9NbkvZ2O6J/3FEjQZdg==
+X-Google-Smtp-Source: ABdhPJzizKHdsHlyhlCbnuHr8gicL/pOYSLA5rn7R5elxgkN2iHvqTakYIU/tJsyFKOoF1pg1TBsEA==
+X-Received: by 2002:a05:622a:391:: with SMTP id
+ j17mr4497772qtx.206.1628514714456; 
+ Mon, 09 Aug 2021 06:11:54 -0700 (PDT)
 Received: from rekt.ibmuc.com ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.49
+ by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 06:11:51 -0700 (PDT)
+ Mon, 09 Aug 2021 06:11:54 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/19] target/ppc/pmu_book3s_helper.c: add PM_CMPLU_STALL mock
- events
-Date: Mon,  9 Aug 2021 10:10:56 -0300
-Message-Id: <20210809131057.1694145-19-danielhb413@gmail.com>
+Subject: [PATCH 19/19] docs/specs: add PPC64 TCG PMU-EBB documentation
+Date: Mon,  9 Aug 2021 10:10:57 -0300
+Message-Id: <20210809131057.1694145-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809131057.1694145-1-danielhb413@gmail.com>
 References: <20210809131057.1694145-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,157 +87,106 @@ Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-EBB powerpc kernel test 'multi_counter_test' uses PM_CMPLU_STALL events
-that we do not support. These events are related to CPU stalled/wasted
-cycles while waiting for resources, cache misses and so on.
-
-Unlike the 0xFA event added previously, there's no available equivalent
-for us to use, and at this moment we can't sample those events as well.
-What we can do is mock those events as if we were calculating them.
-
-This patch implements PM_CMPLU_STALL, PM_CMPLU_STALL_FXU,
-PM_CMPLU_STALL_OTHER_CMPL and PM_CMPLU_STALL_THRD mock events by giving
-them a fixed amount of the total elapsed cycles.
-
-The chosen sample values for these events (25% of total cycles for
-PM_CMPLU_STALL and 5% for the other three) were chosen at random and has
-no intention of being truthful with what a real PowerPC hardware would
-give us. Our intention here is to make 'multi_counter_test' EBB test
-pass.
+Since we didn't implement a fully fledged Book3s PMU in TCG, add a new
+doc page in the specs dir to register the current capabilities of the
+new PPC64 TCG PMU.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/pmu_book3s_helper.c | 81 +++++++++++++++++++++++++++++++++-
- 1 file changed, 79 insertions(+), 2 deletions(-)
+ docs/specs/index.rst           |  1 +
+ docs/specs/ppc-tcg-pmu-ebb.rst | 71 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+ create mode 100644 docs/specs/ppc-tcg-pmu-ebb.rst
 
-diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
-index ae7050cd62..32cf76b77f 100644
---- a/target/ppc/pmu_book3s_helper.c
-+++ b/target/ppc/pmu_book3s_helper.c
-@@ -92,16 +92,54 @@ static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
-     env->spr[sprn] += get_cycles(icount_delta);
- }
- 
-+static int get_stall_ratio(uint8_t stall_event)
-+{
-+    int stall_ratio = 0;
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index b7b08ea30d..a44fa93f4c 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -10,6 +10,7 @@ guest hardware that is specific to QEMU.
+    ppc-xive
+    ppc-spapr-xive
+    ppc-spapr-numa
++   ppc-tcg-pmu-ebb
+    acpi_hw_reduced_hotplug
+    tpm
+    acpi_hest_ghes
+diff --git a/docs/specs/ppc-tcg-pmu-ebb.rst b/docs/specs/ppc-tcg-pmu-ebb.rst
+new file mode 100644
+index 0000000000..d40276b3f0
+--- /dev/null
++++ b/docs/specs/ppc-tcg-pmu-ebb.rst
+@@ -0,0 +1,71 @@
++==================================
++QEMU TCG PMU-EBB support for PPC64
++==================================
 +
-+    switch (stall_event) {
-+    case 0xA:
-+        stall_ratio = 25;
-+        break;
-+    case 0x6:
-+    case 0x16:
-+    case 0x1C:
-+        stall_ratio = 5;
-+        break;
-+    default:
-+        break;
-+    }
++Introduction
++============
 +
-+    return stall_ratio;
-+}
++QEMU version 6.2 introduces an EBB (Event-Based Branch) implementation
++for PPC64 TCG guests. It was introduced together with a simple PMU
++(Performance Monitor Unit) implementation which was only introduced
++as a means to validate EBB using the Linux kernel selftests located
++in the kernel tree at tools/testing/selftests/powerpc/pmu/ebb.
 +
-+static void update_PMC_PM_STALL(CPUPPCState *env, int sprn,
-+                                uint64_t icount_delta,
-+                                uint8_t stall_event)
-+{
-+    int stall_ratio = get_stall_ratio(stall_event);
-+    uint64_t cycles = muldiv64(get_cycles(icount_delta), stall_ratio, 100);
++The goal of this document is to give a brief explanation of what
++to expect, and more important, what to not expect from this existing
++PMU implementation.
 +
-+    env->spr[sprn] += cycles;
-+}
 +
- static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
-                                         uint64_t icount_delta)
- {
--    switch (get_PMC_event(env, sprn)) {
-+    uint8_t event = get_PMC_event(env, sprn);
++EBB support
++-----------
 +
-+    switch (event) {
-     case 0x2:
-         update_PMC_PM_INST_CMPL(env, sprn, icount_delta);
-         break;
-     case 0x1E:
-         update_PMC_PM_CYC(env, sprn, icount_delta);
-         break;
-+    case 0xA:
-+    case 0x6:
-+    case 0x16:
-+    case 0x1C:
-+        update_PMC_PM_STALL(env, sprn, icount_delta, event);
-+        break;
-     default:
-         return;
-     }
-@@ -163,6 +201,34 @@ static int64_t get_CYC_timeout(CPUPPCState *env, int sprn)
-     return muldiv64(remaining_cyc, NANOSECONDS_PER_SECOND, PPC_CPU_FREQ);
- }
- 
-+static int64_t get_stall_timeout(CPUPPCState *env, int sprn,
-+                                 uint8_t stall_event)
-+{
-+    uint64_t remaining_cyc;
-+    int stall_multiplier;
++The existing EBB support can be summarized as follows:
 +
-+    if (env->spr[sprn] == 0) {
-+        return icount_to_ns(COUNTER_NEGATIVE_VAL);
-+    }
++ - all bits from BESCR are implemented;
++ - rfebb instruction is implemented as the mnemonic 'rfebb 1', i.e. the
++ instruction will always set BESCR_GE;
++ - support for both Performance Monitor and External event-based exceptions
++ are included, although there is no code that triggers an external exception
++ at this moment.
 +
-+    if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL) {
-+        return 0;
-+    }
 +
-+    remaining_cyc = COUNTER_NEGATIVE_VAL - env->spr[sprn];
++PMU support
++-----------
 +
-+    /*
-+     * Consider that for this stall event we'll advance the counter
-+     * in a lower rate, thus requiring more cycles to overflow.
-+     * E.g. for PM_CMPLU_STALL (0xA), ratio 25, it'll require
-+     * 100/25 = 4 times the same amount of cycles to overflow.
-+     */
-+    stall_multiplier = 100 / get_stall_ratio(stall_event);
-+    remaining_cyc *= stall_multiplier;
++The existing PMU logic is capable of counting instructions (perf event
++PM_INST_CMPL) and cycles (perf event PM_CYC) using QEMU's icount
++framework. A handful of PM_STALL events were added as fixed ratio of
++the total cycles as a means to enable one of the EBB tests.
 +
-+    return muldiv64(remaining_cyc, NANOSECONDS_PER_SECOND, PPC_CPU_FREQ);
-+}
++Everything that is not mentioned above is not supported in the PMU. Most
++notably:
 +
- static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
- {
-     bool PMC14_running = !(env->spr[SPR_POWER_MMCR0] & MMCR0_FC14);
-@@ -191,6 +257,7 @@ static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
- static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
- {
-     int64_t timeout = -1;
-+    uint8_t event;
- 
-     if (!pmc_counter_negative_enabled(env, sprn)) {
-         return -1;
-@@ -205,13 +272,23 @@ static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
-     case SPR_POWER_PMC2:
-     case SPR_POWER_PMC3:
-     case SPR_POWER_PMC4:
--        switch (get_PMC_event(env, sprn)) {
-+        event = get_PMC_event(env, sprn);
++ - reading unfrozen (running) PMCs will return their last set value. The PMCs
++ are only updated after they're frozen;
++ - no MMCR2 and MMCRA support. The registers can be read and written at will,
++ but the PMU will ignore it;
++ - as a consequence of not supporting MMCRA, no random events and no threshold
++ event counters are enabled;
++ - no form of BHRB support is implemented;
++ - several MMCR0 bits are not supported;
++ - access control of the PMCs is only partially done. For example, setting
++ MMCR0_PMCC to 0b11 will not exclude PMC5 and PMC6 from the PMU.
 +
-+        switch (event) {
-         case 0x2:
-             timeout = get_INST_CMPL_timeout(env, sprn);
-             break;
-         case 0x1E:
-             timeout = get_CYC_timeout(env, sprn);
-             break;
-+        case 0xA:
-+        case 0x6:
-+        case 0x16:
-+        case 0x1c:
-+            timeout = get_stall_timeout(env, sprn, event);
-+            break;
-+        default:
-+            break;
-         }
- 
-         break;
++
++icount usage
++------------
++
++The development of both the PMU and EBB support were tested with icount shift
++zero with alignment, e.g. this command line option:
++
++``-icount shift=0,align=on``
++
++Different 'shift' options will degrade the performance of the PMU tests and some
++EBB tests that relies on small count error margins (e.g. 'count_instructions').
++
++Running PMU and EBB tests without any icount support will not give reliable
++results due to how the instructions and cycles relies on icount to work.
++
++It's also worth mentioning that all these icount restrictions and conditions
++are exclusive to the PMU logic. The Event-Based Branch code does not rely on
++the icount availability or configuration to work.
 -- 
 2.31.1
 
