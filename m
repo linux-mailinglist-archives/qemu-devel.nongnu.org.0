@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406233E4980
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 18:12:42 +0200 (CEST)
-Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B913E4983
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 18:14:20 +0200 (CEST)
+Received: from localhost ([::1]:47640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD7tJ-0007A8-BE
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 12:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
+	id 1mD7ut-0000nl-TI
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 12:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mD7r8-0005Ff-7W
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:10:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23215)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mD7tg-0007ws-Gl
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:13:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mD7r2-0003J4-Tb
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:10:24 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mD7te-0005AO-Ve
+ for qemu-devel@nongnu.org; Mon, 09 Aug 2021 12:13:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628525418;
+ s=mimecast20190719; t=1628525578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qaYzDtRPJj12aEZOUMOMoOTfNJlYiCseyt4qiXvizyE=;
- b=CpM5cq5fVCFCvkT+BUq8KO+8Xnj7ssa8eW3wbMTv1j1/0or68lPimC+uMnhlDX+listbO4
- RpFE5pTDa40FrTD7RDGB693W9g+ySj0xxOj5h4SL3do8koBYdj8Xn5SIc1ueZIzXFLozaG
- pEqSMSbuq0oEvW/qtSi3MchM7LdAW+c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-XQc7CA3KMEWkpHIlIhMjWw-1; Mon, 09 Aug 2021 12:10:16 -0400
-X-MC-Unique: XQc7CA3KMEWkpHIlIhMjWw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC1EC801AE7
- for <qemu-devel@nongnu.org>; Mon,  9 Aug 2021 16:10:14 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.10.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 62CF669321;
- Mon,  9 Aug 2021 16:10:02 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id E416E220261; Mon,  9 Aug 2021 12:10:01 -0400 (EDT)
-Date: Mon, 9 Aug 2021 12:10:01 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v3 08/10] virtiofsd: Add inodes_by_handle hash table
-Message-ID: <YRFTWVC1vXwjky5v@redhat.com>
-References: <20210730150134.216126-1-mreitz@redhat.com>
- <20210730150134.216126-9-mreitz@redhat.com>
+ bh=NqK1vIuxGg5/ghZi1t/3V5Mzgh+124zlvmjbn4DoefE=;
+ b=XbiNGVswOnr6cykFppfj8HMHUJxvwVpMMrFHLGFUCd611Dcd0uEcmqttpPzG9vnAuoE/DZ
+ skRMDnSvYurthq1pauRJm8nMLRNEL5xHGJbNMT/lwKfrUJ0N7YTo0M0u/NaqWpqSpCQDHm
+ oov/QWcxXq5iY32KZ1ptonUhBNbGCXo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-2BLaxra9OPKbeQXAufaBFg-1; Mon, 09 Aug 2021 12:12:57 -0400
+X-MC-Unique: 2BLaxra9OPKbeQXAufaBFg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v18-20020adfe2920000b029013bbfb19640so5488546wri.17
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 09:12:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NqK1vIuxGg5/ghZi1t/3V5Mzgh+124zlvmjbn4DoefE=;
+ b=gqKeJVHy1ZkG/XaxgwMu0KYB6qx4JVG1kc8d63Yc4nS/rwV3RiHCZx39dNnU44KfPI
+ c0CQXzJeD6ipU5T4nvRGeRdBwhutNHqBfR9yEBuz6Vzb0wTsQYYwfXr70W1eq8xqfBTp
+ VEUvrcY5DdxhUonq061g+oyJ9DCkzLmIP1l4Gp/UFimVyO1ifr0tON/I8S+kWDnk+2bU
+ 74IJ1iSZO/uriiO4s+zPvQE+H1dCFyMm3CGix57e1lyylpX9Hq7Waqyrxv9uskL3rbGZ
+ XMwdB4e2wXMd/L+faspg4vgnpqc+Y1L0x6wxQgK4A4ngIqvpb2EUtmtmwH1aMCD6M+oO
+ eFtA==
+X-Gm-Message-State: AOAM5321IL3QLMKZQdcmWtaQ4rjYBHKt+y2p12LWcTnSzsoR7LTP+aqf
+ GdvOo4y1LJxP0UxjVCoCQeyakQTI5p90IT2N5lALhi4cFQR0YNYxSb1TOYYpOO8VJjY4wdToPuL
+ govpkdw+q8TtAqCc=
+X-Received: by 2002:a5d:6107:: with SMTP id v7mr4253319wrt.408.1628525576618; 
+ Mon, 09 Aug 2021 09:12:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCr/jj8KFDKcfZt4kDHXfoPW+DCcPeZSw1LpLO1/GqVUZkkeECzLTYYqs8VyXVOobbuvqmCg==
+X-Received: by 2002:a5d:6107:: with SMTP id v7mr4253291wrt.408.1628525576379; 
+ Mon, 09 Aug 2021 09:12:56 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.28.170])
+ by smtp.gmail.com with ESMTPSA id d5sm20003185wre.77.2021.08.09.09.12.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Aug 2021 09:12:55 -0700 (PDT)
+Subject: Re: [PATCH 1/2] virtio: add a way to disable a queue
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20210729191910.317114-1-lvivier@redhat.com>
+ <20210729191910.317114-2-lvivier@redhat.com>
+ <c9b273fb-797b-4810-bb4c-d99d5173fe6c@redhat.com>
+ <c26fddb3-8954-2c74-c238-1052356a8f00@redhat.com>
+ <c31d2975-7d90-84f9-74ea-838de69e78f5@redhat.com>
+ <364daf53-31e4-e7eb-29e3-fd0e3f64e18f@redhat.com>
+ <a298d8a8-b221-29e4-8f8f-a7db158b5e85@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <763ebfaa-72bb-bb0f-03b3-83c93f9a43f1@redhat.com>
+Date: Mon, 9 Aug 2021 18:12:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210730150134.216126-9-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <a298d8a8-b221-29e4-8f8f-a7db158b5e85@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,168 +104,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 30, 2021 at 05:01:32PM +0200, Max Reitz wrote:
-> Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
-> FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
-> its inode ID will remain in use until we drop our lo_inode (and
-> lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
-> the inode ID as an lo_inode key, because any inode with an inode ID we
-> find in lo_data.inodes (on the same filesystem) must be the exact same
-> file.
+On 09/08/2021 05:01, Jason Wang wrote:
 > 
-> This will change when we start setting lo_inode.fhandle so we do not
-> have to keep an O_PATH FD open.  Then, unlinking such an inode will
-> immediately remove it, so its ID can then be reused by newly created
-> files, even while the lo_inode object is still there[1].
+> 在 2021/8/6 下午3:27, Laurent Vivier 写道:
+>> On 06/08/2021 08:25, Jason Wang wrote:
+>>> 在 2021/8/2 下午4:42, Laurent Vivier 写道:
+>>>> On 02/08/2021 06:50, Jason Wang wrote:
+>>>>> 在 2021/7/30 上午3:19, Laurent Vivier 写道:
+>>>>>> Add virtio_queue_disable()/virtio_queue_enable() to disable/enable a queue
+>>>>>> by setting vring.num to 0 (or num_default).
+>>>>>> This is needed to be able to disable a guest driver from the host side
+>>>>> I suspect this won't work correclty for vhost.
+>>>> With my test it seems to work with vhost too.
+>>>
+>>> So setting 0 will lead -EINVAL to be returned during VHOST_SET_VRING_NUM. I think qemu
+>>> will warn the failure in this case.
+>> I didn't see any error when I tried. I will check the code.
+>>
+>>> What's more important, it's not guaranteed to work for the case of vhost-user or
+>>> vhost-vDPA.
+>> Perhaps we can target only the vhost host case, as this is used for failover and usually
+>> the virtio-net device is backed by a bridge on same network as the VFIO device?
 > 
-> So creating a new file can then reuse the old file's inode ID, and
-> looking up the new file would lead to us finding the old file's
-> lo_inode, which is not ideal.
 > 
-> Luckily, just as file handles cause this problem, they also solve it:  A
-> file handle contains a generation ID, which changes when an inode ID is
-> reused, so the new file can be distinguished from the old one.  So all
-> we need to do is to add a second map besides lo_data.inodes that maps
-> file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
-> clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
+> Probably not, it should be a general feature that can work for all types of virtio/vhost
+> backends.
 > 
-> Unfortunately, we cannot rely on being able to generate file handles
-> every time.  Therefore, we still enter every lo_inode object into
-> inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
-> potential inodes_by_handle entry then has precedence, the inodes_by_ids
-> entry is just a fallback.
 > 
-> Note that we do not generate lo_fhandle objects yet, and so we also do
-> not enter anything into the inodes_by_handle map yet.  Also, all lookups
-> skip that map.  We might manually create file handles with some code
-> that is immediately removed by the next patch again, but that would
-> break the assumption in lo_find() that every lo_inode with a non-NULL
-> .fhandle must have an entry in inodes_by_handle and vice versa.  So we
-> leave actually using the inodes_by_handle map for the next patch.
+>>
+>>>
+>>>>> And I believe we should only do this after the per queue enabling/disabling is supported
+>>>>> by the spec.
+>>>>>
+>>>>> (only MMIO support that AFAIK)
+>>>> I don't want to modify the spec.
+>>>>
+>>>> I need something that works without modifying existing (old) drivers.
+>>>>
+>>>> The idea is to be able to disable the virtio-net kernel driver from QEMU if the driver is
+>>>> too old (i.e. it doesn't support STANDBY feature).
+>>>>
+>>>> Setting vring.num to 0 forces the kernel driver to exit on error in the probe function.
+>>>> It's what I want: the device is present but disabled (the driver is not loaded).
+>>>>
+>>>> Any other suggestion?
+>>>
+>>> I think we should probably disable the device instead of doing it per virtqueue.
+>>>
+>> I tried to use virtio_set_disabled() but it doesn't work.
+>> Perhaps it's too late when I call the function (I need to do that in
+>> virtio_net_set_features()). What I want is to prevent the load of the driver in the guest
+>> kernel to hide the virtio-net device. Setting vring.num to 0 triggers an error in the
+>> driver probe function and prevents the load of the driver.
 > 
-> [1] If some application in the guest still has the file open, there is
-> going to be a corresponding FD mapping in lo_data.fd_map.  In such a
-> case, the inode will only go away once every application in the guest
-> has closed it.  The problem described only applies to cases where the
-> guest does not have the file open, and it is just in the dentry cache,
-> basically.
 > 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
->  1 file changed, 65 insertions(+), 16 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 487448d666..f9d8b2f134 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -180,7 +180,8 @@ struct lo_data {
->      int announce_submounts;
->      bool use_statx;
->      struct lo_inode root;
-> -    GHashTable *inodes; /* protected by lo->mutex */
-> +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
-> +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
->      struct lo_map ino_map; /* protected by lo->mutex */
->      struct lo_map dirp_map; /* protected by lo->mutex */
->      struct lo_map fd_map; /* protected by lo->mutex */
-> @@ -263,8 +264,9 @@ static struct {
->  /* That we loaded cap-ng in the current thread from the saved */
->  static __thread bool cap_loaded = 0;
->  
-> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> -                                uint64_t mnt_id);
-> +static struct lo_inode *lo_find(struct lo_data *lo,
-> +                                const struct lo_fhandle *fhandle,
-> +                                struct stat *st, uint64_t mnt_id);
->  static int xattr_map_client(const struct lo_data *lo, const char *client_name,
->                              char **out_name);
->  
-> @@ -1064,18 +1066,40 @@ out_err:
->      fuse_reply_err(req, saverr);
->  }
->  
-> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> -                                uint64_t mnt_id)
-> +static struct lo_inode *lo_find(struct lo_data *lo,
-> +                                const struct lo_fhandle *fhandle,
-> +                                struct stat *st, uint64_t mnt_id)
->  {
-> -    struct lo_inode *p;
-> -    struct lo_key key = {
-> +    struct lo_inode *p = NULL;
-> +    struct lo_key ids_key = {
->          .ino = st->st_ino,
->          .dev = st->st_dev,
->          .mnt_id = mnt_id,
->      };
->  
->      pthread_mutex_lock(&lo->mutex);
-> -    p = g_hash_table_lookup(lo->inodes, &key);
-> +    if (fhandle) {
-> +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
-> +    }
-> +    if (!p) {
-> +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
+> How about fail the validate_features() in this case?
 
-So even if fhandle is not NULL, we will still lookup the inode
-object in lo->inodes_by_ids? I thought fallback was only required
-if we could not generate file handle to begin with and in that case
-fhandle will be NULL?
+It's a good suggestion and it seems to work.
 
-IOW, should this code instead look like.
+I'm going to send an updated patch.
 
-if (fhandle) {
-    lookup_in_lo_inodes_by_handle
-} else {
-    lookup_in_lo_inodes_by_ids;
-    if_found_verify_valid_o_path_fd;
-}
-
-
-> +        /*
-> +         * When we had to fall back to looking up an inode by its
-> +         * inode ID, ensure that we hit an entry that has a valid file
-> +         * descriptor.  Having an FD open means that the inode cannot
-> +         * really be deleted until the FD is closed, so that the inode
-> +         * ID remains valid until we evict our lo_inode.
-> +         * With no FD open (and just a file handle), the inode can be
-> +         * deleted while we still have our lo_inode, and so the inode
-> +         * ID may be reused by a completely different new inode.  We
-> +         * then must look up the lo_inode by file handle, because this
-> +         * handle contains a generation ID to differentiate between
-> +         * the old and the new inode.
-> +         */
-> +        if (p && p->fd == -1) {
-> +            p = NULL;
-> +        }
-> +    }
->      if (p) {
->          assert(p->nlookup > 0);
->          p->nlookup++;
-
-
-[..]
->  static void fuse_lo_data_cleanup(struct lo_data *lo)
->  {
-> -    if (lo->inodes) {
-> -        g_hash_table_destroy(lo->inodes);
-> +    if (lo->inodes_by_ids) {
-> +        g_hash_table_destroy(lo->inodes_by_ids);
-> +    }
-> +    if (lo->inodes_by_ids) {
-            ^^^^^
-Should this be lo->inodes_by_handle instead?
-
-> +        g_hash_table_destroy(lo->inodes_by_handle);
-
-Thanks
-Vivek
+Thanks,
+Laurent
 
 
