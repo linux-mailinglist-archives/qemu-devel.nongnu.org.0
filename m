@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DA63E467B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:24:30 +0200 (CEST)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB3D3E4687
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Aug 2021 15:27:16 +0200 (CEST)
+Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mD5GD-0000A3-Mc
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
+	id 1mD5Ie-00064c-9o
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 09:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53y-000316-SU; Mon, 09 Aug 2021 09:11:30 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:35497)
+ id 1mD541-000348-V4; Mon, 09 Aug 2021 09:11:34 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:39586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mD53w-0001Nj-5g; Mon, 09 Aug 2021 09:11:30 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id a19so18239865qkg.2;
- Mon, 09 Aug 2021 06:11:27 -0700 (PDT)
+ id 1mD53y-0001QJ-Uq; Mon, 09 Aug 2021 09:11:33 -0400
+Received: by mail-qk1-x729.google.com with SMTP id y130so5564526qkb.6;
+ Mon, 09 Aug 2021 06:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fLVm1fBACGLmXLYfVgA5+6MFgswf6f1qbtuCJmUJ8As=;
- b=X6C78dZrWkuhUuaP4pzZBU1mI+exggN1OtpoW77CsE3XcZJt8x5A+9GlNmb9/w4VMu
- IxPl2VZqgpaNr9zk9d6BJ57lpAU1j4fs+F6vPXcOivGaQEOKw6z6gNeIUxNmvjJdMGDT
- ZiZTQteOW0YsCgyFTuqxbDy2F2FT4ZjKMQ2yQVHA0/kn9gJOiJAxCU98X9FdgmWK/ONa
- hqsQ4RtUKEDwTOr970QuCJ+AmPwyVwdyNd5lvD75FF2GLAaKSMuxDWIBl7z2z8qNrP67
- VOpL6MzgWhLszPhpqYmjGaUIqqDf3H7/SPn6yPzDJ8Kh84PBcgdMTx22h9bQPYVdvt8G
- SuZA==
+ bh=cIdqYVcCUaQd9/nWfyNB5JOfVtWk3chh78h+uJqRs0Y=;
+ b=MNWLw7M/WsbuxW1updQgm3pzSgKVn80/gZVxMRR3Jy+h9QVuX/Nb2cBJShK50afA6A
+ g6ZJF6B05U3EXKpsHcZGmNYr+SlXOh8n38j6vbNhW4R4gsVWAf5u8iCqvoZl+00UGDSd
+ g/qPzJyMhcklUJdV1IusU5anJueQszZlbHuDymOOiSehsg624xtLZO4VaG6aLIJpU0bM
+ H9JQadgCf0QygB3lhYG77u1U9e0KdifzAf8h/o6PYxsAMbwmM4Q9AKWLqj+jgk4QdHX6
+ /F/vThMHTMqX3plzRDvcbWua6cAcRiuYwkb9uxNbhdzo/H7ADGepuPJv2DitJEtTdKvB
+ eqxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fLVm1fBACGLmXLYfVgA5+6MFgswf6f1qbtuCJmUJ8As=;
- b=UB79B+QPjyI3WegGMhib3UCmFfH2VK4PR8QsWEQ8pWxTE76noaRn/uJKAu5U4A/0cV
- 4LhyGYSbKC6z9X1a5Fg6C/LmcSqEMaLyn0OokpT/nLCfprQmX7VYskOxeZX2J63Q3XEN
- rTMcPNbQL33y1Pn32H1iTWNaEWPDV4rRjYuvuzRMDPncRKpuRwq/SukExw4yJc6lo4gZ
- 4+Fr5K0o/tcTk8wJlgQ4KRyy1zMJJrY1Q8rlcYiLJ36A5GC/mLUiwQecC08rPLKhPpmh
- qocJzMjcAWZjnTPDz0LZGFa8m+sEj7EfenhMurD3/9Ih7WXac6fmt5hg+jjiiNfWcZjg
- ayaw==
-X-Gm-Message-State: AOAM530q/6TOs8biyhsIPIppNoiXwlVFouvetNS77IF/yXwJS+ePCey4
- lW0AL+ZEWSuOGMn/9TyG86d4/Aql7jzVfA==
-X-Google-Smtp-Source: ABdhPJxm1/Wu5hp33mHCALgQZQWzYlaKyBpxUKgRU7kFmKXku/joH+u//lYu6eonM2SoZ6n9AW09og==
-X-Received: by 2002:a37:9f0b:: with SMTP id i11mr1311137qke.458.1628514686536; 
- Mon, 09 Aug 2021 06:11:26 -0700 (PDT)
+ bh=cIdqYVcCUaQd9/nWfyNB5JOfVtWk3chh78h+uJqRs0Y=;
+ b=IZjfGz3ViLiZH2JrcaQw8vbBq8AqOoUpQZ6bmMWmZrM9BP2A72HNQ3yITTQX1igH62
+ IlBSUqLmljg3ON/UbG4Ttdy/IAy3AT8TPEgsjsb5WXefde/2q9wuLIuTa0xzCw7hof7k
+ CkEkAEnYCjF0g9/ZV5Xt7IDofHZjSNttIbUMtiHfLZXtHgqLhv2NtPx4alNbbkQw0NdT
+ FuR92tvOl8Gv3rsYk4FisPJXel/yrGVdlU3N+YvmpmQnSaQyiGfHGLUeRTKoK3sEvm5f
+ uSw8gdR3z8odvLV2JTls/YT3XZTh05gN5v7vOFQf/fD0b3ijlB5HAR1uNXv3mOcL1HIF
+ cqeg==
+X-Gm-Message-State: AOAM532P8hcZ2uuUx0ZT2+Y9A7TnnRJ7zB4E5ms+1gLXhJIIGQPKm9uM
+ goP55uPAMVh002YUusdh/YEGDO1ZjM5MaA==
+X-Google-Smtp-Source: ABdhPJy09SNLMN00BYHFFELAp6WlGOj1ltxADAKQ+Imv8kydedC3FLyTmEMeD5R/DdK8N50BxZ8pjw==
+X-Received: by 2002:a37:84c1:: with SMTP id
+ g184mr23288093qkd.102.1628514689183; 
+ Mon, 09 Aug 2021 06:11:29 -0700 (PDT)
 Received: from rekt.ibmuc.com ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.24
+ by smtp.gmail.com with ESMTPSA id f3sm6757435qti.65.2021.08.09.06.11.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 06:11:26 -0700 (PDT)
+ Mon, 09 Aug 2021 06:11:28 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/19] target/ppc/pmu_book3s_helper.c: do an actual cycles
- calculation
-Date: Mon,  9 Aug 2021 10:10:46 -0300
-Message-Id: <20210809131057.1694145-9-danielhb413@gmail.com>
+Subject: [PATCH 09/19] PPC64/TCG: Implement 'rfebb' instruction
+Date: Mon,  9 Aug 2021 10:10:47 -0300
+Message-Id: <20210809131057.1694145-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809131057.1694145-1-danielhb413@gmail.com>
 References: <20210809131057.1694145-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,52 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We've been considering that PM_CYC is always 4x the number of
-instructions sampled. This is not accurate due to several reasons,
-including icount shift.
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-Replace it with a more accurate logic that returns the elapsed cycle
-count of the sampled period, based on what the ARM CPU already does in
-target/arm/helper.c, cycles_get_count(). Multiply the amount of ns passed
-in the icount period (which considers icount shift) with the CPU frequency.
+An Event-Based Branch (EBB) allows applications to change the NIA when a
+event-based exception occurs. Event-based exceptions are enabled by
+setting the Branch Event Status and Control Register (BESCR). If the
+event-based exception is enabled when the exception occurs, an EBB
+happens.
 
-The PPC CPU clock frequency has different values depending on the CPU
-implementation. We're defaulting it to 1GHz since it's the same value
-used by PNV and pSeries CPUs.
+The EBB will:
 
+- set the Global Enable (GE) bit of BESCR to 0;
+- set bits 0-61 of the Event-Based Branch Return Register (EBBRR) to the
+  effective address of the NIA that would have executed if the EBB
+  didn't happen;
+- Instruction fetch and execution will continue in the effective address
+  contained in the Event-Based Branch Handler Register (EBBHR).
+
+The EBB Handler will process the event and then execute the Return From
+Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
+redirects execution to the address pointed in EBBRR. This process is
+described in the PowerISA v3.1, Book II, Chapter 6 [1].
+
+This patch implements the rfebb instruction. Descriptions of all
+relevant BESCR bits are also added - this patch is only using BESCR_GE,
+but next patches will use the remaining bits.
+
+Note that we're implementing the extended rfebb mnemonic (BESCR_GE is
+being always set to 1). The basic rfebb instruction would accept an
+operand that would be used to set GE.
+
+[1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
+
+CC: Gustavo Romero <gustavo.romero@linaro.org>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/pmu_book3s_helper.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/ppc/cpu.h       | 12 ++++++++++++
+ target/ppc/translate.c | 21 +++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
-index 6292b96db9..91bb82e699 100644
---- a/target/ppc/pmu_book3s_helper.c
-+++ b/target/ppc/pmu_book3s_helper.c
-@@ -17,11 +17,16 @@
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index afd9cd402b..ae431e65be 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -358,6 +358,18 @@ typedef struct ppc_v3_pate_t {
+ #define MMCR1_PMC3SEL PPC_BITMASK(48, 55)
+ #define MMCR1_PMC4SEL PPC_BITMASK(56, 63)
  
-+/*
-+ * Set arbitrarily based on clock-frequency values used in PNV
-+ * and SPAPR code.
-+ */
-+#define PPC_CPU_FREQ 1000000000
- 
- static uint64_t get_cycles(uint64_t icount_delta)
- {
--    /* Placeholder value */
--    return icount_delta * 4;
-+    return muldiv64(icount_to_ns(icount_delta), PPC_CPU_FREQ,
-+                    NANOSECONDS_PER_SECOND);
++/* EBB/BESCR bits */
++/* Global Enable */
++#define BESCR_GE PPC_BIT(0)
++/* External Event-based Exception Enable */
++#define BESCR_EE PPC_BIT(30)
++/* Performance Monitor Event-based Exception Enable */
++#define BESCR_PME PPC_BIT(31)
++/* External Event-based Exception Occurred */
++#define BESCR_EEO PPC_BIT(62)
++/* Performance Monitor Event-based Exception Occurred */
++#define BESCR_PMEO PPC_BIT(63)
++
+ /* LPCR bits */
+ #define LPCR_VPM0         PPC_BIT(0)
+ #define LPCR_VPM1         PPC_BIT(1)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 62356cfadf..afc254a03f 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -2701,6 +2701,26 @@ static void gen_darn(DisasContext *ctx)
+         }
+     }
  }
++
++/* rfebb */
++static void gen_rfebb(DisasContext *ctx)
++{
++    TCGv target = tcg_temp_new();
++    TCGv bescr = tcg_temp_new();
++
++    gen_load_spr(target, SPR_EBBRR);
++    tcg_gen_mov_tl(cpu_nip, target);
++
++    gen_load_spr(bescr, SPR_BESCR);
++    tcg_gen_ori_tl(bescr, bescr, BESCR_GE);
++    gen_store_spr(SPR_BESCR, bescr);
++
++    ctx->base.is_jmp = DISAS_EXIT;
++
++    tcg_temp_free(target);
++    tcg_temp_free(bescr);
++}
++
+ #endif
  
- static void update_PMC_PM_INST_CMPL(CPUPPCState *env, int sprn,
+ /***                             Integer rotate                            ***/
+@@ -7724,6 +7744,7 @@ GEN_HANDLER(popcntd, 0x1F, 0x1A, 0x0F, 0x0000F801, PPC_POPCNTWD),
+ GEN_HANDLER(cntlzd, 0x1F, 0x1A, 0x01, 0x00000000, PPC_64B),
+ GEN_HANDLER_E(cnttzd, 0x1F, 0x1A, 0x11, 0x00000000, PPC_NONE, PPC2_ISA300),
+ GEN_HANDLER_E(darn, 0x1F, 0x13, 0x17, 0x001CF801, PPC_NONE, PPC2_ISA300),
++GEN_HANDLER_E(rfebb, 0x13, 0x12, 0x04, 0x03FFF001, PPC_NONE, PPC2_ISA207S),
+ GEN_HANDLER_E(prtyd, 0x1F, 0x1A, 0x05, 0x0000F801, PPC_NONE, PPC2_ISA205),
+ GEN_HANDLER_E(bpermd, 0x1F, 0x1C, 0x07, 0x00000001, PPC_NONE, PPC2_PERM_ISA206),
+ #endif
 -- 
 2.31.1
 
