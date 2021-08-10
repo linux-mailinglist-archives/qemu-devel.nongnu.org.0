@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604463E54A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 09:53:31 +0200 (CEST)
-Received: from localhost ([::1]:42068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3443E54FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:18:08 +0200 (CEST)
+Received: from localhost ([::1]:52346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDMZm-00042i-Es
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 03:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
+	id 1mDMxb-0003pj-7D
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDMYk-0003FE-H9
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:52:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50445)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDMYh-0002fx-2b
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:52:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628581941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wPRoVfml7cSDAY7lNHhfzlrHQESElDDst9p5BT53RX0=;
- b=HtkC/eKBA3Tkz7PuDc2F/P5Oj/DcurxYkjlQpK+8yUvtqMGKIMibKEMsURcgcz0BB/Hrsk
- H9sD7VMktZyjjh7guo1/WgsY7rgETyClLye3wsl151DgK/wxqUUHVuNbceUbaTP2NS42bC
- WThxujy4zn82T0QMsQ62guY+UcBTd6g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-ZbDVVWOmNgKeCnLcd-3g3Q-1; Tue, 10 Aug 2021 03:52:20 -0400
-X-MC-Unique: ZbDVVWOmNgKeCnLcd-3g3Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- z10-20020a5d440a0000b0290154e0f00348so2656344wrq.4
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 00:52:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mDMwT-0002eG-2p
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:16:57 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mDMwR-0007bq-CG
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:16:56 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id x14so6440896edr.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 01:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8zxK7d0xnas31Dhun2qSx0fQO1G/ZpwyPk9nEXx4Y1o=;
+ b=c2tpe28jD6cBooPGLVXtlyPQ2xYPtPNmNdUjwP0LxUE+yTZWCFXg+LFHCVscf47J1+
+ w3qAJFoHkF3+7vxNxNny1yeZ2jXRY2xLNar1edJubwL3HxovEm4G+Exa7Viwi2besmRz
+ 8IiLGIb1x+QmXcsS8qAhI6GcYZIpTDa3s9THCg7V6/CnydbBJ6t4MEiAaglvlh6YvZGF
+ LXbmUnku2iIgnZH5nEH0RZrSIWBwOlW2Hfl/7EsqiquR6pABQab7HdbnAz8aTxHYNFjn
+ p5t18Mb1Y67bxO4+iZPgyHCdbwjKNE8zu3BV85E6juefpYY9r7hGbEd6NVepnraiBdP2
+ 4A3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=wPRoVfml7cSDAY7lNHhfzlrHQESElDDst9p5BT53RX0=;
- b=rO47wNbUA8x6ncRZKVUgbcE6osO2gOHjNhpVRzTHR6WYNyWniARgejhVdUEdJ7hnYu
- AdmXbkeC/7dxgD/RvwtmkkJydIwaswrV8ZcmyaPx3/L0xXtd9SYsjbhtA/93XMRbCExr
- 1tsNCV62fFDVWIyfX23qDjngYaS27w2ZDEv5Jtizy/ASfZpUwxr7Fn62wgFRPZJmf/Za
- mFX0nfYmvQEpm5wGJYbNci7zaaJnpGE3lXp4UYidS7OSM7DrslBhQfZKOPrsgr7rQRt3
- jVfNOPsz42UTgJO2VBiX9Blhs1H7D2NyA4bnFkpIRIZALKFHVcqW7/sHZog50G/jgJ0C
- ELaQ==
-X-Gm-Message-State: AOAM533zDdmPeP7d7zyX07KRtE1PzX2QpZ1bECweiLgut9+MEwocxgWG
- L++5ps+De/9G/UQXd2HJaiaXcYBvQ2SUbrtr9zsoXF19Oth/bftifhwGz1514MKlW4sx/xGZFXB
- fSLnA2WJR29YCV4w=
-X-Received: by 2002:adf:f8c8:: with SMTP id f8mr30033247wrq.204.1628581938911; 
- Tue, 10 Aug 2021 00:52:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDM9Xi7Kw5wst4+3tIVtP/zAeRV1hCmkaqUJ062wz2XUOQ+cGHrMVlddNyRlMX3RTIMYNI3g==
-X-Received: by 2002:adf:f8c8:: with SMTP id f8mr30033221wrq.204.1628581938623; 
- Tue, 10 Aug 2021 00:52:18 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- j6sm7761776wms.44.2021.08.10.00.52.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 00:52:18 -0700 (PDT)
-Subject: Re: [PULL 0/2] Block patches for 6.1-rc3
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210809170319.740284-1-hreitz@redhat.com>
- <CAFEAcA_NujZgkjPzV0WDvuDuxAJn3qCGPxRRKCLeYXHWPcQX4A@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <c0aee195-bc31-8ea2-f49f-2193b77cd7e9@redhat.com>
-Date: Tue, 10 Aug 2021 09:52:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8zxK7d0xnas31Dhun2qSx0fQO1G/ZpwyPk9nEXx4Y1o=;
+ b=XbEL64Lr0ptxqGAFxmgg6Ano8NxQjQMLpKpf48nkkCzIgf1UCmnrqHPenv0p6ojTtJ
+ +mH0itftXaUk9PDuHmuYxo5xkwKW6W5NnINuFziDIjbO6mDdc+KqnbCgMAVaOzWi0T3d
+ R4GNiw1RfjWV/eA4ra4uI0xflrU40ubtBg53MqArvWujRydzw62iJSc619SzAiPHUZkt
+ a0HpjCPCOmQ7hDD9AhI/g7DZwhRjjUJt2d4UeuAnfakhc0T93lxkuTr4a1XIqNnRs34o
+ Elpp8cs11H4AvexB8Xx02ccXI1QOY1eQP23wjOQxxuDo9Ok4gtleYEyGOhq6/vSK2whJ
+ /uNA==
+X-Gm-Message-State: AOAM533xZDll3EpW+I0vOdYZWb1srQ7cuAtyWB5kNsS1Jy51241EXara
+ 0rfCE8l5V5INZFa9CrGXKBKcYXaMBHxXrjN6mJ0=
+X-Google-Smtp-Source: ABdhPJy+QrZgIZUzLVpkOsslymjb80Y6t0Zb2pDOcFngTXocxeCkTOUb7XOVP5VfLdMOxhErz3VfuLmHuV6Pf2nbZBI=
+X-Received: by 2002:aa7:c6d0:: with SMTP id b16mr3514789eds.257.1628583413875; 
+ Tue, 10 Aug 2021 01:16:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_NujZgkjPzV0WDvuDuxAJn3qCGPxRRKCLeYXHWPcQX4A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210810063257.17411-1-vr_qemu@t-online.de>
+In-Reply-To: <20210810063257.17411-1-vr_qemu@t-online.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 10 Aug 2021 12:16:42 +0400
+Message-ID: <CAJ+F1CL0=w8zqyjYp5Av96R=Q1KT2SZt4jB_LrgYPg=xmix_3w@mail.gmail.com>
+Subject: Re: [PATCH for 6.1] ui/gtk: retry sending VTE console input
+To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
+Content-Type: multipart/alternative; boundary="000000000000df06c305c9301fdc"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,39 +76,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.08.21 20:43, Peter Maydell wrote:
-> On Mon, 9 Aug 2021 at 18:03, Hanna Reitz <hreitz@redhat.com> wrote:
->> Hi Peter,
->>
->> Let me prefix this by saying that it's me, Max.  I've changed my name
->> and email address.  I understand freeze may not be the best of times for
->> this, but it looks like I can no longer send mails from the mreitz@
->> address for now (only receive them).
->>
->> I've tried to create and sign the tag as Max, so I hope this pull
->> request won't run into any issues from that perspective.
->>
->> (For the future, I'll create a new key and hope signing it with my old
->> key will make it sufficiently trustworthy...)
-> Yep, that's fine. This pullreq is going through OK (will send the
-> usual applied/errors email once the builds have completed). I'm happy
-> to treat signed-by-old-key as trusted enough. (In fact we already
-> are working basically on trust-on-first-use for new keys, but if
-> you're OK with signing your new key with the old one that does
-> simplify things a bit.)
+--000000000000df06c305c9301fdc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Great!
+On Tue, Aug 10, 2021 at 10:35 AM Volker R=C3=BCmelin <vr_qemu@t-online.de> =
+wrote:
 
-> Do you plan to send a patch to MAINTAINERS ? It has some
-> mreitz@redhat lines in it currently.
+> Commit 584af1f1d9 ("ui/gtk: add a keyboard fifo to the VTE
+> consoles") changed the VTE chardev backend code to rely on the
+> chr_accept_input() callback function. The code expects a
+> chr_accept_input() call whenever qemu_chr_be_can_write() bytes
+> were written. It turns out this is wrong. Some chardev
+> frontends only call this callback after can_write was 0.
+>
+> Change the code to send data until the keyboard fifo is empty
+> or qemu_chr_be_can_write() returns 0.
+>
+> Fixes: 584af1f1d9 ("ui/gtk: add a keyboard fifo to the VTE consoles")
+> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+>
 
-Yes, I do.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Hanna
+---
+>  ui/gtk.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 974e4dfc0b..cfb0728d1f 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -1646,16 +1646,14 @@ static void gd_vc_send_chars(VirtualConsole *vc)
+>
+>      len =3D qemu_chr_be_can_write(vc->vte.chr);
+>      avail =3D fifo8_num_used(&vc->vte.out_fifo);
+> -    if (len > avail) {
+> -        len =3D avail;
+> -    }
+> -    while (len > 0) {
+> +    while (len > 0 && avail > 0) {
+>          const uint8_t *buf;
+>          uint32_t size;
+>
+> -        buf =3D fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
+> +        buf =3D fifo8_pop_buf(&vc->vte.out_fifo, MIN(len, avail), &size)=
+;
+>          qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
+> -        len -=3D size;
+> +        len =3D qemu_chr_be_can_write(vc->vte.chr);
+> +        avail -=3D size;
+>      }
+>  }
+>
+> --
+> 2.26.2
+>
+>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000df06c305c9301fdc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 10, 2021 at 10:35 AM Volk=
+er R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-online=
+.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Commit 584af1f1d9 (&quot;ui/gtk: add a keyboard fifo to the VTE<br>
+consoles&quot;) changed the VTE chardev backend code to rely on the<br>
+chr_accept_input() callback function. The code expects a<br>
+chr_accept_input() call whenever qemu_chr_be_can_write() bytes<br>
+were written. It turns out this is wrong. Some chardev<br>
+frontends only call this callback after can_write was 0.<br>
+<br>
+Change the code to send data until the keyboard fifo is empty<br>
+or qemu_chr_be_can_write() returns 0.<br>
+<br>
+Fixes: 584af1f1d9 (&quot;ui/gtk: add a keyboard fifo to the VTE consoles&qu=
+ot;)<br>
+Signed-off-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.d=
+e" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br></blockquote><div><br><=
+/div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
+re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0ui/gtk.c | 10 ++++------<br>
+=C2=A01 file changed, 4 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/ui/gtk.c b/ui/gtk.c<br>
+index 974e4dfc0b..cfb0728d1f 100644<br>
+--- a/ui/gtk.c<br>
++++ b/ui/gtk.c<br>
+@@ -1646,16 +1646,14 @@ static void gd_vc_send_chars(VirtualConsole *vc)<br=
+>
+<br>
+=C2=A0 =C2=A0 =C2=A0len =3D qemu_chr_be_can_write(vc-&gt;vte.chr);<br>
+=C2=A0 =C2=A0 =C2=A0avail =3D fifo8_num_used(&amp;vc-&gt;vte.out_fifo);<br>
+-=C2=A0 =C2=A0 if (len &gt; avail) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D avail;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 while (len &gt; 0) {<br>
++=C2=A0 =C2=A0 while (len &gt; 0 &amp;&amp; avail &gt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t size;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D fifo8_pop_buf(&amp;vc-&gt;vte.out_fifo=
+, len, &amp;size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D fifo8_pop_buf(&amp;vc-&gt;vte.out_fifo=
+, MIN(len, avail), &amp;size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_be_write(vc-&gt;vte.chr, (uint8_=
+t *)buf, size);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D size;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qemu_chr_be_can_write(vc-&gt;vte.chr);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 avail -=3D size;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000df06c305c9301fdc--
 
