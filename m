@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BED3E59F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:33:20 +0200 (CEST)
-Received: from localhost ([::1]:35132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9755A3E5A50
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:46:14 +0200 (CEST)
+Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDQwZ-0005uc-Jz
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1mDR93-0002H0-64
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDQv3-0004RT-AH
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:31:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44404)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mDR7L-0001Ai-Rc; Tue, 10 Aug 2021 08:44:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDQv1-0007nW-Dt
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:31:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628598702;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D8Lm7f8WIRFCEK0qbwXDVjgkTh9QakhQ1K2qEcArdDg=;
- b=EmbUmmgkQDA0O/e7TNGFJb6snyYORzl0xUCztBof/W6ZNo9nkvHAez7arRrc+84Uwcwtf4
- QELtsGgQJvfmP/N6snKZ84hUN9GbfhplCeflm5FKVG7GWRnL05737MfSrsIhvtay5WQ0uA
- T9DhzCVcgM607hpJpS9uC2cVkejkTlA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-jjddL5ZLOGOdF5gjEdNLAw-1; Tue, 10 Aug 2021 08:31:40 -0400
-X-MC-Unique: jjddL5ZLOGOdF5gjEdNLAw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7E3F801A92;
- Tue, 10 Aug 2021 12:31:39 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5326C6A056;
- Tue, 10 Aug 2021 12:31:34 +0000 (UTC)
-Date: Tue, 10 Aug 2021 13:31:31 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: Name and email address change
-Message-ID: <YRJxo0qC6XdOHZHU@redhat.com>
-References: <20210810095049.35602-1-hreitz@redhat.com>
- <0598232c-ee2a-cb82-264b-052fde8082ae@redhat.com>
- <98a4f877-2cbc-e285-3055-0a7b5a7ef901@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mDR7K-0005mg-5C; Tue, 10 Aug 2021 08:44:27 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17ACXC59061060; Tue, 10 Aug 2021 08:44:10 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ab5k4e12f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Aug 2021 08:44:10 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17ACXSY9061917;
+ Tue, 10 Aug 2021 08:44:10 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ab5k4e11c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Aug 2021 08:44:10 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17AChBNv013333;
+ Tue, 10 Aug 2021 12:44:08 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma01fra.de.ibm.com with ESMTP id 3a9ht8ne85-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Aug 2021 12:44:08 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17ACi5xO55837158
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Aug 2021 12:44:05 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A3A1842054;
+ Tue, 10 Aug 2021 12:44:05 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48B8142049;
+ Tue, 10 Aug 2021 12:44:05 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 10 Aug 2021 12:44:05 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.82.85])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 305EA22016B;
+ Tue, 10 Aug 2021 14:44:04 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PULL ppc] powernv queue
+Date: Tue, 10 Aug 2021 14:44:03 +0200
+Message-Id: <20210810124403.771769-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: awY1AgOq-vaeOKSK_iRZUv7Zb6tSL4Gr
+X-Proofpoint-GUID: YMy_-tTmmyAocQUqu-5xic922QMu8Prf
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <98a4f877-2cbc-e285-3055-0a7b5a7ef901@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-10_05:2021-08-10,
+ 2021-08-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ lowpriorityscore=0 clxscore=1034 suspectscore=0 impostorscore=0
+ mlxlogscore=847 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108100080
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,64 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 01:46:51PM +0200, Hanna Reitz wrote:
-> On 10.08.21 13:29, Philippe Mathieu-Daudé wrote:
-> > On 8/10/21 11:50 AM, Hanna Reitz wrote:
-> > > I have changed my name and email address.  Update the MAINTAINERS file
-> > > to match.
-> > > 
-> > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> > > ---
-> > >   MAINTAINERS | 8 ++++----
-> > >   1 file changed, 4 insertions(+), 4 deletions(-)
-> > I'd recommend you to also add an entry in .mailmap:
-> > 
-> > -- >8 --
-> > diff --git a/.mailmap b/.mailmap
-> > index 082ff893ab3..504839c84d3 100644
-> > --- a/.mailmap
-> > +++ b/.mailmap
-> > @@ -53,6 +53,7 @@ Anthony Liguori <anthony@codemonkey.ws> Anthony
-> > Liguori <aliguori@us.ibm.com>
-> >   Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
-> >   Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
-> >   Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
-> > +Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
-> >   Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
-> >   Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
-> >   James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
-> > ---
-> 
-> Hu, I didn’t know there is such a thing.  Looks like I could even do
-> 
-> Hanna Reitz <hreitz@redhat.com> Max Reitz <mreitz@redhat.com>
+The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9eb:
 
-With the line Philippe suggested, the rewrite will happen any time
-the original email is seen. With this line, the rewrite will only
-happen if both original name + email match. In practice this is
-functionally the same, unless someone had variations in the spelling
-of their real name over time, so either would work.
+  Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)
 
-> Feels a bit like cheating, though...?
+are available in the Git repository at:
 
-I wouldn't call it cheating. It is just an input for canonicalizing
-contributors' identities, where there were changes in name or email
-over time. It gives a more useful view to tools like 'git shortlog'
-and 'git-dm' stats reports, such that all work over time will be
-grouped together instead of split.
+  https://github.com/legoater/qemu/ tags/pull-powernv-20210810
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+for you to fetch changes up to 91a6b62df830d51f2b6b2ea00b3c92231d0ba9dc:
 
+  ppc/pnv: update skiboot to commit 820d43c0a775. (2021-08-10 14:18:51 +020=
+0)
+
+----------------------------------------------------------------
+ppc/pnv: update skiboot image
+
+----------------------------------------------------------------
+C=C3=A9dric Le Goater (1):
+      ppc/pnv: update skiboot to commit 820d43c0a775.
+
+ pc-bios/skiboot.lid | Bin 1667280 -> 2528128 bytes
+ roms/skiboot        |   2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
