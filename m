@@ -2,132 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0ED83E8500
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 23:13:39 +0200 (CEST)
-Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E44B3E860E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 00:29:14 +0200 (CEST)
+Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDZ46-0004wl-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 17:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52122)
+	id 1mDaFE-00009r-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 18:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mDZ2j-0003lB-Kp
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 17:12:13 -0400
-Received: from mail-mw2nam12on2068.outbound.protection.outlook.com
- ([40.107.244.68]:7122 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mDZ2h-0001uC-Ew
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 17:12:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lit7Zxe/BK+/cbIlAaXWo3GH3mqcJk4bsWfC2nwSHNOPXWCZHAs3aTO2IK8GJtDQcgtQEHcZ4dKQmsJWXGZ2OkgftX84Ur1wKDg/7/WVZK1PFNOUbuYsTHUr6qO3L4OO2XVmoCgINnutKO3KsfQaS/fiZ3hjIP7PZ4m1sZxzG4itYTfYU6Om0MhV/5K/TcG5OIX7zjExEelWrVqhiGdyHgXfnEwuHJ1xPzLqkrDvqKyQF36LS36vIbWwzf9tfJ+kt5nUViFkxMXwEgEw9mIn1Gkwcl9GC0R24zfwYK9IfkB1SRY5Hm+JjcCA5D7js/oSVCAqUXNzCjJhsrbxyd06BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EEZ1hl40gyD0F16beYh9mmIN+tG1EssMFbT40j7Y1Xs=;
- b=lrkqQY230sdFs+xGDyQo0laEx5txH+Q9CcvSbuYF/hRr76U5MgV9ny9i4oAKfDPkzpjtJz2SZhR5O/GCvpP50CjolFr7fXCADriZy0oiXLGpIAE4IWkuiQwvJVtKlS0oL5N6tEt6Jw2ZwKp4/CYmhrsdyQ0BthbWj4NLJ73iGwhV6n4cKYAr/5CuiJpnCHqI+C/m553M1x0/195kLBsR63WtLrfqsdRDyX5MGYm9TrGEPsG76lFT94Tembr/w+1EafDqPARndu+dQCrvFVLym84UZI58bi5bFbP3Zwn4AtYQ2konP52IQF3DK9V68lnj2jQto4TlT5YyWxDDwzdSDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EEZ1hl40gyD0F16beYh9mmIN+tG1EssMFbT40j7Y1Xs=;
- b=03boDsDnGAaewjXnyAwSZx6TIEpSEVCPP3ZuKGfObu1xWiikECdO/RFOtmoNtGIh6pnB2+Gu8w4kJhCkdXZLe+APAuxzHZ8D8l0fyGuebQQhv1R1v5seBz5WeXy5O34EAYJrIBxW3LYzXuYG7cHI5juBNeDrSI8uGwtHLrYjXFY=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB4969.namprd12.prod.outlook.com (2603:10b6:610:68::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Tue, 10 Aug
- 2021 21:12:07 +0000
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4394.022; Tue, 10 Aug 2021
- 21:12:07 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 6.1.0-rc3 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Date: Tue, 10 Aug 2021 16:09:00 -0500
-Message-ID: <162862974021.269885.15077375616676906595@amd.com>
-User-Agent: alot/0.9
-X-ClientProxiedBy: SN1PR12CA0076.namprd12.prod.outlook.com
- (2603:10b6:802:20::47) To CH2PR12MB4133.namprd12.prod.outlook.com
- (2603:10b6:610:7a::13)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaER-0007vc-NG
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:28:23 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:36460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaEP-0005EI-QU
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:28:23 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id w10so457523qtj.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 15:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vDY0Y9P5BM8gRJhylyRWxLdTc4V7q/Y3fzKvHj8UIrg=;
+ b=L5rmDYLWJRxNORffeox5rBTJaEUJoM50Shz1F8xaBdT8Jj+H/TWM24IuMdrYUhGw91
+ d6Di4dXGJ2INkc29y1llZI71UtOvjUyPIaXNd+VDcanzynbnBoGyRcxrDIYMjjUCiLhY
+ jYe8pgitMcGkWzvgrAK/quUV9Kxaa4Fw6dr2uXyRSgfTH+Lo6Rhu/CbhAvfwknNIQ2X1
+ XWGpXOmEifpM9UdCzboErTkeuft5HWaCZ2auNua0qSYzdYRtSjfv7L8ielH9079MrKtA
+ 5jaQ49bLDbAVHtBca0ly872yHqMOkgdLaYvzX4DtsKZktZZyloropCq+PecSHYVpXcJW
+ 5N1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vDY0Y9P5BM8gRJhylyRWxLdTc4V7q/Y3fzKvHj8UIrg=;
+ b=Nzzb+m4G9bBfWDIRJ6oKfrSwdP7gDy2flnzSmTpnVZr3rOsuZulIyaDzezMdpiYE9J
+ gCxKOPgzUrwK+7fVYaYU7RUEQzUQ44oixB15dN5dZYcJPmvFtMS8ni2aFJRQ4SC6OBYK
+ /p1zUpN92ijQPP4FKOAzeXkjVEBrGl/KLFna3Ke/UW0eJFVv6e2isW9me2/VsgRjLHsB
+ dtkRs//uU21ThQOv6+3UmUdeQGtJ0a3zGB0HKWoeSlyCL2xo7KwZaLC1DLtqmPiXUeFA
+ tXhMuWwqG6yioRbzJA4IS6Pn0uKCr/IViDHwDIvK0XSdjNH/OxDiuqORNaFoSeg++o31
+ XjNw==
+X-Gm-Message-State: AOAM532LDjOuopsB8yyDPq7K+CN2T+Rb6DskO+IwBhXWuUGy2krZxECE
+ qMIosoH+j/har3dSwGbj0D7Lw46jlnBbtaYRfUWRrQ==
+X-Google-Smtp-Source: ABdhPJxBrCcq3sJcMYh4I0p9Fkfy56FUlD10tM6AOhcQusOu/PvjbJue9CMtOZi3lZmhxfTKqaOtIR7RXeFBDDiRZ+0=
+X-Received: by 2002:ac8:4c8b:: with SMTP id j11mr19303099qtv.244.1628634500355; 
+ Tue, 10 Aug 2021 15:28:20 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (165.204.77.1) by
- SN1PR12CA0076.namprd12.prod.outlook.com (2603:10b6:802:20::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Tue, 10 Aug 2021 21:12:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2260b4a3-2459-45c3-3172-08d95c4382b2
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4969:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4969615C2B71AEB87D4B81E995F79@CH2PR12MB4969.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CQlZbIZwzD3QaUSWeJ1cmpWjhOTIqGmbkvwwMH19H07S+iuj9I1A6TpuO8r3/QgJENUQCpSiLXLPV0uU+Szr7yLQWdg/UvjIC7NZQM3kCie/ZC7jzUXrYQvXurifyTUuvprNGf8Wq+jNHsmFxtA1dGpBZySo3zO/HgAWSqa2XJFICvzcDmgQtu+zUqw4U1IydOw4V1bMYyRYRDNO3c+nRcvGe0hMYtKcb+Ha/lnP/eEQA7mUpRxTN1brfSa+mOTnbJwI3M9FLvbQgFhb9CxEE4lqqo7m/5XtIQGxUk5L4OwWxbT8qCdKV4oCNRvrToiibl4mImdZufkWxcgFPNBRKNoie/2ODqyce7V3Qc9NgsjEs2bVoJGTrViH11QrYusES7SS76FPnBjvXXF23fOcaahV0OWnVhmop2cqzqfPL+TYmrEOARwS8nUtutaCgXDomyeIZN5iZ86gf7PvFmyfXUOVEFzP/DHpIDsQ/Tu/RoZ+cEKKrCQZfDat0BY9l14RdVmY0TDSqtptDUhMhTYGiWKEZMVr8BLESHhPoAxzOnbm4UiMcsMADan+W9rl0HdjH897ICA1yEqZEzYAhxbp28N1v+LiTcEVlSCWqbtgLGJO160Tq4QxBKY4mmg4P0mplIvQ4XnPXhrUOJrUZ9XpIU1b9A8PkpcJW23bLJsOuqWI/Opbax1+6o+HLGbG/ytFouh4nx1qtvnKImEXAXsek/LaA23K4aK49JZdrxWrmUsCv/mTt7XVyM5sOyv9b0ymhB8FtfpUPbYO/ROEhFuPD79x6eJNyae6dPNPYX8riqeL6Xt7Rjus4ZtpC5qBH7Mo
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(39860400002)(366004)(346002)(396003)(36756003)(4326008)(316002)(83380400001)(8936002)(66476007)(66556008)(66946007)(956004)(6486002)(2616005)(6916009)(2906002)(38100700002)(86362001)(6666004)(52116002)(5660300002)(8676002)(38350700002)(26005)(478600001)(44832011)(6496006)(66574015)(186003)(966005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDNIQUQyRnlNcFRHUW9oNUowdXd0ckxPaVV6ZWljc3NMbDNqY3d5aUFJZXM2?=
- =?utf-8?B?RzRxYmJGK0lpb3dQSFF2WWRrV0l6OFErcitUVXRsNm5wTUFvOUhsSk8wWnFS?=
- =?utf-8?B?Y2JQdUVuMmlqWVVVRnkrZDRVMGMwOEx6L09VNENOVURmR2VtOHNNM1F6WFRh?=
- =?utf-8?B?UzhDZWNVVmJMMXZRV0pKUndyUXhMVE1QVmh4Rzd3VnRPbGVjSnphbnYwTXdL?=
- =?utf-8?B?U3FzdTI4U0lkZnN0OUtTQVZ2QS9XR1lCcW5ma09RRFUwN1N5NWZoRUlLcElQ?=
- =?utf-8?B?Vk9VQlhjR2tabUNMYzMrb05aSHMvK2toV3NxVjJ5ZTZrKytTdUVLZFhFNlZz?=
- =?utf-8?B?bTVqaGI4L2xLcEtPdGZwcVhGTEdOalVlWWNCVlBmMFV1c3dubC9YVGNkeExZ?=
- =?utf-8?B?a0FjRzl4clBJMmVGRnBUWUlhZXd3ZzhOaVdxYTk3cjZIT3J1L2M3Ymkyb0Qx?=
- =?utf-8?B?NmluNTZEZG9aSkZUZjYxRU5VN21PQ3FEdkpDUUk4TnV6MnE2TzBJOEE1OWtU?=
- =?utf-8?B?WEZhaVh1L2UrcFd3OWtXdDZUS0l5NEs2M20zMmdmNnBhdDV3ZlNFUVo2NW1o?=
- =?utf-8?B?RGZ5L1FWOERXZ1FRcWFST1F5bDV2cmMzNlFQK1FQVnk4MThXV1JablpnU3JS?=
- =?utf-8?B?RVB5S2Q4RndKTlB0VHdvdG9CQnc5TkNPdjI0NS9Zb0czR0g0MjdBZ1VSUXNa?=
- =?utf-8?B?U3pTOXRtdit1S1FIOVptZ0FjSlJENkYweUhtYWpFbERBSld2TUpWVzlsUms5?=
- =?utf-8?B?SEpVZDlIUGVaQitTQnY4MXJKZk13aTdkRzhtd1BiVTFiTkFtcjV6YjVvWWh0?=
- =?utf-8?B?bkF3OFQ5MEpaRENXNkpjZDVBV1FlRnROQWxDRzBNTVEyMTRuZklLSU1jWnRC?=
- =?utf-8?B?WEp1N1Z2bFJUK1pvdnpTQWc5YU9Ra0o3OFprdngrQ0F4UllEMjdVVzdobjBw?=
- =?utf-8?B?cFM5YktUVklCZ1ZBVmc2bWMzcTNKQUFTZWRzc1pOaTcrejZzbGdDZlhIMFpK?=
- =?utf-8?B?VVBSSk5JRXFQeU5nb2R0SDYzRUYyY2gySWdLdG9iNWp1cXZlTldyS2tCYlZo?=
- =?utf-8?B?ZTdQTlNzb0ovQTYrVWc2dDZCd0ZSd0d5ZkhwWlh3WWhGRFlXK3RRRVp4dkpv?=
- =?utf-8?B?azFKVm5MbjZwdjJhcHoreDB2UmxZREh2ZEVTMDJxdThTZXViaXNzY3kvZWhF?=
- =?utf-8?B?d25JUUh1aGNnKzh3VVBZU0ZtbGJoOXBwS0E2eDBhb0I2TkhSK0oxQm5pTmVT?=
- =?utf-8?B?ZjFkdzJ0MmRnelRjVlpzeFRMYmkvQzNhQ1ZRaXVQOTE1LytQY09md2VpL2xV?=
- =?utf-8?B?TG5HZ3YvUC9RSzNNd1o2aFE0dWIxQ1l0Z21UQXFxekczVS9ZZzdrdkxpSDgy?=
- =?utf-8?B?ME5aRENpQ1ZzOTNsNlp0Kzg3WjhNTlVQZjlWSW5VU01VdG9EWFdaTWNSdUh5?=
- =?utf-8?B?RWF6Y0tSUzRnMWNvUkVZY3duYnhiZ3JmZkJWakYrZjIvbkRpSnVVOGdQdmJO?=
- =?utf-8?B?NWg5dWNKNG5lSmhDYlMvYkJ2VEN1ZGpLTTlhTUNjbUw1dTlUeHlNbG00cmhC?=
- =?utf-8?B?OHBaTlZ1SHo4SitsZFBTbEo2bFpkcDJMclJHRDlPRGFFQkRHbkw1T3d6NTBF?=
- =?utf-8?B?aVNjNktPNlVWMFdSNHh0UmE3K3IvUjBOQUVJZVY5akRPU0pHUjZ4STVzNnJQ?=
- =?utf-8?B?T2ptSi9Lb1hGZlhpcXlNZkIwU1VBVlQ4aStlZytDSVFLaDRydDRrSkQvRmFC?=
- =?utf-8?Q?9m+mTRKrxpIuBYHRcU65mRtur86oUIKM5GSK5Qt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2260b4a3-2459-45c3-3172-08d95c4382b2
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 21:12:07.6598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +hqDbjvKrWc7kw6AW2OQgj/Aup/pyh3J/GigvU+E+Wly295crbTuYaaZjjTBVGG9IJxvwDMPXwHU/o9m7QOFbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4969
-Received-SPF: softfail client-ip=40.107.244.68;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-35-imp@bsdimp.com>
+ <3ef92fcb-aa6c-9366-9b9a-4fbf30793427@linaro.org>
+In-Reply-To: <3ef92fcb-aa6c-9366-9b9a-4fbf30793427@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 10 Aug 2021 16:28:09 -0600
+Message-ID: <CANCZdfpR1phGh6AymfNB9mJGMp5hdSA+Xn52HbyH3gRFsXwneg@mail.gmail.com>
+Subject: Re: [PATCH for 6.2 34/49] bsd-user: Fix initializtion of task state
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000dcec8805c93c0477"
+Received-SPF: none client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,79 +76,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stacey Son <sson@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+--000000000000dcec8805c93c0477
+Content-Type: text/plain; charset="UTF-8"
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-fourth release candidate for the QEMU 6.1 release.  This release is meant
-for testing purposes and should not be used in a production environment.
+On Tue, Aug 10, 2021 at 9:03 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-  http://download.qemu-project.org/qemu-6.1.0-rc3.tar.xz
-  http://download.qemu-project.org/qemu-6.1.0-rc3.tar.xz.sig
+> On 8/7/21 11:42 AM, Warner Losh wrote:
+> > @@ -459,21 +435,11 @@ int main(int argc, char **argv)
+> >           qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
+> >       }
+> >
+> > -    target_set_brk(info->brk);
+> > -    syscall_init();
+> > -    signal_init();
+> > -
+> > -    /*
+> > -     * Now that we've loaded the binary, GUEST_BASE is fixed.  Delay
+> > -     * generating the prologue until now so that the prologue can take
+> > -     * the real value of GUEST_BASE into account.
+> > -     */
+> > -    tcg_prologue_init(tcg_ctx);
+> > -
+> >       /* build Task State */
+> > -    memset(ts, 0, sizeof(TaskState));
+> > +    ts = g_new0(TaskState, 1);
+> >       init_task_state(ts);
+> >       ts->info = info;
+> > +    ts->bprm = &bprm;
+> >       cpu->opaque = ts;
+> >
+> >       target_set_brk(info->brk);
+>
+> It looks like some of this damage occurs in patch 22
+> ("bsd-user: Move per-cpu code into target_arch_cpu.h")
+> and could reasonably be squashed back.
+>
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-A note from the maintainer:
+I took the easy way and folded them together. Thanks for the tip.
 
-  If there are no show-stopper issues found in this release candidate,
-  the final 6.1.0 release should be next week, on the 17th. If we need
-  to roll an rc4 we'll probably release that on the 17th and do the
-  final release the week after.
+Warner
 
-You can help improve the quality of the QEMU 6.1 release by testing this
-release and reporting bugs using our GitLab issue tracker:
+--000000000000dcec8805c93c0477
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  https://gitlab.com/qemu-project/qemu/-/issues
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 10, 2021 at 9:03 AM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 8/7/21 11:42 AM, Warner Losh wrote:<br>
+&gt; @@ -459,21 +435,11 @@ int main(int argc, char **argv)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;entry=C2=A0 =C2=
+=A0 =C2=A0 =C2=A00x&quot; TARGET_ABI_FMT_lx &quot;\n&quot;, info-&gt;entry)=
+;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 target_set_brk(info-&gt;brk);<br>
+&gt; -=C2=A0 =C2=A0 syscall_init();<br>
+&gt; -=C2=A0 =C2=A0 signal_init();<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 /*<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0* Now that we&#39;ve loaded the binary, GUEST_BAS=
+E is fixed.=C2=A0 Delay<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0* generating the prologue until now so that the p=
+rologue can take<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0* the real value of GUEST_BASE into account.<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; -=C2=A0 =C2=A0 tcg_prologue_init(tcg_ctx);<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* build Task State */<br>
+&gt; -=C2=A0 =C2=A0 memset(ts, 0, sizeof(TaskState));<br>
+&gt; +=C2=A0 =C2=A0 ts =3D g_new0(TaskState, 1);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0init_task_state(ts);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ts-&gt;info =3D info;<br>
+&gt; +=C2=A0 =C2=A0 ts-&gt;bprm =3D &amp;bprm;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0cpu-&gt;opaque =3D ts;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0target_set_brk(info-&gt;brk);<br>
+<br>
+It looks like some of this damage occurs in patch 22<br>
+(&quot;bsd-user: Move per-cpu code into target_arch_cpu.h&quot;)<br>
+and could reasonably be squashed back.<br>
+<br>
+Otherwise,<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div>I took the easy way and folded them together. Thank=
+s for the tip.</div><div><br></div><div>Warner=C2=A0</div></div></div>
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
-
-  http://wiki.qemu.org/Planning/6.1
-
-Please add entries to the ChangeLog for the 6.1 release below:
-
-  http://wiki.qemu.org/ChangeLog/6.1
-
-Thank you to everyone involved!
-
-Changes since rc3:
-
-703e8cd618: Update version for v6.1.0-rc3 release (Peter Maydell)
-b0c4798f97: MAINTAINERS: Name and email address change (Hanna Reitz)
-6ff5b5d6d5: ui/sdl2: Check return value from g_setenv() (Peter Maydell)
-da77adbaf6: audio: Never send migration section (Dr. David Alan Gilbert)
-7bce330ae4: ui/gtk: retry sending VTE console input (Volker R=C3=BCmelin)
-057489dd15: qga: fix leak of base64 decoded data on command error (Daniel P=
-. Berrang=C3=A9)
-a6d2bb25cf: tests: filter out TLS distinguished name in certificate checks =
-(Daniel P. Berrang=C3=A9)
-50482fda98: block/export/fuse.c: fix musl build (Fabrice Fontaine)
-5f4884c441: hw/nvme: fix missing variable initializers (Klaus Jensen)
-abc14fd056: meson: fix logic for gnutls check (Alyssa Ross)
-a68403b0a6: chardev: report a simpler error about duplicated id (Marc-Andr=
-=C3=A9 Lureau)
-64195b0d36: chardev: give some context on chardev-add error (Marc-Andr=C3=
-=A9 Lureau)
-733ba02084: chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out (Marc-An=
-dr=C3=A9 Lureau)
-46fe3ff6ea: chardev: fix qemu_chr_open_fd() being called with fd=3D-1 (Marc=
--Andr=C3=A9 Lureau)
-bb2b058f1a: chardev: fix fd_chr_add_watch() when in !=3D out (Marc-Andr=C3=
-=A9 Lureau)
-bf7b1eab25: chardev: mark explicitly first argument as poisoned (Marc-Andr=
-=C3=A9 Lureau)
-030912e01c: linux-user/elfload: byteswap i386 registers when dumping core (=
-Ilya Leoshkevich)
-0c40c18ecd: linux-user: fix guest/host address mixup in i386 setup_rt_frame=
-() (Ilya Leoshkevich)
-30f80be34b: chardev/socket: print a more correct command-line address (Marc=
--Andr=C3=A9 Lureau)
-4cfd970ec1: util: fix abstract socket path copy (Marc-Andr=C3=A9 Lureau)
-68e6dc594a: docs: convert writing-qmp-commands.txt to writing-qmp-commands.=
-rst (John Snow)
-9c66762a60: docs/qapi-code-gen: add cross-references (John Snow)
-55927c5f32: docs/qapi-code-gen: Beautify formatting (John Snow)
-f7aa076dbd: docs: convert qapi-code-gen.txt to ReST (John Snow)
-e0366f9f2b: docs/devel/qapi-code-gen: Update examples to match current code=
- (Markus Armbruster)
+--000000000000dcec8805c93c0477--
 
