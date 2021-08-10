@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0643E559F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:38:26 +0200 (CEST)
-Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAD43E55B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:41:21 +0200 (CEST)
+Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNHF-0005ET-JP
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36362)
+	id 1mDNK3-0002eJ-VL
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:41:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNEB-0005wM-F7
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNE9-0006NG-P6
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628584513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u0/2z7DeXJJj9vLsDX/rcL2jNO54MaA4kYUl7AJJuRs=;
- b=hVvAP1pA2FJhPUzg92eOTg5/KrqvxIF8P0TNmMlw5jmXRYMolbSfHwtEEJG47z5hm+FbqX
- LjtLar+CKqNfMyCanwtAW3N3IcoIJ5z20EvwIqpuf9mbUHtW+RCiNVj2guAciNEm9F3xZN
- zJ+MT85DbNQfxHE0DBasTlBjzexf1F8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-BGvrRquDOQOP_a7tSaMgnQ-1; Tue, 10 Aug 2021 04:35:11 -0400
-X-MC-Unique: BGvrRquDOQOP_a7tSaMgnQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA097190D376
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:34:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9139D13AD3;
- Tue, 10 Aug 2021 08:34:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A76C01800930; Tue, 10 Aug 2021 10:34:50 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] MAINTAINERS: update virtio-gpu entry.
-Date: Tue, 10 Aug 2021 10:34:50 +0200
-Message-Id: <20210810083450.2377374-8-kraxel@redhat.com>
-In-Reply-To: <20210810083450.2377374-1-kraxel@redhat.com>
-References: <20210810083450.2377374-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mDNFJ-0008Ft-9X; Tue, 10 Aug 2021 04:36:25 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:42841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mDNFG-0007Iq-3h; Tue, 10 Aug 2021 04:36:25 -0400
+Received: by mail-qk1-x735.google.com with SMTP id s132so638344qke.9;
+ Tue, 10 Aug 2021 01:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ky41iBtKTsqOj6c47GrSldTpThWHtYYhYgNfn3sF2gM=;
+ b=eWMNoSpSTWKQX5U6yiaJydP+e9kOx677ZtooH/BMfJn2bBQ0tvVSSfBrmI1lodl5hy
+ IxP0Qda+lzFS+oAOdKTyq7G0PhzjCg6/mZlzddNGbR43H3RkDtbr0KdYZBMURTKS9wh2
+ x5j2IY1h93RRcAtXvhzR+HqUhgzrHfFrrbgZQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ky41iBtKTsqOj6c47GrSldTpThWHtYYhYgNfn3sF2gM=;
+ b=BFMA8EaFA6rybfEmnFJG9hufBnr85vOzQVj34hEcuPzCqJsOpVCCHkt/U4MRgX8dnL
+ SJ6BOvCGsOGr4f0hSxRQnWm1rPd+f8EaLVvUoXdWfMcaywu0GesnUjE96bNSsg4tZwLQ
+ bt8+E6mwCTh5vDyyz7eXuwffAZwL1BdOTCuqKqWUmIktcQEGYkfogX/sDtVNxoL2SfPp
+ R6S9blllSQZrdzk7mUMuITIQ+O8P9xMgndOSiGGsYtDzevGcQVch8Be18OoKqxdUI1lO
+ cMHeMACGdpIQHlhnsM0pHQZkqjTsP2J5iPe5gLDJvb0cMIdZMUOq4r8og8hLeLpFFpzF
+ EJJQ==
+X-Gm-Message-State: AOAM531ItL61+oBExazOFtknG0s347xcFHlTYleaFJuWMvhE0WRYRMHd
+ oZvSVxFKefNOthsnXG+jgFVJQO4I7ooqtU5vm6E=
+X-Google-Smtp-Source: ABdhPJxAt7AEa6SHy5x3VEE8Oc0V4G+cYal1ln0CoGg0Hj9kt1Yg/XCjPIUaENQaplxpeBJcrszWradfqzWN/lLj/P4=
+X-Received: by 2002:a37:a4c4:: with SMTP id n187mr23014985qke.55.1628584579833; 
+ Tue, 10 Aug 2021 01:36:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+References: <20210810083346.730652-1-clg@kaod.org>
+In-Reply-To: <20210810083346.730652-1-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 10 Aug 2021 08:36:07 +0000
+Message-ID: <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
+Subject: Re: [PATCH] tests/acceptance: Test powernv machines
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=joel.stan@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.702, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +74,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New maintainer wanted. Downgrade status to "Odd Fixes" for now.
+On Tue, 10 Aug 2021 at 08:34, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
+> with a simple PCI layout.
+>
+> Cc: Cleber Rosa <crosa@redhat.com>
+> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  tests/acceptance/boot_linux_console.py | 42 ++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 5248c8097df9..da93a475ca87 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -1176,6 +1176,48 @@ def test_ppc64_e500(self):
+>          tar_hash =3D '6951d86d644b302898da2fd701739c9406527fe1'
+>          self.do_test_advcal_2018('19', tar_hash, 'uImage')
+>
+> +    def do_test_ppc64_powernv(self, proc):
+> +
+> +        images_url =3D ('https://github.com/open-power/op-build/releases=
+/download/v2.7/')
+> +
+> +        skiboot_url =3D images_url + 'skiboot.lid'
+> +        skiboot_hash =3D 'a9ffcddbf238f86cda4b2cae2882d6bd13cff848910975=
+8a4980efaf154f4a29'
+> +        skiboot_path =3D self.fetch_asset(skiboot_url, asset_hash=3Dskib=
+oot_hash,
+> +                                       algorithm=3D'sha256')
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+What's the thought that led you to using this instead of the one that
+gets packaged with qemu?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5d24ac453bb6..7d3e0ca43676 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2157,7 +2157,7 @@ F: include/hw/display/ramfb.h
- 
- virtio-gpu
- M: Gerd Hoffmann <kraxel@redhat.com>
--S: Maintained
-+S: Odd Fixes
- F: hw/display/virtio-gpu*
- F: hw/display/virtio-vga.*
- F: include/hw/virtio/virtio-gpu.h
-@@ -2176,7 +2176,7 @@ F: include/hw/virtio/vhost-user-scsi.h
- 
- vhost-user-gpu
- M: Marc-André Lureau <marcandre.lureau@redhat.com>
--M: Gerd Hoffmann <kraxel@redhat.com>
-+R: Gerd Hoffmann <kraxel@redhat.com>
- S: Maintained
- F: docs/interop/vhost-user-gpu.rst
- F: contrib/vhost-user-gpu
--- 
-2.31.1
+> +
+> +        kernel_url =3D images_url + 'zImage.epapr'
+> +        kernel_hash =3D '0ab237df661727e5392cee97460e8674057a883c5f74381=
+a128fa772588d45cd'
+> +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash,
+> +                                       algorithm=3D'sha256')
+> +        self.vm.set_console()
+> +        self.vm.add_args('-bios', skiboot_path,
+> +                         '-kernel', kernel_path,
+> +                         '-append', 'console=3Dtty0 console=3Dhvc0',
+> +                         '-device', 'pcie-pci-bridge,id=3Dbridge1,bus=3D=
+pcie.1,addr=3D0x0',
+> +                         '-device', 'nvme,bus=3Dpcie.2,addr=3D0x0,serial=
+=3D1234',
+> +                         '-device', 'e1000e,bus=3Dbridge1,addr=3D0x3',
+> +                         '-device', 'nec-usb-xhci,bus=3Dbridge1,addr=3D0=
+x2')
+> +        self.vm.launch()
+> +
+> +        self.wait_for_console_pattern("CPU: " + proc + " generation proc=
+essor")
+> +        self.wait_for_console_pattern("zImage starting: loaded")
+> +        self.wait_for_console_pattern("Run /init as init process")
+> +        self.wait_for_console_pattern("Creating 1 MTD partitions")
 
+This is great.
+
+Is there any value in checking for some of the devices that come up,
+like USB or ethernet?
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+> +
+> +    def test_ppc_powernv8(self):
+> +        """
+> +        :avocado: tags=3Darch:ppc64
+> +        :avocado: tags=3Dmachine:powernv8
+> +        """
+> +        self.do_test_ppc64_powernv('P8')
+> +
+> +    def test_ppc_powernv9(self):
+> +        """
+> +        :avocado: tags=3Darch:ppc64
+> +        :avocado: tags=3Dmachine:powernv9
+> +        """
+> +        self.do_test_ppc64_powernv('P9')
+> +
+>      def test_ppc_g3beige(self):
+>          """
+>          :avocado: tags=3Darch:ppc
+> --
+> 2.31.1
+>
 
