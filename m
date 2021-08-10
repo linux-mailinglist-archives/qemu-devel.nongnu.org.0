@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14D33E559D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:37:30 +0200 (CEST)
-Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AB93E5594
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:37:05 +0200 (CEST)
+Received: from localhost ([::1]:42474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNGL-0001gy-TA
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36232)
+	id 1mDNFw-0008SA-CU
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNE0-0005ZQ-Lm
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47671)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNE3-0005eK-Mv
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNDz-0006DP-5D
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNE2-0006H0-9j
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:35:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628584501;
+ s=mimecast20190719; t=1628584505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ppfL2QVg5lahFqxSyi9Lfnb1rRKi41Ypttru3yzK2Kw=;
- b=I918KgHGbC7SfZE8aCeS6D66eCcbsU7+ujbKiR2FYvSrAe7S3jtL+avPzvc8KHK8CyG2Jb
- PqgoWiZCifNghJK+RooZm8X/tg/vHVQLlQRyEYZ7c98/bL1uMmZ44+AiA3Yq0pBUXgIzXk
- 7jcvJB8pzy1c8zcfe7+7ZI8YEcQhjV8=
+ bh=CEFP20RRbDR1Yb3ZW+fXh4oXgYMvVwil+NtB6qaS0Nc=;
+ b=T3jK99107jA5q/K7Z5bFGh6WsvRW89hpa8TQ4T4a/YcppT+H+Q2NI6irzXpzw9PbwWlne2
+ safXan67bpP9s48+NHPLC4S0kxWuuX1KK8lmAaCSHBS3zzCiu5UwOwnZ+D6RA6GEHHjMNa
+ sam61UZkShRM5sbVrQmnfmybiaT9Hs0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-AIMcLEaWO12FWAUGYTb3oA-1; Tue, 10 Aug 2021 04:35:00 -0400
-X-MC-Unique: AIMcLEaWO12FWAUGYTb3oA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-447-VLBGS7OlNTyBr_yCypAcpA-1; Tue, 10 Aug 2021 04:35:04 -0400
+X-MC-Unique: VLBGS7OlNTyBr_yCypAcpA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5574196DD16
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:34:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FA28180FCDB
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:34:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0342F797E4;
- Tue, 10 Aug 2021 08:34:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C63E5106D5C5;
+ Tue, 10 Aug 2021 08:34:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6898E18007AD; Tue, 10 Aug 2021 10:34:50 +0200 (CEST)
+ id 735341800916; Tue, 10 Aug 2021 10:34:50 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] MAINTAINERS: update edk2 entry.
-Date: Tue, 10 Aug 2021 10:34:44 +0200
-Message-Id: <20210810083450.2377374-2-kraxel@redhat.com>
+Subject: [PATCH 2/7] MAINTAINERS: update sockets entry.
+Date: Tue, 10 Aug 2021 10:34:45 +0200
+Message-Id: <20210810083450.2377374-3-kraxel@redhat.com>
 In-Reply-To: <20210810083450.2377374-1-kraxel@redhat.com>
 References: <20210810083450.2377374-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,31 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I want keep an eye on the edk2 things happening in qemu.
+I have not touched the code for years.
+Make the entry match reality and drop my name.
 
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 37b1a8e4428c..9d31e42786b5 100644
+index 9d31e42786b5..9b1b3f6599b5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2947,6 +2947,7 @@ F: docs/interop/firmware.json
+@@ -2843,7 +2843,6 @@ F: tests/unit/test-authz-*
  
- EDK2 Firmware
- M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: hw/i386/*ovmf*
- F: pc-bios/descriptors/??-edk2-*.json
+ Sockets
+ M: Daniel P. Berrange <berrange@redhat.com>
+-M: Gerd Hoffmann <kraxel@redhat.com>
+ S: Maintained
+ F: include/qemu/sockets.h
+ F: util/qemu-sockets.c
 -- 
 2.31.1
 
