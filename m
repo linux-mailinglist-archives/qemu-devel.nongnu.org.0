@@ -2,168 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809BD3E53A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 08:38:30 +0200 (CEST)
-Received: from localhost ([::1]:33278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8723E53EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 08:51:54 +0200 (CEST)
+Received: from localhost ([::1]:37018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDLPB-00014h-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 02:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
+	id 1mDLc8-0004Dv-TV
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 02:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mDLNq-0008Pw-J5; Tue, 10 Aug 2021 02:37:06 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:64486)
+ id 1mDLak-0003Dv-8Z; Tue, 10 Aug 2021 02:50:27 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:12626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mDLNn-0004Wd-JQ; Tue, 10 Aug 2021 02:37:06 -0400
+ id 1mDLaf-0007bQ-Tr; Tue, 10 Aug 2021 02:50:26 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17A6Ugcb017678; Tue, 10 Aug 2021 06:36:52 GMT
+ 17A6kgqc018735; Tue, 10 Aug 2021 06:50:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  mime-version; s=corp-2021-07-09;
- bh=xvBzJp5rhJndNf1KanfcNOvggxoqiQV5cZY1D6/ma/I=;
- b=ejEHB3kYa+w0jN3bgqdTMpcadvJ+6JHLzi5oTOR34/zF85nxUYGcFVdwv2YPInFqfC0b
- J0JRb+TpHZr6b4FzrGHGCRCW2+DaZw46k/zHhcyNwEM1lHTl4ecmrr/oFj+uwaBSxrmb
- df+2bcj/ofTlDOXxZH/ekAUYPeyjtPHogUREt8ZAcVJaAPMXw4ss6ET98jPpJR65Rgam
- CxGzsN2pOqLsJJwy2ReIVZbuEeLYmHwHfPqI6/YUfKK4dE0Sk9ls2QbRZvRw0XeYGFa2
- 3HdGTVlC/0lBLGniju1CQnWbQaDNt06mpHj4p0xeyGTD98pySoIuPVnVSuBOFpKHUXK4 AA== 
+ bh=3YhDVO7tl6yfJ88eQS5Wy2HzBsLBqlN46adIxjZUA6Y=;
+ b=GzYnSBvgiFoehOLHpGr4XAnuYFHdQk1sbli7SnK26m2lm1aK0WDvg3ZqyH81Epgh1MpJ
+ LHplSKFisoispE+ok6u4c1LYn1zCcI55W6EayD0NCRhKBvuckJ0Ql5uQUiqEX8XgsW7X
+ LN1cM6hh5Wjnm8eKBLiAiMTI1Qxsuozzg/SpU7aoyv/AtqlzeRnFxAOcSgUmt6gWTKz6
+ xIxya2Nrh2P3xmElUf8UHb+hEtMVTye3iW/MDr/Ez0vJcEpoxkawv4SKtVocIJpxFFT+
+ mxTRxEnIYFKqL71bMI/YdLNag7Ru2Em/Yr2Ul+2i1Llw3/Mi4vtmJ4X5d3w4+tp/cB9U oQ== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  mime-version; s=corp-2020-01-29;
- bh=xvBzJp5rhJndNf1KanfcNOvggxoqiQV5cZY1D6/ma/I=;
- b=QuelSDdeWs04YDrrdVUvpdbP3rhY+Nh+LV879lwH+bu+n4YNkvnHjORn3SLrrNAXifpD
- 7/BofkOLYHcQKkeszQP/24Q4dFv8wph8fy1+SBdeyAPpRaxrTfNEpXII1jKOITzA1yYs
- TIPKV3kIEZxlgkEjVlURu/zMcdKOYJhzOX7JEmQzfGnADREbWDxC9ciMpT5sKjgNhvHL
- tgPPUBXkppHaWpwLGy/eqpDzuc2HosDigk2OQuXGxGPlr06DYA/zftTWNTrIu8hf1bNH
- 7Hn2exPE+fE/92uTLsJBRlRXTX03cE7EjuHnc9315yTk43SXJ06bHNDWr0MEtMNypR4f BQ== 
+ bh=3YhDVO7tl6yfJ88eQS5Wy2HzBsLBqlN46adIxjZUA6Y=;
+ b=AZ96FmSoZT0rS32bSGT8kVXqFGvWEdCF0UwYiqf2vM7l4aKkIdMkOa/iLwY7HpocnOe9
+ ms+EAYOlGnSpejkyeGPWgm2iX3HPNTyE/MwFCDhh+OXNtf/l53hEdZrtKMYOJHinRhMl
+ CdLyzBWEB4J2rF6DTI0mdSaMhUUUPsbDUEvnrVG8aAuhDB30CNaZeKkkkUvr0rOT7Epc
+ 47/eSrbuLAdUXsbdexh7FAo5Zj9kCTFrY5XM1ArMqbPDuuA8Vn6+3tmhVCmhZZJMD90v
+ hmk8wPJ68h5165cyNQ2Uci/m2SahI6Vt6r+fVmNfGPEhVXdcH9LluNwrLzgipkpxNMN+ nQ== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ab17dteec-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ab17dtf6k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Aug 2021 06:36:51 +0000
+ Tue, 10 Aug 2021 06:50:11 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17A6UOVi120860;
- Tue, 10 Aug 2021 06:36:51 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
- by aserp3020.oracle.com with ESMTP id 3a9vv45yrf-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17A6kNQ0161843;
+ Tue, 10 Aug 2021 06:50:10 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
+ by aserp3020.oracle.com with ESMTP id 3a9vv46g1u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Aug 2021 06:36:50 +0000
+ Tue, 10 Aug 2021 06:50:10 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GwNW9dY92Go+Iv7O83uzkAkJK8bRmk3D5aQJtB0LebfpJToz7Rhqp4g33d8SJioPrt4rmLQuuch+86WmNFwgx9Ek/oH4Jz1nry2oU+B5F/R4Rrm+v8fJMAABnorZelAD3ZRi03KapxTCkkouX03fhoVAVusB/kzyfVTMgyH7f9CKqwPMMBmR0niXahvKggq8mbQeeAgipeQqaCW6MCZjpgP3Hj8Ux6kViMRiNYvUOmKQAsijjCSSnV05c7ANTd8UBjeDm98njkCR3vVtQkU4MokbUiW+dc6Vrq+F3UhPh7jqmoAtjm038D0hu316iQR0N3kecYEnZSZfMkaQjuNYCg==
+ b=TnuPGhJ3mS9MlYWDh0CX1A6FKWqLWJKIG4D6YCqCTvPVoz3HWcw7qzw06eGB60M7QTdLttTGlRzsJxiXM8jjBwf93vDfRBhjN1FFcuTUF0AdBBSksgqfPFQQP7llGPCItfczjsqTNhJTNBTdSLx9c187quKuog6E8m0X/2rY/ESsaGeNKBnyK22LWPuRCJ+Gnbu3Nhp4uq+eEr0uepFbskXTk3W1+TSXb9IRbsoRyR8M0Q0TPX1pY4YVA8cqq2qfbkyepKNWl3uIaJ7t2xY5TNx9pbMESO11rtz5LAvgqGXwh1fi4OUVVef8nELDqqaDyVOvfSx1GW3m2BY5OoY7UQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xvBzJp5rhJndNf1KanfcNOvggxoqiQV5cZY1D6/ma/I=;
- b=NLf6SQojITW5Fvu6aVs0cdCRI89r8ROb/rXitIs4bCTSVyEOcI400K9GzAzoZiGOdQyjrHOMc1VW3CQg5tfDZKYlpfNEgJfXVHemi+HWR12JRqdWyfO/OGfr1n2zkqbHsA85MCczUh0+d9cCEiPVOiA1PReodZrdOfPDZYnTCddZPUK9VMOyx7j1pYtSXShMfi2nIkFWAzuGzzhih1IOR4d9KzHIQeb0mACgoXMctvfgW30grsQFMCxnpT1PatKgxkg6adeIR+xmtsHvC4L/DF2G7EvEYjjD6tphZibVJN+ct2jamwwCq1wOa6yVOImEnd0zaovsrf6Q6m6GR/JXhQ==
+ bh=3YhDVO7tl6yfJ88eQS5Wy2HzBsLBqlN46adIxjZUA6Y=;
+ b=avfRnSxhmeY9bssVl3+V2wHJHifRP9J7Ttv91W/aU+2fxaspbY6wzbD3clna/QZrLvYeoK0G8lAIPf4bOtWMP3VIOZNcG6PtYNHqwfQkGWn6du/GaVq2N3gpc0ZSrucU4iZDzPScEx569bol3Tfz1Z7aUQaKGPWy7hB/FOHSmNOvUZmIQ6W1nGGi/r0pvFKOIhLDDMTVTAlIyRMrwnHTPE3Hq16/yaPnamt3LCOeWpLbPYgHoGYWmFUlt8xRSefauXAYC3Lk2ZaTDzW85HtNiYKtKHAekTsPC27X8OM6mzo2QMe0CD0Tr06dl5xERucrDM4XzRr/Sj0gqOrQNaTfrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xvBzJp5rhJndNf1KanfcNOvggxoqiQV5cZY1D6/ma/I=;
- b=m5NZcbQmZpCE8eSnRPmCkt5rNWK4bFWQqdu2LoG4Ki0DIBpDAmpPo9GAXf6a4rZ9rRSVLWyiXyeq2Z87ojR2KLCV3tUCnR/jn3MJlhD3FC0U5Hcr2PY2aAZHCiWyz8ijCGJYsPtL3yIZxYbuzXO0B7S+aWeRD5YLTNVMqaERYPY=
+ bh=3YhDVO7tl6yfJ88eQS5Wy2HzBsLBqlN46adIxjZUA6Y=;
+ b=FqSt/d0L3YO9yjKUtAOhEDElbPF4at+5U/cg+4q4ErnClmRARjzrMAtZoBM/kvKYcFzxVM4QBZwqLvSwGqaVAFjE2WonEYr9lEE0x4s5DHPG60ouhaxx/mblbrtFLsvdjShifXQgpoou2/FSjphbTMr1N9CjEjLVsNf+d4K5jJc=
 Authentication-Results: oracle.com; dkim=none (message not signed)
  header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
- by PH0PR10MB4488.namprd10.prod.outlook.com (2603:10b6:510:35::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Tue, 10 Aug
- 2021 06:36:48 +0000
+ by PH0PR10MB4423.namprd10.prod.outlook.com (2603:10b6:510:40::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Tue, 10 Aug
+ 2021 06:50:08 +0000
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::c0ec:e3aa:9d8f:61c0]) by PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::c0ec:e3aa:9d8f:61c0%7]) with mapi id 15.20.4394.023; Tue, 10 Aug 2021
- 06:36:48 +0000
-Subject: Re: [PATCH v6 1/6] qmp: add QMP command x-debug-query-virtio
+ 06:50:08 +0000
+Subject: Re: [PATCH v6 2/6] qmp: add QMP command x-debug-virtio-status
 To: Markus Armbruster <armbru@redhat.com>
 References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
- <1626086137-16292-2-git-send-email-jonah.palmer@oracle.com>
- <87o8a9e8k8.fsf@dusky.pond.sub.org>
+ <1626086137-16292-3-git-send-email-jonah.palmer@oracle.com>
+ <87bl69e89m.fsf@dusky.pond.sub.org>
 From: Jonah Palmer <jonah.palmer@oracle.com>
-Message-ID: <a018750e-7066-8582-67a9-31584e24338a@oracle.com>
-Date: Tue, 10 Aug 2021 02:36:43 -0400
+Message-ID: <e735058a-a3d0-ea1a-7cf3-90757a6ccc78@oracle.com>
+Date: Tue, 10 Aug 2021 02:50:04 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <87o8a9e8k8.fsf@dusky.pond.sub.org>
+In-Reply-To: <87bl69e89m.fsf@dusky.pond.sub.org>
 Content-Type: multipart/alternative;
- boundary="------------FE8666284D90C0A0CADA5D86"
+ boundary="------------6710159561E584303D04528C"
 Content-Language: en-US
-X-ClientProxiedBy: SN2PR01CA0017.prod.exchangelabs.com (2603:10b6:804:2::27)
- To PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
+X-ClientProxiedBy: SA9PR10CA0011.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::16) To PH0PR10MB4664.namprd10.prod.outlook.com
+ (2603:10b6:510:41::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jonpalme-lnx.us.oracle.com (209.17.40.37) by
- SN2PR01CA0017.prod.exchangelabs.com (2603:10b6:804:2::27) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Tue, 10 Aug 2021 06:36:46 +0000
+ SA9PR10CA0011.namprd10.prod.outlook.com (2603:10b6:806:a7::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.16 via Frontend Transport; Tue, 10 Aug 2021 06:50:05 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfa8413c-7a92-4601-831a-08d95bc93aae
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4488:
+X-MS-Office365-Filtering-Correlation-Id: 321c230d-6195-48d9-e7b2-08d95bcb1766
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4423:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR10MB44886782A2096053B410677BE8F79@PH0PR10MB4488.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-Microsoft-Antispam-PRVS: <PH0PR10MB4423521D5455B42DA8BF0DAEE8F79@PH0PR10MB4423.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TLxTd0AjhBIkDcPQioNwVCfCmikqOONDIaT+X3vfi7jbN9LnPi+yn2MhnPFW5+PFelleshqE7aO7Nw6a7ScciMvz8XBCHV7HCgTTY0LM49bLBpMgfW05L0VMoExSr3M7l4s2BzHBp2DNCIGLmxbtobJnz4tJBUuyWxeAjHrSp74Hmk8Q91mQd7NZ68izVB7kDtC/vDebosQgDaw4lafBJD0ZHti5sENO6Q5UyLxeVjRTCzWD0ijNZ+9o10qDZQvg7BDu+JBOjYTLbkLcbnz+4IFyrwjUwbvDQ6iw/OY8mwM/hMnFpIhs4hjdV6Yi1RSQzXPAO6ygNykr++c/eoZtx+cvHW07deXqAU/Lvz/znxNyVkEJPc01CNyOjjzCNbsPneY2tcCV5+pki4ga5s6rkPMc9PTIsw3+0QFTuql4JTTt/a/0Im8Bh9oyyBZZRxvgWRHcJThnPqfHblnp3zDLi1ZonaypgGGnK8Zng/E3eGObQUsuJ4ThB5kKy7oDuGZhmFV2o1qicGGrEUGMiDLANH5Zv193TU0JhHlhzL1suo6oDW6oOLONwOAw8wQ8cv+tAaiDTu2ARvRkS5odgo/dAtJVGtzUjYbma7iOHOWAvtqaWXc+qKeUULL3icaQCMByJ7F6gE7Y9sv8IUzIs97toXUAvn73plQZPs+Q2qukQWOBq7VoGspvIGMenmxdZ1BatSxw736i2wNJwg5SvKAlew==
+X-Microsoft-Antispam-Message-Info: m2eCASalq1iEC6nWRzQ+eL1R3f9pCD2JHRt/ZzCy0abWcTnkg8fqhumNvZBEGhecmuFJNZkBUh3Gmt9UxTvb/s53nE6WufVPIfI6/zLoFmHdnOh+fnZaI1/b4u9iIPw8CBgYwy5AtcbcrGyp8gfoI2HZgGM4Y3WzXwu/Gz8iIv3lxPIOAcC70CQ/6zbqQfw2hRYnF4GlmQrwj+lxqM/yxW/Us0oUCWluPcsI9PMPHhoBQQaaGNX1fP0RbAW2x/o3qvQJJIna/BG4Wl9AtbQSSiaaz73lNz+iIoSrtuTYgcV3SedysUj1B85/c/gucGO8Q8zO01JzegWD33PrEVGpk0lE0B+UC62UTFAeXuKxfolMJehCvQuAhh16sH+y3lTVCUwVzciI8NeFucQXe1fz2cc/cKN5+26+Shccq/PrUWfoE+1XHshNmE7NxIE81uQuCF9bsM4MyUvWnrADqw9xknQn2nb9mFaEBU/KlYhPEvOhwLxQAcYK41b6F5K6boBB2koff+l+w4QCfryQ/mihkULJ71/FvkXXJKihwR6COwHlIHIh+R5HshF/JHXYL1CEwbeECMJvmwP1dxJ4PeJcqwrQmKc4mG5cwJJIuP4x2ozeIFg413OJ+CjXdHUhAYUGQ6N36tckqEiIfH0ysuOlb2fD8EvVghH6F9D41VjbZ/JtiKpdAPdUFPKEFf3BDLaL7QZfCvuRwujd3bGjR+lr7P2ht3shzW1eK2RzoAljh1U=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(376002)(366004)(39860400002)(136003)(396003)(7416002)(26005)(66556008)(66476007)(186003)(5660300002)(66946007)(83380400001)(4326008)(107886003)(7696005)(316002)(956004)(33964004)(8936002)(2906002)(6916009)(6486002)(2616005)(44832011)(31696002)(38100700002)(8676002)(53546011)(478600001)(86362001)(31686004)(6666004)(36756003)(43740500002);
+ SFS:(39860400002)(346002)(376002)(396003)(366004)(136003)(5660300002)(8936002)(36756003)(186003)(26005)(4326008)(8676002)(31696002)(44832011)(316002)(956004)(7696005)(478600001)(53546011)(107886003)(2616005)(38100700002)(33964004)(31686004)(7416002)(66556008)(66476007)(66946007)(86362001)(83380400001)(2906002)(6486002)(6916009)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTREV0h2OFBKYVBpVGtsWFNZbGlsZDQ2TmNxc1l2QnFwSmxqUnRoeEVIcm9K?=
- =?utf-8?B?SlBxc2JRSEUrVGRTYURURHBESGtWb2lIdWV6UTZoMkVydlROMVpBK2tlQzMw?=
- =?utf-8?B?cHdmdWdLK21xL05WRWV1SnJNVG9ZM0w1SURsWk11ZFVyYUYxeUVRT044MjRM?=
- =?utf-8?B?RWU1VWllS2d0STZUd1piNEo5cjROQ1M4ZnVjZlpuYzlUQ1ZZVnpCbmlrd0Fi?=
- =?utf-8?B?Qk0zNUN2MTE3RmpzdUFxaDc3NWk2NDg4aFdPZzhXYldjTmdLVWhGNW5VYVBk?=
- =?utf-8?B?RzJOZzVzSloxWFR6YVkyZXZBT0RLSTdhS1RrU0FOWDg4clBUNmFlWEZNSnps?=
- =?utf-8?B?NHNiSVY3YUs1ZTBIWVRmSVJabnBFdDRBN2UvbnhOQ2NQTlpIZ3hrSllDUDNw?=
- =?utf-8?B?ZldBaGF6MnVhcjdiSTNYWFlqU1RKbUtBTzYvZHBZUm1pVDIyYlkwY0FlaHQr?=
- =?utf-8?B?MU9LSGt4NlIzTHpMVWhuSWhoWG1ENnZYVEQ2UG44N2NqczlacVhLVzNWQlVj?=
- =?utf-8?B?cU93WUhWN2VvV3JHUGFyY2Z4WFNUa1NnZU9UdmFleHNPaXI5b3NXWWNYMStD?=
- =?utf-8?B?ajFLbUFkWE5TdnFWYlpNdmp2T0hnYVk1ZjZzZ3hSU2dlWnQyR0prSWJXKzVo?=
- =?utf-8?B?VmdpZHVqWElPZkxWdCsrTGgyaFBJdUdWajNha3VESURHOUxmbnk5eVJ6UUpS?=
- =?utf-8?B?c3pnNllPajFuV2QxWUsvblhGRk0wZFhxYkdTWHd6bXJSVjArMDVBcmZkNXQ2?=
- =?utf-8?B?SFFqeDkzQnpTV1VyUmM4MDhSSnhjUk9pQW9vRGRMQmtYM1loWkdNZUR2cjRz?=
- =?utf-8?B?dS9hQmZvc1RvR0xCZG1rbm14dUxFOERRNUUvVThoMVJzQTlOQUhETVZXZGQv?=
- =?utf-8?B?b1lQUkZPbm54cklhOEE3U1c5SnFIY0RuRUJ3OVU5amhYZmxWSll5R0hTKzdI?=
- =?utf-8?B?T0d4SXBzbVVOV0pDWllsclRFb1ZZcmF0WlF6THZNdi9ZSEZsbzAyV1p0QmVl?=
- =?utf-8?B?UlNvQi9UTUM2VnArM3E1V25hVTFveHhyNVphM1Zaalp6amRHNGZBMlBjUWpr?=
- =?utf-8?B?ZVFYcm1uUGJGN3J2L2hQRkRyaXBQSGtxRnUwYndBVnpNSXA3c2xnS2tOMmtr?=
- =?utf-8?B?Q0Q5M09XcEtUMk1wUGtDd2ljK2hYZ2ZJT3dzVmRlR2h3c1BSM2FCcHk4eUlQ?=
- =?utf-8?B?VDJLcjJmUGFhZE81QWhPUnJEN2RsVnowbE50UzdheTRia3RLUGs2c3VVNmEw?=
- =?utf-8?B?VVJseEtNeEJXakJRUVJaTVRISWxXSUZEZ3FOQzlNNTZJejQyZENHcHc4ZEln?=
- =?utf-8?B?aGpSQ2ZIMHRzZjMzUVFRL3lyTE9HaXM3YXZlcEFjLzRRTmtwVXJ3d1hYbE9x?=
- =?utf-8?B?R3E3ek9zWEV4SjNoandPRmhKcEVXd08rVVhiNDUyb3N1M0Q3ZVpkK01vdGdO?=
- =?utf-8?B?UnJ2RTJ1aGRiM21ZWXhxNy9OY205TkcrSXowL1JIcGVVZG1EazgxVUlYQmd2?=
- =?utf-8?B?NUtxMnFjdTFlb01OWUN2Uk9lSUlwV2Mwdnc1dkg1Mm1PT3R6bFd5R1ozeUo4?=
- =?utf-8?B?K01yelE0ZGxDdk1jNG5ONXNkUkJCdXZNejN0c1VOUDN4M3JnNys2b2RFaVJB?=
- =?utf-8?B?cWNkeTFMWUt6bGtvaDZMdGdrMmlhd2FJZEUyMXk1U2NTdVJWeDJya242NklF?=
- =?utf-8?B?UWI2L3JYWUpjNDhmcnpzZ09IenUwWlF3UGlucmxMeE1yL2xwcFRaaXdLSm9k?=
- =?utf-8?Q?7fjgLvFFZUV6P7G7+Ez9wtErdGf+4Vg1oApNeBB?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UE1neTZnOG16VXhJTHNPVURxYkpjaGlZQXhONDh1Nms3OW4yMzIrQzh3OGNu?=
+ =?utf-8?B?SXdlRHB3TUxJY0Vuais1YzdVOVpkOCszQkR3RXFmWGU5aGszRUthWFhHUXU3?=
+ =?utf-8?B?YlVqTTZ3MEdCVkpYOVFuMEZPYU9lc0JBdmZOZjY0UE1CZm5oZ3QyZ1huREJh?=
+ =?utf-8?B?cTFaZTBhR1RmYkRNRzgvOXFwMjVZVG5iZVRBdThpNHBEdTI3c1NJU0s3b3k4?=
+ =?utf-8?B?S0thNGxpUWsyNEpLYUdPeUZGR05jcTM3YnJnbXA4UW9qZHpLcWNlcWZOYWVN?=
+ =?utf-8?B?NUFFeXh6SjFNRmVQcVhtVkFvdlJualI3OFFsQkZqeUNlWUJEQ0dybkVnNmhJ?=
+ =?utf-8?B?bjA3aE9oUm5TQjNobERIR05vcy82QkZZdHorZ091a2ZsNHRFNjN3c2pQL0Yy?=
+ =?utf-8?B?S1NDOUsyREZCT0g4Z3BNZTJqZTYxdDh2MDNKOG81OEVFdnhXdW5MMjFjN1A3?=
+ =?utf-8?B?WW96cG9WR0d2V2hUazZvaFFnbGJDa3g3eHluQThGYnlIbmZGOWxnc0lzYXBB?=
+ =?utf-8?B?ak53TngvMXZPQ1l6VlJ2TFgxdVEzRUF2LzVNaGMvSTF5TUIvN1hwOEl0cEUw?=
+ =?utf-8?B?Q2lITGc1Ymc5bmsxTEJzVFFwMzRNcnRiVm1NUy93OGhqYy84LzZhU3RZNzh4?=
+ =?utf-8?B?L1RXOHIydFJEc0FiUC9iK0Q2cE52dEREdCs3RTZHSnhEa0x4dkVmdVRhT3Ey?=
+ =?utf-8?B?cm15N1pjc0ZINEo5ZU13MFVMQml3UVZNamlDejAzRTU2cTdqSGVHVEtRQnkv?=
+ =?utf-8?B?N1Bwbk5xNEtDNS9mZU5nZ1ZKUStLUFI1VDJtVFpTaW1zM2FERFpTS0FoRWpL?=
+ =?utf-8?B?YzhpbXcxdDRDQ1ZSdnZ6OEVCS3duNUxvQkUzS0hzdHhTd1o2eXZGOTlHTWk1?=
+ =?utf-8?B?Mjk2ZWkvLzl2Sm1DUlpUalBBSnJUU2JhQTQ5Y2JvNG1tZkJTdDlzb2N0NW9w?=
+ =?utf-8?B?aFNyK092MGlFR3B2YUJ3eHNNY1E5bFlmNk5HL2ErV2lQOHZXMFRxblhOazVQ?=
+ =?utf-8?B?dUh2NUVFSFBmQVZXNEM4M2Fjd0VqVGI4MDNyUzdlWjE1K3doT2xEVEFpNGZy?=
+ =?utf-8?B?S3BPa1h4cDhlNFFKY21OK2pRNVBObnNTaUNrTjRZNk15ais3Z1NJRFdiWEdR?=
+ =?utf-8?B?WHAwNlljR1p3MURnQTJOai9IdjFCQ0QxMkdIa3IxL1B1MFZtR2ZMN0F2REFN?=
+ =?utf-8?B?ZHlGVys4eHRFZHdFK0NSWjRQVnkvLzN1ZzRSeGQvSzhhZDVqdXBRQW5GTk5p?=
+ =?utf-8?B?Y1lDYm9ZWXZOeDQ5bWZ0SVorYU5MRm9FTkd4VTg5QVRQaFRlbnZta0lRMlZ5?=
+ =?utf-8?B?ZG9jaytzSWVQYWJxNmM2L3Y1K2hNcWR1ZXN4a1BsSHFRT2xsZU4wdjY2VWI0?=
+ =?utf-8?B?cVRUSzJzQjJZU1ltZ0NmaHAyYkVCdWxlYXhDcmF2aUpWSURIK1g4UDlhZ1Jv?=
+ =?utf-8?B?Rit5Myt4RjJOT2JMaVBqZ2toSFVkNVc2UlB3MDZRSVVWVE43WTBYSzhza2VM?=
+ =?utf-8?B?M0g3NVMyN055aW9jTlBtNWNkWUw5NkNUVGZ6b0JIekozakMvK1FHRDM4dk9S?=
+ =?utf-8?B?OGNTWmJab3d0dHAyejAwQ3dqcWpsVGI4bVBycERtVFRlb2x2eTBDYVp3K1Ju?=
+ =?utf-8?B?MTV2ZnNwQTBtWUlPbGxJdzRuSjRzL3Z6UHlYOXhoZEpuU3FDZ3ZnSHJSYU9Y?=
+ =?utf-8?B?Ry9NdEg0aXM0dXE1NnA0enl4R1M3L0lwMXB3ek04eTBpODNrdXhJT1NBM0RY?=
+ =?utf-8?Q?yLg4BKPxKjUYEpckDRx3xr2C1g1uixoZqe19YuV?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfa8413c-7a92-4601-831a-08d95bc93aae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 321c230d-6195-48d9-e7b2-08d95bcb1766
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 06:36:48.3931 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 06:50:08.1741 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FEuSKdMqtiKtpjz6gPtDP6Ph/T3Sw7bhJvS/vtq91m57PXhM4qE+eFSFXlAgQMJ+TVjU32quqVLWuTSTh595cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4488
+X-MS-Exchange-CrossTenant-UserPrincipalName: YZ6JayziDXQ8g2JFu2okcI+1C0sCK0nYMDaVu1edS6+9sbZ8DbwwYv5ppODHgS/6mtCl2cAIkJMezHNF6J/+3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4423
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  suspectscore=0 mlxscore=0
  phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108100041
-X-Proofpoint-GUID: OorrKFGbP7IgZ2i86oSXMkwpW6a5gcHL
-X-Proofpoint-ORIG-GUID: OorrKFGbP7IgZ2i86oSXMkwpW6a5gcHL
+ definitions=main-2108100043
+X-Proofpoint-GUID: qgdYh_98_0yty7n8LxbUwHc0sfyhWI0m
+X-Proofpoint-ORIG-GUID: qgdYh_98_0yty7n8LxbUwHc0sfyhWI0m
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=jonah.palmer@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -196,149 +197,135 @@ Cc: fam@euphon.net, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------FE8666284D90C0A0CADA5D86
+--------------6710159561E584303D04528C
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On 8/7/21 8:35 AM, Markus Armbruster wrote:
-> QAPI schema review only.
->
+On 8/7/21 8:42 AM, Markus Armbruster wrote:
 > Jonah Palmer <jonah.palmer@oracle.com> writes:
 >
 >> From: Laurent Vivier <lvivier@redhat.com>
 >>
->> This new command lists all the instances of VirtIODevice with
->> their path and virtio type.
+>> This new command shows the status of a VirtIODevice
+>> (features, endianness and number of virtqueues)
+>>
+>> Next patch will improve output by decoding feature bits.
 >>
 >> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
 >> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 > [...]
 >
->> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
->> index 4912b97..0c89789 100644
->> --- a/qapi/qapi-schema.json
->> +++ b/qapi/qapi-schema.json
->> @@ -91,5 +91,6 @@
->>   { 'include': 'misc.json' }
->>   { 'include': 'misc-target.json' }
->>   { 'include': 'audio.json' }
->> +{ 'include': 'virtio.json' }
->>   { 'include': 'acpi.json' }
->>   { 'include': 'pci.json' }
 >> diff --git a/qapi/virtio.json b/qapi/virtio.json
->> new file mode 100644
->> index 0000000..804adbe
->> --- /dev/null
+>> index 804adbe..4bd09c9 100644
+>> --- a/qapi/virtio.json
 >> +++ b/qapi/virtio.json
->> @@ -0,0 +1,72 @@
-> Please insert at the beginning
->
->     # -*- Mode: Python -*-
->     # vim: filetype=python
->     #
-
-Will do.
-
->> +##
->> +# = Virtio devices
->> +##
+>> @@ -70,3 +70,79 @@
+>>   ##
+>>   
+>>   { 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
 >> +
 >> +##
->> +# @VirtioType:
+>> +# @VirtioStatusEndianness:
 >> +#
->> +# An enumeration of Virtio device types.
+>> +# Enumeration of endianness for VirtioDevice
 >> +#
 >> +# Since: 6.1
-> 6.2 now, here and below.
-
-Okay, will update for entire series.
-
+> 6.2 now, here, below, and in the remainder of this series.
 >
 >> +##
->> +{ 'enum': 'VirtioType',
->> +  'data': [ 'unknown', 'virtio-net', 'virtio-blk', 'virtio-console',
->> +            'virtio-rng', 'virtio-balloon', 'virtio-iomem', 'virtio-rpmsg',
->> +            'virtio-scsi', 'virtio-9p', 'virtio-mac80211-wlan',
->> +            'virtio-serial', 'virtio-caif', 'virtio-memory-balloon',
->> +            'unknown-14', 'unknown-15', 'virtio-gpu', 'virtio-clock',
->> +            'virtio-input', 'vhost-vsock', 'virtio-crypto', 'virtio-signal-dist',
->> +            'virtio-pstore', 'virtio-iommu', 'virtio-mem', 'unknown-25',
->> +            'vhost-user-fs', 'virtio-pmem', 'unknown-28', 'virtio-mac80211-hwsim' ]
-> Please limit line length to approximately 70 characters.
-
-Fixed, sorry about that. Also, should I continue this up to 'virtio-bluetooth'? E.g:
-
-...
-'virtio-mac80211-hwsim', 'unknown-30', 'unknown-31',
-'unknown-32', 'unknown-33', 'unknown-34', 'unknown-35',
-'unknown-36', 'unknown-37', 'unknown-38', 'unknown-39',
-'virtio-bluetooth' ]
-
->
+>> +{ 'enum': 'VirtioStatusEndianness',
+>> +  'data': [ 'unknown', 'little', 'big' ]
 >> +}
 >> +
 >> +##
->> +# @VirtioInfo:
+>> +# @VirtioStatus:
 >> +#
->> +# Information about a given VirtIODevice
->> +#
->> +# @path: VirtIO device canonical path.
-> Peeking ahead at the example, I conclude this is a QOM path.  Please
-> spell that out, e.g. "@path: the device's canonical QOM path".
+>> +# @device-id: VirtIODevice status
+> "status"?  Really?
 
-Got it - will do for rest of occurrences in the series.
+I'll change it to 'VirtIODevice ID' instead
 
 >
 >> +#
->> +# @type: VirtIO device type.
+>> +# @device-endian: VirtIODevice device_endian
+>> +#
+>> +# @guest-features: VirtIODevice guest_features
+>> +#
+>> +# @host-features: VirtIODevice host_features
+>> +#
+>> +# @backend-features: VirtIODevice backend_features
+>> +#
+>> +# @num-vqs: number of VirtIODevice queues
 >> +#
 >> +# Since: 6.1
 >> +#
 >> +##
->> +{ 'struct': 'VirtioInfo',
+>> +
+>> +{ 'struct': 'VirtioStatus',
 >> +  'data': {
->> +    'path': 'str',
->> +    'type': 'VirtioType'
+>> +    'device-id': 'int',
+> VirtIODevice member @device_id is uint64_t.  Should this be 'uint16'?
+
+Ah, yes this should be uint16. I'll update this.
+
+>
+>> +    'device-endian': 'VirtioStatusEndianness',
+>> +    'guest-features': 'uint64',
+>> +    'host-features': 'uint64',
+>> +    'backend-features': 'uint64',
+>> +    'num-vqs': 'uint16'
+> virtio_get_num_queues() returns int.  Sure 'uint16' is the right type?
+
+Yes, you're right, it should be an 'int' instead. I'll also update this.
+
+>
 >> +  }
 >> +}
 >> +
 >> +##
->> +# @x-debug-query-virtio:
+>> +# @x-debug-virtio-status:
 >> +#
->> +# Return the list of all VirtIO devices
+>> +# Return the status of virtio device
+> "of a virtio device"
+
+Oops! Forgot the article, thank you.
+
+>
 >> +#
->> +# Returns: list of @VirtioInfo
+>> +# @path: QOBject path of the VirtIODevice
+> "QOM path", please.
+>
+>> +#
+>> +# Returns: status of the VirtIODevice
 >> +#
 >> +# Since: 6.1
 >> +#
 >> +# Example:
 >> +#
->> +# -> { "execute": "x-debug-query-virtio" }
->> +# <- { "return": [
->> +#        {
->> +#            "path": "/machine/peripheral-anon/device[3]/virtio-backend",
->> +#            "type": "virtio-net"
->> +#        },
->> +#        {
->> +#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
->> +#            "type": "virtio-serial"
->> +#        },
->> +#        {
->> +#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
->> +#            "type": "virtio-blk"
->> +#        }
->> +#      ]
+>> +# -> { "execute": "x-debug-virtio-status",
+>> +#      "arguments": {
+>> +#          "path": "/machine/peripheral-anon/device[3]/virtio-backend"
+>> +#      }
+>> +#   }
+>> +# <- { "return": {
+>> +#          "backend-features": 0,
+>> +#          "guest-features": 5111807911,
+>> +#          "num-vqs": 3,
+>> +#          "host-features": 6337593319,
+>> +#          "device-endian": "little",
+>> +#          "device-id": 1
+>> +#      }
 >> +#    }
 >> +#
 >> +##
 >> +
->> +{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
-> [...]
->
+>> +{ 'command': 'x-debug-virtio-status',
+>> +  'data': { 'path': 'str' },
+>> +  'returns': 'VirtioStatus'
+>> +}
 
---------------FE8666284D90C0A0CADA5D86
+--------------6710159561E584303D04528C
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
@@ -348,23 +335,22 @@ Content-Transfer-Encoding: 7bit
   <body>
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 8/7/21 8:35 AM, Markus Armbruster
+    <div class="moz-cite-prefix">On 8/7/21 8:42 AM, Markus Armbruster
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:87o8a9e8k8.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">QAPI schema review only.
-
-Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a> writes:
+    <blockquote type="cite" cite="mid:87bl69e89m.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a> writes:
 
 </pre>
       <blockquote type="cite">
         <pre class="moz-quote-pre" wrap="">From: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
 
-This new command lists all the instances of VirtIODevice with
-their path and virtio type.
+This new command shows the status of a VirtIODevice
+(features, endianness and number of virtqueues)
+
+Next patch will improve output by decoding feature bits.
 
 Signed-off-by: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
-Reviewed-by: Eric Blake <a class="moz-txt-link-rfc2396E" href="mailto:eblake@redhat.com">&lt;eblake@redhat.com&gt;</a>
 Signed-off-by: Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a>
 </pre>
       </blockquote>
@@ -373,162 +359,159 @@ Signed-off-by: Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.
 
 </pre>
       <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4912b97..0c89789 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -91,5 +91,6 @@
- { 'include': 'misc.json' }
- { 'include': 'misc-target.json' }
- { 'include': 'audio.json' }
-+{ 'include': 'virtio.json' }
- { 'include': 'acpi.json' }
- { 'include': 'pci.json' }
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-new file mode 100644
-index 0000000..804adbe
---- /dev/null
+        <pre class="moz-quote-pre" wrap="">diff --git a/qapi/virtio.json b/qapi/virtio.json
+index 804adbe..4bd09c9 100644
+--- a/qapi/virtio.json
 +++ b/qapi/virtio.json
-@@ -0,0 +1,72 @@
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Please insert at the beginning
-
-   # -*- Mode: Python -*-
-   # vim: filetype=python
-   #
-</pre>
-    </blockquote>
-    <pre>Will do.</pre>
-    <blockquote type="cite" cite="mid:87o8a9e8k8.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+##
-+# = Virtio devices
-+##
+@@ -70,3 +70,79 @@
+ ##
+ 
+ { 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
 +
 +##
-+# @VirtioType:
++# @VirtioStatusEndianness:
 +#
-+# An enumeration of Virtio device types.
++# Enumeration of endianness for VirtioDevice
 +#
 +# Since: 6.1
 </pre>
       </blockquote>
       <pre class="moz-quote-pre" wrap="">
-6.2 now, here and below.</pre>
-    </blockquote>
-    <pre>Okay, will update for entire series.</pre>
-    <blockquote type="cite" cite="mid:87o8a9e8k8.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">
+6.2 now, here, below, and in the remainder of this series.
 
 </pre>
       <blockquote type="cite">
         <pre class="moz-quote-pre" wrap="">+##
-+{ 'enum': 'VirtioType',
-+  'data': [ 'unknown', 'virtio-net', 'virtio-blk', 'virtio-console',
-+            'virtio-rng', 'virtio-balloon', 'virtio-iomem', 'virtio-rpmsg',
-+            'virtio-scsi', 'virtio-9p', 'virtio-mac80211-wlan',
-+            'virtio-serial', 'virtio-caif', 'virtio-memory-balloon',
-+            'unknown-14', 'unknown-15', 'virtio-gpu', 'virtio-clock',
-+            'virtio-input', 'vhost-vsock', 'virtio-crypto', 'virtio-signal-dist',
-+            'virtio-pstore', 'virtio-iommu', 'virtio-mem', 'unknown-25',
-+            'vhost-user-fs', 'virtio-pmem', 'unknown-28', 'virtio-mac80211-hwsim' ]
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Please limit line length to approximately 70 characters.</pre>
-    </blockquote>
-    <pre>Fixed, sorry about that. Also, should I continue this up to 'virtio-bluetooth'? E.g:
-
-...
-'virtio-mac80211-hwsim', 'unknown-30', 'unknown-31',
-'unknown-32', 'unknown-33', 'unknown-34', 'unknown-35',
-'unknown-36', 'unknown-37', 'unknown-38', 'unknown-39',
-'virtio-bluetooth' ]
-
-</pre>
-    <blockquote type="cite" cite="mid:87o8a9e8k8.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+}
++{ 'enum': 'VirtioStatusEndianness',
++  'data': [ 'unknown', 'little', 'big' ]
++}
 +
 +##
-+# @VirtioInfo:
++# @VirtioStatus:
 +#
-+# Information about a given VirtIODevice
-+#
-+# @path: VirtIO device canonical path.
++# @device-id: VirtIODevice status
 </pre>
       </blockquote>
       <pre class="moz-quote-pre" wrap="">
-Peeking ahead at the example, I conclude this is a QOM path.  Please
-spell that out, e.g. &quot;@path: the device's canonical QOM path&quot;.</pre>
+&quot;status&quot;?  Really?</pre>
     </blockquote>
-    <pre>Got it - will do for rest of occurrences in the series.
+    <pre>I'll change it to 'VirtIODevice ID' instead
 </pre>
-    <blockquote type="cite" cite="mid:87o8a9e8k8.fsf@dusky.pond.sub.org">
+    <blockquote type="cite" cite="mid:87bl69e89m.fsf@dusky.pond.sub.org">
       <pre class="moz-quote-pre" wrap="">
 
 </pre>
       <blockquote type="cite">
         <pre class="moz-quote-pre" wrap="">+#
-+# @type: VirtIO device type.
++# @device-endian: VirtIODevice device_endian
++#
++# @guest-features: VirtIODevice guest_features
++#
++# @host-features: VirtIODevice host_features
++#
++# @backend-features: VirtIODevice backend_features
++#
++# @num-vqs: number of VirtIODevice queues
 +#
 +# Since: 6.1
 +#
 +##
-+{ 'struct': 'VirtioInfo',
++
++{ 'struct': 'VirtioStatus',
 +  'data': {
-+    'path': 'str',
-+    'type': 'VirtioType'
-+  }
++    'device-id': 'int',
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+VirtIODevice member @device_id is uint64_t.  Should this be 'uint16'?</pre>
+    </blockquote>
+    <pre>Ah, yes this should be uint16. I'll update this.
+</pre>
+    <blockquote type="cite" cite="mid:87bl69e89m.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+    'device-endian': 'VirtioStatusEndianness',
++    'guest-features': 'uint64',
++    'host-features': 'uint64',
++    'backend-features': 'uint64',
++    'num-vqs': 'uint16'
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+virtio_get_num_queues() returns int.  Sure 'uint16' is the right type?</pre>
+    </blockquote>
+    <pre>Yes, you're right, it should be an 'int' instead. I'll also update this.
+</pre>
+    <blockquote type="cite" cite="mid:87bl69e89m.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+  }
 +}
 +
 +##
-+# @x-debug-query-virtio:
++# @x-debug-virtio-status:
 +#
-+# Return the list of all VirtIO devices
-+#
-+# Returns: list of @VirtioInfo
++# Return the status of virtio device
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+&quot;of a virtio device&quot;</pre>
+    </blockquote>
+    <pre>Oops! Forgot the article, thank you.
+</pre>
+    <blockquote type="cite" cite="mid:87bl69e89m.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#
++# @path: QOBject path of the VirtIODevice
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+&quot;QOM path&quot;, please.
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#
++# Returns: status of the VirtIODevice
 +#
 +# Since: 6.1
 +#
 +# Example:
 +#
-+# -&gt; { &quot;execute&quot;: &quot;x-debug-query-virtio&quot; }
-+# &lt;- { &quot;return&quot;: [
-+#        {
-+#            &quot;path&quot;: &quot;/machine/peripheral-anon/device[3]/virtio-backend&quot;,
-+#            &quot;type&quot;: &quot;virtio-net&quot;
-+#        },
-+#        {
-+#            &quot;path&quot;: &quot;/machine/peripheral-anon/device[1]/virtio-backend&quot;,
-+#            &quot;type&quot;: &quot;virtio-serial&quot;
-+#        },
-+#        {
-+#            &quot;path&quot;: &quot;/machine/peripheral-anon/device[0]/virtio-backend&quot;,
-+#            &quot;type&quot;: &quot;virtio-blk&quot;
-+#        }
-+#      ]
++# -&gt; { &quot;execute&quot;: &quot;x-debug-virtio-status&quot;,
++#      &quot;arguments&quot;: {
++#          &quot;path&quot;: &quot;/machine/peripheral-anon/device[3]/virtio-backend&quot;
++#      }
++#   }
++# &lt;- { &quot;return&quot;: {
++#          &quot;backend-features&quot;: 0,
++#          &quot;guest-features&quot;: 5111807911,
++#          &quot;num-vqs&quot;: 3,
++#          &quot;host-features&quot;: 6337593319,
++#          &quot;device-endian&quot;: &quot;little&quot;,
++#          &quot;device-id&quot;: 1
++#      }
 +#    }
 +#
 +##
 +
-+{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
++{ 'command': 'x-debug-virtio-status',
++  'data': { 'path': 'str' },
++  'returns': 'VirtioStatus'
++}
 </pre>
       </blockquote>
       <pre class="moz-quote-pre" wrap="">
-[...]
-
 </pre>
     </blockquote>
   </body>
 </html>
 
---------------FE8666284D90C0A0CADA5D86--
+--------------6710159561E584303D04528C--
 
