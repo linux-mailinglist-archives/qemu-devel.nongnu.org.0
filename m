@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AFB3E5C2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:51:01 +0200 (CEST)
-Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D855A3E5C2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:50:45 +0200 (CEST)
+Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDS9k-0002KR-1W
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44396)
+	id 1mDS9U-0001O5-OK
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7s-0007cq-FG
+ id 1mDS7s-0007dI-L6
  for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:04 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40947)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7p-0008LG-4P
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:03 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k29so13593881wrd.7
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:49:00 -0700 (PDT)
+ id 1mDS7q-0008MA-RZ
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:04 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id m12so26365805wru.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tSBV1PDMcfpLWnLgYuNH0qNm2EyfP3KNIAyT7TZN/I0=;
- b=QBIDsEoiMmfTx3Jdd6idoUD7PpY1SrMvq7OQSc3LoIl6SBwzn14rH2RPvewQL/Akrc
- LZdMQwjbr8OlxAG4YkXlHmoHnxPD6poH1bS9j22XIxrW9BjE7dnflIe9sOBZObLU5jg3
- vjBBemw6YIAsL5PgKKBAJVu9VA74TnAuke07coKudsNnmG6dpPU73x7gAaXBeM1oA7Gf
- 9ELrZHZc9v8qioP91gGmRmxajAwxgK4Erp7l3pj4/AeacYiGG9KKnnBPJTyeIyKGD/HG
- E9McC0heZK+U8Qz+IFy0HTi12WW2CA8QMaMam9c8zhWUnsAkPVx3+uWYS4+Ev47mxEBT
- 8jCA==
+ bh=gBrwQGAgNFVSSq9iGQFjfmiOCMZon3rRa4RYHTifO5I=;
+ b=KuNdF23gsJz4ADfHqUAU7V1uhi+pXVy3ZUT4S55wzjUNXaNMn3QiDbUO9Bhnu6rGkz
+ wueYzU/H+zhDixnsb8URwagefBEL7yFchiER+4SNRxeuyiEaKlx4SO2NY6AhAxL4L6MG
+ ESG3nRTHEQHY+F3H+DBWhSiQM48KkwuyyvtSc6kGf1aMMg6iFjyfOuNcZXo8zcBM3I7t
+ DQ4cbuUwGZ1SIDQBdoC3hi7m1cHBzxo2kSF5kEZPIE87X03aPfA570Cm5Zw4ZNdJjoYo
+ REYAutkI2DFchY5u/XOsDa7gBS4l7gpNvyqhyngmd6pWDQGoWbCy4LAfmH4mIE1DCpOK
+ KUsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tSBV1PDMcfpLWnLgYuNH0qNm2EyfP3KNIAyT7TZN/I0=;
- b=qWzuFp0ms3NyGHl1gYvFjO/VZEMbmeDQ6+qya+NDXZN26sMjx4InJ1GgVNuLcMA9j4
- ZfZAj+uNNWsyeEvNvnPgi9fxjwoBRK6U+9lpt9XzqMKQXUgAtJWNyHahXxmhn01ok2wg
- Ipwl04FHVIKw9OMpmTPSnc50FeDRu4qRr2R2vxiWVPLENJURWRN93mvsXnMyucDJ+qi9
- zEpoc8ajA7KCvbiWCDBJO7O6TTi8UnAJx20kcg+H/lKhWZFf7C6hl0XOzsaDpRdjATAy
- dGc7+Tf5TFP6xviuxiYDGVgU6kwfKkx0VmXk6h4nrZqKjwmZE/Dm+cWp1pSj5/G9Y9yF
- VYKg==
-X-Gm-Message-State: AOAM530qwSkEtmsG2qMFakZk2LgO7eqMdrEeWPqHpUe1vtoeaUhRk0Fx
- 2jnml8zqeAaYT7dRDyp5HllIO6lTESU=
-X-Google-Smtp-Source: ABdhPJz89378AGmc9gQk0Ga+24TCBcAHfwlCNIwB0ZD5Th2r645OOCGAHVx4xI/6xhRJ+ZRHIDcnfQ==
-X-Received: by 2002:a5d:4745:: with SMTP id o5mr954296wrs.307.1628603339608;
- Tue, 10 Aug 2021 06:48:59 -0700 (PDT)
+ bh=gBrwQGAgNFVSSq9iGQFjfmiOCMZon3rRa4RYHTifO5I=;
+ b=g43JhbmSwLbKbd5CyhRvOHCLQy9yTsZxiaK1+QgFL+8Qv6s6/42NsuMnoAE1IO7Av4
+ 1eH8owgJxbcqvpzM4Qfgf3B+y12MLor882XNs1Xczbss0ZooARvPLsGSaU8+ZwxSahrJ
+ ss6GLJsh8p6WvA1znEoF3Lu3ZAlb1yxKs61iFOWI892d2o7Xvfu1pHOzA+V0nvDgEpEM
+ ro51icNhPTlRFPWndKJTPMoKasDSY+nYM+UQNCHb83XVKcaHQONNXQE4F9OS+AhGgd5M
+ xD4XEh2zmtoojtLoPtwWBMGdoIWOqfIh1HOGKewc/0EHw+vfnraJS25g9V9RAb+52KAl
+ SYlw==
+X-Gm-Message-State: AOAM531/mc6Ms2kbPNjx6oo0rBFO6+LBqDoU2q1JGB3Dh6W51cu1p2XT
+ 1Pljj0Bhw5GyGoehcFE3eIWyYlv+mwc=
+X-Google-Smtp-Source: ABdhPJwEc+vM7D6aqRn2rnWorYqZhNwRtAYGE6UPMV+RrPgyZGsChbMrQTDOAU2JXBhycuT9pVe8Dw==
+X-Received: by 2002:a05:6000:18cc:: with SMTP id
+ w12mr30813653wrq.96.1628603340996; 
+ Tue, 10 Aug 2021 06:49:00 -0700 (PDT)
 Received: from localhost.localdomain ([41.36.105.33])
- by smtp.gmail.com with ESMTPSA id u6sm8683413wrp.83.2021.08.10.06.48.58
+ by smtp.gmail.com with ESMTPSA id u6sm8683413wrp.83.2021.08.10.06.48.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 06:48:59 -0700 (PDT)
+ Tue, 10 Aug 2021 06:49:00 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] plugins/cache: make L2 emulation optional through args
-Date: Tue, 10 Aug 2021 15:48:43 +0200
-Message-Id: <20210810134844.166490-5-ma.mandourr@gmail.com>
+Subject: [PATCH 5/5] docs/tcg-plugins: add L2 arguments to cache docs
+Date: Tue, 10 Aug 2021 15:48:44 +0200
+Message-Id: <20210810134844.166490-6-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210810134844.166490-1-ma.mandourr@gmail.com>
 References: <20210810134844.166490-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,207 +88,59 @@ Cc: Alexandre Iooss <erdnaxe@crans.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default L2 is not enabled and is enabled by either using the
-newly-introduced "l2" boolean argument, or by setting any of the L2
-cache parameters using args. On specifying "l2=on", the default cache
-configuration is used.
+cache plugin now allows optional L2 per-core cache emulation that can be
+configured through plugin arguments, this commit adds this functionality
+to the docs.
+
+While I'm at it, I editted the bullet point for cache plugin to say:
+    contrib/plugins/cache.c
+instead of
+    contrib/plugins/cache
+to match other plugins.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/cache.c | 76 +++++++++++++++++++++++++++++------------
- 1 file changed, 54 insertions(+), 22 deletions(-)
+ docs/devel/tcg-plugins.rst | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index ff325beb9f..b9226e7c40 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -97,6 +97,8 @@ void (*metadata_destroy)(Cache *cache);
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index fcc460bf7b..ee3fab75bd 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -360,10 +360,11 @@ which will output an execution trace following this structure::
+   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
  
- static int cores;
- static Cache **l1_dcaches, **l1_icaches;
+-- contrib/plugins/cache
++- contrib/plugins/cache.c
+ 
+-Cache modelling plugin that measures the performance of a given cache
+-configuration when a given working set is run::
++Cache modelling plugin that measures the performance of a given L1 cache
++configuration, and optionally a unified L2 per-core cache when a given working
++set is run::
+ 
+     qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
+       -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
+@@ -421,3 +422,18 @@ The plugin has a number of arguments, all of them are optional:
+   Sets the number of cores for which we maintain separate icache and dcache.
+   (default: for linux-user, N = 1, for full system emulation: N = cores
+   available to guest)
 +
-+static bool use_l2;
- static Cache **l2_ucaches;
- 
- static GMutex *l1_dcache_locks;
-@@ -410,7 +412,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
-     l1_dcaches[cache_idx]->accesses++;
-     g_mutex_unlock(&l1_dcache_locks[cache_idx]);
- 
--    if (hit_in_l1) {
-+    if (hit_in_l1 || !use_l2) {
-         /* No need to access L2 */
-         return;
-     }
-@@ -445,7 +447,7 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
-     l1_icaches[cache_idx]->accesses++;
-     g_mutex_unlock(&l1_icache_locks[cache_idx]);
- 
--    if (hit_in_l1) {
-+    if (hit_in_l1 || !use_l2) {
-         /* No need to access L2 */
-         return;
-     }
-@@ -542,19 +544,25 @@ static void append_stats_line(GString *line, uint64_t l1_daccess,
- 
-     l1_dmiss_rate = ((double) l1_dmisses) / (l1_daccess) * 100.0;
-     l1_imiss_rate = ((double) l1_imisses) / (l1_iaccess) * 100.0;
--    l2_miss_rate =  ((double) l2_misses) / (l2_access) * 100.0;
- 
-     g_string_append_printf(line, "%-14lu %-12lu %9.4lf%%  %-14lu %-12lu"
--                           " %9.4lf%%  %-12lu %-11lu %10.4lf%%\n",
-+                           " %9.4lf%%",
-                            l1_daccess,
-                            l1_dmisses,
-                            l1_daccess ? l1_dmiss_rate : 0.0,
-                            l1_iaccess,
-                            l1_imisses,
--                           l1_iaccess ? l1_imiss_rate : 0.0,
--                           l2_access,
--                           l2_misses,
--                           l2_access ? l2_miss_rate : 0.0);
-+                           l1_iaccess ? l1_imiss_rate : 0.0);
++  * l2=on
 +
-+    if (use_l2) {
-+        l2_miss_rate =  ((double) l2_misses) / (l2_access) * 100.0;
-+        g_string_append_printf(line, "  %-12lu %-11lu %10.4lf%%",
-+                               l2_access,
-+                               l2_misses,
-+                               l2_access ? l2_miss_rate : 0.0);
-+    }
++  Simulates a unified L2 cache (stores blocks for both instructions and data)
++  using the default L2 configuration (cache size = 2MB, associativity = 16-way,
++  block size = 64B).
 +
-+    g_string_append(line, "\n");
- }
- 
- static void sum_stats(void)
-@@ -568,8 +576,10 @@ static void sum_stats(void)
-         l1_imem_accesses += l1_icaches[i]->accesses;
-         l1_dmem_accesses += l1_dcaches[i]->accesses;
- 
--        l2_misses += l2_ucaches[i]->misses;
--        l2_mem_accesses += l2_ucaches[i]->accesses;
-+        if (use_l2) {
-+            l2_misses += l2_ucaches[i]->misses;
-+            l2_mem_accesses += l2_ucaches[i]->accesses;
-+        }
-     }
- }
- 
-@@ -604,25 +614,31 @@ static void log_stats(void)
- 
-     g_autoptr(GString) rep = g_string_new("core #, data accesses, data misses,"
-                                           " dmiss rate, insn accesses,"
--                                          " insn misses, imiss rate,"
--                                          " l2 accesses, l2 misses,"
--                                          " l2 miss rate\n");
-+                                          " insn misses, imiss rate");
++  * l2cachesize=N
++  * l2blksize=B
++  * l2assoc=A
 +
-+    if (use_l2) {
-+        g_string_append(rep, ", l2 accesses, l2 misses, l2 miss rate");
-+    }
-+
-+    g_string_append(rep, "\n");
- 
-     for (i = 0; i < cores; i++) {
-         g_string_append_printf(rep, "%-8d", i);
-         dcache = l1_dcaches[i];
-         icache = l1_icaches[i];
--        l2_cache = l2_ucaches[i];
-+        l2_cache = use_l2 ? l2_ucaches[i] : NULL;
-         append_stats_line(rep, dcache->accesses, dcache->misses,
--                icache->accesses, icache->misses, l2_cache->accesses,
--                l2_cache->misses);
-+                icache->accesses, icache->misses,
-+                l2_cache ? l2_cache->accesses : 0,
-+                l2_cache ? l2_cache->misses : 0);
-     }
- 
-     if (cores > 1) {
-         sum_stats();
-         g_string_append_printf(rep, "%-8s", "sum");
-         append_stats_line(rep, l1_dmem_accesses, l1_dmisses,
--                l1_imem_accesses, l1_imisses, l2_mem_accesses, l2_misses);
-+                l1_imem_accesses, l1_imisses,
-+                l2_cache ? l2_mem_accesses : 0, l2_cache ? l2_misses : 0);
-     }
- 
-     g_string_append(rep, "\n");
-@@ -663,6 +679,10 @@ static void log_top_insns(void)
-                                insn->disas_str);
-     }
- 
-+    if (!use_l2) {
-+        goto finish;
-+    }
-+
-     miss_insns = g_list_sort(miss_insns, l2_cmp);
-     g_string_append_printf(rep, "%s", "\naddress, L2 misses, instruction\n");
- 
-@@ -676,6 +696,7 @@ static void log_top_insns(void)
-                                insn->disas_str);
-     }
- 
-+finish:
-     qemu_plugin_outs(rep->str);
-     g_list_free(miss_insns);
- }
-@@ -687,11 +708,14 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
- 
-     caches_free(l1_dcaches);
-     caches_free(l1_icaches);
--    caches_free(l2_ucaches);
- 
-     g_free(l1_dcache_locks);
-     g_free(l1_icache_locks);
--    g_free(l2_ucache_locks);
-+
-+    if (use_l2) {
-+        caches_free(l2_ucaches);
-+        g_free(l2_ucache_locks);
-+    }
- 
-     g_hash_table_destroy(miss_ht);
- }
-@@ -767,11 +791,19 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-         } else if (g_strcmp0(tokens[0], "cores") == 0) {
-             cores = STRTOLL(tokens[1]);
-         } else if (g_strcmp0(tokens[0], "l2cachesize") == 0) {
-+            use_l2 = true;
-             l2_cachesize = STRTOLL(tokens[1]);
-         } else if (g_strcmp0(tokens[0], "l2blksize") == 0) {
-+            use_l2 = true;
-             l2_blksize = STRTOLL(tokens[1]);
-         } else if (g_strcmp0(tokens[0], "l2assoc") == 0) {
-+            use_l2 = true;
-             l2_assoc = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "l2") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &use_l2)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-+                return -1;
-+            }
-         } else if (g_strcmp0(tokens[0], "evict") == 0) {
-             if (g_strcmp0(tokens[1], "rand") == 0) {
-                 policy = RAND;
-@@ -807,8 +839,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-         return -1;
-     }
- 
--    l2_ucaches = caches_init(l2_blksize, l2_assoc, l2_cachesize);
--    if (!l2_ucaches) {
-+    l2_ucaches = use_l2 ? caches_init(l2_blksize, l2_assoc, l2_cachesize) : NULL;
-+    if (!l2_ucaches && use_l2) {
-         const char *err = cache_config_error(l2_blksize, l2_assoc, l2_cachesize);
-         fprintf(stderr, "L2 cache cannot be constructed from given parameters\n");
-         fprintf(stderr, "%s\n", err);
-@@ -817,7 +849,7 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     l1_dcache_locks = g_new0(GMutex, cores);
-     l1_icache_locks = g_new0(GMutex, cores);
--    l2_ucache_locks = g_new0(GMutex, cores);
-+    l2_ucache_locks = use_l2 ? g_new0(GMutex, cores) : NULL;
- 
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++  L2 cache configuration arguments. They specify the cache size, block size, and
++  associativity of the L2 cache, respectively. Setting any of the L2
++  configuration arguments implies ``l2=on``.
++  (default: N = 2097152 (2MB), B = 64, A = 16)
 -- 
 2.25.1
 
