@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345AB3E566A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 11:10:36 +0200 (CEST)
-Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8594D3E566D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 11:12:18 +0200 (CEST)
+Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNmM-0002qd-L6
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 05:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
+	id 1mDNo1-0004HY-Jt
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 05:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNk0-0000jg-5Q
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46515)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mDNl1-00021a-Ap
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:09:11 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:53241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNjx-0007Xa-LW
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628586483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ux2WsEKqflFeBAt33bVQxfml6AqlOlEgolA8hx8mgl4=;
- b=FamRRPtSx4hC8JDwkAjD8MyzhheNpjJ2q0VOmB4v5WBbG5ZfrX+ttF5PExmmvBmHLX9chC
- 4Q/FotQFfh5PzMTXbR8r6rA9AfNDuxmKrG2diLE1cFQTO9kYMKWRy303XpPcL4Bvy67gFb
- 2IqJkJQeKo/fUg8KM2tbxZvEGBxPuA0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-aFrzSB1bN8ujRWSV1ymx9g-1; Tue, 10 Aug 2021 05:08:02 -0400
-X-MC-Unique: aFrzSB1bN8ujRWSV1ymx9g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C3787D542;
- Tue, 10 Aug 2021 09:08:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59D805D6A8;
- Tue, 10 Aug 2021 09:08:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CFD9618003AA; Tue, 10 Aug 2021 11:07:59 +0200 (CEST)
-Date: Tue, 10 Aug 2021 11:07:59 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.1? 0/3] ps2: Fix issue #501 and #502
-Message-ID: <20210810090759.f2f7jmwimvokxwct@sirius.home.kraxel.org>
-References: <4d1c8467-d976-2c0f-ba54-c767df7b8fe7@t-online.de>
- <df850743-8e86-dc7b-1006-d63b86b7ee36@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mDNkz-0008EY-1E
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:09:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0BE26201CE;
+ Tue, 10 Aug 2021 09:09:06 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 10 Aug
+ 2021 11:09:05 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006bbc12c1f-6d2b-48c7-948c-06459a5084a5,
+ 8F36BE46FB8773C29BD4C9A30C998E4B5B7B2B54) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH] tests/acceptance: Test powernv machines
+To: Joel Stanley <joel@jms.id.au>
+References: <20210810083346.730652-1-clg@kaod.org>
+ <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
+Date: Tue, 10 Aug 2021 11:09:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <df850743-8e86-dc7b-1006-d63b86b7ee36@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 56119a15-ace4-4f2d-869c-f4d12f506532
+X-Ovh-Tracer-Id: 4769593480374815596
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrjeelgddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehuedtheeghfdvhedtueelteegvdefueektdefiefhffffieduuddtudfhgfevtdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,27 +70,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On 8/10/21 10:36 AM, Joel Stanley wrote:
+> On Tue, 10 Aug 2021 at 08:34, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
+>> with a simple PCI layout.
+>>
+>> Cc: Cleber Rosa <crosa@redhat.com>
+>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>  tests/acceptance/boot_linux_console.py | 42 ++++++++++++++++++++++++++
+>>  1 file changed, 42 insertions(+)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index 5248c8097df9..da93a475ca87 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -1176,6 +1176,48 @@ def test_ppc64_e500(self):
+>>          tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>>          self.do_test_advcal_2018('19', tar_hash, 'uImage')
+>>
+>> +    def do_test_ppc64_powernv(self, proc):
+>> +
+>> +        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
+>> +
+>> +        skiboot_url = images_url + 'skiboot.lid'
+>> +        skiboot_hash = 'a9ffcddbf238f86cda4b2cae2882d6bd13cff8489109758a4980efaf154f4a29'
+>> +        skiboot_path = self.fetch_asset(skiboot_url, asset_hash=skiboot_hash,
+>> +                                       algorithm='sha256')
+> 
+> What's the thought that led you to using this instead of the one that
+> gets packaged with qemu?
 
-> > This patch series improves the PS/2 keyboard emulation.
-> > 
-> > There's a workaround for issue #501 and #502 so I don't think
-> > this is rc3 material. But that decision is up to the maintainers.
+Good question.
 
-Phew.  I'm a little nervous on adding it that late, so yes, I'd tend to
-consider it 6.2 material too.
+I considered that the skiboot.lid shipped with QEMU was somewhat a default
+to make things work. The official released versions are the ones used by 
+the outside world on real systems and were a better target for tests.
 
-> Meanwhile, what about reverting ff6e1624b3 for 6.1?
+That said, using the default version might be enough. Maintainers, please 
+advise ! 
 
-Not going to fly due to patch dependencies, we would have to revert all
-the ps2 fixes, which IMHO is likewise a bad idea for -rc3 ...
+>> +
+>> +        kernel_url = images_url + 'zImage.epapr'
+>> +        kernel_hash = '0ab237df661727e5392cee97460e8674057a883c5f74381a128fa772588d45cd'
+>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash,
+>> +                                       algorithm='sha256')
+>> +        self.vm.set_console()
+>> +        self.vm.add_args('-bios', skiboot_path,
+>> +                         '-kernel', kernel_path,
+>> +                         '-append', 'console=tty0 console=hvc0',
+>> +                         '-device', 'pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0',
+>> +                         '-device', 'nvme,bus=pcie.2,addr=0x0,serial=1234',
+>> +                         '-device', 'e1000e,bus=bridge1,addr=0x3',
+>> +                         '-device', 'nec-usb-xhci,bus=bridge1,addr=0x2')
+>> +        self.vm.launch()
+>> +
+>> +        self.wait_for_console_pattern("CPU: " + proc + " generation processor")
+>> +        self.wait_for_console_pattern("zImage starting: loaded")
+>> +        self.wait_for_console_pattern("Run /init as init process")
+>> +        self.wait_for_console_pattern("Creating 1 MTD partitions")
+> 
+> This is great.
+> 
+> Is there any value in checking for some of the devices that come up,
+> like USB or ethernet?
 
-take care,
-  Gerd
+or nvme. Yes. That's a good idea.
+ 
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Thanks,
+
+C. 
+
+> 
+>> +
+>> +    def test_ppc_powernv8(self):
+>> +        """
+>> +        :avocado: tags=arch:ppc64
+>> +        :avocado: tags=machine:powernv8
+>> +        """
+>> +        self.do_test_ppc64_powernv('P8')
+>> +
+>> +    def test_ppc_powernv9(self):
+>> +        """
+>> +        :avocado: tags=arch:ppc64
+>> +        :avocado: tags=machine:powernv9
+>> +        """
+>> +        self.do_test_ppc64_powernv('P9')
+>> +
+>>      def test_ppc_g3beige(self):
+>>          """
+>>          :avocado: tags=arch:ppc
+>> --
+>> 2.31.1
+>>
 
 
