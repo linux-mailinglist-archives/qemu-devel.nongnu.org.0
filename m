@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6271D3E7C08
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 17:21:34 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA56F3E7C07
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 17:21:21 +0200 (CEST)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDTZN-0004SO-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 11:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40670)
+	id 1mDTZA-0003zL-RT
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 11:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mDTWN-0000cS-SZ
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:18:27 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36376)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDTWx-0001jJ-8N
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:19:03 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mDTWL-0001JW-8T
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:18:27 -0400
-Received: by mail-ej1-x630.google.com with SMTP id o23so2946711ejc.3
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:18:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDTWv-0001jK-R1
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:19:03 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id nt11so10430884pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9IK5ljYAdD8JPrI1xhVGVAWtQ+2tDFnV3ddxn4CDAAk=;
- b=v3Gk7lhBPLPG/9M8iv7mzYgBmjSQlcTMVR4DwKCOy3f4Fv/oigy+TalUyAvEVwDlCb
- Ozial3qQCTcN4aIl++89AO/OBrIv/P8Ku3cM55rtUMvtNSoEO9RMHKntrdSfZN8cRthH
- HxcGFUlZXVhBbCv74wzlPaV5bImM6JdRpefvkH27hhwxIMeMuswsqiIfioClGFhL2Rik
- 2VgsQ/UjpJS8RDKYkWXZwFcCzJKBoKa1ec9DSRoFMxbcd5tg6mUcBcJR9CR42ovL9WKE
- hcQuLNg70YI3OG1mQVhTBWBhiwoGmOYDzOBBNw/nsfDIeZp9onSIjeofTuT3muoPXTEC
- VSiw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jbhnIq9SY45PhrsdqsgBoTMd3ION6wjUplvPxyT9FmM=;
+ b=UnQfRD1Lr66a+tFFINRIxm1nceUQSK+DTi8lC4cOTT2jn/KbfqCCrXvQaD/YnnUKBu
+ a4DXngHLW9oQ2B3Gj0NeLBlUmWz1zkIX5AqS7Z0NSzZRlD8sXGl3qOtKHaQ2gDJNKZJE
+ 48aVKXOZduq7s9pCUpDuy5nHSNWlSvVGsDs1n5IZ+cZAWMNGBfaori04RnL0jAJzgP1R
+ 0AL6w59PGjeEl5U71f2CJPk/MIPnCNvduraitzQZosFnEixBt/FsmHrYW4l9Qhj0CccR
+ LvQ7Dwna8PQWccwlv+tW4cRf6XQz4NzjKceOgk/OJxlkNfdObgEW/lFtSdkPxiinAxfq
+ VLkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9IK5ljYAdD8JPrI1xhVGVAWtQ+2tDFnV3ddxn4CDAAk=;
- b=P4EWVxNdEJbpur9QJ3v61N5MONLS+BCDnC+ZNSIs8UkCh+z40hseB/Fk9FSTwtgSo/
- tXuAweFgkn1pcyhecpUqWNL8o7f8QB0FHJEK8U70xAlUPhgYWqWWErSIsxZDJk5Tw85O
- 2dhMVHKZyx3F8bkIjMR+WWfBUVJyFOdweGyz4VhoMp7nxP5sV6PE13K+WyuRi18EegVz
- QpFfjckudBEf4NPhAUgVEFncKqaTdGaEYXG5bGk27eWtL3rVmb/5wJj5wR7QCz3ZvGHa
- GgjD6VCBm9c4Gf+fjmxAGDnP2Qf0leYxVb7RilX6X8de8YUs/IgNVNtNx6Epfb4SXldp
- iE1A==
-X-Gm-Message-State: AOAM532taFn0ojQ1pHY6oA0fsqzzFr6KP3BAd6yFBmMD7EAKv1lCzMQC
- zGky2dv4dZle5+YGw3EUJdLuFK5jAO55xsMH3shSBzah03Y=
-X-Google-Smtp-Source: ABdhPJy2Cx9uDKVKMYtOwBn8teuWmFySg12GiO9w0L2jQobGljEWHraGnB22KtZwLKZIRQ6PwXNOr0kAbi3OYe3yquM=
-X-Received: by 2002:a17:906:d93a:: with SMTP id
- rn26mr27842046ejb.382.1628608703267; 
- Tue, 10 Aug 2021 08:18:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jbhnIq9SY45PhrsdqsgBoTMd3ION6wjUplvPxyT9FmM=;
+ b=oAMgWMuVdehCG4lAqqMCj8eO4Not61LEZCzIjJIJjAmyGvKu4Jvldz1XYeRT3RDwwx
+ VNFtQ2KO8IKt8p6NWBjJrNDvhOD4cWNnTzf2DA8f0XYbZit7rd30PFlmShyDErrlYyRu
+ V2+NTur+Ywe8HdbHNEngPMddX+3aJlL0hOQiEkEmSonf+/zBTnd59Z5sbaOzYM7OTGPu
+ UPZLjrCp2SYEC8IRFe4sZ1OaLS5fbbc73EYS/fmvb4pQTvPK6elaV0jWnyE6EecLe1VV
+ PTY/sGcKzONTdeu/bvhaW2emxPC/WXN8hd2z5Z0I9vhHBoPpgzRMTSPUYN6E0ie8Vx1A
+ lbEA==
+X-Gm-Message-State: AOAM531aQrAn01Ri3J4JZt/ofghrw1SJlJ2lWQ2YAcMzgQwipJrdG15C
+ M7nV/jbZ7YJkt/Go6ICzkkC/UA==
+X-Google-Smtp-Source: ABdhPJwbRjOLSEQAUBCYqwTVEO1iiZ4PhnrQRBSRhtGybOuNnJfz+5pvzEfo422cV7P51RBZeN8tOg==
+X-Received: by 2002:a17:90a:d686:: with SMTP id
+ x6mr4416293pju.227.1628608740306; 
+ Tue, 10 Aug 2021 08:19:00 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id j18sm14163303pfc.98.2021.08.10.08.18.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 08:18:58 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 33/49] bsd-user: Rewrite target system call
+ definintion glue
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-34-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b5af5252-c0d8-8bc6-0fa0-4fc1c4aebaf8@linaro.org>
+Date: Tue, 10 Aug 2021 05:18:38 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210810124403.771769-1-clg@kaod.org>
-In-Reply-To: <20210810124403.771769-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Aug 2021 16:17:38 +0100
-Message-ID: <CAFEAcA9aHX53JkEW3hbjWfeK=LL8QKxWopRAx4pcV6V=PKv3QQ@mail.gmail.com>
-Subject: Re: [PULL ppc] powernv queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+In-Reply-To: <20210807214242.82385-34-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Aug 2021 at 13:46, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9=
-eb:
->
->   Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-powernv-20210810
->
-> for you to fetch changes up to 91a6b62df830d51f2b6b2ea00b3c92231d0ba9dc:
->
->   ppc/pnv: update skiboot to commit 820d43c0a775. (2021-08-10 14:18:51 +0=
-200)
->
-> ----------------------------------------------------------------
-> ppc/pnv: update skiboot image
->
-> ----------------------------------------------------------------
-> C=C3=A9dric Le Goater (1):
->       ppc/pnv: update skiboot to commit 820d43c0a775.
+On 8/7/21 11:42 AM, Warner Losh wrote:
+> From: Warner Losh <imp@FreeBSD.org>
+> 
+> Rewrite target definnitions to interface with the FreeBSD system calls.
+> This covers basic types (time_t, iovec, umtx_time, timespec, timeval,
+> rusage, rwusage) and basic defines (mmap, rusage). Also included are
+> FreeBSD version-specific variations.
+> 
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   bsd-user/bsd-mman.h     | 121 --------------------
+>   bsd-user/mmap.c         |   2 -
+>   bsd-user/syscall_defs.h | 247 ++++++++++++++++++++++++++--------------
+>   3 files changed, 162 insertions(+), 208 deletions(-)
+>   delete mode 100644 bsd-user/bsd-mman.h
 
-That skiboot changelog lists a massive set of changes, which
-is correspondingly a larger risk that something in there turns
-out to be a must-fix-for-release regression.
+Oof.  Well, I guess it's progress, but it's hard to read.
 
-For future release cycles, can you try to get guest bios
-blob updates in earlier rather than on the day we're trying
-to get rc3 out, please?
+> +struct target_freebsd_timeval {
+> +    target_freebsd_time_t       tv_sec; /* seconds */
+> +    target_freebsd_suseconds_t  tv_usec;/* and microseconds */
+> +#if !defined(TARGET_I386) && TARGET_ABI_BITS == 32
+> +    abi_long _pad;
+> +#endif
+> +} __packed;
 
-thanks
--- PMM
+I question the use of packed here.  You do realize that removes all alignment 
+requirements?  This is probably not what you want.  It's certainly not present in the real 
+freebsd _timeval.h.
+
+Similarly with _timespec.h.
+
+r~
 
