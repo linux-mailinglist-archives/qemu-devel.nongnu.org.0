@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75993E5E4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 16:47:23 +0200 (CEST)
-Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E653E5E75
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 16:58:22 +0200 (CEST)
+Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDT2I-0000B6-8A
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 10:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
+	id 1mDTCu-0002DO-BG
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 10:58:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDSzw-0007XB-Qx
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 10:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28981)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDTAS-0005qA-KX
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 10:55:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDSzu-0001zl-8e
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 10:44:56 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDTAO-0001QA-Tc
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 10:55:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628606692;
+ s=mimecast20190719; t=1628607343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CzCHs8Xln/BYj5mi7NgIoG7rpE6Ta5xVv5MRq1fn4Q4=;
- b=Kwa7W5lzkdInutPCJFk2FDGjpUTYEvpsXMPovdufdv/j+HBZ6QFGPjJNqBMn4HO6XCS81a
- DaWwGasiacL/20pHwrva+4M9WXgkuaB59LlB06syiAH1bJrPHB6Ms9wzFfGjB12Clu8cqz
- M2SnjA8fV0wV/HVGWSS7o6UlbLQFLGA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-KjQt783zMTWmmX7vbo4JVw-1; Tue, 10 Aug 2021 10:44:51 -0400
-X-MC-Unique: KjQt783zMTWmmX7vbo4JVw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a18-20020a05600c2252b02902531dcdc68fso1133294wmm.6
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 07:44:50 -0700 (PDT)
+ bh=beT1tfa2/hI1xuZ402E+dV6qT17h0lFBRfRYeEyIqLc=;
+ b=OpAvuaz6CIa1i2PFaKpO6wUfHDeY2GaT1/lAkPiEfLy0/UW+4GPyMy2tDVkYSgjtuErK9W
+ unkpqgLrbdls5RFp6IGXuhHvH990HOxpBko1ZsP8T8YDektk+PIxIs8k87BphjVTHICAxK
+ 9ezGNJo4wYlA6kSQGFV5EOeH+Ng/rgA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-OV7M61JmMY6S6G2cZxBNQA-1; Tue, 10 Aug 2021 10:55:41 -0400
+X-MC-Unique: OV7M61JmMY6S6G2cZxBNQA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m37-20020a05600c3b25b02902b5a02478adso677716wms.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 07:55:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=CzCHs8Xln/BYj5mi7NgIoG7rpE6Ta5xVv5MRq1fn4Q4=;
- b=Xk/mlGMycp3iyea1jcIMgJUu6deC9lltuwxdt3ccaQm0ikAhGUNJRxjQMctMETHKzf
- gJT9mm7ySo+vG1vMIp9894Ck5fSln5xLdbgk6CzX/CJadydu1Cmb7XyGxOR37P2f4ce6
- m0ode38QxfvTandWBWl/oi62fVjDGgJHwSXtpnyGuXBd1WfR7buqZyuuc5sL/vmJ46Rz
- XIcMY3XEgrw4idjPkeTHgn4fhIt4FJVPI4FjgIHkXwFshUGluPSLhT0/SIEo4Jg8PNcU
- rNqmrGJ34FQXLfh74UfYnRUuNVykBt8Amb4BEcgvWfOYAToPqjyaqLl0NSFBcpAu38PV
- 8YeQ==
-X-Gm-Message-State: AOAM5304bAEYNrgI7i2sMtqr1zmN/DtWMo79dpmAmATM0tS10B77On+e
- PSA42hUceFVbDvEYjiZhr0X5gQYZUbM9vG9J1+63yM3PcCmZLoieIu/Y+ShVhJ4RKrUqoWlCFmL
- QNM6dtyCh6Jpi1y8=
-X-Received: by 2002:adf:f64a:: with SMTP id x10mr2434414wrp.287.1628606690053; 
- Tue, 10 Aug 2021 07:44:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwivfBZ7yk5/0BDOZr7w2uYxLlwPPKyEkpv2Ed/jUKQLJ8sgEG/YBPeYqemxyXV/oagDTusqg==
-X-Received: by 2002:adf:f64a:: with SMTP id x10mr2434402wrp.287.1628606689927; 
- Tue, 10 Aug 2021 07:44:49 -0700 (PDT)
+ bh=beT1tfa2/hI1xuZ402E+dV6qT17h0lFBRfRYeEyIqLc=;
+ b=IGTgnmtxO+84pfkGLZVdkC7q5c64oOCdyFuNlF6gtvgEotB4bGYV6ZAjgC3AnxnCOY
+ sXXqIcJUOY0lJBSidUb0IZ+msTqPQSNzEreeyouvFxjESXPnw5h/YzL8RSQEPUTS0bRg
+ ZRLKL8dgkkQQYcj+gZMuHWZS0UcakGZqmpdWZxj0AqKfGcB42AhD3dRt9pVx7RA6usqk
+ DkapOoGkxJROqKmIn539KGXuGdRZiLnamikqsrVr6khzxKSA/n/zVzR/uEXZ0SBjXjpd
+ tmQDReQzj6676SbxdSPNNb4Ilt5trdXsAxbctuFx5bYxMAfj8r3/rzr6xZLd8X/CcVUl
+ IDKg==
+X-Gm-Message-State: AOAM5328SeA+x56GrMQs9DEV6X5NTtAnVxFGEKbpCieae/sq6CMkr2EG
+ e9kDgmzzo0e89OWUwlxHsyWrZ8flLEY56f9+lQLXKEfLB2u4LGFz7fbXlMuRsFsZVCCIXGhB6jj
+ Zz8TlQZUtX1ByKsY=
+X-Received: by 2002:a1c:804a:: with SMTP id b71mr5079678wmd.141.1628607340645; 
+ Tue, 10 Aug 2021 07:55:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/xrlBDCkUy2raPuWOpkf6Gqtokw8oxrxHAoO1H0VlOTsoc54YMhvnbaKrmH3m55EewsQh9Q==
+X-Received: by 2002:a1c:804a:: with SMTP id b71mr5079651wmd.141.1628607340435; 
+ Tue, 10 Aug 2021 07:55:40 -0700 (PDT)
 Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
  by smtp.gmail.com with ESMTPSA id
- s14sm21068312wmc.25.2021.08.10.07.44.48
+ h11sm3555834wmc.23.2021.08.10.07.55.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 07:44:48 -0700 (PDT)
-Subject: Re: [PATCH v7 06/33] block-copy: move detecting fleecing scheme to
- block-copy
+ Tue, 10 Aug 2021 07:55:39 -0700 (PDT)
+Subject: Re: [PATCH v7 07/33] block/block-copy: introduce
+ block_copy_set_copy_opts()
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210804093813.20688-1-vsementsov@virtuozzo.com>
- <20210804093813.20688-7-vsementsov@virtuozzo.com>
+ <20210804093813.20688-8-vsementsov@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <1a30dd07-ffba-6e71-540a-c5dd1f856afd@redhat.com>
-Date: Tue, 10 Aug 2021 16:44:47 +0200
+Message-ID: <1cf5b03a-fe5f-a258-3fea-f5f3a3e5cfd9@redhat.com>
+Date: Tue, 10 Aug 2021 16:55:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210804093813.20688-7-vsementsov@virtuozzo.com>
+In-Reply-To: <20210804093813.20688-8-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -107,24 +107,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 04.08.21 11:37, Vladimir Sementsov-Ogievskiy wrote:
-> We want to simplify initialization interface of copy-before-write
-> filter as we are going to make it public. So, let's detect fleecing
-> scheme exactly in block-copy code, to not pass this information through
-> extra levels.
->
-> Why not just set BDRV_REQ_SERIALISING unconditionally: because we are
-> going to implement new more efficient fleecing scheme which will not
-> rely on backing feature.
+> We'll need a possibility to set compress and use_copy_range options
+> after initialization of the state. So make corresponding part of
+> block_copy_state_new() separate and public.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   block/copy-before-write.h  |  2 +-
->   include/block/block-copy.h |  3 +--
->   block/backup.c             | 21 +--------------------
->   block/block-copy.c         | 24 +++++++++++++++++++++---
->   block/copy-before-write.c  |  4 ++--
->   5 files changed, 26 insertions(+), 28 deletions(-)
+>   include/block/block-copy.h |  2 ++
+>   block/block-copy.c         | 66 +++++++++++++++++++++-----------------
+>   2 files changed, 39 insertions(+), 29 deletions(-)
+>
+> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+> index 734389d32a..f0ba7bc828 100644
+> --- a/include/block/block-copy.h
+> +++ b/include/block/block-copy.h
+> @@ -28,6 +28,8 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+>                                        int64_t cluster_size, bool use_copy_range,
+>                                        bool compress, Error **errp);
+>   
+> +void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
+> +                              bool compress);
+>   void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
+>   
+>   void block_copy_state_free(BlockCopyState *s);
+> diff --git a/block/block-copy.c b/block/block-copy.c
+> index 58b4345a5a..84c29fb233 100644
+> --- a/block/block-copy.c
+> +++ b/block/block-copy.c
+> @@ -315,21 +315,11 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
+>                                        target->bs->bl.max_transfer));
+>   }
+>   
+> -BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+> -                                     int64_t cluster_size, bool use_copy_range,
+> -                                     bool compress, Error **errp)
+> +/* Function should be called prior any actual copy request */
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Given this is something the caller should know, I’d prefer putting this 
+into the block-copy.h header.
+
+However, I realize we have a wild mix of this in qemu and often do put 
+such information into the C source file, so...
+
+> +void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
+> +                              bool compress)
+>   {
+> -    BlockCopyState *s;
+> -    BdrvDirtyBitmap *copy_bitmap;
+>       bool is_fleecing;
+> -
+> -    copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
+> -                                           errp);
+> -    if (!copy_bitmap) {
+> -        return NULL;
+> -    }
+> -    bdrv_disable_dirty_bitmap(copy_bitmap);
+> -
+>       /*
+>        * If source is in backing chain of target assume that target is going to be
+>        * used for "image fleecing", i.e. it should represent a kind of snapshot of
+> @@ -344,24 +334,12 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+>        * For more information see commit f8d59dfb40bb and test
+>        * tests/qemu-iotests/222
+>        */
+> -    is_fleecing = bdrv_chain_contains(target->bs, source->bs);
+> +    is_fleecing = bdrv_chain_contains(s->target->bs, s->source->bs);
+>   
+> -    s = g_new(BlockCopyState, 1);
+> -    *s = (BlockCopyState) {
+> -        .source = source,
+> -        .target = target,
+> -        .copy_bitmap = copy_bitmap,
+> -        .cluster_size = cluster_size,
+> -        .len = bdrv_dirty_bitmap_size(copy_bitmap),
+> -        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0) |
+> -            (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
+> -        .mem = shres_create(BLOCK_COPY_MAX_MEM),
+> -        .max_transfer = QEMU_ALIGN_DOWN(
+> -                                    block_copy_max_transfer(source, target),
+> -                                    cluster_size),
+> -    };
+> +    s->write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0) |
+> +        (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
+
+Shouldn’t we keep the is_fleecing check in block_copy_state_new()? We 
+must perform it at least once, but there is no benefit in repeating it 
+on every block_copy_set_copy_opts() call, right?
+
+Hanna
 
 
