@@ -2,95 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863643E57E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:02:37 +0200 (CEST)
-Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CB03E580B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:13:19 +0200 (CEST)
+Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDOai-0004qe-9n
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55148)
+	id 1mDOl4-0007K1-DN
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mDOZt-000400-8L
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:01:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28612)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mDOk6-0006e8-Lw
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:12:18 -0400
+Received: from redisdead.crans.org ([185.230.79.39]:50680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mDOZq-000381-V1
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:01:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628589702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BKsTyRBfaQSCzarDwxlFKY1IPnHILmi9rMmOyC0BfGM=;
- b=C8UpVZum9BJhdou9wuG5NlRpilOhZ2CsovdZLNmu2K20Fq4ovMWWd/jFbOmPBrib93Qr9H
- HG5cEv/tK0WHjVodjA59uKop6j8vNb9tnGTUbJUrVsTti8l+xUrdT5zm9JG9GoAsZb+kPL
- ZcYzlYS9m5+JT8TovUdwu6c4XO5kD6U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-V2Fj98nUPNKfkr80E4wY7Q-1; Tue, 10 Aug 2021 06:01:41 -0400
-X-MC-Unique: V2Fj98nUPNKfkr80E4wY7Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e17-20020adfa4510000b02901550e0550f3so237267wra.11
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 03:01:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=BKsTyRBfaQSCzarDwxlFKY1IPnHILmi9rMmOyC0BfGM=;
- b=mJ8C4UxDJMHHeULx1KM9SWavv/4STjNHyvq2ADbJSjOWtlVyKwroeG6xKFWKRbohvF
- doBHQC9ttRg3qxnOgGRHzdpoR2TcOyW6lCIEooua3Lh3TnwhLNe29AXxI9dIHR/ZTLFL
- fHVuGNvYmmMOSwFuJ5S7IuIGCCAyrdTDbSDyVr3a+v57jBvLiD27hhRV2l3F3MMkq6Nu
- 5aydPKOVi3okUbncSxMguJqGegmJG/5AR50h/LfuFSKfm57bbOznhBz6b/GshHB8Vir1
- aNlCVHK3CbiNuMqnIih1e8c41DObI/F5zoGVDPzKxLuHe1OMdbfkUqKHKw2tnBFDvXYu
- J87g==
-X-Gm-Message-State: AOAM5339rve0RxbfyammPo8wybRdn3ibDMXFsDh2mgnfWFp1m8miP5Jl
- 1e/O8BW1Cc4Re6/y+1lJlothKRbN1OFIrpWGn1K8bPgSHjQlPiwJ1slFYWbYvywx91pine4cSz/
- vqq3HSFubKvxA/oA=
-X-Received: by 2002:a05:6000:18a4:: with SMTP id
- b4mr6051563wri.162.1628589699897; 
- Tue, 10 Aug 2021 03:01:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSk/iNZm43oPT+w32V5Lkvkm25RPsJ8mzbWFIPDYrGzDLSaYz2vC+Te8WreQllKQ6wVG8HvA==
-X-Received: by 2002:a05:6000:18a4:: with SMTP id
- b4mr6051533wri.162.1628589699623; 
- Tue, 10 Aug 2021 03:01:39 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id z17sm1524498wrr.66.2021.08.10.03.01.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 03:01:39 -0700 (PDT)
-Date: Tue, 10 Aug 2021 11:01:37 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org
-Subject: Re: [PATCH] audio: Never send migration section
-Message-ID: <YRJOgT08qsnO6PhT@work-vm>
-References: <20210809170956.78536-1-dgilbert@redhat.com>
- <YRFiDMlKFQ/Kxrhx@redhat.com>
- <bedb4670-4e44-2d69-c611-3bf3bdce6587@redhat.com>
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mDOk4-0001xv-BP
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:12:18 -0400
+Received: from [IPv6:2a0c:700:3012:13:3608:d884:9339:52cc] (unknown
+ [IPv6:2a0c:700:3012:13:3608:d884:9339:52cc])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 834781FE;
+ Tue, 10 Aug 2021 12:12:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1628590333; bh=QPovpItE/FdNu6mJgONJ3DYqp2kRIV3sxYxdV6/+sgw=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=aIQrvjLKZYBb2R7bUcp+K18Ik3jjEAgQ0ao7uE0J2ywwhBOKoDkT0t1tEBJg/O1ee
+ LaNSiDgKbRZt9SN9UKHuqY3Fzga8KINfETPnHfvqyFKR2YUOUMf7HitsLu0Gda2jj8
+ S5HGiZlE9f7U+e2WMzIcxovb55+aCv4+RiW98z3WgdbxMKUU+ApGK4ZG3ZXwrR2MUW
+ v2QyRjLg/NZJO1J2dbQ29s++whOI0LR8sS7T+eEBk3rm2Mgy8o1jTE3jR0v7Qco+LS
+ DjbjmM7dPWlqie4Pi48jEYwhTeENGKh2lM2KxIpqhnonKkbL5oFBNCD8Bv8jYenhiC
+ qTZZatM014WNoAAYKgtjQZuSXyMtxIcRkj6ndgg6BOcFcMGitBUE8cR3g35ZG0vhBa
+ pcVaeiRhFAkTxSaGxnXcQqRVg2y9R9vpE6ztKY3q8PykvPCVFs+Q1DnrKE0mhNS/9t
+ y1KAsPQNDuqjFkX1b/ZYFPyocRIH6AxY0NNoxVBdswWF9IHQHpBhfdtW6hlvdYiAPk
+ hUYQW4STVBDcr8PYvguzxuVopCIaYfWlpYW0t78ZWuXcvpmxbOqqEIKiu3ZLMG+Xei
+ PngsC1LI3aqRWJFt1YeCG+RpEhlVPZus2l0o+7ptnlyfInnsNuQfn7O6fZhVsu8K5q
+ ooHo8PKtnVZc4TjBL1g7kg8A=
+Subject: Re: [PATCH] docs/devel: fix missing antislash
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20210809173141.1714998-1-erdnaxe@crans.org>
+ <20210809181410.3rzvwtsawwadl6u4@habkost.net>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Message-ID: <be9d75c7-f6ad-da24-318d-ec1af567ad54@crans.org>
+Date: Tue, 10 Aug 2021 12:12:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <bedb4670-4e44-2d69-c611-3bf3bdce6587@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210809181410.3rzvwtsawwadl6u4@habkost.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,87 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> On 8/9/21 7:12 PM, Daniel P. Berrangé wrote:
-> > On Mon, Aug 09, 2021 at 06:09:56PM +0100, Dr. David Alan Gilbert (git) wrote:
-> >> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >>
-> >> The audio migration vmstate is empty, and always has been; we can't
-> >> just remove it though because an old qemu might send it us.
-> >> Changes with -audiodev now mean it's sometimes created when it didn't
-> >> used to be, and can confuse migration to old qemu.
-> 
-> Not a 6.1 regression but easy change for rc3 IMO.
-> 
-> >> Change it so that vmstate_audio is never sent; if it's received it
-> >> should still be accepted, and old qemu's shouldn't be too upset if it's
-> >> missing.
-> 
-> Worth Cc: stable@ maybe?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK
+Content-Type: multipart/mixed; boundary="D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+Message-ID: <be9d75c7-f6ad-da24-318d-ec1af567ad54@crans.org>
+Subject: Re: [PATCH] docs/devel: fix missing antislash
+References: <20210809173141.1714998-1-erdnaxe@crans.org>
+ <20210809181410.3rzvwtsawwadl6u4@habkost.net>
+In-Reply-To: <20210809181410.3rzvwtsawwadl6u4@habkost.net>
 
-Hmm yes, cc'd this reply.
+--D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Dave
+On 8/9/21 8:14 PM, Eduardo Habkost wrote:
+> On Mon, Aug 09, 2021 at 07:31:41PM +0200, Alexandre Iooss wrote:
+>> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
+>> ---
+>>   docs/devel/qom.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+>> index e5fe3597cd..b9568c0fb8 100644
+>> --- a/docs/devel/qom.rst
+>> +++ b/docs/devel/qom.rst
+>> @@ -309,7 +309,7 @@ This is equivalent to the following:
+>>              OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
+>>      #define MY_DEVICE_CLASS(void *klass) \
+>>              OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
+>> -   #define MY_DEVICE(void *obj)
+>> +   #define MY_DEVICE(void *obj) \
+>>              OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
+>=20
+> Oops, nice catch!
+>=20
+> However, the code above is already going to be deleted by:
+> https://lore.kernel.org/qemu-devel/20210729175554.686474-9-ehabkost@red=
+hat.com
+>=20
 
-> >> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> ---
-> >>  audio/audio.c | 10 ++++++++++
-> >>  1 file changed, 10 insertions(+)
-> > 
-> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > Tested-by: Daniel P. Berrangé <berrange@redhat.com>
-> > 
-> > 
-> > For testing I have a VM with -audiodev, but *WITHOUT* any sound
-> > frontend devices. Live migrating to a QEMU using QEMU_AUDIO_DRV
-> > would previously fail. With this applied it now works, showing
-> > that we dont uncessarily send this.
-> > 
-> > I also tested migration to a QEMU with -audiodev, but without
-> > this patch, and that still works as before, showing that QEMU
-> > is happy if this section is not sent.
-> > 
-> >>
-> >> diff --git a/audio/audio.c b/audio/audio.c
-> >> index 59453ef856..54a153c0ef 100644
-> >> --- a/audio/audio.c
-> >> +++ b/audio/audio.c
-> >> @@ -1622,10 +1622,20 @@ void audio_cleanup(void)
-> >>      }
-> >>  }
-> >>  
-> >> +static bool vmstate_audio_needed(void *opaque)
-> >> +{
-> >> +    /*
-> >> +     * Never needed, this vmstate only exists in case
-> >> +     * an old qemu sends it to us.
-> >> +     */
-> >> +    return false;
-> >> +}
-> >> +
-> >>  static const VMStateDescription vmstate_audio = {
-> >>      .name = "audio",
-> >>      .version_id = 1,
-> >>      .minimum_version_id = 1,
-> >> +    .needed = vmstate_audio_needed,
-> >>      .fields = (VMStateField[]) {
-> >>          VMSTATE_END_OF_LIST()
-> >>      }
-> >> -- 
-> >> 2.31.1
-> >>
-> > 
-> > Regards,
-> > Daniel
-> > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Oh I was not aware of that new patch, it looks great while also solving=20
+the anti-slash problem!
 
+Thanks,
+-- Alexandre
+
+
+--D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA--
+
+--4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmESUP0FAwAAAAAACgkQbHknjz/NzAKr
+qg/7B9JIdB164moP0NqMHTWQg8nSti32GH0wKLeAZ5Ijl6SVLrTMHs3NIa46BY8W+5p7MHL3QyKG
+2vmQgX3rFg2DtUu/Ioa5qeTr77cN0OGw2fwoZk7wiH5lK/6a4oKOpCA4djyIQTW9+w5V0p6Gz+/1
+kCMKOkEzsLrT1BevhX9ogCX1Tpkl+xxONTPqBpowqrVPeGlgoZueUYkl4PInZOA9Qfw9Ov/EoOL8
+E40mqIKWDnxeoF/2G85nNi/08SbX2wL4Z7MJ0qyeUGZ/MB7mrT9ubMohoYaUJF+BiIx7WOURzhLC
+LBY2eI2D3opvFhOfK+57MeJs7TzqDix+0+8fqub5yyDMhpjmkZL9te/cZbyWFYqtHHbXtZbgEwhk
+V0ERWK55+KJ9niX/2xQfMru1xoRlPJV2sWf/ELnxGCLl2pbppUl2tLDnecjkWIK1t7gobyFn2M5K
+pOZL4OTCRAOYjSKJwPiT+jLeRcTAph9NszmwBNqvC/lU1qJuBGFJjirFKWF8SnJFlYYwReAXvCjI
+25NEsA+FBo9jnyNtJXRJHL6p+aZAPn7mXJ5tQIdZLDmJ5Iwb995/KDzwR6NlDKkiARGCC+SE6ElU
+uS9rRrE2aKR26Ch5/iq05qooWgYD6nhQGKvHALLjuz3RpdnuIzLX67IUik/66nuruZ/m7CJB/Kwy
+Ygs=
+=F8NO
+-----END PGP SIGNATURE-----
+
+--4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK--
 
