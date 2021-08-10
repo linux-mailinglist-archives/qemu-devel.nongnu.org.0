@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280D33E7DC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 18:46:23 +0200 (CEST)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DF83E7DC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 18:46:54 +0200 (CEST)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDUtR-0007vr-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 12:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1mDUtw-0000U6-3t
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 12:46:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDUrl-0006ry-3A
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 12:44:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDUrg-0006li-UW
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 12:44:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628613870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LcasTaIHh8DMl/rmPt3XWMhRYC6EbiK3pB69bPx5bog=;
- b=Wgn3xUKBZ1Ipl8E8VSAMUEZN9byRrIUb8ORWAoxlEP0F6SLuOJ4EcUzpnZ4KwLZ3Cl1+0D
- 3zo99QP47E3Jy5haON9PHcSG6i/UGduiTyMuabdbDqPCXFbRRnWwNV7U0GGeMeiElqIW4N
- FIeLUL7A2uFKIQTozda64C82oJzSFnk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-3qJ5rpRpN-WsSowThsX6IA-1; Tue, 10 Aug 2021 12:44:27 -0400
-X-MC-Unique: 3qJ5rpRpN-WsSowThsX6IA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7696C1966320;
- Tue, 10 Aug 2021 16:44:26 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8AF960BF1;
- Tue, 10 Aug 2021 16:44:17 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build: remove redundant 'check-build' make target
-Date: Tue, 10 Aug 2021 17:44:16 +0100
-Message-Id: <20210810164416.3981147-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDUs5-0007KB-H6
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 12:44:57 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDUs4-00071A-5A
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 12:44:57 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ u21-20020a17090a8915b02901782c36f543so5118220pjn.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 09:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1baDQEDwqwg9dsI4ql74FFaQL+CvNzHjwaZr0OU5gaw=;
+ b=oE7KQhoBOGE875w0OATnuYHCiiWceEyYCB5mdX3zG6k9SdlJPQPLclC9qpirFmzH27
+ lxzjib931IW5r1m8BtRLXZ8Ibf9gG1mr8sCR3MLBUHMtw9lpenMRM0t3SUo8YmS/iFJR
+ U2s0LJ579sveftHWgo1tj7dlainN3fHJEbUZ6b4yV6n4R8MUIQ9tRG0bfFedDSxDUxi8
+ 8UAoqjQgGm5mv+l7DXQPF/Bp3hjb2oyMr1NdjAdFFePAsiRtZULjYzNnYVAjk0CsEAHe
+ ZCa4a9Fw2d0jViSKIdaTECIsFCQCAl1q+N0qyUBL4mW4PkjWhq8pGd+Pssz+KnfKHWZo
+ YHhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1baDQEDwqwg9dsI4ql74FFaQL+CvNzHjwaZr0OU5gaw=;
+ b=UI89fm1bfm1e5z+aJ6NVATshe0/My7xuhVBy3ecDc68vFYaNeYkOPvricXkfojRId5
+ ajt2uzksYE+xq7NBt627BUzWSJaJRIe+gElVxYs7Nj8emm0UnIupSKzu05wwD+X45svp
+ 0zJCR4lhIvsRW1D2WDLG+0dWNKm8RU+flPhLrBRA/Mx2uSNyvp6lsqp9FtdG8GCRK2k5
+ L/xiO9SH56TnNDmbwnRh1Pb7+12Uf1dnpYY5RLhNtXoRHcFHvhBfGo7R/tFX/yjEw6Xg
+ dPhFsShvBW+pm0MxQbIhIp9zyHD6g+oalqsbY+Y5xuhGtZnTD3caCXASNLLMlWoSW/46
+ DqfA==
+X-Gm-Message-State: AOAM531v+8tV6Bb8IgBnb0+VWI+F7icvN5E6JIKGyu24zMzdb3wG24mm
+ RrIz+u9wKWg8On9bVxuipj5hOg==
+X-Google-Smtp-Source: ABdhPJx7VpjddWTR58RSI71PV8Oi9yOxKlTccVFow8oKrVwTHnKbCH9PPeXXffs5Yl0m7fL3qPSNdQ==
+X-Received: by 2002:a17:90a:450e:: with SMTP id
+ u14mr5972918pjg.164.1628613894588; 
+ Tue, 10 Aug 2021 09:44:54 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id x19sm29114338pgk.37.2021.08.10.09.44.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 09:44:54 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 40/49] bsd-user: Add target_arch_reg to describe a
+ target's register set
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-41-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <755a1305-a022-5ffa-3623-d1c965adeca4@linaro.org>
+Date: Tue, 10 Aug 2021 06:44:51 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210807214242.82385-41-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,158 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'check-build' make target was added as a way to build all the unit
-test binaries, since the standard 'all' target would not trigger this.
+On 8/7/21 11:42 AM, Warner Losh wrote:
+> From: Warner Losh<imp@FreeBSD.org>
+> 
+> target_reg_t is the normal register. target_fpreg_t is the floating
+> point registers. target_copy_regs copies the registers out of CPU
+> context for things like core dumps.
+> 
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> ---
+>   bsd-user/i386/target_arch_reg.h   | 82 +++++++++++++++++++++++++++
+>   bsd-user/x86_64/target_arch_reg.h | 92 +++++++++++++++++++++++++++++++
+>   2 files changed, 174 insertions(+)
+>   create mode 100644 bsd-user/i386/target_arch_reg.h
+>   create mode 100644 bsd-user/x86_64/target_arch_reg.h
 
-Since the switch to meson, however, 'all' will now include the 'test'
-binaries. As a result, 'check-build' is a no-op:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-   $ make all check-build
-   ..snip lots of output...
-   make: Nothing to be done for 'check-build'.
+While this mirrors what linux-user does, I've wondered if this wasn't just pointless 
+copying.  If a bit of code knows enough about a target to fill in its core dump, why 
+wouldn't it just copy the data straight from CPUArchState instead of using these 
+intermediaries?
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.d/buildtest.yml           | 9 ---------
- .gitlab-ci.d/crossbuild-template.yml | 6 +++---
- tests/Makefile.include               | 3 ---
- 3 files changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 903ee65f32..a210d5f2e6 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -9,7 +9,6 @@ build-system-alpine:
-     IMAGE: alpine
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       microblazeel-softmmu mips64el-softmmu
--    MAKE_CHECK_ARGS: check-build
-     CONFIGURE_ARGS: --enable-docs --enable-trace-backends=log,simple,syslog
-   artifacts:
-     expire_in: 2 days
-@@ -44,7 +43,6 @@ build-system-ubuntu:
-     CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       microblazeel-softmmu mips64el-softmmu
--    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -77,7 +75,6 @@ build-system-debian:
-     CONFIGURE_ARGS: --enable-fdt=system
-     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
--    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -111,7 +108,6 @@ build-system-fedora:
-              --enable-fdt=system --enable-slirp=system --enable-capstone=system
-     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
--    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -145,7 +141,6 @@ build-system-centos:
-                     --enable-modules --enable-trace-backends=dtrace
-     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
--    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -177,7 +172,6 @@ build-system-opensuse:
-     IMAGE: opensuse-leap
-     CONFIGURE_ARGS: --enable-fdt=system
-     TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
--    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -410,7 +404,6 @@ build-cfi-aarch64:
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: aarch64-softmmu
--    MAKE_CHECK_ARGS: check-build
-   timeout: 70m
-   artifacts:
-     expire_in: 2 days
-@@ -452,7 +445,6 @@ build-cfi-ppc64-s390x:
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: ppc64-softmmu s390x-softmmu
--    MAKE_CHECK_ARGS: check-build
-   timeout: 70m
-   artifacts:
-     expire_in: 2 days
-@@ -494,7 +486,6 @@ build-cfi-x86_64:
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: x86_64-softmmu
--    MAKE_CHECK_ARGS: check-build
-   timeout: 70m
-   artifacts:
-     expire_in: 2 days
-diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-index 7d3ad00a1e..03a6d42980 100644
---- a/.gitlab-ci.d/crossbuild-template.yml
-+++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -10,7 +10,7 @@
-         --disable-user --target-list-exclude="arm-softmmu cris-softmmu
-           i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-           mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
--    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-+    - make -j$(expr $(nproc) + 1) all $MAKE_CHECK_ARGS
-     - if grep -q "EXESUF=.exe" config-host.mak;
-       then make installer;
-       version="$(git describe --match v[0-9]*)";
-@@ -32,7 +32,7 @@
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
--    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-+    - make -j$(expr $(nproc) + 1) all $MAKE_CHECK_ARGS
- 
- .cross_user_build_job:
-   stage: build
-@@ -43,4 +43,4 @@
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-system
--    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-+    - make -j$(expr $(nproc) + 1) all $MAKE_CHECK_ARGS
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6e16c05f10..fa08bf3888 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -23,7 +23,6 @@ endif
- 	@echo " $(MAKE) check-clean          Clean the tests and related data"
- 	@echo
- 	@echo "The following are useful for CI builds"
--	@echo " $(MAKE) check-build          Build most test binaris"
- 	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
- 	@echo
- 	@echo
-@@ -148,8 +147,6 @@ check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
- 	@$<
- endif
- 
--check-build: $(QEMU_IOTESTS_HELPERS-y)
--
- check-clean:
- 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
- 
--- 
-2.31.1
-
+r~
 
