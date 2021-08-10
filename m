@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022463E5BA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:31:01 +0200 (CEST)
-Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A193E5BC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:33:33 +0200 (CEST)
+Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDRqO-0005qo-38
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40248)
+	id 1mDRsq-0008Lt-B6
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mDRpA-0004so-LP; Tue, 10 Aug 2021 09:29:45 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:41854)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDRrp-0007ZU-Uj
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:32:29 -0400
+Received: from mailout09.t-online.de ([194.25.134.84]:36804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mDRp6-0005Sb-4l; Tue, 10 Aug 2021 09:29:44 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Tue, 10 Aug 2021 15:29:29 +0200
-Subject: Re: [PATCH] block/rbd: implement bdrv_co_block_status
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20210809134136.23140-1-pl@kamp.de>
- <20210810085124.iwyd3g2jms6suzpi@steredhat>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <f570f8b5-27d0-335a-d98e-28c7c56c1fac@kamp.de>
-Date: Tue, 10 Aug 2021 15:29:29 +0200
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDRro-0007Ks-2E
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:32:29 -0400
+Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
+ by mailout09.t-online.de (Postfix) with SMTP id 1D42B17925;
+ Tue, 10 Aug 2021 15:31:14 +0200 (CEST)
+Received: from [192.168.211.200]
+ (bNAriuZHZhOISiVBy8LvUEEzdUyVPeZ8FebzWwxtky0aDCAWGmHyzbfwCB7w0yqgyM@[79.208.26.7])
+ by fwd21.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1mDRqZ-4JedSi0; Tue, 10 Aug 2021 15:31:11 +0200
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: [PATCH for 6.2 v2 0/3] ps2: fix issue #501 and #502
+To: Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
+Date: Tue, 10 Aug 2021 15:31:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210810085124.iwyd3g2jms6suzpi@steredhat>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ID: bNAriuZHZhOISiVBy8LvUEEzdUyVPeZ8FebzWwxtky0aDCAWGmHyzbfwCB7w0yqgyM
+X-TOI-EXPURGATEID: 150726::1628602271-00002A54-909BCDB9/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9f133f04-8be4-4014-ad1d-dade531dc684
+Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
+ helo=mailout09.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,205 +61,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, ct@flyingcircus.io, mreitz@redhat.com,
- pbonzini@redhat.com, idryomov@gmail.com, idryomov@redhat.com,
- dillaman@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.08.21 um 10:51 schrieb Stefano Garzarella:
-> On Mon, Aug 09, 2021 at 03:41:36PM +0200, Peter Lieven wrote:
->
-> Please, can you add a description?
-> For example also describing what happens if RBD image does not support RBD_FEATURE_FAST_DIFF.
+Since commit ff6e1624b3 (pckbd: don't update OBF flags if
+KBD_STAT_OBF is set) the OSes Minoca OS and Visopsys no longer
+have a working PS/2 keyboard and mouse. This is caused by a
+PS/2 queue stall due to a lost interrupt in the guest OS. This
+already happened before commit ff6e1624b3, but no one noticed
+because up to that point QEMU sent gratuitous keyboard and mouse
+interrupts and the queue restarted with keyboard input or mouse
+movement.
 
+The lost interrupt is a guest bug. The fact that it's always
+lost is due to an inexact PS/2 keyboard emulation. The way in
+which the two operating systems e.g. set the keyboard LEDs,
+leaves a keyboard ACK reply in the keyboard queue that is
+unexpected for the guests.
 
-Sure.
+This patch series improves the PS/2 keyboard emulation.
 
+There's a workaround for issue #501 and #502 so I don't think
+this is rc3 material. But that decision is up to the maintainers.
 
->
->> Signed-off-by: Peter Lieven <pl@kamp.de>
->> ---
->> block/rbd.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->> 1 file changed, 119 insertions(+)
->>
->> diff --git a/block/rbd.c b/block/rbd.c
->> index dcf82b15b8..ef1eaa6af3 100644
->> --- a/block/rbd.c
->> +++ b/block/rbd.c
->> @@ -88,6 +88,7 @@ typedef struct BDRVRBDState {
->>     char *namespace;
->>     uint64_t image_size;
->>     uint64_t object_size;
->> +    uint64_t features;
->> } BDRVRBDState;
->>
->> typedef struct RBDTask {
->> @@ -983,6 +984,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
->>     s->image_size = info.size;
->>     s->object_size = info.obj_size;
->>
->> +    r = rbd_get_features(s->image, &s->features);
->> +    if (r < 0) {
->> +        error_setg_errno(errp, -r, "error getting image features from %s",
->> +                         s->image_name);
->> +        rbd_close(s->image);
->> +        goto failed_open;
->           ^
-> You can use `failed_post_open` label here, so you can avoid to call rbd_close().
+To verify patch 2/3 I plugged in an additional PS/2 keyboard
+into the host and started Linux with the command line option
+initcall_blacklist=i8042_init. Here is an example of the sequence
+to set the keyboard LEDs.
 
+# #regular sequence to set the keyboard LEDs
+# inb --hex 0x64
+1c
+# #PS/2 queue is empty
+# outb 0x60 0xed
+# inb --hex 0x64
+15
+# inb --hex 0x60
+fa
+# inb --hex 0x64
+14
+# outb 0x60 0x01
+# inb --hex 0x64
+15
+# inb --hex 0x60
+fa
+# inb --hex 0x64
+14
 
-Bad me, I developed this patch in a Qemu version where failed_post_open wasn't present...
+# #alternative sequence to set the keyboard LEDs
+# inb --hex 0x64
+14
+# outb 0x60 0xed
+# inb --hex 0x64
+15
+# outb 0x60 0x00
+# inb --hex 0x64
+15
+# inb --hex 0x60
+fa
+# inb --hex 0x64
+14
 
+v2:
+improved patch 2/3 commit message.
 
->
->> +    }
->> +
->>     /* If we are using an rbd snapshot, we must be r/o, otherwise
->>      * leave as-is */
->>     if (s->snap != NULL) {
->> @@ -1259,6 +1268,115 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
->>     return spec_info;
->> }
->>
->> +typedef struct rbd_diff_req {
->> +    uint64_t offs;
->> +    uint64_t bytes;
->> +    int exists;
->> +} rbd_diff_req;
->> +
->> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
->> +                                       int exists, void *opaque)
->> +{
->> +    struct rbd_diff_req *req = opaque;
->> +
->> +    assert(req->offs + req->bytes <= offs);
->> +    assert(offs >= req->offs + req->bytes);
->
-> I think just one of the two asserts is enough, isn't that the same condition?
+Volker Rümelin (3):
+   ps2: use the whole ps2 buffer but keep queue size
+   ps2: use a separate keyboard command reply queue
+   ps2: migration support for command reply queue
 
+  hw/input/ps2.c | 214 ++++++++++++++++++++++++++++++-------------------
+  1 file changed, 133 insertions(+), 81 deletions(-)
 
-Right.
-
-
->
->> +
->> +    if (req->exists && offs > req->offs + req->bytes) {
->> +        /*
->> +         * we started in an allocated area and jumped over an unallocated area,
->> +         * req->bytes contains the length of the allocated area before the
->> +         * unallocated area. stop further processing.
->> +         */
->> +        return -9000;
->                  ^
-> What is this magical value?
->
-> Please add a macro (with a comment) and also use it below in other places.
-
-
-Will add in V2.
-
-
->
->> +    }
->> +    if (req->exists && !exists) {
->> +        /*
->> +         * we started in an allocated area and reached a hole. req->bytes
->> +         * contains the length of the allocated area before the hole.
->> +         * stop further processing.
->> +         */
->> +        return -9000;
->> +    }
->> +    if (!req->exists && exists && offs > req->offs) {
->> +        /*
->> +         * we started in an unallocated area and hit the first allocated
->> +         * block. req->bytes must be set to the length of the unallocated area
->> +         * before the allocated area. stop further processing.
->> +         */
->> +        req->bytes = offs - req->offs;
->> +        return -9000;
->> +    }
->> +
->> +    /*
->> +     * assert that we catched all cases above and allocation state has not
->> +     * changed during callbacks.
->> +     */
->> +    assert(exists == req->exists || !req->bytes);
->> +    req->exists = exists;
->> +
->> +    /*
->> +     * assert that we either return an unallocated block or have got callbacks
->> +     * for all allocated blocks present.
->> +     */
->> +    assert(!req->exists || offs == req->offs + req->bytes);
->> +    req->bytes = offs + len - req->offs;
->> +
->> +    return 0;
->> +}
->> +
->> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->> +                                                 bool want_zero, int64_t offset,
->> +                                                 int64_t bytes, int64_t *pnum,
->> +                                                 int64_t *map,
->> + BlockDriverState **file)
->> +{
->> +    BDRVRBDState *s = bs->opaque;
->> +    int ret, r;
->> +    struct rbd_diff_req req = { .offs = offset };
->> +
->> +    assert(offset + bytes <= s->image_size);
->> +
->> +    /* default to all sectors allocated */
->> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
->> +    if (map) {
->> +        *map = offset;
->> +    }
->> +    *pnum = bytes;
->> +
->> +    /* RBD image does not support fast-diff */
->> +    if (!(s->features & RBD_FEATURE_FAST_DIFF)) {
->> +        goto out;
->> +    }
->> +
->> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
->> +                          qemu_rbd_co_block_status_cb, &req);
->> +    if (r < 0 && r != -9000) {
->> +        goto out;
->> +    }
->> +    assert(req.bytes <= bytes);
->> +    if (!req.exists) {
->> +        if (r == 0 && !req.bytes) {
->> +            /*
->> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
->> +             * except for the case where an overlay has a hole where the parent
->> +             * has not. This here catches the case where no callback was
->> +             * invoked at all.
->> +             */
->> +            req.bytes = bytes;
->> +        }
->> +        ret &= ~BDRV_BLOCK_DATA;
->> +        ret |= BDRV_BLOCK_ZERO;
->> +    }
->> +    *pnum = req.bytes;
->> +
->> +out:
->> +    if (ret > 0 && ret & BDRV_BLOCK_OFFSET_VALID && file) {
->
-> Can ret be zero at this point?
-> Doesn't BDRV_BLOCK_OFFSET_VALID always stay set?
-
-
-Right, I decided to declare any area as allocated if rbd_diff_iterate2 would fail so this
-
-can't happen.
-
-
-I will send a V2 shortly.
-
-
-Peter
-
-
-
+-- 
+2.26.2
 
