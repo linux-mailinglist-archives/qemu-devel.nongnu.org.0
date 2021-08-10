@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02603E8170
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 20:01:26 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A32A3E81CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 20:05:00 +0200 (CEST)
+Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDW45-0002Hd-ST
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 14:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
+	id 1mDW7X-00040W-K5
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 14:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDW2L-0000As-Dz
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:59:37 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:43919)
+ id 1mDW6b-0003JJ-Ap
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 14:04:01 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDW2J-00018U-VB
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:59:37 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id e19so8756782pla.10
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 10:59:35 -0700 (PDT)
+ id 1mDW6Z-000490-FJ
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 14:04:01 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id j1so34261565pjv.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 11:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2ppz3PfObmeOAzy2E7aBboDlG2DfDxO9tQMvb74vnpc=;
- b=uHMHg3wo1A0vqz1WBMNc9Z+ypO8MEpwAQbbz//jyHiJQBArm2lgO2uArzPbGx3FmbX
- IzIYDKmGWqgh5BTvaHLb6mRVSU7xkXpfN2CzTJMVrRyWAT6h+OqNyskmmsWoWvMTKF5h
- wErXTRjL0RN5vkTGNoOTa/893x+Cb1mbRTZ7SWa5YqDwp/+GTdK2ub0m/ypKnOTh18qf
- lqftuY0ua+0JRnb6RB6npR0Ds/dbDhOG16kQIBSuFelluH/W2jNQu5Pv2hmScDkFDwTH
- AfJNXLlsx31LRvThWhxXQIW2fmAe1v5DCpb3X4oPDpszynZ2RFKvYlsK4F9kgPpeL12t
- w4MA==
+ bh=kO0lxPA2RvXeAr8q/gg9yj8qYm+Ijt4RgqvqZDLChls=;
+ b=FUNpkjs/UZ2NQygoDem9o85PBc1Vi5lxbX9YuQL7HvX39wvYdHxEjDxqwvMF1iFowU
+ MSsMz6uXHzf6lj4C08XQfme//IaKADA194Ck1g6BUtnMa+hVDkq29kUAiXSkdqs0VN6c
+ BNyHFj/ScBI96B5FZxMNCmSggPFzQ+WcHXddGWkktOdOLzPy/6Ze7F2nSFIzeB6IVTvR
+ RHGRunmPPHDjkFY+0VRtzSfLfAF+Y3QdpEnsjwTrPcoFD0WxORdw2LctxV3XWJ5eWjhV
+ Aarmb/IsMs2jLBaxgrTvyM2jILyfoMdG3kA5c9h/x4xU1Hc6BfnpCQ60kRWhfCrfaKVr
+ F0sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2ppz3PfObmeOAzy2E7aBboDlG2DfDxO9tQMvb74vnpc=;
- b=ivH9VrPbPRSGm6uw8WOHCsQJwr9BKou3att5eQbLtMzwG/NcYA9QPKe6/XinVWPlxz
- z6xbZdPkIDsuF2xtns5irB4W5NKjaS0gPKIKFD3kABF8hGguToQvgKLWlIGtyFLMoXEs
- KWnUjP3OQS6xL4B3tc26vNfSCdeCzxEpHWSlpKZs2LvzTxExjf2UOm3c89DtCT8ZscB/
- KvFm35aSnlC47caHCwxndTY+hMRvfKpmVeaFIKx8J4nIG02G3S6kLLv0pfQFbyXCQQYZ
- XwQ8FbzLU0G05BGNXtIbm0UcoG6k1ESyhyXywb2ODxfI7egI0Qd0ovfPITytn/d64Qgh
- 6cFQ==
-X-Gm-Message-State: AOAM530bT7nBoUlRSZI1keER+07AYpIkBC0r/v9cJN+UBHPNB/N7/diS
- EdYlUMAPqz74GJmE5WbupM2WwNkdgwZdBA==
-X-Google-Smtp-Source: ABdhPJyLJRv5qCugLA9PEUjEh/xPABbpHbS6r3C9GhJMSwJRYfw2Bpf2SC1RYWqGlAvi2lbLPduAww==
-X-Received: by 2002:a17:90a:717:: with SMTP id
- l23mr3831100pjl.186.1628618374688; 
- Tue, 10 Aug 2021 10:59:34 -0700 (PDT)
+ bh=kO0lxPA2RvXeAr8q/gg9yj8qYm+Ijt4RgqvqZDLChls=;
+ b=rnFJqFIpdNPv0ApVolVex+YYdDxKJkROXiDmzMzMKLFIVILYylJOO0UVOUVWmTwFwP
+ VdW8C73+9PtAqA6ZfQWH0ludwnBwCUbUWjPOkk1d3hDE57jZ1oW0CBiEBO8VPUg5sZKt
+ JB4YCU0bHNoNj9JOiKr0Deq7NU0RZKgN/cXg1kZ+Dl9c2NGyhs7wTxhbv7JcDCQnBMLR
+ gCNHwiTFum5K3EG9cq/YOMFSpsBUXmTzVZlGhgI/Ao90ySsRTSSKmpMv9KFIwEm+3HDD
+ QdfWC5jyDMgYtsSmEocBzHANd3Enl2GYdPaUaORbrpr5XKfbiElZzJ+uT5WBTwxn+Ao4
+ hypw==
+X-Gm-Message-State: AOAM530uJ8e8nuD3G6MLbZwGswG0S7pGIsKvyWvIzOh20PhWPpE4vih4
+ wEMAgOylukN7mAr/vnGJFPms8Y2B/hKMig==
+X-Google-Smtp-Source: ABdhPJxVtGrYLQLWrmcCsueBqMdjvdaicMcV6nCYy8tMnc1iYagcYLWnalM7U4REx8BIQJgWaS4dLw==
+X-Received: by 2002:a17:90a:3d0d:: with SMTP id
+ h13mr33276118pjc.20.1628618637617; 
+ Tue, 10 Aug 2021 11:03:57 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id mr18sm22567777pjb.39.2021.08.10.10.59.30
+ by smtp.gmail.com with ESMTPSA id e12sm24464132pfc.214.2021.08.10.11.03.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 10:59:32 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 46/49] bsd-user: move qemu_log to later in the file
+ Tue, 10 Aug 2021 11:03:56 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 47/49] bsd-user: Implement interlock for atomic
+ operations
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-47-imp@bsdimp.com>
+ <20210807214242.82385-48-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <16605d66-630a-9ee3-eb32-4ab0b0fa71cf@linaro.org>
-Date: Tue, 10 Aug 2021 07:59:27 -1000
+Message-ID: <ada6ec77-3146-bda8-d7f2-d59bcea1ad07@linaro.org>
+Date: Tue, 10 Aug 2021 08:03:38 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-47-imp@bsdimp.com>
+In-Reply-To: <20210807214242.82385-48-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,19 +90,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/7/21 11:42 AM, Warner Losh wrote:
 > From: Warner Losh<imp@FreeBSD.org>
 > 
+> Implement the internlock in fork_start() and fork_end() to properly cope
+> with atomic operations and to safely keep state for parent and child
+> processes.
+> 
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/main.c | 17 +++++++++--------
->   1 file changed, 9 insertions(+), 8 deletions(-)
+>   bsd-user/main.c | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
