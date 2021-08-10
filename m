@@ -2,80 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33953E84E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 23:03:48 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0ED83E8500
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 23:13:39 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDYuZ-00075c-Ag
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 17:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
+	id 1mDZ46-0004wl-Eo
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 17:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDYtd-000682-3Y; Tue, 10 Aug 2021 17:02:49 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:56196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDYtb-0003fy-2f; Tue, 10 Aug 2021 17:02:48 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id w14so4393580pjh.5;
- Tue, 10 Aug 2021 14:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=z7CpASAbeHN25srdkhEMxbH1TEGqECdfG4thBn+8zr8=;
- b=QGwj1H81kHZ0Kk9ar05n0zUNxBYlBcx4jbNmuA69r8JvUuzgdCqy14KxXcjd5xO1+k
- 5qkg5ttWHQxIyEJukqn6j+xGx3BfvSlPW42+wqEJ5dJYcEeeaWo0heNyb7wLJcOigCit
- q3+0LmJC1mAKgZxQWZEgtNBQuYMWJSmGImEpjTdvOYBbCIWCUZhv09blm1vqJsAhK01q
- tpaCqUBxCQaiGYAz4jfhTAgAstZiC5LM/wquX2Iy1YD6qd3ffu8Pk+zFbrlQQj48heAA
- 9T3SGHs9P5oDWejLS9hSATNc5GjAxPqlU1VFP97ojXR6vTWb9jxXjqreGunld5x60alE
- KEgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=z7CpASAbeHN25srdkhEMxbH1TEGqECdfG4thBn+8zr8=;
- b=I9mcu7l6FAsGq9NhBn4mjpvPCvYqe/B9iVZBmL2MZME+XPM6/43AwDyiuGGJU5g0G0
- 3eIJe4GPGaxBu+1ewy7uqDZ3hZG0FwCniOW9ALejVj7IgmQQCbTFYAVbP0TOi39YtWIM
- 9AOWlCeB3tRPZ5rwyloosXBWiqPZ8T4hQ4xK4HlBGK0oiuIkFJfbsaCZ2fttrwcRQ+0O
- VPsl/aYJa5xW+5/+O6TeQSsyj0Rlg4wmdgEnCcPHoGh5yY5gY9oqlM0qNq2KFDKxCQwJ
- JRzvY4w5dkvHb9VXIzPlOmpfPYAxQMwb5p7x+mqJkLca8kySgP/gxC5MV2HLsogEQP4i
- ybYQ==
-X-Gm-Message-State: AOAM533E1UY74SZvsbTsea+SANoJno1My9610YceyBQ7O3F337dzagI5
- uDSTd7giLwnLOXZ3K8snZpg=
-X-Google-Smtp-Source: ABdhPJzUFsGJWZFs+uS9I1+0I7CGwMi5XEn4e5hzIM8C3oMG1ky10nlpkQ+riuDliRM6820vUF3HVw==
-X-Received: by 2002:a17:902:7294:b029:12d:2434:6d26 with SMTP id
- d20-20020a1709027294b029012d24346d26mr2897026pll.59.1628629365184; 
- Tue, 10 Aug 2021 14:02:45 -0700 (PDT)
-Received: from [192.168.10.222] ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id 26sm29646079pgx.72.2021.08.10.14.02.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 14:02:44 -0700 (PDT)
-Subject: Re: [PATCH 15/19] target/ppc/pmu_book3s_helper: enable counter
- negative for all PMCs
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-16-danielhb413@gmail.com> <YRH8dz8SLDFWTe1m@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <9fd156de-d882-9a6e-508d-392944a1bf70@gmail.com>
-Date: Tue, 10 Aug 2021 18:02:41 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mDZ2j-0003lB-Kp
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 17:12:13 -0400
+Received: from mail-mw2nam12on2068.outbound.protection.outlook.com
+ ([40.107.244.68]:7122 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mDZ2h-0001uC-Ew
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 17:12:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lit7Zxe/BK+/cbIlAaXWo3GH3mqcJk4bsWfC2nwSHNOPXWCZHAs3aTO2IK8GJtDQcgtQEHcZ4dKQmsJWXGZ2OkgftX84Ur1wKDg/7/WVZK1PFNOUbuYsTHUr6qO3L4OO2XVmoCgINnutKO3KsfQaS/fiZ3hjIP7PZ4m1sZxzG4itYTfYU6Om0MhV/5K/TcG5OIX7zjExEelWrVqhiGdyHgXfnEwuHJ1xPzLqkrDvqKyQF36LS36vIbWwzf9tfJ+kt5nUViFkxMXwEgEw9mIn1Gkwcl9GC0R24zfwYK9IfkB1SRY5Hm+JjcCA5D7js/oSVCAqUXNzCjJhsrbxyd06BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EEZ1hl40gyD0F16beYh9mmIN+tG1EssMFbT40j7Y1Xs=;
+ b=lrkqQY230sdFs+xGDyQo0laEx5txH+Q9CcvSbuYF/hRr76U5MgV9ny9i4oAKfDPkzpjtJz2SZhR5O/GCvpP50CjolFr7fXCADriZy0oiXLGpIAE4IWkuiQwvJVtKlS0oL5N6tEt6Jw2ZwKp4/CYmhrsdyQ0BthbWj4NLJ73iGwhV6n4cKYAr/5CuiJpnCHqI+C/m553M1x0/195kLBsR63WtLrfqsdRDyX5MGYm9TrGEPsG76lFT94Tembr/w+1EafDqPARndu+dQCrvFVLym84UZI58bi5bFbP3Zwn4AtYQ2konP52IQF3DK9V68lnj2jQto4TlT5YyWxDDwzdSDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EEZ1hl40gyD0F16beYh9mmIN+tG1EssMFbT40j7Y1Xs=;
+ b=03boDsDnGAaewjXnyAwSZx6TIEpSEVCPP3ZuKGfObu1xWiikECdO/RFOtmoNtGIh6pnB2+Gu8w4kJhCkdXZLe+APAuxzHZ8D8l0fyGuebQQhv1R1v5seBz5WeXy5O34EAYJrIBxW3LYzXuYG7cHI5juBNeDrSI8uGwtHLrYjXFY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB4969.namprd12.prod.outlook.com (2603:10b6:610:68::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Tue, 10 Aug
+ 2021 21:12:07 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4394.022; Tue, 10 Aug 2021
+ 21:12:07 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 6.1.0-rc3 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Date: Tue, 10 Aug 2021 16:09:00 -0500
+Message-ID: <162862974021.269885.15077375616676906595@amd.com>
+User-Agent: alot/0.9
+X-ClientProxiedBy: SN1PR12CA0076.namprd12.prod.outlook.com
+ (2603:10b6:802:20::47) To CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-In-Reply-To: <YRH8dz8SLDFWTe1m@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=danielhb413@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.77.1) by
+ SN1PR12CA0076.namprd12.prod.outlook.com (2603:10b6:802:20::47) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.15 via Frontend Transport; Tue, 10 Aug 2021 21:12:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2260b4a3-2459-45c3-3172-08d95c4382b2
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4969:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4969615C2B71AEB87D4B81E995F79@CH2PR12MB4969.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CQlZbIZwzD3QaUSWeJ1cmpWjhOTIqGmbkvwwMH19H07S+iuj9I1A6TpuO8r3/QgJENUQCpSiLXLPV0uU+Szr7yLQWdg/UvjIC7NZQM3kCie/ZC7jzUXrYQvXurifyTUuvprNGf8Wq+jNHsmFxtA1dGpBZySo3zO/HgAWSqa2XJFICvzcDmgQtu+zUqw4U1IydOw4V1bMYyRYRDNO3c+nRcvGe0hMYtKcb+Ha/lnP/eEQA7mUpRxTN1brfSa+mOTnbJwI3M9FLvbQgFhb9CxEE4lqqo7m/5XtIQGxUk5L4OwWxbT8qCdKV4oCNRvrToiibl4mImdZufkWxcgFPNBRKNoie/2ODqyce7V3Qc9NgsjEs2bVoJGTrViH11QrYusES7SS76FPnBjvXXF23fOcaahV0OWnVhmop2cqzqfPL+TYmrEOARwS8nUtutaCgXDomyeIZN5iZ86gf7PvFmyfXUOVEFzP/DHpIDsQ/Tu/RoZ+cEKKrCQZfDat0BY9l14RdVmY0TDSqtptDUhMhTYGiWKEZMVr8BLESHhPoAxzOnbm4UiMcsMADan+W9rl0HdjH897ICA1yEqZEzYAhxbp28N1v+LiTcEVlSCWqbtgLGJO160Tq4QxBKY4mmg4P0mplIvQ4XnPXhrUOJrUZ9XpIU1b9A8PkpcJW23bLJsOuqWI/Opbax1+6o+HLGbG/ytFouh4nx1qtvnKImEXAXsek/LaA23K4aK49JZdrxWrmUsCv/mTt7XVyM5sOyv9b0ymhB8FtfpUPbYO/ROEhFuPD79x6eJNyae6dPNPYX8riqeL6Xt7Rjus4ZtpC5qBH7Mo
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(39860400002)(366004)(346002)(396003)(36756003)(4326008)(316002)(83380400001)(8936002)(66476007)(66556008)(66946007)(956004)(6486002)(2616005)(6916009)(2906002)(38100700002)(86362001)(6666004)(52116002)(5660300002)(8676002)(38350700002)(26005)(478600001)(44832011)(6496006)(66574015)(186003)(966005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDNIQUQyRnlNcFRHUW9oNUowdXd0ckxPaVV6ZWljc3NMbDNqY3d5aUFJZXM2?=
+ =?utf-8?B?RzRxYmJGK0lpb3dQSFF2WWRrV0l6OFErcitUVXRsNm5wTUFvOUhsSk8wWnFS?=
+ =?utf-8?B?Y2JQdUVuMmlqWVVVRnkrZDRVMGMwOEx6L09VNENOVURmR2VtOHNNM1F6WFRh?=
+ =?utf-8?B?UzhDZWNVVmJMMXZRV0pKUndyUXhMVE1QVmh4Rzd3VnRPbGVjSnphbnYwTXdL?=
+ =?utf-8?B?U3FzdTI4U0lkZnN0OUtTQVZ2QS9XR1lCcW5ma09RRFUwN1N5NWZoRUlLcElQ?=
+ =?utf-8?B?Vk9VQlhjR2tabUNMYzMrb05aSHMvK2toV3NxVjJ5ZTZrKytTdUVLZFhFNlZz?=
+ =?utf-8?B?bTVqaGI4L2xLcEtPdGZwcVhGTEdOalVlWWNCVlBmMFV1c3dubC9YVGNkeExZ?=
+ =?utf-8?B?a0FjRzl4clBJMmVGRnBUWUlhZXd3ZzhOaVdxYTk3cjZIT3J1L2M3Ymkyb0Qx?=
+ =?utf-8?B?NmluNTZEZG9aSkZUZjYxRU5VN21PQ3FEdkpDUUk4TnV6MnE2TzBJOEE1OWtU?=
+ =?utf-8?B?WEZhaVh1L2UrcFd3OWtXdDZUS0l5NEs2M20zMmdmNnBhdDV3ZlNFUVo2NW1o?=
+ =?utf-8?B?RGZ5L1FWOERXZ1FRcWFST1F5bDV2cmMzNlFQK1FQVnk4MThXV1JablpnU3JS?=
+ =?utf-8?B?RVB5S2Q4RndKTlB0VHdvdG9CQnc5TkNPdjI0NS9Zb0czR0g0MjdBZ1VSUXNa?=
+ =?utf-8?B?U3pTOXRtdit1S1FIOVptZ0FjSlJENkYweUhtYWpFbERBSld2TUpWVzlsUms5?=
+ =?utf-8?B?SEpVZDlIUGVaQitTQnY4MXJKZk13aTdkRzhtd1BiVTFiTkFtcjV6YjVvWWh0?=
+ =?utf-8?B?bkF3OFQ5MEpaRENXNkpjZDVBV1FlRnROQWxDRzBNTVEyMTRuZklLSU1jWnRC?=
+ =?utf-8?B?WEp1N1Z2bFJUK1pvdnpTQWc5YU9Ra0o3OFprdngrQ0F4UllEMjdVVzdobjBw?=
+ =?utf-8?B?cFM5YktUVklCZ1ZBVmc2bWMzcTNKQUFTZWRzc1pOaTcrejZzbGdDZlhIMFpK?=
+ =?utf-8?B?VVBSSk5JRXFQeU5nb2R0SDYzRUYyY2gySWdLdG9iNWp1cXZlTldyS2tCYlZo?=
+ =?utf-8?B?ZTdQTlNzb0ovQTYrVWc2dDZCd0ZSd0d5ZkhwWlh3WWhGRFlXK3RRRVp4dkpv?=
+ =?utf-8?B?azFKVm5MbjZwdjJhcHoreDB2UmxZREh2ZEVTMDJxdThTZXViaXNzY3kvZWhF?=
+ =?utf-8?B?d25JUUh1aGNnKzh3VVBZU0ZtbGJoOXBwS0E2eDBhb0I2TkhSK0oxQm5pTmVT?=
+ =?utf-8?B?ZjFkdzJ0MmRnelRjVlpzeFRMYmkvQzNhQ1ZRaXVQOTE1LytQY09md2VpL2xV?=
+ =?utf-8?B?TG5HZ3YvUC9RSzNNd1o2aFE0dWIxQ1l0Z21UQXFxekczVS9ZZzdrdkxpSDgy?=
+ =?utf-8?B?ME5aRENpQ1ZzOTNsNlp0Kzg3WjhNTlVQZjlWSW5VU01VdG9EWFdaTWNSdUh5?=
+ =?utf-8?B?RWF6Y0tSUzRnMWNvUkVZY3duYnhiZ3JmZkJWakYrZjIvbkRpSnVVOGdQdmJO?=
+ =?utf-8?B?NWg5dWNKNG5lSmhDYlMvYkJ2VEN1ZGpLTTlhTUNjbUw1dTlUeHlNbG00cmhC?=
+ =?utf-8?B?OHBaTlZ1SHo4SitsZFBTbEo2bFpkcDJMclJHRDlPRGFFQkRHbkw1T3d6NTBF?=
+ =?utf-8?B?aVNjNktPNlVWMFdSNHh0UmE3K3IvUjBOQUVJZVY5akRPU0pHUjZ4STVzNnJQ?=
+ =?utf-8?B?T2ptSi9Lb1hGZlhpcXlNZkIwU1VBVlQ4aStlZytDSVFLaDRydDRrSkQvRmFC?=
+ =?utf-8?Q?9m+mTRKrxpIuBYHRcU65mRtur86oUIKM5GSK5Qt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2260b4a3-2459-45c3-3172-08d95c4382b2
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 21:12:07.6598 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +hqDbjvKrWc7kw6AW2OQgj/Aup/pyh3J/GigvU+E+Wly295crbTuYaaZjjTBVGG9IJxvwDMPXwHU/o9m7QOFbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4969
+Received-SPF: softfail client-ip=40.107.244.68;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,214 +140,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
+On behalf of the QEMU Team, I'd like to announce the availability of the
+fourth release candidate for the QEMU 6.1 release.  This release is meant
+for testing purposes and should not be used in a production environment.
 
-On 8/10/21 1:11 AM, David Gibson wrote:
-> On Mon, Aug 09, 2021 at 10:10:53AM -0300, Daniel Henrique Barboza wrote:
->> All performance monitor counters can trigger a counter negative
->> condition if the proper MMCR0 bits are set. This patch does that by
->> doing the following:
->>
->> - pmc_counter_negative_enabled() will check whether a given PMC is
->> eligible to trigger the counter negative alert;
->>
->> - get_counter_neg_timeout() will return the timeout for the counter
->> negative condition for a given PMC, or -1 if the PMC is not able to
->> trigger this alert;
->>
->> - the existing counter_negative_cond_enabled() now must consider the
->> counter negative bit for PMCs 2-6, MMCR0_PMCjCE;
->>
->> - set_PMU_excp_timer() will now search all existing PMCs for the
->> shortest counter negative timeout. The shortest timeout will be used to
->> set the PMC interrupt timer.
->>
->> This change makes most EBB powepc kernel tests pass, validating that the
->> existing EBB logic is consistent. There are a few tests that aren't passing
->> due to additional PMU bits and perf events that aren't covered yet.
->> We'll attempt to cover some of those in the next patches.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   target/ppc/cpu.h               |  1 +
->>   target/ppc/pmu_book3s_helper.c | 96 ++++++++++++++++++++++++++++++----
->>   2 files changed, 87 insertions(+), 10 deletions(-)
->>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 5c81d459f4..1aa1fd42af 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -351,6 +351,7 @@ typedef struct ppc_v3_pate_t {
->>   #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
->>   #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
->>   #define MMCR0_PMC1CE PPC_BIT(48)
->> +#define MMCR0_PMCjCE PPC_BIT(49)
->>   
->>   #define MMCR1_PMC1SEL_SHIFT (63 - 39)
->>   #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
->> diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
->> index 7126e9b3d5..c5c5ab38c9 100644
->> --- a/target/ppc/pmu_book3s_helper.c
->> +++ b/target/ppc/pmu_book3s_helper.c
->> @@ -143,22 +143,98 @@ static int64_t get_CYC_timeout(CPUPPCState *env, int sprn)
->>       return muldiv64(remaining_cyc, NANOSECONDS_PER_SECOND, PPC_CPU_FREQ);
->>   }
->>   
->> -static void set_PMU_excp_timer(CPUPPCState *env)
->> +static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
->>   {
->> -    uint64_t timeout, now;
->> +    switch (sprn) {
->> +    case SPR_POWER_PMC1:
->> +        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
->>   
->> -    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
->> -        return;
->> +    case SPR_POWER_PMC2:
->> +    case SPR_POWER_PMC3:
->> +    case SPR_POWER_PMC4:
->> +    case SPR_POWER_PMC5:
->> +    case SPR_POWER_PMC6:
->> +        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
->> +
->> +    default:
->> +        break;
->>       }
->>   
->> -    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
->> -    case 0x2:
->> -        timeout = get_INST_CMPL_timeout(env, SPR_POWER_PMC1);
->> +    return false;
->> +}
->> +
->> +static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
->> +{
->> +    int64_t timeout = -1;
->> +
->> +    if (!pmc_counter_negative_enabled(env, sprn)) {
->> +        return -1;
->> +    }
->> +
->> +    if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL) {
->> +        return 0;
->> +    }
->> +
->> +    switch (sprn) {
->> +    case SPR_POWER_PMC1:
->> +    case SPR_POWER_PMC2:
->> +    case SPR_POWER_PMC3:
->> +    case SPR_POWER_PMC4:
->> +        switch (get_PMC_event(env, sprn)) {
->> +        case 0x2:
->> +            timeout = get_INST_CMPL_timeout(env, sprn);
->> +            break;
->> +        case 0x1E:
->> +            timeout = get_CYC_timeout(env, sprn);
->> +            break;
->> +        }
->> +
->>           break;
->> -    case 0x1e:
->> -        timeout = get_CYC_timeout(env, SPR_POWER_PMC1);
->> +    case SPR_POWER_PMC5:
->> +        timeout = get_INST_CMPL_timeout(env, sprn);
->> +        break;
->> +    case SPR_POWER_PMC6:
->> +        timeout = get_CYC_timeout(env, sprn);
->>           break;
->>       default:
->> +        break;
->> +    }
->> +
->> +    return timeout;
->> +}
->> +
->> +static void set_PMU_excp_timer(CPUPPCState *env)
->> +{
->> +    int64_t timeout = -1;
->> +    uint64_t now;
->> +    int i;
->> +
->> +    /*
->> +     * Scroll through all PMCs and check which one is closer to a
->> +     * counter negative timeout.
-> 
-> I'm wondering if it would be simpler to use a separate timer for each
-> PMC: after all the core timer logic must have already implemented this
-> "who fires first" logic.
+  http://download.qemu-project.org/qemu-6.1.0-rc3.tar.xz
+  http://download.qemu-project.org/qemu-6.1.0-rc3.tar.xz.sig
 
-The first draft had 6 timers, one for each PMC. It would make this step to
-determine the lowest timeout unnecessary.
+A note from the maintainer:
 
-I gave it up because we would need to pause the running timers of the other
-PMCs when the PPC_INTERRUPT_PMC happens with MMCR0_FCECE (frozen counters on
-Enabled Condition or Event) set. Resuming the timers back would require to
-update the PMCs (which would now have different icount_bases).
+  If there are no show-stopper issues found in this release candidate,
+  the final 6.1.0 release should be next week, on the 17th. If we need
+  to roll an rc4 we'll probably release that on the 17th and do the
+  final release the week after.
 
-For our current usage this single timer approach seems less complicated. And
-the ISA allows for multiple/concurrent overflows to be reported at the same
-alert:
+You can help improve the quality of the QEMU 6.1 release by testing this
+release and reporting bugs using our GitLab issue tracker:
 
-"An enabled condition or event causes a Perfor-
-mance Monitor alert if Performance Monitor alerts
-are enabled by the corresponding “Enable” bit in
-MMCR0. (..) A single Performance Monitor alert may
-reflect multiple enabled conditions and events."
+  https://gitlab.com/qemu-project/qemu/-/issues
 
-So a single timer can report more than one c.n. overflows that might happen
-at the same time. E.g. in this timeout logic below, if PMC1 is already
-overflown, we will trigger the PMC interrupt. Since we're updating all
-PMCs, if more counters are also overflown the application can read them
-all in the same interrupt/exception.
+The release plan, as well a documented known issues for release
+candidates, are available at:
 
+  http://wiki.qemu.org/Planning/6.1
 
-Thanks,
+Please add entries to the ChangeLog for the 6.1 release below:
 
+  http://wiki.qemu.org/ChangeLog/6.1
 
-Daniel
+Thank you to everyone involved!
 
+Changes since rc3:
 
-
-> 
->> +     */
->> +    for (i = SPR_POWER_PMC1; i <= SPR_POWER_PMC6; i++) {
->> +        int64_t curr_timeout = get_counter_neg_timeout(env, i);
->> +
->> +        if (curr_timeout == -1) {
->> +            continue;
->> +        }
->> +
->> +        if (curr_timeout == 0) {
->> +            timeout = 0;
->> +            break;
->> +        }
->> +
->> +        if (timeout == -1 || timeout > curr_timeout) {
->> +            timeout = curr_timeout;
->> +        }
->> +    }
->> +
->> +    /*
->> +     * This can happen if counter negative conditions were enabled
->> +     * without any events to be sampled.
->> +     */
->> +    if (timeout == -1) {
->>           return;
->>       }
->>   
->> @@ -204,7 +280,7 @@ void cpu_ppc_pmu_timer_init(CPUPPCState *env)
->>   
->>   static bool counter_negative_cond_enabled(uint64_t mmcr0)
->>   {
->> -    return mmcr0 & MMCR0_PMC1CE;
->> +    return mmcr0 & (MMCR0_PMC1CE | MMCR0_PMCjCE);
->>   }
->>   
->>   void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
-> 
+703e8cd618: Update version for v6.1.0-rc3 release (Peter Maydell)
+b0c4798f97: MAINTAINERS: Name and email address change (Hanna Reitz)
+6ff5b5d6d5: ui/sdl2: Check return value from g_setenv() (Peter Maydell)
+da77adbaf6: audio: Never send migration section (Dr. David Alan Gilbert)
+7bce330ae4: ui/gtk: retry sending VTE console input (Volker R=C3=BCmelin)
+057489dd15: qga: fix leak of base64 decoded data on command error (Daniel P=
+. Berrang=C3=A9)
+a6d2bb25cf: tests: filter out TLS distinguished name in certificate checks =
+(Daniel P. Berrang=C3=A9)
+50482fda98: block/export/fuse.c: fix musl build (Fabrice Fontaine)
+5f4884c441: hw/nvme: fix missing variable initializers (Klaus Jensen)
+abc14fd056: meson: fix logic for gnutls check (Alyssa Ross)
+a68403b0a6: chardev: report a simpler error about duplicated id (Marc-Andr=
+=C3=A9 Lureau)
+64195b0d36: chardev: give some context on chardev-add error (Marc-Andr=C3=
+=A9 Lureau)
+733ba02084: chardev: fix qemu_chr_open_fd() with fd_in=3D=3Dfd_out (Marc-An=
+dr=C3=A9 Lureau)
+46fe3ff6ea: chardev: fix qemu_chr_open_fd() being called with fd=3D-1 (Marc=
+-Andr=C3=A9 Lureau)
+bb2b058f1a: chardev: fix fd_chr_add_watch() when in !=3D out (Marc-Andr=C3=
+=A9 Lureau)
+bf7b1eab25: chardev: mark explicitly first argument as poisoned (Marc-Andr=
+=C3=A9 Lureau)
+030912e01c: linux-user/elfload: byteswap i386 registers when dumping core (=
+Ilya Leoshkevich)
+0c40c18ecd: linux-user: fix guest/host address mixup in i386 setup_rt_frame=
+() (Ilya Leoshkevich)
+30f80be34b: chardev/socket: print a more correct command-line address (Marc=
+-Andr=C3=A9 Lureau)
+4cfd970ec1: util: fix abstract socket path copy (Marc-Andr=C3=A9 Lureau)
+68e6dc594a: docs: convert writing-qmp-commands.txt to writing-qmp-commands.=
+rst (John Snow)
+9c66762a60: docs/qapi-code-gen: add cross-references (John Snow)
+55927c5f32: docs/qapi-code-gen: Beautify formatting (John Snow)
+f7aa076dbd: docs: convert qapi-code-gen.txt to ReST (John Snow)
+e0366f9f2b: docs/devel/qapi-code-gen: Update examples to match current code=
+ (Markus Armbruster)
 
