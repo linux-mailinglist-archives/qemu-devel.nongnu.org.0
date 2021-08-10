@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8373E5559
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:32:41 +0200 (CEST)
-Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2564F3E5582
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:33:49 +0200 (CEST)
+Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNBf-0001Sn-R1
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:32:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35650)
+	id 1mDNCm-0003mX-6o
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mDNAP-00005e-Bo
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:31:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25082)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDNC1-0002ti-34
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:33:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mDNAL-0003Dk-1s
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:31:21 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDNBz-0004dw-Ah
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:33:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628584276;
+ s=mimecast20190719; t=1628584378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J0JJri2zmhnVDEu7T7RJMDsRDEQxFew/bitybF74unw=;
- b=XgQzzAYQy1Nu4kAsToZObQlj42eJXyFiv/SzbOzvXfQfH5uJZuA8EKGieiJl9FpR20bALu
- cLLy5sf21AP9E5f6VwbwPbsI2ZFXwH4yStETAYqMaU0kpBZEJ6DMKr7VJHvPeUFKkdkiCg
- 3N9Mtp5h0cSRcae8Z1qnuezthBTDUaQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-pHLKJnQiPtyZgsWQrOEBlg-1; Tue, 10 Aug 2021 04:31:13 -0400
-X-MC-Unique: pHLKJnQiPtyZgsWQrOEBlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D37708799FC;
- Tue, 10 Aug 2021 08:31:11 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.192.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C6E35C3E0;
- Tue, 10 Aug 2021 08:31:01 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
- imammedo@redhat.com, philmd@redhat.com, peter.maydell@linaro.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- ardb@kernel.org, drjones@redhat.com
-Subject: [PATCH for-6.2] hw/arm/virt_acpi_build: Generate DBG2 table
-Date: Tue, 10 Aug 2021 10:30:57 +0200
-Message-Id: <20210810083057.99651-1-eric.auger@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nuOCdZRx0KHiDnC7g1LphMv7cZIvNDfuS5DM238Bukk=;
+ b=HzWmogYkdk2zmeU7SKqxrTcYLDIqCpXMJgswj1AhUF1gaRnLP/KuxLZMP9CgzQrjjLYYxP
+ di4Q4P+yDmVhGwyeF4qqUbGBBhUbUrBFc9DzmvMHTg9RmqtlqrRCHOVyDoj9rW6anGw0HL
+ i1ur0lzj8B/Jdw0MNKQLyTv3NVkmykM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-_q1QxLsYOWqywKocFGAP3g-1; Tue, 10 Aug 2021 04:32:57 -0400
+X-MC-Unique: _q1QxLsYOWqywKocFGAP3g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v18-20020adfe2920000b029013bbfb19640so6139307wri.17
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 01:32:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=nuOCdZRx0KHiDnC7g1LphMv7cZIvNDfuS5DM238Bukk=;
+ b=B2LvlFd828Qk2bWOkAVwuPpEHRVFuHUipAO+j8hV3XQTAhur1lQrGMJEBrKrTj6u6a
+ 1s1ZtAGYzKzTBlE8o7UGmc3lBdzAYqdk9iHit8t5bInWCMr7JwEgNGJb9BVqLabBVIzA
+ YgE6JDin/izpCCTR1VUrFE9ulxVSbboCfn3XaZWdtaGmR4VdD/MY57/i9TUQf/R6NhPv
+ 2s8HnIhA7eZ7EdYVsFd5rqSNjDig8FvCR2o57LtxDR/RrCYeU5JKGfgQaEYNUKNimViW
+ IyppGnbzAgRKckDxkgrsB25JDjAzOPb4FNcq95/+EXIzzutxsioJD/nd8nJEidAtiCVZ
+ IE0A==
+X-Gm-Message-State: AOAM533IaSKRdWL9n8oXID1T5Bn6TPWP4SPYO21vcK5zf5TnF3VtXLbR
+ JbxFZMDCgprUOufacyIiF00Ey6yrOWFPUACvUmE8aFVhijC3tEvKb1o/aV1EvyyfPzV/aJUF3r/
+ qRVou0ldE479wvOE=
+X-Received: by 2002:a7b:c188:: with SMTP id y8mr6599674wmi.174.1628584376524; 
+ Tue, 10 Aug 2021 01:32:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyUUFYMD8aSj7riWBcd7XjWEvwDXAyGMJUXd6dSkPv6r1vdYm0B/QRu29KJ6/lhGOKb+VhjQ==
+X-Received: by 2002:a7b:c188:: with SMTP id y8mr6599655wmi.174.1628584376322; 
+ Tue, 10 Aug 2021 01:32:56 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ 129sm20322618wmz.26.2021.08.10.01.32.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 01:32:55 -0700 (PDT)
+Subject: Re: [PATCH v3 09/10] virtiofsd: Optionally fill lo_inode.fhandle
+To: Vivek Goyal <vgoyal@redhat.com>, Max Reitz <mreitz@redhat.com>
+References: <20210730150134.216126-1-mreitz@redhat.com>
+ <20210730150134.216126-10-mreitz@redhat.com> <YRF2xjwSKOiqB/Al@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <df64553c-c03d-076a-bcef-bec8554977a4@redhat.com>
+Date: Tue, 10 Aug 2021 10:32:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <YRF2xjwSKOiqB/Al@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,197 +98,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gshan@redhat.com
+Cc: virtio-fs@redhat.com, Ioannis Angelakopoulos <jaggel@bu.edu>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ARM SBBR specification mandates DBG2 table (Debug Port Table 2).
-this latter allows to describe one or more debug ports.
+On 09.08.21 20:41, Vivek Goyal wrote:
+> On Fri, Jul 30, 2021 at 05:01:33PM +0200, Max Reitz wrote:
+>> When the inode_file_handles option is set, try to generate a file handle
+>> for new inodes instead of opening an O_PATH FD.
+>>
+>> Being able to open these again will require CAP_DAC_READ_SEARCH, so the
+>> description text tells the user they will also need to specify
+>> -o modcaps=+dac_read_search.
+>>
+>> Generating a file handle returns the mount ID it is valid for.  Opening
+>> it will require an FD instead.  We have mount_fds to map an ID to an FD.
+>> get_file_handle() fills the hash map by opening the file we have
+>> generated a handle for.  To verify that the resulting FD indeed
+>> represents the handle's mount ID, we use statx().  Therefore, using file
+>> handles requires statx() support.
+> So opening the file and storing that fd in mount_fds table might be
+> a potential problem with inotify work Ioannis is doing.
+>
+> So say a file foo.txt was opened O_RDONLY and fd stored in mount_fs. Now
+> say user unlinks foo.txt. If notifications are enabled, final notification
+> will not be generated till this mount_fds fd is closed.
+>
+> Now question is when will this fd be closed? If it closed at some
+> later point and then notification is generated, that will break
+> notificaitons.
 
-Generate an DBG2 table featuring a single debug port, the PL011.
+Currently, it is never closed.
 
-The DBG2 specification can be found at:
-https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
+> In fact even O_PATH fd is delaying notifications due to same reason.
+> But its not too bad as we close O_PATH fd pretty quickly after
+> unlinking. And we were hoping that file handle support will get rid
+> of this problem because we will not keep O_PATH fd open.
+>
+> But, IIUC, mount_fds stuff will make it even worse. I did not see
+> the code which removes this fd from mount_fds. So I am not sure what's
+> the life time of this fd.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+The lifetime is forever.  If we wanted to remove it at some point, we’d 
+need to track how many file handles we have open for the given mount fd 
+and then remove it from the table once the count reaches 0, so it would 
+still be delayed.
 
----
+I think in practice the first thing that is looked up from some mount 
+will probably be the root directory, which cannot be deleted before 
+everything else on the mount is gone, so that would work.  We track how 
+many handles are there, if the whole mount were to be deleted, I hope 
+all lo_inodes are evicted, the count goes to 0, and we can drop the 
+mount fd.
 
-Tested by comparing the content with the table generated
-by EDK2 along with the SBSA-REF machine (code generated by
-DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c).
+I think we can make the assumption that the mount fd is the root 
+directory certain by, well, looking into mountinfo...  That would result 
+in us always opening the root node of the filesystem, so that first the 
+whole filesystem needs to disappear before it can be deleted (and our 
+mount fd closed) – which should work, I guess?
 
-I reused the Generic Address Structure filled by QEMU in the SPCR, ie.
-bit_width = 8 and byte access. While EDK2 sets bit_width = 32 and
-dword access. Also the name exposed by acpica tools is different:
-'COM0' in my case where '\_SB.COM0' in SBSA-REF case?
----
- hw/arm/virt-acpi-build.c    | 77 ++++++++++++++++++++++++++++++++++++-
- include/hw/acpi/acpi-defs.h | 50 ++++++++++++++++++++++++
- 2 files changed, 126 insertions(+), 1 deletion(-)
+It’s a bit tricky because our sandboxing prevents easy access to 
+mountinfo, but if that’s the only way...
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 037cc1fd82..35f27b41df 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -563,6 +563,78 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-                  vms->oem_table_id);
- }
- 
-+#define ACPI_DBG2_PL011_UART_LENGTH 0x1000
-+
-+/* DBG2 */
-+static void
-+build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-+{
-+    int addr_offset, addrsize_offset, namespace_offset, namespace_length;
-+    const MemMapEntry *uart_memmap = &vms->memmap[VIRT_UART];
-+    struct AcpiGenericAddress *base_address;
-+    int dbg2_start = table_data->len;
-+    AcpiDbg2Device *dbg2dev;
-+    char name[] = "COM0";
-+    AcpiDbg2Table *dbg2;
-+    uint32_t *addr_size;
-+    uint8_t *namespace;
-+
-+    dbg2 = acpi_data_push(table_data, sizeof *dbg2);
-+    dbg2->info_offset = sizeof *dbg2;
-+    dbg2->info_count = 1;
-+
-+    /* debug device info structure */
-+
-+    dbg2dev = acpi_data_push(table_data, sizeof(AcpiDbg2Device));
-+
-+    dbg2dev->revision = 0;
-+    namespace_length = sizeof name;
-+    dbg2dev->length = sizeof *dbg2dev + sizeof(struct AcpiGenericAddress) +
-+                      4 + namespace_length;
-+    dbg2dev->register_count = 1;
-+
-+    addr_offset = sizeof *dbg2dev;
-+    addrsize_offset = addr_offset + sizeof(struct AcpiGenericAddress);
-+    namespace_offset = addrsize_offset + 4;
-+
-+    dbg2dev->namepath_length = cpu_to_le16(namespace_length);
-+    dbg2dev->namepath_offset = cpu_to_le16(namespace_offset);
-+    dbg2dev->oem_data_length = cpu_to_le16(0);
-+    dbg2dev->oem_data_offset = cpu_to_le16(0); /* No OEM data is present */
-+    dbg2dev->port_type = cpu_to_le16(ACPI_DBG2_SERIAL_PORT);
-+    dbg2dev->port_subtype = cpu_to_le16(ACPI_DBG2_ARM_PL011);
-+
-+    dbg2dev->base_address_offset = cpu_to_le16(addr_offset);
-+    dbg2dev->address_size_offset = cpu_to_le16(addrsize_offset);
-+
-+    /*
-+     * variable length content:
-+     * BaseAddressRegister[1]
-+     * AddressSize[1]
-+     * NamespaceString[1]
-+     */
-+
-+    base_address = acpi_data_push(table_data,
-+                                  sizeof(struct AcpiGenericAddress));
-+
-+    base_address->space_id = AML_SYSTEM_MEMORY;
-+    base_address->bit_width = 8;
-+    base_address->bit_offset = 0;
-+    base_address->access_width = 1;
-+    base_address->address = cpu_to_le64(uart_memmap->base);
-+
-+    addr_size = acpi_data_push(table_data, sizeof *addr_size);
-+    *addr_size = cpu_to_le32(ACPI_DBG2_PL011_UART_LENGTH);
-+
-+    namespace = acpi_data_push(table_data, namespace_length);
-+    memcpy(namespace, name, namespace_length);
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + dbg2_start), "DBG2",
-+                 table_data->len - dbg2_start, 3, vms->oem_id,
-+                 vms->oem_table_id);
-+}
-+
- /* MADT */
- static void
- build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-@@ -790,7 +862,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     dsdt = tables_blob->len;
-     build_dsdt(tables_blob, tables->linker, vms);
- 
--    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-+    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
-     acpi_add_table(table_offsets, tables_blob);
-     build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
- 
-@@ -813,6 +885,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     acpi_add_table(table_offsets, tables_blob);
-     build_spcr(tables_blob, tables->linker, vms);
- 
-+    acpi_add_table(table_offsets, tables_blob);
-+    build_dbg2(tables_blob, tables->linker, vms);
-+
-     if (vms->ras) {
-         build_ghes_error_table(tables->hardware_errors, tables->linker);
-         acpi_add_table(table_offsets, tables_blob);
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index cf9f44299c..bdb2ebed2c 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -618,4 +618,54 @@ struct AcpiIortRC {
- } QEMU_PACKED;
- typedef struct AcpiIortRC AcpiIortRC;
- 
-+/* DBG2 */
-+
-+/* Types for port_type field above */
-+
-+#define ACPI_DBG2_SERIAL_PORT       0x8000
-+#define ACPI_DBG2_1394_PORT         0x8001
-+#define ACPI_DBG2_USB_PORT          0x8002
-+#define ACPI_DBG2_NET_PORT          0x8003
-+
-+/* Subtypes for port_subtype field above */
-+
-+#define ACPI_DBG2_16550_COMPATIBLE  0x0000
-+#define ACPI_DBG2_16550_SUBSET      0x0001
-+#define ACPI_DBG2_ARM_PL011         0x0003
-+#define ACPI_DBG2_ARM_SBSA_32BIT    0x000D
-+#define ACPI_DBG2_ARM_SBSA_GENERIC  0x000E
-+#define ACPI_DBG2_ARM_DCC           0x000F
-+#define ACPI_DBG2_BCM2835           0x0010
-+
-+#define ACPI_DBG2_1394_STANDARD     0x0000
-+
-+#define ACPI_DBG2_USB_XHCI          0x0000
-+#define ACPI_DBG2_USB_EHCI          0x0001
-+
-+/* Debug Device Information Subtable */
-+
-+struct AcpiDbg2Device {
-+    uint8_t  revision;
-+    uint16_t length;
-+    uint8_t  register_count; /* Number of base_address registers */
-+    uint16_t namepath_length;
-+    uint16_t namepath_offset;
-+    uint16_t oem_data_length;
-+    uint16_t oem_data_offset;
-+    uint16_t port_type;
-+    uint16_t port_subtype;
-+    uint8_t  reserved[2];
-+    uint16_t base_address_offset;
-+    uint16_t address_size_offset;
-+}  QEMU_PACKED;
-+typedef struct AcpiDbg2Device AcpiDbg2Device;
-+
-+struct AcpiDbg2Table {
-+    ACPI_TABLE_HEADER_DEF /* ACPI common table header */
-+    uint32_t info_offset; /* offset to the first debug struct */
-+    uint32_t info_count;  /* number of debug device info struct entries */
-+    uint8_t  dbg2_device_info[];
-+} QEMU_PACKED;
-+typedef struct AcpiDbg2Table AcpiDbg2Table;
-+
- #endif
--- 
-2.26.3
+Hanna
 
 
