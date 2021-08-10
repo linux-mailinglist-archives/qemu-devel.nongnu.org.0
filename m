@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0256F3E7C11
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 17:22:53 +0200 (CEST)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4930D3E7C10
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 17:22:40 +0200 (CEST)
+Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDTaf-0008KL-0C
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 11:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41024)
+	id 1mDTaR-0007ar-B7
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 11:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDTXp-00038o-6x
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:19:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47133)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDTYy-00053T-4E
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:21:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDTXn-0002IC-Ex
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:19:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDTYw-00038Y-Gg
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 11:21:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628608794;
+ s=mimecast20190719; t=1628608865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3vCB0HKYvGdP6U4rUoQZKA/b6W58k//vsD0Ak002UOY=;
- b=bXRPlUFR8B/2X1d3tLSsRbMKVkmYKLtCiWELjtJmh6Lw3z5LRiIVb+LHbODIerMCBshIeL
- C7fhxhaSM2PAT5waklWOMrbEJNIx1oiU+siQFzU4dS46dRMHg68cezoA+zKuE2X3UfKOd6
- nEKI1ndfPV146mYzUAubG+g3K9YqUwI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-Vi62DdNJMZO1VzH-lDlxMQ-1; Tue, 10 Aug 2021 11:19:53 -0400
-X-MC-Unique: Vi62DdNJMZO1VzH-lDlxMQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i6-20020a05600c3546b029025b0d825fd2so1106340wmq.4
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:19:53 -0700 (PDT)
+ bh=F90fKUWLCQBNWj2jG9vzqCrtj0qXJCPOh3117u+sOyw=;
+ b=Qafb8+ea8RYQH7E2VjnUZgTyqANYKaSGBiawXfVIAxINr7/tcKtsyCWA9bQz6mjf6A5qCR
+ qu5SkYiR2PkLo0y8FXv8on/DXQ+MUOxXnEGxEG8cBeHySXHzgHRJwCc8CjQgHw74R5X9DR
+ mOCQ7q3a8qKPM+ctB1CLkoFKbEk6EzE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-8NgbUvb0MBC6oFrF_xbxPQ-1; Tue, 10 Aug 2021 11:21:04 -0400
+X-MC-Unique: 8NgbUvb0MBC6oFrF_xbxPQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ z10-20020a5d440a0000b0290154e0f00348so3067673wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:21:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3vCB0HKYvGdP6U4rUoQZKA/b6W58k//vsD0Ak002UOY=;
- b=M1/xACOpagWhM6kAyPeKg/Xhxl6t576WPZwsm1SASfOnKaF4pZStYODXIISZVAsjtZ
- 9lfGdapOAn8fm131uxpDCUTUox4Yf4FKo/SyYyHXEi4zlhDQBb0smxlHLYcno2v+8C6d
- 6qitx4PStXq9dtBqacCdZNmTm1N8Dc388PEI+jUk+3oTtdnj39mcWsInNXI74XtCluas
- VB57COoAKilfZDcXQu93XAnVNJCnJMwzbAPm4eapHvD7BBY4iS7uBun2+qSufHt38CHC
- FYHJXOqxjRcvbSJmQkbvtKfzsaOKXcz7pxd6UPRQamfhnSOUdIFVL+shUp7T1+pLtMmC
- KC2A==
-X-Gm-Message-State: AOAM533K31cY84C/Xbz8vJlFRX4C9mjn16sdzMvuS571C1QWcmyUtwu0
- hA7au829dkYhKOYGzWwWO1WWhNdABASch4zl3GnSfffb2a/pNisYSUHFFNucW3e+Ky3kQtFdJqv
- RxBmgRZ+5lDSp9PI=
-X-Received: by 2002:a05:600c:4101:: with SMTP id
- j1mr22920284wmi.110.1628608792399; 
- Tue, 10 Aug 2021 08:19:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydQSSFoGjgzeAqmpF+y7wjG4FpsQTeawGT3KZuezHgUFSGWDqX5LqKDVG/ZDGncDswhifvOg==
-X-Received: by 2002:a05:600c:4101:: with SMTP id
- j1mr22920270wmi.110.1628608792241; 
- Tue, 10 Aug 2021 08:19:52 -0700 (PDT)
+ bh=F90fKUWLCQBNWj2jG9vzqCrtj0qXJCPOh3117u+sOyw=;
+ b=JtgqsSidzYWvlo/4TFTROW64VA8pASvxfYmlCqFAUgsxHID807MHvdygxBlH0iaGGX
+ JTxMnwxzen1oriWdO/EZ/X4BKGcsgpgm1pHJD/Tm2JtlNIexTVpp39F7TyysnZjOm/fP
+ kap930Q5FYbD8lAkZ6JCuvbT+q+qaqzG0myi2quBTMpTBixQYxcpm6vtPDkl2tB2Qgb0
+ AGxdhIXtVDXfI7rnWgC2vPPPzIFQ+DEfbr09Td18G0AO3jeiwK0OVv96mzGiaEA3eN0m
+ hN6jLFTb6NV1FzTi3mPUAqaohDcJgAViTKPcqW0uPEuPw4m7i08MKsEIa2WaujzbAZ0Y
+ oDNg==
+X-Gm-Message-State: AOAM533vFmfkN5b5+URYYctZrQ1e1bIN5GRwZRCSvEpL0pcdCgjhC6ah
+ A+vghqEY432WJ6XOyTtVvLy5iXVuPeF8UVNs0Mv2FEkjRtB+oilF5FNBnUXLl8tgjz1RdQ8ECAP
+ ts27UjoZfK/vcvzyOQkY4OkSotRxdbaEU4MZe7Pltrx61lWomx3Hgf80xOqH6BphF
+X-Received: by 2002:a1c:f008:: with SMTP id a8mr3700505wmb.83.1628608863030;
+ Tue, 10 Aug 2021 08:21:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6ymsLxzG61wFJGGWv+JcvJJgyfijD/NEPGRUXkFCy1m2aXu6PuOCQWO3fcacaMVyIHVVG4A==
+X-Received: by 2002:a1c:f008:: with SMTP id a8mr3700485wmb.83.1628608862826;
+ Tue, 10 Aug 2021 08:21:02 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id u5sm6639583wrr.94.2021.08.10.08.19.51
+ by smtp.gmail.com with ESMTPSA id y3sm12670001wma.32.2021.08.10.08.21.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 08:19:51 -0700 (PDT)
-Subject: Re: [PATCH] vl: fix machine option containing underscores
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, pbonzini@redhat.com
-References: <20210810131228.2332728-1-jean-philippe@linaro.org>
+ Tue, 10 Aug 2021 08:21:02 -0700 (PDT)
+Subject: Re: [PATCH v2] MAINTAINERS: Name and email address change
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210810140411.173369-1-hreitz@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e73e1083-5506-5a63-4938-fb249a55ccac@redhat.com>
-Date: Tue, 10 Aug 2021 17:19:50 +0200
+Message-ID: <3b7400c3-0d7e-4111-4102-9b08d40a84a5@redhat.com>
+Date: Tue, 10 Aug 2021 17:21:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210810131228.2332728-1-jean-philippe@linaro.org>
+In-Reply-To: <20210810140411.173369-1-hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -86,7 +84,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,133 +98,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Paolo/Markus
+On 8/10/21 4:04 PM, Hanna Reitz wrote:
+> I have changed my name and email address.  Update the MAINTAINERS file
+> to match, and .mailmap in case anyone wants to send me an email because
+> of some past commit I authored.  (As suggested by Philippe, I put the
+> .mailmap line into the "preferred name forms" section, considering it
+> counts as a git author config change.)
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> v2: .mailmap update
+> ---
+>  .mailmap    | 1 +
+>  MAINTAINERS | 8 ++++----
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 
-On 8/10/21 3:12 PM, Jean-Philippe Brucker wrote:
-> Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"),
-> keyval_dashify() replaces all underscores with dashes in machine
-> options. As a result the machine option "default_bus_bypass_iommu",
-> which was introduced in the same release (c9e96b04fc19 6d7a85483a06), is
-> not recognized:
-> 
-> $ qemu-system-aarch64 -M virt,default_bus_bypass_iommu=on
-> qemu-system-aarch64: Property 'virt-6.1-machine.default-bus-bypass-iommu' not found
-> 
-> Before that commit, dashification was only applied temporarily within
-> machine_set_property() to check the legacy options. Restore that
-> behavior by explicitly checking for aliases of these options instead of
-> transforming all machine options.
-> 
-> Fixes: d8fb7d0969d5 ("vl: switch -M parsing to keyval")
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> My first take was renaming default_bus_bypass_iommu, since it's the only
-> machine option with underscores, but then we'd want to rename
-> bypass_iommu as well for consistency and update all the docs. I prefer
-> this but don't mind either way.
-> ---
->  softmmu/vl.c | 56 +++++++++++++++++++---------------------------------
->  1 file changed, 20 insertions(+), 36 deletions(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5ca11e7469..3d3aa35279 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1660,41 +1660,25 @@ static int object_parse_property_opt(Object *obj,
->      return 0;
->  }
->  
-> -/* *Non*recursively replace underscores with dashes in QDict keys.  */
-> -static void keyval_dashify(QDict *qdict, Error **errp)
-> +static const char *find_option_alias(QDict *qdict, const char *key,
-> +                                     const char *alias, const char **value)
->  {
-> -    const QDictEntry *ent, *next;
-> -    char *p;
-> -
-> -    for (ent = qdict_first(qdict); ent; ent = next) {
-> -        g_autofree char *new_key = NULL;
-> -
-> -        next = qdict_next(qdict, ent);
-> -        if (!strchr(ent->key, '_')) {
-> -            continue;
-> -        }
-> -        new_key = g_strdup(ent->key);
-> -        for (p = new_key; *p; p++) {
-> -            if (*p == '_') {
-> -                *p = '-';
-> -            }
-> -        }
-> -        if (qdict_haskey(qdict, new_key)) {
-> -            error_setg(errp, "Conflict between '%s' and '%s'", ent->key, new_key);
-> -            return;
-> -        }
-> -        qobject_ref(ent->value);
-> -        qdict_put_obj(qdict, new_key, ent->value);
-> -        qdict_del(qdict, ent->key);
-> +    *value = qdict_get_try_str(qdict, key);
-> +    if (*value) {
-> +        return key;
-> +    }
-> +    *value = qdict_get_try_str(qdict, alias);
-> +    if (*value) {
-> +        return alias;
->      }
-> +    return NULL;
->  }
->  
->  static void qemu_apply_legacy_machine_options(QDict *qdict)
->  {
-> +    const char *key;
->      const char *value;
->  
-> -    keyval_dashify(qdict, &error_fatal);
-> -
->      /* Legacy options do not correspond to MachineState properties.  */
->      value = qdict_get_try_str(qdict, "accel");
->      if (value) {
-> @@ -1702,27 +1686,27 @@ static void qemu_apply_legacy_machine_options(QDict *qdict)
->          qdict_del(qdict, "accel");
->      }
->  
-> -    value = qdict_get_try_str(qdict, "igd-passthru");
-> -    if (value) {
-> +    key = find_option_alias(qdict, "igd-passthru", "igd_passthru", &value);
-> +    if (key) {
->          object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), "igd-passthru", value,
->                                     false);
-> -        qdict_del(qdict, "igd-passthru");
-> +        qdict_del(qdict, key);
->      }
->  
-> -    value = qdict_get_try_str(qdict, "kvm-shadow-mem");
-> -    if (value) {
-> +    key = find_option_alias(qdict, "kvm-shadow-mem", "kvm_shadow_mem", &value);
-> +    if (key) {
->          object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), "kvm-shadow-mem", value,
->                                     false);
-> -        qdict_del(qdict, "kvm-shadow-mem");
-> +        qdict_del(qdict, key);
->      }
->  
-> -    value = qdict_get_try_str(qdict, "kernel-irqchip");
-> -    if (value) {
-> +    key = find_option_alias(qdict, "kernel-irqchip", "kernel_irqchip", &value);
-> +    if (key) {
->          object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), "kernel-irqchip", value,
->                                     false);
->          object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), "kernel-irqchip", value,
->                                     false);
-> -        qdict_del(qdict, "kernel-irqchip");
-> +        qdict_del(qdict, key);
->      }
->  }
->  
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
