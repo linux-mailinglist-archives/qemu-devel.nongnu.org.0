@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214963E5997
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:04:08 +0200 (CEST)
-Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C438F3E599A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:05:12 +0200 (CEST)
+Received: from localhost ([::1]:58064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDQUI-0003ZT-Vd
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:04:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
+	id 1mDQVL-0005lS-RM
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mDQS4-0001By-Tb
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:01:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31369)
+ id 1mDQTB-0002gJ-6V
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mDQS1-0004qk-Ka
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:01:47 -0400
+ id 1mDQT9-0005dS-Oz
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:02:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628596904;
+ s=mimecast20190719; t=1628596975;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8yJTX7eNzzbNaJggB4MTVcWm01xc/Rs3c9Spl2Cmkgo=;
- b=FPa7X9IV/PQ9vwUG/+HHosiGO6Uz5j9T9EheWB+kZqkxgvhfKNipd/NrNY7U5RYvKiYSWm
- Oi5gZglqB5qPZxeZnN2l2jHY8Ev/5zbNjbhT7iDPYcHZ3gfUAVhI2itpb7j+Y06zU8BTJG
- Rq0qKQdNTX6Xah804hOsB9HYrmR/r1A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-599-OeRf0sifNgOasCTNaz-wBg-1; Tue, 10 Aug 2021 08:01:43 -0400
-X-MC-Unique: OeRf0sifNgOasCTNaz-wBg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w1-20020adf8bc10000b0290154bed98988so5040793wra.1
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 05:01:43 -0700 (PDT)
+ bh=/y07SwkZSkvmVfGoFhZniw5AGWmiYz5W6lTTykq1DJk=;
+ b=QcVBQWQspbHxz81XbkBFLMenQxYScNX6OknAUtRkGEIpm/3XJps6V2eeU7hwMKCdK228d7
+ k+WOixg7rZ2G4aLyAQJP2Im4V1a0R+O+01OEo5rQMcrUcKKZjnDS9immZpDJHAlB4zLv1m
+ +1MYmjBtzoP7MnRZkHk/w1x0LXWijtE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-1k1NSnxoPUWfggqSdOS8Lg-1; Tue, 10 Aug 2021 08:02:54 -0400
+X-MC-Unique: 1k1NSnxoPUWfggqSdOS8Lg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ y186-20020a1c32c30000b02902b5ac887cfcso976029wmy.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 05:02:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=8yJTX7eNzzbNaJggB4MTVcWm01xc/Rs3c9Spl2Cmkgo=;
- b=Lc1Ypi/BCk2jUSFYkC1iPutxtFrTdXU3JZfYYwgCP1CAMo8ziZpRO1aVQwv7vF5jMU
- LMM6N3RBVSo2j/N1E/GdKK7DFF6M8fOxj0wZEXb6jaS9p7Nl90XcFWrbe2dTteZoPiYc
- 0dvTghSpAP24JK4fzrZXokYOI4SAlIuMKza+LEccgx/iVD3Dsfi7qqzoFhl8JPXeutG1
- 3mxyPbOCTaKV04ar919YqMJ1MWiVZ41kzJnvx4ATZORKbl/dEQQuiruqiJ2rJ9qEMnlB
- A0Mh32Gurg6JeeEu8JK7BsgZCw0CcReDnrk9qZwRWnq81tLp+94CO3rTzqKV8m1Wa3n0
- hwdA==
-X-Gm-Message-State: AOAM533RTPNoCsdjtdu8QR7KfL9Irg/JI2YnHYwK2F4hvJSbTLgELv9F
- xKaS+eUjYE92p3TvgsJZHyBmhBHu02RYW98hSN5SO5HXcwcRAut3B5JFFaQzg2/qCNvp8o3dDPu
- rew/z28AhFalBYIY=
-X-Received: by 2002:a5d:658a:: with SMTP id q10mr30910126wru.343.1628596902441; 
- Tue, 10 Aug 2021 05:01:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3hzXJq/uMeMUgLEKYXP7YdeYgeEjV4RTqS2QrZnBsjiQwGsXJUTgme4xDTdtVLt8j8LEVnA==
-X-Received: by 2002:a5d:658a:: with SMTP id q10mr30910057wru.343.1628596902136; 
- Tue, 10 Aug 2021 05:01:42 -0700 (PDT)
+ bh=/y07SwkZSkvmVfGoFhZniw5AGWmiYz5W6lTTykq1DJk=;
+ b=dvsw9Nt/ZzCCs47DGm7ttGKNYGur75YLgpWbbbGFNiusK+4VDRikGi478BJZNeotoI
+ 0xRJrN6E+7gqIiLX2UPNa3WJlqUHArcNJBix4pN3hgy6KIYEA/UyxmQhufV2n2T0jcO4
+ QAeWTRKVGQUmBCJzBnyr5WqCiBBwXnpb8iBGHs9VnWcnardl7HB0VYcHVhu3yxSF9J5f
+ J/DxUBebfcU8mXxMP3p66gFBshUSFBIb4ixkW4FQS71nNTGuZkrcg+xC2KW+IPa0G/s7
+ 1fX0EiVdziupBqG4UsPpyBYUDsl6X6yyTxSyOHF/emn8oBFTjD5y9ogzwWWyeXWEoIST
+ 63xQ==
+X-Gm-Message-State: AOAM5332nCRDg38AHNRWrvoxQZ/XCzyoyssxDCpXK2jEHeW1HZVhXAs0
+ KIZU8xxdIO5mw4m1EBftukVkDmoOwFcOru7z78KRepUppI2lFK9K3Lo/9rY/INMF4f7GDKj7rxF
+ Im8f4gClPHGTs8aw=
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr21533379wmc.102.1628596972913; 
+ Tue, 10 Aug 2021 05:02:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZb7CD4Eyc7P7pDm62NjmV2P1DNtVmuM95oPkWSSit79/uVVli86zIhCTZSgJVKvPOM06CGQ==
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr21533360wmc.102.1628596972729; 
+ Tue, 10 Aug 2021 05:02:52 -0700 (PDT)
 Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
- by smtp.gmail.com with ESMTPSA id j4sm20637348wmi.4.2021.08.10.05.01.41
+ by smtp.gmail.com with ESMTPSA id r18sm5330997wrt.76.2021.08.10.05.02.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 05:01:41 -0700 (PDT)
+ Tue, 10 Aug 2021 05:02:52 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH for-6.2 05/12] [automated] Move QOM typedefs and add
- missing includes
-In-Reply-To: <20210806211127.646908-6-ehabkost@redhat.com> (Eduardo Habkost's
- message of "Fri, 6 Aug 2021 17:11:20 -0400")
-References: <20210806211127.646908-1-ehabkost@redhat.com>
- <20210806211127.646908-6-ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH] audio: Never send migration section
+In-Reply-To: <20210809170956.78536-1-dgilbert@redhat.com> (David Alan
+ Gilbert's message of "Mon, 9 Aug 2021 18:09:56 +0100")
+References: <20210809170956.78536-1-dgilbert@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 10 Aug 2021 14:01:40 +0200
-Message-ID: <877dgt1paz.fsf@secure.mitica>
+Date: Tue, 10 Aug 2021 14:02:51 +0200
+Message-ID: <8735rh1p90.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -97,68 +95,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Michael S.
- Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Vijai Kumar K <vijai@behindbytes.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Corey Minyard <minyard@acm.org>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- qemu-arm@nongnu.org,
- =?utf-8?Q?C=C3=A9?= =?utf-8?Q?dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Keith Busch <kbusch@kernel.org>, qemu-riscv@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Tyrone Ting <kfting@nuvoton.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> wrote:
-> Some typedefs and macros are defined after the type check macros.
-> This makes it difficult to automatically replace their
-> definitions with OBJECT_DECLARE_TYPE.
+"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> Patch generated using:
+> The audio migration vmstate is empty, and always has been; we can't
+> just remove it though because an old qemu might send it us.
+> Changes with -audiodev now mean it's sometimes created when it didn't
+> used to be, and can confuse migration to old qemu.
 >
->  $ ./scripts/codeconverter/converter.py -i --pattern=MoveSymbols \
->     $(git grep -l '' -- '*.[ch]')
+> Change it so that vmstate_audio is never sent; if it's received it
+> should still be accepted, and old qemu's shouldn't be too upset if it's
+> missing.
 >
-> which will:
-> - split "typdef struct { ... } TypedefName" declarations
-> - move the typedefs and #defines above the type check macros
-> - add missing #include "qom/object.h" lines if necessary
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Just curious, how did my name ended on the CC'd list?  I don't see any
-file that I touched or that is migration related.
-
-Later, Juan.
 
 
