@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C8B3E584B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:26:53 +0200 (CEST)
-Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703233E5898
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:51:05 +0200 (CEST)
+Received: from localhost ([::1]:37370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDOyC-0005Zv-71
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
+	id 1mDPLb-0001a1-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mDOwj-0004Yd-Nu
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:25:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mDOwe-0002hT-CY
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:25:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628591114;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=se8UufezbiNhi/HXpKOiqIZWcIL1AGz2k4KVQQNr9rw=;
- b=aZJnmHua+FzJK0hXdkyIIGqVvMD7LCHq8bWNxvtv5wLgrK5v7r8XasaGyDq9XNjHNScItd
- ObztCEg7YMu4yUpYCSBX68+xFgBRT396hAx2/4fEjdnzZNXwD7l1MtEjkhPoNvjh5k8uIW
- doIuHeRtJ0u5VCc2n80q+gRmPpHqhMM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-RViw3i2eNwiAVjGKJws8Sg-1; Tue, 10 Aug 2021 06:25:11 -0400
-X-MC-Unique: RViw3i2eNwiAVjGKJws8Sg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o26-20020a05600c511ab0290252d0248251so902429wms.1
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 03:25:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1mDPKH-0000uM-64
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:49:41 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:42519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1mDPKF-00035e-5C
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:49:41 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id m193so35338100ybf.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 03:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kWLujHPQ4/g8AmacMmRo/fv1bMVCXnahrQexLGlUv5E=;
+ b=Un+Iz/dg2etQEMufYNthRMWpVPF/32uH/VEwGw8q8QxO5wxV/fG9TpMYaTJ9akfig0
+ NYydon7EM0/vYYEZhLlDyZP2+KB6H9JeoilUx/+csiZ+I2b4YOSYVmQKdXJtvb5+HJ5a
+ P1HFh5XJqf/a9bTQCvB51pHb3dLB0FyJ6+Pv4hvni8DoGMu9xaX7sV+XD7M7gmsi9drZ
+ 4gGYpY8aluerT0AJDd0tD5Kr2hD4tgLdGOqIG1bJ4UHCsXIKuBk+CUrs3B/cQj2uBoMS
+ 4CsenNkJMf2DQyKj21ah1jmUTtVSQY3Ez0UK0nYmoJC5cawkBxGCLaaGEl0xf+OXgDtt
+ RjOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=se8UufezbiNhi/HXpKOiqIZWcIL1AGz2k4KVQQNr9rw=;
- b=pGhJ3Ysx8YEnF/SeltkmB2U7w7+WM+f8Ory5sH0HoJgwD0HBzhh/NMmgFiXrf/8AVH
- 1SAL6LbElw0YgDPG4CfmLAJBNmj09F14XMQS0jszZ8BrtRH/Avv2+XAMk0VNLD8oAlfg
- Ju01M1srUX/Os6szHPI2VXPPnbKB7+V9gN0uszP7t5OTAND9wSPo2VbvN4rcZhyQ42sT
- jQiGRnc9Uch+efX/O2VW83QxNWCjfWzqCAlUNGKsMENF9VISLsvdN1n0syiTKuiQUHpG
- /hUI35I3ui15y0ub+AJ847KA8HcRQlKQXexNHSDXCF3Ho4VT9a6xUjphhzb1/JtwZ9Zo
- tASg==
-X-Gm-Message-State: AOAM531YOHZhoZ4TU9Q5+rXAa3rRszl0ssIExkspes21fEamLPB2W8kq
- hdLh207v0oZV10ozCORlRL6u3yYnmoL5hGa0Iz0vnBdU6rHwpFfdZzLDShZ4XyufsuyQt92oYiE
- qcJeAu3cXy1vKMQs=
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr3921693wmz.98.1628591109822; 
- Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwqnGhGUz0khEzeicRW5AhifW2KstN87fJ7BeNXHneGw6A5GwEu9OBBX6Uj9X8AnBPemlX0g==
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr3921662wmz.98.1628591109553; 
- Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id p4sm10576662wrq.81.2021.08.10.03.25.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
-Subject: Re: [PATCH for-6.2] hw/arm/virt_acpi_build: Generate DBG2 table
-To: Ard Biesheuvel <ardb@kernel.org>
-References: <20210810083057.99651-1-eric.auger@redhat.com>
- <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <4dae638d-6f96-c036-2a6b-5ef179012029@redhat.com>
-Date: Tue, 10 Aug 2021 12:25:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kWLujHPQ4/g8AmacMmRo/fv1bMVCXnahrQexLGlUv5E=;
+ b=Tket2jRGK3GbvN4Q/nvVOn2Ovu13WylDOJdq0pSg7KMAQNHhSyi6nZSg9KM+T/oqlL
+ sw77/XNcwTb4aJSCFZm7V/M352F7t9/E0YIL1OSd3nA6vgE6cnu7YHtmjXMNqb2byMHN
+ SYyFDrDGMxFFpGERxEjxHVHodJNxUOilB56nLI/JHxBvaVo4/z9Ge3N2uflGUdhZwXkZ
+ Xp+wdIUJoj0QGXTki+Bqi5MDFkyfZw8RmTVDs7cbGoD1gbMGehIVZMQeuoi+r3TL8UNP
+ YMnHRHYwvG4UQh4dwpg09YLZuU5zRpD3zvuDW+sJmUroCgg1XSs8HrEVgQA52c8f7y4a
+ MWNQ==
+X-Gm-Message-State: AOAM532gixqxKXu6VoCdO0WnoRj94hmSN9rMwvfKIM6/gymwuWyfMzB6
+ Y7H95UgZ4xpeHx6ygA18JtS2oUZW5qt1CWz657T0iA==
+X-Google-Smtp-Source: ABdhPJz00rzCWwUolm1Zb9jJlo5IYb2ndwTLkAUrryOS0qRLb93sVtZfu30MqzziWEJuoHoRSwRLXV8zwyoRYmSuFbE=
+X-Received: by 2002:a25:ae97:: with SMTP id b23mr28532522ybj.379.1628592577592; 
+ Tue, 10 Aug 2021 03:49:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210809094839.52312-1-konstantin@daynix.com>
+ <20210809094839.52312-3-konstantin@daynix.com>
+ <007231ff-bc43-50c2-9bd9-1becfbdf2281@redhat.com>
+In-Reply-To: <007231ff-bc43-50c2-9bd9-1becfbdf2281@redhat.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Tue, 10 Aug 2021 13:49:26 +0300
+Message-ID: <CAJ28CFQ0fTHTFBOuUbdnTUCbuUcL86C2VBFJs4AHTg_3uqenUA@mail.gmail.com>
+Subject: Re: [RFC 3/4] gqa-win: get_pci_info: Add g_autofree for few variables
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001251b905c932429b"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,231 +78,352 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- gshan@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Masters <jcm@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Al Stone <ahs3@redhat.com>, eric.auger.pro@gmail.com
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Developers <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Ard,
-On 8/10/21 11:36 AM, Ard Biesheuvel wrote:
-> On Tue, 10 Aug 2021 at 10:31, Eric Auger <eric.auger@redhat.com> wrote:
->> ARM SBBR specification mandates DBG2 table (Debug Port Table 2).
->> this latter allows to describe one or more debug ports.
->>
->> Generate an DBG2 table featuring a single debug port, the PL011.
->>
->> The DBG2 specification can be found at:
->> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
->>
-> Have the legal issues around this table been resolved in the mean
-> time?
-I don't know exactly what they are. Adding Al and Jon in the loop they
-have more information about this.
-How did you resolve the issue for EDK2
-(DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c)?
->  Also, any clue why this table is mandatory to begin with? The
-> SBBR has been very trigger happy lately with making things mandatory
-> that aren't truly required from a functional perspective.
-It seems there are kernel FW test suites that check all mandated tables
-are available and they currently fail for ARM virt.
-Indeed from a function pov, I don't know much about its usage on ARM.
+--0000000000001251b905c932429b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Maybe the SBBR spec should not flag the DBG2 as mandatory and test
-suites shall be updated. I think this should be clarified at ARM then,
-all the more so if there are legal issues as its spec is owned by Microsoft?
+Hi Philippe,
 
-Thanks
+On Mon, Aug 9, 2021 at 1:46 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
 
-Eric
+> Hi Kostiantyn,
+>
+> On 8/9/21 11:48 AM, Kostiantyn Kostiuk wrote:
+> > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+>
+> I'm not sure what you are trying to do here, fix a memory leak?
+>
+
+Yes. This set of patches fix a memory leak. The leak occurs in the case
+when a storage device does not have a PCI parent.
+
+
+>
+> > ---
+> >  qga/commands-win32.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> > index 724ce76a0e..a8a601776d 100644
+> > --- a/qga/commands-win32.c
+> > +++ b/qga/commands-win32.c
+> > @@ -539,9 +539,9 @@ static GuestPCIAddress *get_pci_info(int number,
+> Error **errp)
+> >      dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);
+> >      dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFACE_DATA);
+> >      for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data);
+> i++) {
+> > -        PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data =3D NU=
+LL;
+> > +        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
+> pdev_iface_detail_data =3D NULL;
+> >          STORAGE_DEVICE_NUMBER sdn;
+> > -        char *parent_dev_id =3D NULL;
+> > +        g_autofree char *parent_dev_id =3D NULL;
+> >          HDEVINFO parent_dev_info;
+> >          SP_DEVINFO_DATA parent_dev_info_data;
+> >          DWORD j;
+> >
+>
+> Anyhow this function is confuse.
+>
+> I think it would be easier to review by replacing the while()
+> by 2 calls, as suggested in the documentation:
+>
+> https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-s=
+etupdigetdeviceinterfacedetaila
 >
 >
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> Tested by comparing the content with the table generated
->> by EDK2 along with the SBSA-REF machine (code generated by
->> DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c).
->>
->> I reused the Generic Address Structure filled by QEMU in the SPCR, ie.
->> bit_width = 8 and byte access. While EDK2 sets bit_width = 32 and
->> dword access. Also the name exposed by acpica tools is different:
->> 'COM0' in my case where '\_SB.COM0' in SBSA-REF case?
->> ---
->>  hw/arm/virt-acpi-build.c    | 77 ++++++++++++++++++++++++++++++++++++-
->>  include/hw/acpi/acpi-defs.h | 50 ++++++++++++++++++++++++
->>  2 files changed, 126 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 037cc1fd82..35f27b41df 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -563,6 +563,78 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>                   vms->oem_table_id);
->>  }
->>
->> +#define ACPI_DBG2_PL011_UART_LENGTH 0x1000
->> +
->> +/* DBG2 */
->> +static void
->> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->> +{
->> +    int addr_offset, addrsize_offset, namespace_offset, namespace_length;
->> +    const MemMapEntry *uart_memmap = &vms->memmap[VIRT_UART];
->> +    struct AcpiGenericAddress *base_address;
->> +    int dbg2_start = table_data->len;
->> +    AcpiDbg2Device *dbg2dev;
->> +    char name[] = "COM0";
->> +    AcpiDbg2Table *dbg2;
->> +    uint32_t *addr_size;
->> +    uint8_t *namespace;
->> +
->> +    dbg2 = acpi_data_push(table_data, sizeof *dbg2);
->> +    dbg2->info_offset = sizeof *dbg2;
->> +    dbg2->info_count = 1;
->> +
->> +    /* debug device info structure */
->> +
->> +    dbg2dev = acpi_data_push(table_data, sizeof(AcpiDbg2Device));
->> +
->> +    dbg2dev->revision = 0;
->> +    namespace_length = sizeof name;
->> +    dbg2dev->length = sizeof *dbg2dev + sizeof(struct AcpiGenericAddress) +
->> +                      4 + namespace_length;
->> +    dbg2dev->register_count = 1;
->> +
->> +    addr_offset = sizeof *dbg2dev;
->> +    addrsize_offset = addr_offset + sizeof(struct AcpiGenericAddress);
->> +    namespace_offset = addrsize_offset + 4;
->> +
->> +    dbg2dev->namepath_length = cpu_to_le16(namespace_length);
->> +    dbg2dev->namepath_offset = cpu_to_le16(namespace_offset);
->> +    dbg2dev->oem_data_length = cpu_to_le16(0);
->> +    dbg2dev->oem_data_offset = cpu_to_le16(0); /* No OEM data is present */
->> +    dbg2dev->port_type = cpu_to_le16(ACPI_DBG2_SERIAL_PORT);
->> +    dbg2dev->port_subtype = cpu_to_le16(ACPI_DBG2_ARM_PL011);
->> +
->> +    dbg2dev->base_address_offset = cpu_to_le16(addr_offset);
->> +    dbg2dev->address_size_offset = cpu_to_le16(addrsize_offset);
->> +
->> +    /*
->> +     * variable length content:
->> +     * BaseAddressRegister[1]
->> +     * AddressSize[1]
->> +     * NamespaceString[1]
->> +     */
->> +
->> +    base_address = acpi_data_push(table_data,
->> +                                  sizeof(struct AcpiGenericAddress));
->> +
->> +    base_address->space_id = AML_SYSTEM_MEMORY;
->> +    base_address->bit_width = 8;
->> +    base_address->bit_offset = 0;
->> +    base_address->access_width = 1;
->> +    base_address->address = cpu_to_le64(uart_memmap->base);
->> +
->> +    addr_size = acpi_data_push(table_data, sizeof *addr_size);
->> +    *addr_size = cpu_to_le32(ACPI_DBG2_PL011_UART_LENGTH);
->> +
->> +    namespace = acpi_data_push(table_data, namespace_length);
->> +    memcpy(namespace, name, namespace_length);
->> +
->> +    build_header(linker, table_data,
->> +                 (void *)(table_data->data + dbg2_start), "DBG2",
->> +                 table_data->len - dbg2_start, 3, vms->oem_id,
->> +                 vms->oem_table_id);
->> +}
->> +
->>  /* MADT */
->>  static void
->>  build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->> @@ -790,7 +862,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>      dsdt = tables_blob->len;
->>      build_dsdt(tables_blob, tables->linker, vms);
->>
->> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
->> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
->>      acpi_add_table(table_offsets, tables_blob);
->>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->>
->> @@ -813,6 +885,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>      acpi_add_table(table_offsets, tables_blob);
->>      build_spcr(tables_blob, tables->linker, vms);
->>
->> +    acpi_add_table(table_offsets, tables_blob);
->> +    build_dbg2(tables_blob, tables->linker, vms);
->> +
->>      if (vms->ras) {
->>          build_ghes_error_table(tables->hardware_errors, tables->linker);
->>          acpi_add_table(table_offsets, tables_blob);
->> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
->> index cf9f44299c..bdb2ebed2c 100644
->> --- a/include/hw/acpi/acpi-defs.h
->> +++ b/include/hw/acpi/acpi-defs.h
->> @@ -618,4 +618,54 @@ struct AcpiIortRC {
->>  } QEMU_PACKED;
->>  typedef struct AcpiIortRC AcpiIortRC;
->>
->> +/* DBG2 */
->> +
->> +/* Types for port_type field above */
->> +
->> +#define ACPI_DBG2_SERIAL_PORT       0x8000
->> +#define ACPI_DBG2_1394_PORT         0x8001
->> +#define ACPI_DBG2_USB_PORT          0x8002
->> +#define ACPI_DBG2_NET_PORT          0x8003
->> +
->> +/* Subtypes for port_subtype field above */
->> +
->> +#define ACPI_DBG2_16550_COMPATIBLE  0x0000
->> +#define ACPI_DBG2_16550_SUBSET      0x0001
->> +#define ACPI_DBG2_ARM_PL011         0x0003
->> +#define ACPI_DBG2_ARM_SBSA_32BIT    0x000D
->> +#define ACPI_DBG2_ARM_SBSA_GENERIC  0x000E
->> +#define ACPI_DBG2_ARM_DCC           0x000F
->> +#define ACPI_DBG2_BCM2835           0x0010
->> +
->> +#define ACPI_DBG2_1394_STANDARD     0x0000
->> +
->> +#define ACPI_DBG2_USB_XHCI          0x0000
->> +#define ACPI_DBG2_USB_EHCI          0x0001
->> +
->> +/* Debug Device Information Subtable */
->> +
->> +struct AcpiDbg2Device {
->> +    uint8_t  revision;
->> +    uint16_t length;
->> +    uint8_t  register_count; /* Number of base_address registers */
->> +    uint16_t namepath_length;
->> +    uint16_t namepath_offset;
->> +    uint16_t oem_data_length;
->> +    uint16_t oem_data_offset;
->> +    uint16_t port_type;
->> +    uint16_t port_subtype;
->> +    uint8_t  reserved[2];
->> +    uint16_t base_address_offset;
->> +    uint16_t address_size_offset;
->> +}  QEMU_PACKED;
->> +typedef struct AcpiDbg2Device AcpiDbg2Device;
->> +
->> +struct AcpiDbg2Table {
->> +    ACPI_TABLE_HEADER_DEF /* ACPI common table header */
->> +    uint32_t info_offset; /* offset to the first debug struct */
->> +    uint32_t info_count;  /* number of debug device info struct entries */
->> +    uint8_t  dbg2_device_info[];
->> +} QEMU_PACKED;
->> +typedef struct AcpiDbg2Table AcpiDbg2Table;
->> +
->>  #endif
->> --
->> 2.26.3
->>
+Ok. I will refactor these patches.
 
+
+
+> -- >8 --
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 7bac0c5d422..2188c5dd80d 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -539,7 +539,6 @@ static GuestPCIAddress *get_pci_info(int number,
+> Error **errp)
+>      dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);
+>      dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFACE_DATA);
+>      for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i+=
++) {
+> -        PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data =3D NULL=
+;
+>          STORAGE_DEVICE_NUMBER sdn;
+>          char *parent_dev_id =3D NULL;
+>          HDEVINFO parent_dev_info;
+> @@ -551,25 +550,36 @@ static GuestPCIAddress *get_pci_info(int number,
+> Error **errp)
+>          if (SetupDiEnumDeviceInterfaces(dev_info, &dev_info_data,
+>                                          &GUID_DEVINTERFACE_DISK, 0,
+>                                          &dev_iface_data)) {
+> -            while (!SetupDiGetDeviceInterfaceDetail(dev_info,
+> &dev_iface_data,
+> -
+> pdev_iface_detail_data,
+> -                                                    size, &size,
+> -                                                    &dev_info_data)) {
+> -                if (GetLastError() =3D=3D ERROR_INSUFFICIENT_BUFFER) {
+> -                    pdev_iface_detail_data =3D g_malloc(size);
+> -                    pdev_iface_detail_data->cbSize =3D
+> -                        sizeof(*pdev_iface_detail_data);
+> -                } else {
+> -                    error_setg_win32(errp, GetLastError(),
+> -                                     "failed to get device interfaces");
+> -                    goto free_dev_info;
+> -                }
+> +            g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
+> +                       pdev_iface_detail_data =3D NULL;
+> +
+> +            /* Get the required buffer size. */
+> +            if (!SetupDiGetDeviceInterfaceDetail(dev_info,
+> &dev_iface_data,
+> +                                                 NULL, 0, &size,
+> +                                                 &dev_info_data)
+> +                    && GetLastError() !=3D ERROR_INSUFFICIENT_BUFFER) {
+> +                error_setg_win32(errp, GetLastError(),
+> +                                 "failed to get device interfaces
+> buffer size");
+> +                goto free_dev_info;
+> +            }
+> +
+> +            /* Allocate an appropriately sized buffer. */
+> +            pdev_iface_detail_data =3D g_malloc(size);
+> +            pdev_iface_detail_data->cbSize =3D
+> sizeof(*pdev_iface_detail_data);
+> +
+> +            /* Get the interface details. */
+> +            if (!SetupDiGetDeviceInterfaceDetail(dev_info,
+> &dev_iface_data,
+> +                                                 pdev_iface_detail_data,
+> +                                                 size, &size,
+> +                                                 &dev_info_data)) {
+> +                error_setg_win32(errp, GetLastError(),
+> +                                 "failed to get device interfaces");
+> +                goto free_dev_info;
+>              }
+>
+>              dev_file =3D CreateFile(pdev_iface_detail_data->DevicePath, =
+0,
+>                                    FILE_SHARE_READ, NULL, OPEN_EXISTING, =
+0,
+>                                    NULL);
+> -            g_free(pdev_iface_detail_data);
+>
+>              if (!DeviceIoControl(dev_file,
+> IOCTL_STORAGE_GET_DEVICE_NUMBER,
+>                                   NULL, 0, &sdn, sizeof(sdn), &size,
+> NULL)) {
+> ---
+>
+>
+
+--0000000000001251b905c932429b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Philippe,</div><div></div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon,=
+ Aug 9, 2021 at 1:46 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:p=
+hilmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">Hi Kostiantyn,<br>
+<br>
+On 8/9/21 11:48 AM, Kostiantyn Kostiuk wrote:<br>
+&gt; Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:konstantin@day=
+nix.com" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
+<br>
+I&#39;m not sure what you are trying to do here, fix a memory leak?<br></bl=
+ockquote><div><br></div><div>Yes. This set of patches fix a memory leak. Th=
+e leak occurs in the case when a storage device does not have a PCI parent.=
+<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+<br>
+&gt; ---<br>
+&gt;=C2=A0 qga/commands-win32.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+&gt; index 724ce76a0e..a8a601776d 100644<br>
+&gt; --- a/qga/commands-win32.c<br>
+&gt; +++ b/qga/commands-win32.c<br>
+&gt; @@ -539,9 +539,9 @@ static GuestPCIAddress *get_pci_info(int number, E=
+rror **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFA=
+CE_DATA);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &=
+amp;dev_info_data); i++) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_ifa=
+ce_detail_data =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree PSP_DEVICE_INTERFACE_DETAIL_DA=
+TA pdev_iface_detail_data =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 STORAGE_DEVICE_NUMBER sdn;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *parent_dev_id =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree char *parent_dev_id =3D NULL;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 HDEVINFO parent_dev_info;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SP_DEVINFO_DATA parent_dev_info_data=
+;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DWORD j;<br>
+&gt; <br>
+<br>
+Anyhow this function is confuse.<br>
+<br>
+I think it would be easier to review by replacing the while()<br>
+by 2 calls, as suggested in the documentation:<br>
+<a href=3D"https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-s=
+etupapi-setupdigetdeviceinterfacedetaila" rel=3D"noreferrer" target=3D"_bla=
+nk">https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi=
+-setupdigetdeviceinterfacedetaila</a><br>
+<br></blockquote><div><br></div><div>Ok. I will refactor these patches.<br>=
+</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+-- &gt;8 --<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 7bac0c5d422..2188c5dd80d 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -539,7 +539,6 @@ static GuestPCIAddress *get_pci_info(int number,<br>
+Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);<br>
+=C2=A0 =C2=A0 =C2=A0dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFACE_DA=
+TA);<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &amp;d=
+ev_info_data); i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_de=
+tail_data =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0STORAGE_DEVICE_NUMBER sdn;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *parent_dev_id =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0HDEVINFO parent_dev_info;<br>
+@@ -551,25 +550,36 @@ static GuestPCIAddress *get_pci_info(int number,<br>
+Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (SetupDiEnumDeviceInterfaces(dev_info,=
+ &amp;dev_info_data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&a=
+mp;GUID_DEVINTERFACE_DISK, 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&a=
+mp;dev_iface_data)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while (!SetupDiGetDeviceInterfac=
+eDetail(dev_info,<br>
+&amp;dev_iface_data,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_data,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size, &amp;size,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;dev_info_data)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (GetLastError()=
+ =3D=3D ERROR_INSUFFICIENT_BUFFER) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev=
+_iface_detail_data =3D g_malloc(size);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev=
+_iface_detail_data-&gt;cbSize =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 sizeof(*pdev_iface_detail_data);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 erro=
+r_setg_win32(errp, GetLastError(),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;failed to =
+get device interfaces&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto=
+ free_dev_info;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree PSP_DEVICE_INTERFACE_=
+DETAIL_DATA<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pdev_iface_detail_data =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Get the required buffer size.=
+ */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!SetupDiGetDeviceInterfaceDe=
+tail(dev_info, &amp;dev_iface_data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, 0, &amp;size,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;dev_info_data)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp=
+;&amp; GetLastError() !=3D ERROR_INSUFFICIENT_BUFFER) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_win32(e=
+rrp, GetLastError(),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;failed to get device int=
+erfaces<br>
+buffer size&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto free_dev_info=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Allocate an appropriately siz=
+ed buffer. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_data =3D g_mal=
+loc(size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_data-&gt;cbSiz=
+e =3D<br>
+sizeof(*pdev_iface_detail_data);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Get the interface details. */=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!SetupDiGetDeviceInterfaceDe=
+tail(dev_info, &amp;dev_iface_data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0pdev_iface_detail_data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0size, &amp;size,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;dev_info_data)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_win32(e=
+rrp, GetLastError(),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;failed to get device int=
+erfaces&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto free_dev_info=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_file =3D CreateFile(pde=
+v_iface_detail_data-&gt;DevicePath, 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0FILE_SHARE_READ, NULL, =
+OPEN_EXISTING, 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(pdev_iface_detail_data);<=
+br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!DeviceIoControl(dev_fi=
+le, IOCTL_STORAGE_GET_DEVICE_NUMBER,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, 0, &amp;sdn, sizeof(sdn=
+), &amp;size,<br>
+NULL)) {<br>
+---<br>
+<br>
+</blockquote></div></div>
+
+--0000000000001251b905c932429b--
 
