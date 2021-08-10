@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C443E8465
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 22:32:42 +0200 (CEST)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760273E844D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 22:27:08 +0200 (CEST)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDYQT-0007JP-Sd
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 16:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47030)
+	id 1mDYL5-00052d-0I
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 16:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <admin@aabouzied.com>)
- id 1mDVas-0005i8-4V
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:31:14 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:42806)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mDYKG-0004BQ-A6; Tue, 10 Aug 2021 16:26:16 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <admin@aabouzied.com>)
- id 1mDVap-00062D-Lq
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:31:13 -0400
-Received: by mail-lf1-x132.google.com with SMTP id d4so14159509lfk.9
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 10:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=aabouzied-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/nLCWXHxnTJS1loO9t7lyg5I1GLsehtAZCUXK0BzwwQ=;
- b=bmh4M8cxlpgICFEbboGNY1xIPQz+TsXCMl6QX0dD/IK9Xm8Pgr9JxKoEODCQVLSpUb
- 9evkGwaBmkHdcyJ6oz897mzLbyWEpt1BoLnEoRG9EUXT4qD9C8dEpAIdWfFLv7167tVj
- DB3Tt+v8Hzl3Y9CWvsW0eWTFGmX3rCKqfrretAvluwE4hXsiPG97S49RuztNZrqonbrt
- ccRToXGjQyzYP9U8h+9Zi7rEnATlGRSsUsQGz7eRkioQRq9d/ohZ7MB89ITD1DGNhU0G
- 8bb+cWivbgnPVfX+994DD9PfrgQGqxANt/qcCg0IX6c5yrIkLqu6P0jrfMlTepneZBe1
- pRIw==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mDYKE-0002Vk-Bv; Tue, 10 Aug 2021 16:26:16 -0400
+Received: by mail-pl1-x631.google.com with SMTP id j3so22919202plx.4;
+ Tue, 10 Aug 2021 13:26:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nAcgyxhmjL7mKOQIzEZNbTcReXLt3pP0IQX/F9cEWO4=;
+ b=m4se/VdMrij5U/9IlThvfRgpnry2M61k/JzCNDk9QBEPlELqVRgyKV1QHCB9gkh16I
+ JAoUARwfUm61KCv5lX/wXBwDeGbOlTpZniOjMu1L8aGisNNJIVInb+F94sUSC8AdbS64
+ Rva5oXGHzp62Ha47BT/1HPA7J02rnjT7N+EgTkrMbNS4gP91ZTNYeOWEpwruTPG3UHK2
+ YnDJaPyoXlyq8tlAdKdjB0zGiC5p8Qk5yq/Vq79B/UQOgiAG4EoGXRXunerI1eJkaI59
+ 0aq3OV0wdQXfu80tgX2H9IhrJeIek/6yZWhfXeDRijLcgMSeejSnLi3L+VtUuCm/0a2a
+ dFwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/nLCWXHxnTJS1loO9t7lyg5I1GLsehtAZCUXK0BzwwQ=;
- b=WlbBcATTjmpICAVdP5oGMUOMC1/NiQEBZim+KsZNeWjAyipsEofW6dIuMwmytlIL7L
- nE2LfT1D3rbcuY4J/C3e04OPSdqRYmMZF1waaQnhyxenN0Ibr8pLoIwCdCQEZY6DjNr0
- uaDvlakg7S7Uj2DpUKHrGMZyPgC2+y1bqfO7CTNXUMMOPbvpEbg5LjxBHS98isR3Mdm5
- p4Uvh/A6ZCUHAVw0RlOlWmPNxwaAaq5XS2IxckC//PePSW7XOPPL7hKlrR+Vlu791hva
- fMEeKJeUimvATjRQmbqG7MU40mAL67FgOCQupT71EylM85NbYjjbauhywKFDlMULMzyl
- iKvQ==
-X-Gm-Message-State: AOAM531ByHwicr0521kYgjHQZkfjDK9p8KlfM3RFoP0PH+08ZoKk9iaV
- 2UYuMFnnFMq7TF6wVH18RBfDnGXu37YeYzTaElgGIRkfjZxe4R+AibQ=
-X-Google-Smtp-Source: ABdhPJw3Z7jl7NmIDq1XkIqtxoGRgfjM6wtNpdbrjnSlw6HvQiGTzm+P2LCoZDbEfJdMNUsBuyJKaAb5BvQeNblmzuk=
-X-Received: by 2002:a05:6512:945:: with SMTP id
- u5mr10874247lft.298.1628616665314; 
- Tue, 10 Aug 2021 10:31:05 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nAcgyxhmjL7mKOQIzEZNbTcReXLt3pP0IQX/F9cEWO4=;
+ b=mPchlvewCOaLAPl/3Saju83XmWYUPEafRccLOkTmaw05uggKQqIj+zF+zqHv9P1Ing
+ 9ypEEx1mifH5d1AnzhDjA9duka+LFkkdaVqWrNBnfDFU9Ys9zMuV6ErgrklFohNN6jta
+ nh5CWyxtGJ7fRSzCT7CLaP/lOlQOEGjyNNgfxlHrm0YYaHZwfZjUVlmeepR4d7lAA2/J
+ suQeT4CzArwbRmjbnuGCXzCq/X8QCDkuCL3iwElEJAzN+goq1zDALcuh+ZBd7g9fSFru
+ Ud1lALStP7bva9ceQSAAeGl1dyK6N+o3aMM6RVLYADRHyD9ZW1B0NsgoMgWBiIcYCIU7
+ FRag==
+X-Gm-Message-State: AOAM533qWbT9xk7QDjpIfwnQqfu7zQbzyXE2BZDXU1y27ScwhaiS2czi
+ QxxV8lx3HZiHf0iZqpVHfmY=
+X-Google-Smtp-Source: ABdhPJw4vD220nWQu5fB5ttPNWYGypQ3IVv/3jnkQBZx9V4lr8tOEEoL7lA6p182ajc/phLfZ5nEsw==
+X-Received: by 2002:aa7:8116:0:b029:346:8678:ce26 with SMTP id
+ b22-20020aa781160000b02903468678ce26mr25055062pfi.15.1628627172505; 
+ Tue, 10 Aug 2021 13:26:12 -0700 (PDT)
+Received: from [192.168.10.222] ([191.19.172.190])
+ by smtp.gmail.com with ESMTPSA id y7sm23826685pfi.204.2021.08.10.13.26.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 13:26:12 -0700 (PDT)
+Subject: Re: [PATCH 12/19] target/ppc/pmu_book3s_helper.c: enable PMC1 counter
+ negative EBB
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210809131057.1694145-1-danielhb413@gmail.com>
+ <20210809131057.1694145-13-danielhb413@gmail.com> <YRH6IysrDvn/GJvQ@yekko>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <6a10c0a7-1c4f-0d24-f2cc-12666e590739@gmail.com>
+Date: Tue, 10 Aug 2021 17:26:09 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210802222257.50946-1-email@aabouzied.com>
-In-Reply-To: <20210802222257.50946-1-email@aabouzied.com>
-From: Ahmed Abouzied <admin@aabouzied.com>
-Date: Tue, 10 Aug 2021 19:30:54 +0200
-Message-ID: <CAPm-u-to0fD_wZaScQQUencDqMYQZ0Ys5FtjJJ30b50vCtYSmw@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Allow overwrite smp and memory
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000cfcdf805c937dde8"
-Received-SPF: none client-ip=2a00:1450:4864:20::132;
- envelope-from=admin@aabouzied.com; helo=mail-lf1-x132.google.com
+In-Reply-To: <YRH6IysrDvn/GJvQ@yekko>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=danielhb413@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 10 Aug 2021 16:31:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,127 +88,283 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, wainersm@redhat.com, crosa@redhat.com
+Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cfcdf805c937dde8
-Content-Type: text/plain; charset="UTF-8"
 
-ping
 
-Just pinging about this little patch. Patchew link here:
-https://patchew.org/QEMU/20210802222257.50946-1-email@aabouzied.com/.
+On 8/10/21 1:01 AM, David Gibson wrote:
+> On Mon, Aug 09, 2021 at 10:10:50AM -0300, Daniel Henrique Barboza wrote:
+>> This patch starts the counter negative EBB support by enabling PMC1
+>> counter negative condition.
+>>
+>> A counter negative condition happens when a performance monitor counter
+>> reaches the value 0x80000000. When that happens, if a counter negative
+>> condition is enabled in that counter, a performance monitor alert is
+>> triggered. For PMC1, this condition is enabled by MMCR0_PMC1CE.
+>>
+>> An icount-based logic is used to predict when we need to wake up the timer
+>> to trigger the alert in both PM_INST_CMPL (0x2) and PM_CYC (0x1E) events.
+>> The timer callback will then trigger a PPC_INTERRUPT_PMC which will become a
+>> event-based exception later.
+>>
+>> Some EBB powerpc kernel selftests are passing after this patch, but a
+>> substancial amount of them relies on other PMCs to be enabled and events
+>> that we don't support at this moment. We'll address that in the next
+>> patches.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/cpu.h               |   1 +
+>>   target/ppc/pmu_book3s_helper.c | 127 +++++++++++++++++++++++----------
+>>   2 files changed, 92 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+>> index 1d38b8cf7a..5c81d459f4 100644
+>> --- a/target/ppc/cpu.h
+>> +++ b/target/ppc/cpu.h
+>> @@ -350,6 +350,7 @@ typedef struct ppc_v3_pate_t {
+>>   #define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
+>>   #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
+>>   #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
+>> +#define MMCR0_PMC1CE PPC_BIT(48)
+>>   
+>>   #define MMCR1_PMC1SEL_SHIFT (63 - 39)
+>>   #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
+>> diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
+>> index 43cc0eb722..58ae65e22b 100644
+>> --- a/target/ppc/pmu_book3s_helper.c
+>> +++ b/target/ppc/pmu_book3s_helper.c
+>> @@ -25,6 +25,7 @@
+>>    * and SPAPR code.
+>>    */
+>>   #define PPC_CPU_FREQ 1000000000
+>> +#define COUNTER_NEGATIVE_VAL 0x80000000
+>>   
+>>   static uint64_t get_cycles(uint64_t icount_delta)
+>>   {
+>> @@ -32,22 +33,9 @@ static uint64_t get_cycles(uint64_t icount_delta)
+>>                       NANOSECONDS_PER_SECOND);
+>>   }
+>>   
+>> -static void update_PMC_PM_INST_CMPL(CPUPPCState *env, int sprn,
+>> -                                    uint64_t icount_delta)
+>> -{
+>> -    env->spr[sprn] += icount_delta;
+>> -}
+>> -
+>> -static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
+>> -                              uint64_t icount_delta)
+>> -{
+>> -    env->spr[sprn] += get_cycles(icount_delta);
+>> -}
+>> -
+>> -static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> -                                        uint64_t icount_delta)
+>> +static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+>>   {
+>> -    int event;
+>> +    int event = 0x0;
+>>   
+>>       switch (sprn) {
+>>       case SPR_POWER_PMC1:
+>> @@ -65,11 +53,35 @@ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>>       case SPR_POWER_PMC4:
+>>           event = MMCR1_PMC4SEL & env->spr[SPR_POWER_MMCR1];
+>>           break;
+>> +    case SPR_POWER_PMC5:
+>> +        event = 0x2;
+>> +        break;
+>> +    case SPR_POWER_PMC6:
+>> +        event = 0x1E;
+>> +        break;
+> 
+> This looks like a nice cleanup that would be better folded into an
+> earlier patch.
+> 
+>>       default:
+>> -        return;
+>> +        break;
+>>       }
+>>   
+>> -    switch (event) {
+>> +    return event;
+>> +}
+>> +
+>> +static void update_PMC_PM_INST_CMPL(CPUPPCState *env, int sprn,
+>> +                                    uint64_t icount_delta)
+>> +{
+>> +    env->spr[sprn] += icount_delta;
+>> +}
+>> +
+>> +static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
+>> +                              uint64_t icount_delta)
+>> +{
+>> +    env->spr[sprn] += get_cycles(icount_delta);
+>> +}
+>> +
+>> +static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> +                                        uint64_t icount_delta)
+>> +{
+>> +    switch (get_PMC_event(env, sprn)) {
+>>       case 0x2:
+>>           update_PMC_PM_INST_CMPL(env, sprn, icount_delta);
+>>           break;
+>> @@ -99,30 +111,57 @@ static void update_PMCs(CPUPPCState *env, uint64_t icount_delta)
+>>       update_PMC_PM_CYC(env, SPR_POWER_PMC6, icount_delta);
+>>   }
+>>   
+>> +static void set_PMU_excp_timer(CPUPPCState *env)
+>> +{
+>> +    uint64_t timeout, now, remaining_val;
+>> +
+>> +    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
+>> +        return;
+>> +    }
+>> +
+>> +    remaining_val = COUNTER_NEGATIVE_VAL - env->spr[SPR_POWER_PMC1];
+>> +
+>> +    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
+>> +    case 0x2:
+>> +        timeout = icount_to_ns(remaining_val);
+>> +        break;
+>> +    case 0x1e:
+>> +        timeout = muldiv64(remaining_val, NANOSECONDS_PER_SECOND,
+>> +                           PPC_CPU_FREQ);
+> 
+> So.. this appears to be simulating to the guest that cycles are
+> occurring at a constant rate, consistent with the advertised CPU
+> frequency.  Which sounds right, except... it's not clear to me that
+> you're using the same logic to generate the values you read from the
+> cycles PMC (in that case it shouldn't need to reference icount at all,
+> right?).
 
-Best regards,
-Ahmed Abouzied
+'remaining_val' meaning depends on the event being sampled in the PMC
+in that moment. PMCs 1 to 4 can have a multitude of events, PMC5 is always
+count instructions and PMC6 is always counting cycles.
 
-On Tue, Aug 3, 2021 at 12:24 AM Ahmed Abouzied <email@aabouzied.com> wrote:
+For 0x02, env->spr[SPR_POWER_PMC1] contains instructions. remaining_val is
+the remaining insns for the counter negative condition, and icount_to_ns()
+is the timeout estimation for that. The value of the PMC1 will be set
+via update_PMC_PM_INST_CMPL(), which in turn is just a matter of summing
+the elapsed icount delta between start and freeze into the PMC.
 
-> Removes the hard-coded values in setUp(). Class inheriting from
-> avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
-> Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py
-> b/tests/acceptance/avocado_qemu/__init__.py
-> index 2c4fef3e14..2639b89c84 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
->      distro = None
->      username = 'root'
->      password = 'password'
-> +    smp = '2'
-> +    memory = '1024'
->
->      def _set_distro(self):
->          distro_name = self.params.get(
-> @@ -471,8 +473,8 @@ def _set_distro(self):
->      def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
->          super(LinuxTest, self).setUp()
->          self._set_distro()
-> -        self.vm.add_args('-smp', '2')
-> -        self.vm.add_args('-m', '1024')
-> +        self.vm.add_args('-smp', self.smp)
-> +        self.vm.add_args('-m', self.memory)
->          # The following network device allows for SSH connections
->          self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0
-> -:22',
->                           '-device', '%s,netdev=vnet' %
-> network_device_type)
-> --
-> 2.25.1
->
->
+For 0x1e, env->spr[SPR_POWER_PMC1] contains cycles. remaining_val is
+the remaining cycles for counter negative cycles, and this muldiv64 calc
+is the timeout estimation in this case. The PMC value is set via
+update_PMC_PM_CYC(), which in turn does a math with the current icount
+delta in get_cycles(icount_delta) to get the current PMC value.
 
---000000000000cfcdf805c937dde8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+All the metrics implemented in this PMU relies on 'icount_delta', the
+amount of icount units between the change states of MMCR0_FC (and other
+freeze counter bits like patch 17).
 
-<div dir=3D"ltr"><div>ping</div><div><br></div><div>Just pinging about this=
- little patch. Patchew link here: <a href=3D"https://patchew.org/QEMU/20210=
-802222257.50946-1-email@aabouzied.com/">https://patchew.org/QEMU/2021080222=
-2257.50946-1-email@aabouzied.com/</a>.</div><div><br></div><div>Best regard=
-s,</div><div>Ahmed Abouzied<br></div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 3, 2021 at 12:24 AM Ahmed =
-Abouzied &lt;<a href=3D"mailto:email@aabouzied.com">email@aabouzied.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Remo=
-ves the hard-coded values in setUp(). Class inheriting from<br>
-avocado_qemu.LinuxTest can overwrite the default smp and memory instead.<br=
->
-<br>
-Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/453" rel=
-=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/is=
-sues/453</a><br>
-Signed-off-by: Ahmed Abouzied &lt;<a href=3D"mailto:email@aabouzied.com" ta=
-rget=3D"_blank">email@aabouzied.com</a>&gt;<br>
----<br>
-=C2=A0tests/acceptance/avocado_qemu/__init__.py | 6 ++++--<br>
-=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
-vocado_qemu/__init__.py<br>
-index 2c4fef3e14..2639b89c84 100644<br>
---- a/tests/acceptance/avocado_qemu/__init__.py<br>
-+++ b/tests/acceptance/avocado_qemu/__init__.py<br>
-@@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):<br>
-=C2=A0 =C2=A0 =C2=A0distro =3D None<br>
-=C2=A0 =C2=A0 =C2=A0username =3D &#39;root&#39;<br>
-=C2=A0 =C2=A0 =C2=A0password =3D &#39;password&#39;<br>
-+=C2=A0 =C2=A0 smp =3D &#39;2&#39;<br>
-+=C2=A0 =C2=A0 memory =3D &#39;1024&#39;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def _set_distro(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0distro_name =3D self.params.get(<br>
-@@ -471,8 +473,8 @@ def _set_distro(self):<br>
-=C2=A0 =C2=A0 =C2=A0def setUp(self, ssh_pubkey=3DNone, network_device_type=
-=3D&#39;virtio-net&#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super(LinuxTest, self).setUp()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._set_distro()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-smp&#39;, &#39;2&#39;)<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-m&#39;, &#39;1024&#39;)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-smp&#39;, self.smp)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-m&#39;, self.memory)<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# The following network device allows for=
- SSH connections<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(&#39;-netdev&#39;, &#39;=
-user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;-device&#39;, &#39;%s,netdev=3Dvnet&#39; % network_d=
-evice_type)<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
 
---000000000000cfcdf805c937dde8--
+Thanks,
+
+
+Daniel
+
+
+
+> 
+>> +        break;
+>> +    default:
+>> +        return;
+>> +    }
+>> +
+>> +    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +
+>> +    timer_mod(env->pmu_intr_timer, now + timeout);
+>> +}
+>> +
+>>   static void cpu_ppc_pmu_timer_cb(void *opaque)
+>>   {
+>>       PowerPCCPU *cpu = opaque;
+>>       CPUPPCState *env = &cpu->env;
+>> -    uint64_t mmcr0;
+>> -
+>> -    mmcr0 = env->spr[SPR_POWER_MMCR0];
+>> -    if (env->spr[SPR_POWER_MMCR0] & MMCR0_EBE) {
+>> -        /* freeeze counters if needed */
+>> -        if (mmcr0 & MMCR0_FCECE) {
+>> -            mmcr0 &= ~MMCR0_FCECE;
+>> -            mmcr0 |= MMCR0_FC;
+>> -        }
+>> +    uint64_t icount_delta = (uint64_t)icount_get_raw() - env->pmu_base_icount;
+>>   
+>> -        /* Clear PMAE and set PMAO */
+>> -        if (mmcr0 & MMCR0_PMAE) {
+>> -            mmcr0 &= ~MMCR0_PMAE;
+>> -            mmcr0 |= MMCR0_PMAO;
+>> -        }
+>> -        env->spr[SPR_POWER_MMCR0] = mmcr0;
+>> +    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
+>> +        return;
+>> +    }
+>> +
+>> +    update_PMCs(env, icount_delta);
+>> +
+>> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
+>> +        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
+>> +        env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
+>> +    }
+>>   
+>> -        /* Fire the PMC hardware exception */
+>> -        ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+>> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
+>> +        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_PMAE;
+>> +        env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
+>>       }
+>> +
+>> +    /* Fire the PMC hardware exception */
+>> +    ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+>>   }
+>>   
+>>   void cpu_ppc_pmu_timer_init(CPUPPCState *env)
+>> @@ -134,12 +173,19 @@ void cpu_ppc_pmu_timer_init(CPUPPCState *env)
+>>       env->pmu_intr_timer = timer;
+>>   }
+>>   
+>> +static bool mmcr0_counter_neg_cond_enabled(uint64_t mmcr0)
+>> +{
+>> +    return mmcr0 & MMCR0_PMC1CE;
+>> +}
+>> +
+>>   void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>   {
+>>       uint64_t curr_icount = (uint64_t)icount_get_raw();
+>>       bool curr_FC = env->spr[SPR_POWER_MMCR0] & MMCR0_FC;
+>>       bool new_FC = value & MMCR0_FC;
+>>   
+>> +    env->spr[SPR_POWER_MMCR0] = value;
+>> +
+>>       /*
+>>        * In an frozen count (FC) bit change:
+>>        *
+>> @@ -163,10 +209,19 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>                * until the freeze.
+>>                */
+>>               update_PMCs(env, icount_delta);
+>> +
+>> +            /* delete pending timer */
+>> +            timer_del(env->pmu_intr_timer);
+>>           } else {
+>>               env->pmu_base_icount = curr_icount;
+>> +
+>> +            /*
+>> +             * Start performance monitor alert timer for counter negative
+>> +             * events, if needed.
+>> +             */
+>> +            if (mmcr0_counter_neg_cond_enabled(env->spr[SPR_POWER_MMCR0])) {
+>> +                set_PMU_excp_timer(env);
+>> +            }
+>>           }
+>>       }
+>> -
+>> -    env->spr[SPR_POWER_MMCR0] = value;
+>>   }
+> 
 
