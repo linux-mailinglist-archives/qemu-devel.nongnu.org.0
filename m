@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84E83E5AB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:07:40 +0200 (CEST)
-Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386563E5AB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:08:13 +0200 (CEST)
+Received: from localhost ([::1]:36094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDRTn-00012M-Pt
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35266)
+	id 1mDRUK-00024r-8e
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDRSm-0007y0-Dn; Tue, 10 Aug 2021 09:06:36 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDRSk-0001MC-Ka; Tue, 10 Aug 2021 09:06:36 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id a8so32998518pjk.4;
- Tue, 10 Aug 2021 06:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=45MRU4ypzwpzSHQ94Z1Ywu7Sq85CXo//9CRb3beno4Y=;
- b=AmCXvs9nUm3BS4UyQXghVaz0Z54VxpCLb387IT41d6NmmYFHbTyVbsbCi885GSDAwk
- DSSR1tu0fgCk4T45E/EKg3jZf+oJ6PXqMM+HaC3bqEzV+jL9FPD8iWDUbiZZREkdq4et
- frBtUxzIGLcLNqeecUKniZplZTnQWjop0DuWzuRcnRgMW71hkYtcD2mRhiQHeo3MC6Lu
- kPEsUxAdVf73Fm1/3bqZIlKMCljXvRpuxnHFFyyn5h41VYCtndf4txM23gQPXm5JeB1c
- eOSRY/PtJZv8xg83N5SG6vd4JmYXkxBdj2+k7HQWCPS1Q8gtc933YyqXvBjjN38CPnfo
- Lo3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=45MRU4ypzwpzSHQ94Z1Ywu7Sq85CXo//9CRb3beno4Y=;
- b=s/ddjCzpZeYkHsX0xyUDibKMQfqfNMrQxPvzieIWNbof9Tr8F64q80EKRbFvXeODOu
- qEyaxN8jOTcAKOpm1UCP62F0GdD+2ivdQbRZagHMxSQVRDo2UZHPnWZMlkgmObBv7G+s
- M7YQsF9V0NpJfj/QBSAnDDfMtraLVnNcxuue1B0XHCT/kwcvak8DNwtvZm9YtBYoHrul
- sOjfb1U83cat4IjIqngzhrVGO3cvlBBu0ayjDG9+awgYzykWEgMoxiwxzNeB/STKVJ+k
- dCd2MWba3HzRMhzP0azn9UhCLpQOSH/n45bvjSsQERRHVuGCaZ7hMxgnniQ9pvfa/oQ3
- ngFg==
-X-Gm-Message-State: AOAM531uGe+e6cxBSExcTc2KGQijAly+zHTKtQoertzJcrbn5SLOkFH0
- 9GLr2QPKk4qOU5LVxkmHMDM=
-X-Google-Smtp-Source: ABdhPJwrZh0QrR0iuccnRCacoV0LBIe5nbkjuVXOiJ/4AJhnsqaJc1hL3bKAVLnq6BqQ08E6ENzluA==
-X-Received: by 2002:a05:6a00:1a0e:b029:3c2:ee2f:b236 with SMTP id
- g14-20020a056a001a0eb02903c2ee2fb236mr28937356pfv.80.1628600792721; 
- Tue, 10 Aug 2021 06:06:32 -0700 (PDT)
-Received: from [192.168.10.222] ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id o22sm23312019pfu.87.2021.08.10.06.06.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 06:06:32 -0700 (PDT)
-Subject: Re: [PATCH 01/19] target/ppc: add exclusive Book3S PMU reg read/write
- functions
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-2-danielhb413@gmail.com> <YRHwQ8BiO+cFlgqF@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <6cd4510a-8290-dba5-1c31-326c816fa9ed@gmail.com>
-Date: Tue, 10 Aug 2021 10:06:28 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDRT9-00009f-1w
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:06:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDRT5-0001VK-6D
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:06:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628600814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2v8w1PU4a87XmsGvh3awPCADXRMG9ow8c7kJz2jiyw=;
+ b=W73f2HSSlO/+YlTo98tp5vRBMlZdnqflVKrnA05tJMHHScTkXoT/FyoC9cj+IhC75MCYCM
+ sWhIvvnq+YeFZWhjPNIf7RdMTkXReEVubYkFvNxoKQRiR1dKJrlQzbNtz0wodWFzYQFR+M
+ DLHimFvGOc0+Yj/EjV+m2FBvAibVmOY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-4FL5BMSrP-yuymjKoiMKmQ-1; Tue, 10 Aug 2021 09:06:53 -0400
+X-MC-Unique: 4FL5BMSrP-yuymjKoiMKmQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E20901026222;
+ Tue, 10 Aug 2021 13:06:47 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6D543AFD;
+ Tue, 10 Aug 2021 13:06:44 +0000 (UTC)
+Date: Tue, 10 Aug 2021 09:06:44 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH for-6.2 05/12] [automated] Move QOM typedefs and add
+ missing includes
+Message-ID: <20210810130644.k3cyqdj52bcloyfn@habkost.net>
+References: <20210806211127.646908-1-ehabkost@redhat.com>
+ <20210806211127.646908-6-ehabkost@redhat.com>
+ <877dgt1paz.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <YRHwQ8BiO+cFlgqF@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=danielhb413@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <877dgt1paz.fsf@secure.mitica>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,172 +80,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Vijai Kumar K <vijai@behindbytes.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Corey Minyard <minyard@acm.org>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ qemu-arm@nongnu.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-riscv@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/10/21 12:19 AM, David Gibson wrote:
-> On Mon, Aug 09, 2021 at 10:10:39AM -0300, Daniel Henrique Barboza wrote:
->> The PowerPC PMU, as described by PowerISA v3.1, has a lot of functions
->> that freezes, resets and sets counters to specific values depending on
->> the circuntances. Some of these are trigged based on read/value of the
->> PMU registers (MMCR0, MMCR1, MMCR2, MMCRA and PMC counters).
->>
->> Having to handle the PMU logic using the generic read/write functions
->> can impact all other registers that has nothing to do with the PMU that
->> uses these functions. This patch creates two new functions,
->> spr_read_pmu_generic() and spr_write_pmu_generic, that will be used later
->> on to handle PMU logic together with the read/write of PMU registers.
->>
->> We're not ready to add specific PMU logic in these new functions yet, so
->> for now these are just stubs that calls spr_read/write_generic(). No
->> functional change is made.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   target/ppc/cpu_init.c  | 24 ++++++++++++------------
->>   target/ppc/spr_tcg.h   |  2 ++
->>   target/ppc/translate.c | 12 ++++++++++++
->>   3 files changed, 26 insertions(+), 12 deletions(-)
->>
->> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->> index 505a0ed6ac..021c1bc750 100644
->> --- a/target/ppc/cpu_init.c
->> +++ b/target/ppc/cpu_init.c
->> @@ -6821,47 +6821,47 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
->>   {
->>       spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
+On Tue, Aug 10, 2021 at 02:01:40PM +0200, Juan Quintela wrote:
+> Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > Some typedefs and macros are defined after the type check macros.
+> > This makes it difficult to automatically replace their
+> > definitions with OBJECT_DECLARE_TYPE.
+> >
+> > Patch generated using:
+> >
+> >  $ ./scripts/codeconverter/converter.py -i --pattern=MoveSymbols \
+> >     $(git grep -l '' -- '*.[ch]')
+> >
+> > which will:
+> > - split "typdef struct { ... } TypedefName" declarations
+> > - move the typedefs and #defines above the type check macros
+> > - add missing #include "qom/object.h" lines if necessary
+> >
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > 
-> So... this seems dubiousd to me.  Surely when you go to implement the
-> specifics of these registers you'll need separate logic for each of
-> them.
-> 
-> Why call a common "read_pmu" function that will then have to multiplex
-> to different logic for each register, when you could just dispatch
-> directly to a helper for that specific register.
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Now that I have an idea of which registers I'll end up reading/writing,
-I believe that we can cut a few of those early patches and expose the
-logic in a "register-centric" manner.
-
-
-Daniel
-
-
-
-
+Thanks!
 
 > 
->>                        KVM_REG_PPC_MMCR0, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_MMCR1, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_MMCRA, "MMCRA",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_MMCRA, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC1, "PMC1",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC1, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC2, "PMC2",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC2, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC3, "PMC3",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC3, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC4, "PMC4",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC4, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC5, "PMC5",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC5, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_PMC6, "PMC6",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_PMC6, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_SIAR, "SIAR",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_SIAR, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_SDAR, "SDAR",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_SDAR, 0x00000000);
->>   }
->>   
->> @@ -6941,7 +6941,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
->>   {
->>       spr_register_kvm(env, SPR_POWER_MMCR2, "MMCR2",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> +                     &spr_read_pmu_generic, &spr_write_pmu_generic,
->>                        KVM_REG_PPC_MMCR2, 0x00000000);
->>       spr_register_kvm(env, SPR_POWER_MMCRS, "MMCRS",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
->> index 0be5f347d5..2aab5878a0 100644
->> --- a/target/ppc/spr_tcg.h
->> +++ b/target/ppc/spr_tcg.h
->> @@ -25,6 +25,8 @@
->>   void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
->>   void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
->> +void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn);
->> +void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
->> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
->> index 171b216e17..c8f3878002 100644
->> --- a/target/ppc/translate.c
->> +++ b/target/ppc/translate.c
->> @@ -385,6 +385,12 @@ void spr_read_generic(DisasContext *ctx, int gprn, int sprn)
->>       spr_load_dump_spr(sprn);
->>   }
->>   
->> +void spr_read_pmu_generic(DisasContext *ctx, int gprn, int sprn)
->> +{
->> +    /* For now it's just a call to spr_read_generic() */
->> +    spr_read_generic(ctx, gprn, sprn);
->> +}
->> +
->>   static void spr_store_dump_spr(int sprn)
->>   {
->>   #ifdef PPC_DUMP_SPR_ACCESSES
->> @@ -400,6 +406,12 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
->>       spr_store_dump_spr(sprn);
->>   }
->>   
->> +void spr_write_pmu_generic(DisasContext *ctx, int sprn, int gprn)
->> +{
->> +    /* For now it's just a call to spr_write_generic() */
->> +    spr_write_generic(ctx, sprn, gprn);
->> +}
->> +
->>   #if !defined(CONFIG_USER_ONLY)
->>   void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
->>   {
-> 
+> Just curious, how did my name ended on the CC'd list?  I don't see any
+> file that I touched or that is migration related.
+
+include/hw/vmstate-if.h is in the migration section in
+MAINTAINERS.
+
+-- 
+Eduardo
+
 
