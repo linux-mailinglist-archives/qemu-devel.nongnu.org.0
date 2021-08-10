@@ -2,179 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83233E544C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 09:28:34 +0200 (CEST)
-Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B0C3E5476
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 09:39:31 +0200 (CEST)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDMBd-00006z-HQ
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 03:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51794)
+	id 1mDMMD-0004ER-Nv
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 03:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mDM8r-0004JL-NS; Tue, 10 Aug 2021 03:25:41 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:3642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mDM8o-0004Xg-S6; Tue, 10 Aug 2021 03:25:41 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17A7C9pF025389; Tue, 10 Aug 2021 07:25:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- mime-version; s=corp-2021-07-09;
- bh=8uSgpKve+6SxIoXB2whE03Dq95NCTCTrwO7yfqSJzyw=;
- b=zEmfcIMuLU3rSE2vtBzwU4aCqIQ7osHBVvfQFjFb0cLdSqGSz4eg5taELnHlPjlZtJw6
- EDG/JvZERjM2xmgma8mux5rkxBAAFMIOepo75FtToxmEmkNkn1kxFI/J804R+hLmHn9Q
- mISqmdj3XPADuE+7NpvQszK7jTPsdawx+XHIssg/6D+MpDTz5WQtXq82z4EZb9T/XG+Z
- reAS0wQ1o2asBN0j+U1MS2tU5wGrzqw78eTeW86L4uMf5SYDXwKZtGmEO7+mUtXh/SvW
- lniGe51rxw5hRUx/1l+X/LOUVonqWONWUXVPsOQd9ieJeKYpFrOQjpWxHq4jQc0o8EO1 Gw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- mime-version; s=corp-2020-01-29;
- bh=8uSgpKve+6SxIoXB2whE03Dq95NCTCTrwO7yfqSJzyw=;
- b=xOqCGqa9uriJsI+I8ywV98aZX1q3EKvQzxNod9pb/h7tykAZX/Guw0giUWwDEr/NMon8
- cgBdaMjYdJ6Xk+clrINmtqUJG+jJtzk1M+HbZNVvdXBxXBKEW1abEoyw8bc1SjCgZCuN
- nJWsobm5RtuWABZp04luNIQKU6e0YlfOlB+kWI4xLB+8BjPA3VxkIOogxu3I8LWzCcI1
- PbkWeqWeLAX44A2JCQf6fwZf086a0nmqYuSBCeZaMHm6yqxyc9JBt3OMDJn3+YgmRPbK
- 8W2LeKA0LKvQd36V86/8yEmjgenF8XbVxOO23IKiyl2gz+PnvF2DrS3JUd9idsBcD+t/ jQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3aay0ftw9c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Aug 2021 07:25:25 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17A7GMjn054170;
- Tue, 10 Aug 2021 07:25:24 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2042.outbound.protection.outlook.com [104.47.51.42])
- by aserp3020.oracle.com with ESMTP id 3a9vv47xck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Aug 2021 07:25:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ShR0TG+VOTIDSnKD6it0yRX7rmoiRreXHhKlPTyYANY02D6Bmfbw+P3kPGswrHlD0u66L8kYFGBLb9Mk07iwAMmrmm68RQZ9IeVwBBXmdTYLWHIr5HcWj6cdW+pCmK4/aCtrXccAGk7/Ok6hhkFX+waRTihvl+RScumL5A3a00zOBoCo4D6WKOconjlH87GTJSzM8zQ5Sk8eBTORFDnlpOQCK3Hu2cbCzH4/aI6I3AFdk8ttvDOjDkigXL0mPaUu8oU3D8y4mRetccOeth+LKkftw82HF3A1z+lRq4Va92x3w2od++fBvZseKV9vPhSUQUl3qPKk5dX5rJy43iQpvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8uSgpKve+6SxIoXB2whE03Dq95NCTCTrwO7yfqSJzyw=;
- b=neBSdFSiDOXZV6FKWEHlc6NgDVzGrzEpXmGoDLIDX91KeI6MLe80QT6FOTgG2wgkvtPf8fAgY5dkxW17VweGMlqcfhvt7VDX+TeBi0MeJfOfAzqhRRk/9mJO2D2owZk7946scY8ighRv+bhHReNh/6FF6hGFvGuivw4Gnl8BcB4tEgzA0MGOGS6XKmd01t3V7K/pgjzgDOvR+w/SDO2/E328vuu4lNbFhq3lc4fJ83bGKCfTqO90UZr8eBryFlBCpLflElrZwjjdVNKWNJeWcZhaooXL5gX18k12kw9Vr6rSdbFSLT9YYOR9KaHFgSRYPA0QUxMbTCPVSxUEqoY6Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ (Exim 4.90_1) (envelope-from <narmstrong@baylibre.com>)
+ id 1mDMIJ-0001e7-8l
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:35:27 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <narmstrong@baylibre.com>)
+ id 1mDMIF-0004vg-Qu
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:35:27 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ o7-20020a05600c5107b0290257f956e02dso1239202wms.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 00:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8uSgpKve+6SxIoXB2whE03Dq95NCTCTrwO7yfqSJzyw=;
- b=E+NI5lyEr7TQnWXbXvT0JtJn7HLMju6nf+T4bmiUlA7szXuUa76YJOOi061esvR534uH8NQrxcD+knTv/u2afe5i25espB0XL063RJdCo64/s0ybK9xohmM16usbAY1z0wXAlL8S33SGUqJ6qUgDMC+OrQwFoMLMtl3wXsTiuyM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
-Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
- by PH0PR10MB4536.namprd10.prod.outlook.com (2603:10b6:510:40::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Tue, 10 Aug
- 2021 07:25:22 +0000
-Received: from PH0PR10MB4664.namprd10.prod.outlook.com
- ([fe80::c0ec:e3aa:9d8f:61c0]) by PH0PR10MB4664.namprd10.prod.outlook.com
- ([fe80::c0ec:e3aa:9d8f:61c0%7]) with mapi id 15.20.4394.023; Tue, 10 Aug 2021
- 07:25:22 +0000
-Subject: Re: [PATCH v6 4/6] qmp: add QMP command x-debug-virtio-queue-status
-To: Markus Armbruster <armbru@redhat.com>
-References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
- <1626086137-16292-5-git-send-email-jonah.palmer@oracle.com>
- <875ywhe83s.fsf@dusky.pond.sub.org>
-From: Jonah Palmer <jonah.palmer@oracle.com>
-Message-ID: <058790ad-2291-523c-941a-60f83263fa29@oracle.com>
-Date: Tue, 10 Aug 2021 03:25:18 -0400
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PiWaGFztKrEdWWyNm5gnmxW7EVOhLwlKLIPXDx0eph4=;
+ b=dJ0rzpKvmqoSGSV/okPeAwpMCgRqwzfwFTdXXvHqmVP6UClxwqTyehCiuFPhwk3Al1
+ ez6ZCDCfngGP2XIUia/6HH22aPbL/NYYCuu9/bfM0uDseCoWDTCvV959MN/rz4Q3ixOF
+ pkCmHlpcRMxd5J4CX0gsHMSd66R04xScj7NXnPurXN+GGWnMe9kYG0ZB3wwHNnsxQHNI
+ 0jentuMZFxx0R2Jc8WcWIdqNG2jkfxwDZbmUwQ0Ng6iwPGi9e4PrcFYLbl6iCIHNdaoL
+ kHXRjiJiEzLithiRH+jX2Fj6fzBOncEChd/1zSnVHuI4ogHI3tiGIaJCbcRUQ47B3a5u
+ Snsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=PiWaGFztKrEdWWyNm5gnmxW7EVOhLwlKLIPXDx0eph4=;
+ b=n7yrJBIVT99rDsyGj37y8ikGq22nWIb4IRhJd6F7tn7A7FI/rKMRVO09p3YQRTkjVc
+ dOnOmC4MffiHXqUjszOoxVxjDC12UTmYkqUHlO0cv9RZqkTP+wLbK4u+MTgjcMn8UvzH
+ sUtN9hb4rwN0+vZQs+krkPeepkhHe8slAZ2sM5pSbCVbRtDjBbL72i/gyEzJbcqWVMEr
+ apGZ4Tj6JseWS5ZiNHM6d2+mM20SgWraWoCjfIcKquK3qANxVrCV+MiScTQ8NtuwgNAV
+ 6FCz63P7b7NcCeadLGTX3EqJEVyArK7jsoh7J59jRkPwzHhe9Vk7YWjzvvskngzOThz9
+ m94Q==
+X-Gm-Message-State: AOAM5312tmZS8AkuBm/6UtqrZ2/DVUBXJsPHEU0biQFoumg54HXmB9wc
+ oP3HohDBe8qNvGuUJRX3zTULOd1yuLtXnLuD
+X-Google-Smtp-Source: ABdhPJw2Dm4m2uuMSQDtVQwWtC+KtkfKvUm52HzeSSUwaah/+VLmc8P2jKT4uby59225tRWAE3Mj5A==
+X-Received: by 2002:a7b:c094:: with SMTP id r20mr10064841wmh.163.1628580920217; 
+ Tue, 10 Aug 2021 00:35:20 -0700 (PDT)
+Received: from ?IPv6:2001:861:44c0:66c0:b710:2b6e:27aa:f0a0?
+ ([2001:861:44c0:66c0:b710:2b6e:27aa:f0a0])
+ by smtp.gmail.com with ESMTPSA id g16sm26889491wro.63.2021.08.10.00.35.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 00:35:19 -0700 (PDT)
+Subject: Re: [PATCH v7 01/10] hw/intc: GICv3 ITS initial framework
+To: Shashi Mallela <shashi.mallela@linaro.org>, peter.maydell@linaro.org,
+ leif@nuviainc.com, rad@semihalf.com, mst@redhat.com, imammedo@redhat.com
+References: <20210805223002.144855-1-shashi.mallela@linaro.org>
+ <20210805223002.144855-2-shashi.mallela@linaro.org>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <b0505ea4-91a6-8272-d58d-2baec4b1dd3d@baylibre.com>
+Date: Tue, 10 Aug 2021 09:35:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <875ywhe83s.fsf@dusky.pond.sub.org>
-Content-Type: multipart/alternative;
- boundary="------------32AFBA61F498CD92345F3A0D"
-Content-Language: en-US
-X-ClientProxiedBy: SA9PR13CA0080.namprd13.prod.outlook.com
- (2603:10b6:806:23::25) To PH0PR10MB4664.namprd10.prod.outlook.com
- (2603:10b6:510:41::11)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jonpalme-lnx.us.oracle.com (209.17.40.37) by
- SA9PR13CA0080.namprd13.prod.outlook.com (2603:10b6:806:23::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.5 via Frontend Transport; Tue, 10 Aug 2021 07:25:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fac4db9b-347e-47d0-c495-08d95bd003b9
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4536:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR10MB453664B779176292FCCB6B5AE8F79@PH0PR10MB4536.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n/chFpfM2Ul3MsAzPNBzEZxPCzPyyzzRp1WHNs1p3WmrMSckkvrliMOP2XvMBmbvUcoo+IjbdtM8Yla5kZASVgECm1XJSVb7nfXOtVA7wC3GnUZn5SuE+QCBVyYIMPms0HINRdvx7WaRwBPGhqP/Fo2A7kN6GL6zdRFK/t3JkREj4yg2MeguYIIQe4VDMD4hzOjkSqXi2if2h7h/0pRb4T+FfbDg1L+J4ZTWk8r2bf5SzMggl7wU738+u6h8kdhVh9gmnGd/H/QOPU08lVKIo+A/QZ2pK0/nnWIFr5FkRxXc3qu7BbZasybKPBt1B61VLkHFnNrVDhNYc5691dFTPRUW7FxM6AwEN3AtNrh6MWU9mROAIRltkrl88O96B4ZNX95cO8DS+K9EezF1sLe4Thp8bg3cvj1Bf1Ez61XJvwK7eY49jTCxum9ZIX4WxX3furB7+ghd3kSiHAAs8upvJmkxOduWK/aoRLaA/9KZpA7VrocQjEA6nOA8KEPtlnQzw87vAjejZMqyT6YaoofOrE9nVAhU19qB/rtnjdUv2Qj1dWaaZ8kkwtT96ZaGhTRQpJDGfL6fPlZ/3wOB5xVMWUlOXTfVGRUlX0oz7bOn8ubhI6H9ISFJ8uUa1EpRlVUNhlZ0G9XVwCcMpITiB0RIzors/omICmBSMf0WUsVf2xApVO6i7JBKJmOZbL4/uwXPWbHUYrBL4oQS12dfgH5LkkvE86wyapz6+bObFP7/axI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(366004)(376002)(39860400002)(136003)(346002)(186003)(86362001)(31696002)(8676002)(26005)(2906002)(4326008)(53546011)(33964004)(8936002)(478600001)(31686004)(7696005)(7416002)(6916009)(36756003)(38100700002)(66556008)(44832011)(6486002)(5660300002)(956004)(66476007)(316002)(2616005)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjhXaW1DNVBucEd2V1RObkFZSGhZeUM0Z0dBemtBdFBhb21LQWRzOVgvbHQ0?=
- =?utf-8?B?cjhQRmJJelFjRVhIMDBNd1dXY1Q4K083ajBIenJEd1JWeGxEK1JwZ2w3NnUy?=
- =?utf-8?B?NkVyaGdaSWFzMGNPYkN1blM1WENSYjFydVdob0kyYTBYb05hZ2ZSbStuZHpt?=
- =?utf-8?B?RXBqcVlWamNXeWZVMVo2YVZLa1RVWXFhR1o3eDU2ZnBmdDhQRVhnU2tra3gy?=
- =?utf-8?B?VklHWUNDWmhlR0lkUHRKL29VR1Fvbi9RajlKTzB5U3pCSWE5UUllRmtocXlp?=
- =?utf-8?B?Zzc0YUdzNmVMaEJIUzdqcEZtejI5c1N2N1pXQ2JzRWxrU0RrV01SNGIvN2ds?=
- =?utf-8?B?cG41eTJRYWw4OXFPZThmQTNWcENpRU9acTlzRy9iR1NFOW9wMjZlNjlhQkhO?=
- =?utf-8?B?aTErWmRmUC9Vc2hhRCtDb0xSZ2M0amRkT3FodGExRkpWMEZRclczN0FKL3hh?=
- =?utf-8?B?bjU3WS9yZ1NvZ3A2S0h4MGZLbHVNRWRPNVZyWHphVFBicm9XV1Fxb201WkMw?=
- =?utf-8?B?aUpiOEovRWpaMkJRT3VabVBWZlFRN0tMT1Q4VitFVW13S2Nnb2VVT0xKQmJP?=
- =?utf-8?B?Q3VRWWwyMGROTS9xc3poQUVHaU9IZDBzVEVoVmdGejliLzFpT0tWQWkwV3la?=
- =?utf-8?B?cXdwUFI1U2FuRm1QTC9LaktQamxIL2R2TkdNdGl4bzVmK2J0V2VUaFh0QXZV?=
- =?utf-8?B?b0xzeUcxYVRVSk4zU1FSUkFiTGU4VG1CU2lpZDNnWXowZVAwcnFJVVpxUUhh?=
- =?utf-8?B?VXNWK3dRNG9qZkt3UloreHp2ajlPeXNmZlhyZ2htdktueklNM1NlRXk5K1Vy?=
- =?utf-8?B?UHRkdjhhanpMcEY1dHJ0T3hrcnBSUHoxWGl5OG9HU3EwcUplckZzR3M1WFlZ?=
- =?utf-8?B?MXdCZmxhRitNVFNFdkEwcERyU21aUlMwWkliWVBxRUlJOGI5cDRndXcwV1RH?=
- =?utf-8?B?MHlZVVVlYjFxa0l0Vm9MZXl4ZUNRN1cxVVU3NlpQdU1sSzhlNkEzckNrY2p4?=
- =?utf-8?B?NzdlOTBMcktLSmJkY25CNXh6NFNJSmkxaUxPbU5zcklpREplcWFFKytRS296?=
- =?utf-8?B?QWtxNVhJcDN0amQ1ckFaamQrR0JIQXlwZytZTGVGcEYyNzJNUkVWR0t2cXAx?=
- =?utf-8?B?T2hOODBnWXRYbURWS0ttSStGNTZtTzkrQXZaVE5iQ0lDSlh1dytFUGxBTlJ3?=
- =?utf-8?B?SHFONktCcC95V2YzWE9qTkp2TXJORFYrRGFvak9aZ3BIbzFlcE5yWWl0a0dG?=
- =?utf-8?B?c1VlUmRCVmo4SCtxY2ZRNlVJTi9qcUMyeEZBelZ6dXQyZGc0aktUWE9kei83?=
- =?utf-8?B?MndiQkZVZDhVMVJZTysxYnJRdnBMUkVJc0dMM2lHWm1YYzc4T094dWFSek1Q?=
- =?utf-8?B?MjUxcGszbVVjVlpzOG4rcm9RNkE1MFBseHdUdGFQZExHY05YMGplc3N0MzVx?=
- =?utf-8?B?ZERuNHRrNUNVWkkzWWF5MkdMS2d5UnVwM1ozMUIyYzVmS1F5bUM4M2g1T3B3?=
- =?utf-8?B?dzNHQ213SE1nMHdQWUZ0am9Tb1NTaVZkRzdVUXNCaEcyREp5ZXJPSG5ha2VX?=
- =?utf-8?B?Qm9zSkgvMDdWcHkxc1pBMTRkZEVNTVRwYzh2eGFiTUZEMFBhOTFTWjBCUUpv?=
- =?utf-8?B?dHB2NThGNGtKZC9sajV2SURZWlVIbDI1SlA1R2R6S3RIakw1dDkweitxb1Jy?=
- =?utf-8?B?YnBUSUZFdG9YM2dKMTRwZWFhTzJ1YUpQYm9TdnhBV1o3cWxsMEREWm83TjVY?=
- =?utf-8?Q?+GJKpsSNbpQcXzcro+/wA+PzBCBWniHngPtiov+?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fac4db9b-347e-47d0-c495-08d95bd003b9
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 07:25:22.5717 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2jCngiwigzPNWzNt2qo0UDbc8WXt8xIOuKF7dXKIA9KFRebMze09XzYlbxNf3VI/RpcWFrTkFLzCnuRqswvsPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4536
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 mlxscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108100045
-X-Proofpoint-ORIG-GUID: 74L_qksc_G1tQ6sjfTxcaaUmJp1seLZf
-X-Proofpoint-GUID: 74L_qksc_G1tQ6sjfTxcaaUmJp1seLZf
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=jonah.palmer@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210805223002.144855-2-shashi.mallela@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=narmstrong@baylibre.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -187,320 +92,513 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
- mst@redhat.com, michael.roth@amd.com, jasowang@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, amit@kernel.org, dgilbert@redhat.com,
- eric.auger@redhat.com, dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, si-wei.liu@oracle.com,
- marcandre.lureau@redhat.com, joao.m.martins@oracle.com, mreitz@redhat.com,
- laurent@vivier.eu
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------32AFBA61F498CD92345F3A0D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On 06/08/2021 00:29, Shashi Mallela wrote:
+> Added register definitions relevant to ITS,implemented overall
+> ITS device framework with stubs for ITS control and translater
+> regions read/write,extended ITS common to handle mmio init between
+> existing kvm device and newer qemu device.
+> 
+> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/intc/arm_gicv3_its.c                | 245 +++++++++++++++++++++++++
+>  hw/intc/arm_gicv3_its_common.c         |   7 +-
+>  hw/intc/arm_gicv3_its_kvm.c            |   2 +-
+>  hw/intc/gicv3_internal.h               |  96 +++++++++-
+>  hw/intc/meson.build                    |   1 +
+>  include/hw/intc/arm_gicv3_its_common.h |   9 +-
+>  6 files changed, 346 insertions(+), 14 deletions(-)
+>  create mode 100644 hw/intc/arm_gicv3_its.c
+> 
+> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> new file mode 100644
+> index 0000000000..2286b3f757
+> --- /dev/null
+> +++ b/hw/intc/arm_gicv3_its.c
+> @@ -0,0 +1,245 @@
+> +/*
+> + * ITS emulation for a GICv3-based system
+> + *
+> + * Copyright Linaro.org 2021
+> + *
+> + * Authors:
+> + *  Shashi Mallela <shashi.mallela@linaro.org>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at your
+> + * option) any later version.  See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/intc/arm_gicv3_its_common.h"
+> +#include "gicv3_internal.h"
+> +#include "qom/object.h"
+> +#include "qapi/error.h"
+> +
+> +typedef struct GICv3ITSClass GICv3ITSClass;
+> +/* This is reusing the GICv3ITSState typedef from ARM_GICV3_ITS_COMMON */
+> +DECLARE_OBJ_CHECKERS(GICv3ITSState, GICv3ITSClass,
+> +                     ARM_GICV3_ITS, TYPE_ARM_GICV3_ITS)
+> +
+> +struct GICv3ITSClass {
+> +    GICv3ITSCommonClass parent_class;
+> +    void (*parent_reset)(DeviceState *dev);
+> +};
+> +
+> +static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
+> +                                               uint64_t data, unsigned size,
+> +                                               MemTxAttrs attrs)
+> +{
+> +    MemTxResult result = MEMTX_OK;
+> +
+> +    return result;
+> +}
+> +
+> +static MemTxResult its_writel(GICv3ITSState *s, hwaddr offset,
+> +                              uint64_t value, MemTxAttrs attrs)
+> +{
+> +    MemTxResult result = MEMTX_OK;
+> +
+> +    return result;
+> +}
+> +
+> +static MemTxResult its_readl(GICv3ITSState *s, hwaddr offset,
+> +                             uint64_t *data, MemTxAttrs attrs)
+> +{
+> +    MemTxResult result = MEMTX_OK;
+> +
+> +    return result;
+> +}
+> +
+> +static MemTxResult its_writell(GICv3ITSState *s, hwaddr offset,
+> +                               uint64_t value, MemTxAttrs attrs)
+> +{
+> +    MemTxResult result = MEMTX_OK;
+> +
+> +    return result;
+> +}
+> +
+> +static MemTxResult its_readll(GICv3ITSState *s, hwaddr offset,
+> +                              uint64_t *data, MemTxAttrs attrs)
+> +{
+> +    MemTxResult result = MEMTX_OK;
+> +
+> +    return result;
+> +}
+> +
+> +static MemTxResult gicv3_its_read(void *opaque, hwaddr offset, uint64_t *data,
+> +                                  unsigned size, MemTxAttrs attrs)
+> +{
+> +    GICv3ITSState *s = (GICv3ITSState *)opaque;
+> +    MemTxResult result;
+> +
+> +    switch (size) {
+> +    case 4:
+> +        result = its_readl(s, offset, data, attrs);
+> +        break;
+> +    case 8:
+> +        result = its_readll(s, offset, data, attrs);
+> +        break;
+> +    default:
+> +        result = MEMTX_ERROR;
+> +        break;
+> +    }
+> +
+> +    if (result == MEMTX_ERROR) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: invalid guest read at offset " TARGET_FMT_plx
+> +                      "size %u\n", __func__, offset, size);
+> +        /*
+> +         * The spec requires that reserved registers are RAZ/WI;
+> +         * so use MEMTX_ERROR returns from leaf functions as a way to
+> +         * trigger the guest-error logging but don't return it to
+> +         * the caller, or we'll cause a spurious guest data abort.
+> +         */
+> +        result = MEMTX_OK;
+> +        *data = 0;
+> +    }
+> +    return result;
+> +}
+> +
+> +static MemTxResult gicv3_its_write(void *opaque, hwaddr offset, uint64_t data,
+> +                                   unsigned size, MemTxAttrs attrs)
+> +{
+> +    GICv3ITSState *s = (GICv3ITSState *)opaque;
+> +    MemTxResult result;
+> +
+> +    switch (size) {
+> +    case 4:
+> +        result = its_writel(s, offset, data, attrs);
+> +        break;
+> +    case 8:
+> +        result = its_writell(s, offset, data, attrs);
+> +        break;
+> +    default:
+> +        result = MEMTX_ERROR;
+> +        break;
+> +    }
+> +
+> +    if (result == MEMTX_ERROR) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: invalid guest write at offset " TARGET_FMT_plx
+> +                      "size %u\n", __func__, offset, size);
+> +        /*
+> +         * The spec requires that reserved registers are RAZ/WI;
+> +         * so use MEMTX_ERROR returns from leaf functions as a way to
+> +         * trigger the guest-error logging but don't return it to
+> +         * the caller, or we'll cause a spurious guest data abort.
+> +         */
+> +        result = MEMTX_OK;
+> +    }
+> +    return result;
+> +}
+> +
+> +static const MemoryRegionOps gicv3_its_control_ops = {
+> +    .read_with_attrs = gicv3_its_read,
+> +    .write_with_attrs = gicv3_its_write,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 8,
+> +    .impl.min_access_size = 4,
+> +    .impl.max_access_size = 8,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +static const MemoryRegionOps gicv3_its_translation_ops = {
+> +    .write_with_attrs = gicv3_its_translation_write,
+> +    .valid.min_access_size = 2,
+> +    .valid.max_access_size = 4,
+> +    .impl.min_access_size = 2,
+> +    .impl.max_access_size = 4,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+> +{
+> +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> +    int i;
+> +
+> +    for (i = 0; i < s->gicv3->num_cpu; i++) {
+> +        if (!(s->gicv3->cpu[i].gicr_typer & GICR_TYPER_PLPIS)) {
+> +            error_setg(errp, "Physical LPI not supported by CPU %d", i);
+> +            return;
+> +        }
+> +    }
+> +
+> +    gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
+> +
+> +    /* set the ITS default features supported */
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
+> +                          GITS_TYPE_PHYSICAL);
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
+> +                          ITS_ITT_ENTRY_SIZE - 1);
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS, ITS_IDBITS);
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS, ITS_DEVBITS);
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
+> +    s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS, ITS_CIDBITS);
+> +}
+> +
+> +static void gicv3_its_reset(DeviceState *dev)
+> +{
+> +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> +    GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
+> +
+> +    c->parent_reset(dev);
+> +
+> +    /* Quiescent bit reset to 1 */
+> +    s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
+> +
+> +    /*
+> +     * setting GITS_BASER0.Type = 0b001 (Device)
+> +     *         GITS_BASER1.Type = 0b100 (Collection Table)
+> +     *         GITS_BASER<n>.Type,where n = 3 to 7 are 0b00 (Unimplemented)
+> +     *         GITS_BASER<0,1>.Page_Size = 64KB
+> +     * and default translation table entry size to 16 bytes
+> +     */
+> +    s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, TYPE,
+> +                             GITS_BASER_TYPE_DEVICE);
+> +    s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, PAGESIZE,
+> +                             GITS_BASER_PAGESIZE_64K);
+> +    s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, ENTRYSIZE,
+> +                             GITS_DTE_SIZE - 1);
+> +
+> +    s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, TYPE,
+> +                             GITS_BASER_TYPE_COLLECTION);
+> +    s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, PAGESIZE,
+> +                             GITS_BASER_PAGESIZE_64K);
+> +    s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, ENTRYSIZE,
+> +                             GITS_CTE_SIZE - 1);
+> +}
+> +
+> +static Property gicv3_its_props[] = {
+> +    DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-gicv3",
+> +                     GICv3State *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void gicv3_its_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    GICv3ITSClass *ic = ARM_GICV3_ITS_CLASS(klass);
+> +
+> +    dc->realize = gicv3_arm_its_realize;
+> +    device_class_set_props(dc, gicv3_its_props);
+> +    device_class_set_parent_reset(dc, gicv3_its_reset, &ic->parent_reset);
+> +}
+> +
+> +static const TypeInfo gicv3_its_info = {
+> +    .name = TYPE_ARM_GICV3_ITS,
+> +    .parent = TYPE_ARM_GICV3_ITS_COMMON,
+> +    .instance_size = sizeof(GICv3ITSState),
+> +    .class_init = gicv3_its_class_init,
+> +    .class_size = sizeof(GICv3ITSClass),
+> +};
+> +
+> +static void gicv3_its_register_types(void)
+> +{
+> +    type_register_static(&gicv3_its_info);
+> +}
+> +
+> +type_init(gicv3_its_register_types)
+> diff --git a/hw/intc/arm_gicv3_its_common.c b/hw/intc/arm_gicv3_its_common.c
+> index 66c4c6a188..7d7f3882e7 100644
+> --- a/hw/intc/arm_gicv3_its_common.c
+> +++ b/hw/intc/arm_gicv3_its_common.c
+> @@ -50,6 +50,8 @@ static int gicv3_its_post_load(void *opaque, int version_id)
+>  
+>  static const VMStateDescription vmstate_its = {
+>      .name = "arm_gicv3_its",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+>      .pre_save = gicv3_its_pre_save,
+>      .post_load = gicv3_its_post_load,
+>      .priority = MIG_PRI_GICV3_ITS,
+> @@ -99,14 +101,15 @@ static const MemoryRegionOps gicv3_its_trans_ops = {
+>      .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>  
+> -void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps *ops)
+> +void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps *ops,
+> +                         const MemoryRegionOps *tops)
+>  {
+>      SysBusDevice *sbd = SYS_BUS_DEVICE(s);
+>  
+>      memory_region_init_io(&s->iomem_its_cntrl, OBJECT(s), ops, s,
+>                            "control", ITS_CONTROL_SIZE);
+>      memory_region_init_io(&s->iomem_its_translation, OBJECT(s),
+> -                          &gicv3_its_trans_ops, s,
+> +                          tops ? tops : &gicv3_its_trans_ops, s,
+>                            "translation", ITS_TRANS_SIZE);
+>  
+>      /* Our two regions are always adjacent, therefore we now combine them
+> diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
+> index b554d2ede0..0b4cbed28b 100644
+> --- a/hw/intc/arm_gicv3_its_kvm.c
+> +++ b/hw/intc/arm_gicv3_its_kvm.c
+> @@ -106,7 +106,7 @@ static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
+>      kvm_arm_register_device(&s->iomem_its_cntrl, -1, KVM_DEV_ARM_VGIC_GRP_ADDR,
+>                              KVM_VGIC_ITS_ADDR_TYPE, s->dev_fd, 0);
+>  
+> -    gicv3_its_init_mmio(s, NULL);
+> +    gicv3_its_init_mmio(s, NULL, NULL);
+>  
+>      if (!kvm_device_check_attr(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_ITS_REGS,
+>          GITS_CTLR)) {
+> diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+> index 05303a55c8..b99bf9db46 100644
+> --- a/hw/intc/gicv3_internal.h
+> +++ b/hw/intc/gicv3_internal.h
+> @@ -24,6 +24,7 @@
+>  #ifndef QEMU_ARM_GICV3_INTERNAL_H
+>  #define QEMU_ARM_GICV3_INTERNAL_H
+>  
+> +#include "hw/registerfields.h"
+>  #include "hw/intc/arm_gicv3_common.h"
+>  
+>  /* Distributor registers, as offsets from the distributor base address */
+> @@ -67,6 +68,9 @@
+>  #define GICD_CTLR_E1NWF             (1U << 7)
+>  #define GICD_CTLR_RWP               (1U << 31)
+>  
+> +/* 16 bits EventId */
+> +#define GICD_TYPER_IDBITS            0xf
+> +
+>  /*
+>   * Redistributor frame offsets from RD_base
+>   */
+> @@ -122,17 +126,17 @@
+>  #define GICR_WAKER_ProcessorSleep    (1U << 1)
+>  #define GICR_WAKER_ChildrenAsleep    (1U << 2)
+>  
+> -#define GICR_PROPBASER_OUTER_CACHEABILITY_MASK (7ULL << 56)
+> -#define GICR_PROPBASER_ADDR_MASK               (0xfffffffffULL << 12)
+> -#define GICR_PROPBASER_SHAREABILITY_MASK       (3U << 10)
+> -#define GICR_PROPBASER_CACHEABILITY_MASK       (7U << 7)
+> -#define GICR_PROPBASER_IDBITS_MASK             (0x1f)
+> +FIELD(GICR_PROPBASER, IDBITS, 0, 5)
+> +FIELD(GICR_PROPBASER, INNERCACHE, 7, 3)
+> +FIELD(GICR_PROPBASER, SHAREABILITY, 10, 2)
+> +FIELD(GICR_PROPBASER, PHYADDR, 12, 40)
+> +FIELD(GICR_PROPBASER, OUTERCACHE, 56, 3)
+>  
+> -#define GICR_PENDBASER_PTZ                     (1ULL << 62)
+> -#define GICR_PENDBASER_OUTER_CACHEABILITY_MASK (7ULL << 56)
+> -#define GICR_PENDBASER_ADDR_MASK               (0xffffffffULL << 16)
+> -#define GICR_PENDBASER_SHAREABILITY_MASK       (3U << 10)
+> -#define GICR_PENDBASER_CACHEABILITY_MASK       (7U << 7)
+> +FIELD(GICR_PENDBASER, INNERCACHE, 7, 3)
+> +FIELD(GICR_PENDBASER, SHAREABILITY, 10, 2)
+> +FIELD(GICR_PENDBASER, PHYADDR, 16, 36)
+> +FIELD(GICR_PENDBASER, OUTERCACHE, 56, 3)
+> +FIELD(GICR_PENDBASER, PTZ, 62, 1)
+>  
+>  #define ICC_CTLR_EL1_CBPR           (1U << 0)
+>  #define ICC_CTLR_EL1_EOIMODE        (1U << 1)
+> @@ -239,6 +243,78 @@
+>  #define ICH_VTR_EL2_PREBITS_SHIFT 26
+>  #define ICH_VTR_EL2_PRIBITS_SHIFT 29
+>  
+> +/* ITS Registers */
+> +
+> +FIELD(GITS_BASER, SIZE, 0, 8)
+> +FIELD(GITS_BASER, PAGESIZE, 8, 2)
+> +FIELD(GITS_BASER, SHAREABILITY, 10, 2)
+> +FIELD(GITS_BASER, PHYADDR, 12, 36)
+> +FIELD(GITS_BASER, PHYADDRL_64K, 16, 32)
+> +FIELD(GITS_BASER, PHYADDRH_64K, 12, 4)
+> +FIELD(GITS_BASER, ENTRYSIZE, 48, 5)
+> +FIELD(GITS_BASER, OUTERCACHE, 53, 3)
+> +FIELD(GITS_BASER, TYPE, 56, 3)
+> +FIELD(GITS_BASER, INNERCACHE, 59, 3)
+> +FIELD(GITS_BASER, INDIRECT, 62, 1)
+> +FIELD(GITS_BASER, VALID, 63, 1)
+> +
+> +FIELD(GITS_CTLR, QUIESCENT, 31, 1)
+> +
+> +FIELD(GITS_TYPER, PHYSICAL, 0, 1)
+> +FIELD(GITS_TYPER, ITT_ENTRY_SIZE, 4, 4)
+> +FIELD(GITS_TYPER, IDBITS, 8, 5)
+> +FIELD(GITS_TYPER, DEVBITS, 13, 5)
+> +FIELD(GITS_TYPER, SEIS, 18, 1)
+> +FIELD(GITS_TYPER, PTA, 19, 1)
+> +FIELD(GITS_TYPER, CIDBITS, 32, 4)
+> +FIELD(GITS_TYPER, CIL, 36, 1)
+> +
+> +#define GITS_BASER_PAGESIZE_4K                0
+> +#define GITS_BASER_PAGESIZE_16K               1
+> +#define GITS_BASER_PAGESIZE_64K               2
+> +
+> +#define GITS_BASER_TYPE_DEVICE               1ULL
+> +#define GITS_BASER_TYPE_COLLECTION           4ULL
+> +
+> +/**
+> + * Default features advertised by this version of ITS
+> + */
+> +/* Physical LPIs supported */
+> +#define GITS_TYPE_PHYSICAL           (1U << 0)
+> +
+> +/*
+> + * 12 bytes Interrupt translation Table Entry size
+> + * as per Table 5.3 in GICv3 spec
+> + * ITE Lower 8 Bytes
+> + *   Bits:    | 49 ... 26 | 25 ... 2 |   1     |   0    |
+> + *   Values:  |    1023   |  IntNum  | IntType |  Valid |
+> + * ITE Higher 4 Bytes
+> + *   Bits:    | 31 ... 16 | 15 ...0 |
+> + *   Values:  |  vPEID    |  ICID   |
+> + */
+> +#define ITS_ITT_ENTRY_SIZE            0xC
+> +
+> +/* 16 bits EventId */
+> +#define ITS_IDBITS                   GICD_TYPER_IDBITS
+> +
+> +/* 16 bits DeviceId */
+> +#define ITS_DEVBITS                   0xF
+> +
+> +/* 16 bits CollectionId */
+> +#define ITS_CIDBITS                  0xF
+> +
+> +/*
+> + * 8 bytes Device Table Entry size
+> + * Valid = 1 bit,ITTAddr = 44 bits,Size = 5 bits
+> + */
+> +#define GITS_DTE_SIZE                 (0x8ULL)
+> +
+> +/*
+> + * 8 bytes Collection Table Entry size
+> + * Valid = 1 bit,RDBase = 36 bits(considering max RDBASE)
+> + */
+> +#define GITS_CTE_SIZE                 (0x8ULL)
+> +
+>  /* Special interrupt IDs */
+>  #define INTID_SECURE 1020
+>  #define INTID_NONSECURE 1021
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 6e52a166e3..4dcfea6aa8 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -8,6 +8,7 @@ softmmu_ss.add(when: 'CONFIG_ARM_GIC', if_true: files(
+>    'arm_gicv3_dist.c',
+>    'arm_gicv3_its_common.c',
+>    'arm_gicv3_redist.c',
+> +  'arm_gicv3_its.c',
+>  ))
+>  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_pic.c'))
+>  softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true: files('heathrow_pic.c'))
+> diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
+> index 5a0952b404..65d1191db1 100644
+> --- a/include/hw/intc/arm_gicv3_its_common.h
+> +++ b/include/hw/intc/arm_gicv3_its_common.h
+> @@ -25,17 +25,22 @@
+>  #include "hw/intc/arm_gicv3_common.h"
+>  #include "qom/object.h"
+>  
+> +#define TYPE_ARM_GICV3_ITS "arm-gicv3-its"
+> +
+>  #define ITS_CONTROL_SIZE 0x10000
+>  #define ITS_TRANS_SIZE   0x10000
+>  #define ITS_SIZE         (ITS_CONTROL_SIZE + ITS_TRANS_SIZE)
+>  
+>  #define GITS_CTLR        0x0
+>  #define GITS_IIDR        0x4
+> +#define GITS_TYPER       0x8
+>  #define GITS_CBASER      0x80
+>  #define GITS_CWRITER     0x88
+>  #define GITS_CREADR      0x90
+>  #define GITS_BASER       0x100
+>  
+> +#define GITS_TRANSLATER  0x0040
+> +
+>  struct GICv3ITSState {
+>      SysBusDevice parent_obj;
+>  
+> @@ -52,6 +57,7 @@ struct GICv3ITSState {
+>      /* Registers */
+>      uint32_t ctlr;
+>      uint32_t iidr;
+> +    uint64_t typer;
+>      uint64_t cbaser;
+>      uint64_t cwriter;
+>      uint64_t creadr;
+> @@ -62,7 +68,8 @@ struct GICv3ITSState {
+>  
+>  typedef struct GICv3ITSState GICv3ITSState;
+>  
+> -void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps *ops);
+> +void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps *ops,
+> +                   const MemoryRegionOps *tops);
+>  
+>  #define TYPE_ARM_GICV3_ITS_COMMON "arm-gicv3-its-common"
+>  typedef struct GICv3ITSCommonClass GICv3ITSCommonClass;
+> 
 
+Tested with in-review Zephyr ITS implementation at https://github.com/zephyrproject-rtos/zephyr/pull/37506
 
-On 8/7/21 8:45 AM, Markus Armbruster wrote:
-> Jonah Palmer <jonah.palmer@oracle.com> writes:
->
->> From: Laurent Vivier <lvivier@redhat.com>
->>
->> This new command shows internal status of a VirtQueue.
->> (vrings and indexes).
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-> [...]
->
->> diff --git a/qapi/virtio.json b/qapi/virtio.json
->> index 78873cd..7007e0c 100644
->> --- a/qapi/virtio.json
->> +++ b/qapi/virtio.json
->> @@ -406,3 +406,105 @@
->>     'data': { 'path': 'str' },
->>     'returns': 'VirtioStatus'
->>   }
->> +
->> +##
->> +# @VirtQueueStatus:
->> +#
->> +# Status of a VirtQueue
->> +#
->> +# @device-type: VirtIO device type
->> +#
->> +# @queue-index: VirtQueue queue_index
->> +#
->> +# @inuse: VirtQueue inuse
->> +#
->> +# @vring-num: VirtQueue vring.num
->> +#
->> +# @vring-num-default: VirtQueue vring.num_default
->> +#
->> +# @vring-align: VirtQueue vring.align
->> +#
->> +# @vring-desc: VirtQueue vring.desc
->> +#
->> +# @vring-avail: VirtQueue vring.avail
->> +#
->> +# @vring-used: VirtQueue vring.used
->> +#
->> +# @last-avail-idx: VirtQueue last_avail_idx
->> +#
->> +# @shadow-avail-idx: VirtQueue shadow_avail_idx
->> +#
->> +# @used-idx: VirtQueue used_idx
->> +#
->> +# @signalled-used: VirtQueue signalled_used
->> +#
->> +# @signalled-used-valid: VirtQueue signalled_used_valid
->> +#
->> +# Since: 6.1
->> +#
->> +##
->> +
->> +{ 'struct': 'VirtQueueStatus',
->> +  'data': {
->> +    'device-type': 'VirtioType',
->> +    'queue-index': 'uint16',
->> +    'inuse': 'uint32',
->> +    'vring-num': 'int',
->> +    'vring-num-default': 'int',
->> +    'vring-align': 'int',
->> +    'vring-desc': 'uint64',
->> +    'vring-avail': 'uint64',
->> +    'vring-used': 'uint64',
->> +    'last-avail-idx': 'uint16',
->> +    'shadow-avail-idx': 'uint16',
->> +    'used-idx': 'uint16',
->> +    'signalled-used': 'uint16',
->> +    'signalled-used-valid': 'uint16'
->> +  }
->> +}
-> I can't check the member types like I did for VirtioStatus in PATCH 2
-> right now.  Please double-check them.
-
-Double-checked these; 'vring.num', 'vring.num_default', and 'vring.align'
-are all of type 'unsigned int'. I think these should be of type 'uint32' here.
-
-Also, 'signalled_used_valid' is of type bool, so I'll change it to 'bool'
-here as well.
-
->
->> +
->> +##
->> +# @x-debug-virtio-queue-status:
->> +#
->> +# Return the status of a given VirtQueue
->> +#
->> +# @path: QOBject path of the VirtIODevice
->> +#
->> +# @queue: queue number to examine
->> +#
->> +# Returns: Status of the VirtQueue
->> +#
->> +# Since: 6.1
->> +#
->> +# Example:
->> +#
->> +# -> { "execute": "x-debug-virtio-queue-status",
->> +#      "arguments": {
->> +#          "path": "/machine/peripheral-anon/device[3]/virtio-backend",
->> +#          "queue": 0
->> +#      }
->> +#   }
->> +# <- { "return": {
->> +#      "signalled-used": 373,
->> +#      "inuse": 0,
->> +#      "vring-align": 4096,
->> +#      "vring-desc": 864411648,
->> +#      "signalled-used-valid": 0,
->> +#      "vring-num-default": 256,
->> +#      "vring-avail": 864415744,
->> +#      "queue-index": 0,
->> +#      "last-avail-idx": 373,
->> +#      "vring-used": 864416320,
->> +#      "used-idx": 373,
->> +#      "device-type": "virtio-net",
->> +#      "shadow-avail-idx": 619,
->> +#      "vring-num": 256
->> +#      }
->> +#    }
->> +#
->> +##
->> +
->> +{ 'command': 'x-debug-virtio-queue-status',
->> +  'data': { 'path': 'str', 'queue': 'uint16' },
->> +  'returns': 'VirtQueueStatus'
->> +}
-
---------------32AFBA61F498CD92345F3A0D
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 8/7/21 8:45 AM, Markus Armbruster
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:875ywhe83s.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a> writes:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
-
-This new command shows internal status of a VirtQueue.
-(vrings and indexes).
-
-Signed-off-by: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
-Signed-off-by: Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a>
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-[...]
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 78873cd..7007e0c 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -406,3 +406,105 @@
-   'data': { 'path': 'str' },
-   'returns': 'VirtioStatus'
- }
-+
-+##
-+# @VirtQueueStatus:
-+#
-+# Status of a VirtQueue
-+#
-+# @device-type: VirtIO device type
-+#
-+# @queue-index: VirtQueue queue_index
-+#
-+# @inuse: VirtQueue inuse
-+#
-+# @vring-num: VirtQueue vring.num
-+#
-+# @vring-num-default: VirtQueue vring.num_default
-+#
-+# @vring-align: VirtQueue vring.align
-+#
-+# @vring-desc: VirtQueue vring.desc
-+#
-+# @vring-avail: VirtQueue vring.avail
-+#
-+# @vring-used: VirtQueue vring.used
-+#
-+# @last-avail-idx: VirtQueue last_avail_idx
-+#
-+# @shadow-avail-idx: VirtQueue shadow_avail_idx
-+#
-+# @used-idx: VirtQueue used_idx
-+#
-+# @signalled-used: VirtQueue signalled_used
-+#
-+# @signalled-used-valid: VirtQueue signalled_used_valid
-+#
-+# Since: 6.1
-+#
-+##
-+
-+{ 'struct': 'VirtQueueStatus',
-+  'data': {
-+    'device-type': 'VirtioType',
-+    'queue-index': 'uint16',
-+    'inuse': 'uint32',
-+    'vring-num': 'int',
-+    'vring-num-default': 'int',
-+    'vring-align': 'int',
-+    'vring-desc': 'uint64',
-+    'vring-avail': 'uint64',
-+    'vring-used': 'uint64',
-+    'last-avail-idx': 'uint16',
-+    'shadow-avail-idx': 'uint16',
-+    'used-idx': 'uint16',
-+    'signalled-used': 'uint16',
-+    'signalled-used-valid': 'uint16'
-+  }
-+}
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I can't check the member types like I did for VirtioStatus in PATCH 2
-right now.  Please double-check them.</pre>
-    </blockquote>
-    <pre>Double-checked these; 'vring.num', 'vring.num_default', and 'vring.align'
-are all of type 'unsigned int'. I think these should be of type 'uint32' here.
-
-Also, 'signalled_used_valid' is of type bool, so I'll change it to 'bool'
-here as well. 
-</pre>
-    <blockquote type="cite" cite="mid:875ywhe83s.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+
-+##
-+# @x-debug-virtio-queue-status:
-+#
-+# Return the status of a given VirtQueue
-+#
-+# @path: QOBject path of the VirtIODevice
-+#
-+# @queue: queue number to examine
-+#
-+# Returns: Status of the VirtQueue
-+#
-+# Since: 6.1
-+#
-+# Example:
-+#
-+# -&gt; { &quot;execute&quot;: &quot;x-debug-virtio-queue-status&quot;,
-+#      &quot;arguments&quot;: {
-+#          &quot;path&quot;: &quot;/machine/peripheral-anon/device[3]/virtio-backend&quot;,
-+#          &quot;queue&quot;: 0
-+#      }
-+#   }
-+# &lt;- { &quot;return&quot;: {
-+#      &quot;signalled-used&quot;: 373,
-+#      &quot;inuse&quot;: 0,
-+#      &quot;vring-align&quot;: 4096,
-+#      &quot;vring-desc&quot;: 864411648,
-+#      &quot;signalled-used-valid&quot;: 0,
-+#      &quot;vring-num-default&quot;: 256,
-+#      &quot;vring-avail&quot;: 864415744,
-+#      &quot;queue-index&quot;: 0,
-+#      &quot;last-avail-idx&quot;: 373,
-+#      &quot;vring-used&quot;: 864416320,
-+#      &quot;used-idx&quot;: 373,
-+#      &quot;device-type&quot;: &quot;virtio-net&quot;,
-+#      &quot;shadow-avail-idx&quot;: 619,
-+#      &quot;vring-num&quot;: 256
-+#      }
-+#    }
-+#
-+##
-+
-+{ 'command': 'x-debug-virtio-queue-status',
-+  'data': { 'path': 'str', 'queue': 'uint16' },
-+  'returns': 'VirtQueueStatus'
-+}
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------32AFBA61F498CD92345F3A0D--
+Tested-by: Neil Armstrong <narmstrong@baylibre.com>
 
