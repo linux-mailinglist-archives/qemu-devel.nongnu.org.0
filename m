@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D855A3E5C2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:50:45 +0200 (CEST)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C005D3E5C5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:56:43 +0200 (CEST)
+Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDS9U-0001O5-OK
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
+	id 1mDSFG-0002Bo-LY
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7s-0007dI-L6
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:04 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7q-0008MA-RZ
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:04 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id m12so26365805wru.12
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gBrwQGAgNFVSSq9iGQFjfmiOCMZon3rRa4RYHTifO5I=;
- b=KuNdF23gsJz4ADfHqUAU7V1uhi+pXVy3ZUT4S55wzjUNXaNMn3QiDbUO9Bhnu6rGkz
- wueYzU/H+zhDixnsb8URwagefBEL7yFchiER+4SNRxeuyiEaKlx4SO2NY6AhAxL4L6MG
- ESG3nRTHEQHY+F3H+DBWhSiQM48KkwuyyvtSc6kGf1aMMg6iFjyfOuNcZXo8zcBM3I7t
- DQ4cbuUwGZ1SIDQBdoC3hi7m1cHBzxo2kSF5kEZPIE87X03aPfA570Cm5Zw4ZNdJjoYo
- REYAutkI2DFchY5u/XOsDa7gBS4l7gpNvyqhyngmd6pWDQGoWbCy4LAfmH4mIE1DCpOK
- KUsA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDSCf-000849-D3
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDSCc-0002Vk-Pq
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:54:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628603637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xBp48UISmIDP5FV2zec7nCn1A3rYJVu23pgPNEO4xzs=;
+ b=EaFW4ykHyR96npEVLrkVOM0jHxVVzi+jDlxKaADumSbK4x5kmRhe1qG9Oz/IuzV9CKmlzi
+ VMeCrf9es+ZzLAzAFJ4HZIrSXnELg/8y2VuPXooHJPvPgVV3YT8ud13bhoB9mtN6xQxH6J
+ ISqPiAIA9CVcxAnpjQUahozNPmkjVbM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-YMETI7daPeOKibG8t_0CMA-1; Tue, 10 Aug 2021 09:53:54 -0400
+X-MC-Unique: YMETI7daPeOKibG8t_0CMA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r125-20020a1c2b830000b0290197a4be97b7so1018494wmr.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:53:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gBrwQGAgNFVSSq9iGQFjfmiOCMZon3rRa4RYHTifO5I=;
- b=g43JhbmSwLbKbd5CyhRvOHCLQy9yTsZxiaK1+QgFL+8Qv6s6/42NsuMnoAE1IO7Av4
- 1eH8owgJxbcqvpzM4Qfgf3B+y12MLor882XNs1Xczbss0ZooARvPLsGSaU8+ZwxSahrJ
- ss6GLJsh8p6WvA1znEoF3Lu3ZAlb1yxKs61iFOWI892d2o7Xvfu1pHOzA+V0nvDgEpEM
- ro51icNhPTlRFPWndKJTPMoKasDSY+nYM+UQNCHb83XVKcaHQONNXQE4F9OS+AhGgd5M
- xD4XEh2zmtoojtLoPtwWBMGdoIWOqfIh1HOGKewc/0EHw+vfnraJS25g9V9RAb+52KAl
- SYlw==
-X-Gm-Message-State: AOAM531/mc6Ms2kbPNjx6oo0rBFO6+LBqDoU2q1JGB3Dh6W51cu1p2XT
- 1Pljj0Bhw5GyGoehcFE3eIWyYlv+mwc=
-X-Google-Smtp-Source: ABdhPJwEc+vM7D6aqRn2rnWorYqZhNwRtAYGE6UPMV+RrPgyZGsChbMrQTDOAU2JXBhycuT9pVe8Dw==
-X-Received: by 2002:a05:6000:18cc:: with SMTP id
- w12mr30813653wrq.96.1628603340996; 
- Tue, 10 Aug 2021 06:49:00 -0700 (PDT)
-Received: from localhost.localdomain ([41.36.105.33])
- by smtp.gmail.com with ESMTPSA id u6sm8683413wrp.83.2021.08.10.06.48.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 06:49:00 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] docs/tcg-plugins: add L2 arguments to cache docs
-Date: Tue, 10 Aug 2021 15:48:44 +0200
-Message-Id: <20210810134844.166490-6-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210810134844.166490-1-ma.mandourr@gmail.com>
-References: <20210810134844.166490-1-ma.mandourr@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=xBp48UISmIDP5FV2zec7nCn1A3rYJVu23pgPNEO4xzs=;
+ b=lgf/IabRf5bx98Ocusv7agH24oluqgkGsqG7KzaPXXhJMnxXtWvAJgwKNlVEBTm96F
+ 9yC98WHq0l/AbGKSJ1mq43avX6AjR7I7IWu0csM/LYXnzDaNV9dBlo+VnCY+t4SmXQm6
+ pmrPiu9sCiUsI/rad1d4Iu99qHmRw/DRSRlREnEPKj+G5OWTjbSBkmo2x6re8A0g5DMK
+ kgNcqIPJn5pWgyhgG8ENoL+X0t9pwWuLJEF3/xecDEZRZ5Locsusd3m0Qppqk2R5R1kU
+ NWafSQC0hDIcoWToqhd1+cOnBG7zqOtwqJiJlTwTaKKZqetCnmZ0VDZoEX8K1QnB9Ed6
+ eB6w==
+X-Gm-Message-State: AOAM533D1Tcvv30C8LFGjqK8mPj3paSBXh0z1gxB8JLa+gZNU56ihx1L
+ 06vruhmhixeW0tEDkFxlZwRpUzgs2iTjA6uePc1/GRoWjNqom62CzHTPTByoJa2QDvUSDVIm/i+
+ jOMhtWpbmnwnrifTwrSVDb0RdMrmHa3Jc76uPpsJ4T55pyRrjVu7co7QWSwhG3IuB
+X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr30662099wrt.34.1628603633319; 
+ Tue, 10 Aug 2021 06:53:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyy1vbEkIddUVEdUGu6NSSa8g5/tO2d7eTb5OL9RNmAUqOCl6/t3ap0WNTLDgMaec2r78EWkQ==
+X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr30662075wrt.34.1628603633096; 
+ Tue, 10 Aug 2021 06:53:53 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ l9sm9023239wrt.95.2021.08.10.06.53.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 06:53:52 -0700 (PDT)
+Subject: Re: [PATCH v9 00/16] qemu_iotests: improve debugging options
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210809090114.64834-1-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <5d8db63d-6df4-98d8-7df9-d087210b907b@redhat.com>
+Date: Tue, 10 Aug 2021 15:53:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210809090114.64834-1-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,65 +97,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cache plugin now allows optional L2 per-core cache emulation that can be
-configured through plugin arguments, this commit adds this functionality
-to the docs.
+On 09.08.21 11:00, Emanuele Giuseppe Esposito wrote:
+> This series adds the option to attach gdbserver and valgrind
+> to the QEMU binary running in qemu_iotests.
+> It also allows to redirect QEMU binaries output of the python tests
+> to the stdout, instead of a log file.
+>
+> Patches 1-9 introduce the -gdb option to both python and bash tests,
+> 10-14 extend the already existing -valgrind flag to work also on
+> python tests, and patch 15-16 introduces -p to enable logging to stdout.
+>
+> In particular, patches 1,6,8,11 focus on extending the QMP socket timers
+> when using gdb/valgrind, otherwise the python tests will fail due to
+> delays in the QMP responses.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+> v9:
+> * Replace `! -z` with `-n` in bash scripts (patch 8), and quote $GDB_OPTIONS in
+>    the same if condition [Max]
+> * Add r-b from Max to all patches except 8, remove r-b from Vladimir on patch 8
 
-While I'm at it, I editted the bullet point for cache plugin to say:
-    contrib/plugins/cache.c
-instead of
-    contrib/plugins/cache
-to match other plugins.
+Thanks!  Applied to my block-next branch for 6.2:
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- docs/devel/tcg-plugins.rst | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+https://github.com/XanClic/qemu/commits/block-next
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index fcc460bf7b..ee3fab75bd 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -360,10 +360,11 @@ which will output an execution trace following this structure::
-   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
-   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
- 
--- contrib/plugins/cache
-+- contrib/plugins/cache.c
- 
--Cache modelling plugin that measures the performance of a given cache
--configuration when a given working set is run::
-+Cache modelling plugin that measures the performance of a given L1 cache
-+configuration, and optionally a unified L2 per-core cache when a given working
-+set is run::
- 
-     qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
-       -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
-@@ -421,3 +422,18 @@ The plugin has a number of arguments, all of them are optional:
-   Sets the number of cores for which we maintain separate icache and dcache.
-   (default: for linux-user, N = 1, for full system emulation: N = cores
-   available to guest)
-+
-+  * l2=on
-+
-+  Simulates a unified L2 cache (stores blocks for both instructions and data)
-+  using the default L2 configuration (cache size = 2MB, associativity = 16-way,
-+  block size = 64B).
-+
-+  * l2cachesize=N
-+  * l2blksize=B
-+  * l2assoc=A
-+
-+  L2 cache configuration arguments. They specify the cache size, block size, and
-+  associativity of the L2 cache, respectively. Setting any of the L2
-+  configuration arguments implies ``l2=on``.
-+  (default: N = 2097152 (2MB), B = 64, A = 16)
--- 
-2.25.1
+(Usually, I’d take test patches to the block branch regardless of where 
+we are in the freeze, but with this quite long series I feel better 
+putting it into block-next.)
+
+Hanna
 
 
