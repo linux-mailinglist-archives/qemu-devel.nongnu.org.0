@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18D73E52C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 07:20:57 +0200 (CEST)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C413E5301
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 07:42:01 +0200 (CEST)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDKC8-0003BM-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 01:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
+	id 1mDKWV-00072g-Mb
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 01:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mDKBB-0001V1-3S; Tue, 10 Aug 2021 01:19:57 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:45003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mDKB9-0004qL-8c; Tue, 10 Aug 2021 01:19:56 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- d131-20020a1c1d890000b02902516717f562so1633062wmd.3; 
- Mon, 09 Aug 2021 22:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=W+Ek/FQM1vnO/sLlgjELhxHO6P+5qop+j3W5LXxENUE=;
- b=dyZv1VR2yymH8YTar4/0N1ssWsBC/jl9xRNA6Uk1DBeWMhyfMnqbpUIWlHoa0y+lsW
- d4PUoDd5kZ5AwU1/dAo9tpqgIkkNYnUjFKzvmd5pBpDC665nDxOPhmR3Lh/lfWVqWnlN
- NlbDban/6Ly2fe2K966J/qBBl3hN4u7BgsZUQzvkW8nG7mWx5ZN2RTj2otzVj9DcHDb+
- L6uMsMwkQdWSdk/nuSbxoZV+cv1MLvSOElDqmowngNcOYD8mO+WEsofW/DESFN2faViX
- d7ZxkRrnrcaxEvMJS2g9dGnyG3+TCL0YLZOsTjuzNdn8RajIXfl9AAv0KoJ3V+SdCRH+
- RxWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=W+Ek/FQM1vnO/sLlgjELhxHO6P+5qop+j3W5LXxENUE=;
- b=h6G/tOtABb6PpXshdRXVFGXR2iCH31hTiaaqipcyzqjBowpOZJnyS0rtpM1k3jpEfu
- 1RgC+2XZ1V8Wx1uZhvw7DCAAC9M/Rb1uSDnRXVQvMForttpxLo5KtD7BrlmOqIBL6lIv
- v73LsFmiRG/tbjXI6+m67UGtixW40SpME6LUzh2U4NeiR8JPU1tOUapELqWnEf/lj4vt
- cSICysahOJbyFvNRYF6AWLFvoYSg0yD7CY7+mSAcS6tozIcMMQ3DZgUz5y1sIQeZ8bbM
- G5MLwROgWtlPvTb7VQIdbR6TrcTQzJDwf/vpZpFCvhkMRQF8Y1t/B6HWE2kyqxW7/Tzt
- At1A==
-X-Gm-Message-State: AOAM5304t/SM5apZlLLoMhxyEKGT1ZjELkCRbQ+o7qtvn0hnXR+Tsykd
- db/3j0U9hQHY67dKSTOZR1A=
-X-Google-Smtp-Source: ABdhPJzA6fS0cFQRdLDILkRKbyviP5Pw+Z8xqxqtyAp48kr1EJc78VmXjAlf8kZAq9q9Vq0PRm2o4g==
-X-Received: by 2002:a05:600c:3b15:: with SMTP id
- m21mr20474630wms.99.1628572793124; 
- Mon, 09 Aug 2021 22:19:53 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id t1sm1485328wma.25.2021.08.09.22.19.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 22:19:52 -0700 (PDT)
-Subject: Re: [PATCH] fsl-imx6ul: add SAI1/2/3 and ASRC as unimplemented devices
-To: Guenter Roeck <linux@roeck-us.net>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210810041059.553384-1-linux@roeck-us.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ddf1935f-bcbb-aedd-4d8c-8f7a2522f1ea@amsat.org>
-Date: Tue, 10 Aug 2021 07:19:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDKV4-0006Cs-U0
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:40:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDKV1-0005gC-GN
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:40:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628574025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7fdzANSt03kOEc2C3y07fjAZsuYUf5wqX29RHs+AW+c=;
+ b=SLIC3AOVCu/OtRDpbN4gdiIkci+i/qHRtmjhGuIIyE+T5bx/Ju6gmOnYfT/2U8xgcKgVP2
+ HGmWBnQ+Xo1rWxUK4rqJLHMPvekce2KsgO2WFBYr7ylLQL/RkHgnRwNdV0BnHTqO8rPbhn
+ d+Kv4vX8xLKkoHrxTWmAkKrl4tvjz+o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-IqOKUA9AO_iqHnBTRfqYlQ-1; Tue, 10 Aug 2021 01:40:24 -0400
+X-MC-Unique: IqOKUA9AO_iqHnBTRfqYlQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EE508749A8;
+ Tue, 10 Aug 2021 05:40:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E62BF620DE;
+ Tue, 10 Aug 2021 05:40:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 232EF18003AA; Tue, 10 Aug 2021 07:40:21 +0200 (CEST)
+Date: Tue, 10 Aug 2021 07:40:21 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 3/3] ps2: migration support for command reply queue
+Message-ID: <20210810054021.m6isaht5yb3pgaoz@sirius.home.kraxel.org>
+References: <4d1c8467-d976-2c0f-ba54-c767df7b8fe7@t-online.de>
+ <20210807121202.6294-3-vr_qemu@t-online.de>
+ <20210809101808.ds3kf37np46gxedc@sirius.home.kraxel.org>
+ <87553bd1-6493-d04c-ab44-6a239dde6cbe@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <20210810041059.553384-1-linux@roeck-us.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87553bd1-6493-d04c-ab44-6a239dde6cbe@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,82 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Guenter,
+  Hi,
 
-On 8/10/21 6:10 AM, Guenter Roeck wrote:
-> Define SAI1/2/3 and ASRC as unimplemented devices to avoid random
-> Linux kernel crashes.
+> this part actually works. .needed is only evaluated on the sending side. For
+> the receiving side subsections are optional.  Migration doesn't fail if a
+> subsection isn't loaded. Before I sent this patch series one of the
+> migration tests was a migration from 6.0.92 to 6.0.92 with one byte in the
+> command reply queue and 3 bytes in the scancode queue. The migration didn't
+> fail.
 
-Relevant dmesg output could be useful.
+Hmm, ok.  If you actually tested it you are probably right.  My memory
+tells me ->needed() is evaluated on both sending and receiving side as
+the migration data stream does not carry the information whenever a
+subsection is present or not.  But maybe my memories are wrong, or
+things have changed, I don't follow migration changes that closely.
 
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  hw/arm/fsl-imx6ul.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> > If we can't find something we can add a property simliar to the one
+> > for the extended keyboard state.
 > 
-> diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-> index e0128d7316..48b60eb3ce 100644
-> --- a/hw/arm/fsl-imx6ul.c
-> +++ b/hw/arm/fsl-imx6ul.c
-> @@ -534,6 +534,13 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
->       */
->      create_unimplemented_device("sdma", FSL_IMX6UL_SDMA_ADDR, 0x4000);
->  
-> +    /*
-> +     * SAI
+> What is the best way to add such a compat property? The ps2 keyboard isn't a
+> qdev device. I can't just add a property to the device class. Do I have to
+> add a property to the i8042 and the pl050 device and propagate the property
+> value with the ps2_kbd_init() call to the PS2KbdState?
 
-"Audio SSI (Synchronous Serial Interface)"
+Yes, I think so.  But double-check the migration thing first, if your
+approach works that is the easier way of course.
 
-> +     */
-> +    create_unimplemented_device("sai1", FSL_IMX6UL_SAI1_ADDR, 0x4000);
-> +    create_unimplemented_device("sai2", FSL_IMX6UL_SAI2_ADDR, 0x4000);
-> +    create_unimplemented_device("sai3", FSL_IMX6UL_SAI3_ADDR, 0x4000);
-
-Hmm I see these named SSI[123] in the datasheet.
-
-  The Synchronous Serial Interface (SSI) is a full-duplex serial
-  port that allows communication with external devices using a
-  variety of serial protocols. The SSI supports a wide variety of
-  protocols (SSI normal, SSI network, I2S, and AC-97), bit depths
-  (up to 24 bits per word), and clock/frame sync options.
-
-  The three SSIs may support three audio streams (possibly at
-  different sample rates) simultaneously. SSI1, SSI2 and SSI3 are
-  located on the Shared Peripheral Bus. Since the SDMA can directly
-  access SSI1...SSI3 (being on the Shared Peripheral Bus), they can
-  be used for high-bandwidth data transfers in order to optimize
-  bus bandwidth consumption.
-
-Since QEMU models SPI devices in hw/ssi/, having the devices named
-"sai*" is OK.
-
-> +
->      /*
->       * PWM
->       */
-> @@ -542,6 +549,11 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
->      create_unimplemented_device("pwm3", FSL_IMX6UL_PWM3_ADDR, 0x4000);
->      create_unimplemented_device("pwm4", FSL_IMX6UL_PWM4_ADDR, 0x4000);
->  
-> +    /*
-> +     * ASRC
-
-"Audio ASRC (asynchronous sample rate converter)"
-
-Preferably updating the descriptions:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +     */
-> +    create_unimplemented_device("asrc", FSL_IMX6UL_ASRC_ADDR, 0x4000);
-> +
->      /*
->       * CAN
->       */
-> 
+take care,
+  Gerd
 
 
