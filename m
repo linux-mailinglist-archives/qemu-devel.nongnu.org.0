@@ -2,93 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5AF3E528D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 07:08:19 +0200 (CEST)
-Received: from localhost ([::1]:43232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8265F3E52BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 07:20:46 +0200 (CEST)
+Received: from localhost ([::1]:46974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDJzu-00085f-8e
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 01:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
+	id 1mDKBx-0002iu-9f
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 01:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDJyq-0007Bv-LY
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30950)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDKB2-0001Kq-LP
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:19:48 -0400
+Received: from mailout04.t-online.de ([194.25.134.18]:44946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDJyp-00029M-0r
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:07:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628572030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VPVf99/M4WjhdLmwrCUIEoE5fhFqa+7nahIzQSRXhw4=;
- b=edIepmycTLbkv8WrpqkQozEG+YyBcuIPqb+F6SRCsDO36awO/as5zyf1rJ9ikqkshjYG40
- YqrV8p8MMoQNbsmI5z3d+qRmJpN05vwSL5l+BjsUQRXi2ZlYQm/UMAg9TAMzHCyeF8ki9V
- WLfLXPdxj/2moMZ+EdYABR4QqQ2kuOM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-D1-e3g5QPCOy34fxedAOaQ-1; Tue, 10 Aug 2021 01:07:08 -0400
-X-MC-Unique: D1-e3g5QPCOy34fxedAOaQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o26-20020a05600c511ab0290252d0248251so727301wms.1
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 22:07:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VPVf99/M4WjhdLmwrCUIEoE5fhFqa+7nahIzQSRXhw4=;
- b=DLLRqcK6qo012d5CsuTjH/6XKHrElkiuA7YD+jzCgLkN5J+6QswzKyo/MaAJB5O8Tz
- +igN3x0PtE63DYqQX/tXWgRjPK+ccWwv4JqmIKhBfRIPNhPozmsZoAa++H/msuM7qGy6
- SmRsMsRUZkeEVwGSEigtMoG0no0Jhdpagljw6wjkjDfTfEnXhEFWaJe+wGDYc45IyvhX
- 16ShHzFlUynApVbEYSAmUtH4xjBiOgDW7ZkedCwIms7W5bIgcZZVkAlWxgZ5lglrG5h2
- Q+KcQXi2WFTzSw5M1ujJZ0d8A43H0PbRNr7JvM5Jq1GK3FGeRl4JeEqaniNBIwERE6rv
- 3dTw==
-X-Gm-Message-State: AOAM533hwauokBCcMWrBfAD82CduKSfWxr/nqAAcRyJvAjvg/eXhgsDD
- z1XxR36ChUeJXu/FbQmKHkiSV8OMM1CO9GFppdIH1l3tjpZ8NWcmyQBZ1jSg7ebtPG7kczsn1eh
- jpwWHU/u81XxoVUY=
-X-Received: by 2002:a5d:4583:: with SMTP id p3mr21079436wrq.398.1628572027593; 
- Mon, 09 Aug 2021 22:07:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynpWdoXDWZ6AuDbdrrxXcG+SSzCKD89NzGWwGzvIprSOIcKVQbIGa4KLfCCiCEiu1anPYQAw==
-X-Received: by 2002:a5d:4583:: with SMTP id p3mr21079415wrq.398.1628572027351; 
- Mon, 09 Aug 2021 22:07:07 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id w18sm23377453wrg.68.2021.08.09.22.07.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 22:07:07 -0700 (PDT)
-Subject: Re: [PULL 24/30] spapr_pci: populate ibm,loc-code
-To: David Gibson <david@gibson.dropbear.id.au>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <1436284182-5063-1-git-send-email-agraf@suse.de>
- <1436284182-5063-25-git-send-email-agraf@suse.de>
- <CAFEAcA9TQKAU94OUuSzYH8A_7CFfSYc+R8-Mz4mai0vwMbjsxA@mail.gmail.com>
- <YRIAr6HIW742LSZd@yekko>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f6c3e2ac-3b9f-0f9c-6cb9-c1fc95d2eabe@redhat.com>
-Date: Tue, 10 Aug 2021 07:07:06 +0200
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDKB0-0004jA-6t
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 01:19:48 -0400
+Received: from fwd14.aul.t-online.de (fwd14.aul.t-online.de [172.20.26.242])
+ by mailout04.t-online.de (Postfix) with SMTP id 51ECF616E;
+ Tue, 10 Aug 2021 07:18:24 +0200 (CEST)
+Received: from [192.168.211.200]
+ (VT8lHTZXQhueBoouvOi+fdPeVyJR+zey1PuUCsGKoKlgq36vuTQrexF6SbJpYN8w95@[79.208.26.7])
+ by fwd14.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1mDK9U-2Fqk9A0; Tue, 10 Aug 2021 07:18:12 +0200
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] monitor/hmp: schedule qemu_chr_fe_accept_input() after
+ read
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <70e3486e-b486-887b-4d57-44a3fd9766ad@t-online.de>
+ <20210807192910.26283-1-vr_qemu@t-online.de>
+ <CAJ+F1C+xz_R6gPV6NH0QfsoNLC2hndF8d0FvLqXmL6FJFq9v5g@mail.gmail.com>
+Message-ID: <1ff59e4a-b520-c365-a017-0f8095a64e25@t-online.de>
+Date: Tue, 10 Aug 2021 07:18:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YRIAr6HIW742LSZd@yekko>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <CAJ+F1C+xz_R6gPV6NH0QfsoNLC2hndF8d0FvLqXmL6FJFq9v5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-ID: VT8lHTZXQhueBoouvOi+fdPeVyJR+zey1PuUCsGKoKlgq36vuTQrexF6SbJpYN8w95
+X-TOI-EXPURGATEID: 150726::1628572692-00000BC0-D7CD0B33/0/0 CLEAN NORMAL
+X-TOI-MSGID: 31498606-97bb-4242-91e8-9b0e4cbdbfce
+Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
+ helo=mailout04.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,136 +67,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/10/21 6:29 AM, David Gibson wrote:
-> On Mon, Aug 09, 2021 at 10:57:00AM +0100, Peter Maydell wrote:
->> On Tue, 7 Jul 2015 at 16:49, Alexander Graf <agraf@suse.de> wrote:
->>>
->>> From: Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
->>>
->>> Each hardware instance has a platform unique location code.  The OF
->>> device tree that describes a part of a hardware entity must include
->>> the “ibm,loc-code” property with a value that represents the location
->>> code for that hardware entity.
->>>
->>> Populate ibm,loc-code.
->>
->> Ancient patch, but Coverity has just noticed a bug in it
->> which is still present in current QEMU (CID 1460454):
->>
->>> +static char *spapr_phb_vfio_get_loc_code(sPAPRPHBState *sphb,  PCIDevice *pdev)
->>> +{
->>> +    char *path = NULL, *buf = NULL, *host = NULL;
->>> +
->>> +    /* Get the PCI VFIO host id */
->>> +    host = object_property_get_str(OBJECT(pdev), "host", NULL);
->>> +    if (!host) {
->>> +        goto err_out;
->>> +    }
->>> +
->>> +    /* Construct the path of the file that will give us the DT location */
->>> +    path = g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
->>> +    g_free(host);
->>> +    if (!path || !g_file_get_contents(path, &buf, NULL, NULL)) {
->>> +        goto err_out;
->>> +    }
->>> +    g_free(path);
->>
->> Here we create a 'path' string, use it as the argument to
->> g_file_get_contents() and then free it (either here or in the err_out path)...
->>
->>> +
->>> +    /* Construct and read from host device tree the loc-code */
->>> +    path = g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
->>> +    g_free(buf);
->>> +    if (!path || !g_file_get_contents(path, &buf, NULL, NULL)) {
->>> +        goto err_out;
->>> +    }
->>> +    return buf;
->>
->> ...but here we forget to free it before returning in the success case.
->>
->>> +
->>> +err_out:
->>> +    g_free(path);
->>> +    return NULL;
->>> +}
->>
->> Cleanest fix would be to declare 'path' and 'host' as
->>    g_autofree char *path = NULL;
->>    g_autofree char *host = NULL;
->> and then you can remove all the manual g_free(path) and g_free(host) calls.
-> 
-> Thanks for the report.  I've committed the fix (I hope) below to ppc-for-6.1:
-> 
-> From 70ae61b510dc571c407b28c46498cae60e60ca66 Mon Sep 17 00:00:00 2001
-> From: David Gibson <david@gibson.dropbear.id.au>
-> Date: Tue, 10 Aug 2021 14:28:19 +1000
-> Subject: [PATCH] spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() with
->  g_autofree
-> 
-> This uses g_autofree to simplify logic in spapr_phb_vfio_get_loc_code(),
-> in the process fixing a leak in one of the paths.  I'm told this fixes
-> Coverity error CID 1460454
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: 16b0ea1d852 ("spapr_pci: populate ibm,loc-code")
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>     Since commit 584af1f1d9 (ui/gtk: add a keyboard fifo to the VTE
+>     consoles) a GTK VTE console chardev backend relies on the
+>     connected chardev frontend to call qemu_chr_fe_accept_input()
+>     whenever it can receive new characters. The HMP monitor doesn't
+>     do this. It only schedules a call to qemu_chr_fe_accept_input()
+>     after it handled a HMP command in monitor_command_cb().
+>
+>     This is a problem if you paste a few characters into the GTK
+>     monitor console. Even entering a UTF-8 multibyte character leads
+>     to the same problem.
+>
+>     Schedule a call to qemu_chr_fe_accept_input() after handling the
+>     received bytes to fix the HMP monitor.
+>
+>     Signed-off-by: Volker Rümelin <vr_qemu@t-online.de
+>     <mailto:vr_qemu@t-online.de>>
+>
+>
+> Wouldn't it work to make gd_vc_send_chars() write in a loop (until it 
+> fails)?
 
-> ---
->  hw/ppc/spapr_pci.c | 17 ++++++-----------
->  1 file changed, 6 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 7a725855f9..13d806f390 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -782,33 +782,28 @@ static AddressSpace *spapr_pci_dma_iommu(PCIBus *bus, void *opaque, int devfn)
->  
->  static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDevice *pdev)
->  {
-> -    char *path = NULL, *buf = NULL, *host = NULL;
-> +    g_autofree char *path = NULL;
-> +    g_autofree char *host = NULL;
-> +    char *buf = NULL;
->  
->      /* Get the PCI VFIO host id */
->      host = object_property_get_str(OBJECT(pdev), "host", NULL);
->      if (!host) {
-> -        goto err_out;
-> +        return NULL;
->      }
->  
->      /* Construct the path of the file that will give us the DT location */
->      path = g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
-> -    g_free(host);
->      if (!g_file_get_contents(path, &buf, NULL, NULL)) {
-> -        goto err_out;
-> +        return NULL;
->      }
-> -    g_free(path);
->  
->      /* Construct and read from host device tree the loc-code */
->      path = g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
-> -    g_free(buf);
->      if (!g_file_get_contents(path, &buf, NULL, NULL)) {
-> -        goto err_out;
-> +        return NULL;
->      }
->      return buf;
-> -
-> -err_out:
-> -    g_free(path);
-> -    return NULL;
->  }
->  
->  static char *spapr_phb_get_loc_code(SpaprPhbState *sphb, PCIDevice *pdev)
-> 
+Hi Marc-André,
+
+yes that works. I found similar code in the udp_chr_flush_buffer() 
+function in chardev/char-udp.c. I will send a new patch within the next 
+few hours.
+
+With best regards,
+Volker
+
+>
+> If not, I think monitor/qmp.c should be adjusted too.
+>
+>     ---
+>      monitor/hmp.c              |  1 +
+>      monitor/monitor-internal.h |  1 +
+>      monitor/monitor.c          | 19 +++++++++++++++++--
+>      3 files changed, 19 insertions(+), 2 deletions(-)
+>
+>     diff --git a/monitor/hmp.c b/monitor/hmp.c
+>     index d50c3124e1..470f56a71d 100644
+>     --- a/monitor/hmp.c
+>     +++ b/monitor/hmp.c
+>     @@ -1349,6 +1349,7 @@ static void monitor_read(void *opaque, const
+>     uint8_t *buf, int size)
+>              for (i = 0; i < size; i++) {
+>                  readline_handle_byte(mon->rs, buf[i]);
+>              }
+>     +        monitor_accept_input(&mon->common);
+>          } else {
+>              if (size == 0 || buf[size - 1] != 0) {
+>                  monitor_printf(&mon->common, "corrupted command\n");
+>     diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+>     index 9c3a09cb01..af33c3c617 100644
+>     --- a/monitor/monitor-internal.h
+>     +++ b/monitor/monitor-internal.h
+>     @@ -170,6 +170,7 @@ int monitor_puts(Monitor *mon, const char *str);
+>      void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
+>                             bool use_io_thread);
+>      void monitor_data_destroy(Monitor *mon);
+>     +void monitor_accept_input(Monitor *mon);
+>      int monitor_can_read(void *opaque);
+>      void monitor_list_append(Monitor *mon);
+>      void monitor_fdsets_cleanup(void);
+>     diff --git a/monitor/monitor.c b/monitor/monitor.c
+>     index 46a171bca6..8e3cf4ad98 100644
+>     --- a/monitor/monitor.c
+>     +++ b/monitor/monitor.c
+>     @@ -519,13 +519,28 @@ int monitor_suspend(Monitor *mon)
+>          return 0;
+>      }
+>
+>     -static void monitor_accept_input(void *opaque)
+>     +static void monitor_accept_input_bh(void *opaque)
+>      {
+>          Monitor *mon = opaque;
+>
+>          qemu_chr_fe_accept_input(&mon->chr);
+>      }
+>
+>     +void monitor_accept_input(Monitor *mon)
+>     +{
+>     +    if (!qatomic_mb_read(&mon->suspend_cnt)) {
+>     +        AioContext *ctx;
+>     +
+>     +        if (mon->use_io_thread) {
+>     +            ctx = iothread_get_aio_context(mon_iothread);
+>     +        } else {
+>     +            ctx = qemu_get_aio_context();
+>     +        }
+>     +
+>     +        aio_bh_schedule_oneshot(ctx, monitor_accept_input_bh, mon);
+>     +    }
+>     +}
+>     +
+>      void monitor_resume(Monitor *mon)
+>      {
+>          if (monitor_is_hmp_non_interactive(mon)) {
+>     @@ -547,7 +562,7 @@ void monitor_resume(Monitor *mon)
+>                  readline_show_prompt(hmp_mon->rs);
+>              }
+>
+>     -        aio_bh_schedule_oneshot(ctx, monitor_accept_input, mon);
+>     +        aio_bh_schedule_oneshot(ctx, monitor_accept_input_bh, mon);
+>          }
+>
+>          trace_monitor_suspend(mon, -1);
+>     -- 
+>     2.26.2
+>
+>
+>
+>
+> -- 
+> Marc-André Lureau
 
 
