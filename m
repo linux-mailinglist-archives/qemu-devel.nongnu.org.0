@@ -2,55 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CD93E5BC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:34:31 +0200 (CEST)
-Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A933E5C00
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:42:57 +0200 (CEST)
+Received: from localhost ([::1]:41306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDRtm-0001NX-P6
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40952)
+	id 1mDS1w-0001oy-6v
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1mDRso-0000OZ-Ah
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:33:30 -0400
-Received: from mailout05.t-online.de ([194.25.134.82]:38512)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1mDS0C-0007Fy-PP; Tue, 10 Aug 2021 09:41:08 -0400
+Received: from forward3-smtp.messagingengine.com ([66.111.4.237]:52321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1mDRsm-0007pF-Gs
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:33:30 -0400
-Received: from fwd11.aul.t-online.de (fwd11.aul.t-online.de [172.20.27.152])
- by mailout05.t-online.de (Postfix) with SMTP id 44A07235CE;
- Tue, 10 Aug 2021 15:33:05 +0200 (CEST)
-Received: from linpower.localnet
- (SrigKqZerh0S-ndaE2hL8a7HYdD0oN533DmzsLzgAlFbsVWGEk0j0EH2Srt-Vwwg00@[79.208.26.7])
- by fwd11.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1mDRsN-1cKNKi0; Tue, 10 Aug 2021 15:33:03 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 0B0CD21201E; Tue, 10 Aug 2021 15:32:58 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 3/3] ps2: migration support for command reply queue
-Date: Tue, 10 Aug 2021 15:32:58 +0200
-Message-Id: <20210810133258.8231-3-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
-References: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1mDS09-0003ho-2J; Tue, 10 Aug 2021 09:41:08 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailforward.nyi.internal (Postfix) with ESMTP id 1AB341940138;
+ Tue, 10 Aug 2021 09:41:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 10 Aug 2021 09:41:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=RIardBH1mTSGd3Guk
+ f1lpAbUgykGFuWsjwLIk8uxa5I=; b=ptQl0i++7W6T1/TxKrcKqz78gSDb1iOcm
+ jJ1jUAjU9knEaJ7FXzr/At/yulmRCmbPItZhqKYk2zgs1ybf+uxVkP5G+GSHeZMs
+ jSyCVP73o5YZ/QpVMeTV0I8/1npmFc1XhxYoSNhw9Nt6R+9TJFLOEXPN75ZyMwNg
+ duSPAfWw6yWX5uJvrbau8q6OJKyYDzgEavj6JmkrrAFa2B4G8KeA2xUFL3e0HqxT
+ EL+A/Re3abDOwtGMa6wRe0IhjAXMnc0XSG2Onkle9zzUIiSJBf0tJgxeQBa2CX0g
+ vc3Yk42wSp9EIsn4NoUZq29wg6H8UkuksPb0OaQRNodcRL3Q7dDIg==
+X-ME-Sender: <xms:5oESYQ3nhkQ-4OKgLklrcTyroVDvuzdLH6F2jit1TZYVZuvEQfocFA>
+ <xme:5oESYbEq-O6IIRD8Dkx2o296f4jik9yMjIbLpZK6409GrwUYBY0LxamB4CfP98Z19
+ fF0pLEZETnbx53eScM>
+X-ME-Received: <xmr:5oESYY6LkYb6GPuXfG-D9nR_Ae6fi3X852q4DB_Yz20wLrcv8NuNxRg7E0hmGENMh6A8mErm9wcQ-hz7BMLAzdT4MPT6bfPVD7Cstlbyyes>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeelgdeikecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepffgrvhhiugcugfgu
+ mhhonhgushhonhcuoegurghvihgurdgvughmohhnughsohhnsehorhgrtghlvgdrtghomh
+ eqnecuggftrfgrthhtvghrnhephfeftdeiveelteeuueekffdvffefiefgtddvffegiedt
+ geefffeliefhvedtkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghvihgurdgvughm
+ ohhnughsohhnsehorhgrtghlvgdrtghomh
+X-ME-Proxy: <xmx:5oESYZ1rJR_l5MvtXSHXUetblso4pycW9ewM26w3i7-fchX7G_2EUg>
+ <xmx:5oESYTGknXg16pvpqPHQ-HksKbz0trzQdvmJVd3iUAC2F-SgBTcnJg>
+ <xmx:5oESYS-LtVjGVILpx0oRDUCvceqVeulRRoG6cz_GGV8B3zBRVbafWQ>
+ <xmx:7YESYZV6f_pmHt5T144ubg6dhsh0aa21LQe73FQxEiPBnyNms3L0kD3VDHk>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Aug 2021 09:40:52 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 2a9d1ee0;
+ Tue, 10 Aug 2021 13:40:50 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/1] hw/pflash_cfi01: Allow an administrator to reduce the
+ memory consumption of flash devices
+Date: Tue, 10 Aug 2021 14:40:49 +0100
+Message-Id: <20210810134050.396747-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: SrigKqZerh0S-ndaE2hL8a7HYdD0oN533DmzsLzgAlFbsVWGEk0j0EH2Srt-Vwwg00
-X-TOI-EXPURGATEID: 150726::1628602383-00007FA5-42F16AEF/0/0 CLEAN NORMAL
-X-TOI-MSGID: 2f005c76-e68d-4fe6-8575-8c63c1ff816f
-Received-SPF: none client-ip=194.25.134.82;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
+Received-SPF: softfail client-ip=66.111.4.237;
+ envelope-from=david.edmondson@oracle.com;
+ helo=forward3-smtp.messagingengine.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,96 +84,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Xu Yandong <xuyandong2@huawei.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?haibinzhang=28=E5=BC=A0=E6=B5=B7=E6=96=8C=29?=
+ <haibinzhang@tencent.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add migration support for the PS/2 keyboard command reply queue.
+As described in
+https://lore.kernel.org/r/20201116104216.439650-1-david.edmondson@oracle.com
+and
+https://lore.kernel.org/r/20210222174757.2329740-1-david.edmondson@oracle.com
+I'd like to reduce the amount of memory consumed by QEMU mapping UEFI
+images on aarch64.
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- hw/input/ps2.c | 40 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 34 insertions(+), 6 deletions(-)
+To recap:
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 8c06fd7fb4..9376a8f4ce 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -80,6 +80,7 @@
-  */
- #define PS2_BUFFER_SIZE     256
- #define PS2_QUEUE_SIZE      16  /* Queue size required by PS/2 protocol */
-+#define PS2_QUEUE_HEADROOM  8   /* Queue size for keyboard command replies */
- 
- /* Bits for 'modifiers' field in PS2KbdState */
- #define MOD_CTRL_L  (1 << 0)
-@@ -985,17 +986,27 @@ static void ps2_common_reset(PS2State *s)
- static void ps2_common_post_load(PS2State *s)
- {
-     PS2Queue *q = &s->queue;
-+    int ccount = 0;
- 
--    /* set the useful data buffer queue size <= PS2_QUEUE_SIZE */
--    if (q->count < 0) {
--        q->count = 0;
--    } else if (q->count > PS2_QUEUE_SIZE) {
--        q->count = PS2_QUEUE_SIZE;
-+    /* limit the number of queued command replies to PS2_QUEUE_HEADROOM */
-+    if (q->cwptr != -1) {
-+        ccount = (q->cwptr - q->rptr) & (PS2_BUFFER_SIZE - 1);
-+        if (ccount > PS2_QUEUE_HEADROOM) {
-+            ccount = PS2_QUEUE_HEADROOM;
-+        }
-+    }
-+
-+    /* limit the scancode queue size to PS2_QUEUE_SIZE */
-+    if (q->count < ccount) {
-+        q->count = ccount;
-+    } else if (q->count > ccount + PS2_QUEUE_SIZE) {
-+        q->count = ccount + PS2_QUEUE_SIZE;
-     }
- 
--    /* sanitize rptr and recalculate wptr */
-+    /* sanitize rptr and recalculate wptr and cwptr */
-     q->rptr = q->rptr & (PS2_BUFFER_SIZE - 1);
-     q->wptr = (q->rptr + q->count) & (PS2_BUFFER_SIZE - 1);
-+    q->cwptr = ccount ? (q->rptr + ccount) & (PS2_BUFFER_SIZE - 1) : -1;
- }
- 
- static void ps2_kbd_reset(void *opaque)
-@@ -1086,6 +1097,22 @@ static const VMStateDescription vmstate_ps2_keyboard_need_high_bit = {
-     }
- };
- 
-+static bool ps2_keyboard_cqueue_needed(void *opaque)
-+{
-+    PS2KbdState *s = opaque;
-+
-+    return s->common.queue.cwptr != -1; /* the queue is mostly empty */
-+}
-+
-+static const VMStateDescription vmstate_ps2_keyboard_cqueue = {
-+    .name = "ps2kbd/command_reply_queue",
-+    .needed = ps2_keyboard_cqueue_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_INT32(common.queue.cwptr, PS2KbdState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static int ps2_kbd_post_load(void* opaque, int version_id)
- {
-     PS2KbdState *s = (PS2KbdState*)opaque;
-@@ -1114,6 +1141,7 @@ static const VMStateDescription vmstate_ps2_keyboard = {
-     .subsections = (const VMStateDescription*[]) {
-         &vmstate_ps2_keyboard_ledstate,
-         &vmstate_ps2_keyboard_need_high_bit,
-+        &vmstate_ps2_keyboard_cqueue,
-         NULL
-     }
- };
+> Currently ARM UEFI images are typically built as 2MB/768kB flash
+> images for code and variables respectively. These images are both
+> then padded out to 64MB before being loaded by QEMU.
+>
+> Because the images are 64MB each, QEMU allocates 128MB of memory to
+> read them, and then proceeds to read all 128MB from disk (dirtying
+> the memory). Of this 128MB less than 3MB is useful - the rest is
+> zero padding.
+>
+> On a machine with 100 VMs this wastes over 12GB of memory.
+
+Some of the cleanups in the previous patches were incorporated, but
+the patch that reduced memory consumption was not accepted. This is
+essentially that patch rebased after some unrelated changes. Having
+investigated alternatives, I think that the patch here is useful as it
+stands.
+
+All read/write operations to areas outside of the underlying block
+device are handled directly. Reads return 0, writes either fail
+(read-only devices) or are discarded (writable devices).
+
+This reduces the memory consumption for the AAVMF code image from
+64MiB to around 2MB and that for the AAVMF vars from 64MiB to 768KiB
+(presuming that the UEFI images are adjusted accordingly).
+
+For read-only devices (such as the AAVMF code) this seems completely
+safe.
+
+For writable devices there is a change in behaviour - previously it
+was possible to write anywhere in the extent of the flash device, read
+back the data written and have that data persist through a restart of
+QEMU. This is no longer the case - writes outside of the extent of the
+underlying backing block device will be discarded. That is, a read
+after a write will *not* return the written data, either immediately
+or after a QEMU restart - it will return zeros.
+
+Looking at the AAVMF implementation, it seems to me that if the
+initial VARS image is prepared as being 768KiB in size (which it is),
+none of AAVMF itself will attempt to write outside of that extent, and
+so I believe that this is an acceptable compromise.
+
+It would be relatively straightforward to allow writes outside of the
+backing device to persist for the lifetime of a particular QEMU by
+allocating memory on demand (i.e. when there is a write to the
+relevant region). This would allow a read to return the relevant data,
+but only until a QEMU restart, at which point the data would be lost.
+
+It may be possible to persist writes by extending the underlying
+backing device to accommodate a new extent. This would definitely add
+complication, as ideally the size of the memory sub-region would also
+be updated. I have not investigated this further.
+
+There was a suggestion in a previous thread that perhaps the pflash
+driver could be re-worked to use the block IO interfaces to access the
+underlying device "on demand" rather than reading in the entire image
+at startup (at least, that's how I understood the comment).
+
+An implementation of this based around mapping the flash region only
+for IO, which meant that every read or write had to be handled
+directly by the pflash driver (there was no ROMD style operation),
+made booting an aarch64 VM significantly slower - getting through the
+firmware went from under 1 second to around 10 seconds. It's possible
+that this could be improved by caching blocks or some other mechanism,
+but I have not pursued it further.
+
+Philippe implemented a suggestion to use mmap() to avoid the need to
+allocate (and dirty) memory for read-only pflash images in
+https://lore.kernel.org/qemu-devel/20210301115329.411762-1-philmd@redhat.com/.
+
+This solution was, I believe, considered incomplete, as:
+- it does not handle the case where the image underlying a pflash
+  device is changed via QAPI,
+- it does not handle writable devices.
+
+There is also an assumption that multiple QEMU instances on a single
+host will share the same AAVMF code image (to benefit from a shared
+mapping) - this is not the case in the environment that I am looking
+to support.
+
+If using mmap() for read-only device is particularly valuable, it
+could be combined with the patches here - the benefit would be
+cumulative.
+
+The only drawback that I see with this patch is the change in
+behaviour for writes beyond the extent of an underlying image. Unless
+the AAVMF build process is modified to generate smaller images (768kB
+for the variables, for example), this will never be a problem in
+reality, as the underlying image will match the size of the device.
+
+Only when a deliberate decision is taken to use an image smaller than
+the device does this drawback come to the fore, which is a tradeoff
+that an administrator can choose to make if they wish.
+
+v2:
+- Unify the approach for both read-only and writable devices, saving
+  another 63MiB per QEMU instance.
+
+v3:
+- Add Reviewed-by: for two changes (Philippe).
+- Call blk_pread() directly rather than using
+  blk_check_size_and_read_all(), given that we know how much we want
+  to read.
+
+v4:
+- Remove changes already upstream.
+- Rebase.
+
+David Edmondson (1):
+  hw/pflash_cfi01: Allow backing devices to be smaller than memory
+    region
+
+ hw/block/pflash_cfi01.c | 105 ++++++++++++++++++++++++++++++++--------
+ hw/block/trace-events   |   3 ++
+ 2 files changed, 87 insertions(+), 21 deletions(-)
+
 -- 
-2.26.2
+2.30.2
 
 
