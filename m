@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F743E501C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 01:48:49 +0200 (CEST)
-Received: from localhost ([::1]:34426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34003E507D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 03:03:07 +0200 (CEST)
+Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDF0i-0001CA-FG
-	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 19:48:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43924)
+	id 1mDGAb-0004sp-S3
+	for lists+qemu-devel@lfdr.de; Mon, 09 Aug 2021 21:03:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDEzy-0000WB-AS
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 19:48:02 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mDEzw-0000ms-LY
- for qemu-devel@nongnu.org; Mon, 09 Aug 2021 19:48:01 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id k2so18422941plk.13
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 16:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TgwFwo2mJ+KQBbAkWgFh1rZqSYpgGgJ6Sjihl3UcWHA=;
- b=IQbMBsfTuNTWjjkVQf8U/88u14R42Q1oNu9GNR83GJAmAr9jcezJ4pMj3k8nnzQWM1
- DcGw7QjM7RxIpt2G9UM38+KelzGOWDrzE4kGFl6775Zab56T9F04tTqh779jG9P1DA6i
- OmQ5psXdtvuzi+5O7ZKuohtvDlGCw36KwdIwAZZhkRxSuliLVrQN7QmRk+jLh1Fj6vmF
- MuVak5EnKMuGW0QnrW6a4UM2nIiOYmjfo7ClGOIlZwCaCCp88/txAGh9gRhXFgGVtjyZ
- EJqh5qSXUtQlqS9MyBvUjVuKPYztnuw7p+6KKB8mSjD1HuITXRy9DJzAUOC1lkkDHZ3W
- OBPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TgwFwo2mJ+KQBbAkWgFh1rZqSYpgGgJ6Sjihl3UcWHA=;
- b=reVMy0qrpI81B099kZMLG1o2Zl1YO7zoeZjhl/DwRKTIr0tzbi7YlSifbWKmkpna2C
- 7DHygteWyKqXLAVzu5+U5BjiURFmwUEQNmbFKRMuj0M8izkpszcvdYr3fvz9bkYiU81s
- CszhkAOJZ/guu5Gy5CDjgG2EF7K6f7x5b7f11fSh8aa2kFKq//nNx1IjYwoCwwadQXyO
- 0+bg8sZ7PtbeqnlZlh/t7n8unpBg7k1ECYlWcjteFixb5oFLbhBqxqaDkYzxAUdjNnyH
- Gc1i8Tvp/2Uj8Xz4hHJaVzhmjDduYPUOhahjGcSM6Gr63dLdhxguiwfrrT1S2Sqruf8u
- 1iCg==
-X-Gm-Message-State: AOAM530Nl/XOWz7NphC7pbVYX42us1fcGyoon/Q62v5fEWTQ7L3Lj0kM
- jdEieMcwdK8CdeJwJ0VDfSM4Vw==
-X-Google-Smtp-Source: ABdhPJxmy4G/sD+cwbonubASlTRjUpp2iaNFVCfcPRzrLs9j4VYc1liNlMCFHnCvxcy7XrLZxwsctQ==
-X-Received: by 2002:a62:7bd4:0:b029:3b7:29bf:b0f with SMTP id
- w203-20020a627bd40000b02903b729bf0b0fmr26662377pfc.15.1628552878891; 
- Mon, 09 Aug 2021 16:47:58 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id f1sm21984980pfk.115.2021.08.09.16.47.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Aug 2021 16:47:58 -0700 (PDT)
-Subject: Re: [PATCH for 6.2 30/49] bsd-user: elf cleanup
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-31-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <709ad6e0-f1ae-e0d5-4ca4-faf4ad41742c@linaro.org>
-Date: Mon, 9 Aug 2021 13:47:54 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mDG6s-0003AC-F5; Mon, 09 Aug 2021 20:59:14 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57917 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mDG6p-00083B-TX; Mon, 09 Aug 2021 20:59:14 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GkF2f1vrDz9tjw; Tue, 10 Aug 2021 10:59:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1628557146;
+ bh=UcxMu/iPtID5Z0Pw0L1Pm9Gqy7oONcjhrKnXH3oqr7I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m+bo1FCsCD6TclJgFjhhfyrlj5VYCXkRw1fXFGs6Jh48byibyzP4+qeHcwX3AcfbR
+ TWBYnMzRKN1vFsVmV3Ssh/stX2wicNzAHK7Ng2SJCHn2fj5GnkmK1V19aW5lAXNbyc
+ vctI5jerizupVsljzlxRLTEZAIjtshValG4D6Q7U=
+Date: Tue, 10 Aug 2021 10:56:31 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] xive: Remove extra '0x' prefix in trace events
+Message-ID: <YRHOv3siLEqQuSBB@yekko>
+References: <20210809085227.288523-1-clg@kaod.org>
+ <e546f365-b941-ccda-8ba9-24aadb12da3b@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210807214242.82385-31-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bDF+Z4T4zqQ9aqPa"
+Content-Disposition: inline
+In-Reply-To: <e546f365-b941-ccda-8ba9-24aadb12da3b@amsat.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,38 +58,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Kabaev <kan@FreeBSD.ORG>, Kyle Evans <kevans@FreeBSD.org>,
- Warner Losh <imp@FreeBSD.org>, Stacey Son <sson@FreeBSD.org>,
- Justin Hibbits <chmeeedalf@gmail.com>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/21 11:42 AM, Warner Losh wrote:
-> From: Warner Losh<imp@FreeBSD.org>
-> 
-> Move OS-dependent defines into target_os_elf.h. Move the architectural
-> dependent stuff into target_arch_elf.h. Adjust elfload.c to use
-> target_create_elf_tables instead of create_elf_tables.
-> 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans<kevans@FreeBSD.org>
-> Signed-off-by: Justin Hibbits<chmeeedalf@gmail.com>
-> Signed-off-by: Alexander Kabaev<kan@FreeBSD.ORG>
-> 
-> Sponsored by:		Netflix
-> ---
->   bsd-user/elfload.c               | 190 ++++---------------------------
->   bsd-user/freebsd/target_os_elf.h | 149 ++++++++++++++++++++++++
->   bsd-user/netbsd/target_os_elf.h  | 143 +++++++++++++++++++++++
->   bsd-user/openbsd/target_os_elf.h | 143 +++++++++++++++++++++++
->   bsd-user/qemu.h                  |   1 +
->   5 files changed, 459 insertions(+), 167 deletions(-)
->   create mode 100644 bsd-user/freebsd/target_os_elf.h
->   create mode 100644 bsd-user/netbsd/target_os_elf.h
->   create mode 100644 bsd-user/openbsd/target_os_elf.h
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+--bDF+Z4T4zqQ9aqPa
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-r~
+On Mon, Aug 09, 2021 at 11:39:49AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 8/9/21 10:52 AM, C=E9dric Le Goater wrote:
+> > Cc: thuth@redhat.com
+> > Fixes: 4e960974d4ee ("xive: Add trace events")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/519
+> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > ---
+> >  hw/intc/trace-events | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> > index e56e7dd3b667..6a17d38998d9 100644
+> > --- a/hw/intc/trace-events
+> > +++ b/hw/intc/trace-events
+> > @@ -219,14 +219,14 @@ kvm_xive_source_reset(uint32_t srcno) "IRQ 0x%x"
+> >  xive_tctx_accept(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pi=
+pr, uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=
+=3D0x%02x CPPR=3D0x%02x NSR=3D0x%02x ACK"
+> >  xive_tctx_notify(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pi=
+pr, uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=
+=3D0x%02x CPPR=3D0x%02x NSR=3D0x%02x raise !"
+> >  xive_tctx_set_cppr(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t =
+pipr, uint8_t cppr, uint8_t nsr) "target=3D%d ring=3D0x%x IBP=3D0x%02x PIPR=
+=3D0x%02x new CPPR=3D0x%02x NSR=3D0x%02x"
+> > -xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@=
+0x0x%"PRIx64" IRQ 0x%x val=3D0x0x%"PRIx64
+> > -xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "=
+@0x0x%"PRIx64" IRQ 0x%x val=3D0x0x%"PRIx64
+> > +xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@=
+0x%"PRIx64" IRQ 0x%x val=3D0x%"PRIx64
+> > +xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "=
+@0x%"PRIx64" IRQ 0x%x val=3D0x%"PRIx64
+> >  xive_router_end_notify(uint8_t end_blk, uint32_t end_idx, uint32_t end=
+_data) "END 0x%02x/0x%04x -> enqueue 0x%08x"
+> >  xive_router_end_escalate(uint8_t end_blk, uint32_t end_idx, uint8_t es=
+c_blk, uint32_t esc_idx, uint32_t end_data) "END 0x%02x/0x%04x -> escalate =
+END 0x%02x/0x%04x data 0x%08x"
+> > -xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value)=
+ "@0x0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+> > -xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) =
+"@0x0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+> > +xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value)=
+ "@0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+> > +xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) =
+"@0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+> >  xive_presenter_notify(uint8_t nvt_blk, uint32_t nvt_idx, uint8_t ring)=
+ "found NVT 0x%x/0x%x ring=3D0x%x"
+> > -xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr)=
+ "END 0x%x/0x%x @0x0x%"PRIx64
+> > +xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr)=
+ "END 0x%x/0x%x @0x%"PRIx64
+> > =20
+> >  # pnv_xive.c
+> >  pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=
+=3D0x%"PRIx64
+> >=20
+>=20
+> Acceptable for 6.1 IMHO.
+
+Acceptable for, but also not vital for.  I've applied this to
+ppc-for-6.1, but I'll probably only bother sending a PR if some more
+crucial fixes come along.
+
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--bDF+Z4T4zqQ9aqPa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmERzr0ACgkQbDjKyiDZ
+s5KZ2A/+L135wtUOiEnvAlYAWZFu4m01BZg1+Y7GgdxpaAVGwbLo4XAEOTtFCEUA
+1gD23QKRNbz0BKZrbq5OtpFk7mXdI6zHIH7ienhT0YIwzFt9L6j2KvYIt9ZfBcjY
+6TM7lILVzfe74BVfhhEYjlXX2wTh5mOmHiFVu1ec/gIYSbtDaj04jVIrlEIov5WY
+l3iOZH50TzeA0hPiwueXXsTiAOmq9i4pNHE2/s1REEPlWOtlvdOcKiMpWmjPOJZ8
+6SrsqIXdDwt7r26xOcWvcUQyhCAkVA4P/Snq+KQyt5vuvVzM4EfIGIRZXmaPmaUT
+cCpVclRw19XRUekkB9QuSCMmehSzW1fl9dnT446PpY/O9ZdmLco7udI19GvQcPxI
+HnU4h60jOfosi/ox5vjRkixCq9T9rfTcwnHl/4XzUk6bZm+8CIJRNGvqNffXpkMa
+yXyhl8/NiK5U09Z2cOxstYFC5uht3hUm4vRrGsSvpn/UIw3h/a56AhVPmLT7LteT
+E/Sv0mihwuq61ontSsDJ94aPrdi5YkS0Qto4LY7qCO+yf0Kw/TJkIYI613wd3iJO
+z0CYJYkRhIGro8agJ4F/GDnCH6qNIQo6MRxBTfkjH+i+WdIpZc2lLLOaU46YaZ6k
+QgAffK1Ft07QkgPPGvmVUxMu/ipwQFFTs2LHbaXUhwZ1ScStrek=
+=Po6R
+-----END PGP SIGNATURE-----
+
+--bDF+Z4T4zqQ9aqPa--
 
