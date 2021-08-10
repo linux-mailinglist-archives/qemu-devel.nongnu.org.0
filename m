@@ -2,64 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CB03E580B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:13:19 +0200 (CEST)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C8B3E584B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 12:26:53 +0200 (CEST)
+Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDOl4-0007K1-DN
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
+	id 1mDOyC-0005Zv-71
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 06:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mDOk6-0006e8-Lw
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:12:18 -0400
-Received: from redisdead.crans.org ([185.230.79.39]:50680)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mDOwj-0004Yd-Nu
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:25:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mDOk4-0001xv-BP
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:12:18 -0400
-Received: from [IPv6:2a0c:700:3012:13:3608:d884:9339:52cc] (unknown
- [IPv6:2a0c:700:3012:13:3608:d884:9339:52cc])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id 834781FE;
- Tue, 10 Aug 2021 12:12:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1628590333; bh=QPovpItE/FdNu6mJgONJ3DYqp2kRIV3sxYxdV6/+sgw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=aIQrvjLKZYBb2R7bUcp+K18Ik3jjEAgQ0ao7uE0J2ywwhBOKoDkT0t1tEBJg/O1ee
- LaNSiDgKbRZt9SN9UKHuqY3Fzga8KINfETPnHfvqyFKR2YUOUMf7HitsLu0Gda2jj8
- S5HGiZlE9f7U+e2WMzIcxovb55+aCv4+RiW98z3WgdbxMKUU+ApGK4ZG3ZXwrR2MUW
- v2QyRjLg/NZJO1J2dbQ29s++whOI0LR8sS7T+eEBk3rm2Mgy8o1jTE3jR0v7Qco+LS
- DjbjmM7dPWlqie4Pi48jEYwhTeENGKh2lM2KxIpqhnonKkbL5oFBNCD8Bv8jYenhiC
- qTZZatM014WNoAAYKgtjQZuSXyMtxIcRkj6ndgg6BOcFcMGitBUE8cR3g35ZG0vhBa
- pcVaeiRhFAkTxSaGxnXcQqRVg2y9R9vpE6ztKY3q8PykvPCVFs+Q1DnrKE0mhNS/9t
- y1KAsPQNDuqjFkX1b/ZYFPyocRIH6AxY0NNoxVBdswWF9IHQHpBhfdtW6hlvdYiAPk
- hUYQW4STVBDcr8PYvguzxuVopCIaYfWlpYW0t78ZWuXcvpmxbOqqEIKiu3ZLMG+Xei
- PngsC1LI3aqRWJFt1YeCG+RpEhlVPZus2l0o+7ptnlyfInnsNuQfn7O6fZhVsu8K5q
- ooHo8PKtnVZc4TjBL1g7kg8A=
-Subject: Re: [PATCH] docs/devel: fix missing antislash
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210809173141.1714998-1-erdnaxe@crans.org>
- <20210809181410.3rzvwtsawwadl6u4@habkost.net>
-From: Alexandre IOOSS <erdnaxe@crans.org>
-Organization: Crans
-Message-ID: <be9d75c7-f6ad-da24-318d-ec1af567ad54@crans.org>
-Date: Tue, 10 Aug 2021 12:12:12 +0200
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mDOwe-0002hT-CY
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 06:25:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628591114;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=se8UufezbiNhi/HXpKOiqIZWcIL1AGz2k4KVQQNr9rw=;
+ b=aZJnmHua+FzJK0hXdkyIIGqVvMD7LCHq8bWNxvtv5wLgrK5v7r8XasaGyDq9XNjHNScItd
+ ObztCEg7YMu4yUpYCSBX68+xFgBRT396hAx2/4fEjdnzZNXwD7l1MtEjkhPoNvjh5k8uIW
+ doIuHeRtJ0u5VCc2n80q+gRmPpHqhMM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-RViw3i2eNwiAVjGKJws8Sg-1; Tue, 10 Aug 2021 06:25:11 -0400
+X-MC-Unique: RViw3i2eNwiAVjGKJws8Sg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o26-20020a05600c511ab0290252d0248251so902429wms.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 03:25:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=se8UufezbiNhi/HXpKOiqIZWcIL1AGz2k4KVQQNr9rw=;
+ b=pGhJ3Ysx8YEnF/SeltkmB2U7w7+WM+f8Ory5sH0HoJgwD0HBzhh/NMmgFiXrf/8AVH
+ 1SAL6LbElw0YgDPG4CfmLAJBNmj09F14XMQS0jszZ8BrtRH/Avv2+XAMk0VNLD8oAlfg
+ Ju01M1srUX/Os6szHPI2VXPPnbKB7+V9gN0uszP7t5OTAND9wSPo2VbvN4rcZhyQ42sT
+ jQiGRnc9Uch+efX/O2VW83QxNWCjfWzqCAlUNGKsMENF9VISLsvdN1n0syiTKuiQUHpG
+ /hUI35I3ui15y0ub+AJ847KA8HcRQlKQXexNHSDXCF3Ho4VT9a6xUjphhzb1/JtwZ9Zo
+ tASg==
+X-Gm-Message-State: AOAM531YOHZhoZ4TU9Q5+rXAa3rRszl0ssIExkspes21fEamLPB2W8kq
+ hdLh207v0oZV10ozCORlRL6u3yYnmoL5hGa0Iz0vnBdU6rHwpFfdZzLDShZ4XyufsuyQt92oYiE
+ qcJeAu3cXy1vKMQs=
+X-Received: by 2002:a1c:19c1:: with SMTP id 184mr3921693wmz.98.1628591109822; 
+ Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwqnGhGUz0khEzeicRW5AhifW2KstN87fJ7BeNXHneGw6A5GwEu9OBBX6Uj9X8AnBPemlX0g==
+X-Received: by 2002:a1c:19c1:: with SMTP id 184mr3921662wmz.98.1628591109553; 
+ Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id p4sm10576662wrq.81.2021.08.10.03.25.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 03:25:09 -0700 (PDT)
+Subject: Re: [PATCH for-6.2] hw/arm/virt_acpi_build: Generate DBG2 table
+To: Ard Biesheuvel <ardb@kernel.org>
+References: <20210810083057.99651-1-eric.auger@redhat.com>
+ <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <4dae638d-6f96-c036-2a6b-5ef179012029@redhat.com>
+Date: Tue, 10 Aug 2021 12:25:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210809181410.3rzvwtsawwadl6u4@habkost.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK"
-Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
- helo=redisdead.crans.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+In-Reply-To: <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,87 +101,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Reply-To: eric.auger@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ gshan@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Masters <jcm@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Al Stone <ahs3@redhat.com>, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK
-Content-Type: multipart/mixed; boundary="D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA";
- protected-headers="v1"
-From: Alexandre IOOSS <erdnaxe@crans.org>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-Message-ID: <be9d75c7-f6ad-da24-318d-ec1af567ad54@crans.org>
-Subject: Re: [PATCH] docs/devel: fix missing antislash
-References: <20210809173141.1714998-1-erdnaxe@crans.org>
- <20210809181410.3rzvwtsawwadl6u4@habkost.net>
-In-Reply-To: <20210809181410.3rzvwtsawwadl6u4@habkost.net>
-
---D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 8/9/21 8:14 PM, Eduardo Habkost wrote:
-> On Mon, Aug 09, 2021 at 07:31:41PM +0200, Alexandre Iooss wrote:
->> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
->> ---
->>   docs/devel/qom.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Ard,
+On 8/10/21 11:36 AM, Ard Biesheuvel wrote:
+> On Tue, 10 Aug 2021 at 10:31, Eric Auger <eric.auger@redhat.com> wrote:
+>> ARM SBBR specification mandates DBG2 table (Debug Port Table 2).
+>> this latter allows to describe one or more debug ports.
 >>
->> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
->> index e5fe3597cd..b9568c0fb8 100644
->> --- a/docs/devel/qom.rst
->> +++ b/docs/devel/qom.rst
->> @@ -309,7 +309,7 @@ This is equivalent to the following:
->>              OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
->>      #define MY_DEVICE_CLASS(void *klass) \
->>              OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
->> -   #define MY_DEVICE(void *obj)
->> +   #define MY_DEVICE(void *obj) \
->>              OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
->=20
-> Oops, nice catch!
->=20
-> However, the code above is already going to be deleted by:
-> https://lore.kernel.org/qemu-devel/20210729175554.686474-9-ehabkost@red=
-hat.com
->=20
+>> Generate an DBG2 table featuring a single debug port, the PL011.
+>>
+>> The DBG2 specification can be found at:
+>> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
+>>
+> Have the legal issues around this table been resolved in the mean
+> time?
+I don't know exactly what they are. Adding Al and Jon in the loop they
+have more information about this.
+How did you resolve the issue for EDK2
+(DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c)?
+>  Also, any clue why this table is mandatory to begin with? The
+> SBBR has been very trigger happy lately with making things mandatory
+> that aren't truly required from a functional perspective.
+It seems there are kernel FW test suites that check all mandated tables
+are available and they currently fail for ARM virt.
+Indeed from a function pov, I don't know much about its usage on ARM.
 
-Oh I was not aware of that new patch, it looks great while also solving=20
-the anti-slash problem!
+Maybe the SBBR spec should not flag the DBG2 as mandatory and test
+suites shall be updated. I think this should be clarified at ARM then,
+all the more so if there are legal issues as its spec is owned by Microsoft?
 
-Thanks,
--- Alexandre
+Thanks
 
+Eric
+>
+>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> ---
+>>
+>> Tested by comparing the content with the table generated
+>> by EDK2 along with the SBSA-REF machine (code generated by
+>> DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c).
+>>
+>> I reused the Generic Address Structure filled by QEMU in the SPCR, ie.
+>> bit_width = 8 and byte access. While EDK2 sets bit_width = 32 and
+>> dword access. Also the name exposed by acpica tools is different:
+>> 'COM0' in my case where '\_SB.COM0' in SBSA-REF case?
+>> ---
+>>  hw/arm/virt-acpi-build.c    | 77 ++++++++++++++++++++++++++++++++++++-
+>>  include/hw/acpi/acpi-defs.h | 50 ++++++++++++++++++++++++
+>>  2 files changed, 126 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>> index 037cc1fd82..35f27b41df 100644
+>> --- a/hw/arm/virt-acpi-build.c
+>> +++ b/hw/arm/virt-acpi-build.c
+>> @@ -563,6 +563,78 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>                   vms->oem_table_id);
+>>  }
+>>
+>> +#define ACPI_DBG2_PL011_UART_LENGTH 0x1000
+>> +
+>> +/* DBG2 */
+>> +static void
+>> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>> +{
+>> +    int addr_offset, addrsize_offset, namespace_offset, namespace_length;
+>> +    const MemMapEntry *uart_memmap = &vms->memmap[VIRT_UART];
+>> +    struct AcpiGenericAddress *base_address;
+>> +    int dbg2_start = table_data->len;
+>> +    AcpiDbg2Device *dbg2dev;
+>> +    char name[] = "COM0";
+>> +    AcpiDbg2Table *dbg2;
+>> +    uint32_t *addr_size;
+>> +    uint8_t *namespace;
+>> +
+>> +    dbg2 = acpi_data_push(table_data, sizeof *dbg2);
+>> +    dbg2->info_offset = sizeof *dbg2;
+>> +    dbg2->info_count = 1;
+>> +
+>> +    /* debug device info structure */
+>> +
+>> +    dbg2dev = acpi_data_push(table_data, sizeof(AcpiDbg2Device));
+>> +
+>> +    dbg2dev->revision = 0;
+>> +    namespace_length = sizeof name;
+>> +    dbg2dev->length = sizeof *dbg2dev + sizeof(struct AcpiGenericAddress) +
+>> +                      4 + namespace_length;
+>> +    dbg2dev->register_count = 1;
+>> +
+>> +    addr_offset = sizeof *dbg2dev;
+>> +    addrsize_offset = addr_offset + sizeof(struct AcpiGenericAddress);
+>> +    namespace_offset = addrsize_offset + 4;
+>> +
+>> +    dbg2dev->namepath_length = cpu_to_le16(namespace_length);
+>> +    dbg2dev->namepath_offset = cpu_to_le16(namespace_offset);
+>> +    dbg2dev->oem_data_length = cpu_to_le16(0);
+>> +    dbg2dev->oem_data_offset = cpu_to_le16(0); /* No OEM data is present */
+>> +    dbg2dev->port_type = cpu_to_le16(ACPI_DBG2_SERIAL_PORT);
+>> +    dbg2dev->port_subtype = cpu_to_le16(ACPI_DBG2_ARM_PL011);
+>> +
+>> +    dbg2dev->base_address_offset = cpu_to_le16(addr_offset);
+>> +    dbg2dev->address_size_offset = cpu_to_le16(addrsize_offset);
+>> +
+>> +    /*
+>> +     * variable length content:
+>> +     * BaseAddressRegister[1]
+>> +     * AddressSize[1]
+>> +     * NamespaceString[1]
+>> +     */
+>> +
+>> +    base_address = acpi_data_push(table_data,
+>> +                                  sizeof(struct AcpiGenericAddress));
+>> +
+>> +    base_address->space_id = AML_SYSTEM_MEMORY;
+>> +    base_address->bit_width = 8;
+>> +    base_address->bit_offset = 0;
+>> +    base_address->access_width = 1;
+>> +    base_address->address = cpu_to_le64(uart_memmap->base);
+>> +
+>> +    addr_size = acpi_data_push(table_data, sizeof *addr_size);
+>> +    *addr_size = cpu_to_le32(ACPI_DBG2_PL011_UART_LENGTH);
+>> +
+>> +    namespace = acpi_data_push(table_data, namespace_length);
+>> +    memcpy(namespace, name, namespace_length);
+>> +
+>> +    build_header(linker, table_data,
+>> +                 (void *)(table_data->data + dbg2_start), "DBG2",
+>> +                 table_data->len - dbg2_start, 3, vms->oem_id,
+>> +                 vms->oem_table_id);
+>> +}
+>> +
+>>  /* MADT */
+>>  static void
+>>  build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>> @@ -790,7 +862,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>>      dsdt = tables_blob->len;
+>>      build_dsdt(tables_blob, tables->linker, vms);
+>>
+>> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
+>> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+>>      acpi_add_table(table_offsets, tables_blob);
+>>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+>>
+>> @@ -813,6 +885,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>>      acpi_add_table(table_offsets, tables_blob);
+>>      build_spcr(tables_blob, tables->linker, vms);
+>>
+>> +    acpi_add_table(table_offsets, tables_blob);
+>> +    build_dbg2(tables_blob, tables->linker, vms);
+>> +
+>>      if (vms->ras) {
+>>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>>          acpi_add_table(table_offsets, tables_blob);
+>> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+>> index cf9f44299c..bdb2ebed2c 100644
+>> --- a/include/hw/acpi/acpi-defs.h
+>> +++ b/include/hw/acpi/acpi-defs.h
+>> @@ -618,4 +618,54 @@ struct AcpiIortRC {
+>>  } QEMU_PACKED;
+>>  typedef struct AcpiIortRC AcpiIortRC;
+>>
+>> +/* DBG2 */
+>> +
+>> +/* Types for port_type field above */
+>> +
+>> +#define ACPI_DBG2_SERIAL_PORT       0x8000
+>> +#define ACPI_DBG2_1394_PORT         0x8001
+>> +#define ACPI_DBG2_USB_PORT          0x8002
+>> +#define ACPI_DBG2_NET_PORT          0x8003
+>> +
+>> +/* Subtypes for port_subtype field above */
+>> +
+>> +#define ACPI_DBG2_16550_COMPATIBLE  0x0000
+>> +#define ACPI_DBG2_16550_SUBSET      0x0001
+>> +#define ACPI_DBG2_ARM_PL011         0x0003
+>> +#define ACPI_DBG2_ARM_SBSA_32BIT    0x000D
+>> +#define ACPI_DBG2_ARM_SBSA_GENERIC  0x000E
+>> +#define ACPI_DBG2_ARM_DCC           0x000F
+>> +#define ACPI_DBG2_BCM2835           0x0010
+>> +
+>> +#define ACPI_DBG2_1394_STANDARD     0x0000
+>> +
+>> +#define ACPI_DBG2_USB_XHCI          0x0000
+>> +#define ACPI_DBG2_USB_EHCI          0x0001
+>> +
+>> +/* Debug Device Information Subtable */
+>> +
+>> +struct AcpiDbg2Device {
+>> +    uint8_t  revision;
+>> +    uint16_t length;
+>> +    uint8_t  register_count; /* Number of base_address registers */
+>> +    uint16_t namepath_length;
+>> +    uint16_t namepath_offset;
+>> +    uint16_t oem_data_length;
+>> +    uint16_t oem_data_offset;
+>> +    uint16_t port_type;
+>> +    uint16_t port_subtype;
+>> +    uint8_t  reserved[2];
+>> +    uint16_t base_address_offset;
+>> +    uint16_t address_size_offset;
+>> +}  QEMU_PACKED;
+>> +typedef struct AcpiDbg2Device AcpiDbg2Device;
+>> +
+>> +struct AcpiDbg2Table {
+>> +    ACPI_TABLE_HEADER_DEF /* ACPI common table header */
+>> +    uint32_t info_offset; /* offset to the first debug struct */
+>> +    uint32_t info_count;  /* number of debug device info struct entries */
+>> +    uint8_t  dbg2_device_info[];
+>> +} QEMU_PACKED;
+>> +typedef struct AcpiDbg2Table AcpiDbg2Table;
+>> +
+>>  #endif
+>> --
+>> 2.26.3
+>>
 
---D8AYyK8Q3TKTy6fsfzA7xgHl5TsOlJ8UA--
-
---4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmESUP0FAwAAAAAACgkQbHknjz/NzAKr
-qg/7B9JIdB164moP0NqMHTWQg8nSti32GH0wKLeAZ5Ijl6SVLrTMHs3NIa46BY8W+5p7MHL3QyKG
-2vmQgX3rFg2DtUu/Ioa5qeTr77cN0OGw2fwoZk7wiH5lK/6a4oKOpCA4djyIQTW9+w5V0p6Gz+/1
-kCMKOkEzsLrT1BevhX9ogCX1Tpkl+xxONTPqBpowqrVPeGlgoZueUYkl4PInZOA9Qfw9Ov/EoOL8
-E40mqIKWDnxeoF/2G85nNi/08SbX2wL4Z7MJ0qyeUGZ/MB7mrT9ubMohoYaUJF+BiIx7WOURzhLC
-LBY2eI2D3opvFhOfK+57MeJs7TzqDix+0+8fqub5yyDMhpjmkZL9te/cZbyWFYqtHHbXtZbgEwhk
-V0ERWK55+KJ9niX/2xQfMru1xoRlPJV2sWf/ELnxGCLl2pbppUl2tLDnecjkWIK1t7gobyFn2M5K
-pOZL4OTCRAOYjSKJwPiT+jLeRcTAph9NszmwBNqvC/lU1qJuBGFJjirFKWF8SnJFlYYwReAXvCjI
-25NEsA+FBo9jnyNtJXRJHL6p+aZAPn7mXJ5tQIdZLDmJ5Iwb995/KDzwR6NlDKkiARGCC+SE6ElU
-uS9rRrE2aKR26Ch5/iq05qooWgYD6nhQGKvHALLjuz3RpdnuIzLX67IUik/66nuruZ/m7CJB/Kwy
-Ygs=
-=F8NO
------END PGP SIGNATURE-----
-
---4zeMnA1cBNaZnP5hdAzN0mYtUCocqJDGK--
 
