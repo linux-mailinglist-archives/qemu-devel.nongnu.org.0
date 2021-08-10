@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2A73E55BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:42:39 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CDC3E55D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:48:21 +0200 (CEST)
+Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNLK-0005I7-Mh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
+	id 1mDNQq-0000k8-5a
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mDNIn-00037z-6L
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:40:01 -0400
-Received: from mailout04.t-online.de ([194.25.134.18]:58464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mDNIk-0001jm-Q0
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:40:00 -0400
-Received: from fwd32.aul.t-online.de (fwd32.aul.t-online.de [172.20.26.144])
- by mailout04.t-online.de (Postfix) with SMTP id CB2BE2C33;
- Tue, 10 Aug 2021 10:38:38 +0200 (CEST)
-Received: from [192.168.211.200]
- (EITHX+ZEQh2KtnJVOdQEnISCuYKwms3TRPDoSmq1o-YRvj7S-q6B6B2pLy1C8+DZCD@[79.208.26.7])
- by fwd32.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1mDNHS-3JOhwu0; Tue, 10 Aug 2021 10:38:38 +0200
-Subject: Re: [PATCH 3/3] ps2: migration support for command reply queue
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <4d1c8467-d976-2c0f-ba54-c767df7b8fe7@t-online.de>
- <20210807121202.6294-3-vr_qemu@t-online.de>
- <20210809101808.ds3kf37np46gxedc@sirius.home.kraxel.org>
- <87553bd1-6493-d04c-ab44-6a239dde6cbe@t-online.de>
- <20210810054021.m6isaht5yb3pgaoz@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Message-ID: <cfa666f0-1282-29e4-a798-cd258369f897@t-online.de>
-Date: Tue, 10 Aug 2021 10:38:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mDNPH-0006UQ-Ux
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:46:44 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mDNPG-00081L-44
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:46:43 -0400
+Received: by mail-ed1-x530.google.com with SMTP id f13so29043467edq.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 01:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n6/p42lQ3xlNmfzVU4VUBau7zfQXFWcF9XLxtvX2gxQ=;
+ b=IR3q8C0grgYJ2Ulmzdtvqf/mHEo/1cebMbaqFotufmRaoI/14bRrU7Z4FuhX14PxW5
+ N9cwXpbqLbfSUD4qxLUBnZadabq9bIfkHKCpwksViVXGZ7FYP5rHf1IhyoQjVR91MZfw
+ RELft+FIRUcyPeTGM3QqwTa7txrGmrErOLSeXmkkh5zED2RrVjjzEOOWccHwH7aQ/Kp0
+ Zm3bcCqZNixAMxghsf8E4l+wS6+nudcJa2vNYxBnVvCG4BPGFTKkajXurF1W9gpFoz9d
+ 7EHbsN07UYySGbgN8WPzIn6uqk3SS9v68E3NA60jLdUObLroueQuRw8KLU5IIAnrb7iw
+ pufw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n6/p42lQ3xlNmfzVU4VUBau7zfQXFWcF9XLxtvX2gxQ=;
+ b=fEtjV+EIR/puz56fEGpCVQ5VlphjAzL5MxpzOIkmugW/O1fh2dodbmhnfgeMDMR1GM
+ DxeFFtvMEDSHG2q5AhdUR1Sd8U/I43cDsc1aMeJwjK1lQ3R0vYHT9ozUyUIg1zaAsFdB
+ tRnxkt7B3gSgnRFx3hSRK+Y3YpOLvgHu7HMe2MyqOqmCPKyQI+cLHL8b90s7ztF2krhr
+ gRhWDpxhNsQO1m2vLLKvbI/uV0KzWOz1gFKUIGlq3gXLzZQ4BYDaK/lr1wmrIz9BlW2J
+ E5eF2hoKdmpLP6Ulo0diacfobGgqqju8Kx44QOui02uW6MfRJVRdWea6er39cGkrNoQc
+ XwYw==
+X-Gm-Message-State: AOAM53171+uNRuimFraXScGe35yqL7Cc6GT134XdVbGFElZOwlZW3Kma
+ Lh/lIKnpemStgjw9FuYrvCaVcw==
+X-Google-Smtp-Source: ABdhPJwfrJRONBjS92yufDryy835xrq+Zm30oTTuaE51wulXH8WGFoRhQ1c0G0e+4GQRNHT5WkE2lw==
+X-Received: by 2002:a05:6402:74f:: with SMTP id
+ p15mr3595682edy.195.1628585199769; 
+ Tue, 10 Aug 2021 01:46:39 -0700 (PDT)
+Received: from localhost.localdomain (adsl-84-226-111-173.adslplus.ch.
+ [84.226.111.173])
+ by smtp.gmail.com with ESMTPSA id fl2sm1533516ejc.114.2021.08.10.01.46.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 01:46:39 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com
+Subject: [PATCH 0/6] virtio-iommu: Add ACPI support
+Date: Tue, 10 Aug 2021 10:45:00 +0200
+Message-Id: <20210810084505.2257983-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210810054021.m6isaht5yb3pgaoz@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: EITHX+ZEQh2KtnJVOdQEnISCuYKwms3TRPDoSmq1o-YRvj7S-q6B6B2pLy1C8+DZCD
-X-TOI-EXPURGATEID: 150726::1628584718-00006026-97B8228E/0/0 CLEAN NORMAL
-X-TOI-MSGID: 43dcfeb1-62b5-4da5-9936-563fe29d80ce
-Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
- helo=mailout04.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,200 +82,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->    Hi,
->
->> this part actually works. .needed is only evaluated on the sending side. For
->> the receiving side subsections are optional.  Migration doesn't fail if a
->> subsection isn't loaded. Before I sent this patch series one of the
->> migration tests was a migration from 6.0.92 to 6.0.92 with one byte in the
->> command reply queue and 3 bytes in the scancode queue. The migration didn't
->> fail.
-> Hmm, ok.  If you actually tested it you are probably right.  My memory
-> tells me ->needed() is evaluated on both sending and receiving side as
-> the migration data stream does not carry the information whenever a
-> subsection is present or not.  But maybe my memories are wrong, or
-> things have changed, I don't follow migration changes that closely.
->
->>> If we can't find something we can add a property simliar to the one
->>> for the extended keyboard state.
->> What is the best way to add such a compat property? The ps2 keyboard isn't a
->> qdev device. I can't just add a property to the device class. Do I have to
->> add a property to the i8042 and the pl050 device and propagate the property
->> value with the ps2_kbd_init() call to the PS2KbdState?
-> Yes, I think so.  But double-check the migration thing first, if your
-> approach works that is the easier way of course.
->
-> take care,
->    Gerd
->
+Allow instantiating a virtio-iommu device on ACPI systems by adding a
+Virtual I/O Translation table (VIOT). Enable x86 support for VIOT.
 
-Hi Gerd,
+With a simple configuration the table contains a virtio-iommu-pci node
+and a pci-range node:
 
-this are the results of 5 migrations. I added a trace statement to 
-function ps2_common_post_load() in my qemu-master. The first trace line 
-is for ps2kbd, the second for ps2mouse.
+	qemu-system-aarch64 -M virt -bios QEMU_EFI.fd
+	  -device virtio-iommu ...
 
-#1 Migrate qemu 6.0.92 to qemu 6.0.92
-   2 scancodes in ps2 keyboard queue
+	$ iasl -d ...
+	[000h 0000   4]                    Signature : "VIOT"
 
-ps2_common_post_load: count 2, ccount 0
-ps2_common_post_load: count 0, ccount 0
+	[024h 0036   2]                   Node count : 0002
+	[026h 0038   2]                  Node offset : 0030
 
-migration OK
+	[030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
+	[032h 0050   2]                       Length : 0010
+	[034h 0052   2]                  PCI Segment : 0000
+	[036h 0054   2]               PCI BDF number : 0030
 
-./scripts/analyze-migration.py -f /var/tmp/qemu-state -d desc | less
-         {
-             "name": "ps2kbd",
-             "instance_id": 0,
-             "vmsd_name": "ps2kbd",
-             "version": 3,
-             "fields": [
-                 {
-                     "name": "common",
-                     "type": "struct",
-                     "struct": {
-                         "vmsd_name": "PS2 Common State",
-                         "version": 3,
-                         "fields": [
-                             {
-                                 "name": "write_cmd",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.rptr",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.wptr",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.count",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.data",
-                                 "type": "buffer",
-                                 "size": 256
-                             }
-                         ]
-                     },
-                     "size": 272
-                 },
+	[040h 0064   1]                         Type : 01 [PCI Range]
+	[042h 0066   2]                       Length : 0018
+	[044h 0068   4]               Endpoint start : 00000000
+	[048h 0072   2]            PCI Segment start : 0000
+	[04Ah 0074   2]              PCI Segment end : 0000
+	[04Ch 0076   2]                PCI BDF start : 0000
+	[04Eh 0078   2]                  PCI BDF end : 00FF
+	[050h 0080   2]                  Output node : 0030
 
-#2 Migrate qemu 6.0.92 to qemu 6.0.92
-   1 command reply and 2 scancodes in ps2 keyboard queue
+With a more complex topology multiple PCI Range nodes describe the system:
 
-ps2_common_post_load: count 3, ccount 1
-ps2_common_post_load: count 0, ccount 0
+	qemu-system-aarch64 -bios QEMU_EFI.fd -device virtio-iommu
+	  -M virt,default_bus_bypass_iommu=true
+	  -device pxb-pcie,bus_nr=0x10,id=pcie.1000,bus=pcie.0
+	  -device pxb-pcie,bus_nr=0x20,id=pcie.2000,bus=pcie.0,bypass_iommu=true
+	  -device pxb-pcie,bus_nr=0x30,id=pcie.3000,bus=pcie.0
 
-migration OK
+	[024h 0036   2]                   Node count : 0003
+	[026h 0038   2]                  Node offset : 0030
 
-./scripts/analyze-migration.py -f /var/tmp/qemu-state -d desc | less
-         {
-             "name": "ps2kbd",
-             "instance_id": 0,
-             "vmsd_name": "ps2kbd",
-             "version": 3,
-             "fields": [
-                 {
-                     "name": "common",
-                     "type": "struct",
-                     "struct": {
-                         "vmsd_name": "PS2 Common State",
-                         "version": 3,
-                         "fields": [
-                             {
-                                 "name": "write_cmd",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.rptr",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.wptr",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.count",
-                                 "type": "int32",
-                                 "size": 4
-                             },
-                             {
-                                 "name": "queue.data",
-                                 "type": "buffer",
-                                 "size": 256
-                             }
-                         ]
-                     },
-                     "size": 272
-                 },
-                 {
-                     "name": "scan_enabled",
-                     "type": "int32",
-                     "size": 4
-                 },
-                 {
-                     "name": "translate",
-                     "type": "int32",
-                     "size": 4
-                 },
-                 {
-                     "name": "scancode_set",
-                     "type": "int32",
-                     "size": 4
-                 }
-             ],
-             "subsections": [
-                 {
-                     "vmsd_name": "ps2kbd/command_reply_queue",
-                     "version": 0,
-                     "fields": [
-                         {
-                             "name": "common.queue.cwptr",
-                             "type": "int32",
-                             "size": 4
-                         }
-                     ]
-                 }
-             ]
-         },
+	[030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
+	[032h 0050   2]                       Length : 0010
+	[034h 0052   2]                  PCI Segment : 0000
+	[036h 0054   2]               PCI BDF number : 0020
 
-#3 Migrate qemu 5.2.0 to qemu 6.0.92
-   4 scancodes in ps2 keyboard queue
+	[040h 0064   1]                         Type : 01 [PCI Range]
+	[042h 0066   2]                       Length : 0018
+	[044h 0068   4]               Endpoint start : 00003000
+	[048h 0072   2]            PCI Segment start : 0000
+	[04Ah 0074   2]              PCI Segment end : 0000
+	[04Ch 0076   2]                PCI BDF start : 3000
+	[04Eh 0078   2]                  PCI BDF end : 32FF
+	[050h 0080   2]                  Output node : 0030
 
-ps2_common_post_load: count 4, ccount 0
-ps2_common_post_load: count 0, ccount 0
+	[058h 0088   1]                         Type : 01 [PCI Range]
+	[05Ah 0090   2]                       Length : 0018
+	[05Ch 0092   4]               Endpoint start : 00001000
+	[060h 0096   2]            PCI Segment start : 0000
+	[062h 0098   2]              PCI Segment end : 0000
+	[064h 0100   2]                PCI BDF start : 1000
+	[066h 0102   2]                  PCI BDF end : 11FF
+	[068h 0104   2]                  Output node : 0030
 
-Migration OK
 
-#4 Migrate qemu 6.0.92 to qemu 5.2.0
-   2 scancodes in ps2 keyboard queue
+The VIOT table description will be in the next release of ACPI.
+In the meantime you can find a description at
+https://jpbrucker.net/virtio-iommu/viot/viot-v9.pdf
+Linux support for VIOT was added in version 5.14
 
-Migration OK
+Eric Auger (1):
+  pc: Allow instantiating a virtio-iommu device
 
-#5 Migrate qemu 6.0.92 to qemu 5.2.0
-   1 command reply and 2 scancodes in ps2 keyboard queue
+Jean-Philippe Brucker (5):
+  acpi: Add VIOT structure definitions
+  hw/acpi: Add VIOT table
+  hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
+  hw/arm/virt: Remove device tree restriction for virtio-iommu
+  pc: Add VIOT table for virtio-iommu
 
-qemu-system-x86_64: error while loading state for instance 0x0 of device 
-'ps2kbd'
-qemu-system-x86_64: load of migration failed: No such file or directory
+ hw/acpi/viot.h               | 13 ++++++
+ include/hw/acpi/acpi-defs.h  | 60 ++++++++++++++++++++++++++
+ include/hw/i386/pc.h         |  2 +
+ hw/acpi/viot.c               | 82 ++++++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c     |  7 +++
+ hw/arm/virt.c                | 10 +----
+ hw/i386/acpi-build.c         |  5 +++
+ hw/i386/pc.c                 | 18 +++++++-
+ hw/virtio/virtio-iommu-pci.c |  7 ---
+ hw/acpi/Kconfig              |  4 ++
+ hw/acpi/meson.build          |  1 +
+ hw/arm/Kconfig               |  1 +
+ hw/i386/Kconfig              |  1 +
+ 13 files changed, 195 insertions(+), 16 deletions(-)
+ create mode 100644 hw/acpi/viot.h
+ create mode 100644 hw/acpi/viot.c
 
-Migration FAILED
+-- 
+2.32.0
 
-With best regards,
-Volker
 
