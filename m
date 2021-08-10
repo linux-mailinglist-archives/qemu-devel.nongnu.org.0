@@ -2,51 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985513E5264
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 06:43:02 +0200 (CEST)
-Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BD53E5281
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 06:59:07 +0200 (CEST)
+Received: from localhost ([::1]:33822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDJbR-00070t-L4
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 00:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
+	id 1mDJqu-0001VG-Sw
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 00:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDJZE-00068m-Nu; Tue, 10 Aug 2021 00:40:44 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43431 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDJqA-0000qJ-75
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 00:58:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDJZC-0004XG-3W; Tue, 10 Aug 2021 00:40:44 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GkKyD4RL5z9sXV; Tue, 10 Aug 2021 14:40:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1628570436;
- bh=jMrdxJD34kWETxGyLvthGaS+A6TwPpmJ9O4pGElf1e4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DOPOEr7vc1jbBCZp3m2IRUJnMHrwAWNg/hVanNKHjNz1Sh/6BOEpNrYN56ceiNwIY
- +taHbNAGFCx2Oo9UsZHjOZ9jKVZHhxBns+hIG/vFu9752sCvS+a1DqXH64FRqHJ74c
- FrUY4yvvRHa/KJmG/ceqsnD4KxrjTJd8TgeJSQps=
-Date: Tue, 10 Aug 2021 14:29:35 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 24/30] spapr_pci: populate ibm,loc-code
-Message-ID: <YRIAr6HIW742LSZd@yekko>
-References: <1436284182-5063-1-git-send-email-agraf@suse.de>
- <1436284182-5063-25-git-send-email-agraf@suse.de>
- <CAFEAcA9TQKAU94OUuSzYH8A_7CFfSYc+R8-Mz4mai0vwMbjsxA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDJq7-0002y3-E8
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 00:58:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628571490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fR+nW1zElCkUKeVXc1nwa1fkOoOHfW/VJcRn9mkvTeo=;
+ b=BF7jgQavNkxQmURXHWfrbQcSqm0K61d8M9EI+z95Zl5S6qQYQANCkLHnAvWUOGj7sYOMhY
+ 6Z6pUZui/iHn3XNBhX6h53LLiWJCgoqMDEYzt3t36wau368EsJGauOGkgsDaB54kHmObSj
+ LVBnnc+JS0zM6sKBXswx0RiAzq7ZUH8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-R4tgMUYqOSCdhmlGetqkeA-1; Tue, 10 Aug 2021 00:58:09 -0400
+X-MC-Unique: R4tgMUYqOSCdhmlGetqkeA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z1-20020adfdf810000b0290154f7f8c412so1064979wrl.21
+ for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 21:58:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fR+nW1zElCkUKeVXc1nwa1fkOoOHfW/VJcRn9mkvTeo=;
+ b=LsvJ+OiP3yWRk0+IVXtEHLNAW8NnfQ9U2SY9jMz+oLP0LVK/K2mZuUMA33WoTOue+m
+ 7xKxZ5oMg2xJY5uI/yr8R3mm1NibPwGKIAZvhsVB7gDE3ARrANOqL5Naqjr9fiPW2QiL
+ NQ7MagR4z71Qn0M0usbvPS1salwwkjQHQdpWtXmLrkhRUeBbKytsmOKZs8tfbiJQC1yk
+ dYkyCS1Fq6Z3IwwGCxnUFx7KToHriz0pXf42oLYFK6noM5ODaxHTxO75ljnQ8iimxony
+ yb8lyaAeQmbZz58V1OYEeUYlNcXYccjPblGi2RQJ7y2hOpXe5QS5J9gFSJx+bJ5SI0we
+ digw==
+X-Gm-Message-State: AOAM5305DQiqVPtT/btfPvCbzOChfuNuVUxh7WEGFWOtfguE7D8NicGE
+ IQykc2RWMqAVY9JPylTz9Mp9z+pSLcmKYqHmKIrZE8AfwpMnIAh55cxgNuUB7NivsZ7E7l4N3c/
+ 0rtnRDzDscbr7wKo=
+X-Received: by 2002:adf:f08e:: with SMTP id n14mr7386685wro.427.1628571487888; 
+ Mon, 09 Aug 2021 21:58:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgAoKf5bMafkpHTWYiBg2koAPxcA4h3P1YSmqhvJaL5EInvAKpBx7GFc8vb1m1mzXezxZfFg==
+X-Received: by 2002:adf:f08e:: with SMTP id n14mr7386662wro.427.1628571487625; 
+ Mon, 09 Aug 2021 21:58:07 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id 129sm19742413wmz.26.2021.08.09.21.58.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Aug 2021 21:58:07 -0700 (PDT)
+Subject: Re: [PATCH] audio: Never send migration section
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+References: <20210809170956.78536-1-dgilbert@redhat.com>
+ <YRFiDMlKFQ/Kxrhx@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bedb4670-4e44-2d69-c611-3bf3bdce6587@redhat.com>
+Date: Tue, 10 Aug 2021 06:58:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wXfI/tJOKpDi25++"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9TQKAU94OUuSzYH8A_7CFfSYc+R8-Mz4mai0vwMbjsxA@mail.gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YRFiDMlKFQ/Kxrhx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,176 +99,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>
+Cc: kraxel@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/9/21 7:12 PM, Daniel P. Berrangé wrote:
+> On Mon, Aug 09, 2021 at 06:09:56PM +0100, Dr. David Alan Gilbert (git) wrote:
+>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>>
+>> The audio migration vmstate is empty, and always has been; we can't
+>> just remove it though because an old qemu might send it us.
+>> Changes with -audiodev now mean it's sometimes created when it didn't
+>> used to be, and can confuse migration to old qemu.
 
---wXfI/tJOKpDi25++
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not a 6.1 regression but easy change for rc3 IMO.
 
-On Mon, Aug 09, 2021 at 10:57:00AM +0100, Peter Maydell wrote:
-> On Tue, 7 Jul 2015 at 16:49, Alexander Graf <agraf@suse.de> wrote:
-> >
-> > From: Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
-> >
-> > Each hardware instance has a platform unique location code.  The OF
-> > device tree that describes a part of a hardware entity must include
-> > the =E2=80=9Cibm,loc-code=E2=80=9D property with a value that represent=
-s the location
-> > code for that hardware entity.
-> >
-> > Populate ibm,loc-code.
->=20
-> Ancient patch, but Coverity has just noticed a bug in it
-> which is still present in current QEMU (CID 1460454):
->=20
-> > +static char *spapr_phb_vfio_get_loc_code(sPAPRPHBState *sphb,  PCIDevi=
-ce *pdev)
-> > +{
-> > +    char *path =3D NULL, *buf =3D NULL, *host =3D NULL;
-> > +
-> > +    /* Get the PCI VFIO host id */
-> > +    host =3D object_property_get_str(OBJECT(pdev), "host", NULL);
-> > +    if (!host) {
-> > +        goto err_out;
-> > +    }
-> > +
-> > +    /* Construct the path of the file that will give us the DT locatio=
-n */
-> > +    path =3D g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
-> > +    g_free(host);
-> > +    if (!path || !g_file_get_contents(path, &buf, NULL, NULL)) {
-> > +        goto err_out;
-> > +    }
-> > +    g_free(path);
->=20
-> Here we create a 'path' string, use it as the argument to
-> g_file_get_contents() and then free it (either here or in the err_out pat=
-h)...
->=20
-> > +
-> > +    /* Construct and read from host device tree the loc-code */
-> > +    path =3D g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
-> > +    g_free(buf);
-> > +    if (!path || !g_file_get_contents(path, &buf, NULL, NULL)) {
-> > +        goto err_out;
-> > +    }
-> > +    return buf;
->=20
-> ...but here we forget to free it before returning in the success case.
->=20
-> > +
-> > +err_out:
-> > +    g_free(path);
-> > +    return NULL;
-> > +}
->=20
-> Cleanest fix would be to declare 'path' and 'host' as
->    g_autofree char *path =3D NULL;
->    g_autofree char *host =3D NULL;
-> and then you can remove all the manual g_free(path) and g_free(host) call=
-s.
+>> Change it so that vmstate_audio is never sent; if it's received it
+>> should still be accepted, and old qemu's shouldn't be too upset if it's
+>> missing.
 
-Thanks for the report.  I've committed the fix (I hope) below to ppc-for-6.=
-1:
+Worth Cc: stable@ maybe?
 
-=46rom 70ae61b510dc571c407b28c46498cae60e60ca66 Mon Sep 17 00:00:00 2001
-=46rom: David Gibson <david@gibson.dropbear.id.au>
-Date: Tue, 10 Aug 2021 14:28:19 +1000
-Subject: [PATCH] spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() with
- g_autofree
+>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> ---
+>>  audio/audio.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> 
+> For testing I have a VM with -audiodev, but *WITHOUT* any sound
+> frontend devices. Live migrating to a QEMU using QEMU_AUDIO_DRV
+> would previously fail. With this applied it now works, showing
+> that we dont uncessarily send this.
+> 
+> I also tested migration to a QEMU with -audiodev, but without
+> this patch, and that still works as before, showing that QEMU
+> is happy if this section is not sent.
+> 
+>>
+>> diff --git a/audio/audio.c b/audio/audio.c
+>> index 59453ef856..54a153c0ef 100644
+>> --- a/audio/audio.c
+>> +++ b/audio/audio.c
+>> @@ -1622,10 +1622,20 @@ void audio_cleanup(void)
+>>      }
+>>  }
+>>  
+>> +static bool vmstate_audio_needed(void *opaque)
+>> +{
+>> +    /*
+>> +     * Never needed, this vmstate only exists in case
+>> +     * an old qemu sends it to us.
+>> +     */
+>> +    return false;
+>> +}
+>> +
+>>  static const VMStateDescription vmstate_audio = {
+>>      .name = "audio",
+>>      .version_id = 1,
+>>      .minimum_version_id = 1,
+>> +    .needed = vmstate_audio_needed,
+>>      .fields = (VMStateField[]) {
+>>          VMSTATE_END_OF_LIST()
+>>      }
+>> -- 
+>> 2.31.1
+>>
+> 
+> Regards,
+> Daniel
+> 
 
-This uses g_autofree to simplify logic in spapr_phb_vfio_get_loc_code(),
-in the process fixing a leak in one of the paths.  I'm told this fixes
-Coverity error CID 1460454
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: 16b0ea1d852 ("spapr_pci: populate ibm,loc-code")
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_pci.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 7a725855f9..13d806f390 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -782,33 +782,28 @@ static AddressSpace *spapr_pci_dma_iommu(PCIBus *bus,=
- void *opaque, int devfn)
-=20
- static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDevice *=
-pdev)
- {
--    char *path =3D NULL, *buf =3D NULL, *host =3D NULL;
-+    g_autofree char *path =3D NULL;
-+    g_autofree char *host =3D NULL;
-+    char *buf =3D NULL;
-=20
-     /* Get the PCI VFIO host id */
-     host =3D object_property_get_str(OBJECT(pdev), "host", NULL);
-     if (!host) {
--        goto err_out;
-+        return NULL;
-     }
-=20
-     /* Construct the path of the file that will give us the DT location */
-     path =3D g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
--    g_free(host);
-     if (!g_file_get_contents(path, &buf, NULL, NULL)) {
--        goto err_out;
-+        return NULL;
-     }
--    g_free(path);
-=20
-     /* Construct and read from host device tree the loc-code */
-     path =3D g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
--    g_free(buf);
-     if (!g_file_get_contents(path, &buf, NULL, NULL)) {
--        goto err_out;
-+        return NULL;
-     }
-     return buf;
--
--err_out:
--    g_free(path);
--    return NULL;
- }
-=20
- static char *spapr_phb_get_loc_code(SpaprPhbState *sphb, PCIDevice *pdev)
---=20
-2.31.1
-
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---wXfI/tJOKpDi25++
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmESAKwACgkQbDjKyiDZ
-s5LlixAAm2JaY7blgq/I9/zNF5cAX4RHVvuUy7tXUHOfUEnN15A8806lwlWSc6Jl
-kaEKRmMR7CadlmcTLfm3LxKvjse4kWSQkD4K9FHQ2Oi0OIbMkcKZXtx7oQNqvcq2
-NafJezpfU/03tK3UrvBYmdaSH54ecJtSZ1+X/1MVpqCPbCrgTjUy7NJlj29odrL9
-AdIs+1w2Yfp0FjoUn8hjSaCvptmX5qhlnl3Me/CnAHzrA67Z+1ACRMj1gHh8kJ78
-20KRqyvcKv91e6RvFZsupHo/HF/sBQAoRk5A1Xr+29MwslU7yPtNsxBt9ZksKwmb
-HDD8JKTtg3XKUXIDTEcPNjSipzaTAieKMA0XkgLd4VxxT6p50i6KLYur0Hx+lskS
-SnqVGRIqLvb4EXxjYqepVSWxGMbJ8x/rtVv2/PiB853npeS25N0RgnCbyKNioiYb
-nE7n8zqseLR4q4lSdP+KuvNkdE4lSNzmmvcgsX+hlP+2Bj0uuL72movmanNTwQej
-WhhGWT+h83sF9f8/IrrYN5i6iyIFKHsuObBPtUY1LYzELBg4O/+GeokkED7ADYw5
-sUVcJpZyGdbJ0mlBH9w5+yCYfjRyow2apfQZM3V4zwhkyHOWJS9BU/uTeUMEjDy7
-4r3a9u/J++LxGbUumKEV/ssnyjLuSsga5TmcGoa6NSiCVPeONzM=
-=Hl5c
------END PGP SIGNATURE-----
-
---wXfI/tJOKpDi25++--
 
