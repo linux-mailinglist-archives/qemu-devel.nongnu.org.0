@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A193E5BC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:33:33 +0200 (CEST)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCAC3E5BD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:35:39 +0200 (CEST)
+Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDRsq-0008Lt-B6
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
+	id 1mDRus-0002re-GH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mDRrp-0007ZU-Uj
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:32:29 -0400
-Received: from mailout09.t-online.de ([194.25.134.84]:36804)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1mDRtz-00029D-EI
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:34:43 -0400
+Received: from mailout04.t-online.de ([194.25.134.18]:52384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mDRro-0007Ks-2E
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:32:29 -0400
-Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
- by mailout09.t-online.de (Postfix) with SMTP id 1D42B17925;
- Tue, 10 Aug 2021 15:31:14 +0200 (CEST)
-Received: from [192.168.211.200]
- (bNAriuZHZhOISiVBy8LvUEEzdUyVPeZ8FebzWwxtky0aDCAWGmHyzbfwCB7w0yqgyM@[79.208.26.7])
- by fwd21.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1mDRtx-0008Rj-Lh
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:34:43 -0400
+Received: from fwd30.aul.t-online.de (fwd30.aul.t-online.de [172.20.26.135])
+ by mailout04.t-online.de (Postfix) with SMTP id 7D586591;
+ Tue, 10 Aug 2021 15:33:04 +0200 (CEST)
+Received: from linpower.localnet
+ (XRxAX-ZBYhbCwxuH-MzmYAt1bFAxFC9mFcY0iWuLPOdLEdr9uBR5Dws4KGZasr+QVd@[79.208.26.7])
+ by fwd30.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1mDRqZ-4JedSi0; Tue, 10 Aug 2021 15:31:11 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH for 6.2 v2 0/3] ps2: fix issue #501 and #502
+ esmtp id 1mDRsI-2nqCyO0; Tue, 10 Aug 2021 15:32:58 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 07CAE200624; Tue, 10 Aug 2021 15:32:58 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
-Date: Tue, 10 Aug 2021 15:31:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Subject: [PATCH v2 1/3] ps2: use the whole ps2 buffer but keep queue size
+Date: Tue, 10 Aug 2021 15:32:56 +0200
+Message-Id: <20210810133258.8231-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
+References: <c00e87fc-8d29-27bf-9e8f-65d8343e9dbe@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: bNAriuZHZhOISiVBy8LvUEEzdUyVPeZ8FebzWwxtky0aDCAWGmHyzbfwCB7w0yqgyM
-X-TOI-EXPURGATEID: 150726::1628602271-00002A54-909BCDB9/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9f133f04-8be4-4014-ad1d-dade531dc684
-Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
- helo=mailout09.t-online.de
+X-ID: XRxAX-ZBYhbCwxuH-MzmYAt1bFAxFC9mFcY0iWuLPOdLEdr9uBR5Dws4KGZasr+QVd
+X-TOI-EXPURGATEID: 150726::1628602378-0000D63F-DC50462A/0/0 CLEAN NORMAL
+X-TOI-MSGID: c2e20b6f-f9c0-4451-816d-bdb53509e7b3
+Received-SPF: none client-ip=194.25.134.18;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout04.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -61,80 +63,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit ff6e1624b3 (pckbd: don't update OBF flags if
-KBD_STAT_OBF is set) the OSes Minoca OS and Visopsys no longer
-have a working PS/2 keyboard and mouse. This is caused by a
-PS/2 queue stall due to a lost interrupt in the guest OS. This
-already happened before commit ff6e1624b3, but no one noticed
-because up to that point QEMU sent gratuitous keyboard and mouse
-interrupts and the queue restarted with keyboard input or mouse
-movement.
+Extend the used ps2 buffer size to the available buffer size but
+keep the maximum ps2 queue size.
 
-The lost interrupt is a guest bug. The fact that it's always
-lost is due to an inexact PS/2 keyboard emulation. The way in
-which the two operating systems e.g. set the keyboard LEDs,
-leaves a keyboard ACK reply in the keyboard queue that is
-unexpected for the guests.
+The next patch needs a few bytes of the larger buffer size.
 
-This patch series improves the PS/2 keyboard emulation.
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ hw/input/ps2.c | 69 +++++++++++++++-----------------------------------
+ 1 file changed, 20 insertions(+), 49 deletions(-)
 
-There's a workaround for issue #501 and #502 so I don't think
-this is rc3 material. But that decision is up to the maintainers.
-
-To verify patch 2/3 I plugged in an additional PS/2 keyboard
-into the host and started Linux with the command line option
-initcall_blacklist=i8042_init. Here is an example of the sequence
-to set the keyboard LEDs.
-
-# #regular sequence to set the keyboard LEDs
-# inb --hex 0x64
-1c
-# #PS/2 queue is empty
-# outb 0x60 0xed
-# inb --hex 0x64
-15
-# inb --hex 0x60
-fa
-# inb --hex 0x64
-14
-# outb 0x60 0x01
-# inb --hex 0x64
-15
-# inb --hex 0x60
-fa
-# inb --hex 0x64
-14
-
-# #alternative sequence to set the keyboard LEDs
-# inb --hex 0x64
-14
-# outb 0x60 0xed
-# inb --hex 0x64
-15
-# outb 0x60 0x00
-# inb --hex 0x64
-15
-# inb --hex 0x60
-fa
-# inb --hex 0x64
-14
-
-v2:
-improved patch 2/3 commit message.
-
-Volker Rümelin (3):
-   ps2: use the whole ps2 buffer but keep queue size
-   ps2: use a separate keyboard command reply queue
-   ps2: migration support for command reply queue
-
-  hw/input/ps2.c | 214 ++++++++++++++++++++++++++++++-------------------
-  1 file changed, 133 insertions(+), 81 deletions(-)
-
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 8dd482c1f6..23e7befee5 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -74,7 +74,12 @@
+ #define MOUSE_STATUS_ENABLED    0x20
+ #define MOUSE_STATUS_SCALE21    0x10
+ 
+-#define PS2_QUEUE_SIZE 16  /* Buffer size required by PS/2 protocol */
++/*
++ * PS/2 buffer size. Keep 256 bytes for compatibility with
++ * older QEMU versions.
++ */
++#define PS2_BUFFER_SIZE     256
++#define PS2_QUEUE_SIZE      16  /* Queue size required by PS/2 protocol */
+ 
+ /* Bits for 'modifiers' field in PS2KbdState */
+ #define MOD_CTRL_L  (1 << 0)
+@@ -85,9 +90,7 @@
+ #define MOD_ALT_R   (1 << 5)
+ 
+ typedef struct {
+-    /* Keep the data array 256 bytes long, which compatibility
+-     with older qemu versions. */
+-    uint8_t data[256];
++    uint8_t data[PS2_BUFFER_SIZE];
+     int rptr, wptr, count;
+ } PS2Queue;
+ 
+@@ -200,8 +203,9 @@ void ps2_queue_noirq(PS2State *s, int b)
+     }
+ 
+     q->data[q->wptr] = b;
+-    if (++q->wptr == PS2_QUEUE_SIZE)
++    if (++q->wptr == PS2_BUFFER_SIZE) {
+         q->wptr = 0;
++    }
+     q->count++;
+ }
+ 
+@@ -509,13 +513,15 @@ uint32_t ps2_read_data(PS2State *s)
+            (needed for EMM386) */
+         /* XXX: need a timer to do things correctly */
+         index = q->rptr - 1;
+-        if (index < 0)
+-            index = PS2_QUEUE_SIZE - 1;
++        if (index < 0) {
++            index = PS2_BUFFER_SIZE - 1;
++        }
+         val = q->data[index];
+     } else {
+         val = q->data[q->rptr];
+-        if (++q->rptr == PS2_QUEUE_SIZE)
++        if (++q->rptr == PS2_BUFFER_SIZE) {
+             q->rptr = 0;
++        }
+         q->count--;
+         /* reading deasserts IRQ */
+         s->update_irq(s->update_arg, 0);
+@@ -926,30 +932,17 @@ static void ps2_common_reset(PS2State *s)
+ static void ps2_common_post_load(PS2State *s)
+ {
+     PS2Queue *q = &s->queue;
+-    uint8_t i, size;
+-    uint8_t tmp_data[PS2_QUEUE_SIZE];
+ 
+-    /* set the useful data buffer queue size, < PS2_QUEUE_SIZE */
+-    size = q->count;
++    /* set the useful data buffer queue size <= PS2_QUEUE_SIZE */
+     if (q->count < 0) {
+-        size = 0;
++        q->count = 0;
+     } else if (q->count > PS2_QUEUE_SIZE) {
+-        size = PS2_QUEUE_SIZE;
+-    }
+-
+-    /* move the queue elements to the start of data array */
+-    for (i = 0; i < size; i++) {
+-        if (q->rptr < 0 || q->rptr >= sizeof(q->data)) {
+-            q->rptr = 0;
+-        }
+-        tmp_data[i] = q->data[q->rptr++];
++        q->count = PS2_QUEUE_SIZE;
+     }
+-    memcpy(q->data, tmp_data, size);
+ 
+-    /* reset rptr/wptr/count */
+-    q->rptr = 0;
+-    q->wptr = (size == PS2_QUEUE_SIZE) ? 0 : size;
+-    q->count = size;
++    /* sanitize rptr and recalculate wptr */
++    q->rptr = q->rptr & (PS2_BUFFER_SIZE - 1);
++    q->wptr = (q->rptr + q->count) & (PS2_BUFFER_SIZE - 1);
+ }
+ 
+ static void ps2_kbd_reset(void *opaque)
+@@ -1053,22 +1046,11 @@ static int ps2_kbd_post_load(void* opaque, int version_id)
+     return 0;
+ }
+ 
+-static int ps2_kbd_pre_save(void *opaque)
+-{
+-    PS2KbdState *s = (PS2KbdState *)opaque;
+-    PS2State *ps2 = &s->common;
+-
+-    ps2_common_post_load(ps2);
+-
+-    return 0;
+-}
+-
+ static const VMStateDescription vmstate_ps2_keyboard = {
+     .name = "ps2kbd",
+     .version_id = 3,
+     .minimum_version_id = 2,
+     .post_load = ps2_kbd_post_load,
+-    .pre_save = ps2_kbd_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(common, PS2KbdState, 0, vmstate_ps2_common, PS2State),
+         VMSTATE_INT32(scan_enabled, PS2KbdState),
+@@ -1093,22 +1075,11 @@ static int ps2_mouse_post_load(void *opaque, int version_id)
+     return 0;
+ }
+ 
+-static int ps2_mouse_pre_save(void *opaque)
+-{
+-    PS2MouseState *s = (PS2MouseState *)opaque;
+-    PS2State *ps2 = &s->common;
+-
+-    ps2_common_post_load(ps2);
+-
+-    return 0;
+-}
+-
+ static const VMStateDescription vmstate_ps2_mouse = {
+     .name = "ps2mouse",
+     .version_id = 2,
+     .minimum_version_id = 2,
+     .post_load = ps2_mouse_post_load,
+-    .pre_save = ps2_mouse_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(common, PS2MouseState, 0, vmstate_ps2_common, PS2State),
+         VMSTATE_UINT8(mouse_status, PS2MouseState),
 -- 
 2.26.2
+
 
