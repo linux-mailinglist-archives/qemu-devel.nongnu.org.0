@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E44B3E860E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 00:29:14 +0200 (CEST)
-Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EFB3E8610
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 00:31:00 +0200 (CEST)
+Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDaFE-00009r-Ob
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 18:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35504)
+	id 1mDaGx-0001jF-O2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 18:30:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaER-0007vc-NG
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:28:23 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:36460)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaFf-0000xN-BI
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:29:39 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:40890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaEP-0005EI-QU
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:28:23 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id w10so457523qtj.3
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 15:28:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mDaFd-00061S-Mn
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 18:29:39 -0400
+Received: by mail-qk1-x735.google.com with SMTP id c130so171617qkg.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 15:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vDY0Y9P5BM8gRJhylyRWxLdTc4V7q/Y3fzKvHj8UIrg=;
- b=L5rmDYLWJRxNORffeox5rBTJaEUJoM50Shz1F8xaBdT8Jj+H/TWM24IuMdrYUhGw91
- d6Di4dXGJ2INkc29y1llZI71UtOvjUyPIaXNd+VDcanzynbnBoGyRcxrDIYMjjUCiLhY
- jYe8pgitMcGkWzvgrAK/quUV9Kxaa4Fw6dr2uXyRSgfTH+Lo6Rhu/CbhAvfwknNIQ2X1
- XWGpXOmEifpM9UdCzboErTkeuft5HWaCZ2auNua0qSYzdYRtSjfv7L8ielH9079MrKtA
- 5jaQ49bLDbAVHtBca0ly872yHqMOkgdLaYvzX4DtsKZktZZyloropCq+PecSHYVpXcJW
- 5N1g==
+ :cc; bh=EFeDX1YKy5aFM+7pzkIuQgqUv/XXwycuHf62jvCem5o=;
+ b=OK8ICeJkcZtEQ1d2JTFNbmz0EWlaJcw1sCBGCoazXCAWxIblkO1vGM2RnxM+Vd/tOQ
+ DKjAYn+RbWYgqZseJrkKEufwwv/X7YtKhbVdieVMoiBTz3GVIXhfhwyPWfWamWZSJBC9
+ VoLbBHRvFPs3BJD6b2JDLZ8WXm+1zkXSl+fhSdF7nWslHa+jiAGLhIjTzBDaludelkM8
+ Frs/PvLup2Br/CWI5QwMWY/icOBMEyctZxVlNZdzeRk0cXSnL5Nk4J4a2PHK67mdJyCW
+ E/FQbQOFP8bxSVr8UFJnMaO2u/x7wHMjBWX76e1kiVTfb2kPtvinaB3pNQPAkakRQ3RR
+ ZXtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vDY0Y9P5BM8gRJhylyRWxLdTc4V7q/Y3fzKvHj8UIrg=;
- b=Nzzb+m4G9bBfWDIRJ6oKfrSwdP7gDy2flnzSmTpnVZr3rOsuZulIyaDzezMdpiYE9J
- gCxKOPgzUrwK+7fVYaYU7RUEQzUQ44oixB15dN5dZYcJPmvFtMS8ni2aFJRQ4SC6OBYK
- /p1zUpN92ijQPP4FKOAzeXkjVEBrGl/KLFna3Ke/UW0eJFVv6e2isW9me2/VsgRjLHsB
- dtkRs//uU21ThQOv6+3UmUdeQGtJ0a3zGB0HKWoeSlyCL2xo7KwZaLC1DLtqmPiXUeFA
- tXhMuWwqG6yioRbzJA4IS6Pn0uKCr/IViDHwDIvK0XSdjNH/OxDiuqORNaFoSeg++o31
- XjNw==
-X-Gm-Message-State: AOAM532LDjOuopsB8yyDPq7K+CN2T+Rb6DskO+IwBhXWuUGy2krZxECE
- qMIosoH+j/har3dSwGbj0D7Lw46jlnBbtaYRfUWRrQ==
-X-Google-Smtp-Source: ABdhPJxBrCcq3sJcMYh4I0p9Fkfy56FUlD10tM6AOhcQusOu/PvjbJue9CMtOZi3lZmhxfTKqaOtIR7RXeFBDDiRZ+0=
-X-Received: by 2002:ac8:4c8b:: with SMTP id j11mr19303099qtv.244.1628634500355; 
- Tue, 10 Aug 2021 15:28:20 -0700 (PDT)
+ bh=EFeDX1YKy5aFM+7pzkIuQgqUv/XXwycuHf62jvCem5o=;
+ b=aagp9yoTqimDwP/9ZpbPScdokv6PWNixG8x4YnpNj5iuCyic4vjYQ/8c5rjerD1k47
+ HclUMg9Q2NhMPqAheOMRzQ2nBa/oRnIkmQ5QYupzZgLE7AAJV6VowkNI5ZwAd5XGK7Wl
+ MD7U1PLmudDemVpJ6FC6TCnT+qg75qEmTwR6Mkbb4tbMdtopaNKqTFbQwJt4ZHzqF7B5
+ 9olXtzHKQSB48qywTyNksOMfyX9QGPUEYaxg+CsJgJxBvxz6JlBZHk2mdC67Vj0cey9b
+ gVu913Q5KqsxdidRVqaG/Fnv/rDNfEMZlibrMCZ1l/ixKtU0NE5cDVNGE+zMFXeDlA4a
+ 35YA==
+X-Gm-Message-State: AOAM530MyAOzMbYOl0c5uimobfJAwRwlXOd20ZvDn7qhFRgi2AW6olku
+ RXyIhBPwyAb05OeEd8hMMn5CCIjzxK/PIIS3C0yI5Q==
+X-Google-Smtp-Source: ABdhPJyxyBA034ow/u7dpOZQKTnRciwQtxfsVPdc6FnVTYEK61vFRfpO7l8PSvpBer0/U7SuKv6IypJUxNlLIgObE9g=
+X-Received: by 2002:a37:8243:: with SMTP id e64mr24403865qkd.89.1628634576427; 
+ Tue, 10 Aug 2021 15:29:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210807214242.82385-1-imp@bsdimp.com>
- <20210807214242.82385-35-imp@bsdimp.com>
- <3ef92fcb-aa6c-9366-9b9a-4fbf30793427@linaro.org>
-In-Reply-To: <3ef92fcb-aa6c-9366-9b9a-4fbf30793427@linaro.org>
+ <20210807214242.82385-36-imp@bsdimp.com>
+ <0508e338-28e1-63fe-125c-c365761c5cb8@linaro.org>
+In-Reply-To: <0508e338-28e1-63fe-125c-c365761c5cb8@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Tue, 10 Aug 2021 16:28:09 -0600
-Message-ID: <CANCZdfpR1phGh6AymfNB9mJGMp5hdSA+Xn52HbyH3gRFsXwneg@mail.gmail.com>
-Subject: Re: [PATCH for 6.2 34/49] bsd-user: Fix initializtion of task state
+Date: Tue, 10 Aug 2021 16:29:25 -0600
+Message-ID: <CANCZdfrW6JpyVnRj1NFSoEzeULuL3MQ=pt_JwWR+6_Xuru4iFQ@mail.gmail.com>
+Subject: Re: [PATCH for 6.2 35/49] bsd-user: remove error_init
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000dcec8805c93c0477"
-Received-SPF: none client-ip=2607:f8b0:4864:20::82f;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82f.google.com
+Content-Type: multipart/alternative; boundary="00000000000065b69805c93c0991"
+Received-SPF: none client-ip=2607:f8b0:4864:20::735;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -77,102 +77,115 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stacey Son <sson@freebsd.org>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dcec8805c93c0477
+--00000000000065b69805c93c0991
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 10, 2021 at 9:03 AM Richard Henderson <
+On Tue, Aug 10, 2021 at 9:07 AM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
 > On 8/7/21 11:42 AM, Warner Losh wrote:
-> > @@ -459,21 +435,11 @@ int main(int argc, char **argv)
-> >           qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
-> >       }
+> > From: Warner Losh <imp@FreeBSD.org>
 > >
-> > -    target_set_brk(info->brk);
-> > -    syscall_init();
-> > -    signal_init();
-> > -
-> > -    /*
-> > -     * Now that we've loaded the binary, GUEST_BASE is fixed.  Delay
-> > -     * generating the prologue until now so that the prologue can take
-> > -     * the real value of GUEST_BASE into account.
-> > -     */
-> > -    tcg_prologue_init(tcg_ctx);
-> > -
-> >       /* build Task State */
-> > -    memset(ts, 0, sizeof(TaskState));
-> > +    ts = g_new0(TaskState, 1);
-> >       init_task_state(ts);
-> >       ts->info = info;
-> > +    ts->bprm = &bprm;
-> >       cpu->opaque = ts;
+> > Error reporting isn't used, so gc it until it's used.
 > >
-> >       target_set_brk(info->brk);
+> > Signed-off-by: Warner Losh  <imp@bsdimp.com>
 >
-> It looks like some of this damage occurs in patch 22
-> ("bsd-user: Move per-cpu code into target_arch_cpu.h")
-> and could reasonably be squashed back.
->
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> That's not true.  At minimum, tcg/ uses Error during alloc_code_gen_buffer.
 >
 
-I took the easy way and folded them together. Thanks for the tip.
+I'm not sure how I overlooked that, so I'll just drop this patch. Thanks
+for the
+good eye.
 
 Warner
 
---000000000000dcec8805c93c0477
+
+> r~
+>
+> > ---
+> >   bsd-user/main.c | 2 --
+> >   1 file changed, 2 deletions(-)
+> >
+> > diff --git a/bsd-user/main.c b/bsd-user/main.c
+> > index b5527537b4..7e20430fb7 100644
+> > --- a/bsd-user/main.c
+> > +++ b/bsd-user/main.c
+> > @@ -34,7 +34,6 @@
+> >   #include "qapi/error.h"
+> >   #include "qemu.h"
+> >   #include "qemu/config-file.h"
+> > -#include "qemu/error-report.h"
+> >   #include "qemu/path.h"
+> >   #include "qemu/help_option.h"
+> >   #include "qemu/module.h"
+> > @@ -223,7 +222,6 @@ int main(int argc, char **argv)
+> >
+> >       save_proc_pathname(argv[0]);
+> >
+> > -    error_init(argv[0]);
+> >       module_call_init(MODULE_INIT_TRACE);
+> >       qemu_init_cpu_list();
+> >       module_call_init(MODULE_INIT_QOM);
+> >
+>
+>
+
+--00000000000065b69805c93c0991
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 10, 2021 at 9:03 AM Richa=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 10, 2021 at 9:07 AM Richa=
 rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
 nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
 padding-left:1ex">On 8/7/21 11:42 AM, Warner Losh wrote:<br>
-&gt; @@ -459,21 +435,11 @@ int main(int argc, char **argv)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;entry=C2=A0 =C2=
-=A0 =C2=A0 =C2=A00x&quot; TARGET_ABI_FMT_lx &quot;\n&quot;, info-&gt;entry)=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 target_set_brk(info-&gt;brk);<br>
-&gt; -=C2=A0 =C2=A0 syscall_init();<br>
-&gt; -=C2=A0 =C2=A0 signal_init();<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 /*<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0* Now that we&#39;ve loaded the binary, GUEST_BAS=
-E is fixed.=C2=A0 Delay<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0* generating the prologue until now so that the p=
-rologue can take<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0* the real value of GUEST_BASE into account.<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; -=C2=A0 =C2=A0 tcg_prologue_init(tcg_ctx);<br>
-&gt; -<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* build Task State */<br>
-&gt; -=C2=A0 =C2=A0 memset(ts, 0, sizeof(TaskState));<br>
-&gt; +=C2=A0 =C2=A0 ts =3D g_new0(TaskState, 1);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0init_task_state(ts);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ts-&gt;info =3D info;<br>
-&gt; +=C2=A0 =C2=A0 ts-&gt;bprm =3D &amp;bprm;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0cpu-&gt;opaque =3D ts;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0target_set_brk(info-&gt;brk);<br>
+&gt; From: Warner Losh &lt;imp@FreeBSD.org&gt;<br>
+&gt; <br>
+&gt; Error reporting isn&#39;t used, so gc it until it&#39;s used.<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh=C2=A0 &lt;<a href=3D"mailto:imp@bsdimp.com"=
+ target=3D"_blank">imp@bsdimp.com</a>&gt;<br>
 <br>
-It looks like some of this damage occurs in patch 22<br>
-(&quot;bsd-user: Move per-cpu code into target_arch_cpu.h&quot;)<br>
-and could reasonably be squashed back.<br>
+That&#39;s not true.=C2=A0 At minimum, tcg/ uses Error during alloc_code_ge=
+n_buffer.<br></blockquote><div><br></div><div>I&#39;m not sure how I overlo=
+oked that, so I&#39;ll just drop this patch. Thanks for the</div><div>good =
+eye.</div><div><br></div><div>Warner</div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+r~<br>
 <br>
-Otherwise,<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
-ote><div><br></div><div>I took the easy way and folded them together. Thank=
-s for the tip.</div><div><br></div><div>Warner=C2=A0</div></div></div>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/main.c | 2 --<br>
+&gt;=C2=A0 =C2=A01 file changed, 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
+&gt; index b5527537b4..7e20430fb7 100644<br>
+&gt; --- a/bsd-user/main.c<br>
+&gt; +++ b/bsd-user/main.c<br>
+&gt; @@ -34,7 +34,6 @@<br>
+&gt;=C2=A0 =C2=A0#include &quot;qapi/error.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu/config-file.h&quot;<br>
+&gt; -#include &quot;qemu/error-report.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu/path.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu/help_option.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu/module.h&quot;<br>
+&gt; @@ -223,7 +222,6 @@ int main(int argc, char **argv)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0save_proc_pathname(argv[0]);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 error_init(argv[0]);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0module_call_init(MODULE_INIT_TRACE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_init_cpu_list();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0module_call_init(MODULE_INIT_QOM);<br>
+&gt; <br>
+<br>
+</blockquote></div></div>
 
---000000000000dcec8805c93c0477--
+--00000000000065b69805c93c0991--
 
