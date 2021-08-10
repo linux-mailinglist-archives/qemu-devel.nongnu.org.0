@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA573E5994
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:00:41 +0200 (CEST)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214963E5997
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:04:08 +0200 (CEST)
+Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDQQx-0007R4-2Q
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49034)
+	id 1mDQUI-0003ZT-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mDQPL-0006hW-Mh
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:58:59 -0400
-Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:35548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mDQPI-0002mF-Ih
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:58:59 -0400
-Received: by mail-oo1-xc2d.google.com with SMTP id
- o17-20020a4a64110000b0290263e1ba7ff9so5257533ooc.2
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 04:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GMD3hha9hBjumfDyrr3h+BTZzFh+rM00lHojk5FR+PQ=;
- b=H5/vZqm8X37pM5kr7ksFAl+jLo9JNduH/e17RgChYjOtw8BYTiB8yirwEMiCN3LriL
- JHnajup7bftPrumWFGGiIq3XPrteXb4stk27qLKVPMmTConpLpYMoTPJnDXFKFYeGCjv
- R/by443t3+8k3zZpBXSCQgaCdpI+rM16m2LAuVRDO60pF38ZBIkKC6aEUm3WcA6JyIeM
- thZ0bcBbEIwVS/WHom8GKm7XZmNH9DuyzwMStD9Q5vQxjdmOEx61Ez5Rmfg5qbwgq99O
- qVMuLWsjN8EYZsfyzqX7dzP2Vg2c+8TXWf4QD+f9pXw6cX6F+1jX9uiYX6uSANk8+iHJ
- o/dA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mDQS4-0001By-Tb
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:01:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mDQS1-0004qk-Ka
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:01:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628596904;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8yJTX7eNzzbNaJggB4MTVcWm01xc/Rs3c9Spl2Cmkgo=;
+ b=FPa7X9IV/PQ9vwUG/+HHosiGO6Uz5j9T9EheWB+kZqkxgvhfKNipd/NrNY7U5RYvKiYSWm
+ Oi5gZglqB5qPZxeZnN2l2jHY8Ev/5zbNjbhT7iDPYcHZ3gfUAVhI2itpb7j+Y06zU8BTJG
+ Rq0qKQdNTX6Xah804hOsB9HYrmR/r1A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-OeRf0sifNgOasCTNaz-wBg-1; Tue, 10 Aug 2021 08:01:43 -0400
+X-MC-Unique: OeRf0sifNgOasCTNaz-wBg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w1-20020adf8bc10000b0290154bed98988so5040793wra.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 05:01:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GMD3hha9hBjumfDyrr3h+BTZzFh+rM00lHojk5FR+PQ=;
- b=nCKMRP/Sz2P0i74/ymihLW9IJUyPdAY/cQJnw1BjHx88d4A3aqmvDpl4gZnv83h73h
- 40otmKay+gDiYd+sux6ng5Td0Q1pew9A+oDS4Z3fM0OM2aPQGa8BBiTgY4CM9xNcyFkv
- LWAXm6Iub8FeSp/zaZ9zdp9ySGJxN67Bta67OsXVEKd3FYw3ECRcyqKgmZzIYCfsdvNQ
- v3j0sUTmPhwkbapHizIe0XSVR4GsdHy5z0Wv36bbpE06BVtgbGk1nTjPPVPCuFZR7V5L
- ipCKZKPU3PXZAzpkaNqnclo6goZml/8Y7nB2cKD6cB6+JFma99dE1zYgb8GuKnzeQrZ+
- vQhQ==
-X-Gm-Message-State: AOAM532zgaw6/ngKZ2GX6W2vmaVh6TqBHH7ECshWhrPf2cFhWTPEqmqR
- maEq6rn8Z+22Z+9ehBwNRpvCfbaIk6qPkAzg+WHwJw==
-X-Google-Smtp-Source: ABdhPJyV3xrZjO3YO0tMf9k6UmtIRFyrhO1RaYU+BOiHm1DrMpTWTiin0xV/mbtv1RWkDkS2HBjRqw+XPNoWe/Hrjc0=
-X-Received: by 2002:a4a:4c55:: with SMTP id a82mr18506208oob.66.1628596731928; 
- Tue, 10 Aug 2021 04:58:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=8yJTX7eNzzbNaJggB4MTVcWm01xc/Rs3c9Spl2Cmkgo=;
+ b=Lc1Ypi/BCk2jUSFYkC1iPutxtFrTdXU3JZfYYwgCP1CAMo8ziZpRO1aVQwv7vF5jMU
+ LMM6N3RBVSo2j/N1E/GdKK7DFF6M8fOxj0wZEXb6jaS9p7Nl90XcFWrbe2dTteZoPiYc
+ 0dvTghSpAP24JK4fzrZXokYOI4SAlIuMKza+LEccgx/iVD3Dsfi7qqzoFhl8JPXeutG1
+ 3mxyPbOCTaKV04ar919YqMJ1MWiVZ41kzJnvx4ATZORKbl/dEQQuiruqiJ2rJ9qEMnlB
+ A0Mh32Gurg6JeeEu8JK7BsgZCw0CcReDnrk9qZwRWnq81tLp+94CO3rTzqKV8m1Wa3n0
+ hwdA==
+X-Gm-Message-State: AOAM533RTPNoCsdjtdu8QR7KfL9Irg/JI2YnHYwK2F4hvJSbTLgELv9F
+ xKaS+eUjYE92p3TvgsJZHyBmhBHu02RYW98hSN5SO5HXcwcRAut3B5JFFaQzg2/qCNvp8o3dDPu
+ rew/z28AhFalBYIY=
+X-Received: by 2002:a5d:658a:: with SMTP id q10mr30910126wru.343.1628596902441; 
+ Tue, 10 Aug 2021 05:01:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3hzXJq/uMeMUgLEKYXP7YdeYgeEjV4RTqS2QrZnBsjiQwGsXJUTgme4xDTdtVLt8j8LEVnA==
+X-Received: by 2002:a5d:658a:: with SMTP id q10mr30910057wru.343.1628596902136; 
+ Tue, 10 Aug 2021 05:01:42 -0700 (PDT)
+Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
+ by smtp.gmail.com with ESMTPSA id j4sm20637348wmi.4.2021.08.10.05.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 05:01:41 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH for-6.2 05/12] [automated] Move QOM typedefs and add
+ missing includes
+In-Reply-To: <20210806211127.646908-6-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Fri, 6 Aug 2021 17:11:20 -0400")
+References: <20210806211127.646908-1-ehabkost@redhat.com>
+ <20210806211127.646908-6-ehabkost@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 10 Aug 2021 14:01:40 +0200
+Message-ID: <877dgt1paz.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-6-andrew@daynix.com>
- <87y29dct4m.fsf@dusky.pond.sub.org>
-In-Reply-To: <87y29dct4m.fsf@dusky.pond.sub.org>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Tue, 10 Aug 2021 14:58:41 +0300
-Message-ID: <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b0779a05c93339f6"
-Received-SPF: none client-ip=2607:f8b0:4864:20::c2d;
- envelope-from=andrew@daynix.com; helo=mail-oo1-xc2d.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,200 +96,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Vijai Kumar K <vijai@behindbytes.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Corey Minyard <minyard@acm.org>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ qemu-arm@nongnu.org,
+ =?utf-8?Q?C=C3=A9?= =?utf-8?Q?dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-riscv@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b0779a05c93339f6
-Content-Type: text/plain; charset="UTF-8"
+Eduardo Habkost <ehabkost@redhat.com> wrote:
+> Some typedefs and macros are defined after the type check macros.
+> This makes it difficult to automatically replace their
+> definitions with OBJECT_DECLARE_TYPE.
+>
+> Patch generated using:
+>
+>  $ ./scripts/codeconverter/converter.py -i --pattern=MoveSymbols \
+>     $(git grep -l '' -- '*.[ch]')
+>
+> which will:
+> - split "typdef struct { ... } TypedefName" declarations
+> - move the typedefs and #defines above the type check macros
+> - add missing #include "qom/object.h" lines if necessary
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Hi,
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-> The helper may or may not be installed at the path compiled into QEMU.
->
-Yes, so the helper will not be called - QEMU will try to initiate eBPF RSS
-or use "in-qemu" RSS.
+Just curious, how did my name ended on the CC'd list?  I don't see any
+file that I touched or that is migration related.
 
-What happens when you use the wrong helper?
->
-UB - in most cases, eBPF program will work with wrong configurations.
-That's why the stamp was added.
+Later, Juan.
 
-query-helper-paths checks the stamp only for RSS helper.
-
-On Sat, Aug 7, 2021 at 3:54 PM Markus Armbruster <armbru@redhat.com> wrote:
-
-> Andrew Melnychenko <andrew@daynix.com> writes:
->
-> > New qmp command to query ebpf helper.
-> > It's crucial that qemu and helper are in sync and in touch.
-> > Technically helper should pass eBPF fds that qemu may accept.
-> > And different qemu's builds may have different eBPF programs and helpers.
-> > Qemu returns helper that should "fit" to virtio-net.
-> >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
->
-> [...]
->
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 156f98203e..9aaf8fbcca 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -519,3 +519,36 @@
-> >   'data': { '*option': 'str' },
-> >   'returns': ['CommandLineOptionInfo'],
-> >   'allow-preconfig': true }
-> > +
-> > +##
-> > +# @HelperPath:
-> > +#
-> > +# Name of the helper and binary location.
-> > +##
-> > +{ 'struct': 'HelperPath',
-> > +  'data': {'name': 'str', 'path': 'str'} }
-> > +
-> > +##
-> > +# @query-helper-paths:
-> > +#
-> > +# Query helper paths. Initially, this command was added for
-> > +# qemu-ebpf-rss-helper. The qemu would check "the stamp" and
-> > +# returns proper helper.
-> > +#
-> > +# Returns: list of object that contains name and path for helper.
-> > +#
-> > +# Since: 6.1
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "query-helper-paths" }
-> > +# <- { "return": [
-> > +#        {
-> > +#          "name": "qemu-ebpf-rss-helper",
-> > +#          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
-> > +#        }
-> > +#      ]
-> > +#    }
-> > +#
-> > +##
-> > +{ 'command': 'query-helper-paths', 'returns': ['HelperPath'] }
->
->
-> Hmm.
->
-> I understand the desire to help management applications to use the right
-> helper.  But I'm not sure this command is actually useful.  The helper
-> may or may not be installed at the path compiled into QEMU.
->
-> What happens when you use the wrong helper?
->
-> Even if we conclude this is the right approach for this helper, we still
-> need to review the other helpers to see which of them we should have
-> query-helper-paths cover.
->
->
-
---000000000000b0779a05c93339f6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div>The helper
-may or may not be installed at the path compiled into QEMU.</div></blockquo=
-te><div>Yes, so the helper will not be called - QEMU will try to initiate e=
-BPF RSS or use &quot;in-qemu&quot; RSS.</div><div><br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex"><div> What happens when you use the wron=
-g helper?</div></blockquote><div>UB - in most cases, eBPF program will work=
- with wrong configurations.</div><div>That&#39;s why the stamp was added.</=
-div><div><br></div><div>query-helper-paths checks the stamp only for RSS he=
-lper.<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Aug 7, 2021 at 3:54 PM Markus Armbruster &lt;<a hre=
-f=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">Andrew Melnychenko &lt;<a h=
-ref=3D"mailto:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a>&gt=
-; writes:<br>
-<br>
-&gt; New qmp command to query ebpf helper.<br>
-&gt; It&#39;s crucial that qemu and helper are in sync and in touch.<br>
-&gt; Technically helper should pass eBPF fds that qemu may accept.<br>
-&gt; And different qemu&#39;s builds may have different eBPF programs and h=
-elpers.<br>
-&gt; Qemu returns helper that should &quot;fit&quot; to virtio-net.<br>
-&gt;<br>
-&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
-com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
-<br>
-[...]<br>
-<br>
-&gt; diff --git a/qapi/misc.json b/qapi/misc.json<br>
-&gt; index 156f98203e..9aaf8fbcca 100644<br>
-&gt; --- a/qapi/misc.json<br>
-&gt; +++ b/qapi/misc.json<br>
-&gt; @@ -519,3 +519,36 @@<br>
-&gt;=C2=A0 =C2=A0&#39;data&#39;: { &#39;*option&#39;: &#39;str&#39; },<br>
-&gt;=C2=A0 =C2=A0&#39;returns&#39;: [&#39;CommandLineOptionInfo&#39;],<br>
-&gt;=C2=A0 =C2=A0&#39;allow-preconfig&#39;: true }<br>
-&gt; +<br>
-&gt; +##<br>
-&gt; +# @HelperPath:<br>
-&gt; +#<br>
-&gt; +# Name of the helper and binary location.<br>
-&gt; +##<br>
-&gt; +{ &#39;struct&#39;: &#39;HelperPath&#39;,<br>
-&gt; +=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;, &#39;path&#39;=
-: &#39;str&#39;} }<br>
-&gt; +<br>
-&gt; +##<br>
-&gt; +# @query-helper-paths:<br>
-&gt; +#<br>
-&gt; +# Query helper paths. Initially, this command was added for<br>
-&gt; +# qemu-ebpf-rss-helper. The qemu would check &quot;the stamp&quot; an=
-d<br>
-&gt; +# returns proper helper.<br>
-&gt; +#<br>
-&gt; +# Returns: list of object that contains name and path for helper.<br>
-&gt; +#<br>
-&gt; +# Since: 6.1<br>
-&gt; +#<br>
-&gt; +# Example:<br>
-&gt; +#<br>
-&gt; +# -&gt; { &quot;execute&quot;: &quot;query-helper-paths&quot; }<br>
-&gt; +# &lt;- { &quot;return&quot;: [<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;name&quot;: &quot;qemu-ebpf=
--rss-helper&quot;,<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;path&quot;: &quot;/usr/loca=
-l/libexec/qemu-ebpf-rss-helper&quot;<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 ]<br>
-&gt; +#=C2=A0 =C2=A0 }<br>
-&gt; +#<br>
-&gt; +##<br>
-&gt; +{ &#39;command&#39;: &#39;query-helper-paths&#39;, &#39;returns&#39;:=
- [&#39;HelperPath&#39;] }<br>
-<br>
-<br>
-Hmm.<br>
-<br>
-I understand the desire to help management applications to use the right<br=
->
-helper.=C2=A0 But I&#39;m not sure this command is actually useful.=C2=A0 T=
-he helper<br>
-may or may not be installed at the path compiled into QEMU.<br>
-<br>
-What happens when you use the wrong helper?<br>
-<br>
-Even if we conclude this is the right approach for this helper, we still<br=
->
-need to review the other helpers to see which of them we should have<br>
-query-helper-paths cover.<br>
-<br>
-</blockquote></div>
-
---000000000000b0779a05c93339f6--
 
