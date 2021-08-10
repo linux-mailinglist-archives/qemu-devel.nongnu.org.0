@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81B23E59C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:20:24 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029E93E59CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 14:20:31 +0200 (CEST)
+Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDQk4-0007kz-0F
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:20:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54392)
+	id 1mDQkA-0007ss-1g
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 08:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDQia-0005pY-VH
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:18:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29299)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDQid-0005py-0j
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:18:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDQiW-0008Nl-Rn
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:18:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDQib-0008SY-Fp
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 08:18:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628597928;
+ s=mimecast20190719; t=1628597932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=x28+7t55PCFFfJmIIg1t45fVbUK90mo9C3jpjraWWiA=;
- b=Brk7uk/Hyb59j88ddR4RJLmbDSDnrhlpBHh1fsP0Rd78byiZNKYnwPI1ekMU5gIwBWtYq0
- vos8Gq2iRPbKuSlIHWvWNOxVL6/EllFihgpzFW4TwVbabLcF7fijIdPDyzSon6W4SOINwS
- I+shdE82xEm0fVCw2gNknxy0DzUjQr8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8r3eYRdG4xCeVqgSnlzgLLnXlLUpiu0JT/71pkLJV9U=;
+ b=MoxLCMuKnjgdsAZB6QYGgclbSEbZoXkyeVjAsuzWXj24nWz1gNRR+rHo8J/De0OQvycg8r
+ 0fDzX7CMUrooJ6Y6D7X9MeAafx1bty+cjU40PmDNXnY2Lmrlz35hFJ+PezEsgXNeHhIfim
+ S4y2jxA04Vq+cqIbNxfmENqBvHcnec8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-CsXj0EK_MPuM1QjcqMhgWg-1; Tue, 10 Aug 2021 08:18:46 -0400
-X-MC-Unique: CsXj0EK_MPuM1QjcqMhgWg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-226-97QHzc0lM5u9C5kGKYrzjA-1; Tue, 10 Aug 2021 08:18:50 -0400
+X-MC-Unique: 97QHzc0lM5u9C5kGKYrzjA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 239B8879A01
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 12:18:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CD59107B7C9;
+ Tue, 10 Aug 2021 12:18:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94A41779D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9725227CB4;
  Tue, 10 Aug 2021 12:18:41 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 06B8A18007AC; Tue, 10 Aug 2021 14:18:40 +0200 (CEST)
+ id 1110A180090A; Tue, 10 Aug 2021 14:18:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] Fixes 20210810 patches
-Date: Tue, 10 Aug 2021 14:18:36 +0200
-Message-Id: <20210810121840.2525726-1-kraxel@redhat.com>
+Subject: [PULL 1/3] ui/gtk: retry sending VTE console input
+Date: Tue, 10 Aug 2021 14:18:37 +0200
+Message-Id: <20210810121840.2525726-2-kraxel@redhat.com>
+In-Reply-To: <20210810121840.2525726-1-kraxel@redhat.com>
+References: <20210810121840.2525726-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -75,45 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bccabb3a5d60182645c7749e89f21a9ff307a9eb=
-:=0D
-=0D
-  Update version for v6.1.0-rc2 release (2021-08-04 16:56:14 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/fixes-20210810-pull-request=0D
-=0D
-for you to fetch changes up to 6ff5b5d6d521001135d1bd5c609e8834099f01d8:=0D
-=0D
-  ui/sdl2: Check return value from g_setenv() (2021-08-10 10:56:39 +0200)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-fixes for gtk, sdl and audio live migration.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Dr. David Alan Gilbert (1):=0D
-  audio: Never send migration section=0D
-=0D
-Peter Maydell (1):=0D
-  ui/sdl2: Check return value from g_setenv()=0D
-=0D
-Volker R=C3=BCmelin (1):=0D
-  ui/gtk: retry sending VTE console input=0D
-=0D
- audio/audio.c | 10 ++++++++++=0D
- ui/gtk.c      | 10 ++++------=0D
- ui/sdl2.c     |  5 ++++-=0D
- 3 files changed, 18 insertions(+), 7 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+From: Volker Rümelin <vr_qemu@t-online.de>
+
+Commit 584af1f1d9 ("ui/gtk: add a keyboard fifo to the VTE
+consoles") changed the VTE chardev backend code to rely on the
+chr_accept_input() callback function. The code expects a
+chr_accept_input() call whenever qemu_chr_be_can_write() bytes
+were written. It turns out this is wrong. Some chardev
+frontends only call this callback after can_write was 0.
+
+Change the code to send data until the keyboard fifo is empty
+or qemu_chr_be_can_write() returns 0.
+
+Fixes: 584af1f1d9 ("ui/gtk: add a keyboard fifo to the VTE consoles")
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210810063257.17411-1-vr_qemu@t-online.de>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/gtk.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 974e4dfc0b5b..cfb0728d1fb4 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1646,16 +1646,14 @@ static void gd_vc_send_chars(VirtualConsole *vc)
+ 
+     len = qemu_chr_be_can_write(vc->vte.chr);
+     avail = fifo8_num_used(&vc->vte.out_fifo);
+-    if (len > avail) {
+-        len = avail;
+-    }
+-    while (len > 0) {
++    while (len > 0 && avail > 0) {
+         const uint8_t *buf;
+         uint32_t size;
+ 
+-        buf = fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
++        buf = fifo8_pop_buf(&vc->vte.out_fifo, MIN(len, avail), &size);
+         qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
+-        len -= size;
++        len = qemu_chr_be_can_write(vc->vte.chr);
++        avail -= size;
+     }
+ }
+ 
+-- 
+2.31.1
 
 
