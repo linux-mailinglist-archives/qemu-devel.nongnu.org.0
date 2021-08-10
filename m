@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A933E5C00
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BDA3E5C01
 	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:42:57 +0200 (CEST)
-Received: from localhost ([::1]:41306 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDS1w-0001oy-6v
+	id 1mDS1w-0001r7-Va
 	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42600)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mDS0C-0007Fy-PP; Tue, 10 Aug 2021 09:41:08 -0400
-Received: from forward3-smtp.messagingengine.com ([66.111.4.237]:52321)
+ id 1mDS0C-0007GA-TC; Tue, 10 Aug 2021 09:41:08 -0400
+Received: from forward3-smtp.messagingengine.com ([66.111.4.237]:46223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mDS09-0003ho-2J; Tue, 10 Aug 2021 09:41:08 -0400
+ id 1mDS08-0003hp-Rg; Tue, 10 Aug 2021 09:41:08 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailforward.nyi.internal (Postfix) with ESMTP id 1AB341940138;
+ by mailforward.nyi.internal (Postfix) with ESMTP id 3FD36194009B;
  Tue, 10 Aug 2021 09:41:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
+Received: from mailfrontend2 ([10.202.2.163])
  by compute4.internal (MEProxy); Tue, 10 Aug 2021 09:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=RIardBH1mTSGd3Guk
- f1lpAbUgykGFuWsjwLIk8uxa5I=; b=ptQl0i++7W6T1/TxKrcKqz78gSDb1iOcm
- jJ1jUAjU9knEaJ7FXzr/At/yulmRCmbPItZhqKYk2zgs1ybf+uxVkP5G+GSHeZMs
- jSyCVP73o5YZ/QpVMeTV0I8/1npmFc1XhxYoSNhw9Nt6R+9TJFLOEXPN75ZyMwNg
- duSPAfWw6yWX5uJvrbau8q6OJKyYDzgEavj6JmkrrAFa2B4G8KeA2xUFL3e0HqxT
- EL+A/Re3abDOwtGMa6wRe0IhjAXMnc0XSG2Onkle9zzUIiSJBf0tJgxeQBa2CX0g
- vc3Yk42wSp9EIsn4NoUZq29wg6H8UkuksPb0OaQRNodcRL3Q7dDIg==
-X-ME-Sender: <xms:5oESYQ3nhkQ-4OKgLklrcTyroVDvuzdLH6F2jit1TZYVZuvEQfocFA>
- <xme:5oESYbEq-O6IIRD8Dkx2o296f4jik9yMjIbLpZK6409GrwUYBY0LxamB4CfP98Z19
- fF0pLEZETnbx53eScM>
-X-ME-Received: <xmr:5oESYY6LkYb6GPuXfG-D9nR_Ae6fi3X852q4DB_Yz20wLrcv8NuNxRg7E0hmGENMh6A8mErm9wcQ-hz7BMLAzdT4MPT6bfPVD7Cstlbyyes>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=B7yw234pFsdlhlhxFOpTGWvxm5kTKGDXEngEIAXEhMk=; b=uP85APQq
+ y2gyKcmmvscMiYWdtLq+tTS+znnD8y499eaRiFdJ+TOjqYlFl0IOhEj4//e4gs5b
+ AqypzEL9qCdYOnYjzaFGBIm9AlQiJtiq1jW8w/s2x9B6YZoRSoxtSFddMWDwa8dc
+ 5ZkOJ9l2eVdCttRzUalrSD/ow8O6SpTjd0dgyvn7KCfKZtlb/1AXipldMNWuHVqb
+ g38qaq0UEfA1VwTYp3VwDLQIGo3ake80FWACI5gbOUgX2dMbCuaszDvUpLLBo1LR
+ /6k5EH2XDQlYxxJevLkSOP6aVkI+kc+iphmCLbUHgMVqdGrAKbTsMZetyts751+Z
+ VuQYROM2XRJhmg==
+X-ME-Sender: <xms:54ESYW3OLKBfthajFApo0l4OaaHj5htGNG3mv4nxMyWv-k7P_zMPsA>
+ <xme:54ESYZHu-44K4_ewGiCXwk-BPrWbK86NCcQXyJYRknagIyYLyl0Alw9ltp_2shANm
+ UQGGqCu0eiMdv9N-vo>
+X-ME-Received: <xmr:54ESYe4xp9xo0to5_tq1dhhrV88_1gh2zVW6_Dp8nYFzzudgG4R5JoG7hotj7OFF_S2fugwY3bwexN5r9IDsl9poAn8wr3WI1v5WmTntfpI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeelgdeikecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepffgrvhhiugcugfgu
- mhhonhgushhonhcuoegurghvihgurdgvughmohhnughsohhnsehorhgrtghlvgdrtghomh
- eqnecuggftrfgrthhtvghrnhephfeftdeiveelteeuueekffdvffefiefgtddvffegiedt
- geefffeliefhvedtkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghvihgurdgvughm
- ohhnughsohhnsehorhgrtghlvgdrtghomh
-X-ME-Proxy: <xmx:5oESYZ1rJR_l5MvtXSHXUetblso4pycW9ewM26w3i7-fchX7G_2EUg>
- <xmx:5oESYTGknXg16pvpqPHQ-HksKbz0trzQdvmJVd3iUAC2F-SgBTcnJg>
- <xmx:5oESYS-LtVjGVILpx0oRDUCvceqVeulRRoG6cz_GGV8B3zBRVbafWQ>
- <xmx:7YESYZV6f_pmHt5T144ubg6dhsh0aa21LQe73FQxEiPBnyNms3L0kD3VDHk>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepffgrvhhiugcu
+ gfgumhhonhgushhonhcuoegurghvihgurdgvughmohhnughsohhnsehorhgrtghlvgdrtg
+ homheqnecuggftrfgrthhtvghrnhepudefteejgfefhfdtjefhhedtffethfetkeehgfel
+ heffhfeihfeglefgjedtheeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepuggrvhhiugdrvggumhhonhgushhonhesohhrrggtlhgvrdgtohhm
+X-ME-Proxy: <xmx:54ESYX2CV9rcWwWbJacSOPnzMdixaUBAoHG-11_zNSvJjAFDW_tcTg>
+ <xmx:54ESYZGh_oPf4u9gFVco9t9-q_qqeku1ZDz_OQJlRMHGtBPDzNp9xQ>
+ <xmx:54ESYQ-tJSnL90F4WO-HrcGJq21W8VJC_sZLj9edZtNiqQXbedGfSg>
+ <xmx:7YESYfXkKEW_sAjrVS2fF7mhNoPc7i7TRup81WHfOUwtMYdBY8jQPJB25Ak>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Aug 2021 09:40:52 -0400 (EDT)
+ 10 Aug 2021 09:40:53 -0400 (EDT)
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 2a9d1ee0;
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id a555f518;
  Tue, 10 Aug 2021 13:40:50 +0000 (UTC)
 From: David Edmondson <david.edmondson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/1] hw/pflash_cfi01: Allow an administrator to reduce the
- memory consumption of flash devices
-Date: Tue, 10 Aug 2021 14:40:49 +0100
-Message-Id: <20210810134050.396747-1-david.edmondson@oracle.com>
+Subject: [PATCH v4 1/1] hw/pflash_cfi01: Allow backing devices to be smaller
+ than memory region
+Date: Tue, 10 Aug 2021 14:40:50 +0100
+Message-Id: <20210810134050.396747-2-david.edmondson@oracle.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210810134050.396747-1-david.edmondson@oracle.com>
+References: <20210810134050.396747-1-david.edmondson@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: softfail client-ip=66.111.4.237;
@@ -100,130 +102,204 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As described in
-https://lore.kernel.org/r/20201116104216.439650-1-david.edmondson@oracle.com
-and
-https://lore.kernel.org/r/20210222174757.2329740-1-david.edmondson@oracle.com
-I'd like to reduce the amount of memory consumed by QEMU mapping UEFI
-images on aarch64.
+Allow the backing device to be smaller than the extent of the flash
+device by mapping it as a subregion of the flash device region.
 
-To recap:
+Return zeroes for all reads of the flash device beyond the extent of
+the backing device.
 
-> Currently ARM UEFI images are typically built as 2MB/768kB flash
-> images for code and variables respectively. These images are both
-> then padded out to 64MB before being loaded by QEMU.
->
-> Because the images are 64MB each, QEMU allocates 128MB of memory to
-> read them, and then proceeds to read all 128MB from disk (dirtying
-> the memory). Of this 128MB less than 3MB is useful - the rest is
-> zero padding.
->
-> On a machine with 100 VMs this wastes over 12GB of memory.
+For writes beyond the extent of the underlying device, fail on
+read-only devices and discard them for writable devices.
 
-Some of the cleanups in the previous patches were incorporated, but
-the patch that reduced memory consumption was not accepted. This is
-essentially that patch rebased after some unrelated changes. Having
-investigated alternatives, I think that the patch here is useful as it
-stands.
-
-All read/write operations to areas outside of the underlying block
-device are handled directly. Reads return 0, writes either fail
-(read-only devices) or are discarded (writable devices).
-
-This reduces the memory consumption for the AAVMF code image from
-64MiB to around 2MB and that for the AAVMF vars from 64MiB to 768KiB
-(presuming that the UEFI images are adjusted accordingly).
-
-For read-only devices (such as the AAVMF code) this seems completely
-safe.
-
-For writable devices there is a change in behaviour - previously it
-was possible to write anywhere in the extent of the flash device, read
-back the data written and have that data persist through a restart of
-QEMU. This is no longer the case - writes outside of the extent of the
-underlying backing block device will be discarded. That is, a read
-after a write will *not* return the written data, either immediately
-or after a QEMU restart - it will return zeros.
-
-Looking at the AAVMF implementation, it seems to me that if the
-initial VARS image is prepared as being 768KiB in size (which it is),
-none of AAVMF itself will attempt to write outside of that extent, and
-so I believe that this is an acceptable compromise.
-
-It would be relatively straightforward to allow writes outside of the
-backing device to persist for the lifetime of a particular QEMU by
-allocating memory on demand (i.e. when there is a write to the
-relevant region). This would allow a read to return the relevant data,
-but only until a QEMU restart, at which point the data would be lost.
-
-It may be possible to persist writes by extending the underlying
-backing device to accommodate a new extent. This would definitely add
-complication, as ideally the size of the memory sub-region would also
-be updated. I have not investigated this further.
-
-There was a suggestion in a previous thread that perhaps the pflash
-driver could be re-worked to use the block IO interfaces to access the
-underlying device "on demand" rather than reading in the entire image
-at startup (at least, that's how I understood the comment).
-
-An implementation of this based around mapping the flash region only
-for IO, which meant that every read or write had to be handled
-directly by the pflash driver (there was no ROMD style operation),
-made booting an aarch64 VM significantly slower - getting through the
-firmware went from under 1 second to around 10 seconds. It's possible
-that this could be improved by caching blocks or some other mechanism,
-but I have not pursued it further.
-
-Philippe implemented a suggestion to use mmap() to avoid the need to
-allocate (and dirty) memory for read-only pflash images in
-https://lore.kernel.org/qemu-devel/20210301115329.411762-1-philmd@redhat.com/.
-
-This solution was, I believe, considered incomplete, as:
-- it does not handle the case where the image underlying a pflash
-  device is changed via QAPI,
-- it does not handle writable devices.
-
-There is also an assumption that multiple QEMU instances on a single
-host will share the same AAVMF code image (to benefit from a shared
-mapping) - this is not the case in the environment that I am looking
-to support.
-
-If using mmap() for read-only device is particularly valuable, it
-could be combined with the patches here - the benefit would be
-cumulative.
-
-The only drawback that I see with this patch is the change in
-behaviour for writes beyond the extent of an underlying image. Unless
-the AAVMF build process is modified to generate smaller images (768kB
-for the variables, for example), this will never be a problem in
-reality, as the underlying image will match the size of the device.
-
-Only when a deliberate decision is taken to use an image smaller than
-the device does this drawback come to the fore, which is a tradeoff
-that an administrator can choose to make if they wish.
-
-v2:
-- Unify the approach for both read-only and writable devices, saving
-  another 63MiB per QEMU instance.
-
-v3:
-- Add Reviewed-by: for two changes (Philippe).
-- Call blk_pread() directly rather than using
-  blk_check_size_and_read_all(), given that we know how much we want
-  to read.
-
-v4:
-- Remove changes already upstream.
-- Rebase.
-
-David Edmondson (1):
-  hw/pflash_cfi01: Allow backing devices to be smaller than memory
-    region
-
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+---
  hw/block/pflash_cfi01.c | 105 ++++++++++++++++++++++++++++++++--------
  hw/block/trace-events   |   3 ++
  2 files changed, 87 insertions(+), 21 deletions(-)
 
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 81f9f971d8..f3289b6a2f 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -83,6 +83,8 @@ struct PFlashCFI01 {
+     uint64_t counter;
+     unsigned int writeblock_size;
+     MemoryRegion mem;
++    MemoryRegion mem_outer;
++    char outer_name[64];
+     char *name;
+     void *storage;
+     VMChangeStateEntry *vmstate;
+@@ -434,7 +436,6 @@ static inline void pflash_data_write(PFlashCFI01 *pfl, hwaddr offset,
+         }
+         break;
+     }
+-
+ }
+ 
+ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+@@ -656,8 +657,44 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+ }
+ 
+ 
+-static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwaddr addr, uint64_t *value,
+-                                              unsigned len, MemTxAttrs attrs)
++static MemTxResult pflash_outer_read_with_attrs(void *opaque, hwaddr addr,
++                                                uint64_t *value, unsigned len,
++                                                MemTxAttrs attrs)
++{
++    PFlashCFI01 *pfl = opaque;
++
++    trace_pflash_outer_read(pfl->name, addr, len);
++    *value = 0;
++    return MEMTX_OK;
++}
++
++static MemTxResult pflash_outer_write_with_attrs(void *opaque, hwaddr addr,
++                                                 uint64_t value, unsigned len,
++                                                 MemTxAttrs attrs)
++{
++    PFlashCFI01 *pfl = opaque;
++
++    trace_pflash_outer_write(pfl->name, addr, len);
++    if (pfl->ro) {
++        return MEMTX_ERROR;
++    } else {
++        warn_report_once("%s: "
++                         "attempt to write outside of the backing block device "
++                         "(offset " TARGET_FMT_plx ") ignored",
++                         pfl->name, addr);
++        return MEMTX_OK;
++    }
++}
++
++static const MemoryRegionOps pflash_cfi01_outer_ops = {
++    .read_with_attrs = pflash_outer_read_with_attrs,
++    .write_with_attrs = pflash_outer_write_with_attrs,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwaddr addr,
++                                              uint64_t *value, unsigned len,
++                                              MemTxAttrs attrs)
+ {
+     PFlashCFI01 *pfl = opaque;
+     bool be = !!(pfl->features & (1 << PFLASH_BE));
+@@ -670,8 +707,9 @@ static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwaddr addr, uint64_
+     return MEMTX_OK;
+ }
+ 
+-static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwaddr addr, uint64_t value,
+-                                               unsigned len, MemTxAttrs attrs)
++static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwaddr addr,
++                                               uint64_t value, unsigned len,
++                                               MemTxAttrs attrs)
+ {
+     PFlashCFI01 *pfl = opaque;
+     bool be = !!(pfl->features & (1 << PFLASH_BE));
+@@ -800,7 +838,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+ {
+     ERRP_GUARD();
+     PFlashCFI01 *pfl = PFLASH_CFI01(dev);
+-    uint64_t total_len;
++    uint64_t outer_len, inner_len;
+     int ret;
+ 
+     if (pfl->sector_len == 0) {
+@@ -816,35 +854,60 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    total_len = pfl->sector_len * pfl->nb_blocs;
+-
+-    memory_region_init_rom_device(
+-        &pfl->mem, OBJECT(dev),
+-        &pflash_cfi01_ops,
+-        pfl,
+-        pfl->name, total_len, errp);
+-    if (*errp) {
+-        return;
+-    }
+-
+-    pfl->storage = memory_region_get_ram_ptr(&pfl->mem);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
++    outer_len = pfl->sector_len * pfl->nb_blocs;
+ 
+     if (pfl->blk) {
+         uint64_t perm;
++
+         pfl->ro = !blk_supports_write_perm(pfl->blk);
+         perm = BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRITE);
+         ret = blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+             return;
+         }
++
++        inner_len = blk_getlength(pfl->blk);
++
++        if (inner_len > outer_len) {
++            error_setg(errp, "%s: "
++                       "block backend provides %" PRIu64 " bytes, "
++                       "device limited to %" PRIu64 " bytes",
++                       pfl->name, inner_len, outer_len);
++            return;
++        }
+     } else {
+         pfl->ro = false;
++        inner_len = outer_len;
+     }
+ 
++    trace_pflash_realize(pfl->name, pfl->ro, inner_len, outer_len);
++
++    snprintf(pfl->outer_name, sizeof(pfl->outer_name),
++             "%s container", pfl->name);
++    memory_region_init_io(&pfl->mem_outer, OBJECT(dev),
++                          &pflash_cfi01_outer_ops,
++                          pfl, pfl->outer_name, outer_len);
++
++    memory_region_init_rom_device(&pfl->mem, OBJECT(dev),
++                                  &pflash_cfi01_ops,
++                                  pfl, pfl->name, inner_len, errp);
++    if (*errp) {
++        return;
++    }
++
++    memory_region_add_subregion(&pfl->mem_outer, 0, &pfl->mem);
++
++    pfl->storage = memory_region_get_ram_ptr(&pfl->mem);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem_outer);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
++
+     if (pfl->blk) {
+-        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, total_len,
+-                                         errp)) {
++        int ret = blk_pread(pfl->blk, 0, pfl->storage, inner_len);
++
++        if (ret < 0) {
++            error_setg_errno(errp, -ret,
++                             "cannot read %" PRIu64 " "
++                             "bytes from block backend", inner_len);
+             vmstate_unregister_ram(&pfl->mem, DEVICE(pfl));
+             return;
+         }
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index d86b53520c..3d1e07261e 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -21,10 +21,13 @@ pflash_io_read(const char *name, uint64_t offset, unsigned int size, uint32_t va
+ pflash_io_write(const char *name, uint64_t offset, unsigned int size, uint32_t value, uint8_t wcycle) "%s: offset:0x%04"PRIx64" size:%u value:0x%04x wcycle:%u"
+ pflash_manufacturer_id(const char *name, uint16_t id) "%s: read manufacturer ID: 0x%04x"
+ pflash_mode_read_array(const char *name) "%s: read array mode"
++pflash_outer_read(const char *name, uint64_t addr, unsigned int len) "%s: addr:0x%" PRIx64 " len:%d"
++pflash_outer_write(const char *name, uint64_t addr, unsigned int len) "%s: addr:0x%" PRIx64 " len:%d"
+ pflash_postload_cb(const char *name)  "%s: updating bdrv"
+ pflash_read_done(const char *name, uint64_t offset, uint64_t ret) "%s: ID:0x%" PRIx64 " ret:0x%" PRIx64
+ pflash_read_status(const char *name, uint32_t ret) "%s: status:0x%x"
+ pflash_read_unknown_state(const char *name, uint8_t cmd) "%s: unknown command state:0x%x"
++pflash_realize(const char *name, bool ro, uint64_t blk_len, uint64_t total_len) "%s: ro:%d blk_len:0x%" PRIx64 " total_len:0x%" PRIx64
+ pflash_reset(const char *name) "%s: reset"
+ pflash_sector_erase_start(const char *name, int width1, uint64_t start, int width2, uint64_t end) "%s: start sector erase at: 0x%0*" PRIx64 "-0x%0*" PRIx64
+ pflash_timer_expired(const char *name, uint8_t cmd) "%s: command 0x%02x done"
 -- 
 2.30.2
 
