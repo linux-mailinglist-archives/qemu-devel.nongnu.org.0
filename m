@@ -2,63 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227563E5B8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:27:31 +0200 (CEST)
-Received: from localhost ([::1]:48618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022463E5BA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:31:01 +0200 (CEST)
+Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDRn0-0003sd-7P
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:27:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39242)
+	id 1mDRqO-0005qo-38
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:31:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mDRlV-0002yG-4o
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:25:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:33949)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mDRpA-0004so-LP; Tue, 10 Aug 2021 09:29:45 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:41854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mDRlT-0003P8-LC
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:25:56 -0400
-Received: from [192.168.100.1] ([82.142.5.86]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MP2zs-1mTqXz3qdo-00PMHZ; Tue, 10 Aug 2021 15:25:52 +0200
-Subject: Re: [PATCH] linux-user: Check lock_user result for ip_mreq_source
- sockopts
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210809155424.30968-1-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <93eefdc3-9624-2b5a-8401-62af5f09c82d@vivier.eu>
-Date: Tue, 10 Aug 2021 15:25:51 +0200
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mDRp6-0005Sb-4l; Tue, 10 Aug 2021 09:29:44 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Tue, 10 Aug 2021 15:29:29 +0200
+Subject: Re: [PATCH] block/rbd: implement bdrv_co_block_status
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <20210809134136.23140-1-pl@kamp.de>
+ <20210810085124.iwyd3g2jms6suzpi@steredhat>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <f570f8b5-27d0-335a-d98e-28c7c56c1fac@kamp.de>
+Date: Tue, 10 Aug 2021 15:29:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210809155424.30968-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <20210810085124.iwyd3g2jms6suzpi@steredhat>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dZO/h5PSI2xeII8Q8cFIZtcMgDEGHwr/aSKNPu7jAdoWI8wX57J
- sPBRqxagdLbjF6lyp3q0UQnMIsCFDL5RbKuVgjEaULhJZ8yOdkts6n1gPOw4hRQyF8qGdTF
- yhUbsWZ5UrJDjLrHEeQp3J9Mk4xb966IRyrer8EMD2ua1+8SKShZli4KgRS2MN0F7L3iiQZ
- k/ZYCAh4lgbOLAzKYuKyg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nxixUdb+L8E=:Tvvq3PmW1MoS2q0A+vJHz5
- wb3SS+nxtPJzhL31Fu+J1/zaVfC0HtptEv8Mgk7g4llNGMuLLH/b8x2G69oH8IlnpjProi6b6
- U3YS3p+pZLZ+0F7DvWkzzZtorkdkeCeVZoj0AwjLz3IEVNLDyG0/rzePNlwTh3uUVrCb10ztj
- JAxQaCl1lBGplww0x/QRZPp+Swiacu7w+F0YSDGpY/Vp6hJa0CjHvPWhiJFBKFT4cwkMAsCsG
- vhPAmS46neiUZUL9CR4erZhkNjtCGhryyFWAMiF7vtSDqHg4UUV2rmDQjgwgEx1lIJmt8jOua
- S/wi5a/tkA744RdWxENQjCoyV8QHivG5Jm+hq1Dnw84T0JZROChsG16wuRGKSijztSB/fY6Xu
- jz9C/oGHsR4Mxuf0I726N8w+3Qe/0zyVLLv3NTumY+FBa68Pv+ZA8AvJ5F9euWweVc/utd9X3
- lZL73nUkDnm5Tlmzld1RgEPsCQiDD3guoFMytsJDSBeJT09+FFxXPk21UFibLsxdyViDFzfEs
- CmvqdvIMvifB+8AOeIfpeAszz+Y/Ur4HUgQzHgspf+VqYZruZDvRrplsLO0jHiFej1vUb8v6J
- 1G2sgRALttD9R+6aXxNuEtp9MkqPneObVGDbQaIcWGu0+zBCOH/c127NuPf8LTp5TVcAtNHdZ
- fSIlriegLE9V9eJdFfhLY3lh+5kz4V+6Y7iWoG4M9wEaTcChLomhQiq9mS71fec2f7W+kB/+S
- wL/LfkbxEMCbIbW7utjxxMDE9CEsBeAqyqKY8V2oWYSRAsGAp87eabasVYHIRcDKNPREuf7xH
- NXxX9ojiA2c9eRNw64HU7CKRDYgwYK0we6Z2iaY1bxHL6htjtWab+8ir3ay3T3R3fcijQGc
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,43 +55,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, ct@flyingcircus.io, mreitz@redhat.com,
+ pbonzini@redhat.com, idryomov@gmail.com, idryomov@redhat.com,
+ dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/08/2021 à 17:54, Peter Maydell a écrit :
-> In do_setsockopt(), the code path for the options which take a struct
-> ip_mreq_source (IP_BLOCK_SOURCE, IP_UNBLOCK_SOURCE,
-> IP_ADD_SOURCE_MEMBERSHIP and IP_DROP_SOURCE_MEMBERSHIP) fails to
-> check the return value from lock_user().  Handle this in the usual
-> way by returning -TARGET_EFAULT.
-> 
-> (In practice this was probably harmless because we'd pass a NULL
-> pointer to setsockopt() and the kernel would then return EFAULT.)
-> 
-> Fixes: Coverity CID 1459987
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Compile-tested only; I don't have a test case to hand that
-> uses these socket options.
-> 
->  linux-user/syscall.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ccd3892b2df..d2b062ea5a9 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -2121,6 +2121,9 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
->                  return -TARGET_EINVAL;
->  
->              ip_mreq_source = lock_user(VERIFY_READ, optval_addr, optlen, 1);
-> +            if (!ip_mreq_source) {
-> +                return -TARGET_EFAULT;
-> +            }
->              ret = get_errno(setsockopt(sockfd, level, optname, ip_mreq_source, optlen));
->              unlock_user (ip_mreq_source, optval_addr, 0);
->              break;
-> 
+Am 10.08.21 um 10:51 schrieb Stefano Garzarella:
+> On Mon, Aug 09, 2021 at 03:41:36PM +0200, Peter Lieven wrote:
+>
+> Please, can you add a description?
+> For example also describing what happens if RBD image does not support RBD_FEATURE_FAST_DIFF.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
+Sure.
+
+
+>
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> ---
+>> block/rbd.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>> 1 file changed, 119 insertions(+)
+>>
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index dcf82b15b8..ef1eaa6af3 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -88,6 +88,7 @@ typedef struct BDRVRBDState {
+>>     char *namespace;
+>>     uint64_t image_size;
+>>     uint64_t object_size;
+>> +    uint64_t features;
+>> } BDRVRBDState;
+>>
+>> typedef struct RBDTask {
+>> @@ -983,6 +984,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+>>     s->image_size = info.size;
+>>     s->object_size = info.obj_size;
+>>
+>> +    r = rbd_get_features(s->image, &s->features);
+>> +    if (r < 0) {
+>> +        error_setg_errno(errp, -r, "error getting image features from %s",
+>> +                         s->image_name);
+>> +        rbd_close(s->image);
+>> +        goto failed_open;
+>           ^
+> You can use `failed_post_open` label here, so you can avoid to call rbd_close().
+
+
+Bad me, I developed this patch in a Qemu version where failed_post_open wasn't present...
+
+
+>
+>> +    }
+>> +
+>>     /* If we are using an rbd snapshot, we must be r/o, otherwise
+>>      * leave as-is */
+>>     if (s->snap != NULL) {
+>> @@ -1259,6 +1268,115 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>>     return spec_info;
+>> }
+>>
+>> +typedef struct rbd_diff_req {
+>> +    uint64_t offs;
+>> +    uint64_t bytes;
+>> +    int exists;
+>> +} rbd_diff_req;
+>> +
+>> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
+>> +                                       int exists, void *opaque)
+>> +{
+>> +    struct rbd_diff_req *req = opaque;
+>> +
+>> +    assert(req->offs + req->bytes <= offs);
+>> +    assert(offs >= req->offs + req->bytes);
+>
+> I think just one of the two asserts is enough, isn't that the same condition?
+
+
+Right.
+
+
+>
+>> +
+>> +    if (req->exists && offs > req->offs + req->bytes) {
+>> +        /*
+>> +         * we started in an allocated area and jumped over an unallocated area,
+>> +         * req->bytes contains the length of the allocated area before the
+>> +         * unallocated area. stop further processing.
+>> +         */
+>> +        return -9000;
+>                  ^
+> What is this magical value?
+>
+> Please add a macro (with a comment) and also use it below in other places.
+
+
+Will add in V2.
+
+
+>
+>> +    }
+>> +    if (req->exists && !exists) {
+>> +        /*
+>> +         * we started in an allocated area and reached a hole. req->bytes
+>> +         * contains the length of the allocated area before the hole.
+>> +         * stop further processing.
+>> +         */
+>> +        return -9000;
+>> +    }
+>> +    if (!req->exists && exists && offs > req->offs) {
+>> +        /*
+>> +         * we started in an unallocated area and hit the first allocated
+>> +         * block. req->bytes must be set to the length of the unallocated area
+>> +         * before the allocated area. stop further processing.
+>> +         */
+>> +        req->bytes = offs - req->offs;
+>> +        return -9000;
+>> +    }
+>> +
+>> +    /*
+>> +     * assert that we catched all cases above and allocation state has not
+>> +     * changed during callbacks.
+>> +     */
+>> +    assert(exists == req->exists || !req->bytes);
+>> +    req->exists = exists;
+>> +
+>> +    /*
+>> +     * assert that we either return an unallocated block or have got callbacks
+>> +     * for all allocated blocks present.
+>> +     */
+>> +    assert(!req->exists || offs == req->offs + req->bytes);
+>> +    req->bytes = offs + len - req->offs;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>> +                                                 bool want_zero, int64_t offset,
+>> +                                                 int64_t bytes, int64_t *pnum,
+>> +                                                 int64_t *map,
+>> + BlockDriverState **file)
+>> +{
+>> +    BDRVRBDState *s = bs->opaque;
+>> +    int ret, r;
+>> +    struct rbd_diff_req req = { .offs = offset };
+>> +
+>> +    assert(offset + bytes <= s->image_size);
+>> +
+>> +    /* default to all sectors allocated */
+>> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+>> +    if (map) {
+>> +        *map = offset;
+>> +    }
+>> +    *pnum = bytes;
+>> +
+>> +    /* RBD image does not support fast-diff */
+>> +    if (!(s->features & RBD_FEATURE_FAST_DIFF)) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+>> +                          qemu_rbd_co_block_status_cb, &req);
+>> +    if (r < 0 && r != -9000) {
+>> +        goto out;
+>> +    }
+>> +    assert(req.bytes <= bytes);
+>> +    if (!req.exists) {
+>> +        if (r == 0 && !req.bytes) {
+>> +            /*
+>> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
+>> +             * except for the case where an overlay has a hole where the parent
+>> +             * has not. This here catches the case where no callback was
+>> +             * invoked at all.
+>> +             */
+>> +            req.bytes = bytes;
+>> +        }
+>> +        ret &= ~BDRV_BLOCK_DATA;
+>> +        ret |= BDRV_BLOCK_ZERO;
+>> +    }
+>> +    *pnum = req.bytes;
+>> +
+>> +out:
+>> +    if (ret > 0 && ret & BDRV_BLOCK_OFFSET_VALID && file) {
+>
+> Can ret be zero at this point?
+> Doesn't BDRV_BLOCK_OFFSET_VALID always stay set?
+
+
+Right, I decided to declare any area as allocated if rbd_diff_iterate2 would fail so this
+
+can't happen.
+
+
+I will send a V2 shortly.
+
+
+Peter
+
+
+
 
