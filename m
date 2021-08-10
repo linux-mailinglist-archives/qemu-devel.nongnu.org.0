@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070603E5C2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:50:38 +0200 (CEST)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA8A3E5C32
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 15:51:49 +0200 (CEST)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDS9M-0000yA-H5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44302)
+	id 1mDSAW-0004UP-Hv
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 09:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7n-0007Vi-FF
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:48:59 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42755)
+ id 1mDS7o-0007Vs-Gx
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:00 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mDS7j-0008Ib-Ih
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:48:59 -0400
-Received: by mail-wr1-x436.google.com with SMTP id q11so8188341wrr.9
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:48:55 -0700 (PDT)
+ id 1mDS7n-0008JH-5w
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 09:49:00 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r6so4140869wrt.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 06:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E5hS3ENVP72CpSnlelGnT6C1q/k3+cgLvOlOPZM7xvs=;
- b=XE/5dScqU0CupFFp2hVBKsvHh1h2G4bQ/J2rFEPRiJge7mdVNwq/+ci3b/AdFC6ZyY
- b1nUdfEICbp7bd1/ivj997huDgzm9MAkVdkRofHU1h+38p/OLkiWGSp5kv0k/Qraiz5f
- XgRMAmjXz/1EoY43+O5kQHOpHok9j2NhEirVn4ZWp6QgzWUkx2zbhEuBkamJWQFQqrlj
- mCVDr1kvIpclD0Sa8OyHSBAe22NOyLv5GMilPTNTwraoealQTddaUgNqTtx/r9YOsCKY
- f3Dm5d27a6wFW/3+0WzbKp/Ms15DiteIXEk46ZE/+exP67OEuuxi+TQ8INZ9j74Q714A
- RfZA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ztyZR8cQ1Le68g67dAtQvahuQF0be41+QNTy+0JP4BM=;
+ b=iNA4FPqxIoHiKyOtqqcR9FTPlUjT6x/nM7TT5U4iMW0msZZbjZjIgHrnUvdUaxn27Z
+ uQMLWiOMICUAG7L+7wdjqDsP5nLbA+yDmtkiSHWpbYufF2Jm8huCgzY8C/gEIEDRUuWe
+ Ia7zbfr58Yu9xkKEoc6dJVQs4elXvmZlDdvO/QHUyLDeBl8J+V8gT3ZiNLMbjO7zuIIX
+ GujIuSxyU+XAzjgozy3WtIVHjQuIuQt+Z1SGKpOaIy6YCJF+fCzeywiaJIe6eoYFmDP/
+ 4j08t2LpVxjLboruBTOizwU7/vFCjZPhOxgTqaAflvlvhO7hLLPNNsM0f2tFkV2XqYoa
+ g9pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E5hS3ENVP72CpSnlelGnT6C1q/k3+cgLvOlOPZM7xvs=;
- b=h+0ZpGsF5+yE86WxxogmzibxKrd8l5dydMJGbv7IAUBv3q8KNRZWVL0n6vez+xFXK2
- LX8wP5DZ6XQjnaEyHBWZRnPA5UuxVuAG5xcvlbi96r/yWM6SmZb72JTE/c9riC7KJvvu
- 7k7hs6pv/zclaWj4haZUGLvrik9cyLO4y20P3NQTyFmCBElpdp5lyA8pzfyUle3zxzdo
- /nAVkKTLnk0uksuBidS4o9yTSbVgzIelas/b12+umXgrY+GrZiakPIqVaQBUm26Z4GVi
- ruHHNH3wXkWqXzKZyWt3KrLz1cLArdu4Fg0dm8QlnWsOx0gSz9LT811x6RyWSRV9L8NI
- B6iA==
-X-Gm-Message-State: AOAM530UiBSNBHT1wijklCkEyXwXXuY/5s5Bk7XbIqta+YvN/2EY8Bfp
- ciSMwqwxVVQBo0FmMEzC3AqSqRwnz10=
-X-Google-Smtp-Source: ABdhPJzzaytGYcfZAHJ5QT/UcxqupugtvX621Zl6vz58tiniFS2BntF+zMKi5v0/M23T34ij+cNppA==
-X-Received: by 2002:adf:ff92:: with SMTP id j18mr31787153wrr.334.1628603333828; 
- Tue, 10 Aug 2021 06:48:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ztyZR8cQ1Le68g67dAtQvahuQF0be41+QNTy+0JP4BM=;
+ b=GBwFlldKAAe+FMeUbpVNfd9JpNk/eIy6iLl2XguQQ65Uqqw0DNXTgZ6RIUpCvustGa
+ LCa6UKFpjsDi2+8FZUZz0T74zbzx9ZiWmLYR1Y3h3JzXDD+xvyU1sXTF1uioS2K6LA0o
+ j+W8n8sDLrU+aLDH/Qk78phOlC9VxAyVUeHTl33rNjv5hD4pD4xkXPswp4bXHsh9fC1D
+ hm6GVzGoZGgFu1o/nExPH5jqet4f9NRLwQYSN7Th14nnz+9Whsce4V25c6ZmZIPxIulM
+ S6dCaxK+ZcNKFIbIERiIlLrYUzEuFke2smu32Q7Sz13MRv29mhFAzveNdWeTNuXsGmlc
+ VsKg==
+X-Gm-Message-State: AOAM5305tnTSC+B3hL3GGequU6JBDKaPldb2VgHVBeUXdV9cS+to0k6i
+ w33mqq0mMrKAgXcnQAx8vSWf0OiUvbQ=
+X-Google-Smtp-Source: ABdhPJyUQI03W47EQq6EgCTRZIPtFFMbO7RvSf2er+FxFqgUAL5EiFTs632eV0ybAZFOBn3zXKrZ2w==
+X-Received: by 2002:adf:f149:: with SMTP id y9mr32300367wro.413.1628603335197; 
+ Tue, 10 Aug 2021 06:48:55 -0700 (PDT)
 Received: from localhost.localdomain ([41.36.105.33])
- by smtp.gmail.com with ESMTPSA id u6sm8683413wrp.83.2021.08.10.06.48.52
+ by smtp.gmail.com with ESMTPSA id u6sm8683413wrp.83.2021.08.10.06.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 06:48:53 -0700 (PDT)
+ Tue, 10 Aug 2021 06:48:54 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] plugins/cache: L2 cache modelling and a minor leak fix
-Date: Tue, 10 Aug 2021 15:48:39 +0200
-Message-Id: <20210810134844.166490-1-ma.mandourr@gmail.com>
+Subject: [PATCH 1/5] plugins/cache: freed heap-allocated mutexes
+Date: Tue, 10 Aug 2021 15:48:40 +0200
+Message-Id: <20210810134844.166490-2-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210810134844.166490-1-ma.mandourr@gmail.com>
+References: <20210810134844.166490-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,34 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, alex.bennee@linaro.org
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ contrib/plugins/cache.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-This series implements a simple L2 unified per-core cache emulation, the L2
-cache is not enabled by default and is only enabled on specifying so using the
-plugin arguments. L2 cache is only accessed if L1 does not contain the wanted
-block. If a miss occur in L1, the block is "fetched" to L1, and then L2 is
-interrogated. This effectively mean that on a cache miss, we bring the data to
-all the cache hierarchy, which is quite reasonable.
-
-Note: Some +80-column lines are left as is, since they're all 81~83 cols and I
-thought that it's so important to break them since breaking a line usually looks
-ugly when not sufficiently long(?) LMK if I need to fix this :)
-
-Mahmoud Mandour (5):
-  plugins/cache: freed heap-allocated mutexes
-  plugins/cache: implement unified L2 cache emulation
-  plugins/cache: split command line arguments into name and value
-  plugins/cache: make L2 emulation optional through args
-  docs/tcg-plugins: add L2 arguments to cache docs
-
- contrib/plugins/cache.c    | 318 ++++++++++++++++++++++++++-----------
- docs/devel/tcg-plugins.rst |  22 ++-
- 2 files changed, 244 insertions(+), 96 deletions(-)
-
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index a1e03ca882..a255e26e25 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -614,6 +614,9 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+     caches_free(dcaches);
+     caches_free(icaches);
+ 
++    g_free(dcache_locks);
++    g_free(icache_locks);
++
+     g_hash_table_destroy(miss_ht);
+ }
+ 
 -- 
 2.25.1
 
