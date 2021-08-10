@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702413E5613
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:57:32 +0200 (CEST)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34243E5615
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:58:44 +0200 (CEST)
+Received: from localhost ([::1]:44274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNZj-0003Qk-HY
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
+	id 1mDNat-0005ar-RH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNYq-0002Bg-G5
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:56:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25240)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNZw-0004PO-Ik
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:57:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNYo-0007op-10
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:56:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDNZv-0000GE-75
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:57:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628585793;
+ s=mimecast20190719; t=1628585862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tONajpiqeqIu/q1AqQqmdhsDMl3NXg1IPobD9Gdj3uU=;
- b=fXmUreslKnl+o+CvMrEJXU+XZa4EZaXwjuANZ8Ipm4dv5IPevHaGZctcDJKKJBfCXpgZmM
- fFPPZJCDDEIdaDaqA7fMuRHbtuWP+Y3fZUQz4yP0p/+hT8lg6y4tm7Vrn1wek9/DF35NgT
- bgaf99Qv0ONfLzHvKQKrGkki003VWkM=
+ bh=YRthl9ASLiFnvlj4UaV979GdcOyZbvH5WtblfcN6utE=;
+ b=CkwXj1jompYrigBHrv1rY/YCoyCHrThtrTf+y5Zpmq00vJQMwc/NP29mvcA2pDF9Aq3MtN
+ kFPihO4JpIDiQVj+0ECV7c81CLH8Wm64YHMH05ZvtP/U2HewQdnd19iOzulbk5KmeUYg5W
+ CytFgAZhWYPib08+Ot5kn3kP5gb8Nnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-7NeUY30wNTucYq5FrrxUOw-1; Tue, 10 Aug 2021 04:56:31 -0400
-X-MC-Unique: 7NeUY30wNTucYq5FrrxUOw-1
+ us-mta-332-FA5DHrZAMUSJyQHsE8g29Q-1; Tue, 10 Aug 2021 04:57:41 -0400
+X-MC-Unique: FA5DHrZAMUSJyQHsE8g29Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2B6E1018F64
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 08:56:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4830801A92;
+ Tue, 10 Aug 2021 08:57:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 692E717D4E;
- Tue, 10 Aug 2021 08:56:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CDFE669F3;
+ Tue, 10 Aug 2021 08:57:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D914618003AA; Tue, 10 Aug 2021 10:56:27 +0200 (CEST)
-Date: Tue, 10 Aug 2021 10:56:27 +0200
+ id 04FDE18003AA; Tue, 10 Aug 2021 10:57:39 +0200 (CEST)
+Date: Tue, 10 Aug 2021 10:57:38 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] audio: Never send migration section
-Message-ID: <20210810085627.rwwkhzswyzyfcc65@sirius.home.kraxel.org>
-References: <20210809170956.78536-1-dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] ui/sdl2: Check return value from g_setenv()
+Message-ID: <20210810085738.h4ypggotny3omizb@sirius.home.kraxel.org>
+References: <20210809161424.32355-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210809170956.78536-1-dgilbert@redhat.com>
+In-Reply-To: <20210809161424.32355-1-peter.maydell@linaro.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
@@ -77,25 +77,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 09, 2021 at 06:09:56PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Mon, Aug 09, 2021 at 05:14:24PM +0100, Peter Maydell wrote:
+> Setting environment variables can fail; check the return value
+> from g_setenv() and bail out if we couldn't set SDL_VIDEODRIVER.
 > 
-> The audio migration vmstate is empty, and always has been; we can't
-> just remove it though because an old qemu might send it us.
-> Changes with -audiodev now mean it's sometimes created when it didn't
-> used to be, and can confuse migration to old qemu.
-> 
-> Change it so that vmstate_audio is never sent; if it's received it
-> should still be accepted, and old qemu's shouldn't be too upset if it's
-> missing.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Fixes: Coverity 1458798
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I followed existing practice in this function for how it
+> deals with errors (ie, fprintf to stderr and exit).
+> ---
 
-Queued for 6.1
+Queued for 6.1 (given that the "drop setenv altogether" idea clearly is
+6.2 material).
 
 thanks,
   Gerd
