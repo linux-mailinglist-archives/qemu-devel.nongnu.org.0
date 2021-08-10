@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16053E80BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 19:52:37 +0200 (CEST)
-Received: from localhost ([::1]:51436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC7B3E8125
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 19:56:43 +0200 (CEST)
+Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDVvY-0002Ui-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 13:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50430)
+	id 1mDVzV-0004Pc-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 13:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mDVub-0001cv-IS
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:51:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mDVuW-0003pZ-Ln
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:51:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628617891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7htKnip9+JzIdr9t6nZ1FzA7b/EVzA7ZJ5q+b3TD92g=;
- b=YfZa/FKhSjRS4lVNAcSzxH3SkqsZlDzVSt5fo/o0MrNqzqGHs4yOaIiVeCAQ4pgJYjjJAS
- 2IRrVB2aAxKOJ2Sxx6OWksBAtXwRJy5ncIkXkdx+EYgmWTmHtN8OxY7o8Q36VEGewS2osP
- MA8cnMJI0P5YImdRV5fwi5dbW+1TZMU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-IJOniDXPNDu1wfgUGcn4GA-1; Tue, 10 Aug 2021 13:51:30 -0400
-X-MC-Unique: IJOniDXPNDu1wfgUGcn4GA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752203E744
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 17:51:29 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF49260BF1;
- Tue, 10 Aug 2021 17:51:18 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 44D882237F5; Tue, 10 Aug 2021 13:51:18 -0400 (EDT)
-Date: Tue, 10 Aug 2021 13:51:18 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v3 08/10] virtiofsd: Add inodes_by_handle hash table
-Message-ID: <YRK8lmDlRVV2dDih@redhat.com>
-References: <20210730150134.216126-1-mreitz@redhat.com>
- <20210730150134.216126-9-mreitz@redhat.com>
- <YRFTWVC1vXwjky5v@redhat.com>
- <467c019d-42b9-1290-72f3-bd96bf44ddcf@redhat.com>
- <YRKIIpOQzXgl4Jax@redhat.com>
- <915cd307-e3db-1f62-22ac-8caeffd35ca1@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDVyb-0003YE-HL
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:55:45 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDVyX-0006UZ-IT
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:55:45 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id t3so22256399plg.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 10:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=R0Miln0el3z6pNT45yr0TulQ3Y6me5jQzX7D0+YADIo=;
+ b=ARRiFhFgOsmfiIlzK5HGS94lEsKi7ir+2ClLI4kiMCiQg2wpz6vl+8pdpW805LlViW
+ i5K/miP+ww2SqWa0kepMQbwB/VKelgJYzLw8A07Y5J7joEkFU8v1MR2EkSOKomJ6PBeq
+ lCk9T1tb99HnlVsT8JV5KEHf1XT6aClue0w2vmP0/R0pNQoAwfX3Jyz9SOQtjWZF4lKB
+ MsBN1IMYK0Gp1Bq/8QS7447qqtvtuCC0WeD2+qj6bwjuSy+EqQY53h21thcRj6nns4HD
+ 3OKxn0cOzT4MSgH0I+v9YsU5oZZUtrL/dvHqn7IKB3Oh5+FPxhv+O09bbBE8VdextKvH
+ Hn3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R0Miln0el3z6pNT45yr0TulQ3Y6me5jQzX7D0+YADIo=;
+ b=cdXLCHJrjo3m8nDu2u+CpWbPF8tgDAztUcKX1gH7MjyOz9Hv91daOWAssKizUAawlw
+ KexRaYSvDtfCJ+8VlA7SZx0aQlinaZELHgDwnvYpOo3tik7LlVxIL+8UCajuxp96k2ru
+ 0R0extMAsAXTBvYIWO93SzRLSYQvMIJsBUEjr8xqM06Pz2AdfiLjJ33zEtTZh6UrC9p5
+ kQWpCDeBW3J7W82lcOu8FVzWfZRLa29PRDod1Mq8gnoY0Y9kqSDuxmArVKCg7nDSNy1/
+ Wy4sUcj4MTsiMTG5n+d9E5B1pMxJrXh6RUxPUCbE+eLPPRItfRW7daphpGhGtV2gbwz1
+ A4Xw==
+X-Gm-Message-State: AOAM531CeOfVX6xaBA8d8EA2xio4G2zvlR5KC3VfALLA0Mssp6L0xZDg
+ ZgB8Y88OyL8Vm2X3DQzTcCx8ZQ==
+X-Google-Smtp-Source: ABdhPJxGgCguHfICOWsULwXqr9vBz3I6LDmG2DrEFwa8K1xsrgyrTDCZdXPBfdMRYdZGDfAHTxB+Cw==
+X-Received: by 2002:a62:ea0f:0:b029:319:8eef:5ff1 with SMTP id
+ t15-20020a62ea0f0000b02903198eef5ff1mr30495365pfh.74.1628618133019; 
+ Tue, 10 Aug 2021 10:55:33 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id h13sm5239504pgh.93.2021.08.10.10.55.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 10:55:25 -0700 (PDT)
+Subject: Re: [PATCH for 6.2 44/49] bsd-user: Refactor load_elf_sections and
+ is_target_elf_binary
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-45-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <886b485a-8cb5-5feb-da72-7ae9b1bbab84@linaro.org>
+Date: Tue, 10 Aug 2021 07:55:19 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <915cd307-e3db-1f62-22ac-8caeffd35ca1@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210807214242.82385-45-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,187 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ =?UTF-8?Q?Mika=c3=abl_Urankar?= <mikael.urankar@gmail.com>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 04:13:44PM +0200, Hanna Reitz wrote:
-> On 10.08.21 16:07, Vivek Goyal wrote:
-> > On Mon, Aug 09, 2021 at 06:47:18PM +0200, Hanna Reitz wrote:
-> > > On 09.08.21 18:10, Vivek Goyal wrote:
-> > > > On Fri, Jul 30, 2021 at 05:01:32PM +0200, Max Reitz wrote:
-> > > > > Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
-> > > > > FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
-> > > > > its inode ID will remain in use until we drop our lo_inode (and
-> > > > > lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
-> > > > > the inode ID as an lo_inode key, because any inode with an inode ID we
-> > > > > find in lo_data.inodes (on the same filesystem) must be the exact same
-> > > > > file.
-> > > > > 
-> > > > > This will change when we start setting lo_inode.fhandle so we do not
-> > > > > have to keep an O_PATH FD open.  Then, unlinking such an inode will
-> > > > > immediately remove it, so its ID can then be reused by newly created
-> > > > > files, even while the lo_inode object is still there[1].
-> > > > > 
-> > > > > So creating a new file can then reuse the old file's inode ID, and
-> > > > > looking up the new file would lead to us finding the old file's
-> > > > > lo_inode, which is not ideal.
-> > > > > 
-> > > > > Luckily, just as file handles cause this problem, they also solve it:  A
-> > > > > file handle contains a generation ID, which changes when an inode ID is
-> > > > > reused, so the new file can be distinguished from the old one.  So all
-> > > > > we need to do is to add a second map besides lo_data.inodes that maps
-> > > > > file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
-> > > > > clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
-> > > > > 
-> > > > > Unfortunately, we cannot rely on being able to generate file handles
-> > > > > every time.  Therefore, we still enter every lo_inode object into
-> > > > > inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
-> > > > > potential inodes_by_handle entry then has precedence, the inodes_by_ids
-> > > > > entry is just a fallback.
-> > > > > 
-> > > > > Note that we do not generate lo_fhandle objects yet, and so we also do
-> > > > > not enter anything into the inodes_by_handle map yet.  Also, all lookups
-> > > > > skip that map.  We might manually create file handles with some code
-> > > > > that is immediately removed by the next patch again, but that would
-> > > > > break the assumption in lo_find() that every lo_inode with a non-NULL
-> > > > > .fhandle must have an entry in inodes_by_handle and vice versa.  So we
-> > > > > leave actually using the inodes_by_handle map for the next patch.
-> > > > > 
-> > > > > [1] If some application in the guest still has the file open, there is
-> > > > > going to be a corresponding FD mapping in lo_data.fd_map.  In such a
-> > > > > case, the inode will only go away once every application in the guest
-> > > > > has closed it.  The problem described only applies to cases where the
-> > > > > guest does not have the file open, and it is just in the dentry cache,
-> > > > > basically.
-> > > > > 
-> > > > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > > > ---
-> > > > >    tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
-> > > > >    1 file changed, 65 insertions(+), 16 deletions(-)
-> > > > > 
-> > > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > > > > index 487448d666..f9d8b2f134 100644
-> > > > > --- a/tools/virtiofsd/passthrough_ll.c
-> > > > > +++ b/tools/virtiofsd/passthrough_ll.c
-> > > > > @@ -180,7 +180,8 @@ struct lo_data {
-> > > > >        int announce_submounts;
-> > > > >        bool use_statx;
-> > > > >        struct lo_inode root;
-> > > > > -    GHashTable *inodes; /* protected by lo->mutex */
-> > > > > +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
-> > > > > +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
-> > > > >        struct lo_map ino_map; /* protected by lo->mutex */
-> > > > >        struct lo_map dirp_map; /* protected by lo->mutex */
-> > > > >        struct lo_map fd_map; /* protected by lo->mutex */
-> > > > > @@ -263,8 +264,9 @@ static struct {
-> > > > >    /* That we loaded cap-ng in the current thread from the saved */
-> > > > >    static __thread bool cap_loaded = 0;
-> > > > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> > > > > -                                uint64_t mnt_id);
-> > > > > +static struct lo_inode *lo_find(struct lo_data *lo,
-> > > > > +                                const struct lo_fhandle *fhandle,
-> > > > > +                                struct stat *st, uint64_t mnt_id);
-> > > > >    static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-> > > > >                                char **out_name);
-> > > > > @@ -1064,18 +1066,40 @@ out_err:
-> > > > >        fuse_reply_err(req, saverr);
-> > > > >    }
-> > > > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> > > > > -                                uint64_t mnt_id)
-> > > > > +static struct lo_inode *lo_find(struct lo_data *lo,
-> > > > > +                                const struct lo_fhandle *fhandle,
-> > > > > +                                struct stat *st, uint64_t mnt_id)
-> > > > >    {
-> > > > > -    struct lo_inode *p;
-> > > > > -    struct lo_key key = {
-> > > > > +    struct lo_inode *p = NULL;
-> > > > > +    struct lo_key ids_key = {
-> > > > >            .ino = st->st_ino,
-> > > > >            .dev = st->st_dev,
-> > > > >            .mnt_id = mnt_id,
-> > > > >        };
-> > > > >        pthread_mutex_lock(&lo->mutex);
-> > > > > -    p = g_hash_table_lookup(lo->inodes, &key);
-> > > > > +    if (fhandle) {
-> > > > > +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
-> > > > > +    }
-> > > > > +    if (!p) {
-> > > > > +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
-> > > > So even if fhandle is not NULL, we will still lookup the inode
-> > > > object in lo->inodes_by_ids? I thought fallback was only required
-> > > > if we could not generate file handle to begin with and in that case
-> > > > fhandle will be NULL?
-> > > Well.  I think it depends again on when file handle generation can fail and
-> > > when it cannot.  If we assume it can randomly fail at any time, then it’s
-> > > possible we create an lo_inode with an O_PATH fd, but later we are able to
-> > > generate a file handle for it.  So we first try a lookup by file handle
-> > > here, which would fail, but we’d still have to try a lookup by IDs, so we
-> > > can find the O_PATH lo_inode.
-> > > 
-> > > An example case would be if at first we weren’t able to open a mount fd
-> > > (because this file is a device node and the first lo_inode looked up on its
-> > > filesystem), and so we couldn’t generate a file handle that we would be sure
-> > > would work; but later for the lookup we can generate a file handle (because
-> > > some other node on that filesystem has been opened by then, so we have a
-> > > mount fd).
-> > Ok, got it. If we are assuming that file handle generation can fail
-> > randomly, then what will happen in following scenario.
-> > 
-> > - lookup, file handle generated, inode added to both hash tables.
-> > 
-> > - another lookup, handle generation failed. We call lo_find(), it
-> >    finds inode in lo->inodes_by_ids but rejects it because p->fd == -1.
-> > 
-> > - Now lo_find() will return NULL and caller will assume inode could
-> >    not be found (despite the fact it is in there) and caller lo_do_lookup()
-> >    will try to add new inode to hash tables. So we will have two inode
-> >    instances in hash table with same st_dev, st_ino, mnt_id. One will
-> >    have file handle while other will have O_PATH fd.
-> > 
-> > So we have two inodes in cache representing same file. One using file
-> > handle while other using O_PATH fd.
-> > 
-> > One side affect of this is says guest has looked up a file (and got
-> > node id 1, fhandle based inode). And later guest is revalidating
-> > that inode, this time it could get inode 2 (O_PATH fd). Guest will
-> > think inode has changed and discard previous inode and trigger
-> > another lookup. This typically happens only if file has gone away.
-> > But now it will happen because we have two inodes in cache representing
-> > same file.
-> > 
-> > There might be other cases where this is bad. I can't think of any
-> > at this point of time.
-> > 
-> > If could solve the issue of mount_fd, then we have to use fallback
-> > path probably only for EOPNOTSUPP case. And then we can be sure
-> > that cache will always have one inode either fhandle based or
-> > O_PATH based (and not both).
-> 
-> OK, but can we truly solve the mount_fd issue?
-> 
-> What I think we could do is have two variants of the file handle generation
-> function, one which is supposed to create a usable file handle (so this
-> version will ensure mount_fds contains a valid fd for the mount ID), and one
-> that just generates a file handle for lookup (i.e. it doesn’t look into
-> mount_fds at all).  The latter version would practically only fail in the
-> EOPNOTSUPP case.
-> 
-> Would that get around the issue?
+On 8/7/21 11:42 AM, Warner Losh wrote:
+> @@ -332,86 +329,25 @@ static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
+>            */
+>           error = target_mmap(0, INTERP_MAP_SIZE, PROT_NONE,
+>                   MAP_PRIVATE | MAP_ANON, -1, 0);
+> -        if (error == -1) {
+> +        if (rbase == -1) {
+>               perror("mmap");
+>               exit(-1);
+>           }
 
-IIUC, suggestion is that in lo_do_lookup() we will use first variant
-and in lookup_rename() we will use second variant. If yes, that does not
-solve the issue of having two inodes representing same file.
-lo_do_lookup() might be successful first time and add inode with fhandle
-and fail next time and add a new inode with O_PATH fd. 
+Replacement not greedy enough -- rbase is always 0.
 
-Maybe this will not happen easily because first operation will add
-mount_fd and then second operation will find existing mount_fd and
-will not fail atleast due to mount_fd. Might fail due to some other
-temporary resource failure etc.
+> +/* Check the elf header and see if this a target elf binary. */
+> +int is_target_elf_binary(int fd)
 
-Vivek
+This doesn't appear to be used at all.
+Which is good, because it's buggy.
 
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
