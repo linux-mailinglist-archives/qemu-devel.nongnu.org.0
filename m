@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E903E5345
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 08:11:39 +0200 (CEST)
-Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7383E534B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 08:13:30 +0200 (CEST)
+Received: from localhost ([::1]:52918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDKzD-0008Iw-0v
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 02:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39758)
+	id 1mDL0z-0002Sj-UT
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 02:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mDKyA-0006XW-6x
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:10:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44173)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mDKzz-0000hH-EA
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:12:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mDKy6-0006qJ-J4
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:10:33 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mDKzw-0008Q8-B3
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:12:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628575829;
+ s=mimecast20190719; t=1628575943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=58RL47eWZyCzhgKuqtiABHxb0t+kFvojCVqufK2R/OA=;
- b=EeDf4e5GqGDTeOOUuFpV5iTIw3AmR4MwZ5qg791iHhsvkKvDzTO+TkW+UefAUC8gjQGqqF
- HSVF1I4NXw+C35F+ZH0GbpQHd9l/2Ht1oDw7TGwvXfvv+SGfasHcJ82D9HCwdVDZ5zEBi0
- 8NlWrlAxRNJ5co766klXQV50Ic5UsHY=
+ bh=ZNtgybHUXwWUCA/ZbpdWoCGHg2948usPYr6wOFNmhio=;
+ b=DKgcOJYtn6ziAb7AmTLJZTziR/fZZV0+gUriUyrF9LjVKU2XoOnoH3yPDsTogyhLBqlncq
+ g8VEQm0qvXA9RtKhbJKx2jfDo4jlDS9jQhxFoEktR0ABvOM+Nq8fVWY+S3BMXZEG7KbHlL
+ mz0xhVzPsZBEfH0cGhc1w+XQCSZDkj0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-GRn88WI7OIuByXOBbE3BTw-1; Tue, 10 Aug 2021 02:10:28 -0400
-X-MC-Unique: GRn88WI7OIuByXOBbE3BTw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-135-cZeG3siDNUerxLgaCy96Zg-1; Tue, 10 Aug 2021 02:12:22 -0400
+X-MC-Unique: cZeG3siDNUerxLgaCy96Zg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BB211853038;
- Tue, 10 Aug 2021 06:10:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA063363A4;
+ Tue, 10 Aug 2021 06:12:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30ADB5D9C6;
- Tue, 10 Aug 2021 06:09:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A07285C232;
+ Tue, 10 Aug 2021 06:12:05 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH for-6.2 07/12] [automated] Use DECLARE_*CHECKER* macros
- when possible
-In-Reply-To: <20210806211127.646908-8-ehabkost@redhat.com>
+Subject: Re: [PATCH for-6.2 12/12] [automated] Use
+ OBJECT_DECLARE_SIMPLE_TYPE when possible
+In-Reply-To: <20210806211127.646908-13-ehabkost@redhat.com>
 Organization: Red Hat GmbH
 References: <20210806211127.646908-1-ehabkost@redhat.com>
- <20210806211127.646908-8-ehabkost@redhat.com>
+ <20210806211127.646908-13-ehabkost@redhat.com>
 User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 10 Aug 2021 08:09:55 +0200
-Message-ID: <871r71ygng.fsf@redhat.com>
+Date: Tue, 10 Aug 2021 08:12:03 +0200
+Message-ID: <87y299x1zg.fsf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,70 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
  Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Vijai Kumar K <vijai@behindbytes.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Laurent Vivier <laurent@vivier.eu>, Klaus Jensen <its@irrelevant.dk>,
  Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, "Edgar
+ Vijai Kumar K <vijai@behindbytes.com>, "Edgar
  E. Iglesias" <edgar.iglesias@gmail.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- qemu-block@nongnu.org, qemu-ppc@nongnu.org,
- David Hildenbrand <david@redhat.com>,
+ Paul Burton <paulburton@kernel.org>, David Hildenbrand <david@redhat.com>,
  Havard Skinnemoen <hskinnemoen@google.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Greg Kurz <groug@kaod.org>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
  =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Keith Busch <kbusch@kernel.org>, qemu-riscv@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>,
- "Daniel P. Berrange" <berrange@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
  Francisco Iglesias <francisco.iglesias@xilinx.com>,
- Thomas Huth <huth@tuxfamily.org>, Patrick Venture <venture@google.com>,
- Laurent Vivier <laurent@vivier.eu>, Tyrone Ting <kfting@nuvoton.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Huth <huth@tuxfamily.org>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Igor Mammedov <imammedo@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Aug 06 2021, Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> Converting existing QOM types to OBJECT_DECLARE_TYPE is not
-> always trivial (due to inconsistent type/macro naming schemes),
-> but at least converting existing manual QOM type checking macros
-> to use DECLARE_*CHECKER* is a simpler process, and should at
-> least discourage people from defining new QOM type checker macros
-> manually.
+> Replace typedef + DECLARE_INSTANCE_CHECKER with
+> equivalent OBJECT_DECLARE_SIMPLE_TYPE macro.
 >
 > Generated using:
 >
->   $ ./scripts/codeconverter/converter.py -i \
->     --pattern=3DTypeCheckMacro $(git grep -l '' -- '*.[ch]')
+> $ ./scripts/codeconverter/converter.py -i \
+>   --pattern=3DAddObjectDeclareSimpleType $(git grep -l '' -- '*.[ch]')
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Patrick Venture <venture@google.com>
 > Cc: Thomas Huth <huth@tuxfamily.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Bandan Das <bsd@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+> Cc: Aurelien Jarno <aurelien@aurel32.net>
+> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Cc: Havard Skinnemoen <hskinnemoen@google.com>
+> Cc: Tyrone Ting <kfting@nuvoton.com>
+> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+> Cc: Jason Wang <jasowang@redhat.com>
 > Cc: Keith Busch <kbusch@kernel.org>
 > Cc: Klaus Jensen <its@irrelevant.dk>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: David Hildenbrand <david@redhat.com>
 > Cc: Cornelia Huck <cohuck@redhat.com>
 > Cc: Halil Pasic <pasic@linux.ibm.com>
 > Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: David Hildenbrand <david@redhat.com>
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Havard Skinnemoen <hskinnemoen@google.com>
-> Cc: Tyrone Ting <kfting@nuvoton.com>
 > Cc: Vijai Kumar K <vijai@behindbytes.com>
 > Cc: Alistair Francis <Alistair.Francis@wdc.com>
 > Cc: Bin Meng <bin.meng@windriver.com>
@@ -154,75 +150,66 @@ On Fri, Aug 06 2021, Eduardo Habkost <ehabkost@redhat.com> wrote:
 > Cc: "C=C3=A9dric Le Goater" <clg@kaod.org>
 > Cc: Andrew Jeffery <andrew@aj.id.au>
 > Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+> Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
 > Cc: Francisco Iglesias <francisco.iglesias@xilinx.com>
 > Cc: David Gibson <david@gibson.dropbear.id.au>
 > Cc: Greg Kurz <groug@kaod.org>
 > Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
 > Cc: qemu-devel@nongnu.org
+> Cc: qemu-arm@nongnu.org
 > Cc: qemu-block@nongnu.org
 > Cc: qemu-s390x@nongnu.org
-> Cc: qemu-arm@nongnu.org
 > Cc: qemu-riscv@nongnu.org
 > Cc: qemu-ppc@nongnu.org
 > ---
->  hw/nvme/nvme.h                              | 12 ++++++------
->  hw/usb/hcd-xhci-pci.h                       |  4 ++--
->  hw/usb/hcd-xhci-sysbus.h                    |  4 ++--
->  hw/usb/u2f.h                                |  8 ++------
->  include/hw/adc/npcm7xx_adc.h                |  4 ++--
->  include/hw/arm/npcm7xx.h                    | 15 ++++-----------
->  include/hw/char/shakti_uart.h               |  4 ++--
->  include/hw/dma/sifive_pdma.h                |  4 ++--
->  include/hw/dma/xlnx_csu_dma.h               |  4 ++--
->  include/hw/gpio/npcm7xx_gpio.h              |  4 ++--
->  include/hw/i2c/npcm7xx_smbus.h              |  4 ++--
->  include/hw/intc/m68k_irqc.h                 |  4 ++--
->  include/hw/intc/sifive_clint.h              |  4 ++--
->  include/hw/mem/npcm7xx_mc.h                 |  3 ++-
->  include/hw/misc/aspeed_lpc.h                |  3 ++-
->  include/hw/misc/mchp_pfsoc_dmc.h            | 10 ++++------
->  include/hw/misc/mchp_pfsoc_ioscb.h          |  4 ++--
->  include/hw/misc/mchp_pfsoc_sysreg.h         |  5 ++---
->  include/hw/misc/npcm7xx_clk.h               |  3 ++-
->  include/hw/misc/npcm7xx_gcr.h               |  3 ++-
->  include/hw/misc/npcm7xx_mft.h               |  4 ++--
->  include/hw/misc/npcm7xx_pwm.h               |  4 ++--
->  include/hw/misc/npcm7xx_rng.h               |  3 ++-
->  include/hw/misc/xlnx-versal-xramc.h         |  4 ++--
->  include/hw/net/npcm7xx_emc.h                |  4 ++--
->  include/hw/net/xlnx-zynqmp-can.h            |  4 ++--
->  include/hw/nvram/npcm7xx_otp.h              |  3 ++-
->  include/hw/ppc/spapr_drc.h                  | 13 ++++---------
->  include/hw/ppc/spapr_xive.h                 |  7 ++-----
->  include/hw/riscv/microchip_pfsoc.h          |  9 ++++-----
->  include/hw/riscv/shakti_c.h                 |  8 ++++----
->  include/hw/riscv/sifive_e.h                 |  8 ++++----
->  include/hw/riscv/sifive_u.h                 |  8 ++++----
->  include/hw/sd/cadence_sdhci.h               |  4 ++--
->  include/hw/ssi/npcm7xx_fiu.h                |  3 ++-
->  include/hw/ssi/sifive_spi.h                 |  3 ++-
->  include/hw/timer/npcm7xx_timer.h            |  4 ++--
->  include/hw/tricore/tricore_testdevice.h     |  4 ++--
->  include/hw/usb/hcd-dwc3.h                   |  4 ++--
->  include/hw/usb/xlnx-usb-subsystem.h         |  4 ++--
->  include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |  4 ++--
->  include/hw/watchdog/sbsa_gwdt.h             |  4 ++--
->  include/qemu/accel.h                        |  8 ++------
->  target/hexagon/cpu.h                        |  8 ++------
->  chardev/char-parallel.c                     |  6 ++----
->  hw/i2c/i2c_mux_pca954x.c                    |  4 ++--
->  hw/m68k/mcf5206.c                           |  3 ++-
->  hw/mem/sparse-mem.c                         |  3 ++-
->  hw/misc/sbsa_ec.c                           |  3 ++-
->  hw/s390x/vhost-user-fs-ccw.c                |  4 ++--
->  hw/sensor/adm1272.c                         |  3 ++-
->  hw/sensor/max34451.c                        |  3 ++-
->  hw/usb/u2f-emulated.c                       |  4 ++--
->  hw/usb/u2f-passthru.c                       |  4 ++--
->  54 files changed, 126 insertions(+), 146 deletions(-)
+>  hw/nvme/nvme.h                              | 10 +++-------
+>  hw/usb/hcd-xhci-pci.h                       |  4 +---
+>  hw/usb/hcd-xhci-sysbus.h                    |  4 +---
+>  include/hw/adc/npcm7xx_adc.h                |  4 +---
+>  include/hw/char/shakti_uart.h               |  4 +---
+>  include/hw/dma/sifive_pdma.h                |  4 +---
+>  include/hw/dma/xlnx_csu_dma.h               |  4 +---
+>  include/hw/gpio/sifive_gpio.h               |  4 +---
+>  include/hw/intc/m68k_irqc.h                 |  4 +---
+>  include/hw/intc/sifive_clint.h              |  4 +---
+>  include/hw/intc/sifive_plic.h               |  4 +---
+>  include/hw/misc/aspeed_lpc.h                |  4 +---
+>  include/hw/misc/bcm2835_cprman_internals.h  | 12 ++++--------
+>  include/hw/misc/led.h                       |  3 +--
+>  include/hw/misc/mchp_pfsoc_dmc.h            |  8 ++------
+>  include/hw/misc/mchp_pfsoc_ioscb.h          |  4 +---
+>  include/hw/misc/mchp_pfsoc_sysreg.h         |  4 +---
+>  include/hw/misc/npcm7xx_clk.h               |  3 +--
+>  include/hw/misc/npcm7xx_gcr.h               |  4 +---
+>  include/hw/misc/npcm7xx_mft.h               |  4 +---
+>  include/hw/misc/npcm7xx_pwm.h               |  3 +--
+>  include/hw/misc/sifive_e_prci.h             |  4 +---
+>  include/hw/misc/sifive_test.h               |  4 +---
+>  include/hw/misc/sifive_u_otp.h              |  4 +---
+>  include/hw/misc/sifive_u_prci.h             |  4 +---
+>  include/hw/misc/xlnx-versal-xramc.h         |  4 +---
+>  include/hw/net/npcm7xx_emc.h                |  4 +---
+>  include/hw/net/xlnx-zynqmp-can.h            |  4 +---
+>  include/hw/ppc/spapr_drc.h                  |  4 +---
+>  include/hw/register.h                       |  3 +--
+>  include/hw/riscv/microchip_pfsoc.h          |  4 +---
+>  include/hw/riscv/shakti_c.h                 |  8 ++------
+>  include/hw/riscv/sifive_e.h                 |  4 +---
+>  include/hw/riscv/sifive_u.h                 |  4 +---
+>  include/hw/sd/cadence_sdhci.h               |  4 +---
+>  include/hw/ssi/sifive_spi.h                 |  4 +---
+>  include/hw/timer/npcm7xx_timer.h            |  3 +--
+>  include/hw/tricore/tricore_testdevice.h     |  4 +---
+>  include/hw/usb/hcd-dwc3.h                   |  4 +---
+>  include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |  4 +---
+>  hw/m68k/mcf5206.c                           |  4 +---
+>  hw/mips/boston.c                            |  4 +---
+>  hw/misc/npcm7xx_clk.c                       |  9 +++------
+>  hw/net/can/ctucan_pci.c                     |  4 +---
+>  hw/s390x/vhost-user-fs-ccw.c                |  4 +---
+>  hw/sensor/adm1272.c                         |  4 +---
+>  hw/sensor/max34451.c                        |  4 +---
+>  47 files changed, 56 insertions(+), 154 deletions(-)
 
 Acked-by: Cornelia Huck <cohuck@redhat.com>
 
