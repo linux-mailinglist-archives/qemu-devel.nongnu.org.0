@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332993E53EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 08:52:55 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B46F3E5415
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 09:06:09 +0200 (CEST)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDLd8-0005kZ-7n
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 02:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
+	id 1mDLpw-00082t-1b
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 03:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <valery.vdovin.s@gmail.com>)
- id 1mDLbw-0004XE-Tj
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:51:40 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:37830)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mDLoR-0007Np-Mg
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:04:35 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:46050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <valery.vdovin.s@gmail.com>)
- id 1mDLbu-0000Kh-I9
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 02:51:40 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id g30so7143305lfv.4
- for <qemu-devel@nongnu.org>; Mon, 09 Aug 2021 23:51:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mDLoO-00030E-27
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 03:04:35 -0400
+Received: by mail-il1-x135.google.com with SMTP id a4so5120129ilj.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 00:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=xGor3bt4+u7rgQNdKXo1UES+1CoHnwsMlNRtJKUbrwI=;
- b=tHVD2kJZ2H7NaYF83pB8XwQYJ4cksPECI3EXmqao0bh5bF4Sc6X9XtIlwH/educGMT
- MRGNo9U+bRPCSASS2DAeIBMj2BYC/9jibEr6S9nNxEgyY+E7BEQUrretFfb+UxJv1sP2
- /Q/vtuyPD1EZt0F2EQR3Rlt2jpIsezLcW1WdQNZtW1hZu9+45P2EudFqmHgmk8zpi+Lz
- yJTHTS2gK/GXoFQOHeExnxgHF46brpMU+AfmHXK1n/YU/hfXvfxSsRJIQcPseUHsBDXm
- uxoX0QJzabZTi50aRUMr8/zMA+npjuLqdISw3CgftAtyT9tVWsdzC35vOS8H5b7apUXF
- HZEg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=J8+BujW/Pg3rs7smmSdxE+dz/CyzehMvbWjePahnbSs=;
+ b=ec67rEv2YJ4jXUQmQsq48ka0iiRRulRvmvP7zjOzbSAECMqDi8iNQAzcUHmcvI05+q
+ ZFYAp6U2PLqPz9kd984akqJYhRvixUMW1XbX00lyCxTGSfSOROrGCNU3feAEGL7EWDH9
+ MS4R6N1BTgzUoiuvqvnQRgju2p4RAI1oGrwmdKy2vi5kXtncLDL5c5JFI27tv/TsU00j
+ Bsmu7s7nVAzvlsCONPcfYCcVtp3h5D6bRtbMvH0wbq38NarRX9MVBgEC3r+MIJPgk8ES
+ dCvB9fz+eo4aLiIuoy3msyd0Vvp0eosVzJgMQcrSt0WQ/qZSJnxdAAF/JpspoWvrpvkW
+ enxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=xGor3bt4+u7rgQNdKXo1UES+1CoHnwsMlNRtJKUbrwI=;
- b=oR4lH7QYgQUpOsSMc/sp/RzvAENqh26StX/2AzjDEShVr2B4Lzu65xWuO8bXRS26sH
- Zh3V5MkahljyXf+OQw6IPm73wnErZpFmDXJbQY+T9tN35puqwqC94Sd5kV/lcsvpjNO8
- j1hixiMwilUtbS+L6/InxdsiPoPFeOZzjfTilkS+SbeYRwI8im22Wb3HujfvuCdmvJCJ
- QllKuS85eqyNOVf+pFFyfjl28A8OwioDBGDP/J99gIhmZ5t2lywbpiukSsOX8w6Pr1wL
- b2gvuYSjR22mRk2AGtORMPmRIQ02DAsiXScFeQVGEbTY4AA7Vyl99lHNPa0FMBTSp8rG
- ekBg==
-X-Gm-Message-State: AOAM5317rPy1I7BxsirHau0bAsb8xEgzI7cX0LItOlyUp5ClSmxoVWA5
- YxZ9JKVU+mzz6y7bOen09YWu6cRFxc5mzxo3qds=
-X-Google-Smtp-Source: ABdhPJys9eBTGkxdb/mbmufakC3JlPVuADCW8h4Ernjz+iACKmB88VhwFHpbIqJJ6+rMqL39GMN1pg==
-X-Received: by 2002:ac2:4357:: with SMTP id o23mr20207526lfl.188.1628578296458; 
- Mon, 09 Aug 2021 23:51:36 -0700 (PDT)
-Received: from localhost.localdomain ([176.106.247.78])
- by smtp.gmail.com with ESMTPSA id c9sm1957061lfv.17.2021.08.09.23.51.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 23:51:35 -0700 (PDT)
-From: Valeriy Vdovin <valery.vdovin.s@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v14] qapi: introduce 'query-x86-cpuid' QMP command.
-Date: Tue, 10 Aug 2021 09:51:31 +0300
-Message-Id: <20210810065131.2849-1-valery.vdovin.s@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=valery.vdovin.s@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=J8+BujW/Pg3rs7smmSdxE+dz/CyzehMvbWjePahnbSs=;
+ b=kiH5q2/iP9s9jJdzpFHqJTBJeWgWFeA7XQcPhXdzFdPbzHsmdA2CGY0gEOXllKOKCp
+ w4Ncq9z+yMu/DbXRBT2gagDSSiaSFtBkRVr4V9vAWoShnN9Do6EH+EFscO/drCCybr0S
+ 17/7Z0E0rOXZKvMGujM8hW8ixPmujh8BWi+xdvfyduJ+/i+YqfX6ksG6DxBjTB5mAQ2z
+ ewuU157N/SV/zM+Xup6PeFq72LnFFwiVhsaHerUZQpSG36WE9+K4nwUAwCK8jbBpJhmH
+ IzWIJJ2g26voxj/hZKh2jwPOFFlFubmDEvTwdqGoOoUEF020hSTCCQp0Irj4/JVUL7Qm
+ TDrg==
+X-Gm-Message-State: AOAM531oO5KjXgysq6ghAan7i1VbsxEI0fTjkOiWR0TeRdaHplbrStGW
+ mwIQPYr46u33bvdJikIdhuRYf6/TjNulBNHTDEA=
+X-Google-Smtp-Source: ABdhPJxzIY4JAlSUJwLTf0cxa3ruDmQrmPUxvrPRMtIZW/H4e52tdmMKeDMDUWPEc+h7QvhIhbTg/QL8o8oGFNkc0LA=
+X-Received: by 2002:a92:3610:: with SMTP id d16mr130437ila.16.1628579069845;
+ Tue, 10 Aug 2021 00:04:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+ <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+In-Reply-To: <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Tue, 10 Aug 2021 15:04:19 +0800
+Message-ID: <CALUzjTYnq37VQMzFTU-uzZvBPhfYDQg_g+zc=0KmDxMOUTE0zQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
+ =?UTF-8?Q?_execution=EF=BC=9F?=
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-il1-x135.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,327 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Valeriy Vdovin <valery.vdovin.s@gmail.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Thank you for the detailed explanation.
 
-Introducing new QMP command 'query-x86-cpuid'. This command can be used to
-get virtualized cpu model info generated by QEMU during VM initialization in
-the form of cpuid representation.
-
-Diving into more details about virtual CPU generation: QEMU first parses '-cpu'
-command line option. From there it takes the name of the model as the basis for
-feature set of the new virtual CPU. After that it uses trailing '-cpu' options,
-that state if additional cpu features should be present on the virtual CPU or
-excluded from it (tokens '+'/'-' or '=on'/'=off').
-After that QEMU checks if the host's cpu can actually support the derived
-feature set and applies host limitations to it.
-After this initialization procedure, virtual CPU has it's model and
-vendor names, and a working feature set and is ready for identification
-instructions such as CPUID.
-
-To learn exactly how virtual CPU is presented to the guest machine via CPUID
-instruction, new QMP command can be used. By calling 'query-x86-cpuid'
-command, one can get a full listing of all CPUID leaves with subleaves which are
-supported by the initialized virtual CPU.
-
-Other than debug, the command is useful in cases when we would like to
-utilize QEMU's virtual CPU initialization routines and put the retrieved
-values into kernel CPUID overriding mechanics for more precise control
-over how various processes perceive its underlying hardware with
-container processes as a good example.
-
-The command is specific to x86. It is currenly only implemented for KVM acceleator.
-
-Output format:
-The output is a plain list of leaf/subleaf argument combinations, that
-return 4 words in registers EAX, EBX, ECX, EDX.
-
-Use example:
-qmp_request: {
-  "execute": "query-x86-cpuid"
-}
-
-qmp_response: {
-  "return": [
-    {
-      "eax": 1073741825,
-      "edx": 77,
-      "in-eax": 1073741824,
-      "ecx": 1447775574,
-      "ebx": 1263359563
-    },
-    {
-      "eax": 16777339,
-      "edx": 0,
-      "in-eax": 1073741825,
-      "ecx": 0,
-      "ebx": 0
-    },
-    {
-      "eax": 13,
-      "edx": 1231384169,
-      "in-eax": 0,
-      "ecx": 1818588270,
-      "ebx": 1970169159
-    },
-    {
-      "eax": 198354,
-      "edx": 126614527,
-      "in-eax": 1,
-      "ecx": 2176328193,
-      "ebx": 2048
-    },
-    ....
-    {
-      "eax": 12328,
-      "edx": 0,
-      "in-eax": 2147483656,
-      "ecx": 0,
-      "ebx": 0
-    }
-  ]
-}
-
-Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
----
-v2: - Removed leaf/subleaf iterators.
-    - Modified cpu_x86_cpuid to return false in cases when count is
-      greater than supported subleaves.
-v3: - Fixed structure name coding style.
-    - Added more comments
-    - Ensured buildability for non-x86 targets.
-v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
-    - Fixed comments.
-    - Removed target check in qmp_query_cpu_model_cpuid.
-v5: - Added error handling code in qmp_query_cpu_model_cpuid
-v6: - Fixed error handling code. Added method to query_error_class
-v7: - Changed implementation in favor of cached cpuid_data for
-      KVM_SET_CPUID2
-v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
-    - Modified documentation to qmp method
-    - Removed helper struct declaration
-v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
-    - Pasted more complete response to commit message.
-v10:
-    - Subject changed
-    - Fixes in commit message
-    - Small fixes in QMP command docs
-v11:
-    - Added explanation about CONFIG_KVM to the commit message.
-v12:
-    - Changed title from query-kvm-cpuid to query-x86-cpuid
-    - Removed CONFIG_KVM ifdefs
-    - Added detailed error messages for some stub/unimplemented cases.
-v13:
-    - Tagged with since 6.2
-v14:
-    - Rebased to latest master 632eda54043d6f26ff87dac16233e14b4708b967
-    - Added note about error return cases in api documentation.
-
- qapi/machine-target.json   | 46 ++++++++++++++++++++++++++++++++++
- softmmu/cpus.c             |  2 +-
- target/i386/kvm/kvm-stub.c | 10 ++++++++
- target/i386/kvm/kvm.c      | 51 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |  1 +
- 5 files changed, 109 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index e7811654b7..71648a4f56 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -329,3 +329,49 @@
- ##
- { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
-   'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-+
-+##
-+# @CpuidEntry:
-+#
-+# A single entry of a CPUID response.
-+#
-+# One entry holds full set of information (leaf) returned to the guest
-+# in response to it calling a CPUID instruction with eax, ecx used as
-+# the arguments to that instruction. ecx is an optional argument as
-+# not all of the leaves support it.
-+#
-+# @in-eax: CPUID argument in eax
-+# @in-ecx: CPUID argument in ecx
-+# @eax: CPUID result in eax
-+# @ebx: CPUID result in ebx
-+# @ecx: CPUID result in ecx
-+# @edx: CPUID result in edx
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'CpuidEntry',
-+  'data': { 'in-eax' : 'uint32',
-+            '*in-ecx' : 'uint32',
-+            'eax' : 'uint32',
-+            'ebx' : 'uint32',
-+            'ecx' : 'uint32',
-+            'edx' : 'uint32'
-+          },
-+  'if': 'defined(TARGET_I386)' }
-+
-+##
-+# @query-x86-cpuid:
-+#
-+# Returns raw data from the emulated CPUID table for the first VCPU.
-+# The emulated CPUID table defines the response to the CPUID
-+# instruction when executed by the guest operating system.
-+# 
-+#
-+# Returns: a list of CpuidEntry. Returns error when qemu is configured with
-+# --disable-kvm flag or if qemu is run with any other accelerator than KVM.
-+#
-+# Since: 6.2
-+##
-+{ 'command': 'query-x86-cpuid',
-+  'returns': ['CpuidEntry'],
-+  'if': 'defined(TARGET_I386)' }
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840..8501081897 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -129,7 +129,7 @@ void hw_error(const char *fmt, ...)
- /*
-  * The chosen accelerator is supposed to register this.
-  */
--static const AccelOpsClass *cpus_accel;
-+const AccelOpsClass *cpus_accel;
- 
- void cpu_synchronize_all_states(void)
- {
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index f6e7e4466e..9eb04d908f 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "kvm_i386.h"
-+#include "qapi/error.h"
- 
- #ifndef __OPTIMIZE__
- bool kvm_has_smm(void)
-@@ -44,3 +45,12 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
- {
-     abort();
- }
-+
-+typedef struct CpuidEntryList CpuidEntryList;
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp);
-+
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-+{
-+    error_setg(errp, "Not implemented in --disable-kvm configuration");
-+    return NULL;
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e69abe48e3..28e79cd0cf 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -20,11 +20,13 @@
- 
- #include <linux/kvm.h>
- #include "standard-headers/asm-x86/kvm_para.h"
-+#include "qapi/qapi-commands-machine-target.h"
- 
- #include "cpu.h"
- #include "host-cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
-+#include "sysemu/accel-ops.h"
- #include "sysemu/kvm_int.h"
- #include "sysemu/runstate.h"
- #include "kvm_i386.h"
-@@ -1540,6 +1542,51 @@ static Error *invtsc_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-+struct kvm_cpuid2 *cpuid_data_cached;
-+extern const AccelOpsClass *cpus_accel;
-+
-+static inline int is_kvm_accel(AccelOpsClass *class)
-+{
-+    ObjectClass *parent_class;
-+
-+    parent_class = &class->parent_class;
-+    return strcmp(object_class_get_name(parent_class),
-+        "kvm-accel-ops") == 0;
-+}
-+
-+CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-+{
-+    int i;
-+    struct kvm_cpuid_entry2 *kvm_entry;
-+    CpuidEntryList *head = NULL, **tail = &head;
-+    CpuidEntry *entry;
-+
-+    if (!cpuid_data_cached) {
-+         if (cpus_accel && !is_kvm_accel((AccelOpsClass *)cpus_accel))
-+             error_setg(errp, "Not implemented for non-kvm accel");
-+         else
-+             error_setg(errp, "VCPU was not initialized yet");
-+         return NULL;
-+    }
-+
-+    for (i = 0; i < cpuid_data_cached->nent; ++i) {
-+        kvm_entry = &cpuid_data_cached->entries[i];
-+        entry = g_malloc0(sizeof(*entry));
-+        entry->in_eax = kvm_entry->function;
-+        if (kvm_entry->flags & KVM_CPUID_FLAG_SIGNIFCANT_INDEX) {
-+            entry->in_ecx = kvm_entry->index;
-+            entry->has_in_ecx = true;
-+        }
-+        entry->eax = kvm_entry->eax;
-+        entry->ebx = kvm_entry->ebx;
-+        entry->ecx = kvm_entry->ecx;
-+        entry->edx = kvm_entry->edx;
-+        QAPI_LIST_APPEND(tail, entry);
-+    }
-+
-+    return head;
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
-     struct {
-@@ -1923,6 +1970,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (r) {
-         goto fail;
-     }
-+    if (!cpuid_data_cached) {
-+        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
-+        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
-+    }
- 
-     if (has_xsave) {
-         env->xsave_buf_len = sizeof(struct kvm_xsave);
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c98b78d033..bd883f7f52 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
-         { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
-         { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
-         { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
-+        { "query-x86-cpuid", ERROR_CLASS_GENERIC_ERROR },
-         { NULL, -1 }
-     };
-     int i;
--- 
-2.17.1
-
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B48=E6=9C=886=
+=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:16=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> On Fri, 6 Aug 2021 at 07:24, Duo jia <jiaduo19920301@gmail.com> wrote:
+> > I am simulating a device. When an interrupt occurs, another interrupt
+> > comes, and the second interrupt will not be triggered because the
+> > first interrupt has not yet finished.
+> >
+> > I want to know whether qemu can detect whether the interrupt has been
+> > executed, will there be a callback here?
+> > Or how can I deal with this situation?
+>
+> End of interrupt handling is entirely dependent on what the
+> guest hardware being emulated is. Usually the guest software
+> will indicate "interrupt handled" back to the interrupt
+> controller (perhaps by writing a register; depends on the
+> interrupt controller), and the interrupt controller will
+> then look at what the next highest priority pending interrupt
+> is and signal that back to the CPU, or do nothing if there's
+> no new interrupt. So the second interrupt will automatically
+> be taken and handled once the first one has finished,
+> as a result of this interrupt controller and guest OS
+> interaction.
+>
+> The original device usually doesn't get told when this
+> happens, and it doesn't need to know. For example, one common
+> form of device interrupt is level-triggered. Here the device
+> has some condition (perhaps "FIFO full") that causes an
+> interrupt. So it raises its outbound IRQ line when the FIFO
+> is full, and it doesn't lower it again until whatever the
+> device specification says is the condition (eg when the
+> guest reads from the FIFO, or if the guest writes to some
+> 'clear interrupt' register on the device). It's the job of
+> the guest software to make sure that when it gets an interrupt
+> from the device that it handles it such that the device has
+> been satisfied and lowered the interrupt.
+>
+> More rarely, some devices are specified to pulse their interrupt
+> line when a condition occurs.
+>
+> In summary, you need to look at the specification of the device
+> you're emulating to find out when and how it is supposed to
+> raise or lower its interrupt line. ("I didn't get a second
+> interrupt" bugs might also be caused by bugs in the interrupt
+> controller or in the guest software device driver -- if you're
+> just using an existing known-to-work QEMU interrupt controller
+> model and a known-to-work device driver and OS, then the
+> bug is very likely in your device model. If you're also
+> writing the OS device driver at the same time then the bug
+> could be there instead.)
+>
+> -- PMM
 
