@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E60C3E594C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 13:43:09 +0200 (CEST)
-Received: from localhost ([::1]:35056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EF53E595F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 13:48:01 +0200 (CEST)
+Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDQA0-00061y-59
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 07:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45400)
+	id 1mDQEi-00005Q-7v
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 07:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mDQ8S-0005Iv-Fl
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:41:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39626)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDQDi-0007ic-85
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:46:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mDQ8P-0006Zv-H2
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:41:32 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDQDg-0002ck-24
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 07:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628595688;
+ s=mimecast20190719; t=1628596015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t/xRQh+r13mTJygYYK/SMGowHF/ULBU11mRcXlPxUPo=;
- b=Z0XieZpelxUuHYQ0TuBXOkD6OFBV+JlF4Jk9Am8S9EPM2sdl/KaL5ArZSnpihPll6+zbh3
- QvKpgU/H0cnPvkvcwbY16PKNyNy1Skk3RRB5hRpGULx1xs8yiqkwzSZwOgbt8gQ/ect2/2
- vg2WHeW3w6MFqdqbntGHP6NmPTportQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-TF75UZSWMjmeg5Ra2DwDQw-1; Tue, 10 Aug 2021 07:41:27 -0400
-X-MC-Unique: TF75UZSWMjmeg5Ra2DwDQw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b25-20020a05640202d9b02903be7281a80cso2068855edx.3
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 04:41:27 -0700 (PDT)
+ bh=j+f7OR3Ghbp5INT4ZvB1CJBjzimnv03GvaEVV2yFQeY=;
+ b=DHeSlGu5/rJAj4EK6cAGet5o+exLTiTZs8siZ5Mj/t95EG7mV4rooVnJXl0SBc+UWyZ1kR
+ 4AqTsWMBC93Ebvu+AE228uwRAnMH2xXYgwK5YHFbd0XoWrbjy5nffgqa+SuKhFnREerfBt
+ wvJH8oq1RQuBxOrcb5kr0ilRRfhImeI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-dNKDpiFIMY-Efb3JiGwoeA-1; Tue, 10 Aug 2021 07:46:54 -0400
+X-MC-Unique: dNKDpiFIMY-Efb3JiGwoeA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m5-20020a5d6a050000b0290154e83dce73so2049845wru.19
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 04:46:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=t/xRQh+r13mTJygYYK/SMGowHF/ULBU11mRcXlPxUPo=;
- b=PfVNTH8qmLu0IsFIzbPDmUFrO2WQjlZxhnGAOulvHOO5qFeUOSJZtlWj+CBMo9YAd8
- Y3ntvwOZZbsPZpGf9rhhGHyIUmu8iuMlc3czhqH85vs8M8vpNnqK6+D1Iff8I7ngUp4a
- Bwmt+RoOxinRwlvp5tMwBTYBp+PqDenTwFAI+XMyojp6OMBj/m1oyU5bRECVNAWa6Gzc
- +JJUS5R/maPobahww1oP85yZbBJhv147d0N/CliVC8eDGlrOSrqll/0upuMghduBKcUH
- 2e+yOMRrjGPAKNG6UNV/f1MFY00l2feS1tM4APWxaz279IHVlo4PhnTeJQVAd73HiE/B
- 6qmg==
-X-Gm-Message-State: AOAM530zlPSjUl7jXRlXLa8UyNGmwwaOY8RbM633MGC7U6Ki8vDEGMN3
- bNpFZeeTP2Tii1JAbIIX18YbgGCaC/Wx1YtOrrb4GrQ2FwnwrZQzZSkn2Otye5/AU5KRqzKZrM7
- 2Q115TD23yxi2xIU=
-X-Received: by 2002:a17:906:b811:: with SMTP id
- dv17mr27046074ejb.444.1628595686043; 
- Tue, 10 Aug 2021 04:41:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+3bNekG/LmAwqqxsaUMUbvGFWLZ7DhCZMByaJfM8HD+HP8+LxvdVmvRDrZWS9xSJYFO4qBQ==
-X-Received: by 2002:a17:906:b811:: with SMTP id
- dv17mr27046054ejb.444.1628595685741; 
- Tue, 10 Aug 2021 04:41:25 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id i6sm6752561ejd.57.2021.08.10.04.41.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 04:41:25 -0700 (PDT)
-Date: Tue, 10 Aug 2021 13:41:23 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
-Subject: Re: [PATCH v3 1/3] target-arm: cpu64: Add support for Fujitsu A64FX
-Message-ID: <20210810114123.yn6uftzurby25q4b@gator.home>
-References: <20210805073045.916622-1-ishii.shuuichir@fujitsu.com>
- <20210805073045.916622-2-ishii.shuuichir@fujitsu.com>
- <20210805112432.mjrqizexwyammfm5@gator.home>
- <TYCPR01MB6160A85D5A15580645876DB9E9F79@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=j+f7OR3Ghbp5INT4ZvB1CJBjzimnv03GvaEVV2yFQeY=;
+ b=WYCmTTWzg6B7lIrGfsFbXhcKFFon++p8CiAqiAGRH+CGJ0gS8cXy6VnlP2cHC+bAxA
+ 9WSGAysUKqMyfH0pYJsyfbrvgBGYrMC02TaQ7veIGk+zTIcWPmOVV5WemhZiRWJdGRsf
+ kTS38nMh6fJflWqIpqtV8klPojb1OpcUlx+mxhW5anRtUvO0zV75Gixht71i3Urd8qBL
+ 1Hka9mrGPPbBjf/6s4JB/dTfWD1/Qvajae8DB5JjtFG25foxPw7+igBeIbkeuq9+stCS
+ AWrjWRPfl94yrqd6AyBrytFeeJad1K9CMU2u6YQH7+YMvSe60pWx8g/r5Dv0HRTJoecH
+ RsdQ==
+X-Gm-Message-State: AOAM532dfRqtPAZ1n0y3G/uvoyfKUXBKFw5HihW/CHerVGOR7jOVlilK
+ 98L3IpjneHj7trbupXQUUpNmjY14Ls6+rF0EssRzBAOMsZ4oyhj8YquOhlDfKfMmnvTQuftyKHA
+ 2zC5ZV+p3SU3fmdg=
+X-Received: by 2002:adf:9e0b:: with SMTP id u11mr30287589wre.403.1628596013002; 
+ Tue, 10 Aug 2021 04:46:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfXr4llfo+LrzrnkvjW8Wuw3H5+9rzW5MDulgEQziv2Ww4pemdL5bBslCl4xdoMW7DSMa+aA==
+X-Received: by 2002:adf:9e0b:: with SMTP id u11mr30287573wre.403.1628596012832; 
+ Tue, 10 Aug 2021 04:46:52 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ a11sm8865657wrw.67.2021.08.10.04.46.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 04:46:52 -0700 (PDT)
+Subject: Re: [PATCH] MAINTAINERS: Name and email address change
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
+References: <20210810095049.35602-1-hreitz@redhat.com>
+ <0598232c-ee2a-cb82-264b-052fde8082ae@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <98a4f877-2cbc-e285-3055-0a7b5a7ef901@redhat.com>
+Date: Tue, 10 Aug 2021 13:46:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <TYCPR01MB6160A85D5A15580645876DB9E9F79@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+In-Reply-To: <0598232c-ee2a-cb82-264b-052fde8082ae@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.704, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,249 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 08:23:39AM +0000, ishii.shuuichir@fujitsu.com wrote:
-> 
-> Thanks for your comments.
-> 
-> Before reposting the fix patch series,
-> based on your comments and the v3 1/3 patch,
-> we have considered the following fixes.
-> 
-> If you have any comments on the fixes, please let us know.
-> 
+On 10.08.21 13:29, Philippe Mathieu-Daudé wrote:
+> On 8/10/21 11:50 AM, Hanna Reitz wrote:
+>> I have changed my name and email address.  Update the MAINTAINERS file
+>> to match.
+>>
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> ---
+>>   MAINTAINERS | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+> I'd recommend you to also add an entry in .mailmap:
+>
+> -- >8 --
+> diff --git a/.mailmap b/.mailmap
+> index 082ff893ab3..504839c84d3 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -53,6 +53,7 @@ Anthony Liguori <anthony@codemonkey.ws> Anthony
+> Liguori <aliguori@us.ibm.com>
+>   Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+>   Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+>   Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+> +Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
+>   Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+>   Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
+>   James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
 > ---
-> 
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 9f0a5f84d5..84ebca731a 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -2145,6 +2145,7 @@ enum arm_features {
->      ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
->      ARM_FEATURE_M_MAIN, /* M profile Main Extension */
->      ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
-> +    ARM_FEATURE_A64FX, /* Fujitsu A64FX processor */
->  };
-> 
->  static inline int arm_feature(CPUARMState *env, int feature)
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 612644941b..62dcb6a919 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -248,6 +248,21 @@ static void aarch64_a72_initfn(Object *obj)
->      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->  }
-> 
-> +static void a64fx_cpu_set_sve(ARMCPU *cpu)
-> +{
-> +    /* Suppport of A64FX's vector length are 128,256 and 512byte only */
 
-Missing spaces in text and s/byte/bit/
+Hu, I didn’t know there is such a thing.  Looks like I could even do
 
-> +    bitmap_zero(cpu->sve_vq_map, ARM_MAX_VQ);
-> +    bitmap_zero(cpu->sve_vq_init, ARM_MAX_VQ);
-> +    set_bit(0, cpu->sve_vq_map); /* 128byte */
-> +    set_bit(0, cpu->sve_vq_init);
-> +    set_bit(1, cpu->sve_vq_map); /* 256byte */
-> +    set_bit(1, cpu->sve_vq_init);
-> +    set_bit(3, cpu->sve_vq_map); /* 512byte */
-> +    set_bit(3, cpu->sve_vq_init);
+Hanna Reitz <hreitz@redhat.com> Max Reitz <mreitz@redhat.com>
 
-For all the comments in the above function s/byte/bit/
+Feels a bit like cheating, though...?
 
-> +    cpu->sve_max_vq = find_last_bit(cpu->sve_vq_map, ARM_MAX_VQ) + 1;
-> +
-
-Extra blank line
-
-> +}
->  void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
->  {
->      /*
-> @@ -448,6 +463,10 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-> 
->      /* From now on sve_max_vq is the actual maximum supported length. */
->      cpu->sve_max_vq = max_vq;
-> +
-> +       if(arm_feature(&cpu->env, ARM_FEATURE_A64FX)) {
-> +        a64fx_cpu_set_sve(cpu);
-> +    }
-
-Bad indentation and spacing, but I don't think this is the right place
-for this. I wouldn't even let ARM_FEATURE_A64FX enter
-arm_cpu_sve_finalize, since we know it doesn't support sve cpu properties.
-While it's ugly wherever we put it, since we have to special case it, I
-think it's less ugly at the callsite
-
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2866dd765882..225800ec361c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1350,10 +1350,14 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-     Error *local_err = NULL;
- 
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        arm_cpu_sve_finalize(cpu, &local_err);
--        if (local_err != NULL) {
--            error_propagate(errp, local_err);
--            return;
-+        if (arm_feature(&cpu->env, ARM_FEATURE_A64FX)) {
-+            a64fx_cpu_set_sve(cpu);
-+        } else {
-+            arm_cpu_sve_finalize(cpu, &local_err);
-+            if (local_err != NULL) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-         }
- 
-         /*
-
->  }
-> 
->  static void cpu_max_get_sve_max_vq(Object *obj, Visitor *v, const char *name,
-> @@ -852,6 +871,7 @@ static void aarch64_a64fx_initfn(Object *obj)
->      ARMCPU *cpu = ARM_CPU(obj);
-> 
->      cpu->dtb_compatible = "arm,a64fx";
-> +    set_feature(&cpu->env, ARM_FEATURE_A64FX);
->      set_feature(&cpu->env, ARM_FEATURE_V8);
->      set_feature(&cpu->env, ARM_FEATURE_NEON);
->      set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> @@ -884,10 +904,6 @@ static void aarch64_a64fx_initfn(Object *obj)
->      cpu->gic_vpribits = 5;
->      cpu->gic_vprebits = 5;
->      /* TODO:  Add A64FX specific HPC extension registers */
-> -
-> -    aarch64_add_sve_properties(obj);
-> -    object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
-> -                        cpu_max_set_sve_max_vq, NULL, NULL);
->  }
-> 
->  static const ARMCPUInfo aarch64_cpus[] = {
-
-Otherwise looks OK to me.
-
-Thanks,
-drew
-
-> 
-> ---
-> 
-> Best regards.
-> 
-> 
-> > -----Original Message-----
-> > From: Andrew Jones <drjones@redhat.com>
-> > Sent: Thursday, August 5, 2021 8:25 PM
-> > To: Ishii, Shuuichirou <ishii.shuuichir@fujitsu.com>
-> > Cc: peter.maydell@linaro.org; qemu-arm@nongnu.org; qemu-devel@nongnu.org
-> > Subject: Re: [PATCH v3 1/3] target-arm: cpu64: Add support for Fujitsu A64FX
-> > 
-> > On Thu, Aug 05, 2021 at 04:30:43PM +0900, Shuuichirou Ishii wrote:
-> > > Add a definition for the Fujitsu A64FX processor.
-> > >
-> > > The A64FX processor does not implement the AArch32 Execution state, so
-> > > there are no associated AArch32 Identification registers.
-> > >
-> > > Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-> > > ---
-> > >  target/arm/cpu64.c | 44
-> > ++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 44 insertions(+)
-> > >
-> > > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c index
-> > > c690318a9b..612644941b 100644
-> > > --- a/target/arm/cpu64.c
-> > > +++ b/target/arm/cpu64.c
-> > > @@ -847,10 +847,54 @@ static void aarch64_max_initfn(Object *obj)
-> > >                          cpu_max_set_sve_max_vq, NULL, NULL);  }
-> > >
-> > > +static void aarch64_a64fx_initfn(Object *obj) {
-> > > +    ARMCPU *cpu = ARM_CPU(obj);
-> > > +
-> > > +    cpu->dtb_compatible = "arm,a64fx";
-> > > +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_EL2);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_EL3);
-> > > +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-> > > +    cpu->midr = 0x461f0010;
-> > > +    cpu->revidr = 0x00000000;
-> > > +    cpu->ctr = 86668006;
-> > > +    cpu->reset_sctlr = 0x30000180;
-> > > +    cpu->isar.id_aa64pfr0 =   0x0000000101111111; /* No RAS Extensions
-> > */
-> > > +    cpu->isar.id_aa64pfr1 = 0x0000000000000000;
-> > > +    cpu->isar.id_aa64dfr0 = 0x0000000010305408;
-> > > +    cpu->isar.id_aa64dfr1 = 0x0000000000000000;
-> > > +    cpu->id_aa64afr0 = 0x0000000000000000;
-> > > +    cpu->id_aa64afr1 = 0x0000000000000000;
-> > > +    cpu->isar.id_aa64mmfr0 = 0x0000000000001122;
-> > > +    cpu->isar.id_aa64mmfr1 = 0x0000000011212100;
-> > > +    cpu->isar.id_aa64mmfr2 = 0x0000000000001011;
-> > > +    cpu->isar.id_aa64isar0 = 0x0000000010211120;
-> > > +    cpu->isar.id_aa64isar1 = 0x0000000000010001;
-> > > +    cpu->isar.id_aa64zfr0 = 0x0000000000000000;
-> > > +    cpu->clidr = 0x0000000080000023;
-> > > +    cpu->ccsidr[0] = 0x7007e01c; /* 64KB L1 dcache */
-> > > +    cpu->ccsidr[1] = 0x2007e01c; /* 64KB L1 icache */
-> > > +    cpu->ccsidr[2] = 0x70ffe07c; /* 8MB L2 cache */
-> > > +    cpu->dcz_blocksize = 6; /* 256 bytes */
-> > > +    cpu->gic_num_lrs = 4;
-> > > +    cpu->gic_vpribits = 5;
-> > > +    cpu->gic_vprebits = 5;
-> > > +    /* TODO:  Add A64FX specific HPC extension registers */
-> > > +
-> > > +    aarch64_add_sve_properties(obj);
-> > > +    object_property_add(obj, "sve-max-vq", "uint32",
-> > cpu_max_get_sve_max_vq,
-> > > +                        cpu_max_set_sve_max_vq, NULL, NULL);
-> > 
-> > I'm not a huge fan of the sve-max-vq property since it's not a good idea to use it
-> > with KVM, because it's not explicit enough for migration[1]. I realize the a64fx cpu
-> > type will likely never be used with KVM, but since sve-max-vq isn't necessary[2],
-> > than I would avoid propagating it to another cpu type. Finally, if you want the a64fx
-> > cpu model to represent the current a64fx cpu, then don't you want to explicitly set
-> > the supported vector lengths[3] and deny the user the option to change them? You
-> > could do that by directly setting the vq map and not adding the sve properties.
-> > 
-> > [1] With KVM, sve-max-vq only tells you the maximum vq, but it won't tell you that
-> > the host doesn't support non-power-of-2 vector lengths. So you don't get an
-> > explicit vector length list on the command line. Being explicit is the only safe way
-> > to migrate (see docs/system/arm/cpu-features.rst:"SVE CPU Property
-> > Recommendations").
-> > 
-> > [2] If a shorthand is desired for specifying vector lengths, then just use a single
-> > sve<N> property. For example, sve-max-vq=4 and sve512=on are identical (but
-> > keep [1] in mind).
-> > 
-> > [3] a64fx only support 128, 256, and 512 bit vector lengths, afaik.
-> > 
-> > Thanks,
-> > drew
-> > 
-> > > +}
-> > > +
-> > >  static const ARMCPUInfo aarch64_cpus[] = {
-> > >      { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
-> > >      { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
-> > >      { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-> > > +    { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
-> > >      { .name = "max",                .initfn = aarch64_max_initfn },
-> > >  };
-> > >
-> > > --
-> > > 2.27.0
-> > >
-> > >
-> 
+> As it or with .mailmap modified:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
