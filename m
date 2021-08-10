@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391533E5728
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 11:38:09 +0200 (CEST)
-Received: from localhost ([::1]:40432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405643E5733
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 11:39:46 +0200 (CEST)
+Received: from localhost ([::1]:42580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDOD1-0006mN-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 05:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
+	id 1mDOEb-0008Ep-Aq
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 05:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mDOBn-0005uO-Rb; Tue, 10 Aug 2021 05:36:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50604)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mDODp-0007YP-C0
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:38:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mDOBl-0002Id-4F; Tue, 10 Aug 2021 05:36:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B9776108C;
- Tue, 10 Aug 2021 09:36:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628588206;
- bh=tS60AhbzNxEfqhjc5GDGvaVPboYSLi6Vsq8VfQJtXhk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YqCT47/UITPrLvlFC7KmQ2Hi4XFGK0VUCS0UykJU1xYtHQt9Oc1H7ZRZkHD1PVV+j
- S9nuLmwL0FPEbTTJNMFLgA/r2x9rDUaI7mvwp7dAMvtfHd0SNaEsMTQJLNPCCicWnP
- X2a4RwNv+FKKQiknGmVjRJv41uRk96DETgsQSISpJ/izwMuFw4uPmTuy+6VZIiSpp8
- ULYgj5SlcoR4aY1456lR2XBxtXX1esjnqoSOHlPU7VYz0Q1/Bb0Ni02kNe8OCYVCI2
- BdjNh+3ZgmPZHcMzV0mtxol0Mz4bwmx5TnQQcYpA7NEBFfK7yVJYxnj6OzRD0ESksI
- 8vxtrA0xr3kLg==
-Received: by mail-ot1-f51.google.com with SMTP id
- r19-20020a0568301353b029050aa53c3801so4339822otq.2; 
- Tue, 10 Aug 2021 02:36:46 -0700 (PDT)
-X-Gm-Message-State: AOAM531e+bDNS5JyYZ7LWp1BNWlDiTwiD+fp8Rt6eyXxZbmFmJUumXB2
- bEVdQ5/gVc+LKIp/tlTnxI8+jjxG97KE+VChnmE=
-X-Google-Smtp-Source: ABdhPJzEnldI54Hr07jXk8wLK+ECuRgeWmUJtsW6moIKFep2YhvhnHCOo2Fp+4t4S5VR+mmLqU+J0SQ55J6fvNsCtF0=
-X-Received: by 2002:a9d:5c2:: with SMTP id 60mr19564426otd.77.1628588205523;
- Tue, 10 Aug 2021 02:36:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mDODk-0003bO-Si
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 05:38:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628588330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iGghgImqYpw21QtyZYhz8Be4baMvAlhCRJNnogGz7g8=;
+ b=PET/tj6VB6uubSOAtfnTiE5wMvWKifExGQH0B9vcYM1oGoyxGenqGOAIYaUxt0hyTq1yNs
+ YKUUCMo1Ls12hFREQW+OViNeMTJTliaoyCGZtlMIAI9z+9ORlL80xdfs/+tMGFcYtUlNAJ
+ UpVa454i5yfezKEuvLvALWiRuaZ8spA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-8YC9T5CSOWKFaChO5BEAHg-1; Tue, 10 Aug 2021 05:38:49 -0400
+X-MC-Unique: 8YC9T5CSOWKFaChO5BEAHg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j33-20020a05600c1c21b02902e6828f7a20so863859wms.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 02:38:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=iGghgImqYpw21QtyZYhz8Be4baMvAlhCRJNnogGz7g8=;
+ b=Xk45ql7BP239fuyOIxNtzjfNPYOapKaaGsj1VtrrprQ5JuaatZlcbO0FG5vDrdiLmX
+ qCAPFJp0ucrNJ/cBC/NwGYNl8tvQJ+jDQgg4L4mShEK2QRboyjvpxspWUJZFJ9YzZSPj
+ z+N84VNj3HupF3b72G/0PkNA2FEG29wnHM3qmOppZlHbURcVmU/G2WP1IPwMkqmY4zGI
+ vrvAcRRPWlm295FBpLiHnZhMDiX+6Qi5RB9hl/cZ9gKAf5QhCSgtj1G6DpMpgSJRS2bR
+ X30pTGFc26jSwWAd27E2BRhRNcvF96Ojb6iRMt9UMTZblj0BU5V1aT2+QLVJn9a7k9F0
+ mRkA==
+X-Gm-Message-State: AOAM5317oGPZJIdfA9lwhmC08XwL62Imt8HuqYCauEFGt7S9Mu0ltUq4
+ oeYxjej0Uke59PXxJkqUdLuGt720okY+DM/dh+CVnTsYaVhXxEnLYnHADPxmrJRGuF0UJN2umeo
+ puzHFYK2skVo09gU=
+X-Received: by 2002:a1c:188:: with SMTP id 130mr3705961wmb.122.1628588327962; 
+ Tue, 10 Aug 2021 02:38:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7x3etEWyo/V+GUD8WnlPdiOFmDuM9dwySx1hF0NTkq/CAw15QifDTnmY/wKY7ytTBiGAKQg==
+X-Received: by 2002:a1c:188:: with SMTP id 130mr3705911wmb.122.1628588327243; 
+ Tue, 10 Aug 2021 02:38:47 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id z12sm1306937wrn.28.2021.08.10.02.38.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 02:38:46 -0700 (PDT)
+Date: Tue, 10 Aug 2021 10:38:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, leobras@redhat.com
+Subject: Re: migration-test, intermittent hang, aarch64 host, i386 guest
+Message-ID: <YRJJJPkounhQm3uM@work-vm>
+References: <CAFEAcA9RoS3Rbbg1RFexpfoE3iKJJ1J-+N1MkLN_fQfgyrS1nw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210810083057.99651-1-eric.auger@redhat.com>
-In-Reply-To: <20210810083057.99651-1-eric.auger@redhat.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 10 Aug 2021 11:36:34 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
-Message-ID: <CAMj1kXHie7aFoQ-7aMcckX2OMepbGeE6SLV8x=FDppeZHws5OA@mail.gmail.com>
-Subject: Re: [PATCH for-6.2] hw/arm/virt_acpi_build: Generate DBG2 table
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+In-Reply-To: <CAFEAcA9RoS3Rbbg1RFexpfoE3iKJJ1J-+N1MkLN_fQfgyrS1nw@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,212 +95,316 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- gshan@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- eric.auger.pro@gmail.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Aug 2021 at 10:31, Eric Auger <eric.auger@redhat.com> wrote:
->
-> ARM SBBR specification mandates DBG2 table (Debug Port Table 2).
-> this latter allows to describe one or more debug ports.
->
-> Generate an DBG2 table featuring a single debug port, the PL011.
->
-> The DBG2 specification can be found at:
-> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
->
-
-Have the legal issues around this table been resolved in the mean
-time? Also, any clue why this table is mandatory to begin with? The
-SBBR has been very trigger happy lately with making things mandatory
-that aren't truly required from a functional perspective.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> migration-test hung on me again in merge testing. Here are the
+> backtraces; note that one of the qemu-system-i386 processes is a
+> zombie that its parent isn't reaping.
+> 
+> Process tree:
+> migration-test(786453)-+-qemu-system-i38(802719)
+>                        |-qemu-system-i38(802846)
+>                        `-qemu-system-i38(807045)
 
 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->
-> ---
->
-> Tested by comparing the content with the table generated
-> by EDK2 along with the SBSA-REF machine (code generated by
-> DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c).
->
-> I reused the Generic Address Structure filled by QEMU in the SPCR, ie.
-> bit_width = 8 and byte access. While EDK2 sets bit_width = 32 and
-> dword access. Also the name exposed by acpica tools is different:
-> 'COM0' in my case where '\_SB.COM0' in SBSA-REF case?
-> ---
->  hw/arm/virt-acpi-build.c    | 77 ++++++++++++++++++++++++++++++++++++-
->  include/hw/acpi/acpi-defs.h | 50 ++++++++++++++++++++++++
->  2 files changed, 126 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 037cc1fd82..35f27b41df 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -563,6 +563,78 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->                   vms->oem_table_id);
->  }
->
-> +#define ACPI_DBG2_PL011_UART_LENGTH 0x1000
-> +
-> +/* DBG2 */
-> +static void
-> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> +{
-> +    int addr_offset, addrsize_offset, namespace_offset, namespace_length;
-> +    const MemMapEntry *uart_memmap = &vms->memmap[VIRT_UART];
-> +    struct AcpiGenericAddress *base_address;
-> +    int dbg2_start = table_data->len;
-> +    AcpiDbg2Device *dbg2dev;
-> +    char name[] = "COM0";
-> +    AcpiDbg2Table *dbg2;
-> +    uint32_t *addr_size;
-> +    uint8_t *namespace;
-> +
-> +    dbg2 = acpi_data_push(table_data, sizeof *dbg2);
-> +    dbg2->info_offset = sizeof *dbg2;
-> +    dbg2->info_count = 1;
-> +
-> +    /* debug device info structure */
-> +
-> +    dbg2dev = acpi_data_push(table_data, sizeof(AcpiDbg2Device));
-> +
-> +    dbg2dev->revision = 0;
-> +    namespace_length = sizeof name;
-> +    dbg2dev->length = sizeof *dbg2dev + sizeof(struct AcpiGenericAddress) +
-> +                      4 + namespace_length;
-> +    dbg2dev->register_count = 1;
-> +
-> +    addr_offset = sizeof *dbg2dev;
-> +    addrsize_offset = addr_offset + sizeof(struct AcpiGenericAddress);
-> +    namespace_offset = addrsize_offset + 4;
-> +
-> +    dbg2dev->namepath_length = cpu_to_le16(namespace_length);
-> +    dbg2dev->namepath_offset = cpu_to_le16(namespace_offset);
-> +    dbg2dev->oem_data_length = cpu_to_le16(0);
-> +    dbg2dev->oem_data_offset = cpu_to_le16(0); /* No OEM data is present */
-> +    dbg2dev->port_type = cpu_to_le16(ACPI_DBG2_SERIAL_PORT);
-> +    dbg2dev->port_subtype = cpu_to_le16(ACPI_DBG2_ARM_PL011);
-> +
-> +    dbg2dev->base_address_offset = cpu_to_le16(addr_offset);
-> +    dbg2dev->address_size_offset = cpu_to_le16(addrsize_offset);
-> +
-> +    /*
-> +     * variable length content:
-> +     * BaseAddressRegister[1]
-> +     * AddressSize[1]
-> +     * NamespaceString[1]
-> +     */
-> +
-> +    base_address = acpi_data_push(table_data,
-> +                                  sizeof(struct AcpiGenericAddress));
-> +
-> +    base_address->space_id = AML_SYSTEM_MEMORY;
-> +    base_address->bit_width = 8;
-> +    base_address->bit_offset = 0;
-> +    base_address->access_width = 1;
-> +    base_address->address = cpu_to_le64(uart_memmap->base);
-> +
-> +    addr_size = acpi_data_push(table_data, sizeof *addr_size);
-> +    *addr_size = cpu_to_le32(ACPI_DBG2_PL011_UART_LENGTH);
-> +
-> +    namespace = acpi_data_push(table_data, namespace_length);
-> +    memcpy(namespace, name, namespace_length);
-> +
-> +    build_header(linker, table_data,
-> +                 (void *)(table_data->data + dbg2_start), "DBG2",
-> +                 table_data->len - dbg2_start, 3, vms->oem_id,
-> +                 vms->oem_table_id);
-> +}
-> +
->  /* MADT */
->  static void
->  build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> @@ -790,7 +862,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      dsdt = tables_blob->len;
->      build_dsdt(tables_blob, tables->linker, vms);
->
-> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
->      acpi_add_table(table_offsets, tables_blob);
->      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->
-> @@ -813,6 +885,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      acpi_add_table(table_offsets, tables_blob);
->      build_spcr(tables_blob, tables->linker, vms);
->
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    build_dbg2(tables_blob, tables->linker, vms);
-> +
->      if (vms->ras) {
->          build_ghes_error_table(tables->hardware_errors, tables->linker);
->          acpi_add_table(table_offsets, tables_blob);
-> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> index cf9f44299c..bdb2ebed2c 100644
-> --- a/include/hw/acpi/acpi-defs.h
-> +++ b/include/hw/acpi/acpi-defs.h
-> @@ -618,4 +618,54 @@ struct AcpiIortRC {
->  } QEMU_PACKED;
->  typedef struct AcpiIortRC AcpiIortRC;
->
-> +/* DBG2 */
-> +
-> +/* Types for port_type field above */
-> +
-> +#define ACPI_DBG2_SERIAL_PORT       0x8000
-> +#define ACPI_DBG2_1394_PORT         0x8001
-> +#define ACPI_DBG2_USB_PORT          0x8002
-> +#define ACPI_DBG2_NET_PORT          0x8003
-> +
-> +/* Subtypes for port_subtype field above */
-> +
-> +#define ACPI_DBG2_16550_COMPATIBLE  0x0000
-> +#define ACPI_DBG2_16550_SUBSET      0x0001
-> +#define ACPI_DBG2_ARM_PL011         0x0003
-> +#define ACPI_DBG2_ARM_SBSA_32BIT    0x000D
-> +#define ACPI_DBG2_ARM_SBSA_GENERIC  0x000E
-> +#define ACPI_DBG2_ARM_DCC           0x000F
-> +#define ACPI_DBG2_BCM2835           0x0010
-> +
-> +#define ACPI_DBG2_1394_STANDARD     0x0000
-> +
-> +#define ACPI_DBG2_USB_XHCI          0x0000
-> +#define ACPI_DBG2_USB_EHCI          0x0001
-> +
-> +/* Debug Device Information Subtable */
-> +
-> +struct AcpiDbg2Device {
-> +    uint8_t  revision;
-> +    uint16_t length;
-> +    uint8_t  register_count; /* Number of base_address registers */
-> +    uint16_t namepath_length;
-> +    uint16_t namepath_offset;
-> +    uint16_t oem_data_length;
-> +    uint16_t oem_data_offset;
-> +    uint16_t port_type;
-> +    uint16_t port_subtype;
-> +    uint8_t  reserved[2];
-> +    uint16_t base_address_offset;
-> +    uint16_t address_size_offset;
-> +}  QEMU_PACKED;
-> +typedef struct AcpiDbg2Device AcpiDbg2Device;
-> +
-> +struct AcpiDbg2Table {
-> +    ACPI_TABLE_HEADER_DEF /* ACPI common table header */
-> +    uint32_t info_offset; /* offset to the first debug struct */
-> +    uint32_t info_count;  /* number of debug device info struct entries */
-> +    uint8_t  dbg2_device_info[];
-> +} QEMU_PACKED;
-> +typedef struct AcpiDbg2Table AcpiDbg2Table;
-> +
->  #endif
-> --
-> 2.26.3
->
+> Thread 1 (Thread 0xffff99af9690 (LWP 786453)):
+> #0  0x0000ffff997d178c in __GI___clock_nanosleep (clock_id=<optimized
+> out>, clock_id@entry=0, flags=flags@entry=0,
+> req=req@entry=0xffffc3ba2e38, rem=rem@entry=0x0) at
+> ../sysdeps/unix/sysv/linux/clock_nanosleep.c:78
+> #1  0x0000ffff997d7134 in __GI___nanosleep
+> (requested_time=requested_time@entry=0xffffc3ba2e38,
+> remaining=remaining@entry=0x0) at nanosleep.c:27
+> #2  0x0000ffff997fe0e0 in usleep (useconds=useconds@entry=1000) at
+> ../sysdeps/posix/usleep.c:32
+> #3  0x0000aaaab4c6ba58 in wait_for_migration_status
+> (who=0xaaaad57af470, goal=0xaaaab4c9ea68 "cancelled", ungoals=0x0) at
+> ../../tests/qtest/migration-helpers.c:157
+> #4  0x0000aaaab4c6aeb0 in test_multifd_tcp_cancel () at
+> ../../tests/qtest/migration-test.c:1376
+
+OK, so test_multifd_tcp_cancel  waiting for the 'cancelled'
+
+> Thread 6 (Thread 0xffff01fef560 (LWP 804033)):
+> #0  futex_abstimed_wait_cancelable (private=0, abstime=0x0, clockid=0,
+> expected=0, futex_word=0xaaaad563bcd8) at
+> ../sysdeps/nptl/futex-internal.h:320
+> #1  do_futex_wait (sem=sem@entry=0xaaaad563bcd8, abstime=0x0,
+> clockid=0) at sem_waitcommon.c:112
+> #2  0x0000ffff7d0abdcc in __new_sem_wait_slow
+> (sem=sem@entry=0xaaaad563bcd8, abstime=0x0, clockid=0) at
+> sem_waitcommon.c:184
+> #3  0x0000ffff7d0abe70 in __new_sem_wait
+> (sem=sem@entry=0xaaaad563bcd8) at sem_wait.c:42
+> #4  0x0000aaaaafbc5f5c in qemu_sem_wait (sem=sem@entry=0xaaaad563bcd8)
+> at ../../util/qemu-thread-posix.c:357
+> #5  0x0000aaaaaf7a970c in multifd_send_sync_main (f=<optimized out>)
+> at ../../migration/multifd.c:617
+
+I think that's the one Leo saw.
+
+Dave
+
+> #6  0x0000aaaaaf984244 in ram_save_iterate (f=0xaaaad4795a60,
+> opaque=<optimized out>) at ../../migration/ram.c:2951
+> #7  0x0000aaaaaf671294 in qemu_savevm_state_iterate (f=0xaaaad4795a60,
+> postcopy=postcopy@entry=false) at ../../migration/savevm.c:1296
+> #8  0x0000aaaaaf75279c in migration_iteration_run (s=0xaaaad4487200)
+> at ../../migration/migration.c:3576
+> #9  migration_thread (opaque=opaque@entry=0xaaaad4487200) at
+> ../../migration/migration.c:3813
+> #10 0x0000aaaaafbc5098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #11 0x0000ffff7d0a24fc in start_thread (arg=0xffffff697f1f) at
+> pthread_create.c:477
+> #12 0x0000ffff7cffb67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 5 (Thread 0xffff2e62a560 (LWP 802816)):
+> #0  0x0000aaaaaf92f8dc in tlb_hit_page_mask_anyprot
+> (tlb_entry=tlb_entry@entry=0xaaaad4791898, page=75177984,
+> mask=4294965248) at /home/pm/qemu/include/exec/cpu_ldst.h:319
+> #1  0x0000aaaaaf92fb88 in tlb_flush_entry_mask_locked
+> (tlb_entry=0xaaaad4791898, page=<optimized out>, mask=<optimized out>)
+> at ../../accel/tcg/cputlb.c:461
+> #2  0x0000aaaaaf9337d0 in tlb_flush_vtlb_page_mask_locked
+> (mask=<optimized out>, page=<optimized out>, mmu_idx=<optimized out>,
+> env=<optimized out>) at ../../accel/tcg/cputlb.c:1201
+> #3  tlb_flush_vtlb_page_locked (page=75177984, mmu_idx=2,
+> env=0xaaaad4791980) at ../../accel/tcg/cputlb.c:493
+> #4  tlb_set_page_with_attrs (cpu=cpu@entry=0xaaaad4789090,
+> vaddr=vaddr@entry=75177984, paddr=<optimized out>, attrs=...,
+> prot=<optimized out>, mmu_idx=mmu_idx@entry=2, size=<optimized out>)
+> at ../../accel/tcg/cputlb.c:1201
+> #5  0x0000aaaaaf88217c in handle_mmu_fault (size=<optimized out>,
+> mmu_idx=2, is_write1=<optimized out>, addr=75177984,
+> cs=0xaaaad4789090) at ../../target/i386/cpu.h:2082
+> #6  x86_cpu_tlb_fill (cs=0xaaaad4789090, addr=75177984,
+> size=<optimized out>, access_type=<optimized out>, mmu_idx=2,
+> probe=false, retaddr=281471470897268) at
+> ../../target/i386/tcg/sysemu/excp_helper.c:464
+> #7  0x0000aaaaaf92fe28 in tlb_fill (cpu=0xaaaad4789090, addr=75177984,
+> size=1, access_type=MMU_DATA_LOAD, mmu_idx=2, retaddr=281471470897268)
+> at ../../accel/tcg/cputlb.c:1304
+> #8  0x0000aaaaaf930aa4 in load_helper (full_load=<optimized out>,
+> code_read=false, op=MO_8, retaddr=281471470897268, oi=<optimized out>,
+> addr=75177984, env=0xaaaad4791980) at
+> /home/pm/qemu/include/exec/cpu-all.h:482
+> #9  full_ldub_mmu (env=0xaaaad4791980, addr=<optimized out>,
+> oi=<optimized out>, retaddr=281471470897268) at
+> ../../accel/tcg/cputlb.c:1996
+> #10 0x0000ffff2f09892c in code_gen_buffer ()
+> #11 0x0000aaaaaf99d750 in cpu_tb_exec (tb_exit=<synthetic pointer>,
+> itb=<optimized out>, cpu=0xaaaad4789090) at
+> ../../accel/tcg/cpu-exec.c:353
+> #12 cpu_loop_exec_tb (tb_exit=<synthetic pointer>, last_tb=<synthetic
+> pointer>, tb=<optimized out>, cpu=0xaaaad4789090) at
+> ../../accel/tcg/cpu-exec.c:812
+> #13 cpu_exec (cpu=cpu@entry=0xaaaad4789090) at ../../accel/tcg/cpu-exec.c:970
+> #14 0x0000aaaaaf9e5c2c in tcg_cpus_exec (cpu=cpu@entry=0xaaaad4789090)
+> at ../../accel/tcg/tcg-accel-ops.c:67
+> #15 0x0000aaaaaf9a6384 in rr_cpu_thread_fn
+> (arg=arg@entry=0xaaaad4789090) at
+> ../../accel/tcg/tcg-accel-ops-rr.c:216
+> #16 0x0000aaaaafbc5098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #17 0x0000ffff7d0a24fc in start_thread (arg=0xffffff697b6f) at
+> pthread_create.c:477
+> #18 0x0000ffff7cffb67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 4 (Thread 0xffff2ef1c560 (LWP 802815)):
+> #0  0x0000ffff7cff2128 in __GI___poll (fds=0xffff28003280, nfds=3,
+> timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:41
+> #1  0x0000ffff7f09bb30 in  () at /lib/aarch64-linux-gnu/libglib-2.0.so.0
+> #2  0x0000ffff7f09bef0 in g_main_loop_run () at
+> /lib/aarch64-linux-gnu/libglib-2.0.so.0
+> #3  0x0000aaaaafa023bc in iothread_run
+> (opaque=opaque@entry=0xaaaad44c9350) at ../../iothread.c:73
+> #4  0x0000aaaaafbc5098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #5  0x0000ffff7d0a24fc in start_thread (arg=0xffffff697d2f) at
+> pthread_create.c:477
+> #6  0x0000ffff7cffb67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 3 (Thread 0xffff6f79e560 (LWP 802813)):
+> #0  0x0000ffff7cf5ef4c in __GI___sigtimedwait
+> (set=set@entry=0xaaaad4448370, info=info@entry=0xffff6f79dad8,
+> timeout=timeout@entry=0x0) at
+> ../sysdeps/unix/sysv/linux/sigtimedwait.c:29
+> #1  0x0000ffff7d0add24 in __sigwait (set=set@entry=0xaaaad4448370,
+> sig=sig@entry=0xffff6f79dba4) at
+> ../sysdeps/unix/sysv/linux/sigwait.c:28
+> #2  0x0000aaaaafbede34 in sigwait_compat
+> (opaque=opaque@entry=0xaaaad4448370) at ../../util/compatfd.c:36
+> #3  0x0000aaaaafbc5098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #4  0x0000ffff7d0a24fc in start_thread (arg=0xffffff697faf) at
+> pthread_create.c:477
+> #5  0x0000ffff7cffb67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 2 (Thread 0xffff700a0560 (LWP 802811)):
+> #0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+> #1  0x0000aaaaafbc6140 in qemu_futex_wait (val=<optimized out>,
+> f=<optimized out>) at /home/pm/qemu/include/qemu/futex.h:29
+> #2  qemu_event_wait (ev=ev@entry=0xaaaab0524358
+> <rcu_call_ready_event>) at ../../util/qemu-thread-posix.c:480
+> #3  0x0000aaaaafbc8d3c in call_rcu_thread (opaque=opaque@entry=0x0) at
+> ../../util/rcu.c:258
+> #4  0x0000aaaaafbc5098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #5  0x0000ffff7d0a24fc in start_thread (arg=0xffffff6981ef) at
+> pthread_create.c:477
+> #6  0x0000ffff7cffb67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 1 (Thread 0xffff701ff010 (LWP 802719)):
+> #0  0x0000ffff7cff2234 in __ppoll (fds=0xaaaad5513040, nfds=5,
+> timeout=<optimized out>, timeout@entry=0xffffff698338,
+> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+> #1  0x0000aaaaafbed02c in ppoll (__ss=0x0, __timeout=0xffffff698338,
+> __nfds=<optimized out>, __fds=<optimized out>) at
+> /usr/include/aarch64-linux-gnu/bits/poll2.h:77
+> #2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+> timeout=timeout@entry=13245269) at ../../util/qemu-timer.c:348
+> #3  0x0000aaaaafbdd8d4 in os_host_main_loop_wait (timeout=13245269) at
+> ../../util/main-loop.c:250
+> #4  main_loop_wait (nonblocking=nonblocking@entry=0) at
+> ../../util/main-loop.c:531
+> #5  0x0000aaaaaf9bc348 in qemu_main_loop () at ../../softmmu/runstate.c:726
+> #6  0x0000aaaaaf63ba28 in main (argc=<optimized out>, argv=<optimized
+> out>, envp=<optimized out>) at ../../softmmu/main.c:50
+> [Inferior 1 (process 802719) detached]
+> 
+> ===========================================================
+> PROCESS: 802846
+> pm        802846  786453  0 18:29 ?        00:00:00 [qemu-system-i38] <defunct>
+> /proc/802846/exe: No such file or directory.
+> Could not attach to process.  If your uid matches the uid of the target
+> process, check the setting of /proc/sys/kernel/yama/ptrace_scope, or try
+> again as the root user.  For more details, see /etc/sysctl.d/10-ptrace.conf
+> warning: process 802846 is a zombie - the process has already terminated
+> ptrace: Operation not permitted.
+> /home/pm/802846: No such file or directory.
+> 
+> ===========================================================
+> PROCESS: 807045
+> pm        807045  786453  0 18:29 ?        00:00:00 ./qemu-system-i386
+> -qtest unix:/tmp/qtest-786453.sock -qtest-log /dev/null -chardev
+> socket,path=/tmp/qtest-786453.qmp,id=char0 -mon
+> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> target,debug-threads=on -m 150M -serial
+> file:/tmp/migration-test-LndGy5/dest_serial -incoming defer -drive
+> file=/tmp/migration-test-LndGy5/bootsect,format=raw -accel qtest
+> [New LWP 807112]
+> [New LWP 807114]
+> [New LWP 807116]
+> [New LWP 807117]
+> [Thread debugging using libthread_db enabled]
+> Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+> 0x0000ffff7d982234 in __ppoll (fds=0xaaaaf7c8cdf0, nfds=6,
+> timeout=<optimized out>, timeout@entry=0xffffce77ca78,
+> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+> 44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+> 
+> Thread 5 (Thread 0xffff6af08560 (LWP 807117)):
+> #0  futex_wait_cancelable (private=0, expected=0,
+> futex_word=0xaaaaf6e0860c) at ../sysdeps/nptl/futex-internal.h:183
+> #1  __pthread_cond_wait_common (abstime=0x0, clockid=0,
+> mutex=0xaaaabbcab168 <qemu_global_mutex>, cond=0xaaaaf6e085e0) at
+> pthread_cond_wait.c:508
+> #2  __pthread_cond_wait (cond=cond@entry=0xaaaaf6e085e0,
+> mutex=mutex@entry=0xaaaabbcab168 <qemu_global_mutex>) at
+> pthread_cond_wait.c:638
+> #3  0x0000aaaabb34f96c in qemu_cond_wait_impl (cond=0xaaaaf6e085e0,
+> mutex=0xaaaabbcab168 <qemu_global_mutex>, file=0xaaaabb4b9f08
+> "../../softmmu/cpus.c", line=506) at
+> ../../util/qemu-thread-posix.c:194
+> #4  0x0000aaaabb130258 in rr_cpu_thread_fn
+> (arg=arg@entry=0xaaaaf6de9430) at
+> ../../accel/tcg/tcg-accel-ops-rr.c:164
+> #5  0x0000aaaabb34f098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #6  0x0000ffff7da324fc in start_thread (arg=0xffffce77c2af) at
+> pthread_create.c:477
+> #7  0x0000ffff7d98b67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 4 (Thread 0xffff6b7fa560 (LWP 807116)):
+> #0  0x0000ffff7d982128 in __GI___poll (fds=0xffff1c003280, nfds=3,
+> timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:41
+> #1  0x0000ffff7fa2bb30 in  () at /lib/aarch64-linux-gnu/libglib-2.0.so.0
+> #2  0x0000ffff7fa2bef0 in g_main_loop_run () at
+> /lib/aarch64-linux-gnu/libglib-2.0.so.0
+> #3  0x0000aaaabb18c3bc in iothread_run
+> (opaque=opaque@entry=0xaaaaf6b29350) at ../../iothread.c:73
+> #4  0x0000aaaabb34f098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #5  0x0000ffff7da324fc in start_thread (arg=0xffffce77c46f) at
+> pthread_create.c:477
+> #6  0x0000ffff7d98b67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 3 (Thread 0xffff6bffb560 (LWP 807114)):
+> #0  0x0000ffff7d8eef4c in __GI___sigtimedwait
+> (set=set@entry=0xaaaaf6aa8370, info=info@entry=0xffff6bffaad8,
+> timeout=timeout@entry=0x0) at
+> ../sysdeps/unix/sysv/linux/sigtimedwait.c:29
+> #1  0x0000ffff7da3dd24 in __sigwait (set=set@entry=0xaaaaf6aa8370,
+> sig=sig@entry=0xffff6bffaba4) at
+> ../sysdeps/unix/sysv/linux/sigwait.c:28
+> #2  0x0000aaaabb377e34 in sigwait_compat
+> (opaque=opaque@entry=0xaaaaf6aa8370) at ../../util/compatfd.c:36
+> #3  0x0000aaaabb34f098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #4  0x0000ffff7da324fc in start_thread (arg=0xffffce77c6ef) at
+> pthread_create.c:477
+> #5  0x0000ffff7d98b67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 2 (Thread 0xffff70a30560 (LWP 807112)):
+> #0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+> #1  0x0000aaaabb350140 in qemu_futex_wait (val=<optimized out>,
+> f=<optimized out>) at /home/pm/qemu/include/qemu/futex.h:29
+> #2  qemu_event_wait (ev=ev@entry=0xaaaabbcae358
+> <rcu_call_ready_event>) at ../../util/qemu-thread-posix.c:480
+> #3  0x0000aaaabb352d3c in call_rcu_thread (opaque=opaque@entry=0x0) at
+> ../../util/rcu.c:258
+> #4  0x0000aaaabb34f098 in qemu_thread_start (args=<optimized out>) at
+> ../../util/qemu-thread-posix.c:541
+> #5  0x0000ffff7da324fc in start_thread (arg=0xffffce77c92f) at
+> pthread_create.c:477
+> #6  0x0000ffff7d98b67c in thread_start () at
+> ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+> 
+> Thread 1 (Thread 0xffff70b8f010 (LWP 807045)):
+> #0  0x0000ffff7d982234 in __ppoll (fds=0xaaaaf7c8cdf0, nfds=6,
+> timeout=<optimized out>, timeout@entry=0xffffce77ca78,
+> sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+> #1  0x0000aaaabb37702c in ppoll (__ss=0x0, __timeout=0xffffce77ca78,
+> __nfds=<optimized out>, __fds=<optimized out>) at
+> /usr/include/aarch64-linux-gnu/bits/poll2.h:77
+> #2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+> timeout=timeout@entry=1000000000) at ../../util/qemu-timer.c:348
+> #3  0x0000aaaabb3678d4 in os_host_main_loop_wait (timeout=1000000000)
+> at ../../util/main-loop.c:250
+> #4  main_loop_wait (nonblocking=nonblocking@entry=0) at
+> ../../util/main-loop.c:531
+> #5  0x0000aaaabb146348 in qemu_main_loop () at ../../softmmu/runstate.c:726
+> #6  0x0000aaaabadc5a28 in main (argc=<optimized out>, argv=<optimized
+> out>, envp=<optimized out>) at ../../softmmu/main.c:50
+> [Inferior 1 (process 807045) detached]
+> 
+> 
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
