@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C693E7DFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 19:07:17 +0200 (CEST)
-Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0FD3E7E10
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 19:14:19 +0200 (CEST)
+Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDVDg-000084-B8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 13:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
+	id 1mDVKU-0002tK-J7
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 13:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mDVCp-0007tv-4i
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:06:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mDVCk-0005YN-2g
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:06:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628615176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9PmCWuT86hjEHJpUFReNKRGsBYamcIB3Z8pQbvwJkPI=;
- b=Grb6CJoiL849w6+Xn0qYyYQGw+flHWPUiMupj5WaOD/Gfj07S6bvOK3iV18c0PnywNGO6y
- +MhKXtSrf43wHR5Gr215KFoa+cyQhLbjbX/rTv3QsfNErojXfpg3HbqhyiDPfuF67VPWmH
- HuxorxR3y/R+kyAonMyAC839qo2sj8Y=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-OtI1ygYCNH2LQ08jbx8xTg-1; Tue, 10 Aug 2021 13:06:11 -0400
-X-MC-Unique: OtI1ygYCNH2LQ08jbx8xTg-1
-Received: by mail-oi1-f197.google.com with SMTP id
- c6-20020aca35060000b029025c5504f461so9221127oia.22
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 10:06:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1mDVJZ-0001ix-5z
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:13:21 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:40659)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1mDVJV-00028I-P0
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 13:13:20 -0400
+Received: by mail-il1-x12c.google.com with SMTP id u7so1244565ilk.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 10:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UZcomO3PWq7h5Kaij4CM7scqCxvBLI3+kUw/hudaSDc=;
+ b=S9gg7t8Za3v3cWNhRIdYkKykYu0+m/cYgs7fTNLteRbIDD8fuNapLG5pkl1liPL8I5
+ oFRUzxYs/vXmYISSHHdVewN680EKkJmrUkfYInw4LJZQIsHiybxLsBvuEwfczpSIIK7m
+ qyudQbRv76rOpH7gCqhYQ8c6XG24ErgzqlsrkO3o6TBEU7o/kVXGexTgSunUVBCnzPpx
+ C3vNs61fMtQhXIT9dQi2Fju3wp/qc6jzHY7GmRhCuFaT/zVwE05t+NNx5oiJWmSMcIqb
+ zIWvcWXqlye9Fc4SF6loW4/lBLQsnCEevbLv6RijLwWcV0dP2cWk0vh3SMKh+A0iAr5g
+ T6Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=9PmCWuT86hjEHJpUFReNKRGsBYamcIB3Z8pQbvwJkPI=;
- b=k27bV9777Y9F/fU2ryJl6DJpZdpgmpnOJK8U7rswZxMlxNS2hGXwHtW4G+m6VavK1j
- 6dBpookjqIusEZnq+IGaR63Aee0oSGpscNZC0tRBWlgTAcm9kHXDG8diCg0mqdkzpykn
- Cb9mUUJZ/BhYdEUvvKudTAg1hyI8X9dG37TlopeCtvED7yKJcnEE6Uz2z237+Oj2MXhv
- /uKzn2pdscAhOdIdi90p2rqBa/Cj69IO3wKXIgUKE56UG2RodXAD6aYz61HY2IMzHjK6
- 7oryuw+tVPvDtGjrviiQItApMLD+77risl2NtfVCtrGahuJph/QcpVrE3R17Ri+4S4MC
- wLcw==
-X-Gm-Message-State: AOAM532tsYs8VAa0+5yq44QS7htypDdx2V6gng//Ioyh2MXT+f8Igpkc
- vbLtJsmEN5ICEXscNKS5D2SvVoZtGm2eFezmn4IS5FWRqLKi1J5cl0WnBUg+hYvXMkjjO9yxqQO
- UxyvKIls2X6uGXKs=
-X-Received: by 2002:a05:6808:4c6:: with SMTP id
- a6mr4381853oie.164.1628615171052; 
- Tue, 10 Aug 2021 10:06:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3D7uw9AZSDpoh8LyongALzifkqjqCFaL+YfGEIAWWMDcp0+7yDG0XibkqFK/ZmhB6JOAv8Q==
-X-Received: by 2002:a05:6808:4c6:: with SMTP id
- a6mr4381816oie.164.1628615170630; 
- Tue, 10 Aug 2021 10:06:10 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id e22sm3109637otq.5.2021.08.10.10.06.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 10:06:10 -0700 (PDT)
-Date: Tue, 10 Aug 2021 11:06:08 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V6 19/27] vfio-pci: cpr part 1 (fd and dma)
-Message-ID: <20210810110608.480af93b.alex.williamson@redhat.com>
-In-Reply-To: <1628286241-217457-20-git-send-email-steven.sistare@oracle.com>
-References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
- <1628286241-217457-20-git-send-email-steven.sistare@oracle.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UZcomO3PWq7h5Kaij4CM7scqCxvBLI3+kUw/hudaSDc=;
+ b=tulD+aJNhAd17ryuJIvC2LxipQXCSCoQhCjlbLkNt4aNUMPCeyw3qC9wDNeazSpKk9
+ KhQ/VvbVKh3TjBc6a3ZKV2rB/BraMBkjgubcXkB+mDrJnW3sMbwIrgMHrWnvjVfbNYNs
+ Qx3pjKTSLEABjceLz+3eGigj65r1Rd+V0kYRCKctTg1iYmflG/iP8J34Bj6F5ltFHRR2
+ SVAr5QH8cZfn58f13Hi6+R9JVYlzuUpGtpu6TLeokgrFGu8L/NS/6fkTW0KPpc+24r4X
+ 5Q0014l6Zc2PMFgMbQRfKOmX0uww2Jyoe64x5suGvFRXOSczwyz8uH0Oc6kwa0VL4iJ6
+ yu8A==
+X-Gm-Message-State: AOAM531Ep28gQwqZuCrdGJdImDwzvZ7pt/Nygear98KCJdmj+o8p84yV
+ HZaBismCRooFbEeTBTK8FL3goZ3DceZrmysL+Iw=
+X-Google-Smtp-Source: ABdhPJwPnzlSOJptL52Q2lWj5DK3aJMt1DyfmwdH8HZkifXJdaB2SIJ7IsGfTaIAh4aNddjqJbxWgbyyfXWpb0vgSFc=
+X-Received: by 2002:a92:a04c:: with SMTP id b12mr47149ilm.80.1628615595933;
+ Tue, 10 Aug 2021 10:13:15 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210730201846.5147-1-niteesh.gs@gmail.com>
+ <20210730201846.5147-7-niteesh.gs@gmail.com>
+ <CAFn=p-ZL6_VOQX_8hbh5mL3oD+5Vmr-PbeYnSc01jGEQauFHsg@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZL6_VOQX_8hbh5mL3oD+5Vmr-PbeYnSc01jGEQauFHsg@mail.gmail.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Tue, 10 Aug 2021 22:42:50 +0530
+Message-ID: <CAN6ztm86SwN4-Pub5uTu0GXjDXQm7f0HvfSeyFXuZFE2Z-DupA@mail.gmail.com>
+Subject: Re: [PATCH v3 06/13] python/aqmp-tui: Added type annotations for
+ aqmp-tui
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001243fe05c9379ed4"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,777 +79,755 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  6 Aug 2021 14:43:53 -0700
-Steve Sistare <steven.sistare@oracle.com> wrote:
+--0000000000001243fe05c9379ed4
+Content-Type: text/plain; charset="UTF-8"
 
-> Enable vfio-pci devices to be saved and restored across an exec restart
-> of qemu.
-> 
-> At vfio creation time, save the value of vfio container, group, and device
-> descriptors in cpr state.
-> 
-> In cpr-save and cpr-exec, suspend the use of virtual addresses in DMA
-> mappings with VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will be remapped
-> at a different VA after exec.  DMA to already-mapped pages continues.  Save
-> the msi message area as part of vfio-pci vmstate, save the interrupt and
-> notifier eventfd's in cpr state, and clear the close-on-exec flag for the
-> vfio descriptors.  The flag is not cleared earlier because the descriptors
-> should not persist across miscellaneous fork and exec calls that may be
-> performed during normal operation.
-> 
-> On qemu restart, vfio_realize() finds the descriptor env vars, uses
-> the descriptors, and notes that the device is being reused.  Device and
-> iommu state is already configured, so operations in vfio_realize that
-> would modify the configuration are skipped for a reused device, including
-> vfio ioctl's and writes to PCI configuration space.  The result is that
-> vfio_realize constructs qemu data structures that reflect the current
-> state of the device.  However, the reconstruction is not complete until
-> cpr-load is called. cpr-load loads the msi data and finds eventfds in cpr
-> state.  It rebuilds vector data structures and attaches the interrupts to
-> the new KVM instance.  cpr-load then walks the flattened ranges of the
-> vfio_address_spaces and calls VFIO_DMA_MAP_FLAG_VADDR to inform the kernel
-> of the new VA's.  Lastly, it starts the VM and suppresses vfio device reset.
-> 
-> This functionality is delivered by 3 patches for clarity.  Part 1 handles
-> device file descriptors and DMA.  Part 2 adds eventfd and MSI/MSI-X vector
-> support.  Part 3 adds INTX support.
-> 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  MAINTAINERS                   |   1 +
->  hw/pci/pci.c                  |   4 ++
->  hw/vfio/common.c              |  69 ++++++++++++++++--
->  hw/vfio/cpr.c                 | 160 ++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/meson.build           |   1 +
->  hw/vfio/pci.c                 |  57 +++++++++++++++
->  hw/vfio/trace-events          |   1 +
->  include/hw/pci/pci.h          |   1 +
->  include/hw/vfio/vfio-common.h |   5 ++
->  include/migration/cpr.h       |   3 +
->  linux-headers/linux/vfio.h    |   6 ++
->  migration/cpr.c               |  10 ++-
->  migration/target.c            |  14 ++++
->  13 files changed, 325 insertions(+), 7 deletions(-)
->  create mode 100644 hw/vfio/cpr.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a9d2ed8..3132965 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2904,6 +2904,7 @@ CPR
->  M: Steve Sistare <steven.sistare@oracle.com>
->  M: Mark Kanda <mark.kanda@oracle.com>
->  S: Maintained
-> +F: hw/vfio/cpr.c
->  F: include/migration/cpr.h
->  F: migration/cpr.c
->  F: qapi/cpr.json
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 59408a3..b9c6ca1 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -307,6 +307,10 @@ static void pci_do_device_reset(PCIDevice *dev)
->  {
->      int r;
->  
-> +    if (dev->reused) {
-> +        return;
-> +    }
-> +
->      pci_device_deassert_intx(dev);
->      assert(dev->irq_state == 0);
->  
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 7918c0d..872a1ac 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -31,6 +31,7 @@
->  #include "exec/memory.h"
->  #include "exec/ram_addr.h"
->  #include "hw/hw.h"
-> +#include "migration/cpr.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/range.h"
-> @@ -464,6 +465,10 @@ static int vfio_dma_unmap(VFIOContainer *container,
->          return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
->      }
->  
-> +    if (container->reused) {
-> +        return 0;
-> +    }
-> +
->      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
->          /*
->           * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
-> @@ -501,6 +506,10 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
->          .size = size,
->      };
->  
-> +    if (container->reused) {
-> +        return 0;
-> +    }
-> +
->      if (!readonly) {
->          map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
->      }
-> @@ -1872,6 +1881,10 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
->      if (iommu_type < 0) {
->          return iommu_type;
->      }
-> +    if (container->reused) {
-> +        container->iommu_type = iommu_type;
-> +        return 0;
-> +    }
->  
+On Fri, Aug 6, 2021 at 1:26 AM John Snow <jsnow@redhat.com> wrote:
 
-I'd like to see more comments throughout, but particularly where we're
-dumping out of functions for reused containers, groups, and devices.
-For instance map/unmap we're assuming we'll reach the same IOMMU
-mapping state we had previously, how do we validate that, why can't we
-only set vaddr in the mapping path rather than skipping it for a later
-pass at the flatmap, do we actually see unmaps, is deferring listener
-registration an alternate option, which specific reset path are we
-trying to defer, why are VFIOPCIDevices the only PCIDevices that set
-reused, there are some assumptions about the iommu_type that could use
-further description, etc.
+>
+>
+> On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+> wrote:
+>
+>> This patch adds type annotations for aqmp-tui using
+>> the mypy library.
+>>
+>>
+> Awesome, thanks for taking a swing at this. Looks like it wasn't as bad as
+> I was fearing.
+>
+>
+>> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+>> ---
+>>  python/qemu/aqmp/aqmp_tui.py | 79 ++++++++++++++++++++----------------
+>>  python/setup.cfg             |  3 --
+>>  2 files changed, 43 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+>> index ec9eba0aa7..ab9ada793a 100644
+>> --- a/python/qemu/aqmp/aqmp_tui.py
+>> +++ b/python/qemu/aqmp/aqmp_tui.py
+>> @@ -9,8 +9,15 @@
+>>  import argparse
+>>  import asyncio
+>>  import logging
+>> -from logging import Handler
+>> +from logging import Handler, LogRecord
+>>  import signal
+>> +from typing import (
+>> +    Any,
+>> +    List,
+>> +    Optional,
+>> +    Tuple,
+>> +    Union,
+>> +)
+>>
+>>  import urwid
+>>  import urwid_readline
+>> @@ -22,13 +29,13 @@
+>>  from .util import create_task, pretty_traceback
+>>
+>>
+>> -UPDATE_MSG = 'UPDATE_MSG'
+>> +UPDATE_MSG: str = 'UPDATE_MSG'
+>>
+>>  # Using root logger to enable all loggers under qemu and asyncio
+>>  LOGGER = logging.getLogger()
+>>
+>>
+>> -def format_json(msg):
+>> +def format_json(msg: str) -> str:
+>>      """
+>>      Formats given multiline JSON message into a single line message.
+>>      Converting into single line is more asthetically pleasing when
+>> looking
+>> @@ -43,17 +50,17 @@ def format_json(msg):
+>>
+>>
+>>  class App(QMPClient):
+>> -    def __init__(self, address):
+>> +    def __init__(self, address: Union[str, Tuple[str, int]]) -> None:
+>>          urwid.register_signal(type(self), UPDATE_MSG)
+>>          self.window = Window(self)
+>>          self.address = address
+>> -        self.aloop = None
+>> +        self.aloop: Optional[Any] = None  # FIXME: Use more concrete
+>> type.
+>>
+>
+> I ran into this in util.py; you want Optional[asyncio.AbstractEventLoop]
+> here.
+>
+Thanks. Fixed.
 
->      ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container->fd);
->      if (ret) {
-> @@ -1972,6 +1985,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->  {
->      VFIOContainer *container;
->      int ret, fd;
-> +    bool reused;
->      VFIOAddressSpace *space;
->  
->      space = vfio_get_address_space(as);
-> @@ -2007,7 +2021,13 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->       * details once we know which type of IOMMU we are using.
->       */
->  
-> +    fd = cpr_find_fd("vfio_container_for_group", group->groupid);
-> +    reused = (fd >= 0);
-> +
->      QLIST_FOREACH(container, &space->containers, next) {
-> +        if (container->fd == fd) {
-> +            break;
-> +        }
->          if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
+>
+>
+>>          super().__init__()
+>>
+>> -    def add_to_history(self, msg):
+>> +    def add_to_history(self, msg: str) -> None:
+>>          urwid.emit_signal(self, UPDATE_MSG, msg)
+>>
+>> -    def _cb_outbound(self, msg):
+>> +    def _cb_outbound(self, msg: Message) -> Message:
+>>          # FIXME: I think the ideal way to omit these messages during
+>> in-TUI
+>>          # logging will be to add a filter to the logger. We can use
+>> regex to
+>>          # filter out messages starting with 'Request:' or 'Response:'
+>> but I
+>> @@ -67,25 +74,25 @@ def _cb_outbound(self, msg):
+>>          self.add_to_history('<-- ' + str(msg))
+>>          return msg
+>>
+>> -    def _cb_inbound(self, msg):
+>> +    def _cb_inbound(self, msg: Message) -> Message:
+>>          handler = LOGGER.handlers[0]
+>>          if not isinstance(handler, TUILogHandler):
+>>              LOGGER.debug('Response: %s', str(msg))
+>>          self.add_to_history('--> ' + str(msg))
+>>          return msg
+>>
+>> -    async def wait_for_events(self):
+>> +    async def wait_for_events(self) -> None:
+>>          async for event in self.events:
+>>              self.handle_event(event)
+>>
+>> -    async def _send_to_server(self, raw_msg):
+>> +    async def _send_to_server(self, raw_msg: str) -> None:
+>>          # FIXME: Format the raw_msg in history view to one line. It is
+>> not
+>>          # pleasing to see multiple lines JSON object with an error
+>> statement.
+>>          try:
+>>              msg = Message(bytes(raw_msg, encoding='utf-8'))
+>>              # Format multiline json into a single line JSON, since it is
+>> more
+>>              # pleasing to look along with err message in TUI.
+>> -            raw_msg = self.format_json(raw_msg)
+>> +            raw_msg = format_json(raw_msg)
+>>              await self._raw(msg, assign_id='id' not in msg)
+>>          except (ValueError, TypeError) as err:
+>>              LOGGER.info('Invalid message: %s', str(err))
+>> @@ -102,18 +109,18 @@ def _cb_inbound(self, msg):
+>>              LOGGER.error('Exception from _send_to_server: %s', str(err))
+>>              raise err
+>>
+>> -    def cb_send_to_server(self, msg):
+>> +    def cb_send_to_server(self, msg: str) -> None:
+>>          create_task(self._send_to_server(msg))
+>>
+>> -    def unhandled_input(self, key):
+>> +    def unhandled_input(self, key: str) -> None:
+>>          if key == 'esc':
+>>              self.kill_app()
+>>
+>> -    def kill_app(self):
+>> +    def kill_app(self) -> None:
+>>          # TODO: Work on the disconnect logic
+>>          create_task(self._kill_app())
+>>
+>> -    async def _kill_app(self):
+>> +    async def _kill_app(self) -> None:
+>>          # It is ok to call disconnect even in disconnect state
+>>          try:
+>>              await self.disconnect()
+>> @@ -124,7 +131,7 @@ def kill_app(self):
+>>              raise err
+>>          raise urwid.ExitMainLoop()
+>>
+>> -    def handle_event(self, event):
+>> +    def handle_event(self, event: Message) -> None:
+>>          # FIXME: Consider all states present in qapi/run-state.json
+>>          if event['event'] == 'SHUTDOWN':
+>>              self._set_status('Server shutdown')
+>> @@ -139,7 +146,7 @@ def _get_formatted_address(self) -> str:
+>>              addr = f'{host}:{port}'
+>>          return addr
+>>
+>> -    async def connect_server(self):
+>> +    async def connect_server(self) -> None:
+>>          try:
+>>              await self.connect(self.address)
+>>              addr = self._get_formatted_address()
+>> @@ -148,7 +155,7 @@ def _get_formatted_address(self) -> str:
+>>              LOGGER.info('connect_server: ConnectError %s', str(err))
+>>              self._set_status('Server shutdown')
+>>
+>> -    def run(self, debug=False):
+>> +    def run(self, debug: bool = False) -> None:
+>>          self.aloop = asyncio.get_event_loop()
+>>          self.aloop.set_debug(debug)
+>>
+>> @@ -176,7 +183,7 @@ class StatusBar(urwid.Text):
+>>      """
+>>      A simple Text widget that currently only shows connection status.
+>>      """
+>> -    def __init__(self, text=''):
+>> +    def __init__(self, text: str = ''):
+>>          super().__init__(text, align='right')
+>>
+>>
+>> @@ -185,14 +192,14 @@ class Editor(urwid_readline.ReadlineEdit):
+>>      Support urwid_readline features along with
+>>      history support which lacks in urwid_readline
+>>      """
+>> -    def __init__(self, master):
+>> +    def __init__(self, master: App) -> None:
+>>          super().__init__(caption='> ', multiline=True)
+>>          self.master = master
+>> -        self.history = []
+>> -        self.last_index = -1
+>> -        self.show_history = False
+>> +        self.history: List[str] = []
+>> +        self.last_index: int = -1
+>> +        self.show_history: bool = False
+>>
+>> -    def keypress(self, size, key):
+>> +    def keypress(self, size: Tuple[int, int], key: str) -> Optional[str]:
+>>          # TODO: Add some logic for down key and clean up logic if
+>> possible.
+>>          # Returning None means the key has been handled by this widget
+>>          # which otherwise is propogated to the parent widget to be
+>> @@ -223,7 +230,7 @@ def keypress(self, size, key):
+>>          else:
+>>              self.show_history = False
+>>              self.last_index = 0
+>> -            return super().keypress(size, key)
+>> +            return super().keypress(size, key)  # type: ignore
+>>
+>
+> try using cast(Optional[str], super().keypress(size, key)) instead of the
+> type: ignore. It doesn't make a gigantic difference, really, but it looks
+> "narrower" in scope and will probably confuse *me* less in the future.
+>
+Fixed
 
+>
+>
+>>          return None
+>>
+>>
+>> @@ -231,7 +238,7 @@ class EditorWidget(urwid.Filler):
+>>      """
+>>      Wraps CustomEdit
+>>      """
+>> -    def __init__(self, master):
+>> +    def __init__(self, master: App) -> None:
+>>          super().__init__(Editor(master), valign='top')
+>>
+>>
+>> @@ -239,12 +246,12 @@ class HistoryBox(urwid.ListBox):
+>>      """
+>>      Shows all the QMP message transmitted/received
+>>      """
+>> -    def __init__(self, master):
+>> +    def __init__(self, master: App) -> None:
+>>          self.master = master
+>>          self.history = urwid.SimpleFocusListWalker([])
+>>          super().__init__(self.history)
+>>
+>> -    def add_to_history(self, history):
+>> +    def add_to_history(self, history: str) -> None:
+>>          self.history.append(urwid.Text(history))
+>>          if self.history:
+>>              self.history.set_focus(len(self.history) - 1)
+>> @@ -254,7 +261,7 @@ class HistoryWindow(urwid.Frame):
+>>      """
+>>      Composes the HistoryBox and EditorWidget
+>>      """
+>> -    def __init__(self, master):
+>> +    def __init__(self, master: App) -> None:
+>>          self.master = master
+>>          self.editor_widget = EditorWidget(master)
+>>          self.editor = urwid.LineBox(self.editor_widget)
+>> @@ -264,7 +271,7 @@ def __init__(self, master):
+>>          super().__init__(self.body)
+>>          urwid.connect_signal(self.master, UPDATE_MSG,
+>> self.cb_add_to_history)
+>>
+>> -    def cb_add_to_history(self, msg):
+>> +    def cb_add_to_history(self, msg: str) -> None:
+>>          self.history.add_to_history(msg)
+>>
+>>
+>> @@ -275,7 +282,7 @@ class Window(urwid.Frame):
+>>      future when we will have multiple windows and want to the switch
+>> between
+>>      them and display overlays
+>>      """
+>> -    def __init__(self, master):
+>> +    def __init__(self, master: App) -> None:
+>>          self.master = master
+>>          footer = StatusBar()
+>>          body = HistoryWindow(master)
+>> @@ -283,18 +290,18 @@ def __init__(self, master):
+>>
+>>
+>>  class TUILogHandler(Handler):
+>> -    def __init__(self, tui):
+>> +    def __init__(self, tui: App) -> None:
+>>          super().__init__()
+>>          self.tui = tui
+>>
+>> -    def emit(self, record):
+>> +    def emit(self, record: LogRecord) -> None:
+>>          level = record.levelname
+>>          msg = record.getMessage()
+>>          msg = f'[{level}]: {msg}'
+>>          self.tui.add_to_history(msg)
+>>
+>>
+>> -def main():
+>> +def main() -> None:
+>>      parser = argparse.ArgumentParser(description='AQMP TUI')
+>>      parser.add_argument('qmp_server', help='Address of the QMP server'
+>>                          '< UNIX socket path | TCP addr:port >')
+>> @@ -311,7 +318,7 @@ def main():
+>>      try:
+>>          address = QEMUMonitorProtocol.parse_address(args.qmp_server)
+>>      except QMPBadPortError as err:
+>> -        parser.error(err)
+>> +        parser.error(str(err))
+>>
+>>      app = App(address)
+>>
+>> @@ -330,4 +337,4 @@ def main():
+>>
+>>
+>>  if __name__ == '__main__':
+>> -    main()  # type: ignore
+>> +    main()
+>> diff --git a/python/setup.cfg b/python/setup.cfg
+>> index 8cd9ac0d81..11c6240aba 100644
+>> --- a/python/setup.cfg
+>> +++ b/python/setup.cfg
+>> @@ -83,9 +83,6 @@ namespace_packages = True
+>>  allow_subclassing_any = True
+>>
+>>  [mypy-qemu.aqmp.aqmp_tui]
+>> -disallow_untyped_defs = False
+>> -disallow_incomplete_defs = False
+>> -check_untyped_defs = False
+>>  # urwid and urwid_readline have no type stubs:
+>>  allow_subclassing_any = True
+>>
+>> --
+>> 2.17.1
+>>
+>>
+> Please squash this into the first patch, but it looks good, thanks!
+>
+Thanks.
 
-Letting the reused case call this ioctl feels a little sloppy.  I'm
-assuming we've tested this in a vIOMMU config or other setups where
-we'd actually have multiple containers and we're relying on the ioctl
-failing, but why call it at all if we already know the group is
-attached to a container.
+>
+> --js
+>
 
+--0000000000001243fe05c9379ed4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->              ret = vfio_ram_block_discard_disable(container, true);
->              if (ret) {
-> @@ -2020,14 +2040,25 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->                  }
->                  return ret;
->              }
-> -            group->container = container;
-> -            QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (container) {
-> +        group->container = container;
-> +        QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-> +        if (!reused) {
->              vfio_kvm_device_add_group(group);
-> -            return 0;
-> +            cpr_save_fd("vfio_container_for_group", group->groupid,
-> +                        container->fd);
->          }
-> +        return 0;
-> +    }
-> +
-> +    if (!reused) {
-> +        fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
->      }
->  
-> -    fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
->      if (fd < 0) {
->          error_setg_errno(errp, errno, "failed to open /dev/vfio/vfio");
->          ret = -errno;
-> @@ -2045,6 +2076,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->      container = g_malloc0(sizeof(*container));
->      container->space = space;
->      container->fd = fd;
-> +    container->reused = reused;
->      container->error = NULL;
->      container->dirty_pages_supported = false;
->      container->dma_max_mappings = 0;
-> @@ -2183,6 +2215,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->      }
->  
->      container->initialized = true;
-> +    cpr_save_fd("vfio_container_for_group", group->groupid, fd);
->  
->      return 0;
->  listener_release_exit:
-> @@ -2212,6 +2245,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
->  
->      QLIST_REMOVE(group, container_next);
->      group->container = NULL;
-> +    cpr_delete_fd("vfio_container_for_group", group->groupid);
->  
->      /*
->       * Explicitly release the listener first before unset container,
-> @@ -2253,6 +2287,7 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
->      VFIOGroup *group;
->      char path[32];
->      struct vfio_group_status status = { .argsz = sizeof(status) };
-> +    bool reused;
->  
->      QLIST_FOREACH(group, &vfio_group_list, next) {
->          if (group->groupid == groupid) {
-> @@ -2270,7 +2305,13 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
->      group = g_malloc0(sizeof(*group));
->  
->      snprintf(path, sizeof(path), "/dev/vfio/%d", groupid);
-> -    group->fd = qemu_open_old(path, O_RDWR);
-> +
-> +    group->fd = cpr_find_fd("vfio_group", groupid);
-> +    reused = (group->fd >= 0);
-> +    if (!reused) {
-> +        group->fd = qemu_open_old(path, O_RDWR);
-> +    }
-> +
->      if (group->fd < 0) {
->          error_setg_errno(errp, errno, "failed to open %s", path);
->          goto free_group_exit;
-> @@ -2304,6 +2345,10 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
->  
->      QLIST_INSERT_HEAD(&vfio_group_list, group, next);
->  
-> +    if (!reused) {
-> +        cpr_save_fd("vfio_group", groupid, group->fd);
-> +    }
-> +
->      return group;
->  
->  close_fd_exit:
-> @@ -2328,6 +2373,7 @@ void vfio_put_group(VFIOGroup *group)
->      vfio_disconnect_container(group);
->      QLIST_REMOVE(group, next);
->      trace_vfio_put_group(group->fd);
-> +    cpr_delete_fd("vfio_group", group->groupid);
->      close(group->fd);
->      g_free(group);
->  
-> @@ -2341,8 +2387,14 @@ int vfio_get_device(VFIOGroup *group, const char *name,
->  {
->      struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
->      int ret, fd;
-> +    bool reused;
-> +
-> +    fd = cpr_find_fd(name, 0);
-> +    reused = (fd >= 0);
-> +    if (!reused) {
-> +        fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
-> +    }
->  
-> -    fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
->      if (fd < 0) {
->          error_setg_errno(errp, errno, "error getting device from group %d",
->                           group->groupid);
-> @@ -2387,6 +2439,10 @@ int vfio_get_device(VFIOGroup *group, const char *name,
->      vbasedev->num_irqs = dev_info.num_irqs;
->      vbasedev->num_regions = dev_info.num_regions;
->      vbasedev->flags = dev_info.flags;
-> +    vbasedev->reused = reused;
-> +    if (!reused) {
-> +        cpr_save_fd(name, 0, fd);
-> +    }
->  
->      trace_vfio_get_device(name, dev_info.flags, dev_info.num_regions,
->                            dev_info.num_irqs);
-> @@ -2403,6 +2459,7 @@ void vfio_put_base_device(VFIODevice *vbasedev)
->      QLIST_REMOVE(vbasedev, next);
->      vbasedev->group = NULL;
->      trace_vfio_put_base_device(vbasedev->fd);
-> +    cpr_delete_fd(vbasedev->name, 0);
->      close(vbasedev->fd);
->  }
->  
-> diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
-> new file mode 100644
-> index 0000000..0981d31
-> --- /dev/null
-> +++ b/hw/vfio/cpr.c
-> @@ -0,0 +1,160 @@
-> +/*
-> + * Copyright (c) 2021 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <sys/ioctl.h>
-> +#include <linux/vfio.h>
-> +#include "hw/vfio/vfio-common.h"
-> +#include "sysemu/kvm.h"
-> +#include "qapi/error.h"
-> +#include "trace.h"
-> +
-> +static int
-> +vfio_dma_unmap_vaddr_all(VFIOContainer *container, Error **errp)
-> +{
-> +    struct vfio_iommu_type1_dma_unmap unmap = {
-> +        .argsz = sizeof(unmap),
-> +        .flags = VFIO_DMA_UNMAP_FLAG_VADDR | VFIO_DMA_UNMAP_FLAG_ALL,
-> +        .iova = 0,
-> +        .size = 0,
-> +    };
-> +    if (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-> +        error_setg_errno(errp, errno, "vfio_dma_unmap_vaddr_all");
-> +        return -errno;
-> +    }
-> +    return 0;
-> +}
-> +
-> +static int vfio_dma_map_vaddr(VFIOContainer *container, hwaddr iova,
-> +                              ram_addr_t size, void *vaddr,
-> +                              Error **errp)
-> +{
-> +    struct vfio_iommu_type1_dma_map map = {
-> +        .argsz = sizeof(map),
-> +        .flags = VFIO_DMA_MAP_FLAG_VADDR,
-> +        .vaddr = (__u64)(uintptr_t)vaddr,
-> +        .iova = iova,
-> +        .size = size,
-> +    };
-> +    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map)) {
-> +        error_setg_errno(errp, errno,
-> +                         "vfio_dma_map_vaddr(iova %lu, size %ld, va %p)",
-> +                         iova, size, vaddr);
-> +        return -errno;
-> +    }
-> +    return 0;
-> +}
-> +
-> +static int
-> +vfio_region_remap(MemoryRegionSection *section, void *handle, Error **errp)
-> +{
-> +    MemoryRegion *mr = section->mr;
-> +    VFIOContainer *container = handle;
-> +    const char *name = memory_region_name(mr);
-> +    ram_addr_t size = int128_get64(section->size);
-> +    hwaddr offset, iova, roundup;
-> +    void *vaddr;
-> +
-> +    if (vfio_listener_skipped_section(section) || memory_region_is_iommu(mr)) {
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Fri, Aug 6, 2021 at 1:26 AM John Snow &lt;<a hre=
+f=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
+"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu=
+ &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank">niteesh.gs@g=
+mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">This patch adds type annotations for aqmp-tui using<br>
+the mypy library.<br>
+<br></blockquote><div><br></div><div>Awesome, thanks for taking a swing at =
+this. Looks like it wasn&#39;t as bad as I was fearing.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
+ target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0python/qemu/aqmp/aqmp_tui.py | 79 ++++++++++++++++++++---------------=
+-<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 3 --<br>
+=C2=A02 files changed, 43 insertions(+), 39 deletions(-)<br>
+<br>
+diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
+>
+index ec9eba0aa7..ab9ada793a 100644<br>
+--- a/python/qemu/aqmp/aqmp_tui.py<br>
++++ b/python/qemu/aqmp/aqmp_tui.py<br>
+@@ -9,8 +9,15 @@<br>
+=C2=A0import argparse<br>
+=C2=A0import asyncio<br>
+=C2=A0import logging<br>
+-from logging import Handler<br>
++from logging import Handler, LogRecord<br>
+=C2=A0import signal<br>
++from typing import (<br>
++=C2=A0 =C2=A0 Any,<br>
++=C2=A0 =C2=A0 List,<br>
++=C2=A0 =C2=A0 Optional,<br>
++=C2=A0 =C2=A0 Tuple,<br>
++=C2=A0 =C2=A0 Union,<br>
++)<br>
+<br>
+=C2=A0import urwid<br>
+=C2=A0import urwid_readline<br>
+@@ -22,13 +29,13 @@<br>
+=C2=A0from .util import create_task, pretty_traceback<br>
+<br>
+<br>
+-UPDATE_MSG =3D &#39;UPDATE_MSG&#39;<br>
++UPDATE_MSG: str =3D &#39;UPDATE_MSG&#39;<br>
+<br>
+=C2=A0# Using root logger to enable all loggers under qemu and asyncio<br>
+=C2=A0LOGGER =3D logging.getLogger()<br>
+<br>
+<br>
+-def format_json(msg):<br>
++def format_json(msg: str) -&gt; str:<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0Formats given multiline JSON message into a single line=
+ message.<br>
+=C2=A0 =C2=A0 =C2=A0Converting into single line is more asthetically pleasi=
+ng when looking<br>
+@@ -43,17 +50,17 @@ def format_json(msg):<br>
+<br>
+<br>
+=C2=A0class App(QMPClient):<br>
+-=C2=A0 =C2=A0 def __init__(self, address):<br>
++=C2=A0 =C2=A0 def __init__(self, address: Union[str, Tuple[str, int]]) -&g=
+t; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0urwid.register_signal(type(self), UPDATE_=
+MSG)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.window =3D Window(self)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.address =3D address<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop: Optional[Any] =3D None=C2=A0 # FIX=
+ME: Use more concrete type.<br></blockquote><div><br></div><div>I ran into =
+this in util.py; you want Optional[<span class=3D"gmail_default" style=3D"f=
+ont-size:small"></span>asyncio.AbstractEventLoop] here.<br></div></div></di=
+v></blockquote><div><span class=3D"gmail_default" style=3D"font-size:small"=
+>Thanks. Fixed.</span>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__()<br>
+<br>
+-=C2=A0 =C2=A0 def add_to_history(self, msg):<br>
++=C2=A0 =C2=A0 def add_to_history(self, msg: str) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0urwid.emit_signal(self, UPDATE_MSG, msg)<=
+br>
+<br>
+-=C2=A0 =C2=A0 def _cb_outbound(self, msg):<br>
++=C2=A0 =C2=A0 def _cb_outbound(self, msg: Message) -&gt; Message:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# FIXME: I think the ideal way to omit th=
+ese messages during in-TUI<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# logging will be to add a filter to the =
+logger. We can use regex to<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# filter out messages starting with &#39;=
+Request:&#39; or &#39;Response:&#39; but I<br>
+@@ -67,25 +74,25 @@ def _cb_outbound(self, msg):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.add_to_history(&#39;&lt;-- &#39; + s=
+tr(msg))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return msg<br>
+<br>
+-=C2=A0 =C2=A0 def _cb_inbound(self, msg):<br>
++=C2=A0 =C2=A0 def _cb_inbound(self, msg: Message) -&gt; Message:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handler =3D LOGGER.handlers[0]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not isinstance(handler, TUILogHandler)=
+:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOGGER.debug(&#39;Response:=
+ %s&#39;, str(msg))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.add_to_history(&#39;--&gt; &#39; + s=
+tr(msg))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return msg<br>
+<br>
+-=C2=A0 =C2=A0 async def wait_for_events(self):<br>
++=C2=A0 =C2=A0 async def wait_for_events(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0async for event in self.events:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.handle_event(event)<br=
+>
+<br>
+-=C2=A0 =C2=A0 async def _send_to_server(self, raw_msg):<br>
++=C2=A0 =C2=A0 async def _send_to_server(self, raw_msg: str) -&gt; None:<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# FIXME: Format the raw_msg in history vi=
+ew to one line. It is not<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# pleasing to see multiple lines JSON obj=
+ect with an error statement.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msg =3D Message(bytes(raw_m=
+sg, encoding=3D&#39;utf-8&#39;))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Format multiline json int=
+o a single line JSON, since it is more<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# pleasing to look along wi=
+th err message in TUI.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raw_msg =3D self.format_json(raw=
+_msg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raw_msg =3D format_json(raw_msg)=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0await self._raw(msg, assign=
+_id=3D&#39;id&#39; not in msg)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except (ValueError, TypeError) as err:<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOGGER.info(&#39;Invalid me=
+ssage: %s&#39;, str(err))<br>
+@@ -102,18 +109,18 @@ def _cb_inbound(self, msg):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOGGER.error(&#39;Exception=
+ from _send_to_server: %s&#39;, str(err))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise err<br>
+<br>
+-=C2=A0 =C2=A0 def cb_send_to_server(self, msg):<br>
++=C2=A0 =C2=A0 def cb_send_to_server(self, msg: str) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0create_task(self._send_to_server(msg))<br=
+>
+<br>
+-=C2=A0 =C2=A0 def unhandled_input(self, key):<br>
++=C2=A0 =C2=A0 def unhandled_input(self, key: str) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if key =3D=3D &#39;esc&#39;:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.kill_app()<br>
+<br>
+-=C2=A0 =C2=A0 def kill_app(self):<br>
++=C2=A0 =C2=A0 def kill_app(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# TODO: Work on the disconnect logic<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0create_task(self._kill_app())<br>
+<br>
+-=C2=A0 =C2=A0 async def _kill_app(self):<br>
++=C2=A0 =C2=A0 async def _kill_app(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# It is ok to call disconnect even in dis=
+connect state<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0await self.disconnect()<br>
+@@ -124,7 +131,7 @@ def kill_app(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise err<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise urwid.ExitMainLoop()<br>
+<br>
+-=C2=A0 =C2=A0 def handle_event(self, event):<br>
++=C2=A0 =C2=A0 def handle_event(self, event: Message) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# FIXME: Consider all states present in q=
+api/run-state.json<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if event[&#39;event&#39;] =3D=3D &#39;SHU=
+TDOWN&#39;:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._set_status(&#39;Serve=
+r shutdown&#39;)<br>
+@@ -139,7 +146,7 @@ def _get_formatted_address(self) -&gt; str:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr =3D f&#39;{host}:{port=
+}&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return addr<br>
+<br>
+-=C2=A0 =C2=A0 async def connect_server(self):<br>
++=C2=A0 =C2=A0 async def connect_server(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0await self.connect(self.add=
+ress)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr =3D self._get_formatte=
+d_address()<br>
+@@ -148,7 +155,7 @@ def _get_formatted_address(self) -&gt; str:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOGGER.info(&#39;connect_se=
+rver: ConnectError %s&#39;, str(err))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._set_status(&#39;Serve=
+r shutdown&#39;)<br>
+<br>
+-=C2=A0 =C2=A0 def run(self, debug=3DFalse):<br>
++=C2=A0 =C2=A0 def run(self, debug: bool =3D False) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.aloop =3D asyncio.get_event_loop()<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.aloop.set_debug(debug)<br>
+<br>
+@@ -176,7 +183,7 @@ class StatusBar(urwid.Text):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0A simple Text widget that currently only shows connecti=
+on status.<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, text=3D&#39;&#39;):<br>
++=C2=A0 =C2=A0 def __init__(self, text: str =3D &#39;&#39;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__(text, align=3D&#39;right=
+&#39;)<br>
+<br>
+<br>
+@@ -185,14 +192,14 @@ class Editor(urwid_readline.ReadlineEdit):<br>
+=C2=A0 =C2=A0 =C2=A0Support urwid_readline features along with<br>
+=C2=A0 =C2=A0 =C2=A0history support which lacks in urwid_readline<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 def __init__(self, master: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__(caption=3D&#39;&gt; &#39=
+;, multiline=3DTrue)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.master =3D master<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D []<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D -1<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history: List[str] =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index: int =3D -1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history: bool =3D False<br>
+<br>
+-=C2=A0 =C2=A0 def keypress(self, size, key):<br>
++=C2=A0 =C2=A0 def keypress(self, size: Tuple[int, int], key: str) -&gt; Op=
+tional[str]:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# TODO: Add some logic for down key and c=
+lean up logic if possible.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Returning None means the key has been h=
+andled by this widget<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# which otherwise is propogated to the pa=
+rent widget to be<br>
+@@ -223,7 +230,7 @@ def keypress(self, size, key):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.show_history =3D False=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.last_index =3D 0<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return super().keypress(size, ke=
+y)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return super().keypress(size, ke=
+y)=C2=A0 # type: ignore<br></blockquote><div><br></div><div>try using cast(=
+Optional[str], super().keypress(size, key)) instead of the type: ignore. It=
+ doesn&#39;t make a gigantic difference, really, but it looks &quot;narrowe=
+r&quot; in scope and will probably confuse *me* less in the future.<br></di=
+v></div></div></blockquote><div><span class=3D"gmail_default" style=3D"font=
+-size:small">Fixed</span>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return None<br>
+<br>
+<br>
+@@ -231,7 +238,7 @@ class EditorWidget(urwid.Filler):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0Wraps CustomEdit<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 def __init__(self, master: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__(Editor(master), valign=
+=3D&#39;top&#39;)<br>
+<br>
+<br>
+@@ -239,12 +246,12 @@ class HistoryBox(urwid.ListBox):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0Shows all the QMP message transmitted/received<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 def __init__(self, master: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.master =3D master<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.history =3D urwid.SimpleFocusListWal=
+ker([])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__(self.history)<br>
+<br>
+-=C2=A0 =C2=A0 def add_to_history(self, history):<br>
++=C2=A0 =C2=A0 def add_to_history(self, history: str) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.history.append(urwid.Text(history))<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.history:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.history.set_focus(len(=
+self.history) - 1)<br>
+@@ -254,7 +261,7 @@ class HistoryWindow(urwid.Frame):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0Composes the HistoryBox and EditorWidget<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 def __init__(self, master: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.master =3D master<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.editor_widget =3D EditorWidget(maste=
+r)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.editor =3D urwid.LineBox(self.editor=
+_widget)<br>
+@@ -264,7 +271,7 @@ def __init__(self, master):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__(self.body)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0urwid.connect_signal(self.master, UPDATE_=
+MSG, self.cb_add_to_history)<br>
+<br>
+-=C2=A0 =C2=A0 def cb_add_to_history(self, msg):<br>
++=C2=A0 =C2=A0 def cb_add_to_history(self, msg: str) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.history.add_to_history(msg)<br>
+<br>
+<br>
+@@ -275,7 +282,7 @@ class Window(urwid.Frame):<br>
+=C2=A0 =C2=A0 =C2=A0future when we will have multiple windows and want to t=
+he switch between<br>
+=C2=A0 =C2=A0 =C2=A0them and display overlays<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 def __init__(self, master: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.master =3D master<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0footer =3D StatusBar()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0body =3D HistoryWindow(master)<br>
+@@ -283,18 +290,18 @@ def __init__(self, master):<br>
+<br>
+<br>
+=C2=A0class TUILogHandler(Handler):<br>
+-=C2=A0 =C2=A0 def __init__(self, tui):<br>
++=C2=A0 =C2=A0 def __init__(self, tui: App) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super().__init__()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.tui =3D tui<br>
+<br>
+-=C2=A0 =C2=A0 def emit(self, record):<br>
++=C2=A0 =C2=A0 def emit(self, record: LogRecord) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0level =3D record.levelname<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msg =3D record.getMessage()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msg =3D f&#39;[{level}]: {msg}&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.tui.add_to_history(msg)<br>
+<br>
+<br>
+-def main():<br>
++def main() -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0parser =3D argparse.ArgumentParser(description=3D&#39;A=
+QMP TUI&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser.add_argument(&#39;qmp_server&#39;, help=3D&#39;A=
+ddress of the QMP server&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;&lt; UNIX socket path | TCP addr:port &gt;&#39;)<br>
+@@ -311,7 +318,7 @@ def main():<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0address =3D QEMUMonitorProtocol.parse_add=
+ress(args.qmp_server)<br>
+=C2=A0 =C2=A0 =C2=A0except QMPBadPortError as err:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(err)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(str(err))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0app =3D App(address)<br>
+<br>
+@@ -330,4 +337,4 @@ def main():<br>
+<br>
+<br>
+=C2=A0if __name__ =3D=3D &#39;__main__&#39;:<br>
+-=C2=A0 =C2=A0 main()=C2=A0 # type: ignore<br>
++=C2=A0 =C2=A0 main()<br>
+diff --git a/python/setup.cfg b/python/setup.cfg<br>
+index 8cd9ac0d81..11c6240aba 100644<br>
+--- a/python/setup.cfg<br>
++++ b/python/setup.cfg<br>
+@@ -83,9 +83,6 @@ namespace_packages =3D True<br>
+=C2=A0allow_subclassing_any =3D True<br>
+<br>
+=C2=A0[mypy-qemu.aqmp.aqmp_tui]<br>
+-disallow_untyped_defs =3D False<br>
+-disallow_incomplete_defs =3D False<br>
+-check_untyped_defs =3D False<br>
+=C2=A0# urwid and urwid_readline have no type stubs:<br>
+=C2=A0allow_subclassing_any =3D True<br>
+<br>
+-- <br>
+2.17.1<br>
+<br></div></blockquote></div><div class=3D"gmail_quote"><br></div><div clas=
+s=3D"gmail_quote">Please squash this into the first patch, but it looks goo=
+d, thanks!</div></div></blockquote><div><span class=3D"gmail_default" style=
+=3D"font-size:small">Thanks.</span>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><br></div=
+><div class=3D"gmail_quote">--js<br></div></div>
+</blockquote></div></div>
 
-A comment reminding us why we're also skipping iommu regions would be
-useful.  It's not clear to me why this needs to happen separately from
-the listener.  There's a sufficient degree of magic here that I'm
-afraid it's going to get broken too easily if it's left to me trying to
-remember how it's supposed to work.
-
-> +        return 0;
-> +    }
-> +
-> +    offset = section->offset_within_address_space;
-> +    iova = REAL_HOST_PAGE_ALIGN(offset);
-> +    roundup = iova - offset;
-> +    size -= roundup;
-> +    size = REAL_HOST_PAGE_ALIGN(size);
-> +    vaddr = memory_region_get_ram_ptr(mr) +
-> +            section->offset_within_region + roundup;
-> +
-> +    trace_vfio_region_remap(name, container->fd, iova, iova + size - 1, vaddr);
-> +    return vfio_dma_map_vaddr(container, iova, size, vaddr, errp);
-> +}
-> +
-> +bool vfio_is_cpr_capable(VFIOContainer *container, Error **errp)
-> +{
-> +    if (!ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UPDATE_VADDR) ||
-> +        !ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UNMAP_ALL)) {
-> +        error_setg(errp, "VFIO container does not support VFIO_UPDATE_VADDR "
-> +                         "or VFIO_UNMAP_ALL");
-> +        return false;
-> +    } else {
-> +        return true;
-> +    }
-> +}
-> +
-> +int vfio_cpr_save(Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    VFIOAddressSpace *space, *last_space;
-> +    VFIOContainer *container, *last_container;
-> +
-> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-> +        QLIST_FOREACH(container, &space->containers, next) {
-> +            if (!vfio_is_cpr_capable(container, errp)) {
-> +                return -1;
-> +            }
-> +        }
-> +    }
-> +
-> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-> +        QLIST_FOREACH(container, &space->containers, next) {
-> +            if (vfio_dma_unmap_vaddr_all(container, errp)) {
-> +                goto unwind;
-> +            }
-> +        }
-> +    }
-> +    return 0;
-> +
-> +unwind:
-> +    last_space = space;
-> +    last_container = container;
-> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-> +        QLIST_FOREACH(container, &space->containers, next) {
-> +            Error *err;
-> +
-> +            if (space == last_space && container == last_container) {
-> +                break;
-> +            }
-
-Isn't it sufficient to only test the container?  I think we'd be in
-trouble if we found a container on multiple address space lists.  Too
-bad we don't have a continue_reverse foreach or it might be trivial to
-convert to a qtailq. 
-
-> +            if (address_space_flat_for_each_section(space->as,
-> +                                                    vfio_region_remap,
-> +                                                    container, &err)) {
-> +                error_prepend(errp, "%s", error_get_pretty(err));
-> +                error_free(err);
-> +            }
-> +        }
-> +    }
-> +    return -1;
-> +}
-> +
-> +int vfio_cpr_load(Error **errp)
-> +{
-> +    VFIOAddressSpace *space;
-> +    VFIOContainer *container;
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +
-> +    QLIST_FOREACH(space, &vfio_address_spaces, list) {
-> +        QLIST_FOREACH(container, &space->containers, next) {
-> +            if (!vfio_is_cpr_capable(container, errp)) {
-> +                return -1;
-> +            }
-> +            container->reused = false;
-> +            if (address_space_flat_for_each_section(space->as,
-> +                                                    vfio_region_remap,
-> +                                                    container, errp)) {
-> +                return -1;
-> +            }
-> +        }
-> +    }
-> +    QLIST_FOREACH(group, &vfio_group_list, next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            vbasedev->reused = false;
-> +        }
-> +    }
-
-The above is a bit disjoint between group/device and space/container,
-how about walking container->group_list rather than the global group
-list?
-
-> +    return 0;
-> +}
-> diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
-> index da9af29..e247b2b 100644
-> --- a/hw/vfio/meson.build
-> +++ b/hw/vfio/meson.build
-> @@ -5,6 +5,7 @@ vfio_ss.add(files(
->    'migration.c',
->  ))
->  vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
-> +  'cpr.c',
->    'display.c',
->    'pci-quirks.c',
->    'pci.c',
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index e8e371e..64e2557 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -29,6 +29,7 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
->  #include "migration/vmstate.h"
-> +#include "migration/cpr.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/module.h"
-> @@ -2899,6 +2900,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->          vfio_put_group(group);
->          goto error;
->      }
-> +    pdev->reused = vdev->vbasedev.reused;
->  
->      vfio_populate_device(vdev, &err);
->      if (err) {
-> @@ -3168,6 +3170,10 @@ static void vfio_pci_reset(DeviceState *dev)
->  {
->      VFIOPCIDevice *vdev = VFIO_PCI(dev);
->  
-> +    if (vdev->pdev.reused) {
-> +        return;
-> +    }
-
-Why are we the only ones using PCIDevice.reused and why are we testing
-that rather than VFIOPCIDevice.reused above?  These have different
-lifecycles and the difference is too subtle, esp. w/o comments.
-
-> +
->      trace_vfio_pci_reset(vdev->vbasedev.name);
->  
->      vfio_pci_pre_reset(vdev);
-> @@ -3275,6 +3281,56 @@ static Property vfio_pci_dev_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +static void vfio_merge_config(VFIOPCIDevice *vdev)
-> +{
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    int size = MIN(pci_config_size(pdev), vdev->config_size);
-> +    g_autofree uint8_t *phys_config = g_malloc(size);
-> +    uint32_t mask;
-> +    int ret, i;
-> +
-> +    ret = pread(vdev->vbasedev.fd, phys_config, size, vdev->config_offset);
-> +    if (ret < size) {
-> +        ret = ret < 0 ? errno : EFAULT;
-> +        error_report("failed to read device config space: %s", strerror(ret));
-> +        return;
-> +    }
-> +
-> +    for (i = 0; i < size; i++) {
-> +        mask = vdev->emulated_config_bits[i];
-> +        pdev->config[i] = (pdev->config[i] & mask) | (phys_config[i] & ~mask);
-> +    }
-> +}
-> +
-> +static int vfio_pci_post_load(void *opaque, int version_id)
-> +{
-> +    VFIOPCIDevice *vdev = opaque;
-> +    PCIDevice *pdev = &vdev->pdev;
-> +
-> +    vfio_merge_config(vdev);
-> +
-> +    pdev->reused = false;
-> +
-> +    return 0;
-> +}
-> +
-> +static bool vfio_pci_needed(void *opaque)
-> +{
-> +    return cpr_mode() == CPR_MODE_RESTART;
-> +}
-> +
-> +static const VMStateDescription vfio_pci_vmstate = {
-> +    .name = "vfio-pci",
-> +    .unmigratable = 1,
-
-
-Doesn't this break the experimental (for now) migration support?
-
-
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .post_load = vfio_pci_post_load,
-> +    .needed = vfio_pci_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -3282,6 +3338,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
->  
->      dc->reset = vfio_pci_reset;
->      device_class_set_props(dc, vfio_pci_dev_properties);
-> +    dc->vmsd = &vfio_pci_vmstate;
->      dc->desc = "VFIO-based PCI device assignment";
->      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->      pdc->realize = vfio_realize;
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 0ef1b5f..63dd0fe 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -118,6 +118,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
->  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
->  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
->  vfio_dma_unmap_overflow_workaround(void) ""
-> +vfio_region_remap(const char *name, int fd, uint64_t iova_start, uint64_t iova_end, void *vaddr) "%s fd %d 0x%"PRIx64" - 0x%"PRIx64" [%p]"
->  
->  # platform.c
->  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index bf5be06..f079423 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -360,6 +360,7 @@ struct PCIDevice {
->      /* ID of standby device in net_failover pair */
->      char *failover_pair_id;
->      uint32_t acpi_index;
-> +    bool reused;
->  };
->  
->  void pci_register_bar(PCIDevice *pci_dev, int region_num,
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index cb04cc6..0766cc4 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -85,6 +85,7 @@ typedef struct VFIOContainer {
->      Error *error;
->      bool initialized;
->      bool dirty_pages_supported;
-> +    bool reused;
->      uint64_t dirty_pgsizes;
->      uint64_t max_dirty_bitmap_size;
->      unsigned long pgsizes;
-> @@ -136,6 +137,7 @@ typedef struct VFIODevice {
->      bool no_mmap;
->      bool ram_block_discard_allowed;
->      bool enable_migration;
-> +    bool reused;
->      VFIODeviceOps *ops;
->      unsigned int num_irqs;
->      unsigned int num_regions;
-> @@ -212,6 +214,9 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
->  void vfio_put_group(VFIOGroup *group);
->  int vfio_get_device(VFIOGroup *group, const char *name,
->                      VFIODevice *vbasedev, Error **errp);
-> +int vfio_cpr_save(Error **errp);
-> +int vfio_cpr_load(Error **errp);
-> +bool vfio_is_cpr_capable(VFIOContainer *container, Error **errp);
->  
->  extern const MemoryRegionOps vfio_region_ops;
->  typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
-> diff --git a/include/migration/cpr.h b/include/migration/cpr.h
-> index 83f69c9..e9b987f 100644
-> --- a/include/migration/cpr.h
-> +++ b/include/migration/cpr.h
-> @@ -25,4 +25,7 @@ int cpr_state_load(Error **errp);
->  CprMode cpr_state_mode(void);
->  void cpr_state_print(void);
->  
-> +int cpr_vfio_save(Error **errp);
-> +int cpr_vfio_load(Error **errp);
-> +
->  #endif
-> diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
-> index e680594..48a02c0 100644
-> --- a/linux-headers/linux/vfio.h
-> +++ b/linux-headers/linux/vfio.h
-> @@ -52,6 +52,12 @@
->  /* Supports the vaddr flag for DMA map and unmap */
->  #define VFIO_UPDATE_VADDR		10
-           ^^^^^^^^^^^^^^^^^
-
-It's already there.  Thanks,
-
-Alex
-
->  
-> +/* Supports VFIO_DMA_UNMAP_FLAG_ALL */
-> +#define VFIO_UNMAP_ALL                        9
-> +
-> +/* Supports VFIO DMA map and unmap with the VADDR flag */
-> +#define VFIO_UPDATE_VADDR              10
-> +
->  /*
->   * The IOCTL interface is designed for extensibility by embedding the
->   * structure length (argsz) and flags into structures passed between
-> diff --git a/migration/cpr.c b/migration/cpr.c
-> index 72a5f4b..16f11bd 100644
-> --- a/migration/cpr.c
-> +++ b/migration/cpr.c
-> @@ -7,6 +7,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "exec/memory.h"
-> +#include "hw/vfio/vfio-common.h"
->  #include "io/channel-buffer.h"
->  #include "io/channel-file.h"
->  #include "migration.h"
-> @@ -108,7 +109,9 @@ void qmp_cpr_exec(strList *args, Error **errp)
->          error_setg(errp, "cpr-exec requires cpr-save with restart mode");
->          return;
->      }
-> -
-> +    if (cpr_vfio_save(errp)) {
-> +        return;
-> +    }
->      cpr_walk_fd(preserve_fd, 0);
->      if (cpr_state_save(errp)) {
->          return;
-> @@ -148,6 +151,11 @@ void qmp_cpr_load(const char *filename, Error **errp)
->          goto out;
->      }
->  
-> +    if (cpr_active_mode == CPR_MODE_RESTART &&
-> +        cpr_vfio_load(errp)) {
-> +        goto out;
-> +    }
-> +
->      state = global_state_get_runstate();
->      if (state == RUN_STATE_RUNNING) {
->          vm_start();
-> diff --git a/migration/target.c b/migration/target.c
-> index 4390bf0..984bc9e 100644
-> --- a/migration/target.c
-> +++ b/migration/target.c
-> @@ -8,6 +8,7 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-types-migration.h"
->  #include "migration.h"
-> +#include "migration/cpr.h"
->  #include CONFIG_DEVICES
->  
->  #ifdef CONFIG_VFIO
-> @@ -22,8 +23,21 @@ void populate_vfio_info(MigrationInfo *info)
->          info->vfio->transferred = vfio_mig_bytes_transferred();
->      }
->  }
-> +
-> +int cpr_vfio_save(Error **errp)
-> +{
-> +    return vfio_cpr_save(errp);
-> +}
-> +
-> +int cpr_vfio_load(Error **errp)
-> +{
-> +    return vfio_cpr_load(errp);
-> +}
-> +
->  #else
->  
->  void populate_vfio_info(MigrationInfo *info) {}
-> +int cpr_vfio_save(Error **errp) { return 0; }
-> +int cpr_vfio_load(Error **errp) { return 0; }
->  
->  #endif /* CONFIG_VFIO */
-
+--0000000000001243fe05c9379ed4--
 
