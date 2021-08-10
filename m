@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B5E3E55A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:40:06 +0200 (CEST)
-Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2A73E55BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Aug 2021 10:42:39 +0200 (CEST)
+Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDNIr-0001eh-8r
-	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:40:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1mDNLK-0005I7-Mh
+	for lists+qemu-devel@lfdr.de; Tue, 10 Aug 2021 04:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDNHU-0007lC-6Q
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:38:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31274)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDNIn-00037z-6L
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:40:01 -0400
+Received: from mailout04.t-online.de ([194.25.134.18]:58464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mDNHS-0000iA-G4
- for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:38:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628584717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PCwe09+T/nbcl7nGNXFGlGTq8XyDhVrvst3EJqT4lSw=;
- b=dJ8/ZooaFx1bLvkB7riu3iQe4Kpyl97bcLN58EAbCTZ+x6rtGIIGNWpEONDH+2z4scoNt/
- U6AEmCP377fIjUuJjJVKEYzr6OINGzO9HXva0YdtVQpe8TcJGt4rJSG4sPUb6V3QibR2q/
- hEhw5fnTfZAXpGKH61J77CW9xHMe65M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-xwgUS7_PMDGJSbtj274NqA-1; Tue, 10 Aug 2021 04:38:34 -0400
-X-MC-Unique: xwgUS7_PMDGJSbtj274NqA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f25-20020a1c6a190000b029024fa863f6b0so785892wmc.1
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 01:38:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=PCwe09+T/nbcl7nGNXFGlGTq8XyDhVrvst3EJqT4lSw=;
- b=FR6+jiu3rv4SwWVr/cFpFv5y7PJ8mi9gkeFpAYZrJ4mQSov5/4ADXVF+Zk3KBYDZzH
- g/nsv/c0sVBC72tlmrHSc3OAbHDmY5s85lVMhiQLVgg0PYV5VWeSI8pLPcEzactrzO5n
- zDUJAi/e0YBfjw9Te7okfe5BrrmOsUktVqJCEkSeN9ejMn/eqi6HGxWsgo9e29qqIy34
- d9FozOs7Rz8gl/ArmcW+VNbEiohmDu6akuK9o76eGDqq3Tp2P+SoBVQhD9xkYfFXCE+c
- TYPYpec04u16VA8J+N91bPfO51klhvJMHiZp/B2BY+jIKFwzv5IEM7STXYQzqphvhxRy
- RBsg==
-X-Gm-Message-State: AOAM530pPPEZEmirF6hwKVxABWR6XFri7gJv4c2csLQLuhJUfuXDTR9I
- 0slgUZSnIBU1R3JvRFduMtB+bX1GxxT6KyotxbzqLEn35HjWiN8in+P4PRAQHAGjks2G7aNlP5q
- ajiTMFDFaYUvsx2w=
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr29893465wrn.195.1628584713260; 
- Tue, 10 Aug 2021 01:38:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwI3C6JNnSzD7rZhQBA0Hg6PchqWWCckZuMpTsvEFPODWbaPW6/2/Uqg1L5ED58gxFVITWIMw==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr29893446wrn.195.1628584713083; 
- Tue, 10 Aug 2021 01:38:33 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- z5sm1995383wmp.26.2021.08.10.01.38.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 01:38:32 -0700 (PDT)
-Subject: Re: [PATCH v3 10/10] virtiofsd: Add lazy lo_do_find()
-To: Vivek Goyal <vgoyal@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <20210730150134.216126-1-mreitz@redhat.com>
- <20210730150134.216126-11-mreitz@redhat.com> <YRF9Q+MSjrbeybd2@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <dfebe39a-35d4-1e1c-c63f-2312586aa97d@redhat.com>
-Date: Tue, 10 Aug 2021 10:38:32 +0200
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mDNIk-0001jm-Q0
+ for qemu-devel@nongnu.org; Tue, 10 Aug 2021 04:40:00 -0400
+Received: from fwd32.aul.t-online.de (fwd32.aul.t-online.de [172.20.26.144])
+ by mailout04.t-online.de (Postfix) with SMTP id CB2BE2C33;
+ Tue, 10 Aug 2021 10:38:38 +0200 (CEST)
+Received: from [192.168.211.200]
+ (EITHX+ZEQh2KtnJVOdQEnISCuYKwms3TRPDoSmq1o-YRvj7S-q6B6B2pLy1C8+DZCD@[79.208.26.7])
+ by fwd32.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1mDNHS-3JOhwu0; Tue, 10 Aug 2021 10:38:38 +0200
+Subject: Re: [PATCH 3/3] ps2: migration support for command reply queue
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <4d1c8467-d976-2c0f-ba54-c767df7b8fe7@t-online.de>
+ <20210807121202.6294-3-vr_qemu@t-online.de>
+ <20210809101808.ds3kf37np46gxedc@sirius.home.kraxel.org>
+ <87553bd1-6493-d04c-ab44-6a239dde6cbe@t-online.de>
+ <20210810054021.m6isaht5yb3pgaoz@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Message-ID: <cfa666f0-1282-29e4-a798-cd258369f897@t-online.de>
+Date: Tue, 10 Aug 2021 10:38:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YRF9Q+MSjrbeybd2@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210810054021.m6isaht5yb3pgaoz@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ID: EITHX+ZEQh2KtnJVOdQEnISCuYKwms3TRPDoSmq1o-YRvj7S-q6B6B2pLy1C8+DZCD
+X-TOI-EXPURGATEID: 150726::1628584718-00006026-97B8228E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 43dcfeb1-62b5-4da5-9936-563fe29d80ce
+Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
+ helo=mailout04.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,43 +68,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.08.21 21:08, Vivek Goyal wrote:
-> On Fri, Jul 30, 2021 at 05:01:34PM +0200, Max Reitz wrote:
->> lo_find() right now takes two lookup keys for two maps, namely the file
->> handle for inodes_by_handle and the statx information for inodes_by_ids.
->> However, we only need the statx information if looking up the inode by
->> the file handle failed.
->>
->> There are two callers of lo_find(): The first one, lo_do_lookup(), has
->> both keys anyway, so passing them does not incur any additional cost.
->> The second one, lookup_name(), though, needs to explicitly invoke
->> name_to_handle_at() (through get_file_handle()) and statx() (through
->> do_statx()).  We need to try to get a file handle as the primary key, so
->> we cannot get rid of get_file_handle(), but we only need the statx
->> information if looking up an inode by handle failed; so we can defer
->> that until the lookup has indeed failed.
-> So IIUC, this patch seems to be all about avoiding do_statx()
-> call in lookup_name() if file handle could be successfully
-> generated.
+>    Hi,
 >
-> So can't we just not modify lookup_name() to not call statx()
-> if file handle could be generated. And also modfiy lo_find()
-> to use st/mnt_id only if fhandle==NULL.
+>> this part actually works. .needed is only evaluated on the sending side. For
+>> the receiving side subsections are optional.  Migration doesn't fail if a
+>> subsection isn't loaded. Before I sent this patch series one of the
+>> migration tests was a migration from 6.0.92 to 6.0.92 with one byte in the
+>> command reply queue and 3 bytes in the scancode queue. The migration didn't
+>> fail.
+> Hmm, ok.  If you actually tested it you are probably right.  My memory
+> tells me ->needed() is evaluated on both sending and receiving side as
+> the migration data stream does not carry the information whenever a
+> subsection is present or not.  But maybe my memories are wrong, or
+> things have changed, I don't follow migration changes that closely.
 >
-> That probably is much simpler change as compared to passing function
-> pointers around.
+>>> If we can't find something we can add a property simliar to the one
+>>> for the extended keyboard state.
+>> What is the best way to add such a compat property? The ps2 keyboard isn't a
+>> qdev device. I can't just add a property to the device class. Do I have to
+>> add a property to the i8042 and the pl050 device and propagate the property
+>> value with the ps2_kbd_init() call to the PS2KbdState?
+> Yes, I think so.  But double-check the migration thing first, if your
+> approach works that is the easier way of course.
+>
+> take care,
+>    Gerd
+>
 
-Definitely, but I don’t know whether it’s correct.
+Hi Gerd,
 
-Or, we can just drop this patch and say that we don’t need to 
-over-optimize C virtiofsd.
+this are the results of 5 migrations. I added a trace statement to 
+function ps2_common_post_load() in my qemu-master. The first trace line 
+is for ps2kbd, the second for ps2mouse.
 
-Hanna
+#1 Migrate qemu 6.0.92 to qemu 6.0.92
+   2 scancodes in ps2 keyboard queue
 
+ps2_common_post_load: count 2, ccount 0
+ps2_common_post_load: count 0, ccount 0
+
+migration OK
+
+./scripts/analyze-migration.py -f /var/tmp/qemu-state -d desc | less
+         {
+             "name": "ps2kbd",
+             "instance_id": 0,
+             "vmsd_name": "ps2kbd",
+             "version": 3,
+             "fields": [
+                 {
+                     "name": "common",
+                     "type": "struct",
+                     "struct": {
+                         "vmsd_name": "PS2 Common State",
+                         "version": 3,
+                         "fields": [
+                             {
+                                 "name": "write_cmd",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.rptr",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.wptr",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.count",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.data",
+                                 "type": "buffer",
+                                 "size": 256
+                             }
+                         ]
+                     },
+                     "size": 272
+                 },
+
+#2 Migrate qemu 6.0.92 to qemu 6.0.92
+   1 command reply and 2 scancodes in ps2 keyboard queue
+
+ps2_common_post_load: count 3, ccount 1
+ps2_common_post_load: count 0, ccount 0
+
+migration OK
+
+./scripts/analyze-migration.py -f /var/tmp/qemu-state -d desc | less
+         {
+             "name": "ps2kbd",
+             "instance_id": 0,
+             "vmsd_name": "ps2kbd",
+             "version": 3,
+             "fields": [
+                 {
+                     "name": "common",
+                     "type": "struct",
+                     "struct": {
+                         "vmsd_name": "PS2 Common State",
+                         "version": 3,
+                         "fields": [
+                             {
+                                 "name": "write_cmd",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.rptr",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.wptr",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.count",
+                                 "type": "int32",
+                                 "size": 4
+                             },
+                             {
+                                 "name": "queue.data",
+                                 "type": "buffer",
+                                 "size": 256
+                             }
+                         ]
+                     },
+                     "size": 272
+                 },
+                 {
+                     "name": "scan_enabled",
+                     "type": "int32",
+                     "size": 4
+                 },
+                 {
+                     "name": "translate",
+                     "type": "int32",
+                     "size": 4
+                 },
+                 {
+                     "name": "scancode_set",
+                     "type": "int32",
+                     "size": 4
+                 }
+             ],
+             "subsections": [
+                 {
+                     "vmsd_name": "ps2kbd/command_reply_queue",
+                     "version": 0,
+                     "fields": [
+                         {
+                             "name": "common.queue.cwptr",
+                             "type": "int32",
+                             "size": 4
+                         }
+                     ]
+                 }
+             ]
+         },
+
+#3 Migrate qemu 5.2.0 to qemu 6.0.92
+   4 scancodes in ps2 keyboard queue
+
+ps2_common_post_load: count 4, ccount 0
+ps2_common_post_load: count 0, ccount 0
+
+Migration OK
+
+#4 Migrate qemu 6.0.92 to qemu 5.2.0
+   2 scancodes in ps2 keyboard queue
+
+Migration OK
+
+#5 Migrate qemu 6.0.92 to qemu 5.2.0
+   1 command reply and 2 scancodes in ps2 keyboard queue
+
+qemu-system-x86_64: error while loading state for instance 0x0 of device 
+'ps2kbd'
+qemu-system-x86_64: load of migration failed: No such file or directory
+
+Migration FAILED
+
+With best regards,
+Volker
 
