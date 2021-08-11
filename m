@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C433E8F47
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:09:52 +0200 (CEST)
-Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F083E8F57
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:18:37 +0200 (CEST)
+Received: from localhost ([::1]:40270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDm7M-000188-03
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41372)
+	id 1mDmFn-0006Mf-C3
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:18:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mDm6d-0000JP-Bq
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:09:07 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:42563)
+ id 1mDmDU-0005Nd-O2
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:16:12 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mDm6b-0003Cs-P9
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:09:07 -0400
-Received: by mail-ej1-x632.google.com with SMTP id e19so3467640ejs.9
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 04:09:04 -0700 (PDT)
+ id 1mDmDT-0008NV-2F
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:16:12 -0400
+Received: by mail-ej1-x631.google.com with SMTP id d11so3515965eja.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 04:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LKwq1LNQ5xEA6FuXHNTjnJGElG0O21uSt8lg/DvSXKU=;
- b=QouedPhetDiTwRMRmV0v2fvXx7qE5EoHVsiEa0kAGClSVUR2mR/YiRhDgS1aXsQi5J
- qMC6/XSSRXx6WKRUZa3ya1TXoBnZIhPirzhxrWSYh6j08HUTCxhN2F1HBmRCOqAPPZIK
- WS2kKDNIySrLb5/C/v/CuVqvHBukF1k0fy287PET/UGBsJJOUJE1tE0+Iv4lmVJWpoG0
- BxqfRWG2P4dPOMYH9noFqkqvRcIEfPkdLIJWjjWYQ3prESoH5hR0EfTXz+/OKTOpnCp1
- TzHGkvm3aXAyTikZ55RLMtWhWFsaw4NjRegJo09zme9345MWXUSko+UDuJ+tZoSuYW7h
- 4SQA==
+ :cc; bh=6bomk8d54FXv5YNKC+b76WQydqGfbpQ2bpjK3RpBzg4=;
+ b=ckQh/qZQJMBg+vGWoCcfd8AAxvBooH0ThU6AzmDh8IPh+FmxZDTHiSrXIeL9vesXSz
+ X6O/7ga8kuB7HoHlGXYo8GHYKsgswAdFHl3jOdKjuzcMvRgvtSOhGeLUt9My8VcTHMB0
+ YdtgkVMZnNguZefc02f8q3xxOgAIl2i+JTQPKA0knWAE1/5aOdvv+SJYjRZaZZY1s9Wg
+ lyxkkx7QCfeVw8xm2yMOIwJNs4R8YE34kMZVUuZRNi3EKeuKFAJHCHM+vBUMe7S4ww7e
+ M3nF0flr4DPDsQ/rntpdshE+UXyZK6ckL9VQ4vUMcX5qmxfMonm06uXZmEllOYuT7G+z
+ rvpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LKwq1LNQ5xEA6FuXHNTjnJGElG0O21uSt8lg/DvSXKU=;
- b=Y32zIu+bzZgSFni3D6n6D6VkhYYWN3Q/VrLguAFlMqCBvWaWthOEcmlhquRZQKskie
- yWgwOc+U2XjrPKiLObiVf5NhHxIPtZooLq00nn8W8HEnN/qjxlxoPSK2hMRfSL0JyUEY
- qMx4zs5xdlJp140RonxsEZWK34HwAUXQBL47ozdP7ddYIrUGhLTipuifYKC47BHWgo8A
- sa5DxhnMPS54tkkIfKTkIWCUBnpuR6z6luBg3SomoAuF+g6dvly0hnaBH1Jw+rjkViNh
- 3BHPYnVByhGd14WPnZNgropTAMYeiGXSOqdgBvDO8OUzjNbbzkSXYRJIET9m/JUljSUF
- dXDg==
-X-Gm-Message-State: AOAM533VF/AWFGc1KBftYISZ/CEr0qQ9GwuWHydpSc1VDsXa38ugMkgJ
- XXwSWhIbE21k3r4iL8V6YOdBjOLV1N+su/EfMx460g==
-X-Google-Smtp-Source: ABdhPJxhY+d5D60G6E89FjG7lZGhdU8uA+vvMYoVGKw0Mu3/5+1fzduL1Vm5h6WPy1tSq6smUlHU+s1AXWhQEIEKKq4=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr3034663ejy.407.1628680143537; 
- Wed, 11 Aug 2021 04:09:03 -0700 (PDT)
+ bh=6bomk8d54FXv5YNKC+b76WQydqGfbpQ2bpjK3RpBzg4=;
+ b=LOEE/DHkff8lJiMle7eNhLXcrL4Vqb74G9wQlOr0eEOJdu2kMrFvgoLx5Qqta9A8P2
+ Arkn4A2/79j47jM78w83zCXcFJd8QjtuU2Nd6jGFvv0S5WepsF4+y7VVkToDeLkj+asU
+ dDqXnLHC1QehlAEfiKiQFRyWkOoh3+dGT3K5SJljfGc4KE8SuPMIPl8JP0aw+/fxcqqP
+ BQ/QzCLIwohAzSLUjhtXR7B+vU9JfHiaGQMOzuQF6wHG/VaxKipKIPc7OgktgyqbfQQp
+ MuKb1k4MTNAdqBO48H5zq3e+G/qHb0HU3BoOfhwTM1YJkVkOaZKLSnPVV/A9Ru5XiNaZ
+ 9TTA==
+X-Gm-Message-State: AOAM531b0yYRieYH/UeDfx1dQSRLjJ1IoOwoxDdw7I2OQdvetsFICm69
+ HTEOMwytq5/tNo74kzd4RiLtUNJhi6pL3xbeF7Y1dg==
+X-Google-Smtp-Source: ABdhPJzLLNwqSgeslQbVrQECWRgAlPHGT2+cD/EirVxUsebO8r7P1P7TPOr/+Tj7UfVSjSivOEJ+ma9CTmy74yD4GVM=
+X-Received: by 2002:a17:906:d93a:: with SMTP id
+ rn26mr3083504ejb.382.1628680569470; 
+ Wed, 11 Aug 2021 04:16:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210811095949.133462-1-thuth@redhat.com>
-In-Reply-To: <20210811095949.133462-1-thuth@redhat.com>
+References: <20210811093838.18719-1-damien.hedde@greensocs.com>
+In-Reply-To: <20210811093838.18719-1-damien.hedde@greensocs.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 11 Aug 2021 12:08:18 +0100
-Message-ID: <CAFEAcA_t48rMSX7SKnJNNMPXPmKpy12iXc2N41EywTBYfapKtg@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest/vhost-user-blk-test: Check whether
- qemu-storage-daemon is available
-To: Thomas Huth <thuth@redhat.com>
+Date: Wed, 11 Aug 2021 12:15:24 +0100
+Message-ID: <CAFEAcA9xYv0942TB7szESLCDct2H4d2MT5kzZMHL6_d=rQh0Cw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Set user creatable for flag ibex uart and plic
+To: Damien Hedde <damien.hedde@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,46 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Coiby Xu <coiby.xu@gmail.com>,
- Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Aug 2021 at 11:00, Thomas Huth <thuth@redhat.com> wrote:
+On Wed, 11 Aug 2021 at 10:43, Damien Hedde <damien.hedde@greensocs.com> wrote:
+> This small series only consist in setting the user_creatable flag
+> of ibex_uart and ibex_plic devices. These two devices are already
+> using properties to configure themselves so nothing else is required.
 >
-> The vhost-user-blk-test currently hangs if QTEST_QEMU_STORAGE_DAEMON_BINARY
-> points to a non-existing binary. Let's improve this situation by checking
-> for the availability of the binary first, so we can fail gracefully if
-> it is not accessible.
+> Note that this change alone will not allow creation of these devices
+> using -device cli option or device_add qmp command as they are sysbus
+> devices.
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qtest/vhost-user-blk-test.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> We do that because we are currently working on adding the possibily
+> to configure/build a machine from qmp commands (see this rfc:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html).
+> We are using these simple devices in order to test our additions.
 >
-> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-> index 8796c74ca4..6f108a1b62 100644
-> --- a/tests/qtest/vhost-user-blk-test.c
-> +++ b/tests/qtest/vhost-user-blk-test.c
-> @@ -789,6 +789,14 @@ static const char *qtest_qemu_storage_daemon_binary(void)
->          exit(0);
->      }
->
-> +    /* If we've got a path to the binary, check whether we can access it */
-> +    if (strchr(qemu_storage_daemon_bin, '/') &&
-> +        access(qemu_storage_daemon_bin, X_OK) != 0) {
-> +        fprintf(stderr, "ERROR: '%s' is not accessible\n",
-> +                qemu_storage_daemon_bin);
-> +        exit(1);
-> +    }
+> We prefer to send these 2 patches on a separate series as they are not
+> really related to the main topic. We will send a following series
+> for the additions.
 
-It makes sense not to bother starting the test if the binary isn't
-even present, but why does the test hang? Shouldn't QEMU cleanly
-exit rather than hanging if it turns out that it can't contact
-the daemon ?
+No, these patches should go in with your other series that
+requires them, please. As standalone patches they are definitely
+wrong, because (as you note) you cannot usefully user-create a
+sysbus device like these from the command line.
+
+Even there I'm not convinced that just marking the devices
+user-creatable is the right thing -- if we support creating
+a complete machine from QMP commands we probably want to think
+about whether that means we need to have separate categories
+of "only creatable from C code", "only creatable as part of
+QMP machine creation", "creatable on commandline but only
+for cold-plug", and "hotpluggable".
 
 -- PMM
 
