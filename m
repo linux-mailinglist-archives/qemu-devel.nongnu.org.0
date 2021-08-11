@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2581F3E8FD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:52:12 +0200 (CEST)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF953E920E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 15:00:23 +0200 (CEST)
+Received: from localhost ([::1]:35156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDmmI-0008P5-IF
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1mDnqH-00071H-LE
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 09:00:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDmip-0007Pp-6c; Wed, 11 Aug 2021 07:48:35 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:46386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDmim-00066m-R2; Wed, 11 Aug 2021 07:48:34 -0400
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id CB70C20775;
- Wed, 11 Aug 2021 11:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1628682509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wzs2NFwPuG719KTe/soPKO5Ez+myyWARvjsCBwdObx0=;
- b=nehRqIjRDFngUL0me/gGz8GCZQgqnKKIFFHmW71DhIp7daVJ/01SKi5cryYczv6H6UbuCB
- cP4XJoKB3eqcufDeV0UFE5yYiwo4ZXbPH+HqcguCGyIiooTjbgvcN/deJaW7jeNMq0eE6k
- QmLrwkyJhBWBipzmeTzcv8NpBU+txAo=
-Subject: Re: [PATCH 0/2] Set user creatable for flag ibex uart and plic
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210811093838.18719-1-damien.hedde@greensocs.com>
- <CAFEAcA9xYv0942TB7szESLCDct2H4d2MT5kzZMHL6_d=rQh0Cw@mail.gmail.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <fd9ea72a-e4b5-c68a-27e1-91751324cbcf@greensocs.com>
-Date: Wed, 11 Aug 2021 13:48:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mDnop-0005vf-Ev
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 08:58:52 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mDnon-0001jS-QJ
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 08:58:51 -0400
+Received: by mail-ed1-x534.google.com with SMTP id i6so3628074edu.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 05:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9upO3Ph2SuJ26daDkR6ylu/rZtkS4nG+TndSwSADkk0=;
+ b=c8WTvpxRzZMrMaLbDk8PQlxruH8qsfNuKsPTuJCu/VSKx2R813Zd0i4oIzVSw9YlZE
+ RUrrQhyy8Wkx8014QvvOQ0Ufs8fSa/0ZsLX6zMpr7960DM5S7YC621UxKiADunUK4EuL
+ T71RJqrwzUsBZuslAmvqGZT2J0vbT+UF5S4hiCEIbfd1KFnDc8luli3BmGT6hVSidKru
+ lzQBgYBjTXCk/yZTXSsHSaN8Usvz3d+/UtSaCVjiJa4nstI+sz3UH4eUxKM0cvug48gu
+ USevxO9y1/ysxDV2AuESKISvL0iLTyNZ2hqBmMNP9yvHOP0SM5UeZAoiALjGD659/QhW
+ HWaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9upO3Ph2SuJ26daDkR6ylu/rZtkS4nG+TndSwSADkk0=;
+ b=Gr6/1Hm3utZL/+YZqiDWLTEZ7cvfhB5e6Acq+K+C2k1JA3Kaj1SJtRKKK7+eODYFMa
+ UWoGcFU0bgt5Pz28yArueqKAMSrV+uIYMqCtx0qZ91zfBbIa28bBrj8lTT3G1sficdCC
+ bRiCjQLDt3iOBEsfGbhNzKl01ysKQGWvXfYWHObDdw7fuUES9qvrzktyN3KjjnvkW1gi
+ FCCjwWyk++WGe7yGhixGIYF+nO2JFcOsqFBqWU1zsvrcLyDyToS8EKXXa5GYGSn+fnEQ
+ BnYPGAyLlToZtJVa813TSuSXu03fBtX0iJISwo/oCuvhFTayvzYglI03GbaBEUpIrdg0
+ wmDQ==
+X-Gm-Message-State: AOAM533YsF7F7We0KYxEfiV4GXGDXJa6BgBPldAzX6+SlYsdhhZCR4uO
+ 1NVR70Hgul835RW63SPFsWV5BcqTxGQqQHjT05VM3A==
+X-Google-Smtp-Source: ABdhPJxK0s9IwPqJIr9lkB0Xr2yX3Fn/WMeXq1crpoq7dUo8wwK1w25N3C6mFDIHJttSFHRBC4jW0UGAYdhQ5JFG9gw=
+X-Received: by 2002:a50:f615:: with SMTP id c21mr11444081edn.146.1628686727529; 
+ Wed, 11 Aug 2021 05:58:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9xYv0942TB7szESLCDct2H4d2MT5kzZMHL6_d=rQh0Cw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+References: <20210811064128.2776317-1-kraxel@redhat.com>
+In-Reply-To: <20210811064128.2776317-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 11 Aug 2021 13:58:02 +0100
+Message-ID: <CAFEAcA_ig5b86+8NwAkp2rVA=96gOdNBm9ip1ijJRXNuexoOvg@mail.gmail.com>
+Subject: Re: [PULL 0/7] Maintainers 20210811 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,56 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 11 Aug 2021 at 07:44, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 703e8cd6189cf699c8d5c094bc68b5f3afa6ad71:
+>
+>   Update version for v6.1.0-rc3 release (2021-08-10 19:08:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/maintainers-20210811-pull-request
+>
+> for you to fetch changes up to a4de5e8a0667e3ee43ca9953ec7fd11ff19f2c92:
+>
+>   MAINTAINERS: update virtio-gpu entry. (2021-08-11 08:39:16 +0200)
+>
+> ----------------------------------------------------------------
+> MAINTAINERS: update kraxel's entries.
+>
+> ----------------------------------------------------------------
 
+I'll keep this in my list in case we need to roll an rc4, but
+if we are able to release 6.1 without needing another rc then
+I'll just hold this over until we reopen trunk for 6.2.
 
-On 8/11/21 1:15 PM, Peter Maydell wrote:
-> On Wed, 11 Aug 2021 at 10:43, Damien Hedde <damien.hedde@greensocs.com> wrote:
->> This small series only consist in setting the user_creatable flag
->> of ibex_uart and ibex_plic devices. These two devices are already
->> using properties to configure themselves so nothing else is required.
->>
->> Note that this change alone will not allow creation of these devices
->> using -device cli option or device_add qmp command as they are sysbus
->> devices.
->>
->> We do that because we are currently working on adding the possibily
->> to configure/build a machine from qmp commands (see this rfc:
->> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html).
->> We are using these simple devices in order to test our additions.
->>
->> We prefer to send these 2 patches on a separate series as they are not
->> really related to the main topic. We will send a following series
->> for the additions.
-> 
-> No, these patches should go in with your other series that
-> requires them, please. As standalone patches they are definitely
-> wrong, because (as you note) you cannot usefully user-create a
-> sysbus device like these from the command line.
-> 
-> Even there I'm not convinced that just marking the devices
-> user-creatable is the right thing -- if we support creating
-> a complete machine from QMP commands we probably want to think
-> about whether that means we need to have separate categories
-> of "only creatable from C code", "only creatable as part of
-> QMP machine creation", "creatable on commandline but only
-> for cold-plug", and "hotpluggable".
-> 
-> -- PMM
-> 
-
-I understand, we will put them in the main series where
-we will discuss all of this.
-
-Thanks,
---
-Damien
+thanks
+-- PMM
 
