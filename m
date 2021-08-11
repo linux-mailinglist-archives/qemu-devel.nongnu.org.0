@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FE73E8D03
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:16:27 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CF83E8D3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:28:57 +0200 (CEST)
+Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDkLa-0001of-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42196)
+	id 1mDkXg-0007Rk-0p
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkD5-0008JZ-F6
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:07:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21849)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1mDkVR-0005dY-Ue; Wed, 11 Aug 2021 05:26:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkD3-0000kD-R2
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:07:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628672856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Di//N0V8UBqPSWu534sBXFlDY4vvy00KZwxOASOyZG8=;
- b=dvzQJIT0k1t3nz6mxjXQPWlozm31fRKQ81WvMkHyjKuzLkP9UNz0mHc4unfAEk1LgbgkRw
- ft0zZP3nH4jeJUCWbzZbLI18o8YnhmViCUBbUshsi/zl9uKNeFu9NMjfP1j9wz5y3KvTVd
- fp3juN/x+r11ATN6TYf7+FpJPNs1DQk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-VE8MA-26MuqhsA6Cv1g9xQ-1; Wed, 11 Aug 2021 05:07:34 -0400
-X-MC-Unique: VE8MA-26MuqhsA6Cv1g9xQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o11-20020a5d474b0000b02901533f8ed22cso476504wrs.22
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 02:07:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Di//N0V8UBqPSWu534sBXFlDY4vvy00KZwxOASOyZG8=;
- b=d4XmhkA/jvYTMaEuou3xeEAbtQyZQMb0OVoxrViwgYWduEE9Ficm/ql/X8sWi9Y7JV
- DilP4icywObiywwhWh81QkdKrq5fpYkwg21/g86HwSSL9EOjj74wzH5dFftj1CP29jnY
- JM7xZuIcjR36b0LnRc+xkaAGCeBzVJLAAQt4qZeqgL1jlujdexAfELG3RXgJf2enhW/9
- J26uQnSX9UBbq529oaWQPqW4hscpdPWA6KgIvkTL9xhq/z00y0JYyNGMNxqWZIt5fx/B
- SbSnb5whI2FrElTcwlhzQe63zOhr5xmag0VqhFwuJjFAp/R4vYOoGE51P6t4ymgjDc1D
- g7YQ==
-X-Gm-Message-State: AOAM531KJ4zaW5ppugH5I1p+esTAZNgfHR3Som0Onr7dFN5FI2m8/jM1
- 5R1RXCd+4iThdyt9om2O+FoAiTKAvVWbwadI1nno8Iiv6M4S/s5eAkhAxU4C1Foji0+TM3vmS63
- 2ohpvegwCa/S3jqo=
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr15643566wrs.188.1628672853427; 
- Wed, 11 Aug 2021 02:07:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkTgjCqFXV6B73TSqq/GgdgTCN7DezL/DROy/S58Gf4WBkbb5Uh4Rk13IPDePnWSzkgGMhMA==
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr15643546wrs.188.1628672853227; 
- Wed, 11 Aug 2021 02:07:33 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id u23sm5369125wmc.24.2021.08.11.02.07.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Aug 2021 02:07:32 -0700 (PDT)
-Subject: Re: [PATCH] tests/acceptance: Test powernv machines
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
-References: <20210810083346.730652-1-clg@kaod.org>
- <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
- <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e14f8f87-8110-4084-94a6-ce09713f3fd2@redhat.com>
-Date: Wed, 11 Aug 2021 11:07:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1mDkVK-0004wr-CH; Wed, 11 Aug 2021 05:26:37 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17B94UKk063972; Wed, 11 Aug 2021 05:26:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : mime-version : content-type
+ : in-reply-to; s=pp1; bh=FlvpPRxgpL2eNmDq49ndOmib8+U58HQRyUGOu3cuzt4=;
+ b=a4sXHhA9/wn/D/neogWR6MO1IpTbBBXBX4xZSI8CWdT94rVk9VtEv/es/3E8PIuXiUCf
+ lbI36DvKCgs5FxWUDuJrObzuS2VAmE8z0H3diCY8QZ7GNtEldnas5i4Jf/aAOy0rxCg1
+ UeVqOqkFfVNBgEU1TBdKSlHJcODXi2ehFee3ARGn+jskvPtMYHroy6zkHsjfMhF7epqb
+ 1t3lMgF+Z1YKri3uixY+JJjs0+GS2tk0wVeriB1qdiv2d4wT1I6RLTxcIz7RKWwoPCVC
+ TkU6Y7CDzlLqFpg3QWmgr+Ud1TTZr/jp1tpLLTknVMgoijUvB8864A+EwmhoGjzuGTcR iQ== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3abruy4tkw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Aug 2021 05:26:24 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17B9DDnx017279;
+ Wed, 11 Aug 2021 09:26:22 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3a9ht8yscg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Aug 2021 09:26:22 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17B9QJbD44368132
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Aug 2021 09:26:19 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E6D1F420AB;
+ Wed, 11 Aug 2021 09:26:18 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4748B42115;
+ Wed, 11 Aug 2021 09:26:17 +0000 (GMT)
+Received: from in.ibm.com (unknown [9.199.40.218])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 11 Aug 2021 09:26:16 +0000 (GMT)
+Date: Wed, 11 Aug 2021 14:56:13 +0530
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC PATCH v0 1/2] spapr: Add H_REG_SNS hcall
+Message-ID: <YROXtRfSAf2Gi0Yn@in.ibm.com>
+References: <20210805073228.502292-1-bharata@linux.ibm.com>
+ <20210805073228.502292-2-bharata@linux.ibm.com>
+ <YRCl4n25l8szLQVC@yekko>
 MIME-Version: 1.0
-In-Reply-To: <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRCl4n25l8szLQVC@yekko>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2D9hNfSlbnmA4DCVA-atabzd91cScZtS
+X-Proofpoint-ORIG-GUID: 2D9hNfSlbnmA4DCVA-atabzd91cScZtS
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-11_03:2021-08-10,
+ 2021-08-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 clxscore=1011
+ impostorscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108110058
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=bharata@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,70 +102,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: bharata@linux.ibm.com
+Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/2021 11.09, Cédric Le Goater wrote:
-> On 8/10/21 10:36 AM, Joel Stanley wrote:
->> On Tue, 10 Aug 2021 at 08:34, Cédric Le Goater <clg@kaod.org> wrote:
->>>
->>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
->>> with a simple PCI layout.
->>>
->>> Cc: Cleber Rosa <crosa@redhat.com>
->>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>   tests/acceptance/boot_linux_console.py | 42 ++++++++++++++++++++++++++
->>>   1 file changed, 42 insertions(+)
->>>
->>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->>> index 5248c8097df9..da93a475ca87 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
->>> @@ -1176,6 +1176,48 @@ def test_ppc64_e500(self):
->>>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
->>>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
->>>
->>> +    def do_test_ppc64_powernv(self, proc):
->>> +
->>> +        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
->>> +
->>> +        skiboot_url = images_url + 'skiboot.lid'
->>> +        skiboot_hash = 'a9ffcddbf238f86cda4b2cae2882d6bd13cff8489109758a4980efaf154f4a29'
->>> +        skiboot_path = self.fetch_asset(skiboot_url, asset_hash=skiboot_hash,
->>> +                                       algorithm='sha256')
->>
->> What's the thought that led you to using this instead of the one that
->> gets packaged with qemu?
+On Mon, Aug 09, 2021 at 01:49:54PM +1000, David Gibson wrote:
+> On Thu, Aug 05, 2021 at 01:02:27PM +0530, Bharata B Rao wrote:
+> > Add support for H_REG_SNS hcall so that asynchronous page
+> > fault mechanism can be supported on PowerKVM guests.
+> > 
+> > This hcall essentially issues KVM_PPC_SET_SNS to let the
+> > host map and pin the memory containing the Subvention
+> > Notification Structure. It also claims SPAPR_IRQ_SNS to
+> > be used as subvention notification interrupt.
+> > 
+> > Note: Updates to linux-headers/linux/kvm.h are temporary
+> > pending headers update.
+> > 
+> > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+> > ---
+> >  hw/ppc/spapr.c                  |  3 ++
+> >  hw/ppc/spapr_hcall.c            | 56 +++++++++++++++++++++++++++++++++
+> >  include/hw/ppc/spapr.h          |  3 ++
+> >  include/hw/ppc/spapr_irq.h      |  1 +
+> >  linux-headers/asm-powerpc/kvm.h |  6 ++++
+> >  linux-headers/linux/kvm.h       |  1 +
+> >  target/ppc/kvm.c                | 14 +++++++++
+> >  target/ppc/kvm_ppc.h            | 10 ++++++
+> >  8 files changed, 94 insertions(+)
+> > 
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 81699d4f8b..5f1f75826d 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -2830,6 +2830,9 @@ static void spapr_machine_init(MachineState *machine)
+> >  
+> >          /* Enable H_PAGE_INIT */
+> >          kvmppc_enable_h_page_init();
+> > +
+> > +        /* Enable H_REG_SNS */
+> > +        kvmppc_enable_h_reg_sns();
+> >      }
+> >  
+> >      /* map RAM */
+> > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> > index 0e9a5b2e40..957edecb13 100644
+> > --- a/hw/ppc/spapr_hcall.c
+> > +++ b/hw/ppc/spapr_hcall.c
+> > @@ -1405,6 +1405,59 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> >      return H_SUCCESS;
+> >  }
+> >  
+> > +static target_ulong deregister_sns(PowerPCCPU *cpu, SpaprMachineState *spapr)
+> > +{
+> > +    spapr->sns_addr = -1;
+> > +    spapr->sns_len = 0;
+> > +    spapr_irq_free(spapr, SPAPR_IRQ_SNS, 1);
+> > +
+> > +    return H_SUCCESS;
+> > +}
+> > +
+> > +static target_ulong h_reg_sns(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> > +                              target_ulong opcode, target_ulong *args)
+> > +{
+> > +    target_ulong addr = args[0];
+> > +    target_ulong len = args[1];
+> > +
+> > +    if (addr == -1) {
+> > +        return deregister_sns(cpu, spapr);
+> > +    }
+> > +
+> > +    /*
+> > +     * If SNS area is already registered, can't register again before
+> > +     * deregistering it first.
+> > +     */
+> > +    if (spapr->sns_addr == -1) {
 > 
-> Good question.
+> As Fabiano says, it looks like the logic is reversed here.
+
+Correct.
+
 > 
-> I considered that the skiboot.lid shipped with QEMU was somewhat a default
-> to make things work. The official released versions are the ones used by
-> the outside world on real systems and were a better target for tests.
+> > +        return H_PARAMETER;
 > 
-> That said, using the default version might be enough. Maintainers, please
-> advise !
+> Also, H_PARAMETER doesn't seem like the right error for this case.
+> H_BUSY, maybe?
 
-IMHO:
+Yes we may return H_BUSY.
 
-- We want to test the things that *we* ship
+> 
+> > +    }
+> > +
+> > +    if (!QEMU_IS_ALIGNED(addr, 4096)) {
+> 
+> What's the significance of 4096 here?  Should this be one of the page
+> size defines instead?
 
-- We want to download as few things as possible, since downloads
-   often slow down the tests and break CI runs if the network to
-   the download site is not available
+PAPR specifies this alignment.
+"If the Address parameter is not 4K aligned in the valid logical address
+space of the caller, then return H_Parameter."
 
-  ==> I'd prefer to use the internal skiboot.lid unless there is
-      really a compelling reason to use the external one.
+> 
+> > +        return H_PARAMETER;
+> > +    }
+> > +
+> > +    if (len < 256) {
+> 
+> A defined constant (SPAPR_MIN_SNS_SIZE?) would be worthwhile here, I think.
 
-Just my 0.02 € though.
+Yes.
 
-  Thomas
+> 
+> > +        return H_P2;
+> > +    }
+> > +
+> > +    /* TODO: SNS area is not allowed to cross a page boundary */
+> > +
+> > +    /* KVM_PPC_SET_SNS ioctl */
+> > +    if (kvmppc_set_sns_reg(addr, len)) {
+> 
+> What will happen if you attempt this on a TCG system?
 
+We should have a variant of kvmppc_set_sns_reg() for TCG that
+returns error, so that this hcall can fail.
+
+> 
+> > +        return H_PARAMETER;
+> > +    }
+> > +
+> > +    /* Record SNS addr and len */
+> > +    spapr->sns_addr = addr;
+> > +    spapr->sns_len = len;
+> > +
+> > +    /* Register irq source for sending ESN notification */
+> > +    spapr_irq_claim(spapr, SPAPR_IRQ_SNS, false, &error_fatal);
+> 
+> I don't think &error_fatal can be right here.  AFAICT this must be one
+> of two cases:
+>    1) This should never fail, no matter what the guest does.  If it
+>       does fail, that indicates a qemu bug.  In that case &error_abort is
+>       more appropriate
+>    2) This could fail for certain sequences of guest actions.  If
+>       that's the case, we shouldn't kill qemu, but should return
+>       H_HARDWARE (or something) instead.
+
+I think we could just check for error and return failure so that
+the guest wouldn't go ahead and enable async-pf feature.
+
+> 
+> > +    args[1] = SPAPR_IRQ_SNS; /* irq no in R5 */
+> > +
+> > +    return H_SUCCESS;
+> > +}
+> > +
+> >  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
+> >  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_HCALL_BASE + 1];
+> >  static spapr_hcall_fn svm_hypercall_table[(SVM_HCALL_MAX - SVM_HCALL_BASE) / 4 + 1];
+> > @@ -1545,6 +1598,9 @@ static void hypercall_register_types(void)
+> >      spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support);
+> >  
+> >      spapr_register_hypercall(KVMPPC_H_UPDATE_DT, h_update_dt);
+> > +
+> > +    /* SNS memory area registration */
+> > +    spapr_register_hypercall(H_REG_SNS, h_reg_sns);
+> 
+> You definitely need a machine parameter to enable this, and you should
+> only enable it by default for newer machine types.  Otherwise you will
+> cause migration breakages.
+
+Sure.
+
+> 
+> >  }
+> >  
+> >  type_init(hypercall_register_types)
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index 637652ad16..934f9e066e 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -252,6 +252,8 @@ struct SpaprMachineState {
+> >      uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+> >  
+> >      Error *fwnmi_migration_blocker;
+> > +    uint64_t sns_addr;
+> > +    uint64_t sns_len;
+> >  };
+> >  
+> >  #define H_SUCCESS         0
+> > @@ -549,6 +551,7 @@ struct SpaprMachineState {
+> >  #define H_SCM_UNBIND_MEM        0x3F0
+> >  #define H_SCM_UNBIND_ALL        0x3FC
+> >  #define H_SCM_HEALTH            0x400
+> > +#define H_REG_SNS               0x41C
+> >  #define H_RPT_INVALIDATE        0x448
+> >  
+> >  #define MAX_HCALL_OPCODE        H_RPT_INVALIDATE
+> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> > index c22a72c9e2..26c680f065 100644
+> > --- a/include/hw/ppc/spapr_irq.h
+> > +++ b/include/hw/ppc/spapr_irq.h
+> > @@ -21,6 +21,7 @@
+> >  #define SPAPR_XIRQ_BASE      XICS_IRQ_BASE /* 0x1000 */
+> >  #define SPAPR_IRQ_EPOW       (SPAPR_XIRQ_BASE + 0x0000)
+> >  #define SPAPR_IRQ_HOTPLUG    (SPAPR_XIRQ_BASE + 0x0001)
+> > +#define SPAPR_IRQ_SNS        (SPAPR_XIRQ_BASE + 0x0002)
+> >  #define SPAPR_IRQ_VIO        (SPAPR_XIRQ_BASE + 0x0100)  /* 256 VIO devices */
+> >  #define SPAPR_IRQ_PCI_LSI    (SPAPR_XIRQ_BASE + 0x0200)  /* 32+ PHBs devices */
+> >  
+> > diff --git a/linux-headers/asm-powerpc/kvm.h b/linux-headers/asm-powerpc/kvm.h
+> > index 9f18fa090f..d72739126a 100644
+> > --- a/linux-headers/asm-powerpc/kvm.h
+> > +++ b/linux-headers/asm-powerpc/kvm.h
+> > @@ -470,6 +470,12 @@ struct kvm_ppc_cpu_char {
+> >  #define KVM_PPC_CPU_BEHAV_BNDS_CHK_SPEC_BAR	(1ULL << 61)
+> >  #define KVM_PPC_CPU_BEHAV_FLUSH_COUNT_CACHE	(1ull << 58)
+> >  
+> > +/* For KVM_PPC_SET_SNS */
+> > +struct kvm_ppc_sns_reg {
+> > +	__u64 addr;
+> > +	__u64 len;
+> > +};
+> > +
+> 
+> Updates to linux-headers/ should be done as a separate preliminary
+> patch, listing the specific kernel commit that you're updating too.
+
+Yes, I am aware of it. Since the kernel patches are still in RFC
+state, I noted this as a TODO in patch description :-)
+
+Thanks for your review.
+
+Regards,
+Bharata.
 
