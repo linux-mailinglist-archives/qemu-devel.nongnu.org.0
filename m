@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F6D3E99BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 22:36:35 +0200 (CEST)
-Received: from localhost ([::1]:57568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290ED3E9958
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 22:04:41 +0200 (CEST)
+Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDuxm-0001Si-72
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 16:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
+	id 1mDuSt-0002DI-LK
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 16:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mDoyM-0005N0-Hj
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 10:12:46 -0400
-Received: from mxout.security-mail.net ([85.31.212.42]:28863
- helo=fx302.security-mail.net)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDuRq-0001Wu-ER
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 16:03:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mDoyJ-0001IK-Ts
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 10:12:45 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id C729F3D3B00F
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 16:12:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1628691159;
- bh=tOYaN2UbiEaoRiVkc8X/qDCOP/fo9Bm4P9G2MZwi1hE=;
- h=From:To:Cc:Subject:Date;
- b=PiyDpJFV5k0fyhMetg52bc3kvVWnXG7Q/ITsWxCes2dNuHlw/Xe5EEJt3ao371PCC
- w9kfecJ1n3AwNEDI88RIXNTNK5O7ThTOQ30CDe4Ck5WiY4rYOp+m5Z3K6KBx+s+63Z
- aCG1aLWRpSMt/vdjot3qJdJu8pUN6qpZWTqNKrsc=
-Received: from fx302 (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 634E33D3B06B;
- Wed, 11 Aug 2021 16:12:39 +0200 (CEST)
-X-Virus-Scanned: E-securemail
-Secumail-id: <55b4.6113dad7.143d1.0>
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx302.security-mail.net (Postfix) with ESMTPS id 14FDB3D3B013;
- Wed, 11 Aug 2021 16:12:39 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id F020327E02A8;
- Wed, 11 Aug 2021 16:12:38 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id DA14627E02A3;
- Wed, 11 Aug 2021 16:12:38 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu DA14627E02A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1628691158;
- bh=oACWa9YHXQ8Ts/YPz7whKVIVY6zi1KAtwPkc47a9mgQ=;
- h=From:To:Date:Message-Id;
- b=KQNGXW7fmE1NhL5N/oVPY+AlO7SFTUFnYkm08olwDI/HWWyJbc5MnQgYTVGoGfybr
- kOkLwVYIsmmCaCpMb4OolhbVaXNioZRwD6cCUvE6KctZQvAsBM3qZQMbvGFPuIaEZq
- wv+y7D+1DY1E1Ugzty9Re6rHSfF9rhA2QrXur2ys=
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id fCMczIuZsNla; Wed, 11 Aug 2021 16:12:38 +0200 (CEST)
-Received: from nemesis.lin.mbt.kalray.eu (unknown [192.168.37.229])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id C9FAE27E0232;
- Wed, 11 Aug 2021 16:12:38 +0200 (CEST)
-From: Luc Michel <lmichel@kalray.eu>
-To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] accel/tcg: remove redundant TCG_KICK_PERIOD define
-Date: Wed, 11 Aug 2021 16:12:29 +0200
-Message-Id: <20210811141229.12470-1-lmichel@kalray.eu>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
- helo=fx302.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mDuRm-0004e8-3O
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 16:03:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628712208;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0LSddXQAKtDjXJpEtzAXXTUfDQdv06qvNODlBklqblI=;
+ b=FInIUeBb4caaCW1Z/UykGZdiqGxBV2GBemxvojyP5VugcX4DVxaGN61BCbADqqOI8b1n3G
+ fj1HHeoHSi1HT9hBKYA9vFViRNwE6k8HizDwD4OLFYorHWG2GjshqASYZC2uq22FdTBloV
+ GWTirJruSIM8jlPySICueSEZmnfqBxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-T9ikwh5eMeKERzLqJciDEg-1; Wed, 11 Aug 2021 16:03:27 -0400
+X-MC-Unique: T9ikwh5eMeKERzLqJciDEg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 395B31009606;
+ Wed, 11 Aug 2021 20:03:26 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9EEE189C4;
+ Wed, 11 Aug 2021 20:03:25 +0000 (UTC)
+Date: Wed, 11 Aug 2021 16:03:25 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [PATCH] target/i386: Remove split lock detect in Snowridge CPU
+ model
+Message-ID: <20210811200325.mj5t542xyvclykzd@habkost.net>
+References: <20210630012053.10098-1-chenyi.qiang@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20210630012053.10098-1-chenyi.qiang@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 11 Aug 2021 16:34:37 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,35 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TCG_KICK_PERIOD macro is already defined in tcg-accel-ops-rr.h.
-Remove it from tcg-accel-ops-rr.c.
+On Wed, Jun 30, 2021 at 09:20:53AM +0800, Chenyi Qiang wrote:
+> At present, there's no mechanism intelligent enough to virtualize split
+> lock detection correctly. Remove it in Snowridge CPU model to avoid the
+> feature exposure.
+> 
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 
-Signed-off-by: Luc Michel <lmichel@kalray.eu>
----
- accel/tcg/tcg-accel-ops-rr.c | 2 --
- 1 file changed, 2 deletions(-)
+Sorry I have missed this before 6.1 soft freeze.  I'm queueing
+this for 6.2.  Thanks!
 
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index c02c061ecb..a5fd26190e 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -58,12 +58,10 @@ void rr_kick_vcpu_thread(CPUState *unused)
-  */
- 
- static QEMUTimer *rr_kick_vcpu_timer;
- static CPUState *rr_current_cpu;
- 
--#define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
--
- static inline int64_t rr_next_kick_time(void)
- {
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
- }
- 
 -- 
-2.17.1
+Eduardo
 
 
