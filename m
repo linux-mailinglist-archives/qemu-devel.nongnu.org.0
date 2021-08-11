@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F183E963E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 18:42:45 +0200 (CEST)
-Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC5B3E972C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 19:57:34 +0200 (CEST)
+Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDrJS-0007QW-1h
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 12:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1mDsTs-0000tr-M6
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 13:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mDrIL-00062v-33
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 12:41:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mDrIH-00083G-VC
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 12:41:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628700089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FIFKhbsp3Ywm8i8EzSXhIzS4xrzlWb9kFpbIt4Yx8wg=;
- b=ESpoiBTHHi4RG1KirpQjsGYERPu0fPya4c/7JVSbZsaG5njAT7pVqoP5nP4f5is5DKM/eK
- bPwse+Q5pRyd/WohdIkWCCH5XEKaCZZdZPAnPY1zAnHg30toChshXNcyAjNw+jtu5hCpB3
- 4OIDLw5ovabb3swNGuSuA03rb/gy09U=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-IfgjS3OYNf6iQuUlWVkuVA-1; Wed, 11 Aug 2021 12:41:27 -0400
-X-MC-Unique: IfgjS3OYNf6iQuUlWVkuVA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- w2-20020a3794020000b02903b54f40b442so1738909qkd.0
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 09:41:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDsT4-00007p-Ur
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 13:56:42 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:42894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mDsT3-0001Gu-8q
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 13:56:42 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ mq2-20020a17090b3802b0290178911d298bso6356920pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 10:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sd275UudlJh/yTNdYqfp4jI6iZzjUwOym27lPZaPAnM=;
+ b=RnaT7E9b4MOyMqD1gyR31fcWV57wd3SpsjAS3HCxrGgck1aw/cLlInKHlXeQVvp78K
+ lBgBScZ1od9ePeu3fzKopB7i3i/Nvv64dhPSfvyzFEyhwQLXlZFgr7IPQvBqe+DNmi3F
+ qGMhC+yHC7SbFvR/SUB8Q4nJrRSh1M0AoH4UNt+4NGjsqTvjpDIyypoQXAr7LxXU0X2O
+ JRJuElEYLsERlyNOA55m5CkrcCPgvDITwAHKONmce/oJ12qCQsZtR/dMSCJ97u28WOW6
+ LValr6JjW5jLHZB5OCW425ApqMA2EIesKvFzm9ZkkhN1cMz69XtMblAAmkGdEWzjBtcL
+ UcQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FIFKhbsp3Ywm8i8EzSXhIzS4xrzlWb9kFpbIt4Yx8wg=;
- b=rQmypU9iQQv/Q/qwJZnTSwjd3FAE84c7LWrArT1A1Y1bDHbK/Wkj5cJMtLnWxiGQYa
- 1qKiaMbJxrI0Qb9OmrLMT7rZCcqjy5aoyphBff32yteTxUGYiHi7Kg7wZrkkvCRnerPG
- 3exNG+TDeP1Tk8cUz/lTl/vvvVsO/kH9GOC4MESBU9LO4USO50lZbaduIhQb6gzOgDRR
- YrN/Y9QLyVK7WANEgIw5qH07dKmB/NTvzKblPPs1diot2UJQIztMjDOMlxUUbgWCIUSn
- PPBp+PsiChh5JENnczGtoPFwM8kcDwUqAtnCwocMgsOeY68h+vav/YKbaa04p9aHD7KY
- VCOw==
-X-Gm-Message-State: AOAM5325QoPmobmz5prhBtDinOdwJynNbv/SjwzX2ufigzFeEWfV6WgO
- 0P3XcuaaqBvecxiEYzicUuI3A+3JEj5d6QyflXapOE5XFmRN84hLQeEx6dJPuAeZRVpjXZ62ix3
- bzpbacWM9lupRvvriMOdpVnTeUPNoDuQ=
-X-Received: by 2002:a37:b9c4:: with SMTP id
- j187mr11975696qkf.131.1628700087391; 
- Wed, 11 Aug 2021 09:41:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0pcc4FWFaJrPVI8At7tpbKt9fyuzJFMMe25z4XyOAKt3Gz922pXIbZC5JRxzXZe4outT/Shnh+2XmP9J+/WU=
-X-Received: by 2002:a37:b9c4:: with SMTP id
- j187mr11975675qkf.131.1628700087143; 
- Wed, 11 Aug 2021 09:41:27 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sd275UudlJh/yTNdYqfp4jI6iZzjUwOym27lPZaPAnM=;
+ b=Sn+bU6T6T41zL3PXkWlC9hqC2I7EI7k5xPTYsq9zjIfOIqPB9xEqToVGYV3UfhD4tH
+ R5nBy/qiv9SkigyADSSNqFC//02mdqNi1gcPQO5c+69s/P4GGWLznW+sAgYtg6+ygf5g
+ 9w7UztJ7pif3OqIInwsj2QhaPwVdFSL2wMAINUUlEgxwIIo+rokW6OV4QGhq3dlazWVD
+ 7Vhzz+o7dmC/DLKj/wElwt+MfVNnEFhQ2eUFvjBCKYVVE6Ux8Y01DhggQUcaS7QCntlR
+ 9owxTqllg+I+vLynmfG/g6FucMmK7O9ATjYD5MMUqPJ36C6+2OgiQimglHQ7X9ByCe08
+ 36Wg==
+X-Gm-Message-State: AOAM5333vjfuOa7pyVbDwRTtXO/pvuozRRJCI2n/j2B4O/BdFlhuOJAT
+ v0+ehLbLEQo8qMsQp/Woxj12Hg==
+X-Google-Smtp-Source: ABdhPJzR/jK9eMyLJfNPKgdCmEFrJ8Tn4QDFbVMMUoo5ax94YCGDOTRlTJy4E0BjMQI/Q0IG6rItqg==
+X-Received: by 2002:a17:90b:a12:: with SMTP id
+ gg18mr11456387pjb.78.1628704598961; 
+ Wed, 11 Aug 2021 10:56:38 -0700 (PDT)
+Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id t26sm156408pfq.75.2021.08.11.10.56.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Aug 2021 10:56:37 -0700 (PDT)
+Subject: Re: [RFC PATCH 02/13] target/riscv: Support UXL32 for branch
+ instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
+ <20210805025312.15720-3-zhiwei_liu@c-sky.com>
+ <840d76cc-fd1c-6324-19cc-a6ec0075d032@linaro.org>
+ <5ae8f7a7-7659-aeee-9b4b-3521e19f4c75@c-sky.com>
+ <249ce5f9-333a-7186-36bb-a2ecadb19254@linaro.org>
+ <538f3928-f681-cb9e-7850-48469ea4ccd5@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <15f69497-3baf-abf1-ba9e-91ac1e883d63@linaro.org>
+Date: Wed, 11 Aug 2021 07:56:32 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210804144402.711594-1-eperezma@redhat.com>
- <CACGkMEuW166WvHeB63aoTvYinqK4u_8hDBFHtUXoexWkQy8PpA@mail.gmail.com>
- <CAJaqyWeQFjG5k1Savtui3cEbha37SUu5WrvObWP+o9Rp=UOA3Q@mail.gmail.com>
- <4b384df7-f0ca-2dd0-a7d8-06a7e82176ae@redhat.com>
-In-Reply-To: <4b384df7-f0ca-2dd0-a7d8-06a7e82176ae@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 11 Aug 2021 18:40:51 +0200
-Message-ID: <CAJaqyWe6E6MvmiJoj1v7xMa=3ezgUNi=ykM9a7Fq+ZUxqVnjWg@mail.gmail.com>
-Subject: Re: [RFC PATCH] vhost-vdpa: Do not send empty IOTLB update batches
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <538f3928-f681-cb9e-7850-48469ea4ccd5@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,246 +96,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 5, 2021 at 9:10 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/8/5 =E4=B8=8B=E5=8D=883:04, Eugenio Perez Martin =E5=86=99=
-=E9=81=93:
-> > On Thu, Aug 5, 2021 at 8:16 AM Jason Wang <jasowang@redhat.com> wrote:
-> >> On Wed, Aug 4, 2021 at 10:44 PM Eugenio P=C3=A9rez <eperezma@redhat.co=
-m> wrote:
-> >>> With the introduction of the batch hinting, meaningless batches can b=
-e
-> >>> created with no IOTLB updates if the memory region was skipped by
-> >>> vhost_vdpa_listener_skipped_section. This is the case of host notifie=
-rs
-> >>> memory regions, but others could fall on this category. This caused t=
-he
-> >>> vdpa device to receive dma mapping settings with no changes, a possib=
-ly
-> >>> expensive operation for nothing.
-> >>>
-> >>> To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have =
-a
-> >>> meaningful (not skipped section) mapping or unmapping operation, and
-> >>> VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
-> >>> _INVALIDATE has been issued.
-> >> Hi Eugeni:
-> >>
-> >> This should work but it looks to me it's better to optimize the kernel=
-.
-> >>
-> >> E.g to make sure we don't send set_map() if there is no real updating
-> >> between batch start and end.
-> >>
-> > Hi Jason,
-> >
-> > I think we should do both in parallel anyway.
->
->
-> Ok, I'm fine with this.
->
->
-> >   We also obtain an
-> > (unmeasured at this moment) decrease in startup time for qemu with
-> > vdpa this way, for example. I consider that this particular RFC has
-> > room to improve or change totally of course.
-> >
-> > I've made these changes in the kernel too, just counting the number of
-> > memory updates and not calling set_map if no actual changes have been
-> > made.
->
->
-> Right, that is what we want to have.
->
->
-> >
-> >> This makes sure that it can work for all kinds of userspace (not only =
-for Qemu).
-> >>
-> >> Another optimization is to batch the memory region transaction by addi=
-ng:
-> >>
-> >> memory_region_transaction_begin() and memory_region_transaction_end() =
-in
-> >>
-> >> both vhost_vdpa_host_notifiers_init() and vhost_vdpa_host_notifiers_un=
-init().
-> >>
-> >> This can make sure only at least one memory transactions when
-> >> adding/removing host notifier regions.
-> >>
-> > That solves the updates about memory regions, but it does not solve
-> > the case where updating memory regions are not interesting to the
-> > device.
->
->
-> Kind of, I guess with this we only get one more set_map().
->
->
-> > In other words, where all the changes meet
-> > vhost_vdpa_listener_skipped_section() =3D=3D true. I did not spend a lo=
-t
-> > of time trying to raise these though, maybe it happens when
-> > hot-plugging a device, for example?
->
->
-> Yes, so transaction is per device optimization that can't help in this ca=
-se.
->
+On 8/11/21 4:57 AM, LIU Zhiwei wrote:
+> I  still don't know why the value written sign-extended.  If that's the the rule of final 
+> specification, I will try to obey it although our Linux will not depend on the high part.
 
-I've left it out, since we already obtain 0 IOTLB update commits with
-this approach. Let me know if you think it should be included.
+The text that I'm looking at is
 
->
-> >
-> > We could abstract these changes in memory_region_transaction_begin() /
-> > memory_region_transaction_end() wrappers though.
-> >
-> > Thanks!
-> >
-> >> Thanks
-> >>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>   include/hw/virtio/vhost-vdpa.h |  1 +
-> >>>   hw/virtio/vhost-vdpa.c         | 38 +++++++++++++++++++++++--------=
----
-> >>>   2 files changed, 27 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost=
--vdpa.h
-> >>> index e98e327f12..0a7edbe4eb 100644
-> >>> --- a/include/hw/virtio/vhost-vdpa.h
-> >>> +++ b/include/hw/virtio/vhost-vdpa.h
-> >>> @@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
-> >>>       int device_fd;
-> >>>       int index;
-> >>>       uint32_t msg_type;
-> >>> +    size_t n_iotlb_sent_batch;
->
->
-> Not a native speaker but we probably need a better name, e.g "n_mr_update=
-d?"
->
+https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMFDQC-and-Priv-v1.11/riscv-privileged-20190608.pdf
 
-I totally agree.
+3.1.6.2 Base ISA Control in mstatus Register
 
->
-> >>>       MemoryListener listener;
-> >>>       struct vhost_dev *dev;
-> >>>       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>> index 6ce94a1f4d..2517fc6103 100644
-> >>> --- a/hw/virtio/vhost-vdpa.c
-> >>> +++ b/hw/virtio/vhost-vdpa.c
-> >>> @@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa=
- *v, hwaddr iova,
-> >>>       return ret;
-> >>>   }
-> >>>
-> >>> -static void vhost_vdpa_listener_begin(MemoryListener *listener)
-> >>> +static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-> >>>   {
-> >>> -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdp=
-a, listener);
-> >>> -    struct vhost_dev *dev =3D v->dev;
-> >>> -    struct vhost_msg_v2 msg =3D {};
-> >>>       int fd =3D v->device_fd;
-> >>> -
-> >>> -    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)=
-)) {
-> >>> -        return;
-> >>> -    }
-> >>> -
-> >>> -    msg.type =3D v->msg_type;
-> >>> -    msg.iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN;
-> >>> +    struct vhost_msg_v2 msg =3D {
-> >>> +        .type =3D v->msg_type,
-> >>> +        .iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN,
-> >>> +    };
-> >>>
-> >>>       if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> >>>           error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> >>> @@ -120,6 +114,11 @@ static void vhost_vdpa_listener_commit(MemoryLis=
-tener *listener)
-> >>>           return;
-> >>>       }
-> >>>
-> >>> +    if (v->n_iotlb_sent_batch =3D=3D 0) {
-> >>> +        return;
-> >>> +    }
-> >>> +
-> >>> +    v->n_iotlb_sent_batch =3D 0;
-> >>>       msg.type =3D v->msg_type;
-> >>>       msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
-> >>>
-> >>> @@ -170,6 +169,14 @@ static void vhost_vdpa_listener_region_add(Memor=
-yListener *listener,
-> >>>
-> >>>       llsize =3D int128_sub(llend, int128_make64(iova));
-> >>>
-> >>> +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH=
-)) {
-> >>> +        if (v->n_iotlb_sent_batch =3D=3D 0) {
-> >>> +            vhost_vdpa_listener_begin_batch(v);
-> >>> +        }
-> >>> +
-> >>> +        v->n_iotlb_sent_batch++;
-> >>> +    }
->
->
-> Let abstract this as a helper to be reused by region_del.
->
-> Other looks good.
->
-> Thanks
->
+In the fifth paragraph, the requirement for sign-extension is detailed.
 
-I sent a PATCH v2 instead of a non-RFC v1 by mistake. Please let me
-know if I should do something to change it.
 
-Thanks!
-
->
-> >>> +
-> >>>       ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> >>>                                vaddr, section->readonly);
-> >>>       if (ret) {
-> >>> @@ -221,6 +228,14 @@ static void vhost_vdpa_listener_region_del(Memor=
-yListener *listener,
-> >>>
-> >>>       llsize =3D int128_sub(llend, int128_make64(iova));
-> >>>
-> >>> +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH=
-)) {
-> >>> +        if (v->n_iotlb_sent_batch =3D=3D 0) {
-> >>> +            vhost_vdpa_listener_begin_batch(v);
-> >>> +        }
-> >>> +
-> >>> +        v->n_iotlb_sent_batch++;
-> >>> +    }
-> >>> +
-> >>>       ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> >>>       if (ret) {
-> >>>           error_report("vhost_vdpa dma unmap error!");
-> >>> @@ -234,7 +249,6 @@ static void vhost_vdpa_listener_region_del(Memory=
-Listener *listener,
-> >>>    * depends on the addnop().
-> >>>    */
-> >>>   static const MemoryListener vhost_vdpa_memory_listener =3D {
-> >>> -    .begin =3D vhost_vdpa_listener_begin,
-> >>>       .commit =3D vhost_vdpa_listener_commit,
-> >>>       .region_add =3D vhost_vdpa_listener_region_add,
-> >>>       .region_del =3D vhost_vdpa_listener_region_del,
-> >>> --
-> >>> 2.27.0
-> >>>
->
-
+r~
 
