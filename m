@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54F13E8E07
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 12:06:36 +0200 (CEST)
-Received: from localhost ([::1]:57194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AB03E8E08
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 12:07:09 +0200 (CEST)
+Received: from localhost ([::1]:58414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDl87-0007mZ-De
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 06:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54716)
+	id 1mDl8e-0000A3-TA
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 06:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mDl7E-0006hn-Jb
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 06:05:40 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44873)
+ id 1mDl7T-00073r-4T
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 06:05:55 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:46969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mDl7B-0007zw-Qv
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 06:05:40 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id yk17so3124802ejb.11
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 03:05:36 -0700 (PDT)
+ id 1mDl7R-0008BT-Hu
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 06:05:54 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id gs8so3102477ejc.13
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 03:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=nXWs3dl0w7pobiUZAStyR9GAGI2sZUhBp6kloPdQbIg=;
- b=DWgh13wp72UkrhvCNXdguOKdtis/iV+HqZS2h9fdpkx61ibu+8bSDBdndo/EV0akuT
- Uh/fJcutYxC4CQ3vWYQJlRAxXYKfd0JpllX/LqJxQbzAgpyCaOitQ+PossVtrED9X3G8
- DZZC4SNCmbzUHBvDaNQ00z6lb0B3dkj8VtYy74zQSsJjGie9wq5Il68xm/AVxd8ksa08
- o1IEOLER4tAu+2BzN187cIHJ59ZzhVZ+UWWgPLPLEOY7qL4wdPCvEW0+jjTBOidae3qd
- teeVzJtMId3YVIDFPqx+EqSzhIf9WqG1GkRmnVB6xR/mfRje4LIfSIPfar6duoIG3rtk
- NRNg==
+ b=f4rbEMLd/KiAyMWQrqbq793xUxghNrgm3zAHga6CgMS+gLhJlbb74nWTSfPAdRsKuf
+ K33P2jdEWT5Rw4UeR0q7v7bQQzlcHVSGqgT0NZYARX2KqrEAg07vfBMeYuP4SlUQQTjd
+ giQ9zBoLxVOGAi/tTepTQnUqM/ktyfLuYOnqgLTeYK61gBUTZC6s+BbOy2oiO5Kd6vUP
+ qbHYLxGemaI2NOaX34mtgL0/BZmG05+OjRbu6nehKBjYGQkKiMGfAhVZIgGNzmkYO+Qr
+ 7DHpQwCUrYQuEHh14IJ5yaLtPapPSTGd4NrEMtpUceKdw2Z0TXVCC22iSoQqNV6o9afR
+ fJHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
  bh=nXWs3dl0w7pobiUZAStyR9GAGI2sZUhBp6kloPdQbIg=;
- b=bBEKIATQRVQOr+sGqZiZt/FTWdW2OPMRUoNrjHKECowTMk2sVrUkMRR5NzIJmkhvDS
- BBPg01quhjab2nIlegFyZh72xL8J0FMRwWPGpRV2RF/DhHiijaG05yT7J1EVaun6NXIf
- NgC2J/IfxsU3C7cWGihYdjMKMlx4itABVWuu0XKoRQYBLHvfv93M2ReuwUhpK+obnveb
- ZWu7bF9NFibWlnRh6Ir/nUNUlYypqZJsDppBFrS4clz+rwIzqxn/GLbVfNRgaILyolCF
- SnANtDaS4jBeKDyoJQU4tRSDZ2MH7yV0ljlM/9+SqNWKDrabM91XN0Sam2u919wHrDVP
- tX3w==
-X-Gm-Message-State: AOAM530/vDuA9OUXleHFTDo2gISTMwNcDSgIRbB6Y1hW12pPtut/CN8z
- IAyQqWFNLLCTwxGfEvkLeamgHelD/XqJFA==
-X-Google-Smtp-Source: ABdhPJyP/X+yPg/IcwBddfcK1QSH0HbRX5vDZAeO1gy3vc78zRz3cR168XG3FHbUUzZGx6dzvMdCng==
-X-Received: by 2002:a17:907:2083:: with SMTP id
- pv3mr2935107ejb.86.1628676335688; 
- Wed, 11 Aug 2021 03:05:35 -0700 (PDT)
+ b=PuztCA8Hm2RSxZ5WxKv0uTUAdzlgLNIwvvzmWjOVb5zW950cdjhYVGAVuDKPiXPHek
+ LcRFcBgeOdy0WeZ9g4VvrAcVap95hlkNaZ9y5dqjcxtztV7ALHau4u0B1qR58nIgsAIJ
+ xcsE+09sR3uegyB7bkdFq3oQss/1YpOc1TTw05fy4GEiAbm3BrCR+qyWi8LGktWRRHXu
+ K+ZspTEyjpEKCh9iw/inemOHl4OlprHdxx6dhmmlMGqt5XHA2xe+2JB9GPLlFyOF5m28
+ /MtXlZV7V8nk0vOY2ocsp/U2HG943z0fM4rCk/4MSVflXunYJH/8ISvI6neYjQliP0op
+ U3Bw==
+X-Gm-Message-State: AOAM532aTCl7j9QDFTzbd+sOucGUxmbXqC2ENTFX/JucsLcUX1OGhknt
+ pL20Ltdq2dEdgzbix2O75tqSPzePRcIAbQ==
+X-Google-Smtp-Source: ABdhPJwfgoVts9cd+sy1xufOCwbB3uQIyfTJSvCtecIAeK7EkZMToMXlehbC4T9vv6BiKsqTWE5jrw==
+X-Received: by 2002:a17:906:368e:: with SMTP id
+ a14mr2938985ejc.60.1628676351886; 
+ Wed, 11 Aug 2021 03:05:51 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id f20sm7905275ejz.30.2021.08.11.03.05.34
+ by smtp.gmail.com with ESMTPSA id kk14sm2537693ejc.29.2021.08.11.03.05.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 03:05:35 -0700 (PDT)
+ Wed, 11 Aug 2021 03:05:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH for 6.1] plugins: do not limit exported symbols if modules are
  active
-Date: Wed, 11 Aug 2021 12:05:33 +0200
-Message-Id: <20210811100533.54608-1-pbonzini@redhat.com>
+Date: Wed, 11 Aug 2021 12:05:50 +0200
+Message-Id: <20210811100550.54714-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
