@@ -2,87 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36AA3E932A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 16:00:20 +0200 (CEST)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684593E934D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 16:09:43 +0200 (CEST)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDomJ-0002BS-3j
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 10:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58816)
+	id 1mDovN-0002OK-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 10:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mDoko-0008Op-N0
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 09:58:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21645)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mDotD-0008J6-Vz; Wed, 11 Aug 2021 10:07:28 -0400
+Received: from out28-170.mail.aliyun.com ([115.124.28.170]:35328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mDokk-0000YM-JC
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 09:58:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628690320;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLAu7Xt9giB1JEJeaXVcKTr3zxBkgolhQiE77Rr3piU=;
- b=A5bC+bVreSLRik4i36m0MHxlfr9ZFRpSxMSn2pop5GDWOR9toqHz/IzRwQZd/msp4FLBRg
- fXUBQ9qJ/5ecSDxsmPNY7xeOEyiJXzJQi8Sk90G76pwK/GNaj6/oHN9aTIKglmrrCeYwpm
- 1V7iUBgR2CU29b9/qYBxgX6MJbUMVnQ=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-GOeivZBhPL-37bw5HBgXkw-1; Wed, 11 Aug 2021 09:58:37 -0400
-X-MC-Unique: GOeivZBhPL-37bw5HBgXkw-1
-Received: by mail-lj1-f198.google.com with SMTP id
- r16-20020a2e97100000b02901b398e1cd20so815370lji.9
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 06:58:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qLAu7Xt9giB1JEJeaXVcKTr3zxBkgolhQiE77Rr3piU=;
- b=Kucx3hsaM+mvWq5tplVoPFUOqVZ8NbmZCKNrJOWZ8LmWjWgs2rxFCrbFbF7EsXWxcx
- k0EaxFrWtYjZfPp3kIUWj0QUg1rGNRXMEExcwI2LR3WHHQE02PWt2qzE9h+SXqbLRWML
- FKM0/af1xQuJtoOBPERHsRmCHEYDrPY7SsBAgTOGRuiN6rtbW6IuBD7CH9fDeHy+1xrW
- zvDLk54Aj9rs40fyzH9b9D/cqWMOwfTfARQ/KoyvxsboKOf00N9fK/3Z9SW19D3kpfTQ
- G+5UK8+VNnmW6Og6bmT+0TFixsP9bCjuLNuezDmoyJmnievClqwhnY/YC6cD8zEFNDu2
- dAuA==
-X-Gm-Message-State: AOAM531eTt0ZYhJWXTxJ/UoG9G1xRrPUcJ+vXJTJmtzdf+CMuv5zT+SX
- RKZkXG7H9jKbmYNIhv0QiTiyh8a8FB8rAiSDHwaBm99+VRdtyymDaGcKdFXy+JF7FQgmVKjUiK8
- QzLgPL9UBHxZQuVX95u7gdvKSjimbyu8=
-X-Received: by 2002:a2e:9355:: with SMTP id m21mr22807157ljh.445.1628690316041; 
- Wed, 11 Aug 2021 06:58:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxl12Co/rSK8sREdXG2ZIEVYWevhIt1h4k4YDs8TUY0b/cRFg4Pp78qZxQ4i6zJCMIbWVczSn9w+TKkmrFLlto=
-X-Received: by 2002:a2e:9355:: with SMTP id m21mr22807128ljh.445.1628690315807; 
- Wed, 11 Aug 2021 06:58:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mDotB-0006jj-4Z; Wed, 11 Aug 2021 10:07:27 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07439106|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.175162-0.00193328-0.822905;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KyXUvdo_1628690811; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KyXUvdo_1628690811)
+ by smtp.aliyun-inc.com(10.147.41.187);
+ Wed, 11 Aug 2021 22:07:14 +0800
+Subject: Re: [PATCH] target/riscv: Don't wrongly overide isa version
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210810033310.7252-1-zhiwei_liu@c-sky.com>
+ <CAEUhbmUdLzc7Xt0VEFQaOPRWy-BZqv-p_9pipSzOVzQ+6mo-ig@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <b3a5feb1-e257-ad91-d0bf-30f1645af848@c-sky.com>
+Date: Wed, 11 Aug 2021 22:06:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210728125402.2496-1-valeriy.vdovin@virtuozzo.com>
- <87eeb59vwt.fsf@dusky.pond.sub.org>
- <20210810185644.iyqt3iao2qdqd5jk@habkost.net>
- <2191952f-6989-771a-1f0a-ece58262d141@redhat.com>
- <CAOpTY_qbsqh9Tf8LB3EOOi_gkREotdpUyuF3-d_sBFsof3-9KQ@mail.gmail.com>
- <97ce9800-ff69-46cd-b6ab-c7645ee10d2c@redhat.com>
-In-Reply-To: <97ce9800-ff69-46cd-b6ab-c7645ee10d2c@redhat.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Wed, 11 Aug 2021 09:58:19 -0400
-Message-ID: <CAOpTY_rv4nZib1Eymm9ZVcLf=v=-QjpUm24U7FtS-1pUqS_6VQ@mail.gmail.com>
-Subject: Re: [PATCH v12] qapi: introduce 'query-x86-cpuid' QMP command.
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAEUhbmUdLzc7Xt0VEFQaOPRWy-BZqv-p_9pipSzOVzQ+6mo-ig@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.170; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-170.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,59 +60,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 11, 2021 at 9:44 AM Thomas Huth <thuth@redhat.com> wrote:
+
+On 2021/8/11 下午5:26, Bin Meng wrote:
+> On Tue, Aug 10, 2021 at 11:35 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> For some cpu, the isa version has already been set in cpu init function.
+>> Thus only overide the isa version when isa version is not set, or
+> typo: override, please fix the commit title as well
+OK
 >
-> On 11/08/2021 15.40, Eduardo Habkost wrote:
-> > On Wed, Aug 11, 2021 at 2:10 AM Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> On 10/08/2021 20.56, Eduardo Habkost wrote:
-> >>> On Sat, Aug 07, 2021 at 04:22:42PM +0200, Markus Armbruster wrote:
-> >>>> Is this intended to be a stable interface?  Interfaces intended just=
- for
-> >>>> debugging usually aren't.
-> >>>
-> >>> I don't think we need to make it a stable interface, but I won't
-> >>> mind if we declare it stable.
-> >>
-> >> If we don't feel 100% certain yet, it's maybe better to introduce this=
- with
-> >> a "x-" prefix first, isn't it? I.e. "x-query-x86-cpuid" ... then it's =
-clear
-> >> that this is only experimental/debugging/not-stable yet. Just my 0.02 =
-=E2=82=AC.
-> >
-> > That would be my expectation. Is this a documented policy?
-> >
+>> users set different isa version explicitly by cpu parameters.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   target/riscv/cpu.c | 14 ++++++++------
+>>   1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 991a6bb760..425efba0c8 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -392,9 +392,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>       RISCVCPU *cpu = RISCV_CPU(dev);
+>>       CPURISCVState *env = &cpu->env;
+>>       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+>> -    int priv_version = PRIV_VERSION_1_11_0;
+>> -    int bext_version = BEXT_VERSION_0_93_0;
+>> -    int vext_version = VEXT_VERSION_0_07_1;
+>> +    int priv_version = env->priv_ver;
+>>       target_ulong target_misa = env->misa;
+>>       Error *local_err = NULL;
+>>
+>> @@ -417,9 +415,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>           }
+>>       }
+>>
+>> -    set_priv_version(env, priv_version);
+>> -    set_bext_version(env, bext_version);
+>> -    set_vext_version(env, vext_version);
+>> +    if (!env->priv_ver) {
+>> +        set_priv_version(env, PRIV_VERSION_1_11_0);
+>> +    } else if (env->priv_ver != priv_version) {
+>> +        set_priv_version(env, priv_version);
+>> +    }
+> This logic seems incorrect to me. So if cpu init function does not set
+> the priv, and cfg set it to v1.10, v1.11 will be set in the new logic.
+
+Yes,  it's also here.
+
+Thanks,
+Zhiwei
+
+> The previous logic makes sure the cfg value overrides the cpu init
+> value which seems to be intended.
 >
-> According to docs/interop/qmp-spec.txt :
->
->   Any command or member name beginning with "x-" is deemed
->   experimental, and may be withdrawn or changed in an incompatible
->   manner in a future release.
-
-Thanks! I had looked at other QMP docs, but not qmp-spec.txt.
-
-In my reply above, please read "make it a stable interface" as
-"declare it as supported by not using the 'x-' prefix".
-
-I don't think we have to make it stable, but I won't argue against it
-if the current proposal is deemed acceptable by other maintainers.
-
-Personally, I'm still frustrated by the complexity of the current
-proposal, but I don't want to block it just because of my frustration.
-
---=20
-Eduardo
-
+>>       if (cpu->cfg.mmu) {
+>>           set_feature(env, RISCV_FEATURE_MMU);
+>> @@ -497,6 +497,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               target_misa |= RVH;
+>>           }
+>>           if (cpu->cfg.ext_b) {
+>> +            int bext_version = BEXT_VERSION_0_93_0;
+>>               target_misa |= RVB;
+>>
+>>               if (cpu->cfg.bext_spec) {
+>> @@ -515,6 +516,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               set_bext_version(env, bext_version);
+>>           }
+>>           if (cpu->cfg.ext_v) {
+>> +            int vext_version = VEXT_VERSION_0_07_1;
+>>               target_misa |= RVV;
+>>               if (!is_power_of_2(cpu->cfg.vlen)) {
+>>                   error_setg(errp,
+>> --
+> Regards,
+> Bin
 
