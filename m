@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EA13E8C4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 10:46:22 +0200 (CEST)
-Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC06C3E8C2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 10:44:27 +0200 (CEST)
+Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDjsT-0007g0-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 04:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
+	id 1mDjqc-0003Sg-QK
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 04:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDjoI-0007PV-Qz
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 04:42:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56514)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDjne-0004tQ-NT
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 04:41:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDjoG-00089C-1g
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 04:42:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDjnd-0007lo-D3
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 04:41:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628671319;
+ s=mimecast20190719; t=1628671280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bRLRlwCoW/dtPClSvtzWqcb032Rf5AxPv989TdYF59U=;
- b=INFMhXYUmmY0tJh+FvGHu8qapa51MqMS8U7OYBDdCfjgSYY9JWBr4I6nQcG+5c7jFGRwaJ
- LVWJV8rYR7pGVeATVmSk9ovi2tX8pFKAQj6hJyMNquglke8o7C1UrHSN14WPaBkj7NhnYq
- oub/2Fj92AwvRD6DlqZRWVzZtOItvEk=
+ bh=L3b8W9mX+LitMkKcv2tZkOffIICDBzKBgt3FMaLEEJE=;
+ b=JjUc4Zn3S2vZgJxMCSvB7tFdD42uAvdzrZ+QIAcCi3K6wKA+td5TMVQCVgnc3MwHdV4UyP
+ +28v0IKok2dh0hEsxcfMChy8pvz7JrDKcvRGqFltMLyDcG/EC6ICuaa89QrmtBCb2VsKxV
+ 1TnBPdEOykxcycl7bESedV7m0IeWFPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-FRfMI--eMIWZ2VLEF_oVAA-1; Wed, 11 Aug 2021 04:41:18 -0400
-X-MC-Unique: FRfMI--eMIWZ2VLEF_oVAA-1
+ us-mta-511-DaniughCMLWTU6U-lciUfw-1; Wed, 11 Aug 2021 04:41:19 -0400
+X-MC-Unique: DaniughCMLWTU6U-lciUfw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71CE3760C1;
- Wed, 11 Aug 2021 08:41:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD5BC801AE7;
+ Wed, 11 Aug 2021 08:41:18 +0000 (UTC)
 Received: from thuth.com (reserved-198-128.str.redhat.com [10.33.198.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E4011B5C0;
- Wed, 11 Aug 2021 08:41:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D14831B5C0;
+ Wed, 11 Aug 2021 08:41:17 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com
-Subject: [PATCH v2 4/6] docs/about/removed-features: Document removed HMP
- commands from QEMU v2.12
-Date: Wed, 11 Aug 2021 10:41:01 +0200
-Message-Id: <20210811084103.74832-5-thuth@redhat.com>
+Subject: [PATCH v2 5/6] docs/about/removed-features: Document removed devices
+ from older QEMU versions
+Date: Wed, 11 Aug 2021 10:41:02 +0200
+Message-Id: <20210811084103.74832-6-thuth@redhat.com>
 In-Reply-To: <20210811084103.74832-1-thuth@redhat.com>
 References: <20210811084103.74832-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,10 +83,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These HMP commands had been removed/replaced in QEMU v2.12. Still, some
-people might want to update from older versions to the recent QEMU version,
-so we should give some recommendations for the replacements in our
-documentation.
+These devices had been removed/replaced in QEMU v2.12 and v4.0.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
@@ -94,26 +91,26 @@ Signed-off-by: Thomas Huth <thuth@redhat.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 40d2cc4ffa..8bf3ebecab 100644
+index 8bf3ebecab..0c860be62d 100644
 --- a/docs/about/removed-features.rst
 +++ b/docs/about/removed-features.rst
-@@ -356,6 +356,17 @@ Specify the properties for the object as top-level arguments instead.
- Human Monitor Protocol (HMP) commands
- -------------------------------------
+@@ -513,6 +513,17 @@ running the old binaries, you can use older versions of QEMU.
+ System emulator devices
+ -----------------------
  
-+``usb_add`` and ``usb_remove`` (removed in 2.12)
-+''''''''''''''''''''''''''''''''''''''''''''''''
++``spapr-pci-vfio-host-bridge`` (removed in 2.12)
++'''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+Replaced by ``device_add`` and ``device_del`` (use ``device_add help`` for a
-+list of available devices).
++The ``spapr-pci-vfio-host-bridge`` device type has been replaced by the
++``spapr-pci-host-bridge`` device type.
 +
-+``host_net_add`` and ``host_net_remove`` (removed in 2.12)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``ivshmem`` (removed in 4.0)
++''''''''''''''''''''''''''''
 +
-+Replaced by ``netdev_add`` and ``netdev_del``.
++Replaced by either the ``ivshmem-plain`` or ``ivshmem-doorbell``.
 +
- The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed in 5.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``ide-drive`` (removed in 6.0)
+ ''''''''''''''''''''''''''''''
  
 -- 
 2.27.0
