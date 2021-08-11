@@ -2,106 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38B13E8A36
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:29:01 +0200 (CEST)
-Received: from localhost ([::1]:60496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2E63E8A38
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:29:27 +0200 (CEST)
+Received: from localhost ([::1]:33772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDhjY-00076D-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
+	id 1mDhjy-00086x-Iz
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:29:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clamky@hotmail.com>)
- id 1mDhhW-0005hx-CF
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:26:54 -0400
-Received: from mail-vi1eur06olkn2093.outbound.protection.outlook.com
- ([40.92.17.93]:20762 helo=EUR06-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mDhho-0005yN-GH
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:27:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clamky@hotmail.com>)
- id 1mDhhU-0002AQ-NZ
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:26:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SAtX+r/T2CYe7p04MR6P8UI5wgQ/9cCFF2gxKOUJ/TeV12y4Ezc6rQ9VJhgp0a2qtZoWvSmsm6cEQ+hYzGeH6XDw+zzEIGrPH5sQUuhhy4MdEBpS/edtpkxn88LL5bRiT4+EswWKlF6qarVvd2qACK6/Y7FBHoAKoglrkTDHrnP2G+GJ6w03DUTFm1tvhKWl/hEicZ9C4B+5T4fCh5ghsMNVzD3uEo8V3umf9hPaktBYFtdEtSipYKYND3En2vEk4wfj9R/5HAmbQ+S26U4IyaVKwLsEhsZQQGqDI6jntgujJ1M8dtQt4rScwtNHQQQL8GzjfAtAA+9yJWiJAkjHGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/lHtAmgSKX8jD8gX5A/GJydZ0sm6ty/XGN4SbuxUG3Y=;
- b=DZPfTfgqkk9FUgyqRg4Is5p2DwD9lOLSXDDzefqxPqBgkFsenLFqd8KItFcfju1/o6iN04wHXmtik1Ps69REKoM9syQAVuPwGMAqdcvM8nvUXuDcDQtCx0LVtJ2XD1hyGVWp9kAtUiOpr+EtYSPEqBf3+pPGjBqIo21YXUFsF2rL4qxq5KhZ0I3Z795jsdfdQOBkDd3yosrsEa2PSvQ/BpzcRduOXwftjSZBgWLdWNpOJGI6vDuOhYnY3LFIRkJ1a24JmR9E0lnCgD/GebIhZFmOR0rPrN3ZPk3P/hpR5f66pV4MmsNjEcVZG8jiIwwJgAvcPZ30lBqmhqLJxTxxZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/lHtAmgSKX8jD8gX5A/GJydZ0sm6ty/XGN4SbuxUG3Y=;
- b=tx/XJYRl6MZKclReka7xFWq17mgusCymUOymoqMQZApYu8CcJy+V9A7Ru7TOIK5bpPAVb8XGVvMXbRo1MLTYb247KIvloaSO8UD/Bi1YPjRpV17krKECxkgzmp1ZN2Z/QB3+51Z8uETJFu20269PJDfh7WQ9DyzKOi+YKINAm8VpJatqA5nlpYGeeEI8jE9+cxl4jWXNU3Nm/L4vapYgNoBx/UVFQwmRsz+JwKf9MtlaJgp2DhqdDKOZRO0t2ZwWlYlAKskeaFlEVafyZjvCrSstHyE+W1SMpUHzhxW5fO0UuDKCjidq+S8sWiqhzTckKPkUjv0YUvaA4ynNVDewwQ==
-Received: from AM7EUR06FT068.eop-eur06.prod.protection.outlook.com
- (2a01:111:e400:fc36::4e) by
- AM7EUR06HT147.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc36::154)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 11 Aug
- 2021 06:26:49 +0000
-Received: from VE1P192MB0733.EURP192.PROD.OUTLOOK.COM (2a01:111:e400:fc36::4b)
- by AM7EUR06FT068.mail.protection.outlook.com
- (2a01:111:e400:fc36::92) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16 via Frontend
- Transport; Wed, 11 Aug 2021 06:26:49 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:ED5448EF07EBBE8D0379E1956BB09647E81990B97BED0DD6F99FB5A4E43402F0;
- UpperCasedChecksum:CBE3A13832691A4AF651C436B81AC04B8E3B5AE0725EC45FE14ADDAFDA5A3D2B;
- SizeAsReceived:7562; Count:45
-Received: from VE1P192MB0733.EURP192.PROD.OUTLOOK.COM
- ([fe80::8cd1:ed9a:cd45:87f9]) by VE1P192MB0733.EURP192.PROD.OUTLOOK.COM
- ([fe80::8cd1:ed9a:cd45:87f9%6]) with mapi id 15.20.4394.025; Wed, 11 Aug 2021
- 06:26:49 +0000
-From: <clamky@hotmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 3/7] MAINTAINERS: update audio entry.
-In-Reply-To: <20210811052227.agdafmkwz7spbp5u@sirius.home.kraxel.org>
-References: <20210810083450.2377374-1-kraxel@redhat.com>
- <20210810083450.2377374-4-kraxel@redhat.com>
- <VE1P192MB073307355A0CA329534F9A49DEF79@VE1P192MB0733.EURP192.PROD.OUTLOOK.COM>
- <20210811052227.agdafmkwz7spbp5u@sirius.home.kraxel.org>
-Date: Wed, 11 Aug 2021 09:26:47 +0300
-Message-ID: <VE1P192MB0733ED7BB482A45E5768464CDEF89@VE1P192MB0733.EURP192.PROD.OUTLOOK.COM>
-Content-Type: text/plain
-X-TMN: [cFTQqtAY/dLAAifOC/O60u5+/OcvhbModPscCI89+cOWwuM89UmZE5OX8ffNt1hd]
-X-ClientProxiedBy: AM0PR03CA0052.eurprd03.prod.outlook.com (2603:10a6:208::29)
- To VE1P192MB0733.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:800:160::17)
-X-Microsoft-Original-Message-ID: <875ywcijiw.fsf@hotmail.com>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mDhhk-0002OI-Fb
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:27:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628663226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HQAkcyBewqHmUdd2PiyrdALLfJaJqTyRfHuiDna3+3s=;
+ b=I2zlviMm7LTvg4t2N3bAoOhYwXpyHHDVfJ/itRGSJ19zfcw6bsWM30yKwj59sSJShZKSaq
+ TIyO95y9ZWhJjQjLq9uz3oQ6REoooyDLhP/ojP/AjaBSZfH4tELcIHhQy3gKSOJdYArV4a
+ /Xpa9Q00y2zyvfG448XPYFasoqPXKmk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-QmxoF78mPjyf9cREpJgR8w-1; Wed, 11 Aug 2021 02:27:04 -0400
+X-MC-Unique: QmxoF78mPjyf9cREpJgR8w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z18-20020a1c7e120000b02902e69f6fa2e0so480924wmc.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 23:27:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HQAkcyBewqHmUdd2PiyrdALLfJaJqTyRfHuiDna3+3s=;
+ b=bLTGHJgVkeP+16jKraFYuMeLoIQAgEW7p4XcvM3Yix9ZLlqin/M8Co41/2GXEl8+68
+ 95KZEgOvVqzpz2k+i9ExFlVMRPQRBitFlmm+vTvg9Ge4MWNG0ew/UBHim8jGiElnLeI0
+ lGGmy4QtWL2c3YgXLJy9z1ueGey2X75RmfYeEm8RbTnYzSW4GrS1UpzaUwh7rI5cPt1I
+ Gp9mlNP2+wRZey8Y9NscEUW1OMT3wqdkO4MUF7sfQwiSmSi6ZbE7BW7cwWFW7AUYH8M8
+ xRzpvwkh712ta4fH/AWu/856H7vUVC6xS6SaAGWmneVtfj1hfd1MY9qJ87dzkp61syol
+ dExA==
+X-Gm-Message-State: AOAM530MuKqiqehludbVlUn5Qugty4I2K0A5u3eOQ44bF+5F8av7+ydv
+ QroJyHPTNiFwrCThLEvKskhRbg+hxVhRbCwThT54X1z3QE8QZ4SCtIwDVG+JABzTvDUGc1WeZ3P
+ 0H5fBZfefVtmAVQQ=
+X-Received: by 2002:a7b:cc98:: with SMTP id p24mr8427395wma.118.1628663223764; 
+ Tue, 10 Aug 2021 23:27:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYnswVT/S6t2LJkMhjFdht5xmKG1x6dg3ltX8PmSa0LjPePQ52/qhO686Z41pbv6YcadhNwQ==
+X-Received: by 2002:a7b:cc98:: with SMTP id p24mr8427370wma.118.1628663223490; 
+ Tue, 10 Aug 2021 23:27:03 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.5.86])
+ by smtp.gmail.com with ESMTPSA id k17sm6016236wmj.0.2021.08.10.23.27.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Aug 2021 23:27:02 -0700 (PDT)
+Subject: Re: [PATCH v2 0/1] virtio: failover: allow to keep the VFIO device
+ rather than the virtio-net one
+To: Jason Wang <jasowang@redhat.com>
+References: <20210809171342.18146-1-lvivier@redhat.com>
+ <CACGkMEuAY-tsTBbmGYGpv2rPnO-GsyGnCTfV=Sgfdn=LGT8oYw@mail.gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <22052fa1-d560-bdf9-cb05-328a52c369a5@redhat.com>
+Date: Wed, 11 Aug 2021 08:27:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from archlinux (2a00:1370:8117:66af:96c6:91ff:fead:dcbf) by
- AM0PR03CA0052.eurprd03.prod.outlook.com (2603:10a6:208::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.14 via Frontend Transport; Wed, 11 Aug 2021 06:26:48 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 45
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 9ad77e99-8aef-45f2-6920-08d95c91002e
-X-MS-TrafficTypeDiagnostic: AM7EUR06HT147:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OXDD/3aVbjmNhO4gHvBAwbQlNg2TE9y9lq+8rVjLrtuirJUnq1eDg0D84dGO1q4PCszZyRVv8/xw30ScAhv9F1oSEci9hN4/ng9vo5wDXFwOBlqNBZ4v6XwI/Ul2bOwIwoKRUL+6uuX2lq/1Fnun79n/gFBwyrBnRthfS5zla/cuLoYZ7PqhmQmxeLuYpk+1uD23ET4OmD3Gnrt8r33pBzWD1+vVyCHWnT7Gh5SJDWVa0g0JSRUeMtaIT+DGmsCCav3J4AeUCxMC+RVWKys9qM8Gyw3JRYpjXgCS0Jy8GLdgE0q31hUaKJod+kNqKk+dyyxbMFXZgeyTqBU7Rdi1ZO4GXsrg0xPZNQp0ySv8xDFrf27piBEXLZbqgnsNqotzKGqRxKj/gF1ypG7DV4Lg2tvSxarBAe54p8TfZZaMPtrEAnVjh8CtqaQr/GBo0gQv
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: Krc3WeGrqARSo/ymhIdzJGnlaAlmK58+eSyGHHYbsl3Yuj5jC85hrEOCgjIHDK0Al2KPaewOq9yhJ+J6irvwbXCQ4SdUgHp4Menh0ZZZecT/7X1zu1o+LqEFafQJld9bYLwNR0LhLLuM/bjRViT1LlDcxs4oZzTxBRXiyzrp4k/E8LtDFZz/mo1rX6c4swqy2Xg0yrHSINvT8I3Ei9O00A==
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ad77e99-8aef-45f2-6920-08d95c91002e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 06:26:49.4622 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: AM7EUR06FT068.eop-eur06.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7EUR06HT147
-Received-SPF: pass client-ip=40.92.17.93; envelope-from=clamky@hotmail.com;
- helo=EUR06-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CACGkMEuAY-tsTBbmGYGpv2rPnO-GsyGnCTfV=Sgfdn=LGT8oYw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,29 +100,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+On 11/08/2021 06:17, Jason Wang wrote:
+> On Tue, Aug 10, 2021 at 1:13 AM Laurent Vivier <lvivier@redhat.com> wrote:
+>>
+>> v2: use validate_features() to disable the guest driver rather
+>>     than setting vring.num to 0.
+>>
+>> With failover, when the guest virtio-net driver doesn't support the
+>> STANDBY feature, the primary device is not plugged and only the virtio-net
+>> device is kept. Doing like that we can migrate the machine and
+>> keep the network connection.
+>>
+>> But in some cases, when performance is more important than availability
+>> we would prefer to keep the VFIO device rather than the virtio-net one,
+>> even if it means to lose the network connection during the migration of
+>> the machine.
+> 
+> I think we still need to seek a way to recover the network after migration.
 
-> On Tue, Aug 10, 2021 at 03:17:43PM +0300, clamky@hotmail.com wrote:
->> Gerd Hoffmann <kraxel@redhat.com> writes:
->> 
->> Hell Gerd.
->> 
->> > New maintainer wanted. Downgrade status to "Odd Fixes" for now.
->> 
->> I can try to retake it.
->
-> qemu development happens in public on the qemu-devel mailing list,
-> not behind closed doors.  Same goes for maintenance, updates to the
-> MAINTAINERS file and related discussions are happening on the mailing
-> list too.
->
-> So, of you want seriously step up you should start by saying so in
-> public, on the mailing list, not to me privately.
->
-> take care,
->   Gerd
+If the network device is configured to have an IP address at boot, the IP will be restored
+when the card is hotplugged. The only difference with virtio-net is _during_ the
+migration. Witht virtio-net we keep the networking while the VM is migrated, without it we
+lose the networking when the VFIO card is unplugged and restored when it is plugged back.
+
+Thanks,
+Laurent
+
+> 
+> Thanks
+> 
+>>
+>> To do that we can't simply unplug the virtio-net device and plug the
+>> VFIO one because for the migration the initial state must be kept
+>> (virtio-net plugged, VFIO unplugged) but we can try to disable the
+>> virtio-net driver and plug the VFIO card, so the initial state is
+>> correct (the virtio-net card is plugged, but disabled in guest, and
+>> the VFIO card is unplugged before migration).
+>>
+>> This change doesn't impact the case when guest and host support
+>> the STANDBY feature.
+>>
+>> I've introduced the "failover-default" property to virtio-net device
+>> to set which device to keep (failover-default=true keeps the virtio-net
+>> device, =off the other one).
+>>
+>> For example, with a guest driver that doesn't support STANDBY:
+>>
+>>   ...
+>>   -device virtio-net-pci,id=virtio0,failover=on,failover-default=on \
+>>   -device vfio-pci,host=$PCI,id=hostdev0,failover_pair_id=virtio0 \
+>>   ...
+>>
+>>   [root@localhost ~]# ip a
+>>   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+>>       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>>       inet 127.0.0.1/8 scope host lo
+>>          valid_lft forever preferred_lft forever
+>>       inet6 ::1/128 scope host
+>>          valid_lft forever preferred_lft forever
+>>   2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP q0
+>>       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
+>>       inet 192.168.20.2/24 brd 192.168.20.255 scope global eth0
+>>          valid_lft forever preferred_lft forever
+>>       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
+>>          valid_lft forever preferred_lft forever
+>>   # ethtool -i eth0
+>>   driver: virtio_net
+>>   version: 1.0.0
+>>   firmware-version:
+>>   expansion-rom-version:
+>>   bus-info: 0000:04:00.0
+>>   supports-statistics: no
+>>   supports-test: no
+>>   supports-eeprom-access: no
+>>   supports-register-dump: no
+>>   supports-priv-flags: no
+>>
+>>   ...
+>>   -device virtio-net-pci,id=virtio0,failover=on,failover-default=off \
+>>   -device vfio-pci,host=$PCI,id=hostdev0,failover_pair_id=virtio0 \
+>>   ...
+>>
+>>   [root@localhost ~]# ip a
+>>   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+>>       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>>       inet 127.0.0.1/8 scope host lo
+>>          valid_lft forever preferred_lft forever
+>>       inet6 ::1/128 scope host
+>>          valid_lft forever preferred_lft forever
+>>   2: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP qlen 100
+>>       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
+>>       inet 192.168.20.2/24 brd 192.168.20.255 scope global enp2s0
+>>          valid_lft forever preferred_lft forever
+>>       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
+>>          valid_lft forever preferred_lft forever
+>>   [root@localhost ~]# ethtool -i enp2s0
+>>   driver: i40evf
+>>   version: 1.6.27-k
+>>   firmware-version: N/A
+>>   expansion-rom-version:
+>>   bus-info: 0000:02:00.0
+>>   supports-statistics: yes
+>>   supports-test: no
+>>   supports-eeprom-access: no
+>>   supports-register-dump: no
+>>   supports-priv-flags: no
+>>
+>> With guest driver that supports STANDBY, we would always have:
+>>
+>>   [root@localhost ~]# ip a
+>>   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group defau0
+>>       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>>       inet 127.0.0.1/8 scope host lo
+>>          valid_lft forever preferred_lft forever
+>>       inet6 ::1/128 scope host
+>>          valid_lft forever preferred_lft forever
+>>   2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP gr0
+>>       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
+>>       inet 192.168.20.2/24 brd 192.168.20.255 scope global noprefixroute enp4s0
+>>          valid_lft forever preferred_lft forever
+>>       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
+>>          valid_lft forever preferred_lft forever
+>>   3: enp4s0nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master0
+>>       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
+>>   4: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master enp4s0 st0
+>>       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
+>>   [root@localhost ~]# ethtool -i enp4s0
+>>   driver: net_failover
+>>   version: 0.1
+>>   firmware-version:
+>>   expansion-rom-version:
+>>   bus-info:
+>>   supports-statistics: no
+>>   supports-test: no
+>>   supports-eeprom-access: no
+>>   supports-register-dump: no
+>>   supports-priv-flags: no
+>>   [root@localhost ~]# ethtool -i enp4s0nsby
+>>   driver: virtio_net
+>>   version: 1.0.0
+>>   firmware-version:
+>>   expansion-rom-version:
+>>   bus-info: 0000:04:00.0
+>>   supports-statistics: yes
+>>   supports-test: no
+>>   supports-eeprom-access: no
+>>   supports-register-dump: no
+>>   supports-priv-flags: no
+>>   [root@localhost ~]# ethtool -i enp2s0
+>>   driver: iavf
+>>   version: 4.18.0-310.el8.x86_64
+>>   firmware-version: N/A
+>>   expansion-rom-version:
+>>   bus-info: 0000:02:00.0
+>>   supports-statistics: yes
+>>   supports-test: no
+>>   supports-eeprom-access: no
+>>   supports-register-dump: no
+>>   supports-priv-flags: yes
+>>
+>> Laurent Vivier (1):
+>>   virtio: failover: define the default device to use in case of error
+>>
+>>  include/hw/virtio/virtio-net.h |  1 +
+>>  hw/net/virtio-net.c            | 49 +++++++++++++++++++++++++++++-----
+>>  2 files changed, 44 insertions(+), 6 deletions(-)
+>>
+>> --
+>> 2.31.1
+>>
+>>
+> 
+
 
