@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08543E8A97
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:54:08 +0200 (CEST)
-Received: from localhost ([::1]:41642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060A63E8AFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 09:22:19 +0200 (CEST)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDi7r-0008IF-Ng
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41804)
+	id 1mDiZ7-0007dM-Ij
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 03:22:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mDi4C-0003a2-Ry
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:50:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38276)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDiYG-0006wy-97
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 03:21:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mDi4A-0005Pd-1S
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:50:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mDiYC-0007Kh-6t
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 03:21:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628664616;
+ s=mimecast20190719; t=1628666478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YsjWiQKV02IRCkvVhkoSCI/AeQALM1qKNolVtX74vqc=;
- b=axUfpFU04XOwIhLZ+ViObv4yfCqVn4CSaPnby+53hT+KFwV7OjNRU5ljw4/74ir/ZTb5bf
- 9D8nM7ybnk4X7gpPhnKCEVyIi9poAe2brDRLBNhJIUkDdBAWglMr4Mx3se2TaIxvoGOUS4
- smo1AEGLp8OJWV5MIJ4g/asRzQyR19Y=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-9ALPgPXLOLiY8qaMbo5qYw-1; Wed, 11 Aug 2021 02:50:15 -0400
-X-MC-Unique: 9ALPgPXLOLiY8qaMbo5qYw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- p2-20020a50c9420000b02903a12bbba1ebso735724edh.6
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 23:50:15 -0700 (PDT)
+ bh=DxzcH4AbGySBsDRY1aO35gDWHWkfbAKTNSiJNmXvSpc=;
+ b=B7MlX6BsOKDzr/DdZiwnCiG3nrCOeivrsX/txuXvnhmV9kjnYt872EtDJ+T80b29Nz3f4s
+ 6cC8CPNdCio3R0Mee7Ys39gdX3JTfXAGHfiTe+8S4uyWG0kT7rgLINVwii+OIWQRGleO+o
+ ta7FPRaiRNjHLqDcjSCH5/rry3t1LLM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-1LKmDNykOJm2_7JES-LS1A-1; Wed, 11 Aug 2021 03:21:17 -0400
+X-MC-Unique: 1LKmDNykOJm2_7JES-LS1A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so529467wmj.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 00:21:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YsjWiQKV02IRCkvVhkoSCI/AeQALM1qKNolVtX74vqc=;
- b=oA4FfVfckiUqF2u3apKkiLUVVsIkc0HvOx9FnMbpSJMQTZ5PxbCwN9l2lBaPmRxlw7
- 4K2PDEdYK8/WQseHVAZTsF2lDsPqIWk0y2jI4rQrZSHxAtY7xnoAhAQBfbI1t49X4gEh
- 489W4xNLokEDuMkG8DirSJltBbZajnL9XBpKcMJQNuNlyyfcxNHytYw16zqRf1MKIOsV
- ejyAtF/7nEVVc7TJdek9rGTuNRO+cCQodqE1wSZwJykMIfztDkVTAp4zwPidj0kziklj
- 78NVs6QhFBbymFiqsnB6C9duyl+rKSKgs9PFiqtXr3RKcCcyx7WXXXZMIDV1teEhPPqt
- rPVg==
-X-Gm-Message-State: AOAM532bKTe1zXThpL5chdZmpin8glHAQgNGNHIklsA1YRqfYdJHpzPu
- TnLF186Fh8hJBlS/IEGT+k1QFdLR+YP91G1drxWxbEG0++G6mZk4Rz/5UXbqYDbyBGOJ/nUecXj
- mv7pjXWWiDmltFuo=
-X-Received: by 2002:a05:6402:1514:: with SMTP id
- f20mr9695480edw.336.1628664612155; 
- Tue, 10 Aug 2021 23:50:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmBn+5aMAjKoaVAV5D9Q6Q1z57H97Ef6xHnxheHf9gXyHuuhS+dahBmDO2aU7QdCodNsSp7Q==
-X-Received: by 2002:a05:6402:1514:: with SMTP id
- f20mr9695451edw.336.1628664611908; 
- Tue, 10 Aug 2021 23:50:11 -0700 (PDT)
-Received: from redhat.com ([2.55.156.103])
- by smtp.gmail.com with ESMTPSA id f26sm10720013edu.4.2021.08.10.23.50.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 23:50:09 -0700 (PDT)
-Date: Wed, 11 Aug 2021 02:50:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v4] failover: unregister ROM on unplug
-Message-ID: <20210811024801-mutt-send-email-mst@kernel.org>
-References: <20210721160905.234915-1-lvivier@redhat.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DxzcH4AbGySBsDRY1aO35gDWHWkfbAKTNSiJNmXvSpc=;
+ b=e2GLMKvF+hF3FMp5aKb5Fj5DZx7g5xFBgGl4t+uuI4B73h/+V7pzUstXqIdogqod9i
+ JU5AeAZjcvvFwjiG2Xf+HLZ3AmmclQgaGaJASLxFS859B7QDKh6I0MwRY1gSCjATMgek
+ 3WEc2frdsLGAK9BePy5RsaMcrhPr+otv4mo6rSUWN9wpZLJk0VadGNmgNH4LK7GtOKV8
+ RTNJ7oRK1TW7QV03aiPpogKQus9sYCOSgXee/u60N+giWOmxJ2juPRp1LznN5tSdN57j
+ tonm5rQ84Vqo0c8NzH/aoRf/RBN+nzcQ7J2bI8uDFEEb9gD7NFwlkv5FAAlWpRjSIEHV
+ bzwQ==
+X-Gm-Message-State: AOAM530ujvx5hl4a8ihBXG9MaDtCR7Rk0b1f/8FNWVVkWbZSbk6zwa5t
+ BB+9yOf3HzGmhqiVKt1ogI4R+11tcqshT1atH7+d3OFtCiGT3Up+3hPw0NlZf/HFyLBdpGSQDWy
+ QHTrh2vS3LTFJmYnT+9fBO0L6tmF0F4mX8u2gJ73mEI5OUmoQJ42mfriEGWZH1+JR
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id
+ m13mr26477344wmq.32.1628666476021; 
+ Wed, 11 Aug 2021 00:21:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznwtvKkTIxpgOYN9Y1HuC+e7rDkjlzE85vGqw2aifSJOppgSpYzOReTGMBsom6sqyS3d8Sqw==
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id
+ m13mr26477318wmq.32.1628666475690; 
+ Wed, 11 Aug 2021 00:21:15 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id d15sm28064789wri.96.2021.08.11.00.21.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Aug 2021 00:21:15 -0700 (PDT)
+Subject: Re: [PATCH 1/7] MAINTAINERS: update edk2 entry.
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20210810083450.2377374-1-kraxel@redhat.com>
+ <20210810083450.2377374-2-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9419349e-332b-6826-0818-64610701649a@redhat.com>
+Date: Wed, 11 Aug 2021 09:21:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210721160905.234915-1-lvivier@redhat.com>
+In-Reply-To: <20210810083450.2377374-2-kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,114 +100,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 21, 2021 at 06:09:05PM +0200, Laurent Vivier wrote:
-> The intend of failover is to allow to migrate a VM with a VFIO
-> networking card without disrupting the network operation by switching
-> to a virtio-net device during the migration.
+On 8/10/21 10:34 AM, Gerd Hoffmann wrote:
+> I want keep an eye on the edk2 things happening in qemu.
 > 
-> This simple change allows to test failover with a simulated device
-> like e1000e rather than a vfio device, even if it's useless in real
-> life it can help to debug failover.
-> 
-> This is interesting to developers that want to test failover on
-> a system with no vfio device. Moreover it simplifies host networking
-> configuration as we can use the same bridge for virtio-net and
-> the other failover networking device.
-> 
-> Without this change the migration of a system configured with failover
-> fails with:
-> 
->   ...
->   -device virtio-net-pci,id=virtionet0,failover=on,...  \
->   -device e1000,failover_pair_id=virtionet0,... \
->   ...
-> 
->   (qemu) migrate ...
-> 
->   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
->   error while loading state for instance 0x0 of device 'ram'
->   load of migration failed: Invalid argument
-> 
-> This happens because QEMU correctly unregisters the interface vmstate but
-> not the ROM one. This patch fixes that.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-
-I began to wonder about this. Why are we sending the option ROM at all?
-I think there's no need to do it for the primary ...
-
+> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Notes:
->     v4:
->       export and use pci_del_option_rom()
->     
->     v3:
->       remove useless space before comma
->     
->     v2:
->       reset has_rom to false
->       update commit log message
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 37b1a8e4428c..9d31e42786b5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2947,6 +2947,7 @@ F: docs/interop/firmware.json
+>  
+>  EDK2 Firmware
+>  M: Philippe Mathieu-Daudé <philmd@redhat.com>
+> +R: Gerd Hoffmann <kraxel@redhat.com>
+
+Let's be honest and add you a M: tag here ;)
+
+Whichever you prefer:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>  S: Supported
+>  F: hw/i386/*ovmf*
+>  F: pc-bios/descriptors/??-edk2-*.json
 > 
->  include/hw/pci/pci.h | 2 ++
->  hw/net/virtio-net.c  | 1 +
->  hw/pci/pci.c         | 3 +--
->  3 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index d0f4266e3725..84707034cbf8 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -369,6 +369,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
->  void pci_unregister_vga(PCIDevice *pci_dev);
->  pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
->  
-> +void pci_del_option_rom(PCIDevice *pdev);
-> +
->  int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
->                         uint8_t offset, uint8_t size,
->                         Error **errp);
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 16d20cdee52a..d6f03633f1b3 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -3256,6 +3256,7 @@ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
->      if (migration_in_setup(s) && !should_be_hidden) {
->          if (failover_unplug_primary(n, dev)) {
->              vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
-> +            pci_del_option_rom(PCI_DEVICE(dev));
->              qapi_event_send_unplug_primary(dev->id);
->              qatomic_set(&n->failover_primary_hidden, true);
->          } else {
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 23d2ae2ab232..c210d92b5ba7 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -228,7 +228,6 @@ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
->  static void pci_update_mappings(PCIDevice *d);
->  static void pci_irq_handler(void *opaque, int irq_num, int level);
->  static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
-> -static void pci_del_option_rom(PCIDevice *pdev);
->  
->  static uint16_t pci_default_sub_vendor_id = PCI_SUBVENDOR_ID_REDHAT_QUMRANET;
->  static uint16_t pci_default_sub_device_id = PCI_SUBDEVICE_ID_QEMU;
-> @@ -2429,7 +2428,7 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->      pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
->  }
->  
-> -static void pci_del_option_rom(PCIDevice *pdev)
-> +void pci_del_option_rom(PCIDevice *pdev)
->  {
->      if (!pdev->has_rom)
->          return;
-> -- 
-> 2.31.1
 
 
