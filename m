@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820AD3E9421
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 16:59:00 +0200 (CEST)
-Received: from localhost ([::1]:41756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543403E942D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 17:02:19 +0200 (CEST)
+Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDph5-0004Dh-FS
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 10:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
+	id 1mDpkI-0006j2-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 11:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mDpfv-000367-Ao; Wed, 11 Aug 2021 10:57:48 -0400
-Received: from out28-171.mail.aliyun.com ([115.124.28.171]:57981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mDpfr-0002oB-Fq; Wed, 11 Aug 2021 10:57:45 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0772766|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_news_journal|0.0309488-0.002032-0.967019;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047188; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KyY759V_1628693854; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KyY759V_1628693854)
- by smtp.aliyun-inc.com(10.147.40.200);
- Wed, 11 Aug 2021 22:57:34 +0800
-Subject: Re: [RFC PATCH 02/13] target/riscv: Support UXL32 for branch
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
- <20210805025312.15720-3-zhiwei_liu@c-sky.com>
- <840d76cc-fd1c-6324-19cc-a6ec0075d032@linaro.org>
- <5ae8f7a7-7659-aeee-9b4b-3521e19f4c75@c-sky.com>
- <249ce5f9-333a-7186-36bb-a2ecadb19254@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <538f3928-f681-cb9e-7850-48469ea4ccd5@c-sky.com>
-Date: Wed, 11 Aug 2021 22:57:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mDpit-0005b4-Bx
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 11:00:52 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mDpip-0004u7-8B
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 11:00:49 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ s22-20020a17090a1c16b0290177caeba067so10093123pjs.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 08:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=+lwVX6YKajle1mqW/nJzdCMDSJpjD0w1TNeVXia98i8=;
+ b=v+GoApEfp1/S10R2lOiSQlcdCN0bP/kcsM7pAIMsGIkvm7w8VPvP7IGyP0oUprrK1L
+ tReT78F/4L4gtnt1xDw2KsFKJDcHzQW3MLLuKv3L/QbyxZKKv6pOeo+eodO8Bw6T9xiV
+ 77ZkNDEmXVCuByXNjNH+wLIprH6DDXhWmLEzm5NFN3+/nby7l/bCa38lHBUGZEe3awDk
+ SnzTNTWkG83HxieG3A1/962DueZZnJPsjXOKr25uViaIFReHhv1XrLtPx56qMiO72vGn
+ 1Dyhn3lqVkjYVLZn1SD/KtnWzW5Et/isj5o30EjSHlFiQY8wA/qTCns2VdF2reGIgLnL
+ SEVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=+lwVX6YKajle1mqW/nJzdCMDSJpjD0w1TNeVXia98i8=;
+ b=qOrnCqxIePuuVeN/+BkIS9GY2nJmBxuUh6wlKY9dOGToIkK7TmlXdmLmlTq+Ak1ryy
+ N95dOidI0D71HA+lY/3rWyKmSj+TwyuRSGrNKn9EJyj3auZfH50zop3dMR/Roc5ZUEDr
+ q0w0pM9cJSOqK8A1M5aXOwQd25i5howFvCqBE7xsZ7m28xtpD6JAz+w5TtyZPL5MrFOv
+ SiaFT+r2ln7eeQgMfxjBIXuMav6IjZpl8kEA9g8WpJ602mCCdqC/9lqNJghHDVef177v
+ TbyA7vkx9fZYPk39YMsVrzVhObEuGkPmjJjnq3I6p2pqWVv6E5H3jZ2ALAhbAUAUa23V
+ wfHw==
+X-Gm-Message-State: AOAM530cIh8X0VwnU94/g844lXvUoi69Wzr+w4SrJo1ELowsADUmShLd
+ yXs+56Dfsfdur0oBRB1fGrn3YQ==
+X-Google-Smtp-Source: ABdhPJw/5SH59hm4yoK+KjEyOnq7Hei0T+4D1Ns1N8Y4gYuy7grjAIBhxG3i456Rgto5l97MNLRQ9g==
+X-Received: by 2002:aa7:9436:0:b029:30b:30ba:5942 with SMTP id
+ y22-20020aa794360000b029030b30ba5942mr28580625pfo.47.1628694043551; 
+ Wed, 11 Aug 2021 08:00:43 -0700 (PDT)
+Received: from anisinha-lenovo ([203.212.243.145])
+ by smtp.googlemail.com with ESMTPSA id
+ d198sm3231467pfd.101.2021.08.11.08.00.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Aug 2021 08:00:42 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Wed, 11 Aug 2021 20:30:36 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
+ from acpi_get_i386_pci_host
+In-Reply-To: <d95cb2ea-2cf1-83fb-03c2-3bff8c537cd8@amsat.org>
+Message-ID: <alpine.DEB.2.22.394.2108112015580.16460@anisinha-lenovo>
+References: <20210726165743.232073-1-ani@anisinha.ca>
+ <20210805111543.5fb99abf@redhat.com>
+ <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2108051826190.291909@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
+ <20210806123754.1a1fa8a8@redhat.com>
+ <alpine.DEB.2.22.394.2108061618320.433849@anisinha-lenovo>
+ <d95cb2ea-2cf1-83fb-03c2-3bff8c537cd8@amsat.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <249ce5f9-333a-7186-36bb-a2ecadb19254@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.171; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-171.mail.aliyun.com
+Content-Type: multipart/mixed; boundary="2088271309-5587739-1628694042=:16460"
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,69 +93,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 2021/8/10 上午3:34, Richard Henderson wrote:
-> On 8/8/21 3:45 PM, LIU Zhiwei wrote:
->>
->> On 2021/8/6 上午3:06, Richard Henderson wrote:
->>> On 8/4/21 4:53 PM, LIU Zhiwei wrote:
->>>> +static TCGv gpr_src_u(DisasContext *ctx, int reg_num)
->>>> +{
->>>> +    if (reg_num == 0) {
->>>> +        return ctx->zero;
->>>> +    }
->>>> +    if (ctx->uxl32) {
->>>> +        tcg_gen_ext32u_tl(cpu_gpr[reg_num], cpu_gpr[reg_num]);
->>>> +    }
->>>> +    return cpu_gpr[reg_num];
->>>> +}
->>>> +
->>>> +static TCGv gpr_src_s(DisasContext *ctx, int reg_num)
->>>> +{
->>>> +    if (reg_num == 0) {
->>>> +        return ctx->zero;
->>>> +    }
->>>> +    if (ctx->uxl32) {
->>>> +        tcg_gen_ext32s_tl(cpu_gpr[reg_num], cpu_gpr[reg_num]);
->>>> +    }
->>>> +    return cpu_gpr[reg_num];
->>>> +}
->>>
->>> This is bad: you cannot modify the source registers like this.
->>
->> In my opinion, when uxl32, the only meaningful part is the low 32 
->> bits, and it doesn't matter to modify the high parts.
->
-> Then why does the architecture manual specify that when registers are 
-> modified the value written sign-extended?  This effect should be 
-> visible...
->
-Hi Richard,
+--2088271309-5587739-1628694042=:16460
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-I  still don't know why the value written sign-extended.  If that's the 
-the rule of final specification, I will try to obey it although our 
-Linux will not depend on the high part.
 
-Thanks,
-Zhiwei
 
->>
->>>
->>> These incorrect modifications will be visible to the kernel on 
->>> transition back to S-mode.
->>
->> When transition back to S-mode, I think the kernel will save the 
->> U-mode registers to memory.
+On Fri, 6 Aug 2021, Philippe Mathieu-Daudé wrote:
+
+> On 8/6/21 12:52 PM, Ani Sinha wrote:
+> > On Fri, 6 Aug 2021, Igor Mammedov wrote:
+> >> On Thu, 5 Aug 2021 19:42:35 +0530 (IST)
+> >> Ani Sinha <ani@anisinha.ca> wrote:
+> >>> On Thu, 5 Aug 2021, Ani Sinha wrote:
+> >>>> On Thu, 5 Aug 2021, Ani Sinha wrote:
+> >>>>> On Thu, 5 Aug 2021, Igor Mammedov wrote:
+> >>>>>> On Mon, 26 Jul 2021 22:27:43 +0530
+> >>>>>> Ani Sinha <ani@anisinha.ca> wrote:
+> >>>>>>
+> >>>>>>> All existing code using acpi_get_i386_pci_host() checks for a non-null
+> >>>>>>> return value from this function call. Instead of returning early when the value
+> >>>>>>> returned is NULL, assert instead. Since there are only two possible host buses
+> >>>>>>> for i386 - q35 and i440fx, a null value return from the function does not make
+> >>>>>>> sense in most cases and is likely an error situation.
+> >>>>>>>
+> >>>>>>> Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+> >>>>>>>
+> >>>>>>> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> >>>>>>> ---
+> >>>>>>>  hw/acpi/pcihp.c      |  8 ++++++++
+> >>>>>>>  hw/i386/acpi-build.c | 15 ++++++---------
+> >>>>>>>  2 files changed, 14 insertions(+), 9 deletions(-)
+> >>>>>>>
+> >>>>>>> changelog:
+> >>>>>>> v1: initial patch
+> >>>>>>> v2: removed comment addition - that can be sent as a separate patch.
+> >>>>>>> v3: added assertion for null host values for all cases except one.
+> >>>>>>>
+> >>>>>>> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> >>>>>>> index f4d706e47d..054ee8cbc5 100644
+> >>>>>>> --- a/hw/acpi/pcihp.c
+> >>>>>>> +++ b/hw/acpi/pcihp.c
+> >>>>>>> @@ -116,6 +116,12 @@ static void acpi_set_pci_info(void)
+> >>>>>>>      bsel_is_set = true;
+> >>>>>>>
+> >>>>>>>      if (!host) {
+> >>>>>>> +        /*
+> >>>>>>> +         * This function can be eventually called from
+> >>>>>>> +         * qemu_devices_reset() -> acpi_pcihp_reset() even
+> >>>>>>> +         * for architectures other than i386. Hence, we need
+> >>>>>>> +         * to ignore null values for host here.
+> >>>>>>> +         */
+> >>>>>>>          return;
+> >>>>>>>      }
+> >>>>>>
+> >>>>>> I suspect it's a MIPS target that call this code unnecessarily.
+> >>>>>> It would be better to get rid of this condition altogether.
+> >>>>>> Frr that I can suggest to make acpi_pcihp_reset() stub and
+> >>>>>> replace pcihp.c with stub (perhaps use acpi-x86-stub.c) when building
+> >>>>>> for MIPS.
+> >>>>>>
+> >>>>>> then a bunch of asserts/ifs won't be necessary,
+> >>>>>> just one in acpi_get_i386_pci_host() will be sufficient.
+> >>>>>>
+> >>>>>
+> >>>>> OK this is a good idea.
+> >>>>> I can see that mips-softmmu-config-devices.h has
+> >>>>> CONFIG_ACPI_X86 turned on for mips. This does not seem right.
+> >>>>>
+> >>>>> The issue here is:
+> >>>>>
+> >>>>> $ grep -R CONFIG_ACPI_X86 *
+> >>>>> devices/mips-softmmu/common.mak:CONFIG_ACPI_X86=y
+> >>>>>
+> >>>>> So after
+> >>>>>
+> >>>>> -CONFIG_ACPI_X86=y
+> >>>>> -CONFIG_PIIX4=y
+> >>>>>
+> >>>>> (the second one is needed because after removing first one we get:
+> >>>>>
+> >>>>> /usr/bin/ld: libcommon.fa.p/hw_isa_piix4.c.o: in function `piix4_create':
+> >>>>> /home/anisinha/workspace/qemu/build/../hw/isa/piix4.c:269: undefined
+> >>>>> reference to `piix4_pm_init'
+> >>>>>
+> >>>>> This is because in hw/acpi/meson.build, piix4.c is conditional on
+> >>>>> CONFIG_ACPI_X86. )
+> >>>>>
+> >>>>> /usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_gt64xxx_pci.c.o: in
+> >>>>> function `gt64120_pci_set_irq':
+> >>>>> /home/anisinha/workspace/qemu/build/../hw/mips/gt64xxx_pci.c:1020:
+> >>>>> undefined reference to `piix4_dev'
+> >>>>> /usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_malta.c.o: in function
+> >>>>> `mips_malta_init':
+> >>>>> /home/anisinha/workspace/qemu/build/../hw/mips/malta.c:1404: undefined
+> >>>>> reference to `piix4_create'
+> >>>>>
+> >>>>> So should mips be doing piix stuff anyway? Is Piix4 etc not x86 specific?
 >
-> ... here.  Once we're in S-mode, we have SXLEN, and if SXLEN > UXLEN, 
-> the high part of the register will be visible.  It really must be 
-> either (1) sign-extended because U-mode wrote to the register or (2) 
-> unmodified from the last time S-mode wrote to the register.
+> PIIX, PIIX3 and PIIX4 are generic chipsets, not X86-specific.
 >
+> QEMU's PIIX3 is a Frankenstein to support virtualization to a chipset
+> not designed for it.
+> If you look at it, the X86 machine use a PIIX3 but the PIIX3 doesn't
+> even provide an ACPI function. It appeared in the PIIX4. The kludge is
+> to instanciate the PIIX4.acpi from the PIIX3 and X86 ppl are happy with
+> it, but it makes it ugly for the other architectures.
 >
-> r~
+> >>>> Apparently this is by design:
+> >>>> https://qemu.readthedocs.io/en/stable/system/target-mips.html
+>
+> What do you mean "by design"? The Malta uses a PIIX4 chipset for its
+> southbridge indeed.
+
+I meant it was intentional and not by accident.
+
+>
+> >>>> which means mips malta will continue to use the x86 specific functions
+> >>>> like acpi_pcihp_reset(). Creating a stub for this with acpi-x86-stub.c
+> >>>> will result in a double symbol definition because CONFIG_PC is off for
+> >>>> mips.
+> >>>>
+> >>>
+> >>> Also to be noted that there is a stub for acpi_get_i386_pci_host() which
+> >>> simply returns NULL. This activates when CONFIG_PC is disabled. It is this
+> >>> stub that gets called for mips and hence the check for non-null host is
+> >>> needed in acpi_set_pci_info() function.
+> >> that were half measures to deal around code that shouldn't be called,
+> >> now with pcihp being used by both pc and q35 we don't have reason to
+> >> keep around null checks modulo mips calling code that shouldn't be
+> >> called there to begin with.
+> >
+> > So malta mips does not need ACPI hotplug? In that case, maybe we should
+> > not make pcihp.c dependent on CONFIG_ACPI_X86. Ideas welcome.
+>
+> Linux on Malta does use the ACPI features from the PIIX4.
+>
+> Please dig in the archives, Igor / myself already argued enough about
+> this topic 2 years ago. The consensus was "yes, it is badly implemented,
+> but it works and we don't have time to get it cleaner, pc machine is
+> way more used than the malta one, so let not break the pc machines."
+>
+> See:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg613194.html
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg690435.html
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg725504.html
+
+Ok I see what you were trying to do. I wanted to stub out the cpu and
+memory hotplug bits for non x86 from piix4_acpi_system_hot_add_init().
+Howwver, sadly, arm uses memory hotplug for its GED device:
+
+cff51ac978c4fa0b3d0de0fd ("hw/arm/virt: Enable device memory cold/hot plug
+with ACPI boot")
+
+This makes things messy and complicated.
+Anyways, I am trying something and will send out a patch if I am
+successful.
+
+--2088271309-5587739-1628694042=:16460--
 
