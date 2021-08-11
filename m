@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6463E8CF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:13:00 +0200 (CEST)
-Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FE73E8D03
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:16:27 +0200 (CEST)
+Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDkIF-0004Xb-Ss
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:12:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
+	id 1mDkLa-0001of-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mDkBw-0005Sw-N9
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:06:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36903)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkD5-0008JZ-F6
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:07:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mDkBu-0008Oy-GP
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:06:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkD3-0000kD-R2
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:07:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628672785;
+ s=mimecast20190719; t=1628672856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aFlw3OL8KwlapGhHLerxFvpJQaR+1BRwiTcrhlMJvYw=;
- b=FPnFUePtTLv/kyDH01ja7ql6ju0O6pAdiOeCoJEnkKjndf6CPdI7BCDFAySStgF7Ne8YmW
- 72j6EmUsqdCA/iJXTtyNzE3lzQbVSIcoVq283TrK3eKJ14fXi8HW5emfvQXQ9P7S+9whsb
- Ds2bAjjpiTonSHbN7PztNxHFw69ujI4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-sWUlDtlmOC-cQSQ9l2VnKw-1; Wed, 11 Aug 2021 05:06:22 -0400
-X-MC-Unique: sWUlDtlmOC-cQSQ9l2VnKw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8C20760C8;
- Wed, 11 Aug 2021 09:06:20 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.194.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76DA05B4BC;
- Wed, 11 Aug 2021 09:06:18 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/13] hw/s390x/s390-skeys: lazy storage key enablement
- under TCG
-Date: Wed, 11 Aug 2021 11:05:27 +0200
-Message-Id: <20210811090527.30556-14-david@redhat.com>
-In-Reply-To: <20210811090527.30556-1-david@redhat.com>
-References: <20210811090527.30556-1-david@redhat.com>
+ bh=Di//N0V8UBqPSWu534sBXFlDY4vvy00KZwxOASOyZG8=;
+ b=dvzQJIT0k1t3nz6mxjXQPWlozm31fRKQ81WvMkHyjKuzLkP9UNz0mHc4unfAEk1LgbgkRw
+ ft0zZP3nH4jeJUCWbzZbLI18o8YnhmViCUBbUshsi/zl9uKNeFu9NMjfP1j9wz5y3KvTVd
+ fp3juN/x+r11ATN6TYf7+FpJPNs1DQk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-VE8MA-26MuqhsA6Cv1g9xQ-1; Wed, 11 Aug 2021 05:07:34 -0400
+X-MC-Unique: VE8MA-26MuqhsA6Cv1g9xQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o11-20020a5d474b0000b02901533f8ed22cso476504wrs.22
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 02:07:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Di//N0V8UBqPSWu534sBXFlDY4vvy00KZwxOASOyZG8=;
+ b=d4XmhkA/jvYTMaEuou3xeEAbtQyZQMb0OVoxrViwgYWduEE9Ficm/ql/X8sWi9Y7JV
+ DilP4icywObiywwhWh81QkdKrq5fpYkwg21/g86HwSSL9EOjj74wzH5dFftj1CP29jnY
+ JM7xZuIcjR36b0LnRc+xkaAGCeBzVJLAAQt4qZeqgL1jlujdexAfELG3RXgJf2enhW/9
+ J26uQnSX9UBbq529oaWQPqW4hscpdPWA6KgIvkTL9xhq/z00y0JYyNGMNxqWZIt5fx/B
+ SbSnb5whI2FrElTcwlhzQe63zOhr5xmag0VqhFwuJjFAp/R4vYOoGE51P6t4ymgjDc1D
+ g7YQ==
+X-Gm-Message-State: AOAM531KJ4zaW5ppugH5I1p+esTAZNgfHR3Som0Onr7dFN5FI2m8/jM1
+ 5R1RXCd+4iThdyt9om2O+FoAiTKAvVWbwadI1nno8Iiv6M4S/s5eAkhAxU4C1Foji0+TM3vmS63
+ 2ohpvegwCa/S3jqo=
+X-Received: by 2002:a5d:45c2:: with SMTP id b2mr15643566wrs.188.1628672853427; 
+ Wed, 11 Aug 2021 02:07:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkTgjCqFXV6B73TSqq/GgdgTCN7DezL/DROy/S58Gf4WBkbb5Uh4Rk13IPDePnWSzkgGMhMA==
+X-Received: by 2002:a5d:45c2:: with SMTP id b2mr15643546wrs.188.1628672853227; 
+ Wed, 11 Aug 2021 02:07:33 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id u23sm5369125wmc.24.2021.08.11.02.07.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Aug 2021 02:07:32 -0700 (PDT)
+Subject: Re: [PATCH] tests/acceptance: Test powernv machines
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
+References: <20210810083346.730652-1-clg@kaod.org>
+ <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
+ <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e14f8f87-8110-4084-94a6-ce09713f3fd2@redhat.com>
+Date: Wed, 11 Aug 2021 11:07:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,284 +99,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's enable storage keys lazily under TCG, just as we do under KVM.
-Only fairly old Linux versions actually make use of storage keys, so it
-can be kind of wasteful to allocate quite some memory and track
-changes and references if nobody cares.
+On 10/08/2021 11.09, Cédric Le Goater wrote:
+> On 8/10/21 10:36 AM, Joel Stanley wrote:
+>> On Tue, 10 Aug 2021 at 08:34, Cédric Le Goater <clg@kaod.org> wrote:
+>>>
+>>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
+>>> with a simple PCI layout.
+>>>
+>>> Cc: Cleber Rosa <crosa@redhat.com>
+>>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>   tests/acceptance/boot_linux_console.py | 42 ++++++++++++++++++++++++++
+>>>   1 file changed, 42 insertions(+)
+>>>
+>>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>>> index 5248c8097df9..da93a475ca87 100644
+>>> --- a/tests/acceptance/boot_linux_console.py
+>>> +++ b/tests/acceptance/boot_linux_console.py
+>>> @@ -1176,6 +1176,48 @@ def test_ppc64_e500(self):
+>>>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>>>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
+>>>
+>>> +    def do_test_ppc64_powernv(self, proc):
+>>> +
+>>> +        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
+>>> +
+>>> +        skiboot_url = images_url + 'skiboot.lid'
+>>> +        skiboot_hash = 'a9ffcddbf238f86cda4b2cae2882d6bd13cff8489109758a4980efaf154f4a29'
+>>> +        skiboot_path = self.fetch_asset(skiboot_url, asset_hash=skiboot_hash,
+>>> +                                       algorithm='sha256')
+>>
+>> What's the thought that led you to using this instead of the one that
+>> gets packaged with qemu?
+> 
+> Good question.
+> 
+> I considered that the skiboot.lid shipped with QEMU was somewhat a default
+> to make things work. The official released versions are the ones used by
+> the outside world on real systems and were a better target for tests.
+> 
+> That said, using the default version might be enough. Maintainers, please
+> advise !
 
-We have to make sure to flush the TLB when enabling storage keys after
-the VM was already running: otherwise it might happen that we don't
-catch references or modifications afterwards.
+IMHO:
 
-Add proper documentation to all callbacks.
+- We want to test the things that *we* ship
 
-The kvm-unit-tests skey tests keeps on working with this change.
+- We want to download as few things as possible, since downloads
+   often slow down the tests and break CI runs if the network to
+   the download site is not available
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/s390x/s390-skeys.c           | 65 ++++++++++++++++++++++++++-------
- include/hw/s390x/storage-keys.h | 63 ++++++++++++++++++++++++++++++++
- target/s390x/mmu_helper.c       |  8 ++++
- target/s390x/tcg/mem_helper.c   |  9 +++++
- 4 files changed, 131 insertions(+), 14 deletions(-)
+  ==> I'd prefer to use the internal skiboot.lid unless there is
+      really a compelling reason to use the external one.
 
-diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-index 9e994a5582..5024faf411 100644
---- a/hw/s390x/s390-skeys.c
-+++ b/hw/s390x/s390-skeys.c
-@@ -191,18 +191,45 @@ out:
-     fclose(f);
- }
- 
--static void qemu_s390_skeys_init(Object *obj)
-+static bool qemu_s390_skeys_are_enabled(S390SKeysState *ss)
- {
--    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(obj);
--    MachineState *machine = MACHINE(qdev_get_machine());
-+    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(ss);
- 
--    skeys->key_count = machine->ram_size / TARGET_PAGE_SIZE;
--    skeys->keydata = g_malloc0(skeys->key_count);
-+    /* Lockless check is sufficient. */
-+    return !!skeys->keydata;
- }
- 
--static bool qemu_s390_skeys_are_enabled(S390SKeysState *ss)
-+static bool qemu_s390_enable_skeys(S390SKeysState *ss)
- {
--    return true;
-+    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(ss);
-+    static gsize initialized;
-+
-+    if (likely(skeys->keydata)) {
-+        return true;
-+    }
-+
-+    /*
-+     * TODO: Modern Linux doesn't use storage keys unless running KVM guests
-+     *       that use storage keys. Therefore, we keep it simple for now.
-+     *
-+     * 1) We should initialize to "referenced+changed" for an initial
-+     *    over-indication. Let's avoid touching megabytes of data for now and
-+     *    assume that any sane user will issue a storage key instruction before
-+     *    actually relying on this data.
-+     * 2) Relying on ram_size and allocating a big array is ugly. We should
-+     *    allocate and manage storage key data per RAMBlock or optimally using
-+     *    some sparse data structure.
-+     * 3) We only ever have a single S390SKeysState, so relying on
-+     *    g_once_init_enter() is good enough.
-+     */
-+    if (g_once_init_enter(&initialized)) {
-+        MachineState *machine = MACHINE(qdev_get_machine());
-+
-+        skeys->key_count = machine->ram_size / TARGET_PAGE_SIZE;
-+        skeys->keydata = g_malloc0(skeys->key_count);
-+        g_once_init_leave(&initialized, 1);
-+    }
-+    return false;
- }
- 
- static int qemu_s390_skeys_set(S390SKeysState *ss, uint64_t start_gfn,
-@@ -212,9 +239,10 @@ static int qemu_s390_skeys_set(S390SKeysState *ss, uint64_t start_gfn,
-     int i;
- 
-     /* Check for uint64 overflow and access beyond end of key data */
--    if (start_gfn + count > skeydev->key_count || start_gfn + count < count) {
--        error_report("Error: Setting storage keys for page beyond the end "
--                     "of memory: gfn=%" PRIx64 " count=%" PRId64,
-+    if (unlikely(!skeydev->keydata || start_gfn + count > skeydev->key_count ||
-+                  start_gfn + count < count)) {
-+        error_report("Error: Setting storage keys for pages with unallocated "
-+                     "storage key memory: gfn=%" PRIx64 " count=%" PRId64,
-                      start_gfn, count);
-         return -EINVAL;
-     }
-@@ -232,9 +260,10 @@ static int qemu_s390_skeys_get(S390SKeysState *ss, uint64_t start_gfn,
-     int i;
- 
-     /* Check for uint64 overflow and access beyond end of key data */
--    if (start_gfn + count > skeydev->key_count || start_gfn + count < count) {
--        error_report("Error: Getting storage keys for page beyond the end "
--                     "of memory: gfn=%" PRIx64 " count=%" PRId64,
-+    if (unlikely(!skeydev->keydata || start_gfn + count > skeydev->key_count ||
-+                  start_gfn + count < count)) {
-+        error_report("Error: Getting storage keys for pages with unallocated "
-+                     "storage key memory: gfn=%" PRIx64 " count=%" PRId64,
-                      start_gfn, count);
-         return -EINVAL;
-     }
-@@ -251,6 +280,7 @@ static void qemu_s390_skeys_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-     skeyclass->skeys_are_enabled = qemu_s390_skeys_are_enabled;
-+    skeyclass->enable_skeys = qemu_s390_enable_skeys;
-     skeyclass->get_skeys = qemu_s390_skeys_get;
-     skeyclass->set_skeys = qemu_s390_skeys_set;
- 
-@@ -261,7 +291,6 @@ static void qemu_s390_skeys_class_init(ObjectClass *oc, void *data)
- static const TypeInfo qemu_s390_skeys_info = {
-     .name          = TYPE_QEMU_S390_SKEYS,
-     .parent        = TYPE_S390_SKEYS,
--    .instance_init = qemu_s390_skeys_init,
-     .instance_size = sizeof(QEMUS390SKeysState),
-     .class_init    = qemu_s390_skeys_class_init,
-     .class_size    = sizeof(S390SKeysClass),
-@@ -341,6 +370,14 @@ static int s390_storage_keys_load(QEMUFile *f, void *opaque, int version_id)
-     S390SKeysClass *skeyclass = S390_SKEYS_GET_CLASS(ss);
-     int ret = 0;
- 
-+    /*
-+     * Make sure to lazy-enable if required to be done explicitly. No need to
-+     * flush any TLB as the VM is not running yet.
-+     */
-+    if (skeyclass->enable_skeys) {
-+        skeyclass->enable_skeys(ss);
-+    }
-+
-     while (!ret) {
-         ram_addr_t addr;
-         int flags;
-diff --git a/include/hw/s390x/storage-keys.h b/include/hw/s390x/storage-keys.h
-index eb091842c8..aa2ec2aae5 100644
---- a/include/hw/s390x/storage-keys.h
-+++ b/include/hw/s390x/storage-keys.h
-@@ -28,9 +28,72 @@ struct S390SKeysState {
- 
- struct S390SKeysClass {
-     DeviceClass parent_class;
-+
-+    /**
-+     * @skeys_are_enabled:
-+     *
-+     * Check whether storage keys are enabled. If not enabled, they were not
-+     * enabled lazily either by the guest via a storage key instruction or
-+     * by the host during migration.
-+     *
-+     * If disabled, everything not explicitly triggered by the guest,
-+     * such as outgoing migration or dirty/change tracking, should not touch
-+     * storage keys and should not lazily enable it.
-+     *
-+     * @ks: the #S390SKeysState
-+     *
-+     * Returns false if not enabled and true if enabled.
-+     */
-     bool (*skeys_are_enabled)(S390SKeysState *ks);
-+
-+    /**
-+     * @enable_skeys:
-+     *
-+     * Lazily enable storage keys. If this function is not implemented,
-+     * setting a storage key will lazily enable storage keys implicitly
-+     * instead. TCG guests have to make sure to flush the TLB of all CPUs
-+     * if storage keys were not enabled before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     *
-+     * Returns false if not enabled before this call, and true if already
-+     * enabled.
-+     */
-+    bool (*enable_skeys)(S390SKeysState *ks);
-+
-+    /**
-+     * @get_skeys:
-+     *
-+     * Get storage keys for the given PFN range. This call will fail if
-+     * storage keys have not been lazily enabled yet.
-+     *
-+     * Callers have to validate that a GFN is valid before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     * @start_gfn: the start GFN to get storage keys for
-+     * @count: the number of storage keys to get
-+     * @keys: the byte array where storage keys will be stored to
-+     *
-+     * Returns 0 on success, returns an error if getting a storage key failed.
-+     */
-     int (*get_skeys)(S390SKeysState *ks, uint64_t start_gfn, uint64_t count,
-                      uint8_t *keys);
-+    /**
-+     * @set_skeys:
-+     *
-+     * Set storage keys for the given PFN range. This call will fail if
-+     * storage keys have not been lazily enabled yet and implicit
-+     * enablement is not supported.
-+     *
-+     * Callers have to validate that a GFN is valid before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     * @start_gfn: the start GFN to set storage keys for
-+     * @count: the number of storage keys to set
-+     * @keys: the byte array where storage keys will be read from
-+     *
-+     * Returns 0 on success, returns an error if setting a storage key failed.
-+     */
-     int (*set_skeys)(S390SKeysState *ks, uint64_t start_gfn, uint64_t count,
-                      uint8_t *keys);
- };
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index e2b372efd9..b04b57c235 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -313,6 +313,14 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-     }
- 
-+    /*
-+     * Don't enable storage keys if they are still disabled, i.e., no actual
-+     * storage key instruction was issued yet.
-+     */
-+    if (!skeyclass->skeys_are_enabled(ss)) {
-+        return;
-+    }
-+
-     /*
-      * Whenever we create a new TLB entry, we set the storage key reference
-      * bit. In case we allow write accesses, we set the storage key change
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 694c0aae63..4fd102ac79 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -2186,6 +2186,9 @@ uint64_t HELPER(iske)(CPUS390XState *env, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
-     }
- 
-     rc = skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-@@ -2213,6 +2216,9 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
-     }
- 
-     key = r1 & 0xfe;
-@@ -2244,6 +2250,9 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
-     }
- 
-     rc = skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
--- 
-2.31.1
+Just my 0.02 € though.
+
+  Thomas
 
 
