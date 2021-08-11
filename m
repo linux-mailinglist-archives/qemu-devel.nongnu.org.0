@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B01D3E8A4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:44:17 +0200 (CEST)
-Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF5F3E8A91
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:50:16 +0200 (CEST)
+Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDhyK-00085I-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
+	id 1mDi47-0002YD-Qo
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:50:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw2-0005KR-2D
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw2-0005Kr-7D
  for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59314)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw0-0006jP-Lk
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:53 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw0-0006jV-Mz
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628664111;
+ s=mimecast20190719; t=1628664112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S6sdFFnNJP1+6vn1D29/A7eQl6fMsuJ1cF4BNERGpRY=;
- b=FJf3+lodMYtcrYoVThXMsvH/Qrb669Ikza+j8yRWAsB+bbF0bMJ1/69tDnEMF0g6ovAtOf
- rEaQND6WAL4VzHX9PyfM1LXgUuY23iKtriee9JDzc7pjADg61udaP3aWpdWkVPnfvYXvKm
- D3jURwuLpwZaVfZMcj5odz6KSujXFZo=
+ bh=EBQMR+pBsYGkGiMfurXJVRfKPWjXcLgVXWQaJP/M9cg=;
+ b=BO09ejcWtkqoUVWJ5cvVLAr3wvvwI3aETxiRMf5K1QGn0V6aKdadiqSwJa4YflqCDT6zhA
+ 2ljptckETvgVp07Rsqbdog84SlDq9ThYlxXqB1RYWOzUkvrQiJTwgDZFojdYbfGtbokd5/
+ 8lpNL0MSBShwaAMKTKXyIaYjrEeIfS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-DKXNBwAxPHqMaYsx70lJLQ-1; Wed, 11 Aug 2021 02:41:50 -0400
-X-MC-Unique: DKXNBwAxPHqMaYsx70lJLQ-1
+ us-mta-158-l04KZ5YQOvCkkOugJI1r8A-1; Wed, 11 Aug 2021 02:41:50 -0400
+X-MC-Unique: l04KZ5YQOvCkkOugJI1r8A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8266190A7A0
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 06:41:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA56E190A7A1;
+ Wed, 11 Aug 2021 06:41:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 199F15D740;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 112FA5D6AD;
  Wed, 11 Aug 2021 06:41:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 99A6C1800994; Wed, 11 Aug 2021 08:41:28 +0200 (CEST)
+ id A42151800995; Wed, 11 Aug 2021 08:41:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] MAINTAINERS: update spice entry.
-Date: Wed, 11 Aug 2021 08:41:25 +0200
-Message-Id: <20210811064128.2776317-5-kraxel@redhat.com>
+Subject: [PULL 5/7] MAINTAINERS: update usb entries.
+Date: Wed, 11 Aug 2021 08:41:26 +0200
+Message-Id: <20210811064128.2776317-6-kraxel@redhat.com>
 In-Reply-To: <20210811064128.2776317-1-kraxel@redhat.com>
 References: <20210811064128.2776317-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -78,31 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New maintainer wanted. Downgrade status to "Odd Fixes" for now.
+New maintainer wanted.  Switch role to "Reviewer" for usb-serial,
+downgrade status to "Odd Fixes" for everything else.
 
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20210810083450.2377374-5-kraxel@redhat.com>
+Message-Id: <20210810083450.2377374-6-kraxel@redhat.com>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5cb402d402ec..33b4fc25e349 100644
+index 33b4fc25e349..b84b7e33e4d0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2470,7 +2470,7 @@ F: scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -1832,7 +1832,7 @@ F: tests/qtest/sdhci-test.c
  
- SPICE
+ USB
  M: Gerd Hoffmann <kraxel@redhat.com>
--S: Supported
+-S: Maintained
 +S: Odd Fixes
- F: include/ui/qemu-spice.h
- F: include/ui/spice-display.h
- F: ui/spice-*.c
+ F: hw/usb/*
+ F: stubs/usb-dev-stub.c
+ F: tests/qtest/usb-*-test.c
+@@ -1841,7 +1841,7 @@ F: include/hw/usb.h
+ F: include/hw/usb/
+ 
+ USB (serial adapter)
+-M: Gerd Hoffmann <kraxel@redhat.com>
++R: Gerd Hoffmann <kraxel@redhat.com>
+ M: Samuel Thibault <samuel.thibault@ens-lyon.org>
+ S: Maintained
+ F: hw/usb/dev-serial.c
 -- 
 2.31.1
 
