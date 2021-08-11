@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CDE3E8F66
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:21:29 +0200 (CEST)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21663E8F68
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:24:26 +0200 (CEST)
+Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDmIa-0001SV-GB
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43188)
+	id 1mDmLR-0003ih-S2
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDmFp-0007RQ-ND; Wed, 11 Aug 2021 07:18:37 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36833)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mDmK2-0002xw-Qc
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:22:58 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mDmFm-0001gN-Rr; Wed, 11 Aug 2021 07:18:37 -0400
-Received: by mail-pl1-x634.google.com with SMTP id f3so2237124plg.3;
- Wed, 11 Aug 2021 04:18:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mDmK0-0004rR-Kw
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:22:58 -0400
+Received: by mail-ej1-x635.google.com with SMTP id qk33so3519238ejc.12
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 04:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nhha6cR4W/tuAFoKTcfM5nd9Ec4p6O4nqKD5JeygYpE=;
- b=SZ6YPwGf1+AVmzGO0EQQumZ4FB9NR8BAeclYmw858Bmw7yKJIpD8R+P7s7sbXXRayS
- Wg7vvJ0KSaSu2c+aTte/1NglIBwluJ/gF3h82X8uqo9SB/hzKDxhd4gWVao/AAjzgctN
- 64NmwVzNcEXIg1YLvf8wanJrediogHfB3inYYtQzsAkV81FL5IIT0hHAaCT23s1bTmSH
- NwXHmZNChGkyUXCCXqnU2hqZ2fSzPQWxjmnLOM8ibOOX/dij4SEUfqMl5l2m6/gV2Gog
- L6nJHTMVLouMer0fVuIbT388xKcFzVcfjsYcrSQJEpIa1T/yhJQffSWR1tBqWmXdEfdh
- +BjA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OAv1ihbtsPNnQmg4Zdj6cmSJf+87s2MJwB7RsNniYxw=;
+ b=ER5fvY5/ZV6ik4ue3hK8oWAvuRL1mRz+2hRB9QQreF3W2p5bmZL9X7lvKHabkpz948
+ Y1JjBgxjamRItFgJ6WjssCeELGswLVLfbaKsJDG1g7tFajpm8neiXIT3u7oPb7zpP7b3
+ DDspN2zNQqBe8oqy3+DXQuGx58MVif4urcQTtUvh39PK7Dpcg+MaYUB4/zKx/NzUFtPM
+ 4uX2j0T1Dtjvr0AL5SsEmFtgfBlYE/JEBrbf6fstb+AM/o2ohMudc+kBUg88uC80wiUK
+ alr/brmmP+C1BcsO9K/evLL3d+OWdN5ojQslzc5X5DLPCDWvGqf5wlEk8JmsQtTl6suf
+ wiFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nhha6cR4W/tuAFoKTcfM5nd9Ec4p6O4nqKD5JeygYpE=;
- b=NasOYLfOLHmHz3Z8CJILBkEXHeMP/uRyC7l5Qbl06QzI/OVURxlRc9TAtsvPKDfV6e
- mY+tvLcPOyUpMvl4qJUwtn9JhuGF72f1MktQWkpxdN5gKX3039PuPkFXoeIQGjbpgVn1
- yf/tyfTJmHySNjLjY83StkcGw2gUJAmWfIn4kU3KhS73XiKfLibtKabteZjKxOrmk+Yn
- ph+i1/11y8mp+98ezCNOq6Zk1zcqk2c3vRphclwoQZTxAbpJWVbO5xEJf6hGCrPqa22R
- axR3M5GZRz/7AtitQ26wwiQepqPP1R4DpKlyazJV+pAWcb5pzb9zdi7OaKBWdL3myCJg
- 62VA==
-X-Gm-Message-State: AOAM533JdurSAFBN7cFWtijz7N3lgFc1Y1uFTvfkSAlmZYlF7VHbv3NL
- YxrwP79jaeVMufBDNRDnxkw=
-X-Google-Smtp-Source: ABdhPJwMifSbUHhLyZp1+qPrqlSxYbN94FlnYHEtl3UWvHkRJkGj90LQtXV7XB7+XNvk434DsjPIog==
-X-Received: by 2002:a63:f011:: with SMTP id k17mr344073pgh.391.1628680712860; 
- Wed, 11 Aug 2021 04:18:32 -0700 (PDT)
-Received: from [192.168.10.222] ([191.19.172.190])
- by smtp.gmail.com with ESMTPSA id 141sm2360307pfv.15.2021.08.11.04.18.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Aug 2021 04:18:32 -0700 (PDT)
-Subject: Re: [PATCH 12/19] target/ppc/pmu_book3s_helper.c: enable PMC1 counter
- negative EBB
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-13-danielhb413@gmail.com> <YRH6IysrDvn/GJvQ@yekko>
- <6a10c0a7-1c4f-0d24-f2cc-12666e590739@gmail.com> <YRNGo8CnfUSC/bQs@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <4df4dacf-ba9b-f86e-8510-7c084420e974@gmail.com>
-Date: Wed, 11 Aug 2021 08:18:29 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OAv1ihbtsPNnQmg4Zdj6cmSJf+87s2MJwB7RsNniYxw=;
+ b=tZddswz6C9+3fF2mXa3K9D4a/AN+K6wT/7M1x1JedrD7znkwTr2lDK/fsHLuS7MsXF
+ lkdKEvVJWhYRQRh9cwRHFxhRBO40nyXchMTC/rJTYhhkePdh4hMeSwEG0o4tZDXlt+XC
+ W9S+hvJyt40oVjV71Pv1TlkRB/b+0mH+dQdBAxw/3M4p4d3Yg8s8xUKA4Lh8zleYXPci
+ gPQS6iDPV4HecjMJE4QRlmGrvoJlcBK1Kb282asA/9BRFGdb5fSLFvSfFsa4+EpWTdKy
+ wuDaZYTour8F+ceiIoiu7vYZ4EMFbMWcVpHL/Y0STSxTWTfDTYn6QrH6ZM93t+W+k6bz
+ 2lbg==
+X-Gm-Message-State: AOAM531IGc0Fj3n69SgfnHuWv8nxFjgomri5sAW2PrsBHKa0siY3ecnx
+ YOTWM/uGBAandqqoAqiyf0/H8xT/Qh85pkb8soI=
+X-Google-Smtp-Source: ABdhPJyuDzgDHnwhjN93RRKW3fYByUJ0dpQ4BQz87tFIlzFwzMKxfd4g46jdhzjtX3NiuGqEh6JsmLrNnH1fV7wx5ao=
+X-Received: by 2002:a17:906:4fd6:: with SMTP id
+ i22mr3234497ejw.92.1628680974957; 
+ Wed, 11 Aug 2021 04:22:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YRNGo8CnfUSC/bQs@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=danielhb413@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210810113201.3957815-1-berrange@redhat.com>
+In-Reply-To: <20210810113201.3957815-1-berrange@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 11 Aug 2021 15:22:43 +0400
+Message-ID: <CAJ+F1CJf=e5DcGji98krxgaqdsKkc=FCHF1JveuBfegovdcbJw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: make sphinx-build be quiet by default
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f7026905c946d6fa"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,203 +77,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000f7026905c946d6fa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi
 
-On 8/11/21 12:40 AM, David Gibson wrote:
-> On Tue, Aug 10, 2021 at 05:26:09PM -0300, Daniel Henrique Barboza wrote:
->>
->>
->> On 8/10/21 1:01 AM, David Gibson wrote:
->>> On Mon, Aug 09, 2021 at 10:10:50AM -0300, Daniel Henrique Barboza wrote:
->>>> This patch starts the counter negative EBB support by enabling PMC1
->>>> counter negative condition.
->>>>
->>>> A counter negative condition happens when a performance monitor counter
->>>> reaches the value 0x80000000. When that happens, if a counter negative
->>>> condition is enabled in that counter, a performance monitor alert is
->>>> triggered. For PMC1, this condition is enabled by MMCR0_PMC1CE.
->>>>
->>>> An icount-based logic is used to predict when we need to wake up the timer
->>>> to trigger the alert in both PM_INST_CMPL (0x2) and PM_CYC (0x1E) events.
->>>> The timer callback will then trigger a PPC_INTERRUPT_PMC which will become a
->>>> event-based exception later.
->>>>
->>>> Some EBB powerpc kernel selftests are passing after this patch, but a
->>>> substancial amount of them relies on other PMCs to be enabled and events
->>>> that we don't support at this moment. We'll address that in the next
->>>> patches.
->>>>
->>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>>> ---
->>>>    target/ppc/cpu.h               |   1 +
->>>>    target/ppc/pmu_book3s_helper.c | 127 +++++++++++++++++++++++----------
->>>>    2 files changed, 92 insertions(+), 36 deletions(-)
->>>>
->>>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->>>> index 1d38b8cf7a..5c81d459f4 100644
->>>> --- a/target/ppc/cpu.h
->>>> +++ b/target/ppc/cpu.h
->>>> @@ -350,6 +350,7 @@ typedef struct ppc_v3_pate_t {
->>>>    #define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
->>>>    #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
->>>>    #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
->>>> +#define MMCR0_PMC1CE PPC_BIT(48)
->>>>    #define MMCR1_PMC1SEL_SHIFT (63 - 39)
->>>>    #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
->>>> diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_helper.c
->>>> index 43cc0eb722..58ae65e22b 100644
->>>> --- a/target/ppc/pmu_book3s_helper.c
->>>> +++ b/target/ppc/pmu_book3s_helper.c
->>>> @@ -25,6 +25,7 @@
->>>>     * and SPAPR code.
->>>>     */
->>>>    #define PPC_CPU_FREQ 1000000000
->>>> +#define COUNTER_NEGATIVE_VAL 0x80000000
->>>>    static uint64_t get_cycles(uint64_t icount_delta)
->>>>    {
->>>> @@ -32,22 +33,9 @@ static uint64_t get_cycles(uint64_t icount_delta)
->>>>                        NANOSECONDS_PER_SECOND);
->>>>    }
->>>> -static void update_PMC_PM_INST_CMPL(CPUPPCState *env, int sprn,
->>>> -                                    uint64_t icount_delta)
->>>> -{
->>>> -    env->spr[sprn] += icount_delta;
->>>> -}
->>>> -
->>>> -static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
->>>> -                              uint64_t icount_delta)
->>>> -{
->>>> -    env->spr[sprn] += get_cycles(icount_delta);
->>>> -}
->>>> -
->>>> -static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
->>>> -                                        uint64_t icount_delta)
->>>> +static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
->>>>    {
->>>> -    int event;
->>>> +    int event = 0x0;
->>>>        switch (sprn) {
->>>>        case SPR_POWER_PMC1:
->>>> @@ -65,11 +53,35 @@ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
->>>>        case SPR_POWER_PMC4:
->>>>            event = MMCR1_PMC4SEL & env->spr[SPR_POWER_MMCR1];
->>>>            break;
->>>> +    case SPR_POWER_PMC5:
->>>> +        event = 0x2;
->>>> +        break;
->>>> +    case SPR_POWER_PMC6:
->>>> +        event = 0x1E;
->>>> +        break;
->>>
->>> This looks like a nice cleanup that would be better folded into an
->>> earlier patch.
->>>
->>>>        default:
->>>> -        return;
->>>> +        break;
->>>>        }
->>>> -    switch (event) {
->>>> +    return event;
->>>> +}
->>>> +
->>>> +static void update_PMC_PM_INST_CMPL(CPUPPCState *env, int sprn,
->>>> +                                    uint64_t icount_delta)
->>>> +{
->>>> +    env->spr[sprn] += icount_delta;
->>>> +}
->>>> +
->>>> +static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
->>>> +                              uint64_t icount_delta)
->>>> +{
->>>> +    env->spr[sprn] += get_cycles(icount_delta);
->>>> +}
->>>> +
->>>> +static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
->>>> +                                        uint64_t icount_delta)
->>>> +{
->>>> +    switch (get_PMC_event(env, sprn)) {
->>>>        case 0x2:
->>>>            update_PMC_PM_INST_CMPL(env, sprn, icount_delta);
->>>>            break;
->>>> @@ -99,30 +111,57 @@ static void update_PMCs(CPUPPCState *env, uint64_t icount_delta)
->>>>        update_PMC_PM_CYC(env, SPR_POWER_PMC6, icount_delta);
->>>>    }
->>>> +static void set_PMU_excp_timer(CPUPPCState *env)
->>>> +{
->>>> +    uint64_t timeout, now, remaining_val;
->>>> +
->>>> +    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    remaining_val = COUNTER_NEGATIVE_VAL - env->spr[SPR_POWER_PMC1];
->>>> +
->>>> +    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
->>>> +    case 0x2:
->>>> +        timeout = icount_to_ns(remaining_val);
->>>> +        break;
->>>> +    case 0x1e:
->>>> +        timeout = muldiv64(remaining_val, NANOSECONDS_PER_SECOND,
->>>> +                           PPC_CPU_FREQ);
->>>
->>> So.. this appears to be simulating to the guest that cycles are
->>> occurring at a constant rate, consistent with the advertised CPU
->>> frequency.  Which sounds right, except... it's not clear to me that
->>> you're using the same logic to generate the values you read from the
->>> cycles PMC (in that case it shouldn't need to reference icount at all,
->>> right?).
->>
->> 'remaining_val' meaning depends on the event being sampled in the PMC
->> in that moment. PMCs 1 to 4 can have a multitude of events, PMC5 is always
->> count instructions and PMC6 is always counting cycles.
->>
->> For 0x02, env->spr[SPR_POWER_PMC1] contains instructions. remaining_val is
->> the remaining insns for the counter negative condition, and icount_to_ns()
->> is the timeout estimation for that. The value of the PMC1 will be set
->> via update_PMC_PM_INST_CMPL(), which in turn is just a matter of summing
->> the elapsed icount delta between start and freeze into the PMC.
->>
->> For 0x1e, env->spr[SPR_POWER_PMC1] contains cycles. remaining_val is
->> the remaining cycles for counter negative cycles, and this muldiv64 calc
->> is the timeout estimation in this case. The PMC value is set via
->> update_PMC_PM_CYC(), which in turn does a math with the current icount
->> delta in get_cycles(icount_delta) to get the current PMC value.
->>
->> All the metrics implemented in this PMU relies on 'icount_delta', the
->> amount of icount units between the change states of MMCR0_FC (and other
->> freeze counter bits like patch 17).
-> 
-> Ah, sorry, I missed that the PMC value (and therefore remaining val)
-> was based on the icount delta.
-> 
-> So.. that's consistent, but what is the justification for using
-> something based on icount for cycles, rather than something based on time?
+On Tue, Aug 10, 2021 at 3:32 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
+> The sphinx-build is fairly verbose spitting out pages of output to the
+> console, which causes errors from other build commands to be scrolled
+> off the top of the terminal. This can leave the mistaken impression that
+> the build passed, when in fact there was a failure.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
 
-We could calculate the cycles via time granted that the clock we're using
-is fixed in 1Ghz, so 1ns => 1 cycle. For that, we would need a similar mechanic
-to what we already do with icount - get a time_base, cycles would be calculated
-via a time_delta, etc.
+Without this patch, I miss the warnings 99% of the time!!
 
-However, and commenting a bit on Richard's review in patch 08, the cycle
-calculation we're doing is just returning icount_to_ns(icount_delta) because
-PPC_CPU_FREQ and NANOSECONDS_PER_SECOND are the same value. So, given that the
-conditions in which we would need to store and calculate a time delta is the
-same as what we're already doing with icount today, isn't
-cycles = icount_to_ns(icount_delta) = time_delta?
+You are missing one -q though:
 
-I mean, nothing is stopping us from calculating cycles using time, but in the
-end we would do the same thing we're already doing today.
+diff --git a/docs/meson.build b/docs/meson.build
+index 42d7555bc4..51fa902cd9 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -78,7 +78,7 @@ if build_docs
+                 input: files('conf.py'),
+                 depfile: 'docs.d',
+                 depend_files: [ sphinx_extn_depends, sphinx_template_files
+],
+-                command: [SPHINX_ARGS, '-Ddepfile=3D@DEPFILE@',
++                command: [SPHINX_ARGS, '-q', '-Ddepfile=3D@DEPFILE@',
+                           '-Ddepfile_stamp=3D@OUTPUT0@',
+                           '-b', 'html', '-d', private_dir,
+                           input_dir, output_dir])
 
+Why not update SPHINX_ARGS instead?
 
-Thanks,
+---
 
+>
+> In v2:
+>
+>  - This time with the extra trailing ',' actually committed
+>
+>  docs/meson.build | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/docs/meson.build b/docs/meson.build
+> index 300b134329..42d7555bc4 100644
+> --- a/docs/meson.build
+> +++ b/docs/meson.build
+> @@ -21,7 +21,7 @@ if sphinx_build.found()
+>    run_command('mkdir', ['-p', tmpdir / 'sphinx'])
+>    run_command('touch', [tmpdir / 'sphinx/index.rst'])
+>    sphinx_build_test_out =3D run_command(SPHINX_ARGS + [
+> -    '-c', meson.current_source_dir(),
+> +    '-q', '-c', meson.current_source_dir(),
+>      '-b', 'html', tmpdir / 'sphinx',
+>      tmpdir / 'sphinx/out'])
+>    build_docs =3D (sphinx_build_test_out.returncode() =3D=3D 0)
+> @@ -98,8 +98,9 @@ if build_docs
+>                                input: this_manual,
+>                                install: build_docs,
+>                                install_dir: install_dirs,
+> -                              command: [SPHINX_ARGS, '-b', 'man', '-d',
+> private_dir,
+> -                                        input_dir,
+> meson.current_build_dir()])
+> +                              command: [SPHINX_ARGS, '-q', '-b', 'man',
+> +                                        '-d', private_dir, input_dir,
+> +                                        meson.current_build_dir()])
+>
+>    alias_target('sphinxdocs', sphinxdocs)
+>    alias_target('html', sphinxdocs)
+> --
+> 2.31.1
+>
+>
+>
 
-Daniel
-> 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000f7026905c946d6fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 10, 2021 at 3:32 PM Dan=
+iel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">The sphinx-build is fairly verbose spitting out pages of output to =
+the<br>
+console, which causes errors from other build commands to be scrolled<br>
+off the top of the terminal. This can leave the mistaken impression that<br=
+>
+the build passed, when in fact there was a failure.<br>
+<br>
+Signed-off-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redha=
+t.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br></blockquote><div><=
+br></div><div>Without this patch, I miss the warnings 99% of the time!!</di=
+v><div><br></div><div>You are missing one -q though:</div><div><br></div><d=
+iv>diff --git a/docs/meson.build b/docs/meson.build<br>index 42d7555bc4..51=
+fa902cd9 100644<br>--- a/docs/meson.build<br>+++ b/docs/meson.build<br>@@ -=
+78,7 +78,7 @@ if build_docs<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0input: files(&#39;conf.py&#39;),<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0depfile: &#39;docs.d&#39;,<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0depend_files:=
+ [ sphinx_extn_depends, sphinx_template_files ],<br>- =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command: [SPHINX_ARGS, &#39;-Ddepfile=3D@=
+DEPFILE@&#39;,<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+command: [SPHINX_ARGS, &#39;-q&#39;, &#39;-Ddepfile=3D@DEPFILE@&#39;,<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0&#39;-Ddepfile_stamp=3D@OUTPUT0@&#39;,<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-b&#39;, &#39;html&#39;, &#39;-d&#39;, private_dir,<b=
+r>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0input_dir, output_dir])</div><div><br></div><div>Wh=
+y not update SPHINX_ARGS instead?</div><div><br></div></div><div class=3D"g=
+mail_quote">---<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+In v2:<br>
+<br>
+=C2=A0- This time with the extra trailing &#39;,&#39; actually committed<br=
+>
+<br>
+=C2=A0docs/meson.build | 7 ++++---<br>
+=C2=A01 file changed, 4 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/docs/meson.build b/docs/meson.build<br>
+index 300b134329..42d7555bc4 100644<br>
+--- a/docs/meson.build<br>
++++ b/docs/meson.build<br>
+@@ -21,7 +21,7 @@ if sphinx_build.found()<br>
+=C2=A0 =C2=A0run_command(&#39;mkdir&#39;, [&#39;-p&#39;, tmpdir / &#39;sphi=
+nx&#39;])<br>
+=C2=A0 =C2=A0run_command(&#39;touch&#39;, [tmpdir / &#39;sphinx/index.rst&#=
+39;])<br>
+=C2=A0 =C2=A0sphinx_build_test_out =3D run_command(SPHINX_ARGS + [<br>
+-=C2=A0 =C2=A0 &#39;-c&#39;, meson.current_source_dir(),<br>
++=C2=A0 =C2=A0 &#39;-q&#39;, &#39;-c&#39;, meson.current_source_dir(),<br>
+=C2=A0 =C2=A0 =C2=A0&#39;-b&#39;, &#39;html&#39;, tmpdir / &#39;sphinx&#39;=
+,<br>
+=C2=A0 =C2=A0 =C2=A0tmpdir / &#39;sphinx/out&#39;])<br>
+=C2=A0 =C2=A0build_docs =3D (sphinx_build_test_out.returncode() =3D=3D 0)<b=
+r>
+@@ -98,8 +98,9 @@ if build_docs<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0input: this_manual,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install: build_docs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install_dir: install_dirs,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [SPHINX_ARGS, &#39;-b&#39;, &#39;m=
+an&#39;, &#39;-d&#39;, private_dir,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input_di=
+r, meson.current_build_dir()])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [SPHINX_ARGS, &#39;-q&#39;, &#39;-=
+b&#39;, &#39;man&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;-d&=
+#39;, private_dir, input_dir,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 meson.cu=
+rrent_build_dir()])<br>
+<br>
+=C2=A0 =C2=A0alias_target(&#39;sphinxdocs&#39;, sphinxdocs)<br>
+=C2=A0 =C2=A0alias_target(&#39;html&#39;, sphinxdocs)<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000f7026905c946d6fa--
 
