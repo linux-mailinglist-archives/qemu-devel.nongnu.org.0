@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F733E892B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 06:18:34 +0200 (CEST)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB28B3E892D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 06:19:19 +0200 (CEST)
+Received: from localhost ([::1]:40054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDfhI-0006GX-NE
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 00:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50340)
+	id 1mDfi2-0007iG-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 00:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mDfgZ-0005ZS-Mz
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 00:17:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35753)
+ id 1mDfhH-0006lQ-GE
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 00:18:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mDfgW-000837-Tf
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 00:17:46 -0400
+ id 1mDfhF-0000CS-Sb
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 00:18:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628655463;
+ s=mimecast20190719; t=1628655508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2Q6khA5SR6h2JcyfjoKxOPbTfiSlV9P33/7XXAdG2MY=;
- b=a07iwK5sEaZwIpaYfRfAWTUI0QDAVRWq3GaYb8FC3rwrco6mbdoHIcaId5mWCoOjO0NXeA
- VvtbH/xJTvDHRbD496ruEagIbVQH99knN0xKIUfL4PsxUKlNFN5OEnLmDbVec6fkHsybUt
- vrOrRvYdz3y5ubOXrI8GO7rqodMxRso=
+ bh=8H+NfB9BXnYbE3AUPimB/1YBmV5SuGhckMmB8FaIGMI=;
+ b=QjYMLSTH8ZMFjVpDMtecgsdxWFrVABu84q95aqTg38HDzjDtfL7GnkTmhe2ahxogYb5n3B
+ E9f1m/w98sHmjsaGIti3N826kyvjYZ7pLTiWSflpLdFW7yg1GfkZJea84+RRQvO4gDwGKh
+ dBmSiNLy9SfAd3JTSnE2nUeQlDisiIo=
 Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
  [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-az8_x0jcMIS9goZqjjRAkw-1; Wed, 11 Aug 2021 00:17:38 -0400
-X-MC-Unique: az8_x0jcMIS9goZqjjRAkw-1
+ us-mta-96-MYWZB2IxOiej1bSEh-4f6Q-1; Wed, 11 Aug 2021 00:18:27 -0400
+X-MC-Unique: MYWZB2IxOiej1bSEh-4f6Q-1
 Received: by mail-lf1-f71.google.com with SMTP id
- y3-20020a1975030000b02903bd2e59c7dcso438067lfe.6
- for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 21:17:38 -0700 (PDT)
+ x186-20020a19c7c30000b02903b69bdbaa03so445547lff.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Aug 2021 21:18:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2Q6khA5SR6h2JcyfjoKxOPbTfiSlV9P33/7XXAdG2MY=;
- b=Ze7xfhlxtZ3HxHR19OBJUxApAkYNOJSh16xRD6r4HVwaZkvf/pqcp8A25OLL8TLTZ/
- b/CBWOqeuCU2mOvbo66dM5Q2z4SaymZOOD7l+nP7pV7sPtk1kTuFOWk+aapovmYqPyLH
- VWwXYn/0kEt+qAahCXx45jxsKIAxYPxtPPAr17I8srNCKJVQi3x1xj07qp1i0VEY2yg1
- z4auvQQ+5qBkOTrf2gO/fhn3LIIAzBOY1buoMYkVq78EWEXAWTtkCp4HMAymwHJwam2l
- WfK6m8+Jypam8gt3duDXKRo71wTuY+bGuzF3pit8PzNOTc6XIhRNKRx0fQaQOAVnDeI4
- dycg==
-X-Gm-Message-State: AOAM531uTI5Y1RP4K1fxenU1R7U3CQg/URMVq4zLgnuXPCJsP/YKgkQc
- W2oFVoGKxk0164Hrrb8qhWiH0vFeoI1nx22LpngsOt8snd30fZjqzFir6jD8UMcZh3Mdz31W8MC
- kwQ1r8qAGP86Wrdt/ELrCAc1kT4gC/5Q=
-X-Received: by 2002:a05:651c:84:: with SMTP id
- 4mr21407010ljq.261.1628655456772; 
- Tue, 10 Aug 2021 21:17:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9m7opZyzf4/s04KOxdFrKiQiYoLox/oGHTceorGZFR8OqJbXJqbyuh7YXLSU5HAa0YqY/lHIaBvGDHicQ2mo=
-X-Received: by 2002:a05:651c:84:: with SMTP id
- 4mr21406996ljq.261.1628655456464; 
- Tue, 10 Aug 2021 21:17:36 -0700 (PDT)
+ bh=8H+NfB9BXnYbE3AUPimB/1YBmV5SuGhckMmB8FaIGMI=;
+ b=MSjkrPIvCdVwxq4Yx6jYKaWZwWD5gwQg+OHFkQ95QPLeAAXc3tXeACQZ+DIeIBLZnP
+ 0+PuTTbGaYFs7sbEsUMVXBVmLitT8BHiheYBCF9EGF/xZNeOigFaJ+5Ha9W7+he8LpKB
+ LhkZ1NenXs3WfxRBEosKbxlk5Nubb6wer/VQgqhzx9jN9zcFr++Q0+34h1wOZ1hUqVa2
+ x2q9AIjC+QyJDlJy5iBG26jUgEnoxdaC2lMM5HvSJk9sErlXMSxQLX48fWdyt/WadmAL
+ i0unnvdGB3t68ka18qGWYgPvYEfW+GGTS9G96P3InFE0NYSL2XBxGHJt7dx3dZy0etqA
+ FdpQ==
+X-Gm-Message-State: AOAM532VL4yo8hAAX2xeV69n8lwWjINFlf7pVlbZ+XvYtJGX3IR7uGYM
+ fOmAm5bjS/Scc7d+f4ZiivYB8RwOhT41BBzM0HV0W+SRlre+0R1NTs9EU0Z8GJyPE1gDZYHY8dp
+ sCResUQc/FjMCjuHAYQco/KYkfKEk/00=
+X-Received: by 2002:a19:f719:: with SMTP id z25mr1573110lfe.339.1628655505471; 
+ Tue, 10 Aug 2021 21:18:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxsMuikGUKxyA5/iEXjD3wu9y0wghwpilsNussqZT9A7W4XK4wWq+Uzh2iCmbQDMIBYK4R4Hzlq/jq/4vIOfwE=
+X-Received: by 2002:a19:f719:: with SMTP id z25mr1573097lfe.339.1628655505161; 
+ Tue, 10 Aug 2021 21:18:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210809171342.18146-1-lvivier@redhat.com>
-In-Reply-To: <20210809171342.18146-1-lvivier@redhat.com>
+ <20210809171342.18146-2-lvivier@redhat.com>
+In-Reply-To: <20210809171342.18146-2-lvivier@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 11 Aug 2021 12:17:25 +0800
-Message-ID: <CACGkMEuAY-tsTBbmGYGpv2rPnO-GsyGnCTfV=Sgfdn=LGT8oYw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] virtio: failover: allow to keep the VFIO device
- rather than the virtio-net one
+Date: Wed, 11 Aug 2021 12:18:14 +0800
+Message-ID: <CACGkMEtmCDjUQUf_FXUFzNNtKeNojsj-+6zdHdLo=5rzi2zWsA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] virtio: failover: define the default device to use
+ in case of error
 To: Laurent Vivier <lvivier@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -96,165 +95,136 @@ Cc: Juan Quintela <quintela@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 1:13 AM Laurent Vivier <lvivier@redhat.com> wrote:
+On Tue, Aug 10, 2021 at 1:14 AM Laurent Vivier <lvivier@redhat.com> wrote:
 >
-> v2: use validate_features() to disable the guest driver rather
->     than setting vring.num to 0.
+> If the guest driver doesn't support the STANDBY feature, by default
+> we keep the virtio-net device and don't hotplug the VFIO device,
+> but in some cases, user can prefer to use the VFIO device rather
+> than the virtio-net one. We can't unplug the virtio-net device
+> (because on migration it is expected on the destination side)
+> but we can force the guest driver to be disabled. Then, we can
+> hotplug the VFIO device that will be unplugged before the migration
+> like in the normal failover migration but without the failover device.
 >
-> With failover, when the guest virtio-net driver doesn't support the
-> STANDBY feature, the primary device is not plugged and only the virtio-net
-> device is kept. Doing like that we can migrate the machine and
-> keep the network connection.
+> This patch adds a new property to virtio-net device: "failover-default".
 >
-> But in some cases, when performance is more important than availability
-> we would prefer to keep the VFIO device rather than the virtio-net one,
-> even if it means to lose the network connection during the migration of
-> the machine.
-
-I think we still need to seek a way to recover the network after migration.
-
-Thanks
-
+> By default, "failover-default" is set to true and thus the default NIC
+> to use if the failover cannot be enabled is the virtio-net device
+> (this is what is done until now with the virtio-net failover).
 >
-> To do that we can't simply unplug the virtio-net device and plug the
-> VFIO one because for the migration the initial state must be kept
-> (virtio-net plugged, VFIO unplugged) but we can try to disable the
-> virtio-net driver and plug the VFIO card, so the initial state is
-> correct (the virtio-net card is plugged, but disabled in guest, and
-> the VFIO card is unplugged before migration).
+> If "failover-default" is set to false, in case of error, the virtio-net
+> device is not the default anymore and the failover primary device
+> is used instead.
 >
-> This change doesn't impact the case when guest and host support
-> the STANDBY feature.
+> If the STANDBY feature is supported by guest and host, the virtio-net
+> failover acts as usual.
 >
-> I've introduced the "failover-default" property to virtio-net device
-> to set which device to keep (failover-default=true keeps the virtio-net
-> device, =off the other one).
->
-> For example, with a guest driver that doesn't support STANDBY:
->
->   ...
->   -device virtio-net-pci,id=virtio0,failover=on,failover-default=on \
->   -device vfio-pci,host=$PCI,id=hostdev0,failover_pair_id=virtio0 \
->   ...
->
->   [root@localhost ~]# ip a
->   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
->       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->       inet 127.0.0.1/8 scope host lo
->          valid_lft forever preferred_lft forever
->       inet6 ::1/128 scope host
->          valid_lft forever preferred_lft forever
->   2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP q0
->       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
->       inet 192.168.20.2/24 brd 192.168.20.255 scope global eth0
->          valid_lft forever preferred_lft forever
->       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
->          valid_lft forever preferred_lft forever
->   # ethtool -i eth0
->   driver: virtio_net
->   version: 1.0.0
->   firmware-version:
->   expansion-rom-version:
->   bus-info: 0000:04:00.0
->   supports-statistics: no
->   supports-test: no
->   supports-eeprom-access: no
->   supports-register-dump: no
->   supports-priv-flags: no
->
->   ...
->   -device virtio-net-pci,id=virtio0,failover=on,failover-default=off \
->   -device vfio-pci,host=$PCI,id=hostdev0,failover_pair_id=virtio0 \
->   ...
->
->   [root@localhost ~]# ip a
->   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
->       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->       inet 127.0.0.1/8 scope host lo
->          valid_lft forever preferred_lft forever
->       inet6 ::1/128 scope host
->          valid_lft forever preferred_lft forever
->   2: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP qlen 100
->       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
->       inet 192.168.20.2/24 brd 192.168.20.255 scope global enp2s0
->          valid_lft forever preferred_lft forever
->       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
->          valid_lft forever preferred_lft forever
->   [root@localhost ~]# ethtool -i enp2s0
->   driver: i40evf
->   version: 1.6.27-k
->   firmware-version: N/A
->   expansion-rom-version:
->   bus-info: 0000:02:00.0
->   supports-statistics: yes
->   supports-test: no
->   supports-eeprom-access: no
->   supports-register-dump: no
->   supports-priv-flags: no
->
-> With guest driver that supports STANDBY, we would always have:
->
->   [root@localhost ~]# ip a
->   1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group defau0
->       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->       inet 127.0.0.1/8 scope host lo
->          valid_lft forever preferred_lft forever
->       inet6 ::1/128 scope host
->          valid_lft forever preferred_lft forever
->   2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP gr0
->       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
->       inet 192.168.20.2/24 brd 192.168.20.255 scope global noprefixroute enp4s0
->          valid_lft forever preferred_lft forever
->       inet6 fe80::2428:c5ff:fe7f:1424/64 scope link
->          valid_lft forever preferred_lft forever
->   3: enp4s0nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master0
->       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
->   4: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master enp4s0 st0
->       link/ether 26:28:c5:7f:14:24 brd ff:ff:ff:ff:ff:ff
->   [root@localhost ~]# ethtool -i enp4s0
->   driver: net_failover
->   version: 0.1
->   firmware-version:
->   expansion-rom-version:
->   bus-info:
->   supports-statistics: no
->   supports-test: no
->   supports-eeprom-access: no
->   supports-register-dump: no
->   supports-priv-flags: no
->   [root@localhost ~]# ethtool -i enp4s0nsby
->   driver: virtio_net
->   version: 1.0.0
->   firmware-version:
->   expansion-rom-version:
->   bus-info: 0000:04:00.0
->   supports-statistics: yes
->   supports-test: no
->   supports-eeprom-access: no
->   supports-register-dump: no
->   supports-priv-flags: no
->   [root@localhost ~]# ethtool -i enp2s0
->   driver: iavf
->   version: 4.18.0-310.el8.x86_64
->   firmware-version: N/A
->   expansion-rom-version:
->   bus-info: 0000:02:00.0
->   supports-statistics: yes
->   supports-test: no
->   supports-eeprom-access: no
->   supports-register-dump: no
->   supports-priv-flags: yes
->
-> Laurent Vivier (1):
->   virtio: failover: define the default device to use in case of error
->
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
 >  include/hw/virtio/virtio-net.h |  1 +
 >  hw/net/virtio-net.c            | 49 +++++++++++++++++++++++++++++-----
 >  2 files changed, 44 insertions(+), 6 deletions(-)
 >
+> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+> index 824a69c23f06..ab77930a327e 100644
+> --- a/include/hw/virtio/virtio-net.h
+> +++ b/include/hw/virtio/virtio-net.h
+> @@ -208,6 +208,7 @@ struct VirtIONet {
+>      /* primary failover device is hidden*/
+>      bool failover_primary_hidden;
+>      bool failover;
+> +    bool failover_default;
+>      DeviceListener primary_listener;
+>      Notifier migration_state;
+>      VirtioNetRssData rss_data;
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 16d20cdee52a..972c03232a96 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -935,12 +935,23 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>          memset(n->vlans, 0xff, MAX_VLAN >> 3);
+>      }
+>
+> -    if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
+> -        qapi_event_send_failover_negotiated(n->netclient_name);
+> -        qatomic_set(&n->failover_primary_hidden, false);
+> -        failover_add_primary(n, &err);
+> -        if (err) {
+> -            warn_report_err(err);
+> +    /*
+> +     * if the virtio-net driver has the STANDBY feature, we can plug the primary
+> +     * if not but is not the default failover device,
+> +     * we need to plug the primary alone and the virtio-net driver will
+> +     * be disabled in the validate_features() function but validate_features()
+> +     * is only available with virtio 1.0 spec
+> +     */
+> +    if (n->failover) {
+> +        if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY) ||
+> +           (virtio_has_feature(features, VIRTIO_F_VERSION_1) &&
+
+I think STANDY implies VERSION_1.
+
+And if we do this, it means it doesn't work for legacy drivers.
+
+Not sure if it's an issue.
+
+Thanks
+
+> +            !n->failover_default)) {
+> +            qapi_event_send_failover_negotiated(n->netclient_name);
+> +            qatomic_set(&n->failover_primary_hidden, false);
+> +            failover_add_primary(n, &err);
+> +            if (err) {
+> +                warn_report_err(err);
+> +            }
+>          }
+>      }
+>  }
+> @@ -3625,9 +3636,34 @@ static Property virtio_net_properties[] = {
+>      DEFINE_PROP_INT32("speed", VirtIONet, net_conf.speed, SPEED_UNKNOWN),
+>      DEFINE_PROP_STRING("duplex", VirtIONet, net_conf.duplex_str),
+>      DEFINE_PROP_BOOL("failover", VirtIONet, failover, false),
+> +    DEFINE_PROP_BOOL("failover-default", VirtIONet, failover_default, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>
+> +/* validate_features() is only available with VIRTIO_F_VERSION_1 */
+> +static int failover_validate_features(VirtIODevice *vdev)
+> +{
+> +    VirtIONet *n = VIRTIO_NET(vdev);
+> +
+> +    /*
+> +     * If the guest driver doesn't support the STANDBY feature, by default
+> +     * we keep the virtio-net device and don't hotplug the VFIO device,
+> +     * but in some cases, user can prefer to use the VFIO device rather
+> +     * than the virtio-net one. We can't unplug the virtio-net device
+> +     * (because on migration it is expected on the destination side)
+> +     * but we can force the guest driver to be disabled. In this case, We can
+> +     * hotplug the VFIO device that will be unplugged before the migration
+> +     * like in the normal failover migration but without the failover device.
+> +     */
+> +    if (n->failover && !n->failover_default &&
+> +        !virtio_vdev_has_feature(vdev, VIRTIO_NET_F_STANDBY)) {
+> +        /* disable virtio-net */
+> +        return -ENODEV;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static void virtio_net_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -3651,6 +3687,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+>      vdc->post_load = virtio_net_post_load_virtio;
+>      vdc->vmsd = &vmstate_virtio_net_device;
+>      vdc->primary_unplug_pending = primary_unplug_pending;
+> +    vdc->validate_features = failover_validate_features;
+>  }
+>
+>  static const TypeInfo virtio_net_info = {
 > --
 > 2.31.1
->
 >
 
 
