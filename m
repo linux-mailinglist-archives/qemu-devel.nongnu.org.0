@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543403E942D
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 17:02:19 +0200 (CEST)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7141B3E9612
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 18:34:27 +0200 (CEST)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDpkI-0006j2-CZ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 11:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
+	id 1mDrBS-0000pA-0E
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 12:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mDpit-0005b4-Bx
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 11:00:52 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mDpip-0004u7-8B
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 11:00:49 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- s22-20020a17090a1c16b0290177caeba067so10093123pjs.0
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 08:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=+lwVX6YKajle1mqW/nJzdCMDSJpjD0w1TNeVXia98i8=;
- b=v+GoApEfp1/S10R2lOiSQlcdCN0bP/kcsM7pAIMsGIkvm7w8VPvP7IGyP0oUprrK1L
- tReT78F/4L4gtnt1xDw2KsFKJDcHzQW3MLLuKv3L/QbyxZKKv6pOeo+eodO8Bw6T9xiV
- 77ZkNDEmXVCuByXNjNH+wLIprH6DDXhWmLEzm5NFN3+/nby7l/bCa38lHBUGZEe3awDk
- SnzTNTWkG83HxieG3A1/962DueZZnJPsjXOKr25uViaIFReHhv1XrLtPx56qMiO72vGn
- 1Dyhn3lqVkjYVLZn1SD/KtnWzW5Et/isj5o30EjSHlFiQY8wA/qTCns2VdF2reGIgLnL
- SEVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=+lwVX6YKajle1mqW/nJzdCMDSJpjD0w1TNeVXia98i8=;
- b=qOrnCqxIePuuVeN/+BkIS9GY2nJmBxuUh6wlKY9dOGToIkK7TmlXdmLmlTq+Ak1ryy
- N95dOidI0D71HA+lY/3rWyKmSj+TwyuRSGrNKn9EJyj3auZfH50zop3dMR/Roc5ZUEDr
- q0w0pM9cJSOqK8A1M5aXOwQd25i5howFvCqBE7xsZ7m28xtpD6JAz+w5TtyZPL5MrFOv
- SiaFT+r2ln7eeQgMfxjBIXuMav6IjZpl8kEA9g8WpJ602mCCdqC/9lqNJghHDVef177v
- TbyA7vkx9fZYPk39YMsVrzVhObEuGkPmjJjnq3I6p2pqWVv6E5H3jZ2ALAhbAUAUa23V
- wfHw==
-X-Gm-Message-State: AOAM530cIh8X0VwnU94/g844lXvUoi69Wzr+w4SrJo1ELowsADUmShLd
- yXs+56Dfsfdur0oBRB1fGrn3YQ==
-X-Google-Smtp-Source: ABdhPJw/5SH59hm4yoK+KjEyOnq7Hei0T+4D1Ns1N8Y4gYuy7grjAIBhxG3i456Rgto5l97MNLRQ9g==
-X-Received: by 2002:aa7:9436:0:b029:30b:30ba:5942 with SMTP id
- y22-20020aa794360000b029030b30ba5942mr28580625pfo.47.1628694043551; 
- Wed, 11 Aug 2021 08:00:43 -0700 (PDT)
-Received: from anisinha-lenovo ([203.212.243.145])
- by smtp.googlemail.com with ESMTPSA id
- d198sm3231467pfd.101.2021.08.11.08.00.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 08:00:42 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Wed, 11 Aug 2021 20:30:36 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] hw/acpi: add an assertion check for non-null return
- from acpi_get_i386_pci_host
-In-Reply-To: <d95cb2ea-2cf1-83fb-03c2-3bff8c537cd8@amsat.org>
-Message-ID: <alpine.DEB.2.22.394.2108112015580.16460@anisinha-lenovo>
-References: <20210726165743.232073-1-ani@anisinha.ca>
- <20210805111543.5fb99abf@redhat.com>
- <alpine.DEB.2.22.394.2108051705240.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051826190.291909@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108051938340.329433@anisinha-lenovo>
- <20210806123754.1a1fa8a8@redhat.com>
- <alpine.DEB.2.22.394.2108061618320.433849@anisinha-lenovo>
- <d95cb2ea-2cf1-83fb-03c2-3bff8c537cd8@amsat.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mDr9b-0008Ut-Js
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 12:32:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mDr9Y-0001tE-D3
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 12:32:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628699546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MYdn+BqoegLtl39oCyMGiuVEk9+YUwiUUysrFIfsZ0w=;
+ b=E4oz46tm+VhhLoiDIuJU30eU1dHzXP57p5vjlomRjI7wwX1Pv7K77lShbUsCodZdyQZkXG
+ o1D/YuFBPdp763K8Ttsh1J+oVgGHfCXCHBqOcApFb5PzJZ7LFrV5HxF4W+eJ7+6VTCblCm
+ h2j78qLkvKogJbVhpO+WKl2lfWwF+RA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-De7DJhu_PIab1YKKpbXrOg-1; Wed, 11 Aug 2021 12:32:25 -0400
+X-MC-Unique: De7DJhu_PIab1YKKpbXrOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6901D87D541;
+ Wed, 11 Aug 2021 16:32:24 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A96996E6E1;
+ Wed, 11 Aug 2021 16:32:17 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] vhost-vdpa: Do not send empty IOTLB update batches
+Date: Wed, 11 Aug 2021 18:32:11 +0200
+Message-Id: <20210811163211.185870-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2088271309-5587739-1628694042=:16460"
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,173 +75,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Eli Cohen <elic@nvidia.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+With the introduction of the batch hinting, meaningless batches can be
+created with no IOTLB updates if the memory region was skipped by
+vhost_vdpa_listener_skipped_section. This is the case of host notifiers
+memory regions, device un/realize, and others. This causes the vdpa
+device to receive dma mapping settings with no changes, a possibly
+expensive operation for nothing.
 
---2088271309-5587739-1628694042=:16460
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have a
+meaningful (not skipped section) mapping or unmapping operation, and
+VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
+_INVALIDATE has been issued.
 
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ include/hw/virtio/vhost-vdpa.h |  1 +
+ hw/virtio/vhost-vdpa.c         | 50 ++++++++++++++++++++++++++--------
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index e98e327f12..6538572a6f 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
+     int device_fd;
+     int index;
+     uint32_t msg_type;
++    size_t n_mr_updated;
+     MemoryListener listener;
+     struct vhost_dev *dev;
+     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 6ce94a1f4d..512fa18d68 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+     return ret;
+ }
+ 
+-static void vhost_vdpa_listener_begin(MemoryListener *listener)
++static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+ {
+-    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+-    struct vhost_dev *dev = v->dev;
+-    struct vhost_msg_v2 msg = {};
+     int fd = v->device_fd;
+-
+-    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
+-        return;
+-    }
+-
+-    msg.type = v->msg_type;
+-    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
++    struct vhost_msg_v2 msg = {
++        .type = v->msg_type,
++        .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
++    };
+ 
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+@@ -109,6 +103,25 @@ static void vhost_vdpa_listener_begin(MemoryListener *listener)
+     }
+ }
+ 
++static bool vhost_vdpa_iotlb_batch_is_started(const struct vhost_vdpa *v)
++{
++    return v->n_mr_updated != 0;
++}
++
++static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
++{
++    if (!vhost_vdpa_iotlb_batch_is_started(v)) {
++        vhost_vdpa_listener_begin_batch(v);
++    }
++
++    v->n_mr_updated++;
++}
++
++static void vhost_vdpa_iotlb_batch_reset(struct vhost_vdpa *v)
++{
++    v->n_mr_updated = 0;
++}
++
+ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+ {
+     struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+@@ -120,6 +133,10 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+         return;
+     }
+ 
++    if (vhost_vdpa_iotlb_batch_is_started(v)) {
++        return;
++    }
++
+     msg.type = v->msg_type;
+     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+ 
+@@ -127,6 +144,8 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
+     }
++
++    vhost_vdpa_iotlb_batch_reset(v);
+ }
+ 
+ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+@@ -170,6 +189,10 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+ 
+     llsize = int128_sub(llend, int128_make64(iova));
+ 
++    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
++        vhost_vdpa_iotlb_batch_begin_once(v);
++    }
++
+     ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+                              vaddr, section->readonly);
+     if (ret) {
+@@ -221,6 +244,10 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+ 
+     llsize = int128_sub(llend, int128_make64(iova));
+ 
++    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)) {
++        vhost_vdpa_iotlb_batch_begin_once(v);
++    }
++
+     ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+     if (ret) {
+         error_report("vhost_vdpa dma unmap error!");
+@@ -234,7 +261,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+  * depends on the addnop().
+  */
+ static const MemoryListener vhost_vdpa_memory_listener = {
+-    .begin = vhost_vdpa_listener_begin,
+     .commit = vhost_vdpa_listener_commit,
+     .region_add = vhost_vdpa_listener_region_add,
+     .region_del = vhost_vdpa_listener_region_del,
+-- 
+2.27.0
 
-On Fri, 6 Aug 2021, Philippe Mathieu-Daudé wrote:
-
-> On 8/6/21 12:52 PM, Ani Sinha wrote:
-> > On Fri, 6 Aug 2021, Igor Mammedov wrote:
-> >> On Thu, 5 Aug 2021 19:42:35 +0530 (IST)
-> >> Ani Sinha <ani@anisinha.ca> wrote:
-> >>> On Thu, 5 Aug 2021, Ani Sinha wrote:
-> >>>> On Thu, 5 Aug 2021, Ani Sinha wrote:
-> >>>>> On Thu, 5 Aug 2021, Igor Mammedov wrote:
-> >>>>>> On Mon, 26 Jul 2021 22:27:43 +0530
-> >>>>>> Ani Sinha <ani@anisinha.ca> wrote:
-> >>>>>>
-> >>>>>>> All existing code using acpi_get_i386_pci_host() checks for a non-null
-> >>>>>>> return value from this function call. Instead of returning early when the value
-> >>>>>>> returned is NULL, assert instead. Since there are only two possible host buses
-> >>>>>>> for i386 - q35 and i440fx, a null value return from the function does not make
-> >>>>>>> sense in most cases and is likely an error situation.
-> >>>>>>>
-> >>>>>>> Fixes: c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
-> >>>>>>>
-> >>>>>>> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> >>>>>>> ---
-> >>>>>>>  hw/acpi/pcihp.c      |  8 ++++++++
-> >>>>>>>  hw/i386/acpi-build.c | 15 ++++++---------
-> >>>>>>>  2 files changed, 14 insertions(+), 9 deletions(-)
-> >>>>>>>
-> >>>>>>> changelog:
-> >>>>>>> v1: initial patch
-> >>>>>>> v2: removed comment addition - that can be sent as a separate patch.
-> >>>>>>> v3: added assertion for null host values for all cases except one.
-> >>>>>>>
-> >>>>>>> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> >>>>>>> index f4d706e47d..054ee8cbc5 100644
-> >>>>>>> --- a/hw/acpi/pcihp.c
-> >>>>>>> +++ b/hw/acpi/pcihp.c
-> >>>>>>> @@ -116,6 +116,12 @@ static void acpi_set_pci_info(void)
-> >>>>>>>      bsel_is_set = true;
-> >>>>>>>
-> >>>>>>>      if (!host) {
-> >>>>>>> +        /*
-> >>>>>>> +         * This function can be eventually called from
-> >>>>>>> +         * qemu_devices_reset() -> acpi_pcihp_reset() even
-> >>>>>>> +         * for architectures other than i386. Hence, we need
-> >>>>>>> +         * to ignore null values for host here.
-> >>>>>>> +         */
-> >>>>>>>          return;
-> >>>>>>>      }
-> >>>>>>
-> >>>>>> I suspect it's a MIPS target that call this code unnecessarily.
-> >>>>>> It would be better to get rid of this condition altogether.
-> >>>>>> Frr that I can suggest to make acpi_pcihp_reset() stub and
-> >>>>>> replace pcihp.c with stub (perhaps use acpi-x86-stub.c) when building
-> >>>>>> for MIPS.
-> >>>>>>
-> >>>>>> then a bunch of asserts/ifs won't be necessary,
-> >>>>>> just one in acpi_get_i386_pci_host() will be sufficient.
-> >>>>>>
-> >>>>>
-> >>>>> OK this is a good idea.
-> >>>>> I can see that mips-softmmu-config-devices.h has
-> >>>>> CONFIG_ACPI_X86 turned on for mips. This does not seem right.
-> >>>>>
-> >>>>> The issue here is:
-> >>>>>
-> >>>>> $ grep -R CONFIG_ACPI_X86 *
-> >>>>> devices/mips-softmmu/common.mak:CONFIG_ACPI_X86=y
-> >>>>>
-> >>>>> So after
-> >>>>>
-> >>>>> -CONFIG_ACPI_X86=y
-> >>>>> -CONFIG_PIIX4=y
-> >>>>>
-> >>>>> (the second one is needed because after removing first one we get:
-> >>>>>
-> >>>>> /usr/bin/ld: libcommon.fa.p/hw_isa_piix4.c.o: in function `piix4_create':
-> >>>>> /home/anisinha/workspace/qemu/build/../hw/isa/piix4.c:269: undefined
-> >>>>> reference to `piix4_pm_init'
-> >>>>>
-> >>>>> This is because in hw/acpi/meson.build, piix4.c is conditional on
-> >>>>> CONFIG_ACPI_X86. )
-> >>>>>
-> >>>>> /usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_gt64xxx_pci.c.o: in
-> >>>>> function `gt64120_pci_set_irq':
-> >>>>> /home/anisinha/workspace/qemu/build/../hw/mips/gt64xxx_pci.c:1020:
-> >>>>> undefined reference to `piix4_dev'
-> >>>>> /usr/bin/ld: libqemu-mips-softmmu.fa.p/hw_mips_malta.c.o: in function
-> >>>>> `mips_malta_init':
-> >>>>> /home/anisinha/workspace/qemu/build/../hw/mips/malta.c:1404: undefined
-> >>>>> reference to `piix4_create'
-> >>>>>
-> >>>>> So should mips be doing piix stuff anyway? Is Piix4 etc not x86 specific?
->
-> PIIX, PIIX3 and PIIX4 are generic chipsets, not X86-specific.
->
-> QEMU's PIIX3 is a Frankenstein to support virtualization to a chipset
-> not designed for it.
-> If you look at it, the X86 machine use a PIIX3 but the PIIX3 doesn't
-> even provide an ACPI function. It appeared in the PIIX4. The kludge is
-> to instanciate the PIIX4.acpi from the PIIX3 and X86 ppl are happy with
-> it, but it makes it ugly for the other architectures.
->
-> >>>> Apparently this is by design:
-> >>>> https://qemu.readthedocs.io/en/stable/system/target-mips.html
->
-> What do you mean "by design"? The Malta uses a PIIX4 chipset for its
-> southbridge indeed.
-
-I meant it was intentional and not by accident.
-
->
-> >>>> which means mips malta will continue to use the x86 specific functions
-> >>>> like acpi_pcihp_reset(). Creating a stub for this with acpi-x86-stub.c
-> >>>> will result in a double symbol definition because CONFIG_PC is off for
-> >>>> mips.
-> >>>>
-> >>>
-> >>> Also to be noted that there is a stub for acpi_get_i386_pci_host() which
-> >>> simply returns NULL. This activates when CONFIG_PC is disabled. It is this
-> >>> stub that gets called for mips and hence the check for non-null host is
-> >>> needed in acpi_set_pci_info() function.
-> >> that were half measures to deal around code that shouldn't be called,
-> >> now with pcihp being used by both pc and q35 we don't have reason to
-> >> keep around null checks modulo mips calling code that shouldn't be
-> >> called there to begin with.
-> >
-> > So malta mips does not need ACPI hotplug? In that case, maybe we should
-> > not make pcihp.c dependent on CONFIG_ACPI_X86. Ideas welcome.
->
-> Linux on Malta does use the ACPI features from the PIIX4.
->
-> Please dig in the archives, Igor / myself already argued enough about
-> this topic 2 years ago. The consensus was "yes, it is badly implemented,
-> but it works and we don't have time to get it cleaner, pc machine is
-> way more used than the malta one, so let not break the pc machines."
->
-> See:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg613194.html
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg690435.html
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg725504.html
-
-Ok I see what you were trying to do. I wanted to stub out the cpu and
-memory hotplug bits for non x86 from piix4_acpi_system_hot_add_init().
-Howwver, sadly, arm uses memory hotplug for its GED device:
-
-cff51ac978c4fa0b3d0de0fd ("hw/arm/virt: Enable device memory cold/hot plug
-with ACPI boot")
-
-This makes things messy and complicated.
-Anyways, I am trying something and will send out a patch if I am
-successful.
-
---2088271309-5587739-1628694042=:16460--
 
