@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB863E8D65
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:43:03 +0200 (CEST)
-Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C723E8D81
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:48:23 +0200 (CEST)
+Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDklJ-0005Ok-Kh
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49028)
+	id 1mDkqU-00019V-9R
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDkhL-0003hD-Ct; Wed, 11 Aug 2021 05:38:55 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45416)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkpX-0000BF-65
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:47:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDkhJ-0005kJ-0z; Wed, 11 Aug 2021 05:38:54 -0400
-Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id DE08B21C27;
- Wed, 11 Aug 2021 09:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1628674730;
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mDkpU-0003Fn-Rb
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 05:47:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628675240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s9R7jF56aA28DyxjA5hcGXCN/D27QmrYNNCUyrqBlAg=;
- b=g/kT1PCfqeM6nVXWn/6lzSP3bMcjXT+xgcbfeuna8bYEG8Gf6tiFG7v370ynDual+Vk0I4
- eJbCjtOCVK5pp7RZsfFY73kewCb/zlh1AE7betv7NaBbEyplc0NS3alLSqobW8K6hNQVFq
- aeslmved2TBoUqQ5IUUyr6DLju3OHfg=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: damien.hedde@greensocs.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/char/ibex_plic: set user-creatable
-Date: Wed, 11 Aug 2021 11:38:38 +0200
-Message-Id: <20210811093838.18719-3-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210811093838.18719-1-damien.hedde@greensocs.com>
-References: <20210811093838.18719-1-damien.hedde@greensocs.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tZ1XPfL7kx/aD4vLmDhahjurwXihBp803srnDuMIHb8=;
+ b=eOriklPSWksI84lvw+lN4/rVsW4JP5VmO/S9zrM2j6Vd3cQCxhbnOC0avjPEpS1UmtiuzX
+ dfa9a8639z7Mn3c3LVF0tjOGOIjL0uVK2CX4FojkogXlakmv6wOT85T/qMjPKR7HyVWc7L
+ oQfqCLhBWEKvJdMLh0/ltMDBXVJ9mhM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-sRtsNT9JMuGZpXvCcuuC_g-1; Wed, 11 Aug 2021 05:47:16 -0400
+X-MC-Unique: sRtsNT9JMuGZpXvCcuuC_g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4E5100F76F;
+ Wed, 11 Aug 2021 09:47:15 +0000 (UTC)
+Received: from thuth.com (reserved-198-128.str.redhat.com [10.33.198.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74EFC5D740;
+ Wed, 11 Aug 2021 09:47:07 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Coiby Xu <coiby.xu@gmail.com>
+Subject: [PATCH] storage-daemon: Add missing build dependency to the
+ vhost-user-blk-test
+Date: Wed, 11 Aug 2021 11:47:05 +0200
+Message-Id: <20210811094705.131314-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.704,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,38 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Burton <mark.burton@greensocs.com>, qemu-riscv@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-block@nongnu.org, alex.bennee@linaro.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, alxndr@bu.edu,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ibex_plic meets the criteria to be user_creatable: all
-parameters are set from properties.
-Note that this patch, alone, does not allow to create an instance
-with -device cli option or device_add qmp command. Since it is
-a sysbus device, additional authorization must be done by the
-machine.
+vhost-user-blk-test needs the qemu-storage-deamon, otherwise it
+currently hangs. So make sure that we build the daemon before running
+the tests.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/intc/ibex_plic.c | 1 +
- 1 file changed, 1 insertion(+)
+ storage-daemon/meson.build | 8 ++++----
+ tests/qtest/meson.build    | 7 +++++--
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
-index edf76e4f61..8abd5ee613 100644
---- a/hw/intc/ibex_plic.c
-+++ b/hw/intc/ibex_plic.c
-@@ -291,6 +291,7 @@ static void ibex_plic_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+diff --git a/storage-daemon/meson.build b/storage-daemon/meson.build
+index 68852f3d25..49c9d2eac9 100644
+--- a/storage-daemon/meson.build
++++ b/storage-daemon/meson.build
+@@ -6,8 +6,8 @@ subdir('qapi')
  
-+    dc->user_creatable = true;
-     dc->reset = ibex_plic_reset;
-     device_class_set_props(dc, ibex_plic_properties);
-     dc->realize = ibex_plic_realize;
+ if have_tools
+   qsd_ss = qsd_ss.apply(config_host, strict: false)
+-  executable('qemu-storage-daemon',
+-             qsd_ss.sources(),
+-             dependencies: qsd_ss.dependencies(),
+-             install: true)
++  qsd = executable('qemu-storage-daemon',
++                   qsd_ss.sources(),
++                   dependencies: qsd_ss.dependencies(),
++                   install: true)
+ endif
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index e22a0792c5..2bc3efd49f 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -276,8 +276,11 @@ foreach dir : target_dirs
+   endif
+   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
+   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
+-  qtest_env.set('QTEST_QEMU_STORAGE_DAEMON_BINARY', './storage-daemon/qemu-storage-daemon')
+-  
++  if have_tools and have_vhost_user_blk_server
++    qtest_env.set('QTEST_QEMU_STORAGE_DAEMON_BINARY', './storage-daemon/qemu-storage-daemon')
++    test_deps += [qsd]
++  endif
++
+   foreach test : target_qtests
+     # Executables are shared across targets, declare them only the first time we
+     # encounter them
 -- 
-2.32.0
+2.27.0
 
 
