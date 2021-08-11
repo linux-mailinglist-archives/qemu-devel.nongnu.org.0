@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDBC3E8F73
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:27:34 +0200 (CEST)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2893E8F91
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 13:39:58 +0200 (CEST)
+Received: from localhost ([::1]:57362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDmOT-0005Rp-BS
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45196)
+	id 1mDmaT-0002Rh-5F
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 07:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDmNE-0004kc-IJ
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:26:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42649)
+ (Exim 4.90_1) (envelope-from <kripper@imatronix.cl>)
+ id 1mDmY2-0000ms-KG
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:37:26 -0400
+Received: from ip27.imatronix.com ([200.63.97.108]:39122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mDmNA-00075f-Pv
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:26:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628681170;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HzfGuTJ9LClxO3o02LewFekWjMg4g+fqFex88KjpBO8=;
- b=BAftLosgaytrDR6EK2tXcoQCcLTqGJg35k22YEmWtFX5qo2hS7au9o4bG8sMh1uf352ezf
- eK1+YNnJS8McNHxXG3rQQJ4r7kec/tUkWQVLpKm6WUZgRnsrgLT/L7cxDWx+xhrN4e38R8
- /RrCxUtAwgDC1Bv5Ed+AjH3kBq8dsjw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-dD_y4I0KOPCfutXm_6ag7w-1; Wed, 11 Aug 2021 07:26:04 -0400
-X-MC-Unique: dD_y4I0KOPCfutXm_6ag7w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18A161026200;
- Wed, 11 Aug 2021 11:26:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B04260BF1;
- Wed, 11 Aug 2021 11:26:01 +0000 (UTC)
-Date: Wed, 11 Aug 2021 12:25:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2] docs: make sphinx-build be quiet by default
-Message-ID: <YROzx5IVaUsX5cQR@redhat.com>
-References: <20210810113201.3957815-1-berrange@redhat.com>
- <CAJ+F1CJf=e5DcGji98krxgaqdsKkc=FCHF1JveuBfegovdcbJw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <kripper@imatronix.cl>)
+ id 1mDmXy-00063s-PS
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:37:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=imatronix.cl; s=default; h=Content-Type:MIME-Version:Date:Message-ID:
+ Subject:From:To:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uuRi5udfFB9Om42s6blg24KmiDrwtYgt3M4bww7paJQ=; b=HtIV2gS66etVd47BGbtkN4LXfi
+ lIylkxHgQQoFjjI1IhDItAiONESyiWRJGkd9i8A7ch+k9SN5LvaHcur46POS2rOVO6eliQWJVOXCE
+ HHKzhaAgHKk+/124pqmAqpnaymHexjuOxy3l3ALkBQ51LnT7cCNne8yh5qPITQF3p78OoD31uQhRY
+ QmB4kuE7+pqZabFu1hFSXyytPVAAoYfz1SDVuGxj8WHltI54p4RB5Rnl2FMmJYDATSgWXuCC+lNSH
+ 89MWB3lf9Mql/ka1e/Fmp/xnPtACX4x19bbjvYwU4MKyPNnWDHXZsHatGR4RUrCjD8qAbnlRV3ZJd
+ RKEa+DWA==;
+Received: from [200.73.112.45]
+ by cpanel.imatronix.com with esmtpsa (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.94.2) (envelope-from <kripper@imatronix.cl>)
+ id 1mDmXF-0003AQ-1h   
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 07:36:36 -0400
+To: qemu-devel@nongnu.org
+From: Christopher Pereira <kripper@imatronix.cl>
+Organization: IMATRONIX S.A.
+Subject: qcow2 perfomance: read-only IO on the guest generates high write IO
+ on the host
+Message-ID: <55980bc8-97ad-77a4-1bb7-a086f2712ea1@imatronix.cl>
+Date: Wed, 11 Aug 2021 07:36:33 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJf=e5DcGji98krxgaqdsKkc=FCHF1JveuBfegovdcbJw@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="------------46D1A7DF5CBA143D1E40EC95"
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.imatronix.com
+X-AntiAbuse: Original Domain - nongnu.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - imatronix.cl
+X-Get-Message-Sender-Via: cpanel.imatronix.com: authenticated_id:
+ kripper@imatronix.cl
+X-Authenticated-Sender: cpanel.imatronix.com: kripper@imatronix.cl
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Received-SPF: pass client-ip=200.63.97.108; envelope-from=kripper@imatronix.cl;
+ helo=ip27.imatronix.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,54 +81,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 11, 2021 at 03:22:43PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, Aug 10, 2021 at 3:32 PM Daniel P. Berrangé <berrange@redhat.com>
-> wrote:
-> 
-> > The sphinx-build is fairly verbose spitting out pages of output to the
-> > console, which causes errors from other build commands to be scrolled
-> > off the top of the terminal. This can leave the mistaken impression that
-> > the build passed, when in fact there was a failure.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> >
-> 
-> Without this patch, I miss the warnings 99% of the time!!
-> 
-> You are missing one -q though:
-> 
-> diff --git a/docs/meson.build b/docs/meson.build
-> index 42d7555bc4..51fa902cd9 100644
-> --- a/docs/meson.build
-> +++ b/docs/meson.build
-> @@ -78,7 +78,7 @@ if build_docs
->                  input: files('conf.py'),
->                  depfile: 'docs.d',
->                  depend_files: [ sphinx_extn_depends, sphinx_template_files
-> ],
-> -                command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
-> +                command: [SPHINX_ARGS, '-q', '-Ddepfile=@DEPFILE@',
->                            '-Ddepfile_stamp=@OUTPUT0@',
->                            '-b', 'html', '-d', private_dir,
->                            input_dir, output_dir])
-> 
-> Why not update SPHINX_ARGS instead?
+This is a multi-part message in MIME format.
+--------------46D1A7DF5CBA143D1E40EC95
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-🤦 that would be a better idea.
+Hi,
+
+I'm reading a directory with 5.000.000 files (2,4 GB) inside a guest 
+using "find | grep -c".
+
+On the host I saw high write IO (40 MB/s !) during over 1 hour using 
+virt-top.
+
+I later repeated the read-only operation inside the guest and no 
+additional data was written on the host. The operation took only some 
+seconds.
+
+I believe QEMU was creating some kind of cache or metadata map the first 
+time I accessed the inodes.
+
+But I wonder why the cache or metadata map wasn't available the first 
+time and why QEMU had to recreate it?
+
+The VM has "compressed base <- snap 1" and base was converted without 
+prealloc.
+
+Is it because we created the base using convert without metadata 
+prealloc and so the metadata map got lost?
+
+I will do some experiments soon using convert + metadata prealloc and 
+probably find out myself, but I will happy to read your comments and 
+gain some additional insights.
+If it the problem persists, I would try again without compression.
+
+Additional info:
+
+  * Guest fs is xfs.
+  * (I believe the snapshot didn't significantly increase in size, but I
+    would need to double check)
+  * This is a production host with old QEMU emulator version 2.3.0
+    (qemu-kvm-ev-2.3.0-31.el7_2.10.1)
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--------------46D1A7DF5CBA143D1E40EC95
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,</p>
+    <p>I'm reading a directory with 5.000.000 files (2,4 GB) inside a
+      guest using "find | grep -c".<br>
+    </p>
+    <p>On the host I saw high write IO (40 MB/s !) during over 1 hour
+      using virt-top.<br>
+    </p>
+    <p>I later repeated the read-only operation inside the guest and no
+      additional data was written on the host. The operation took only
+      some seconds.<br>
+    </p>
+    <p>I believe QEMU was creating some kind of cache or metadata map
+      the first time I accessed the inodes.</p>
+    <p>But I wonder why the cache or metadata map wasn't available the
+      first time and why QEMU had to recreate it?</p>
+    <p>The VM has "compressed base &lt;- snap 1" and base was converted
+      without prealloc.</p>
+    <p>Is it because we created the base using convert without metadata
+      prealloc and so the metadata map got lost?</p>
+    <p>I will do some experiments soon using convert + metadata prealloc
+      and probably find out myself, but I will happy to read your
+      comments and gain some additional insights.<br>
+      If it the problem persists, I would try again without compression.<br>
+    </p>
+    <p>Additional info:<br>
+    </p>
+    <ul>
+      <li>Guest fs is xfs.<br>
+      </li>
+      <li>(I believe the snapshot didn't significantly increase in size,
+        but I would need to double check)</li>
+      <li>This is a production host with old QEMU emulator version 2.3.0
+        (qemu-kvm-ev-2.3.0-31.el7_2.10.1)</li>
+    </ul>
+  </body>
+</html>
+
+--------------46D1A7DF5CBA143D1E40EC95--
 
