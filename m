@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE3D3E8AB1
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 09:03:24 +0200 (CEST)
-Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5448A3E8AAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:59:29 +0200 (CEST)
+Received: from localhost ([::1]:45600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDiGp-0004jN-LJ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 03:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41208)
+	id 1mDiD2-0002ns-Bz
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDi0k-0006Fm-Be; Wed, 11 Aug 2021 02:46:46 -0400
-Received: from ozlabs.org ([203.11.71.1]:57343)
+ id 1mDi0k-0006FG-4f; Wed, 11 Aug 2021 02:46:46 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46141 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDi0g-0002S8-E9; Wed, 11 Aug 2021 02:46:46 -0400
+ id 1mDi0g-0002S5-7R; Wed, 11 Aug 2021 02:46:45 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Gl0j54Sz0z9sX1; Wed, 11 Aug 2021 16:46:33 +1000 (AEST)
+ id 4Gl0j540Sxz9sWc; Wed, 11 Aug 2021 16:46:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1628664393;
- bh=SnfO59GrL3Y2DuhBIt6QMwbCRSk7s5nx7//Diuqe7Js=;
+ bh=WEBacQfk0P1TpdF71WmrA06cBD5EBwhLWtCC9ppgeZ8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kC4AFeDJvWyYdm7CQMLaZwf7hQ5n21Fu5SCdYD808RMuCNa6wNb+f68M+qzCdVq14
- GRgpff4y/0jp2cZNqEdlLvnNVkIRV+8+Cg1x26NyNuEL+r6jpKnx+Zq4pD2mMsjnhS
- B4EZG+0OCd7ZcgboD6D8d86f9T2PnBoK21d/7BEk=
-Date: Wed, 11 Aug 2021 13:36:46 +1000
+ b=JsZr3uIKYnD7tIMfzHiSO0SOwSPXrlUq7ZX1E9w107gdySRYk9tyi9SbsHqlWehBr
+ b9Qz3CEMqT5Fd5ACZSf9CY/MejYUfOc4reN5n1mncuk+2NNmm7vGJUwetVP41OlUU6
+ HoQhWrrCm1JfxkKMiqGh1dS08dl6ocYm0sDsZtB0=
+Date: Wed, 11 Aug 2021 13:37:28 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 09/19] PPC64/TCG: Implement 'rfebb' instruction
-Message-ID: <YRNFznayZC3AS0wT@yekko>
+Subject: Re: [PATCH 18/19] target/ppc/pmu_book3s_helper.c: add PM_CMPLU_STALL
+ mock events
+Message-ID: <YRNF+PyU22DNatBa@yekko>
 References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-10-danielhb413@gmail.com>
- <YRH3dJG5iKPGvrel@yekko>
- <df15bc5c-ee71-9cd2-bf20-77da9ec7cc11@gmail.com>
+ <20210809131057.1694145-19-danielhb413@gmail.com>
+ <YRH96w0+vMRHob7w@yekko>
+ <79d98671-0da4-bc89-aa7d-a6778e0af4da@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VpCle/evU23zLk4+"
+ protocol="application/pgp-signature"; boundary="+7CkGsoqNbZAxdau"
 Content-Disposition: inline
-In-Reply-To: <df15bc5c-ee71-9cd2-bf20-77da9ec7cc11@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <79d98671-0da4-bc89-aa7d-a6778e0af4da@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_score_int: 17
+X-Spam_score: 1.7
+X-Spam_bar: +
+X-Spam_report: (1.7 / 5.0 requ) DATE_IN_PAST_03_06=1.592, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,117 +61,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VpCle/evU23zLk4+
+--+7CkGsoqNbZAxdau
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 10, 2021 at 04:32:35PM -0300, Daniel Henrique Barboza wrote:
+On Tue, Aug 10, 2021 at 04:48:59PM -0300, Daniel Henrique Barboza wrote:
 >=20
 >=20
-> On 8/10/21 12:50 AM, David Gibson wrote:
-> > On Mon, Aug 09, 2021 at 10:10:47AM -0300, Daniel Henrique Barboza wrote:
-> > > From: Gustavo Romero <gromero@linux.ibm.com>
+> On 8/10/21 1:17 AM, David Gibson wrote:
+> > On Mon, Aug 09, 2021 at 10:10:56AM -0300, Daniel Henrique Barboza wrote:
+> > > EBB powerpc kernel test 'multi_counter_test' uses PM_CMPLU_STALL even=
+ts
+> > > that we do not support. These events are related to CPU stalled/wasted
+> > > cycles while waiting for resources, cache misses and so on.
 > > >=20
-> > > An Event-Based Branch (EBB) allows applications to change the NIA whe=
-n a
-> > > event-based exception occurs. Event-based exceptions are enabled by
-> > > setting the Branch Event Status and Control Register (BESCR). If the
-> > > event-based exception is enabled when the exception occurs, an EBB
-> > > happens.
+> > > Unlike the 0xFA event added previously, there's no available equivale=
+nt
+> > > for us to use, and at this moment we can't sample those events as wel=
+l.
+> > > What we can do is mock those events as if we were calculating them.
 > > >=20
-> > > The EBB will:
+> > > This patch implements PM_CMPLU_STALL, PM_CMPLU_STALL_FXU,
+> > > PM_CMPLU_STALL_OTHER_CMPL and PM_CMPLU_STALL_THRD mock events by givi=
+ng
+> > > them a fixed amount of the total elapsed cycles.
 > > >=20
-> > > - set the Global Enable (GE) bit of BESCR to 0;
-> > > - set bits 0-61 of the Event-Based Branch Return Register (EBBRR) to =
-the
-> > >    effective address of the NIA that would have executed if the EBB
-> > >    didn't happen;
-> > > - Instruction fetch and execution will continue in the effective addr=
-ess
-> > >    contained in the Event-Based Branch Handler Register (EBBHR).
-> > >=20
-> > > The EBB Handler will process the event and then execute the Return Fr=
-om
-> > > Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
-> > > redirects execution to the address pointed in EBBRR. This process is
-> > > described in the PowerISA v3.1, Book II, Chapter 6 [1].
-> > >=20
-> > > This patch implements the rfebb instruction. Descriptions of all
-> > > relevant BESCR bits are also added - this patch is only using BESCR_G=
-E,
-> > > but next patches will use the remaining bits.
-> > >=20
-> > > Note that we're implementing the extended rfebb mnemonic (BESCR_GE is
-> > > being always set to 1). The basic rfebb instruction would accept an
-> > > operand that would be used to set GE.
-> > >=20
-> > > [1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
-> > >=20
-> > > CC: Gustavo Romero <gustavo.romero@linaro.org>
-> > > Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > ---
-> > >   target/ppc/cpu.h       | 12 ++++++++++++
-> > >   target/ppc/translate.c | 21 +++++++++++++++++++++
-> > >   2 files changed, 33 insertions(+)
-> > >=20
-> > > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> > > index afd9cd402b..ae431e65be 100644
-> > > --- a/target/ppc/cpu.h
-> > > +++ b/target/ppc/cpu.h
-> > > @@ -358,6 +358,18 @@ typedef struct ppc_v3_pate_t {
-> > >   #define MMCR1_PMC3SEL PPC_BITMASK(48, 55)
-> > >   #define MMCR1_PMC4SEL PPC_BITMASK(56, 63)
-> > > +/* EBB/BESCR bits */
-> > > +/* Global Enable */
-> > > +#define BESCR_GE PPC_BIT(0)
-> > > +/* External Event-based Exception Enable */
-> > > +#define BESCR_EE PPC_BIT(30)
-> > > +/* Performance Monitor Event-based Exception Enable */
-> > > +#define BESCR_PME PPC_BIT(31)
-> > > +/* External Event-based Exception Occurred */
-> > > +#define BESCR_EEO PPC_BIT(62)
-> > > +/* Performance Monitor Event-based Exception Occurred */
-> > > +#define BESCR_PMEO PPC_BIT(63)
-> > > +
-> > >   /* LPCR bits */
-> > >   #define LPCR_VPM0         PPC_BIT(0)
-> > >   #define LPCR_VPM1         PPC_BIT(1)
-> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> > > index 62356cfadf..afc254a03f 100644
-> > > --- a/target/ppc/translate.c
-> > > +++ b/target/ppc/translate.c
-> > > @@ -2701,6 +2701,26 @@ static void gen_darn(DisasContext *ctx)
-> > >           }
-> > >       }
-> > >   }
-> > > +
-> > > +/* rfebb */
-> > > +static void gen_rfebb(DisasContext *ctx)
+> > > The chosen sample values for these events (25% of total cycles for
+> > > PM_CMPLU_STALL and 5% for the other three) were chosen at random and =
+has
+> > > no intention of being truthful with what a real PowerPC hardware would
+> > > give us. Our intention here is to make 'multi_counter_test' EBB test
+> > > pass.
 > >=20
-> > Oof.. not necessarily a nack, but it would be nice to implement any
-> > new instructions using the disastree path rather than the old ppc
-> > specific decode logic.
+> > Hmm.  I guess these mock values make sense for getting the kernel
+> > tests to pass, but I'm not sure if it's a good idea in general.  Would
+> > we be better off just reporting 0 always - that would be a strong hint
+> > to someone attempting to analyze results that something is fishy (in
+> > this case that they don't actually have a real CPU).
 >=20
->=20
-> I'm not sure what is the disastree path. Is it similar to how rfscv is
-> implemented?
+> We can drop this patch and I'll add a note in the docs that the EBB kernel
+> test 'multi_counter_test' fails because the PMU does not implement STALL
+> events.
 
-No, it's a generic system for decoding instructions.  A few things in
-POWER have been moved over to it: that's the stuff in insn64.decode
-and the trans_*() functions, rather than the gen_*() functions.
-
-So far only the 64-bit prefixed instructions + instructions that were
-immediately related to them were converted.  ppc_tr_translate_insn()
-attempts first to decode using decode_insn32() (which is decodetree)
-then if that fails, falls back to decode_legacy().
+Sounds good for now.  We can reconsider this if we have a specific
+justification for it.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -179,25 +119,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---VpCle/evU23zLk4+
+--+7CkGsoqNbZAxdau
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmETRc4ACgkQbDjKyiDZ
-s5LFcxAAzH7TYp02Cm21sPD12eLjlMgWDyraAFx7zkM0nrekkdEp+LD3R+TmefnW
-qlTCW8rBByRiOVBWCWUdKk5xf3gYHsu4K4IZhSRD8NYY8BET9WUSerVEdep2gq7G
-oIqICzgVYiTh6knqGnrrWFcTjDL+/xSPMva6RqIk4byhuBfpetIFhH1ByX2t9M8/
-b2x9RPJ9UP5y8KqgYmmtZZQ8RFQcZ6Jdz/md8F5FS00AEuC1a7elTMOUAES1faUz
-m3dNhzmbXrz1CUP82AP0u8jc0D5FK1A7wfrXQp2YX/ggiKT//CmnTRjtt50CfXjh
-2DVsBo+AIsPX4+iwHGABH5eYc4t53K4U91hZhRdO2qZSW9NP4eVBg7ekW7S0TO9Z
-mi2IQCz+5knj7WbaNOPy+H/YXEEdjIozP5iVQhnaDXyz1RRBMbriqPHoUOoInnxl
-yxS7TGSu6V9lnPE0EIpWeiDGpuseJf57n3GbkjEj8xCGCyR/ORgGHERLbRqj2O3Z
-qsmyModtQ2Svkm9YrWRP5qg+Xh8HXlND5JffwgOWKJQuNCWimqVA2Qg1DuYTU37k
-ADmvX+zmXqa1DyCq8S17DE9bJd4OH/sSprjd474lej9t+Enz+5zsxU5KTOUbpGWs
-G5Y0DhUyJsXa2XzdoiVMt2qlv3bpZn44Lh45BS6sR6CGYiP3Uko=
-=tSFl
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmETRfgACgkQbDjKyiDZ
+s5JyQxAAxS3IfDlP6z1fAgUWjIdQiRj1TD0EQqzPQkEIOPVFclz8Hx8RKeRhsYbd
+KDmQ+WpLmCIIyCI6KAp3Pg6JSI82TOmci/FEZT4IEotaAE53voRsCAJ4NslWnO9q
+OeLyNFO+TQ7Q7foegp6oAG/WQSDDSCO717P4z887fDhYDCXwW1Chxh4y25RU3Sww
+zQHbzAPdTYkke7WVT8UuVugCWsp9BQMfjrdyx+JNlIIslKS/AAi9RuxgYbvrlIaN
+VKLadaMarMUTyQNSHeu0W+EO0NC6kMZ34/l77mOHTT6t8LluLLgDyalJdo9gSnrf
+PxxyDzRoB0ExPeeGPxWjyi0i6bjC186iJO1D/KDSfsKj6pcaRRcHVQMH7BoaaGI/
+AQ+mRz7bgEFFd8d6YKhPKhj3g3cCUe266j/6UbvFOlxSGHVqRahyprDS4+w2Lpn7
+4a2rNG5pthTqKIod60/oiCl07/Mau9X37u9kIK6xDsummmMwTQgIlpFTh4OZzo3b
+U5emiLM9feXXpce89om95FhSsC9swfhRc/QYhENnc5llBdhlezbtcurhSKM1Yp2O
+EImgc6XbrcBpXHi6YecmO6AC0oXjuFbhydWgezG64+uQ9L3RdQrrPXjuCEuMCwra
+oUq+qZAU+PLV43xKBRKNEVnPe7DFnlEsQUcbyc/QzCP1kRexM5M=
+=PVfo
 -----END PGP SIGNATURE-----
 
---VpCle/evU23zLk4+--
+--+7CkGsoqNbZAxdau--
 
