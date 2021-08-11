@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6043E8A71
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:47:56 +0200 (CEST)
-Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B01D3E8A4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 08:44:17 +0200 (CEST)
+Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDi1r-0007tC-H3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40496)
+	id 1mDhyK-00085I-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 02:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhvw-00053r-HA
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46786)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw2-0005KR-2D
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhvv-0006em-4u
- for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:48 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mDhw0-0006jP-Lk
+ for qemu-devel@nongnu.org; Wed, 11 Aug 2021 02:41:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628664106;
+ s=mimecast20190719; t=1628664111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tCU9wKQIJfaDuBD9rWapICix5oCRg+4uDuZuQgBZVu0=;
- b=fs8Z2jy9oU3LWyz7jrzYdg2A962xxna5n0Rm8zvjhzFhTHsHfn65grNEyKffgupuvP3JdT
- 0thLvfSxkuAYFvCfcnpyhV02GVL1yju8LINGveQm7So2QxlOO9TMuzlZpCP1HxFNjBV2cO
- 2uN1z5sq7k3QekttQLC/Lhif6TqHLgw=
+ bh=S6sdFFnNJP1+6vn1D29/A7eQl6fMsuJ1cF4BNERGpRY=;
+ b=FJf3+lodMYtcrYoVThXMsvH/Qrb669Ikza+j8yRWAsB+bbF0bMJ1/69tDnEMF0g6ovAtOf
+ rEaQND6WAL4VzHX9PyfM1LXgUuY23iKtriee9JDzc7pjADg61udaP3aWpdWkVPnfvYXvKm
+ D3jURwuLpwZaVfZMcj5odz6KSujXFZo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-1sBcaujUMyieHExYmdw_lQ-1; Wed, 11 Aug 2021 02:41:45 -0400
-X-MC-Unique: 1sBcaujUMyieHExYmdw_lQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-158-DKXNBwAxPHqMaYsx70lJLQ-1; Wed, 11 Aug 2021 02:41:50 -0400
+X-MC-Unique: DKXNBwAxPHqMaYsx70lJLQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 724701008060
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 06:41:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8266190A7A0
+ for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 06:41:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94F5B7E46E;
- Wed, 11 Aug 2021 06:41:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 199F15D740;
+ Wed, 11 Aug 2021 06:41:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8F6E91800992; Wed, 11 Aug 2021 08:41:28 +0200 (CEST)
+ id 99A6C1800994; Wed, 11 Aug 2021 08:41:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] MAINTAINERS: update audio entry.
-Date: Wed, 11 Aug 2021 08:41:24 +0200
-Message-Id: <20210811064128.2776317-4-kraxel@redhat.com>
+Subject: [PULL 4/7] MAINTAINERS: update spice entry.
+Date: Wed, 11 Aug 2021 08:41:25 +0200
+Message-Id: <20210811064128.2776317-5-kraxel@redhat.com>
 In-Reply-To: <20210811064128.2776317-1-kraxel@redhat.com>
 References: <20210811064128.2776317-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,24 +85,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 New maintainer wanted. Downgrade status to "Odd Fixes" for now.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20210810083450.2377374-4-kraxel@redhat.com>
+Message-Id: <20210810083450.2377374-5-kraxel@redhat.com>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 79b0148cfc27..5cb402d402ec 100644
+index 5cb402d402ec..33b4fc25e349 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2258,7 +2258,7 @@ Subsystems
- ----------
- Audio
+@@ -2470,7 +2470,7 @@ F: scripts/coccinelle/memory-region-housekeeping.cocci
+ 
+ SPICE
  M: Gerd Hoffmann <kraxel@redhat.com>
--S: Maintained
+-S: Supported
 +S: Odd Fixes
- F: audio/
- F: hw/audio/
- F: include/hw/audio/
+ F: include/ui/qemu-spice.h
+ F: include/ui/spice-display.h
+ F: ui/spice-*.c
 -- 
 2.31.1
 
