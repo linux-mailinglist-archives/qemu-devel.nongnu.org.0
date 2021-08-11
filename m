@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D54C3E8D7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:47:48 +0200 (CEST)
-Received: from localhost ([::1]:34642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB863E8D65
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Aug 2021 11:43:03 +0200 (CEST)
+Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDkpv-0008Bi-0a
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49040)
+	id 1mDklJ-0005Ok-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 05:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDkhM-0003hS-2q; Wed, 11 Aug 2021 05:38:57 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45404)
+ id 1mDkhL-0003hD-Ct; Wed, 11 Aug 2021 05:38:55 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:45416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mDkhJ-0005jz-1U; Wed, 11 Aug 2021 05:38:55 -0400
+ id 1mDkhJ-0005kJ-0z; Wed, 11 Aug 2021 05:38:54 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id F1B0420780;
- Wed, 11 Aug 2021 09:38:48 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id DE08B21C27;
+ Wed, 11 Aug 2021 09:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1628674729;
+ s=mail; t=1628674730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tguyCt+BzDdHqIZ4CE6207mB0+/25QkElhg+9VKaH64=;
- b=O0KI2XarJa58qWIY/qF7JIzTdd5qyfRoOAjzvhAi21lmuDWC2HkbLcULbyzINrFYLMfBuN
- Z9i/12NbnC5O3PBdxcTdZvhCG8r18E8YpfpxGr/w8ghpZ8QxVjvbpGxflQbT+vTqXpCsJ+
- et2C+OlMkleMNnrdFxkF6l2Fie6E+Ek=
+ bh=s9R7jF56aA28DyxjA5hcGXCN/D27QmrYNNCUyrqBlAg=;
+ b=g/kT1PCfqeM6nVXWn/6lzSP3bMcjXT+xgcbfeuna8bYEG8Gf6tiFG7v370ynDual+Vk0I4
+ eJbCjtOCVK5pp7RZsfFY73kewCb/zlh1AE7betv7NaBbEyplc0NS3alLSqobW8K6hNQVFq
+ aeslmved2TBoUqQ5IUUyr6DLju3OHfg=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: damien.hedde@greensocs.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/char/ibex_uart: set user-creatable
-Date: Wed, 11 Aug 2021 11:38:37 +0200
-Message-Id: <20210811093838.18719-2-damien.hedde@greensocs.com>
+Subject: [PATCH 2/2] hw/char/ibex_plic: set user-creatable
+Date: Wed, 11 Aug 2021 11:38:38 +0200
+Message-Id: <20210811093838.18719-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210811093838.18719-1-damien.hedde@greensocs.com>
 References: <20210811093838.18719-1-damien.hedde@greensocs.com>
@@ -68,7 +68,7 @@ Cc: Mark Burton <mark.burton@greensocs.com>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ibex_uart meets the criteria to be user_creatable: all
+The ibex_plic meets the criteria to be user_creatable: all
 parameters are set from properties.
 Note that this patch, alone, does not allow to create an instance
 with -device cli option or device_add qmp command. Since it is
@@ -77,21 +77,21 @@ machine.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/char/ibex_uart.c | 1 +
+ hw/intc/ibex_plic.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index 9b0a817713..b1646422c0 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -546,6 +546,7 @@ static void ibex_uart_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index edf76e4f61..8abd5ee613 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -291,6 +291,7 @@ static void ibex_plic_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
  
 +    dc->user_creatable = true;
-     dc->reset = ibex_uart_reset;
-     dc->realize = ibex_uart_realize;
-     dc->vmsd = &vmstate_ibex_uart;
+     dc->reset = ibex_plic_reset;
+     device_class_set_props(dc, ibex_plic_properties);
+     dc->realize = ibex_plic_realize;
 -- 
 2.32.0
 
