@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870CE3EA9D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:54:47 +0200 (CEST)
-Received: from localhost ([::1]:51528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F493EA9D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:56:07 +0200 (CEST)
+Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEEuk-0000eY-J7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37380)
+	id 1mEEw2-0002Ai-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mEEu0-0008QM-Dy
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26988)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mEEuj-00018L-5f
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mEEtz-0003ok-1H
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:54:00 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mEEuh-00049X-Oo
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:54:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628790838;
+ s=mimecast20190719; t=1628790883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=D/awbQJjDoUzr4gtjWoclHcQlr8v6kKHmSeXHO7I3O0=;
- b=czi9KevK4awseP6PF6rElVoXzCIRMldtOa2Uh89Vb04TQr9JTB+GvJqqaETLNH5tF8ill7
- 907zKufxGO908zzZY4WGqNd5DdTudHHQsK0H3Kqpqi2XXrP6DIYi+4vxds/7QhKlrQ2cpv
- U52TTYGZ9RmKoYEPqgzgHUV042b4+6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-AjhBBsdFOEC1UlI77orhNg-1; Thu, 12 Aug 2021 13:53:57 -0400
-X-MC-Unique: AjhBBsdFOEC1UlI77orhNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E633107ACF5;
- Thu, 12 Aug 2021 17:53:56 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E4A741017CE6;
- Thu, 12 Aug 2021 17:53:54 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 ?] hw/core: fix error checkig in smp_parse
-Date: Thu, 12 Aug 2021 18:53:53 +0100
-Message-Id: <20210812175353.4128471-1-berrange@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=eTv63rUYyHfValJazCjthBaVKyjyDxN/+y6BvZ7Iaj0=;
+ b=gcCuh8cbc889fKsMvCEvlk4/KiGb1lTu+WTfkhyGGuJm8n+V/+UZD4uqTDw1zZqJbIIsWm
+ U4QWwE6FwW3JKf/vk0oECS9IzXeCgsHkLuve96AZv76mh8RISEhHQZSMw5j0f1JBwPFrnB
+ QEWOP69fyAz+wF1cMC9J+X+1uJc7gjY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-QJ8XgJvVM8eB43di2SEklg-1; Thu, 12 Aug 2021 13:54:41 -0400
+X-MC-Unique: QJ8XgJvVM8eB43di2SEklg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ y186-20020a1c32c30000b02902b5ac887cfcso3648094wmy.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:54:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eTv63rUYyHfValJazCjthBaVKyjyDxN/+y6BvZ7Iaj0=;
+ b=TvePkZe7Yk1sqJA8/FlkbDt7xSajJBkNniV+mNhI1ipbM0kVkqitaLFF1evK15A+p+
+ FrTN38WMlrQvHGJRtC+8TmDZE4L0Kbz0/9M2hPL1+jEu+HhA9xa/Sbo55BplLoUzN2kw
+ vyTdWr4JbzASLO1FwXTOhn9taj9FA6bpuKyrPgq5TyJHLrEwb85MhqSdE3O8cQUwM3YI
+ LDf3pEwiEho5H8MgRZu1RV30dRJpL5U/jCWtdpwzRyj7gnn7DP/doIPOHTh9wR2sPAnC
+ ER0aGEMJnB6vSJIn5hJYoreSZJeau4heU5x5Shi2S4sko90ZcZSnrRbn0sP6TTscMcVt
+ QVwQ==
+X-Gm-Message-State: AOAM530uvLDlwmpgSUI9TZ8pPWI9e8XpOEgdhMSrsFebyXJjnM12uRiZ
+ wqh+dKUXLlyUaAk7crEgEQQAFecB0qRLNHoFpeMvkXUA65jLg2STS8ASibOlyR0L9yNTwlYK6gw
+ OkPJ7g5ZLq5JfTWg=
+X-Received: by 2002:a5d:464a:: with SMTP id j10mr5264241wrs.190.1628790880654; 
+ Thu, 12 Aug 2021 10:54:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUL8OORqcKTQchpODGKHpBb/OnAqFb1tGZbVneglYLXyQRExkFfSikQBqdHZDM7HbFSX2J9A==
+X-Received: by 2002:a5d:464a:: with SMTP id j10mr5264228wrs.190.1628790880472; 
+ Thu, 12 Aug 2021 10:54:40 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id z126sm3484456wmc.11.2021.08.12.10.54.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 10:54:40 -0700 (PDT)
+Date: Thu, 12 Aug 2021 18:54:38 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] configure: Remove spurious [] from tr
+Message-ID: <YRVgXoaaDngqWUZ7@work-vm>
+References: <20210812110942.19065-1-dgilbert@redhat.com>
+ <7f58a3cb-01ff-76e8-018a-0be3db62fd74@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <7f58a3cb-01ff-76e8-018a-0be3db62fd74@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HEXHASH_WORD=1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,53 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: philmd@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The machine_set_smp() mistakenly checks 'errp' not '*errp',
-and so thinks there is an error every single time it runs.
-This causes it to jump to the end of the method, skipping
-the max CPUs checks. The caller meanwhile sees no error
-and so carries on execution. The result of all this is:
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 12/08/21 13:09, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > ShellCheck points out that tr '[a-z]' actually replaces the []'s
+> > and only the a-z is needed.
+> > 
+> > Remove the spurious [] - although in this use it will make no
+> > difference.
+> > 
+> > Fixes: bb55b712e8dc4d4eb515144d5c26798fea178cba
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >   configure | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/configure b/configure
+> > index 9a79a004d7..5bb8c2a59d 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -4549,7 +4549,7 @@ if test "$gprof" = "yes" ; then
+> >   fi
+> >   echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
+> >   for drv in $audio_drv_list; do
+> > -    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
+> > +    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr 'a-z' 'A-Z')
+> >       echo "$def=y" >> $config_host_mak
+> >   done
+> >   if test "$alsa" = "yes" ; then
+> > 
+> 
+> Do we want this in 6.1?  For the next release I'm moving all audio stuff to
+> meson anyway. :)
 
- $ qemu-system-x86_64 -smp -1
- qemu-system-x86_64: GLib: ../glib/gmem.c:142: failed to allocate 481036337048 bytes
+Bah! Not bothered; I just tripped over ShellCheck and that
+looked like a trivial one.
 
-instead of
+Dave
 
- $ qemu-system-x86_64 -smp -1
- qemu-system-x86_64: Invalid SMP CPUs -1. The max CPUs supported by machine 'pc-i440fx-6.1' is 255
-
-This is a regression from
-
-  commit fe68090e8fbd6e831aaf3fc3bb0459c5cccf14cf
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Thu May 13 09:03:48 2021 -0400
-
-    machine: add smp compound property
-
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/524
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 943974d411..ab4fca6546 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -832,7 +832,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-     }
- 
-     mc->smp_parse(ms, config, errp);
--    if (errp) {
-+    if (*errp) {
-         goto out_free;
-     }
- 
+> Paolo
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
