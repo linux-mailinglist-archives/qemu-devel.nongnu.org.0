@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C055D3EA505
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 14:59:42 +0200 (CEST)
-Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352893EA523
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 15:08:33 +0200 (CEST)
+Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEAJB-0004hk-S4
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 08:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60774)
+	id 1mEARj-0008Lj-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 09:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mEAHy-0003Ge-Ev
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 08:58:26 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:45625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mEAHw-0003OS-RE
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 08:58:26 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 203-20020a1c00d40000b02902e6a4e244e4so4497128wma.4
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 05:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=r3pcQEyGniq8eGxf7Ybn8FpWQZxjqWcciNCrN4hfwrE=;
- b=tRQW3tAR429MN/AzH9mM4GGGZH8YJPF/QZrHWzy9pNj9PWIEhyInu5HtNeKxyi7ShH
- u+jSJz3T+GUVo8A1LPCUFWEubaGOWZbZmBeTJp6B29L2diaqC7ciTmvtzNRPKelhDJmC
- T10EckJjFUiR9PMMSCR4ZYG7T/IQINHnWsArFSj3IBML0LO3T2NZSZVcx/BUwDx2/pxm
- ZEKZ0WDOv/H0NDOXgB05O5y8IRpqpvYoy1aSDaavqW+QRHrlTV2UQZHJVtvedD67Hzrk
- 6gibwbJrD5FZs/EVRukxJQ1yOy/4OmpbLDBEC6u/KmwWmylO6NJPEoGLfz5EL2qdy5sF
- 4fLg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mEAPB-0007Hu-OZ
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:05:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mEAP6-0006ad-Mc
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:05:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628773544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HKKwam5heFvSym+YEXaYI79fglgmH6SVwpMrHXTamxM=;
+ b=A2jRE05sKeApIsypN6U+Em8IVXRuxAyj7rCXrr3Bv3UL6wePOGR/+6bu6aqBKNdFK/3on/
+ vki6uxh48nXJeAeSHBoY2QP4L613hqnydTlK6SGVgi33431KcxFKJ9sGAcXtSTLTCZMl07
+ cYxBag7EwBBPyy4ylSvitRMDI3O8I0w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-Z9-KausnMA29VUTm8OKNKQ-1; Thu, 12 Aug 2021 09:05:41 -0400
+X-MC-Unique: Z9-KausnMA29VUTm8OKNKQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z186-20020a1c7ec30000b02902e6a27a9962so3100375wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 06:05:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=r3pcQEyGniq8eGxf7Ybn8FpWQZxjqWcciNCrN4hfwrE=;
- b=A6dCBp5DPv5A8s6NTTteEHin02t+lLFMsnADdbGK5b0qPc7jd4qJLwe76w8UVFw9AP
- RBorYPHNXk954T15FGgnATHI0f9Lce12dNzNhzjmwMdCZvcMLW5ywmW2LVat0QYnV46T
- Bb1cG9vG/+OglT6qyanMwxPzTDuUa/VFDVHKb0bHScRvlNutA6Q26hUh4kdx/eBDirBs
- ABaRlaj37rXKHKOUF+YdqJ+NBRGrRoECkdJu22RTCCaqcHRqL7We1dCSfUAhomyXGS4P
- qyyTIJ0J+ee/7kzTI2KphwffTh1XSm8jvWVoMmqVBUU0pSKhzaA8Efs2Xo9vVFLE9dk8
- 4dqg==
-X-Gm-Message-State: AOAM532Ka/SNUL9DRUhEU3htApXBtgtFwj7JJfQ9rf0jBkbFj3FnPJjD
- 64cs9mPUoXlECl3RwRK3Yag=
-X-Google-Smtp-Source: ABdhPJxatsPZ16OT854PV3qRXy+J7+SF5Rr3cAHm142YPsMREvZF1CsxG93TSMm7z7dD4lL/U93ehg==
-X-Received: by 2002:a1c:f214:: with SMTP id s20mr3870977wmc.14.1628773103350; 
- Thu, 12 Aug 2021 05:58:23 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id s10sm3562747wrv.54.2021.08.12.05.58.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 05:58:22 -0700 (PDT)
-Subject: Re: [PATCH-for-6.1?] target/i386: Fixed size of constant for Windows
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HKKwam5heFvSym+YEXaYI79fglgmH6SVwpMrHXTamxM=;
+ b=pEjfousKTTLhCeIurD/llRR9zcRPiN/ZDB0EkBBHl8bC4yI2qxEPxLy7MmbgQZGSl1
+ hf1E1fbejZugEnABMz1WfsyJUbM1ZZMwm5MND/Tx3Uh7DhpvG7MqxabIhV542GYFXrWA
+ ZvelqaKFunueTouaW4AgR6dbQrGMBex6IiZPbt0FCXJLivGB2NLquWjY9hJBYcEQ92Xz
+ k+GQlhFpChTCgmg7Qzu5s5QLcERh9i3lpQXwzNoXnH33L+v86efvXWidzF0KzV3xHIpc
+ zh2aJLwXZSLKLwI138E2V1fHAShMxI8H6/t8uByaIeElUHNs+vnCOGborlB/pL09JMsF
+ xg2g==
+X-Gm-Message-State: AOAM531l3BOpsEErllotGJ4cDS6HwsNJ142/T0i2tyvtrQbQ2QfMbf30
+ 4pV+OhYajxmn1VRhuDTKtuTYFI3cIVRGsk8wrG8H675REi13EMDjuftrppE+z9UPZ1IavE7pwAT
+ V+ulcFrJt8ZLxjZc=
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr1962341wrt.199.1628773539747; 
+ Thu, 12 Aug 2021 06:05:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDVh3vuaduyNVhk72QuzXJuwf6eGyEdBrQsxT21j5TnyJryScWzE3pst7/fKakiw0vXmTVIQ==
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr1962314wrt.199.1628773539499; 
+ Thu, 12 Aug 2021 06:05:39 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id k17sm2969155wrw.53.2021.08.12.06.05.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 06:05:38 -0700 (PDT)
+Date: Thu, 12 Aug 2021 14:05:36 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210812111056.26926-1-laramglazier@gmail.com>
- <1cdc5ffe-adc5-41ac-e588-b8eab62ecc76@amsat.org>
- <CAFEAcA9BwJ4A8bBDZ6cbrW5NHxPHrp5GLZgNVSa=xzZjQyXygQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fa3d3493-6e4f-d311-3e26-c3b94b9830e3@amsat.org>
-Date: Thu, 12 Aug 2021 14:58:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Subject: Re: [PATCH] configure: Remove spurious [] from tr
+Message-ID: <YRUcoAiKWtxfPVqB@work-vm>
+References: <20210812110942.19065-1-dgilbert@redhat.com>
+ <CAFEAcA9dp-kM_cB9g=7kpeCbFVxiwoQ14L+mymc_pHwZ_1UDnA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9BwJ4A8bBDZ6cbrW5NHxPHrp5GLZgNVSa=xzZjQyXygQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA9dp-kM_cB9g=7kpeCbFVxiwoQ14L+mymc_pHwZ_1UDnA@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,89 +96,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Lara Lazier <laramglazier@gmail.com>,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/21 2:54 PM, Peter Maydell wrote:
-> On Thu, 12 Aug 2021 at 12:38, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 8/12/21 1:10 PM, Lara Lazier wrote:
->>> ~0UL has 64 bits on Linux and 32 bits on Windows.
->>
->>> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/512".
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/512
->> Fixes: 3407259b20c ("target/i386: Added consistency checks for CR3")
->>
->>> Reported-by: Volker Rümelin <vr_qemu@t-online.de>
->>> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
->>> ---
->>>  target/i386/tcg/sysemu/misc_helper.c | 2 +-
->>>  target/i386/tcg/sysemu/svm_helper.c  | 2 +-
->>>  2 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
->>> index 0a7a58ca9a..91b0fc916b 100644
->>> --- a/target/i386/tcg/sysemu/misc_helper.c
->>> +++ b/target/i386/tcg/sysemu/misc_helper.c
->>> @@ -97,7 +97,7 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
->>>          break;
->>>      case 3:
->>>          if ((env->efer & MSR_EFER_LMA) &&
->>> -                (t0 & ((~0UL) << env_archcpu(env)->phys_bits))) {
->>> +                (t0 & ((~0ULL) << env_archcpu(env)->phys_bits))) {
->>
->> Maybe safer to use extract64()? I'm not sure how many bits you want
->> to check, so used TARGET_LONG_BITS:
->>
->>             extract64(t0, env_archcpu(env)->phys_bits,
->>                       TARGET_LONG_BITS - env_archcpu(env)->phys_bits) {
-> 
-> The repetition of the 'phys_bits' expression in both the shift and the
-> length field is pretty awkward. Maybe
-> 
->   t0 & ~MAKE_64BIT_MASK(0, env_archcpu(env)->phys_bits)
-
-Ah, nicer.
-
-> But for this bugfix I think just fixing the suffix is fine.
-
-Sure.
-
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 12 Aug 2021 at 12:11, Dr. David Alan Gilbert (git)
+> <dgilbert@redhat.com> wrote:
+> >
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > ShellCheck points out that tr '[a-z]' actually replaces the []'s
+> > and only the a-z is needed.
+> >
+> > Remove the spurious [] - although in this use it will make no
+> > difference.
+> >
+> > Fixes: bb55b712e8dc4d4eb515144d5c26798fea178cba
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  configure | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/configure b/configure
+> > index 9a79a004d7..5bb8c2a59d 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -4549,7 +4549,7 @@ if test "$gprof" = "yes" ; then
+> >  fi
+> >  echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
+> >  for drv in $audio_drv_list; do
+> > -    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
+> > +    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr 'a-z' 'A-Z')
+> >      echo "$def=y" >> $config_host_mak
+> >  done
+> >  if test "$alsa" = "yes" ; then
+> > -
 > 
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Thanks.
 
->>>              cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
->>>          }
->>>          if (!(env->efer & MSR_EFER_LMA)) {
->>> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
->>> index 3891f4e4a8..42cd5053e5 100644
->>> --- a/target/i386/tcg/sysemu/svm_helper.c
->>> +++ b/target/i386/tcg/sysemu/svm_helper.c
->>> @@ -290,7 +290,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->>>      }
->>>      new_cr3 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr3));
->>>      if ((env->efer & MSR_EFER_LMA) &&
->>> -            (new_cr3 & ((~0UL) << cpu->phys_bits))) {
->>> +            (new_cr3 & ((~0ULL) << cpu->phys_bits))) {
->>>          cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
->>>      }
->>>      new_cr4 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr4));
->>>
->>
->> Any idea how to avoid that class of bug? Some CFLAG or plain checkpatch?
+> (Is this the only thing shellcheck complains about in configure?
+> I'm guessing not...)
+
+Indeed it's not; there's LOTS of warnings; although most of them are
+probably irrelevant; there are also two others at the error level:
+
+In configure line 4406:
+        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
+                                                       ^-- SC1087: Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet).
+
+which is probably just needing the ${emu} to shut it up.
+
+In configure line 4464:
+if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+    ^-- SC1035: You are missing a required space after the !.
+
+which hmm I've not quite got my head around yet; but maybe that one is
+real.
+
+
+  https://www.shellcheck.net/wiki/SC1035 -- You are missing a required space ...
+  https://www.shellcheck.net/wiki/SC1087 -- Use braces when expanding arrays,...
+
+Dave
+
+> thanks
+> -- PMM
 > 
-> In general the 'UL' is often dubious and worth checking --
-> either 'U' suffices or you wanted 'ULL'. But in a few places
-> where you're actually working with 'unsigned long' it's what
-> you need, so I'm not sure a checkpatch rule would be possible.
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-OK, thanks.
 
