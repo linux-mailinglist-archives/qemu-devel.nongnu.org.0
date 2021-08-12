@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACD73EA9CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:52:04 +0200 (CEST)
-Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DC83EA9CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:52:52 +0200 (CEST)
+Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEEs7-0006AF-J8
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36292)
+	id 1mEEst-0007OX-HG
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEEpe-00030q-7L
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:49:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50084)
+ id 1mEErb-00061o-8R
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:51:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEEpc-0001Xs-Pv
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:49:29 -0400
+ id 1mEErZ-0002c4-Rq
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:51:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628790567;
+ s=mimecast20190719; t=1628790689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DeZxhYJY2CqYTo0ZyV9hsxbbTipkTubk4HpuqJ0VMtk=;
- b=iF6K0Sq54jGpPN81krRQ5NKtmeWot1qIeMHFpXJzaYkhITHxDFs6m+JUf1fuQlR93/GMXG
- bdQQyCOTY0uENkfM8xY7KrFP6kWclW+xVX03p8yHBUP/UHxTnvEZr+XotSv+7z2TW23k6K
- 1pyvnug7pSD/egR6q3QPUb7iGJuHSQA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-395MnkcSPjyWpjcBLQh_bg-1; Thu, 12 Aug 2021 13:49:26 -0400
-X-MC-Unique: 395MnkcSPjyWpjcBLQh_bg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- l18-20020a0564021252b02903be7bdd65ccso3436055edw.12
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:49:26 -0700 (PDT)
+ bh=WFrePFS7A1S/a2WExrvFsjRcz1evRXBfKDI3FC2ZynA=;
+ b=BQxZoO0F5zUVlHI2J418Zu7GQlcbPiNIeYucm0X2MdOS5o+12TrC+tp1oSJ2GGjx4/YaEU
+ ep3lV8mDh5MFqAPuM2ZwTNB/s8SfxnhsEJe1Bij2PckHQ/dl09NlXwHbt1ihcrydoBrwvO
+ aUtBgdEaOY8E51d75qTVatr7Z9R84g0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-V4IJFOTEPJ26nR0zqvyIaQ-1; Thu, 12 Aug 2021 13:51:28 -0400
+X-MC-Unique: V4IJFOTEPJ26nR0zqvyIaQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ l18-20020a0564021252b02903be7bdd65ccso3438658edw.12
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:51:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DeZxhYJY2CqYTo0ZyV9hsxbbTipkTubk4HpuqJ0VMtk=;
- b=lGD0bEgIWzBbhfIRPuZ7WOAuu+UWOmg1nUffeuqISSobmAz8WanvGbExN4zXZ1meux
- gvNiHjlpgiTtTj7FL4W7ars8cVlKSPBIr3C96VCl1WlTPftqMkOEv7LKbGtdu5FwXVFL
- ou1CfVh2I9FmAg7Xj/IwAq1waK2Z1FLSU59/9SrnUTY4xiOvJZpkMmPI15oSxH1PfUhT
- EYgt9F9hoXEl52NHRjN2Odc8tQv0SMSI7AqphZBinklt3ZNlUFFAdIlx1DXtKdV7o3fL
- bteHVM3rTmNA/G4fvdmy+CvyMltRs/f+yz6sjuKIK/J/eJOyB1ddRsNY8TeY38mZQgMI
- EyrQ==
-X-Gm-Message-State: AOAM532upSWEpwk2IQ+0aFDxoQ8vhtoKZB2cZozeVWGUd7GzYRJjQMVa
- ah7yheFwpRBxIz76d8/kjrxBYdnDc1aqsJR48jy3hC6g9GytJg1OhJYRtDz7RsG1QyIZ1DYxKIo
- kAm1CyIs2iqOLcFU=
-X-Received: by 2002:a17:907:7848:: with SMTP id
- lb8mr4876825ejc.494.1628790565450; 
- Thu, 12 Aug 2021 10:49:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5NERRXj2OTmLJX0LHx32P0Z52x8a4gU8cBpkz7LIPUV50H3NFCaJrzsMFXgjcavSlF2mbiw==
-X-Received: by 2002:a17:907:7848:: with SMTP id
- lb8mr4876815ejc.494.1628790565294; 
- Thu, 12 Aug 2021 10:49:25 -0700 (PDT)
+ bh=WFrePFS7A1S/a2WExrvFsjRcz1evRXBfKDI3FC2ZynA=;
+ b=RfslLLnax83txKp3WzAsPn7rKo7RBtvE405ueiUILFeh7O4iZdN4X03D2Kh5/NcZzG
+ yio/gWmgMloh5tl+NJN/mNQWz4UU+9g6BGpi+Zcnz83ypkK+9W2Trx7iOy22ETYQH7xo
+ Fdr+cFRLxdiUNEOqGbzQSwwBmJ1v6HpWkd2rGkrhrVBK+wr0mqXlhm6CmFbRVrhqCwXt
+ PV4D7HaiLMCUhc1Rxgyv6syg+NawGyYJ1ZOX8AmwGVRLmrcOBPGDgok2YoBVISSyE9i4
+ nmmlX10xfM5BEJ3LUzC+6zQCOIoIxFVkmfXgLL8ep9LAQ9YOoqEpyK1mrMyPYDHJICG1
+ O2Ug==
+X-Gm-Message-State: AOAM530UFMh0TYI72qGNOlQvRUTocTktWJhLDKGNWZxxIHIhXTqOGoDZ
+ 2KmS/qrfgAgLI/bjWFVi5dKNB4b5Vhym5yN+vpaBEhWLg71xFYrncfsFI/+KDfOoQX0Up70cuqg
+ EWvxaweLjZCsnwZsaizeJMx2VTqU5QUgrjaBVoL/3LoyR2afy4qPdsnbdgxHokEC5n7Y=
+X-Received: by 2002:a17:907:2097:: with SMTP id
+ pv23mr4729523ejb.262.1628790686657; 
+ Thu, 12 Aug 2021 10:51:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzslTkOqfHAXzfkzzZ/DvbT0KAkFhgm90wyER++zberd01q0h45otTcVmxcSXj0VadFIedzFg==
+X-Received: by 2002:a17:907:2097:: with SMTP id
+ pv23mr4729506ejb.262.1628790686400; 
+ Thu, 12 Aug 2021 10:51:26 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g9sm715029ejo.60.2021.08.12.10.49.24
+ by smtp.gmail.com with ESMTPSA id e22sm1477960edu.35.2021.08.12.10.51.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 10:49:24 -0700 (PDT)
+ Thu, 12 Aug 2021 10:51:25 -0700 (PDT)
 Subject: Re: [PATCH] configure: Remove spurious [] from tr
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, eblake@redhat.com, philmd@redhat.com
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20210812110942.19065-1-dgilbert@redhat.com>
+ <CAFEAcA9dp-kM_cB9g=7kpeCbFVxiwoQ14L+mymc_pHwZ_1UDnA@mail.gmail.com>
+ <YRUcoAiKWtxfPVqB@work-vm>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7f58a3cb-01ff-76e8-018a-0be3db62fd74@redhat.com>
-Date: Thu, 12 Aug 2021 19:49:23 +0200
+Message-ID: <3712b78c-063d-803c-004f-ed7544ee0d19@redhat.com>
+Date: Thu, 12 Aug 2021 19:51:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210812110942.19065-1-dgilbert@redhat.com>
+In-Reply-To: <YRUcoAiKWtxfPVqB@work-vm>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +83,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,41 +104,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/08/21 13:09, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 12/08/21 15:05, Dr. David Alan Gilbert wrote:
+> In configure line 4464:
+> if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+>      ^-- SC1035: You are missing a required space after the !.
 > 
-> ShellCheck points out that tr '[a-z]' actually replaces the []'s
-> and only the a-z is needed.
-> 
-> Remove the spurious [] - although in this use it will make no
-> difference.
-> 
-> Fixes: bb55b712e8dc4d4eb515144d5c26798fea178cba
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   configure | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index 9a79a004d7..5bb8c2a59d 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4549,7 +4549,7 @@ if test "$gprof" = "yes" ; then
->   fi
->   echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
->   for drv in $audio_drv_list; do
-> -    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
-> +    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr 'a-z' 'A-Z')
->       echo "$def=y" >> $config_host_mak
->   done
->   if test "$alsa" = "yes" ; then
-> 
+> which hmm I've not quite got my head around yet; but maybe that one is
+> real.
 
-Do we want this in 6.1?  For the next release I'm moving all audio stuff 
-to meson anyway. :)
+Trying
+
+! (echo abc); echo $?
+!(echo abc); echo $?
+
+both work in bash, but the latter fails with zsh:
+
+abc
+1
+ff:2: no matches found: !(echo abc)
 
 Paolo
 
