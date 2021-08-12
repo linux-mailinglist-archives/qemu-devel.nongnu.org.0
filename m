@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8943EA22F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:39:25 +0200 (CEST)
-Received: from localhost ([::1]:36120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91663EA22B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:38:27 +0200 (CEST)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE7BM-0003vR-FO
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1mE7AQ-0008RU-Ol
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE76M-0005JV-0I
+ id 1mE76M-0005Mt-OT
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:14 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45700)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:44654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE76H-0007qk-6X
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:13 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v4so234606wro.12
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:08 -0700 (PDT)
+ id 1mE76H-0007s3-PG
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:14 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so613349wml.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UVgw7AO0m4VkhMh5uz4efVOx0eI266AWuBpF1oyx+bo=;
- b=IFTVvxOU0rNfXGT9+5kkc10y+Qs3B7irl5seuip3uspEfYfOu/xDHZ+4Nnue1CJF3G
- /3w24TfFtQ7dCiYRgHi+0/gM5cH0XC/gfVnMS67ytCFTIwO9Bq/9w+6IhK8v0txjsnOA
- ZTyltqQwRTavjpKQo3xLtmt4oN/WpznMc8VnpMTILHHCr8K11/BxQ3GVaUsFCiEoGy1P
- qLGDgZv6l1fK7XcQwLIEM/tNmtO8DHYRVqzxR0Bi9yGZHDooKiIYu5Vp3OuYXhkszcGy
- TSYJfhz2zPzoNuIndJ/kn9SmM5Cz99jhlQdqaFeWFeq7hmdqKOc3MhpIeb7tyE5QctEe
- ghdQ==
+ bh=QZ34cRsgLtFiqWjLUrzVojRfLDZmQXmFHIvftQxhUGw=;
+ b=yRx4qradlovMgIPQYHHX3TBntkvWqqJYA7i5X29khpZ4XoUJDetnKlX27tLiCC8KyP
+ 0kpdwgB0z1Mmpf5J5x+j384ix4X33biY1cu9zpPC+itwc8N8zyyFwvfpLY0Od+d5WNhc
+ R/lRTNd+KlWFn5qkXp/vO3aCyNesU1LOFeyV2ca/MCJNLh6FqB6lD5J8fCqf+e2zBSlT
+ qsc5XCzZ0TMRH2EFkVulOVSlKY3BqFwfwnOp/5Nm9YTYFH37oIvk1uHHMgUMqBrmu2FJ
+ c9Ak0zHl3io3VGxoPhA68QGPUNzfikUvmxdYw+6xQmTUPLDWIexpmEOdheyisivD+mEh
+ IZpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UVgw7AO0m4VkhMh5uz4efVOx0eI266AWuBpF1oyx+bo=;
- b=LkchDxgwS0IglOqhzGdraWO6zzFgrPi5F+8/bQ279MwnP7YS7mJ/hWCd+rDVMBT8me
- Id7G+dCjrJcD+XpGnz2mJV70izH+nx49V0yVMMzgt7sTKmjSWbST31l38CfbxQPAPk0v
- av0O4zgFAPfoDQ3sXDsDk5j6xvhdyXk5VTVEyDZZsmA/y/mHA6bhlTtYFSCaKOTuUrKi
- 3tFDDbwQShAehFueRJBkgr7EN4sXSL1EoxMHpq+lcdpwu06pfQZsBJ42gicqU/93pyia
- Wg9un0GkwYWhswyohFTQq34dfHeV5R+LY/w7h0vfEKu+XPra5r4b9eSTaDRL9vsSPVHb
- CEXQ==
-X-Gm-Message-State: AOAM53009xm07drcBhM4I20oua7XB8Hf1au68d98pLDgWy4fgJFlFpHv
- kblGdzvp1vYA+iGRrzLVilQmWQ==
-X-Google-Smtp-Source: ABdhPJz/0g2ydb+gPEnzcpKw/n/3uGE8HTeyQmx7VfKdCz/4o6rV2hE6y+8sZch4Aeb62L8p2GGrOw==
-X-Received: by 2002:adf:cf07:: with SMTP id o7mr2914341wrj.216.1628760847642; 
- Thu, 12 Aug 2021 02:34:07 -0700 (PDT)
+ bh=QZ34cRsgLtFiqWjLUrzVojRfLDZmQXmFHIvftQxhUGw=;
+ b=TNOMBksx0CsFmiJmq81zHjtoqCa39Oo5JGZrEYyiF1+6V8Uz88/IZP15sfFbK/PEL5
+ FZ2U4jJ7tePe/FaoClKc0Un7e//LeD/czQ1SzRJOIUvKDgYut+T4myyV/1ubD1tj1NZ7
+ emS3gA3NiK8S+JAXJ6lmT7LTA3hGjn449D9cBnBHeL2EgAop3OKI9ziAcahPp3PHL8hx
+ V1agNSXFdBnFAMpTAXLXLelUrIT/CfPfz5lixL2aH8b/IfpXnvenZRBlNQgCjtMubI5x
+ QCcjFuidxBLXv4OjOp92cHqG/khVcwa7vL3zG32NRA/eOFc64UTT6AN48WTmbc8CXVav
+ bCWg==
+X-Gm-Message-State: AOAM530OQCd914420F026A1m2JsxCqrIClQzs0fXi+ZOBBHm1FZ6qdTA
+ xyGaSm0KkwyTLPMaA3izTk5JCg==
+X-Google-Smtp-Source: ABdhPJwXqd7Y7fUJgFliskb6YLbwGVhKFQ0RCr8XJUUGdme8h6MHc2QO5kP4Too/RidrKJ/skWYGEw==
+X-Received: by 2002:a05:600c:ad8:: with SMTP id
+ c24mr14212401wmr.28.1628760848595; 
+ Thu, 12 Aug 2021 02:34:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.34.06
+ by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.34.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 02:34:07 -0700 (PDT)
+ Thu, 12 Aug 2021 02:34:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 09/25] clock: Provide builtin multiplier/divider
-Date: Thu, 12 Aug 2021 10:33:40 +0100
-Message-Id: <20210812093356.1946-10-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 10/25] hw/arm: Don't allocate separate MemoryRegions
+ in stm32 SoC realize
+Date: Thu, 12 Aug 2021 10:33:41 +0100
+Message-Id: <20210812093356.1946-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210812093356.1946-1-peter.maydell@linaro.org>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,220 +93,121 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is quite common for a clock tree to involve possibly programmable
-clock multipliers or dividers, where the frequency of a clock is for
-instance divided by 8 to produce a slower clock to feed to a
-particular device.
-
-Currently we provide no convenient mechanism for modelling this.  You
-can implement it by having an input Clock and an output Clock, and
-manually setting the period of the output clock in the period-changed
-callback of the input clock, but that's quite clunky.
-
-This patch adds support in the Clock objects themselves for setting a
-multiplier or divider.  The effect of setting this on a clock is that
-when the clock's period is changed, all the children of the clock are
-set to period * multiplier / divider, rather than being set to the
-same period as the parent clock.
+In the realize methods of the stm32f100 and stm32f205 SoC objects, we
+call g_new() to create new MemoryRegion objjects for the sram, flash,
+and flash_alias.  This is unnecessary (and leaves open the
+possibility of leaking the allocations if we exit from realize with
+an error).  Make these MemoryRegions member fields of the device
+state struct instead, as stm32f405 already does.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/clocks.rst   | 23 +++++++++++++++++++++++
- include/hw/clock.h      | 29 +++++++++++++++++++++++++++++
- hw/core/clock-vmstate.c | 24 +++++++++++++++++++++++-
- hw/core/clock.c         | 29 +++++++++++++++++++++++++----
- 4 files changed, 100 insertions(+), 5 deletions(-)
+ include/hw/arm/stm32f100_soc.h |  4 ++++
+ include/hw/arm/stm32f205_soc.h |  4 ++++
+ hw/arm/stm32f100_soc.c         | 17 +++++++----------
+ hw/arm/stm32f205_soc.c         | 17 +++++++----------
+ 4 files changed, 22 insertions(+), 20 deletions(-)
 
-diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-index 956bd147ea0..430fbd842e5 100644
---- a/docs/devel/clocks.rst
-+++ b/docs/devel/clocks.rst
-@@ -260,6 +260,29 @@ clocks get the new clock period value: *Clock 2*, *Clock 3* and *Clock 4*.
- It is not possible to disconnect a clock or to change the clock connection
- after it is connected.
+diff --git a/include/hw/arm/stm32f100_soc.h b/include/hw/arm/stm32f100_soc.h
+index 71bffcf4fd5..b7d71c6c634 100644
+--- a/include/hw/arm/stm32f100_soc.h
++++ b/include/hw/arm/stm32f100_soc.h
+@@ -52,6 +52,10 @@ struct STM32F100State {
  
-+Clock multiplier and divider settings
-+-------------------------------------
+     STM32F2XXUsartState usart[STM_NUM_USARTS];
+     STM32F2XXSPIState spi[STM_NUM_SPIS];
 +
-+By default, when clocks are connected together, the child
-+clocks run with the same period as their source (parent) clock.
-+The Clock API supports a built-in period multiplier/divider
-+mechanism so you can configure a clock to make its children
-+run at a different period from its own. If you call the
-+``clock_set_mul_div()`` function you can specify the clock's
-+multiplier and divider values. The children of that clock
-+will all run with a period of ``parent_period * multiplier / divider``.
-+For instance, if the clock has a frequency of 8MHz and you set its
-+multiplier to 2 and its divider to 3, the child clocks will run
-+at 12MHz.
-+
-+You can change the multiplier and divider of a clock at runtime,
-+so you can use this to model clock controller devices which
-+have guest-programmable frequency multipliers or dividers.
-+
-+Note that ``clock_set_mul_div()`` does not automatically call
-+``clock_propagate()``. If you make a runtime change to the
-+multiplier or divider you must call clock_propagate() yourself.a
-+
- Unconnected input clocks
- ------------------------
- 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index a7187eab95e..11f67fb9701 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -81,6 +81,10 @@ struct Clock {
-     void *callback_opaque;
-     unsigned int callback_events;
- 
-+    /* Ratio of the parent clock to run the child clocks at */
-+    uint32_t multiplier;
-+    uint32_t divider;
-+
-     /* Clocks are organized in a clock tree */
-     Clock *source;
-     QLIST_HEAD(, Clock) children;
-@@ -350,4 +354,29 @@ static inline bool clock_is_enabled(const Clock *clk)
-  */
- char *clock_display_freq(Clock *clk);
- 
-+/**
-+ * clock_set_mul_div: set multiplier/divider for child clocks
-+ * @clk: clock
-+ * @multiplier: multiplier value
-+ * @divider: divider value
-+ *
-+ * By default, a Clock's children will all run with the same period
-+ * as their parent. This function allows you to adjust the multiplier
-+ * and divider used to derive the child clock frequency.
-+ * For example, setting a multiplier of 2 and a divider of 3
-+ * will run child clocks with a period 2/3 of the parent clock,
-+ * so if the parent clock is an 8MHz clock the children will
-+ * be 12MHz.
-+ *
-+ * Setting the multiplier to 0 will stop the child clocks.
-+ * Setting the divider to 0 is a programming error (diagnosed with
-+ * an assertion failure).
-+ * Setting a multiplier value that results in the child period
-+ * overflowing is not diagnosed.
-+ *
-+ * Note that this function does not call clock_propagate(); the
-+ * caller should do that if necessary.
-+ */
-+void clock_set_mul_div(Clock *clk, uint32_t multiplier, uint32_t divider);
-+
- #endif /* QEMU_HW_CLOCK_H */
-diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
-index 260b13fc2c8..07bb45d7ed4 100644
---- a/hw/core/clock-vmstate.c
-+++ b/hw/core/clock-vmstate.c
-@@ -14,6 +14,24 @@
- #include "migration/vmstate.h"
- #include "hw/clock.h"
- 
-+static bool muldiv_needed(void *opaque)
-+{
-+    Clock *clk = opaque;
-+
-+    return clk->multiplier != 1 || clk->divider != 1;
-+}
-+
-+const VMStateDescription vmstate_muldiv = {
-+    .name = "clock/muldiv",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = muldiv_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(multiplier, Clock),
-+        VMSTATE_UINT32(divider, Clock),
-+    },
-+};
-+
- const VMStateDescription vmstate_clock = {
-     .name = "clock",
-     .version_id = 0,
-@@ -21,5 +39,9 @@ const VMStateDescription vmstate_clock = {
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT64(period, Clock),
-         VMSTATE_END_OF_LIST()
--    }
-+    },
-+    .subsections = (const VMStateDescription*[]) {
-+        &vmstate_muldiv,
-+        NULL
-+    },
++    MemoryRegion sram;
++    MemoryRegion flash;
++    MemoryRegion flash_alias;
  };
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index fc5a99683f8..c371b9e977a 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -64,6 +64,15 @@ bool clock_set(Clock *clk, uint64_t period)
-     return true;
- }
  
-+static uint64_t clock_get_child_period(Clock *clk)
-+{
-+    /*
-+     * Return the period to be used for child clocks, which is the parent
-+     * clock period adjusted for for multiplier and divider effects.
-+     */
-+    return muldiv64(clk->period, clk->multiplier, clk->divider);
-+}
+ #endif
+diff --git a/include/hw/arm/stm32f205_soc.h b/include/hw/arm/stm32f205_soc.h
+index 985ff63aa9e..75251494917 100644
+--- a/include/hw/arm/stm32f205_soc.h
++++ b/include/hw/arm/stm32f205_soc.h
+@@ -63,6 +63,10 @@ struct STM32F205State {
+     STM32F2XXSPIState spi[STM_NUM_SPIS];
+ 
+     qemu_or_irq *adc_irqs;
 +
- static void clock_call_callback(Clock *clk, ClockEvent event)
- {
++    MemoryRegion sram;
++    MemoryRegion flash;
++    MemoryRegion flash_alias;
+ };
+ 
+ #endif
+diff --git a/hw/arm/stm32f100_soc.c b/hw/arm/stm32f100_soc.c
+index 0c4a5c66451..0be92b2c475 100644
+--- a/hw/arm/stm32f100_soc.c
++++ b/hw/arm/stm32f100_soc.c
+@@ -67,25 +67,22 @@ static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+     int i;
+ 
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *sram = g_new(MemoryRegion, 1);
+-    MemoryRegion *flash = g_new(MemoryRegion, 1);
+-    MemoryRegion *flash_alias = g_new(MemoryRegion, 1);
+ 
      /*
-@@ -78,15 +87,16 @@ static void clock_call_callback(Clock *clk, ClockEvent event)
- static void clock_propagate_period(Clock *clk, bool call_callbacks)
- {
-     Clock *child;
-+    uint64_t child_period = clock_get_child_period(clk);
+      * Init flash region
+      * Flash starts at 0x08000000 and then is aliased to boot memory at 0x0
+      */
+-    memory_region_init_rom(flash, OBJECT(dev_soc), "STM32F100.flash",
++    memory_region_init_rom(&s->flash, OBJECT(dev_soc), "STM32F100.flash",
+                            FLASH_SIZE, &error_fatal);
+-    memory_region_init_alias(flash_alias, OBJECT(dev_soc),
+-                             "STM32F100.flash.alias", flash, 0, FLASH_SIZE);
+-    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
+-    memory_region_add_subregion(system_memory, 0, flash_alias);
++    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
++                             "STM32F100.flash.alias", &s->flash, 0, FLASH_SIZE);
++    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->flash);
++    memory_region_add_subregion(system_memory, 0, &s->flash_alias);
  
-     QLIST_FOREACH(child, &clk->children, sibling) {
--        if (child->period != clk->period) {
-+        if (child->period != child_period) {
-             if (call_callbacks) {
-                 clock_call_callback(child, ClockPreUpdate);
-             }
--            child->period = clk->period;
-+            child->period = child_period;
-             trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
--                               CLOCK_PERIOD_TO_HZ(clk->period),
-+                               CLOCK_PERIOD_TO_HZ(child->period),
-                                call_callbacks);
-             if (call_callbacks) {
-                 clock_call_callback(child, ClockUpdate);
-@@ -110,7 +120,7 @@ void clock_set_source(Clock *clk, Clock *src)
+     /* Init SRAM region */
+-    memory_region_init_ram(sram, NULL, "STM32F100.sram", SRAM_SIZE,
++    memory_region_init_ram(&s->sram, NULL, "STM32F100.sram", SRAM_SIZE,
+                            &error_fatal);
+-    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
++    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sram);
  
-     trace_clock_set_source(CLOCK_PATH(clk), CLOCK_PATH(src));
+     /* Init ARMv7m */
+     armv7m = DEVICE(&s->armv7m);
+diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+index 9cd41bf56da..0bd215aebd7 100644
+--- a/hw/arm/stm32f205_soc.c
++++ b/hw/arm/stm32f205_soc.c
+@@ -84,21 +84,18 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+     int i;
  
--    clk->period = src->period;
-+    clk->period = clock_get_child_period(src);
-     QLIST_INSERT_HEAD(&src->children, clk, sibling);
-     clk->source = src;
-     clock_propagate_period(clk, false);
-@@ -133,10 +143,21 @@ char *clock_display_freq(Clock *clk)
-     return freq_to_str(clock_get_hz(clk));
- }
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *sram = g_new(MemoryRegion, 1);
+-    MemoryRegion *flash = g_new(MemoryRegion, 1);
+-    MemoryRegion *flash_alias = g_new(MemoryRegion, 1);
  
-+void clock_set_mul_div(Clock *clk, uint32_t multiplier, uint32_t divider)
-+{
-+    assert(divider != 0);
-+
-+    clk->multiplier = multiplier;
-+    clk->divider = divider;
-+}
-+
- static void clock_initfn(Object *obj)
- {
-     Clock *clk = CLOCK(obj);
+-    memory_region_init_rom(flash, OBJECT(dev_soc), "STM32F205.flash",
++    memory_region_init_rom(&s->flash, OBJECT(dev_soc), "STM32F205.flash",
+                            FLASH_SIZE, &error_fatal);
+-    memory_region_init_alias(flash_alias, OBJECT(dev_soc),
+-                             "STM32F205.flash.alias", flash, 0, FLASH_SIZE);
++    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
++                             "STM32F205.flash.alias", &s->flash, 0, FLASH_SIZE);
  
-+    clk->multiplier = 1;
-+    clk->divider = 1;
-+
-     QLIST_INIT(&clk->children);
- }
+-    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
+-    memory_region_add_subregion(system_memory, 0, flash_alias);
++    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->flash);
++    memory_region_add_subregion(system_memory, 0, &s->flash_alias);
  
+-    memory_region_init_ram(sram, NULL, "STM32F205.sram", SRAM_SIZE,
++    memory_region_init_ram(&s->sram, NULL, "STM32F205.sram", SRAM_SIZE,
+                            &error_fatal);
+-    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
++    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sram);
+ 
+     armv7m = DEVICE(&s->armv7m);
+     qdev_prop_set_uint32(armv7m, "num-irq", 96);
 -- 
 2.20.1
 
