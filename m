@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2613EA86E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:19:09 +0200 (CEST)
-Received: from localhost ([::1]:58734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A6C3EA88B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:29:54 +0200 (CEST)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEDQC-0000dY-R5
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41072)
+	id 1mEDab-0001NM-FB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mEDL8-0000k0-GD
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:13:54 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:42949)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEDZm-0000Zt-94
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:29:02 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mEDL3-0002HV-RV
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:13:54 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- w21-20020a7bc1150000b02902e69ba66ce6so4993228wmi.1
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 09:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X0CHug0Iz1KWunKwrCkY4nCnELycFpTXk137EVvNgeM=;
- b=hQH7UrQRCHujmrtftsN2jjsW648pOHenho1Y6b0FrXgBfDi4zNL6HdhGZFFza0hY1l
- OpuvJ64ZJqhDhr3zPRhH1VBzTtrycuUa+HZSOAR5m9TUQg7SGxwhXPkmoU3IdykRAWp+
- 4D39LWyUAiRpOJ2ScPsjTyvqKQKVqqEbE11va8V5I++sXWxcNbgF7I84pvXwuSuqHYZa
- mbh5j4U0uvAtO670IGsB7YetEMaI5XLKjew9LhtMp/iflSMKIbdNT5/2wNqk6ie5XTFk
- KZ2Wt+Qg65cfSvlFVHieRveD78+Nq81TaNGlQSqLLdhUOs6YZdkyF16s2VUs39ww6Nbm
- GfUQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEDZg-0001lA-VV
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:29:01 -0400
+Received: by mail-ej1-x629.google.com with SMTP id lo4so12603553ejb.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 09:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZEZv0heoKfcEGyN59PnNr9+YckUCtIZFhFdk+1LOVWo=;
+ b=SgBxUE5Bu3fPEh3RcQTxWu8PmGWsA/0Tg6/HX7bSPGMQ4ZzyEqhuw9kVF+g0YO8ubi
+ fA4wbhs4EheAxmA9UIah0OvVwivS1w4oVmvODWVKakLjXpktNixJSfaFUy42i2eg2O0y
+ w1egmeJp2gzdWeFWrSkZ8qmOFkR7rw9fbPx/DQrEt5qH6fpByouHtSX9cDuahpU7UO5D
+ s40rZI8aydYmoDGaienAeRoBdiTuM2qnpZU1qs48biBMrwtLhOJVrdNW9XWdOTE7PqW3
+ ELXvY6qhnbWgXsKmTjxyRT1u1X5lqM6TgW+KF+NJoCq5vwyaaT3OEPw280WWDYlFrFeT
+ 1LEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X0CHug0Iz1KWunKwrCkY4nCnELycFpTXk137EVvNgeM=;
- b=T6cuyIuBfW0GBbzrUBUYoRpps6lYhFTW5nH6kMBKIu7w2opdpWV26WMGbTv9ncq6HN
- kfTLEMpF72QocDzv3NJx+D0VVslbIKbxAwnWeOuORIPgOC4CM6nIt3J1JiiD07fS3BiO
- GamJOwzR/6si0WCYQF6EXhsQ9enZXQVADDortdgKv55ZTvToBwENDMuufiPta+IaslI5
- TnIO4F6do+ZJV/zFvNBANEqlirx07FWTdLXaKhcoJ8/E2S2tprkKjVBuFf7YpOn5mAv5
- JDOc95fyZMpwza64/p1l5eX6g6R4GTKa2P0z0Yd4XJwV3pgpEhCUfhorGKyrzTvLKz29
- NRHg==
-X-Gm-Message-State: AOAM532XYSeCH0z2tKZ9bpRDNwuZ14wkPbT35KR6Y/7K23XwXAh5iw4w
- 4B+wZlb9161XIpdL5BX5rqOth8+sLyM=
-X-Google-Smtp-Source: ABdhPJxmYIxqi2V/shkbXO+927y8qPDQ8EXXRUQaGrr7QLDm7ExQMVC70zCU3RP6B+OCXj6pPedvwQ==
-X-Received: by 2002:a7b:ca4e:: with SMTP id m14mr15791420wml.17.1628784828174; 
- Thu, 12 Aug 2021 09:13:48 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id y192sm9406803wmy.1.2021.08.12.09.13.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 09:13:47 -0700 (PDT)
-Subject: Re: [PATCH] hw/core/loader: In gunzip(), check index is in range
- before use, not after
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210812141803.20913-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <15095481-4d77-37b8-3923-dc1e0ebcf7c6@amsat.org>
-Date: Thu, 12 Aug 2021 18:13:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZEZv0heoKfcEGyN59PnNr9+YckUCtIZFhFdk+1LOVWo=;
+ b=qPOvYrcBOuiBpZ4Y4xb69iy7mTpUj92/ktF2XBTWleBO0R5i2nLLV1qW18DdjtUVgJ
+ 5TyouXuUUJ8UU+oz3jrmqflzGsulCt8pNcMG0SC7FIXxbBxnnVnMnVoCJVyn0lbe4SIB
+ 1V1hS9LHdwA6rPwxl0LZQHFXmBkPT+AY2QTDKq4hwITPl0ZDlDFzv8Ztn92E+FGFFKYg
+ 1OTeVEQCvAV9k/U1bTX/Lh8i33Vgx4adAzOzPZauBPLZnZZzaistmM5k7R6s8v/Jsi4f
+ c6IdX+QDVOKqarZQV8iwwD3I5AJYkx3LGcDw+wM4kOy0Mjiey3janj+1Xj2j/H1vW/rK
+ yMfw==
+X-Gm-Message-State: AOAM531T9n3eKk18E80IVhE2MhKz0xAtyVNHKkjyufleAZxidvLxkm+i
+ tYDt4hIRCOQU8JwP4z2m8GArbOi/mhanRODNTn7GYA==
+X-Google-Smtp-Source: ABdhPJx6ycOfpFcc09oe8AFagBwGr6FSPYu8GExPmq75FB6Rgvnv4yStX9YUwmz9x+0e4wmwQFF8B0thnTSp1N08K5Y=
+X-Received: by 2002:a17:906:aac7:: with SMTP id
+ kt7mr4592385ejb.4.1628785734766; 
+ Thu, 12 Aug 2021 09:28:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210812141803.20913-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210812144647.10516-1-peter.maydell@linaro.org>
+ <2465bcc8-7e8b-8b5c-71ed-d696f69e0f78@amsat.org>
+In-Reply-To: <2465bcc8-7e8b-8b5c-71ed-d696f69e0f78@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Aug 2021 17:28:09 +0100
+Message-ID: <CAFEAcA-mm-nk=yHcqDjbcU+tgkGuSJmMr_-Bm6O29tyL-MB6eA@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv/virt.c: Assemble plic_hart_config string with
+ g_strjoinv()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,59 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/21 4:18 PM, Peter Maydell wrote:
-> The gunzip() function reads various fields from a passed in source
-> buffer in order to skip a header before passing the actual compressed
-> data to the zlib inflate() function.  It does check whether the
-> passed in buffer is too small, but unfortunately it checks that only
-> after reading bytes from the src buffer, so it could read off the end
-> of the buffer.
-> 
-> You can see this with valgrind:
-> 
->  $ printf "%b" '\x1f\x8b' > /tmp/image
->  $ valgrind qemu-system-aarch64 -display none -M virt -cpu max -kernel /tmp/image
+On Thu, 12 Aug 2021 at 17:09, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi Peter,
+>
+> On 8/12/21 4:46 PM, Peter Maydell wrote:
+> > In the riscv virt machine init function, We assemble a string
+> > plic_hart_config which is a comma-separated list of N copies of the
+> > VIRT_PLIC_HART_CONFIG string.  The code that does this has a
+> > misunderstanding of the strncat() length argument.  If the source
+> > string is too large strncat() will write a maximum of length+1 bytes
+> > (length bytes from the source string plus a trailing NUL), but the
+> > code here assumes that it will write only length bytes at most.
+> >
+> > This isn't an actual bug because the code has correctly precalculated
+> > the amount of memory it needs to allocate so that it will never be
+> > too small (i.e.  we could have used plain old strcat()), but it does
+> > mean that the code looks like it has a guard against accidental
+> > overrun when it doesn't.
+> >
+> > Rewrite the string handling here to use the glib g_strjoinv()
+> > function, which means we don't need to do careful accountancy of
+> > string lengths, and makes it clearer that what we're doing is
+> > "create a comma-separated string".
+> >
+> > Fixes: Coverity 1460752
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  hw/riscv/virt.c | 33 ++++++++++++++++++++-------------
+> >  1 file changed, 20 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index 4a3cd2599a5..26bc8d289ba 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -541,6 +541,24 @@ static FWCfgState *create_fw_cfg(const MachineStat=
+e *mc)
+> >      return fw_cfg;
+> >  }
+> >
+> > +/*
+> > + * Return the per-socket PLIC hart topology configuration string
+> > + * (caller must free with g_free())
+> > + */
+> > +static char *plic_hart_config_string(int hart_count)
+> > +{
+> > +    g_autofree const char **vals =3D g_new(const char *, hart_count + =
+1);
+> > +    int i;
+> > +
+> > +    for (i =3D 0; i < hart_count; i++) {
+> > +        vals[i] =3D VIRT_PLIC_HART_CONFIG;
+>
+> Have you considered adding plic_hart_config_string() an extra
+> 'const char *plic_config' argument (declaring it in a new
+> include/hw/riscv/plic_hart.h)?
+> We could use it in the other boards:
 
-Nice :)
+I hadn't noticed those, because Coverity doesn't complain about them.
+Both sifive_u.c and microchip_pfsoc.c would need slightly different
+code, though, because they are setting up a string like "M,MS,MS,MS"
+where the first element is different from the others.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is (I think) because they have the same misconception about
+strncat()'s length argument, but they have a counterbalancing bug
+where they reduce the 'remaining bytes in buffer' argument by 2 each
+time round the loop even though the length of the first element in
+their comma separated string is only 1 byte -- so they are accidentally
+turning the length value into what it ought to be.
 
->  [...]
->  ==19224== Invalid read of size 1
->  ==19224==    at 0x67302E: gunzip (loader.c:558)
->  ==19224==    by 0x673907: load_image_gzipped_buffer (loader.c:788)
->  ==19224==    by 0xA18032: load_aarch64_image (boot.c:932)
->  ==19224==    by 0xA18489: arm_setup_direct_kernel_boot (boot.c:1063)
->  ==19224==    by 0xA18D90: arm_load_kernel (boot.c:1317)
->  ==19224==    by 0x9F3651: machvirt_init (virt.c:2114)
->  ==19224==    by 0x794B7A: machine_run_board_init (machine.c:1272)
->  ==19224==    by 0xD5CAD3: qemu_init_board (vl.c:2618)
->  ==19224==    by 0xD5CCA6: qmp_x_exit_preconfig (vl.c:2692)
->  ==19224==    by 0xD5F32E: qemu_init (vl.c:3713)
->  ==19224==    by 0x5ADDB1: main (main.c:49)
->  ==19224==  Address 0x3802a873 is 0 bytes after a block of size 3 alloc'd
->  ==19224==    at 0x4C31B0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
->  ==19224==    by 0x61E7657: g_file_get_contents (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4)
->  ==19224==    by 0x673895: load_image_gzipped_buffer (loader.c:771)
->  ==19224==    by 0xA18032: load_aarch64_image (boot.c:932)
->  ==19224==    by 0xA18489: arm_setup_direct_kernel_boot (boot.c:1063)
->  ==19224==    by 0xA18D90: arm_load_kernel (boot.c:1317)
->  ==19224==    by 0x9F3651: machvirt_init (virt.c:2114)
->  ==19224==    by 0x794B7A: machine_run_board_init (machine.c:1272)
->  ==19224==    by 0xD5CAD3: qemu_init_board (vl.c:2618)
->  ==19224==    by 0xD5CCA6: qmp_x_exit_preconfig (vl.c:2692)
->  ==19224==    by 0xD5F32E: qemu_init (vl.c:3713)
->  ==19224==    by 0x5ADDB1: main (main.c:49)
-> 
-> Check that we have enough bytes of data to read the header bytes that
-> we read before we read them.
-> 
-> Fixes: Coverity 1458997
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/core/loader.c | 35 +++++++++++++++++++++++++----------
->  1 file changed, 25 insertions(+), 10 deletions(-)
+So those other board files should definitely also be updated to
+use g_strjoinv(), but I'm not sure that we can usefully share code.
+(We could have a function that takes an argument for the string
+for the first CPU and one for the other CPUs, which would work
+for all the boards we have now, but that feels a bit contrived
+and maybe some other boards in future would want to make different
+entries in the list be different...)
+
+-- PMM
 
