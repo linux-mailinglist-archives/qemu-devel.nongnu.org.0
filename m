@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7328A3EA84A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:13:32 +0200 (CEST)
-Received: from localhost ([::1]:43432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133BC3EA852
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:15:18 +0200 (CEST)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEDKk-0007BM-TF
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
+	id 1mEDMT-0002L8-4j
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ7-0005BB-8b
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ7-0005C3-JN
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56835)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ3-0001NN-CO
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ4-0001O4-Ji
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628784704;
+ s=mimecast20190719; t=1628784706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H76Y1c/QXnY6CPybEgO8I6XEVH5Nn00/hcbCGywgZA8=;
- b=fAXIjnkSak7F2/l0Cud9i785YrL8uk4kSm6+EKODub84CfqU/PFA5oF5KPJWm5v9k18IPi
- KsGDQvmN54lypDrR3D4vNyIgNoTyPF1lKfTqiikazZf+ammSHllmfA/XQFurOrwLWDKJNS
- 5p0cs6Z6wUBV8pBq7tEG/rYfSMBM9o0=
+ bh=LWymCUA+oKy+rAWEfR+PC7qlzYe7fMXznqGfg/fQHZw=;
+ b=fbnVXZUFklHooSemaLmYnqoT8pFkMsEwi5PrX5pZaM62eL6gin+Oq5ccnSKHLr0WJiBdPY
+ B5vJ3ADLYG0FOatVbt36roNSUiIR0xXh0amHeX+eUxZu9a1reCFRv5LNBoHAbMUTGUMYfr
+ AmHvGti1Wk+8DZDi3XKIzTi0HxTViJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-pNNSTi2BPN-M36nD4GDT3g-1; Thu, 12 Aug 2021 12:11:43 -0400
-X-MC-Unique: pNNSTi2BPN-M36nD4GDT3g-1
+ us-mta-80-Nry8fZfKOmys49UjqZiiLw-1; Thu, 12 Aug 2021 12:11:44 -0400
+X-MC-Unique: Nry8fZfKOmys49UjqZiiLw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A4B01012D9E
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 16:11:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C363D800493
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 16:11:43 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 991045C25A;
- Thu, 12 Aug 2021 16:11:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D23EE5FC22;
+ Thu, 12 Aug 2021 16:11:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/6] qapi: Simplify full_name_nth() in qobject-input-visitor
-Date: Thu, 12 Aug 2021 18:11:28 +0200
-Message-Id: <20210812161131.92017-4-kwolf@redhat.com>
+Subject: [PATCH v3 4/6] qapi: Apply aliases in qobject-input-visitor
+Date: Thu, 12 Aug 2021 18:11:29 +0200
+Message-Id: <20210812161131.92017-5-kwolf@redhat.com>
 In-Reply-To: <20210812161131.92017-1-kwolf@redhat.com>
 References: <20210812161131.92017-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,108 +80,298 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of counting how many elements from the top of the stack we need
-to ignore until we find the thing we're interested in, we can just
-directly pass the StackObject pointer because all callers already know
-it.
-
-We only need a different way now to tell if we want to know the name of
-something contained in the given StackObject or of the StackObject
-itself. Make this explicit with a new boolean parameter.
-
-This makes the function easier to use in cases where we have the
-StackObject, but don't know how many steps down the stack it is. The
-following patches will introduce such a caller.
+When looking for an object in a struct in the external representation,
+check not only the currently visited struct, but also whether an alias
+in the current StackObject matches and try to fetch the value from the
+alias then. Providing two values for the same object through different
+aliases is an error.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/qobject-input-visitor.c | 43 ++++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ qapi/qobject-input-visitor.c | 227 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 218 insertions(+), 9 deletions(-)
 
 diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index d0061d33d6..16a75442ff 100644
+index 16a75442ff..6193df28a5 100644
 --- a/qapi/qobject-input-visitor.c
 +++ b/qapi/qobject-input-visitor.c
-@@ -110,20 +110,20 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
+@@ -97,6 +97,8 @@ struct QObjectInputVisitor {
+     QObject *root;
+     bool keyval;                /* Assume @root made with keyval_parse() */
+ 
++    QDict *empty_qdict;         /* Used for implicit objects */
++
+     /* Stack of objects being visited (all entries will be either
+      * QDict or QList). */
+     QSLIST_HEAD(, StackObject) stack;
+@@ -169,9 +171,190 @@ static const char *full_name(QObjectInputVisitor *qiv, const char *name)
+     return full_name_so(qiv, name, false, tos);
  }
  
- /*
-- * Find the full name of something @qiv is currently visiting.
-- * @qiv is visiting something named @name in the stack of containers
-- * @qiv->stack.
-- * If @n is zero, return its full name.
-- * If @n is positive, return the full name of the @n-th container
-- * counting from the top.  The stack of containers must have at least
-- * @n elements.
-- * The returned string is valid until the next full_name_nth(@v) or
-- * destruction of @v.
-+ * Find the full name of a member in @so which @qiv is currently
-+ * visiting.  If the currently visited thing is an object, @name is
-+ * the (local) name of the member to describe.  If it is a list, @name
-+ * is ignored and the current index (so->index) is included.
-+ *
-+ * If @skip_member is true, find the full name of @so itself instead.
-+ * @name must be NULL then.
-+ *
-+ * The returned string is valid until the next full_name_so(@qiv) or
-+ * destruction of @qiv.
-  */
--static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
--                                 int n)
-+static const char *full_name_so(QObjectInputVisitor *qiv, const char *name,
-+                                bool skip_member, StackObject *so)
- {
--    StackObject *so;
-     char buf[32];
- 
-     if (qiv->errname) {
-@@ -132,10 +132,14 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
-         qiv->errname = g_string_new("");
-     }
- 
--    QSLIST_FOREACH(so , &qiv->stack, node) {
--        if (n) {
--            n--;
--        } else if (qobject_type(so->obj) == QTYPE_QDICT) {
-+    if (skip_member && so) {
-+        assert(name == NULL);
-+        name = so->name;
-+        so = QSLIST_NEXT(so, node);
++static bool find_object_member(QObjectInputVisitor *qiv,
++                               StackObject **so, const char **name,
++                               bool *is_alias_prefix, Error **errp);
++
++/*
++ * Check whether the member @name in @so, or an alias for it, is
++ * present in the input and can be used to obtain the value.
++ */
++static bool input_present(QObjectInputVisitor *qiv, StackObject *so,
++                          const char *name)
++{
++    /*
++     * Check whether the alias member is present in the input
++     * (possibly recursively because aliases are transitive).
++     * The QAPI generator makes sure that alises cannot form loops, so
++     * the recursion guaranteed to terminate.
++     */
++    if (!find_object_member(qiv, &so, &name, NULL, NULL)) {
++        return false;
 +    }
 +
-+    for (; so; so = QSLIST_NEXT(so, node)) {
-+        if (qobject_type(so->obj) == QTYPE_QDICT) {
-             g_string_prepend(qiv->errname, name ?: "<anonymous>");
-             g_string_prepend_c(qiv->errname, '.');
-         } else {
-@@ -146,7 +150,6 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
-         }
-         name = so->name;
-     }
--    assert(!n);
- 
-     if (name) {
-         g_string_prepend(qiv->errname, name);
-@@ -161,7 +164,9 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
- 
- static const char *full_name(QObjectInputVisitor *qiv, const char *name)
- {
--    return full_name_nth(qiv, name, 0);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
++    /*
++     * Every source can be used only once. If a value in the input
++     * would end up being used twice through aliases, we'll fail the
++     * second access.
++     */
++    if (!g_hash_table_contains(so->h, name)) {
++        return false;
++    }
 +
-+    return full_name_so(qiv, name, false, tos);
++    return true;
++}
++
++/*
++ * Check whether the member @name in the object visited by @so can be
++ * specified in the input by using the alias described by @a (which
++ * must be an alias contained in so->aliases).
++ *
++ * If @name is only a prefix of the alias source, but doesn't match
++ * immediately, false is returned and *is_alias_prefix is set to true
++ * if it is non-NULL.  In all other cases, *is_alias_prefix is left
++ * unchanged.
++ */
++static bool alias_source_matches(QObjectInputVisitor *qiv,
++                                 StackObject *so, InputVisitorAlias *a,
++                                 const char *name, bool *is_alias_prefix)
++{
++    if (a->src[0] == NULL) {
++        assert(a->name == NULL);
++        return true;
++    }
++
++    if (!strcmp(a->src[0], name)) {
++        if (a->name && a->src[1] == NULL) {
++            /*
++             * We're matching an exact member, the source for this alias is
++             * immediately in @so.
++             */
++            return true;
++        } else if (is_alias_prefix) {
++            /*
++             * We're only looking at a prefix of the source path for the alias.
++             * If the input contains no object of the requested name, we will
++             * implicitly create an empty one so that the alias can still be
++             * used.
++             *
++             * We want to create the implicit object only if the alias is
++             * actually used, but we can't tell here for wildcard aliases (only
++             * a later visitor call will determine this). This means that
++             * wildcard aliases must never have optional keys in their source
++             * path. The QAPI generator checks this condition.
++             */
++            if (!a->name || input_present(qiv, a->alias_so, a->name)) {
++                *is_alias_prefix = true;
++            }
++        }
++    }
++
++    return false;
++}
++
++/*
++ * Find the place in the input where the value for the object member
++ * @name in @so is specified, considering applicable aliases.
++ *
++ * If a value could be found, true is returned and @so and @name are
++ * updated to identify the key name and StackObject where the value
++ * can be found in the input.  (This is either unchanged or the
++ * alias_so/name of an alias.)  The value of @is_alias_prefix on
++ * return is undefined in this case.
++ *
++ * If no value could be found in the input, false is returned and @so
++ * and @name are set to NULL.  This is not an error and @errp remains
++ * unchanged.  If @is_alias_prefix is non-NULL, it is set to true if
++ * the given name is a prefix of the source path of an alias for which
++ * a value may be present in the input.  It is set to false otherwise.
++ *
++ * If an error occurs (e.g. two values are specified for the member
++ * through different names), false is returned and @errp is set.  The
++ * value of @is_alias_prefix on return is undefined in this case.
++ */
++static bool find_object_member(QObjectInputVisitor *qiv,
++                               StackObject **so, const char **name,
++                               bool *is_alias_prefix, Error **errp)
++{
++    QDict *qdict = qobject_to(QDict, (*so)->obj);
++    const char *found_name = NULL;
++    StackObject *found_so = NULL;
++    bool found_is_wildcard = false;
++    InputVisitorAlias *a;
++
++    if (is_alias_prefix) {
++        *is_alias_prefix = false;
++    }
++
++    /* Directly present in the container */
++    if (qdict_haskey(qdict, *name)) {
++        found_name = *name;
++        found_so = *so;
++    }
++
++    /*
++     * Find aliases whose source path matches @name in this StackObject. We can
++     * then get the value with the key a->name from a->alias_so.
++     */
++    QSLIST_FOREACH(a, &(*so)->aliases, next) {
++        if (a->name == NULL && found_name && !found_is_wildcard) {
++            /*
++             * Skip wildcard aliases if we already have a match. This is
++             * not a conflict that should result in an error.
++             *
++             * However, multiple wildcard aliases matching is an error
++             * and will be caught below.
++             */
++            continue;
++        }
++
++        if (!alias_source_matches(qiv, *so, a, *name, is_alias_prefix)) {
++            continue;
++        }
++
++        /*
++         * For single-member aliases, an alias name is specified in the
++         * alias definition. For wildcard aliases, the alias has the same
++         * name as the member in the source object, i.e. *name.
++         */
++        if (!input_present(qiv, a->alias_so, a->name ?: *name)) {
++            continue;
++        }
++
++        /*
++         * A non-wildcard alias simply overrides a wildcard alias, but
++         * two matching non-wildcard aliases or two matching wildcard
++         * aliases conflict with each other.
++         */
++        if (found_name && (!found_is_wildcard || a->name == NULL)) {
++            error_setg(errp, "Value for parameter %s was already given "
++                       "through an alias",
++                       full_name_so(qiv, *name, false, *so));
++            return false;
++        } else {
++            found_name = a->name ?: *name;
++            found_so = a->alias_so;
++            found_is_wildcard = !a->name;
++        }
++    }
++
++    /*
++     * Chained aliases: *found_so/found_name might be the source of
++     * another alias.
++     */
++    if (found_name && (found_so != *so || found_name != *name)) {
++        find_object_member(qiv, &found_so, &found_name, NULL, errp);
++    }
++
++    *so = found_so;
++    *name = found_name;
++
++    return found_name != NULL;
++}
++
+ static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
+                                              const char *name,
+-                                             bool consume)
++                                             bool consume, Error **errp)
+ {
+     StackObject *tos;
+     QObject *qobj;
+@@ -189,10 +372,31 @@ static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
+     assert(qobj);
+ 
+     if (qobject_type(qobj) == QTYPE_QDICT) {
+-        assert(name);
+-        ret = qdict_get(qobject_to(QDict, qobj), name);
+-        if (tos->h && consume && ret) {
+-            bool removed = g_hash_table_remove(tos->h, name);
++        StackObject *so = tos;
++        const char *key = name;
++        bool is_alias_prefix;
++
++        assert(key);
++        if (!find_object_member(qiv, &so, &key, &is_alias_prefix, errp)) {
++            if (is_alias_prefix) {
++                /*
++                 * The member is not present in the input, but
++                 * something inside of it might still be given through
++                 * an alias. Pretend there was an empty object in the
++                 * input.
++                 */
++                if (!qiv->empty_qdict) {
++                    qiv->empty_qdict = qdict_new();
++                }
++                return QOBJECT(qiv->empty_qdict);
++            } else {
++                return NULL;
++            }
++        }
++        ret = qdict_get(qobject_to(QDict, so->obj), key);
++        assert(ret != NULL);
++        if (so->h && consume) {
++            bool removed = g_hash_table_remove(so->h, key);
+             assert(removed);
+         }
+     } else {
+@@ -218,9 +422,10 @@ static QObject *qobject_input_get_object(QObjectInputVisitor *qiv,
+                                          const char *name,
+                                          bool consume, Error **errp)
+ {
+-    QObject *obj = qobject_input_try_get_object(qiv, name, consume);
++    ERRP_GUARD();
++    QObject *obj = qobject_input_try_get_object(qiv, name, consume, errp);
+ 
+-    if (!obj) {
++    if (!obj && !*errp) {
+         error_setg(errp, QERR_MISSING_PARAMETER, full_name(qiv, name));
+     }
+     return obj;
+@@ -803,13 +1008,16 @@ static bool qobject_input_type_size_keyval(Visitor *v, const char *name,
+ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
+ {
+     QObjectInputVisitor *qiv = to_qiv(v);
+-    QObject *qobj = qobject_input_try_get_object(qiv, name, false);
++    Error *local_err = NULL;
++    QObject *qobj = qobject_input_try_get_object(qiv, name, false, &local_err);
+ 
+-    if (!qobj) {
++    /* If there was an error, let the caller try and run into the error */
++    if (!qobj && !local_err) {
+         *present = false;
+         return;
+     }
+ 
++    error_free(local_err);
+     *present = true;
  }
  
- static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
-@@ -507,7 +512,7 @@ static bool qobject_input_check_list(Visitor *v, Error **errp)
- 
-     if (tos->entry) {
-         error_setg(errp, "Only %u list elements expected in %s",
--                   tos->index + 1, full_name_nth(qiv, NULL, 1));
-+                   tos->index + 1, full_name_so(qiv, NULL, true, tos));
-         return false;
+@@ -842,6 +1050,7 @@ static void qobject_input_free(Visitor *v)
+         qobject_input_stack_object_free(tos);
      }
-     return true;
+ 
++    qobject_unref(qiv->empty_qdict);
+     qobject_unref(qiv->root);
+     if (qiv->errname) {
+         g_string_free(qiv->errname, TRUE);
 -- 
 2.31.1
 
