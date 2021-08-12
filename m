@@ -2,57 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C823EA535
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 15:11:27 +0200 (CEST)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF5C3EA538
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 15:12:26 +0200 (CEST)
+Received: from localhost ([::1]:53678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEAUY-00046s-MG
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 09:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34816)
+	id 1mEAVV-0005Xx-Sc
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 09:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1mEASg-0001xX-Gx
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:09:30 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:18398)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1mEASe-0007w0-Cq
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:09:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1628773768; x=1660309768;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5N1bCNbN1LRAFl+23WVyBxds2Z76PV4s74mgds6JaZk=;
- b=avizhTII9ZqhaLM3QvP2J8zGOYJxaPUn57gdwTSirHqKUoYSDQLt1Ycl
- Mf4XsiFQjByOpllrZrCHtY0FD/XI8jMzi9e5wyvXQboxMhVFJuwP1H7hl
- moeLthI9L3wkkIjxGUIDjbb/9BHB99RSvGNeo8wmfvcE1qKZnh91FAw3V Y=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Aug 2021 06:09:25 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg05-sd.qualcomm.com with ESMTP; 12 Aug 2021 06:09:24 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 7B90E91D; Thu, 12 Aug 2021 08:09:24 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon (disas/hexagon.c) fix memory leak for early exit cases
-Date: Thu, 12 Aug 2021 08:09:20 -0500
-Message-Id: <1628773760-870-1-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEAUh-0004pC-2x
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:11:35 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:40635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEAUe-0000Wa-93
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 09:11:34 -0400
+Received: by mail-ed1-x535.google.com with SMTP id d6so9596387edt.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 06:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qy+duMq/ewhcf5njD3EmbGdd8S8OutejfwQjLHHuUhg=;
+ b=fnhf9sRzEUHiuAqvsFcAMAhDrsfArxg5TDWaMGaxlTuuTqDBHbpDLrbUvfd2HL+KjS
+ zj1ZMMR5AQmE6u0xG2Lhx00ExETLD5dYNclXmVgvIGjgWb+XU/uJ3EMPHl+JsZ/YEp5e
+ tDLAdNncFlAjLWXhHu7PBuB3JkPZHOGVb863bWj/j83MYZp4/iqrp8o5BBORIIHIT8T/
+ qsCYHAzGcIY9p3i5hmNXB4TzRF/5QgSJiDhopC1f9nUhWNac570s3+IvchYViAThn4aO
+ aaateNjwwBYVHbJzl8RWwxjxXTLOUN4rBpNB5jlRz7Pxki/kv1v1DBkT4hbP/lPWOmeS
+ UZ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qy+duMq/ewhcf5njD3EmbGdd8S8OutejfwQjLHHuUhg=;
+ b=mcwJg4O/zmJKqOmXkConnjCGzQkJdk0UkQOT7QXDmoTlCIvPd2XgZ3JVzypnFsPRXX
+ LARBWoM3o64DTP457zePW2Nx5UORc89R/TMNrWaEdaKXck+/p74otG38P6cGFnOiBWYX
+ EQqy+1XloejEo9YKHZzOH87xBaqPj8Keoe/E49oesmrLD9b90g7uLN7taXCi4Xnx0dLJ
+ Omn1+B9g37+g8aX9eggP6s3otRMLizGFj1Y1do3kBFLW4DpOXda9e2XrclSNxgm44Bov
+ QCmN5b69AaUZOXSrRAh367eTnsL+9RQ3YBELIZ+t7Azy7Oce/HCf+2zOMePuXYxfwa+h
+ E34w==
+X-Gm-Message-State: AOAM531ghVVkXrGUGmuhsVl2Dam0pB73s4M23XTmZ7hG4TaoVUFyqaM5
+ XuwHYqZNTf9poHeQRNNT8ESmPSis3HnYpFmeq2lXlw==
+X-Google-Smtp-Source: ABdhPJwJKuUa4N6nOVfpgWYLBPne5eZdk5RkyZppgChhL1YHB/mH02A5CKRW3W29rqLYXFcNrVglRpn5rYiKueWg74g=
+X-Received: by 2002:a05:6402:3099:: with SMTP id
+ de25mr717936edb.36.1628773890666; 
+ Thu, 12 Aug 2021 06:11:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <1628773760-870-1-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1628773760-870-1-git-send-email-tsimpson@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Aug 2021 14:10:45 +0100
+Message-ID: <CAFEAcA-geonAK3NeNosh39HBnpkr_XFveaLFR2GZBj=AU8tAxQ@mail.gmail.com>
+Subject: Re: [PATCH] Hexagon (disas/hexagon.c) fix memory leak for early exit
+ cases
+To: Taylor Simpson <tsimpson@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,29 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, tsimpson@quicinc.com,
- richard.henderson@linaro.org, f4bug@amsat.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RG9uJ3QgYWxsb2NhdGUgdGhlIHN0cmluZyB1bnRpbCBlcnJvciBjb25kaXRpb25zIGhhdmUgYmVl
-biBjaGVja2VkCgpGaXhlczogYTAwY2ZlZDBlICgiSGV4YWdvbiAoZGlzYXMpIGRpc2Fzc2VtYmxl
-ciIpCkVsaW1pbmF0ZSBDb3Zlcml0eSBDSUQgMTQ2MDEyMSAoUmVzb3VyY2UgbGVhaykKClNpZ25l
-ZC1vZmYtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4KLS0tCiBkaXNh
-cy9oZXhhZ29uLmMgfCAzICsrLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Rpc2FzL2hleGFnb24uYyBiL2Rpc2FzL2hleGFnb24u
-YwppbmRleCAzYzI0ZTJhLi5jMWE0ZmZjIDEwMDY0NAotLS0gYS9kaXNhcy9oZXhhZ29uLmMKKysr
-IGIvZGlzYXMvaGV4YWdvbi5jCkBAIC0zMyw3ICszMyw3IEBAIGludCBwcmludF9pbnNuX2hleGFn
-b24oYmZkX3ZtYSBtZW1hZGRyLCBzdHJ1Y3QgZGlzYXNzZW1ibGVfaW5mbyAqaW5mbykKIHsKICAg
-ICB1aW50MzJfdCB3b3Jkc1tQQUNLRVRfV09SRFNfTUFYXTsKICAgICBib29sIGZvdW5kX2VuZCA9
-IGZhbHNlOwotICAgIEdTdHJpbmcgKmJ1ZiA9IGdfc3RyaW5nX3NpemVkX25ldyhQQUNLRVRfQlVG
-RkVSX0xFTik7CisgICAgR1N0cmluZyAqYnVmOwogICAgIGludCBpLCBsZW47CiAKICAgICBmb3Ig
-KGkgPSAwOyBpIDwgUEFDS0VUX1dPUkRTX01BWCAmJiAhZm91bmRfZW5kOyBpKyspIHsKQEAgLTU3
-LDYgKzU3LDcgQEAgaW50IHByaW50X2luc25faGV4YWdvbihiZmRfdm1hIG1lbWFkZHIsIHN0cnVj
-dCBkaXNhc3NlbWJsZV9pbmZvICppbmZvKQogICAgICAgICByZXR1cm4gUEFDS0VUX1dPUkRTX01B
-WCAqIHNpemVvZih1aW50MzJfdCk7CiAgICAgfQogCisgICAgYnVmID0gZ19zdHJpbmdfc2l6ZWRf
-bmV3KFBBQ0tFVF9CVUZGRVJfTEVOKTsKICAgICBsZW4gPSBkaXNhc3NlbWJsZV9oZXhhZ29uKHdv
-cmRzLCBpLCBtZW1hZGRyLCBidWYpOwogICAgICgqaW5mby0+ZnByaW50Zl9mdW5jKShpbmZvLT5z
-dHJlYW0sICIlcyIsIGJ1Zi0+c3RyKTsKICAgICBnX3N0cmluZ19mcmVlKGJ1ZiwgdHJ1ZSk7Ci0t
-IAoyLjcuNAoK
+On Thu, 12 Aug 2021 at 14:09, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> Don't allocate the string until error conditions have been checked
+>
+> Fixes: a00cfed0e ("Hexagon (disas) disassembler")
+> Eliminate Coverity CID 1460121 (Resource leak)
+>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  disas/hexagon.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/disas/hexagon.c b/disas/hexagon.c
+> index 3c24e2a..c1a4ffc 100644
+> --- a/disas/hexagon.c
+> +++ b/disas/hexagon.c
+> @@ -33,7 +33,7 @@ int print_insn_hexagon(bfd_vma memaddr, struct disassemble_info *info)
+>  {
+>      uint32_t words[PACKET_WORDS_MAX];
+>      bool found_end = false;
+> -    GString *buf = g_string_sized_new(PACKET_BUFFER_LEN);
+> +    GString *buf;
+>      int i, len;
+>
+>      for (i = 0; i < PACKET_WORDS_MAX && !found_end; i++) {
+> @@ -57,6 +57,7 @@ int print_insn_hexagon(bfd_vma memaddr, struct disassemble_info *info)
+>          return PACKET_WORDS_MAX * sizeof(uint32_t);
+>      }
+>
+> +    buf = g_string_sized_new(PACKET_BUFFER_LEN);
+>      len = disassemble_hexagon(words, i, memaddr, buf);
+>      (*info->fprintf_func)(info->stream, "%s", buf->str);
+>      g_string_free(buf, true);
+> --
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
