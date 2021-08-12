@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370D13EA3D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 13:36:40 +0200 (CEST)
-Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF6A3EA3E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 13:38:33 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE90n-0001Cv-R7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 07:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
+	id 1mE92e-0002zq-HS
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 07:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <narmstrong@baylibre.com>)
- id 1mE8x0-0000TA-Sq
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:32:42 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55174)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mE91g-0002Gp-U4
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:37:32 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <narmstrong@baylibre.com>)
- id 1mE8ww-0004zm-7S
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:32:42 -0400
-Received: by mail-wm1-x333.google.com with SMTP id g138so4228441wmg.4
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 04:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KeJE4dkFdbpAZW/2KBoAiJK9ZOBqRTvkDmsRWOyZ1vc=;
- b=lqHJ5Sr3G8+rt9y1jD+OKTQw8oGlZu6hsaxa2EK9eiFUunzKbvdgH8eOxNwyBwUoUV
- ZiPsjY0402jMcjt3T5I4iWxNewljkFdzwTh1tt1DPLdav4T9aSiHZuc0a1HyWdP6t5KS
- TZJPoTomdWLo9YPPxddQdVWFg66n6h2Wrk9TzkhEI+PFeWZcABGKtkbbYvgUo+jJzMae
- 9B6WQyAfZ7ap7B058ODKfXP3dmczebBpHldRcdm5v+08qq6Hoz48U44cNP4KqtPVZYjj
- BaAXJUorJ14YZVL9YE8A/LrHsSde7pmqXKUbURVm6gPomOsj65oF5m5nQcTr3Dbnj6Ye
- +0xQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mE91e-0008IC-At
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:37:32 -0400
+Received: by mail-wr1-x430.google.com with SMTP id k29so7834208wrd.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 04:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4S1geDIZK18E9ImEyELqB5R9ufqOnipEyFGxb4Ab8AU=;
+ b=BjWm/oq/DMC1qilxbelobQtyV/cPj4jN2B/5dJD2LaCw2Zd66cRHvafeCfHTkGq579
+ NfBb10tuO2ZD2O8ZVbdP2ljRI5553a3eGgMhTz6se+vXpUYLtjdUjJJiFMjdP1poqVl2
+ TxKMCJdlD7BGwcGKcwOzy5OKZluHokKD+urJeAvRYV/q/NfDx/xqUYj0Hr61k2WB0pA2
+ pqrAh42X92UEv9zUlscCZtDKT89OoVnORKebf95kIBvVDNT61d195eAG8zDgWxprQjyy
+ Yapjp9y45iZXKbvcul0BwDS5tDqXR3W1nYzs3ZJsZadYYCnUDNlUdsLSTZqIYNgTQRN5
+ kEgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KeJE4dkFdbpAZW/2KBoAiJK9ZOBqRTvkDmsRWOyZ1vc=;
- b=njkdxXNXWfteYVx9bEKH2+kWOaws4/nXX9Awal1XVNUMLqk3BhMkhGAL9lcyR+G4j1
- CkMVnQYEDFJAkXzpWFcHglmjAX4NuUg5i7xvE4pk+s2aWXHJPVI8+DohM6zW05sdS0Zl
- odygRH1AgshpXo3zcrdWHQerh90DE/+6A2jS45UrOoJbMYw170HUjA4IWDyZGdrc4zIi
- g8WhLyYdZmwxbImswc5+YrqRyBBTEyd0lv6VowRE9pSosSPqm/U9TBIHr09C2kAM39hG
- t3M7tuGzjlYsuDnllrBYFejw9qNN7oh0/Ih6SQg3o1qgyVyDIvSLvV+Kt2GT6mQivBwo
- ZwSA==
-X-Gm-Message-State: AOAM5309AhsVTt8q2/qv8/Gt/jFBdr6hBEH1gvZyZHmfbq+UMF1rtQX7
- MmqalxmusrNCjLvKvkeYrABZiQ==
-X-Google-Smtp-Source: ABdhPJwhJzHxosM2i98pwMYUTXMXS5OZtutCyEljyRBsxAppmulDTbdxXVUMO7Y6YQtr/Mo4/tqr3A==
-X-Received: by 2002:a05:600c:198e:: with SMTP id
- t14mr3403989wmq.167.1628767953753; 
- Thu, 12 Aug 2021 04:32:33 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:ff68:9b5a:54d3:146c])
- by smtp.gmail.com with ESMTPSA id 19sm2709293wmj.23.2021.08.12.04.32.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 04:32:33 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: jslaby@suse.cz
-Subject: [PATCH] misc: edu: add MSI-X interrupt generation aswell
-Date: Thu, 12 Aug 2021 13:32:30 +0200
-Message-Id: <20210812113230.2462428-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+ bh=4S1geDIZK18E9ImEyELqB5R9ufqOnipEyFGxb4Ab8AU=;
+ b=tAzWziM5QxhgJHgSBkBjqvVBZH96uJKBKG1Mifs2iv2itvMH7mskyWo1Xpq9iAV44I
+ ne9fJax2kO8t+msakzVLaTeY0lTeeOibDkR7govnAcgFHR4xFd5qveFQVeLZtBisNocV
+ f5rMs4vdLt6gTGIFz4BMvk3JsddGme8dc+xgnZdBoHdCiyAGY6LCDmy0x+QFg8aIzJ2r
+ aOpWQ61xdy+clQ10J5FDSWDtyjTg5OD+iSApIISu9C73nvXEcP+llZuIKj+d2JkeUi02
+ IXjI09wM6YkMaIKtYCtOQJqEMDPS3YwtOv1hdW1aXlv/k4nhE3Ow/HKNolGPPBQRkqYT
+ w87g==
+X-Gm-Message-State: AOAM531ATUH6NKwcsrkuUffU5mpEpJAS4EhO9ytuh7hPorAsl+ac+9xj
+ F4ROl+fjcHsW++airKP71kA=
+X-Google-Smtp-Source: ABdhPJwxtTXAMv1Ltag5pkaVNNqCBRzTYyPSIoTUIf5p/BspjJtV7n2egoSJiZDWR4+l258RIUhcaA==
+X-Received: by 2002:a5d:5305:: with SMTP id e5mr3489789wrv.243.1628768248805; 
+ Thu, 12 Aug 2021 04:37:28 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id s12sm2749700wru.41.2021.08.12.04.37.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Aug 2021 04:37:28 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1?] target/i386: Fixed size of constant for Windows
+To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
+References: <20210812111056.26926-1-laramglazier@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1cdc5ffe-adc5-41ac-e588-b8eab62ecc76@amsat.org>
+Date: Thu, 12 Aug 2021 13:37:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210812111056.26926-1-laramglazier@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=narmstrong@baylibre.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +88,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add MSI-X aswell since either MSI or MSI-X are optional and
-MSI can still be used without any issues.
+On 8/12/21 1:10 PM, Lara Lazier wrote:
+> ~0UL has 64 bits on Linux and 32 bits on Windows.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- hw/misc/edu.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/512".
 
-diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-index e935c418d4..5d0643e1bd 100644
---- a/hw/misc/edu.c
-+++ b/hw/misc/edu.c
-@@ -27,6 +27,7 @@
- #include "hw/pci/pci.h"
- #include "hw/hw.h"
- #include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
- #include "qemu/timer.h"
- #include "qom/object.h"
- #include "qemu/main-loop.h" /* iothread mutex */
-@@ -77,6 +78,11 @@ struct EduState {
-     uint64_t dma_mask;
- };
- 
-+static bool edu_msix_enabled(EduState *edu)
-+{
-+    return msix_enabled(&edu->pdev);
-+}
-+
- static bool edu_msi_enabled(EduState *edu)
- {
-     return msi_enabled(&edu->pdev);
-@@ -86,7 +92,9 @@ static void edu_raise_irq(EduState *edu, uint32_t val)
- {
-     edu->irq_status |= val;
-     if (edu->irq_status) {
--        if (edu_msi_enabled(edu)) {
-+        if (edu_msix_enabled(edu)) {
-+            msix_notify(&edu->pdev, 0);
-+        } else if (edu_msi_enabled(edu)) {
-             msi_notify(&edu->pdev, 0);
-         } else {
-             pci_set_irq(&edu->pdev, 1);
-@@ -369,6 +377,10 @@ static void pci_edu_realize(PCIDevice *pdev, Error **errp)
-     if (msi_init(pdev, 0, 1, true, false, errp)) {
-         return;
-     }
-+    if (msix_init_exclusive_bar(pdev, 1, 1, errp)) {
-+        return;
-+    }
-+    msix_vector_use(pdev, 0);
- 
-     timer_init_ms(&edu->dma_timer, QEMU_CLOCK_VIRTUAL, edu_dma_timer, edu);
- 
-@@ -397,6 +409,7 @@ static void pci_edu_uninit(PCIDevice *pdev)
- 
-     timer_del(&edu->dma_timer);
-     msi_uninit(pdev);
-+    msix_uninit_exclusive_bar(pdev);
- }
- 
- static void edu_instance_init(Object *obj)
--- 
-2.25.1
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/512
+Fixes: 3407259b20c ("target/i386: Added consistency checks for CR3")
 
+> Reported-by: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+> ---
+>  target/i386/tcg/sysemu/misc_helper.c | 2 +-
+>  target/i386/tcg/sysemu/svm_helper.c  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+> index 0a7a58ca9a..91b0fc916b 100644
+> --- a/target/i386/tcg/sysemu/misc_helper.c
+> +++ b/target/i386/tcg/sysemu/misc_helper.c
+> @@ -97,7 +97,7 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+>          break;
+>      case 3:
+>          if ((env->efer & MSR_EFER_LMA) &&
+> -                (t0 & ((~0UL) << env_archcpu(env)->phys_bits))) {
+> +                (t0 & ((~0ULL) << env_archcpu(env)->phys_bits))) {
+
+Maybe safer to use extract64()? I'm not sure how many bits you want
+to check, so used TARGET_LONG_BITS:
+
+            extract64(t0, env_archcpu(env)->phys_bits,
+                      TARGET_LONG_BITS - env_archcpu(env)->phys_bits) {
+
+>              cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+>          }
+>          if (!(env->efer & MSR_EFER_LMA)) {
+> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+> index 3891f4e4a8..42cd5053e5 100644
+> --- a/target/i386/tcg/sysemu/svm_helper.c
+> +++ b/target/i386/tcg/sysemu/svm_helper.c
+> @@ -290,7 +290,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+>      }
+>      new_cr3 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr3));
+>      if ((env->efer & MSR_EFER_LMA) &&
+> -            (new_cr3 & ((~0UL) << cpu->phys_bits))) {
+> +            (new_cr3 & ((~0ULL) << cpu->phys_bits))) {
+>          cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+>      }
+>      new_cr4 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr4));
+> 
+
+Any idea how to avoid that class of bug? Some CFLAG or plain checkpatch?
 
