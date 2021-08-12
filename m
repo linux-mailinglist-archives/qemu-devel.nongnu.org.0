@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB83A3EA91C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:07:09 +0200 (CEST)
-Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2F53EA9C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:50:49 +0200 (CEST)
+Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEEAe-0005sc-Pf
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51146)
+	id 1mEEqr-0003qU-Vz
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mEDyq-0001IN-VM
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:54:56 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:39848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mEDyp-0006ZM-4s
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:54:56 -0400
-Received: by mail-qt1-x834.google.com with SMTP id d2so5766213qto.6
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 09:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7Cz2NY+yZmpnb1sh7gEY1+iErXM+pf2N+zjyQd5cJRI=;
- b=NkxkasaGO8bVeuawaDKnPVMaWSvqkRTZNCJMXvePsmBt9VorvtGwGss643a+ERJfyV
- grFru0exBgkHrX+8xAtr10TDEzqcP8Jnmw73a/WZ5OirsFj+1lR8+2GG7d/kpoNr5Aed
- gvVfYpx6Z0l1CVro28TFPIT1VKrk8aA3DOR1VEc2Weyl7Diea3l9tkppbBnv7HTd/Ku4
- s+h2SFliwIjbqsNtPNZIuBWqrYLIkaiFXE4tkEjaeXRWNmcr17/ZWP3WP4EAJT+6Yz+A
- uuHRZm0Gtfqtowxth/HbqUParjHJwj2QPPmqkNQPuFVDlVkqBDlPSl/WHPBvLyNOVnLK
- ZdSg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mEEox-0001sy-Lt
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:48:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mEEou-0001CG-4W
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:48:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628790523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ojFx2DSaAaabzG3DkZR17ix0paD3QapfwbqzD0RPdgc=;
+ b=UTCxtfnxAb1SCfbWSTIKXWTC9fwl4zAg4z5pDRYMmb+lMbg75fyMg62mHpJp/cK3mmuB3x
+ fUliCPW/vIW5Y474/YUQqu2rb7ws7mFD7y8BfjjDvm96ZZHnT6dTalgWp2I5h1mXz95vu5
+ R7+GqP1pG/nEaavwUIXd+CG4sCdVQxo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-NfBv5MRyP9-vASfuC4pc2Q-1; Thu, 12 Aug 2021 13:48:42 -0400
+X-MC-Unique: NfBv5MRyP9-vASfuC4pc2Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ ci25-20020a1709072679b029058e79f6c38aso2116251ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:48:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7Cz2NY+yZmpnb1sh7gEY1+iErXM+pf2N+zjyQd5cJRI=;
- b=I6ZuC/uFV2xbE3PNB8zap+IDCq67yMlVMn0iK0FbpV7rQsI9ruR+5NaN26bapxj6SA
- ii/55CkIqLJhUSbXDsq26sG/hW2Q59QaM/FVdZr9aIx0XSt4Gh1a/A2zcnWv5Qbh+lOO
- sHojdob4JR0Jc7R4lbj78Di1S2b433hQgRCt9d9FtH6mz7fNHFhF1r4ulxUpsw6nY1EU
- x10+yyh021BrGptK4BIBDog8uRTGKNyWNLsuOJgsFw47hk2mZCTEBSMrCVFj8bCETm/g
- vxbcBjxKBUpiHBzgVDWR62gZvnwNDbrXJyZR6Km0W4hj+PYUUFPBAL/J5JckxTRsq3mj
- kxDQ==
-X-Gm-Message-State: AOAM53341lqqoc187PD81Ho1KxTOjrYZhzH15WD3knzPfzEAcJ9fqfUT
- +E3f16BAJz0jCvNMqEmBrEOxQA==
-X-Google-Smtp-Source: ABdhPJwBgG0ZaXiL7Sjteh2t7oQHr0Pv1vgkiyTYRmyjgxWSQWn2CtRmk3XBJxgrF7I0NxWZajBeWQ==
-X-Received: by 2002:ac8:7e8a:: with SMTP id w10mr2219230qtj.391.1628787293979; 
- Thu, 12 Aug 2021 09:54:53 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id s7sm961807qkp.105.2021.08.12.09.54.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 09:54:53 -0700 (PDT)
-Message-ID: <d74939437128465b828d0c3c914965ddbb9b992f.camel@linaro.org>
-Subject: Re: [PATCH v7 09/10] hw/arm/virt: add ITS support in virt GIC
-From: shashi.mallela@linaro.org
-To: Igor Mammedov <imammedo@redhat.com>
-Date: Thu, 12 Aug 2021 12:54:52 -0400
-In-Reply-To: <20210806130937.1a354b30@redhat.com>
-References: <20210805223002.144855-1-shashi.mallela@linaro.org>
- <20210805223002.144855-10-shashi.mallela@linaro.org>
- <20210806130937.1a354b30@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ojFx2DSaAaabzG3DkZR17ix0paD3QapfwbqzD0RPdgc=;
+ b=QF1xr7OOfH6TvCB/PaxVeFdYLdL7/xnXEJ04LSEkuBpgqCDeWykxAS4KU1jSOynaEa
+ YT4KAX1g06bKFnrDnmQlXQ3to6drbszkEHBpTXfdP9jcbYr2Kgx8cXvGmHVgaeV11ezF
+ NBLRFQ0PrWwvvtgrYQUFuQJYhh775DBdeekyUt9nqJ4zwUVchyb0Bqj25FkdRfTw9ekn
+ fIQYK1T1p3uCFWNH74UB9JP5H5Dz3Aueb5bELYNYrx0K76aBj3gG/5UtYDPXA0IojlbW
+ Bc4P1X+9fkql2/VftawH0EoE5YoTFVFg9kea2RN/7p7kKiNg3scwzq0aB25SH+iHWBWa
+ fSqw==
+X-Gm-Message-State: AOAM533+db8c3zKPSoNoZxLddkRJ1qbFdzhamycgScV1Bh1Lr5/bwChw
+ UFmvGYpftqcI5fM8dL1jq8ra8LlnXGDBRS+I6s8r1/BZ2YlsP4Ea9tAy4KpvqlOR/W9Dys4vnT/
+ WOVW8YwvbpF07nvQ=
+X-Received: by 2002:a17:906:38ce:: with SMTP id
+ r14mr4851300ejd.268.1628790520888; 
+ Thu, 12 Aug 2021 10:48:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPRfesKmz037BnFoXFkfrkD+ANR3/b3dV+0u/gG5if98Z+WgoMLD8FGZIEj9RqA+PcUqdSlw==
+X-Received: by 2002:a17:906:38ce:: with SMTP id
+ r14mr4851287ejd.268.1628790520697; 
+ Thu, 12 Aug 2021 10:48:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a25sm1073142ejv.91.2021.08.12.10.48.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Aug 2021 10:48:39 -0700 (PDT)
+Subject: Re: [PATCH] target/i386: Fixed size of constant for Windows
+To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
+References: <20210812111056.26926-1-laramglazier@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <af0ddb50-c353-4661-07d1-61b0d7039fae@redhat.com>
+Date: Thu, 12 Aug 2021 19:48:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210812111056.26926-1-laramglazier@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,150 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, rad@semihalf.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- leif@nuviainc.com
+Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-08-06 at 13:09 +0200, Igor Mammedov wrote:
-> On Thu,  5 Aug 2021 18:30:01 -0400
-> Shashi Mallela <shashi.mallela@linaro.org> wrote:
+On 12/08/21 13:10, Lara Lazier wrote:
+> ~0UL has 64 bits on Linux and 32 bits on Windows.
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/512".
 > 
-> > Included creation of ITS as part of virt platform GIC
-> > initialization. This Emulated ITS model now co-exists with kvm
-> > ITS and is enabled in absence of kvm irq kernel support in a
-> > platform.
-> > 
-> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/arm/virt.c         | 28 ++++++++++++++++++++++++++--
-> >  include/hw/arm/virt.h |  2 ++
-> >  target/arm/kvm_arm.h  |  4 ++--
-> >  3 files changed, 30 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index 81eda46b0b..99cf4f9dbd 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -583,6 +583,12 @@ static void create_its(VirtMachineState *vms)
-> >      const char *itsclass = its_class_name();
-> >      DeviceState *dev;
-> >  
-> > +    if (!strcmp(itsclass, "arm-gicv3-its")) {
-> > +        if (!vms->tcg_its) {
-> > +            itsclass = NULL;
-> > +        }
-> > +    }
-> > +
-> >      if (!itsclass) {
-> >          /* Do nothing if not supported */
-> >          return;
-> > @@ -620,7 +626,7 @@ static void create_v2m(VirtMachineState *vms)
-> >      vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
-> >  }
-> >  
-> > -static void create_gic(VirtMachineState *vms)
-> > +static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-> >  {
-> >      MachineState *ms = MACHINE(vms);
-> >      /* We create a standalone GIC */
-> > @@ -654,6 +660,14 @@ static void create_gic(VirtMachineState *vms)
-> >                               nb_redist_regions);
-> >          qdev_prop_set_uint32(vms->gic, "redist-region-count[0]",
-> > redist0_count);
-> >  
-> > +        if (!kvm_irqchip_in_kernel()) {
-> > +            if (vms->tcg_its) {
-> > +                object_property_set_link(OBJECT(vms->gic),
-> > "sysmem",
-> > +                                         OBJECT(mem),
-> > &error_fatal);
-> > +                qdev_prop_set_bit(vms->gic, "has-lpi", true);
-> > +            }
-> > +        }
-> > +
-> >          if (nb_redist_regions == 2) {
-> >              uint32_t redist1_capacity =
-> >                      vms->memmap[VIRT_HIGH_GIC_REDIST2].size /
-> > GICV3_REDIST_SIZE;
-> > @@ -2043,7 +2057,7 @@ static void machvirt_init(MachineState
-> > *machine)
-> >  
-> >      virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
-> >  
-> > -    create_gic(vms);
-> > +    create_gic(vms, sysmem);
-> >  
-> >      virt_cpu_post_init(vms, sysmem);
-> >  
-> > @@ -2746,6 +2760,12 @@ static void virt_instance_init(Object *obj)
-> >      } else {
-> >          /* Default allows ITS instantiation */
-> >          vms->its = true;
-> > +
-> > +        if (vmc->no_tcg_its) {
-> > +            vms->tcg_its = false;
-> > +        } else {
-> > +            vms->tcg_its = true;
-> > +        }
-> >      }
-> >  
-> >      /* Default disallows iommu instantiation */
-> > @@ -2795,8 +2815,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
-> >  
-> >  static void virt_machine_6_0_options(MachineClass *mc)
-> >  {
-> > +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-> > +
-> >      virt_machine_6_1_options(mc);
-> >      compat_props_add(mc->compat_props, hw_compat_6_0,
-> > hw_compat_6_0_len);
-> > +    /* qemu ITS was introduced with 6.1 */
-> > +    vmc->no_tcg_its = true;
+> Reported-by: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+> ---
+>   target/i386/tcg/sysemu/misc_helper.c | 2 +-
+>   target/i386/tcg/sysemu/svm_helper.c  | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> given it's not going to be in 6.1, shouldn't it be moved to
-> virt_machine_6_1_options() with updated comment?
-Agreed,moved to virt_machine_6_1_options() and updated comment
+> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+> index 0a7a58ca9a..91b0fc916b 100644
+> --- a/target/i386/tcg/sysemu/misc_helper.c
+> +++ b/target/i386/tcg/sysemu/misc_helper.c
+> @@ -97,7 +97,7 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+>           break;
+>       case 3:
+>           if ((env->efer & MSR_EFER_LMA) &&
+> -                (t0 & ((~0UL) << env_archcpu(env)->phys_bits))) {
+> +                (t0 & ((~0ULL) << env_archcpu(env)->phys_bits))) {
+>               cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+>           }
+>           if (!(env->efer & MSR_EFER_LMA)) {
+> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+> index 3891f4e4a8..42cd5053e5 100644
+> --- a/target/i386/tcg/sysemu/svm_helper.c
+> +++ b/target/i386/tcg/sysemu/svm_helper.c
+> @@ -290,7 +290,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+>       }
+>       new_cr3 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr3));
+>       if ((env->efer & MSR_EFER_LMA) &&
+> -            (new_cr3 & ((~0UL) << cpu->phys_bits))) {
+> +            (new_cr3 & ((~0ULL) << cpu->phys_bits))) {
+>           cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+>       }
+>       new_cr4 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr4));
 > 
-> >  }
-> >  DEFINE_VIRT_MACHINE(6, 0)
-> >  
-> > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> > index 9661c46699..b461b8d261 100644
-> > --- a/include/hw/arm/virt.h
-> > +++ b/include/hw/arm/virt.h
-> > @@ -120,6 +120,7 @@ struct VirtMachineClass {
-> >      MachineClass parent;
-> >      bool disallow_affinity_adjustment;
-> >      bool no_its;
-> > +    bool no_tcg_its;
-> >      bool no_pmu;
-> >      bool claim_edge_triggered_timers;
-> >      bool smbios_old_sys_ver;
-> > @@ -141,6 +142,7 @@ struct VirtMachineState {
-> >      bool highmem;
-> >      bool highmem_ecam;
-> >      bool its;
-> > +    bool tcg_its;
-> >      bool virt;
-> >      bool ras;
-> >      bool mte;
-> > diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> > index 34f8daa377..0613454975 100644
-> > --- a/target/arm/kvm_arm.h
-> > +++ b/target/arm/kvm_arm.h
-> > @@ -525,8 +525,8 @@ static inline const char *its_class_name(void)
-> >          /* KVM implementation requires this capability */
-> >          return kvm_direct_msi_enabled() ? "arm-its-kvm" : NULL;
-> >      } else {
-> > -        /* Software emulation is not implemented yet */
-> > -        return NULL;
-> > +        /* Software emulation based model */
-> > +        return "arm-gicv3-its";
-> >      }
-> >  }
-> >  
+
+Queued, thanks.
+
+Paolo
 
 
