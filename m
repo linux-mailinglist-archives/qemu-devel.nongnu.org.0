@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831973EA84C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:13:40 +0200 (CEST)
-Received: from localhost ([::1]:43636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7328A3EA84A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 18:13:32 +0200 (CEST)
+Received: from localhost ([::1]:43432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEDKt-0007LB-GG
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40716)
+	id 1mEDKk-0007BM-TF
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 12:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ6-0005Aw-Bb
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33555)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ7-0005BB-8b
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ2-0001Ms-OW
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mEDJ3-0001NN-CO
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 12:11:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628784703;
+ s=mimecast20190719; t=1628784704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ClZ2V82vIuah89XudutsMjf4+R0o17xvTWdNNTPgtHY=;
- b=QOR1xTF5W1n54QOGDgFZogODRr8Tc0jI8jYHx3NX8gBiEljQH1UNkDfVAsM+Vv7YVo+zyn
- URPOKZI3b0oFsjiJovFwrBl6bdgLwXyaufQYCOe5PW7izSGsZytqK+JBJJLmqIbXKa4OZD
- o2io4/0bi0s3mhf7u2hM1o5B3+rHAAE=
+ bh=H76Y1c/QXnY6CPybEgO8I6XEVH5Nn00/hcbCGywgZA8=;
+ b=fAXIjnkSak7F2/l0Cud9i785YrL8uk4kSm6+EKODub84CfqU/PFA5oF5KPJWm5v9k18IPi
+ KsGDQvmN54lypDrR3D4vNyIgNoTyPF1lKfTqiikazZf+ammSHllmfA/XQFurOrwLWDKJNS
+ 5p0cs6Z6wUBV8pBq7tEG/rYfSMBM9o0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-64yBGazXMfmz9NiESRAjCA-1; Thu, 12 Aug 2021 12:11:42 -0400
-X-MC-Unique: 64yBGazXMfmz9NiESRAjCA-1
+ us-mta-442-pNNSTi2BPN-M36nD4GDT3g-1; Thu, 12 Aug 2021 12:11:43 -0400
+X-MC-Unique: pNNSTi2BPN-M36nD4GDT3g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51F8118C8C16
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 16:11:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A4B01012D9E
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 16:11:42 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61F545C3E0;
- Thu, 12 Aug 2021 16:11:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 991045C25A;
+ Thu, 12 Aug 2021 16:11:41 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/6] qapi: Remember alias definitions in
- qobject-input-visitor
-Date: Thu, 12 Aug 2021 18:11:27 +0200
-Message-Id: <20210812161131.92017-3-kwolf@redhat.com>
+Subject: [PATCH v3 3/6] qapi: Simplify full_name_nth() in qobject-input-visitor
+Date: Thu, 12 Aug 2021 18:11:28 +0200
+Message-Id: <20210812161131.92017-4-kwolf@redhat.com>
 In-Reply-To: <20210812161131.92017-1-kwolf@redhat.com>
 References: <20210812161131.92017-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,218 +80,108 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes qobject-input-visitor remember the currently valid aliases in
-each StackObject. It doesn't actually allow using the aliases yet.
+Instead of counting how many elements from the top of the stack we need
+to ignore until we find the thing we're interested in, we can just
+directly pass the StackObject pointer because all callers already know
+it.
+
+We only need a different way now to tell if we want to know the name of
+something contained in the given StackObject or of the StackObject
+itself. Make this explicit with a new boolean parameter.
+
+This makes the function easier to use in cases where we have the
+StackObject, but don't know how many steps down the stack it is. The
+following patches will introduce such a caller.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/qobject-input-visitor.c | 147 +++++++++++++++++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+ qapi/qobject-input-visitor.c | 43 ++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
 diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 04b790412e..d0061d33d6 100644
+index d0061d33d6..16a75442ff 100644
 --- a/qapi/qobject-input-visitor.c
 +++ b/qapi/qobject-input-visitor.c
-@@ -30,6 +30,50 @@
- #include "qemu/cutils.h"
- #include "qemu/option.h"
- 
-+/*
-+ * Describes an alias that is relevant for the current StackObject,
-+ * either because it aliases a member of the currently visited object
-+ * or because it aliases a member of a nested object.
-+ *
-+ * When processing a nested object, all InputVisitorAlias objects that
-+ * are relevant for the nested object are propagated, i.e. copied with
-+ * the name of the nested object removed from @source.
-+ */
-+typedef struct InputVisitorAlias {
-+    /* StackObject in which the alias was defined */
-+    struct StackObject *alias_so;
-+
-+    /*
-+     * Alias name as defined for @alias_so.
-+     * NULL means that this is a wildcard alias, i.e. all members of
-+     * @src get an alias in @alias_so with the same name.
-+     */
-+    const char *name;
-+
-+    /*
-+     * NULL-terminated array representing a path to the source member
-+     * that the alias refers to.
-+     *
-+     * Must contain at least one non-NULL element if @alias is not NULL.
-+     *
-+     * If it contains no non-NULL element, @alias_so must be different
-+     * from the StackObject which contains this InputVisitorAlias in
-+     * its aliases list.  In this case, all elements in the currently
-+     * visited object have an alias with the same name in @alias_so.
-+     */
-+    const char **src;
-+
-+    /*
-+     * The alias remains valid as long as the StackObject which
-+     * contains this InputVisitorAlias in its aliases list has
-+     * StackObject.alias_scope_nesting >= InputVisitorAlias.scope_nesting
-+     * or until the whole StackObject is removed.
-+     */
-+    int scope_nesting;
-+
-+    QSLIST_ENTRY(InputVisitorAlias) next;
-+} InputVisitorAlias;
-+
- typedef struct StackObject {
-     const char *name;            /* Name of @obj in its parent, if any */
-     QObject *obj;                /* QDict or QList being visited */
-@@ -39,6 +83,9 @@ typedef struct StackObject {
-     const QListEntry *entry;    /* If @obj is QList: unvisited tail */
-     unsigned index;             /* If @obj is QList: list index of @entry */
- 
-+    QSLIST_HEAD(, InputVisitorAlias) aliases;
-+    int alias_scope_nesting;    /* Number of open alias scopes */
-+
-     QSLIST_ENTRY(StackObject) node; /* parent */
- } StackObject;
- 
-@@ -205,6 +252,45 @@ static const char *qobject_input_get_keyval(QObjectInputVisitor *qiv,
-     return qstring_get_str(qstr);
+@@ -110,20 +110,20 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
  }
  
-+/*
-+ * Propagate aliases from the parent StackObject @src to its direct
-+ * child StackObject @dst, which is representing the child struct @name.
+ /*
+- * Find the full name of something @qiv is currently visiting.
+- * @qiv is visiting something named @name in the stack of containers
+- * @qiv->stack.
+- * If @n is zero, return its full name.
+- * If @n is positive, return the full name of the @n-th container
+- * counting from the top.  The stack of containers must have at least
+- * @n elements.
+- * The returned string is valid until the next full_name_nth(@v) or
+- * destruction of @v.
++ * Find the full name of a member in @so which @qiv is currently
++ * visiting.  If the currently visited thing is an object, @name is
++ * the (local) name of the member to describe.  If it is a list, @name
++ * is ignored and the current index (so->index) is included.
 + *
-+ * Every alias whose source path begins with @dst->name and which still
-+ * applies in @dst (i.e. it is either a wildcard alias or has at least
-+ * one more source path element) is propagated to @dst with the first
-+ * element (i.e. @dst->name) removed from the source path.
-+ */
-+static void propagate_aliases(StackObject *dst, StackObject *src)
-+{
-+    InputVisitorAlias *a;
-+    InputVisitorAlias *propagated_alias;
-+
-+    QSLIST_FOREACH(a, &src->aliases, next) {
-+        if (!a->src[0] || strcmp(a->src[0], dst->name)) {
-+            continue;
-+        }
-+
-+        /*
-+         * If this is not a wildcard alias, but a->src[1] is NULL,
-+         * then it referred to a->name in src and doesn't apply inside
-+         * dst any more.
-+         */
-+        if (a->name && !a->src[1]) {
-+            continue;
-+        }
-+
-+        propagated_alias = g_new(InputVisitorAlias, 1);
-+        *propagated_alias = (InputVisitorAlias) {
-+            .name       = a->name,
-+            .alias_so   = a->alias_so,
-+            .src        = &a->src[1],
-+        };
-+
-+        QSLIST_INSERT_HEAD(&dst->aliases, propagated_alias, next);
-+    }
-+}
-+
- static const QListEntry *qobject_input_push(QObjectInputVisitor *qiv,
-                                             const char *name,
-                                             QObject *obj, void *qapi)
-@@ -228,6 +314,9 @@ static const QListEntry *qobject_input_push(QObjectInputVisitor *qiv,
-             g_hash_table_insert(h, (void *)qdict_entry_key(entry), NULL);
-         }
-         tos->h = h;
-+        if (!QSLIST_EMPTY(&qiv->stack)) {
-+            propagate_aliases(tos, QSLIST_FIRST(&qiv->stack));
-+        }
-     } else {
-         assert(qlist);
-         tos->entry = qlist_first(qlist);
-@@ -259,10 +348,17 @@ static bool qobject_input_check_struct(Visitor *v, Error **errp)
- 
- static void qobject_input_stack_object_free(StackObject *tos)
++ * If @skip_member is true, find the full name of @so itself instead.
++ * @name must be NULL then.
++ *
++ * The returned string is valid until the next full_name_so(@qiv) or
++ * destruction of @qiv.
+  */
+-static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+-                                 int n)
++static const char *full_name_so(QObjectInputVisitor *qiv, const char *name,
++                                bool skip_member, StackObject *so)
  {
-+    InputVisitorAlias *a;
-+
-     if (tos->h) {
-         g_hash_table_unref(tos->h);
+-    StackObject *so;
+     char buf[32];
+ 
+     if (qiv->errname) {
+@@ -132,10 +132,14 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+         qiv->errname = g_string_new("");
      }
  
-+    while ((a = QSLIST_FIRST(&tos->aliases))) {
-+        QSLIST_REMOVE_HEAD(&tos->aliases, next);
-+        g_free(a);
+-    QSLIST_FOREACH(so , &qiv->stack, node) {
+-        if (n) {
+-            n--;
+-        } else if (qobject_type(so->obj) == QTYPE_QDICT) {
++    if (skip_member && so) {
++        assert(name == NULL);
++        name = so->name;
++        so = QSLIST_NEXT(so, node);
 +    }
 +
-     g_free(tos);
- }
++    for (; so; so = QSLIST_NEXT(so, node)) {
++        if (qobject_type(so->obj) == QTYPE_QDICT) {
+             g_string_prepend(qiv->errname, name ?: "<anonymous>");
+             g_string_prepend_c(qiv->errname, '.');
+         } else {
+@@ -146,7 +150,6 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+         }
+         name = so->name;
+     }
+-    assert(!n);
  
-@@ -276,6 +372,54 @@ static void qobject_input_pop(Visitor *v, void **obj)
-     qobject_input_stack_object_free(tos);
- }
+     if (name) {
+         g_string_prepend(qiv->errname, name);
+@@ -161,7 +164,9 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
  
-+static void qobject_input_start_alias_scope(Visitor *v)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-+
-+    tos->alias_scope_nesting++;
-+}
-+
-+static void qobject_input_end_alias_scope(Visitor *v)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-+    InputVisitorAlias *a, *next;
-+
-+    assert(tos->alias_scope_nesting > 0);
-+    tos->alias_scope_nesting--;
-+
-+    QSLIST_FOREACH_SAFE(a, &tos->aliases, next, next) {
-+        if (a->scope_nesting > tos->alias_scope_nesting) {
-+            QSLIST_REMOVE(&tos->aliases, a, InputVisitorAlias, next);
-+            g_free(a);
-+        }
-+    }
-+}
-+
-+static void qobject_input_define_alias(Visitor *v, const char *name,
-+                                       const char **source)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-+    InputVisitorAlias *alias = g_new(InputVisitorAlias, 1);
-+
-+    /*
-+     * The source path can become empty during alias propagation for
-+     * wildcard aliases, but not when defining an alias (it would map
-+     * all names onto themselves, which doesn't make sense).
-+     */
-+    assert(source[0]);
-+
-+    *alias = (InputVisitorAlias) {
-+        .name       = name,
-+        .alias_so   = tos,
-+        .src        = source,
-+    };
-+
-+    QSLIST_INSERT_HEAD(&tos->aliases, alias, next);
-+}
-+
- static bool qobject_input_start_struct(Visitor *v, const char *name, void **obj,
-                                        size_t size, Error **errp)
+ static const char *full_name(QObjectInputVisitor *qiv, const char *name)
  {
-@@ -717,6 +861,9 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
-     v->visitor.start_alternate = qobject_input_start_alternate;
-     v->visitor.optional = qobject_input_optional;
-     v->visitor.deprecated_accept = qobject_input_deprecated_accept;
-+    v->visitor.define_alias = qobject_input_define_alias;
-+    v->visitor.start_alias_scope = qobject_input_start_alias_scope;
-+    v->visitor.end_alias_scope = qobject_input_end_alias_scope;
-     v->visitor.free = qobject_input_free;
+-    return full_name_nth(qiv, name, 0);
++    StackObject *tos = QSLIST_FIRST(&qiv->stack);
++
++    return full_name_so(qiv, name, false, tos);
+ }
  
-     v->root = qobject_ref(obj);
+ static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
+@@ -507,7 +512,7 @@ static bool qobject_input_check_list(Visitor *v, Error **errp)
+ 
+     if (tos->entry) {
+         error_setg(errp, "Only %u list elements expected in %s",
+-                   tos->index + 1, full_name_nth(qiv, NULL, 1));
++                   tos->index + 1, full_name_so(qiv, NULL, true, tos));
+         return false;
+     }
+     return true;
 -- 
 2.31.1
 
