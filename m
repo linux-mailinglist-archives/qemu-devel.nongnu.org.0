@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298783EA498
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 14:26:35 +0200 (CEST)
-Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFDD3EA4AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 14:28:14 +0200 (CEST)
+Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE9n8-0001OT-1b
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 08:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54122)
+	id 1mE9oj-000367-O0
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 08:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mE9lg-0000X1-BT
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 08:25:04 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:38639)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1mE9nf-0002DQ-Hm; Thu, 12 Aug 2021 08:27:07 -0400
+Received: from redisdead.crans.org ([2a0c:700:2::ff:fe01:2402]:49228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mE9ld-0007Jd-Ti
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 08:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=mLnvglQg6hoJupXj2S+AGDLHzOr3Rin88F9cQ5FK/+M=; b=Ul8La6V+951icswwOMRZMPRiwX
- WXREFxSsbGTVddKGcUyegiqGXI/WF4n9JY1gwTOjKN5CEKsCsmo0lDuvL86l9oaYXB10xzkx4mc2j
- G51A4hDjTr2fxPjqbKviel8XiMAwTDgOXq54PURX/FyctsPRObAOAkZoJtgp5i89+5Sxi/U3GUFRH
- GFxQ9xxqLnKxX0vnhxVItVkj8tlEHQK3rm2Wxmeh6kATPyWiSDI0ODUPUCZLSsItVKycNF3XG/b88
- yrtdOkvviRB4WhaA7hoUxs4KDbr7KcAxyrOpb8G/oO45TKoEiiChN7inr9XSf0wWAy1+YqekCJK0O
- /KhtxxswyEA2z8ReeZlQ3cdBvqFtbT6aisMYoXOHH9/uS71rtoF6g8GjriO1ig6GTXNrjxWK1etYf
- 3O9yVSukNBMWw1s+E9YiBpdzUxWZGaQRDMtEfd9yCrKBgbUwWZGcyKTg6zpji/AQS76QOM/Y8jA3V
- 7zT4TQ5Lrb77yimfSgOThb79W31b4JfE81Io2HIx9t63+uJa66eR4D51sfb/fwxQhQaxSqjDYJSYG
- mZO3tE1/vUaaUgEXX/t0KvaXhxv378/M/hJ2dRmBpr7PQCE/G6NeX1ZkcN4ZxfPnGstrq/X+Lwj7U
- qyA1ZRrMY3vvSrj1iN5FPI2361JfFKuucuyqK+n6Q=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, clamky@hotmail.com
-Subject: Re: [PATCH 3/7] MAINTAINERS: update audio entry.
-Date: Thu, 12 Aug 2021 14:24:57 +0200
-Message-ID: <77562211.GzqkouU55n@silver>
-In-Reply-To: <20210812084210.kbzoneze3izsrboa@sirius.home.kraxel.org>
-References: <20210810083450.2377374-1-kraxel@redhat.com>
- <VE1P192MB0733ED7BB482A45E5768464CDEF89@VE1P192MB0733.EURP192.PROD.OUTLOOK.COM>
- <20210812084210.kbzoneze3izsrboa@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1mE9nd-000847-OH; Thu, 12 Aug 2021 08:27:07 -0400
+Received: from [IPv6:2a0c:700:3012:13:7783:661a:ffa4:4d1f] (unknown
+ [IPv6:2a0c:700:3012:13:7783:661a:ffa4:4d1f])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id A7E1A251;
+ Thu, 12 Aug 2021 14:27:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1628771222; bh=Sz4xjoMFQyq2+Tf5YFpPUeLNWXw7+iMJJctcJBs19rU=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=GBPZ12GyMI/JjcL1mvAQvyVQTSw+DYJsU1Iq+ZUrz8U2bB8QIKWx0hlrx0gHzmUm6
+ UCKIRTeURdNsywrqqJ215M0U9YuHvSOpKd8GDbH0nGy4z6NlFvt+/bq8DU+P9hwsz/
+ RImqLTzPiFLvZl3rjSF3OsS3mNf/YzEJBxi6CsoamzflNRjYWHZsxWz3a6aU5jXZht
+ tWf+xySjumSyo7wHFib9fPK9wvkITf36bEkOTIaaqeAcoty7EbP6C66l6HkbY+rDts
+ IToV2Q3uC+0vVuFLyL36/weYzp8V5EibUY82UQGLZNvOg4LZ10GPmhPzTUOwEh9s/F
+ HJblyuwpvjsdVZjRSF+Rt6KIAJ2HMvg2r3jSQ+oMrDXZ7WHU9UVZYa3ldz9hsyzrQO
+ Y4/0Kpv/aI3+NiV4T+vx45ytGlgzmZ1kQQuNdUHO5rEvPwCXaOjuRcoBYg6xcQLbVI
+ SQV2eN2FnYJ8R4e3dyae2LatRg9rFM/dddhQWtoDBt1HJF19U+mw5iLsRUNtKA5j16
+ tuR2Ebqrb/CsOVNYxnkh2wbdO239+WEnzcwQR44k6kN6r311dUZgaoR/KMvIYdJ8Lx
+ 0u1R8FQg36U8wAmhr5h1fG09aLbtSsMNAAWCMVq6I3WdmBB3BozG1sAJc2GOOg0ceJ
+ Kxj6PjelCT+RzBZZ1rMwsqNo=
+Subject: Re: [PATCH for-6.2 14/25] hw/arm/stm32vldiscovery: Delete trailing
+ blank line
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-15-peter.maydell@linaro.org>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Message-ID: <cd01ec10-d648-19a0-4abd-2a263815cd8b@crans.org>
+Date: Thu, 12 Aug 2021 14:27:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+In-Reply-To: <20210812093356.1946-15-peter.maydell@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="fIAhslYSOWGT5tecnf7JL9P8y81fJlGk5"
+Received-SPF: pass client-ip=2a0c:700:2::ff:fe01:2402;
+ envelope-from=erdnaxe@crans.org; helo=redisdead.crans.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,42 +75,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Alistair Francis <alistair@alistair23.me>, Luc Michel <luc@lmichel.fr>,
+ Joel Stanley <joel@jms.id.au>, Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 12. August 2021 10:42:10 CEST Gerd Hoffmann wrote:
->   Hi,
-> 
-> > > On Tue, Aug 10, 2021 at 03:17:43PM +0300, clamky@hotmail.com wrote:
-> > >> Gerd Hoffmann <kraxel@redhat.com> writes:
-> > >> 
-> > >> Hell Gerd.
-> > >> 
-> > >> > New maintainer wanted. Downgrade status to "Odd Fixes" for now.
-> > >> 
-> > >> I can try to retake it.
-> 
-> Given your track record is zero contributions to qemu in recent years
-> I suggest you start getting involved in the development process as
-> reviewer.  Just send a patch adding a "R: Name <email>" line for
-> yourself to the MAINTAINERS file (best based on my pending pull
-> request to avoid conflicts).  scripts/get_maintainer.pl will Cc: you
-> on any audio-related patches then.
-> 
-> I'd recommend to open an gitlab.com account (unless you already have
-> one of course) so you can help triage bugs + issues.  You can also
-> easily run qemu CI then (just push a branch to a qemu repo fork).
-> 
-> HTH & take care,
->   Gerd
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--fIAhslYSOWGT5tecnf7JL9P8y81fJlGk5
+Content-Type: multipart/mixed; boundary="ntQfvTq6GbBMkGNkfiX0LybC6YmKfbWFC";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Luc Michel <luc@lmichel.fr>, Damien Hedde <damien.hedde@greensocs.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Joel Stanley <joel@jms.id.au>
+Message-ID: <cd01ec10-d648-19a0-4abd-2a263815cd8b@crans.org>
+Subject: Re: [PATCH for-6.2 14/25] hw/arm/stm32vldiscovery: Delete trailing
+ blank line
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-15-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-15-peter.maydell@linaro.org>
 
-I will add myself as reviewer for audio to help out a bit at least. I won't be 
-able to take over maintainership at this point though.
-
-I wait for your PR to be merged by Peter before sending my MAINTAINERS patch.
-
-Best regards,
-Christian Schoenebeck
+--ntQfvTq6GbBMkGNkfiX0LybC6YmKfbWFC
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
+On 8/12/21 11:33 AM, Peter Maydell wrote:
+> Delete the trailing blank line at the end of the source file.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/arm/stm32vldiscovery.c | 1 -
+>   1 file changed, 1 deletion(-)
+>=20
+> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
+> index 07e401a818d..9b79004703b 100644
+> --- a/hw/arm/stm32vldiscovery.c
+> +++ b/hw/arm/stm32vldiscovery.c
+> @@ -65,4 +65,3 @@ static void stm32vldiscovery_machine_init(MachineClas=
+s *mc)
+>   }
+>  =20
+>   DEFINE_MACHINE("stm32vldiscovery", stm32vldiscovery_machine_init)
+> -
+>=20
+
+Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
+
+Thanks,
+-- Alexandre
+
+
+--ntQfvTq6GbBMkGNkfiX0LybC6YmKfbWFC--
+
+--fIAhslYSOWGT5tecnf7JL9P8y81fJlGk5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmEVE5YFAwAAAAAACgkQbHknjz/NzALG
+8hAAsWzUo2ry57dmtrgUHDcnY1gTBm8V7BhyKWRCPn50osIzFALd6zFqZNhFrVcawsY/KHJeidUO
+14aYByj90PGe5tsrh+ijAbfKXP+29ngNMDlTov+a5HNHANRDbc+B6QngyTS98WPehqzJZaFGijtr
+e2hzK6VRkgjj2XzXCrgw1sgMr8n46opaZyOYkCk/mOw2g2nRhPQk3GOeOGW5Ihdlrzeci6L4sLkY
+ijmA/dW1ce+BWs+6dbAosfOkCoO7+ahtULkXsM+46XC99XXaeP9xQqIBT3N12F7WRvBDShZgEWTK
+bxTc1Wk/1E3tT8TYaxVBsoj4VRgA+25dV/PPapjiwRQ8GHqg+S/J2/q6QMK244/EvdfjPCLTi9sC
+YmnTLJHePQNnEytDwJcYrQrxHgWVB6FgCRJRbuHlZ+lbgV3iOmDKG06eESEhy3YQGts7xywtrtZ0
+76pIZU3If95Hc4CDEDEfY/47y86XG4AIDBu3Y319nyHOvF3Zj+TC2oNYCws7F2SpVOejaiGga8D+
+UnlsKJqERaWiHDuULsV9eipWGWMOTrePqs3y25kGunfPRtMWUVgv5/ZAvzpJW2qdKqHU+8RvOML0
+RF0jUytWSKW1yyCQfJY58UOwSmtolujcJ3n0tjOkOlkiMUQE00sd/2fVauGEX+0i+Z2TrXbn+RC8
+nVI=
+=E7ue
+-----END PGP SIGNATURE-----
+
+--fIAhslYSOWGT5tecnf7JL9P8y81fJlGk5--
 
