@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D56B3EA63E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 16:10:56 +0200 (CEST)
-Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4823EA66C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 16:20:55 +0200 (CEST)
+Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEBQ6-0008DA-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 10:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48418)
+	id 1mEBZl-0006i6-03
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 10:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mEBPA-0007Yt-Ip
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 10:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mEBP7-0005ZV-5z
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 10:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628777391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UW+OQJtrA24PptZq9wMviUodh52mL0/1urrh9rqF2FQ=;
- b=DNWdpHsIJFwjotS003yU82cGYUor83uLQsyqrX+0j/3P3hRafbduBYrp57U+fzlfnS43dC
- Cr9ilRgVhpqtJSO3+bH+LVITsEhFeGsce2s8bTi95X2qKfJACHJPpqe8hS0magnG5VmpS6
- hieBSeUvZ5hJG4Wb/U0A717tvo+dhWU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-Gt51cXfLMNOHMK__g7ujeA-1; Thu, 12 Aug 2021 10:09:48 -0400
-X-MC-Unique: Gt51cXfLMNOHMK__g7ujeA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED98190A7C1;
- Thu, 12 Aug 2021 14:09:47 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12E6960C04;
- Thu, 12 Aug 2021 14:09:40 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEBX8-00049N-9B
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 10:18:10 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEBX6-0001ch-3W
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 10:18:10 -0400
+Received: by mail-wr1-x429.google.com with SMTP id b13so8571298wrs.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 07:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EQjK41VK3TbAKp+ctrdObwx9eVk6xxyN2+v6LUB96e4=;
+ b=LmHGc+aB2zngh2jf6Uvx8IMx5b0FO08QgDUpVvhkmBKnu9U8XhdVfLQW0p4/vwuZ7u
+ tDLVkR07O3EWYMIjwQ5SXKYkSxu4npTWvbH+cgWpyAc4Dforc4XRLv/ONdJbbsE4hpJO
+ 8CB0KIQydcUDcoc5wYmJwniDKhET/CzTsZzX6D8KhbfbS4ukMdu+S+RwOSBUnPF3EeCL
+ EK6qPUCLqVhfuQJ0K9jAEGtnFyxGdIJyWism6KI0p+kOB6LW0Aveh+HD7o2eik+MLfy4
+ 2sSQ7hWcASjXCzc405w0sG7KZx218DT/jo5XknMBpn5aQM6ZNLG51Rd2b5EflOwb9Tjs
+ o0xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EQjK41VK3TbAKp+ctrdObwx9eVk6xxyN2+v6LUB96e4=;
+ b=DczIsnNs4ZlMWJobbUPyQWRcWrOU0jf9FplxgSQcjoTrVTIJ1e6Kf3h+Bdf/eYL4X7
+ q/eIaAGtxrzJkhX36U3D31xe9nm3z2qWIsqbTZemHcNMYIztu8U2XPTmUt6+4XJPtFm5
+ bqj3HZQ59HSOEFz5+SiOjbmAZtMYJ7ISNeHkLUUrQIEA/aSuqjCcYyY045RDS8iXc6uB
+ WRopczJ7oQx52yo1NtF2RJIw4FDqtMDsVwAG3gOef2qTvr0oFu7pqxgwjbvqI7SqG+d9
+ Xqwt+kvJCbYuh+HB3EXig1wWdfqpszqTgNk+JAqRa5kdzwPMCfzGZ/r7hiCqkY1hs3eS
+ bpVA==
+X-Gm-Message-State: AOAM531wuXR/gLhmvb0PK+yOCBDHYxBt04rDBCEpHpSuBjiFKgIQb05T
+ kaq6t4LM06+1gq6r7nvi3j+2vPDLN1hYdg==
+X-Google-Smtp-Source: ABdhPJx9JGChqude8irUADnx8u3AI1JyyAu300IJoJUjNoxWmwnlicZzMCtnDjYJMBEb9BYVM9iBkQ==
+X-Received: by 2002:adf:ea41:: with SMTP id j1mr4294441wrn.147.1628777885438; 
+ Thu, 12 Aug 2021 07:18:05 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o2sm2690606wmq.30.2021.08.12.07.18.04
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 07:18:05 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] vhost-vdpa: Do not send empty IOTLB update batches
-Date: Thu, 12 Aug 2021 16:09:33 +0200
-Message-Id: <20210812140933.226288-1-eperezma@redhat.com>
+Subject: [PATCH] hw/core/loader: In gunzip(),
+ check index is in range before use, not after
+Date: Thu, 12 Aug 2021 15:18:03 +0100
+Message-Id: <20210812141803.20913-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,142 +82,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the introduction of the batch hinting, meaningless batches can be
-created with no IOTLB updates if the memory region was skipped by
-vhost_vdpa_listener_skipped_section. This is the case of host notifiers
-memory regions, device un/realize, and others. This causes the vdpa
-device to receive dma mapping settings with no changes, a possibly
-expensive operation for nothing.
+The gunzip() function reads various fields from a passed in source
+buffer in order to skip a header before passing the actual compressed
+data to the zlib inflate() function.  It does check whether the
+passed in buffer is too small, but unfortunately it checks that only
+after reading bytes from the src buffer, so it could read off the end
+of the buffer.
 
-To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have a
-meaningful (not skipped section) mapping or unmapping operation, and
-VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
-_INVALIDATE has been issued.
+You can see this with valgrind:
 
-v3:
-  * Use a bool instead of a counter avoiding potential number wrapping
-  * Fix bad check on _commit
-  * Move VHOST_BACKEND_F_IOTLB_BATCH check to
-    vhost_vdpa_iotlb_batch_begin_once
+ $ printf "%b" '\x1f\x8b' > /tmp/image
+ $ valgrind qemu-system-aarch64 -display none -M virt -cpu max -kernel /tmp/image
+ [...]
+ ==19224== Invalid read of size 1
+ ==19224==    at 0x67302E: gunzip (loader.c:558)
+ ==19224==    by 0x673907: load_image_gzipped_buffer (loader.c:788)
+ ==19224==    by 0xA18032: load_aarch64_image (boot.c:932)
+ ==19224==    by 0xA18489: arm_setup_direct_kernel_boot (boot.c:1063)
+ ==19224==    by 0xA18D90: arm_load_kernel (boot.c:1317)
+ ==19224==    by 0x9F3651: machvirt_init (virt.c:2114)
+ ==19224==    by 0x794B7A: machine_run_board_init (machine.c:1272)
+ ==19224==    by 0xD5CAD3: qemu_init_board (vl.c:2618)
+ ==19224==    by 0xD5CCA6: qmp_x_exit_preconfig (vl.c:2692)
+ ==19224==    by 0xD5F32E: qemu_init (vl.c:3713)
+ ==19224==    by 0x5ADDB1: main (main.c:49)
+ ==19224==  Address 0x3802a873 is 0 bytes after a block of size 3 alloc'd
+ ==19224==    at 0x4C31B0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+ ==19224==    by 0x61E7657: g_file_get_contents (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4)
+ ==19224==    by 0x673895: load_image_gzipped_buffer (loader.c:771)
+ ==19224==    by 0xA18032: load_aarch64_image (boot.c:932)
+ ==19224==    by 0xA18489: arm_setup_direct_kernel_boot (boot.c:1063)
+ ==19224==    by 0xA18D90: arm_load_kernel (boot.c:1317)
+ ==19224==    by 0x9F3651: machvirt_init (virt.c:2114)
+ ==19224==    by 0x794B7A: machine_run_board_init (machine.c:1272)
+ ==19224==    by 0xD5CAD3: qemu_init_board (vl.c:2618)
+ ==19224==    by 0xD5CCA6: qmp_x_exit_preconfig (vl.c:2692)
+ ==19224==    by 0xD5F32E: qemu_init (vl.c:3713)
+ ==19224==    by 0x5ADDB1: main (main.c:49)
 
-v2 (from RFC):
-  * Rename misleading name
-  * Abstract start batching function for listener_add/del
+Check that we have enough bytes of data to read the header bytes that
+we read before we read them.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Fixes: Coverity 1458997
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/virtio/vhost-vdpa.h |  1 +
- hw/virtio/vhost-vdpa.c         | 35 ++++++++++++++++++++++------------
- 2 files changed, 24 insertions(+), 12 deletions(-)
+ hw/core/loader.c | 35 +++++++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index e98e327f12..6b9288fef8 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
-     int device_fd;
-     int index;
-     uint32_t msg_type;
-+    bool iotlb_batch_begin_sent;
-     MemoryListener listener;
-     struct vhost_dev *dev;
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 6ce94a1f4d..93b7db61d1 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     return ret;
- }
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 5b34869a541..c623318b737 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -555,24 +555,35 @@ ssize_t gunzip(void *dst, size_t dstlen, uint8_t *src, size_t srclen)
  
--static void vhost_vdpa_listener_begin(MemoryListener *listener)
-+static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
- {
--    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
--    struct vhost_dev *dev = v->dev;
--    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
--
--    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
--        return;
--    }
--
--    msg.type = v->msg_type;
--    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
-+    struct vhost_msg_v2 msg = {
-+        .type = v->msg_type,
-+        .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
-+    };
- 
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-@@ -109,6 +103,16 @@ static void vhost_vdpa_listener_begin(MemoryListener *listener)
-     }
- }
- 
-+static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
-+{
-+    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH) &&
-+        !v->iotlb_batch_begin_sent) {
-+        vhost_vdpa_listener_begin_batch(v);
+     /* skip header */
+     i = 10;
++    if (srclen < 4) {
++        goto toosmall;
 +    }
-+
-+    v->iotlb_batch_begin_sent = true;
-+}
-+
- static void vhost_vdpa_listener_commit(MemoryListener *listener)
- {
-     struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-@@ -120,6 +124,10 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-         return;
+     flags = src[3];
+     if (src[2] != DEFLATED || (flags & RESERVED) != 0) {
+         puts ("Error: Bad gzipped data\n");
+         return -1;
      }
- 
-+    if (!v->iotlb_batch_begin_sent) {
-+        return;
+-    if ((flags & EXTRA_FIELD) != 0)
++    if ((flags & EXTRA_FIELD) != 0) {
++        if (srclen < 12) {
++            goto toosmall;
++        }
+         i = 12 + src[10] + (src[11] << 8);
+-    if ((flags & ORIG_NAME) != 0)
+-        while (src[i++] != 0)
+-            ;
+-    if ((flags & COMMENT) != 0)
+-        while (src[i++] != 0)
+-            ;
+-    if ((flags & HEAD_CRC) != 0)
 +    }
-+
-     msg.type = v->msg_type;
-     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
- 
-@@ -127,6 +135,8 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
++    if ((flags & ORIG_NAME) != 0) {
++        while (i < srclen && src[i++] != 0) {
++            /* do nothing */
++        }
++    }
++    if ((flags & COMMENT) != 0) {
++        while (i < srclen && src[i++] != 0) {
++            /* do nothing */
++        }
++    }
++    if ((flags & HEAD_CRC) != 0) {
+         i += 2;
++    }
+     if (i >= srclen) {
+-        puts ("Error: gunzip out of data in header\n");
+-        return -1;
++        goto toosmall;
      }
+ 
+     s.zalloc = zalloc;
+@@ -596,6 +607,10 @@ ssize_t gunzip(void *dst, size_t dstlen, uint8_t *src, size_t srclen)
+     inflateEnd(&s);
+ 
+     return dstbytes;
 +
-+    v->iotlb_batch_begin_sent = false;
++toosmall:
++    puts("Error: gunzip out of data in header\n");
++    return -1;
  }
  
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-@@ -170,6 +180,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
-+    vhost_vdpa_iotlb_batch_begin_once(v);
-     ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-                              vaddr, section->readonly);
-     if (ret) {
-@@ -221,6 +232,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
-+    vhost_vdpa_iotlb_batch_begin_once(v);
-     ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-     if (ret) {
-         error_report("vhost_vdpa dma unmap error!");
-@@ -234,7 +246,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-  * depends on the addnop().
-  */
- static const MemoryListener vhost_vdpa_memory_listener = {
--    .begin = vhost_vdpa_listener_begin,
-     .commit = vhost_vdpa_listener_commit,
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
+ /* Load a U-Boot image.  */
 -- 
-2.27.0
+2.20.1
 
 
