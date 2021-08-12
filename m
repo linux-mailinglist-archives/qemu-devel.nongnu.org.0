@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069723EA202
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:26:28 +0200 (CEST)
-Received: from localhost ([::1]:39312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2394E3EA21D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:35:29 +0200 (CEST)
+Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE6yp-0003lm-39
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
+	id 1mE77Y-0007uw-6e
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mE6xq-0002em-Jo
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:25:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mE6xo-00007M-S7
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:25:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628760323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eq5bUhbVDw1gxI6SRv+Y3L72nrh9qHBBu1x7subwXpo=;
- b=ZA6vg/AiNXaBDQJdWs2cvbnpwNXighzrtYhjnHWroEZPeynMCM/WMhcKxVvBW/Wx9efLeS
- TdyycnVYsHvJrtUrgr5whQLQ5J6oCk52bb2Rrjtocl9PLLzm9j6+sg4/d3F+QEKTc4nRGh
- KGpd4j7AdbeuiS/oIDESKyQA75TKjaU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-t-a-qZwQPVuGsSfeado41Q-1; Thu, 12 Aug 2021 05:25:22 -0400
-X-MC-Unique: t-a-qZwQPVuGsSfeado41Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- p2-20020a50c9420000b02903a12bbba1ebso2754627edh.6
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:25:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mE76C-00051y-GY
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:04 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mE768-0007jM-QP
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:03 -0400
+Received: by mail-wr1-x430.google.com with SMTP id h13so7366175wrp.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s0OMlxss9RP7UU4o48PD7CRtF4U64YbpYKbZT9wm3Uo=;
+ b=fb5Z0sWTlBxpgIis2SXydn9BRlAb4ndLyFtJ9WnHwai8jEjmLjGkVAX28/blQQUHio
+ A51e+hDuHedIQRM9iGx0CW96Q48cIjdC1ZLsFJBd/tWIUT1Zeq+lLKW/npUXcxkde4ZQ
+ ELDRonMLlGhaRmX3SBkaCYLQBqMA+nBfG6LwRWp2VdlggeSqX74SRE5j9U+ixPEEiCVf
+ NhpkirNUCJxAAJ18l84cCrWa0Gv35kcpXaXteKbQPd0PR/4NglC5Al1VLl/AfJMSp0Y4
+ DEWL8uQeu11njbjHfGHA+CmDPb6pFUP6gue9wQ+1H4Iw4Iz7M5lvoyjVlsWiiyCagcCI
+ K6nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eq5bUhbVDw1gxI6SRv+Y3L72nrh9qHBBu1x7subwXpo=;
- b=WJWPJOgZEv5Y4J9JilE5iaUMWvtxw7UfseJsd3d0Zeqf4lrp/RfEUzuEm4nhOzHH7G
- ljwbo0+t7ZVDYq8MGb0RYJlBrMoM8PUnVYKiHJKe6Xp7eB87EUU2P4RQwpkNJdiHfmYC
- a5J+dvPcOqE9RJP8HzmlCOE3ploFvcX2AScb0V5F3BUwSolazeS8ttUJ0IC/Q6p2hYEF
- 6I5icLDx2vpzt5AdQDJJAUHkhLXccTYuNuFSlL1SLI5D6Y0mGkr0UTe4nIWdYBY6xDgj
- 7EANDZtUi4QddQjqyeXyiNcHqDuuzRiqR19FMMWzfIXJ0qRwYnWgbY7TWeuDVbGZOK9/
- FMhQ==
-X-Gm-Message-State: AOAM531RM97OcIioKpQmTKAmd3ziDIdAt6cARNZRDUbD4v881pMM+PNk
- 9ofGPt8bLx3d1W8M2iqCpknTo8GRK+uHEqvfWU0io1V6DaZ/lnuPqjjhEDt5/IRPQ3tF3Un0xqS
- oDnlwuR0tKAF/Bx4=
-X-Received: by 2002:a17:906:fb91:: with SMTP id
- lr17mr2756331ejb.110.1628760319939; 
- Thu, 12 Aug 2021 02:25:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywt8/D1tBWDOQxUHHvCNTrFt0qXqT7ucjcLp7Ov6PlZ/cvKq2OQ8vLlzeh1ZAwH67iC5DivA==
-X-Received: by 2002:a17:906:fb91:: with SMTP id
- lr17mr2756318ejb.110.1628760319692; 
- Thu, 12 Aug 2021 02:25:19 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id q5sm847958edt.50.2021.08.12.02.25.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s0OMlxss9RP7UU4o48PD7CRtF4U64YbpYKbZT9wm3Uo=;
+ b=q8VWwSpTvT4JhIB4ihncjPcS1b9q3slRa1IMkxIG4UusGURyKcxfiYV9cplDkhMcvt
+ YrHL9esgwdqfEBdzDX9+YJmidT6Y9QwqfvXDVO+52S1NaFzQNMIwXNftrap7alpQTekD
+ DIhp0jBZo9i2S1yKisHI6FV00WdDAvr+3nSiG23qUmuK0sjVdMUBib+CY6opt4sfeEEI
+ 7emctLN4BeaKES7iiHo11e0br3NQnOiw5Zgryv5jFnZQNgLk+MGXGz+iXGayLPnwws7A
+ AV0ZbP+DVtBcD0vCTsF7ciHqkLIwgU2qf8ydlVChr5/tODqc4WIvFT+UpPrbOKzZsK6V
+ kKMQ==
+X-Gm-Message-State: AOAM531duKFrH0NlUH+I68BMWrOetDChOuuqEwvlmUarn1I2KQfBCD4d
+ n1MIG/0Wu3ZDHSNrtHKSEBy7eA==
+X-Google-Smtp-Source: ABdhPJz8epqufsq3vvBKq2QZL9yasAhIpiZzXBwII72DpXLcjKCRNfWNo1hbRrMo3/aktx88q4YXug==
+X-Received: by 2002:adf:cd86:: with SMTP id q6mr2853447wrj.385.1628760839053; 
+ Thu, 12 Aug 2021 02:33:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 02:25:19 -0700 (PDT)
-Date: Thu, 12 Aug 2021 11:25:17 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Subject: Re: [PATCH v4 1/3] target-arm: Add support for Fujitsu A64FX
-Message-ID: <20210812092517.mwcfhksoe4cgy3cl@gator.home>
-References: <20210812060440.1330348-1-ishii.shuuichir@fujitsu.com>
- <20210812060440.1330348-2-ishii.shuuichir@fujitsu.com>
- <20210812091650.i5np3szvdoelu2cx@gator.home>
+ Thu, 12 Aug 2021 02:33:58 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-6.2 00/25] arm: Get rid of system_clock_scale global
+Date: Thu, 12 Aug 2021 10:33:31 +0100
+Message-Id: <20210812093356.1946-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210812091650.i5np3szvdoelu2cx@gator.home>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,152 +80,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
+ Alistair Francis <alistair@alistair23.me>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 12, 2021 at 11:16:50AM +0200, Andrew Jones wrote:
-> On Thu, Aug 12, 2021 at 03:04:38PM +0900, Shuuichirou Ishii wrote:
-> > Add a definition for the Fujitsu A64FX processor.
-> > 
-> > The A64FX processor does not implement the AArch32 Execution state,
-> > so there are no associated AArch32 Identification registers.
-> > 
-> > For SVE, the A64FX processor supports only 128,256 and 512bit vector lengths.
-> > 
-> > Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-> > ---
-> >  target/arm/cpu.c   | 27 +++++++++++++++++++++++----
-> >  target/arm/cpu.h   |  1 +
-> >  target/arm/cpu64.c | 42 ++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 66 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> > index 2866dd7658..162e46afc3 100644
-> > --- a/target/arm/cpu.c
-> > +++ b/target/arm/cpu.c
-> > @@ -1345,15 +1345,34 @@ static void arm_cpu_finalizefn(Object *obj)
-> >  #endif
-> >  }
-> >  
-> > +static void a64fx_cpu_set_sve(ARMCPU *cpu)
-> > +{
-> > +    /* Suppport of A64FX's vector length are 128,256 and 512bit only */
-> > +    bitmap_zero(cpu->sve_vq_map, ARM_MAX_VQ);
-> > +    bitmap_zero(cpu->sve_vq_init, ARM_MAX_VQ);
-> > +    set_bit(0, cpu->sve_vq_map); /* 128bit */
-> > +    set_bit(0, cpu->sve_vq_init);
-> > +    set_bit(1, cpu->sve_vq_map); /* 256bit */
-> > +    set_bit(1, cpu->sve_vq_init);
-> > +    set_bit(3, cpu->sve_vq_map); /* 512bit */
-> > +    set_bit(3, cpu->sve_vq_init);
-> > +
-> > +    cpu->sve_max_vq = find_last_bit(cpu->sve_vq_map, ARM_MAX_VQ) + 1;
-> > +}
-> > +
-> >  void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-> >  {
-> >      Error *local_err = NULL;
-> >  
-> >      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-> > -        arm_cpu_sve_finalize(cpu, &local_err);
-> > -        if (local_err != NULL) {
-> > -            error_propagate(errp, local_err);
-> > -            return;
-> > +        if (arm_feature(&cpu->env, ARM_FEATURE_A64FX)) {
-> > +            a64fx_cpu_set_sve(cpu);
-> > +        } else {
-> > +            arm_cpu_sve_finalize(cpu, &local_err);
-> > +            if (local_err != NULL) {
-> > +                error_propagate(errp, local_err);
-> > +                return;
-> > +            }
-> >          }
-> >  
-> >          /*
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index 9f0a5f84d5..84ebca731a 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -2145,6 +2145,7 @@ enum arm_features {
-> >      ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
-> >      ARM_FEATURE_M_MAIN, /* M profile Main Extension */
-> >      ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
-> > +    ARM_FEATURE_A64FX, /* Fujitsu A64FX processor */
-> >  };
-> >  
-> >  static inline int arm_feature(CPUARMState *env, int feature)
-> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > index c690318a9b..5e7e885f9d 100644
-> > --- a/target/arm/cpu64.c
-> > +++ b/target/arm/cpu64.c
-> > @@ -847,10 +847,52 @@ static void aarch64_max_initfn(Object *obj)
-> >                          cpu_max_set_sve_max_vq, NULL, NULL);
-> >  }
-> >  
-> > +static void aarch64_a64fx_initfn(Object *obj)
-> > +{
-> > +    ARMCPU *cpu = ARM_CPU(obj);
-> > +
-> > +    cpu->dtb_compatible = "arm,a64fx";
-> > +    set_feature(&cpu->env, ARM_FEATURE_A64FX);
-> > +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> > +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> > +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> > +    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-> > +    set_feature(&cpu->env, ARM_FEATURE_EL2);
-> > +    set_feature(&cpu->env, ARM_FEATURE_EL3);
-> > +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-> > +    cpu->midr = 0x461f0010;
-> > +    cpu->revidr = 0x00000000;
-> > +    cpu->ctr = 0x86668006;
-> > +    cpu->reset_sctlr = 0x30000180;
-> > +    cpu->isar.id_aa64pfr0 =   0x0000000101111111; /* No RAS Extensions */
-> > +    cpu->isar.id_aa64pfr1 = 0x0000000000000000;
-> > +    cpu->isar.id_aa64dfr0 = 0x0000000010305408;
-> > +    cpu->isar.id_aa64dfr1 = 0x0000000000000000;
-> > +    cpu->id_aa64afr0 = 0x0000000000000000;
-> > +    cpu->id_aa64afr1 = 0x0000000000000000;
-> > +    cpu->isar.id_aa64mmfr0 = 0x0000000000001122;
-> > +    cpu->isar.id_aa64mmfr1 = 0x0000000011212100;
-> > +    cpu->isar.id_aa64mmfr2 = 0x0000000000001011;
-> > +    cpu->isar.id_aa64isar0 = 0x0000000010211120;
-> > +    cpu->isar.id_aa64isar1 = 0x0000000000010001;
-> > +    cpu->isar.id_aa64zfr0 = 0x0000000000000000;
-> > +    cpu->clidr = 0x0000000080000023;
-> > +    cpu->ccsidr[0] = 0x7007e01c; /* 64KB L1 dcache */
-> > +    cpu->ccsidr[1] = 0x2007e01c; /* 64KB L1 icache */
-> > +    cpu->ccsidr[2] = 0x70ffe07c; /* 8MB L2 cache */
-> > +    cpu->dcz_blocksize = 6; /* 256 bytes */
-> > +    cpu->gic_num_lrs = 4;
-> > +    cpu->gic_vpribits = 5;
-> > +    cpu->gic_vprebits = 5;
-> > +
-> > +    /* TODO:  Add A64FX specific HPC extension registers */
-> > +}
-> > +
-> >  static const ARMCPUInfo aarch64_cpus[] = {
-> >      { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
-> >      { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
-> >      { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-> > +    { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
-> >      { .name = "max",                .initfn = aarch64_max_initfn },
-> >  };
-> >  
-> > -- 
-> > 2.27.0
-> >
-> 
-> For the SVE related bits
-> 
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
+This is mostly a (big) refactoring to use Clocks instead of a global. 
+Review of the new multiplier/divider functionality I've added to the
+Clock API would also be interesting.  If you're a maintainer for an
+M-profile board that isn't covered by 'make check-acceptance' then
+I'd appreciate it if you have time to test that this series didn't
+accidentally break your board...
 
-On second thought, do we want the QMP CPU model expansion query to show
-that this CPU type has sve,sve128,sve256,sve512? If so, then our SVE work
-isn't complete, because we need those properties, set true by default, but
-forbidden from changing.
+The Arm v7M systick timer can run off one of two clocks
+(guest-selectable by writing the SYST_CSR.CLKSOURCE control
+register bit):
+ * the main CPU clock
+ * a separate 'reference clock' which the SoC and board may
+   or may not wire up
 
-Thanks,
-drew
+Currently we model this as:
+ * the global variable system_clock_scale is set to the period in ns
+   of the CPU clock by the board or SoC level code
+ * the reference clock is a fixed 1MHz, hardcoded in armv7m_systick.c
+
+This is very old code, dating back to the first v7M support in 2007.
+We now have a Clock API, so we can model clocks using something a bit
+more complicat^Wsophisticated than a global variable.
+
+The series starts with some refactoring to move the creation of
+various sub-devices including the systick timers out of the nvic
+object and into the 'armv7m' container object. The NVIC was doing some
+of this for historical reasons, but it makes more sense to have all of
+the "create subdevices and map them into the right place in the
+peripheral region of the address space" be in one place. This also
+means that when we start wiring Clocks up we don't have to go via the
+NVIC to get from the armv7m object to the systick timers.
+
+We then add clock inputs to the systick device, which are initially
+ignored. Subsequent patches wire up those clock inputs in SoC and
+board level code. Once all the boards have wired up their clocks, we
+can change the systick device to use those instead of the
+system_clock_scale global. Finally we can delete all the places
+setting the global.
+
+For some of the boards the systick reference clock is a fixed
+multiple/division of the CPU clock. To support this, the "clock:
+Provide builtin multiplier/divider" patch enhances the Clock API to
+let you configure a Clock such that all its children are run at a
+given ratio of the parent clock.
+
+For the different boards I have taken a variety of approaches:
+ * sometimes the refclk frequency was easy to determine from
+   the SoC docs, and the patches implement that, changing the
+   behaviour from the old 1MHz fixed refclk. This is in
+   effect a very minor bugfix.
+ * in a few cases I couldn't determine the refclk frequency, so
+   I have implemented those boards to retain the old 1MHz
+   value, as at least no-behavioural-change
+ * some SoCs don't wire up the refclk at all; with this series
+   we will correctly implement that (the SYST_CSR.CLKSOURCE control
+   register bit in the systick device is then read-only), so
+   again a minor bugfix
+In some SoCs the refclk should theoretically be guest-programmable; we
+didn't implement that before and we still don't. I've put in a few
+comments noting this missing feature where relevant.
+
+The other user of the system_clock_scale global is the GPTM timer in
+the stellaris board, so there's a patch converting that to also use
+Clock input.
+
+There are also a few patches implementing minor cleanups I noticed
+along the way that I felt would be in the way if I didn't fix them up
+first.
+
+NB: this series is a migration compat break for all the M-profile
+boards, because it adds Clock objects to vmstate structs.
+
+I've tested this with 'make check-acceptance', which tests the
+emcraft-sf2 board, and I've run some stellaris and various MPS images
+I have locally.  Other affected boards (microbit, netduino2,
+netduinoplus2, stm32vldiscovery) are untested (though 'make check'
+confirms that they at least don't crash on startup...).  Testing from
+maintainers of those boards would be appreciated.
+
+thanks
+-- PMM
+
+Peter Maydell (25):
+  arm: Move M-profile RAS register block into its own device
+  arm: Move systick device creation from NVIC to ARMv7M object
+  arm: Move system PPB container handling to armv7m
+  hw/timer/armv7m_systick: Add usual QEMU interface comment
+  hw/timer/armv7m_systick: Add input clocks
+  hw/arm/armv7m: Create input clocks
+  armsse: Wire up systick cpuclk clock
+  hw/arm/mps2.c: Connect up armv7m clocks
+  clock: Provide builtin multiplier/divider
+  hw/arm: Don't allocate separate MemoryRegions in stm32 SoC realize
+  hw/arm/stm32f100: Wire up sysclk and refclk
+  hw/arm/stm32f205: Wire up sysclk and refclk
+  hw/arm/stm32f405: Wire up sysclk and refclk
+  hw/arm/stm32vldiscovery: Delete trailing blank line
+  hw/arm/nrf51: Wire up sysclk
+  hw/arm/stellaris: split stellaris_sys_init()
+  hw/arm/stellaris: Wire sysclk up to armv7m
+  hw/arm/msf2_soc: Don't allocate separate MemoryRegions
+  hw/arm/msf2: Use Clock input to MSF2_SOC instead of m3clk property
+  hw/arm/msf2-soc: Wire up refclk
+  hw/timer/armv7m_systick: Use clock inputs instead of
+    system_clock_scale
+  hw/arm/stellaris: Fix code style issues in GPTM code
+  hw/arm/stellaris: Split stellaris-gptm into its own file
+  hw/timer/stellaris-gptm: Use Clock input instead of system_clock_scale
+  arm: Remove system_clock_scale global
+
+ docs/devel/clocks.rst             |  23 ++
+ include/hw/arm/armv7m.h           |  24 ++
+ include/hw/arm/msf2-soc.h         |   8 +-
+ include/hw/arm/nrf51_soc.h        |   2 +
+ include/hw/arm/stm32f100_soc.h    |   8 +
+ include/hw/arm/stm32f205_soc.h    |   8 +
+ include/hw/arm/stm32f405_soc.h    |   3 +
+ include/hw/clock.h                |  29 +++
+ include/hw/intc/armv7m_nvic.h     |   8 -
+ include/hw/misc/armv7m_ras.h      |  37 +++
+ include/hw/timer/armv7m_systick.h |  36 ++-
+ include/hw/timer/stellaris-gptm.h |  51 ++++
+ hw/arm/armsse.c                   |  20 +-
+ hw/arm/armv7m.c                   | 260 +++++++++++++++++++-
+ hw/arm/mps2.c                     |  17 +-
+ hw/arm/msf2-soc.c                 |  68 +++--
+ hw/arm/msf2-som.c                 |   7 +-
+ hw/arm/netduino2.c                |  12 +-
+ hw/arm/netduinoplus2.c            |  12 +-
+ hw/arm/nrf51_soc.c                |  20 +-
+ hw/arm/stellaris.c                | 396 ++++--------------------------
+ hw/arm/stm32f100_soc.c            |  47 +++-
+ hw/arm/stm32f205_soc.c            |  47 +++-
+ hw/arm/stm32f405_soc.c            |  30 +++
+ hw/arm/stm32vldiscovery.c         |  13 +-
+ hw/core/clock-vmstate.c           |  24 +-
+ hw/core/clock.c                   |  29 ++-
+ hw/intc/armv7m_nvic.c             | 274 +--------------------
+ hw/misc/armv7m_ras.c              |  93 +++++++
+ hw/timer/armv7m_systick.c         | 116 ++++++---
+ hw/timer/stellaris-gptm.c         | 332 +++++++++++++++++++++++++
+ MAINTAINERS                       |   2 +
+ hw/arm/Kconfig                    |   1 +
+ hw/misc/meson.build               |   2 +
+ hw/timer/Kconfig                  |   3 +
+ hw/timer/meson.build              |   1 +
+ 36 files changed, 1292 insertions(+), 771 deletions(-)
+ create mode 100644 include/hw/misc/armv7m_ras.h
+ create mode 100644 include/hw/timer/stellaris-gptm.h
+ create mode 100644 hw/misc/armv7m_ras.c
+ create mode 100644 hw/timer/stellaris-gptm.c
+
+-- 
+2.20.1
 
 
