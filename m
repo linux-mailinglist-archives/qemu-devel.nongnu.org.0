@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7006A3EAB0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 21:33:24 +0200 (CEST)
-Received: from localhost ([::1]:47454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F4C3EAB7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 22:07:20 +0200 (CEST)
+Received: from localhost ([::1]:51894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEGSB-0001nN-2C
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 15:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
+	id 1mEGz1-0006Su-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 16:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mEGQY-000119-3b
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 15:31:42 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51866)
+ id 1mEGxj-0005di-A7
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 16:05:59 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:43745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mEGQU-0001Z1-Jr
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 15:31:41 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id oa17so11529979pjb.1
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 12:31:37 -0700 (PDT)
+ id 1mEGxh-0008QN-SM
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 16:05:59 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id e19so8733025pla.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 13:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CAk+2aqnO5n/FQTk2vaRQqII/VeLwJsyp2OBv5DJjnE=;
- b=kApie2+eyCCUsVvfmSawbBhfhRCmAmS70aZJ2WLy3UQXI86hpIaLBhyhdw9LuMfAqa
- 5DYLsLnUZ4NYIumlNbmYNEO074oj7338LLHcUWU6z8a6G9F/9XKpBGcn+FaepoJPBtS0
- EiS/xZv8d8iYi7f+n4FQflR7sbhSWY4Lxi4ys5rU7v80B5b3kGKm3pVDQIzgMWPwnT1r
- P+srbmY1Y5q2tuafKgr3yqVGBWiqLyoZRfPyIE/fBN3ZB/unAs78BXv6klexABb1/PTb
- Iqdqo+7ba5rhUhkqRgVu60IbKopSEiXD7L+acup1X41aBQiTwNxgLEbBNzvCVya2tQ4d
- lvgw==
+ bh=KTin34YzXBQ942TfIM2vg5A2+WbG9c4iWSBNTg/XaU0=;
+ b=pi8bF6fk15jqNTACYfYNevs1W2mEmqeZvX/KT0zHjqUUP7gO0YoA7JOgzUxG7EICy0
+ 0nxnCwZmMnzubJLx4AluPByv2q6V2eu9cf4NJ3Nsy4ErUZ46re+YBjDgLoU6LIvT8ce6
+ zfsqFYF0O9bobcEaPGR16lmeo1Mo5n5+6VeP55QxMlXM+ZLNqF8AtTtKLVlZxGfE/d1H
+ Iugy5BPhJFXBbVmey5gidh/yrWrxnflR0y7PEuLzOaXRLky9nBnelkXTXVdkNzwgsuQA
+ QdxE2D+olcJN0JJBVSKuenS96tuk8fQVFRNcyfs2ZpoIBEnvUzSS6emW9X2H628o21sS
+ MdDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CAk+2aqnO5n/FQTk2vaRQqII/VeLwJsyp2OBv5DJjnE=;
- b=eTXl7D3eaLbvwnXvJAazdUOlwSBnbRVTk13vJIQe4mrlMQ6jeEVT7iLz9uGgoPJr2y
- xgJWEP0MRWljRRYTC1yxCoLMm9flOe3zB6ollLLQOW7vY/cMsXZ7IIQL5exZ9DE/Alol
- Utj/DVgb376YziodL4zR69qGBgUlpORcrnG04Mvb5fUWV0Fmfb9rV4q/5FLWBDIP/5jg
- Ef1eB1DsAhVTUyUuPVV55b5wDd53sjO+bqBqm3KNgLYv9LXjwfgDjbr2BXPOpzPEf5LC
- ensl74qJIpdp6DcsrT/xqSMEL/DVSMOCIZNUfDmIaGs2SKDyU9MKQM4ExkHUmwj6NHuI
- m0LQ==
-X-Gm-Message-State: AOAM530d8apsNhojeDKJneIcxMW8MG1ant0vnD2Q0/cfeFrkymkPLIUV
- 1jp5B8asRbROUS0WmInSbY9IhA==
-X-Google-Smtp-Source: ABdhPJyoN9noeYHj9VkdnK56U+jYvzyV55D/L0t2renQZ9mbCDhmBOkAkA9ID2wm8rXXx+qPA304ig==
-X-Received: by 2002:a62:d44e:0:b029:3b6:e627:7562 with SMTP id
- u14-20020a62d44e0000b02903b6e6277562mr5711648pfl.32.1628796696346; 
- Thu, 12 Aug 2021 12:31:36 -0700 (PDT)
+ bh=KTin34YzXBQ942TfIM2vg5A2+WbG9c4iWSBNTg/XaU0=;
+ b=ot1QWSVB/v0BBqF0AHS8Lc69vwjC1lyYT5885WmzKyO0s5Y9Jz9Gcgimu+fIwIDxiW
+ l2xOqWdfOhMF8120uBlZNjXZQIt179gfi1wcokPzwMMfjZ27kNKDy1vnDD5Eic6n7Jst
+ TIt75g6u1rr0MDTQKyxqONf0jw8zFnf9nD3b+p0CxszO5B2hv4qGQYdLg0uet830KAPq
+ vAxmA5QANl0TvyLWMtgVL8VeX/vmvip+OVcfx3LuzMOKisKSLjzq7G43lSykq8BfgRRy
+ Q+rsgnvGChIJhCuKr1ZtCVIU/+Rj4R1vNn85nU0EKBMdbcalYUqwqJmPZligj26ZopXL
+ 807Q==
+X-Gm-Message-State: AOAM530Nf/vUsm8oTlAushvyVX64iQkFIeWiplxwiNoPFzSHaT5prHqR
+ whwwo75Ejx3CqtSSUos3lHQw3A==
+X-Google-Smtp-Source: ABdhPJwoSTg/1yKKSGF4jGFzA3TfjtpwQON2HW+ynfee4Lx96K3BYf7/VRYVJs+Y1rVyYcYvO5/w3A==
+X-Received: by 2002:a05:6a00:26c3:b029:3c7:a436:2be6 with SMTP id
+ p3-20020a056a0026c3b02903c7a4362be6mr5728538pfw.26.1628798755746; 
+ Thu, 12 Aug 2021 13:05:55 -0700 (PDT)
 Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id z1sm4534730pfg.18.2021.08.12.12.31.34
+ by smtp.gmail.com with ESMTPSA id j185sm4503118pfb.86.2021.08.12.13.05.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 12:31:35 -0700 (PDT)
-Subject: Re: [PATCH v2 16/22] target/loongarch: Add floating point move
- instruction translation
-To: Song Gao <gaosong@loongson.cn>
-References: <1626861198-6133-1-git-send-email-gaosong@loongson.cn>
- <1626861198-6133-17-git-send-email-gaosong@loongson.cn>
- <643a7954-cf1c-78dd-2d08-f0969ea6127e@linaro.org>
- <c5c30589-9373-03b7-2a53-8f91117aefd6@loongson.cn>
+ Thu, 12 Aug 2021 13:05:55 -0700 (PDT)
+Subject: Re: [RFC PATCH] target/ppc: fix vector registers access in gdbstub
+ for little-endian
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210812191007.70331-1-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1621420e-521d-f12d-230f-6177e3a7cd95@linaro.org>
-Date: Thu, 12 Aug 2021 09:31:31 -1000
+Message-ID: <7b8530e0-4dc8-ea7f-3cac-e6ae623e6770@linaro.org>
+Date: Thu, 12 Aug 2021 10:05:52 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <c5c30589-9373-03b7-2a53-8f91117aefd6@loongson.cn>
+In-Reply-To: <20210812191007.70331-1-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,74 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@gmail.com,
- philmd@redhat.com, yangxiaojuan@loongson.cn, qemu-devel@nongnu.org,
- maobibo@loongson.cn, laurent@vivier.eu, alistair.francis@wdc.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/11/21 11:20 PM, Song Gao wrote:
->> This is easily implemented inline, followed by a single helper call to re-load the rounding mode (if required by the mask).
-> 
-> Hi, Richard,
->
-> Sorry to bother you， When I was revising this patch, I found that I didn't seem to
-> understand your opinion. Could you explain it in detail?  thank you very much.
----%<
+On 8/12/21 9:10 AM, matheus.ferst@eldorado.org.br wrote:
+>   static bool avr_need_swap(CPUPPCState *env)
+>   {
+> +    bool le;
+> +#if defined(CONFIG_USER_ONLY)
+> +    le = false;
+> +#else
+> +    le = msr_le;
+> +#endif
 
-static const uint32_t fcsr_mask[4] = {
-     UINT32_MAX, FCSR0_M1, FCSR0_M2, FCSR0_M3
-};
+It certainly doesn't seem like the right fix.
 
-bool trans_movgr2fcsr(DisasContext *s, arg_movgr2fcsr *a)
-{
-     uint32_t mask = fcsr_mask[a->fcsr];
-
-     if (mask == UINT32_MAX) {
-         tcg_gen_extrl_i64_i32(fpu_fscr0, get_gpr(a->rj));
-     } else {
-         TCGv_i32 tmp = tcg_temp_new_i32();
-
-         tcg_gen_extrl_i64_i32(tmp, get_gpr(a->rj));
-         tcg_gen_andi_i32(tmp, tmp, mask);
-         tcg_gen_andi_i32(fpu_fcsr0, cpu_fcsr0, ~mask);
-         tcg_gen_or_i32(fpu_fcsr0, fpu_fcsr0, tmp);
-         tcg_temp_free_i32(tmp);
-
-         /*
-          * Install the new rounding mode to fpu_status, if changed.
-          * Note that FCSR3 is exactly the rounding mode field.
-          */
-         if (mask != FCSR0_M3) {
-             return true;
-         }
-     }
-     gen_helper_set_rounding_mode(cpu_env, fpu_fcsr0);
-     return true;
-}
-
-void trans_movfcsr2gr(DisasContext *s, arg_movfcsr2gr *a)
-{
-     TCGv_i32 tmp = tcg_temp_new_i32();
-
-     tcg_gen_andi_i32(tmp, fpu_fcsr0, fcsr_mask[a->fcsr]);
-     tcg_gen_ext_i32_i64(dest_gpr(a->rd), tmp);
-     tcg_temp_free_i32(tmp);
-     return true;
-}
-
----%<
-
-DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
-
----%<
-
-void HELPER(set_rounding_mode)(CPULoongArchState *env, uint32_t fcsr)
-{
-     set_float_rounding_mode(ieee_rm[(fcsr0 >> FCSR0_RM) & 0x3],
-                             &env->fp_status);
-}
+My first guess was that MSR_LE wasn't being properly set up at cpu_reset for user-only, 
+but it's there.
 
 
 r~
