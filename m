@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315243E9DBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 07:04:18 +0200 (CEST)
-Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934C93E9E35
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 08:02:13 +0200 (CEST)
+Received: from localhost ([::1]:43536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE2t7-00017K-8t
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 01:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
+	id 1mE3nA-0006aU-6z
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 02:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mE2s9-0000KV-AH; Thu, 12 Aug 2021 01:03:17 -0400
-Received: from out28-149.mail.aliyun.com ([115.124.28.149]:43462)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1mE3m8-0005v5-T8
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:01:08 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:45924 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mE2s6-00026b-Jp; Thu, 12 Aug 2021 01:03:16 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1044306|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_enroll_verification|0.0188776-0.000819167-0.980303;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047194; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KypKntx_1628744587; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KypKntx_1628744587)
- by smtp.aliyun-inc.com(10.147.42.16); Thu, 12 Aug 2021 13:03:07 +0800
-Subject: Re: [RFC PATCH 02/13] target/riscv: Support UXL32 for branch
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20210805025312.15720-1-zhiwei_liu@c-sky.com>
- <20210805025312.15720-3-zhiwei_liu@c-sky.com>
- <840d76cc-fd1c-6324-19cc-a6ec0075d032@linaro.org>
- <5ae8f7a7-7659-aeee-9b4b-3521e19f4c75@c-sky.com>
- <249ce5f9-333a-7186-36bb-a2ecadb19254@linaro.org>
- <538f3928-f681-cb9e-7850-48469ea4ccd5@c-sky.com>
- <15f69497-3baf-abf1-ba9e-91ac1e883d63@linaro.org>
- <bbc67da3-3eef-6e57-8610-6b496f30b777@c-sky.com>
- <6cbece33-7f92-0247-7efc-41b34b0b4d7d@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <d24feab8-1ce9-fef7-6b43-b11377faec04@c-sky.com>
-Date: Thu, 12 Aug 2021 13:03:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1mE3m4-0000Jo-BS
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:01:08 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 5FDE246793;
+ Thu, 12 Aug 2021 06:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1628748057;
+ x=1630562458; bh=wFxn7MHPNLDF7dBO4oNV1knvEMbT6wTscONu1nWJGqM=; b=
+ rOqwvWUKpfu0wGL7UZ47YG6OSwy28XpoJzIMkYa1Y/geaHO9F5htSBLTVqZLjcw5
+ mJ4ZTNlgKY2vlwBqXC+W78sIZccqJLGfiaVh8uk3kTeTX+4L45fIalEgitWoJJJw
+ 1cHjggDrvRuN9J7isBZQYOjD2AikQae3N2oD7AJ56bs=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TN6BWij8u2k7; Thu, 12 Aug 2021 09:00:57 +0300 (MSK)
+Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
+ [172.17.100.104])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 3127249DDF;
+ Thu, 12 Aug 2021 09:00:37 +0300 (MSK)
+Received: from localhost (172.22.1.233) by T-EXCH-04.corp.yadro.com
+ (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 12
+ Aug 2021 09:00:37 +0300
+Date: Thu, 12 Aug 2021 09:00:37 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH 0/7] Add vmnet.framework based network backend
+Message-ID: <YRS5BaIhk0sWhwIQ@SPB-NB-133.local>
+References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6cbece33-7f92-0247-7efc-41b34b0b4d7d@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.149; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-149.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
+X-Originating-IP: [172.22.1.233]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-04.corp.yadro.com (172.17.100.104)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,42 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Markus Armbruster <armbru@redhat.com>, Phillip Tennen <phillip@axleos.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jun 17, 2021 at 05:32:39PM +0300, Vladislav Yaroshchuk wrote:
+> macOS provides networking API for VMs called vmnet.framework.
+> I tried to add it as a network backend. All three modes are supported:
+> 
+> -shared:
+>   allows the guest to comminicate with other guests in shared mode and
+>   also with external network (Internet) via NAT
+> 
+> -host:
+>   allows the guest to communicate with other guests in host mode
+> 
+> -bridged:
+>   bridges the guest with a physical network interface
+> 
+> Separate netdev for each vmnet mode was created because they use quite
+> different settings, especially since macOS 11.0 when vmnet.framework
+> gets a lot of updates.
+> 
+> Not sure that I use qemu_mutex_lock_iothread() and
+> qemu_mutex_unlock_iothread() in correct way while sending packet
+> from vmnet interface to QEMU. I'll be happy to receive
+> recomendations how to make this thing better if I done sth wrong.
+> 
+> Also vmnet.framework requires com.apple.vm.networking entitlement to
+> run without root priveledges. Ad-hoc signing does not fit there,
+> so I didn't touch anything related to signing. As a result we should
+> run qemu-system by a priviledged user:
+> `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+> otherwise vmnet fails with 'general failure'.
+> 
+> But in any way it seems working now,
+> I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
+> models:
+> - e1000-82545em
+> - virtio-net-pci
+> 
+> and having such guests:
+> - macOS 10.15.7
+> - Ubuntu Bionic (server cloudimg) 
+> 
 
-On 2021/8/12 下午12:42, Richard Henderson wrote:
-> On 8/11/21 12:40 PM, LIU Zhiwei wrote:
->> If the software doesn't use the high part, who cares the really value 
->> in high part? Do you know the benefit?  Thanks again.
->
-> I do not.
->
-> I simply presume that they already have the hardware, in the form of 
-> the addw instruction, etc.
->
-> The mistake, I think, was changing the definition of "add" in the 
-> first place, which required the addition of a different opcode "addw", 
-> which is then undefined for RV32. 
+Hi Vladislav,
 
-Sorry, I don't get "the mistake" here. Do you think the specification is 
-not right.
-Or the QEMU implementation of this patch set is not right?
-Currently I don't know there is  a 64-bit hardware which has done with 
-UXL32.
+I appreciate the efforts and I'm sorry I didn't look into it yet, lack
+of time :(
 
-> They should simply have had "addw" and "addq" as different opcodes 
-> that didn't change behaviour.  Etc.
+To all: earlier this year another series was sent by Phillip Tennen to
+add vmnet.framework and some comments were provided:
+https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.html
 
-I don't get  this statement. Is it related to UXL32?
+I'm not sure how to proceed with arbitration which of the series is
+preferred. FIFO or LIFO?
 
-Best Regards,
-Zhiwei
+Regards,
+Roman
 
->
-> But what's done is done.
->
->
-> r~
+> Vladislav Yaroshchuk (7):
+>   net/vmnet: dependencies setup, initial preparations
+>   net/vmnet: add new netdevs to qapi/net
+>   net/vmnet: create common netdev state structure
+>   net/vmnet: implement shared mode (vmnet-shared)
+>   net/vmnet: implement host mode (vmnet-host)
+>   net/vmnet: implement bridged mode (vmnet-bridged)
+>   net/vmnet: update qemu-options.hx
+> 
+>  configure           |  31 +++++
+>  meson.build         |   5 +
+>  net/clients.h       |  11 ++
+>  net/meson.build     |   7 ++
+>  net/net.c           |  10 ++
+>  net/vmnet-bridged.m | 123 ++++++++++++++++++
+>  net/vmnet-common.m  | 294 ++++++++++++++++++++++++++++++++++++++++++++
+>  net/vmnet-host.c    |  93 ++++++++++++++
+>  net/vmnet-shared.c  |  94 ++++++++++++++
+>  net/vmnet_int.h     |  48 ++++++++
+>  qapi/net.json       |  99 ++++++++++++++-
+>  qemu-options.hx     |  17 +++
+>  12 files changed, 830 insertions(+), 2 deletions(-)
+>  create mode 100644 net/vmnet-bridged.m
+>  create mode 100644 net/vmnet-common.m
+>  create mode 100644 net/vmnet-host.c
+>  create mode 100644 net/vmnet-shared.c
+>  create mode 100644 net/vmnet_int.h
+> 
+> -- 
+> 2.23.0
+> 
 
