@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFEC33EA349
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 13:07:29 +0200 (CEST)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A7C3EA34D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 13:08:46 +0200 (CEST)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE8Ya-0001WO-IC
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 07:07:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1mE8Zp-0003T5-1o
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 07:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE8XZ-0000nq-HZ
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:06:25 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE8XX-0002n2-Q8
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:06:25 -0400
-Received: by mail-ej1-x634.google.com with SMTP id b15so10730997ejg.10
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 04:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=PoQ+GEcJexW9ooL3MkvbRJkyTJ6aVSrfEyfl+Y4bCv4=;
- b=uibDLYHg5Z4T1VKpMfuGxCKBGZ9Y6BO+V6kkDOLWieveojWlklP2b2MnsYXtMm5bHc
- hr9oLlgN+SDpC+0B2i/Ez2Vrwz9fvEYd2Eah7Le1RKyL0BPoWhhXQpuLLiJu/5Abh0Is
- w+pd3wCiLnPjYskTsAlQ4tCjh1p6UKsEPy6jVUY2kIzZztaOKOrwpDT6CJ29YWZNezne
- oDIjN+4ksbjuvYF+zlzka4dOaicEkOKDdZVtQd6OC337CHoZvpjL0nZbJgLoOYNH6Jgh
- T4qJz7PjhQs9ou/mSIu3KtqjDMmjG01K2GbPZKfHxrTXelQJyCtWL9xUuhDVhvumkFWU
- n+eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=PoQ+GEcJexW9ooL3MkvbRJkyTJ6aVSrfEyfl+Y4bCv4=;
- b=oFMLh/AUUV8uc47rMJiT6NyD+TjFtr8vHB3QbMkX179/xiR6H8qObMSzKNGM7bH5nB
- F7vvm+Vr3/00k6kPtPnBGEEDK59tgnfoyx8Ls2wd4RcDEvNebBwfr+FF3gwkF+CAOKj+
- rbnk5RFNgnB2f1hxnRy4qgTkRva9PHqluKrhKlFfDdlWv3ONsSVoYzXz+mLl907AHkn5
- +E4oPOYBFOiI2vtWA2b+Rtj4hEFDXLkKgwgqGwawQYxjsYDbvxPMh6RezkZanyXLlNDq
- KJnlHEmerBtZ6Xso1fetxPoGdQ2uX32XdBAnBR+ivpE54DSMdf/noHxV9KVxpz2fogBs
- qBCQ==
-X-Gm-Message-State: AOAM531w8iYHG9V6Br0BQAqK4K3QS6aDG0ndbYpBWW37OFN3svXKP7BE
- 7ZiFeXUwREjvdAKjRginnB1hxXqKoKmzr0w/E0lX57RiFvU=
-X-Google-Smtp-Source: ABdhPJzi2VJkrHAp4Ya1nuvMwT+4Kq/++yfwaEyRztfA9SBoh9IB/9jmRQfsSU9oD8YU03sVrTBpBBQ7zOZxK6YcE/U=
-X-Received: by 2002:a17:906:aac7:: with SMTP id
- kt7mr3166864ejb.4.1628766381324; 
- Thu, 12 Aug 2021 04:06:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mE8YO-00022U-9X
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mE8YL-0003eJ-J6
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:07:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628766431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jzKfwVeazv3ZaZAtC71CaGkZVfhk+peiWZYJlSZa/8w=;
+ b=GKcr4VFrM5dP+QiWqg0TbQMBidR4U748I2nTUxOB9hhp1nw+Km9euaBihcuEa5cy07Elhy
+ u9gbaUZEgk9qxOuiau/fdleQA6VZDxb0dVj++o8PBiprpRnQLVaQTbLs3NunVeWGuViAb0
+ cehEFLnkn+aYemu7r1UOILJS4Q3JPP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-RubxWN5qOVaMgCx5I4zyQw-1; Thu, 12 Aug 2021 07:07:09 -0400
+X-MC-Unique: RubxWN5qOVaMgCx5I4zyQw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B063D1853024
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 11:07:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 460601ACBB;
+ Thu, 12 Aug 2021 11:07:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 24F351800922; Thu, 12 Aug 2021 13:07:00 +0200 (CEST)
+Date: Thu, 12 Aug 2021 13:07:00 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH] q35: catch invalid cpu hotplug configuration
+Message-ID: <20210812110700.7n7uxm7gen2n7rvh@sirius.home.kraxel.org>
+References: <20210812102341.3316254-1-kraxel@redhat.com>
+ <YRT33VufWIrhaS6j@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Aug 2021 12:05:36 +0100
-Message-ID: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
-Subject: ensuring a machine's buses have unique names
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YRT33VufWIrhaS6j@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,41 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What's the right way to ensure that when a machine has multiple
-buses of the same type (eg multiple i2c controllers, multiple
-sd card controllers) they all get assigned unique names so that
-the user can use '-device ...,bus=some-name' to put a device on a
-specific bus?
+  Hi,
 
-For instance in hw/arm/xlnx-zynqmp.c, the SoC object creates
-a set of alias properties on the SoC for the sd-bus buses that
-its 4 SD card controllers create. The alias properties are named
-"sd-bus%d" so they are unique. This works, but it's kind of error-prone
-because you need each machine model to remember to create these
-aliases when necessary.
+> > +    if ((lpc->smi_host_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT)) &&
+> > +        !(lpc->smi_host_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT))) {
+> > +        /*
+> > +         * smi_features_ok_callback() throws an error on this.
+> > +         *
+> > +         * So bail out here instead of advertizing the invalid
+> > +         * configuration and get obscure firmware failures from that.
+> > +         */
+> > +        error_setg(errp, "cpu hot-unplug requires cpu hot-plug");
+> > +        return;
+> > +    }
+> 
+> What does this actually mean in practice ? AFAIK from the libvirt side
+> we don't do anything special to enable/disable CPU hotplug. What QEMU
+> config setting is wrong to lead to this scenario, thta the user/mgmt
+> app has to fix ?
 
-mps3-an524 is an example of a machine that fails to do this
-for its i2c buses, and therefore the user can't usefully
-tell QEMU which bus to plug a command-line created i2c bus into.
+It's ICH9-LPC.x-smi-cpu-{hotplug,hotunplug}.  user/mgmt should not mess
+with that, but given it is possible I think printing an error is better
+than going for an assert().
 
-Ideally we should make buses get unique names by default
-and also assert() at startup that there aren't any duplicated
-names, I think.
+If this triggers it is most likely qemu getting compat properties wrong.
 
-Side note: is there a way to mark a bus as "do not consider
-this when plugging devices where the user did not specify
-the bus themselves" ? Some of the i2c buses on that machine
-are purely internal to the board (eg there's one that has
-the touchscreen controller hanging off it and nothing else),
-and some are "this i2c bus is connected to the expansion port",
-so ideally if no bus is specified we would want to prefer
-the expansion-port i2c bus, not the ones that are internal-only.
+Full story at https://bugzilla.redhat.com/show_bug.cgi?id=1985924 ;)
 
-thanks
--- PMM
+take care,
+  Gerd
+
 
