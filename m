@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B64D3EA269
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:48:28 +0200 (CEST)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4DD3EA248
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:45:57 +0200 (CEST)
+Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE7K7-0003tA-7S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47436)
+	id 1mE7Hg-0004yx-Rz
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE79K-0006Af-W2
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:37:20 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33783)
+ id 1mE7Fl-0002Eu-KI
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:43:57 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE79I-00025O-6g
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:37:18 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id by4so8785207edb.0
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:37:15 -0700 (PDT)
+ id 1mE7Fk-0007Oq-7r
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:43:57 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id z11so8672459edb.11
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O4oM2TISiijknuGwtIZQfdQCC3usHnin2N3rXpO0bjM=;
- b=RgJ13VWSgrRB/cQsUGkTpbZw3OD3wSrwuxIsdr6G5gmNM24zwMfGdYGc4Kxe3ZvLPn
- 7RBJQG9i3n4vyo9UZ2pG8HvJJDSNKgsNvLpuVeeONYBArq4fUHufnlGgVcV/smw9jM83
- mWvzKmdF3lh1448RAQtAxVdJPuJdI5PDtnnfClrsmdKStOJCNfdOoVpgtVSYxUtPEfGI
- B97Wlh5Q/pMfppamD9T1Kqx/eKsCMl2Hz1dS2Ql54XYBN2Isnsljsxc/QwTlCqHYY/+T
- pjWmILAoVi2Ead+usfHvpD01SDl0w76J/OaYifiVghGGVyj3Ytro7gAVjYZGF8qCe3qD
- M0EA==
+ :cc; bh=B1ya+lOPAftXHg70ZivKItvcqHOrmRz+N0DNnsBV42Y=;
+ b=HZ58bwOQC0nM1t0M4kT3Eb++nhiGZZJyJRo6kNf/PxF1XwQm5/BpLlOf1I12iEidna
+ LUAf3A8pnQCTxGWS8Xze7XO1C30ozf0EfhO2nTxBxQnmUrO/PhKfYFEiSi3WA2aaElwi
+ 4BcLtv5DWXqYOD8j9IB05KFqkJyaS2x0Aj8lC0S1uffKLhqj52f+jgCg/dFxodskKuAk
+ F9SrVGCE+/0rjSmeYUc4tJe6/x95wtYy3HlqHJfRbI06SBCJoCzpq9sBTKwY9luzweM7
+ HO4Xao3q35wj7Oevg/sKK7dzOxcNNyyB0ilPCE89VSNXRlQAHCbxDEIyrdxTdEmF9Yk4
+ 5SYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O4oM2TISiijknuGwtIZQfdQCC3usHnin2N3rXpO0bjM=;
- b=uSw08NiUzMzUT7jNAThvurTg8/ERkAWhV0y3r+sJabm4HmEusv2ICY5+XpIPA+REh4
- rCgFNvtGoPea27kcKmwe5tHZ07XhZk75Z/9iOKANISmtVR5ac5b0aFXLxwuagBrmzkg9
- KNLNVsU7mJUbdofsHFuaOVdY7dJqKUiHdPbN8GCgkI9RJzSVYZJH8Jv0DfMW7TFsbQpK
- +VtrVP6Eot+0yai0QUIhYPYxPWmfy1BItS1ADe0QGr2KQ2Gzvg2nUw/q3YgRJPHSnoq4
- QO37AyokWwbadna3D/EIsqNosjEsmy2Az9tABeH2j3nmXxZRc50wYVftBM0aLx+sIiaz
- qYHA==
-X-Gm-Message-State: AOAM531lV1hZP8P7IXBW8MSYRa7aZlesAZsWLFSIqXSXe63BH3WOSWbc
- x2wy6qHZjE9u8AVUBk/NAtF8b23mE1BhMkZgAM5Mv6K01gw=
-X-Google-Smtp-Source: ABdhPJx8j9sTScK8SrXAOz+MZKRIavxgYq6ghEMVCuq3hXv0LIw4h0Alijp0hxWPTjPFvQPoV0mw8LMvUqaQykjkN9s=
-X-Received: by 2002:a50:ff03:: with SMTP id a3mr4325295edu.100.1628761034406; 
- Thu, 12 Aug 2021 02:37:14 -0700 (PDT)
+ bh=B1ya+lOPAftXHg70ZivKItvcqHOrmRz+N0DNnsBV42Y=;
+ b=ZTZm6Hb2aUaG8wOXtMs65ovjnJcLRRltPRQlD17x18AGnW2BOi4H2Fbuc4woAN/qwr
+ JRMd7VcocQ3MVoiZc28TmgDO7ba0UH2eMGzTZNL93Nbvlc3EkJnK8OCxTraqW7DtZNM9
+ bnuOPzUs/dph+vxBqm0e2CeN0ukatrZ3B2DZKJzf0uJMGRJBJ0zUUp3X9HyLeDdgBB/z
+ vSVd77TEV3Yxe3OEdAydK+df7QNQ1ufzrXrTq0iy5PH90QgT5NmgEWnOqjXeZUB9w951
+ aDRU1yrP67dXJ0Gn14x206QX4z21H5+OcpF31DkqVSBZh32JGyDEovSDUrAjLY6BrWS6
+ zEqA==
+X-Gm-Message-State: AOAM533iCdML3yqkvgoN8H1NRgq4FtdCW4gDc7dUsZkVyeZgLPcHD2px
+ 73TikoeA4FmDSeE1aP8nBqaF8FzXsg4YKeKpnDsC9w==
+X-Google-Smtp-Source: ABdhPJwbJyxauFwhzfPr7cGH4HxxkPl0oHC9IYJRF8ZdxXkwqT+OOz+ZqKj5oFJpNAVi5SvB0KtS/Xl5oSwdS3mxaqQ=
+X-Received: by 2002:aa7:c4cd:: with SMTP id p13mr2587975edr.251.1628761434841; 
+ Thu, 12 Aug 2021 02:43:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210812060440.1330348-1-ishii.shuuichir@fujitsu.com>
- <20210812060440.1330348-2-ishii.shuuichir@fujitsu.com>
- <20210812091650.i5np3szvdoelu2cx@gator.home>
- <20210812092517.mwcfhksoe4cgy3cl@gator.home>
-In-Reply-To: <20210812092517.mwcfhksoe4cgy3cl@gator.home>
+References: <20210729111512.16541-1-peter.maydell@linaro.org>
+ <20210729111512.16541-8-peter.maydell@linaro.org>
+ <cf01ab07-f7c8-c2f3-9cd2-1a17dab62a8a@linaro.org>
+In-Reply-To: <cf01ab07-f7c8-c2f3-9cd2-1a17dab62a8a@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Aug 2021 10:36:29 +0100
-Message-ID: <CAFEAcA84OeEooeYG_ierHBYh1akz7tw_6hAkbG=3J2DpiRJJ=w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] target-arm: Add support for Fujitsu A64FX
-To: Andrew Jones <drjones@redhat.com>
+Date: Thu, 12 Aug 2021 10:43:09 +0100
+Message-ID: <CAFEAcA8iWyH49ijCRZ4boWs7HqejG6Hyh0rAZ+n9gXgA4kOKyA@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 07/53] target/arm: Fix MVE 48-bit SQRSHRL for
+ small right shifts
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
@@ -79,19 +79,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Aug 2021 at 10:25, Andrew Jones <drjones@redhat.com> wrote:
-> On second thought, do we want the QMP CPU model expansion query to show
-> that this CPU type has sve,sve128,sve256,sve512? If so, then our SVE work
-> isn't complete, because we need those properties, set true by default, but
-> forbidden from changing.
+On Fri, 30 Jul 2021 at 20:07, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> I'll note two things:
+>
+> (1) The val == extval check could be sunk to the end of the function and shared with the
+> left shift,
+>
+> (2) sat will never be unset, as #48 is encoded as sat=1 in the insn.
 
-Do we have precedent elsewhere (arm, x86, wherever) for "this CPU object
-exposes these properties as constant unwriteable" ?
+True; I'm kind of aiming for parity with the other sqrshl utility routines,
+which is why the unused no-saturation code is in there.
 
 -- PMM
 
