@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2394E3EA21D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:35:29 +0200 (CEST)
-Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1385F3EA220
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:35:42 +0200 (CEST)
+Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE77Y-0007uw-6e
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
+	id 1mE77l-0000B8-2D
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE76C-00051y-GY
+ id 1mE76C-00051z-H6
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:04 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34776)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE768-0007jM-QP
+ id 1mE769-0007k8-Ku
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:03 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h13so7366175wrp.1
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:00 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id q10so7378068wro.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s0OMlxss9RP7UU4o48PD7CRtF4U64YbpYKbZT9wm3Uo=;
- b=fb5Z0sWTlBxpgIis2SXydn9BRlAb4ndLyFtJ9WnHwai8jEjmLjGkVAX28/blQQUHio
- A51e+hDuHedIQRM9iGx0CW96Q48cIjdC1ZLsFJBd/tWIUT1Zeq+lLKW/npUXcxkde4ZQ
- ELDRonMLlGhaRmX3SBkaCYLQBqMA+nBfG6LwRWp2VdlggeSqX74SRE5j9U+ixPEEiCVf
- NhpkirNUCJxAAJ18l84cCrWa0Gv35kcpXaXteKbQPd0PR/4NglC5Al1VLl/AfJMSp0Y4
- DEWL8uQeu11njbjHfGHA+CmDPb6pFUP6gue9wQ+1H4Iw4Iz7M5lvoyjVlsWiiyCagcCI
- K6nA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yLuII2N7SomdN1vXoXib6V3sTgzvv7Z37XwvXeMMKcE=;
+ b=jDHSso3rMrxvfiMupg69eZQIq0SBAF9aZxq3yswNrsKnnOE9Vs/eCij4bhEWHaseGZ
+ abrW+juaH4uVSbeqG7L3uv4IIqe2xD63wIp7wOYVyQrmH+2Ec2ayOf3SQxWVk0Y5LMO9
+ c9MJNvg1NfP1VCVkki3KS1wrPwEdYKV/wEAOzIM+wK4j+R5yhcG6r72pa563J9g+Kthw
+ 3b49TWIx9K4ou9ni29ldrLdIiy1CdK1M3lqSqAOwUN4atA0qt7VGYh2+AHhbLBCL9MSH
+ YcN9SHiT9zdBsbPbIF5bdzWXNVKo2AYNTGlsIuEEPVrzFsmj0rk/604ssMuFFssvmie6
+ SbxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s0OMlxss9RP7UU4o48PD7CRtF4U64YbpYKbZT9wm3Uo=;
- b=q8VWwSpTvT4JhIB4ihncjPcS1b9q3slRa1IMkxIG4UusGURyKcxfiYV9cplDkhMcvt
- YrHL9esgwdqfEBdzDX9+YJmidT6Y9QwqfvXDVO+52S1NaFzQNMIwXNftrap7alpQTekD
- DIhp0jBZo9i2S1yKisHI6FV00WdDAvr+3nSiG23qUmuK0sjVdMUBib+CY6opt4sfeEEI
- 7emctLN4BeaKES7iiHo11e0br3NQnOiw5Zgryv5jFnZQNgLk+MGXGz+iXGayLPnwws7A
- AV0ZbP+DVtBcD0vCTsF7ciHqkLIwgU2qf8ydlVChr5/tODqc4WIvFT+UpPrbOKzZsK6V
- kKMQ==
-X-Gm-Message-State: AOAM531duKFrH0NlUH+I68BMWrOetDChOuuqEwvlmUarn1I2KQfBCD4d
- n1MIG/0Wu3ZDHSNrtHKSEBy7eA==
-X-Google-Smtp-Source: ABdhPJz8epqufsq3vvBKq2QZL9yasAhIpiZzXBwII72DpXLcjKCRNfWNo1hbRrMo3/aktx88q4YXug==
-X-Received: by 2002:adf:cd86:: with SMTP id q6mr2853447wrj.385.1628760839053; 
- Thu, 12 Aug 2021 02:33:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yLuII2N7SomdN1vXoXib6V3sTgzvv7Z37XwvXeMMKcE=;
+ b=rh2Z6d3PfiGNfLzikFTUcW6XjciLcbdcEyy1Qa/6kcqdpJvnOk5iLv4cT6kZGR6hWa
+ ZRR3phOSURR1kWUsBZC6Djyvk4Ay8XJhQ+U6e2stbwxaorsdYSnzlQ1uNR4Zd4kwD9Gk
+ YMupvu47P0lgB7bT4v9Y9NizNSE7GVCqa3u0xAmje7o4jaI2CZ+gOLzyCnC9iZD+sZUx
+ RjX/exDFY7G6SEw6ttQPop8YS97mA10j/7Z/pT5Upqu7xbQ2NbRioz/wHqsyiKSXo5d+
+ 864ARYe3tGTg7h1UgLQUVD0RTQiC/1LS6YkFZ5ertu1dXO6YANVuxiBr79urA5o8V49x
+ bDiA==
+X-Gm-Message-State: AOAM530IDm8AuT4bkqMVj8h/oh18LqpPAVAZDGcm2fbzbBYXS0V+JoSn
+ wAq+8koEGJfgK9IOg9HY4Gzk5w==
+X-Google-Smtp-Source: ABdhPJzygXjdyvbSgyfCcnS6uN9RAWNQHoYCdWeiBLn4fskr4c8n6GXwcorxRMDyDuVJMmr1bJqexw==
+X-Received: by 2002:a05:6000:247:: with SMTP id
+ m7mr2936992wrz.335.1628760840132; 
+ Thu, 12 Aug 2021 02:34:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.33.58
+ by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.33.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 02:33:58 -0700 (PDT)
+ Thu, 12 Aug 2021 02:33:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 00/25] arm: Get rid of system_clock_scale global
-Date: Thu, 12 Aug 2021 10:33:31 +0100
-Message-Id: <20210812093356.1946-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into its
+ own device
+Date: Thu, 12 Aug 2021 10:33:32 +0100
+Message-Id: <20210812093356.1946-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210812093356.1946-1-peter.maydell@linaro.org>
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,158 +92,330 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly a (big) refactoring to use Clocks instead of a global. 
-Review of the new multiplier/divider functionality I've added to the
-Clock API would also be interesting.  If you're a maintainer for an
-M-profile board that isn't covered by 'make check-acceptance' then
-I'd appreciate it if you have time to test that this series didn't
-accidentally break your board...
+Currently we implement the RAS register block within the NVIC device.
+It isn't really very tightly coupled with the NVIC proper, so instead
+move it out into a sysbus device of its own and have the top level
+ARMv7M container create it and map it into memory at the right
+address.
 
-The Arm v7M systick timer can run off one of two clocks
-(guest-selectable by writing the SYST_CSR.CLKSOURCE control
-register bit):
- * the main CPU clock
- * a separate 'reference clock' which the SoC and board may
-   or may not wire up
-
-Currently we model this as:
- * the global variable system_clock_scale is set to the period in ns
-   of the CPU clock by the board or SoC level code
- * the reference clock is a fixed 1MHz, hardcoded in armv7m_systick.c
-
-This is very old code, dating back to the first v7M support in 2007.
-We now have a Clock API, so we can model clocks using something a bit
-more complicat^Wsophisticated than a global variable.
-
-The series starts with some refactoring to move the creation of
-various sub-devices including the systick timers out of the nvic
-object and into the 'armv7m' container object. The NVIC was doing some
-of this for historical reasons, but it makes more sense to have all of
-the "create subdevices and map them into the right place in the
-peripheral region of the address space" be in one place. This also
-means that when we start wiring Clocks up we don't have to go via the
-NVIC to get from the armv7m object to the systick timers.
-
-We then add clock inputs to the systick device, which are initially
-ignored. Subsequent patches wire up those clock inputs in SoC and
-board level code. Once all the boards have wired up their clocks, we
-can change the systick device to use those instead of the
-system_clock_scale global. Finally we can delete all the places
-setting the global.
-
-For some of the boards the systick reference clock is a fixed
-multiple/division of the CPU clock. To support this, the "clock:
-Provide builtin multiplier/divider" patch enhances the Clock API to
-let you configure a Clock such that all its children are run at a
-given ratio of the parent clock.
-
-For the different boards I have taken a variety of approaches:
- * sometimes the refclk frequency was easy to determine from
-   the SoC docs, and the patches implement that, changing the
-   behaviour from the old 1MHz fixed refclk. This is in
-   effect a very minor bugfix.
- * in a few cases I couldn't determine the refclk frequency, so
-   I have implemented those boards to retain the old 1MHz
-   value, as at least no-behavioural-change
- * some SoCs don't wire up the refclk at all; with this series
-   we will correctly implement that (the SYST_CSR.CLKSOURCE control
-   register bit in the systick device is then read-only), so
-   again a minor bugfix
-In some SoCs the refclk should theoretically be guest-programmable; we
-didn't implement that before and we still don't. I've put in a few
-comments noting this missing feature where relevant.
-
-The other user of the system_clock_scale global is the GPTM timer in
-the stellaris board, so there's a patch converting that to also use
-Clock input.
-
-There are also a few patches implementing minor cleanups I noticed
-along the way that I felt would be in the way if I didn't fix them up
-first.
-
-NB: this series is a migration compat break for all the M-profile
-boards, because it adds Clock objects to vmstate structs.
-
-I've tested this with 'make check-acceptance', which tests the
-emcraft-sf2 board, and I've run some stellaris and various MPS images
-I have locally.  Other affected boards (microbit, netduino2,
-netduinoplus2, stm32vldiscovery) are untested (though 'make check'
-confirms that they at least don't crash on startup...).  Testing from
-maintainers of those boards would be appreciated.
-
-thanks
--- PMM
-
-Peter Maydell (25):
-  arm: Move M-profile RAS register block into its own device
-  arm: Move systick device creation from NVIC to ARMv7M object
-  arm: Move system PPB container handling to armv7m
-  hw/timer/armv7m_systick: Add usual QEMU interface comment
-  hw/timer/armv7m_systick: Add input clocks
-  hw/arm/armv7m: Create input clocks
-  armsse: Wire up systick cpuclk clock
-  hw/arm/mps2.c: Connect up armv7m clocks
-  clock: Provide builtin multiplier/divider
-  hw/arm: Don't allocate separate MemoryRegions in stm32 SoC realize
-  hw/arm/stm32f100: Wire up sysclk and refclk
-  hw/arm/stm32f205: Wire up sysclk and refclk
-  hw/arm/stm32f405: Wire up sysclk and refclk
-  hw/arm/stm32vldiscovery: Delete trailing blank line
-  hw/arm/nrf51: Wire up sysclk
-  hw/arm/stellaris: split stellaris_sys_init()
-  hw/arm/stellaris: Wire sysclk up to armv7m
-  hw/arm/msf2_soc: Don't allocate separate MemoryRegions
-  hw/arm/msf2: Use Clock input to MSF2_SOC instead of m3clk property
-  hw/arm/msf2-soc: Wire up refclk
-  hw/timer/armv7m_systick: Use clock inputs instead of
-    system_clock_scale
-  hw/arm/stellaris: Fix code style issues in GPTM code
-  hw/arm/stellaris: Split stellaris-gptm into its own file
-  hw/timer/stellaris-gptm: Use Clock input instead of system_clock_scale
-  arm: Remove system_clock_scale global
-
- docs/devel/clocks.rst             |  23 ++
- include/hw/arm/armv7m.h           |  24 ++
- include/hw/arm/msf2-soc.h         |   8 +-
- include/hw/arm/nrf51_soc.h        |   2 +
- include/hw/arm/stm32f100_soc.h    |   8 +
- include/hw/arm/stm32f205_soc.h    |   8 +
- include/hw/arm/stm32f405_soc.h    |   3 +
- include/hw/clock.h                |  29 +++
- include/hw/intc/armv7m_nvic.h     |   8 -
- include/hw/misc/armv7m_ras.h      |  37 +++
- include/hw/timer/armv7m_systick.h |  36 ++-
- include/hw/timer/stellaris-gptm.h |  51 ++++
- hw/arm/armsse.c                   |  20 +-
- hw/arm/armv7m.c                   | 260 +++++++++++++++++++-
- hw/arm/mps2.c                     |  17 +-
- hw/arm/msf2-soc.c                 |  68 +++--
- hw/arm/msf2-som.c                 |   7 +-
- hw/arm/netduino2.c                |  12 +-
- hw/arm/netduinoplus2.c            |  12 +-
- hw/arm/nrf51_soc.c                |  20 +-
- hw/arm/stellaris.c                | 396 ++++--------------------------
- hw/arm/stm32f100_soc.c            |  47 +++-
- hw/arm/stm32f205_soc.c            |  47 +++-
- hw/arm/stm32f405_soc.c            |  30 +++
- hw/arm/stm32vldiscovery.c         |  13 +-
- hw/core/clock-vmstate.c           |  24 +-
- hw/core/clock.c                   |  29 ++-
- hw/intc/armv7m_nvic.c             | 274 +--------------------
- hw/misc/armv7m_ras.c              |  93 +++++++
- hw/timer/armv7m_systick.c         | 116 ++++++---
- hw/timer/stellaris-gptm.c         | 332 +++++++++++++++++++++++++
- MAINTAINERS                       |   2 +
- hw/arm/Kconfig                    |   1 +
- hw/misc/meson.build               |   2 +
- hw/timer/Kconfig                  |   3 +
- hw/timer/meson.build              |   1 +
- 36 files changed, 1292 insertions(+), 771 deletions(-)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/arm/armv7m.h       |  2 +
+ include/hw/intc/armv7m_nvic.h |  1 -
+ include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
+ hw/arm/armv7m.c               | 12 +++++
+ hw/intc/armv7m_nvic.c         | 56 ---------------------
+ hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
+ MAINTAINERS                   |  2 +
+ hw/misc/meson.build           |  2 +
+ 8 files changed, 148 insertions(+), 57 deletions(-)
  create mode 100644 include/hw/misc/armv7m_ras.h
- create mode 100644 include/hw/timer/stellaris-gptm.h
  create mode 100644 hw/misc/armv7m_ras.c
- create mode 100644 hw/timer/stellaris-gptm.c
 
+diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
+index bc6733c5184..4cae0d7eeaa 100644
+--- a/include/hw/arm/armv7m.h
++++ b/include/hw/arm/armv7m.h
+@@ -12,6 +12,7 @@
+ 
+ #include "hw/sysbus.h"
+ #include "hw/intc/armv7m_nvic.h"
++#include "hw/misc/armv7m_ras.h"
+ #include "target/arm/idau.h"
+ #include "qom/object.h"
+ 
+@@ -58,6 +59,7 @@ struct ARMv7MState {
+     NVICState nvic;
+     BitBandState bitband[ARMV7M_NUM_BITBANDS];
+     ARMCPU *cpu;
++    ARMv7MRAS ras;
+ 
+     /* MemoryRegion we pass to the CPU, with our devices layered on
+      * top of the ones the board provides in board_memory.
+diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
+index 39c71e15936..33b6d8810c7 100644
+--- a/include/hw/intc/armv7m_nvic.h
++++ b/include/hw/intc/armv7m_nvic.h
+@@ -83,7 +83,6 @@ struct NVICState {
+     MemoryRegion sysreg_ns_mem;
+     MemoryRegion systickmem;
+     MemoryRegion systick_ns_mem;
+-    MemoryRegion ras_mem;
+     MemoryRegion container;
+     MemoryRegion defaultmem;
+ 
+diff --git a/include/hw/misc/armv7m_ras.h b/include/hw/misc/armv7m_ras.h
+new file mode 100644
+index 00000000000..f8773e65b14
+--- /dev/null
++++ b/include/hw/misc/armv7m_ras.h
+@@ -0,0 +1,37 @@
++/*
++ * Arm M-profile RAS block
++ *
++ * Copyright (c) 2021 Linaro Limited
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License version 2 or
++ *  (at your option) any later version.
++ */
++
++/*
++ * This is a model of the RAS register block of an M-profile CPU
++ * (the registers starting at 0xE0005000 with ERRFRn).
++ *
++ * QEMU interface:
++ *  + sysbus MMIO region 0: the register bank
++ *
++ * The QEMU implementation currently provides "minimal RAS" only.
++ */
++
++#ifndef HW_MISC_ARMV7M_RAS_H
++#define HW_MISC_ARMV7M_RAS_H
++
++#include "hw/sysbus.h"
++
++#define TYPE_ARMV7M_RAS "armv7m-ras"
++OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MRAS, ARMV7M_RAS)
++
++struct ARMv7MRAS {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion iomem;
++};
++
++#endif
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 9ce5c30cd5c..8964730d153 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(&s->container, 0xe0000000,
+                                 sysbus_mmio_get_region(sbd, 0));
+ 
++    /* If the CPU has RAS support, create the RAS register block */
++    if (cpu_isar_feature(aa32_ras, s->cpu)) {
++        object_initialize_child(OBJECT(dev), "armv7m-ras",
++                                &s->ras, TYPE_ARMV7M_RAS);
++        sbd = SYS_BUS_DEVICE(&s->ras);
++        if (!sysbus_realize(sbd, errp)) {
++            return;
++        }
++        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
++                                            sysbus_mmio_get_region(sbd, 0), 1);
++    }
++
+     for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
+         if (s->enable_bitband) {
+             Object *obj = OBJECT(&s->bitband[i]);
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 1e7ddcb94cb..a5975592dfa 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -2549,56 +2549,6 @@ static const MemoryRegionOps nvic_systick_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
+-
+-static MemTxResult ras_read(void *opaque, hwaddr addr,
+-                            uint64_t *data, unsigned size,
+-                            MemTxAttrs attrs)
+-{
+-    if (attrs.user) {
+-        return MEMTX_ERROR;
+-    }
+-
+-    switch (addr) {
+-    case 0xe10: /* ERRIIDR */
+-        /* architect field = Arm; product/variant/revision 0 */
+-        *data = 0x43b;
+-        break;
+-    case 0xfc8: /* ERRDEVID */
+-        /* Minimal RAS: we implement 0 error record indexes */
+-        *data = 0;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
+-                      (uint32_t)addr);
+-        *data = 0;
+-        break;
+-    }
+-    return MEMTX_OK;
+-}
+-
+-static MemTxResult ras_write(void *opaque, hwaddr addr,
+-                             uint64_t value, unsigned size,
+-                             MemTxAttrs attrs)
+-{
+-    if (attrs.user) {
+-        return MEMTX_ERROR;
+-    }
+-
+-    switch (addr) {
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
+-                      (uint32_t)addr);
+-        break;
+-    }
+-    return MEMTX_OK;
+-}
+-
+-static const MemoryRegionOps ras_ops = {
+-    .read_with_attrs = ras_read,
+-    .write_with_attrs = ras_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+ /*
+  * Unassigned portions of the PPB space are RAZ/WI for privileged
+  * accesses, and fault for non-privileged accesses.
+@@ -2946,12 +2896,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
+                                             &s->systick_ns_mem, 1);
+     }
+ 
+-    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+-        memory_region_init_io(&s->ras_mem, OBJECT(s),
+-                              &ras_ops, s, "nvic_ras", 0x1000);
+-        memory_region_add_subregion(&s->container, 0x5000, &s->ras_mem);
+-    }
+-
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->container);
+ }
+ 
+diff --git a/hw/misc/armv7m_ras.c b/hw/misc/armv7m_ras.c
+new file mode 100644
+index 00000000000..a2b4f4b8dc8
+--- /dev/null
++++ b/hw/misc/armv7m_ras.c
+@@ -0,0 +1,93 @@
++/*
++ * Arm M-profile RAS block
++ *
++ * Copyright (c) 2021 Linaro Limited
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License version 2 or
++ *  (at your option) any later version.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/misc/armv7m_ras.h"
++#include "qemu/log.h"
++
++static MemTxResult ras_read(void *opaque, hwaddr addr,
++                            uint64_t *data, unsigned size,
++                            MemTxAttrs attrs)
++{
++    if (attrs.user) {
++        return MEMTX_ERROR;
++    }
++
++    switch (addr) {
++    case 0xe10: /* ERRIIDR */
++        /* architect field = Arm; product/variant/revision 0 */
++        *data = 0x43b;
++        break;
++    case 0xfc8: /* ERRDEVID */
++        /* Minimal RAS: we implement 0 error record indexes */
++        *data = 0;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
++                      (uint32_t)addr);
++        *data = 0;
++        break;
++    }
++    return MEMTX_OK;
++}
++
++static MemTxResult ras_write(void *opaque, hwaddr addr,
++                             uint64_t value, unsigned size,
++                             MemTxAttrs attrs)
++{
++    if (attrs.user) {
++        return MEMTX_ERROR;
++    }
++
++    switch (addr) {
++    default:
++        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
++                      (uint32_t)addr);
++        break;
++    }
++    return MEMTX_OK;
++}
++
++static const MemoryRegionOps ras_ops = {
++    .read_with_attrs = ras_read,
++    .write_with_attrs = ras_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++
++static void armv7m_ras_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    ARMv7MRAS *s = ARMV7M_RAS(obj);
++
++    memory_region_init_io(&s->iomem, obj, &ras_ops,
++                          s, "armv7m-ras", 0x1000);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static void armv7m_ras_class_init(ObjectClass *klass, void *data)
++{
++    /* This device has no state: no need for vmstate or reset */
++}
++
++static const TypeInfo armv7m_ras_info = {
++    .name = TYPE_ARMV7M_RAS,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(ARMv7MRAS),
++    .instance_init = armv7m_ras_init,
++    .class_init = armv7m_ras_class_init,
++};
++
++static void armv7m_ras_register_types(void)
++{
++    type_register_static(&armv7m_ras_info);
++}
++
++type_init(armv7m_ras_register_types);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 37b1a8e4428..3cac393bb48 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -617,6 +617,7 @@ F: hw/intc/gic_internal.h
+ F: hw/misc/a9scu.c
+ F: hw/misc/arm11scu.c
+ F: hw/misc/arm_l2x0.c
++F: hw/misc/armv7m_ras.c
+ F: hw/timer/a9gtimer*
+ F: hw/timer/arm*
+ F: include/hw/arm/arm*.h
+@@ -626,6 +627,7 @@ F: include/hw/misc/arm11scu.h
+ F: include/hw/timer/a9gtimer.h
+ F: include/hw/timer/arm_mptimer.h
+ F: include/hw/timer/armv7m_systick.h
++F: include/hw/misc/armv7m_ras.h
+ F: tests/qtest/test-arm-mptimer.c
+ 
+ Exynos
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index a53b849a5a0..3f41a3a5b27 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -17,6 +17,8 @@ softmmu_ss.add(when: 'CONFIG_INTEGRATOR_DEBUG', if_true: files('arm_integrator_d
+ softmmu_ss.add(when: 'CONFIG_A9SCU', if_true: files('a9scu.c'))
+ softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+ 
++softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_ras.c'))
++
+ # Mac devices
+ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+ 
 -- 
 2.20.1
 
