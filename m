@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BFB3E9EC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 08:47:28 +0200 (CEST)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FF83E9F52
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 09:16:18 +0200 (CEST)
+Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE4Ux-0002D7-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 02:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
+	id 1mE4wr-0001vi-DX
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 03:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mE4T5-00010f-R9
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:45:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mE4T4-0004sV-6r
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:45:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628750729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/viA8EoAF4Jj8G00AYuI5PK0gN0W0bx9v3l9Z62fF8M=;
- b=K3ZkXK6Yay8P0aSiehQ+Ht40DdI5EiuziSBf/t4wh2ji31ZJo0H+o4SdZ772LCPlfq7pU9
- OQc1TFAgI0YCK6ugA9PnNAUkmo9NnRdX9MVcyh2NUJZRwJBCuPBFjSq0OxBGX8qNbKYc6z
- W7plj8O9V+ylNlWZLRCvBNMo3RKGDmE=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-FKrEN83DO1ey0UgFqX4f_g-1; Thu, 12 Aug 2021 02:45:27 -0400
-X-MC-Unique: FKrEN83DO1ey0UgFqX4f_g-1
-Received: by mail-lj1-f198.google.com with SMTP id
- u3-20020a2e9b030000b02901b787d7d260so1642460lji.3
- for <qemu-devel@nongnu.org>; Wed, 11 Aug 2021 23:45:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mE4vQ-0001Fk-Lz
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 03:14:48 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mE4vO-0004uG-40
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 03:14:48 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ s22-20020a17090a1c16b0290177caeba067so13864778pjs.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 00:14:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DCnAoakpKTFnHGYQjyWta2A3g+3UKFczFwGBNNHhvCk=;
+ b=b7ONTtturSOsiG4Ib3MBFcbv+YsPXCjV9R2HLSFUenDGlqYbAHJyTDRAV7LxDY2rSH
+ +OyWl+H5iyH5CP21BGIJK1EAzq9W+LoV84xcKcp+DsVAIms9CUA2tce7ZNLd9Oymd4Dp
+ bTbcoukt0tH5GAXeT0qcXFvVa5gOzyqsEsuuHj8fkByN2MQee9sQWH0fHH8/n+efYdNV
+ ok9fpZUjV6wT5RfbmuUcO3QWNiEIh3EMEmXvonUXi/6yc8/FULv3rjBbeT0mL/0JkXci
+ gObb3EUBXoVXsVHXcFMhvHsnWkUnZjNvqIxMyxn+ihxrtE9iEosFngDJLypVLJ8QpDjv
+ cA/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/viA8EoAF4Jj8G00AYuI5PK0gN0W0bx9v3l9Z62fF8M=;
- b=LhVOri7WWZlsRVCRqNuVEstTTqKWAUQ34CbuyfXRap3SzGMlx10ImTHGipBjcp5E5a
- sMmirS8jCK59eo1Bz8nuYBcmy/xhPxLrs1QcjwhRK0rirRtnszl54M0SJGPQb/j35rYW
- /ieAeWLtHSFD3tNFOvPdxHAaeU9nME63OrXKdlLUZM0/ij6LTH5UCPLDjCHBdydY7gCK
- 2VRZTaSajFgpIGmGX0p628yDNSR392oN/G5cUtq9Tia7UOt6JVs5IwjCDIhEQktqIaVW
- aFaozhiRPXKhjb0Vs6z0I054ItRFTt16TFPWlk6wZP1tw31BuyhtcV7iJKqj3bQc6wHn
- HRWw==
-X-Gm-Message-State: AOAM533iODNVGbYM4gwCOGgkDPoRZW5ViO6Wgpr0EI9MjbvqRZwtOp5G
- tBFz7XbMVBA0fbdg/hXvUX2uPs1Om6ElZE/n8BiF3RSZ31znL0jkc8HqTiHvqa3xRGFhEqEsj1u
- EkIrH83ObpMVTjALT7xvHMmp6S0fR4N0=
-X-Received: by 2002:a19:f719:: with SMTP id z25mr1446639lfe.339.1628750726171; 
- Wed, 11 Aug 2021 23:45:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz228XOXW20dkfgkgKkbJNhQ2X6+dDWJ75S2bkvylE9YR/0AyLC+3OIRPNFU9Jkl4aKoaP8AKSneiJnAWVPalw=
-X-Received: by 2002:a19:f719:: with SMTP id z25mr1446622lfe.339.1628750725845; 
- Wed, 11 Aug 2021 23:45:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DCnAoakpKTFnHGYQjyWta2A3g+3UKFczFwGBNNHhvCk=;
+ b=Qu2/HIEHDyM2ekMtoZQI4vUu6at+ktUb1pVgLkc+aEtjYhV/Oiouuf4Taq5s5GLJ8A
+ yDgWeUgJLAhKCmHZf1l/p1pMU9YwUfWrMDBblPx2NNcJQBmAHQecAk6YX62hfBLDLVvb
+ y1UQzPYXCpQ5neyUtF5O5bnZv6gtpfV8eYNMQJvsDgMdb9S5bP78itm+zGhPW/mLCHOo
+ +wXjMyu6Kkx+gV0sVjHU7KXD4wyhIlERtTR4P3VJRlfkXnGbZYe/eNsOxzFyBY7lqmd/
+ 1GdRjV+CFneg8zBV08v0iXqdzfADAwK8XMBJxl2j4lBjDsFbDygCzlpXPvd9dO2O6psp
+ 9kzQ==
+X-Gm-Message-State: AOAM531EmNxtpxsc73toiNu1CkEZYtlqYJKrH+nsSn47NnmPCkHzA6ps
+ BsBowel8otby0fZXfN+0QPHZaQjgPFsj9Q==
+X-Google-Smtp-Source: ABdhPJw3XFL9AywcWjNVZby/OsWyfEtnFJilA/aKJRbmYubDwto0AQR/atYTBNG8VtrjZlMV7H0X/w==
+X-Received: by 2002:a17:902:8d8f:b029:12d:3d2d:b043 with SMTP id
+ v15-20020a1709028d8fb029012d3d2db043mr2482725plo.77.1628752484064; 
+ Thu, 12 Aug 2021 00:14:44 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.241.160])
+ by smtp.googlemail.com with ESMTPSA id d18sm2270880pgk.24.2021.08.12.00.14.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 00:14:43 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/acpi: refactor acpi hp modules so that targets can just
+ use what they need
+Date: Thu, 12 Aug 2021 12:44:09 +0530
+Message-Id: <20210812071409.492299-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210811163211.185870-1-eperezma@redhat.com>
- <CACGkMEsP1QFh16qLDyXmPp4-NgLA-7HNZ7Far2sQqjr9rXoorw@mail.gmail.com>
- <CAJaqyWcZiosVZnpepsOWBPFTypmofQpaGHpaCPFmD5B5bvw2iA@mail.gmail.com>
-In-Reply-To: <CAJaqyWcZiosVZnpepsOWBPFTypmofQpaGHpaCPFmD5B5bvw2iA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 12 Aug 2021 14:45:14 +0800
-Message-ID: <CACGkMEsjTXRVWyU0DSfNXxArRkR-6uZQK4An_pjauSYfWFwEOw@mail.gmail.com>
-Subject: Re: [PATCH v2] vhost-vdpa: Do not send empty IOTLB update batches
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,202 +81,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ philmd@redhat.com, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 12, 2021 at 2:43 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Thu, Aug 12, 2021 at 8:16 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Thu, Aug 12, 2021 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.co=
-m> wrote:
-> > >
-> > > With the introduction of the batch hinting, meaningless batches can b=
-e
-> > > created with no IOTLB updates if the memory region was skipped by
-> > > vhost_vdpa_listener_skipped_section. This is the case of host notifie=
-rs
-> > > memory regions, device un/realize, and others. This causes the vdpa
-> > > device to receive dma mapping settings with no changes, a possibly
-> > > expensive operation for nothing.
-> > >
-> > > To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have =
-a
-> > > meaningful (not skipped section) mapping or unmapping operation, and
-> > > VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
-> > > _INVALIDATE has been issued.
-> > >
-> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > ---
-> > >  include/hw/virtio/vhost-vdpa.h |  1 +
-> > >  hw/virtio/vhost-vdpa.c         | 50 ++++++++++++++++++++++++++------=
---
-> > >  2 files changed, 39 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost=
--vdpa.h
-> > > index e98e327f12..6538572a6f 100644
-> > > --- a/include/hw/virtio/vhost-vdpa.h
-> > > +++ b/include/hw/virtio/vhost-vdpa.h
-> > > @@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
-> > >      int device_fd;
-> > >      int index;
-> > >      uint32_t msg_type;
-> > > +    size_t n_mr_updated;
-> > >      MemoryListener listener;
-> > >      struct vhost_dev *dev;
-> > >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > index 6ce94a1f4d..512fa18d68 100644
-> > > --- a/hw/virtio/vhost-vdpa.c
-> > > +++ b/hw/virtio/vhost-vdpa.c
-> > > @@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa=
- *v, hwaddr iova,
-> > >      return ret;
-> > >  }
-> > >
-> > > -static void vhost_vdpa_listener_begin(MemoryListener *listener)
-> > > +static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-> > >  {
-> > > -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdp=
-a, listener);
-> > > -    struct vhost_dev *dev =3D v->dev;
-> > > -    struct vhost_msg_v2 msg =3D {};
-> > >      int fd =3D v->device_fd;
-> > > -
-> > > -    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH)=
-)) {
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    msg.type =3D v->msg_type;
-> > > -    msg.iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN;
-> > > +    struct vhost_msg_v2 msg =3D {
-> > > +        .type =3D v->msg_type,
-> > > +        .iotlb.type =3D VHOST_IOTLB_BATCH_BEGIN,
-> > > +    };
-> > >
-> > >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> > >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > > @@ -109,6 +103,25 @@ static void vhost_vdpa_listener_begin(MemoryList=
-ener *listener)
-> > >      }
-> > >  }
-> > >
-> > > +static bool vhost_vdpa_iotlb_batch_is_started(const struct vhost_vdp=
-a *v)
-> > > +{
-> > > +    return v->n_mr_updated !=3D 0;
-> > > +}
-> > > +
-> > > +static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
-> > > +{
-> > > +    if (!vhost_vdpa_iotlb_batch_is_started(v)) {
-> > > +        vhost_vdpa_listener_begin_batch(v);
-> > > +    }
-> > > +
-> > > +    v->n_mr_updated++;
-> > > +}
-> > > +
-> > > +static void vhost_vdpa_iotlb_batch_reset(struct vhost_vdpa *v)
-> > > +{
-> > > +    v->n_mr_updated =3D 0;
-> > > +}
-> > > +
-> > >  static void vhost_vdpa_listener_commit(MemoryListener *listener)
-> > >  {
-> > >      struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdp=
-a, listener);
-> > > @@ -120,6 +133,10 @@ static void vhost_vdpa_listener_commit(MemoryLis=
-tener *listener)
-> > >          return;
-> > >      }
-> > >
-> > > +    if (vhost_vdpa_iotlb_batch_is_started(v)) {
-> > > +        return;
-> > > +    }
-> > > +
-> > >      msg.type =3D v->msg_type;
-> > >      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
-> > >
-> > > @@ -127,6 +144,8 @@ static void vhost_vdpa_listener_commit(MemoryList=
-ener *listener)
-> > >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > >                       fd, errno, strerror(errno));
-> > >      }
-> > > +
-> > > +    vhost_vdpa_iotlb_batch_reset(v);
-> > >  }
-> > >
-> > >  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-> > > @@ -170,6 +189,10 @@ static void vhost_vdpa_listener_region_add(Memor=
-yListener *listener,
-> > >
-> > >      llsize =3D int128_sub(llend, int128_make64(iova));
-> > >
-> > > +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH=
-)) {
-> >
-> > Let's move this in to vhost_vdpa_iotlb_batch_begin_once()?
-> >
->
-> Sure
->
-> > > +        vhost_vdpa_iotlb_batch_begin_once(v);
-> > > +    }
-> > > +
-> > >      ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> > >                               vaddr, section->readonly);
-> > >      if (ret) {
-> > > @@ -221,6 +244,10 @@ static void vhost_vdpa_listener_region_del(Memor=
-yListener *listener,
-> > >
-> > >      llsize =3D int128_sub(llend, int128_make64(iova));
-> > >
-> > > +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH=
-)) {
-> > > +        vhost_vdpa_iotlb_batch_begin_once(v);
-> > > +    }
-> > > +
-> >
-> > Do we need to check vhost_vdpa_iotlb_batch_is_started() in the .commit?
-> >
->
-> I don't follow you here. It's that comment in this position of the
-> patch for a reason?
->
-> That checking is the one that allows qemu to skip the IOTLB_END write.
+Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
+hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
+This brings in support for whole lot of subsystems that some targets like
+mips does not need. They are added just to satisfy symbol dependencies. This
+is ugly and should be avoided. Targets should be able to pull in just what they
+need and no more. For example, mips only needs support for PIIX4 and does not
+need acpi pci hotplug support or cpu hotplug support or memory hotplug support
+etc. This change is an effort to clean this up.
+In this change, new config variables are added for various acpi hotplug
+subsystems. Targets like mips can only enable PIIX4 support and not the rest
+of all the other modules which were being previously pulled in as a part of
+CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
+are not required by mips (for example, symbols specific to pci hotplug etc)
+are available to satisfy the dependencies.
 
-So it looks to me the BATCH_END will be sent unconditionally in this patch?
+Currently, this change only addresses issues with mips malta targets. In future
+we might be able to clean up other targets which are similarly pulling in lot
+of unnecessary hotplug modules by enabling ACPI_X86.
 
-If yes, will this become a problem?
+This change should also address issues such as the following:
+https://gitlab.com/qemu-project/qemu/-/issues/221
+https://gitlab.com/qemu-project/qemu/-/issues/193
 
-Thanks
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ configs/devices/mips-softmmu/common.mak |  5 +--
+ hw/acpi/Kconfig                         | 10 +++++
+ hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
+ hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
+ hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
+ hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
+ hw/acpi/meson.build                     | 14 +++++--
+ 7 files changed, 161 insertions(+), 8 deletions(-)
+ create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
+ create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
+ create mode 100644 hw/acpi/acpi-nvdimm-stub.c
+ create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
 
->
-> > Others look good.
-> >
-> > Thanks
-> >
-> > >      ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> > >      if (ret) {
-> > >          error_report("vhost_vdpa dma unmap error!");
-> > > @@ -234,7 +261,6 @@ static void vhost_vdpa_listener_region_del(Memory=
-Listener *listener,
-> > >   * depends on the addnop().
-> > >   */
-> > >  static const MemoryListener vhost_vdpa_memory_listener =3D {
-> > > -    .begin =3D vhost_vdpa_listener_begin,
-> > >      .commit =3D vhost_vdpa_listener_commit,
-> > >      .region_add =3D vhost_vdpa_listener_region_add,
-> > >      .region_del =3D vhost_vdpa_listener_region_del,
-> > > --
-> > > 2.27.0
-> > >
-> >
->
+diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+index ea78fe7275..752b62b1e6 100644
+--- a/configs/devices/mips-softmmu/common.mak
++++ b/configs/devices/mips-softmmu/common.mak
+@@ -18,10 +18,7 @@ CONFIG_PCSPK=y
+ CONFIG_PCKBD=y
+ CONFIG_FDC=y
+ CONFIG_ACPI=y
+-CONFIG_ACPI_X86=y
+-CONFIG_ACPI_MEMORY_HOTPLUG=y
+-CONFIG_ACPI_NVDIMM=y
+-CONFIG_ACPI_CPU_HOTPLUG=y
++CONFIG_ACPI_PIIX4=y
+ CONFIG_APM=y
+ CONFIG_I8257=y
+ CONFIG_PIIX4=y
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index cfc4ede8d9..3b5e118c54 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -8,6 +8,8 @@ config ACPI_X86
+     select ACPI_CPU_HOTPLUG
+     select ACPI_MEMORY_HOTPLUG
+     select ACPI_HMAT
++    select ACPI_PIIX4
++    select ACPI_PCIHP
+ 
+ config ACPI_X86_ICH
+     bool
+@@ -24,6 +26,14 @@ config ACPI_NVDIMM
+     bool
+     depends on ACPI
+ 
++config ACPI_PIIX4
++    bool
++    depends on ACPI
++
++config ACPI_PCIHP
++    bool
++    depends on ACPI
++
+ config ACPI_HMAT
+     bool
+     depends on ACPI
+diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
+new file mode 100644
+index 0000000000..3fc4b14c26
+--- /dev/null
++++ b/hw/acpi/acpi-cpu-hotplug-stub.c
+@@ -0,0 +1,50 @@
++#include "qemu/osdep.h"
++#include "hw/acpi/cpu_hotplug.h"
++#include "migration/vmstate.h"
++
++
++/* Following stubs are all related to ACPI cpu hotplug */
++const VMStateDescription vmstate_cpu_hotplug;
++
++void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
++                                CPUHotplugState *cpuhp_state,
++                                uint16_t io_port)
++{
++    return;
++}
++
++void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
++                                  AcpiCpuHotplug *gpe_cpu, uint16_t base)
++{
++    return;
++}
++
++void acpi_cpu_ospm_status(CPUHotplugState *cpu_st, ACPIOSTInfoList ***list)
++{
++    return;
++}
++
++void acpi_cpu_plug_cb(HotplugHandler *hotplug_dev,
++                      CPUHotplugState *cpu_st, DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev,
++                             AcpiCpuHotplug *g, DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_cpu_unplug_cb(CPUHotplugState *cpu_st,
++                        DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_cpu_unplug_request_cb(HotplugHandler *hotplug_dev,
++                                CPUHotplugState *cpu_st,
++                                DeviceState *dev, Error **errp)
++{
++    return;
++}
+diff --git a/hw/acpi/acpi-mem-hotplug-stub.c b/hw/acpi/acpi-mem-hotplug-stub.c
+new file mode 100644
+index 0000000000..73a076a265
+--- /dev/null
++++ b/hw/acpi/acpi-mem-hotplug-stub.c
+@@ -0,0 +1,35 @@
++#include "qemu/osdep.h"
++#include "hw/acpi/memory_hotplug.h"
++#include "migration/vmstate.h"
++
++const VMStateDescription vmstate_memory_hotplug;
++
++void acpi_memory_hotplug_init(MemoryRegion *as, Object *owner,
++                              MemHotplugState *state, hwaddr io_base)
++{
++    return;
++}
++
++void acpi_memory_ospm_status(MemHotplugState *mem_st, ACPIOSTInfoList ***list)
++{
++    return;
++}
++
++void acpi_memory_plug_cb(HotplugHandler *hotplug_dev, MemHotplugState *mem_st,
++                         DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_memory_unplug_cb(MemHotplugState *mem_st,
++                           DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_memory_unplug_request_cb(HotplugHandler *hotplug_dev,
++                                   MemHotplugState *mem_st,
++                                   DeviceState *dev, Error **errp)
++{
++    return;
++}
+diff --git a/hw/acpi/acpi-nvdimm-stub.c b/hw/acpi/acpi-nvdimm-stub.c
+new file mode 100644
+index 0000000000..8baff9be6f
+--- /dev/null
++++ b/hw/acpi/acpi-nvdimm-stub.c
+@@ -0,0 +1,8 @@
++#include "qemu/osdep.h"
++#include "hw/mem/nvdimm.h"
++#include "hw/hotplug.h"
++
++void nvdimm_acpi_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev)
++{
++    return;
++}
+diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+new file mode 100644
+index 0000000000..734e4c5986
+--- /dev/null
++++ b/hw/acpi/acpi-pci-hotplug-stub.c
+@@ -0,0 +1,47 @@
++#include "qemu/osdep.h"
++#include "hw/acpi/pcihp.h"
++#include "migration/vmstate.h"
++
++const VMStateDescription vmstate_acpi_pcihp_pci_status;
++
++void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
++                     MemoryRegion *address_space_io, bool bridges_enabled,
++                     uint16_t io_base)
++{
++    return;
++}
++
++void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
++                               DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
++                                   DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
++                                 DeviceState *dev, Error **errp)
++{
++    return;
++}
++
++void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
++                                         AcpiPciHpState *s, DeviceState *dev,
++                                         Error **errp)
++{
++    return;
++}
++
++void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
++{
++    return;
++}
++
++bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
++{
++    return false;
++}
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index 29f804d13e..7d8c0eb43e 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -6,16 +6,20 @@ acpi_ss.add(files(
+   'core.c',
+   'utils.c',
+ ))
+-acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
+-acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c', 'cpu_hotplug.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_false: files('acpi-cpu-hotplug-stub.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_false: files('acpi-mem-hotplug-stub.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_false: files('acpi-nvdimm-stub.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false: files('ghes-stub.c'))
+-acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_PIIX4', if_true: files('piix4.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug-stub.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+ acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+@@ -23,4 +27,6 @@ acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
+ softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
+ softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
+-                                                  'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c'))
++                                                  'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
++                                                  'acpi-mem-hotplug-stub.c', 'acpi-cpu-hotplug-stub.c',
++                                                  'acpi-pci-hotplug-stub.c', 'acpi-nvdimm-stub.c'))
+-- 
+2.25.1
 
 
