@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B273E9C1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 03:59:05 +0200 (CEST)
-Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B303E9C0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 03:51:46 +0200 (CEST)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mDzzs-0006xe-GJ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 21:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50028)
+	id 1mDzsn-0004A4-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Aug 2021 21:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDzxw-0005JW-9S; Wed, 11 Aug 2021 21:57:04 -0400
-Received: from ozlabs.org ([203.11.71.1]:51443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mDzxt-0002h5-M8; Wed, 11 Aug 2021 21:57:04 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GlVDT1SkZz9sXN; Thu, 12 Aug 2021 11:56:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1628733417;
- bh=4++UGjJ9vqNac2QaqclRadyvzb9JxTrfnQhHnHANmFc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=POHrJxxULWoJRHcTAP3wNAq9dyGNipZTEWsflLK/byZnsua9xwtdt1MlD8BXGyiLN
- O9/ZIclwL8yGoiC9WlvL6o3W13M1hYChZ/BqjZCEx2DbmqnSeH0oVB3T6uiF2TNXkh
- SVg1pNB7Y/N8Fvx/v4J+EoIgYOei6Qwj0dk8ppPE=
-Date: Thu, 12 Aug 2021 11:44:03 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 15/19] target/ppc/pmu_book3s_helper: enable counter
- negative for all PMCs
-Message-ID: <YRR84+X7QvS6K9bV@yekko>
-References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-16-danielhb413@gmail.com>
- <YRH8dz8SLDFWTe1m@yekko>
- <9fd156de-d882-9a6e-508d-392944a1bf70@gmail.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mDzrG-0003Fy-4c; Wed, 11 Aug 2021 21:50:10 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:34489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mDzrE-0006Dq-MA; Wed, 11 Aug 2021 21:50:09 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id a93so8539340ybi.1;
+ Wed, 11 Aug 2021 18:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=effbWKpzm7BzOABnJ82MnLshCA8/xfFegnLDOCOTUwg=;
+ b=he94cOQzGWUzaK04WVGfdtJ+ZoKSNoNfPv+e+egHxwcCWLaTnBUbXjO8FWD0XZDLSK
+ cCpK5iCnJCK5+7AynGMOuEvKxrI7YmI6dgDCoM56yEM9z+/4bFNSTdlKlzaaq5mKfYtF
+ gyO12sdLeBGXPm8R69ui/lznY2i7Fz6UoJPaKnD/ZdzByK0emGn7Qcq3083VKw1CWrl/
+ Rur081ivoznNWrPBHkgh1QjO2FEO8mrMMR/5cFzwKVsrz4zymI46bBQzY3B9TcId7UOk
+ rHgFf+CYiQz746k1WW1ofVIKeaRfQAD29JuQ1y4zuv3tUK4JYLtXZeiWDQgNwi4lfdUR
+ GEWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=effbWKpzm7BzOABnJ82MnLshCA8/xfFegnLDOCOTUwg=;
+ b=LSjcZLKB8F49fqTMuYaIVJ79+jpeLakgHory1cLLlvEzZnLQD35bTamzHSSNuGkf0R
+ itGDAlkIflXy+YT/18DALaNa3NLTQfxLU+YoCbVy0EyvCdmonRAzvt9EY31h+TSBKqZs
+ VYZWvRvItmhypl1nNQlDlbMYEBMLK+f0pMv5SavMpSaR5386Kh9wQeSOCvRQAaGYMwLK
+ b78YqXMEG6mS2fa/XuvygczIKE1VVvEo0bJHJil3D/iFdle+uwsIeAUBY5VC85tcJtsa
+ wOyO8AmWjx2IuRyOQpzhkOvMCwwvf/mjEWFYA5Ajn4EOYEKBi3vEjJPAc0PcEm4KnaE+
+ GeaA==
+X-Gm-Message-State: AOAM530fMxEmYbj8g0R63EI4ZMbHv68zUL4f6ILuRKHn6mPVCQVtTYZo
+ uA78WO+3TuY8qHKDWIt1enkXYzuhjKXZVbNVjqA=
+X-Google-Smtp-Source: ABdhPJwAp66qEV4R0Mdq/jQfgwUuofX/jGgYH3i6gmbuamO9Ai84kmzvCWnsWT3Tt/GJtZ3gYXIPcDVnhvMBF8vuJ94=
+X-Received: by 2002:a25:6c04:: with SMTP id h4mr1265749ybc.122.1628733006939; 
+ Wed, 11 Aug 2021 18:50:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Cqe825PV9TwTXRtK"
-Content-Disposition: inline
-In-Reply-To: <9fd156de-d882-9a6e-508d-392944a1bf70@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210811144612.68674-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210811144612.68674-1-zhiwei_liu@c-sky.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 12 Aug 2021 09:49:56 +0800
+Message-ID: <CAEUhbmVK32k271Z6gjFV8yMPFng6OoAvjfNXeR6fv4zMMoBYdg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Don't wrongly override isa version
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,219 +74,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 11, 2021 at 10:46 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> For some cpu, the isa version has already been set in cpu init function.
+> Thus only override the isa version when isa version is not set, or
+> users set different isa version explicitly by cpu parameters.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
 
---Cqe825PV9TwTXRtK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please include a changelog in the newer version in the future.
 
-On Tue, Aug 10, 2021 at 06:02:41PM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 8/10/21 1:11 AM, David Gibson wrote:
-> > On Mon, Aug 09, 2021 at 10:10:53AM -0300, Daniel Henrique Barboza wrote:
-> > > All performance monitor counters can trigger a counter negative
-> > > condition if the proper MMCR0 bits are set. This patch does that by
-> > > doing the following:
-> > >=20
-> > > - pmc_counter_negative_enabled() will check whether a given PMC is
-> > > eligible to trigger the counter negative alert;
-> > >=20
-> > > - get_counter_neg_timeout() will return the timeout for the counter
-> > > negative condition for a given PMC, or -1 if the PMC is not able to
-> > > trigger this alert;
-> > >=20
-> > > - the existing counter_negative_cond_enabled() now must consider the
-> > > counter negative bit for PMCs 2-6, MMCR0_PMCjCE;
-> > >=20
-> > > - set_PMU_excp_timer() will now search all existing PMCs for the
-> > > shortest counter negative timeout. The shortest timeout will be used =
-to
-> > > set the PMC interrupt timer.
-> > >=20
-> > > This change makes most EBB powepc kernel tests pass, validating that =
-the
-> > > existing EBB logic is consistent. There are a few tests that aren't p=
-assing
-> > > due to additional PMU bits and perf events that aren't covered yet.
-> > > We'll attempt to cover some of those in the next patches.
-> > >=20
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > ---
-> > >   target/ppc/cpu.h               |  1 +
-> > >   target/ppc/pmu_book3s_helper.c | 96 ++++++++++++++++++++++++++++++-=
----
-> > >   2 files changed, 87 insertions(+), 10 deletions(-)
-> > >=20
-> > > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> > > index 5c81d459f4..1aa1fd42af 100644
-> > > --- a/target/ppc/cpu.h
-> > > +++ b/target/ppc/cpu.h
-> > > @@ -351,6 +351,7 @@ typedef struct ppc_v3_pate_t {
-> > >   #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Ev=
-ent */
-> > >   #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
-> > >   #define MMCR0_PMC1CE PPC_BIT(48)
-> > > +#define MMCR0_PMCjCE PPC_BIT(49)
-> > >   #define MMCR1_PMC1SEL_SHIFT (63 - 39)
-> > >   #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
-> > > diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book3s_h=
-elper.c
-> > > index 7126e9b3d5..c5c5ab38c9 100644
-> > > --- a/target/ppc/pmu_book3s_helper.c
-> > > +++ b/target/ppc/pmu_book3s_helper.c
-> > > @@ -143,22 +143,98 @@ static int64_t get_CYC_timeout(CPUPPCState *env=
-, int sprn)
-> > >       return muldiv64(remaining_cyc, NANOSECONDS_PER_SECOND, PPC_CPU_=
-FREQ);
-> > >   }
-> > > -static void set_PMU_excp_timer(CPUPPCState *env)
-> > > +static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
-> > >   {
-> > > -    uint64_t timeout, now;
-> > > +    switch (sprn) {
-> > > +    case SPR_POWER_PMC1:
-> > > +        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
-> > > -    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
-> > > -        return;
-> > > +    case SPR_POWER_PMC2:
-> > > +    case SPR_POWER_PMC3:
-> > > +    case SPR_POWER_PMC4:
-> > > +    case SPR_POWER_PMC5:
-> > > +    case SPR_POWER_PMC6:
-> > > +        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
-> > > +
-> > > +    default:
-> > > +        break;
-> > >       }
-> > > -    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
-> > > -    case 0x2:
-> > > -        timeout =3D get_INST_CMPL_timeout(env, SPR_POWER_PMC1);
-> > > +    return false;
-> > > +}
-> > > +
-> > > +static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
-> > > +{
-> > > +    int64_t timeout =3D -1;
-> > > +
-> > > +    if (!pmc_counter_negative_enabled(env, sprn)) {
-> > > +        return -1;
-> > > +    }
-> > > +
-> > > +    if (env->spr[sprn] >=3D COUNTER_NEGATIVE_VAL) {
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    switch (sprn) {
-> > > +    case SPR_POWER_PMC1:
-> > > +    case SPR_POWER_PMC2:
-> > > +    case SPR_POWER_PMC3:
-> > > +    case SPR_POWER_PMC4:
-> > > +        switch (get_PMC_event(env, sprn)) {
-> > > +        case 0x2:
-> > > +            timeout =3D get_INST_CMPL_timeout(env, sprn);
-> > > +            break;
-> > > +        case 0x1E:
-> > > +            timeout =3D get_CYC_timeout(env, sprn);
-> > > +            break;
-> > > +        }
-> > > +
-> > >           break;
-> > > -    case 0x1e:
-> > > -        timeout =3D get_CYC_timeout(env, SPR_POWER_PMC1);
-> > > +    case SPR_POWER_PMC5:
-> > > +        timeout =3D get_INST_CMPL_timeout(env, sprn);
-> > > +        break;
-> > > +    case SPR_POWER_PMC6:
-> > > +        timeout =3D get_CYC_timeout(env, sprn);
-> > >           break;
-> > >       default:
-> > > +        break;
-> > > +    }
-> > > +
-> > > +    return timeout;
-> > > +}
-> > > +
-> > > +static void set_PMU_excp_timer(CPUPPCState *env)
-> > > +{
-> > > +    int64_t timeout =3D -1;
-> > > +    uint64_t now;
-> > > +    int i;
-> > > +
-> > > +    /*
-> > > +     * Scroll through all PMCs and check which one is closer to a
-> > > +     * counter negative timeout.
-> >=20
-> > I'm wondering if it would be simpler to use a separate timer for each
-> > PMC: after all the core timer logic must have already implemented this
-> > "who fires first" logic.
->=20
-> The first draft had 6 timers, one for each PMC. It would make this step to
-> determine the lowest timeout unnecessary.
->=20
-> I gave it up because we would need to pause the running timers of the oth=
-er
-> PMCs when the PPC_INTERRUPT_PMC happens with MMCR0_FCECE (frozen counters=
- on
-> Enabled Condition or Event) set. Resuming the timers back would require to
-> update the PMCs (which would now have different icount_bases).
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 991a6bb760..1a2b03d579 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -392,9 +392,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>      RISCVCPU *cpu = RISCV_CPU(dev);
+>      CPURISCVState *env = &cpu->env;
+>      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+> -    int priv_version = PRIV_VERSION_1_11_0;
+> -    int bext_version = BEXT_VERSION_0_93_0;
+> -    int vext_version = VEXT_VERSION_0_07_1;
+> +    int priv_version = 0;
+>      target_ulong target_misa = env->misa;
+>      Error *local_err = NULL;
+>
+> @@ -417,9 +415,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          }
+>      }
+>
+> -    set_priv_version(env, priv_version);
+> -    set_bext_version(env, bext_version);
+> -    set_vext_version(env, vext_version);
+> +    if (priv_version) {
+> +        set_priv_version(env, priv_version);
+> +    } else if (!env->priv_ver) {
+> +        set_priv_version(env, PRIV_VERSION_1_11_0);
+> +    }
+>
+>      if (cpu->cfg.mmu) {
+>          set_feature(env, RISCV_FEATURE_MMU);
+> @@ -497,6 +497,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              target_misa |= RVH;
+>          }
+>          if (cpu->cfg.ext_b) {
+> +            int bext_version = BEXT_VERSION_0_93_0;
+>              target_misa |= RVB;
+>
+>              if (cpu->cfg.bext_spec) {
+> @@ -515,6 +516,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              set_bext_version(env, bext_version);
+>          }
+>          if (cpu->cfg.ext_v) {
+> +            int vext_version = VEXT_VERSION_0_07_1;
+>              target_misa |= RVV;
+>              if (!is_power_of_2(cpu->cfg.vlen)) {
+>                  error_setg(errp,
+> --
 
-Ok, that makes sense.  Might be worth putting some of that rationale
-into a comment.
-
-> For our current usage this single timer approach seems less complicated. =
-And
-> the ISA allows for multiple/concurrent overflows to be reported at the sa=
-me
-> alert:
->=20
-> "An enabled condition or event causes a Perfor-
-> mance Monitor alert if Performance Monitor alerts
-> are enabled by the corresponding =E2=80=9CEnable=E2=80=9D bit in
-> MMCR0. (..) A single Performance Monitor alert may
-> reflect multiple enabled conditions and events."
->=20
-> So a single timer can report more than one c.n. overflows that might happ=
-en
-> at the same time. E.g. in this timeout logic below, if PMC1 is already
-> overflown, we will trigger the PMC interrupt. Since we're updating all
-> PMCs, if more counters are also overflown the application can read them
-> all in the same interrupt/exception.
-
-Uh.. sure.. but I think you could implement that by sharing the
-interrupt latch regardless of whether there are separate counters or
-not.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Cqe825PV9TwTXRtK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEUfOMACgkQbDjKyiDZ
-s5KDtg//S/bWOZP/eJmlnctFHGz67GKMAvFjcdnQYvjM5E2leJAHTXiqh86iANPv
-CtE07U/E8lGWVu+AXopswy/e6xLsqlIxvAdvAqdGbPM7F+ptZVTKRsqQunBcVNz1
-MN47EaK6ptUc5lmuvD8Iw4rBdg9Sq9lFEorx5/XbbcIzsPVSlKKE6QAup7cmyj8l
-Hpbmf8rNZGfCJnMDgNi3hZ0WTEotYDpabQWdfxdNEsz+P629g6cKzD2025hC0cr5
-CwUfq9nYf1IbkBqGmN0ony+euMU2WEMRtZTDEkzGrKUe4iIW0I2FCxnRF3GQ9mG5
-krnOlXnSd8bJJ8+eKmSY8MduseHBZdSZ/cDXy+aUFTpfMrFOXQXbBHTWUkwJ+uaS
-9bkTJpWj8sz6qGu3gicWqAxVzZ38ko0dkVzdngOU13L9TiN8Zd6BCtM7DeGh9Aor
-YTvCqkf/JHlSRPp/cr0LjBd7nK1w2BiEC7wqVbsjDR4RW78tLD4z31PqiMJR/onm
-yK16WiOtUYDR9V2MnsLpGyzz14wKX2oXvQEgpSuRISh0mWMty7FeCZMnKYjiPgCt
-rbe7+cIhxC9t4FlQGpUZeP3HvhbpKgaoMqE4Ht+vD6bbP3KPesbw5nfxjyumy66A
-EIXSk9LhlgJbqK6FfmXVhzPJjzXgKmQ6pHuO7gEpOwV4ScSn49A=
-=63xx
------END PGP SIGNATURE-----
-
---Cqe825PV9TwTXRtK--
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
