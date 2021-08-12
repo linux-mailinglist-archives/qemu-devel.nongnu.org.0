@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8623A3EA277
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:49:38 +0200 (CEST)
-Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9273EA241
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 11:44:14 +0200 (CEST)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE7LF-0007HG-J1
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
+	id 1mE7G1-0001GU-OA
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 05:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE76Y-0006AT-GJ
+ id 1mE76Y-00068Q-0C
  for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:26 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40643)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mE76S-00082i-Km
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:26 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k29so7338411wrd.7
+ id 1mE76T-00083l-AV
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 05:34:25 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l34-20020a05600c1d22b02902573c214807so6605107wms.2
  for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 02:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yxHixJ6WSk35tVi/GCaYOMNr6wprUi4sMKeyCo0OWKc=;
- b=HJhcN6LoqGzTv1EiUyCS3/QMXND98SVx0VhaXSAz1vXtB2TlDYYFBDgvYkTF+H5YGH
- RGRlXw5Q+qmg7QC50QSUPy3plfPS+G3KMDK2FtNP1S8FcPshi3BOmH3r1HCp+4LTrTJO
- fbhxbmJmBC2E2+f18W0rLt4IsTGEORyfh6MFx5U1yW86CSdhDXAfBgDL2bdkVel7WuE9
- 47EkjFcbEDPsS8TVqHHcra3yqLBEr/Jd1Run8saPpsvGEQWD+YOCfq77++AB8SOhL4lT
- JfYNi7qPO1OuJZcML8hGCwfnRS+j/Cf5VgIFGLKFM6uTfr2GuRIS5SVPWKdeXzF8nndl
- 6f0A==
+ bh=S85mczGKeYB6Z3kjaTFVhQoQPK+mNif0lbrV6vtdZ2g=;
+ b=A+niVkl7heApCx6WM+MSahWmhsNtnl/zzMMWg1nez2HXFsT13hGVvdF9Icp/kxXqF3
+ x9W5AcMHV1fDHha3H+nDScX4Kr3vI2NAvx7xTVGSjfZg/S7COAcPLD5mSIInXmqRL7OA
+ 5nzn5xJvfbq8r6iR01HUtQPg0XjHfYrMUpxliOQynPGj7upG+3ClBjslku5/7BD69Zwq
+ CoL3dgBpxIzFG0k+c235ZTwOKM/GYDjkate8beJ7TwJghjRkWsrlYdYfJbUWrFqINlkP
+ z1tvAxzlPAjH6MgyvzHaoC3O6xj1omZCPi7kZdaJM0FvWczfWrdw7SvDbTYP41576mRh
+ b/2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yxHixJ6WSk35tVi/GCaYOMNr6wprUi4sMKeyCo0OWKc=;
- b=IZtZ9DcHSsJX7fwjtA9IX7gyQbOm9FFAMYud+4gRsq6sNR7A1Ni+rCjttu/9orlNyl
- 1rwdPslguYpS7aHJqDrc0GBt++5RmZoSKkSO9sKPGh3qfr1lcrl8rczCGDMS31A0rsVp
- Sx0T6s81JHu3/03S+MChLE89xxC9lixft50kq9W74/SsFc6MVXhr371MPei/iCwwdrKy
- 9f+vNok0TG/0Q9ZHUKAlh+Qt7O67t9lyEKTFQLFhLm9/taXVlFonJXvOCB4A1LETShhJ
- Y14H1StbPDsRWHprwc7qFMphv684Lk9pbBhkjC2YjsV/n4lCbhlj5H5nWjjLamNCRBAc
- NRzg==
-X-Gm-Message-State: AOAM532iOSzSJ1fB5jQvib5g+uOv94ylYokarANevvlr6ZiDf3yOfZ8x
- 9fguqkSanShDJvxrosdogPBtVKlPgvAr5g==
-X-Google-Smtp-Source: ABdhPJx/HiZFf84MKUMR9oW5yORJyJHIrRXCzYPc9mx9QsWBb6GIQxh/cvalD/36GO2rMjU60qZTFQ==
-X-Received: by 2002:a5d:4d8e:: with SMTP id b14mr2867938wru.422.1628760859103; 
+ bh=S85mczGKeYB6Z3kjaTFVhQoQPK+mNif0lbrV6vtdZ2g=;
+ b=doCxioYRLL5oLz4uhxf1K7jRbE8lzlLNT6h45dBhi7ANyEEU5CDcMlolhxIsU5xNBD
+ jbL8LR6W9v99gZN9a1R0niH4tCmKxN2CpkvMpnmYdnndv8Jb1LwbgRirG/BFKTuBqC4e
+ MptvI/SmkpHJVV2xN5seorPV7qTNlB5sR1JzHEs0VwzdC7aq/eC5LMnR2SR+CV+LUU3n
+ asQ9BORZ8cj/ioK9qud7B8JrGlTm6YcnAT3gdFrySsgCJ4FqyMkAJCMoCLT2QfXDwPXl
+ NqlzgFAGETQHCfRBfh7yTPGnjj3lGE6V1LPpcoNmeae9Cl8trwlEkIvbjqP8wSKrwDSd
+ pAZg==
+X-Gm-Message-State: AOAM531Jzy3VWNuySo3o0TaH5M+f+4TYX48uYr4yXcaf5lTDohyUl9ss
+ uznYfLYxuG+99z/O3BhrWJSlgg==
+X-Google-Smtp-Source: ABdhPJz6+xlg0KILbQe1/2JdIkwBzer8iw9QlwHhD1FHhXQlcGw1f/qvRQcP9GpN4zvhQ9zYzdx84w==
+X-Received: by 2002:a05:600c:a49:: with SMTP id
+ c9mr13057935wmq.159.1628760859973; 
  Thu, 12 Aug 2021 02:34:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.34.18
+ by smtp.gmail.com with ESMTPSA id l38sm8158506wmp.15.2021.08.12.02.34.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 02:34:18 -0700 (PDT)
+ Thu, 12 Aug 2021 02:34:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 21/25] hw/timer/armv7m_systick: Use clock inputs
- instead of system_clock_scale
-Date: Thu, 12 Aug 2021 10:33:52 +0100
-Message-Id: <20210812093356.1946-22-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 22/25] hw/arm/stellaris: Fix code style issues in GPTM
+ code
+Date: Thu, 12 Aug 2021 10:33:53 +0100
+Message-Id: <20210812093356.1946-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210812093356.1946-1-peter.maydell@linaro.org>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
 X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,203 +92,48 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all users of the systick devices wire up the clock inputs,
-use those instead of the system_clock_scale and the hardwired 1MHz
-value for the reference clock.
-
-This will fix various board models where we were incorrectly
-providing a 1MHz reference clock instead of some other value or
-instead of providing no reference clock at all.
+Fix the code style issues in the Stellaris general purpose timer
+module code, so that when we move it to a different file in a
+following patch checkpatch doesn't complain.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/armv7m_systick.c | 110 ++++++++++++++++++++++++++++----------
- 1 file changed, 82 insertions(+), 28 deletions(-)
+ hw/arm/stellaris.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index e43f74114e8..39cca206cfd 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -18,25 +18,29 @@
- #include "qemu/timer.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "trace.h"
- 
--/* qemu timers run at 1GHz.   We want something closer to 1MHz.  */
--#define SYSTICK_SCALE 1000ULL
--
- #define SYSTICK_ENABLE    (1 << 0)
- #define SYSTICK_TICKINT   (1 << 1)
- #define SYSTICK_CLKSOURCE (1 << 2)
- #define SYSTICK_COUNTFLAG (1 << 16)
- 
-+#define SYSCALIB_NOREF (1U << 31)
-+#define SYSCALIB_SKEW (1U << 30)
-+
- int system_clock_scale;
- 
--/* Conversion factor from qemu timer to SysTick frequencies.  */
--static inline int64_t systick_scale(SysTickState *s)
-+static void systick_set_period_from_clock(SysTickState *s)
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index 8c8bd39e2fe..a32c567ce11 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -97,10 +97,11 @@ static void gptm_stop(gptm_state *s, int n)
+ static void gptm_reload(gptm_state *s, int n, int reset)
  {
+     int64_t tick;
+-    if (reset)
++    if (reset) {
+         tick = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    else
++    } else {
+         tick = s->tick[n];
++    }
+ 
+     if (s->config == 0) {
+         /* 32-bit CountDown.  */
+@@ -227,9 +228,11 @@ static void gptm_write(void *opaque, hwaddr offset,
+     gptm_state *s = (gptm_state *)opaque;
+     uint32_t oldval;
+ 
+-    /* The timers should be disabled before changing the configuration.
+-       We take advantage of this and defer everything until the timer
+-       is enabled.  */
 +    /*
-+     * Set the ptimer period from whichever clock is selected.
-+     * Must be called from within a ptimer transaction block.
++     * The timers should be disabled before changing the configuration.
++     * We take advantage of this and defer everything until the timer
++     * is enabled.
 +     */
-     if (s->control & SYSTICK_CLKSOURCE) {
--        return system_clock_scale;
-+        ptimer_set_period_from_clock(s->ptimer, s->cpuclk, 1);
-     } else {
--        return 1000;
-+        ptimer_set_period_from_clock(s->ptimer, s->refclk, 1);
-     }
- }
- 
-@@ -83,7 +87,27 @@ static MemTxResult systick_read(void *opaque, hwaddr addr, uint64_t *data,
-         val = ptimer_get_count(s->ptimer);
-         break;
-     case 0xc: /* SysTick Calibration Value.  */
--        val = 10000;
-+        /*
-+         * In real hardware it is possible to make this register report
-+         * a different value from what the reference clock is actually
-+         * running at. We don't model that (which usually happens due
-+         * to integration errors in the real hardware) and instead always
-+         * report the theoretical correct value as described in the
-+         * knowledgebase article at
-+         * https://developer.arm.com/documentation/ka001325/latest
-+         * If necessary, we could implement an extra QOM property on this
-+         * device to force the STCALIB value to something different from
-+         * the "correct" value.
-+         */
-+        if (!clock_has_source(s->refclk)) {
-+            val = SYSCALIB_NOREF;
-+            break;
-+        }
-+        val = clock_ns_to_ticks(s->refclk, 10 * SCALE_MS) - 1;
-+        if (clock_ticks_to_ns(s->refclk, val + 1) != 10 * SCALE_MS) {
-+            /* report that tick count does not yield exactly 10ms */
-+            val |= SYSCALIB_SKEW;
-+        }
-         break;
-     default:
-         val = 0;
-@@ -115,6 +139,11 @@ static MemTxResult systick_write(void *opaque, hwaddr addr,
-     {
-         uint32_t oldval;
- 
-+        if (!clock_has_source(s->refclk)) {
-+            /* This bit is always 1 if there is no external refclk */
-+            value |= SYSTICK_CLKSOURCE;
-+        }
-+
-         ptimer_transaction_begin(s->ptimer);
-         oldval = s->control;
-         s->control &= 0xfffffff8;
-@@ -122,19 +151,14 @@ static MemTxResult systick_write(void *opaque, hwaddr addr,
- 
-         if ((oldval ^ value) & SYSTICK_ENABLE) {
-             if (value & SYSTICK_ENABLE) {
--                /*
--                 * Always reload the period in case board code has
--                 * changed system_clock_scale. If we ever replace that
--                 * global with a more sensible API then we might be able
--                 * to set the period only when it actually changes.
--                 */
--                ptimer_set_period(s->ptimer, systick_scale(s));
-                 ptimer_run(s->ptimer, 0);
-             } else {
-                 ptimer_stop(s->ptimer);
-             }
--        } else if ((oldval ^ value) & SYSTICK_CLKSOURCE) {
--            ptimer_set_period(s->ptimer, systick_scale(s));
-+        }
-+
-+        if ((oldval ^ value) & SYSTICK_CLKSOURCE) {
-+            systick_set_period_from_clock(s);
-         }
-         ptimer_transaction_commit(s->ptimer);
-         break;
-@@ -177,20 +201,42 @@ static void systick_reset(DeviceState *dev)
- {
-     SysTickState *s = SYSTICK(dev);
- 
--    /*
--     * Forgetting to set system_clock_scale is always a board code
--     * bug. We can't check this earlier because for some boards
--     * (like stellaris) it is not yet configured at the point where
--     * the systick device is realized.
--     */
--    assert(system_clock_scale != 0);
--
-     ptimer_transaction_begin(s->ptimer);
-     s->control = 0;
-+    if (!clock_has_source(s->refclk)) {
-+        /* This bit is always 1 if there is no external refclk */
-+        s->control |= SYSTICK_CLKSOURCE;
-+    }
-     ptimer_stop(s->ptimer);
-     ptimer_set_count(s->ptimer, 0);
-     ptimer_set_limit(s->ptimer, 0, 0);
--    ptimer_set_period(s->ptimer, systick_scale(s));
-+    systick_set_period_from_clock(s);
-+    ptimer_transaction_commit(s->ptimer);
-+}
-+
-+static void systick_cpuclk_update(void *opaque, ClockEvent event)
-+{
-+    SysTickState *s = SYSTICK(opaque);
-+
-+    if (!(s->control & SYSTICK_CLKSOURCE)) {
-+        /* currently using refclk, we can ignore cpuclk changes */
-+    }
-+
-+    ptimer_transaction_begin(s->ptimer);
-+    ptimer_set_period_from_clock(s->ptimer, s->cpuclk, 1);
-+    ptimer_transaction_commit(s->ptimer);
-+}
-+
-+static void systick_refclk_update(void *opaque, ClockEvent event)
-+{
-+    SysTickState *s = SYSTICK(opaque);
-+
-+    if (s->control & SYSTICK_CLKSOURCE) {
-+        /* currently using cpuclk, we can ignore refclk changes */
-+    }
-+
-+    ptimer_transaction_begin(s->ptimer);
-+    ptimer_set_period_from_clock(s->ptimer, s->refclk, 1);
-     ptimer_transaction_commit(s->ptimer);
- }
- 
-@@ -203,8 +249,10 @@ static void systick_instance_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->irq);
- 
--    s->refclk = qdev_init_clock_in(DEVICE(obj), "refclk", NULL, NULL, 0);
--    s->cpuclk = qdev_init_clock_in(DEVICE(obj), "cpuclk", NULL, NULL, 0);
-+    s->refclk = qdev_init_clock_in(DEVICE(obj), "refclk",
-+                                   systick_refclk_update, s, ClockUpdate);
-+    s->cpuclk = qdev_init_clock_in(DEVICE(obj), "cpuclk",
-+                                   systick_cpuclk_update, s, ClockUpdate);
- }
- 
- static void systick_realize(DeviceState *dev, Error **errp)
-@@ -215,6 +263,12 @@ static void systick_realize(DeviceState *dev, Error **errp)
-                             PTIMER_POLICY_NO_COUNTER_ROUND_DOWN |
-                             PTIMER_POLICY_NO_IMMEDIATE_RELOAD |
-                             PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT);
-+
-+    if (!clock_has_source(s->cpuclk)) {
-+        error_setg(errp, "systick: cpuclk must be connected");
-+        return;
-+    }
-+    /* It's OK not to connect the refclk */
- }
- 
- static const VMStateDescription vmstate_systick = {
+     switch (offset) {
+     case 0x00: /* CFG */
+         s->config = value;
 -- 
 2.20.1
 
