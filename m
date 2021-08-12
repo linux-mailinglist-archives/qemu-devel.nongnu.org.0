@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C683EA331
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 12:56:41 +0200 (CEST)
-Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEC33EA349
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 13:07:29 +0200 (CEST)
+Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE8O8-0006O3-AY
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 06:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35378)
+	id 1mE8Ya-0001WO-IC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 07:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mE8NG-0005h6-Aa
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 06:55:46 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53020)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mE8XZ-0000nq-HZ
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:06:25 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mE8NE-000238-Ry
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 06:55:46 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id f10so1040258wml.2
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 03:55:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mE8XX-0002n2-Q8
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 07:06:25 -0400
+Received: by mail-ej1-x634.google.com with SMTP id b15so10730997ejg.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 04:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=NAEUbJA/XQbOehGBFm3+ttdw65Lt6iRzkZ50l7YwxhQ=;
- b=wxEXJvlf1Lhn003WXN6mcOQXP2uu/dFzHC9rtBL0m6IG92rr5iQIRk1Ux5Z0KYpe+5
- +zz9O2TYnkkQ1ePBwKIBJGD1r3UnJChNQIxGrJnVvZyKnvzYSYY7cksdqEtqaSSxkFvx
- 7tpEBGknEhmocwgkBYGuUl8CluSuKPZawWpJKZ3Nm7XuqM7eUnPT3tiCT18uINhWW1L0
- wSVCaEwnygY10ihKNddDMx2dCFQuKUvEPuEGixqTLaZYl+wwXVWkHTOsopktLprpbd/i
- T/8kPg9f7s/SdWPXbcsJqyGJ56Wc+q1wjmK3odru8cBZdVW0d1r407Wkz31sd0cevkWC
- Cu0A==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=PoQ+GEcJexW9ooL3MkvbRJkyTJ6aVSrfEyfl+Y4bCv4=;
+ b=uibDLYHg5Z4T1VKpMfuGxCKBGZ9Y6BO+V6kkDOLWieveojWlklP2b2MnsYXtMm5bHc
+ hr9oLlgN+SDpC+0B2i/Ez2Vrwz9fvEYd2Eah7Le1RKyL0BPoWhhXQpuLLiJu/5Abh0Is
+ w+pd3wCiLnPjYskTsAlQ4tCjh1p6UKsEPy6jVUY2kIzZztaOKOrwpDT6CJ29YWZNezne
+ oDIjN+4ksbjuvYF+zlzka4dOaicEkOKDdZVtQd6OC337CHoZvpjL0nZbJgLoOYNH6Jgh
+ T4qJz7PjhQs9ou/mSIu3KtqjDMmjG01K2GbPZKfHxrTXelQJyCtWL9xUuhDVhvumkFWU
+ n+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=NAEUbJA/XQbOehGBFm3+ttdw65Lt6iRzkZ50l7YwxhQ=;
- b=kidkGhsevBVAzjTG0n+muNLTkfR7C8o503p0Wx2uqevNSWvo+bqtpsEaDr8eb59PcM
- FwqTUjPwlWxKG/Y0mVNCOB3Ev86YSujCY3FibJhncWggKbPk3bMfUQ6aUwlhjPq9dD9j
- WIq0yuPsfAoxY7HwySEhVRo1cwuaYFUbhCU9UUkhoI82iIeQdbyPBznzTELIYw1rmKBX
- +bF2a1iNT/ttYsUlXY5bXbJ+WL03yUlKxt3WDr349lVSscaNuMQ/ZAtZuF80YlVRCjEw
- T9M/YxmURqaLnH9Q7vhF32i5OL+sxievq6B3pH4hG7ZkhB6s6VYUZFDkKLsGVpJU09xI
- OYDA==
-X-Gm-Message-State: AOAM5328WIOeQnbKIMTSQLJhiDbdj376vmJ/o/SkGe9JD01oa1RXXr2G
- HrmiQu4YIpBRft/QZL4PBRVNew==
-X-Google-Smtp-Source: ABdhPJwJ0AgDjgpvTMKaime0Zb1A08ihyujwMgH0i7SD35457gyNA2BgNPAPiP5iJzRtmVmhoWQstw==
-X-Received: by 2002:a1c:cc1a:: with SMTP id h26mr3318031wmb.47.1628765742760; 
- Thu, 12 Aug 2021 03:55:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h9sm2551963wrv.84.2021.08.12.03.55.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 03:55:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 889D31FF96;
- Thu, 12 Aug 2021 11:55:40 +0100 (BST)
-References: <20210809164559.66638-1-ma.mandourr@gmail.com>
-User-agent: mu4e 1.6.2; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v3] blog: add a post for the new TCG cache modelling plugin
-Date: Thu, 12 Aug 2021 11:55:34 +0100
-In-reply-to: <20210809164559.66638-1-ma.mandourr@gmail.com>
-Message-ID: <8735rf6ifn.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=PoQ+GEcJexW9ooL3MkvbRJkyTJ6aVSrfEyfl+Y4bCv4=;
+ b=oFMLh/AUUV8uc47rMJiT6NyD+TjFtr8vHB3QbMkX179/xiR6H8qObMSzKNGM7bH5nB
+ F7vvm+Vr3/00k6kPtPnBGEEDK59tgnfoyx8Ls2wd4RcDEvNebBwfr+FF3gwkF+CAOKj+
+ rbnk5RFNgnB2f1hxnRy4qgTkRva9PHqluKrhKlFfDdlWv3ONsSVoYzXz+mLl907AHkn5
+ +E4oPOYBFOiI2vtWA2b+Rtj4hEFDXLkKgwgqGwawQYxjsYDbvxPMh6RezkZanyXLlNDq
+ KJnlHEmerBtZ6Xso1fetxPoGdQ2uX32XdBAnBR+ivpE54DSMdf/noHxV9KVxpz2fogBs
+ qBCQ==
+X-Gm-Message-State: AOAM531w8iYHG9V6Br0BQAqK4K3QS6aDG0ndbYpBWW37OFN3svXKP7BE
+ 7ZiFeXUwREjvdAKjRginnB1hxXqKoKmzr0w/E0lX57RiFvU=
+X-Google-Smtp-Source: ABdhPJzi2VJkrHAp4Ya1nuvMwT+4Kq/++yfwaEyRztfA9SBoh9IB/9jmRQfsSU9oD8YU03sVrTBpBBQ7zOZxK6YcE/U=
+X-Received: by 2002:a17:906:aac7:: with SMTP id
+ kt7mr3166864ejb.4.1628766381324; 
+ Thu, 12 Aug 2021 04:06:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Aug 2021 12:05:36 +0100
+Message-ID: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+Subject: ensuring a machine's buses have unique names
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,20 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+What's the right way to ensure that when a machine has multiple
+buses of the same type (eg multiple i2c controllers, multiple
+sd card controllers) they all get assigned unique names so that
+the user can use '-device ...,bus=some-name' to put a device on a
+specific bus?
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+For instance in hw/arm/xlnx-zynqmp.c, the SoC object creates
+a set of alias properties on the SoC for the sd-bus buses that
+its 4 SD card controllers create. The alias properties are named
+"sd-bus%d" so they are unique. This works, but it's kind of error-prone
+because you need each machine model to remember to create these
+aliases when necessary.
 
-> This post introduces the new TCG plugin `cache` that's used for cache
-> modelling. This plugin is a part of my GSoC 2021 participation.
->
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+mps3-an524 is an example of a machine that fails to do this
+for its i2c buses, and therefore the user can't usefully
+tell QEMU which bus to plug a command-line created i2c bus into.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Ideally we should make buses get unique names by default
+and also assert() at startup that there aren't any duplicated
+names, I think.
 
---=20
-Alex Benn=C3=A9e
+Side note: is there a way to mark a bus as "do not consider
+this when plugging devices where the user did not specify
+the bus themselves" ? Some of the i2c buses on that machine
+are purely internal to the board (eg there's one that has
+the touchscreen controller hanging off it and nothing else),
+and some are "this i2c bus is connected to the expansion port",
+so ideally if no bus is specified we would want to prefer
+the expansion-port i2c bus, not the ones that are internal-only.
+
+thanks
+-- PMM
 
