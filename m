@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2F53EA9C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:50:49 +0200 (CEST)
-Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACD73EA9CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 19:52:04 +0200 (CEST)
+Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEEqr-0003qU-Vz
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1mEEs7-0006AF-J8
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 13:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEEox-0001sy-Lt
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:48:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42398)
+ id 1mEEpe-00030q-7L
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:49:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEEou-0001CG-4W
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:48:46 -0400
+ id 1mEEpc-0001Xs-Pv
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 13:49:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628790523;
+ s=mimecast20190719; t=1628790567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ojFx2DSaAaabzG3DkZR17ix0paD3QapfwbqzD0RPdgc=;
- b=UTCxtfnxAb1SCfbWSTIKXWTC9fwl4zAg4z5pDRYMmb+lMbg75fyMg62mHpJp/cK3mmuB3x
- fUliCPW/vIW5Y474/YUQqu2rb7ws7mFD7y8BfjjDvm96ZZHnT6dTalgWp2I5h1mXz95vu5
- R7+GqP1pG/nEaavwUIXd+CG4sCdVQxo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-NfBv5MRyP9-vASfuC4pc2Q-1; Thu, 12 Aug 2021 13:48:42 -0400
-X-MC-Unique: NfBv5MRyP9-vASfuC4pc2Q-1
-Received: by mail-ej1-f69.google.com with SMTP id
- ci25-20020a1709072679b029058e79f6c38aso2116251ejc.13
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:48:41 -0700 (PDT)
+ bh=DeZxhYJY2CqYTo0ZyV9hsxbbTipkTubk4HpuqJ0VMtk=;
+ b=iF6K0Sq54jGpPN81krRQ5NKtmeWot1qIeMHFpXJzaYkhITHxDFs6m+JUf1fuQlR93/GMXG
+ bdQQyCOTY0uENkfM8xY7KrFP6kWclW+xVX03p8yHBUP/UHxTnvEZr+XotSv+7z2TW23k6K
+ 1pyvnug7pSD/egR6q3QPUb7iGJuHSQA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-395MnkcSPjyWpjcBLQh_bg-1; Thu, 12 Aug 2021 13:49:26 -0400
+X-MC-Unique: 395MnkcSPjyWpjcBLQh_bg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l18-20020a0564021252b02903be7bdd65ccso3436055edw.12
+ for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 10:49:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ojFx2DSaAaabzG3DkZR17ix0paD3QapfwbqzD0RPdgc=;
- b=QF1xr7OOfH6TvCB/PaxVeFdYLdL7/xnXEJ04LSEkuBpgqCDeWykxAS4KU1jSOynaEa
- YT4KAX1g06bKFnrDnmQlXQ3to6drbszkEHBpTXfdP9jcbYr2Kgx8cXvGmHVgaeV11ezF
- NBLRFQ0PrWwvvtgrYQUFuQJYhh775DBdeekyUt9nqJ4zwUVchyb0Bqj25FkdRfTw9ekn
- fIQYK1T1p3uCFWNH74UB9JP5H5Dz3Aueb5bELYNYrx0K76aBj3gG/5UtYDPXA0IojlbW
- Bc4P1X+9fkql2/VftawH0EoE5YoTFVFg9kea2RN/7p7kKiNg3scwzq0aB25SH+iHWBWa
- fSqw==
-X-Gm-Message-State: AOAM533+db8c3zKPSoNoZxLddkRJ1qbFdzhamycgScV1Bh1Lr5/bwChw
- UFmvGYpftqcI5fM8dL1jq8ra8LlnXGDBRS+I6s8r1/BZ2YlsP4Ea9tAy4KpvqlOR/W9Dys4vnT/
- WOVW8YwvbpF07nvQ=
-X-Received: by 2002:a17:906:38ce:: with SMTP id
- r14mr4851300ejd.268.1628790520888; 
- Thu, 12 Aug 2021 10:48:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPRfesKmz037BnFoXFkfrkD+ANR3/b3dV+0u/gG5if98Z+WgoMLD8FGZIEj9RqA+PcUqdSlw==
-X-Received: by 2002:a17:906:38ce:: with SMTP id
- r14mr4851287ejd.268.1628790520697; 
- Thu, 12 Aug 2021 10:48:40 -0700 (PDT)
+ bh=DeZxhYJY2CqYTo0ZyV9hsxbbTipkTubk4HpuqJ0VMtk=;
+ b=lGD0bEgIWzBbhfIRPuZ7WOAuu+UWOmg1nUffeuqISSobmAz8WanvGbExN4zXZ1meux
+ gvNiHjlpgiTtTj7FL4W7ars8cVlKSPBIr3C96VCl1WlTPftqMkOEv7LKbGtdu5FwXVFL
+ ou1CfVh2I9FmAg7Xj/IwAq1waK2Z1FLSU59/9SrnUTY4xiOvJZpkMmPI15oSxH1PfUhT
+ EYgt9F9hoXEl52NHRjN2Odc8tQv0SMSI7AqphZBinklt3ZNlUFFAdIlx1DXtKdV7o3fL
+ bteHVM3rTmNA/G4fvdmy+CvyMltRs/f+yz6sjuKIK/J/eJOyB1ddRsNY8TeY38mZQgMI
+ EyrQ==
+X-Gm-Message-State: AOAM532upSWEpwk2IQ+0aFDxoQ8vhtoKZB2cZozeVWGUd7GzYRJjQMVa
+ ah7yheFwpRBxIz76d8/kjrxBYdnDc1aqsJR48jy3hC6g9GytJg1OhJYRtDz7RsG1QyIZ1DYxKIo
+ kAm1CyIs2iqOLcFU=
+X-Received: by 2002:a17:907:7848:: with SMTP id
+ lb8mr4876825ejc.494.1628790565450; 
+ Thu, 12 Aug 2021 10:49:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5NERRXj2OTmLJX0LHx32P0Z52x8a4gU8cBpkz7LIPUV50H3NFCaJrzsMFXgjcavSlF2mbiw==
+X-Received: by 2002:a17:907:7848:: with SMTP id
+ lb8mr4876815ejc.494.1628790565294; 
+ Thu, 12 Aug 2021 10:49:25 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a25sm1073142ejv.91.2021.08.12.10.48.39
+ by smtp.gmail.com with ESMTPSA id g9sm715029ejo.60.2021.08.12.10.49.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 10:48:39 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: Fixed size of constant for Windows
-To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
-References: <20210812111056.26926-1-laramglazier@gmail.com>
+ Thu, 12 Aug 2021 10:49:24 -0700 (PDT)
+Subject: Re: [PATCH] configure: Remove spurious [] from tr
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, eblake@redhat.com, philmd@redhat.com
+References: <20210812110942.19065-1-dgilbert@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <af0ddb50-c353-4661-07d1-61b0d7039fae@redhat.com>
-Date: Thu, 12 Aug 2021 19:48:39 +0200
+Message-ID: <7f58a3cb-01ff-76e8-018a-0be3db62fd74@redhat.com>
+Date: Thu, 12 Aug 2021 19:49:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210812111056.26926-1-laramglazier@gmail.com>
+In-Reply-To: <20210812110942.19065-1-dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -101,50 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/08/21 13:10, Lara Lazier wrote:
-> ~0UL has 64 bits on Linux and 32 bits on Windows.
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/512".
+On 12/08/21 13:09, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> Reported-by: Volker Rümelin <vr_qemu@t-online.de>
-> Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+> ShellCheck points out that tr '[a-z]' actually replaces the []'s
+> and only the a-z is needed.
+> 
+> Remove the spurious [] - although in this use it will make no
+> difference.
+> 
+> Fixes: bb55b712e8dc4d4eb515144d5c26798fea178cba
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->   target/i386/tcg/sysemu/misc_helper.c | 2 +-
->   target/i386/tcg/sysemu/svm_helper.c  | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>   configure | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-> index 0a7a58ca9a..91b0fc916b 100644
-> --- a/target/i386/tcg/sysemu/misc_helper.c
-> +++ b/target/i386/tcg/sysemu/misc_helper.c
-> @@ -97,7 +97,7 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
->           break;
->       case 3:
->           if ((env->efer & MSR_EFER_LMA) &&
-> -                (t0 & ((~0UL) << env_archcpu(env)->phys_bits))) {
-> +                (t0 & ((~0ULL) << env_archcpu(env)->phys_bits))) {
->               cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
->           }
->           if (!(env->efer & MSR_EFER_LMA)) {
-> diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-> index 3891f4e4a8..42cd5053e5 100644
-> --- a/target/i386/tcg/sysemu/svm_helper.c
-> +++ b/target/i386/tcg/sysemu/svm_helper.c
-> @@ -290,7 +290,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
->       }
->       new_cr3 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr3));
->       if ((env->efer & MSR_EFER_LMA) &&
-> -            (new_cr3 & ((~0UL) << cpu->phys_bits))) {
-> +            (new_cr3 & ((~0ULL) << cpu->phys_bits))) {
->           cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
->       }
->       new_cr4 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr4));
+> diff --git a/configure b/configure
+> index 9a79a004d7..5bb8c2a59d 100755
+> --- a/configure
+> +++ b/configure
+> @@ -4549,7 +4549,7 @@ if test "$gprof" = "yes" ; then
+>   fi
+>   echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
+>   for drv in $audio_drv_list; do
+> -    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
+> +    def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr 'a-z' 'A-Z')
+>       echo "$def=y" >> $config_host_mak
+>   done
+>   if test "$alsa" = "yes" ; then
 > 
 
-Queued, thanks.
+Do we want this in 6.1?  For the next release I'm moving all audio stuff 
+to meson anyway. :)
 
 Paolo
 
