@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934C93E9E35
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 08:02:13 +0200 (CEST)
-Received: from localhost ([::1]:43536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331123E9E65
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Aug 2021 08:24:10 +0200 (CEST)
+Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mE3nA-0006aU-6z
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 02:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
+	id 1mE48P-0008OB-5H
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 02:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1mE3m8-0005v5-T8
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:01:08 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:45924 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
+ id 1mE46I-0004ww-T5; Thu, 12 Aug 2021 02:21:58 -0400
+Received: from esa4.hc1455-7.c3s2.iphmx.com ([68.232.139.117]:31997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1mE3m4-0000Jo-BS
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 02:01:08 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 5FDE246793;
- Thu, 12 Aug 2021 06:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1628748057;
- x=1630562458; bh=wFxn7MHPNLDF7dBO4oNV1knvEMbT6wTscONu1nWJGqM=; b=
- rOqwvWUKpfu0wGL7UZ47YG6OSwy28XpoJzIMkYa1Y/geaHO9F5htSBLTVqZLjcw5
- mJ4ZTNlgKY2vlwBqXC+W78sIZccqJLGfiaVh8uk3kTeTX+4L45fIalEgitWoJJJw
- 1cHjggDrvRuN9J7isBZQYOjD2AikQae3N2oD7AJ56bs=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TN6BWij8u2k7; Thu, 12 Aug 2021 09:00:57 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 3127249DDF;
- Thu, 12 Aug 2021 09:00:37 +0300 (MSK)
-Received: from localhost (172.22.1.233) by T-EXCH-04.corp.yadro.com
- (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 12
- Aug 2021 09:00:37 +0300
-Date: Thu, 12 Aug 2021 09:00:37 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH 0/7] Add vmnet.framework based network backend
-Message-ID: <YRS5BaIhk0sWhwIQ@SPB-NB-133.local>
-References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
+ (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
+ id 1mE46H-00013a-0K; Thu, 12 Aug 2021 02:21:58 -0400
+IronPort-SDR: tCtwidWFow+CLdILVxJtQf7Ufow1iSRUfTUGHQ30qFX82QiX8wqjXkPU7mM73Xe0fPLY+Xd2jb
+ v+CFScdr4jldxXRga8KW17ipCnFFWX1GlB+LQRnkOnK5VuZhB2opSv5owvmDYuu2ARFmpswAd0
+ VLaaj7yjy1R+iNuBlfnvcVu689oXlpnExrnhfCRgOwTBWHUDvUAkP0oqG1gDd7yJSHBdWrIa/5
+ o/RgPPmRMymEQJwDZhDlRffw6WZq0DEnUv6gn8L33B8a9Gi7agMTsbbRkHssZLsaybMKspQnKx
+ Q3S7kRjDwOaEEl2qfUiocnsT
+X-IronPort-AV: E=McAfee;i="6200,9189,10073"; a="39768468"
+X-IronPort-AV: E=Sophos;i="5.84,315,1620658800"; d="scan'208";a="39768468"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+ by esa4.hc1455-7.c3s2.iphmx.com with ESMTP; 12 Aug 2021 15:21:52 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com
+ [192.168.83.64])
+ by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 3C611E9E8D;
+ Thu, 12 Aug 2021 15:21:51 +0900 (JST)
+Received: from yto-om2.fujitsu.com (yto-om2.o.css.fujitsu.com [10.128.89.163])
+ by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 80285C9CCF;
+ Thu, 12 Aug 2021 15:21:50 +0900 (JST)
+Received: from localhost.localdomain (n3235113.np.ts.nmh.cs.fujitsu.co.jp
+ [10.123.235.113])
+ by yto-om2.fujitsu.com (Postfix) with ESMTP id 5F0D94007B7FD;
+ Thu, 12 Aug 2021 15:21:50 +0900 (JST)
+From: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
+To: peter.maydell@linaro.org,
+	qemu-arm@nongnu.org
+Subject: [PATCH v4 0/3] Add support for Fujitsu A64FX processor
+Date: Thu, 12 Aug 2021 15:04:37 +0900
+Message-Id: <20210812060440.1330348-1-ishii.shuuichir@fujitsu.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
-X-Originating-IP: [172.22.1.233]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-04.corp.yadro.com (172.17.100.104)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+Received-SPF: pass client-ip=68.232.139.117;
+ envelope-from=ishii.shuuichir@fujitsu.com; helo=esa4.hc1455-7.c3s2.iphmx.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,98 +66,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- jasowang@redhat.com, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Phillip Tennen <phillip@axleos.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>
+Cc: drjones@redhat.com, qemu-devel@nongnu.org, ishii.shuuichir@fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 05:32:39PM +0300, Vladislav Yaroshchuk wrote:
-> macOS provides networking API for VMs called vmnet.framework.
-> I tried to add it as a network backend. All three modes are supported:
-> 
-> -shared:
->   allows the guest to comminicate with other guests in shared mode and
->   also with external network (Internet) via NAT
-> 
-> -host:
->   allows the guest to communicate with other guests in host mode
-> 
-> -bridged:
->   bridges the guest with a physical network interface
-> 
-> Separate netdev for each vmnet mode was created because they use quite
-> different settings, especially since macOS 11.0 when vmnet.framework
-> gets a lot of updates.
-> 
-> Not sure that I use qemu_mutex_lock_iothread() and
-> qemu_mutex_unlock_iothread() in correct way while sending packet
-> from vmnet interface to QEMU. I'll be happy to receive
-> recomendations how to make this thing better if I done sth wrong.
-> 
-> Also vmnet.framework requires com.apple.vm.networking entitlement to
-> run without root priveledges. Ad-hoc signing does not fit there,
-> so I didn't touch anything related to signing. As a result we should
-> run qemu-system by a priviledged user:
-> `$ sudo qemu-system-x86_64 -nic vmnet-shared`
-> otherwise vmnet fails with 'general failure'.
-> 
-> But in any way it seems working now,
-> I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
-> models:
-> - e1000-82545em
-> - virtio-net-pci
-> 
-> and having such guests:
-> - macOS 10.15.7
-> - Ubuntu Bionic (server cloudimg) 
-> 
+This is the v4 patch series.
 
-Hi Vladislav,
+v4:
+The following changes have been made to match the SVE specification of
+the A64FX processor.
+- Implemented internally only the vector lengths of 128, 256, and 512 bit
+  supported by the A64FX processor.
+- Removed sve and sve-max-vq properties due to the above changes, and
+  fixed them so that no explicit options can be specified.
 
-I appreciate the efforts and I'm sorry I didn't look into it yet, lack
-of time :(
+v3:
+When we created the v2 patch series, we based it on the v1 patch series
+that had not been merged into the upstream, so we created the v3 patch
+series as a patch series that can be applied independently.
 
-To all: earlier this year another series was sent by Phillip Tennen to
-add vmnet.framework and some comments were provided:
-https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.html
+v2:
+No features have been added or removed from the v1 patch series. Removal
+of unused definitions that were added in excess, and consolidation of
+patches for the purpose of functional consistency.
 
-I'm not sure how to proceed with arbitration which of the series is
-preferred. FIFO or LIFO?
+For patch 1, Implemented Identification registers for A64FX processor.
+HPC extension registers will be implemented in the future.
+For SVE, the A64FX processor supports only 128,256 and 512bit vector lengths.
 
-Regards,
-Roman
+For patch 2, A64FX processor can now be used by specifying the -cpu
+a64fx option when the -macine virt option is specified.
 
-> Vladislav Yaroshchuk (7):
->   net/vmnet: dependencies setup, initial preparations
->   net/vmnet: add new netdevs to qapi/net
->   net/vmnet: create common netdev state structure
->   net/vmnet: implement shared mode (vmnet-shared)
->   net/vmnet: implement host mode (vmnet-host)
->   net/vmnet: implement bridged mode (vmnet-bridged)
->   net/vmnet: update qemu-options.hx
-> 
->  configure           |  31 +++++
->  meson.build         |   5 +
->  net/clients.h       |  11 ++
->  net/meson.build     |   7 ++
->  net/net.c           |  10 ++
->  net/vmnet-bridged.m | 123 ++++++++++++++++++
->  net/vmnet-common.m  | 294 ++++++++++++++++++++++++++++++++++++++++++++
->  net/vmnet-host.c    |  93 ++++++++++++++
->  net/vmnet-shared.c  |  94 ++++++++++++++
->  net/vmnet_int.h     |  48 ++++++++
->  qapi/net.json       |  99 ++++++++++++++-
->  qemu-options.hx     |  17 +++
->  12 files changed, 830 insertions(+), 2 deletions(-)
->  create mode 100644 net/vmnet-bridged.m
->  create mode 100644 net/vmnet-common.m
->  create mode 100644 net/vmnet-host.c
->  create mode 100644 net/vmnet-shared.c
->  create mode 100644 net/vmnet_int.h
-> 
-> -- 
-> 2.23.0
-> 
+For patch 3, added A64FX processor related tests.
+
+Shuuichirou Ishii (3):
+  target-arm: Add support for Fujitsu A64FX
+  hw/arm/virt: target-arm: Add A64FX processor support to virt machine
+  tests/arm-cpu-features: Add A64FX processor related tests
+
+ docs/system/arm/virt.rst       |  1 +
+ hw/arm/virt.c                  |  1 +
+ target/arm/cpu.c               | 27 ++++++++++++++++++----
+ target/arm/cpu.h               |  1 +
+ target/arm/cpu64.c             | 42 ++++++++++++++++++++++++++++++++++
+ tests/qtest/arm-cpu-features.c |  2 ++
+ 6 files changed, 70 insertions(+), 4 deletions(-)
+
+-- 
+2.27.0
+
 
