@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6BC3EBDAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 22:56:48 +0200 (CEST)
-Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A053EBEC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 01:36:37 +0200 (CEST)
+Received: from localhost ([::1]:39516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEeER-0005nH-FL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 16:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
+	id 1mEgj5-0006fy-QA
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 19:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1mEeDD-0004vh-3j; Fri, 13 Aug 2021 16:55:31 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52036)
+ (Exim 4.90_1) (envelope-from
+ <3gwEXYQgKCvAomZSglkZYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--wuhaotsh.bounces.google.com>)
+ id 1mEgh6-0003ZU-Hk
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 19:34:32 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:55072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1mEeDB-0006Qc-9r; Fri, 13 Aug 2021 16:55:30 -0400
-Received: by mail-wm1-x333.google.com with SMTP id u15so7665944wmj.1;
- Fri, 13 Aug 2021 13:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eRR04g4ItmReAGIhrYzJ2ezm8KfPldsuskTEv6gEHlo=;
- b=jgwNaNGr81nI45UbgUSwGjx/ho2Ncac/HKrHaKRgVSX8RnD35Rk3QjwnHtT10CEEjJ
- 4nnCoKcN0XhmwQidcug+41HyK1nF9gyhJFaj3AASD9kx+uNZ4SrD3FZscZmcLuB/+Ww+
- j1RjYS9YIgyLxhXk6JKqi0akJmbCTJ0f8it3OgKONzwaD2Z9Umbrd6wMNNrM4wwVz/c/
- vBb+jZ3F74TFs2C0si476YabhTOKeMsW2xGLLRt8HAAysKMntr67F1rg1r5DQkW3OK1V
- SyVK0I2EiwW9lwMGheOY/vEgESh/B7KdWtT6ooEw8Rre9c/7w58cBbQQyZ5ULAteWtSS
- 38zw==
+ (Exim 4.90_1) (envelope-from
+ <3gwEXYQgKCvAomZSglkZYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--wuhaotsh.bounces.google.com>)
+ id 1mEgh3-0005s5-Qh
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 19:34:32 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ w200-20020a25c7d10000b02905585436b530so10647760ybe.21
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 16:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=5s+o1TXqGwSl9K0mTlvFrCxk1BgY+M7oLFuEuHiZMIE=;
+ b=Hyf0epYat0y9ikTQhtwD9FCcq/vA2IjERay+gGsMWCQ7QrY9noh3xfRNYyglP2aIYH
+ 30o6M4n09aEgfegiLjvnfF6rOFBNhX16wzSbZVaRVkMZjRLJXFhNE7W7VR94JUnsPkjB
+ 4t2uFhh+WQ7WBdhoEDWuDaX2dHDaqwB7GN8OtwG1DiSDytJ048MDNlAl5RC17vHtqDov
+ eIb6Sh6fN3hcD4HdSTNxs+vS597vmrugfAHIzi26u/ztzc6eh/YnrEcY70Tv8YiP6aNZ
+ 0V5yqcdHITTi/d5WJmXBoIkLZMseDOw17BK19FrpmWCXgXEjmuFfznRhOecA0OzE6k/j
+ 6z5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eRR04g4ItmReAGIhrYzJ2ezm8KfPldsuskTEv6gEHlo=;
- b=bBqAOl4Zv0yPlUdFxrdZSDy5hkjbJ2zV1OYRRT2NYz2IoYF+EEesx01OFcCeyN9BaZ
- o2ja1lWl3gW8qGcgqojICd4ewNovkmCw8Pxbt48tXp6SkoBxyJ8Og3yd7WrmvButOH/i
- 6klQlJ1VC/wDaz9GAh2/JUNnmbDNGog60/7yoERnfn5vHfCq5wIHtyarXmiPPlLG8RY8
- k0pxswHGzLd6YhKr0ePuqk9UeinS00em1ls79wVAFt8FqHiWYq37zUjSvj55YNrVWZJy
- qrqEaqGqlKZwUr18xiQ3Hc3whO0cmRMA1LZMq7ZsXM4waG2oOKOutpQ0cFJnd4GuBMEK
- CPsw==
-X-Gm-Message-State: AOAM531viUhXLk5BdIYROrXbXv4NmrPP0MSDslAbUiMgPdRmDTkEc4aN
- XGl/Dd5jqYJPAuiFeD6Nd2WV9lE/fm6o4w==
-X-Google-Smtp-Source: ABdhPJzmqwdxEkIxK9aOGl9qVZzqPCCLae6tTXiOXNJis7lqD/CsG1sDGEkl0L5SsoiFzi+D9qKxVg==
-X-Received: by 2002:a05:600c:4ca9:: with SMTP id
- g41mr4322815wmp.110.1628888126490; 
- Fri, 13 Aug 2021 13:55:26 -0700 (PDT)
-Received: from sparse.. (93-173-85-40.bb.netvision.net.il. [93.173.85.40])
- by smtp.gmail.com with ESMTPSA id m10sm3115094wro.63.2021.08.13.13.55.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 13:55:25 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-nbd: Change default cache mode to writeback
-Date: Fri, 13 Aug 2021 23:55:19 +0300
-Message-Id: <20210813205519.50518-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=nirsof@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=5s+o1TXqGwSl9K0mTlvFrCxk1BgY+M7oLFuEuHiZMIE=;
+ b=XXBwqAaI5fzQDj+HE4o8r10pJAvfBMP+LusAelkE2tFSIajiF+31n5Zg76NDWHjlpq
+ 5jRvcvdOjVCc61gYIhMLa9O3iIV3bjuM2fUhdSvSxTOCu/40nuIVwOvRQhrnek2MV2Dh
+ zsnbcjDXlGEHH/6WD1KSMGFt3heTS9EawQEyLzISOzvH2ndKq45r0+nYf0zi9qzFz45o
+ TMfOaawaSlQjvtBrJ7GmtCTmQHXws64GB2xrcyG3IMNtUzvu/IkYTQ1X9RtS/Z/pJu54
+ J+18eeZm0C1vZIHSdnDFaSnGpXt3AHmxjX0iZ1VY7lKmBP+Ikbg5KVfr692xu4QDp324
+ FALQ==
+X-Gm-Message-State: AOAM533a/tlS1B/+oo/ADmpod7vTwmhOCD53jsLS5ozgBrDoKC//s9xS
+ hExTNSAlqUixj/lppNcuI7yJa7RZuN/NlA==
+X-Google-Smtp-Source: ABdhPJykq/TF175dA9Qc48/Xr0oSBysdFKIQ7jg32BQFEgHE7tGqJlX7Hyns4FPoOs9uRS0x4PBs9e1GHxja+Q==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:a25:2783:: with SMTP id
+ n125mr5820983ybn.99.1628897667371; Fri, 13 Aug 2021 16:34:27 -0700 (PDT)
+Date: Fri, 13 Aug 2021 16:33:46 -0700
+Message-Id: <20210813233353.2099459-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
+Subject: [PATCH 0/7] Misc NPCM7XX patches
+From: Hao Wu <wuhaotsh@google.com>
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, minyard@acm.org, 
+ wuhaotsh@google.com, titusr@google.com, venture@google.com, 
+ Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3gwEXYQgKCvAomZSglkZYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--wuhaotsh.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,111 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both qemu and qemu-img use writeback cache mode by default, which is
-already documented in qemu(1). qemu-nbd uses writethrough cache mode by
-default, and the default cache mode is not documented.
+This patch set contains a few bug fixes and I2C devices for some
+NPCM7XX boards.
 
-According to the qemu-nbd(8):
+Patch 1~2 fix a problem that causes the SMBus module to behave
+incorrectly when it's in FIFO mode and trying to receive more than
+16 bytes at a time.
 
-   --cache=CACHE
-          The  cache  mode  to be used with the file.  See the
-          documentation of the emulator's -drive cache=... option for
-          allowed values.
+Patch 3 fixes a error in a register for ADC module.
 
-qemu(1) says:
+Patch 4 makes the ADC input to be R/W instead of write only. It allows
+a test system to read these via QMP and has no negative effect.
 
-    The default mode is cache=writeback.
+Patch 5 adds a new aux function for at24c EEPROM. It allows us to attach
+a drive to an at24c EEPROM device that is used as the initialized content
+of that device.
 
-So users have no reason to assume that qemu-nbd is using writethough
-cache mode. The only hint is the painfully slow writing when using the
-defaults.
+Patch 6 uses the function defined in patch 5 to add the EEPROM and other
+I2C devices for Quanta GBS board.
 
-Looking in git history, it seems that qemu used writethrough in the past
-to support broken guests that did not flush data properly, or could not
-flush due to limitations in qemu. But qemu-nbd clients can use
-NBD_CMD_FLUSH to flush data, so using writethrough does not help anyone.
+Patch 7 modifies the Quanta GSJ board to use the new function defined in
+patch 5.
 
-Change the default cache mode to writback, and document the default and
-available values properly in the online help and manual.
+Hao Wu (6):
+  hw/i2c: Clear ACK bit in NPCM7xx SMBus module
+  hw/i2c: Read FIFO during RXF_CTL change in NPCM7XX SMBus
+  hw/adc: Fix CONV bit in NPCM7XX ADC CON register
+  hw/adc: Make adci[*] R/W in NPCM7XX ADC
+  hw/nvram: Add a new auxiliary function to init at24c eeprom
+  hw/arm: Use unit number in quanta-gsj eeprom files
 
-With this change converting image via qemu-nbd is 3.5 times faster.
+Patrick Venture (1):
+  hw/arm: quanta-gbs-bmc add i2c devices
 
-    $ qemu-img create dst.img 50g
-    $ qemu-nbd -t -f raw -k /tmp/nbd.sock dst.img
+ hw/adc/npcm7xx_adc.c            |  4 +-
+ hw/arm/npcm7xx_boards.c         | 94 ++++++++++++++++-----------------
+ hw/i2c/npcm7xx_smbus.c          |  8 +--
+ hw/nvram/eeprom_at24c.c         | 18 +++++++
+ include/hw/nvram/eeprom_at24c.h | 13 +++++
+ tests/qtest/npcm7xx_adc-test.c  |  2 +-
+ 6 files changed, 85 insertions(+), 54 deletions(-)
+ create mode 100644 include/hw/nvram/eeprom_at24c.h
 
-Before this change:
-
-    $ hyperfine -r3 "./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock"
-    Benchmark #1: ./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock
-      Time (mean ± σ):     83.639 s ±  5.970 s    [User: 2.733 s, System: 6.112 s]
-      Range (min … max):   76.749 s … 87.245 s    3 runs
-
-After this change:
-
-    $ hyperfine -r3 "./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock"
-    Benchmark #1: ./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock
-      Time (mean ± σ):     23.522 s ±  0.433 s    [User: 2.083 s, System: 5.475 s]
-      Range (min … max):   23.234 s … 24.019 s    3 runs
-
-Users can avoid the issue by using --cache=writeback[1] but the defaults
-should give good performance for the common use case.
-
-[1] https://bugzilla.redhat.com/1990656
-
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
----
- docs/tools/qemu-nbd.rst | 6 ++++--
- qemu-nbd.c              | 6 ++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-index ee862fa0bc..5643da26e9 100644
---- a/docs/tools/qemu-nbd.rst
-+++ b/docs/tools/qemu-nbd.rst
-@@ -98,8 +98,10 @@ driver options if ``--image-opts`` is specified.
- 
- .. option:: --cache=CACHE
- 
--  The cache mode to be used with the file.  See the documentation of
--  the emulator's ``-drive cache=...`` option for allowed values.
-+  The cache mode to be used with the file. Valid values are:
-+  ``none``, ``writeback`` (the default), ``writethrough``,
-+  ``directsync`` and ``unsafe``. See the documentation of
-+  the emulator's ``-drive cache=...`` option for more info.
- 
- .. option:: -n, --nocache
- 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 26ffbf15af..6c18fcd19a 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -135,7 +135,9 @@ static void usage(const char *name)
- "                            'snapshot.id=[ID],snapshot.name=[NAME]', or\n"
- "                            '[ID_OR_NAME]'\n"
- "  -n, --nocache             disable host cache\n"
--"      --cache=MODE          set cache mode (none, writeback, ...)\n"
-+"      --cache=MODE          set cache mode used to access the disk image, the\n"
-+"                            valid options are: 'none', 'writeback' (default),\n"
-+"                            'writethrough', 'directsync' and 'unsafe'\n"
- "      --aio=MODE            set AIO mode (native, io_uring or threads)\n"
- "      --discard=MODE        set discard mode (ignore, unmap)\n"
- "      --detect-zeroes=MODE  set detect-zeroes mode (off, on, unmap)\n"
-@@ -552,7 +554,7 @@ int main(int argc, char **argv)
-     bool alloc_depth = false;
-     const char *tlscredsid = NULL;
-     bool imageOpts = false;
--    bool writethrough = true;
-+    bool writethrough = false; /* Client will flush as needed. */
-     bool fork_process = false;
-     bool list = false;
-     int old_stderr = -1;
 -- 
-2.31.1
+2.33.0.rc1.237.g0d66db33f3-goog
 
 
