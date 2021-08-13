@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB403EAE08
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 02:59:33 +0200 (CEST)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50703EAE09
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 03:02:09 +0200 (CEST)
+Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mELXo-0005Em-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 20:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34328)
+	id 1mELaK-0006tQ-UN
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 21:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mELW1-0004Pv-QS; Thu, 12 Aug 2021 20:57:41 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:45023)
+ id 1mELYN-00063h-7B; Thu, 12 Aug 2021 21:00:07 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:45038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mELW0-0008DK-C3; Thu, 12 Aug 2021 20:57:41 -0400
-Received: by mail-il1-x136.google.com with SMTP id i13so9090005ilm.11;
- Thu, 12 Aug 2021 17:57:39 -0700 (PDT)
+ id 1mELYJ-0001QC-UK; Thu, 12 Aug 2021 21:00:07 -0400
+Received: by mail-io1-xd34.google.com with SMTP id d22so11005025ioy.11;
+ Thu, 12 Aug 2021 18:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BJELDdo/Vw8F6VWMt1U+3Qx7I97Tle9WvtxsfBgqfVE=;
- b=SlRsXN51XIUUIVs2WDOf6UOQN8GcPm/FHEGwOwdrR6HvnAO3uDTz1jmuqtVEeNL4iZ
- 4B6yeZeOBchEFIh0EBjmvPGtwWHKLtBWY91htJjGGE5KA3XJm/hFhXpCtfNoLFFypYPV
- BleYXS1aPBvwTDd3VkMmgtrp1+jIv7jEz+dW2I1W2/1jEz/hATh6JyJpDfY0JBsMSp1U
- 7WOAf2Qzk7BmkooJc5Mf2C794poV2yLwUyJjHUaeIJvPColiEQw0bDQhMz7oXJjhEmD2
- uv++dzXznX9z2TocHpH1RngLYf1f5RalRmfVdhjX0RxHv3xalx8uCQhGoVQe2kGVlU/s
- iRPw==
+ :cc; bh=wk0FGQtWr03dL2h2pJ8Cwi1UdBv6qmuo7vNsSAR8f2I=;
+ b=GvLAioYln19jmDcb92CSu8BVQW1xAK5fsmve0wDKDFJz8Mm3MPJEdbYXjRjetV9qXi
+ 7WyD5pk3bThRVySwQT9hhXi8xoaMVig3syybiigYIw+nvyedCKKg32AqRxuHk3MVqB5l
+ 1CGilIxUJ88dDcP35hmSERq+YYCXtrEt/pDLjNj7okb9s5yJu7GIat2u9ch93Gv6YLSe
+ PtoxWUoEBGro9oGf4To17YBUR9fB26vrtLLS0ReXrdKw0O964R0Ed6O4O46QO8wXYIcR
+ y6WrJAauh6Kt3Dexmx22D39UI4jG+ensnwnuarS5YgnLj2dCLBiVc10RjWVwZfWJLh1Q
+ 7gwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BJELDdo/Vw8F6VWMt1U+3Qx7I97Tle9WvtxsfBgqfVE=;
- b=OB0jLB20i0ciRyVaBafT3gTuUhfkBYca2KdOnhV87c36Ov5d9OSVQXKqWw7bWelFtS
- VAvFSYAIuRO0wPjfYXdWPOA2510J3IUpuSnhO/rOIhwa8S8iNbOhur8HcGDy2ke6kmRX
- 6GYe0Ncru5Qy8e+cStheTtYKPqQjP+uxZkf3IwCpVxpTrY2CpDxS4Zk73/xqnjOrpUjb
- 4wPBlCg6wZE6GZw1eqZaQicm0xQsxD7LpI7TZaCODMjDCDt5HWn2gqNk1xbnP7rrJgfr
- m6O2bGP0bjftgXcGUvyDGw9387OPQDw/rZW8qdsHz4yIpky6B+12N1kF2daIGSyu8hv5
- NPVQ==
-X-Gm-Message-State: AOAM532VXJwKjIPA8ZIwObdvS66i4AF3AYBfrHBU18lb7trlhkaZuzPo
- mzqt/bGulVzb/2ZUsyze9ctmY6AZW6Ugxjo15OI=
-X-Google-Smtp-Source: ABdhPJxqq2PRlLW5I3l3Mw5qxLe8w3BwpWAXZaMgjSWiSKbqq4W9CJPIIm0zGlEwGmin1m+ikjDn8MTvo9QtCfGOEmI=
-X-Received: by 2002:a92:c24d:: with SMTP id k13mr876016ilo.227.1628816258825; 
- Thu, 12 Aug 2021 17:57:38 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=wk0FGQtWr03dL2h2pJ8Cwi1UdBv6qmuo7vNsSAR8f2I=;
+ b=DzJKpztZbTKeyGU6SdBdm/UfaXT5S5BKWLI22aIovlLXb0PoBx6ocYk57ABr2GX87M
+ zKSJTW2gQ0Wjzl984a1+rx2ZJLJlTzQRp1copbK0cH94+OfQ/kePGsRvMaLV9Tae1MMo
+ kO3lluDfgk9aIus7bfIXnNW4U5ZktvZAfJyQW1VaIWOz5vIENC0YCzyCeWPjxGPJN7TP
+ tdNmdMDJXuwgHITS14zRWhsOkl/H3BR8dCPMsVSM1GPJ8W8hyeqxiyzdBWPLrNzb3QZS
+ YUuDPHKgXKiJW6KHEk9hfds7gtiEra/QM2tBhLNGiGE+ODvwE0q5BZbsxcKAJooWG4xA
+ ZrGQ==
+X-Gm-Message-State: AOAM532bqiaw3H4I4k6CvEsyM+A7rfrtGg6dFX5hI4xwluWXzuj3+q9S
+ guxGVrGkQfBb/iUDqYZYZFUx3ZpLsmWx5LMZAhs=
+X-Google-Smtp-Source: ABdhPJyn68ohbrllwevZc09TPegmbXIVyXHXYS+FPXyPK9rDnPVpLdJRri8ddXePIDCnTA+kfIMQg2X1pxi2JQ6OZZs=
+X-Received: by 2002:a02:c502:: with SMTP id s2mr6183856jam.135.1628816402344; 
+ Thu, 12 Aug 2021 18:00:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210812144647.10516-1-peter.maydell@linaro.org>
- <2465bcc8-7e8b-8b5c-71ed-d696f69e0f78@amsat.org>
-In-Reply-To: <2465bcc8-7e8b-8b5c-71ed-d696f69e0f78@amsat.org>
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-2-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-2-peter.maydell@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 13 Aug 2021 10:57:12 +1000
-Message-ID: <CAKmqyKNFpPJqQ5DTTvSQGBWfB9UW2xrhFf6DJQgB6Zt4ZGp+mw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv/virt.c: Assemble plic_hart_config string with
- g_strjoinv()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 13 Aug 2021 10:59:36 +1000
+Message-ID: <CAKmqyKMDrNpX_xkarpgT56TKQvA1exPX6KNj0ke4MD0JQAL2nQ@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into
+ its own device
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,106 +77,347 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
+ Alistair Francis <alistair@alistair23.me>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 13, 2021 at 2:17 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Thu, Aug 12, 2021 at 7:34 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Hi Peter,
+> Currently we implement the RAS register block within the NVIC device.
+> It isn't really very tightly coupled with the NVIC proper, so instead
+> move it out into a sysbus device of its own and have the top level
+> ARMv7M container create it and map it into memory at the right
+> address.
 >
-> On 8/12/21 4:46 PM, Peter Maydell wrote:
-> > In the riscv virt machine init function, We assemble a string
-> > plic_hart_config which is a comma-separated list of N copies of the
-> > VIRT_PLIC_HART_CONFIG string.  The code that does this has a
-> > misunderstanding of the strncat() length argument.  If the source
-> > string is too large strncat() will write a maximum of length+1 bytes
-> > (length bytes from the source string plus a trailing NUL), but the
-> > code here assumes that it will write only length bytes at most.
-> >
-> > This isn't an actual bug because the code has correctly precalculated
-> > the amount of memory it needs to allocate so that it will never be
-> > too small (i.e.  we could have used plain old strcat()), but it does
-> > mean that the code looks like it has a guard against accidental
-> > overrun when it doesn't.
-> >
-> > Rewrite the string handling here to use the glib g_strjoinv()
-> > function, which means we don't need to do careful accountancy of
-> > string lengths, and makes it clearer that what we're doing is
-> > "create a comma-separated string".
-> >
-> > Fixes: Coverity 1460752
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/riscv/virt.c | 33 ++++++++++++++++++++-------------
-> >  1 file changed, 20 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index 4a3cd2599a5..26bc8d289ba 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -541,6 +541,24 @@ static FWCfgState *create_fw_cfg(const MachineStat=
-e *mc)
-> >      return fw_cfg;
-> >  }
-> >
-> > +/*
-> > + * Return the per-socket PLIC hart topology configuration string
-> > + * (caller must free with g_free())
-> > + */
-> > +static char *plic_hart_config_string(int hart_count)
-> > +{
-> > +    g_autofree const char **vals =3D g_new(const char *, hart_count + =
-1);
-> > +    int i;
-> > +
-> > +    for (i =3D 0; i < hart_count; i++) {
-> > +        vals[i] =3D VIRT_PLIC_HART_CONFIG;
->
-> Have you considered adding plic_hart_config_string() an extra
-> 'const char *plic_config' argument (declaring it in a new
-> include/hw/riscv/plic_hart.h)?
-> We could use it in the other boards:
->
-> hw/riscv/microchip_pfsoc.c:267:            strncat(plic_hart_config, ","
-> MICROCHIP_PFSOC_PLIC_HART_CONFIG,
-> hw/riscv/microchip_pfsoc.c:268:                    plic_hart_config_len);
-> hw/riscv/microchip_pfsoc.c:270:            strncat(plic_hart_config,
-> "M", plic_hart_config_len);
->
-> hw/riscv/sifive_u.c:826:            strncat(plic_hart_config, ","
-> SIFIVE_U_PLIC_HART_CONFIG,
-> hw/riscv/sifive_u.c:827:                    plic_hart_config_len);
-> hw/riscv/sifive_u.c:829:            strncat(plic_hart_config, "M",
-> plic_hart_config_len);
->
-> hw/riscv/virt.c:612:                strncat(plic_hart_config, ",",
-> plic_hart_config_len);
-> hw/riscv/virt.c:614:            strncat(plic_hart_config,
-> VIRT_PLIC_HART_CONFIG,
-> hw/riscv/virt.c:615:                plic_hart_config_len);
->
-> include/hw/riscv/microchip_pfsoc.h:141:#define
-> MICROCHIP_PFSOC_PLIC_HART_CONFIG        "MS"
-> include/hw/riscv/shakti_c.h:63:#define SHAKTI_C_PLIC_HART_CONFIG "MS"
-> include/hw/riscv/sifive_e.h:83:#define SIFIVE_E_PLIC_HART_CONFIG "M"
-> include/hw/riscv/sifive_u.h:147:#define SIFIVE_U_PLIC_HART_CONFIG "MS"
-> include/hw/riscv/virt.h:74:#define VIRT_PLIC_HART_CONFIG "MS"
->
-> Obviously someone else could do that as bytetask, so meanwhile
-> for Coverity 1460752:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Thanks for fixing this Peter. Would you like this in for 6.1?
-
-If you want I can fix the other boards?
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
+
+> ---
+>  include/hw/arm/armv7m.h       |  2 +
+>  include/hw/intc/armv7m_nvic.h |  1 -
+>  include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
+>  hw/arm/armv7m.c               | 12 +++++
+>  hw/intc/armv7m_nvic.c         | 56 ---------------------
+>  hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                   |  2 +
+>  hw/misc/meson.build           |  2 +
+>  8 files changed, 148 insertions(+), 57 deletions(-)
+>  create mode 100644 include/hw/misc/armv7m_ras.h
+>  create mode 100644 hw/misc/armv7m_ras.c
+>
+> diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
+> index bc6733c5184..4cae0d7eeaa 100644
+> --- a/include/hw/arm/armv7m.h
+> +++ b/include/hw/arm/armv7m.h
+> @@ -12,6 +12,7 @@
+>
+>  #include "hw/sysbus.h"
+>  #include "hw/intc/armv7m_nvic.h"
+> +#include "hw/misc/armv7m_ras.h"
+>  #include "target/arm/idau.h"
+>  #include "qom/object.h"
+>
+> @@ -58,6 +59,7 @@ struct ARMv7MState {
+>      NVICState nvic;
+>      BitBandState bitband[ARMV7M_NUM_BITBANDS];
+>      ARMCPU *cpu;
+> +    ARMv7MRAS ras;
+>
+>      /* MemoryRegion we pass to the CPU, with our devices layered on
+>       * top of the ones the board provides in board_memory.
+> diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
+> index 39c71e15936..33b6d8810c7 100644
+> --- a/include/hw/intc/armv7m_nvic.h
+> +++ b/include/hw/intc/armv7m_nvic.h
+> @@ -83,7 +83,6 @@ struct NVICState {
+>      MemoryRegion sysreg_ns_mem;
+>      MemoryRegion systickmem;
+>      MemoryRegion systick_ns_mem;
+> -    MemoryRegion ras_mem;
+>      MemoryRegion container;
+>      MemoryRegion defaultmem;
+>
+> diff --git a/include/hw/misc/armv7m_ras.h b/include/hw/misc/armv7m_ras.h
+> new file mode 100644
+> index 00000000000..f8773e65b14
+> --- /dev/null
+> +++ b/include/hw/misc/armv7m_ras.h
+> @@ -0,0 +1,37 @@
+> +/*
+> + * Arm M-profile RAS block
+> + *
+> + * Copyright (c) 2021 Linaro Limited
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License version 2 or
+> + *  (at your option) any later version.
+> + */
+> +
+> +/*
+> + * This is a model of the RAS register block of an M-profile CPU
+> + * (the registers starting at 0xE0005000 with ERRFRn).
+> + *
+> + * QEMU interface:
+> + *  + sysbus MMIO region 0: the register bank
+> + *
+> + * The QEMU implementation currently provides "minimal RAS" only.
+> + */
+> +
+> +#ifndef HW_MISC_ARMV7M_RAS_H
+> +#define HW_MISC_ARMV7M_RAS_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +#define TYPE_ARMV7M_RAS "armv7m-ras"
+> +OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MRAS, ARMV7M_RAS)
+> +
+> +struct ARMv7MRAS {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    MemoryRegion iomem;
+> +};
+> +
+> +#endif
+> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> index 9ce5c30cd5c..8964730d153 100644
+> --- a/hw/arm/armv7m.c
+> +++ b/hw/arm/armv7m.c
+> @@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+>      memory_region_add_subregion(&s->container, 0xe0000000,
+>                                  sysbus_mmio_get_region(sbd, 0));
+>
+> +    /* If the CPU has RAS support, create the RAS register block */
+> +    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+> +        object_initialize_child(OBJECT(dev), "armv7m-ras",
+> +                                &s->ras, TYPE_ARMV7M_RAS);
+> +        sbd = SYS_BUS_DEVICE(&s->ras);
+> +        if (!sysbus_realize(sbd, errp)) {
+> +            return;
+> +        }
+> +        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
+> +                                            sysbus_mmio_get_region(sbd, 0), 1);
+> +    }
+> +
+>      for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
+>          if (s->enable_bitband) {
+>              Object *obj = OBJECT(&s->bitband[i]);
+> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+> index 1e7ddcb94cb..a5975592dfa 100644
+> --- a/hw/intc/armv7m_nvic.c
+> +++ b/hw/intc/armv7m_nvic.c
+> @@ -2549,56 +2549,6 @@ static const MemoryRegionOps nvic_systick_ops = {
+>      .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>
+> -
+> -static MemTxResult ras_read(void *opaque, hwaddr addr,
+> -                            uint64_t *data, unsigned size,
+> -                            MemTxAttrs attrs)
+> -{
+> -    if (attrs.user) {
+> -        return MEMTX_ERROR;
+> -    }
+> -
+> -    switch (addr) {
+> -    case 0xe10: /* ERRIIDR */
+> -        /* architect field = Arm; product/variant/revision 0 */
+> -        *data = 0x43b;
+> -        break;
+> -    case 0xfc8: /* ERRDEVID */
+> -        /* Minimal RAS: we implement 0 error record indexes */
+> -        *data = 0;
+> -        break;
+> -    default:
+> -        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
+> -                      (uint32_t)addr);
+> -        *data = 0;
+> -        break;
+> -    }
+> -    return MEMTX_OK;
+> -}
+> -
+> -static MemTxResult ras_write(void *opaque, hwaddr addr,
+> -                             uint64_t value, unsigned size,
+> -                             MemTxAttrs attrs)
+> -{
+> -    if (attrs.user) {
+> -        return MEMTX_ERROR;
+> -    }
+> -
+> -    switch (addr) {
+> -    default:
+> -        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
+> -                      (uint32_t)addr);
+> -        break;
+> -    }
+> -    return MEMTX_OK;
+> -}
+> -
+> -static const MemoryRegionOps ras_ops = {
+> -    .read_with_attrs = ras_read,
+> -    .write_with_attrs = ras_write,
+> -    .endianness = DEVICE_NATIVE_ENDIAN,
+> -};
+> -
+>  /*
+>   * Unassigned portions of the PPB space are RAZ/WI for privileged
+>   * accesses, and fault for non-privileged accesses.
+> @@ -2946,12 +2896,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
+>                                              &s->systick_ns_mem, 1);
+>      }
+>
+> -    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+> -        memory_region_init_io(&s->ras_mem, OBJECT(s),
+> -                              &ras_ops, s, "nvic_ras", 0x1000);
+> -        memory_region_add_subregion(&s->container, 0x5000, &s->ras_mem);
+> -    }
+> -
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->container);
+>  }
+>
+> diff --git a/hw/misc/armv7m_ras.c b/hw/misc/armv7m_ras.c
+> new file mode 100644
+> index 00000000000..a2b4f4b8dc8
+> --- /dev/null
+> +++ b/hw/misc/armv7m_ras.c
+> @@ -0,0 +1,93 @@
+> +/*
+> + * Arm M-profile RAS block
+> + *
+> + * Copyright (c) 2021 Linaro Limited
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License version 2 or
+> + *  (at your option) any later version.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/misc/armv7m_ras.h"
+> +#include "qemu/log.h"
+> +
+> +static MemTxResult ras_read(void *opaque, hwaddr addr,
+> +                            uint64_t *data, unsigned size,
+> +                            MemTxAttrs attrs)
+> +{
+> +    if (attrs.user) {
+> +        return MEMTX_ERROR;
+> +    }
+> +
+> +    switch (addr) {
+> +    case 0xe10: /* ERRIIDR */
+> +        /* architect field = Arm; product/variant/revision 0 */
+> +        *data = 0x43b;
+> +        break;
+> +    case 0xfc8: /* ERRDEVID */
+> +        /* Minimal RAS: we implement 0 error record indexes */
+> +        *data = 0;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
+> +                      (uint32_t)addr);
+> +        *data = 0;
+> +        break;
+> +    }
+> +    return MEMTX_OK;
+> +}
+> +
+> +static MemTxResult ras_write(void *opaque, hwaddr addr,
+> +                             uint64_t value, unsigned size,
+> +                             MemTxAttrs attrs)
+> +{
+> +    if (attrs.user) {
+> +        return MEMTX_ERROR;
+> +    }
+> +
+> +    switch (addr) {
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
+> +                      (uint32_t)addr);
+> +        break;
+> +    }
+> +    return MEMTX_OK;
+> +}
+> +
+> +static const MemoryRegionOps ras_ops = {
+> +    .read_with_attrs = ras_read,
+> +    .write_with_attrs = ras_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +
+> +static void armv7m_ras_init(Object *obj)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    ARMv7MRAS *s = ARMV7M_RAS(obj);
+> +
+> +    memory_region_init_io(&s->iomem, obj, &ras_ops,
+> +                          s, "armv7m-ras", 0x1000);
+> +    sysbus_init_mmio(sbd, &s->iomem);
+> +}
+> +
+> +static void armv7m_ras_class_init(ObjectClass *klass, void *data)
+> +{
+> +    /* This device has no state: no need for vmstate or reset */
+> +}
+> +
+> +static const TypeInfo armv7m_ras_info = {
+> +    .name = TYPE_ARMV7M_RAS,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(ARMv7MRAS),
+> +    .instance_init = armv7m_ras_init,
+> +    .class_init = armv7m_ras_class_init,
+> +};
+> +
+> +static void armv7m_ras_register_types(void)
+> +{
+> +    type_register_static(&armv7m_ras_info);
+> +}
+> +
+> +type_init(armv7m_ras_register_types);
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 37b1a8e4428..3cac393bb48 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -617,6 +617,7 @@ F: hw/intc/gic_internal.h
+>  F: hw/misc/a9scu.c
+>  F: hw/misc/arm11scu.c
+>  F: hw/misc/arm_l2x0.c
+> +F: hw/misc/armv7m_ras.c
+>  F: hw/timer/a9gtimer*
+>  F: hw/timer/arm*
+>  F: include/hw/arm/arm*.h
+> @@ -626,6 +627,7 @@ F: include/hw/misc/arm11scu.h
+>  F: include/hw/timer/a9gtimer.h
+>  F: include/hw/timer/arm_mptimer.h
+>  F: include/hw/timer/armv7m_systick.h
+> +F: include/hw/misc/armv7m_ras.h
+>  F: tests/qtest/test-arm-mptimer.c
+>
+>  Exynos
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index a53b849a5a0..3f41a3a5b27 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -17,6 +17,8 @@ softmmu_ss.add(when: 'CONFIG_INTEGRATOR_DEBUG', if_true: files('arm_integrator_d
+>  softmmu_ss.add(when: 'CONFIG_A9SCU', if_true: files('a9scu.c'))
+>  softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+>
+> +softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_ras.c'))
+> +
+>  # Mac devices
+>  softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+>
+> --
+> 2.20.1
+>
+>
 
