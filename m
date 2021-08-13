@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14333EBC28
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 20:38:39 +0200 (CEST)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CAE3EBC2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 20:39:43 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEc4k-0000zR-OI
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 14:38:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45812)
+	id 1mEc5m-0002QV-GK
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 14:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc3g-0000KG-D5
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:37:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60671)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc4i-0001Sv-87
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:38:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc3e-00060B-Vd
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:37:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc4g-0006eP-ST
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628879850;
+ s=mimecast20190719; t=1628879914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u+bJBbkrjm3q4ECaLsw7KaFRegH5i3Ywv8my1PMNflY=;
- b=HmTDJW1z4TxrabMNayngwa1encBb0LQuWxIidMwIb3FvuwE+7fiXaTOPv/aOVAfpVrL3cr
- 77/7dmS2ZDKkgQviS1PrbU/bZMG9t3xvaOCKlYsfKp0QsBirdELB6TYHHhqfq+WmZUy6iy
- HJ4OeGECLgA7oAvmO5uS166oB00raHo=
+ bh=zMZ1xk72RiUgF6o976XT9tx7bH9W82IaXahQobxbWrc=;
+ b=Mf3zhqOCnemzKuvik8+oGuIeSW7+Y85+qDLCWwoXbKgiLqfgwZBRMqBuMJ1Sg4JUPLrRmf
+ BtzTk4D7i0ZxLDEZeYQviIeH7NDTcUJ1eobULIdgBQuAzOPxjFNfitxrHE0KEihmlFmb34
+ kbnwnfDfFkYHxsvFoJWt2alJyLNhWjw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-aHUWJ0QFMSq8L5IlnBeXeQ-1; Fri, 13 Aug 2021 14:37:28 -0400
-X-MC-Unique: aHUWJ0QFMSq8L5IlnBeXeQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-6-tiDVGbKVN_CXi9mD6v1fVQ-1; Fri, 13 Aug 2021 14:38:32 -0400
+X-MC-Unique: tiDVGbKVN_CXi9mD6v1fVQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A2728015C7;
- Fri, 13 Aug 2021 18:37:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E91C180124F;
+ Fri, 13 Aug 2021 18:38:31 +0000 (UTC)
 Received: from redhat.com (ovpn-112-138.phx2.redhat.com [10.3.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D64035C3E0;
- Fri, 13 Aug 2021 18:37:26 +0000 (UTC)
-Date: Fri, 13 Aug 2021 13:37:25 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 677FA1AC18;
+ Fri, 13 Aug 2021 18:38:30 +0000 (UTC)
+Date: Fri, 13 Aug 2021 13:38:28 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.2 2/4] gdbstub: Zero-initialize sockaddr structs
-Message-ID: <20210813183725.x2l7zuzvjl2l64gl@redhat.com>
+Subject: Re: [PATCH for-6.2 3/4] tests/qtest/ipmi-bt-test: Zero-initialize
+ sockaddr struct
+Message-ID: <20210813183828.tj6ukge5rmbliq4z@redhat.com>
 References: <20210813150506.7768-1-peter.maydell@linaro.org>
- <20210813150506.7768-3-peter.maydell@linaro.org>
+ <20210813150506.7768-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210813150506.7768-3-peter.maydell@linaro.org>
+In-Reply-To: <20210813150506.7768-4-peter.maydell@linaro.org>
 User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,35 +85,35 @@ Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 13, 2021 at 04:05:04PM +0100, Peter Maydell wrote:
-> Zero-initialize sockaddr_in and sockaddr_un structs that we're about
-> to fill in and pass to bind() or connect(), to ensure we don't leave
-> possible implementation-defined extension fields as uninitialized
-> garbage.
+On Fri, Aug 13, 2021 at 04:05:05PM +0100, Peter Maydell wrote:
+> Zero-initialize the sockaddr_in struct that we're about to fill in
+> and pass to bind(), to ensure we don't leave possible
+> implementation-defined extension fields as uninitialized garbage.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  gdbstub.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 52bde5bdc97..5d8e6ae3cd9 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -3218,7 +3218,7 @@ static bool gdb_accept_socket(int gdb_fd)
->  
->  static int gdbserver_open_socket(const char *path)
->  {
-> -    struct sockaddr_un sockaddr;
-> +    struct sockaddr_un sockaddr = {};
-
-I know we use this non-standard form (which both gcc and clang accept)
-because at least older versions of clang needlessly warn on the
-standard C construct {0} in some situations, but figuring out when we
-no longer support those older compilers and converting our code-base
-to look more like standardized code is not my priority.
+>  tests/qtest/ipmi-bt-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/tests/qtest/ipmi-bt-test.c b/tests/qtest/ipmi-bt-test.c
+> index 8492f02a9c3..19612e9405a 100644
+> --- a/tests/qtest/ipmi-bt-test.c
+> +++ b/tests/qtest/ipmi-bt-test.c
+> @@ -378,7 +378,7 @@ static void test_enable_irq(void)
+>   */
+>  static void open_socket(void)
+>  {
+> -    struct sockaddr_in myaddr;
+> +    struct sockaddr_in myaddr = {};
+>      socklen_t addrlen;
+>  
+>      myaddr.sin_family = AF_INET;
+> -- 
+> 2.20.1
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
