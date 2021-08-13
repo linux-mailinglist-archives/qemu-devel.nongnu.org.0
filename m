@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBED3EB774
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 17:12:09 +0200 (CEST)
-Received: from localhost ([::1]:39280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5333EB796
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 17:19:11 +0200 (CEST)
+Received: from localhost ([::1]:42060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEYqu-0001vk-Et
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 11:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41092)
+	id 1mEYxi-00045D-GK
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 11:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mEYq3-0001Fj-SZ
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:11:15 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:37720)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEYwv-0003Hd-LH
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:18:21 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mEYpy-0007q0-Gl
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:11:15 -0400
-Received: by mail-io1-xd33.google.com with SMTP id b7so4649052iob.4
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 08:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mEYwr-000413-F1
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:18:21 -0400
+Received: by mail-ej1-x631.google.com with SMTP id u3so18962178ejz.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 08:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aZnDMUfMjDJVfVNot7D2GIbtKpHe65urbust+xv89Fo=;
- b=iOxjUfGEu+xYNRLQUO1fMcTC+SBfOoxIX3mroA0t4g+9lcSoaq6oY8i7D4WdLoeK2R
- aT+X6J093I3xomNOyENtnyKi0o7YbW9A37SWDgc3DIHu49uQX+w4+OJmJtwgwfOqXSfn
- a5qYEQXnGZz3555MG4dZFFvYHtWZ3/35gAVI4G8PuGsGdTNhMaXkG9iZM7lzqNyWJ8ew
- V3kRE6cExLrjahhjZuybK8jwf7TBMxMtPEr5rbQCl6nCQ3jXU2MYRgpAjIo9rOWnsCtM
- 35yuZteqqkn/zrSDymgIRd3qcfU649KCUjWc5sS9d0Xrf8XRJwkpb7972y1fnNrjAlWH
- SlZQ==
+ :cc; bh=I2B3jBFAWI0lHXkD+cg2NonsiQugX9FCeWGq+OHl2Hw=;
+ b=Djbp1/lps4VnJmR26TjooS7QDKL7jc6uKAxwwtY0s51D7HOEIMMaTYRaweoF98mnSZ
+ YiEgMYvO8EIr5t8/rZJBfeJIJ6hQ4G7MZSQeGecdOtTfU5Q85tY4IEDk8DNFctZs2Zsm
+ A7dhbr3zBXiiRk7IyvVn1AYP0WQj7VihneFcabYp1YDv/tYHQb9aEzi3pbXX8mVTk5To
+ GmnnDzHgpwcwoKYufjukGMjNh97/jFSfkmsu2eC2wNWIW9EobdhqT722JidH+smn8iBu
+ WbJtrnawFeom2PHHZQ0GgqrzugNQft+Ybpm6VHQeBlV/xDe6WGSW7Yp8EHxXEXTZjtWb
+ 6VGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aZnDMUfMjDJVfVNot7D2GIbtKpHe65urbust+xv89Fo=;
- b=AIo72YWkPyuqC0UmwZZ1Ju7y/4rwkq5HEyJTBoRBz2fTdePUvy2AAWVBfmz+QCoqFe
- ChbZFyqMMFKF15/01g4HM9G6nK8AACm2NUjLLR6wlzv51tGYGMRuDohHp1wmSOwaIv4k
- 3tFjbBhrXKQi365sMbl8T5qnm3OcbcKuSz9/30KB+xMUI6JhuWNwM5lN75CivGlTCbs8
- Dsus5Eg91Ws3vM8WMM+Fj9F4IzzstOFkq8l9uqfTew7JheY232tYQIYnqn6C8y/YOIJX
- CwfJJidig9lg+ZQpu65ZixItZNHXCOjYmb5oVqRF9pbDudHqOMT2WYIAx/bOeNOYcMX8
- ceAg==
-X-Gm-Message-State: AOAM533KPhdeYzCMcgI9iMtyEs5kFWIrr8vUCPEfiiFBytBw9a2BAriJ
- Zbho+Xg30Jiv0FnQaMxRCfAO6uM2Tb+jJdDHO00=
-X-Google-Smtp-Source: ABdhPJyJEjHzyCERVX8tILi4md4Ql5BVix9ZfUyRHIQyi8YsRWhL2zdYlzpSty+QNpOb7H/4Z0kf/Y2W2wMI/iBHIwQ=
-X-Received: by 2002:a02:7348:: with SMTP id a8mr2732487jae.116.1628867468759; 
- Fri, 13 Aug 2021 08:11:08 -0700 (PDT)
+ bh=I2B3jBFAWI0lHXkD+cg2NonsiQugX9FCeWGq+OHl2Hw=;
+ b=tc6iGWap/AeFCRBSl1JWp3B+U3EfVvOdZ4e+9QX761ZGo2mfwuG1O35nh6dBNM4v6j
+ 2VkWNYnvE4kG2JDYtlBL2PMGg27Vjkia9BLXlud55vDErYbAuGvca6k4Ch6Wedrqo0rK
+ nc2scgq4qehF+xJ0wYZijEqlwwgt/TQIW0uoss4ySiC6aXmPPQ9ipdNe5M+PHokZhEpM
+ +gYvAqBT9i8S6xM64O2udOmyb2iJp/MTYzmEDv/Rdv1ewftSseKIi0IfSKEgG4dKKlsp
+ yoko+lpV25rN4aP8a403E0ytOiKi1/rrfT1e81q0q6tQnY6iqq6QhUmWfDnPuuTNE4rz
+ Laqg==
+X-Gm-Message-State: AOAM531cSYNmZo30zvfwdhT3Zwp06k0POaDpf5QYum0EiW4FOJQhB/Ui
+ RzKTQctaSV/PfedKx8USKi9okh4C+iaHQnHYY4e/5Q==
+X-Google-Smtp-Source: ABdhPJy5G4OisK+FPwwOYuix0MjQe+dkQCVCExbpJo/qV3HfRjOKgMnhVzn9zT/4A78Ancb7oEqX5E3MpeJbqyEPUlA=
+X-Received: by 2002:a17:906:3bc3:: with SMTP id
+ v3mr2964571ejf.482.1628867895966; 
+ Fri, 13 Aug 2021 08:18:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210730201846.5147-1-niteesh.gs@gmail.com>
- <20210730201846.5147-5-niteesh.gs@gmail.com>
- <CAFn=p-athv_gqZhpjZzpcBfYfBQ4Rek1+juqoXO3Zq8UfWyvCA@mail.gmail.com>
-In-Reply-To: <CAFn=p-athv_gqZhpjZzpcBfYfBQ4Rek1+juqoXO3Zq8UfWyvCA@mail.gmail.com>
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Fri, 13 Aug 2021 20:40:42 +0530
-Message-ID: <CAN6ztm9r9VACvnUJ72anDmpy7hsQi=tis5Lkd-vC8NE0DCFAPg@mail.gmail.com>
-Subject: Re: [PATCH v3 04/13] python/aqmp-tui: Add AQMP TUI draft
-To: John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000dc99d305c97242df"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd33.google.com
+References: <1436284182-5063-1-git-send-email-agraf@suse.de>
+ <1436284182-5063-25-git-send-email-agraf@suse.de>
+ <CAFEAcA9TQKAU94OUuSzYH8A_7CFfSYc+R8-Mz4mai0vwMbjsxA@mail.gmail.com>
+ <YRIAr6HIW742LSZd@yekko>
+In-Reply-To: <YRIAr6HIW742LSZd@yekko>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Aug 2021 16:17:30 +0100
+Message-ID: <CAFEAcA-GGNcm09xu5v65jQcghjBnj6cBtb0p0xYhOPPNt1g_sg@mail.gmail.com>
+Subject: Re: [PULL 24/30] spapr_pci: populate ibm,loc-code
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,1268 +80,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dc99d305c97242df
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 10 Aug 2021 at 05:40, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Mon, Aug 09, 2021 at 10:57:00AM +0100, Peter Maydell wrote:
+> >
+> > Cleanest fix would be to declare 'path' and 'host' as
+> >    g_autofree char *path = NULL;
+> >    g_autofree char *host = NULL;
+> > and then you can remove all the manual g_free(path) and g_free(host) calls.
+>
+> Thanks for the report.  I've committed the fix (I hope) below to ppc-for-6.1:
+>
+> From 70ae61b510dc571c407b28c46498cae60e60ca66 Mon Sep 17 00:00:00 2001
+> From: David Gibson <david@gibson.dropbear.id.au>
+> Date: Tue, 10 Aug 2021 14:28:19 +1000
+> Subject: [PATCH] spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() with
+>  g_autofree
+>
+> This uses g_autofree to simplify logic in spapr_phb_vfio_get_loc_code(),
+> in the process fixing a leak in one of the paths.  I'm told this fixes
+> Coverity error CID 1460454
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 16b0ea1d852 ("spapr_pci: populate ibm,loc-code")
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/ppc/spapr_pci.c | 17 ++++++-----------
+>  1 file changed, 6 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 7a725855f9..13d806f390 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -782,33 +782,28 @@ static AddressSpace *spapr_pci_dma_iommu(PCIBus *bus, void *opaque, int devfn)
+>
+>  static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDevice *pdev)
+>  {
+> -    char *path = NULL, *buf = NULL, *host = NULL;
+> +    g_autofree char *path = NULL;
+> +    g_autofree char *host = NULL;
+> +    char *buf = NULL;
+>
+>      /* Get the PCI VFIO host id */
+>      host = object_property_get_str(OBJECT(pdev), "host", NULL);
+>      if (!host) {
+> -        goto err_out;
+> +        return NULL;
+>      }
+>
+>      /* Construct the path of the file that will give us the DT location */
+>      path = g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
+> -    g_free(host);
+>      if (!g_file_get_contents(path, &buf, NULL, NULL)) {
+> -        goto err_out;
+> +        return NULL;
+>      }
+> -    g_free(path);
+>
+>      /* Construct and read from host device tree the loc-code */
+>      path = g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
+> -    g_free(buf);
 
-On Fri, Aug 6, 2021 at 12:28 AM John Snow <jsnow@redhat.com> wrote:
+This deletion doesn't look right -- 'buf' is not autofree
+(and shouldn't be, since we're returning it).
 
->
->
-> On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-> wrote:
->
->> Added a draft of AQMP TUI.
->>
->> Implements the follwing basic features:
->> 1) Command transmission/reception.
->> 2) Shows events asynchronously.
->> 3) Shows server status in the bottom status bar.
->>
->> Also added necessary pylint, mypy configurations
->>
->> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
->> ---
->>  python/qemu/aqmp/aqmp_tui.py | 333 +++++++++++++++++++++++++++++++++++
->>  python/setup.cfg             |  16 +-
->>  2 files changed, 348 insertions(+), 1 deletion(-)
->>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
->>
->> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
->> new file mode 100644
->> index 0000000000..ec9eba0aa7
->> --- /dev/null
->> +++ b/python/qemu/aqmp/aqmp_tui.py
->> @@ -0,0 +1,333 @@
->> +# Copyright (c) 2021
->> +#
->> +# Authors:
->> +#  Niteesh Babu G S <niteesh.gs@gmail.com>
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or
->> +# later.  See the COPYING file in the top-level directory.
->> +
->> +import argparse
->> +import asyncio
->> +import logging
->> +from logging import Handler
->> +import signal
->> +
->> +import urwid
->> +import urwid_readline
->> +
->> +from ..qmp import QEMUMonitorProtocol, QMPBadPortError
->> +from .message import DeserializationError, Message, UnexpectedTypeError
->> +from .protocol import ConnectError
->> +from .qmp_client import ExecInterruptedError, QMPClient
->> +from .util import create_task, pretty_traceback
->> +
->> +
->> +UPDATE_MSG = 'UPDATE_MSG'
->>
->
-> This line still feels kind of "naked" on a cold read. It could use a small
-> comment.
->
-Fixed.
+If you want to delete this 'g_free' you need to make the
+first g_file_get_contents() use a separate char* variable from
+the variable we use to return the eventual result data buffer;
+then you can make that new variable be g_autofree.
 
->
->
->> +
->> +# Using root logger to enable all loggers under qemu and asyncio
->> +LOGGER = logging.getLogger()
->>
->
-> The comment isn't quite true; this is the root logger -- but you go on to
-> use it to directly log messages. I don't think you should; use a
-> module-level logger.
->
-> (1) Create a module-level logger that is named after the current module
-> name (e.g. qemu.aqmp.aqmp_tui) and use that for logging messages relating
-> to this module:
-> LOGGER = logging.getLogger(__name__)
->
-> (2) Where you need to address the root logger, just use `root_logger =
-> logging.getLogger() ` .... I think the main() function is the only place
-> you might need this.
->
-The way of logging in the TUI is changed such that, all logging is done
-through the root level logger. The handlers and levels are installed to the
-root level
-logger to allow logging from other libraries to be rerouted to the screen
-or file.
+>      if (!g_file_get_contents(path, &buf, NULL, NULL)) {
+> -        goto err_out;
+> +        return NULL;
+>      }
+>      return buf;
+> -
+> -err_out:
+> -    g_free(path);
+> -    return NULL;
+>  }
 
->
->
->
->> +
->> +
->> +def format_json(msg):
->> +    """
->> +    Formats given multiline JSON message into a single line message.
->> +    Converting into single line is more asthetically pleasing when
->> looking
->> +    along with error messages compared to multiline JSON.
->> +    """
->> +    # FIXME: Use better formatting mechanism. Might break at more
->> complex JSON
->> +    # data.
->> +    msg = msg.replace('\n', '')
->> +    words = msg.split(' ')
->> +    words = [word for word in words if word != '']
->> +    return ' '.join(words)
->> +
->>
->
-> You can use the JSON module to do this,
-> https://docs.python.org/3/library/json.html#json.dumps
->
-> Message._serialize uses this technique to send JSON messages over the wire
-> that have no newlines:
->
-> https://gitlab.com/jsnow/qemu/-/blob/python-async-qmp-aqmp/python/qemu/aqmp/message.py#L132
->
-> by not specifying an indent and including separators with no spaces, we
-> can get a JSON representation with all the space squeezed out. You can add
-> spaces and still omit the indent/newlines and so on.
->
-But will this work for invalid JSON messages? As far as I have tried it
-doesn't work.
-
->
->
->> +
->> +class App(QMPClient):
->> +    def __init__(self, address):
->> +        urwid.register_signal(type(self), UPDATE_MSG)
->>
->
-> I found some hidden documentation about this -- I was struggling to find
-> it before:
-> https://github.com/urwid/urwid/blob/master/urwid/signals.py#L62
->
-> So the first argument is meant to be "The class of an object sending the
-> signal". Alright. And it looks like we only emit from add_to_history and in
-> _send_to_server, so I guess that checks out!
->
-> One thing I am noticing is that these signals are global and not
-> per-instance, so if for some reason we ever create a second App I wonder if
-> the __init__ method here will explode ... Well, it's probably not too
-> important right now.
->
->>
->> +        self.window = Window(self)
->> +        self.address = address
->> +        self.aloop = None
->> +        super().__init__()
->> +
->> +    def add_to_history(self, msg):
->> +        urwid.emit_signal(self, UPDATE_MSG, msg)
->> +
->> +    def _cb_outbound(self, msg):
->> +        # FIXME: I think the ideal way to omit these messages during
->> in-TUI
->> +        # logging will be to add a filter to the logger. We can use
->> regex to
->> +        # filter out messages starting with 'Request:' or 'Response:'
->> but I
->> +        # think a better approach will be encapsulate the message in an
->> object
->> +        # and filter based on the object. Encapsulation of the message
->> will
->> +        # also be necessary when we want different formatting of messages
->> +        # inside TUI.
->>
-> +        handler = LOGGER.handlers[0]
->> +        if not isinstance(handler, TUILogHandler):
->> +            LOGGER.debug('Request: %s', str(msg))
->> +        self.add_to_history('<-- ' + str(msg))
->> +        return msg
->> +
->> +    def _cb_inbound(self, msg):
->> +        handler = LOGGER.handlers[0]
->> +        if not isinstance(handler, TUILogHandler):
->> +            LOGGER.debug('Response: %s', str(msg))
->> +        self.add_to_history('--> ' + str(msg))
->> +        return msg
->> +
->> +    async def wait_for_events(self):
->> +        async for event in self.events:
->> +            self.handle_event(event)
->> +
->>
->
-> Can handle_event be moved here so that related functions are somewhat near
-> each other?
->
-Fixed.
-
->
->
->> +    async def _send_to_server(self, raw_msg):
->> +        # FIXME: Format the raw_msg in history view to one line. It is
->> not
->> +        # pleasing to see multiple lines JSON object with an error
->> statement.
->> +        try:
->> +            msg = Message(bytes(raw_msg, encoding='utf-8'))
->> +            # Format multiline json into a single line JSON, since it is
->> more
->> +            # pleasing to look along with err message in TUI.
->> +            raw_msg = self.format_json(raw_msg)
->> +            await self._raw(msg, assign_id='id' not in msg)
->> +        except (ValueError, TypeError) as err:
->> +            LOGGER.info('Invalid message: %s', str(err))
->> +            self.add_to_history(f'{raw_msg}: {err}')
->> +        except (DeserializationError, UnexpectedTypeError) as err:
->> +            LOGGER.info('Invalid message: %s', err.error_message)
->> +            self.add_to_history(f'{raw_msg}: {err.error_message}')
->> +        except ExecInterruptedError:
->> +            LOGGER.info('Error server disconnected before reply')
->> +            urwid.emit_signal(self, UPDATE_MSG,
->> +                              '{"error": "Server disconnected before
->> reply"}')
->> +            self._set_status("Server disconnected")
->> +        except Exception as err:
->> +            LOGGER.error('Exception from _send_to_server: %s', str(err))
->> +            raise err
->> +
->> +    def cb_send_to_server(self, msg):
->> +        create_task(self._send_to_server(msg))
->> +
->> +    def unhandled_input(self, key):
->> +        if key == 'esc':
->> +            self.kill_app()
->> +
->> +    def kill_app(self):
->> +        # TODO: Work on the disconnect logic
->> +        create_task(self._kill_app())
->> +
->>
->
-> That logic needs to be here -- each commit needs to make sense by itself.
-> If you've improved the connection logic, it needs to be merged into this
-> commit.
->
-Through this to-do, I meant to add the connection manager. I'll remove this
-TODO since it's kind of misleading.
-
->
->
->> +    async def _kill_app(self):
->> +        # It is ok to call disconnect even in disconnect state
->> +        try:
->> +            await self.disconnect()
->> +            LOGGER.debug('Disconnect finished. Exiting app')
->> +        except Exception as err:
->> +            LOGGER.info('_kill_app: %s', str(err))
->> +            # Let the app crash after providing a proper stack trace
->> +            raise err
->> +        raise urwid.ExitMainLoop()
->> +
->> +    def handle_event(self, event):
->> +        # FIXME: Consider all states present in qapi/run-state.json
->> +        if event['event'] == 'SHUTDOWN':
->> +            self._set_status('Server shutdown')
->> +
->>
->
-> This is an odd function to me because it will *overwrite* the status bar
-> with this event, but surely shortly thereafter we're going to see a
-> disconnection event from the transport itself, so this message will go away
-> almost immediately, won't it?
->
-It won't be overwritten in this patch. Once the server
-shutdown/disconnects, the generated SHUTDOWN event is handled to update the
-status bar and the library internally calls disconnect and that's it.
-Only in the later patches do we decide whether to reconnect or not
-that's when there is a chance of overwriting. But in this patch,
-overwriting won't occur.
-
-> I understand that connection management stuff is improved in later
-> patches, but the initial patch here would be better served not having a
-> partial and incorrect implementation. You can just remove features that you
-> intend to "build out" in later commits. And if we remove this, then we
-> don't need wait_for_events() either, and they can be re-added in a later
-> commit when they're given a more full, proper treatment.
->
->
->> +    def _set_status(self, msg: str) -> None:
->> +        self.window.footer.set_text(msg)
->> +
->> +    def _get_formatted_address(self) -> str:
->> +        addr = f'{self.address}'
->> +        if isinstance(self.address, tuple):
->> +            host, port = self.address
->> +            addr = f'{host}:{port}'
->> +        return addr
->>
->
-> Don't format addr twice in the TCP case -- make sure it formats it once.
-> It won't matter much for performance in something like Python, but it's
-> misleading when reading it.
->
-Fixed.
-
->
-> +
->> +    async def connect_server(self):
->> +        try:
->> +            await self.connect(self.address)
->> +            addr = self._get_formatted_address()
->> +            self._set_status(f'Connected to {addr}')
->> +        except ConnectError as err:
->> +            LOGGER.info('connect_server: ConnectError %s', str(err))
->> +            self._set_status('Server shutdown')
->>
->
-> A failure to connect doesn't necessary mean the server was shut down.
->
-Fixed.
-It now shows [ConnectError: <Short description>] eg: [ConnectError: Failed
-to establish connection].
-
->
->
->> +
->>
->
-> I suspect this is changed in later commits in this series, but you should
-> probably set the footer to something before we potentially hang on
-> connect() and do a whole lot of nothing. LIke other critiques about
-> unfinished interfaces, once you've implemented them, they should be worked
-> into this patch so that each commit makes sense by itself. Reviewers will
-> have to read these patches and make sense of them. If they have to flip
-> through your entire series to understand what it will eventually look like,
-> it's a lot more work and you're less likely to get good or helpful reviews.
->
->
->> +    def run(self, debug=False):
->> +        self.aloop = asyncio.get_event_loop()
->> +        self.aloop.set_debug(debug)
->> +
->> +        # Gracefully handle SIGTERM and SIGINT signals
->> +        cancel_signals = [signal.SIGTERM, signal.SIGINT]
->> +        for sig in cancel_signals:
->> +            self.aloop.add_signal_handler(sig, self.kill_app)
->> +
->> +        event_loop = urwid.AsyncioEventLoop(loop=self.aloop)
->> +        main_loop = urwid.MainLoop(urwid.AttrMap(self.window,
->> 'background'),
->> +                                   unhandled_input=self.unhandled_input,
->> +                                   handle_mouse=True,
->> +                                   event_loop=event_loop)
->> +
->> +        create_task(self.wait_for_events(), self.aloop)
->> +        create_task(self.connect_server(), self.aloop)
->> +        try:
->> +            main_loop.run()
->> +        except Exception as err:
->> +            LOGGER.error('%s\n%s\n', str(err), pretty_traceback())
->> +            raise err
->> +
->> +
->> +class StatusBar(urwid.Text):
->> +    """
->> +    A simple Text widget that currently only shows connection status.
->> +    """
->> +    def __init__(self, text=''):
->> +        super().__init__(text, align='right')
->> +
->> +
->> +class Editor(urwid_readline.ReadlineEdit):
->> +    """
->> +    Support urwid_readline features along with
->> +    history support which lacks in urwid_readline
->> +    """
->> +    def __init__(self, master):
->> +        super().__init__(caption='> ', multiline=True)
->> +        self.master = master
->> +        self.history = []
->> +        self.last_index = -1
->> +        self.show_history = False
->> +
->> +    def keypress(self, size, key):
->> +        # TODO: Add some logic for down key and clean up logic if
->> possible.
->> +        # Returning None means the key has been handled by this widget
->> +        # which otherwise is propogated to the parent widget to be
->> +        # handled
->> +        msg = self.get_edit_text()
->> +        if key == 'up' and not msg:
->> +            # Show the history when 'up arrow' is pressed with no input
->> text.
->> +            # NOTE: The show_history logic is necessary because in
->> 'multiline'
->> +            # mode (which we use) 'up arrow' is used to move between
->> lines.
->> +            self.show_history = True
->> +            last_msg = self.history[self.last_index] if self.history
->> else ''
->> +            self.set_edit_text(last_msg)
->> +            self.edit_pos = len(last_msg)
->> +            self.last_index += 1
->> +        elif key == 'up' and self.show_history:
->> +            if self.last_index < len(self.history):
->> +                self.set_edit_text(self.history[self.last_index])
->> +                self.edit_pos = len(self.history[self.last_index])
->> +                self.last_index += 1
->> +        elif key == 'meta enter':
->> +            # When using multiline, enter inserts a new line into the
->> editor
->> +            # send the input to the server on alt + enter
->> +            self.master.cb_send_to_server(msg)
->> +            self.history.insert(0, msg)
->> +            self.set_edit_text('')
->> +            self.last_index = 0
->> +            self.show_history = False
->> +        else:
->> +            self.show_history = False
->> +            self.last_index = 0
->> +            return super().keypress(size, key)
->> +        return None
->> +
->> +
->> +class EditorWidget(urwid.Filler):
->> +    """
->> +    Wraps CustomEdit
->> +    """
->> +    def __init__(self, master):
->> +        super().__init__(Editor(master), valign='top')
->> +
->> +
->> +class HistoryBox(urwid.ListBox):
->> +    """
->> +    Shows all the QMP message transmitted/received
->> +    """
->> +    def __init__(self, master):
->> +        self.master = master
->> +        self.history = urwid.SimpleFocusListWalker([])
->> +        super().__init__(self.history)
->> +
->> +    def add_to_history(self, history):
->> +        self.history.append(urwid.Text(history))
->> +        if self.history:
->> +            self.history.set_focus(len(self.history) - 1)
->> +
->> +
->> +class HistoryWindow(urwid.Frame):
->> +    """
->> +    Composes the HistoryBox and EditorWidget
->> +    """
->> +    def __init__(self, master):
->> +        self.master = master
->> +        self.editor_widget = EditorWidget(master)
->> +        self.editor = urwid.LineBox(self.editor_widget)
->> +        self.history = HistoryBox(master)
->> +        self.body = urwid.Pile([('weight', 80, self.history),
->> +                                ('weight', 20, self.editor)])
->> +        super().__init__(self.body)
->> +        urwid.connect_signal(self.master, UPDATE_MSG,
->> self.cb_add_to_history)
->> +
->> +    def cb_add_to_history(self, msg):
->> +        self.history.add_to_history(msg)
->> +
->> +
->> +class Window(urwid.Frame):
->> +    """
->> +    This is going to be the main window that is going to compose other
->> +    windows. In this stage it is unnecesssary but will be necessary in
->> +    future when we will have multiple windows and want to the switch
->> between
->> +    them and display overlays
->> +    """
->> +    def __init__(self, master):
->> +        self.master = master
->> +        footer = StatusBar()
->> +        body = HistoryWindow(master)
->> +        super().__init__(body, footer=footer)
->> +
->> +
->> +class TUILogHandler(Handler):
->> +    def __init__(self, tui):
->> +        super().__init__()
->> +        self.tui = tui
->> +
->> +    def emit(self, record):
->> +        level = record.levelname
->> +        msg = record.getMessage()
->> +        msg = f'[{level}]: {msg}'
->> +        self.tui.add_to_history(msg)
->> +
->> +
->> +def main():
->> +    parser = argparse.ArgumentParser(description='AQMP TUI')
->> +    parser.add_argument('qmp_server', help='Address of the QMP server'
->> +                        '< UNIX socket path | TCP addr:port >')
->> +    parser.add_argument('--log-file', help='The Log file name')
->> +    parser.add_argument('--log-level', default='WARNING',
->> +                        help='Log level
->> <CRITICAL|ERROR|WARNING|INFO|DEBUG|>')
->> +    parser.add_argument('--asyncio-debug', action='store_true',
->> +                        help='Enable debug mode for asyncio loop'
->> +                        'Generates lot of output, makes TUI unusable
->> when'
->> +                        'logs are logged in the TUI itself.'
->> +                        'Use only when logging to a file')
->>
->
-> Needs spaces between the lines here so that the output reads correctly.
->
-The output renders properly for me. Can you please post a pic if it doesn't
-render correctly for you?
-
->
->
->> +    args = parser.parse_args()
->> +
->> +    try:
->> +        address = QEMUMonitorProtocol.parse_address(args.qmp_server)
->> +    except QMPBadPortError as err:
->> +        parser.error(err)
->> +
->> +    app = App(address)
->> +
->> +    if args.log_file:
->> +        LOGGER.addHandler(logging.FileHandler(args.log_file))
->> +    else:
->> +        LOGGER.addHandler(TUILogHandler(app))
->> +
->> +    log_level = logging.getLevelName(args.log_level)
->> +    # getLevelName returns 'Level {log_level}' when a invalid level is
->> passed.
->> +    if log_level == f'Level {args.log_level}':
->> +        parser.error('Invalid log level')
->> +    LOGGER.setLevel(log_level)
->> +
->>
->
-> I think you could do:
->
-> LOGGER.setLevel(logging.getLevelName(args.log_level))
->
-> And it'll fail if the level was unknown, but work otherwise. This would
-> avoid a kind of precarious string-comparison check, which I worry is
-> fragile.
->
-Fixed.
-
->
->
->> +    app.run(args.asyncio_debug)
->> +
->> +
->> +if __name__ == '__main__':
->> +    main()  # type: ignore
->> diff --git a/python/setup.cfg b/python/setup.cfg
->> index d106a0ed7a..50f9894468 100644
->> --- a/python/setup.cfg
->> +++ b/python/setup.cfg
->> @@ -81,8 +81,22 @@ namespace_packages = True
->>  # fusepy has no type stubs:
->>  allow_subclassing_any = True
->>
->> +[mypy-qemu.aqmp.aqmp_tui]
->> +disallow_untyped_defs = False
->> +disallow_incomplete_defs = False
->> +check_untyped_defs = False
->> +# urwid and urwid_readline have no type stubs:
->> +allow_subclassing_any = True
->> +
->> +# The following missing import directives are because these libraries do
->> not
->> +# provide type stubs. Allow them on an as-needed basis for mypy.
->>  [mypy-fuse]
->> -# fusepy has no type stubs:
->> +ignore_missing_imports = True
->> +
->> +[mypy-urwid]
->> +ignore_missing_imports = True
->> +
->> +[mypy-urwid_readline]
->>  ignore_missing_imports = True
->>
->>  [pylint.messages control]
->> --
->> 2.17.1
->>
->>
-> I have some more thoughts, but need to research them and wanted to give
-> some feedback first so you weren't waiting.
->
-Thanks for the feedback.
-
---000000000000dc99d305c97242df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Fri, Aug 6, 2021 at 12:28 AM John Snow &lt;<a hr=
-ef=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh B=
-abu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank">niteesh.g=
-s@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Added a draft of AQMP TUI.<br>
-<br>
-Implements the follwing basic features:<br>
-1) Command transmission/reception.<br>
-2) Shows events asynchronously.<br>
-3) Shows server status in the bottom status bar.<br>
-<br>
-Also added necessary pylint, mypy configurations<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
----<br>
-=C2=A0python/qemu/aqmp/aqmp_tui.py | 333 ++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 16 +-<br>
-=C2=A02 files changed, 348 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
-<br>
-diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
->
-new file mode 100644<br>
-index 0000000000..ec9eba0aa7<br>
---- /dev/null<br>
-+++ b/python/qemu/aqmp/aqmp_tui.py<br>
-@@ -0,0 +1,333 @@<br>
-+# Copyright (c) 2021<br>
-+#<br>
-+# Authors:<br>
-+#=C2=A0 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gmail.com" targe=
-t=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-+#<br>
-+# This work is licensed under the terms of the GNU GPL, version 2 or<br>
-+# later.=C2=A0 See the COPYING file in the top-level directory.<br>
-+<br>
-+import argparse<br>
-+import asyncio<br>
-+import logging<br>
-+from logging import Handler<br>
-+import signal<br>
-+<br>
-+import urwid<br>
-+import urwid_readline<br>
-+<br>
-+from ..qmp import QEMUMonitorProtocol, QMPBadPortError<br>
-+from .message import DeserializationError, Message, UnexpectedTypeError<br=
->
-+from .protocol import ConnectError<br>
-+from .qmp_client import ExecInterruptedError, QMPClient<br>
-+from .util import create_task, pretty_traceback<br>
-+<br>
-+<br>
-+UPDATE_MSG =3D &#39;UPDATE_MSG&#39;<br></blockquote><div><br></div><div>Th=
-is line still feels kind of &quot;naked&quot; on a cold read. It could use =
-a small comment.<br></div></div></div></blockquote><div><span class=3D"gmai=
-l_default" style=3D"font-size:small">Fixed.</span>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_q=
-uote"><div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-+<br>
-+# Using root logger to enable all loggers under qemu and asyncio<br>
-+LOGGER =3D logging.getLogger()<br></blockquote><div><br></div><div>The com=
-ment isn&#39;t quite true; this is the root logger -- but you go on to use =
-it to directly log messages. I don&#39;t think you should; use a module-lev=
-el logger.</div><div><br></div><div>(1) Create a module-level logger that i=
-s named after the current module name (e.g. qemu.aqmp.aqmp_tui) and use tha=
-t for logging messages relating to this module:</div><div>LOGGER =3D loggin=
-g.getLogger(__name__)<br><br></div><div>(2) Where you need to address the r=
-oot logger, just use `root_logger =3D logging.getLogger() ` .... I think th=
-e main() function is the only place you might need this.</div></div></div><=
-/blockquote><div><span class=3D"gmail_default" style=3D"font-size:small">Th=
-e way of logging in the TUI is changed such that, a</span>ll logging is don=
-e through the root level logger<span class=3D"gmail_default" style=3D"font-=
-size:small">. The handlers and levels are installed to the root level</span=
-></div><div><span class=3D"gmail_default" style=3D"font-size:small">logger =
-to allow logging from other libraries to be rerouted to the screen or file.=
-</span></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
-ltr"><div class=3D"gmail_quote"><div><br></div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-+<br>
-+<br>
-+def format_json(msg):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Formats given multiline JSON message into a single line mess=
-age.<br>
-+=C2=A0 =C2=A0 Converting into single line is more asthetically pleasing wh=
-en looking<br>
-+=C2=A0 =C2=A0 along with error messages compared to multiline JSON.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 # FIXME: Use better formatting mechanism. Might break at mor=
-e complex JSON<br>
-+=C2=A0 =C2=A0 # data.<br>
-+=C2=A0 =C2=A0 msg =3D msg.replace(&#39;\n&#39;, &#39;&#39;)<br>
-+=C2=A0 =C2=A0 words =3D msg.split(&#39; &#39;)<br>
-+=C2=A0 =C2=A0 words =3D [word for word in words if word !=3D &#39;&#39;]<b=
-r>
-+=C2=A0 =C2=A0 return &#39; &#39;.join(words)<br>
-+<br></blockquote><div><br></div><div>You can use the JSON module to do thi=
-s, <a href=3D"https://docs.python.org/3/library/json.html#json.dumps" targe=
-t=3D"_blank">https://docs.python.org/3/library/json.html#json.dumps</a></di=
-v><div><br></div><div>Message._serialize uses this technique to send JSON m=
-essages over the wire that have no newlines:</div><div><a href=3D"https://g=
-itlab.com/jsnow/qemu/-/blob/python-async-qmp-aqmp/python/qemu/aqmp/message.=
-py#L132" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/blob/python-asyn=
-c-qmp-aqmp/python/qemu/aqmp/message.py#L132</a></div><div><br></div><div>by=
- not specifying an indent and including separators with no spaces, we can g=
-et a JSON representation with all the space squeezed out. You can add space=
-s and still omit the indent/newlines and so on.</div></div></div></blockquo=
-te><div class=3D"gmail_default" style=3D"font-size:small">But will this wor=
-k for invalid JSON messages? As far as I have tried it doesn&#39;t work.</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div =
-class=3D"gmail_quote"><div></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
-+<br>
-+class App(QMPClient):<br>
-+=C2=A0 =C2=A0 def __init__(self, address):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.register_signal(type(self), UPDATE_MSG)<=
-br></blockquote><div><br></div><div>I found some hidden documentation about=
- this -- I was struggling to find it before:</div><div><a href=3D"https://g=
-ithub.com/urwid/urwid/blob/master/urwid/signals.py#L62" target=3D"_blank">h=
-ttps://github.com/urwid/urwid/blob/master/urwid/signals.py#L62</a></div><di=
-v><br></div><div>So the first argument is meant to be &quot;The class of an=
- object sending the signal&quot;. Alright. And it looks like we only emit f=
-rom add_to_history and in _send_to_server, so I guess that checks out!<br><=
-/div><div><br></div><div>One thing I am noticing is that these signals are =
-global and not per-instance, so if for some reason we ever create a second =
-App I wonder if the __init__ method here will explode ... Well, it&#39;s pr=
-obably not too important right now.<br></div>=C2=A0<blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window =3D Window(self)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.address =3D address<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__()<br>
-+<br>
-+=C2=A0 =C2=A0 def add_to_history(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_MSG, msg)<br>
-+<br>
-+=C2=A0 =C2=A0 def _cb_outbound(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: I think the ideal way to omit these m=
-essages during in-TUI<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # logging will be to add a filter to the logge=
-r. We can use regex to<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # filter out messages starting with &#39;Reque=
-st:&#39; or &#39;Response:&#39; but I<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # think a better approach will be encapsulate =
-the message in an object<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # and filter based on the object. Encapsulatio=
-n of the message will<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # also be necessary when we want different for=
-matting of messages<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # inside TUI.<br></blockquote><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 handler =3D LOGGER.handlers[0]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not isinstance(handler, TUILogHandler):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Request: %s&#3=
-9;, str(msg))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(&#39;&lt;-- &#39; + str(ms=
-g))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
-+<br>
-+=C2=A0 =C2=A0 def _cb_inbound(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 handler =3D LOGGER.handlers[0]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not isinstance(handler, TUILogHandler):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Response: %s&#=
-39;, str(msg))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(&#39;--&gt; &#39; + str(ms=
-g))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
-+<br>
-+=C2=A0 =C2=A0 async def wait_for_events(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 async for event in self.events:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.handle_event(event)<br>
-+<br></blockquote><div><br></div><div>Can handle_event be moved here so tha=
-t related functions are somewhat near each other?<br></div></div></div></bl=
-ockquote><div><span class=3D"gmail_default" style=3D"font-size:small">Fixed=
-.</span>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 async def _send_to_server(self, raw_msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: Format the raw_msg in history view to=
- one line. It is not<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # pleasing to see multiple lines JSON object w=
-ith an error statement.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D Message(bytes(raw_msg, e=
-ncoding=3D&#39;utf-8&#39;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Format multiline json into a s=
-ingle line JSON, since it is more<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # pleasing to look along with er=
-r message in TUI.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raw_msg =3D self.format_json(raw=
-_msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self._raw(msg, assign_id=
-=3D&#39;id&#39; not in msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except (ValueError, TypeError) as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Invalid message=
-: %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(f&#39;{raw_m=
-sg}: {err}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except (DeserializationError, UnexpectedTypeEr=
-ror) as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Invalid message=
-: %s&#39;, err.error_message)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(f&#39;{raw_m=
-sg}: {err.error_message}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ExecInterruptedError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Error server di=
-sconnected before reply&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_M=
-SG,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;{&quot;error&quot;: &quot;Server disco=
-nnected before reply&quot;}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._set_status(&quot;Server di=
-sconnected&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.error(&#39;Exception from=
- _send_to_server: %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
-+<br>
-+=C2=A0 =C2=A0 def cb_send_to_server(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._send_to_server(msg))<br>
-+<br>
-+=C2=A0 =C2=A0 def unhandled_input(self, key):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;esc&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.kill_app()<br>
-+<br>
-+=C2=A0 =C2=A0 def kill_app(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Work on the disconnect logic<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._kill_app())<br>
-+<br></blockquote><div><br></div><div>That logic needs to be here -- each c=
-ommit needs to make sense by itself. If you&#39;ve improved the connection =
-logic, it needs to be merged into this commit.<br></div></div></div></block=
-quote><div><span class=3D"gmail_default" style=3D"font-size:small">Through =
-this to-do, I meant to add the connection manager. I&#39;ll remove this TOD=
-O since it&#39;s kind of misleading.</span></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 async def _kill_app(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # It is ok to call disconnect even in disconne=
-ct state<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.disconnect()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Disconnect fin=
-ished. Exiting app&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;_kill_app: %s&#=
-39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Let the app crash after provid=
-ing a proper stack trace<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise urwid.ExitMainLoop()<br>
-+<br>
-+=C2=A0 =C2=A0 def handle_event(self, event):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: Consider all states present in qapi/r=
-un-state.json<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if event[&#39;event&#39;] =3D=3D &#39;SHUTDOWN=
-&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._set_status(&#39;Server shu=
-tdown&#39;)<br>
-+<br></blockquote><div><br></div><div>This is an odd function to me because=
- it will *overwrite* the status bar with this event, but surely shortly the=
-reafter we&#39;re going to see a disconnection event from the transport its=
-elf, so this message will go away almost immediately, won&#39;t it?</div></=
-div></div></blockquote><div class=3D"gmail_default" style=3D"font-size:smal=
-l">It won&#39;t be overwritten in this patch. Once the server shutdown/disc=
-onnects, the generated SHUTDOWN event is handled to update the status bar=
-=C2=A0and the library internally calls disconnect and that&#39;s it.</div><=
-div class=3D"gmail_default" style=3D"font-size:small">Only in the later pat=
-ches do we decide whether to reconnect or not that&#39;s=C2=A0when there is=
- a chance of overwriting. But in this patch, overwriting won&#39;t occur.</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div=
- class=3D"gmail_quote"><div>I understand that connection management stuff i=
-s improved in later patches, but the initial patch here would be better ser=
-ved not having a partial and incorrect implementation. You can just remove =
-features that you intend to &quot;build out&quot; in later commits. And if =
-we remove this, then we don&#39;t need wait_for_events() either, and they c=
-an be re-added in a later commit when they&#39;re given a more full, proper=
- treatment.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-+=C2=A0 =C2=A0 def _set_status(self, msg: str) -&gt; None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(msg)<br>
-+<br>
-+=C2=A0 =C2=A0 def _get_formatted_address(self) -&gt; str:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D f&#39;{self.address}&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(self.address, tuple):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 host, port =3D self.address<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D f&#39;{host}:{port}&#39=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return addr<br></blockquote><div><br></div>Don=
-&#39;t format addr twice in the TCP case -- make sure it formats it once. I=
-t won&#39;t matter much for performance in something like Python, but it&#3=
-9;s misleading when reading it.</div></div></blockquote><div><span class=3D=
-"gmail_default" style=3D"font-size:small">Fixed.</span>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gm=
-ail_quote"><br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 async def connect_server(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.connect(self.address)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D self._get_formatted_add=
-ress()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._set_status(f&#39;Connected=
- to {addr}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ConnectError as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;connect_server:=
- ConnectError %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._set_status(&#39;Server shu=
-tdown&#39;)<br></blockquote><div><div class=3D"gmail_default" style=3D"font=
--size:small"> </div><br></div><div>A failure to connect doesn&#39;t necessa=
-ry mean the server was shut down.<br></div></div></div></blockquote><div><s=
-pan class=3D"gmail_default" style=3D"font-size:small">Fixed.</span></div><d=
-iv><span class=3D"gmail_default" style=3D"font-size:small">It now shows [Co=
-nnectError: &lt;Short description&gt;] eg: [ConnectError:=C2=A0Failed to es=
-tablish connection]</span><span class=3D"gmail_default" style=3D"font-size:=
-small">.</span></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-+<br></blockquote><div><br></div><div>I suspect this is changed in later co=
-mmits in this series, but you should probably set the footer to something b=
-efore we potentially hang on connect() and do a whole lot of nothing. LIke =
-other critiques about unfinished interfaces, once you&#39;ve implemented th=
-em, they should be worked into this patch so that each commit makes sense b=
-y itself. Reviewers will have to read these patches and make sense of them.=
- If they have to flip through your entire series to understand what it will=
- eventually look like, it&#39;s a lot more work and you&#39;re less likely =
-to get good or helpful reviews.<br></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 def run(self, debug=3DFalse):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D asyncio.get_event_loop()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.set_debug(debug)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Gracefully handle SIGTERM and SIGINT signals=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cancel_signals =3D [signal.SIGTERM, signal.SIG=
-INT]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for sig in cancel_signals:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.add_signal_handler(si=
-g, self.kill_app)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 event_loop =3D urwid.AsyncioEventLoop(loop=3Ds=
-elf.aloop)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 main_loop =3D urwid.MainLoop(urwid.AttrMap(sel=
-f.window, &#39;background&#39;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unhandled_input=3Dself.=
-unhandled_input,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handle_mouse=3DTrue,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event_loop=3Devent_loop=
-)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.wait_for_events(), self.aloop=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.connect_server(), self.aloop)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 main_loop.run()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.error(&#39;%s\n%s\n&#39;,=
- str(err), pretty_traceback())<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
-+<br>
-+<br>
-+class StatusBar(urwid.Text):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 A simple Text widget that currently only shows connection st=
-atus.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, text=3D&#39;&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(text, align=3D&#39;right&#39;=
-)<br>
-+<br>
-+<br>
-+class Editor(urwid_readline.ReadlineEdit):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Support urwid_readline features along with<br>
-+=C2=A0 =C2=A0 history support which lacks in urwid_readline<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(caption=3D&#39;&gt; &#39;, mu=
-ltiline=3DTrue)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D []<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D -1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+<br>
-+=C2=A0 =C2=A0 def keypress(self, size, key):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Add some logic for down key and clean =
-up logic if possible.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Returning None means the key has been handle=
-d by this widget<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # which otherwise is propogated to the parent =
-widget to be<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # handled<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D self.get_edit_text()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;up&#39; and not msg:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Show the history when &#39;up =
-arrow&#39; is pressed with no input text.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # NOTE: The show_history logic i=
-s necessary because in &#39;multiline&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # mode (which we use) &#39;up ar=
-row&#39; is used to move between lines.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D True<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_msg =3D self.history[self.l=
-ast_index] if self.history else &#39;&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(last_msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D len(last_msg)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=3D 1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;up&#39; and self.show_his=
-tory:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.last_index &lt; len(self=
-.history):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text=
-(self.history[self.last_index])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D =
-len(self.history[self.last_index])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=
-=3D 1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;meta enter&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # When using multiline, enter in=
-serts a new line into the editor<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # send the input to the server o=
-n alt + enter<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master.cb_send_to_server(ms=
-g)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.insert(0, msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(&#39;&#39;)<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return super().keypress(size, ke=
-y)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
-+<br>
-+<br>
-+class EditorWidget(urwid.Filler):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Wraps CustomEdit<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(Editor(master), valign=3D&#39=
-;top&#39;)<br>
-+<br>
-+<br>
-+class HistoryBox(urwid.ListBox):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Shows all the QMP message transmitted/received<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D urwid.SimpleFocusListWalker([=
-])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.history)<br>
-+<br>
-+=C2=A0 =C2=A0 def add_to_history(self, history):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.append(urwid.Text(history))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.history:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.set_focus(len(self.=
-history) - 1)<br>
-+<br>
-+<br>
-+class HistoryWindow(urwid.Frame):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Composes the HistoryBox and EditorWidget<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor_widget =3D EditorWidget(master)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor =3D urwid.LineBox(self.editor_widg=
-et)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D HistoryBox(master)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.body =3D urwid.Pile([(&#39;weight&#39;, 8=
-0, self.history),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&#39;weight&#39;, 20, self.editor)]=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.body)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.connect_signal(self.master, UPDATE_MSG, =
-self.cb_add_to_history)<br>
-+<br>
-+=C2=A0 =C2=A0 def cb_add_to_history(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.add_to_history(msg)<br>
-+<br>
-+<br>
-+class Window(urwid.Frame):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 This is going to be the main window that is going to compose=
- other<br>
-+=C2=A0 =C2=A0 windows. In this stage it is unnecesssary but will be necess=
-ary in<br>
-+=C2=A0 =C2=A0 future when we will have multiple windows and want to the sw=
-itch between<br>
-+=C2=A0 =C2=A0 them and display overlays<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 footer =3D StatusBar()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 body =3D HistoryWindow(master)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(body, footer=3Dfooter)<br>
-+<br>
-+<br>
-+class TUILogHandler(Handler):<br>
-+=C2=A0 =C2=A0 def __init__(self, tui):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.tui =3D tui<br>
-+<br>
-+=C2=A0 =C2=A0 def emit(self, record):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 level =3D record.levelname<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D record.getMessage()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D f&#39;[{level}]: {msg}&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.tui.add_to_history(msg)<br>
-+<br>
-+<br>
-+def main():<br>
-+=C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(description=3D&#39;AQMP T=
-UI&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;qmp_server&#39;, help=3D&#39;Addres=
-s of the QMP server&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;&lt; UNIX socket path | TCP addr:port &gt;&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--log-file&#39;, help=3D&#39;The Lo=
-g file name&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--log-level&#39;, default=3D&#39;WA=
-RNING&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 help=3D&#39;Log level &lt;CRITICAL|ERROR|WARNING|INFO|DEBUG|&gt;=
-&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--asyncio-debug&#39;, action=3D&#39=
-;store_true&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 help=3D&#39;Enable debug mode for asyncio loop&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;Generates lot of output, makes TUI unusable when&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;logs are logged in the TUI itself.&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;Use only when logging to a file&#39;)<br></blockquote><div>=
-<br></div><div>Needs spaces between the lines here so that the output reads=
- correctly.<br></div></div></div></blockquote><div><span class=3D"gmail_def=
-ault" style=3D"font-size:small">The output renders properly for me. Can you=
- please post a pic if it doesn&#39;t render correctly for you?</span>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv class=3D"gmail_quote"><div></div><div>=C2=A0</div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 args =3D parser.parse_args()<br>
-+<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 address =3D QEMUMonitorProtocol.parse_address(=
-args.qmp_server)<br>
-+=C2=A0 =C2=A0 except QMPBadPortError as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(err)<br>
-+<br>
-+=C2=A0 =C2=A0 app =3D App(address)<br>
-+<br>
-+=C2=A0 =C2=A0 if args.log_file:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.addHandler(logging.FileHandler(args.log=
-_file))<br>
-+=C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.addHandler(TUILogHandler(app))<br>
-+<br>
-+=C2=A0 =C2=A0 log_level =3D logging.getLevelName(args.log_level)<br>
-+=C2=A0 =C2=A0 # getLevelName returns &#39;Level {log_level}&#39; when a in=
-valid level is passed.<br>
-+=C2=A0 =C2=A0 if log_level =3D=3D f&#39;Level {args.log_level}&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(&#39;Invalid log level&#39;)<br>
-+=C2=A0 =C2=A0 LOGGER.setLevel(log_level)<br>
-+<br></blockquote><div><br></div><div>I think you could do: <br></div><br><=
-div>LOGGER.setLevel(logging.getLevelName(args.log_level))</div><div><br></d=
-iv><div>And it&#39;ll fail if the level was unknown, but work otherwise. Th=
-is would avoid a kind of precarious string-comparison check, which I worry =
-is fragile.<br></div></div></div></blockquote><div><span class=3D"gmail_def=
-ault" style=3D"font-size:small">Fixed.</span>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
-"><div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-+=C2=A0 =C2=A0 app.run(args.asyncio_debug)<br>
-+<br>
-+<br>
-+if __name__ =3D=3D &#39;__main__&#39;:<br>
-+=C2=A0 =C2=A0 main()=C2=A0 # type: ignore<br>
-diff --git a/python/setup.cfg b/python/setup.cfg<br>
-index d106a0ed7a..50f9894468 100644<br>
---- a/python/setup.cfg<br>
-+++ b/python/setup.cfg<br>
-@@ -81,8 +81,22 @@ namespace_packages =3D True<br>
-=C2=A0# fusepy has no type stubs:<br>
-=C2=A0allow_subclassing_any =3D True<br>
-<br>
-+[mypy-qemu.aqmp.aqmp_tui]<br>
-+disallow_untyped_defs =3D False<br>
-+disallow_incomplete_defs =3D False<br>
-+check_untyped_defs =3D False<br>
-+# urwid and urwid_readline have no type stubs:<br>
-+allow_subclassing_any =3D True<br>
-+<br>
-+# The following missing import directives are because these libraries do n=
-ot<br>
-+# provide type stubs. Allow them on an as-needed basis for mypy.<br>
-=C2=A0[mypy-fuse]<br>
--# fusepy has no type stubs:<br>
-+ignore_missing_imports =3D True<br>
-+<br>
-+[mypy-urwid]<br>
-+ignore_missing_imports =3D True<br>
-+<br>
-+[mypy-urwid_readline]<br>
-=C2=A0ignore_missing_imports =3D True<br>
-<br>
-=C2=A0[pylint.messages control]<br>
--- <br>
-2.17.1<br>
-<br></blockquote><div><br></div><div>I have some more thoughts, but need to=
- research them and wanted to give some feedback first so you weren&#39;t wa=
-iting.</div></div></div></blockquote><div><span class=3D"gmail_default" sty=
-le=3D"font-size:small">Thanks for the feedback.</span>=C2=A0</div></div></d=
-iv>
-
---000000000000dc99d305c97242df--
+thanks
+-- PMM
 
