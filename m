@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B163EAE34
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 03:41:18 +0200 (CEST)
-Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707083EAE3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 03:44:39 +0200 (CEST)
+Received: from localhost ([::1]:54540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEMCD-0004y4-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 21:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39620)
+	id 1mEMFS-0006oG-ID
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 21:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mEMAf-00033i-LO; Thu, 12 Aug 2021 21:39:41 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:33514)
+ id 1mEMEB-00062h-7V; Thu, 12 Aug 2021 21:43:19 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:43526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mEMAe-0003GJ-CS; Thu, 12 Aug 2021 21:39:41 -0400
-Received: by mail-il1-x12c.google.com with SMTP id z2so9252821iln.0;
- Thu, 12 Aug 2021 18:39:39 -0700 (PDT)
+ id 1mEME9-0005pk-Uj; Thu, 12 Aug 2021 21:43:19 -0400
+Received: by mail-io1-xd29.google.com with SMTP id y1so11140012iod.10;
+ Thu, 12 Aug 2021 18:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a2YE3M6FXRW65W1ZJ6O4/UmdH4r055aWSH6uw+saxuk=;
- b=dtMoZuC1J3SYwMOnMLFpkWLA0vz1IudFDZFML5WxilejOPoN2YRL18D6LYyJV+ZsH3
- oVdHFWSXLDyUEpUIt7I1EGY193qPlZXPFU6H58hpPMapqxfAeIChfBmdOIRYKNSeyD+1
- UImzY8EA5g4QWr6N7X9kULJLJWVwk6QYBWfEZ5a3qu71hozHazIgONHhSWcBICScFJls
- 44ZwqGKwomQ53ubK8hz81uYx3BY7kh5cyiCfuxzQJxxGBwFLuwU3qtO9pFp5IMT2xlTz
- hSYzyB5d4Y2UbKFrE5X5GsKsbqPIWAePC1R0WmltwTgacoCxlLxpmFV4iLmxlQNip9iP
- y+Nw==
+ :cc; bh=CIiPSBRhrt7l92WVusC88oVA7+90joh5Nzx/VnLiPUg=;
+ b=rbhO6QZGqa01Bt31zUF6h2IgqFW9hkCEc3e6wyZ5w19pu/hO0vdfnqQS+vqSpLdPgC
+ Xf3zTxjl2IJVwmUc1UCDi2nfuF2/GAkI+1G5avsFDLh1sZ0uqPKmcWNb7MI/BY4C67Dh
+ MhvHEnPl9doymvEzbuMyKhwda1hK2BdwxmUqyUZJT1gcWvRsB8frWsPbphEzV6eIPDCJ
+ zlS1+n23NmPP2hF305dcYvCNOS7ZhPws/G3trx76or3ldeLlpanrzFFjJj5sE0p2XZGS
+ f1OyZyM2TewyMlEHgBvZfR7X49e+SJFjHm6NmPzRUNkZI5Ih7dNeTPlGG5kxBao8uOxW
+ sRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=a2YE3M6FXRW65W1ZJ6O4/UmdH4r055aWSH6uw+saxuk=;
- b=rHwzD3bv7UBzY2r5zwUFokm/2cEm4lJgee4GWR8nxvzER432wyOWqYBykL/0H2hXt1
- 5pOptSuNnbaHjlvjHoXeo+fSTpig8Z3smIMyeZKNR/mhjlsV8KgXQWdrS+DeZKeWD3fQ
- 5C12fc6mEtXYQmb/H3cJxYGQ5BHF5kmcyY5iDl8MBCTyn42+4ecCirO67JlY/v61p1si
- j0dRPO/UBQbPIzfxbGiuQPtfhQFsjLHvoOSWiJDRR+/7uzr1L8AZx3tBN1sUQ0BBYppB
- P3gDhhCPDwR3H7dH5WskBaVVEktnDG5anTq1wICBeQLhtEV86tK/QD1eNqKXo9BRWb/1
- Xubg==
-X-Gm-Message-State: AOAM530BeQrZmQJEua0Kazaxw+ECuGKup1wZZVAtO5fLEv2NA0joX3to
- QtQ57njfLVgnbhSeKPxQtMFolQ9NHcIJDowoa/g=
-X-Google-Smtp-Source: ABdhPJw+reefPTpADU0y0ZrxqUSZM+BTFBBcHRySN8NCxYY8Cz38TmVizT0A2ojDDE4bj6EcBUSmYdNw572LFzEir1o=
-X-Received: by 2002:a92:8707:: with SMTP id m7mr15471ild.177.1628818779026;
- Thu, 12 Aug 2021 18:39:39 -0700 (PDT)
+ bh=CIiPSBRhrt7l92WVusC88oVA7+90joh5Nzx/VnLiPUg=;
+ b=gq2B6xvAs2f/Grk5uDgE+7S+zV4bXW9gXAME6nkL7ymkZat4AUcQZZamZq6qDn38JB
+ cZHmsaYMAiRfKbrUBbsJNafhhr5DN3kB7xR8TCk7KN8HdPEvK7Bn575RyKxpXlLwXREj
+ rb//XenFi96EhrNjyHzsc3owPEiqq0naTHYU3fCmg43Inkoki2Gxb2Lnb+pvzZCx1yIK
+ X9qSDn6Iq/qTNL2jZqbUH6xL0y0jxnheSH/xmoNhX8uLo7M060p7GRpd6j97Da46uYMJ
+ 8SQ0B/TJWr/0o3BPpykdwuORPTtFTPfROMvHUIfdXfdHBUZI8/y3eVk6h84o78MjzqYp
+ Sbiw==
+X-Gm-Message-State: AOAM533WI9V+LJvY/3GxVjqm1iSMzxzRAbn6rQUV+blJNm3vQ1cVVKN3
+ vY3yrQ65PZnxE/RfFDNweg9UM0xW3DmmB/pZdEM=
+X-Google-Smtp-Source: ABdhPJwNuNoQTVLa9fRorMQI+/5jAOL5MeGQz8dWmKUII4szGAc879GLRavywaAHkJVADv8awL6Amac1slyYmYXQKLI=
+X-Received: by 2002:a6b:e702:: with SMTP id b2mr50893ioh.118.1628818996550;
+ Thu, 12 Aug 2021 18:43:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-15-peter.maydell@linaro.org>
-In-Reply-To: <20210812093356.1946-15-peter.maydell@linaro.org>
+References: <20210810014552.4884-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210810014552.4884-1-zhiwei_liu@c-sky.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 13 Aug 2021 11:39:13 +1000
-Message-ID: <CAKmqyKNQ3DUaw0GYOBjjBLM_GJqFsjotF5vtVPP35X1EV-W7oQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 14/25] hw/arm/stm32vldiscovery: Delete trailing
- blank line
-To: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Aug 2021 11:42:50 +1000
+Message-ID: <CAKmqyKNGqYyBHEnVQucao1e9f_CLyokFd9F-KA8Ck64BrQrGcw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] target/riscv: Add User CSRs read-only check
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -77,39 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 12, 2021 at 7:44 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, Aug 10, 2021 at 11:48 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> Delete the trailing blank line at the end of the source file.
+> For U-mode CSRs, read-only check is also needed.
 >
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/arm/stm32vldiscovery.c | 1 -
->  1 file changed, 1 deletion(-)
+>  target/riscv/csr.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
-> index 07e401a818d..9b79004703b 100644
-> --- a/hw/arm/stm32vldiscovery.c
-> +++ b/hw/arm/stm32vldiscovery.c
-> @@ -65,4 +65,3 @@ static void stm32vldiscovery_machine_init(MachineClass *mc)
->  }
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 9a4ed18ac5..5499cae94a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>      RISCVException ret;
+>      target_ulong old_value;
+>      RISCVCPU *cpu = env_archcpu(env);
+> +    int read_only = get_field(csrno, 0xC00) == 3;
 >
->  DEFINE_MACHINE("stm32vldiscovery", stm32vldiscovery_machine_init)
-> -
+>      /* check privileges and return -1 if check fails */
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv = env->priv;
+> -    int read_only = get_field(csrno, 0xC00) == 3;
+>
+>      if (riscv_has_ext(env, RVH) &&
+>          env->priv == PRV_S &&
+> @@ -1439,11 +1439,13 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>          effective_priv++;
+>      }
+>
+> -    if ((write_mask && read_only) ||
+> -        (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
+> +    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>  #endif
+> +    if (write_mask && read_only) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+>
+>      /* ensure the CSR extension is enabled. */
+>      if (!cpu->cfg.ext_icsr) {
 > --
-> 2.20.1
+> 2.17.1
 >
 >
 
