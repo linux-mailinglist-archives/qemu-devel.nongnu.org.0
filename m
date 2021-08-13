@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707083EAE3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 03:44:39 +0200 (CEST)
-Received: from localhost ([::1]:54540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604983EAEB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 04:45:29 +0200 (CEST)
+Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEMFS-0006oG-ID
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 21:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39966)
+	id 1mENCK-0003dW-Ds
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 22:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mEMEB-00062h-7V; Thu, 12 Aug 2021 21:43:19 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:43526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mEME9-0005pk-Uj; Thu, 12 Aug 2021 21:43:19 -0400
-Received: by mail-io1-xd29.google.com with SMTP id y1so11140012iod.10;
- Thu, 12 Aug 2021 18:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CIiPSBRhrt7l92WVusC88oVA7+90joh5Nzx/VnLiPUg=;
- b=rbhO6QZGqa01Bt31zUF6h2IgqFW9hkCEc3e6wyZ5w19pu/hO0vdfnqQS+vqSpLdPgC
- Xf3zTxjl2IJVwmUc1UCDi2nfuF2/GAkI+1G5avsFDLh1sZ0uqPKmcWNb7MI/BY4C67Dh
- MhvHEnPl9doymvEzbuMyKhwda1hK2BdwxmUqyUZJT1gcWvRsB8frWsPbphEzV6eIPDCJ
- zlS1+n23NmPP2hF305dcYvCNOS7ZhPws/G3trx76or3ldeLlpanrzFFjJj5sE0p2XZGS
- f1OyZyM2TewyMlEHgBvZfR7X49e+SJFjHm6NmPzRUNkZI5Ih7dNeTPlGG5kxBao8uOxW
- sRoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CIiPSBRhrt7l92WVusC88oVA7+90joh5Nzx/VnLiPUg=;
- b=gq2B6xvAs2f/Grk5uDgE+7S+zV4bXW9gXAME6nkL7ymkZat4AUcQZZamZq6qDn38JB
- cZHmsaYMAiRfKbrUBbsJNafhhr5DN3kB7xR8TCk7KN8HdPEvK7Bn575RyKxpXlLwXREj
- rb//XenFi96EhrNjyHzsc3owPEiqq0naTHYU3fCmg43Inkoki2Gxb2Lnb+pvzZCx1yIK
- X9qSDn6Iq/qTNL2jZqbUH6xL0y0jxnheSH/xmoNhX8uLo7M060p7GRpd6j97Da46uYMJ
- 8SQ0B/TJWr/0o3BPpykdwuORPTtFTPfROMvHUIfdXfdHBUZI8/y3eVk6h84o78MjzqYp
- Sbiw==
-X-Gm-Message-State: AOAM533WI9V+LJvY/3GxVjqm1iSMzxzRAbn6rQUV+blJNm3vQ1cVVKN3
- vY3yrQ65PZnxE/RfFDNweg9UM0xW3DmmB/pZdEM=
-X-Google-Smtp-Source: ABdhPJwNuNoQTVLa9fRorMQI+/5jAOL5MeGQz8dWmKUII4szGAc879GLRavywaAHkJVADv8awL6Amac1slyYmYXQKLI=
-X-Received: by 2002:a6b:e702:: with SMTP id b2mr50893ioh.118.1628818996550;
- Thu, 12 Aug 2021 18:43:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mEN6d-0006Ul-A9
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:35 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mEN6W-0001xg-4Z
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:35 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gm72b4fcyzdZTY;
+ Fri, 13 Aug 2021 10:35:35 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 13 Aug 2021 10:39:16 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 13 Aug 2021 10:39:15 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH for-6.2 v5 00/14] machine: smp parsing fixes and improvement
+Date: Fri, 13 Aug 2021 10:38:58 +0800
+Message-ID: <20210813023912.105880-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-References: <20210810014552.4884-1-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210810014552.4884-1-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 13 Aug 2021 11:42:50 +1000
-Message-ID: <CAKmqyKNGqYyBHEnVQucao1e9f_CLyokFd9F-KA8Ck64BrQrGcw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] target/riscv: Add User CSRs read-only check
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,63 +62,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 11:48 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> For U-mode CSRs, read-only check is also needed.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Hi,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This is new version (v5 with a little update in patch #6) of the series [1]
+that I have posted to introduce some fixes and improvement for SMP parsing.
 
-Alistair
+[1] https://lore.kernel.org/qemu-devel/20210803080527.156556-1-wangyanan55@huawei.com/
 
-> ---
->  target/riscv/csr.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9a4ed18ac5..5499cae94a 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1422,11 +1422,11 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->      RISCVException ret;
->      target_ulong old_value;
->      RISCVCPU *cpu = env_archcpu(env);
-> +    int read_only = get_field(csrno, 0xC00) == 3;
->
->      /* check privileges and return -1 if check fails */
->  #if !defined(CONFIG_USER_ONLY)
->      int effective_priv = env->priv;
-> -    int read_only = get_field(csrno, 0xC00) == 3;
->
->      if (riscv_has_ext(env, RVH) &&
->          env->priv == PRV_S &&
-> @@ -1439,11 +1439,13 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->          effective_priv++;
->      }
->
-> -    if ((write_mask && read_only) ||
-> -        (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
-> +    if (!env->debugger && (effective_priv < get_field(csrno, 0x300))) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->  #endif
-> +    if (write_mask && read_only) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
->
->      /* ensure the CSR extension is enabled. */
->      if (!cpu->cfg.ext_icsr) {
-> --
-> 2.17.1
->
->
+Most of this series is about the SMP parsers:
+maxcpus is now uniformly used to calculate the omitted topology members,
+calculation of omitted maxcpus/cpus is improved, the error reporting is
+improved. It's also suggested that we should start to prefer cores over
+sockets over threads on the newer machine types, which will make the
+computed virtual topology more reflective of the real hardware.
+
+In order to reduce code duplication and ease the code maintenance, smp_parse
+in now converted into a parser generic enough for all arches, so that the PC
+specific one can be removed. It's also convenient to introduce more topology
+members to the generic parser in the future.
+
+Finally, a QEMU unit test for the parsing of given SMP configuration is added.
+Since all the parsing logic is in generic function smp_parse(), this test
+passes different SMP configurations to the function and compare the parsing
+result with what is expected. In the test, all possible collections of the
+topology parameters and the corresponding expected results are listed,
+including the valid and invalid ones. The preference of sockets over cores
+and the preference of cores over sockets, and the support of multi-dies are
+also taken into consideration.
+
+---
+
+Changelogs:
+
+v4->v5:
+- refactor out the duplicated "threads == 0" case in patch #6 (Pankaj)
+- pick up more R-b tags from v4 (thanks very much for the review!)
+- v4: https://lore.kernel.org/qemu-devel/20210803080527.156556-1-wangyanan55@huawei.com/
+
+v3->v4:
+- put all the sanity check into the parser
+- refine the unit test and add it back to the series
+- add the R-b/A-b tags for the reviewed/acked patches
+- v3: https://lore.kernel.org/qemu-devel/20210728034848.75228-1-wangyanan55@huawei.com/
+
+v2->v3:
+- apply the calculation improvement to smp_parse and pc_smp_parse
+  separately and then convert the finally improved parsers into a
+  generic one, so that patches can be reviewed separately.
+- to ease review, drop the unit test part for a while until we have
+  a good enough generic parser.
+- send the patch "machine: Disallow specifying topology parameters as zero"
+  for 6.1 separately.
+- v2: https://lore.kernel.org/qemu-devel/20210719032043.25416-1-wangyanan55@huawei.com/
+
+v1->v2:
+- disallow "anything=0" in the smp configuration (Andrew)
+- make function smp_parse() a generic helper for all arches
+- improve the error reporting in the parser
+- start to prefer cores over sockets since 6.2 (Daniel)
+- add a unit test for the smp parsing (Daniel)
+- v1: https://lore.kernel.org/qemu-devel/20210702100739.13672-1-wangyanan55@huawei.com/
+
+---
+
+Yanan Wang (14):
+  machine: Minor refactor/cleanup for the smp parsers
+  machine: Uniformly use maxcpus to calculate the omitted parameters
+  machine: Set the value of cpus to match maxcpus if it's omitted
+  machine: Improve the error reporting of smp parsing
+  hw: Add compat machines for 6.2
+  machine: Prefer cores over sockets in smp parsing since 6.2
+  machine: Use ms instead of global current_machine in sanity-check
+  machine: Tweak the order of topology members in struct CpuTopology
+  machine: Make smp_parse generic enough for all arches
+  machine: Remove smp_parse callback from MachineClass
+  machine: Move smp_prefer_sockets to struct SMPCompatProps
+  machine: Put all sanity-check in the generic SMP parser
+  machine: Split out the smp parsing code
+  tests/unit: Add a unit test for smp parsing
+
+ MAINTAINERS                 |   2 +
+ hw/arm/virt.c               |  10 +-
+ hw/core/machine-smp.c       | 200 ++++++++
+ hw/core/machine.c           | 106 +----
+ hw/core/meson.build         |   1 +
+ hw/i386/pc.c                |  66 +--
+ hw/i386/pc_piix.c           |  15 +-
+ hw/i386/pc_q35.c            |  14 +-
+ hw/ppc/spapr.c              |  16 +-
+ hw/s390x/s390-virtio-ccw.c  |  15 +-
+ include/hw/boards.h         |  27 +-
+ include/hw/i386/pc.h        |   3 +
+ qemu-options.hx             |  14 +-
+ tests/unit/meson.build      |   1 +
+ tests/unit/test-smp-parse.c | 892 ++++++++++++++++++++++++++++++++++++
+ 15 files changed, 1205 insertions(+), 177 deletions(-)
+ create mode 100644 hw/core/machine-smp.c
+ create mode 100644 tests/unit/test-smp-parse.c
+
+--
+2.19.1
+
 
