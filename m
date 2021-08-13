@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F5F3EB590
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 14:31:24 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2528C3EB591
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 14:31:27 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEWLL-0004Eg-PH
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 08:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37198)
+	id 1mEWLO-0004IW-4X
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 08:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEWJB-0002tf-F8
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 08:29:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26577)
+ id 1mEWJE-0002uV-Bw
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 08:29:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mEWJ8-0000TY-CD
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 08:29:09 -0400
+ id 1mEWJC-0000VD-GN
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 08:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628857744;
+ s=mimecast20190719; t=1628857749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L4P+Gl9/zlz0S399GeY7IbVz31asn1/6du/0scalYGE=;
- b=VCjfH9LTLWaXdbNA9ulRka15iUYLWUArVGgumZ+d6poG9AIC53/TcuLaKKX5MWQ0xv86Ee
- 4r6ujgF9ImpRsZ85nUSKWL8YvcJMh7KNFj9Ciq4OrlcLr8EZtMjrUK81bEWSwECHnfLlHP
- 4JjQ+fH5dsyNOV74JcpgLeQ3EZGcty4=
+ bh=OSP2+C2vIPDCwq+3R7kCfYC/H0KElcuCC7smvCCwR5M=;
+ b=WPIh8WCX86b7+qfO+jzYfPMiBUgpYfeJxEOjvUf0M2z+ZW+ERatDNOY7n3BgtpHuNxqdlj
+ o5+SVFreERLLonu1SL9wd1hHpzDDfhoze6WeOwFwyTZx5LtlqyvMxHPDlW/ALEuqWKOlLM
+ nTkWGTbyuXuti+UODCI4QpiluZLuupU=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-u9HQ3NMDNs-fAFpWoJ5hog-1; Fri, 13 Aug 2021 08:29:03 -0400
-X-MC-Unique: u9HQ3NMDNs-fAFpWoJ5hog-1
+ us-mta-295-z0uQO2rwPYGeUjqBLtVEYQ-1; Fri, 13 Aug 2021 08:29:08 -0400
+X-MC-Unique: z0uQO2rwPYGeUjqBLtVEYQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- b196-20020a1c80cd0000b02902e677003785so4665546wmd.7
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 05:29:03 -0700 (PDT)
+ c2-20020a7bc8420000b0290238db573ab7so4669452wml.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 05:29:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L4P+Gl9/zlz0S399GeY7IbVz31asn1/6du/0scalYGE=;
- b=VyfBD9Ma4XgUgLXhIF0D/xVkMle9B6ygswEfx/maw2dBKyMnCpYOm7cqLos8g8gEhn
- 4T1A7RwpF4/CMfxvwcpV8fNc9xyJALGq3AJfFD8itjKGE2jMMkIjUYLG3N3TzVyznqep
- uDNY2U8nMWxXaWLTCs2oU9aSzA8K/a3rswxpKl7TGrySlOfLlfLWw0GKQxEkZ3rmMakn
- JvcVCauviFzS+/wrvNr4zKdriPPk1vhx+p1xtj7i5Q9tlMuDE5AYVvuF1FWI7dz+YZSO
- xlS9AjZ+WhAVWTes2niilDMo/xiJH/+8UxdJ7J/4Cgb3rPa00Q2gX2g1G2I0ctQGfIEK
- Gtsg==
-X-Gm-Message-State: AOAM5322HSNPMxZq8rCPZI8i1KXil0ZUx0oQTb0FrcBA2yuYQtfSDmWX
- 6ILCeV9JvFBnzTJUjYTw/BcSxm4H8e2E35oQh7HwFucGiCnDZl/RayTgqPR0ZE1t5cKMGwkaY8Y
- hodEar0k7hzFuHrY=
-X-Received: by 2002:a05:600c:a08:: with SMTP id
- z8mr2515886wmp.165.1628857742225; 
- Fri, 13 Aug 2021 05:29:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8K8QS4bulUPXdT0RqpNVUibPDhy71EopDNi38U0JDOQilj8PiXMWRgZpbH9ei/xzfxm44ZA==
-X-Received: by 2002:a05:600c:a08:: with SMTP id
- z8mr2515872wmp.165.1628857742011; 
- Fri, 13 Aug 2021 05:29:02 -0700 (PDT)
+ bh=OSP2+C2vIPDCwq+3R7kCfYC/H0KElcuCC7smvCCwR5M=;
+ b=T6FrSpkUQHgi4NqRrCjkNMIrEoIKxCO4xZQMSopjgs8Debu3z2FrOmVSmM7bT5TpB6
+ 12eTQo1cKMYBFD1+8pojYEgSKuRb6LoLVGAyHz07/0eAwqfJd4AN7NKXntYBXv0+0VQf
+ zu7DOgsPED3j9OOhqiE90mZHU+P8RAZ8LQRrArUDCgcBnETSP+RBjHrQZe/VbGDQYEYr
+ EZIzrPUe3YyJVpP6lRKYigeuIYaBrJbwlww9HjJ/TYU62kOJne9wNANPjhOmIRHa9sqg
+ lL0xpxw2s8GM74v8TyOOEOfqkRz8NlTh+4ycxI7LOGWGlM/ZX8Nipj6O7h0hEWaifNsQ
+ 2Rpw==
+X-Gm-Message-State: AOAM533yxAAuVR6WQsyhHgHRHzKSoSceUI+hfuw1bYA7aM6lwri2Zb7R
+ kykeODrrek5bgQdoodzfZoJmdToJw28U6DtQTX5T2rx749qEKDf3vZJfc+9a3c2iqOPlad5ikEh
+ z1jCmpTZvCbg99nI=
+X-Received: by 2002:a5d:668f:: with SMTP id l15mr2931320wru.390.1628857747514; 
+ Fri, 13 Aug 2021 05:29:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2B1xDeaa06FQ+8dDtGUK2HrZD2s5G9Zqm/bfkX5BXcxqpZIJ2Emcgn8DFxHfCYJtOXO/Axg==
+X-Received: by 2002:a5d:668f:: with SMTP id l15mr2931296wru.390.1628857747292; 
+ Fri, 13 Aug 2021 05:29:07 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o28sm1271574wms.14.2021.08.13.05.29.01
+ by smtp.gmail.com with ESMTPSA id o34sm1236403wms.10.2021.08.13.05.29.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Aug 2021 05:29:01 -0700 (PDT)
-Subject: Re: [PATCH] softmmu/physmem.c: Check return value from realpath()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210812151525.31456-1-peter.maydell@linaro.org>
+ Fri, 13 Aug 2021 05:29:06 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1? v2 1/3] hw/core: Add missing return on error
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210813112608.1452541-1-philmd@redhat.com>
+ <20210813112608.1452541-2-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f9232061-b9d3-c94e-81fa-d59330be4400@redhat.com>
-Date: Fri, 13 Aug 2021 14:29:00 +0200
+Message-ID: <fc4eb676-c144-04f8-755e-9f10a9eb8e64@redhat.com>
+Date: Fri, 13 Aug 2021 14:29:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210812151525.31456-1-peter.maydell@linaro.org>
+In-Reply-To: <20210813112608.1452541-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -101,37 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/08/21 17:15, Peter Maydell wrote:
-> The realpath() function can return NULL on error, so we need to check
-> for it to avoid crashing when we try to strstr() into it.
-> This can happen if we run out of memory, or if /sys/ is not mounted,
-> among other situations.
+On 13/08/21 13:26, Philippe Mathieu-Daudé wrote:
+> If dies is not supported by this machine's CPU topology, don't
+> keep processing options and return directly.
 > 
-> Fixes: Coverity 1459913, 1460474
-> Fixes: ce317be98db0 ("exec: fetch the alignment of Linux devdax pmem character device nodes")
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 0aebebb561c ("machine: reject -smp dies!=1 for non-PC machines")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   softmmu/physmem.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   hw/core/machine.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index c47cb6da2e4..eb0595d57c4 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1451,6 +1451,9 @@ static int64_t get_file_align(int fd)
->           path = g_strdup_printf("/sys/dev/char/%d:%d",
->                       major(st.st_rdev), minor(st.st_rdev));
->           rpath = realpath(path, NULL);
-> +        if (!rpath) {
-> +            return -errno;
-> +        }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 943974d411c..abaeda589b7 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -752,6 +752,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
 >   
->           rc = daxctl_new(&ctx);
->           if (rc) {
+>       if (config->has_dies && config->dies != 0 && config->dies != 1) {
+>           error_setg(errp, "dies not supported by this machine's CPU topology");
+> +        return;
+>       }
+>   
+>       /* compute missing values, prefer sockets over cores over threads */
 > 
 
 Queued, thanks.
