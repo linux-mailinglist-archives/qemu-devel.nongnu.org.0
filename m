@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4533EBC16
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 20:32:02 +0200 (CEST)
-Received: from localhost ([::1]:59942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E9C3EBC21
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 20:35:44 +0200 (CEST)
+Received: from localhost ([::1]:34598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEbyJ-0005nM-KQ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 14:31:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
+	id 1mEc1v-0007o8-VG
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 14:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEbwp-00051e-UW
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:30:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30068)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc0m-00079T-G5
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:34:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEbwm-00012M-67
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:30:26 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mEc0j-0003oq-Ii
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 14:34:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628879422;
+ s=mimecast20190719; t=1628879668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ho+809Z1ClvdOMfsddXMlmCtsWbMOC6QB7oQQ3TRWcE=;
- b=N5SPQpqkpB688WOJxnb+tk7cUurbp8X3dGsvrb2g0PdXiGtU0HkYhfFmdJXQb12Ylu1xck
- dL6/Mou1uZoHFkD2lO2bGOIM4O/VNpOn/jUWJLxuPgYLzLqVffo+hN3sR2+46RhyWXdYVV
- TouT44kPpHsGV01kq4/ORUCPBsLf5tU=
+ bh=WjMW15oERAyVXCUAhFC83Dn4gAapCpsy4uGJ35iLeUo=;
+ b=F+9UzfRnHZmXVL6YWrGBeHZoWN4R3uy9IJMfcCDfXMHzDjFhaSuWiGMvJ2QWUkJMAoDcj7
+ tAv0/bkL/8oPXGpfopvIwpI9y7TToYctQffdq48doWRQ7OKUxDIb8tdxxUbH6o1Q8Zyooz
+ R2jAs7xvyS6b+OIk6w7NofqDqvHBr5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-__KXVWmKOjW7oUMdCFLaUg-1; Fri, 13 Aug 2021 14:30:19 -0400
-X-MC-Unique: __KXVWmKOjW7oUMdCFLaUg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-579-hZjL76vNNBaDVduCsvsqbg-1; Fri, 13 Aug 2021 14:34:27 -0400
+X-MC-Unique: hZjL76vNNBaDVduCsvsqbg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B74842E77;
- Fri, 13 Aug 2021 18:30:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0591008060;
+ Fri, 13 Aug 2021 18:34:25 +0000 (UTC)
 Received: from redhat.com (ovpn-112-138.phx2.redhat.com [10.3.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E9705D9D5;
- Fri, 13 Aug 2021 18:30:18 +0000 (UTC)
-Date: Fri, 13 Aug 2021 13:30:15 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF1B2C607;
+ Fri, 13 Aug 2021 18:34:25 +0000 (UTC)
+Date: Fri, 13 Aug 2021 13:34:23 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.2 0/4] Zero sockaddr_in when initializing it
-Message-ID: <20210813183015.qlfqrshmplxseued@redhat.com>
+Subject: Re: [PATCH for-6.2 1/4] net: Zero sockaddr_in in parse_host_port()
+Message-ID: <20210813183423.glwazjhru7qrwkad@redhat.com>
 References: <20210813150506.7768-1-peter.maydell@linaro.org>
+ <20210813150506.7768-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210813150506.7768-1-peter.maydell@linaro.org>
+In-Reply-To: <20210813150506.7768-2-peter.maydell@linaro.org>
 User-Agent: NeoMutt/20210205-687-0ed190
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,37 +84,38 @@ Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 13, 2021 at 04:05:02PM +0100, Peter Maydell wrote:
-> The POSIX spec for sockaddr_in says that implementations are allowed
-> to have implementation-dependent extensions controlled by extra
-> fields in the struct, and that the way to ensure these are not
-> accidentally activated is to zero out the whole data structure.
-> We have several places in our codebase where we don't zero-init
-> sockaddr_in structs and so (at least in theory) might run into this.
-> Coverity spotted the ones in the net code (CID 1005338); the
-> others in this series I found by looking at all uses of sockaddr_in.
-> (The gdbstub patch changes also a sockaddr_un use, for symmetry.)
+On Fri, Aug 13, 2021 at 04:05:03PM +0100, Peter Maydell wrote:
+> We don't currently zero-initialize the 'struct sockaddr_in' that
+> parse_host_port() fills in, so any fields we don't explicitly
+> initialize might be left as random garbage.  POSIX states that
+> implementations may define extensions in sockaddr_in, and that those
+> extensions must not trigger if zero-initialized.  So not zero
+> initializing might result in inadvertently triggering an impdef
+> extension.
 > 
-> Thanks to Eric for the analysis of what the spec says and why
-> Coverity is correct here.
+> memset() the sockaddr_in before we start to fill it in.
 
-FWIW, the POSIX wording is interesting - it requires portable
-applications to zero out sockaddr_in6 (and even states that memset()
-is not yet a portable way to do that on exotic hardware, although a
-future version of POSIX may add a zero-bit constraint on
-implementations; in practice we only use qemu on hardware where
-memset() to zero properly sets pointers to NULL and floating points to
-0.0).  But for sockaddr_in, it merely recommends it, with an
-acknowledgment that much existing code fails to do so.  Or put another
-way, POSIX gives carte blanche to implementations to add IPv6
-extensions, but advises that IPv4 implementations should be wary of
-extensions that trigger off of uninitialized fields.
+Technically, POSIX recommends default initialization, as in:
 
-Since you are fixing IPv4 usage, and not IPv6, I agree with your
-designation that this is 6.2 material, and not a regression fix to
-rush into 6.1 (should other patches warrant rc4) - we are unlikely to
-be running on an implementation where the uninitialized fields cause
-noticeable behavior changes to IPv4 behavior.
+struct sockaddr_in sa = { 0 };
+or:
+static struct sockaddr_in sa_init;
+struct sockaddr_in sa = sa_init;
+
+because of odd platforms where default initialization compiles to
+non-zero bits (think platforms where NULL and/or floating point 0.0 do
+not have an all-zero-bit representation - yes, C is weird).  But in
+practice, that does not plague any of the hardware qemu cares about,
+so I'm just fine with memset.
+
+> 
+> Fixes: Coverity CID 1005338
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  net/net.c | 2 ++
+>  1 file changed, 2 insertions(+)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
