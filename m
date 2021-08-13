@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FD73EB75F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 17:07:08 +0200 (CEST)
-Received: from localhost ([::1]:58716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916D63EB761
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 17:07:19 +0200 (CEST)
+Received: from localhost ([::1]:58888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEYm3-0004Iw-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 11:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39962)
+	id 1mEYmE-0004Pg-Ic
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 11:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mEYkC-0001fv-Jv
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:05:12 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37399)
+ id 1mEYkD-0001g2-0W
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:05:13 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mEYkB-0003Re-5Q
+ id 1mEYkB-0003SE-Jl
  for qemu-devel@nongnu.org; Fri, 13 Aug 2021 11:05:12 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r6so13754541wrt.4
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 08:05:10 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id z9so13638996wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 08:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3FVRmcTzegrZx+hw8O+KmFS4HkMYUn5khuNNurixAI0=;
- b=VjA6Nevi5hk1gKIAQtlvoA76rmOxnJG05s4xwvX3es+NqLEFZbFOwkDwxpT9mFEjg4
- tO4qIGsmq5m/d9CBPKAiLhZ3552u1nqvNYHEYKjNv05Bn/1UBZOCcM02N1dQmu6M1dO9
- rLOI9ikqKuZjNptRL1yTD/OiVRZoAITmtKEZ/PKct8Qjyyjz7CtnTb4FJznCBtkyHQ8f
- lwK6uaJDjHzMwD1JNYMHKtE/ucYtD2fg/DiShO4ykFAmHFP/Zk7ETisG6Pmo8wFCJ/6m
- eFwL6GKdw6rA0vvZ6rHs3aZV72y99BfaNDCmofcRaGHV6SONjM2Nj0VwRTwFbvK6EpCt
- 4iNg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=R4SpbrLOmCpTHzbhSXpHi6M49IXENuQ3Igp0+lnrf3E=;
+ b=EH4khaYk8cvhdmslHIw8sLAoapCDXBlwZ1leaMJmCORcn5dF8yVFxwQgXMJpt81zIT
+ viTEJbl+sFlauVLnPl1iOWo0CrHLX5Ca1S6sTLR2Yx1qY5LcsEaG4x9ei4uHdxL8EVCa
+ sl9psCncmbfbc1Oizt6kX+2qQvfwo4yapOZuTjkh1DIjDxAaPIBRjikfAD26kZCv5cWx
+ m9KKvAar+6RahyANa5nVjwVqb6sh1LVEm7LgihYUeY/59/e0lMnCl/G43MFZ+tHF8vEI
+ LgGsUBuut/QMtCL93ZBVGKXZtfHdcnscVuZiAtMiiufsvI3v6t7vyV0qJmXgjNCkrH2l
+ qS6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3FVRmcTzegrZx+hw8O+KmFS4HkMYUn5khuNNurixAI0=;
- b=e8a1DY/yDeCpLL0p/AoFWvQtL/0vaP8EVS+6C8NT5fG/TuUmvAnLOuIAyy+T9k/ZRQ
- dX+67LebvmQPny3Q5+kMTt5CmlvLsQlxTyoREql+0NfJnIkIIwcQ18bcZtmFo/HZxJNc
- 7JkEwXZWk9A7o+csE01RBNyhbYxkCCgYPq+qrQny4XkjwHxCD76xd66EHUCpzmhhEbf1
- U/9PbyOP514G2o2mmR5wvejLfcIHxHGZMcmpjoQEq1TYFcTAsxkd9P8lgQkwj4P7loUm
- Y9u5OMc+fLwYUF+PWPnOpkzonkYulY5pANtVNwUDHRnP/cP0bKTAPt6V4wczB39KiIn+
- 3JrA==
-X-Gm-Message-State: AOAM530bCaCrV9PFwxvZYl5K3lmox97jUunmdGrGihNiOwxDzPiGty9g
- BPKYFeuEpM9736NmDkuPIT5zPXmnrmkyTg==
-X-Google-Smtp-Source: ABdhPJwn72+SHIAcM4uD/i/9NpD/So1KcMC6tFbHLEk4RqxzOAuUY8RgZC7EymEKGMbysJMnVXjTZA==
-X-Received: by 2002:adf:d23a:: with SMTP id k26mr3713447wrh.293.1628867108943; 
- Fri, 13 Aug 2021 08:05:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=R4SpbrLOmCpTHzbhSXpHi6M49IXENuQ3Igp0+lnrf3E=;
+ b=bu8eCAxWAqR+85gKSox2lkLdRoJGI8m5ETtj79g/auc9/OrxifTboOlYvdVoG6uLlC
+ GM1pLB4zYqE+HUJDwmUtPBvbTneucIP5ij0ZxEPgT2lUi7WQIfLOIwW1WJODpGmu5FJL
+ A4insasDiZFjrjPm5TOMVOjoCu+InZ4vzOiS7ikKHCtM58bgxzYeXmdLqhczY3ydm5NP
+ 3wrsaxSfPkBMk4bi6zzu/Z9nfGlzeVQU9/+BKasR8xhCd31MweBKGHXF+dvSbLSL1J06
+ TI752IhkQMLYJyrBjgoBFXzmoJIfoWgQOnaBJI9pgabmgMs97o8OoePqS3+SPSIUcuUX
+ Mfiw==
+X-Gm-Message-State: AOAM532TOtOJV8I+o5LaSpZv2oKEM0tY6qVql5u4oUGVp5MAWNn2PG5I
+ Y4CHNAPKZoaQ9JYYjbrGsZVCFwwDz/IdPw==
+X-Google-Smtp-Source: ABdhPJyl5P0iO0CkbY0rpCofsmb7KXXQlJf75+LiibQfeGGm2/8FT7ozqH030tzCEYemOYmrOb4buQ==
+X-Received: by 2002:adf:8102:: with SMTP id 2mr3601607wrm.89.1628867109839;
+ Fri, 13 Aug 2021 08:05:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h9sm1836361wrv.84.2021.08.13.08.05.07
+ by smtp.gmail.com with ESMTPSA id h9sm1836361wrv.84.2021.08.13.08.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 08:05:08 -0700 (PDT)
+ Fri, 13 Aug 2021 08:05:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 0/4] Zero sockaddr_in when initializing it
-Date: Fri, 13 Aug 2021 16:05:02 +0100
-Message-Id: <20210813150506.7768-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 1/4] net: Zero sockaddr_in in parse_host_port()
+Date: Fri, 13 Aug 2021 16:05:03 +0100
+Message-Id: <20210813150506.7768-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210813150506.7768-1-peter.maydell@linaro.org>
+References: <20210813150506.7768-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,34 +89,35 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The POSIX spec for sockaddr_in says that implementations are allowed
-to have implementation-dependent extensions controlled by extra
-fields in the struct, and that the way to ensure these are not
-accidentally activated is to zero out the whole data structure.
-We have several places in our codebase where we don't zero-init
-sockaddr_in structs and so (at least in theory) might run into this.
-Coverity spotted the ones in the net code (CID 1005338); the
-others in this series I found by looking at all uses of sockaddr_in.
-(The gdbstub patch changes also a sockaddr_un use, for symmetry.)
+We don't currently zero-initialize the 'struct sockaddr_in' that
+parse_host_port() fills in, so any fields we don't explicitly
+initialize might be left as random garbage.  POSIX states that
+implementations may define extensions in sockaddr_in, and that those
+extensions must not trigger if zero-initialized.  So not zero
+initializing might result in inadvertently triggering an impdef
+extension.
 
-Thanks to Eric for the analysis of what the spec says and why
-Coverity is correct here.
+memset() the sockaddr_in before we start to fill it in.
 
-thanks
--- PMM
+Fixes: Coverity CID 1005338
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ net/net.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Peter Maydell (4):
-  net: Zero sockaddr_in in parse_host_port()
-  gdbstub: Zero-initialize sockaddr structs
-  tests/qtest/ipmi-bt-test: Zero-initialize sockaddr struct
-  tests/tcg/multiarch/linux-test: Zero-initialize sockaddr structs
-
- gdbstub.c                        | 4 ++--
- net/net.c                        | 2 ++
- tests/qtest/ipmi-bt-test.c       | 2 +-
- tests/tcg/multiarch/linux-test.c | 4 ++--
- 4 files changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/net/net.c b/net/net.c
+index 76bbb7c31b4..52c99196c69 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -75,6 +75,8 @@ int parse_host_port(struct sockaddr_in *saddr, const char *str,
+     const char *addr, *p, *r;
+     int port, ret = 0;
+ 
++    memset(saddr, 0, sizeof(*saddr));
++
+     substrings = g_strsplit(str, ":", 2);
+     if (!substrings || !substrings[0] || !substrings[1]) {
+         error_setg(errp, "host address '%s' doesn't contain ':' "
 -- 
 2.20.1
 
