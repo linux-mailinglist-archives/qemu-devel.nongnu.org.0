@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAE93EAEA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 04:41:30 +0200 (CEST)
-Received: from localhost ([::1]:38790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277AE3EAEB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 04:50:05 +0200 (CEST)
+Received: from localhost ([::1]:35606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEN8T-0001QX-IN
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 22:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
+	id 1mENGm-0001Ll-7K
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 22:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mEN6n-0006zJ-JT
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:45 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2279)
+ id 1mEN6f-0006Zh-6H
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:37 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mEN6l-0002ER-Lu
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:45 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Gm76z1bqKz1CWJS;
- Fri, 13 Aug 2021 10:39:23 +0800 (CST)
+ id 1mEN6c-00027z-0J
+ for qemu-devel@nongnu.org; Thu, 12 Aug 2021 22:39:36 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gm72v0xkWzb1M5;
+ Fri, 13 Aug 2021 10:35:51 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 13 Aug 2021 10:39:30 +0800
+ 15.1.2176.2; Fri, 13 Aug 2021 10:39:31 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 13 Aug 2021 10:39:29 +0800
+ 15.1.2176.2; Fri, 13 Aug 2021 10:39:30 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v5 11/14] machine: Move smp_prefer_sockets to struct
- SMPCompatProps
-Date: Fri, 13 Aug 2021 10:39:09 +0800
-Message-ID: <20210813023912.105880-12-wangyanan55@huawei.com>
+Subject: [PATCH for-6.2 v5 12/14] machine: Put all sanity-check in the generic
+ SMP parser
+Date: Fri, 13 Aug 2021 10:39:10 +0800
+Message-ID: <20210813023912.105880-13-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210813023912.105880-1-wangyanan55@huawei.com>
 References: <20210813023912.105880-1-wangyanan55@huawei.com>
@@ -45,12 +45,13 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,127 +80,116 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have a common structure SMPCompatProps used to store information
-about SMP compatibility stuff, so we can also move smp_prefer_sockets
-there for cleaner code.
-
-No functional change intended.
+Put both sanity-check of the input SMP configuration and sanity-check
+of the output SMP configuration uniformly in the generic parser. Then
+machine_set_smp() will become cleaner, also all the invalid scenarios
+can be tested only by calling the parser.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 ---
- hw/arm/virt.c              | 2 +-
- hw/core/machine.c          | 2 +-
- hw/i386/pc_piix.c          | 2 +-
- hw/i386/pc_q35.c           | 2 +-
- hw/ppc/spapr.c             | 2 +-
- hw/s390x/s390-virtio-ccw.c | 2 +-
- include/hw/boards.h        | 3 ++-
- 7 files changed, 8 insertions(+), 7 deletions(-)
+ hw/core/machine.c | 63 +++++++++++++++++++++++------------------------
+ 1 file changed, 31 insertions(+), 32 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7babea40dc..ae029680da 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2797,7 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
- {
-     virt_machine_6_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
- }
- DEFINE_VIRT_MACHINE(6, 1)
- 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 3823e609e0..7e1dd623ae 100644
+index 7e1dd623ae..653d352cf6 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -836,7 +836,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     } else {
-         maxcpus = maxcpus > 0 ? maxcpus : cpus;
+@@ -813,6 +813,20 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+     unsigned threads = config->has_threads ? config->threads : 0;
+     unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
  
--        if (mc->smp_prefer_sockets) {
-+        if (mc->smp_props.prefer_sockets) {
-             /* prefer sockets over cores before 6.2 */
-             if (sockets == 0) {
-                 cores = cores > 0 ? cores : 1;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 9b811fc6ca..a60ebfc2c1 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -432,7 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_prefer_sockets = true;
-+    m->smp_props.prefer_sockets = true;
++    /*
++     * A specified topology parameter must be greater than zero,
++     * explicit configuration like "cpus=0" is not allowed.
++     */
++    if ((config->has_cpus && config->cpus == 0) ||
++        (config->has_sockets && config->sockets == 0) ||
++        (config->has_dies && config->dies == 0) ||
++        (config->has_cores && config->cores == 0) ||
++        (config->has_threads && config->threads == 0) ||
++        (config->has_maxcpus && config->maxcpus == 0)) {
++        error_setg(errp, "CPU topology parameters must be greater than zero");
++        return;
++    }
++
+     /*
+      * If not supported by the machine, a topology parameter must be
+      * omitted or specified equal to 1.
+@@ -892,6 +906,22 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+                    topo_msg, maxcpus, cpus);
+         return;
+     }
++
++    if (ms->smp.cpus < mc->min_cpus) {
++        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
++                   "supported by machine '%s' is %d",
++                   ms->smp.cpus,
++                   mc->name, mc->min_cpus);
++        return;
++    }
++
++    if (ms->smp.max_cpus > mc->max_cpus) {
++        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
++                   "supported by machine '%s' is %d",
++                   ms->smp.max_cpus,
++                   mc->name, mc->max_cpus);
++        return;
++    }
  }
  
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 88efb7fde4..4b622ffb82 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -372,7 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     m->alias = NULL;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
--    m->smp_prefer_sockets = true;
-+    m->smp_props.prefer_sockets = true;
- }
- 
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a481fade51..efdea43c0d 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4702,7 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
+ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+@@ -914,7 +944,6 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+                             void *opaque, Error **errp)
  {
-     spapr_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
+-    MachineClass *mc = MACHINE_GET_CLASS(obj);
+     MachineState *ms = MACHINE(obj);
+     SMPConfiguration *config;
+     ERRP_GUARD();
+@@ -923,40 +952,10 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
+-    /*
+-     * The CPU topology parameters must be specified greater than zero or
+-     * just omitted, explicit configuration like "cpus=0" is not allowed.
+-     */
+-    if ((config->has_cpus && config->cpus == 0) ||
+-        (config->has_sockets && config->sockets == 0) ||
+-        (config->has_dies && config->dies == 0) ||
+-        (config->has_cores && config->cores == 0) ||
+-        (config->has_threads && config->threads == 0) ||
+-        (config->has_maxcpus && config->maxcpus == 0)) {
+-        error_setg(errp, "CPU topology parameters must be greater than zero");
+-        goto out_free;
+-    }
+-
+     smp_parse(ms, config, errp);
+     if (errp) {
+-        goto out_free;
++        qapi_free_SMPConfiguration(config);
+     }
+-
+-    /* sanity-check smp_cpus and max_cpus against mc */
+-    if (ms->smp.cpus < mc->min_cpus) {
+-        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
+-                   "supported by machine '%s' is %d",
+-                   ms->smp.cpus,
+-                   mc->name, mc->min_cpus);
+-    } else if (ms->smp.max_cpus > mc->max_cpus) {
+-        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
+-                   "supported by machine '%s' is %d",
+-                   ms->smp.max_cpus,
+-                   mc->name, mc->max_cpus);
+-    }
+-
+-out_free:
+-    qapi_free_SMPConfiguration(config);
  }
  
- DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index b40e647883..5bdef9b4d7 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -809,7 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
- {
-     ccw_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
--    mc->smp_prefer_sockets = true;
-+    mc->smp_props.prefer_sockets = true;
- }
- DEFINE_CCW_MACHINE(6_1, "6.1", false);
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index fa284e01e9..5adbcbb99b 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -110,9 +110,11 @@ typedef struct {
- 
- /**
-  * SMPCompatProps:
-+ * @prefer_sockets - whether sockets are preferred over cores in smp parsing
-  * @dies_supported - whether dies are supported by the machine
-  */
- typedef struct {
-+    bool prefer_sockets;
-     bool dies_supported;
- } SMPCompatProps;
- 
-@@ -250,7 +252,6 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
--    bool smp_prefer_sockets;
-     SMPCompatProps smp_props;
-     const char *default_ram_id;
- 
+ static void machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.19.1
 
