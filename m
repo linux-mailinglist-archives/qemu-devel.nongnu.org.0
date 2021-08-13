@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB383EBEDA
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 01:47:13 +0200 (CEST)
-Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CD73EBED9
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 01:46:49 +0200 (CEST)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEgtM-00069U-J2
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 19:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54584)
+	id 1mEgsy-0005O8-Et
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 19:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <33AMXYQMKCk8u0vx55x2v.t537v3B-uvCv2454x4B.58x@flex--dje.bounces.google.com>)
- id 1mEgqn-0003Cq-0y
+ <33gMXYQMKClEw2xz77z4x.v759x5D-wxEx4676z6D.7Az@flex--dje.bounces.google.com>)
+ id 1mEgqn-0003FP-VK
  for qemu-devel@nongnu.org; Fri, 13 Aug 2021 19:44:33 -0400
-Received: from mail-qk1-x74a.google.com ([2607:f8b0:4864:20::74a]:33417)
+Received: from mail-qv1-xf4a.google.com ([2607:f8b0:4864:20::f4a]:35578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <33AMXYQMKCk8u0vx55x2v.t537v3B-uvCv2454x4B.58x@flex--dje.bounces.google.com>)
- id 1mEgqk-0003jD-N0
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 19:44:32 -0400
-Received: by mail-qk1-x74a.google.com with SMTP id
- w2-20020a3794020000b02903b54f40b442so8615216qkd.0
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 16:44:28 -0700 (PDT)
+ <33gMXYQMKClEw2xz77z4x.v759x5D-wxEx4676z6D.7Az@flex--dje.bounces.google.com>)
+ id 1mEgqm-0003kx-DC
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 19:44:33 -0400
+Received: by mail-qv1-xf4a.google.com with SMTP id
+ t3-20020a0cf9830000b0290359840930bdso4909740qvn.2
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 16:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=xfieLsWmq+ux5N8BsR3PXnbkSxDHrS8Wz+R2rtjhrIs=;
- b=jaMK7p2CX6pDA+kQEvlprloBvkGxvNGcQFLQk9vNGRub8ELahQGTMEVYQ7VSsmHIHY
- roZxTN2Ig8/VJVWryRowLHO4MxFfn94fF4QVR4DnhMEhY7qbwW7RryPr8bfKt+4l5gx0
- e0uTkUC+g3FxoClZLtSJGvLHWyQtQ/5RyJ8DU2CY1RkDl2R39jI0tKmDvIW9EOUznJ1O
- kyZky7NgjgwcLitqHSnrQ1Ec1DvSES2GHDugUWQT97ZmJDTuiySroo9FuLlov3C/M+Jp
- HUpptDSeMC1jWWPVeLuoYj9fVtYw6JBbGwHXfMVjwM1bdo05t+MDWPnflM1O44O5yL2Z
- SdQw==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc:content-transfer-encoding;
+ bh=QslOfOKGscIgx3K5boBWQYg/0chahCptrQjLmfipCMg=;
+ b=n2GRCYvJFG5W3FCeCNKQCMkO+BolD7kaByFO8Eip0lZsfAV6T1+mYneyXTASf6iiXI
+ 6ekv+FQ7HK3G5TgkZiPsEd0vU3hVcAcePUhaOuwtuErUOeX7CBOrONJD9ERjEJuXH6jB
+ EqJ76f5f8UkKQnIhg4Madtcy8T9up+QuTTJ2MOQI2e/J9vwJvCz2MaPQmVLW7iSqw2OJ
+ ewAiMqmyjRkLTuzIanIhtqWgULEtB033F3SbZsvVuxPkBCZA3VJHKxKD/Xy3jpqNUS1q
+ S2+7uVAvV6Beos94titq0zrZEOBVINUmP14Mn0j1hB1WP+AIuSFKthU6Wgn/0l5WyQ+4
+ vJmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=xfieLsWmq+ux5N8BsR3PXnbkSxDHrS8Wz+R2rtjhrIs=;
- b=kFTncLe11BX0QimXz0azP1NqpOgWxY625zggYkU3qiQNMYK8CeIN6IA+W66mYs3AQZ
- cDSICrwrdhY8UL/mNVv+1gvGnxVz1MquJj8HRkw1ze1FKCz44BDekGyvcBCciQ4QH1ez
- lKrzejREa1bGGN8wnDVw5nDiI0H4TFRX1J+W30qWrGhCnuxAkLyMDClE14W4IpMUl9Yc
- b2N7SsPXM5ViMZoHzvpVvJhJzFgdCyz8RSA/0OvLqzB6WBjrvbcj5J/6CoNJFME5sshr
- gGoI2rhetSKP/n1GFwR6JzxWZGwzuV3Jap1Xcww4T+aIVWBbiFP5uFO9GzYP0Ymcq5n1
- atcg==
-X-Gm-Message-State: AOAM530mkIB5jsDYK+pR8FWy0T4NBJJ3rewV55uhSJvmbga74VKxkATg
- ma7ONCdgFYMv8J54v9fsTXfEpiTdoShuOcV6nxCKRy7S2mrDTEstqS0jv4vyGxa4v2UT/JXv8aO
- kABtvOpdRMRm3YL5VRDaTiyrdbwE0/N2HSX/SLEtaJ30AeM5bvGQ0
-X-Google-Smtp-Source: ABdhPJwvSj3xZpMQgiUgGK195yN66D8rsqhn7ju21WpLySskXySv/2aIvFi9WA5JBv8/qHz4WNJwV+8=
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=QslOfOKGscIgx3K5boBWQYg/0chahCptrQjLmfipCMg=;
+ b=LB1mRGIrRChGmMuOVGwMqu6+V93L6gyrqwAPq2GG/3bdatwBiBLCes9OGVn/lyGiyz
+ h/t5Mjz5xTjhuyESqLjuxNXZsEgteuHIFhCBc/Glk/aDRxB6OVr+6YCWpp9KJZHyLpNV
+ 3n+tBIrhTCp24EjMd5Lph8dhr4k8C1Fvh06GxdXcExnCcQ7ovNnaQFo4KD1hakRCyrew
+ EADszj5+Ly25qLzGWgQaBDcH0/J0LHa3dXEk+WCqmTvVwvGDtxLWTokUzOIHvdGssmik
+ P2Ieit1qwjv4NE4P+LLUjb1PvPZLkNcPJHvPl/R31VGusP+P27BxEa+Cq8w//a0Qwd76
+ TxuA==
+X-Gm-Message-State: AOAM532MazeQkAisYyw24YAtoD9MGdfVU11jmrjx2xR5Ldgz7fUMjjk9
+ zjfMv2MtruZH0gmalaQH1WZMU4rug6jp3qMVIJ/TAUDYTYpMwWn4A6UF8YpjSIP2lgdP0LiLC2L
+ 7N0IVrOMyMvrhjrUxrAwrdtWcz7WZhKm9P25Eq5UJnkbTIT6+nK3o
+X-Google-Smtp-Source: ABdhPJwfkMAt3tasYkozIxtcssmae32BzONHVnHRnzQ0rh+TF0YEgu9+vpxaUHLjkBISCgK/tIsHf/Q=
 X-Received: from ruffy.mtv.corp.google.com
  ([2620:0:1000:1412:94ae:6a1e:bc04:4f63])
- (user=dje job=sendgmr) by 2002:ad4:54f2:: with SMTP id
- k18mr5206216qvx.24.1628898268300; 
- Fri, 13 Aug 2021 16:44:28 -0700 (PDT)
-Date: Fri, 13 Aug 2021 16:44:21 -0700
-Message-Id: <20210813234424.2029019-1-dje@google.com>
+ (user=dje job=sendgmr) by 2002:a0c:e885:: with SMTP id
+ b5mr5164588qvo.48.1628898270663; 
+ Fri, 13 Aug 2021 16:44:30 -0700 (PDT)
+Date: Fri, 13 Aug 2021 16:44:22 -0700
+In-Reply-To: <20210813234424.2029019-1-dje@google.com>
+Message-Id: <20210813234424.2029019-2-dje@google.com>
 Mime-Version: 1.0
+References: <20210813234424.2029019-1-dje@google.com>
 X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
-Subject: [PATCH v8 0/3] Add support for ipv6 host forwarding
+Subject: [PATCH v8 1/3] util/qemu-sockets.c: Split host:port parsing out of
+ inet_parse
 From: Doug Evans <dje@google.com>
 To: qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
  "=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
  Jason Wang <jasowang@redhat.com>, 
  "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <philmd@redhat.com>,
- Doug Evans <dje@google.com>
+ Doug Evans <dje@google.com>, 
+ "=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=" <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::74a;
- envelope-from=33AMXYQMKCk8u0vx55x2v.t537v3B-uvCv2454x4B.58x@flex--dje.bounces.google.com;
- helo=mail-qk1-x74a.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f4a;
+ envelope-from=33gMXYQMKClEw2xz77z4x.v759x5D-wxEx4676z6D.7Az@flex--dje.bounces.google.com;
+ helo=mail-qv1-xf4a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -90,142 +97,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset takes the original patch from Maxim,
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
-and updates it.
+The parsing is moved into new function inet_parse_host_port.
+Also split out is ipv4=3Dflag, ipv6=3Dflag processing into inet_parse_ipv46=
+.
+This is done in preparation for using these functions in net/slirp.c.
 
-Option hostfwd is extended to support ipv6 addresses.
-Commands hostfwd_add, hostfwd_remove are extended as well.
+Signed-off-by: Doug Evans <dje@google.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
 
 Changes from v7:
 
-None really, except to remove v7's 1/4 from this patchset.
-V7's 1/4 was to update QEMU to use the latest libslirp,
-and that has now been done. The remaining 3 patches are unchanged.
+No changes.
 
 Changes from v6:
 
-1/4: Update to use libslirp v4.5.0 tag
-
-The libslirp parts of the patch have been committed to the libslirp repo,
-and are now in QEMU's copy of the libslirp repo.
-Advancing QEMU to use Libslirp v4.5.0 is being done separately.
-Discussion of patch 1/4 is left to that thread:
-https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06010.html
-
-2/4: No change
-
-3/4: Add support for --enable-slirp=system
-Tested with system libslirp 4.4.0.
-
-4/4: No change
+No changes.
 
 Changes from v5:
 
-1/4 slirp: Advance libslirp submodule to current master
-NOTE TO REVIEWERS: It may be a better use of everyone's time if a
-maintainer takes on advancing QEMU's libslirp to libslirp's master.
-Beyond that, I really don't know what to do except submit this patch as
-is currently provided.
+Also split out parsing of ipv4=3Don|off, ipv6=3Don|off
 
-2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
+ include/qemu/sockets.h |  3 ++
+ util/qemu-sockets.c    | 65 +++++++++++++++++++++++++++++-------------
+ 2 files changed, 48 insertions(+), 20 deletions(-)
 
-Also split out parsing of ipv4=on|off, ipv6=on|off
-
-3/4: net/slirp.c: Refactor address parsing
-
-Use InetSocketAddress and getaddrinfo().
-Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
-
-4/4: net: Extend host forwarding to support IPv6
-
-Recognize ipv4=,ipv6= options.
-
-Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
-the churn on this patch series needs to be reduced.
-This change is not required, and can easily be done in a later patch.
-
-Changes from v4:
-
-1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
-NOTE TO REVIEWERS: I need some hand-holding to know what The Right
-way to submit this particular patch is.
-
-- no change
-
-2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
-
-- move recognition of "[]:port" to separate patch
-- allow passing NULL for ip_v6
-- fix some formatting issues
-
-3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
-
-- new in this patchset revision
-
-4/5 net/slirp.c: Refactor address parsing
-
-- was 3/4 in v4
-- fix some formatting issues
-
-5/5 net: Extend host forwarding to support IPv6
-
-- was 4/4 in v4
-- fix some formatting issues
-
-Changes from v3:
-
-1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
-
-- pick up latest libslirp patch to reject ipv6 addr-any for guest address
-  - libslirp currently only provides a stateless DHCPv6 server, which means
-    it can't know in advance what the guest's IP address is, and thus
-    cannot do the "addr-any -> guest ip address" translation that is done
-    for ipv4
-
-2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
-
-- this patch is new in v4
-  - provides new utility: inet_parse_host_and_port, updates inet_parse
-    to use it
-
-3/4 net/slirp.c: Refactor address parsing
-
-- this patch renamed from 2/3 to 3/4
-- call inet_parse_host_and_port from util/qemu-sockets.c
-- added tests/acceptance/hostfwd.py
-
-4/4 net: Extend host forwarding to support IPv6
-
-- this patch renamed from 3/3 to 4/4
-- ipv6 support added to existing hostfwd option, commands
-  - instead of creating new ipv6 option, commands
-- added tests to tests/acceptance/hostfwd.py
-
-Changes from v2:
-- split out libslirp commit
-- clarify spelling of ipv6 addresses in docs
-- tighten parsing of ipv6 addresses
-
-Change from v1:
-- libslirp part is now upstream
-- net/slirp.c changes split into two pieces (refactor, add ipv6)
-- added docs
-
-Doug Evans (3):
-  util/qemu-sockets.c: Split host:port parsing out of inet_parse
-  net/slirp.c: Refactor address parsing
-  net: Extend host forwarding to support IPv6
-
- hmp-commands.hx             |  18 ++-
- include/qemu/sockets.h      |   5 +
- net/slirp.c                 | 272 ++++++++++++++++++++++++++++--------
- tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++
- util/qemu-sockets.c         |  82 +++++++----
- 5 files changed, 472 insertions(+), 90 deletions(-)
- create mode 100644 tests/acceptance/hostfwd.py
-
--- 
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 0c34bf2398..7b2d06ff6e 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);
+=20
+ int inet_ai_family_from_address(InetSocketAddress *addr,
+                                 Error **errp);
++const char *inet_parse_host_port(InetSocketAddress *addr,
++                                 const char *str, Error **errp);
++int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
+errp);
+ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
+ int inet_connect(const char *str, Error **errp);
+ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index f2f3676d1f..085b057c18 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -627,14 +627,12 @@ static int inet_parse_flag(const char *flagname, cons=
+t char *optstr, bool *val,
+     return 0;
+ }
+=20
+-int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
++const char *inet_parse_host_port(InetSocketAddress *addr, const char *str,
++                                 Error **errp)
+ {
+-    const char *optstr, *h;
+     char host[65];
+     char port[33];
+-    int to;
+     int pos;
+-    char *begin;
+=20
+     memset(addr, 0, sizeof(*addr));
+=20
+@@ -644,38 +642,32 @@ int inet_parse(InetSocketAddress *addr, const char *s=
+tr, Error **errp)
+         host[0] =3D '\0';
+         if (sscanf(str, ":%32[^,]%n", port, &pos) !=3D 1) {
+             error_setg(errp, "error parsing port in address '%s'", str);
+-            return -1;
++            return NULL;
+         }
+     } else if (str[0] =3D=3D '[') {
+         /* IPv6 addr */
+         if (sscanf(str, "[%64[^]]]:%32[^,]%n", host, port, &pos) !=3D 2) {
+             error_setg(errp, "error parsing IPv6 address '%s'", str);
+-            return -1;
++            return NULL;
+         }
+     } else {
+         /* hostname or IPv4 addr */
+         if (sscanf(str, "%64[^:]:%32[^,]%n", host, port, &pos) !=3D 2) {
+             error_setg(errp, "error parsing address '%s'", str);
+-            return -1;
++            return NULL;
+         }
+     }
+=20
+     addr->host =3D g_strdup(host);
+     addr->port =3D g_strdup(port);
+=20
+-    /* parse options */
+-    optstr =3D str + pos;
+-    h =3D strstr(optstr, ",to=3D");
+-    if (h) {
+-        h +=3D 4;
+-        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
+-            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
+-            error_setg(errp, "error parsing to=3D argument");
+-            return -1;
+-        }
+-        addr->has_to =3D true;
+-        addr->to =3D to;
+-    }
++    return str + pos;
++}
++
++int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
+errp)
++{
++    char *begin;
++
+     begin =3D strstr(optstr, ",ipv4");
+     if (begin) {
+         if (inet_parse_flag("ipv4", begin + 5, &addr->ipv4, errp) < 0) {
+@@ -690,6 +682,39 @@ int inet_parse(InetSocketAddress *addr, const char *st=
+r, Error **errp)
+         }
+         addr->has_ipv6 =3D true;
+     }
++
++    return 0;
++}
++
++int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
++{
++    const char *optstr, *h;
++    int to;
++    int pos;
++    char *begin;
++
++    optstr =3D inet_parse_host_port(addr, str, errp);
++    if (optstr =3D=3D NULL) {
++        return -1;
++    }
++
++    /* parse options */
++
++    if (inet_parse_ipv46(addr, optstr, errp) < 0) {
++        return -1;
++    }
++
++    h =3D strstr(optstr, ",to=3D");
++    if (h) {
++        h +=3D 4;
++        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
++            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
++            error_setg(errp, "error parsing to=3D argument");
++            return -1;
++        }
++        addr->has_to =3D true;
++        addr->to =3D to;
++    }
+     begin =3D strstr(optstr, ",keep-alive");
+     if (begin) {
+         if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
+--=20
 2.33.0.rc1.237.g0d66db33f3-goog
 
 
