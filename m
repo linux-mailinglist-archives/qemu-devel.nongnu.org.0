@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B263EADFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 02:37:07 +0200 (CEST)
-Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3B63EAE02
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Aug 2021 02:53:46 +0200 (CEST)
+Received: from localhost ([::1]:43374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mELC5-0000VV-O4
-	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 20:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
+	id 1mELSC-0003Kf-QB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Aug 2021 20:53:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mELB2-00082T-Fm
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 20:36:00 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:47039)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mELRP-0002ee-Au; Thu, 12 Aug 2021 20:52:55 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:35693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mELB0-0001vd-SJ
- for qemu-devel@nongnu.org; Thu, 12 Aug 2021 20:36:00 -0400
-Received: by mail-pl1-x629.google.com with SMTP id k2so9611815plk.13
- for <qemu-devel@nongnu.org>; Thu, 12 Aug 2021 17:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Y6hDqlNQdBPGhe9+xbIghKndXHN5TwRL3PneQLDexDs=;
- b=UUOiEbmMDw0gVsaATCjnNgW4HcosYAGoqCTs4EAVMPQZgqkTbJb9GQL+sVRlp23VLM
- ajtWZmHZScZ6S9dORl4BM8aVLZht+eSWA+odyRY++CUE6zFLEN67gGoH8l7+lvDRKYOW
- r8cV1JTPBnf/AFmuP6FpSOk0hp2CDqZLG+ewSp2wzbZRO94qrTIG/TVNPFv15R3/30cb
- cJMgdkytSn1trWoxXVt9SE3qVeAX1dS6poRO1VqcU7zFQKgQroHWPb9eyxEc66ZWO6SV
- S6vEVZuEXD9uFAIqv+m861wAIoWdPazvugWRP0dei2D2PxtOHD+yVOdLCHnInmoNog2j
- pgDg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mELRN-0004ua-MW; Thu, 12 Aug 2021 20:52:55 -0400
+Received: by mail-il1-x12a.google.com with SMTP id k3so9108914ilu.2;
+ Thu, 12 Aug 2021 17:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LgCLtd4XEqu36l6wN1FQLF9Wv498wnwHYFD+X0t0D8w=;
+ b=R57luwf8guvA5D40r/qAJvZn9m48OWH3h42U8swJf9NSEqRbSw6Wad0IySS+1K+COD
+ VG48opba/LFvrWLwM+Jk2fpF89qmAXcBrXoXlMxSJlwb8G6m/vDnaF1bIgyXMPAU+URM
+ xaHZHapox6fZ6B3QcjPtttkj4inorWELowaR5I8UwCnJs5GM21eKrc1XvADrQqyBQnGY
+ hKXCWk7lL6gZkaEe1DOVwsW6TM1L3hmR/qutK2XXYXMSu7+ESrj2HXePShYxizVheFW5
+ /ue8cFDLXcN8zDDKO/5AMC8/aITIfzbg5t/tKxnZt+iu+dUAdWyXYstFX8LmYRh6I6Q9
+ xSjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y6hDqlNQdBPGhe9+xbIghKndXHN5TwRL3PneQLDexDs=;
- b=pvNEbT8Q+5DSSZ+b4w0hMBJ8Y7fQDc1kT+M9wUqdAkODgX3U4hOXttABYvsQ0Szzgq
- BzNlBegq5IXhzsTnYyLwJdGStaFaGsq0N9FB/bw+CVxJVFjEENSNrZc2mOosXHB9MieH
- Xirs5bvCqdLXHSQ7sFoy2sAFDYXaUX1rkDg7aQE0O032I1wjehu9VaZIIupJvqTykFCY
- YmGs7+0FfJ2WBbi3b1tzb/Twj0XbZeHIehO9hdLsB+WqYHtuVUM/7Ua6Gdy+VRkrDvSL
- UatXqkJlPqk6qdvr7C4ss8hGbyq4kqgO8nbE9+1+MTe1bQUvFq4gVU3vP4fOya8opmYG
- gWkA==
-X-Gm-Message-State: AOAM531YgAf4fOc0KALbuTvPTevwPu4JuyIGJO//Vh850AqP0MVFd8sY
- e0MRz3U3DpFk/FmWrIdPCYp6nQ==
-X-Google-Smtp-Source: ABdhPJx5ifQVeAGCxs4DtWI4eTIONf0/AcuU4kBSc+Ks/uGgWOkyca0WXRcAbOJkLfqLxD0cbq+jBQ==
-X-Received: by 2002:a17:902:7294:b029:12d:2434:6d26 with SMTP id
- d20-20020a1709027294b029012d24346d26mr5493024pll.59.1628814956996; 
- Thu, 12 Aug 2021 17:35:56 -0700 (PDT)
-Received: from [192.168.6.169] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id g26sm14672pgb.45.2021.08.12.17.35.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 17:35:56 -0700 (PDT)
-Subject: Re: [PATCH 12/19] target/ppc/pmu_book3s_helper.c: enable PMC1 counter
- negative EBB
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210809131057.1694145-1-danielhb413@gmail.com>
- <20210809131057.1694145-13-danielhb413@gmail.com> <YRH6IysrDvn/GJvQ@yekko>
- <6a10c0a7-1c4f-0d24-f2cc-12666e590739@gmail.com> <YRNGo8CnfUSC/bQs@yekko>
- <4df4dacf-ba9b-f86e-8510-7c084420e974@gmail.com> <YRSX+kRCEh1oQjWP@yekko>
- <47018114-2249-0fe9-cb87-0ac35ed1e49d@linaro.org>
- <d63f0103-5899-b4ce-baa1-32d05676414f@linaro.org>
- <d2f1f35c-fc82-0b27-b41e-0b1055ecc2e8@gmail.com>
- <7f9ee790-3f5a-6161-627b-0c4313a08bca@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d312903b-7096-1ce6-28d0-5bb3690ae0eb@linaro.org>
-Date: Thu, 12 Aug 2021 14:35:52 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LgCLtd4XEqu36l6wN1FQLF9Wv498wnwHYFD+X0t0D8w=;
+ b=RgOTAjfSAzMHw0eBOnVohCpXEmFxot0wu03ZWK7a9nadUaEMZ3Jw4N+xdJsXVY0bXj
+ jOdzFhNq09LLPvdMHJtsJumKSN99BXP4U1nI7AiuzMXwSSBKKkGWcx25QMZ3NXpmmCbq
+ ovW5/V7uqwpfYvBlXeTTaqd31GDtpC+Ch09ZQM2RboNdNJ+jFWLOsQfGnOgi/F7iohL/
+ fSXFECpLP/LheWNax4yzBa8J75IZ0h/dJ18P5/lmyP7tnrfJNfrssmIXIwtj5DZHxxOF
+ dFGMZcbO0fCMq0XnHkuS/mvEJoD6Xqd2ROVt6EyeY9MXKStFUHq+nU1GU3Yyxj45Ga+v
+ BhUA==
+X-Gm-Message-State: AOAM5313iJtwKCHxuN4ajmDzWmBjSJ3EFItb8sTgmgcCT7FuiGx8HEgg
+ 5frJsV9Voc3I5hxmrNUmU5mztLTkeu/uicAwy/0=
+X-Google-Smtp-Source: ABdhPJy6SFVFHd/Bk8OFHhPghdrLGyS/Ibxt+vQXdMIOZlemjNNXzQ3Lq01oOpfNnwYudK3T9cm+tHG9ho9rH6EcUeM=
+X-Received: by 2002:a92:8707:: with SMTP id m7mr880285ild.177.1628815970985;
+ Thu, 12 Aug 2021 17:52:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7f9ee790-3f5a-6161-627b-0c4313a08bca@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210811144612.68674-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210811144612.68674-1-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 13 Aug 2021 10:52:25 +1000
+Message-ID: <CAKmqyKPxDPY2KxwQmQYRq7ot7TTOq6P35Z9_VkiGmFdq+YtqBw@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Don't wrongly override isa version
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,61 +75,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- gustavo.romero@linaro.org, clg@kaod.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/21 11:24 AM, Daniel Henrique Barboza wrote:
-> +void helper_insns_inc(CPUPPCState *env)
-> +{
-> +    env->pmu_insns_count++;
-> +}
-> +
-> +void helper_insns_dec(CPUPPCState *env)
-> +{
-> +    env->pmu_insns_count--;
-> +}
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 60f35360b7..c56c656694 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -8689,6 +8689,7 @@ static void ppc_tr_tb_start(DisasContextBase *db, CPUState *cs)
-> 
->   static void ppc_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
->   {
-> +    gen_helper_insns_inc(cpu_env);
->       tcg_gen_insn_start(dcbase->pc_next);
->   }
-> 
-> @@ -8755,6 +8756,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
->           return;
->       }
-> 
-> +    gen_helper_insns_dec(cpu_env);
-> +
->       /* Honor single stepping. */
->       sse = ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP);
->       if (unlikely(sse)) {
-> 
-> 
-> And then I used 'env->pmu_insns_count' to update the instruction counters. And it's
-> working, with a slightly better performance than we have with the icount()
-> version. I'm not sure why it's working now since I tried something very similar
-> before and it didn't. Figures.
+On Thu, Aug 12, 2021 at 12:46 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> For some cpu, the isa version has already been set in cpu init function.
+> Thus only override the isa version when isa version is not set, or
+> users set different isa version explicitly by cpu parameters.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Not sure why you're decrementing there.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Also, how do you want to count retired instructions? Ones that merely start?  E.g. 
-including loads that fault?  How about illegal instructions?  Or does the instruction need 
-to run to completion?  Which of these you choose affects where you place the increment.
+Alistair
 
-It is of course extremely heavyweight to call a helper to perform a simple addition operation.
-
-You may also wish to look at target/hexagon, gen_exec_counters(), which is doing the same 
-sort of thing.  But not completely, since it loses count along dynamic exception paths 
-(e.g. faulting load).  That can be fixed as well, via restore_state_to_opc.
-
-
-r~
+> ---
+>  target/riscv/cpu.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 991a6bb760..1a2b03d579 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -392,9 +392,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>      RISCVCPU *cpu = RISCV_CPU(dev);
+>      CPURISCVState *env = &cpu->env;
+>      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+> -    int priv_version = PRIV_VERSION_1_11_0;
+> -    int bext_version = BEXT_VERSION_0_93_0;
+> -    int vext_version = VEXT_VERSION_0_07_1;
+> +    int priv_version = 0;
+>      target_ulong target_misa = env->misa;
+>      Error *local_err = NULL;
+>
+> @@ -417,9 +415,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          }
+>      }
+>
+> -    set_priv_version(env, priv_version);
+> -    set_bext_version(env, bext_version);
+> -    set_vext_version(env, vext_version);
+> +    if (priv_version) {
+> +        set_priv_version(env, priv_version);
+> +    } else if (!env->priv_ver) {
+> +        set_priv_version(env, PRIV_VERSION_1_11_0);
+> +    }
+>
+>      if (cpu->cfg.mmu) {
+>          set_feature(env, RISCV_FEATURE_MMU);
+> @@ -497,6 +497,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              target_misa |= RVH;
+>          }
+>          if (cpu->cfg.ext_b) {
+> +            int bext_version = BEXT_VERSION_0_93_0;
+>              target_misa |= RVB;
+>
+>              if (cpu->cfg.bext_spec) {
+> @@ -515,6 +516,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              set_bext_version(env, bext_version);
+>          }
+>          if (cpu->cfg.ext_v) {
+> +            int vext_version = VEXT_VERSION_0_07_1;
+>              target_misa |= RVV;
+>              if (!is_power_of_2(cpu->cfg.vlen)) {
+>                  error_setg(errp,
+> --
+> 2.25.1
+>
+>
 
