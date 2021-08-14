@@ -2,99 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA563EBFFC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 05:00:18 +0200 (CEST)
-Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF6C3EC066
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 06:27:04 +0200 (CEST)
+Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEjuD-00087h-1e
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 23:00:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
+	id 1mElGA-0002wX-HI
+	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 00:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mEjsp-0007TR-BD
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:58:51 -0400
-Received: from mail-bo1ind01olkn0177.outbound.protection.outlook.com
- ([104.47.101.177]:6140 helo=IND01-BO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mElFN-0002IE-2y
+ for qemu-devel@nongnu.org; Sat, 14 Aug 2021 00:26:13 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:42486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mEjsk-0005ZE-MF
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:58:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aGsAoeAxWBv4Ha2dHKRShNaC1It94f234wHQBT4oTmO6tYa2DPAFWdyvfhcKQIKc8pNe42/gMgS+Xf/OZQYMAnwDsaLiVwJqco3x1w2r/v6ZyvOPnDe5xrui8PHo9LT1DavSmDchusR2m2RihiVSKZHysE3AFYks4FNcM13TltqUA9M6hy8jFaoWrjG3RGXW7Fxq8P5Q4bn5l17WHihC2/qFXFhtfpvM0wD5q5DOEwvqMvrqav3CGHZEzy3wvTdxd827TAor2tbG4P3qajOjTWjzz4GHLq1N5iEurx+yHVaogvnE82VXftDPQcv55MYQ8daAPbjNgqz8ggSJeMHd6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pO9fBFoyv/6kj4JA3tgrE3/2Ydgu19nlHhdtjRvueVg=;
- b=D/BEQqAJhnNIV3qvoNK+5A8VjieoT4ce/1fWHzmQhTKOsTJeIAh4ZCIVihtE8RxoMCyIDnx3yFPP2GbRKDWZNn8IgJG0mePvBe0u86pko0dXL1IrDC3g/zX855RqD4+dNyy5TsQWRSy1QScC9tnt5apXrt70DTq462UZQPLL0UV95AlM48OD6Ta/nKz0P25nCex9wq8Ug6ZwSHYq8Qu9ofGLq7r1W8MnTW4h8/zXryPkvC7Be1gE2I5UpqvnlkDoAMaxvmywuvxa939vTVgnL7vwtpnE3XuI7JgGFJwSXa2AwWAJygte7CwN8DbyY61t34LXuXq9m7Mpaww8Fcuz0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pO9fBFoyv/6kj4JA3tgrE3/2Ydgu19nlHhdtjRvueVg=;
- b=A01BJjHiLvyA8bJIUoM014G1UaJMy6ogMVI/89RsWJPI/N42oyxf+xcExJdB+tc5pHRmnRFfzKZkEZ2zyPHL7J9Qj+GGG7KjA3hiDzMdtJhZB7r2x7auvzTfTlQoQl8VPit/wCR80Py022p0XB+GoRd7Q1LhJp6ZDia7Q3c7Xnd7/DPatdDM07/dAue0DXgsVbbs4R3qvNvyxEby5++TFi9U+DielzvXIIRR38g3ljKTssi1mknNqYl82AYJ7/UHwfAdtDAM1gLkw9nVCzCQonTyfe7Sz5yx24evJO6rCqKet+tws4oBvu01Md+E5nHftOP7CX793D5ke61VjnqqFw==
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
- by PN0PR01MB6125.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:6a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Sat, 14 Aug
- 2021 02:58:39 +0000
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::41ec:5dc2:fd60:e64c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::41ec:5dc2:fd60:e64c%5]) with mapi id 15.20.4415.021; Sat, 14 Aug 2021
- 02:58:39 +0000
-Message-ID: <PN0PR01MB63528333474E48B3C7017625FCFB9@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
-Subject: Re: [Question] fuzz: double-fetches in a memory region map session
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Date: Sat, 14 Aug 2021 10:57:55 +0800
-In-Reply-To: <20210813105004.j7p6qhaokg7fj6ao@mozz.bu.edu>
-References: <PN0PR01MB6352FCDBE92B94EF0A05E658FCF99@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
- <20210813105004.j7p6qhaokg7fj6ao@mozz.bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0-1 
-Content-Transfer-Encoding: 7bit
-X-TMN: [9xTOJGztmcyBr+7dFtqevQoTQen22128]
-X-ClientProxiedBy: HK2PR04CA0085.apcprd04.prod.outlook.com
- (2603:1096:202:15::29) To PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:72::9)
-X-Microsoft-Original-Message-ID: <8eef73d3162f37d85dd5ee0ddaa82368071631c4.camel@outlook.com>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mElFK-0003Nz-8Y
+ for qemu-devel@nongnu.org; Sat, 14 Aug 2021 00:26:12 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 44B1F42D59
+ for <qemu-devel@nongnu.org>; Sat, 14 Aug 2021 04:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1628915146;
+ bh=cVr1CFUKfqzajB3xH6Ui0EKqsa2XWeDy0wzJMVWCCLw=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=TNU3//I4EnKvps/P9thqbqx8EbFjTSFQ3/EkIaq071UCq/JhXgYZEtaqvbTvpMmIM
+ NVW5BAdHNeHjHPeB7cXdVEkaqxxjKRo/SbSi5tVQsmqsbmgRhiK6XUpkEKEWit4dfP
+ 900zpcIBHYhPIYu2SYoO26syOcpKso0o61yuYb3mtRzIsGvzionfnd2t6H6zOj4HwF
+ CTmwKoDY4kz2JviZv/oDmpjlFLC8zMmiSDgf1W4iTh/CLn4ta0P+0Kemmd4J4JEdMI
+ J/1AJMLAl1YCuqvDTjOj2Y4OrorTGZbBYR43WXsmZmTghY7UT2MBbRfskGUFRNQ6cA
+ QiF7eI6FphUPQ==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 18F4E2E806D
+ for <qemu-devel@nongnu.org>; Sat, 14 Aug 2021 04:25:46 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.101.209] (104.192.108.9) by
- HK2PR04CA0085.apcprd04.prod.outlook.com (2603:1096:202:15::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.14 via Frontend Transport; Sat, 14 Aug 2021 02:58:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 963483b9-13e6-4a17-cca6-08d95ecf6a50
-X-MS-TrafficTypeDiagnostic: PN0PR01MB6125:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cwhdXFsObS0TkPtbtaFS1xha7dwsfX1jOgScqQQ9qbwSjXpf1ixipL2H744fEK9EmpM/N1xjO+OAFCLada5wkPtFjR/Wbs/heNJjC2H+eiJIXTaRsOQtS1+3EAwQKLByHMCUJb6YzKUVAY/kpjxanl3spemQTl+O+hNMWqbXCQ8LhyQBnLU4k5B/kyjrw8tkvqBk02rMcNCq5ViZ8AW4VjKeUArD92d0TRZWomvXoCB20QJS0/6tK2y/PIQ+5NUTE+MX56pD5mvP3pqXUfEpnyxh4xDVABROJkHK8oR6v1MFLyVjHyQcCpBtZJr9cIt/UasGegd+ahv98Ys/2n6iFC1gezJzPftNDGXCEa+z4F63J3Qh0/OQoRAmi6EIDOkhh0ayK0hdOvqGpCBpRhDOmpkikL3NgdnDPa5ij6qRW1B/syVEHOJ5qnC/2BYnV72stwAiSjuUInxujwbv0ok4msw+AhrLKJaY442n88085pU=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: ipmXZl4f4SP1/0bN2SfM0PD1TCWRg+l5223/5HHNj0G3y3wivpyHUiiwrmrS9GcEuSYorz4iZkagG6mu6Nx904HoDgz46KAHG9y8zJ5Le7CxVzZN1767sxHk+mMTC7uu/mwh6Yd8NOzZxjsa3Uix/w==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 963483b9-13e6-4a17-cca6-08d95ecf6a50
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2021 02:58:39.4971 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB6125
-Received-SPF: pass client-ip=104.47.101.177;
- envelope-from=Qiuhao.Li@outlook.com;
- helo=IND01-BO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 39
-X-Spam_score: 3.9
-X-Spam_bar: +++
-X-Spam_report: (3.9 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 14 Aug 2021 04:17:26 -0000
+From: Launchpad Bug Tracker <1913668@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr janitor
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <161188766555.32217.2070289263520375872.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162891464710.26392.4789829252101858313.malone@loganberry.canonical.com>
+Subject: [Bug 1913668] Re: FPE in npcm7xx_pwm_calculate_freq
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8af6c396858cd9521da9268433c9b7f9e7a82c56"; Instance="production"
+X-Launchpad-Hash: 2568159a7cde245caad41922addf145b78306e94
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,52 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1913668 <1913668@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-08-13 at 06:50 -0400, Alexander Bulekov wrote:
-> > 
-> > My question is about address_space_map() -- How do we emulate double-
-> > fetch
-> > bugs in the same map/unmap session? For example:
-> > 
-> 
-> Hi Qiuhao,
-> Right now we don't. One strategy would be to use mprotect. When the
-> code
-> fetches data the first time, we get a SEGV, where we unprotect the
-> page,
-> write a pattern, and enable single-stepping. Then, after the
-> single-step, re-protect the page, and disable single-step.
-> 
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Brilliant! I can always get a lot of inspiration from you :)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-> On OSS-Fuzz, we disabled double-fetch detection, for now, as we did not
-> want reproducers for normal-bugs to inadvertently contain
-> double-fetches. To make the double-fetch detection useful for
-> developers, we probably need to limit the double fetch capability to
-> only fill the DMA regions twice, rather than 10 or 20 times. Then, in
-> the report, we could give the call-stacks (from the SEGV handler, or
-> dma_read hook) of the exact locations in the code that read from the
-> same address twice.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913668
 
-Got it, this is indeed the most practical solution. I will try to
-detect double-fetch bugs via pattern-based analysis [1]. But it may be
-hard to write PoCs to convince and help developers fix bugs, and we
-can't identify those bugs caused by the compiler [2] or preprocessor.
+Title:
+  FPE in npcm7xx_pwm_calculate_freq
 
-[1]
-https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/wang-pengfei
+Status in QEMU:
+  Expired
 
-[2]
-https://www.voidsecurity.in/2018/08/from-compiler-optimization-to-code.html
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 -M npcm750-evb \
+  -accel qtest -qtest stdio
+  write 0xf0103008 0x4 0x09000000
+  write 0xf010300c 0x4 0xffffffff
+  EOF
 
-Thanks,
-  Qiuhao Li
+  Trace:
+  ../hw/misc/npcm7xx_pwm.c:94:17: runtime error: division by zero
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/misc/npcm7x=
+x_pwm.c:94:17 in
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D717868=3D=3DERROR: AddressSanitizer: FPE on unknown address 0x5597c=
+7190150 (pc 0x5597c7190150 bp 0x7fffcb17c5d0 sp 0x7fffcb17c4e0 T0)
+  #0 0x5597c7190150 in npcm7xx_pwm_calculate_freq /hw/misc/npcm7xx_pwm.c:94=
+:17
+  #1 0x5597c7190150 in npcm7xx_pwm_update_freq /hw/misc/npcm7xx_pwm.c:122:21
+  #2 0x5597c718f06d in npcm7xx_pwm_write /hw/misc/npcm7xx_pwm.c
+  #3 0x5597c8d241fe in memory_region_write_accessor /softmmu/memory.c:491:5
+  #4 0x5597c8d23bfb in access_with_adjusted_size /softmmu/memory.c:552:18
+  #5 0x5597c8d23467 in memory_region_dispatch_write /softmmu/memory.c
+  #6 0x5597c90b3ffb in flatview_write_continue /softmmu/physmem.c:2759:23
+  #7 0x5597c90a971b in flatview_write /softmmu/physmem.c:2799:14
+  #8 0x5597c90a971b in address_space_write /softmmu/physmem.c:2891:18
+  #9 0x5597c8d11eee in qtest_process_command /softmmu/qtest.c:539:13
+  #10 0x5597c8d0eb97 in qtest_process_inbuf /softmmu/qtest.c:797:9
+  #11 0x5597c955f286 in fd_chr_read /chardev/char-fd.c:68:9
+  #12 0x7f994c124aae in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/=
+libglib-2.0.so.0+0x51aae)
+  #13 0x5597c9bba363 in glib_pollfds_poll /util/main-loop.c:232:9
+  #14 0x5597c9bba363 in os_host_main_loop_wait /util/main-loop.c:255:5
+  #15 0x5597c9bba363 in main_loop_wait /util/main-loop.c:531:11
+  #16 0x5597c8c75599 in qemu_main_loop /softmmu/runstate.c:721:9
+  #17 0x5597c6f021fd in main /softmmu/main.c:50:5
+  #18 0x7f994bbc9cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+  #19 0x5597c6e55bc9 in _start (/home/alxndr/Development/qemu/build/qemu-sy=
+stem-aarch64+0x3350bc9)
 
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913668/+subscriptions
 
 
