@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073C03EC184
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 11:08:34 +0200 (CEST)
-Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8431C3EC18A
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 11:11:46 +0200 (CEST)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEpeb-00029o-1n
-	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 05:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58734)
+	id 1mEphh-0004DH-J9
+	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 05:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1mEpcz-0001Aw-81; Sat, 14 Aug 2021 05:06:53 -0400
-Received: from redisdead.crans.org ([185.230.79.39]:35844)
+ id 1mEpg5-000319-0Y; Sat, 14 Aug 2021 05:10:05 -0400
+Received: from redisdead.crans.org ([2a0c:700:2::ff:fe01:2402]:52200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1mEpcx-0007mP-RO; Sat, 14 Aug 2021 05:06:53 -0400
+ id 1mEpg3-0001K7-Ey; Sat, 14 Aug 2021 05:10:04 -0400
 Received: from [IPv6:2a02:8428:4db:b001:83b5:a75:e190:e939]
  (2a02-8428-04db-b001-83b5-0a75-e190-e939.rev.sfr.net
  [IPv6:2a02:8428:4db:b001:83b5:a75:e190:e939])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id D4055467;
- Sat, 14 Aug 2021 11:06:49 +0200 (CEST)
+ by redisdead.crans.org (Postfix) with ESMTPSA id D705D47C;
+ Sat, 14 Aug 2021 11:10:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1628932010; bh=cVZnRBsI10F6QqnfNvzWZPWrloFJlFUJgKtoNaZeMXE=;
+ t=1628932202; bh=jFaM5e050PYC8AaGl2uybL7AdTy85W5/YPP2EhA+efg=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=WIGHmpJs68MeBquqVhSwvDZqR9LpyhiZd85ddnMYTJx/axZmE703ZfWPqckm+7emd
- po6npa2XEq7NvOaQYsVUwA+VLtlakUmqY5eINJE3HU1ExqCDjJER1H/a7k9sJeUnM+
- QulAKF9Q8Mp4LhP4hDmVs6/VjivYhls8RzepDQaFBXLdOz1/K9E+AhBV7i0RHlKiTl
- +jvU8zr59eadkSrnyX56ZSxa/vKf8e7dBGdJwb4t9euvDXkIxY24AfB2I3IzrWcY3a
- EfQD29bLDl9U9cpgPDhSAjiQFV9767smSRhZ0RKygjgVFTA/OGpaL013/WKY52p/BL
- tXKuTQMTKmRP5jvVaMDKNtNoiucOdf5DfwfGuRJQJMZ2/VTjUbmXMXuhrvymWWI1UB
- 0bPv63zrkvt3uPd0HdH5hAX2BuZcpMMXVJ3Xhpou48m4VTS1hP3tIUUYWvnzRqEaU4
- 10pU1wmfwyo8pqQ93++nET52Re6DUXA9lolmCQm3OLje3K1BPU7DmKlz4IWw+z2JKe
- hIjLs+fdk6jYmd/F4EZ9F9m6GZog+9jJazolIeqkNBThQDZbwnl+kQDTDqXAjTPuAf
- DEZdJD1TTsIYzLppokn277/Pecex1/rwuerQLZkygPe3SkZY6y794egWL5sBN+V2pO
- l46yp26Vtv3s+FpQtWB4/Fik=
-Subject: Re: [PATCH for-6.2 15/25] hw/arm/nrf51: Wire up sysclk
+ b=L/BpIw5UK0szz2yUqh/4uX2lMm/yZP0xIWkvaRnEepH88QQ9HPdiOM94vWUpWd89/
+ OKMmu7uw8wvzK3VMNsdi6zPgZiGIlZzZj8O94p/w+x6Vt2rxwgdSq3ecDnnUHoNSfs
+ ZgfQdBOgl5/TMiXeVuLppgyAkSqsghtojjFIMSQ88jzdDqKyX/m/Bi7Zrzo+aQPKok
+ LQul7KinSxEXn0mcOkbYMpphCmUw1OLxvsdsD8Hg3POnXb5t9y46zn13Fp3BiRKv1z
+ C9fw7kXbU6bXoH4wq+faIfFfccd1aeI9FC6pkiRbpk1oCPLQ6uV+EuB5Ci+ScUAlBz
+ /Lxv6bsCBbNIBQKZ3yKRJsNd4Su6QAJEkIc7aI76r4Acx2g7nXpuHpfpQlJrEcTN1+
+ JzXkUnDCVZljpPb6NgTvUT8SOhGvMR38+bhLUppQ+UVMparVqW3I6zaEWOEHNZ3t9/
+ /Ms2kOsyZoRWvb1IN/hRC/XgeEyYHNzphCujZT7GSPAECOzoCQ9/QuJLkaDy97HhLO
+ QVojrLn3EggZ+lw8O4qkm1ks+Q6BhTPieYUEUTlQrHLGz8KvLG7goddeTjqMixPvh3
+ +GlwNQqx06/D3hgNohTaI3vp1WjuvWzgf52c47YVGhaKVj64t6hmV3CJQLtrM/b8Pe
+ 7BXvYM+Uk9N/dGKzmvBJaQpQ=
+Subject: Re: [PATCH for-6.2 16/25] hw/arm/stellaris: split stellaris_sys_init()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-16-peter.maydell@linaro.org>
+ <20210812093356.1946-17-peter.maydell@linaro.org>
 From: Alexandre IOOSS <erdnaxe@crans.org>
 Organization: Crans
-Message-ID: <b7aecf71-530b-7446-049a-5224fed61e30@crans.org>
-Date: Sat, 14 Aug 2021 11:06:49 +0200
+Message-ID: <f45a06fb-a63b-5698-0ffb-a76fc2568dba@crans.org>
+Date: Sat, 14 Aug 2021 11:10:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210812093356.1946-16-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-17-peter.maydell@linaro.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="nF9pEssTnE3JZgKvKxFALAusWD2IMARjC"
-Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
- helo=redisdead.crans.org
+ boundary="jOHqhybiObnUoWndBuK1TkUIkuZdis4JI"
+Received-SPF: pass client-ip=2a0c:700:2::ff:fe01:2402;
+ envelope-from=erdnaxe@crans.org; helo=redisdead.crans.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,8 +82,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nF9pEssTnE3JZgKvKxFALAusWD2IMARjC
-Content-Type: multipart/mixed; boundary="lE70ojTysbq5PnAX5JGIesfdN2sYeh1v6";
+--jOHqhybiObnUoWndBuK1TkUIkuZdis4JI
+Content-Type: multipart/mixed; boundary="gOaraNprvZoMnEIQWa6vhoMEgaQ8qgvD8";
  protected-headers="v1"
 From: Alexandre IOOSS <erdnaxe@crans.org>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
@@ -91,25 +91,32 @@ To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Cc: Luc Michel <luc@lmichel.fr>, Damien Hedde <damien.hedde@greensocs.com>,
  Subbaraya Sundeep <sundeep.lkml@gmail.com>,
  Alistair Francis <alistair@alistair23.me>, Joel Stanley <joel@jms.id.au>
-Message-ID: <b7aecf71-530b-7446-049a-5224fed61e30@crans.org>
-Subject: Re: [PATCH for-6.2 15/25] hw/arm/nrf51: Wire up sysclk
+Message-ID: <f45a06fb-a63b-5698-0ffb-a76fc2568dba@crans.org>
+Subject: Re: [PATCH for-6.2 16/25] hw/arm/stellaris: split
+ stellaris_sys_init()
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-16-peter.maydell@linaro.org>
-In-Reply-To: <20210812093356.1946-16-peter.maydell@linaro.org>
+ <20210812093356.1946-17-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-17-peter.maydell@linaro.org>
 
---lE70ojTysbq5PnAX5JGIesfdN2sYeh1v6
+--gOaraNprvZoMnEIQWa6vhoMEgaQ8qgvD8
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 On 8/12/21 11:33 AM, Peter Maydell wrote:
-> Wire up the sysclk input to the armv7m object.
+> Currently the stellaris_sys_init() function creates the
+> TYPE_STELLARIS_SYS object, sets its properties, realizes it, maps its
+> MMIO region and connects its IRQ.  In order to support wiring the
+> sysclk up to the armv7m object, we need to split this function apart,
+> because to connect the clock output of the STELLARIS_SYS object to
+> the armv7m object we need to create the STELLARIS_SYS object before
+> the armv7m object, but we can't wire up the IRQ until after we've
+> created the armv7m object.
 >=20
-> Strictly this SoC should not have a systick device at all, but our
-> armv7m container object doesn't currently support disabling the
-> systick device.  For the moment, add a TODO comment, but note that
-> this is why we aren't wiring up a refclk (no need for one).
+> Remove the stellaris_sys_init() function, and instead put the
+> create/configure/realize parts before we create the armv7m object and
+> the mmio/irq connection parts afterwards.
 >=20
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
@@ -118,28 +125,28 @@ Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
 -- Alexandre
 
 
---lE70ojTysbq5PnAX5JGIesfdN2sYeh1v6--
+--gOaraNprvZoMnEIQWa6vhoMEgaQ8qgvD8--
 
---nF9pEssTnE3JZgKvKxFALAusWD2IMARjC
+--jOHqhybiObnUoWndBuK1TkUIkuZdis4JI
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmEXh6kFAwAAAAAACgkQbHknjz/NzAId
-HQ//XVC6N+ImeJjup1YN9s0h/t2KIYEhj5e+PGvx7rLwbZMn35y+P/ZG96n5QIof2HLZT5CsAH33
-5h5LhRAeDoF6xxWjW/F81+7OhvJ2mYfwusKu4j6lUoWEjiImjHZhirZsNnOBKY2OoIbo28qGrRwo
-aixoJrI5htetYX9VzdG0RrxOqh5meYpa2+3ZDn2L+kCVsSLyRZCcSQOeyuiIlhQki5muM1QBX+SW
-wGhh8lFqlip+qEVI8L4HQzLvlSh5uj/hFvjy7RC6obY8WEq2bet9tvCU38FqZlY2X7FH7t4LMwZo
-0LvCzmoZQFAPTazyi1AR0JVgMicEeoCR2YwKdJ2K24FiHZf61wBU0wbZy+o0i6C+vqV2f5OBUpOy
-5wXuE1d/2pmaKx4uLBBAMDVqZlv3Q5fxUQ3j0C7tH8/xFweEMNBVXm2Ddr1v8wnaxWwXLNzr1DR5
-bBdx6RYkaBIjQFffzpEoEE/puH6d54HsUBXFmDRT7TTh+NrPEuX+ZmPGnRLRT7mD440bfq5HNIvd
-9wFIwai1yhXJrajMPxB7YXn7uoS/K578DWxWBOhkimF+yjoP2bc+ODRyiNihaBWrBFuHzbSHxP9O
-CHd+WzuEQ0a7WCvc6DopmWxMcEMWrRWF6ic/anlFvEgtFXqm+s5ILRaF0+NE75WRMxiqVFn+XPkv
-IjU=
-=8MFd
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmEXiGkFAwAAAAAACgkQbHknjz/NzAI5
+ihAAkUcITu5BSFp95yKm6x6bFTX6xXjmQXg1jZUouDYs84HD8Y16ht658X5CJUnOtPi7rO6I9W8t
+WYALUQOXxVUqc2bO4eNsxynkv5Jjw2OYH1zkYzNBBf/zbk22XyJshxnMaO5CGDn9J4Qj4Mu+LqPC
+GPtekoYMAyM/kq1IH4Gw7+JstnGhAJ7cAw3PFy1fsoqn71uDiUv9pqdKaXJYMsFEWSGLxdRHGvNc
+PIUNG4ob165d2RMoGeKjxJuUJLQXol8NIE2DOe6RrTweTI7ACxwfJPpgrifQ0KZBYN05gRGwMvWR
+PAIkWnktz91kXY66KQshr83gc63rtYZW7/bb7fbYpzAjJRVM6dVLi1vxK6xdYvy4rYUBkWHEKpWH
+ZKCmLfQTzE2t6agxTK9/kbgn2rpqpbnSusVgC3IqZ2IjRLZQhikQraBvj+E1JgEzKXObCTlxDzjI
+cU8aoR6xioERq7rY2Wj3cyy+kjZRSd2KuzLNfOu18vpOQvR2eAKCqKSJsXPVALjfyX/O7GzS+3IP
+tgOOFcu0x2+YU7ydya2X74tH/ag3rjEfkd20l7A/mpH2Ci6p1+D3bV900t8gOHhkhdVfuSqm+pgV
+SDT3q9lp4Xa1ZElTJu51evCQdp48ZYd6DvIdjvAccSt4tnzvuFBTupDPWLH4JS83gZ7Yosn/kkM0
+HUI=
+=hQoa
 -----END PGP SIGNATURE-----
 
---nF9pEssTnE3JZgKvKxFALAusWD2IMARjC--
+--jOHqhybiObnUoWndBuK1TkUIkuZdis4JI--
 
