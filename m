@@ -2,64 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFDB3EBFCD
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 04:41:58 +0200 (CEST)
-Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA563EBFFC
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 05:00:18 +0200 (CEST)
+Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEjcT-0002ac-IG
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 22:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44978)
+	id 1mEjuD-00087h-1e
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 23:00:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mEjbY-0001FT-Bw
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:41:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57462)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mEjsp-0007TR-BD
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:58:51 -0400
+Received: from mail-bo1ind01olkn0177.outbound.protection.outlook.com
+ ([104.47.101.177]:6140 helo=IND01-BO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mEjbW-0007Hw-Tb
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:41:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C08C60F51
- for <qemu-devel@nongnu.org>; Sat, 14 Aug 2021 02:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628908857;
- bh=gmPzwqvA326onsBr2ZgDpvPtBsnw9+vtDpuGqgIiQN4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=mwaPvxnJ7QEIYKAHZvRi1g4+A12fhoQJmVJjrdIdyQIgWB8j0Idd0wK7a00v/o0y4
- WGX0P8OxhntK94EOMcO/Z6hFLdcHAX1Vf8hWVH5KcIj8+fBGXU6V48w2U9loszn9tu
- IsFfywfyFTI+fvS5TEVKjLB15FEQvlY39jNJxvFBpzfsFlEfI6gdcrWcYaB/0VTWoh
- WtMpnJHOw0JBUOJQ15S21qQpDexA2ZZhaZdWofaNRTfXtMq5Ucl7r/gL5WHlBdvtku
- XYcEDh1Oa4etkelNAJFIo9SsJlmPW/5aNPnCCnZusTNDX66FBMEN8ZOU8G8eNRB1eq
- bjGJvnH6FZSEA==
-Received: by mail-io1-f53.google.com with SMTP id f11so15773434ioj.3
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 19:40:57 -0700 (PDT)
-X-Gm-Message-State: AOAM5332m6gQeQ6SxTh+vzsEDc5ifbZHw9qI+YLOTYHJf3+BuAmA5Arb
- tpeZx+pzQkyLOCEnPRzDbr9UJQaatq6eTKdGmbs=
-X-Google-Smtp-Source: ABdhPJyFHWzMfZdgAthUzittXpHpNoNR5rVIiXRalcw7FEM9AwQbSjF6TP+4OwOwvGnqkHtlSMX5RB/v7UMcU9Ul5Ak=
-X-Received: by 2002:a02:2348:: with SMTP id u69mr5003454jau.141.1628908856972; 
- Fri, 13 Aug 2021 19:40:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210813110149.1432692-1-f4bug@amsat.org>
- <20210813110149.1432692-3-f4bug@amsat.org>
-In-Reply-To: <20210813110149.1432692-3-f4bug@amsat.org>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 14 Aug 2021 10:40:45 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5nT9QxJs8S++nVejCs6j0KhSoQMzXe2pyHnS+XS4xdSA@mail.gmail.com>
-Message-ID: <CAAhV-H5nT9QxJs8S++nVejCs6j0KhSoQMzXe2pyHnS+XS4xdSA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/mips: Allow Loongson 3A1000 to use up to
- 48-bit VAddr
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mEjsk-0005ZE-MF
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:58:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aGsAoeAxWBv4Ha2dHKRShNaC1It94f234wHQBT4oTmO6tYa2DPAFWdyvfhcKQIKc8pNe42/gMgS+Xf/OZQYMAnwDsaLiVwJqco3x1w2r/v6ZyvOPnDe5xrui8PHo9LT1DavSmDchusR2m2RihiVSKZHysE3AFYks4FNcM13TltqUA9M6hy8jFaoWrjG3RGXW7Fxq8P5Q4bn5l17WHihC2/qFXFhtfpvM0wD5q5DOEwvqMvrqav3CGHZEzy3wvTdxd827TAor2tbG4P3qajOjTWjzz4GHLq1N5iEurx+yHVaogvnE82VXftDPQcv55MYQ8daAPbjNgqz8ggSJeMHd6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pO9fBFoyv/6kj4JA3tgrE3/2Ydgu19nlHhdtjRvueVg=;
+ b=D/BEQqAJhnNIV3qvoNK+5A8VjieoT4ce/1fWHzmQhTKOsTJeIAh4ZCIVihtE8RxoMCyIDnx3yFPP2GbRKDWZNn8IgJG0mePvBe0u86pko0dXL1IrDC3g/zX855RqD4+dNyy5TsQWRSy1QScC9tnt5apXrt70DTq462UZQPLL0UV95AlM48OD6Ta/nKz0P25nCex9wq8Ug6ZwSHYq8Qu9ofGLq7r1W8MnTW4h8/zXryPkvC7Be1gE2I5UpqvnlkDoAMaxvmywuvxa939vTVgnL7vwtpnE3XuI7JgGFJwSXa2AwWAJygte7CwN8DbyY61t34LXuXq9m7Mpaww8Fcuz0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pO9fBFoyv/6kj4JA3tgrE3/2Ydgu19nlHhdtjRvueVg=;
+ b=A01BJjHiLvyA8bJIUoM014G1UaJMy6ogMVI/89RsWJPI/N42oyxf+xcExJdB+tc5pHRmnRFfzKZkEZ2zyPHL7J9Qj+GGG7KjA3hiDzMdtJhZB7r2x7auvzTfTlQoQl8VPit/wCR80Py022p0XB+GoRd7Q1LhJp6ZDia7Q3c7Xnd7/DPatdDM07/dAue0DXgsVbbs4R3qvNvyxEby5++TFi9U+DielzvXIIRR38g3ljKTssi1mknNqYl82AYJ7/UHwfAdtDAM1gLkw9nVCzCQonTyfe7Sz5yx24evJO6rCqKet+tws4oBvu01Md+E5nHftOP7CX793D5ke61VjnqqFw==
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
+ by PN0PR01MB6125.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:6a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Sat, 14 Aug
+ 2021 02:58:39 +0000
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c%5]) with mapi id 15.20.4415.021; Sat, 14 Aug 2021
+ 02:58:39 +0000
+Message-ID: <PN0PR01MB63528333474E48B3C7017625FCFB9@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [Question] fuzz: double-fetches in a memory region map session
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Date: Sat, 14 Aug 2021 10:57:55 +0800
+In-Reply-To: <20210813105004.j7p6qhaokg7fj6ao@mozz.bu.edu>
+References: <PN0PR01MB6352FCDBE92B94EF0A05E658FCF99@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+ <20210813105004.j7p6qhaokg7fj6ao@mozz.bu.edu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Evolution 3.40.0-1 
+Content-Transfer-Encoding: 7bit
+X-TMN: [9xTOJGztmcyBr+7dFtqevQoTQen22128]
+X-ClientProxiedBy: HK2PR04CA0085.apcprd04.prod.outlook.com
+ (2603:1096:202:15::29) To PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:72::9)
+X-Microsoft-Original-Message-ID: <8eef73d3162f37d85dd5ee0ddaa82368071631c4.camel@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.101.209] (104.192.108.9) by
+ HK2PR04CA0085.apcprd04.prod.outlook.com (2603:1096:202:15::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4415.14 via Frontend Transport; Sat, 14 Aug 2021 02:58:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 963483b9-13e6-4a17-cca6-08d95ecf6a50
+X-MS-TrafficTypeDiagnostic: PN0PR01MB6125:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cwhdXFsObS0TkPtbtaFS1xha7dwsfX1jOgScqQQ9qbwSjXpf1ixipL2H744fEK9EmpM/N1xjO+OAFCLada5wkPtFjR/Wbs/heNJjC2H+eiJIXTaRsOQtS1+3EAwQKLByHMCUJb6YzKUVAY/kpjxanl3spemQTl+O+hNMWqbXCQ8LhyQBnLU4k5B/kyjrw8tkvqBk02rMcNCq5ViZ8AW4VjKeUArD92d0TRZWomvXoCB20QJS0/6tK2y/PIQ+5NUTE+MX56pD5mvP3pqXUfEpnyxh4xDVABROJkHK8oR6v1MFLyVjHyQcCpBtZJr9cIt/UasGegd+ahv98Ys/2n6iFC1gezJzPftNDGXCEa+z4F63J3Qh0/OQoRAmi6EIDOkhh0ayK0hdOvqGpCBpRhDOmpkikL3NgdnDPa5ij6qRW1B/syVEHOJ5qnC/2BYnV72stwAiSjuUInxujwbv0ok4msw+AhrLKJaY442n88085pU=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: ipmXZl4f4SP1/0bN2SfM0PD1TCWRg+l5223/5HHNj0G3y3wivpyHUiiwrmrS9GcEuSYorz4iZkagG6mu6Nx904HoDgz46KAHG9y8zJ5Le7CxVzZN1767sxHk+mMTC7uu/mwh6Yd8NOzZxjsa3Uix/w==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 963483b9-13e6-4a17-cca6-08d95ecf6a50
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2021 02:58:39.4971 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB6125
+Received-SPF: pass client-ip=104.47.101.177;
+ envelope-from=Qiuhao.Li@outlook.com;
+ helo=IND01-BO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: 39
+X-Spam_score: 3.9
+X-Spam_bar: +++
+X-Spam_report: (3.9 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,42 +103,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+On Fri, 2021-08-13 at 06:50 -0400, Alexander Bulekov wrote:
+> > 
+> > My question is about address_space_map() -- How do we emulate double-
+> > fetch
+> > bugs in the same map/unmap session? For example:
+> > 
+> 
+> Hi Qiuhao,
+> Right now we don't. One strategy would be to use mprotect. When the
+> code
+> fetches data the first time, we get a SEGV, where we unprotect the
+> page,
+> write a pattern, and enable single-stepping. Then, after the
+> single-step, re-protect the page, and disable single-step.
+> 
 
-On Fri, Aug 13, 2021 at 7:02 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Per the manual '=E9=BE=99=E8=8A=AF GS264 =E5=A4=84=E7=90=86=E5=99=A8=E6=
-=A0=B8=E7=94=A8=E6=88=B7=E6=89=8B=E5=86=8C' v1.0, chapter
-> 1.1.5 SEGBITS: the 3A1000 (based on GS464 core) implements
-> 48 virtual address bits in each 64-bit segment, not 40.
->
-> Fixes: af868995e1b ("target/mips: Add Loongson-3 CPU definition")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  target/mips/cpu-defs.c.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-> index c6ab3af190e..cbc45fcb0e8 100644
-> --- a/target/mips/cpu-defs.c.inc
-> +++ b/target/mips/cpu-defs.c.inc
-> @@ -828,7 +828,7 @@ const mips_def_t mips_defs[] =3D
->                      (0x1 << FCR0_D) | (0x1 << FCR0_S),
->          .CP1_fcr31 =3D 0,
->          .CP1_fcr31_rw_bitmask =3D 0xFF83FFFF,
-> -        .SEGBITS =3D 42,
-> +        .SEGBITS =3D 48,
->          .PABITS =3D 48,
->          .insn_flags =3D CPU_MIPS64R2 | INSN_LOONGSON3A |
->                        ASE_LMMI | ASE_LEXT,
-> --
-> 2.31.1
->
+Brilliant! I can always get a lot of inspiration from you :)
+
+> On OSS-Fuzz, we disabled double-fetch detection, for now, as we did not
+> want reproducers for normal-bugs to inadvertently contain
+> double-fetches. To make the double-fetch detection useful for
+> developers, we probably need to limit the double fetch capability to
+> only fill the DMA regions twice, rather than 10 or 20 times. Then, in
+> the report, we could give the call-stacks (from the SEGV handler, or
+> dma_read hook) of the exact locations in the code that read from the
+> same address twice.
+
+Got it, this is indeed the most practical solution. I will try to
+detect double-fetch bugs via pattern-based analysis [1]. But it may be
+hard to write PoCs to convince and help developers fix bugs, and we
+can't identify those bugs caused by the compiler [2] or preprocessor.
+
+[1]
+https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/wang-pengfei
+
+[2]
+https://www.voidsecurity.in/2018/08/from-compiler-optimization-to-code.html
+
+Thanks,
+  Qiuhao Li
+
+
+
 
