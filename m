@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FAB3EC0D9
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 08:14:25 +0200 (CEST)
-Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093DF3EC0DA
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 08:14:26 +0200 (CEST)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEmw4-00067S-G9
-	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 02:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1mEmw5-00066e-1H
+	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 02:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms5-0006n2-HG
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms5-0006n4-Rr
  for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30480)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms3-0004J9-9h
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms4-0004KW-BN
  for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628921414;
+ s=mimecast20190719; t=1628921415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b2cfi7kmznoROCAFCUq4RNN/VdNXHw/nS8bddWC6uQM=;
- b=YiMDrrApOYKHbmhJHRhugu3rwnsqWl2xlmfVYdgsaSfZzUBuxWTGGWrPvZNS+t8+e9dUHq
- CHWXZGiPoV+yR4figZjZ4I42BCGQKzEZiCqJYyFDIwNBR35fhhc3+L2acJBzq5K2iIczYE
- DGFZD7Avcd6lynZwBC2NsMSQj6hosiI=
+ bh=K7J53uKN33865hFXRWRLg3wU2xH/2kpsKDKV5CjpdLo=;
+ b=CliB2ZseNJEGUheOSOrh02CKyZzSgjFAnoM+WKdFQ2TUCo5puL6oQIv/CAnXC/hEJtkrZO
+ +AZzt4iSnPBpHzvHaEBmhyq1irzODqU0fjf6VnR2kdvBd9vyNiGjxenUwy/6IVqCw9XUNp
+ KSgYUpIIUgCgV88eS0Vv/OBQwYBW38M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-RNit878QMNyqWA2AyzcQ9A-1; Sat, 14 Aug 2021 02:10:12 -0400
-X-MC-Unique: RNit878QMNyqWA2AyzcQ9A-1
+ us-mta-568-ByX8MxpzPkmxmDE3retwPA-1; Sat, 14 Aug 2021 02:10:13 -0400
+X-MC-Unique: ByX8MxpzPkmxmDE3retwPA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86A3C101C8A0;
- Sat, 14 Aug 2021 06:10:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B44A87D541;
+ Sat, 14 Aug 2021 06:10:12 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC0865D9D5;
- Sat, 14 Aug 2021 06:10:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9ED15D9D5;
+ Sat, 14 Aug 2021 06:10:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/11] tests/qtest/vhost-user-blk-test: Check whether
- qemu-storage-daemon is available
-Date: Sat, 14 Aug 2021 08:09:49 +0200
-Message-Id: <20210814060956.12852-5-thuth@redhat.com>
+Subject: [PULL 05/11] fuzz: avoid building twice, when running on gitlab
+Date: Sat, 14 Aug 2021 08:09:50 +0200
+Message-Id: <20210814060956.12852-6-thuth@redhat.com>
 In-Reply-To: <20210814060956.12852-1-thuth@redhat.com>
 References: <20210814060956.12852-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -59,11 +58,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.701, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,38 +80,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vhost-user-blk-test currently hangs if QTEST_QEMU_STORAGE_DAEMON_BINARY
-points to a non-existing binary. Let's improve this situation by checking
-for the availability of the binary first, so we can fail gracefully if
-it is not accessible.
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Message-Id: <20210811095949.133462-1-thuth@redhat.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
+On oss-fuzz, we build twice, to put together a build that is portable to
+the runner containers. On gitlab ci, this is wasteful and contributes to
+timeouts on the build-oss-fuzz job. Avoid building twice on gitlab, at
+the remote cost of potentially missing some cases that break oss-fuzz
+builds.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-Id: <20210809111621.54454-1-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ scripts/oss-fuzz/build.sh | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 8796c74ca4..6f108a1b62 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -789,6 +789,14 @@ static const char *qtest_qemu_storage_daemon_binary(void)
-         exit(0);
-     }
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index c1af43fded..98b56e0521 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -73,17 +73,19 @@ if ! make "-j$(nproc)" qemu-fuzz-i386; then
+           "\nFor example: CC=clang CXX=clang++ $0"
+ fi
  
-+    /* If we've got a path to the binary, check whether we can access it */
-+    if (strchr(qemu_storage_daemon_bin, '/') &&
-+        access(qemu_storage_daemon_bin, X_OK) != 0) {
-+        fprintf(stderr, "ERROR: '%s' is not accessible\n",
-+                qemu_storage_daemon_bin);
-+        exit(1);
-+    }
+-for i in $(ldd ./qemu-fuzz-i386 | cut -f3 -d' '); do
+-    cp "$i" "$DEST_DIR/lib/"
+-done
+-rm qemu-fuzz-i386
+-
+-# Build a second time to build the final binary with correct rpath
+-../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+-    --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
+-    --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,\$ORIGIN/lib" \
+-    --target-list="i386-softmmu"
+-make "-j$(nproc)" qemu-fuzz-i386 V=1
++if [ "$GITLAB_CI" != "true" ]; then
++    for i in $(ldd ./qemu-fuzz-i386 | cut -f3 -d' '); do
++        cp "$i" "$DEST_DIR/lib/"
++    done
++    rm qemu-fuzz-i386
 +
-     return qemu_storage_daemon_bin;
- }
++    # Build a second time to build the final binary with correct rpath
++    ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
++        --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
++        --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,\$ORIGIN/lib" \
++        --target-list="i386-softmmu"
++    make "-j$(nproc)" qemu-fuzz-i386 V=1
++fi
  
+ # Copy over the datadir
+ cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
 -- 
 2.27.0
 
