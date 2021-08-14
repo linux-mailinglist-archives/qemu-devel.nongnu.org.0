@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62553EC0DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 08:16:05 +0200 (CEST)
-Received: from localhost ([::1]:45924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180733EC0E1
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 08:18:42 +0200 (CEST)
+Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEmxg-0002Mk-HC
-	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 02:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1mEn0D-0005Zd-6K
+	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 02:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms8-0006np-Dm
- for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43830)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEmsB-0006ra-A9
+ for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms6-0004PJ-Vm
- for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEms8-0004Qg-Rr
+ for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:10:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628921418;
+ s=mimecast20190719; t=1628921419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H1tCNKAJuItS9bOlpXodEVR/2YMuanOg2cGj/pMW63Q=;
- b=i6K+vx73gYZX0psuXpIOYYNY15Ne9EwWdTBaPBuIiODqRRcHQr9j44fbsQtFu27dsPgHKt
- kA8C/uOSeLerQLQS3ofra1TxBAplOQTMMHrLckd7XKRLPtACOSvPPMf3k2sqIAMJzG2Pb+
- USpD/jWOoRZNOgB06SVaXUPwjMXZ9/4=
+ bh=HhcsdYY6kUJ/SgrdvlnvKOYVRp5EfdM+aR0N963zIFk=;
+ b=h7Go/YbTZt0JHDl8IsA6d3SwRTrjTqXB/yaOsIYCixP8nUEPSl3h+rxZAZpC5Bst6sajuk
+ PC17cSXuZVHhuvMvq5qY2+pf7XpNm1e6hI8jlwYcRfd5WFaLz5bE0HxEIjtJWo5aWfkmy+
+ QCpfc7dF5XY/TbLPp+mHW6SYAxjOIXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-hNi918YzMP-qT-iCAovbrw-1; Sat, 14 Aug 2021 02:10:15 -0400
-X-MC-Unique: hNi918YzMP-qT-iCAovbrw-1
+ us-mta-564-LI5cZ4XCNquP11Rho8bDmA-1; Sat, 14 Aug 2021 02:10:16 -0400
+X-MC-Unique: LI5cZ4XCNquP11Rho8bDmA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0780F101C8A0;
- Sat, 14 Aug 2021 06:10:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17C5287D549;
+ Sat, 14 Aug 2021 06:10:16 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CC105D9D5;
- Sat, 14 Aug 2021 06:10:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F7AD5D9FC;
+ Sat, 14 Aug 2021 06:10:15 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 07/11] docs/about/removed-features: Document removed CLI
- options from QEMU v3.0
-Date: Sat, 14 Aug 2021 08:09:52 +0200
-Message-Id: <20210814060956.12852-8-thuth@redhat.com>
+Subject: [PULL 08/11] docs/about/removed-features: Document removed CLI
+ options from QEMU v3.1
+Date: Sat, 14 Aug 2021 08:09:53 +0200
+Message-Id: <20210814060956.12852-9-thuth@redhat.com>
 In-Reply-To: <20210814060956.12852-1-thuth@redhat.com>
 References: <20210814060956.12852-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,59 +81,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These CLI options had been removed/replaced in QEMU v3.0. Still, some
+These CLI options had been removed/replaced in QEMU v3.1. Still, some
 people might want to update from older versions to the recent QEMU version,
 so we should give some recommendations for the replacements in our
 documentation.
 
-Message-Id: <20210811084103.74832-3-thuth@redhat.com>
+Message-Id: <20210811084103.74832-4-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/about/removed-features.rst | 35 +++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ docs/about/removed-features.rst | 67 +++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
 
 diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index c18af3c76f..c4b702968e 100644
+index c4b702968e..40d2cc4ffa 100644
 --- a/docs/about/removed-features.rst
 +++ b/docs/about/removed-features.rst
-@@ -44,6 +44,41 @@ behaviour that could be changed by this option in qemu-kvm is now the default
- when using the KVM PIT. It still can be requested explicitly using
- ``-global kvm-pit.lost_tick_policy=delay``.
+@@ -79,6 +79,73 @@ Use ``-machine kernel_irqchip=off`` instead.
  
-+``-drive secs=s``, ``-drive heads=h`` & ``-drive cyls=c`` (removed in 3.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ Use ``-global kvm-pit.lost_tick_policy=discard`` instead.
+ 
++``-balloon`` (removed in 3.1)
++'''''''''''''''''''''''''''''
 +
-+The drive geometry should now be specified via
-+``-device ...,drive=dr,cyls=c,heads=h,secs=s`` (together with
-+``-drive if=none,id=dr,...``).
++The ``-balloon virtio`` option has been replaced by ``-device virtio-balloon``.
++The ``-balloon none`` option was a no-op and has no replacement.
 +
-+``-drive serial=``, ``-drive trans=`` & ``-drive addr=`` (removed in 3.0)
++``-bootp`` (removed in 3.1)
++'''''''''''''''''''''''''''
++
++The ``-bootp /some/file`` argument is replaced by either
++``-netdev user,id=x,bootp=/some/file`` (for pluggable NICs, accompanied with
++``-device ...,netdev=x``), or ``-nic user,bootp=/some/file`` (for on-board NICs).
++The new syntax allows different settings to be provided per NIC.
++
++``-redir`` (removed in 3.1)
++'''''''''''''''''''''''''''
++
++The ``-redir [tcp|udp]:hostport:[guestaddr]:guestport`` option is replaced
++by either ``-netdev
++user,id=x,hostfwd=[tcp|udp]:[hostaddr]:hostport-[guestaddr]:guestport``
++(for pluggable NICs, accompanied with ``-device ...,netdev=x``) or by the option
++``-nic user,hostfwd=[tcp|udp]:[hostaddr]:hostport-[guestaddr]:guestport``
++(for on-board NICs). The new syntax allows different settings to be provided
++per NIC.
++
++``-smb`` (removed in 3.1)
++'''''''''''''''''''''''''
++
++The ``-smb /some/dir`` argument is replaced by either
++``-netdev user,id=x,smb=/some/dir`` (for pluggable NICs, accompanied with
++``-device ...,netdev=x``), or ``-nic user,smb=/some/dir`` (for on-board NICs).
++The new syntax allows different settings to be provided per NIC.
++
++``-tftp`` (removed in 3.1)
++''''''''''''''''''''''''''
++
++The ``-tftp /some/dir`` argument is replaced by either
++``-netdev user,id=x,tftp=/some/dir`` (for pluggable NICs, accompanied with
++``-device ...,netdev=x``), or ``-nic user,tftp=/some/dir`` (for embedded NICs).
++The new syntax allows different settings to be provided per NIC.
++
++``-localtime`` (removed in 3.1)
++'''''''''''''''''''''''''''''''
++
++Replaced by ``-rtc base=localtime``.
++
++``-nodefconfig`` (removed in 3.1)
++'''''''''''''''''''''''''''''''''
++
++Use ``-no-user-config`` instead.
++
++``-rtc-td-hack`` (removed in 3.1)
++'''''''''''''''''''''''''''''''''
++
++Use ``-rtc driftfix=slew`` instead.
++
++``-startdate`` (removed in 3.1)
++'''''''''''''''''''''''''''''''
++
++Replaced by ``-rtc base=date``.
++
++``-vnc ...,tls=...``, ``-vnc ...,x509=...`` & ``-vnc ...,x509verify=...``
 +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+Use ``-device ...,drive=dr,serial=r,bios-chs-trans=t,addr=a`` instead
-+(together with ``-drive if=none,id=dr,...``).
-+
-+``-net ...,vlan=x`` (removed in 3.0)
-+''''''''''''''''''''''''''''''''''''
-+
-+The term "vlan" was very confusing for most users in this context (it's about
-+specifying a hub ID, not about IEEE 802.1Q or something similar), so this
-+has been removed. To connect one NIC frontend with a network backend, either
-+use ``-nic ...`` (e.g. for on-board NICs) or use ``-netdev ...,id=n`` together
-+with ``-device ...,netdev=n`` (for full control over pluggable NICs). To
-+connect multiple NICs or network backends via a hub device (which is what
-+vlan did), use ``-nic hubport,hubid=x,...`` or
-+``-netdev hubport,id=n,hubid=x,...`` (with ``-device ...,netdev=n``) instead.
-+
-+``-no-kvm-irqchip`` (removed in 3.0)
-+''''''''''''''''''''''''''''''''''''
-+
-+Use ``-machine kernel_irqchip=off`` instead.
-+
-+``-no-kvm-pit-reinjection`` (removed in 3.0)
-+''''''''''''''''''''''''''''''''''''''''''''
-+
-+Use ``-global kvm-pit.lost_tick_policy=discard`` instead.
++The "tls-creds" option should be used instead to point to a "tls-creds-x509"
++object created using "-object".
 +
  ``-net ...,name=...`` (removed in 5.1)
  ''''''''''''''''''''''''''''''''''''''
