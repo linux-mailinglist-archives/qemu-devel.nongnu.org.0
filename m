@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6833EC101
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 08:53:06 +0200 (CEST)
-Received: from localhost ([::1]:34008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168A03EC17B
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 11:03:13 +0200 (CEST)
+Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEnXV-0007Of-JS
-	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 02:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37652)
+	id 1mEpZP-00044n-GF
+	for lists+qemu-devel@lfdr.de; Sat, 14 Aug 2021 05:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEnWa-0006kM-K3
- for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:52:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33456)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1mEpXX-00039E-J3; Sat, 14 Aug 2021 05:01:15 -0400
+Received: from redisdead.crans.org ([185.230.79.39]:35270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mEnWY-0006Yk-OM
- for qemu-devel@nongnu.org; Sat, 14 Aug 2021 02:52:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628923925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s6OFlKtI3pdqFzRyK5MAAD9k6Agy9E2NOHota+D6SUA=;
- b=IfqSgPjQ1GFdX6fVcseolRO+Lxd0QZvuJAS9n3bIsIemHpwt3gShuSrMy14fg6DTcw7aK6
- DxbmpwBFcPyJfGe2iB6HNJDDztAeiWrKAUB0lrVh4oy/kN3EgBjV9MK9KHUQ5rjN60tjwf
- HKs4brYPBf0gx1KbPhxkLZcBca/ieQU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-LOV3hDyTMKuo03lun8VbcA-1; Sat, 14 Aug 2021 02:52:03 -0400
-X-MC-Unique: LOV3hDyTMKuo03lun8VbcA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t15-20020a5d42cf000000b001565f9c9ee8so1333912wrr.2
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 23:52:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s6OFlKtI3pdqFzRyK5MAAD9k6Agy9E2NOHota+D6SUA=;
- b=KuwdF/FBG8avQeXco0TmmcF2FF+xfaqoUIaC5ii4v4PlChqQ2vzWyZDjShbaOsW8yy
- xy9SsShPXG5XqAjnLZrfPWQK0JlZyN8dH52Fsv9XzruL5lN9blnVEIBo+j0Oet4aYER8
- iyhMEoBmEyKOU4p5xdvo569cQfNGJxtNK+ngn+cILv4QfTDvUXBlfjQfl71l0JX78AuV
- DVBuQEb6ceukBxsfZCNoVpToZ5Zd5+k6BRLvgF4zZZJ1DDLgt38aa+wcKNef+oRnSzOZ
- 77swWCGOfHOlKpV8HhSVlYceLrTmzLy85WCLgQ/RlLu2KH1JwbIkQgL34JfpSETTUQYq
- l0xA==
-X-Gm-Message-State: AOAM530KWoogW7g3zpBmRi1lswzonnpfCNp4zYzuWr0pfL7qFH6Yi3ho
- rzGzOShha0IKuJU8gqSak0e0+8DIERLiqaWYPuKSm5BuH50FDeORiiFC2/n1515BHqejrJVsZrp
- XhtIH5Yefqradd7U=
-X-Received: by 2002:adf:f292:: with SMTP id k18mr6902147wro.249.1628923922706; 
- Fri, 13 Aug 2021 23:52:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw17cFM7i+Hhpwl5FKUZ34tsfkd6sqb+oEATX+osXDoIvRhzHl6H/48mhMDqqRtKM0pvQvD0w==
-X-Received: by 2002:adf:f292:: with SMTP id k18mr6902139wro.249.1628923922532; 
- Fri, 13 Aug 2021 23:52:02 -0700 (PDT)
-Received: from thuth.remote.csb (pd95757ea.dip0.t-ipconnect.de.
- [217.87.87.234])
- by smtp.gmail.com with ESMTPSA id y3sm3804997wma.32.2021.08.13.23.52.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Aug 2021 23:52:01 -0700 (PDT)
-Subject: Re: [PATCH] vga: don't abort when adding a duplicate isa-vga device
-To: "Jose R. Ziviani" <jziviani@suse.de>, qemu-devel@nongnu.org
-References: <20210813233619.32178-1-jziviani@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <9dd25d6d-b9ba-0000-96a0-451fd1b28c56@redhat.com>
-Date: Sat, 14 Aug 2021 08:52:00 +0200
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1mEpXV-0003vd-5U; Sat, 14 Aug 2021 05:01:15 -0400
+Received: from [IPv6:2a02:8428:4db:b001:83b5:a75:e190:e939]
+ (2a02-8428-04db-b001-83b5-0a75-e190-e939.rev.sfr.net
+ [IPv6:2a02:8428:4db:b001:83b5:a75:e190:e939])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 8505846F;
+ Sat, 14 Aug 2021 11:01:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1628931661; bh=TkeFYcChyDU6Jsom+FJLwp4/FDBtAN1AwORDqA4DVEM=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=oL0t2pREvlvc5YsXDddbXZ378bqbB4ti3TuadL3kNlm+tE99fgCB2DAGT5/dFz55x
+ xqmFwvV19RozmPN5cRXXxi4IGFdzDW3Kbqq5N1fKLToVADykyEO0ucOaPD5zDEluu3
+ xNZ99QNFQur9FISN8JAfYm4SM/w0M+/wDu5AZ9jPdHZJ6zXgknP7GPpNkuVHeIR/WR
+ 83r9pasPEmKCHQRDNXSbJw+YAnWZtoiGfaenSW4tOGkAiNYDqZ9V6VSOzPcLmKoBLs
+ SbD9fel78M1YWuLh1qfuM4/gz3z9Nanh4yJzBDyuGJ1t+GOArdIZeX2yIikOkk1EwO
+ Vr8N9U3128geqa8l/B6ZSFcDlwSWzxxfQNyqUv34Lie8UcUyrv0w4TJvRwoucsM/ZR
+ yX5Y5pxKfUVhhd18k7B8VUoKBkGU6hy1vNKqSVDOp3oWhU7z4SoIp6U1ri/KcCDB5/
+ AwV26JIUQm/pq2GuU/mYPle1gYIToygpx1WJ5QduujH62nXjIZvfRYCnE7lrGONraN
+ ggFdxSykYorZDAj7HtcF7I10i1PNnIQKHPoxz6UwPBnluEayrhDD3rWC8c7/COgoFU
+ 42HPl9tJs58ef0lKyDlpICAvsfnNrtnmb2Te+dN2nw17y3wHwhxFO2gChl6Gk3ktQq
+ +HN8YjFOrAYCmkCo9SdgviBM=
+Subject: Re: [PATCH for-6.2 11/25] hw/arm/stm32f100: Wire up sysclk and refclk
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-12-peter.maydell@linaro.org>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Message-ID: <e7a42824-89d9-75f1-7c72-a97df8b52615@crans.org>
+Date: Sat, 14 Aug 2021 11:01:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210813233619.32178-1-jziviani@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <20210812093356.1946-12-peter.maydell@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="2i3JHgCfAylnbZl1oVrMtJZgSCKS1Nfp0"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,52 +75,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Alistair Francis <alistair@alistair23.me>, Luc Michel <luc@lmichel.fr>,
+ Joel Stanley <joel@jms.id.au>, Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/08/2021 01.36, Jose R. Ziviani wrote:
-> If users try to add an isa-vga device that was already registered,
-> still in command line, qemu will crash:
-> 
-> $ qemu-system-mips64el -M pica61 -device isa-vga
-> RAMBlock "vga.vram" already registered, abort!
-> Aborted (core dumped)
-> 
-> That particular board registers such device automaticaly, so it's
-> not obvious that a VGA device already exists. This patch changes
-> this behavior by displaying a message and ignoring that device,
-> starting qemu normally.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
-> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
-> ---
->   hw/display/vga-isa.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-> index 90851e730b..69db502dde 100644
-> --- a/hw/display/vga-isa.c
-> +++ b/hw/display/vga-isa.c
-> @@ -61,6 +61,15 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
->       MemoryRegion *vga_io_memory;
->       const MemoryRegionPortio *vga_ports, *vbe_ports;
->   
-> +    /*
-> +     * some machines register VGA by default, so instead of aborting
-> +     * it, show a message and ignore this device.
-> +     */
-> +    if (qemu_ram_block_by_name("vga.vram")) {
-> +        error_report("vga.vram is already registered, ignoring this device");
-> +        return;
-> +    }
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2i3JHgCfAylnbZl1oVrMtJZgSCKS1Nfp0
+Content-Type: multipart/mixed; boundary="qOX3WHJHfHH3p17ELrw2lTLRWcHkGAVjN";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Luc Michel <luc@lmichel.fr>, Damien Hedde <damien.hedde@greensocs.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Joel Stanley <joel@jms.id.au>
+Message-ID: <e7a42824-89d9-75f1-7c72-a97df8b52615@crans.org>
+Subject: Re: [PATCH for-6.2 11/25] hw/arm/stm32f100: Wire up sysclk and refclk
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-12-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-12-peter.maydell@linaro.org>
 
-I think we should not ignore the error, but rather turn this into a proper 
-error (instead of aborting).
+--qOX3WHJHfHH3p17ELrw2lTLRWcHkGAVjN
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-So if you replace error_report(...) with error_setg(errp, ...), the patch 
-should be fine.
 
-  Thomas
+On 8/12/21 11:33 AM, Peter Maydell wrote:
+> Wire up the sysclk and refclk for the stm32f100 SoC.  This SoC always
+> runs the systick refclk at 1/8 the frequency of the main CPU clock,
+> so the board code only needs to provide a single sysclk clock.
+>=20
+> Because there is only one board using this SoC, we convert the SoC
+> and the board together, rather than splitting it into "add clock to
+> SoC; connect clock in board; add error check in SoC code that clock
+> is wired up".
+>=20
+> When the systick device starts honouring its clock inputs, this will
+> fix an emulation inaccuracy in the stm32vldiscovery board where the
+> systick reference clock was running at 1MHz rather than 3MHz.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
+Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
+
+-- Alexandre
+
+
+--qOX3WHJHfHH3p17ELrw2lTLRWcHkGAVjN--
+
+--2i3JHgCfAylnbZl1oVrMtJZgSCKS1Nfp0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmEXhkwFAwAAAAAACgkQbHknjz/NzALL
+Ew/9HwwbqXQn3bMh6m6u+iHonCxIplfihawK7SyLGwAh7tJP4+poqq54s9Jy8OkaQ3iWzWzEZEMJ
+IUYoCsht3xwz9KAPIEnRjlVCkCDVh8ggTL92/NRPEbH9zdEmPkNis46dyFHrt8za0ASvyhF0Mk7m
+otPNRwMQQ2O56K1cRueTdHTKByOPQN5xaeeUUWKop6rE9MTA14gtG/B8cHz+a6C7dnFLf8AthUKa
+UDBaUkWXnixb+SGZW6UmJmEhSGHA1aSgwlKGTZ+9EX++DUL+sy/SJ2XBSyn7775HFS1oVB9jC6FK
+deMU9/13tS79fYBAjF7jNyXbq2HiFWUN/wv0OBbmr9e28AKRmO+r8grKX1F92mSdlN5LJCtjipQF
+wg3vue1MH4CLWiWJGTzFzsVZOlwXVf9EsIUTVmSXqdK5GimlwDZjabPArpGYtUFF6b9zwvAVdMRK
+NDMi757Nyh2QZyrGL06JGzH1z5MXgtcrIpQlX/nR+vPdpHwwEmpmG7az3YAVYxnQgWQaVM484pRs
+SY0xZyYBOqoNcbAl88hJ5RhnrFLdPXas/QwrrlH1j6iikKWoN5nDsZbsFfIaTN0GUHS/z29TvogG
+cTyMDnF7RkSu2W/pv7NUUR/ONt0/uRp1DFbmqPH0EFlIwRgPxd6SDbXzool5A39jLDJnjXiT4rTF
+pWE=
+=aeGe
+-----END PGP SIGNATURE-----
+
+--2i3JHgCfAylnbZl1oVrMtJZgSCKS1Nfp0--
 
