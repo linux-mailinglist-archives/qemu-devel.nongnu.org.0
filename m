@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A363EBFCC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 04:41:54 +0200 (CEST)
-Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFDB3EBFCD
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Aug 2021 04:41:58 +0200 (CEST)
+Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mEjcP-0002Ph-4p
-	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 22:41:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
+	id 1mEjcT-0002ac-IG
+	for lists+qemu-devel@lfdr.de; Fri, 13 Aug 2021 22:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mEjbI-00016s-VE
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:40:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57380)
+ id 1mEjbY-0001FT-Bw
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:41:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mEjbG-0006td-U3
- for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:40:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E93760EE4
- for <qemu-devel@nongnu.org>; Sat, 14 Aug 2021 02:40:39 +0000 (UTC)
+ id 1mEjbW-0007Hw-Tb
+ for qemu-devel@nongnu.org; Fri, 13 Aug 2021 22:41:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C08C60F51
+ for <qemu-devel@nongnu.org>; Sat, 14 Aug 2021 02:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628908839;
- bh=SAha39pYTQjwawyz8R6VmLBz0A0xDZvLlcu2YMg8TYY=;
+ s=k20201202; t=1628908857;
+ bh=gmPzwqvA326onsBr2ZgDpvPtBsnw9+vtDpuGqgIiQN4=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UzxvD4wDWiK2++nW0G8+JT8qWUsiGbxpqg9jZm9in85EcySoZWt4fHOcnfNhRX0XS
- cfgd2vmB+AblKgWXBUKp+cHjBPlCRKfLzUgGjmYHaRGbOAmzPOjjUW2yqeLTEwFHzO
- pGCHcDPXZx+uzGvP2/DR8Zwp9eRxMgzMuy0PpXCLqsWpACltgCU4cJb7T0JMPiz33b
- xEcFTaUIlFmHYW7Yhdqm4JGeNPpy1V6ojKNFZTzHDVJyAE4Hjjqd3V2Vzi8bhd/WHS
- N6pz6rrK0N0Iz/kdAR6G1ohzJgFCyA3vtn/TKph1NAjstN9NFhj9UxMs4Y+xiI3wsp
- zhTzIBRmqjWEw==
-Received: by mail-io1-f52.google.com with SMTP id f11so15772929ioj.3
- for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 19:40:39 -0700 (PDT)
-X-Gm-Message-State: AOAM531j5g6Bv+frfxKKKl+jiSO6K1c+TfmqEUE7O8sertyggrNIvoP3
- ffSm5+T32DTKKfvnVaO7T8kv15sy9KDtDnw1rxk=
-X-Google-Smtp-Source: ABdhPJz48IP5EpGhnUX6YTjobb1OTOtXnaD3NbmlYMBIOspkWpbpmUOOK4ZL1ViERYh817a1gBsrbSE0C1Il/j1rFjM=
-X-Received: by 2002:a02:c502:: with SMTP id s2mr5044324jam.135.1628908838843; 
- Fri, 13 Aug 2021 19:40:38 -0700 (PDT)
+ b=mwaPvxnJ7QEIYKAHZvRi1g4+A12fhoQJmVJjrdIdyQIgWB8j0Idd0wK7a00v/o0y4
+ WGX0P8OxhntK94EOMcO/Z6hFLdcHAX1Vf8hWVH5KcIj8+fBGXU6V48w2U9loszn9tu
+ IsFfywfyFTI+fvS5TEVKjLB15FEQvlY39jNJxvFBpzfsFlEfI6gdcrWcYaB/0VTWoh
+ WtMpnJHOw0JBUOJQ15S21qQpDexA2ZZhaZdWofaNRTfXtMq5Ucl7r/gL5WHlBdvtku
+ XYcEDh1Oa4etkelNAJFIo9SsJlmPW/5aNPnCCnZusTNDX66FBMEN8ZOU8G8eNRB1eq
+ bjGJvnH6FZSEA==
+Received: by mail-io1-f53.google.com with SMTP id f11so15773434ioj.3
+ for <qemu-devel@nongnu.org>; Fri, 13 Aug 2021 19:40:57 -0700 (PDT)
+X-Gm-Message-State: AOAM5332m6gQeQ6SxTh+vzsEDc5ifbZHw9qI+YLOTYHJf3+BuAmA5Arb
+ tpeZx+pzQkyLOCEnPRzDbr9UJQaatq6eTKdGmbs=
+X-Google-Smtp-Source: ABdhPJyFHWzMfZdgAthUzittXpHpNoNR5rVIiXRalcw7FEM9AwQbSjF6TP+4OwOwvGnqkHtlSMX5RB/v7UMcU9Ul5Ak=
+X-Received: by 2002:a02:2348:: with SMTP id u69mr5003454jau.141.1628908856972; 
+ Fri, 13 Aug 2021 19:40:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210813110149.1432692-1-f4bug@amsat.org>
- <20210813110149.1432692-2-f4bug@amsat.org>
-In-Reply-To: <20210813110149.1432692-2-f4bug@amsat.org>
+ <20210813110149.1432692-3-f4bug@amsat.org>
+In-Reply-To: <20210813110149.1432692-3-f4bug@amsat.org>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 14 Aug 2021 10:40:27 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7qj9QNYJtOKPAtp+UV7DjDypFvhhD3fsj-UfNLUFyz=g@mail.gmail.com>
-Message-ID: <CAAhV-H7qj9QNYJtOKPAtp+UV7DjDypFvhhD3fsj-UfNLUFyz=g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/mips: Document Loongson-3A CPU definitions
+Date: Sat, 14 Aug 2021 10:40:45 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5nT9QxJs8S++nVejCs6j0KhSoQMzXe2pyHnS+XS4xdSA@mail.gmail.com>
+Message-ID: <CAAhV-H5nT9QxJs8S++nVejCs6j0KhSoQMzXe2pyHnS+XS4xdSA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/mips: Allow Loongson 3A1000 to use up to
+ 48-bit VAddr
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,43 +80,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
 
-On Fri, Aug 13, 2021 at 7:01 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Fri, Aug 13, 2021 at 7:02 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> Document the cores on which each Loongson-3A CPU is based (see
-> commit af868995e1b, "target/mips: Add Loongson-3 CPU definition").
+> Per the manual '=E9=BE=99=E8=8A=AF GS264 =E5=A4=84=E7=90=86=E5=99=A8=E6=
+=A0=B8=E7=94=A8=E6=88=B7=E6=89=8B=E5=86=8C' v1.0, chapter
+> 1.1.5 SEGBITS: the 3A1000 (based on GS464 core) implements
+> 48 virtual address bits in each 64-bit segment, not 40.
 >
+> Fixes: af868995e1b ("target/mips: Add Loongson-3 CPU definition")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  target/mips/cpu-defs.c.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  target/mips/cpu-defs.c.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-> index e03b2a998cd..c6ab3af190e 100644
+> index c6ab3af190e..cbc45fcb0e8 100644
 > --- a/target/mips/cpu-defs.c.inc
 > +++ b/target/mips/cpu-defs.c.inc
-> @@ -805,7 +805,7 @@ const mips_def_t mips_defs[] =3D
->          .mmu_type =3D MMU_TYPE_R4000,
->      },
->      {
-> -        .name =3D "Loongson-3A1000",
-> +        .name =3D "Loongson-3A1000", /* Loongson-3A R1, GS464-based */
->          .CP0_PRid =3D 0x6305,
->          /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size. =
- */
->          .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C=
-0_AT) |
-> @@ -835,7 +835,7 @@ const mips_def_t mips_defs[] =3D
->          .mmu_type =3D MMU_TYPE_R4000,
->      },
->      {
-> -        .name =3D "Loongson-3A4000", /* GS464V-based */
-> +        .name =3D "Loongson-3A4000", /* Loongson-3A R4, GS464V-based */
->          .CP0_PRid =3D 0x14C000,
->          /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size. =
- */
->          .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C=
-0_AT) |
+> @@ -828,7 +828,7 @@ const mips_def_t mips_defs[] =3D
+>                      (0x1 << FCR0_D) | (0x1 << FCR0_S),
+>          .CP1_fcr31 =3D 0,
+>          .CP1_fcr31_rw_bitmask =3D 0xFF83FFFF,
+> -        .SEGBITS =3D 42,
+> +        .SEGBITS =3D 48,
+>          .PABITS =3D 48,
+>          .insn_flags =3D CPU_MIPS64R2 | INSN_LOONGSON3A |
+>                        ASE_LMMI | ASE_LEXT,
 > --
 > 2.31.1
 >
