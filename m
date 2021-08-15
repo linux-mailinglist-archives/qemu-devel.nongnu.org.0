@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86093ECA27
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 18:14:56 +0200 (CEST)
-Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA83E3ECA35
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 18:29:20 +0200 (CEST)
+Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFIml-0007DM-AR
-	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 12:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
+	id 1mFJ0h-0005rW-88
+	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 12:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFIlz-0006Z5-Gt
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 12:14:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFIlv-0002Lq-Dy
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 12:14:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629044041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s+FGd0vGN7TWwNSzE419JSa4JsbEGoJgnnZAkE3WF+E=;
- b=ZPnC2Q73vyzJZ2BbO1ZMwhu4TJQBx+T980wBovVYtu0XVjh7C2D0Hj7TJogjqrrIINevvA
- i1WoTQJ/FjA3/94L4+eEXkTFEwdfdMXQK+JVX8DweYmi1Sh9voeO6Q5+Rpfbty5d0r12at
- uBJ05PSwEIpkgMKgK65GoGz08D7cJSA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-2_Uylaj4NcmWc_vTO_xooQ-1; Sun, 15 Aug 2021 12:13:59 -0400
-X-MC-Unique: 2_Uylaj4NcmWc_vTO_xooQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t15-20020a5d42cf000000b001565f9c9ee8so2637819wrr.2
- for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 09:13:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kevin.townsend@linaro.org>)
+ id 1mFIzF-0004Qo-U7
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 12:27:49 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35437)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kevin.townsend@linaro.org>)
+ id 1mFIzE-0003LI-Bo
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 12:27:49 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ q11-20020a7bce8b0000b02902e6880d0accso13264679wmj.0
+ for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 09:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mFUQ4PCEvX1htUqWh63mdPI9iOjwIup5omrzK04yORk=;
+ b=dRvS0Z6ud5XkRoAYdwV6XN1wJfOcQy6LAcbA0d+j/NwhIwD3rz077vHh+TEP8AZ4L2
+ QV38Dti9JXc6Wkt4WJhBy9UWITZrDNjKu82mKS1KCeoazCfPrz1CDe3IFdEDesPISEgh
+ UNNAHg8JH9wr6NmhREJmLO/PC22lY/gCxK92erdhT24HK0U0FaUCdYcRjIOdq6Evn7c7
+ k/XbEOu9nqojlFn34kZxmZmQhofX1MHqAy2JGEUfs7XAulzB1ZuSbBX5ostVzS4kECA5
+ 9GQQMqRpksAi+feJypyzuipm4aiwxy6PoRzSTIEWXWXf3MN3AS8X/pMMu12aPv2yiT3K
+ +ldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=s+FGd0vGN7TWwNSzE419JSa4JsbEGoJgnnZAkE3WF+E=;
- b=NJvgN5AczEZN8KX6GdrruV7PcVrkcCRGFmmdfL0ZLvYUozyEShKUGn00h1YJ99BDif
- /Wehy0nHmStk64+c3AI8jcL2LqQKOgWNNuwxIofUJpOozjH1+vPqYlaBw/rMeA10Ma43
- KxTk/PMG27PhvNuZisv9sHsMtsLKxu5mAbfRRQChWaUOcNaYT2T4iS5MyCgEVLNN6P9x
- ng268uJhsIVV0UQy+QmI3sVZxcmU7u0SKijP2DExkFwkzZS9TNe4733qPr5iRpWjHjjK
- mE35l18zItFQsE9IvOGKOBquOGknNKhcdtRmmoH3efa0wvNF6VxB4L5M+7smu8FMcaLa
- cItA==
-X-Gm-Message-State: AOAM533sQ6zUBdfw6FsfKdyM6645Oxj2Rf9Ix1l+dPmIkzStxHhbR/RX
- f/V+o+Tpezr41gyDFsbh4MqemZh8lxbjWRa+Jn5djnRqUgbVr7saA32XL4zZ6+Qyj+ggoUjXd09
- onR2SO4/LmqXPIow=
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr13933438wru.257.1629044038431; 
- Sun, 15 Aug 2021 09:13:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwf1RRtjBk8EPF2D5yX+5dIrgK3SnsHL1avfduRu87zJSwm3KawvI99SxZhoQ53Gb2Bobzr+Q==
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr13933423wru.257.1629044038227; 
- Sun, 15 Aug 2021 09:13:58 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id y3sm8526048wma.32.2021.08.15.09.13.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Aug 2021 09:13:57 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 0/4] Zero sockaddr_in when initializing it
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210813150506.7768-1-peter.maydell@linaro.org>
- <20210813183015.qlfqrshmplxseued@redhat.com>
- <613eaeab-337f-a5aa-91cb-029d38d694f3@redhat.com>
- <CAFEAcA-NP6ksSbd4sjREJh9sd0z-uP5rUJOcVNOYL=+VwE49cw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a751d952-8f9f-a861-2dad-0d5482a59c12@redhat.com>
-Date: Sun, 15 Aug 2021 18:13:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=mFUQ4PCEvX1htUqWh63mdPI9iOjwIup5omrzK04yORk=;
+ b=dvU8byFdxX6SkhK2XQrmkTySCY4Suy9SE2DjuKRPbmzs2FNPNcrnM8R5xB4ZCDvUOD
+ lUEBODLby9tfnOPrEZ2WzBElAbbr9pJbScA9LqiS8knFRysOmKQQcrysxVDwMRj/v8qc
+ NBklraQrBBqjYMu/0iz8gGI3aoL8EwKTxOMe9WQWuIdwlFjcYsRDkE/VfoiQdI9T8ysm
+ 2NJn+Y2swJsYtRH0WHqIIWwCxAyqaU+iGEB7lkZO3ZR3CaoJVUpiXGNQjpS0SoMUSuTk
+ 5mZCXw+is566ceK6zk2jQbwO6aWO6zemuIxD8EV6cAXX9DPJXVHDWhOirVIFL2gmd/Ck
+ jHIA==
+X-Gm-Message-State: AOAM532iPusPrR81q1/GyBAJto6Mixw5NdKLpVmK/aJGPABZM4nZ2ObI
+ w4ZsLoC6LVQfTN/UM5rbm63NyYoJteFpXg==
+X-Google-Smtp-Source: ABdhPJyHG1rpLdkXm4msgNku3iK+00rj0eIw/r1e9U4bQrMHoeV3uDtK8letGG5Bqk/hlUHEG0Wg5w==
+X-Received: by 2002:a1c:7214:: with SMTP id n20mr11638021wmc.181.1629044865966; 
+ Sun, 15 Aug 2021 09:27:45 -0700 (PDT)
+Received: from Kevins-MBP-2.lan ([37.222.182.64])
+ by smtp.gmail.com with ESMTPSA id n10sm2514763wrw.76.2021.08.15.09.27.45
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 15 Aug 2021 09:27:45 -0700 (PDT)
+From: Kevin Townsend <kevin.townsend@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: 
+Date: Sun, 15 Aug 2021 18:27:37 +0200
+Message-Id: <20210815162738.75461-1-kevin.townsend@linaro.org>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-NP6ksSbd4sjREJh9sd0z-uP5rUJOcVNOYL=+VwE49cw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=kevin.townsend@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,35 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Eric Blake <eblake@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/15/21 5:44 PM, Peter Maydell wrote:
-> On Sun, 15 Aug 2021 at 15:34, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> On 8/13/21 8:30 PM, Eric Blake wrote:
->>> FWIW, the POSIX wording is interesting - it requires portable
->>> applications to zero out sockaddr_in6 (and even states that memset()
->>> is not yet a portable way to do that on exotic hardware, although a
->>> future version of POSIX may add a zero-bit constraint on
->>> implementations; in practice we only use qemu on hardware where
->>> memset() to zero properly sets pointers to NULL and floating points to
->>> 0.0).
->>
->> So this checkpatch.pl error (inherited from Linux) is against POSIX?
->>
->> 2028 # check for static initialisers.
->> 2029         if ($line =~ /\bstatic\s.*=\s*(0|NULL|false)\s*;/) {
->> 2030             ERROR("do not initialise statics to 0 or NULL\n" .
->> 2031                 $herecurr);
->> 2032         }
-> 
-> That one is for statics, where the C spec says you get 0-init by
-> default and so there's no need to explicitly 0-init.
+Updates the proposed LSM303DLHC magnetometer device following review by
+Philippe Mathieu-Daudé.
 
-Ah OK, thanks :)
+This has been tested with Zephyr 2.6.0, as follows:
+
+$ west build -p auto -b mps2_an521 \
+  zephyr/samples/sensor/sensor_shell/ \
+  -- -DCONFIG_I2C_SHELL=y
+
+$ qemu-system-arm -M mps2-an521 -device loader,file=build/zephyr/zephyr.elf \
+  -serial stdio \
+  -monitor tcp:localhost:4444,server,nowait \
+  -device lsm303dlhc_mag,id=lsm303,address=0x1E
+
+uart:~$ i2c scan I2C_SHIELD1 
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:             -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- 1e -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --                         
+1 devices found on I2C_SHIELD1
+
+Zephyr's LSM303DLHC driver can be enabled in a sample by adding the following
+DTS overlay:
+
+/*
+ * Copyright (c) 2021 Linaro Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&i2c_shield1 {
+	lsm303dlhc-magn@1e {
+		compatible = "st,lsm303dlhc-magn";
+		reg = <0x1e>;
+		label = "LSM303DLHC-MAGN";
+	};
+};
+
+And the following KConfig settings:
+
+CONFIG_I2C=y
+CONFIG_I2C_SHELL=y
+CONFIG_SENSOR=y
+CONFIG_LSM303DLHC_MAGN=y
+
+When a sample with the above settings is run, the magnetometer can be read
+via the shell sensor command:
+
+uart:~$ sensor get LSM303DLHC-MAGN magn_xyz
+channel idx=11 magn_xyz x =   0.000000 y =   0.000000 z =   0.000000
+
+Set the y-axis (via human monitor or qmp) to 1100, which equals 1 Gauss
+with the default gain settings:
+
+(qemu) qom-set lsm303 mag_y 1100
+qom-set lsm303 mag_y 1100
+
+And test again in Zephyr:
+
+uart:~$ sensor get LSM303DLHC-MAGN magn_xyz
+channel idx=11 magn_xyz x =   0.000000 y =   1.000000 z =   0.000000
 
 
