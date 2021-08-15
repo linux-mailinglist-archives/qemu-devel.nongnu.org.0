@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B850E3ECA73
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 19:31:49 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3414C3ECAA9
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 21:26:21 +0200 (CEST)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFJzA-0006yt-Ay
-	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 13:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
+	id 1mFLlz-0007Lz-R6
+	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 15:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFJxt-0006De-Ob; Sun, 15 Aug 2021 13:30:29 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39451)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mFLkV-0006Ab-Gt
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 15:24:48 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:44017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFJxp-0003ZI-Kz; Sun, 15 Aug 2021 13:30:29 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- f9-20020a05600c1549b029025b0f5d8c6cso13302244wmg.4; 
- Sun, 15 Aug 2021 10:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mFLkR-0003jx-Q4
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 15:24:46 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ qe12-20020a17090b4f8c00b00179321cbae7so13407441pjb.2
+ for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 12:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FJq99MCE+X2oFRL/7NIxPo5ZQhN+js9JKXBFcmPoW7g=;
- b=p7hVw1HDu3l3eSgFnNdDHXh+Hc761kTNzcYlojFN4dg6ELTkFI+FHlliXBDp8iqxwF
- Y6J+ILFZo9R7UVBQx8evn3qrjGb77hOPAoej84DJg/Ik5SMq+IO2mc1dIjDLs37Vmozm
- Vxi/B5qjUdfA59BW7NUQkRLOfop6IZEXtkelrE9iKUj0vrLqxOhxT46UywzUmpzL9vFr
- dg/qh8yAtKhdjgytwvxVycLcCK98QKV/0yvYMqqOxjzp08aiK3wlcy6Nmeiwbd1V26M/
- yS002m475yx2G8wstEFHqt1GEvDmKaeMrQmF9neO8F/6Cn5Q9BP46wnEZ3lcthK0amOP
- 5Y0w==
+ bh=OLmevI5K22pcTRnkoHu6i/Yu9JUYB8aeyCsGuHxE3TQ=;
+ b=n3ghtEIpBDrwpu+Bl/1FHdGZUZ4fYoFif41gCm35Z3IyPaaNP1Pox4S0oLV3dbVW8s
+ Dkt3CLgLghZ9yomhR/YItNhzNuXOxi4wZk0MmJjntxlFRejw0xzFrCB/EYIT0dYyvcUL
+ s5rBJgnyLMa0Pa57Q7EjH1nSH0oGA91vVPK1+axTC2XAlWgbVF2c2xOkpuS6hue1y/i0
+ TzQEIqqCBTDg9KFyCglDDZGzzIXjsJYIcmEfS4Hsjs2d3xeakDjuhMGktLxJk+EZcuFR
+ pIu3tBLMlOhKUbHeRxXdNtdoLVtbSVQ22lDBXriF5I5xTVlmIwZkibpJ/9vWs5mypk+Z
+ VisQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FJq99MCE+X2oFRL/7NIxPo5ZQhN+js9JKXBFcmPoW7g=;
- b=FG0l87QCcgcHhX3y6TnmZ49Ww7LY4JiDRjED33j9+QHcKVahXq5BnyFPsFTKxqrB55
- y6p+8LnTyLk0Kj/F9eAZwzSWPYNZQrg6NiVfY+pioNt0wpKnPOSuAjcAebArNK85Qa+s
- vVkf/6dKS28DwmF5+CYr1VlnYdEAW/zIrvcpcNiOoT2Xs8UGQvuTGK7Be4sgvS3smOE/
- BpwBk6DdBWHXyKvVYPO0vFxZtJvPdlqVWnizYoIZ6Iaf8BEYdcq7e2/ITI033G6Ndl65
- xKgtq4Xtfio/1wBTuyO5oFH3R/J6eo0/6vCNK+kh6YRlj3VO1TKJaaS+Tp6B/sFRZ8DF
- Omog==
-X-Gm-Message-State: AOAM530MLc2jwpsfxk5weJADh42akoFNi1i1tNsyP2vCRl0nnmptJlxS
- sikmOyjpXpGt/mp83Hi5dBU=
-X-Google-Smtp-Source: ABdhPJz9dZMXQdxlwCoXlxjh8gqIZ54qeFb6Pz2EuBxDnj1qpGuCrmP/gcSAdCKL1r04qAaOYynfwQ==
-X-Received: by 2002:a7b:c441:: with SMTP id l1mr11799795wmi.69.1629048623523; 
- Sun, 15 Aug 2021 10:30:23 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id n21sm7135386wmc.36.2021.08.15.10.30.21
+ bh=OLmevI5K22pcTRnkoHu6i/Yu9JUYB8aeyCsGuHxE3TQ=;
+ b=WBHqneoA7uA1Zh3anPts76sGgqpOqvDefd74+i8d8PPhXxFovHu7zLzobnjnMqRd3B
+ nlGdKkNxldXBEjkgNGbtQaXsDWhhPGD7rIvyRdcFv0thmdOo6LtdPlYLq69sRQUgvV6e
+ cPomLv5jPxTSV3k9DYTmIU/nXBO8GU7SbmxJB9y6ZTrnY5yUXQSZSLzeycrCQUjOOPjC
+ UZwPKqW/rN+xocC2SSwdG3WB7vponqDQA+tqnMCGvjIzhP7WnswfnqPoi7jOf5x04oW2
+ ZreGudGgdlTp8HNXKzhGV41rr4+mwDkK6kSFLNJpqzyanR8GhmelOEtUFMPiG44J/LYr
+ jLwQ==
+X-Gm-Message-State: AOAM532uU9iTrvouNMsOk6tHt1vVTD3CuFPtRTmOpdzz3BeTfkV1rTUU
+ KTXyzazkiYQhc6Rt5DnxpRvIEw==
+X-Google-Smtp-Source: ABdhPJwGduUOrAbOy3ORR7tmr4tO5wROl/4nWcaIIL+SEx4SAtKssr1qtQyr6l7tQ8sR2+PiU5cTIg==
+X-Received: by 2002:aa7:8148:0:b029:31b:10b4:f391 with SMTP id
+ d8-20020aa781480000b029031b10b4f391mr12503058pfn.69.1629055481602; 
+ Sun, 15 Aug 2021 12:24:41 -0700 (PDT)
+Received: from [192.168.3.43] ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id b9sm8934582pfo.175.2021.08.15.12.24.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Aug 2021 10:30:22 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into
- its own device
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
-References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3fc10091-832a-e87c-9866-323534f6dc9e@amsat.org>
-Date: Sun, 15 Aug 2021 19:30:21 +0200
+ Sun, 15 Aug 2021 12:24:41 -0700 (PDT)
+Subject: Re: [PATCH 12/19] target/ppc/pmu_book3s_helper.c: enable PMC1 counter
+ negative EBB
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210809131057.1694145-1-danielhb413@gmail.com>
+ <20210809131057.1694145-13-danielhb413@gmail.com> <YRH6IysrDvn/GJvQ@yekko>
+ <6a10c0a7-1c4f-0d24-f2cc-12666e590739@gmail.com> <YRNGo8CnfUSC/bQs@yekko>
+ <4df4dacf-ba9b-f86e-8510-7c084420e974@gmail.com> <YRSX+kRCEh1oQjWP@yekko>
+ <47018114-2249-0fe9-cb87-0ac35ed1e49d@linaro.org>
+ <d63f0103-5899-b4ce-baa1-32d05676414f@linaro.org>
+ <d2f1f35c-fc82-0b27-b41e-0b1055ecc2e8@gmail.com>
+ <7f9ee790-3f5a-6161-627b-0c4313a08bca@gmail.com>
+ <d312903b-7096-1ce6-28d0-5bb3690ae0eb@linaro.org>
+ <67c127c0-33b0-abb7-dcb6-2143cc56a192@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1f41709d-3616-5475-e831-d94ab6b379ba@linaro.org>
+Date: Sun, 15 Aug 2021 09:24:37 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210812093356.1946-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <67c127c0-33b0-abb7-dcb6-2143cc56a192@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.147,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.147,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,65 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Alistair Francis <alistair@alistair23.me>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Alexandre Iooss <erdnaxe@crans.org>
+Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ gustavo.romero@linaro.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Peter/David
-
-On 8/12/21 11:33 AM, Peter Maydell wrote:
-> Currently we implement the RAS register block within the NVIC device.
-> It isn't really very tightly coupled with the NVIC proper, so instead
-> move it out into a sysbus device of its own and have the top level
-> ARMv7M container create it and map it into memory at the right
-> address.
+On 8/14/21 9:13 AM, Daniel Henrique Barboza wrote:
+> https://github.com/torvalds/linux/blob/master/tools/testing/selftests/powerpc/pmu/count_instructions.c 
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/hw/arm/armv7m.h       |  2 +
->  include/hw/intc/armv7m_nvic.h |  1 -
->  include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
->  hw/arm/armv7m.c               | 12 +++++
->  hw/intc/armv7m_nvic.c         | 56 ---------------------
->  hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
->  MAINTAINERS                   |  2 +
->  hw/misc/meson.build           |  2 +
->  8 files changed, 148 insertions(+), 57 deletions(-)
->  create mode 100644 include/hw/misc/armv7m_ras.h
->  create mode 100644 hw/misc/armv7m_ras.c
-
-> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> index 9ce5c30cd5c..8964730d153 100644
-> --- a/hw/arm/armv7m.c
-> +++ b/hw/arm/armv7m.c
-> @@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
->      memory_region_add_subregion(&s->container, 0xe0000000,
->                                  sysbus_mmio_get_region(sbd, 0));
->  
-> +    /* If the CPU has RAS support, create the RAS register block */
-> +    if (cpu_isar_feature(aa32_ras, s->cpu)) {
-> +        object_initialize_child(OBJECT(dev), "armv7m-ras",
-> +                                &s->ras, TYPE_ARMV7M_RAS);
-> +        sbd = SYS_BUS_DEVICE(&s->ras);
-> +        if (!sysbus_realize(sbd, errp)) {
-> +            return;
-> +        }
-> +        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
-> +                                            sysbus_mmio_get_region(sbd, 0), 1);
-
-Just curious, is the overlap really needed? I see the NVIC default
-region is 1 MiB wide. Aren't smaller regions returned first when
-multiple regions have same priority? This might be one of my
-misunderstandings with QEMU MR/AS APIs. Without looking at the
-code, assuming 2 MRs overlapping with the same priority, is there
-some assumption which one will be hit first?
-
-> +    }
+> 
+> This test runs an instruction loop that consists of 'addi' instructions . Before running 
+> the instructions
+> there's an overhead calculation with an empty loop.
+...
+> static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>       target_ulong nip = ctx->base.pc_next;
+>       int sse;
+> 
+> +    gen_helper_insns_inc(cpu_env, tcg_constant_i32(dcbase->num_insns));
 > +
->      for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
->          if (s->enable_bitband) {
->              Object *obj = OBJECT(&s->bitband[i]);
+>       if (is_jmp == DISAS_NORETURN) {
+>           /* We have already exited the TB. */
+>           return;
+
+You've not considered how branches are implemented.
+
+We generate code to exit the tb in gen_bcond.  Anything you emit after that is dead code.
+
+
+r~
 
