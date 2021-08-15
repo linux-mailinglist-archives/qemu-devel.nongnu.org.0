@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9B53ECA43
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 18:38:32 +0200 (CEST)
-Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B850E3ECA73
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 19:31:49 +0200 (CEST)
+Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFJ9b-00046I-PA
-	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 12:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
+	id 1mFJzA-0006yt-Ay
+	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 13:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFJ8X-0003DT-KB; Sun, 15 Aug 2021 12:37:25 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40751)
+ id 1mFJxt-0006De-Ob; Sun, 15 Aug 2021 13:30:29 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFJ8W-0001JG-5W; Sun, 15 Aug 2021 12:37:25 -0400
-Received: by mail-wr1-x429.google.com with SMTP id k29so20288226wrd.7;
- Sun, 15 Aug 2021 09:37:23 -0700 (PDT)
+ id 1mFJxp-0003ZI-Kz; Sun, 15 Aug 2021 13:30:29 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ f9-20020a05600c1549b029025b0f5d8c6cso13302244wmg.4; 
+ Sun, 15 Aug 2021 10:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p8bWxxBNduldGiqSyLFAPWnkMWfLD7tkLBa0Zk7fBEI=;
- b=sjkmOJ3djjkza6YQlfl9T6+aIAIuESHFgsirlIUfh3PsawQQ/rdr4KkQ3xWjK9UTMP
- m/JhHzy6serp2NgT+Km/ZOFSvJABHr1xSmuRgm6PGvDyYJGoga0EBzotvyRNEDqNjxVs
- chkv0SCrHuXF391VgVruXvbr0A8c7qUEUmfF/d5JDYNRcaQp/adJvEJ6ZJgfjOJC7JES
- Ih8Z8UJAjQtDGozLhfa07lfnTha7tb4IvuDVyMxx3YRDMDV+MVzYeJpR9iVD/bZlPgRq
- 8hbnlC1ob2VW71DUBa/yM6IVrK2JvCW8WDx/PGzDOBVeakxMYiLV/962it9B+Dpimr0w
- FW/A==
+ bh=FJq99MCE+X2oFRL/7NIxPo5ZQhN+js9JKXBFcmPoW7g=;
+ b=p7hVw1HDu3l3eSgFnNdDHXh+Hc761kTNzcYlojFN4dg6ELTkFI+FHlliXBDp8iqxwF
+ Y6J+ILFZo9R7UVBQx8evn3qrjGb77hOPAoej84DJg/Ik5SMq+IO2mc1dIjDLs37Vmozm
+ Vxi/B5qjUdfA59BW7NUQkRLOfop6IZEXtkelrE9iKUj0vrLqxOhxT46UywzUmpzL9vFr
+ dg/qh8yAtKhdjgytwvxVycLcCK98QKV/0yvYMqqOxjzp08aiK3wlcy6Nmeiwbd1V26M/
+ yS002m475yx2G8wstEFHqt1GEvDmKaeMrQmF9neO8F/6Cn5Q9BP46wnEZ3lcthK0amOP
+ 5Y0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p8bWxxBNduldGiqSyLFAPWnkMWfLD7tkLBa0Zk7fBEI=;
- b=eDnf5Xu/JCOIghNO/+4WrDUYlXRpEzZ9JJGa5Ht09XHH3x6gpdHfN+5WB3J5+4B/76
- myFKjcIMr+GzbjgvhtKfBifl/fVTJJciG2osJWaMrY7tHzPWimDqqRzc1ZrKXZw8Z2iF
- NvGgVzDMsSFXUhWumRtt6Sg99FtFbuuEPm2V5VuXQha0a9UIvHBwjqgJcnHbqenU8k/M
- KHyg9DZumx5psBPVOWl0NYWntXIuxrng6MJR99TPPev2+ulWpP4YDwoLh9OdT4rt4EIZ
- kp+8IjNHuKOyMxTtSsQsmkORdEDrypi0xsl0VSQXGhjjvTqI/d9R0+hLfjHuB3lrve8D
- GoTw==
-X-Gm-Message-State: AOAM532MX6ScTvC0vrVoaI7hHYw0ThYPDvanwDTjKTA5OdgT/jUXcdtF
- rHtkFZ4zU6alOdHu+zMGWGY=
-X-Google-Smtp-Source: ABdhPJzMwPrQlkOQbu7VQMT13IMm9AtQ27f3VaXFQB9uvhScja3EQJnOHgFtuBWyOUa9bAZLPoQrqQ==
-X-Received: by 2002:adf:f4cf:: with SMTP id h15mr13948510wrp.67.1629045442367; 
- Sun, 15 Aug 2021 09:37:22 -0700 (PDT)
+ bh=FJq99MCE+X2oFRL/7NIxPo5ZQhN+js9JKXBFcmPoW7g=;
+ b=FG0l87QCcgcHhX3y6TnmZ49Ww7LY4JiDRjED33j9+QHcKVahXq5BnyFPsFTKxqrB55
+ y6p+8LnTyLk0Kj/F9eAZwzSWPYNZQrg6NiVfY+pioNt0wpKnPOSuAjcAebArNK85Qa+s
+ vVkf/6dKS28DwmF5+CYr1VlnYdEAW/zIrvcpcNiOoT2Xs8UGQvuTGK7Be4sgvS3smOE/
+ BpwBk6DdBWHXyKvVYPO0vFxZtJvPdlqVWnizYoIZ6Iaf8BEYdcq7e2/ITI033G6Ndl65
+ xKgtq4Xtfio/1wBTuyO5oFH3R/J6eo0/6vCNK+kh6YRlj3VO1TKJaaS+Tp6B/sFRZ8DF
+ Omog==
+X-Gm-Message-State: AOAM530MLc2jwpsfxk5weJADh42akoFNi1i1tNsyP2vCRl0nnmptJlxS
+ sikmOyjpXpGt/mp83Hi5dBU=
+X-Google-Smtp-Source: ABdhPJz9dZMXQdxlwCoXlxjh8gqIZ54qeFb6Pz2EuBxDnj1qpGuCrmP/gcSAdCKL1r04qAaOYynfwQ==
+X-Received: by 2002:a7b:c441:: with SMTP id l1mr11799795wmi.69.1629048623523; 
+ Sun, 15 Aug 2021 10:30:23 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id o17sm7317462wmp.13.2021.08.15.09.37.21
+ by smtp.gmail.com with ESMTPSA id n21sm7135386wmc.36.2021.08.15.10.30.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Aug 2021 09:37:21 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 10/25] hw/arm: Don't allocate separate
- MemoryRegions in stm32 SoC realize
-To: Peter Maydell <peter.maydell@linaro.org>,
- Alexandre IOOSS <erdnaxe@crans.org>, Igor Mammedov <imammedo@redhat.com>
+ Sun, 15 Aug 2021 10:30:22 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into
+ its own device
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-11-peter.maydell@linaro.org>
- <275a1045-f797-4348-2ee8-c19586ea8225@crans.org>
- <CAFEAcA9PWpMpPxsETpSM75ZjDrDsUaNFUgQC6cPJC10JM9aq6g@mail.gmail.com>
+ <20210812093356.1946-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2a0acb4c-558a-6f89-e0b7-8d65c2d1c404@amsat.org>
-Date: Sun, 15 Aug 2021 18:37:20 +0200
+Message-ID: <3fc10091-832a-e87c-9866-323534f6dc9e@amsat.org>
+Date: Sun, 15 Aug 2021 19:30:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9PWpMpPxsETpSM75ZjDrDsUaNFUgQC6cPJC10JM9aq6g@mail.gmail.com>
+In-Reply-To: <20210812093356.1946-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -93,35 +93,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
  Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/21 2:27 PM, Peter Maydell wrote:
-> On Thu, 12 Aug 2021 at 13:13, Alexandre IOOSS <erdnaxe@crans.org> wrote:
->>
->> On 8/12/21 11:33 AM, Peter Maydell wrote:
->>> In the realize methods of the stm32f100 and stm32f205 SoC objects, we
->>> call g_new() to create new MemoryRegion objjects for the sram, flash,
->>> and flash_alias.  This is unnecessary (and leaves open the
->>> possibility of leaking the allocations if we exit from realize with
->>> an error).  Make these MemoryRegions member fields of the device
->>> state struct instead, as stm32f405 already does.
->>
->> There is a typo in "objjects".
->>
->> This is something I had issue understanding as I was seeing both
->> patterns in the codebase, thank you for making this clear.
-> 
-> Basically if there's a struct that the MemoryRegion can live
-> in  then that's the best place for it. For some board-level code
-> where we haven't needed to subclass MachineState there is no
-> convenient struct, so we just g_new(). In a few places like this
-> one the board-code pattern has been copied into an SoC object.
++Peter/David
 
-FYI since more than 2 years now Igor recommends using DEFINE_TYPES()
-for newer QOM style, which makes adding board-specific fields to
-MachineState quite easy (see hw/avr/arduino.c or hw/arm/raspi.c).
+On 8/12/21 11:33 AM, Peter Maydell wrote:
+> Currently we implement the RAS register block within the NVIC device.
+> It isn't really very tightly coupled with the NVIC proper, so instead
+> move it out into a sysbus device of its own and have the top level
+> ARMv7M container create it and map it into memory at the right
+> address.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/hw/arm/armv7m.h       |  2 +
+>  include/hw/intc/armv7m_nvic.h |  1 -
+>  include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
+>  hw/arm/armv7m.c               | 12 +++++
+>  hw/intc/armv7m_nvic.c         | 56 ---------------------
+>  hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                   |  2 +
+>  hw/misc/meson.build           |  2 +
+>  8 files changed, 148 insertions(+), 57 deletions(-)
+>  create mode 100644 include/hw/misc/armv7m_ras.h
+>  create mode 100644 hw/misc/armv7m_ras.c
+
+> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> index 9ce5c30cd5c..8964730d153 100644
+> --- a/hw/arm/armv7m.c
+> +++ b/hw/arm/armv7m.c
+> @@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+>      memory_region_add_subregion(&s->container, 0xe0000000,
+>                                  sysbus_mmio_get_region(sbd, 0));
+>  
+> +    /* If the CPU has RAS support, create the RAS register block */
+> +    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+> +        object_initialize_child(OBJECT(dev), "armv7m-ras",
+> +                                &s->ras, TYPE_ARMV7M_RAS);
+> +        sbd = SYS_BUS_DEVICE(&s->ras);
+> +        if (!sysbus_realize(sbd, errp)) {
+> +            return;
+> +        }
+> +        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
+> +                                            sysbus_mmio_get_region(sbd, 0), 1);
+
+Just curious, is the overlap really needed? I see the NVIC default
+region is 1 MiB wide. Aren't smaller regions returned first when
+multiple regions have same priority? This might be one of my
+misunderstandings with QEMU MR/AS APIs. Without looking at the
+code, assuming 2 MRs overlapping with the same priority, is there
+some assumption which one will be hit first?
+
+> +    }
+> +
+>      for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
+>          if (s->enable_bitband) {
+>              Object *obj = OBJECT(&s->bitband[i]);
 
