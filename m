@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934C33ECAC2
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 21:54:47 +0200 (CEST)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B932C3ECAC7
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Aug 2021 22:02:27 +0200 (CEST)
+Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFMDW-0007V8-Kt
-	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 15:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
+	id 1mFMKw-0001U9-Q7
+	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 16:02:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mFMCM-0006Ei-SC
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 15:53:34 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:55187)
+ id 1mFMIt-0000SQ-SX
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 16:00:19 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mFMCK-00064q-IN
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 15:53:34 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id n5so2771408pjt.4
- for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 12:53:31 -0700 (PDT)
+ id 1mFMIp-0002DJ-V1
+ for qemu-devel@nongnu.org; Sun, 15 Aug 2021 16:00:18 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id w6so11489058plg.9
+ for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 13:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0qkhmpW5VfmWP/SFxE7w1XwtkrhERBX8GLkvHhHhbWg=;
- b=Ze6yGpah1L/tLQlMhVyVzF/SGSZJtTiMltZmzQnl2wl6qzo6QXYB1o5Skx4LV+i/yP
- qxfS/jfb89lTaQlDm1Xp5UMF41ssSj3VTk2U3eTIZiAAYnQ+Gd6F+KDHBFXiJJdEKNJm
- c4HjxGfTHCP7IITRV/1JGpG/VY/2Z/kDlgw2i8K6ttFXj95iBoHkDuJljhmmuHf9sQ0s
- HjFEcYdLSYowDxOGiYufG+7RW0BbF0EwhVvqeiDwpihHHscRYfkkbUIBMKsczUpeOPnP
- EfpopvPDlH8chtW5Ul4RipNR7Ve+IQmfh7SMuoVPUtnY9Ay/KcYFOBa0hXXCZfO98tr2
- de6Q==
+ bh=KSrz753r9j341lhniAa2wjKyfup+UJr0FLHIk3wdgm4=;
+ b=jRE5DG+jXkuDVpTlphkazXFr1WAIPjQG1PwqvNJDCBbVDjbeiJ309Uiv5Y+b7TM3BM
+ LX2UFita57j1N3AH7RjTuuQFzMMLxki1t3QTZtM3GeBbGv06CO3zQDPF5Iqg4kgTSfHs
+ bsmNl+sKzzLfxJRV1PN9YnAym3ZsCMofy6BuUuyRgzFKfxpARUB/2s3mqJlPtkJOHC4q
+ 5rEFHXJSGb2p8JTIUiVQ2ZAmxXc+L3/i5+EEKsZyAojReRP4fkvCZgn1iVcqZBJmaJfE
+ hsEbIzXUdODAy/Ajr5e9iPop3mrlVMopEZwvxp4S8Sbu67YaPIxai9JEWCY4vhFsi8fF
+ Yj3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0qkhmpW5VfmWP/SFxE7w1XwtkrhERBX8GLkvHhHhbWg=;
- b=jwGkmLKkCQK65krtCsEut8QIWC4FFgKkgfnjS8X/lXetEVj+MDU/yUZ3U4+M3Yr7B6
- 12U7kKegphRyyGnfQizSPKlh66+sJqXvNqd2vmKhyHRlFmM2tzAk8UGXU+0DGfyG25Sc
- 2ol/jyURXYAejuOMpfgbTUaB/BomJ5uCZBWNod9V3zSf1Q1rO38URfhOHsdC11YdAst4
- abWIzcN3gkVemf7B6g9YvCjVhWwIENzjEdDr2uKw5pXgmueHf2bSX9CiKc4gbEoB6I1B
- cVYJZXBo5MjTiNgbDBZ3f8N7G05nbJffuJy19csDAzhHh33nXfI3V3k7BsfgEE6IBT9k
- 3+/A==
-X-Gm-Message-State: AOAM531V4O7d402kZnBzUlm7Je5cHvTxEKjXwesiq96w6fE42HARNi8S
- GcRlk0fOSiG6bO1EjTpWIaIaeA==
-X-Google-Smtp-Source: ABdhPJy/+/iuVTVniktkUZaZz3KN4xjojPYIeZhgfXrqvbyNKYhGzQbp7uayryeo/0t9daqOL0kPOA==
-X-Received: by 2002:a05:6a00:1808:b0:3e1:f8c5:3436 with SMTP id
- y8-20020a056a00180800b003e1f8c53436mr830513pfa.3.1629057210884; 
- Sun, 15 Aug 2021 12:53:30 -0700 (PDT)
+ bh=KSrz753r9j341lhniAa2wjKyfup+UJr0FLHIk3wdgm4=;
+ b=AANksnx5Utas2PnHneLY+4ko6cBnAXBp4+qYN/ZprNylkh9JMP/mvWGqtr+/Fl1U7j
+ g9j2NSwvJjT0qFgb3e7oo59feESVvLGkLaiiK/MY2onQfuzM22CKNokIM8FSY1InSq2B
+ QKX+wK/Sr8IQJAgNUQwSf25JWHwbfss3X01OsDKq62P52CBcoyCM08/OWRT42gwaacI5
+ S7ZHJVr33LsPlKG2wakyaacTubM+cUVBGtFRd5cS7jrM8TGMC7lGfpXuq1vbrJXPa2+2
+ dfyBiaKDHh+mPYFMm15v93C0LMkTACXybgBa/ZD7K9hIBLLDftZ9yTD8XM22QC2C7YNN
+ jOpA==
+X-Gm-Message-State: AOAM532OfIR68dj/JQVmBsHCZJR5Pt3u4fmvUeV6NQhRtkvt/kSmwaGK
+ yef1r9EgXs1XDmVLaOV3aWtO6g==
+X-Google-Smtp-Source: ABdhPJylDVxHAW11DobCNW4V7a/OaFeUttYykpaiFqY53nokZj0kBSSeMmElprKuAef1RbsayQ9L/w==
+X-Received: by 2002:a62:fb0b:0:b029:3ca:1345:9fd8 with SMTP id
+ x11-20020a62fb0b0000b02903ca13459fd8mr12831341pfm.14.1629057614171; 
+ Sun, 15 Aug 2021 13:00:14 -0700 (PDT)
 Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id d198sm8778649pfd.101.2021.08.15.12.53.29
+ by smtp.gmail.com with ESMTPSA id b13sm4013938pfr.72.2021.08.15.13.00.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Aug 2021 12:53:30 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 2/7] linux-user/arm: Set siginfo_t addr field for
- SIGTRAP signals
+ Sun, 15 Aug 2021 13:00:13 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 3/7] linux-user/arm: Use force_sig() to deliver
+ fpa11 emulation SIGFPE
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210813131809.28655-1-peter.maydell@linaro.org>
- <20210813131809.28655-3-peter.maydell@linaro.org>
+ <20210813131809.28655-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8623d078-57e5-57e2-fdf9-f26bdcf29079@linaro.org>
-Date: Sun, 15 Aug 2021 09:53:27 -1000
+Message-ID: <616f6454-5e43-a98f-0769-b242c377c050@linaro.org>
+Date: Sun, 15 Aug 2021 10:00:10 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210813131809.28655-3-peter.maydell@linaro.org>
+In-Reply-To: <20210813131809.28655-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.147,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.147,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,14 +95,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/13/21 3:18 AM, Peter Maydell wrote:
-> When generating a TRAP_BRKPT SIGTRAP, set the siginfo_t addr field
-> to the PC where the breakpoint/singlestep trap occurred; this is
-> what the kernel does for this signal for this architecture.
+> In the Arm target code, when the fpa11 emulation code tells us we
+> need to send the guest a SIGFPE, we do this with queue_signal(), but
+> we are using the wrong si_type, and we aren't setting the _sifields
+> union members corresponding to either the si_type we are using or the
+> si_type we should be using.
+> 
+> As the existing comment notes, the kernel code for this calls the old
+> send_sig() function to deliver the signal.  This eventually results
+> in the kernel's signal handling code fabricating a siginfo_t with a
+> SI_KERNEL code and a zero pid and uid.  For QEMU this means we need
+> to use QEMU_SI_KILL.  We already have a function for that:
+> force_sig() sets up the whole target_siginfo_t the way we need it.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   linux-user/arm/cpu_loop.c | 1 +
->   1 file changed, 1 insertion(+)
+>   linux-user/arm/cpu_loop.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
