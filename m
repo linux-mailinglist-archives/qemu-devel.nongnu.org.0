@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EE83EDF69
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:40:29 +0200 (CEST)
-Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C5B3EDF61
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:39:53 +0200 (CEST)
+Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFkLM-0006ML-1v
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
+	id 1mFkKm-00053b-ON
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mFkJO-0002uX-88
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:38:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41707)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mFkJT-00039P-Bt
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:38:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mFkJM-0001OA-Kw
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:38:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mFkJR-0001R4-Oz
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:38:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629149903;
+ s=mimecast20190719; t=1629149909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=peQlexrYDfGNjdU3j/xH6OUrYnj+igRepaRtpq/G/lg=;
- b=SIdMke3pDRfrO+FbeB9BZ+7Ymsv/hYtbtBkM/OaAFsLROc4ewx3+jxfEf+GOdIWdomVbpB
- J9jnfmhPO6sZNNuqVpDrp12AMjHxiXZsGtkzZBLYL1xSMi7ChQqD27YqgWkHcM0peHTtct
- qdmlvjPOCVYCroVwSuUezCtYmmg4Nmo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-_FsamtBrOnyjcTz4abYoXg-1; Mon, 16 Aug 2021 17:38:21 -0400
-X-MC-Unique: _FsamtBrOnyjcTz4abYoXg-1
-Received: by mail-pl1-f197.google.com with SMTP id
- p21-20020a1709028a95b029012c31764588so11592903plo.12
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 14:38:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=peQlexrYDfGNjdU3j/xH6OUrYnj+igRepaRtpq/G/lg=;
- b=Yn2RWVGj4KjsKZiGdip2yhAbnIEEk9rn6SA43JF9S5YoBHasEMTOyhq+vd1g++3/u+
- kNFFoNEKIoxfsAexO/P7PTpqdflM90lJM+17efFvgQZ0M6EkO/0r/wg1H0TyaZ0AJPCJ
- 6UuxCuiXP1aI9cYbT3nHbNpEV6aTxhkfo8vKbV5J/hxK7kWpFRpwbu4h9+3FSUHY1QUZ
- zdJbFUFkFo9CNhOGTX2oOZNVaPBQcBkNsIfuK/fvC+Kx6bBcqpayuLeLpv/+V6XA8Oex
- VZ3ul8JUrb+w5oXc0KhlEhELOqnETOyIN5oCCnL5CgGkypuNJPiCSb5olRUMtREc5OaR
- /jRQ==
-X-Gm-Message-State: AOAM531NAIc+uWNBZsS1pOE6Sd1bi0OVPibO4y1MZVKZ/rw0CSm3BFym
- /dJnjKJ4D4DVKQoyB2Yiwjr+uiZ51AhPFPAhfkkMEJzk1ZBNKMTIC8nPv0OrrBzzIqmrEvHgTsh
- YZ7hHBS9l/+yo0rQSZevwMjPaT42QgYg=
-X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
- e22-20020a62ee160000b02902feffcf775amr76872pfi.59.1629149900492; 
- Mon, 16 Aug 2021 14:38:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzd94Z6myAhyWEgfpce9EbJvdlYAhnnylEf5mnvLfKgrUuTrsBEeLtuF1CVCu8jaKHoiCPGOWtMIZqf6gFxyIM=
-X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
- e22-20020a62ee160000b02902feffcf775amr76862pfi.59.1629149900293; Mon, 16 Aug
- 2021 14:38:20 -0700 (PDT)
+ bh=9cxh/WffuFalqtXOiJMJC7N+Y7qq0H+HLJqr3xK8fAM=;
+ b=Hb44Lsl9TovJ7DmEu5owUuR4yvDsfo+M+k8lNZ8c1gVwL0HYgJl/s/9IFYUhVBWyKPQj5S
+ MWXxgrUMvBidWZm8kG02dDKmA8syPUbGAMM+4XAqJRZ8uT7gzcgHWLF16Lb2eK1tJBY6v2
+ XQlDRf+MksLHFvWHX6E/3DDuFgLUYW0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-72bXWEZPOeWB3dEH-B4ZIw-1; Mon, 16 Aug 2021 17:38:26 -0400
+X-MC-Unique: 72bXWEZPOeWB3dEH-B4ZIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EDA687122E;
+ Mon, 16 Aug 2021 21:38:25 +0000 (UTC)
+Received: from redhat.com (ovpn-113-125.phx2.redhat.com [10.3.113.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E42283A47;
+ Mon, 16 Aug 2021 21:38:24 +0000 (UTC)
+Date: Mon, 16 Aug 2021 16:38:23 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v3 2/6] block: block-status cache for data regions
+Message-ID: <20210816213823.uocknsk4zgulrk3v@redhat.com>
+References: <20210812084148.14458-1-hreitz@redhat.com>
+ <20210812084148.14458-3-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20210816210603.42337-1-ehabkost@redhat.com>
-In-Reply-To: <20210816210603.42337-1-ehabkost@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 16 Aug 2021 23:38:08 +0200
-Message-ID: <CABgObfbsOo7OoRAaVZAWVqsyJS+4OS2HGZ5FabcV1XcedXGccA@mail.gmail.com>
-Subject: Re: [PULL 0/1] Last minute fix for -rc4
-To: Eduardo Habkost <ehabkost@redhat.com>
+In-Reply-To: <20210812084148.14458-3-hreitz@redhat.com>
+User-Agent: NeoMutt/20210205-719-68949a
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000017e13e05c9b40532"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,111 +77,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000017e13e05c9b40532
-Content-Type: text/plain; charset="UTF-8"
+On Thu, Aug 12, 2021 at 10:41:44AM +0200, Hanna Reitz wrote:
+> As we have attempted before
+> (https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg06451.html,
+> "file-posix: Cache lseek result for data regions";
+> https://lists.nongnu.org/archive/html/qemu-block/2021-02/msg00934.html,
+> "file-posix: Cache next hole"), this patch seeks to reduce the number of
+> SEEK_DATA/HOLE operations the file-posix driver has to perform.  The
+> main difference is that this time it is implemented as part of the
+> general block layer code.
+> 
 
-AIUI this behavior existed before in 6.0 and therefore should be deprecated
-first.
+> We only use the cache for nodes without children (i.e. protocol nodes),
+> because that is where the problem is: Drivers that rely on block-status
+> implementations outside of qemu (e.g. SEEK_DATA/HOLE).
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/307
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
 
-Paolo
+> +++ b/block.c
 
-Il lun 16 ago 2021, 23:06 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+> +/**
+> + * Check whether [offset, offset + bytes) overlaps with the cached
+> + * block-status data region.
+> + *
+> + * If so, and @pnum is not NULL, set *pnum to `bsc.data_end - offset`,
+> + * which is what bdrv_bsc_is_data()'s interface needs.
+> + * Otherwise, *pnum is not touched.
 
-> The following changes since commit
-> bd44d64a3879bb6b0ca19bff3be16e0093502fac:
->
->   Merge remote-tracking branch
-> 'remotes/thuth-gitlab/tags/pull-request-2021-08-11' into staging
-> (2021-08-15 16:46:23 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to bbd0db9dc4751b6ab0884e92421fa4b2c3d3b532:
->
->   machine: Disallow specifying topology parameters as zero (2021-08-16
-> 16:55:39 -0400)
->
-> ----------------------------------------------------------------
-> Last minute fix for -rc4
->
-> Bug fix:
-> * Disallow specifying topology parameters as zero
->   (Yanan Wang)
->
-> ----------------------------------------------------------------
->
-> Yanan Wang (1):
->   machine: Disallow specifying topology parameters as zero
->
->  hw/core/machine.c | 14 ++++++++++++++
->  qapi/machine.json |  6 +++---
->  qemu-options.hx   | 12 +++++++-----
->  3 files changed, 24 insertions(+), 8 deletions(-)
->
-> --
-> 2.31.1
->
->
->
+Why duplicate this comment,...
 
---00000000000017e13e05c9b40532
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> + */
+> +static bool bdrv_bsc_range_overlaps_locked(BlockDriverState *bs,
+> +                                           int64_t offset, int64_t bytes,
+> +                                           int64_t *pnum)
+> +{
+> +    BdrvBlockStatusCache *bsc = qatomic_rcu_read(&bs->block_status_cache);
+> +    bool overlaps;
+> +
+> +    overlaps =
+> +        qatomic_read(&bsc->valid) &&
+> +        ranges_overlap(offset, bytes, bsc->data_start,
+> +                       bsc->data_end - bsc->data_start);
+> +
+> +    if (overlaps && pnum) {
+> +        *pnum = bsc->data_end - offset;
+> +    }
+> +
+> +    return overlaps;
+> +}
+> +
+> +/**
+> + * See block_int.h for this function's documentation.
+> + */
+> +bool bdrv_bsc_is_data(BlockDriverState *bs, int64_t offset, int64_t *pnum)
+> +{
+> +    RCU_READ_LOCK_GUARD();
+> +
+> +    return bdrv_bsc_range_overlaps_locked(bs, offset, 1, pnum);
+> +}
+> +
+> +/**
+> + * See block_int.h for this function's documentation.
 
-<div dir=3D"auto">AIUI this behavior existed before in 6.0 and therefore sh=
-ould be deprecated first.<div dir=3D"auto"><br></div><div dir=3D"auto">Paol=
-o</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">Il lun 16 ago 2021, 23:06 Eduardo Habkost &lt;<a href=3D"mailto:ehab=
-kost@redhat.com">ehabkost@redhat.com</a>&gt; ha scritto:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">The following changes since commit bd44d64a3879bb6b0c=
-a19bff3be16e0093502fac:<br>
-<br>
-=C2=A0 Merge remote-tracking branch &#39;remotes/thuth-gitlab/tags/pull-req=
-uest-2021-08-11&#39; into staging (2021-08-15 16:46:23 +0100)<br>
-<br>
-are available in the Git repository at:<br>
-<br>
-=C2=A0 <a href=3D"https://gitlab.com/ehabkost/qemu.git" rel=3D"noreferrer n=
-oreferrer" target=3D"_blank">https://gitlab.com/ehabkost/qemu.git</a> tags/=
-machine-next-pull-request<br>
-<br>
-for you to fetch changes up to bbd0db9dc4751b6ab0884e92421fa4b2c3d3b532:<br=
->
-<br>
-=C2=A0 machine: Disallow specifying topology parameters as zero (2021-08-16=
- 16:55:39 -0400)<br>
-<br>
-----------------------------------------------------------------<br>
-Last minute fix for -rc4<br>
-<br>
-Bug fix:<br>
-* Disallow specifying topology parameters as zero<br>
-=C2=A0 (Yanan Wang)<br>
-<br>
-----------------------------------------------------------------<br>
-<br>
-Yanan Wang (1):<br>
-=C2=A0 machine: Disallow specifying topology parameters as zero<br>
-<br>
-=C2=A0hw/core/machine.c | 14 ++++++++++++++<br>
-=C2=A0qapi/machine.json |=C2=A0 6 +++---<br>
-=C2=A0qemu-options.hx=C2=A0 =C2=A0| 12 +++++++-----<br>
-=C2=A03 files changed, 24 insertions(+), 8 deletions(-)<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div>
+...but not these?
 
---00000000000017e13e05c9b40532--
+But that's minor.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
