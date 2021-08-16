@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13473ED3D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 14:20:13 +0200 (CEST)
-Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4983ED400
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 14:32:56 +0200 (CEST)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFbbA-0000vJ-GT
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 08:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60670)
+	id 1mFbnT-0001Ho-9K
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 08:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFbYB-0008AI-QB; Mon, 16 Aug 2021 08:17:07 -0400
-Received: from [201.28.113.2] (port=20811 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFbYA-0001Np-0J; Mon, 16 Aug 2021 08:17:07 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 16 Aug 2021 09:17:01 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id D276F801091;
- Mon, 16 Aug 2021 09:17:00 -0300 (-03)
-Subject: Re: [RFC PATCH] target/ppc: fix vector registers access in gdbstub
- for little-endian
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210812191007.70331-1-matheus.ferst@eldorado.org.br>
- <7b8530e0-4dc8-ea7f-3cac-e6ae623e6770@linaro.org>
- <CAFEAcA8=auwb6vjPZqoem4vYoVUecbgsxSXjwZGPzDhQOkLqhQ@mail.gmail.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <c4955d12-df60-e5bc-6a56-8ef91beef700@eldorado.org.br>
-Date: Mon, 16 Aug 2021 09:17:00 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <chzigotzky@xenosoft.de>)
+ id 1mFbkJ-0006yJ-95
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:29:39 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.216]:34307)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chzigotzky@xenosoft.de>)
+ id 1mFbkG-0007hj-R4
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:29:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1629116962;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=FxbcwOPiYU3UCC04T+4rOtzjTGFEtDMBuZ3tUtpOc5U=;
+ b=IG6yzZHnDRkebCKK6/mUS8rf2SRKDgoQmFZvfMsYnsTsgd3VGiJ6QPM0PxDMI7yq57
+ 0vN7OpfTj5H69zrdWvEBaYaJgyJpSAYdVhWh4VeOMKCQ0zoaZ92TRw8Y0kK2+6xXYFoC
+ 5lMffGqE3xtcUR5TDCXUUXSjQsQZ0KsetV9pcAXeAgLD3TxhZK6wwFX1lt5lrK0D4/ut
+ uzgEIuPoB8lAE0h33UMva0Afjf3lb5Az6pqjhsmQAaV73FIgX63PzTC1aBZcElxlllWB
+ 9FJ69iBJihyZxQWP8Nk3cfW+W1VJwY4TRpo/OCnF8JYqop7dD2NKRIqfKZRzqHakbWxm
+ MMXg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPgGcl1JmBEA1yGCL+d+0mk8mOaC3A=="
+X-RZG-CLASS-ID: mo00
+Received: from Christians-iMac.fritz.box by smtp.strato.de (RZmta 47.31.0 AUTH)
+ with ESMTPSA id j01e29x7GCTLqfQ
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 16 Aug 2021 14:29:21 +0200 (CEST)
+Subject: Re: [FSL P50x0] lscpu reports wrong values since the RC1 of kernel
+ 5.13
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+To: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+References: <a7098505-2162-d3cc-b8f9-ef8c8a7d441f@xenosoft.de>
+Message-ID: <c16c3747-8c6c-fb27-4e07-a893b83a5580@xenosoft.de>
+Date: Mon, 16 Aug 2021 14:29:21 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8=auwb6vjPZqoem4vYoVUecbgsxSXjwZGPzDhQOkLqhQ@mail.gmail.com>
+In-Reply-To: <a7098505-2162-d3cc-b8f9-ef8c8a7d441f@xenosoft.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 Aug 2021 12:17:01.0257 (UTC)
- FILETIME=[9DE71390:01D79298]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.71,
- PDS_HP_HELO_NORDNS=0.825, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: de-DE
+Received-SPF: none client-ip=81.169.146.216;
+ envelope-from=chzigotzky@xenosoft.de; helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.71,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,91 +74,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: mad skateman <madskateman@gmail.com>,
+ Darren Stevens <darren@stevens-zone.net>, qemu-devel@nongnu.org,
+ "R.T.Dickinson" <rtd2@xtra.co.nz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/08/2021 06:17, Peter Maydell wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> On Thu, 12 Aug 2021 at 21:07, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 8/12/21 9:10 AM, matheus.ferst@eldorado.org.br wrote:
->>>    static bool avr_need_swap(CPUPPCState *env)
->>>    {
->>> +    bool le;
->>> +#if defined(CONFIG_USER_ONLY)
->>> +    le = false;
->>> +#else
->>> +    le = msr_le;
->>> +#endif
->>
->> It certainly doesn't seem like the right fix.
->>
->> My first guess was that MSR_LE wasn't being properly set up at cpu_reset for user-only,
->> but it's there.
-> 
-> This code is confusing because there are multiple possible swaps happening:
-> 
-> (1) gdb_get_regl() and friends assume they are passed a host-endian value
-> and will tswap to get a value of TARGET_WORDS_BIGENDIAN endianness.
-> (For the other direction, ldl_p() et al do target-endian accesses.)
-> (2) for ppc softmmu, TARGET_WORDS_BIGENDIAN is always true, and so
-> if the CPU is in LE mode then the ppc gdbstub code needs to swap
-> (ppc_maybe_bswap_register() does this)
-> (3) for ppc usermode, TARGET_WORDS_BIGENDIAN matches the actual binary's
-> ordering, so the gdb_get_regl() etc swap is always correct and sufficient
-> and ppc_maybe_bswap_register() does nothing
-> (4) the data affected by this avr_need_swap() function is the 128
-> bit registers, and it has to do with whether we consider the two
-> 64-bit halves as (high, low) or (low, high). (The swapping or not
-> of each 64-bit half is done with the same steps 1 2 3 above as for a
-> 64-bit value.)
-> 
+Hi All,
 
-Thanks for this explanation, I think I can better understand the problem 
-now.
+I tested the RC6 of kernel 5.14 today and unfortunately the issue still 
+exists. We have figured out that only P5040 SoCs are affected. [1]
+P5020 SoCs display the correct values.
+Please check the CPU changes in the PowerPC updates 5.13-1 and 5.13-2.
 
-> I haven't yet worked through the 128 bit case -- I'd need to look at
-> whether we store the AVR data in the CPU struct as a pair of uint64
-> host-order values (Arm does this, it's always index 0 is lo, 1 is hi
-> regardless of host endianness) or really as a host-order 128 bit integer.
+Thanks,
+Christian
 
-I believe it's the latter. Looking at vsr64_offset in target/ppc/cpu.h, 
-VsrD macro is used to determine the index of the high element, and the 
-definition of this macro depends on HOST_WORDS_BIGENDIAN.
+[1] https://forum.hyperion-entertainment.com/viewtopic.php?p=53775#p53775
 
-> But I think the code is pretty confusing, and to make it a bit less
-> so it would be useful to:
->   * unify the "do we need to do an extra swap" logic that is currently
-> split between avr_need_swap() and ppc_maybe_bswap_register() (assuming
-> that the answer is really the same for both cases, of course...)
 
-I think we can remove avr_need_swap and handle everything in 
-ppc_maybe_bswap_register. I'll provide another patch with this approach.
+On 09 August 2021 um 02:37 pm, Christian Zigotzky wrote:
+> Hi All,
+>
+> Lscpu reports wrong values [1] since the RC1 of kernel 5.13 on my FSL 
+> P5040 Cyrus+ board (A-EON AmigaOne X5000). [2]
+> The differences are:
+>
+> Since the RC1 of kernel 5.13 (wrong values):
+>
+> Core(s) per socket: 1
+> Socket(s): 3
+>
+> Before (correct values):
+>
+> Core(s) per socket: 4
+> Socket(s): 1
+>
+> Through the wrong values, I can't use "-smp 4" with a virtual e5500 
+> QEMU machine with KVM HV anymore.  [3]
+> "-smp 3" works with KVM HV.
+>
+> Maybe the file_load_64 commit from the PowerPC updates 5.13-2 is the 
+> problem ( powerpc/kexec_file: Use current CPU info while setting up 
+> FDT). [4]
+>
+> Or maybe this change (PowerPC updates 5.13-1):
+>
+> -#ifdef CONFIG_PPC_BOOK3E_64
+> -    state->ctx_state = exception_enter();
+> -    if (user_mode(regs))
+> -        account_cpu_user_entry();
+> -#endif
+>
+> ---
+>
+> Or maybe this change (PowerPC updates 5.13-1):
+>
+> diff --git a/arch/powerpc/include/asm/smp.h 
+> b/arch/powerpc/include/asm/smp.h
+> index 7a13bc20f0a0c..03b3d010cbab6 100644
+> --- a/arch/powerpc/include/asm/smp.h
+> +++ b/arch/powerpc/include/asm/smp.h
+> @@ -31,6 +31,7 @@ extern u32 *cpu_to_phys_id;
+>  extern bool coregroup_enabled;
+>
+>  extern int cpu_to_chip_id(int cpu);
+> +extern int *chip_id_lookup_table;
+>
+>  #ifdef CONFIG_SMP
+>
+> @@ -121,6 +122,11 @@ static inline struct cpumask 
+> *cpu_sibling_mask(int cpu)
+>      return per_cpu(cpu_sibling_map, cpu);
+>  }
+>
+> +static inline struct cpumask *cpu_core_mask(int cpu)
+> +{
+> +    return per_cpu(cpu_core_map, cpu);
+> +}
+> +
+>  static inline struct cpumask *cpu_l2_cache_mask(int cpu)
+>  {
+>      return per_cpu(cpu_l2_cache_map, cpu);
+>
+> ---
+>
+> I have found a lot of other changes in the PowerPC updates 5.13-1 
+> regarding the CPU.
+>
+> Could you please check the CPU changes in the PowerPC updates 5.13-1 
+> and 5.13-2?
+>
+> Please find attached the kernel 5.14-rc5 config.
+>
+> Thanks,
+> Christian
+>
+>
+> [1]
+>
+> lscpu with the correct values before the RC1 of kernel 5.13:
+>
+> Architecture: ppc64
+> CPU op-mode(s): 32-bit, 64-bit
+> Byte Order: Big Endian
+> CPU(s): 4
+> On-line CPU(s) list: 0-3
+> Thread(s) per core: 1
+> Core(s) per socket: 4
+> Socket(s): 1
+> Model: 1.2 (pvr 8024 0012)
+> Model name: e5500
+> L1d cache: 128 KiB
+> L1i cache: 128 KiB
+> L2 cache: 2 MiB
+> L3 cache: 2 MiB
+> Vulnerability Itlb multihit: Not affected
+> Vulnerability L1tf: Not affected
+> Vulnerability Mds: Not affected
+> Vulnerability Meltdown: Not affected
+> Vulnerability Spec store bypass: Not affected
+> Vulnerability Spectre v1: Mitigation; __user pointer sanitization
+> Vulnerability Spectre v2: Mitigation; Branch predictor state flush
+> Vulnerability Srbds: Not affected
+> Vulnerability Tsx async abort: Not affected
+>
+> ---
+>
+> lscpu with the wrong values since the RC1 of kernel 5.13:
+>
+> Architecture: ppc64
+> CPU op-mode(s): 32-bit, 64-bit
+> Byte Order: Big Endian
+> CPU(s): 4
+> On-line CPU(s) list: 0-3
+> Thread(s) per core: 1
+> Core(s) per socket: 1
+> Socket(s): 3
+> Model: 1.2 (pvr 8024 0012)
+> Model name: e5500
+> L1d cache: 128 KiB
+> L1i cache: 128 KiB
+> L2 cache: 2 MiB
+> L3 cache: 2 MiB
+> Vulnerability Itlb multihit: Not affected
+> Vulnerability L1tf: Not affected
+> Vulnerability Mds: Not affected
+> Vulnerability Meltdown: Not affected
+> Vulnerability Spec store bypass: Not affected
+> Vulnerability Spectre v1: Mitigation; __user pointer sanitization
+> Vulnerability Spectre v2: Mitigation; Branch predictor state flush
+> Vulnerability Srbds: Not affected
+> Vulnerability Tsx async abort: Not affected
+>
+> ---
+>
+> [2] http://wiki.amiga.org/index.php?title=X5000
+>
+> [3] https://lists.ozlabs.org/pipermail/linuxppc-dev/2021-May/229103.html
+>
+> [4] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/diff/arch/powerpc/kexec/file_load_64.c?id=ab159ac569fddf812c0a217d6dbffaa5d93ef88f
 
->   * look at whether there is a nicer way to handle the 128 bit
-> register case than "byteswap the two 64-bit halves and then decide
-> which order to use them in"
-
-We could use bswap128 from int128.h and something else to handle the 
-!CONFIG_INT128 case.
-
->   * write a good explanatory comment...
-> 
-> -- PMM
-> 
-
-IIUC, usermode doesn't need any swap, and system does. What puzzles me 
-is that the original commit (ea499e71506) mentions that the 64-bit 
-elements need to be reordered "for both system and user mode". But that 
-was in 2016, so maybe things have changed since then.
-
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
