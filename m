@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816A43ED343
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:43:14 +0200 (CEST)
-Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B1F3ED347
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:46:38 +0200 (CEST)
+Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFb1N-0002Wo-B8
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
+	id 1mFb4f-00057e-Us
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFazG-0001B0-Sx
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:41:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30629)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mFb2T-0003iX-UT
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:44:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFazF-0007Wq-9B
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:41:02 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mFb2R-0000de-2L
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:44:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629114060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1629114257;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qipKyhfb8SLB+CYwB2oTcyo1WMpnq3IIoKL4mped19I=;
- b=S8+HoxZYgMJWRSgwbkEzOVPuvOECUYRnyYyJ+ds+PkVToYhlCHZhlBWB4rIrRv7vcpXG6m
- UlxkWb6JTbu63OQ+ppkW2iWDxEPftCGNhBRsEByhBpyDZNmluvbbo4GyO5tvdfrFIQ23LY
- Mwxa2MX61NhNwMhor/B3gDEF8dpLafQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-wWz2BsUMMpifOpW_ufeOoA-1; Mon, 16 Aug 2021 07:40:59 -0400
-X-MC-Unique: wWz2BsUMMpifOpW_ufeOoA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w25-20020a1cf6190000b0290252505ddd56so4100934wmc.3
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 04:40:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qipKyhfb8SLB+CYwB2oTcyo1WMpnq3IIoKL4mped19I=;
- b=ZC3Li4RIM/BTeZ5V3wW6rJbPRbNBBqQhVQTYgSt5izqe8CtUzuMdDL8zHWduymoXL8
- 0pYmANVETwUSel8QtTqIPy6WW9RTGMU5gaoIeIWoxscZUcXSEGiE406z1u5nlp4UNN7U
- hLGD3O1ue2rKLL1kgOBuYknjzlr13ufofGf5DO7O+knvTAftVhSJmxidTeOrPoTE72WH
- w86KAzRGE1bNNtDCEwULPF/abIGOIWH+NiYH599DYVHC7e5WC6JySIcR9lUYXyB75U5x
- LxXlPghUvhCGEt+fxkyaLd1aT/3GfmkDHNrIPeD2fy9BkGwX2c4Rr/9FUIhudu38F0m1
- qWOg==
-X-Gm-Message-State: AOAM530XyzX19/ZpsGBGhR9Cy61l+bb2UAgNetkCU+iFSSyJeOwszmOs
- +oYdEWlB9ZZyMBSAOUEZ9LULl/s1kyAaUU3hdG2WfdpTTQjAmXCwk3m7rcRi2HrnVLp0HXbFJmt
- eACoUNlSvL8X5Wgrm2E+8UItxKdfVbghgnOnQHIBWhN/dbQXMJwzUuNl+AqPN5tGn
-X-Received: by 2002:adf:dcd1:: with SMTP id x17mr17840722wrm.59.1629114057830; 
- Mon, 16 Aug 2021 04:40:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz22OOa6j/qHm39Yo/OoS198ndY6PIAqT77HMailG/niilorRMnc1mTcMI8xfDlzmpLJEZiEQ==
-X-Received: by 2002:adf:dcd1:: with SMTP id x17mr17840699wrm.59.1629114057641; 
- Mon, 16 Aug 2021 04:40:57 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id a77sm10898950wmd.31.2021.08.16.04.40.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 04:40:57 -0700 (PDT)
+ bh=Eh0kexlK4A4o3K+Sgpkz1yU23Wtyy4iyCcO8r3TM7cY=;
+ b=FUbXpck6KQ0xkUx7V2VwS5Tjwe5QCkl3Of2mG7bkYV7NzDl71WLmUQC1XDAWehxX8gUTYY
+ a+aP/y++Af7hiJCeVzx4J3bNKU/JMv3U7HEBldSgPI7GxjLRqoRoLs4HUglcD6K53RIzOV
+ Y8sj3Zy5M18KBZ6eSXE9wIaeMjXJvmg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-zdF97uscMLCoEPWSf2e1BQ-1; Mon, 16 Aug 2021 07:44:14 -0400
+X-MC-Unique: zdF97uscMLCoEPWSf2e1BQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393A4185302B;
+ Mon, 16 Aug 2021 11:44:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9C475D6A1;
+ Mon, 16 Aug 2021 11:44:11 +0000 (UTC)
+Date: Mon, 16 Aug 2021 12:44:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
 Subject: Re: [PULL 00/11] Optional gitlab-CI and doc fixes for -rc4
-To: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Message-ID: <YRpPiaazIrASHJUM@redhat.com>
 References: <20210814060956.12852-1-thuth@redhat.com>
  <CAFEAcA9ur-HX4r30QgEAL73VEgA+=XXpWW6v9arKcM=ijEsHvA@mail.gmail.com>
- <20210816102246.z4ybsgpmrn4isdoj@mozz.bu.edu> <YRpHxjyz8+Su4ziA@redhat.com>
+ <20210816102246.z4ybsgpmrn4isdoj@mozz.bu.edu>
+ <YRpHxjyz8+Su4ziA@redhat.com>
  <20210816113059.h2srf2tmvylzhhjp@mozz.bu.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0d9764a2-a2f1-e33d-8183-a150d738f783@redhat.com>
-Date: Mon, 16 Aug 2021 13:40:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <20210816113059.h2srf2tmvylzhhjp@mozz.bu.edu>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,35 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 1:30 PM, Alexander Bulekov wrote:
+On Mon, Aug 16, 2021 at 07:30:59AM -0400, Alexander Bulekov wrote:
 > On 210816 1211, Daniel P. Berrangé wrote:
->> On Mon, Aug 16, 2021 at 06:22:46AM -0400, Alexander Bulekov wrote:
-
->>> https://gitlab.com/qemu-project/qemu/-/jobs/1505950978
->>> Looks like build-oss-fuzz is still timing out, even without the issue
->>> in the vhost-usr-blk test. At this point the job should essentially just
->>> build + test qemu-system-i386 with some extra time spent on linking
->>> the fuzzer and briefly running through all the fuzzer configs. Maybe the
->>> only way to make this work is to split the job into a build + test
->>> stage?
->>
->> At this point I think we should just disable the job in gitlab entirely.
->> We've spent too long debugging this, while leaving CI red for everyone.
->>
->> Whomever is interested in this can then work to find a way to make it
->> reliable and request it be re-enabled once confident that it will work.
->>
+> > On Mon, Aug 16, 2021 at 06:22:46AM -0400, Alexander Bulekov wrote:
+> > > On 210816 1001, Peter Maydell wrote:
+> > > > On Sat, 14 Aug 2021 at 07:10, Thomas Huth <thuth@redhat.com> wrote:
+> > > > >
+> > > > >  Hi Peter,
+> > > > >
+> > > > > in case we're going to have an -rc4, here's a pull request that contains
+> > > > > the fixes for getting the gitlab-CI green again. I also added some doc
+> > > > > updates since they should be completely riskless. But if we won't have an
+> > > > > rc4 due to other reasons, this pull request here certainly also does not
+> > > > > justify another RC, so please ignore this PR in that case.
+> > > > >
+> > > > > The following changes since commit 703e8cd6189cf699c8d5c094bc68b5f3afa6ad71:
+> > > > >
+> > > > >   Update version for v6.1.0-rc3 release (2021-08-10 19:08:09 +0100)
+> > > > >
+> > > > > are available in the Git repository at:
+> > > > >
+> > > > >   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-08-11
+> > > > >
+> > > > > for you to fetch changes up to 36b508993c4dcc6b3ef4b5c00e293ee9560926ee:
+> > > > >
+> > > > >   docs/about/removed-features: Document removed machines from older QEMU versions (2021-08-11 15:39:09 +0200)
+> > > > >
+> > > > > CI run can be seen here:
+> > > > >
+> > > > >  https://gitlab.com/thuth/qemu/-/pipelines/351602605
+> > > > >
+> > > > > ----------------------------------------------------------------
+> > > > > * Fixes for the gitlab-CI (fix the hanging  build-oss-fuzz pipeline)
+> > > > > * Add documentation about features that have been removed in older versions
+> > > > >
+> > > > 
+> > > > 
+> > > > Applied, thanks.
+> > > > 
+> > > > Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+> > > > for any user-visible changes.
+> > > 
+> > > https://gitlab.com/qemu-project/qemu/-/jobs/1505950978
+> > > Looks like build-oss-fuzz is still timing out, even without the issue
+> > > in the vhost-usr-blk test. At this point the job should essentially just
+> > > build + test qemu-system-i386 with some extra time spent on linking
+> > > the fuzzer and briefly running through all the fuzzer configs. Maybe the
+> > > only way to make this work is to split the job into a build + test
+> > > stage?
+> > 
+> > At this point I think we should just disable the job in gitlab entirely.
+> > We've spent too long debugging this, while leaving CI red for everyone.
+> > 
+> > Whomever is interested in this can then work to find a way to make it
+> > reliable and request it be re-enabled once confident that it will work.
+> > 
 > 
 > On my mirror the job succeeded in 41 minutes... I guess you have to get
 > lucky with scheduling/ambient load.
 > https://gitlab.com/a1xndr/qemu/-/jobs/1506197531
 
-TBH I stopped looking at this job console out because it fails too often
-in my pipelines :(
+I don't think load would make that much of a difference. It smells like
+there is still some non-deterministic bug in there that is causing a
+hang of the job.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
