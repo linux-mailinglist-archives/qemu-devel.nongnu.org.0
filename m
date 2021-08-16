@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80F23ED1F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 12:27:40 +0200 (CEST)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B563ED1F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 12:28:18 +0200 (CEST)
+Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFZqF-0005zO-OT
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 06:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
+	id 1mFZqr-0007Dc-6f
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 06:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
- id 1mFZnn-0004qI-3e; Mon, 16 Aug 2021 06:25:08 -0400
-Received: from shasxm06.verisilicon.com ([101.89.135.45]:30873
- helo=shasxm03.verisilicon.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
- id 1mFZnf-0002eP-On; Mon, 16 Aug 2021 06:25:04 -0400
-Content-Language: zh-CN
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
- c=simple/simple; t=1629109483; h=from:subject:to:date:message-id;
- bh=L7N3RgSt5OFYwqCJC8cfNiV5OhDhg5XsfkpZAAdFzd4=;
- b=BMxPoOEMVvGmknyu3QhdsFBoz0R4DenLNVFXa4D8OE+bPjVnwxbD48qtdvE7LiDYZD2zZHQTwDz
- GvXdq0j3g7683SCAAAVziktuX6U/KD2jAnTt7SLOuAWkqaV32N+oscLHTzZeo6qY995Oky3DqVvuZ
- bF5AdaiPV79CamlkV2s=
-Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
- SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
- 14.03.0408.000; Mon, 16 Aug 2021 18:24:42 +0800
-From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
-To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>, "edgar.iglesias@gmail.com"
- <edgar.iglesias@gmail.com>, "alistair@alistair23.me" <alistair@alistair23.me>
-Subject: [PATCH v3] hw/dma/pl330: Add memory region to replace default
-Thread-Topic: [PATCH v3] hw/dma/pl330: Add memory region to replace default
-Thread-Index: AdeSiOwk1WdB1iQlRpq1bXETNiKRMA==
-Date: Mon, 16 Aug 2021 10:24:41 +0000
-Message-ID: <4C23C17B8E87E74E906A25A3254A03F4FA1FC8CE@SHASXM03.verisilicon.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [182.148.14.197]
-x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
-x-tm-as-result: No--6.106400-0.000000-31
-x-tm-as-user-approved-sender: Yes
-x-tm-as-user-blocked-sender: No
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFZph-0005sS-3y
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 06:27:07 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:43961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFZpf-0004io-HY
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 06:27:04 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id v2so15214391edq.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 03:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DLRP6Srbo7LHnLeghdyqGBWPiWpWRH/NL4bZ5LUSgN0=;
+ b=cF7qy124xUHv63ogJCZv9+62xWhGWcWoVIN00Z8IGf9x6ugtCPoWrK7Ska5uigH+iu
+ lMvltD8/7tHrwZPQI6huHGRXD5E92El6FIcThMaqA9t5LI9ee/gn4HoKppDyi8DC7RFC
+ tRcseErLhoqQTb+ZPopykbjTkYkORTZTw4iVSxVGmTJO/PlpMUaqNzXQ3QrpyAHnZcYq
+ /6+UNxemb+EbvQf3ztw2YdZfydXgoXNa6ZHJxCkqUSjVHZzlciJ8/jshfm3x8mlz2v9c
+ RpuBjfXSpVxCNOvaxWD5+yvDeIRTb5/QFoSa8emcs8fvuyJaxCTbs3G3F5GOdNF8pivz
+ 5daQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DLRP6Srbo7LHnLeghdyqGBWPiWpWRH/NL4bZ5LUSgN0=;
+ b=HXwRMfwCq1f5ibT9iYkTCjapsjU6NLiQguDNLteSQMy5C51KLW3jwSDcMUL7UxL0r8
+ /lXv4xbYsUEg6BCXtnug/cIrubJhHtBreT7ImdVLiPdpfBkXrUDB39sP3x0aMSCDQYDJ
+ j1yH+UqydEXQiVEOHm/5DfQgWJ0G3jYTv1sFrBNg8+ckV4qpbuqIDMiPlE9Yv0nS/qyX
+ 1L0Tdp5/53wUBBIFu6u+XAdhaoSkG+0eqgetuEZTggORA2D22bBaeYpk/oYo33BypQc5
+ +JFc0oDsxzBmHPJYJz6eA7ztm3vqVOXwW9M7vUuNgbNr6Q2jUuOdJQSNrteRdnk4V1Os
+ NPoQ==
+X-Gm-Message-State: AOAM5324tg9Y2rrhbzvop8V9nN+BfAeL7isLHhnfLQRhbdYDfe44cExG
+ +inDHarAOac9hM+yOTHMZw0TfqJwC4Qyovi7EOGQjg==
+X-Google-Smtp-Source: ABdhPJwkk2MM2xvGhN9V9E5imRE/7QDcTK8SE9EgJ8AH6tfuGJ5L/QpqS7/QlVMUR9iS+YYOAjv96Fju4uimN1xOML4=
+X-Received: by 2002:a50:ff03:: with SMTP id a3mr19077883edu.100.1629109619854; 
+ Mon, 16 Aug 2021 03:26:59 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=101.89.135.45;
- envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
+References: <20210816025915.213093-1-linux@roeck-us.net>
+ <YRn6d/Vb10JTmZ18@yekko>
+In-Reply-To: <YRn6d/Vb10JTmZ18@yekko>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Aug 2021 11:26:14 +0100
+Message-ID: <CAFEAcA-KSFuYbkbu7iBvgLxgBgBPRGeOgLuEuh5g5_MO4=Nk0w@mail.gmail.com>
+Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,137 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Liu,
- Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
- Chunming" <Chunming.Li@verisilicon.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Guenter Roeck <linux@roeck-us.net>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PL330 needs a memory region which can connect with SMMU IOMMU region to sup=
-port SMMU translate.
+On Mon, 16 Aug 2021 at 06:46, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Sun, Aug 15, 2021 at 07:59:15PM -0700, Guenter Roeck wrote:
+> > IBM EMAC Ethernet controllers are not emulated by qemu. If they are
+> > enabled in devicetree files, they are instantiated in Linux but
+> > obviously won't work. Disable associated devicetree nodes to prevent
+> > unpredictable behavior.
+> >
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>
+> I'll wait for Zoltan's opinion on this, but this sort of thing is why
+> I was always pretty dubious about qemu *loading* a dtb file, rather
+> than generating a dt internally.
 
-Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
----
-Changes v1 -> v2 (after review of Peter Maydell):
- - Use the dma_memory_read/dma_memory_write functions, update function Addr=
-essSpace* parameter.
-Changes v2 -> v3 (after review of Philippe Mathieu-Daud=E9):
- - Refine code to comply with code style, update error message if memory li=
-nk is not set.
+My take is that if you have to modify the dtb file to get QEMU to
+work, then that's a bug in QEMU that should be fixed. It's no
+worse than for the machines we have that don't use dtb and where
+the kernel just knows what the hardware is. (In my experience
+Arm kernels can be a bit finicky about wanting the right dtb
+and not some earlier or later one, so I think at least for Arm
+trying to generate a dt for our non-virt boards would have been
+pretty painful and liable to "new kernels don't boot any more" bugs.)
 
- hw/arm/exynos4210.c  |  3 +++
- hw/arm/xilinx_zynq.c |  3 +++
- hw/dma/pl330.c       | 20 ++++++++++++++++----
- 3 files changed, 22 insertions(+), 4 deletions(-)
+Is it sufficient to create stub "unimplemented-device" ethernet
+controllers here, or does the guest want more behaviour than that?
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 5c7a51b..0299e81 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -173,6 +173,9 @@ static DeviceState *pl330_create(uint32_t base, qemu_or=
-_irq *orgate,
-     int i;
-=20
-     dev =3D qdev_new("pl330");
-+    object_property_set_link(OBJECT(dev), "memory",
-+                             OBJECT(get_system_memory()),
-+                             &error_fatal);
-     qdev_prop_set_uint8(dev, "num_events", nevents);
-     qdev_prop_set_uint8(dev, "num_chnls",  8);
-     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 245af81..69c333e 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -312,6 +312,9 @@ static void zynq_init(MachineState *machine)
-     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[39-IRQ_OFFSET]);
-=20
-     dev =3D qdev_new("pl330");
-+    object_property_set_link(OBJECT(dev), "memory",
-+                             OBJECT(address_space_mem),
-+                             &error_fatal);
-     qdev_prop_set_uint8(dev, "num_chnls",  8);
-     qdev_prop_set_uint8(dev, "num_periph_req",  4);
-     qdev_prop_set_uint8(dev, "num_events",  16);
-diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-index 944ba29..c3bd30c 100644
---- a/hw/dma/pl330.c
-+++ b/hw/dma/pl330.c
-@@ -269,6 +269,9 @@ struct PL330State {
-     uint8_t num_faulting;
-     uint8_t periph_busy[PL330_PERIPH_NUM];
-=20
-+    /* Memory region that DMA operation access */
-+    MemoryRegion *mem_mr;
-+    AddressSpace mem_as;
- };
-=20
- #define TYPE_PL330 "pl330"
-@@ -1108,7 +1111,7 @@ static inline const PL330InsnDesc *pl330_fetch_insn(P=
-L330Chan *ch)
-     uint8_t opcode;
-     int i;
-=20
--    dma_memory_read(&address_space_memory, ch->pc, &opcode, 1);
-+    dma_memory_read(&ch->parent->mem_as, ch->pc, &opcode, 1);
-     for (i =3D 0; insn_desc[i].size; i++) {
-         if ((opcode & insn_desc[i].opmask) =3D=3D insn_desc[i].opcode) {
-             return &insn_desc[i];
-@@ -1122,7 +1125,7 @@ static inline void pl330_exec_insn(PL330Chan *ch, con=
-st PL330InsnDesc *insn)
-     uint8_t buf[PL330_INSN_MAXSIZE];
-=20
-     assert(insn->size <=3D PL330_INSN_MAXSIZE);
--    dma_memory_read(&address_space_memory, ch->pc, buf, insn->size);
-+    dma_memory_read(&ch->parent->mem_as, ch->pc, buf, insn->size);
-     insn->exec(ch, buf[0], &buf[1], insn->size - 1);
- }
-=20
-@@ -1186,7 +1189,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
-     if (q !=3D NULL && q->len <=3D pl330_fifo_num_free(&s->fifo)) {
-         int len =3D q->len - (q->addr & (q->len - 1));
-=20
--        dma_memory_read(&address_space_memory, q->addr, buf, len);
-+        dma_memory_read(&s->mem_as, q->addr, buf, len);
-         trace_pl330_exec_cycle(q->addr, len);
-         if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
-             pl330_hexdump(buf, len);
-@@ -1217,7 +1220,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
-             fifo_res =3D pl330_fifo_get(&s->fifo, buf, len, q->tag);
-         }
-         if (fifo_res =3D=3D PL330_FIFO_OK || q->z) {
--            dma_memory_write(&address_space_memory, q->addr, buf, len);
-+            dma_memory_write(&s->mem_as, q->addr, buf, len);
-             trace_pl330_exec_cycle(q->addr, len);
-             if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
-                 pl330_hexdump(buf, len);
-@@ -1562,6 +1565,12 @@ static void pl330_realize(DeviceState *dev, Error **=
-errp)
-                           "dma", PL330_IOMEM_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-=20
-+    if (!s->mem_mr) {
-+        error_setg(errp, "'memory' link is not set");
-+        return;
-+    }
-+    address_space_init(&s->mem_as, s->mem_mr, "pl330");
-+
-     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pl330_exec_cycle_timer, =
-s);
-=20
-     s->cfg[0] =3D (s->mgr_ns_at_rst ? 0x4 : 0) |
-@@ -1656,6 +1665,9 @@ static Property pl330_properties[] =3D {
-     DEFINE_PROP_UINT8("rd_q_dep", PL330State, rd_q_dep, 16),
-     DEFINE_PROP_UINT16("data_buffer_dep", PL330State, data_buffer_dep, 256=
-),
-=20
-+    DEFINE_PROP_LINK("memory", PL330State, mem_mr,
-+                     TYPE_MEMORY_REGION, MemoryRegion *),
-+
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
---=20
-2.7.4
+thanks
+-- PMM
 
