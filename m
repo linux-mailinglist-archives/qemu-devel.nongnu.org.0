@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3ED3EDED2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 22:53:37 +0200 (CEST)
-Received: from localhost ([::1]:51394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8C93EDEDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 22:56:13 +0200 (CEST)
+Received: from localhost ([::1]:59554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFjc0-00020K-US
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 16:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
+	id 1mFjeW-0007Ov-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 16:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFjZm-0007v6-Rq
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:51:18 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39901)
+ id 1mFjZs-0007zn-Qt
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:51:28 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFjZl-0002lQ-Ie
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:51:18 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q6so13900607wrv.6
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:51:17 -0700 (PDT)
+ id 1mFjZq-0002oq-Ra
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:51:23 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v4so18270933wro.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=guPfsm+TdDEggxYauLResM2Qs6zxvhc5Miqakb7nXb4=;
- b=W6TT/wnZp+2ZUhb3pM4GknHB0LbF86q7+ziSXfeaAjL87gOcB+XYNFT/NmZeB8AH7P
- lmLOamsNrzibtmbdjBefpoVHrhkcjtb5xnCzm7rpBqTjLzOBaXpYMhfmMduzDSa8eRXt
- hhhnw3xiunPe3Fo/tHmGpKpdFtYkdLatCJB7WKEwKZvF9gWbt0SFXE+ooQL10x6pLtrV
- i/M5csLvwwoAkBeK1T1fARiHBiwcPV9VYv1FYZ6Y7XyOWfqoeQwaYjcFjXtu67/ADUsY
- x/eA2WUmqKKGjQS9eiCrEARlddAjqfN1Nk574D4Yjy7kYBRsAPxKduxlLrMOhsIGfGRZ
- TOEg==
+ bh=OxEJXC7lL6JkeE88O86XD/Gz40sjVZOycwNQPdJyF4g=;
+ b=i1l5hgEQaq9V4Y5y7/bSnpgr3qvoP/wo+WS+TV/3DgKZiTP2bRMY+voiUoe7i4md9F
+ HBaO2+pifvW/UnHJyekRpcTdte9T+Z7n0vMd1uv1iaBxynAcbqwTqLLMnRxlwpEcdOZt
+ /KWZJg0DA0FwHCoC8WAA7uDTFGtVh0Zxx62Z1FCfv7NonYFkUnza994oLmfS0zBe0GFr
+ Hsdp00TZ+LAiJ927plojPQMwK9/Uz50VNm//v8JGHypvGtHkQ7qdHsc8gVfmvxe/ZAfY
+ f4ee9xwnUJI9Sw/LhCI7SytJZIj9spIx1bIsmE0teo8O5DlXp6TjwJq2gf81Wxz8esem
+ UmhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=guPfsm+TdDEggxYauLResM2Qs6zxvhc5Miqakb7nXb4=;
- b=IfxpqOLL9Xzmoc09RaAirvMOWktyob7GArCfBtVIXvzO9WQD3tUHjLy7ho9/SyBnUY
- IRSdygzauUUuNt50Zd/jQWJBDtP4kbMA+SCC32u8/BA/GCbv5ARZllhEYdR/F+Pxm7sD
- 8NjMcEsmB9bWZmkVJkmu51UapmWNqDf0RJ+nsxY7vh9sqXUTt+r35jik2JIP9eLxxHmA
- HCLLB6keML5oPTOjnbitkgNquCqRM3bQRndqjsVkp1E+T/Bs+64spbH4d/OVnYwh+J5W
- 8YhdCKbT2RlC9Ht/M/SeN1L31uWbRvT+CZ+O1WQP2CJbOsesosOifCi2cWfbGyYvazdc
- /n8A==
-X-Gm-Message-State: AOAM533opoI8E2sG+gZoaGBHbLtWvjge5u/5iJTCv9Ssjh9TGs20CO8c
- vqha0JkukVp5rMIw/QdVelk050BFEGQ=
-X-Google-Smtp-Source: ABdhPJyKo/uR9AhqBzYTy7zwvxPP2M0fV5Ug/rxt30eXXKz4qv94GzWHGZTkJsWz9tKer9LC9UOfXw==
-X-Received: by 2002:a5d:45c9:: with SMTP id b9mr321875wrs.395.1629147075982;
- Mon, 16 Aug 2021 13:51:15 -0700 (PDT)
+ bh=OxEJXC7lL6JkeE88O86XD/Gz40sjVZOycwNQPdJyF4g=;
+ b=QYsx7JcmDYA+uJZBgzQBdsc0hhVXiafFZIUeAL4iEFgqkQ30WdEnS3BpElVrEPT8lw
+ lMx4C1BwBPEXjxdekP3ynpW66iGKoPYao6lc1BdCXJGVkbHKlSDgrq84FitLhLUdWXvu
+ /3SWDIwYSmMRBpi3oaeDOo++oullqtaKGswleiuHsNxWhtI4s+6BSIhQv0D300A+MOXA
+ hoWhou9IqZptJ5+tlRFyiWGywFbt9CVRket07IuaXcyhZ+UR4RncP6qogKLw2D/17ttj
+ HKM69mdImxMMbrDNcRbQZXieBx5y8rwM2yEIYRXk9X8sMg9LS47oPXfwjNAZten0qwln
+ ye6Q==
+X-Gm-Message-State: AOAM531xEaJY3ZJur7/Dnuuy8XfvdrcSwAZLJ01KrM2jqunzWF3ZFIB7
+ /kswMrggVtqo1ZXJWgSMdHek8L2tSIY=
+X-Google-Smtp-Source: ABdhPJz/IZTOHsjLIQeLVsNCQ4Tl/MVfrQ1bIRMEHMWb8RPSXNpgO76mxduu9IErhioD+xIhSVn0sA==
+X-Received: by 2002:adf:eb4c:: with SMTP id u12mr352581wrn.111.1629147081252; 
+ Mon, 16 Aug 2021 13:51:21 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- p18sm335560wrt.13.2021.08.16.13.51.15
+ t1sm256821wma.25.2021.08.16.13.51.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 13:51:15 -0700 (PDT)
+ Mon, 16 Aug 2021 13:51:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] target/mips: Remove gen_helper_0e3i()
-Date: Mon, 16 Aug 2021 22:51:00 +0200
-Message-Id: <20210816205107.2051495-2-f4bug@amsat.org>
+Subject: [PATCH 2/8] target/mips: Remove gen_helper_1e2i()
+Date: Mon, 16 Aug 2021 22:51:01 +0200
+Message-Id: <20210816205107.2051495-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210816205107.2051495-1-f4bug@amsat.org>
 References: <20210816205107.2051495-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,8 +92,9 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gen_helper_0e3i() is unused since commit 895c2d04359
-("target-mips: switch to AREG0 free mode"), remove it.
+gen_helper_1e2i() is unused since commit 33a07fa2db6
+("target/mips: reimplement SC instruction emulation
+and use cmpxchg"), remove it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -101,16 +102,16 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 6 deletions(-)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index a58d50e40e2..c0f8a04b472 100644
+index c0f8a04b472..4b689a54abb 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -1249,12 +1249,6 @@ TCGv_i64 fpu_f64[32];
+@@ -1243,12 +1243,6 @@ TCGv_i64 fpu_f64[32];
      tcg_temp_free_i32(helper_tmp);                                \
      } while (0)
  
--#define gen_helper_0e3i(name, arg1, arg2, arg3, arg4) do {        \
--    TCGv_i32 helper_tmp = tcg_const_i32(arg4);                    \
--    gen_helper_##name(cpu_env, arg1, arg2, arg3, helper_tmp);     \
+-#define gen_helper_1e2i(name, ret, arg1, arg2, arg3) do {         \
+-    TCGv_i32 helper_tmp = tcg_const_i32(arg3);                    \
+-    gen_helper_##name(ret, cpu_env, arg1, arg2, helper_tmp);      \
 -    tcg_temp_free_i32(helper_tmp);                                \
 -    } while (0)
 -
