@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043AC3EDC80
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 19:37:31 +0200 (CEST)
-Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD8C3EDC91
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 19:48:19 +0200 (CEST)
+Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFgYD-0002JZ-QR
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 13:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52224)
+	id 1mFgig-0007HI-E8
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 13:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1mFgX9-0001aV-ND
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:36:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36188)
+ id 1mFghd-0006bF-Hs
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:47:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1mFgX5-0002To-U4
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:36:22 -0400
+ id 1mFghZ-0001vl-Tq
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629135378;
+ s=mimecast20190719; t=1629136028;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YZcsez3w4gYaSDMLgr+qamEPxStqdPxNQH+twy47EFA=;
- b=Aw0UBixzvt7bgZwzoMC6nhgLVEuZnxmow9U7dTsjEYscxUr5/8qrE5lhW560JnX0gQGp5m
- SNyQS856dMsrPZhsjWaJweqRaPly4QFAKzY9ncjGhV2+Lr6qvTpx7TN40Ijuqpl7kBVJc/
- 6OeNXPP3JE7PaSCXDiloB/gYOgZaVPs=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-SFRrJ8cHOKOUo2lX90OZmw-1; Mon, 16 Aug 2021 13:36:17 -0400
-X-MC-Unique: SFRrJ8cHOKOUo2lX90OZmw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- w19-20020ac87e930000b029025a2609eb04so9600445qtj.17
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 10:36:17 -0700 (PDT)
+ bh=wnG7YBgwJp1fKekuqDV/DsZxo6LFVoiinW+/sKCXkNA=;
+ b=GqKRALKTaSeoMHyDcMlaE8X8j1GS1vN5D7zXqe6dpgh2meAqBa/WjwxG8zwa6+oyij/5Ki
+ bTj9YuRagW6ZIrXGcklLDn/y9WtbdHOjmukq7J9KdUwwYq49Qx1q1RrMBrjrD+XM8J3OJi
+ OtqnqOiBVOTzbpTPZ20gsb2EgKP6ovw=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-Fmi9FoTIMMeQxWWu57s7Uw-1; Mon, 16 Aug 2021 13:47:06 -0400
+X-MC-Unique: Fmi9FoTIMMeQxWWu57s7Uw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ t3-20020a0cf9830000b0290359840930bdso10018755qvn.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 10:47:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=YZcsez3w4gYaSDMLgr+qamEPxStqdPxNQH+twy47EFA=;
- b=p6tHfgpwl0Bfgy5ONfVpo/VxeJkSOd4jhWeo06ZaKbBIxdu+DJrHHe6Ki7XkXxzLA3
- strMbSjBJrcD0zzXriqYWGGNDk+q3yYdL+PBuumleftOgFCZw7xbJqeiV94LwZSSFiDY
- ocnK3NoEDv+M3hUWZy7u8MfSwpF6AWJaLKuA9+LtGZv2XMtA2YzfGoOBbw1QKZcswc1g
- TmgKrcA3DFE+xPSprBApLV7BrNL17em6ePokgQW9oT48KxUu5kjbmd7ZDSPNYd02T2EP
- AfRzyqyDH2Pv9NoTFJAF1ErW7GAzwIsiGqDYvLwxld7TG1CO33D6iKGo67coRdFSi/C3
- yaRQ==
-X-Gm-Message-State: AOAM532IGWDd8D+rGWedDJX7QznZLleAKPVQp0aHZfr7g5+8Ftd6chky
- zCp69kbdd8f4yCmEF1cNweRtvIvK4Zzby4Y2Y/1Mn1CpVnEuHm4e2wkCQWB6vMPA42hGrnpLv/O
- /coJfHxEX4tNFpMU=
-X-Received: by 2002:a37:8243:: with SMTP id e64mr33371qkd.89.1629135376682;
- Mon, 16 Aug 2021 10:36:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyH5zLCLCPb0b0Tq4kTZZZYfVtBCbsrEaMeDZEu7bz8dRfnmaVKYIum46/4ibKDYZ0PIgEEQ==
-X-Received: by 2002:a37:8243:: with SMTP id e64mr33354qkd.89.1629135376478;
- Mon, 16 Aug 2021 10:36:16 -0700 (PDT)
+ bh=wnG7YBgwJp1fKekuqDV/DsZxo6LFVoiinW+/sKCXkNA=;
+ b=AsyZYYnSQbaw9oDgk770BoFwEhhVm+4RKIrkCQvI4iSBO8mYDey3X0yTBpRHKjKv3t
+ M6SU9qlPS+oVQJZiH8y9KbxqkaRtMQEV6ge5UNma0ndPozAxLmJAbwvuzWwM6zh407hP
+ poQc/ZH7cY0ja1FjqbHz+jA0QMIzX+v0MbsYZlqzw365zdOqH8iJBiYg3wDSVimFDWsM
+ l9XUyPiEUHYGVQJ2TB8cN9hQccyDcRTJka7k33BFQZpmK+yvT4xGKhphJDjFGlIGwgb9
+ JWZgVyYwSKkHtizt8ON/M6goOANLk4eLnQaPmWerIGU5tr3OyZk5Cmz6jPQltMM5h6Fz
+ FCOg==
+X-Gm-Message-State: AOAM531Yy0Th3aQ7FseFu/eBz2RebVr/gsPzgI1QSQ5WqZDHMomRS0Dk
+ fg9fhJAbNxJidvG1AEn079UR1FwE+aAF5DEUJUKHzzP+ksivhsH3w26rHkJJh88Bs6syS7LSwaj
+ R/oZYyyJu8wjFiSw=
+X-Received: by 2002:a37:944:: with SMTP id 65mr94514qkj.412.1629136026104;
+ Mon, 16 Aug 2021 10:47:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytpxr3o9sJUOq1034D5EM1wzS6wji24qesbqbATOo/9DbKNP8SqyS2zeT/4LBUVBL4SG9XEg==
+X-Received: by 2002:a37:944:: with SMTP id 65mr94507qkj.412.1629136025965;
+ Mon, 16 Aug 2021 10:47:05 -0700 (PDT)
 Received: from wainer-laptop.localdomain ([179.154.241.196])
- by smtp.gmail.com with ESMTPSA id o7sm5007092qtw.80.2021.08.16.10.36.13
+ by smtp.gmail.com with ESMTPSA id k5sm5174974qtq.6.2021.08.16.10.47.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 10:36:15 -0700 (PDT)
-Subject: Re: [PATCH] tests/acceptance: Allow overwrite smp and memory
-To: Ahmed Abouzied <email@aabouzied.com>, qemu-devel@nongnu.org
-References: <20210802222257.50946-1-email@aabouzied.com>
+ Mon, 16 Aug 2021 10:47:05 -0700 (PDT)
+Subject: Re: [PATCH] Acceptance tests: add myself as a reviewer for the
+ acceptance tests.
+To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
+References: <20210809192907.42138-1-willianr@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <cfe86a3a-b4da-e3aa-9345-9313fca5a5be@redhat.com>
-Date: Mon, 16 Aug 2021 14:36:11 -0300
+Message-ID: <62ce26b4-8ca0-0321-554b-a3f546dcb2c4@redhat.com>
+Date: Mon, 16 Aug 2021 14:47:00 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210802222257.50946-1-email@aabouzied.com>
+In-Reply-To: <20210809192907.42138-1-willianr@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -71
 X-Spam_score: -7.2
@@ -100,54 +101,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: wainersm@redhat.com
-Cc: philmd@redhat.com, crosa@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ahmed,
+Hi Willian,
 
-Sorry for taking longer to reply you as I just returned from vacation.
+The "Acceptance (Integration) Testing with the Avocado framework" 
+section hasn't any formal maintainer but I always considered Cleber the 
+de-facto one. In this case I don't know whether my acknowledgement is 
+taken in account or not; anyway, you got it from me:
 
-On 8/2/21 7:22 PM, Ahmed Abouzied wrote:
-> Removes the hard-coded values in setUp(). Class inheriting from
-> avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
-Thanks for working on that issue!
-> Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
+Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Thanks!
+
+On 8/9/21 4:29 PM, Willian Rampazzo wrote:
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 > ---
->   tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-
-I would change the patch's subject as suggested by Philippe in another 
-email. Apart from that, the change looks good to me. So:
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 2c4fef3e14..2639b89c84 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
->       distro = None
->       username = 'root'
->       password = 'password'
-> +    smp = '2'
-> +    memory = '1024'
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 37b1a8e442..3f8ad63165 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3422,6 +3422,7 @@ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+>   R: Cleber Rosa <crosa@redhat.com>
+>   R: Philippe Mathieu-Daudé <philmd@redhat.com>
+>   R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> +R: Willian Rampazzo <willianr@redhat.com>
+>   S: Odd Fixes
+>   F: tests/acceptance/
 >   
->       def _set_distro(self):
->           distro_name = self.params.get(
-> @@ -471,8 +473,8 @@ def _set_distro(self):
->       def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
->           super(LinuxTest, self).setUp()
->           self._set_distro()
-> -        self.vm.add_args('-smp', '2')
-> -        self.vm.add_args('-m', '1024')
-> +        self.vm.add_args('-smp', self.smp)
-> +        self.vm.add_args('-m', self.memory)
->           # The following network device allows for SSH connections
->           self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
->                            '-device', '%s,netdev=vnet' % network_device_type)
 
 
