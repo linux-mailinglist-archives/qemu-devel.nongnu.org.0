@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716493EDCD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 20:08:35 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6012E3EDCFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 20:18:07 +0200 (CEST)
+Received: from localhost ([::1]:46096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFh2I-0000p4-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 14:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
+	id 1mFhBW-0001VT-5o
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 14:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFgyg-0005Gl-Op
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 14:04:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34148)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1mFh9s-0000d7-Ty
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 14:16:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFgye-0005eG-9q
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 14:04:50 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1mFh9m-0005Bs-CW
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 14:16:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629137087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yVr0VQQosAtHxyUcL35E8kd9mLrtiVCl383ah7sIDQ0=;
- b=Y1xwfSj56qM6gfSDbO/LP1yajghVsnOKDEhLYgFG6ghRn3sAgIGLkBtfT43dNcvPWmqNia
- OwblSS1xgljyDBBGnjqZyvQIcfaFpqCsVarVjYcveajjBa4T6TiHdzvrdHwrkluMaEfRqN
- a8XB3A7PSIAbZv6gY2dgMLqdZ1PLUcQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-KAbKVumYMdq2HWU6UqQBtA-1; Mon, 16 Aug 2021 14:04:46 -0400
-X-MC-Unique: KAbKVumYMdq2HWU6UqQBtA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- m5-20020a5d6a050000b0290154e83dce73so5688726wru.19
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 11:04:45 -0700 (PDT)
+ s=mimecast20190719; t=1629137775;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O47pu5mh1B3W/peaUXLmf7ZqpjIt+GjL8j54t66fvNI=;
+ b=EBVYvsuJzOFL03ApAf0yL2jmOiK1DfuF8W/gpTQj+g96UlvQNQXVjWihPUuuIrMnc5gqL0
+ oIUBA8BeSDxYDmNY8UGxhRE/zo2gAMEB1cn7Z+175+38YHgGkzyjdBqvcO2NDnRo3EQOwc
+ k6qthmt8Z7phtWAJFi527Fc13Vgbciw=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-Wv5t5BoEMiiJuN_GFMQSaw-1; Mon, 16 Aug 2021 14:16:12 -0400
+X-MC-Unique: Wv5t5BoEMiiJuN_GFMQSaw-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ v18-20020a17090abb92b0290178fa401bdcso13102667pjr.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 11:16:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yVr0VQQosAtHxyUcL35E8kd9mLrtiVCl383ah7sIDQ0=;
- b=dIgIlor1zOfx8nlV6AqWCC7jfsn++Um19XuXi83dWjvzD+e0701XHNJq5kJhAfGbmC
- dUtcZ7e9RiCNl3z4pya8I9ITfEQ/pDGFpe2BEkposojYRMVa1oTnd6hMaLJiJ0CGpVML
- kX7Fe7UDvUJ53sCxUWXg9NQc9UntVP6LCleV5Q6hMkKuMcGNR2v7Kd7KH0vAIQSFSPS3
- R93tg60V+M2OSYzEhduaLIcfBzbPbnVqdKiSDIw6pfMapixsCj/0oNh4/pkPG9Bv2FcL
- Vp44CUWkw0UmTQrmBYHtVhYrbX1mXW6t/Wxa+uxyyp3AaaIZjrS6Thcc6oQ/7UMrQy/j
- pdlg==
-X-Gm-Message-State: AOAM530q72CPiNtva9T6gZBw4jak0tVTwV00KL52WxIyvU3zEAp++Oih
- /sTb1azx4UFl7S2L267RA3OVHPJYsjOE6QfrVdq+viJ3j/tDtnJiTxxxR54DHsOO3NBGoCHZ5yf
- UQF6f8CQZ4u+MTtdHMXrAqa7j16ga66LUR14Uul51XxvQnw8UV6piVm8RJys3Ux3g
-X-Received: by 2002:adf:f747:: with SMTP id z7mr14126078wrp.194.1629137084718; 
- Mon, 16 Aug 2021 11:04:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSd8JkYzxFzJfSPwA6IZyD+UO8zixS87khBZLCCSveQxwWLtdCOJfKj2KWjV5XTwRGy//BSg==
-X-Received: by 2002:adf:f747:: with SMTP id z7mr14126049wrp.194.1629137084491; 
- Mon, 16 Aug 2021 11:04:44 -0700 (PDT)
-Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id e10sm12272149wrt.82.2021.08.16.11.04.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 11:04:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-storage-daemon: Only display FUSE help when FUSE is
- built-in
-Date: Mon, 16 Aug 2021 20:04:42 +0200
-Message-Id: <20210816180442.2000642-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=O47pu5mh1B3W/peaUXLmf7ZqpjIt+GjL8j54t66fvNI=;
+ b=Rd4FcwMmjJTnoV5zPYMKIyU9sSlr4/Ew1m4h5fHyCea4jW6E5Yycpb7GWbdih3Ghe9
+ WTjtkiuNRmzY6HdvbDnKO0kks2KNzw645Ompmazc1/Sx1O6SBZQA7IU76A37ABq6TNga
+ PAAOow016ZAx/NSRb6dyyugvvRfATp2oHE1hJeHLM7Kc6dvfF2JMB8ml8bGVxlbHm5OW
+ b7zb+XAQISNUKLtLjwibosnvbaXWY5FP4lmoXeP1EJi2KKQidwtbv1TKNtHU05a3Knll
+ vcUkEtZR5d+6JihVWFoUKzl7+wzBfu0qpl1kukMiyEgS8miAmGEN6AZ6b4ZjCWRCDzUw
+ IQAQ==
+X-Gm-Message-State: AOAM532C72OWrD/98sO4v03dkh+ojQ2RfQfZwLPwfvm4ywAFLCKkjl+H
+ OZQiq5KQ7egdXceUGcEEdyaK8TaJu6b7p1hdPQL/I82Dzr9XyU9EDfaMM43N7Qwq7kCEUAWtahm
+ WoNBoVAezvbFVhi8=
+X-Received: by 2002:a62:878c:0:b029:3c5:f729:ef00 with SMTP id
+ i134-20020a62878c0000b02903c5f729ef00mr17672667pfe.43.1629137771577; 
+ Mon, 16 Aug 2021 11:16:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9wLZaYtNCo94UnJH3ioCN3Zs6t4vlzTPd3myeewRTSonsbsCuOB7XC8RSxN9DddXE3aQ6IA==
+X-Received: by 2002:a62:878c:0:b029:3c5:f729:ef00 with SMTP id
+ i134-20020a62878c0000b02903c5f729ef00mr17672656pfe.43.1629137771352; 
+ Mon, 16 Aug 2021 11:16:11 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([179.154.241.196])
+ by smtp.gmail.com with ESMTPSA id s5sm146319pji.56.2021.08.16.11.16.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Aug 2021 11:16:10 -0700 (PDT)
+Subject: Re: [PATCH 1/2] Acceptance Tests: add standard clean up at test
+ tearDown()
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210803193447.3946219-1-crosa@redhat.com>
+ <20210803193447.3946219-2-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <180dc18d-0a8f-7a6a-ca57-940f8d7505ab@redhat.com>
+Date: Mon, 16 Aug 2021 15:16:05 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210803193447.3946219-2-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,52 +104,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qing Wang <qinwang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: wainersm@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When configuring QEMU with --disable-fuse, the qemu-storage-daemon
-still reports FUSE command line options in its help:
+Hi,
 
-  $ qemu-storage-daemon -h
-  Usage: qemu-storage-daemon [options]
-  QEMU storage daemon
+On 8/3/21 4:34 PM, Cleber Rosa wrote:
+> The avocado.Test class, used as the basis of the avocado_qemu.Test
+> class, performs a clean of temporary directories up as part of its own
+> tearDown() implementation.
+>
+> But the avocado_qemu.Test class is currently missing the same clean
+> up, as it implemented its own tearDown() method without resorting to
+> the upper class behavior.
+Good catch Peter!
+>
+> This brings avocado_qemu.Test behavior in sync with the standard
+> avocado.Test behavior and prevents temporary directories from
+> cluttering the test results directory (unless instructed to do so with
+> Avocado's "--keep-tmp" option).
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   tests/acceptance/avocado_qemu/__init__.py | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index 2c4fef3e14..1e807e2e55 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -276,6 +276,7 @@ def tearDown(self):
+>           for vm in self._vms.values():
+>               vm.shutdown()
+>           self._sd = None
+> +        super(Test, self).tearDown()
 
-    --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>
-             [,growable=on|off][,writable=on|off]
-                           export the specified block node over FUSE
+Could you use the new form of super [1] to make the pylint happier?
 
-Remove this help message when FUSE is disabled, to avoid:
+[1] https://www.python.org/dev/peps/pep-3135/
 
-  $ qemu-storage-daemon --export fuse
-  qemu-storage-daemon: --export fuse: Invalid parameter 'fuse'
+Thanks!
 
-Reported-by: Qing Wang <qinwang@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- storage-daemon/qemu-storage-daemon.c | 2 ++
- 1 file changed, 2 insertions(+)
+- Wainer
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index fc8b1506297..10a1a33761d 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -98,10 +98,12 @@ static void help(void)
- "                         export the specified block node over NBD\n"
- "                         (requires --nbd-server)\n"
- "\n"
-+#ifdef CONFIG_FUSE
- "  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>\n"
- "           [,growable=on|off][,writable=on|off]\n"
- "                         export the specified block node over FUSE\n"
- "\n"
-+#endif /* CONFIG_FUSE */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
- "                         configure a QMP monitor\n"
- "\n"
--- 
-2.31.1
+>   
+>       def fetch_asset(self, name,
+>                       asset_hash=None, algorithm=None,
 
 
