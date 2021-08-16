@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3D63ECCF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 05:05:22 +0200 (CEST)
-Received: from localhost ([::1]:56620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2508F3ECE1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 07:46:06 +0200 (CEST)
+Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFSwD-00085D-8A
-	for lists+qemu-devel@lfdr.de; Sun, 15 Aug 2021 23:05:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36662)
+	id 1mFVRk-0001vC-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 01:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mFSuN-00078k-Tu
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 23:03:27 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3109)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mFVNS-0000O7-04; Mon, 16 Aug 2021 01:41:38 -0400
+Received: from ozlabs.org ([203.11.71.1]:36485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mFSu7-0002h7-Sf
- for qemu-devel@nongnu.org; Sun, 15 Aug 2021 23:03:27 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GnzQG1hLKz87s8;
- Mon, 16 Aug 2021 10:59:02 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 16 Aug 2021 11:02:59 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 16 Aug 2021 11:02:58 +0800
-Subject: Re: [PATCH for-6.2 v5 06/14] machine: Prefer cores over sockets in
- smp parsing since 6.2
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-References: <20210813023912.105880-1-wangyanan55@huawei.com>
- <20210813023912.105880-7-wangyanan55@huawei.com>
- <CAM9Jb+jtVV9SMPOKz_hXM-Lz6NqyCu9tEbHG-9uM19VgBCX=jg@mail.gmail.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <353654b0-b3de-2c33-b2c6-43b764d6d51d@huawei.com>
-Date: Mon, 16 Aug 2021 11:02:57 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mFVNN-0000om-RW; Mon, 16 Aug 2021 01:41:37 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Gp31X6t9bz9sWX; Mon, 16 Aug 2021 15:41:20 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1629092480;
+ bh=zVVZ3XD1dY5ub0BgsPxu2RxPdVuWL/Ry8qCHqqHkysM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CaEoUwRt0+Z8MdJspVNR2yRViiEAiUZQn80/3xng6TsY2iEy8sV/2ZlDr2Du3xrKf
+ HooVsoC7SHpmz7M1u/FFoPGSCafk/VU9SsuCjbtSB11D6Qkp9yZ0uL5HR7RYmHkI8J
+ DrnttewHKKrhXRYU3Aag220KM+/RlnpW2tf144ak=
+Date: Mon, 16 Aug 2021 14:37:51 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 24/30] spapr_pci: populate ibm,loc-code
+Message-ID: <YRnrn0EeT8apvqFI@yekko>
+References: <1436284182-5063-1-git-send-email-agraf@suse.de>
+ <1436284182-5063-25-git-send-email-agraf@suse.de>
+ <CAFEAcA9TQKAU94OUuSzYH8A_7CFfSYc+R8-Mz4mai0vwMbjsxA@mail.gmail.com>
+ <YRIAr6HIW742LSZd@yekko>
+ <CAFEAcA-GGNcm09xu5v65jQcghjBnj6cBtb0p0xYhOPPNt1g_sg@mail.gmail.com>
+ <1daaacdf-4725-3350-601f-24025d3944f4@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAM9Jb+jtVV9SMPOKz_hXM-Lz6NqyCu9tEbHG-9uM19VgBCX=jg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.147,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vNWBCNOAsfNQemwb"
+Content-Disposition: inline
+In-Reply-To: <1daaacdf-4725-3350-601f-24025d3944f4@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,272 +63,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew
- Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S .
- Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/8/14 0:30, Pankaj Gupta wrote:
->> In the real SMP hardware topology world, it's much more likely that
->> we have high cores-per-socket counts and few sockets totally. While
->> the current preference of sockets over cores in smp parsing results
->> in a virtual cpu topology with low cores-per-sockets counts and a
->> large number of sockets, which is just contrary to the real world.
->>
->> Given that it is better to make the virtual cpu topology be more
->> reflective of the real world and also for the sake of compatibility,
->> we start to prefer cores over sockets over threads in smp parsing
->> since machine type 6.2 for different arches.
->>
->> In this patch, a boolean "smp_prefer_sockets" is added, and we only
->> enable the old preference on older machines and enable the new one
->> since type 6.2 for all arches by using the machine compat mechanism.
->>
->> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->> Acked-by: Cornelia Huck <cohuck@redhat.com>
->> Reviewed-by: Andrew Jones <drjones@redhat.com>
->> ---
->>   hw/arm/virt.c              |  1 +
->>   hw/core/machine.c          | 35 ++++++++++++++++++++++++++---------
->>   hw/i386/pc.c               | 35 ++++++++++++++++++++++++++---------
->>   hw/i386/pc_piix.c          |  1 +
->>   hw/i386/pc_q35.c           |  1 +
->>   hw/ppc/spapr.c             |  1 +
->>   hw/s390x/s390-virtio-ccw.c |  1 +
->>   include/hw/boards.h        |  1 +
->>   qemu-options.hx            |  3 ++-
->>   9 files changed, 60 insertions(+), 19 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 01165f7f53..7babea40dc 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2797,6 +2797,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
->>   {
->>       virt_machine_6_2_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
-> Will this be set for virt_machine_6_2_?
->
-Hi,
 
-We hope to start to assume cores over sockets on virt_6_2 machines
-and the later, and keep the old style of assuming sockets over cores
-on virt_6_1 machines and the older. Is there any concern here?
+--vNWBCNOAsfNQemwb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Yanan
->>   }
->>   DEFINE_VIRT_MACHINE(6, 1)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index bdce80df32..15b41c52e8 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -748,6 +748,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>
->>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   {
->> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>       unsigned cores   = config->has_cores ? config->cores : 0;
->> @@ -759,7 +760,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>           return;
->>       }
->>
->> -    /* compute missing values, prefer sockets over cores over threads */
->> +    /* compute missing values based on the provided ones */
->>       if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->> @@ -767,14 +768,30 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>
->> -        if (sockets == 0) {
->> -            cores = cores > 0 ? cores : 1;
->> -            threads = threads > 0 ? threads : 1;
->> -            sockets = maxcpus / (cores * threads);
->> -        } else if (cores == 0) {
->> -            threads = threads > 0 ? threads : 1;
->> -            cores = maxcpus / (sockets * threads);
->> -        } else if (threads == 0) {
->> +        if (mc->smp_prefer_sockets) {
->> +            /* prefer sockets over cores before 6.2 */
->> +            if (sockets == 0) {
->> +                cores = cores > 0 ? cores : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (cores * threads);
->> +            } else if (cores == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * threads);
->> +            }
->> +        } else {
->> +            /* prefer cores over sockets since 6.2 */
->> +            if (cores == 0) {
->> +                sockets = sockets > 0 ? sockets : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * threads);
->> +            } else if (sockets == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (cores * threads);
->> +            }
->> +        }
->> +
->> +        /* try to calculate omitted threads at last */
->> +        if (threads == 0) {
->>               threads = maxcpus / (sockets * cores);
->>           }
->>       }
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index afd8b9c283..4b05ff7160 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -717,6 +717,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
->>    */
->>   static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>   {
->> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>       unsigned dies    = config->has_dies ? config->dies : 0;
->> @@ -727,7 +728,7 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       /* directly default dies to 1 if it's omitted */
->>       dies = dies > 0 ? dies : 1;
->>
->> -    /* compute missing values, prefer sockets over cores over threads */
->> +    /* compute missing values based on the provided ones */
->>       if (cpus == 0 && maxcpus == 0) {
->>           sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->> @@ -735,14 +736,30 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       } else {
->>           maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>
->> -        if (sockets == 0) {
->> -            cores = cores > 0 ? cores : 1;
->> -            threads = threads > 0 ? threads : 1;
->> -            sockets = maxcpus / (dies * cores * threads);
->> -        } else if (cores == 0) {
->> -            threads = threads > 0 ? threads : 1;
->> -            cores = maxcpus / (sockets * dies * threads);
->> -        } else if (threads == 0) {
->> +        if (mc->smp_prefer_sockets) {
->> +            /* prefer sockets over cores before 6.2 */
->> +            if (sockets == 0) {
->> +                cores = cores > 0 ? cores : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (dies * cores * threads);
->> +            } else if (cores == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * dies * threads);
->> +            }
->> +        } else {
->> +            /* prefer cores over sockets since 6.2 */
->> +            if (cores == 0) {
->> +                sockets = sockets > 0 ? sockets : 1;
->> +                threads = threads > 0 ? threads : 1;
->> +                cores = maxcpus / (sockets * dies * threads);
->> +            } else if (sockets == 0) {
->> +                threads = threads > 0 ? threads : 1;
->> +                sockets = maxcpus / (dies * cores * threads);
->> +            }
->> +        }
->> +
->> +        /* try to calculate omitted threads at last */
->> +        if (threads == 0) {
->>               threads = maxcpus / (sockets * dies * cores);
->>           }
->>       }
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index fd5c2277f2..9b811fc6ca 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -432,6 +432,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
->>       m->is_default = false;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index b45903b15e..88efb7fde4 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -372,6 +372,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
->>       m->alias = NULL;
->>       compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->>       compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
->> +    m->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index d39fd4e644..a481fade51 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4702,6 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       spapr_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>
->>   DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 4d25278cf2..b40e647883 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -809,6 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
->>   {
->>       ccw_machine_6_2_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->> +    mc->smp_prefer_sockets = true;
->>   }
->>   DEFINE_CCW_MACHINE(6_1, "6.1", false);
->>
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 463a5514f9..2ae039b74f 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -247,6 +247,7 @@ struct MachineClass {
->>       bool nvdimm_supported;
->>       bool numa_mem_supported;
->>       bool auto_enable_numa;
->> +    bool smp_prefer_sockets;
->>       const char *default_ram_id;
->>
->>       HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 06f819177e..451d2cd817 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -238,7 +238,8 @@ SRST
->>       Historically preference was given to the coarsest topology parameters
->>       when computing missing values (ie sockets preferred over cores, which
->>       were preferred over threads), however, this behaviour is considered
->> -    liable to change.
->> +    liable to change. Prior to 6.2 the preference was sockets over cores
->> +    over threads. Since 6.2 the preference is cores over sockets over threads.
->>   ERST
->>
->>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
->> --
->> 2.19.1
->>
-> .
+On Sun, Aug 15, 2021 at 04:36:18PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 8/13/21 5:17 PM, Peter Maydell wrote:
+> > On Tue, 10 Aug 2021 at 05:40, David Gibson <david@gibson.dropbear.id.au=
+> wrote:
+> >>
+> >> On Mon, Aug 09, 2021 at 10:57:00AM +0100, Peter Maydell wrote:
+> >>>
+> >>> Cleanest fix would be to declare 'path' and 'host' as
+> >>>    g_autofree char *path =3D NULL;
+> >>>    g_autofree char *host =3D NULL;
+> >>> and then you can remove all the manual g_free(path) and g_free(host) =
+calls.
+> >>
+> >> Thanks for the report.  I've committed the fix (I hope) below to ppc-f=
+or-6.1:
+> >>
+> >> From 70ae61b510dc571c407b28c46498cae60e60ca66 Mon Sep 17 00:00:00 2001
+> >> From: David Gibson <david@gibson.dropbear.id.au>
+> >> Date: Tue, 10 Aug 2021 14:28:19 +1000
+> >> Subject: [PATCH] spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() =
+with
+> >>  g_autofree
+> >>
+> >> This uses g_autofree to simplify logic in spapr_phb_vfio_get_loc_code(=
+),
+> >> in the process fixing a leak in one of the paths.  I'm told this fixes
+> >> Coverity error CID 1460454
+> >>
+> >> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> >> Fixes: 16b0ea1d852 ("spapr_pci: populate ibm,loc-code")
+> >> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >> ---
+> >>  hw/ppc/spapr_pci.c | 17 ++++++-----------
+> >>  1 file changed, 6 insertions(+), 11 deletions(-)
+> >>
+> >> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> >> index 7a725855f9..13d806f390 100644
+> >> --- a/hw/ppc/spapr_pci.c
+> >> +++ b/hw/ppc/spapr_pci.c
+> >> @@ -782,33 +782,28 @@ static AddressSpace *spapr_pci_dma_iommu(PCIBus =
+*bus, void *opaque, int devfn)
+> >>
+> >>  static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDev=
+ice *pdev)
+> >>  {
+> >> -    char *path =3D NULL, *buf =3D NULL, *host =3D NULL;
+> >> +    g_autofree char *path =3D NULL;
+> >> +    g_autofree char *host =3D NULL;
+> >> +    char *buf =3D NULL;
+> >>
+> >>      /* Get the PCI VFIO host id */
+> >>      host =3D object_property_get_str(OBJECT(pdev), "host", NULL);
+> >>      if (!host) {
+> >> -        goto err_out;
+> >> +        return NULL;
+> >>      }
+> >>
+> >>      /* Construct the path of the file that will give us the DT locati=
+on */
+> >>      path =3D g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
+> >> -    g_free(host);
+> >>      if (!g_file_get_contents(path, &buf, NULL, NULL)) {
+> >> -        goto err_out;
+> >> +        return NULL;
+> >>      }
+> >> -    g_free(path);
+> >>
+> >>      /* Construct and read from host device tree the loc-code */
+> >>      path =3D g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
+> >> -    g_free(buf);
+> >=20
+> > This deletion doesn't look right -- 'buf' is not autofree
+> > (and shouldn't be, since we're returning it).
+>=20
+> Oops, good catch!
 
+Indeed.  Revised version below.  I'll only attempt to push this to 6.1
+if we're going to rc4 for other reasons though.
+
+=46rom 705a10b1cfbe6bcdde37f37f3548845970dc4986 Mon Sep 17 00:00:00 2001
+=46rom: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 10 Aug 2021 14:28:19 +1000
+Subject: [PATCH] spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() with
+ g_autofree
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
+
+This uses g_autofree to simplify logic in spapr_phb_vfio_get_loc_code(),
+in the process fixing a leak in one of the paths.  I'm told this fixes
+Coverity error CID 1460454
+
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 16b0ea1d852 ("spapr_pci: populate ibm,loc-code")
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_pci.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 7a725855f9..7430bd6314 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -782,33 +782,29 @@ static AddressSpace *spapr_pci_dma_iommu(PCIBus *bus,=
+ void *opaque, int devfn)
+=20
+ static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDevice *=
+pdev)
+ {
+-    char *path =3D NULL, *buf =3D NULL, *host =3D NULL;
++    g_autofree char *path =3D NULL;
++    g_autofree char *host =3D NULL;
++    g_autofree char *devspec =3D NULL;
++    char *buf =3D NULL;
+=20
+     /* Get the PCI VFIO host id */
+     host =3D object_property_get_str(OBJECT(pdev), "host", NULL);
+     if (!host) {
+-        goto err_out;
++        return NULL;
+     }
+=20
+     /* Construct the path of the file that will give us the DT location */
+     path =3D g_strdup_printf("/sys/bus/pci/devices/%s/devspec", host);
+-    g_free(host);
+-    if (!g_file_get_contents(path, &buf, NULL, NULL)) {
+-        goto err_out;
++    if (!g_file_get_contents(path, &devspec, NULL, NULL)) {
++        return NULL;
+     }
+-    g_free(path);
+=20
+     /* Construct and read from host device tree the loc-code */
+-    path =3D g_strdup_printf("/proc/device-tree%s/ibm,loc-code", buf);
+-    g_free(buf);
++    path =3D g_strdup_printf("/proc/device-tree%s/ibm,loc-code", devspec);
+     if (!g_file_get_contents(path, &buf, NULL, NULL)) {
+-        goto err_out;
++        return NULL;
+     }
+     return buf;
+-
+-err_out:
+-    g_free(path);
+-    return NULL;
+ }
+=20
+ static char *spapr_phb_get_loc_code(SpaprPhbState *sphb, PCIDevice *pdev)
+--=20
+2.31.1
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--vNWBCNOAsfNQemwb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEZ650ACgkQbDjKyiDZ
+s5JfMRAApUMU4WZWXea4Y1wCw/mkI8yZPCne4WACr1S7VkE6a96XW2i3Ws+sJaq7
+G0Mt+DVs+RGbBLHJLDzkOjiWKkClfd1GV/SF2NmNkRBFPk2Db6758t7Pv3Jcivbj
+ZYMQZE7CR3RdRNkSrLglu9YL/BzzyVNF1DHamGqWUACbTcC5rP/XCOOKbzXNeT7o
+LTBfeaRI+5WEya3xuNA8Ix5BnlWmgkZ8FVCMB8zEmvU5rTG36hAc0WPGL7FFMXjJ
+Vk/E/Q00sBG4/0+4R+B7r3liT7NPQNV0Mb6/J6q0/muscrImiMvminxQ+gZ18NDn
+qZnMbCgX3zyLe7rZx8r7NuWSdBmG2Jc6de21v3PBfNXjaDvh5dMSvgnFW9QamZQ3
+kRZnUx2RaXEgXhpBYqz2Zw9B/0WaBglJhEtZMYux6BkH8JGU/+L5wQx8R4IydxgV
++SesLQHPGi6lsr7tZrXgxUNDOHvMDzf6KWW0eyHgiomujxULr9H1kyASjdsd9sJP
+MmU+KnAUEHhVnoQ2KZ81432QekG1VT+n7/6zp2GAmdvA5EwP4zLajnIW648wIQI6
+QQF4sM2BvfFoJj3Sqh3wGUVfH+XR8iywMTF+Wwas+mmAqXLwxCo4cB7kZgWZM0sL
+ulqnlbJW6cT6bkRbixgSR7tdWzDp2rmX5afk9GE73CUCbCGP9Ag=
+=l6Dj
+-----END PGP SIGNATURE-----
+
+--vNWBCNOAsfNQemwb--
 
