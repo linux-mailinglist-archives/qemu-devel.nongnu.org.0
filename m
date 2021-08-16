@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0D63ED364
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:49:22 +0200 (CEST)
-Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134703ED367
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:52:05 +0200 (CEST)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFb7J-0008AI-7W
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53154)
+	id 1mFb9w-0002Wc-33
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mFb5R-00076p-N1
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:47:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56300)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFb8b-0001pc-1C
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:50:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mFb5P-0002LK-3t
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:47:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFb8Y-000481-L3
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:50:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629114442;
+ s=mimecast20190719; t=1629114636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZFhataG0gl4y6u8jHdK0tdXkqr7AznQGTY1oyXNJpGg=;
- b=QpdTEvCi3xXMVJ+lKbKXGyfVMRrFK/wIhILez61OSUfhPvnyg+fPsE1rrVIcSikjIni3gb
- BK0Gq3VoIlULA3tXPVgzuprHZkddUal6XUd7qtcSTQAOzYn/1kiV4yzUFf+0LFmQDgZahB
- L6WjRYrlTh6mVSG16irOd6ccWRq5/tY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-vlX2kOaVOG6Fv222T-16uQ-1; Mon, 16 Aug 2021 07:47:19 -0400
-X-MC-Unique: vlX2kOaVOG6Fv222T-16uQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B61BB1008064;
- Mon, 16 Aug 2021 11:47:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C9A75D6A1;
- Mon, 16 Aug 2021 11:47:10 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to
- user forks
-In-Reply-To: <YRpGFnvZznlU9RKQ@redhat.com>
-Organization: Red Hat GmbH
-References: <20210812180403.4129067-1-berrange@redhat.com>
- <20210812180403.4129067-3-berrange@redhat.com> <87y291u0st.fsf@redhat.com>
- <YRpGFnvZznlU9RKQ@redhat.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 16 Aug 2021 13:47:08 +0200
-Message-ID: <87v945txvn.fsf@redhat.com>
+ bh=pC0pB23MorfGsHuzEpvAX0K+IWqbk95/OaKkY+cSZNw=;
+ b=C0aC1UCeWzbQ0o5sqd1MD/5+EKwfeAZXyhJbVm6+N7xjP5w/wGYrgcn4p33CTw4FPek/CI
+ VNg4IJn2ShycdrsWksbTacg8gRGAoAZi8qbhkVBCNikUUtaAYoYdGJGGJShEv4c/xpZXJX
+ 1A8ppi+Q8TiSDb37faJ+0md/QkBdXuw=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-8P975GRlPj-m1MPF4z_F0w-1; Mon, 16 Aug 2021 07:50:34 -0400
+X-MC-Unique: 8P975GRlPj-m1MPF4z_F0w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ v3-20020a1709063383b02905b4d1d1e27cso4575816eja.19
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 04:50:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pC0pB23MorfGsHuzEpvAX0K+IWqbk95/OaKkY+cSZNw=;
+ b=oTOoGBbbUN+oF5pXtvSH+Dc1aebnolLo6ePYuxItzzaTza3FvuLFthzMRYVV+ETYKl
+ CZ0e7HVOx1MWcziYuEGwFf7IL2MOQUmaS8nujO2SxZAH4uBTFrnX2kAuYvRweLYBx47W
+ WjX8bYAPpfCwz6/HaSJXpr2Ti9umgLKedJTxUZeinASElAMD5G2suf7k0LATh3FSp5ES
+ 738MLrxyV0l4qSawJAeVcw3st17VygNG0gnr99v0PVZ8TPAPIdRtnMqjKjtDjO9Yn2Kq
+ YbVyf4wfurKVA+Vz8uy5vQErV2vdbt2ZxrFCmEWlTOD0zksgAA04MtPj9osS5a0XQxHM
+ tuwA==
+X-Gm-Message-State: AOAM531IUHQgF9IoUG2PgFn14DRtoXx6r2yXKPvIDBPpkhKMU4vzeSCG
+ 1LZd1ZXaAIs9o17UWknru61h6pVeecAvmjbXwVhn7IEHxvRmDkySardSxYvvZluhwSeZYCqYve0
+ 4Ze19Nl5rHJvrSs8=
+X-Received: by 2002:a17:906:b811:: with SMTP id
+ dv17mr15450451ejb.444.1629114633871; 
+ Mon, 16 Aug 2021 04:50:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1/8th73m8tHIuh62qOvPaG/Fbnpdo2RodI0iLN4ryeoQ23cqmJuzJTKVPXSq1VIR+hXWCQQ==
+X-Received: by 2002:a17:906:b811:: with SMTP id
+ dv17mr15450436ejb.444.1629114633625; 
+ Mon, 16 Aug 2021 04:50:33 -0700 (PDT)
+Received: from redhat.com ([2.55.150.133])
+ by smtp.gmail.com with ESMTPSA id w11sm1118135edc.5.2021.08.16.04.50.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Aug 2021 04:50:33 -0700 (PDT)
+Date: Mon, 16 Aug 2021 07:50:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Subject: Re: [PING][PING] [PATCH v4] vhost: make SET_VRING_ADDR, SET_FEATURES
+ send replies
+Message-ID: <20210816074947-mutt-send-email-mst@kernel.org>
+References: <20210809104824.78830-1-den-plotnikov@yandex-team.ru>
+ <14cad3d1-c99b-32ef-2aa9-803a9eb27096@yandex-team.ru>
+ <b83030bd-26d5-b26e-742b-185e9120a1cc@yandex-team.ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <b83030bd-26d5-b26e-742b-185e9120a1cc@yandex-team.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,225 +99,267 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16 2021, Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Mon, Aug 16, 2021 at 09:53:27AM +0300, Denis Plotnikov wrote:
+> 
+> On 12.08.2021 11:04, Denis Plotnikov wrote:
+> > 
+> > On 09.08.2021 13:48, Denis Plotnikov wrote:
+> > > On vhost-user-blk migration, qemu normally sends a number of commands
+> > > to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+> > > Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+> > > VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+> > > data logging.
+> > > The issue is that qemu doesn't wait for reply from the vhost daemon
+> > > for these commands which may result in races between qemu expectation
+> > > of logging starting and actual login starting in vhost daemon.
+> > > 
+> > > The race can appear as follows: on migration setup, qemu enables
+> > > dirty page
+> > > logging by sending VHOST_USER_SET_FEATURES. The command doesn't
+> > > arrive to a
+> > > vhost-user-blk daemon immediately and the daemon needs some time to
+> > > turn the
+> > > logging on internally. If qemu doesn't wait for reply, after sending the
+> > > command, qemu may start migrateing memory pages to a destination. At
+> > > this time,
+> > > the logging may not be actually turned on in the daemon but some
+> > > guest pages,
+> > > which the daemon is about to write to, may have already been transferred
+> > > without logging to the destination. Since the logging wasn't turned on,
+> > > those pages won't be transferred again as dirty. So we may end up with
+> > > corrupted data on the destination.
+> > > The same scenario is applicable for "used ring" data logging, which is
+> > > turned on with VHOST_USER_SET_VRING_ADDR command.
+> > > 
+> > > To resolve this issue, this patch makes qemu wait for the command result
+> > > explicitly if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
+> > > logging enabled.
+> > > 
+> > > Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
 
-> On Mon, Aug 16, 2021 at 12:44:02PM +0200, Cornelia Huck wrote:
->> On Thu, Aug 12 2021, Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote=
-:
->>=20
->> > Currently pushes to user forks run the same set of build / test jobs a=
-s
->> > pushes to the main repo. This results in creation of 120+ individual
->> > jobs. While it is useful for subsystem maintainers, and even regular
->> > contributors to be able to run the full set of jobs, it is wasteful to
->> > run all of them all the time.
->> >
->> > In addition, with the expected change in GitLab to set a finite CI
->> > minute allowance on all users we need to be much more conservative.
->> >
->> > This patch thus sets up rules so that no CI jobs will run by default
->> > on push, except
->> >
->> >  - Pushes to branch name prefix 'staging' on 'qemu-project' repo
->> >    run full set of jobs
->> >  - Pushes to 'master' branch, only run jobs needed to publish
->> >    the website.
->> >
->> > In any pushes to users forks, CI is now strictly opt-in. The pipeline
->> > will always be created by every singe job will be marked manual. You
->> > can then use the web UI to start individual jobs.
->>=20
->> Is a random user notified in some way that a pipeline with jobs that can
->> be triggered manually has been created?
->
-> I don't believe there's any notification.
 
-So a random user might be entirely unaware that they could trigger some
-jobs. OTOH, they already consciously pushed to gitlab...
+This looks reasonable. This change is too scary for 6.1 so
+I think it should wait for 6.2.
 
->
->
->> > The minimal job set covers:
->> >
->> >   * Fedora, CentOS, Ubuntu & Debian system emulator builds
->> >     to cover all arch targets.
->> >   * Linux user static build
->> >   * Cross build i386 (to identify any 32-bit build issues)
->> >   * Cross build s390x (to identify any big endian build issues)
->> >   * Containers needed for the above
->> >   * Cirrus CI FreeBSD 12 and macOS 11 (to identify non-Linux issues)
->> >   * Simple checks - python unittests, DCO check, checkpatch.pl, etc
->> >
->> > This gives about 30 jobs instead of 120 from the "Full" group. It
->> > is likely reasonable to cut the minimal set down even more, as IMHO
->> > there are too many system emulator jobs there.
->>=20
->> Where do you think we should start to cut them down? Limit the set of
->> tested arch targets to the most common ones?
->
-> Some of our targets are obviously much more important and
-> frequently changed than others.  For contributors our goal is
-> to mimimize breakage after patches are submitted. Most of our
-> contributors changes will be well covered by x86-64 + aarch64
-> alone. Other targets give varying degrees of extra benefit.
+Thanks!
 
-I'd probably add s390x to that list, not just because of personal bias
-:), but also because it has a unique set of devices, is big endian, and
-has been broken in the past.
-
->
-> On the other hand the contributors are likely to have tested
-> x86_64 or aarch64 themselves since that'll be their dev
-> platform. So the benefit of CI is testing bits that they
-> didnt bother to test.
-
-Contributors are unlikely to have tested s390x unless they explicitly
-develop for that target, so that might be a net benefit.
-
->
-> No clear easy answer here, but I feel like we could benefit
-> from classifying our target archs tier 1/2/3 and tailoring
-> our default testing matrix accordingly.
-
-Nod, that seems useful in any case.
-
->
-> The other way to cut down the "minimal" set is to reduce
-> the OS containers that we build. The jobs above end up
-> requiring something like 8 container builds - we should
-> try to cut this down to perhaps 2-3 container builds
-
-Yes, that is also what usually takes ages.
-
->
->> Generally speaking, this makes sense; but I think we have different
->> situations which need different kinds of testing, and we should make it
->> as easy as possible to run the right set of tests.
->>=20
->> (a) an individual contributor is doing some changes
->>=20
->> In that case, I assume (hope?) that the contributor has actually
->> compiled the code for the relevant targets and has done some manual
->> testing. Running acceptance tests locally would also be good, or things
->> like iotests or check-tcg, when applicable.
->
-> With my contributor hat on, I like GitLab CI to validate the platforms
-> I always forget. Changes I do are 95% tested on Fedora x86_64. I have
-> often broken stuff for non-Linux builds (Windows in particular), or
-> have broken non-x86_64 target arches. CI lets me see this before
-> sending patches.  Unfortunately this means I benefit most from the
-> "full" set, but this won't be sustainable with limited CI minutes :-(
-
-Agreed :(
-
->
-> When I'm working on changing gitlab CI rules, then I burn loads of
-> minutes which is especially troubling - limited CI minutes will make
-> it very hard for me to debug future CI rule changes :-(
-
-I hope that will not make gitlab CI a complete non-starter -- if you
-cannot easily debug a test case that is failing, it's mostly
-useless. We've seen too many cases where a failure could not be
-reproduced when the test case was running locally.
-
->
->> (b) a subsystem maintainer is queuing some changes
->>=20
->> Some more comprehensive automated testing, and likely some
->> subsystem-specific testing on top (like testing that requires
->> specialized hardware, manual interventions, etc.) Since the introduction
->> of gitlab-ci, I had relied on what you call the 'full' set to be run
->> automatically when I push to my staging branch, plus my manual
->> testing. Prior to that, I relied on patchew and ran tests
->> locally. Drawbacks of that: it hogs my development machine, and it is
->> easy to forget something.
->
->> If I pull from a sub-submaintainer, I assume that everything is already
->> in good order, and only do some very light sanity/integration
->> checking. Although we're hardly doing subsystem pull request nowadays.
->
-> Yes, I think that 'minimal' ought to be a good "smoke test" to run
-> when queuing changes, on the assumption you'll run a full/gating set
-> before sending the final pull.
->
->> (c) a subsystem maintainer is preparing a pull request
->>=20
->> Ideally, that should run the 'gating' set, to eliminate needless bounces
->> of the pull request; plus some subsystem-specific manual testing on
->> top. In practice, the 'full' set might be good enough.
->
-> Yeah, the full/gating set is what I would thing subsys maintainers
-> would want to use, to minimize risk that Peter's tests throw back
-> the merge due to failure. The only difference of gating vs full
-> is whether the acceptance tests run.
-
-I can at least run a subset of the acceptance tests locally, but I think
-I may be missing some platforms? Still, better than nothing.
-
->
->> Couple of ideas from my side:
->> - include some scripts/make targets that guide an individual contributor
->>   to run a good subset of automated tests locally
->
-> We've got various make targets right now, but they don't guide users
-> as to what is the most beneficial thing to run.
-
-There's also the question what the most beneficial subset actually
-is. "Run make check-tcg when you are doing tcg changes" is an unfortunately
-rare obvious case.
-
->
->> - define a 'ci-subsystem' set that covers usual pain points for a
->>   subsystem
->> - have subsystem maintainers run a pull req test in the qemu-project
->>   context (i.e. using extra CI minutes that the project may have), or
->>   put them on a special list on subsystem maintainers so they can use
->>   more minutes
->
-> I think ultimately we should be looking to take email out of the loop
-> for merging pull requests from subsys maintainers.
->
-> If we expect subsys maintainers to use gitlab CI before sending, then
-> we have a crazy situation where subsys maintainers pushes to gitlab,
-> has CI run, then send email PULL to list, then Peter downloads and
-> applies the mails, and pushes back to gitlab and runs CI again and
-> then pushes to gitlab again for master.
-
-Hm, I thought Peter pulled the subsys maintainers' signed tags?
-
-[As a side remark, I recommend using b4 for applying patches. The only
-advantage for me when pulling vs applying with b4 is the usage of signed
-tags. Not that I needed to pull anything recently :)]
-
->
-> It would be much simpler if the subsys maintainer pushes to gitlab
-> and opens a merge request. This would trigger the CI gating runs,
-> consuming minutes from the QEMU project, not the maintainer. Peter
-> can ignore merge request until CI passes. The subsys maintainer
-> is responsible for getting CI to pass. Once CI passes, the merge
-> request could be apporved and merged. The person approving it for
-> merge should really only need to validate the the non-automatable
-> stuff. eg it meets the current freeze rules; the maintainer is
-> the owner of the subsystem being modified, etc.
-
-I hate gitlab MR tooling. (Same for any forge. I'm contemplating using
-magit/forge to at least avoid a medium break; anyone been using it
-sucessfully?) At the very least, we should have notifications about pull
-requests and when they are merged on the mailing list, just to keep
-information about development in one page.
-
->
-> Of course this relies on us being able to use GitLab for 100% of
-> merge time gating. Cleber's custom runners recently enabled get
-> us closer, but I think Peter still uses some other hardware
-> outside of GitLab for some testing.
+> > > ---
+> > > v3 -> v4:
+> > >    * join acked reply and get_features in enforce_reply [mst]
+> > >    * typos, rewording, cosmetic changes [mst]
+> > > 
+> > > v2 -> v3:
+> > >    * send VHOST_USER_GET_FEATURES to flush out outstanding messages
+> > > [mst]
+> > > 
+> > > v1 -> v2:
+> > >    * send reply only when logging is enabled [mst]
+> > > 
+> > > v0 -> v1:
+> > >    * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
+> > > ---
+> > >   hw/virtio/vhost-user.c | 139 +++++++++++++++++++++++++++++------------
+> > >   1 file changed, 98 insertions(+), 41 deletions(-)
+> > > 
+> > > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> > > index ee57abe04526..5bb9254acd21 100644
+> > > --- a/hw/virtio/vhost-user.c
+> > > +++ b/hw/virtio/vhost-user.c
+> > > @@ -1095,23 +1095,6 @@ static int vhost_user_set_mem_table(struct
+> > > vhost_dev *dev,
+> > >       return 0;
+> > >   }
+> > >   -static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+> > > -                                     struct vhost_vring_addr *addr)
+> > > -{
+> > > -    VhostUserMsg msg = {
+> > > -        .hdr.request = VHOST_USER_SET_VRING_ADDR,
+> > > -        .hdr.flags = VHOST_USER_VERSION,
+> > > -        .payload.addr = *addr,
+> > > -        .hdr.size = sizeof(msg.payload.addr),
+> > > -    };
+> > > -
+> > > -    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > > -        return -1;
+> > > -    }
+> > > -
+> > > -    return 0;
+> > > -}
+> > > -
+> > >   static int vhost_user_set_vring_endian(struct vhost_dev *dev,
+> > >                                          struct vhost_vring_state *ring)
+> > >   {
+> > > @@ -1288,72 +1271,146 @@ static int vhost_user_set_vring_call(struct
+> > > vhost_dev *dev,
+> > >       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+> > >   }
+> > >   -static int vhost_user_set_u64(struct vhost_dev *dev, int request,
+> > > uint64_t u64)
+> > > +
+> > > +static int vhost_user_get_u64(struct vhost_dev *dev, int request,
+> > > uint64_t *u64)
+> > >   {
+> > >       VhostUserMsg msg = {
+> > >           .hdr.request = request,
+> > >           .hdr.flags = VHOST_USER_VERSION,
+> > > -        .payload.u64 = u64,
+> > > -        .hdr.size = sizeof(msg.payload.u64),
+> > >       };
+> > >   +    if (vhost_user_one_time_request(request) && dev->vq_index != 0) {
+> > > +        return 0;
+> > > +    }
+> > > +
+> > >       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > >           return -1;
+> > >       }
+> > >   +    if (vhost_user_read(dev, &msg) < 0) {
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    if (msg.hdr.request != request) {
+> > > +        error_report("Received unexpected msg type. Expected %d
+> > > received %d",
+> > > +                     request, msg.hdr.request);
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    if (msg.hdr.size != sizeof(msg.payload.u64)) {
+> > > +        error_report("Received bad msg size.");
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    *u64 = msg.payload.u64;
+> > > +
+> > >       return 0;
+> > >   }
+> > >   -static int vhost_user_set_features(struct vhost_dev *dev,
+> > > -                                   uint64_t features)
+> > > +static int vhost_user_get_features(struct vhost_dev *dev, uint64_t
+> > > *features)
+> > >   {
+> > > -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
+> > > +    return vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features);
+> > >   }
+> > >   -static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+> > > -                                            uint64_t features)
+> > > +static int enforce_reply(struct vhost_dev *dev,
+> > > +                         const VhostUserMsg *msg)
+> > >   {
+> > > -    return vhost_user_set_u64(dev,
+> > > VHOST_USER_SET_PROTOCOL_FEATURES, features);
+> > > +    uint64_t dummy;
+> > > +
+> > > +    if (msg->hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
+> > > +        return process_message_reply(dev, msg);
+> > > +    }
+> > > +
+> > > +   /*
+> > > +    * We need to wait for a reply but the backend does not
+> > > +    * support replies for the command we just sent.
+> > > +    * Send VHOST_USER_GET_FEATURES which makes all backends
+> > > +    * send a reply.
+> > > +    */
+> > > +    return vhost_user_get_features(dev, &dummy);
+> > >   }
+> > >   -static int vhost_user_get_u64(struct vhost_dev *dev, int request,
+> > > uint64_t *u64)
+> > > +static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+> > > +                                     struct vhost_vring_addr *addr)
+> > >   {
+> > >       VhostUserMsg msg = {
+> > > -        .hdr.request = request,
+> > > +        .hdr.request = VHOST_USER_SET_VRING_ADDR,
+> > >           .hdr.flags = VHOST_USER_VERSION,
+> > > +        .payload.addr = *addr,
+> > > +        .hdr.size = sizeof(msg.payload.addr),
+> > >       };
+> > >   -    if (vhost_user_one_time_request(request) && dev->vq_index != 0) {
+> > > -        return 0;
+> > > +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> > > + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> > > +
+> > > +    /*
+> > > +     * wait for a reply if logging is enabled to make sure
+> > > +     * backend is actually logging changes
+> > > +     */
+> > > +    bool wait_for_reply = addr->flags & (1 << VHOST_VRING_F_LOG);
+> > > +
+> > > +    if (reply_supported && wait_for_reply) {
+> > > +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> > >       }
+> > >         if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > >           return -1;
+> > >       }
+> > >   -    if (vhost_user_read(dev, &msg) < 0) {
+> > > -        return -1;
+> > > +    if (wait_for_reply) {
+> > > +        return enforce_reply(dev, &msg);
+> > >       }
+> > >   -    if (msg.hdr.request != request) {
+> > > -        error_report("Received unexpected msg type. Expected %d
+> > > received %d",
+> > > -                     request, msg.hdr.request);
+> > > -        return -1;
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int vhost_user_set_u64(struct vhost_dev *dev, int request,
+> > > uint64_t u64,
+> > > +                              bool wait_for_reply)
+> > > +{
+> > > +    VhostUserMsg msg = {
+> > > +        .hdr.request = request,
+> > > +        .hdr.flags = VHOST_USER_VERSION,
+> > > +        .payload.u64 = u64,
+> > > +        .hdr.size = sizeof(msg.payload.u64),
+> > > +    };
+> > > +
+> > > +    if (wait_for_reply) {
+> > > +        bool reply_supported =
+> > > virtio_has_feature(dev->protocol_features,
+> > > + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> > > +        if (reply_supported) {
+> > > +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> > > +        }
+> > >       }
+> > >   -    if (msg.hdr.size != sizeof(msg.payload.u64)) {
+> > > -        error_report("Received bad msg size.");
+> > > +    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > >           return -1;
+> > >       }
+> > >   -    *u64 = msg.payload.u64;
+> > > +    if (wait_for_reply) {
+> > > +        return enforce_reply(dev, &msg);
+> > > +    }
+> > >         return 0;
+> > >   }
+> > >   -static int vhost_user_get_features(struct vhost_dev *dev,
+> > > uint64_t *features)
+> > > +static int vhost_user_set_features(struct vhost_dev *dev,
+> > > +                                   uint64_t features)
+> > >   {
+> > > -    return vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features);
+> > > +    /*
+> > > +     * wait for a reply if logging is enabled to make sure
+> > > +     * backend is actually logging changes
+> > > +     */
+> > > +    bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
+> > > +
+> > > +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
+> > > +                              log_enabled);
+> > > +}
+> > > +
+> > > +static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+> > > +                                            uint64_t features)
+> > > +{
+> > > +    return vhost_user_set_u64(dev,
+> > > VHOST_USER_SET_PROTOCOL_FEATURES, features,
+> > > +                              false);
+> > >   }
+> > >     static int vhost_user_set_owner(struct vhost_dev *dev)
 
 
