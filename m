@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8053EDDD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 21:23:15 +0200 (CEST)
-Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDA83EDDF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 21:38:36 +0200 (CEST)
+Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFiCY-0006N2-2H
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 15:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48144)
+	id 1mFiRP-00030Z-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 15:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFi52-0000VH-4X; Mon, 16 Aug 2021 15:15:28 -0400
-Received: from [201.28.113.2] (port=32515 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFi50-00046X-4g; Mon, 16 Aug 2021 15:15:27 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 16 Aug 2021 16:14:32 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 086BE801091;
- Mon, 16 Aug 2021 16:14:32 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH for-6.2 2/2] target/ppc: Don't swap 64-bit elements of AVR in
- gdbstub for user mode
-Date: Mon, 16 Aug 2021 16:13:16 -0300
-Message-Id: <20210816191316.1163622-3-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210816191316.1163622-1-matheus.ferst@eldorado.org.br>
-References: <20210816191316.1163622-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mFiQT-0002LP-UB
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:37:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mFiQQ-0002Oo-2m
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:37:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629142651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JeZH8MllqQdOwHHSTizb2K1J1u00tFh0j28qXTzPIBQ=;
+ b=gaxlDwNnJrYhSc+IU56H2BILQAO3xsFp34dwildVg0xKi/oez2XaWl5QiJLLGdeK8bhF0K
+ HuHNf0+DqWSw73JCnZGWgWZyfd0f2FdzQC1roE3wDzntd4umxvyCgZ7V3qhK+H61ts0S8w
+ KM02Mn0SSa9UmcPlenF2D7sjX0sVnJY=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-8QcC9mRGNxWbDNe2yyy2cg-1; Mon, 16 Aug 2021 15:37:29 -0400
+X-MC-Unique: 8QcC9mRGNxWbDNe2yyy2cg-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ i18-20020aca2b120000b02902678052797bso6963065oik.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 12:37:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JeZH8MllqQdOwHHSTizb2K1J1u00tFh0j28qXTzPIBQ=;
+ b=EdGqoqzNPYuCRriIqxd96M2faiNWHbaoq1s5Pgqj/p4J6g2ziZ5LA1fACa9X0p7bPk
+ FzJBJn9uUKVeejM1dO73d4ICllS0Ys4Fj+xq+NORpmoKMOtfo2w/mmFP7QvyMxC+XWi/
+ /tgtdLL0tJGhc9rG/9AcQIbA8EeuqmnztLEQ6FA4Q1Wf7N5rYtX5pKpPcxtbnD15s0vD
+ 9fTdz3lXS6Ix8QumqtjMlbrJJ/1OHUJDks4YscTgKYHk5TXeYK+PHIHN+bs2GEXeRsB0
+ ymkgHi8r00FEeRLAIz0bZNvGDslbrxjhknJb9k2Ri3E7Hht+pv4rJSdkzbHP2mI3OBKd
+ k7CA==
+X-Gm-Message-State: AOAM532LEyma96dgxk5uO3TAIzcJWWKQ/xlBPJ/If9CxKo0l5/voEDrl
+ K3BKI91pWbysPYdLfDJGTFv9yBl/TW238oO/m22SsycKO7K2LZnx+rAtOT/iTcv/wU3S+if2V8a
+ PjrkHlKAn8lkAu7/sdxr1u6VVal1FbWw=
+X-Received: by 2002:a05:6808:f94:: with SMTP id
+ o20mr351338oiw.112.1629142648976; 
+ Mon, 16 Aug 2021 12:37:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcUEfZZPbNxziAbXvMnSUnzNvHcKKRFWh8GF+hjainPJScosNkFxyDCvSRxum2Md+IgRLYh/6r7Pd4CDJDsbA=
+X-Received: by 2002:a05:6808:f94:: with SMTP id
+ o20mr351321oiw.112.1629142648872; 
+ Mon, 16 Aug 2021 12:37:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 Aug 2021 19:14:32.0492 (UTC)
- FILETIME=[F19A2EC0:01D792D2]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.825,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210730201846.5147-1-niteesh.gs@gmail.com>
+ <20210730201846.5147-8-niteesh.gs@gmail.com>
+In-Reply-To: <20210730201846.5147-8-niteesh.gs@gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 16 Aug 2021 15:37:17 -0400
+Message-ID: <CAFn=p-ahiZre_UVRLWH5rRbgHpNcDOHTMNuhsiR=kU=16t1afA@mail.gmail.com>
+Subject: Re: [PATCH v3 07/13] python: add optional pygments dependency
+To: G S Niteesh Babu <niteesh.gs@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000dff2bb05c9b2547c"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,89 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+--000000000000dff2bb05c9b2547c
+Content-Type: text/plain; charset="UTF-8"
 
-As vector registers are stored in host endianness, we shouldn't swap its
-64-bit elements in user mode to call gdb_get_reg128. Add a 16-byte case
-in ppc_maybe_bswap_register to handle the reordering of elements in
-softmmu and remove avr_need_swap which is now unused.
+On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+wrote:
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/gdbstub.c | 32 +++++++-------------------------
- 1 file changed, 7 insertions(+), 25 deletions(-)
+> Added pygments as optional dependency for AQMP TUI.
+> This is required for the upcoming syntax highlighting feature
+> in AQMP TUI.
+> The dependency has also been added in the devel optional group.
+>
+> Added mypy 'ignore_missing_imports' for pygments since it does
+> not have any type stubs.
+>
+> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+>
 
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 09ff1328d4..011016edfa 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -101,6 +101,8 @@ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
-         bswap32s((uint32_t *)mem_buf);
-     } else if (len == 8) {
-         bswap64s((uint64_t *)mem_buf);
-+    } else if (len == 16) {
-+        bswap128s((Int128 *)mem_buf);
-     } else {
-         g_assert_not_reached();
-     }
-@@ -389,15 +391,6 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
- }
- #endif
- 
--static bool avr_need_swap(CPUPPCState *env)
--{
--#ifdef HOST_WORDS_BIGENDIAN
--    return msr_le;
--#else
--    return !msr_le;
--#endif
--}
--
- #if !defined(CONFIG_USER_ONLY)
- static int gdb_find_spr_idx(CPUPPCState *env, int n)
- {
-@@ -486,14 +479,9 @@ static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
- 
-     if (n < 32) {
-         ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        if (!avr_need_swap(env)) {
--            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
--        } else {
--            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
--        }
-+        gdb_get_reg128(buf, avr->VsrD(0) , avr->VsrD(1));
-         mem_buf = gdb_get_reg_ptr(buf, 16);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
-+        ppc_maybe_bswap_register(env, mem_buf, 16);
-         return 16;
-     }
-     if (n == 32) {
-@@ -515,15 +503,9 @@ static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
- {
-     if (n < 32) {
-         ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
--        if (!avr_need_swap(env)) {
--            avr->u64[0] = ldq_p(mem_buf);
--            avr->u64[1] = ldq_p(mem_buf + 8);
--        } else {
--            avr->u64[1] = ldq_p(mem_buf);
--            avr->u64[0] = ldq_p(mem_buf + 8);
--        }
-+        ppc_maybe_bswap_register(env, mem_buf, 16);
-+        avr->VsrD(0) = ldq_p(mem_buf);
-+        avr->VsrD(1) = ldq_p(mem_buf + 8);
-         return 16;
-     }
-     if (n == 32) {
--- 
-2.25.1
+LGTM
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+--000000000000dff2bb05c9b2547c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S N=
+iteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>Added pygments as optional dependency for AQMP TUI.<br>
+This is required for the upcoming syntax highlighting feature<br>
+in AQMP TUI.<br>
+The dependency has also been added in the devel optional group.<br>
+<br>
+Added mypy &#39;ignore_missing_imports&#39; for pygments since it does<br>
+not have any type stubs.<br>
+<br>
+Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
+ target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br></blockquote><div><br></=
+div><div>LGTM</div><div><br></div><div>Reviewed-by: John Snow &lt;<a href=
+=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;<br></div></div></div>
+
+--000000000000dff2bb05c9b2547c--
 
 
