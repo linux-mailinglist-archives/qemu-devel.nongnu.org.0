@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001F93EDF0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:07:38 +0200 (CEST)
-Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0163EDF10
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:08:36 +0200 (CEST)
+Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFjpa-0006hH-1U
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
+	id 1mFjqV-0007sJ-L0
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mFjoB-0004oF-Hf
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54140)
+ id 1mFjoD-0004sy-Hx
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mFjo9-0004pB-Uy
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:11 -0400
+ id 1mFjoB-0004qw-DT
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629147968;
+ s=mimecast20190719; t=1629147970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0A/Shx2phoNgH0FdRIi4RQtIIQJcyCzOH7p+BQWTwUY=;
- b=cmrUFipOVgYCdpyaY0q3S/eDOVsJvbymdTooi2ui5xkH/8YvYEmsqRDkg6CXnH0XMErl1g
- SXjPystLj5TM3xiEUw4BFuI7gZ07fGmaoe3A3f5vqWdHAehIPI10S0J+lIHanc+tNDay5d
- tN7evPUe50dYTRGL/Q+A3g8uXG30iJg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v9lgIWZB9Q254+CZPCuIXjxB1U0EFOzcnpWPNs/WP6M=;
+ b=cvzJr+wBed5cPoVvfpskBA2gNTCVowa39Pp+A4CHXCxbEU1ab0TgE9er5bpnQ/92mQkDKK
+ UCxZkCwf6ZC5qDkEOxXBZw/CPHCXb3eBd8Eyu6S0ILVHqlWTg7S8tvliUN+uTHWYoynAR4
+ 9aM+uU/vjydDxgHDaJ9GFxE/Qj1zbMM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-RGid5mcqM3alxTrVn6F3tA-1; Mon, 16 Aug 2021 17:06:05 -0400
-X-MC-Unique: RGid5mcqM3alxTrVn6F3tA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-585-cVNYUExAPy2zedTstS7rxg-1; Mon, 16 Aug 2021 17:06:07 -0400
+X-MC-Unique: cVNYUExAPy2zedTstS7rxg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 762E2192CC42;
- Mon, 16 Aug 2021 21:06:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A47A3802922;
+ Mon, 16 Aug 2021 21:06:06 +0000 (UTC)
 Received: from localhost (unknown [10.22.10.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CFA119C44;
- Mon, 16 Aug 2021 21:06:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B6A22C00F;
+ Mon, 16 Aug 2021 21:06:06 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/1] Last minute fix for -rc4
-Date: Mon, 16 Aug 2021 17:06:02 -0400
-Message-Id: <20210816210603.42337-1-ehabkost@redhat.com>
+Subject: [PULL 1/1] machine: Disallow specifying topology parameters as zero
+Date: Mon, 16 Aug 2021 17:06:03 -0400
+Message-Id: <20210816210603.42337-2-ehabkost@redhat.com>
+In-Reply-To: <20210816210603.42337-1-ehabkost@redhat.com>
+References: <20210816210603.42337-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -76,44 +79,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bd44d64a3879bb6b0ca19bff3be16e0093502fac=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021=
--08-11' into staging (2021-08-15 16:46:23 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request=0D
-=0D
-for you to fetch changes up to bbd0db9dc4751b6ab0884e92421fa4b2c3d3b532:=0D
-=0D
-  machine: Disallow specifying topology parameters as zero (2021-08-16 16:5=
-5:39 -0400)=0D
-=0D
-----------------------------------------------------------------=0D
-Last minute fix for -rc4=0D
-=0D
-Bug fix:=0D
-* Disallow specifying topology parameters as zero=0D
-  (Yanan Wang)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Yanan Wang (1):=0D
-  machine: Disallow specifying topology parameters as zero=0D
-=0D
- hw/core/machine.c | 14 ++++++++++++++=0D
- qapi/machine.json |  6 +++---=0D
- qemu-options.hx   | 12 +++++++-----=0D
- 3 files changed, 24 insertions(+), 8 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+From: Yanan Wang <wangyanan55@huawei.com>
+
+In the SMP configuration, we should either provide a topology
+parameter with a reasonable value (greater than zero) or just
+omit it and QEMU will compute the missing value. Users should
+have never provided a configuration with parameters as zero
+(e.g. -smp 8,sockets=0) which should be treated as invalid.
+
+But commit 1e63fe68580 (machine: pass QAPI struct to mc->smp_parse)
+has added some doc which implied that 'anything=0' is valid and
+has the same semantics as omitting a parameter.
+
+To avoid meaningless configurations possibly introduced by users
+in the future and consequently a necessary deprecation process,
+fix the doc and also add the corresponding sanity check.
+
+Fixes: 1e63fe68580 (machine: pass QAPI struct to mc->smp_parse)
+Suggested-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+Tested-by: Daniel P. Berrange <berrange@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20210816024522.143124-2-wangyanan55@huawei.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ hw/core/machine.c | 14 ++++++++++++++
+ qapi/machine.json |  6 +++---
+ qemu-options.hx   | 12 +++++++-----
+ 3 files changed, 24 insertions(+), 8 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 54e040587dd..a7e119469aa 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -832,6 +832,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
++    /*
++     * A specified topology parameter must be greater than zero,
++     * explicit configuration like "cpus=0" is not allowed.
++     */
++    if ((config->has_cpus && config->cpus == 0) ||
++        (config->has_sockets && config->sockets == 0) ||
++        (config->has_dies && config->dies == 0) ||
++        (config->has_cores && config->cores == 0) ||
++        (config->has_threads && config->threads == 0) ||
++        (config->has_maxcpus && config->maxcpus == 0)) {
++        error_setg(errp, "CPU topology parameters must be greater than zero");
++        goto out_free;
++    }
++
+     mc->smp_parse(ms, config, errp);
+     if (*errp) {
+         goto out_free;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index c3210ee1fb2..9272cb3cf8b 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1288,8 +1288,8 @@
+ ##
+ # @SMPConfiguration:
+ #
+-# Schema for CPU topology configuration.  "0" or a missing value lets
+-# QEMU figure out a suitable value based on the ones that are provided.
++# Schema for CPU topology configuration. A missing value lets QEMU
++# figure out a suitable value based on the ones that are provided.
+ #
+ # @cpus: number of virtual CPUs in the virtual machine
+ #
+@@ -1297,7 +1297,7 @@
+ #
+ # @dies: number of dies per socket in the CPU topology
+ #
+-# @cores: number of cores per thread in the CPU topology
++# @cores: number of cores per die in the CPU topology
+ #
+ # @threads: number of threads per core in the CPU topology
+ #
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 83aa59a920f..aee622f577d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -227,11 +227,13 @@ SRST
+     of computing the CPU maximum count.
+ 
+     Either the initial CPU count, or at least one of the topology parameters
+-    must be specified. Values for any omitted parameters will be computed
+-    from those which are given. Historically preference was given to the
+-    coarsest topology parameters when computing missing values (ie sockets
+-    preferred over cores, which were preferred over threads), however, this
+-    behaviour is considered liable to change.
++    must be specified. The specified parameters must be greater than zero,
++    explicit configuration like "cpus=0" is not allowed. Values for any
++    omitted parameters will be computed from those which are given.
++    Historically preference was given to the coarsest topology parameters
++    when computing missing values (ie sockets preferred over cores, which
++    were preferred over threads), however, this behaviour is considered
++    liable to change.
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-- 
+2.31.1
 
 
