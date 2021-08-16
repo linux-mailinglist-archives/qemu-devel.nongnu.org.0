@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F3E3ED2B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:00:08 +0200 (CEST)
-Received: from localhost ([::1]:35020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6E3ED2D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:03:52 +0200 (CEST)
+Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFaLe-0002aJ-Jr
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:00:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
+	id 1mFaPH-0004pw-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFaJw-0001F6-SL; Mon, 16 Aug 2021 06:58:20 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFaJv-0006M6-4a; Mon, 16 Aug 2021 06:58:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id g138so11282456wmg.4;
- Mon, 16 Aug 2021 03:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q48U9lKwPk3sJBewfZqPDfHY8yE7N5XjZFJVeemTTa0=;
- b=OySPQYB0KqAFwtA7W8OM8/XhWGGpTrfcUmBaDhGN8WysK3CIWUv2acmJ0fbgFCGMz0
- pk+GxWWbLfR5ABYayEIThK1buhQXcoISvTy9LP51O28jpIIXxUuOEc+Jnynt0+NHr1Nf
- jDVWoMp8oxnZCpA907rmswT3glc8CRC73ylBLYdAl7Wp/u61BlinkoHv6psfbkpa74+1
- N8MZdZoMu+35l6BcXXKjSNNx99U1ANMAaOR54lNX3BfTkCSuyyF5/gM6C3Pt+YTBmGeF
- +rdsKKAudxO7L23iyPASGWRKbOUv3Wk/+uPkaKgVsjAX9nfckI6VsDX9VqfUFHXNCTTr
- RaPA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFaOP-000490-Fz
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFaOL-0001sF-AL
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:02:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629111772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gV7peWRPRBF+yC8fWVyVayA1OMho4W3kqGxtBmF6o04=;
+ b=QeheWGTbQ+yxLCImiOu2Ou05otVAFh+UilU1M6fJtztG8lMZvTBqEKqwQuLvM5QLU3EPgl
+ Q4d4UR01TeSZ37GRGq07CG5XU+pM/SsZmUVr5N5G6G+SComYQLWXBZve4LujMMRtpNodR/
+ sw57ZwcIanFVHfkvPCYnHl+8iUaTkMk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-BS9OCEBINcKjuH1cCH9PQA-1; Mon, 16 Aug 2021 07:02:50 -0400
+X-MC-Unique: BS9OCEBINcKjuH1cCH9PQA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q19-20020adfbb93000000b00156a96f5178so2013460wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 04:02:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Q48U9lKwPk3sJBewfZqPDfHY8yE7N5XjZFJVeemTTa0=;
- b=W3gRhWXa0OzsfEkBcxFx9Jpqk+5r6qwBP1qkqqZJJRX8NEMDDtk7gOdJ3KNSCNXs6j
- ogOuTKgm2Z5Y2DmrPu5hucaExKIaUHtPb+BNfVT77n1sqku/nVSYZiolr0VhVqDHrsOa
- TEQkO/5ePoPLZBI18oWMtuC4v7N9petVKPc7KdCU+7GSZJQMm45P4+1VQTSCTkvnMxx+
- 5RewZVaib6pfTGLTQXBUP9iio46tvtTn7rZibaRfXYPx2xuI7a+WbhENBN13XfRGxOnJ
- n9LxfZFcuad9zujJZUim6mqAsYBIU3maZ23t7+bGQZ8gEQALMDh/MZCxWKnRUatJHEOY
- iqAg==
-X-Gm-Message-State: AOAM5318DWYisLBdwoMnNF1lvN4v9fUKy0G5mImDuGP71eSLWRUCaMV9
- E+cbQWArkTiCjNsEUWOKTV0=
-X-Google-Smtp-Source: ABdhPJyyKAKsTx8kSIrW1FOKQ7nQ5GDMe1jBdM/w1k2wj2ikJ/S8WHz9Izcos46XXIw9FKZ9xCQZrQ==
-X-Received: by 2002:a05:600c:1909:: with SMTP id
- j9mr11051112wmq.139.1629111496910; 
- Mon, 16 Aug 2021 03:58:16 -0700 (PDT)
+ bh=gV7peWRPRBF+yC8fWVyVayA1OMho4W3kqGxtBmF6o04=;
+ b=P5n9D4VWrYVdTtApss2HhZPVj5gkIzYVsJXZnAOlx3XErlz7iqSZ07QeoI2Ap3xQKx
+ EgkUnbAyJ8aCdQiJFYUGMxYlrekBvIOs+PNVaVBFa8SDpAQ9YAY1sJmpUZoTwNcRnGMR
+ +8UuBhCzsNgXIXXzkfRqNzBsnH1R0rcnEAFISCUTHPOOMhOVLzD3kwyqs5h7gzlyertx
+ /xH4szCE/k7MI703ZLRdIe7ZRz/FAneaYbLWbbAlsie7EDXa1JQo9gsS7CcCqwMyZFKe
+ fdfYxLjsUlDqBBhPGm0Nkfm8lRCgbyMesHSI28I35vhZHIwvng9+GOYjkoKLnTlOSh5H
+ fLig==
+X-Gm-Message-State: AOAM530tEe7eR+VtVL9qeOxSbRgri7O2Av+FPhMftbQo+Q/sYyCfYTyn
+ pW3iNk/WaupvVR9aYyAo7MvknSt6MIPDP0a8aPnxLs8Y5S4E7JMOGQGbIc7+RYC/Zkj6WFrRjix
+ Qz71H/EeLN77xQQk=
+X-Received: by 2002:a1c:e904:: with SMTP id q4mr14784231wmc.26.1629111769735; 
+ Mon, 16 Aug 2021 04:02:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5OLLljY3SJQq1M8YqgLv8zGuR//MlWwwiQd79WVkzxgGEKohdzCYE2vlRcVtUpnZ/jWSCfA==
+X-Received: by 2002:a1c:e904:: with SMTP id q4mr14784212wmc.26.1629111769574; 
+ Mon, 16 Aug 2021 04:02:49 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id y14sm11272086wrs.29.2021.08.16.03.58.15
+ by smtp.gmail.com with ESMTPSA id n16sm11213175wru.79.2021.08.16.04.02.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 03:58:15 -0700 (PDT)
-Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
-To: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210816025915.213093-1-linux@roeck-us.net>
- <YRn6d/Vb10JTmZ18@yekko>
- <CAFEAcA-KSFuYbkbu7iBvgLxgBgBPRGeOgLuEuh5g5_MO4=Nk0w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1e0f11ef-fd72-0e96-279f-f02463f96442@amsat.org>
-Date: Mon, 16 Aug 2021 12:58:14 +0200
+ Mon, 16 Aug 2021 04:02:48 -0700 (PDT)
+Subject: Re: [PATCH 1/2] docs: split the CI docs into two files
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210812180403.4129067-1-berrange@redhat.com>
+ <20210812180403.4129067-2-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3fbb77bf-c9e3-36c9-1bd0-a399f9e9fdc8@redhat.com>
+Date: Mon, 16 Aug 2021 13:02:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-KSFuYbkbu7iBvgLxgBgBPRGeOgLuEuh5g5_MO4=Nk0w@mail.gmail.com>
+In-Reply-To: <20210812180403.4129067-2-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,40 +99,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Guenter Roeck <linux@roeck-us.net>, Greg Kurz <groug@kaod.org>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 12:26 PM, Peter Maydell wrote:
-> On Mon, 16 Aug 2021 at 06:46, David Gibson <david@gibson.dropbear.id.au> wrote:
->>
->> On Sun, Aug 15, 2021 at 07:59:15PM -0700, Guenter Roeck wrote:
->>> IBM EMAC Ethernet controllers are not emulated by qemu. If they are
->>> enabled in devicetree files, they are instantiated in Linux but
->>> obviously won't work. Disable associated devicetree nodes to prevent
->>> unpredictable behavior.
->>>
->>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>
->> I'll wait for Zoltan's opinion on this, but this sort of thing is why
->> I was always pretty dubious about qemu *loading* a dtb file, rather
->> than generating a dt internally.
-> 
-> My take is that if you have to modify the dtb file to get QEMU to
-> work, then that's a bug in QEMU that should be fixed. It's no
-> worse than for the machines we have that don't use dtb and where
-> the kernel just knows what the hardware is. (In my experience
-> Arm kernels can be a bit finicky about wanting the right dtb
-> and not some earlier or later one, so I think at least for Arm
-> trying to generate a dt for our non-virt boards would have been
-> pretty painful and liable to "new kernels don't boot any more" bugs.)
-> 
-> Is it sufficient to create stub "unimplemented-device" ethernet
-> controllers here, or does the guest want more behaviour than that?
+On 8/12/21 8:04 PM, Daniel P. Berrangé wrote:
+> This splits the CI docs into one file talking about job setup and usage
+> and another file describing provisioning of custom runners.
 
-For raspi4 "unimplemented-device" is not enough, so what would
-be the ideal resolution for "the guest wants more behaviour"
-when we don't have time / interest / specs for the missing
-pieces?
+Thanks.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  docs/devel/ci-jobs.rst    |  40 ++++++++++
+>  docs/devel/ci-runners.rst | 117 ++++++++++++++++++++++++++++
+>  docs/devel/ci.rst         | 159 +-------------------------------------
+>  3 files changed, 159 insertions(+), 157 deletions(-)
+>  create mode 100644 docs/devel/ci-jobs.rst
+>  create mode 100644 docs/devel/ci-runners.rst
+
 
