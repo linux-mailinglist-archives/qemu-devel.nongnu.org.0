@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34213EDEEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:02:28 +0200 (CEST)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B133EDEF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:04:28 +0200 (CEST)
+Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFjkZ-0007FV-QL
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
+	id 1mFjmV-0001cf-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFjam-0001CE-1M
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51666)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFjc4-0004FZ-9u
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFjai-0003PJ-QN
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:18 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFjbz-0004De-RI
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:53:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629147134;
+ s=mimecast20190719; t=1629147214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nfgbyFPaAzJcSHWgnvNt2e2J+38+Wn3Ek9DJ021Nj9M=;
- b=T9BBlc1DZLaYcxL+kbrOhclzW4IT7tlSOZ7BI7uwNB0j9vs2dsEssYk1Vl1uKZiXEe/r7C
- VC9Zzemi+gpXR6Anu08RZZ49zyt+W/qm6r4YKREpbU+YVyFzaARpY3wkSKkG0IYV3VKUjY
- 8nXCGfj0hQmVIWPCB+myWt7rwk8RzW0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-pomWE_ygNvOH-OERRPoJEg-1; Mon, 16 Aug 2021 16:52:13 -0400
-X-MC-Unique: pomWE_ygNvOH-OERRPoJEg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- l24-20020ac84a98000000b00298c09593afso2015264qtq.22
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:52:13 -0700 (PDT)
+ bh=S7ggAkVyK8OzfatSstwFFubqJUsJUIBOezVZsDS6ZwU=;
+ b=TACZmIYeCsb9xLPsBzjNy4Cgp4XI9NT0YyIqpWl9MhBS6L/IEYj7yT2lKsFBZDwBaiMTms
+ BztK0kPM/wRdflET+R1jLKD75RP6EvkxvZ8XFglphykqn2HEyWLwbaoK53fSzJVvpAw3dp
+ Om5ozTAkzngsfgSyLsWY0nsH8Hho1AU=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-jabUQccVNmmrJoWZvhQZ4Q-1; Mon, 16 Aug 2021 16:53:33 -0400
+X-MC-Unique: jabUQccVNmmrJoWZvhQZ4Q-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ s9-20020a17090aa10900b001797c5272b4so321757pjp.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:53:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=nfgbyFPaAzJcSHWgnvNt2e2J+38+Wn3Ek9DJ021Nj9M=;
- b=EG6vK9lzYp6kRtf7Wf9lsyd0ZntSBtP97+KzanzTiD4xze3R+UTE/0kit6nQb+6fg9
- w08KIAkWHskun8C9N0vjR2TF34sBCrdQVdtkNjH+l+y5l5TdiyYzorS4AxYOmm6ZGblg
- zJsMKIGDJTzvlByqQlpSe2ia464oSgWt58QI3boVq8I5biC2s6+orQqE1oB+8kdsxVdE
- 4HD+Ay80CBqdA0NuykGQZr5rQdrlEv+SYEhOIv/2BBczVdyaosmFU7hWEX/7WWJBvito
- dWZmSnQL7rQfUpgDsJQ8AvjaVFdyyP0ZATEp517Ur1qi3sQCMENkjJgBurtk1ZF213sp
- PCrA==
-X-Gm-Message-State: AOAM533U9gcd5OwwCAXqWjtLoi4/f71DdiCwGOk9/6WnCLH6RZJ5dwkN
- hp4rx6FI8ysNH3o6kEakjnchY2WWMVMnzWsC8Q4r19BU9w3iYDjIjD0XLCVd19fb//3GCdJKG7c
- qQU2u3JAgWRTxOls=
-X-Received: by 2002:a37:e406:: with SMTP id y6mr267951qkf.248.1629147132906;
- Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6L/08eqF6wx8iJ8YjdsVKsd/p/WaY0guoDMEXJagmd761Z5TGEhC29vBD23jSDVUFZL7Aqg==
-X-Received: by 2002:a37:e406:: with SMTP id y6mr267931qkf.248.1629147132654;
- Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id y67sm9354qkd.58.2021.08.16.13.52.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
-Date: Mon, 16 Aug 2021 16:52:10 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH-for-6.1 v2] softmmu/physmem: fix wrong assertion in
- qemu_ram_alloc_internal()
-Message-ID: <YRrP+tDsIyL3MaWO@t490s>
-References: <20210805092350.31195-1-david@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S7ggAkVyK8OzfatSstwFFubqJUsJUIBOezVZsDS6ZwU=;
+ b=NDd9IpS6KaXC1LE1L8pZpDi/ZuoSoFemVcW6s4OkUdWDqrkRrKw7umz+XHLZEf2Acu
+ COb4beIc73RhJHZXQovbEcEubzgNW4ZfvbVPDg/XO4vdja1+GqobXQs4/idovoBlId0m
+ PltZFJ8okSNdEm2f78eY2qnHyt6lP5eNnqjj2GXDYKvIzJvGf0ZUxoP8AtaHA3+SeWgr
+ 5lcvmTAHR063Rar9FygyeyuYLB3XTC3uQQX1SDnRcMBw7maKdA/d04yEiarUCBHNT3WV
+ 30NmMevs/xej4YzLDeWiS6FCrLtz057wRjrS1EsYNJtkcx8Op9ZgY4FPWeVPt4q+HacV
+ SVAw==
+X-Gm-Message-State: AOAM531ep9wuc/fnuGWmfImvO1MaVqsFeOvA9WUVqvaos+0xA2Ny5oKi
+ rw5vaSWz6b36EWWPTIAzNVsOKDDQagH5r7Pq4gkHZcrb6GTzcTRQb5zsAMMrxDbQBhjOv/G3q89
+ iRSvyzqpaFvnIyqeVWUfY9UXwjsbqqWs=
+X-Received: by 2002:a62:5f07:0:b0:3e2:7556:95a0 with SMTP id
+ t7-20020a625f07000000b003e2755695a0mr36329pfb.55.1629147211856; 
+ Mon, 16 Aug 2021 13:53:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/g1LUHkBuhdRpPxgc2CMZ+eOKCmhRL5kM4ssgHsyC97/1055z98s4as7fBScGxzZ6TUOyphGwaHv6K124YBU=
+X-Received: by 2002:a62:5f07:0:b0:3e2:7556:95a0 with SMTP id
+ t7-20020a625f07000000b003e2755695a0mr36307pfb.55.1629147211545; Mon, 16 Aug
+ 2021 13:53:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210805092350.31195-1-david@redhat.com>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+ <YRqfI0YlNZ6Xowwt@work-vm>
+In-Reply-To: <YRqfI0YlNZ6Xowwt@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 16 Aug 2021 22:53:19 +0200
+Message-ID: <CABgObfb6JAfs1zeJmPnZAXEO_7_QpaJHqh-xQbvKjgqnOev=Zw@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000d4dab105c9b364f6"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,62 +92,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Lendacky <thomas.lendacky@amd.com>,
+ Ashish Kalra <Ashish.Kalra@amd.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ "Habkost, Eduardo" <ehabkost@redhat.com>, kvm <kvm@vger.kernel.org>,
+ "S. Tsirkin, Michael" <mst@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hubertus Franke <frankeh@us.ibm.com>,
+ Dov Murik <dovmurik@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 05, 2021 at 11:23:50AM +0200, David Hildenbrand wrote:
-> When adding RAM_NORESERVE, we forgot to remove the old assertion when
-> adding the updated one, most probably when reworking the patches or
-> rebasing. We can easily crash QEMU by adding
->   -object memory-backend-ram,id=mem0,size=500G,reserve=off
-> to the QEMU cmdline:
->   qemu-system-x86_64: ../softmmu/physmem.c:2146: qemu_ram_alloc_internal:
->   Assertion `(ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC))
->   == 0' failed.
-> 
-> Fix it by removing the old assertion.
-> 
-> Fixes: 8dbe22c6868b ("memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()")
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
-> 
-> v1 -> v2:
-> - Added rbs
-> - Tagged for 6.1 inclusion
-> 
-> ---
->  softmmu/physmem.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 3c1912a1a0..2e18947598 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2143,7 +2143,6 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
->      RAMBlock *new_block;
->      Error *local_err = NULL;
->  
-> -    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC)) == 0);
->      assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
->                            RAM_NORESERVE)) == 0);
->      assert(!host ^ (ram_flags & RAM_PREALLOC));
-> -- 
-> 2.31.1
-> 
+--000000000000d4dab105c9b364f6
+Content-Type: text/plain; charset="UTF-8"
 
-Today I just noticed this patch is still missing for 6.1. How many users are
-there with reserve=off?  Would it be worth rc4 or not?
+Il lun 16 ago 2021, 19:23 Dr. David Alan Gilbert <dgilbert@redhat.com> ha
+scritto:
 
--- 
-Peter Xu
+> > However, I am not sure if the in-guest migration helper vCPUs should use
+> the
+> > existing KVM support code.  For example, they probably can just always
+> work
+> > with host CPUID (copied directly from KVM_GET_SUPPORTED_CPUID),
+>
+> Doesn't at least one form of SEV have some masking of CPUID that's
+> visible to the guest; so perhaps we have to match the main vCPUs idea of
+> CPUIDs?
+>
+
+I don't think we do. Whatever startup code the on the migration helper can
+look at CPUID for purposes such as enabling AES instructions. It's a
+separate VM and one that will never be migrated (it's started separately on
+the source and destination).
+
+> The migration helper can then also use its own address space, for example
+> > operating directly on ram_addr_t values with the helper running at very
+> high
+> > virtual addresses.  Migration code can use a RAMBlockNotifier to invoke
+> > KVM_SET_USER_MEMORY_REGION on the mirror VM (and never enable dirty
+> memory
+> > logging on the mirror VM, too, which has better performance).
+>
+> How does the use of a very high virtual address help ?
+>
+
+Sorry, read that as physical addresses, i.e. the code and any dedicated
+migration helper RAM (including communication structures) would be out of
+the range used by ram_addr_ts. (The virtual addresses instead can be chosen
+by the helper, since QEMU knows nothing about them).
+
+Paolo
+
+
+> > With this implementation, the number of mirror vCPUs does not even have
+> to
+> > be indicated on the command line.  The VM and its vCPUs can simply be
+> > created when migration starts.  In the SEV-ES case, the guest can even
+> > provide the VMSA that starts the migration helper.
+> >
+> > The disadvantage is that, as you point out, in the future some of the
+> > infrastructure you introduce might be useful for VMPL0 operation on
+> SEV-SNP.
+> > My proposal above might require some code duplication. However, it might
+> > even be that VMPL0 operation works best with a model more similar to my
+> > sketch of the migration helper; it's really too early to say.
+> >
+>
+> Dave
+>
+> > Paolo
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+>
+
+--000000000000d4dab105c9b364f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il lun 16 ago 2021, 19:23 Dr. David Alan Gilbert &lt;<=
+a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat.com</a>&gt; ha scritt=
+o:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">&gt; However, I am not sure if t=
+he in-guest migration helper vCPUs should use the<br>
+&gt; existing KVM support code.=C2=A0 For example, they probably can just a=
+lways work<br>
+&gt; with host CPUID (copied directly from KVM_GET_SUPPORTED_CPUID),<br>
+<br>
+Doesn&#39;t at least one form of SEV have some masking of CPUID that&#39;s<=
+br>
+visible to the guest; so perhaps we have to match the main vCPUs idea of<br=
+>
+CPUIDs?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">I don&#39;t think we do. Whatever startup code the on the migration =
+helper can look at CPUID for purposes such as enabling AES instructions. It=
+&#39;s a separate VM and one that will never be migrated (it&#39;s started =
+separately on the source and destination).</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">&gt; The migration helper can then also use its own address space, for ex=
+ample<br>
+&gt; operating directly on ram_addr_t values with the helper running at ver=
+y high<br>
+&gt; virtual addresses.=C2=A0 Migration code can use a RAMBlockNotifier to =
+invoke<br>
+&gt; KVM_SET_USER_MEMORY_REGION on the mirror VM (and never enable dirty me=
+mory<br>
+&gt; logging on the mirror VM, too, which has better performance).<br>
+<br>
+How does the use of a very high virtual address help ?<br></blockquote></di=
+v></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sorry, read that as p=
+hysical addresses, i.e. the code and any dedicated migration helper RAM (in=
+cluding communication structures) would be out of the range used by ram_add=
+r_ts. (The virtual addresses instead can be chosen by the helper, since QEM=
+U knows nothing about them).</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; With this implementation, the number of mirror vCPUs does not even hav=
+e to<br>
+&gt; be indicated on the command line.=C2=A0 The VM and its vCPUs can simpl=
+y be<br>
+&gt; created when migration starts.=C2=A0 In the SEV-ES case, the guest can=
+ even<br>
+&gt; provide the VMSA that starts the migration helper.<br>
+&gt; <br>
+&gt; The disadvantage is that, as you point out, in the future some of the<=
+br>
+&gt; infrastructure you introduce might be useful for VMPL0 operation on SE=
+V-SNP.<br>
+&gt; My proposal above might require some code duplication. However, it mig=
+ht<br>
+&gt; even be that VMPL0 operation works best with a model more similar to m=
+y<br>
+&gt; sketch of the migration helper; it&#39;s really too early to say.<br>
+&gt; <br>
+<br>
+Dave<br>
+<br>
+&gt; Paolo<br>
+&gt; <br>
+-- <br>
+Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
+blank" rel=3D"noreferrer">dgilbert@redhat.com</a> / Manchester, UK<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000d4dab105c9b364f6--
 
 
