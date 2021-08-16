@@ -2,77 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321F13ED6D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 15:27:27 +0200 (CEST)
-Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D123ED78E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 15:36:43 +0200 (CEST)
+Received: from localhost ([::1]:46660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFceD-0000Zh-Vw
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 09:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48420)
+	id 1mFcnC-0001CR-JZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 09:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mFcb6-0006QL-7e
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:24:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49344)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mFchf-0000E8-Fm
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:31:00 -0400
+Received: from mail-mw2nam12on20600.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::600]:55292
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mFcb3-0002uz-VF
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:24:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629120249;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tsLbvZN9VUnH1tfOMNir260cxi+gOVMKSLI9xD9INIs=;
- b=K+9FnXw8HcLyS2F00gI1Kgd+Wtv3hR+0mHsEauhUFzz+ohzVwngy+vpsZC0NINf9SS5BYb
- usY4kkhZ/ggckzASn94u38TjuiKVd5t8cy2Qadm4M+QofrUj5pJ4on/eZL6YzAQNkehVvt
- mEtt22ESaceVYEeoDFE35jAS5aeJhY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-Ya3C8jptOiitXO73U5XzqQ-1; Mon, 16 Aug 2021 09:24:00 -0400
-X-MC-Unique: Ya3C8jptOiitXO73U5XzqQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73F381083E80;
- Mon, 16 Aug 2021 13:23:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F1E15C23A;
- Mon, 16 Aug 2021 13:23:50 +0000 (UTC)
-Date: Mon, 16 Aug 2021 14:23:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to user
- forks
-Message-ID: <YRpm495McORAAycn@redhat.com>
-References: <20210812180403.4129067-1-berrange@redhat.com>
- <20210812180403.4129067-3-berrange@redhat.com>
- <87y291u0st.fsf@redhat.com> <YRpGFnvZznlU9RKQ@redhat.com>
- <87v945txvn.fsf@redhat.com> <YRpTqmv/yXU0cK5H@redhat.com>
- <87sfz9ttlo.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mFchd-0005Ld-Bh
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:30:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dUQczqWGxXhExENzQbGuq7JrkdbbF2yH6kO0AlLs4YcgFteVRHhOogKhyuSmMgZCMN47a91ml6T+9/0db0OruuWiMC+8bAtG58grwDX99UeYaa7fRbEmXvQ4s8YuDnnoy7Pn6L5Z5UXqCK8NhryxCr3JKh/7d73tU/GDeruQJyX0OWU6SUW4bqa/4jlR6AAr6C/cVZYvvk018hRb3X8jX84ErrZk0ho3Uv53i+i5LmmJfwMWFSdDTeGi63UgwbFrL2OYI3UdlA3xdGUIemy+lIIYeJbcgJa8yY+qJWpRi76AagRzdU5DqtLzOPKQI/Zi+DkQ8j7EwQC0rKJPnXZjfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EPsE+CAJ8BpubbRHi4IHFilhxdQ6OFF47jM4PPFPZRs=;
+ b=TDhwazkbVjpjYCXtXaIdLt8tFUJSZ93K3yZ+WqvP8AeRdBmFzPJj7VoTL9zXoH6nhDSFkyfGV/cNH0WnLzr2Avv9dKIslAsjrbVJ68R/spfYdvJog27teGkOE6ES0YacJ6z5zy1laaK7g08PeWhWpPTQ9MxbXM6JwhowHgHR9ALrj1ZjgHue9lu6xMXBFNHwRuiNsEHZVSRCSbTNpQSbNR96F4WKnJfxj6lvB2PqxYHPCflCLkNJNwVwRQx3Ku5eMV2taJJYzO2/55RUc1/dRKI4MAxP1Xab7o8QlZlMxZJsXTYTBozuxuUte1h5BqT2M+ps2FNGx9Qaw00Qk830dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EPsE+CAJ8BpubbRHi4IHFilhxdQ6OFF47jM4PPFPZRs=;
+ b=ui0UAmKQUzyvucA2U+4xqFADAQFCVdQaDQ+TD1goMLOYsPHmCtNLBw1WLWw74I/oOyEul05dAdsN1gPOnnk2hSSvty0HFQMEAab56r2EfrMCICM0gK4jIGrsPRrTDQK7Kshqntu/bRQ1NEYtv7gqszaQWsHtMwOQGrpnj96UASE=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SA0PR12MB4446.namprd12.prod.outlook.com (2603:10b6:806:71::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Mon, 16 Aug
+ 2021 13:25:52 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
+ 13:25:52 +0000
+From: Ashish Kalra <Ashish.Kalra@amd.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, thomas.lendacky@amd.com, brijesh.singh@amd.com,
+ ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
+ jejb@linux.ibm.com, tobin@ibm.com, dovmurik@linux.vnet.ibm.com,
+ frankeh@us.ibm.com, dgilbert@redhat.com, kvm@vger.kernel.org
+Subject: [RFC PATCH 00/13] Add support for Mirror VM.
+Date: Mon, 16 Aug 2021 13:25:38 +0000
+Message-Id: <cover.1629118207.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SN6PR16CA0069.namprd16.prod.outlook.com
+ (2603:10b6:805:ca::46) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
-In-Reply-To: <87sfz9ttlo.fsf@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
+ SN6PR16CA0069.namprd16.prod.outlook.com (2603:10b6:805:ca::46) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4415.14 via Frontend Transport; Mon, 16 Aug 2021 13:25:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2bf5e84-31f8-47d5-3e50-08d960b95e50
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4446:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44468F1FB589BC82EEEEB0788EFD9@SA0PR12MB4446.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j+vmgym34LKFs7GUor9U6jWdkivIzYiN5dYINZJ8oOm5FgtU3KZoB6AB6m15cpeYoJ52jGdqyVL0gedw8gNDZYoE3fIVLT0ckKYs9xzXszCxonF4NEraAX/S8ByGbY6BN1xnkKDnqR8TN77ZkWmLGkNQ/SX5J0NRHl502Yrr0rlRa/jSNe+dtdrR5JAqToqrEgoaSLI4imccl8LA7vimI8TBGiK+HUUUSbC7ivPHDz5DQKrQ6/QAKu5AWknJhvgnJpTGFRW1b4hfa6PlBUxe+4xfuEOkRg551T8SrzoRfEl6zWMTkhj17HjKQBcQxlF9Y7/xoCk5VcSABIeUpl+2PJrocY5dO+quAN3kuqRg4LQzX+f59xfWwqs2tunGoPzk/9S5Ujc1OP/q+poXPO5adOnno9gObo71ZP583A/caBHgoZLiD0AELbmMu15eMGCoCl8sV5x49pTSIAvO8Y5r2aTF26L1Nfh6uuFzsYP61g88muFlDNmerbBsotLvFnm5QPquFiRMR4CuFlPdWkSMmcDyQ3AhJJCcAwY5SbmWIwojCL5T3Ug0yi8S33yTVzeXds6AxBY0wvuHXGFvMFD0KVoBmQGLX5KMxBuAJUtuOjPKoKPPYPOq54b8HZkFexxPk/r7d/EDclmnKcEAChX1qnWQUWQy5u/Uw6CdZnH7r9BPCirNYt5xY0idqWlQvky/1fj+j7apZMdIhiqgaFHj9Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(66476007)(6666004)(66946007)(86362001)(7696005)(52116002)(316002)(66556008)(4326008)(83380400001)(956004)(186003)(2616005)(478600001)(36756003)(26005)(7416002)(8936002)(6486002)(38350700002)(38100700002)(6916009)(5660300002)(8676002)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wG+IJqtooep3VhaZXfCxOV8ZMtl0O8bjXi/2R8T6sD0W0fMoEFa+wPsxiu7Y?=
+ =?us-ascii?Q?/yNZ/s2+SSo+W2LNf4ZzL40lPZ4FvveAj8OqMA6S63kZnRiL0AU3rKhYU3VH?=
+ =?us-ascii?Q?jPLyUGCqYfUlPrUNq6vQ/lrFXB0Y5jRJg+TUOXjRVkFrQxgb35ZtbVCdSbto?=
+ =?us-ascii?Q?3XUR7Zzvf9aqbSqAp+Z7uCCUTyIf2ARD9I9t5PxaMomYyEaZ4CuvuT3xCSqT?=
+ =?us-ascii?Q?Mgv5zbiCBtzGoRlnQujm61qLkXAYtgVVx9QfFSxJDHeNYhfyr1Sls69kia+V?=
+ =?us-ascii?Q?Y+MgQqXkhgnnDFlrUeH+y57Jv5eMwYpKeyjAp7TFaIDbO1XYK0yjU48ZKogu?=
+ =?us-ascii?Q?jzQHAusPN2qWq3fvcXjq31U3JcW3MHEXukata3SCl+aU/8F7FWJ1D2k33UXh?=
+ =?us-ascii?Q?t13a7KfE+YqhIzCid2Q4JyvFL8evsSNPVutzMgAvbUydCiXGalUv+ZQitJRO?=
+ =?us-ascii?Q?9fxydPlYDxdgWrsISHcQxN+AQXtW+vTHJQxDI2B2Xth7MvgCDBMAG49rXqWz?=
+ =?us-ascii?Q?rZwMIptYPeI2eG31Pz11TsQdp+jPPFK3SxlUUhVaTm05ZQlL6XHfqt5VLjJM?=
+ =?us-ascii?Q?I5tuwedgw8nE9BxTfdTByg/fAZNc5jJQ0rJls2JTXx5NJ+g79WKWTRNPq7+b?=
+ =?us-ascii?Q?W3P0afLpViDeIja80jvowNpx334htks7xQA67h5WsDvolpVRdwq94IN9iyf1?=
+ =?us-ascii?Q?w8rM4B0Gh8Ocy+guzlOy1/0fGOLwy+BPMeIxh47VIxczvMYNxeHLnIwAHp5n?=
+ =?us-ascii?Q?gYFuI6+rLup8OCu2FsCFqKOh4yQBg+MKzv2R0aO5gQhSgwWULfGytfmNemSR?=
+ =?us-ascii?Q?9/IwMwh8w9YjcF9zcgrJ5sIcEc79Ui7JOR+AzuioS1mUrN6q4rwyr9CggS7t?=
+ =?us-ascii?Q?97BeKZzTWZLbLHCV2q0uIvn9oeVAxor+/GrZXHbDrm4UGWgnqhBk6DJOziVW?=
+ =?us-ascii?Q?Hc2283QMtj92Ct48tLBda0zEUK1ewJA0aLSYfoUNw5ugz4xfQVxqmoVZahep?=
+ =?us-ascii?Q?Do97waunH9TojJ82GnVGMqU5N9cFo8RNMsNVSXtr5PNIHXWZqCenpkBrBg+x?=
+ =?us-ascii?Q?6DKnij0o/aya4KdHBkTlai1lKK5hZ/ByqhXVOBY27Y6wVCzMkjljKTAavErN?=
+ =?us-ascii?Q?MU5XX7C7b/GOetHcDTpe1ym40EJNZhP/raV7+cFh8H4WZJ/jzOReAO9/cCxw?=
+ =?us-ascii?Q?ELlkEpQOcCQQK+IwuwNKvdRkDB8QdQW0lRFgtrY6f71AOjm1zeLKv06rbI6E?=
+ =?us-ascii?Q?8XAp9l8njpL1w+WUAzEQ7ozbUJssHGl9HUE48rLgZ9GFe2xPkJe/iHBUC6Kq?=
+ =?us-ascii?Q?sBZfgz+LrVZvgsNegS41hzTJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2bf5e84-31f8-47d5-3e50-08d960b95e50
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 13:25:51.9008 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mLrp5mjbXkgT+Jo1ZrIKiFelOreoVYATrCIN2ewQqsIJOesIDAmxlt/HisrfBp9IFXZpXyin8K5LJZ1H97AjnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4446
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::600;
+ envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,54 +136,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16, 2021 at 03:19:31PM +0200, Cornelia Huck wrote:
-> On Mon, Aug 16 2021, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
-> > On Mon, Aug 16, 2021 at 01:47:08PM +0200, Cornelia Huck wrote:
-> >> On Mon, Aug 16 2021, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >> 
-> >> > When I'm working on changing gitlab CI rules, then I burn loads of
-> >> > minutes which is especially troubling - limited CI minutes will make
-> >> > it very hard for me to debug future CI rule changes :-(
-> >> 
-> >> I hope that will not make gitlab CI a complete non-starter -- if you
-> >> cannot easily debug a test case that is failing, it's mostly
-> >> useless. We've seen too many cases where a failure could not be
-> >> reproduced when the test case was running locally.
-> >
-> > One of the best things about GitLab compared to what we had with
-> > Travis is that the build environment is 100% container based (until
-> > Cleber's custom runners arrived).  This meant that when something
-> > does fail in GitLab, you can pull the container image down from
-> > the gitlab registry and run the build locally. You still have
-> > differences due to hardware or CPUs resources, but its a hell of
-> > alot easier to reproduce than before. This is good enough for most
-> > contributors in general, but not for the CI maintainers, who need
-> > to debug especially the CI system as it exists on GitLab.
-> 
-> Correct me if I'm wrong, but I remember that some of the more
-> aggravating failures in particular could not be reproduced outside of
-> the gitlab environment, even while using the same image.
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-There will always be some like that for sure. Some problems are very
-sensitive to timing issues that are affected by load or CPUs parallism,
-etc.
+This is an RFC series for Mirror VM support that are 
+essentially secondary VMs sharing the encryption context 
+(ASID) with a primary VM. The patch-set creates a new 
+VM and shares the primary VM's encryption context
+with it using the KVM_CAP_VM_COPY_ENC_CONTEXT_FROM capability.
+The mirror VM uses a separate pair of VM + vCPU file 
+descriptors and also uses a simplified KVM run loop, 
+for example, it does not support any interrupt vmexit's. etc.
+Currently the mirror VM shares the address space of the
+primary VM. 
 
+The mirror VM can be used for running an in-guest migration 
+helper (MH). It also might have future uses for other in-guest
+operations.
 
-Regards,
-Daniel
+The mirror VM support is enabled by adding a mirrorvcpus=N
+suboption to -smp, which also designates a few vcpus (normally 1)
+to the mirror VM.
+
+Example usage for starting a 4-vcpu guest, of which 1 vcpu is marked as
+mirror vcpu.
+
+    qemu-system-x86_64 -smp 4,mirrorvcpus=1 ...
+
+Ashish Kalra (7):
+  kvm: Add Mirror VM ioctl and enable cap interfaces.
+  kvm: Add Mirror VM support.
+  kvm: create Mirror VM and share primary VM's encryption context.
+  softmmu/cpu: Skip mirror vcpu's for pause, resume and synchronization.
+  kvm/apic: Disable in-kernel APIC support for mirror vcpu's.
+  hw/acpi: disable modern CPU hotplug interface for mirror vcpu's
+  hw/i386/pc: reduce fw_cfg boot cpu count taking into account mirror
+    vcpu's.
+
+Dov Murik (5):
+  machine: Add mirrorvcpus=N suboption to -smp
+  hw/boards: Add mirror_vcpu flag to CPUArchId
+  hw/i386: Mark mirror vcpus in possible_cpus
+  cpu: Add boolean mirror_vcpu field to CPUState
+  hw/i386: Set CPUState.mirror_vcpu=true for mirror vcpus
+
+Tobin Feldman-Fitzthum (1):
+  hw/acpi: Don't include mirror vcpus in ACPI tables
+
+ accel/kvm/kvm-accel-ops.c |  45 ++++++-
+ accel/kvm/kvm-all.c       | 244 +++++++++++++++++++++++++++++++++++++-
+ accel/kvm/kvm-cpus.h      |   2 +
+ hw/acpi/cpu.c             |  21 +++-
+ hw/core/cpu-common.c      |   1 +
+ hw/core/machine.c         |   7 ++
+ hw/i386/acpi-build.c      |   5 +
+ hw/i386/acpi-common.c     |   5 +
+ hw/i386/kvm/apic.c        |  15 +++
+ hw/i386/pc.c              |  10 ++
+ hw/i386/x86.c             |  11 +-
+ include/hw/acpi/cpu.h     |   1 +
+ include/hw/boards.h       |   3 +
+ include/hw/core/cpu.h     |   3 +
+ include/hw/i386/x86.h     |   3 +-
+ include/sysemu/kvm.h      |  15 +++
+ qapi/machine.json         |   5 +-
+ softmmu/cpus.c            |  27 +++++
+ softmmu/vl.c              |   3 +
+ target/i386/kvm/kvm.c     |  42 +++++++
+ 20 files changed, 459 insertions(+), 9 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.17.1
 
 
