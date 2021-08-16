@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4983ED400
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 14:32:56 +0200 (CEST)
-Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8953ED405
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 14:36:00 +0200 (CEST)
+Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFbnT-0001Ho-9K
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 08:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
+	id 1mFbqR-0003qW-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 08:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chzigotzky@xenosoft.de>)
- id 1mFbkJ-0006yJ-95
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:29:39 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.216]:34307)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chzigotzky@xenosoft.de>)
- id 1mFbkG-0007hj-R4
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:29:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1629116962;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=FxbcwOPiYU3UCC04T+4rOtzjTGFEtDMBuZ3tUtpOc5U=;
- b=IG6yzZHnDRkebCKK6/mUS8rf2SRKDgoQmFZvfMsYnsTsgd3VGiJ6QPM0PxDMI7yq57
- 0vN7OpfTj5H69zrdWvEBaYaJgyJpSAYdVhWh4VeOMKCQ0zoaZ92TRw8Y0kK2+6xXYFoC
- 5lMffGqE3xtcUR5TDCXUUXSjQsQZ0KsetV9pcAXeAgLD3TxhZK6wwFX1lt5lrK0D4/ut
- uzgEIuPoB8lAE0h33UMva0Afjf3lb5Az6pqjhsmQAaV73FIgX63PzTC1aBZcElxlllWB
- 9FJ69iBJihyZxQWP8Nk3cfW+W1VJwY4TRpo/OCnF8JYqop7dD2NKRIqfKZRzqHakbWxm
- MMXg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPgGcl1JmBEA1yGCL+d+0mk8mOaC3A=="
-X-RZG-CLASS-ID: mo00
-Received: from Christians-iMac.fritz.box by smtp.strato.de (RZmta 47.31.0 AUTH)
- with ESMTPSA id j01e29x7GCTLqfQ
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Mon, 16 Aug 2021 14:29:21 +0200 (CEST)
-Subject: Re: [FSL P50x0] lscpu reports wrong values since the RC1 of kernel
- 5.13
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-To: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-References: <a7098505-2162-d3cc-b8f9-ef8c8a7d441f@xenosoft.de>
-Message-ID: <c16c3747-8c6c-fb27-4e07-a893b83a5580@xenosoft.de>
-Date: Mon, 16 Aug 2021 14:29:21 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFbos-00035B-Tp
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:34:22 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFbor-0008Rm-Fo
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 08:34:22 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C2DA921E57;
+ Mon, 16 Aug 2021 12:34:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1629117258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wr7gW8ch6IdlMgPQEe9x3OeMpE4O3mf1a6ki5gR/IkM=;
+ b=KGpQUqeWSnUqtOMleqehinpM78fRT+F53NzlBq9ElDospDhuf/HygCo6E7suyv0xa/EH12
+ 3dCRV8tZ/pLyRaBYL2ywEluR++LVAh5lXyCc15HBVVGZ70iHvmKfaMIOfeKVSapoIhK2vt
+ mze2Z+MIOnmCjABMyQG15uEcmSCClPA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1629117258;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wr7gW8ch6IdlMgPQEe9x3OeMpE4O3mf1a6ki5gR/IkM=;
+ b=Bj5/XBiQOJ7fwGyW788vxcb4Crb3M/4H5+Lz1MvUMveC417pGi4xRbq9Wvv7IRUCCT3D1P
+ BFXGuVsXIdO/JVDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF8CC13B0A;
+ Mon, 16 Aug 2021 12:34:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id LjkSJUlbGmGLegAAMHmgww
+ (envelope-from <jziviani@suse.de>); Mon, 16 Aug 2021 12:34:17 +0000
+Subject: Re: [PATCH] vga: don't abort when adding a duplicate isa-vga device
+To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20210813233619.32178-1-jziviani@suse.de>
+ <9dd25d6d-b9ba-0000-96a0-451fd1b28c56@redhat.com>
+ <20210816050555.k63uuhqhbloarcj2@sirius.home.kraxel.org>
+From: Jose Ricardo Ziviani <jziviani@suse.de>
+Message-ID: <89988201-e41c-89df-686e-243c34cc7d0f@suse.de>
+Date: Mon, 16 Aug 2021 09:34:11 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <a7098505-2162-d3cc-b8f9-ef8c8a7d441f@xenosoft.de>
+In-Reply-To: <20210816050555.k63uuhqhbloarcj2@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: de-DE
-Received-SPF: none client-ip=81.169.146.216;
- envelope-from=chzigotzky@xenosoft.de; helo=mo4-p00-ob.smtp.rzone.de
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,166 +86,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mad skateman <madskateman@gmail.com>,
- Darren Stevens <darren@stevens-zone.net>, qemu-devel@nongnu.org,
- "R.T.Dickinson" <rtd2@xtra.co.nz>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+Hello Thomas and Gerd,
 
-I tested the RC6 of kernel 5.14 today and unfortunately the issue still 
-exists. We have figured out that only P5040 SoCs are affected. [1]
-P5020 SoCs display the correct values.
-Please check the CPU changes in the PowerPC updates 5.13-1 and 5.13-2.
+Thank you for reviewing it. Sending a v2 soon.
 
-Thanks,
-Christian
+Thank you very much!
 
-[1] https://forum.hyperion-entertainment.com/viewtopic.php?p=53775#p53775
-
-
-On 09 August 2021 um 02:37 pm, Christian Zigotzky wrote:
-> Hi All,
+On 16/08/2021 02:05, Gerd Hoffmann wrote:
+>    Hi,
 >
-> Lscpu reports wrong values [1] since the RC1 of kernel 5.13 on my FSL 
-> P5040 Cyrus+ board (A-EON AmigaOne X5000). [2]
-> The differences are:
+>>> +    if (qemu_ram_block_by_name("vga.vram")) {
+>>> +        error_report("vga.vram is already registered, ignoring this device");
+>>> +        return;
+>>> +    }
+>> I think we should not ignore the error, but rather turn this into a proper
+>> error (instead of aborting).
+> Yes.  Silently fixing up things automatically tends to be worse long-term.
 >
-> Since the RC1 of kernel 5.13 (wrong values):
+> take care,
+>    Gerd
 >
-> Core(s) per socket: 1
-> Socket(s): 3
->
-> Before (correct values):
->
-> Core(s) per socket: 4
-> Socket(s): 1
->
-> Through the wrong values, I can't use "-smp 4" with a virtual e5500 
-> QEMU machine with KVM HV anymore.  [3]
-> "-smp 3" works with KVM HV.
->
-> Maybe the file_load_64 commit from the PowerPC updates 5.13-2 is the 
-> problem ( powerpc/kexec_file: Use current CPU info while setting up 
-> FDT). [4]
->
-> Or maybe this change (PowerPC updates 5.13-1):
->
-> -#ifdef CONFIG_PPC_BOOK3E_64
-> -    state->ctx_state = exception_enter();
-> -    if (user_mode(regs))
-> -        account_cpu_user_entry();
-> -#endif
->
-> ---
->
-> Or maybe this change (PowerPC updates 5.13-1):
->
-> diff --git a/arch/powerpc/include/asm/smp.h 
-> b/arch/powerpc/include/asm/smp.h
-> index 7a13bc20f0a0c..03b3d010cbab6 100644
-> --- a/arch/powerpc/include/asm/smp.h
-> +++ b/arch/powerpc/include/asm/smp.h
-> @@ -31,6 +31,7 @@ extern u32 *cpu_to_phys_id;
->  extern bool coregroup_enabled;
->
->  extern int cpu_to_chip_id(int cpu);
-> +extern int *chip_id_lookup_table;
->
->  #ifdef CONFIG_SMP
->
-> @@ -121,6 +122,11 @@ static inline struct cpumask 
-> *cpu_sibling_mask(int cpu)
->      return per_cpu(cpu_sibling_map, cpu);
->  }
->
-> +static inline struct cpumask *cpu_core_mask(int cpu)
-> +{
-> +    return per_cpu(cpu_core_map, cpu);
-> +}
-> +
->  static inline struct cpumask *cpu_l2_cache_mask(int cpu)
->  {
->      return per_cpu(cpu_l2_cache_map, cpu);
->
-> ---
->
-> I have found a lot of other changes in the PowerPC updates 5.13-1 
-> regarding the CPU.
->
-> Could you please check the CPU changes in the PowerPC updates 5.13-1 
-> and 5.13-2?
->
-> Please find attached the kernel 5.14-rc5 config.
->
-> Thanks,
-> Christian
->
->
-> [1]
->
-> lscpu with the correct values before the RC1 of kernel 5.13:
->
-> Architecture: ppc64
-> CPU op-mode(s): 32-bit, 64-bit
-> Byte Order: Big Endian
-> CPU(s): 4
-> On-line CPU(s) list: 0-3
-> Thread(s) per core: 1
-> Core(s) per socket: 4
-> Socket(s): 1
-> Model: 1.2 (pvr 8024 0012)
-> Model name: e5500
-> L1d cache: 128 KiB
-> L1i cache: 128 KiB
-> L2 cache: 2 MiB
-> L3 cache: 2 MiB
-> Vulnerability Itlb multihit: Not affected
-> Vulnerability L1tf: Not affected
-> Vulnerability Mds: Not affected
-> Vulnerability Meltdown: Not affected
-> Vulnerability Spec store bypass: Not affected
-> Vulnerability Spectre v1: Mitigation; __user pointer sanitization
-> Vulnerability Spectre v2: Mitigation; Branch predictor state flush
-> Vulnerability Srbds: Not affected
-> Vulnerability Tsx async abort: Not affected
->
-> ---
->
-> lscpu with the wrong values since the RC1 of kernel 5.13:
->
-> Architecture: ppc64
-> CPU op-mode(s): 32-bit, 64-bit
-> Byte Order: Big Endian
-> CPU(s): 4
-> On-line CPU(s) list: 0-3
-> Thread(s) per core: 1
-> Core(s) per socket: 1
-> Socket(s): 3
-> Model: 1.2 (pvr 8024 0012)
-> Model name: e5500
-> L1d cache: 128 KiB
-> L1i cache: 128 KiB
-> L2 cache: 2 MiB
-> L3 cache: 2 MiB
-> Vulnerability Itlb multihit: Not affected
-> Vulnerability L1tf: Not affected
-> Vulnerability Mds: Not affected
-> Vulnerability Meltdown: Not affected
-> Vulnerability Spec store bypass: Not affected
-> Vulnerability Spectre v1: Mitigation; __user pointer sanitization
-> Vulnerability Spectre v2: Mitigation; Branch predictor state flush
-> Vulnerability Srbds: Not affected
-> Vulnerability Tsx async abort: Not affected
->
-> ---
->
-> [2] http://wiki.amiga.org/index.php?title=X5000
->
-> [3] https://lists.ozlabs.org/pipermail/linuxppc-dev/2021-May/229103.html
->
-> [4] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/diff/arch/powerpc/kexec/file_load_64.c?id=ab159ac569fddf812c0a217d6dbffaa5d93ef88f
-
 
