@@ -2,95 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F013ED985
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:08:27 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770483ED988
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:09:22 +0200 (CEST)
+Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFeDy-0005RV-DD
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:08:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40212)
+	id 1mFeEr-0006uD-J5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mFe6J-0002F2-4O
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:00:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27628)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mFeDA-0005Rl-9f
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:07:36 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mFe6H-0005KY-N7
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:00:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629126029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6c/B2w01DIces0Gwf7GdMJgUY5TLllh+DG4mItOjhBc=;
- b=WZ6Gj9+oxcmorDlMvSeB6X6C8kspASiFnque/hfDtln1nqvFcNz9PU3u44TWB8KnNsKqUT
- Y5iXu+oMHuwBlgErzxBnB85w7/NFc/jGNQG74CSytZ4w4xLdHKsvFO2lbOrN7XnvnbRFxn
- E++XNAWk62OYaTvBJOJLlxy7QFuzJ8Y=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-gOddN-GNO4qmrPhwrjbMvQ-1; Mon, 16 Aug 2021 11:00:25 -0400
-X-MC-Unique: gOddN-GNO4qmrPhwrjbMvQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- e18-20020a0564020892b02903be9702d63eso7803146edy.17
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 08:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6c/B2w01DIces0Gwf7GdMJgUY5TLllh+DG4mItOjhBc=;
- b=WQFkujHpNtMHWrOZPTbUT80XJhr8nJAqeLePDOxWyH17VgjFm9W+XFQN+BSVGMJJzC
- iEzbUai3xL+i8S1pJzGsXNwbc8v8VN+biqm3BM2olGF7x4GaNbXFscvkJCM9mlXRR7kb
- 1OIVFSGxEXk9TcPOzdBjomDpHiTDC69qkDbFk87UYj0mN4bGnvSY4MtXe+WT4/WSQyzh
- cViddvTeN2aqkcJEY5yE0/FylZXgcpMArcRbdnZn2YqXWmiahrPNeZsDlejxix1XJXNn
- gjSnRijjClAYSQvr/RsN17ANzAFWcHSgl85v2x0KBoSM81wEy3EhGNz2OQNTUGKGHsyh
- Snzw==
-X-Gm-Message-State: AOAM533Oxto3iz4MASHVb0UzgI+GemttCWckSCNTArqo7pNyxhO60Heq
- 0V6mp1sqgguSx9su+68nlg3r2HEgZPT8odZCxIWFSqJgsGohq280pDK3SBDHpc8mG6dRHnkxtBj
- zixlKraivRE6ywGY=
-X-Received: by 2002:a17:906:379a:: with SMTP id
- n26mr13897759ejc.501.1629126024608; 
- Mon, 16 Aug 2021 08:00:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxg05Adq9gspWdSbc/Y9Sdi3R19vQwkaCjgwvGhtfdPLEYQAovOnaHfkwwSg4AGDaeULaKNUw==
-X-Received: by 2002:a17:906:379a:: with SMTP id
- n26mr13897731ejc.501.1629126024408; 
- Mon, 16 Aug 2021 08:00:24 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id m6sm874535edc.82.2021.08.16.08.00.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 08:00:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mFeD8-0001aw-KS
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:07:36 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17GF2oWa081059; Mon, 16 Aug 2021 11:07:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=to : references :
+ subject : cc : from : message-id : date : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=ElC+X0ZF7nOSBN3bwaWcxMyEUwlqLEcqHdvchOPubOY=;
+ b=KdEaNaKqHJZ7L72numDh6nNH4HKmQ3q/YhPj3MaPT62pD82gZoRLlekYpEbVtZ10SJ+9
+ Jigq9SmvJAJic+bK1sJ8D1Cy+iBSHacOrYal4dc7jswQpWdlwEqrOQy+jlTSsrZtl2/D
+ jVoZnKMGx7YLjakILDgzCC1fWcdduEXYYXZwZbYQ6cIWh2W7wm+9QQhDbb9/pka1UY1j
+ OzOYGEy8yVGQOkvnXJRl1RrA+QKAhtJrxwJWB17qA5Uc/grNZ/vKDia5o77UlDE2xVq5
+ u4vw/bK040IAwzu/eGK1s2EjsNktDvvueojPzMYQnXNGgAxzDpJibfIorivL146kI4Ls eQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3aetvv30ne-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Aug 2021 11:07:28 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17GF3HAm083773;
+ Mon, 16 Aug 2021 11:07:27 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3aetvv30mf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Aug 2021 11:07:27 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17GF4Mmv021180;
+ Mon, 16 Aug 2021 15:07:25 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3ae5fc369f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Aug 2021 15:07:25 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17GF7OSF51380648
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Aug 2021 15:07:24 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 725CFAE060;
+ Mon, 16 Aug 2021 15:07:24 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 16866AE064;
+ Mon, 16 Aug 2021 15:07:24 +0000 (GMT)
+Received: from Tobins-MacBook-Pro-2.local (unknown [9.160.147.42])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Aug 2021 15:07:23 +0000 (GMT)
+To: ashish.kalra@amd.com
+References: 
 Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
- <YRp09sXRaNPefs2g@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b77dfd8f-94e7-084f-b633-105dc5fdb645@redhat.com>
-Date: Mon, 16 Aug 2021 17:00:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Message-ID: <340f9f9f-cc90-1b02-83e4-54a84d49667d@linux.ibm.com>
+Date: Mon, 16 Aug 2021 11:07:23 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YRp09sXRaNPefs2g@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IdJ7JyKReMa-6bN4Sh9YMvhl2epsGmag
+X-Proofpoint-ORIG-GUID: 68s1uD_LTCeEcLVD8xpa5WcH3xOP0jGR
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-16_05:2021-08-16,
+ 2021-08-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=880 bulkscore=0 clxscore=1011
+ lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108160096
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=tobin@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,35 +111,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
- brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
- frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, ehabkost@redhat.com,
+ kvm list <kvm@vger.kernel.org>, mst@redhat.com,
+ James Bottomley <jejb@linux.ibm.com>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hubertus Franke <frankeh@us.ibm.com>, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/08/21 16:23, Daniel P. Berrangé wrote:
-> snip
-> 
->> With this implementation, the number of mirror vCPUs does not even have to
->> be indicated on the command line.  The VM and its vCPUs can simply be
->> created when migration starts.  In the SEV-ES case, the guest can even
->> provide the VMSA that starts the migration helper.
->
-> I don't think management apps will accept that approach when pinning
-> guests. They will want control over how many extra vCPU threads are
-> created, what host pCPUs they are pinned to, and what schedular
-> policies might be applied to them.
+On Mon, Aug 16 at 10:44 AM Ashish Kalra wrote:
 
-That doesn't require creating the migration threads at startup, or 
-making them vCPU threads, does it?
+ > I am not sure if we really don't need QEMU's MMIO logic, I think that 
+once the>
+ > mirror VM starts booting and running the UEFI code, it might be only 
+during
+ > the PEI or DXE phase where it will start actually running the MH code,
+ > so mirror VM probably still need to handles KVM_EXIT_IO when SEC 
+phase does I/O,
+ > I can see PIC accesses and Debug Agent initialization stuff in SEC 
+startup code.
 
-The migration helper is guest code that is run within the context of the 
-migration helper in order to decrypt/re-encrypt the code (using a 
-different tweak that is based on e.g. the ram_addr_t rather than the 
-HPA).  How does libvirt pin migration thread(s) currently?
+The migration handler prototype that we are releasing in the near future 
+does not use the SEC or PEI phases in the mirror. We have some support 
+code that runs in the main VM and sets up the migration handler entry 
+point. QEMU starts the mirror pointing to this entry point, which does 
+some more setup (like switching to long mode) and jumps to the migration 
+handler.
 
-Paolo
+-Tobin
+
+ > Addtionally this still requires CPUState{..} structure and the backing
+ > "X86CPU" structure, for example, as part of kvm_arch_post_run() to get
+ > the MemTxAttrs needed by kvm_handle_io().
+
+ > Thanks,
+ > Ashish
 
 
