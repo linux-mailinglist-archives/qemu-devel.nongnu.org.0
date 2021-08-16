@@ -2,130 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4AC3ED7A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 15:39:51 +0200 (CEST)
-Received: from localhost ([::1]:55874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA053ED7FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 15:54:34 +0200 (CEST)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFcqE-0007Qs-Dg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 09:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49916)
+	id 1mFd4T-0007UE-DJ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 09:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mFciU-0000sn-NT
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:31:50 -0400
-Received: from mail-mw2nam10on2066.outbound.protection.outlook.com
- ([40.107.94.66]:42880 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mFciT-0005kT-5e
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:31:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SuXH8od1pOgiymtiI3pjErtdIKG31cRiqvGJW2PrFPaTE1Bubt6buNJ30Ii/+vVAX9pzT3s549LISivxyF5NRxYVerZZNPkJ73gwFobehH0RoNKUhMX4v+gMwyF1OXlK3vBnhC6kkl1hczV4hVgYsL2raSazWYSWVEflQP7PbhFQK6KiCBLzmf4G6KbkOVrNzLMqOf2t6+37Jcco7xrI2ULKOXEmjufg5iPgd04iU1DHiQ4sv5s5pwIzXljhD8JBVUUMzeXZDlp5SsqFnoZ5c5lrJh3kIWtiRSsm3iG//OuBKh0DAKjejfGKMO4dqO3okC/LDB112Clx1Pus9+0J8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RK+qRyEn6iUurdQAGxrLOEHAJfm/8fA9IlCEhpWCoWY=;
- b=Vrb/XqDyiaKGWg7gTRS4Wash91QB41CGn2e3jBSdy0I7kQP1sYzTTomuxi85TypyffF3T+nt4U4URJ7mv/cjVHkHnVPnaHT6F/jhVSWymjJwZymbrof3Q3bmzrbBZSkZFqd5s+JOV3pkNEoI+AfM3StufTfXbd3UTzcklOZ4ZfhzBH4U1kaSR5DhOL8Oexxbfw/yRDqiK7CUEyOT2aybFaj0Pf6bD42K2gjO/K3p4dSw/0d8uyH1ux4HVyiCwwH0/E2RzpnOU5sQEiSQSFPlVv+L2VsiG8n2cAsJGZd9LP1xAoxXY7iP0PW86yB3ez1vZBSv6W4UpF2L217fnCUoIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RK+qRyEn6iUurdQAGxrLOEHAJfm/8fA9IlCEhpWCoWY=;
- b=yW6hc7dq11sIIjF84Kpf+FuWkAaPIm7kRyWlrofhnZRCm+2DDV5mt0RjFay8H+17B3MftJSbJh2Y50MU6As8GS/jLddow0C/9TR4A7nXsWWn6rtQ6ntvufAkTgbBm85D08CRs+cv+PlaHKCuozonXtgtK6tomgxnXFgMdAkDcLs=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SN6PR12MB4750.namprd12.prod.outlook.com (2603:10b6:805:e3::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Mon, 16 Aug
- 2021 13:31:46 +0000
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
- 13:31:46 +0000
-From: Ashish Kalra <Ashish.Kalra@amd.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, thomas.lendacky@amd.com, brijesh.singh@amd.com,
- ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
- jejb@linux.ibm.com, tobin@ibm.com, dovmurik@linux.vnet.ibm.com,
- frankeh@us.ibm.com, dgilbert@redhat.com, kvm@vger.kernel.org
-Subject: [RFC PATCH 13/13] hw/i386/pc: reduce fw_cfg boot cpu count taking
- into account mirror vcpu's.
-Date: Mon, 16 Aug 2021 13:31:35 +0000
-Message-Id: <1f48e6e54cac6b06b9c88d328e983fc0199ea109.1629118207.git.ashish.kalra@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1629118207.git.ashish.kalra@amd.com>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SA9PR13CA0036.namprd13.prod.outlook.com
- (2603:10b6:806:22::11) To SN6PR12MB2767.namprd12.prod.outlook.com
- (2603:10b6:805:75::23)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFd3M-0006dz-Ix
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:53:26 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:35484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFd3K-0004Lx-RH
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:53:24 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E41671FE70;
+ Mon, 16 Aug 2021 13:53:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1629122000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/1T95nZHaFTOkm3QSEtxKO0uYo+9Ykf2GUUxNk7lpuQ=;
+ b=CX8a6pKMqKKTWCQdADgWrXhIWzbTGF+dpdrL1AOxddp4ADNSFQl5i34+1jhBC9hMhdDeRw
+ asCxIB232h4K8C42pji2QQTZHenBnFy+jcY+tyGCKN21GXmYEDuPIHRFIcQ7QDSHjuBBdC
+ wLNihFJdXPfDyhL+pwSmvWgtlhuP9tY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1629122000;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/1T95nZHaFTOkm3QSEtxKO0uYo+9Ykf2GUUxNk7lpuQ=;
+ b=gbe14RwPk8RkUJ9UNvZuNSdzKVqc+c5bs280H84rwXfb6bnm1NL97a5gUfXagXF8BWmM3w
+ kFDgM7FOVV9o9RBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC32F13DC7;
+ Mon, 16 Aug 2021 13:53:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Q7mOIM9tGmFlEwAAMHmgww
+ (envelope-from <jziviani@suse.de>); Mon, 16 Aug 2021 13:53:19 +0000
+Subject: Re: [PATCH v2] vga: don't abort when adding a duplicate isa-vga device
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210816123611.28183-1-jziviani@suse.de>
+ <ef1d3843-2917-e35a-be23-6953aa270f25@redhat.com>
+From: Jose Ricardo Ziviani <jziviani@suse.de>
+Message-ID: <81c22b6a-a7d8-3773-db22-69b468a38b06@suse.de>
+Date: Mon, 16 Aug 2021 10:53:00 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ashkalra_ubuntu_server.amd.com (165.204.77.1) by
- SA9PR13CA0036.namprd13.prod.outlook.com (2603:10b6:806:22::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.9 via Frontend Transport; Mon, 16 Aug 2021 13:31:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 366700f9-2870-470d-945c-08d960ba317a
-X-MS-TrafficTypeDiagnostic: SN6PR12MB4750:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB47507B632385F551AD2D8FFF8EFD9@SN6PR12MB4750.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BgBjq+E0MsU9JmcXzXS0GjDs4gXIpR3aLizxOxlQnjKoMyIXykHeVQuelQ7lk7y7BJ8EN+Mn0BWmSINRBm3oi730aUgXTvdehKyM3wSBUk9nFbIaEJArqDc96Mv04HBVzb2z6ZPQ6oh+kvhAmJ7nWrjlclYUKEUwPY9ZW8AufeJlHs737SBwPPVzCpqK/bBUThGA9H8MOE3Lj6YQP4iDKfTFVBHqR5EyGdHSfNIAzEJgvKllYAY9C7viGzCA37XBPvM03luxRXrKVzKqs27kU+iakJrbJy5ps5CZTmQtt3ce+ui41gbF7NTTJITZKm2I063ixHe9Ix4D8m9EOD5s0rA2+H0+9s7kuTPqEbzJRwY2eA593GNrhFfgMEmqXggerIzkJs7m338rtxvpOT4KEdazF5R3U6OaQ7uqGK/AHp7dCEg+uzy53xcMmqP762lNAt4wKZ5xeDumnbz4n8a8mZY9yohn7p0xAqnEAt6Okxcy8Ni4G7M26w77I3lfoJPc7k6A/3e/dZnZ+L+ws2SsycAwbSInEqDAMHnguJOKYc1h5UCCXy/vqvLT/38hz9DWm3bmP9vOw5GCMON6Fd4ICrCPgdbYoe32fBOm9FrFo/aFESeMEE9PKWnys/Dr1yTTLoOsEF+DRjF+rBTtzxh6hnaHqzz0SkaDpnqiSDp0tUUTwBNuvkEpfIAzyveyUkKpC+osy1oMpj6zfXJeGz9KuA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(8676002)(52116002)(7696005)(83380400001)(8936002)(4326008)(26005)(186003)(478600001)(956004)(2616005)(86362001)(6916009)(7416002)(6486002)(66556008)(66476007)(2906002)(4744005)(15650500001)(316002)(5660300002)(38100700002)(38350700002)(36756003)(6666004)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?e89qR/2z9aZPW+Ctx65esh2NSIoYuHxLQDA55XtMkhCyNScaSSvOlgRQ2ylc?=
- =?us-ascii?Q?au2lkknvL8HSxwP/XWG+YxxMgbnaSYkSIJ5EmRMHf9lvKnva60CdwKTxnk4E?=
- =?us-ascii?Q?2kERyNHPUZdpAtEgLlGYklGNbdIzFRUhGqtQ69uKPP2hf2DFy70wAF+2/eAu?=
- =?us-ascii?Q?WYTk9op18sM4pGCNbhXdE+Dw+HXdSuvtpS9EJtDN5WoJxrm3sD0LmZ2kLdY5?=
- =?us-ascii?Q?FTSC13EyTW4t9wUlIjx38fP0K/EtC4IxnEvkBel991RT1MqCO9SjPGMjXcEC?=
- =?us-ascii?Q?AFPAiLHr53C8UZeTVPXHfoSk1+R91ttcqawV0GLTZf/biT435MSBoUaloh5d?=
- =?us-ascii?Q?LJirZYehtvzca1iFYFu+no60tERik1EZwS0ObnaEFKTx2ndJy1ukybRGMLIY?=
- =?us-ascii?Q?vRkvYoGnFJ/aGM9cRxXcit3WPwX4/N5vUF4bSBFbz564gcFHA+gepEsnImTL?=
- =?us-ascii?Q?ZTWe72TtXPNMiUmyt0m4qb4vGTZFP3KRMl6RImv5nlbvHFCzpzEZukOuUtlC?=
- =?us-ascii?Q?bub5cE6/w9aZmm7gQqGEEwkbmI/Cj/+vmLIqCw9YlLr5s3KD1vbios8ZQGMF?=
- =?us-ascii?Q?HojRzdNsRRDqqTKE6LchVAS81lNk56hOjPjNxbfX465/B47KEepUARBSKsA8?=
- =?us-ascii?Q?4MNzBYfJcFLdLoBeT/MZxgd3js7LjfbR7jqfk9z87B2wz8a/V/pvK5halloh?=
- =?us-ascii?Q?cMOdMxJHNt24RiqYmwJTdq+GrXJ7LwXxsdKt6NOSQyNdA45LcC+iiJVOXfAv?=
- =?us-ascii?Q?Fz+Cb4NTvtdENYUFh9fjLg7C2kvpbUnCAT8vOKxdnS60ID3HNlbZxY9jZyoo?=
- =?us-ascii?Q?W30d3AUGTqEctyBLr2EykaQVwfINxr1VphNFv78v+UT95INt3cWgeZ9ifaUj?=
- =?us-ascii?Q?X2TJUorVyetU01cuUvAa1Y5GejnUuwInfWf/tyVTYLybHBX5orF3MV11y0++?=
- =?us-ascii?Q?KVxcKBs8/K1UcdchWfG3HzYUrRcN0B+w4ONxjAByZex/IrMeLiDpOR94U1Rd?=
- =?us-ascii?Q?hkvRyJqN+QKFuIfyvz4tU5YALgHWy6MD30064XvdgmOiNqVx0WbEDwQLNMJY?=
- =?us-ascii?Q?g545AHzdbLZTiJsUqYNVApd5jefSwLx5Dl5B6+VCfVjbZ3/aKEgGIOUhM5qg?=
- =?us-ascii?Q?yxx+i9LoPcaPSagCcsfM2W/BMBpAD7iJW0JI5owY7Yn93gzK//c3RJTHJKZG?=
- =?us-ascii?Q?2HGTXI0/kCdjrgjWwWcz3Ahe2nUDRy8RsuFIpq9BsMseO3Koy3G6gQWgRk1X?=
- =?us-ascii?Q?Xln1D9bKWWt0eU6/a62iORk/uNfwQPWAaeTZ4QA8tyR47grWfg/vh73w1vXi?=
- =?us-ascii?Q?8u+8WSLh+GbEgffzaF6OPUQJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 366700f9-2870-470d-945c-08d960ba317a
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 13:31:46.1965 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3TdTHo0ohoV2DKV8mpXs2EHFCVM9qQXoI1o4Hiq0XNAbFboI6WDJcWfGZqy3Onlqo6GL2XPfQyUW6TgQoUHmIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4750
-Received-SPF: softfail client-ip=40.107.94.66;
- envelope-from=Ashish.Kalra@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <ef1d3843-2917-e35a-be23-6953aa270f25@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.71,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -139,31 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ashish Kalra <ashish.kalra@amd.com>
+Hello Philippe!
 
-Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
----
- hw/i386/pc.c | 3 +++
- 1 file changed, 3 insertions(+)
+On 16/08/2021 10:01, Philippe Mathieu-Daudé wrote:
+> On 8/16/21 2:36 PM, Jose R. Ziviani wrote:
+>> If users try to add an isa-vga device that was already registered,
+>> still in command line, qemu will crash:
+>>
+>> $ qemu-system-mips64el -M pica61 -device isa-vga
+>> RAMBlock "vga.vram" already registered, abort!
+>> Aborted (core dumped)
+>>
+>> That particular board registers the device automaticaly, so it's
+>> not obvious that a VGA device already exists. This patch changes
+>> this behavior by displaying a message and exiting without crashing.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
+>> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+>> ---
+>>   hw/display/vga-isa.c | 10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
+>> index 90851e730b..1fba33b22b 100644
+>> --- a/hw/display/vga-isa.c
+>> +++ b/hw/display/vga-isa.c
+>> @@ -33,6 +33,7 @@
+>>   #include "hw/loader.h"
+>>   #include "hw/qdev-properties.h"
+>>   #include "qom/object.h"
+>> +#include "qapi/error.h"
+>>   
+>>   #define TYPE_ISA_VGA "isa-vga"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
+>> @@ -61,6 +62,15 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
+>>       MemoryRegion *vga_io_memory;
+>>       const MemoryRegionPortio *vga_ports, *vbe_ports;
+>>   
+>> +    /*
+>> +     * make sure this device is not being added twice, if so
+>> +     * exit without crashing qemu
+>> +     */
+>> +    if (qemu_ram_block_by_name("vga.vram")) {
+>> +        error_setg(errp, "vga.vram is already registered");
+> Maybe "'isa-vga' device already registered" is easier to understand?
+> (vga.vram is about the device model internal).
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 3856a47390..2c353becb7 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -962,6 +962,9 @@ void pc_memory_init(PCMachineState *pcms,
-                                         option_rom_mr,
-                                         1);
- 
-+    /* Reduce x86 boot cpu count taking into account mirror vcpus */
-+    x86ms->boot_cpus -= machine->smp.mirror_vcpus;
-+
-     fw_cfg = fw_cfg_arch_create(machine,
-                                 x86ms->boot_cpus, x86ms->apic_id_limit);
- 
--- 
-2.17.1
+Much better message, sending a v3 with this improvement.
 
+Thank you!
+
+
+>
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>
+>> +        return;
+>> +    }
+>> +
+>>       s->global_vmstate = true;
+>>       vga_common_init(s, OBJECT(dev));
+>>       s->legacy_address_space = isa_address_space(isadev);
+>>
 
