@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3953F3ED802
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 15:56:36 +0200 (CEST)
-Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E1A3ED869
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 16:01:47 +0200 (CEST)
+Received: from localhost ([::1]:48836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFd6R-0000z4-9A
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 09:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
+	id 1mFdBQ-0005r5-KD
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 10:01:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFd5J-00009J-Ft
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:55:25 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36102)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFd8a-0003By-Tr
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:48 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mFd5F-0004sN-Ho
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:55:22 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 77B831FD49;
- Mon, 16 Aug 2021 13:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629122120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gvEUWwcHTI1w/xnBYeu9Zca+6ERSzb1XIws/BVOBUhE=;
- b=P9l9jByk1ZrzJCqiwWA/FA11J3WrmxNnJ8Ay3BcyKRjn/+Yun413Z+QqSyL+PEyPnHobx6
- mD+Y+a75kuX+zcWyaSsXS4Fm4BY7o3f0Lzu63K02y88IMhAcYdimwFANK2rf66E9uMBSva
- GmKK0kqOHtMQczH9+M+CFXgXDjbwMaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629122120;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gvEUWwcHTI1w/xnBYeu9Zca+6ERSzb1XIws/BVOBUhE=;
- b=Ok9xi0xEIN2t0kJCMTbaCoHX23UmL9P3WrT81uuTYXK2zdfTP+zRolMbABHLc0r7A/kkeU
- HQ9m83CmdVOiyOAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B353E13DC7;
- Mon, 16 Aug 2021 13:55:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 9ezCG0ZuGmH+EwAAMHmgww
- (envelope-from <jziviani@suse.de>); Mon, 16 Aug 2021 13:55:18 +0000
-From: "Jose R. Ziviani" <jziviani@suse.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] vga: don't abort when adding a duplicate isa-vga device
-Date: Mon, 16 Aug 2021 10:55:04 -0300
-Message-Id: <20210816135504.9089-1-jziviani@suse.de>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFd8Z-000620-9y
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:48 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id q10so23826637wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 06:58:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=G+5WdnIF0AlNWQxsS14WT6o6igP3aa3eGxkIM5Nj9A8=;
+ b=Tdb0r/wbvlfqvUqBK0PBEoSenzXO6sJW7i8ZDQRMW3whbaAuc1trHIRsjCVzvRwiO+
+ 3E6sqyWPyV8UetGa51lLZ4fqhFZDOBjQCi8PmlLcQlgbG8hBv4N8JHncj6FxVo8PtTFW
+ zaeJ1fQocSc4QVEF+dawpNEPX0miOiaLHWqW6pty0Bfsban+0FRkvWT1mftYcwzLExk7
+ rk/5ndVRZCP/l/ubHoUTSBkTFTss56edbWgNml1lSZu1kc2ufKm9XNJmcf15Y9aaWvmY
+ NO4UbtYua333uvplrARxd5bs30xcOqGsPsKTZTrzpNSPi6lYYH/mqqmAFpYghTcaGya0
+ ulXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=G+5WdnIF0AlNWQxsS14WT6o6igP3aa3eGxkIM5Nj9A8=;
+ b=ic3xvTcE9JEWXUlY/RjbEQNE6GNgsTPRNy6yd1SR+FNSPJLyq2tdkELa/o7SLhIQIA
+ gw+wenggi9OPNm/LpVyUh2eHhQr2f+xd7Y8kNgpYPtManxtQlVYt/24G4TkBygghcs0X
+ KY8z/MzIiAMY6ooVHjnl8tbhfS7VpnINMu8krbB4KeMVjY94e3q4SkRcQYGi09H0gN3t
+ YD+K8pW7tppgt45X524xInV1YnUsxMRraLMLNwx/MAakDFlzZCAhX5hJP8spxRltijyJ
+ igzoSTevkDiVGOHPQDcgX/SiP2XzfOlNtYmS+fIACV/mHQ8SrUiuszKjmHIu8Z4zCU87
+ poUg==
+X-Gm-Message-State: AOAM531K+bAnLOFgttU6eY8xVDRdP7CuCpekfaOHSUsJcdYLEku0TrQs
+ gzzD8umFPizB/49LqkhQV928sA==
+X-Google-Smtp-Source: ABdhPJwYXOMeBcx8+tbRAdNNOSkeVNCxN8KDL173VTiTvz/Nm7+WSlxXy3xCKW0dQ7wKRPuoUm1qdQ==
+X-Received: by 2002:a5d:4447:: with SMTP id x7mr19872425wrr.198.1629122325300; 
+ Mon, 16 Aug 2021 06:58:45 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y14sm11855631wrs.29.2021.08.16.06.58.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Aug 2021 06:58:45 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 1/3] raspi: Use error_fatal for SoC realize errors,
+ not error_abort
+Date: Mon, 16 Aug 2021 14:58:40 +0100
+Message-Id: <20210816135842.25302-2-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210816135842.25302-1-peter.maydell@linaro.org>
+References: <20210816135842.25302-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,61 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, philmd@redhat.com, kraxel@redhat.com,
- "Jose R. Ziviani" <jziviani@suse.de>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If users try to add an isa-vga device that was already registered,
-still in command line, qemu will crash:
+The SoC realize can fail for legitimate reasons, because it propagates
+errors up from CPU realize, which in turn can be provoked by user
+error in setting commandline options. Use error_fatal so we report
+the error message to the user and exit, rather than asserting
+via error_abort.
 
-$ qemu-system-mips64el -M pica61 -device isa-vga
-RAMBlock "vga.vram" already registered, abort!
-Aborted (core dumped)
-
-That particular board registers the device automaticaly, so it's
-not obvious that a VGA device already exists. This patch changes
-this behavior by displaying a message and exiting without crashing.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-v2 to v3: Improved error message
-v1 to v2: Use error_setg instead of error_report
+ hw/arm/raspi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/display/vga-isa.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-index 90851e730b..30d55b41c3 100644
---- a/hw/display/vga-isa.c
-+++ b/hw/display/vga-isa.c
-@@ -33,6 +33,7 @@
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
- #include "qom/object.h"
-+#include "qapi/error.h"
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index b30a17871f7..0ada91c05e9 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -281,7 +281,7 @@ static void raspi_machine_init(MachineState *machine)
+     object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(machine->ram));
+     object_property_set_int(OBJECT(&s->soc), "board-rev", board_rev,
+                             &error_abort);
+-    qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
  
- #define TYPE_ISA_VGA "isa-vga"
- OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
-@@ -61,6 +62,15 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
-     MemoryRegion *vga_io_memory;
-     const MemoryRegionPortio *vga_ports, *vbe_ports;
- 
-+    /*
-+     * make sure this device is not being added twice, if so
-+     * exit without crashing qemu
-+     */
-+    if (qemu_ram_block_by_name("vga.vram")) {
-+        error_setg(errp, "'isa-vga' device already registered");
-+        return;
-+    }
-+
-     s->global_vmstate = true;
-     vga_common_init(s, OBJECT(dev));
-     s->legacy_address_space = isa_address_space(isadev);
+     /* Create and plug in the SD cards */
+     di = drive_get_next(IF_SD);
 -- 
-2.32.0
+2.20.1
 
 
