@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B1F3ED347
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:46:38 +0200 (CEST)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5AE3ED34A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 13:47:18 +0200 (CEST)
+Received: from localhost ([::1]:43572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFb4f-00057e-Us
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
+	id 1mFb5J-00065T-AS
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 07:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mFb2T-0003iX-UT
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:44:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mFb2R-0000de-2L
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:44:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629114257;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Eh0kexlK4A4o3K+Sgpkz1yU23Wtyy4iyCcO8r3TM7cY=;
- b=FUbXpck6KQ0xkUx7V2VwS5Tjwe5QCkl3Of2mG7bkYV7NzDl71WLmUQC1XDAWehxX8gUTYY
- a+aP/y++Af7hiJCeVzx4J3bNKU/JMv3U7HEBldSgPI7GxjLRqoRoLs4HUglcD6K53RIzOV
- Y8sj3Zy5M18KBZ6eSXE9wIaeMjXJvmg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-zdF97uscMLCoEPWSf2e1BQ-1; Mon, 16 Aug 2021 07:44:14 -0400
-X-MC-Unique: zdF97uscMLCoEPWSf2e1BQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393A4185302B;
- Mon, 16 Aug 2021 11:44:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9C475D6A1;
- Mon, 16 Aug 2021 11:44:11 +0000 (UTC)
-Date: Mon, 16 Aug 2021 12:44:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PULL 00/11] Optional gitlab-CI and doc fixes for -rc4
-Message-ID: <YRpPiaazIrASHJUM@redhat.com>
-References: <20210814060956.12852-1-thuth@redhat.com>
- <CAFEAcA9ur-HX4r30QgEAL73VEgA+=XXpWW6v9arKcM=ijEsHvA@mail.gmail.com>
- <20210816102246.z4ybsgpmrn4isdoj@mozz.bu.edu>
- <YRpHxjyz8+Su4ziA@redhat.com>
- <20210816113059.h2srf2tmvylzhhjp@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mFb3N-0004Rq-B6
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:45:20 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mFb3D-00012S-5L
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 07:45:12 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ a201-20020a1c7fd2000000b002e6d33447f9so3100989wmd.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 04:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MvzRJZhT32t8YLq1p7tTmTftvQr2Kw+sjRA39Zk7VJA=;
+ b=PO2Amu7cuN+velHlhrXyauDttGCpW5XBy2HTUGcqglVj5u/mXj7qlTHedLazi93cqw
+ vghI1fRWirKQ8T+UDJJWu0XgaXm5cWcQNtXpih+Sx3M7hSR6CbXS6dy8D1ehRTWu6b+Z
+ KuXqShPwws9xKqD/f6nM3BmMveqXJa2VVebg8AXpjKehdjPLCuuSo25vEYQZsB/tPGY9
+ Dhe5mk7vSuUnEztd3RvlYwqzVWXXGdtz/9JYYJcNUI8XpqrpCptL23Rc7DJw/0PIIyt+
+ C6C//kO+RrA0CbuSh065GGeP94k/G+2xlWiWjBFqxiQqzNP33tNs95ojV2olNXvzsHaa
+ dc+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MvzRJZhT32t8YLq1p7tTmTftvQr2Kw+sjRA39Zk7VJA=;
+ b=W1XECo+Pt/ZBJJj6GvQWck3ByXf9S9QAo1pZVwFawOC4sT96w5t/8DVXlJvPdIDm/Z
+ 5g29WKxvcuT1VOauZ4mzug1udvT4ILwVa+eoQMUX42RHbe0oK4lGBQyQV3vcOFcvxvmc
+ EM9fUoYvyUafxJffiDDrR2YWSnPgY6eBFEaofiWoJ0HYZYpARQR6Jue7PcXR8pUNloP7
+ TUUrmjvEdqR59esw1z5jwZ6F4catbtvpomEQ5niEr2qZD+YeRpDnpn3sXFQCtv831Rzi
+ QBoQXBrsfATxXGVKDheGFZpRhH6fbsfxg5SXHDQ3rY4Ka3KGRO2C7QgGf7a+2uhz/vo7
+ bwvA==
+X-Gm-Message-State: AOAM5330+8HXRqtxtBdOeiF3ROFDhqeDFg2nGHl3eGwVllNxgW2TAnNj
+ ANJvsqlmQMqrjHDFThpeghE=
+X-Google-Smtp-Source: ABdhPJz+GszmbArYU42rrLZYTAZPSKxrMWnHd4ohUiCjNKuWcylfIu0ogoX18rp84GNvKKN0FCAt2g==
+X-Received: by 2002:a7b:c014:: with SMTP id c20mr14662626wmb.81.1629114305730; 
+ Mon, 16 Aug 2021 04:45:05 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id w11sm10174890wrr.48.2021.08.16.04.45.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Aug 2021 04:45:05 -0700 (PDT)
+Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to user
+ forks
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210812180403.4129067-1-berrange@redhat.com>
+ <20210812180403.4129067-3-berrange@redhat.com> <87y291u0st.fsf@redhat.com>
+ <YRpGFnvZznlU9RKQ@redhat.com>
+ <3062c8e9-b7f1-30ef-ddfa-006f4ea4f7e7@amsat.org>
+ <YRpNUE7722YPIYjq@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <5f6194a8-1cf9-ae2a-1e29-556bd0ec1d46@amsat.org>
+Date: Mon, 16 Aug 2021 13:45:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210816113059.h2srf2tmvylzhhjp@mozz.bu.edu>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <YRpNUE7722YPIYjq@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,82 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16, 2021 at 07:30:59AM -0400, Alexander Bulekov wrote:
-> On 210816 1211, Daniel P. Berrangé wrote:
-> > On Mon, Aug 16, 2021 at 06:22:46AM -0400, Alexander Bulekov wrote:
-> > > On 210816 1001, Peter Maydell wrote:
-> > > > On Sat, 14 Aug 2021 at 07:10, Thomas Huth <thuth@redhat.com> wrote:
-> > > > >
-> > > > >  Hi Peter,
-> > > > >
-> > > > > in case we're going to have an -rc4, here's a pull request that contains
-> > > > > the fixes for getting the gitlab-CI green again. I also added some doc
-> > > > > updates since they should be completely riskless. But if we won't have an
-> > > > > rc4 due to other reasons, this pull request here certainly also does not
-> > > > > justify another RC, so please ignore this PR in that case.
-> > > > >
-> > > > > The following changes since commit 703e8cd6189cf699c8d5c094bc68b5f3afa6ad71:
-> > > > >
-> > > > >   Update version for v6.1.0-rc3 release (2021-08-10 19:08:09 +0100)
-> > > > >
-> > > > > are available in the Git repository at:
-> > > > >
-> > > > >   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-08-11
-> > > > >
-> > > > > for you to fetch changes up to 36b508993c4dcc6b3ef4b5c00e293ee9560926ee:
-> > > > >
-> > > > >   docs/about/removed-features: Document removed machines from older QEMU versions (2021-08-11 15:39:09 +0200)
-> > > > >
-> > > > > CI run can be seen here:
-> > > > >
-> > > > >  https://gitlab.com/thuth/qemu/-/pipelines/351602605
-> > > > >
-> > > > > ----------------------------------------------------------------
-> > > > > * Fixes for the gitlab-CI (fix the hanging  build-oss-fuzz pipeline)
-> > > > > * Add documentation about features that have been removed in older versions
-> > > > >
-> > > > 
-> > > > 
-> > > > Applied, thanks.
-> > > > 
-> > > > Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-> > > > for any user-visible changes.
-> > > 
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/1505950978
-> > > Looks like build-oss-fuzz is still timing out, even without the issue
-> > > in the vhost-usr-blk test. At this point the job should essentially just
-> > > build + test qemu-system-i386 with some extra time spent on linking
-> > > the fuzzer and briefly running through all the fuzzer configs. Maybe the
-> > > only way to make this work is to split the job into a build + test
-> > > stage?
-> > 
-> > At this point I think we should just disable the job in gitlab entirely.
-> > We've spent too long debugging this, while leaving CI red for everyone.
-> > 
-> > Whomever is interested in this can then work to find a way to make it
-> > reliable and request it be re-enabled once confident that it will work.
-> > 
+On 8/16/21 1:35 PM, Daniel P. Berrangé wrote:
+> On Mon, Aug 16, 2021 at 01:20:14PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 8/16/21 1:03 PM, Daniel P. Berrangé wrote:
+>>>> (c) a subsystem maintainer is preparing a pull request
+>>>>
+>>>> Ideally, that should run the 'gating' set, to eliminate needless bounces
+>>>> of the pull request; plus some subsystem-specific manual testing on
+>>>> top. In practice, the 'full' set might be good enough.
+>>>
+>>> Yeah, the full/gating set is what I would thing subsys maintainers
+>>> would want to use, to minimize risk that Peter's tests throw back
+>>> the merge due to failure. The only difference of gating vs full
+>>> is whether the acceptance tests run.
+>>
+>> "run" or "pass"?
 > 
-> On my mirror the job succeeded in 41 minutes... I guess you have to get
-> lucky with scheduling/ambient load.
-> https://gitlab.com/a1xndr/qemu/-/jobs/1506197531
+> In 'full' set the acceptance test jobs are marked to allow to be
+> triggered manually and won't affect pipeline status if they fail
 
-I don't think load would make that much of a difference. It smells like
-there is still some non-deterministic bug in there that is causing a
-hang of the job.
+I'd expect 'full' to *run* all tests, having acceptance tests
+tagged with 'allow_failure', not 'manual', but I realize this
+is a waste of resources. OK then.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> In 'gating' set the acceptance test jobs always run and are
+> required to pass.
+> 
+> 
+> Regards,
+> Daniel
+> 
 
