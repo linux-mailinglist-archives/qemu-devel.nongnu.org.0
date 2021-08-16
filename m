@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F403ED11D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 11:38:34 +0200 (CEST)
-Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8AC3ED145
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 11:49:31 +0200 (CEST)
+Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFZ4j-0003Pv-8a
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 05:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
+	id 1mFZFJ-00004v-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 05:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFZ3n-0002H0-V8
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 05:37:35 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFZ3l-0004Ev-9s
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 05:37:35 -0400
-Received: by mail-ej1-x630.google.com with SMTP id u3so30626406ejz.1
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 02:37:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cEeJFdbC9rRTnTQqm32d3tN6zCBpZhmaH3HltzkXtuc=;
- b=p1tC1ICAUdKFDP9Aeo2Rvf/ek3H7uOIZpf+1i8G4jDh2JcYE9o72WMrbs9BbfcuEwM
- z8C8vc6e0qFwovkmKo1jJCTOsWr6RWdK/f1Kq/vRWBhA+jETUwxJbZoDTdqVmtYNLO/k
- ZOT0MyiXtgo+PagY2yYbxicww0PB9UnYQ+2CTZiLphR4jybGbNpCh1hn1DSjcsjFpV5d
- fXcrbIdIfbTpwTDxtLWJ8GsJcJchnhMjrE0MfCOajQ2id1WHp1A81ENucdHk2xwZzWPA
- XcZb+NikMPuz69F8lhz6C+n8In04czO5g2esj1SXLSDxMW0OFY/3i2eTltBoV8C06CDb
- GaqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cEeJFdbC9rRTnTQqm32d3tN6zCBpZhmaH3HltzkXtuc=;
- b=TsvoUYxwtoLQvL/uNKbQwGJMKkh1KSVm9ezr2iBHYcI8w/MzZNptnwvNG+JO81LeWP
- 297GftiUINDpgUeNz7BPEJammke8+D/az1DxhGXUEN2E/6cdMMh7Ah+jqyOCq40AZsPC
- y1EecB6pJv8uTt+iEZfTuS15v+gND9k0rS49zoKo6XKhLdu4XDLjym+y4dLGiAMrZyJ9
- 01LmiyQF7NKhTZwUc2BMLY975jeeYbBln88Mj7q/IDRU2KwV2iJ0rmNnna3h+Y//KajQ
- oN8hd5kC6k5vWI9ZyEJJSA1MYZSFRaq11AG4po+rdCC+EiuReBekfeDSDE2QMW4XEC0r
- K8sg==
-X-Gm-Message-State: AOAM5318UwFiYzDtWmxTFIn17Vii85D0WocB59/IDBhRz4jST4qUYyNU
- qHIh8s7m9PcIi0Z9ai71QosEn2z0Wlw+x390LPrqXA==
-X-Google-Smtp-Source: ABdhPJyRvv56R0U+jjD2z2H8qUhi1Ra6d1vOGVrWIJk5aqT2nvOIEADz5L7o0nFfZUDEZDWVKr7WVZDIMW07J99cok4=
-X-Received: by 2002:a17:906:aac7:: with SMTP id
- kt7mr15236885ejb.4.1629106651495; 
- Mon, 16 Aug 2021 02:37:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mFZDp-0005zU-Tw
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 05:47:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mFZDl-00050F-O9
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 05:47:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629107272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iNV1YL9IUvWjng4vGHQxfCq1cTu6N5PVelr3pW6GVH8=;
+ b=a/9krgxWV5/kWuWWIdiMPvMuug5dlwUzluPNVTqlsm+VSD012ryhPIy2hE38sDQupDL2OS
+ SAlZysT3eZ3lRmow6A5b2q/lKH+60aqXYUMsQqc2OhevAR5pQNYOnOmxjuoU4aUPQb6hPq
+ fr2e4865YrMgN6g1SbOf/Pkb5Q4iG3A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-UQg43PdbOc-MfRXIz7lFFA-1; Mon, 16 Aug 2021 05:47:51 -0400
+X-MC-Unique: UQg43PdbOc-MfRXIz7lFFA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A78698799EC;
+ Mon, 16 Aug 2021 09:47:50 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.192.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07D7C19C44;
+ Mon, 16 Aug 2021 09:47:40 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] util/oslib-posix: Support MADV_POPULATE_WRITE for
+ os_mem_prealloc()
+Date: Mon, 16 Aug 2021 11:47:32 +0200
+Message-Id: <20210816094739.21970-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-10-peter.maydell@linaro.org>
- <86d7a767-f53e-dfa2-3641-9e39512c0512@amsat.org>
- <CAFEAcA8DNSS-0oXCDWeFNkin=mbNePS3CamnCgvvC+89KOWXTw@mail.gmail.com>
- <bad5ee5a-0f13-6d12-5055-4c649f78aa4e@amsat.org>
-In-Reply-To: <bad5ee5a-0f13-6d12-5055-4c649f78aa4e@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Aug 2021 10:36:46 +0100
-Message-ID: <CAFEAcA-iG=a_A+OSXrJhh2+qo09vvSJPH7oF0fft_kg229eAvQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 09/25] clock: Provide builtin multiplier/divider
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Aug 2021 at 10:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> On 8/16/21 11:05 AM, Peter Maydell wrote:
-> > On Sun, 15 Aug 2021 at 17:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >> I only wonder if we shouldn't check clock_is_enabled() here.
-> >> Maybe not assert, but at least report a GUEST_ERROR?
-> >
-> > Setting the multiplier on a disabled clock doesn't seem like
-> > an error to me. I would expect a common way for the guest to
-> > program a clock-controller would be "first set the divider
-> > and any other parameters; finally, enable the clock".
->
-> Eh sorry I meant the other way around :/ It is usually either
-> illegal or undefined behavior on real hw to change a clock scale
-> while it is active. Personally I'd be interested to catch guests
-> doing so. I was thinking of:
->
->     if (clock_is_enabled(clk)) {
->         qemu_log_mask(LOG_GUEST_ERROR,
->                       "Changing scale of ENABLED clock '%s'\n'",
->                       CLOCK_PATH(clk));
->     }
+#1 is a preparation for improved error reporting, #2 adds support for
+MADV_POPULATE_WRITE, #3 cleans up the code to avoid global variables and
+prepare for concurrency, #4 and #5 optimize thread handling, #6 makes
+os_mem_prealloc() safe to be called from multiple threads concurrently and
+#7 makes the SIGBUS handler coexist cleanly with the MCE SIGBUS handler
+under Linux.
 
-I think if particular clock-controller hardware has that
-restriction we should be logging guest errors there. (Doing that
-also has the advantage that we can make the error clearer by being
-specific about what guest hardware register/device is being
-mis-programmed.) I don't think we can be certain enough that it's
-always wrong to change the divider on a running clock to put the error
-in the common clock API code. (Among other things, I suspect a warning
-here would be easy to trigger incorrectly when connecting up hard-wired
-clock dividers at startup.)
+Details regarding MADV_POPULATE_WRITE can be found in introducing upstream
+Linux commits 4ca9b3859dac ("mm/madvise: introduce
+MADV_POPULATE_(READ|WRITE) to prefault page tables") and eb2faa513c24
+("mm/madvise: report SIGBUS as -EFAULT for MADV_POPULATE_(READ|WRITE)"),
+and in the man page proposal [1].
 
-thanks
--- PMM
+v2 -> v3:
+- "util/oslib-posix: Let touch_all_pages() return an error"
+-- Added
+- Added ACKs/RBs
+- "util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()"
+-- Set error code accordingly
+
+v1 -> v2:
+- "util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()"
+-- Handle thread with no data to initialize
+-- Always set use_madv_populate_write properly
+-- Add comment regarding future fallocate() optimization
+- "util/oslib-posix: Don't create too many threads with small memory or
+   little pages"
+-- Added
+- "util/oslib-posix: Avoid creating a single thread with
+   MADV_POPULATE_WRITE"
+-- Added
+- "util/oslib-posix: Support concurrent os_mem_prealloc() invocation"
+-- Add missing g_once_init_leave()
+-- Move g_once_init_enter() to the place where it is actually needed
+- "util/oslib-posix: Forward SIGBUS to MCE handler under Linux"
+-- Added
+
+[1] https://lkml.kernel.org/r/20210816081922.5155-1-david@redhat.com
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+
+David Hildenbrand (7):
+  util/oslib-posix: Let touch_all_pages() return an error
+  util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+  util/oslib-posix: Introduce and use MemsetContext for
+    touch_all_pages()
+  util/oslib-posix: Don't create too many threads with small memory or
+    little pages
+  util/oslib-posix: Avoid creating a single thread with
+    MADV_POPULATE_WRITE
+  util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+  util/oslib-posix: Forward SIGBUS to MCE handler under Linux
+
+ include/qemu/osdep.h |   7 ++
+ softmmu/cpus.c       |   4 +
+ util/oslib-posix.c   | 231 ++++++++++++++++++++++++++++++++-----------
+ 3 files changed, 187 insertions(+), 55 deletions(-)
+
+-- 
+2.31.1
+
 
