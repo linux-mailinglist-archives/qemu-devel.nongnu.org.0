@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045A83EDF08
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:06:01 +0200 (CEST)
-Received: from localhost ([::1]:49530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001F93EDF0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:07:38 +0200 (CEST)
+Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFjnz-00039X-VY
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
+	id 1mFjpa-0006hH-1U
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mFjlp-0001ZP-1W
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:03:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59893)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mFjoB-0004oF-Hf
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mFjlm-00036o-Nz
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:03:44 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mFjo9-0004pB-Uy
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 17:06:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629147821;
+ s=mimecast20190719; t=1629147968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pgzuZVMIuGK0gWweyiA7Cbm8kwbPz+OcgoBgiqfM4QU=;
- b=UZt8yV+5gh5Z/lpAodKzrJ+JNOLnYczW5GLOjE3W0crbA6qxduA4hMmGsPaAkSsNKyZeG5
- lyeZnImmqP0GKu8L/PbjVvWvvUe07WtuLsKMfF7GqSK8a7viywjCnrhV+V1g1UPQ56Wc+J
- GxwiBElHbcgPq0EowxJQXJuqheP9L9o=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0A/Shx2phoNgH0FdRIi4RQtIIQJcyCzOH7p+BQWTwUY=;
+ b=cmrUFipOVgYCdpyaY0q3S/eDOVsJvbymdTooi2ui5xkH/8YvYEmsqRDkg6CXnH0XMErl1g
+ SXjPystLj5TM3xiEUw4BFuI7gZ07fGmaoe3A3f5vqWdHAehIPI10S0J+lIHanc+tNDay5d
+ tN7evPUe50dYTRGL/Q+A3g8uXG30iJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-Ntqksru6OLimVwoHz_5mBg-1; Mon, 16 Aug 2021 17:03:39 -0400
-X-MC-Unique: Ntqksru6OLimVwoHz_5mBg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-276-RGid5mcqM3alxTrVn6F3tA-1; Mon, 16 Aug 2021 17:06:05 -0400
+X-MC-Unique: RGid5mcqM3alxTrVn6F3tA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 583F08042EF;
- Mon, 16 Aug 2021 21:03:38 +0000 (UTC)
-Received: from redhat.com (ovpn-113-125.phx2.redhat.com [10.3.113.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFDA069CBC;
- Mon, 16 Aug 2021 21:03:37 +0000 (UTC)
-Date: Mon, 16 Aug 2021 16:03:36 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] qemu-storage-daemon: Only display FUSE help when FUSE is
- built-in
-Message-ID: <20210816210336.zbzqhia6ewdugapa@redhat.com>
-References: <20210816180442.2000642-1-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 762E2192CC42;
+ Mon, 16 Aug 2021 21:06:04 +0000 (UTC)
+Received: from localhost (unknown [10.22.10.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CFA119C44;
+ Mon, 16 Aug 2021 21:06:04 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/1] Last minute fix for -rc4
+Date: Mon, 16 Aug 2021 17:06:02 -0400
+Message-Id: <20210816210603.42337-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210816180442.2000642-1-philmd@redhat.com>
-User-Agent: NeoMutt/20210205-719-68949a
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,39 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qing Wang <qinwang@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16, 2021 at 08:04:42PM +0200, Philippe Mathieu-Daudé wrote:
-> When configuring QEMU with --disable-fuse, the qemu-storage-daemon
-> still reports FUSE command line options in its help:
-> 
->   $ qemu-storage-daemon -h
->   Usage: qemu-storage-daemon [options]
->   QEMU storage daemon
-> 
->     --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>
->              [,growable=on|off][,writable=on|off]
->                            export the specified block node over FUSE
-> 
-> Remove this help message when FUSE is disabled, to avoid:
-> 
->   $ qemu-storage-daemon --export fuse
->   qemu-storage-daemon: --export fuse: Invalid parameter 'fuse'
-> 
-> Reported-by: Qing Wang <qinwang@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  storage-daemon/qemu-storage-daemon.c | 2 ++
->  1 file changed, 2 insertions(+)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+The following changes since commit bd44d64a3879bb6b0ca19bff3be16e0093502fac=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021=
+-08-11' into staging (2021-08-15 16:46:23 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request=0D
+=0D
+for you to fetch changes up to bbd0db9dc4751b6ab0884e92421fa4b2c3d3b532:=0D
+=0D
+  machine: Disallow specifying topology parameters as zero (2021-08-16 16:5=
+5:39 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Last minute fix for -rc4=0D
+=0D
+Bug fix:=0D
+* Disallow specifying topology parameters as zero=0D
+  (Yanan Wang)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Yanan Wang (1):=0D
+  machine: Disallow specifying topology parameters as zero=0D
+=0D
+ hw/core/machine.c | 14 ++++++++++++++=0D
+ qapi/machine.json |  6 +++---=0D
+ qemu-options.hx   | 12 +++++++-----=0D
+ 3 files changed, 24 insertions(+), 8 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
