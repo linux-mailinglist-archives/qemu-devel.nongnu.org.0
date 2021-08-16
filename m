@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9FB3EDEE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 22:58:16 +0200 (CEST)
-Received: from localhost ([::1]:36766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34213EDEEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 23:02:28 +0200 (CEST)
+Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFjgV-0002gt-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 16:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42622)
+	id 1mFjkZ-0007FV-QL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 17:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFjaS-0000cb-RE
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:00 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFjaQ-0003DC-Bt
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:00 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so342113wme.1
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wdZ5zuA1pHnV+y+AJTFvRv79XLVqHrg7+7oNpQDjPU8=;
- b=dLVVrnU0RBwYHrsaWDYR/vMLsV2l0s+w6Z7HN3tzyuCt2TtoFjPjAIYOXfNFvZ6pNx
- dRiXQ2eb9fdBXbPXgcaSBU15v7gTC+eSyJhoAH3lLlJbjG+uKVNS8PVJ13XDPQKveA0R
- n6yQoGJucuIWtZ3dGGiRWZF7dfIv5iuBy+Y/6FIb4GhDQ7+oluNu7RMVpUu09VUMwhMf
- U3UM/1AWH1ZxEsblmkhcfCFAPuZbgsCmt1wD+92tbgtePdBCXFO73atgVOPz3fGo7hhJ
- 6J27xeI8ExXkmZEI8QC07pzrapHtx2jTWYQxX9kthQ1/xcKJupVTWXxIDHZ4b5AQ1eEY
- fU7g==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFjam-0001CE-1M
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFjai-0003PJ-QN
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:52:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629147134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nfgbyFPaAzJcSHWgnvNt2e2J+38+Wn3Ek9DJ021Nj9M=;
+ b=T9BBlc1DZLaYcxL+kbrOhclzW4IT7tlSOZ7BI7uwNB0j9vs2dsEssYk1Vl1uKZiXEe/r7C
+ VC9Zzemi+gpXR6Anu08RZZ49zyt+W/qm6r4YKREpbU+YVyFzaARpY3wkSKkG0IYV3VKUjY
+ 8nXCGfj0hQmVIWPCB+myWt7rwk8RzW0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-pomWE_ygNvOH-OERRPoJEg-1; Mon, 16 Aug 2021 16:52:13 -0400
+X-MC-Unique: pomWE_ygNvOH-OERRPoJEg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ l24-20020ac84a98000000b00298c09593afso2015264qtq.22
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:52:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wdZ5zuA1pHnV+y+AJTFvRv79XLVqHrg7+7oNpQDjPU8=;
- b=Q79Gk499SyU4w72+YCZywLtanKHhIRsDX1P8oOLEdpD3+1a/4gSeepMD0KZHe2v04p
- Rx9TifO4TnTd7tYeyDKmPsp7OL29peG5yXShe75no+qptAfTPJruV06qdunmaLQD8oPR
- aQqvecG1tmZB39W3zo7WoiXUcpGoNbDJNMstwXugRaYbTvtWiiFdyBSCPnEQfXGkVZTj
- JrJnYpr2bffZygQ+UpzUtv43V5AA6hIZOdzgEEnvsHnoV4qjm9M4l0C+VR1uruSumtiN
- Sp4e+OLnbBHQUhqhJsZiGWTVOGt3GqfAWosdxoeopNZuu5lXUF4I6ooxtGQ3eqYQUlAG
- pbEw==
-X-Gm-Message-State: AOAM533YJPy0m4udTnp8OKY+qmMsUz/P7sgxgeM+3IXbh3XciM6IzVR6
- TKpLxHKkKmAVw7ArEFDt9CzKo9obdlA=
-X-Google-Smtp-Source: ABdhPJy5wFMrItlBfs4yyjygWrGY5PcjRKtnfTdy5SZhHMmgipwdOph8Lh8uM60W5QyKf8zdbWDWMA==
-X-Received: by 2002:a05:600c:364b:: with SMTP id
- y11mr50057wmq.11.1629147116790; 
- Mon, 16 Aug 2021 13:51:56 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- o10sm309778wrq.51.2021.08.16.13.51.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nfgbyFPaAzJcSHWgnvNt2e2J+38+Wn3Ek9DJ021Nj9M=;
+ b=EG6vK9lzYp6kRtf7Wf9lsyd0ZntSBtP97+KzanzTiD4xze3R+UTE/0kit6nQb+6fg9
+ w08KIAkWHskun8C9N0vjR2TF34sBCrdQVdtkNjH+l+y5l5TdiyYzorS4AxYOmm6ZGblg
+ zJsMKIGDJTzvlByqQlpSe2ia464oSgWt58QI3boVq8I5biC2s6+orQqE1oB+8kdsxVdE
+ 4HD+Ay80CBqdA0NuykGQZr5rQdrlEv+SYEhOIv/2BBczVdyaosmFU7hWEX/7WWJBvito
+ dWZmSnQL7rQfUpgDsJQ8AvjaVFdyyP0ZATEp517Ur1qi3sQCMENkjJgBurtk1ZF213sp
+ PCrA==
+X-Gm-Message-State: AOAM533U9gcd5OwwCAXqWjtLoi4/f71DdiCwGOk9/6WnCLH6RZJ5dwkN
+ hp4rx6FI8ysNH3o6kEakjnchY2WWMVMnzWsC8Q4r19BU9w3iYDjIjD0XLCVd19fb//3GCdJKG7c
+ qQU2u3JAgWRTxOls=
+X-Received: by 2002:a37:e406:: with SMTP id y6mr267951qkf.248.1629147132906;
+ Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6L/08eqF6wx8iJ8YjdsVKsd/p/WaY0guoDMEXJagmd761Z5TGEhC29vBD23jSDVUFZL7Aqg==
+X-Received: by 2002:a37:e406:: with SMTP id y6mr267931qkf.248.1629147132654;
+ Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id y67sm9354qkd.58.2021.08.16.13.52.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 13:51:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] target/mips: Define gen_helper() macros in translate.h
-Date: Mon, 16 Aug 2021 22:51:07 +0200
-Message-Id: <20210816205107.2051495-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210816205107.2051495-1-f4bug@amsat.org>
-References: <20210816205107.2051495-1-f4bug@amsat.org>
+ Mon, 16 Aug 2021 13:52:12 -0700 (PDT)
+Date: Mon, 16 Aug 2021 16:52:10 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH-for-6.1 v2] softmmu/physmem: fix wrong assertion in
+ qemu_ram_alloc_internal()
+Message-ID: <YRrP+tDsIyL3MaWO@t490s>
+References: <20210805092350.31195-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210805092350.31195-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,73 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to split some code calling the gen_helper() macros
-out of the huge translate.c, we need to define them in the
-'translate.h' local header.
+On Thu, Aug 05, 2021 at 11:23:50AM +0200, David Hildenbrand wrote:
+> When adding RAM_NORESERVE, we forgot to remove the old assertion when
+> adding the updated one, most probably when reworking the patches or
+> rebasing. We can easily crash QEMU by adding
+>   -object memory-backend-ram,id=mem0,size=500G,reserve=off
+> to the QEMU cmdline:
+>   qemu-system-x86_64: ../softmmu/physmem.c:2146: qemu_ram_alloc_internal:
+>   Assertion `(ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC))
+>   == 0' failed.
+> 
+> Fix it by removing the old assertion.
+> 
+> Fixes: 8dbe22c6868b ("memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()")
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+> 
+> v1 -> v2:
+> - Added rbs
+> - Tagged for 6.1 inclusion
+> 
+> ---
+>  softmmu/physmem.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 3c1912a1a0..2e18947598 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2143,7 +2143,6 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+>      RAMBlock *new_block;
+>      Error *local_err = NULL;
+>  
+> -    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC)) == 0);
+>      assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
+>                            RAM_NORESERVE)) == 0);
+>      assert(!host ^ (ram_flags & RAM_PREALLOC));
+> -- 
+> 2.31.1
+> 
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Will be used in following series. Can resend there as first
-patch.
----
- target/mips/tcg/translate.h | 12 ++++++++++++
- target/mips/tcg/translate.c | 12 ------------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+Today I just noticed this patch is still missing for 6.1. How many users are
+there with reserve=off?  Would it be worth rc4 or not?
 
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index bb0a6b8d74f..eac01a81182 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -113,6 +113,18 @@ enum {
-     OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
- };
- 
-+#define gen_helper_0e1i(name, arg1, arg2) do { \
-+    gen_helper_##name(cpu_env, arg1, tcg_constant_i32(arg2)); \
-+    } while (0)
-+
-+#define gen_helper_1e0i(name, ret, arg1) do { \
-+    gen_helper_##name(ret, cpu_env, tcg_constant_i32(arg1)); \
-+    } while (0)
-+
-+#define gen_helper_0e2i(name, arg1, arg2, arg3) do { \
-+    gen_helper_##name(cpu_env, arg1, arg2, tcg_constant_i32(arg3));\
-+    } while (0)
-+
- void generate_exception(DisasContext *ctx, int excp);
- void generate_exception_err(DisasContext *ctx, int excp, int err);
- void generate_exception_end(DisasContext *ctx, int excp);
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 93b72c994f2..40cb1fc9508 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -1213,18 +1213,6 @@ TCGv_i64 fpu_f64[32];
- 
- #include "exec/gen-icount.h"
- 
--#define gen_helper_0e1i(name, arg1, arg2) do {                    \
--    gen_helper_##name(cpu_env, arg1, tcg_constant_i32(arg2));     \
--    } while (0)
--
--#define gen_helper_1e0i(name, ret, arg1) do {                     \
--    gen_helper_##name(ret, cpu_env, tcg_constant_i32(arg1));      \
--    } while (0)
--
--#define gen_helper_0e2i(name, arg1, arg2, arg3) do {              \
--    gen_helper_##name(cpu_env, arg1, arg2, tcg_constant_i32(arg3));\
--    } while (0)
--
- #define DISAS_STOP       DISAS_TARGET_0
- #define DISAS_EXIT       DISAS_TARGET_1
- 
 -- 
-2.31.1
+Peter Xu
 
 
