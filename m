@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB953ED8BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 16:12:40 +0200 (CEST)
-Received: from localhost ([::1]:43048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DEB3ED8CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 16:17:33 +0200 (CEST)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFdLz-0004Dy-9p
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 10:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58592)
+	id 1mFdQi-0000uN-Jm
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 10:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mFdKg-0002c0-82; Mon, 16 Aug 2021 10:11:18 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:41979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mFdKe-0002IG-Jc; Mon, 16 Aug 2021 10:11:18 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id be20so26821299oib.8;
- Mon, 16 Aug 2021 07:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/sR3hoZ9UA6pFMmEoR9mIdcECv8wqeFUQJWMDOpuY1U=;
- b=ePrnsjun4a3+S7K5sn50+osrxFYzpjRva3+fRzlGpeXEdXay0XZWHvZte1WuH0fKkq
- iIgKPElzfi6dkRbj3Z2aBNDGxY+9pKmbeg6Bsz0FGz56WJeCGM2dEO8pHJH2D1U+4RsC
- 3Lh4v+RzaM5fbkmeHwkWoB4Sd3lpj18Wd2oU7Wr9s8d4JiLi7WXYajvaQwQ/vmNA2wWq
- i1a24QoC/h4b4OVRGhwQgH8R9vzAa+iuEZOvJqGpvyQcZ4RS+yna4c9pHxGoOeHsV3xX
- GGdSKab/K39Jm7vGahbIY981AvewXBmqgb4YsXPkuMchfxYBswrXy5VKOZEh6z8fS5E9
- G+PQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFdPC-0007jK-CG
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 10:15:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39227)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFdP9-0003ia-07
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 10:15:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629123353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wOn24gv5e1xoPCk04ah2Ne2U0/ni1ZgUlD/hdOrggBQ=;
+ b=Z4OYv94Pvzl3Tl7QWpEYce4DsD9KvllVdA3Y08Eeeavl+20b8y8jhNnL2JSNgNo7sHkpTd
+ qMWqFtr+OiusBJNPBHgtqAjjL7bLHkh7Y8VADgF3nGvQwVn1RtMM0yo7r0EfWeXi4oKIse
+ WxG7TpT9jxNcDb+Z9RQPyOE6PSqjUlo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-FNnwPQuVNySS2QsgcNke0Q-1; Mon, 16 Aug 2021 10:15:50 -0400
+X-MC-Unique: FNnwPQuVNySS2QsgcNke0Q-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y22-20020a0564023596b02903bd9452ad5cso8895101edc.20
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 07:15:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/sR3hoZ9UA6pFMmEoR9mIdcECv8wqeFUQJWMDOpuY1U=;
- b=JHrze7tnj9DiyTXCOn7EBBJ79U8zI1wOSUojZnIfBDveUp7dovljL9uzMLcPGd2cq5
- T/yEOLyRe8b/Rgn386yqWcZghRTyb967zvWjI4jjwUBEHYtn5Si0AxpwkgRaLJVyFpip
- lftuxrwJpF2os/2MP5J8oqVnVPBD+n9B2RjQ0dG3F6wd2w+bAasOw3SQVWfg2sffZb1W
- 9148uZh/2+NDAEx5rl3zMcnQNqsVP5lzUSHpBGhtCIDLjgH2iJVEPzBDkPgOKaOGoO0p
- mgKpfh+DXPdDy/k1VjuV69p0bYOvkQbcBvupWP4cus5ViNTJBZOmSjnTr92zKa9LW4Ku
- iNRA==
-X-Gm-Message-State: AOAM5313KYdnLazgJBJoQMlYFxtge9jUycXgQCsJ8Y1BXOlwtxMtQ2S6
- okgPD7Aa6MUczar10qhzWrs=
-X-Google-Smtp-Source: ABdhPJxWg+UrgoLnk8s2x/NW2b3vJN1l/Eyj2+tx6yhwDJ1YNVSW5pk3JJoZSbG7fgth6r6/0PR4yg==
-X-Received: by 2002:aca:170f:: with SMTP id j15mr11372128oii.151.1629123075211; 
- Mon, 16 Aug 2021 07:11:15 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- w9sm1357297oti.35.2021.08.16.07.11.14
+ bh=wOn24gv5e1xoPCk04ah2Ne2U0/ni1ZgUlD/hdOrggBQ=;
+ b=H5+gOzBoZ8w/tA5szDOnUyUvl1N/1kgvlVGsj6mAYWwyZqp2kE0UdEPx8WUSmNIpsT
+ L2e99PP7TA3bxgRGZjwYJZ5wEzxcDhkazuPlaC+V0vRn7GzPHE8MnAuP4tLdgweBPU97
+ JH3PFxzebPCw+zYxRLVd17plWIhihzzRF1V7exTZuNt5LFz3h/eSRWjhR0tv4z/FOQ15
+ ZcRRcEeZC6TEoWiLNdErYY+3x8yVwPb91X2lripuH06/eE9bTEGLUv+RSiRhCkRlO05w
+ 79uG6zPyaKqkc0qN44YpYivI5jyHLXMH9kHyAQbxR8seo/9F3sMsZmKXeKi1Uplrpxhw
+ OFUQ==
+X-Gm-Message-State: AOAM531Rs8soCSC4kFh1YHyfhK87IeL0m4Q5M2YG/lwpq/fupQKpHuQZ
+ tAxMEGzFHB9C/ppBsG/GR/lz/nPimoIDqsLIi8IvfrFZGTVc4Ob/pWSN7KnG9WnG4ayjDkvSZv1
+ 8GMK6mT9P0IDIaic=
+X-Received: by 2002:a17:906:3bc3:: with SMTP id
+ v3mr16169605ejf.482.1629123348751; 
+ Mon, 16 Aug 2021 07:15:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxb5EmaR+mgEUjRJGcJI5nwJ5mNoC0z4vG5b/1TWnbaRlUpnXPhmAfE4J4X07o1IJpivTwMkw==
+X-Received: by 2002:a17:906:3bc3:: with SMTP id
+ v3mr16169582ejf.482.1629123348545; 
+ Mon, 16 Aug 2021 07:15:48 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id ay3sm3760956ejb.0.2021.08.16.07.15.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 07:11:14 -0700 (PDT)
-Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210816025915.213093-1-linux@roeck-us.net>
- <YRn6d/Vb10JTmZ18@yekko>
- <CAFEAcA-KSFuYbkbu7iBvgLxgBgBPRGeOgLuEuh5g5_MO4=Nk0w@mail.gmail.com>
- <6b0a3a08-a57b-fbb6-71d8-3760d76fd265@roeck-us.net>
- <CAFEAcA_CJXseGT6A36h86Tt7rrgy0T14kXAMGLmR=AgO5W78ww@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <1ac55b8f-db96-0747-5beb-2016ef4bb6b1@roeck-us.net>
-Date: Mon, 16 Aug 2021 07:11:13 -0700
+ Mon, 16 Aug 2021 07:15:48 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+Date: Mon, 16 Aug 2021 16:15:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_CJXseGT6A36h86Tt7rrgy0T14kXAMGLmR=AgO5W78ww@mail.gmail.com>
+In-Reply-To: <cover.1629118207.git.ashish.kalra@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x22a.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +101,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
+ richard.henderson@linaro.org, frankeh@us.ibm.com, dgilbert@redhat.com,
+ dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 7:03 AM, Peter Maydell wrote:
-> On Mon, 16 Aug 2021 at 15:00, Guenter Roeck <linux@roeck-us.net> wrote:
->> The controllers are instantiated (it looks like the Linux driver doesn't
->> really check during probe if the hardware is present but relies on DT),
->> but when trying to access them there is a PHY error. If a different Ethernet
->> device is explicitly specified and instantiated, it either ends up as eth2
->> or as eth0, depending on the driver load order. That makes it difficult
->> to test those other Ethernet devices (and with it the PCI controller).
+On 16/08/21 15:25, Ashish Kalra wrote:
+> From: Ashish Kalra<ashish.kalra@amd.com>
 > 
-> I thought that code wasn't supposed to rely on the naming/ordering of
-> ethX anyway these days?
+> This is an RFC series for Mirror VM support that are
+> essentially secondary VMs sharing the encryption context
+> (ASID) with a primary VM. The patch-set creates a new
+> VM and shares the primary VM's encryption context
+> with it using the KVM_CAP_VM_COPY_ENC_CONTEXT_FROM capability.
+> The mirror VM uses a separate pair of VM + vCPU file
+> descriptors and also uses a simplified KVM run loop,
+> for example, it does not support any interrupt vmexit's. etc.
+> Currently the mirror VM shares the address space of the
+> primary VM.
 > 
+> The mirror VM can be used for running an in-guest migration
+> helper (MH). It also might have future uses for other in-guest
+> operations.
 
-Depends on what you call "that code". I use small buildroot based root file
-systems for testing which do depend on the load order (or, rather, on eth0
-working).
+Hi,
 
-Guenter
+first of all, thanks for posting this work and starting the discussion.
+
+However, I am not sure if the in-guest migration helper vCPUs should use 
+the existing KVM support code.  For example, they probably can just 
+always work with host CPUID (copied directly from 
+KVM_GET_SUPPORTED_CPUID), and they do not need to interface with QEMU's 
+MMIO logic.  They would just sit on a "HLT" instruction and communicate 
+with the main migration loop using some kind of standardized ring buffer 
+protocol; the migration loop then executes KVM_RUN in order to start the 
+processing of pages, and expects a KVM_EXIT_HLT when the VM has nothing 
+to do or requires processing on the host.
+
+The migration helper can then also use its own address space, for 
+example operating directly on ram_addr_t values with the helper running 
+at very high virtual addresses.  Migration code can use a 
+RAMBlockNotifier to invoke KVM_SET_USER_MEMORY_REGION on the mirror VM 
+(and never enable dirty memory logging on the mirror VM, too, which has 
+better performance).
+
+With this implementation, the number of mirror vCPUs does not even have 
+to be indicated on the command line.  The VM and its vCPUs can simply be 
+created when migration starts.  In the SEV-ES case, the guest can even 
+provide the VMSA that starts the migration helper.
+
+The disadvantage is that, as you point out, in the future some of the 
+infrastructure you introduce might be useful for VMPL0 operation on 
+SEV-SNP.  My proposal above might require some code duplication. 
+However, it might even be that VMPL0 operation works best with a model 
+more similar to my sketch of the migration helper; it's really too early 
+to say.
+
+Paolo
+
 
