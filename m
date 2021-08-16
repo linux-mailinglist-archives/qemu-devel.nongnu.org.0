@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFC83EDB4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 18:51:40 +0200 (CEST)
-Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255133EDBDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 18:59:20 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFfpr-0006OB-BV
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 12:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
+	id 1mFfxH-0001tv-7n
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 12:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1mFfhg-0000vD-Ib
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 12:43:12 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45702)
+ id 1mFfhi-00011t-N3
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 12:43:14 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:57618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1mFfhb-000810-Pw
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 12:43:12 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ id 1mFfhd-00081V-5a
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 12:43:14 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17GGZfZ6008090; Mon, 16 Aug 2021 16:43:06 GMT
+ 17GGbZUF029485; Mon, 16 Aug 2021 16:43:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=gK+Q0/rA5s16W+k1rf3tURI3UrxB7LD4G/Aog3Zoeyk=;
- b=MKNTClW7qizuI8SW16g1By3eofYdoZmuzg/eMd+HXURfYRfYHHyjpPZqoZw9CQL1vTxm
- zED8psAEm8f9FzVTmUCKZWr+RPOAwZhPYt2AgHF/4W/XR9rKNZgkAqddFBjDj8wQSNVe
- M+RLqTKoLOGVZgzzHTHF4NHcMqH/KrqVtyGqX2Vvph5kPDUiaRbzWjqAPMdmBD1bn2KO
- cqRb8O8w4xhk0ZpFU7JqveSCjbRFye3IGf7W/J7zKwdp01FJ7h7U6y6hcOAHPreTeOgZ
- 9EBdNL2kbWW6q9+Iyy72HfYjc3pA9sJFSHJ9dtU9eFbmPlOgmsRIifhpWqGOp6eBZXqm CQ== 
+ s=corp-2021-07-09; bh=dEIQoWq1svlzZmaE3BBG0U9ChO0Ig3r7lzdRFu1zmXw=;
+ b=OKDYLn5jlPLLKJw0oYntG/Vss9HE+NyQ8eODHM9n6tq6/5c6RfZjKvd9xlHhE/Vrwg7E
+ Q/bdqrzKAbbHC66RhBNojxR8Z2FZJlCt/98DkRTzt9M8bEoHNQfDueajU6bLnHBD22rY
+ iSMqel09Ps1E1xPvUoAf4+tqd0C/ta+m2Vls5NXRT0Fg8dorDAE3lpdWAnT9dnZTYr8C
+ gOUiiQIDOfSCfhEhU1N0K+U3J5o/6Dn3eMnZSmjzGXwXt0M71DqdY+1fXzMoN9DR60aL
+ mor4UvQlcLWYNtKBhd8LzJN5dmsN+BczaD68YlMlQHnW/mZzOjjUvCPs0P6y2G1oqWEk FA== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2020-01-29; bh=gK+Q0/rA5s16W+k1rf3tURI3UrxB7LD4G/Aog3Zoeyk=;
- b=oC2GmxKr7MtYe4tyE15V07HfaNwAPj0jyWEX+kNfJH2aL2zafQ4/YG6iX14cuDvmkJOh
- 6jcXB7nVPQp+B5jvHTrUg2j/SaUtvJGWljmDOeQpVr1XjqXhgB4I0X4QvYukGDzT8PXn
- r3JlEUHpjij5U7hbyeJFS6j2rRm14HtMw6sDMWaxgsNekp3An+qO5W/V5l8JZbsSP9ho
- 3XQkJ4+LkjSUIuWpWI7lCBz9wMuRZ0j3f1S5AObmyQDKQhAJvNKfUr1nMWt5T3Z2fqkh
- WKHk43Y6yQY9r339lPNBidGQ7F4gronWiLlclbIpuOSCsmrgLpIIzADjW770le1JiLF0 Qg== 
+ s=corp-2020-01-29; bh=dEIQoWq1svlzZmaE3BBG0U9ChO0Ig3r7lzdRFu1zmXw=;
+ b=hlG96/HiLKSUUcNKBHlXx2XrOAJu9O3TkzmzdKakGALAdMFpd2yNaifLVh8GxvPK/yRJ
+ 7lSg6tG5FxGVVWdeTWPh1f8w6Quf4EvOBtRU6aDx7jwD6IdxGTPiwE5+SiA24iZzooMc
+ BcZJoe+mxN33VND3LEFXkwZeCj2aHiNI2XVls2xBO37OUQSBjQu3v3Qddkyqb9ksUl5k
+ Hn4auw5p5fUpw0crhuWgBGKm/6QIjY8T+oVDu1BHJHat6RIcgEv4+tw1Q3p+mShOJr9H
+ yMnMzZ9exTHeTwQm3ptclluUvAMv004JX+D7F+FDVaUDVNCN8jkrCUcU8x4pjyWWU/7j 6w== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3afgpghjq2-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3af3kxtg13-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Aug 2021 16:43:06 +0000
+ Mon, 16 Aug 2021 16:43:07 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17GGeiuS113652;
- Mon, 16 Aug 2021 16:43:05 GMT
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17GGeiuT113652;
+ Mon, 16 Aug 2021 16:43:06 GMT
 Received: from nam10-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
- by aserp3020.oracle.com with ESMTP id 3ae5n609mu-3
+ by aserp3020.oracle.com with ESMTP id 3ae5n609mu-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Aug 2021 16:43:05 +0000
+ Mon, 16 Aug 2021 16:43:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hc5hcOl6Fv7y2iJPiQjBIFoFphWKJeBt2KDsL1XIKJVrfMkd96MmSYjQkYv0ZNuyq51AC7T5MqyVXupogba15KoIxZnsJADd/FpgVpk5OtUTEPwAMUCezp5/dHb9w3xtpZh/k0o7EMN1HwCURVbsJD9vBlqvEWX1YwfFuTBl/RZ1yYlvQNlZZNxa0WTT994wqX5yJBXGrmvLh2UBlKcvEFTiq7X2KVSbJBgjwmjs9L2CiwGQM+lFOyg/xbQMhOhx80k9gxFxQkjWQTz6iZha1MjIUe2Nxdbp0RtOVpDEmx0/N2lFWsS9kmkPneaZUXrxPEJ/ofe/CyBXdQs2SEFAhA==
+ b=WNQyAwaxvOwS0hknTBmwjhzYQwwIBuQPe0EDuCD+fdRdsDf36gPUD2Xz6EndfLAwknpkrbKbjevyjNSmdnjUf4PUv1Axb1dvkvUsIaoV5P5ZdAcBBRJI+W8MTuBdoey1gRICveSjl4q4nKAxouDV3hxBAiH+F16VnTz/kxpWGmr59OCGKeX57pCppDQg+1Ez5my9qLCWiENlurZfAD7e+VTAKnKfVapZ6uroSJQLZiMg3crC7Ib57urr/qZ0OiWwUDdtuxo0Z5y8lKm5PqPTh0GhuiFsWcC6MY807vMK6WvXL1nX9e8AaJvKPmmCwwvVFWpN79Xwz8R5UE+jUoA21A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gK+Q0/rA5s16W+k1rf3tURI3UrxB7LD4G/Aog3Zoeyk=;
- b=Jq/i33fjCRnQza2cO9Jvz4kR2ph03wytaT1vhOdaWeTSel+oa8LuKMGJ5HMxwwtLg4r8dZdDX4x7KY4hhenG6MzGfHw+Pkaf5m7HvckTXu2sdYxu2SCN/5b96CMnoS5gc+//TcYV8CV1ESOnZXp/cSD4u8RPPK6hWh9q5fqS1FYXZkOZACHCI24HgkVCIhrQUqS6yjFLv2hLzaKfCh7IweXcUkjuozK/Z6o9AoCI1ym3H9YV9QQStqfEbuIGxW5sWWj/VDpGw/ntJfIU3fwN7gz2FN/V+my35Eao/nigP8sg8J8aWgfh2elNYyo3rMt6BHRNSC4CmuMLC9I8zZ23ig==
+ bh=dEIQoWq1svlzZmaE3BBG0U9ChO0Ig3r7lzdRFu1zmXw=;
+ b=aAp/X6AX+V2iTJsxQbG1xLOwOv2xAzg/r7FKfwmqBHJnmieQc2v79TmQbvFKCu2Hz7uu4DDyczglgpOA0jip7nxiSEu7UKWfRRXRseaTDroIzfbDrpNVRiVdXZPEbIioT6Belk5CXbXR4wA/+QLqoCH6JKE1YvXKp0P9OpAr6z9qxop0ET6YsePNmtsYYK/2rlhSPoPmz3372HTiMMtc6i5ftx3S23rAxaeyKWrj0+5KomPB2CvGo0S/sleq60m++wUrMQUIToUJDaymO42oZVxuIPLucDsQnHiMzkOJTUYquENN7Khh1CZvi90m/tOjzCwaNH5GvcNyVLHKmO1FeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gK+Q0/rA5s16W+k1rf3tURI3UrxB7LD4G/Aog3Zoeyk=;
- b=oiyHiytyDCe4diT+Fg5GE8fvu6ExLCJQK5OKBCh+Drs6LNw9/df2ney/o00jMmtxAWOCBLGoKELNBOccn1mbFAABzrWU+GMZE3eGCVQpabnvV2cmM77UIKhJB4JVUXoNXwPrsdbc0HAeFdfcDWQaLZyaogahXSywSNGZYTKzXS8=
+ bh=dEIQoWq1svlzZmaE3BBG0U9ChO0Ig3r7lzdRFu1zmXw=;
+ b=aNTr/5y7I/m6XzXRDp2sZ65wzHZICmZLmc8uH9XtR/ehwOlyfPe9ZWzeSBN6aSjz3alzVeCTugKPWHXfW7bSL+gOaJdx04SDu+WzSQeth6mRWzdeZ6t5K9+PpmmqTZ3vl0cdKsGkohiGby0UcKFQYMMHChIgN5Wo4uH75F4Kd7g=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
  by SJ0PR10MB4765.namprd10.prod.outlook.com (2603:10b6:a03:2af::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15; Mon, 16 Aug
- 2021 16:43:03 +0000
+ 2021 16:43:04 +0000
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::5891:a7dc:5c2b:5539]) by BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::5891:a7dc:5c2b:5539%7]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
- 16:43:03 +0000
+ 16:43:04 +0000
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 15/16] vfio-user: pci reset
-Date: Mon, 16 Aug 2021 09:42:48 -0700
-Message-Id: <a988ef2657256ec70bf34c673b5348fd350b556e.1629131628.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH RFC v2 16/16] vfio-user: migration support
+Date: Mon, 16 Aug 2021 09:42:49 -0700
+Message-Id: <42758d8b56b1036d86cf2252c175071c1094a8b0.1629131628.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1629131628.git.elena.ufimtseva@oracle.com>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
@@ -102,53 +102,53 @@ Received: from nuker.hsd1.ca.comcast.net
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16 via Frontend
  Transport; Mon, 16 Aug 2021 16:43:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8aed286d-24d3-4e40-2ab4-08d960d4ea97
+X-MS-Office365-Filtering-Correlation-Id: 97624a51-8ec2-42bd-f8ee-08d960d4eaf2
 X-MS-TrafficTypeDiagnostic: SJ0PR10MB4765:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB47653C235563EEDE167AA2238CFD9@SJ0PR10MB4765.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:183;
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB4765FE62E226257B9114AB388CFD9@SJ0PR10MB4765.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:31;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E0U5mPtOVIU/v5M/IPeb953MiTn/2s+XkFwWAktW9wCsXiFAxXYFhTwTo6jdDyH6bprUjpVGWv9zs6KX0uJNLWTbvbfy159ArFvQZ7Gsc4DXScAjjlaE180n/yU/5sUxm5Lj+D4iMeVjJJsS4+WK7AJFOX9Ys0ijWqtM9bSrCc/44rxj0ijnrhCRZgUJ92T7XFmReIt1x8+1h1kztlvjU/xXuP7cuA8D5ys9CruHJs4AebMlMn0m/JPV1ChdpTlUyYpOFzas6bqgeFLEFFh82IurfwmfpSEqOujbBajqCvLJkopCX0JongMQ61VJaYtruJnNTmKzah42RA/mA2mYGR2vcTv7RJQIcelWr0pCgbDmdIbN4wqLsHAkcZEBQ4O+hk49ntPM7ZURsMNKi1J4OBZqXCT36lYJ5MMePcuCOSo/RAg6PusPdZu3VZpzAt8faLEk7gdGaNC8Y4SZbahp36wcx8bz67HafTrYVeLZxyR4A2YOpfY8gLs7vldjyz7G8dgaCou9ZYh38JsSe5AMUhADyMOs9tSJnV63luUllNMxXlxCcBQ82GC/9qIm/L7YyeD36BnFSAB3JMID21PXzwMYhR66P9O5NPACIgMF4lDLJ78bNdaSzYls4C3QevBSILCE37FtdwSN7X6yNGc3/A==
+X-Microsoft-Antispam-Message-Info: pJPeXVDf5qfRZjqVXwEEnVMKvbGmKOn3qwwKkklYYbhOQFJseg3vdiViVA9GIE9f7vwHJKLXCpJdO0D8j0yxZxTDW2JeygDSiZdns6yKKVudlCRCw119dOyHEm+LQbMHsMWX2hP3RsLioq7NZu+fvY1tr3ZXQ9pEzSnwj/oYaJfEscvR+m1zseI+foBjwvu4qatcWDvKmRbttWO1GO+GWZUgXFu75Y5GnooXylyCFsSn4wR7V7UrpIYf6FzyJZ5bE1A5C4ftairpmGeJ2XZqlFb6Eg8ErdENseUp4DjrS+gBuJQ/PdRyGg5e0L1A7egx3TRqnIvzLZMrrJMiZrcQHYIeSG6oD8ieC2XqJM4R+Uzbrv5aN1sPh9L3jy5sah9sFLTNy7Tntj8Pg1ajKk448Ut5kBqlcOETq2aZXdkaR8R8ijIEKJopqVNEub97PcCrJSchJpNBOTpprGvC4F/0W4ZRi/fUK0i9eYOrY7VvqfCwxzLKbR05crp+pGecdsr8vlwW/Uv5lVTZfg239obeQ+N9NcyqizKcZt2aPbCr8Ba46e5HN0rrcUugcvNtWmPoCNyVQArcYT6oM5X/POTSmm6YRhM7SEYL9TmsjOKy0KHdqN0WX1G5ZCVflUoaeCpLG9kwpjbRaekKPNSJVu5qGA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(186003)(2906002)(86362001)(66556008)(4326008)(38100700002)(8676002)(508600001)(66476007)(6486002)(66946007)(6506007)(5660300002)(44832011)(2616005)(6512007)(6666004)(36756003)(6916009)(316002)(52116002)(83380400001)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xGwKZQqyRzSCxLG7+EHJ43cz8k5VaIpsmD4MLXouwmopVbsc0rSQmk90lMJw?=
- =?us-ascii?Q?tec3Jqf50b/5M5S55iH6IurJX6eJ0ZID1t9AHs/toWtKjwpeVUoeJpzbXwkI?=
- =?us-ascii?Q?KokXF3ftZXq675IRZOQcYRIwWzNye7212CVc6rj8DGACGj1n67lJH3GTV0Qt?=
- =?us-ascii?Q?fk2owyIidrhCa1lB0ET50m6nrMcQ/icbx1DQ5Kd+oH/uPyl+PwJSAts7AZYn?=
- =?us-ascii?Q?sKHo/xArOXUIadgtAYrxY/TwL67NXt6YxfPMqQS7JkBT3wOdzVu3+3ZQI5sF?=
- =?us-ascii?Q?AXcU8A2MnXyXJK0w3ekb0BP0fH4JjpcbinXTTuuTJt+C6brmR37pywFH7mXC?=
- =?us-ascii?Q?iEktnfNZ407CVa4fQFRTfSzCJ1wZrH9JPRaAhD/k2PMoxFeTFMPFy0M9JyTP?=
- =?us-ascii?Q?KR27ewUQPC2H2NaLiaE14FbleqflaubmTsNy3b/zvkHCH//TalNDXXjSAh6K?=
- =?us-ascii?Q?b17sBX5xDepIOg6TnO5qCkCPael6B2FkxwfuzSj0lI/NcXNZ4TbR/oS95HS2?=
- =?us-ascii?Q?urCgtAzG/2fbYugbGehgo8YjLg54tbnWMaHuA0bDeKmApHxIOixlUjRI7NCQ?=
- =?us-ascii?Q?jq12nIG/Z5YU0L3HgMdxWzd+LahHcuRR07pYh6Ad+aHoki7YS0m+75/tkCKk?=
- =?us-ascii?Q?G/qj9xRFcdTIpITA7TcqRjs4lxN4LSxqbzGYFjXxzLiF2vg0Q4rpFqtrOtwZ?=
- =?us-ascii?Q?BjUHMGtCl21es9V0JY7OrOIz4LTvTeQVwJz2wRpYf4Jz/fDfraLpLIlPdfjA?=
- =?us-ascii?Q?tcp3LmtZlX88s1LXM5rZ17YtdaDHzpSUsJMqidoXWeLpnjfSmIRWM1S6ahyH?=
- =?us-ascii?Q?snOUlhkU/g0lmtLyh40HSM0XIpw9x086kbqJW5EL13Xy/Jr+qFSJ7V7t38y7?=
- =?us-ascii?Q?OgPOYK+tt2DfSoTee7ps3R/dDScUPp/xXys/tJokdHinnA16fIdra7gGuYM6?=
- =?us-ascii?Q?RieYx4lFfwUhNuyoC3+x5dOdXbfqfGlL2GId3cPbZeLRFiS8x7vQq9xcsn8B?=
- =?us-ascii?Q?mg22prSbdlpGouMthRjJNwTC0WlCszVD4w4G/2G17CcexyKhbN/WROayLqEV?=
- =?us-ascii?Q?DkfGbU+2e0oZH7tGd4d2Ran27Al2Ba7pIVofAl7nY/KCq0evDFeuO7gU1Mik?=
- =?us-ascii?Q?oLrzBjZPa+rT075nIVANPJ9ZAGcczBtIFbqsN2W36GaMkXaVihr2LznahSga?=
- =?us-ascii?Q?vOvXwFFILYr3ho34UREbODvs0PSfnhD4ExgQNOIkZHwykiDDPlq+iPYjxynd?=
- =?us-ascii?Q?klMDyk7cqxlw2LygawgocMA2k6rFn5geXZB4PaGBt5fkkOfL2Z7PDGcndrr9?=
- =?us-ascii?Q?miG5vgYNZIjtYarAViSiD2ISY+z0r99hQLU3mXQyyOJpzRaQgcZmERNFUA4A?=
- =?us-ascii?Q?zaTFNN548ZagNlWTtgt6MkU9vfKP?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s+eeu+JresGXjtcgOvyAW6TR9fN/xf7yIhwa67hJM+9FUhjxQfSoeQ02REFZ?=
+ =?us-ascii?Q?Vf0XRuBeoR3KlMwtZjOLAB1PScIRTvgQH0XycRjQ5Iw0XqSg1zsRyb/2Jt+K?=
+ =?us-ascii?Q?mhcuMHAtjtbuUgbnTJRxXXbNeNWRjX/B9mQSI8zY/VgQQPe7Gq0lhNuxHX9t?=
+ =?us-ascii?Q?TShL54XUUyestTUGaHKJcp2q30uJndtBtX+5q8iOx/Baq6/wsPrznRsUwRx1?=
+ =?us-ascii?Q?rSteIeOV/xGyF2RmVTk6geCZK+kqWky1TJjKBW3iS+KYoOvHRmihFkPlyCoO?=
+ =?us-ascii?Q?1ZNIZ465FqanI9Sv+g7+0MIfxwt4NBNbEuq6gVqG97WTzpu+/yI+qI73BhN+?=
+ =?us-ascii?Q?VSwxgFLwhLz/04Iq07zYU/R1sg2gasAErxujzZw6CLqbPzAdYCRnc4BrR6Z+?=
+ =?us-ascii?Q?f7HO5sLulITARLNWnSo6Dg6gBn/Xnf/qg8gRZvsrsHNVtPHjaXmTP9k3NQKY?=
+ =?us-ascii?Q?vEnlybUQySx32A1PRQAIKvCVmMEhGtwwr8yhx4Vl85hqS0mfjPlRwyuX9OWp?=
+ =?us-ascii?Q?pCn3fqy2gYTWqz7/Sn5JmdJ0ehCsepWhHOAqxxfDdB+efTr3XFR5QuLuRO4h?=
+ =?us-ascii?Q?b4cH4kZi1agvIRB0Q5md4c20oWiJ94eoTd3x1E07a8XC2PW0gQQGYEmOBaS1?=
+ =?us-ascii?Q?tfle6thA78N4J/QVmtgmwjgWrE2nc8PxDyZdcX/EFX7hsq4X2MGjjtzpQLCt?=
+ =?us-ascii?Q?Jr0zMuQznh2Qgh450KP85/1JxL0/fqUtcmhLyLA2vU5W9WTGrYMxbGVn28wy?=
+ =?us-ascii?Q?zizgbtb830Dp9D3AtjGpNa6W8SV5sdBXDwxOQYyd1riUarLaXKK54LkoZ1HZ?=
+ =?us-ascii?Q?kgFabUrWU4hBhDLq9tpZ8ys1xKw30puBg4WFgQGUOzy61+YX5ejUWtqQJaPW?=
+ =?us-ascii?Q?rMWcFXCybk636vpCZcgiyNdg3O9qM6+iSXDVSy+NaHTDIs+lyRpezOdJnjr6?=
+ =?us-ascii?Q?BQG0jfGH3rt9ZXFluTo81FerLEgRuYjClNNuOkQp3KACXLYq+sHGKbSD4EBn?=
+ =?us-ascii?Q?/9ScjbY5S7Ga5plB0UyhSFQshfi+wRP0AYOb0/L/HPU08hkHfACRka1GZOHc?=
+ =?us-ascii?Q?Ix0fTiQe7vJ7bhoClJfRMoVnZGQGoO+o6Qu3eRpFz+1n2b+tGc/msM4LYsVB?=
+ =?us-ascii?Q?CP67e9SFJdJv8nWWm4c2jaC/xptImVs63HqJxbzZ8zXD86k9LSJM07qLgwXx?=
+ =?us-ascii?Q?WMzARGkbrYnOHrO/Gmfoy9S4UD7dCUXncEy2Tzp0HFI2DKlWzdCwZMC8KCYe?=
+ =?us-ascii?Q?eOwYkIYMQhIkNXKwRB3ccz2f72Yi4jv+nMz7x1TunRArtHMA5n2+VMgEbruW?=
+ =?us-ascii?Q?zXClBJSkEAO3/L15Ft0soPNk7OlQPBVY88e6bDFVUExRaBTTv+eh2dpQV7FW?=
+ =?us-ascii?Q?kCdROrKtnNmDONc3ETmlTNne3WZo?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aed286d-24d3-4e40-2ab4-08d960d4ea97
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97624a51-8ec2-42bd-f8ee-08d960d4eaf2
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 16:43:03.6013 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 16:43:04.2320 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YvdoONj2+iKXTj1voFcxQfI1GGKR/jdlEXhLeWCEuLS+uOCcpsr8+gfiMm7gLc/PlFa/UL1zRaug+98IfzHA7nSVKKtV126uqMWTf3+6I2A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: efrAWQHbgL6kA5Zpf9yvfTfYVcoat4IHOpvd5HXIsOj22enzWU4ILHi7LAIdaYBDGRW9bwEH/etUbPWwoy43wSf03Ti7Upo7EUua14VTANQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4765
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10078
  signatures=668682
@@ -157,10 +157,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  suspectscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108160105
-X-Proofpoint-GUID: iI5wjs3fZpTrd9P67XQLNCynDIJL7nSk
-X-Proofpoint-ORIG-GUID: iI5wjs3fZpTrd9P67XQLNCynDIJL7nSk
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=elena.ufimtseva@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: AHfl2hyeULaEDUMwpNRoxHwtbzZBwaKq
+X-Proofpoint-ORIG-GUID: AHfl2hyeULaEDUMwpNRoxHwtbzZBwaKq
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -189,111 +189,301 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Johnson <john.g.johnson@oracle.com>
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/user.h |  1 +
- hw/vfio/pci.c  | 29 ++++++++++++++++++++++++++---
- hw/vfio/user.c | 12 ++++++++++++
- 3 files changed, 39 insertions(+), 3 deletions(-)
+ hw/vfio/user-protocol.h | 18 +++++++++++++++++
+ hw/vfio/user.h          |  3 +++
+ hw/vfio/common.c        | 23 ++++++++++++++++-----
+ hw/vfio/migration.c     | 34 +++++++++++++++++--------------
+ hw/vfio/pci.c           | 12 +++++++++++
+ hw/vfio/user.c          | 45 +++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 115 insertions(+), 20 deletions(-)
 
+diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
+index c5d9473f8f..bad067a570 100644
+--- a/hw/vfio/user-protocol.h
++++ b/hw/vfio/user-protocol.h
+@@ -182,6 +182,10 @@ typedef struct {
+     char data[];
+ } VFIOUserDMARW;
+ 
++/*
++ * VFIO_USER_DIRTY_PAGES
++ */
++
+ /*imported from struct vfio_bitmap */
+ typedef struct {
+     uint64_t pgsize;
+@@ -189,4 +193,18 @@ typedef struct {
+     char data[];
+ } VFIOUserBitmap;
+ 
++/* imported from struct vfio_iommu_type1_dirty_bitmap_get */
++typedef struct {
++    uint64_t iova;
++    uint64_t size;
++    VFIOUserBitmap bitmap;
++} VFIOUserBitmapRange;
++
++/* imported from struct vfio_iommu_type1_dirty_bitmap */
++typedef struct {
++    VFIOUserHdr hdr;
++    uint32_t argsz;
++    uint32_t flags;
++} VFIOUserDirtyPages;
++
+ #endif /* VFIO_USER_PROTOCOL_H */
 diff --git a/hw/vfio/user.h b/hw/vfio/user.h
-index 32e8b70d28..5d4d0a43ba 100644
+index 5d4d0a43ba..905e0ee28d 100644
 --- a/hw/vfio/user.h
 +++ b/hw/vfio/user.h
-@@ -86,6 +86,7 @@ int vfio_user_region_read(VFIODevice *vbasedev, uint32_t index, uint64_t offset,
-                           uint32_t count, void *data);
+@@ -87,6 +87,9 @@ int vfio_user_region_read(VFIODevice *vbasedev, uint32_t index, uint64_t offset,
  int vfio_user_region_write(VFIODevice *vbasedev, uint32_t index,
                             uint64_t offset, uint32_t count, void *data);
-+void vfio_user_reset(VFIODevice *vbasedev);
+ void vfio_user_reset(VFIODevice *vbasedev);
++int vfio_user_dirty_bitmap(VFIOProxy *proxy,
++                           struct vfio_iommu_type1_dirty_bitmap *bitmap,
++                           struct vfio_iommu_type1_dirty_bitmap_get *range);
  void vfio_user_drain_reqs(VFIOProxy *proxy);
  
  #endif /* VFIO_USER_H */
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 29a874c066..4b933ed10f 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2229,8 +2229,9 @@ static void vfio_pci_pre_reset(VFIOPCIDevice *vdev)
- 
- static void vfio_pci_post_reset(VFIOPCIDevice *vdev)
- {
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-     Error *err = NULL;
--    int nr;
-+    int ret, nr;
- 
-     vfio_intx_enable(vdev, &err);
-     if (err) {
-@@ -2238,11 +2239,18 @@ static void vfio_pci_post_reset(VFIOPCIDevice *vdev)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index a532e52bcf..09d0147df2 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1303,10 +1303,19 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+         dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
      }
  
-     for (nr = 0; nr < PCI_NUM_REGIONS - 1; ++nr) {
--        off_t addr = vdev->config_offset + PCI_BASE_ADDRESS_0 + (4 * nr);
-+        off_t addr = PCI_BASE_ADDRESS_0 + (4 * nr);
-         uint32_t val = 0;
-         uint32_t len = sizeof(val);
- 
--        if (pwrite(vdev->vbasedev.fd, &val, len, addr) != len) {
-+        if (vbasedev->proxy != NULL) {
-+            ret = vfio_user_region_write(vbasedev, VFIO_PCI_CONFIG_REGION_INDEX,
-+                                         addr, len, &val);
-+        } else {
-+            ret = pwrite(vdev->vbasedev.fd, &val, len,
-+                         vdev->config_offset + addr);
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+-    if (ret) {
+-        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+-                     dirty.flags, errno);
++    if (container->proxy != NULL) {
++        ret = vfio_user_dirty_bitmap(container->proxy, &dirty, NULL);
++        if (ret) {
++            error_report("Failed to set dirty tracking flag 0x%x errno: %d",
++                         dirty.flags, -ret);
 +        }
-+        if (ret != len) {
-             error_report("%s(%s) reset bar %d failed: %m", __func__,
-                          vdev->vbasedev.name, nr);
-         }
-@@ -3684,6 +3692,20 @@ static void vfio_user_instance_finalize(Object *obj)
-     vfio_user_disconnect(vbasedev->proxy);
++    } else {
++        ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++        if (ret) {
++            error_report("Failed to set dirty tracking flag 0x%x errno: %d",
++                         dirty.flags, errno);
++            ret = -errno;
++        }
+     }
  }
  
-+static void vfio_user_pci_reset(DeviceState *dev)
-+{
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-+
-+    vfio_pci_pre_reset(vdev);
-+
-+    if (vbasedev->reset_works) {
-+        vfio_user_reset(vbasedev);
+@@ -1356,7 +1365,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+         goto err_out;
+     }
+ 
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    if (container->proxy != NULL) {
++        ret = vfio_user_dirty_bitmap(container->proxy, dbitmap, range);
++    } else {
++        ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    }
+     if (ret) {
+         error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
+                 " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 82f654afb6..89926a3b01 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -27,6 +27,7 @@
+ #include "pci.h"
+ #include "trace.h"
+ #include "hw/hw.h"
++#include "user.h"
+ 
+ /*
+  * Flags to be used as unique delimiters for VFIO devices in the migration
+@@ -49,10 +50,18 @@ static int64_t bytes_transferred;
+ static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
+                                   off_t off, bool iswrite)
+ {
++    VFIORegion *region = &vbasedev->migration->region;
+     int ret;
+ 
+-    ret = iswrite ? pwrite(vbasedev->fd, val, count, off) :
+-                    pread(vbasedev->fd, val, count, off);
++    if (vbasedev->proxy != NULL) {
++        ret = iswrite ?
++            vfio_user_region_write(vbasedev, region->nr, off, count, val) :
++            vfio_user_region_read(vbasedev, region->nr, off, count, val);
++    } else {
++        off += region->fd_offset;
++        ret = iswrite ? pwrite(vbasedev->fd, val, count, off) :
++                        pread(vbasedev->fd, val, count, off);
++    }
+     if (ret < count) {
+         error_report("vfio_mig_%s %d byte %s: failed at offset 0x%"
+                      HWADDR_PRIx", err: %s", iswrite ? "write" : "read", count,
+@@ -111,9 +120,7 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+                                     uint32_t value)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+-    VFIORegion *region = &migration->region;
+-    off_t dev_state_off = region->fd_offset +
+-                          VFIO_MIG_STRUCT_OFFSET(device_state);
++    off_t dev_state_off = VFIO_MIG_STRUCT_OFFSET(device_state);
+     uint32_t device_state;
+     int ret;
+ 
+@@ -201,13 +208,13 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
+     int ret;
+ 
+     ret = vfio_mig_read(vbasedev, &data_offset, sizeof(data_offset),
+-                      region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_offset));
++                        VFIO_MIG_STRUCT_OFFSET(data_offset));
+     if (ret < 0) {
+         return ret;
+     }
+ 
+     ret = vfio_mig_read(vbasedev, &data_size, sizeof(data_size),
+-                        region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_size));
++                        VFIO_MIG_STRUCT_OFFSET(data_size));
+     if (ret < 0) {
+         return ret;
+     }
+@@ -233,8 +240,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
+             }
+             buf_allocated = true;
+ 
+-            ret = vfio_mig_read(vbasedev, buf, sec_size,
+-                                region->fd_offset + data_offset);
++            ret = vfio_mig_read(vbasedev, buf, sec_size, data_offset);
+             if (ret < 0) {
+                 g_free(buf);
+                 return ret;
+@@ -269,7 +275,7 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+ 
+     do {
+         ret = vfio_mig_read(vbasedev, &data_offset, sizeof(data_offset),
+-                      region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_offset));
++                            VFIO_MIG_STRUCT_OFFSET(data_offset));
+         if (ret < 0) {
+             return ret;
+         }
+@@ -309,8 +315,7 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+             qemu_get_buffer(f, buf, sec_size);
+ 
+             if (buf_alloc) {
+-                ret = vfio_mig_write(vbasedev, buf, sec_size,
+-                        region->fd_offset + data_offset);
++                ret = vfio_mig_write(vbasedev, buf, sec_size, data_offset);
+                 g_free(buf);
+ 
+                 if (ret < 0) {
+@@ -322,7 +327,7 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+         }
+ 
+         ret = vfio_mig_write(vbasedev, &report_size, sizeof(report_size),
+-                        region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_size));
++                             VFIO_MIG_STRUCT_OFFSET(data_size));
+         if (ret < 0) {
+             return ret;
+         }
+@@ -334,12 +339,11 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+ static int vfio_update_pending(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+-    VFIORegion *region = &migration->region;
+     uint64_t pending_bytes = 0;
+     int ret;
+ 
+     ret = vfio_mig_read(vbasedev, &pending_bytes, sizeof(pending_bytes),
+-                    region->fd_offset + VFIO_MIG_STRUCT_OFFSET(pending_bytes));
++                        VFIO_MIG_STRUCT_OFFSET(pending_bytes));
+     if (ret < 0) {
+         migration->pending_bytes = 0;
+         return ret;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 4b933ed10f..976fb89786 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3658,6 +3658,13 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+         }
+     }
+ 
++    if (!pdev->failover_pair_id) {
++        ret = vfio_migration_probe(&vdev->vbasedev, errp);
++        if (ret) {
++            error_report("%s: Migration disabled", vdev->vbasedev.name);
++        }
 +    }
 +
-+    vfio_pci_post_reset(vdev);
-+}
-+
+     vfio_register_err_notifier(vdev);
+     vfio_register_req_notifier(vdev);
+ 
+@@ -3709,6 +3716,11 @@ static void vfio_user_pci_reset(DeviceState *dev)
  static Property vfio_user_pci_dev_properties[] = {
      DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
      DEFINE_PROP_BOOL("secure-dma", VFIOUserPCIDevice, secure_dma, false),
-@@ -3695,6 +3717,7 @@ static void vfio_user_pci_dev_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
++    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
++                     vbasedev.enable_migration, false),
++    DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
++                            vbasedev.pre_copy_dirty_page_tracking,
++                            ON_OFF_AUTO_ON),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-+    dc->reset = vfio_user_pci_reset;
-     device_class_set_props(dc, vfio_user_pci_dev_properties);
-     dc->desc = "VFIO over socket PCI device assignment";
-     pdc->realize = vfio_user_pci_realize;
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index fcc041959c..7de2125346 100644
+index 7de2125346..486f7c0fe7 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -1045,3 +1045,15 @@ int vfio_user_region_write(VFIODevice *vbasedev, uint32_t index,
- 
-     return count;
+@@ -1057,3 +1057,48 @@ void vfio_user_reset(VFIODevice *vbasedev)
+         error_printf("reset reply error %d\n", msg.error_reply);
+     }
  }
 +
-+void vfio_user_reset(VFIODevice *vbasedev)
++int vfio_user_dirty_bitmap(VFIOProxy *proxy,
++                           struct vfio_iommu_type1_dirty_bitmap *cmd,
++                           struct vfio_iommu_type1_dirty_bitmap_get *dbitmap)
 +{
-+    VFIOUserHdr msg;
++    g_autofree struct {
++        VFIOUserDirtyPages msg;
++        VFIOUserBitmapRange range;
++    } *msgp = NULL;
++    int msize, rsize;
 +
-+    vfio_user_request_msg(&msg, VFIO_USER_DEVICE_RESET, sizeof(msg), 0);
-+
-+    vfio_user_send_recv(vbasedev->proxy, &msg, NULL, 0, 0);
-+    if (msg.flags & VFIO_USER_ERROR) {
-+        error_printf("reset reply error %d\n", msg.error_reply);
++    /*
++     * If just the command is sent, the returned bitmap isn't needed.
++     * The bitmap structs are different from the ioctl() versions,
++     * ioctl() returns the bitmap in a local VA
++     */
++    if (dbitmap != NULL) {
++        msize = sizeof(*msgp);
++        rsize = msize + dbitmap->bitmap.size;
++        msgp = g_malloc0(rsize);
++        msgp->range.iova = dbitmap->iova;
++        msgp->range.size = dbitmap->size;
++        msgp->range.bitmap.pgsize = dbitmap->bitmap.pgsize;
++        msgp->range.bitmap.size = dbitmap->bitmap.size;
++    } else {
++        msize = rsize = sizeof(VFIOUserDirtyPages);
++        msgp = g_malloc0(rsize);
 +    }
++
++    vfio_user_request_msg(&msgp->msg.hdr, VFIO_USER_DIRTY_PAGES, msize, 0);
++    msgp->msg.argsz = msize - sizeof(msgp->msg.hdr);
++    msgp->msg.flags = cmd->flags;
++
++    vfio_user_send_recv(proxy, &msgp->msg.hdr, NULL, rsize, 0);
++    if (msgp->msg.hdr.flags & VFIO_USER_ERROR) {
++        return -msgp->msg.hdr.error_reply;
++    }
++
++    if (dbitmap != NULL) {
++        memcpy(dbitmap->bitmap.data, &msgp->range.bitmap.data,
++               dbitmap->bitmap.size);
++    }
++
++    return 0;
 +}
 -- 
 2.25.1
