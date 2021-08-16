@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463AE3EDE6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 22:08:30 +0200 (CEST)
-Received: from localhost ([::1]:33808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B804C3EDE7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 22:16:33 +0200 (CEST)
+Received: from localhost ([::1]:36698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFiuF-0004eX-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 16:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59672)
+	id 1mFj28-00070H-K9
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 16:16:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFitV-00040P-6g
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:07:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45635)
+ id 1mFj0r-0006FQ-Nm
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:15:13 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFitT-0006Qq-Ho
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:07:36 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v4so18116538wro.12
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:07:35 -0700 (PDT)
+ id 1mFj0p-00037o-OT
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 16:15:13 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso274848wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 13:15:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BK4e6DWMHxWJ/GX4rpKmXQ7QNITLJI569Mc7t6soOiw=;
- b=p4bqq1f8K6N8Odi4grDlyi9hQk1lWXtyKK30/cQkLA4m71xQqbpdkOlg1bBiLn2HUF
- tTkg7uf2x6fsU/LFy/bFcVbwSoDzTN0EODpifG0wTcw9JY5ft8CZRH64S9GsK/BwAPhI
- QpNn87uhha98GPmBHXrtAB0dWSj6E+TpguhO1NP5OOvuMj/rXFS7t2NjKvb/glm3AibN
- IjSGBE4dM0EufnefY3ixnSopE+4RuaHEJbrJNk1LrxFyEmeqx089MU7C+6oeH+JJoTpK
- J9Aqauesc7zSQq5zUAS12IpLMBrXJ9TDoOVgndSZZbevQEKvL1ykbcAOW0uQhVrRsiGR
- IZ1g==
+ bh=x5kc6Zvf8y3mNz7kGKpWmoOF0L/t38Kg+55/+lrJxXE=;
+ b=hPtYq43BklwoFQRcZaXZ/JsEx7GpY7eUoI+prnoxDpqwhA678qWhGJzMlB6Pvhs3ee
+ NBwVX7IumWF15ifDugklWEUKSOKApA0K0v/KPMkpsGEHt+EZiHdujtkA9gWmwz965+sK
+ q0oPmSl7hzAUi2Vrpr9m3bXhFsN0Qn+Srx5ZBDEpd7ZBWH8O/Lmdd9dp5NDHdskSrWq6
+ SBNkI7xZ7/F5BNc5gGP6Yfqfnu3loyhEoS/LniHsHffgfxZalobFbCqMGrNIujSDSoqk
+ 14QWxzrbDJsmHluT+Yzo/AyjelYoYP+Q4wYErekP8H/wApAbvY0LxP10T3WwGN/BU4vh
+ KH9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BK4e6DWMHxWJ/GX4rpKmXQ7QNITLJI569Mc7t6soOiw=;
- b=lNh9iwe2iYejfRqlY5aP8PiXUtzmypZtNnJD7K/vIxdKEDdqG7TrIiGwNC923TVAwi
- Zbp6CKwEN4DnfG7DoTODF7OFzg+IxxmHU/22jpmzhTjCWFmtdEQuplQJBq6wI7ehOKUW
- T1Jcupewx/YeA9dJ/B6OsW4IG4xB+MrcrLc2N53b/u85mAZJeHotSvUXkylHtl9fkvv3
- Dco1FnObQhOFhNaS+HTsKQ9PdDkb6H7ihFwAG0TzH0UXEk+J1AvC0AepcRyaphVsRR+T
- 6o0Yg45lQp5BV3FURrM9Ai4NsnUq4hmtIO8w+fTW2hwPS00GInzDg1l2679hTS2wPJrZ
- Pokw==
-X-Gm-Message-State: AOAM531KHoUTil5vIS2nXgzKPNOmqtKHODJNFu61lM+H6EP/bxVVkHmo
- +OFagTA/5M8Yi344pSse6u0=
-X-Google-Smtp-Source: ABdhPJxWjNTKMQhNPud9QNV+AqGJNMpF6Xthv2NlkU4+9x8zPxXL8gXecYTsEbBKUcdVWCZjUZnE+w==
-X-Received: by 2002:a5d:6381:: with SMTP id p1mr215372wru.310.1629144454141;
- Mon, 16 Aug 2021 13:07:34 -0700 (PDT)
+ bh=x5kc6Zvf8y3mNz7kGKpWmoOF0L/t38Kg+55/+lrJxXE=;
+ b=UkkeUNa6NTcM4jrPu2V+Azy6vCWDAb5PfPq/FXINnyHIMeRHpu+VyVE32yh3Dy9hXF
+ 6MT+Br/CQojVxb2G2OCbEIWNzC24J4k67Sf4IRhvL9gvMiRvlbAWOMXGJw7Cig2ouBK/
+ VBPM/NIPgF7DsQwlrsD16nF4Z0ZIFiwXJvgV+/5mFaJUIwhknXs97hkkJzyJhRrt6h1E
+ V5nNGnh5IfPWAnL6TG2BWjTIJwixqoBl+H7f++PGB0lph4xnbpJDEdM09sgMf1JdXkQN
+ EE3NgxHLTTAYstkO/A5FuUP1/GC9MWdAyeUItlqwqEgOSouD5btQZ56kHe+j+8RWEI6K
+ bM8Q==
+X-Gm-Message-State: AOAM532ua2eTGN6GRbWE796NHvH3ILaFKkUXKpzJvlZ0+bgpFBlDMtci
+ S7lbrZy3Rd3yF67sFD42jXY=
+X-Google-Smtp-Source: ABdhPJx8vrGq2LHYw5goKytTY4Jc3yWEByAnITY7yjF3C1Vov9tq7PXQElUYGANcX/bkFI12WfTAkA==
+X-Received: by 2002:a7b:cf0c:: with SMTP id l12mr20903wmg.62.1629144910208;
+ Mon, 16 Aug 2021 13:15:10 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id l17sm108863wmq.44.2021.08.16.13.07.31
+ by smtp.gmail.com with ESMTPSA id d4sm230594wrz.35.2021.08.16.13.15.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 13:07:33 -0700 (PDT)
-Subject: Re: [PATCH 1/3] hw/mips/boston: Massage memory map information
+ Mon, 16 Aug 2021 13:15:09 -0700 (PDT)
+Subject: Re: [PATCH 2/3] hw/mips/boston: Allow loading elf kernel and dtb
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20210729033959.6454-1-jiaxun.yang@flygoat.com>
- <20210729033959.6454-2-jiaxun.yang@flygoat.com>
- <ee274e68-f569-627a-d764-8dac7084372d@amsat.org>
-Message-ID: <2393c7d9-7a38-7af9-4fae-2bb39ccbcf48@amsat.org>
-Date: Mon, 16 Aug 2021 22:07:30 +0200
+ <20210729033959.6454-3-jiaxun.yang@flygoat.com>
+ <e1b334a3-522b-fc5b-0093-1fb7a5d677d1@amsat.org>
+Message-ID: <33af5147-33f1-605d-61a2-483c19c921bc@amsat.org>
+Date: Mon, 16 Aug 2021 22:15:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <ee274e68-f569-627a-d764-8dac7084372d@amsat.org>
+In-Reply-To: <e1b334a3-522b-fc5b-0093-1fb7a5d677d1@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -94,58 +95,83 @@ Cc: aleksandar.rikalo@syrmia.com, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/21 9:55 AM, Philippe Mathieu-Daudé wrote:
+On 7/29/21 10:02 AM, Philippe Mathieu-Daudé wrote:
 > On 7/29/21 5:39 AM, Jiaxun Yang wrote:
->> Use memmap array to unfiy address of memory map.
-
-Typo 'unify'.
-
->> That would allow us reuse address information for FDT generation.
->>
+>> ELF kernel allows us debugging much easier with DWARF symbols.
+> 
+> You can load the symbols using the 'loader' device:
+> docs/system/generic-loader.rst.
+> 
 >> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 >> ---
->>  hw/mips/boston.c | 95 ++++++++++++++++++++++++++++++++++++------------
->>  1 file changed, 71 insertions(+), 24 deletions(-)
+>>  hw/mips/boston.c | 38 ++++++++++++++++++++++++++++++++++----
+>>  1 file changed, 34 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+>> index a5746ede65..42b31a1ce4 100644
+>> --- a/hw/mips/boston.c
+>> +++ b/hw/mips/boston.c
+>> @@ -20,6 +20,7 @@
+>>  #include "qemu/osdep.h"
+>>  #include "qemu/units.h"
+>>  
+>> +#include "elf.h"
+>>  #include "hw/boards.h"
+>>  #include "hw/char/serial.h"
+>>  #include "hw/ide/pci.h"
+>> @@ -546,10 +547,39 @@ static void boston_mach_init(MachineState *machine)
+>>              exit(1);
+>>          }
+>>      } else if (machine->kernel_filename) {
+>> -        fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
+>> -        if (fit_err) {
+>> -            error_report("unable to load FIT image");
+>> -            exit(1);
+>> +        uint64_t kernel_entry, kernel_low, kernel_high, kernel_size;
+>> +
+>> +        kernel_size = load_elf(machine->kernel_filename, NULL,
+>> +                           cpu_mips_kseg0_to_phys, NULL,
+>> +                           (uint64_t *)&kernel_entry,
+>> +                           (uint64_t *)&kernel_low, (uint64_t *)&kernel_high,
+>> +                           NULL, 0, EM_MIPS, 1, 0);
+>> +
+>> +        if (kernel_size) {
+>> +            hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
+>> +            hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
+>> +
+>> +            s->kernel_entry = kernel_entry;
+>> +            if (machine->dtb) {
+>> +                int dt_size;
+>> +                const void *dtb_file_data, *dtb_load_data;
 > 
->> +static const MemMapEntry boston_memmap[] = {
->> +    [BOSTON_LOWDDR] =     {        0x0,    0x10000000 },
->> +    [BOSTON_PCIE0] =      { 0x10000000,     0x2000000 },
->> +    [BOSTON_PCIE1] =      { 0x12000000,     0x2000000 },
->> +    [BOSTON_PCIE2] =      { 0x14000000,     0x2000000 },
->> +    [BOSTON_PCIE2_MMIO] = { 0x16000000,      0x100000 },
->> +    [BOSTON_CM] =         { 0x16100000,       0x20000 },
->> +    [BOSTON_GIC] =        { 0x16120000,       0x20000 },
->> +    [BOSTON_CDMM] =       { 0x16140000,        0x8000 },
->> +    [BOSTON_CPC] =        { 0x16200000,        0x8000 },
->> +    [BOSTON_PLATREG] =    { 0x17ffd000,        0x1000 },
->> +    [BOSTON_UART] =       { 0x17ffe000,        0x1000 },
-> 
-> 0x20?
-> 
->> +    [BOSTON_LCD] =        { 0x17fff000,           0x8 },
->> +    [BOSTON_FLASH] =      { 0x18000000,     0x8000000 },
->> +    [BOSTON_PCIE1_MMIO] = { 0x20000000,    0x20000000 },
->> +    [BOSTON_PCIE0_MMIO] = { 0x40000000,    0x40000000 },
->> +    [BOSTON_HIGHDDR] =    { 0x80000000,           0x0 },
->> +};
-> 
->>      /*
->>       * Setup argument registers to follow the UHI boot protocol:
->> @@ -333,8 +369,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
->>      ram_low_sz = MIN(256 * MiB, machine->ram_size);
->>      ram_high_sz = machine->ram_size - ram_low_sz;
->>      qemu_fdt_setprop_sized_cells(fdt, "/memory@0", "reg",
->> -                                 1, 0x00000000, 1, ram_low_sz,
->> -                                 1, 0x90000000, 1, ram_high_sz);
->> +                                 1, boston_memmap[BOSTON_LOWDDR].base, 1, ram_low_sz,
->> +                                 1, boston_memmap[BOSTON_HIGHDDR].base + ram_low_sz
->> +                                 , 1, ram_high_sz);
-> 
-> Misplaced comma.
-> 
-> BTW shouldn't we check whether ram_high_sz > 0 before adding this cell?
+> g_autofree is preferred.
 > 
 > Otherwise:
 > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+>> +
+>> +                dtb_file_data = load_device_tree(machine->dtb, &dt_size);
+>> +                dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
+>> +
+>> +                /* Calculate real fdt size after filter */
+>> +                dt_size = fdt_totalsize(dtb_load_data);
+>> +                rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
+>> +                g_free((void *) dtb_file_data);
+>> +                g_free((void *) dtb_load_data);
+
+Also, no need to cast.
+
+>> +            }
+>> +        } else {
+>> +            /* Try to load file as FIT */
+>> +            fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
+>> +            if (fit_err) {
+>> +                error_report("unable to load kernel image");
+>> +                exit(1);
+>> +            }
+>>          }
+>>  
+>>          gen_firmware(memory_region_get_ram_ptr(flash) + 0x7c00000,
+>>
 > 
 
