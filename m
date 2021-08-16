@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F9E3EDDAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 21:13:53 +0200 (CEST)
-Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A9C3EDDB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 21:14:25 +0200 (CEST)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFi3S-00050p-Nb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 15:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
+	id 1mFi40-00060D-68
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 15:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFi0F-0000pJ-8U
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:10:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23915)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFi0O-000141-At
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:10:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFi0D-0000qQ-Rb
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:10:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFi0I-0000vf-Fq
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 15:10:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629141029;
+ s=mimecast20190719; t=1629141033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RQxB1TlNf5YMQyS6h9MbUxuuEcuyJDS/VJ1Qzxwd2Yo=;
- b=VJNPktUjCha851DZ2gD3xeiXv9UEwB7i4/Ni9FDDC8k/aQ9kXIlJBSa0QWcQieE+LtBrz0
- rwOeUkFEPrJ1KURlJxBXAZisg4IvZlwkFy9O2YaxEB1TeQD2qtBPoW1omYmwfOIPAoDrdO
- W+cEoPn4mJ3/xivzPPrFrMa50lUe++4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-lE9CDyJ4OkOmhMheD8zQjg-1; Mon, 16 Aug 2021 15:10:27 -0400
-X-MC-Unique: lE9CDyJ4OkOmhMheD8zQjg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o3-20020a05600c510300b002e6dd64e896so220024wms.1
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 12:10:27 -0700 (PDT)
+ bh=Msik88TWjmYxIlnfXsQXGA447iGC4A0xH5kicOLH9TY=;
+ b=ia6vIqlc8IRJnp+Nt+uOxrr5m7BPmxzsWUjzFUdApr8eyt4tVtQYM06Li11ZcKUa3/gf60
+ uk6jHWXMJjl7QGw/fs096XYQm/BeI5I1h1yd/Hta2KqPq9Zdfv80MMxp+rLWaTtwOqPOsV
+ F9DMW/38qILDq2mfaC3KZQwkSUuPVHM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-BZHPfiSRPP-JyYUXmKrb8Q-1; Mon, 16 Aug 2021 15:10:32 -0400
+X-MC-Unique: BZHPfiSRPP-JyYUXmKrb8Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n20-20020a05600c4f9400b002e6dc6a99b9so273501wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 12:10:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RQxB1TlNf5YMQyS6h9MbUxuuEcuyJDS/VJ1Qzxwd2Yo=;
- b=UV9obpJZcqRfVY/q3QCgwbMdo60NEu0WeMMMvdFxU4Hbgc9lUycdrf2a5Z8QzXpQSS
- 8ZGWt1p23WYcwnyZ4VPIRGhStqPSRUb755wF7aJNp+IQed1FWMBe0ES+g6ZPZHbWGm95
- 4U0J9geTnjQ2dHzqn/LszZ+JVz+0axINIHe/rFxt9FUOR+iXKp2ocT29vq4XxYYk+1NH
- jkaMrWZjTSrOU1gdp4hNNGm67D9/89ceYm/0ZTa9TprmhvoHXbWTWIQQoshVGGF28Yw2
- Vz75i0r9y39sKHwM3LqZlu8C/PUqwZ9oWzplpm9ejqSD1z2MxCK0MUfZ87NkcL66eFih
- /dpQ==
-X-Gm-Message-State: AOAM533qPKjaD65fXcwN49gbFU8eZri5EOg0DY1NQnkCAPx0XDG/Ut5s
- Yl+UI4T95T6XUojJQ0938UrvXsUKfuf+I2QUH8DNU7Razl1UosFGuRGQneD09jT1PRcgoQwmCGp
- VM54gzgSRKZkTiEfDcDNwbhQ6JXxysvJ1yeEgDqT9rCMsnFSjbPJPhGxv43Y0Kz5R
-X-Received: by 2002:a05:6000:12c1:: with SMTP id
- l1mr466528wrx.293.1629141026474; 
- Mon, 16 Aug 2021 12:10:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwd0AgSPCSaoAc4/Cj6vLORH1fFaaFuve5bhcNaFIXqLZZxfZZBzaFj3UHapUfONSSbDYC3+g==
-X-Received: by 2002:a05:6000:12c1:: with SMTP id
- l1mr466508wrx.293.1629141026290; 
- Mon, 16 Aug 2021 12:10:26 -0700 (PDT)
+ bh=Msik88TWjmYxIlnfXsQXGA447iGC4A0xH5kicOLH9TY=;
+ b=mRjzL4oifVTNHKu3l88RkYpqD++N4A4VyP2NW+27lT///H2undhjkyAe/h4knWEVuA
+ EOc0Uu7bdHC4oAttEETy57wf0Dyiun7TX6QmerzO2iJl0oRgrUUfnwQm8tNKXmbygrm3
+ SoUsI9JR5KqWu+5MOAD0m9CM+4Kfddb8mmjj5lPV5sCZoeCfkG2mvHR3kZ048YfU20pM
+ jrgsY4SBWvz0gvfp5GJaLQOj9EA4LK5Du+uq0nZQjtj7sYQh8Vd9A9fGHAaFCx19QyW4
+ YjDt/jmo8GgXR0NS6v5RApsJqRBo432ECbRv8agoq/MYoaOL8scoDdBuymocKT8eCRBE
+ We3g==
+X-Gm-Message-State: AOAM530t+R85y0OYbT0fwVaVHPn+JORpft++lRgKHzyFdNnAOwul1ZeJ
+ OFVBpfHQq4uvApdAls8QJPIjGb5Go66h3PPZotu9Glm3TMdT9gZ4dyNEVK0Gkq+JBdzwwRXoI3W
+ t55KSJax44ftkCXi796KsKClil0S0aekThmvamLfbbCmyUCiWwV+9CkDk/8QRmU+J
+X-Received: by 2002:a5d:6483:: with SMTP id o3mr4587826wri.197.1629141031047; 
+ Mon, 16 Aug 2021 12:10:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH1ZRbXlg+46P23Yvnnelgs8QXwxWt4C8qmMI7gHH/I/WwFdi7ZqOZyzigTVOaZRKBe49A5Q==
+X-Received: by 2002:a5d:6483:: with SMTP id o3mr4587799wri.197.1629141030841; 
+ Mon, 16 Aug 2021 12:10:30 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- l38sm32351wmp.15.2021.08.16.12.10.25
+ y66sm15610wmy.39.2021.08.16.12.10.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 12:10:25 -0700 (PDT)
+ Mon, 16 Aug 2021 12:10:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] MAINTAINERS: Remove SPICE from Audio backends section
-Date: Mon, 16 Aug 2021 21:10:13 +0200
-Message-Id: <20210816191014.2020783-3-philmd@redhat.com>
+Subject: [PATCH 3/3] MAINTAINERS: Split Audio backends sections
+Date: Mon, 16 Aug 2021 21:10:14 +0200
+Message-Id: <20210816191014.2020783-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210816191014.2020783-1-philmd@redhat.com>
 References: <20210816191014.2020783-1-philmd@redhat.com>
@@ -75,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,26 +103,72 @@ Cc: Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SPICE audio is already covered in the SPICE section,
-so remove it from the Audio backends one.
+Split the Audio backends into multiple sections (OS / framework /
+library), allowing developers with different interests to add their
+contact to the relevant entries.
 
+Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ec6baa7e4c..f18fcd76450 100644
+index f18fcd76450..94dea726e05 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2270,6 +2270,7 @@ Overall Audio backends
+@@ -2270,9 +2270,51 @@ Overall Audio backends
  M: Gerd Hoffmann <kraxel@redhat.com>
  S: Odd Fixes
  F: audio/
-+X: audio/spiceaudio.c
++X: audio/alsaaudio.c
++X: audio/coreaudio.c
++X: audio/dsound*
++X: audio/jackaudio.c
++X: audio/ossaudio.c
++X: audio/paaudio.c
++X: audio/sdlaudio.c
+ X: audio/spiceaudio.c
  F: qapi/audio.json
  
++ALSA Audio backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/alsaaudio.c
++
++Core Audio framework backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/coreaudio.c
++
++DSound Audio backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/dsound*
++
++JACK Audio Connection Kit backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/jackaudio.c
++
++Open Sound System (OSS) Audio backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/ossaudio.c
++
++PulseAudio backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/paaudio.c
++
++SDL Audio backend
++M: Gerd Hoffmann <kraxel@redhat.com>
++S: Odd Fixes
++F: audio/sdlaudio.c
++
  Block layer core
+ M: Kevin Wolf <kwolf@redhat.com>
+ M: Hanna Reitz <hreitz@redhat.com>
 -- 
 2.31.1
 
