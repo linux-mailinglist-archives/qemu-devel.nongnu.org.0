@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B363ECDEB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 07:07:09 +0200 (CEST)
-Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B0B3ECE19
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 07:37:38 +0200 (CEST)
+Received: from localhost ([::1]:36582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFUq4-0000eo-6Y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 01:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
+	id 1mFVJY-0007gM-Qx
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 01:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mFUp6-0008Jm-JB
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 01:06:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57876)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFVIh-00072K-40
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 01:36:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mFUp2-0004YU-29
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 01:06:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFVId-00059n-Hk
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 01:36:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629090362;
+ s=mimecast20190719; t=1629092197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fLYTqfGebZitJkrv86sFkZxtNNuKJJcMrKoYU9m5fmI=;
- b=HLqsJgxzvx6nIKreF4acJ+FdmPD0OZRHJfT/sgfQz69+Lfs/pV837jMneggdL5NgtUooFo
- B3O4VRzcA0hRYyZDsVKLqgcqqqptq2h1dT5vlLMMP72CshiXlCfQYqgxZ88K4nmh5+mjab
- qLV9L+QhubcDK2hFjiaQuGbUQqBbYF8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397--ENLQbJ2N327N4yKLPycmA-1; Mon, 16 Aug 2021 01:05:58 -0400
-X-MC-Unique: -ENLQbJ2N327N4yKLPycmA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 946B6180FCBB;
- Mon, 16 Aug 2021 05:05:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E94960854;
- Mon, 16 Aug 2021 05:05:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AD2061800382; Mon, 16 Aug 2021 07:05:55 +0200 (CEST)
-Date: Mon, 16 Aug 2021 07:05:55 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] vga: don't abort when adding a duplicate isa-vga device
-Message-ID: <20210816050555.k63uuhqhbloarcj2@sirius.home.kraxel.org>
-References: <20210813233619.32178-1-jziviani@suse.de>
- <9dd25d6d-b9ba-0000-96a0-451fd1b28c56@redhat.com>
+ bh=BNwGhoDE7EVqMFhiX1rVhSfQTBD//vpwPljwAf+xdHI=;
+ b=aX/5/kCJYyEpLvJADTEsywD25M/QkUodYnV38VpDCytbWkARTy68t1DHmG0tqfq/lOU98a
+ TP8cSge3xOidfcrgTlChU3cgjBaHIlozJJd5dAWpDeOiev2jdFGSHYeoe1Z5UD9occFlb7
+ KMYUzsf122j3vFCjhwOVRE7Mew2/+7E=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-l6KCPWeKNgGJ08odZtTvZA-1; Mon, 16 Aug 2021 01:36:36 -0400
+X-MC-Unique: l6KCPWeKNgGJ08odZtTvZA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n18-20020adfe792000000b00156ae576abdso1358701wrm.9
+ for <qemu-devel@nongnu.org>; Sun, 15 Aug 2021 22:36:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BNwGhoDE7EVqMFhiX1rVhSfQTBD//vpwPljwAf+xdHI=;
+ b=RIGomZ86YWh0+Fp1O1hDvkEHZmQx5yVlCScBUxaOczhldbuzPD5+eqWQmnabeDbe/Z
+ YCJeRulVvRbkeVQ/PzM4UlNBOFVQftPrnT1l8aET22x083fI+tax3Ur9Ba5qpmN0cy9Y
+ xPPBZzJQCrSvtcx5xGGlkmmcfbsRhan5toVy1vQAvPd3F/NqqLWKqp9KdF0zD0FaJkTC
+ htZNhIeR9f45sAjZMafl48Zg2NqsSzWRCzeWrXMMsnFS3Cz8OQPl6uUDAnyqgnf1E7wW
+ JQsFMS/AFw0I/4QuJjQBQcQ8nekvis48R/4m5XP36f8iauAfN5d+0CX0TflJEXKsCuv3
+ OKHQ==
+X-Gm-Message-State: AOAM531oCydY8O+9xBi1mrb5/KNuaQBVY9RemSmeBCZcHJZeCOl3XFvU
+ lPCJnrznZ74Iz9TihBprBU6qh4y1V47qrlaj0pxkZcOUrwaGZf03gbBRd6gAnTWV2RAsV/Yf+VW
+ FELDy3deZO3Fmyh8=
+X-Received: by 2002:a5d:6e12:: with SMTP id h18mr16382305wrz.236.1629092195246; 
+ Sun, 15 Aug 2021 22:36:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWqeoMPYr3pN1b3jtt4bo1lqfv/l+yufdr64ytqXINik2LHaBnOWPHVWmFz6G6Vs5cTcNLmg==
+X-Received: by 2002:a5d:6e12:: with SMTP id h18mr16382285wrz.236.1629092195052; 
+ Sun, 15 Aug 2021 22:36:35 -0700 (PDT)
+Received: from redhat.com ([2.55.8.239])
+ by smtp.gmail.com with ESMTPSA id i8sm7239480wrv.70.2021.08.15.22.36.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Aug 2021 22:36:33 -0700 (PDT)
+Date: Mon, 16 Aug 2021 01:36:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v3] vhost-vdpa: Do not send empty IOTLB update batches
+Message-ID: <20210816013610-mutt-send-email-mst@kernel.org>
+References: <20210812140933.226288-1-eperezma@redhat.com>
+ <CACGkMEsqs28TAFb6ZnXM5XQwFmjqzj2LkR1fQZXVhs=13AGKsQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9dd25d6d-b9ba-0000-96a0-451fd1b28c56@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CACGkMEsqs28TAFb6ZnXM5XQwFmjqzj2LkR1fQZXVhs=13AGKsQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,23 +95,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Jose R. Ziviani" <jziviani@suse.de>
+Cc: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ Eli Cohen <elic@nvidia.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Mon, Aug 16, 2021 at 10:51:57AM +0800, Jason Wang wrote:
+> On Thu, Aug 12, 2021 at 10:09 PM Eugenio Pérez <eperezma@redhat.com> wrote:
+> >
+> > With the introduction of the batch hinting, meaningless batches can be
+> > created with no IOTLB updates if the memory region was skipped by
+> > vhost_vdpa_listener_skipped_section. This is the case of host notifiers
+> > memory regions, device un/realize, and others. This causes the vdpa
+> > device to receive dma mapping settings with no changes, a possibly
+> > expensive operation for nothing.
+> >
+> > To avoid that, VHOST_IOTLB_BATCH_BEGIN hint is delayed until we have a
+> > meaningful (not skipped section) mapping or unmapping operation, and
+> > VHOST_IOTLB_BATCH_END is not written unless at least one of _UPDATE /
+> > _INVALIDATE has been issued.
+> 
+> Acked-by: Jason Wang <jasowang@redhat.com>
 
-> > +    if (qemu_ram_block_by_name("vga.vram")) {
-> > +        error_report("vga.vram is already registered, ignoring this device");
+
+Oops. You missed by pull request by a hairwidth.
+> >
+> > v3:
+> >   * Use a bool instead of a counter avoiding potential number wrapping
+> >   * Fix bad check on _commit
+> >   * Move VHOST_BACKEND_F_IOTLB_BATCH check to
+> >     vhost_vdpa_iotlb_batch_begin_once
+> >
+> > v2 (from RFC):
+> >   * Rename misleading name
+> >   * Abstract start batching function for listener_add/del
+> >
+> > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > ---
+> >  include/hw/virtio/vhost-vdpa.h |  1 +
+> >  hw/virtio/vhost-vdpa.c         | 35 ++++++++++++++++++++++------------
+> >  2 files changed, 24 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> > index e98e327f12..6b9288fef8 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -23,6 +23,7 @@ typedef struct vhost_vdpa {
+> >      int device_fd;
+> >      int index;
+> >      uint32_t msg_type;
+> > +    bool iotlb_batch_begin_sent;
+> >      MemoryListener listener;
+> >      struct vhost_dev *dev;
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 6ce94a1f4d..93b7db61d1 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -89,19 +89,13 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+> >      return ret;
+> >  }
+> >
+> > -static void vhost_vdpa_listener_begin(MemoryListener *listener)
+> > +static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+> >  {
+> > -    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+> > -    struct vhost_dev *dev = v->dev;
+> > -    struct vhost_msg_v2 msg = {};
+> >      int fd = v->device_fd;
+> > -
+> > -    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
+> > -        return;
+> > -    }
+> > -
+> > -    msg.type = v->msg_type;
+> > -    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
+> > +    struct vhost_msg_v2 msg = {
+> > +        .type = v->msg_type,
+> > +        .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+> > +    };
+> >
+> >      if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+> >          error_report("failed to write, fd=%d, errno=%d (%s)",
+> > @@ -109,6 +103,16 @@ static void vhost_vdpa_listener_begin(MemoryListener *listener)
+> >      }
+> >  }
+> >
+> > +static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
+> > +{
+> > +    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH) &&
+> > +        !v->iotlb_batch_begin_sent) {
+> > +        vhost_vdpa_listener_begin_batch(v);
+> > +    }
+> > +
+> > +    v->iotlb_batch_begin_sent = true;
+> > +}
+> > +
+> >  static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> >  {
+> >      struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+> > @@ -120,6 +124,10 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> >          return;
+> >      }
+> >
+> > +    if (!v->iotlb_batch_begin_sent) {
 > > +        return;
 > > +    }
-> 
-> I think we should not ignore the error, but rather turn this into a proper
-> error (instead of aborting).
-
-Yes.  Silently fixing up things automatically tends to be worse long-term.
-
-take care,
-  Gerd
+> > +
+> >      msg.type = v->msg_type;
+> >      msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+> >
+> > @@ -127,6 +135,8 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> >          error_report("failed to write, fd=%d, errno=%d (%s)",
+> >                       fd, errno, strerror(errno));
+> >      }
+> > +
+> > +    v->iotlb_batch_begin_sent = false;
+> >  }
+> >
+> >  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> > @@ -170,6 +180,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> >
+> >      llsize = int128_sub(llend, int128_make64(iova));
+> >
+> > +    vhost_vdpa_iotlb_batch_begin_once(v);
+> >      ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+> >                               vaddr, section->readonly);
+> >      if (ret) {
+> > @@ -221,6 +232,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+> >
+> >      llsize = int128_sub(llend, int128_make64(iova));
+> >
+> > +    vhost_vdpa_iotlb_batch_begin_once(v);
+> >      ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+> >      if (ret) {
+> >          error_report("vhost_vdpa dma unmap error!");
+> > @@ -234,7 +246,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+> >   * depends on the addnop().
+> >   */
+> >  static const MemoryListener vhost_vdpa_memory_listener = {
+> > -    .begin = vhost_vdpa_listener_begin,
+> >      .commit = vhost_vdpa_listener_commit,
+> >      .region_add = vhost_vdpa_listener_region_add,
+> >      .region_del = vhost_vdpa_listener_region_del,
+> > --
+> > 2.27.0
+> >
 
 
