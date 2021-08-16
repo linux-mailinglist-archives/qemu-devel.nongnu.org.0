@@ -2,98 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE4B3EDC1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 19:11:20 +0200 (CEST)
-Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE243EDC5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 19:25:09 +0200 (CEST)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFg8t-0007IW-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 13:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44520)
+	id 1mFgMF-0006Al-KR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 13:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1mFg82-0006Z1-77
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:10:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42859)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mFgLB-0005T8-AO
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:24:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1mFg7z-0000zc-FL
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:10:26 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mFgL7-0002ET-I4
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 13:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629133822;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1629134636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IfwmZOVdWhB+OzZtIwxSFb0i87/kamLwMaxtukp5Zfs=;
- b=LGSE9WVLgdqMjEa6P5g+KPiZsxkOvMEHakGKSSpyQzHYWWgJpzSn0VW05m8qhiobEPlugw
- 0dfXKAUiD3vRkU/S434uH5K6d/j13PtqIScQBymfS35n/nyNpA/KZxVy6yHfXv8+j3WSwW
- OMqW/uLQlAACoAGwOwuCZB3zIikZva4=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-k9DfmbTuPVKR93yT4Crhbw-1; Mon, 16 Aug 2021 13:09:12 -0400
-X-MC-Unique: k9DfmbTuPVKR93yT4Crhbw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- y3-20020a17090a8b03b02901787416b139so473734pjn.4
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 10:09:12 -0700 (PDT)
+ bh=nSfEWJW5VOF1+UGUOs92UACFZJr9fBBVMgZfpcfs9E8=;
+ b=cofzQxJ4xeVPVi5wyHNmGxTYVRiBzGhwE50N328zHbuEUQO9HaRST0tnYKgA0UFfyLRn4F
+ AWxJAJb6EcN6wcfTT0j5RkTsmgXAREZKs+xKN1/RepkcxKNnTaENtlRYihd95oe8dKoIni
+ y0hxgBMgAr2v6pz0fcVooVK4DGD8a7A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-Bkx8BsYHOPucrXBVGpma4g-1; Mon, 16 Aug 2021 13:23:53 -0400
+X-MC-Unique: Bkx8BsYHOPucrXBVGpma4g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so6428206wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 10:23:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=IfwmZOVdWhB+OzZtIwxSFb0i87/kamLwMaxtukp5Zfs=;
- b=ii3Ebq+Mkcg0POg55Kp7mBJZINzmH4IQPupX7jhyXVJRFyG/xR2whf/ay3TDnen2JO
- fFI+MEFDFeaUDcGS4i2HXFEY60RjIu5NW13BUmEhswfvI9Tuhwfto0Z/8BtuvWZ9mfEJ
- WbAkkbOvPYaCM/DZa+mcslBd2o7kNDiKH75clB+STljDlk+YzALwLxMnUkMIzxDFfCfr
- OYzsNQ0xmmcsYGqukEKicP+57DJyCT5mtrIafQrsOcCllgzntphpzZOcNmVu72VUcA6l
- lEIaO3N5nIHocMAa6AGpz4tZ+43U9Czwsg2uIxeOnjM1eqGD6j4JiZ+0UvxhcmOFAi9z
- JYcA==
-X-Gm-Message-State: AOAM532kysBzMRK9EK+L6lUNeeT74DBO4NFkAK5xD3JhXHhwqWfhVT/i
- S+TxWnWcrc9YpjYXsFvIr2fVxp8IzQw+BCPrdhTXK7rBuICXRQhmtwAXPPMDDf684+BdU4BywTg
- FMz6ImlO4h1mRihQ=
-X-Received: by 2002:a17:902:c402:b0:12d:b2fe:f0f1 with SMTP id
- k2-20020a170902c40200b0012db2fef0f1mr8141367plk.9.1629133750697; 
- Mon, 16 Aug 2021 10:09:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8D5aiUKXCl3G8uYYZPhu2NqmFY8TQsTkhonFqG6H7Xg31IXN0SMhN6Dt6ANWIGQll7tAnaQ==
-X-Received: by 2002:a17:902:c402:b0:12d:b2fe:f0f1 with SMTP id
- k2-20020a170902c40200b0012db2fef0f1mr8141342plk.9.1629133750411; 
- Mon, 16 Aug 2021 10:09:10 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.154.241.196])
- by smtp.gmail.com with ESMTPSA id 11sm14052481pgh.52.2021.08.16.10.09.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 10:09:09 -0700 (PDT)
-Subject: Re: [PATCH] tests/acceptance: Test powernv machines
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Thomas Huth <thuth@redhat.com>, Joel Stanley <joel@jms.id.au>
-References: <20210810083346.730652-1-clg@kaod.org>
- <CACPK8Xc5J3tgtv3Z4ZxpR_r3BDaXJvt3mcxSqjyAtTYa+nQA-w@mail.gmail.com>
- <cca773c4-cf08-2fbb-9d9a-26f2fcfa6a34@kaod.org>
- <e14f8f87-8110-4084-94a6-ce09713f3fd2@redhat.com>
- <eb30ede4-2779-b2d6-80af-a278fe80697a@kaod.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <bfe089eb-59c2-2f33-f304-e234273c86f7@redhat.com>
-Date: Mon, 16 Aug 2021 14:09:04 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nSfEWJW5VOF1+UGUOs92UACFZJr9fBBVMgZfpcfs9E8=;
+ b=ZgbUfLUIxP5I6QmE7A7aXEoeO22u4rQdKYIHdHl9fe3Ce4e0zZTBfvuIrUYIsqCLOq
+ KPIOS5oubgT36rIld0mg/7oIE6GmK6+hrbsv2EuHWsKhmnG03u9sNVIjevusvSSC+JeW
+ Uai1FsNT/JgLU4RcjeFps5vOLrts8raCYPKPlocVOniSI3KSRet4hrJD4Zhb+OdmlLeu
+ YmLbbE+MfO8sPcDLsM/GkISBD1Hf0Eyr0xUGg8baeJpbOCIqkiHB+FFYZ3muf5s2gNuT
+ Zm6uWBO8LMqFJZ548juCd75pJjzWPNf07NZKPcJvwvLZsQqF6Y5R1NeZrZQGVrJ17G8e
+ Hytw==
+X-Gm-Message-State: AOAM531pkJL+BimPuSXes/gHB0eUJoYYlZiJCzF2+SRBrUY8BY92+sSO
+ gw1rhsxKACFU6i01qb7RQAe4cpVveGT0LLu2/tIEvT9boR892SIpdWHI7zjm/kW1ih8x9N2Y8qm
+ a87hKLRrfq6SW1Vo=
+X-Received: by 2002:a5d:5228:: with SMTP id i8mr19797584wra.391.1629134631912; 
+ Mon, 16 Aug 2021 10:23:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxr/EULMz4YbGdtxkphQbMYTUQwPQrwSV/ywAqLyZsVMQ2DuH8UYDSePKurq0qGPBM/cdYDjg==
+X-Received: by 2002:a5d:5228:: with SMTP id i8mr19797558wra.391.1629134631711; 
+ Mon, 16 Aug 2021 10:23:51 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id u16sm129532wmc.41.2021.08.16.10.23.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Aug 2021 10:23:49 -0700 (PDT)
+Date: Mon, 16 Aug 2021 18:23:47 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+Message-ID: <YRqfI0YlNZ6Xowwt@work-vm>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <eb30ede4-2779-b2d6-80af-a278fe80697a@kaod.org>
+In-Reply-To: <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,84 +96,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
+ brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, frankeh@us.ibm.com,
+ dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cédric,
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 16/08/21 15:25, Ashish Kalra wrote:
+> > From: Ashish Kalra<ashish.kalra@amd.com>
+> > 
+> > This is an RFC series for Mirror VM support that are
+> > essentially secondary VMs sharing the encryption context
+> > (ASID) with a primary VM. The patch-set creates a new
+> > VM and shares the primary VM's encryption context
+> > with it using the KVM_CAP_VM_COPY_ENC_CONTEXT_FROM capability.
+> > The mirror VM uses a separate pair of VM + vCPU file
+> > descriptors and also uses a simplified KVM run loop,
+> > for example, it does not support any interrupt vmexit's. etc.
+> > Currently the mirror VM shares the address space of the
+> > primary VM.
+> > 
+> > The mirror VM can be used for running an in-guest migration
+> > helper (MH). It also might have future uses for other in-guest
+> > operations.
+> 
+> Hi,
+> 
+> first of all, thanks for posting this work and starting the discussion.
+> 
+> However, I am not sure if the in-guest migration helper vCPUs should use the
+> existing KVM support code.  For example, they probably can just always work
+> with host CPUID (copied directly from KVM_GET_SUPPORTED_CPUID),
 
-On 8/11/21 11:54 AM, Cédric Le Goater wrote:
-> On 8/11/21 11:07 AM, Thomas Huth wrote:
->> On 10/08/2021 11.09, Cédric Le Goater wrote:
->>> On 8/10/21 10:36 AM, Joel Stanley wrote:
->>>> On Tue, 10 Aug 2021 at 08:34, Cédric Le Goater <clg@kaod.org> wrote:
->>>>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
->>>>> with a simple PCI layout.
->>>>>
->>>>> Cc: Cleber Rosa <crosa@redhat.com>
->>>>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>>> ---
->>>>>    tests/acceptance/boot_linux_console.py | 42 ++++++++++++++++++++++++++
->>>>>    1 file changed, 42 insertions(+)
->>>>>
->>>>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->>>>> index 5248c8097df9..da93a475ca87 100644
->>>>> --- a/tests/acceptance/boot_linux_console.py
->>>>> +++ b/tests/acceptance/boot_linux_console.py
->>>>> @@ -1176,6 +1176,48 @@ def test_ppc64_e500(self):
->>>>>            tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
->>>>>            self.do_test_advcal_2018('19', tar_hash, 'uImage')
->>>>>
->>>>> +    def do_test_ppc64_powernv(self, proc):
->>>>> +
->>>>> +        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
->>>>> +
->>>>> +        skiboot_url = images_url + 'skiboot.lid'
->>>>> +        skiboot_hash = 'a9ffcddbf238f86cda4b2cae2882d6bd13cff8489109758a4980efaf154f4a29'
->>>>> +        skiboot_path = self.fetch_asset(skiboot_url, asset_hash=skiboot_hash,
->>>>> +                                       algorithm='sha256')
->>>> What's the thought that led you to using this instead of the one that
->>>> gets packaged with qemu?
->>> Good question.
->>>
->>> I considered that the skiboot.lid shipped with QEMU was somewhat a default
->>> to make things work. The official released versions are the ones used by
->>> the outside world on real systems and were a better target for tests.
->>>
->>> That said, using the default version might be enough. Maintainers, please
->>> advise !
->> IMHO:
->>
->> - We want to test the things that *we* ship
->>
->> - We want to download as few things as possible, since downloads
->>    often slow down the tests and break CI runs if the network to
->>    the download site is not available
->>
->>   ==> I'd prefer to use the internal skiboot.lid unless there is
->>       really a compelling reason to use the external one.
-> OK. I changed the test to use the internal skiboot.lid.
+Doesn't at least one form of SEV have some masking of CPUID that's
+visible to the guest; so perhaps we have to match the main vCPUs idea of
+CPUIDs?
 
-The code of patch v1 looks good to me but I will wait the v2 to put my 
-reviewed-by stamp.
+>  and they do
+> not need to interface with QEMU's MMIO logic.  They would just sit on a
+> "HLT" instruction and communicate with the main migration loop using some
+> kind of standardized ring buffer protocol; the migration loop then executes
+> KVM_RUN in order to start the processing of pages, and expects a
+> KVM_EXIT_HLT when the VM has nothing to do or requires processing on the
+> host.
+> 
+> The migration helper can then also use its own address space, for example
+> operating directly on ram_addr_t values with the helper running at very high
+> virtual addresses.  Migration code can use a RAMBlockNotifier to invoke
+> KVM_SET_USER_MEMORY_REGION on the mirror VM (and never enable dirty memory
+> logging on the mirror VM, too, which has better performance).
 
-Thanks!
+How does the use of a very high virtual address help ?
 
-- Wainer
+> With this implementation, the number of mirror vCPUs does not even have to
+> be indicated on the command line.  The VM and its vCPUs can simply be
+> created when migration starts.  In the SEV-ES case, the guest can even
+> provide the VMSA that starts the migration helper.
+> 
+> The disadvantage is that, as you point out, in the future some of the
+> infrastructure you introduce might be useful for VMPL0 operation on SEV-SNP.
+> My proposal above might require some code duplication. However, it might
+> even be that VMPL0 operation works best with a model more similar to my
+> sketch of the migration helper; it's really too early to say.
+> 
 
->
-> Thanks,
->
-> C.
->
->
->
->
->
+Dave
+
+> Paolo
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
