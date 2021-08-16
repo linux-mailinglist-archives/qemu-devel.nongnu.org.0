@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F8E3ED9C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:18:40 +0200 (CEST)
-Received: from localhost ([::1]:42364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC593ED9F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:36:44 +0200 (CEST)
+Received: from localhost ([::1]:47352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFeNr-00059f-8V
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1mFefK-0001Ho-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFeMB-0003gB-RG
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:16:56 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mFeM7-000828-Co
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:16:52 -0400
-Received: by mail-wr1-x435.google.com with SMTP id r7so24259079wrs.0
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 08:16:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YZe/BDZbmVZK4dwT+WcyuIkqDh3UMzwxfRRRIF+xk1o=;
- b=RehAevzhOuOiAbBI8+914DmYmGtdgA+TtQl93ruwbt03VK4pwb/n9p6Vvz9YSAS0wp
- nfKLnPyQzkbD2Ff8tHpWk5K94IlSY6JbNTZsDmYIOWA5Xl9R4QoiigmTTU45OW/e6GS8
- ZUnP0tMBCaSPPtvTjnqgkmByf+kmmjMcGh1cejABPKRmPa9oi3FMBRw3NjqX2unsGApf
- CcTPe9juultKDySIKh6oMBDNNSr8pKsQD1RBIKkLoNsU/aJnXRHMR9Gb+RnO6FswQD5r
- +MIKdaR0vq4HDNhjWs/oSDXwJBWPJLi9MJWiuq2z+bws7H0dycxRHwZcF2zVzh5ynRXN
- BKug==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFee3-0000GO-JV
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:35:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mFee0-00042i-Cf
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:35:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629128118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=noFeB24OdQiLhD5SCxuDOZthRsY3LsTrzo8+2vblPZ0=;
+ b=dbiuBEAmymvwPOf5xXkresm6ws6Y1k1BBZpkZBjn9BEJR5tx5Nbb87Nxydsv5nq90EzQOU
+ rhDGz1NuBJ7fE0GtE0qnZDdWrgs8N2KWnUVPU+6YUcm/N4m696BN9t7OenKclG3SUnkCC5
+ uzz64BY23wjs+QIkQwNzMJ5h4dyguNQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-zpI3dYE9NMCVhAtdvgMB9g-1; Mon, 16 Aug 2021 11:35:17 -0400
+X-MC-Unique: zpI3dYE9NMCVhAtdvgMB9g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ kf21-20020a17090776d5b02905af6ad96f02so4867024ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 08:35:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YZe/BDZbmVZK4dwT+WcyuIkqDh3UMzwxfRRRIF+xk1o=;
- b=KZoPx0I9jJE5Sr6idH7hSe9KWbP55N5zfiGi1/0KT9oIJ5YbUjXMXfpOzPcVwcJaxm
- FdlabchdiahplU9eSWFKAtBbQwHTLhtqs0mRo4Psl45LKWH06EsbvkSCX25YumF7ZXZx
- xHVao1FPMonpeKYl5DgxfDombsxCnn7EWh1qy/+0igtGokloXsR0lpHFhWPVW2f/Bez2
- H6h56g9K4Y4CuNpwidjxCQNcu/zuU+GYmJF+8LFIQjdPeU1jhS8YRe+iYwVjiVX4a0Vo
- Gr0FRhAKBArvCrMh138DSHYRUFYsGkvN13esOW6wyZibHFZRZUPcL6DpVBq9XAuzng63
- ZvZg==
-X-Gm-Message-State: AOAM530aDNQOON+LjyLrl4JJJhKhbyN72b+Wuhf/M7runUKgxxpeQsnE
- wZvjByzjXStfE9su9e4CZYY=
-X-Google-Smtp-Source: ABdhPJzGN3WlX/1BQd5vQi6LRAWDwCrfrniSP0owEmJ6D+F/Fz1eCbwTBfmHjnpbvQ2Ei+EYUgig5w==
-X-Received: by 2002:a5d:4309:: with SMTP id h9mr18833452wrq.299.1629127009916; 
- Mon, 16 Aug 2021 08:16:49 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id p5sm13290369wrd.25.2021.08.16.08.16.48
+ bh=noFeB24OdQiLhD5SCxuDOZthRsY3LsTrzo8+2vblPZ0=;
+ b=mCewBvHCHi6hTowuX2PXV11TVTBbTQn/WPdfwt3AVK4gw5GTFQlYH2abxPVjqss6vi
+ ZxbiFASf4dAuyq6/2rIBi9RA5eskz8sFRAs80L0sOYalhsHIjaxSYfqnu5rorwAm/lWG
+ D5XdK0P2YKTDwC/F6Ks674e0IgOjdK7bBLCCPfdLfPA/gL18Tf/GTe6Yi4mYR4N9QB+5
+ nuOZPI11Gk0GjaF8xfKSDf5T63MP01Yg2p2oVQrUilnkmi/SK1rnsuIpBDDrGjRYbSja
+ kwMAIzJB4sck4jlNWhj565429v3wAPV1bF43r3nPvp99yqeVtVBXLTQaoVaWdgxA/eWA
+ 8sDQ==
+X-Gm-Message-State: AOAM532hTNTCQDRK6MTtuz9i31HZzQSksoX+PQT1DjclqtBTW7bjTq4W
+ 6IIQpNS9/VYNQ7+QY/Asmn6BEPgF0VAs/YUQ917QHAGJIDL+aVDJj4eKI7yVPPJxL/bFPR+UImd
+ uypONYkQwcEdyKYs=
+X-Received: by 2002:aa7:df98:: with SMTP id b24mr21095294edy.103.1629128116435; 
+ Mon, 16 Aug 2021 08:35:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOyfspOGcV1f2KU/9SJ5AVADgXkpl2jWly+8p4N7XIoqaJ//SrbNXe/+DlpMcOJ6yVbwZCCA==
+X-Received: by 2002:aa7:df98:: with SMTP id b24mr21095256edy.103.1629128116189; 
+ Mon, 16 Aug 2021 08:35:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id b5sm3820101ejq.56.2021.08.16.08.35.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 08:16:48 -0700 (PDT)
-Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to user
- forks
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210812180403.4129067-1-berrange@redhat.com>
- <20210812180403.4129067-3-berrange@redhat.com> <87y291u0st.fsf@redhat.com>
- <YRpGFnvZznlU9RKQ@redhat.com> <87v945txvn.fsf@redhat.com>
- <YRpTqmv/yXU0cK5H@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <01c92ef1-462f-7a27-0884-ac98b37bf954@amsat.org>
-Date: Mon, 16 Aug 2021 17:16:47 +0200
+ Mon, 16 Aug 2021 08:35:15 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+ <YRp09sXRaNPefs2g@redhat.com>
+ <b77dfd8f-94e7-084f-b633-105dc5fdb645@redhat.com>
+ <YRqBTiv8AgTMBcrw@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <182429f4-d5be-58d0-edb1-dacb63db278c@redhat.com>
+Date: Mon, 16 Aug 2021 17:35:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YRpTqmv/yXU0cK5H@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YRqBTiv8AgTMBcrw@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,37 +103,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
+ brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 2:01 PM, Daniel P. Berrangé wrote:
-> On Mon, Aug 16, 2021 at 01:47:08PM +0200, Cornelia Huck wrote:
->> On Mon, Aug 16 2021, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>> On Thu, Aug 12 2021, Daniel P. Berrangé <berrange@redhat.com> wrote:
+On 16/08/21 17:16, Daniel P. Berrangé wrote:
+> I woudn't be needed to create migration threads at startup - we should
+> just think about how we would identify and control them when created
+> at runtime. The complexity here is a trust issue - once guest code has
+> been run, we can't trust what QMP tells us - so I'm not sure how we
+> would learn what PIDs are associated with the transiently created
+> migration threads, in order to set their properties.
 
->>> When I'm working on changing gitlab CI rules, then I burn loads of
->>> minutes which is especially troubling - limited CI minutes will make
->>> it very hard for me to debug future CI rule changes :-(
->>
->> I hope that will not make gitlab CI a complete non-starter -- if you
->> cannot easily debug a test case that is failing, it's mostly
->> useless. We've seen too many cases where a failure could not be
->> reproduced when the test case was running locally.
-> 
-> One of the best things about GitLab compared to what we had with
-> Travis is that the build environment is 100% container based (until
-> Cleber's custom runners arrived).  This meant that when something
-> does fail in GitLab, you can pull the container image down from
-> the gitlab registry and run the build locally. You still have
-> differences due to hardware or CPUs resources, but its a hell of
-> alot easier to reproduce than before. This is good enough for most
-> contributors in general, but not for the CI maintainers, who need
-> to debug especially the CI system as it exists on GitLab.
+That would apply anyway to any kind of thread though.  It doesn't matter 
+whether the migration thread runs host or (mostly) guest code.
 
-FWIW we could do that with Travis-CI too using:
+Paolo
 
- $ make docker-test-build@travis
 
