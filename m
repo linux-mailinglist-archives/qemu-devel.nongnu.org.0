@@ -2,81 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A4C3ED9AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:15:58 +0200 (CEST)
-Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6503ED9B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:16:34 +0200 (CEST)
+Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFeLF-0001en-Es
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44496)
+	id 1mFeLp-0002KG-Tu
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mFeJ3-0008Br-U9; Mon, 16 Aug 2021 11:13:41 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:42942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mFeIz-0005kl-8E; Mon, 16 Aug 2021 11:13:41 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id t35so27131872oiw.9;
- Mon, 16 Aug 2021 08:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dVlGZuCCTw/luznspzy2YoCy0QQYb8xrdRZiNgY33Mk=;
- b=GZfF8bSzWE3VdRCuDLUqzgX7wy2GgBWOYplGQbFMoL721dMFly8AzuiPMyRfBHVlhW
- 0AJFHDYy8LxcenmfbYC2ajhVwZoOZp8wAcVRGBbQ8aUZvXOkxIDbjlrujX1GgMXnRd98
- N9ns7UaeX6DQKGQfDpBSMQYip7WetJYL+4aXt+Eu4KSRQQTjtrGrn857W0+nuKYJRI/w
- 4qYzFQZ2bGQigP36JwcWUqSKDft+usW8HfgOd8adAk4KDjLVNY8X1Hnsr1v9N+TIYvyF
- BOqUJya7hNZqdXKqbNX8onT+nZtrX/ngrWflSB3Nk4zF1Jjbm+Z1TXdvtT7FIv/3IhBu
- qUVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dVlGZuCCTw/luznspzy2YoCy0QQYb8xrdRZiNgY33Mk=;
- b=qxRkv6wyLrVUWAzZUg6F2zaUyWq4EqgDq9+Lx/y6AuVgotPkwh8VpcQ3MLpLcue01L
- 0syfVxMb1t17+9dcbVvboRSqelC2AePegrmI84ayWql6kDInVVA/WFfJke3As/J4anZ0
- hRBOt5+ALLNfSTAtaoXCu76cf8KIFNUbdzGsoqebz7sdGKZBnrXHd8ShHbePh4gfPpmm
- 8rGQ/cm8V6utq2+M0eDA81jbJn/lOu9YcXMF/8PhBN4wf2mQa7LfxI3+vlb1WfBJZRF4
- SFBVeUVXPLTs2ILg3pM59F07dG4OqTANhFxNO1aB0DZ0DxJHG1fsxTJ3l5nlVW4p4prl
- luCA==
-X-Gm-Message-State: AOAM530hbxxuhLqH5/f34bT0nbBoUMoefyqtAe+4+X9ZoG0Ie4bxhVFc
- tp/A1KdELZt32oQdDtdh/uo=
-X-Google-Smtp-Source: ABdhPJw6I0KlhO48G3YM6d3R/Rk5h0vt94sQxZL4LIYBNPj85jrhfDPyM4KtKejDi5AVmVA3Kdmd1w==
-X-Received: by 2002:a05:6808:2208:: with SMTP id
- bd8mr12464764oib.110.1629126814230; 
- Mon, 16 Aug 2021 08:13:34 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- s184sm2101913oif.20.2021.08.16.08.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 08:13:33 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210816025915.213093-1-linux@roeck-us.net>
- <YRn6d/Vb10JTmZ18@yekko> <b94ce36e-218a-008f-0063-8b99c3e658ef@amsat.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
-Message-ID: <12470893-c91e-44df-7f1d-c64bdf23d95a@roeck-us.net>
-Date: Mon, 16 Aug 2021 08:13:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mFeJS-0000ZL-WA
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:14:07 -0400
+Received: from mail-bn8nam12on2079.outbound.protection.outlook.com
+ ([40.107.237.79]:21472 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mFeJP-00061J-4u
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:14:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TEc6CMetKnyy1iAvvdkVX9xe3R9SYvxs22c5ycEDfQZMwwKX6VCaM6P8DJIyilc31j8Fy9JrsdYnnxoHJ3DS8/B2KA+kRFHyjSMjLfUWl5XgfuR4CFSLlr5xc9lMTs1RTvmTnLOV/xslK5KFrCPKFZH40Jt2C93ExjgqC3KBEdDzXgVwxGDM9UZRw0r7Uu0wzFmPzCseVkoAbcqdQuqX9NhJ2AURGVE/m/mLb7H0DI2xtu1ZuNH420pv/jIpl49gUAxB0Rd4rmsjq/eqY+7KB26X73FaLRkdFi/4gTSTJY53cjpYSnpcpv2Ab1nfVVSLr+tZHB2JF7do8HDeZxxsKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ObL6VSAuE0VpCsq5nn31CPAM1b40jVbINMFkxMNp98Q=;
+ b=IDYXQc5RSGUTGgwsLaq1ujBCWcuiRgNMc+hcT0SVLvXTWvoremUORuwTLmovtOhdCpE9EuI4zj5oa/IG1H4ghEHuOkPuhBwOIydCIkEkyLH/AADjC+P/oO6P8WQryTCgnR2Gog07UiP5+QeGQWPjQpfhxyga8ZMeimAl7Bgy0aGhEnNmYUQFXyZa4Qv7lJywdQIrXfkXvoFqsPQw4jTAjHQkeG0+ezDB71RKog6blZjeqZfOqNOpUTxPELmg5g19lzU7Y1Rk496DHdrvBw+p559n9g+XsiNXviHB5RQqxZWuUk3orWRgpzdjtbFM34/eum+ESFBLmwCFCNOeRx2YMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ObL6VSAuE0VpCsq5nn31CPAM1b40jVbINMFkxMNp98Q=;
+ b=Nbcx9N1DEYqzVOnPk730+Fz4NOrHCi4cUsq3GD1oS1O+7MubJskpQbRtQOLFdOJMttnTAAWGTGt4HaXvsrKjQiVrLdo9Czwo5kIoikBuVzOqQejoqiKWbIyW3gMuGCjmz6A/F1M+GMmoGj8WCe0u4zEsBzOfP3uRKHcdtBo5B7o=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN1PR12MB2509.namprd12.prod.outlook.com (2603:10b6:802:29::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14; Mon, 16 Aug
+ 2021 15:13:57 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
+ 15:13:56 +0000
+Date: Mon, 16 Aug 2021 15:13:49 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, thomas.lendacky@amd.com, brijesh.singh@amd.com,
+ ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
+ jejb@linux.ibm.com, tobin@ibm.com, dovmurik@linux.vnet.ibm.com,
+ frankeh@us.ibm.com, dgilbert@redhat.com, kvm@vger.kernel.org
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+Message-ID: <20210816151349.GA29903@ashkalra_ubuntu_server>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+ <20210816144413.GA29881@ashkalra_ubuntu_server>
+ <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: SN1PR12CA0077.namprd12.prod.outlook.com
+ (2603:10b6:802:20::48) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
-In-Reply-To: <b94ce36e-218a-008f-0063-8b99c3e658ef@amsat.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ SN1PR12CA0077.namprd12.prod.outlook.com (2603:10b6:802:20::48) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4415.14 via Frontend Transport; Mon, 16 Aug 2021 15:13:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80b8d732-78ab-4a97-844a-08d960c87782
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2509:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2509E00945C01E36B0956F618EFD9@SN1PR12MB2509.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1pJnzSOt7pmY3fZcmoPKQjqOPWGIKfD4yptTGehbbFekMrO8HH9JVuyWgLSHSG2B4bzKHavVvyWEUOAGsvz1UF1OZYEU4ukhgrLMmVq1cHolVvw4t8N1waOPknRh7VTNYALn7rv/zttRFzHLmRsBcV/qhQapDqEXPiSPPTNv7UN6LII41Z/51H5zw7wE6BGTtriAmkzSeIjdicwCAzAgSU9/Y7P10XsrBfWU+cZB5m0CJR78bGgIQhDbY9YtAUllaQjnLfFVDm8isq2Oce1P3h9sHNxjcmfcleZqH82cD+jhKymS3O+UxQH1+ZdKvSna56u+R5XmFR4kHfAAUAVoJRJ2XoYFIIIdoHyT+60HTvpnDtxjuJg4NUR7nXNKq2R2TeVvOhX4v0i86zaju/wwwQRNWiq2AFbuOP9hbEw4agtt6/5RerJHDzpkZJ+dY/AAs6rlQae7hxgqG2h4oMzqT6i8TEh8D0sL1xLA5Cg1XX6ZeW/wxLz9EmoiXCKRAscKgg3+WQ42uu122Wi1+fqgtsTjlNqyoZc1m9TxgoN//YBZII3BkwbB4PZtCQmCM9EJ0UyiFBkV1m+a44WICJ4ba/0MYqsBMEOgL3lSG0Tb7frRs19XzPv5x5d8EClLhdoTODtxtmBNTRwVdcp/kj2RjOHYdvIgu+q7cvshBeV/d9Q7tc+XP57Qw8XcVoLrekLklOUQvi4DP84YzYQXi7yoAw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66946007)(8936002)(86362001)(4326008)(44832011)(55016002)(33716001)(66476007)(26005)(8676002)(66556008)(83380400001)(186003)(1076003)(7416002)(508600001)(316002)(52116002)(5660300002)(2906002)(38100700002)(38350700002)(956004)(9686003)(33656002)(53546011)(6666004)(6916009)(6496006);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NZVyKgenEyXzCUq85+qL1CisEop/xONL+ybYlP2YRQ2GHNqbMK3pV36NUQHN?=
+ =?us-ascii?Q?6n9lUhTl/FsTabEQuVsi/K4DK/hNbo3KCg7VBz+3N15fiddx9XNIAadCy2HC?=
+ =?us-ascii?Q?P2H4Fz56URKbX19qhq0T33McAgH/N07phe451gkPaM5kiJynEnI1lyrK3ely?=
+ =?us-ascii?Q?DlLraspKMaBMwCtXr7V9R3PWSeJE4aKKXZKhuk96Yi48wKZeIXdxFi4SxOgl?=
+ =?us-ascii?Q?+I04Cu5/BKU5JGm+1cw9JRmbv0atMk7M36m1x6JRiI3sizPE+XloTgbgE2NQ?=
+ =?us-ascii?Q?F7D+f6sk+JQ4/dVzbiXgw71BWHJqWTJFO5vy4iRt5+eRKKR4k83+rU9Uc6wq?=
+ =?us-ascii?Q?CNYTIwdwSIROjH959coSUEq6QuSHhvQ5w7ogMHegskgvlhGxvnIrVmtWbUW3?=
+ =?us-ascii?Q?i0kticG1r/QuaH0wsdnDq73E3Lk527bLI7XIV3/71OeYslMkv2quhXhSzt+/?=
+ =?us-ascii?Q?wOlaATe+EDrrN2E8mosEKOo6Lj2hNBKpGPIIw5DasvuYxmjd4qT9JmqovINw?=
+ =?us-ascii?Q?3j66HoOAg/FvmnSmY6OYPAlOwnHHGZbYgd0cNF4xpCJX5bfc6jaz8w27nNSS?=
+ =?us-ascii?Q?L5bjJlaW/tFWmAZqdArtAHnr8LB/P1a7DSD5Yv6ENFCH4lmlERqodSXCUiTK?=
+ =?us-ascii?Q?hdpXP+1Ls/HHrhe7piOZdFBU93fzAJCZt4h0C7VjLpq+ZJfZ9Jj0iwTO5iyE?=
+ =?us-ascii?Q?sHM7O5wSFi02HIiR4j6+8mHE1d/RZSm0I/7W/AwMqUOeiA/QMCYXu1cABrD5?=
+ =?us-ascii?Q?RvZ+pudNRONxEWaRaTUzES3VAUcsRcw+aY9SMFD7x+sdOpZHkrNbjVPyb8pv?=
+ =?us-ascii?Q?mXqIITS0yweGgBUQq2DQYRUUXTzZ8lxzdBPz2hRMM24Wyyk4tetdcn6gBuPg?=
+ =?us-ascii?Q?BmdwOLwnSz2xjJq7R7BJDFY9c/0jrtb7od/tutXcTedW5wMvP+DYpYRjghPD?=
+ =?us-ascii?Q?5rPm7Y7rKE3NJXaFfBuGWn2GV5XcHCDjb6ZeNSNMXnPcimiMYJPVXId24XiX?=
+ =?us-ascii?Q?EvRABjHPoBwzkKDjyAKixZ4pFqBOi7T1WsLlH6BJe5C+lPs2A4hDZY5iUU1E?=
+ =?us-ascii?Q?piYKxoGpXzs3DytzNKlyGS8LaC17u5ETfEuPCKtkxCyzt54JI94yN5wMFxsH?=
+ =?us-ascii?Q?f5gnmYs7BgzMXK5vlzhBqsK42DMOOQ/4+NL4mePzh8GTHJnH7uMkxKt3Ki1r?=
+ =?us-ascii?Q?RS/F2mY0haFpqeit7kccOUhH5rSyQV3L46NLdqLr9ww/fE4v/QzWy4gTUgPu?=
+ =?us-ascii?Q?lzSNUE8ayQOJLVLcPVpIy9Gbx2nwJSN57S8nTi8BfmMzw7EVR/Wp8dogfhRf?=
+ =?us-ascii?Q?rY5I02tTi216quRpVRPSYW98?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80b8d732-78ab-4a97-844a-08d960c87782
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 15:13:56.8361 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8h7Pbqljw7fPn2rn37V60tB45XsitZ1wIMFVsUj3vafx5Fu9wf+1nVQCLiz35xgoBLkgIUqk2NQxcdBx36B6rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2509
+Received-SPF: softfail client-ip=40.107.237.79;
+ envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,56 +142,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 3:11 AM, Philippe Mathieu-Daudé wrote:
-> On 8/16/21 7:41 AM, David Gibson wrote:
->> On Sun, Aug 15, 2021 at 07:59:15PM -0700, Guenter Roeck wrote:
->>> IBM EMAC Ethernet controllers are not emulated by qemu. If they are
->>> enabled in devicetree files, they are instantiated in Linux but
->>> obviously won't work. Disable associated devicetree nodes to prevent
->>> unpredictable behavior.
->>>
->>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>
->> I'll wait for Zoltan's opinion on this, but this sort of thing is why
->> I was always pretty dubious about qemu *loading* a dtb file, rather
->> than generating a dt internally.
-> 
-> Hmm interesting point.
-> 
->>> ---
->>>   hw/ppc/sam460ex.c | 8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->>> index 0737234d66..feb356e625 100644
->>> --- a/hw/ppc/sam460ex.c
->>> +++ b/hw/ppc/sam460ex.c
->>> @@ -194,6 +194,14 @@ static int sam460ex_load_device_tree(hwaddr addr,
->>>           _FDT(fdt_nop_node(fdt, offset));
->>>       }
->>>   
->>> +    /* Ethernet interfaces are not emulated */
->>> +    offset = fdt_node_offset_by_compatible(fdt, -1, "ibm,emac-460ex");
->>> +    while (offset >= 0) {
->>> +        _FDT(fdt_setprop_string(fdt, offset, "status", "disabled"));
->>> +        offset = fdt_node_offset_by_compatible(fdt, offset, "ibm,emac-460ex");
->>> +    }
-> 
-> Oh, I didn't know about appending 'status=disabled'.
-> 
-> FWIW I'm carrying this patch to boot Linux on the raspi4
-> (but I prefer your way):
-> 
+Hello Paolo,
 
-Neat, and excellent idea. I have a similar problem for xlnx-zcu102,
-where declaring the affected device as unsupported doesn't work either.
-I'll try the same trick there.
+On Mon, Aug 16, 2021 at 04:58:02PM +0200, Paolo Bonzini wrote:
+> On 16/08/21 16:44, Ashish Kalra wrote:
+> > I think that once the mirror VM starts booting and running the UEFI
+> > code, it might be only during the PEI or DXE phase where it will
+> > start actually running the MH code, so mirror VM probably still need
+> > to handles KVM_EXIT_IO when SEC phase does I/O, I can see PIC
+> > accesses and Debug Agent initialization stuff in SEC startup code.
+> 
+> That may be a design of the migration helper code that you were working
+> with, but it's not necessary.
+> 
+Actually my comments are about a more generic MH code.
 
-Thanks!
+> The migration helper can be just some code that the guest "donates" to
+> the host.  The entry point need not be the usual 0xfffffff0; it can be
+> booted directly in 64-bit mode with a CR3 and EIP that the guest
+> provides to the guest---for example with a UEFI GUIDed structure.
 
-Guenter
+Yes, this is consistent with the MH code we are currently testing, it
+boots directly into 64-bit mode. This is what Tobin's response is also
+pointing out to.
+
+Thanks,
+Ashish
+> 
+> In fact, the migration helper can run even before the guest has booted
+> and while the guest is paused, so I don't think that it is possible to
+> make use of any device emulation code in it.
+> 
+> Paolo
+> 
 
