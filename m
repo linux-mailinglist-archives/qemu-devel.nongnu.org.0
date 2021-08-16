@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696273ED874
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 16:02:35 +0200 (CEST)
-Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E6D3ED8A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 16:04:44 +0200 (CEST)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFdCE-0007eK-Fk
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 10:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55078)
+	id 1mFdEJ-0003PB-9P
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 10:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFd8b-0003Di-Qz
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:49 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:43752)
+ id 1mFd8e-0003Kq-BN
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:52 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFd8Z-00061q-9o
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:49 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- k5-20020a05600c1c85b02902e699a4d20cso40297wms.2
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 06:58:45 -0700 (PDT)
+ id 1mFd8a-00062x-8v
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 09:58:52 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ j12-20020a05600c1c0c00b002e6d80c902dso34631wms.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 06:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+VBtGWb/UVz2tfNXP6f5EjNvqMgeAreTUW2EA1pbtu8=;
- b=w+GIVovzhwkfCyRaEIpManudXScFiAWToD7aPR/MjKr3SZwsZVOW+2wPKi72QRSZ3O
- YXOmo0enPqmMKovAJGtm3Uwrkv8EUj7qtkJA9kRaOgLibpRawAXjVdEFiHD+0fT6m08o
- BaFKMQGserBdDIHv2ijiFTzwI6O+MvilrU6hm64mict1omUOWllSTDfneNG83ZyWWd/q
- MuCH8b+an4bDcI7b8/jyzLwpGEKf4jU4FWxeO/U/CORI13fI6vEcW4ntNJULhFkWLBPV
- HWVfaeQlYOi2s6vYKmCN4DN5bhpNegtmSzwCIjccSBMU2YilsQX1EPdYYBqWVW7c8mWd
- 6hoQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Wn5VOuzTj12riqfVnYaRkG+PQKOXcXHYoP+ynL4fbZk=;
+ b=Gs71d1rwk9iC+JBhlKqxMkAM6WDI9Y8Po5vDe6nqE3ebsSO3bgRwKx3jv3erPhhWV4
+ Iv+7hd9yvc6L06ofFP4dSl5qVn8Q0FxdKa4bVxvcRmIvsKT77V/VZrjrCHyQTnmcwJpH
+ a2D/xcOzjWZhPVJ/hnhoswMU79bDZmiXQMylWLju6LPOapeCPaJdBs9xw8Yq0RSF76+w
+ VtbMf2YbmE2KndGKWqBiHiHpzc3ggVGBbj3SA72vzNGTIOf+t3zLmOAASXtlnUj49vm/
+ QehmMV/fh65gME07TVwX7eoxmR+P5kQpzh9vJr2eLcdlR5OJfZjWb1IUTMgTjiLMiuIf
+ zgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+VBtGWb/UVz2tfNXP6f5EjNvqMgeAreTUW2EA1pbtu8=;
- b=cBOYaN3fm4BOPwqaJSl7LSB2qmeWtV8Lct9IYsJvh2OiKp0ATI8axRSpnMXv2qSnEg
- BxN55sm3dVOwNzRpQwecVeiwAK7GI253VROdURW/B7J5884T3IeS7pS5uBTVOEnBmuOp
- daRTK6z10iQZUmBtWnrxMZJOV6oDWcCRGfvXRvVB0NOGDXhHfZN0PK9suWQUr05/0gwN
- /SUYYYp37AfYqHjtZNplvLjfh3cK84lG1Dyd6lpI+Wd3F0XzXnai8g3EiDiQ3MfTEIx7
- mekixjS/I8DNmv+k1gX1h2gkDg8llbueIGs9DegXBekFpELfIBcrJfKeyYD/LqGGZBf5
- 5msg==
-X-Gm-Message-State: AOAM533wCYwlhVun/m4SVS2rNlOmCnjRDLVK/vlxtHIGmGXnZNKnB/y6
- ITVsiX5/jA4pBFU0s5SEqI6XcQ==
-X-Google-Smtp-Source: ABdhPJxDh4HUNg9327fTgBwmHcgAOu/dljUQ8nIJ5RZa2megw/SEMYfhjYmLRDCB10OXGIi8trLC4g==
-X-Received: by 2002:a1c:7503:: with SMTP id o3mr15870357wmc.129.1629122324601; 
- Mon, 16 Aug 2021 06:58:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Wn5VOuzTj12riqfVnYaRkG+PQKOXcXHYoP+ynL4fbZk=;
+ b=sypQ68SlnGbT149lSFRnPmKyrLoQJ6vlEjdk6knU4+DWAAkd1+d/ijKjydOSqwpo33
+ cP/cVlF62goQAj4folpkKGMHZTzmbY2Vq3NM/EWmZeK7c5msUJoxi9UuHe0JNt/DjdOt
+ qv8uQnX395aq84S299jwcTn5Vg0wnsQiutHRUC9Bgf+NOAIN6AB91J8fECGWQ7dBSby4
+ CIUIjiDE6dJuBv14bl+jzTOZA8qmxUSpeBZOPNRJcw+CVOpq8Tj6MV0HaRoQeIpJqtye
+ TCpBh9HVfVvQoBgNjjmMoJYWqDWGRt7co8mhcB4ObuQelMmHQ3UWdhiuYeL3y7lQAurM
+ ueNg==
+X-Gm-Message-State: AOAM532UwrpfNkpMAL7lFL6aAcwvYI442AzbE/j4XTUyjVwd2MiUn1tt
+ iM9SnZyQIxYKeQx3qh6pQbHWRgkZppKUZw==
+X-Google-Smtp-Source: ABdhPJzUCOsR8aWP2GcfT5JnK5j6RyoQAwhgfn+4dFnYZqMNr3Vl6kEGeIHP6fuKyYRmTXb2TzUQTA==
+X-Received: by 2002:a7b:c114:: with SMTP id w20mr15607904wmi.85.1629122326973; 
+ Mon, 16 Aug 2021 06:58:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y14sm11855631wrs.29.2021.08.16.06.58.43
+ by smtp.gmail.com with ESMTPSA id y14sm11855631wrs.29.2021.08.16.06.58.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 06:58:44 -0700 (PDT)
+ Mon, 16 Aug 2021 06:58:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/3] arm: Avoid asserting in cpu_address_space_init()
-Date: Mon, 16 Aug 2021 14:58:39 +0100
-Message-Id: <20210816135842.25302-1-peter.maydell@linaro.org>
+Subject: [PATCH 3/3] hw/arm/virt: Delete EL3 error checksnow provided in CPU
+ realize
+Date: Mon, 16 Aug 2021 14:58:42 +0100
+Message-Id: <20210816135842.25302-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210816135842.25302-1-peter.maydell@linaro.org>
+References: <20210816135842.25302-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,35 +90,42 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM can't support more than one address space per CPU; if you try to
-create more than one then cpu_address_space_init() will assert.
+Now that the CPU realize function will fail cleanly if we ask for EL3
+when KVM is enabled, we don't need to check for errors explicitly in
+the virt board code. The reported message is slightly different;
+it is now:
+  qemu-system-aarch64: Cannot enable KVM when guest CPU has EL3 enabled
+instead of:
+  qemu-system-aarch64: mach-virt: KVM does not support Security extensions
 
-The Arm CPU realize function wasn't checking for the combination of
-KVM and various features that might need multiple address spaces, so
-it would just blunder on and hit the assertion failure for command
-lines like:
- qemu-system-aarch64  -enable-kvm -display none -cpu max -machine raspi3b
- qemu-system-aarch64  -enable-kvm -display none -machine mps3-an524
+We don't delete the MTE check because there the logic is more
+complex; deleting the check would work but makes the error message
+less helpful, as it would read:
+  qemu-system-aarch64: MTE requested, but not supported by the guest CPU
+instead of:
+  qemu-system-aarch64: mach-virt: KVM does not support providing MTE to the guest CPU
 
-This is https://gitlab.com/qemu-project/qemu/-/issues/528
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/virt.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-This series adds the missing checks.  It also fixes the raspi board
-code to not assert when CPU creation fails, and removes a
-now-duplicate check from the virt board code.
-
-thanks
--- PMM
-
-Peter Maydell (3):
-  raspi: Use error_fatal for SoC realize errors, not error_abort
-  target/arm: Avoid assertion trying to use KVM and multiple ASes
-  hw/arm/virt: Delete EL3 error checksnow provided in CPU realize
-
- hw/arm/raspi.c   |  2 +-
- hw/arm/virt.c    |  5 -----
- target/arm/cpu.c | 23 +++++++++++++++++++++++
- 3 files changed, 24 insertions(+), 6 deletions(-)
-
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 81eda46b0bb..86c8a4ca3d7 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1852,11 +1852,6 @@ static void machvirt_init(MachineState *machine)
+     }
+ 
+     if (vms->secure) {
+-        if (kvm_enabled()) {
+-            error_report("mach-virt: KVM does not support Security extensions");
+-            exit(1);
+-        }
+-
+         /*
+          * The Secure view of the world is the same as the NonSecure,
+          * but with a few extra devices. Create it as a container region
 -- 
 2.20.1
 
