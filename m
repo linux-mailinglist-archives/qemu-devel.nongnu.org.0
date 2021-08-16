@@ -2,102 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770483ED988
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:09:22 +0200 (CEST)
-Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2C83ED990
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 17:10:48 +0200 (CEST)
+Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFeEr-0006uD-J5
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42622)
+	id 1mFeGF-0008TJ-SF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 11:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
- id 1mFeDA-0005Rl-9f
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:07:36 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
- id 1mFeD8-0001aw-KS
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:07:36 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17GF2oWa081059; Mon, 16 Aug 2021 11:07:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=to : references :
- subject : cc : from : message-id : date : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=ElC+X0ZF7nOSBN3bwaWcxMyEUwlqLEcqHdvchOPubOY=;
- b=KdEaNaKqHJZ7L72numDh6nNH4HKmQ3q/YhPj3MaPT62pD82gZoRLlekYpEbVtZ10SJ+9
- Jigq9SmvJAJic+bK1sJ8D1Cy+iBSHacOrYal4dc7jswQpWdlwEqrOQy+jlTSsrZtl2/D
- jVoZnKMGx7YLjakILDgzCC1fWcdduEXYYXZwZbYQ6cIWh2W7wm+9QQhDbb9/pka1UY1j
- OzOYGEy8yVGQOkvnXJRl1RrA+QKAhtJrxwJWB17qA5Uc/grNZ/vKDia5o77UlDE2xVq5
- u4vw/bK040IAwzu/eGK1s2EjsNktDvvueojPzMYQnXNGgAxzDpJibfIorivL146kI4Ls eQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aetvv30ne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Aug 2021 11:07:28 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17GF3HAm083773;
- Mon, 16 Aug 2021 11:07:27 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aetvv30mf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Aug 2021 11:07:27 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17GF4Mmv021180;
- Mon, 16 Aug 2021 15:07:25 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3ae5fc369f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Aug 2021 15:07:25 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17GF7OSF51380648
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Aug 2021 15:07:24 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 725CFAE060;
- Mon, 16 Aug 2021 15:07:24 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 16866AE064;
- Mon, 16 Aug 2021 15:07:24 +0000 (GMT)
-Received: from Tobins-MacBook-Pro-2.local (unknown [9.160.147.42])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 16 Aug 2021 15:07:23 +0000 (GMT)
-To: ashish.kalra@amd.com
-References: 
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
-Message-ID: <340f9f9f-cc90-1b02-83e4-54a84d49667d@linux.ibm.com>
-Date: Mon, 16 Aug 2021 11:07:23 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mFeED-0006qj-CY
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:08:41 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46001)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mFeEA-0002I9-NT
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 11:08:41 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v4so16988435wro.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 08:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lO4Bn8yHLR7GcSUd4JmHTAGqPjKF2gy13ajNp6kKnMc=;
+ b=N50TYdKAo//O4ejnOBjSzRfYBGCaXc6Fl4lzGvtJVZvRyJo7zqUSK5dAonomYPE8lT
+ P5+RlzWKa1vc16KfpqoDBWYAG8kRBVzvVLrp2tV56IkAH1UPCq1OqodKhkyDl+yknURy
+ 4gNMjuh/o2uCxVU6/DfexeciW45q5FWS6s+tdBD+T1PxG1SYdngvZwgiMJ9Izsyi6i/P
+ 4/vHUgGf6xv/+gW3dUYK2mpRD4M0zuN29b3ZOIxrjUedXs7IcvJ2tw+AqirRbyzAQ2sg
+ KRZo9nSqn4wIkPktPOa5BRWU1i7Gdh2iM15mghUJDJUXmMLn6zce/dtRbSmVsgq5p564
+ Twhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lO4Bn8yHLR7GcSUd4JmHTAGqPjKF2gy13ajNp6kKnMc=;
+ b=egtuB7pEiUNIwGfxQxTuBSMKOav7KBLWnDjJJZK9SdQeuYYuiq7zJIFWOjIGOjC2yv
+ pCZmDDPF0BtktLncq64+u2Hdcy8yoqPUNIr+nIO2YVLHUt6jPqYhnGw+U2L+hjH4ucNQ
+ c7UuEzU+4pkJWXYHg51rbusTWio1THOXxI/goWqLD1HGqDc6TgFZyTMOGnTH/zN02BwP
+ HbZh/jmCY4fn+zqa0lLTbR/DqmHUkzk1YrQpgxqZbktvRrXhluSvnz50d4p+ShEVqN8g
+ pwxX5t5M4vrbR1Cu3xJBnKEPvXu5QwmIvjZP9WHvSeiQkY0YueA6Z6ijcBB/Q6iNDaSh
+ lGEw==
+X-Gm-Message-State: AOAM533Qw/0mxfijc1Pz3QbNUGVKFn0lmlh4nyNZoEFioJ4mz6sMQ0Dr
+ CVTwcOgMoviyODtxheVLiXlfkFfYN3o=
+X-Google-Smtp-Source: ABdhPJxZcL9XTJkGzadz2xnOwTMtm+8YCx5m8x973TkFWBprj/Gj4S5MY/UeyUQFrw0PViw9P0KdVQ==
+X-Received: by 2002:a5d:6a4c:: with SMTP id t12mr18870738wrw.412.1629126515660; 
+ Mon, 16 Aug 2021 08:08:35 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id s12sm12295518wru.41.2021.08.16.08.08.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Aug 2021 08:08:34 -0700 (PDT)
+Subject: Re: [PATCH] tcg: Remove tcg_global_reg_new defines
+To: Bin Meng <bmeng.cn@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210816143507.11200-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0a93f28e-dd0f-cd26-0977-0974a393846a@amsat.org>
+Date: Mon, 16 Aug 2021 17:08:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210816143507.11200-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IdJ7JyKReMa-6bN4Sh9YMvhl2epsGmag
-X-Proofpoint-ORIG-GUID: 68s1uD_LTCeEcLVD8xpa5WcH3xOP0jGR
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-16_05:2021-08-16,
- 2021-08-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=880 bulkscore=0 clxscore=1011
- lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108160096
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=tobin@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.71,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,41 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, ehabkost@redhat.com,
- kvm list <kvm@vger.kernel.org>, mst@redhat.com,
- James Bottomley <jejb@linux.ibm.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hubertus Franke <frankeh@us.ibm.com>, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16 at 10:44 AM Ashish Kalra wrote:
+On 8/16/21 4:35 PM, Bin Meng wrote:
+> Since commit 1c2adb958fc0 ("tcg: Initialize cpu_env generically"),
+> these tcg_global_reg_new_ macros are not used anywhere.
+> 
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+> 
+>  include/tcg/tcg-op.h    | 2 --
+>  target/hppa/translate.c | 3 ---
+>  2 files changed, 5 deletions(-)
 
- > I am not sure if we really don't need QEMU's MMIO logic, I think that 
-once the>
- > mirror VM starts booting and running the UEFI code, it might be only 
-during
- > the PEI or DXE phase where it will start actually running the MH code,
- > so mirror VM probably still need to handles KVM_EXIT_IO when SEC 
-phase does I/O,
- > I can see PIC accesses and Debug Agent initialization stuff in SEC 
-startup code.
-
-The migration handler prototype that we are releasing in the near future 
-does not use the SEC or PEI phases in the mirror. We have some support 
-code that runs in the main VM and sets up the migration handler entry 
-point. QEMU starts the mirror pointing to this entry point, which does 
-some more setup (like switching to long mode) and jumps to the migration 
-handler.
-
--Tobin
-
- > Addtionally this still requires CPUState{..} structure and the backing
- > "X86CPU" structure, for example, as part of kvm_arch_post_run() to get
- > the MemTxAttrs needed by kvm_handle_io().
-
- > Thanks,
- > Ashish
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
